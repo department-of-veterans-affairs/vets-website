@@ -9,14 +9,14 @@ import {
 import {
   evidenceChoiceIntroTitle,
   evidenceChoiceIntroDescriptionContent,
+  evidenceChoiceIntroQuestion,
 } from '../../../content/form0781/supportingEvidenceEnhancement/evidenceChoiceIntroPage';
 
 export const uiSchema = {
   'ui:title': standardTitle(evidenceChoiceIntroTitle),
   'ui:description': evidenceChoiceIntroDescriptionContent,
   'view:hasEvidenceChoice': yesNoUI({
-    title:
-      'Are there any supporting documents or additional forms that you want us to review with your claim?',
+    title: evidenceChoiceIntroQuestion,
   }),
   'view:mentalHealthSupportAlert': {
     'ui:description': mentalHealthSupportAlert,

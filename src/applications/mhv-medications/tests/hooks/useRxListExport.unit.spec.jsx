@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor, render } from '@testing-library/react';
+import { act, waitFor, render } from '@testing-library/react';
 import sinon from 'sinon';
 import useRxListExport from '../../hooks/useRxListExport';
 import * as pdfConfigs from '../../util/pdfConfigs';
@@ -137,7 +137,9 @@ describe('useRxListExport', () => {
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(fetchExportListStub.calledOnce).to.be.true;
@@ -153,7 +155,9 @@ describe('useRxListExport', () => {
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.hasError).to.be.true;
@@ -164,7 +168,9 @@ describe('useRxListExport', () => {
     it('should set error state when fetchExportList is not provided', async () => {
       const { result } = renderHook(() => useRxListExport(defaultProps));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.hasError).to.be.true;
@@ -178,7 +184,9 @@ describe('useRxListExport', () => {
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.isLoading).to.be.true;
@@ -196,7 +204,9 @@ describe('useRxListExport', () => {
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(PRINT_FORMAT.PRINT);
+      await act(async () => {
+        result.current.onDownload(PRINT_FORMAT.PRINT);
+      });
 
       await waitFor(() => {
         expect(result.current.shouldPrint).to.be.true;
@@ -213,13 +223,17 @@ describe('useRxListExport', () => {
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(PRINT_FORMAT.PRINT);
+      await act(async () => {
+        result.current.onDownload(PRINT_FORMAT.PRINT);
+      });
 
       await waitFor(() => {
         expect(result.current.shouldPrint).to.be.true;
       });
 
-      result.current.clearPrintTrigger();
+      await act(async () => {
+        result.current.clearPrintTrigger();
+      });
 
       await waitFor(() => {
         expect(result.current.shouldPrint).to.be.false;
@@ -237,7 +251,9 @@ describe('useRxListExport', () => {
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(buildPrescriptionsPDFListStub.calledOnce).to.be.true;
@@ -256,7 +272,9 @@ describe('useRxListExport', () => {
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.isSuccess).to.be.true;
@@ -276,7 +294,9 @@ describe('useRxListExport', () => {
       };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(
@@ -304,7 +324,9 @@ describe('useRxListExport', () => {
       };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.TXT);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.TXT);
+      });
 
       await waitFor(() => {
         expect(fetchExportListStub.calledOnce).to.be.true;
@@ -336,7 +358,9 @@ describe('useRxListExport', () => {
       };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.hasError).to.be.ok;
@@ -356,7 +380,9 @@ describe('useRxListExport', () => {
       };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.hasError).to.be.ok;
@@ -379,14 +405,18 @@ describe('useRxListExport', () => {
       const { result } = renderHook(() => useRxListExport(props));
 
       // Trigger export
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.isSuccess).to.be.true;
       });
 
       // Reset state
-      result.current.resetExportState();
+      await act(async () => {
+        result.current.resetExportState();
+      });
 
       await waitFor(() => {
         expect(result.current.isLoading).to.be.false;
@@ -408,14 +438,18 @@ describe('useRxListExport', () => {
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.hasError).to.be.true;
         expect(result.current.errorFormat).to.equal(DOWNLOAD_FORMAT.PDF);
       });
 
-      result.current.resetExportState();
+      await act(async () => {
+        result.current.resetExportState();
+      });
 
       await waitFor(() => {
         expect(result.current.hasError).to.be.false;
@@ -434,7 +468,9 @@ describe('useRxListExport', () => {
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.errorFormat).to.equal(DOWNLOAD_FORMAT.PDF);
@@ -450,7 +486,9 @@ describe('useRxListExport', () => {
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.TXT);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.TXT);
+      });
 
       await waitFor(() => {
         expect(result.current.errorFormat).to.equal(DOWNLOAD_FORMAT.TXT);
@@ -466,7 +504,9 @@ describe('useRxListExport', () => {
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
       const { result } = renderHook(() => useRxListExport(props));
 
-      result.current.onDownload(PRINT_FORMAT.PRINT);
+      await act(async () => {
+        result.current.onDownload(PRINT_FORMAT.PRINT);
+      });
 
       await waitFor(() => {
         expect(result.current.errorFormat).to.equal(PRINT_FORMAT.PRINT);
@@ -476,6 +516,12 @@ describe('useRxListExport', () => {
 
   describe('status tracking', () => {
     it('should track status progression through export lifecycle', async () => {
+      let resolvePdf;
+      generateMedicationsPdfFileStub.returns(
+        new Promise(resolve => {
+          resolvePdf = resolve;
+        }),
+      );
       const fetchExportListStub = sandbox.stub().resolves({
         data: { prescriptions: mockPrescriptions },
         isError: false,
@@ -491,13 +537,19 @@ describe('useRxListExport', () => {
       expect(result.current.status.format).to.be.undefined;
 
       // Start download
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.status.status).to.equal(
           PDF_TXT_GENERATE_STATUS.InProgress,
         );
         expect(result.current.status.format).to.equal(DOWNLOAD_FORMAT.PDF);
+      });
+
+      await act(async () => {
+        resolvePdf();
       });
 
       // Wait for success

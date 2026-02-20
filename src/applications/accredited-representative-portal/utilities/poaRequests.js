@@ -112,11 +112,11 @@ export const DETAILS_BC_LABEL = 'details breadcrumb';
 export const SEARCH_BC_LABEL = 'search breadcrumb';
 export const HELP_BC_LABEL = 'help breadcrumb';
 export const DASHBOARD_BC_LABEL = 'dashboard breadcrumb';
-
+export const HOME_LABEL = 'Accredited representative portal home';
 export const HelpBC = [
   {
     href: '/representative',
-    label: 'VA.gov/representative home',
+    label: HOME_LABEL,
   },
   {
     href: '/representative/help',
@@ -127,7 +127,7 @@ export const HelpBC = [
 export const poaSearchBC = [
   {
     href: '/representative',
-    label: 'VA.gov/representative home',
+    label: HOME_LABEL,
   },
   {
     href: window.location.href,
@@ -137,7 +137,7 @@ export const poaSearchBC = [
 export const findClaimantBC = [
   {
     href: '/representative',
-    label: 'VA.gov/representative home',
+    label: HOME_LABEL,
   },
   {
     href: window.location.href,
@@ -147,7 +147,7 @@ export const findClaimantBC = [
 export const poaDetailsBreadcrumbs = [
   {
     href: '/representative',
-    label: 'VA.gov/representative home',
+    label: HOME_LABEL,
   },
   {
     href: '/representative/representation-requests',
@@ -162,7 +162,7 @@ export const poaDetailsBreadcrumbs = [
 export const dashboardBC = [
   {
     href: '/representative',
-    label: 'VA.gov/representative home',
+    label: HOME_LABEL,
   },
   {
     href: window.location.href,

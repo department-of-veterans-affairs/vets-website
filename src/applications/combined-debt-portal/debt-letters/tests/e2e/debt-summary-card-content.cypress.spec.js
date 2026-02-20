@@ -18,37 +18,36 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
   });
 
   it('renders expected content for diary code: 080, 850, 852, 860, 855', () => {
-    cy.get('[data-testid="debt-summary-item"]').contains(
-      // 'Contact the U.S. Department of the Treasury to pay this debt.',
-      'Contact the U.S. Department of the Treasury’s Debt Management Services at',
+    cy.get('[data-testid^="summary-card-"]').contains(
+      'Call the U.S. Treasury at 888-826-3127 to resolve this balance.',
     );
     cy.injectAxeThenAxeCheck();
   });
 
   it('renders expected content for diary code: 100, 102, 130, 140', () => {
-    cy.get('[data-testid="debt-summary-item"]').contains(
-      'Pay your $120.40 balance now or request help by October 18, 2012',
+    cy.get('[data-testid^="summary-card-"]').contains(
+      'Pay your past due balance of $120.40 or request help by November 17, 2012 to avoid fees and any collection actions.',
     );
     cy.injectAxeThenAxeCheck();
   });
 
   it('renders expected content for diary code: 101, 450, 602, 607, 608, 610, 611, 614, 615, 617', () => {
-    cy.get('[data-testid="debt-summary-item"]').contains(
-      'We’re reducing your benefit payments each month until your debt is paid',
+    cy.get('[data-testid^="summary-card-"]').contains(
+      "We're reducing your monthly VA benefit payments to repay your overdue balance.",
     );
     cy.injectAxeThenAxeCheck();
   });
 
-  it('renders expected content for diary code: 117', () => {
-    cy.get('[data-testid="debt-summary-item"]').contains(
-      'Pay your $1,000.00 past due balance in full or request help before May 31, 2017',
+  it('renders expected content for diary code: 61', () => {
+    cy.get('[data-testid^="summary-card-"]').contains(
+      "We've paused collection on this balance at your request.",
     );
     cy.injectAxeThenAxeCheck();
   });
 
-  it('renders expected content for diary code: 123', () => {
-    cy.get('[data-testid="debt-summary-item"]').contains(
-      'Pay your $200.00 past due balance now or request help by October 7, 2018',
+  it('renders expected content for diary code: 212', () => {
+    cy.get('[data-testid^="summary-card-"]').contains(
+      'Call us to update your address on file.',
     );
     cy.injectAxeThenAxeCheck();
   });

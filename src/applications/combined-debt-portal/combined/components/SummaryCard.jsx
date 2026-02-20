@@ -1,15 +1,18 @@
 import React from 'react';
+import { Trans } from 'react-i18next';
 import CardLinks from './common/CardLinks';
 import CardIcon from './common/CardIcon';
 import { useStatusContent } from '../hooks/useStatusContent';
 import { commonPropTypes } from './common/prop-types/CommonPropTypes';
 
 const SummaryCard = ({ type, data }) => {
-  const { transformedData, message, alertStatus, linkIds } = useStatusContent(
-    type,
-    data,
-    'summary',
-  );
+  const {
+    transformedData,
+    messageKey,
+    messageValues,
+    alertStatus,
+    linkIds,
+  } = useStatusContent(type, data, 'summary');
 
   return (
     <div className="vads-u-margin-y--2">
@@ -27,7 +30,9 @@ const SummaryCard = ({ type, data }) => {
         </p>
         <div className="vads-u-display--flex vads-u-margin-bottom--1p5">
           <CardIcon type={alertStatus} />
-          <p className="vads-u-margin-y--0">{message}</p>
+          <p className="vads-u-margin-y--0">
+            <Trans i18nKey={messageKey} values={messageValues} />
+          </p>
         </div>
         <CardLinks
           links={linkIds}

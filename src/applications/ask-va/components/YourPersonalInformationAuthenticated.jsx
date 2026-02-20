@@ -84,7 +84,7 @@ const PersonalAuthenticatedInformation = ({
           </div>
           <p>
             <span className="vads-u-font-weight--bold">Note:</span> If you need
-            to update your personal information, please call us at{' '}
+            to update your personal information, call us at{' '}
             <va-telephone contact="8008271000" />. We’re here Monday through
             Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>

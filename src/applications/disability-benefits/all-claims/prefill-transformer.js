@@ -8,6 +8,7 @@ import {
 } from './constants';
 import { viewifyFields } from './utils';
 import { migrateBranches } from './utils/serviceBranches';
+import { normalizeAddressLine } from './utils/contactInformationHelpers';
 
 // ****************************************
 // This entire file _may_ be obsolete once form 526EZ v1 is no longer supported
@@ -85,10 +86,15 @@ export default function prefillTransformer(pages, formData, metadata, state) {
           // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423
           'view:livesOnMilitaryBase': onMilitaryBase,
           country: mailingAddress.country || '',
-          addressLine1: mailingAddress.addressLine1 || '',
-          addressLine2: mailingAddress.addressLine2,
-          addressLine3: mailingAddress.addressLine3,
-          city: mailingAddress.city || '',
+          // Normalize address fields at prefill time — trim leading/trailing
+          // spaces and collapse consecutive spaces. This prevents the most
+          // common source of invalid prefilled data (extra spaces from backend
+          // systems). Note: save-in-progress can also produce un-normalized
+          // data, which is handled by ReviewCardField's startInEdit option.
+          addressLine1: normalizeAddressLine(mailingAddress.addressLine1) || '',
+          addressLine2: normalizeAddressLine(mailingAddress.addressLine2),
+          addressLine3: normalizeAddressLine(mailingAddress.addressLine3),
+          city: normalizeAddressLine(mailingAddress.city) || '',
           state: mailingAddress.state || '',
           zipCode: mailingAddress.zipCode || '',
         };

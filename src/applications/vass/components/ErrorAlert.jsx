@@ -1,14 +1,19 @@
 import React from 'react';
-import { VASS_PHONE_NUMBER } from '../utils/constants';
+import PropTypes from 'prop-types';
+import { FLOW_TYPES, VASS_PHONE_NUMBER } from '../utils/constants';
 
-const ErrorAlert = () => {
+const ErrorAlert = ({ flowType = FLOW_TYPES.SCHEDULE }) => {
+  const header =
+    flowType === FLOW_TYPES.CANCEL
+      ? 'We can’t cancel your appointment right now'
+      : 'We can’t schedule your appointment right now';
   return (
     <va-alert
       status="error"
       class="vads-u-margin-top--4"
       data-testid="api-error-alert"
     >
-      <h2>We can’t schedule your appointment right now</h2>
+      <h2>{header}</h2>
       <p>
         We’re sorry. There’s a problem with our system. Refresh this page to
         start over or try again later.{' '}
@@ -22,3 +27,7 @@ const ErrorAlert = () => {
 };
 
 export default ErrorAlert;
+
+ErrorAlert.propTypes = {
+  flowType: PropTypes.oneOf(Object.values(FLOW_TYPES)),
+};

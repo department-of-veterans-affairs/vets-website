@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash';
-import { isInMPI, selectProfile } from 'platform/user/selectors';
+import { isInMPI, isLoggedIn, selectProfile } from 'platform/user/selectors';
 import set from 'platform/utilities/data/set';
 import { FULL_SCHEMA } from '../utils/imports';
 import { validateDateOfBirth } from '../utils/validation';
@@ -93,6 +93,9 @@ export const prefillTransformer = (pages, formData, metadata, state) => {
   const parsedAddressMatch =
     veteranAddress && veteranHomeAddress ? hasAddressMatch : undefined;
   let dataToReturn = formData;
+
+  const isUserLoggedIn = isLoggedIn(state) || false;
+  dataToReturn = set('view:isLoggedIn', isUserLoggedIn, dataToReturn);
 
   if (isInMPI(state)) {
     dataToReturn = set('view:isUserInMvi', true, dataToReturn);

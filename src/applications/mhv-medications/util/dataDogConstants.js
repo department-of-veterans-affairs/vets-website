@@ -8,9 +8,10 @@ import {
 
 export const pageType = {
   DETAILS: 'Details Page',
+  DOCUMENTATION: 'Documentation',
+  IN_PROGRESS: 'In-progress',
   LIST: 'List Page',
   REFILL: 'Refill Page',
-  DOCUMENTATION: 'Documentation',
 };
 
 export const dataDogActionNames = {

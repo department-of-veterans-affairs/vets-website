@@ -23,7 +23,6 @@ import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingRequests: true,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: false,

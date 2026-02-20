@@ -11,7 +11,7 @@ steps:
     target: call-to-action
   - action: exists
     target: error
-    value: Please enter a first name
+    value: Enter a first name
   - action: exists
     target: error
-    value: Please enter a last name
+    value: Enter a last name

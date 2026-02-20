@@ -240,7 +240,7 @@ export const mockData = {
             question: {
               'ui:title': "What's your question?",
               'ui:errorMessages': {
-                required: 'Please let us know what your question is about.',
+                required: 'Let us know what your question is about.',
               },
               'ui:options': {
                 required: true,
@@ -317,7 +317,7 @@ export const mockData = {
               question: {
                 'ui:title': "What's your question?",
                 'ui:errorMessages': {
-                  required: 'Please let us know what your question is about.',
+                  required: 'Let us know what your question is about.',
                 },
                 'ui:options': {
                   required: true,
@@ -393,7 +393,7 @@ export const mockData = {
               question: {
                 'ui:title': "What's your question?",
                 'ui:errorMessages': {
-                  required: 'Please let us know what your question is about.',
+                  required: 'Let us know what your question is about.',
                 },
                 'ui:options': {
                   required: true,

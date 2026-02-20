@@ -19,6 +19,7 @@ describe('Medical Records View Condition Details', () => {
     site.loadPage();
 
     Conditions.goToConditionsPage();
+    Conditions.verifyConditionsPageTitle();
 
     // Click on the first Condition to view details
     Conditions.clickConditionDetailsLink(0);
@@ -48,6 +49,7 @@ describe('Medical Records View Condition Details', () => {
   it('Navigates back to Conditions list from details page', () => {
     site.loadPage();
     Conditions.goToConditionsPage();
+    Conditions.verifyConditionsPageTitle();
     Conditions.clickConditionDetailsLink(0);
 
     // Verify condition details are displayed correctly (last item in fixture has latest date)

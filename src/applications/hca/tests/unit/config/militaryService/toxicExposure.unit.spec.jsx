@@ -1,7 +1,7 @@
 // @ts-check
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
 import formConfig from '../../../../config/form';
@@ -14,8 +14,8 @@ describe('hca Toxic Exposure config', () => {
   } = formConfig.chapters.militaryService.pages.toxicExposure;
 
   // run test for correct number of fields on the page
-  const expectedNumberOfFields = 2;
-  testNumberOfFields(
+  const expectedNumberOfFields = 1;
+  testNumberOfWebComponentFields(
     formConfig,
     schema,
     uiSchema,
@@ -25,7 +25,7 @@ describe('hca Toxic Exposure config', () => {
 
   // run test for correct number of error messages on submit
   const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmit(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
@@ -50,6 +50,7 @@ describe('hca Toxic Exposure config', () => {
       'ui:description': {},
       hasTeraResponse: {
         'ui:title': {},
+        'ui:webComponentField': {},
       },
     },
     expectedRequired: ['hasTeraResponse'],

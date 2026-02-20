@@ -74,6 +74,8 @@ import IncorrectForm from '../containers/IncorrectForm';
 // TODO: Will be added after mvp release
 // import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 import { transform } from './submit-transformer';
+import { onFormLoaded } from '../utils/onFormLoaded';
+// import prefillTransformer from './prefill-transformer';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -84,6 +86,7 @@ const formConfig = {
   trackingPrefix: 'survivors-534ez',
   v3SegmentedProgressBar: true,
   prefillEnabled: true,
+  // prefillTransformer,
   dev: {
     disableWindowUnloadInCI: true,
     showNavLinks: true,
@@ -102,6 +105,7 @@ const formConfig = {
     },
   },
   version: 0,
+  onFormLoaded,
   formSavedPage: FormSavedPage,
   defaultDefinitions,
   savedFormMessages: {
@@ -124,8 +128,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  // Commenting out to troubleshoot error on staging.
-  // showReviewErrors: !environment.isProduction() && !environment.isStaging(),
+  showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
     // Chapter 1 - Veteran Information
     veteranInformation: {
@@ -435,7 +438,8 @@ const formConfig = {
         dicBenefits: {
           title: 'D.I.C. benefits',
           path: 'claim-information/dic',
-          depends: formData => formData?.claims?.DIC === true,
+          depends: formData =>
+            formData?.claims?.dic === true || formData?.claims?.DIC === true,
           uiSchema: dicBenefits.uiSchema,
           schema: dicBenefits.schema,
         },

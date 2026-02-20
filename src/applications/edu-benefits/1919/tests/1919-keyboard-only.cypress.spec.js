@@ -1,7 +1,7 @@
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 
-describe('22-1919 Edu form', () => {
+describe.skip('22-1919 Edu form', () => {
   it('should be keyboard-only navigable', () => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {

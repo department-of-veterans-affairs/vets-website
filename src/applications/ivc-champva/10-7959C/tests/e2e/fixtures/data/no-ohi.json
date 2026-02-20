@@ -1,0 +1,28 @@
+{
+  "description": "No Medicare, No OHI, US address, third party signer",
+  "data": {
+    "certifierRole": "other",
+    "view:champvaBenefitStatus": true,
+    "certifierEmail": "certifier@email.gov",
+    "applicantName": {
+      "first": "Jimmy",
+      "middle": "Q",
+      "last": "Alvin"
+    },
+    "applicantSsn": "234234234",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "456 Beneficiary St",
+      "city": "Anyburg",
+      "state": "MD",
+      "postalCode": "12323"
+    },
+    "applicantNewAddress": "no",
+    "applicantPhone": "3331233456",
+    "applicantGender": "male",
+    "view:applicantAgeOver65": false,
+    "view:hasMedicare": false,
+    "view:hasHealthInsurance": false,
+    "statementOfTruthSignature": "Certifier Jones"
+  }
+}

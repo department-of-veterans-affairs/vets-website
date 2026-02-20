@@ -66,27 +66,27 @@
         "5": {
           "category": "Under review",
           "summary": {
-            "body": "Make your next payment by {{ endDateText }} while we review your request."
+            "body": "Make your next payment by <strong>{{ endDateText }}</strong> while we review your request."
           },
           "details": {
             "header": "Make your next payment by {{ endDateText }}",
-            "body": "We're reviewing your {{ type }} now. We'll send you a letter as soon as we've made a decision. This process often takes at least a month. To avoid late fees and other collection actions, make your payments on time until you get your decision letter."
+            "body": "We're reviewing your <strong>{{ type }}</strong> now. We'll send you a letter as soon as we've made a decision. This process often takes at least a month. To avoid late fees and other collection actions, make your payments on time until you get your decision letter."
           }
         },
         "6": {
           "category": "Make a compromise offer payment",
           "summary": {
-            "body": "Make your full compromise payment of ${{ amountDue }} by {{ endDateText }}."
+            "body": "Make your full compromise payment of <strong>{{ amountDue }}</strong> by <strong>{{ endDateText }}</strong>."
           },
           "details": {
             "header": "Full compromise payment due by {{ endDateText }}",
-            "body": "Make this one-time payment of ${{ amountDue }} by {{ endDateText }}. You must pay the full balance from your approved compromise offer in one payment."
+            "body": "Make this one-time payment of <strong>{{ amountDue }}</strong> by <strong>{{ endDateText }}</strong>. You must pay the full balance from your approved compromise offer in one payment."
           }
         },
         "7": {
           "category": "Make a monthly payment",
           "summary": {
-            "body": "Make your next payment on {{ endDateText }} to continue to pay down your balance."
+            "body": "Make your next payment on <strong>{{ endDateText }}</strong> to continue to pay down your balance."
           },
           "details": {
             "header": "Next payment due by {{ endDateText }}",
@@ -96,11 +96,11 @@
         "8": {
           "category": "Make a payment",
           "summary": {
-            "body": "Pay your past due balance of {{ amountDue }} or request help by {{ endDateText }} to avoid fees and any collection actions."
+            "body": "Pay your past due balance of <strong>{{ amountDue }}</strong> or request help by <strong>{{ endDateText }}</strong> to avoid fees and any collection actions."
           },
           "details": {
             "header": "Pay your past due balance now to avoid fees and collection",
-            "body": "Your balance of {{ amountDue }} is past due. Pay the full balance or request help by {{ endDateText }} to avoid fees and any collection actions."
+            "body": "Your balance of <strong>{{ amountDue }}</strong> is past due. Pay the full balance or request help by <strong>{{ endDateText }}</strong> to avoid fees and any collection actions."
           }
         },
         "9": {
@@ -110,7 +110,7 @@
           },
           "details": {
             "header": "Call the U.S. Treasury to resolve this balance",
-            "body": "This overpayment balance is more than 120 days past due. By law, we had to refer the balance to the U.S. Treasury. Contact them directly Monday through Friday 8:30 a.m. to 6:30 p.m. ET."
+            "body": "This overpayment balance is more than <strong>120 days past due</strong>. By law, we had to refer the balance to the U.S. Treasury. Contact them directly Monday through Friday 8:30 a.m. to 6:30 p.m. ET."
           }
         },
         "10": {

@@ -83,13 +83,13 @@ PreSubmitInfo.propTypes = {
       fullNamePath: PropTypes.string,
     }).isRequired,
   }).isRequired,
+  setPreSubmit: PropTypes.func.isRequired,
   showError: PropTypes.bool,
   user: PropTypes.shape({
     profile: PropTypes.shape({
       userFullName: PropTypes.string,
     }),
   }),
-  setPreSubmit: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {

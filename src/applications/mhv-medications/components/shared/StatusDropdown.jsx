@@ -10,12 +10,14 @@ import { dataDogActionNames } from '../../util/dataDogConstants';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
+  selectOracleHealthCutoverFlag,
 } from '../../util/selectors';
 
 const StatusDropdown = props => {
   const { status } = props;
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const isOracleHealthCutover = useSelector(selectOracleHealthCutoverFlag);
   const useV2Statuses = isCernerPilot && isV2StatusMapping;
   const statusObj = useV2Statuses ? dispStatusObjV2 : dispStatusObj;
 
@@ -332,6 +334,15 @@ const StatusDropdown = props => {
         }
         case statusObj.transferred: {
           const dropdownContent = () => {
+            if (isOracleHealthCutover) {
+              return (
+                <p data-testid="transferred-status-definition">
+                  This is a previous record of your medication. If you need a
+                  refill, find the current medication in your medication list.
+                  If you don’t have a current one, contact your provider.
+                </p>
+              );
+            }
             return (
               <p data-testid="transferred-status-definition">
                 We moved this prescription to our My VA Health portal.
@@ -532,6 +543,15 @@ const StatusDropdown = props => {
         }
         case statusObj.transferred: {
           const dropdownContent = () => {
+            if (isOracleHealthCutover) {
+              return (
+                <p data-testid="transferred-status-definition">
+                  This is a previous record of your medication. If you need a
+                  refill, find the current medication in your medication list.
+                  If you don’t have a current one, contact your provider.
+                </p>
+              );
+            }
             return (
               <p data-testid="transferred-status-definition">
                 A prescription moved to VA’s new electronic health record. This

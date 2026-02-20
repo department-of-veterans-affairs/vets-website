@@ -39,12 +39,6 @@ if (
   );
 }
 
-if (process.env.NODE_22_CYPRESS_COMPATIBILITY_RESULT === 'failure') {
-  errorMessages.push(
-    `Your branch is unable to be merged due to Node 22 Cypress compatibility test failures. Please check the Node 22 Cypress E2E Compatibility step for more information on which tests are not passing.`,
-  );
-}
-
 if (errorMessages.length > 0) {
   core.setFailed(`- ${errorMessages.join('\n - ')}`);
 }

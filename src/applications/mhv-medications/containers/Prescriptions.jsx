@@ -8,6 +8,7 @@ import React, {
 import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   usePrintTitle,
   updatePageTitle,
@@ -66,9 +67,7 @@ import { getFilterOptions } from '../util/helpers/getRxStatus';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
-  selectMedicationsManagementImprovementsFlag,
 } from '../util/selectors';
-import RefillProcess from '../components/shared/RefillProcess';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
@@ -77,9 +76,6 @@ const Prescriptions = () => {
   const dob = useSelector(selectUserDob);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
-  const isManagementImprovementsEnabled = useSelector(
-    selectMedicationsManagementImprovementsFlag,
-  );
   const prescriptionId = useSelector(selectPrescriptionId);
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
@@ -110,6 +106,7 @@ const Prescriptions = () => {
           'api-name': 'Rx SM Renewal',
           'api-status': 'successful',
         });
+        datadogRum.addAction('Rx Renewal Success');
       }
     },
     [rxRenewalMessageSuccess],
@@ -383,7 +380,6 @@ const Prescriptions = () => {
             {renderMedicationsContent()}
           </>
         )}
-        {isManagementImprovementsEnabled && <RefillProcess />}
         <NeedHelp page={pageType.LIST} />
       </div>
       <PrescriptionsPrintOnly

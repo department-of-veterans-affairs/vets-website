@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 import sinon from 'sinon';
 import useRxDetailExport from '../../hooks/useRxDetailExport';
 import * as pdfConfigs from '../../util/pdfConfigs';
@@ -92,9 +92,12 @@ describe('useRxDetailExport', () => {
 
   describe('onDownload', () => {
     it('should set status to InProgress when called', async () => {
+      generateMedicationsPDFStub.returns(new Promise(() => {}));
       const { result } = renderHook(() => useRxDetailExport(defaultProps));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.status.status).to.equal(
@@ -109,7 +112,9 @@ describe('useRxDetailExport', () => {
     it('should generate PDF when allergies are ready', async () => {
       const { result } = renderHook(() => useRxDetailExport(defaultProps));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(generateMedicationsPDFStub.calledOnce).to.be.true;
@@ -119,7 +124,9 @@ describe('useRxDetailExport', () => {
     it('should set isSuccess after PDF generation', async () => {
       const { result } = renderHook(() => useRxDetailExport(defaultProps));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.isSuccess).to.be.true;
@@ -131,7 +138,9 @@ describe('useRxDetailExport', () => {
     it('should generate TXT file when allergies are ready', async () => {
       const { result } = renderHook(() => useRxDetailExport(defaultProps));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.TXT);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.TXT);
+      });
 
       await waitFor(() => {
         expect(generateTextFileStub.calledOnce).to.be.true;
@@ -141,7 +150,9 @@ describe('useRxDetailExport', () => {
     it('should set isSuccess after TXT generation', async () => {
       const { result } = renderHook(() => useRxDetailExport(defaultProps));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.TXT);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.TXT);
+      });
 
       await waitFor(() => {
         expect(result.current.isSuccess).to.be.true;
@@ -157,7 +168,9 @@ describe('useRxDetailExport', () => {
       };
       const { result } = renderHook(() => useRxDetailExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.hasError).to.be.ok;
@@ -172,7 +185,9 @@ describe('useRxDetailExport', () => {
       };
       const { result } = renderHook(() => useRxDetailExport(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.hasError).to.be.ok;

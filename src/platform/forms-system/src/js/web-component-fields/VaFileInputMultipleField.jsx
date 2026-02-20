@@ -2,7 +2,6 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import debounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import {
@@ -198,7 +197,7 @@ const VaFileInputMultipleField = props => {
     assignFileUploadToStore(uploadedFile, index);
   };
 
-  const handleFileAdded = async (file, index, mockFormData) => {
+  const handleFileAdded = async (file, index) => {
     const { fileError, encryptedCheck } = await getFileError(
       file,
       uiOptions,
@@ -229,12 +228,6 @@ const VaFileInputMultipleField = props => {
     // keep track of potential missisng password errors
     errorManager.addPasswordInstance(index, encryptedCheck);
 
-    // cypress test / skip the network call and its callbacks
-    if (environment.isTest() && !environment.isUnitTest()) {
-      childrenProps.onChange([mockFormData]);
-      return;
-    }
-
     // mock form has no back-end but we want to add files and simulate progress of upload
     if (uiOptions.skipUpload && !encryptedCheck) {
       simulateUploadMultiple(
@@ -259,8 +252,8 @@ const VaFileInputMultipleField = props => {
 
   const handleFileRemoved = index => {
     setErrors(removeOneFromArray(errors, index));
-    errorManager.setFileCheckError(index, false);
-    errorManager.setInternalFileInputErrors(index, false);
+    errorManager.removeFileCheckError(index);
+    errorManager.removeInternalFileInputError(index);
     errorManager.removeInstance(index);
 
     setEncrypted(removeOneFromArray(encrypted, index));
@@ -296,11 +289,11 @@ const VaFileInputMultipleField = props => {
 
   const handleChange = e => {
     const { detail } = e;
-    const { action, state, file, index, mockFormData } = detail;
+    const { action, state, file, index } = detail;
     switch (action) {
       case 'FILE_ADDED': {
         errorManager.setInternalFileInputErrors(index, false);
-        handleFileAdded(file, index, mockFormData);
+        handleFileAdded(file, index);
         setCurrentIndex(index);
         break;
       }
@@ -385,6 +378,7 @@ const VaFileInputMultipleField = props => {
         uploading={percentsUploaded.some(percent => !!percent)}
       />
       <VaFileInputMultiple
+        data-dd-privacy="mask"
         {...mappedProps}
         error={mappedProps.error}
         ref={componentRef}
@@ -396,13 +390,13 @@ const VaFileInputMultipleField = props => {
         percentUploaded={percentsUploaded}
         passwordErrors={passwordErrors}
         onVaSelect={handleAdditionalInput}
-        maxFileSize={uiOptions.maxFileSize}
-        minFileSize={uiOptions.minFileSize}
         slotFieldIndexes={slotFieldIndexes}
       >
         {mappedProps.additionalInput && (
           <div className="additional-input-container">
-            {mappedProps.additionalInput()}
+            {mappedProps.additionalInput({
+              labels: uiOptions.additionalInputLabels,
+            })}
           </div>
         )}
       </VaFileInputMultiple>

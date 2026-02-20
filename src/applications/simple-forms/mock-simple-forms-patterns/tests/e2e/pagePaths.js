@@ -18,6 +18,8 @@ export default {
   internationalPhone:
     formChapters.internationalPhone.pages.internationalPhone.path,
   fileInput: formChapters.fileInput.pages.fileInput.path,
+  fileInputMultiple:
+    formChapters.fileInputMultiple.pages.fileInputMultiple.path,
   arraySinglePage: formChapters.arraySinglePage.pages.arraySinglePage.path,
   arrayMultiPageAggregate:
     formChapters.arrayMultiPageAggregate.pages.multiPageStart.path,

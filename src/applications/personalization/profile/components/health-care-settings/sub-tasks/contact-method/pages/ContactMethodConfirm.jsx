@@ -87,7 +87,7 @@ const ContactMethodConfirm = ({
       // 'contact email',
       cardContent.title = 'Contact email';
       cardContent.description = FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.EMAIL];
-      cardContent.body = email.emailAddress;
+      cardContent.body = email?.emailAddress;
       break;
     case 'option-38':
       // 'home phone',
