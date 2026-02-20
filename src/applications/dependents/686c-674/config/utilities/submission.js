@@ -182,7 +182,7 @@ export function buildSubmissionData(payload) {
       }
     });
 
-    // Transform No SSN Reason for the payload
+    // Transform No SSN Reason for payload for pdf remarks section values
     applyNoSsnReasonMappings(
       cleanData,
       sourceData,
