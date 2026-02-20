@@ -1,4 +1,3 @@
-// perf: baseline trigger for Cypress video A/B test
 import environment from 'platform/utilities/environment';
 import compact from 'lodash/compact';
 import {
