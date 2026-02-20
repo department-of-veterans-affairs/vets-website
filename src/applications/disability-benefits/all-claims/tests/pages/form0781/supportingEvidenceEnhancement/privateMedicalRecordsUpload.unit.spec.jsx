@@ -196,7 +196,7 @@ describe('Private Medical Records Upload page', () => {
       const result = fileConfig.handleAdditionalInput({
         detail: { value: 'L107' },
       });
-      expect(result).to.deep.equal({ docType: 'L107' });
+      expect(result).to.deep.equal({ attachmentId: 'L107' });
     });
   });
 
