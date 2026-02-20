@@ -1,6 +1,6 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
-import { NON_DIGIT_REGEX, LOAN_INTENT } from '../constants';
+import { NON_DIGIT_REGEX, LOAN_INTENT, TOGGLE_KEY } from '../constants';
 
 export const replaceNonDigits = number =>
   (number || '').replace(NON_DIGIT_REGEX, '');
@@ -39,6 +39,7 @@ export const customCOEsubmit = (formConfig, form) => {
         },
         vaLoanNumber: replaceNonDigits(loan.vaLoanNumber),
       })),
+      version: formCopy.data[`view:${TOGGLE_KEY}`] ? 2 : 1,
     },
   };
 

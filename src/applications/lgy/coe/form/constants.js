@@ -76,6 +76,8 @@ export const certificateUseOptions = {
   INTEREST_RATE_REDUCTION_REFINANCE: 'INTEREST_RATE_REDUCTION_REFINANCE',
 };
 
+export const TOGGLE_KEY = 'coeFormRebuildCveteam';
+
 export const entitlementRestorationOptions = {
   ENTITLEMENT_INQUIRY_ONLY: 'ENTITLEMENT_INQUIRY_ONLY',
   CASH_OUT_REFINANCE: 'CASH_OUT_REFINANCE',
