@@ -46,10 +46,10 @@ const BlockedTriageGroupAlert = ({
     userProfile.userAtPretransitionedOhFacility ||
     userProfile.userFacilityMigratingToOh
   ) {
-    userFacilityMigratingToOh = userProfile.userFacilityMigratingToOh;
+    userFacilityMigratingToOh = userProfile?.userFacilityMigratingToOh;
     migratingFacilities =
-      userProfile.migrationSchedules.length > 0
-        ? userProfile.migrationSchedules
+      userProfile?.migrationSchedules?.length > 0
+        ? userProfile?.migrationSchedules
         : [];
     const config = CernerAlertContent.SECURE_MESSAGING;
     isInErrorPhase = migratingFacilities.some(migration =>
