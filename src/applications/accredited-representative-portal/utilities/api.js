@@ -187,6 +187,46 @@ const api = {
       },
     ];
   }),
+
+  getClaimantOverview: wrapApiRequest(id => {
+    return [`/claimant/${id}`];
+  }),
+
+  getIntentToFile: wrapApiRequest(
+    ({
+      benefitType,
+      veteranSsn,
+      veteranDateOfBirth,
+      veteranFullName,
+      claimantSsn,
+      claimantDateOfBirth,
+      claimantFullName,
+    }) => {
+      const params = new URLSearchParams();
+
+      if (benefitType) params.set('benefitType', benefitType);
+      if (veteranSsn) params.set('veteranSsn', veteranSsn);
+      if (veteranDateOfBirth)
+        params.set('veteranDateOfBirth', veteranDateOfBirth);
+
+      if (veteranFullName?.first)
+        params.set('veteranFullName[first]', veteranFullName.first);
+      if (veteranFullName?.last)
+        params.set('veteranFullName[last]', veteranFullName.last);
+
+      if (benefitType === 'survivor') {
+        if (claimantSsn) params.set('claimantSsn', claimantSsn);
+        if (claimantDateOfBirth)
+          params.set('claimantDateOfBirth', claimantDateOfBirth);
+        if (claimantFullName?.first)
+          params.set('claimantFullName[first]', claimantFullName.first);
+        if (claimantFullName?.last)
+          params.set('claimantFullName[last]', claimantFullName.last);
+      }
+
+      return [`/intent_to_file?${params.toString()}`];
+    },
+  ),
 };
 
 export default api;

@@ -279,4 +279,102 @@ describe('API utilities', () => {
       expect(JSON.parse(options.body)).to.deep.equal({ decision });
     });
   });
+
+  describe('getClaimantOverview', () => {
+    it('builds correct URL with claimant id', async () => {
+      const res = new Response(JSON.stringify({ data: {} }), {
+        status: 200,
+        headers: new Headers(),
+      });
+      sessionStub.resolves(res);
+
+      await api.getClaimantOverview('abc123');
+
+      const url = sessionStub.firstCall.args[0];
+      expect(url).to.include('/claimant/abc123');
+    });
+  });
+
+  describe('getIntentToFile', () => {
+    const okRes = new Response(JSON.stringify({ data: {} }), {
+      status: 200,
+      headers: new Headers(),
+    });
+
+    it('builds correct query params for non-survivor (no claimant fields)', async () => {
+      sessionStub.resolves(okRes);
+
+      await api.getIntentToFile({
+        benefitType: 'compensation',
+        veteranSsn: '123456789',
+        veteranDateOfBirth: '19900101',
+        veteranFullName: { first: 'Pat', last: 'Smith' },
+      });
+
+      const url = sessionStub.firstCall.args[0];
+
+      expect(url).to.include('/intent_to_file?');
+      expect(url).to.include('benefitType=compensation');
+      expect(url).to.include('veteranSsn=123456789');
+      expect(url).to.include('veteranDateOfBirth=19900101');
+
+      // URLSearchParams encodes bracket keys
+      expect(url).to.include('veteranFullName%5Bfirst%5D=Pat');
+      expect(url).to.include('veteranFullName%5Blast%5D=Smith');
+
+      expect(url).to.not.include('claimantSsn=');
+      expect(url).to.not.include('claimantDateOfBirth=');
+      expect(url).to.not.include('claimantFullName%5Bfirst%5D=');
+      expect(url).to.not.include('claimantFullName%5Blast%5D=');
+    });
+
+    it('builds correct query params for survivor (includes claimant fields)', async () => {
+      sessionStub.resolves(okRes);
+
+      await api.getIntentToFile({
+        benefitType: 'survivor',
+        veteranSsn: '123456789',
+        veteranDateOfBirth: '19900101',
+        veteranFullName: { first: 'Vet', last: 'Person' },
+        claimantSsn: '987654321',
+        claimantDateOfBirth: '19700101',
+        claimantFullName: { first: 'Survivor', last: 'Person' },
+      });
+
+      const url = sessionStub.firstCall.args[0];
+
+      expect(url).to.include('/intent_to_file?');
+      expect(url).to.include('benefitType=survivor');
+
+      expect(url).to.include('veteranSsn=123456789');
+      expect(url).to.include('veteranDateOfBirth=19900101');
+      expect(url).to.include('veteranFullName%5Bfirst%5D=Vet');
+      expect(url).to.include('veteranFullName%5Blast%5D=Person');
+
+      expect(url).to.include('claimantSsn=987654321');
+      expect(url).to.include('claimantDateOfBirth=19700101');
+      expect(url).to.include('claimantFullName%5Bfirst%5D=Survivor');
+      expect(url).to.include('claimantFullName%5Blast%5D=Person');
+    });
+
+    it('does not include empty/undefined params', async () => {
+      sessionStub.resolves(okRes);
+
+      await api.getIntentToFile({
+        benefitType: 'compensation',
+        veteranSsn: null,
+        veteranDateOfBirth: undefined,
+        veteranFullName: { first: '', last: 'Smith' }, // only last should be included
+      });
+
+      const url = sessionStub.firstCall.args[0];
+
+      expect(url).to.include('benefitType=compensation');
+      expect(url).to.include('veteranFullName%5Blast%5D=Smith');
+
+      expect(url).to.not.include('veteranSsn=');
+      expect(url).to.not.include('veteranDateOfBirth=');
+      expect(url).to.not.include('veteranFullName%5Bfirst%5D=');
+    });
+  });
 });
