@@ -794,6 +794,7 @@ jobs:
         with:
           aws_region: us-gov-west-1
           role: ${{ vars.AWS_ASSUME_ROLE }}
+          role_duration: 7200
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -813,10 +814,10 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    if: |
-      needs.build.result == 'success' &&
-      needs.tests-prep.result == 'success' &&
-      needs.tests-prep.outputs.e2e_count != '0'
+#   if: |
+#     needs.build.result == 'success' &&
+#     needs.tests-prep.result == 'success' &&
+#     needs.tests-prep.outputs.e2e_count != '0'
 
     container:
       image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
