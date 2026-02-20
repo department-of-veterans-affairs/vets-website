@@ -31,6 +31,9 @@ const RefillPrescriptionsV2 = lazyWithRetry(() =>
 const PrescriptionsInProgress = lazyWithRetry(() =>
   import('./containers/PrescriptionsInProgress'),
 );
+const MedicationHistory = lazyWithRetry(() =>
+  import('./containers/MedicationHistory'),
+);
 
 // Loading component to display while lazy-loaded components are being fetched
 const Loading = () => (
@@ -115,6 +118,16 @@ const routes = [
     element: (
       <FeatureFlaggedRoute
         Component={PrescriptionsInProgress}
+        selector={selectMedicationsManagementImprovementsFlag}
+      />
+    ),
+    // loader: prescriptionsLoader,
+  },
+  {
+    path: 'history',
+    element: (
+      <FeatureFlaggedRoute
+        Component={MedicationHistory}
         selector={selectMedicationsManagementImprovementsFlag}
       />
     ),
