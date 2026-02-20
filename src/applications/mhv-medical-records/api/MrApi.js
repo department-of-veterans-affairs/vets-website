@@ -254,11 +254,14 @@ export const getNotes = async () => {
   });
 };
 
-// TODO: this will fail until upstream API supports fetching a single note
-// due to inability to determine original date range
-export const getAcceleratedNote = async id => {
+export const getAcceleratedNote = async (id, source) => {
+  const params = new URLSearchParams();
+  if (source) {
+    params.append('source', source);
+  }
+  const queryString = params.toString() ? `?${params.toString()}` : '';
   return apiRequest(
-    `${API_BASE_PATH_V2}/medical_records/clinical_notes/${id}`,
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes/${id}${queryString}`,
     {
       headers,
     },
