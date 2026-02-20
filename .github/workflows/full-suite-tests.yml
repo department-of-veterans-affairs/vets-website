@@ -379,9 +379,9 @@ jobs:
         id: check-tests
         run: |
           if [[ "${{ matrix.app.type }}" == "platform" ]]; then
-            TEST_PATTERN="src/platform/**/*.unit.spec.js?(x)"
+            TEST_PATTERN="src/platform/**/*.unit.spec.@(js|jsx|ts)"
           else
-            TEST_PATTERN="src/applications/${{ matrix.app.folder }}/**/*.unit.spec.js?(x)"
+            TEST_PATTERN="src/applications/${{ matrix.app.folder }}/**/*.unit.spec.@(js|jsx|ts)"
           fi
 
           TEST_COUNT=$(find . -path "./$TEST_PATTERN" -type f 2>/dev/null | wc -l || echo "0")
@@ -389,9 +389,9 @@ jobs:
           # Use glob to count tests more accurately
           shopt -s globstar nullglob
           if [[ "${{ matrix.app.type }}" == "platform" ]]; then
-            TESTS=(src/platform/**/*.unit.spec.js src/platform/**/*.unit.spec.jsx)
+            TESTS=(src/platform/**/*.unit.spec.js src/platform/**/*.unit.spec.jsx src/platform/**/*.unit.spec.ts)
           else
-            TESTS=(src/applications/${{ matrix.app.folder }}/**/*.unit.spec.js src/applications/${{ matrix.app.folder }}/**/*.unit.spec.jsx)
+            TESTS=(src/applications/${{ matrix.app.folder }}/**/*.unit.spec.js src/applications/${{ matrix.app.folder }}/**/*.unit.spec.jsx src/applications/${{ matrix.app.folder }}/**/*.unit.spec.ts)
           fi
           TEST_COUNT=${#TESTS[@]}
 
@@ -407,7 +407,7 @@ jobs:
         if: steps.check-tests.outputs.has_tests == 'true'
         run: |
           if [[ "${{ matrix.app.type }}" == "platform" ]]; then
-            yarn test:unit:gha --coverage --log-level verbose "src/platform/**/*.unit.spec.js?(x)"
+            yarn test:unit:gha --coverage --log-level verbose "src/platform/**/*.unit.spec.@(js|jsx|ts)"
           else
             yarn test:unit:gha --app-folder ${{ matrix.app.folder }} --coverage --log-level verbose
           fi
