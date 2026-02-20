@@ -78,6 +78,68 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+        warnOnUnsupportedTypeScriptVersion: false,
+        project: [
+          './tsconfig.eslint.json',
+          './src/applications/*/tsconfig.json',
+        ],
+        tsconfigRootDir: __dirname,
+      },
+      plugins: ['@typescript-eslint'],
+      extends: [
+        'plugin:@department-of-veterans-affairs/recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'plugin:you-dont-need-momentjs/recommended',
+      ],
+      rules: {
+        // Allow TypeScript-specific syntax
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          { argsIgnorePattern: '^_' },
+        ],
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/no-explicit-any': 'warn',
+
+        // Disable conflicting rules from base config
+        'no-unused-vars': 'off',
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error'],
+        'no-use-before-define': 'off',
+        '@typescript-eslint/no-use-before-define': [
+          'error',
+          {
+            functions: false,
+            classes: false,
+            variables: false,
+            typedefs: false,
+          },
+        ],
+
+        // TypeScript handles these checks
+        'import/no-unresolved': 'off',
+        'import/extensions': [
+          'error',
+          'ignorePackages',
+          {
+            js: 'never',
+            jsx: 'never',
+            ts: 'never',
+            tsx: 'never',
+          },
+        ],
+      },
+    },
+    {
       files: ['*'],
       rules: {
         'cypress/unsafe-to-chain-command': 'warn',
@@ -118,6 +180,10 @@ module.exports = {
         '**/*.spec.js',
         'src/platform/testing/**/*.js',
         'src/platform/testing/**/*.jsx',
+        '**/*.spec.tsx',
+        '**/*.spec.ts',
+        'src/platform/testing/**/*.ts',
+        'src/platform/testing/**/*.tsx',
       ],
       rules: {
         'cypress/unsafe-to-chain-command': 'warn',
@@ -138,7 +204,11 @@ module.exports = {
     },
     {
       files: ['**/*.unit.spec.*'],
-      excludedFiles: ['**/*.unit.spec.jsx'],
+      excludedFiles: [
+        '**/*.unit.spec.jsx',
+        '**/*.unit.spec.ts',
+        '**/*.unit.spec.tsx',
+      ],
       rules: {
         'no-restricted-syntax': [
           'error',

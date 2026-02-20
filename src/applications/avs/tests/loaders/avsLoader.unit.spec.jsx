@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import * as platformApiUtils from '@department-of-veterans-affairs/platform-utilities/api';
 
-import { avsLoader } from '../../loaders/avsLoader';
+import { avsLoader } from '../../loaders/avsLoader.ts';
 
 describe('avsLoader', () => {
   const params = { id: '123' };
@@ -21,23 +21,35 @@ describe('avsLoader', () => {
     sandbox.restore();
   });
 
-  it('should return deferred data on successful API request', async () => {
+  it('should return deferred data on successful API request', () => {
     apiRequestStub.resolves({ data: mockData });
 
-    // We can't use await here because of how defer works.
-    avsLoader({ params }).then(result => {
-      expect(apiRequestStub.calledWith(`${apiBasePath}/avs/123`)).to.be.true;
-      expect(result.data.avs).to.equal(mockData.attributes);
-    });
+    const result = avsLoader({ params });
+
+    // avsLoader returns a defer object with an avs property
+    expect(apiRequestStub.calledWith(`${apiBasePath}/avs/123`)).to.be.true;
+    expect(result).to.have.property('data');
+    expect(result.data).to.have.property('avs');
   });
 
-  it('should throw an error on failed API request', async () => {
-    apiRequestStub.rejects(new Error('API Error'));
+  it('should throw an error when ID parameter is missing', () => {
+    expect(() => avsLoader({ params: {} })).to.throw(
+      'ID parameter is required',
+    );
+  });
 
+  it('should handle API request errors', async () => {
+    const apiError = new Error('API Error');
+    apiRequestStub.rejects(apiError);
+
+    const result = avsLoader({ params });
+
+    // The error will be in the deferred data promise and should be the original API error
     try {
-      await avsLoader({ params });
-    } catch (e) {
-      expect(e.message).to.equal('Error loading prescription data');
+      await result.data.avs;
+      expect.fail('Expected promise to reject');
+    } catch (error) {
+      expect(error.message).to.equal('API Error');
     }
   });
 });

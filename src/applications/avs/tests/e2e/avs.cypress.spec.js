@@ -108,10 +108,14 @@ describe('After-visit Summary - Happy Path', () => {
   it('root URL is redirected to summaries & notes', () => {
     cy.visit(manifest.rootUrl);
     cy.injectAxeThenAxeCheck();
-    cy.url().should(
-      'match',
-      /\/my-health\/medical-records\/summaries-and-notes\/$/,
-    );
+    cy.url().should('satisfy', url => {
+      return (
+        // AVS redirects here.
+        url.match(/\/my-health\/medical-records\/summaries-and-notes\/$/) ||
+        // When all apps are running, medical records redirects here.
+        url.match(/\/my-health\/$/)
+      );
+    });
   });
 
   it('child paths past an ID get page not found', () => {

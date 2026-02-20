@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import ParagraphBlock from '../../components/ParagraphBlock';
+import ParagraphBlock from '../../components/ParagraphBlock.tsx';
 
 describe('Avs: Paragraph Block', () => {
   it('correctly renders all data', async () => {

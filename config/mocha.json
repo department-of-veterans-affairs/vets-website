@@ -1,6 +1,6 @@
 {
   "require": [
-    "@babel/register",
+    "./config/babel-register.js",
     "core-js/stable",
     "regenerator-runtime/runtime",
     "isomorphic-fetch",

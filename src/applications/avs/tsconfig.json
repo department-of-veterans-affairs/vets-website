@@ -1,0 +1,22 @@
+{
+  "extends": "../../../config/base-tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "paths": {
+      "~/*": ["../../../src/*"]
+    },
+    "typeRoots": ["../../../node_modules/@types"]
+  },
+  "include": [
+    "./**/*.ts", 
+    "./**/*.tsx",
+    "./types/declarations/va-components.d.ts",
+    "../../../src/platform/utilities/types.d.ts",
+    "../../../src/platform/startup/types.d.ts",
+    "../../../src/platform/user/types.d.ts",
+    "../../../src/platform/mhv/types.d.ts",
+    "../../../src/platform/utilities/feature-toggles/*.d.ts"
+  ],
+  "exclude": ["node_modules", "**/*.spec.ts", "**/*.spec.tsx", "tests/**/*"]
+}

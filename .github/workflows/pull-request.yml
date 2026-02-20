@@ -378,6 +378,40 @@ jobs:
             Review your call to Sentry and see if you can reasonably reduce any
             information that is included, or wait for a VSP review.
 
+  typecheck:
+    name: TypeScript Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 20
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Run typecheck on TS-enabled apps
+        run: |
+          TSCONFIGS=$(find src/applications -name 'tsconfig.json' -not -path '*/node_modules/*')
+          if [ -z "$TSCONFIGS" ]; then
+            echo "No app-level tsconfig.json files found. Skipping typecheck."
+            exit 0
+          fi
+          > typecheck.out
+          for tsconfig in $TSCONFIGS; do
+            echo "Typechecking $(dirname "$tsconfig")..."
+            yarn tsc --noEmit -p "$tsconfig" --pretty false >> typecheck.out 2>&1 || true
+          done
+          node script/github-actions/ts-annotation-format.js typecheck.out
+
   linting:
     name: Linting (Files Changed)
     runs-on: ubuntu-latest
@@ -422,10 +456,10 @@ jobs:
 
       - name: Annotate ESLint results for all files if eslint config has been modified
         if: contains(steps.get-files-changed.outputs.files, '.eslintrc.js')
-        run: yarn run eslint --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js .
+        run: yarn run eslint --ext .js --ext .jsx --ext .ts --ext .tsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js .
 
       - name: Annotate ESLint results for modified files
-        run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
+        run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --ext .ts --ext .tsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
       
       - name: Check for broken imports
         id: check-for-broken-imports

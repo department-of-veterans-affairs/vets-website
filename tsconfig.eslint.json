@@ -1,0 +1,25 @@
+{
+  "extends": "./config/base-tsconfig.json",
+  "compilerOptions": {
+    // Ensure that nobody can accidentally use this config for a build
+    "noEmit": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "types": ["node", "mocha", "chai", "sinon"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "script/**/*.ts",
+    "script/**/*.tsx",
+    "script/**/*.spec.ts",
+    "script/**/*.spec.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist"
+  ]
+}
