@@ -2,15 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
-const BenefitCard = ({ benefit }) => {
-  const {
-    name,
-    category,
-    description,
-    isTimeSensitive,
-    learnMoreURL,
-    applyNowURL,
-  } = benefit;
+const BenefitCard = ({ benefit, isBenefitRecommended }) => {
+  const { name, category, description, learnMoreURL } = benefit;
 
   const handleClick = (url, text, label) => {
     return recordEvent({
@@ -21,22 +14,10 @@ const BenefitCard = ({ benefit }) => {
     });
   };
 
-  const renderLink = (url, text, label, action = false) => {
+  const renderLink = (url, text, label) => {
     if (url) {
-      return action === true ? (
-        <va-link-action
-          href={url}
-          text={text}
-          label={label}
-          type="secondary"
-          disable-analytics
-          onClick={() => {
-            handleClick(url, text, label);
-          }}
-        />
-      ) : (
+      return (
         <va-link
-          active
           href={url}
           text={text}
           label={label}
@@ -56,38 +37,36 @@ const BenefitCard = ({ benefit }) => {
       data-testid={`benefit-card-${benefit.name}`}
     >
       <va-card>
-        <>
-          {isTimeSensitive && (
-            <div className="blue-heading">
-              <span>
-                <b>Time-sensitive benefit</b>
-              </span>
-            </div>
-          )}
-        </>
-        <h3 className="vads-u-margin-top--0">
-          <span className="usa-label category-label">{category}</span>
-          <br />
-          <br />
-          <span>{name}</span>
+        {isBenefitRecommended(benefit.id) && (
+          <span className="usa-label recommended-label">
+            RECOMMENDED FOR YOU
+          </span>
+        )}
+        <p
+          className={`category-eyebrow ${
+            !isBenefitRecommended(benefit.id) ? 'vads-u-margin-top--neg0p5' : ''
+          }`}
+        >
+          {category}
+        </p>
+        <h3 aria-label={name} className="vads-u-margin-top--0">
+          {name}
         </h3>
-        <p className="vads-u-margin-y--0">{description}</p>
+        <p className="vads-u-margin-y--0 vads-u-margin-bottom--neg0p5">
+          {description}
+        </p>
+        <h4 className="vads-u-margin-bottom--neg1">When to apply</h4>
+        <p className="vads-u-margin-bottom--neg0p5">
+          {benefit.whenToApplyDescription}
+        </p>
+        {benefit.whenToApplyNote !== undefined && (
+          <p>
+            <b>Note</b>: {benefit.whenToApplyNote}
+          </p>
+        )}
         <div className="link-container">
           <div className="vads-u-margin-right--2 vads-u-margin-bottom--1">
-            {renderLink(
-              learnMoreURL,
-              'Learn more',
-              `Learn more about ${name}`,
-              false,
-            )}
-          </div>
-          <div>
-            {renderLink(
-              applyNowURL,
-              'Apply now',
-              `Apply now for ${name}`,
-              true,
-            )}
+            {renderLink(learnMoreURL, 'Learn more', `Learn more about ${name}`)}
           </div>
         </div>
       </va-card>
@@ -97,13 +76,15 @@ const BenefitCard = ({ benefit }) => {
 
 BenefitCard.propTypes = {
   benefit: PropTypes.shape({
-    applyNowURL: PropTypes.string,
+    id: PropTypes.string,
     category: PropTypes.string,
     description: PropTypes.string,
-    isTimeSensitive: PropTypes.bool,
     learnMoreURL: PropTypes.string,
     name: PropTypes.string,
+    whenToApplyDescription: PropTypes.string,
+    whenToApplyNote: PropTypes.string,
   }),
+  isBenefitRecommended: PropTypes.func,
 };
 
 export default BenefitCard;

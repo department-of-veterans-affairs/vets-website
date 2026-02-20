@@ -58,7 +58,7 @@
     "prebuild": "node script/prebuild.js",
     "proxy-rewrite:verify-targets": "node src/applications/proxy-rewrite/scripts/verify-injection-targets.js",
     "reset:env": "./script/reset-environment.sh",
-    "security-check": "yarn vagov-dependency-check",
+    "security-check": "node script/security-audit.js",
     "test": "npm run test:unit",
     "test:coverage": "npm run test:unit -- --coverage --log-level debug",
     "test:coverage-app": "node script/run-app-coverage.js",
