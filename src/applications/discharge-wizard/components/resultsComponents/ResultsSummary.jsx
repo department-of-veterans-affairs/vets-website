@@ -32,7 +32,7 @@ const ResultsSummary = ({ formResponses }) => {
   let summary = '';
 
   if (airForceAFRBAPortal) {
-    summary = `Correction of Military Record (DD 149). You can download this form from the Air Force Review Boards Agency Website and Portal.`;
+    summary = `Correction of Military Record Under the Provisions of Title 10, U.S. Code, Section 1552 (DD Form 149). You can download this form from the Air Force Review Boards Agency Website and Portal.`;
   } else {
     summary = `${formData?.formDescription} and ${sendInstructions}`;
   }
@@ -40,8 +40,7 @@ const ResultsSummary = ({ formResponses }) => {
   return (
     <section className="va-introtext">
       <p>
-        Based on your answers, you’ll need to complete an Application for{' '}
-        {summary}
+        Based on your answers, you should submit an Application for {summary}
       </p>
     </section>
   );

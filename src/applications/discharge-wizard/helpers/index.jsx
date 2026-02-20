@@ -276,7 +276,8 @@ export const determineFormData = formResponses => {
 
   return {
     num: 149,
-    formDescription: 'Correction of Military Record (DOD Form 149)',
+    formDescription:
+      'Correction of Military Record Under the Provisions of Title 10, U.S. Code, Section 1552 (DD Form 149)',
     link: 'https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
   };
 };
