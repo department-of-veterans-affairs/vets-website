@@ -110,11 +110,11 @@ const makeSubjectTitleUI = (baseOptions = {}) => (
   options = {},
 ) => {
   const opts = mergeOpts({ ...baseOptions, ...options });
-  const { arrayBuilder = false, lowercase = !opts.capitalize } = opts;
+  const { arrayBuilder = false } = opts;
   const computedTitle = ({ formData }) =>
     fillTitleTemplate(title, subjectLabel(formData, opts), opts);
   const titleStr = arrayBuilder
-    ? withEditTitle(computedTitle, lowercase)
+    ? withEditTitle(computedTitle, !opts.capitalize)
     : computedTitle;
   return titleUI({ title: titleStr, description, classNames: opts.classNames });
 };
@@ -281,7 +281,6 @@ export const titleWithNameUI = makeSubjectTitleUI({
  * @param {string|React.Component} [description=null] - Optional description element
  * @param {Object} [options] - Configuration options
  * @param {boolean} [options.capitalize=true] - Whether to capitalize the first letter
- * @param {boolean} [options.lowercase=true] - Whether to lowercase the title when "Edit" is prepended
  * @param {boolean} [options.firstNameOnly=true] - Whether to use only first name or full name
  * @param {boolean} [options.possessive=true] - Whether to add possessive 's to the name
  * @param {string} [options.placeholder='%s'] - Placeholder token to replace

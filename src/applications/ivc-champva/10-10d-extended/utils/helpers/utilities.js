@@ -101,11 +101,11 @@ export const getAgeInYears = (dateStr, asOf = new Date()) => {
 
 /**
  * Helper that determines if a birthdate is between the age of 18-23
- * @param {String} formData - the local form data
+ * @param {String|Date} birthdate - the birthdate to evaluate
  * @param {String|Date} testdate - an optional date to pass for testing purposes
  * @returns {Boolean} - true if the provided date is between 18 and 23 years from the test date
  */
 export const isOfCollegeAge = (birthdate, testdate = new Date()) => {
-  const age = differenceInYears(testdate, new Date(birthdate));
+  const age = getAgeInYears(birthdate, testdate);
   return age >= 18 && age <= 23;
 };
