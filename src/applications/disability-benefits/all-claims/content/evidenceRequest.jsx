@@ -106,7 +106,7 @@ export const renderFacilityList = (facilities, nameKey) => {
   );
 };
 
-export const renderFileList = files => {
+export const renderFileList = (files, additionalEvidencePage = false) => {
   const showAll = files.length <= maxDisplayedItems + 1;
   const displayList = showAll ? files : files.slice(0, maxDisplayedItems);
   return (
@@ -116,7 +116,10 @@ export const renderFileList = files => {
       ))}
 
       {!showAll && (
-        <li>{files.length - maxDisplayedItems} other medical records</li>
+        <li>
+          {files.length - maxDisplayedItems} other{' '}
+          {additionalEvidencePage ? 'files' : 'medical records'}
+        </li>
       )}
     </ul>
   );
