@@ -2,6 +2,8 @@ import { isWebComponent, querySelectorWithShadowRoot } from './webComponents';
 
 import environment from '../environment';
 
+// This is a custom string delimiter (not valid CSS) to indicate that part of the selector
+// is targeting an element inside a web component's shadow DOM
 const SHADOW_DELIMITER = '>>shadow>>';
 
 // .nav-header > h2 contains "Step {index} of {total}: {page title}"
@@ -50,23 +52,6 @@ export function focusElement(selectorOrElement, options = {}, root) {
 
       el.focus(options);
     }
-  }
-
-  // Handle shadow DOM traversal using >>shadow>> delimiter
-  if (
-    typeof selectorOrElement === 'string' &&
-    selectorOrElement.includes(SHADOW_DELIMITER)
-  ) {
-    const [hostSelector, internalSelector] = selectorOrElement.split(
-      SHADOW_DELIMITER,
-    );
-    const host = (root || document).querySelector(hostSelector.trim());
-    if (host && isWebComponent(host)) {
-      querySelectorWithShadowRoot(internalSelector.trim(), host).then(
-        elWithShadowRoot => applyFocus(elWithShadowRoot),
-      );
-    }
-    return;
   }
 
   if (isWebComponent(root) || isWebComponent(selectorOrElement, root)) {
@@ -121,6 +106,17 @@ export function focusByOrder(selectors, root) {
             focusElement(shadowEl);
             return true;
           }
+          // Shadow root exists but element not ready - retry after delay
+          // Only focus if nothing else claimed focus in the meantime
+          setTimeout(() => {
+            if (document.activeElement === document.body) {
+              const el = host.shadowRoot.querySelector(internalSelector.trim());
+              if (el) {
+                focusElement(el);
+              }
+            }
+          }, 100);
+          return true;
         }
         return false;
       }
