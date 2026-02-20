@@ -130,7 +130,7 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@cypress/code-coverage": "^3.13.9",
     "@department-of-veterans-affairs/eslint-plugin": "^1.20.0",
-    "@department-of-veterans-affairs/generator-vets-website": "^3.18.0",
+    "@department-of-veterans-affairs/generator-vets-website": "^4.0.0",
     "@octokit/rest": "^18.11.0",
     "@sentry/browser": "^6.13.2",
     "@statoscope/webpack-plugin": "^5.29.0",
