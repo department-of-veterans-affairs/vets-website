@@ -52,9 +52,13 @@ Affected specs:
 3. `claims-status/tests/e2e/10.va-file-input-multiple.cypress.spec.js`
 4. `claims-status/tests/e2e/11.date-discrepancy-mitigation.cypress.spec.js`
 
-#### Category B: `indexRoute.onEnter` redirect (3 specs) — NOT YET FIXED
+#### Category B: `radioUI` rest-spread crashes under SWC (3 specs) — FIXED
 
-`indexRoute: { onEnter: (nextState, replace) => replace('/introduction') }` occasionally doesn't fire. URL stays at `/` instead of `/introduction`. Some occurrences also appear on main (2122a), suggesting flakiness rather than a systematic rspack bug. The `mockUser` route timeout in `2122-digital-submission` may also be timing-related.
+**Root cause:** `radioUI('Branch of service')` in `veteranServiceInformation.js` passes a string to a function that destructures with `...rest` spread. SWC's `_object_without_properties` helper calls `Reflect.ownKeys(source)` which throws `TypeError: Reflect.ownKeys called on non-object` on primitives. Babel's equivalent uses `Object.getOwnPropertyNames` which is more lenient. This crash occurs during module initialization, preventing React from mounting entirely — no component renders, no router redirect fires.
+
+**Misdiagnosed as:** `indexRoute.onEnter` redirect failure. The actual symptom (URL staying at `/appoint-rep/` instead of redirecting to `/introduction`) was caused by the app never mounting at all, not by a react-router bug.
+
+**Fix:** Updated `radioUI` in `radioPattern.jsx` to handle string arguments like `selectUI` and `textUI` already do: `typeof options === 'object' ? options : { title: options }`. Committed as `f238f9fcc3`.
 
 Affected specs:
 1. `representative-appoint/tests/e2e/navigation/2122.cypress.spec.js`
@@ -76,6 +80,6 @@ Affected specs:
 
 ---
 
-## Expected Results After Both Fixes
+## Expected Results After All Fixes
 
-After the `require.ensure` fix, 4 of 9 branch-only failures should be resolved. 5 remaining (3 representative-appoint + 2 income-and-asset-statement) need further investigation or may be flaky timing issues exposed by rspack's different bundle structure.
+After scaffold fix (4→0 originally), `require.ensure` fix (4 specs), and `radioUI` fix (3 specs), 7 of 9 branch-only failures should be resolved. 2 remaining (`income-and-asset-statement`) need further investigation — they do NOT use `radioUI` with a string, so their `.form-progress-buttons` issue has a different root cause.
