@@ -4,6 +4,7 @@ import {
   TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
   TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
   TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE,
+  TRACKING_526EZ_SIDENAV_CLICKS,
 } from '../../constants';
 
 /**
@@ -17,11 +18,33 @@ import {
 const trackAction = (actionName, properties) => {
   try {
     datadogRum.addAction(actionName, properties);
+    // eslint-disable-next-line no-console
+    console.log(`Tracked action: ${actionName}`, properties); // Debug log for tracking
   } catch (error) {
     // Silent fail - tracking should never break the form
-    // eslint-disable-next-line no-console
-    console.error('[DataDog Tracking Error]', error);
   }
+};
+
+/**
+ * Increments a click counter in sessionStorage
+ * Returns the new count value, defaulting to 1 if storage is blocked
+ *
+ * @param {string} storageKey - The sessionStorage key to increment
+ * @returns {number} The new click count
+ */
+const incrementClickCounter = storageKey => {
+  let count = 1;
+  try {
+    const currentCount = parseInt(
+      sessionStorage.getItem(storageKey) || '0',
+      10,
+    );
+    count = currentCount + 1;
+    sessionStorage.setItem(storageKey, count.toString());
+  } catch (error) {
+    // Storage access blocked - continue with default count
+  }
+  return count;
 };
 
 /**
@@ -57,23 +80,9 @@ const getSideNavTrackingDefaults = () => {
 export const trackBackButtonClick = () => {
   try {
     const { sourcePath, sidenav526ezEnabled } = getSideNavTrackingDefaults();
-
-    let newCount = 1;
-
-    try {
-      const currentCount = parseInt(
-        sessionStorage.getItem(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS) ||
-          '0',
-        10,
-      );
-      newCount = currentCount + 1;
-      sessionStorage.setItem(
-        TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
-        newCount.toString(),
-      );
-    } catch (error) {
-      // Storage access blocked - continue with default count
-    }
+    const newCount = incrementClickCounter(
+      TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
+    );
 
     const properties = {
       formId: VA_FORM_IDS.FORM_21_526EZ,
@@ -88,8 +97,6 @@ export const trackBackButtonClick = () => {
     trackAction('Form navigation - Back button clicked', properties);
   } catch (error) {
     // Silent fail - tracking should never break the form
-    // eslint-disable-next-line no-console
-    console.error('[DataDog Tracking Error]', error);
   }
 };
 
@@ -101,23 +108,9 @@ export const trackBackButtonClick = () => {
 export const trackContinueButtonClick = () => {
   try {
     const { sourcePath, sidenav526ezEnabled } = getSideNavTrackingDefaults();
-
-    let newCount = 1;
-
-    try {
-      const currentCount = parseInt(
-        sessionStorage.getItem(TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS) ||
-          '0',
-        10,
-      );
-      newCount = currentCount + 1;
-      sessionStorage.setItem(
-        TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
-        newCount.toString(),
-      );
-    } catch (error) {
-      // Storage access blocked - continue with default count
-    }
+    const newCount = incrementClickCounter(
+      TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
+    );
 
     const properties = {
       formId: VA_FORM_IDS.FORM_21_526EZ,
@@ -132,8 +125,6 @@ export const trackContinueButtonClick = () => {
     trackAction('Form navigation - Continue button clicked', properties);
   } catch (error) {
     // Silent fail - tracking should never break the form
-    // eslint-disable-next-line no-console
-    console.error('[DataDog Tracking Error]', error);
   }
 };
 
@@ -160,8 +151,6 @@ export const trackFormStarted = () => {
     );
   } catch (error) {
     // Silent fail - tracking should never break the form
-    // eslint-disable-next-line no-console
-    console.error('[DataDog Tracking Error]', error);
   }
 };
 
@@ -185,8 +174,6 @@ export const trackFormResumption = () => {
     trackAction('Form resumption - Saved form loaded', properties);
   } catch (error) {
     // Silent fail - tracking should never break the form
-    // eslint-disable-next-line no-console
-    console.error('[DataDog Tracking Error]', error);
   }
 };
 
@@ -200,17 +187,18 @@ export const trackFormResumption = () => {
  */
 export const trackSideNavChapterClick = ({ pageData, pathname }) => {
   try {
+    const clickCount = incrementClickCounter(TRACKING_526EZ_SIDENAV_CLICKS);
+
     const properties = {
       formId: VA_FORM_IDS.FORM_21_526EZ,
       chapterTitle: pageData.label,
       sourcePath: pathname,
+      sideNavClickCount: clickCount,
     };
 
     trackAction('Side navigation - Chapter clicked', properties);
   } catch (error) {
     // Silent fail - tracking should never break the form
-    // eslint-disable-next-line no-console
-    console.error('[DataDog Tracking Error]', error);
   }
 };
 
@@ -234,8 +222,6 @@ export const trackFormSubmitted = () => {
     trackAction('Form submission - Submit button clicked', properties);
   } catch (error) {
     // Silent fail - tracking should never break the form
-    // eslint-disable-next-line no-console
-    console.error('[DataDog Tracking Error]', error);
   }
 };
 
@@ -254,17 +240,18 @@ export const trackMobileAccordionClick = ({
   accordionTitle,
 }) => {
   try {
+    const clickCount = incrementClickCounter(TRACKING_526EZ_SIDENAV_CLICKS);
+
     const properties = {
       formId: VA_FORM_IDS.FORM_21_526EZ,
       state,
       accordionTitle,
       sourcePath: pathname,
+      sideNavClickCount: clickCount,
     };
 
     trackAction('Side navigation - Mobile accordion clicked', properties);
   } catch (error) {
     // Silent fail - tracking should never break the form
-    // eslint-disable-next-line no-console
-    console.error('[DataDog Tracking Error]', error);
   }
 };

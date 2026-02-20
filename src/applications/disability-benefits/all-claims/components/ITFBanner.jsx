@@ -9,6 +9,7 @@ import { trackFormResumption } from '../utils/tracking/datadogRumTracking';
 import {
   TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
   TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
+  TRACKING_526EZ_SIDENAV_CLICKS,
   DISABILITY_526_V2_ROOT_URL,
 } from '../constants';
 
@@ -29,6 +30,7 @@ export class ITFBanner extends React.Component {
         sessionStorage.removeItem(
           TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
         );
+        sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_CLICKS);
       } catch (error) {
         // Storage access blocked - silent fail
       }
