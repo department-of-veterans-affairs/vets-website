@@ -4,18 +4,12 @@ import maxTestData from '../fixtures/data/maximal-test.json';
 const { data: testData } = maxTestData;
 
 // navigation helpers
-export const goToNextPage = (pagePath, isArrayBuilderEditPage = false) => {
-  // clicks Continue button, and optionally checks destination path.
-  if (isArrayBuilderEditPage) {
-    cy.get('va-button[text="continue"]').click();
-  } else {
-    cy.findAllByText(/continue/i, { selector: 'button' }).click();
-  }
+export const goToNextPage = pagePath => {
+  cy.clickFormContinue();
   if (pagePath) {
     cy.location('pathname').should('include', pagePath);
   }
 };
-
 export const goToPreviousPage = pagePath => {
   // clicks Back button, and optionally checks destination path.
   cy.findAllByText(/back/i, { selector: 'button' }).click();
