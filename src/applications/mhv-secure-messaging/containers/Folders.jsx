@@ -66,11 +66,10 @@ const Folders = () => {
     [alertList, folders, location.pathname],
   );
 
-  const confirmFolderCreate = (folderName, onSuccess) => {
-    dispatch(newFolder(folderName)).then(() => {
-      onSuccess();
-      dispatch(getFolders());
-    });
+  const confirmFolderCreate = async folderName => {
+    // Pass suppressSuccessAlert=true - inline alert shown in CreateFolderInline
+    await dispatch(newFolder(folderName, true));
+    dispatch(getFolders());
   };
 
   const handleFolderCreated = folderName => {
