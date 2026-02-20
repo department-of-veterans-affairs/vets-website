@@ -38,7 +38,7 @@ import { uploadDocumentsSchema, getUiSchema } from '../pages/uploadDocuments';
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
 
-import { certificateUseOptions } from '../constants';
+import { certificateUseOptions, serviceStatuses } from '../constants';
 import certificateUse from '../pages/certificateUse';
 import hadPriorLoans from '../pages/hadPriorLoans';
 import currentOwnership from '../pages/currentOwnership';
@@ -179,7 +179,10 @@ const formConfig = {
           path: 'pending-pre-discharge-claim',
           title: 'Pending pre-discharge claim',
           depends: formData => {
-            return formData['view:coeFormRebuildCveteam'];
+            return (
+              formData['view:coeFormRebuildCveteam'] &&
+              formData?.identity === serviceStatuses.ADSM
+            );
           },
           uiSchema: preDischargeClaim.uiSchema,
           schema: preDischargeClaim.schema,
@@ -188,7 +191,10 @@ const formConfig = {
           path: 'purple-heart-recipient',
           title: 'Purple Heart recipient',
           depends: formData => {
-            return formData['view:coeFormRebuildCveteam'];
+            return (
+              formData['view:coeFormRebuildCveteam'] &&
+              formData?.identity === serviceStatuses.ADSM
+            );
           },
           uiSchema: purpleHeartRecipient.uiSchema,
           schema: purpleHeartRecipient.schema,
