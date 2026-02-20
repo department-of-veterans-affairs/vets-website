@@ -131,7 +131,7 @@ export const EvidenceRequestPage = ({
         updatedFormData.patient4142Acknowledgement = false;
         setFormData(updatedFormData);
         setAlertVisible(false);
-        goForward(updatedFormData);
+        goForward({ formData: updatedFormData });
       } else {
         setAlertVisible(false);
         goForward(data);
