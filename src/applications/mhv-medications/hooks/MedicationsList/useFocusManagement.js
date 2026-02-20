@@ -21,33 +21,18 @@ export const useFocusManagement = ({
   isLoading,
   filteredList,
   noFilterMatches,
-  isReturningFromDetailsPage,
-  scrollLocation,
   showingFocusedAlert,
 }) => {
   const isFirstLoad = useRef(true);
 
-  // Focus h1 or scroll to previous location on load
   useEffect(
     () => {
-      if (!isLoading) {
-        if (
-          isReturningFromDetailsPage &&
-          scrollLocation?.current?.scrollIntoView
-        ) {
-          scrollLocation?.current?.scrollIntoView();
-        } else if (!showingFocusedAlert) {
-          // Focus the h1 element on initial load, unless an alert that manages its own focus is showing.
-          focusElement(document.querySelector('h1'));
-        }
+      if (!isLoading && !showingFocusedAlert) {
+        // Focus the h1 element on initial load, unless an alert that manages its own focus is showing.
+        focusElement(document.querySelector('h1'));
       }
     },
-    [
-      showingFocusedAlert,
-      isLoading,
-      isReturningFromDetailsPage,
-      scrollLocation,
-    ],
+    [showingFocusedAlert, isLoading],
   );
 
   // Focus "no matches" message or scroll to results after filter/sort
