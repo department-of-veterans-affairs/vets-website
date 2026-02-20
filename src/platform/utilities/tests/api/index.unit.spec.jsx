@@ -1,8 +1,16 @@
+/* eslint-disable camelcase */
 import path from 'path';
 import fs from 'fs';
 import { expect } from 'chai';
 import { server, rest } from 'platform/testing/unit/mocha-setup';
 import sinon from 'sinon';
+import {
+  createGetHandler,
+  createPostHandler,
+  createDeleteHandler,
+  jsonResponse,
+  binaryResponse,
+} from 'platform/testing/unit/msw-adapter';
 import { apiRequest, fetchAndUpdateSessionExpiration } from '../../api';
 import environment from '../../environment';
 import * as ssoModule from '../../sso';
@@ -21,29 +29,28 @@ describe('test wrapper', () => {
     });
 
     it('should behave as if in production', async () => {
+      server.use(
+        createGetHandler('*', () =>
+          jsonResponse({ status: 'ok' }, { status: 200 }),
+        ),
+      );
       await apiRequest('/status', {}, null, null, mockEnv);
       expect(mockEnv.isProduction.called).to.be.true;
     });
 
     it('should redirect to LoginModal if in production and session expired (401)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+        createGetHandler('*', () =>
+          jsonResponse(
+            { errors: [{ status: '401', title: 'Unauthorized' }] },
+            { status: 401 },
           ),
         ),
       );
 
       sessionStorage.setItem('shouldRedirectExpiredSession', 'true');
 
-      Object.defineProperty(window, 'location', {
-        value: {
-          pathname: '/some-other-page',
-          assign: sinon.stub(),
-        },
-        writable: true,
-      });
+      window.location.href = 'http://localhost/some-other-page';
 
       try {
         await apiRequest(
@@ -55,6 +62,7 @@ describe('test wrapper', () => {
         );
       } catch (error) {
         expect(mockEnv.isProduction.called).to.be.true;
+        // After window.location = string, window.location becomes a string in happy-dom
         expect(window.location).to.eql(
           '/?next=loginModal&status=session_expired',
         );
@@ -68,10 +76,10 @@ describe('test wrapper', () => {
       };
 
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+        createGetHandler('*', () =>
+          jsonResponse(
+            { errors: [{ status: '401', title: 'Unauthorized' }] },
+            { status: 401 },
           ),
         ),
       );
@@ -103,10 +111,10 @@ describe('test wrapper', () => {
 
     it('should not redirect to /session-expired if on /declined page (status: 401)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+        createGetHandler('*', () =>
+          jsonResponse(
+            { errors: [{ status: '401', title: 'Unauthorized' }] },
+            { status: 401 },
           ),
         ),
       );
@@ -132,10 +140,10 @@ describe('test wrapper', () => {
 
     it('should not redirect if shouldRedirectExpiredSession is not set (status: 401)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+        createGetHandler('*', () =>
+          jsonResponse(
+            { errors: [{ status: '401', title: 'Unauthorized' }] },
+            { status: 401 },
           ),
         ),
       );
@@ -158,10 +166,10 @@ describe('test wrapper', () => {
     });
 
     it('should return JSON when appropriate headers are specified on (status: 200)', async () => {
-      const jsonResponse = { status: 'ok' };
+      const expectedJsonResponse = { status: 'ok' };
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) =>
-          res(ctx.status(200), ctx.json(jsonResponse)),
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse(expectedJsonResponse, { status: 200 }),
         ),
       );
 
@@ -174,7 +182,9 @@ describe('test wrapper', () => {
 
     it('should not return JSON on (status: 204)', async () => {
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) => res(ctx.status(204))),
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse(null, { status: 204 }),
+        ),
       );
 
       const response = await apiRequest('/status', {
@@ -217,9 +227,9 @@ describe('test wrapper', () => {
 
     it('should not impact empty JSON with (status: 202) No Content', async () => {
       server.use(
-        rest.delete(
+        createDeleteHandler(
           `https://dev-api.va.gov/my_health/v1/messaging/messages/1`,
-          (_, res, ctx) => res(ctx.status(202)),
+          () => jsonResponse(null, { status: 202 }),
         ),
       );
 
@@ -249,19 +259,20 @@ describe('test wrapper', () => {
       };
 
       server.use(
-        rest.post(
+        createPostHandler(
           `https://dev-api.va.gov/v0/letters/benefit_summary`,
-          (_, res, ctx) => {
+          () => {
             const pdfFile = fs.readFileSync(
               path.resolve(__dirname, './pdfFixture.pdf'),
             );
 
-            return res(
-              ctx.status(200),
-              ctx.set('Content-Length', pdfFile.byteLength.toString()),
-              ctx.set('Content-Type', 'application/pdf'),
-              ctx.body(pdfFile),
-            );
+            return binaryResponse(pdfFile, {
+              status: 200,
+              headers: {
+                'Content-Length': pdfFile.byteLength.toString(),
+                'Content-Type': 'application/pdf',
+              },
+            });
           },
         ),
       );
@@ -323,6 +334,11 @@ describe('test wrapper', () => {
     });
 
     it('calls checkOrSetSessionExpiration and checkAndUpdateSSOSession if the hasSessionSSO flag is set', async () => {
+      server.use(
+        createGetHandler(environment.API_URL, () =>
+          jsonResponse({}, { status: 200 }),
+        ),
+      );
       localStorage.setItem('hasSessionSSO', 'true');
       await fetchAndUpdateSessionExpiration(environment.API_URL, {});
       expect(checkOrSetSessionExpirationMock.callCount).to.equal(1);
@@ -331,8 +347,8 @@ describe('test wrapper', () => {
 
     it('does not call checkAndUpdateSSOSession if the hasSessionSSO flag is not set', async () => {
       server.use(
-        rest.get(environment.API_URL, (req, res, ctx) =>
-          res(ctx.status(500), ctx.json({})),
+        createGetHandler(environment.API_URL, () =>
+          jsonResponse({}, { status: 500 }),
         ),
       );
       await fetchAndUpdateSessionExpiration(environment.API_URL, {});
@@ -415,6 +431,193 @@ describe('test wrapper', () => {
       await fetchAndUpdateSessionExpiration(environment.API_URL, {});
 
       expect(refreshIfAccessTokenExpiringSoonMock.called).to.be.false;
+    });
+  });
+
+  describe('proactive token refresh', () => {
+    let infoTokenExistsStub;
+    let getInfoTokenStub;
+    let refreshStub;
+    let dateNowStub;
+
+    beforeEach(() => {
+      // Mock Date.now() instead of using fake timers
+      dateNowStub = sinon
+        .stub(Date, 'now')
+        .returns(new Date('2025-01-01T12:00:00Z').getTime());
+      infoTokenExistsStub = sinon.stub(oauthModule, 'infoTokenExists');
+      getInfoTokenStub = sinon.stub(oauthModule, 'getInfoToken');
+      refreshStub = sinon.stub(oauthModule, 'refresh').resolves();
+      sessionStorage.setItem('serviceName', 'idme');
+    });
+
+    afterEach(() => {
+      dateNowStub.restore();
+      infoTokenExistsStub.restore();
+      getInfoTokenStub.restore();
+      refreshStub.restore();
+      sessionStorage.removeItem('serviceName');
+      server.resetHandlers();
+    });
+
+    it('should proactively refresh token when expiring within 30 seconds', async () => {
+      // Token expires in 25 seconds
+      const expirationTime = new Date('2025-01-01T12:00:25Z');
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        access_token_expiration: expirationTime,
+        refresh_token_expiration: new Date('2025-01-01T12:30:00Z'),
+      });
+
+      server.use(
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse({ status: 'ok' }, { status: 200 }),
+        ),
+      );
+
+      // Temporarily unset window.Mocha to allow retryOn to be used
+      const originalMocha = window.Mocha;
+      window.Mocha = false;
+
+      await apiRequest('/status', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      // Restore window.Mocha
+      window.Mocha = originalMocha;
+
+      expect(refreshStub.calledOnce).to.be.true;
+      expect(refreshStub.calledWith({ type: 'idme' })).to.be.true;
+    });
+
+    it('should not refresh token when not close to expiring', async () => {
+      // Token expires in 5 minutes
+      const expirationTime = new Date('2025-01-01T12:05:00Z');
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        access_token_expiration: expirationTime,
+        refresh_token_expiration: new Date('2025-01-01T12:30:00Z'),
+      });
+
+      server.use(
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse({ status: 'ok' }, { status: 200 }),
+        ),
+      );
+
+      await apiRequest('/status', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      expect(refreshStub.called).to.be.false;
+    });
+
+    it('should not refresh when info token does not exist', async () => {
+      infoTokenExistsStub.returns(false);
+
+      server.use(
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse({ status: 'ok' }, { status: 200 }),
+        ),
+      );
+
+      await apiRequest('/status', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      expect(refreshStub.called).to.be.false;
+    });
+
+    it('should still handle reactive 403 refresh as fallback', async () => {
+      // Token not close to expiring
+      const expirationTime = new Date('2025-01-01T12:05:00Z');
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        access_token_expiration: expirationTime,
+        refresh_token_expiration: new Date('2025-01-01T12:30:00Z'),
+      });
+
+      let callCount = 0;
+      server.use(
+        createGetHandler(/v0\/status/, () => {
+          callCount += 1;
+          if (callCount === 1) {
+            // First call returns 403
+            return jsonResponse(
+              { errors: 'Access token has expired' },
+              { status: 403 },
+            );
+          }
+          // Second call (after refresh) returns success
+          return jsonResponse({ status: 'ok' }, { status: 200 });
+        }),
+      );
+
+      // Temporarily unset window.Mocha to allow retryOn to be used
+      const originalMocha = window.Mocha;
+      window.Mocha = false;
+
+      const response = await apiRequest('/status', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      // Restore window.Mocha
+      window.Mocha = originalMocha;
+
+      expect(refreshStub.calledOnce).to.be.true;
+      expect(response.status).to.eql('ok');
+    });
+
+    it('should refresh proactively even if token already expired', async () => {
+      // Token expired 5 seconds ago
+      const expirationTime = new Date('2025-01-01T11:59:55Z');
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        access_token_expiration: expirationTime,
+        refresh_token_expiration: new Date('2025-01-01T12:30:00Z'),
+      });
+
+      server.use(
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse({ status: 'ok' }, { status: 200 }),
+        ),
+      );
+
+      // Temporarily unset window.Mocha to allow retryOn to be used
+      const originalMocha = window.Mocha;
+      window.Mocha = false;
+
+      await apiRequest('/status', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      // Restore window.Mocha
+      window.Mocha = originalMocha;
+
+      expect(refreshStub.calledOnce).to.be.true;
+    });
+
+    it('should not refresh if serviceName is missing', async () => {
+      // Token expires in 25 seconds but no serviceName
+      const expirationTime = new Date('2025-01-01T12:00:25Z');
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        access_token_expiration: expirationTime,
+        refresh_token_expiration: new Date('2025-01-01T12:30:00Z'),
+      });
+      sessionStorage.removeItem('serviceName');
+
+      server.use(
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse({ status: 'ok' }, { status: 200 }),
+        ),
+      );
+
+      await apiRequest('/status', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      expect(refreshStub.called).to.be.false;
     });
   });
 });
