@@ -66,6 +66,9 @@ export default function ClaimsListItem({ claim }) {
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
+  const cstMultiClaimProviderEnabled = useToggleValue(
+    TOGGLE_NAMES.cstMultiClaimProvider,
+  );
   const showEightPhases = getShowEightPhases(
     claimTypeCode,
     cstClaimPhasesEnabled,
@@ -80,7 +83,12 @@ export default function ClaimsListItem({ claim }) {
   const showAlert = showPrecomms && documentsNeeded;
 
   const ariaLabel = `Details for claim submitted on ${formattedReceiptDate}`;
-  const href = `/your-claims/${claim.id}/status`;
+  const provider = cstMultiClaimProviderEnabled
+    ? claim.attributes?.provider
+    : null;
+  const href = provider
+    ? `/your-claims/${claim.id}/status?type=${provider}`
+    : `/your-claims/${claim.id}/status`;
 
   // Memoize failed submissions to prevent UploadType2ErrorAlertSlim from receiving
   // a new array reference on every render, which would break its useEffect tracking
