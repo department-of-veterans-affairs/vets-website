@@ -227,7 +227,6 @@ class IntroductionPage extends React.Component {
                 <a href="/disability/get-help-filing-claim/">
                   Get help filing your claim
                 </a>
-                .
               </p>
             </va-process-list-item>
             <va-process-list-item>
