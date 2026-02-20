@@ -906,11 +906,34 @@ export const addForm8940 = formData => {
   return clonedData;
 };
 
+/**
+ * Flattens nested additionalData properties from V3 web component file attachments.
+ * Extracts properties from the additionalData object and moves them to the top level
+ * of each attachment object, making them directly accessible (e.g., attachmentId).
+ *
+ * @param {object} formData - The form data containing attachment arrays
+ * @returns {object} - Form data with flattened attachment structures, or original
+ *                     formData if no attachments with additionalData are present
+ */
+const flattenAttachments = formData => {
+  const pmrAttachments = formData.privateMedicalRecordAttachments;
+  // TODO: add additionalDocuments into this function as it utilizes the V3 component.
+  const clonedData = _.cloneDeep(formData);
+  if (pmrAttachments && pmrAttachments[0]?.additionalData) {
+    clonedData.privateMedicalRecordAttachments = pmrAttachments.map(
+      attachment => {
+        const { additionalData, ...rest } = attachment;
+        return { ...rest, ...additionalData };
+      },
+    );
+  }
+  return clonedData;
+};
+
 // Flatten all attachment pages into attachments ARRAY
 export const addFileAttachments = formData => {
-  const clonedData = _.cloneDeep(formData);
+  const clonedData = flattenAttachments(formData);
   let attachments = [];
-
   ATTACHMENT_KEYS.forEach(key => {
     const documentArr = _.get(key, clonedData, []);
     attachments = [...attachments, ...documentArr];

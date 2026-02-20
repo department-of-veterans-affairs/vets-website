@@ -39,7 +39,7 @@ export const parseResponse = (response, file) => {
 export const additionalInputUpdate = (instance, error, data) => {
   instance.setAttribute('error', error);
   if (data) {
-    instance.setAttribute('value', data.docType);
+    instance.setAttribute('value', data.attachmentId);
   }
 };
 
@@ -51,5 +51,5 @@ export const additionalInputUpdate = (instance, error, data) => {
 export const handleAdditionalInput = e => {
   const { value } = e.detail;
   if (value === '') return null;
-  return { docType: e.detail.value };
+  return { attachmentId: e.detail.value };
 };
