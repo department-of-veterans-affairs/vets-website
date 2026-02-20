@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { showPdfFormAlignment } from '../../helpers';
+
+const threshold = showPdfFormAlignment() ? 75000 : 25000;
 
 export const AssetInformationAlert = () => (
   <va-additional-info trigger="How we define assets">
@@ -114,14 +117,6 @@ export const DisabilityDocsAlert = () => (
   </va-alert>
 );
 
-export const IncomeAssetStatementFormAlert = () => (
-  <RequestFormAlert
-    title="Income and Asset Statement in Support of Claim for Pension or Parents' Dependency and Indemnity Compensation"
-    formName="VA Form 21P-0969"
-    formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
-  />
-);
-
 export const IncomeInformationAlert = () => (
   <va-additional-info trigger="How we define income">
     <p>
@@ -147,59 +142,68 @@ export const LandMarketableAlert = () => (
   </va-alert>
 );
 
-const RequestFormAlert = ({ title, formName, formLink, children }) => (
-  <va-alert status="warning">
-    <p className="vads-u-margin-y--0">
-      You’ll need to submit an {title} ({formName}
+const RequestFormDescription = ({
+  intro,
+  title,
+  formName,
+  formLink,
+  children,
+}) => (
+  <>
+    <p>
+      {intro}, you’ll need to submit an {title} ({formName}
       ).
     </p>
     <p>{children}</p>
     <p>
-      We’ll ask you to upload this form at the end of this application. Or you
-      can send it to us by mail.
+      We’ll give you instructions for submitting this form at the end of this
+      application.
     </p>
     <p>
       <va-link href={formLink} external text={`Get ${formName} to download`} />
     </p>
-  </va-alert>
+  </>
 );
 
-RequestFormAlert.propTypes = {
+RequestFormDescription.propTypes = {
   formLink: PropTypes.string.isRequired,
   formName: PropTypes.string.isRequired,
+  intro: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.node,
 };
 
 export const RequestIncomeAndAssetInformationAlert = () => (
-  <RequestFormAlert
+  <RequestFormDescription
     title="Income and Asset Statement in Support of Claim for Pension or Parents' Dependency and Indemnity Compensation"
     formName="VA Form 21P-0969"
     formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
   />
 );
 
-export const RequestNursingHomeInformationAlert = () => (
-  <RequestFormAlert
+export const RequestNursingHomeInformationDescription = () => (
+  <RequestFormDescription
+    intro="Because you applied for medicaid"
     title="Nursing Home Information in Connection with Claim
     for Aid and Attendance"
     formName="VA Form 21-0779"
     formLink="https://www.va.gov/find-forms/about-form-21-0779/"
   >
     An official from your nursing home must complete the form.
-  </RequestFormAlert>
+  </RequestFormDescription>
 );
 
 export const SchoolAttendanceAlert = () => (
-  <RequestFormAlert
+  <RequestFormDescription
     title="Request for Approval of School Attendance"
     formName="VA Form 21-674"
     formLink="https://www.va.gov/find-forms/about-form-21-674/"
   />
 );
 
-export const SpecialMonthlyPensionEvidenceAlert = () => (
-  <RequestFormAlert
+export const SpecialMonthlyPensionEvidenceDescription = () => (
+  <RequestFormDescription
+    intro="Because you’re claiming special monthly pension"
     title="Examination for Housebound Status or Permanent
     Need for Regular Aid and Attendance"
     formName="VA Form 21-2680"
@@ -208,7 +212,38 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
     Make sure every box is complete and has a signature from a physician,
     physician assistant, certified nurse practitioner (CNP), or clinical nurse
     specialist (CNS).
-  </RequestFormAlert>
+  </RequestFormDescription>
+);
+
+export const NetWorthEstimationFormNeededDescription = () => (
+  <RequestFormDescription
+    intro={`Because you and your dependents have over ${threshold.toLocaleString()} in assets`}
+    title="Income and Asset Statement in Support of
+          Claim for Pension or Parents' Dependency and Indemnity Compensation
+    Need for Regular Aid and Attendance"
+    formName="VA Form 21P-0969"
+    formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
+  />
+);
+
+export const LandMarketableFormNeededDescription = () => (
+  <RequestFormDescription
+    intro="Because the additional land is marketable"
+    title="Income and Asset Statement in Support of
+          Claim for Pension or Parents' Dependency and Indemnity Compensation
+    Need for Regular Aid and Attendance"
+    formName="VA Form 21P-0969"
+    formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
+  />
+);
+
+export const IncomeAssetStatementFormNeededDescription = () => (
+  <RequestFormDescription
+    intro="Because you, your spouse, or your dependents transferred assets"
+    title="Income and Asset Statement in Support of Claim for Pension or Parents' Dependency and Indemnity Compensation"
+    formName="VA Form 21P-0969"
+    formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
+  />
 );
 
 export const WartimeWarningAlert = () => (
