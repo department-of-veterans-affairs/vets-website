@@ -41,11 +41,11 @@ const MedicationHistory = () => {
     <div>
       <h1 data-testid="medication-history-heading">Medication history</h1>
       {/* TODO verify link destination */}
-      <Link to="/in-progress">Go to your in-prgroess medications</Link>
+      <Link to="/in-progress">Go to your in-progress medications</Link>
       <span className="vads-u-margin-x--1">|</span>
       <Link to="/refill">Refill medications</Link>
       {renderContent()}
-      <NeedHelp page={pageType.IN_PROGRESS} headingLevel={2} />
+      <NeedHelp page={pageType.HISTORY} headingLevel={2} />
     </div>
   );
 };

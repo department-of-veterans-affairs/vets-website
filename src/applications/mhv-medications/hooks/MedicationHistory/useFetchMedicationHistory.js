@@ -15,10 +15,6 @@ import {
   selectV2StatusMappingFlag,
 } from '../../util/selectors';
 
-/**
- * Fetches the prescriptions list without URL-based pagination.
- * Use this for pages that don't need URL state management.
- */
 export const useFetchMedicationHistory = (initialPage = 1, perPage = 10) => {
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
