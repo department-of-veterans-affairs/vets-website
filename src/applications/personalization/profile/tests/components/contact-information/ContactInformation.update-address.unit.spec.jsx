@@ -117,12 +117,12 @@ async function testAddressValidation500(addressName) {
   updateAddress(addressName);
 
   // expect an error to be shown
-  const alert = await view.findByTestId('edit-error-alert');
+  const alert = await view.findByTestId('vap-service-error-alert');
   expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
   await wait(75);
-  expect(view.getByTestId('edit-error-alert')).to.exist;
+  expect(view.getByTestId('vap-service-error-alert')).to.exist;
   expect(getEditVaButton(addressName)).to.not.exist;
 }
 
@@ -133,12 +133,12 @@ async function testTransactionCreationFails(addressName) {
   updateAddress(addressName);
 
   // expect an error to be shown
-  const alert = await view.findByTestId('edit-error-alert');
+  const alert = await view.findByTestId('vap-service-error-alert');
   expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
   await wait(75);
-  expect(view.getByTestId('edit-error-alert')).to.exist;
+  expect(view.getByTestId('vap-service-error-alert')).to.exist;
   expect(getEditVaButton(addressName)).to.not.exist;
 }
 
@@ -149,12 +149,12 @@ async function testQuickFailure(addressName) {
   updateAddress(addressName);
 
   // expect an error to be shown
-  const alert = await view.findByTestId('edit-error-alert');
+  const alert = await view.findByTestId('vap-service-error-alert');
   expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
   await wait(75);
-  expect(view.getByTestId('edit-error-alert')).to.exist;
+  expect(view.getByTestId('vap-service-error-alert')).to.exist;
   expect(getEditVaButton(addressName)).to.not.exist;
 }
 
@@ -178,7 +178,7 @@ async function testSlowFailure(addressName) {
   server.use(...mocks.transactionFailed);
 
   // the error alert should appear
-  await view.findByTestId('generic-error-alert');
+  await view.findByTestId('vap-service-error-alert');
 
   // and the edit button should be back
   expect(getEditVaButton(addressName)).to.exist;

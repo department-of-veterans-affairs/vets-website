@@ -90,7 +90,7 @@ describe('Delete email address', () => {
     removeEmailAddress();
     // Confirm modal closes & error alert appears
     cy.get('va-modal').should('not.exist');
-    cy.get('[data-testid="generic-error-alert"]').should('be.visible');
+    cy.get('[data-testid="vap-service-error-alert"]').should('be.visible');
 
     cy.injectAxeThenAxeCheck();
   });
