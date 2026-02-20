@@ -167,7 +167,7 @@ jobs:
           env_variable_name: MAPBOX_TOKEN
 
       - name: Build
-        run: NODE_ENV=production yarn build:rspack --env buildtype=${{ matrix.buildtype }} ${ENTRY:+"--env entry=$ENTRY"}
+        run: NODE_ENV=production yarn build:rspack --env buildtype=${{ matrix.buildtype }} --env scaffold ${ENTRY:+"--env entry=$ENTRY"}
         timeout-minutes: 10
         env:
           ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}
