@@ -780,6 +780,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     const { path, nestedArrayOptions } = pageConfig;
     const hasInternalMaxItemsFn =
       typeof nestedArrayOptions.maxItems === 'function';
+    const nestedMinItems = nestedArrayOptions.minItems || null;
 
     verifyRequiredPropsPageConfig('itemPage', requiredOpts, pageConfig);
     verifyRequiredArrayBuilderOptions(nestedArrayOptions, [
@@ -791,7 +792,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
 
     validateRequired(nestedArrayOptions.required);
     validateReviewPath(reviewPath);
-    validateMinItems(nestedArrayOptions.minItems);
+    validateMinItems(nestedMinItems);
 
     const { onNavBack, onNavForward } = getNavItem(path);
     const itemPageProps = {
@@ -873,7 +874,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
                 [arrayPathInternal]: {
                   type: 'array',
                   ...pageConfig.schema.properties[arrayPathInternal],
-                  minItems: nestedArrayOptions.minItems,
+                  ...(nestedMinItems !== null
+                    ? { minItems: nestedMinItems }
+                    : {}),
                   // static only when numeric, else computed at runtime
                   ...(hasInternalMaxItemsFn
                     ? {}

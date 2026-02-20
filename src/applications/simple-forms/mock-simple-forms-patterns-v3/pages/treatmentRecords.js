@@ -254,33 +254,33 @@ export const treatmentRecordsPages = arrayBuilderPages(
       path: 'treatment-records-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
-      initialData: {
-        treatmentRecords: [
-          {
-            name: 'Sample Hospital',
-            address: {
-              street: '123 Main St',
-              city: 'Anytown',
-              state: 'VA',
-              postalCode: '12345',
-              country: 'USA',
-            },
-            conditionsTreated: [
-              { name: 'Condition A', releaseInfo: true },
-              { name: 'Condition B' },
-              {},
-            ],
-            treatmentDates: {
-              from: '2020-01-01',
-              to: '2020-06-01',
-            },
-            supportingDocuments: [
-              { name: 'xray1.pdf' },
-              { name: 'mri_scan.jpg' },
-            ],
-          },
-        ],
-      },
+      // initialData: {
+      //   treatmentRecords: [
+      //     {
+      //       name: 'Sample Hospital',
+      //       address: {
+      //         street: '123 Main St',
+      //         city: 'Anytown',
+      //         state: 'VA',
+      //         postalCode: '12345',
+      //         country: 'USA',
+      //       },
+      //       conditionsTreated: [
+      //         { name: 'Condition A', releaseInfo: true },
+      //         { name: 'Condition B' },
+      //         {},
+      //       ],
+      //       treatmentDates: {
+      //         from: '2020-01-01',
+      //         to: '2020-06-01',
+      //       },
+      //       supportingDocuments: [
+      //         { name: 'xray1.pdf' },
+      //         { name: 'mri_scan.jpg' },
+      //       ],
+      //     },
+      //   ],
+      // },
     }),
     treatmentRecordNameAndAddressPage: pageBuilder.itemPage({
       title: 'Name and address of treatment facility',
