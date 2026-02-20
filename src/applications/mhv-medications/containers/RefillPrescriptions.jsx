@@ -409,9 +409,7 @@ const RefillPrescriptions = () => {
                     migratingFacilities={migratingFacilities}
                   />
                 ) : (
-                  isOracleHealthCutoverEnabled && (
-                    <CernerFacilityAlert healthTool="MEDICATIONS" />
-                  )
+                  <CernerFacilityAlert healthTool="MEDICATIONS_REFILL" />
                 )}
                 <h2
                   className="vads-u-margin-top--3"
@@ -510,12 +508,10 @@ const RefillPrescriptions = () => {
                     migratingFacilities={migratingFacilities}
                   />
                 ) : (
-                  isOracleHealthCutoverEnabled && (
-                    <CernerFacilityAlert
-                      healthTool="MEDICATIONS"
-                      className="vads-u-margin-top--2"
-                    />
-                  )
+                  <CernerFacilityAlert
+                    healthTool="MEDICATIONS_REFILL"
+                    className="vads-u-margin-top--2"
+                  />
                 )}
                 <p data-testid="no-refills-message">
                   You don't have any VA prescriptions with refills available. If

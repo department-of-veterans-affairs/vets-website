@@ -16,7 +16,7 @@ export const OracleHealthT3Alert = ({
   migratingFacilities,
   className = '',
 }) => {
-  const config = CernerAlertContent.MEDICATIONS;
+  const config = CernerAlertContent.MEDICATIONS_REFILL;
   const isOracleHealthCutoverEnabled = useSelector(
     selectMhvMedicationsOracleHealthCutoverFlag,
   );

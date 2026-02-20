@@ -1274,7 +1274,7 @@ describe('Refill Prescriptions Component', () => {
 
     describe('CernerFacilityAlert (T-45 alert)', () => {
       describe('when mhv_medications_oracle_health_cutover feature flag is disabled', () => {
-        it('does not show T-45 alert with refillable prescriptions', async () => {
+        it('shows CernerFacilityAlert even with flag disabled for pre-transitioned facilities', async () => {
           sandbox.restore();
           const prescriptionNotInTransition = {
             ...refillablePrescriptions[0],
@@ -1290,12 +1290,13 @@ describe('Refill Prescriptions Component', () => {
           const screen = setup(state);
 
           await waitFor(() => {
+            // CernerFacilityAlert can show regardless of cutover flag (handles pre-transitioned facilities)
             expect(screen.queryByTestId('cerner-facilities-transition-alert'))
-              .to.not.exist;
+              .to.exist;
           });
         });
 
-        it('does not show T-45 alert with no refillable prescriptions', async () => {
+        it('shows CernerFacilityAlert with no refillable prescriptions when flag disabled', async () => {
           sandbox.restore();
           initMockApis({ sinonSandbox: sandbox, prescriptions: [] });
 
@@ -1303,8 +1304,9 @@ describe('Refill Prescriptions Component', () => {
           const screen = setup(state);
 
           await waitFor(() => {
+            // CernerFacilityAlert can show regardless of cutover flag
             expect(screen.queryByTestId('cerner-facilities-transition-alert'))
-              .to.not.exist;
+              .to.exist;
           });
         });
       });
