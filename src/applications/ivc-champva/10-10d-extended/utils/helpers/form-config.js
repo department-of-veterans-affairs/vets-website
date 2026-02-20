@@ -7,9 +7,9 @@
  *
  * @example
  * const isNotDeceased = formData => !formData?.sponsorIsDeceased;
- * const hasCertifierStreet = formData => Boolean(formData?.certifierAddress?.street);
+ * const noSharedAddress = formData => formData?.['view:sharesAddressWith'] === NOT_SHARED;
  *
- * const depends = and(isNotDeceased, hasCertifierStreet);
+ * const depends = whenAll(isNotDeceased, noSharedAddress);
  * // depends(formData) === true only if both predicates pass
  *
  * @param {...(formData: any) => boolean} preds

@@ -56,7 +56,7 @@ const formConfig = {
   footerContent: FormFooter,
   customText: { appType: 'form' },
   dev: {
-    showNavLinks: true,
+    showNavLinks: false,
     collapsibleNavLinks: true,
     disableWindowUnloadInCI: true,
   },

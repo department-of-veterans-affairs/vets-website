@@ -22,7 +22,7 @@ const isNotDeceased = formData => !isDeceased(formData);
 
 const hasCertifierStreet = formData =>
   Boolean(formData?.certifierAddress?.street);
-const sharesAddressNotShared = formData =>
+const noSharedAddress = formData =>
   formData?.['view:sharesAddressWith'] === NOT_SHARED;
 
 // CustomPage declarations
@@ -60,7 +60,7 @@ export const sponsorPages = {
   addressSelection: {
     path: 'veteran-address',
     title: 'Veteran’s address',
-    depends: whenAll(isNotDeceased, hasCertifierStreet),
+    depends: whenAll(isNotSponsor, isNotDeceased, hasCertifierStreet),
     CustomPage: SponsorAddressSelectionPage,
     CustomPageReview: AddressSelectionReviewPage,
     uiSchema: {},
@@ -69,7 +69,7 @@ export const sponsorPages = {
   mailingAddress: {
     path: 'veteran-mailing-address',
     title: 'Veteran’s mailing address',
-    depends: whenAll(isNotDeceased, sharesAddressNotShared),
+    depends: whenAll(isNotDeceased, noSharedAddress),
     ...mailingAddress,
   },
   contactInformation: {
