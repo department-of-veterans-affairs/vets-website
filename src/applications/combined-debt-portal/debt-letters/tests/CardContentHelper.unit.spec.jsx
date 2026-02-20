@@ -29,7 +29,7 @@ describe('cardContentHelper', () => {
         type: APP_TYPES.DEBT,
         header: 'Loan Guaranty',
         amount: '$1,000.00',
-        diaryCode: '109',
+        diaryCode: '100',
       });
       expect(result.dateOfLetter).to.be.a('string');
     });
