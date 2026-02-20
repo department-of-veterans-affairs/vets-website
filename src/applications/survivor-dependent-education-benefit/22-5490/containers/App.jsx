@@ -28,6 +28,7 @@ function App({
   mebDpoAddressOptionEnabled,
   mebBankInfoConfirmationField,
   meb1995InstructionPageUpdateV3,
+  meb5490Under18Flow,
   setFormData,
   user,
 }) {
@@ -88,8 +89,15 @@ function App({
           mebDpoAddressOptionEnabled,
         });
       }
+
+      if (meb5490Under18Flow !== formData.meb5490Under18Flow) {
+        setFormData({
+          ...formData,
+          meb5490Under18Flow,
+        });
+      }
     },
-    [mebDpoAddressOptionEnabled, formData, setFormData],
+    [mebDpoAddressOptionEnabled, meb5490Under18Flow, formData, setFormData],
   );
 
   useEffect(
@@ -209,6 +217,7 @@ App.propTypes = {
   isLOA3: PropTypes.bool,
   location: PropTypes.object,
   meb1995InstructionPageUpdateV3: PropTypes.bool,
+  meb5490Under18Flow: PropTypes.bool,
   mebBankInfoConfirmationField: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
