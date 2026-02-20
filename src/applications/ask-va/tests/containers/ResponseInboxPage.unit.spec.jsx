@@ -316,7 +316,7 @@ describe('ResponseInboxPage', () => {
 
   it('should render with inquiries using mockTestingFlagForAPI', async () => {
     const mockTestingFlagStub = sinon
-      .stub(constants, 'getMockTestingFlagforAPI')
+      .stub(constants, 'getMockTestingFlagForAPI')
       .returns(true);
     overridePathname('/user/dashboard/A-20241219-308852');
     apiRequestStub.resolves(mockInquiryResponse);
@@ -388,7 +388,7 @@ describe('ResponseInboxPage', () => {
   it('should be able to download an attachment using mockTestingFlagForAPI', async () => {
     overridePathname('/user/dashboard/A-20241219-308852');
     const mockTestingFlagStub = sinon
-      .stub(constants, 'getMockTestingFlagforAPI')
+      .stub(constants, 'getMockTestingFlagForAPI')
       .returns(true);
     const createElementSpy = sinon.spy(document, 'createElement');
 
@@ -468,10 +468,10 @@ describe('ResponseInboxPage', () => {
     createElementSpy.restore();
   });
 
-  it('should be able to type a reply and click send using getMockTestingFlagforAPI', async () => {
+  it('should be able to type a reply and click send using getMockTestingFlagForAPI', async () => {
     overridePathname('/user/dashboard/A-20241219-308852');
     const mockTestingFlagStub = sinon
-      .stub(constants, 'getMockTestingFlagforAPI')
+      .stub(constants, 'getMockTestingFlagForAPI')
       .returns(true);
     const createElementSpy = sinon.spy(document, 'createElement');
 

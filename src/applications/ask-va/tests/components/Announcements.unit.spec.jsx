@@ -53,7 +53,7 @@ describe('<Announcements />', () => {
       .resolves(mockAnnouncementsResponse);
 
     // Mock the constants
-    constantsStub = sinon.stub(constants, 'mockTestingFlagforAPI');
+    constantsStub = sinon.stub(constants, 'mockTestingFlagForAPI');
   });
 
   afterEach(() => {
@@ -373,7 +373,7 @@ describe('<Announcements />', () => {
     await findByText('Ending Now Announcement');
   });
 
-  it('should use mock data when mockTestingFlagforAPI is true', async () => {
+  it('should use mock data when mockTestingFlagForAPI is true', async () => {
     constantsStub.get(() => true);
 
     const store = generateStore();
@@ -388,7 +388,7 @@ describe('<Announcements />', () => {
     expect(announcements).to.have.length.greaterThan(0);
   });
 
-  it('should make API call when mockTestingFlagforAPI is false', async () => {
+  it('should make API call when mockTestingFlagForAPI is false', async () => {
     constantsStub.get(() => false);
 
     const store = generateStore();
@@ -403,7 +403,7 @@ describe('<Announcements />', () => {
     expect(elements.length).to.be.greaterThan(0);
     expect(apiRequestStub.called).to.be.true;
     expect(apiRequestStub.firstCall.args[0]).to.equal(
-      `${constants.envUrl}${constants.URL.ANNOUNCEMENTS}`,
+      `${constants.envApiUrl}${constants.URL.ANNOUNCEMENTS}`,
     );
   });
 });
