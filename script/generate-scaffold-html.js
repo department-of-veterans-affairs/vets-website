@@ -184,7 +184,9 @@ async function generateScaffoldHtml(options = {}) {
       }
       // eslint-disable-next-line no-console
       console.error(
-        `Failed to fetch ${filename}: ${response.status} ${response.statusText}`,
+        `Failed to fetch ${filename}: ${response.status} ${
+          response.statusText
+        }`,
       );
       return null;
     }),
@@ -215,7 +217,9 @@ async function generateScaffoldHtml(options = {}) {
     } else {
       // eslint-disable-next-line no-console
       console.error(
-        `Failed to fetch registry.json: ${response.status} ${response.statusText}`,
+        `Failed to fetch registry.json: ${response.status} ${
+          response.statusText
+        }`,
       );
     }
   }
@@ -278,7 +282,9 @@ async function generateScaffoldHtml(options = {}) {
   const elapsed = Date.now() - startTime;
   // eslint-disable-next-line no-console
   console.log(
-    `Generated ${allEntries.length} HTML files in ${elapsed}ms using ${numWorkers} workers.`,
+    `Generated ${
+      allEntries.length
+    } HTML files in ${elapsed}ms using ${numWorkers} workers.`,
   );
 }
 
