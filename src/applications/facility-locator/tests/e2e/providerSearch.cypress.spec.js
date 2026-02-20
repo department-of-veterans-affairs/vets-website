@@ -82,7 +82,10 @@ for (const featureSet of featureSetsToTest) {
       loadAndSelectCCProviders();
 
       h.typeInCCPServiceTypeInput('Dentist');
-      h.clickElement('#downshift-1-item-0');
+      // Use listbox container instead of Downshift-generated ID which varies by instance
+      cy.get('#service-typeahead-listbox [role="option"]')
+        .first()
+        .click();
       h.submitSearchForm();
 
       cy.wait('@searchDentistsProvider');
@@ -101,7 +104,10 @@ for (const featureSet of featureSetsToTest) {
       loadAndSelectCCProviders();
 
       h.typeInCCPServiceTypeInput('Clinic/Center - Urgent Care');
-      h.clickElement('#downshift-1-item-0');
+      // Use listbox container instead of Downshift-generated ID which varies by instance
+      cy.get('#service-typeahead-listbox [role="option"]')
+        .first()
+        .click();
       h.submitSearchForm();
 
       cy.wait('@searchUrgentCare'); // only CCP Urgent care this way

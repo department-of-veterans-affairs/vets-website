@@ -10920,10 +10920,6 @@ downloadjs@^1.4.7:
     react-is "18.2.0"
     tslib "^2.6.2"
 
-downshift@^1.22.5:
-  version "1.22.5"
-  resolved "https://registry.npmjs.org/downshift/-/downshift-1.22.5.tgz"
-
 dunder-proto@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/dunder-proto/-/dunder-proto-1.0.0.tgz#c2fce098b3c8f8899554905f4377b6d85dabaa80"
