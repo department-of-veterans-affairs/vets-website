@@ -111,7 +111,7 @@ const routes = [
     // loader: prescriptionsLoader,
   },
   {
-    path: 'meds-history',
+    path: 'history',
     element: (
       <FeatureFlaggedRoute
         Component={MedicationHistory}
