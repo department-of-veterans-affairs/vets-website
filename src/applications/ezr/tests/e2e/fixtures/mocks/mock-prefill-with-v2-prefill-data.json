@@ -5,6 +5,7 @@
     "lastDischargeDate": "2002-02-02",
     "dischargeType": "honorable",
     "view:addInsurancePolicy": false,
+    "view:hasPrefillServiceHistory": true,
     "view:skipInsuranceInfo": true,
     "hasTeraResponse": false,
     "veteranFullName": {

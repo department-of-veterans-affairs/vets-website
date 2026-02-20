@@ -120,6 +120,13 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_0976: '22-0976',
   FORM_22_10272: '22-10272',
   FORM_22_0803: '22-0803',
+  FORM_21_4170_UPLOAD: '21-4170-UPLOAD',
+  FORM_21P_524_UPLOAD: '21P-524-UPLOAD',
+  FORM_21P_601_UPLOAD: '21P-601-UPLOAD',
+  FORM_21P_4706B_UPLOAD: '21P-4706B-UPLOAD',
+  FORM_21P_4171_UPLOAD: '21P-4171-UPLOAD',
+  FORM_21P_8924_UPLOAD: '21P-8924-UPLOAD',
+  FORM_22_0810: '22-0810',
   FORM_20_10208_UPLOAD: '20-10208-UPLOAD',
 });
 
@@ -305,6 +312,27 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_4185_UPLOAD]: `${tryGetAppUrl(
       'form-upload-flow',
     )}/21P-4185/introduction/`,
+    [VA_FORM_IDS.FORM_21_4170_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-4170/introduction/`,
+    [VA_FORM_IDS.FORM_21P_524_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-524/introduction/`,
+    [VA_FORM_IDS.FORM_21P_535_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-535/introduction/`,
+    [VA_FORM_IDS.FORM_21P_601_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-601/introduction/`,
+    [VA_FORM_IDS.FORM_21P_4706B_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-4706B/introduction/`,
+    [VA_FORM_IDS.FORM_21P_471_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-4171/introduction/`,
+    [VA_FORM_IDS.FORM_21P_8924_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-8924/introduction/`,
     [VA_FORM_IDS.FORM_20_10208_UPLOAD]: `${tryGetAppUrl(
       'form-upload-flow',
     )}/20-10208/introduction/`,
@@ -315,6 +343,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_0803]: `${tryGetAppUrl('0803-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_MOCK_PREFILL]: `${tryGetAppUrl('mock-form-prefill')}/`,
     [VA_FORM_IDS.FORM_22_10272]: `${tryGetAppUrl('22-10272')}/`,
+    [VA_FORM_IDS.FORM_22_0810]: `${tryGetAppUrl('0810-edu-benefits')}/`,
   };
 };
 
@@ -444,6 +473,48 @@ export const MY_VA_SIP_FORMS = [
     title: 'form 21-0779 upload',
     description: 'uploaded file for form 21-0779',
     trackingPrefix: 'form-21-0779-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_8924_UPLOAD,
+    benefit: 'form 21P-8924 upload',
+    title: 'form 21P-8924 upload',
+    description: 'uploaded file for form 21P-8924',
+    trackingPrefix: 'form-21p-8924-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_4171_UPLOAD,
+    benefit: 'form 21P-4171 upload',
+    title: 'form 21P-4171 upload',
+    description: 'uploaded file for form 21P-4171',
+    trackingPrefix: 'form-21p-4171-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_4706B_UPLOAD,
+    benefit: 'form 21P-4706B upload',
+    title: 'form 21P-4706B upload',
+    description: 'uploaded file for form 21P-4706B',
+    trackingPrefix: 'form-21p-4706b-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_601_UPLOAD,
+    benefit: 'form 21P-601 upload',
+    title: 'form 21P-601 upload',
+    description: 'uploaded file for form 21P-601',
+    trackingPrefix: 'form-21p-601-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_524_UPLOAD,
+    benefit: 'form 21P-524 upload',
+    title: 'form 21P-524 upload',
+    description: 'uploaded file for form 21P-524',
+    trackingPrefix: 'form-21p-524-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_4170_UPLOAD,
+    benefit: 'form 21-4170 upload',
+    title: 'form 21-4170 upload',
+    description: 'uploaded file for form 21-4170',
+    trackingPrefix: 'form-21-4170-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_20_10208_UPLOAD,
@@ -1010,6 +1081,13 @@ export const MY_VA_SIP_FORMS = [
     description:
       '22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees',
     trackingPrefix: '10272-edu-benefits',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0810,
+    benefit: 'Request for reimbursement of national exam fee',
+    title: '22-08010 request for reimbursement of national exam fee',
+    description: 'Request for reimbursement of national exam fee',
+    trackingPrefix: '0810-edu-benefits',
   },
 ];
 

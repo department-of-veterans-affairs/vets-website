@@ -66,6 +66,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_21P_0537,
   VA_FORM_IDS.FORM_21P_601,
   VA_FORM_IDS.FORM_MOCK_PREFILL,
+  VA_FORM_IDS.FORM_22_0810,
 ];
 
 const remapFormId = {
@@ -103,6 +104,7 @@ const formConfigKeys = [
   'intentToFileUrl',
   'introduction',
   'migrations',
+  'normalizeReturnUrl',
   'onFormLoaded',
   'prefillEnabled',
   'prefillTransformer',
@@ -315,6 +317,7 @@ const validateForm = async (formSlug, formConfigParam) => {
     getHelp: 'function',
     errorText: 'function',
     verifyRequiredPrefill: 'boolean',
+    normalizeReturnUrl: 'function',
     onFormLoaded: 'function',
     formSavedPage: 'component',
     signInHelpList: 'function',

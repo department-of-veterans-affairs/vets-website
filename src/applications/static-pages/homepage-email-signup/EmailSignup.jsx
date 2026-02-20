@@ -46,7 +46,7 @@ const EmailSignup = () => {
         }
       }
     },
-    [inputError],
+    [inputError, headerHasFocused],
   );
 
   const setInputErrorState = () => {
@@ -107,14 +107,12 @@ const EmailSignup = () => {
         />
         <VaTextInput
           autocomplete="email"
-          charcount
           class="homepage-email-input"
           error={inputError || null}
           form-heading="Sign up to get the latest VA updates"
           form-heading-level="2"
           inputmode="email"
           label="Email address"
-          maxlength={130}
           onBlur={setInputErrorState}
           onInput={onInput}
           onKeyDown={event => {
