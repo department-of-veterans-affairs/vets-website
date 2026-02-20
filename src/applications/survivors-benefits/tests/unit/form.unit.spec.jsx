@@ -130,7 +130,6 @@ describe('Survivors Benefits Form config', () => {
       pow,
       veteranChildrenCount,
       veteransChildren,
-      separationDueToAssignedReasons,
       remarriedAfterVeteralDeath,
       hadPreviousMarriages,
     } = formData.form.data;
@@ -214,7 +213,6 @@ describe('Survivors Benefits Form config', () => {
     expect(
       separationDetails.depends({
         claimantRelationship,
-        separationDueToAssignedReasons,
       }),
     ).to.be.true;
     expect(remarriage.depends({ claimantRelationship })).to.be.true;

@@ -340,9 +340,7 @@ const formConfig = {
           path: 'household/separation-details',
           title: 'Separation details',
           depends: formData =>
-            formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            formData.separationDueToAssignedReasons &&
-            formData.separationDueToAssignedReasons !== 'OTHER',
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
           uiSchema: separationDetails.uiSchema,
           schema: separationDetails.schema,
         },
