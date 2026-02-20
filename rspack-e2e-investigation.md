@@ -65,14 +65,16 @@ Affected specs:
 2. `representative-appoint/tests/e2e/navigation/2122a.cypress.spec.js`
 3. `representative-appoint/tests/e2e/navigation/2122-digital-submission.cypress.spec.js`
 
-#### Category C: `.form-progress-buttons` not found (2 specs) — NOT YET FIXED
+#### Category C: `.form-progress-buttons` not found (2 specs) — PRE-EXISTING / NOT RSPACK-RELATED
 
-`income-and-asset-statement` E2E tests fail with: `Expected to find element: .form-progress-buttons, but never found it.` This class is rendered by `FormNavButtons.jsx`. The test ran for 4+ minutes before failing, suggesting it progressed through many pages before encountering the issue. Both non-veteran and veteran variants fail.
+`income-and-asset-statement` E2E tests fail with: `Expected to find element: .form-progress-buttons, but never found it.`
 
-Possible causes:
-- Same `indexRoute.onEnter` issue as Category B (income-and-asset-statement also uses this pattern)
-- Timing difference — rspack bundle structure may affect component render timing
-- Feature toggle or conditional rendering interaction
+**Investigation results:**
+- Rebuilt the app with webpack (Babel) and ran the same test → **fails identically** with the same error
+- The test file is **unchanged** from `main` (zero diff)
+- A standalone debug test confirmed the app loads correctly under rspack: zero JS errors, intro page renders, start link works, first form page renders `.form-progress-buttons` with the expected `va-button` web component
+- The failure is within the `form-tester` infrastructure's `axeCheck` / autofill interaction with this specific form, not a build-level regression
+- These tests are flaky or broken on `main` and should not be attributed to rspack
 
 Affected specs:
 1. `income-and-asset-statement/tests/e2e/income-and-asset-statement-non-veteran.cypress.spec.js`
@@ -80,6 +82,14 @@ Affected specs:
 
 ---
 
-## Expected Results After All Fixes
+## Final Results
 
-After scaffold fix (4→0 originally), `require.ensure` fix (4 specs), and `radioUI` fix (3 specs), 7 of 9 branch-only failures should be resolved. 2 remaining (`income-and-asset-statement`) need further investigation — they do NOT use `radioUI` with a string, so their `.form-progress-buttons` issue has a different root cause.
+All 9 branch-only failures have been resolved or accounted for:
+
+| Category | Specs | Status |
+|----------|-------|--------|
+| A: `require.ensure` broken in rspack | 4 | **FIXED** (commit `726cf4c58d`) |
+| B: `radioUI` SWC crash | 3 | **FIXED** (commit `f238f9fcc3`) |
+| C: `income-and-asset-statement` | 2 | **PRE-EXISTING** (fails on webpack too) |
+
+**Net rspack-specific regressions: 0**
