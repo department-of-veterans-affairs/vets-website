@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Copilot Session",
+  "description": "Persistent state shared across agent invocations. Stored in tmp/copilot-session/session.json",
+  "type": "object",
+  "required": ["session_id", "created_at", "status", "context"],
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Unique identifier: YYYY-MM-DD-{ticket-or-branch-slug}"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "environment_check": {
+      "type": "object",
+      "description": "Results of environment guard checks. If all passed, subsequent agents can skip re-checking.",
+      "properties": {
+        "passed": {
+          "type": "boolean",
+          "description": "True if all checks passed"
+        },
+        "checked_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the checks were performed"
+        },
+        "github_mcp": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["pass", "fail"] },
+            "login": { "type": ["string", "null"] }
+          }
+        },
+        "cypress_mcp": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["pass", "fail"] }
+          }
+        },
+        "gh_cli": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["pass", "fail"] }
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["planning", "implementing", "testing", "reviewing", "documenting", "pr_ready", "complete", "blocked"],
+      "description": "Current workflow stage"
+    },
+    "context": {
+      "type": "object",
+      "properties": {
+        "ticket_url": { "type": ["string", "null"] },
+        "pr_url": { "type": ["string", "null"] },
+        "pr_number": { "type": ["integer", "null"] },
+        "branch": { "type": "string" },
+        "application": { "type": "string" },
+        "application_path": { "type": "string" }
+      }
+    },
+    "progress": {
+      "type": "object",
+      "properties": {
+        "planner": { "type": "string", "enum": ["not_started", "in_progress", "complete", "blocked"] },
+        "implementer": { "type": "string", "enum": ["not_started", "in_progress", "complete", "blocked"] },
+        "tester": { "type": "string", "enum": ["not_started", "in_progress", "complete", "blocked"] },
+        "reviewer": { "type": "string", "enum": ["not_started", "in_progress", "complete", "blocked"] },
+        "documenter": { "type": "string", "enum": ["not_started", "in_progress", "complete", "blocked"] },
+        "pr_writer": { "type": "string", "enum": ["not_started", "in_progress", "complete", "blocked"] }
+      }
+    },
+    "files_created": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths to files created during this session"
+    },
+    "files_modified": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths to files modified during this session"
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": { "type": "string" },
+          "needs": { "type": "string" },
+          "added_by": { "type": "string" },
+          "added_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "handoff_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "note": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}
