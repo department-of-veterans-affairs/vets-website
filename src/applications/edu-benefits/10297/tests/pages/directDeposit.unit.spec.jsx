@@ -68,13 +68,13 @@ describe('22 10297 Direct deposit page', () => {
       expect(screen.getByText('Confirm bank routing number')).to.exist;
       expect(screen.getByText('Bank account number')).to.exist;
       expect(screen.getByText('Confirm bank account number')).to.exist;
-      expect(screen.getByText('Save')).to.exist;
+      expect(screen.container.querySelector('.save-button')).to.exist;
     });
 
     it('renders errors when data contains invalid values', async () => {
       const screen = renderPage();
 
-      const saveButton = screen.getByText('Save');
+      const saveButton = screen.container.querySelector('.save-button');
       await userEvent.click(saveButton);
 
       expect(screen.getAllByText('You must provide a response')).to.have.length(
