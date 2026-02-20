@@ -67,7 +67,7 @@ const routes = (
       <Route path="your-claim-letters" element={<YourClaimLetters />} />
       <Route
         path="your-claim-letters/link"
-        element={<Navigate to="/track-claims/your-claim-letters" replace />}
+        element={<Navigate to="/your-claim-letters" replace />}
       />
       <Route path="your-stem-claims/:id">
         <Route index element={<Navigate to="status" replace />} />
