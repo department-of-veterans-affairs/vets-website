@@ -2,16 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useSelector } from 'react-redux';
 
 const programOverviewCard = {
   title: 'Program Overview',
-  body: `More Details in here`,
-  href: '/NeedLinkURL',
+  body: `Read about how Veteran Readiness and Employment (Chapter 31) can help you explore employment options and address education or training needs.`,
+  href: 'https://www.va.gov/careers-employment/vocational-rehabilitation',
+  isExternal: true,
 };
 const orientationCard = {
   title: 'VR&E Support-and-Services Tracks',
   body: `We offer 5 support-and-services tracks to help you get education or training, find and keep a job, and live as independently as possible. Explore the different tracks and take charge of your future.`,
-  href: '/orientation-tools-and-resources',
+  href:
+    'https://www.va.gov/careers-employment/vocational-rehabilitation/programs',
+  isExternal: true,
 };
 
 const getCareerPlanningCard = step => {
@@ -29,7 +33,7 @@ const getCareerPlanningCard = step => {
   return {
     title: 'Career Planning',
     body,
-    href: '/career-exploration-and-planning',
+    href: '/career-planning',
   };
 };
 
@@ -39,7 +43,7 @@ const getCareerPlanningCard = step => {
 //   href: '/my-case-management-hub',
 // };
 
-const getCardsForStep = (step, stateList = []) => {
+const getCardsForStep = (step, stateList = [], ch31CaseMilestonesState) => {
   const careerPlanningCard = getCareerPlanningCard(step);
 
   const currentStatus = stateList?.[step - 1]?.status;
@@ -49,13 +53,22 @@ const getCardsForStep = (step, stateList = []) => {
 
   const isActive = currentStatus === 'ACTIVE';
 
+  const isPending = currentStatus === 'PENDING';
+
+  const allCards = [programOverviewCard, orientationCard, careerPlanningCard];
+
   switch (step) {
     case 1:
+      return allCards;
     case 2:
-    case 3:
-      return isActive || isComplete
-        ? [careerPlanningCard]
-        : [programOverviewCard, orientationCard, careerPlanningCard];
+      return allCards;
+    case 3: {
+      if (ch31CaseMilestonesState?.data && !ch31CaseMilestonesState?.error) {
+        return allCards;
+      }
+
+      return isActive || isPending ? [careerPlanningCard] : allCards;
+    }
     case 4:
       return [careerPlanningCard];
     case 5:
@@ -71,15 +84,22 @@ const getCardsForStep = (step, stateList = []) => {
 
 const HubCardList = ({ step, stateList = [] }) => {
   const history = useHistory();
-  const cards = getCardsForStep(step, stateList);
+  const ch31CaseMilestonesState = useSelector(
+    state => state?.ch31CaseMilestones,
+  );
+  const cards = getCardsForStep(step, stateList, ch31CaseMilestonesState);
 
   if (!cards.length) {
     return null;
   }
 
-  const handleRouteChange = (event, href) => {
+  const handleRouteChange = (event, href, isExternal) => {
     event.preventDefault();
-    history.push(href);
+    if (isExternal) {
+      window.open(href, '_blank', 'noopener,noreferrer');
+    } else {
+      history.push(href);
+    }
   };
 
   return (
@@ -99,7 +119,10 @@ const HubCardList = ({ step, stateList = [] }) => {
                 active
                 href={card.href}
                 text={card.title}
-                onClick={event => handleRouteChange(event, card.href)}
+                external={card.isExternal}
+                onClick={event => {
+                  handleRouteChange(event, card.href, card.isExternal);
+                }}
               />
 
               {Array.isArray(card.body) ? (
