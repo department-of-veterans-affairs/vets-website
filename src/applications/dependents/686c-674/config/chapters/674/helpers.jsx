@@ -38,26 +38,26 @@ export const ProgramExamples = (
   <va-additional-info trigger="About entirely federally funded schools">
     <div>
       <p>
-        An entirely federally funded school or program is one where the federal
-        government pays all costs. The student doesn’t pay any tuition, fees, or
-        other costs.
+        At entirely federally funded schools, the federal government pays for
+        all student education and living costs. This includes tuition, housing,
+        meals, and other necessities.
       </p>
       <p className="vads-u-margin-top--2">
-        <strong>Examples include:</strong>
+        <strong>Examples include these:</strong>
       </p>
       <ul>
-        <li>Job Corps (U.S. Department of Labor program)</li>
-        <li>Service academies and academy prep schools</li>
-        <li>Federally funded Native American schools</li>
+        <li>U.S. Department of Labor’s Job Corps program</li>
+        <li>U.S. service academies and prep schools</li>
+        <li>Federally-funded Native American schools</li>
       </ul>
       <p className="vads-u-margin-top--2">
-        <strong>This doesn’t include:</strong>
+        <strong>This doesn’t include these:</strong>
       </p>
       <ul>
         <li>Public or charter high schools</li>
-        <li>Private colleges that offer free tuition</li>
+        <li>Private colleges offering free tuition</li>
         <li>Public universities</li>
-        <li>Schools where the student uses Pell Grants or federal loans</li>
+        <li>Schools where students receive Pell Grants or federal loans</li>
       </ul>
     </div>
   </va-additional-info>
