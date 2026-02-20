@@ -460,7 +460,8 @@ export function submitFiles(
       progress: 0,
     });
     import(/* webpackChunkName: "claims-uploader" */ 'fine-uploader/lib/core').then(
-      ({ FineUploaderBasic }) => {
+      module => {
+        const { FineUploaderBasic } = module.default;
         const csrfTokenStored = localStorage.getItem('csrfToken');
         const uploader = new FineUploaderBasic({
           request: {
