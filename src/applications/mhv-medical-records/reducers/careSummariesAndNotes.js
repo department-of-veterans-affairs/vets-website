@@ -318,6 +318,7 @@ export const convertUnifiedCareSummariesAndNotesRecord = record => {
     dateSigned: formattedDateSigned || EMPTY_FIELD,
     dateEntered: formattedDateEntered || formattedNoteDate || EMPTY_FIELD,
     sortByDate: new Date(record.attributes.date),
+    source: record.attributes.source || null,
   };
 };
 /**
