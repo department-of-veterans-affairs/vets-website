@@ -31,6 +31,7 @@ import ReplyButton from '../ReplyButton';
 
 const ReplyForm = props => {
   const {
+    alertSlot,
     cannotReply,
     drafts,
     replyMessage,
@@ -165,6 +166,8 @@ const ReplyForm = props => {
           {messageTitle}
         </h1>
 
+        {alertSlot}
+
         {useCanReplyField ? (
           <>
             <CannotReplyAlert
@@ -272,6 +275,7 @@ const ReplyForm = props => {
 };
 
 ReplyForm.propTypes = {
+  alertSlot: PropTypes.node,
   cannotReply: PropTypes.bool,
   drafts: PropTypes.array,
   header: PropTypes.object,

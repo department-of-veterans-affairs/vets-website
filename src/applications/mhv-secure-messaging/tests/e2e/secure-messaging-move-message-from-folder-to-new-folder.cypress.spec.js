@@ -27,7 +27,8 @@ describe('Secure Messaging Move Message to New Folder tests', () => {
       `folders/${createdFolderResponse.data.attributes.folderId}`,
     );
 
-    cy.get(`va-alert`).should('be.focused');
+    // Per MHV accessibility decision records, focus goes to H1
+    cy.get('h1').should('have.focus');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

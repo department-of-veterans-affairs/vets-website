@@ -28,7 +28,7 @@ import useFeatureToggles from '../../hooks/useFeatureToggles';
 import OracleHealthMessagingIssuesAlert from '../shared/OracleHealthMessagingIssuesAlert';
 
 const FolderHeader = props => {
-  const { folder, searchProps, threadCount } = props;
+  const { alertSlot, folder, searchProps, threadCount } = props;
   const location = useLocation();
   const showInnerNav =
     folder.folderId === Folders.INBOX.id || folder.folderId === Folders.SENT.id;
@@ -150,6 +150,8 @@ const FolderHeader = props => {
         {`Messages: ${folderName}`}
       </h1>
 
+      {alertSlot}
+
       {folder.folderId === Folders.INBOX.id && (
         <DowntimeNotification
           appTitle={downtimeNotificationParams.appTitle}
@@ -198,6 +200,7 @@ const FolderHeader = props => {
 };
 
 FolderHeader.propTypes = {
+  alertSlot: PropTypes.node,
   folder: PropTypes.object,
   searchProps: PropTypes.object,
   threadCount: PropTypes.number,

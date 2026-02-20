@@ -282,8 +282,12 @@ class PatientMessageDraftsPage {
     });
   };
 
-  verifyDraftMessageBannerTextHasFocus = () => {
-    cy.focused().should('contain.text', 'Draft was successfully deleted.');
+  verifyDraftDeletedAlertAndH1Focus = () => {
+    cy.get('h1').should('have.focus');
+    cy.findByTestId('alert-text').should(
+      'contain.text',
+      'Draft was successfully deleted.',
+    );
   };
 
   verifySavedMessageAlertText = (text = Data.MESSAGE_WAS_SAVED) => {

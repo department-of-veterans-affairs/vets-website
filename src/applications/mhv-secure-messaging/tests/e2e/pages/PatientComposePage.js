@@ -79,8 +79,8 @@ class PatientComposePage {
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {
-    // eslint-disable-next-line cypress/unsafe-to-chain-command
-    cy.focused().should('contain.text', Data.SECURE_MSG_SENT_SUCCESSFULLY);
+    // Per MHV accessibility decision records, focus goes to H1
+    cy.get('h1').should('have.focus');
   };
 
   selectRecipient = (index = 1) => {

@@ -70,7 +70,8 @@ class FolderManagementPage {
   };
 
   verifyDeleteSuccessMessageHasFocus = () => {
-    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
+    // Per MHV accessibility decision records, focus goes to H1
+    cy.get('h1').should('have.focus');
   };
 
   verifyCreateFolderNetworkFailureMessage = () => {
@@ -84,7 +85,8 @@ class FolderManagementPage {
   };
 
   verifyFolderActionMessageHasFocus = () => {
-    cy.get('[close-btn-aria-label*="Close notification"]').should('have.focus');
+    // Per MHV accessibility decision records, focus goes to H1
+    cy.get('h1').should('have.focus');
   };
 
   verifyFolderInList = assertion => {
@@ -150,7 +152,8 @@ class FolderManagementPage {
     });
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
     cy.findByText('Folder was successfully created.').should('be.visible');
-    cy.get('va-alert').should('have.focus');
+    // Per MHV accessibility decision records, focus goes to H1
+    cy.get('h1').should('have.focus');
   };
 
   backToInbox = () => {
@@ -172,7 +175,9 @@ class FolderManagementPage {
   };
 
   verifyMoveMessageSuccessConfirmationHasFocus = () => {
-    cy.get(Locators.ALERTS.CLOSE_NOTIFICATION).should('have.focus');
+    // Per MHV accessibility decision records, focus should go to H1, not alert.
+    // Alert content is announced via role="status" without stealing focus.
+    cy.get('h1').should('have.focus');
   };
 }
 

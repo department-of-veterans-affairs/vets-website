@@ -147,6 +147,25 @@ class ContactListPage {
       .shadow()
       .find(`button`)
       .click({ force: true });
+
+    cy.wait('@savedList');
+    cy.wait('@updatedRecipients');
+
+    // After both network responses, React needs render cycles to propagate
+    // state through useEffects (vistaRecipients → allTriageTeams →
+    // isContactListChanged → isNavigationBlocked). Wait for the navigation
+    // guard's data attribute to reflect that navigation is no longer blocked,
+    // proving the full React state cascade has settled.
+    cy.get('[data-testid="navigation-guard"]').should(
+      'have.attr',
+      'data-navigation-blocked',
+      'false',
+    );
+
+    cy.get(Locators.ALERTS.GEN_ALERT).should(
+      'include.text',
+      Alerts.CONTACT_LIST.SAVED,
+    );
   };
 
   verifyContactListSavedAlert = () => {
@@ -154,7 +173,8 @@ class ContactListPage {
       `include.text`,
       Alerts.CONTACT_LIST.SAVED,
     );
-    cy.get('.va-alert').should(`be.focused`);
+    // Success alerts use role="status" for AT announcement without stealing
+    // focus from the user's current position (per MHV accessibility decisions).
   };
 
   clickBackToInbox = () => {

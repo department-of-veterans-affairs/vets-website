@@ -27,6 +27,7 @@ import ReplyButton from './ReplyButton';
 
 const MessageThreadHeader = props => {
   const {
+    alertSlot,
     message,
     cannotReply,
     isCreateNewModalVisible,
@@ -126,6 +127,8 @@ const MessageThreadHeader = props => {
           {`Messages: ${categoryLabel} - ${subject}`}
         </h1>
 
+        {alertSlot}
+
         {isInMigrationPhase && (
           <MigratingFacilitiesAlerts
             healthTool="SECURE_MESSAGING"
@@ -198,6 +201,7 @@ const MessageThreadHeader = props => {
 };
 
 MessageThreadHeader.propTypes = {
+  alertSlot: PropTypes.node,
   cannotReply: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   message: PropTypes.object,
