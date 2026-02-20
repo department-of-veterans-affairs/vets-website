@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { validateLength } from 'platform/forms/validations';
-import { capitalizeEachWord, isBDD } from '../utils';
+import { capitalizeEachWord, showNewlyBDDPages } from '../utils';
 import { getDisabilityLabels } from '../content/disabilityLabels';
 
 import {
@@ -93,11 +93,12 @@ export const uiSchema = {
           'Please briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing. (400 characters maximum)',
         'ui:widget': 'textarea',
         'ui:required': (formData, index) =>
-          !isBDD(formData) && formData.newDisabilities[index]?.cause === 'NEW',
+          showNewlyBDDPages(formData) &&
+          formData.newDisabilities[index]?.cause === 'NEW',
         'ui:options': {
           expandUnder: 'cause',
           expandUnderCondition: 'NEW',
-          hideIf: isBDD,
+          hideIf: formData => !showNewlyBDDPages(formData),
         },
         'ui:validations': [validateLength(CHAR_LIMITS.primaryDescription)],
       },
@@ -132,11 +133,11 @@ export const uiSchema = {
             'Please briefly describe how the disability you selected caused your new disability. (400 characters maximum)',
           'ui:widget': 'textarea',
           'ui:required': (formData, index) =>
-            !isBDD(formData) &&
+            showNewlyBDDPages(formData) &&
             formData.newDisabilities[index]?.cause === 'SECONDARY' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:options': {
-            hideIf: isBDD,
+            hideIf: formData => !showNewlyBDDPages(formData),
           },
           'ui:validations': [
             validateLength(CHAR_LIMITS.causedByDisabilityDescription),
@@ -147,13 +148,13 @@ export const uiSchema = {
         'ui:options': {
           expandUnder: 'cause',
           expandUnderCondition: 'WORSENED',
-          hideIf: isBDD,
+          hideIf: formData => !showNewlyBDDPages(formData),
         },
         worsenedDescription: {
           'ui:title':
             'Please briefly describe the injury or exposure during your military service that caused your existing disability to get worse. (50 characters maximum)',
           'ui:required': (formData, index) =>
-            !isBDD(formData) &&
+            showNewlyBDDPages(formData) &&
             formData.newDisabilities[index]?.cause === 'WORSENED' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:validations': [validateLength(CHAR_LIMITS.worsenedDescription)],
@@ -163,7 +164,7 @@ export const uiSchema = {
             'Please tell us how the disability affected you before your service, and how it affects you now after your service. (350 characters maximum)',
           'ui:widget': 'textarea',
           'ui:required': (formData, index) =>
-            !isBDD(formData) &&
+            showNewlyBDDPages(formData) &&
             formData.newDisabilities[index]?.cause === 'WORSENED' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:validations': [validateLength(CHAR_LIMITS.worsenedEffects)],
@@ -179,11 +180,11 @@ export const uiSchema = {
             'Please briefly describe the injury or event while you were under VA care that caused your disability. (350 characters maximum)',
           'ui:widget': 'textarea',
           'ui:required': (formData, index) =>
-            !isBDD(formData) &&
+            showNewlyBDDPages(formData) &&
             formData.newDisabilities[index]?.cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:options': {
-            hideIf: isBDD,
+            hideIf: formData => !showNewlyBDDPages(formData),
           },
           'ui:validations': [
             validateLength(CHAR_LIMITS.vaMistreatmentDescription),

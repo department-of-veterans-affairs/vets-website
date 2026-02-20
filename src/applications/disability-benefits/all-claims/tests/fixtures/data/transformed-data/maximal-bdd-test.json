@@ -15,6 +15,12 @@
     "bankAccountNumber": "1233",
     "bankRoutingNumber": "123123123",
     "bankName": "Bigbank Co.",
+    "confinements": [
+      {
+        "from": "2016-01-01",
+        "to": "2017-01-01"
+      }
+    ],
     "phoneAndEmail": {
       "primaryPhone": "4445551212",
       "emailAddress": "test2@test1.net"
@@ -60,26 +66,26 @@
     "newPrimaryDisabilities": [
       {
         "cause": "NEW",
-        "primaryDescription": "This disability is related to my military service.",
+        "primaryDescription": "I developed asthma during military service.",
         "condition": "asthma"
       },
       {
         "cause": "WORSENED",
-        "worsenedDescription": "This disability was worsened by military service.",
-        "worsenedEffects": "This pre-existing disability was worsened by military service.",
+        "worsenedDescription": "Carrying heavy gear worsened my knee.",
+        "worsenedEffects": "Mild pain before service, chronic pain after.",
         "condition": "ankylosis in knee, bilateral"
       },
       {
         "cause": "VA",
-        "vaMistreatmentDescription": "This disability was caused by an injury or event that happened while I was receiving VA care.",
+        "vaMistreatmentDescription": "Injury during VA surgical procedure.",
         "vaMistreatmentLocation": "Somewhereville",
         "vaMistreatmentDate": "A while ago",
         "condition": "heart attack (myocardial infarction)"
       },
       {
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
         "cause": "NEW",
-        "primaryDescription": "Secondary to Asthma\nThis disability was caused by another condition.",
-        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)"
+        "primaryDescription": "Secondary to Asthma\nMy asthma caused nerve damage."
       }
     ],
     "ratedDisabilities": [
