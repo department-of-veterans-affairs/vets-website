@@ -4,6 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { waitFor } from '@testing-library/react';
 import { beforeEach } from 'mocha';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import LabsAndTests from '../../containers/LabsAndTests';
 import reducer from '../../reducers';
 import labsAndTests from '../fixtures/labsAndTests.json';
@@ -300,6 +301,67 @@ describe('Labs and tests list container with radiology images ready', () => {
   });
 });
 
+describe('Labs and tests list container with warnings', () => {
+  const labsAndTestsFhir = labsAndTests.entry.map(item =>
+    convertLabsAndTestsRecord(item),
+  );
+
+  it('displays a warning banner when warnings are present', async () => {
+    const stateWithWarnings = {
+      user,
+      mr: {
+        labsAndTests: {
+          labsAndTestsList: labsAndTestsFhir,
+          warnings: [{ source: 'oracle-health', message: 'Binary not found' }],
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
+        alerts: { alertList: [] },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState: stateWithWarnings,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('alert-partial-records-warning')).to.exist;
+      expect(screen.getByText(/Some records may be incomplete/i)).to.exist;
+    });
+  });
+
+  it('does not display a warning banner when warnings are empty', () => {
+    const stateNoWarnings = {
+      user,
+      mr: {
+        labsAndTests: {
+          labsAndTestsList: labsAndTestsFhir,
+          warnings: [],
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
+        alerts: { alertList: [] },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState: stateNoWarnings,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(screen.queryByTestId('alert-partial-records-warning')).to.not.exist;
+  });
+});
+
 describe('Labs and tests list container with holdTimeMessagingUpdate feature flag', () => {
   const labsAndTestsFhir = labsAndTests.entry.map(item =>
     convertLabsAndTestsRecord(item),
@@ -378,5 +440,165 @@ describe('Labs and tests list container with holdTimeMessagingUpdate feature fla
     expect(additionalInfo.getAttribute('trigger')).to.equal(
       'What to know before reviewing your results',
     );
+  });
+});
+
+describe('Labs and tests accelerated path with imaging studies gating', () => {
+  const buildAcceleratedState = (overrides = {}) => ({
+    user: {
+      ...user,
+      profile: {
+        ...user.profile,
+        facilities: [{ facilityId: '983', isCerner: true }],
+      },
+    },
+    mr: {
+      labsAndTests: {
+        labsAndTestsList: [],
+        listState: 'FETCHED',
+        dateRange: {
+          option: '3',
+          fromDate: '2025-08-13',
+          toDate: '2025-11-13',
+        },
+      },
+      alerts: { alertList: [] },
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          cernerFacilities: [{ vhaId: '983' }],
+        },
+      },
+    },
+    featureToggles: {
+      loading: false,
+      [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryEnabled]: true,
+      [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryLabsAndTestsEnabled]: true,
+      ...overrides,
+    },
+  });
+
+  it('displays DateRangeSelector when accelerating', () => {
+    const initialState = buildAcceleratedState();
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(screen.getByTestId('date-range-selector')).to.exist;
+  });
+
+  it('displays the no records message when accelerating with empty list', () => {
+    const initialState = buildAcceleratedState();
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(
+      screen.getByText('There are no lab and test results', { exact: false }),
+    ).to.exist;
+  });
+
+  it('does not display NewRecordsIndicator when accelerating', () => {
+    const initialState = buildAcceleratedState();
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    // NewRecordsIndicator should not render in the accelerated path
+    expect(screen.queryByTestId('new-records-indicator')).to.not.exist;
+  });
+
+  it('dispatches getAcceleratedImagingStudiesList when both flags are true', async () => {
+    mockApiRequest({ entry: [] });
+    const dispatchedActions = [];
+    const recordingMiddleware = () => next => action => {
+      dispatchedActions.push(action);
+      return next(action);
+    };
+
+    const initialState = buildAcceleratedState({
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsFetchScdfImagingStudies]: true,
+    });
+
+    renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+      additionalMiddlewares: [recordingMiddleware],
+    });
+
+    await waitFor(() => {
+      const hasImagingStudiesAction = dispatchedActions.some(
+        a => a.type === 'MR_LABS_AND_TESTS_GET_IMAGING_STUDIES',
+      );
+      expect(hasImagingStudiesAction).to.be.true;
+    });
+  });
+
+  it('does not dispatch SCDF images action when studies flag is false', async () => {
+    const dispatchedActions = [];
+    const recordingMiddleware = () => next => action => {
+      dispatchedActions.push(action);
+      return next(action);
+    };
+
+    const initialState = buildAcceleratedState({
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsFetchScdfImagingStudies]: false,
+    });
+
+    renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+      additionalMiddlewares: [recordingMiddleware],
+    });
+
+    // Wait a tick to allow any effects to fire
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    const hasImagingStudiesAction = dispatchedActions.some(
+      a => a.type === 'MR_LABS_AND_TESTS_GET_IMAGING_STUDIES',
+    );
+    expect(hasImagingStudiesAction).to.be.false;
+  });
+
+  it('does not dispatch SCDF images action when labs flag is false', async () => {
+    const dispatchedActions = [];
+    const recordingMiddleware = () => next => action => {
+      dispatchedActions.push(action);
+      return next(action);
+    };
+
+    // Disable labs acceleration but enable imaging studies
+    const initialState = buildAcceleratedState({
+      [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryLabsAndTestsEnabled]: false,
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsFetchScdfImagingStudies]: true,
+    });
+
+    renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+      additionalMiddlewares: [recordingMiddleware],
+    });
+
+    // Wait a tick to allow any effects to fire
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    const hasImagingStudiesAction = dispatchedActions.some(
+      a => a.type === 'MR_LABS_AND_TESTS_GET_IMAGING_STUDIES',
+    );
+    expect(hasImagingStudiesAction).to.be.false;
   });
 });

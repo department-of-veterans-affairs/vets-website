@@ -14,6 +14,7 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import ITFClaimantInfoViewField from '../components/ITFClaimantInfoViewField';
 import { CustomAlertPage, ITFBenefitTypes } from './helpers';
 
 const veteranSubPageUI = {
@@ -66,6 +67,7 @@ const veteranSubPageSchema = {
 /** @type {PageSchema} */
 export const itfVeteranInformationPage = {
   uiSchema: {
+    'ui:objectViewField': ITFClaimantInfoViewField,
     veteranSubPage: {
       'ui:title': 'Veteran identification information',
       ...veteranSubPageUI,
