@@ -30,9 +30,10 @@ export default {
           private: 'Private',
         },
       },
-      additionalInput: ({ labels }) => {
+      additionalInfoTitle: 'Document status',
+      additionalInput: ({ labels, title }) => {
         return (
-          <VaSelect required label="Document status">
+          <VaSelect required label={title}>
             {Object.entries(labels.documentStatus).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
