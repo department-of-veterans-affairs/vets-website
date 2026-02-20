@@ -1,3 +1,4 @@
+import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
 import { isValidDateString } from 'platform/utilities/date';
 
 export const validatePrepCourseStartDate = (errors, fieldData, formData) => {
@@ -20,4 +21,53 @@ export const validatePrepCourseStartDate = (errors, fieldData, formData) => {
   ) {
     errors.addError('The start date and end date cannot be the same');
   }
+};
+
+export const dateSigned = () => {
+  const date = new Date();
+  return date.toISOString().split('T')[0];
+};
+
+export const transformPhoneNumberObject = (phone = {}) => {
+  const { isInternational, areaCode, phoneNumber, countryCode } = phone;
+
+  if (!phoneNumber || !areaCode) {
+    return '';
+  }
+
+  let base = `${areaCode}${phoneNumber}`;
+  if (isInternational && countryCode) {
+    base = `+${countryCode} ${base}`;
+  }
+
+  return base;
+};
+
+export const transformMailingAddress = (addr = {}) => {
+  const {
+    addressType,
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    countryCodeIso3,
+    stateCode,
+    internationalPostalCode,
+    province,
+    zipCode,
+  } = addr;
+
+  return {
+    isMilitary: addressType === ADDRESS_TYPES.military,
+    street: addressLine1,
+    street2: addressLine2,
+    street3: addressLine3,
+    city,
+    state: addressType === ADDRESS_TYPES.international ? province : stateCode,
+    postalCode:
+      addressType === ADDRESS_TYPES.international
+        ? internationalPostalCode
+        : zipCode,
+    country: countryCodeIso3,
+  };
 };
