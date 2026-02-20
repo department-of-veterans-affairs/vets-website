@@ -63,6 +63,43 @@ const testConfig = createTestConfig(
       'supporting-documents': ({ afterHook }) => {
         afterHook(() => addFile('private', 'root_supportingDocuments'));
       },
+      'treatment-records/:index/conditions-treated': ({ afterHook, index }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillVaTextInput(
+              'root_name',
+              data.treatmentRecords[index].conditionsTreated[0].name,
+            );
+            cy.selectYesNoVaRadioOption(
+              'root_releaseInfo',
+              data.treatmentRecords[index].conditionsTreated[0].releaseInfo,
+            );
+
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
+
+            cy.selectYesNoVaRadioOption('add-another', false);
+            cy.clickFormContinue();
+          });
+        });
+      },
+      'treatment-records/:index/treatment-dates': ({ afterHook, index }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillVaMemorableDate(
+              'root_treatmentDates_from',
+              data.treatmentRecords[index].treatmentDates.from,
+              true,
+            );
+            cy.fillVaMemorableDate(
+              'root_treatmentDates_to',
+              data.treatmentRecords[index].treatmentDates.to,
+              true,
+            );
+            cy.clickFormContinue();
+          });
+        });
+      },
       'treatment-records/:index/supporting-documents': ({ afterHook }) => {
         afterHook(() => addFile('xray', 'root_supportingDocuments'));
       },

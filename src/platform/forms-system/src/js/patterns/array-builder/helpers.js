@@ -31,6 +31,26 @@ export function getArrayUrlSearchParams(search = window?.location?.search) {
   return new URLSearchParams(search);
 }
 
+export function assignGetItemName(options) {
+  const safeGetItemName = getItemFn => {
+    return (item, index, fullData) => {
+      try {
+        return getItemFn(item, index, fullData);
+      } catch (e) {
+        return null;
+      }
+    };
+  };
+
+  if (options.getItemName) {
+    return safeGetItemName(options.getItemName);
+  }
+  if (options.text?.getItemName) {
+    return safeGetItemName(options.text.getItemName);
+  }
+  return DEFAULT_ARRAY_BUILDER_TEXT.getItemName;
+}
+
 /**
  * Initializes the getText function for the ArrayBuilder
  */
@@ -412,6 +432,49 @@ export const defaultItemPageScrollAndFocusTarget = () => {
   } else {
     focusByOrder([`form ${headerLevel}`, 'va-segmented-progress-bar']);
   }
+};
+
+/**
+ * Focus on internal (nested) page header, and account for minimal header usage
+ */
+export const focusOnHeader = (checkMinimalHeader = isMinimalHeaderPath) => {
+  setTimeout(() => {
+    const headerLevel = checkMinimalHeader() ? '1' : '3';
+    focusElement(`h${headerLevel}`);
+    scrollToTop();
+  });
+};
+
+/**
+ * Focus on incomplete or max items alert on submission
+ * @param {Object} options
+ * @param {boolean} options.skipMaxItemsAlert - If true, will skip focusing on
+ * the max items alert, and only focus on the incomplete item alert
+ */
+export const scrollAndFocusAlert = ({
+  skipMaxItemsAlert = true,
+  doc = document,
+} = {}) => {
+  setTimeout(() => {
+    const selectors = [
+      'va-alert[closeable]', // success alert
+      skipMaxItemsAlert ? '' : 'va-alert[status="warning"]', // max items warning
+      '.has-incomplete-item-error va-alert', // incomplete item error
+      'va-radio[error]', // radio button error
+    ]
+      .filter(Boolean)
+      .join(', ');
+
+    scrollTo(selectors);
+
+    const el = doc.querySelector(selectors);
+
+    if (el?.tagName === 'VA-RADIO') {
+      focusElement('input', null, el);
+    } else {
+      focusElement(el);
+    }
+  }, 150);
 };
 
 export const replaceItemInFormData = ({

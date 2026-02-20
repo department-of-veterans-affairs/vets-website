@@ -2,11 +2,7 @@ import sinon from 'sinon-v20';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { YesNoField } from 'platform/forms-system/src/js/web-component-fields';
-import {
-  arrayBuilderPages,
-  assignGetItemName,
-  getPageAfterPageKey,
-} from '../arrayBuilder';
+import { arrayBuilderPages, getPageAfterPageKey } from '../arrayBuilder';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoUI,
@@ -898,88 +894,6 @@ describe('arrayBuilderPatterns', () => {
         'You must add at least one employer for us to process this form.',
       ),
     ).to.not.exist;
-  });
-});
-
-describe('assignGetItemName', () => {
-  it('should default to looking for object.name for getItemName if not defined', () => {
-    const options = {
-      arrayPath: 'employers',
-      nounSingular: 'employer',
-      nounPlural: 'employers',
-      required: true,
-    };
-
-    const getItemName = assignGetItemName(options);
-    expect(getItemName({ name: 'test' })).to.eq('test');
-  });
-
-  it('should use getItemName if defined', () => {
-    const options = {
-      arrayPath: 'employers',
-      nounSingular: 'employer',
-      nounPlural: 'employers',
-      required: true,
-      getItemName: item => item.otherName,
-    };
-
-    const getItemName = assignGetItemName(options);
-    expect(getItemName({ name: 'test', otherName: 'other name' })).to.eq(
-      'other name',
-    );
-  });
-
-  it('should use getItemName if defined on text', () => {
-    const options = {
-      arrayPath: 'employers',
-      nounSingular: 'employer',
-      nounPlural: 'employers',
-      required: true,
-      text: {
-        getItemName: item => item.otherName,
-      },
-    };
-
-    const getItemName = assignGetItemName(options);
-    expect(getItemName({ name: 'test', otherName: 'other name' })).to.eq(
-      'other name',
-    );
-  });
-
-  it('should pass index and fullData to getItemName', () => {
-    const options = {
-      arrayPath: 'employers',
-      nounSingular: 'employer',
-      nounPlural: 'employers',
-      required: true,
-      text: {
-        getItemName: sinon.spy(),
-      },
-    };
-
-    const getItemName = assignGetItemName(options);
-    const fullData = [{ name: 'test1' }, { name: 'test2' }];
-    getItemName(fullData[1], 1, fullData);
-    expect(options.text.getItemName.args[0]).to.deep.equal([
-      fullData[1],
-      1,
-      fullData,
-    ]);
-  });
-
-  it('should gracefully return null if we get an exception on getItemName', () => {
-    const options = {
-      arrayPath: 'employers',
-      nounSingular: 'employer',
-      nounPlural: 'employers',
-      required: true,
-      text: {
-        getItemName: item => item.value.otherName,
-      },
-    };
-
-    const getItemName = assignGetItemName(options);
-    expect(getItemName({})).to.eq(null);
   });
 });
 

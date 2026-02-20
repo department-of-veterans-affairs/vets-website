@@ -79,6 +79,7 @@ describe('ArrayBuilderCancelButton', () => {
     index = 0,
     urlParams = '',
     arrayData = [],
+    nestedArrayCallback = null,
   }) {
     const setFormData = sinon.spy();
     const goToPath = sinon.spy();
@@ -103,6 +104,7 @@ describe('ArrayBuilderCancelButton', () => {
           getText={getText}
           className="test"
           reviewRoute="/review"
+          nestedArrayCallback={nestedArrayCallback}
           required={() => true}
         />
       </Provider>,
@@ -211,6 +213,24 @@ describe('ArrayBuilderCancelButton', () => {
     expect(setFormData.calledWith({ employers: [{ name: 'Test' }] })).to.be
       .true;
     expect(goToPath.calledWith('/summary')).to.be.true;
+  });
+
+  it('should not perform any action, but instead call nestedArrayCallback', () => {
+    const nestedArrayCallback = sinon.spy();
+    const { container, setFormData, goToPath } = setupArrayBuilderCancelButton({
+      index: 0,
+      urlParams: '?edit=true',
+      arrayData: [{ name: 'Test' }],
+      nestedArrayCallback,
+    });
+
+    fireEvent.click(container.querySelector('va-button'));
+    const $modal = container.querySelector('va-modal');
+    expect($modal.getAttribute('visible')).to.eq('true');
+    $modal.__events.primaryButtonClick();
+    expect(nestedArrayCallback.called).to.be.true;
+    expect(setFormData.called).to.be.false;
+    expect(goToPath.called).to.be.false;
   });
 });
 
