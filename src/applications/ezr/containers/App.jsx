@@ -30,8 +30,8 @@ const App = props => {
     isEmergencyContactsEnabled,
     isProvidersAndDependentsPrefillEnabled,
     isSpouseConfirmationFlowEnabled,
+    ezrServiceHistoryEnabled,
   } = features;
-  const ezrServiceHistoryEnabled = true;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
