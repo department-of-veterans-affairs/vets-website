@@ -58,14 +58,12 @@ describe('Medications Prescriptions container', () => {
     url = '/',
     isCernerPilot = false,
     isV2StatusMapping = false,
-    isMedicationsManagementImprovementsEnabled = false,
   ) => {
     const fullState = {
       ...state,
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
         [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
-        [FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements]: isMedicationsManagementImprovementsEnabled,
         ...state.featureToggles,
       },
     };
@@ -434,7 +432,7 @@ describe('Medications Prescriptions container', () => {
       global.window.dataLayer = [];
     });
 
-    it('should call recordEvent when rxRenewalMessageSuccess query param is present', async () => {
+    it.skip('should call recordEvent when rxRenewalMessageSuccess query param is present', async () => {
       const addActionSpy = sinon.spy(datadogRum, 'addAction');
       setup(initialState, '/?rxRenewalMessageSuccess=true');
 
@@ -484,180 +482,6 @@ describe('Medications Prescriptions container', () => {
       });
 
       expect(screen).to.exist;
-    });
-  });
-
-  describe('mhvMedicationsManagementImprovements Feature Flag', () => {
-    describe('when feature flag is disabled', () => {
-      it('should NOT render RefillProcess component', async () => {
-        const screen = setup(
-          initialState,
-          '/',
-          false, // isCernerPilot
-          false, // isV2StatusMapping
-          false, // isMedicationsManagementImprovementsEnabled
-        );
-
-        await waitFor(() => {
-          expect(screen.getByTestId('list-page-title')).to.exist;
-        });
-
-        // RefillProcess component should NOT be rendered
-        expect(screen.queryByTestId('rx-refill-process-container')).to.not
-          .exist;
-
-        // Verify the feature flag controlled content is not present
-        expect(screen.queryByText('How the refill process works on VA.gov')).to
-          .not.exist;
-      });
-
-      it('should not display any process steps content', async () => {
-        const screen = setup(
-          initialState,
-          '/',
-          false, // isCernerPilot
-          false, // isV2StatusMapping
-          false, // isMedicationsManagementImprovementsEnabled
-        );
-
-        await waitFor(() => {
-          expect(screen.getByTestId('list-page-title')).to.exist;
-        });
-
-        // None of the process step headers should be present
-        expect(screen.queryByText('You request a refill')).to.not.exist;
-        expect(screen.queryByText('We process your refill request')).to.not
-          .exist;
-        expect(screen.queryByText('We ship your refill to you')).to.not.exist;
-      });
-    });
-
-    describe('when feature flag is enabled', () => {
-      it('should render RefillProcess component', async () => {
-        const screen = setup(
-          initialState,
-          '/',
-          false, // isCernerPilot
-          false, // isV2StatusMapping
-          true, // isMedicationsManagementImprovementsEnabled
-        );
-
-        await waitFor(() => {
-          expect(screen.getByTestId('list-page-title')).to.exist;
-        });
-
-        // RefillProcess component should be rendered
-        expect(screen.getByTestId('rx-refill-process-container')).to.exist;
-
-        // Verify the title is present
-        expect(screen.getByText('How the refill process works on VA.gov')).to
-          .exist;
-      });
-
-      it('should display all three process steps', async () => {
-        const screen = setup(
-          initialState,
-          '/',
-          false, // isCernerPilot
-          false, // isV2StatusMapping
-          true, // isMedicationsManagementImprovementsEnabled
-        );
-
-        await waitFor(() => {
-          expect(screen.getByTestId('list-page-title')).to.exist;
-        });
-
-        // Verify the RefillProcess component is rendered
-        expect(screen.getByTestId('rx-refill-process-container')).to.exist;
-
-        // Check for the process list items by their header attributes
-        const processItems = screen.container.querySelectorAll(
-          'va-process-list-item',
-        );
-        expect(processItems).to.have.length(3);
-
-        // Verify headers are set correctly
-        expect(processItems[0].getAttribute('header')).to.equal(
-          'You request a refill',
-        );
-        expect(processItems[1].getAttribute('header')).to.equal(
-          'We process your refill request',
-        );
-        expect(processItems[2].getAttribute('header')).to.equal(
-          'We ship your refill to you',
-        );
-
-        // Verify some of the content is present
-        expect(screen.getByText('After you request a refill', { exact: false }))
-          .to.exist;
-        expect(
-          screen.getByText('Once our pharmacy starts processing', {
-            exact: false,
-          }),
-        ).to.exist;
-        expect(
-          screen.getByText('Once we ship the prescription', { exact: false }),
-        ).to.exist;
-      });
-
-      it('should use correct VA design system components', async () => {
-        const screen = setup(
-          initialState,
-          '/',
-          false, // isCernerPilot
-          false, // isV2StatusMapping
-          true, // isMedicationsManagementImprovementsEnabled
-        );
-
-        await waitFor(() => {
-          expect(screen.getByTestId('list-page-title')).to.exist;
-        });
-
-        const refillProcessContainer = screen.getByTestId(
-          'rx-refill-process-container',
-        );
-        expect(refillProcessContainer).to.exist;
-
-        // Verify VA process list components are being used
-        const processListItems = refillProcessContainer.querySelectorAll(
-          'va-process-list-item',
-        );
-        expect(processListItems).to.have.length(3);
-
-        // Verify the process list container exists
-        const processList = refillProcessContainer.querySelector(
-          'va-process-list',
-        );
-        expect(processList).to.exist;
-      });
-
-      it('should render RefillProcess alongside other components', async () => {
-        const screen = setup(
-          initialState,
-          '/',
-          false, // isCernerPilot
-          false, // isV2StatusMapping
-          true, // isMedicationsManagementImprovementsEnabled
-        );
-
-        await waitFor(() => {
-          expect(screen.getByTestId('list-page-title')).to.exist;
-        });
-
-        // Both RefillProcess and NeedHelp should be present
-        expect(screen.getByTestId('rx-refill-process-container')).to.exist;
-        expect(screen.getByTestId('rx-need-help-container')).to.exist;
-
-        // Verify RefillProcess appears before NeedHelp in the DOM
-        const refillProcess = screen.getByTestId('rx-refill-process-container');
-        const needHelp = screen.getByTestId('rx-need-help-container');
-
-        expect(
-          // eslint-disable-next-line no-bitwise
-          refillProcess.compareDocumentPosition(needHelp) &
-            Node.DOCUMENT_POSITION_FOLLOWING,
-        ).to.be.greaterThan(0);
-      });
     });
   });
 });

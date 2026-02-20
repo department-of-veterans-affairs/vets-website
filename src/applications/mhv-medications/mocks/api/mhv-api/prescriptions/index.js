@@ -186,7 +186,11 @@ function mockPrescriptionArray(n = 20, isV2 = false) {
 
 // Oracle Health (Cerner) prescription based on real Spokane facility data.
 // Used when ORACLE_HEALTH=true env var is set.
-function mockOracleHealthPrescription(id = 99900001, isV2 = false) {
+function mockOracleHealthPrescription(
+  id = 99900001,
+  isV2 = false,
+  overrides = {},
+) {
   const prescriptionId = isV2 ? `oh-${id}` : id;
   return {
     id: isV2 ? prescriptionId : `oh-${id}`,
@@ -239,6 +243,7 @@ function mockOracleHealthPrescription(id = 99900001, isV2 = false) {
       orderableItem: null,
       sortedDispensedDate: null,
       prescriptionImage: null,
+      ...overrides,
     },
     links: {
       self: `http://127.0.0.1:3000/my_health/v1/prescriptions/${id}`,
@@ -384,7 +389,19 @@ function generateMockPrescriptions(
 
   const generatedPrescriptions = [
     ...(includeOracleHealth
-      ? [mockOracleHealthPrescription(99900001, isV2)]
+      ? [
+          mockOracleHealthPrescription(99900001, isV2),
+          mockOracleHealthPrescription(99900002, isV2, {
+            prescriptionName: 'METOPROLOL 25MG TAB (OH Discontinued)',
+            dispStatus: 'Discontinued',
+            isRenewable: false,
+          }),
+          mockOracleHealthPrescription(99900003, isV2, {
+            prescriptionName: 'LISINOPRIL 20MG TAB (OH On Hold)',
+            dispStatus: 'Active: On Hold',
+            isRenewable: false,
+          }),
+        ]
       : []),
     ...mockPrescriptionArray(n, isV2),
     mockPrescription(
