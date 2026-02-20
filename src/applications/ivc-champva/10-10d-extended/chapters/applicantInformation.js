@@ -22,21 +22,15 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
-import {
-  applicantWording,
-  nameWording,
-  getAgeInYears,
-} from '../../shared/utilities';
+import { applicantWording, nameWording } from '../../shared/utilities';
 
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
 import { validateApplicant, validateApplicantSsn } from '../utils/validations';
-import { page15aDepends } from '../utils/helpers';
+import { isOfCollegeAge, page15aDepends } from '../utils/helpers';
 import { attachmentSchema, attachmentUI } from '../definitions';
 import { APPLICANTS_MAX } from '../utils/constants';
 
-import { isInRange } from '../../10-10D/helpers/utilities';
-import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
 import AddressSelectionPage, {
   NOT_SHARED,
 } from '../components/FormPages/AddressSelectionPage';
@@ -44,6 +38,7 @@ import CustomPrefillMessage from '../components/CustomPrefillAlert';
 import sectionOverview from './applicantInformation/sectionOverview';
 import personalInformation from './applicantInformation/personalInformation';
 import remarriageProof from './applicantInformation/remarriageProof';
+import dependentStatus from './applicantInformation/dependentStatus';
 import schoolEnrollmentProof from './applicantInformation/schoolEnrollmentProof';
 import marriageDate from './applicantInformation/marriageDate';
 import stepchildMarriageProof from './applicantInformation/stepchildMarriageProof';
@@ -310,27 +305,6 @@ const applicantAdoptionUploadPage = {
   },
 };
 
-const applicantDependentStatusPage = {
-  uiSchema: {},
-  schema: {
-    type: 'object',
-    properties: {
-      applicantDependentStatus: {
-        type: 'object',
-        properties: {
-          status: radioSchema([
-            'enrolled',
-            'intendsToEnroll',
-            'over18HelplessChild',
-          ]),
-          _unused: { type: 'string' },
-        },
-      },
-    },
-    required: ['applicantDependentStatus'],
-  },
-};
-
 const applicantRemarriedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -500,13 +474,8 @@ export const applicantPages = arrayBuilderPages(
       depends: (formData, index) =>
         formData.applicants[index]?.applicantRelationshipToSponsor
           ?.relationshipToVeteran === 'child' &&
-        isInRange(
-          getAgeInYears(formData.applicants[index]?.applicantDob),
-          18,
-          23,
-        ),
-      CustomPage: ApplicantDependentStatusPage,
-      ...applicantDependentStatusPage,
+        isOfCollegeAge(formData.applicants[index]?.applicantDob),
+      ...dependentStatus,
     }),
     page18b: pageBuilder.itemPage({
       path: 'applicant-proof-of-school-enrollment/:index',
@@ -514,11 +483,7 @@ export const applicantPages = arrayBuilderPages(
       depends: (formData, index) =>
         formData.applicants[index]?.applicantRelationshipToSponsor
           ?.relationshipToVeteran === 'child' &&
-        isInRange(
-          getAgeInYears(formData.applicants[index]?.applicantDob),
-          18,
-          23,
-        ) &&
+        isOfCollegeAge(formData.applicants[index]?.applicantDob) &&
         ['enrolled', 'intendsToEnroll'].includes(
           formData.applicants[index]?.applicantDependentStatus?.status,
         ),

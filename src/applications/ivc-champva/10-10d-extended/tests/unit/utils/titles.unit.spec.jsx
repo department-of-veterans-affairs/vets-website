@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { toHash } from '../../../../shared/utilities';
 import {
+  arrayTitleWithNameUI,
   healthInsurancePageTitleUI,
   medicarePageTitleUI,
   titleWithNameUI,
@@ -140,16 +141,16 @@ describe('1010d `titleWithRoleUI` util', () => {
     expect(result).to.equal('Your mailing address');
   });
 
-  it('should return `Veteran’s` when certifier role is not applicant', () => {
+  it('should return `Applicant’s` when certifier role is not applicant', () => {
     const uiSchema = titleWithRoleUI('%s mailing address');
     const result = subject(uiSchema, { certifierRole: 'other' });
-    expect(result).to.equal('Veteran’s mailing address');
+    expect(result).to.equal('Applicant’s mailing address');
   });
 
-  it('should return `Veteran’s` when certifier role is missing', () => {
+  it('should return `Applicant’s` when certifier role is missing', () => {
     const uiSchema = titleWithRoleUI('%s mailing address');
     const result = subject(uiSchema, {});
-    expect(result).to.equal('Veteran’s mailing address');
+    expect(result).to.equal('Applicant’s mailing address');
   });
 
   it('should handle capitalization option', () => {
@@ -167,7 +168,7 @@ describe('1010d `titleWithRoleUI` util', () => {
       possessive: false,
     });
     const result = subject(uiSchema, { certifierRole: 'other' });
-    expect(result).to.equal('Veteran information');
+    expect(result).to.equal('Applicant information');
   });
 
   it('should use custom roleKey and matchRole', () => {
@@ -207,7 +208,7 @@ describe('1010d `titleWithNameUI` util', () => {
       applicantName: { first: 'John', last: 'Smith' },
     };
     const result = subject(uiSchema, formData);
-    expect(result).to.equal('John’s identification information');
+    expect(result).to.equal('John Smith’s identification information');
   });
 
   it('should return full name when `firstNameOnly` option is `false`', () => {
@@ -237,33 +238,23 @@ describe('1010d `titleWithNameUI` util', () => {
     expect(result).to.equal('Contact information for John');
   });
 
-  it('should fallback to `Veteran` when name object is empty', () => {
+  it('should fallback to `Applicant` when name object is empty', () => {
     const uiSchema = titleWithNameUI('%s information');
     const formData = {
       certifierRole: 'other',
       applicantName: {},
     };
     const result = subject(uiSchema, formData);
-    expect(result).to.equal('Veteran’s information');
+    expect(result).to.equal('Applicant’s information');
   });
 
-  it('should fallback to `Veteran` when applicantName is missing', () => {
+  it('should fallback to `Applicant` when applicantName is missing', () => {
     const uiSchema = titleWithNameUI('%s information');
     const formData = {
       certifierRole: 'other',
     };
     const result = subject(uiSchema, formData);
-    expect(result).to.equal('Veteran’s information');
-  });
-
-  it('should fallback to `Veteran` when first name is undefined', () => {
-    const uiSchema = titleWithNameUI('%s information');
-    const formData = {
-      certifierRole: 'other',
-      applicantName: { first: undefined, last: 'Smith' },
-    };
-    const result = subject(uiSchema, formData);
-    expect(result).to.equal('Veteran’s information');
+    expect(result).to.equal('Applicant’s information');
   });
 
   it('should use custom nameKey option', () => {
@@ -295,5 +286,77 @@ describe('1010d `titleWithNameUI` util', () => {
     const uiSchema = titleWithNameUI('');
     const result = subject(uiSchema, { certifierRole: 'applicant' });
     expect(result).to.equal('');
+  });
+});
+
+describe('1010d `arrayTitleWithNameUI` util', () => {
+  const subject = (uiSchema, formData, urlParams = {}) => {
+    const searchParams = new URLSearchParams(urlParams).toString();
+    const TitleComponent = uiSchema['ui:title'];
+
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: {
+        search: `?${searchParams}`,
+      },
+    });
+
+    const { container } = render(<div>{TitleComponent({ formData })}</div>);
+    return container.textContent;
+  };
+
+  it('should return title without `Edit` prefix when not in edit mode', () => {
+    const uiSchema = arrayTitleWithNameUI('%s identification information');
+    const result = subject(uiSchema, {
+      certifierRole: 'other',
+      applicantName: { first: 'John', last: 'Smith' },
+    });
+    expect(result).to.equal('John Smith’s identification information');
+  });
+
+  it('should prepend `Edit` when in edit mode with lowercase option', () => {
+    const uiSchema = arrayTitleWithNameUI('%s identification information');
+    const result = subject(
+      uiSchema,
+      {
+        certifierRole: 'other',
+        applicantName: { first: 'John', last: 'Smith' },
+      },
+      { edit: 'true' },
+    );
+    expect(result).to.equal('Edit John Smith’s identification information');
+  });
+
+  it('should prepend `Edit` without capitalizing the name value when the option is false', () => {
+    const uiSchema = arrayTitleWithNameUI('%s contact information', null, {
+      capitalize: false,
+    });
+    const result = subject(
+      uiSchema,
+      {
+        certifierRole: 'other',
+        applicantName: { first: 'jane', last: 'smith' },
+      },
+      { edit: 'true' },
+    );
+    expect(result).to.equal('Edit jane smith’s contact information');
+  });
+
+  it('should return `Your` when certifier role is `applicant`', () => {
+    const uiSchema = arrayTitleWithNameUI('%s contact information');
+    const result = subject(uiSchema, { certifierRole: 'applicant' });
+    expect(result).to.equal('Your contact information');
+  });
+
+  it('should handle full name when firstNameOnly is true', () => {
+    const uiSchema = arrayTitleWithNameUI('Contact information for %s', null, {
+      firstNameOnly: true,
+      possessive: false,
+    });
+    const result = subject(uiSchema, {
+      certifierRole: 'other',
+      applicantName: { first: 'John', last: 'Smith' },
+    });
+    expect(result).to.equal('Contact information for John');
   });
 });
