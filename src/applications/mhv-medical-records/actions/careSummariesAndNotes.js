@@ -24,6 +24,15 @@ export const getCareSummariesAndNotesList = (
       ? () => getAcceleratedNotes(timeframe)
       : getNotes;
     const response = await getListWithRetry(dispatch, getData);
+
+    if (isAccelerating) {
+      const warnings = response?.meta?.warnings || [];
+      dispatch({
+        type: Actions.CareSummariesAndNotes.SET_WARNINGS,
+        payload: warnings,
+      });
+    }
+
     dispatch({
       type: isAccelerating
         ? Actions.CareSummariesAndNotes.GET_UNIFIED_LIST

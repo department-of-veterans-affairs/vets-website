@@ -26,6 +26,7 @@ export class EnterOTPPageObject extends PageObject {
 
     // Assert no error states on initial load
     this.assertOTPErrorAlert({ exist: false });
+    this.assertVerificationErrorAlert({ exist: false });
 
     // Assert need help footer
     this.assertNeedHelpFooter();
@@ -37,31 +38,27 @@ export class EnterOTPPageObject extends PageObject {
    * Assert the verification error page is displayed (account locked)
    * @returns {EnterOTPPageObject}
    */
-  assertVerificationErrorPage() {
-    this.assertHeading({
-      name: /We couldn.t verify your information/i,
-      level: 1,
-      exist: true,
-    });
+  assertVerificationErrorPage({ exist = true } = {}) {
+    if (exist) {
+      this.assertVerificationErrorAlert({
+        headingText: 'We couldn’t verify your information',
+        containsText:
+          'The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes. Check your email and select the link to schedule a call.',
+      });
+    } else {
+      this.assertVerificationErrorAlert({ exist: false });
+    }
     return this;
   }
 
   /**
    * Enter an OTP code value
-   * @param {string} code - The OTP code to enter
+   * @param {string} code - The OTP code to enter. If no value is provided, the default value of '123456' will be used.
    * @returns {EnterOTPPageObject}
    */
-  enterOTP(code) {
+  enterOTP(code = '123456') {
     cy.fillVaTextInput('otp', code);
     return this;
-  }
-
-  /**
-   * Enter a valid OTP code for testing
-   * @returns {EnterOTPPageObject}
-   */
-  enterValidOTP() {
-    return this.enterOTP('123456');
   }
 
   /**
@@ -90,28 +87,16 @@ export class EnterOTPPageObject extends PageObject {
    * Assert the error alert is displayed or not
    * @param {Object} props - Options
    * @param {boolean} props.exist - Whether the alert should exist
+   * @param {string} props.containsText - The text of the alert to contain
+   * @param {RegExp} props.matchText - The text of the alert to match
    * @returns {EnterOTPPageObject}
    */
-  assertOTPErrorAlert({ exist = true } = {}) {
-    this.assertElement('enter-otp-error-alert', { exist });
-    return this;
-  }
-
-  /**
-   * Assert the continue button is in loading state
-   * @returns {EnterOTPPageObject}
-   */
-  assertContinueLoading() {
-    cy.findByTestId('continue-button').should('have.attr', 'loading', 'true');
-    return this;
-  }
-
-  /**
-   * Assert the continue button is not in loading state
-   * @returns {EnterOTPPageObject}
-   */
-  assertContinueNotLoading() {
-    cy.findByTestId('continue-button').should('not.have.attr', 'loading');
+  assertOTPErrorAlert({ exist = true, containsText, matchText } = {}) {
+    this.assertElement('enter-otp-error-alert', {
+      exist,
+      containsText,
+      matchText,
+    });
     return this;
   }
 
@@ -147,21 +132,11 @@ export class EnterOTPPageObject extends PageObject {
   }
 
   /**
-   * Fill the form with valid OTP and submit
-   * @returns {EnterOTPPageObject}
-   */
-  fillAndSubmitValidOTP() {
-    this.enterValidOTP();
-    this.clickContinue();
-    return this;
-  }
-
-  /**
    * Fill the form with custom OTP and submit
-   * @param {string} code - The OTP code to enter
+   * @param {string} code - The OTP code to enter. If no value is provided, the default value of '123456' will be used.
    * @returns {EnterOTPPageObject}
    */
-  fillAndSubmitOTP(code) {
+  fillAndSubmitOTP(code = '123456') {
     this.enterOTP(code);
     this.clickContinue();
     return this;
