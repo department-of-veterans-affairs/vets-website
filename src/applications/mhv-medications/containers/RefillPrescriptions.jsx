@@ -509,7 +509,7 @@ const RefillPrescriptions = () => {
                   />
                 ) : (
                   <CernerFacilityAlert
-                    healthTool="MEDICATIONS_REFILL"
+                    healthTool="MEDICATIONS"
                     className="vads-u-margin-top--2"
                   />
                 )}
