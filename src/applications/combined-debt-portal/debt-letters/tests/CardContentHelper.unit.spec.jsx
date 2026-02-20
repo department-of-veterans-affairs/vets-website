@@ -13,9 +13,9 @@ describe('cardContentHelper', () => {
     deductionCode: '21',
     benefitType: 'Loan Guaranty',
     currentAr: '1000.00',
-    diaryCode: '109',
+    diaryCode: '100',
     debtHistory: [
-      { date: '01/15/2025', letterCode: '109' },
+      { date: '01/15/2025', letterCode: '100' },
       { date: '01/10/2025', letterCode: '100' },
     ],
   };
@@ -47,7 +47,7 @@ describe('cardContentHelper', () => {
   });
 
   describe('getSummaryCardContent', () => {
-    it('returns correct content for diary code 109 (status type 8)', () => {
+    it('returns correct content for diary code 100 (status type 8)', () => {
       const data = transformDebtData(mockDebt);
       const result = getSummaryCardContent(data);
 
@@ -76,7 +76,7 @@ describe('cardContentHelper', () => {
   });
 
   describe('getDetailsAlertContent', () => {
-    it('returns correct details content for diary code 109', () => {
+    it('returns correct details content for diary code 100', () => {
       const data = transformDebtData(mockDebt);
       const result = getDetailsAlertContent(data);
 

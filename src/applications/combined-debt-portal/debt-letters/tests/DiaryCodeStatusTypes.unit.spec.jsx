@@ -39,15 +39,7 @@ describe('diaryCodeStatusTypes', () => {
     });
 
     it('has correct mappings for status type 8 (Payment due)', () => {
-      const statusType8Codes = [
-        '100',
-        '102',
-        '109',
-        '117',
-        '123',
-        '130',
-        '140',
-      ];
+      const statusType8Codes = ['100', '101', '102', '130', '140'];
 
       statusType8Codes.forEach(code => {
         expect(DIARY_CODE_STATUS_TYPE[code]).to.equal('8');
@@ -55,7 +47,17 @@ describe('diaryCodeStatusTypes', () => {
     });
 
     it('has correct mappings for status type 9 (Currently due payments)', () => {
-      const statusType9Codes = ['439', '449', '459', '603', '613', '680'];
+      const statusType9Codes = [
+        '109',
+        '117',
+        '123',
+        '439',
+        '449',
+        '459',
+        '603',
+        '613',
+        '680',
+      ];
 
       statusType9Codes.forEach(code => {
         expect(DIARY_CODE_STATUS_TYPE[code]).to.equal('9');
@@ -88,7 +90,7 @@ describe('diaryCodeStatusTypes', () => {
 
   describe('getStatusTypeForDebtDiaryCode', () => {
     it('returns correct status type for known diary codes', () => {
-      expect(getStatusTypeForDebtDiaryCode('109')).to.equal('8');
+      expect(getStatusTypeForDebtDiaryCode('109')).to.equal('9');
       expect(getStatusTypeForDebtDiaryCode('080')).to.equal('10');
       expect(getStatusTypeForDebtDiaryCode('081')).to.equal('2');
       expect(getStatusTypeForDebtDiaryCode('002')).to.equal('1');

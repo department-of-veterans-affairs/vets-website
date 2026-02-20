@@ -9,8 +9,8 @@ describe('useStatusContent hook', () => {
     deductionCode: '21',
     benefitType: 'Loan Guaranty',
     currentAr: '1000.00',
-    diaryCode: '109',
-    debtHistory: [{ date: '01/15/2025', letterCode: '109' }],
+    diaryCode: '100',
+    debtHistory: [{ date: '01/15/2025', letterCode: '100' }],
   };
 
   describe('with debt data', () => {
