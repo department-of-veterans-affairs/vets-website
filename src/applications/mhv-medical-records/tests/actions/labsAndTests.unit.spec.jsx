@@ -80,11 +80,14 @@ describe('getLabsAndTestsList', () => {
       Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
     );
     expect(dispatch.thirdCall.args[0].type).to.equal(
+      Actions.LabsAndTests.SET_WARNINGS,
+    );
+    expect(dispatch.getCall(3).args[0].type).to.equal(
       Actions.LabsAndTests.GET_UNIFIED_LIST,
     );
 
     // Assert cvixRadiologyResponse according to merge flag
-    assertion(dispatch.thirdCall.args[0].cvixRadiologyResponse);
+    assertion(dispatch.getCall(3).args[0].cvixRadiologyResponse);
   };
 
   it('should dispatch a get list action when accelerating (CVIX merge enabled)', () => {
@@ -97,6 +100,38 @@ describe('getLabsAndTestsList', () => {
     return runAcceleratingTest(false, cvixRadiologyResponse => {
       expect(cvixRadiologyResponse).to.equal(undefined);
     });
+  });
+
+  it('should dispatch SET_WARNINGS with empty array when accelerated response is a plain array', async () => {
+    const mockData = labsAndTests;
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    await getLabsAndTestsList(false, true, {}, false)(dispatch);
+
+    const setWarningsCall = dispatch
+      .getCalls()
+      .find(call => call.args[0].type === Actions.LabsAndTests.SET_WARNINGS);
+    expect(setWarningsCall).to.exist;
+    expect(setWarningsCall.args[0].payload).to.deep.equal([]);
+  });
+
+  it('should dispatch SET_WARNINGS with warnings when accelerated response contains meta.warnings', async () => {
+    const mockWarnings = [
+      { source: 'oracle-health', message: 'Binary resource not found' },
+    ];
+    const mockData = {
+      data: labsAndTests.entry || [],
+      meta: { warnings: mockWarnings },
+    };
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    await getLabsAndTestsList(false, true, {}, false)(dispatch);
+
+    const setWarningsCall = dispatch
+      .getCalls()
+      .find(call => call.args[0].type === Actions.LabsAndTests.SET_WARNINGS);
+    expect(setWarningsCall).to.exist;
+    expect(setWarningsCall.args[0].payload).to.deep.equal(mockWarnings);
   });
 });
 
