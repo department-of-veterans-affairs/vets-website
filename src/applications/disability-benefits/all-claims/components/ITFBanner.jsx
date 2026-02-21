@@ -24,7 +24,7 @@ export class ITFBanner extends React.Component {
   componentDidUpdate(prevProps) {
     // Track form resumption when ITF banner is dismissed
     if (!prevProps.messageDismissed && this.props.messageDismissed) {
-      trackFormResumption();
+      // Clear old session click counts before tracking resumption
       try {
         sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS);
         sessionStorage.removeItem(
@@ -34,6 +34,7 @@ export class ITFBanner extends React.Component {
       } catch (error) {
         // Storage access blocked - silent fail
       }
+      trackFormResumption();
     }
   }
 

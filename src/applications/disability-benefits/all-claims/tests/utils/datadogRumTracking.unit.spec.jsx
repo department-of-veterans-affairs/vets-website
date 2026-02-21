@@ -48,7 +48,7 @@ describe('datadogRumTracking', () => {
       expect(actionName).to.equal('Form navigation - Back button clicked');
       expect(properties).to.include({
         formId: VA_FORM_IDS.FORM_21_526EZ,
-        clickCount: 1,
+        backButtonClickCount: 1,
         sidenav526ezEnabled: true,
       });
       expect(properties.sourcePath).to.be.a('string');
@@ -67,7 +67,7 @@ describe('datadogRumTracking', () => {
       expect(addActionStub.callCount).to.equal(3);
 
       const thirdCallProps = addActionStub.thirdCall.args[1];
-      expect(thirdCallProps.clickCount).to.equal(3);
+      expect(thirdCallProps.backButtonClickCount).to.equal(3);
     });
 
     it('works when sidenav toggle is not set', () => {
@@ -110,7 +110,7 @@ describe('datadogRumTracking', () => {
       expect(actionName).to.equal('Form navigation - Continue button clicked');
       expect(properties).to.include({
         formId: VA_FORM_IDS.FORM_21_526EZ,
-        clickCount: 1,
+        continueButtonClickCount: 1,
         sidenav526ezEnabled: false,
       });
       expect(properties.sourcePath).to.be.a('string');
@@ -125,7 +125,7 @@ describe('datadogRumTracking', () => {
       ).to.equal('2');
 
       const secondCallProps = addActionStub.secondCall.args[1];
-      expect(secondCallProps.clickCount).to.equal(2);
+      expect(secondCallProps.continueButtonClickCount).to.equal(2);
     });
   });
 
@@ -146,6 +146,10 @@ describe('datadogRumTracking', () => {
         sidenav526ezEnabled: true,
       });
       expect(properties.sourcePath).to.be.a('string');
+      // Should not have click counts on first form start
+      expect(properties).to.not.have.property('backButtonClickCount');
+      expect(properties).to.not.have.property('continueButtonClickCount');
+      expect(properties).to.not.have.property('sideNavClickCount');
     });
 
     it('does not throw when datadogRum.addAction fails', () => {
@@ -242,6 +246,10 @@ describe('datadogRumTracking', () => {
         sidenav526ezEnabled: true,
       });
       expect(properties.sourcePath).to.be.a('string');
+      // Should not have click counts if user hasn't clicked anything
+      expect(properties).to.not.have.property('backButtonClickCount');
+      expect(properties).to.not.have.property('continueButtonClickCount');
+      expect(properties).to.not.have.property('sideNavClickCount');
     });
 
     it('works without sidenav toggle', () => {
