@@ -40,7 +40,7 @@ function AutosuggestOptions({
   );
 
   return (
-    <div
+    <ul
       className="dropdown"
       {...getMenuProps()}
       style={{ display: !isShown || !optionsToShow?.length ? 'none' : 'block' }}
@@ -56,7 +56,7 @@ function AutosuggestOptions({
           itemToString={itemToString}
         />
       ))}
-    </div>
+    </ul>
   );
 }
 

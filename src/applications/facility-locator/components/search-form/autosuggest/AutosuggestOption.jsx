@@ -26,12 +26,12 @@ function AutosuggestOption({
   }
 
   return (
-    <p
+    <li
       {...getItemProps(itemInfo)}
       data-testid={`autosuggest-option-${item.id || `${item}-${index}`}`}
     >
       {itemToString(item)}
-    </p>
+    </li>
   );
 }
 
