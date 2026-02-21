@@ -12,6 +12,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { createSpouseLabelSelector, requiresSpouseInfo } from './helpers';
+import { showMultiplePageResponse } from '../../../helpers';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
 const { spouseIsVeteran } = fullSchemaPensions.properties;
@@ -20,7 +21,8 @@ const { spouseIsVeteran } = fullSchemaPensions.properties;
 export default {
   title: 'Spouse information',
   path: 'household/spouse-info',
-  depends: requiresSpouseInfo,
+  depends: formData =>
+    !showMultiplePageResponse() && requiresSpouseInfo(formData),
   uiSchema: {
     ...titleUI(createHouseholdMemberTitle('spouseFullName', 'information')),
     spouseDateOfBirth: merge({}, dateOfBirthUI({ dataDogHidden: true }), {

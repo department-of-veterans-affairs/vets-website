@@ -16,6 +16,7 @@ import {
   isCurrentMarriage,
   hasMarriageHistory,
 } from './helpers';
+import { showMultiplePageResponse } from '../../../helpers';
 
 const dateSchema = {
   pattern: '^\\d{4}-\\d{2}-\\d{2}$',
@@ -27,7 +28,8 @@ export default {
   title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
     getMarriageTitleWithCurrent(form, pagePerItemIndex),
   path: 'household/marriages/:index',
-  depends: hasMarriageHistory,
+  depends: formData =>
+    !showMultiplePageResponse() && hasMarriageHistory(formData),
   showPagePerItem: true,
   arrayPath: 'marriages',
   uiSchema: {
