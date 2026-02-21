@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import { scrollToTop } from 'platform/utilities/scroll';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
+import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
+import { focusElement } from '~/platform/utilities/ui';
 
 const ProcessList = () => {
   return (
@@ -87,42 +87,62 @@ export const IntroductionPage2 = ({ route }) => {
   const showVerifyIdentity = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
-    scrollToTop();
+    focusElement('va-breadcrumbs');
   }, []);
 
-  return (
-    <article className="schemaform-intro">
-      <FormTitle
-        title="Request a VA home loan Certificate of Eligibility (COE)"
-        subTitle="Request for a Certificate of Eligibility (VA Form 26-1880)"
-      />
-      <p>
-        Use VA Form 26-1880 to apply for a VA home loan COE. You’ll need to
-        bring the COE to your lender to prove that you qualify for a VA home
-        loan.
-      </p>
+  const content = {
+    formTitle: 'Request a VA home loan Certificate of Eligibility (COE)',
+    formSubTitle: 'Request for a Certificate of Eligibility (VA Form 26-1880)',
+    hideSipIntro: userLoggedIn && !userIdVerified,
+    authStartFormText: 'Request a Certificate of Eligibility',
+  };
+
+  const ombInfo = {
+    resBurden: '15',
+    ombNumber: '2900-0086',
+    expDate: '10/31/2025',
+  };
+
+  const childContent = (
+    <>
       <h2 className="vads-u-margin-top--0">
         Follow these steps to request a new COE
       </h2>
       <ProcessList />
-      {showVerifyIdentity ? (
+      {showVerifyIdentity && (
         <VerifyAlert headingLevel={3} dataTestId="coe-26-1880-identity-alert" />
-      ) : (
+      )}
+    </>
+  );
+
+  const { formTitle, formSubTitle, hideSipIntro, authStartFormText } = content;
+  const { formConfig, pageList } = route;
+  const { prefillEnabled, savedFormMessages } = formConfig;
+  const { resBurden, ombNumber, expDate } = ombInfo;
+
+  return (
+    <article className="schemaform-intro">
+      <FormTitle title={formTitle} subTitle={formSubTitle} />
+      {childContent}
+      {!hideSipIntro && (
         <SaveInProgressIntro
-          formConfig={route.formConfig}
+          devOnly={{
+            forceShowFormControls: true,
+          }}
+          formConfig={formConfig}
           headingLevel={2}
           hideUnauthedStartLink
-          messages={route.formConfig.savedFormMessages}
-          pageList={route.pageList}
-          prefillEnabled={route.formConfig.prefillEnabled}
-          startText="Request a Certificate of Eligibility"
+          messages={savedFormMessages}
+          prefillEnabled={prefillEnabled}
+          pageList={pageList}
+          startText={authStartFormText}
         />
       )}
       <p />
       <va-omb-info
-        exp-date="10/31/2025"
-        omb-number="2900-0086"
-        res-burden={15}
+        res-burden={resBurden}
+        omb-number={ombNumber}
+        exp-date={expDate}
       />
     </article>
   );
