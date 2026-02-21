@@ -1,14 +1,14 @@
 import {
   currencyUI,
   currencyStringSchema,
+  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { generateTitle } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Plot or interment allowance'),
+    ...titleUI('Plot or interment allowance'),
     govtContributions: yesNoUI(
       'Did the federal government, state government, or the Veteran’s employer pay any of the burial costs?',
     ),

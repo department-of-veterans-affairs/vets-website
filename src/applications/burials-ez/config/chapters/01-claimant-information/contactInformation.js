@@ -3,10 +3,10 @@ import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNu
 import {
   phoneUI,
   emailUI,
-  phoneSchema,
   emailSchema,
+  phoneSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { generateTitle } from '../../../utils/helpers';
 
 /**
  * @param {string | UIOptions & {
@@ -44,7 +44,7 @@ export const internationalPhoneSchema = {
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Contact information'),
+    ...titleUI('Contact information'),
     claimantEmail: emailUI('Your email address'),
     claimantPhone: phoneUI('Your phone number'),
     claimantIntPhone: internationalPhoneUI('Your international phone number'),

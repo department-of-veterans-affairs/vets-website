@@ -10,13 +10,10 @@ import {
   fullNameUI,
   textUI,
   textSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { validateBenefitsIntakeName } from './validation';
-
-export const generateTitle = text => {
-  return <h3 className="vads-u-margin-top--0 vads-u-color--base">{text}</h3>;
-};
 
 export const generateHelpText = (
   text,
@@ -37,7 +34,7 @@ export const generateDeathFacilitySchemas = (
 ) => {
   return {
     uiSchema: {
-      'ui:title': generateTitle('Veteran death location details'),
+      ...titleUI('Veteran death location details'),
       [facilityKey]: {
         facilityName: textUI({
           title: `Name of ${facilityName}`,

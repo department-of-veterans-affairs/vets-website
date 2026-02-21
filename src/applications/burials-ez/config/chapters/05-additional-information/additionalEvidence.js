@@ -1,12 +1,14 @@
 import React from 'react';
-import { fileInputMultipleSchema } from '~/platform/forms-system/src/js/web-component-patterns';
+import {
+  fileInputMultipleSchema,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { burialUploadUI } from '../../../utils/upload';
 import { validateFileUploads } from '../../../utils/validation';
-import { generateTitle } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Additional documents'),
+    ...titleUI('Additional documents'),
     'ui:description': (
       <>
         <p>

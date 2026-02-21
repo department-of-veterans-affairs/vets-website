@@ -1,11 +1,11 @@
 import React from 'react';
 import {
+  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { AltReviewRowView } from '../../../components/ReviewRowView';
 import { fasterClaimLabels } from '../../../utils/labels';
-import { generateTitle } from '../../../utils/helpers';
 
 export const FdcWarning = (
   <div className="usa-alert usa-alert-info background-color-only">
@@ -33,7 +33,7 @@ export const NoFDCWarning = (
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Faster claim processing'),
+    ...titleUI('Faster claim processing'),
     'ui:description': (
       <p>
         If you've uploaded all your supporting documents, you may be able to get

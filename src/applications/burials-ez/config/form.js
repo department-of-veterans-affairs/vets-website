@@ -5,6 +5,7 @@ import { externalServices } from '@department-of-veterans-affairs/platform-monit
 import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import GetFormHelp from '../components/GetFormHelp';
 
 import ErrorText from '../components/ErrorText';
@@ -105,6 +106,22 @@ const formConfig = {
   downtime: {
     dependencies: [externalServices.icmhs],
   },
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/',
+        label: 'VA.gov home',
+      },
+      {
+        href: '/burials-memorials',
+        label: 'Burials and memorials',
+      },
+      {
+        href: '/burials-memorials/veterans-burial-allowance',
+        label: 'Veterans burial allowance and transportation benefits',
+      },
+    ],
+  }),
   savedFormMessages: {
     notFound:
       'Please start over to apply for a Veterans burial allowance and transportation benefits.',

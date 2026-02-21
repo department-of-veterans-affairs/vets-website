@@ -1,22 +1,22 @@
 import {
-  ssnUI,
-  ssnSchema,
-  vaFileNumberUI,
-  vaFileNumberSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
   fullNameSchema,
+  ssnUI,
+  ssnSchema,
+  titleUI,
+  vaFileNumberUI,
+  vaFileNumberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { AltReviewRowView } from '../../../components/ReviewRowView';
 import {
   benefitsIntakeFullNameUI,
   generateHelpText,
-  generateTitle,
 } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Personal information'),
+    ...titleUI('Personal information'),
     veteranFullName: benefitsIntakeFullNameUI(title => `Veteran’s ${title}`),
     veteranSocialSecurityNumber: ssnUI('Veteran’s Social Security number'),
     vaFileNumber: {

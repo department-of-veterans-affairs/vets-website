@@ -3,15 +3,15 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import {
   radioUI,
   textUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { generateTitle } from '../../../utils/helpers';
 import { locationOfDeathLabels } from '../../../utils/labels';
 
 const { locationOfDeath } = fullSchemaBurials.properties;
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Veteran death location'),
+    ...titleUI('Veteran death location'),
     locationOfDeath: {
       location: radioUI({
         title: `Where did the Veteran’s death occur?`,

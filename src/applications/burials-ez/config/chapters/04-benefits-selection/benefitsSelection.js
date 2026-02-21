@@ -1,15 +1,15 @@
 import React from 'react';
-import { checkboxGroupUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
-  generateTitle,
-  checkboxGroupSchemaWithReviewLabels,
-} from '../../../utils/helpers';
+  checkboxGroupUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import { checkboxGroupSchemaWithReviewLabels } from '../../../utils/helpers';
 import { benefitsLabels } from '../../../utils/labels';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Costs you paid for'),
+    ...titleUI('Costs you paid for'),
     'ui:description': (
       <>
         <p>

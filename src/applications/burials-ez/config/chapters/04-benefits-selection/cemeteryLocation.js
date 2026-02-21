@@ -1,12 +1,12 @@
 import {
   textUI,
   textSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { generateTitle } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Cemetery location'),
+    ...titleUI('Cemetery location'),
     cemeteryLocation: {
       'ui:description':
         'You selected that the deceased Veteran was buried in a state cemetery. Enter additional information here.',
