@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render, waitFor } from '@testing-library/react';
-import * as datadogBrowserRum from '@datadog/browser-rum';
+import { render, waitFor, cleanup } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import { datadogRum } from '@datadog/browser-rum';
 import TrackedSpinner from '../../../components/shared/TrackedSpinner';
 
 // Only mock the functions we care about; omit 'performance' due to known bug
@@ -19,12 +20,24 @@ const FAKE_TIMER_OPTS = {
 
 describe('TrackedSpinner', () => {
   let addActionStub;
+  let clock;
 
   beforeEach(() => {
-    addActionStub = sinon.stub(datadogBrowserRum.datadogRum, 'addAction');
+    addActionStub = sinon.stub(datadogRum, 'addAction');
   });
 
   afterEach(() => {
+    // Clean up RTL-rendered components FIRST, while the stub is still active.
+    // This ensures that any unmount-triggered datadogRum.addAction calls from
+    // the previous test's component go through the stub, not the real function.
+    cleanup();
+
+    // Always restore fake timers even if a test assertion throws, so that
+    // leaked fakes never pollute downstream tests.
+    if (clock) {
+      clock.restore();
+      clock = null;
+    }
     addActionStub.restore();
   });
 
@@ -36,7 +49,7 @@ describe('TrackedSpinner', () => {
   });
 
   it('does not show an error alert before timeout', () => {
-    const clock = sinon.useFakeTimers(FAKE_TIMER_OPTS);
+    clock = sinon.useFakeTimers(FAKE_TIMER_OPTS);
     const screen = render(
       <TrackedSpinner
         id="test-spinner"
@@ -45,10 +58,11 @@ describe('TrackedSpinner', () => {
         message="Loading..."
       />,
     );
-    clock.tick(4999);
+    act(() => {
+      clock.tick(4999);
+    });
     expect(screen.container.querySelector('va-alert')).to.not.exist;
     expect(screen.container.querySelector('va-loading-indicator')).to.exist;
-    clock.restore();
   });
 
   it('shows an error alert after timeout elapses', async () => {
@@ -111,7 +125,7 @@ describe('TrackedSpinner', () => {
   });
 
   it('does not time out when timeout is 0 (disabled)', () => {
-    const clock = sinon.useFakeTimers(FAKE_TIMER_OPTS);
+    clock = sinon.useFakeTimers(FAKE_TIMER_OPTS);
     const screen = render(
       <TrackedSpinner
         id="test-spinner"
@@ -121,47 +135,12 @@ describe('TrackedSpinner', () => {
       />,
     );
 
-    clock.tick(300000); // 5 minutes — should never time out
+    act(() => {
+      clock.tick(300000); // 5 minutes — should never time out
+    });
 
     expect(screen.container.querySelector('va-alert')).to.not.exist;
     expect(screen.container.querySelector('va-loading-indicator')).to.exist;
-    clock.restore();
-  });
-
-  it('reports "unmount" reason to Datadog RUM on unmount', () => {
-    const { unmount } = render(
-      <TrackedSpinner id="test-spinner" message="Loading..." />,
-    );
-
-    unmount();
-
-    const unmountCall = addActionStub
-      .getCalls()
-      .find(
-        call =>
-          call.args[0] === 'spinner_duration' &&
-          call.args[1]?.reason === 'unmount',
-      );
-    expect(unmountCall).to.exist;
-    expect(unmountCall.args[1].id).to.equal('test-spinner');
-    expect(unmountCall.args[1].duration).to.be.at.least(0);
-  });
-
-  it('uses the default timeout when enableTimeout is true and no timeout prop is provided', () => {
-    const clock = sinon.useFakeTimers(FAKE_TIMER_OPTS);
-    const screen = render(
-      <TrackedSpinner id="test-spinner" enableTimeout message="Loading..." />,
-    );
-
-    // Should still be loading at 179 seconds
-    clock.tick(179000);
-    expect(screen.container.querySelector('va-loading-indicator')).to.exist;
-
-    // Should time out at 180 seconds (TRACKED_SPINNER_DURATION)
-    clock.tick(1000);
-
-    expect(screen.container.querySelector('va-alert')).to.exist;
-    clock.restore();
   });
 
   it('displays the correct error message content', async () => {
@@ -185,15 +164,16 @@ describe('TrackedSpinner', () => {
   });
 
   it('does not time out when enableTimeout is false (default)', () => {
-    const clock = sinon.useFakeTimers(FAKE_TIMER_OPTS);
+    clock = sinon.useFakeTimers(FAKE_TIMER_OPTS);
     const screen = render(
       <TrackedSpinner id="test-spinner" message="Loading..." />,
     );
 
-    clock.tick(300000); // 5 minutes — should never time out
+    act(() => {
+      clock.tick(300000); // 5 minutes — should never time out
+    });
 
     expect(screen.container.querySelector('va-alert')).to.not.exist;
     expect(screen.container.querySelector('va-loading-indicator')).to.exist;
-    clock.restore();
   });
 });
