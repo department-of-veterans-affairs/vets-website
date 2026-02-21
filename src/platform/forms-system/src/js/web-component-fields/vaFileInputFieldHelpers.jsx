@@ -216,7 +216,7 @@ function checkFileSizeByFileType(
  */
 export async function getFileError(
   file,
-  { disallowEncryptedPdfs, fileSizesByFileType, maxFileSize, minFileSize },
+  { disallowEncryptedPdfs, fileSizesByFileType = {}, maxFileSize, minFileSize },
   files = [],
 ) {
   let fileError = null;
