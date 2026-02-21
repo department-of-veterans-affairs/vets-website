@@ -1,63 +1,96 @@
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useState } from 'react';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { envApiUrl, mockTestingFlagForAPI } from '../../constants';
 import { mockInquiryStatusResponse } from '../../utils/mockData';
+import { getVAStatusFromCRM } from '../../config/helpers';
 import {
-  getVAStatusFromCRM,
-  getVAStatusIconAndMessage,
-} from '../../config/helpers';
+  clockIcon,
+  folderIcon,
+  starIcon,
+  successIcon,
+} from '../../utils/helpers';
+
+const statusUiMap = {
+  New: {
+    icon: starIcon,
+    message: "We received your question. We'll review it soon.",
+    color: 'primary',
+  },
+  'In progress': {
+    icon: clockIcon,
+    message: "We're reviewing your question.",
+    color: 'grey',
+  },
+  Replied: {
+    icon: successIcon,
+    message:
+      "We either answered your question or didn't have enough information to answer your question. If you need more help, ask a new question.",
+    color: 'green',
+  },
+  Reopened: {
+    icon: clockIcon,
+    message: "We received your reply. We'll respond soon.",
+    color: 'grey',
+  },
+  Closed: {
+    icon: folderIcon,
+    message: 'We closed this question after 60 days without any updates.',
+    color: 'grey',
+  },
+};
+
+/**
+ * @typedef {Object} StatusResponse
+ * @property {Object} data
+ * @property {string | null} data.id
+ * @property {string} data.type
+ * @property {Object} data.attributes
+ * @property {string} data.attributes.status
+ */
 
 export default function InquiryStatus() {
-  const [inquiryData, setInquiryData] = useState(false);
+  const [statusData, setStatusData] = useState({});
   const [hasError, setHasError] = useState(false);
-  const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
+  const [query, setQuery] = useState('');
 
   const getApiData = url => {
     setHasError(false);
 
     // Mocking the API response for testing when searching for reference number
     // A-20250106-308944
-    if (
-      mockTestingFlagForAPI &&
-      searchReferenceNumber === 'A-20250106-308944'
-    ) {
-      setInquiryData(mockInquiryStatusResponse.data);
+    if (mockTestingFlagForAPI && query === 'A-20250106-308944') {
+      setStatusData(mockInquiryStatusResponse.data);
       return Promise.resolve();
     }
 
     return apiRequest(url)
       .then(res => {
-        setInquiryData(res.data);
+        setStatusData(res.data);
       })
       .catch(() => setHasError(true));
   };
 
   const handleSearchByReferenceNumber = async () => {
-    const url = `${envApiUrl}/ask_va_api/v0/inquiries/${searchReferenceNumber}/status`;
+    const url = `${envApiUrl}/ask_va_api/v0/inquiries/${query}/status`;
     await getApiData(url);
-    const headingElement = document.querySelector(
-      '[data-testid="status-message"] h3, [data-testid="error-message"] p:first-child',
-    );
-    if (headingElement) headingElement.focus();
+    focusElement('#status-message');
   };
 
   const handleSearchInputChange = async e => {
     setHasError(false);
-    setInquiryData(false);
-    const searchInputValue = e.target.value.trim();
-    setSearchReferenceNumber(searchInputValue);
+    setStatusData({});
+    setQuery(e.target.value.trim());
   };
 
   const questionStatus = () => {
     if (hasError) {
       return (
-        <div className="vads-u-margin-y--3" data-testid="error-message">
+        <div className="vads-u-margin-y--3" id="status-message">
           <p tabIndex="-1">
             We didn’t find a question with reference number "
-            <span className="vads-u-font-weight--bold">
-              {searchReferenceNumber}
-            </span>
+            <span className="vads-u-font-weight--bold">{query}</span>
             ." Check your reference number and try again.
           </p>
           <p>
@@ -68,36 +101,35 @@ export default function InquiryStatus() {
       );
     }
 
-    if (inquiryData?.attributes?.status) {
-      const { status } = inquiryData.attributes;
-      const AskVAStatus = getVAStatusFromCRM(status);
-      const classes = `vads-u-border-left--5px vads-u-padding--0p5 ${
-        getVAStatusIconAndMessage[AskVAStatus]?.color
-      }`;
+    if (statusData?.attributes?.status) {
+      const rawStatus = statusData.attributes.status;
+      const displayStatus = getVAStatusFromCRM(rawStatus);
+      const uiDetails = statusUiMap[displayStatus];
+
       return (
-        <div data-testid="status-message">
+        <div>
           <h3
-            className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2"
+            id="status-message"
+            className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--2"
             tabIndex="-1"
           >
             Showing the status for reference number "
-            <span className="vads-u-font-weight--bold">
-              {searchReferenceNumber}
-            </span>
-            "
+            <span className="vads-u-font-weight--bold">{query}</span>"
           </h3>
+          <div className="vads-u-border-bottom--1px vads-u-border-color--gray-light" />
           <p>
-            <span className="vads-u-font-weight--bold">Status: </span>{' '}
-            {AskVAStatus}
-            {getVAStatusIconAndMessage[AskVAStatus]?.icon}
+            <span className="vads-u-font-weight--bold">Status: </span>
+            {displayStatus} {uiDetails?.icon}
           </p>
-          <div className={classes}>
-            {getVAStatusIconAndMessage[AskVAStatus]?.message && (
-              <p className="vads-u-margin-left--2">
-                {getVAStatusIconAndMessage[AskVAStatus].message}
-              </p>
-            )}
-          </div>
+          {uiDetails?.message && (
+            <div
+              className={`vads-u-border-left--5px vads-u-padding--0p5 vads-u-border-color--${
+                uiDetails?.color
+              }`}
+            >
+              <p className="vads-u-margin-left--2">{uiDetails.message}</p>
+            </div>
+          )}
         </div>
       );
     }
@@ -119,7 +151,7 @@ export default function InquiryStatus() {
         label="Reference number"
         onInput={handleSearchInputChange}
         onSubmit={handleSearchByReferenceNumber}
-        value={searchReferenceNumber}
+        value={query}
       />
       <div className="vads-u-margin-bottom--7">{questionStatus()}</div>
     </div>
