@@ -71,6 +71,10 @@ export const AUTH_ERRORS = {
     errorCode: '112',
     message: `We’re having trouble provisioning your My HealtheVet account right now.`,
   },
+  SSN_ATTRIBUTE_MISMATCH: {
+    errorCode: '113',
+    message: `Personal Information Mismatch`,
+  },
   OAUTH_DEFAULT_ERROR: {
     errorCode: '201',
     message: `Unknown OAuth Error`,

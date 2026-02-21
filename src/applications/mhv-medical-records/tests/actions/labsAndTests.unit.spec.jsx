@@ -9,6 +9,10 @@ import {
   clearLabsAndTestDetails,
   getLabsAndTestsList,
   getLabsAndTestsDetails,
+  getAcceleratedImagingStudiesList,
+  getImagingStudyThumbnails,
+  getImagingStudyDicomZip,
+  mergeImagingStudies,
   updateLabsAndTestDateRange,
 } from '../../actions/labsAndTests';
 
@@ -76,11 +80,14 @@ describe('getLabsAndTestsList', () => {
       Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
     );
     expect(dispatch.thirdCall.args[0].type).to.equal(
+      Actions.LabsAndTests.SET_WARNINGS,
+    );
+    expect(dispatch.getCall(3).args[0].type).to.equal(
       Actions.LabsAndTests.GET_UNIFIED_LIST,
     );
 
     // Assert cvixRadiologyResponse according to merge flag
-    assertion(dispatch.thirdCall.args[0].cvixRadiologyResponse);
+    assertion(dispatch.getCall(3).args[0].cvixRadiologyResponse);
   };
 
   it('should dispatch a get list action when accelerating (CVIX merge enabled)', () => {
@@ -93,6 +100,38 @@ describe('getLabsAndTestsList', () => {
     return runAcceleratingTest(false, cvixRadiologyResponse => {
       expect(cvixRadiologyResponse).to.equal(undefined);
     });
+  });
+
+  it('should dispatch SET_WARNINGS with empty array when accelerated response is a plain array', async () => {
+    const mockData = labsAndTests;
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    await getLabsAndTestsList(false, true, {}, false)(dispatch);
+
+    const setWarningsCall = dispatch
+      .getCalls()
+      .find(call => call.args[0].type === Actions.LabsAndTests.SET_WARNINGS);
+    expect(setWarningsCall).to.exist;
+    expect(setWarningsCall.args[0].payload).to.deep.equal([]);
+  });
+
+  it('should dispatch SET_WARNINGS with warnings when accelerated response contains meta.warnings', async () => {
+    const mockWarnings = [
+      { source: 'oracle-health', message: 'Binary resource not found' },
+    ];
+    const mockData = {
+      data: labsAndTests.entry || [],
+      meta: { warnings: mockWarnings },
+    };
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    await getLabsAndTestsList(false, true, {}, false)(dispatch);
+
+    const setWarningsCall = dispatch
+      .getCalls()
+      .find(call => call.args[0].type === Actions.LabsAndTests.SET_WARNINGS);
+    expect(setWarningsCall).to.exist;
+    expect(setWarningsCall.args[0].payload).to.deep.equal(mockWarnings);
   });
 });
 
@@ -174,5 +213,90 @@ describe('updateLabsAndTestDateRange', () => {
         expect(action.payload).to.deep.equal({ option, fromDate, toDate });
       },
     );
+  });
+});
+
+describe('mergeImagingStudies', () => {
+  it('should dispatch MERGE_IMAGING_STUDIES', async () => {
+    const dispatch = sinon.spy();
+    await mergeImagingStudies()(dispatch);
+    expect(dispatch.calledOnce).to.be.true;
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.LabsAndTests.MERGE_IMAGING_STUDIES,
+    );
+  });
+});
+
+describe('getAcceleratedImagingStudiesList', () => {
+  it('should dispatch GET_IMAGING_STUDIES on success', async () => {
+    const mockResponse = [{ id: 'study-1' }];
+    mockApiRequest(mockResponse);
+    const dispatch = sinon.spy();
+    await getAcceleratedImagingStudiesList({
+      startDate: '2025-01-01',
+      endDate: '2025-06-01',
+    })(dispatch);
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.LabsAndTests.GET_IMAGING_STUDIES,
+    );
+    expect(dispatch.firstCall.args[0].response).to.deep.equal(mockResponse);
+  });
+
+  it('should not dispatch an alert on error (silent failure) - TEMPORARY', async () => {
+    mockApiRequest(error404, false);
+    const dispatch = sinon.spy();
+    await getAcceleratedImagingStudiesList()(dispatch);
+    // Should NOT dispatch an alert (error is silent for now)
+    const dispatchCalls = dispatch.getCalls();
+    const alertCall = dispatchCalls.find(
+      call => typeof call.args[0] === 'function',
+    );
+    expect(alertCall).to.not.exist;
+  });
+});
+
+describe('getImagingStudyThumbnails', () => {
+  it('should dispatch GET_IMAGING_STUDY_THUMBNAILS on success', async () => {
+    const mockResponse = { series: [{ uid: 's1' }] };
+    mockApiRequest(mockResponse);
+    const dispatch = sinon.spy();
+    await getImagingStudyThumbnails('study-1', {
+      startDate: '2025-01-01',
+      endDate: '2025-06-01',
+    })(dispatch);
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.LabsAndTests.GET_IMAGING_STUDY_THUMBNAILS,
+    );
+    expect(dispatch.firstCall.args[0].id).to.equal('study-1');
+  });
+
+  it('should dispatch an alert on error', async () => {
+    mockApiRequest(error404, false);
+    const dispatch = sinon.spy();
+    await getImagingStudyThumbnails('study-1')(dispatch);
+    expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+  });
+});
+
+describe('getImagingStudyDicomZip', () => {
+  it('should dispatch GET_IMAGING_STUDY_DICOM on success', async () => {
+    const mockResponse = { dicomZipUrl: 'https://example.com/zip' };
+    mockApiRequest(mockResponse);
+    const dispatch = sinon.spy();
+    await getImagingStudyDicomZip('study-1', {
+      startDate: '2025-01-01',
+      endDate: '2025-06-01',
+    })(dispatch);
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.LabsAndTests.GET_IMAGING_STUDY_DICOM,
+    );
+    expect(dispatch.firstCall.args[0].id).to.equal('study-1');
+  });
+
+  it('should dispatch an alert on error', async () => {
+    mockApiRequest(error404, false);
+    const dispatch = sinon.spy();
+    await getImagingStudyDicomZip('study-1')(dispatch);
+    expect(typeof dispatch.firstCall.args[0]).to.equal('function');
   });
 });

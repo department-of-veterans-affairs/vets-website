@@ -13,13 +13,8 @@ import {
   checkboxGroupSchema,
   checkboxGroupUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  emptyObjectSchema,
-  ITFClaimantTitleAndDescription,
-  ITFVeteranTitleAndDescription,
-  ITFVetBenefits,
-} from './helpers';
 import ITFClaimantInfoViewField from '../components/ITFClaimantInfoViewField';
+import { ITFVetBenefits } from './helpers';
 
 const claimantSubPageUI = {
   claimantFullName: firstNameLastNameNoSuffixUI(),
@@ -63,13 +58,6 @@ const veteranSubPageUI = {
       pattern: 'Your VA file number must be 8 or 9 digits',
     },
   },
-  selectBenefits: checkboxGroupUI({
-    title: 'Select the benefit you intend to file a claim for',
-    labelHeaderLevel: '3',
-    required: true,
-    tile: true,
-    labels: ITFVetBenefits,
-  }),
 };
 
 const veteranSubPageSchema = {
@@ -94,32 +82,47 @@ const veteranSubPageSchema = {
 /** @type {PageSchema} */
 export const itfClaimantInformationPage = {
   uiSchema: {
-    ...ITFClaimantTitleAndDescription,
     'ui:objectViewField': ITFClaimantInfoViewField,
-    ...claimantSubPageUI,
-    ...ITFVeteranTitleAndDescription,
-    ...veteranSubPageUI,
+    claimantSubPage: {
+      'ui:title': 'Claimant information',
+      ...claimantSubPageUI,
+    },
+    veteranSubPage: {
+      'ui:title': 'Veteran identification information',
+      ...veteranSubPageUI,
+    },
+    selectBenefits: checkboxGroupUI({
+      title: 'Select the benefit you intend to file a claim for',
+      labelHeaderLevel: '3',
+      required: true,
+      tile: true,
+      labels: ITFVetBenefits,
+    }),
   },
-
   schema: {
     type: 'object',
     properties: {
-      'view:claimantTitle': emptyObjectSchema,
-      'view:claimantDescription': emptyObjectSchema,
-      ...claimantSubPageSchema,
-      'view:veteranTitle': emptyObjectSchema,
-      'view:veteranDescription': emptyObjectSchema,
-      ...veteranSubPageSchema,
+      claimantSubPage: {
+        type: 'object',
+        properties: {
+          ...claimantSubPageSchema,
+        },
+        required: ['claimantSsn', 'claimantDateOfBirth'],
+      },
+      veteranSubPage: {
+        type: 'object',
+        properties: {
+          ...veteranSubPageSchema,
+        },
+        required: [
+          'veteranSsn',
+          'address',
+          'veteranFullName',
+          'veteranDateOfBirth',
+        ],
+      },
       selectBenefits: checkboxGroupSchema(Object.keys(ITFVetBenefits)),
     },
-    required: [
-      'claimantSsn',
-      'claimantDateOfBirth',
-      'veteranSsn',
-      'address',
-      'veteranFullName',
-      'veteranDateOfBirth',
-    ],
   },
 };
 

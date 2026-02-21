@@ -421,7 +421,8 @@ export const Data = {
   IS_ACTIVE: 'is-active',
   END_CONVERSATION_IN_FOLDER: 'End of conversations in this folder',
   SAVE_MEG_AS_DRAFT: 'If you save this message as a draft',
-  NO_MSG_IN_FOLDER: 'There are no messages in this folder.',
+  NO_MSG_IN_FOLDER:
+    'There are no messages in this folder. If this folder is no longer needed, you can remove it.',
   WHAT_SECURE_MSG_PILOT: 'What is Secure Messaging Pilot?',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
     "You can't send messages to your care teams right now",
@@ -646,7 +647,8 @@ export const Assertions = {
   EDITED: 'edited',
   ACTIVE: 'is-active',
   MESSAGE_PREFERENCES: 'Edit your message preferences',
-  NO_MESSAGE_FOLDER: 'There are no messages in this folder.',
+  NO_MESSAGE_FOLDER:
+    'There are no messages in this folder. If this folder is no longer needed, you can remove it.',
   CODE_STATUS: 'statusCode',
   SECURE_MESSAGE_PILOT: 'What is Secure Messaging Pilot?',
   NEW_MESSAGE: 'new-message',

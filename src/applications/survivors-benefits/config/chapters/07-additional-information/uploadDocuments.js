@@ -20,11 +20,11 @@ const UploadMessage = (
 const filesUi = fileInputMultipleUI({
   title: 'Select a file to upload',
   hint:
-    'You can upload a .pdf, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 99 MB (PDF only).',
+    'You can upload a .pdf, .jpg, or .jpeg file. Your file should be no larger than 50 MB (non-PDF) or 99 MB (PDF only).',
   required: false,
   fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
   maxFileSize: 103809024, // 99 MB for PDFs
-  accept: '.pdf,.jpg,.jpeg,.bmp,.txt',
+  accept: '.pdf,.jpg,.jpeg',
   formNumber: '21P-534EZ',
 });
 

@@ -1207,3 +1207,151 @@ describe('labsAndTestsReducer - hardened array coercion', () => {
     expect(state.labsAndTestsList.length).to.equal(0);
   });
 });
+
+describe('labsAndTestsReducer - SCDF imaging studies', () => {
+  it('stores converted imaging studies on GET_IMAGING_STUDIES', () => {
+    const response = [
+      {
+        id: 'study-1',
+        attributes: {
+          description: 'CHEST XRAY',
+          date: '2025-01-10T09:17:00Z',
+          notes: ['Note'],
+          identifier: 'urn:vastudy:1',
+          series: [],
+          status: 'available',
+        },
+      },
+    ];
+    const state = labsAndTestsReducer(
+      { scdfImagingStudiesMerged: true },
+      { type: Actions.LabsAndTests.GET_IMAGING_STUDIES, response },
+    );
+    expect(state.scdfImagingStudies).to.be.an('array');
+    expect(state.scdfImagingStudies).to.have.lengthOf(1);
+    expect(state.scdfImagingStudies[0].id).to.equal('study-1');
+    expect(state.scdfImagingStudies[0].name).to.equal('CHEST XRAY');
+    expect(state.scdfImagingStudiesMerged).to.be.false;
+  });
+
+  it('coerces non-array response to empty array on GET_IMAGING_STUDIES', () => {
+    const state = labsAndTestsReducer(
+      {},
+      { type: Actions.LabsAndTests.GET_IMAGING_STUDIES, response: null },
+    );
+    expect(state.scdfImagingStudies).to.be.an('array');
+    expect(state.scdfImagingStudies).to.have.lengthOf(0);
+  });
+
+  it('merges imaging studies into labs list on MERGE_IMAGING_STUDIES', () => {
+    const initialState = {
+      labsAndTestsList: [
+        { id: 'lab-1', sortDate: '2025-01-10T09:15:00Z', name: 'CHEST XRAY' },
+        { id: 'lab-2', sortDate: '2025-01-11T10:00:00Z', name: 'BLOOD TEST' },
+      ],
+      scdfImagingStudies: [
+        { id: 'study-1', rawDate: '2025-01-10T09:17:00Z', status: 'available' },
+      ],
+      scdfImagingStudiesMerged: false,
+    };
+    const state = labsAndTestsReducer(initialState, {
+      type: Actions.LabsAndTests.MERGE_IMAGING_STUDIES,
+    });
+    expect(state.scdfImagingStudiesMerged).to.be.true;
+    expect(state.labsAndTestsList[0].imagingStudyId).to.equal('study-1');
+    expect(state.labsAndTestsList[0].imagingStudyStatus).to.equal('available');
+    expect(state.labsAndTestsList[1]).to.not.have.property('imagingStudyId');
+    // imaging studies should be preserved
+    expect(state.scdfImagingStudies).to.have.lengthOf(1);
+  });
+
+  it('returns state unchanged when labsAndTestsList is missing on MERGE', () => {
+    const initialState = {
+      labsAndTestsList: undefined,
+      scdfImagingStudies: [{ id: 'study-1', rawDate: '2025-01-10T09:17:00Z' }],
+    };
+    const state = labsAndTestsReducer(initialState, {
+      type: Actions.LabsAndTests.MERGE_IMAGING_STUDIES,
+    });
+    expect(state).to.equal(initialState);
+  });
+
+  it('returns state unchanged when scdfImagingStudies is missing on MERGE', () => {
+    const initialState = {
+      labsAndTestsList: [{ id: 'lab-1', sortDate: '2025-01-10T09:15:00Z' }],
+      scdfImagingStudies: undefined,
+    };
+    const state = labsAndTestsReducer(initialState, {
+      type: Actions.LabsAndTests.MERGE_IMAGING_STUDIES,
+    });
+    expect(state).to.equal(initialState);
+  });
+
+  it('resets scdfImagingStudiesMerged on GET_UNIFIED_LIST', () => {
+    const unifiedLabsResponse = [
+      { id: 'lab-1', attributes: { dateCompleted: '2025-04-22T14:30:00Z' } },
+    ];
+    const state = labsAndTestsReducer(
+      { scdfImagingStudiesMerged: true },
+      {
+        type: Actions.LabsAndTests.GET_UNIFIED_LIST,
+        labsAndTestsResponse: unifiedLabsResponse,
+      },
+    );
+    expect(state.scdfImagingStudiesMerged).to.be.false;
+  });
+});
+
+describe('labsAndTestsReducer warnings', () => {
+  it('stores warnings on SET_WARNINGS', () => {
+    const mockWarnings = [
+      {
+        source: 'oracle-health',
+        message: 'Binary not found',
+        resourceType: 'Binary',
+      },
+    ];
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.SET_WARNINGS,
+      payload: mockWarnings,
+    });
+    expect(state.warnings).to.deep.equal(mockWarnings);
+  });
+
+  it('defaults warnings to empty array when payload is undefined', () => {
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.SET_WARNINGS,
+      payload: undefined,
+    });
+    expect(state.warnings).to.deep.equal([]);
+  });
+
+  it('clears warnings when UPDATE_LIST_STATE dispatches FETCHING', () => {
+    const prevState = {
+      warnings: [{ source: 'oracle-health' }],
+      listState: 'fetched',
+    };
+    const state = labsAndTestsReducer(prevState, {
+      type: Actions.LabsAndTests.UPDATE_LIST_STATE,
+      payload: 'fetching',
+    });
+    expect(state.warnings).to.deep.equal([]);
+  });
+
+  it('preserves warnings when UPDATE_LIST_STATE dispatches FETCHED', () => {
+    const prevState = {
+      warnings: [{ source: 'oracle-health' }],
+      listState: 'fetching',
+    };
+    const state = labsAndTestsReducer(prevState, {
+      type: Actions.LabsAndTests.UPDATE_LIST_STATE,
+      payload: 'fetched',
+    });
+    expect(state.warnings).to.deep.equal([{ source: 'oracle-health' }]);
+  });
+
+  it('initializes with empty warnings array', () => {
+    const state = labsAndTestsReducer(undefined, { type: 'INIT' });
+    expect(state.warnings).to.deep.equal([]);
+  });
+});

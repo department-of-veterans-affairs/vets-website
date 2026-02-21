@@ -883,7 +883,7 @@ export function submitAppointmentOrRequest(history) {
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       const flow = GA_FLOWS.DIRECT;
       recordEvent({
-        event: `${GA_PREFIX}-${selectedEhr}-direct-submission`,
+        event: `${GA_PREFIX}-direct-${selectedEhr}-submission`,
         flow,
         ...additionalEventData,
       });
@@ -900,7 +900,7 @@ export function submitAppointmentOrRequest(history) {
         });
 
         recordEvent({
-          event: `${GA_PREFIX}-${selectedEhr}-direct-submission-successful`,
+          event: `${GA_PREFIX}-direct-${selectedEhr}-submission-successful`,
           flow,
           ...additionalEventData,
         });
@@ -922,7 +922,7 @@ export function submitAppointmentOrRequest(history) {
         dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
 
         recordEvent({
-          event: `${GA_PREFIX}-${selectedEhr}-direct-submission-failed`,
+          event: `${GA_PREFIX}-direct-${selectedEhr}-submission-failed`,
           flow,
           ...additionalEventData,
         });
