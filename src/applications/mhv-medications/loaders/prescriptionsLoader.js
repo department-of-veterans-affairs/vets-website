@@ -8,16 +8,26 @@ import {
 import {
   rxListSortingOptions,
   ALL_MEDICATIONS_FILTER_KEY,
-  filterOptions,
   STATION_NUMBER_PARAM,
 } from '../util/constants';
+import { getFilterOptions } from '../util/helpers/getRxStatus';
+import {
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../util/selectors';
 
 /**
  * Builds query parameters for prescription list requests
+ * NOTE: This loader is not currently in use — the prescriptions list is fetched
+ * by the useFetchPrescriptionsList hook and Prescriptions container. This loader
+ * exists for future route-based data loading. Keeping it aligned with the
+ * feature-flag-aware getFilterOptions for reference, but it should be enabled once
+ * we do not have to dynamically select between V1 and V2 routes.
  * @param {Object} preferences - The rx preferences from the store
+ * @param {Object} currentFilterOptions - Feature-flag-aware filter options
  * @returns {Object} Query parameters object
  */
-const buildQueryParams = preferences => {
+const buildQueryParams = (preferences, currentFilterOptions) => {
   const { pageNumber, filterOption, sortOption } = preferences;
 
   // Get the sort endpoint from the sort option
@@ -26,11 +36,11 @@ const buildQueryParams = preferences => {
       ? rxListSortingOptions[sortOption].API_ENDPOINT
       : rxListSortingOptions[Object.keys(rxListSortingOptions)[0]].API_ENDPOINT;
 
-  // Determine filter option URL
+  // Determine filter option URL using feature-flag-aware filter options
   const filterOptionUrl =
     filterOption !== ALL_MEDICATIONS_FILTER_KEY &&
-    filterOptions[filterOption]?.url
-      ? filterOptions[filterOption].url
+    currentFilterOptions[filterOption]?.url
+      ? currentFilterOptions[filterOption].url
       : '';
 
   return {
@@ -64,7 +74,13 @@ export const prescriptionsLoader = ({ params, request }) => {
   if (window.location.pathname.endsWith('/refill')) {
     fetchPromises.push(store.dispatch(getRefillablePrescriptions.initiate()));
   } else if (!rxId) {
-    const prefs = buildQueryParams(state.rx.preferences);
+    const isCernerPilot = selectCernerPilotFlag(state);
+    const isV2StatusMapping = selectV2StatusMappingFlag(state);
+    const currentFilterOptions = getFilterOptions(
+      isCernerPilot,
+      isV2StatusMapping,
+    );
+    const prefs = buildQueryParams(state.rx.preferences, currentFilterOptions);
     fetchPromises.push(store.dispatch(getPrescriptionsList.initiate(prefs)));
   } else if (rxId) {
     // Fetch that specific prescription
