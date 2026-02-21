@@ -108,13 +108,11 @@ const Wrapper = props => {
       {!errorAlert &&
         showBackLink && (
           <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--0">
-            <nav aria-label="backlink">
+            <nav aria-label="Back">
               <va-link
                 back
-                aria-label="Back link"
                 data-testid="back-link"
                 text="Back"
-                href="#"
                 onClick={e => {
                   e.preventDefault();
                   navigate(-1);
