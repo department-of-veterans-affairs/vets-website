@@ -87,13 +87,13 @@ export const IntroductionPage2 = ({ route }) => {
   const userLoggedIn = useSelector(isLoggedIn);
   const userIdVerified = useSelector(isLOA3);
   const showVerifyIdentity = userLoggedIn && !userIdVerified;
-  const profileClaimsCoe = useSelector(
+  const coeClaimsEnabled = useSelector(
     state => selectProfile(state).claims?.coe,
   );
   const certificateOfEligibility = useSelector(
     state => state.certificateOfEligibility,
   );
-  const canApply = userLoggedIn && profileClaimsCoe;
+  const canApply = userLoggedIn && coeClaimsEnabled;
   const { coe } = certificateOfEligibility;
   const hasStatusAlert = coe?.status && coe.status !== 'INELIGIBLE';
 
