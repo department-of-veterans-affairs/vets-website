@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import {
+  Toggler,
+  useFeatureToggle,
+} from '~/platform/utilities/feature-toggles';
 import { selectPdfUrlLoading } from '~/applications/personalization/dashboard/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
 import fetchFormPdfUrl from '../../actions/form-pdf-url';
@@ -25,7 +28,7 @@ const QuestionsContent = () => (
   <p className="vads-u-margin-bottom--0">
     If you have questions, call us at <va-telephone contact="8008271000" /> (
     <va-telephone contact="711" tty />
-    ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+    ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
   </p>
 );
 
@@ -69,6 +72,18 @@ const ActionNeededContent = () => (
     </va-alert>
   </div>
 );
+
+const CHAMPVA_FORM_ID_MAP = {
+  '10-10D': '10-10d',
+  '10-10D-EXTENDED': '10-10d',
+  '10-7959A': '10-7959a',
+  '10-7959C': '10-7959c',
+  '10-7959F-1': '10-7959f-1',
+  '10-7959F-2': '10-7959f-2',
+};
+
+const isChampvaForm = formId =>
+  Object.prototype.hasOwnProperty.call(CHAMPVA_FORM_ID_MAP, formId);
 
 const SavePdfDownload = ({
   formId,
@@ -198,11 +213,27 @@ export const ApplicationCard = ({
   getPdfDownloadUrl,
   showLoadingIndicator,
 }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const champvaProviderEnabled = useToggleValue(
+    TOGGLE_NAMES.benefitsClaimsIvcChampvaProvider,
+  );
   const isDraft = !!continueUrl;
+  const champvaForm = champvaProviderEnabled && isChampvaForm(formId);
 
   const headerLabel = isDraft ? 'Draft' : formatSubmissionDisplayStatus(status);
+  let mainTitle = formTitle;
+  if (!isDraft) {
+    mainTitle = champvaForm
+      ? 'Application for CHAMPVA benefits'
+      : formatFormTitle(formTitle);
+  }
 
-  const mainTitle = isDraft ? formTitle : formatFormTitle(formTitle);
+  let formLine = null;
+  if (champvaForm) {
+    formLine = `VA Form ${CHAMPVA_FORM_ID_MAP[formId]}`;
+  } else if (presentableFormId) {
+    formLine = `VA ${presentableFormId.replace(/\bFORM\b/, 'Form')}`;
+  }
 
   const testId = isDraft ? 'application-in-progress' : 'submitted-application';
 
@@ -219,13 +250,12 @@ export const ApplicationCard = ({
               {mainTitle}
             </h4>
 
-            {presentableFormId && (
+            {formLine && (
               <p
                 id={formId}
                 className="vads-u-margin-top--0p5 vads-u-margin-bottom--0"
               >
-                {/* TODO: rethink our helpers for presentable form ID */}
-                VA {presentableFormId.replace(/\bFORM\b/, 'Form')}
+                {formLine}
               </p>
             )}
 

@@ -9,6 +9,7 @@ import { renderWithRouter } from '../utils';
 const getStore = (
   cstClaimPhasesEnabled = true,
   cstShowDocumentUploadStatus = false,
+  champvaProviderEnabled = false,
 ) =>
   createStore(() => ({
     featureToggles: {
@@ -16,6 +17,8 @@ const getStore = (
       cst_claim_phases: cstClaimPhasesEnabled,
       // eslint-disable-next-line camelcase
       cst_show_document_upload_status: cstShowDocumentUploadStatus,
+      // eslint-disable-next-line camelcase
+      benefits_claims_ivc_champva_provider: champvaProviderEnabled,
     },
   }));
 
@@ -884,6 +887,67 @@ describe('<ClaimsListItem>', () => {
       });
     },
   );
+
+  context('when a claim has no phase metadata', () => {
+    it('renders fallback status and last updated text for server-generated claims', () => {
+      const claim = {
+        id: 42,
+        attributes: {
+          claimDate: '2025-01-10',
+          closeDate: '2025-01-17',
+          displayTitle: 'Claim for CHAMPVA application',
+          claimTypeBase: 'champva application claim',
+          status: 'Processed',
+        },
+      };
+
+      const { container, getByText, queryByText } = renderWithRouter(
+        <Provider store={getStore(false, false, true)}>
+          <ClaimsListItem claim={claim} />
+        </Provider>,
+      );
+
+      getByText('Application for CHAMPVA benefits');
+      getByText('In Progress');
+      expect(container).to.contain.text('Submitted on: January 10, 2025');
+      expect(container).to.contain.text('Received on: January 17, 2025');
+      const reviewLink = container.querySelector(
+        'va-link[text="Review details"]',
+      );
+      expect(reviewLink).to.not.exist;
+      expect(queryByText('Processed')).to.be.null;
+    });
+
+    it('renders Submitted label for IVC CHAMPVA form IDs without champva text in title', () => {
+      const claim = {
+        id: 43,
+        attributes: {
+          claimDate: '2025-01-10',
+          closeDate: '2025-01-17',
+          displayTitle: 'Claim for 10-10d-extended',
+          claimTypeBase: '10-10d-extended claim',
+          status: 'Submission failed',
+        },
+      };
+
+      const { container, getByText, queryByText } = renderWithRouter(
+        <Provider store={getStore(false, false, true)}>
+          <ClaimsListItem claim={claim} />
+        </Provider>,
+      );
+
+      getByText('Application for CHAMPVA benefits');
+      getByText('In Progress');
+      getByText('VA Form 10-10d');
+      expect(container).to.contain.text('Submitted on: January 10, 2025');
+      expect(container).to.contain.text('Received on: January 17, 2025');
+      const reviewLink = container.querySelector(
+        'va-link[text="Review details"]',
+      );
+      expect(reviewLink).to.not.exist;
+      expect(queryByText('Submission failed')).to.be.null;
+    });
+  });
 
   context(
     'when the cst_show_document_upload_status feature toggle is disabled',

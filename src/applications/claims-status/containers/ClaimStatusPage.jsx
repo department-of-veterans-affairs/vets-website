@@ -51,7 +51,7 @@ class ClaimStatusPage extends React.Component {
   }
 
   getPageContent() {
-    const { claim } = this.props;
+    const { claim, champvaProviderEnabled } = this.props;
 
     // Return null if the claim/ claim.attributes dont exist
     if (!claimAvailable(claim)) {
@@ -65,8 +65,12 @@ class ClaimStatusPage extends React.Component {
       decisionLetterSent,
       status,
     } = claim.attributes;
-    const claimPhaseType = claimPhaseDates.latestPhaseType;
-    const { currentPhaseBack } = claimPhaseDates;
+    const claimPhaseType = champvaProviderEnabled
+      ? claimPhaseDates?.latestPhaseType
+      : claimPhaseDates.latestPhaseType;
+    const currentPhaseBack = champvaProviderEnabled
+      ? claimPhaseDates?.currentPhaseBack
+      : claimPhaseDates.currentPhaseBack;
     const isOpen = isClaimOpen(status, closeDate);
 
     return (
@@ -75,13 +79,15 @@ class ClaimStatusPage extends React.Component {
         {isOpen ? (
           <>
             <WhatYouNeedToDo claim={claim} useLighthouse />
-            <WhatWeAreDoing
-              claimPhaseType={claimPhaseType}
-              claimTypeCode={claimTypeCode}
-              currentPhaseBack={currentPhaseBack}
-              phaseChangeDate={claimPhaseDates.phaseChangeDate}
-              status={status}
-            />
+            {(champvaProviderEnabled ? claimPhaseDates : true) && (
+              <WhatWeAreDoing
+                claimPhaseType={claimPhaseType}
+                claimTypeCode={claimTypeCode}
+                currentPhaseBack={currentPhaseBack}
+                phaseChangeDate={claimPhaseDates.phaseChangeDate}
+                status={status}
+              />
+            )}
           </>
         ) : (
           <>
@@ -125,6 +131,8 @@ function mapStateToProps(state) {
 
   return {
     claim: claimsState.claimDetail.detail,
+    champvaProviderEnabled:
+      state.featureToggles?.benefits_claims_ivc_champva_provider,
     lastPage: claimsState.routing.lastPage,
     loading: claimsState.claimDetail.loading,
     message: claimsState.notifications.message,
@@ -137,6 +145,7 @@ const mapDispatchToProps = {
 
 ClaimStatusPage.propTypes = {
   claim: PropTypes.object,
+  champvaProviderEnabled: PropTypes.bool,
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
