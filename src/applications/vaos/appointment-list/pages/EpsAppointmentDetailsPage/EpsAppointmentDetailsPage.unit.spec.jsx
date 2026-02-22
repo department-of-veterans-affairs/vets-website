@@ -645,4 +645,236 @@ describe('EpsAppointmentDetailsPage', () => {
       });
     });
   });
+
+  describe('Cancelled appointments', () => {
+    it('should display cancelled appointment alert when status is cancelled', async () => {
+      const cancelledAppointment = {
+        ...referralAppointmentInfo,
+        attributes: {
+          ...referralAppointmentInfo.attributes,
+          status: 'cancelled',
+          cancelationReason: {
+            coding: [{ code: 'pat' }],
+          },
+        },
+      };
+      requestStub.resolves({ data: cancelledAppointment });
+      const { getByText, getByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store: createTestStore(initialState),
+          path: `/${appointmentId}`,
+        },
+      );
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      expect(getByText(/You canceled this appointment/)).to.exist;
+      expect(getByText(/If you want to reschedule, call us or schedule/)).to
+        .exist;
+    });
+
+    it('should show "The facility canceled" when cancelation reason is not patient', async () => {
+      const cancelledAppointment = {
+        ...referralAppointmentInfo,
+        attributes: {
+          ...referralAppointmentInfo.attributes,
+          status: 'cancelled',
+          cancelationReason: {
+            coding: [{ code: 'clinic' }],
+          },
+        },
+      };
+      requestStub.resolves({ data: cancelledAppointment });
+      const { getByText, getByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store: createTestStore(initialState),
+          path: `/${appointmentId}`,
+        },
+      );
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      expect(getByText(/canceled this appointment/)).to.exist;
+      expect(getByText(/canceled this appointment/)).to.not.contain('You');
+    });
+
+    it('should display provider name in cancellation alert when available', async () => {
+      const cancelledAppointment = {
+        ...referralAppointmentInfo,
+        attributes: {
+          ...referralAppointmentInfo.attributes,
+          status: 'cancelled',
+          cancelationReason: {
+            coding: [{ code: 'clinic' }],
+          },
+          provider: {
+            ...referralAppointmentInfo.attributes.provider,
+            location: {
+              ...referralAppointmentInfo.attributes.provider.location,
+              name: 'Test Provider Location',
+            },
+          },
+        },
+      };
+      requestStub.resolves({ data: cancelledAppointment });
+      const { getByText, getByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store: createTestStore(initialState),
+          path: `/${appointmentId}`,
+        },
+      );
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      expect(getByText(/Test Provider Location canceled this appointment/)).to
+        .exist;
+    });
+
+    it('should show "Go to your referral" link in cancellation alert', async () => {
+      const cancelledAppointment = {
+        ...referralAppointmentInfo,
+        attributes: {
+          ...referralAppointmentInfo.attributes,
+          status: 'cancelled',
+          cancelationReason: {
+            coding: [{ code: 'pat' }],
+          },
+          referralId: 'test-referral-123',
+        },
+      };
+      requestStub.resolves({ data: cancelledAppointment });
+      const { container, getByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store: createTestStore(initialState),
+          path: `/${appointmentId}`,
+        },
+      );
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      const link = container.querySelector(
+        'va-link[href*="/my-health/appointments/schedule-referral?id=test-referral-123"]',
+      );
+      expect(link).to.exist;
+      expect(link).to.have.attribute(
+        'text',
+        'Go to your referral to schedule an appointment',
+      );
+    });
+
+    it('should not show cancel button when appointment is already cancelled', async () => {
+      const cancelledAppointment = {
+        ...referralAppointmentInfo,
+        attributes: {
+          ...referralAppointmentInfo.attributes,
+          status: 'cancelled',
+          cancelationReason: {
+            coding: [{ code: 'pat' }],
+          },
+        },
+      };
+      requestStub.resolves({ data: cancelledAppointment });
+      const store = createTestStore({
+        ...initialState,
+        featureToggles: {
+          vaOnlineSchedulingCommunityCareCancellations: true,
+        },
+      });
+      const { queryByTestId, getByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store,
+          path: `/${appointmentId}`,
+        },
+      );
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      expect(queryByTestId('cancel-button')).to.not.exist;
+    });
+
+    it('should not show add to calendar button when appointment is cancelled', async () => {
+      const cancelledAppointment = {
+        ...referralAppointmentInfo,
+        attributes: {
+          ...referralAppointmentInfo.attributes,
+          status: 'cancelled',
+          past: false,
+        },
+      };
+      requestStub.resolves({ data: cancelledAppointment });
+      const { container, getByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store: createTestStore(initialState),
+          path: `/${appointmentId}`,
+        },
+      );
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      const addToCalendarButton = container.querySelector(
+        'va-button[text*="calendar"]',
+      );
+      expect(addToCalendarButton).to.not.exist;
+    });
+
+    it('should display "Community care appointment" title for cancelled appointments', async () => {
+      const cancelledAppointment = {
+        ...referralAppointmentInfo,
+        attributes: {
+          ...referralAppointmentInfo.attributes,
+          status: 'cancelled',
+          past: false,
+        },
+      };
+      requestStub.resolves({ data: cancelledAppointment });
+      const { getByText, getByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store: createTestStore(initialState),
+          path: `/${appointmentId}`,
+        },
+      );
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      expect(getByText('Community care appointment')).to.exist;
+    });
+
+    it('should display "Past community care appointment" title for past cancelled appointments', async () => {
+      const cancelledAppointment = {
+        ...referralAppointmentInfo,
+        attributes: {
+          ...referralAppointmentInfo.attributes,
+          status: 'cancelled',
+          past: true,
+        },
+      };
+      requestStub.resolves({ data: cancelledAppointment });
+      const { getByText, getByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store: createTestStore(initialState),
+          path: `/${appointmentId}`,
+        },
+      );
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      expect(getByText('Past community care appointment')).to.exist;
+    });
+  });
 });
