@@ -19,7 +19,7 @@ describe('526 adaptive benefits page', () => {
         data={{}}
       />,
     );
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('va-radio-option').length).to.equal(4);
     expect(form.find('va-alert').length).to.equal(0);
     form.unmount();
   });
@@ -38,7 +38,7 @@ describe('526 adaptive benefits page', () => {
         }}
       />,
     );
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('va-radio-option').length).to.equal(6);
     expect(form.find('va-alert').length).to.equal(1);
     form.unmount();
   });
