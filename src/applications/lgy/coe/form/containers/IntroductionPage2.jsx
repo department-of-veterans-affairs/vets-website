@@ -105,6 +105,11 @@ export const IntroductionPage2 = ({ route }) => {
 
   const childContent = (
     <>
+      <p className="vads-u-font-family--serif vads-u-font-size--lg vads-u-margin-bottom--4">
+        Use VA Form 26-1880 to apply for a VA home loan COE. You’ll need to
+        bring the COE to your lender to prove that you qualify for a VA home
+        loan.
+      </p>
       <h2 className="vads-u-margin-top--0">
         Follow these steps to request a new COE
       </h2>
@@ -138,7 +143,7 @@ export const IntroductionPage2 = ({ route }) => {
           startText={authStartFormText}
         />
       )}
-      <p />
+      <p className="vads-u-margin-top--4" />
       <va-omb-info
         res-burden={resBurden}
         omb-number={ombNumber}
