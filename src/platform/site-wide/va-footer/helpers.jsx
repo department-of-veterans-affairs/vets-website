@@ -23,33 +23,51 @@ export const FOOTER_EVENTS = {
   LANGUAGE_SUPPORT: 'nav-footer-language-support',
 };
 
-const renderInnerTag = (link, captureEvent) => (
-  <>
-    {link.label ? (
-      <h2 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">
-        {link.label}
-      </h2>
-    ) : null}
-    {link.href ? (
-      <a aria-label={link.ariaLabel} href={link.href} onClick={captureEvent}>
-        {link.title}
-      </a>
-    ) : (
-      <span className="vads-u-color--white">{link.title}</span>
-    )}
-  </>
-);
+const renderLinkContent = (link, captureEvent) =>
+  link.href ? (
+    <a aria-label={link.ariaLabel} href={link.href} onClick={captureEvent}>
+      {link.title}
+    </a>
+  ) : (
+    <span className="vads-u-color--white">{link.title}</span>
+  );
 
 export function generateLinkItems(links, column, direction = 'asc') {
   const captureEvent = () => recordEvent({ event: FOOTER_EVENTS[column] });
+  const sortedLinks = orderBy(links[column], 'order', direction);
+
+  // Group links into sections split by items that have a label (heading).
+  // Each section is { label: string|null, items: [] }.
+  const sections = sortedLinks.reduce((acc, link) => {
+    if (link.label) {
+      acc.push({ label: link.label, items: [link] });
+    } else if (acc.length === 0) {
+      acc.push({ label: null, items: [link] });
+    } else {
+      acc[acc.length - 1].items.push(link);
+    }
+    return acc;
+  }, []);
+
   return (
-    <ul className="va-footer-links">
-      {orderBy(links[column], 'order', direction).map(link => (
-        <li key={`${link.column}-${link.order}`}>
-          {renderInnerTag(link, captureEvent)}
-        </li>
+    <>
+      {sections.map((section, sIdx) => (
+        <React.Fragment key={section.label || `section-${sIdx}`}>
+          {section.label && (
+            <h2 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">
+              {section.label}
+            </h2>
+          )}
+          <ul className="va-footer-links">
+            {section.items.map(link => (
+              <li key={`${link.column}-${link.order}`}>
+                {renderLinkContent(link, captureEvent)}
+              </li>
+            ))}
+          </ul>
+        </React.Fragment>
       ))}
-    </ul>
+    </>
   );
 }
 

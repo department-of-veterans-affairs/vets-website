@@ -19,15 +19,15 @@ const DesktopFooter = ({ footerData }) => {
             <h2 className="va-footer-linkgroup-title">
               Veteran programs and services
             </h2>
-            <ul className="va-footer-links">{buildColumn(columns, 1)}</ul>
+            {buildColumn(columns, 1)}
           </div>
           <div className="va-footer-linkgroup">
             <h2 className="va-footer-linkgroup-title">More VA resources</h2>
-            <ul className="va-footer-links">{buildColumn(columns, 2)}</ul>
+            {buildColumn(columns, 2)}
           </div>
           <div className="va-footer-linkgroup">
             <h2 className="va-footer-linkgroup-title">Get VA updates</h2>
-            <ul className="va-footer-links">{buildColumn(columns, 3)}</ul>
+            {buildColumn(columns, 3)}
           </div>
           <div className="va-footer-linkgroup">
             <h2 className="va-footer-linkgroup-title">
@@ -43,7 +43,7 @@ const DesktopFooter = ({ footerData }) => {
             <h2 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">
               Get answers
             </h2>
-            <ul className="va-footer-links">{buildColumn(columns, 4)}</ul>
+            {buildColumn(columns, 4)}
           </div>
         </div>
         {/* Language section */}

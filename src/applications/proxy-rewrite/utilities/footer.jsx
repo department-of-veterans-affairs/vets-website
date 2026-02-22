@@ -2,35 +2,41 @@ import React from 'react';
 import { updateLinkDomain } from './links';
 
 // Shared utilities between the desktop and mobile footer
-const makeLink = (link, index) => {
-  let label = '';
-
-  if (link.label) {
-    label = (
-      <h2
-        className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1"
-        key={index}
-      >
-        {link.label}
-      </h2>
-    );
-  }
-
-  return (
-    <li key={index}>
-      {label}
-      <a
-        href={updateLinkDomain(link.href)}
-        aria-label={link.ariaLabel ? link.ariaLabel : null}
-      >
-        {link.title}
-      </a>
-    </li>
-  );
-};
-
 export const buildColumn = (columns, number) => {
-  return columns[number].map((link, index) => makeLink(link, index));
+  // Group links into sections split by items that have a label (heading).
+  // Each section is { label: string|null, items: [] }.
+  const sections = columns[number].reduce((acc, link) => {
+    if (link.label) {
+      acc.push({ label: link.label, items: [link] });
+    } else if (acc.length === 0) {
+      acc.push({ label: null, items: [link] });
+    } else {
+      acc[acc.length - 1].items.push(link);
+    }
+    return acc;
+  }, []);
+
+  return sections.map((section, sIdx) => (
+    <React.Fragment key={section.label || `section-${sIdx}`}>
+      {section.label && (
+        <h2 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">
+          {section.label}
+        </h2>
+      )}
+      <ul className="va-footer-links">
+        {section.items.map((link, index) => (
+          <li key={index}>
+            <a
+              href={updateLinkDomain(link.href)}
+              aria-label={link.ariaLabel ? link.ariaLabel : null}
+            >
+              {link.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </React.Fragment>
+  ));
 };
 
 export const buildBottomRail = bottomRailData => {

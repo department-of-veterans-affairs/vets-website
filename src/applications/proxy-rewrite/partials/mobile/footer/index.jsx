@@ -61,7 +61,7 @@ const MobileFooter = ({ footerData }) => {
                 <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">
                   Get answers
                 </h2>
-                <ul className="va-footer-links">{buildColumn(columns, 4)}</ul>
+                {buildColumn(columns, 4)}
               </div>
             </li>
             <li>
@@ -79,7 +79,7 @@ const MobileFooter = ({ footerData }) => {
                 aria-hidden="true"
                 id="footer-veteran-programs"
               >
-                <ul className="va-footer-links">{buildColumn(columns, 1)}</ul>
+                {buildColumn(columns, 1)}
               </div>
             </li>
             <li>
@@ -97,7 +97,7 @@ const MobileFooter = ({ footerData }) => {
                 aria-hidden="true"
                 id="veteran-resources"
               >
-                <ul className="va-footer-links">{buildColumn(columns, 2)}</ul>
+                {buildColumn(columns, 2)}
               </div>
             </li>
             <li>
@@ -115,7 +115,7 @@ const MobileFooter = ({ footerData }) => {
                 id="veteran-connect"
                 aria-hidden="true"
               >
-                <ul className="va-footer-links">{buildColumn(columns, 3)}</ul>
+                {buildColumn(columns, 3)}
               </div>
             </li>
             <li>
