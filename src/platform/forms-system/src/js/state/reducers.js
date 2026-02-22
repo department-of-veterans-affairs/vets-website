@@ -78,11 +78,15 @@ export default {
     return newState;
   },
   [SET_SUBMITTED]: (state, action) => {
+    const now = new Date();
     const submission = {
       ...state.submission,
       response: action.response,
       status: 'applicationSubmitted',
-      timestamp: new Date(),
+      timestamp: `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
+        2,
+        '0',
+      )}-${String(now.getDate()).padStart(2, '0')}`,
     };
     return set('submission', submission, state);
   },
