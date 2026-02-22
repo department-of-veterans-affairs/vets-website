@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import VeteranStatus from './VeteranStatus';
+import VeteranStatusSharedService from './VeteranStatusSharedService';
 
 /**
  * Wrapper component that toggles between the old VeteranStatus component
@@ -9,13 +10,18 @@ import VeteranStatus from './VeteranStatus';
  * Feature toggle: cveVeteranStatusNewService
  * - When enabled (true): renders VeteranStatusSharedService (new API: /v0/veteran_status_card)
  * - When disabled (false): renders VeteranStatus (old API: /profile/vet_verification_status)
- *
- * TODO: Import and render VeteranStatusSharedService when feature toggle is enabled
  */
 const VeteranStatusWrapper = props => {
-  const { useToggleLoadingValue } = useFeatureToggle();
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
 
   const isLoading = useToggleLoadingValue();
+  const useSharedService = useToggleValue(
+    TOGGLE_NAMES.profileUseSharedVetranStatusService,
+  );
 
   // Show loading indicator while feature toggles are loading
   if (isLoading) {
@@ -28,8 +34,11 @@ const VeteranStatusWrapper = props => {
     );
   }
 
-  // TODO: Add feature toggle check to render VeteranStatusSharedService
-  // when cveVeteranStatusNewService is enabled
+  // Render the appropriate component based on the feature toggle
+  if (useSharedService) {
+    return <VeteranStatusSharedService {...props} />;
+  }
+
   return <VeteranStatus {...props} />;
 };
 

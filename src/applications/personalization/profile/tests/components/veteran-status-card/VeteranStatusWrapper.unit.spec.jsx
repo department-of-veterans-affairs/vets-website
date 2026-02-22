@@ -30,11 +30,33 @@ const vetStatusConfirmed = {
   },
 };
 
+/* eslint-disable camelcase */
+const veteranStatusCardConfirmed = {
+  type: 'veteran_status_card',
+  veteran_status: 'confirmed',
+  service_summary_code: 'A1',
+  not_confirmed_reason: null,
+  attributes: {
+    full_name: 'John Doe',
+    disability_rating: 40,
+    latest_service: {
+      branch: 'Army',
+      begin_date: '2009-04-12',
+      end_date: '2013-04-11',
+    },
+    edipi: 1234567890,
+  },
+};
+/* eslint-enable camelcase */
+
 // Mock function to create a basic initial state
-function createBasicInitialState() {
+function createBasicInitialState(useSharedService = false) {
   return {
     featureToggles: {
       loading: false,
+      // eslint-disable-next-line camelcase
+      profile_use_shared_vetran_status_service: useSharedService,
+      profileUseSharedVetranStatusService: useSharedService,
     },
     scheduledDowntime: {
       globalDowntime: null,
@@ -97,17 +119,17 @@ describe('VeteranStatusWrapper', () => {
     });
   });
 
-  describe('when feature toggles have loaded', () => {
-    it('should render the VeteranStatus component', async () => {
+  describe('when feature toggle profileUseSharedVetranStatusService is disabled', () => {
+    it('should render the old VeteranStatus component', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
-      const initialState = createBasicInitialState();
+      const initialState = createBasicInitialState(false);
 
       const view = renderWithProfileReducers(<VeteranStatusWrapper />, {
         initialState,
       });
 
       await waitFor(() => {
-        // VeteranStatus component calls the old API endpoint
+        // Old component calls the old API endpoint
         sinon.assert.calledWith(
           apiRequestStub,
           '/profile/vet_verification_status',
@@ -124,5 +146,30 @@ describe('VeteranStatusWrapper', () => {
     });
   });
 
-  // TODO: Add test for VeteranStatusSharedService when feature toggle is enabled
+  describe('when feature toggle profileUseSharedVetranStatusService is enabled', () => {
+    it('should render the new VeteranStatusSharedService component', async () => {
+      apiRequestStub.resolves(veteranStatusCardConfirmed);
+      const initialState = createBasicInitialState(true);
+
+      const view = renderWithProfileReducers(<VeteranStatusWrapper />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        // New component calls the new API endpoint
+        sinon.assert.calledWith(apiRequestStub, '/veteran_status_card');
+
+        // Check that the heading is rendered
+        expect(
+          view.getByRole('heading', {
+            name: 'Veteran Status Card',
+            level: 1,
+          }),
+        ).to.exist;
+
+        // Check that the user's full name from the new API is rendered
+        expect(view.getByText('John Doe')).to.exist;
+      });
+    });
+  });
 });
