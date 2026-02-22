@@ -121,11 +121,7 @@
         "name": "Quest for Knowledge Trade programs"
       },
       "benefitPaymentDate": "2024-02-19",
-      "typeOfProgramOrBenefit": {
-        "fry": true,
-        "other": true
-      },
-      "otherProgramOrBenefit": "additional program",
+      "typeOfProgramOrBenefit": "fry",
       "tuitionIsPaidByGovAgency": false,
       "view:programExamples": {},
       "marriageDate": "2020-02-19",
