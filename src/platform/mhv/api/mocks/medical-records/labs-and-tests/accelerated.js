@@ -1644,6 +1644,40 @@ const staging = [
       observations: [],
     },
   },
+  {
+    id: 'RAD-001-FACIAL-BONE',
+    type: 'DiagnosticReport',
+    attributes: {
+      display: 'FACIAL BONE',
+      testCode: 'LP29684-5',
+      testCodeDisplay: 'Radiology',
+      dateCompleted: '2024-12-05T12:50:00Z',
+      sampleTested: '',
+      bodySite: '',
+      location: 'GENERAL RADIOLOGY (983)',
+      orderedBy: 'BALIAMOUNE, MOSTAFA Z',
+      encodedData:
+        'RXhtIERhdGU6IERFQyAwNSwgMjAyNEAxMjo1MApSZXEgUGh5czogQkFMSUFNT1VORSxNT1NUQUZBIFoKClNwZWNpbWVuOiBGQUNJQUwgQk9ORQoKUmVwb3J0IFN0YXR1czogVmVyaWZpZWQgICAgIERhdGUgUmVwb3J0ZWQ6IERFQyAwNSwgMjAyNAoKUmVwb3J0OgogIFRoZSBib25lcyBhbmQgc29mdCB0aXNzdWVzIGFyZSB3aXRoaW4gbm9ybWFsIGxpbWl0cy4gTm8gb2J2aW91cwogIGZyYWN0dXJlcyBvciBkaXNsb2NhdGlvbnMuCgpJbXByZXNzaW9uOgogIFRoZSBleGFtIGlzIHdpdGhpbiBub3JtYWwgbGltaXRzLgoKUHJpbWFyeSBJbnRlcnByZXRpbmcgU3RhZmY6CiAgRlJFREVSSUNLIEogQU5ERVJTT04sIFJhZGlvbG9naXN0',
+      observations: [],
+    },
+  },
+  {
+    id: 'RAD-002-CHEST-XRAY',
+    type: 'DiagnosticReport',
+    attributes: {
+      display: 'CHEST 2 VIEWS PA&LAT',
+      testCode: 'LP29684-5',
+      testCodeDisplay: 'Radiology',
+      dateCompleted: '2025-01-10T09:15:00Z',
+      sampleTested: '',
+      bodySite: '',
+      location: 'RADIOLOGY DEPT - VA MEDICAL CENTER',
+      orderedBy: 'SMITH, JANE M',
+      encodedData:
+        'RXhtIERhdGU6IEpBTiAxMCwgMjAyNUAwOToxNQpSZXEgUGh5czogU01JVEgsIEpBTkUgTQoKQ0hFU1QgMiBWSUVXUyBQQSZMQVQKClJlcG9ydCBTdGF0dXM6IFZlcmlmaWVkICAgICBEYXRlIFJlcG9ydGVkOiBKQU4gMTAsIDIwMjUKClJlcG9ydDoKICBIZWFydCBzaXplIGlzIG5vcm1hbC4gTHVuZ3MgYXJlIGNsZWFyIGJpbGF0ZXJhbGx5LgogIE5vIHBsZXVyYWwgZWZmdXNpb24gb3IgcG5ldW1vdGhvcmF4LgogIE5vIGFjdXRlIG9zc2VvdXMgYWJub3JtYWxpdHkuCgpJbXByZXNzaW9uOgogIE5vIGFjdXRlIGNhcmRpb3B1bG1vbmFyeSBkaXNlYXNlLgoKUHJpbWFyeSBJbnRlcnByZXRpbmcgU3RhZmY6CiAgSk9ITiBET0UsIFJhZGlvbG9naXN0',
+      observations: [],
+    },
+  },
 ];
 
 const empty = [];

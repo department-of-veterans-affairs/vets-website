@@ -16,7 +16,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsCcdExtendedFileTypes = true,
     mhvMedicalRecordsCcdOH = true,
     mhvMedicalRecordsHoldTimeMessagingUpdate = true,
-    mhvMedicalRecordsImagesDomain = true,
+    mhvMedicalRecordsImagesDomain = false,
     mhvMedicalRecordsMergeCvixIntoScdf = false,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
