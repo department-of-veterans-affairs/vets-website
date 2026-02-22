@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { isLOA3, isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { focusElement } from '~/platform/utilities/ui';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
-import { focusElement } from '~/platform/utilities/ui';
+import { IntroStatusAlert } from '../components/IntroStatusAlert';
+import { generateCoe } from '../../shared/actions';
 
 const ProcessList = () => {
   return (
@@ -85,16 +87,34 @@ export const IntroductionPage2 = ({ route }) => {
   const userLoggedIn = useSelector(isLoggedIn);
   const userIdVerified = useSelector(isLOA3);
   const showVerifyIdentity = userLoggedIn && !userIdVerified;
+  const profileClaimsCoe = useSelector(
+    state => selectProfile(state).claims?.coe,
+  );
+  const certificateOfEligibility = useSelector(
+    state => state.certificateOfEligibility,
+  );
+  const canApply = userLoggedIn && profileClaimsCoe;
+  const { coe } = certificateOfEligibility;
+  const hasStatus = coe?.status && coe.status !== 'INELIGIBLE';
 
   useEffect(() => {
     focusElement('va-breadcrumbs');
   }, []);
 
+  useEffect(
+    () => {
+      generateCoe(!canApply);
+    },
+    [canApply],
+  );
+
   const content = {
     formTitle: 'Request a VA home loan Certificate of Eligibility (COE)',
     formSubTitle: 'Request for a Certificate of Eligibility (VA Form 26-1880)',
     hideSipIntro: userLoggedIn && !userIdVerified,
-    authStartFormText: 'Request a Certificate of Eligibility',
+    authStartFormText: hasStatus
+      ? 'Start a new Certificate of Eligibility request'
+      : 'Request a Certificate of Eligibility',
   };
 
   const ombInfo = {
@@ -105,6 +125,18 @@ export const IntroductionPage2 = ({ route }) => {
 
   const childContent = (
     <>
+      <p className="vads-u-font-family--serif vads-u-font-size--lg vads-u-margin-bottom--4">
+        Use VA Form 26-1880 to apply for a VA home loan COE. You’ll need to
+        bring the COE to your lender to prove that you qualify for a VA home
+        loan.
+      </p>
+      {hasStatus && (
+        <IntroStatusAlert
+          referenceNumber={coe.referenceNumber}
+          requestDate={coe.applicationCreateDate}
+          status={coe.status}
+        />
+      )}
       <h2 className="vads-u-margin-top--0">
         Follow these steps to request a new COE
       </h2>
@@ -138,7 +170,7 @@ export const IntroductionPage2 = ({ route }) => {
           startText={authStartFormText}
         />
       )}
-      <p />
+      <p className="vads-u-margin-top--4" />
       <va-omb-info
         res-burden={resBurden}
         omb-number={ombNumber}
