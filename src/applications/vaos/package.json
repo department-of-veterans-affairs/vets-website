@@ -21,7 +21,7 @@
     "devDependencies": {
       "@babel/parser": "^7.17.7",
       "@babel/traverse": "^7.23.2",
-      "@sentry/browser": "^6.13.2",
+      "@sentry/browser": "^10.13.0",
       "@testing-library/dom": "^7.26.6",
       "@testing-library/react": "^11.1.2",
       "@testing-library/user-event": "^12.2.2",

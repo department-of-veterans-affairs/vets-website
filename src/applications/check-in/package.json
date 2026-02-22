@@ -7,7 +7,7 @@
     },
     "licence": "MIT",
     "dependencies": {
-        "@sentry/browser": "^6.13.2",
+        "@sentry/browser": "^10.13.0",
         "date-fns": "^2.24.0",
         "date-fns-tz": "^1.1.1",
         "i18next": "^21.6.14",
