@@ -1,4 +1,5 @@
 import React from 'react';
+import { parseISODate } from '~/platform/forms-system/src/js/helpers';
 
 export const DISCLOSURE_KEYS = [
   'statusOfClaim',
@@ -91,6 +92,24 @@ export const validateOtherText = (errors, fieldData) => {
         errors.addError(msg);
       }
     }
+  }
+};
+
+export const validateTerminationDate = (errors, dateString) => {
+  const { day, month, year } = parseISODate(dateString);
+
+  const entered = new Date(year, month - 1, day);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const fiveYearsFromToday = new Date(
+    today.getFullYear() + 5,
+    today.getMonth(),
+    today.getDate(),
+  );
+
+  if (entered < fiveYearsFromToday) {
+    errors.addError("You must enter a date that's 5 years in the future");
   }
 };
 

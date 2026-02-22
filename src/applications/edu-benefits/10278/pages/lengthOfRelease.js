@@ -6,8 +6,10 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { validateCurrentOrFutureDate } from '~/platform/forms-system/src/js/validation';
-import { ClaimInformationDescription } from '../helpers';
+import {
+  ClaimInformationDescription,
+  validateTerminationDate,
+} from '../helpers';
 
 const uiSchema = {
   ...titleUI('Length for the release of personal information'),
@@ -32,13 +34,14 @@ const uiSchema = {
         monthSelect: false,
         removeDateHint: true,
         errorMessages: {
-          required: 'Enter date of termination',
+          required: "You must enter a date that's 5 years in the future",
+          pattern: "You must enter a date that's 5 years in the future",
         },
         expandUnderCondition: value => value === 'date',
         required: formData => formData?.lengthOfRelease?.duration === 'date',
         expandedContentFocus: true,
       }),
-      'ui:validations': [validateCurrentOrFutureDate],
+      'ui:validations': [validateTerminationDate],
     },
   },
 };
