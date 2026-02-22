@@ -102,7 +102,24 @@ const resolveLandingPageLinks = (
     },
   ].filter(isLinkData);
 
+  // Spotlight links for patients with access
   const spotlightLinks = [
+    {
+      text: "Don't miss a message from VA",
+      href: mhvUrl(authdWithSSOe, 'ss20260116-dont-miss-va-messages'),
+    },
+    {
+      text: 'Travel pay: apply now on your phone',
+      href: mhvUrl(authdWithSSOe, 'ss20251031-travel-pay-apply-phone'),
+    },
+    {
+      text: 'VA mobile apps for a healthy new year',
+      href: mhvUrl(authdWithSSOe, 'ss20260116-va-mobile-apps-healthy-new-year'),
+    },
+  ];
+
+  // Spotlight links for non-patients (existing content retained)
+  const nonPatientSpotlightLinks = [
     {
       text: 'Medical record hold periods are changing',
       href: mhvUrl(
@@ -256,7 +273,7 @@ const resolveLandingPageLinks = (
     },
     {
       title: 'In the spotlight',
-      links: spotlightLinks,
+      links: nonPatientSpotlightLinks,
     },
   ];
 
