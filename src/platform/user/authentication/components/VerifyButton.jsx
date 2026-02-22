@@ -4,7 +4,10 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { verify } from 'platform/user/authentication/utilities';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
-import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
+import {
+  defaultWebOAuthOptions,
+  ial2DefaultWebOAuthOptions,
+} from 'platform/user/authentication/config/constants';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -15,19 +18,14 @@ export const verifyHandler = ({
   queryParams,
   useOAuth,
 }) => {
-  const needsIal2Enforcement =
-    ial2Enforcement &&
-    [SERVICE_PROVIDERS.logingov.policy, SERVICE_PROVIDERS.idme.policy].includes(
-      policy,
-    );
-
   verify({
     policy,
-    acr: needsIal2Enforcement
-      ? 'urn:acr.va.gov:verified-facial-match-required'
+    acr: ial2Enforcement
+      ? ial2DefaultWebOAuthOptions.acrVerify[policy]
       : defaultWebOAuthOptions.acrVerify[policy],
     queryParams,
     useOAuth,
+    ial2Enforcement,
   });
 
   if (useOAuth) {
@@ -43,9 +41,13 @@ export const VerifyIdmeButton = ({ queryParams, useOAuth = true }) => {
   const { altImage, policy } = SERVICE_PROVIDERS.idme;
   const forceOAuth = useSelector(isAuthenticatedWithOAuth) || useOAuth;
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
+  const idmeEnforcement = useToggleValue(
     TOGGLE_NAMES.identityIdmeIal2Enforcement,
   );
+  const fullIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIal2FullEnforcement,
+  );
+  const ial2Enforcement = fullIal2Enforcement || idmeEnforcement;
 
   return (
     <button
@@ -87,9 +89,13 @@ export const VerifyLogingovButton = ({ queryParams, useOAuth = true }) => {
   const { image, policy } = SERVICE_PROVIDERS.logingov;
   const forceOAuth = useSelector(isAuthenticatedWithOAuth) || useOAuth;
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
+  const logingovEnforcement = useToggleValue(
     TOGGLE_NAMES.identityLogingovIal2Enforcement,
   );
+  const fullIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIal2FullEnforcement,
+  );
+  const ial2Enforcement = fullIal2Enforcement || logingovEnforcement;
 
   return (
     <button
@@ -122,12 +128,20 @@ export const VerifyButton = ({
   queryParams,
   useOAuth = false,
 }) => {
-  const { image } = SERVICE_PROVIDERS[csp];
+  const { image, policy } = SERVICE_PROVIDERS[csp];
   const className = `usa-button ${csp}-verify-buttons`;
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityLogingovIal2Enforcement,
+  const logingovEnforcement =
+    useToggleValue(TOGGLE_NAMES.identityLogingovIal2Enforcement) &&
+    policy === SERVICE_PROVIDERS.logingov.policy;
+  const idmeEnforcement =
+    useToggleValue(TOGGLE_NAMES.identityIdmeIal2Enforcement) &&
+    policy === SERVICE_PROVIDERS.idme.policy;
+  const fullIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIal2FullEnforcement,
   );
+  const ial2Enforcement =
+    fullIal2Enforcement || logingovEnforcement || idmeEnforcement;
 
   return (
     <button

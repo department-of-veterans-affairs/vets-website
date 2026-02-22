@@ -12,6 +12,7 @@ import * as oauthUtils from '~/platform/utilities/oauth/utilities';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import sessionStorage from '~/platform/utilities/storage/sessionStorage';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
 import { ACCOUNT_STATES } from '../constants';
 import {
@@ -40,7 +41,9 @@ const getData = ({
   profile = {},
   mhvAccount = {},
   mviStatus = {},
-  featureToggles = {},
+  featureToggles = {
+    [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+  },
 } = {}) => ({
   props: {
     profile: {
@@ -509,23 +512,27 @@ describe('<CallToActionWidget>', () => {
 
     it('should show NoMHVAccount if it is a health tool and the mvi status is ok', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{}}
-          mviStatus="OK"
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            mviStatus="OK"
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+          ,
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('NoMHVAccount').exists()).to.be.true;

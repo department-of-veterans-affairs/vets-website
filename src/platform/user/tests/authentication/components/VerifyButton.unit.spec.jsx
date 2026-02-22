@@ -13,16 +13,17 @@ import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 import * as OAuthUtils from 'platform/utilities/oauth/utilities';
 import * as AuthUtils from 'platform/user/authentication/utilities';
 
-const sharedStore = () => ({
+const store = {
   getState: () => ({
     featureToggles: {
       [TOGGLE_NAMES.identityLogingovIal2Enforcement]: false,
       [TOGGLE_NAMES.identityIdmeIal2Enforcement]: false,
+      [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
     },
   }),
   dispatch: () => {},
   subscribe: () => {},
-});
+};
 
 describe('Verify Buttons', () => {
   let sandbox;
@@ -52,7 +53,6 @@ describe('Verify Buttons', () => {
 
   buttonTests.forEach(({ component: ButtonComponent, className, policy }) => {
     it(`should render the ${policy} button and call verifyHandler with correct parameters`, () => {
-      const store = sharedStore();
       const queryParams = { operation: `${policy}_verification` };
       const useOAuth = true;
 
@@ -85,7 +85,6 @@ describe('Verify Buttons', () => {
   });
 
   it('should not call updateStateAndVerifier if useOAuth is false', () => {
-    const store = sharedStore();
     const queryParams = { operation: 'idme_verification' };
     const useOAuth = false;
 
@@ -107,7 +106,6 @@ describe('Verify Buttons', () => {
 
 describe('VerifyButton', () => {
   it('should render and call verifyHandler with correct parameters', () => {
-    const store = sharedStore();
     const queryParams = { operation: 'generic_verification' };
     const useOAuth = true;
     const csp = 'logingov';

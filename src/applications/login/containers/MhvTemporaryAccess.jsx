@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { login } from 'platform/user/authentication/utilities';
 import { AUTHN_SETTINGS } from 'platform/user/authentication/constants';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { signInAppCSS } from '../constants';
 
 export default function MhvTemporaryAccess() {
   const [manageAcctUrl, setAcctUrl] = useState('');
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIal2FullEnforcement,
+  );
 
-  useEffect(() => {
-    document.title = 'Access the My HealtheVet sign-in option';
+  useEffect(
+    () => {
+      document.title = 'Access the My HealtheVet sign-in option';
 
-    async function createHref() {
-      const url = await login({
-        policy: 'mhv',
-        queryParams: { operation: 'mhv_exception' },
-        isLink: true,
-      });
-      setAcctUrl(url);
-    }
-    createHref();
-  }, []);
+      async function createHref() {
+        const url = await login({
+          policy: 'mhv',
+          queryParams: { operation: 'mhv_exception' },
+          isLink: true,
+          ial2Enforcement,
+        });
+        setAcctUrl(url);
+      }
+      createHref();
+    },
+    [ial2Enforcement],
+  );
 
   return (
     <>
@@ -45,6 +54,7 @@ export default function MhvTemporaryAccess() {
               login({
                 policy: 'mhv',
                 queryParams: { operation: 'mhv_exception' },
+                ial2Enforcement,
               })
             }
             text="My HealtheVet"

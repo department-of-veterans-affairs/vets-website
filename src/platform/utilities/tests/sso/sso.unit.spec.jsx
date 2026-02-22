@@ -189,8 +189,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'X');
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(auto, API_VERSION, AUTH_EVENTS.SSO_LOGOUT, {
-      'auto-logout': 'true',
+    sinon.assert.calledWith(auto, {
+      version: API_VERSION,
+      clickedEvent: AUTH_EVENTS.SSO_LOGOUT,
+      queryParams: { 'auto-logout': 'true' },
+      ial2Enforcement: false,
     });
   });
 

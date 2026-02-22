@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { apiRequest } from 'platform/utilities/api';
 import { login } from 'platform/user/authentication/utilities';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { signInAppCSS } from '../constants';
 
 export default function ProdTestAccess() {
   const [email, setEmail] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIal2FullEnforcement,
+  );
 
   const isAllowedEmail = user => {
     const pattern = /^[a-zA-Z0-9._%+-]+@(va\.gov|oracle\.com)$/;
@@ -27,6 +32,7 @@ export default function ProdTestAccess() {
     login({
       policy: 'mhv',
       queryParams: { operation: 'myhealthevet_test_account' },
+      ial2Enforcement,
     });
   };
 

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import environment from 'platform/utilities/environment';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { EXTERNAL_APPS } from '../constants';
 import { useInternalTestingAuth } from '../hooks';
 import LoginHeader from './LoginHeader';
@@ -18,7 +19,11 @@ export default function LoginContainer({
   const isOccMobile = [EXTERNAL_APPS.VA_OCC_MOBILE]?.includes(
     externalApplication,
   );
-  const { href, onClick } = useInternalTestingAuth();
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIal2FullEnforcement,
+  );
+  const { href, onClick } = useInternalTestingAuth({ ial2Enforcement });
 
   return (
     <>

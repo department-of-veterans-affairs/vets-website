@@ -9,6 +9,7 @@ import {
 import { logoutUrl } from 'platform/user/authentication/utilities';
 import { logoutUrlSiS, logoutEvent } from 'platform/utilities/oauth/utilities';
 import recordEvent from 'platform/monitoring/record-event';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 import MyHealthLink from './MyHealthLink';
 
@@ -23,17 +24,21 @@ const recordLettersEvent = recordNavUserEvent('letters');
 
 export function PersonalizationDropdown(props) {
   const { isSSOe, csp } = props;
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIal2FullEnforcement,
+  );
 
   const createSignout = useCallback(
     () => (
       <a
-        href={isSSOe ? logoutUrl() : logoutUrlSiS()}
+        href={isSSOe ? logoutUrl(ial2Enforcement) : logoutUrlSiS()}
         onClick={() => logoutEvent(csp, { shouldWait: !isSSOe, duration: 350 })}
       >
         Sign Out
       </a>
     ),
-    [isSSOe, csp],
+    [isSSOe, csp, ial2Enforcement],
   );
 
   return (

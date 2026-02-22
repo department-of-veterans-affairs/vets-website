@@ -18,7 +18,11 @@ export function onVerifyClick({ useOAuth, policy }) {
  * @param {Boolean} useOAuth - Value should come from `isAuthenticatedWithOAuth` authentication selector
  * @returns {Object} Returns an object of the `href` and `onClick`
  */
-export function useIdentityVerificationURL({ policy, useOAuth }) {
+export function useIdentityVerificationURL({
+  policy,
+  useOAuth,
+  ial2Enforcement = false,
+}) {
   const [href, setHref] = useState('');
 
   useEffect(
@@ -30,12 +34,13 @@ export function useIdentityVerificationURL({ policy, useOAuth }) {
           isSignup: false,
           isLink: true,
           useOAuth,
+          ial2Enforcement,
         });
         setHref(url);
       }
       generateURL();
     },
-    [policy, useOAuth],
+    [policy, useOAuth, ial2Enforcement],
   );
 
   const onClick = useCallback(onVerifyClick, [useOAuth, policy]);
@@ -49,6 +54,7 @@ export function useIdentityVerificationURL({ policy, useOAuth }) {
  */
 export function useInternalTestingAuth({
   queryParams = { operation: 'myhealthevet_test_account' },
+  ial2Enforcement = false,
 } = {}) {
   const [href, setHref] = useState('');
 
@@ -58,6 +64,7 @@ export function useInternalTestingAuth({
         type: 'mhv',
         useOauth: false,
         queryParams,
+        ial2Enforcement,
       });
 
       setHref(url);

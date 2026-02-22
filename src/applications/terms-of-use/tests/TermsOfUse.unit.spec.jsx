@@ -8,6 +8,7 @@ import {
   jsonResponse,
 } from 'platform/testing/unit/msw-adapter';
 import { server } from 'platform/testing/unit/mocha-setup';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 import TermsOfUse from '../containers/TermsOfUse';
 
 const store = ({ authenticatedWithSiS = false } = {}) => ({
@@ -18,6 +19,9 @@ const store = ({ authenticatedWithSiS = false } = {}) => ({
           authBroker: authenticatedWithSiS ? 'sis' : 'ssoe',
         },
       },
+    },
+    featureToggles: {
+      [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
     },
   }),
   subscribe: () => {},

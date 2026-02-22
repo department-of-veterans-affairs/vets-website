@@ -6,6 +6,8 @@ import { SERVICE_PROVIDERS, GA } from 'platform/user/authentication/constants';
 import sinon from 'sinon';
 import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
+import { Provider } from 'react-redux';
 import MockAuth from '../../containers/MockAuth';
 import MockAuthButton from '../../components/MockAuthButton';
 
@@ -24,6 +26,16 @@ const mockGADefaultArgs = {
 const csps = Object.values(SERVICE_PROVIDERS).filter(
   provider => provider.policy === 'idme' || provider.policy === 'logingov',
 );
+
+const store = {
+  getState: () => ({
+    featureToggles: {
+      [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+    },
+  }),
+  dispatch: () => {},
+  subscribe: () => {},
+};
 
 const setup = ({ path, mockGA = mockGADefaultArgs }) => {
   const startingLocation = path ? new URL(`${base}${path}`) : originalLocation;
@@ -73,7 +85,11 @@ describe('MockAuthButton', () => {
   Object.values(environments).forEach(currentEnvironment => {
     it('should take you to the right link when clicked', async () => {
       __BUILDTYPE__ = currentEnvironment;
-      const { container } = render(<MockAuthButton />);
+      const { container } = render(
+        <Provider store={store}>
+          <MockAuthButton />
+        </Provider>,
+      );
       const button = container.querySelector('.mauth-button');
       if (
         [environments.LOCALHOST, environments.VAGOVDEV].includes(
@@ -101,7 +117,11 @@ describe('MockAuthButton', () => {
   csps.forEach(csp => {
     it('should set authType when a different CSP is selected', () => {
       __BUILDTYPE__ = environments.LOCALHOST;
-      const { container } = render(<MockAuthButton />);
+      const { container } = render(
+        <Provider store={store}>
+          <MockAuthButton />
+        </Provider>,
+      );
       const select = container.querySelector('va-select');
       fireEvent(
         select,
@@ -115,7 +135,11 @@ describe('MockAuthButton', () => {
 
   it('should be rendered on the mocked auth page', () => {
     __BUILDTYPE__ = environments.LOCALHOST;
-    const { container } = render(<MockAuth />);
+    const { container } = render(
+      <Provider store={store}>
+        <MockAuth />
+      </Provider>,
+    );
     expect(container.querySelector('va-button')).to.exist;
   });
 
@@ -123,10 +147,18 @@ describe('MockAuthButton', () => {
     [environments.VAGOVPROD, environments.VAGOVSTAGING].forEach(
       currentEnvironment => {
         __BUILDTYPE__ = currentEnvironment;
-        const { container } = render(<MockAuthButton />);
+        const { container } = render(
+          <Provider store={store}>
+            <MockAuthButton />
+          </Provider>,
+        );
         expect(container.querySelector('.mauth-button', container)).to.not
           .exist;
-        const { container2 } = render(<MockAuth />);
+        const { container2 } = render(
+          <Provider store={store}>
+            <MockAuth />
+          </Provider>,
+        );
         expect(container.querySelector('.mauth-button', container2)).to.not
           .exist;
       },
@@ -135,7 +167,11 @@ describe('MockAuthButton', () => {
 
   it('should set mockLoginError when mockLogin throws an error', async () => {
     __BUILDTYPE__ = environments.LOCALHOST;
-    const { container } = render(<MockAuthButton />);
+    const { container } = render(
+      <Provider store={store}>
+        <MockAuthButton />
+      </Provider>,
+    );
     const select = container.querySelector('va-select');
     fireEvent(
       select,

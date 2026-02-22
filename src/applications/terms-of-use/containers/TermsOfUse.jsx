@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  apiRequest,
+  useFeatureToggle,
+} from '@department-of-veterans-affairs/platform-utilities/exports';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   isAuthenticatedWithOAuth,
@@ -33,6 +36,10 @@ export default function TermsOfUse() {
   const shouldRedirectToMobile = sessionStorage.getItem('ci') === 'vamobile';
   const isFullyAuthenticated = isAuthenticatedWithIAM || isAuthenticatedWithSiS;
   const isUnauthenticated = !isMiddleAuth && !isFullyAuthenticated;
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2EnforcementEnabled = useToggleValue(
+    TOGGLE_NAMES.identityIal2FullEnforcement,
+  );
 
   useEffect(
     () => {
@@ -75,7 +82,7 @@ export default function TermsOfUse() {
     [error, buttonPushed],
   );
 
-  const handleTouClick = async type => {
+  const handleTouClick = ial2Enforcement => async type => {
     const params = {
       ...(redirectLocation.searchParams.get('terms_code') && {
         // eslint-disable-next-line camelcase
@@ -126,6 +133,7 @@ export default function TermsOfUse() {
             termsCodeExists,
             shouldRedirectToMobile,
             isAuthenticatedWithSiS,
+            ial2Enforcement,
           });
         }
       }
@@ -226,7 +234,7 @@ export default function TermsOfUse() {
           <TermsAcceptance
             error={error}
             isMiddleAuth={isMiddleAuth}
-            handleTouClick={handleTouClick}
+            handleTouClick={handleTouClick(ial2EnforcementEnabled)}
             setShowDeclineModal={setShowDeclineModal}
             isFullyAuthenticated={isFullyAuthenticated}
             isUnauthenticated={isUnauthenticated}
@@ -258,7 +266,7 @@ export default function TermsOfUse() {
             accounts, you’ll need to create one.
           </p>
           <va-button
-            onClick={() => handleTouClick('decline')}
+            onClick={() => handleTouClick(ial2EnforcementEnabled)('decline')}
             disabled={isDisabled}
             text="Decline and sign out"
           />

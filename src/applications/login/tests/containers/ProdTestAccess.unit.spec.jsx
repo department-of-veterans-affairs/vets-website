@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { fireEvent, render } from '@testing-library/react';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
+import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import ProdTestAccess from '../../containers/ProdTestAccess';
 
@@ -20,7 +21,13 @@ describe('ProdTestAccess Component', () => {
   });
 
   it('renders email input and validates email with allowed domains', async () => {
-    const screen = render(<ProdTestAccess />);
+    const screen = renderInReduxProvider(<ProdTestAccess />, {
+      initialState: {
+        featureToggles: {
+          [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+        },
+      },
+    });
     const emailInput = screen.getByTestId('mvhemailinput');
 
     emailInput.value = 'test@va.gov';

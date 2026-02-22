@@ -148,6 +148,7 @@
   "hcaInsuranceV2Enabled": "hca_insurance_v2_enabled",
   "hcaPerformanceAlertEnabled": "hca_performance_alert_enabled",
   "hcaRegOnlyEnabled": "hca_reg_only_enabled",
+  "identityIal2FullEnforcement": "identity_ial2_full_enforcement",
   "identityIdmeIal2Enforcement": "identity_idme_ial2_enforcement",
   "identityLogingovIal2Enforcement": "identity_logingov_ial2_enforcement",
   "incomeAndAssetsFormEnabled": "income_and_assets_form_enabled",

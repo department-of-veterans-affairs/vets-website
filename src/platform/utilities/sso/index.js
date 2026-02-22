@@ -79,6 +79,7 @@ export async function checkAutoSession(
   loggedIn,
   ssoeTransactionId,
   profile = {},
+  ial2Enforcement = false,
 ) {
   const { ttl, transactionid, ...queryParams } = await ssoKeepAliveSession();
   /**
@@ -93,8 +94,11 @@ export async function checkAutoSession(
        * TTL: > 0 and < 900 = Session valid
        * TTL: undefined, can't verify SSOe status
        */
-      IAMLogout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, {
-        'auto-logout': 'true',
+      IAMLogout({
+        version: API_VERSION,
+        clickedEvent: AUTH_EVENTS.SSO_LOGOUT,
+        queryParams: { 'auto-logout': 'true' },
+        ial2Enforcement,
       });
     } else if (transactionid && transactionid !== ssoeTransactionId) {
       /**
@@ -106,6 +110,7 @@ export async function checkAutoSession(
         policy: POLICY_TYPES.CUSTOM,
         queryParams: { ...queryParams },
         clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+        ial2Enforcement,
       });
     } else if (
       loginAppUrlRE.test(window.location.pathname) &&
@@ -139,6 +144,7 @@ export async function checkAutoSession(
       policy: POLICY_TYPES.CUSTOM,
       queryParams: { ...queryParams },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+      ial2Enforcement,
     });
   }
 }

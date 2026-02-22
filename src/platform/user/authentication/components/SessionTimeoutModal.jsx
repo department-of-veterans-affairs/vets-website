@@ -8,6 +8,7 @@ import { logout as IAMLogout } from 'platform/user/authentication/utilities';
 import { refresh, logoutUrlSiS } from 'platform/utilities/oauth/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
+import TOGGLE_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import { initializeProfile } from 'platform/user/profile/actions';
@@ -63,7 +64,7 @@ export class SessionTimeoutModal extends React.Component {
     recordEvent({ event: 'logout-session-expired' });
     teardownProfileSession();
     if (!this.props.authenticatedWithOAuth) {
-      IAMLogout();
+      IAMLogout({ ial2Enforcement: this.props.ial2Enforcement });
     } else {
       window.location = logoutUrlSiS();
     }
@@ -87,7 +88,7 @@ export class SessionTimeoutModal extends React.Component {
   signOut = () => {
     recordEvent({ event: 'logout-cta-manual-signout' });
     if (!this.props.authenticatedWithOAuth) {
-      IAMLogout();
+      IAMLogout({ ial2Enforcement: this.props.ial2Enforcement });
     } else {
       window.location = logoutUrlSiS();
     }
@@ -140,6 +141,8 @@ export const mapStateToProps = state => {
     authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
     serviceName:
       signInServiceNameSelector(state) || sessionStorage.getItem('ci') || '',
+    ial2Enforcement:
+      state.featureToggles?.[TOGGLE_NAMES.identityIal2FullEnforcement] || false,
   };
 };
 
@@ -155,6 +158,7 @@ export default connect(
 SessionTimeoutModal.propTypes = {
   onExtendSession: PropTypes.func.isRequired,
   authenticatedWithOAuth: PropTypes.bool,
+  ial2Enforcement: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   serviceName: PropTypes.string,
 };

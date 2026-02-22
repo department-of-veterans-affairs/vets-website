@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { useIdentityVerificationURL } from '../hooks';
 import { SERVICE_PROVIDERS, AUTH_EVENTS } from '../constants';
 
@@ -9,7 +10,15 @@ export default function VerifyAccountLink({
   useOAuth = true,
   children,
 }) {
-  const { href } = useIdentityVerificationURL({ policy, useOAuth });
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIal2FullEnforcement,
+  );
+  const { href } = useIdentityVerificationURL({
+    policy,
+    useOAuth,
+    ial2Enforcement,
+  });
   return (
     <a
       href={href}

@@ -13,6 +13,7 @@ import {
 } from 'platform/user/selectors';
 import { checkAutoSession } from 'platform/utilities/sso';
 import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
+import TOGGLE_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 function AutoSSO(props) {
   const {
@@ -22,6 +23,7 @@ function AutoSSO(props) {
     loggedIn,
     profileLoading,
     profile,
+    ial2Enforcement,
   } = props;
 
   if (loggedIn) {
@@ -40,9 +42,11 @@ function AutoSSO(props) {
     !hasCalledKeepAlive &&
     !authenticatedWithOAuth
   ) {
-    checkAutoSession(loggedIn, transactionId, profile).then(() => {
-      props.checkKeepAlive();
-    });
+    checkAutoSession(loggedIn, transactionId, profile, ial2Enforcement).then(
+      () => {
+        props.checkKeepAlive();
+      },
+    );
   }
 
   return null;
@@ -55,6 +59,8 @@ const mapStateToProps = state => ({
   hasCalledKeepAlive: hasCheckedKeepAlive(state),
   profileLoading: isProfileLoading(state),
   loggedIn: isLoggedIn(state),
+  ial2Enforcement:
+    state.featureToggles?.[TOGGLE_NAMES.identityIal2FullEnforcement] || false,
 });
 
 const mapDispatchToProps = {

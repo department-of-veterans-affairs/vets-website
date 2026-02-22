@@ -17,6 +17,7 @@ import { isLoggedIn, selectProfile } from '~/platform/user/selectors';
 import { logout as IAMLogout } from '~/platform/user/authentication/utilities';
 import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import MFA from './components/messages/DirectDeposit/MFA';
 import ChangeAddress from './components/messages/ChangeAddress';
 import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
@@ -69,10 +70,10 @@ export const sendToMHV = authenticatedWithSSOe => () => {
   window.location = mhvUrl(authenticatedWithSSOe, 'home');
 };
 
-export const signOut = authenticatedWithSSOe => () => {
+export const signOut = (authenticatedWithSSOe, ial2Enforcement) => () => {
   recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
   if (authenticatedWithSSOe) {
-    IAMLogout();
+    IAMLogout({ ial2Enforcement });
   } else {
     window.location = logoutUrlSiS();
   }
@@ -163,6 +164,10 @@ export const CallToActionWidget = ({
 
   const [popup, setPopup] = useState(false);
   const mounted = useRef();
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIal2FullEnforcement,
+  );
 
   useEffect(
     () => {
@@ -338,7 +343,10 @@ export const CallToActionWidget = ({
           <NoMHVAccount
             serviceDescription={serviceDescription}
             primaryButtonHandler={sendToMHVCallback}
-            secondaryButtonHandler={signOut(authenticatedWithSSOe)}
+            secondaryButtonHandler={signOut(
+              authenticatedWithSSOe,
+              ial2Enforcement,
+            )}
           />
         );
       }

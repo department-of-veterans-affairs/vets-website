@@ -1,7 +1,7 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { ACTIVE_SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import * as authUtilities from 'platform/user/authentication/utilities';
@@ -9,30 +9,52 @@ import * as oauthUtils from 'platform/utilities/oauth/utilities';
 import LoginButton, {
   loginHandler,
 } from 'platform/user/authentication/components/LoginButton';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 
 const csps = Object.values(ACTIVE_SERVICE_PROVIDERS);
+const store = {
+  getState: () => ({
+    featureToggles: {
+      [TOGGLE_NAMES.identityLogingovIal2Enforcement]: false,
+      [TOGGLE_NAMES.identityIdmeIal2Enforcement]: false,
+      [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+    },
+  }),
+  dispatch: () => {},
+  subscribe: () => {},
+};
 
 describe('LoginButton', () => {
   it('should not render with a `csp`', () => {
-    const screen = render(<LoginButton />);
+    const screen = render(
+      <Provider store={store}>
+        <LoginButton />
+      </Provider>,
+    );
     expect(screen.queryByRole('button')).to.be.null;
   });
   csps.forEach(csp => {
     it(`should render correctly for ${csp.policy}`, () => {
-      const screen = render(<LoginButton csp={csp.policy} />);
+      const screen = render(
+        <Provider store={store}>
+          <LoginButton csp={csp.policy} />
+        </Provider>,
+      );
 
       expect(screen.queryByRole('button')).to.have.attr('data-csp', csp.policy);
     });
   });
   it('should call the `loginHandler` function on click', () => {
     const loginHandlerSpy = sinon.spy();
-    const wrapper = shallow(
-      <LoginButton csp="idme" onClick={loginHandlerSpy} />,
+    const screen = render(
+      <Provider store={store}>
+        <LoginButton csp="idme" onClick={loginHandlerSpy} />
+      </Provider>,
     );
 
-    wrapper.find('button').simulate('click');
+    screen.getByRole('button').click();
     expect(loginHandlerSpy.called).to.be.true;
-    wrapper.unmount();
+    screen.unmount();
   });
 });
 
@@ -54,7 +76,9 @@ describe('loginHandler', () => {
     loginHandlerSpy('logingov');
     expect(loginHandlerSpy.called).to.be.true;
     expect(mockAuthLogin.called).to.be.true;
-    expect(mockAuthLogin.calledWith({ policy: 'logingov' })).to.be.true;
+    expect(
+      mockAuthLogin.calledWith({ policy: 'logingov', ial2Enforcement: false }),
+    ).to.be.true;
 
     mockAuthLogin.restore();
   });

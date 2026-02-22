@@ -1,12 +1,20 @@
 import React, { useCallback } from 'react';
 import { verify } from 'platform/user/authentication/utilities';
 import { CSP_IDS } from 'platform/user/authentication/constants';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import CallToActionAlert from '../../CallToActionAlert';
 
 const MFA = () => {
-  const verifyLink = useCallback(async policy => {
-    await verify({ policy, isLink: true, isSignup: false });
-  }, []);
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIal2FullEnforcement,
+  );
+  const verifyLink = useCallback(
+    async policy => {
+      await verify({ policy, isLink: true, isSignup: false, ial2Enforcement });
+    },
+    [ial2Enforcement],
+  );
 
   const content = {
     heading: `Verify your identity with Login.gov or ID.me to change your direct deposit information online`,

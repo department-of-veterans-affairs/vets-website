@@ -11,6 +11,7 @@ import {
   CSP_IDS,
 } from 'platform/user/authentication/constants';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
+import { ial2DefaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 import {
   ALL_STATE_AND_VERIFIERS,
   API_SIGN_IN_SERVICE_URL,
@@ -97,7 +98,11 @@ export async function createOAuthRequest({
   passedOptions = {},
   type = '',
   acr,
+  ial2Enforcement = false,
 }) {
+  const defaultConfig = ial2Enforcement
+    ? { oAuthOptions: ial2DefaultWebOAuthOptions }
+    : externalApplicationsConfig.default;
   const isDefaultOAuth =
     APPROVED_OAUTH_APPS.includes(application) ||
     !application ||
@@ -107,9 +112,7 @@ export async function createOAuthRequest({
       application,
     ) || [CLIENT_IDS.VAMOBILE].includes(clientId);
   const { oAuthOptions } =
-    config ??
-    (externalApplicationsConfig[application] ||
-      externalApplicationsConfig.default);
+    config ?? (externalApplicationsConfig[application] || defaultConfig);
   const useType = passedOptions.isSignup
     ? type.slice(0, type.indexOf('_'))
     : type;

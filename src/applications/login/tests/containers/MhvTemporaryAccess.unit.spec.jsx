@@ -3,6 +3,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { AUTHN_SETTINGS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 import sinon from 'sinon';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import MhvTemporaryAccess from '../../containers/MhvTemporaryAccess';
@@ -36,7 +37,13 @@ describe('MhvTemporaryAccess', () => {
 
   it('renders button and calls login with correct parameters on click', async () => {
     const loginStub = sandbox.stub(authUtilities, 'login');
-    const screen = renderInReduxProvider(<MhvTemporaryAccess />);
+    const screen = renderInReduxProvider(<MhvTemporaryAccess />, {
+      initialState: {
+        featureToggles: {
+          [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+        },
+      },
+    });
     const signInHeading = screen.getByRole('heading', { name: /sign in/i });
     expect(signInHeading).to.exist;
     const accessButton = await screen.findByTestId('accessMhvBtn');
@@ -49,6 +56,7 @@ describe('MhvTemporaryAccess', () => {
       sandbox.assert.calledWith(loginStub, {
         policy: 'mhv',
         queryParams: { operation: 'mhv_exception' },
+        ial2Enforcement: false,
       });
     });
     loginStub.restore();

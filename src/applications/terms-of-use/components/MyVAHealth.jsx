@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  apiRequest,
+  useFeatureToggle,
+} from '@department-of-veterans-affairs/platform-utilities/exports';
 import ContactCenterInformation from 'platform/user/authentication/components/ContactCenterInformation';
 import TermsAcceptance from './TermsAcceptanceAction';
 import { parseRedirectUrl, touUpdatedDate, declineAndLogout } from '../helpers';
@@ -29,6 +32,10 @@ export default function MyVAHealth() {
   const [isDisabled, setIsDisabled] = useState(false);
   const url = new URL(window.location);
   const ssoeTarget = url.searchParams.get('ssoeTarget');
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2EnforcementEnabled = useToggleValue(
+    TOGGLE_NAMES.identityIal2FullEnforcement,
+  );
 
   useEffect(
     () => {
@@ -66,7 +73,7 @@ export default function MyVAHealth() {
     [ssoeTarget],
   );
 
-  const handleTouClick = async type => {
+  const handleTouClick = ial2Enforcement => async type => {
     const cernerType = type === 'accept' ? 'accept_and_provision' : type;
 
     try {
@@ -96,6 +103,7 @@ export default function MyVAHealth() {
           termsCodeExists: false,
           shouldRedirectToMobile: false,
           isAuthenticatedWithSiS: false,
+          ial2Enforcement,
         });
       }
     } catch (err) {
@@ -199,7 +207,7 @@ export default function MyVAHealth() {
                 error={error}
                 isDisabled={isDisabled}
                 isMiddleAuth
-                handleTouClick={handleTouClick}
+                handleTouClick={handleTouClick(ial2EnforcementEnabled)}
                 setShowDeclineModal={setShowDeclineModal}
                 isFullyAuthenticated
                 isUnauthenticated={false}
@@ -212,7 +220,9 @@ export default function MyVAHealth() {
           clickToClose
           onCloseEvent={() => setShowDeclineModal(false)}
           modalTitle="Decline the terms of use and sign out?"
-          onPrimaryButtonClick={() => handleTouClick('decline')}
+          onPrimaryButtonClick={() =>
+            handleTouClick(ial2EnforcementEnabled)('decline')
+          }
           onSecondaryButtonClick={() => setShowDeclineModal(false)}
           primaryButtonText="Decline and sign out"
           secondaryButtonText="Go back"
