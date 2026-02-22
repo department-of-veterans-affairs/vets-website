@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -11,6 +12,12 @@ export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
     </div>
   </div>
 );
+
+PrimaryActionLink.propTypes = {
+  children: PropTypes.node.isRequired,
+  href: PropTypes.string,
+  onClick: PropTypes.func,
+};
 
 const PrimaryActionLinkWithOnClick = ({ href = '/' }) => {
   const { livingSituation, otherReasons, otherHousingRisks } = useSelector(
@@ -34,6 +41,10 @@ const PrimaryActionLinkWithOnClick = ({ href = '/' }) => {
       Start your request
     </PrimaryActionLink>
   );
+};
+
+PrimaryActionLinkWithOnClick.propTypes = {
+  href: PropTypes.string,
 };
 
 export const TITLE = 'Submit a statement to support a claim';
@@ -140,7 +151,7 @@ export const OTHER_REASONS = Object.freeze({
 export const ESCAPE_HATCH = Object.freeze(
   <div className="vads-u-margin-y--4">
     If you’d like to use VA Form 21-4138 for your statement instead, you can{' '}
-    <a href="/supporting-forms-for-claims/submit-statement-form-21-4138/personal-information?skip">
+    <a href="/supporting-forms-for-claims/submit-statement-form-21-4138/personal-information">
       go to VA Form 21-4138 now.
     </a>
   </div>,

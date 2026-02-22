@@ -20,8 +20,29 @@ export const isEligibleForDecisionReview = decisionDate => {
   return isBefore(oneYearAgo, decisionDateTime);
 };
 
+export const isUserVeteran = formData =>
+  formData?.['view:userIsVeteran'] === true;
+
+export const isClaimantVeteran = formData =>
+  formData?.claimantType === 'self' || formData?.claimantType === 'veteranSelf';
+
+export const isNonVeteranClaimant = formData =>
+  [
+    'forVeteran',
+    'anotherVeteran',
+    'familyMember',
+    'familyMemberOtherVeteran',
+  ].includes(formData?.claimantType);
+
 export const isEligibleToSubmitStatement = formData => {
   if (!formData?.statementType) {
+    return true;
+  }
+
+  if (
+    formData.statementType === STATEMENT_TYPES.NEW_EVIDENCE &&
+    !isUserVeteran(formData)
+  ) {
     return true;
   }
 
