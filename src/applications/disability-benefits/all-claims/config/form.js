@@ -8,6 +8,7 @@ import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/cons
 
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns/yesNoPattern';
 import submitFormFor from './submitForm';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -524,11 +525,9 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Additional disability benefits',
             'ui:description': ancillaryFormsWizardDescription,
-            'view:ancillaryFormsWizard': {
-              'ui:title':
-                'Do you want to answer questions to determine if you may be eligible for additional benefits?',
-              'ui:widget': 'yesNo',
-            },
+            'view:ancillaryFormsWizard': yesNoUI(
+              'Do you want to answer questions to determine if you may be eligible for additional benefits?',
+            ),
             'ui:confirmationField': ConfirmationAncillaryFormsWizard,
           },
           schema: {
