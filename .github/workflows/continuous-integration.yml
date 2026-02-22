@@ -186,13 +186,13 @@ jobs:
           EOF
 
       - name: Compress and archive build
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+        run: tar -C build/${{ matrix.buildtype }} --zstd -cf ${{ matrix.buildtype }}.tar.zst .
 
       - name: Upload build artifact
         uses: ./.github/workflows/upload-artifact
         with:
-          name: ${{ matrix.buildtype }}.tar.bz2
-          path: ${{ matrix.buildtype }}.tar.bz2
+          name: ${{ matrix.buildtype }}.tar.zst
+          path: ${{ matrix.buildtype }}.tar.zst
           retention-days: 1
 
   determine-cd-eligibility:
@@ -882,17 +882,13 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/download-artifact
         with:
-          name: vagovprod.tar.bz2
-
-      - name: Install missing dependencies
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y bzip2 curl
+          name: vagovprod.tar.zst
 
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: |
           mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+          tar -C build/vagovprod --zstd -xf vagovprod.tar.zst
 
       - name: Install dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -938,7 +934,7 @@ jobs:
           echo "Waiting for server to be ready..."
           ready=false
           for i in $(seq 1 30); do
-            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+            if wget -q --spider http://127.0.0.1:3001 2>/dev/null; then
               echo "Server is ready!"
               ready=true
               break
@@ -1024,15 +1020,12 @@ jobs:
       - name: Download production build artifact
         uses: ./.github/workflows/download-artifact
         with:
-          name: vagovprod.tar.bz2
-
-      - name: Install missing dependencies
-        run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y bzip2 curl
+          name: vagovprod.tar.zst
 
       - name: Unpack build
         run: |
           mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+          tar -C build/vagovprod --zstd -xf vagovprod.tar.zst
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -1068,7 +1061,7 @@ jobs:
           echo "Waiting for server to be ready..."
           ready=false
           for i in $(seq 1 30); do
-            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+            if wget -q --spider http://127.0.0.1:3001 2>/dev/null; then
               echo "Server is ready!"
               ready=true
               break
@@ -1906,14 +1899,17 @@ jobs:
       - name: Download build artifact
         uses: ./.github/workflows/download-artifact
         with:
-          name: ${{ matrix.buildtype }}.tar.bz2
+          name: ${{ matrix.buildtype }}.tar.zst
+
+      - name: Install pbzip2
+        run: sudo apt-get update && sudo apt-get install -y pbzip2
 
       - name: Extract build artifact
         if: env.IS_SINGLE_APP_BUILD == 'true'
         run: |
           mkdir -p build/${{ matrix.buildtype }}
-          tar -C build/${{ matrix.buildtype }} -xjvf ${{ matrix.buildtype }}.tar.bz2
-          rm ${{ matrix.buildtype }}.tar.bz2
+          tar -C build/${{ matrix.buildtype }} --zstd -xvf ${{ matrix.buildtype }}.tar.zst
+          rm ${{ matrix.buildtype }}.tar.zst
 
       - name: Remove global assets from build
         if: env.IS_SINGLE_APP_BUILD == 'true'
@@ -1931,9 +1927,17 @@ jobs:
           REF=${{ github.sha }}
           EOF
 
-      - name: Compress and archive single/grouped app build
+      - name: Recompress single/grouped app build as bzip2
         if: env.IS_SINGLE_APP_BUILD == 'true'
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+        run: tar -C build/${{ matrix.buildtype }} -I pbzip2 -cf ${{ matrix.buildtype }}.tar.bz2 .
+
+      - name: Recompress full build as bzip2
+        if: env.IS_SINGLE_APP_BUILD != 'true'
+        run: |
+          mkdir -p build/${{ matrix.buildtype }}
+          tar -C build/${{ matrix.buildtype }} --zstd -xf ${{ matrix.buildtype }}.tar.zst
+          tar -C build/${{ matrix.buildtype }} -I pbzip2 -cf ${{ matrix.buildtype }}.tar.bz2 .
+          rm ${{ matrix.buildtype }}.tar.zst
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
