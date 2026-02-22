@@ -1,47 +1,43 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ErrorNotification from '../../../components/RefillPrescriptions/ErrorNotification';
-import { RefillAlert } from '../../../components/RefillPrescriptions/RefillAlert';
 import { MEDICATION_REFILL_CONFIG } from '../../../util/constants';
 
 describe('ErrorNotification component', () => {
   const defaultConfig = MEDICATION_REFILL_CONFIG.ERROR;
 
-  const setup = (config = defaultConfig) => {
-    return shallow(<ErrorNotification config={config} />);
-  };
-
   it('renders without errors', () => {
-    const wrapper = setup();
-    expect(wrapper.exists()).to.be.true;
+    const { getByTestId } = render(
+      <ErrorNotification config={defaultConfig} />,
+    );
+    expect(getByTestId('error-refill')).to.exist;
   });
 
-  it('renders RefillAlert component with correct config', () => {
-    const wrapper = setup();
-    const refillAlert = wrapper.find(RefillAlert);
-
-    expect(refillAlert.exists()).to.be.true;
-    expect(refillAlert.prop('config')).to.equal(defaultConfig);
+  it('renders the alert title', () => {
+    const { getByTestId } = render(
+      <ErrorNotification config={defaultConfig} />,
+    );
+    expect(getByTestId('error-refill-title').textContent).to.equal(
+      defaultConfig.title,
+    );
   });
 
   it('displays the correct error description', () => {
-    const wrapper = setup();
-    const errorDescription = wrapper.find(
-      '[data-testid="error-refill-description"]',
+    const { getByTestId } = render(
+      <ErrorNotification config={defaultConfig} />,
     );
-
-    expect(errorDescription.exists()).to.be.true;
-    expect(errorDescription.text()).to.equal(defaultConfig.description);
+    expect(getByTestId('error-refill-description').textContent).to.equal(
+      defaultConfig.description,
+    );
   });
 
   it('displays the correct suggestion message', () => {
-    const wrapper = setup();
-    const suggestionMessage = wrapper.find(
-      '[data-testid="error-refill-suggestion"]',
+    const { getByTestId } = render(
+      <ErrorNotification config={defaultConfig} />,
     );
-
-    expect(suggestionMessage.exists()).to.be.true;
-    expect(suggestionMessage.text()).to.equal(defaultConfig.suggestion);
+    expect(getByTestId('error-refill-suggestion').textContent).to.equal(
+      defaultConfig.suggestion,
+    );
   });
 });
