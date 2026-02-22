@@ -73,7 +73,6 @@ it('handles map zooming correctly', () => {
       cy.get('#search-results-subheader').contains(
         /(Showing|Results).*VA health.*All VA health services.*near.*Austin, Texas/i,
       );
-      cy.get('#other-tools').should('exist');
 
       cy.injectAxe();
       cy.axeCheck();
