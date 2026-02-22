@@ -211,4 +211,28 @@ describe('<ErrorLinks />', () => {
     editSpy.restore();
     scrollSpy.restore();
   });
+
+  it('handles non-array errors gracefully', () => {
+    const props = {
+      appType: 'test',
+      testId: '1234',
+      errors: undefined, // Could be undefined, null, or non-array
+    };
+
+    const view = render(<ErrorLinks {...props} />);
+    expect(view.getByRole('heading', { name: /missing some info/ })).to.exist;
+    // Should not throw error when trying to map over non-array
+  });
+
+  it('handles object with numeric keys (not a proper array)', () => {
+    const props = {
+      appType: 'test',
+      testId: '1234',
+      errors: { 0: { name: 'test', message: 'Test', chapterKey: 'test' } }, // Object, not array
+    };
+
+    const view = render(<ErrorLinks {...props} />);
+    // Should handle gracefully by treating as empty array
+    expect(view.getByRole('heading', { name: /missing some info/ })).to.exist;
+  });
 });
