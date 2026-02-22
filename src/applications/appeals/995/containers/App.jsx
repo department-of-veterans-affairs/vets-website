@@ -172,6 +172,7 @@ export const App = ({
     applicationId: DATA_DOG_ID,
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
+    userUuid: accountUuid,
   });
 
   return wrapWithBreadcrumb(
