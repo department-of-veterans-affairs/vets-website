@@ -456,6 +456,11 @@ module.exports = async (env = {}) => {
       alias: {
         fs: 'pdfkit/js/virtual-fs.js',
         'iconv-lite': false,
+        // Force root css-library (patched 0.29.1) so claims-status doesn't use nested 0.8.8 copy missing _override-function.scss
+        '@department-of-veterans-affairs/css-library': path.resolve(
+          __dirname,
+          '../node_modules/@department-of-veterans-affairs/css-library',
+        ),
         '@bio-aquia': path.resolve(
           __dirname,
           '../src/applications/benefits-optimization-aquia',
