@@ -304,7 +304,6 @@
     "local-storage-fallback": "^4.1.2",
     "lodash": "^4.17.21",
     "mapbox-gl": "^1.12.0",
-    "mapbox-gl-v3": "npm:mapbox-gl@^3.9.4",
     "markdown-it": "^12.3.2",
     "markdown-it-link-attributes": "^4.0.0",
     "moment": "~2.29.4",
