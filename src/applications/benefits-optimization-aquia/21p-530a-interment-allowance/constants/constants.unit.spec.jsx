@@ -17,7 +17,7 @@ describe('Constants', () => {
     it('should have correct subtitle', () => {
       expect(SUBTITLE).to.exist;
       expect(SUBTITLE).to.equal(
-        'State or Tribal Organization Application for Interment Allowance (Under 38 U.S.C. Chapter 23) (VA Form 21-530a)',
+        'State or Tribal Organization Application for Interment Allowance (Under 38 U.S.C. Chapter 23) (VA Form 21P-530a)',
       );
     });
   });

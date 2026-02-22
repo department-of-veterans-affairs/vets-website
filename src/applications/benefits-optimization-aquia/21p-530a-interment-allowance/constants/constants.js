@@ -6,7 +6,7 @@
 export const TITLE =
   'Apply for a VA interment allowance for a state or tribal organization';
 export const SUBTITLE =
-  'State or Tribal Organization Application for Interment Allowance (Under 38 U.S.C. Chapter 23) (VA Form 21-530a)';
+  'State or Tribal Organization Application for Interment Allowance (Under 38 U.S.C. Chapter 23) (VA Form 21P-530a)';
 
 /**
  * Tracking prefix for analytics
