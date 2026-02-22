@@ -21,5 +21,9 @@ export const cstIncludeDdl5103Letters = state =>
 export const cstUseDataDogRUM = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.cstUseDataDogRUM];
 
+// 'cst_multi_claim_provider'
+export const cstMultiClaimProvider = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.cstMultiClaimProvider];
+
 // Backend Services
 export const getBackendServices = state => state.user.profile.services;
