@@ -132,3 +132,17 @@
 .meb-definition-list_definition {
 	margin-left: 1em;
 }
+
+select, input {
+  font-size: 1.06rem;
+}
+
+legend {
+  color: var(--vads-color-base) !important;
+}
+
+.update-phone-button {
+  &:hover {
+    background-color: transparent;
+  }
+}

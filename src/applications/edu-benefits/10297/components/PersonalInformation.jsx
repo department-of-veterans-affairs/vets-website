@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isValid, format } from 'date-fns';
 import { selectProfile } from '~/platform/user/selectors';
-import environment from 'platform/utilities/environment';
 import {
   FORMAT_READABLE_DATE_FNS,
   FORMAT_YMD_DATE_FNS,
@@ -30,9 +29,22 @@ const PersonalInformation = ({ formData }) => {
 
   return (
     <div className="personal-information-container">
-      <h3 className="vads-u-margin-y--2">
-        Confirm the personal information we have on file for you
-      </h3>
+      <h3 className="vads-u-margin-y--2">Review your personal information</h3>
+      <p>
+        We have this personal information on file for you. If you want to update
+        your personal information for other VA benefits, update your information
+        on your <va-link href="/profile" text="profile" />.
+      </p>
+      <p>
+        <b>Note:</b> If you want to request that we change your name or date of
+        birth, you will need to send additional information. Learn more on how
+        to change your legal name,{' '}
+        <va-link
+          href="/resources/how-to-change-your-legal-name-on-file-with-va/"
+          text="on file with VA"
+        />
+        .
+      </p>
       <va-card class="data-card">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Personal information
@@ -70,23 +82,6 @@ const PersonalInformation = ({ formData }) => {
           ) : null}
         </p>
       </va-card>
-
-      <p className="vads-u-margin-top--2">
-        <strong>Note:</strong> To protect your personal information, we don’t
-        allow online changes to your name, date of birth, or Social Security
-        number. If you need to change this information, call us at 866-279-3677
-        (TTY: 711). We’re here Monday through Friday, between 8:00 a.m. and 8:00
-        p.m. ET.
-      </p>
-      <p className="vads-u-margin-bottom--4">
-        <va-link
-          external
-          href={`${
-            environment.BASE_URL
-          }/resources/how-to-change-your-legal-name-on-file-with-va/`}
-          text="Find more detailed instructions for how to change your legal name"
-        />
-      </p>
     </div>
   );
 };

@@ -172,8 +172,8 @@ export const focusOnH3 = () => {
 };
 
 export const getPrefillIntlPhoneNumber = (phone = {}) => {
-  const areaCode = (phone.areaCode || '').trim();
-  const phoneNumber = (phone.phoneNumber || '').trim();
+  const areaCode = (phone?.areaCode || '').trim();
+  const phoneNumber = (phone?.phoneNumber || '').trim();
 
   /**
    * All user profile numbers set to the *US* country code by default.
