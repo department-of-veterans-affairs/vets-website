@@ -95,7 +95,7 @@ export const IntroductionPage2 = ({ route }) => {
   );
   const canApply = userLoggedIn && profileClaimsCoe;
   const { coe } = certificateOfEligibility;
-  const hasStatus = coe?.status && coe.status !== 'INELIGIBLE';
+  const hasStatusAlert = coe?.status && coe.status !== 'INELIGIBLE';
 
   useEffect(() => {
     focusElement('va-breadcrumbs');
@@ -112,7 +112,7 @@ export const IntroductionPage2 = ({ route }) => {
     formTitle: 'Request a VA home loan Certificate of Eligibility (COE)',
     formSubTitle: 'Request for a Certificate of Eligibility (VA Form 26-1880)',
     hideSipIntro: userLoggedIn && !userIdVerified,
-    authStartFormText: hasStatus
+    authStartFormText: hasStatusAlert
       ? 'Start a new Certificate of Eligibility request'
       : 'Request a Certificate of Eligibility',
   };
@@ -130,7 +130,7 @@ export const IntroductionPage2 = ({ route }) => {
         bring the COE to your lender to prove that you qualify for a VA home
         loan.
       </p>
-      {hasStatus && (
+      {hasStatusAlert && (
         <IntroStatusAlert
           referenceNumber={coe.referenceNumber}
           requestDate={coe.applicationCreateDate}
