@@ -109,7 +109,10 @@ HelpTextOptions.propTypes = {
 
 export const ComplexClaimsHelpSection = () => {
   return (
-    <div className="complex-claim-help-section">
+    <div
+      className="complex-claim-help-section"
+      data-testid="complex-claim-help"
+    >
       <h2 className="complex-claim-help-heading">Need help?</h2>
       <p className="vads-u-margin-top--0">
         You can call the Beneficiary Travel Self Service System (BTSSS) call
