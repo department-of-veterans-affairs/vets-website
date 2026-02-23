@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
@@ -340,5 +341,79 @@ describe('guardianInformationChapter', () => {
         expect(screen.getByText('Please provide a valid postal code')).to.exist;
       });
     });
+  });
+});
+
+describe('TOE customValidateAddress - military zip code validation', () => {
+  const mailingAddressPage =
+    formConfig.chapters.contactInformationChapter.pages.mailingAddress;
+  const customValidateAddress =
+    mailingAddressPage.uiSchema['view:mailingAddress'].address[
+      'ui:validations'
+    ][0];
+  let errors;
+
+  beforeEach(() => {
+    errors = {
+      state: { addError: sinon.spy() },
+      postalCode: { addError: sinon.spy() },
+    };
+  });
+
+  it('should accept valid AE zip code (09xxx)', () => {
+    const addressData = { state: 'AE', postalCode: '09123', country: 'USA' };
+    customValidateAddress(errors, addressData, {}, { required: [] });
+    expect(errors.postalCode.addError.called).to.be.false;
+  });
+
+  it('should accept valid AA zip code (340xx)', () => {
+    const addressData = { state: 'AA', postalCode: '34012', country: 'USA' };
+    customValidateAddress(errors, addressData, {}, { required: [] });
+    expect(errors.postalCode.addError.called).to.be.false;
+  });
+
+  it('should accept valid AP zip code (96[2-6]xx)', () => {
+    const addressData = { state: 'AP', postalCode: '96234', country: 'USA' };
+    customValidateAddress(errors, addressData, {}, { required: [] });
+    expect(errors.postalCode.addError.called).to.be.false;
+  });
+
+  it('should reject invalid AE zip code', () => {
+    const addressData = { state: 'AE', postalCode: '12345', country: 'USA' };
+    customValidateAddress(errors, addressData, {}, { required: [] });
+    expect(errors.postalCode.addError.calledOnce).to.be.true;
+    expect(errors.postalCode.addError.firstCall.args[0]).to.contain(
+      'valid zip code for the selected military state',
+    );
+  });
+
+  it('should reject invalid AA zip code', () => {
+    const addressData = { state: 'AA', postalCode: '12345', country: 'USA' };
+    customValidateAddress(errors, addressData, {}, { required: [] });
+    expect(errors.postalCode.addError.calledOnce).to.be.true;
+  });
+
+  it('should reject invalid AP zip code', () => {
+    const addressData = { state: 'AP', postalCode: '12345', country: 'USA' };
+    customValidateAddress(errors, addressData, {}, { required: [] });
+    expect(errors.postalCode.addError.calledOnce).to.be.true;
+  });
+
+  it('should reject AP zip code outside 962-966 range', () => {
+    const addressData = { state: 'AP', postalCode: '96700', country: 'USA' };
+    customValidateAddress(errors, addressData, {}, { required: [] });
+    expect(errors.postalCode.addError.calledOnce).to.be.true;
+  });
+
+  it('should not validate military zip when state is not military', () => {
+    const addressData = { state: 'CA', postalCode: '90210', country: 'USA' };
+    customValidateAddress(errors, addressData, {}, { required: [] });
+    expect(errors.postalCode.addError.called).to.be.false;
+  });
+
+  it('should not validate military zip when postalCode is empty', () => {
+    const addressData = { state: 'AE', postalCode: '', country: 'USA' };
+    customValidateAddress(errors, addressData, {}, { required: [] });
+    expect(errors.postalCode.addError.called).to.be.false;
   });
 });
