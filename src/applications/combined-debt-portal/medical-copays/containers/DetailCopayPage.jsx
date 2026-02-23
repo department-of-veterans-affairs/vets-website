@@ -17,6 +17,7 @@ import {
   formatISODateToMMDDYYYY,
   isAnyElementFocused,
   DEFAULT_COPAY_ATTRIBUTES,
+  useCurrentStatement
 } from '../../combined/utils/helpers';
 import { getCopayDetailStatement } from '../../combined/actions/copays';
 

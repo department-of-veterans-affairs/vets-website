@@ -6,7 +6,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import {
   setPageFocus,
   showVHAPaymentHistory,
-  useSelectedStatement,
+  useCurrentStatement,
 } from '../../combined/utils/helpers';
 import Modals from '../../combined/components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
