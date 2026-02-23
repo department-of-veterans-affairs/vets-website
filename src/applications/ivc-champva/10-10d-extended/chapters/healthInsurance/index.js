@@ -17,6 +17,7 @@ const isMedigap = (formData, index) =>
 export const healthInsurancePages = {
   overview: {
     path: 'report-other-health-insurance',
+    title: content['health-insurance--summary-title--review'],
     ...sectionOverview,
   },
   ...arrayBuilderPages(ohiArrayOptions, pageBuilder => ({

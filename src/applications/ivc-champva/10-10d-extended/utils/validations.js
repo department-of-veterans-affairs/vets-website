@@ -587,6 +587,8 @@ export const validateFutureDate = (
  * @param {string} fieldData - The input string to validate
  */
 export const validateChars = (errors, fieldData) => {
+  if (!fieldData || typeof fieldData !== 'string') return;
+
   const invalidCharsPattern = /[~!@#$%^&*+=[\]{}()<>;:"`\\/_|]/g;
   const matches = fieldData.match(invalidCharsPattern);
 

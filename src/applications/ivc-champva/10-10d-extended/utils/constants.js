@@ -8,6 +8,8 @@ export const ATTACHMENT_IDS = Object.freeze({
   medicareCCardBack: 'Back of Medicare Part C card',
   medicareDCardFront: 'Front of Medicare Part D card',
   medicareDCardBack: 'Back of Medicare Part D card',
+  ohiCardFront: 'Front of health insurance card',
+  ohiCardBack: 'Back of health insurance card',
   schoolCertificationForm: 'School enrollment certification form',
   schoolEnrollmentLetter: 'Enrollment letter',
 });
