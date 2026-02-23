@@ -1,14 +1,16 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
+import { organizationRepresentativesArrayOptions } from '../helpers';
+
 import manifest from '../manifest.json';
 import transform from './transform';
 import submitForm from './submitForm';
-import { organizationRepresentativesArrayOptions } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -126,6 +128,11 @@ const formConfig = {
           depends: formData => formData?.userLoggedIn !== true,
         },
         ...profileContactInfoPages({
+          content: {
+            ...getContent('request'),
+            title: 'Confirm the contact information we have on file for you',
+            description: null,
+          },
           contactInfoRequiredKeys: ['mailingAddress'],
         }),
       },
