@@ -589,7 +589,7 @@ export const lastDayOfMonth = (month, year = NaN) => {
   const lastDay = new Date(year, month, 0).getDate();
 
   // default values if provided year or month are invalid/blank
-  if (isNaN(lastDay)) {
+  if (Number.isNaN(lastDay)) {
     switch (month) {
       case 4:
       case 6:
