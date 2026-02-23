@@ -1,8 +1,7 @@
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState } from 'react';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import React, { useEffect, useState } from 'react';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { envApiUrl, mockTestingFlagForAPI } from '../../constants';
+import { mockTestingFlagForAPI } from '../../constants';
 import { mockInquiryStatusResponse } from '../../utils/mockData';
 import { getVAStatusFromCRM } from '../../config/helpers';
 import {
@@ -11,8 +10,9 @@ import {
   starIcon,
   successIcon,
 } from '../../utils/helpers';
+import { getInquiryStatus } from '../../utils/api';
 
-const statusUiMap = {
+const uiDetailsMap = {
   New: {
     icon: starIcon,
     message: "We received your question. We'll review it soon.",
@@ -50,39 +50,35 @@ const statusUiMap = {
  * @property {string} data.attributes.status
  */
 
-export default function InquiryStatus() {
+export default function StatusChecker() {
   const [statusData, setStatusData] = useState({});
   const [hasError, setHasError] = useState(false);
-  const [query, setQuery] = useState('');
+  const [displayQuery, setDisplayQuery] = useState('');
 
-  const getApiData = url => {
+  const handleSubmit = e => {
+    const query = e.target.value.trim();
+    setDisplayQuery(query);
     setHasError(false);
+    setStatusData({});
 
     // Mocking the API response for testing when searching for reference number
     // A-20250106-308944
     if (mockTestingFlagForAPI && query === 'A-20250106-308944') {
       setStatusData(mockInquiryStatusResponse.data);
-      return Promise.resolve();
+    } else {
+      getInquiryStatus(query)
+        .then(res => {
+          setStatusData(res.data);
+        })
+        .catch(() => {
+          setHasError(true);
+        });
     }
-
-    return apiRequest(url)
-      .then(res => {
-        setStatusData(res.data);
-      })
-      .catch(() => setHasError(true));
   };
 
-  const handleSearchByReferenceNumber = async () => {
-    const url = `${envApiUrl}/ask_va_api/v0/inquiries/${query}/status`;
-    await getApiData(url);
+  useEffect(() => {
     focusElement('#status-message');
-  };
-
-  const handleSearchInputChange = async e => {
-    setHasError(false);
-    setStatusData({});
-    setQuery(e.target.value.trim());
-  };
+  });
 
   const questionStatus = () => {
     if (hasError) {
@@ -90,7 +86,7 @@ export default function InquiryStatus() {
         <div className="vads-u-margin-y--3" id="status-message">
           <p tabIndex="-1">
             We didn’t find a question with reference number "
-            <span className="vads-u-font-weight--bold">{query}</span>
+            <span className="vads-u-font-weight--bold">{displayQuery}</span>
             ." Check your reference number and try again.
           </p>
           <p>
@@ -103,8 +99,8 @@ export default function InquiryStatus() {
 
     if (statusData?.attributes?.status) {
       const rawStatus = statusData.attributes.status;
-      const displayStatus = getVAStatusFromCRM(rawStatus);
-      const uiDetails = statusUiMap[displayStatus];
+      const uiStatus = getVAStatusFromCRM(rawStatus);
+      const uiDetails = uiDetailsMap[uiStatus];
 
       return (
         <div>
@@ -114,12 +110,12 @@ export default function InquiryStatus() {
             tabIndex="-1"
           >
             Showing the status for reference number "
-            <span className="vads-u-font-weight--bold">{query}</span>"
+            <span className="vads-u-font-weight--bold">{displayQuery}</span>"
           </h3>
           <div className="vads-u-border-bottom--1px vads-u-border-color--gray-light" />
           <p>
             <span className="vads-u-font-weight--bold">Status: </span>
-            {displayStatus} {uiDetails?.icon}
+            {uiStatus} {uiDetails?.icon}
           </p>
           {uiDetails?.message && (
             <div
@@ -149,9 +145,7 @@ export default function InquiryStatus() {
         big
         buttonText="Search"
         label="Reference number"
-        onInput={handleSearchInputChange}
-        onSubmit={handleSearchByReferenceNumber}
-        value={query}
+        onSubmit={handleSubmit}
       />
       <div className="vads-u-margin-bottom--7">{questionStatus()}</div>
     </div>

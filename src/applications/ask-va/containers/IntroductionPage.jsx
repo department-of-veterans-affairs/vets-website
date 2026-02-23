@@ -25,7 +25,7 @@ import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import Announcements from '../components/Announcements';
 import Inbox from './Inbox';
-import InquiryStatus from '../components/introduction/InquiryStatus';
+import StatusChecker from '../components/introduction/StatusChecker';
 
 const VerifiedAlert = (
   <div className="vads-u-margin-bottom--4">
@@ -199,7 +199,7 @@ const IntroductionPage = props => {
             Text <a href="tel:+1838255">838255</a>.
           </li>
         </ul>
-        <InquiryStatus />
+        <StatusChecker />
       </>
     );
   };
