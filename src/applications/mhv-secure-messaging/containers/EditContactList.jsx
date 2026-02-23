@@ -66,13 +66,14 @@ const EditContactList = () => {
     ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'].includes(schedule?.phases?.current),
   );
 
-  const migratingFacilities = userProfile?.migrationSchedules?.flatMap(
-    facility => facility.facilities?.map(f => f.facilityName),
-  );
+  const migratingFacilities =
+    userProfile?.migrationSchedules?.flatMap(facility =>
+      facility.facilities?.map(f => f.facilityName),
+    ) || [];
 
   const isInAlertDisplayWindow =
     migratingFacilities.length > 0 &&
-    vistaFacilities.length > 0 &&
+    vistaFacilities?.length > 0 &&
     isInPhaseP1ToP6;
 
   const isContactListChanged = useMemo(
