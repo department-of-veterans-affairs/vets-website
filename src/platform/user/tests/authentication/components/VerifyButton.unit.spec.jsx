@@ -10,6 +10,7 @@ import {
   verifyHandler,
 } from 'platform/user/authentication/components/VerifyButton';
 import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
+import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 import * as OAuthUtils from 'platform/utilities/oauth/utilities';
 import * as AuthUtils from 'platform/user/authentication/utilities';
 
@@ -71,9 +72,10 @@ describe('Verify Buttons', () => {
       sinon.assert.calledOnce(AuthUtils.verify);
       sinon.assert.calledWith(AuthUtils.verify, {
         policy,
-        acr: sinon.match.string,
+        acr: defaultWebOAuthOptions.acrVerify[policy],
         queryParams,
         useOAuth,
+        ial2Enforcement: false,
       });
 
       // Verify that `updateStateAndVerifier` was called if `useOAuth` is true
@@ -161,9 +163,10 @@ describe('verifyHandler', () => {
     sinon.assert.calledOnce(AuthUtils.verify);
     sinon.assert.calledWith(AuthUtils.verify, {
       policy,
-      acr: sinon.match.string,
+      acr: defaultWebOAuthOptions.acrVerify[policy],
       queryParams,
       useOAuth,
+      ial2Enforcement: false,
     });
 
     sinon.assert.calledOnce(OAuthUtils.updateStateAndVerifier);
@@ -180,9 +183,10 @@ describe('verifyHandler', () => {
     sinon.assert.calledOnce(AuthUtils.verify);
     sinon.assert.calledWith(AuthUtils.verify, {
       policy,
-      acr: sinon.match.string,
+      acr: defaultWebOAuthOptions.acrVerify[policy],
       queryParams,
       useOAuth,
+      ial2Enforcement: false,
     });
 
     sinon.assert.notCalled(OAuthUtils.updateStateAndVerifier);

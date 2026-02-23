@@ -44,9 +44,10 @@ describe('LoginActions component', () => {
       button.simulate('click');
 
       expect(authUtilities.login.calledOnce).to.be.true;
-      expect(authUtilities.login.getCall(0).args[0]).to.deep.equal(
-        expectedArgs[loginCSP],
-      );
+      expect(authUtilities.login.getCall(0).args[0]).to.deep.equal({
+        ial2Enforcement: false,
+        ...expectedArgs[loginCSP],
+      });
 
       sandbox.reset();
     });

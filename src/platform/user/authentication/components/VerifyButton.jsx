@@ -13,7 +13,7 @@ import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 export const verifyHandler = ({
-  ial2Enforcement,
+  ial2Enforcement = false,
   policy,
   queryParams,
   useOAuth,
