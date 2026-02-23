@@ -47,7 +47,7 @@ const PersonalInformation = ({ formData }) => {
       </p>
       <va-card class="data-card">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          Personal information
+          Your personal information
         </h4>
         <p className="name">
           <strong>Name:</strong>{' '}

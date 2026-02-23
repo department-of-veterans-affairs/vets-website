@@ -27,9 +27,12 @@ describe('22-10297 Mailing address page', () => {
     });
 
     it('should show APO/FPO/DPO city options and AE/AA/AP state options', () => {
-      expect(screen.getByRole('option', { name: 'AE - APO/DPO/FPO' })).to.exist;
-      expect(screen.getByRole('option', { name: 'AA - APO/DPO/FPO' })).to.exist;
-      expect(screen.getByRole('option', { name: 'AP - APO/DPO/FPO' })).to.exist;
+      expect(screen.getByRole('option', { name: 'Armed Forces Americas (AA)' }))
+        .to.exist;
+      expect(screen.getByRole('option', { name: 'Armed Forces Europe (AE)' }))
+        .to.exist;
+      expect(screen.getByRole('option', { name: 'Armed Forces Pacific (AP)' }))
+        .to.exist;
       expect(screen.getByRole('option', { name: 'APO' })).to.exist;
       expect(screen.getByRole('option', { name: 'DPO' })).to.exist;
       expect(screen.getByRole('option', { name: 'FPO' })).to.exist;
@@ -39,12 +42,9 @@ describe('22-10297 Mailing address page', () => {
       const submitButton = screen.getByRole('button', { name: /Submit/i });
       await userEvent.click(submitButton);
 
-      expect(screen.getByText('Enter a street address')).to.exist;
-      expect(screen.getByText('Select a type of post office: APO, DPO, or FPO'))
-        .to.exist;
-      expect(screen.getByText('Select an abbreviation: AA, AE, or AP')).to
-        .exist;
-      expect(screen.getByText('Enter a zip code')).to.exist;
+      expect(screen.getAllByText('You must provide a response')).to.have.length(
+        4,
+      );
     });
 
     it('should show errors when user input is invalid', async () => {
@@ -52,16 +52,17 @@ describe('22-10297 Mailing address page', () => {
         name: 'Street address (*Required)',
       });
 
-      const zipCodeInput = screen.getByRole('textbox', {
-        name: /Zip code/i,
+      const postalCodeInput = screen.getByRole('textbox', {
+        name: /Postal code/i,
       });
 
       await userEvent.type(streetInput, '1');
-      await userEvent.type(zipCodeInput, 'abc');
+      await userEvent.type(postalCodeInput, 'abc');
       await userEvent.tab(); // Need to blur the input to trigger validation
 
-      expect(screen.getByText('Enter your full street address')).to.exist;
-      expect(screen.getByText('Enter a valid 5-digit zip code')).to.exist;
+      expect(screen.getByText('Please provide your full street address')).to
+        .exist;
+      expect(screen.getByText('Please provide a valid postal code')).to.exist;
     });
   });
 
@@ -70,25 +71,21 @@ describe('22-10297 Mailing address page', () => {
       screen = renderPage({ mailingAddress: { country: 'USA' } });
     });
 
-    it('should render State dropdown and Zip code input', () => {
+    it('should render State dropdown', () => {
       expect(screen.getByRole('combobox', { name: 'State (*Required)' })).to
         .exist;
       expect(
         screen.queryByRole('combobox', { name: /State\/County\/Province/i }),
       ).not.to.exist;
-      expect(screen.getByRole('textbox', { name: /Zip code/i })).to.exist;
-      expect(screen.queryByRole('textbox', { name: /Postal code/i })).not.to
-        .exist;
     });
 
     it('should show errors when required fields are left blank', async () => {
       const submitButton = screen.getByRole('button', { name: /Submit/i });
       await userEvent.click(submitButton);
 
-      expect(screen.getByText('Enter a street address')).to.exist;
-      expect(screen.getByText('Enter a city')).to.exist;
-      expect(screen.getByText('Select a state')).to.exist;
-      expect(screen.getByText('Enter a zip code')).to.exist;
+      expect(screen.getAllByText('You must provide a response')).to.have.length(
+        4,
+      );
     });
 
     it('should show errors when user input is invalid', async () => {
@@ -98,18 +95,19 @@ describe('22-10297 Mailing address page', () => {
       const cityInput = screen.getByRole('textbox', {
         name: /City/i,
       });
-      const zipCodeInput = screen.getByRole('textbox', {
-        name: /Zip code/i,
+      const postalCodeInput = screen.getByRole('textbox', {
+        name: /Postal code/i,
       });
 
       await userEvent.type(streetInput, '1');
       await userEvent.type(cityInput, 'a');
-      await userEvent.type(zipCodeInput, 'abc');
+      await userEvent.type(postalCodeInput, 'abc');
       await userEvent.tab(); // Need to blur the input to trigger validation
 
-      expect(screen.getByText('Enter your full street address')).to.exist;
-      expect(screen.getByText('Enter a valid city')).to.exist;
-      expect(screen.getByText('Enter a valid 5-digit zip code')).to.exist;
+      expect(screen.getByText('Please provide your full street address')).to
+        .exist;
+      expect(screen.getByText('Please provide a valid city')).to.exist;
+      expect(screen.getByText('Please provide a valid postal code')).to.exist;
     });
   });
 
@@ -119,14 +117,22 @@ describe('22-10297 Mailing address page', () => {
         screen = renderPage({ mailingAddress: { country: 'CAN' } });
       });
 
+      it('should render State/County/Province dropdown', () => {
+        expect(
+          screen.getByRole('combobox', { name: /State\/County\/Province/i }),
+        ).to.exist;
+        expect(
+          screen.queryByRole('textbox', { name: /State\/County\/Province/i }),
+        ).not.to.exist;
+      });
+
       it('should show errors when required fields are left blank', async () => {
         const submitButton = screen.getByRole('button', { name: /Submit/i });
         await userEvent.click(submitButton);
 
-        expect(screen.getByText('Enter a street address')).to.exist;
-        expect(screen.getByText('Enter a city')).to.exist;
-        expect(screen.getByText('Select a province or territory')).to.exist;
-        expect(screen.getByText('Enter a postal code')).to.exist;
+        expect(
+          screen.getAllByText('You must provide a response'),
+        ).to.have.length(4);
       });
 
       it('should show errors when user input is invalid', async () => {
@@ -145,10 +151,10 @@ describe('22-10297 Mailing address page', () => {
         await userEvent.type(postalCodeInput, 'ab');
         await userEvent.tab(); // Need to blur the input to trigger validation
 
-        expect(screen.getByText('Enter your full street address')).to.exist;
-        expect(screen.getByText('Enter a valid city')).to.exist;
-        expect(screen.getByText('Enter a valid 6-character postal code')).to
+        expect(screen.getByText('Please provide your full street address')).to
           .exist;
+        expect(screen.getByText('Please provide a valid city')).to.exist;
+        expect(screen.getByText('Please provide a valid postal code')).to.exist;
       });
     });
 
@@ -157,14 +163,21 @@ describe('22-10297 Mailing address page', () => {
         screen = renderPage({ mailingAddress: { country: 'MEX' } });
       });
 
+      it('should render State dropdown', () => {
+        expect(screen.getByRole('combobox', { name: 'State (*Required)' })).to
+          .exist;
+        expect(
+          screen.queryByRole('textbox', { name: /State\/County\/Province/i }),
+        ).not.to.exist;
+      });
+
       it('should show errors when required fields are left blank', async () => {
         const submitButton = screen.getByRole('button', { name: /Submit/i });
         await userEvent.click(submitButton);
 
-        expect(screen.getByText('Enter a street address')).to.exist;
-        expect(screen.getByText('Enter a city')).to.exist;
-        expect(screen.getByText('Select a state')).to.exist;
-        expect(screen.getByText('Enter a postal code')).to.exist;
+        expect(
+          screen.getAllByText('You must provide a response'),
+        ).to.have.length(4);
       });
 
       it('should show errors when user input is invalid', async () => {
@@ -183,9 +196,10 @@ describe('22-10297 Mailing address page', () => {
         await userEvent.type(postalCodeInput, 'ab');
         await userEvent.tab(); // Need to blur the input to trigger validation
 
-        expect(screen.getByText('Enter your full street address')).to.exist;
-        expect(screen.getByText('Enter a valid city')).to.exist;
-        expect(screen.getByText('Enter a valid 5-digit postal code')).to.exist;
+        expect(screen.getByText('Please provide your full street address')).to
+          .exist;
+        expect(screen.getByText('Please provide a valid city')).to.exist;
+        expect(screen.getByText('Please provide a valid postal code')).to.exist;
       });
     });
 
@@ -194,28 +208,21 @@ describe('22-10297 Mailing address page', () => {
         screen = renderPage({ mailingAddress: { country: 'ALB' } });
       });
 
-      it('should render State/Country/Province input and Postal code input', () => {
+      it('should render State/Country/Province input', () => {
         expect(
           screen.getByRole('textbox', { name: /State\/County\/Province/i }),
         ).to.exist;
         expect(screen.queryByRole('combobox', { name: 'State (*Required)' }))
           .not.to.exist;
-        expect(screen.getByRole('textbox', { name: /Postal code/i })).to.exist;
-        expect(screen.queryByRole('textbox', { name: /Zip code/i })).not.to
-          .exist;
       });
 
       it('should show errors when required fields are left blank', async () => {
         const submitButton = screen.getByRole('button', { name: /Submit/i });
         await userEvent.click(submitButton);
 
-        expect(screen.getByText('Enter a street address')).to.exist;
-        expect(screen.getByText('Enter a city')).to.exist;
         expect(
-          screen.getByText(
-            'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
-          ),
-        ).to.exist;
+          screen.getAllByText('You must provide a response'),
+        ).to.have.length(3);
       });
 
       it('should show errors when user input is invalid', async () => {
@@ -234,9 +241,10 @@ describe('22-10297 Mailing address page', () => {
         await userEvent.type(postalCodeInput, 'ab');
         await userEvent.tab(); // Need to blur the input to trigger validation
 
-        expect(screen.getByText('Enter your full street address')).to.exist;
-        expect(screen.getByText('Enter a valid city')).to.exist;
-        expect(screen.getByText('Enter a valid postal code')).to.exist;
+        expect(screen.getByText('Please provide your full street address')).to
+          .exist;
+        expect(screen.getByText('Please provide a valid city')).to.exist;
+        expect(screen.getByText('Please provide a valid postal code')).to.exist;
       });
     });
   });

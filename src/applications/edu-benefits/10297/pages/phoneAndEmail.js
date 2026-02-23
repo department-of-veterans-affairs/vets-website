@@ -44,9 +44,9 @@ const uiSchema = {
       errorMessages: {
         required: 'Please enter an email address',
         pattern:
-          'Enter a valid email address using thes format email@domain.com. Your email address can only have letters, numbers, the @ symbbol and a period, with no spaces.',
+          'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
         format:
-          'Enter a valid email address using thes format email@domain.com. Your email address can only have letters, numbers, the @ symbbol and a period, with no spaces.',
+          'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
       },
     }),
   },
@@ -64,7 +64,7 @@ const schema = {
       properties: {
         mobilePhone: internationalPhoneSchema(),
         homePhone: internationalPhoneSchema(),
-        emailAddress: { ...emailSchema, pattern: '^[a-zA-Z0-9@.]+$' },
+        emailAddress: { ...emailSchema, pattern: '^[a-zA-Z0-9@.+]+$' },
       },
     },
     'view:confirmDuplicateData': {

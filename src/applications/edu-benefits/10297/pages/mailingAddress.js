@@ -11,31 +11,7 @@ const POSTAL_CODE_PATTERNS = {
   CAN:
     '^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$',
   MEX: '^\\d{5}$',
-  USA: '^\\d{5}$',
-};
-
-const POSTAL_CODE_PATTERN_ERROR_MESSAGES = {
-  CAN: {
-    required: 'Enter a postal code',
-    pattern: 'Enter a valid 6-character postal code',
-  },
-  MEX: {
-    required: 'Enter a postal code',
-    pattern: 'Enter a valid 5-digit postal code',
-  },
-  USA: {
-    required: 'Enter a zip code',
-    pattern: 'Enter a valid 5-digit zip code',
-  },
-  NONE: {
-    required: 'Enter a postal code',
-    pattern: 'Enter a valid postal code',
-  },
-  OTHER: {
-    required:
-      'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
-    pattern: 'Enter a valid postal code',
-  },
+  USA: '(^\\d{5}$)|(^\\d{5}[ -]{0,1}\\d{4})$',
 };
 
 const addressUiSchema = addressUI({ omit: ['street3'] });
@@ -99,7 +75,8 @@ const uiSchema = {
       'ui:webComponentField': undefined,
       'ui:errorMessages': {
         ...addressUiSchema.street['ui:errorMessages'],
-        minLength: 'Enter your full street address',
+        required: 'You must provide a response',
+        minLength: 'Please provide your full street address',
       },
     },
     street2: {
@@ -125,15 +102,15 @@ const uiSchema = {
           const cityUI = _uiSchema;
 
           cityUI['ui:errorMessages'] = {
-            required: 'Enter a city',
-            pattern: 'Enter a city',
-            minLength: 'Enter a valid city',
+            required: 'You must provide a response',
+            pattern: 'Please provide a valid city',
+            minLength: 'Please provide a valid city',
           };
 
           if (livesOnMilitaryBase) {
             cityUI['ui:errorMessages'] = {
-              required: 'Select a type of post office: APO, DPO, or FPO',
-              enum: 'Select a type of post office: APO, DPO, or FPO',
+              required: 'You must provide a response',
+              enum: 'Please select a type of post office: APO, DPO, or FPO',
             };
             return {
               type: 'string',
@@ -161,24 +138,24 @@ const uiSchema = {
           const stateUI = _uiSchema;
           if (livesOnMilitaryBase) {
             stateUI['ui:errorMessages'] = {
-              required: 'Select an abbreviation: AA, AE, or AP',
-              enum: 'Select an abbreviation: AA, AE, or AP',
+              required: 'You must provide a response',
+              enum: 'Please select a valid abbreviation: AA, AE, or AP',
             };
             return {
               type: 'string',
-              title: 'AE/AA/AP',
-              enum: ['AE', 'AA', 'AP'],
+              title: 'AA/AE/AP',
+              enum: ['AA', 'AE', 'AP'],
               enumNames: [
-                'AE - APO/DPO/FPO',
-                'AA - APO/DPO/FPO',
-                'AP - APO/DPO/FPO',
+                'Armed Forces Americas (AA)',
+                'Armed Forces Europe (AE)',
+                'Armed Forces Pacific (AP)',
               ],
             };
           }
           if (formData.mailingAddress?.country === 'USA') {
             stateUI['ui:errorMessages'] = {
-              required: 'Select a state',
-              enum: 'Select a state',
+              required: 'You must provide a response',
+              enum: 'Please select a valid state',
             };
             return {
               type: 'string',
@@ -189,8 +166,8 @@ const uiSchema = {
           }
           if (formData.mailingAddress?.country === 'CAN') {
             stateUI['ui:errorMessages'] = {
-              required: 'Select a province or territory',
-              enum: 'Select a province or territory',
+              required: 'You must provide a response',
+              enum: 'Please select a valid province or territory',
             };
             return {
               type: 'string',
@@ -201,8 +178,8 @@ const uiSchema = {
           }
           if (formData.mailingAddress?.country === 'MEX') {
             stateUI['ui:errorMessages'] = {
-              required: 'Select a state',
-              enum: 'Select a state',
+              required: 'You must provide a response',
+              enum: 'Please select a valid state',
             };
             return {
               type: 'string',
@@ -232,26 +209,21 @@ const uiSchema = {
           const newSchema = {
             type: 'string',
             title: 'Postal code',
-            pattern: '^[A-Z0-9 -]{3,10}$',
+            minLength: 3,
             maxLength: 10,
+          };
+
+          newUiSchema['ui:errorMessages'] = {
+            required: 'You must provide a response',
+            pattern: 'Please provide a valid postal code',
+            minLength: 'Please provide a valid postal code',
           };
 
           // country-specific error messages
           if (country === 'USA') {
-            newUiSchema['ui:errorMessages'] =
-              POSTAL_CODE_PATTERN_ERROR_MESSAGES.USA;
             newSchema.pattern = POSTAL_CODE_PATTERNS.USA;
-            newSchema.title = 'Zip code';
           } else if (['CAN', 'MEX'].includes(country)) {
-            newUiSchema['ui:errorMessages'] =
-              POSTAL_CODE_PATTERN_ERROR_MESSAGES[country];
             newSchema.pattern = POSTAL_CODE_PATTERNS[country];
-          } else if (!country) {
-            newUiSchema['ui:errorMessages'] =
-              POSTAL_CODE_PATTERN_ERROR_MESSAGES.NONE;
-          } else {
-            newUiSchema['ui:errorMessages'] =
-              POSTAL_CODE_PATTERN_ERROR_MESSAGES.OTHER;
           }
 
           return {
@@ -284,7 +256,7 @@ const schema = {
         street: { type: 'string', minLength: 3, maxLength: 40 },
         street2: { type: 'string', maxLength: 40 },
         city: { type: 'string', minLength: 2, maxLength: 20 },
-        postalCode: { type: 'string', maxLength: 10 },
+        postalCode: { type: 'string', minLength: 3, maxLength: 10 },
       },
     },
   },
