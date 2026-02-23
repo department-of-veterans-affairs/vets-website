@@ -1,5 +1,7 @@
 import { expect } from 'chai';
+import sinon from 'sinon-v20';
 import {
+  createModalTitleOrDescription,
   getAgeInYears,
   isOfCollegeAge,
   page15aDepends,
@@ -179,7 +181,7 @@ describe('1010d `getAgeInYears` util', () => {
   });
 });
 
-describe('1010d `isOfCollegeAge` executes', () => {
+describe('1010d `isOfCollegeAge` util', () => {
   it('should return `false` when birthdate is greater than 23 years from testdate', () => {
     const testdate = new Date('2023-06-01');
     expect(isOfCollegeAge('1986-06-01', testdate)).to.be.false;
@@ -203,5 +205,63 @@ describe('1010d `isOfCollegeAge` executes', () => {
   it('should return `true` when birthdate is between 18 and 23 years from testdate', () => {
     const testdate = new Date('2023-06-01');
     expect(isOfCollegeAge('2003-06-01', testdate)).to.be.true;
+  });
+});
+
+describe('1010d `createModalTitleOrDescription` util', () => {
+  const createMockProps = (itemName = null, nounSingular = 'plan') => ({
+    getItemName: sinon.stub().returns(itemName),
+    itemData: itemName ? { provider: itemName } : {},
+    index: 0,
+    formData: {},
+    nounSingular,
+  });
+
+  const itemKey = 'health-insurance--cancel-edit-item-title';
+  const nounKey = 'health-insurance--cancel-edit-noun-title';
+
+  it('should return a function', () => {
+    const result = createModalTitleOrDescription(itemKey, nounKey);
+    expect(result).to.be.a('function');
+  });
+
+  it('should use itemKey and replace with item name when it exists', () => {
+    const modalFn = createModalTitleOrDescription(itemKey, nounKey);
+    const props = createMockProps('Blue Cross');
+    const result = modalFn(props);
+    sinon.assert.calledOnceWithExactly(
+      props.getItemName,
+      props.itemData,
+      props.index,
+      props.formData,
+    );
+    expect(result).to.include('Blue Cross');
+    expect(result).to.not.include('{{XX');
+  });
+
+  [
+    { value: null, description: 'null' },
+    { value: undefined, description: 'undefined' },
+    { value: '', description: 'empty string' },
+  ].forEach(({ value, description }) => {
+    it(`should use nounKey and replace with noun when item name is ${description}`, () => {
+      const modalFn = createModalTitleOrDescription(itemKey, nounKey);
+      const props = createMockProps(value, 'insurance plan');
+      const result = modalFn(props);
+      expect(result).to.include('insurance plan');
+      expect(result).to.not.include('{{XX');
+    });
+  });
+
+  it('should call getItemName with correct arguments', () => {
+    const modalFn = createModalTitleOrDescription(itemKey, nounKey);
+    const props = createMockProps('Aetna');
+    modalFn(props);
+    sinon.assert.calledOnceWithExactly(
+      props.getItemName,
+      props.itemData,
+      props.index,
+      props.formData,
+    );
   });
 });
