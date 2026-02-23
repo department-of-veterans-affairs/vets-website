@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  APP_TYPES,
-  healthResourceCenterPhoneContent,
-  dmcPhoneContent,
-} from '../utils/helpers';
+import { APP_TYPES } from '../utils/constants';
+import { healthResourceCenterPhoneContent, dmcPhoneContent } from '../utils/helpers';
 
 const AlertCard = ({ appType }) => {
   return (

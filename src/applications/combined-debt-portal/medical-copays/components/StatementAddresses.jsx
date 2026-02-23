@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { showVHAPaymentHistory } from '../../combined/utils/helpers';
+import { showCopayPaymentHistory } from '../../combined/utils/selectors';
 
 const StatementAddresses = ({ copay }) => {
-  const shouldShowVHAPaymentHistory = useSelector(state =>
-    showVHAPaymentHistory(state),
+  const shouldShowCopayPaymentHistory = useSelector(state =>
+    showCopayPaymentHistory(state),
   );
 
   const normalizeVHACopay = () => {
@@ -48,7 +48,7 @@ const StatementAddresses = ({ copay }) => {
     };
   };
 
-  const normalizedCopay = shouldShowVHAPaymentHistory
+  const normalizedCopay = shouldShowCopayPaymentHistory
     ? normalizeVHACopay()
     : normalizeStandardCopay();
 

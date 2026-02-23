@@ -10,9 +10,9 @@ import {
   DEBTS_SET_ACTIVE_DEBT,
 } from '../../combined/actions/debts';
 import {
-  getAllCopayStatements,
-  MCP_STATEMENTS_FETCH_INIT,
-  MCP_STATEMENTS_FETCH_SUCCESS,
+  getAllCopays,
+  MCP_COPAYS_FETCH_INIT,
+  MCP_COPAYS_FETCH_SUCCESS,
 } from '../../combined/actions/copays';
 
 describe('Debt Portal Actions', () => {
@@ -97,7 +97,7 @@ describe('Copay Actions', () => {
     dispatch = sinon.spy();
   });
 
-  it('should handle successful copay statements fetch', () => {
+  it('should handle successful copay fetch', () => {
     const mockResponse = {
       data: [
         {
@@ -110,17 +110,17 @@ describe('Copay Actions', () => {
       ],
     };
     mockApiRequest(mockResponse);
-    return getAllCopayStatements(dispatch).then(() => {
+    return getAllCopays(dispatch).then(() => {
       const allCalls = dispatch.getCalls().map(call => call.args[0]);
 
-      // First call to MCP_STATEMENTS_FETCH_INIT
+      // First call to MCP_COPAYS_FETCH_INIT
       expect(allCalls[0]).to.eql({
-        type: MCP_STATEMENTS_FETCH_INIT,
+        type: MCP_COPAYS_FETCH_INIT,
       });
 
-      // Last call to MCP_STATEMENTS_FETCH_SUCCESS with response data
+      // Last call to MCP_COPAYS_FETCH_SUCCESS with response data
       expect(allCalls[allCalls.length - 1]).to.eql({
-        type: MCP_STATEMENTS_FETCH_SUCCESS,
+        type: MCP_COPAYS_FETCH_SUCCESS,
         response: mockResponse.data,
       });
     });

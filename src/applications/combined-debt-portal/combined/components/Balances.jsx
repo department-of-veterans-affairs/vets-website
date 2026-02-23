@@ -10,7 +10,8 @@ import {
   getLatestDebt,
   calculateTotalBills,
 } from '../utils/balance-helpers';
-import { APP_TYPES, showVHAPaymentHistory } from '../utils/helpers';
+import { APP_TYPES } from '../utils/constants';
+import { showCopayPaymentHistory } from '../utils/selectors';
 import CopayAlertContainer from '../../medical-copays/components/CopayAlertContainer';
 
 // Some terminology that could be helpful:
@@ -22,7 +23,7 @@ const Balances = () => {
     ({ combinedPortal }) => combinedPortal,
   );
 
-  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
     useSelector(state => state),
   );
 
@@ -37,14 +38,14 @@ const Balances = () => {
   const latestDebt = getLatestDebt(debts);
 
   // get Bill info
-  const copayData = mcp.statements || [];
-  const { copayBillCount } = shouldShowVHAPaymentHistory
+  const copayData = mcp.copays || [];
+  const { copayBillCount } = shouldShowCopayPaymentHistory
     ? copayData.meta.copaySummary
     : { copayBillCount: copayData.length };
-  const copayTotal = shouldShowVHAPaymentHistory
+  const copayTotal = shouldShowCopayPaymentHistory
     ? copayData.meta.copaySummary.totalCurrentBalance
     : calculateTotalBills(copayData || []);
-  const latestBillDate = shouldShowVHAPaymentHistory
+  const latestBillDate = shouldShowCopayPaymentHistory
     ? new Date(copayData.meta.copaySummary.lastUpdatedOn)
     : getLatestBill(copayData || []);
 

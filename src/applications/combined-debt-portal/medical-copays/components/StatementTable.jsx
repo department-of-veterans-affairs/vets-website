@@ -7,11 +7,11 @@ import {
   formatDate,
   formatISODateToMMDDYYYY,
   setPageFocus,
-  showVHAPaymentHistory,
 } from '../../combined/utils/helpers';
+import { showCopayPaymentHistory } from '../../combined/utils/selectors';
 
 const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
-  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
     useSelector(state => state),
   );
   const columns = ['Date', 'Description', 'Billing Reference', 'Amount'];
@@ -38,7 +38,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     return `Showing ${start}-${end} of ${totalItems} ${label}`;
   };
 
-  const normalizedCharges = shouldShowVHAPaymentHistory
+  const normalizedCharges = shouldShowCopayPaymentHistory
     ? charges.map(item => ({
         date: item.datePosted,
         description: item.description,
@@ -135,7 +135,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   );
 
   const getDate = charge => {
-    if (shouldShowVHAPaymentHistory) {
+    if (shouldShowCopayPaymentHistory) {
       return formatISODateToMMDDYYYY(charge.date);
     }
 

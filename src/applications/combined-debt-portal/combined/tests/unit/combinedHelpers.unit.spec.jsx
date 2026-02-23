@@ -9,11 +9,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import MockDate from 'mockdate';
+import { APP_TYPES, ALERT_TYPES, API_RESPONSES } from '../../utils/constants';
 import {
-  APP_TYPES,
-  ALERT_TYPES,
-  API_RESPONSES,
-  selectLoadingFeatureFlags,
   currency,
   formatTableData,
   titleCase,
@@ -22,13 +19,16 @@ import {
   setPageFocus,
   formatDate,
   calcDueDate,
-  sortStatementsByDate,
+  sortCopaysByDate,
+} from '../../utils/helpers';
+import {
+  selectLoadingFeatureFlags,
   combinedPortalAccess,
   debtLettersShowLettersVBMS,
-  showPaymentHistory,
+  showDebtsPaymentHistory,
   cdpAccessToggle,
-  showVHAPaymentHistory,
-} from '../../utils/helpers';
+  showCopayPaymentHistory,
+} from '../../utils/selectors';
 import OverviewPage from '../../containers/OverviewPage';
 
 describe('Helper Functions', () => {
@@ -214,7 +214,7 @@ describe('Helper Functions', () => {
       expect(output[0].station.city).to.equal('Chicago');
     });
 
-    it('should preserve other statement properties', () => {
+    it('should preserve other copay properties', () => {
       const input = [
         {
           id: 'test-id',
@@ -303,49 +303,49 @@ describe('Helper Functions', () => {
     });
   });
 
-  describe('sortStatementsByDate', () => {
-    it('should sort statements by date in descending order', () => {
-      const statements = [
+  describe('sortCopaysByDate', () => {
+    it('should sort copays by date in descending order', () => {
+      const copays = [
         { pSStatementDateOutput: '2023-01-01' },
         { pSStatementDateOutput: '2023-03-01' },
         { pSStatementDateOutput: '2023-02-01' },
       ];
-      const sorted = sortStatementsByDate(statements);
+      const sorted = sortCopaysByDate(copays);
       expect(sorted[0].pSStatementDateOutput).to.equal('2023-03-01');
       expect(sorted[1].pSStatementDateOutput).to.equal('2023-02-01');
       expect(sorted[2].pSStatementDateOutput).to.equal('2023-01-01');
     });
 
     it('should handle empty array', () => {
-      const statements = [];
-      const sorted = sortStatementsByDate(statements);
+      const copays = [];
+      const sorted = sortCopaysByDate(copays);
       expect(sorted).to.deep.equal([]);
     });
 
     it('should handle single statement', () => {
-      const statements = [{ pSStatementDateOutput: '2023-01-01' }];
-      const sorted = sortStatementsByDate(statements);
+      const copays = [{ pSStatementDateOutput: '2023-01-01' }];
+      const sorted = sortCopaysByDate(copays);
       expect(sorted.length).to.equal(1);
       expect(sorted[0].pSStatementDateOutput).to.equal('2023-01-01');
     });
 
     it('should handle identical dates', () => {
-      const statements = [
+      const copays = [
         { pSStatementDateOutput: '2023-01-01', id: 1 },
         { pSStatementDateOutput: '2023-01-01', id: 2 },
         { pSStatementDateOutput: '2023-01-01', id: 3 },
       ];
-      const sorted = sortStatementsByDate(statements);
+      const sorted = sortCopaysByDate(copays);
       expect(sorted.length).to.equal(3);
       expect(sorted[0].pSStatementDateOutput).to.equal('2023-01-01');
     });
 
     it('should preserve other properties', () => {
-      const statements = [
+      const copays = [
         { pSStatementDateOutput: '2023-01-01', amount: 100, type: 'debt' },
         { pSStatementDateOutput: '2023-02-01', amount: 200, type: 'copay' },
       ];
-      const sorted = sortStatementsByDate(statements);
+      const sorted = sortCopaysByDate(copays);
       expect(sorted[0].amount).to.equal(200);
       expect(sorted[0].type).to.equal('copay');
       expect(sorted[1].amount).to.equal(100);
@@ -353,12 +353,12 @@ describe('Helper Functions', () => {
     });
 
     it('should handle date strings with time', () => {
-      const statements = [
+      const copays = [
         { pSStatementDateOutput: '2023-01-01T10:00:00' },
         { pSStatementDateOutput: '2023-01-01T15:00:00' },
         { pSStatementDateOutput: '2023-01-01T08:00:00' },
       ];
-      const sorted = sortStatementsByDate(statements);
+      const sorted = sortCopaysByDate(copays);
       expect(sorted[0].pSStatementDateOutput).to.equal('2023-01-01T15:00:00');
       expect(sorted[1].pSStatementDateOutput).to.equal('2023-01-01T10:00:00');
       expect(sorted[2].pSStatementDateOutput).to.equal('2023-01-01T08:00:00');
@@ -556,25 +556,25 @@ describe('Helper Functions', () => {
       expect(result).to.be.false;
     });
 
-    it('showPaymentHistory should return feature flag value true', () => {
+    it('showDebtsPaymentHistory should return feature flag value true', () => {
       const mockState = {
         featureToggles: {
           [FEATURE_FLAG_NAMES.CdpPaymentHistoryVba]: true,
         },
       };
 
-      const result = showPaymentHistory(mockState);
+      const result = showDebtsPaymentHistory(mockState);
       expect(result).to.be.true;
     });
 
-    it('showPaymentHistory should return feature flag value false', () => {
+    it('showDebtsPaymentHistory should return feature flag value false', () => {
       const mockState = {
         featureToggles: {
           [FEATURE_FLAG_NAMES.CdpPaymentHistoryVba]: false,
         },
       };
 
-      const result = showPaymentHistory(mockState);
+      const result = showDebtsPaymentHistory(mockState);
       expect(result).to.be.false;
     });
 
@@ -601,7 +601,7 @@ describe('Helper Functions', () => {
     });
   });
 
-  describe('OverviewPage sortedStatements and statementsByUniqueFacility', () => {
+  describe('OverviewPage sortedCopays and copaysByUniqueFacility', () => {
     const renderWithStore = (component, initialState) => {
       const store = createStore(
         combineReducers({
@@ -619,7 +619,7 @@ describe('Helper Functions', () => {
       );
     };
 
-    it('should pass mcp.statements.data to Balances when showVHAPaymentHistory is true', () => {
+    it('should pass mcp.copays.data to Balances when showCopayPaymentHistory is true', () => {
       const mockState = {
         user: {},
         combinedPortal: {
@@ -638,7 +638,7 @@ describe('Helper Functions', () => {
           mcp: {
             pending: false,
             error: null,
-            statements: {
+            copays: {
               data: [
                 {
                   id: '4-1abZUKu7xIvIw6',
@@ -681,7 +681,7 @@ describe('Helper Functions', () => {
           },
         },
         featureToggles: {
-          [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+          [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
           loading: false,
         },
       };
@@ -696,7 +696,7 @@ describe('Helper Functions', () => {
       expect(balanceCards[0].textContent).to.include('$150.25');
     });
 
-    it('should pass sorted statements to Balances when showVHAPaymentHistory is false', () => {
+    it('should pass sorted copays to Balances when showCopayPaymentHistory is false', () => {
       const mockState = {
         user: {},
         combinedPortal: {
@@ -709,7 +709,7 @@ describe('Helper Functions', () => {
           mcp: {
             pending: false,
             error: null,
-            statements: [
+            copays: [
               {
                 id: '1',
                 pSStatementDateOutput: '2023-01-01',
@@ -726,7 +726,7 @@ describe('Helper Functions', () => {
           },
         },
         featureToggles: {
-          [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
+          [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: false,
           loading: false,
         },
       };
@@ -734,44 +734,44 @@ describe('Helper Functions', () => {
       const { container } = renderWithStore(<OverviewPage />, mockState);
 
       expect(container).to.exist;
-      // Verify component rendered - OverviewPage should pass sorted statements to Balances
+      // Verify component rendered - OverviewPage should pass sorted copays to Balances
       const balanceCards = container.querySelectorAll('va-card');
       expect(balanceCards.length).to.be.greaterThan(0);
       expect(balanceCards[0].textContent).to.include('$300');
     });
   });
 
-  it('showVHAPaymentHistory should return feature flag value true', () => {
+  it('showCopayPaymentHistory should return feature flag value true', () => {
     const mockState = {
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+        [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
       },
     };
 
-    const result = showVHAPaymentHistory(mockState);
+    const result = showCopayPaymentHistory(mockState);
     expect(result).to.be.true;
   });
 
-  it('showVHAPaymentHistory should return feature flag value false', () => {
+  it('showCopayPaymentHistory should return feature flag value false', () => {
     const mockState = {
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
+        [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: false,
       },
     };
 
-    const result = showVHAPaymentHistory(mockState);
+    const result = showCopayPaymentHistory(mockState);
     expect(result).to.be.false;
   });
 
-  describe('sortedStatements logic', () => {
-    it('should use mcp.statements.data when showVHAPaymentHistory is true', () => {
-      const shouldShowVHAPaymentHistory = true;
-      const statements = [
+  describe('sortedCopays logic', () => {
+    it('should use mcp.copays.data when showCopayPaymentHistory is true', () => {
+      const shouldShowCopayPaymentHistory = true;
+      const copays = [
         { pSStatementDateOutput: '2023-01-01' },
         { pSStatementDateOutput: '2023-03-01' },
       ];
       const mcp = {
-        statements: {
+        copays: {
           data: [
             { id: '1', attributes: { lastUpdatedAt: '2023-05-01' } },
             { id: '2', attributes: { lastUpdatedAt: '2023-06-01' } },
@@ -779,157 +779,157 @@ describe('Helper Functions', () => {
         },
       };
 
-      const sortedStatements = shouldShowVHAPaymentHistory
-        ? mcp.statements.data ?? []
-        : sortStatementsByDate(statements || []);
+      const sortedCopays = shouldShowCopayPaymentHistory
+        ? mcp.copays.data ?? []
+        : sortCopaysByDate(copays || []);
 
-      expect(sortedStatements).to.deep.equal(mcp.statements.data);
-      expect(sortedStatements.length).to.equal(2);
-      expect(sortedStatements[0].id).to.equal('1');
+      expect(sortedCopays).to.deep.equal(mcp.copays.data);
+      expect(sortedCopays.length).to.equal(2);
+      expect(sortedCopays[0].id).to.equal('1');
     });
 
-    it('should use sortStatementsByDate when showVHAPaymentHistory is false', () => {
-      const shouldShowVHAPaymentHistory = false;
-      const statements = [
+    it('should use sortCopaysByDate when showCopayPaymentHistory is false', () => {
+      const shouldShowCopayPaymentHistory = false;
+      const copays = [
         { pSStatementDateOutput: '2023-01-01' },
         { pSStatementDateOutput: '2023-03-01' },
         { pSStatementDateOutput: '2023-02-01' },
       ];
       const mcp = {
-        statements: {
+        copays: {
           data: [{ id: '1' }, { id: '2' }],
         },
       };
 
-      const sortedStatements = shouldShowVHAPaymentHistory
-        ? mcp.statements.data ?? []
-        : sortStatementsByDate(statements || []);
+      const sortedCopays = shouldShowCopayPaymentHistory
+        ? mcp.copays.data ?? []
+        : sortCopaysByDate(copays || []);
 
-      expect(sortedStatements.length).to.equal(3);
-      expect(sortedStatements[0].pSStatementDateOutput).to.equal('2023-03-01');
-      expect(sortedStatements[2].pSStatementDateOutput).to.equal('2023-01-01');
+      expect(sortedCopays.length).to.equal(3);
+      expect(sortedCopays[0].pSStatementDateOutput).to.equal('2023-03-01');
+      expect(sortedCopays[2].pSStatementDateOutput).to.equal('2023-01-01');
     });
 
-    it('should handle null statements when showVHAPaymentHistory is false', () => {
-      const shouldShowVHAPaymentHistory = false;
-      const statements = null;
+    it('should handle null copays when showCopayPaymentHistory is false', () => {
+      const shouldShowCopayPaymentHistory = false;
+      const copays = null;
       const mcp = {
-        statements: {
+        copays: {
           data: [],
         },
       };
 
-      const sortedStatements = shouldShowVHAPaymentHistory
-        ? mcp.statements.data ?? []
-        : sortStatementsByDate(statements || []);
+      const sortedCopays = shouldShowCopayPaymentHistory
+        ? mcp.copays.data ?? []
+        : sortCopaysByDate(copays || []);
 
-      expect(sortedStatements).to.deep.equal([]);
+      expect(sortedCopays).to.deep.equal([]);
     });
 
-    it('should use empty array fallback when mcp.statements.data is null and flag is true', () => {
-      const shouldShowVHAPaymentHistory = true;
-      const statements = [{ pSStatementDateOutput: '2023-01-01' }];
+    it('should use empty array fallback when mcp.copays.data is null and flag is true', () => {
+      const shouldShowCopayPaymentHistory = true;
+      const copays = [{ pSStatementDateOutput: '2023-01-01' }];
       const mcp = {
-        statements: {
+        copays: {
           data: null,
         },
       };
 
-      const sortedStatements = shouldShowVHAPaymentHistory
-        ? mcp.statements.data ?? []
-        : sortStatementsByDate(statements || []);
+      const sortedCopays = shouldShowCopayPaymentHistory
+        ? mcp.copays.data ?? []
+        : sortCopaysByDate(copays || []);
 
-      expect(sortedStatements).to.deep.equal([]);
+      expect(sortedCopays).to.deep.equal([]);
     });
   });
 
-  describe('statementsByUniqueFacility logic', () => {
-    it('should use facilityId with uniqBy when showVHAPaymentHistory is true', () => {
-      const shouldShowVHAPaymentHistory = true;
-      const mcpStatements = [
+  describe('copaysByUniqueFacility logic', () => {
+    it('should use facilityId with uniqBy when showCopayPaymentHistory is true', () => {
+      const shouldShowCopayPaymentHistory = true;
+      const mcpCopays = [
         { id: '1', facilityId: 'FAC123', name: 'First' },
         { id: '2', facilityId: 'FAC123', name: 'Duplicate' },
         { id: '3', facilityId: 'FAC456', name: 'Second' },
       ];
-      const sortedStatements = [
+      const sortedCopays = [
         { id: '1', pSFacilityNum: '789' },
         { id: '2', pSFacilityNum: '789' },
       ];
 
-      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
-        ? uniqBy(mcpStatements, 'facilityId')
-        : uniqBy(sortedStatements, 'pSFacilityNum');
+      const copaysByUniqueFacility = shouldShowCopayPaymentHistory
+        ? uniqBy(mcpCopays, 'facilityId')
+        : uniqBy(sortedCopays, 'pSFacilityNum');
 
-      expect(statementsByUniqueFacility.length).to.equal(2);
-      expect(statementsByUniqueFacility[0].facilityId).to.equal('FAC123');
-      expect(statementsByUniqueFacility[1].facilityId).to.equal('FAC456');
-      expect(statementsByUniqueFacility[0].name).to.equal('First');
+      expect(copaysByUniqueFacility.length).to.equal(2);
+      expect(copaysByUniqueFacility[0].facilityId).to.equal('FAC123');
+      expect(copaysByUniqueFacility[1].facilityId).to.equal('FAC456');
+      expect(copaysByUniqueFacility[0].name).to.equal('First');
     });
 
-    it('should use pSFacilityNum with uniqBy when showVHAPaymentHistory is false', () => {
-      const shouldShowVHAPaymentHistory = false;
-      const mcpStatements = [
+    it('should use pSFacilityNum with uniqBy when showCopayPaymentHistory is false', () => {
+      const shouldShowCopayPaymentHistory = false;
+      const mcpCopays = [
         { id: '1', facilityId: 'FAC123' },
         { id: '2', facilityId: 'FAC456' },
       ];
-      const sortedStatements = [
+      const sortedCopays = [
         { id: '1', pSFacilityNum: '789', city: 'New York' },
         { id: '2', pSFacilityNum: '789', city: 'New York' },
         { id: '3', pSFacilityNum: '456', city: 'Boston' },
       ];
 
-      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
-        ? uniqBy(mcpStatements, 'facilityId')
-        : uniqBy(sortedStatements, 'pSFacilityNum');
+      const copaysByUniqueFacility = shouldShowCopayPaymentHistory
+        ? uniqBy(mcpCopays, 'facilityId')
+        : uniqBy(sortedCopays, 'pSFacilityNum');
 
-      expect(statementsByUniqueFacility.length).to.equal(2);
-      expect(statementsByUniqueFacility[0].pSFacilityNum).to.equal('789');
-      expect(statementsByUniqueFacility[1].pSFacilityNum).to.equal('456');
-      expect(statementsByUniqueFacility[0].city).to.equal('New York');
+      expect(copaysByUniqueFacility.length).to.equal(2);
+      expect(copaysByUniqueFacility[0].pSFacilityNum).to.equal('789');
+      expect(copaysByUniqueFacility[1].pSFacilityNum).to.equal('456');
+      expect(copaysByUniqueFacility[0].city).to.equal('New York');
     });
 
     it('should handle empty arrays', () => {
-      const shouldShowVHAPaymentHistory = true;
-      const mcpStatements = [];
-      const sortedStatements = [];
+      const shouldShowCopayPaymentHistory = true;
+      const mcpCopays = [];
+      const sortedCopays = [];
 
-      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
-        ? uniqBy(mcpStatements, 'facilityId')
-        : uniqBy(sortedStatements, 'pSFacilityNum');
+      const copaysByUniqueFacility = shouldShowCopayPaymentHistory
+        ? uniqBy(mcpCopays, 'facilityId')
+        : uniqBy(sortedCopays, 'pSFacilityNum');
 
-      expect(statementsByUniqueFacility).to.deep.equal([]);
+      expect(copaysByUniqueFacility).to.deep.equal([]);
     });
 
     it('should handle all unique facilities when flag is true', () => {
-      const shouldShowVHAPaymentHistory = true;
-      const mcpStatements = [
+      const shouldShowCopayPaymentHistory = true;
+      const mcpCopays = [
         { id: '1', facilityId: 'FAC111' },
         { id: '2', facilityId: 'FAC222' },
         { id: '3', facilityId: 'FAC333' },
       ];
-      const sortedStatements = [];
+      const sortedCopays = [];
 
-      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
-        ? uniqBy(mcpStatements, 'facilityId')
-        : uniqBy(sortedStatements, 'pSFacilityNum');
+      const copaysByUniqueFacility = shouldShowCopayPaymentHistory
+        ? uniqBy(mcpCopays, 'facilityId')
+        : uniqBy(sortedCopays, 'pSFacilityNum');
 
-      expect(statementsByUniqueFacility.length).to.equal(3);
+      expect(copaysByUniqueFacility.length).to.equal(3);
     });
 
     it('should handle all unique facilities when flag is false', () => {
-      const shouldShowVHAPaymentHistory = false;
-      const mcpStatements = [];
-      const sortedStatements = [
+      const shouldShowCopayPaymentHistory = false;
+      const mcpCopays = [];
+      const sortedCopays = [
         { id: '1', pSFacilityNum: '111' },
         { id: '2', pSFacilityNum: '222' },
         { id: '3', pSFacilityNum: '333' },
       ];
 
-      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
-        ? uniqBy(mcpStatements, 'facilityId')
-        : uniqBy(sortedStatements, 'pSFacilityNum');
+      const copaysByUniqueFacility = shouldShowCopayPaymentHistory
+        ? uniqBy(mcpCopays, 'facilityId')
+        : uniqBy(sortedCopays, 'pSFacilityNum');
 
-      expect(statementsByUniqueFacility.length).to.equal(3);
+      expect(copaysByUniqueFacility.length).to.equal(3);
     });
   });
 });

@@ -67,12 +67,12 @@ describe('DetailCopayPage', () => {
       },
       combinedPortal: {
         mcp: {
-          selectedStatement: mockStatement,
-          statements: [mockStatement],
+          currentCopay: mockStatement,
+          copays: [mockStatement],
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+        [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
         loading: false,
       },
     };
@@ -106,12 +106,12 @@ describe('DetailCopayPage', () => {
       },
       combinedPortal: {
         mcp: {
-          selectedStatement: mockStatement,
-          statements: [mockStatement],
+          currentCopay: mockStatement,
+          copays: [mockStatement],
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
+        [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: false,
         loading: false,
       },
     };

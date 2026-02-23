@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-  ALERT_TYPES,
-  APP_TYPES,
-  dmcPhoneContent,
-  healthResourceCenterPhoneContent,
-} from './helpers';
+import { ALERT_TYPES, APP_TYPES } from './constants';
+import { dmcPhoneContent, healthResourceCenterPhoneContent } from './helpers';
 
 const alertMessage = (alertType, appType) => {
   switch (alertType) {

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { APP_TYPES, currency, formatDate } from '../utils/helpers';
+import { APP_TYPES } from '../utils/constants';
+import { currency, formatDate } from '../utils/helpers';
 
 const BalanceCard = ({ amount, count, date, appType }) => {
   const cardHeader =

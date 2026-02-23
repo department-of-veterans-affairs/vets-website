@@ -4,7 +4,7 @@ import {
   getSummaryCardContent,
   getDetailsAlertContent,
 } from '../../combined/utils/cardContentHelper';
-import { APP_TYPES } from '../../combined/utils/helpers';
+import { APP_TYPES } from '../../combined/utils/constants';
 import { endDate } from '../utils/helpers';
 
 describe('cardContentHelper', () => {

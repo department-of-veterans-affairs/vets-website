@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { APP_TYPES, dmcPhoneContent } from '../utils/helpers';
+import { APP_TYPES } from '../utils/constants';
+import { dmcPhoneContent } from '../utils/helpers';
 import { phoneContent } from '../utils/copayAlertContent';
 
 const ZeroBalanceCard = ({ appType }) => {

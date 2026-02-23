@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { expect } from 'chai';
 import { useStatusContent } from '../../combined/hooks/useStatusContent';
-import { APP_TYPES } from '../../combined/utils/helpers';
+import { APP_TYPES } from '../../combined/utils/constants';
 
 describe('useStatusContent hook', () => {
   const mockDebt = {

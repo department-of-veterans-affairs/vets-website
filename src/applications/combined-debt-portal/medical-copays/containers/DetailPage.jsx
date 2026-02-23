@@ -20,10 +20,10 @@ const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
   const [alert, setAlert] = useState('status');
   const combinedPortalData = useSelector(state => state.combinedPortal);
-  const statements = combinedPortalData.mcp.statements ?? [];
-  const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
+  const copays = combinedPortalData.mcp.copays ?? [];
+  const [selectedCopay] = copays?.filter(({ id }) => id === selectedId);
   const title = `Copay bill for ${selectedCopay?.station.facilityName}`;
-  const statementDate = formatDate(selectedCopay?.pSStatementDateOutput);
+  const copayDate = formatDate(selectedCopay?.pSStatementDateOutput);
   // using statementDateOutput since it has delimiters ('/') unlike pSStatementDate
   const isCurrentBalance = verifyCurrentBalance(
     selectedCopay?.pSStatementDateOutput,
@@ -77,11 +77,11 @@ const DetailPage = ({ match }) => {
         <p className="va-introtext">
           Updated on
           <time
-            dateTime={statementDate}
+            dateTime={copayDate}
             className="vads-u-margin-x--0p5"
             data-testid="updated-date"
           >
-            {statementDate}
+            {copayDate}
           </time>
           . Payments after this date will not be reflected here.
         </p>

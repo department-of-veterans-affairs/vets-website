@@ -1,6 +1,4 @@
-import React, { useDispatch, useSelector } from 'react';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import React from 'react';
 import { addDays, format, isBefore, isEqual, isValid } from 'date-fns';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
@@ -8,82 +6,6 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { head } from 'lodash';
-import { getCopayDetailStatement } from '../../combined/actions/copays';
-
-export const APP_TYPES = Object.freeze({
-  DEBT: 'DEBT',
-  COPAY: 'COPAY',
-});
-
-export const ALERT_TYPES = Object.freeze({
-  ALL_ERROR: 'ALL_ERROR',
-  ALL_ZERO: 'ALL_ZERO',
-  ERROR: 'ERROR',
-  ZERO: 'ZERO',
-});
-
-export const API_RESPONSES = Object.freeze({
-  ERROR: -1,
-});
-
-export const DEFAULT_COPAY_ATTRIBUTES = Object.freeze({
-  TITLE: 'title',
-  INVOICE_DATE: 'invoiceDate',
-  ACCOUNT_NUMBER: 'accountNumber',
-  FACILITY_NAME: 'facilityName',
-  CHARGES: [],
-  AMOUNT_DUE: 0.0,
-});
-
-export const combinedPortalAccess = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
-
-export const debtLettersShowLettersVBMS = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.debtLettersShowLettersVBMS];
-
-export const showPaymentHistory = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.CdpPaymentHistoryVba];
-
-export const selectLoadingFeatureFlags = state =>
-  state?.featureToggles?.loading;
-
-export const showVHAPaymentHistory = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.showVHAPaymentHistory];
-
-export const selectCopayDetailStatement = state => 
-  state.combinedPortal.mcp.selectedStatement || {};
-
-export const selectAllStatements = state => 
-  state.combinedPortal.mcp.statements || [];
-
-export const selectIsCopayDetailLoading = state =>
-  state.combinedPortal.mcp.isCopayDetailLoading;
-
-export const selectStatementById = (state, selectedId) => {
-  const statements = selectAllStatements(state);
-  return statements.find(({ id }) => id === selectedId);
-};
-
-export const useCurrentStatement = (statementId) => {
-  const dispatch = useDispatch();
-  const shouldShowVHAPaymentHistory = useSelector(showVHAPaymentHistory);
-  const copayDetailStatement = useSelector(selectCopayDetailStatement);
-  const allStatements = useSelector(selectAllStatements);
-  const isLoading = useSelector(selectIsCopayDetailLoading);
-  
-  const currentStatement = shouldShowVHAPaymentHistory
-    ? copayDetailStatement
-    : allStatements?.find(({ id }) => id === statementId);
-
-  const shouldFetchStatement = shouldShowVHAPaymentHistory &&
-      !copayDetailStatement?.id &&
-      copayDetailStatement.id !== statementId &&
-      !isLoading
-
-  if (shouldFetchStatement) dispatch(getCopayDetailStatement(statementId));
-
-  return { currentStatement, isLoading };
-};
 
 /* Helper function to consisently format date strings
  *
@@ -116,9 +38,6 @@ export const currency = amount => {
   return formatter.format(parseFloat(amount));
 };
 
-export const cdpAccessToggle = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
-
 export const formatTableData = tableData =>
   tableData.map(row => ({
     date: row.date,
@@ -149,21 +68,21 @@ export const verifyCurrentBalance = date => {
   );
 };
 
-export const sortStatementsByDate = statements => {
-  return statements.sort(
+export const sortCopaysByDate = copays => {
+  return copays.sort(
     (a, b) =>
       new Date(b.pSStatementDateOutput) - new Date(a.pSStatementDateOutput),
   );
 };
 
 export const transform = data => {
-  return data.map(statement => {
-    const { station } = statement;
+  return data.map(copay => {
+    const { station } = copay;
     const facilityName = getMedicalCenterNameByID(station.facilitYNum);
     const city = titleCase(station.city);
 
     return {
-      ...statement,
+      ...copay,
       station: {
         ...station,
         facilityName,

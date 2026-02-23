@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Modals from '../../combined/components/Modals';
@@ -9,91 +10,89 @@ import StatementCharges from '../components/StatementCharges';
 import PreviousStatements from '../components/PreviousStatements';
 import StatementAddresses from '../components/StatementAddresses';
 import NeedHelpCopay from '../components/NeedHelpCopay';
+import { DEFAULT_COPAY_ATTRIBUTES } from '../../combined/utils/constants';
 import {
-  showVHAPaymentHistory,
   formatDate,
   verifyCurrentBalance,
   setPageFocus,
   formatISODateToMMDDYYYY,
   isAnyElementFocused,
-  DEFAULT_COPAY_ATTRIBUTES,
-  useCurrentStatement
 } from '../../combined/utils/helpers';
+import { useCurrentCopay, showCopayPaymentHistory } from '../../combined/utils/selectors';
 
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import CopayAlertContainer from '../components/CopayAlertContainer';
 
 const DetailCopayPage = ({ match }) => {
-  const dispatch = useDispatch();
+  const copayId = match?.params?.id;
 
   const [alert, setAlert] = useState('status');
-  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
     useSelector(state => state),
   );
 
-  const { currentStatement, isLoading } = useCurrentStatement(statementId);
+  const { currentCopay, isLoading } = useCurrentCopay();
 
   const copayAttributes = useMemo(
     () => {
-      if (!currentStatement?.id) return DEFAULT_COPAY_ATTRIBUTES;
+      if (!currentCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
 
       /* eslint-disable no-nested-ternary */
-      return shouldShowVHAPaymentHistory
+      return shouldShowCopayPaymentHistory
         ? {
-            TITLE: `Copay bill for ${currentStatement?.attributes.facility.name}`,
-            INVOICE_DATE: currentStatement?.attributes?.invoiceDate,
+            TITLE: `Copay bill for ${currentCopay?.attributes.facility.name}`,
+            INVOICE_DATE: currentCopay?.attributes?.invoiceDate,
             IS_CURRENT_DATE: verifyCurrentBalance(
-              currentStatement?.attributes.invoiceDate,
+              currentCopay?.attributes.invoiceDate,
             ),
-            ACCOUNT_NUMBER: currentStatement?.attributes.accountNumber,
-            CHARGES: currentStatement?.attributes?.lineItems ?? [],
+            ACCOUNT_NUMBER: currentCopay?.attributes.accountNumber,
+            CHARGES: currentCopay?.attributes?.lineItems ?? [],
           }
         : {
-            TITLE: `Copay bill for ${currentStatement?.station.facilityName}`,
-            INVOICE_DATE: currentStatement?.pSStatementDateOutput,
+            TITLE: `Copay bill for ${currentCopay?.station.facilityName}`,
+            INVOICE_DATE: currentCopay?.pSStatementDateOutput,
             IS_CURRENT_DATE: verifyCurrentBalance(
-              currentStatement?.pSStatementDateOutput,
+              currentCopay?.pSStatementDateOutput,
             ),
             ACCOUNT_NUMBER:
-              currentStatement?.accountNumber || currentStatement?.pHAccountNumber,
+              currentCopay?.accountNumber || currentCopay?.pHAccountNumber,
             CHARGES:
-              currentStatement?.details?.filter(
+              currentCopay?.details?.filter(
                 charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
               ) ?? [],
           };
       /* eslint-disable no-nested-ternary */
     },
-    [currentStatement?.id, shouldShowVHAPaymentHistory],
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- currentCopay fields omitted to avoid unnecessary recalc
+    [currentCopay?.id, shouldShowCopayPaymentHistory],
   );
 
-  // Handle alert separately
   useEffect(
     () => {
-      if (!currentStatement?.id) return;
+      if (!currentCopay?.id) return;
       setAlert(copayAttributes.IS_CURRENT_DATE ? 'status' : 'past-due-balance');
     },
-    [currentStatement?.id, copayAttributes],
+    [currentCopay?.id, copayAttributes],
   );
 
   useEffect(() => {
       if (!isAnyElementFocused()) setPageFocus();
     },[]);
 
-  // get veteran name
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
   const fullName = userFullName?.middle
     ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
     : `${userFullName.first} ${userFullName.last}`;
 
   const getPaymentDueDate = () => {
-    if (shouldShowVHAPaymentHistory) {
+    if (shouldShowCopayPaymentHistory) {
       return copayAttributes.INVOICE_DATE;
     }
 
-    if (!currentStatement?.pSStatementDateOutput) return null;
+    if (!currentCopay?.pSStatementDateOutput) return null;
 
     // Statement date is in MM/DD/YYYY format
-    const [month, day, year] = currentStatement.pSStatementDateOutput.split('/');
+    const [month, day, year] = currentCopay.pSStatementDateOutput.split('/');
 
     // Create date and add 30 days
     const date = new Date(year, parseInt(month, 10) - 1, parseInt(day, 10));
@@ -115,7 +114,7 @@ const DetailCopayPage = ({ match }) => {
 
   useHeaderPageTitle(copayAttributes.TITLE);
 
-  if (!currentStatement?.id || isLoading) {
+  if (!currentCopay?.id || isLoading) {
     return <VaLoadingIndicator message="Loading features..." />;
   }
 
@@ -136,7 +135,7 @@ const DetailCopayPage = ({ match }) => {
             label: 'Copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${statementId}`,
+            href: `/manage-va-debt/summary/copay-balances/${copayId}`,
             label: copayAttributes.TITLE,
           },
         ]}
@@ -151,7 +150,7 @@ const DetailCopayPage = ({ match }) => {
           {copayAttributes.TITLE}
         </h1>
         <div>
-          <CopayAlertContainer type={alert} copay={currentStatement} />
+          <CopayAlertContainer type={alert} copay={currentCopay} />
         </div>
         <div className="vads-u-margin-y--4">
           <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
@@ -162,17 +161,17 @@ const DetailCopayPage = ({ match }) => {
               <dt>Current balance:</dt>
               <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
                 {formatCurrency(
-                  shouldShowVHAPaymentHistory
-                    ? currentStatement.attributes?.principalBalance
-                    : currentStatement.pHNewBalance,
+                  shouldShowCopayPaymentHistory
+                    ? currentCopay.attributes?.principalBalance
+                    : currentCopay.pHNewBalance,
                 )}
               </dd>
             </div>
             <div className="vads-u-display--flex vads-u-flex-direction--row">
               <dt>Payment due:</dt>
               <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
-                {shouldShowVHAPaymentHistory
-                  ? currentStatement.attributes?.paymentDueDate
+                {shouldShowCopayPaymentHistory
+                  ? currentCopay.attributes?.paymentDueDate
                   : formatDate(getPaymentDueDate())}
               </dd>
             </div>
@@ -181,9 +180,9 @@ const DetailCopayPage = ({ match }) => {
                 <dt>New charges:</dt>
                 <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
                   {formatCurrency(
-                    shouldShowVHAPaymentHistory
-                      ? currentStatement.attributes.principalPaid
-                      : currentStatement.pHTotCharges,
+                    shouldShowCopayPaymentHistory
+                      ? currentCopay.attributes.principalPaid
+                      : currentCopay.pHTotCharges,
                   )}
                 </dd>
               </div>
@@ -195,34 +194,34 @@ const DetailCopayPage = ({ match }) => {
           <p className="vads-u-margin--0">{copayAttributes.ACCOUNT_NUMBER}</p>
         </div>
         <div className="vads-u-margin-y--4">
-          {/* Show VHA Lighthouse data | or Current CDW Statement */}
-          {shouldShowVHAPaymentHistory ? (
+          {/* Show VHA Lighthouse data | or Current CDW Copay */}
+          {shouldShowCopayPaymentHistory ? (
             <StatementTable
               charges={copayAttributes.CHARGES}
               formatCurrency={formatCurrency}
-              selectedCopay={currentStatement}
+              selectedCopay={currentCopay}
             />
           ) : (
             <StatementCharges
-              copay={currentStatement}
-              showCurrentStatementHeader
+              copay={currentCopay}
+              showCurrentCopayHeader
             />
           )}
           <DownloadStatement
-            key={statementId}
-            selectedId={statementId}
+            key={copayId}
+            selectedId={copayId}
             statementDate={
-              shouldShowVHAPaymentHistory
+              shouldShowCopayPaymentHistory
                 ? formatISODateToMMDDYYYY(copayAttributes.INVOICE_DATE)
-                : currentStatement.pSStatementDate
+                : currentCopay.pSStatementDate
             }
             fullName={fullName}
           />
         </div>
-        <PreviousStatements selectedId={statementId} />
+        <PreviousStatements selectedId={copayId} />
         <StatementAddresses
           data-testid="statement-addresses"
-          copay={currentStatement}
+          copay={currentCopay}
         />
 
         <Modals title="Notice of rights and responsibilities">
@@ -232,6 +231,14 @@ const DetailCopayPage = ({ match }) => {
       </div>
     </>
   );
+};
+
+DetailCopayPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
 };
 
 export default DetailCopayPage;

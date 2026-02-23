@@ -8,17 +8,14 @@ import {
 import PropTypes from 'prop-types';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import { fetchDebtLetters } from '../actions/debts';
-import {
-  getAllCopayStatements,
-  getCopaySummaryStatements,
-} from '../actions/copays';
+import { getAllCopays, getCopaySummary } from '../actions/copays';
 import i18nCombinedDebtPortal from '../../i18n';
 import {
   combinedPortalAccess,
   selectLoadingFeatureFlags,
   debtLettersShowLettersVBMS,
-  showVHAPaymentHistory,
-} from '../utils/helpers';
+  showCopayPaymentHistory,
+} from '../utils/selectors';
 
 const CombinedPortalApp = ({ children }) => {
   const dispatch = useDispatch();
@@ -43,7 +40,7 @@ const CombinedPortalApp = ({ children }) => {
   const { isPending, isPendingVBMS, isProfileUpdating } = debtLetters;
   const isDebtLoading = isPending || isPendingVBMS || isProfileUpdating;
 
-  const shouldUseLightHouseCopayData = showVHAPaymentHistory(
+  const shouldUseLightHouseCopayData = showCopayPaymentHistory(
     useSelector(state => state),
   );
 
@@ -53,9 +50,9 @@ const CombinedPortalApp = ({ children }) => {
         fetchDebtLetters(dispatch, debtLettersActive);
 
         if (shouldUseLightHouseCopayData) {
-          getCopaySummaryStatements(dispatch);
+          getCopaySummary(dispatch);
         } else {
-          getAllCopayStatements(dispatch);
+          getAllCopays(dispatch);
         }
       }
     },

@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   setPageFocus,
-  isAnyElementFocused,
-  showVHAPaymentHistory,
-  useCurrentStatement,
+  isAnyElementFocused
 } from '../../combined/utils/helpers';
+import {
+  showCopayPaymentHistory,
+  useCurrentCopay,
+} from '../../combined/utils/selectors';
 import Modals from '../../combined/components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
@@ -18,23 +21,23 @@ import DownloadStatement from '../components/DownloadStatement';
 import NeedHelpCopay from '../components/NeedHelpCopay';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
-const HTMLStatementPage = ({ match }) => {
-  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+const HTMLStatementPage = () => {
+  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
     useSelector(state => state),
   );
   
-  const statementId = match.params.id;
-  // TODO: update all references of selectedCopay to currentStatement in the codebase
-  const { currentStatement, isLoading } = useCurrentStatement(statementId);
-  
+  const { id: copayId } = useParams();
+  const { currentCopay, isLoading } = useCurrentCopay();
+
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
 
   // using statementDateOutput since it has delimiters ('/') unlike pSStatementDate
-  const parsedStatementDate = new Date(currentStatement.pSStatementDateOutput);
+  const parsedStatementDate = new Date(currentCopay.pSStatementDateOutput);
   const statementDate = isValid(parsedStatementDate)
     ? format(parsedStatementDate, 'MMMM d')
     : '';
-  const charges = currentStatement?.details?.filter(
+
+  const charges = currentCopay?.details?.filter(
     charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
   );
 
@@ -46,12 +49,12 @@ const HTMLStatementPage = ({ match }) => {
     }).format(amount);
   };
   const title = `${statementDate} statement`;
-  const prevPage = `Copay bill for ${currentStatement.station.facilityName}`;
+  const prevPage = `Copay bill for ${currentCopay.station.facilityName}`;
   const fullName = userFullName.middle
     ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
     : `${userFullName.first} ${userFullName.last}`;
   const acctNum =
-    currentStatement?.accountNumber || currentStatement?.pHAccountNumber;
+    currentCopay?.accountNumber || currentCopay?.pHAccountNumber;
 
   useHeaderPageTitle(title);
 
@@ -59,7 +62,7 @@ const HTMLStatementPage = ({ match }) => {
     if (!isAnyElementFocused()) setPageFocus();
   },[]);
 
-  if (!currentStatement?.id || isLoading) {
+  if (!currentCopay?.id || isLoading) {
     return <VaLoadingIndicator message="Loading features..." />;
   }
 
@@ -80,11 +83,11 @@ const HTMLStatementPage = ({ match }) => {
             label: 'Copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${statementId}`,
+            href: `/manage-va-debt/summary/copay-balances/${copayId}`,
             label: `${prevPage}`,
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${statementId}/statement`,
+            href: `/manage-va-debt/summary/copay-balances/${copayId}/statement`,
             label: `${title}`,
           },
         ]}
@@ -94,32 +97,32 @@ const HTMLStatementPage = ({ match }) => {
       <article className="vads-u-padding--0 medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="statement-page-title">{title}</h1>
         <p className="va-introtext" data-testid="facility-name">
-          {`${currentStatement?.station.facilityName}`}
+          {`${currentCopay?.station.facilityName}`}
         </p>
         <AccountSummary
           acctNum={acctNum}
-          currentBalance={currentStatement.pHNewBalance}
-          newCharges={currentStatement.pHTotCharges}
-          paymentsReceived={currentStatement.pHTotCredits}
-          previousBalance={currentStatement.pHPrevBal}
+          currentBalance={currentCopay.pHNewBalance}
+          newCharges={currentCopay.pHTotCharges}
+          paymentsReceived={currentCopay.pHTotCredits}
+          previousBalance={currentCopay.pHPrevBal}
           statementDate={statementDate}
         />
-        {shouldShowVHAPaymentHistory && (
+        {shouldShowCopayPaymentHistory && (
           <StatementTable
             charges={charges}
             formatCurrency={formatCurrency}
-            selectedCopay={currentStatement}
+            selectedCopay={currentCopay}
           />
         )}
         <DownloadStatement
-          key={statementId}
-          selectedId={statementId}
-          statementDate={currentStatement.pSStatementDate}
+          key={copayId}
+          selectedId={copayId}
+          statementDate={currentCopay.pSStatementDate}
           fullName={fullName}
         />
         <StatementAddresses
           data-testid="statement-addresses"
-          copay={currentStatement}
+          copay={currentCopay}
         />
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />

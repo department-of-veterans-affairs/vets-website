@@ -6,7 +6,7 @@ import {
   calculateTotalBills,
   getLatestBill,
 } from '../../utils/balance-helpers';
-import { showVHAPaymentHistory } from '../../utils/helpers';
+import { showCopayPaymentHistory } from '../../utils/selectors';
 // TODO: Update referece after refactoring
 import mockDebt from '../../utils/mocks/mockDebts.json';
 import mockBill from '../../utils/mocks/mockStatements.json';
@@ -52,38 +52,38 @@ describe('combined debt portal helpers', () => {
     });
   });
 
-  describe('showVHAPaymentHistory helper: ', () => {
+  describe('showCopayPaymentHistory helper: ', () => {
     it('should return true when feature flag is enabled', () => {
       const mockState = {
         featureToggles: {
-          [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+          [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
         },
       };
-      expect(showVHAPaymentHistory(mockState)).to.be.true;
+      expect(showCopayPaymentHistory(mockState)).to.be.true;
     });
 
     it('should return false when feature flag is disabled', () => {
       const mockState = {
         featureToggles: {
-          [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
+          [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: false,
         },
       };
-      expect(showVHAPaymentHistory(mockState)).to.be.false;
+      expect(showCopayPaymentHistory(mockState)).to.be.false;
     });
 
     it('should return false when feature flag is not present', () => {
       const mockState = {
         featureToggles: {},
       };
-      expect(showVHAPaymentHistory(mockState)).to.not.be.true;
+      expect(showCopayPaymentHistory(mockState)).to.not.be.true;
     });
   });
 
   describe('totalBills calculation: ', () => {
-    it('should use meta.total when showVHAPaymentHistory is true', () => {
-      const shouldShowVHAPaymentHistory = true;
+    it('should use meta.total when showCopayPaymentHistory is true', () => {
+      const shouldShowCopayPaymentHistory = true;
       const mcp = {
-        statements: {
+        copays: {
           meta: {
             total: 150,
           },
@@ -94,22 +94,22 @@ describe('combined debt portal helpers', () => {
         },
       };
 
-      const totalBills = shouldShowVHAPaymentHistory
-        ? mcp.statements.meta.total
-        : calculateTotalBills(mcp.statements);
+      const totalBills = shouldShowCopayPaymentHistory
+        ? mcp.copays.meta.total
+        : calculateTotalBills(mcp.copays);
 
       expect(totalBills).to.equal(150);
     });
 
-    it('should use calculateTotalBills when showVHAPaymentHistory is false', () => {
-      const shouldShowVHAPaymentHistory = false;
+    it('should use calculateTotalBills when showCopayPaymentHistory is false', () => {
+      const shouldShowCopayPaymentHistory = false;
       const mcp = {
-        statements: [{ id: '1', pHAmtDue: 50 }, { id: '2', pHAmtDue: 100 }],
+        copays: [{ id: '1', pHAmtDue: 50 }, { id: '2', pHAmtDue: 100 }],
       };
 
-      const totalBills = shouldShowVHAPaymentHistory
-        ? mcp.statements.meta.total
-        : calculateTotalBills(mcp.statements);
+      const totalBills = shouldShowCopayPaymentHistory
+        ? mcp.copays.meta.total
+        : calculateTotalBills(mcp.copays);
 
       expect(totalBills).to.equal(150);
     });

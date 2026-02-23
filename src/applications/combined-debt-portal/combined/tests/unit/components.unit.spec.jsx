@@ -3,7 +3,8 @@ import { expect } from 'chai';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { APP_TYPES, currency } from '../../utils/helpers';
+import { APP_TYPES } from '../../utils/constants';
+import { currency } from '../../utils/helpers';
 import AlertCard from '../../components/AlertCard';
 import BalanceCard from '../../components/BalanceCard';
 import { GenericDisasterAlert } from '../../components/DisasterAlert';

@@ -9,13 +9,13 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatur
 
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
+import { ALERT_TYPES } from '../utils/constants';
 import {
-  ALERT_TYPES,
   setPageFocus,
   healthResourceCenterPhoneContent,
   dmcPhoneContent,
-  showVHAPaymentHistory,
 } from '../utils/helpers';
+import { showCopayPaymentHistory } from '../utils/selectors';
 import {
   calculateTotalBills,
   calculateTotalDebts,
@@ -52,16 +52,16 @@ const OverviewPage = () => {
   const showOneVADebtLetterLink = useToggleValue(
     TOGGLE_NAMES.showOneVADebtLetter,
   );
-  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
     useSelector(state => state),
   );
 
   // get totals
   const { debts } = debtLetters;
   const totalDebts = calculateTotalDebts(debts);
-  const totalBills = shouldShowVHAPaymentHistory
-    ? mcp.statements.meta.total
-    : calculateTotalBills(mcp.statements);
+  const totalBills = shouldShowCopayPaymentHistory
+    ? mcp.copays?.meta?.total
+    : calculateTotalBills(mcp.copays);
   const bothZero =
     totalDebts === 0 && totalBills === 0 && !billError && !debtError;
 

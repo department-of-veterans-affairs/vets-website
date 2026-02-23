@@ -1,4 +1,5 @@
-import { APP_TYPES, getSortedDate } from './helpers';
+import { APP_TYPES } from './constants';
+import { getSortedDate } from './helpers';
 import { getStatusTypeForDebtDiaryCode } from '../../debt-letters/const/diary-codes/diaryCodeStatusTypes';
 import { STATUS_TYPE_CONFIG } from '../../debt-letters/const/statusTypeConfig';
 import { PHONE_REGISTRY } from '../../debt-letters/const/phoneRegistry';

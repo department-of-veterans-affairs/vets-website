@@ -13,9 +13,9 @@ import {
 import {
   MCP_DETAIL_FETCH_FAILURE,
   MCP_DETAIL_FETCH_SUCCESS,
-  MCP_STATEMENTS_FETCH_INIT,
-  MCP_STATEMENTS_FETCH_SUCCESS,
-  MCP_STATEMENTS_FETCH_FAILURE,
+  MCP_COPAYS_FETCH_INIT,
+  MCP_COPAYS_FETCH_SUCCESS,
+  MCP_COPAYS_FETCH_FAILURE,
   MCP_DETAIL_FETCH_INIT,
 } from '../actions/copays';
 
@@ -35,7 +35,7 @@ const debtInitialState = {
 const mcpInitialState = {
   pending: false,
   error: null,
-  statements: null,
+  copays: null,
 };
 
 export const medicalCopaysReducer = (state = mcpInitialState, action) => {
@@ -45,22 +45,22 @@ export const medicalCopaysReducer = (state = mcpInitialState, action) => {
         ...state,
         isCopayDetailLoading: true,
       };
-    case MCP_STATEMENTS_FETCH_INIT:
+    case MCP_COPAYS_FETCH_INIT:
       return {
         ...state,
         pending: true,
       };
-    case MCP_STATEMENTS_FETCH_SUCCESS:
+    case MCP_COPAYS_FETCH_SUCCESS:
       return {
         ...state,
         pending: false,
-        statements: action.response,
+        copays: action.response,
       };
     case MCP_DETAIL_FETCH_SUCCESS:
       return {
         ...state,
         pending: false,
-        selectedStatement: action.response.data,
+        currentCopay: action.response.data,
         isCopayDetailLoading: false,
       };
     case MCP_DETAIL_FETCH_FAILURE:
@@ -69,7 +69,7 @@ export const medicalCopaysReducer = (state = mcpInitialState, action) => {
         isCopayDetailLoading: false,
         error: action.error,
       };
-    case MCP_STATEMENTS_FETCH_FAILURE:
+    case MCP_COPAYS_FETCH_FAILURE:
       return {
         ...state,
         pending: false,

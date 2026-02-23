@@ -8,17 +8,17 @@ import {
   getCopayAlertContent,
   phoneContent,
 } from '../../combined/utils/copayAlertContent';
-import { showVHAPaymentHistory } from '../../combined/utils/helpers';
+import { showCopayPaymentHistory } from '../../combined/utils/selectors';
 
 const CopayAlertContainer = ({ type, copay }) => {
   const history = useHistory();
-  const shouldShowVHAPaymentHistory = useSelector(state =>
-    showVHAPaymentHistory(state),
+  const shouldShowCopayPaymentHistory = useSelector(state =>
+    showCopayPaymentHistory(state),
   );
   const copayAlertContent = getCopayAlertContent(
     copay,
     type,
-    shouldShowVHAPaymentHistory,
+    shouldShowCopayPaymentHistory,
   );
 
   return (

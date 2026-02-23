@@ -9,38 +9,37 @@ import HowToPay from '../components/HowToPay';
 import DownloadStatement from '../components/DownloadStatement';
 import FinancialHelp from '../components/FinancialHelp';
 import NeedHelpCopay from '../components/NeedHelpCopay';
+import { DEFAULT_COPAY_ATTRIBUTES } from '../../combined/utils/constants';
 import {
   setPageFocus,
-  showVHAPaymentHistory,
   formatISODateToMMDDYYYY,
   isAnyElementFocused,
-  DEFAULT_COPAY_ATTRIBUTES,
   verifyCurrentBalance,
 } from '../../combined/utils/helpers';
+import { showCopayPaymentHistory } from '../../combined/utils/selectors';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
-import { getCopayDetailStatement } from '../../combined/actions/copays';
+import { getCopayDetail } from '../../combined/actions/copays';
 
 const ResolvePage = ({ match }) => {
   const dispatch = useDispatch();
 
-  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
     useSelector(state => state),
   );
 
-  // Get the selected copay statement ID from the URL
-  //  and the selected copay statement data from Redux
+  // Get the selected copay ID from the URL and the selected copay data from Redux
   const copayDetail =
-    useSelector(state => state.combinedPortal.mcp.selectedStatement) || {};
+    useSelector(state => state.combinedPortal.mcp.currentCopay) || {};
   const isCopayDetailLoading = useSelector(
     state => state.combinedPortal.mcp.isCopayDetailLoading,
   );
-  const allStatements =
-    useSelector(state => state.combinedPortal.mcp.statements) || [];
+  const allCopays =
+    useSelector(state => state.combinedPortal.mcp.copays) || [];
 
   const selectedId = match.params.id;
-  const selectedCopay = shouldShowVHAPaymentHistory
+  const selectedCopay = shouldShowCopayPaymentHistory
     ? copayDetail
-    : allStatements?.find(({ id }) => id === selectedId);
+    : allCopays?.find(({ id }) => id === selectedId);
   const TITLE = `Resolve your copay bill`;
 
   const copayAttributes = useMemo(
@@ -48,7 +47,7 @@ const ResolvePage = ({ match }) => {
       if (!selectedCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
 
       /* eslint-disable no-nested-ternary */
-      return shouldShowVHAPaymentHistory
+      return shouldShowCopayPaymentHistory
         ? {
             TITLE: `Copay bill for ${selectedCopay?.attributes.facility.name}`,
             FACILITY_NAME:
@@ -82,7 +81,8 @@ const ResolvePage = ({ match }) => {
           };
       /* eslint-disable no-nested-ternary */
     },
-    [selectedCopay?.id, shouldShowVHAPaymentHistory],
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- selectedCopay fields omitted to avoid unnecessary recalc
+    [selectedCopay?.id, shouldShowCopayPaymentHistory],
   );
 
   // get veteran name
@@ -98,13 +98,13 @@ const ResolvePage = ({ match }) => {
       if (!isAnyElementFocused()) setPageFocus();
 
       const shouldFetch =
-        shouldShowVHAPaymentHistory &&
+        shouldShowCopayPaymentHistory &&
         selectedId &&
         !isCopayDetailLoading &&
         copayDetail?.id !== selectedId;
 
       if (shouldFetch) {
-        dispatch(getCopayDetailStatement(`${selectedId}`));
+        dispatch(getCopayDetail(`${selectedId}`));
       }
     },
     [
@@ -112,7 +112,7 @@ const ResolvePage = ({ match }) => {
       dispatch,
       copayDetail?.id,
       isCopayDetailLoading,
-      shouldShowVHAPaymentHistory,
+      shouldShowCopayPaymentHistory,
     ],
   );
 
@@ -170,7 +170,7 @@ const ResolvePage = ({ match }) => {
           key={selectedId}
           statementId={selectedId}
           statementDate={
-            shouldShowVHAPaymentHistory
+            shouldShowCopayPaymentHistory
               ? formatISODateToMMDDYYYY(copayAttributes.INVOICE_DATE)
               : selectedCopay.pSStatementDateOutput
           }

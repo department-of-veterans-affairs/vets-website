@@ -6,13 +6,9 @@ import {
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import {
-  setPageFocus,
-  sortStatementsByDate,
-  ALERT_TYPES,
-  APP_TYPES,
-  showVHAPaymentHistory,
-} from '../../combined/utils/helpers';
+import { ALERT_TYPES, APP_TYPES } from '../../combined/utils/constants';
+import { setPageFocus, sortCopaysByDate } from '../../combined/utils/helpers';
+import { showCopayPaymentHistory } from '../../combined/utils/selectors';
 import Balances from '../components/Balances';
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
@@ -82,7 +78,7 @@ const OverviewPage = () => {
   // boolean value to represent if toggles are still loading or not
   const togglesLoading = useToggleLoadingValue();
   // value of specific toggle
-  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
     useSelector(state => state),
   );
 
@@ -93,14 +89,16 @@ const OverviewPage = () => {
     isProfileUpdating,
   } = debtLetters;
   const debtLoading = isDebtPending || isProfileUpdating;
-  const { statements, error: mcpError, pending: mcpLoading } = mcp;
-  const statementsEmpty = statements?.length === 0;
-  const sortedStatements = shouldShowVHAPaymentHistory
-    ? mcp.statements.data ?? []
-    : sortStatementsByDate(statements || []);
-  const statementsByUniqueFacility = shouldShowVHAPaymentHistory
-    ? uniqBy(mcp.statements.data, 'facilityId')
-    : uniqBy(sortedStatements, 'pSFacilityNum');
+  const { copays, error: mcpError, pending: mcpLoading } = mcp;
+  const copaysEmpty = (shouldShowCopayPaymentHistory
+    ? mcp.copays?.data
+    : copays)?.length === 0;
+  const sortedCopays = shouldShowCopayPaymentHistory
+    ? mcp.copays?.data ?? []
+    : sortCopaysByDate(copays || []);
+  const copaysByUniqueFacility = shouldShowCopayPaymentHistory
+    ? uniqBy(mcp.copays?.data ?? [], 'facilityId')
+    : uniqBy(sortedCopays, 'pSFacilityNum');
   const title = 'Copay balances';
   useHeaderPageTitle(title);
 
@@ -133,19 +131,19 @@ const OverviewPage = () => {
   }
 
   const [currentData, setCurrentData] = useState(
-    paginate(statementsByUniqueFacility, MAX_ROWS, 1),
+    paginate(copaysByUniqueFacility, MAX_ROWS, 1),
   );
   const [currentPage, setCurrentPage] = useState(1);
 
   function onPageChange(page) {
-    setCurrentData(paginate(statementsByUniqueFacility, MAX_ROWS, page));
+    setCurrentData(paginate(copaysByUniqueFacility, MAX_ROWS, page));
     setCurrentPage(page);
   }
 
-  const numPages = Math.ceil(statementsByUniqueFacility.length / MAX_ROWS);
+  const numPages = Math.ceil(copaysByUniqueFacility.length / MAX_ROWS);
 
   const renderVaPagination = () => {
-    if (statementsByUniqueFacility.length > MAX_ROWS) {
+    if (copaysByUniqueFacility.length > MAX_ROWS) {
       return (
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
@@ -179,19 +177,19 @@ const OverviewPage = () => {
         debts?.length,
       );
     }
-    if (statementsEmpty) {
+    if (copaysEmpty) {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
 
     return (
       <article className="vads-u-padding-x--0 vads-u-padding-bottom--0">
         <Balances
-          statements={currentData}
-          showVHAPaymentHistory={shouldShowVHAPaymentHistory}
+          copays={currentData}
+          showCopayPaymentHistory={shouldShowCopayPaymentHistory}
           paginationText={getPaginationText(
             currentPage,
             MAX_ROWS,
-            statementsByUniqueFacility.length,
+            copaysByUniqueFacility.length,
             ITEM_TYPE,
           )}
         />

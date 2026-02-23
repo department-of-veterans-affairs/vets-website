@@ -5,12 +5,8 @@ import last from 'lodash/last';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { head } from 'lodash';
 import HistoryTable from '../components/HistoryTable';
-import {
-  setPageFocus,
-  debtLettersShowLettersVBMS,
-  showPaymentHistory,
-  formatDate,
-} from '../../combined/utils/helpers';
+import { setPageFocus, formatDate } from '../../combined/utils/helpers';
+import { debtLettersShowLettersVBMS } from '../../combined/utils/selectors';
 import { getCurrentDebt, currency } from '../utils/page';
 import {
   deductionCodes,
@@ -58,10 +54,6 @@ const DebtDetails = () => {
   useEffect(() => {
     setPageFocus('h1');
   }, []);
-
-  const shouldShowPaymentHistory = useSelector(state =>
-    showPaymentHistory(state),
-  );
 
   if (Object.keys(currentDebt).length === 0) {
     window.location.replace('/manage-va-debt/summary/debt-balances/');
