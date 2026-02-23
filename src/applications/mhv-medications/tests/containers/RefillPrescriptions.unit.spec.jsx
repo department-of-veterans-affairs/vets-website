@@ -12,6 +12,30 @@ import { dateFormat } from '../../util/helpers';
 
 const refillablePrescriptions = require('../fixtures/refillablePrescriptionsList.json');
 
+const mockMichiganMigration = {
+  migrationDate: '2026-04-11',
+  facilities: [{ facilityId: 515 }],
+  phases: {
+    current: 'p4',
+    p0: 'February 10, 2026',
+    p1: 'February 12, 2026',
+    p2: 'March 12, 2026',
+    p3: 'April 5, 2026',
+    p4: 'April 8, 2026',
+    p5: 'April 11, 2026',
+    p6: 'April 13, 2026',
+    p7: 'April 18, 2026',
+  },
+};
+
+const mockMichiganMigrationT45 = {
+  ...mockMichiganMigration,
+  phases: {
+    ...mockMichiganMigration.phases,
+    current: 'p2',
+  },
+};
+
 let sandbox;
 
 const initMockApis = ({
@@ -66,6 +90,13 @@ describe('Refill Prescriptions Component', () => {
     user: {
       login: {
         currentlyLoggedIn: true,
+      },
+      profile: {
+        userFullName: {
+          first: 'Test',
+          last: 'User',
+        },
+        dob: '1990-01-01',
       },
     },
   };
@@ -911,6 +942,471 @@ describe('Refill Prescriptions Component', () => {
       // Should show success, not error
       expect(successTitle).to.exist;
       expect(errorTitle).to.not.exist;
+    });
+  });
+
+  describe('Oracle Health Transition Alerts', () => {
+    // Helper to create state with Oracle Health migration flags
+    const createMigrationState = ({
+      featureFlagEnabled,
+      migrationData = mockMichiganMigrationT45,
+      facilities = [],
+      includeMigrationSchedules = false,
+    }) => {
+      const userProfile = {
+        ...initialState.user.profile,
+        ...(facilities.length > 0 && { facilities }),
+        userFacilityMigratingToOh: true,
+        migrationSchedules: [migrationData],
+      };
+
+      if (includeMigrationSchedules) {
+        userProfile.vaProfile = {
+          ohMigrationInfo: {
+            migrationSchedules: [migrationData],
+          },
+        };
+      }
+
+      return {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_oracle_health_cutover: featureFlagEnabled,
+        },
+        user: {
+          ...initialState.user,
+          profile: userProfile,
+        },
+      };
+    };
+
+    // Common facility configurations
+    const michiganFacility515 = [{ facilityId: 515, isCerner: false }];
+    const allMichiganFacilities = [
+      { facilityId: 506, isCerner: false },
+      { facilityId: 515, isCerner: false },
+      { facilityId: 553, isCerner: false },
+      { facilityId: 585, isCerner: false },
+    ];
+
+    describe('when mhv_medications_oracle_health_cutover feature flag is disabled', () => {
+      it('does not show alerts and shows all prescriptions', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [prescriptionInTransition],
+        });
+
+        const state = {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_oracle_health_cutover: false,
+          },
+          user: {
+            ...initialState.user,
+            profile: {
+              userFullName: {
+                first: 'Test',
+                last: 'User',
+              },
+              dob: '1990-01-01',
+              facilities: [
+                {
+                  facilityId: 515,
+                  isCerner: false,
+                  oracleHealthTransitionDate: '2026-02-15',
+                },
+              ],
+            },
+          },
+        };
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3AlertNoRefillable = screen.queryByTestId(
+            'oracle-health-t3-alert-no-refillable',
+          );
+          const t3AlertWithRefillable = screen.queryByTestId(
+            'oracle-health-t3-alert-with-refillable',
+          );
+          expect(t3AlertNoRefillable).to.not.exist;
+          expect(t3AlertWithRefillable).to.not.exist;
+
+          const checkboxGroup = screen.queryByTestId('refill-checkbox-group');
+          expect(checkboxGroup).to.exist;
+          expect(checkboxGroup.label).to.equal(
+            'You have 1 prescription ready to refill.',
+          );
+        });
+      });
+    });
+
+    describe('when mhv_medications_oracle_health_cutover feature flag is enabled', () => {
+      it('shows NoRefillable alert when all prescriptions are blocked', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [prescriptionInTransition],
+        });
+
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3Alert = screen.queryByTestId(
+            'oracle-health-t3-alert-no-refillable',
+          );
+          expect(t3Alert).to.exist;
+        });
+      });
+
+      it('shows WithRefillable alert when some prescriptions are blocked', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        const prescriptionNotInTransition = {
+          ...refillablePrescriptions[1],
+          facilityId: '442',
+          stationNumber: '442',
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [
+            prescriptionInTransition,
+            prescriptionNotInTransition,
+          ],
+        });
+
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3Alert = screen.queryByTestId(
+            'oracle-health-t3-alert-with-refillable',
+          );
+          expect(t3Alert).to.exist;
+        });
+      });
+
+      it('does not show alert when no prescriptions are blocked', async () => {
+        sandbox.restore();
+        const prescriptionNotInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: '442',
+          stationNumber: '442',
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [prescriptionNotInTransition],
+        });
+
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3AlertNoRefillable = screen.queryByTestId(
+            'oracle-health-t3-alert-no-refillable',
+          );
+          const t3AlertWithRefillable = screen.queryByTestId(
+            'oracle-health-t3-alert-with-refillable',
+          );
+          expect(t3AlertNoRefillable).to.not.exist;
+          expect(t3AlertWithRefillable).to.not.exist;
+        });
+      });
+
+      it('filters blocked prescriptions from refill list', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        const prescriptionNotInTransition = {
+          ...refillablePrescriptions[1],
+          facilityId: '442',
+          stationNumber: '442',
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [
+            prescriptionInTransition,
+            prescriptionNotInTransition,
+          ],
+        });
+
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const checkboxGroup = screen.queryByTestId('refill-checkbox-group');
+          expect(checkboxGroup).to.exist;
+          expect(checkboxGroup.label).to.equal(
+            'You have 1 prescription ready to refill.',
+          );
+        });
+      });
+
+      it('handles all 4 Michigan facilities correctly', async () => {
+        sandbox.restore();
+        const michiganPrescriptions = [
+          {
+            ...refillablePrescriptions[0],
+            facilityId: 506,
+            stationNumber: 506,
+          },
+          {
+            ...refillablePrescriptions[1],
+            facilityId: 515,
+            stationNumber: 515,
+          },
+          {
+            ...refillablePrescriptions[2],
+            facilityId: 553,
+            stationNumber: 553,
+          },
+          {
+            ...refillablePrescriptions[3],
+            facilityId: 585,
+            stationNumber: 585,
+          },
+        ];
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: michiganPrescriptions,
+        });
+
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: {
+            ...mockMichiganMigration,
+            facilities: [
+              { facilityId: 506 },
+              { facilityId: 515 },
+              { facilityId: 553 },
+              { facilityId: 585 },
+            ],
+          },
+          facilities: allMichiganFacilities,
+          includeMigrationSchedules: true,
+        });
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3Alert = screen.queryByTestId(
+            'oracle-health-t3-alert-no-refillable',
+          );
+          expect(t3Alert).to.exist;
+        });
+      });
+
+      it('shows generic no-refills message along with T-3 alert when prescriptions are blocked', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [prescriptionInTransition],
+        });
+
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          // Both T-3 alert and no-refills message should display
+          expect(screen.queryByTestId('oracle-health-t3-alert-no-refillable'))
+            .to.exist;
+          const noRefillsMessage = screen.queryByTestId('no-refills-message');
+          expect(noRefillsMessage).to.exist;
+        });
+      });
+    });
+
+    describe('CernerFacilityAlert (T-45 alert)', () => {
+      describe('when mhv_medications_oracle_health_cutover feature flag is disabled', () => {
+        it('shows CernerFacilityAlert even with flag disabled for pre-transitioned facilities', async () => {
+          sandbox.restore();
+          const prescriptionNotInTransition = {
+            ...refillablePrescriptions[0],
+            facilityId: '442',
+            stationNumber: '442',
+          };
+          initMockApis({
+            sinonSandbox: sandbox,
+            prescriptions: [prescriptionNotInTransition],
+          });
+
+          const state = createMigrationState({ featureFlagEnabled: false });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            // CernerFacilityAlert can show regardless of cutover flag (handles pre-transitioned facilities)
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+          });
+        });
+
+        it('shows CernerFacilityAlert with no refillable prescriptions when flag disabled', async () => {
+          sandbox.restore();
+          initMockApis({ sinonSandbox: sandbox, prescriptions: [] });
+
+          const state = createMigrationState({ featureFlagEnabled: false });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            // CernerFacilityAlert can show regardless of cutover flag
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+          });
+        });
+      });
+
+      describe('when mhv_medications_oracle_health_cutover feature flag is enabled', () => {
+        it('shows T-45 alert when there are refillable prescriptions and no blocked prescriptions', async () => {
+          sandbox.restore();
+          const prescriptionNotInTransition = {
+            ...refillablePrescriptions[0],
+            facilityId: '442',
+            stationNumber: '442',
+          };
+          initMockApis({
+            sinonSandbox: sandbox,
+            prescriptions: [prescriptionNotInTransition],
+          });
+
+          const state = createMigrationState({ featureFlagEnabled: true });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+          });
+        });
+
+        it('shows T-45 alert when there are no refillable prescriptions and no blocked prescriptions', async () => {
+          sandbox.restore();
+          initMockApis({ sinonSandbox: sandbox, prescriptions: [] });
+
+          const state = createMigrationState({ featureFlagEnabled: true });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+          });
+        });
+
+        it('shows T-3 alert but not T-45 alert when there are blocked prescriptions in error phase', async () => {
+          sandbox.restore();
+          const prescriptionInTransition = {
+            ...refillablePrescriptions[0],
+            facilityId: 515,
+            stationNumber: 515,
+          };
+          initMockApis({
+            sinonSandbox: sandbox,
+            prescriptions: [prescriptionInTransition],
+          });
+
+          const state = createMigrationState({
+            featureFlagEnabled: true,
+            migrationData: mockMichiganMigration, // Uses p4 error phase
+            facilities: michiganFacility515,
+            includeMigrationSchedules: true,
+          });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            // Should show T-3 alert with prescription details
+            expect(screen.queryByTestId('oracle-health-t3-alert-no-refillable'))
+              .to.exist;
+            // CernerFacilityAlert won't show anything in p4 (past warnings, errorPhases is null)
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.not.exist;
+          });
+        });
+
+        it('shows both T-45 warning alert and renders correctly in warning phase', async () => {
+          sandbox.restore();
+          const prescriptionNotInTransition = {
+            ...refillablePrescriptions[0],
+            facilityId: '442',
+            stationNumber: '442',
+          };
+          initMockApis({
+            sinonSandbox: sandbox,
+            prescriptions: [prescriptionNotInTransition],
+          });
+
+          const state = createMigrationState({
+            featureFlagEnabled: true,
+            migrationData: mockMichiganMigrationT45, // Uses p2 warning phase
+            facilities: michiganFacility515,
+            includeMigrationSchedules: true,
+          });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            // Should show T-45 warning alert (in warning phase, no blocked prescriptions)
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+            // Should not show T-3 alert (no blocked prescriptions)
+            expect(
+              screen.queryByTestId('oracle-health-t3-alert-with-refillable'),
+            ).to.not.exist;
+          });
+        });
+      });
     });
   });
 
