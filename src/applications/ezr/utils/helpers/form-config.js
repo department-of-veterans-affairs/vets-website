@@ -440,6 +440,16 @@ export const notShortFormEligible = formData => {
  * @returns {Boolean} - true if the user indicated they want to update their
  * service information (or lacks service history on file)
  */
+
+export const hasServiceHistoryInfo = formData =>
+  !!(
+    formData.lastServiceBranch &&
+    formData.lastEntryDate &&
+    formData.lastDischargeDate &&
+    formData.dischargeType
+  );
+
 export const doesVeteranWantToUpdateServiceInfo = formData =>
   formData['view:ezrServiceHistoryEnabled'] &&
-  !formData.isServiceHistoryCorrect;
+  (!formData.isServiceHistoryCorrect ||
+    !formData['view:hasPrefillServiceHistory']);

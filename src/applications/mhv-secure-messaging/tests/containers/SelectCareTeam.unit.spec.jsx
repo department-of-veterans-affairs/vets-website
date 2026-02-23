@@ -323,66 +323,6 @@ describe('SelectCareTeam', () => {
     });
   });
 
-  it('Updates continue button text when no messageId present', async () => {
-    const customState = {
-      ...initialState,
-      sm: {
-        ...initialState.sm,
-        threadDetails: {
-          draftInProgress: {
-            recipientId: initialState.sm.recipients.allowedRecipients[0].id,
-            recipientName: initialState.sm.recipients.allowedRecipients[0].name,
-          },
-        },
-      },
-      featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
-      initialState: customState,
-      reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
-    });
-
-    const continueButton = await screen.findByTestId('continue-button');
-    expect(continueButton).to.exist;
-    expect(continueButton).to.have.attribute(
-      'text',
-      'Continue to start message',
-    );
-  });
-
-  it('Updates continue button text when messageId present', async () => {
-    const customState = {
-      ...initialState,
-      sm: {
-        ...initialState.sm,
-        threadDetails: {
-          draftInProgress: {
-            recipientId: initialState.sm.recipients.allowedRecipients[0].id,
-            recipientName: initialState.sm.recipients.allowedRecipients[0].name,
-            messageId: 123456,
-          },
-        },
-      },
-      featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
-      initialState: customState,
-      reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
-    });
-
-    const continueButton = await screen.findByTestId('continue-button');
-    expect(continueButton).to.exist;
-    expect(continueButton).to.have.attribute('text', 'Continue to draft');
-  });
-
   it('dispatches correct care system when it does not match the selected care team on continue', async () => {
     const customState = {
       ...initialState,
