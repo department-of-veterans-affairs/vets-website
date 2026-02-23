@@ -11,6 +11,8 @@ import {
   ssnUI,
   dateOfBirthUI,
   dateOfBirthSchema,
+  checkboxUI,
+  checkboxSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   emptyObjectSchema,
@@ -46,6 +48,9 @@ export const veteranInformationPage = {
       ...vaFileNumberUI,
       'ui:title': 'VA file number',
     },
+    isBddClaim: checkboxUI(
+      'This is a Benefits Delivery at Discharge (BDD) claim',
+    ),
   },
   schema: {
     type: 'object',
@@ -67,6 +72,7 @@ export const veteranInformationPage = {
         ],
       }),
       vaFileNumber: vaFileNumberSchema,
+      isBddClaim: checkboxSchema,
     },
     required: [
       'veteranSsn',

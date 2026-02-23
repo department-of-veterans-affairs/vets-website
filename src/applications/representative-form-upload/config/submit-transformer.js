@@ -27,6 +27,7 @@ export function transformForSubmit(formConfig, form) {
     claimantDateOfBirth,
     claimantSsn,
     vaFileNumber,
+    isBddClaim,
   } = transformedData;
   const { confirmationCode } = transformedData.uploadedFile;
 
@@ -44,6 +45,7 @@ export function transformForSubmit(formConfig, form) {
       claimantDateOfBirth,
       claimantSsn,
       vaFileNumber,
+      isBddClaim,
     },
   });
 }
