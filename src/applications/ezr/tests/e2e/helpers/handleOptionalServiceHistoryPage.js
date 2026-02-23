@@ -41,6 +41,7 @@ export const handleOptionalServiceHistoryPage = ({
   hasServiceHistoryInfo = true,
   servicePeriodData = {},
   fillServiceHistory = false,
+  includeTera = true,
 } = {}) => {
   if (historyEnabled) {
     if (hasServiceHistoryInfo) {
@@ -61,6 +62,13 @@ export const handleOptionalServiceHistoryPage = ({
   }
   goToNextPage('/military-service/toxic-exposure');
   cy.selectYesNoVaRadioOption('root_hasTeraResponse', hasTeraYes);
+  if (
+    includeTera &&
+    (hasTeraYes ||
+      (historyEnabled && (!hasServiceHistoryInfo || fillServiceHistory)))
+  ) {
+    goToNextPage('/military-service/upload-supporting-documents');
+  }
 };
 
 export const withValidServiceHistory = prefill => {

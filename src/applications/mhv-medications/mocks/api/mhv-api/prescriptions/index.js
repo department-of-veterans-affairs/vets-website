@@ -423,6 +423,7 @@ function generateMockPrescriptions(
   ];
 
   const filterKey = req.query['filter[']?.disp_status?.eq || ''; // e.g., "filter[[disp_status][eq]]=Active,Expired"
+  const isRenewableFilter = req.query['filter[']?.is_renewable?.eq; // e.g., "filter[[is_renewable][eq]]=true"
   const selectedStatuses = filterKey
     ? String(filterKey)
         .split(',')
@@ -430,12 +431,18 @@ function generateMockPrescriptions(
         .filter(Boolean)
     : null;
 
-  let filteredPrescriptions = !selectedStatuses
-    ? generatedPrescriptions
-    : generatedPrescriptions.filter(data => {
-        const status = data?.attributes?.dispStatus ?? '';
-        return selectedStatuses.includes(status);
-      });
+  let filteredPrescriptions = generatedPrescriptions;
+  if (selectedStatuses) {
+    filteredPrescriptions = filteredPrescriptions.filter(data => {
+      const status = data?.attributes?.dispStatus ?? '';
+      return selectedStatuses.includes(status);
+    });
+  }
+  if (isRenewableFilter === 'true') {
+    filteredPrescriptions = filteredPrescriptions.filter(
+      data => data?.attributes?.isRenewable === true,
+    );
+  }
 
   const sortKey = String(req.query.sort || ''); // e.g., "sort=alphabetical-status"
   if (sortKey === 'alphabetical-status') {
@@ -472,6 +479,70 @@ function generateMockPrescriptions(
   const totalPages = Math.max(1, Math.ceil(totalEntries / perPage));
   const start = (currentPage - 1) * perPage;
   const slice = filteredPrescriptions.slice(start, start + perPage);
+
+  // Build filter_count for the response -- V2 API uses these keys
+  const filterCount = isV2
+    ? {
+        allMedications: totalEntries,
+        active: generatedPrescriptions.filter(
+          d => d?.attributes?.dispStatus === 'Active',
+        ).length,
+        inProgress: generatedPrescriptions.filter(
+          d =>
+            d?.attributes?.dispStatus === 'Active: Refill in Process' ||
+            d?.attributes?.dispStatus === 'Active: Submitted' ||
+            d?.attributes?.dispStatus === 'In progress',
+        ).length,
+        shipped: 0,
+        renewable: generatedPrescriptions.filter(
+          d => d?.attributes?.isRenewable === true,
+        ).length,
+        inactive: generatedPrescriptions.filter(
+          d =>
+            d?.attributes?.dispStatus === 'Expired' ||
+            d?.attributes?.dispStatus === 'Discontinued' ||
+            d?.attributes?.dispStatus === 'Active: On Hold' ||
+            d?.attributes?.dispStatus === 'Inactive',
+        ).length,
+        transferred: generatedPrescriptions.filter(
+          d => d?.attributes?.dispStatus === 'Transferred',
+        ).length,
+        statusNotAvailable: generatedPrescriptions.filter(
+          d =>
+            d?.attributes?.dispStatus === 'Unknown' ||
+            d?.attributes?.dispStatus === 'Status not available',
+        ).length,
+      }
+    : {
+        allMedications: totalEntries,
+        active: generatedPrescriptions.filter(d =>
+          [
+            'Active',
+            'Active: Refill in Process',
+            'Active: Non-VA',
+            'Active: On Hold',
+            'Active: Parked',
+            'Active: Submitted',
+          ].includes(d?.attributes?.dispStatus),
+        ).length,
+        recentlyRequested: generatedPrescriptions.filter(d =>
+          ['Active: Refill in Process', 'Active: Submitted'].includes(
+            d?.attributes?.dispStatus,
+          ),
+        ).length,
+        renewal: generatedPrescriptions.filter(
+          d =>
+            (d?.attributes?.dispStatus === 'Active' &&
+              d?.attributes?.refillRemaining === 0) ||
+            d?.attributes?.dispStatus === 'Expired',
+        ).length,
+        nonActive: generatedPrescriptions.filter(d =>
+          ['Discontinued', 'Expired', 'Transferred', 'Unknown'].includes(
+            d?.attributes?.dispStatus,
+          ),
+        ).length,
+      };
+
   return {
     data: slice,
     meta: {
@@ -483,6 +554,7 @@ function generateMockPrescriptions(
         totalPages,
         totalEntries,
       },
+      filterCount,
       recentlyRequested,
     },
     links: {},

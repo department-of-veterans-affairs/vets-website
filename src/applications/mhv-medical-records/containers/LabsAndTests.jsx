@@ -112,6 +112,7 @@ const LabsAndTests = () => {
     return isRadRecord && jobComplete;
   });
 
+  const warnings = useSelector(state => state.mr.labsAndTests.warnings);
   const activeAlert = useAlerts(dispatch);
   const listState = useSelector(state => state.mr.labsAndTests.listState);
   const refresh = useSelector(state => state.mr.refresh);
@@ -301,6 +302,26 @@ const LabsAndTests = () => {
             <>
               {labsAndTests?.length ? (
                 <>
+                  {warnings?.length > 0 && (
+                    <VaAlert
+                      status="warning"
+                      visible
+                      class="vads-u-margin-y--3 no-print"
+                      data-testid="alert-partial-records-warning"
+                    >
+                      <h3
+                        slot="headline"
+                        className="vads-u-font-size--lg no-print"
+                      >
+                        Some records may be incomplete
+                      </h3>
+                      <p>
+                        We couldn\u2019t retrieve all attached documents for
+                        some of your lab and test results. The records below may
+                        be missing PDF reports or other files.
+                      </p>
+                    </VaAlert>
+                  )}
                   {radRecordsWithImagesReady?.length > 0 &&
                     studyJobs?.length > 0 && (
                       <VaAlert

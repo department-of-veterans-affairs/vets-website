@@ -176,9 +176,9 @@ const IntroductionPage = props => {
           downtime={route.formConfig.downtime}
           startText="Start the pension application"
           retentionPeriod="one year"
-          retentionPeriodStart="when you start"
-          continueMsg={<FormReactivationAlert />}
-        />
+        >
+          <FormReactivationAlert />
+        </SaveInProgressIntro>
       )}
       <div className="vads-u-margin-top--2">
         <va-omb-info
