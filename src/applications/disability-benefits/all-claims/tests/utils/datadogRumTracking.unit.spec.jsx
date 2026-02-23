@@ -20,17 +20,14 @@ import {
 
 describe('datadogRumTracking', () => {
   let addActionStub;
-  let consoleLogStub;
 
   beforeEach(() => {
     addActionStub = sinon.stub(datadogBrowserRum.datadogRum, 'addAction');
-    consoleLogStub = sinon.stub(console, 'log');
     sessionStorage.clear();
   });
 
   afterEach(() => {
     addActionStub.restore();
-    consoleLogStub.restore();
   });
 
   describe('trackBackButtonClick', () => {
@@ -79,15 +76,21 @@ describe('datadogRumTracking', () => {
     });
 
     it('does not throw when sessionStorage is blocked', () => {
+      const storageProto = Object.getPrototypeOf(sessionStorage);
       const setItemStub = sinon
-        .stub(Storage.prototype, 'setItem')
+        .stub(storageProto, 'setItem')
         .throws(new Error('QuotaExceededError'));
       const getItemStub = sinon
-        .stub(Storage.prototype, 'getItem')
+        .stub(storageProto, 'getItem')
         .throws(new Error('SecurityError'));
 
       try {
         expect(() => trackBackButtonClick()).to.not.throw();
+        expect(addActionStub.calledOnce).to.be.true;
+
+        const [, properties] = addActionStub.firstCall.args;
+        expect(properties.formId).to.equal(VA_FORM_IDS.FORM_21_526EZ);
+        expect(properties).to.not.have.property('backButtonClickCount');
       } finally {
         setItemStub.restore();
         getItemStub.restore();
@@ -176,7 +179,7 @@ describe('datadogRumTracking', () => {
         formId: VA_FORM_IDS.FORM_21_526EZ,
         sidenav526ezEnabled: true,
       });
-      expect(properties.returnUrl).to.be.a('string');
+      expect(properties.sourcePath).to.be.a('string');
     });
 
     it('works without sidenav toggle set', () => {
@@ -228,6 +231,15 @@ describe('datadogRumTracking', () => {
       const secondCallProps = addActionStub.secondCall.args[1];
       expect(secondCallProps.sideNavClickCount).to.equal(2);
       expect(secondCallProps.chapterTitle).to.equal('Chapter 2');
+    });
+
+    it('does not throw with missing params and tracks with defaults', () => {
+      expect(() => trackSideNavChapterClick()).to.not.throw();
+
+      expect(addActionStub.calledOnce).to.be.true;
+      const [, properties] = addActionStub.firstCall.args;
+      expect(properties.chapterTitle).to.equal('');
+      expect(properties.sourcePath).to.equal('');
     });
   });
 
@@ -316,6 +328,16 @@ describe('datadogRumTracking', () => {
 
       const secondCallProps = addActionStub.secondCall.args[1];
       expect(secondCallProps.sideNavClickCount).to.equal(2);
+    });
+
+    it('does not throw with missing params and tracks with defaults', () => {
+      expect(() => trackMobileAccordionClick()).to.not.throw();
+
+      expect(addActionStub.calledOnce).to.be.true;
+      const [, properties] = addActionStub.firstCall.args;
+      expect(properties.sourcePath).to.equal('');
+      expect(properties.state).to.equal('');
+      expect(properties.accordionTitle).to.equal('');
     });
   });
 

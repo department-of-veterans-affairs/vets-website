@@ -89,6 +89,13 @@ const getClickCounts = () => {
  */
 const getSideNavTrackingDefaults = () => {
   let sidenav526ezEnabled;
+  let sourcePath = '';
+
+  try {
+    sourcePath = window?.location?.pathname || '';
+  } catch (error) {
+    sourcePath = '';
+  }
 
   try {
     const raw = sessionStorage.getItem(TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE);
@@ -99,7 +106,7 @@ const getSideNavTrackingDefaults = () => {
   }
 
   return {
-    sourcePath: window.location.pathname,
+    sourcePath,
     sidenav526ezEnabled,
   };
 };
@@ -110,24 +117,20 @@ const getSideNavTrackingDefaults = () => {
  * from sessionStorage / window.location for DataDog RUM tracking
  */
 export const trackBackButtonClick = () => {
-  try {
-    const { sourcePath, sidenav526ezEnabled } = getSideNavTrackingDefaults();
-    incrementClickCounter(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS);
+  const { sourcePath, sidenav526ezEnabled } = getSideNavTrackingDefaults();
+  incrementClickCounter(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS);
 
-    const properties = {
-      formId: VA_FORM_IDS.FORM_21_526EZ,
-      sourcePath,
-      ...getClickCounts(),
-    };
+  const properties = {
+    formId: VA_FORM_IDS.FORM_21_526EZ,
+    sourcePath,
+    ...getClickCounts(),
+  };
 
-    if (sidenav526ezEnabled !== undefined) {
-      properties.sidenav526ezEnabled = sidenav526ezEnabled;
-    }
-
-    trackAction('Form navigation - Back button clicked', properties);
-  } catch (error) {
-    // Silent fail - tracking should never break the form
+  if (sidenav526ezEnabled !== undefined) {
+    properties.sidenav526ezEnabled = sidenav526ezEnabled;
   }
+
+  trackAction('Form navigation - Back button clicked', properties);
 };
 
 /**
@@ -136,24 +139,20 @@ export const trackBackButtonClick = () => {
  * from sessionStorage / window.location for DataDog RUM tracking
  */
 export const trackContinueButtonClick = () => {
-  try {
-    const { sourcePath, sidenav526ezEnabled } = getSideNavTrackingDefaults();
-    incrementClickCounter(TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS);
+  const { sourcePath, sidenav526ezEnabled } = getSideNavTrackingDefaults();
+  incrementClickCounter(TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS);
 
-    const properties = {
-      formId: VA_FORM_IDS.FORM_21_526EZ,
-      sourcePath,
-      ...getClickCounts(),
-    };
+  const properties = {
+    formId: VA_FORM_IDS.FORM_21_526EZ,
+    sourcePath,
+    ...getClickCounts(),
+  };
 
-    if (sidenav526ezEnabled !== undefined) {
-      properties.sidenav526ezEnabled = sidenav526ezEnabled;
-    }
-
-    trackAction('Form navigation - Continue button clicked', properties);
-  } catch (error) {
-    // Silent fail - tracking should never break the form
+  if (sidenav526ezEnabled !== undefined) {
+    properties.sidenav526ezEnabled = sidenav526ezEnabled;
   }
+
+  trackAction('Form navigation - Continue button clicked', properties);
 };
 
 /**
@@ -161,26 +160,22 @@ export const trackContinueButtonClick = () => {
  * This tracks the initial form start event (not resumption)
  */
 export const trackFormStarted = () => {
-  try {
-    const { sourcePath, sidenav526ezEnabled } = getSideNavTrackingDefaults();
+  const { sourcePath, sidenav526ezEnabled } = getSideNavTrackingDefaults();
 
-    const properties = {
-      formId: VA_FORM_IDS.FORM_21_526EZ,
-      sourcePath,
-      ...getClickCounts(),
-    };
+  const properties = {
+    formId: VA_FORM_IDS.FORM_21_526EZ,
+    sourcePath,
+    ...getClickCounts(),
+  };
 
-    if (sidenav526ezEnabled !== undefined) {
-      properties.sidenav526ezEnabled = sidenav526ezEnabled;
-    }
-
-    trackAction(
-      'Form started - User began form from introduction page',
-      properties,
-    );
-  } catch (error) {
-    // Silent fail - tracking should never break the form
+  if (sidenav526ezEnabled !== undefined) {
+    properties.sidenav526ezEnabled = sidenav526ezEnabled;
   }
+
+  trackAction(
+    'Form started - User began form from introduction page',
+    properties,
+  );
 };
 
 /**
@@ -188,23 +183,19 @@ export const trackFormStarted = () => {
  * This tracks form resumption (not initial start)
  */
 export const trackFormResumption = () => {
-  try {
-    const { sidenav526ezEnabled } = getSideNavTrackingDefaults();
+  const { sourcePath, sidenav526ezEnabled } = getSideNavTrackingDefaults();
 
-    const properties = {
-      formId: VA_FORM_IDS.FORM_21_526EZ,
-      returnUrl: window.location.pathname,
-      ...getClickCounts(),
-    };
+  const properties = {
+    formId: VA_FORM_IDS.FORM_21_526EZ,
+    sourcePath,
+    ...getClickCounts(),
+  };
 
-    if (sidenav526ezEnabled !== undefined) {
-      properties.sidenav526ezEnabled = sidenav526ezEnabled;
-    }
-
-    trackAction('Form resumption - Saved form loaded', properties);
-  } catch (error) {
-    // Silent fail - tracking should never break the form
+  if (sidenav526ezEnabled !== undefined) {
+    properties.sidenav526ezEnabled = sidenav526ezEnabled;
   }
+
+  trackAction('Form resumption - Saved form loaded', properties);
 };
 
 /**
@@ -216,21 +207,18 @@ export const trackFormResumption = () => {
  * @param {object} params.pageData - Page data including key, label, and path
  * @param {string} params.pathname - Current page pathname before navigation
  */
-export const trackSideNavChapterClick = ({ pageData, pathname }) => {
-  try {
-    incrementClickCounter(TRACKING_526EZ_SIDENAV_CLICKS);
+export const trackSideNavChapterClick = (params = {}) => {
+  const { pageData = {}, pathname = '' } = params;
+  incrementClickCounter(TRACKING_526EZ_SIDENAV_CLICKS);
 
-    const properties = {
-      formId: VA_FORM_IDS.FORM_21_526EZ,
-      chapterTitle: pageData.label,
-      sourcePath: pathname,
-      ...getClickCounts(),
-    };
+  const properties = {
+    formId: VA_FORM_IDS.FORM_21_526EZ,
+    chapterTitle: pageData?.label || '',
+    sourcePath: pathname,
+    ...getClickCounts(),
+  };
 
-    trackAction('Side navigation - Chapter clicked', properties);
-  } catch (error) {
-    // Silent fail - tracking should never break the form
-  }
+  trackAction('Side navigation - Chapter clicked', properties);
 };
 
 /**
@@ -238,23 +226,19 @@ export const trackSideNavChapterClick = ({ pageData, pathname }) => {
  * This tracks when the user clicks the submit button on the 526EZ form
  */
 export const trackFormSubmitted = () => {
-  try {
-    const { sourcePath, sidenav526ezEnabled } = getSideNavTrackingDefaults();
+  const { sourcePath, sidenav526ezEnabled } = getSideNavTrackingDefaults();
 
-    const properties = {
-      formId: VA_FORM_IDS.FORM_21_526EZ,
-      sourcePath,
-      ...getClickCounts(),
-    };
+  const properties = {
+    formId: VA_FORM_IDS.FORM_21_526EZ,
+    sourcePath,
+    ...getClickCounts(),
+  };
 
-    if (sidenav526ezEnabled !== undefined) {
-      properties.sidenav526ezEnabled = sidenav526ezEnabled;
-    }
-
-    trackAction('Form submission - Submit button clicked', properties);
-  } catch (error) {
-    // Silent fail - tracking should never break the form
+  if (sidenav526ezEnabled !== undefined) {
+    properties.sidenav526ezEnabled = sidenav526ezEnabled;
   }
+
+  trackAction('Form submission - Submit button clicked', properties);
 };
 
 /**
@@ -268,23 +252,19 @@ export const trackFormSubmitted = () => {
  * @param {string} params.accordionTitle - Title of the accordion (e.g., "Form steps")
  */
 export const trackMobileAccordionClick = ({
-  pathname,
-  state,
-  accordionTitle,
-}) => {
-  try {
-    incrementClickCounter(TRACKING_526EZ_SIDENAV_CLICKS);
+  pathname = '',
+  state = '',
+  accordionTitle = '',
+} = {}) => {
+  incrementClickCounter(TRACKING_526EZ_SIDENAV_CLICKS);
 
-    const properties = {
-      formId: VA_FORM_IDS.FORM_21_526EZ,
-      state,
-      accordionTitle,
-      sourcePath: pathname,
-      ...getClickCounts(),
-    };
+  const properties = {
+    formId: VA_FORM_IDS.FORM_21_526EZ,
+    state,
+    accordionTitle,
+    sourcePath: pathname,
+    ...getClickCounts(),
+  };
 
-    trackAction('Side navigation - Mobile accordion clicked', properties);
-  } catch (error) {
-    // Silent fail - tracking should never break the form
-  }
+  trackAction('Side navigation - Mobile accordion clicked', properties);
 };
