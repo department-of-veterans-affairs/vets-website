@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isLOA3, isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
 import { IntroStatusAlert } from '../components/IntroStatusAlert';
-import { generateCoe } from '../../shared/actions';
 
 const ProcessList = () => {
   return (
@@ -87,26 +86,15 @@ export const IntroductionPage2 = ({ route }) => {
   const userLoggedIn = useSelector(isLoggedIn);
   const userIdVerified = useSelector(isLOA3);
   const showVerifyIdentity = userLoggedIn && !userIdVerified;
-  const coeClaimsEnabled = useSelector(
-    state => selectProfile(state).claims?.coe,
-  );
   const certificateOfEligibility = useSelector(
     state => state.certificateOfEligibility,
   );
-  const canApply = userLoggedIn && coeClaimsEnabled;
   const { coe } = certificateOfEligibility;
   const hasStatusAlert = coe?.status && coe.status !== 'INELIGIBLE';
 
   useEffect(() => {
     focusElement('va-breadcrumbs');
   }, []);
-
-  useEffect(
-    () => {
-      generateCoe(!canApply);
-    },
-    [canApply],
-  );
 
   const content = {
     formTitle: 'Request a VA home loan Certificate of Eligibility (COE)',
