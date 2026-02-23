@@ -815,7 +815,7 @@ export const BENEFITS_LIST = [
     category: categories.BURIALS,
     id: 'BUR',
     description:
-      'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery.',
+      'Veterans, service members and some family members, may be eligible for burial in a VA national cemetery. Reserves or National Guard members that became disabled or died from an injury or certain cardiovascular disorders caused - or made worse - by their service during a period of inactive-duty training may also be eligible.',
     whenToApplyDescription: 'Before or after you separate from service',
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
@@ -824,56 +824,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.PLAN],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
-      // NATIOAL_GUARD_SERVICE and RESERVE_SERVICE are also valid. See note on "Educational and career counseling (Chapter 36)".
-      [mappingTypes.BRANCH_COMPONENT]: [
-        militaryBranchComponentTypes.ACTIVE_DUTY,
-      ],
-      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
-      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
-      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
-      [mappingTypes.SEPARATION]: [anyType.ANY],
-      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
-        characterOfDischargeTypes.HONORABLE,
-        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
-        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
-        characterOfDischargeTypes.UNCHARACTERIZED,
-        characterOfDischargeTypes.BAD_CONDUCT,
-        characterOfDischargeTypes.NOT_SURE,
-        characterOfDischargeTypes.STILL_SERVING,
-      ],
-      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-    },
-    isQualified: responses => {
-      return (
-        responses[mappingTypes.GOALS] &&
-        (responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY] ||
-          responses[mappingTypes.BRANCH_COMPONENT]) &&
-        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
-      );
-    },
-    learnMoreURL: URLS.BUR_LEARN,
-  },
-  {
-    name: 'VA national cemetery burial',
-    category: categories.BURIALS,
-    id: 'BRG',
-    description:
-      'Reserves or National Guard members that became disabled or die from an injury or certain cardiovascular disorders caused - or made worse - by their service during a period of inactive-duty training may qualify for burial in a VA National Cemetery.',
-    whenToApplyDescription: 'Before or after you separate from service',
-    whenToApply: [
-      WHEN_TO_APPLY.BEFORE_SEPARATION,
-      WHEN_TO_APPLY.AFTER_SEPARATION,
-    ],
-    mappings: {
-      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.PLAN],
-      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.NO],
-      [mappingTypes.BRANCH_COMPONENT]: [
-        militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE,
-        militaryBranchComponentTypes.RESERVE_SERVICE,
-      ],
-      [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
