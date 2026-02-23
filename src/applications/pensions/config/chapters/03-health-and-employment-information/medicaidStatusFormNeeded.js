@@ -1,5 +1,5 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { RequestNursingHomeInformationDescription } from '../../../components/FormAlerts';
+import { RequestNursingHomeInformationDescription } from '../../../components/Descriptions';
 import { medicaidDoesNotCoverNursingHome } from './helpers';
 
 export const requiresAdditionalEvidence = formData =>

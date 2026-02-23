@@ -1,5 +1,5 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { NetWorthEstimationFormNeededDescription } from '../../../components/FormAlerts';
+import { NetWorthEstimationFormNeededDescription } from '../../../components/Descriptions';
 import { hideIfUnderThreshold } from './helpers';
 
 export default {

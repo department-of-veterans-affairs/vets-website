@@ -1,6 +1,6 @@
 import get from 'platform/forms-system/src/js/utilities/data/get';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { SchoolAttendanceDescription } from '../../../components/FormAlerts';
+import { SchoolAttendanceDescription } from '../../../components/Descriptions';
 import { showMultiplePageResponse } from '../../../helpers';
 import {
   getDependentChildTitle,

@@ -1,5 +1,5 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { SpecialMonthlyPensionEvidenceDescription } from '../../../components/FormAlerts';
+import { SpecialMonthlyPensionEvidenceDescription } from '../../../components/Descriptions';
 
 export default {
   title: 'Additional form needed',

@@ -1,5 +1,5 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { IncomeAssetStatementFormNeededDescription } from '../../../components/FormAlerts';
+import { IncomeAssetStatementFormNeededDescription } from '../../../components/Descriptions';
 
 export default {
   title: 'Additional form needed',

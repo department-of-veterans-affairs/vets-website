@@ -1,5 +1,5 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { LandMarketableFormNeededDescription } from '../../../components/FormAlerts';
+import { LandMarketableFormNeededDescription } from '../../../components/Descriptions';
 import { isHomeAcreageMoreThanTwo } from '../../../helpers';
 
 export default {
