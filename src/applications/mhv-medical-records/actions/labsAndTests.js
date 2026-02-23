@@ -194,19 +194,10 @@ export const getAcceleratedImagingStudiesList = (
  * single accelerated imaging study.
  *
  * @param {string} id - The FHIR imaging study identifier
- * @param {Object} timeFrame
- * @param {string} timeFrame.startDate - Start date in YYYY-MM-DD format
- * @param {string} timeFrame.endDate - End date in YYYY-MM-DD format
  */
-export const getImagingStudyThumbnails = (
-  id,
-  timeFrame = {},
-) => async dispatch => {
+export const getImagingStudyThumbnails = id => async dispatch => {
   try {
-    const response = await getAcceleratedImagingStudyThumbnails({
-      id,
-      ...timeFrame,
-    });
+    const response = await getAcceleratedImagingStudyThumbnails({ id });
     dispatch({
       type: Actions.LabsAndTests.GET_IMAGING_STUDY_THUMBNAILS,
       response,
@@ -223,19 +214,10 @@ export const getImagingStudyThumbnails = (
  * imaging study.
  *
  * @param {string} id - The FHIR imaging study identifier
- * @param {Object} timeFrame
- * @param {string} timeFrame.startDate - Start date in YYYY-MM-DD format
- * @param {string} timeFrame.endDate - End date in YYYY-MM-DD format
  */
-export const getImagingStudyDicomZip = (
-  id,
-  timeFrame = {},
-) => async dispatch => {
+export const getImagingStudyDicomZip = id => async dispatch => {
   try {
-    const response = await getAcceleratedImagingStudyDicomZip({
-      id,
-      ...timeFrame,
-    });
+    const response = await getAcceleratedImagingStudyDicomZip({ id });
     dispatch({
       type: Actions.LabsAndTests.GET_IMAGING_STUDY_DICOM,
       response,
