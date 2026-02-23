@@ -135,7 +135,6 @@ const formConfig = {
   },
   customText: {
     appType: content['sip-text-app-type'],
-    appAction: content['sip-text-app-action'],
     continueAppButtonText: content['sip-text-continue-btn-text'],
     startNewAppButtonText: content['sip-text-start-new-btn-text'],
     appSavedSuccessfullyMessage: content['sip-text-app-saved-message'],
