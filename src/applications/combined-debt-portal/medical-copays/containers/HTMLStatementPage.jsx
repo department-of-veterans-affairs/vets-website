@@ -58,19 +58,12 @@ const HTMLStatementPage = ({ match }) => {
   useHeaderPageTitle(title);
 
   useEffect(() => {
-    setPageFocus('h1');
-  }, []);
+    if (!isAnyElementFocused()) setPageFocus();
+  },[]);
 
-  useEffect(
-    () => {
-      if (!isAnyElementFocused()) setPageFocus();
-      if (shouldFetchStatement) dispatch(getCopayDetailStatement(statementId));
-    },
-    [
-      dispatch,
-      shouldFetchStatement
-    ],
-  );
+  if (!currentStatement?.id || isLoading) {
+    return <VaLoadingIndicator message="Loading features..." />;
+  }
 
   return (
     <>

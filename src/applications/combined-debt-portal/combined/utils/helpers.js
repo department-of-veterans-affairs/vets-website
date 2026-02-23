@@ -78,7 +78,9 @@ export const useCurrentStatement = (statementId) => {
       copayDetailStatement.id !== statementId &&
       !isLoading
 
-  return { currentStatement, shouldFetchStatement };
+  if (shouldFetchStatement) dispatch(getCopayDetailStatement(statementId));
+
+  return { currentStatement, isLoading };
 };
 
 /* Helper function to consisently format date strings

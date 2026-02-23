@@ -32,7 +32,7 @@ const DetailCopayPage = ({ match }) => {
     useSelector(state => state),
   );
 
-  const { currentStatement, shouldFetchStatement } = useCurrentStatement(statementId);
+  const { currentStatement, isLoading } = useCurrentStatement(statementId);
 
   const copayAttributes = useMemo(
     () => {
@@ -76,17 +76,9 @@ const DetailCopayPage = ({ match }) => {
     [currentStatement?.id, copayAttributes],
   );
 
-  useEffect(
-    () => {
+  useEffect(() => {
       if (!isAnyElementFocused()) setPageFocus();
-      if (shouldFetchStatement) dispatch(getCopayDetailStatement(statementId));
-    },
-    [
-      statementId,
-      dispatch,
-      shouldFetchStatement
-    ],
-  );
+    },[]);
 
   // get veteran name
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
@@ -124,7 +116,7 @@ const DetailCopayPage = ({ match }) => {
 
   useHeaderPageTitle(copayAttributes.TITLE);
 
-  if (!currentStatement?.id || shouldFetchStatement) {
+  if (!currentStatement?.id || isLoading) {
     return <VaLoadingIndicator message="Loading features..." />;
   }
 
