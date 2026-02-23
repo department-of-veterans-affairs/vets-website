@@ -48,6 +48,7 @@ import privateDetails from '../pages/evidence/privateDetails';
 import privatePrompt from '../pages/evidence/privatePrompt';
 import summary from '../pages/evidence/summary';
 import uploadDetails from '../pages/evidence/uploadDetails';
+import uploadEvidence from '../pages/evidence/uploadEvidence';
 import uploadPrompt from '../pages/evidence/uploadPrompt';
 import vaDetails from '../pages/evidence/vaDetails';
 import vaPrompt from '../pages/evidence/vaPrompt';
@@ -329,20 +330,21 @@ const formConfig = {
           schema: privateDetails.schema,
           scrollAndFocusTarget: focusEvidence,
         },
-        uploadPrompt: {
-          title: 'Upload new and relevant evidence',
-          path: EVIDENCE_ADDITIONAL_URL,
-          uiSchema: uploadPrompt.uiSchema,
-          schema: uploadPrompt.schema,
-          scrollAndFocusTarget: focusRadioH3,
-        },
-        uploadDetails: {
-          title: 'Uploaded evidence',
-          path: EVIDENCE_UPLOAD_URL,
-          depends: hasOtherEvidence,
-          uiSchema: uploadDetails.uiSchema,
-          schema: uploadDetails.schema,
-        },
+        ...uploadEvidence,
+        // uploadPrompt: {
+        //   title: 'Upload new and relevant evidence',
+        //   path: EVIDENCE_ADDITIONAL_URL,
+        //   uiSchema: uploadPrompt.uiSchema,
+        //   schema: uploadPrompt.schema,
+        //   scrollAndFocusTarget: focusRadioH3,
+        // },
+        // uploadDetails: {
+        //   title: 'Uploaded evidence',
+        //   path: EVIDENCE_UPLOAD_URL,
+        //   depends: hasOtherEvidence,
+        //   uiSchema: uploadDetails.uiSchema,
+        //   schema: uploadDetails.schema,
+        // },
         summary: {
           title: 'Summary of evidence',
           path: 'supporting-evidence/summary',

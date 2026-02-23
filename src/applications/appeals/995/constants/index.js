@@ -31,7 +31,7 @@ export const LIMITED_CONSENT_PROMPT_URL = 'supporting-evidence/add-limitation';
 export const LIMITED_CONSENT_DETAILS_URL = 'supporting-evidence/limitation';
 export const EVIDENCE_ADDITIONAL_URL =
   'supporting-evidence/will-add-supporting-evidence';
-export const EVIDENCE_UPLOAD_URL = 'supporting-evidence/upload-evidence';
+export const EVIDENCE_UPLOAD_URL = 'supporting-evidence/upload-evidence-v0';
 
 // This is for URLs specific to the redesign to avoid collision with existing URL variables
 export const EVIDENCE_URLS = {
@@ -50,10 +50,12 @@ export const EVIDENCE_URLS = {
   privateTreatmentDate:
     'supporting-evidence/:index/private-medical-records-dates',
   privateSummary: 'supporting-evidence/private-medical-records-review',
+  uploadPrompt: 'supporting-evidence/add-supporting-evidence',
+  uploadDetails: 'supporting-evidence/:index/upload-evidence',
 };
 
 // Point to header of the "File by mail, in person, or with the help of a VSO
-// for any type of benefit claim"
+// for any type of benefit claim"=
 export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#file-by-mail-in-person-or-with`;
 
 export const PRIMARY_PHONE = 'view:primaryPhone';
