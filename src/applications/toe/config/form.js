@@ -692,8 +692,11 @@ const formConfig = {
                       field => field !== 'state',
                     );
 
-                    // Only add state as required for USA or military base
-                    if (livesOnMilitaryBase || country === 'USA') {
+                    // Only add state as required for USA, Canada, Mexico, or military base
+                    if (
+                      livesOnMilitaryBase ||
+                      ['USA', 'CAN', 'MEX'].includes(country)
+                    ) {
                       required.push('state');
                     }
 
@@ -727,6 +730,24 @@ const formConfig = {
                         ...stateSchema,
                         enum: constants.states.USA.map(state => state.value),
                         enumNames: constants.states.USA.map(
+                          state => state.label,
+                        ),
+                      };
+                    } else if (country === 'CAN') {
+                      stateSchema = {
+                        ...stateSchema,
+                        title: 'Province',
+                        enum: constants.states.CAN.map(state => state.value),
+                        enumNames: constants.states.CAN.map(
+                          state => state.label,
+                        ),
+                      };
+                    } else if (country === 'MEX') {
+                      stateSchema = {
+                        ...stateSchema,
+                        title: 'State',
+                        enum: constants.states.MEX.map(state => state.value),
+                        enumNames: constants.states.MEX.map(
                           state => state.label,
                         ),
                       };
@@ -1594,8 +1615,11 @@ const formConfig = {
                       field => field !== 'state',
                     );
 
-                    // Only add state as required for USA or military base
-                    if (livesOnMilitaryBase || country === 'USA') {
+                    // Only add state as required for USA, Canada, Mexico, or military base
+                    if (
+                      livesOnMilitaryBase ||
+                      ['USA', 'CAN', 'MEX'].includes(country)
+                    ) {
                       required.push('state');
                     }
 
@@ -1630,6 +1654,24 @@ const formConfig = {
                         title: 'State',
                         enum: constants.states.USA.map(state => state.value),
                         enumNames: constants.states.USA.map(
+                          state => state.label,
+                        ),
+                      };
+                    } else if (country === 'CAN') {
+                      stateSchema = {
+                        ...stateSchema,
+                        title: 'Province',
+                        enum: constants.states.CAN.map(state => state.value),
+                        enumNames: constants.states.CAN.map(
+                          state => state.label,
+                        ),
+                      };
+                    } else if (country === 'MEX') {
+                      stateSchema = {
+                        ...stateSchema,
+                        title: 'State',
+                        enum: constants.states.MEX.map(state => state.value),
+                        enumNames: constants.states.MEX.map(
                           state => state.label,
                         ),
                       };

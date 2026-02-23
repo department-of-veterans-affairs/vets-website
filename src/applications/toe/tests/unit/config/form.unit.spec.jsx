@@ -228,6 +228,46 @@ describe('guardianInformationChapter', () => {
       });
     });
 
+    describe('Canadian address', () => {
+      beforeEach(async () => {
+        const countryInput = screen.getByRole('combobox', {
+          name: /Country/i,
+        });
+
+        await userEvent.selectOptions(countryInput, 'Canada');
+      });
+
+      it('should render Province dropdown and Postal code input', () => {
+        expect(screen.getByRole('combobox', { name: 'Province (*Required)' }))
+          .to.exist;
+        expect(screen.queryByRole('combobox', { name: 'State (*Required)' }))
+          .not.to.exist;
+        expect(screen.getByRole('textbox', { name: /Postal code/i })).to.exist;
+        expect(screen.queryByRole('textbox', { name: /Zip code/i })).not.to
+          .exist;
+      });
+    });
+
+    describe('Mexican address', () => {
+      beforeEach(async () => {
+        const countryInput = screen.getByRole('combobox', {
+          name: /Country/i,
+        });
+
+        await userEvent.selectOptions(countryInput, 'Mexico');
+      });
+
+      it('should render State dropdown and Postal code input', () => {
+        expect(screen.getByRole('combobox', { name: 'State (*Required)' })).to
+          .exist;
+        expect(screen.queryByRole('combobox', { name: 'Province (*Required)' }))
+          .not.to.exist;
+        expect(screen.getByRole('textbox', { name: /Postal code/i })).to.exist;
+        expect(screen.queryByRole('textbox', { name: /Zip code/i })).not.to
+          .exist;
+      });
+    });
+
     describe('International address', () => {
       beforeEach(async () => {
         const countryInput = screen.getByRole('combobox', {
