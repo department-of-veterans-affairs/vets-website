@@ -72,10 +72,10 @@ const EditContactList = () => {
     facility => facility.facilities?.map(f => f.facilityName),
   );
 
-  // DONE - TODO Alert needs to be visible from T-45 to T+2
-  // DONE - TODO Facility list in alert needs to be populated based on user's facilities that are affected by the change.
-  // This will be determined based on the migrationSchedules data in the user profile
-  // TODO this should be true for users with Transitioning and Non-transitioning facilities
+  const isInAlertDisplayWindow =
+    migratingFacilities.length > 0 &&
+    vistaFacilities.length > 0 &&
+    isInPhaseP1ToP6;
 
   const isContactListChanged = useMemo(
     () => !_.isEqual(vistaRecipients, allTriageTeams),
@@ -253,7 +253,7 @@ const EditContactList = () => {
         />
       </div>
 
-      {isInPhaseP1ToP6 && (
+      {isInAlertDisplayWindow && (
         <div>
           <VaAlert
             role="alert"
@@ -261,7 +261,7 @@ const EditContactList = () => {
             class="vads-u-margin-y--4"
             status="warning"
             visible
-            data-testid="TODO-ADD TESTID" // need to add testid for this alert
+            data-testid="contact-list-alert"
           >
             <h2 className="vads-u-margin-y--0">
               We’re making changes to your contact list
