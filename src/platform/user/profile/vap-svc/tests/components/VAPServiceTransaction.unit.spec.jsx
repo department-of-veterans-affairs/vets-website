@@ -53,12 +53,31 @@ describe('<VAPServiceTransaction/>', () => {
     });
     expect(
       component.find(VAPServiceTransactionPending),
-      'renders a transaction-pending message',
+      'renders a transaction-pending message when status is RECEIVED',
     ).to.have.lengthOf(1);
     expect(
       component.find('div.content'),
-      'does not render children components',
+      'does not render children components when status is RECEIVED',
     ).to.have.lengthOf(0);
+
+    component.setProps({
+      transaction: {
+        data: {
+          attributes: {
+            transactionStatus: TRANSACTION_STATUS.COMPLETED_FAILURE,
+          },
+        },
+      },
+    });
+    expect(
+      component.find(VAPServiceTransactionPending),
+      'does not render a transaction-pending message when status is COMPLETED_FAILURE',
+    ).to.have.lengthOf(0);
+    expect(
+      component.find('div.content'),
+      'renders children components when status is COMPLETED_FAILURE',
+    ).to.have.lengthOf(1);
+
     component.unmount();
   });
 });
