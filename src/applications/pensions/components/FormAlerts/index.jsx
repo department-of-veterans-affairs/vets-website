@@ -193,8 +193,9 @@ export const RequestNursingHomeInformationDescription = () => (
   </RequestFormDescription>
 );
 
-export const SchoolAttendanceAlert = () => (
+export const SchoolAttendanceDescription = () => (
   <RequestFormDescription
+    intro="Because your child is at least 18 years old, but under 23, and attending school"
     title="Request for Approval of School Attendance"
     formName="VA Form 21-674"
     formLink="https://www.va.gov/find-forms/about-form-21-674/"
@@ -290,13 +291,4 @@ export const AccountInformationAlert = () => (
       </p>
     </va-alert>
   </div>
-);
-
-export const AdoptionEvidenceAlert = () => (
-  <va-alert status="warning">
-    <p className="vads-u-margin-y--0">
-      You’ll need to submit adoption papers or amended birth certificate with
-      this application.
-    </p>
-  </va-alert>
 );
