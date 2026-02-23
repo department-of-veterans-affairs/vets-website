@@ -13,13 +13,13 @@ import { transform } from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PreSubmitInfo from '../components/PreSubmitInfo';
+import PhoneAndEmailPage from '../components/PhoneAndEmailPage';
 
 // Pages
 import {
   applicantFullname,
   mailingAddress,
   phoneAndEmail,
-  // identificationInformation,
   employmentStatus,
   employmentDetails,
   employmentFocus,
@@ -30,6 +30,7 @@ import {
   trainingProviderStartDate,
   atLeast3Years,
   directDeposit,
+  contactPreferences,
 } from '../pages';
 
 import { trainingProviderArrayOptions, focusOnH3 } from '../helpers';
@@ -116,8 +117,17 @@ const formConfig = {
         phoneAndEmail: {
           path: 'phone-and-email',
           title: 'Phone and email address',
+          CustomPage: PhoneAndEmailPage,
+          CustomPageReview: null,
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
+          updateFormData: phoneAndEmail.updateFormData,
+        },
+        contactPreferences: {
+          path: 'contact-preferences',
+          title: 'Contact preferences',
+          uiSchema: contactPreferences.uiSchema,
+          schema: contactPreferences.schema,
         },
         veteranStatus: {
           path: 'at-least-3-years',

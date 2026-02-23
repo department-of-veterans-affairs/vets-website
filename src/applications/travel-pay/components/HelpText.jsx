@@ -107,11 +107,11 @@ HelpTextOptions.propTypes = {
   trigger: PropTypes.string,
 };
 
-export const ComplexClaimsHelpSection = ({ className }) => {
+export const ComplexClaimsHelpSection = () => {
   return (
     <div
-      className={`complex-claim-help-section ${className ||
-        'vads-u-margin--2'}`}
+      className="complex-claim-help-section"
+      data-testid="complex-claim-help"
     >
       <h2 className="complex-claim-help-heading">Need help?</h2>
       <p className="vads-u-margin-top--0">
@@ -128,8 +128,4 @@ export const ComplexClaimsHelpSection = ({ className }) => {
       />
     </div>
   );
-};
-
-ComplexClaimsHelpSection.propTypes = {
-  className: PropTypes.string,
 };
