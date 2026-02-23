@@ -1,6 +1,6 @@
 import {
   AUTH_ERROR_CODES,
-  OTC_ERROR_CODES,
+  OTP_ERROR_CODES,
   SERVER_ERROR_CODES,
   AVAILABILITY_ERROR_CODES,
   APPOINTMENT_ERROR_CODES,
@@ -27,13 +27,13 @@ const isRateLimitExceededError = error => {
 const isMissingParameterError = error => {
   return (
     error?.code === AUTH_ERROR_CODES.MISSING_PARAMETER ||
-    error?.code === OTC_ERROR_CODES.MISSING_PARAMETER ||
+    error?.code === OTP_ERROR_CODES.MISSING_PARAMETER ||
     error?.code === APPOINTMENT_ERROR_CODES.MISSING_PARAMETER
   );
 };
 
 const isAccountLockedError = error => {
-  return error?.code === OTC_ERROR_CODES.ACCOUNT_LOCKED;
+  return error?.code === OTP_ERROR_CODES.ACCOUNT_LOCKED;
 };
 
 const isServerError = error => {

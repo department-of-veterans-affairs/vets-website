@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/react';
@@ -193,7 +194,7 @@ describe('SendRxRenewalMessage Component', () => {
         .exist;
     });
 
-    it('renders fallback content when showFallBackContent is true', () => {
+    it('renders fallback content when suppressRenewalLink is true', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Active',
@@ -205,7 +206,7 @@ describe('SendRxRenewalMessage Component', () => {
       );
       const screen = setup(rx, {
         fallbackContent,
-        showFallBackContent: true,
+        suppressRenewalLink: true,
         isOracleHealth: true,
       });
       expect(screen.getByTestId('fallback')).to.exist;
@@ -221,6 +222,20 @@ describe('SendRxRenewalMessage Component', () => {
         isRenewable: false,
       };
       const screen = setup(rx);
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+      expect(screen.queryByTestId('fallback')).to.not.exist;
+    });
+
+    it('returns null when suppressRenewalLink is true and no fallback content provided', () => {
+      const rx = {
+        ...mockRx,
+        isRenewable: true,
+      };
+      const screen = setup(rx, {
+        suppressRenewalLink: true,
+        isOracleHealth: true,
+      });
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
       expect(screen.queryByTestId('fallback')).to.not.exist;
@@ -347,6 +362,42 @@ describe('SendRxRenewalMessage Component', () => {
       );
       expect(modal?.innerHTML).to.include('automated refill line');
     });
+
+    it('closes modal when secondary button (Back) is clicked', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.secondaryButtonClick();
+
+      await waitFor(() => {
+        expect(modal?.getAttribute('visible')).to.equal('false');
+      });
+    });
+
+    it('closes modal when close event fires', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.closeEvent();
+
+      await waitFor(() => {
+        expect(modal?.getAttribute('visible')).to.equal('false');
+      });
+    });
   });
 
   describe('Secure messages URL generation', () => {
@@ -359,6 +410,64 @@ describe('SendRxRenewalMessage Component', () => {
 
       const screen = setup(rx);
       expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
+    });
+
+    it('includes station_number in secure messages URL when stationNumber is present', async () => {
+      const locationStub = sinon.stub(window, 'location');
+      locationStub.value({ href: '' });
+
+      const rx = {
+        ...mockRx,
+        prescriptionId: 98765,
+        stationNumber: '668',
+        isRenewable: true,
+      };
+
+      const screen = setup(rx);
+      fireEvent.click(screen.getByTestId('send-renewal-request-message-link'));
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      expect(window.location.href).to.include('prescriptionId=98765');
+      expect(window.location.href).to.include('station_number=668');
+      expect(window.location.href).to.include('redirectPath=');
+
+      locationStub.restore();
+    });
+
+    it('omits station_number from URL when stationNumber is missing', async () => {
+      const locationStub = sinon.stub(window, 'location');
+      locationStub.value({ href: '' });
+
+      const rx = {
+        ...mockRx,
+        prescriptionId: 98765,
+        stationNumber: undefined,
+        isRenewable: true,
+      };
+
+      const screen = setup(rx);
+      fireEvent.click(screen.getByTestId('send-renewal-request-message-link'));
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      expect(window.location.href).to.include('prescriptionId=98765');
+      expect(window.location.href).to.not.include('station_number');
+      expect(window.location.href).to.include('redirectPath=');
+
+      locationStub.restore();
     });
   });
 

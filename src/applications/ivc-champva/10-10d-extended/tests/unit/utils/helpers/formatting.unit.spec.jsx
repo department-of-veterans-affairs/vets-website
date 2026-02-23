@@ -1,5 +1,71 @@
 import { expect } from 'chai';
-import { replaceStrValues } from '../../../../utils/helpers';
+import { concatStreets, replaceStrValues } from '../../../../utils/helpers';
+
+describe('1010d `concatStreets` util', () => {
+  it('should join street fields with spaces by default', () => {
+    const addr = { street: '123 Main', street2: 'Apt 4B' };
+    const result = concatStreets(addr);
+    expect(result.streetCombined).to.equal('123 Main Apt 4B');
+  });
+
+  it('should join with new lines when `options.newLines` is true', () => {
+    const addr = { street: '123 Main', street2: 'Apt 4B' };
+    const result = concatStreets(addr, { newLines: true });
+    expect(result.streetCombined).to.equal('123 Main\nApt 4B');
+  });
+
+  it('should filter out `undefined`, `null`, and `empty-string` values', () => {
+    const addr = {
+      street: '123 Main',
+      street2: undefined,
+      street3: null,
+      street4: '',
+    };
+    const result = concatStreets(addr);
+    expect(result.streetCombined).to.equal('123 Main');
+  });
+
+  it('should trim individual street parts before joining', () => {
+    const addr = { street: '  123 Main  ', street2: '  Apt 4B ' };
+    const result = concatStreets(addr);
+    expect(result.streetCombined).to.equal('123 Main Apt 4B');
+  });
+
+  it('should ignore non-street keys entirely', () => {
+    const addr = { city: 'Indy', postalCode: '46204' };
+    const result = concatStreets(addr);
+    expect(result.streetCombined).to.equal('');
+  });
+
+  it('should return a new object and does not mutate the input', () => {
+    const addr = { street: '123 Main' };
+    const copy = { ...addr };
+    const result = concatStreets(addr);
+    expect(result).to.not.equal(addr);
+    expect(addr).to.deep.equal(copy);
+    expect(result).to.deep.equal({ ...addr, streetCombined: '123 Main' });
+  });
+
+  it('should correctly handle undefined address object', () => {
+    const result = concatStreets(undefined);
+    expect(result).to.deep.equal({ streetCombined: '' });
+  });
+
+  it('should correctly handle omitted options', () => {
+    const addr = { street: '123 Main', street2: 'Apt 4B' };
+    const result = concatStreets(addr);
+    expect(result.streetCombined).to.equal('123 Main Apt 4B');
+  });
+
+  it('should avoid trailing space or newline', () => {
+    const addr = { street: '123 Main', street2: '' };
+    const withSpace = concatStreets(addr);
+    expect(withSpace.streetCombined).to.equal('123 Main');
+
+    const withNewline = concatStreets(addr, { newLines: true });
+    expect(withNewline.streetCombined).to.equal('123 Main');
+  });
+});
 
 describe('10-10d `replaceStrValues` util', () => {
   it('should return empty string when source is falsy', () => {

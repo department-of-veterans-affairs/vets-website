@@ -252,10 +252,25 @@ class AppointmentDetailPageObject extends PageObject {
     return this;
   }
 
+  assertAfterVisitSummaryVistALink({ exists = true } = {}) {
+    if (exists) {
+      cy.findByTestId('after-visit-summary-link').should('exist');
+    } else {
+      cy.findByTestId('after-visit-summary-link').should('not.exist');
+    }
+    return this;
+  }
+
   assertAfterVisitSummaryNotAvailable() {
     cy.findByText(
       'An after-visit summary is not available at this time.',
     ).should('exist');
+    return this;
+  }
+
+  assertAfterVisitSummaryDoesNotExist() {
+    cy.findByTestId('after-visit-summary-header').should('not.exist');
+
     return this;
   }
 }

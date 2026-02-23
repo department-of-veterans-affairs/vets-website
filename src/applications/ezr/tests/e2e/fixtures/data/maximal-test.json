@@ -253,6 +253,7 @@
       "toxicExposureStartDate": "1990-09-XX",
       "toxicExposureEndDate": "1990-09-XX"
     },
-    "privacyAgreementAccepted": true
+    "privacyAgreementAccepted": true,
+    "view:hasPrefillServiceHistory": false
   }
 }

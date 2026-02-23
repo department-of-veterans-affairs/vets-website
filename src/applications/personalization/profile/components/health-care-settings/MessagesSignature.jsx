@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { openModal, clearMostRecentlySavedField } from '@@vap-svc/actions';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import { Prompt, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +14,9 @@ import { ProfileInfoSection } from '../ProfileInfoSection';
 import MessagingSignature from '../personal-information/MessagingSignature';
 import NonVAPatientMessage from '../personal-health-care-contacts/NonVAPatientMessage';
 
-const MessageSignature = () => {
+const MessagesSignature = () => {
+  const hasMountedRef = useRef(false);
+
   const dispatch = useDispatch();
   const location = useLocation();
   const vaPatient = useSelector(isVAPatient);
@@ -30,6 +33,25 @@ const MessageSignature = () => {
   );
   const messagingSignatureName = messagingSignature?.signatureName;
   const hasMessagingSignatureError = messagingSignature?.error !== undefined;
+
+  const clearSuccessAlert = useCallback(
+    () => dispatch(clearMostRecentlySavedField()),
+    [dispatch],
+  );
+  const openEditModal = useCallback(() => dispatch(openModal()), [dispatch]);
+
+  useEffect(
+    () => {
+      document.title = `Messages Signature | Veterans Affairs`;
+      // Mark component as mounted after first render so Prompt doesn't show on initial load
+      hasMountedRef.current = true;
+
+      return () => {
+        clearSuccessAlert();
+      };
+    },
+    [clearSuccessAlert],
+  );
 
   useEffect(
     () => {
@@ -66,6 +88,15 @@ const MessageSignature = () => {
     [hasUnsavedEdits],
   );
 
+  useEffect(
+    () => {
+      return () => {
+        openEditModal(null);
+      };
+    },
+    [openEditModal],
+  );
+
   const signaturePresent =
     !!messagingSignature?.signatureName?.trim() &&
     !!messagingSignature?.signatureTitle?.trim();
@@ -87,7 +118,7 @@ const MessageSignature = () => {
     <>
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
-        when={hasUnsavedEdits}
+        when={hasUnsavedEdits && hasMountedRef.current}
       />
 
       <Headline>Messages signature</Headline>
@@ -113,6 +144,6 @@ const MessageSignature = () => {
   );
 };
 
-MessageSignature.propTypes = {};
+MessagesSignature.propTypes = {};
 
-export default MessageSignature;
+export default MessagesSignature;

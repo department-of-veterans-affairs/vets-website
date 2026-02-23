@@ -22,9 +22,10 @@ import { pageType } from '../../util/dataDogConstants';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
+  selectMhvMedicationsOracleHealthCutoverFlag,
 } from '../../util/selectors';
 
-const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
+const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
   const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const cernerFacilityIds = useSelector(selectCernerFacilityIds);
@@ -33,6 +34,9 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
   const isOracleHealth = isOracleHealthPrescription(rx, cernerFacilityIds);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const isOracleHealthCutover = useSelector(
+    selectMhvMedicationsOracleHealthCutoverFlag,
+  );
   const useV2Status = isCernerPilot && isV2StatusMapping;
 
   const refillButton = page === pageType.LIST ? <RefillButton {...rx} /> : null;
@@ -68,7 +72,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
           >
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
               isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
@@ -114,7 +118,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
               </p>
               <SendRxRenewalMessage
                 rx={rx}
-                showFallBackContent={showRenewalLink}
+                suppressRenewalLink={renewalLinkShownAbove}
                 isOracleHealth={isOracleHealth}
               />
             </div>
@@ -128,7 +132,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
           <div>
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
               isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
@@ -146,13 +150,22 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="expired">
-              You can’t refill this prescripition. Contact your VA provider if
-              you need more of this medicaton.
+              You can’t refill this prescription. Contact your VA provider if
+              you need more of this medication.
             </p>
           </div>
         );
 
       case dispStatusObjV2.transferred:
+        if (isOracleHealthCutover) {
+          return (
+            <p className="vads-u-margin-y--0" data-testid="transferred">
+              This is a previous record of your medication. If you need a
+              refill, find the current medication in your medication list. If
+              you don’t have a current one, contact your provider.
+            </p>
+          );
+        }
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="transferred">
@@ -208,7 +221,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
           >
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
               isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
@@ -247,7 +260,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
           >
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
               isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
@@ -281,7 +294,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
           <div>
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
               isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
@@ -306,6 +319,15 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
         );
 
       case dispStatusObj.transferred:
+        if (isOracleHealthCutover) {
+          return (
+            <p className="vads-u-margin-y--0" data-testid="transferred">
+              This is a previous record of your medication. If you need a
+              refill, find the current medication in your medication list. If
+              you don’t have a current one, contact your provider.
+            </p>
+          );
+        }
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="transferred">
@@ -349,12 +371,13 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
                 className="vads-u-margin-y--0"
                 data-testid="active-no-refill-left"
               >
-                You can’t refill this prescription. Contact your VA provider if
-                you need more of this medication.
+                {isOracleHealth
+                  ? 'You can’t refill this prescription. If you need more, send a secure message to your care team.'
+                  : 'You can’t refill this prescription. Contact your VA provider if you need more of this medication.'}
               </p>
               <SendRxRenewalMessage
                 rx={rx}
-                showFallBackContent={showRenewalLink}
+                suppressRenewalLink={renewalLinkShownAbove}
                 isOracleHealth={isOracleHealth}
               />
             </div>
@@ -412,7 +435,7 @@ ExtraDetails.propTypes = {
   refillDate: PropTypes.string,
   refillRemaining: PropTypes.number,
   refillSubmitDate: PropTypes.string,
-  showRenewalLink: PropTypes.bool,
+  renewalLinkShownAbove: PropTypes.bool,
 };
 
 export default ExtraDetails;

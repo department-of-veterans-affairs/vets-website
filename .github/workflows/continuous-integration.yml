@@ -40,7 +40,7 @@ jobs:
             if [ -n "$PACKAGE_JSON_DIFF" ]; then
               # Get changed lines (excluding context lines and approved packages)
               # Note: blob-polyfill, cheerio, and engines field changes are allowed for Node 22 upgrade
-              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'jsdom' | grep -v '"msw"' | grep -v '"node-sass"' | grep -v '"sass"' | grep -v 'patch-package' | grep -v 'blob-polyfill' | grep -v 'cheerio' | grep -v '"engines"' | grep -v '"node":' | grep -v '"yarn":' |  grep -v 'husky' | grep -v '"msw"' || echo "")
+              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'jsdom' | grep -v '"msw"' | grep -v '"node-sass"' | grep -v '"sass"' | grep -v 'patch-package' | grep -v 'blob-polyfill' | grep -v 'cheerio' | grep -v '"engines"' | grep -v '"node":' | grep -v '"yarn":' |  grep -v 'husky' | grep -v '"msw"' | grep -v 'form-data' || echo "")
 
               if [ -n "$CHANGED_LINES" ]; then
                 # Check if changes contain dependency version bumps (lines with version patterns like ^, ~, >=, etc.)
@@ -50,7 +50,7 @@ jobs:
                 if [ -n "$DEPENDENCY_CHANGES" ]; then
                   echo "❌ ERROR: package.json has dependency changes other than approved packages."
                   echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, msw, node-sass, sass, patch-package, blob-polyfill, cheerio, engines field, and the scripts section are allowed."
+                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, msw, node-sass, sass, patch-package, blob-polyfill, cheerio, form-data, engines field, and the scripts section are allowed."
                   echo ""
                   echo "Dependency changes detected:"
                   echo "$DEPENDENCY_CHANGES"
@@ -65,7 +65,7 @@ jobs:
             if [ -n "$YARN_LOCK_DIFF" ]; then
               # For yarn.lock, we need to check if changes are only in approved package sections
               # Get all added/removed lines that don't contain approved packages
-              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'node-sass' | grep -v 'sass' | grep -v 'patch-package' | grep -v 'jsdom' | grep -v 'husky' | grep -v 'msw' | grep -v 'cheerio' || echo "")
+              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'node-sass' | grep -v 'sass' | grep -v 'patch-package' | grep -v 'jsdom' | grep -v 'husky' | grep -v 'msw' | grep -v 'cheerio' | grep -v 'form-data' || echo "")
 
               # Also check for package entry headers that might not contain the name on the same line
               # In yarn.lock, package entries start with "package-name@version:"
@@ -81,7 +81,7 @@ jobs:
                 if [ "$CHANGE_COUNT" -gt 20000 ]; then
                   echo "❌ ERROR: yarn.lock has been modified with substantial changes beyond approved packages."
                   echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, msw, node-sass, sass, patch-package, blob-polyfill, and cheerio are allowed."
+                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, msw, node-sass, sass, patch-package, blob-polyfill, cheerio, and form-data are allowed."
                   echo ""
                   echo "Detected $CHANGE_COUNT lines of non-approved package changes in yarn.lock"
                   exit 1
@@ -1773,20 +1773,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
-          # Shallow clone - we'll fetch main separately for the diff
-          fetch-depth: 1
-
-      - name: Fetch origin/main for diff
-        # Fetch only main branch with limited depth instead of full history (37k+ commits)
-        # --depth=300 covers PRs up to ~2 weeks behind main (~150 commits/week)
-        # If the merge-base isn't in the shallow history (e.g. long-lived branches
-        # like update-node-22), falls back to a full fetch of main
-        run: |
-          git fetch origin main:refs/remotes/origin/main --depth=300
-          if ! git merge-base --is-ancestor $(git merge-base origin/main HEAD 2>/dev/null || echo "missing") HEAD 2>/dev/null; then
-            echo "Merge-base not found in shallow history — falling back to full fetch of main"
-            git fetch origin main:refs/remotes/origin/main --unshallow 2>/dev/null || git fetch origin main:refs/remotes/origin/main
-          fi
+          fetch-depth: 0
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -1800,18 +1787,15 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # Lightweight install - only @actions/core is needed for the scripts in this job
-      - name: Get Node version
-        id: get-node-version
-        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Install minimal dependencies
-        run: npm install @actions/core
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
       - name: Get changed applications
         id: get-changed-apps

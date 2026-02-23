@@ -1,9 +1,5 @@
 import _ from 'lodash';
-import {
-  getPrefillIntlPhoneNumber,
-  getSchemaCountryCode,
-  viewifyFields,
-} from '../helpers';
+import { getPrefillIntlPhoneNumber, getSchemaCountryCode } from '../helpers';
 
 export default function prefillTransformer(pages, formData, metadata, state) {
   // Claimant data from MEB API (primary source)
@@ -121,29 +117,27 @@ export default function prefillTransformer(pages, formData, metadata, state) {
    * @returns {object} - A new pre-filled form data object after transformation.
    */
   const prefillBankInformation = data => {
-    const newData = { ...data };
-
-    const bankInfo = state.data?.bankAccountInfo?.bankAccount || {};
-    const accountType =
-      data?.bankAccount?.bankAccountType || bankInfo.accountType;
-    const accountNumber =
-      data?.bankAccount?.bankAccountNumber || bankInfo.accountNumber;
-    const routingNumber =
-      data?.bankAccount?.bankRoutingNumber || bankInfo.routingNumber;
-    newData.bankAccount = {
-      accountType: accountType?.toLowerCase(),
-      accountNumber,
-      routingNumber,
+    return {
+      ...data,
+      bankAccount: {
+        ...state.data?.bankInformation,
+        accountNumber:
+          data.bankAccount?.accountNumber ||
+          state.data?.bankInformation?.accountNumber,
+        accountNumberConfirmation:
+          data.bankAccount?.accountNumber ||
+          state.data?.bankInformation?.accountNumber,
+        accountType:
+          data.bankAccount?.accountType ||
+          state.data?.bankInformation?.accountType,
+        routingNumber:
+          data.bankAccount?.routingNumber ||
+          state.data?.bankInformation?.routingNumber,
+        routingNumberConfirmation:
+          data.bankAccount?.routingNumber ||
+          state.data?.bankInformation?.routingNumber,
+      },
     };
-
-    newData['view:originalBankAccount'] = viewifyFields({
-      accountType: accountType?.toLowerCase(),
-      accountNumber,
-      routingNumber,
-    });
-
-    newData['view:bankAccount'] = { 'view:hasPrefilledBank': true };
-    return newData;
   };
 
   const transformations = [prefillContactInformation, prefillBankInformation];

@@ -28,7 +28,7 @@ const getData = ({
 } = {}) => ({
   data: {
     veteran: {
-      email: email ? vapProfile.email : null,
+      email: email ? vapProfile.email.emailAddress : null,
       mobilePhone: mobile ? vapProfile.mobilePhone : null,
       homePhone: home ? vapProfile.homePhone : null,
       mailingAddress: address ? vapProfile.mailingAddress : null,
@@ -108,7 +108,7 @@ describe('<ContactInfo>', () => {
     // data exists (no error) & shouldn't show success message after updating
     const data = {
       veteran: {
-        email: { emailAddress: 'x@x.com', updatedAt: '' },
+        email: 'x@x.com',
         mobilePhone: { ...vapProfile.mobilePhone, updatedAt: '' },
         homePhone: { ...vapProfile.homePhone, updatedAt: '' },
         mailingAddress: { ...vapProfile.mailingAddress, updatedAt: '' },

@@ -24,7 +24,6 @@ const Dropdown = ({
   };
 
   const closeDropdown = () => setOpenDropdownId(null);
-
   return (
     <>
       {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
@@ -61,17 +60,21 @@ const Dropdown = ({
           />
         )}
       </button>
-      {isOpen && (
-        <div
-          className={`${dropdownClass}`}
-          id={icon}
-          data-testid={`${icon}-toggle-dropdown-${view}-list`}
-        >
-          <ul className="nav__user-list nav__dropdown">
-            <DropdownLinks closeDropdown={closeDropdown} category={category} />
-          </ul>
-        </div>
-      )}
+      <div
+        className={`${
+          !isOpen ? 'vads-u-display--none' : 'is--shown'
+        } ${dropdownClass}`}
+        id={icon}
+        data-testid={`${icon}-toggle-dropdown-${view}-list`}
+      >
+        <ul className="nav__user-list nav__dropdown">
+          <DropdownLinks
+            closeDropdown={closeDropdown}
+            category={category}
+            firstName={firstName}
+          />
+        </ul>
+      </div>
     </>
   );
 };

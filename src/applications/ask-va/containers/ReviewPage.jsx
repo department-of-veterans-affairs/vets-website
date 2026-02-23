@@ -35,7 +35,7 @@ import {
 import FileUpload from '../components/FileUpload';
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import ReviewSectionContent from '../components/reviewPage/ReviewSectionContent';
-import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
+import UpdatePageButton from '../components/reviewPage/UpdatePageButton';
 // eslint-disable-next-line import/no-cycle
 import formConfig from '../config/form';
 import { DownloadLink } from '../config/helpers';
@@ -486,7 +486,7 @@ const ReviewPage = props => {
                           }
                           hasUnviewedPages={chapter.hasUnviewedPages}
                         />
-                        <SaveCancelButtons
+                        <UpdatePageButton
                           closeSection={closeAll}
                           keys={chapter.pageKeys}
                           title={chapterTitles.veteransPersonalInformation}
@@ -621,7 +621,7 @@ const ReviewPage = props => {
                           }
                           hasUnviewedPages={chapter.hasUnviewedPages}
                         />
-                        <SaveCancelButtons
+                        <UpdatePageButton
                           closeSection={closeAll}
                           keys={chapter.pageKeys}
                           title={chapterTitles.familyMembersPersonalInformation}
@@ -759,7 +759,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourInformation}
@@ -815,7 +815,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourPostalCode}
@@ -872,7 +872,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourVAHealthFacility}
@@ -929,7 +929,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.stateOfProperty}
@@ -994,7 +994,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourVREInformation}
@@ -1076,7 +1076,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.schoolInformation}
@@ -1171,7 +1171,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourContactInformation}
@@ -1274,7 +1274,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourMailingAddress}

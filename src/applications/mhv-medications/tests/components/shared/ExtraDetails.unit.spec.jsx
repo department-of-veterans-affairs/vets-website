@@ -97,6 +97,48 @@ describe('Medications List Card Extra Details', () => {
     });
   };
 
+  const setupWithRenewalLink = (
+    rx = prescription,
+    renewalLinkShownAbove = false,
+    initialState = {},
+    isCernerPilot = false,
+    isV2StatusMapping = false,
+  ) => {
+    const featureToggleReducer = (state = {}) => state;
+    const testReducers = {
+      ...reducers,
+      featureToggles: featureToggleReducer,
+    };
+
+    const state = {
+      ...initialState,
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: true,
+        [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+        [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
+        ...(initialState.featureToggles || {}),
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            cernerFacilities: [
+              { vhaId: '668', vamcFacilityName: 'Spokane VA' },
+            ],
+          },
+        },
+        ...(initialState.drupalStaticData || {}),
+      },
+    };
+
+    return renderWithStoreAndRouterV6(
+      <ExtraDetails {...rx} renewalLinkShownAbove={renewalLinkShownAbove} />,
+      {
+        initialState: state,
+        reducers: testReducers,
+      },
+    );
+  };
+
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
@@ -124,6 +166,38 @@ describe('Medications List Card Extra Details', () => {
       ).to.contain.text(
         'Contact your VA provider if you need more of this medication.',
       );
+    });
+
+    it('displays OH-specific text for active with no refills for Oracle Health', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.active,
+        refillRemaining: 0,
+        stationNumber: '668',
+      });
+      expect(
+        await screen.findByTestId('active-no-refill-left'),
+      ).to.contain.text('send a secure message to your care team');
+    });
+
+    it('displays fallback text for discontinued prescription (not renewable per spec Gate 1)', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.discontinued,
+      });
+      expect(await screen.findByTestId('discontinued')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+
+    it('displays fallback text for onHold prescription (not renewable per spec Gate 1)', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.onHold,
+      });
+      expect(await screen.findByTestId('active-onHold')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
     });
   });
 
@@ -293,6 +367,108 @@ describe('Medications List Card Extra Details', () => {
       );
     });
   });
+  describe('renewalLinkShownAbove prop suppresses renewal link in ExtraDetails', () => {
+    it('suppresses renewal link when renewalLinkShownAbove is true for Active with 0 refills (OH)', async () => {
+      const screen = setupWithRenewalLink(
+        {
+          ...prescription,
+          isRenewable: true,
+          prescriptionSource: 'VA',
+          dispStatus: dispStatusObj.active,
+          refillRemaining: 0,
+          stationNumber: '668',
+        },
+        true,
+      );
+      expect(await screen.findByTestId('active-no-refill-left')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+
+    it('shows renewal link when renewalLinkShownAbove is false for Active with 0 refills (OH)', async () => {
+      const screen = setupWithRenewalLink(
+        {
+          ...prescription,
+          isRenewable: true,
+          prescriptionSource: 'VA',
+          dispStatus: dispStatusObj.active,
+          refillRemaining: 0,
+          stationNumber: '668',
+        },
+        false,
+      );
+      expect(await screen.findByTestId('active-no-refill-left')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to
+        .exist;
+    });
+
+    it('suppresses renewal link when renewalLinkShownAbove is true for Expired (OH)', async () => {
+      const screen = setupWithRenewalLink(
+        {
+          ...prescription,
+          isRenewable: true,
+          prescriptionSource: 'VA',
+          dispStatus: dispStatusObj.expired,
+          refillRemaining: 0,
+          stationNumber: '668',
+        },
+        true,
+      );
+      expect(await screen.findByTestId('expired')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+
+    it('suppresses renewal link when renewalLinkShownAbove is true for V2 Inactive (OH)', async () => {
+      const screen = setupWithRenewalLink(
+        {
+          ...prescription,
+          isRenewable: true,
+          prescriptionSource: 'VA',
+          dispStatus: dispStatusObjV2.inactive,
+          refillRemaining: 0,
+          stationNumber: '668',
+        },
+        true,
+        {},
+        true,
+        true,
+      );
+      expect(await screen.findByTestId('inactive')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+  });
+
+  describe('V2 expired and nonVA statuses', () => {
+    it('displays expired message for V2 Expired status', async () => {
+      const screen = setup(
+        {
+          ...prescription,
+          dispStatus: dispStatusObjV2.expired,
+          refillRemaining: 0,
+        },
+        {},
+        true,
+        true,
+      );
+      expect(await screen.findByTestId('expired')).to.exist;
+    });
+
+    it('displays non-VA message for V2 Non-VA status', async () => {
+      const screen = setup(
+        {
+          ...prescription,
+          dispStatus: dispStatusObjV2.nonVA,
+        },
+        {},
+        true,
+        true,
+      );
+      expect(await screen.findByTestId('non-VA-prescription')).to.exist;
+    });
+  });
+
   describe('RefillButton rendering based on page prop', () => {
     it('renders refill button on list page for active prescription with refills', async () => {
       const screen = setup({

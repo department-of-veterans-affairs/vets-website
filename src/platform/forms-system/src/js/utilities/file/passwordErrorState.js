@@ -79,12 +79,20 @@ export const errorManager = {
     this.internalFileInputErrors[index] = value;
   },
 
+  removeInternalFileInputError(index) {
+    this.internalFileInputErrors.splice(index, 1);
+  },
+
   getInternalFileInputErrors() {
     return this.internalFileInputErrors;
   },
 
   setFileCheckError(index, value) {
     this.fileCheckErrors[index] = value;
+  },
+
+  removeFileCheckError(index) {
+    this.fileCheckErrors.splice(index, 1);
   },
 
   getFileCheckErrors() {

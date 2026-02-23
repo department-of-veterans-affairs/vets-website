@@ -181,9 +181,7 @@ const providerInformation = {
 
 const employer = {
   uiSchema: {
-    ...healthInsurancePageTitleUI('Type of insurance for', null, {
-      position: 'suffix',
-    }),
+    ...healthInsurancePageTitleUI('Type of insurance for %s'),
     throughEmployer: yesNoUI({
       title: 'Is this insurance through the applicant(s) employer?',
     }),
@@ -199,7 +197,7 @@ const employer = {
 
 const prescriptionCoverage = {
   uiSchema: {
-    ...healthInsurancePageTitleUI('prescription coverage'),
+    ...healthInsurancePageTitleUI('%s prescription coverage'),
     eob: yesNoUI({
       title: 'Does the applicant(s) health insurance cover prescriptions?',
       hint:
