@@ -34,8 +34,8 @@ const uiSchema = {
         monthSelect: false,
         removeDateHint: true,
         errorMessages: {
-          required: "You must enter a date that's 5 years in the future",
-          pattern: "You must enter a date that's 5 years in the future",
+          required: 'You must enter a valid date that’s within 5 years',
+          pattern: 'You must enter a valid date that’s within 5 years',
         },
         expandUnderCondition: value => value === 'date',
         required: formData => formData?.lengthOfRelease?.duration === 'date',
