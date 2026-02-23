@@ -13,24 +13,23 @@ const OMB_EXP_DATE = '03/31/2027';
 
 const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
-  const { customText, formId, prefillEnabled, savedFormMessages } = formConfig;
+  const { formId, prefillEnabled, savedFormMessages } = formConfig;
 
   const isUserLOA1 = useSelector(isLOA1);
   const isUserLOA3 = useSelector(isLOA3);
 
   const sipIntroProps = useMemo(
     () => ({
-      alertTitle: 'Sign in now to save time and save your work in progress',
       unauthStartText: 'Sign in to start your claim',
       messages: savedFormMessages,
       hideUnauthedStartLink: true,
-      formConfig: { customText },
       headingLevel: 2,
+      formConfig,
       prefillEnabled,
       pageList,
       formId,
     }),
-    [customText, formId, pageList, prefillEnabled, savedFormMessages],
+    [formConfig, formId, pageList, prefillEnabled, savedFormMessages],
   );
 
   const pageContent = useMemo(

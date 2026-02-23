@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as helpers from 'platform/forms-system/src/js/helpers';
 import { customCOEsubmit, getLoanIntent } from '../../config/helpers';
-import { LOAN_INTENT } from '../../constants';
+import { LOAN_INTENT, TOGGLE_KEY } from '../../constants';
 
 const form = {
   data: {
@@ -55,6 +55,48 @@ describe('customCOEsubmit', () => {
   it('should correctly format the form data', () => {
     sandbox.stub(helpers, 'transformForSubmit').returns(formattedProperties);
     expect(customCOEsubmit({}, form)).to.equal(result);
+  });
+
+  it('sets version to 2 when the toggle view key is truthy', () => {
+    const viewKey = `view:${TOGGLE_KEY}`;
+    const formWithToggle = {
+      data: {
+        [viewKey]: true,
+        periodsOfService: [],
+        relevantPriorLoans: [],
+      },
+    };
+
+    sandbox
+      .stub(helpers, 'transformForSubmit')
+      .callsFake((_, formattedForm) => formattedForm);
+
+    const res = customCOEsubmit({}, formWithToggle);
+    const outer = JSON.parse(res);
+    const inner = outer.lgyCoeClaim.form;
+
+    expect(inner.data.version).to.equal(2);
+  });
+
+  it('sets version to 1 when the toggle view key is falsy', () => {
+    const viewKey = `view:${TOGGLE_KEY}`;
+    const formWithToggle = {
+      data: {
+        [viewKey]: false,
+        periodsOfService: [],
+        relevantPriorLoans: [],
+      },
+    };
+
+    sandbox
+      .stub(helpers, 'transformForSubmit')
+      .callsFake((_, formattedForm) => formattedForm);
+
+    const res = customCOEsubmit({}, formWithToggle);
+    const outer = JSON.parse(res);
+    const inner = outer.lgyCoeClaim.form;
+
+    expect(inner.data.version).to.equal(1);
   });
 });
 

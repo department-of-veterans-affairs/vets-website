@@ -77,17 +77,16 @@ const StepTwo = ({ formResponses }) => {
     return (
       <li>
         <h3>
-          Buddy statements (also called a Statement in Support of Claim or VA
-          Form 21-4138)
+          Buddy statements or Statement in Support of Claim (VA Form 21-4138)
         </h3>
         <p>
-          These are statements from friends or colleagues who knew you during
-          your service, or individuals with direct knowledge of your service.
+          Buddy statements are completed by friends or colleagues who knew you
+          during your service. They can also be completed by people with direct
+          knowledge of your service.
         </p>
         <p>
-          The person will need to fill out a Statement in Support of Claim (VA
-          Form 21-4138). They may include this information about you in their
-          statement:
+          This person should fill out a Statement in Support of Claim (VA Form
+          21-4138). Here’s what they may include in their statement:
         </p>
         <ul>
           <li>Your achievements in the military</li>
@@ -95,10 +94,7 @@ const StepTwo = ({ formResponses }) => {
           <li>Why your discharge is unjust or incorrect</li>
           <li>Your positive contributions during your service</li>
         </ul>
-        <p>
-          The writer should also say in their statement how they know this
-          information.{' '}
-        </p>
+        <p>They should also say how they know this information about you.</p>
         {/* Intentionally not using <va-link> per Platform Analytics team */}
         <a
           href="http://www.vba.va.gov/pubs/forms/VBA-21-4138-ARE.pdf"
@@ -114,11 +110,12 @@ const StepTwo = ({ formResponses }) => {
   const renderTestaments = () => {
     return (
       <li>
-        <h3>Testaments of achievements since your service</h3>
+        <h3>Achievements since your service</h3>
         <p>
-          You may want to include this type of evidence with your application,
-          especially if your discharge involved issues related to drugs,
-          alcohol, or bad behavior. Examples include these types of documents:
+          Including documentation on your achievements since service may help
+          your case. It may help especially if your discharge was related to
+          drug, alcohol, substance use, or other behaviors. Here are some
+          examples you may want to share:
         </p>
         <ul>
           <li>A letter from an employer or community leader</li>
@@ -130,10 +127,10 @@ const StepTwo = ({ formResponses }) => {
   };
 
   return (
-    <va-process-list-item header="Add supporting information" level="2">
+    <va-process-list-item header="Gather supporting information" level="2">
       <p>
-        To improve your chances of success, also include as many of these
-        documents as you can.
+        You’ll help your case by providing as much supporting documentation as
+        you can.
       </p>
       <ul>
         <li>
