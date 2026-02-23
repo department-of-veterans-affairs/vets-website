@@ -282,4 +282,41 @@ describe('Survivors Benefits Form config', () => {
     expect(uiSchema.residenceAlert['ui:options'].hideIf(itemNo)).to.be.false;
     expect(uiSchema.residenceAlert['ui:options'].hideIf(none)).to.be.false;
   });
+
+  it('should have the correct depends logic for separationDetails', () => {
+    const { householdInformation } = formConfig.chapters;
+    const { pages } = householdInformation;
+    const { separationDetails } = pages;
+
+    // Should show when all three conditions are met
+    const allConditionsTrue = {
+      claimantRelationship: 'SURVIVING_SPOUSE',
+      livedContinuouslyWithVeteran: false,
+      separationDueToAssignedReasons: 'DIVORCE',
+    };
+    expect(separationDetails.depends(allConditionsTrue)).to.be.true;
+
+    // Should NOT show when claimant is not surviving spouse
+    const notSurvivingSpouse = {
+      claimantRelationship: 'CHILD',
+      livedContinuouslyWithVeteran: false,
+      separationDueToAssignedReasons: 'DIVORCE',
+    };
+    expect(separationDetails.depends(notSurvivingSpouse)).to.be.false;
+
+    // Should NOT show when lived continuously (even if separation reason exists)
+    const livedContinuously = {
+      claimantRelationship: 'SURVIVING_SPOUSE',
+      livedContinuouslyWithVeteran: true,
+      separationDueToAssignedReasons: 'DIVORCE',
+    };
+    expect(separationDetails.depends(livedContinuously)).to.be.false;
+
+    // Should NOT show when no separation reason selected
+    const noSeparationReason = {
+      claimantRelationship: 'SURVIVING_SPOUSE',
+      livedContinuouslyWithVeteran: false,
+    };
+    expect(separationDetails.depends(noSeparationReason)).to.be.false;
+  });
 });
