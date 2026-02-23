@@ -11,7 +11,7 @@ import {
   selectFlowType,
   selectObfuscatedEmail,
 } from '../redux/slices/formSlice';
-import { FLOW_TYPES, URLS, OTC_ERROR_CODES } from '../utils/constants';
+import { FLOW_TYPES, URLS, OTP_ERROR_CODES } from '../utils/constants';
 import {
   isAccountLockedError,
   isServerError,
@@ -20,9 +20,9 @@ import {
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
-    case OTC_ERROR_CODES.ACCOUNT_LOCKED:
+    case OTP_ERROR_CODES.ACCOUNT_LOCKED:
       return 'The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes. Check your email and select the link to schedule a call.';
-    case OTC_ERROR_CODES.INVALID_OTP:
+    case OTP_ERROR_CODES.INVALID_OTP:
       if (attemptsRemaining === 1) {
         return 'The one-time verification code you entered doesn’t match the one we sent you. You have 1 try left. Then you’ll need to wait 15 minutes before trying again.';
       }
@@ -101,8 +101,10 @@ const EnterOTP = () => {
     }
 
     if (cancellationFlow) {
-      // TODO: handle cancellation flow
-      navigate(`${URLS.CANCEL_APPOINTMENT}/abcdef123456`, { replace: true });
+      const { appointmentId } = availabilityCheck.data;
+      navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`, {
+        replace: true,
+      });
     } else {
       navigate(URLS.DATE_TIME, { replace: true });
     }

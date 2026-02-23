@@ -32,8 +32,6 @@ const vaFileInputFieldMapping = props => {
     ...formsPatternProps,
     accept,
     fileUploadUrl: uiOptions?.fileUploadUrl,
-    maxFileSize: uiOptions?.maxFileSize || Infinity,
-    minFileSize: uiOptions?.minFileSize || 0,
     statusText: uiOptions?.statusText || '',
     buttonText: uiOptions?.buttonText,
     readOnly: uiOptions?.readOnly,

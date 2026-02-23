@@ -286,9 +286,8 @@ describe('Folder Thread List View container', () => {
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
       expect(folderName).to.have.text(`Messages: ${customFolder.name}`);
-      const folderDescription = screen.getByTestId('folder-description');
-      expect(folderDescription).to.exist;
-      expect(folderDescription).to.have.text(DefaultFolders.CUSTOM_FOLDER.desc);
+      // Custom folder description is no longer in folder header
+      expect(screen.queryByTestId('folder-description')).to.not.exist;
       expect(screen.queryByText('Start a new message')).to.not.exist;
       expect(screen.getByTestId('remove-folder-button')).to.exist;
       waitFor(() => {

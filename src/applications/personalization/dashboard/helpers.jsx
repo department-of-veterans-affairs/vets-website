@@ -36,17 +36,7 @@ export const isSIPEnabledForm = savedForm => {
   const formNumber = savedForm.form;
   const foundForm = MY_VA_SIP_FORMS.find(form => form.id === formNumber);
 
-  if (!foundForm?.title || !getFormLink(formNumber)) {
-    return false;
-  }
-
-  if (!foundForm) {
-    throw new Error(
-      `Could not find form ${formNumber} in list of sipEnabledForms`,
-    );
-  }
-
-  return true;
+  return !(!foundForm?.title || !getFormLink(formNumber));
 };
 
 // This function is intended to be used as an Array.filter callback

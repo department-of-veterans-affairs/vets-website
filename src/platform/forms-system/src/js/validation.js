@@ -660,20 +660,20 @@ export function validateAutosuggestOption(errors, formData) {
 
 export function validateTelephoneInput(
   errors,
-  { _isValid, _error, _touched, _required, contact },
+  { isValid, error, touched, required, contact },
 ) {
   // was validation triggered by navigation attempt
   const navState = navigationState.getNavigationEventStatus();
 
-  let valid = _isValid;
-  const notRequiredEmpty = !_required && !contact;
-  const requiredUntouchedNotNav = (!_touched || !contact) && !navState;
+  let valid = isValid;
+  const notRequiredEmpty = !required && !contact;
+  const requiredUntouchedNotNav = (!touched || !contact) && !navState;
   if (notRequiredEmpty || requiredUntouchedNotNav) {
     valid = true;
   }
 
   if (!valid) {
-    errors.addError(_error);
+    errors.addError(error);
   }
 }
 

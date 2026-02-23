@@ -99,7 +99,7 @@ const formConfig = {
   },
   version: migrations.length,
   migrations,
-  prefillEnabled: true,
+  prefillEnabled: false,
   prefillTransformer,
   transformForSubmit,
   savedFormMessages: {

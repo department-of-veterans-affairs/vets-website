@@ -13,6 +13,7 @@ export default function RequestNotifications({ message, type1UnknownErrors }) {
             title={message.title}
             body={message.body}
             type={message.type}
+            maskTitle={message.type === 'error'}
             onSetFocus={focusNotificationAlert}
           />
         </div>

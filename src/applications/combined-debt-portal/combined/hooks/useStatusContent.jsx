@@ -6,7 +6,7 @@ import {
   transformCopayData,
 } from '../utils/cardContentHelper';
 
-export const useStatusContent = (type, data, view, options = {}) => {
+export const useStatusContent = (type, data, view) => {
   const transformedData = useMemo(
     () =>
       type === 'debt' ? transformDebtData(data) : transformCopayData(data),
@@ -16,9 +16,9 @@ export const useStatusContent = (type, data, view, options = {}) => {
     () => {
       const getContentFn =
         view === 'summary' ? getSummaryCardContent : getDetailsAlertContent;
-      return getContentFn(transformedData, options);
+      return getContentFn(transformedData);
     },
-    [transformedData, view, options],
+    [transformedData, view],
   );
   return { transformedData, ...content };
 };

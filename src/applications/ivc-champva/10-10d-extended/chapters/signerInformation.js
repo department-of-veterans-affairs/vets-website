@@ -21,7 +21,7 @@ import {
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
-import { populateFirstApplicant } from '../helpers/utilities';
+import { populateFirstApplicant } from '../utils/helpers';
 import SignInAlert from '../components/FormAlerts/SignInAlert';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());

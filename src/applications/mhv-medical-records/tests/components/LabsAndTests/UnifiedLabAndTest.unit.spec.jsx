@@ -64,6 +64,36 @@ describe('UnifiedLabsAndTests Component', () => {
     expect(screen.getByTestId('lab-and-test-results')).to.have.text('Positive');
   });
 
+  it('does not render the Results field when observations are present', () => {
+    const screen = renderWithStoreAndRouter(
+      <UnifiedLabsAndTests
+        record={{
+          ...mockRecord,
+          observations: [
+            {
+              testCode: 'CHLORIDE',
+              referenceRange: '98 - 107',
+              status: 'final',
+              comments: '',
+              value: {
+                text: '2 meq/L',
+                type: 'Quantity',
+              },
+            },
+          ],
+        }}
+        runningUnitTest
+        user={mockUser}
+      />,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
+    // Results field should not be present when observations exist
+    expect(screen.queryByTestId('lab-and-test-results')).to.be.null;
+  });
+
   it('renders the component with observations', () => {
     const screen = renderWithStoreAndRouter(
       <UnifiedLabsAndTests

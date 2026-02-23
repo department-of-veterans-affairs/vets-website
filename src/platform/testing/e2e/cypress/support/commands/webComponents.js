@@ -185,6 +185,16 @@ Cypress.Commands.add('fillVaTelephoneInput', (field, value) => {
   }
 });
 
+// this function generates an object with file contents for upload to file input instance
+async function getFileContents(file) {
+  return {
+    contents: Cypress.Buffer.from(await file.arrayBuffer()),
+    fileName: file.name || 'placeholder.png',
+    mimeType: file.type || 'image/png',
+    lastModified: file.lastModified || Date.now(),
+  };
+}
+
 Cypress.Commands.add('fillVaFileInput', (field, value, file) => {
   if (typeof value !== 'undefined') {
     const element =
@@ -196,13 +206,7 @@ Cypress.Commands.add('fillVaFileInput', (field, value, file) => {
       const el = $el[0];
 
       cy.then(() => file || makeMinimalPNG()).then(async mockFile => {
-        const selectFileArg = {
-          contents: Cypress.Buffer.from(await mockFile.arrayBuffer()),
-          fileName: mockFile.name || 'placeholder.png',
-          mimeType: mockFile.type || 'image/png',
-          lastModified: mockFile.lastModified || Date.now(),
-        };
-
+        const selectFileArg = await getFileContents(mockFile);
         cy.wrap(el)
           .shadow()
           .find('input[type="file"]')
@@ -212,7 +216,7 @@ Cypress.Commands.add('fillVaFileInput', (field, value, file) => {
   }
 });
 
-Cypress.Commands.add('fillVaFileInputMultiple', (field, value) => {
+Cypress.Commands.add('fillVaFileInputMultiple', (field, value, files) => {
   if (typeof value !== 'undefined') {
     const element =
       typeof field === 'string'
@@ -221,30 +225,24 @@ Cypress.Commands.add('fillVaFileInputMultiple', (field, value) => {
 
     element.then(async $el => {
       const el = $el[0];
+      // get number of previously added files
+      const startingIndex =
+        el.shadowRoot.querySelectorAll('va-file-input').length - 1;
+      const filesPromise = Array.isArray(files)
+        ? Promise.resolve(files)
+        : makeMinimalPNG().then(file => [file]);
 
-      const pngFile = await makeMinimalPNG();
-      const detail = {
-        action: 'FILE_ADDED',
-        file: pngFile,
-        state: [{ file: pngFile, password: undefined, changed: true }],
-        mockFormData: {
-          confirmationCode: 'abc123',
-          name: 'placeholder.png',
-          size: 123,
-          additionalData: {
-            documentStatus: 'public',
-          },
-        },
-      };
-
-      const options = {
-        detail,
-        bubbles: true,
-        composed: true,
-      };
-
-      const event = new CustomEvent('vaMultipleChange', options);
-      el.dispatchEvent(event);
+      cy.wrap(filesPromise).then(_files => {
+        _files.forEach((file, index) => {
+          cy.wrap(el)
+            .shadow()
+            .find('va-file-input')
+            .eq(startingIndex + index)
+            .then($fileInput => {
+              cy.fillVaFileInput($fileInput, value, file);
+            });
+        });
+      });
     });
   }
 });

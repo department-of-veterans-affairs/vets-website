@@ -1,129 +1,129 @@
 {
-    "claimantNotVeteran": true,
-    "claimantFullName": {
-        "first": "Jane",
-        "middle": "A.",
-        "last": "Doe",
-        "suffix": "Jr."
+  "claimantNotVeteran": true,
+  "claimantFullName": {
+    "first": "Jane",
+    "middle": "A.",
+    "last": "Doe",
+    "suffix": "Jr."
+  },
+  "claimantAddress": {
+    "country": "USA",
+    "street": "123 Main St",
+    "street2": "Apt 4B",
+    "city": "Anytown",
+    "state": "VA",
+    "postalCode": "12345"
+  },
+  "email": "jane.doe@example.com",
+  "primaryPhone": {
+    "countryCode": "US",
+    "contact": "5551234567",
+    "callingCode": 1,
+    "Error": null,
+    "IsValid": true,
+    "Required": true,
+    "Touched": true
+  },
+  "veteranFullName": {
+    "first": "John",
+    "middle": "B.",
+    "last": "Doe",
+    "suffix": "Sr."
+  },
+  "veteranSocialSecurityNumber": {
+    "ssn": "123111234"
+  },
+  "veteranDateOfBirth": "1970-01-01",
+  "isOver65": true,
+  "firstTimeReporting": true,
+  "reportingPeriod": {
+    "from": "2023-01-01",
+    "to": "2023-12-31"
+  },
+  "view:careExpensesList": true,
+  "careExpenses": [
+    {
+      "recipient": "SPOUSE",
+      "provider": "Dr. Smith",
+      "hoursPerWeek": "10",
+      "careDate": {
+        "from": "2023-01-14",
+        "to": "2023-01-15"
+      },
+      "paymentPeriod": "monthly",
+      "paymentAmount": 25,
+      "hourlyRate": 50,
+      "typeOfCare": "RESIDENTIAL",
+      "monthlyAmount": 100
     },
-    "veteranAddress": {
-        "country": "USA",
-        "street": "123 Main St",
-        "street2": "Apt 4B",
-        "city": "Anytown",
-        "state": "VA",
-        "postalCode": "12345"
+    {
+      "recipient": "CHILD",
+      "fullNameRecipient": "Baby Doe",
+      "provider": "Dr. Smith",
+      "hoursPerWeek": "50",
+      "careDate": {
+        "from": "2023-02-01",
+        "to": "2023-03-15"
+      },
+      "paymentPeriod": "monthly",
+      "paymentAmount": 25,
+      "hourlyRate": 50,
+      "typeOfCare": "RESIDENTIAL",
+      "monthlyAmount": 100
+    }
+  ],
+  "hasMedicalExpenses": true,
+  "medicalExpenses": [
+    {
+      "recipient": "VETERAN",
+      "provider": "5A (5)",
+      "purpose": "5A (6)",
+      "paymentDate": "2001-01-01",
+      "paymentFrequency": "ONCE_MONTH",
+      "paymentAmount": 123456.78
     },
-    "email": "jane.doe@example.com",
-    "primaryPhone": {
-        "countryCode": "US",
-        "contact": "5551234567",
-        "callingCode": 1,
-        "_error": null,
-        "_isValid": true,
-        "_required": true,
-        "_touched": true
+    {
+      "recipient": "SPOUSE",
+      "fullNameRecipient": "Jane Spouse",
+      "provider": "5B (5)",
+      "purpose": "5B (6)",
+      "paymentDate": "2002-02-02",
+      "paymentFrequency": "ONCE_YEAR",
+      "paymentAmount": 876543.21
+    }
+  ],
+  "hasMileage": true,
+  "mileageExpenses": [
+    {
+      "traveler": "OTHER",
+      "fullNameTraveler": "Tom Otherson",
+      "travelLocation": "OTHER",
+      "otherTravelLocation": "Some Other Place",
+      "travelMilesTraveled": "10",
+      "travelDate": "2002-02-20",
+      "travelReimbursed": true,
+      "travelReimbursementAmount": 125.67
     },
-    "veteranFullName": {
-        "first": "John",
-        "middle": "B.",
-        "last": "Doe",
-        "suffix": "Sr."
+    {
+      "traveler": "VETERAN",
+      "travelLocation": "HOSPITAL",
+      "travelMilesTraveled": "10",
+      "travelDate": "2001-01-10",
+      "travelReimbursed": false
+    }
+  ],
+  "files": [
+    {
+      "name": "test-upload.pdf",
+      "size": 15306,
+      "confirmationCode": "10c55013-b881-453f-bc10-fbc29e3bc517",
+      "isEncrypted": false
     },
-    "veteranSocialSecurityNumber": {
-      "ssn": "123111234"
-    },
-    "veteranDateOfBirth": "1970-01-01",
-    "isOver65": true,
-    "firstTimeReporting": true,
-    "reportingPeriod": {
-        "from": "2023-01-01",
-        "to": "2023-12-31"
-    },
-    "view:careExpensesList": true,
-    "careExpenses": [
-        {
-            "recipient": "SPOUSE",
-            "provider": "Dr. Smith",
-            "hoursPerWeek": "10",
-            "careDateRange": {
-                "from": "2023-01-14",
-                "to": "2023-01-15"
-            },
-            "paymentPeriod": "monthly",
-            "paymentAmount": 25,
-            "hourlyRate": 50,
-            "typeOfCare": "RESIDENTIAL",
-            "monthlyAmount": 100
-        },
-        {
-            "recipient": "DEPENDENT",
-            "fullNameRecipient": "Baby Doe",
-            "provider": "Dr. Smith",
-            "hoursPerWeek": "50",
-            "careDateRange": {
-                "from": "2023-02-01",
-                "to": "2023-03-15"
-            },
-            "paymentPeriod": "monthly",
-            "paymentAmount": 25,
-            "hourlyRate": 50,
-            "typeOfCare": "RESIDENTIAL",
-            "monthlyAmount": 100
-        }
-    ],
-    "hasMedicalExpenses": true,
-    "medicalExpenses": [
-        {
-          "recipient": "VETERAN",
-          "provider": "5A (5)",
-          "purpose": "5A (6)",
-          "paymentDate": "2001-01-01",
-          "paymentFrequency": "ONCE_MONTH",
-          "paymentAmount": 123456.78
-        },
-        {
-          "recipient": "DEPENDENT",
-          "fullNameRecipient": "Jane Spouse",
-          "provider": "5B (5)",
-          "purpose": "5B (6)",
-          "paymentDate": "2002-02-02",
-          "paymentFrequency": "ONCE_YEAR",
-          "paymentAmount": 876543.21
-        }
-    ],
-    "hasMileage": true,
-    "mileageExpenses": [
-        {
-          "traveler": "OTHER",
-          "fullNameTraveler": "Tom Otherson",
-          "travelLocation": "OTHER",
-          "travelLocationOther": "Some Other Place",
-          "travelMilesTraveled": "10",
-          "travelDate": "2002-02-20",
-          "travelReimbursed": true,
-          "travelReimbursementAmount": 125.67
-        },
-        {
-          "traveler": "VETERAN",
-          "travelLocation": "HOSPITAL",
-          "travelMilesTraveled": "10",
-          "travelDate": "2001-01-10",
-          "travelReimbursed": false
-        }
-    ],
-    "files": [
-        {
-            "name": "test-upload.pdf",
-            "size": 15306,
-            "confirmationCode": "10c55013-b881-453f-bc10-fbc29e3bc517",
-            "isEncrypted": false
-        },
-        {
-            "name": "test-png.png",
-            "size": 999,
-            "confirmationCode": "10c55013-b881-453f-bc10-1234567890ab",
-            "isEncrypted": false
-        }
-    ]
+    {
+      "name": "test-png.png",
+      "size": 999,
+      "confirmationCode": "10c55013-b881-453f-bc10-1234567890ab",
+      "isEncrypted": false
+    }
+  ]
 }

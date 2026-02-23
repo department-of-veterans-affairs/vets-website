@@ -1,0 +1,83 @@
+{
+  "data": {
+    "claimantPersonalInformation": {
+      "fullName": {
+        "first": "Not",
+        "last": "Authenticated"
+      },
+      "dateOfBirth": "2004-03-14",
+      "veteranId": {
+        "ssn": "111223333"
+      }
+    },
+    "securityAnswerCreate": {
+      "question": "How many states are there?",
+      "answer": "50"
+    },
+    "securityQuestion": {
+      "question": "create"
+    },
+    "lengthOfRelease": {
+      "duration": "date",
+      "date": "2030-02-12"
+    },
+    "claimInformation": {
+      "statusOfClaim": true,
+      "currentBenefit": true,
+      "paymentHistory": true,
+      "amountOwed": true,
+      "minor": true,
+      "other": true,
+      "otherText": "Additional Information"
+    },
+    "view:organizationRepresentativesMissingInformation": {},
+    "view:hasRepresentatives": false,
+    "organizationName": "Org To Disclose",
+    "organizationAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "500 Martin Ave",
+      "city": "Houston",
+      "state": "TX",
+      "postalCode": "67890"
+    },
+    "discloseInformation": {
+      "authorize": "organization"
+    },
+    "claimantContactInformation": {
+      "phoneNumber": {
+        "callingCode": 1,
+        "countryCode": "BS",
+        "contact": "(234) 567-8901"
+      }
+    },
+    "claimantAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "BHS",
+      "street": "1st St",
+      "city": "Stella Maris",
+      "postalCode": "LI 12-345"
+    },
+    "thirdPartyPersonName": {
+      "fullName": {}
+    },
+    "thirdPartyPersonAddress": {
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA"
+      }
+    },
+    "organizationRepresentatives": [
+      {
+        "fullName": {
+          "first": "Org",
+          "last": "Representative"
+        }
+      }
+    ],
+    "securityAnswerLocation": {},
+    "userLoggedIn": false,
+    "statementOfTruthSignature": "Not Authenticated",
+    "statementOfTruthCertified": true
+  }
+}

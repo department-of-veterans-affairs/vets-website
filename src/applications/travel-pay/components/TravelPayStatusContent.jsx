@@ -11,6 +11,49 @@ import { BTSSS_PORTAL_URL } from '../constants';
 import TravelPayStatusList from './TravelPayStatusList';
 import TravelPayDateRangeSelect from './TravelPayDateRangeSelect';
 
+function ComplexClaimsEntryContent() {
+  return (
+    <>
+      <p className="vads-u-font-family--serif vads-u-font-size--lg">
+        File new claims for travel reimbursement and review the status of all
+        your travel claims.
+      </p>
+      <h2 className="vads-u-margin-top--2">
+        File a new claim for travel pay online
+      </h2>
+      <p>
+        Go to your list of past appointments to file a travel reimbursement
+        claim for eligible appointments.
+      </p>
+      <va-link-action
+        href="/my-health/appointments/past"
+        text="Go to your past appointments"
+        class="vads-u-margin-y--1"
+      />
+      <p>
+        You'll need to use the Beneficiary Travel Self Service System (BTSSS) if
+        any of these things are true:
+      </p>
+      <ul>
+        <li>You don't see your appointment in your appointments list</li>
+        <li>Your travel was one way</li>
+        <li>
+          Your travel started from an address other than the one we have on file
+        </li>
+      </ul>
+      <va-link
+        external
+        href={BTSSS_PORTAL_URL}
+        text="Go to the BTSSS website"
+      />
+      <p>
+        <strong>Note:</strong> You can continue saved or incomplete claims by
+        selecting Travel reimbursement claim details.
+      </p>
+    </>
+  );
+}
+
 function SmocEntryContent() {
   return (
     <>
@@ -101,40 +144,47 @@ export default function TravelPayStatusContent() {
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
   );
+  const complexClaimsEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableComplexClaims,
+  );
 
   return (
     <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-      {smocEnabled ? (
-        <SmocEntryContent />
-      ) : (
-        <>
-          <h2 className="vads-u-font-size--h4">
-            You can use this tool to check the status of your VA travel claims.
-          </h2>
-          {!isLoading && (
-            <va-additional-info
-              class="vads-u-margin-y--3"
-              trigger="How to manage your claims or get more information"
-            >
-              <>
-                <HelpTextManage />
-                <va-link
-                  data-testid="status-explainer-link"
-                  href="/my-health/travel-pay/help"
-                  text="What does my claim status mean?"
-                />
-              </>
-            </va-additional-info>
-          )}
-        </>
-      )}
+      {complexClaimsEnabled && <ComplexClaimsEntryContent />}
+      {!complexClaimsEnabled && smocEnabled && <SmocEntryContent />}
+      {!complexClaimsEnabled &&
+        !smocEnabled && (
+          <>
+            <h2 className="vads-u-font-size--h4">
+              You can use this tool to check the status of your VA travel
+              claims.
+            </h2>
+            {!isLoading && (
+              <va-additional-info
+                class="vads-u-margin-y--3"
+                trigger="How to manage your claims or get more information"
+              >
+                <>
+                  <HelpTextManage />
+                  <va-link
+                    data-testid="status-explainer-link"
+                    href="/my-health/travel-pay/help"
+                    text="What does my claim status mean?"
+                  />
+                </>
+              </va-additional-info>
+            )}
+          </>
+        )}
 
       <div className="btsss-claims-sort-and-filter-container">
         <h2 className="vads-u-margin-top--2">Your travel claims</h2>
         <p>
-          This list shows all the appointments you've filed a travel claim for.
+          {complexClaimsEnabled
+            ? "This list shows all the travel reimbursement claims you've started or filed."
+            : "This list shows all the appointments you've filed a travel claim for."}
         </p>
-        {smocEnabled &&
+        {(smocEnabled || complexClaimsEnabled) &&
           !claimsMgmtToggle && (
             <va-additional-info
               class="vads-u-margin-y--3"

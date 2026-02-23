@@ -19,7 +19,13 @@ describe('useStatusContent hook', () => {
         useStatusContent('debt', mockDebt, 'summary'),
       );
 
-      const { transformedData, message, alertStatus, linkIds } = result.current;
+      const {
+        transformedData,
+        messageKey,
+        messageValues,
+        alertStatus,
+        linkIds,
+      } = result.current;
 
       expect(transformedData).to.deep.include({
         id: '2111599',
@@ -29,7 +35,8 @@ describe('useStatusContent hook', () => {
       });
 
       expect(alertStatus).to.equal('warning');
-      expect(message).to.include('Pay your past due balance');
+      expect(messageKey).to.equal('diaryCodes.statusTypes.8.summary.body');
+      expect(messageValues).to.have.property('amountDue', '$1,000.00');
       expect(linkIds).to.include.members(['details', 'resolve']);
     });
 
@@ -39,15 +46,19 @@ describe('useStatusContent hook', () => {
       );
 
       const {
-        headerText,
-        bodyText,
+        headerKey,
+        headerValues,
+        bodyKey,
+        bodyValues,
         alertStatus,
         linkIds,
         phoneSet,
       } = result.current;
 
-      expect(headerText).to.include('Pay your past due balance');
-      expect(bodyText).to.include('$1,000.00');
+      expect(headerKey).to.equal('diaryCodes.statusTypes.8.details.header');
+      expect(headerValues).to.have.property('endDateText');
+      expect(bodyKey).to.equal('diaryCodes.statusTypes.8.details.body');
+      expect(bodyValues).to.have.property('amountDue', '$1,000.00');
       expect(alertStatus).to.equal('warning');
       expect(linkIds).to.include('resolve');
       expect(phoneSet).to.be.null;

@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useSelector } from 'react-redux';
+import { selectMedicationsManagementImprovementsFlag } from '../../util/selectors';
+
 export const RefillMedicationList = ({
   medications,
   testId,
   showBold = false,
 }) => {
+  const isManagementImprovementsEnabled = useSelector(
+    selectMedicationsManagementImprovementsFlag,
+  );
+
   if (!medications?.length) return null;
 
   return (
@@ -19,7 +26,11 @@ export const RefillMedicationList = ({
           key={`${medication?.prescriptionId || idx}`}
           data-dd-privacy="mask"
         >
-          {medication?.prescriptionName}
+          {isManagementImprovementsEnabled ? (
+            <strong>{medication?.prescriptionName}</strong>
+          ) : (
+            medication?.prescriptionName
+          )}
         </li>
       ))}
     </ul>

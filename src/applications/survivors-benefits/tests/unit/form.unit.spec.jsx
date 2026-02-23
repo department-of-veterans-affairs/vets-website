@@ -130,7 +130,6 @@ describe('Survivors Benefits Form config', () => {
       pow,
       veteranChildrenCount,
       veteransChildren,
-      separationDueToAssignedReasons,
       remarriedAfterVeteralDeath,
       hadPreviousMarriages,
     } = formData.form.data;
@@ -214,7 +213,6 @@ describe('Survivors Benefits Form config', () => {
     expect(
       separationDetails.depends({
         claimantRelationship,
-        separationDueToAssignedReasons,
       }),
     ).to.be.true;
     expect(remarriage.depends({ claimantRelationship })).to.be.true;
@@ -260,5 +258,28 @@ describe('Survivors Benefits Form config', () => {
       .be.true;
     expect(dicBenefits.depends({ claims, ...claims.DIC })).to.be.true;
     expect(prisonerOfWar.depends({ pow })).to.be.false;
+  });
+
+  it('dependentsResidence diplays residenceAlert if hideIf returns true when childrenLiveTogetherButNotWithSpouse is Yes', () => {
+    const { householdInformation } = formConfig.chapters;
+    const { pages } = householdInformation;
+    const { dependentsResidence } = pages;
+    const { uiSchema } = dependentsResidence;
+    expect(uiSchema, 'dependentsResidence uiSchema not found').to.exist;
+    const alertOptions = uiSchema.residenceAlert['ui:options'];
+    expect(alertOptions, 'residenceAlert options not found').to.exist;
+    const itemYes = {
+      veteranChildrenCount: '1',
+      childrenLiveTogetherButNotWithSpouse: 'Yes',
+    };
+    const itemNo = {
+      veteranChildrenCount: '1',
+      childrenLiveTogetherButNotWithSpouse: 'No',
+    };
+    const none = { veteranChildrenCount: '0' };
+
+    expect(uiSchema.residenceAlert['ui:options'].hideIf(itemYes)).to.be.true;
+    expect(uiSchema.residenceAlert['ui:options'].hideIf(itemNo)).to.be.false;
+    expect(uiSchema.residenceAlert['ui:options'].hideIf(none)).to.be.false;
   });
 });

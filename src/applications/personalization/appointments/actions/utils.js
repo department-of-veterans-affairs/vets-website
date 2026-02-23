@@ -1,5 +1,5 @@
 import { differenceInMilliseconds, isFuture, parseISO } from 'date-fns';
-import moment from '~/applications/personalization/dashboard/lib/moment-tz';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   getVATimeZone,
   getTimezoneBySystemId,
@@ -37,10 +37,9 @@ const transformAppointment = appointment => {
   const facilityStagingId = getStagingID(appointment.attributes.locationId);
   const timezone = getTimezoneBySystemId(facilityStagingId)?.timezone;
   const date = appointment.attributes.start;
-  const startsAt = (timezone
-    ? moment(date).tz(timezone)
-    : moment(date)
-  ).format();
+  const startsAt = timezone
+    ? formatInTimeZone(parseISO(date), timezone, "yyyy-MM-dd'T'HH:mm:ssXXX")
+    : parseISO(date).toISOString();
 
   return {
     ...appointment.attributes,
@@ -67,4 +66,4 @@ const vaosV2Helpers = {
   sortAppointments,
 };
 
-export { vaosV2Helpers, getStagingID };
+export { vaosV2Helpers, getStagingID, isFutureAppointment };

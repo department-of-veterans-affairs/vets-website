@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import ExpenseCardList from './ExpenseCardList';
 import { getExpenseType } from '../../../util/complex-claims-helper';
+import { EXPENSE_TYPES } from '../../../constants';
 
 const ExpensesAccordion = ({
   documents = [],
@@ -28,6 +29,10 @@ const ExpensesAccordion = ({
   );
 
   const expenseEntries = Object.entries(groupedExpenses);
+  const expenseTypeOrder = Object.keys(EXPENSE_TYPES);
+  expenseEntries.sort(([a], [b]) => {
+    return expenseTypeOrder.indexOf(a) - expenseTypeOrder.indexOf(b);
+  });
   const hasExpenses = expenseEntries.length > 0;
 
   // No expenses case

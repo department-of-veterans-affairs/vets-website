@@ -44,4 +44,20 @@ describe('Personal Info - Legal Name', () => {
     });
     expect(tree.getByText(/john middlename doe jr/i)).to.exist;
   });
+
+  it('should handle a missing userFullName object in state', () => {
+    const state = {
+      vaProfile: {
+        hero: {},
+      },
+    };
+    const tree = render(<LegalName />, {
+      initialState: set(state, 'vaProfile.hero.userFullName', null),
+    });
+    expect(
+      tree.getByText(
+        /something went wrong on our end and we can’t load your legal name/i,
+      ),
+    ).to.exist;
+  });
 });
