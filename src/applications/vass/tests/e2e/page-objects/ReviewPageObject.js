@@ -134,28 +134,6 @@ export class ReviewPageObject extends PageObject {
   }
 
   /**
-   * Assert the confirm button is in loading state
-   * @returns {ReviewPageObject}
-   */
-  assertConfirmLoading() {
-    cy.findByTestId('confirm-call-button').should(
-      'have.attr',
-      'loading',
-      'true',
-    );
-    return this;
-  }
-
-  /**
-   * Assert the confirm button is not in loading state
-   * @returns {ReviewPageObject}
-   */
-  assertConfirmNotLoading() {
-    cy.findByTestId('confirm-call-button').should('not.have.attr', 'loading');
-    return this;
-  }
-
-  /**
    * Confirm the appointment by clicking the confirm button
    * @returns {ReviewPageObject}
    */
