@@ -63,6 +63,7 @@
   "cstTimezoneDateDiscrepancyMitigation": "cst_timezone_discrepancy_mitigation",
   "cstUseDataDogRUM": "cst_use_dd_rum",
   "debtLettersShowLettersVBMS": "debt_letters_show_letters_vbms",
+  "decisionReviewAddUserUuidToRUM": "decision_review_add_user_uuid_to_rum",
   "decisionReviewNodFeb2025PdfEnabled": "decision_review_nod_feb2025_pdf_enabled",
   "decisionReviewsMyVADisplay": "my_va_display_decision_reviews_forms",
   "decisionReviewsScRedesign": "decision_review_sc_redesign_nov2025",

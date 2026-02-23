@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
@@ -33,6 +34,10 @@ export const FormApp = ({
   contestableIssues = {},
 }) => {
   const { pathname } = location || {};
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const addUserUuidToRUM = useToggleValue(
+    TOGGLE_NAMES.decisionReviewAddUserUuidToRUM,
+  );
 
   useEffect(
     () => {
@@ -122,6 +127,7 @@ export const FormApp = ({
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
     userUuid: accountUuid,
+    addUserUuid: addUserUuidToRUM,
   });
 
   return wrapWithBreadcrumb(

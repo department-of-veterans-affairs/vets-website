@@ -5,6 +5,7 @@ import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from '~/platform/forms-system/src/js/actions';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import {
   DATA_DOG_ID,
@@ -41,6 +42,10 @@ export const Form0996App = ({
   contestableIssues,
 }) => {
   const { pathname } = location || {};
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const addUserUuidToRUM = useToggleValue(
+    TOGGLE_NAMES.decisionReviewAddUserUuidToRUM,
+  );
 
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
@@ -158,6 +163,7 @@ export const Form0996App = ({
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
     userUuid: accountUuid,
+    addUserUuid: addUserUuidToRUM,
   });
 
   // Add data-location attribute to allow styling specific pages
