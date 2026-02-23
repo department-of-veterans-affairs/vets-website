@@ -5,7 +5,7 @@ import {
   createGetHandler,
   jsonResponse,
 } from 'platform/testing/unit/msw-adapter';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { mockInquiryStatusResponse } from '~/applications/ask-va/utils/mockData';
 import { ENDPOINTS } from '~/applications/ask-va/utils/api';
 import StatusChecker from '~/applications/ask-va/components/introduction/StatusChecker';
@@ -18,6 +18,7 @@ describe('<StatusChecker />', () => {
       }),
     );
   });
+
   it('starts with just the heading and search bar', () => {
     const view = render(<StatusChecker />);
 
@@ -39,7 +40,32 @@ describe('<StatusChecker />', () => {
     expect(inquiryStatus).to.not.exist;
     expect(loadingSpinner).to.not.exist;
   });
-  it.skip('shows loading spinner on submit and removes to show status message');
+
+  it('shows loading spinner on submit and removes to show status message', async () => {
+    const view = render(<StatusChecker />);
+    const searchInput = view.container.querySelector('va-search-input');
+    searchInput.value = 'anything';
+    searchInput.dispatchEvent(
+      new Event('submit', {
+        bubbles: true,
+      }),
+    );
+
+    await waitFor(() => {
+      const loadingSpinner = view.container.querySelector(
+        'va-loading-indicator',
+      );
+      expect(loadingSpinner).to.exist;
+    });
+
+    await waitFor(() => {
+      const statusMessage = view.container.querySelector('#status-message');
+      expect(statusMessage).to.exist;
+    });
+    const loadingSpinner = view.container.querySelector('va-loading-indicator');
+    expect(loadingSpinner).to.not.exist;
+  });
+
   it('shows and focuses the inquiry status on success', async () => {
     const view = render(<StatusChecker />);
     const query = 'A-20250106-308944';
@@ -65,6 +91,7 @@ describe('<StatusChecker />', () => {
     expect(inquiryStatus.textContent).to.include(query);
     expect(focusedElement).to.equal(inquiryStatus);
   });
+
   it('shows and focuses a "no results" message on fail', async () => {
     server.use(
       createGetHandler(`${ENDPOINTS.inquiries}/:inquiryId/status`, () => {

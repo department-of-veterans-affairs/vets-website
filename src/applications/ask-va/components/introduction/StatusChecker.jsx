@@ -52,11 +52,13 @@ const uiDetailsMap = {
 
 export default function StatusChecker() {
   const [statusData, setStatusData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [displayQuery, setDisplayQuery] = useState('');
 
   const handleSubmit = e => {
     const query = e.target.value.trim();
+    setIsLoading(true);
     setDisplayQuery(query);
     setHasError(false);
     setStatusData({});
@@ -65,12 +67,15 @@ export default function StatusChecker() {
     // A-20250106-308944
     if (mockTestingFlagForAPI && query === 'A-20250106-308944') {
       setStatusData(mockInquiryStatusResponse.data);
+      setIsLoading(false);
     } else {
       getInquiryStatus(query)
         .then(res => {
           setStatusData(res.data);
+          setIsLoading(false);
         })
         .catch(() => {
+          setIsLoading(false);
           setHasError(true);
         });
     }
@@ -81,6 +86,15 @@ export default function StatusChecker() {
   });
 
   const questionStatus = () => {
+    if (isLoading) {
+      return (
+        <va-loading-indicator
+          data-testid="loading-indicator"
+          message="Loading question status..."
+        />
+      );
+    }
+
     if (hasError) {
       return (
         <div className="vads-u-margin-y--3" id="status-message">
