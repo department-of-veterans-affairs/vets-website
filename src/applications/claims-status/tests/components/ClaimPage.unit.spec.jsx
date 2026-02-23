@@ -1,10 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as featureToggles from '~/platform/utilities/feature-toggles';
 
 import { ClaimPage } from '../../containers/ClaimPage';
-import { renderWithRouter } from '../utils';
+import { renderWithReduxAndRouter } from '../utils';
 
 const params = { id: 1 };
 
@@ -13,30 +12,25 @@ const props = {
   params,
 };
 
+const featureToggleName = 'cst_multi_claim_provider';
+
+const initialState = {
+  featureToggles: {
+    loading: false,
+    [featureToggleName]: false,
+  },
+};
+
 describe('<ClaimPage>', () => {
-  let useFeatureToggleStub;
-
-  before(() => {
-    useFeatureToggleStub = sinon
-      .stub(featureToggles, 'useFeatureToggle')
-      .returns({
-        TOGGLE_NAMES: { cstMultiClaimProvider: 'cst_multi_claim_provider' },
-        useToggleValue: sinon.stub().returns(false),
-      });
-  });
-
-  after(() => {
-    useFeatureToggleStub.restore();
-  });
-
   it('calls getClaim when it is rendered', () => {
     // Reset sinon spies / set up props
     props.getClaim = sinon.spy();
 
-    renderWithRouter(
+    renderWithReduxAndRouter(
       <ClaimPage {...props}>
         <div />
       </ClaimPage>,
+      { initialState },
     );
 
     expect(props.getClaim.called).to.be.true;
@@ -45,10 +39,11 @@ describe('<ClaimPage>', () => {
   it('calls clearClaim when it unmounts', () => {
     props.clearClaim = sinon.spy();
 
-    const { unmount } = renderWithRouter(
+    const { unmount } = renderWithReduxAndRouter(
       <ClaimPage {...props}>
         <div />
       </ClaimPage>,
+      { initialState },
     );
 
     unmount();
