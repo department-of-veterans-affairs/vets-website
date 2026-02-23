@@ -1,8 +1,9 @@
-const beforeStartDateErrorMsg = startDate => {
+const beforeStartDateErrorMsg = (startDate, customMessage) => {
   const dateArray = startDate.split('-');
   // Show date string in MM/DD/YYYY format instead of YYYY-MM-DD
   const dateString = `${dateArray[1]}/${dateArray[2]}/${dateArray[0]}`;
-  return `End date must be after the start date. Enter a date later than ${dateString}.`;
+  const message = customMessage || 'End date must be after the start date.';
+  return `${message} Enter a date later than ${dateString}.`;
 };
 const checkIfEndDateAfterStartDate = (endDate, startDate) => {
   const end = new Date(endDate);
@@ -42,7 +43,12 @@ export const validations = {
       formData?.veteranDateOfBirth &&
       !checkIfEndDateAfterStartDate(values, formData.veteranDateOfBirth)
     ) {
-      errors.addError(beforeStartDateErrorMsg(formData.veteranDateOfBirth));
+      errors.addError(
+        beforeStartDateErrorMsg(
+          formData.veteranDateOfBirth,
+          'Date of death must be after the date of birth.',
+        ),
+      );
     }
   },
   isAfterTreatmentStartDate: (errors, values, formData) => {

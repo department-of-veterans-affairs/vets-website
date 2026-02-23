@@ -48,7 +48,7 @@ describe('Custom form validations', () => {
   it('should validate that the veteran date of death is after the the date of birth', () => {
     validations.isAfterVeteranBirthDate(errors, '1965-01-01', formData);
     expect(errorMessage).to.include(
-      'End date must be after the start date. Enter a date later than 04/15/1970.',
+      'Date of death must be after the date of birth. Enter a date later than 04/15/1970.',
     );
   });
   it('should not return an error if the marriage end date is after the marriage start date', () => {
