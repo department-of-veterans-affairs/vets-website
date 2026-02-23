@@ -38,8 +38,12 @@ const testConfig = createTestConfig(
       },
       'contact-information': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-link[label="Edit mailing address"]').click();
-
+          cy.get('va-card-status')
+            .find('va-link-action')
+            .shadow()
+            .find('a')
+            .contains('Edit mailing address')
+            .click();
           // update mailing address in the form only
           cy.fillVaTextInput('root_addressLine1', '456 Edited Street');
           cy.fillVaTextInput('root_city', 'Updated City');

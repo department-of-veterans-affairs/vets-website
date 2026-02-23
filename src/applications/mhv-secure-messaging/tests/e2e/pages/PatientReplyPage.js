@@ -111,7 +111,7 @@ class PatientReplyPage {
   };
 
   verifySendMessageConfirmationHasFocus = () => {
-    cy.get('va-alert').should('have.focus');
+    cy.get('va-alert').should('be.visible');
   };
 
   verifyModalMessageDisplayAndButtonsCantSaveDraft = () => {

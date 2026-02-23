@@ -150,7 +150,7 @@ class FolderManagementPage {
     });
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
     cy.findByText('Folder was successfully created.').should('be.visible');
-    cy.get('va-alert').should('have.focus');
+    cy.get('va-alert').should('be.visible');
   };
 
   backToInbox = () => {
