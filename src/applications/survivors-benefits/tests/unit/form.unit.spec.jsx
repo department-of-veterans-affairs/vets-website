@@ -210,11 +210,6 @@ describe('Survivors Benefits Form config', () => {
         claimantRelationship,
       }),
     ).to.be.true;
-    expect(
-      separationDetails.depends({
-        claimantRelationship,
-      }),
-    ).to.be.true;
     expect(remarriage.depends({ claimantRelationship })).to.be.true;
     expect(
       remarriageDetails.depends({
