@@ -3,6 +3,7 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
 import transform from './transform';
@@ -20,8 +21,6 @@ import thirdPartyOrganizationRepresentativesIntro from '../pages/thirdPartyOrgan
 import thirdPartyOrganizationRepresentativeName from '../pages/thirdPartyOrganizationRepresentativesName';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import informationToDisclose from '../pages/informationToDisclose';
 import prefillTransform from './prefillTransform';
 
@@ -126,18 +125,9 @@ const formConfig = {
           schema: identificationInformation.schema,
           depends: formData => formData?.userLoggedIn !== true,
         },
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-        },
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
-        },
+        ...profileContactInfoPages({
+          contactInfoRequiredKeys: ['mailingAddress'],
+        }),
       },
     },
     disclosureChapter: {
