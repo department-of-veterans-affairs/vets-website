@@ -13,7 +13,7 @@ export const verifyHandler = ({
   ial2Enforcement,
   policy,
   queryParams,
-  useOAuth,
+  useOAuth = true,
 }) => {
   const needsIal2Enforcement =
     ial2Enforcement &&

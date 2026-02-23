@@ -43,7 +43,7 @@ const App = ({ location, children }) => {
   }
 
   return (
-    <RequiredLoginView useSiS user={user} serviceRequired={serviceRequired}>
+    <RequiredLoginView user={user} serviceRequired={serviceRequired}>
       <MhvRegisteredUserGuard>
         <>
           {showMhvSecondaryNav && <MhvSecondaryNav />}
