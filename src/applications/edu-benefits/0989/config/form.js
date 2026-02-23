@@ -65,7 +65,7 @@ const formConfig = {
           },
         }),
         ...profileContactInfoPages({
-          contactInfoRequiredKeys: ['mailingAddress'],
+          contactInfoRequiredKeys: ['mailingAddress', 'email'],
           // disableMockContactInfo: true,
           // prefillPatternEnabled: true,
         }),
