@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { FIELD_NAMES } from '~/platform/user/profile/vap-svc/constants';
 import { FIELD_SECTION_HEADERS } from '../../constants/schedulingPreferencesConstants';
-import {
-  isInlineSchedulingPreference,
-  isSubtaskSchedulingPreference,
-} from '../../util/health-care-settings/schedulingPreferencesUtils';
+import { isSchedulingPreference } from '../../util/health-care-settings/schedulingPreferencesUtils';
 
 const ConfirmRemoveModal = ({
   cancelAction,
@@ -52,6 +49,7 @@ const ConfirmRemoveModal = ({
       </p>
     </>
   );
+
   if (fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
     modalContent = (
       <>
@@ -64,34 +62,21 @@ const ConfirmRemoveModal = ({
       </>
     );
   }
-  if (isInlineSchedulingPreference(fieldName)) {
-    modalTitle = `Remove your ${FIELD_SECTION_HEADERS[fieldName]
-      .toLowerCase()
-      .replace(/s$/, '')}?`;
-    modalContent = (
-      <p className="vads-u-margin-top--1">
-        You can always add another{' '}
-        {FIELD_SECTION_HEADERS[fieldName].toLowerCase().replace(/s$/, '')} any
-        time.
-      </p>
-    );
-  }
-  if (isSubtaskSchedulingPreference(fieldName)) {
-    modalTitle = `Remove your ${FIELD_SECTION_HEADERS[
-      fieldName
-    ].toLowerCase()}?`;
+
+  if (isSchedulingPreference(fieldName)) {
+    const activeSection = FIELD_SECTION_HEADERS[fieldName].toLowerCase();
+    modalTitle = `Remove your ${activeSection}?`;
     modalContent = (
       <>
+        {fieldName === FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD && (
+          <p className="vads-u-margin-top--1">
+            This will remove your {activeSection.replace(/s$/, '')} for
+            scheduling appointments. We won’t change your information in your VA
+            profile.
+          </p>
+        )}
         <p className="vads-u-margin-top--1">
-          This will remove your{' '}
-          {FIELD_SECTION_HEADERS[fieldName].toLowerCase().replace(/s$/, '')} for
-          scheduling appointments. We won’t change your information in your VA
-          profile.
-        </p>
-        <p className="vads-u-margin-top--1">
-          You can always add another{' '}
-          {FIELD_SECTION_HEADERS[fieldName].toLowerCase().replace(/s$/, '')} any
-          time.
+          You can always add another {activeSection.replace(/s$/, '')} any time.
         </p>
       </>
     );

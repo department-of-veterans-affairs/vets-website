@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import Nav from '../../../../components/Header/Nav';
+import Nav from '~/platform/site-wide/representative/components/header/Nav';
 import { renderTestComponent } from '../../helpers';
 
 describe('Nav', () => {

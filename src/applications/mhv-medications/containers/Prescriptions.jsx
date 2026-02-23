@@ -1,13 +1,8 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   usePrintTitle,
   updatePageTitle,
@@ -51,7 +46,6 @@ import {
 } from '../redux/preferencesSlice';
 
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
-import { selectPrescriptionId } from '../selectors/selectPrescription';
 import {
   selectSortOption,
   selectFilterOption,
@@ -66,9 +60,7 @@ import { getFilterOptions } from '../util/helpers/getRxStatus';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
-  selectMedicationsManagementImprovementsFlag,
 } from '../util/selectors';
-import RefillProcess from '../components/shared/RefillProcess';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
@@ -77,10 +69,6 @@ const Prescriptions = () => {
   const dob = useSelector(selectUserDob);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
-  const isManagementImprovementsEnabled = useSelector(
-    selectMedicationsManagementImprovementsFlag,
-  );
-  const prescriptionId = useSelector(selectPrescriptionId);
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
   const userName = useSelector(selectUserFullName);
@@ -110,6 +98,7 @@ const Prescriptions = () => {
           'api-name': 'Rx SM Renewal',
           'api-status': 'successful',
         });
+        datadogRum.addAction('Rx Renewal Success');
       }
     },
     [rxRenewalMessageSuccess],
@@ -140,7 +129,6 @@ const Prescriptions = () => {
   ]);
 
   const [loadingMessage, setLoadingMessage] = useState('');
-  const scrollLocation = useRef();
 
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
     {
@@ -199,8 +187,6 @@ const Prescriptions = () => {
     isLoading,
     filteredList,
     noFilterMatches,
-    isReturningFromDetailsPage: !!prescriptionId, // TODO: This is not currently working because prescriptionId is always null. https://github.com/department-of-veterans-affairs/va.gov-team/issues/131061
-    scrollLocation,
     showingFocusedAlert: rxRenewalMessageSuccess || deleteDraftSuccess,
   });
 
@@ -333,7 +319,6 @@ const Prescriptions = () => {
                 <MedicationsList
                   pagination={pagination}
                   rxList={filteredList}
-                  scrollLocation={scrollLocation}
                   selectedSortOption={selectedSortOption}
                   updateLoadingStatus={setLoadingMessage}
                 />
@@ -383,7 +368,6 @@ const Prescriptions = () => {
             {renderMedicationsContent()}
           </>
         )}
-        {isManagementImprovementsEnabled && <RefillProcess />}
         <NeedHelp page={pageType.LIST} />
       </div>
       <PrescriptionsPrintOnly

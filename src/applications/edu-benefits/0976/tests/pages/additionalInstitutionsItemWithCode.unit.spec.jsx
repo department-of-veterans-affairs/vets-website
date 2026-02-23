@@ -87,4 +87,28 @@ describe('22-0976 additional institutions item page', () => {
       'Enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
     );
   });
+
+  it('shows an error when a duplicate facility code is given', async () => {
+    const { container, getByRole } = renderPage(
+      buildState({
+        hasVaFacilityCode: true,
+        facilityCode: '11111111',
+        primaryInstitutionDetails: {
+          facilityCode: '11111111',
+        },
+        additionalInstitutions: [
+          {
+            facilityCode: '11111111',
+          },
+        ],
+      }),
+    );
+
+    getByRole('button', { name: /submit/i }).click();
+    await new Promise(resolve => setTimeout(resolve, 0));
+    const facilityCodeInput = container.querySelector('va-text-input');
+    expect(facilityCodeInput.getAttribute('error')).to.equal(
+      'You have already added this facility code to this form. Enter a new facility code, or cancel adding this additional location.',
+    );
+  });
 });

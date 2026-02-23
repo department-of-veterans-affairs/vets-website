@@ -12,6 +12,7 @@ describe('UnifiedLabsAndTests Component', () => {
     name: 'Test Name',
     date: '2025-04-21',
     testCode: '12345',
+    testCodeDisplay: '12345',
     sampleTested: 'Blood',
     bodySite: 'Arm',
     orderedBy: 'Dr. Smith',
@@ -61,6 +62,36 @@ describe('UnifiedLabsAndTests Component', () => {
     // tested differently since the items are displayed in a list
     expect(screen.getByTestId('lab-and-test-comments')).to.exist;
     expect(screen.getByTestId('lab-and-test-results')).to.have.text('Positive');
+  });
+
+  it('does not render the Results field when observations are present', () => {
+    const screen = renderWithStoreAndRouter(
+      <UnifiedLabsAndTests
+        record={{
+          ...mockRecord,
+          observations: [
+            {
+              testCode: 'CHLORIDE',
+              referenceRange: '98 - 107',
+              status: 'final',
+              comments: '',
+              value: {
+                text: '2 meq/L',
+                type: 'Quantity',
+              },
+            },
+          ],
+        }}
+        runningUnitTest
+        user={mockUser}
+      />,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
+    // Results field should not be present when observations exist
+    expect(screen.queryByTestId('lab-and-test-results')).to.be.null;
   });
 
   it('renders the component with observations', () => {

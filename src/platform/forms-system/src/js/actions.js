@@ -141,7 +141,10 @@ export function submitToUrl(
 
           if (isTokenExpired && infoTokenExists()) {
             refresh({ type: sessionStorage.getItem('serviceName') })
-              .then(() => {
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Token refresh failed');
+                }
                 return submitToUrl(
                   body,
                   submitUrl,
@@ -197,8 +200,12 @@ export function submitToUrl(
 
     req.setRequestHeader('X-Key-Inflection', 'camel');
     req.setRequestHeader('Content-Type', 'application/json');
-    req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
-    req.setRequestHeader('Source-App-Name', window.appName);
+    if (csrfTokenStored) {
+      req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+    }
+    if (window.appName) {
+      req.setRequestHeader('Source-App-Name', window.appName);
+    }
     req.withCredentials = true;
 
     req.send(body);
@@ -388,29 +395,65 @@ export function uploadFile(
         });
       } else if (req.status === 403 && !hasAttemptedTokenRefresh) {
         let errorResponse;
+        let isTokenExpired = false;
+
         try {
           errorResponse = JSON.parse(req.response);
           const errorMessage = errorResponse?.errors || '';
-          const isTokenExpired = errorMessage.includes('token has expired');
-
-          if (isTokenExpired && infoTokenExists()) {
-            refresh({ type: sessionStorage.getItem('serviceName') }).then(
-              () => {
-                return uploadFile(
-                  file,
-                  uiOptions,
-                  onProgress,
-                  onChange,
-                  onError,
-                  trackingPrefix,
-                  password,
-                  true,
-                )(dispatch, getState);
-              },
-            );
-          }
+          isTokenExpired = errorMessage.includes('token has expired');
         } catch (e) {
-          // fall through to show error
+          // Parse failed, treat as non-token error
+        }
+
+        const fileObj = { file, name: file.name, size: file.size };
+
+        if (isTokenExpired && infoTokenExists()) {
+          refresh({ type: sessionStorage.getItem('serviceName') })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error();
+              }
+              return uploadFile(
+                file,
+                uiOptions,
+                onProgress,
+                onChange,
+                onError,
+                trackingPrefix,
+                password,
+                true,
+              )(dispatch, getState);
+            })
+            .catch(() => {
+              const refreshErrorMessage =
+                'Your file was not uploaded. We had a network error. Try again later.';
+              if (password) {
+                onChange({
+                  ...fileObj,
+                  errorMessage: refreshErrorMessage,
+                  isEncrypted: true,
+                });
+              } else {
+                onChange({ ...fileObj, errorMessage: refreshErrorMessage });
+              }
+              Sentry.captureMessage('vets_upload_error: token refresh failed');
+              onError();
+            });
+        } else {
+          // Not a token expiration but a 403
+          const forbiddenMessage =
+            "You don't have permission to upload this file. Please try resigning in.";
+          if (password) {
+            onChange({
+              ...fileObj,
+              errorMessage: forbiddenMessage,
+              isEncrypted: true,
+            });
+          } else {
+            onChange({ ...fileObj, errorMessage: forbiddenMessage });
+          }
+          Sentry.captureMessage('vets_upload_error: 403 forbidden');
+          onError();
         }
       } else {
         const fileObj = { file, name: file.name, size: file.size };
@@ -479,8 +522,12 @@ export function uploadFile(
     });
 
     req.setRequestHeader('X-Key-Inflection', 'camel');
-    req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
-    req.setRequestHeader('Source-App-Name', window.appName);
+    if (csrfTokenStored) {
+      req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+    }
+    if (window.appName) {
+      req.setRequestHeader('Source-App-Name', window.appName);
+    }
     req.withCredentials = true;
     req.send(payload);
 

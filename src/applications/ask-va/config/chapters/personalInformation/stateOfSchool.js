@@ -9,7 +9,7 @@ const stateOfSchoolPage = {
       'ui:title': CHAPTER_3.STATE_OF_SCHOOL.QUESTION_1,
       'ui:widget': StateSelect,
       'ui:errorMessages': {
-        required: 'Please select school state',
+        required: 'Select school state',
       },
     },
   },

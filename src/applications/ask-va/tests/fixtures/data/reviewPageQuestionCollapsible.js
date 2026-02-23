@@ -25,7 +25,7 @@ export const chapterFormConfig = {
         question: {
           'ui:title': "What's your question?",
           'ui:errorMessages': {
-            required: 'Please let us know what your question is about.',
+            required: 'Let us know what your question is about.',
           },
           'ui:options': {
             required: true,
@@ -101,7 +101,7 @@ export const chapterFormConfig = {
         question: {
           'ui:title': "What's your question?",
           'ui:errorMessages': {
-            required: 'Please let us know what your question is about.',
+            required: 'Let us know what your question is about.',
           },
           'ui:options': {
             required: true,
@@ -317,7 +317,7 @@ export const expandedPages = [
       question: {
         'ui:title': "What's your question?",
         'ui:errorMessages': {
-          required: 'Please let us know what your question is about.',
+          required: 'Let us know what your question is about.',
         },
         'ui:options': {
           required: true,
@@ -550,7 +550,7 @@ const pages = {
       question: {
         'ui:title': "What's your question?",
         'ui:errorMessages': {
-          required: 'Please let us know what your question is about.',
+          required: 'Let us know what your question is about.',
         },
         'ui:options': {
           required: true,

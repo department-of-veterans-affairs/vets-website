@@ -3,7 +3,7 @@ import {
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import StepchildMarriageProofDescription from '../../components/FormDescriptions/StepchildMarriageProofDescription';
-import { ATTACHMENT_IDS } from '../../constants';
+import { ATTACHMENT_IDS } from '../../utils/constants';
 import { attachmentSchema, attachmentUI } from '../../definitions';
 import content from '../../locales/en/content.json';
 

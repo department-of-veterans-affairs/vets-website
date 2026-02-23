@@ -11,7 +11,7 @@ const searchSchoolsPage = {
       }),
       'ui:widget': EducationFacilitySearch,
       'ui:errorMessages': {
-        required: 'Please select your school facility',
+        required: 'Select your school facility',
       },
     },
   },

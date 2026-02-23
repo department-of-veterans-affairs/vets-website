@@ -331,24 +331,6 @@ describe('prescriptionsApi', () => {
           prescriptionsApi.endpoints.getRefillablePrescriptions.select,
         ).to.be.a('function');
       });
-
-      it('should have refetchOnFocus enabled for cross-tab synchronization', () => {
-        const endpoint = prescriptionsApi.endpoints.getRefillablePrescriptions;
-        // The refetchOnFocus option should be configured for this endpoint
-        // This ensures medication lists sync when switching between tabs
-        expect(endpoint).to.exist;
-        // RTK Query endpoints with refetchOnFocus: true will automatically
-        // refetch data when the browser tab regains focus
-      });
-
-      it('should have refetchOnReconnect enabled for network reliability', () => {
-        const endpoint = prescriptionsApi.endpoints.getRefillablePrescriptions;
-        // The refetchOnReconnect option should be configured for this endpoint
-        // This ensures medication lists refresh after network reconnection
-        expect(endpoint).to.exist;
-        // RTK Query endpoints with refetchOnReconnect: true will automatically
-        // refetch data when network connection is restored
-      });
     });
 
     describe('getPrescriptionDocumentation', () => {
@@ -367,6 +349,26 @@ describe('prescriptionsApi', () => {
         expect(
           prescriptionsApi.endpoints.getPrescriptionDocumentation.select,
         ).to.be.a('function');
+      });
+
+      it('should accept id parameter', () => {
+        const params = { id: '12345' };
+        // initiate returns a thunk, verify it can be called without error
+        expect(() =>
+          prescriptionsApi.endpoints.getPrescriptionDocumentation.initiate(
+            params,
+          ),
+        ).to.not.throw();
+      });
+
+      it('should accept id and stationNumber parameters', () => {
+        const params = { id: '12345', stationNumber: '688' };
+        // initiate returns a thunk, verify it can be called without error
+        expect(() =>
+          prescriptionsApi.endpoints.getPrescriptionDocumentation.initiate(
+            params,
+          ),
+        ).to.not.throw();
       });
     });
 
@@ -529,15 +531,30 @@ describe('prescriptionsApi', () => {
 
   describe('buildPrescriptionByIdQuery', () => {
     it('should build path with prescription ID', () => {
-      const result = buildPrescriptionByIdQuery('12345');
+      const result = buildPrescriptionByIdQuery({ id: '12345' });
 
       expect(result.path).to.equal('/prescriptions/12345');
     });
 
     it('should handle numeric ID', () => {
-      const result = buildPrescriptionByIdQuery(67890);
+      const result = buildPrescriptionByIdQuery({ id: 67890 });
 
       expect(result.path).to.equal('/prescriptions/67890');
+    });
+
+    it('should include station_number when provided', () => {
+      const result = buildPrescriptionByIdQuery({
+        id: '12345',
+        stationNumber: '688',
+      });
+
+      expect(result.path).to.equal('/prescriptions/12345?station_number=688');
+    });
+
+    it('should not include station_number when not provided', () => {
+      const result = buildPrescriptionByIdQuery({ id: '12345' });
+
+      expect(result.path).to.not.include('station_number');
     });
   });
 

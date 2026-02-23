@@ -64,6 +64,35 @@ describe('Medications Breadcrumbs', () => {
     expect(breadcrumbs.getAttribute('text')).to.equal('Back');
   });
 
+  it('preserves station_number in back link on DOCUMENTATION route', () => {
+    const stationNumber = '688';
+    const screen = renderWithStoreAndRouterV6(
+      <Routes>
+        <Route
+          path="/prescription/:prescriptionId/documentation"
+          element={<RxBreadcrumbs />}
+        />
+      </Routes>,
+      {
+        initialState: {},
+        reducers,
+        initialEntries: [
+          `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}${
+            medicationsUrls.subdirectories.DOCUMENTATION
+          }?station_number=${stationNumber}`,
+        ],
+      },
+    );
+    const breadcrumbs = screen.getByTestId('rx-breadcrumb-link');
+    const href = breadcrumbs.getAttribute('href');
+    expect(href).to.equal(
+      `${
+        medicationsUrls.PRESCRIPTION_DETAILS
+      }/${prescriptionId}?station_number=${stationNumber}`,
+    );
+    expect(breadcrumbs.getAttribute('text')).to.equal('Back');
+  });
+
   it('renders breadcrumbs on BASE route', async () => {
     const screen = setup({}, [medicationsUrls.subdirectories.BASE]);
 
@@ -77,6 +106,17 @@ describe('Medications Breadcrumbs', () => {
 
   it('renders breadcrumbs on REFILL route', async () => {
     const screen = setup({}, [medicationsUrls.subdirectories.REFILL]);
+
+    await waitFor(() => {
+      const element = screen.container.querySelector('va-breadcrumbs');
+      expect(element).to.exist;
+      expect(element).to.have.attribute('data-testid', 'rx-breadcrumb');
+      expect(element.breadcrumbList).to.exist;
+    });
+  });
+
+  it('renders breadcrumbs on IN_PROGRESS route', async () => {
+    const screen = setup({}, [medicationsUrls.subdirectories.IN_PROGRESS]);
 
     await waitFor(() => {
       const element = screen.container.querySelector('va-breadcrumbs');

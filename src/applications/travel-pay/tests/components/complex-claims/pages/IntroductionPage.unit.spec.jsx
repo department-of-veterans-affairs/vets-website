@@ -143,6 +143,8 @@ describe('Travel Pay – IntroductionPage', () => {
 
     expect($(`va-link[href="${FIND_FACILITY_TP_CONTACT_LINK}"]`, container)).to
       .exist;
+
+    expect($('a[href="/claims/"]', container)).to.exist;
   });
 
   it('navigates to choose-expense when a claim already exists', async () => {

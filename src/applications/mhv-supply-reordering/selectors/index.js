@@ -1,5 +1,3 @@
-import { signInServiceEnabled } from '~/platform/user/authentication/selectors';
-
 import { isLOA3, isLoggedIn, isVAPatient } from '~/platform/user/selectors';
 
 import { MDOT_ERROR_CODES } from '../constants';
@@ -53,7 +51,6 @@ export {
   isVAPatient,
   selectSupplies,
   selectUnavailableSupplies,
-  signInServiceEnabled,
   showAlertDeceased,
   showAlertNoRecordForUser,
   showAlertNoSuppliesForReorder,

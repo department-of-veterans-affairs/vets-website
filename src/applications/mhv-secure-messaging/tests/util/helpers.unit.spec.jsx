@@ -24,6 +24,7 @@ import {
   sortRecipients,
   decodeHtmlEntities,
   isOlderThan,
+  isMigrationPhaseBlockingReplies,
   isValidDateValue,
   isCustomFolder,
   handleHeader,
@@ -519,6 +520,36 @@ describe('MHV Secure Messaging helpers', () => {
       const exactDate = new Date();
       exactDate.setDate(exactDate.getDate() - 45);
       expect(isOlderThan(exactDate.toISOString(), 45)).to.equal(false);
+    });
+  });
+
+  describe('isMigrationPhaseBlockingReplies', () => {
+    it('should return true for phase p3', () => {
+      expect(isMigrationPhaseBlockingReplies('p3')).to.equal(true);
+    });
+
+    it('should return true for phase p4', () => {
+      expect(isMigrationPhaseBlockingReplies('p4')).to.equal(true);
+    });
+
+    it('should return true for phase p5', () => {
+      expect(isMigrationPhaseBlockingReplies('p5')).to.equal(true);
+    });
+
+    it('should return false for phase p1', () => {
+      expect(isMigrationPhaseBlockingReplies('p1')).to.equal(false);
+    });
+
+    it('should return false for phase p2', () => {
+      expect(isMigrationPhaseBlockingReplies('p2')).to.equal(false);
+    });
+
+    it('should return false for null', () => {
+      expect(isMigrationPhaseBlockingReplies(null)).to.equal(false);
+    });
+
+    it('should return false for undefined', () => {
+      expect(isMigrationPhaseBlockingReplies(undefined)).to.equal(false);
     });
   });
 

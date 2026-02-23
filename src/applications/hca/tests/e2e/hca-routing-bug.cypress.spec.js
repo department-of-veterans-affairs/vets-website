@@ -2,82 +2,45 @@
 /**
  * Test to verify the HCA routing bug fix.
  *
- * FIXED BUG: Logged-in users clicking "Start application" were incorrectly routed through
- * the /id-form page (which is only for logged-out users), causing unnecessary redirects.
+ * BUG: Logged-in users clicking "Start application"
+ * were routed to /id-form, which then redirected them back to /introduction,
+ * creating a redirect loop.
  *
- * EXPECTED: /introduction -> /check-your-personal-information
+ * ROOT CAUSE:
+ * 1. FormData['view:isLoggedIn'] was not set when prefillsAvailable was empty
+ * 2. IdentityPage redirected logged-in users to '/' instead of next valid page
  *
- * FIX: SaveInProgressIntro.getStartPage() now uses getNextPagePath() to respect
- * page 'depends' conditions instead of blindly returning pageList[1].path.
+ * FIXES:
+ * 1. prefillTransformer always sets 'view:isLoggedIn' from Redux state
+ * 2. IdentityPage redirects to getNextPagePath() instead of '/'
+ *
+ * EXPECTED: /introduction -> /check-your-personal-information (skipping /id-form)
  */
 
+import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/user.noPrefill.json';
-import { setupForAuth, startAsAuthUser } from './utils';
+import { setupForAuth } from './utils';
 
-const toPath = (baseHref, maybeUrl) => {
-  if (!maybeUrl) return '';
-  try {
-    const u = maybeUrl.startsWith('http')
-      ? new URL(maybeUrl)
-      : new URL(maybeUrl, baseHref);
-    return u.pathname;
-  } catch {
-    return String(maybeUrl);
-  }
-};
+describe('HCA Routing Bug - Logged-in user with no prefill data', () => {
+  beforeEach(() => setupForAuth({ user: mockUser }));
 
-describe('HCA Routing Bug - Logged-in user incorrectly visits id-form', () => {
-  let beforeLoadHandler;
-
-  beforeEach(() => {
-    // Stub pushState so every navigation is captured from the very first script
-    // Use cy.spy here so we can reference it later with @push
-    beforeLoadHandler = win => {
-      cy.spy(win.history, 'pushState').as('push');
-    };
-    Cypress.on('window:before:load', beforeLoadHandler);
-    setupForAuth({ user: mockUser });
-  });
-
-  afterEach(() => {
-    if (beforeLoadHandler) Cypress.off('window:before:load', beforeLoadHandler);
-  });
-
-  it('should reproduce the bug: logged-in user is routed through id-form before reaching destination', () => {
-    // Sanity check: we should be on `/introduction` initially
+  it('should skip identity verification and go directly to personal information page for logged-in users', () => {
     cy.location('pathname').should('include', '/introduction');
+    cy.clickStartForm();
 
-    // Click `Start application`; utils asserts final path includes /check-your-personal-information
-    startAsAuthUser({ waitForPrefill: false });
+    cy.location('pathname').should(
+      'include',
+      '/check-your-personal-information',
+    );
+    cy.location('pathname').should('not.include', '/introduction');
+  });
 
-    cy.location('href').then(hrefNow => {
-      cy.get('@push').then(push => {
-        const navigationLog = push
-          .getCalls()
-          .map(c => toPath(hrefNow, c.args?.[2])) // pushState(state, title, url)
-          .filter(Boolean);
-
-        const visitedIdForm = navigationLog.some(p => p.includes('/id-form'));
-
-        Cypress.log({
-          name: visitedIdForm ? '🐛 BUG' : '✅ OK',
-          message: visitedIdForm
-            ? `User was incorrectly routed through /id-form. Sequence: ${navigationLog.join(
-                ' → ',
-              )}`
-            : `User did not visit /id-form. Sequence: ${navigationLog.join(
-                ' → ',
-              )}`,
-          consoleProps: () => ({ navigationLog }),
-        });
-
-        // This assertion will FAIL when the bug exists, confirming our diagnosis
-        // When the fix is applied, this test will PASS
-        expect(
-          visitedIdForm,
-          'Logged-in users should NOT visit /id-form (depends: isLoggedOut)',
-        ).to.be.false;
-      });
-    });
+  it('should not create a redirect loop if user lands on identity page while logged in', () => {
+    cy.visit(`${manifest.rootUrl}/id-form`);
+    cy.location('pathname').should(
+      'include',
+      '/check-your-personal-information',
+    );
+    cy.location('pathname').should('not.include', '/id-form');
   });
 });

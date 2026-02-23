@@ -26,7 +26,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
       goForward(data);
     }
     focusElement('va-radio');
-    return setValidationError('Please select who your question is about');
+    return setValidationError('Select who your question is about');
   };
 
   const handleChange = event => {

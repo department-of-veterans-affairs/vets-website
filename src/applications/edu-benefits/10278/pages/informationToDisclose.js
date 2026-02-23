@@ -150,7 +150,7 @@ const InformationToDiscloseField = props => {
 
       <VaCheckboxGroup
         id={`${wrapperId}-checkbox-group`}
-        label="Here is a list of all benefit and claim information you can allow [display full name of person or name of organization] to see. Select the information that you want to share."
+        label={`Here is a list of all benefit and claim information you can allow ${thirdPartyName} to see. Select the information that you want to share.`}
         required
         error={groupError}
       >
@@ -160,7 +160,7 @@ const InformationToDiscloseField = props => {
           indeterminate={someSelected}
           onVaChange={e => setAll(getChecked(e))}
         />
-
+        <hr className="vads-u-margin-y--2" />
         {keys.map(key => {
           const opt = DISCLOSURE_OPTIONS[key];
           const label = typeof opt === 'string' ? opt : opt.title;

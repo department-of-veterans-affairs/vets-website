@@ -24,7 +24,6 @@ const PreSubmitInfo = ({
   user,
 }) => {
   const { statementOfTruth } = preSubmitInfo;
-  const { claimantType } = formData;
   const privacyAgreementAccepted = formData.privacyAgreementAccepted || false;
   const loggedIn = useSelector(isLoggedIn);
   const [
@@ -33,7 +32,8 @@ const PreSubmitInfo = ({
   ] = useState(false);
   const hasModifiedError = useRef(false);
 
-  const useProfileFullName = loggedIn && claimantType === 'VETERAN';
+  // VET TEC is only for veterans, so always use profile name when logged in
+  const useProfileFullName = loggedIn;
 
   const expectedFullName = statementOfTruthFullName(
     formData,

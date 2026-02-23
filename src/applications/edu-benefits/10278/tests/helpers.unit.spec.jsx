@@ -10,6 +10,7 @@ import {
   buildValidateAtLeastOne,
   validateOtherText,
   InformationToDiscloseReviewField,
+  ClaimInformationDescription,
 } from '../helpers';
 
 describe('10278 helpers - getThirdPartyName', () => {
@@ -154,6 +155,47 @@ describe('10278 helpers - InformationToDiscloseReviewField', () => {
     expect(getByText('Other')).to.exist;
     expect(getByText('Selected')).to.exist;
     expect(getByText('Custom details')).to.exist;
+  });
+});
+
+describe('10278 helpers - ClaimInformationDescription', () => {
+  it('renders minor key with special label', () => {
+    const formData = {
+      claimInformation: { minor: true },
+    };
+
+    const { getByText } = render(
+      <ClaimInformationDescription formData={formData} />,
+    );
+
+    expect(
+      getByText('Change of address or direct deposit (minor claimants only)'),
+    ).to.exist;
+  });
+
+  it('renders other key with otherText value', () => {
+    const formData = {
+      claimInformation: { other: true, otherText: 'Custom reason' },
+    };
+
+    const { getByText } = render(
+      <ClaimInformationDescription formData={formData} />,
+    );
+
+    expect(getByText('Other: Custom reason')).to.exist;
+  });
+
+  it('renders regular keys with DISCLOSURE_OPTIONS labels', () => {
+    const formData = {
+      claimInformation: { statusOfClaim: true, paymentHistory: true },
+    };
+
+    const { getByText } = render(
+      <ClaimInformationDescription formData={formData} />,
+    );
+
+    expect(getByText('Status of pending claim or appeal')).to.exist;
+    expect(getByText('Payment history')).to.exist;
   });
 });
 

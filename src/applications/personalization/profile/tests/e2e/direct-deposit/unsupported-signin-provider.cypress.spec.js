@@ -3,7 +3,7 @@ import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
 import {
   loa3User72,
   dsLogonUser,
-  mvhUser,
+  mhvUser,
 } from '../../../mocks/endpoints/user';
 import DirectDeposit from './page-objects/DirectDeposit';
 
@@ -72,7 +72,7 @@ describe('Direct Deposit', () => {
     () => {
       beforeEach(() => {
         directDeposit.setup();
-        cy.intercept('GET', 'v0/user', mvhUser);
+        cy.intercept('GET', 'v0/user', mhvUser);
       });
       it('should show a single "verify your account" alert and not call direct deposit APIs', () => {
         directDeposit.visitPage();

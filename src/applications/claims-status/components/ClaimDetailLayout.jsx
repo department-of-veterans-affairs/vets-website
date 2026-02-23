@@ -87,6 +87,7 @@ export default function ClaimDetailLayout(props) {
                 title={message.title}
                 body={message.body}
                 type={message.type}
+                maskTitle={message.type === 'error'}
                 onClose={() => {
                   focusElement('.claim-title');
                   clearNotification();

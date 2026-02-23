@@ -14,7 +14,7 @@ const isQuestionAboutVeteranOrSomeoneElsePage = {
       labelHeaderLevel: '3',
       labels: isQuestionAboutVeteranOrSomeoneElseLabels,
       errorMessages: {
-        required: 'Please let us know who your question is about.',
+        required: 'Let us know who your question is about.',
       },
     }),
   },

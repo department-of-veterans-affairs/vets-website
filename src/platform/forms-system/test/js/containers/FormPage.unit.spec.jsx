@@ -3,6 +3,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
+import PropTypes from 'prop-types';
 
 import set from '../../../../utilities/data/set';
 
@@ -177,6 +178,52 @@ describe('Schemaform <FormPage>', () => {
     // When noBottomNav is set, form should render but no nav buttons
     expect(container.querySelectorAll('form').length).to.be.greaterThan(0);
     expect(container.querySelectorAll('button').length).to.equal(0);
+  });
+
+  describe('NavButtonsWithWrapper', () => {
+    let warnStub;
+    afterEach(() => {
+      if (warnStub) {
+        warnStub.restore();
+      }
+    });
+
+    it('falls back when wrapper is invalid', () => {
+      warnStub = sinon.stub(console, 'warn');
+
+      const route = makeRoute({
+        formConfig: {
+          formOptions: { NavButtonsWithWrapper: 'not-a-component' },
+        },
+      });
+
+      const { container } = render(
+        <FormPage form={makeForm()} route={route} location={location} />,
+      );
+
+      expect(container.querySelectorAll('button').length).to.be.greaterThan(0);
+    });
+
+    it('renders the wrapper when it is a valid component', () => {
+      const Wrapper = ({ DefaultNavButtons, ...props }) => (
+        <div data-testid="nav-wrapper">
+          <DefaultNavButtons {...props} />
+        </div>
+      );
+      Wrapper.propTypes = {
+        DefaultNavButtons: PropTypes.elementType,
+      };
+
+      const route = makeRoute({
+        formConfig: { formOptions: { NavButtonsWithWrapper: Wrapper } },
+      });
+
+      const { getByTestId } = render(
+        <FormPage form={makeForm()} route={route} location={location} />,
+      );
+
+      expect(getByTestId('nav-wrapper')).to.exist;
+    });
   });
 
   describe('should handle', () => {
@@ -390,6 +437,20 @@ describe('Schemaform <FormPage>', () => {
     const router = {
       push: sinon.spy(),
     };
+    const CustomPage = ({ goToPath }) => (
+      <va-button
+        type="button"
+        onClick={e => {
+          e.preventDefault();
+          goToPath('/testing?index=3');
+        }}
+      >
+        go
+      </va-button>
+    );
+    CustomPage.propTypes = {
+      goToPath: PropTypes.func.isRequired,
+    };
     const route = makeRoute({
       pageConfig: {
         pageKey: 'lastPage',
@@ -397,17 +458,7 @@ describe('Schemaform <FormPage>', () => {
         uiSchema: {},
         errorMessages: {},
         title: '',
-        CustomPage: ({ goToPath }) => (
-          <button
-            type="button"
-            onClick={e => {
-              e.preventDefault();
-              goToPath('/testing?index=3');
-            }}
-          >
-            go
-          </button>
-        ),
+        CustomPage,
       },
     });
 
@@ -427,6 +478,20 @@ describe('Schemaform <FormPage>', () => {
     const router = {
       push: sinon.spy(),
     };
+    const CustomPage = ({ goToPath }) => (
+      <va-button
+        type="button"
+        onClick={e => {
+          e.preventDefault();
+          goToPath('/invalid-page');
+        }}
+      >
+        go
+      </va-button>
+    );
+    CustomPage.propTypes = {
+      goToPath: PropTypes.func.isRequired,
+    };
     const route = makeRoute({
       pageConfig: {
         pageKey: 'nextPage',
@@ -434,17 +499,7 @@ describe('Schemaform <FormPage>', () => {
         uiSchema: {},
         errorMessages: {},
         title: '',
-        CustomPage: ({ goToPath }) => (
-          <button
-            type="button"
-            onClick={e => {
-              e.preventDefault();
-              goToPath('/invalid-page');
-            }}
-          >
-            go
-          </button>
-        ),
+        CustomPage,
       },
     });
 

@@ -5,7 +5,7 @@ import {
   getObjectsWithAttachmentId,
   toHash,
 } from '../../shared/utilities';
-import { concatStreets, getAgeInYears } from '../helpers/utilities';
+import { concatStreets, getAgeInYears } from '../utils/helpers';
 
 /**
  * Formats a date string from YYYY-MM-DD to MM-DD-YYYY
@@ -300,7 +300,7 @@ export default function transformForSubmit(formConfig, form) {
     email: withConcatAddresses.sponsorEmail || '',
     address: withConcatAddresses.sponsorAddress || {},
     sponsorIsDeceased: withConcatAddresses.sponsorIsDeceased,
-    dateOfDeath: formatDate(withConcatAddresses.sponsorDOD) || '',
+    dateOfDeath: formatDate(withConcatAddresses.sponsorDod) || '',
     dateOfMarriage: formatDate(marriageDate) || '',
     isActiveServiceDeath: withConcatAddresses.sponsorDeathConditions,
   };

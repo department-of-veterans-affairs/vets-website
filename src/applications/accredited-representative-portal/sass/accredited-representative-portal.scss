@@ -38,50 +38,8 @@
   min-height: 100%;
 }
 
-.arp-footer {
-  background-color: var(--vads-color-primary-darker);
-  padding: 30px 16px;
-  width: 100%;
-
-  &__container {
-    max-width: 984px;
-    margin: 0 auto 20px;
-  }
-
-  h3,
-  h2 {
-    margin: 0 0 16px 0;
-  }
-  .usa-grid-full {
-    max-width: 984px;
-  }
-  .va-footer-links-bottom {
-    padding: 0;
-    max-width: 984px;
-    ul {
-      max-width: 720px;
-      padding-bottom: 20px;
-    }
-  }
-
-  a:hover {
-    color: var(--vads-color-warning) !important;
-  }
-
-  p,
-  p > a {
-    font-family: $font-family-serif;
-  }
-}
-
-// There is a div in content-build accredited-representative-portal.html that
-// would require changes to platform code to remove. For now this scss hides it.
-.arp-footer-hidden {
-  display: none;
-}
-
 .hp {
-   &__login {
+  &__login {
     padding: 12px 20px;
     background-color: $vads-color-link;
     border-radius: 0.25rem;
@@ -377,7 +335,7 @@
 }
 
 .mobile {
-  @media (min-width: $medium-screen) {
+  @media (min-width: 769px) {
     display: none !important;
   }
 }

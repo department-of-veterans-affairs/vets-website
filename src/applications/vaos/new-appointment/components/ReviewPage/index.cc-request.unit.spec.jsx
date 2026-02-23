@@ -26,15 +26,8 @@ import ReviewPage from '.';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { mockAppointmentSubmitApi } from '../../../tests/mocks/mockApis';
 
-const initialStateVAOSService = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
 describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
   const defaultState = {
-    ...initialStateVAOSService,
     user: {
       profile: {
         facilities: [{ facilityId: '983', isCerner: false }],
@@ -51,6 +44,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       },
     },
     newAppointment: {
+      ehr: 'hsrm',
       pages: {},
       data: {
         facilityType: FACILITY_TYPES.COMMUNITY_CARE.id,
@@ -230,7 +224,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
     });
 
     expect(global.window.dataLayer[1]).to.deep.include({
-      event: 'vaos-community-care-submission-successful',
+      event: 'vaos-request-hsrm-submission-successful',
       flow: 'cc-request',
       'health-TypeOfCare': 'Primary care',
       'vaos-community-care-preferred-language': 'english',
@@ -287,7 +281,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       expect(document.activeElement).to.be(alert);
     });
     expect(global.window.dataLayer[1]).to.deep.include({
-      event: 'vaos-community-care-submission-failed',
+      event: 'vaos-request-hsrm-submission-failed',
       flow: 'cc-request',
       'health-TypeOfCare': 'Primary care',
       'vaos-community-care-preferred-language': 'english',

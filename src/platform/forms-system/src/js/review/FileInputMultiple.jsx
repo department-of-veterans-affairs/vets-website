@@ -1,11 +1,20 @@
 import React from 'react';
 
+const formatLabel = key =>
+  key
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, s => s.toUpperCase())
+    .trim();
+
 const ReviewField = data => {
   const { formData: files = [] } = data.children.props;
+  const title = data.uiSchema?.['ui:title'];
+  const additionalInputLabels =
+    data.uiSchema?.['ui:options']?.additionalInputLabels;
   if (files.length === 0) {
     return (
       <div className="review-row">
-        <dt>Files</dt>
+        <dt>{title || 'Files'}</dt>
         <dd>No files uploaded</dd>
       </div>
     );
@@ -13,29 +22,32 @@ const ReviewField = data => {
 
   return (
     <>
+      {title && (
+        <>
+          <div className="review-row">
+            <dt>{title}</dt>
+            <dd>
+              {files.length} {files.length === 1 ? 'file' : 'files'}
+            </dd>
+          </div>
+          {files.length > 1 && <div className="vads-u-margin-bottom--3" />}
+        </>
+      )}
       {files.map((file, index) => (
         <React.Fragment key={index}>
           <div className="review-row">
             <dt>File name</dt>
             <dd>{file.name || 'No file name'}</dd>
           </div>
-          {file.size && (
-            <div className="review-row">
-              <dt>File size</dt>
-              <dd>{(file.size / 1024).toFixed(1)} KB</dd>
-            </div>
-          )}
-          {file.type && (
-            <div className="review-row">
-              <dt>File type</dt>
-              <dd>{file.type}</dd>
-            </div>
-          )}
-          {file.additionalData && (
-            <div className="review-row vads-u-margin-bottom--5">
-              <dt>Additional Information</dt>
-              <dd>{JSON.stringify(file.additionalData)}</dd>
-            </div>
+          {file.additionalData &&
+            Object.entries(file.additionalData).map(([key, value]) => (
+              <div className="review-row" key={key}>
+                <dt>{formatLabel(key)}</dt>
+                <dd>{additionalInputLabels?.[key]?.[value] || value}</dd>
+              </div>
+            ))}
+          {index < files.length - 1 && (
+            <div className="vads-u-margin-bottom--3" />
           )}
         </React.Fragment>
       ))}

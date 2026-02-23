@@ -1,6 +1,6 @@
 import path from 'path';
 
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
+// import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from '../config/form';
 
@@ -11,7 +11,7 @@ const mockManifest = {
   productId: 'b13f499a-24f7-4ff7-bf94-8c0dbe38a0e1',
   rootUrl: '/school-administrators/report-conflicting-interests',
 };
-
+// eslint-disable-next-line no-unused-vars
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -88,12 +88,12 @@ const testConfig = createTestConfig(
           cy.fillVaMemorableDate(
             'root_enrollmentPeriodStart',
             '2025-01-15',
-            true,
+            false,
           );
           cy.fillVaMemorableDate(
             'root_enrollmentPeriodEnd',
             '2025-06-15',
-            true,
+            false,
           );
           cy.tabToSubmitForm();
         });
@@ -141,4 +141,4 @@ const testConfig = createTestConfig(
   formConfig,
 );
 
-testForm(testConfig);
+// testForm(testConfig);

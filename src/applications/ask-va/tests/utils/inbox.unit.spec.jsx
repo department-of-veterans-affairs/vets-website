@@ -102,7 +102,7 @@ describe('filterAndSort', () => {
   it('filters by category', () => {
     const results = filterAndSort({
       inquiriesArray: flatInquiries,
-      categoryFilter: 'Veteran ID Card (VIC)',
+      filters: { category: 'Veteran ID Card (VIC)' },
     });
     expect(results.length).to.equal(3);
   });
@@ -110,7 +110,7 @@ describe('filterAndSort', () => {
   it('filters by status', () => {
     const results = filterAndSort({
       inquiriesArray: flatInquiries,
-      statusFilter: 'In progress',
+      filters: { status: 'In progress' },
     });
     expect(results.length).to.equal(6);
   });
@@ -118,8 +118,10 @@ describe('filterAndSort', () => {
   it('filters by both category and status', () => {
     const results = filterAndSort({
       inquiriesArray: flatInquiries,
-      categoryFilter: 'Veteran ID Card (VIC)',
-      statusFilter: 'In progress',
+      filters: {
+        category: 'Veteran ID Card (VIC)',
+        status: 'In progress',
+      },
     });
     expect(results.length).to.equal(1);
   });
@@ -161,7 +163,7 @@ describe('filterAndSort', () => {
   it('sorts by query: submitter question', () => {
     const results = filterAndSort({
       inquiriesArray: flatInquiries,
-      query: 'Hemesh',
+      filters: { query: 'Hemesh' },
     });
 
     expect(results.length).to.equal(1);
@@ -172,7 +174,7 @@ describe('filterAndSort', () => {
   it('sorts by query: inquiry number', () => {
     const results = filterAndSort({
       inquiriesArray: flatInquiries,
-      query: '617',
+      filters: { query: '617' },
     });
 
     expect(results.length).to.equal(1);
@@ -182,7 +184,7 @@ describe('filterAndSort', () => {
   it('sorts by query: category name', () => {
     const results = filterAndSort({
       inquiriesArray: flatInquiries,
-      query: 'employment',
+      filters: { query: 'employment' },
     });
 
     expect(results.length).to.equal(2);

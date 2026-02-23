@@ -20,7 +20,10 @@ import {
 } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
 import { advanceToHouseholdSection } from './helpers/household';
-import { handleOptionalServiceHistoryPage } from './helpers/handleOptionalServiceHistoryPage';
+import {
+  handleOptionalServiceHistoryPage,
+  withValidServiceHistory,
+} from './helpers/handleOptionalServiceHistoryPage';
 
 const featureTogglesObject = normalizeFeatureFlags(
   featureToggles.data.features,
@@ -48,6 +51,8 @@ function goToToxicExposurePageAndCheckYes() {
   advanceToHouseholdSection();
   handleOptionalServiceHistoryPage({
     historyEnabled: featureTogglesObject.ezrServiceHistoryEnabled,
+    hasServiceHistoryInfo: true,
+    fillServiceHistory: false,
     hasTeraYes: true,
   });
   cy.injectAxeThenAxeCheck();
@@ -55,7 +60,7 @@ function goToToxicExposurePageAndCheckYes() {
 
 describe('EZR TERA flow', () => {
   beforeEach(() => {
-    setUserData(mockUser, mockPrefill);
+    setUserData(mockUser, withValidServiceHistory(mockPrefill));
     goToToxicExposurePageAndCheckYes();
   });
 
@@ -98,7 +103,10 @@ describe('EZR TERA flow', () => {
 describe("EZR branching logic based on the user's DOB", () => {
   describe('when the user has a DOB prior to 1966', () => {
     beforeEach(() => {
-      setUserData(mockUserAgentOrangeDob, mockPrefillAgentOrangeDob);
+      setUserData(
+        mockUserAgentOrangeDob,
+        withValidServiceHistory(mockPrefillAgentOrangeDob),
+      );
       goToToxicExposurePageAndCheckYes();
     });
 
@@ -134,7 +142,10 @@ describe("EZR branching logic based on the user's DOB", () => {
 
   describe('when the user has a DOB between 1966 and 1975', () => {
     beforeEach(() => {
-      setUserData(mockUserCombatOperationsDob, mockPrefillCombatOperationsDob);
+      setUserData(
+        mockUserCombatOperationsDob,
+        withValidServiceHistory(mockPrefillCombatOperationsDob),
+      );
       goToToxicExposurePageAndCheckYes();
     });
 
@@ -161,7 +172,7 @@ describe("EZR branching logic based on the user's DOB", () => {
     beforeEach(() => {
       setUserData(
         mockUserPostSept11ServiceDob,
-        mockPrefillPostSept11ServiceDob,
+        withValidServiceHistory(mockPrefillPostSept11ServiceDob),
       );
       goToToxicExposurePageAndCheckYes();
     });
@@ -196,7 +207,10 @@ describe("EZR branching logic based on the user's DOB", () => {
 
   describe('when the user has a DOB after the present day - 15 years', () => {
     beforeEach(() => {
-      setUserData(mockUserOtherExposureDob, mockPrefillOtherExposureDob);
+      setUserData(
+        mockUserOtherExposureDob,
+        withValidServiceHistory(mockPrefillOtherExposureDob),
+      );
       goToToxicExposurePageAndCheckYes();
     });
 

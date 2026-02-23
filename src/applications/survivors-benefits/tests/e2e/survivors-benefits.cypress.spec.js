@@ -10,7 +10,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['minimal-test'],
+    dataSets: ['minimal-test', 'child-in-school', 'surviving-spouse'],
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
@@ -30,8 +30,16 @@ const testConfig = createTestConfig(
                 data.veteranFullName.first,
               );
               cy.fillVaTextInput(
+                'root_veteranFullName_middle',
+                data.veteranFullName.middle,
+              );
+              cy.fillVaTextInput(
                 'root_veteranFullName_last',
                 data.veteranFullName.last,
+              );
+              cy.selectVaSelect(
+                'root_veteranFullName_suffix',
+                data.veteranFullName.suffix,
               );
             }
             if (data.veteranDateOfBirth) {
@@ -69,8 +77,16 @@ const testConfig = createTestConfig(
                 data.claimantFullName.first,
               );
               cy.fillVaTextInput(
+                'root_claimantFullName_middle',
+                data.claimantFullName.middle,
+              );
+              cy.fillVaTextInput(
                 'root_claimantFullName_last',
                 data.claimantFullName.last,
+              );
+              cy.selectVaSelect(
+                'root_claimantFullName_suffix',
+                data.claimantFullName.suffix,
               );
             }
             if (data.claimantDateOfBirth) {
@@ -83,28 +99,25 @@ const testConfig = createTestConfig(
       'service-period': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            if (data.branchOfService !== undefined) {
-              cy.selectVaCheckbox(
-                'root_branchOfService_MARINE_CORPS',
-                data.branchOfService.MARINE_CORPS,
-              );
+            if (data.serviceBranch !== undefined) {
+              cy.selectVaSelect('root_serviceBranch', data.serviceBranch);
             }
-            if (data.dateInitiallyEnteredActiveDuty) {
+            if (data?.activeServiceDateRange?.from) {
               cy.fillDate(
-                'root_dateInitiallyEnteredActiveDuty',
-                data.dateInitiallyEnteredActiveDuty,
+                'root_activeServiceDateRange_from',
+                data.activeServiceDateRange.from,
               );
             }
-            if (data.finalReleaseDateFromActiveDuty) {
+            if (data?.activeServiceDateRange?.to) {
               cy.fillDate(
-                'root_finalReleaseDateFromActiveDuty',
-                data.finalReleaseDateFromActiveDuty,
+                'root_activeServiceDateRange_to',
+                data.activeServiceDateRange.to,
               );
             }
-            if (data.cityStateOrForeignCountry) {
+            if (data.placeOfSeparation) {
               cy.fillVaTextInput(
-                'root_cityStateOrForeignCountry',
-                data.cityStateOrForeignCountry,
+                'root_placeOfSeparation',
+                data.placeOfSeparation,
               );
             }
             cy.clickFormContinue();
@@ -114,17 +127,17 @@ const testConfig = createTestConfig(
       'national-guard-service-period': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            if (data.dateOfActivation) {
-              cy.fillDate('root_dateOfActivation', data.dateOfActivation);
+            if (data.nationalGuardActivationDate) {
+              cy.fillDate(
+                'root_nationalGuardActivationDate',
+                data.nationalGuardActivationDate,
+              );
             }
             if (data.unitName) {
               cy.fillVaTextInput('root_unitName', data.unitName);
             }
-            if (data.unitPhoneNumber) {
-              cy.fillVaTelephoneInput(
-                'root_unitPhoneNumber',
-                data.unitPhoneNumber,
-              );
+            if (data.unitPhone) {
+              cy.fillVaTextInput('root_unitPhone', data.unitPhone);
             }
             cy.clickFormContinue();
           });
@@ -133,9 +146,9 @@ const testConfig = createTestConfig(
       'prisoner-of-war-period': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            if (data.powPeriod) {
-              cy.fillDate('root_powPeriod_from', data.powPeriod.from);
-              cy.fillDate('root_powPeriod_to', data.powPeriod.to);
+            if (data.powDateRange) {
+              cy.fillDate('root_powDateRange_from', data.powDateRange.from);
+              cy.fillDate('root_powDateRange_to', data.powDateRange.to);
             }
             cy.clickFormContinue();
           });
@@ -150,10 +163,10 @@ const testConfig = createTestConfig(
                 data.marriageToVeteranStartDate,
               );
             }
-            if (data.marriageToVeteranStartOutsideUS !== undefined) {
+            if (data.marriageToVeteranStartOutsideUs !== undefined) {
               cy.selectVaCheckbox(
                 'root_marriageToVeteranStartOutsideUS',
-                data.marriageToVeteranStartOutsideUS,
+                data.marriageToVeteranStartOutsideUs,
               );
             }
             if (data.marriageToVeteranStartLocation) {
@@ -175,10 +188,10 @@ const testConfig = createTestConfig(
                 data.marriageToVeteranEndDate,
               );
             }
-            if (data.marriageToVeteranEndOutsideUS !== undefined) {
+            if (data.marriageToVeteranEndOutsideUs !== undefined) {
               cy.selectVaCheckbox(
                 'root_marriageToVeteranEndOutsideUS',
-                data.marriageToVeteranEndOutsideUS,
+                data.marriageToVeteranEndOutsideUs,
               );
             }
             if (data.marriageToVeteranEndLocation) {
@@ -219,23 +232,26 @@ const testConfig = createTestConfig(
       'household/remarriage-details': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            if (data.remarriageEndReason !== undefined) {
+            if (data.remarriageEndCause !== undefined) {
               cy.selectVaRadioOption(
-                'root_remarriageEndReason',
-                data.remarriageEndReason,
+                'root_remarriageEndCause',
+                data.remarriageEndCause,
               );
             }
-            if (data.remarriageEndOtherReason) {
+            if (data.endCauseExplanation) {
               cy.fillVaTextInput(
-                'root_remarriageEndOtherReason',
-                data.remarriageEndOtherReason,
+                'root_endCauseExplanation',
+                data.endCauseExplanation,
               );
             }
-            if (data.remarriageDate) {
-              cy.fillDate('root_remarriageDate', data.remarriageDate);
+            if (data.remarriageDates?.from) {
+              cy.fillDate(
+                'root_remarriageDates_from',
+                data.remarriageDates.from,
+              );
             }
-            if (data.remarriageEndDate) {
-              cy.fillDate('root_remarriageEndDate', data.remarriageEndDate);
+            if (data.remarriageDates?.to) {
+              cy.fillDate('root_remarriageDates_to', data.remarriageDates.to);
             }
 
             cy.clickFormContinue();
@@ -254,10 +270,10 @@ const testConfig = createTestConfig(
                 data.spouseMarriages[index].marriageToVeteranDate,
               );
             }
-            if (data?.spouseMarriages[index]?.marriedOutsideUS !== undefined) {
+            if (data?.spouseMarriages[index]?.marriedOutsideUs !== undefined) {
               cy.selectVaCheckbox(
                 'root_marriedOutsideUS',
-                data.spouseMarriages[index].marriedOutsideUS,
+                data.spouseMarriages[index].marriedOutsideUs,
               );
             }
             if (data?.spouseMarriages[index]?.marriageLocation) {
@@ -312,10 +328,10 @@ const testConfig = createTestConfig(
                 data.veteranMarriages[index].marriageDate,
               );
             }
-            if (data?.veteranMarriages[index]?.marriedOutsideUS !== undefined) {
+            if (data?.veteranMarriages[index]?.marriedOutsideUs !== undefined) {
               cy.selectVaCheckbox(
                 'root_marriedOutsideUS',
-                data.veteranMarriages[index].marriedOutsideUS,
+                data.veteranMarriages[index].marriedOutsideUs,
               );
             }
             if (data?.veteranMarriages[index]?.marriageLocation) {
@@ -365,22 +381,22 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            if (data?.dependents[index]?.dateOfBirth) {
+            if (data?.veteransChildren[index]?.childDateOfBirth) {
               cy.fillDate(
-                'root_dateOfBirth',
-                data.dependents[index].dateOfBirth,
+                'root_childDateOfBirth',
+                data.veteransChildren[index].childDateOfBirth,
               );
             }
-            if (data?.dependents[index]?.bornOutsideUS !== undefined) {
+            if (data?.veteransChildren[index]?.bornOutsideUs !== undefined) {
               cy.selectVaCheckbox(
                 'root_bornOutsideUS',
-                data.dependents[index].bornOutsideUS,
+                data.veteransChildren[index].bornOutsideUs,
               );
             }
-            if (data?.dependents[index]?.birthPlace) {
+            if (data?.veteransChildren[index]?.birthPlace) {
               cy.fillAddressWebComponentPattern(
                 'birthPlace',
-                data.dependents[index].birthPlace,
+                data.veteransChildren[index].birthPlace,
               );
             }
             cy.clickFormContinue();
@@ -435,7 +451,7 @@ const testConfig = createTestConfig(
 
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

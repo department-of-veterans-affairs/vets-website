@@ -76,7 +76,7 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
         <TrackedSpinner
           id="radiology-image-gallery-spinner"
           message="Loading..."
-          setFocus
+          set-focus
           data-testid="loading-indicator"
         />
       </div>

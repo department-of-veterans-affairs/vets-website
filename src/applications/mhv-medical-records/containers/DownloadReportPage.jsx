@@ -25,11 +25,15 @@ import {
   refreshExtractTypes,
   statsdFrontEndActions,
   dataSourceTypes,
+  ohFacilityTransitionTable,
 } from '../util/constants';
+import {
+  createBeforeCutoverFacilityNames,
+  createAfterCutoverFacilityNames,
+} from '../util/facilityHelpers';
 import { genAndDownloadCCD, downloadCCDV2 } from '../actions/downloads';
 import { Actions } from '../util/actionTypes';
 import useAlerts from '../hooks/use-alerts';
-import OHOnlyContent from '../components/DownloadRecords/OHOnlyContent';
 import VistaOnlyContent from '../components/DownloadRecords/VistaOnlyContent';
 import VistaAndOHContent from '../components/DownloadRecords/VistaAndOHContent';
 import BlueButtonSection from '../components/DownloadRecords/BlueButtonSection';
@@ -85,29 +89,48 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     state => state.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
   );
 
-  // Map facility IDs to facility names, fallback to 'None recorded' if empty
+  // Map facility IDs to facility names
   const vistaFacilityNames = useMemo(
     () => {
-      if (!ehrDataByVhaId) return ['None recorded'];
+      if (!ehrDataByVhaId) return [];
       const vistaFacilities = facilities.filter(f => !f.isCerner);
-      const names = vistaFacilities
-        .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
-        .filter(name => name); // Filter out undefined/null names
-      return names.length ? names : ['None recorded'];
+      return vistaFacilities
+        .map(f => {
+          const name = getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId);
+          if (!name) return null;
+          return { id: f.facilityId, content: name };
+        })
+        .filter(item => item); // Filter out null items
     },
     [facilities, ehrDataByVhaId],
   );
 
-  const ohFacilityNames = useMemo(
-    () => {
-      if (!ehrDataByVhaId) return ['None recorded'];
-      const ohFacilities = facilities.filter(f => f.isCerner);
-      const names = ohFacilities
-        .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
-        .filter(name => name); // Filter out undefined/null names
-      return names.length ? names : ['None recorded'];
-    },
-    [facilities, ehrDataByVhaId],
+  // Create facility name arrays with cutover date suffixes for transitioned OH facilities
+  // These will be used in CCD download sections to show records "before [date]" and "[date] - present"
+  const ohFacilities = useMemo(() => facilities.filter(f => f.isCerner), [
+    facilities,
+  ]);
+
+  const ohFacilityNamesBeforeCutover = useMemo(
+    () =>
+      createBeforeCutoverFacilityNames(
+        ohFacilities,
+        ehrDataByVhaId,
+        ohFacilityTransitionTable,
+        getVamcSystemNameFromVhaId,
+      ),
+    [ohFacilities, ehrDataByVhaId],
+  );
+
+  const ohFacilityNamesAfterCutover = useMemo(
+    () =>
+      createAfterCutoverFacilityNames(
+        ohFacilities,
+        ehrDataByVhaId,
+        ohFacilityTransitionTable,
+        getVamcSystemNameFromVhaId,
+      ),
+    [ohFacilities, ehrDataByVhaId],
   );
 
   // Checks if CCD retry is needed and returns a formatted timestamp or null.
@@ -253,7 +276,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       runningUnitTest,
       // Facility data
       vistaFacilityNames,
-      ohFacilityNames,
+      ohFacilityNamesBeforeCutover,
+      ohFacilityNamesAfterCutover,
       // Self-entered accordion state (only used by VistaOnlyContent)
       expandSelfEntered,
       selfEnteredAccordionRef,
@@ -269,7 +293,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       activeAlert,
       runningUnitTest,
       vistaFacilityNames,
-      ohFacilityNames,
+      ohFacilityNamesBeforeCutover,
+      ohFacilityNamesAfterCutover,
       expandSelfEntered,
       selfEnteredAccordionRef,
     ],
@@ -281,7 +306,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       case dataSourceTypes.BOTH:
         return <VistaAndOHContent />;
       case dataSourceTypes.OH_ONLY:
-        return <OHOnlyContent />;
+        return <VistaAndOHContent />;
       default:
         return <VistaOnlyContent />;
     }
@@ -293,17 +318,16 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         <IntroSection
           dataSourceType={dataSourceType}
           lastSuccessfulUpdate={lastSuccessfulUpdate}
-          ohFacilityNames={ohFacilityNames}
+          ohFacilityNamesAfterCutover={ohFacilityNamesAfterCutover}
+          ohFacilityNamesBeforeCutover={ohFacilityNamesBeforeCutover}
           vistaFacilityNames={vistaFacilityNames}
           showHoldTimeMessaging={holdTimeMessagingUpdate}
         />
-        {dataSourceType !== dataSourceTypes.OH_ONLY && (
-          <BlueButtonSection
-            activeAlert={activeAlert}
-            failedBBDomains={failedBBDomains}
-            successfulBBDownload={successfulBBDownload}
-          />
-        )}
+        <BlueButtonSection
+          activeAlert={activeAlert}
+          failedBBDomains={failedBBDomains}
+          successfulBBDownload={successfulBBDownload}
+        />
         {renderContent()}
         <NeedHelpSection />
       </div>

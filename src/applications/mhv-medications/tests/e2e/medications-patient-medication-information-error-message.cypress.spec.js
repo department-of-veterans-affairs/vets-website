@@ -17,7 +17,7 @@ describe('Medication Information Error Message', () => {
     // Set up the error intercept before visiting the list page so it catches the prefetch
     cy.intercept(
       'GET',
-      `**/my_health/v1/prescriptions/${prescriptionId}/documentation`,
+      `/my_health/v1/prescriptions/${prescriptionId}/documentation*`,
       { statusCode: 500, body: { error: 'Internal Server Error' } },
     ).as('medicationDescriptionError');
     listPage.visitMedicationsListPageURL(rxList);

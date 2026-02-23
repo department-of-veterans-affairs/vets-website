@@ -1,14 +1,27 @@
 import React from 'react';
+import sinon from 'sinon';
 import { format, parseISO } from 'date-fns';
 import { expect } from 'chai';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
+import * as recordEvent from '~/platform/monitoring/record-event';
 
-import { AppointmentsCard } from '../../../components/health-care/AppointmentsCard';
+import { AppointmentsCard } from '../../../components/health-care/AppointmentsCardLegacy';
 
-describe('<AppointmentsCard />', () => {
+describe('<AppointmentsCardLegacy />', () => {
+  let sandbox;
+  let recordEventStub;
   const initialState = {
     user: {},
   };
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    recordEventStub = sandbox.stub(recordEvent, 'default').callsFake(() => {});
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   it('should render with appointments', () => {
     const appointments = [
@@ -45,7 +58,7 @@ describe('<AppointmentsCard />', () => {
     tree.getByTestId('health-care-appointments-card');
     tree.getByText('Next appointment');
     tree.getByText('Schedule and manage your appointments');
-    tree.getByRole('link', {
+    const link = tree.getByRole('link', {
       name: /schedule and manage your appointments/i,
       value: {
         text: '/my-health/appointments',
@@ -54,10 +67,33 @@ describe('<AppointmentsCard />', () => {
     tree.getByText('VA Video Connect yada yada yada');
     tree.getByText(startFormatted);
     tree.getByText(`Time: 7:30 a.m. MT`);
+    link.click();
+    expect(recordEventStub.called).to.be.true;
   });
 
   context('renders the location name', () => {
-    it('when the appointment is a video appointment', () => {
+    it('when the appointment is a video appointment without additionalInfo', () => {
+      const appointments = [
+        {
+          localStartTime: '2023-12-04T10:00:00-05:00',
+          isVideo: true,
+        },
+      ];
+
+      const tree = renderInReduxProvider(
+        <AppointmentsCard appointments={appointments} />,
+        {
+          ...initialState,
+          health: {
+            appointments: { appointments },
+          },
+        },
+      );
+
+      tree.getByText('VA Video Connect');
+    });
+
+    it('when the appointment is a video appointment with additionalInfo', () => {
       const appointments = [
         {
           localStartTime: '2023-12-04T10:00:00-05:00',

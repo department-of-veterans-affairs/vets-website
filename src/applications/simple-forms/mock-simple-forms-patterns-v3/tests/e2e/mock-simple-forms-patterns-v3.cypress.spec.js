@@ -9,6 +9,32 @@ import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-sub
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
+function addFile(option, elementName) {
+  cy.fillVaFileInputMultiple(elementName, {});
+
+  cy.get('va-file-input-multiple')
+    .shadow()
+    .find('va-file-input')
+    .should('exist');
+
+  // add a wait to ensure additional input has fully rendered and updated before triggering validation
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(1000);
+
+  cy.get('va-file-input-multiple')
+    .shadow()
+    .find('va-file-input')
+    .first()
+    .then($fileInput => {
+      const $select = $fileInput.find('va-select');
+      if ($select.length > 0) {
+        cy.selectVaSelect($select[0], option);
+      }
+    });
+
+  cy.findByText(/continue/i, { selector: 'button' }).click();
+}
+
 const testConfig = createTestConfig(
   {
     useWebComponentFields: true,
@@ -22,6 +48,23 @@ const testConfig = createTestConfig(
             .first()
             .click();
         });
+      },
+      'upload-file': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillVaFileInput('root_uploadedFile', {});
+          cy.get('va-file-input')
+            .find('va-select')
+            .then($el => {
+              cy.selectVaSelect($el, 'tax');
+            });
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
+      },
+      'supporting-documents': ({ afterHook }) => {
+        afterHook(() => addFile('private', 'root_supportingDocuments'));
+      },
+      'treatment-records/:index/supporting-documents': ({ afterHook }) => {
+        afterHook(() => addFile('xray', 'root_supportingDocuments'));
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {

@@ -6,7 +6,12 @@ import { titleFormDetails } from './title';
 const OmbInfo = () => (
   <>
     <p>{FORM_ID}</p>
-    <va-omb-info res-burden="15" omb-number="2900-0886" exp-date="5/31/2027">
+    <va-omb-info
+      res-burden="15"
+      omb-number="2900-0886"
+      exp-date="5/31/2027"
+      modal-click-to-close
+    >
       <p>
         <strong>Respondent Burden:</strong> We need this information to
         determine entitlement to benefits (38 U.S.C. 501). Title 38, United
@@ -63,7 +68,12 @@ const OmbInfo = () => (
       (VA)
     </h3>
     <p>{FORM_IDS_4142}</p>
-    <va-omb-info res-burden="10" omb-number="2900-0858" exp-date="7/31/2024">
+    <va-omb-info
+      res-burden="10"
+      omb-number="2900-0858"
+      exp-date="7/31/2024"
+      modal-click-to-close
+    >
       <PrivacyActStatementContent />
     </va-omb-info>
   </>

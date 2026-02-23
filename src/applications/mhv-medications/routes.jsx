@@ -9,6 +9,7 @@ import manifest from './manifest.json';
 import AppProviders from './containers/AppProviders';
 import App from './containers/App';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
+import { selectMedicationsManagementImprovementsFlag } from './util/selectors';
 // import { allergiesLoader } from './loaders/allergiesLoader';
 // Disabling loaders temporarily while rolling out Oracle Health Pilot
 // TODO: When the pilot is complete, re-enable loaders
@@ -23,6 +24,12 @@ const PrescriptionDetails = lazyWithRetry(() =>
 );
 const PrescriptionDetailsDocumentation = lazyWithRetry(() =>
   import('./containers/PrescriptionDetailsDocumentation'),
+);
+const RefillPrescriptionsV2 = lazyWithRetry(() =>
+  import('./containers/RefillPrescriptionsV2'),
+);
+const PrescriptionsInProgress = lazyWithRetry(() =>
+  import('./containers/PrescriptionsInProgress'),
 );
 
 // Loading component to display while lazy-loaded components are being fetched
@@ -63,6 +70,29 @@ RouteWrapper.propTypes = {
   children: PropTypes.node,
 };
 
+const FeatureFlaggedRoute = ({ Component, ComponentIfFalse, selector }) => {
+  const isEnabled = useSelector(selector);
+
+  if (!isEnabled) {
+    if (ComponentIfFalse) {
+      return <RouteWrapper Component={ComponentIfFalse} />;
+    }
+    return <MhvPageNotFound />;
+  }
+
+  return (
+    <RouteWrapper>
+      <Component />
+    </RouteWrapper>
+  );
+};
+
+FeatureFlaggedRoute.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  selector: PropTypes.func.isRequired,
+  ComponentIfFalse: PropTypes.elementType,
+};
+
 const routes = [
   {
     path: 'refill',
@@ -71,7 +101,23 @@ const routes = [
   },
   {
     path: '/',
-    element: <RouteWrapper Component={Prescriptions} />,
+    element: (
+      <FeatureFlaggedRoute
+        Component={RefillPrescriptionsV2}
+        ComponentIfFalse={Prescriptions}
+        selector={selectMedicationsManagementImprovementsFlag}
+      />
+    ),
+    // loader: prescriptionsLoader,
+  },
+  {
+    path: 'in-progress',
+    element: (
+      <FeatureFlaggedRoute
+        Component={PrescriptionsInProgress}
+        selector={selectMedicationsManagementImprovementsFlag}
+      />
+    ),
     // loader: prescriptionsLoader,
   },
   {

@@ -127,7 +127,7 @@ export const setupInProgressReturnUrl = ({
 
 /**
  * Create a minimal .png file for use testing va-file-input-multiple
- * @return {Object} file - a File object containing a valid and small .png file
+ * @return {Promise<File>} file - a File object containing a valid and small .png file
  */
 export async function makeMinimalPNG() {
   const b64PNGData =
@@ -135,4 +135,84 @@ export async function makeMinimalPNG() {
   const res = await fetch(`data:image/png;base64,${b64PNGData}`);
   const blob = await res.blob();
   return new File([blob], 'placeholder.png', { type: 'image/png' });
+}
+
+// this function generates a file with invalid UTF8 encoding for testing purposes
+export function makeInvalidUtf8File() {
+  // Create bytes that form invalid UTF-8 sequences
+  const invalidBytes = new Uint8Array([
+    0xff,
+    0xfe,
+    0xfd, // Invalid UTF-8 bytes (not valid start bytes)
+    0x80,
+    0x81,
+    0x82, // Continuation bytes without proper start byte
+    0xc0,
+    0x80, // Overlong encoding (invalid in UTF-8)
+    0xf5,
+    0x80,
+    0x80,
+    0x80, // Beyond valid Unicode range
+  ]);
+
+  const blob = new Blob([invalidBytes], { type: 'text/plain' });
+  return new File([blob], 'invalid_utf8.txt', { type: 'text/plain' });
+}
+
+/**
+ * Create a minimal .txt file for use testing file inputs
+ * @return {File} file - a File object containing a minimal text file
+ */
+export function makeMinimalTxtFile(bytes = 10) {
+  const content = 'a'.repeat(bytes);
+  const blob = new Blob([content], { type: 'text/plain' });
+  return new File([blob], 'test.txt', { type: 'text/plain' });
+}
+
+/**
+ * Create a minimal encrypted .pdf file for testing encrypted PDF rejection
+ * @return {Promise<File>} file - a File object containing a valid encrypted PDF
+ */
+export async function makeEncryptedPDF() {
+  // Minimal valid PDF with /Encrypt signature (will be flagged as encrypted)
+  const b64EncryptedPDFData =
+    'JVBERi0xLjQKMSAwIG9iajw8L1R5cGUvQ2F0YWxvZy9QYWdlcyAyIDAgUj4+ZW5kb2JqIDIgMCBvYmo8PC9UeXBlL1BhZ2VzL0tpZHNbMyAwIFJdL0NvdW50IDE+PmVuZG9iaiAzIDAgb2JqPDwvVHlwZS9QYWdlL01lZGlhQm94WzAgMCAzIDNdL1BhcmVudCAyIDAgUj4+ZW5kb2JqIDQgMCBvYmo8PC9FbmNyeXB0PDwvRmlsdGVyL1N0YW5kYXJkL1YgMS9SPDE+Pj4+ZW5kb2JqCnhyZWYKMCA1CjAwMDAwMDAwMDAgNjU1MzUgZgowMDAwMDAwMDA5IDAwMDAwIG4KMDAwMDAwMDA1MiAwMDAwMCBuCjAwMDAwMDAxMDEgMDAwMDAgbgowMDAwMDAwMTU4IDAwMDAwIG4KdHJhaWxlcjw8L1NpemUgNS9Sb290IDEgMCBSL0VuY3J5cHQgNCAwIFI+PgpzdGFydHhyZWYKMjI4CiUlRU9G';
+  const res = await fetch(`data:application/pdf;base64,${b64EncryptedPDFData}`);
+  const blob = await res.blob();
+  return new File([blob], 'encrypted.pdf', { type: 'application/pdf' });
+}
+
+/**
+ * Create a minimal .jpg file for use testing file inputs
+ * @return {Promise<File>} file - a File object containing a valid and small .jpg file
+ */
+export async function makeMinimalJPG() {
+  // Minimal valid JPEG (1x1 pixel, red)
+  const b64JPGData =
+    '/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlbaWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A3vDv/IEh/wB5v/QjW7VDYS2EPg/R4oLaGCMOSEijVFH4AYq/QAUUUUAFFFFAH//Z';
+  const res = await fetch(`data:image/jpeg;base64,${b64JPGData}`);
+  const blob = await res.blob();
+  return new File([blob], 'placeholder.jpg', { type: 'image/jpeg' });
+}
+
+/**
+ * Create a minimal .pdf file for use testing file inputs
+ * @return {Promise<File>} file - a File object containing a valid and small .pdf file
+ */
+export async function makeMinimalPDF() {
+  // Minimal valid PDF (empty page)
+  const b64PDFData =
+    'JVBERi0xLjAKMSAwIG9iajw8L1R5cGUvQ2F0YWxvZy9QYWdlcyAyIDAgUj4+ZW5kb2JqIDIgMCBvYmo8PC9UeXBlL1BhZ2VzL0tpZHNbMyAwIFJdL0NvdW50IDE+PmVuZG9iaiAzIDAgb2JqPDwvVHlwZS9QYWdlL01lZGlhQm94WzAgMCAzIDNdL1BhcmVudCAyIDAgUj4+ZW5kb2JqCnhyZWYKMCA0CjAwMDAwMDAwMDAgNjU1MzUgZgowMDAwMDAwMDA5IDAwMDAwIG4KMDAwMDAwMDA1MiAwMDAwMCBuCjAwMDAwMDAxMDEgMDAwMDAgbgp0cmFpbGVyPDwvU2l6ZSA0L1Jvb3QgMSAwIFI+PgpzdGFydHhyZWYKMTUwCiUlRU9G';
+  const res = await fetch(`data:application/pdf;base64,${b64PDFData}`);
+  const blob = await res.blob();
+  return new File([blob], 'placeholder.pdf', { type: 'application/pdf' });
+}
+
+/**
+ * Create a minimal .fake file that will not have an acceptable mimetype
+ * @return {File} file - a File object containing a minimal .fake file
+ */
+export function makeNotAcceptedFile() {
+  const blob = new Blob(['test'], { type: 'text/plain' });
+  return new File([blob], 'test.fake', { type: 'application/octet-stream' });
 }

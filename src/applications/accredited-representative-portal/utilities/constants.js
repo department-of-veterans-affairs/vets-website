@@ -3,13 +3,12 @@ import {
   AUTH_PARAMS as USIP_QUERY_PARAMS,
   EXTERNAL_APPS as USIP_APPLICATIONS,
 } from 'platform/user/authentication/constants';
-
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
-
 import {
   API_SIGN_IN_SERVICE_URL as SIS_API_URL,
   OAUTH_KEYS as SIS_QUERY_PARAM_KEYS,
 } from '~/platform/utilities/oauth/constants';
+import { HOME_LABEL } from './poaRequests';
 
 const ARP_SIGN_IN_URL = '/representative/sign-in';
 const USIP_BASE_URL = environment.BASE_URL;
@@ -81,36 +80,11 @@ export const SUBMISSION_DEFAULTS = {
   NUMBER: '1',
 };
 
-export const NAV_MOBILE_DROPDOWN = [
-  {
-    LABEL: 'Dashboard',
-    URL: '/dashboard',
-    TEST_ID: 'user-nav-profile-link',
-  },
-];
-
-export const NAV_MENU_DROPDOWN = [
-  {
-    LABEL: 'Find Claimant',
-    URL: '/find-claimant',
-    ICON: 'search',
-    TEST_ID: 'user-nav-claimant-search-link',
-  },
-  {
-    LABEL: 'Representation Requests',
-    URL: '/representation-requests',
-    TEST_ID: 'user-nav-representation-requests-link',
-  },
-  {
-    LABEL: 'Submissions',
-    URL: '/submissions',
-    TEST_ID: 'submissions-link',
-  },
-];
 export const SORT_OPTIONS = {
   DESC_OPTION: 'Submitted date (newest)',
   ASC_OPTION: 'Submitted date (oldest)',
 };
+
 export const SORT_DEFAULTS = {
   SORT_BY: 'created_at',
   SORT_ORDER: 'desc',
@@ -126,7 +100,7 @@ export const SUBMISSIONS_BC_LABEL = 'submissions breadcrumb';
 export const submissionsBC = [
   {
     href: '/representative',
-    label: 'VA.gov/representative home',
+    label: HOME_LABEL,
   },
   {
     href: window.location.href,

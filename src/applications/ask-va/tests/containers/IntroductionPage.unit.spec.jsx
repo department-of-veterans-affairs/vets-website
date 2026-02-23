@@ -17,7 +17,7 @@ describe('IntroductionPage', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.stub(constants, 'getMockTestingFlagforAPI').returns(true);
+    sandbox.stub(constants, 'getMockTestingFlagForAPI').returns(true);
     apiRequestStub = sandbox
       .stub(apiUtils, 'apiRequest')
       .resolves(mockInquiryStatusResponse);
