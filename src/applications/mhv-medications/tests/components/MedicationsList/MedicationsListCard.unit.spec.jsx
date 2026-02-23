@@ -487,3 +487,196 @@ describe('Medication card component', () => {
     });
   });
 });
+
+describe('Oracle Health Transition - MedicationsListCard', () => {
+  // Test data fixtures
+  const MICHIGAN_FACILITY_515 = '515';
+  const MICHIGAN_FACILITY_506 = '506';
+  const NON_TRANSITIONING_FACILITY = '442';
+  const UNKNOWN_FACILITY = '999';
+
+  const mockMichiganMigration = {
+    migrationDate: '2026-04-11',
+    facilities: [
+      {
+        facilityId: MICHIGAN_FACILITY_515,
+        facilityName: 'Battle Creek VA Medical Center',
+      },
+    ],
+    phases: {
+      current: 'p4',
+      p0: 'February 10, 2026',
+      p1: 'February 12, 2026',
+      p2: 'March 12, 2026',
+      p3: 'April 5, 2026',
+      p4: 'April 8, 2026',
+      p5: 'April 11, 2026',
+      p6: 'April 13, 2026',
+      p7: 'April 18, 2026',
+    },
+  };
+
+  // Helper to create prescription with station number
+  const createRxWithStation = (stationNumber, overrides = {}) => ({
+    ...prescriptionsListItem,
+    stationNumber,
+    isRefillable: true,
+    refillRemaining: 3,
+    ...overrides,
+  });
+
+  // Helper to create migration with specific phase
+  const createMigrationWithPhase = phase => ({
+    ...mockMichiganMigration,
+    phases: { ...mockMichiganMigration.phases, current: phase },
+  });
+
+  // Helper to setup component with migration data
+  const setupWithMigration = (
+    rx,
+    featureFlagEnabled = true,
+    migrations = [mockMichiganMigration],
+  ) => {
+    const initialState = {
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvMedicationsOracleHealthCutover]: featureFlagEnabled,
+      },
+      user: {
+        profile: {
+          vaProfile: {
+            ohMigrationInfo: {
+              migrationSchedules: migrations,
+            },
+          },
+        },
+      },
+    };
+    return renderWithStoreAndRouterV6(<MedicationsListCard rx={rx} />, {
+      initialState,
+      reducers,
+    });
+  };
+
+  // Assertion helpers
+  const expectAlertToExist = screen => {
+    expect(screen.getByTestId('oracle-health-in-card-alert')).to.exist;
+  };
+
+  const expectAlertNotToExist = screen => {
+    expect(screen.queryByTestId('oracle-health-in-card-alert')).to.not.exist;
+  };
+
+  describe('when prescription is at transitioning facility during blocking phase', () => {
+    const transitioningRx = createRxWithStation(MICHIGAN_FACILITY_515);
+
+    it('displays OracleHealthInCardAlert when feature flag enabled', () => {
+      const screen = setupWithMigration(transitioningRx, true);
+      expectAlertToExist(screen);
+    });
+
+    it('does not display alert when feature flag disabled', () => {
+      const screen = setupWithMigration(transitioningRx, false);
+      expectAlertNotToExist(screen);
+    });
+
+    it('hides refill button when prescription is blocked', () => {
+      const screen = setupWithMigration(transitioningRx, true);
+      expect(screen.queryByTestId('refill-request-button')).to.not.exist;
+    });
+
+    it('displays alert with correct error status', () => {
+      const screen = setupWithMigration(transitioningRx, true);
+      const alert = screen.getByTestId('oracle-health-in-card-alert');
+      expect(alert.getAttribute('status')).to.equal('error');
+    });
+
+    it('displays alert message about facility transition', () => {
+      const screen = setupWithMigration(transitioningRx, true);
+      expect(screen.container.textContent).to.include(
+        'facility is transitioning',
+      );
+    });
+  });
+
+  describe('when prescription is NOT at transitioning facility', () => {
+    const nonTransitioningRx = createRxWithStation(NON_TRANSITIONING_FACILITY);
+
+    it('does not display OracleHealthInCardAlert', () => {
+      const screen = setupWithMigration(nonTransitioningRx, true);
+      expectAlertNotToExist(screen);
+    });
+
+    it('does not hide refill button for non-transitioning facility', () => {
+      const refillableRx = createRxWithStation(NON_TRANSITIONING_FACILITY, {
+        isRefillable: true,
+        dispStatus: 'Active',
+      });
+      const screen = setupWithMigration(refillableRx, true);
+      expect(screen.queryByTestId('oracle-health-in-card-alert')).to.not.exist;
+    });
+  });
+
+  describe('when in non-blocking phase (T-45, p1)', () => {
+    it('does not display alert during warning phase', () => {
+      const migrationP1 = createMigrationWithPhase('p1');
+      const transitioningRx = createRxWithStation(MICHIGAN_FACILITY_515);
+      const screen = setupWithMigration(transitioningRx, true, [migrationP1]);
+      expectAlertNotToExist(screen);
+    });
+  });
+
+  describe('multiple facilities - some transitioning', () => {
+    const multiMigrations = [
+      mockMichiganMigration,
+      {
+        migrationDate: '2026-05-15',
+        facilities: [
+          { facilityId: MICHIGAN_FACILITY_506, facilityName: 'Ann Arbor VA' },
+        ],
+        phases: { ...mockMichiganMigration.phases, current: 'p4' },
+      },
+    ];
+
+    [
+      { stationNumber: MICHIGAN_FACILITY_515, shouldShowAlert: true },
+      { stationNumber: MICHIGAN_FACILITY_506, shouldShowAlert: true },
+      { stationNumber: UNKNOWN_FACILITY, shouldShowAlert: false },
+    ].forEach(({ stationNumber, shouldShowAlert }) => {
+      it(`${
+        shouldShowAlert ? 'shows' : 'does not show'
+      } alert for prescription at facility ${stationNumber}`, () => {
+        const rx = createRxWithStation(stationNumber);
+        const screen = setupWithMigration(rx, true, multiMigrations);
+        if (shouldShowAlert) {
+          expectAlertToExist(screen);
+        } else {
+          expectAlertNotToExist(screen);
+        }
+      });
+    });
+  });
+
+  describe('edge cases', () => {
+    [
+      {
+        scenario: 'prescription without stationNumber',
+        rx: createRxWithStation(null),
+      },
+      {
+        scenario: 'empty migrations array',
+        rx: createRxWithStation(MICHIGAN_FACILITY_515),
+        migrations: [],
+      },
+      {
+        scenario: 'null migrations',
+        rx: createRxWithStation(MICHIGAN_FACILITY_515),
+        migrations: null,
+      },
+    ].forEach(({ scenario, rx, migrations }) => {
+      it(`handles ${scenario}`, () => {
+        const screen = setupWithMigration(rx, true, migrations);
+        expectAlertNotToExist(screen);
+      });
+    });
+  });
+});

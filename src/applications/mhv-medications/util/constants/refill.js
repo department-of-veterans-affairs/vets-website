@@ -88,3 +88,10 @@ export const RX_SOURCE = {
   NON_VA: 'NV',
   PENDING_DISPENSE: 'PD',
 };
+
+// Oracle Health EHR transition phase blocking
+// Phases during which refills are blocked (T-3 through T+2)
+export const REFILL_BLOCKING_PHASES = ['p4', 'p5'];
+
+// Phases during which renewals are blocked (T-6 through T+2)
+export const RENEWAL_BLOCKING_PHASES = ['p3', 'p4', 'p5'];
