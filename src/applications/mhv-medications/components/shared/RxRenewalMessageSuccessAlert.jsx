@@ -17,6 +17,7 @@ const RxRenewalMessageSuccessAlert = () => {
       role="status"
       status="success"
       visible
+      tabindex="-1"
       className="vads-u-margin-bottom--3"
       data-testid="rx-renewal-message-success-alert"
     >

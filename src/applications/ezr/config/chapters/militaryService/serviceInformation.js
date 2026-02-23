@@ -1,8 +1,8 @@
 import {
   titleUI,
   selectUI,
+  currentOrPastDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import {
   DISCHARGE_TYPE_LABELS,
   SERVICE_BRANCH_LABELS,
@@ -20,19 +20,19 @@ const {
 
 export default {
   uiSchema: {
-    ...titleUI(content['service-info--last-period-title']),
+    ...titleUI(content['military-service-info-last-period-title']),
     lastServiceBranch: selectUI({
-      title: content['service-info--last-period-branch-label'],
+      title: content['military-service-info-last-period-branch-label'],
       labels: SERVICE_BRANCH_LABELS,
     }),
     lastEntryDate: currentOrPastDateUI(
-      content['service-info--service-start-date-label'],
+      content['military-service-info-service-start-date-label'],
     ),
     lastDischargeDate: currentOrPastDateUI(
-      content['service-info--service-end-date-label'],
+      content['military-service-info-service-end-date-label'],
     ),
     dischargeType: selectUI({
-      title: content['service-info--last-period-character-label'],
+      title: content['military-service-info-last-period-character-label'],
       labels: DISCHARGE_TYPE_LABELS,
     }),
     'ui:validations': [validateServiceDates],

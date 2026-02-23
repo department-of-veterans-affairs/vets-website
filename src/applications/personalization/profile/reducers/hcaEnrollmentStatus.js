@@ -120,8 +120,8 @@ function hcaEnrollmentStatus(state = initialState, action) {
         ...state,
         hasServerError,
         isLoadingApplicationStatus: false,
-        loginRequired: hasRateLimitError,
-        noESRRecordFound,
+        loginRequired: Boolean(hasRateLimitError),
+        noESRRecordFound: Boolean(noESRRecordFound),
       };
     },
     [RESET_ENROLLMENT_STATUS]: () => ({ ...initialState }),

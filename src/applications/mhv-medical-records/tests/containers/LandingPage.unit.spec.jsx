@@ -107,12 +107,9 @@ describe('Landing Page', () => {
           loading: false,
         },
       },
-      /* eslint-disable camelcase */
       featureToggles: {
         loading: false,
-        mhv_landing_page_show_share_my_health_data_link: true,
       },
-      /* eslint-enable camelcase */
       ...initialState,
     };
 

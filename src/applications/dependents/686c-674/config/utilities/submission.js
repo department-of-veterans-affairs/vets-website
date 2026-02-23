@@ -14,6 +14,7 @@ import {
   NO_SSN_REASON_PAYLOAD_MAPPINGS,
 } from '../dataMappings';
 
+import { isVetInReceiptOfPension } from './api';
 import { customFormReplacer, showV3Picklist } from './formHelpers';
 import {
   transformPicklistToV2,
@@ -41,6 +42,51 @@ function extractDataFields(sourceData, fields) {
   });
   return result;
 }
+
+/**
+ * Apply noSsnReason payload mappings for spouse, children, and students.
+ * Mutates cleanData in place by design — it is a local variable in the caller.
+ *
+ * @param {object} cleanData - submission data being built (mutated in place)
+ * @param {object} sourceData - original form data
+ * @param {object} addOptions - selected add-dependent options
+ * @param {object} noSsnReasonMappings - mapping of noSsnReason values to payload values
+ */
+/* eslint-disable no-param-reassign */
+function applyNoSsnReasonMappings(
+  cleanData,
+  sourceData,
+  addOptions,
+  noSsnReasonMappings,
+) {
+  if (
+    addOptions.addSpouse === true &&
+    sourceData?.spouseInformation?.noSsn === true
+  ) {
+    cleanData.spouseInformation.noSsnReason =
+      noSsnReasonMappings[(sourceData?.spouseInformation?.noSsnReason)];
+  }
+  if (addOptions.addChild === true && sourceData?.childrenToAdd?.length > 0) {
+    sourceData.childrenToAdd.forEach((child, index) => {
+      if (child.noSsn === true) {
+        cleanData.childrenToAdd[index].noSsnReason =
+          noSsnReasonMappings[child.noSsnReason];
+      }
+    });
+  }
+  if (
+    addOptions.report674 === true &&
+    sourceData?.studentInformation?.length > 0
+  ) {
+    sourceData.studentInformation.forEach((student, index) => {
+      if (student.noSsn === true) {
+        cleanData.studentInformation[index].noSsnReason =
+          noSsnReasonMappings[student.noSsnReason];
+      }
+    });
+  }
+}
+/* eslint-enable no-param-reassign */
 
 /**
  * Transform form data into submission data format
@@ -93,12 +139,30 @@ export function buildSubmissionData(payload) {
     }
   });
 
-  // Handle fields that can be undefined/false - vaDependentsNetWorthAndPension recently added to formData
-  ['householdIncome', 'vaDependentsNetWorthAndPension'].forEach(field => {
-    if (sourceData[field] !== undefined) {
-      cleanData[field] = sourceData[field];
-    }
-  });
+  // vaDependentsNetWorthAndPension can be false - check for undefined explicitly
+  if (sourceData.vaDependentsNetWorthAndPension !== undefined) {
+    cleanData.vaDependentsNetWorthAndPension =
+      sourceData.vaDependentsNetWorthAndPension;
+  }
+
+  // householdIncome is only valid to submit when:
+  // - The pension feature flag is off (legacy: all veterans answered this), OR
+  // - The flag is on AND the veteran is confirmed in receipt of pension
+  // This prevents stale answers collected before the flag was enabled from
+  // reaching the backend for veterans who are not in receipt of pension.
+  const flagOn = sourceData.vaDependentsNetWorthAndPension;
+  if (
+    sourceData.householdIncome !== undefined &&
+    (!flagOn || isVetInReceiptOfPension(sourceData))
+  ) {
+    cleanData.householdIncome = sourceData.householdIncome;
+  }
+
+  // Strip pension-gated student financial fields when flag is on and vet is not in receipt.
+  // These fields may be stale (answered before the flag was enabled) and must not reach
+  // the backend for veterans confirmed to be outside receipt of pension.
+  const shouldStripStudentFinancials =
+    flagOn && !isVetInReceiptOfPension(sourceData);
 
   // Use centralized workflow mappings from dataMappings.js
   const addDataMappings = ADD_WORKFLOW_MAPPINGS;
@@ -118,33 +182,31 @@ export function buildSubmissionData(payload) {
       }
     });
 
-    // Tranform No SSN Reason for the payload
-    if (
-      addOptions.addSpouse === true &&
-      sourceData?.spouseInformation?.noSsn === true
-    ) {
-      cleanData.spouseInformation.noSsnReason =
-        noSsnReasonMappings[(sourceData?.spouseInformation?.noSsnReason)];
-    }
-    if (addOptions.addChild === true && sourceData?.childrenToAdd?.length > 0) {
-      sourceData.childrenToAdd.forEach((child, index) => {
-        if (child.noSsn === true) {
-          cleanData.childrenToAdd[index].noSsnReason =
-            noSsnReasonMappings[child.noSsnReason];
-        }
-      });
-    }
-    if (
-      addOptions.report674 === true &&
-      sourceData?.studentInformation?.length > 0
-    ) {
-      sourceData.studentInformation.forEach((student, index) => {
-        if (student.noSsn === true) {
-          cleanData.studentInformation[index].noSsnReason =
-            noSsnReasonMappings[student.noSsnReason];
-        }
-      });
-    }
+    // Transform No SSN Reason for the payload
+    applyNoSsnReasonMappings(
+      cleanData,
+      sourceData,
+      addOptions,
+      noSsnReasonMappings,
+    );
+  }
+
+  // Remove pension-gated financial fields from each student when the veteran is not in
+  // receipt of pension. The add options loop above copies studentInformation wholesale
+  // (including stale earnings/net-worth sub-fields), so strip them here as a safety net.
+  if (
+    shouldStripStudentFinancials &&
+    Array.isArray(cleanData.studentInformation)
+  ) {
+    cleanData.studentInformation = cleanData.studentInformation.map(
+      ({
+        claimsOrReceivesPension: _cp,
+        studentEarningsFromSchoolYear: _se,
+        studentExpectedEarningsNextYear: _see,
+        studentNetworthInformation: _sn,
+        ...rest
+      }) => rest,
+    );
   }
 
   // Remove options

@@ -16,7 +16,6 @@ import {
   makePdf,
   formatUserDob,
   formatNameFirstLast,
-  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
@@ -57,7 +56,6 @@ const DownloadFileType = props => {
   const [fileTypeError, setFileTypeError] = useState('');
 
   const dispatch = useDispatch();
-  const { isAcceleratingVaccines } = useAcceleratedData();
 
   const fileTypeFilter = useSelector(
     state => state.mr.downloads?.fileTypeFilter,
@@ -235,14 +233,13 @@ const DownloadFileType = props => {
         demographics: recordFilter?.includes('demographics'),
         militaryService: recordFilter?.includes('militaryService'),
         patient: true,
-        isAcceleratingVaccines,
       };
 
       if (!isDataFetched) {
         dispatch(getBlueButtonReportData(options, dateFilter));
       }
     },
-    [isDataFetched, recordFilter, dispatch, dateFilter, isAcceleratingVaccines],
+    [isDataFetched, recordFilter, dispatch, dateFilter],
   );
 
   const recordData = useMemo(

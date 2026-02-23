@@ -10,6 +10,11 @@ import { apiRequest } from '~/platform/utilities/api';
 import { getData } from '../util';
 
 export { fetchProfileContacts } from './contacts';
+export {
+  FETCH_PROFILE_CONTACTS_STARTED,
+  FETCH_PROFILE_CONTACTS_SUCCEEDED,
+  FETCH_PROFILE_CONTACTS_FAILED,
+} from './contacts';
 
 export const FETCH_HERO = 'FETCH_HERO';
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
@@ -106,12 +111,10 @@ export function fetchMilitaryInformation(recordAnalyticsEvent = recordEvent) {
       if (response.errors || response.error) {
         const error = response.error || response.errors;
         let errorName = 'unknown';
-        if (error) {
-          if (error.length > 0) {
-            errorName = error[0].title;
-          } else {
-            errorName = error?.title || 'unknown-title';
-          }
+        if (error.length > 0) {
+          errorName = error[0].title;
+        } else {
+          errorName = error?.title || 'unknown-title';
         }
 
         recordAnalyticsEvent(

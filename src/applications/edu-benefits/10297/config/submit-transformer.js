@@ -1,131 +1,88 @@
-import _ from 'lodash';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { dateSigned, getTransformIntlPhoneNumber } from '../helpers';
+import {
+  getLTSCountryCode,
+  getTransformIntlPhoneNumber,
+  dateSigned,
+} from '../helpers';
 
-export function transform(formConfig, form) {
-  const contactInfoTransform = formData => {
-    const clonedData = _.cloneDeep(formData);
+const trimObjectValuesWhiteSpace = (key, value) => {
+  if (typeof value === 'string') {
+    return value.trim();
+  }
+  return value;
+};
 
-    return {
-      ...clonedData,
-      contactInfo: {
-        ...clonedData.contactInfo,
-        mobilePhone: getTransformIntlPhoneNumber(
-          clonedData.contactInfo.mobilePhone,
-        ),
-        homePhone: getTransformIntlPhoneNumber(
-          clonedData.contactInfo.homePhone,
-        ),
-      },
-    };
-  };
+export function transform(_formConfig, form) {
+  const { data } = form;
 
-  // Will be removed
-  const eligibilityTransform = formData => {
-    const clonedData = _.cloneDeep(formData);
+  // Extract applicant name
+  const applicantFullName = data?.applicantFullName || {};
 
-    const finalData = {
-      ...clonedData,
-      dateSigned: dateSigned(),
-      dateReleasedFromActiveDuty: clonedData.dateReleasedFromActiveDuty
-        ? clonedData.dateReleasedFromActiveDuty
-        : '2025-08-20',
-    };
+  // Extract mailing address
+  const mailingAddress = data?.mailingAddress || {};
 
-    delete finalData.dutyRequirement;
-    delete finalData.otherThanDishonorableDischarge;
+  // Extract contact info
+  const contactInfo = data?.contactInfo || {};
 
-    return finalData;
-  };
-
-  const identificationTransform = formData => {
-    const clonedData = _.cloneDeep(formData);
-    const { activeDutyDuringHitechVets, claimantId } = clonedData;
-
-    // Remove ssn from submission, use claimantId instead
-    delete clonedData.ssn;
-
-    return {
-      ...clonedData,
-      activeDutyDuringHitechVets,
-      claimantId,
-    };
-  };
-
-  const trainingProviderTransform = formData => {
-    const clonedData = _.cloneDeep(formData);
-    const parsedData = JSON.parse(clonedData);
-
-    const { trainingProviders } = parsedData;
-
-    let finalData;
-
-    if (trainingProviders && trainingProviders.length > 0) {
-      finalData = {
-        ...parsedData,
-        trainingProviders: {
-          providers: trainingProviders.map(provider => ({
-            ...provider,
-          })),
-          plannedStartDate: parsedData.plannedStartDate || 'XXXX-XX-XX',
-        },
-      };
-    } else {
-      finalData = {
-        ...parsedData,
-        trainingProviders: {
-          providers: [],
-          plannedStartDate: parsedData.plannedStartDate || 'XXXX-XX-XX',
-        },
-      };
-    }
-
-    delete finalData.plannedStartDate;
-    return JSON.stringify(finalData);
-  };
-
-  const employmentDetailsTransform = formData => {
-    const clonedData = _.cloneDeep(formData);
-
-    return {
-      ...clonedData,
-      isEmployed: clonedData.isEmployed ? clonedData.isEmployed : false,
-    };
-  };
-
-  const privacyAgreementTransform = formData => {
-    const clonedData = _.cloneDeep(formData);
-
-    delete clonedData.statementOfTruthCertified;
-    delete clonedData.AGREED;
-    const attestationAgreementAccepted =
-      clonedData.privacyAgreementAccepted || false;
-    delete clonedData.privacyAgreementAccepted;
-
-    return {
-      ...clonedData,
-      attestationAgreementAccepted,
-    };
-  };
-
-  const usFormTransform = formData =>
-    transformForSubmit(formConfig, { ...form, data: formData });
-
-  const transformedData = [
-    contactInfoTransform,
-    eligibilityTransform,
-    identificationTransform,
-    employmentDetailsTransform,
-    privacyAgreementTransform,
-    usFormTransform,
-    trainingProviderTransform,
-  ].reduce((formData, transformer) => {
-    return transformer(formData);
-  }, form.data);
-
-  return JSON.stringify({
-    educationBenefitsClaim: {
-      form: transformedData,
+  // Build training providers array
+  const trainingProviders = (data?.trainingProviders || []).map(provider => ({
+    providerName: provider?.providerName,
+    providerAddress: {
+      street: provider?.providerAddress?.street,
+      city: provider?.providerAddress?.city,
+      state: provider?.providerAddress?.state,
+      postalCode: provider?.providerAddress?.postalCode,
+      country: getLTSCountryCode(provider?.providerAddress?.country),
     },
-  });
+  }));
+
+  // Build the payload
+  const payload = {
+    formId: form?.formId,
+    '@type': 'vettec',
+    claimant: {
+      claimantId: data?.claimantId,
+      firstName: applicantFullName?.first,
+      lastName: applicantFullName?.last,
+      middleName: applicantFullName?.middle,
+      suffix: applicantFullName?.suffix,
+      dateOfBirth: data?.dateOfBirth,
+      contactInfo: {
+        addressLine1: mailingAddress?.street,
+        addressLine2: mailingAddress?.street2,
+        city: mailingAddress?.city,
+        stateCode: mailingAddress?.state,
+        zipcode: mailingAddress?.postalCode,
+        countryCode: getLTSCountryCode(mailingAddress?.country),
+        emailAddress: contactInfo?.email?.toLowerCase(),
+        mobilePhoneNumber: getTransformIntlPhoneNumber(
+          contactInfo?.mobilePhone,
+        ),
+        homePhoneNumber: getTransformIntlPhoneNumber(contactInfo?.homePhone),
+      },
+    },
+    militaryInfo: {
+      dateReleasedFromActiveDuty: data?.dateReleasedFromActiveDuty,
+      activeDutyDuringHitechVets: data?.activeDutyDuringHitechVets,
+    },
+    directDeposit: {
+      directDepositAccountType: data?.bankAccount?.accountType?.toLowerCase(),
+      directDepositAccountNumber: data?.bankAccount?.accountNumber,
+      directDepositRoutingNumber: data?.bankAccount?.routingNumber,
+    },
+    trainingProviders: {
+      providers: trainingProviders,
+      plannedStartDate: data?.plannedStartDate || null,
+    },
+    employmentInfo: {
+      isEmployed: data?.isEmployed || false,
+      isInTechnologyIndustry: data?.isInTechnologyIndustry || false,
+      currentOccupation: data?.currentOccupation,
+      currentAnnualSalary: data?.currentAnnualSalary,
+      highestEducationLevel: data?.highestEducationLevel,
+    },
+    attestationAgreementAccepted: data?.privacyAgreementAccepted || false,
+    dateSigned: dateSigned(),
+  };
+
+  return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
 }

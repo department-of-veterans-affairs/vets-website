@@ -18,22 +18,22 @@ describe('Constants', () => {
     sandbox.restore();
   });
 
-  describe('mockTestingFlagforAPI', () => {
+  describe('mockTestingFlagForAPI', () => {
     it('should be true when API_URL is localhost:3000', () => {
       envStub.value({ API_URL: 'http://localhost:3000' });
       constants = require('../constants');
-      expect(constants.mockTestingFlagforAPI).to.be.true;
+      expect(constants.mockTestingFlagForAPI).to.be.true;
     });
 
     it('should be false when API_URL is not localhost:3000', () => {
       envStub.value({ API_URL: 'https://dev-api.va.gov' });
       constants = require('../constants');
-      expect(constants.mockTestingFlagforAPI).to.be.false;
+      expect(constants.mockTestingFlagForAPI).to.be.false;
     });
   });
 
   describe('URL constants', () => {
-    it('should include mock data parameter when mockTestingFlagforAPI is true', () => {
+    it('should include mock data parameter when mockTestingFlagForAPI is true', () => {
       envStub.value({ API_URL: 'http://localhost:3000' });
       constants = require('../constants');
       expect(constants.URL.GET_CATEGORIES).to.include('user_mock_data=true');
@@ -41,7 +41,7 @@ describe('Constants', () => {
       expect(constants.URL.GET_SUBTOPICS).to.include('user_mock_data=true');
     });
 
-    it('should not include mock data parameter when mockTestingFlagforAPI is false', () => {
+    it('should not include mock data parameter when mockTestingFlagForAPI is false', () => {
       envStub.value({ API_URL: 'https://dev-api.va.gov' });
       constants = require('../constants');
       expect(constants.URL.GET_CATEGORIES).to.not.include(

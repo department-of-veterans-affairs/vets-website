@@ -40,6 +40,7 @@ describe('vaPrescription details container', () => {
 
   afterEach(() => {
     sandbox.restore();
+    sessionStorage.removeItem(`aal_called_${newRx.prescriptionId}`);
   });
 
   it('renders without errors', () => {

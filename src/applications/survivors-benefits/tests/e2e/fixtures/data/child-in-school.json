@@ -42,6 +42,7 @@
     "claims": {
       "dic": true
     },
+    "benefit": "1151DIC",
     "receivedBenefits": false,
     "serviceBranch": "spaceForce",
     "activeServiceDateRange": {
