@@ -10,16 +10,13 @@ const Breadcrumbs = () => {
       label: 'Home',
     },
     {
-      href: '/education',
-      label: 'TODO',
+      href: '#',
+      label: 'VA Forms',
     },
     {
-      href: '/education/about-gi-bill-benefits/',
-      label: 'TODO',
-    },
-    {
-      href: '/education/about-gi-bill-benefits/how-to-use-benefits/',
-      label: 'TODO',
+      href: '#',
+      label:
+        'Education benefit entitlement restoration request (VA Form 22-0989)',
     },
     {
       href: manifest.rootUrl,
