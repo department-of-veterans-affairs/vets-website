@@ -31,80 +31,59 @@ const DetailCopayPage = ({ match }) => {
     useSelector(state => state),
   );
 
-  const copayDetail =
-    useSelector(state => state.combinedPortal.mcp.selectedStatement) || {};
-  const isCopayDetailLoading = useSelector(
-    state => state.combinedPortal.mcp.isCopayDetailLoading,
-  );
-  const allStatements =
-    useSelector(state => state.combinedPortal.mcp.statements) || [];
-
-  const selectedId = match.params.id;
-  const selectedCopay = shouldShowVHAPaymentHistory
-    ? copayDetail
-    : allStatements?.find(({ id }) => id === selectedId);
+  const { currentStatement, shouldFetchStatement } = useCurrentStatement(statementId);
 
   const copayAttributes = useMemo(
     () => {
-      if (!selectedCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
+      if (!currentStatement?.id) return DEFAULT_COPAY_ATTRIBUTES;
 
       /* eslint-disable no-nested-ternary */
       return shouldShowVHAPaymentHistory
         ? {
-            TITLE: `Copay bill for ${selectedCopay?.attributes.facility.name}`,
-            INVOICE_DATE: selectedCopay?.attributes?.invoiceDate,
+            TITLE: `Copay bill for ${currentStatement?.attributes.facility.name}`,
+            INVOICE_DATE: currentStatement?.attributes?.invoiceDate,
             IS_CURRENT_DATE: verifyCurrentBalance(
-              selectedCopay?.attributes.invoiceDate,
+              currentStatement?.attributes.invoiceDate,
             ),
-            ACCOUNT_NUMBER: selectedCopay?.attributes.accountNumber,
-            CHARGES: selectedCopay?.attributes?.lineItems ?? [],
+            ACCOUNT_NUMBER: currentStatement?.attributes.accountNumber,
+            CHARGES: currentStatement?.attributes?.lineItems ?? [],
           }
         : {
-            TITLE: `Copay bill for ${selectedCopay?.station.facilityName}`,
-            INVOICE_DATE: selectedCopay?.pSStatementDateOutput,
+            TITLE: `Copay bill for ${currentStatement?.station.facilityName}`,
+            INVOICE_DATE: currentStatement?.pSStatementDateOutput,
             IS_CURRENT_DATE: verifyCurrentBalance(
-              selectedCopay?.pSStatementDateOutput,
+              currentStatement?.pSStatementDateOutput,
             ),
             ACCOUNT_NUMBER:
-              selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber,
+              currentStatement?.accountNumber || currentStatement?.pHAccountNumber,
             CHARGES:
-              selectedCopay?.details?.filter(
+              currentStatement?.details?.filter(
                 charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
               ) ?? [],
           };
       /* eslint-disable no-nested-ternary */
     },
-    [selectedCopay?.id, shouldShowVHAPaymentHistory],
+    [currentStatement?.id, shouldShowVHAPaymentHistory],
   );
 
   // Handle alert separately
   useEffect(
     () => {
-      if (!selectedCopay?.id) return;
+      if (!currentStatement?.id) return;
       setAlert(copayAttributes.IS_CURRENT_DATE ? 'status' : 'past-due-balance');
     },
-    [selectedCopay?.id, copayAttributes],
+    [currentStatement?.id, copayAttributes],
   );
 
   useEffect(
     () => {
       if (!isAnyElementFocused()) setPageFocus();
-
-      if (
-        !copayDetail?.id &&
-        copayDetail.id !== selectedId &&
-        !isCopayDetailLoading &&
-        shouldShowVHAPaymentHistory
-      ) {
-        dispatch(getCopayDetailStatement(`${selectedId}`));
-      }
+      if (shouldFetchStatement) dispatch(getCopayDetailStatement(statementId));
     },
     [
-      selectedId,
+      statementId,
       dispatch,
-      copayDetail?.id,
-      isCopayDetailLoading,
-      shouldShowVHAPaymentHistory,
+      shouldFetchStatement
     ],
   );
 
@@ -119,10 +98,10 @@ const DetailCopayPage = ({ match }) => {
       return copayAttributes.INVOICE_DATE;
     }
 
-    if (!selectedCopay?.pSStatementDateOutput) return null;
+    if (!currentStatement?.pSStatementDateOutput) return null;
 
     // Statement date is in MM/DD/YYYY format
-    const [month, day, year] = selectedCopay.pSStatementDateOutput.split('/');
+    const [month, day, year] = currentStatement.pSStatementDateOutput.split('/');
 
     // Create date and add 30 days
     const date = new Date(year, parseInt(month, 10) - 1, parseInt(day, 10));
@@ -144,7 +123,7 @@ const DetailCopayPage = ({ match }) => {
 
   useHeaderPageTitle(copayAttributes.TITLE);
 
-  if (!selectedCopay?.id || isCopayDetailLoading) {
+  if (!currentStatement?.id || isCopayDetailLoading) {
     return <VaLoadingIndicator message="Loading features..." />;
   }
 
@@ -165,7 +144,7 @@ const DetailCopayPage = ({ match }) => {
             label: 'Copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
+            href: `/manage-va-debt/summary/copay-balances/${statementId}`,
             label: copayAttributes.TITLE,
           },
         ]}
@@ -180,7 +159,7 @@ const DetailCopayPage = ({ match }) => {
           {copayAttributes.TITLE}
         </h1>
         <div>
-          <CopayAlertContainer type={alert} copay={selectedCopay} />
+          <CopayAlertContainer type={alert} copay={currentStatement} />
         </div>
         <div className="vads-u-margin-y--4">
           <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
@@ -192,8 +171,8 @@ const DetailCopayPage = ({ match }) => {
               <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
                 {formatCurrency(
                   shouldShowVHAPaymentHistory
-                    ? selectedCopay.attributes?.principalBalance
-                    : selectedCopay.pHNewBalance,
+                    ? currentStatement.attributes?.principalBalance
+                    : currentStatement.pHNewBalance,
                 )}
               </dd>
             </div>
@@ -201,7 +180,7 @@ const DetailCopayPage = ({ match }) => {
               <dt>Payment due:</dt>
               <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
                 {shouldShowVHAPaymentHistory
-                  ? selectedCopay.attributes?.paymentDueDate
+                  ? currentStatement.attributes?.paymentDueDate
                   : formatDate(getPaymentDueDate())}
               </dd>
             </div>
@@ -211,8 +190,8 @@ const DetailCopayPage = ({ match }) => {
                 <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
                   {formatCurrency(
                     shouldShowVHAPaymentHistory
-                      ? selectedCopay.attributes.principalPaid
-                      : selectedCopay.pHTotCharges,
+                      ? currentStatement.attributes.principalPaid
+                      : currentStatement.pHTotCharges,
                   )}
                 </dd>
               </div>
@@ -229,29 +208,29 @@ const DetailCopayPage = ({ match }) => {
             <StatementTable
               charges={copayAttributes.CHARGES}
               formatCurrency={formatCurrency}
-              selectedCopay={selectedCopay}
+              currentStatement={currentStatement}
             />
           ) : (
             <StatementCharges
-              copay={selectedCopay}
+              copay={currentStatement}
               showCurrentStatementHeader
             />
           )}
           <DownloadStatement
-            key={selectedId}
-            statementId={selectedId}
+            key={statementId}
+            statementId={statementId}
             statementDate={
               shouldShowVHAPaymentHistory
                 ? formatISODateToMMDDYYYY(copayAttributes.INVOICE_DATE)
-                : selectedCopay.pSStatementDate
+                : currentStatement.pSStatementDate
             }
             fullName={fullName}
           />
         </div>
-        <PreviousStatements selectedId={selectedId} />
+        <PreviousStatements statementId={statementId} />
         <StatementAddresses
           data-testid="statement-addresses"
-          copay={selectedCopay}
+          copay={currentStatement}
         />
 
         <Modals title="Notice of rights and responsibilities">

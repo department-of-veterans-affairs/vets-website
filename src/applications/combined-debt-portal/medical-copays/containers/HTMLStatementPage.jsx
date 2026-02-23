@@ -6,6 +6,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import {
   setPageFocus,
   showVHAPaymentHistory,
+  useSelectedStatement,
 } from '../../combined/utils/helpers';
 import Modals from '../../combined/components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
@@ -19,21 +20,19 @@ const HTMLStatementPage = ({ match }) => {
   const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
     useSelector(state => state),
   );
-
-  const selectedId = match.params.id;
-  const combinedPortalData = useSelector(state => state.combinedPortal);
-  const statements = combinedPortalData.mcp.statements ?? [];
+  
+  const statementId = match.params.id;
+  // TODO: update all references of selectedCopay to currentStatement in the codebase
+  const { currentStatement, shouldFetchStatement } = useCurrentStatement(statementId);
+  
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
 
-  // TODO: Refactor selectedCopay to selectedStatement and update all references in the codebase
-  const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
-
   // using statementDateOutput since it has delimiters ('/') unlike pSStatementDate
-  const parsedStatementDate = new Date(selectedCopay.pSStatementDateOutput);
+  const parsedStatementDate = new Date(currentStatement.pSStatementDateOutput);
   const statementDate = isValid(parsedStatementDate)
     ? format(parsedStatementDate, 'MMMM d')
     : '';
-  const charges = selectedCopay?.details?.filter(
+  const charges = selectedStatement?.details?.filter(
     charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
   );
 
@@ -45,18 +44,30 @@ const HTMLStatementPage = ({ match }) => {
     }).format(amount);
   };
   const title = `${statementDate} statement`;
-  const prevPage = `Copay bill for ${selectedCopay.station.facilityName}`;
+  const prevPage = `Copay bill for ${currentStatement.station.facilityName}`;
   const fullName = userFullName.middle
     ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
     : `${userFullName.first} ${userFullName.last}`;
   const acctNum =
-    selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
+    selectedStatement?.accountNumber || selectedStatement?.pHAccountNumber;
 
   useHeaderPageTitle(title);
 
   useEffect(() => {
     setPageFocus('h1');
   }, []);
+
+  useEffect(
+    () => {
+      if (!isAnyElementFocused()) setPageFocus();
+      if (shouldFetchStatement) dispatch(getCopayDetailStatement(statementId));
+    },
+    [
+      statementId,
+      dispatch,
+      shouldFetchStatement
+    ],
+  );
 
   return (
     <>
@@ -75,11 +86,11 @@ const HTMLStatementPage = ({ match }) => {
             label: 'Copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
+            href: `/manage-va-debt/summary/copay-balances/${statementId}`,
             label: `${prevPage}`,
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/statement`,
+            href: `/manage-va-debt/summary/copay-balances/${statementId}/statement`,
             label: `${title}`,
           },
         ]}
@@ -89,32 +100,32 @@ const HTMLStatementPage = ({ match }) => {
       <article className="vads-u-padding--0 medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="statement-page-title">{title}</h1>
         <p className="va-introtext" data-testid="facility-name">
-          {`${selectedCopay?.station.facilityName}`}
+          {`${selectedStatement?.station.facilityName}`}
         </p>
         <AccountSummary
           acctNum={acctNum}
-          currentBalance={selectedCopay.pHNewBalance}
-          newCharges={selectedCopay.pHTotCharges}
-          paymentsReceived={selectedCopay.pHTotCredits}
-          previousBalance={selectedCopay.pHPrevBal}
+          currentBalance={currentStatement.pHNewBalance}
+          newCharges={currentStatement.pHTotCharges}
+          paymentsReceived={currentStatement.pHTotCredits}
+          previousBalance={currentStatement.pHPrevBal}
           statementDate={statementDate}
         />
         {shouldShowVHAPaymentHistory && (
           <StatementTable
             charges={charges}
             formatCurrency={formatCurrency}
-            selectedCopay={selectedCopay}
+            selectedStatement={selectedStatement}
           />
         )}
         <DownloadStatement
-          key={selectedId}
-          statementId={selectedId}
-          statementDate={selectedCopay.pSStatementDate}
+          key={statementId}
+          statementId={statementId}
+          statementDate={currentStatement.pSStatementDate}
           fullName={fullName}
         />
         <StatementAddresses
           data-testid="statement-addresses"
-          copay={selectedCopay}
+          copay={selectedStatement}
         />
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />

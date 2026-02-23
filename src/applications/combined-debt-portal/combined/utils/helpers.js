@@ -49,8 +49,39 @@ export const selectLoadingFeatureFlags = state =>
 export const showVHAPaymentHistory = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.showVHAPaymentHistory];
 
-/**
- * Helper function to consisently format date strings
+export const selectCopayDetailStatement = state => 
+  state.combinedPortal.mcp.selectedStatement || {};
+
+export const selectAllStatements = state => 
+  state.combinedPortal.mcp.statements || [];
+
+export const selectIsCopayDetailLoading = state =>
+  state.combinedPortal.mcp.isCopayDetailLoading;
+
+export const selectStatementById = (state, selectedId) => {
+  const statements = selectAllStatements(state);
+  return statements.find(({ id }) => id === selectedId);
+};
+
+export const useCurrentStatement = (statementId) => {
+  const shouldShowVHAPaymentHistory = useSelector(showVHAPaymentHistory);
+  const copayDetailStatement = useSelector(selectCopayDetailStatement);
+  const allStatements = useSelector(selectAllStatements);
+  const isLoading = useSelector(selectIsCopayDetailLoading);
+  
+  const currentStatement = shouldShowVHAPaymentHistory
+    ? copayDetailStatement
+    : allStatements?.find(({ id }) => id === statementId);
+
+  const shouldFetchStatement = shouldShowVHAPaymentHistory &&
+      !copayDetailStatement?.id &&
+      copayDetailStatement.id !== statementId &&
+      !isLoading
+
+  return { currentStatement, shouldFetchStatement };
+};
+
+/* Helper function to consisently format date strings
  *
  * @param {string} date - date string or date type
  * @returns formatted date string; example:
