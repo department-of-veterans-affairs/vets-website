@@ -35,8 +35,8 @@ export const FormApp = ({
 }) => {
   const { pathname } = location || {};
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const addUserUuidToRUM = useToggleValue(
-    TOGGLE_NAMES.decisionReviewAddUserUuidToRUM,
+  const addUserAccountIdToRUM = useToggleValue(
+    TOGGLE_NAMES.decisionReviewAddUserAccountIdToRUM,
   );
 
   useEffect(
@@ -126,8 +126,8 @@ export const FormApp = ({
     applicationId: DATA_DOG_ID,
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
-    userUuid: accountUuid,
-    addUserUuid: addUserUuidToRUM,
+    accountUuid,
+    addUserAccountId: addUserAccountIdToRUM,
   });
 
   return wrapWithBreadcrumb(
