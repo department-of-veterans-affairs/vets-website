@@ -6,9 +6,11 @@
     "isInTechnologyIndustry": true,
     "isEmployed": true,
     "bankAccount": {
-      "accountType": "checking",
+      "accountType": "CHECKING",
       "accountNumber": "123123123",
-      "routingNumber": "121000248"
+      "accountNumberConfirmation": "123123123",
+      "routingNumber": "121000248",
+      "routingNumberConfirmation": "121000248"
     },
     "activeDutyDuringHitechVets": false,
     "dateReleasedFromActiveDuty": "2025-09-07",

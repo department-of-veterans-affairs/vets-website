@@ -256,6 +256,36 @@ describe('Medications List Filter component', () => {
       expect(screen.getByTestId('filter-option-SHIPPED')).to.exist;
       expect(screen.getByTestId('filter-option-INACTIVE')).to.exist;
     });
+
+    it('falls back to V2 count keys when only cernerPilot is enabled', () => {
+      const v2OnlyFilterCount = {
+        allMedications: 100,
+        active: 20,
+        inProgress: 15,
+        shipped: 10,
+        renewable: 12,
+        inactive: 45,
+        transferred: 5,
+        statusNotAvailable: 5,
+      };
+      const screen = setup({}, () => {}, v2OnlyFilterCount, true, false, false);
+      const renewalOption = screen.getByTestId('filter-option-RENEWAL');
+      expect(renewalOption).to.exist;
+      expect(renewalOption.label).to.contain('(12)');
+    });
+
+    it('does not show undefined count when V2 API returns renewable instead of renewal', () => {
+      const v2OnlyFilterCount = {
+        allMedications: 100,
+        active: 20,
+        inProgress: 15,
+        renewable: 12,
+        inactive: 45,
+      };
+      const screen = setup({}, () => {}, v2OnlyFilterCount, true, false, false);
+      const renewalOption = screen.getByTestId('filter-option-RENEWAL');
+      expect(renewalOption.label).to.not.contain('undefined');
+    });
   });
 
   describe('Button loading states', () => {

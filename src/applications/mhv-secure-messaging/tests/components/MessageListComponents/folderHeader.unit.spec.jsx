@@ -95,7 +95,9 @@ describe('Folder Header component', () => {
           selector: 'h1',
         }),
       ).to.exist;
-      expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.exist;
+      // Custom folder description is no longer in folder header
+      expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc, { selector: 'p' }))
+        .to.not.exist;
     });
 
     it('must display `Edit Folder Name` and `Remove Folder` buttons', () => {
@@ -112,10 +114,12 @@ describe('Folder Header component', () => {
   });
 
   describe('Folder Header component displays CUSTOM folder and children components', () => {
-    it('must display valid CUSTOM FOLDER name and description: DEMO FOLDER 1', async () => {
+    it('must display valid CUSTOM FOLDER name: DEMO FOLDER 1', async () => {
       const screen = setup();
       expect(screen.getByText(`Messages: ${customFolder.name}`)).to.exist;
-      expect(screen.getByText(Folders.CUSTOM_FOLDER.desc)).to.exist;
+      // Custom folder description is no longer in folder header, it's in Edit folder section
+      expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc, { selector: 'p' }))
+        .to.not.exist;
     });
 
     it('renders FilterBox with `threadCount` in CUSTOM FOLDER', () => {
