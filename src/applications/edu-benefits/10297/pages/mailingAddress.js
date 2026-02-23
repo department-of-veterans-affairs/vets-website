@@ -222,6 +222,12 @@ const uiSchema = {
           // country-specific error messages
           if (country === 'USA') {
             newSchema.pattern = POSTAL_CODE_PATTERNS.USA;
+            newSchema.title = 'Zip code';
+            newUiSchema['ui:errorMessages'] = {
+              ...newUiSchema['ui:errorMessages'],
+              pattern: 'Please provide a valid zip code',
+              minLength: 'Please provide a valid zip code',
+            };
           } else if (['CAN', 'MEX'].includes(country)) {
             newSchema.pattern = POSTAL_CODE_PATTERNS[country];
           }
