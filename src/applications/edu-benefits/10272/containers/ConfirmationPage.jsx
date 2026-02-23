@@ -140,15 +140,25 @@ const ConfirmationMailingAddresses = () => (
   </>
 );
 
-const ConfirmationNextSteps = () => (
-  <>
-    <h2 data-testid="next-steps-header">What are my next steps?</h2>
-    <p className="vads-u-margin-bottom--4" data-testid="next-steps-content">
+const ConfirmationNextSteps = ({ hasPreviouslyApplied }) => (
+  <div className="vads-u-margin-bottom--4" data-testid="next-steps-section">
+    <h2>What are my next steps?</h2>
+    <p>
       After you successfully submit your form, we will review your documents.
       You should hear back within 30 days about your reimbursement.
     </p>
-  </>
+    {!hasPreviouslyApplied && (
+      <p>
+        You must also submit VA Form 22-1990 and apply for VA Education Benefits
+        before we can process your reimbursement request.
+      </p>
+    )}
+  </div>
 );
+
+ConfirmationNextSteps.propTypes = {
+  hasPreviouslyApplied: PropTypes.bool,
+};
 
 const ConfirmationEligibilityAlert = ({ visible }) => (
   <div className="vads-u-margin-bottom--4">
@@ -252,7 +262,9 @@ export const ConfirmationPage = props => {
       <ConfirmationPrintThisPage />
       <ConfirmationGoBackLink goBack={goBack} />
       <ConfirmationMailingAddresses />
-      <ConfirmationNextSteps />
+      <ConfirmationNextSteps
+        hasPreviouslyApplied={form.data.hasPreviouslyApplied}
+      />
     </ConfirmationView>
   );
 };

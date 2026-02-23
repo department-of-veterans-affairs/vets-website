@@ -108,12 +108,30 @@ describe('<ConfirmationPage />', () => {
     expect(container.querySelectorAll('va-accordion-item').length).to.equal(2);
   });
 
-  it('shows section for "what are my next steps?"', () => {
-    const { getByTestId } = getPage({});
-    const nextStepsHeader = getByTestId('next-steps-header');
+  describe('What are my next steps?', () => {
+    it('shows both content sections when the user has not previously applied for benefits', () => {
+      const { getByTestId } = getPage({
+        hasPreviouslyApplied: false,
+      });
+      const nextStepsSection = getByTestId('next-steps-section');
 
-    expect(nextStepsHeader.innerHTML).to.include('What are my next steps?');
-    expect(getByTestId('next-steps-content')).to.exist;
+      expect(nextStepsSection.querySelector('h2').innerHTML).to.include(
+        'What are my next steps?',
+      );
+      expect(nextStepsSection.querySelectorAll('p').length).to.equal(2);
+    });
+
+    it('shows the top content section only when the user has previously applied for benefits', () => {
+      const { getByTestId } = getPage({
+        hasPreviouslyApplied: true,
+      });
+      const nextStepsSection = getByTestId('next-steps-section');
+
+      expect(nextStepsSection.querySelector('h2').innerHTML).to.include(
+        'What are my next steps?',
+      );
+      expect(nextStepsSection.querySelectorAll('p').length).to.equal(1);
+    });
   });
 
   it('renders safely when submission object is empty (defaults kick in)', () => {
