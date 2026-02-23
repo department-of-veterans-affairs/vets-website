@@ -131,7 +131,7 @@ describe('OracleHealthTransitionAlerts', () => {
       const headline = container.querySelector('[slot="headline"]');
       expect(headline).to.exist;
       expect(headline.textContent).to.equal(
-        'You can’t refill medications online for some facilities right now',
+        'You can’t refill prescriptions online for some facilities right now',
       );
     });
 
@@ -177,7 +177,7 @@ describe('OracleHealthTransitionAlerts', () => {
       );
 
       expect(container.textContent).to.include(
-        'If you need to refill a medication now, call your VA pharmacy’s automated refill line',
+        'If you need a refill now, call your VA pharmacy’s automated refill line',
       );
     });
 
