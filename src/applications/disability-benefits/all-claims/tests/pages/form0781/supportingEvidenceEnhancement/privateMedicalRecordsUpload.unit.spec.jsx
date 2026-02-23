@@ -191,7 +191,7 @@ describe('Private Medical Records Upload page', () => {
       expect(result).to.be.null;
     });
 
-    it('handleAdditionalInput should return docType object for valid value', () => {
+    it('handleAdditionalInput should return attachmentId object for valid value', () => {
       const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
       const result = fileConfig.handleAdditionalInput({
         detail: { value: 'L107' },

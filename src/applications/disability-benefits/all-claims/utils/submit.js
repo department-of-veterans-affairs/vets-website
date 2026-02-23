@@ -915,7 +915,7 @@ export const addForm8940 = formData => {
  * @returns {object} - Form data with flattened attachment structures, or original
  *                     formData if no attachments with additionalData are present
  */
-const flattenAttachments = formData => {
+export const flattenAttachments = formData => {
   const pmrAttachments = formData.privateMedicalRecordAttachments;
   // TODO: add additionalDocuments into this function as it utilizes the V3 component.
   const clonedData = _.cloneDeep(formData);

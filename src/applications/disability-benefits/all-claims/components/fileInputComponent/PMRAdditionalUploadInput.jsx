@@ -15,7 +15,7 @@ export const additionalInput = ({
       required
       error={error}
       value={attachmentId}
-      name="docType"
+      name="attachmentId"
       label={label}
     >
       {attachmentTypes.map(attachmentType => (
