@@ -20,6 +20,7 @@ import {
   transformPicklistToV2,
   enrichDivorceWithSSN,
 } from './picklistTransform';
+import { PICKLIST_REMOVAL_FLAG } from '../constants';
 
 /**
  * Extract data fields with values from source data
@@ -131,6 +132,7 @@ export function buildSubmissionData(payload) {
     'statementOfTruthSignature',
     'statementOfTruthCertified',
     'metadata',
+    PICKLIST_REMOVAL_FLAG,
   ];
 
   essentialFields.forEach(field => {
