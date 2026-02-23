@@ -1,3 +1,4 @@
+// 7 personal, 2 business, 1 unauthenticated
 export const mockInquiries = [
   {
     id: '251a31bd-24b7-ef11-b8e9-001dd8053a71',

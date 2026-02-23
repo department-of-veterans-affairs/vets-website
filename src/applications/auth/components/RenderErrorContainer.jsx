@@ -1,6 +1,7 @@
 import React from 'react';
 import { AUTH_ERRORS, AUTH_LEVEL } from 'platform/user/authentication/errors';
 import ContactCenterInformation from 'platform/user/authentication/components/ContactCenterInformation';
+import StatusPage from './StatusPage';
 
 export default function RenderErrorContainer({
   code = AUTH_ERRORS.DEFAULT.errorCode,
@@ -315,6 +316,37 @@ export default function RenderErrorContainer({
       );
       break;
 
+    // 113 - Personal Information Mismatch
+    case AUTH_ERRORS.SSN_ATTRIBUTE_MISMATCH.errorCode:
+      alertContent = (
+        <p>
+          There’s a temporary issue in our system. We’re working to fix it as
+          soon as possible.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>Access you VA benefits in other ways</h2>
+          <p>
+            Until we fix this issue, you can manage your VA benefits over the
+            phone, by mail, or in person. We understand this isn’t as
+            convenient, and appreciate your patience.
+          </p>
+          <va-link
+            href="/resources/helpful-va-phone-numbers/"
+            text="Get a list of helpful VA phone numbers"
+            className="vads-u-display--block vads-u-margin-top--2"
+          />
+          <br />
+          <va-link
+            href="/find-locations"
+            text="Find a VA location near you"
+            className="vads-u-display--block vads-u-margin-top--2"
+          />
+        </>
+      );
+      break;
+
     // 202 - OAuth State mismatch (SiS-specific)
     case AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode:
       alertContent = (
@@ -432,7 +464,11 @@ export default function RenderErrorContainer({
 
   return (
     <div className="usa-content columns small-12">
-      <h1>We can’t sign you in</h1>
+      <h1>
+        {code === AUTH_ERRORS.SSN_ATTRIBUTE_MISMATCH.errorCode
+          ? 'We can’t sign you in right now'
+          : 'We can’t sign you in'}
+      </h1>
       <va-alert visible status="error" uswds>
         {alertContent}
       </va-alert>
@@ -451,6 +487,7 @@ export default function RenderErrorContainer({
           }).format(new Date())}
         </span>
       </p>
+      {code === AUTH_ERRORS.SSN_ATTRIBUTE_MISMATCH.errorCode && <StatusPage />}
     </div>
   );
 }

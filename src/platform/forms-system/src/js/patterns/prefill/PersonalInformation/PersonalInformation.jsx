@@ -250,20 +250,19 @@ export const PersonalInformation = ({
         <div className="vads-u-margin-bottom--4" data-testid="default-note">
           <p>
             <strong>Note:</strong> To protect your personal information, we
-            don’t allow online changes to your name, Social Security number, or
-            date of birth. If you need to change this information, call us at{' '}
+            don’t allow online changes to your name, date of birth, or Social
+            Security number. If you need to change this information, call us at{' '}
             <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
             <va-telephone contact="711" tty />
             ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m.
-            ET. We’ll give you instructions for how to change your information.
-            Or you can learn how to change your legal name on file with VA.{' '}
+            ET.
           </p>
           <va-link
             external
             href={`${
               environment.BASE_URL
             }/resources/how-to-change-your-legal-name-on-file-with-va/`}
-            text="Learn how to change your legal name"
+            text="Find more detailed instructions for how to change your legal name"
           />
         </div>
       )}

@@ -12,6 +12,7 @@ import {
 } from '../../../chapters/signerInformation';
 import mockData from '../../e2e/fixtures/data/veteran.json';
 import formConfig from '../../../config/form';
+import { sponsorPages } from '../../../chapters/sponsor';
 
 testNumberOfWebComponentFields(
   formConfig,
@@ -33,64 +34,64 @@ testNumberOfWebComponentFields(
 );
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.sponsorInformation.pages.page6.schema,
-  formConfig.chapters.sponsorInformation.pages.page6.uiSchema,
+  sponsorPages.personalInformation.schema,
+  sponsorPages.personalInformation.uiSchema,
   5,
   'Sponsor Information - Name and DOB',
   {},
 );
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.sponsorInformation.pages.page7.schema,
-  formConfig.chapters.sponsorInformation.pages.page7.uiSchema,
+  sponsorPages.identityInformation.schema,
+  sponsorPages.identityInformation.uiSchema,
   1,
   'Sponsor Information - Identification info',
   {},
 );
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.sponsorInformation.pages.page7.schema,
-  formConfig.chapters.sponsorInformation.pages.page7.uiSchema,
+  sponsorPages.identityInformation.schema,
+  sponsorPages.identityInformation.uiSchema,
   1,
   'Sponsor Information - Identification info (role: sponsor)',
   { certifierRole: 'sponsor' },
 );
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.sponsorInformation.pages.page8.schema,
-  formConfig.chapters.sponsorInformation.pages.page8.uiSchema,
+  sponsorPages.livingStatus.schema,
+  sponsorPages.livingStatus.uiSchema,
   1,
   'Sponsor Information - Status',
   {},
 );
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.sponsorInformation.pages.page10.schema,
-  formConfig.chapters.sponsorInformation.pages.page10.uiSchema,
+  sponsorPages.mailingAddress.schema,
+  sponsorPages.mailingAddress.uiSchema,
   7,
-  'Sponsor Information - Address',
+  'Sponsor Information - Mailing Address',
   {},
 );
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.sponsorInformation.pages.page10.schema,
-  formConfig.chapters.sponsorInformation.pages.page10.uiSchema,
+  sponsorPages.mailingAddress.schema,
+  sponsorPages.mailingAddress.uiSchema,
   7,
-  'Sponsor Information - Address (role: sponsor)',
+  'Sponsor Information - Mailing Address (role: sponsor)',
   { certifierRole: 'sponsor' },
 );
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.sponsorInformation.pages.page11.schema,
-  formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
+  sponsorPages.contactInformation.schema,
+  sponsorPages.contactInformation.uiSchema,
   2,
   'Sponsor Information - Contact info',
   {},
 );
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.sponsorInformation.pages.page11.schema,
-  formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
+  sponsorPages.contactInformation.schema,
+  sponsorPages.contactInformation.uiSchema,
   2,
   'Sponsor Information - Contact info (role: sponsor)',
   { certifierRole: 'sponsor' },

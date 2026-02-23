@@ -184,7 +184,3 @@ export const toggleDirectDepositEdit = open => ({
   type: DIRECT_DEPOSIT_EDIT_TOGGLED,
   open,
 });
-
-export const clearDirectDepositLoadError = () => ({
-  type: DIRECT_DEPOSIT_LOAD_ERROR_CLEARED,
-});

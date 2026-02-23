@@ -13,6 +13,7 @@ import {
 } from '@department-of-veterans-affairs/platform-site-wide/wizard';
 import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
@@ -35,6 +36,8 @@ import {
   DATA_DOG_TOKEN,
   DATA_DOG_SERVICE,
   DATA_DOG_VERSION,
+  TRACKING_526EZ_SIDENAV_FORM_START,
+  TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE,
 } from './constants';
 import {
   isBDD,
@@ -57,6 +60,30 @@ import {
 } from './containers/MissingServices';
 import ClaimFormSideNav from './components/ClaimFormSideNav';
 import ClaimFormSideNavErrorBoundary from './components/ClaimFormSideNavErrorBoundary';
+import NavButtonsWithTracking from './components/NavButtonsWithTracking';
+import {
+  trackFormStarted,
+  trackFormSubmitted,
+} from './utils/tracking/datadogRumTracking';
+
+// formConfig must be mutated in place because the platform forms system reads it
+// from route objects built at module load time via createRoutesWithSaveInProgress(formConfig).
+if (!formConfig.formOptions) {
+  formConfig.formOptions = {};
+}
+
+formConfig.formOptions.NavButtonsWithWrapper = NavButtonsWithTracking;
+
+const defaultSubmit = formConfig.submit;
+formConfig.submit = (submittedForm, formConfigParam, options) => {
+  return defaultSubmit(submittedForm, formConfigParam, options).then(
+    result => {
+      trackFormSubmitted();
+      return result;
+    },
+    error => Promise.reject(error),
+  );
+};
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -98,6 +125,7 @@ export const isIntroPage = ({ pathname = '' } = {}) =>
 
 export const Form526Entry = ({
   children,
+  featureToggles,
   form,
   inProgressFormId,
   isBDDForm,
@@ -119,6 +147,27 @@ export const Form526Entry = ({
     savedForm =>
       savedForm.form === formConfig.formId &&
       !isExpired(savedForm.metaData?.expiresAt),
+  );
+
+  // Track when user starts the form from introduction page
+  // Only tracks once per session when user navigates to first form page without a saved form
+  useEffect(
+    () => {
+      const isFirstFormPage = location?.pathname === '/veteran-information';
+      const hasNoSavedForm = !hasSavedForm;
+      const alreadyTracked =
+        sessionStorage.getItem(TRACKING_526EZ_SIDENAV_FORM_START) === 'true';
+
+      if (isFirstFormPage && hasNoSavedForm && !alreadyTracked) {
+        trackFormStarted();
+        try {
+          sessionStorage.setItem(TRACKING_526EZ_SIDENAV_FORM_START, 'true');
+        } catch (error) {
+          // Storage access blocked - tracking will still work without this flag
+        }
+      }
+    },
+    [location?.pathname, hasSavedForm, featureToggles, form?.data],
   );
 
   const title = `${getPageTitle(isBDDForm)}${
@@ -180,7 +229,6 @@ export const Form526Entry = ({
     'disability526Enable2024Form4142',
     'disability526ToxicExposureOptOutDataPurge',
     'disability526SupportingEvidenceEnhancement',
-    'disabilityCompNewConditionsWorkflow',
     'disability526ExtraBDDPagesEnabled',
   ]);
 
@@ -190,6 +238,20 @@ export const Form526Entry = ({
   // We don't really need this feature toggle in formData since it's only used here
   const sideNavFeatureEnabled = useToggleValue(
     TOGGLE_NAMES.disability526SidenavEnabled,
+  );
+
+  // Persist the sidenav toggle to sessionStorage so tracking functions
+  // (which run outside React) can read it without prop drilling.
+  useEffect(
+    () => {
+      if (sideNavFeatureEnabled !== undefined) {
+        sessionStorage.setItem(
+          TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE,
+          String(sideNavFeatureEnabled),
+        );
+      }
+    },
+    [sideNavFeatureEnabled],
   );
 
   useBrowserMonitoring({
@@ -384,6 +446,7 @@ export const Form526Entry = ({
 Form526Entry.propTypes = {
   accountUuid: PropTypes.string,
   children: PropTypes.any,
+  featureToggles: PropTypes.object,
   form: PropTypes.shape({
     data: PropTypes.object,
     loadedStatus: PropTypes.string,
@@ -416,6 +479,7 @@ Form526Entry.propTypes = {
 
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
+  featureToggles: toggleValues(state),
   form: state?.form,
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   isBDDForm: isBDD(state?.form?.data),

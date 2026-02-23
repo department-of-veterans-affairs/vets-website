@@ -173,8 +173,7 @@ class ContactListPage {
       `include.text`,
       Alerts.CONTACT_LIST.SAVED,
     );
-    // Success alerts use role="status" for AT announcement without stealing
-    // focus from the user's current position (per MHV accessibility decisions).
+    cy.get('.va-alert').should(`be.visible`);
   };
 
   clickBackToInbox = () => {

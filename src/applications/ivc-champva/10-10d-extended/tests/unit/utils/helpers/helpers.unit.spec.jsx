@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import {
-  concatStreets,
   getAgeInYears,
+  isOfCollegeAge,
   page15aDepends,
   populateFirstApplicant,
 } from '../../../../utils/helpers';
@@ -179,74 +179,29 @@ describe('1010d `getAgeInYears` util', () => {
   });
 });
 
-describe('1010d `concatStreets` util', () => {
-  it('should join street fields with spaces by default', () => {
-    const addr = { street: '123 Main', street2: 'Apt 4B' };
-    const result = concatStreets(addr);
-    expect(result.streetCombined).to.equal('123 Main Apt 4B');
+describe('1010d `isOfCollegeAge` executes', () => {
+  it('should return `false` when birthdate is greater than 23 years from testdate', () => {
+    const testdate = new Date('2023-06-01');
+    expect(isOfCollegeAge('1986-06-01', testdate)).to.be.false;
   });
 
-  it('should join with new lines when `options.newLines` is true', () => {
-    const addr = { street: '123 Main', street2: 'Apt 4B' };
-    const result = concatStreets(addr, { newLines: true });
-    expect(result.streetCombined).to.equal('123 Main\nApt 4B');
+  it('should return `false` when birthdate is less than 18 years from testdate', () => {
+    const testdate = new Date('2023-06-01');
+    expect(isOfCollegeAge('2005-06-02', testdate)).to.be.false;
   });
 
-  it('should filter out `undefined`, `null`, and `empty-string` values', () => {
-    const addr = {
-      street: '123 Main',
-      street2: undefined,
-      street3: null,
-      street4: '',
-    };
-    const result = concatStreets(addr);
-    expect(result.streetCombined).to.equal('123 Main');
+  it('should return `true` when birthdate is exactly 18 years from testdate', () => {
+    const testdate = new Date('2023-06-01');
+    expect(isOfCollegeAge('2005-06-01', testdate)).to.be.true;
   });
 
-  it('should trim individual street parts before joining', () => {
-    const addr = { street: '  123 Main  ', street2: '  Apt 4B ' };
-    const result = concatStreets(addr);
-    expect(result.streetCombined).to.equal('123 Main Apt 4B');
+  it('should return `true` when birthdate is exactly 23 years from testdate', () => {
+    const testdate = new Date('2023-06-01');
+    expect(isOfCollegeAge('2000-06-01', testdate)).to.be.true;
   });
 
-  it('should be case-insensitive for key names containing `street`', () => {
-    const addr = { Street: '123 Main', sTrEeT2: 'Apt 4B', avenue: 'Ignore me' };
-    const result = concatStreets(addr);
-    expect(result.streetCombined).to.equal('123 Main Apt 4B');
-  });
-
-  it('should ignore non-street keys entirely', () => {
-    const addr = { city: 'Indy', postalCode: '46204' };
-    const result = concatStreets(addr);
-    expect(result.streetCombined).to.equal('');
-  });
-
-  it('should return a new object and does not mutate the input', () => {
-    const addr = { street: '123 Main' };
-    const copy = { ...addr };
-    const result = concatStreets(addr);
-    expect(result).to.not.equal(addr);
-    expect(addr).to.deep.equal(copy);
-    expect(result).to.deep.equal({ ...addr, streetCombined: '123 Main' });
-  });
-
-  it('should correctly handle undefined address object', () => {
-    const result = concatStreets(undefined);
-    expect(result).to.deep.equal({ streetCombined: '' });
-  });
-
-  it('should correctly handle omitted options', () => {
-    const addr = { street: '123 Main', street2: 'Apt 4B' };
-    const result = concatStreets(addr);
-    expect(result.streetCombined).to.equal('123 Main Apt 4B');
-  });
-
-  it('should avoid trailing space or newline', () => {
-    const addr = { street: '123 Main', street2: '' };
-    const withSpace = concatStreets(addr);
-    expect(withSpace.streetCombined).to.equal('123 Main');
-
-    const withNewline = concatStreets(addr, { newLines: true });
-    expect(withNewline.streetCombined).to.equal('123 Main');
+  it('should return `true` when birthdate is between 18 and 23 years from testdate', () => {
+    const testdate = new Date('2023-06-01');
+    expect(isOfCollegeAge('2003-06-01', testdate)).to.be.true;
   });
 });

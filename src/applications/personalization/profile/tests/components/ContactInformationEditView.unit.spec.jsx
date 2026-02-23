@@ -22,7 +22,7 @@ describe('<ProfileInformationEditView/> - Email Address', () => {
 
   const uiSchema = {
     emailAddress: {
-      'ui:title': 'Email Address',
+      'ui:title': 'Email address',
       'ui:errorMessages': {
         required:
           'You must enter your email address, using this format: X@X.com',

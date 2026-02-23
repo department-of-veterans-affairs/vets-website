@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { commonReducer } from 'platform/startup/store';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   mockApiRequest,
   inputVaTextInput,
@@ -173,6 +174,7 @@ describe('Compose form component', () => {
 
   it('records prefilling analytics when Rx renewal draft loads', async () => {
     window.dataLayer = [];
+    const addActionSpy = sinon.spy(datadogRum, 'addAction');
     const customState = {
       ...initialState,
       sm: {
@@ -193,10 +195,23 @@ describe('Compose form component', () => {
         window.dataLayer?.some(e => e?.event === 'sm_editor_prefill_loaded'),
       ).to.be.true;
     });
+
+    // Check that datadogRum.addAction was called
+    await waitFor(() => {
+      expect(addActionSpy.called).to.be.true;
+    });
+    expect(
+      addActionSpy.calledWith('SM Editor Prefill Loaded', {
+        category: sinon.match.string,
+      }),
+    ).to.be.true;
+
+    addActionSpy.restore();
   });
 
   it('records analytics when user clears prefilled textarea', async () => {
     window.dataLayer = [];
+    const addActionSpy = sinon.spy(datadogRum, 'addAction');
     const customState = {
       ...initialState,
       sm: {
@@ -228,10 +243,19 @@ describe('Compose form component', () => {
       );
       expect(hasClearedEvent).to.be.true;
     });
+
+    // Check that datadogRum.addAction was called
+    await waitFor(() => {
+      expect(addActionSpy.called).to.be.true;
+    });
+    expect(addActionSpy.calledWith('SM Editor Prefill Deleted')).to.be.true;
+
+    addActionSpy.restore();
   });
 
   it('records analytics when user edits prefilled textarea (non-empty)', async () => {
     window.dataLayer = [];
+    const addActionSpy = sinon.spy(datadogRum, 'addAction');
     const customState = {
       ...initialState,
       sm: {
@@ -262,6 +286,14 @@ describe('Compose form component', () => {
       );
       expect(hasEditedEvent).to.be.true;
     });
+
+    // Check that datadogRum.addAction was called
+    await waitFor(() => {
+      expect(addActionSpy.called).to.be.true;
+    });
+    expect(addActionSpy.calledWith('SM Editor Prefill Edited')).to.be.true;
+
+    addActionSpy.restore();
   });
 
   it('displays compose fields if path is /new-message', async () => {

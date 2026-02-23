@@ -69,7 +69,8 @@ export function NewAppointment() {
       !isNewAppointmentStarted &&
       !location.pathname.endsWith('confirmation') &&
       (featureImmediateCareAlert
-        ? !location.pathname.endsWith('schedule')
+        ? !location.pathname.endsWith('schedule') ||
+          location.pathname.endsWith('how-to-schedule')
         : !location.pathname.endsWith('type-of-care')),
   });
 

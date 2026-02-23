@@ -10,6 +10,7 @@ import {
 import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
 import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
 import { transform } from '@bio-aquia/21p-530a-interment-allowance/config/submit-transform/transform';
+import { customSubmit } from '@bio-aquia/shared/utils';
 
 import { ConfirmationPage } from '@bio-aquia/21p-530a-interment-allowance/components/confirmation-page';
 import { IntroductionPage } from '@bio-aquia/21p-530a-interment-allowance/components/introduction-page';
@@ -37,6 +38,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/form21p530a`,
   transformForSubmit: transform,
+  submit: customSubmit,
   trackingPrefix: TRACKING_PREFIX,
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
