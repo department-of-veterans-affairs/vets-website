@@ -31,13 +31,18 @@ const ContactListMigrationAlert = () => {
     return null;
   }
 
-  // Collect all facility names from matching schedules
-  const facilityNames = migratingInPhase.flatMap(
-    schedule =>
-      schedule.facilities?.map(f => f.facilityName).filter(Boolean) || [],
-  );
+  // Collect all facilities from matching schedules, de-duplicating by facilityId
+  const facilitiesMap = new Map();
+  migratingInPhase.forEach(schedule => {
+    schedule.facilities?.forEach(facility => {
+      if (facility.facilityId && facility.facilityName) {
+        facilitiesMap.set(facility.facilityId, facility);
+      }
+    });
+  });
+  const facilities = Array.from(facilitiesMap.values());
 
-  if (!facilityNames.length) {
+  if (!facilities.length) {
     return null;
   }
 
@@ -61,9 +66,9 @@ const ContactListMigrationAlert = () => {
           We removed care teams from these facilities from your contact list:
         </p>
         <ul>
-          {facilityNames.map(name => (
-            <li key={name} data-dd-privacy="mask">
-              {name}
+          {facilities.map(facility => (
+            <li key={facility.facilityId} data-dd-privacy="mask">
+              {facility.facilityName}
             </li>
           ))}
         </ul>
