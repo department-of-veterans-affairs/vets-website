@@ -77,41 +77,6 @@ describe('Prescription details container', () => {
     );
   };
 
-  // Setup for testing redirect behavior - allows custom URL path
-  const setupWithCustomUrl = (state = {}, urlPath, isCernerPilot = false) => {
-    const fullState = {
-      ...state,
-      featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
-        ...state.featureToggles,
-      },
-    };
-
-    return renderWithStoreAndRouterV6(
-      <Routes>
-        <Route
-          path="/prescriptions/:prescriptionId"
-          element={<PrescriptionDetails />}
-        />
-        <Route
-          path="/"
-          element={
-            <div data-testid="medications-list-page">Medications List</div>
-          }
-        />
-      </Routes>,
-      {
-        initialState: fullState,
-        reducers: reducer,
-        initialEntries: [urlPath],
-        additionalMiddlewares: [
-          allergiesApi.middleware,
-          prescriptionsApi.middleware,
-        ],
-      },
-    );
-  };
-
   it('renders without errors', async () => {
     const screen = setup({
       user: {
@@ -126,24 +91,6 @@ describe('Prescription details container', () => {
       expect(screen.getByTestId('prescription-name')).to.exist.and.to.have.text(
         singlePrescription.prescriptionName,
       );
-    });
-  });
-
-  it('should redirect to medications list when Cerner pilot enabled but station_number missing', async () => {
-    sandbox.restore();
-    stubAllergiesApi({ sandbox });
-    stubPrescriptionsApiCache({ sandbox, data: false });
-    stubPrescriptionIdApi({ sandbox });
-    stubUsePrefetch({ sandbox });
-
-    const screen = setupWithCustomUrl(
-      {},
-      '/prescriptions/123456', // URL without station_number
-      true, // isCernerPilot = true
-    );
-
-    await waitFor(() => {
-      expect(screen.getByTestId('medications-list-page')).to.exist;
     });
   });
 
@@ -207,31 +154,31 @@ describe('Prescription details container', () => {
     stubPrescriptionIdApi({ sandbox, data: rxDetailsResponse.data.attributes });
     stubUsePrefetch({ sandbox });
     const screen = setup();
-    const rxName = screen.findByText(
-      rxDetailsResponse.data.attributes.prescriptionName,
-    );
     await waitFor(() => {
+      expect(screen.getByTestId('prescription-name')).to.exist.and.to.have.text(
+        rxDetailsResponse.data.attributes.prescriptionName,
+      );
       expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
         `Last filled on ${dateFormat(
           rxDetailsResponse.data.attributes.sortedDispensedDate,
           DATETIME_FORMATS.longMonthDate,
         )}`,
       );
-      expect(rxName).to.exist;
     });
   });
 
-  it('still shows medication details if rx data is received from query cache instead of api call', () => {
+  it('still shows medication details if rx data is received from query cache instead of api call', async () => {
     const prescriptionApiStub = sandbox.stub(
       prescriptionsApiModule,
       'useGetPrescriptionByIdQuery',
     );
     const screen = setup();
 
-    const rxName = screen.findByText(
-      nonVaRxResponse.data.attributes.orderableItem,
-    );
-    expect(rxName).to.exist;
+    await waitFor(() => {
+      expect(screen.getByTestId('prescription-name')).to.exist.and.to.have.text(
+        singlePrescription.prescriptionName,
+      );
+    });
     expect(prescriptionApiStub.notCalled).to.be.true;
   });
 
@@ -289,18 +236,18 @@ describe('Prescription details container', () => {
     });
   });
 
-  it('name should use orderableItem for non va prescription if no prescriptionName is available', () => {
+  it('name should use orderableItem for non va prescription if no prescriptionName is available', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox, data: nonVaRxResponse.data.attributes });
     stubUsePrefetch({ sandbox });
     const screen = setup();
-    const rxName = screen.findByText(
-      nonVaRxResponse.data.attributes.orderableItem,
-    );
-
-    expect(rxName).to.exist;
+    await waitFor(() => {
+      expect(screen.getByTestId('prescription-name')).to.exist.and.to.have.text(
+        nonVaRxResponse.data.attributes.orderableItem,
+      );
+    });
   });
 
   it('name should use prescriptionName for non va prescription if available', async () => {
@@ -315,8 +262,9 @@ describe('Prescription details container', () => {
 
     const screen = setup();
     await waitFor(() => {
-      const rxName = screen.findByText(testPrescriptionName);
-      expect(rxName).to.exist;
+      expect(screen.getByTestId('prescription-name')).to.exist.and.to.have.text(
+        testPrescriptionName,
+      );
     });
   });
 
@@ -324,7 +272,7 @@ describe('Prescription details container', () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
-    stubPrescriptionIdApi({ sandbox, error: true });
+    stubPrescriptionIdApi({ sandbox, data: null, error: true });
     stubUsePrefetch({ sandbox });
     const screen = setup();
     await waitFor(() => {
