@@ -27,7 +27,6 @@ import {
   DEPENDENT_VIEW_FIELDS,
   INSURANCE_VIEW_FIELDS,
 } from '../../../../utils/constants';
-import { tr } from 'date-fns/locale';
 
 describe('ezr form config helpers', () => {
   context('when `isMissingVeteranDob` executes', () => {
