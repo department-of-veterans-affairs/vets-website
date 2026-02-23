@@ -17,7 +17,7 @@ const customLink = ({ children, ...props }) => {
   return (
     <va-link-action
       type="primary-entry"
-      text="Start your Request reimbursement for licensing or certification test fees"
+      text="Start your request for entitlement restoration"
       {...props}
     >
       {children}
