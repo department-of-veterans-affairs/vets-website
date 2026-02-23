@@ -152,11 +152,7 @@ export function getLetterPdf(
       // eslint-disable-next-line -- LH_MIGRATION
       method: LH_MIGRATION__options.downloadEndpoint.method,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...letterOptions,
-        deathResultOfDisability: false,
-        survivorsAward: false,
-      }),
+      body: JSON.stringify(letterOptions),
     };
   } else {
     settings = {
