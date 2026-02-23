@@ -41,6 +41,26 @@ $text-color: rgba(27, 27, 27, 1);
     border-bottom: solid thin var(--vads-color-base-lightest);
   }
 
+  .skip-map-link {
+    position: absolute;
+    right: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+
+    &:focus {
+      right: .5rem;
+      top: .5rem;
+      width: auto;
+      height: auto;
+      padding: 0.5em 1em;
+      background-color: var(--vads-color-primary);
+      color: var(--vads-color-white);
+      z-index: 1000;
+    }
+  }
+
   #vertical-oriented-left-controls {
     display: flex;
     flex-direction: column;

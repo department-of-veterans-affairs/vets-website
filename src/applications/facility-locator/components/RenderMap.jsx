@@ -70,6 +70,9 @@ const RenderMap = forwardRef(
               : `${smallDesktop ? 'desktop' : 'tablet'}-map-container`
           }
         >
+          <a className="skip-map-link" tabIndex="0" href="#other-tools-link">
+            SKIP MAP
+          </a>
           {shouldRenderSearchArea && (
             <SearchAreaControl
               handleSearchArea={handleSearchArea}
