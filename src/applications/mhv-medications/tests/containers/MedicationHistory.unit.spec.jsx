@@ -107,7 +107,7 @@ describe('MedicationHistory container', () => {
     stubFetchHook({ prescriptions: mockPrescriptions });
     const screen = setup();
     const link = screen.getByRole('link', {
-      name: /Go to your in-prgroess medications/i,
+      name: /Go to your in-progress medications/i,
     });
     expect(link).to.exist;
     expect(link.getAttribute('href')).to.equal('/in-progress');
