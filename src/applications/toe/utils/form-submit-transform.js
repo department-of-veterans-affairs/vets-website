@@ -333,6 +333,13 @@ const getSponsorInformation = form => {
   };
 };
 
+const getAddressType = (livesOnMilitaryBase, country) => {
+  if (livesOnMilitaryBase) {
+    return 'MILITARY_OVERSEAS';
+  }
+  return country === 'USA' ? 'DOMESTIC' : 'FOREIGN';
+};
+
 const getGuardianInformation = formData => {
   if (!formData?.mebParentGuardianStep) return undefined;
 
@@ -347,9 +354,10 @@ const getGuardianInformation = formData => {
 
   const guardianMailingAddress = isCompleteAddress
     ? {
-        addressType: formData?.guardianMailingAddress?.livesOnMilitaryBase
-          ? 'MILITARY_OVERSEAS'
-          : 'DOMESTIC',
+        addressType: getAddressType(
+          formData?.guardianMailingAddress?.livesOnMilitaryBase,
+          formData?.guardianMailingAddress?.address?.country,
+        ),
         addressLine1: formData?.guardianMailingAddress?.address?.street,
         addressLine2: formData?.guardianMailingAddress?.address?.street2,
         city: formData?.guardianMailingAddress?.address?.city,
@@ -417,9 +425,10 @@ export function transformTOEForm(_formConfig, form) {
         city: form?.data['view:mailingAddress']?.address?.city,
         zipcode: form?.data['view:mailingAddress']?.address?.postalCode,
         emailAddress: form?.data?.email?.email?.toLowerCase(),
-        addressType: form?.data['view:mailingAddress']?.livesOnMilitaryBase
-          ? 'MILITARY_OVERSEAS'
-          : 'DOMESTIC',
+        addressType: getAddressType(
+          form?.data['view:mailingAddress']?.livesOnMilitaryBase,
+          form?.data['view:mailingAddress']?.address?.country,
+        ),
         mobilePhoneNumber:
           form?.data['view:phoneNumbers']?.mobilePhoneNumber?.phone,
         homePhoneNumber: form?.data['view:phoneNumbers']?.phoneNumber?.phone,
