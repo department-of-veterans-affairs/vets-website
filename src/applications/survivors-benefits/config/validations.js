@@ -37,4 +37,20 @@ export const validations = {
       errors.addError(beforeStartDateErrorMsg(formData.separationStartDate));
     }
   },
+  isAfterVeteranBirthDate: (errors, values, formData) => {
+    if (
+      formData?.veteranDateOfBirth &&
+      !checkIfEndDateAfterStartDate(values, formData.veteranDateOfBirth)
+    ) {
+      errors.addError(beforeStartDateErrorMsg(formData.veteranDateOfBirth));
+    }
+  },
+  isAfterTreatmentStartDate: (errors, values, formData) => {
+    if (
+      formData?.startDate &&
+      !checkIfEndDateAfterStartDate(values, formData.startDate)
+    ) {
+      errors.addError(beforeStartDateErrorMsg(formData.startDate));
+    }
+  },
 };
