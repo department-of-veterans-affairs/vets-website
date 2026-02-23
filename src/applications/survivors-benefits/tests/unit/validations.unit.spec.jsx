@@ -10,6 +10,7 @@ describe('Custom form validations', () => {
     marriageToVeteranStartDate: '2021-01-01',
     separationStartDate: '2000-03-05',
     dateOfMarriage: '1990-02-02',
+    veteranDateOfBirth: '1970-04-15',
   };
   beforeEach(() => {
     errorMessage = [];
@@ -36,6 +37,20 @@ describe('Custom form validations', () => {
       'End date must be after the start date. Enter a date later than [02/02/1990].',
     );
   });
+  it('should validate that a treatment end date is after its start date', () => {
+    validations.isAfterTreatmentStartDate(errors, '1985-01-01', {
+      startDate: '1990-02-02',
+    });
+    expect(errorMessage).to.include(
+      'End date must be after the start date. Enter a date later than [02/02/1990].',
+    );
+  });
+  it('should validate that the veteran date of death is after the the date of birth', () => {
+    validations.isAfterVeteranBirthDate(errors, '1965-01-01', formData);
+    expect(errorMessage).to.include(
+      'End date must be after the start date. Enter a date later than [04/15/1970].',
+    );
+  });
   it('should not return an error if the marriage end date is after the marriage start date', () => {
     validations.isAfterMarriageStartDate(errors, '2022-01-01', formData);
     expect(errorMessage).to.be.empty;
@@ -44,12 +59,18 @@ describe('Custom form validations', () => {
     validations.isAfterMarriageStartDate(errors, '2021-01-01', formData);
     expect(errorMessage).to.be.empty;
   });
+  it('should not return an error if the date of death is after the veteran birth date', () => {
+    validations.isAfterVeteranBirthDate(errors, '2021-01-01', formData);
+    expect(errorMessage).to.be.empty;
+  });
   it('should return an error if value does not exist', () => {
     validations.isAfterMarriageStartDate(errors, '2021-01-01', {});
     expect(errorMessage).to.be.empty;
     validations.isAfterSeparationStartDate(errors, '2021-01-01', {});
     expect(errorMessage).to.be.empty;
     validations.isAfterPreviousMarriageStartDate(errors, '2021-01-01', {});
+    expect(errorMessage).to.be.empty;
+    validations.isAfterVeteranBirthDate(errors, '2021-01-01', {});
     expect(errorMessage).to.be.empty;
   });
 });
