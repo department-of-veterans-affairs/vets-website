@@ -1,6 +1,7 @@
 // @ts-check
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from '~/platform/utilities/environment';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -8,11 +9,15 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 
+export const SUBMIT_URL = `${
+  environment.API_URL
+}/v0/education_benefits_claims/0989`;
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: SUBMIT_URL,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '0989-edu-benefits-',
@@ -41,6 +46,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  useCustomScrollAndFocus: true,
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
