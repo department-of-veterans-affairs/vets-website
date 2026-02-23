@@ -525,6 +525,15 @@ export const RecipientStatus = {
  */
 export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
 
+/**
+ * OH migration phases during which the Contact List migration alert is shown.
+ * After a facility completes migration (T+2), the contact list page shows an
+ * informational alert explaining that care teams were removed and will
+ * reappear under new names.
+ * - p6: T+2 to T+30
+ */
+export const ContactListMigrationPhases = ['p6'];
+
 export const BlockedTriageAlertStyles = {
   INFO: 'info',
   WARNING: 'warning',

@@ -14,6 +14,7 @@ import {
 import FacilityCheckboxGroup from '../components/FacilityCheckboxGroup';
 import GetFormHelp from '../components/GetFormHelp';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
+import ContactListMigrationAlert from '../components/shared/ContactListMigrationAlert';
 import {
   BlockedTriageAlertStyles,
   ErrorMessages,
@@ -209,6 +210,7 @@ const EditContactList = () => {
         cancelButtonText={navigationError?.cancelButtonText}
       />
       <h1>Messages: Contact list</h1>
+      <ContactListMigrationAlert />
       <AlertBackgroundBox
         closeable
         focus
