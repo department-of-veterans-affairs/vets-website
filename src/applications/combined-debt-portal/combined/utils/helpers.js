@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useDispatch, useSelector } from 'react';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { addDays, format, isBefore, isEqual, isValid } from 'date-fns';
@@ -8,6 +8,7 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { head } from 'lodash';
+import { getCopayDetailStatement } from '../../combined/actions/copays';
 
 export const APP_TYPES = Object.freeze({
   DEBT: 'DEBT',
@@ -64,6 +65,7 @@ export const selectStatementById = (state, selectedId) => {
 };
 
 export const useCurrentStatement = (statementId) => {
+  const dispatch = useDispatch();
   const shouldShowVHAPaymentHistory = useSelector(showVHAPaymentHistory);
   const copayDetailStatement = useSelector(selectCopayDetailStatement);
   const allStatements = useSelector(selectAllStatements);

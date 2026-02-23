@@ -19,7 +19,6 @@ import {
   DEFAULT_COPAY_ATTRIBUTES,
   useCurrentStatement
 } from '../../combined/utils/helpers';
-import { getCopayDetailStatement } from '../../combined/actions/copays';
 
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import CopayAlertContainer from '../components/CopayAlertContainer';

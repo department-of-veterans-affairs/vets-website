@@ -1,8 +1,9 @@
-import React, { useDispatch, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   setPageFocus,
   isAnyElementFocused,
@@ -16,18 +17,15 @@ import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
 import NeedHelpCopay from '../components/NeedHelpCopay';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
-import { current } from '@reduxjs/toolkit';
-import { getCopayDetailStatement } from '../../combined/actions/copays';
 
 const HTMLStatementPage = ({ match }) => {
-  const dispatch = useDispatch();
   const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
     useSelector(state => state),
   );
   
   const statementId = match.params.id;
   // TODO: update all references of selectedCopay to currentStatement in the codebase
-  const { currentStatement, shouldFetchStatement } = useCurrentStatement(statementId);
+  const { currentStatement, isLoading } = useCurrentStatement(statementId);
   
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
 
