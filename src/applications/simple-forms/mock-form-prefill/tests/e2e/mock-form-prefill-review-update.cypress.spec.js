@@ -35,7 +35,12 @@ const testConfig = createTestConfig(
             cy.get('va-button[label="Edit contact information"]').click();
 
             // update mailing address in the form only
-            cy.get('va-link[label="Edit mailing address"]').click();
+            cy.get('va-card-status')
+              .find('va-link-action')
+              .shadow()
+              .find('a')
+              .contains('Edit mailing address')
+              .click();
             cy.fillVaTextInput('root_addressLine1', '456 Edited Street');
             cy.fillVaTextInput('root_city', 'Updated City');
             cy.selectVaSelect('root_stateCode', 'CA');

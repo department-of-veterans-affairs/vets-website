@@ -30,7 +30,7 @@ const DisabilityRatingAlert = () => {
         }
       } catch (err) {
         if (isMounted) {
-          setError(true);
+          setError(err);
         }
       } finally {
         if (isMounted) setLoading(false);

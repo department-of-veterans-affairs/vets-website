@@ -252,8 +252,8 @@ const VaFileInputMultipleField = props => {
 
   const handleFileRemoved = index => {
     setErrors(removeOneFromArray(errors, index));
-    errorManager.setFileCheckError(index, false);
-    errorManager.setInternalFileInputErrors(index, false);
+    errorManager.removeFileCheckError(index);
+    errorManager.removeInternalFileInputError(index);
     errorManager.removeInstance(index);
 
     setEncrypted(removeOneFromArray(encrypted, index));
@@ -394,7 +394,9 @@ const VaFileInputMultipleField = props => {
       >
         {mappedProps.additionalInput && (
           <div className="additional-input-container">
-            {mappedProps.additionalInput()}
+            {mappedProps.additionalInput({
+              labels: uiOptions.additionalInputLabels,
+            })}
           </div>
         )}
       </VaFileInputMultiple>

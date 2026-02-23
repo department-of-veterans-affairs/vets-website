@@ -1,6 +1,0 @@
-{
-  "appName": "Notification Center",
-  "entryFile": "./notification-center-entry.jsx",
-  "entryName": "notification-center",
-  "rootUrl": "/notification-center"
-}

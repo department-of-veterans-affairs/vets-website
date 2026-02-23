@@ -242,6 +242,37 @@ describe('InProgressMedicationsProcessList Component', () => {
       const screen = setup([]);
       expect(screen.getByText(/No fills are currently in progress/)).to.exist;
     });
+
+    it('renders Prescription components for each in-progress prescription', () => {
+      const inProgressPrescriptions = [
+        {
+          prescriptionId: 1,
+          prescriptionName: 'Medication A',
+          status: 'in-progress',
+          lastUpdated: '2025-01-10T10:00:00Z',
+        },
+        {
+          prescriptionId: 2,
+          prescriptionName: 'Medication B',
+          status: 'in-progress',
+          lastUpdated: '2025-01-11T10:00:00Z',
+        },
+      ];
+      const screen = setup(inProgressPrescriptions);
+      const inProgressSection = within(
+        screen.getByTestId('in-progress-prescriptions'),
+      );
+
+      const linkA = inProgressSection.getByRole('link', {
+        name: 'Medication A',
+      });
+      expect(linkA).to.have.attribute('href', '/my-health/medications/1');
+
+      const linkB = inProgressSection.getByRole('link', {
+        name: 'Medication B',
+      });
+      expect(linkB).to.have.attribute('href', '/my-health/medications/2');
+    });
   });
 
   describe('ShippedStep', () => {
@@ -298,6 +329,37 @@ describe('InProgressMedicationsProcessList Component', () => {
       const screen = setup([]);
       expect(screen.getByText(/No medications have recently shipped/)).to.exist;
     });
+
+    it('renders Prescription components for each shipped prescription', () => {
+      const shippedPrescriptions = [
+        {
+          prescriptionId: 1,
+          prescriptionName: 'Medication A',
+          status: 'shipped',
+          lastUpdated: '2025-01-10T10:00:00Z',
+        },
+        {
+          prescriptionId: 2,
+          prescriptionName: 'Medication B',
+          status: 'shipped',
+          lastUpdated: '2025-01-11T10:00:00Z',
+        },
+      ];
+      const screen = setup(shippedPrescriptions);
+      const shippedSection = within(
+        screen.getByTestId('shipped-prescriptions'),
+      );
+
+      const linkA = shippedSection.getByRole('link', {
+        name: 'Medication A',
+      });
+      expect(linkA).to.have.attribute('href', '/my-health/medications/1');
+
+      const linkB = shippedSection.getByRole('link', {
+        name: 'Medication B',
+      });
+      expect(linkB).to.have.attribute('href', '/my-health/medications/2');
+    });
   });
 
   describe('Data parsing', () => {
@@ -331,6 +393,60 @@ describe('InProgressMedicationsProcessList Component', () => {
         'va-process-list-item',
       );
       expect(processListItems.length).to.equal(3);
+    });
+
+    it('renders one prescription in each status correctly', () => {
+      const mixedPrescriptions = [
+        {
+          prescriptionId: 1,
+          prescriptionName: 'Submitted Med',
+          status: 'submitted',
+          lastUpdated: '2025-01-10T10:00:00Z',
+        },
+        {
+          prescriptionId: 2,
+          prescriptionName: 'In Progress Med',
+          status: 'in-progress',
+          lastUpdated: '2025-01-11T10:00:00Z',
+        },
+        {
+          prescriptionId: 3,
+          prescriptionName: 'Shipped Med',
+          status: 'shipped',
+          lastUpdated: '2025-01-12T10:00:00Z',
+        },
+      ];
+      const screen = setup(mixedPrescriptions);
+
+      const submittedSection = within(
+        screen.getByTestId('submitted-prescriptions'),
+      );
+      expect(submittedSection.getByRole('link', { name: 'Submitted Med' })).to
+        .exist;
+      expect(submittedSection.queryByRole('link', { name: 'In Progress Med' }))
+        .to.be.null;
+      expect(submittedSection.queryByRole('link', { name: 'Shipped Med' })).to
+        .be.null;
+
+      const inProgressSection = within(
+        screen.getByTestId('in-progress-prescriptions'),
+      );
+      expect(inProgressSection.getByRole('link', { name: 'In Progress Med' }))
+        .to.exist;
+      expect(inProgressSection.queryByRole('link', { name: 'Submitted Med' }))
+        .to.be.null;
+      expect(inProgressSection.queryByRole('link', { name: 'Shipped Med' })).to
+        .be.null;
+
+      const shippedSection = within(
+        screen.getByTestId('shipped-prescriptions'),
+      );
+      expect(shippedSection.getByRole('link', { name: 'Shipped Med' })).to
+        .exist;
+      expect(shippedSection.queryByRole('link', { name: 'Submitted Med' })).to
+        .be.null;
+      expect(shippedSection.queryByRole('link', { name: 'In Progress Med' })).to
+        .be.null;
     });
   });
 });

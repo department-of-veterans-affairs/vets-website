@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import {
@@ -83,30 +89,30 @@ const RefillPrescriptions = () => {
       .filter(Boolean);
   }, []);
 
+  // Ref to snapshot the selected prescriptions at refill time
+  const submittedMedications = useRef(null);
+
+  // Exclude refillableData from deps to preserve the ref snapshot
+  // during RTK Query cache invalidation after refill.
   const successfulMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.successfulIds,
-        refillableData?.prescriptions,
+        submittedMedications.current || refillableData?.prescriptions,
       ),
-    [
-      getMedicationsByIds,
-      result?.data?.successfulIds,
-      refillableData?.prescriptions,
-    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getMedicationsByIds, result?.data?.successfulIds, result?.data],
   );
 
+  // Same as above — exclude refillableData to preserve ref snapshot.
   const failedMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.failedIds,
-        refillableData?.prescriptions,
+        submittedMedications.current || refillableData?.prescriptions,
       ),
-    [
-      getMedicationsByIds,
-      result?.data?.failedIds,
-      refillableData?.prescriptions,
-    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getMedicationsByIds, result?.data?.failedIds, result?.data],
   );
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
@@ -157,6 +163,19 @@ const RefillPrescriptions = () => {
     refillRequestStatus === REFILL_STATUS.FINISHED && isFetching;
   const isDisabled = isDataLoading || isRefreshing;
 
+  // Clear the submitted meds snapshot after cache refresh completes or error
+  useEffect(
+    () => {
+      if (refillRequestStatus === REFILL_STATUS.FINISHED && !isFetching) {
+        submittedMedications.current = null;
+      }
+      if (refillRequestStatus === REFILL_STATUS.ERROR) {
+        submittedMedications.current = null;
+      }
+    },
+    [refillRequestStatus, isFetching],
+  );
+
   // Use the original refillable prescriptions list without client-side filtering
   // This prevents duplicate refill attempts by relying on server-side data consistency
   // Cache invalidation in the API (invalidatesTags) will handle removing refilled prescriptions
@@ -184,6 +203,8 @@ const RefillPrescriptions = () => {
     if (selectedRefillListLength > 0) {
       setRefillStatus(REFILL_STATUS.IN_PROGRESS);
       window.scrollTo(0, 0);
+
+      submittedMedications.current = selectedRefillList;
 
       // Get just the prescription IDs for the bulk refill
       const prescriptionIds = selectedRefillList.map(rx => {

@@ -481,7 +481,7 @@ export const OH_ENABLED_TYPES_OF_CARE = [
   // 'audiology',
   // 'audiology-hearing aid support',
   // 'audiology-routine exam',
-  // 'clinicalPharmacyPrimaryCare',
+  'clinicalPharmacyPrimaryCare',
   // 'cpap',
   'foodAndNutrition',
   // 'homeSleepTesting',

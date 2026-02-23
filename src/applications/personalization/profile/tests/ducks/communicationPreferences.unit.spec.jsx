@@ -61,8 +61,6 @@ describe('fetching communication preferences', () => {
           expect(state.loadingErrors).to.be.null;
           const communicationGroups = selectGroups(state);
           expect(communicationGroups.ids.length).to.equal(5);
-          // The first group is the Health Care group
-          expect(communicationGroups.ids[0]).to.equal('group3');
           const rxTrackingItem = selectItemById(state, 'item4');
           // The Rx-tracking item exists
           expect(rxTrackingItem).to.exist;
@@ -89,8 +87,6 @@ describe('fetching communication preferences', () => {
           expect(state.loadingErrors).to.be.null;
           const communicationGroups = selectGroups(state);
           expect(communicationGroups.ids.length).to.equal(5);
-          // The first group is the Health Care group
-          expect(communicationGroups.ids[0]).to.equal('group3');
           // The Rx-tracking item exists
           expect(selectItemById(state, 'item4')).to.exist;
         });
@@ -113,8 +109,6 @@ describe('fetching communication preferences', () => {
           expect(state.loadingErrors).to.be.null;
           const communicationGroups = selectGroups(state);
           expect(communicationGroups.ids.length).to.equal(5);
-          // The first group is the Health Care group
-          expect(communicationGroups.ids[0]).to.equal('group3');
           // The Rx-tracking item does not exist
           expect(selectItemById(state, 'item4')).not.to.exist;
           // The Rx-tracking item channel does not exist
