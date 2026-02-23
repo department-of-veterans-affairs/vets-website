@@ -359,7 +359,7 @@ const IntroductionPage = props => {
         </va-additional-info>
       </div>
       <SaveInProgressIntro
-        formConfig={formConfig}
+        formConfig={{ ...formConfig, subTitle: '' }}
         messages={route.formConfig.savedFormMessages}
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}
