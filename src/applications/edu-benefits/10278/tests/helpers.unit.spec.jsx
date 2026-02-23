@@ -26,11 +26,11 @@ describe('10278 helpers - validateTerminationDate', () => {
     clock.restore();
   });
 
-  it('adds an error when the date is less than 5 years in the future', () => {
+  it('adds an error when the date is more than 5 years in the future', () => {
     const addError = sinon.spy();
-    validateTerminationDate({ addError }, '2030-02-17');
+    validateTerminationDate({ addError }, '2032-06-01');
     expect(
-      addError.calledWith("You must enter a date that's 5 years in the future"),
+      addError.calledWith('You must enter a valid date that’s within 5 years'),
     ).to.equal(true);
   });
 
@@ -40,9 +40,9 @@ describe('10278 helpers - validateTerminationDate', () => {
     expect(addError.called).to.equal(false);
   });
 
-  it('does not add an error when the date is more than 5 years in the future', () => {
+  it('does not add an error when the date is less than 5 years in the future', () => {
     const addError = sinon.spy();
-    validateTerminationDate({ addError }, '2032-06-01');
+    validateTerminationDate({ addError }, '2030-02-17');
     expect(addError.called).to.equal(false);
   });
 });
