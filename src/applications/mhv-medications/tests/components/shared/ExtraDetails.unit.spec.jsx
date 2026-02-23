@@ -577,69 +577,87 @@ describe('Medications List Card Extra Details', () => {
       expect(await screen.findByTestId('refill-request-button')).to.exist;
     };
 
-    [
-      { isRefillBlocked: true, shouldHideButton: true, description: 'hides' },
-      { isRefillBlocked: false, shouldHideButton: false, description: 'shows' },
-    ].forEach(({ isRefillBlocked, shouldHideButton, description }) => {
-      it(`${description} refill button when isRefillBlocked is ${isRefillBlocked}`, async () => {
-        const rx = createRefillablePrescription({ isRefillBlocked });
-        const screen = setup(rx, {}, false, false);
-
-        if (shouldHideButton) {
+    describe('when mhvMedicationsOracleHealthCutover feature flag is enabled', () => {
+      describe('when isRefillBlocked is true (prescription blocked by Oracle Health transition)', () => {
+        it('hides refill button', async () => {
+          const rx = createRefillablePrescription({ isRefillBlocked: true });
+          const screen = setup(rx, {}, false, false);
           expectRefillButtonHidden(screen);
-        } else {
-          await expectRefillButtonVisible(screen);
-        }
-      });
-    });
-
-    it('shows refill button when isRefillBlocked is not provided (default behavior)', async () => {
-      const rx = createRefillablePrescription();
-      const screen = setup(rx, {}, false, false);
-      await expectRefillButtonVisible(screen);
-    });
-
-    [
-      { dispStatus: dispStatusObjV2.active, statusName: 'V2 Active', v2: true },
-      {
-        dispStatus: dispStatusObj.activeParked,
-        statusName: 'Active: Parked',
-        v2: false,
-      },
-    ].forEach(({ dispStatus, statusName, v2 }) => {
-      it(`hides refill button for ${statusName} status when isRefillBlocked is true`, () => {
-        const rx = createRefillablePrescription({
-          dispStatus,
-          isRefillBlocked: true,
         });
-        const screen = setup(rx, {}, v2, v2);
-        expectRefillButtonHidden(screen);
+
+        it('hides refill button for V2 Active status', () => {
+          const rx = createRefillablePrescription({
+            dispStatus: dispStatusObjV2.active,
+            isRefillBlocked: true,
+          });
+          const screen = setup(rx, {}, true, true);
+          expectRefillButtonHidden(screen);
+        });
+
+        it('hides refill button for Active: Parked status', () => {
+          const rx = createRefillablePrescription({
+            dispStatus: dispStatusObj.activeParked,
+            isRefillBlocked: true,
+          });
+          const screen = setup(rx, {}, false, false);
+          expectRefillButtonHidden(screen);
+        });
+
+        it('respects isRefillBlocked even when prescription is refillable with remaining refills', () => {
+          const rx = createRefillablePrescription({
+            refillRemaining: 5,
+            isRefillBlocked: true,
+          });
+          const screen = setup(rx, {}, false, false);
+          expectRefillButtonHidden(screen);
+        });
+
+        it('has no effect on details page (button already hidden)', () => {
+          const rx = createRefillablePrescription({
+            page: pageType.DETAILS,
+            isRefillBlocked: true,
+          });
+          const screen = setup(rx, {}, false, false);
+          expectRefillButtonHidden(screen);
+        });
+      });
+
+      describe('when isRefillBlocked is false or not provided (no Oracle Health transition blocking)', () => {
+        it('shows refill button when isRefillBlocked is false', async () => {
+          const rx = createRefillablePrescription({ isRefillBlocked: false });
+          const screen = setup(rx, {}, false, false);
+          await expectRefillButtonVisible(screen);
+        });
+
+        it('shows refill button when isRefillBlocked is not provided (default behavior)', async () => {
+          const rx = createRefillablePrescription();
+          const screen = setup(rx, {}, false, false);
+          await expectRefillButtonVisible(screen);
+        });
+
+        it('has no effect on details page (button already hidden)', () => {
+          const rx = createRefillablePrescription({
+            page: pageType.DETAILS,
+            isRefillBlocked: false,
+          });
+          const screen = setup(rx, {}, false, false);
+          expectRefillButtonHidden(screen);
+        });
       });
     });
 
-    it('respects isRefillBlocked even when prescription is refillable', () => {
-      const rx = createRefillablePrescription({
-        refillRemaining: 5,
-        isRefillBlocked: true,
+    describe('when mhvMedicationsOracleHealthCutover feature flag is disabled', () => {
+      it('shows refill button normally (isRefillBlocked is not set by parent)', async () => {
+        const rx = createRefillablePrescription();
+        const screen = setup(rx, {}, false, false);
+        await expectRefillButtonVisible(screen);
       });
-      const screen = setup(rx, {}, false, false);
-      expectRefillButtonHidden(screen);
-    });
 
-    it('isRefillBlocked has no effect on details page (button already hidden)', () => {
-      const rxWithHide = createRefillablePrescription({
-        page: pageType.DETAILS,
-        isRefillBlocked: true,
+      it('shows refill button even for transitioning facility prescription', async () => {
+        const rx = createRefillablePrescription({ stationNumber: '515' });
+        const screen = setup(rx, {}, false, false);
+        await expectRefillButtonVisible(screen);
       });
-      const screenWithHide = setup(rxWithHide, {}, false, false);
-      expectRefillButtonHidden(screenWithHide);
-
-      const rxWithoutHide = createRefillablePrescription({
-        page: pageType.DETAILS,
-        isRefillBlocked: false,
-      });
-      const screenWithoutHide = setup(rxWithoutHide, {}, false, false);
-      expectRefillButtonHidden(screenWithoutHide);
     });
   });
 });
