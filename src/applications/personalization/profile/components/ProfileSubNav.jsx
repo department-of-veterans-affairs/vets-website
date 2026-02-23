@@ -50,6 +50,8 @@ const ProfileSubNav = ({
   const recordNavUserEvent = e => {
     recordEvent({
       event: 'nav-sidenav',
+      'sidenav-click-label': e.target.label,
+      'sidenav-click-url': e.target.href,
     });
     if (clickHandler) {
       clickHandler();
