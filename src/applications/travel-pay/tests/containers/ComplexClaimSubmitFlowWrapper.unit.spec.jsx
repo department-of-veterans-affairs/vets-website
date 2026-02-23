@@ -43,6 +43,13 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       travel_pay_enable_complex_claims: complexClaimsEnabled,
       /* eslint-enable camelcase */
     },
+    scheduledDowntime: {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: { get() {} },
+      dismissedDowntimeWarnings: [],
+    },
     travelPay: {
       appointment: {
         data: {
