@@ -189,7 +189,8 @@ export const Alerts = {
     MOVE_MESSAGE_THREAD_SUCCESS: 'Message conversation was successfully moved.',
     MOVE_MESSAGE_THREAD_ERROR:
       'Message conversation could not be moved. Try again later. If this problem persists, contact the help desk.',
-    NO_MESSAGES: 'There are no messages in this folder.',
+    NO_MESSAGES:
+      'There are no messages in this folder. If this folder is no longer needed, you can remove it.',
     DELETE_DRAFT_SUCCESS: 'Draft was successfully deleted.',
     DELETE_DRAFT_ERROR:
       'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',

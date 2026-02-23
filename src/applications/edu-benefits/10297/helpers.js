@@ -6,6 +6,7 @@ import { countries } from 'platform/forms/address';
 import { focusElement } from '~/platform/utilities/ui';
 import { isValid, parseISO, parse } from 'date-fns';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
+import { isValidRoutingNumber } from 'platform/forms/validations';
 
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
 export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
@@ -166,17 +167,6 @@ export const viewifyFields = formData => {
   return newFormData;
 };
 
-export const maskBankInformation = (string, unmaskedLength) => {
-  if (!string) {
-    return '';
-  }
-  const repeatCount =
-    string.length > unmaskedLength ? string.length - unmaskedLength : 0;
-  const maskedPart = '●'.repeat(repeatCount);
-  const unmaskedPart = string.slice(-unmaskedLength);
-  return `${maskedPart}${unmaskedPart}`;
-};
-
 export const focusOnH3 = () => {
   focusElement('#main h3');
 };
@@ -226,6 +216,85 @@ export const parseDateToDateObj = (date, template) => {
   return isValid(newDate) ? newDate : null;
 };
 
+export function titleCase(str) {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
+export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
+  if (!str) {
+    return '';
+  }
+
+  if (str.length <= numVisibleChars) {
+    return str;
+  }
+
+  return (
+    obfuscateChar.repeat(str.length - numVisibleChars) +
+    str.substring(str.length - numVisibleChars, str.length)
+  );
+}
+
+const isValidAccountNumber = accountNumber => {
+  return /^[a-z0-9]+$/.test(accountNumber);
+};
+
+export const validateBankAccountNumber = (
+  errors,
+  accountNumber,
+  formData,
+  schema,
+  errorMessages,
+) => {
+  // Compile the regular expression based on the schema pattern
+  const accountNumberRegex = new RegExp(schema.pattern);
+  // Check if the account number matches the obfuscated format
+  const isValidObfuscated = accountNumberRegex.test(accountNumber.trim());
+  // Access bank account data from the form
+  const { bankAccount } = formData;
+
+  // Check if the provided account number matches the original (obfuscated) account number
+  const matchesOriginal =
+    accountNumber.trim() === bankAccount.originalAccountNumber;
+  // Check if the provided routing number matches the original (obfuscated) routing number
+  const routingNumberMatchesOriginal =
+    bankAccount.routingNumber === bankAccount.originalRoutingNumber;
+  // Validate the account number
+  if (
+    !isValidAccountNumber(accountNumber) &&
+    !(isValidObfuscated && matchesOriginal && routingNumberMatchesOriginal)
+  ) {
+    errors.addError(errorMessages.pattern);
+  }
+};
+
+export const validateRoutingNumber = (
+  errors,
+  routingNumber,
+  formData,
+  schema,
+  errorMessages,
+) => {
+  // Compile the regular expression based on the schema pattern
+  const routingNumberRegex = new RegExp(schema.pattern);
+  // Check if the routing number matches the obfuscated format
+  const isValidObfuscated = routingNumberRegex.test(routingNumber.trim());
+  // Access bank account data from the form
+  const { bankAccount } = formData;
+  // Check if the provided routing number matches the original (obfuscated) routing number
+  const matchesOriginal =
+    routingNumber.trim() === bankAccount.originalRoutingNumber;
+  // Check if the provided account number matches the original (obfuscated) account number
+  const accountNumberMatchesOriginal =
+    bankAccount.accountNumber === bankAccount.originalAccountNumber;
+  // Validate the routing number
+  if (
+    !isValidRoutingNumber(routingNumber) &&
+    !(isValidObfuscated && matchesOriginal && accountNumberMatchesOriginal)
+  ) {
+    errors.addError(errorMessages.pattern);
+  }
+};
 // this constant maps the values on address.js in vets.json schema from VA.gov values to LTS values
 // the lts values were found on the LTS database and LTS validates them, so we need to send correct value from here
 const ltsCountries = [
@@ -515,3 +584,24 @@ export function getLTSCountryCode(schemaCountryValue) {
   // If a country was found, return the two-character code. If not, return 'ZZ' for unknown.
   return country?.ltsValue ? country.ltsValue : 'ZZ';
 }
+
+export const lastDayOfMonth = (month, year = NaN) => {
+  const lastDay = new Date(year, month, 0).getDate();
+
+  // default values if provided year or month are invalid/blank
+  if (isNaN(lastDay)) {
+    switch (month) {
+      case 4:
+      case 6:
+      case 9:
+      case 11:
+        return 30;
+      case 2:
+        return 29;
+      default:
+        return 31;
+    }
+  }
+
+  return lastDay;
+};
