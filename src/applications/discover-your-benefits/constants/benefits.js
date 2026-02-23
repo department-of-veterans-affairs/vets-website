@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import { URLS } from './urls';
 
 export const categories = {
@@ -966,37 +967,37 @@ export const BENEFITS_LIST = [
     },
     learnMoreURL: URLS.SVB_LEARN,
   },
-  // {
-  //   name: 'Employment Navigator & Partnership Program',
-  //   category: categories.EMPLOYMENT,
-  //   id: 'ENPP',
-  //   description:
-  //     'If you’re leaving active service soon or recently discharged, you and your spouse can get one-on-one career assistance through ENPP. An Employment Navigator can help you find and secure a meaningful post-separation career. Select the learn more link for a list of locations where this program is available.',
-  //   whenToApply: [
-  //     WHEN_TO_APPLY.BEFORE_SEPARATION,
-  //     WHEN_TO_APPLY.AFTER_SEPARATION,
-  //   ],
-  //   mappings: {
-  //     [mappingTypes.GOALS]: [
-  //       goalTypes.RETIREMENT,
-  //       goalTypes.CAREER,
-  //       goalTypes.UNDERSTAND,
-  //       goalTypes.PLAN,
-  //     ],
-  //     [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-  //     [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
-  //     [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [anyType.ANY],
-  //     [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
-  //     [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
-  //     [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
-  //     [mappingTypes.SEPARATION]: [
-  //       separationTypes.UP_TO_3_MONTHS,
-  //       separationTypes.UP_TO_6_MONTHS,
-  //       separationTypes.UP_TO_1_YEAR,
-  //     ],
-  //     [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
-  //     [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-  //   },
-  //   learnMoreURL: URLS.ENPP_LEARN,
-  // },
+  {
+    name: 'Employment Navigator & Partnership Program (ENPP)',
+    category: categories.EMPLOYMENT,
+    id: 'ENPP',
+    description:
+      'If you’re leaving active service soon, you and your spouse can get one-on-one career assistance through ENPP. An Employment Navigator can help you find and secure a meaningful post-separation career. Select the learn more link for a list of locations where this program is available.',
+    whenToApplyDescription: 'Up to 2 years before you separate from service',
+    whenToApply: [WHEN_TO_APPLY.BEFORE_SEPARATION],
+    mappings: {
+      [mappingTypes.GOALS]: [
+        goalTypes.RETIREMENT,
+        goalTypes.CAREER,
+        goalTypes.UNDERSTAND,
+        goalTypes.PLAN,
+      ],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+    },
+    isQualified: responses => {
+      return (
+        !environment.isProduction() &&
+        responses[mappingTypes.GOALS] &&
+        responses[mappingTypes.CURRENTLY_SERVING]
+      );
+    },
+    learnMoreURL: URLS.ENPP_LEARN,
+  },
 ];
