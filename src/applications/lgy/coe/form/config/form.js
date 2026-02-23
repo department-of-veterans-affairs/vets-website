@@ -180,7 +180,7 @@ const formConfig = {
           title: 'Pending pre-discharge claim',
           depends: formData => {
             return (
-              formData[`view:${TOGGLE_KEY}`]; &&
+formData[`view:${TOGGLE_KEY}`] &&
               formData?.identity === serviceStatuses.ADSM
             );
           },
