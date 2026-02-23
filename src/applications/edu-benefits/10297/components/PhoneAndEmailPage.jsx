@@ -5,22 +5,26 @@ import { SchemaForm, FormNavButtons } from 'platform/forms-system/exportsFile';
 import { isValidEmail } from 'platform/forms/validations';
 import { fetchDuplicateContactInfo } from '../actions';
 
-const PhoneAndEmailPage = props => {
-  const {
-    name,
-    title,
-    schema,
-    uiSchema,
-    data,
-    onChange,
-    onSubmit,
-    goBack,
-    contentBeforeButtons,
-    contentAfterButtons,
-    trackingPrefix,
-    formContext,
-    getDuplicateContactInfo,
-  } = props;
+const PhoneAndEmailPage = ({
+  name,
+  title,
+  schema,
+  uiSchema,
+  data,
+  onSubmit,
+  goBack,
+  contentBeforeButtons,
+  contentAfterButtons,
+  trackingPrefix,
+  formContext,
+  getDuplicateContactInfo,
+  setFormData,
+  onReviewPage,
+  updatePage,
+}) => {
+  const handleChange = newData => {
+    setFormData(newData);
+  };
 
   const checkDuplicate = useCallback(
     () => {
@@ -35,8 +39,14 @@ const PhoneAndEmailPage = props => {
           entry => entry?.number === data?.contactInfo?.mobilePhone?.contact,
         );
 
+      const isEmailValid =
+        !document
+          .querySelector("va-text-input[label='Email']")
+          ?.hasAttribute('error') &&
+        isValidEmail(data?.contactInfo?.emailAddress);
+
       if (
-        isValidEmail(data?.contactInfo?.emailAddress) &&
+        isEmailValid &&
         data?.contactInfo?.mobilePhone?.isValid &&
         (emailUpdated || phoneUpdated)
       ) {
@@ -83,13 +93,24 @@ const PhoneAndEmailPage = props => {
       schema={schema}
       data={data}
       uiSchema={uiSchema}
-      onChange={onChange}
+      onChange={handleChange}
       onSubmit={onSubmit}
       trackingPrefix={trackingPrefix}
       formContext={formContext}
     >
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} submitToContinue />
+      {onReviewPage ? (
+        <va-button
+          full-width
+          type="submit"
+          text="Update page"
+          class="vads-u-padding--0"
+          label={`Update ${title}`}
+          onClick={updatePage}
+        />
+      ) : (
+        <FormNavButtons goBack={goBack} submitToContinue />
+      )}
       {contentAfterButtons}
     </SchemaForm>
   );
@@ -108,10 +129,13 @@ PhoneAndEmailPage.propTypes = {
   goBack: PropTypes.func,
   name: PropTypes.string,
   schema: PropTypes.object,
+  setFormData: PropTypes.func,
   title: PropTypes.string,
   trackingPrefix: PropTypes.string,
   uiSchema: PropTypes.object,
+  updatePage: PropTypes.func,
   onChange: PropTypes.func,
+  onReviewPage: PropTypes.bool,
   onSubmit: PropTypes.func,
 };
 
