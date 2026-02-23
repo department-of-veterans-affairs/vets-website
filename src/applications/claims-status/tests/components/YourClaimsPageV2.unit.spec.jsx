@@ -364,6 +364,20 @@ describe('<YourClaimsPageV2>', () => {
       );
       expect(container.textContent).to.include('Showing 1-10 of 12 records');
     });
+
+    it('should use singular "record" when there is only one item', () => {
+      const props = {
+        ...filterProps,
+        list: [defaultProps.list[0]],
+      };
+      const { container } = renderWithRouter(
+        <Provider store={mockStore}>
+          <YourClaimsPageV2 {...props} />
+        </Provider>,
+      );
+      expect(container.textContent).to.include('Showing 1-1 of 1 record');
+      expect(container.textContent).to.not.include('records');
+    });
   });
 
   describe('rendering mixed appeals and claims', () => {

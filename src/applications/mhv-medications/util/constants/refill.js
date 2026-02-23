@@ -29,6 +29,40 @@ export const MEDICATION_REFILL_CONFIG = {
   },
 };
 
+export const MEDICATION_REFILL_CONFIG_V2 = {
+  ERROR: {
+    id: 'error-refill',
+    testId: 'error-refill',
+    status: 'error',
+    className: 'vads-u-margin-y--1',
+    title: 'Request not submitted',
+    description: 'We\u2019re sorry. There\u2019s a problem with our system.',
+    suggestion:
+      'Try requesting your refills again. If it still doesn\u2019t work, contact your VA pharmacy.',
+  },
+  PARTIAL: {
+    id: 'partial-refill',
+    testId: 'partial-refill',
+    status: 'error',
+    className: 'vads-u-margin-y--2',
+    title: 'Only part of your request was submitted',
+    description:
+      'We\u2019re sorry. There\u2019s a problem with our system. We couldn\u2019t submit these refill requests:',
+    suggestion:
+      'Try requesting these refills again. If it still doesn\u2019t work, call your VA pharmacy.',
+  },
+  SUCCESS: {
+    id: 'success-refill',
+    testId: 'success-refill',
+    status: 'success',
+    className: 'vads-u-margin-y--2',
+    title: 'Refills requested',
+    description:
+      'To check the status of your refill requests, review your list of in-progress medications.',
+    linkText: 'Go to your in-progress medications',
+  },
+};
+
 export const REFILL_STATUS = {
   FINISHED: 'finished',
   NOT_STARTED: 'notStarted',

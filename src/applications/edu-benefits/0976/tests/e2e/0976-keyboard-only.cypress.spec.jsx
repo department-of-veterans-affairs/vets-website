@@ -7,6 +7,13 @@ describe('22-0976 keyboard only specs', () => {
     if (Cypress.env('CI')) this.skip();
 
     cy.intercept('POST', SUBMIT_URL, mockSubmit);
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [{}],
+      },
+    });
   });
 
   it('it navigable with only the keyboard', () => {

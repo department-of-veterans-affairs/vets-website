@@ -91,10 +91,10 @@ describe('21-8940 component/TelephoneFieldNoInternalErrors', () => {
       callingCode: 1,
       countryCode: 'US',
       contact: '2028675309',
-      _isValid: true,
-      _error: undefined,
-      _touched: true,
-      _required: true,
+      isValid: true,
+      error: undefined,
+      touched: true,
+      required: true,
     });
   });
 });

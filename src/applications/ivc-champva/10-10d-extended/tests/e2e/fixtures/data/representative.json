@@ -40,7 +40,9 @@
         "applicantGender": "male",
         "applicantRelationshipToSponsor": "child",
         "applicantRelationshipOrigin": "blood",
-        "applicantDependentStatus": "over18HelplessChild"
+        "applicantDependentStatus": {
+          "status": "over18HelplessChild"
+        }
       }
     ],
     "view:hasHealthInsurance": false,

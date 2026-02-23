@@ -120,28 +120,32 @@ export const treatmentPages = arrayBuilderPages(options, pageBuilder => ({
   dicBenefitsIntro: pageBuilder.introPage({
     title: 'Treatment at VA medical centers',
     path: 'claim-information/dic/treatment',
-    depends: formData => formData?.claims?.DIC === true,
+    depends: formData =>
+      formData?.claims?.dic === true || formData?.claims?.DIC === true,
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
   }),
   dicBenefitsSummary: pageBuilder.summaryPage({
     title: 'DIC benefits',
     path: 'claim-information/dic/add',
-    depends: formData => formData?.claims?.DIC === true,
+    depends: formData =>
+      formData?.claims?.dic === true || formData?.claims?.DIC === true,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   dicNameLocationPage: pageBuilder.itemPage({
     title: 'VA medical center name and location',
     path: 'claim-information/dic/:index/name-location',
-    depends: formData => formData?.claims?.DIC === true,
+    depends: formData =>
+      formData?.claims?.dic === true || formData?.claims?.DIC === true,
     uiSchema: nameLocationPage.uiSchema,
     schema: nameLocationPage.schema,
   }),
   dicTreatmentDates: pageBuilder.itemPage({
     title: 'Dates of treatment',
     path: 'claim-information/dic/:index/dates',
-    depends: formData => formData?.claims?.DIC === true,
+    depends: formData =>
+      formData?.claims?.dic === true || formData?.claims?.DIC === true,
     uiSchema: treatmentDatePage.uiSchema,
     schema: treatmentDatePage.schema,
   }),

@@ -43,6 +43,7 @@ const MigratingFacilitiesAlerts = ({
             migratingFacilities.length > 0 ? 'vads-u-margin-top--2' : ''
           }`}
           status="error"
+          data-testid="cerner-facilities-transition-alert-error-phase"
           background-only
         >
           <h2 className="vads-u-font-size--md" slot="headline">
@@ -136,6 +137,7 @@ MigratingFacilitiesAlerts.propTypes = {
         p4: PropTypes.string,
         p5: PropTypes.string,
         p6: PropTypes.string,
+        p7: PropTypes.string,
       }),
     }),
   ).isRequired,

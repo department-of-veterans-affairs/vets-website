@@ -6,7 +6,8 @@ const Intro = () => (
     <p>
       Next we’ll ask you to submit evidence (supporting documents) for your
       claim. If you upload all of this information online now, you may be able
-      to get a faster decision on your claim.
+      to get a faster decision on your claim. You can upload documents on the
+      next page.
     </p>
   </div>
 );
@@ -190,7 +191,6 @@ const Documents = () => (
             Proof of payment from care provided, such as canceled checks or bank
             statements
           </li>
-          <li>Signed verification from care service provider</li>
         </ul>
       </va-accordion-item>
       <va-accordion-item level={5} bordered header="Dependent children">

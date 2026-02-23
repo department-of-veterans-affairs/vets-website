@@ -340,9 +340,7 @@ const formConfig = {
           path: 'household/separation-details',
           title: 'Separation details',
           depends: formData =>
-            formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            formData.separationDueToAssignedReasons &&
-            formData.separationDueToAssignedReasons !== 'OTHER',
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
           uiSchema: separationDetails.uiSchema,
           schema: separationDetails.schema,
         },
@@ -438,7 +436,8 @@ const formConfig = {
         dicBenefits: {
           title: 'D.I.C. benefits',
           path: 'claim-information/dic',
-          depends: formData => formData?.claims?.DIC === true,
+          depends: formData =>
+            formData?.claims?.dic === true || formData?.claims?.DIC === true,
           uiSchema: dicBenefits.uiSchema,
           schema: dicBenefits.schema,
         },
