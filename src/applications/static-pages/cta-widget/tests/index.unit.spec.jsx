@@ -41,9 +41,7 @@ const getData = ({
   profile = {},
   mhvAccount = {},
   mviStatus = {},
-  featureToggles = {
-    [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
-  },
+  featureToggles = {},
 } = {}) => ({
   props: {
     profile: {
@@ -64,6 +62,7 @@ const getData = ({
     getState: () => ({
       featureToggles: {
         loading: false,
+        [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
         ...featureToggles,
       },
       user: {
@@ -88,21 +87,25 @@ const getData = ({
 
 describe('<CallToActionWidget>', () => {
   it('should show loading state', () => {
+    const { mockStore } = getData();
     const tree = mount(
-      <CallToActionWidget
-        profile={{
-          loading: true,
-          verified: false,
-          multifactor: false,
-        }}
-        mhvAccount={{
-          loading: false,
-        }}
-        mviStatus={{}}
-        featureToggles={{
-          loading: false,
-        }}
-      />,
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          profile={{
+            loading: true,
+            verified: false,
+            multifactor: false,
+          }}
+          mhvAccount={{
+            loading: false,
+          }}
+          mviStatus={{}}
+          featureToggles={{
+            loading: false,
+          }}
+        />
+        ,
+      </Provider>,
     );
 
     expect(tree.find('va-loading-indicator').exists()).to.be.true;
@@ -110,21 +113,24 @@ describe('<CallToActionWidget>', () => {
   });
 
   it('should show loading state when loading feature toggles', () => {
+    const { mockStore } = getData();
     const tree = mount(
-      <CallToActionWidget
-        profile={{
-          loading: false,
-          verified: false,
-          multifactor: false,
-        }}
-        mhvAccount={{
-          loading: false,
-        }}
-        mviStatus={{}}
-        featureToggles={{
-          loading: true,
-        }}
-      />,
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          profile={{
+            loading: false,
+            verified: false,
+            multifactor: false,
+          }}
+          mhvAccount={{
+            loading: false,
+          }}
+          mviStatus={{}}
+          featureToggles={{
+            loading: true,
+          }}
+        />
+      </Provider>,
     );
 
     expect(tree.find('va-loading-indicator').exists()).to.be.true;
@@ -246,23 +252,26 @@ describe('<CallToActionWidget>', () => {
   });
 
   it('should show link and description', () => {
+    const { mockStore } = getData();
     const tree = mount(
-      <CallToActionWidget
-        appId={CTA_WIDGET_TYPES.CLAIMS_AND_APPEALS}
-        isLoggedIn
-        profile={{
-          loading: false,
-          verified: true,
-          multifactor: false,
-        }}
-        mhvAccount={{
-          loading: false,
-        }}
-        mviStatus={{}}
-        featureToggles={{
-          loading: false,
-        }}
-      />,
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          appId={CTA_WIDGET_TYPES.CLAIMS_AND_APPEALS}
+          isLoggedIn
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: false,
+          }}
+          mhvAccount={{
+            loading: false,
+          }}
+          mviStatus={{}}
+          featureToggles={{
+            loading: false,
+          }}
+        />
+      </Provider>,
     );
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
     expect(tree.find('SignIn').exists()).to.be.false;
@@ -360,44 +369,50 @@ describe('<CallToActionWidget>', () => {
 
   describe('online scheduling', () => {
     it('should show HealthToolsDown when there is a server error', () => {
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{}}
-          mviStatus="SERVER_ERROR"
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: true,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            mviStatus="SERVER_ERROR"
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: true,
+            }}
+          />
+        </Provider>,
       );
       expect(tree.find('HealthToolsDown').exists()).to.be.true;
       tree.unmount();
     });
 
     it('should show NotFound when the mvi status is not found', () => {
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{}}
-          mviStatus="NOT_FOUND"
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: true,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            mviStatus="NOT_FOUND"
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: true,
+            }}
+          />
+        </Provider>,
       );
       expect(tree.find('NotFound').exists()).to.be.true;
       tree.unmount();
@@ -455,24 +470,27 @@ describe('<CallToActionWidget>', () => {
     });
 
     it('should show appts message', () => {
+      const { mockStore } = getData();
       const fetchMHVAccount = sinon.spy();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.VIEW_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{}}
-          mviStatus="OK"
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: true,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.VIEW_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            mviStatus="OK"
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: true,
+            }}
+          />
+        </Provider>,
       );
 
       expect(fetchMHVAccount.called).to.be.false;
@@ -485,23 +503,26 @@ describe('<CallToActionWidget>', () => {
 
     it('should not fetch mhv account for new tool', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{}}
-          mviStatus="OK"
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: true,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            mviStatus="OK"
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: true,
+            }}
+          />
+        </Provider>,
       );
 
       expect(fetchMHVAccount.called).to.be.false;
@@ -597,24 +618,27 @@ describe('<CallToActionWidget>', () => {
 
     it('should show DeactivatedMHVIds if it is a health tool and the mhv account is deactivated', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          authenticatedWithSSOe
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{}}
-          mhvAccountIdState="DEACTIVATED"
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            authenticatedWithSSOe
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            mhvAccountIdState="DEACTIVATED"
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('DeactivatedMHVIds').exists()).to.be.true;
@@ -623,23 +647,26 @@ describe('<CallToActionWidget>', () => {
 
     it('should show OpenMyHealtheVet if it is a health tool authenticated with ssoe', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          authenticatedWithSSOe
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{}}
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            authenticatedWithSSOe
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('OpenMyHealtheVet').exists()).to.be.true;
@@ -648,22 +675,25 @@ describe('<CallToActionWidget>', () => {
 
     it('should show OpenMyHealtheVet if it is a health tool and the mhv account is premium', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{ accountLevel: 'Premium' }}
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{ accountLevel: 'Premium' }}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('OpenMyHealtheVet').exists()).to.be.true;
@@ -672,22 +702,25 @@ describe('<CallToActionWidget>', () => {
 
     it('should show HealthToolsDown if it is a health tool and the mhv account has errors', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{ errors: 'some' }}
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{ errors: 'some' }}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('HealthToolsDown').exists()).to.be.true;
@@ -696,22 +729,25 @@ describe('<CallToActionWidget>', () => {
 
     it('should show UpgradeFailed if it is a health tool and the account upgrade failed', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{ accountState: ACCOUNT_STATES.UPGRADE_FAILED }}
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{ accountState: ACCOUNT_STATES.UPGRADE_FAILED }}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('UpgradeFailed').exists()).to.be.true;
@@ -720,22 +756,25 @@ describe('<CallToActionWidget>', () => {
 
     it('should show RegisterFailed if it is a health tool and registering the account failed', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{ accountState: ACCOUNT_STATES.REGISTER_FAILED }}
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{ accountState: ACCOUNT_STATES.REGISTER_FAILED }}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('RegisterFailed').exists()).to.be.true;
@@ -744,22 +783,25 @@ describe('<CallToActionWidget>', () => {
 
     it('should show MultipleIds if it is a health tool and the account has multiple ids', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{ accountState: ACCOUNT_STATES.MULTIPLE_IDS }}
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{ accountState: ACCOUNT_STATES.MULTIPLE_IDS }}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('MultipleIds').exists()).to.be.true;
@@ -768,22 +810,25 @@ describe('<CallToActionWidget>', () => {
 
     it('should show DeactivatedMHVIds if it is a health tool and the account has deactivated MHV ids', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{ accountState: ACCOUNT_STATES.DEACTIVATED_MHV_IDS }}
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{ accountState: ACCOUNT_STATES.DEACTIVATED_MHV_IDS }}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('DeactivatedMHVIds').exists()).to.be.true;
@@ -792,22 +837,26 @@ describe('<CallToActionWidget>', () => {
 
     it('should show NeedsSSNResolution if it is a health tool and the account needs SSN resolution', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{ accountState: ACCOUNT_STATES.NEEDS_SSN_RESOLUTION }}
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{ accountState: ACCOUNT_STATES.NEEDS_SSN_RESOLUTION }}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+          ,
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('NeedsSSNResolution').exists()).to.be.true;
@@ -843,25 +892,28 @@ describe('<CallToActionWidget>', () => {
 
     it('should show UpgradeAccount if it is a health tool and has an account level', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{
-            accountState: ACCOUNT_STATES.NEEDS_TERMS_ACCEPTANCE,
-            accountLevel: 'Basic',
-          }}
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{
+              accountState: ACCOUNT_STATES.NEEDS_TERMS_ACCEPTANCE,
+              accountLevel: 'Basic',
+            }}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('UpgradeAccount').exists()).to.be.true;
@@ -934,23 +986,26 @@ describe('<CallToActionWidget>', () => {
 
     describe('functionality', () => {
       it('should show child nodes if provided', () => {
+        const { mockStore } = getData();
         const tree = mount(
-          <CallToActionWidget
-            isLoggedIn
-            appId="test"
-            profile={{
-              loading: false,
-              verified: true,
-              multifactor: true,
-            }}
-            mhvAccount={{}}
-            featureToggles={{
-              loading: false,
-              vaOnlineScheduling: true,
-            }}
-          >
-            <div className="child-node">Child Node</div>
-          </CallToActionWidget>,
+          <Provider store={mockStore}>
+            <CallToActionWidget
+              isLoggedIn
+              appId="test"
+              profile={{
+                loading: false,
+                verified: true,
+                multifactor: true,
+              }}
+              mhvAccount={{}}
+              featureToggles={{
+                loading: false,
+                vaOnlineScheduling: true,
+              }}
+            >
+              <div className="child-node">Child Node</div>
+            </CallToActionWidget>
+          </Provider>,
         );
         expect(tree.find('.child-node').exists()).to.be.true;
         expect(tree.find('.child-node').text()).to.equal('Child Node');
