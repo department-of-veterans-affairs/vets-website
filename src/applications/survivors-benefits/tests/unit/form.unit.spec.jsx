@@ -162,7 +162,6 @@ describe('Survivors Benefits Form config', () => {
         legalStatusOfMarriage,
         marriageStatus,
         reasonForSeparation,
-        separationDetails,
         remarriage,
         remarriageDetails,
         additionalMarriages,
@@ -289,7 +288,7 @@ describe('Survivors Benefits Form config', () => {
       livedContinuouslyWithVeteran: false,
       separationDueToAssignedReasons: 'DIVORCE',
     };
-    expect(separationDetails.depends(allConditionsTrue)).to.be.true;
+    expect(separationDetails.depends(allConditionsTrue)).to.be.ok;
 
     // Should NOT show when claimant is not surviving spouse
     const notSurvivingSpouse = {
@@ -297,7 +296,7 @@ describe('Survivors Benefits Form config', () => {
       livedContinuouslyWithVeteran: false,
       separationDueToAssignedReasons: 'DIVORCE',
     };
-    expect(separationDetails.depends(notSurvivingSpouse)).to.be.false;
+    expect(separationDetails.depends(notSurvivingSpouse)).not.to.be.ok;
 
     // Should NOT show when lived continuously (even if separation reason exists)
     const livedContinuously = {
@@ -305,13 +304,13 @@ describe('Survivors Benefits Form config', () => {
       livedContinuouslyWithVeteran: true,
       separationDueToAssignedReasons: 'DIVORCE',
     };
-    expect(separationDetails.depends(livedContinuously)).to.be.false;
+    expect(separationDetails.depends(livedContinuously)).not.to.be.ok;
 
     // Should NOT show when no separation reason selected
     const noSeparationReason = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       livedContinuouslyWithVeteran: false,
     };
-    expect(separationDetails.depends(noSeparationReason)).to.be.false;
+    expect(separationDetails.depends(noSeparationReason)).not.to.be.ok;
   });
 });
