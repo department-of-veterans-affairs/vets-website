@@ -572,6 +572,7 @@ describe('Authentication Utilities', () => {
       const link = await authUtilities.verify({
         policy: 'logingov',
         isLink: true,
+        useOAuth: false,
       });
       expect(link).to.include('logingov_signup_verified');
       expect(typeof link).to.eql('string');
@@ -588,7 +589,7 @@ describe('Authentication Utilities', () => {
       expect(typeof link).to.eql('string');
     });
     it('should kickoff identity-verification (SAML)', async () => {
-      await authUtilities.verify({ policy: 'idme' });
+      await authUtilities.verify({ policy: 'idme', useOAuth: false });
       const location = global.window.location.href || global.window.location;
       expect(location).to.include('idme_signup_verified');
     });
@@ -606,6 +607,7 @@ describe('Authentication Utilities', () => {
       const samlLink = await authUtilities.verify({
         policy: 'idme',
         isLink: true,
+        useOAuth: false,
         queryParams: {
           operation: 'test_operation',
           gaClientId: 'id',
@@ -636,6 +638,7 @@ describe('Authentication Utilities', () => {
         const signupUrl = await authUtilities.signupOrVerify({
           policy,
           isLink: true,
+          useOAuth: false,
         });
         expect(signupUrl).contain(
           API_SESSION_URL({
@@ -645,7 +648,7 @@ describe('Authentication Utilities', () => {
       });
 
       it(`should generate the default URL link and redirect for signup '${policy}_signup'`, async () => {
-        await authUtilities.signupOrVerify({ policy });
+        await authUtilities.signupOrVerify({ policy, useOAuth: false });
         const location = global.window.location.href || global.window.location;
         expect(location).contain(
           API_SESSION_URL({
@@ -659,6 +662,7 @@ describe('Authentication Utilities', () => {
           policy,
           isLink: true,
           isSignup: false,
+          useOAuth: false,
         });
         expect(url).to.include(`${policy}_signup_verified`);
       });
@@ -750,43 +754,42 @@ describe('Authentication Utilities', () => {
       document.cookie = '';
     });
 
-    it('should return false by default', () => {
-      expect(authUtilities.determineAuthBroker()).to.be.false;
-      expect(authUtilities.determineAuthBroker(false, false)).to.be.false;
+    it('should return true by default', () => {
+      expect(authUtilities.determineAuthBroker()).to.be.true;
     });
 
     it('should return `true` when no cookie is found', () => {
-      expect(authUtilities.determineAuthBroker(true)).to.be.true;
+      expect(authUtilities.determineAuthBroker()).to.be.true;
     });
 
     it('should return `false` when parsed cookie is `T`', () => {
       Cookies.set('CERNER_ELIGIBLE', parsedCookieT);
-      expect(authUtilities.determineAuthBroker(true)).to.be.false;
+      expect(authUtilities.determineAuthBroker()).to.be.false;
     });
 
     it('should return `true` when parsed cookie is `F`', () => {
       Cookies.set('CERNER_ELIGIBLE', parsedCookieF);
-      expect(authUtilities.determineAuthBroker(true)).to.be.true;
+      expect(authUtilities.determineAuthBroker()).to.be.true;
     });
 
     it('should return `true` when cookie is plain text "false"', () => {
       Cookies.set('CERNER_ELIGIBLE', 'false');
-      expect(authUtilities.determineAuthBroker(true)).to.be.true;
+      expect(authUtilities.determineAuthBroker()).to.be.true;
     });
 
     it('should return `false` when cookie is plain text "true"', () => {
       Cookies.set('CERNER_ELIGIBLE', 'true');
-      expect(authUtilities.determineAuthBroker(true)).to.be.false;
+      expect(authUtilities.determineAuthBroker()).to.be.false;
     });
 
     it('should handle casing and whitespace for plain text "false"', () => {
       Cookies.set('CERNER_ELIGIBLE', '  FALSE  ');
-      expect(authUtilities.determineAuthBroker(true)).to.be.true;
+      expect(authUtilities.determineAuthBroker()).to.be.true;
     });
 
     it('should fall back to plain text and return `true` for malformed signed cookie', () => {
       Cookies.set('CERNER_ELIGIBLE', 'not-base64--sig');
-      expect(authUtilities.determineAuthBroker(true)).to.be.true;
+      expect(authUtilities.determineAuthBroker()).to.be.true;
     });
   });
 });
