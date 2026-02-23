@@ -18,13 +18,13 @@ describe('Custom form validations', () => {
   it('should validate that the marriage end date is after the marriage start date', () => {
     validations.isAfterMarriageStartDate(errors, '2020-01-01', formData);
     expect(errorMessage).to.include(
-      'End date must be after the start date. Enter a date later than [01/01/2021].',
+      'End date must be after the start date. Enter a date later than 01/01/2021.',
     );
   });
   it('should validate that the separation end date is after the separation start date', () => {
     validations.isAfterSeparationStartDate(errors, '1999-01-01', formData);
     expect(errorMessage).to.include(
-      'End date must be after the start date. Enter a date later than [03/05/2000].',
+      'End date must be after the start date. Enter a date later than 03/05/2000.',
     );
   });
   it('should validate that the previous marriage end date is after the previous marriage start date', () => {
@@ -34,7 +34,7 @@ describe('Custom form validations', () => {
       formData,
     );
     expect(errorMessage).to.include(
-      'End date must be after the start date. Enter a date later than [02/02/1990].',
+      'End date must be after the start date. Enter a date later than 02/02/1990.',
     );
   });
   it('should validate that a treatment end date is after its start date', () => {
@@ -42,13 +42,13 @@ describe('Custom form validations', () => {
       startDate: '1990-02-02',
     });
     expect(errorMessage).to.include(
-      'End date must be after the start date. Enter a date later than [02/02/1990].',
+      'End date must be after the start date. Enter a date later than 02/02/1990.',
     );
   });
   it('should validate that the veteran date of death is after the the date of birth', () => {
     validations.isAfterVeteranBirthDate(errors, '1965-01-01', formData);
     expect(errorMessage).to.include(
-      'End date must be after the start date. Enter a date later than [04/15/1970].',
+      'End date must be after the start date. Enter a date later than 04/15/1970.',
     );
   });
   it('should not return an error if the marriage end date is after the marriage start date', () => {
