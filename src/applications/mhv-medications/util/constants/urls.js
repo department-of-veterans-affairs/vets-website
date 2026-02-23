@@ -16,5 +16,6 @@ export const medicationsUrls = {
     IN_PROGRESS: '/in-progress',
     REFILL: '/refill',
     DETAILS: '/prescription',
+    HISTORY: '/history',
   },
 };
