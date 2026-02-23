@@ -8,8 +8,6 @@ const defaultProps = {
   isLoading: false,
   filteredList: [{ id: 1 }, { id: 2 }],
   noFilterMatches: false,
-  isReturningFromDetailsPage: false,
-  scrollLocation: { current: null },
   showingFocusedAlert: false,
 };
 
@@ -101,48 +99,6 @@ describe('useFocusManagement', () => {
       await new Promise(resolve => setTimeout(resolve, 0));
 
       expect(h1FocusSpy.called).to.be.false;
-    });
-
-    it('scrolls to previous location when returning from details page', async () => {
-      const scrollElement = document.createElement('div');
-      scrollElement.scrollIntoView = sandbox.stub();
-
-      renderHook(() =>
-        useFocusManagement({
-          ...defaultProps,
-          isReturningFromDetailsPage: true,
-          scrollLocation: { current: scrollElement },
-        }),
-      );
-
-      await waitFor(() => {
-        expect(scrollElement.scrollIntoView.called).to.be.true;
-      });
-    });
-
-    it('focuses h1 when isReturningFromDetailsPage is true and scrollLocation ref is null', async () => {
-      renderHook(() =>
-        useFocusManagement({
-          ...defaultProps,
-          isReturningFromDetailsPage: true,
-        }),
-      );
-
-      await new Promise(resolve => setTimeout(resolve, 0));
-      expect(h1FocusSpy.called).to.be.true;
-    });
-
-    it('focuses h1 when isReturningFromDetailsPage is true and scrollLocation.current.scrollIntoView is undefined', async () => {
-      renderHook(() =>
-        useFocusManagement({
-          ...defaultProps,
-          isReturningFromDetailsPage: true,
-          scrollLocation: { current: { foo: 'bar' } },
-        }),
-      );
-
-      await new Promise(resolve => setTimeout(resolve, 0));
-      expect(h1FocusSpy.called).to.be.true;
     });
   });
 

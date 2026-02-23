@@ -51,6 +51,7 @@ import {
   isCompletingModern4142,
   onFormLoaded,
   hasEvidenceChoice,
+  normalizeReturnUrlForResume,
 } from '../utils';
 
 import { gatePages } from '../utils/gatePages';
@@ -179,8 +180,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_21_526EZ,
   wizardStorageKey: WIZARD_STATUS,
   customText: {
-    appAction: 'filing',
-    appContinuing: 'for disability compensation',
+    appAction: 'filing for disability compensation',
   },
   saveInProgress: {
     messages: {
@@ -213,6 +213,7 @@ const formConfig = {
   reviewErrors,
   customValidationErrors: getCustomValidationErrors,
   onFormLoaded,
+  normalizeReturnUrl: normalizeReturnUrlForResume,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },

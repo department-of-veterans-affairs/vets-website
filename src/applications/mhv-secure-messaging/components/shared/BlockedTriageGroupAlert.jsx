@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import {
   BlockedTriageAlertStyles,
   ParentComponent,
@@ -37,6 +38,25 @@ const BlockedTriageGroupAlert = ({
   const recipients = useSelector(state => state.sm?.recipients);
   const analyticsRef = useRef(false);
 
+  let userFacilityMigratingToOh = false;
+  let migratingFacilities = [];
+  let isInErrorPhase = false;
+  const userProfile = useSelector(state => state.user.profile);
+  if (
+    userProfile.userAtPretransitionedOhFacility ||
+    userProfile.userFacilityMigratingToOh
+  ) {
+    userFacilityMigratingToOh = userProfile?.userFacilityMigratingToOh;
+    migratingFacilities =
+      userProfile?.migrationSchedules?.length > 0
+        ? userProfile?.migrationSchedules
+        : [];
+    const config = CernerAlertContent.SECURE_MESSAGING;
+    isInErrorPhase = migratingFacilities.some(migration =>
+      config.errorPhases?.includes(migration.phases.current),
+    );
+  }
+
   // Compute alert configuration using the centralized utility
   const alertConfig = useMemo(
     () =>
@@ -46,6 +66,8 @@ const BlockedTriageGroupAlert = ({
         parentComponent,
         ehrDataByVhaId,
         isOhMessage,
+        facilityMigratingToOhInErrorPhase:
+          userFacilityMigratingToOh && isInErrorPhase,
       }),
     [
       recipients,
@@ -53,6 +75,8 @@ const BlockedTriageGroupAlert = ({
       parentComponent,
       ehrDataByVhaId,
       isOhMessage,
+      userFacilityMigratingToOh,
+      isInErrorPhase,
     ],
   );
 
