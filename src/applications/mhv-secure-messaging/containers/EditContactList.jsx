@@ -67,9 +67,9 @@ const EditContactList = () => {
   );
 
   const migratingFacilities =
-    userProfile?.migrationSchedules?.flatMap(facility =>
-      facility.facilities?.map(f => f.facilityName),
-    ) || [];
+    userProfile?.migrationSchedules
+      ?.flatMap(facility => facility.facilities?.map(f => f.facilityName))
+      ?.filter(Boolean) || [];
 
   const isInAlertDisplayWindow =
     migratingFacilities.length > 0 &&
