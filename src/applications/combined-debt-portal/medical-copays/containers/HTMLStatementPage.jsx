@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useDispatch, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   setPageFocus,
+  isAnyElementFocused,
   showVHAPaymentHistory,
   useCurrentStatement,
 } from '../../combined/utils/helpers';
@@ -15,8 +16,11 @@ import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
 import NeedHelpCopay from '../components/NeedHelpCopay';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
+import { current } from '@reduxjs/toolkit';
+import { getCopayDetailStatement } from '../../combined/actions/copays';
 
 const HTMLStatementPage = ({ match }) => {
+  const dispatch = useDispatch();
   const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
     useSelector(state => state),
   );
@@ -32,7 +36,7 @@ const HTMLStatementPage = ({ match }) => {
   const statementDate = isValid(parsedStatementDate)
     ? format(parsedStatementDate, 'MMMM d')
     : '';
-  const charges = selectedStatement?.details?.filter(
+  const charges = currentStatement?.details?.filter(
     charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
   );
 
@@ -49,7 +53,7 @@ const HTMLStatementPage = ({ match }) => {
     ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
     : `${userFullName.first} ${userFullName.last}`;
   const acctNum =
-    selectedStatement?.accountNumber || selectedStatement?.pHAccountNumber;
+    currentStatement?.accountNumber || currentStatement?.pHAccountNumber;
 
   useHeaderPageTitle(title);
 
@@ -63,7 +67,6 @@ const HTMLStatementPage = ({ match }) => {
       if (shouldFetchStatement) dispatch(getCopayDetailStatement(statementId));
     },
     [
-      statementId,
       dispatch,
       shouldFetchStatement
     ],
@@ -100,7 +103,7 @@ const HTMLStatementPage = ({ match }) => {
       <article className="vads-u-padding--0 medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="statement-page-title">{title}</h1>
         <p className="va-introtext" data-testid="facility-name">
-          {`${selectedStatement?.station.facilityName}`}
+          {`${currentStatement?.station.facilityName}`}
         </p>
         <AccountSummary
           acctNum={acctNum}
@@ -114,18 +117,18 @@ const HTMLStatementPage = ({ match }) => {
           <StatementTable
             charges={charges}
             formatCurrency={formatCurrency}
-            selectedStatement={selectedStatement}
+            selectedCopay={currentStatement}
           />
         )}
         <DownloadStatement
           key={statementId}
-          statementId={statementId}
+          selectedId={statementId}
           statementDate={currentStatement.pSStatementDate}
           fullName={fullName}
         />
         <StatementAddresses
           data-testid="statement-addresses"
-          copay={selectedStatement}
+          copay={currentStatement}
         />
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />

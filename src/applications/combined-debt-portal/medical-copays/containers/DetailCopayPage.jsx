@@ -124,7 +124,7 @@ const DetailCopayPage = ({ match }) => {
 
   useHeaderPageTitle(copayAttributes.TITLE);
 
-  if (!currentStatement?.id || isCopayDetailLoading) {
+  if (!currentStatement?.id || shouldFetchStatement) {
     return <VaLoadingIndicator message="Loading features..." />;
   }
 
@@ -209,7 +209,7 @@ const DetailCopayPage = ({ match }) => {
             <StatementTable
               charges={copayAttributes.CHARGES}
               formatCurrency={formatCurrency}
-              currentStatement={currentStatement}
+              selectedCopay={currentStatement}
             />
           ) : (
             <StatementCharges
@@ -219,7 +219,7 @@ const DetailCopayPage = ({ match }) => {
           )}
           <DownloadStatement
             key={statementId}
-            statementId={statementId}
+            selectedId={statementId}
             statementDate={
               shouldShowVHAPaymentHistory
                 ? formatISODateToMMDDYYYY(copayAttributes.INVOICE_DATE)
@@ -228,7 +228,7 @@ const DetailCopayPage = ({ match }) => {
             fullName={fullName}
           />
         </div>
-        <PreviousStatements statementId={statementId} />
+        <PreviousStatements selectedId={statementId} />
         <StatementAddresses
           data-testid="statement-addresses"
           copay={currentStatement}
