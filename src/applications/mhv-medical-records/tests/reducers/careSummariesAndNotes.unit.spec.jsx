@@ -911,3 +911,57 @@ describe('careSummariesAndNotesReducer', () => {
     expect(newState.listState).to.equal('fetched');
   });
 });
+
+describe('careSummariesAndNotesReducer warnings', () => {
+  it('stores warnings on SET_WARNINGS', () => {
+    const mockWarnings = [
+      {
+        source: 'oracle-health',
+        message: 'Binary not found',
+        resourceType: 'Binary',
+      },
+    ];
+    const state = careSummariesAndNotesReducer(undefined, {
+      type: Actions.CareSummariesAndNotes.SET_WARNINGS,
+      payload: mockWarnings,
+    });
+    expect(state.warnings).to.deep.equal(mockWarnings);
+  });
+
+  it('defaults warnings to empty array when payload is undefined', () => {
+    const state = careSummariesAndNotesReducer(undefined, {
+      type: Actions.CareSummariesAndNotes.SET_WARNINGS,
+      payload: undefined,
+    });
+    expect(state.warnings).to.deep.equal([]);
+  });
+
+  it('clears warnings when UPDATE_LIST_STATE dispatches FETCHING', () => {
+    const prevState = {
+      warnings: [{ source: 'oracle-health' }],
+      listState: 'fetched',
+    };
+    const state = careSummariesAndNotesReducer(prevState, {
+      type: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+      payload: 'fetching',
+    });
+    expect(state.warnings).to.deep.equal([]);
+  });
+
+  it('preserves warnings when UPDATE_LIST_STATE dispatches FETCHED', () => {
+    const prevState = {
+      warnings: [{ source: 'oracle-health' }],
+      listState: 'fetching',
+    };
+    const state = careSummariesAndNotesReducer(prevState, {
+      type: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+      payload: 'fetched',
+    });
+    expect(state.warnings).to.deep.equal([{ source: 'oracle-health' }]);
+  });
+
+  it('initializes with empty warnings array', () => {
+    const state = careSummariesAndNotesReducer(undefined, { type: 'INIT' });
+    expect(state.warnings).to.deep.equal([]);
+  });
+});

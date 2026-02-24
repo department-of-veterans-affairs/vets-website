@@ -58,7 +58,6 @@ import {
 } from '../util/transactions';
 import { getEditButtonId } from '../util/id-factory';
 
-import VAPServiceEditModalErrorMessage from './base/VAPServiceEditModalErrorMessage';
 import CopyMailingAddress from '../containers/CopyMailingAddress';
 
 import { createPersonalInfoUpdate } from '../actions/personalInformation';
@@ -426,8 +425,6 @@ export const ProfileInformationEditViewFc = ({
   // Render
   const isLoading =
     transactionRequest?.isPending || isPendingTransaction(transaction);
-  const error =
-    transactionRequest?.error || (isFailedTransaction(transaction) ? {} : null);
 
   const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
 
@@ -459,15 +456,6 @@ export const ProfileInformationEditViewFc = ({
             onChange={event => onInput(event, field.formSchema, field.uiSchema)}
             onSubmit={onSubmit}
           >
-            {error && (
-              <div
-                role="alert"
-                className="vads-u-margin-y--2"
-                data-testid="edit-error-alert"
-              >
-                <VAPServiceEditModalErrorMessage error={error} />
-              </div>
-            )}
             <ProfileInformationActionButtons
               onCancel={onCancel}
               title={title}

@@ -230,7 +230,7 @@ export function mockAppointmentDetailsApi({
   response = new MockAppointmentDetailsResponse().toJSON(),
   responseCode = 200,
 } = {}) {
-  const { appointmentId } = response.data;
+  const { appointmentId } = response.data ?? {};
   const pathPattern = appointmentId
     ? `/vass/v0/appointment/${appointmentId}`
     : /\/vass\/v0\/appointment\/[^/]+$/;
@@ -268,7 +268,7 @@ export function mockCancelAppointmentApi({
   response = new MockCancelAppointmentResponse().toJSON(),
   responseCode = 200,
 } = {}) {
-  const { appointmentId } = response.data;
+  const { appointmentId } = response.data ?? {};
   const pathPattern = appointmentId
     ? `/vass/v0/appointment/${appointmentId}/cancel`
     : /\/vass\/v0\/appointment\/[^/]+\/cancel$/;

@@ -24,7 +24,7 @@ export class DateTimeSelectionPageObject extends PageObject {
     this.assertCalendarWidget();
     cy.findByText(/Appointment times are displayed in/i).should('exist');
     cy.findByText(
-      /You can schedule a appointment on a week day within the next 2 weeks\./i,
+      /You can schedule an appointment on a weekday within the next 2 weeks\./i,
     ).should('exist');
 
     // Assert need help footer
@@ -211,9 +211,9 @@ export class DateTimeSelectionPageObject extends PageObject {
    * @returns {DateTimeSelectionPageObject}
    */
   assertTimezoneText(timezone) {
-    cy.findByTestId('content')
-      .should('exist')
-      .and('contain.text', timezone);
+    this.assertElement('content', {
+      containsText: timezone,
+    });
     return this;
   }
 

@@ -40,6 +40,7 @@ export default {
         hint: 'Leave blank if you are still married',
         monthSelect: false,
       },
+      'End date must be after the start date.',
     ),
   },
   schema: {
