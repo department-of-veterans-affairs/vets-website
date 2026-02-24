@@ -2,11 +2,11 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import InquiriesList from '../../../components/inbox/InquiriesList';
-import { categorizeByLOA } from '../../../utils/inbox';
+import { standardizeInquiries } from '../../../utils/inbox';
 import { mockInquiries as rawInquiries } from '../../utils/mock-inquiries';
 
 describe('InquiriesList', () => {
-  const mockInquiries = categorizeByLOA(rawInquiries);
+  const mockInquiries = standardizeInquiries(rawInquiries);
 
   it('only renders 4 items per page', () => {
     const view = render(
