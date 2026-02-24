@@ -873,7 +873,7 @@ jobs:
         run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
 
       - name: Update Cypress split timings
-        if: ${{ needs.cypress-tests.result == 'success' }}
+        if: ${{ always() && needs.cypress-tests.result == 'success' }}
         continue-on-error: true
         run: |
           aws s3 cp s3://testing-tools-testing-reports/vets-website-cypress-timings/timings.json existing-timings.json --region us-gov-west-1 || true
