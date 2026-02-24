@@ -1,12 +1,10 @@
 import {
   emailUI,
   emailSchema,
-  phoneUI,
-  phoneSchema,
+  internationalPhoneUI,
+  internationalPhoneSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import { PhoneNumberReviewWidget } from '../../../utils/PhoneNumberReviewWidget';
 
 export const uiSchema = {
   contactInfo: {
@@ -19,14 +17,14 @@ export const uiSchema = {
           'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
       },
     }),
-    mobilePhone: {
-      ...phoneUI('Mobile phone number'),
-      'ui:reviewWidget': PhoneNumberReviewWidget,
-    },
-    homePhone: {
-      ...phoneUI('Home phone number'),
-      'ui:reviewWidget': PhoneNumberReviewWidget,
-    },
+    mobilePhone: internationalPhoneUI({
+      title: 'Mobile phone number',
+      hint: null,
+    }),
+    homePhone: internationalPhoneUI({
+      title: 'Home phone number',
+      hint: null,
+    }),
   },
 };
 export const schema = {
@@ -37,8 +35,8 @@ export const schema = {
       required: ['email'],
       properties: {
         email: emailSchema,
-        mobilePhone: phoneSchema,
-        homePhone: phoneSchema,
+        mobilePhone: internationalPhoneSchema(),
+        homePhone: internationalPhoneSchema(),
       },
     },
   },

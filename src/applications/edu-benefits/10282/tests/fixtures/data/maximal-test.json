@@ -17,8 +17,8 @@
         "country": "United States",
         "contactInfo": {
             "email": "janedoe@gmail.com",
-            "mobilePhone": "4442341242",
-            "homePhone": "3434232434"
+            "mobilePhone": {"callingCode": 1, "countryCode": "US", "contact": "4442341242"},
+            "homePhone": {"callingCode": 1, "countryCode": "US", "contact": "3434232434"}
         },
         "veteranDesc": "veteransChild",
         "veteranFullName": {

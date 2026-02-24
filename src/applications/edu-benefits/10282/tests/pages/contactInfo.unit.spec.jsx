@@ -31,7 +31,8 @@ describe('Edu 10282 contact information', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('va-text-input').length).to.equal(3);
+    expect(form.find('va-text-input').length).to.equal(1);
+    expect(form.find('va-telephone-input').length).to.equal(2);
     form.unmount();
   });
 

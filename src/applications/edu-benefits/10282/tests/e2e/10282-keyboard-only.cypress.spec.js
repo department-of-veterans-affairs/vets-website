@@ -59,10 +59,20 @@ describe('22-10282 Edu form', () => {
     cy.injectAxeThenAxeCheck();
     cy.tabToElement('[name="root_contactInfo_email"]');
     cy.typeInFocused(maximalData.data.contactInfo.email);
-    cy.tabToElement('[name="root_contactInfo_mobilePhone"]');
-    cy.typeInFocused(maximalData.data.contactInfo.mobilePhone);
-    cy.tabToElement('[name="root_contactInfo_homePhone"]');
-    cy.typeInFocused(maximalData.data.contactInfo.homePhone);
+    cy.get('va-telephone-input[name="root_contactInfo_mobilePhone"]')
+      .shadow()
+      .find('va-text-input')
+      .shadow()
+      .find('input')
+      .clear()
+      .type(maximalData.data.contactInfo.mobilePhone.contact, { force: true });
+    cy.get('va-telephone-input[name="root_contactInfo_homePhone"]')
+      .shadow()
+      .find('va-text-input')
+      .shadow()
+      .find('input')
+      .clear()
+      .type(maximalData.data.contactInfo.homePhone.contact, { force: true });
     cy.tabToContinueForm();
 
     // Country page

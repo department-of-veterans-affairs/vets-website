@@ -34,8 +34,8 @@ const transformedMaximalDataActual = {
   country: 'United States',
   contactInfo: {
     email: 'janedoe@gmail.com',
-    mobilePhone: '4442341242',
-    homePhone: '3434232434',
+    mobilePhone: '+1 4442341242 (US)',
+    homePhone: '+1 3434232434 (US)',
   },
   veteranDesc: 'veteransChild',
   veteranFullName: {

@@ -23,6 +23,36 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+      'applicant-information-2': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillVaTextInput('root_contactInfo_email', 'janedoe@gmail.com');
+
+          cy.get('@testKey').then(testKey => {
+            if (testKey === 'maximal-test.json') {
+              cy.get('va-telephone-input[name="root_contactInfo_mobilePhone"]')
+                .shadow()
+                .find('va-text-input')
+                .shadow()
+                .find('input')
+                .clear()
+                .type('4442341242', {
+                  force: true,
+                });
+              cy.get('va-telephone-input[name="root_contactInfo_homePhone"]')
+                .shadow()
+                .find('va-text-input')
+                .shadow()
+                .find('input')
+                .clear()
+                .type('3434232434', {
+                  force: true,
+                });
+            }
+          });
+
+          cy.tabToSubmitForm();
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testKey').then(testKey => {
