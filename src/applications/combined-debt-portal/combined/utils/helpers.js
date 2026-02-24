@@ -29,6 +29,14 @@ export const formatISODateToMMDDYYYY = isoString => {
   return `${month}/${day}/${year}`;
 };
 
+export const formatCurrency = amount => {
+  if (!amount) return '$0.00';
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(amount);
+};
+
 export const currency = amount => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',

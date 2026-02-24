@@ -10,6 +10,7 @@ import {
 import {
   setPageFocus,
   isAnyElementFocused,
+  formatCurrency
 } from '../../combined/utils/helpers';
 import { useCurrentStatement } from '../../combined/utils/selectors';
 import Modals from '../../combined/components/Modals';
@@ -19,6 +20,31 @@ import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
 import NeedHelpCopay from '../components/NeedHelpCopay';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
+
+const getBreadcrumbs = (statementAttributes) => (
+  [
+    {
+      href: '/',
+      label: 'Home',
+    },
+    {
+      href: '/manage-va-debt/summary',
+      label: 'Overpayments and copay bills',
+    },
+    {
+      href: '/manage-va-debt/summary/copay-balances',
+      label: 'Copay balances',
+    },
+    {
+      href: `/manage-va-debt/summary/copay-balances/${statementAttributes.latestCopay.copayId}`,
+      label: `${statementAttributes.prevPage}`,
+    },
+    {
+      href: `/manage-va-debt/summary/copay-balances/${statementAttributes.latestCopay.copayId}/statement`,
+      label: `${statementAttributes.title}`,
+    },
+  ]
+);
 
 const DEFAULT_STATEMENT_ATTRIBUTES = {
   LATEST_COPAY: {},
@@ -40,7 +66,7 @@ const HTMLStatementPage = () => {
   const { id: copayId } = useParams();
   const { statementCopays, isLoading } = useCurrentStatement();
 
-  const getLegacyStatementDate = () => {
+  const getLegacyStatementDate = (latestCopay) => {
     // need to add logic here to make it the month of the statement, not of the copay
 
     // using statementDateOutput since it has delimiters ('/') unlike pSStatementDate
@@ -65,7 +91,7 @@ const HTMLStatementPage = () => {
 
   const getLegacyAttributes = (latestCopay) => {
     const latestCopay = getLatestCopay();
-    const statementDate = getLegacyStatementDate();
+    const statementDate = getLegacyStatementDate(latestCopay);
     const latestCopayCharges = latestCopay?.details?.filter(
       charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
     );
@@ -79,6 +105,10 @@ const HTMLStatementPage = () => {
       PREV_PAGE: getPrevPage(latestCopay.station.facilityName),
       ACCOUNT_NUMBER: latestCopay?.accountNumber || selectedCopay?.pHAccountNumber,
       CHARGES: allCharges
+          //       currentBalance={currentCopay.pHNewBalance}
+          // newCharges={currentCopay.pHTotCharges}
+          // paymentsReceived={currentCopay.pHTotCredits}
+          // previousBalance={currentCopay.pHPrevBal}
     } 
   }
 
@@ -93,7 +123,7 @@ const HTMLStatementPage = () => {
     return {
       LATEST_COPAY: latestCopay,
       TITLE: `${statementDate} statement`,
-      DATE: getLegacyStatementDate(), // change
+      DATE: getLegacyStatementDate(latestCopay), // change
       PREV_PAGE: getPrevPage(latestCopay.attributes.facility.name),
       ACCOUNT_NUMBER: latestCopay.attributes.accountNumber,
       CHARGES: allCharges
@@ -104,14 +134,6 @@ const HTMLStatementPage = () => {
     if (!statementCopays?.length > 0) return DEFAULT_STATEMENT_ATTRIBUTES;
     return shouldUseLighthouseCopays ?  getLighthouseAttributes() : getLegacyAttributes();
   }, [statementCopays[0]?.id, shouldUseLighthouseCopays]);
-
-  const formatCurrency = amount => {
-    if (!amount) return '$0.00';
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
-  };
 
   useHeaderPageTitle(title);
 
@@ -126,28 +148,7 @@ const HTMLStatementPage = () => {
   return (
     <>
       <VaBreadcrumbs
-        breadcrumbList={[
-          {
-            href: '/',
-            label: 'Home',
-          },
-          {
-            href: '/manage-va-debt/summary',
-            label: 'Overpayments and copay bills',
-          },
-          {
-            href: '/manage-va-debt/summary/copay-balances',
-            label: 'Copay balances',
-          },
-          {
-            href: `/manage-va-debt/summary/copay-balances/${statementAttributes.latestCopay.copayId}`,
-            label: `${statementAttributes.prevPage}`,
-          },
-          {
-            href: `/manage-va-debt/summary/copay-balances/${statementAttributes.latestCopay.copayId}/statement`,
-            label: `${statementAttributes.title}`,
-          },
-        ]}
+        breadcrumbList={getBreadcrumbs(statementAttributes)}
         label="Breadcrumb"
         wrapping
       />
@@ -165,7 +166,6 @@ const HTMLStatementPage = () => {
           statementDate={statementDate}
         />
         {shouldUseLighthouseCopays && (
-          // need to make sure this can take a statment/array of copays
           <StatementTable
             charges={statementAttributes.CHARGES}
             formatCurrency={formatCurrency}

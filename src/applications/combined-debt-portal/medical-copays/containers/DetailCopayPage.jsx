@@ -17,6 +17,7 @@ import {
   setPageFocus,
   formatISODateToMMDDYYYY,
   isAnyElementFocused,
+  formatCurrency
 } from '../../combined/utils/helpers';
 import {
   useCurrentCopay,
@@ -98,14 +99,6 @@ const DetailCopayPage = ({ match }) => {
       2,
       '0',
     )}-${String(date.getDate()).padStart(2, '0')}`;
-  };
-
-  const formatCurrency = amount => {
-    if (!amount) return '$0.00';
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
   };
 
   useHeaderPageTitle(copayAttributes.TITLE);
