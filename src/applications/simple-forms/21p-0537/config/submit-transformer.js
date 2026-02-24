@@ -1,8 +1,23 @@
 import { transformForSubmit as defaultTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 
+// Strip characters that break the backend's .json.erb interpolation
+// (unescaped double quotes and backslashes produce invalid JSON)
+const sanitizeString = value =>
+  typeof value === 'string' ? value.replace(/["\\]/g, '') : value;
+
+const sanitizeFormData = obj => {
+  if (Array.isArray(obj)) return obj.map(sanitizeFormData);
+  if (obj !== null && typeof obj === 'object') {
+    return Object.fromEntries(
+      Object.entries(obj).map(([key, val]) => [key, sanitizeFormData(val)]),
+    );
+  }
+  return sanitizeString(obj);
+};
+
 function transformForSubmit(formConfig, form) {
-  const transformedData = JSON.parse(
-    defaultTransformForSubmit(formConfig, form),
+  const transformedData = sanitizeFormData(
+    JSON.parse(defaultTransformForSubmit(formConfig, form)),
   );
 
   // Helper function to split date into components

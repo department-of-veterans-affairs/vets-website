@@ -379,4 +379,35 @@ describe('21P-0537 submit transformer', () => {
       });
     });
   });
+
+  describe('forbidden character sanitization', () => {
+    it('should strip double quotes from text fields', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+      testData.data.signature = 'Jane "M" Spouse';
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.recipient.signature).to.equal('Jane M Spouse');
+    });
+
+    it('should strip backslashes from text fields', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+      testData.data.veteranFullName.last = 'Mar\\tinez';
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.veteran.fullName.last).to.equal('Martinez');
+    });
+
+    it('should strip forbidden characters from nested remarriage fields', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+      testData.data.remarriage.spouseName.first = 'Michael"';
+      testData.data.remarriage.terminationReason = 'Death\\';
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.remarriage.spouseName.first).to.equal('Michael');
+      expect(result.remarriage.terminationReason).to.equal('Death');
+    });
+  });
 });
