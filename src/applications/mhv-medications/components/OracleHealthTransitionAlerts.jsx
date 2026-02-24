@@ -138,8 +138,8 @@ export const OracleHealthInCardAlert = () => (
     data-dd-action-name="oracle-health-in-card-alert-displayed"
   >
     <p className="vads-u-margin-y--0">
-      You can’t refill this prescription online right now because your VA
-      facility is transitioning to a new health records system.
+      You can’t refill this medication online right now. If you need more
+      medication, call your VA pharmacy's automated refill line.
     </p>
   </va-alert>
 );
