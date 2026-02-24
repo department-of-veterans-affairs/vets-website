@@ -5,6 +5,7 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockVaFileNumber from './fixtures/va-file-number.json';
 import user from './user.json';
+
 import {
   fillDateWebComponentPattern,
   fillStandardTextInput,
