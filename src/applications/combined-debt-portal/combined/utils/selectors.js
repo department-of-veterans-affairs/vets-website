@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { useParams } from 'react-router-dom';
-import { getCopayDetail } from '../../combined/actions/copays';
+import { getAllCopays, getAllLighthouseCopays, getCopayDetail } from '../../combined/actions/copays';
 
 export const cdpAccessToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
@@ -17,35 +17,38 @@ export const debtLettersShowLettersVBMS = state =>
 export const selectLoadingFeatureFlags = state =>
   state?.featureToggles?.loading;
 
-export const showDebtsPaymentHistory = state =>
+export const useLighthouseDebts = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.CdpPaymentHistoryVba];
 
-export const showCopayPaymentHistory = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.showCopayPaymentHistory];
+export const useLighthouseCopays = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.showVHAPaymentHistory];
 
 export const selectCopayDetail = state => 
   state.combinedPortal.mcp.currentCopay || {};
 
 export const selectAllCopays = state => 
-  state.combinedPortal.mcp.copays || [];
+  state.combinedPortal.mcp.copays;
 
 export const selectIsCopayDetailLoading = state =>
   state.combinedPortal.mcp.isCopayDetailLoading;
 
+export const selectIsCopaysLoading = state =>
+  state.combinedPortal.mcp.isCopaysLoading;
+
 export const useCurrentCopay = () => {
   const dispatch = useDispatch();
   const { id: copayId } = useParams();
-  const shouldShowCopayPaymentHistory = useSelector(showCopayPaymentHistory);
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
   const copayDetail = useSelector(selectCopayDetail);
   const allCopays = useSelector(selectAllCopays);
   const isLoading = useSelector(selectIsCopayDetailLoading);
   
-  const shouldFetchCopay = shouldShowCopayPaymentHistory &&
+  const shouldFetchCopay = shouldUseLighthouseCopays &&
       !copayDetail?.id &&
       copayDetail.id !== copayId &&
       !isLoading
 
-  const currentCopay = shouldShowCopayPaymentHistory
+  const currentCopay = shouldUseLighthouseCopays
     ? copayDetail
     : allCopays?.find(({ id }) => id === copayId);
 
@@ -55,20 +58,25 @@ export const useCurrentCopay = () => {
 };
 
 // WIP: filter copays by statement_id for a given statement (e.g. invoice)
-const selectStatementCopays = statementId => state =>
-  (selectAllCopays(state) || []).filter(
+const selectStatementCopays = (copays, statementId) => state =>
+  copays?.filter(
     copay => copay.statement_id === statementId,
   );
 
 export const useCurrentStatement = () => {
-  // const _dispatch = useDispatch();
   const { id: statementId } = useParams();
-  // const _shouldShowCopayPaymentHistory = useSelector(showCopayPaymentHistory);
-  const statementCopays = useSelector(selectStatementCopays(statementId));
-  const isLoading = useSelector(selectIsCopayDetailLoading);
+  
+  const allCopays = getAllCopays(state);
+  
+  const statementCopays = useSelector(selectStatementCopays(allCopays, statementId));
+  const isLoading = useSelector(selectIsCopaysLoading);
+  
+  const shouldFetchCopays = !allCopays && !isLoading
+  if (shouldFetchCopays) {
+    const dispatch = useDispatch();
+    const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
+    shouldUseLighthouseCopays ? dispatch(getAllLighthouseCopays) : dispatch(getAllCopays)
+  }
 
-  // TODO: shouldFetch for detail when needed; getCopayDetail(statementId)
-  // const shouldFetch = _shouldShowCopayPaymentHistory && !copayDetail?.id && ...
-
-  return { statementCopays, currentStatement: statementCopays?.[0], isLoading };
+  return { statementCopays, isLoading };
 };

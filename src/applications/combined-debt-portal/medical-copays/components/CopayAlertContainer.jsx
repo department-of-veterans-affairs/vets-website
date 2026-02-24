@@ -8,17 +8,15 @@ import {
   getCopayAlertContent,
   phoneContent,
 } from '../../combined/utils/copayAlertContent';
-import { showCopayPaymentHistory } from '../../combined/utils/selectors';
+import { useLighthouseCopays } from '../../combined/utils/selectors';
 
 const CopayAlertContainer = ({ type, copay }) => {
   const history = useHistory();
-  const shouldShowCopayPaymentHistory = useSelector(state =>
-    showCopayPaymentHistory(state),
-  );
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
   const copayAlertContent = getCopayAlertContent(
     copay,
     type,
-    shouldShowCopayPaymentHistory,
+    shouldUseLighthouseCopays,
   );
 
   return (

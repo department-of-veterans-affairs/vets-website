@@ -65,7 +65,7 @@ describe('Resolve Page Tests', () => {
     },
     featureToggles: {
       loading: false,
-      [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
+      [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
     },
   };
 

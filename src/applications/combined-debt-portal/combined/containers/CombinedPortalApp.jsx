@@ -8,13 +8,13 @@ import {
 import PropTypes from 'prop-types';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import { fetchDebtLetters } from '../actions/debts';
-import { getAllCopays, getCopaySummary } from '../actions/copays';
+import { getAllCopays, getAllLighthouseCopays } from '../actions/copays';
 import i18nCombinedDebtPortal from '../../i18n';
 import {
   combinedPortalAccess,
-  selectLoadingFeatureFlags,
   debtLettersShowLettersVBMS,
-  showCopayPaymentHistory,
+  selectLoadingFeatureFlags,
+  useLighthouseCopays,
 } from '../utils/selectors';
 
 const CombinedPortalApp = ({ children }) => {
@@ -40,17 +40,15 @@ const CombinedPortalApp = ({ children }) => {
   const { isPending, isPendingVBMS, isProfileUpdating } = debtLetters;
   const isDebtLoading = isPending || isPendingVBMS || isProfileUpdating;
 
-  const shouldUseLightHouseCopayData = showCopayPaymentHistory(
-    useSelector(state => state),
-  );
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
 
   useEffect(
     () => {
       if (!profileLoading && userLoggedIn) {
         fetchDebtLetters(dispatch, debtLettersActive);
 
-        if (shouldUseLightHouseCopayData) {
-          getCopaySummary(dispatch);
+        if (shouldUseLighthouseCopays) {
+          getAllLighthouseCopays(dispatch);
         } else {
           getAllCopays(dispatch);
         }
@@ -61,7 +59,7 @@ const CombinedPortalApp = ({ children }) => {
       dispatch,
       profileLoading,
       userLoggedIn,
-      shouldUseLightHouseCopayData,
+      shouldUseLighthouseCopays,
     ],
   );
 

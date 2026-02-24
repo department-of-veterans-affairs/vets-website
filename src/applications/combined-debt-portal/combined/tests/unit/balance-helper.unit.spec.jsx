@@ -6,7 +6,7 @@ import {
   calculateTotalBills,
   getLatestBill,
 } from '../../utils/balance-helpers';
-import { showCopayPaymentHistory } from '../../utils/selectors';
+import { useLighthouseCopays } from '../../utils/selectors';
 // TODO: Update referece after refactoring
 import mockDebt from '../../utils/mocks/mockDebts.json';
 import mockBill from '../../utils/mocks/mockStatements.json';
@@ -52,36 +52,36 @@ describe('combined debt portal helpers', () => {
     });
   });
 
-  describe('showCopayPaymentHistory helper: ', () => {
+  describe('useLighthouseCopays helper: ', () => {
     it('should return true when feature flag is enabled', () => {
       const mockState = {
         featureToggles: {
-          [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
+          [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
         },
       };
-      expect(showCopayPaymentHistory(mockState)).to.be.true;
+      expect(useLighthouseCopays(mockState)).to.be.true;
     });
 
     it('should return false when feature flag is disabled', () => {
       const mockState = {
         featureToggles: {
-          [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: false,
+          [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
         },
       };
-      expect(showCopayPaymentHistory(mockState)).to.be.false;
+      expect(useLighthouseCopays(mockState)).to.be.false;
     });
 
     it('should return false when feature flag is not present', () => {
       const mockState = {
         featureToggles: {},
       };
-      expect(showCopayPaymentHistory(mockState)).to.not.be.true;
+      expect(useLighthouseCopays(mockState)).to.not.be.true;
     });
   });
 
   describe('totalBills calculation: ', () => {
-    it('should use meta.total when showCopayPaymentHistory is true', () => {
-      const shouldShowCopayPaymentHistory = true;
+    it('should use meta.total when useLighthouseCopays is true', () => {
+      const shouldUseLighthouseCopays = true;
       const mcp = {
         copays: {
           meta: {
@@ -94,20 +94,20 @@ describe('combined debt portal helpers', () => {
         },
       };
 
-      const totalBills = shouldShowCopayPaymentHistory
+      const totalBills = shouldUseLighthouseCopays
         ? mcp.copays.meta.total
         : calculateTotalBills(mcp.copays);
 
       expect(totalBills).to.equal(150);
     });
 
-    it('should use calculateTotalBills when showCopayPaymentHistory is false', () => {
-      const shouldShowCopayPaymentHistory = false;
+    it('should use calculateTotalBills when useLighthouseCopays is false', () => {
+      const shouldUseLighthouseCopays = false;
       const mcp = {
         copays: [{ id: '1', pHAmtDue: 50 }, { id: '2', pHAmtDue: 100 }],
       };
 
-      const totalBills = shouldShowCopayPaymentHistory
+      const totalBills = shouldUseLighthouseCopays
         ? mcp.copays.meta.total
         : calculateTotalBills(mcp.copays);
 

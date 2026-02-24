@@ -14,7 +14,7 @@ import {
   formatDate,
   verifyCurrentBalance,
 } from '../../combined/utils/helpers';
-import { showCopayPaymentHistory } from '../../combined/utils/selectors';
+import { useLighthouseCopays } from '../../combined/utils/selectors';
 import { getCopayDetail } from '../../combined/actions/copays';
 
 const CurrentContent = ({ id, date }) => (
@@ -43,9 +43,7 @@ PastDueContent.propTypes = {
 };
 
 const BalanceCard = ({ id, amount, facility, city, date }) => {
-  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
-    useSelector(state => state),
-  );
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -99,7 +97,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             data-testid={`detail-link-${id}`}
             onClick={event => {
               event.preventDefault();
-              if (shouldShowCopayPaymentHistory) {
+              if (shouldUseLighthouseCopays) {
                 dispatch(getCopayDetail(`${id}`));
               }
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
@@ -117,7 +115,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             data-testid={`resolve-link-${id}`}
             onClick={event => {
               event.preventDefault();
-              if (shouldShowCopayPaymentHistory) {
+              if (shouldUseLighthouseCopays) {
                 dispatch(getCopayDetail(`${id}`));
               }
               recordEvent({ event: 'cta-link-click-copay-balance-card' });

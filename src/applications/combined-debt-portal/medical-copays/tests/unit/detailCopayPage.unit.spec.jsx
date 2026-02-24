@@ -72,7 +72,7 @@ describe('DetailCopayPage', () => {
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
+        [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
         loading: false,
       },
     };
@@ -111,7 +111,7 @@ describe('DetailCopayPage', () => {
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: false,
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
         loading: false,
       },
     };

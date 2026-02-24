@@ -75,7 +75,7 @@ export const getAllCopays = async dispatch => {
     });
 };
 
-export const getCopaySummary = async dispatch => {
+export const getAllLighthouseCopays = async dispatch => {
   dispatch({ type: MCP_COPAYS_FETCH_INIT });
 
   const dataUrl = `${environment.API_URL}/v1/medical_copays`;

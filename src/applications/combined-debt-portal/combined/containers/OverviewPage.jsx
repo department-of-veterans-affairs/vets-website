@@ -15,7 +15,7 @@ import {
   healthResourceCenterPhoneContent,
   dmcPhoneContent,
 } from '../utils/helpers';
-import { showCopayPaymentHistory } from '../utils/selectors';
+import { useLighthouseCopays } from '../utils/selectors';
 import {
   calculateTotalBills,
   calculateTotalDebts,
@@ -52,14 +52,12 @@ const OverviewPage = () => {
   const showOneVADebtLetterLink = useToggleValue(
     TOGGLE_NAMES.showOneVADebtLetter,
   );
-  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
-    useSelector(state => state),
-  );
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
 
   // get totals
   const { debts } = debtLetters;
   const totalDebts = calculateTotalDebts(debts);
-  const totalBills = shouldShowCopayPaymentHistory
+  const totalBills = shouldUseLighthouseCopays
     ? mcp.copays?.meta?.total
     : calculateTotalBills(mcp.copays);
   const bothZero =

@@ -18,7 +18,10 @@ import {
   formatISODateToMMDDYYYY,
   isAnyElementFocused,
 } from '../../combined/utils/helpers';
-import { useCurrentCopay, showCopayPaymentHistory } from '../../combined/utils/selectors';
+import {
+  useCurrentCopay,
+  useLighthouseCopays,
+} from '../../combined/utils/selectors';
 
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import CopayAlertContainer from '../components/CopayAlertContainer';
@@ -27,9 +30,7 @@ const DetailCopayPage = ({ match }) => {
   const copayId = match?.params?.id;
 
   const [alert, setAlert] = useState('status');
-  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
-    useSelector(state => state),
-  );
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
 
   const { currentCopay, isLoading } = useCurrentCopay();
 
@@ -38,7 +39,7 @@ const DetailCopayPage = ({ match }) => {
       if (!currentCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
 
       /* eslint-disable no-nested-ternary */
-      return shouldShowCopayPaymentHistory
+      return shouldUseLighthouseCopays
         ? {
             TITLE: `Copay bill for ${currentCopay?.attributes.facility.name}`,
             INVOICE_DATE: currentCopay?.attributes?.invoiceDate,
@@ -63,8 +64,7 @@ const DetailCopayPage = ({ match }) => {
           };
       /* eslint-disable no-nested-ternary */
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- currentCopay fields omitted to avoid unnecessary recalc
-    [currentCopay?.id, shouldShowCopayPaymentHistory],
+    [currentCopay?.id, shouldUseLighthouseCopays],
   );
 
   useEffect(
@@ -76,8 +76,8 @@ const DetailCopayPage = ({ match }) => {
   );
 
   useEffect(() => {
-      if (!isAnyElementFocused()) setPageFocus();
-    },[]);
+    if (!isAnyElementFocused()) setPageFocus();
+  }, []);
 
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
   const fullName = userFullName?.middle
@@ -85,7 +85,7 @@ const DetailCopayPage = ({ match }) => {
     : `${userFullName.first} ${userFullName.last}`;
 
   const getPaymentDueDate = () => {
-    if (shouldShowCopayPaymentHistory) {
+    if (shouldUseLighthouseCopays) {
       return copayAttributes.INVOICE_DATE;
     }
 
@@ -161,7 +161,7 @@ const DetailCopayPage = ({ match }) => {
               <dt>Current balance:</dt>
               <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
                 {formatCurrency(
-                  shouldShowCopayPaymentHistory
+                  shouldUseLighthouseCopays
                     ? currentCopay.attributes?.principalBalance
                     : currentCopay.pHNewBalance,
                 )}
@@ -170,7 +170,7 @@ const DetailCopayPage = ({ match }) => {
             <div className="vads-u-display--flex vads-u-flex-direction--row">
               <dt>Payment due:</dt>
               <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
-                {shouldShowCopayPaymentHistory
+                {shouldUseLighthouseCopays
                   ? currentCopay.attributes?.paymentDueDate
                   : formatDate(getPaymentDueDate())}
               </dd>
@@ -180,7 +180,7 @@ const DetailCopayPage = ({ match }) => {
                 <dt>New charges:</dt>
                 <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
                   {formatCurrency(
-                    shouldShowCopayPaymentHistory
+                    shouldUseLighthouseCopays
                       ? currentCopay.attributes.principalPaid
                       : currentCopay.pHTotCharges,
                   )}
@@ -195,23 +195,20 @@ const DetailCopayPage = ({ match }) => {
         </div>
         <div className="vads-u-margin-y--4">
           {/* Show VHA Lighthouse data | or Current CDW Copay */}
-          {shouldShowCopayPaymentHistory ? (
+          {shouldUseLighthouseCopays ? (
             <StatementTable
               charges={copayAttributes.CHARGES}
               formatCurrency={formatCurrency}
               selectedCopay={currentCopay}
             />
           ) : (
-            <StatementCharges
-              copay={currentCopay}
-              showCurrentCopayHeader
-            />
+            <StatementCharges copay={currentCopay} showCurrentCopayHeader />
           )}
           <DownloadStatement
             key={copayId}
             selectedId={copayId}
             statementDate={
-              shouldShowCopayPaymentHistory
+              shouldUseLighthouseCopays
                 ? formatISODateToMMDDYYYY(copayAttributes.INVOICE_DATE)
                 : currentCopay.pSStatementDate
             }

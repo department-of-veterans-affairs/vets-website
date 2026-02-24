@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import { setPageFocus } from '../../combined/utils/helpers';
-import { showCopayPaymentHistory } from '../../combined/utils/selectors';
+import { useLighthouseCopays } from '../../combined/utils/selectors';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import { getCurrentDebt } from '../utils/page';
 import { deductionCodes } from '../const/deduction-codes';
@@ -20,9 +20,7 @@ const ResolveDebtPage = ({ match }) => {
   const currentDebt = getCurrentDebt(selectedDebt, debts, location);
   const selectedId = currentDebt?.id || match?.params?.id;
 
-  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
-    useSelector(state => state),
-  );
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
 
   const howToUserData = {
     currentAr: currentDebt.currentAr,
@@ -76,7 +74,7 @@ const ResolveDebtPage = ({ match }) => {
         </p>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
         <HowDoIPay userData={howToUserData} />
-        <HowDoIGetHelp showCopayPaymentHistory={shouldShowCopayPaymentHistory} />
+        <HowDoIGetHelp useLighthouseCopays={shouldUseLighthouseCopays} />
         <NeedHelp />
       </div>
     </article>

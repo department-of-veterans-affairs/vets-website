@@ -49,12 +49,14 @@ export const medicalCopaysReducer = (state = mcpInitialState, action) => {
       return {
         ...state,
         pending: true,
+        isCopaysLoading: true,
       };
     case MCP_COPAYS_FETCH_SUCCESS:
       return {
         ...state,
         pending: false,
         copays: action.response,
+        isCopaysLoading: false,
       };
     case MCP_DETAIL_FETCH_SUCCESS:
       return {
@@ -74,6 +76,7 @@ export const medicalCopaysReducer = (state = mcpInitialState, action) => {
         ...state,
         pending: false,
         error: action.error,
+        isCopaysLoading: false,
       };
     default:
       return state;

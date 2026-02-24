@@ -25,9 +25,9 @@ import {
   selectLoadingFeatureFlags,
   combinedPortalAccess,
   debtLettersShowLettersVBMS,
-  showDebtsPaymentHistory,
+  useLighthouseDebts,
   cdpAccessToggle,
-  showCopayPaymentHistory,
+  useLighthouseCopays,
 } from '../../utils/selectors';
 import OverviewPage from '../../containers/OverviewPage';
 
@@ -556,25 +556,25 @@ describe('Helper Functions', () => {
       expect(result).to.be.false;
     });
 
-    it('showDebtsPaymentHistory should return feature flag value true', () => {
+    it('useLighthouseDebts should return feature flag value true', () => {
       const mockState = {
         featureToggles: {
           [FEATURE_FLAG_NAMES.CdpPaymentHistoryVba]: true,
         },
       };
 
-      const result = showDebtsPaymentHistory(mockState);
+      const result = useLighthouseDebts(mockState);
       expect(result).to.be.true;
     });
 
-    it('showDebtsPaymentHistory should return feature flag value false', () => {
+    it('useLighthouseDebts should return feature flag value false', () => {
       const mockState = {
         featureToggles: {
           [FEATURE_FLAG_NAMES.CdpPaymentHistoryVba]: false,
         },
       };
 
-      const result = showDebtsPaymentHistory(mockState);
+      const result = useLighthouseDebts(mockState);
       expect(result).to.be.false;
     });
 
@@ -619,7 +619,7 @@ describe('Helper Functions', () => {
       );
     };
 
-    it('should pass mcp.copays.data to Balances when showCopayPaymentHistory is true', () => {
+    it('should pass mcp.copays.data to Balances when useLighthouseCopays is true', () => {
       const mockState = {
         user: {},
         combinedPortal: {
@@ -681,7 +681,7 @@ describe('Helper Functions', () => {
           },
         },
         featureToggles: {
-          [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
+          [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
           loading: false,
         },
       };
@@ -696,7 +696,7 @@ describe('Helper Functions', () => {
       expect(balanceCards[0].textContent).to.include('$150.25');
     });
 
-    it('should pass sorted copays to Balances when showCopayPaymentHistory is false', () => {
+    it('should pass sorted copays to Balances when useLighthouseCopays is false', () => {
       const mockState = {
         user: {},
         combinedPortal: {
@@ -726,7 +726,7 @@ describe('Helper Functions', () => {
           },
         },
         featureToggles: {
-          [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: false,
+          [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
           loading: false,
         },
       };
@@ -741,31 +741,31 @@ describe('Helper Functions', () => {
     });
   });
 
-  it('showCopayPaymentHistory should return feature flag value true', () => {
+  it('useLighthouseCopays should return feature flag value true', () => {
     const mockState = {
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
+        [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
       },
     };
 
-    const result = showCopayPaymentHistory(mockState);
+    const result = useLighthouseCopayPaymentHistory(mockState);
     expect(result).to.be.true;
   });
 
-  it('showCopayPaymentHistory should return feature flag value false', () => {
+  it('useLighthouseCopays should return feature flag value false', () => {
     const mockState = {
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: false,
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
       },
     };
 
-    const result = showCopayPaymentHistory(mockState);
+    const result = useLighthouseCopayPaymentHistory(mockState);
     expect(result).to.be.false;
   });
 
   describe('sortedCopays logic', () => {
-    it('should use mcp.copays.data when showCopayPaymentHistory is true', () => {
-      const shouldShowCopayPaymentHistory = true;
+    it('should use mcp.copays.data when useLighthouseCopays is true', () => {
+      const shouldUseLighthouseCopays = true;
       const copays = [
         { pSStatementDateOutput: '2023-01-01' },
         { pSStatementDateOutput: '2023-03-01' },
@@ -779,7 +779,7 @@ describe('Helper Functions', () => {
         },
       };
 
-      const sortedCopays = shouldShowCopayPaymentHistory
+      const sortedCopays = shouldUseLighthouseCopays
         ? mcp.copays.data ?? []
         : sortCopaysByDate(copays || []);
 
@@ -788,8 +788,8 @@ describe('Helper Functions', () => {
       expect(sortedCopays[0].id).to.equal('1');
     });
 
-    it('should use sortCopaysByDate when showCopayPaymentHistory is false', () => {
-      const shouldShowCopayPaymentHistory = false;
+    it('should use sortCopaysByDate when useLighthouseCopays is false', () => {
+      const shouldUseLighthouseCopays = false;
       const copays = [
         { pSStatementDateOutput: '2023-01-01' },
         { pSStatementDateOutput: '2023-03-01' },
@@ -801,7 +801,7 @@ describe('Helper Functions', () => {
         },
       };
 
-      const sortedCopays = shouldShowCopayPaymentHistory
+      const sortedCopays = shouldUseLighthouseCopays
         ? mcp.copays.data ?? []
         : sortCopaysByDate(copays || []);
 
@@ -810,8 +810,8 @@ describe('Helper Functions', () => {
       expect(sortedCopays[2].pSStatementDateOutput).to.equal('2023-01-01');
     });
 
-    it('should handle null copays when showCopayPaymentHistory is false', () => {
-      const shouldShowCopayPaymentHistory = false;
+    it('should handle null copays when useLighthouseCopays is false', () => {
+      const shouldUseLighthouseCopays = false;
       const copays = null;
       const mcp = {
         copays: {
@@ -819,7 +819,7 @@ describe('Helper Functions', () => {
         },
       };
 
-      const sortedCopays = shouldShowCopayPaymentHistory
+      const sortedCopays = shouldUseLighthouseCopays
         ? mcp.copays.data ?? []
         : sortCopaysByDate(copays || []);
 
@@ -827,7 +827,7 @@ describe('Helper Functions', () => {
     });
 
     it('should use empty array fallback when mcp.copays.data is null and flag is true', () => {
-      const shouldShowCopayPaymentHistory = true;
+      const shouldUseLighthouseCopays = true;
       const copays = [{ pSStatementDateOutput: '2023-01-01' }];
       const mcp = {
         copays: {
@@ -835,7 +835,7 @@ describe('Helper Functions', () => {
         },
       };
 
-      const sortedCopays = shouldShowCopayPaymentHistory
+      const sortedCopays = shouldUseLighthouseCopays
         ? mcp.copays.data ?? []
         : sortCopaysByDate(copays || []);
 
@@ -844,8 +844,8 @@ describe('Helper Functions', () => {
   });
 
   describe('copaysByUniqueFacility logic', () => {
-    it('should use facilityId with uniqBy when showCopayPaymentHistory is true', () => {
-      const shouldShowCopayPaymentHistory = true;
+    it('should use facilityId with uniqBy when useLighthouseCopays is true', () => {
+      const shouldUseLighthouseCopays = true;
       const mcpCopays = [
         { id: '1', facilityId: 'FAC123', name: 'First' },
         { id: '2', facilityId: 'FAC123', name: 'Duplicate' },
@@ -856,7 +856,7 @@ describe('Helper Functions', () => {
         { id: '2', pSFacilityNum: '789' },
       ];
 
-      const copaysByUniqueFacility = shouldShowCopayPaymentHistory
+      const copaysByUniqueFacility = shouldUseLighthouseCopays
         ? uniqBy(mcpCopays, 'facilityId')
         : uniqBy(sortedCopays, 'pSFacilityNum');
 
@@ -866,8 +866,8 @@ describe('Helper Functions', () => {
       expect(copaysByUniqueFacility[0].name).to.equal('First');
     });
 
-    it('should use pSFacilityNum with uniqBy when showCopayPaymentHistory is false', () => {
-      const shouldShowCopayPaymentHistory = false;
+    it('should use pSFacilityNum with uniqBy when useLighthouseCopays is false', () => {
+      const shouldUseLighthouseCopays = false;
       const mcpCopays = [
         { id: '1', facilityId: 'FAC123' },
         { id: '2', facilityId: 'FAC456' },
@@ -878,7 +878,7 @@ describe('Helper Functions', () => {
         { id: '3', pSFacilityNum: '456', city: 'Boston' },
       ];
 
-      const copaysByUniqueFacility = shouldShowCopayPaymentHistory
+      const copaysByUniqueFacility = shouldUseLighthouseCopays
         ? uniqBy(mcpCopays, 'facilityId')
         : uniqBy(sortedCopays, 'pSFacilityNum');
 
@@ -889,11 +889,11 @@ describe('Helper Functions', () => {
     });
 
     it('should handle empty arrays', () => {
-      const shouldShowCopayPaymentHistory = true;
+      const shouldUseLighthouseCopays = true;
       const mcpCopays = [];
       const sortedCopays = [];
 
-      const copaysByUniqueFacility = shouldShowCopayPaymentHistory
+      const copaysByUniqueFacility = shouldUseLighthouseCopays
         ? uniqBy(mcpCopays, 'facilityId')
         : uniqBy(sortedCopays, 'pSFacilityNum');
 
@@ -901,7 +901,7 @@ describe('Helper Functions', () => {
     });
 
     it('should handle all unique facilities when flag is true', () => {
-      const shouldShowCopayPaymentHistory = true;
+      const shouldUseLighthouseCopays = true;
       const mcpCopays = [
         { id: '1', facilityId: 'FAC111' },
         { id: '2', facilityId: 'FAC222' },
@@ -909,7 +909,7 @@ describe('Helper Functions', () => {
       ];
       const sortedCopays = [];
 
-      const copaysByUniqueFacility = shouldShowCopayPaymentHistory
+      const copaysByUniqueFacility = shouldUseLighthouseCopays
         ? uniqBy(mcpCopays, 'facilityId')
         : uniqBy(sortedCopays, 'pSFacilityNum');
 
@@ -917,7 +917,7 @@ describe('Helper Functions', () => {
     });
 
     it('should handle all unique facilities when flag is false', () => {
-      const shouldShowCopayPaymentHistory = false;
+      const shouldUseLighthouseCopays = false;
       const mcpCopays = [];
       const sortedCopays = [
         { id: '1', pSFacilityNum: '111' },
@@ -925,7 +925,7 @@ describe('Helper Functions', () => {
         { id: '3', pSFacilityNum: '333' },
       ];
 
-      const copaysByUniqueFacility = shouldShowCopayPaymentHistory
+      const copaysByUniqueFacility = shouldUseLighthouseCopays
         ? uniqBy(mcpCopays, 'facilityId')
         : uniqBy(sortedCopays, 'pSFacilityNum');
 

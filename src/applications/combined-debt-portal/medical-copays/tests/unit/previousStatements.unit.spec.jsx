@@ -11,7 +11,7 @@ const createMockStore = state => createStore(() => state);
 
 const baseState = {
   featureToggles: {
-    [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: false,
+    [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
   },
   combinedPortal: {
     mcp: {
@@ -52,7 +52,7 @@ const legacyStatement = (id, date, station = '123') => ({
 const vhaState = recentStatements =>
   createMockState({
     featureToggles: {
-      [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
+      [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
     },
     combinedPortal: {
       mcp: {
@@ -66,7 +66,7 @@ const vhaState = recentStatements =>
 const vhaStateWithSelected = (recentStatements, selectedStatement) =>
   createMockState({
     featureToggles: {
-      [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
+      [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
     },
     combinedPortal: {
       mcp: {
@@ -85,7 +85,7 @@ const legacyState = statements =>
   });
 
 describe('PreviousStatements', () => {
-  describe('when showCopayPaymentHistory is true', () => {
+  describe('when useLighthouseCopays is true', () => {
     it('should render when recentStatements exist', () => {
       const store = createMockStore(
         vhaState([
@@ -180,7 +180,7 @@ describe('PreviousStatements', () => {
     });
   });
 
-  describe('when showCopayPaymentHistory is false', () => {
+  describe('when useLighthouseCopays is false', () => {
     it('should render when previous statements exist and filter out current statement', () => {
       const store = createMockStore(
         legacyState([
@@ -280,7 +280,7 @@ describe('PreviousStatements', () => {
       const store = createMockStore(
         createMockState({
           featureToggles: {
-            [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
+            [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
           },
           combinedPortal: {
             mcp: {},

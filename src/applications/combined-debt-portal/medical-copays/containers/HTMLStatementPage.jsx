@@ -3,15 +3,17 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaBreadcrumbs,
+  VaLoadingIndicator,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   setPageFocus,
-  isAnyElementFocused
+  isAnyElementFocused,
 } from '../../combined/utils/helpers';
 import {
-  showCopayPaymentHistory,
   useCurrentCopay,
+  useLighthouseCopays,
 } from '../../combined/utils/selectors';
 import Modals from '../../combined/components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
@@ -22,10 +24,8 @@ import NeedHelpCopay from '../components/NeedHelpCopay';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const HTMLStatementPage = () => {
-  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
-    useSelector(state => state),
-  );
-  
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
+
   const { id: copayId } = useParams();
   const { currentCopay, isLoading } = useCurrentCopay();
 
@@ -53,14 +53,13 @@ const HTMLStatementPage = () => {
   const fullName = userFullName.middle
     ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
     : `${userFullName.first} ${userFullName.last}`;
-  const acctNum =
-    currentCopay?.accountNumber || currentCopay?.pHAccountNumber;
+  const acctNum = currentCopay?.accountNumber || currentCopay?.pHAccountNumber;
 
   useHeaderPageTitle(title);
 
   useEffect(() => {
     if (!isAnyElementFocused()) setPageFocus();
-  },[]);
+  }, []);
 
   if (!currentCopay?.id || isLoading) {
     return <VaLoadingIndicator message="Loading features..." />;
@@ -107,7 +106,7 @@ const HTMLStatementPage = () => {
           previousBalance={currentCopay.pHPrevBal}
           statementDate={statementDate}
         />
-        {shouldShowCopayPaymentHistory && (
+        {shouldUseLighthouseCopays && (
           <StatementTable
             charges={charges}
             formatCurrency={formatCurrency}

@@ -6,7 +6,7 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Balances from '../../components/Balances';
-import { showCopayPaymentHistory } from '../../../combined/utils/selectors';
+import { useLighthouseCopays } from '../../../combined/utils/selectors';
 
 /**
  * Helper to render components with a mock Redux store
@@ -29,7 +29,7 @@ const renderWithStore = (component, initialState) => {
 };
 
 describe('Balances', () => {
-  it('showCopayPaymentHistory is true - renders with new data structure', () => {
+  it('useLighthouseCopays is true - renders with new data structure', () => {
     const mockState = {
       user: {},
       combinedPortal: {
@@ -91,7 +91,7 @@ describe('Balances', () => {
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: true,
+        [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
         loading: false,
       },
     };
@@ -100,7 +100,7 @@ describe('Balances', () => {
       <Balances
         copays={mockState.combinedPortal.mcp.copays.data}
         paginationText="TRUE SET"
-        showCopayPaymentHistory
+        useLighthouseCopays
       />,
       mockState,
     );
@@ -143,12 +143,12 @@ describe('Balances', () => {
     expect(resolveLink.text).to.include('Resolve this bill');
 
     // Verify helper function returns true
-    const result = showCopayPaymentHistory(mockState);
+    const result = useLighthouseCopayPaymentHistory(mockState);
     expect(result).to.be.true;
   });
 
   // TODO: to be removed once toggle is fully enabled
-  it('showCopayPaymentHistory is false - renders with legacy data structure', () => {
+  it('useLighthouseCopays is false - renders with legacy data structure', () => {
     const mockState = {
       user: {},
       combinedPortal: {
@@ -181,7 +181,7 @@ describe('Balances', () => {
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showCopayPaymentHistory]: false,
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
         loading: false,
       },
     };
@@ -190,7 +190,7 @@ describe('Balances', () => {
       <Balances
         copays={mockState.combinedPortal.mcp.copays}
         paginationText="FALSE SET"
-        showCopayPaymentHistory={false}
+        useLighthouseCopays={false}
       />,
       mockState,
     );
@@ -227,7 +227,7 @@ describe('Balances', () => {
     expect(resolveLink.text).to.include('Resolve this bill');
 
     // Verify helper function returns false
-    const result = showCopayPaymentHistory(mockState);
+    const result = useLighthouseCopayPaymentHistory(mockState);
     expect(result).to.be.false;
   });
 });

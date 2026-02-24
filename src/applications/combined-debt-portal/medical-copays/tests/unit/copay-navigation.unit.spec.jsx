@@ -67,7 +67,7 @@ describe('CDP – Copay Pages (unit)', () => {
     },
     featureToggles: {
       loading: false,
-      showCopayPaymentHistory: false,
+      useLighthouseCopays: false,
     },
   };
 

@@ -8,7 +8,7 @@ import {
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { ALERT_TYPES, APP_TYPES } from '../../combined/utils/constants';
 import { setPageFocus, sortCopaysByDate } from '../../combined/utils/helpers';
-import { showCopayPaymentHistory } from '../../combined/utils/selectors';
+import { useLighthouseCopays } from '../../combined/utils/selectors';
 import Balances from '../components/Balances';
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
@@ -78,7 +78,7 @@ const OverviewPage = () => {
   // boolean value to represent if toggles are still loading or not
   const togglesLoading = useToggleLoadingValue();
   // value of specific toggle
-  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
+  const shouldUseLighthouseCopays = useLighthouseCopayPaymentHistory(
     useSelector(state => state),
   );
 
@@ -90,13 +90,13 @@ const OverviewPage = () => {
   } = debtLetters;
   const debtLoading = isDebtPending || isProfileUpdating;
   const { copays, error: mcpError, pending: mcpLoading } = mcp;
-  const copaysEmpty = (shouldShowCopayPaymentHistory
+  const copaysEmpty = (shouldUseLighthouseCopays
     ? mcp.copays?.data
     : copays)?.length === 0;
-  const sortedCopays = shouldShowCopayPaymentHistory
+  const sortedCopays = shouldUseLighthouseCopays
     ? mcp.copays?.data ?? []
     : sortCopaysByDate(copays || []);
-  const copaysByUniqueFacility = shouldShowCopayPaymentHistory
+  const copaysByUniqueFacility = shouldUseLighthouseCopays
     ? uniqBy(mcp.copays?.data ?? [], 'facilityId')
     : uniqBy(sortedCopays, 'pSFacilityNum');
   const title = 'Copay balances';
@@ -185,7 +185,7 @@ const OverviewPage = () => {
       <article className="vads-u-padding-x--0 vads-u-padding-bottom--0">
         <Balances
           copays={currentData}
-          showCopayPaymentHistory={shouldShowCopayPaymentHistory}
+          useLighthouseCopays={shouldUseLighthouseCopays}
           paginationText={getPaginationText(
             currentPage,
             MAX_ROWS,

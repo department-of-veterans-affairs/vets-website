@@ -8,12 +8,10 @@ import {
   formatISODateToMMDDYYYY,
   setPageFocus,
 } from '../../combined/utils/helpers';
-import { showCopayPaymentHistory } from '../../combined/utils/selectors';
+import { useLighthouseCopays } from '../../combined/utils/selectors';
 
 const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
-  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
-    useSelector(state => state),
-  );
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
   const columns = ['Date', 'Description', 'Billing Reference', 'Amount'];
 
   const MAX_ROWS = 10;
@@ -38,7 +36,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     return `Showing ${start}-${end} of ${totalItems} ${label}`;
   };
 
-  const normalizedCharges = shouldShowCopayPaymentHistory
+  const normalizedCharges = shouldUseLighthouseCopays
     ? charges.map(item => ({
         date: item.datePosted,
         description: item.description,
@@ -135,7 +133,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   );
 
   const getDate = charge => {
-    if (shouldShowCopayPaymentHistory) {
+    if (shouldUseLighthouseCopays) {
       return formatISODateToMMDDYYYY(charge.date);
     }
 

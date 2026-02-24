@@ -11,7 +11,7 @@ import {
   calculateTotalBills,
 } from '../utils/balance-helpers';
 import { APP_TYPES } from '../utils/constants';
-import { showCopayPaymentHistory } from '../utils/selectors';
+import { useLighthouseCopays } from '../utils/selectors';
 import CopayAlertContainer from '../../medical-copays/components/CopayAlertContainer';
 
 // Some terminology that could be helpful:
@@ -23,9 +23,7 @@ const Balances = () => {
     ({ combinedPortal }) => combinedPortal,
   );
 
-  const shouldShowCopayPaymentHistory = showCopayPaymentHistory(
-    useSelector(state => state),
-  );
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
 
   // Single out errors
   const billError = mcp.error;
@@ -39,13 +37,13 @@ const Balances = () => {
 
   // get Bill info
   const copayData = mcp.copays || [];
-  const { copayBillCount } = shouldShowCopayPaymentHistory
+  const { copayBillCount } = shouldUseLighthouseCopays
     ? copayData.meta.copaySummary
     : { copayBillCount: copayData.length };
-  const copayTotal = shouldShowCopayPaymentHistory
+  const copayTotal = shouldUseLighthouseCopays
     ? copayData.meta.copaySummary.totalCurrentBalance
     : calculateTotalBills(copayData || []);
-  const latestBillDate = shouldShowCopayPaymentHistory
+  const latestBillDate = shouldUseLighthouseCopays
     ? new Date(copayData.meta.copaySummary.lastUpdatedOn)
     : getLatestBill(copayData || []);
 

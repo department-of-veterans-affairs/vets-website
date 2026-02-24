@@ -14,7 +14,7 @@ const createMockStore = (featureToggleValue = false) => {
   return createStore(() => ({
     featureToggles: {
       loading: false,
-      showCopayPaymentHistory: featureToggleValue,
+      useLighthouseCopays: featureToggleValue,
     },
   }));
 };
@@ -76,7 +76,7 @@ describe('mcp statement view', () => {
       const store = createStore(() => ({
         featureToggles: {
           loading: false,
-          showCopayPaymentHistory: false,
+          useLighthouseCopays: false,
         },
         combinedPortal: {
           mcp: {
