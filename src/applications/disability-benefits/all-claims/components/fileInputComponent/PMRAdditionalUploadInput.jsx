@@ -8,8 +8,8 @@ import {
 export const additionalInput = ({
   attachmentTypes = PMR_ATTACHMENTS_TYPES,
   label = ADDITIONAL_ATTACHMENT_LABEL,
-} = {}) => () => {
-  return (
+} = {}) => (
+  <>
     <VaSelect required name="attachmentId" label={label}>
       {attachmentTypes.map(attachmentType => (
         <option key={attachmentType.value} value={attachmentType.value}>
@@ -17,5 +17,5 @@ export const additionalInput = ({
         </option>
       ))}
     </VaSelect>
-  );
-};
+  </>
+);

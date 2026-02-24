@@ -46,7 +46,7 @@ export const additionalInputUpdate = (instance, error, data) => {
 /**
  * Handles additional input change event
  * @param {CustomEvent} e - The change event
- * @returns {Object|null} Object with attachmendId or null if empty
+ * @returns {Object|null} Object with attachmentId or null if empty
  */
 export const handleAdditionalInput = e => {
   const { value } = e.detail;
