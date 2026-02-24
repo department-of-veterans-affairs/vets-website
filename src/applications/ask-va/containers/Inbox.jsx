@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ServerErrorAlert } from '../config/helpers';
 import { mockTestingFlagForAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
-import { categorizeByLOA } from '../utils/inbox';
+import { standardizeInquiries } from '../utils/inbox';
 import InboxLayout from '../components/inbox/InboxLayout';
 import { getAllInquiries } from '../utils/api';
 
@@ -14,7 +14,7 @@ export default function Inbox() {
 
   useEffect(() => {
     function saveInState(rawInquiries) {
-      const { business, personal, uniqueCategories } = categorizeByLOA(
+      const { business, personal, uniqueCategories } = standardizeInquiries(
         rawInquiries,
       );
       setInquiries({ business, personal });

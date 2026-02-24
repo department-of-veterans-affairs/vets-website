@@ -1,12 +1,12 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import InboxLayout from '~/applications/ask-va/components/inbox/InboxLayout';
-import { categorizeByLOA } from '~/applications/ask-va/utils/inbox';
+import { standardizeInquiries } from '~/applications/ask-va/utils/inbox';
 import { expect } from 'chai';
 import { mockInquiries as rawInquiries } from '../../utils/mock-inquiries';
 
 describe('<InboxLayout />', () => {
-  const mockInquiries = categorizeByLOA(rawInquiries);
+  const mockInquiries = standardizeInquiries(rawInquiries);
   const selectedStatus = 'In progress';
 
   it('displays a message when there are no inquiries', () => {
