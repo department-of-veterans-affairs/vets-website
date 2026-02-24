@@ -242,6 +242,7 @@ describe('Schemaform review: <GenericError />', () => {
     const formConfig = getFormConfig({
       disableSave: true,
       submissionError: () => <div>Custom Error Message</div>,
+      submissionErrorLink: () => <div>Custom Error Link</div>,
     });
 
     const formReducer = createformReducer({

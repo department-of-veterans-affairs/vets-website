@@ -121,6 +121,7 @@ const formConfigKeys = [
   'signInHelpList',
   'stepLabels',
   'submissionError',
+  'submissionErrorLink',
   'submit',
   'submitErrorText',
   'submitUrl',
@@ -323,6 +324,7 @@ const validateForm = async (formSlug, formConfigParam) => {
     formSavedPage: 'component',
     signInHelpList: 'function',
     submissionError: 'function',
+    submissionErrorLink: 'function',
     CustomTopContent: 'component',
     useTopBackLink: 'boolean',
   };
