@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -44,6 +44,24 @@ const UnifiedRadiologyDetails = props => {
 
   const emptyField = 'None noted';
 
+  // Polling state for thumbnail backoff retry
+  const INITIAL_POLL_INTERVAL = 2000;
+  const BACKOFF_FACTOR = 1.05;
+  const MAX_POLL_INTERVAL = 30000;
+  const [pollInterval, setPollInterval] = useState(INITIAL_POLL_INTERVAL);
+
+  const hasLoadedThumbnails = scdfImageThumbnails?.length > 0;
+  const hasImageError = activeAlert?.type === ALERT_TYPE_IMAGE_STATUS_ERROR;
+
+  const pollThumbnails = useCallback(
+    () => {
+      if (record?.imagingStudyId) {
+        dispatch(getImagingStudyThumbnails(record.imagingStudyId));
+      }
+    },
+    [dispatch, record?.imagingStudyId],
+  );
+
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
@@ -58,6 +76,7 @@ const UnifiedRadiologyDetails = props => {
     [dispatch],
   );
 
+  // Initial fetch for thumbnails and DICOM
   useEffect(
     () => {
       if (record?.imagingStudyId) {
@@ -66,6 +85,31 @@ const UnifiedRadiologyDetails = props => {
       }
     },
     [dispatch, record?.imagingStudyId],
+  );
+
+  // Poll thumbnails with exponential backoff until URLs arrive or error
+  useEffect(
+    () => {
+      if (hasLoadedThumbnails || hasImageError || !record?.imagingStudyId) {
+        return undefined;
+      }
+
+      const timeoutId = setTimeout(() => {
+        pollThumbnails();
+        setPollInterval(prev =>
+          Math.min(prev * BACKOFF_FACTOR, MAX_POLL_INTERVAL),
+        );
+      }, pollInterval);
+
+      return () => clearTimeout(timeoutId);
+    },
+    [
+      hasLoadedThumbnails,
+      hasImageError,
+      pollInterval,
+      pollThumbnails,
+      record?.imagingStudyId,
+    ],
   );
 
   usePrintTitle(
