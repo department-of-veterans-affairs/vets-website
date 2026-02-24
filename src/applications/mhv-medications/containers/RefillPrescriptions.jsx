@@ -511,7 +511,7 @@ const RefillPrescriptions = () => {
                       className="vads-u-margin-top--2"
                     />
                     <p data-testid="no-refills-message">
-                      You don't have any VA prescriptions with refills
+                      You don’t have any VA prescriptions with refills
                       available. If you need a prescription, contact your care
                       team.
                     </p>
