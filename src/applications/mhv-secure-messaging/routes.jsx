@@ -1,13 +1,17 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom-v5-compat';
 import App from './containers/App';
+import manifest from './manifest.json';
 
-const routes = (
-  <Switch>
-    <Route path="/" key="App">
-      <App />
-    </Route>
-  </Switch>
-);
+const routes = [
+  {
+    path: '/*',
+    element: <App />,
+  },
+];
 
-export default routes;
+const router = createBrowserRouter(routes, {
+  basename: manifest.rootUrl,
+});
+
+export { routes, router as default };
