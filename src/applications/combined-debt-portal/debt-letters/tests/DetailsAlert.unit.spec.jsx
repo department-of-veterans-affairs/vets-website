@@ -1,7 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { I18nextProvider } from 'react-i18next';
 import DetailsAlert from '../../combined/components/DetailsAlert';
+import i18nCombinedDebtPortal from '../../i18n';
 
 describe('DetailsAlert', () => {
   const mockDebt = {
@@ -28,8 +30,18 @@ describe('DetailsAlert', () => {
     compositeDebtId: '441300',
   };
 
+  const renderWithI18n = component => {
+    return render(
+      <I18nextProvider i18n={i18nCombinedDebtPortal}>
+        {component}
+      </I18nextProvider>,
+    );
+  };
+
   it('renders debt details alert correctly', () => {
-    const wrapper = render(<DetailsAlert type="debt" data={mockDebt} />);
+    const wrapper = renderWithI18n(
+      <DetailsAlert type="debt" data={mockDebt} />,
+    );
 
     expect(wrapper.getByTestId('details-alert-441300')).to.exist;
     expect(wrapper.getByTestId('details-alert-441300')).to.have.attribute(

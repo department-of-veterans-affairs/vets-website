@@ -180,22 +180,22 @@ const VAMCServiceAutosuggest = ({
         spellCheck: 'false',
       }}
       handleOnSelect={handleDropdownSelection}
-      hintText="Begin typing to search for a service, like vision or dental"
+      hintText="Type a medical condition, treatment, or specialty to find services"
       initialSelectedItem={options?.[0]}
       inputId="vamc-services"
       inputRef={inputRef}
       inputValue={inputValue || ''}
       keepDataOnBlur
-      showOptionsRestriction={
-        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
-      }
-      label={<span>Service type</span>}
+      label="Select a health service"
       noItemsMessage="No results found."
       onClearClick={handleClearClick}
       onInputValueChange={handleInputValueChange}
       options={options}
       showDownCaret
       showError={false}
+      showOptionsRestriction={
+        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
+      }
       shouldShowNoResults
     />
   );

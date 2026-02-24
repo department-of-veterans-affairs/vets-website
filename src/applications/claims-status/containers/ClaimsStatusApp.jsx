@@ -87,7 +87,7 @@ function ClaimsStatusApp({
     beforeSend: event => {
       if (event.action?.type === 'click') {
         // eslint-disable-next-line no-param-reassign
-        event.action.target.name = 'Clicked item';
+        event.action.target.name = 'Clicked sensitive item';
       }
       return true;
     },

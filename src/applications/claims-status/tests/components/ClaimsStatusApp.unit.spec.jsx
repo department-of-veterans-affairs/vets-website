@@ -275,7 +275,7 @@ describe('<ClaimsStatusApp> - Platform DataDog RUM Integration', () => {
       },
     };
     expect(beforeSend(clickEvent)).to.be.true;
-    expect(clickEvent.action.target.name).to.equal('Clicked item');
+    expect(clickEvent.action.target.name).to.equal('Clicked sensitive item');
   });
 
   it('should call platform useBrowserMonitoring with loggedIn false when user not logged in', () => {

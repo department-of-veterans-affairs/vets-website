@@ -65,4 +65,59 @@ describe('Prescription Component', () => {
       expect(subtext).to.exist;
     });
   });
+
+  describe('tracking link for shipped status', () => {
+    it('constructs correct UPS tracking URL', () => {
+      const screen = setup({
+        ...defaultProps,
+        status: 'shipped',
+        carrier: 'UPS',
+        trackingNumber: '1Z2345678901234567',
+      });
+      const trackingLink = screen.getByText('Get tracking info');
+      expect(trackingLink.getAttribute('href')).to.include(
+        'ups.com/WebTracking',
+      );
+      expect(trackingLink.getAttribute('href')).to.include(
+        '1Z2345678901234567',
+      );
+    });
+
+    it('constructs correct USPS tracking URL', () => {
+      const screen = setup({
+        ...defaultProps,
+        status: 'shipped',
+        carrier: 'USPS',
+        trackingNumber: '9400111899223100001234',
+      });
+      const trackingLink = screen.getByText('Get tracking info');
+      expect(trackingLink.getAttribute('href')).to.include('usps.com');
+      expect(trackingLink.getAttribute('href')).to.include(
+        '9400111899223100001234',
+      );
+    });
+
+    it('constructs correct FedEx tracking URL', () => {
+      const screen = setup({
+        ...defaultProps,
+        status: 'shipped',
+        carrier: 'FedEx',
+        trackingNumber: '123456789012',
+      });
+      const trackingLink = screen.getByText('Get tracking info');
+      expect(trackingLink.getAttribute('href')).to.include('fedex.com');
+      expect(trackingLink.getAttribute('href')).to.include('123456789012');
+    });
+
+    it('falls back to tracking number as URL for unknown carrier', () => {
+      const screen = setup({
+        ...defaultProps,
+        status: 'shipped',
+        carrier: 'UnknownCarrier',
+        trackingNumber: 'ABC123',
+      });
+      const trackingLink = screen.getByText('Get tracking info');
+      expect(trackingLink.getAttribute('href')).to.equal('ABC123');
+    });
+  });
 });

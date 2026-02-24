@@ -1,9 +1,7 @@
-// PaginationMeta.unit.spec.jsx
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
-import * as ReactRouter from 'react-router-dom';
+import { render } from '@testing-library/react';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { ProfileContext } from '../../../context/ProfileContext';
 import PaginationMeta from '../../../components/PaginationMeta';
 
@@ -20,20 +18,6 @@ describe('PaginationMeta', () => {
     signIn: () => {},
     loa: { level: 3 },
   };
-  let useSearchParamsStub;
-  beforeEach(() => {
-    const searchParams = new URLSearchParams(
-      '?status=processed&sort=oldest&page=1&perPage=20&show=you',
-    );
-
-    useSearchParamsStub = sinon
-      .stub(ReactRouter, 'useSearchParams')
-      .returns([searchParams, () => {}]);
-  });
-
-  afterEach(() => {
-    useSearchParamsStub.restore();
-  });
   it('renders without crashing with minimal props', () => {
     const meta = {
       page: {
@@ -44,18 +28,31 @@ describe('PaginationMeta', () => {
       },
     };
     const results = Array(5).fill({});
-    const wrapper = mount(
-      <ProfileContext.Provider value={contextValue}>
-        <PaginationMeta
-          meta={meta}
-          results={results}
-          defaults={defaults}
-          resultType="requests"
-        />
-      </ProfileContext.Provider>,
-    );
-    expect(wrapper.exists()).to.be.true;
-    wrapper.unmount();
+    const routes = [
+      {
+        path: '/',
+        element: (
+          <ProfileContext.Provider value={contextValue}>
+            <PaginationMeta
+              meta={meta}
+              results={results}
+              defaults={defaults}
+              resultType="requests"
+            />
+          </ProfileContext.Provider>
+        ),
+      },
+    ];
+
+    const router = createMemoryRouter(routes, {
+      initialEntries: [
+        '/?status=processed&sort=oldest&page=1&perPage=20&show=you',
+      ],
+      initialIndex: 0,
+    });
+
+    const { container } = render(<RouterProvider router={router} />);
+    expect(container).to.exist;
   });
 
   it('renders with custom search params', () => {
@@ -68,22 +65,34 @@ describe('PaginationMeta', () => {
       },
     };
     const results = Array(5).fill({});
-    const wrapper = mount(
-      <ProfileContext.Provider value={contextValue}>
-        <PaginationMeta
-          meta={meta}
-          results={results}
-          defaults={defaults}
-          resultType="requests"
-        />
-      </ProfileContext.Provider>,
-    );
+    const routes = [
+      {
+        path: '/',
+        element: (
+          <ProfileContext.Provider value={contextValue}>
+            <PaginationMeta
+              meta={meta}
+              results={results}
+              defaults={defaults}
+              resultType="requests"
+            />
+          </ProfileContext.Provider>
+        ),
+      },
+    ];
 
-    const text = wrapper.text();
-    expect(text).to.include(
+    const router = createMemoryRouter(routes, {
+      initialEntries: [
+        '/?status=processed&sort=oldest&page=1&perPage=20&show=you',
+      ],
+      initialIndex: 0,
+    });
+
+    const { getByRole } = render(<RouterProvider router={router} />);
+    const text = getByRole('text');
+    expect(text.textContent).to.include(
       'Showing 1-20 of 23 processed requests for "You (test user)" sorted by “Processed date (oldest)”',
     );
-    wrapper.unmount();
   });
 
   it('handles last page with fewer results than pageSize', () => {
@@ -97,22 +106,33 @@ describe('PaginationMeta', () => {
     };
     const results = Array(2).fill({});
 
-    const wrapper = mount(
-      <ProfileContext.Provider value={contextValue}>
-        <PaginationMeta
-          meta={meta}
-          results={results}
-          defaults={defaults}
-          resultType="requests"
-        />
-      </ProfileContext.Provider>,
-    );
+    const routes = [
+      {
+        path: '/',
+        element: (
+          <ProfileContext.Provider value={contextValue}>
+            <PaginationMeta
+              meta={meta}
+              results={results}
+              defaults={defaults}
+              resultType="requests"
+            />
+          </ProfileContext.Provider>
+        ),
+      },
+    ];
 
-    const text = wrapper.text();
-    expect(text).to.include(
+    const router = createMemoryRouter(routes, {
+      initialEntries: [
+        '/?status=processed&sort=oldest&page=1&perPage=20&show=you',
+      ],
+      initialIndex: 0,
+    });
+    const { getByRole } = render(<RouterProvider router={router} />);
+    const text = getByRole('text');
+    expect(text.textContent).to.include(
       'Showing 1-12 of 12 processed requests for "You (test user)" sorted by “Processed date (oldest)”',
     );
-    wrapper.unmount();
   });
 
   it('handles empty results on first page gracefully', () => {
@@ -127,22 +147,33 @@ describe('PaginationMeta', () => {
 
     const results = [];
 
-    const wrapper = mount(
-      <ProfileContext.Provider value={contextValue}>
-        <PaginationMeta
-          meta={meta}
-          results={results}
-          defaults={defaults}
-          resultType="requests"
-        />
-      </ProfileContext.Provider>,
-    );
+    const routes = [
+      {
+        path: '/',
+        element: (
+          <ProfileContext.Provider value={contextValue}>
+            <PaginationMeta
+              meta={meta}
+              results={results}
+              defaults={defaults}
+              resultType="requests"
+            />
+          </ProfileContext.Provider>
+        ),
+      },
+    ];
 
-    const text = wrapper.text();
-    expect(text).to.include(
+    const router = createMemoryRouter(routes, {
+      initialEntries: [
+        '/?status=processed&sort=oldest&page=1&perPage=20&show=you',
+      ],
+      initialIndex: 0,
+    });
+    const { getByRole } = render(<RouterProvider router={router} />);
+    const text = getByRole('text');
+    expect(text.textContent).to.include(
       'Showing 0 processed requests for "You (test user)" sorted by “Processed date (oldest)”',
     );
-    wrapper.unmount();
   });
 
   it('renders without resultType', () => {
@@ -157,21 +188,32 @@ describe('PaginationMeta', () => {
 
     const results = [{}];
 
-    const wrapper = mount(
-      <ProfileContext.Provider value={contextValue}>
-        <PaginationMeta
-          meta={meta}
-          results={results}
-          defaults={defaults}
-          resultType="requests"
-        />
-      </ProfileContext.Provider>,
-    );
+    const routes = [
+      {
+        path: '/',
+        element: (
+          <ProfileContext.Provider value={contextValue}>
+            <PaginationMeta
+              meta={meta}
+              results={results}
+              defaults={defaults}
+              resultType="requests"
+            />
+          </ProfileContext.Provider>
+        ),
+      },
+    ];
 
-    const text = wrapper.text();
-    expect(text).to.include(
+    const router = createMemoryRouter(routes, {
+      initialEntries: [
+        '/?status=processed&sort=oldest&page=1&perPage=20&show=you',
+      ],
+      initialIndex: 0,
+    });
+    const { getByRole } = render(<RouterProvider router={router} />);
+    const text = getByRole('text');
+    expect(text.textContent).to.include(
       'Showing 1-10 of 10 processed requests for "You (test user)" sorted by “Processed date (oldest)”',
     );
-    wrapper.unmount();
   });
 });

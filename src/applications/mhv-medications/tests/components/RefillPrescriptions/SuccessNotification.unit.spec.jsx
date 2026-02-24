@@ -1,11 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
-import { Link } from 'react-router-dom-v5-compat';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 import SuccessNotification from '../../../components/RefillPrescriptions/SuccessNotification';
-import RefillAlert from '../../../components/RefillPrescriptions/RefillAlert';
-import { RefillMedicationList } from '../../../components/RefillPrescriptions/RefillMedicationList';
 import { MEDICATION_REFILL_CONFIG } from '../../../util/constants';
 import refillableList from '../../fixtures/refillablePrescriptionsList.json';
 import { dataDogActionNames } from '../../../util/dataDogConstants';
@@ -13,90 +12,83 @@ import { dataDogActionNames } from '../../../util/dataDogConstants';
 describe('SuccessNotification component', () => {
   const defaultConfig = MEDICATION_REFILL_CONFIG.SUCCESS;
   const defaultSuccessfulMeds = refillableList.slice(0, 3);
-  const mockHandleClick = sinon.spy();
 
-  const setup = (
-    config = defaultConfig,
-    handleClick = mockHandleClick,
-    successfulMeds = defaultSuccessfulMeds,
-  ) => {
-    return shallow(
-      <SuccessNotification
-        config={config}
-        handleClick={handleClick}
-        successfulMeds={successfulMeds}
-      />,
+  const mockStore = {
+    getState: () => ({
+      featureToggles: {},
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+
+  const setup = (handleClick = sinon.spy()) => {
+    return render(
+      <Provider store={mockStore}>
+        <MemoryRouter>
+          <SuccessNotification
+            config={defaultConfig}
+            handleClick={handleClick}
+            successfulMeds={defaultSuccessfulMeds}
+          />
+        </MemoryRouter>
+      </Provider>,
     );
   };
 
   it('renders without errors', () => {
-    const wrapper = setup();
-    expect(wrapper.exists()).to.be.true;
+    const { getByTestId } = setup();
+    expect(getByTestId('success-refill')).to.exist;
   });
 
-  it('renders RefillAlert component with correct config', () => {
-    const wrapper = setup();
-    const refillAlert = wrapper.find(RefillAlert);
-
-    expect(refillAlert.exists()).to.be.true;
-    expect(refillAlert.prop('config')).to.equal(defaultConfig);
-    expect(refillAlert.prop('additionalProps')).to.deep.equal({
-      'data-dd-privacy': 'mask',
-    });
+  it('sets data-dd-privacy mask on the alert', () => {
+    const { getByTestId } = setup();
+    expect(
+      getByTestId('success-refill').getAttribute('data-dd-privacy'),
+    ).to.equal('mask');
   });
 
-  it('renders RefillMedicationList with correct props', () => {
-    const wrapper = setup();
-    const medicationList = wrapper.find(RefillMedicationList);
-
-    expect(medicationList.exists()).to.be.true;
-    expect(medicationList.prop('medications')).to.equal(defaultSuccessfulMeds);
-    expect(medicationList.prop('testId')).to.equal(
-      'successful-medication-list',
+  it('renders the alert title', () => {
+    const { getByTestId } = setup();
+    expect(getByTestId('success-refill-title').textContent).to.equal(
+      defaultConfig.title,
     );
+  });
+
+  it('renders the medication list', () => {
+    const { getByTestId } = setup();
+    expect(getByTestId('successful-medication-list')).to.exist;
   });
 
   it('displays the list of requested medications', () => {
-    const wrapper = setup();
-    const medicationList = wrapper.find(RefillMedicationList);
+    const { getAllByTestId } = setup();
+    const items = getAllByTestId(/^successful-medication-list-\d+$/);
+    expect(items).to.have.lengthOf(defaultSuccessfulMeds.length);
+  });
 
-    expect(medicationList.exists()).to.be.true;
-    expect(medicationList.prop('medications')).to.have.lengthOf(
-      defaultSuccessfulMeds.length,
+  it('renders success description with correct content', () => {
+    const { getByTestId } = setup();
+    const descriptionContainer = getByTestId('success-refill-description');
+    expect(descriptionContainer.textContent).to.include(
+      defaultConfig.description,
     );
   });
 
-  it('renders success description with correct content and attributes', () => {
-    const wrapper = setup();
-    const descriptionContainer = wrapper.find(
-      '[data-testid="success-refill-description"]',
-    );
-    const descriptionParagraph = descriptionContainer.find('p');
-
-    expect(descriptionContainer.exists()).to.be.true;
-    expect(descriptionParagraph.exists()).to.be.true;
-    expect(descriptionParagraph.text()).to.equal(defaultConfig.description);
-  });
-
-  it('renders Link component with correct props', () => {
-    const wrapper = setup();
-    const link = wrapper.find(Link);
-
-    expect(link.exists()).to.be.true;
-    expect(link.prop('to')).to.equal('/');
-    expect(link.prop('data-testid')).to.equal('back-to-medications-page-link');
-    expect(link.hasClass('hide-visited-link')).to.be.true;
-    expect(link.prop('data-dd-action-name')).to.equal(
+  it('renders link with correct attributes', () => {
+    const { getByTestId } = setup();
+    const link = getByTestId('back-to-medications-page-link');
+    expect(link).to.exist;
+    expect(link.textContent).to.equal(defaultConfig.linkText);
+    expect(link.getAttribute('data-dd-action-name')).to.equal(
       dataDogActionNames.refillPage.GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK,
     );
-    expect(link.text()).to.equal(defaultConfig.linkText);
+    expect(link.getAttribute('href')).to.equal('/');
+    expect(link.classList.contains('hide-visited-link')).to.be.true;
   });
 
   it('calls handleClick when link is clicked', () => {
-    const wrapper = setup();
-    const link = wrapper.find(Link);
-
-    link.simulate('click');
-    expect(mockHandleClick.calledOnce).to.be.true;
+    const handleClick = sinon.spy();
+    const { getByTestId } = setup(handleClick);
+    fireEvent.click(getByTestId('back-to-medications-page-link'));
+    expect(handleClick.calledOnce).to.be.true;
   });
 });

@@ -1,10 +1,11 @@
-import { APP_TYPES, tCdp, getSortedDate } from './helpers';
+import { APP_TYPES, getSortedDate } from './helpers';
 import { getStatusTypeForDebtDiaryCode } from '../../debt-letters/const/diary-codes/diaryCodeStatusTypes';
 import { STATUS_TYPE_CONFIG } from '../../debt-letters/const/statusTypeConfig';
 import { PHONE_REGISTRY } from '../../debt-letters/const/phoneRegistry';
 import { endDate } from '../../debt-letters/utils/helpers';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { currency } from '../../debt-letters/utils/page';
+import { DEBT_LETTER_CODE_TYPE } from '../../debt-letters/const/debtLetterCodeType';
 
 /**
  * Transforms debt data to a standardized formats
@@ -75,10 +76,11 @@ export const getSummaryCardContent = data => {
   );
 
   const messageKey = `diaryCodes.statusTypes.${statusType}.summary.body`;
-  const message = tCdp(messageKey, { endDateText, amountDue: amount });
+  const messageValues = { endDateText, amountDue: amount };
 
   return {
-    message,
+    messageKey,
+    messageValues,
     alertStatus,
     linkIds,
   };
@@ -87,8 +89,8 @@ export const getSummaryCardContent = data => {
 /**
  * Centralized content helper for details cards
  */
-export const getDetailsAlertContent = (data, options = {}) => {
-  const { amount } = data;
+export const getDetailsAlertContent = data => {
+  const { amount, diaryCode } = data;
   const linkView = 'details';
   const {
     statusType,
@@ -101,18 +103,23 @@ export const getDetailsAlertContent = (data, options = {}) => {
   const phoneSetId = config?.phoneSet;
   const phoneSet = phoneSetId ? PHONE_REGISTRY[phoneSetId] : null;
 
+  const codeType = DEBT_LETTER_CODE_TYPE[diaryCode];
+
   const headerKey = `diaryCodes.statusTypes.${statusType}.details.header`;
+  const headerValues = { endDateText };
+
   const bodyKey = `diaryCodes.statusTypes.${statusType}.details.body`;
-  const headerText = tCdp(headerKey, { endDateText });
-  const bodyText = tCdp(bodyKey, {
+  const bodyValues = {
     endDateText,
     amountDue: amount,
-    type: options.type || 'request',
-  });
+    type: codeType,
+  };
 
   return {
-    headerText,
-    bodyText,
+    headerKey,
+    headerValues,
+    bodyKey,
+    bodyValues,
     alertStatus,
     linkIds,
     phoneSet,

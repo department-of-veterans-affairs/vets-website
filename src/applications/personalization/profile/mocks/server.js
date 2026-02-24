@@ -149,7 +149,7 @@ const responses = {
     // return res.json(user.loa3UserNeedsVapInit);
     // return res.json(user.loa3UserNoVaProfile); // LOA3 user without VA Profile service
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
-    return res.json(user.mvhUser); // user with mhv signIn.serviceName
+    return res.json(user.mhvUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
     // return res.json(user.loa1UserMHV); // LOA1 user w/mhv

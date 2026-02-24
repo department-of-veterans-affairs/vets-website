@@ -128,6 +128,7 @@ export const ConfirmationPage = ({ router, route }) => {
       />
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
+      <h2>What to expect next</h2>
       <ProcessList />
       <p>
         <va-link
@@ -138,7 +139,6 @@ export const ConfirmationPage = ({ router, route }) => {
           href="#"
         />
       </p>
-      <ConfirmationView.NeedHelp />
     </ConfirmationView>
   );
 };

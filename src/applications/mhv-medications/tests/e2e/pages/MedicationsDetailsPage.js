@@ -495,19 +495,22 @@ class MedicationsDetailsPage {
       .click({ force: true, multiple: true });
   };
 
+  // In component-library 54.7.0, va-accordion's expand/collapse button changed
+  // from <button aria-pressed="true/false"> to <va-button-icon> without
+  // aria-pressed. We verify state by checking which button is rendered:
+  // expand-all visible = collapsed, collapse-all visible = expanded.
   verifyAccordionCollapsedOnDetailsPage = () => {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .should('have.attr', 'aria-pressed', 'false');
+      .should('exist');
   };
 
   verifyAccordionExpandedOnDetailsPage = () => {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
-      .find('[data-testid="expand-all-accordions"]')
-      .first()
-      .should('have.attr', 'aria-pressed', 'true');
+      .find('[data-testid="collapse-all-accordions"]')
+      .should('exist');
   };
 
   verifyRefillHistoryInformationTextOnDetailsPage = text => {
