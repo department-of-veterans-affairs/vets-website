@@ -219,11 +219,10 @@ const validateFormConfig = {
   migrations: formConfig => {
     const { migrations, version } = formConfig;
     if (migrations || version > 0) {
-      expect(migrations?.length).to.equal(
+      const migrationsCount = migrations?.length;
+      expect(migrationsCount).to.equal(
         version,
-        `Version ${version} requires ${version} migrations, found ${
-          migrations?.length
-        }`,
+        `Version ${version} requires ${version} migrations, found ${migrationsCount}`,
       );
       validators.array({ migrations }, 'migrations');
       expect(migrations.every(m => typeof m === 'function')).to.be.true;
