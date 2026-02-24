@@ -34,6 +34,18 @@ describe('Survivors Benefits submit transformer', () => {
 
     expect(form.veteranSocialSecurityNumber).to.equal('321313311');
   });
+  it('should auto-populate marriage end date if married to veteran at time of death is yes and marriage end date is not provided', () => {
+    const formConfig = {};
+    const formData = {
+      marriedToVeteranAtTimeOfDeath: true,
+      veteranDateOfDeath: '2020-01-01',
+    };
+    const transformed = JSON.parse(transform(formConfig, formData));
+    const form = JSON.parse(transformed.survivorsBenefitsClaim.form);
+
+    expect(form.marriageEndDate).to.exist;
+    expect(form.marriageEndDate).to.equal('2020-01-01');
+  });
 });
 
 describe('feature flag - unit name and address transformation', () => {
