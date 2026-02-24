@@ -198,4 +198,45 @@ describe('Schemaform ReviewFieldTemplate', () => {
     expect(container.querySelector('dt').textContent).to.equal('Test');
     expect(container.querySelector('dd').textContent).to.equal('123'); // ignore formData
   });
+
+  it('should hide review row when formContext filterEmptyFields is true', () => {
+    const schema = { type: 'string' };
+    const uiSchema = {
+      'ui:title': 'Label',
+      'ui:reviewWidget': () => <span />,
+    };
+    const { container } = render(
+      <ReviewFieldTemplate
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={{ filterEmptyFields: true }}
+      >
+        <StringField schema={schema} uiSchema={uiSchema} formData="" />
+      </ReviewFieldTemplate>,
+    );
+
+    expect(container.querySelectorAll('.review-row').length).to.equal(0);
+  });
+
+  it('should ignore hideEmptyValueInReview when filterEmptyFields is false', () => {
+    const schema = { type: 'string' };
+    const uiSchema = {
+      'ui:title': 'Label',
+      'ui:reviewWidget': () => <span />,
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
+    };
+    const { container } = render(
+      <ReviewFieldTemplate
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={{ filterEmptyFields: false }}
+      >
+        <StringField schema={schema} uiSchema={uiSchema} formData="" />
+      </ReviewFieldTemplate>,
+    );
+
+    expect(container.querySelectorAll('.review-row').length).to.not.equal(0);
+  });
 });
