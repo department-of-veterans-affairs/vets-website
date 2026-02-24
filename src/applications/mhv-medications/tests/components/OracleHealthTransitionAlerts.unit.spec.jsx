@@ -270,9 +270,12 @@ describe('OracleHealthTransitionAlerts', () => {
     it('displays correct message about facility transition', () => {
       const { container } = render(<OracleHealthInCardAlert />);
 
-      expect(container.textContent).to.include('refill this prescription');
-      expect(container.textContent).to.include('facility is transitioning');
-      expect(container.textContent).to.include('new health records system');
+      expect(container.textContent).to.include(
+        'refill this medication online right now',
+      );
+      expect(container.textContent).to.include(
+        'call your VA pharmacy’s automated refill line',
+      );
     });
   });
 });
