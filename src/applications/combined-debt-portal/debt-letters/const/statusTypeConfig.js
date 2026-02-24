@@ -2,7 +2,10 @@ export const STATUS_TYPE_CONFIG = {
   '1': {
     alertType: 'info',
     category: 'diaryCodes.statusTypes.1.category',
-    links: ['details'],
+    linksByView: {
+      summary: ['details'],
+      details: [],
+    },
     phoneSet: 'dmc',
   },
   '2': {
@@ -40,7 +43,7 @@ export const STATUS_TYPE_CONFIG = {
     },
   },
   '6': {
-    alertType: 'info',
+    alertType: 'warning',
     category: 'diaryCodes.statusTypes.6.category',
     linksByView: {
       summary: ['details', 'resolve'],
@@ -74,23 +77,32 @@ export const STATUS_TYPE_CONFIG = {
   '10': {
     alertType: 'warning',
     category: 'diaryCodes.statusTypes.10.category',
-    links: ['details'],
+    linksByView: {
+      summary: ['details'],
+      details: [],
+    },
     phoneSet: 'treasury',
   },
   '11': {
     alertType: 'info',
     category: 'diaryCodes.statusTypes.11.category',
-    links: ['details'],
+    linksByView: {
+      summary: ['details'],
+      details: [],
+    },
     phoneSet: 'dmc',
   },
   '12': {
     alertType: 'info',
     category: 'diaryCodes.statusTypes.12.category',
-    links: ['details'],
+    linksByView: {
+      summary: ['details'],
+      details: [],
+    },
     phoneSet: 'dmc',
   },
   '13': {
-    alertType: 'warning',
+    alertType: 'info',
     category: 'diaryCodes.statusTypes.13.category',
     linksByView: {
       summary: ['details', 'resolve'],

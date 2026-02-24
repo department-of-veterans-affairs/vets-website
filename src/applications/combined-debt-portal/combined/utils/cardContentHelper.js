@@ -53,7 +53,7 @@ const getCommonContent = (data, linkView) => {
   const { type, diaryCode, dateOfLetter } = data;
   const statusType = getStatusType(type, diaryCode);
   const config = STATUS_TYPE_CONFIG[statusType];
-  const linkIds = config?.linksByView?.[linkView] || config?.links || [];
+  const linkIds = config?.linksByView?.[linkView] || [];
 
   return {
     statusType,
