@@ -125,9 +125,9 @@ const mapStateToProps = store => ({
 
 FacilityMapWidgetDynamic.propTypes = {
   facilities: PropTypes.object,
-  multiLoading: PropTypes.object,
-  multiError: PropTypes.object,
   facilityID: PropTypes.string,
+  multiError: PropTypes.object,
+  multiLoading: PropTypes.object,
 };
 
 const mapDispatchToProps = {
