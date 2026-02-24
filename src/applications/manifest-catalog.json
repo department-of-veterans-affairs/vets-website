@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 152,
+  "totalApplications": 150,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -416,12 +416,6 @@
       "appName": "Income Limits",
       "entryName": "income-limits",
       "rootUrl": "/health-care/income-limits"
-    },
-    {
-      "directoryPath": "src/applications/ivc-champva/10-10D",
-      "appName": "10-10d Application for CHAMPVA benefits",
-      "entryName": "10-10D",
-      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-10d-extended",
