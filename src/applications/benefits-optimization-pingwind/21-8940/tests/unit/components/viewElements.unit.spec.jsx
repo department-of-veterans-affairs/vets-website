@@ -106,6 +106,51 @@ describe('21-8940 component/viewElements', () => {
     expect(getByText('Hospital name not provided')).to.exist;
   });
 
+  it('renders connected disabilities from string and object inputs', () => {
+    const { container, rerender } = render(
+      <DoctorView
+        formData={{
+          doctorName: 'Dr. Branch',
+          connectedDisabilities: {
+            PTSD: true,
+            Anxiety: false,
+          },
+        }}
+      />,
+    );
+
+    expect(container.textContent).to.include('Connected disabilities: PTSD');
+    expect(container.textContent).to.not.include('Anxiety');
+
+    rerender(
+      <HospitalView
+        formData={{
+          hospitalName: 'Branch Clinic',
+          connectedDisabilities: 'Back pain,  Tinnitus',
+        }}
+      />,
+    );
+
+    expect(container.textContent).to.include('Connected disabilities:');
+    expect(container.textContent).to.include('Back pain');
+    expect(container.textContent).to.include('Tinnitus');
+  });
+
+  it('renders treatment dates with missing values', () => {
+    const { container } = render(
+      <DoctorView
+        formData={{
+          doctorName: 'Dr. Date',
+          treatmentDates: [{ startDate: '2024-01-01' }, {}],
+        }}
+      />,
+    );
+
+    expect(container.textContent).to.include('Treatment dates:');
+    expect(container.textContent).to.include('2024-01-01');
+    expect(container.textContent).to.include('Not provided');
+  });
+
   it('renders employer information with fallbacks', () => {
     const fullData = {
       employerName: 'Acme Corp',

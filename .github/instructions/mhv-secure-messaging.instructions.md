@@ -76,12 +76,17 @@ applyTo: "src/applications/mhv-secure-messaging/**"
 ## Business Logic & Requirements
 
 ### 45-Day Reply Restriction
-
-- Users cannot reply when the last sent message is >45 days old
-- Use `isOlderThan(lastSentDate, 45)` + `getLastSentMessage()`
-- Set `cannotReply` flag in thread state; display `Alerts.Message.CANNOT_REPLY_BODY`
-- Different messaging for VistA vs OH (Oracle Health) messages
-- UI: Reply button disabled/hidden, info alert shown
+- **Rule**: Users cannot reply to messages where the last sent message is more than 45 days old
+- **Implementation**:
+  - Use `isOlderThan(lastSentDate, 45)` to check eligibility
+  - `getLastSentMessage()` finds the most recent sent message in thread
+  - Set `cannotReply` flag in thread state when retrieving threads
+  - Display `Alerts.Message.STALE_REPLY_BODY` when restriction applies
+  - Different messaging for VistA vs OH (Oracle Health) messages
+- **UI Impact**:
+  - Reply button disabled or hidden
+  - Info alert displayed explaining restriction
+  - Directs users to start new message or contact facility
 
 ### Electronic Signature Requirements
 

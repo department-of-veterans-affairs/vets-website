@@ -16,7 +16,7 @@ const mockData = [
   {
     prescriptionId: 3,
     prescriptionName: 'Lipitor 20mg',
-    status: 'submitted',
+    status: 'too-early',
     lastUpdated: '2026-02-01T04:00:00.000Z',
   },
   {
@@ -30,12 +30,16 @@ const mockData = [
     prescriptionName: 'Benadryl 50mg',
     status: 'shipped',
     lastUpdated: '2026-01-21T04:00:00.000Z',
+    carrier: 'UPS',
+    trackingNumber: '1Z2345678901234567',
   },
   {
     prescriptionId: 6,
     prescriptionName: 'Zantac 150mg',
     status: 'shipped',
     lastUpdated: '2026-01-13T04:00:00.000Z',
+    carrier: 'USPS',
+    trackingNumber: '9400111899223100001234',
   },
 ];
 

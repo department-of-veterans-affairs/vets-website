@@ -126,10 +126,7 @@ const MyCaseManagementHub = () => {
         />
       )}
       {isInterrupted && (
-        <ApplicationInterruptedAlert
-          interruptedReason={interruptedReason}
-          resCaseId={resCaseId}
-        />
+        <ApplicationInterruptedAlert interruptedReason={interruptedReason} />
       )}
 
       {!caseStatusError &&

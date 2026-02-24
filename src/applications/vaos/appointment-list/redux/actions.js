@@ -48,7 +48,7 @@ import {
 } from '../../utils/error';
 import { selectAppointmentById } from './selectors';
 import { fetchAvsPdfBinaries } from '../../services/avs';
-import { separateFetchableAvsPdfs } from '../../utils/avs';
+import { avsIsValid, separateFetchableAvsPdfs } from '../../utils/avs';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
@@ -391,7 +391,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       const needsAvsFetch =
         appointment?.vaos?.isCerner &&
         addOhAvs &&
-        appointment?.avsPdf?.length > 0;
+        appointment?.avsPdf?.some?.(obj => avsIsValid(obj)); // make sure avsPdf is an array that has a valid AVS PDF to download
 
       // Dispatch loading if we need to fetch appointment data OR AVS data
       if (needsAppointmentFetch || needsAvsFetch) {

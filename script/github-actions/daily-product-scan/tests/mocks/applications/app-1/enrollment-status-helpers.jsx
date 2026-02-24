@@ -6,7 +6,6 @@ import moment from 'moment';
 import { isValidDateString } from 'platform/utilities/date';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
 import { getMedicalCenterNameByID } from './helpers';
-import { DASHBOARD_ALERT_TYPES } from 'applications/personalization/dashboard/components/DashboardAlert';
 
 // There are 9 possible warning headlines to show depending on enrollment status
 export function getWarningHeadline(enrollmentStatus) {
@@ -776,11 +775,11 @@ export function getAlertType(enrollmentStatus) {
   let status;
   switch (enrollmentStatus) {
     case HCA_ENROLLMENT_STATUSES.enrolled:
-      status = DASHBOARD_ALERT_TYPES.enrolled;
+      status = 'enrolled';
       break;
 
     case HCA_ENROLLMENT_STATUSES.closed:
-      status = DASHBOARD_ALERT_TYPES.closed;
+      status = 'closed';
       break;
 
     case HCA_ENROLLMENT_STATUSES.ineligCHAMPVA:
@@ -799,14 +798,14 @@ export function getAlertType(enrollmentStatus) {
     case HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry:
     case HCA_ENROLLMENT_STATUSES.rejectedRightEntry:
     case HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry:
-      status = DASHBOARD_ALERT_TYPES.decision;
+      status = 'decision';
       break;
 
     case HCA_ENROLLMENT_STATUSES.pendingMt:
     case HCA_ENROLLMENT_STATUSES.pendingOther:
     case HCA_ENROLLMENT_STATUSES.pendingPurpleHeart:
     case HCA_ENROLLMENT_STATUSES.pendingUnverified:
-      status = DASHBOARD_ALERT_TYPES.update;
+      status = 'update';
       break;
 
     default:

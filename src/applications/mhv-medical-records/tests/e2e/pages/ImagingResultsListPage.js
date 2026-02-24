@@ -35,6 +35,10 @@ class ImagingResultsListPage extends BaseListPage {
       '@mockUser',
       '@featureToggles',
     ]);
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   clickRadiologyDetailsLink = (heading, index = 0) => {
@@ -49,6 +53,10 @@ class ImagingResultsListPage extends BaseListPage {
     cy.get('@radLink').scrollIntoView();
     cy.get('@radLink').should('be.visible');
     cy.get('@radLink').click();
+    // Wait for detail page to load - check for print menu as indicator
+    cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
+      'be.visible',
+    );
   };
 
   loadVAPaginationNext = () => {

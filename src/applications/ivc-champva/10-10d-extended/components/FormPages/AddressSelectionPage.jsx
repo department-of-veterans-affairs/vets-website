@@ -3,8 +3,9 @@ import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../../shared/utilities';
-import { VaRadio, VaRadioOption } from '../../imports';
+import { VaRadio, VaRadioOption } from '../../utils/imports';
 import content from '../../locales/en/content.json';
+import { makePossessive } from '../../utils/helpers';
 
 // declare reusable constants
 export const FIELD_NAME = 'view:sharesAddressWith';
@@ -22,8 +23,7 @@ const PROMPT_THIRD = content['address-selection--prompt-third'];
 const PROMPT_SECOND = content['address-selection--prompt-second'];
 const UPDATE_BTN_TEXT = content['button--update-page'];
 const UPDATE_BTN_ARIA_LABEL = content['address-selection--update-aria-label'];
-const VETERAN_SINGULAR = content['noun--veteran-singular'];
-const VETERAN_POSSESSIVE = content['noun--veteran-possessive'];
+const VETERAN_SINGULAR = content['noun--veteran'];
 
 // convert address objects to formatted strings
 export const formatAddress = ({ street, street2, city, state, country } = {}) =>
@@ -208,7 +208,7 @@ const AddressSelectionPage = props => {
     () => {
       const party = isArrayMode
         ? applicantWording(localData)
-        : VETERAN_POSSESSIVE;
+        : makePossessive(VETERAN_SINGULAR);
       return titleUI(
         <>
           <span data-dd-privacy="hidden">{party}</span> {PAGE_TITLE}

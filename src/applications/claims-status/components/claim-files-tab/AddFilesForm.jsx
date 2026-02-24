@@ -369,6 +369,8 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           onVaMultipleChange={handleFileChange}
           errors={errors}
           encrypted={encrypted}
+          data-dd-privacy="mask"
+          data-dd-action-name="file upload input"
         >
           <VaSelect
             required

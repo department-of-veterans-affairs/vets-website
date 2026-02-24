@@ -57,11 +57,11 @@ export default function ProcessList({ pdfUrl, trackingPrefix }) {
               href="https://www.my.va.gov/EducationFileUploads/s/"
             />{' '}
             and upload your saved VA Form 22-0803 as well as your receipt and
-            test results.
+            exam results. This is the fastest way for us to process your form.
           </p>
           <p>
             If you would rather print and mail your form and attachments, the
-            addresses for your region are listed below.
+            addresses for your region are listed on this page.
           </p>
         </div>
       </va-process-list-item>

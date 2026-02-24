@@ -13,7 +13,7 @@ import numberToWords from './numberToWords';
 export const replaceNumberWithWord = (_, word, number) => {
   const num = parseInt(number, 10);
   return `${
-    isNaN(num) || !isFinite(num) ? number : numberToWords(num + 1)
+    Number.isNaN(num) || !Number.isFinite(num) ? number : numberToWords(num + 1)
   } ${word}`;
 };
 
@@ -283,7 +283,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
               navigationType,
             });
           }
-        } else if (err.property) {
+        } else if (err.property && typeof err.property === 'string') {
           // property includes a path to the error; we'll remove "instance",
           // then use `getPropertyInfo` to search the pageList to find the
           // matching chapterKey & pageKey
@@ -294,7 +294,9 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
           //
           // http://sentry.vfs.va.gov/vets-gov/website-production/issues/12188/events/cf24a5bc9ef9452e9611f3e14846f6f0/
           const argument =
-            Array.isArray(err.argument) || !err.argument || !isNaN(err.argument)
+            Array.isArray(err.argument) ||
+            !err.argument ||
+            typeof err.argument === 'number'
               ? property.split('.').slice(-1)[0]
               : err.argument;
           // name is the property that had the validation error
@@ -333,7 +335,9 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
               // display this message to the user in some future work
               message:
                 getErrorMessage(reviewErrors[propertyName], index) ||
-                formatErrors(err.stack || err.message),
+                (err.stack || err.message
+                  ? formatErrors(err.stack || err.message)
+                  : 'Validation error'),
               // Accordion (chapter) key that needs to be highlighted
               chapterKey,
               // page within the chapter that contains the error; will be used
@@ -346,7 +350,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
         }
         // process nested error messages (follows uiSchema nesting)
         Object.keys(err).forEach(key => {
-          if (!isNaN(key) && typeof err[key] !== 'string') {
+          if (!Number.isNaN(Number(key)) && typeof err[key] !== 'string') {
             // save array/object index if key is a number; but ignore it if the
             // value is a string, e.g. an __error message string
             errorIndex = key;

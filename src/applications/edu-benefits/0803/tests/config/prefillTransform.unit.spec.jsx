@@ -6,14 +6,14 @@ describe('transform function', () => {
     const pages = {};
     const metadata = {};
     const formData = {
-      applicantName: { first: 'John', last: 'Doe' },
+      applicantName: { first: 'John', middle: 'A', last: 'Doe', suffix: 'Sr.' },
       ssn: '1234567890',
       vaFileNumber: '0987654321',
     };
 
     const { formData: transformedData } = transform(pages, formData, metadata);
     expect(transformedData).to.deep.equal({
-      applicantName: { first: 'John', last: 'Doe' },
+      applicantName: { first: 'John', middle: 'A', last: 'Doe' },
       ssn: '1234567890',
       vaFileNumber: '0987654321',
     });

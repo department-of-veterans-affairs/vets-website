@@ -41,6 +41,6 @@ describe('Secure Messaging Trash Folder checks', () => {
   it('verify breadcrumbs', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    SharedComponents.backBreadcrumb().should('have.text', 'Back');
+    SharedComponents.assertBackBreadcrumbLabel();
   });
 });

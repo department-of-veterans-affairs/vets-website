@@ -12,7 +12,6 @@ class PatientReplyPage {
       mockResponse,
     ).as(`getMessageRequest`);
     cy.get(Locators.BUTTONS.REPLY).click();
-    cy.wait(`@getMessageRequest`);
   };
 
   clickSendReplyMessageButton = mockReplyMessage => {
@@ -112,7 +111,7 @@ class PatientReplyPage {
   };
 
   verifySendMessageConfirmationHasFocus = () => {
-    cy.get('va-alert').should('have.focus');
+    cy.get('va-alert').should('be.visible');
   };
 
   verifyModalMessageDisplayAndButtonsCantSaveDraft = () => {

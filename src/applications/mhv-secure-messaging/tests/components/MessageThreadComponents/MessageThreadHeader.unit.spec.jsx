@@ -73,11 +73,21 @@ describe('MessageThreadHeader component', () => {
 
   describe('CannotReplyAlert visibility', () => {
     it('shows CannotReplyAlert when cannotReply is true and not in migration phase', () => {
+      const customState = {
+        ...defaultState,
+        sm: {
+          ...defaultState.sm,
+          threadDetails: {
+            ...defaultState.sm.threadDetails,
+            isStale: true,
+          },
+        },
+      };
       const props = {
         ...defaultProps,
         cannotReply: true,
       };
-      const screen = setup(defaultState, props);
+      const screen = setup(customState, props);
       expect(screen.getByTestId('expired-alert-message')).to.exist;
     });
 

@@ -4,7 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import MedicareCardDescription from '../../components/FormDescriptions/MedicareCardDescription';
 import { MedicarePartADescription } from '../../components/FormDescriptions/MedicarePlanDescriptions';
-import { ATTACHMENT_IDS } from '../../constants';
+import { ATTACHMENT_IDS } from '../../utils/constants';
 import { attachmentUI, singleAttachmentSchema } from '../../definitions';
 import content from '../../locales/en/content.json';
 

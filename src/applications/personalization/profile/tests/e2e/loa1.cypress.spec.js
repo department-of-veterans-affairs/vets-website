@@ -99,15 +99,6 @@ context('when user is LOA1 and profile2Enabled is true', () => {
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
   });
   it('should only have access to the Account Security section and not call personal data APIs', () => {
-    cy.intercept('GET', 'v0/feature_toggles*', {
-      data: {
-        features: [
-          { name: 'profile_2_enabled', value: true },
-          { name: 'representative_status_enable_v2_features', value: true },
-        ],
-      },
-    });
-
     // should show a loading indicator
     cy.get('va-loading-indicator')
       .should('exist')
