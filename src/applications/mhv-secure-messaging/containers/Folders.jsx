@@ -29,39 +29,30 @@ const Folders = () => {
   );
 
   // clear out alerts if user navigates away from this component
-  useEffect(
-    () => {
-      return () => {
-        if (location.pathname) {
-          dispatch(closeAlert());
-        }
-      };
-    },
-    [location.pathname, dispatch],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getFolders());
-    },
-    [dispatch, location],
-  );
-
-  useEffect(
-    () => {
-      const pageTitleTag = getPageTitle({
-        pathname: location.pathname,
-      });
-
-      // Always focus on H1 per MHV accessibility decision records.
-      // Alert content is announced via role="status" without stealing focus.
-      if (folders !== undefined) {
-        focusElement(document.querySelector('h1'));
+  useEffect(() => {
+    return () => {
+      if (location.pathname) {
+        dispatch(closeAlert());
       }
-      updatePageTitle(pageTitleTag);
-    },
-    [folders, location.pathname],
-  );
+    };
+  }, [location.pathname, dispatch]);
+
+  useEffect(() => {
+    dispatch(getFolders());
+  }, [dispatch, location]);
+
+  useEffect(() => {
+    const pageTitleTag = getPageTitle({
+      pathname: location.pathname,
+    });
+
+    // Always focus on H1 per MHV accessibility decision records.
+    // Alert content is announced via role="status" without stealing focus.
+    if (folders !== undefined) {
+      focusElement(document.querySelector('h1'));
+    }
+    updatePageTitle(pageTitleTag);
+  }, [folders, location.pathname]);
 
   const confirmFolderCreate = (folderName, onSuccess) => {
     dispatch(newFolder(folderName)).then(() => {
