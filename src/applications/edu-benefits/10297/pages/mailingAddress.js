@@ -171,7 +171,7 @@ const uiSchema = {
             };
             return {
               type: 'string',
-              title: 'State/County/Province',
+              title: 'Province/Territory',
               enum: constants.states.CAN.map(state => state.value),
               enumNames: constants.states.CAN.map(state => state.label),
             };

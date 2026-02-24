@@ -119,10 +119,14 @@ describe('22-10297 Mailing address page', () => {
 
       it('should render State/County/Province dropdown', () => {
         expect(
-          screen.getByRole('combobox', { name: /State\/County\/Province/i }),
+          screen.getByRole('combobox', {
+            name: /Province\/Territory/i,
+          }),
         ).to.exist;
         expect(
-          screen.queryByRole('textbox', { name: /State\/County\/Province/i }),
+          screen.queryByRole('textbox', {
+            name: /Province\/Territory/i,
+          }),
         ).not.to.exist;
       });
 
