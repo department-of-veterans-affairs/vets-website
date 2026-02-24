@@ -5,20 +5,14 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { capitalizeFirst } from '../../utils/helpers';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'Details about the Veteran’s death';
+const TITLE_TEXT = content['sponsor--death-info-title'];
 const INPUT_LABELS = {
-  dateOfDeath: 'When did the Veteran die?',
-  deathConditions: 'Did the Veteran die during active military service?',
+  dateOfDeath: content['sponsor--death-date-label'],
+  deathConditions: content['sponsor--death-conditions-label'],
 };
-const DEATH_CONDITIONS_HINT_TEXT =
-  'Depending on your response, you may need to submit additional documents.';
-
-const SCHEMA_ENUM = ['yes', 'no'];
-const SCHEMA_LABELS = Object.fromEntries(
-  SCHEMA_ENUM.map(key => [key, capitalizeFirst(key)]),
-);
+const DEATH_CONDITIONS_HINT_TEXT = content['sponsor--death-conditions-hint'];
 
 export default {
   uiSchema: {
@@ -27,7 +21,6 @@ export default {
     sponsorDeathConditions: yesNoUI({
       title: INPUT_LABELS.deathConditions,
       hint: DEATH_CONDITIONS_HINT_TEXT,
-      labels: SCHEMA_LABELS,
     }),
   },
   schema: {

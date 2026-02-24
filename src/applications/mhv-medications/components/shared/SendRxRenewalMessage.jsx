@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { datadogRum } from '@datadog/browser-rum';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 import { selectSecureMessagingMedicationsRenewalRequestFlag } from '../../util/selectors';
 
 const SendRxRenewalMessage = ({
@@ -50,7 +51,9 @@ const SendRxRenewalMessage = ({
       event: 'va-modal',
       'modal-title': "You're leaving medications to send a message",
     });
-    datadogRum.addAction('Rx Renewal Modal Open');
+    datadogRum.addAction(dataDogActionNames.renewalModal.MODAL_OPEN, {
+      facilityId: rx.stationNumber,
+    });
   };
 
   const handleContinue = () => {
@@ -58,7 +61,9 @@ const SendRxRenewalMessage = ({
       event: 'cta-button-click',
       'button-click-label': 'Continue to send renewal message',
     });
-    datadogRum.addAction('Rx Renewal Modal Continue');
+    datadogRum.addAction(dataDogActionNames.renewalModal.MODAL_CONTINUE, {
+      facilityId: rx.stationNumber,
+    });
     window.location.href = secureMessagesUrl;
   };
 
@@ -67,7 +72,9 @@ const SendRxRenewalMessage = ({
       event: 'cta-button-click',
       'button-click-label': 'Back from renewal modal',
     });
-    datadogRum.addAction('Rx Renewal Modal Back');
+    datadogRum.addAction(dataDogActionNames.renewalModal.MODAL_BACK, {
+      facilityId: rx.stationNumber,
+    });
     setShowRenewalModal(false);
   };
 
@@ -76,7 +83,9 @@ const SendRxRenewalMessage = ({
       event: 'cta-button-click',
       'button-click-label': 'Close renewal modal',
     });
-    datadogRum.addAction('Rx Renewal Modal Close');
+    datadogRum.addAction(dataDogActionNames.renewalModal.MODAL_CLOSE, {
+      facilityId: rx.stationNumber,
+    });
     setShowRenewalModal(false);
   };
 

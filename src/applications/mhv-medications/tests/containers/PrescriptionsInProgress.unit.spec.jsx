@@ -104,7 +104,7 @@ describe('PrescriptionsInProgress container', () => {
       name: /Go to your medication history/i,
     });
     expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal('/');
+    expect(link.getAttribute('href')).to.equal('/history');
   });
 
   it('displays the refill medications link', () => {

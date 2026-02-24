@@ -10,7 +10,10 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { getContestableIssues as getContestableIssuesAction } from '../actions';
+import {
+  getContestableIssues as getContestableIssuesAction,
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+} from '../../shared/actions';
 import formConfig from '../config/form';
 import {
   removeNonSelectedIssuesFromEvidence,
@@ -23,7 +26,6 @@ import {
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
@@ -92,7 +94,10 @@ export const App = ({
           if (!isLoadingIssues && (contestableIssues.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
-            getContestableIssues({ benefitType: formData.benefitType });
+            getContestableIssues({
+              benefitType: formData.benefitType,
+              appAbbr: 'SC',
+            });
           } else if (
             contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
             (issuesNeedUpdating(
