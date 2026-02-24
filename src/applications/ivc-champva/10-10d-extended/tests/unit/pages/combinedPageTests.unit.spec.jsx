@@ -34,64 +34,64 @@ testNumberOfWebComponentFields(
 );
 testNumberOfWebComponentFields(
   formConfig,
-  sponsorPages.personalInformation.schema,
-  sponsorPages.personalInformation.uiSchema,
+  sponsorPages.sponsorPersonalInformation.schema,
+  sponsorPages.sponsorPersonalInformation.uiSchema,
   5,
   'Sponsor Information - Name and DOB',
   {},
 );
 testNumberOfWebComponentFields(
   formConfig,
-  sponsorPages.identityInformation.schema,
-  sponsorPages.identityInformation.uiSchema,
+  sponsorPages.sponsorIdentityInformation.schema,
+  sponsorPages.sponsorIdentityInformation.uiSchema,
   1,
   'Sponsor Information - Identification info',
   {},
 );
 testNumberOfWebComponentFields(
   formConfig,
-  sponsorPages.identityInformation.schema,
-  sponsorPages.identityInformation.uiSchema,
+  sponsorPages.sponsorIdentityInformation.schema,
+  sponsorPages.sponsorIdentityInformation.uiSchema,
   1,
   'Sponsor Information - Identification info (role: sponsor)',
   { certifierRole: 'sponsor' },
 );
 testNumberOfWebComponentFields(
   formConfig,
-  sponsorPages.livingStatus.schema,
-  sponsorPages.livingStatus.uiSchema,
+  sponsorPages.sponsorLivingStatus.schema,
+  sponsorPages.sponsorLivingStatus.uiSchema,
   1,
   'Sponsor Information - Status',
   {},
 );
 testNumberOfWebComponentFields(
   formConfig,
-  sponsorPages.mailingAddress.schema,
-  sponsorPages.mailingAddress.uiSchema,
+  sponsorPages.sponsorMailingAddress.schema,
+  sponsorPages.sponsorMailingAddress.uiSchema,
   7,
   'Sponsor Information - Mailing Address',
   {},
 );
 testNumberOfWebComponentFields(
   formConfig,
-  sponsorPages.mailingAddress.schema,
-  sponsorPages.mailingAddress.uiSchema,
+  sponsorPages.sponsorMailingAddress.schema,
+  sponsorPages.sponsorMailingAddress.uiSchema,
   7,
   'Sponsor Information - Mailing Address (role: sponsor)',
   { certifierRole: 'sponsor' },
 );
 testNumberOfWebComponentFields(
   formConfig,
-  sponsorPages.contactInformation.schema,
-  sponsorPages.contactInformation.uiSchema,
+  sponsorPages.sponsorContactInformation.schema,
+  sponsorPages.sponsorContactInformation.uiSchema,
   2,
   'Sponsor Information - Contact info',
   {},
 );
 testNumberOfWebComponentFields(
   formConfig,
-  sponsorPages.contactInformation.schema,
-  sponsorPages.contactInformation.uiSchema,
+  sponsorPages.sponsorContactInformation.schema,
+  sponsorPages.sponsorContactInformation.uiSchema,
   2,
   'Sponsor Information - Contact info (role: sponsor)',
   { certifierRole: 'sponsor' },

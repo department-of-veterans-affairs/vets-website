@@ -61,7 +61,7 @@ async function testTransactionCreationFails(addressName) {
   deleteAddress(addressName);
 
   // the error alert should appear
-  await view.findByTestId('generic-error-alert');
+  await view.findByTestId('vap-service-error-alert');
 
   expect(getVaButton('Edit', addressName)).to.exist;
 }

@@ -28,9 +28,8 @@ import {
   medicareStatusPage,
   medicareProofOfIneligibilityPage,
 } from '../chapters/medicareInformation';
-import healthInsuranceIntroduction from '../chapters/healthInsuranceInformation/healthInsuranceIntroduction';
-import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
 import { sponsorPages } from '../chapters/sponsor';
+import { healthInsurancePages } from '../chapters/healthInsurance';
 
 // import mockData from '../tests/e2e/fixtures/data/representative.json';
 
@@ -173,14 +172,7 @@ const formConfig = {
     healthInsuranceInformation: {
       title:
         'Other Health Insurance Certification: Health insurance information',
-      pages: {
-        healthInsuranceIntro: {
-          path: 'report-other-health-insurance',
-          title: 'Report other health insurance',
-          ...healthInsuranceIntroduction,
-        },
-        ...healthInsurancePages,
-      },
+      pages: healthInsurancePages,
     },
   },
 };

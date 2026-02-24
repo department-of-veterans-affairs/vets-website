@@ -42,12 +42,12 @@ const Review = () => {
       }
     >
       <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
-        <p
-          className="vads-u-font-weight--bold vads-u-margin--0"
+        <h2
+          className="vads-u-font-size--h4 vads-u-margin--0"
           data-testid="date-time-title"
         >
           Date and time
-        </p>
+        </h2>
         <Link
           to={URLS.DATE_TIME}
           data-testid="date-time-edit-link"
@@ -64,12 +64,12 @@ const Review = () => {
         className=" vads-u-margin-top--1 vads-u-margin-bottom--0p5"
       />
       <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
-        <p
-          className="vads-u-font-weight--bold vads-u-margin--0"
+        <h2
+          className="vads-u-font-size--h4 vads-u-margin--0"
           data-testid="topic-title"
         >
           Topic
-        </p>
+        </h2>
         <Link
           to={URLS.TOPIC_SELECTION}
           data-testid="topic-edit-link"
