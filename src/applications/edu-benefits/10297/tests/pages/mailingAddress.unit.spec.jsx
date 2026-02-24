@@ -52,17 +52,17 @@ describe('22-10297 Mailing address page', () => {
         name: 'Street address (*Required)',
       });
 
-      const postalCodeInput = screen.getByRole('textbox', {
-        name: /Postal code/i,
+      const zipCodeInput = screen.getByRole('textbox', {
+        name: /Zip code/i,
       });
 
       await userEvent.type(streetInput, '1');
-      await userEvent.type(postalCodeInput, 'abc');
+      await userEvent.type(zipCodeInput, 'abc');
       await userEvent.tab(); // Need to blur the input to trigger validation
 
       expect(screen.getByText('Please provide your full street address')).to
         .exist;
-      expect(screen.getByText('Please provide a valid postal code')).to.exist;
+      expect(screen.getByText('Please provide a valid zip code')).to.exist;
     });
   });
 
@@ -95,19 +95,19 @@ describe('22-10297 Mailing address page', () => {
       const cityInput = screen.getByRole('textbox', {
         name: /City/i,
       });
-      const postalCodeInput = screen.getByRole('textbox', {
-        name: /Postal code/i,
+      const zipCodeInput = screen.getByRole('textbox', {
+        name: /Zip code/i,
       });
 
       await userEvent.type(streetInput, '1');
       await userEvent.type(cityInput, 'a');
-      await userEvent.type(postalCodeInput, 'abc');
+      await userEvent.type(zipCodeInput, 'abc');
       await userEvent.tab(); // Need to blur the input to trigger validation
 
       expect(screen.getByText('Please provide your full street address')).to
         .exist;
       expect(screen.getByText('Please provide a valid city')).to.exist;
-      expect(screen.getByText('Please provide a valid postal code')).to.exist;
+      expect(screen.getByText('Please provide a valid zip code')).to.exist;
     });
   });
 
@@ -119,10 +119,14 @@ describe('22-10297 Mailing address page', () => {
 
       it('should render State/County/Province dropdown', () => {
         expect(
-          screen.getByRole('combobox', { name: /State\/County\/Province/i }),
+          screen.getByRole('combobox', {
+            name: /Province\/Territory/i,
+          }),
         ).to.exist;
         expect(
-          screen.queryByRole('textbox', { name: /State\/County\/Province/i }),
+          screen.queryByRole('textbox', {
+            name: /Province\/Territory/i,
+          }),
         ).not.to.exist;
       });
 
