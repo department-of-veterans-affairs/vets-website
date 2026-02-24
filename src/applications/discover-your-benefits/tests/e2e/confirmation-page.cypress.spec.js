@@ -118,7 +118,7 @@ describe('Confirmation Page', () => {
 
     cy.get('#filter-text').should(
       'contain.text',
-      'Showing 11–16 of 16 results',
+      'Showing 11–15 of 15 results',
     );
   });
 });

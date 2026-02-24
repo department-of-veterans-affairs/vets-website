@@ -300,7 +300,7 @@ export default function transformForSubmit(formConfig, form) {
     email: withConcatAddresses.sponsorEmail || '',
     address: withConcatAddresses.sponsorAddress || {},
     sponsorIsDeceased: withConcatAddresses.sponsorIsDeceased,
-    dateOfDeath: formatDate(withConcatAddresses.sponsorDOD) || '',
+    dateOfDeath: formatDate(withConcatAddresses.sponsorDod) || '',
     dateOfMarriage: formatDate(marriageDate) || '',
     isActiveServiceDeath: withConcatAddresses.sponsorDeathConditions,
   };

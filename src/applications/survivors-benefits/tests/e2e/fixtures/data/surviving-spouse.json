@@ -63,6 +63,11 @@
     "benefit": "DIC",
     "claimingMonthlySpecialPension": false,
     "claimantLivesInANursingHome": false,
+    "separationDueToAssignedReasons": "DIVORCE",
+    "separationExplanation": "I was divorced from the veteran due to financial reasons.",
+    "separationStartDate": "2015-01-01",
+    "separationEndDate": "2016-01-01",
+    "courtOrderedSeparation": false,
     "hasBankAccount": true,
     "bankAccount": {
       "accountType": "checking",

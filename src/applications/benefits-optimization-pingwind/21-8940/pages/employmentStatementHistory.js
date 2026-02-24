@@ -49,6 +49,8 @@ const options = {
   },
 };
 
+export const employmentStatementHistoryOptions = options;
+
 /**
  * @returns {PageSchema}
  */

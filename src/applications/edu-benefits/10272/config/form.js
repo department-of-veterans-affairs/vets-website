@@ -8,8 +8,11 @@ import {
 } from 'platform/forms-system/src/js/patterns/prefill';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
+import prefillTransform from './prefillTransform';
+import submitForm from './submitForm';
+import transform from './transform';
 
 // Components
 import IntroductionPage from '../containers/IntroductionPage';
@@ -36,15 +39,12 @@ import {
   remarks,
 } from '../pages';
 
-import prefillTransform from './prefillTransform';
-
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: '10272-edu-benefits',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -91,6 +91,7 @@ const formConfig = {
     submitButtonText: 'Continue',
   },
   defaultDefinitions: {},
+  transformForSubmit: transform,
   useCustomScrollAndFocus: true,
   chapters: {
     educationBenefitsChapter: {

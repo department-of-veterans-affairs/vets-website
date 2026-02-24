@@ -5,7 +5,7 @@ import {
   customTransformForSubmit,
 } from '../../config/utilities/submission';
 
-import { PICKLIST_DATA } from '../../config/constants';
+import { PICKLIST_DATA, PICKLIST_REMOVAL_FLAG } from '../../config/constants';
 import { formConfig } from '../../config/form';
 
 const dataOptions = 'view:removeDependentOptions';
@@ -755,6 +755,8 @@ describe('customTransformForSubmit integration', () => {
     // 5. Transformed divorce data should be present
     expect(submittedData.reportDivorce.fullName.first).to.equal('Ex');
     expect(submittedData.reportDivorce.fullName.last).to.equal('Spouse');
+
+    expect(submittedData[PICKLIST_REMOVAL_FLAG]).to.be.true;
   });
 
   it('should correctly handle V2 flow with empty stepChildren through full transformation pipeline', () => {
