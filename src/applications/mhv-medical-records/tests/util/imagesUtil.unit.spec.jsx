@@ -239,6 +239,7 @@ describe('convertScdfImagingStudy', () => {
         identifier: 'urn:vastudy:200CRNR-CM_4',
         series: [{ uid: 's1' }],
         status: 'available',
+        imageCount: 5,
       },
     };
     const result = convertScdfImagingStudy(record);
@@ -251,6 +252,13 @@ describe('convertScdfImagingStudy', () => {
     expect(result.studyId).to.equal('urn:vastudy:200CRNR-CM_4');
     expect(result.series).to.deep.equal([{ uid: 's1' }]);
     expect(result.status).to.equal('available');
+    expect(result.imageCount).to.equal(5);
+  });
+
+  it('defaults imageCount to 0 when not provided', () => {
+    const record = { id: 'no-count', attributes: {} };
+    const result = convertScdfImagingStudy(record);
+    expect(result.imageCount).to.equal(0);
   });
 
   it('uses EMPTY_FIELD for missing fields', () => {
@@ -315,13 +323,30 @@ describe('mergeImagingStudiesIntoLabs', () => {
       { id: 'lab-1', sortDate: '2025-01-10T09:15:00Z', name: 'CHEST XRAY' },
     ];
     const studies = [
-      { id: 'study-1', rawDate: '2025-01-10T09:17:00Z', status: 'available' },
+      {
+        id: 'study-1',
+        rawDate: '2025-01-10T09:17:00Z',
+        status: 'available',
+        imageCount: 3,
+      },
     ];
     const result = mergeImagingStudiesIntoLabs(labs, studies);
     expect(result).to.have.lengthOf(1);
     expect(result[0].imagingStudyId).to.equal('study-1');
     expect(result[0].imagingStudyStatus).to.equal('available');
+    expect(result[0].imageCount).to.equal(3);
     expect(result[0].name).to.equal('CHEST XRAY');
+  });
+
+  it('defaults imageCount to 0 when imaging study has no imageCount', () => {
+    const labs = [
+      { id: 'lab-1', sortDate: '2025-01-10T09:15:00Z', name: 'CHEST XRAY' },
+    ];
+    const studies = [
+      { id: 'study-1', rawDate: '2025-01-10T09:17:00Z', status: 'available' },
+    ];
+    const result = mergeImagingStudiesIntoLabs(labs, studies);
+    expect(result[0].imageCount).to.equal(0);
   });
 
   it('does not match records outside the tolerance window', () => {
