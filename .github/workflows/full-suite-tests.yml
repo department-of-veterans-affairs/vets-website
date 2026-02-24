@@ -131,6 +131,12 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Get Mapbox Token (shared fallback)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
+          env_variable_name: MAPBOX_TOKEN
+
       - name: Get Mapbox Token - Facility Locator
         uses: ./.github/workflows/inject-secrets
         with:

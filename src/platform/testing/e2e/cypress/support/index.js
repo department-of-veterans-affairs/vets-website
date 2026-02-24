@@ -94,33 +94,13 @@ beforeEach(() => {
 // so test-specific intercepts always take priority.
 // ==========================================================================
 beforeEach(() => {
-  // Geocoding API — minimal valid response for tests without their own mock
-  /* eslint-disable camelcase */
+  // Geocoding API — empty response prevents real API calls without
+  // triggering autosuggest dropdowns that interfere with other fields.
   cy.intercept('GET', '**/geocoding/**', {
     type: 'FeatureCollection',
-    query: ['mock'],
-    features: [
-      {
-        id: 'place.1',
-        type: 'Feature',
-        place_type: ['place'],
-        relevance: 1,
-        properties: {},
-        text: 'Mock City',
-        place_name: 'Mock City, State, United States',
-        center: [-97.7437, 30.2711],
-        geometry: {
-          type: 'Point',
-          coordinates: [-97.7437, 30.2711],
-        },
-        context: [
-          { id: 'region.1', text: 'State', short_code: 'US-TX' },
-          { id: 'country.1', text: 'United States', short_code: 'us' },
-        ],
-      },
-    ],
+    query: [],
+    features: [],
   });
-  /* eslint-enable camelcase */
 
   // Tile JSON metadata (GET for map init, HEAD for token health check)
   cy.intercept('GET', '**/v4/mapbox.*', {});
