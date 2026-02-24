@@ -114,7 +114,7 @@ const EditContactList = () => {
         history.push(Paths.INBOX);
       }
     },
-    [history, previousUrl],
+    [activeDraftId, history, previousUrl],
   );
 
   const handleSave = async e => {
