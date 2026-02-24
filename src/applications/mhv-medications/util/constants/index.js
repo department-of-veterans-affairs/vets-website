@@ -54,6 +54,8 @@ export {
   REFILL_LOADING_MESSAGES,
   REFILL_ERROR_MESSAGES,
   RX_SOURCE,
+  REFILL_BLOCKING_PHASES,
+  RENEWAL_BLOCKING_PHASES,
 } from './refill';
 
 export { trackingConfig } from './tracking';
