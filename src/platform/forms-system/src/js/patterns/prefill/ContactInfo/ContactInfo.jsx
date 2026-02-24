@@ -228,45 +228,51 @@ export const ContactInfoBase = ({
 
   useEffect(() => syncProfileData(), [contactInfo, data, keys, setFormData]);
 
-  useEffect(() => {
-    if (editState) {
-      const [lastEdited, returnState] = editState.split(',');
-      const scrollTimer = setTimeout(() => {
-        const target =
-          returnState === 'canceled'
-            ? `#edit-${lastEdited}`
-            : `#updated-${lastEdited}`;
-        scrollTo(
-          onReviewPage
-            ? `${contactInfoPageKey}ScrollElement`
-            : `header-${lastEdited}`,
-        );
-        focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
+  useEffect(
+    () => {
+      if (editState) {
+        const [lastEdited, returnState] = editState.split(',');
+        const scrollTimer = setTimeout(() => {
+          const target =
+            returnState === 'canceled'
+              ? `#edit-${lastEdited}`
+              : `#updated-${lastEdited}`;
+          scrollTo(
+            onReviewPage
+              ? `${contactInfoPageKey}ScrollElement`
+              : `header-${lastEdited}`,
+          );
+          focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
+        });
+
+        const clearTimer = setTimeout(() => {
+          clearReturnState();
+        }, 1000);
+
+        return () => {
+          clearTimeout(scrollTimer);
+          clearTimeout(clearTimer);
+        };
+      }
+      return undefined;
+    },
+    [contactInfoPageKey, editState, onReviewPage],
+  );
+
+  useEffect(
+    () => {
+      if ((hasInitialized && missingInfo.length) || testContinueAlert) {
+        // page had an error flag, so we know when to show a success alert
+        setHadError(true);
+      }
+      const timer = setTimeout(() => {
+        setHasInitialized(true);
       });
 
-      const clearTimer = setTimeout(() => {
-        clearReturnState();
-      }, 1000);
-
-      return () => {
-        clearTimeout(scrollTimer);
-        clearTimeout(clearTimer);
-      };
-    }
-    return undefined;
-  }, [contactInfoPageKey, editState, onReviewPage]);
-
-  useEffect(() => {
-    if ((hasInitialized && missingInfo.length) || testContinueAlert) {
-      // page had an error flag, so we know when to show a success alert
-      setHadError(true);
-    }
-    const timer = setTimeout(() => {
-      setHasInitialized(true);
-    });
-
-    return () => clearTimeout(timer);
-  }, [missingInfo, hasInitialized, testContinueAlert]);
+      return () => clearTimeout(timer);
+    },
+    [missingInfo, hasInitialized, testContinueAlert],
+  );
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const headerLevel = contactSectionHeadingLevel || (onReviewPage ? '5' : '4');
@@ -529,60 +535,67 @@ export const ContactInfoBase = ({
   const renderValidationMessages = () => {
     return (
       <div ref={wrapRef}>
-        {hadError && missingInfo.length === 0 && validationErrors.length === 0 && (
-          <div className="vads-u-margin-top--1p5">
-            <va-alert status="success" slim>
-              <div className="vads-u-font-size--base">
-                {content.alertContent}
-              </div>
-            </va-alert>
-          </div>
-        )}
-        {missingInfo.length > 0 && submitted && (
-          <div
-            className="vads-u-margin-bottom--3 vads-u-margin-top--3"
-            role="alert"
-          >
-            <va-alert status="error">
-              <h3 slot="headline">
-                This information contains {missingInfo.length} error
-                {missingInfo.length > 1 ? 's' : ''}.
-              </h3>
-              <ul className="vads-u-font-size--base">
-                Complete all required fields
-                {missingInfo.map(field => {
-                  return (
-                    <li key={field}>
-                      <va-link
-                        text={`You must add your ${field}`}
-                        href={errorMap[field].path}
-                        onClick={e => {
-                          e.preventDefault();
-                          router.push({
-                            pathname: `${baseEditPath}/${errorMap[field].path}`,
-                            state: {
-                              formKey: errorMap[field].key,
-                              keys: { wrapper: keys.wrapper },
-                            },
-                          });
-                        }}
-                      />
-                    </li>
-                  );
-                })}
-              </ul>
-            </va-alert>
-          </div>
-        )}
-        {submitted && missingInfo.length === 0 && validationErrors.length > 0 && (
-          <div className="vads-u-margin-top--1p5" role="alert">
-            <va-alert status="error">
-              <div className="vads-u-font-size--base">
-                {validationErrors[0]}
-              </div>
-            </va-alert>
-          </div>
-        )}
+        {hadError &&
+          missingInfo.length === 0 &&
+          validationErrors.length === 0 && (
+            <div className="vads-u-margin-top--1p5">
+              <va-alert status="success" slim>
+                <div className="vads-u-font-size--base">
+                  {content.alertContent}
+                </div>
+              </va-alert>
+            </div>
+          )}
+        {missingInfo.length > 0 &&
+          submitted && (
+            <div
+              className="vads-u-margin-bottom--3 vads-u-margin-top--3"
+              role="alert"
+            >
+              <va-alert status="error">
+                <h3 slot="headline">
+                  This information contains {missingInfo.length} error
+                  {missingInfo.length > 1 ? 's' : ''}.
+                </h3>
+                <ul className="vads-u-font-size--base">
+                  Complete all required fields
+                  {missingInfo.map(field => {
+                    return (
+                      <li key={field}>
+                        <va-link
+                          text={`You must add your ${field}`}
+                          href={errorMap[field].path}
+                          onClick={e => {
+                            e.preventDefault();
+                            router.push({
+                              pathname: `${baseEditPath}/${
+                                errorMap[field].path
+                              }`,
+                              state: {
+                                formKey: errorMap[field].key,
+                                keys: { wrapper: keys.wrapper },
+                              },
+                            });
+                          }}
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
+              </va-alert>
+            </div>
+          )}
+        {submitted &&
+          missingInfo.length === 0 &&
+          validationErrors.length > 0 && (
+            <div className="vads-u-margin-top--1p5" role="alert">
+              <va-alert status="error">
+                <div className="vads-u-font-size--base">
+                  {validationErrors[0]}
+                </div>
+              </va-alert>
+            </div>
+          )}
       </div>
     );
   };

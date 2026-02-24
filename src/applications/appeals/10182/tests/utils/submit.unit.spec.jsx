@@ -112,9 +112,9 @@ describe('getContestableIssues', () => {
         { ...issue2.raw, [SELECTED]: true },
       ],
     };
-    expect(
-      getContestableIssues({ ...formData, appAbbr: 'NOD' }),
-    ).to.deep.equal([issue1.result, issue2.result]);
+    expect(getContestableIssues({ ...formData, appAbbr: 'NOD' })).to.deep.equal(
+      [issue1.result, issue2.result],
+    );
   });
   it('should return second issue', () => {
     const formData = {
@@ -123,9 +123,9 @@ describe('getContestableIssues', () => {
         { ...issue2.raw, [SELECTED]: true },
       ],
     };
-    expect(
-      getContestableIssues({ ...formData, appAbbr: 'NOD' }),
-    ).to.deep.equal([issue2.result]);
+    expect(getContestableIssues({ ...formData, appAbbr: 'NOD' })).to.deep.equal(
+      [issue2.result],
+    );
   });
   it('should return empty array', () => {
     expect(getContestableIssues({ appAbbr: 'NOD' })).to.deep.equal([]);

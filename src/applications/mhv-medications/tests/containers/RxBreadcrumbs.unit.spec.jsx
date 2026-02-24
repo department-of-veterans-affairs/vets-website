@@ -49,7 +49,9 @@ describe('Medications Breadcrumbs', () => {
         initialState: {},
         reducers,
         initialEntries: [
-          `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}${medicationsUrls.subdirectories.DOCUMENTATION}`,
+          `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}${
+            medicationsUrls.subdirectories.DOCUMENTATION
+          }`,
         ],
       },
     );
@@ -75,14 +77,18 @@ describe('Medications Breadcrumbs', () => {
         initialState: {},
         reducers,
         initialEntries: [
-          `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}${medicationsUrls.subdirectories.DOCUMENTATION}?station_number=${stationNumber}`,
+          `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}${
+            medicationsUrls.subdirectories.DOCUMENTATION
+          }?station_number=${stationNumber}`,
         ],
       },
     );
     const breadcrumbs = screen.getByTestId('rx-breadcrumb-link');
     const href = breadcrumbs.getAttribute('href');
     expect(href).to.equal(
-      `${medicationsUrls.PRESCRIPTION_DETAILS}/${prescriptionId}?station_number=${stationNumber}`,
+      `${
+        medicationsUrls.PRESCRIPTION_DETAILS
+      }/${prescriptionId}?station_number=${stationNumber}`,
     );
     expect(breadcrumbs.getAttribute('text')).to.equal('Back');
   });

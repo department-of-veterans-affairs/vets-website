@@ -2,7 +2,9 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 
 export const FILE_TYPES = '.pdf,.jpg,.jpeg,.png,.gif,.bmp,.txt';
 export const FILE_UPLOAD_TITLE = 'Select files to upload';
-export const UPLOAD_URL = `${environment.API_URL}/v0/upload_supporting_evidence`;
+export const UPLOAD_URL = `${
+  environment.API_URL
+}/v0/upload_supporting_evidence`;
 
 export const HINT_TEXT =
   'You can upload .pdf, .jpg, .jpeg, .png, .gif, .bmp, or .txt files. Each file should be no larger than 50 MB for non-PDF files or 99 MB for PDF files. Larger files may take longer to upload, depending on the internet connection.';

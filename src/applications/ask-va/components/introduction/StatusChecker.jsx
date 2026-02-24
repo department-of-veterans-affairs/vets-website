@@ -133,7 +133,9 @@ export default function StatusChecker() {
           </p>
           {uiDetails?.message && (
             <div
-              className={`vads-u-border-left--5px vads-u-padding--0p5 vads-u-border-color--${uiDetails?.color}`}
+              className={`vads-u-border-left--5px vads-u-padding--0p5 vads-u-border-color--${
+                uiDetails?.color
+              }`}
             >
               <p className="vads-u-margin-left--2">{uiDetails.message}</p>
             </div>
