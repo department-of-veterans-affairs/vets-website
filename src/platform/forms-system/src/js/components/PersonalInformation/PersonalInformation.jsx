@@ -7,7 +7,6 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
-import { getAppUrl } from '~/platform/utilities/registry-helpers';
 import mask, {
   formatNumberForScreenReader,
 } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
@@ -252,7 +251,7 @@ export const PersonalInformation = ({
           </p>
           <va-link
             external
-            href={getAppUrl('facilities')}
+            href="/resources/how-to-change-your-legal-name-on-file-with-va/"
             text="Learn how to change your legal name"
           />
         </div>
