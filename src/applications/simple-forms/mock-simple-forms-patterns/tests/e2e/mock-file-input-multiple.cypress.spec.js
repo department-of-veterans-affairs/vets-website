@@ -46,6 +46,8 @@ function deleteFile() {
           });
       }
     });
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(500);
 }
 
 // test adding a variety of file types
@@ -167,26 +169,25 @@ function testFileSizeLimits() {
 function testEncryptedPdf() {
   cy.wrap(makeEncryptedPDF()).then(file => {
     cy.fillVaFileInputMultiple(SELECTOR, {}, [file]);
+
+    // Wait for the va-alert to appear first
     cy.get('va-file-input-multiple')
       .shadow()
       .find('va-file-input')
       .first()
       .shadow()
-      .find('label')
-      .invoke('text')
-      .should('contain', 'File password');
+      .find('va-alert')
+      .should('exist');
 
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
+    // Now we know at least one va-file-input has a va-alert, just use first()
     cy.get('va-file-input-multiple')
       .shadow()
       .find('va-file-input')
       .first()
+      .find('va-alert')
       .shadow()
-      .find('va-card')
-      .find('span.usa-error-message')
-      .invoke('text')
-      .should('contain', 'Encrypted file requires a password.');
+      .find('p.password-alert-text')
+      .should('contain', /We can't open your file without its password./i);
 
     cy.get('va-file-input-multiple')
       .shadow()
@@ -201,20 +202,17 @@ function testEncryptedPdf() {
       .shadow()
       .find('va-file-input')
       .first()
-      .then($el => {
-        const event = new CustomEvent('vaPasswordChange', {
-          detail: { password: 'testpassword' },
-          bubbles: true,
-          composed: true,
-        });
-        $el[0].dispatchEvent(event);
-      });
+      .find('va-button')
+      .click();
 
     cy.get('va-file-input-multiple')
       .shadow()
       .find('va-file-input')
-      .find('va-text-input')
-      .should('not.exist');
+      .first()
+      .find('va-alert')
+      .shadow()
+      .find('p.password-alert-text')
+      .should('contain', /File successfully unlocked/i);
   });
   deleteFile();
 }
@@ -325,13 +323,13 @@ const testConfig = createTestConfig(
           cy.get('va-file-input-multiple').should('exist');
           cy.injectAxeThenAxeCheck();
           testAdditionalInfo();
+          testRejectFileNotAccepted();
           testContinueWithoutFile();
           testFileUploads();
           testRejectInvalidMimeType();
           testInvalidUTF8Encoding();
           testFileSizeLimits();
           testEncryptedPdf();
-          testRejectFileNotAccepted();
           uploadValidFileAndNavigateToReviewPage();
         });
       },
