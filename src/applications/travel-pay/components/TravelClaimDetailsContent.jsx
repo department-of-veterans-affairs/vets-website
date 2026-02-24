@@ -108,7 +108,7 @@ export default function TravelClaimDetailsContent() {
           href={REIMBURSEMENT_URL}
           text="Learn how to set up direct deposit for travel pay"
         />
-        <ComplexClaimsHelpSection className="vads-u-margin-left--0" />
+        <ComplexClaimsHelpSection />
       </div>
     </>
   );

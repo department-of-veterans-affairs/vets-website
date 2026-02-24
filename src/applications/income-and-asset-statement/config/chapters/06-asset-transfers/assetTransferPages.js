@@ -1,5 +1,5 @@
 import React from 'react';
-import { lowercase } from 'lodash';
+import { lowerCase } from 'lodash';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -76,7 +76,7 @@ export const options = {
       `Asset ${
         item?.transferMethod === 'OTHER'
           ? 'transferred'
-          : lowercase(item?.transferMethod)
+          : lowerCase(item?.transferMethod)
       } to ${formatFullNameNoSuffix(item?.newOwnerName)}`,
     cardDescription: item =>
       isDefined(item?.fairMarketValue) &&

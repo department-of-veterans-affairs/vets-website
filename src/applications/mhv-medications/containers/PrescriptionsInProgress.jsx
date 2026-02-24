@@ -49,8 +49,7 @@ const PrescriptionsInProgress = () => {
         the date of shipping. To review all your medications, go to your
         medication history.
       </p>
-      {/* TODO verify link destination */}
-      <Link to="/">Go to your medication history</Link>
+      <Link to="/history">Go to your medication history</Link>
       <span className="vads-u-margin-x--1">|</span>
       <Link to="/refill">Refill medications</Link>
       {renderContent()}

@@ -4,7 +4,9 @@ import medicalConditions from './medicalConditions';
 import nursingHome from './nursingHome';
 import medicaidCoverage from './medicaidCoverage';
 import medicaidStatus from './medicaidStatus';
+import medicaidStatusFormNeeded from './medicaidStatusFormNeeded';
 import specialMonthlyPension from './specialMonthlyPension';
+import specialMonthlyPensionFormNeeded from './specialMonthlyPensionFormNeeded';
 import vaTreatmentHistory from './vaTreatmentHistory';
 import federalTreatmentHistory from './federalTreatmentHistory';
 import currentEmployment from './currentEmployment';
@@ -28,7 +30,9 @@ export default {
     nursingHome,
     medicaidCoverage,
     medicaidStatus,
+    medicaidStatusFormNeeded,
     specialMonthlyPension,
+    specialMonthlyPensionFormNeeded,
     vaTreatmentHistory,
     vaMedicalCenters,
     ...vaMedicalCentersPages,

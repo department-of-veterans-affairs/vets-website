@@ -1,13 +1,16 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
+import { organizationRepresentativesArrayOptions } from '../helpers';
+
 import manifest from '../manifest.json';
 import transform from './transform';
 import submitForm from './submitForm';
-import { organizationRepresentativesArrayOptions } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -20,8 +23,6 @@ import thirdPartyOrganizationRepresentativesIntro from '../pages/thirdPartyOrgan
 import thirdPartyOrganizationRepresentativeName from '../pages/thirdPartyOrganizationRepresentativesName';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import informationToDisclose from '../pages/informationToDisclose';
 import prefillTransform from './prefillTransform';
 
@@ -126,18 +127,14 @@ const formConfig = {
           schema: identificationInformation.schema,
           depends: formData => formData?.userLoggedIn !== true,
         },
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-        },
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
-        },
+        ...profileContactInfoPages({
+          content: {
+            ...getContent('request'),
+            title: 'Confirm the contact information we have on file for you',
+            description: null,
+          },
+          contactInfoRequiredKeys: ['mailingAddress'],
+        }),
       },
     },
     disclosureChapter: {

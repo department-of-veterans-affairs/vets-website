@@ -10,6 +10,9 @@ import currentSpouseFormerMarriages from './currentSpouseFormerMarriages';
 import hasDependents from './hasDependents';
 import dependentChildren from './dependentChildren';
 import dependentChildInformation from './dependentChildInformation';
+import dependentChildSchoolAttendanceFormNeeded from './dependentChildSchoolAttendanceFormNeeded';
+import dependentChildAdoptionEvidenceNeeded from './dependentChildAdoptionEvidenceNeeded';
+import dependentChildSchoolMedicalRecordsNeeded from './dependentChildSchoolMedicalRecordsNeeded';
 import dependentChildInHousehold from './dependentChildInHousehold';
 import dependentChildAddress from './dependentChildAddress';
 import { dependentChildrenPages } from './dependentChildrenPages';
@@ -30,6 +33,9 @@ export default {
     hasDependents,
     dependentChildren,
     dependentChildInformation,
+    dependentChildAdoptionEvidenceNeeded,
+    dependentChildSchoolAttendanceFormNeeded,
+    dependentChildSchoolMedicalRecordsNeeded,
     dependentChildInHousehold,
     dependentChildAddress,
   },
