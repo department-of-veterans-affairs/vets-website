@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import IntroductionLogin from '../components/IntroductionLogin';
 
 import { getAppData } from '../selectors';
@@ -247,10 +246,6 @@ const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
-  mebParentGuardianStep:
-    state?.featureToggles[featureFlagNames.mebParentGuardianStep],
-  showMeb1990EMaintenanceAlert:
-    state?.featureToggles[featureFlagNames.showMeb1990EZMaintenanceAlert],
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
