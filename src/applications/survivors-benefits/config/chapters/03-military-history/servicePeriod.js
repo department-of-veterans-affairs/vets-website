@@ -33,6 +33,7 @@ export default {
         title: 'Final release date from active duty',
         monthSelect: false,
       },
+      'Final release date must be after date initially entered into active duty.',
     ),
     placeOfSeparation: textUI({
       title: 'Place of Veteran’s last separation',
