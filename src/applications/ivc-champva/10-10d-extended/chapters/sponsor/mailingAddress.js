@@ -8,7 +8,7 @@ import { titleWithRoleUI } from '../../utils/titles';
 
 const TITLE_TEXT = content['mailing-address--page-title'];
 const DESC_TEXT = content['mailing-address--page-description'];
-const CHECKBOX_LABEL = content['mailing-adress--checkbox-label'];
+const CHECKBOX_LABEL = content['mailing-address--checkbox-label'];
 
 const OPTS = { matchRole: 'sponsor', other: content['noun--veteran'] };
 const PAGE_TITLE = titleWithRoleUI(TITLE_TEXT, DESC_TEXT, OPTS);
