@@ -9,9 +9,8 @@ import {
 import content from '../../locales/en/content.json';
 import { titleWithRoleUI } from '../../utils/titles';
 
-const TITLE_TEXT = '%s name and date of birth';
-const DESC_TEXT =
-  'Enter the Veteran’s name and date of birth. We’ll use this information to confirm their eligibility.';
+const TITLE_TEXT = content['sponsor--personal-info-title'];
+const DESC_TEXT = content['sponsor--personal-info-description'];
 
 const OPTS = { matchRole: 'sponsor', other: content['noun--veteran'] };
 const PAGE_TITLE = titleWithRoleUI(TITLE_TEXT, DESC_TEXT, OPTS);
