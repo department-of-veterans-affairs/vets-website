@@ -25,7 +25,12 @@ import {
   selectMhvMedicationsOracleHealthCutoverFlag,
 } from '../../util/selectors';
 
-const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
+const ExtraDetails = ({
+  renewalLinkShownAbove = false,
+  page,
+  isRefillBlocked = false,
+  ...rx
+}) => {
   const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const cernerFacilityIds = useSelector(selectCernerFacilityIds);
@@ -39,7 +44,10 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
   );
   const useV2Status = isCernerPilot && isV2StatusMapping;
 
-  const refillButton = page === pageType.LIST ? <RefillButton {...rx} /> : null;
+  const refillButton =
+    page === pageType.LIST && !isRefillBlocked ? (
+      <RefillButton {...rx} />
+    ) : null;
 
   const renderV2Content = () => {
     switch (dispStatus) {
@@ -428,6 +436,7 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
 ExtraDetails.propTypes = {
   dispStatus: PropTypes.string,
   expirationDate: PropTypes.string,
+  isRefillBlocked: PropTypes.bool,
   isRenewable: PropTypes.bool,
   page: PropTypes.string,
   pharmacyPhoneNumber: PropTypes.string,

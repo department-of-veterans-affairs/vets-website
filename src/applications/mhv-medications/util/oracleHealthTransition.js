@@ -2,6 +2,8 @@
  * Oracle Health EHR Transition Utilities for Medications
  */
 
+import { REFILL_BLOCKING_PHASES, RENEWAL_BLOCKING_PHASES } from './constants';
+
 /**
  * Validate migrations array
  * @param {Array} migrations - Migration data array
@@ -40,12 +42,14 @@ export const isFacilityTransitioning = ({ facilityId, migrations }) => {
  * @param {Object} params.prescription - Prescription object
  * @param {boolean} params.isFeatureFlagEnabled - Whether feature flag is enabled
  * @param {Array} params.migrations - Migration data from backend
+ * @param {Array<string>} params.blockingPhases - Phase identifiers that trigger blocking
  * @returns {boolean}
  */
-export const shouldBlockRefills = ({
+const shouldBlockForPhases = ({
   prescription,
   isFeatureFlagEnabled,
   migrations,
+  blockingPhases,
 }) => {
   if (
     !prescription?.stationNumber ||
@@ -61,12 +65,33 @@ export const shouldBlockRefills = ({
   });
   if (!migration) return false;
 
-  // Block refills during p4 and p5 phases (full block)
-  return ['p4', 'p5'].includes(migration.phases?.current);
+  return blockingPhases.includes(migration.phases?.current);
 };
 
 /**
+ * Check if refills should be blocked for a prescription
+ * Blocked during p4 and p5 phases (T-3 through T+2)
+ * @param {Object} params - Parameters object
+ * @param {Object} params.prescription - Prescription object
+ * @param {boolean} params.isFeatureFlagEnabled - Whether feature flag is enabled
+ * @param {Array} params.migrations - Migration data from backend
+ * @returns {boolean}
+ */
+export const shouldBlockRefills = ({
+  prescription,
+  isFeatureFlagEnabled,
+  migrations,
+}) =>
+  shouldBlockForPhases({
+    prescription,
+    isFeatureFlagEnabled,
+    migrations,
+    blockingPhases: REFILL_BLOCKING_PHASES,
+  });
+
+/**
  * Check if renewals should be blocked for a prescription
+ * Blocked during p3, p4, and p5 phases (T-6 through T+2)
  * @param {Object} params - Parameters object
  * @param {Object} params.prescription - Prescription object
  * @param {boolean} params.isFeatureFlagEnabled - Whether feature flag is enabled
@@ -77,24 +102,13 @@ export const shouldBlockRenewals = ({
   prescription,
   isFeatureFlagEnabled,
   migrations,
-}) => {
-  if (
-    !prescription?.stationNumber ||
-    !isFeatureFlagEnabled ||
-    !isValidMigrations(migrations)
-  ) {
-    return false;
-  }
-
-  const migration = findMigrationByFacility({
-    facilityId: prescription.stationNumber,
+}) =>
+  shouldBlockForPhases({
+    prescription,
+    isFeatureFlagEnabled,
     migrations,
+    blockingPhases: RENEWAL_BLOCKING_PHASES,
   });
-  if (!migration) return false;
-
-  // Block renewals during p3, p4, and p5 phases (renewal block + full block)
-  return ['p3', 'p4', 'p5'].includes(migration.phases?.current);
-};
 
 /**
  * Filter prescriptions into available and blocked based on transition phase
