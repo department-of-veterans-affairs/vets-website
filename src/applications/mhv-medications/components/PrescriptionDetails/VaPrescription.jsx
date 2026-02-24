@@ -265,9 +265,12 @@ const VaPrescription = prescription => {
                   className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
                   to="/refill"
                   data-testid="refill-nav-link"
-                  data-dd-action-name={
-                    dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
-                  }
+                  onClick={() => {
+                    datadogRum.addAction(
+                      dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION,
+                      { facilityId: prescription?.stationNumber },
+                    );
+                  }}
                 >
                   {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
                 </Link>

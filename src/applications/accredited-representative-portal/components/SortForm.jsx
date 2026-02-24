@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Form, useNavigate, useSearchParams } from 'react-router-dom';
-import { focusElement } from 'platform/utilities/ui';
 import {
   VaSelect,
   VaCheckbox,
@@ -37,19 +36,9 @@ const SortForm = ({ options, defaults }) => {
       navigate(
         `?${statusLabel}sort=${sortOrder}&page=${number}&perPage=${size}&show=${selectedIndividual}`,
       );
-      setTimeout(() => {
-        focusElement('.poa-request__meta');
-      }, 500);
     } else {
       navigate(`?sort=${sortOrder}&page=${number}&perPage=${size}`);
-      setTimeout(() => {
-        focusElement('.poa-request__meta');
-      }, 500);
     }
-
-    setTimeout(() => {
-      focusElement('.poa-request__meta');
-    }, 500);
   };
 
   const toggleRep = e => {
@@ -59,9 +48,6 @@ const SortForm = ({ options, defaults }) => {
     navigate(
       `?status=${status}&sort=${sort}&page=1&perPage=${size}&show=${updateRep}`,
     );
-    setTimeout(() => {
-      focusElement('.poa-request__meta');
-    }, 500);
   };
   const isChecked = () => {
     const getShowStatus = searchParams.get(SEARCH_PARAMS.SELECTED_INDIVIDUAL);

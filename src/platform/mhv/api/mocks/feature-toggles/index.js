@@ -27,6 +27,9 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
 
+    // medications - Cerner pilot
+    mhvMedicationsCernerPilot = true,
+
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
@@ -139,6 +142,12 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_merge_cvix_into_scdf',
           value: mhvMedicalRecordsMergeCvixIntoScdf,
+        },
+
+        // medications - Cerner pilot
+        {
+          name: 'mhv_medications_cerner_pilot',
+          value: mhvMedicationsCernerPilot,
         },
 
         // secure messaging

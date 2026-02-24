@@ -1,15 +1,21 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
-import VaccinesListPage from './pages/VaccinesListPage';
+import Vaccines from './accelerated/pages/Vaccines';
+import oracleHealthUser from './accelerated/fixtures/user/oracle-health.json';
+import vaccinesData from './accelerated/fixtures/vaccines/sample-lighthouse.json';
 
 describe('Medical Records View Vaccines', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
-    site.login();
+    site.login(oracleHealthUser, false);
+    site.mockFeatureToggles();
   });
 
   it('focuses correctly when deep-linking to a specific page', () => {
-    VaccinesListPage.goToVaccinesPage(2);
+    Vaccines.setIntercepts({ vaccinesData });
+
+    site.loadPage();
+    Vaccines.goToVaccinesSpecificPage(2);
 
     cy.get('#showingRecords').should('be.focused');
 
@@ -19,7 +25,10 @@ describe('Medical Records View Vaccines', () => {
   });
 
   it('maintains correct focus while changing page via pagination', () => {
-    VaccinesListPage.goToVaccines();
+    Vaccines.setIntercepts({ vaccinesData });
+
+    site.loadPage();
+    Vaccines.goToVaccinesSpecificPage();
 
     // With no page specified, default is page 1 but focus should be on <h1>
     cy.get('h1').should('be.focused');

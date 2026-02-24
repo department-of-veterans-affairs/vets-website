@@ -24,18 +24,23 @@ export default {
         additionalInput: 'Choose a document status',
       },
       additionalInputRequired: true,
-      additionalInput: (error, data) => {
+      additionalInputTitle: 'What is the document status?',
+      additionalInputLabels: {
+        documentStatus: {
+          tax: 'Tax form',
+          education: 'Education form',
+          service: 'Service form',
+        },
+      },
+      additionalInput: (error, data, { labels, title }) => {
         const { documentStatus } = data;
         return (
-          <VaSelect
-            required
-            error={error}
-            value={documentStatus}
-            label="Document status"
-          >
-            <option value="tax">Tax form</option>
-            <option value="education">Education form</option>
-            <option value="service">Service form</option>
+          <VaSelect required error={error} value={documentStatus} label={title}>
+            {Object.entries(labels.documentStatus).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
           </VaSelect>
         );
       },
