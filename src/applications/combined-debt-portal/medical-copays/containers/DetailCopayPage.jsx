@@ -31,41 +31,37 @@ const DetailCopayPage = ({ match }) => {
 
   const [alert, setAlert] = useState('status');
   const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
-
   const { currentCopay, isLoading } = useCurrentCopay();
 
-  const copayAttributes = useMemo(
-    () => {
-      if (!currentCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
+  const copayAttributes = useMemo(() => {
+    if (!currentCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
 
-      /* eslint-disable no-nested-ternary */
-      return shouldUseLighthouseCopays
-        ? {
-            TITLE: `Copay bill for ${currentCopay?.attributes.facility.name}`,
-            INVOICE_DATE: currentCopay?.attributes?.invoiceDate,
-            IS_CURRENT_DATE: verifyCurrentBalance(
-              currentCopay?.attributes.invoiceDate,
-            ),
-            ACCOUNT_NUMBER: currentCopay?.attributes.accountNumber,
-            CHARGES: currentCopay?.attributes?.lineItems ?? [],
-          }
-        : {
-            TITLE: `Copay bill for ${currentCopay?.station.facilityName}`,
-            INVOICE_DATE: currentCopay?.pSStatementDateOutput,
-            IS_CURRENT_DATE: verifyCurrentBalance(
-              currentCopay?.pSStatementDateOutput,
-            ),
-            ACCOUNT_NUMBER:
-              currentCopay?.accountNumber || currentCopay?.pHAccountNumber,
-            CHARGES:
-              currentCopay?.details?.filter(
-                charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
-              ) ?? [],
-          };
-      /* eslint-disable no-nested-ternary */
-    },
-    [currentCopay?.id, shouldUseLighthouseCopays],
-  );
+    /* eslint-disable no-nested-ternary */
+    return shouldUseLighthouseCopays
+      ? {
+          TITLE: `Copay bill for ${currentCopay?.attributes.facility.name}`,
+          INVOICE_DATE: currentCopay?.attributes?.invoiceDate,
+          IS_CURRENT_DATE: verifyCurrentBalance(
+            currentCopay?.attributes.invoiceDate,
+          ),
+          ACCOUNT_NUMBER: currentCopay?.attributes.accountNumber,
+          CHARGES: currentCopay?.attributes?.lineItems ?? [],
+        }
+      : {
+          TITLE: `Copay bill for ${currentCopay?.station.facilityName}`,
+          INVOICE_DATE: currentCopay?.pSStatementDateOutput,
+          IS_CURRENT_DATE: verifyCurrentBalance(
+            currentCopay?.pSStatementDateOutput,
+          ),
+          ACCOUNT_NUMBER:
+            currentCopay?.accountNumber || currentCopay?.pHAccountNumber,
+          CHARGES:
+            currentCopay?.details?.filter(
+              charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
+            ) ?? [],
+        };
+    /* eslint-disable no-nested-ternary */
+  }, [currentCopay?.id, shouldUseLighthouseCopays]);
 
   useEffect(
     () => {

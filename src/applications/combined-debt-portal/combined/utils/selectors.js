@@ -57,7 +57,6 @@ export const useCurrentCopay = () => {
   return { currentCopay, isLoading };
 };
 
-// WIP: filter copays by statement_id for a given statement (e.g. invoice)
 const selectStatementCopays = (copays, statementId) => state =>
   copays?.filter(
     copay => copay.statement_id === statementId,
@@ -66,12 +65,12 @@ const selectStatementCopays = (copays, statementId) => state =>
 export const useCurrentStatement = () => {
   const { id: statementId } = useParams();
   
-  const allCopays = getAllCopays(state);
-  
+  const allCopays = useSelector(selectAllCopays);
   const statementCopays = useSelector(selectStatementCopays(allCopays, statementId));
   const isLoading = useSelector(selectIsCopaysLoading);
   
-  const shouldFetchCopays = !allCopays && !isLoading
+  const hasCurrentStatement = allCopays[0]?.statementId !== statementId;
+  const shouldFetchCopays = !allCopays && !isLoading && !hasCurrentStatement
   if (shouldFetchCopays) {
     const dispatch = useDispatch();
     const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
