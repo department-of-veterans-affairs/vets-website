@@ -299,6 +299,7 @@ endobj
       cy.get('va-file-input-multiple')
         .shadow()
         .find('va-file-input')
+        .first()
         .shadow()
         .find('input[type="file"]')
         .selectFile(
@@ -381,6 +382,7 @@ endobj
       cy.get('va-file-input-multiple')
         .shadow()
         .find('va-file-input')
+        .first()
         .shadow()
         .find('input[type="file"]')
         .selectFile(
