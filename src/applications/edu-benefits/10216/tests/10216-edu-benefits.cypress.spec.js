@@ -2,17 +2,26 @@ import path from 'path';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-// import mockSubmit from './fixtures/data/mocks/application-submit.json';
-import { daysAgoYyyyMmDd } from '../../10215/helpers';
+
+import maximalJson from './fixtures/data/maximal-test.json';
 import formConfig from '../config/form';
+import manifest from '../manifest.json';
+
+import { daysAgoYyyyMmDd } from '../../utils/helpers';
 
 const mockManifest = {
-  appName: '35% exemption of the routine reporting',
-  entryFile: './app-entry.jsx',
-  entryName: '10216-edu-benefits',
-  productId: 'db0db964-89ef-4e80-a469-499b7db330cd',
-  rootUrl: '/school-administrators/35-percent-exemption',
+  appName: manifest.appName,
+  entryFile: manifest.entryFile,
+  entryName: manifest.entryName,
+  productId: manifest.productId,
+  rootUrl: manifest.rootUrl,
 };
+
+const {
+  institutionDetails,
+  studentRatioCalcChapter,
+  certifyingOfficial,
+} = maximalJson.data;
 
 const testConfig = createTestConfig(
   {
@@ -25,21 +34,23 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          // cy.get('a.va-link--primary')
           cy.get('[class="schemaform-start-button"]')
             .first()
             .click();
         });
       },
-      '/school-administrators/85-15-rule-enrollment-ratio/identifying-details-1': ({
+      '/school-administrators/35-percent-exemption/identifying-details-1': ({
         afterHook,
       }) => {
         afterHook(() => {
           const termStartDate = daysAgoYyyyMmDd(15);
+
           cy.fillVaTextInput(
             'root_institutionDetails_facilityCode',
-            '15012020',
+            institutionDetails.facilityCode,
           );
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(1000);
           cy.fillVaMemorableDate(
             'root_institutionDetails_termStartDate',
             termStartDate,
@@ -48,11 +59,20 @@ const testConfig = createTestConfig(
           cy.tabToSubmitForm();
         });
       },
-      '/school-administrators/85-15-rule-enrollment-ratio/35-percent-exemption/student-ratio-calculation': ({
+      '/school-administrators/35-percent-exemption/student-ratio-calculation': ({
         afterHook,
       }) => {
         afterHook(() => {
           const dateOfCalculation = daysAgoYyyyMmDd(15);
+
+          cy.fillVaTextInput(
+            'root_studentRatioCalcChapter_beneficiaryStudent',
+            studentRatioCalcChapter.beneficiaryStudent,
+          );
+          cy.fillVaTextInput(
+            'root_studentRatioCalcChapter_numOfStudent',
+            studentRatioCalcChapter.numOfStudent,
+          );
           cy.fillVaMemorableDate(
             'root_studentRatioCalcChapter_dateOfCalculation',
             dateOfCalculation,
@@ -65,21 +85,37 @@ const testConfig = createTestConfig(
         afterHook,
       }) => {
         afterHook(() => {
-          // cy.get('@testKey').then(testKey => {
-          cy.get('[id="inputField"]', { timeout: 10000 }).type('John Doe', {
-            force: true,
-          });
+          cy.get('[id="inputField"]', { timeout: 10000 }).type(
+            `${certifyingOfficial.first} ${certifyingOfficial.last}`,
+            {
+              force: true,
+            },
+          );
           cy.get('[id="checkbox-element"]').check({ force: true });
 
-          cy.findByText(/Continue/i, { selector: 'button' }).click();
+          cy.tabToSubmitForm();
         });
       },
     },
 
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/gi/institutions/*', {
+        data: {
+          attributes: {
+            name: 'INSTITUTE OF TESTING',
+            facilityCode: '10002000',
+            type: 'FOR PROFIT',
+            city: 'SAN FRANCISCO',
+            state: 'CA',
+            zip: '13579',
+            country: 'USA',
+            address1: '123 STREET WAY',
+          },
+        },
+      });
+
       cy.intercept('POST', formConfig.submitUrl);
     },
-    skip: Cypress.env('CI'),
   },
   mockManifest,
   formConfig,

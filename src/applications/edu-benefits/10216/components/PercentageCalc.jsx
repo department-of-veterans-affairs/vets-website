@@ -15,6 +15,7 @@ function PercentageCalc({ formData }) {
           className="vads-u-font-weight--bold vads-u-font-size--lg"
           tabIndex={0}
           aria-label={labelText}
+          role="math"
         >
           <span aria-hidden="true">{percentage}</span>
         </span>
