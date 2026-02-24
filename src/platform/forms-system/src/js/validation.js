@@ -291,9 +291,9 @@ export function isValidForm(form, pageList, isTesting = false) {
         const arrayData = formData[arrayPath];
         if (arrayData) {
           // itemFilter may need formData to determine whether to keep each item
-          const itemsToKeep = arrayData.map(
-            item => itemFilter(item, formData) || (() => true),
-          );
+          const itemsToKeep = arrayData.map(item => {
+            return itemFilter ? itemFilter(item, formData) : true;
+          });
 
           // Remove the excluded array data
           formData = set(

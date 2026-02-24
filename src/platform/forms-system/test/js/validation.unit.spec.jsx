@@ -725,6 +725,7 @@ describe('Schemaform validations', () => {
         data: {
           privacyAgreementAccepted: true,
           testArray: ['test', 3],
+          testCondition: true,
         },
         pages: {
           testPage: {
@@ -740,7 +741,12 @@ describe('Schemaform validations', () => {
               },
             },
             uiSchema: {},
-            itemFilter: (item, index) => index < 1,
+            itemFilter: (item, formData) => {
+              if (formData.testCondition) {
+                return typeof item === 'string';
+              }
+              return true;
+            },
             showPagePerItem: true,
             arrayPath: 'testArray',
           },
@@ -761,11 +767,12 @@ describe('Schemaform validations', () => {
         form.pages.testPage.schema.properties.testArray.items,
       ).to.deep.equal({ type: 'string' });
     });
-    it('should filter items based on index function', () => {
+    it('should filter items based on data in filter function', () => {
       const form = {
         data: {
           privacyAgreementAccepted: true,
           testArray: ['test', 'test2', 'anotherTest'],
+          testCondition: true,
         },
         pages: {
           testPage: {
@@ -781,11 +788,13 @@ describe('Schemaform validations', () => {
               },
             },
             uiSchema: {},
-            itemFilter: (item, index) => {
-              expect(index).to.be.a('number');
-              expect(index).to.be.at.least(0);
-              expect(index).to.be.lessThan(form.data.testArray.length);
-              return index < 2;
+            itemFilter: (item, formData) => {
+              expect(formData.testCondition).to.equal(true);
+              if (formData.testCondition) {
+                return item.length <= 5;
+              }
+
+              return true;
             },
             showPagePerItem: true,
             arrayPath: 'testArray',
