@@ -164,9 +164,7 @@ export default class PageObject {
       cy.findByTestId('solid-start-telephone')
         .should('exist')
         .and('have.attr', 'contact', VASS_PHONE_NUMBER);
-      cy.get(
-        'a[href="https://benefits.va.gov/benefits/solid-start.asp?trk=public_post_comment-text"]',
-      )
+      cy.get('a[href="https://benefits.va.gov/benefits/solid-start.asp"]')
         .should('exist')
         .and('contain.text', 'VA Solid Start');
 

@@ -18,7 +18,7 @@ describe('VASS Component: NeedHelp', () => {
       screen.getByRole('link', { name: /va solid start/i }),
     ).to.have.attribute(
       'href',
-      'https://benefits.va.gov/benefits/solid-start.asp?trk=public_post_comment-text',
+      'https://benefits.va.gov/benefits/solid-start.asp',
     );
   });
 });

@@ -23,7 +23,7 @@ export default function NeedHelp() {
             data-testid="solid-start-telephone"
           />
           or visit{' '}
-          <a href="https://benefits.va.gov/benefits/solid-start.asp?trk=public_post_comment-text">
+          <a href="https://benefits.va.gov/benefits/solid-start.asp">
             VA Solid Start
           </a>{' '}
           for more information.
