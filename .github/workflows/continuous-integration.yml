@@ -340,7 +340,7 @@ jobs:
       - name: Select E2E Tests
         run: node script/github-actions/select-e2e-tests.js
         env:
-          RUN_FULL_SUITE: false
+          RUN_FULL_SUITE: true
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
