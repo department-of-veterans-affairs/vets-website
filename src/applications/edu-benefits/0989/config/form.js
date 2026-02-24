@@ -76,40 +76,40 @@ const formConfig = {
         }),
       },
     },
-  },
-  entitlementDetailsChapter: {
-    title: 'Entitlement restoration details',
-    pages: {
-      schoolWasClosed: {
-        path: 'school-closing',
-        title: 'School closures and program suspension',
-        uiSchema: schoolWasClosed.uiSchema,
-        schema: schoolWasClosed.schema,
-      },
-      oldSchoolNameAndAddress: {
-        path: 'school-name-and-address',
-        title: 'School name and mailing address',
-        uiSchema: oldSchoolNameAndAddress.uiSchema,
-        schema: oldSchoolNameAndAddress.schema,
-        depends: formData => !!formData.schoolWasClosed,
-      },
-      eligibilityWarning: {
-        path: 'eligibility-warning',
-        title: 'Eligibility warning',
-        uiSchema: eligibilityWarning.uiSchema,
-        schema: eligibilityWarning.schema,
-        depends: formData => !formData.schoolWasClosed,
+    entitlementDetailsChapter: {
+      title: 'Entitlement restoration details',
+      pages: {
+        schoolWasClosed: {
+          path: 'school-closing',
+          title: 'School closures and program suspension',
+          uiSchema: schoolWasClosed.uiSchema,
+          schema: schoolWasClosed.schema,
+        },
+        oldSchoolNameAndAddress: {
+          path: 'school-name-and-address',
+          title: 'School name and mailing address',
+          uiSchema: oldSchoolNameAndAddress.uiSchema,
+          schema: oldSchoolNameAndAddress.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        eligibilityWarning: {
+          path: 'eligibility-warning',
+          title: 'Eligibility warning',
+          uiSchema: eligibilityWarning.uiSchema,
+          schema: eligibilityWarning.schema,
+          depends: formData => !formData.schoolWasClosed,
+        },
       },
     },
-  },
-  remarksChapter: {
-    title: 'Remarks',
-    pages: {
-      remarks: {
-        path: 'remarks',
-        title: 'Remarks',
-        uiSchema: remarks.uiSchema,
-        schema: remarks.schema,
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarks: {
+          path: 'remarks',
+          title: 'Remarks',
+          uiSchema: remarks.uiSchema,
+          schema: remarks.schema,
+        },
       },
     },
   },
