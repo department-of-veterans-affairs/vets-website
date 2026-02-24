@@ -1,22 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { SELECTED } from '../constants';
+import { ACTIVE_REVIEW_TITLES, SELECTED } from '../constants';
 import '../definitions';
 import { IssueCardContent } from './IssueCardContent';
 import BasicLink from './web-component-wrappers/BasicLink';
 
 /**
- * If the issue has a titleOfActiveReview as 'Supplemental Claim',
- * the issue is under active review for SC (we will eventually support all 3 DR apps).
+ * If the app is Supplemental Claim (MVP release) and the issue is
+ * under active review (has a titleOfActiveReview defined)
+ * for any Decision Reviews app, return a banner warning the Veteran
+ * not to submit a duplicate review
+ * @param {String} appName - name of the Decision Review app
  * @param {ContestableIssueItem|AdditionalIssueItem} item
+ * @param {String} issueName - name of the contestable issue from API
  */
-export const determineActiveReview = (appName, item) => {
+export const determineActiveReviewMessage = (appName, item, issueName) => {
   const { titleOfActiveReview } = item;
 
-  return appName === 'Supplemental Claim' && titleOfActiveReview === appName;
-  // Use the below line instead to support all 3 DR apps instead of just SC.
-  // return appName === ACTIVE_REVIEW_TITLES[titleOfActiveReview];
+  if (appName === 'Supplemental Claim' && titleOfActiveReview) {
+    return (
+      <va-alert class="vads-u-margin-top--0p5" slim status="info" visible>
+        <p className="vads-u-margin-top--0">
+          {issueName} is part of an active{' '}
+          {ACTIVE_REVIEW_TITLES?.[titleOfActiveReview] || 'Decision Review'}.
+          Submitting it again may delay your decision.
+        </p>
+        <va-link
+          text="Check your claim status"
+          href="/claim-or-appeal-status/"
+          external
+        />
+      </va-alert>
+    );
+  }
+
+  return null;
 };
 
 /**
@@ -59,7 +78,11 @@ export const IssueCard = ({
   const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;
   const isBlocked = item.isBlocked || false;
-  const isActiveReview = determineActiveReview(appName, item);
+  const activeReviewMessage = determineActiveReviewMessage(
+    appName,
+    item,
+    issueName,
+  );
 
   const wrapperClass = [
     'widget-wrapper',
@@ -123,20 +146,6 @@ export const IssueCard = ({
         />
       </div>
     ) : null;
-
-  const activeReviewMessage = isActiveReview ? (
-    <va-alert class="vads-u-margin-top--0p5" slim status="info" visible>
-      <p className="vads-u-margin-top--0">
-        {issueName} is part of an active {appName}. Submitting it again may
-        delay your decision.
-      </p>
-      <va-link
-        text="Check your claim status"
-        href="/claim-or-appeal-status/"
-        external
-      />
-    </va-alert>
-  ) : null;
 
   const sharedCardContent = (
     <>

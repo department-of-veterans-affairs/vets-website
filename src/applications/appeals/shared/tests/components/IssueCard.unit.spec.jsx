@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { IssueCard, determineActiveReview } from '../../components/IssueCard';
+import {
+  IssueCard,
+  determineActiveReviewMessage,
+} from '../../components/IssueCard';
 import { getAdditionalIssue, getContestableIssue } from '../test-utils';
 
 describe('IssueCard', () => {
@@ -160,7 +163,7 @@ describe('IssueCard', () => {
   });
 
   describe('active review message', () => {
-    it('should show active review alert for issue under active review', () => {
+    it('should show active review alert for issue under active review for same app', () => {
       const props = getProps({ appName: 'Supplemental Claim' });
       const issue = {
         ...getContestableIssue('10'),
@@ -178,7 +181,7 @@ describe('IssueCard', () => {
       );
     });
 
-    it('should not show active review alert when titleOfActiveReview does not match', () => {
+    it('should show active review alert when titleOfActiveReview is for HLR', () => {
       const props = getProps({ appName: 'Supplemental Claim' });
       const issue = {
         ...getContestableIssue('10'),
@@ -186,7 +189,26 @@ describe('IssueCard', () => {
       };
       const { container } = render(<IssueCard {...props} item={issue} />);
 
-      expect($$('va-alert', container).length).to.equal(0);
+      const alert = $('va-alert', container);
+      expect(alert).to.exist;
+      expect(alert.textContent).to.include(
+        'issue-10 is part of an active Higher-Level Review',
+      );
+    });
+
+    it('should show active review alert when titleOfActiveReview is for NOD', () => {
+      const props = getProps({ appName: 'Supplemental Claim' });
+      const issue = {
+        ...getContestableIssue('10'),
+        titleOfActiveReview: 'Appeal',
+      };
+      const { container } = render(<IssueCard {...props} item={issue} />);
+
+      const alert = $('va-alert', container);
+      expect(alert).to.exist;
+      expect(alert.textContent).to.include(
+        'issue-10 is part of an active Notice of Disagreement',
+      );
     });
 
     it('should not show active review alert when titleOfActiveReview is null', () => {
@@ -307,29 +329,39 @@ describe('IssueCard', () => {
     });
   });
 
+  const expectAlertToExist = (appName, item) => {
+    const result = determineActiveReviewMessage(appName, item);
+    const { container } = render(<div>{result}</div>);
+    const alert = $('va-alert', container);
+    expect(alert).to.exist;
+  };
+
   describe('determineActiveReview helper', () => {
+    const appName = 'Supplemental Claim';
+    const issueName = 'Sleep apnea';
+
     it('should return true when appName and titleOfActiveReview match', () => {
       const item = {
-        titleOfActiveReview: 'Supplemental Claim',
+        titleOfActiveReview: appName,
       };
 
-      expect(determineActiveReview('Supplemental Claim', item)).to.be.true;
+      expectAlertToExist(appName, item);
     });
 
-    it('should return false when titleOfActiveReview does not match', () => {
+    it('should return true when titleOfActiveReview is for another app', () => {
       const item = {
         titleOfActiveReview: 'Higher-Level Review',
       };
 
-      expect(determineActiveReview('Supplemental Claim', item)).to.be.false;
+      expectAlertToExist(appName, item);
     });
 
-    it('should return false when appName does not match', () => {
+    it('should return false when titleOfActiveReview is falsy', () => {
       const item = {
-        titleOfActiveReview: 'Supplemental Claim',
+        titleOfActiveReview: '',
       };
 
-      expect(determineActiveReview('Higher-Level Review', item)).to.be.false;
+      expect(determineActiveReviewMessage(appName, item, issueName)).to.be.null;
     });
 
     it('should return false when titleOfActiveReview is null', () => {
@@ -337,7 +369,7 @@ describe('IssueCard', () => {
         titleOfActiveReview: null,
       };
 
-      expect(determineActiveReview('Supplemental Claim', item)).to.be.false;
+      expect(determineActiveReviewMessage(appName, item, issueName)).to.be.null;
     });
   });
 });
