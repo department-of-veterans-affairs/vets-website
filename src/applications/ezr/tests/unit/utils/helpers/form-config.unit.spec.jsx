@@ -568,12 +568,12 @@ describe('ezr form config helpers', () => {
         {
           data: {},
           expected: false,
-          descript: 'and there is no prexisting service history information',
+          descript: 'and there is no preexisting service history information',
         },
         {
           data: {
             lastServiceBranch: 'air force',
-            dischargeType: 'honarable',
+            dischargeType: 'honorable',
           },
           expected: false,
           descript:
@@ -592,7 +592,7 @@ describe('ezr form config helpers', () => {
       ];
       testGroups.forEach(({ data, expected, descript }) => {
         const exp = expected.toString();
-        it(`${descript}returns \`${exp}\``, () => {
+        it(`${descript} returns \`${exp}\``, () => {
           expect(hasServiceHistoryInfo(data)).to.be[exp];
         });
       });
@@ -618,7 +618,7 @@ describe('ezr form config helpers', () => {
               isServiceHistoryCorrect: true,
             },
             expected: true,
-            descript: 'and there is no prexisting service history',
+            descript: 'and there is no preexisting service history',
           },
           {
             data: {
@@ -628,7 +628,7 @@ describe('ezr form config helpers', () => {
             },
             expected: true,
             descript:
-              'and there is preexisting service history information and the vetreran clicks that it is correct',
+              'and there is preexisting service history information and the veteran clicks that it is correct',
           },
           {
             data: {
@@ -638,12 +638,12 @@ describe('ezr form config helpers', () => {
             },
             expected: true,
             descript:
-              'and there is pre-existing service history information and the vetreran clicks that it is NOT correct',
+              'and there is pre-existing service history information and the veteran clicks that it is NOT correct',
           },
         ];
         testGroups.forEach(({ data, expected, descript }) => {
           const exp = expected.toString();
-          it(`${descript}returns \`${exp}\``, () => {
+          it(`${descript} returns \`${exp}\``, () => {
             expect(doesVeteranWantToUpdateServiceInfo(data)).to.be[exp];
           });
         });
@@ -743,7 +743,7 @@ describe('ezr form config helpers', () => {
       ];
       testGroups.forEach(({ data, expected, descript }) => {
         const exp = expected.toString();
-        it(`${descript}returns \`${exp}\``, () => {
+        it(`${descript} returns \`${exp}\``, () => {
           expect(shouldHaveDocumentUpload(data)).to.be[exp];
         });
       });
