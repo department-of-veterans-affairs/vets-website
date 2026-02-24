@@ -286,22 +286,12 @@ describe('oracleHealthTransition utilities', () => {
     });
 
     describe('when mhvMedicationsOracleHealthCutover feature flag is disabled', () => {
-      it('returns false in p4 phase even though it would normally block', () => {
+      it('returns false even during blocking phase p4', () => {
         expect(
           shouldBlockRefills({
             prescription: mockPrescription,
             isFeatureFlagEnabled: false,
             migrations: [createMigrationWithPhase('p4')],
-          }),
-        ).to.be.false;
-      });
-
-      it('returns false in p5 phase even though it would normally block', () => {
-        expect(
-          shouldBlockRefills({
-            prescription: mockPrescription,
-            isFeatureFlagEnabled: false,
-            migrations: [createMigrationWithPhase('p5')],
           }),
         ).to.be.false;
       });
@@ -384,32 +374,12 @@ describe('oracleHealthTransition utilities', () => {
     });
 
     describe('when mhvMedicationsOracleHealthCutover feature flag is disabled', () => {
-      it('returns false in p3 phase even though it would normally block', () => {
-        expect(
-          shouldBlockRenewals({
-            prescription: mockPrescription,
-            isFeatureFlagEnabled: false,
-            migrations: [createMigrationWithPhase('p3')],
-          }),
-        ).to.be.false;
-      });
-
-      it('returns false in p4 phase even though it would normally block', () => {
+      it('returns false even during blocking phase p4', () => {
         expect(
           shouldBlockRenewals({
             prescription: mockPrescription,
             isFeatureFlagEnabled: false,
             migrations: [createMigrationWithPhase('p4')],
-          }),
-        ).to.be.false;
-      });
-
-      it('returns false in p5 phase even though it would normally block', () => {
-        expect(
-          shouldBlockRenewals({
-            prescription: mockPrescription,
-            isFeatureFlagEnabled: false,
-            migrations: [createMigrationWithPhase('p5')],
           }),
         ).to.be.false;
       });

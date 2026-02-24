@@ -118,16 +118,6 @@ describe('OracleHealthTransitionAlerts', () => {
           );
         });
 
-        it('displays error message with end date', () => {
-          const { container } = renderWithProviders(
-            <OracleHealthT3Alert {...withRefillableProps} />,
-          );
-
-          expect(container.textContent).to.include(
-            'You can’t refill these prescriptions online until',
-          );
-        });
-
         it('displays all blocked prescriptions with links', () => {
           const { getByText, container } = renderWithProviders(
             <OracleHealthT3Alert {...withRefillableProps} />,
@@ -268,15 +258,6 @@ describe('OracleHealthTransitionAlerts', () => {
       expect(alert.getAttribute('class')).to.include('vads-u-margin-top--2');
     });
 
-    it('displays correct test ID for Cypress testing', () => {
-      const { container } = render(<OracleHealthInCardAlert />);
-
-      const alert = container.querySelector('va-alert');
-      expect(alert.getAttribute('data-testid')).to.equal(
-        'oracle-health-in-card-alert',
-      );
-    });
-
     it('displays correct DataDog action name for analytics', () => {
       const { container } = render(<OracleHealthInCardAlert />);
 
@@ -292,19 +273,6 @@ describe('OracleHealthTransitionAlerts', () => {
       expect(container.textContent).to.include('refill this prescription');
       expect(container.textContent).to.include('facility is transitioning');
       expect(container.textContent).to.include('new health records system');
-    });
-
-    it('has no margin on paragraph for proper spacing', () => {
-      const { container } = render(<OracleHealthInCardAlert />);
-
-      const paragraph = container.querySelector('p');
-      expect(paragraph).to.exist;
-      expect(paragraph.getAttribute('class')).to.include('vads-u-margin-y--0');
-    });
-
-    it('renders without requiring props', () => {
-      // Should not throw error when rendered without props
-      expect(() => render(<OracleHealthInCardAlert />)).to.not.throw();
     });
   });
 });

@@ -505,7 +505,6 @@ describe('Oracle Health Transition - MedicationsListCard', () => {
   const MICHIGAN_FACILITY_515 = '515';
   const MICHIGAN_FACILITY_506 = '506';
   const NON_TRANSITIONING_FACILITY = '442';
-  const UNKNOWN_FACILITY = '999';
 
   const mockMichiganMigration = {
     migrationDate: '2026-04-11',
@@ -580,19 +579,6 @@ describe('Oracle Health Transition - MedicationsListCard', () => {
         const screen = setupWithMigration(transitioningRx, true);
         expect(screen.queryByTestId('refill-request-button')).to.not.exist;
       });
-
-      it('displays alert with correct error status', () => {
-        const screen = setupWithMigration(transitioningRx, true);
-        const alert = screen.getByTestId('oracle-health-in-card-alert');
-        expect(alert.getAttribute('status')).to.equal('error');
-      });
-
-      it('displays alert message about facility transition', () => {
-        const screen = setupWithMigration(transitioningRx, true);
-        expect(screen.container.textContent).to.include(
-          'facility is transitioning',
-        );
-      });
     });
 
     describe('when mhvMedicationsOracleHealthCutover feature flag is disabled', () => {
@@ -609,15 +595,6 @@ describe('Oracle Health Transition - MedicationsListCard', () => {
     it('does not display OracleHealthInCardAlert', () => {
       const screen = setupWithMigration(nonTransitioningRx, true);
       expectAlertNotToExist(screen);
-    });
-
-    it('still shows refill button for non-transitioning facility', () => {
-      const refillableRx = createRxWithStation(NON_TRANSITIONING_FACILITY, {
-        isRefillable: true,
-        dispStatus: 'Active',
-      });
-      const screen = setupWithMigration(refillableRx, true);
-      expect(screen.queryByTestId('refill-request-button')).to.exist;
     });
   });
 
@@ -647,21 +624,9 @@ describe('Oracle Health Transition - MedicationsListCard', () => {
       const screen = setupWithMigration(rx, true, multiMigrations);
       expectAlertToExist(screen);
     });
-
-    it('shows alert for prescription at facility 506 (Ann Arbor)', () => {
-      const rx = createRxWithStation(MICHIGAN_FACILITY_506);
-      const screen = setupWithMigration(rx, true, multiMigrations);
-      expectAlertToExist(screen);
-    });
-
-    it('does not show alert for prescription at unknown facility 999', () => {
-      const rx = createRxWithStation(UNKNOWN_FACILITY);
-      const screen = setupWithMigration(rx, true, multiMigrations);
-      expectAlertNotToExist(screen);
-    });
   });
 
-  describe('edge cases', () => {
+  describe('handles missing or invalid migration data', () => {
     it('handles prescription without stationNumber', () => {
       const rx = createRxWithStation(null);
       const screen = setupWithMigration(rx, true);

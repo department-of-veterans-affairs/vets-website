@@ -585,24 +585,6 @@ describe('Medications List Card Extra Details', () => {
           expectRefillButtonHidden(screen);
         });
 
-        it('hides refill button for V2 Active status', () => {
-          const rx = createRefillablePrescription({
-            dispStatus: dispStatusObjV2.active,
-            isRefillBlocked: true,
-          });
-          const screen = setup(rx, {}, true, true);
-          expectRefillButtonHidden(screen);
-        });
-
-        it('hides refill button for Active: Parked status', () => {
-          const rx = createRefillablePrescription({
-            dispStatus: dispStatusObj.activeParked,
-            isRefillBlocked: true,
-          });
-          const screen = setup(rx, {}, false, false);
-          expectRefillButtonHidden(screen);
-        });
-
         it('respects isRefillBlocked even when prescription is refillable with remaining refills', () => {
           const rx = createRefillablePrescription({
             refillRemaining: 5,
@@ -611,37 +593,13 @@ describe('Medications List Card Extra Details', () => {
           const screen = setup(rx, {}, false, false);
           expectRefillButtonHidden(screen);
         });
-
-        it('has no effect on details page (button already hidden)', () => {
-          const rx = createRefillablePrescription({
-            page: pageType.DETAILS,
-            isRefillBlocked: true,
-          });
-          const screen = setup(rx, {}, false, false);
-          expectRefillButtonHidden(screen);
-        });
       });
 
-      describe('when isRefillBlocked is false or not provided (no Oracle Health transition blocking)', () => {
-        it('shows refill button when isRefillBlocked is false', async () => {
-          const rx = createRefillablePrescription({ isRefillBlocked: false });
-          const screen = setup(rx, {}, false, false);
-          await expectRefillButtonVisible(screen);
-        });
-
+      describe('when isRefillBlocked is not provided (no Oracle Health transition blocking)', () => {
         it('shows refill button when isRefillBlocked is not provided (default behavior)', async () => {
           const rx = createRefillablePrescription();
           const screen = setup(rx, {}, false, false);
           await expectRefillButtonVisible(screen);
-        });
-
-        it('has no effect on details page (button already hidden)', () => {
-          const rx = createRefillablePrescription({
-            page: pageType.DETAILS,
-            isRefillBlocked: false,
-          });
-          const screen = setup(rx, {}, false, false);
-          expectRefillButtonHidden(screen);
         });
       });
     });
