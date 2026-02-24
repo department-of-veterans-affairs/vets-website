@@ -1,3 +1,4 @@
+import React from 'react';
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 
@@ -26,10 +27,6 @@ import {
   VaTextInputField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import {
-  DisabilityDocsAlert,
-  SchoolAttendanceAlert,
-} from '../../../components/FormAlerts';
 import { childRelationshipLabels } from '../../../labels';
 import { isBetween18And23 } from './helpers';
 import {
@@ -212,6 +209,33 @@ const relationshipPage = {
 };
 
 /** @returns {PageSchema} */
+const evidenceNeededPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Supporting documents needed'),
+    'view:evidenceNeededDescription': {
+      'ui:description': (
+        <>
+          <p>
+            Because your child is adopted, you’ll need to submit adoption papers
+            or an amended birth certificate with this application.
+          </p>
+          <p>
+            We’ll give you instructions for submitting this form at the end of
+            this application.
+          </p>
+        </>
+      ),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:evidenceNeededDescription': { type: 'object', properties: {} },
+    },
+  },
+};
+
+/** @returns {PageSchema} */
 const attendingSchoolPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -225,24 +249,45 @@ const attendingSchoolPage = {
     attendingCollege: yesNoUI({
       title: 'Is your child in school?',
     }),
-    'view:schoolWarning': {
-      'ui:description': SchoolAttendanceAlert,
-      'ui:options': {
-        expandUnder: 'attendingCollege',
-      },
-      'ui:required': (formData, index) => {
-        return (
-          isBetween18And23(formData?.childDateOfBirth) ||
-          isBetween18And23(formData?.dependents?.[index]?.childDateOfBirth)
-        );
-      },
-    },
   },
   schema: {
     type: 'object',
     properties: {
       attendingCollege: yesNoSchema,
-      'view:schoolWarning': { type: 'object', properties: {} },
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+const additionalFormNeededPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Additional form needed'),
+    'view:formNeededDescription': {
+      'ui:description': (
+        <>
+          <p>
+            Because your child is at least 18 years old, but under 23, and
+            attending school, you’ll need to submit a Request for Approval of
+            School Attendance (VA Form 21-674).
+          </p>
+          <p>
+            {' '}
+            We’ll give you instructions for submitting this form at the end of
+            this application.
+          </p>
+          <va-link
+            href="https://www.va.gov/find-forms/about-form-21-674/"
+            text="Get VA Form 21-674 to download"
+            external
+          />
+        </>
+      ),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:formNeededDescription': { type: 'object', properties: {} },
     },
   },
 };
@@ -261,12 +306,6 @@ const disabledPage = {
     disabled: yesNoUI({
       title: 'Is your child seriously disabled?',
     }),
-    'view:disabilityDocs': {
-      'ui:description': DisabilityDocsAlert,
-      'ui:options': {
-        expandUnder: 'disabled',
-      },
-    },
     'view:disabilityInformation': {
       'ui:description': DependentSeriouslyDisabledDescription,
     },
@@ -275,10 +314,43 @@ const disabledPage = {
     type: 'object',
     properties: {
       disabled: yesNoSchema,
-      'view:disabilityDocs': { type: 'object', properties: {} },
       'view:disabilityInformation': { type: 'object', properties: {} },
     },
     required: ['disabled'],
+  },
+};
+
+/** @returns {PageSchema} */
+const medicalRecordsNeededPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Medical records needed'),
+    'view:recordsNeededDescription': {
+      'ui:description': (
+        <>
+          <p>
+            You’ll need to submit medical records that show the child became
+            permanently disabled because of a physical or mental disability
+            before their 18th birthday.
+          </p>
+          <p>You can submit these types of medical records:</p>
+          <ul>
+            <li>Doctor’s reports</li>
+            <li>Medical labs</li>
+            <li>Test results</li>
+          </ul>
+          <p>
+            We’ll give you instructions for submitting your evidence at the end
+            of this application.
+          </p>
+        </>
+      ),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:recordsNeededDescription': { type: 'object', properties: {} },
+    },
   },
 };
 
@@ -421,6 +493,15 @@ export const dependentChildrenPages = arrayBuilderPages(
       uiSchema: relationshipPage.uiSchema,
       schema: relationshipPage.schema,
     }),
+    dependentChildEvidenceNeededPage: pageBuilder.itemPage({
+      title: 'Supporting documents needed',
+      path: 'household/dependents/:index/evidence-needed',
+      depends: (formData, index) =>
+        showMultiplePageResponse() &&
+        formData.dependents?.[index]?.childRelationship === 'ADOPTED',
+      uiSchema: evidenceNeededPage.uiSchema,
+      schema: evidenceNeededPage.schema,
+    }),
     dependentChildAttendingSchoolPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/school',
@@ -430,12 +511,29 @@ export const dependentChildrenPages = arrayBuilderPages(
       uiSchema: attendingSchoolPage.uiSchema,
       schema: attendingSchoolPage.schema,
     }),
+    dependentChildFormNeededPage: pageBuilder.itemPage({
+      title: 'Additional form needed',
+      path: 'household/dependents/:index/additional-form-needed',
+      depends: (formData, index) =>
+        showMultiplePageResponse() &&
+        formData.dependents?.[index]?.attendingCollege,
+      uiSchema: additionalFormNeededPage.uiSchema,
+      schema: additionalFormNeededPage.schema,
+    }),
     dependentChildDisabledPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/disabled',
       depends: () => showMultiplePageResponse(),
       uiSchema: disabledPage.uiSchema,
       schema: disabledPage.schema,
+    }),
+    dependentChildRecordsNeededPage: pageBuilder.itemPage({
+      title: 'Additional form needed',
+      path: 'household/dependents/:index/medical-records-needed',
+      depends: (formData, index) =>
+        showMultiplePageResponse() && formData.dependents?.[index]?.disabled,
+      uiSchema: medicalRecordsNeededPage.uiSchema,
+      schema: medicalRecordsNeededPage.schema,
     }),
     dependentChildPreviouslyMarriedPage: pageBuilder.itemPage({
       title: 'Dependent children',
