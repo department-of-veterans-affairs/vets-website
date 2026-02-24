@@ -4,7 +4,6 @@ export const VA_FORM_IDS = Object.freeze({
   FEEDBACK_TOOL: 'FEEDBACK-TOOL',
   FORM_0873: '0873',
   FORM_10_10CG: '10-10CG',
-  FORM_10_10D: '10-10D',
   FORM_10_10EZ: '1010ez',
   FORM_10_10EZR: '10-10EZR',
   FORM_10_3542: '10-3542',
@@ -165,7 +164,6 @@ export const getAllFormLinks = getAppUrlImpl => {
   // the string passed to tryGetAppUrl() must match the app's entryName from the manifest catalog
   return {
     [VA_FORM_IDS.FEEDBACK_TOOL]: `${tryGetAppUrl('feedback-tool')}/`,
-    [VA_FORM_IDS.FORM_10_10D]: `${tryGetAppUrl('10-10D')}/`,
     [VA_FORM_IDS.FORM_10_10EZ]: `${tryGetAppUrl('hca')}/`,
     [VA_FORM_IDS.FORM_10_7959A]: `${tryGetAppUrl('10-7959a')}/`,
     [VA_FORM_IDS.FORM_10_7959C]: `${tryGetAppUrl('10-7959C')}/`,
@@ -376,13 +374,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'feedback (GI Bill School Feedback Tool)',
     description: 'feedback application (FEEDBACK-TOOL)',
     trackingPrefix: 'gi_bill_feedback',
-  },
-  {
-    id: VA_FORM_IDS.FORM_10_10D,
-    benefit: 'application for champva benefits',
-    title: 'application for champva benefits (10-10D)',
-    description: 'application for champva benefits application (10-10D)',
-    trackingPrefix: '10-10D-',
   },
   {
     id: VA_FORM_IDS.FORM_10_10EZ,

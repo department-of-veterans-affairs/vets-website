@@ -18,7 +18,6 @@ const formConfigFnParams = {
 };
 
 const missingFromVetsJsonSchema = [
-  VA_FORM_IDS.FORM_10_10D,
   VA_FORM_IDS.FORM_10_3542,
   VA_FORM_IDS.FORM_10_7959A,
   VA_FORM_IDS.FORM_10_7959C,

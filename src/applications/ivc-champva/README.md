@@ -16,20 +16,24 @@ on running the applications locally, testing methods, and other useful info.
 
 ## Contents
 
-- [Purpose of IVC forms apps](#purpose-of-ivc-forms-apps)
-- [Running the applications locally](#running-the-applications-locally)
-  - Setup
-  - Developing a form
-  - Useful developer resources
-  - Developer conveniences
-- [Testing](#testing)
-  - Unit testing
-  - E2E testing
-- [Connecting to vets-api](#connecting-to-vets-api)
-  - Standing up the API locally
-  - Mocking API Locally
-  - Test Save In Progress Locally
-- [Scheduling Maintenance Windows for External Backend Service (PEGA)](#scheduling-maintenance-windows-for-external-backend-service-pega)
+- [IVC-CHAMPVA Forms Readme](#ivc-champva-forms-readme)
+  - [Executive Summary](#executive-summary)
+  - [Contents](#contents)
+  - [Purpose of IVC Forms Apps](#purpose-of-ivc-forms-apps)
+  - [Running the Applications Locally](#running-the-applications-locally)
+    - [Setup](#setup)
+    - [Developing a Form](#developing-a-form)
+    - [Useful Developer Resources](#useful-developer-resources)
+    - [Developer Conveniences](#developer-conveniences)
+  - [Testing](#testing)
+    - [Unit testing](#unit-testing)
+    - [End to End testing](#end-to-end-testing)
+  - [Connecting to vets-api](#connecting-to-vets-api)
+    - [Standing up the API locally](#standing-up-the-api-locally)
+    - [Mocking API Locally](#mocking-api-locally)
+    - [Test Save In Progress Locally](#test-save-in-progress-locally)
+  - [Scheduling Maintenance Windows for External Backend Service (PEGA)](#scheduling-maintenance-windows-for-external-backend-service-pega)
+    - [Create a maintenance window](#create-a-maintenance-window)
 
 ## Purpose of IVC Forms Apps
 
@@ -58,7 +62,7 @@ To run the IVC-CHAMPVA form apps locally:
     yarn watch --open
 
     # Alternatively, run this to only build a specific application (significantly faster)
-    yarn watch --env entry=10-10D # entry can be any application's entryname (found in its manifest file)
+    yarn watch --env entry=10-10d-extended # entry can be any application's entryname (found in its manifest file)
     ```
 
 3.  Then, in the newly opened browser window append the specific
@@ -119,13 +123,13 @@ To pre-populate a local form with test data
 
 2. Import the test data file in `form.js`:
    ```JavaScript
-    // src/applications/ivc-champva/10-10d/config/form.js
+    // src/applications/ivc-champva/10-10d-extended/config/form.js
    import mockData from "path/to/test-data.json";
    ```
 3. Set the first form page's `initialData` property in `form.js`
 
    ```JavaScript
-   // src/applications/ivc-champva/10-10d/config/form.js
+   // src/applications/ivc-champva/10-10d-extended/config/form.js
    // ...
    const formConfig = {
      chapters: {
@@ -160,18 +164,18 @@ the vets-website repository. Be sure to adjust the path to point to the form app
 you want to test.
 
 ```bash
-# Example unit test command for IVC form 10-10D
-# In vets-website repo: run to generate coverage report for form app 10-10D:
-yarn test:coverage-app ivc-champva/10-10D # <- change `10-10D` to desired form app
+# Example unit test command for IVC form 10-10d-extended
+# In vets-website repo: run to generate coverage report for form app 10-10d-extended:
+yarn test:coverage-app ivc-champva/10-10d-extended # <- change `10-10d-extended` to desired form app
 ```
 
 If you receive an obscure failure or err when running the unit test coverage
 report it may be helpful to run the unit tests with `verbose` logging enabled:
 
 ```bash
-# Example unit test command for IVC form 10-10D
+# Example unit test command for IVC form 10-10d-extended
 # In vets-website repo: run unit tests with verbose debugging
-yarn test:unit --app-folder ivc-champva/10-10D --coverage --coverage-html --log-level verbose # <- change `10-10D` to desired form app
+yarn test:unit --app-folder ivc-champva/10-10d-extended --coverage --coverage-html --log-level verbose # <- change `10-10d-extended` to desired form app
 ```
 
 ### End to End testing
@@ -184,8 +188,8 @@ within the vets-website repository. Be sure to adjust the path to point to the
 E2E test you want to run.
 
 ```bash
-# Example E2E test command for IVC form 10-10D
-yarn cy:run --spec "src/applications/ivc-champva/10-10D/tests/10-10D.cypress.spec.js"
+# Example E2E test command for IVC form 10-10d-extended
+yarn cy:run --spec "src/applications/ivc-champva/10-10d-extended/tests/10-10d-extended.cypress.spec.js"
 ```
 
 If you want to follow along visually while the E2E tests run, use the web browser
