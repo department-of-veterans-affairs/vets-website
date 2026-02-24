@@ -362,11 +362,10 @@ export const ContactInfoBase = ({
       contactFieldName === FIELD_NAMES.HOME_PHONE ||
       contactFieldName === FIELD_NAMES.MOBILE_PHONE
     ) {
-      const { areaCode, countryCode, phoneNumber } = contactField;
+      const { areaCode, phoneNumber } = contactField;
       // Return true if ALL phone fields are falsy
       return (
         isFieldEmpty(areaCode, contactFieldName) &&
-        isFieldEmpty(countryCode, contactFieldName) &&
         isFieldEmpty(phoneNumber, contactFieldName)
       );
     }
