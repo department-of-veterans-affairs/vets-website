@@ -18,11 +18,6 @@ import {
   DependentSeriouslyDisabledDescription,
   showMultiplePageResponse,
 } from '../../../helpers';
-import {
-  DisabilityDocsAlert,
-  SchoolAttendanceAlert,
-  AdoptionEvidenceAlert,
-} from '../../../components/FormAlerts';
 import { childRelationshipLabels } from '../../../labels';
 import {
   doesHaveDependents,
@@ -66,13 +61,6 @@ export default {
           title: "What's your relationship?",
           labels: childRelationshipLabels,
         }),
-        'view:adoptionDocs': {
-          'ui:description': AdoptionEvidenceAlert,
-          'ui:options': {
-            expandUnder: 'childRelationship',
-            expandUnderCondition: 'ADOPTED',
-          },
-        },
         attendingCollege: yesNoUI({
           title: 'Is your child in school?',
           hideIf: (formData, index) =>
@@ -84,23 +72,11 @@ export default {
               get(['dependents', index, 'childDateOfBirth'], formData),
             ),
         }),
-        'view:schoolWarning': {
-          'ui:description': SchoolAttendanceAlert,
-          'ui:options': {
-            expandUnder: 'attendingCollege',
-          },
-        },
         disabled: yesNoUI({
           title: 'Is your child seriously disabled?',
           required: (formData, index) =>
             get(['dependents', index, 'childDateOfBirth'], formData),
         }),
-        'view:disabilityDocs': {
-          'ui:description': DisabilityDocsAlert,
-          'ui:options': {
-            expandUnder: 'disabled',
-          },
-        },
         'view:disabilityInformation': {
           'ui:description': DependentSeriouslyDisabledDescription,
         },
@@ -135,11 +111,8 @@ export default {
             childRelationship: radioSchema(
               Object.keys(childRelationshipLabels),
             ),
-            'view:adoptionDocs': { type: 'object', properties: {} },
             attendingCollege,
-            'view:schoolWarning': { type: 'object', properties: {} },
             disabled,
-            'view:disabilityDocs': { type: 'object', properties: {} },
             'view:disabilityInformation': { type: 'object', properties: {} },
             previouslyMarried,
             married,

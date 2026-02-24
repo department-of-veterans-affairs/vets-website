@@ -23,7 +23,7 @@ export default function transform(formConfig, form) {
       mailingAddress: transformMailingAddress(mailingAddress),
       homePhone: transformPhoneNumberObject(homePhone),
       mobilePhone: transformPhoneNumberObject(mobilePhone),
-      emailAddress: email?.emailAddress || '',
+      emailAddress: email?.emailAddress || null,
     };
     delete clonedData.veteran;
 
