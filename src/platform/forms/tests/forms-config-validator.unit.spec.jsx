@@ -342,7 +342,7 @@ const validateForm = async (formSlug, formConfigParam) => {
 };
 
 // Main test suite section
-describe('Form Configuration Tests', function() {
+describe('Form Configuration Tests', function formConfigurationTests() {
   const tracker = trackMemoryUsage('Form Configuration Tests - BATCHED');
   this.timeout(30000);
 
