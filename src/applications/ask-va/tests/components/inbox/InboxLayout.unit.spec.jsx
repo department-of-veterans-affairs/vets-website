@@ -13,6 +13,7 @@ describe('<InboxLayout />', () => {
     const view = render(
       <InboxLayout
         categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: [], business: [] }}
       />,
     );
@@ -29,6 +30,7 @@ describe('<InboxLayout />', () => {
     const view = render(
       <InboxLayout
         categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: mockInquiries.personal, business: [] }}
       />,
     );
@@ -37,10 +39,35 @@ describe('<InboxLayout />', () => {
     expect(inquiryResults.length).to.be.greaterThanOrEqual(1);
   });
 
+  it('only renders filter options available in the list', () => {
+    const view = render(
+      <InboxLayout
+        categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
+        inquiries={{ personal: mockInquiries.personal, business: [] }}
+      />,
+    );
+
+    const allOptions = view.getAllByRole('option');
+    const visibleCategories = allOptions
+      .filter(option => option.parentElement.name === 'category')
+      .map(option => option.textContent);
+    const visibleStatuses = allOptions
+      .filter(option => option.parentElement.name === 'status')
+      .map(option => option.textContent);
+
+    expect(visibleCategories).to.eql([
+      'All',
+      ...mockInquiries.uniqueCategories,
+    ]);
+    expect(visibleStatuses).to.eql(['All', ...mockInquiries.uniqueStatuses]);
+  });
+
   it('applies and clears a filter', () => {
     const view = render(
       <InboxLayout
         categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: mockInquiries.personal, business: [] }}
       />,
     );
@@ -95,6 +122,7 @@ describe('<InboxLayout />', () => {
     const view = render(
       <InboxLayout
         categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: mockInquiries.personal, business: [] }}
       />,
     );
@@ -127,6 +155,7 @@ describe('<InboxLayout />', () => {
     const view = render(
       <InboxLayout
         categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: inquiriesCopy, business: [] }}
       />,
     );
@@ -156,6 +185,7 @@ describe('<InboxLayout />', () => {
       const view = render(
         <InboxLayout
           categoryOptions={mockInquiries.uniqueCategories}
+          statusOptions={mockInquiries.uniqueStatuses}
           inquiries={{ personal: mockInquiries.personal, business: [] }}
         />,
       );
@@ -167,6 +197,7 @@ describe('<InboxLayout />', () => {
       const view = render(
         <InboxLayout
           categoryOptions={mockInquiries.uniqueCategories}
+          statusOptions={mockInquiries.uniqueStatuses}
           inquiries={mockInquiries}
         />,
       );
@@ -188,6 +219,7 @@ describe('<InboxLayout />', () => {
       const view = render(
         <InboxLayout
           categoryOptions={mockInquiries.uniqueCategories}
+          statusOptions={mockInquiries.uniqueStatuses}
           inquiries={mockInquiries}
         />,
       );
