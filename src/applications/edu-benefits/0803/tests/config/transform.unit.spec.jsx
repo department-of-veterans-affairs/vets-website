@@ -11,7 +11,7 @@ describe('transform function', () => {
           first: 'John',
           last: 'Smith',
         },
-        testCost: '56',
+        testCost: '56.56',
         organizationName: 'Acme Co.',
         organizationAddress: {
           street: '123 Fake St',
@@ -64,7 +64,7 @@ describe('transform function', () => {
         first: 'John',
         last: 'Smith',
       },
-      testCost: 56,
+      testCost: 56.56,
       organizationName: 'Acme Co.',
       organizationAddress: {
         country: 'USA',

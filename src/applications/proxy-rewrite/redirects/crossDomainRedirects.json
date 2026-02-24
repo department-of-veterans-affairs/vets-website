@@ -2205,5 +2205,17 @@
   "src": "/romanila",
   "dest": "/va-regional-benefit-office-at-us-embassy-in-manila/",
   "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/stlouis",
+  "dest": "/st-louis-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rostlouis",
+  "dest": "/st-louis-va-regional-benefit-office/",
+  "catchAll": true
 }
 ]

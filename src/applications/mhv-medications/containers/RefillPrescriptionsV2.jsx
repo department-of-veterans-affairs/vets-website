@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import {
@@ -11,6 +17,7 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { datadogRum } from '@datadog/browser-rum';
 import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import CernerFacilityAlert from '~/platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import {
@@ -85,30 +92,29 @@ const RefillPrescriptionsV2 = () => {
       .filter(Boolean);
   }, []);
 
+  // Ref to snapshot the selected prescriptions at refill time
+  const submittedMedications = useRef(null);
+
+  // Exclude refillableData from deps to preserve the ref snapshot
+  // during RTK Query cache invalidation after refill.
   const successfulMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.successfulIds,
-        refillableData?.prescriptions,
+        submittedMedications.current || refillableData?.prescriptions,
       ),
-    [
-      getMedicationsByIds,
-      result?.data?.successfulIds,
-      refillableData?.prescriptions,
-    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getMedicationsByIds, result?.data?.successfulIds, result?.data],
   );
 
   const failedMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.failedIds,
-        refillableData?.prescriptions,
+        submittedMedications.current || refillableData?.prescriptions,
       ),
-    [
-      getMedicationsByIds,
-      result?.data?.failedIds,
-      refillableData?.prescriptions,
-    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getMedicationsByIds, result?.data?.failedIds, result?.data],
   );
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
@@ -151,9 +157,23 @@ const RefillPrescriptionsV2 = () => {
   const isDataLoading = isLoading || isRefilling;
   const selectedRefillListLength = selectedRefillList.length;
 
+  // Prevent interactions during cache refresh to avoid duplicate refill attempts
   const isRefreshing =
     refillRequestStatus === REFILL_STATUS.FINISHED && isFetching;
   const isDisabled = isDataLoading || isRefreshing;
+
+  // Clear the submitted meds snapshot after cache refresh completes or error
+  useEffect(
+    () => {
+      if (refillRequestStatus === REFILL_STATUS.FINISHED && !isFetching) {
+        submittedMedications.current = null;
+      }
+      if (refillRequestStatus === REFILL_STATUS.ERROR) {
+        submittedMedications.current = null;
+      }
+    },
+    [refillRequestStatus, isFetching],
+  );
 
   const fullRefillList = useMemo(() => refillableData?.prescriptions || [], [
     refillableData?.prescriptions,
@@ -175,8 +195,17 @@ const RefillPrescriptionsV2 = () => {
 
   const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
+      const facilityIds = [
+        ...new Set(selectedRefillList.map(rx => rx.stationNumber)),
+      ];
+      datadogRum.addAction(
+        dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON,
+        { facilityIds },
+      );
       setRefillStatus(REFILL_STATUS.IN_PROGRESS);
       window.scrollTo(0, 0);
+
+      submittedMedications.current = selectedRefillList;
 
       const prescriptionIds = selectedRefillList.map(rx => {
         if (isCernerPilot) {
@@ -433,9 +462,6 @@ const RefillPrescriptionsV2 = () => {
                   className="vads-u-background-color--white vads-u-padding--0 vads-u-margin-top--1 no-print"
                   id="request-refill-button"
                   data-testid="request-refill-button"
-                  data-dd-action-name={
-                    dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON
-                  }
                   disabled={isDisabled}
                   onClick={() => onRequestRefills()}
                   text={`Request ${

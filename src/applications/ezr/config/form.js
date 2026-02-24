@@ -15,7 +15,7 @@ import {
   isMissingVeteranDob,
   isMissingVeteranGender,
   hasDifferentHomeAddress,
-  teraUploadEnabled,
+  shouldHaveDocumentUpload,
   includeTeraInformation,
   includeGulfWarServiceDates,
   includePostSept11ServiceDates,
@@ -135,7 +135,6 @@ const formConfig = {
   },
   customText: {
     appType: content['sip-text-app-type'],
-    appAction: content['sip-text-app-action'],
     continueAppButtonText: content['sip-text-continue-btn-text'],
     startNewAppButtonText: content['sip-text-start-new-btn-text'],
     appSavedSuccessfullyMessage: content['sip-text-app-saved-message'],
@@ -368,7 +367,7 @@ const formConfig = {
         supportingDocuments: {
           path: 'military-service/upload-supporting-documents',
           title: 'Upload supporting documents',
-          depends: teraUploadEnabled,
+          depends: shouldHaveDocumentUpload,
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },

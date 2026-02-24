@@ -152,6 +152,13 @@ const ManageFolderButtons = props => {
           <h2 className="vads-u-margin-top--3 vads-u-margin-bottom--2">
             Edit folder
           </h2>
+          <va-additional-info
+            trigger="How can I use a custom folder?"
+            class="custom-folder-info vads-u-margin-bottom--3"
+          >
+            This is a folder you created. You can add conversations to this
+            folder by moving them from your inbox or other folders.
+          </va-additional-info>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             {/* Edit folder name button */}
             <va-button
@@ -163,7 +170,6 @@ const ManageFolderButtons = props => {
               data-dd-action-name="Edit Folder Name Button"
               data-testid="edit-folder-button"
             />
-
             {/* Inline edit form - shown when expanded */}
             {isEditExpanded && (
               <div
