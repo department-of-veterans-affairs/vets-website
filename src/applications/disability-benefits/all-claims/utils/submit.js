@@ -111,9 +111,10 @@ export function getClaimedConditionNames(
   formData,
   includeDisabilityActionTypeNone = true,
 ) {
-  return getDisabilities(formData, includeDisabilityActionTypeNone).map(
-    disability => getDisabilityName(disability),
-  );
+  return getDisabilities(
+    formData,
+    includeDisabilityActionTypeNone,
+  ).map(disability => getDisabilityName(disability));
 }
 
 export const setActionType = disability =>
@@ -917,7 +918,7 @@ export const addForm8940 = formData => {
  */
 export const flattenAttachments = formData => {
   const pmrAttachments = formData.privateMedicalRecordAttachments;
-  // TODO: add additionalDocuments into this function as it utilizes the V3 component.
+  const addtnlDcmnts = formData.additionalDocuments;
   const clonedData = _.cloneDeep(formData);
   // V3 file input always (until deprecated) includes additionalData on all attachments when the
   // enhancement toggle is on, so checking the first element is sufficient.
@@ -928,6 +929,12 @@ export const flattenAttachments = formData => {
         return { ...rest, ...additionalData };
       },
     );
+  }
+  if (addtnlDcmnts && addtnlDcmnts[0]?.additionalData) {
+    clonedData.additionalDocuments = addtnlDcmnts.map(attachment => {
+      const { additionalData, ...rest } = attachment;
+      return { ...rest, ...additionalData };
+    });
   }
   return clonedData;
 };
