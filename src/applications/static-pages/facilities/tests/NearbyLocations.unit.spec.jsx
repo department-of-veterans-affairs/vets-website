@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
-import * as mapboxUtils from 'platform/utilities/facilities-and-mapbox';
+import * as mapboxClientUtils from '../mapboxClient';
 import NearbyVetCenters from '../vet-center/NearByVetCenters';
 import NearByVALocations from '../vet-center/NearByVALocations';
 import VAFacilityInfoSection from '../vet-center/components/VAFacilityInfoSection';
@@ -22,7 +22,9 @@ const createFakeStore = state => {
 };
 
 const fakeMapboxResponse = { body: { features: [{ center: [0, 0] }] } };
-sinon.stub(mapboxUtils, 'getFeaturesFromAddress').returns(fakeMapboxResponse);
+sinon
+  .stub(mapboxClientUtils, 'getFeaturesFromAddress')
+  .returns(fakeMapboxResponse);
 
 const fetchedVetCenters = {
   data: [

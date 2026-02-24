@@ -2,7 +2,11 @@ import MapboxClient from '@mapbox/mapbox-sdk';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { mapboxToken } from './mapboxToken';
 
-const mapboxClient = new MapboxClient({ accessToken: mapboxToken });
+// Fallback token is a structurally valid placeholder so the SDK doesn't throw
+// at module load time when no real token is set (e.g. unit tests in CI).
+const mapboxClient = new MapboxClient({
+  accessToken: mapboxToken || 'pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==',
+});
 const mbxClient = mbxGeo(mapboxClient);
 
 export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp'];
