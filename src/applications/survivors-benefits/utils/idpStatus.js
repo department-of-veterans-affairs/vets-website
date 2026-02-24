@@ -1,3 +1,6 @@
+import { apiRequest } from 'platform/utilities/api';
+import { buildStatusUrl } from './idpEndpoints';
+
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const DEFAULT_OPTIONS = {
@@ -5,20 +8,33 @@ const DEFAULT_OPTIONS = {
   timeoutMs: 120000,
 };
 
-// Stubbed for now: immediately returns a "completed" payload with a stable shape.
 export const pollDocumentStatus = async (documentId, options = {}) => {
-  const { intervalMs } = { ...DEFAULT_OPTIONS, ...options };
+  const { intervalMs, timeoutMs } = { ...DEFAULT_OPTIONS, ...options };
+  const deadline = Date.now() + timeoutMs;
 
-  // Keep it async and mimic a brief poll delay.
-  await sleep(Math.min(intervalMs, 25));
+  let lastError;
 
-  return {
-    id: documentId,
-    // eslint-disable-next-line camelcase
-    scan_status: 'completed',
-    // eslint-disable-next-line camelcase
-    updated_at: new Date().toISOString(),
-  };
+  while (Date.now() <= deadline) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const payload = await apiRequest(buildStatusUrl(documentId));
+      const { scanStatus } = payload || {};
+      if (scanStatus === 'completed' || scanStatus === 'failed') {
+        return payload;
+      }
+    } catch (error) {
+      lastError = error;
+    }
+
+    // eslint-disable-next-line no-await-in-loop
+    await sleep(intervalMs);
+  }
+
+  if (lastError) {
+    throw lastError;
+  }
+
+  throw new Error('Timed out waiting for document processing to complete.');
 };
 
 export default pollDocumentStatus;

@@ -1,6 +1,6 @@
 import environment from 'platform/utilities/environment';
 
-const BASE_URL = `${environment.API_URL}/v0/idp_documents`;
+const BASE_URL = `${environment.API_URL}/v0/cave`;
 
 const encodeIdSegment = id => encodeURIComponent(id);
 

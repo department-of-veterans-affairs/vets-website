@@ -8,7 +8,7 @@ export const processUploadedDocument = async (contract, options = {}) => {
   }
 
   const status = await pollDocumentStatus(contract.id, options.polling);
-  if (status?.scan_status !== 'completed') {
+  if (status?.scanStatus !== 'completed') {
     throw new Error('Document processing did not complete successfully.');
   }
 
