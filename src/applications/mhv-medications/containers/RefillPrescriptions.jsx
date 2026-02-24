@@ -132,27 +132,24 @@ const RefillPrescriptions = () => {
   const [refillStatus, setRefillStatus] = useState(REFILL_STATUS.NOT_STARTED);
 
   // Compute the actual refill status based on RTK Query state to prevent race conditions
-  const refillRequestStatus = useMemo(
-    () => {
-      if (isRefilling) {
-        return REFILL_STATUS.IN_PROGRESS;
-      }
-      if (refillRequestSuccess && result?.data) {
-        return REFILL_STATUS.FINISHED;
-      }
-      if (bulkRefillError) {
-        return REFILL_STATUS.ERROR;
-      }
-      return refillStatus; // Fallback to manual status for initial state
-    },
-    [
-      isRefilling,
-      refillRequestSuccess,
-      result?.data,
-      bulkRefillError,
-      refillStatus,
-    ],
-  );
+  const refillRequestStatus = useMemo(() => {
+    if (isRefilling) {
+      return REFILL_STATUS.IN_PROGRESS;
+    }
+    if (refillRequestSuccess && result?.data) {
+      return REFILL_STATUS.FINISHED;
+    }
+    if (bulkRefillError) {
+      return REFILL_STATUS.ERROR;
+    }
+    return refillStatus; // Fallback to manual status for initial state
+  }, [
+    isRefilling,
+    refillRequestSuccess,
+    result?.data,
+    bulkRefillError,
+    refillStatus,
+  ]);
 
   // Handle API errors from RTK Query
   const prescriptionsApiError = refillableError || bulkRefillError;
