@@ -3,6 +3,7 @@ const { table } = require('table');
 const path = require('path');
 const fetch = require('node-fetch');
 const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
+const cypressSplit = require('cypress-split');
 
 const tableConfig = {
   columns: {
@@ -12,6 +13,11 @@ const tableConfig = {
 };
 
 module.exports = async (on, config) => {
+  // cypress-split must be called before other plugins to handle spec splitting.
+  // It reads SPLIT (total containers) and SPLIT_INDEX (0-based index) env vars,
+  // and optionally SPLIT_FILE for duration-based balancing.
+  cypressSplit(on, config);
+
   if (process.env.CODE_COVERAGE === 'true') {
     require('@cypress/code-coverage/task')(on, config);
     on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));
