@@ -117,7 +117,8 @@ describe('guardianInformationChapter', () => {
 
         expect(
           screen.getAllByText('You must provide a response'),
-        ).to.have.length(4);
+        ).to.have.length(3);
+        expect(screen.getByText('Please enter a military zip code')).to.exist;
       });
 
       it('should show errors when user input is invalid', async () => {
@@ -383,7 +384,7 @@ describe('TOE customValidateAddress - military zip code validation', () => {
     customValidateAddress(errors, addressData, {}, { required: [] });
     expect(errors.postalCode.addError.calledOnce).to.be.true;
     expect(errors.postalCode.addError.firstCall.args[0]).to.contain(
-      'valid zip code for the selected military state',
+      'valid zip code for AE',
     );
   });
 

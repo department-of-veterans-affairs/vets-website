@@ -10,12 +10,8 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
-import get from 'platform/utilities/data/get';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
-import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
-
-import constants from 'vets-json-schema/dist/constants.json';
 import * as BUCKETS from 'site/constants/buckets';
 import * as ENVIRONMENTS from 'site/constants/environments';
 
@@ -61,6 +57,7 @@ import {
 import { formFields } from '../constants';
 import ObfuscateReviewField from '../ObfuscateReviewField';
 import DirectDepositField from '../components/DirectDepositField';
+import { createAddressFieldsUI } from '../helpers/addressUI';
 
 const { date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -72,54 +69,29 @@ const checkImageSrc = (() => {
   return `${bucket}/img/check-sample.png`;
 })();
 
-const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
-const MILITARY_STATE_CODES = ['AE', 'AA', 'AP'];
-
-function validateMilitaryZipCode(errors, addressData) {
-  if (
-    !MILITARY_STATE_CODES.includes(addressData.state) ||
-    !addressData.postalCode
-  ) {
-    return;
-  }
-
-  const { state, postalCode } = addressData;
-  const isValidMilitaryZip =
-    (state === 'AA' && /^340\d*/.test(postalCode)) ||
-    (state === 'AE' && /^09[0-9]\d*/.test(postalCode)) ||
-    (state === 'AP' && /^96[2-6]\d*/.test(postalCode));
-
-  if (!isValidMilitaryZip) {
-    errors.postalCode.addError(
-      'Please enter a valid zip code for the selected military state',
-    );
-  }
-}
-
-function customValidateAddress(errors, addressData, formData, currentSchema) {
-  if (
-    stateRequiredCountries.has(addressData.country) &&
-    addressData.state === undefined &&
-    currentSchema.required.length
-  ) {
-    errors.state.addError('Please select a state');
-  }
-  let isValidPostalCode = true;
-  if (addressData.country === 'USA') {
-    isValidPostalCode = isValidUSZipCode(addressData.postalCode);
-  }
-  if (addressData.country === 'CAN') {
-    isValidPostalCode = isValidCanPostalCode(addressData.postalCode);
-  }
-
-  if (addressData.postalCode && !isValidPostalCode) {
-    errors.postalCode.addError('Please provide a valid postal code');
-  }
-
-  validateMilitaryZipCode(errors, addressData);
-}
-
 const mailingAddressSchema = address.schema(fullSchema1990e, true);
+
+// Shared address UI configs for mailing and guardian address sections
+const mailingAddressFieldsUI = createAddressFieldsUI('view:mailingAddress');
+const guardianAddressFieldsUI = createAddressFieldsUI(
+  'guardianMailingAddress',
+  {
+    streetErrors: {
+      minLength: 'Please enter your full street address',
+    },
+    streetValidationMsg: 'You must provide a response',
+    street2ValidationMsg: 'Please enter a valid street address line 2',
+    cityErrors: { minLength: 'Please enter a valid city' },
+    cityValidationMsg: 'You must provide a response',
+    cityConstraints: { minLength: 2, maxLength: 20 },
+    postalCodeErrors: { pattern: 'Please provide a valid postal code' },
+    foreignPostalSchema: {
+      pattern: '^[A-Z0-9 -]{3,10}$',
+      minLength: 3,
+      maxLength: 10,
+    },
+  },
+);
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -701,233 +673,7 @@ const formConfig = {
               livesOnMilitaryBaseInfo: {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
               },
-              [formFields.address]: {
-                ...address.uiSchema('', false, null, true),
-                'ui:validations': [customValidateAddress],
-                'ui:options': {
-                  updateSchema: (formData, addressSchema) => {
-                    const livesOnMilitaryBase =
-                      formData['view:mailingAddress']?.livesOnMilitaryBase;
-                    const country =
-                      formData['view:mailingAddress']?.address?.country ||
-                      'USA';
-
-                    // Get the current required fields, excluding state
-                    const required = (addressSchema.required || []).filter(
-                      field => field !== 'state',
-                    );
-
-                    // Only add state as required for USA, Canada, Mexico, or military base
-                    if (
-                      livesOnMilitaryBase ||
-                      ['USA', 'CAN', 'MEX'].includes(country)
-                    ) {
-                      required.push('state');
-                    }
-
-                    if (livesOnMilitaryBase) {
-                      return {
-                        ...addressSchema,
-                        required,
-                        properties: {
-                          ...addressSchema.properties,
-                          state: {
-                            type: 'string',
-                            title: 'AE/AA/AP',
-                            enum: ['AE', 'AA', 'AP'],
-                            enumNames: [
-                              'AE - APO/DPO/FPO',
-                              'AA - APO/DPO/FPO',
-                              'AP - APO/DPO/FPO',
-                            ],
-                          },
-                        },
-                      };
-                    }
-
-                    let stateSchema = {
-                      type: 'string',
-                      title: 'State/County/Province',
-                    };
-
-                    if (country === 'USA') {
-                      stateSchema = {
-                        ...stateSchema,
-                        enum: constants.states.USA.map(state => state.value),
-                        enumNames: constants.states.USA.map(
-                          state => state.label,
-                        ),
-                      };
-                    } else if (country === 'CAN') {
-                      stateSchema = {
-                        ...stateSchema,
-                        title: 'Province',
-                        enum: constants.states.CAN.map(state => state.value),
-                        enumNames: constants.states.CAN.map(
-                          state => state.label,
-                        ),
-                      };
-                    } else if (country === 'MEX') {
-                      stateSchema = {
-                        ...stateSchema,
-                        title: 'State',
-                        enum: constants.states.MEX.map(state => state.value),
-                        enumNames: constants.states.MEX.map(
-                          state => state.label,
-                        ),
-                      };
-                    }
-                    return {
-                      ...addressSchema,
-                      required,
-                      properties: {
-                        ...addressSchema.properties,
-                        state: stateSchema,
-                      },
-                    };
-                  },
-                },
-                country: {
-                  'ui:title': 'Country',
-                  'ui:required': formData =>
-                    !formData['view:mailingAddress'].livesOnMilitaryBase,
-                  'ui:disabled': formData =>
-                    formData['view:mailingAddress'].livesOnMilitaryBase,
-                  'ui:options': {
-                    updateSchema: (formData, schema, uiSchema) => {
-                      const countryUI = uiSchema;
-                      const addressFormData = get(
-                        ['view:mailingAddress', 'address'],
-                        formData,
-                      );
-                      const livesOnMilitaryBase = get(
-                        ['view:mailingAddress', 'livesOnMilitaryBase'],
-                        formData,
-                      );
-                      if (livesOnMilitaryBase) {
-                        countryUI['ui:disabled'] = true;
-                        const USA = {
-                          value: 'USA',
-                          label: 'United States',
-                        };
-                        addressFormData.country = USA.value;
-                        return {
-                          enum: [USA.value],
-                          enumNames: [USA.label],
-                          default: USA.value,
-                        };
-                      }
-                      countryUI['ui:disabled'] = false;
-                      return {
-                        type: 'string',
-                        enum: constants.countries.map(country => country.value),
-                        enumNames: constants.countries.map(
-                          country => country.label,
-                        ),
-                      };
-                    },
-                  },
-                },
-                street: {
-                  'ui:title': 'Street address',
-                  'ui:errorMessages': {
-                    required: 'Please enter your full street address',
-                  },
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError(
-                          'Please enter your full street address',
-                        );
-                      }
-                    },
-                  ],
-                },
-                street2: {
-                  'ui:title': 'Street address line 2',
-                  'ui:validations': [
-                    (errors, fieldValue) => {
-                      // Optional check for whitespace
-                      if (fieldValue && !fieldValue.trim().length) {
-                        errors.addError('Address line 2 can’t be only spaces');
-                      }
-                    },
-                  ],
-                  'ui:options': {
-                    // Always set minLength to 0 so an empty string doesn't fail
-                    updateSchema: (_formData, schema) => ({
-                      ...schema,
-                      minLength: 0,
-                    }),
-                  },
-                },
-                city: {
-                  'ui:errorMessages': {
-                    required: 'Please enter a valid city',
-                  },
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('Please enter a valid city');
-                      }
-                    },
-                  ],
-                  'ui:options': {
-                    replaceSchema: formData => {
-                      const livesOnBase =
-                        formData['view:mailingAddress']?.livesOnMilitaryBase;
-
-                      if (livesOnBase) {
-                        return {
-                          type: 'string',
-                          title: 'APO/DPO/FPO',
-                          enum: ['APO', 'DPO', 'FPO'],
-                        };
-                      }
-
-                      // If the user doesn’t live on a military base, we use a normal city text field
-                      return {
-                        type: 'string',
-                        title: 'City',
-                      };
-                    },
-                  },
-                },
-                state: {
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (field?.length === 1) {
-                        errors.addError('Must be more than 1 character');
-                      } else if (field?.length > 31) {
-                        errors.addError('Must be less than 31 characters');
-                      }
-                    },
-                  ],
-                },
-                postalCode: {
-                  'ui:errorMessages': {
-                    required: 'Zip code must be 5 digits',
-                  },
-                  'ui:options': {
-                    replaceSchema: formData => {
-                      if (
-                        formData['view:mailingAddress']?.address?.country !==
-                        'USA'
-                      ) {
-                        return {
-                          title: 'Postal Code',
-                          type: 'string',
-                        };
-                      }
-
-                      return {
-                        title: 'Zip code',
-                        type: 'string',
-                      };
-                    },
-                  },
-                },
-              },
+              [formFields.address]: mailingAddressFieldsUI,
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -1624,245 +1370,7 @@ const formConfig = {
               'view:livesOnMilitaryBaseInfo': {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
               },
-              [formFields.address]: {
-                ...address.uiSchema('', false, null, true),
-                'ui:validations': [customValidateAddress],
-                'ui:options': {
-                  updateSchema: (formData, addressSchema) => {
-                    const livesOnMilitaryBase =
-                      formData.guardianMailingAddress?.livesOnMilitaryBase;
-                    const country =
-                      formData.guardianMailingAddress?.address?.country ||
-                      'USA';
-
-                    // Get the current required fields, excluding state
-                    const required = (addressSchema.required || []).filter(
-                      field => field !== 'state',
-                    );
-
-                    // Only add state as required for USA, Canada, Mexico, or military base
-                    if (
-                      livesOnMilitaryBase ||
-                      ['USA', 'CAN', 'MEX'].includes(country)
-                    ) {
-                      required.push('state');
-                    }
-
-                    if (livesOnMilitaryBase) {
-                      return {
-                        ...addressSchema,
-                        required,
-                        properties: {
-                          ...addressSchema.properties,
-                          state: {
-                            type: 'string',
-                            title: 'AE/AA/AP',
-                            enum: ['AE', 'AA', 'AP'],
-                            enumNames: [
-                              'AE - APO/DPO/FPO',
-                              'AA - APO/DPO/FPO',
-                              'AP - APO/DPO/FPO',
-                            ],
-                          },
-                        },
-                      };
-                    }
-
-                    let stateSchema = {
-                      type: 'string',
-                      title: 'State/County/Province',
-                    };
-
-                    if (country === 'USA') {
-                      stateSchema = {
-                        ...stateSchema,
-                        title: 'State',
-                        enum: constants.states.USA.map(state => state.value),
-                        enumNames: constants.states.USA.map(
-                          state => state.label,
-                        ),
-                      };
-                    } else if (country === 'CAN') {
-                      stateSchema = {
-                        ...stateSchema,
-                        title: 'Province',
-                        enum: constants.states.CAN.map(state => state.value),
-                        enumNames: constants.states.CAN.map(
-                          state => state.label,
-                        ),
-                      };
-                    } else if (country === 'MEX') {
-                      stateSchema = {
-                        ...stateSchema,
-                        title: 'State',
-                        enum: constants.states.MEX.map(state => state.value),
-                        enumNames: constants.states.MEX.map(
-                          state => state.label,
-                        ),
-                      };
-                    }
-                    return {
-                      ...addressSchema,
-                      required,
-                      properties: {
-                        ...addressSchema.properties,
-                        state: stateSchema,
-                      },
-                    };
-                  },
-                },
-                country: {
-                  'ui:title': 'Country',
-                  'ui:required': formData =>
-                    !formData?.guardianMailingAddress?.livesOnMilitaryBase,
-                  'ui:disabled': formData =>
-                    formData.guardianMailingAddress.livesOnMilitaryBase,
-                  'ui:options': {
-                    updateSchema: (formData, schema, uiSchema) => {
-                      const countryUI = uiSchema;
-                      const addressFormData = get(
-                        ['guardianMailingAddress', 'address'],
-                        formData,
-                      );
-                      const livesOnMilitaryBase = get(
-                        ['guardianMailingAddress', 'livesOnMilitaryBase'],
-                        formData,
-                      );
-                      if (livesOnMilitaryBase) {
-                        countryUI['ui:disabled'] = true;
-                        const USA = {
-                          value: 'USA',
-                          label: 'United States',
-                        };
-                        addressFormData.country = USA.value;
-                        return {
-                          enum: [USA.value],
-                          enumNames: [USA.label],
-                          default: USA.value,
-                        };
-                      }
-                      countryUI['ui:disabled'] = false;
-                      return {
-                        type: 'string',
-                        enum: constants.countries.map(country => country.value),
-                        enumNames: constants.countries.map(
-                          country => country.label,
-                        ),
-                      };
-                    },
-                  },
-                },
-                street: {
-                  'ui:title': 'Street address',
-                  'ui:errorMessages': {
-                    minLength: 'Please enter your full street address',
-                  },
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('You must provide a response');
-                      }
-                    },
-                  ],
-                },
-                street2: {
-                  'ui:title': 'Street address line 2',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError(
-                          'Please enter a valid street address line 2',
-                        );
-                      }
-                    },
-                  ],
-                  'ui:options': {
-                    // Always set minLength to 0 so an empty string doesn't fail
-                    updateSchema: (_formData, schema) => ({
-                      ...schema,
-                      minLength: 0,
-                    }),
-                  },
-                },
-                city: {
-                  'ui:errorMessages': {
-                    minLength: 'Please enter a valid city',
-                  },
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('You must provide a response');
-                      }
-                    },
-                  ],
-                  'ui:options': {
-                    replaceSchema: formData => {
-                      const livesOnBase =
-                        formData.guardianMailingAddress?.livesOnMilitaryBase;
-
-                      if (livesOnBase) {
-                        return {
-                          type: 'string',
-                          title: 'APO/DPO/FPO',
-                          enum: ['APO', 'DPO', 'FPO'],
-                        };
-                      }
-
-                      // If the user doesn’t live on a military base, we use a normal city text field
-                      return {
-                        type: 'string',
-                        title: 'City',
-                        minLength: 2,
-                        maxLength: 20,
-                      };
-                    },
-                  },
-                },
-                state: {
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (field?.length === 1) {
-                        errors.addError('Must be more than 1 character');
-                      } else if (field?.length > 31) {
-                        errors.addError('Must be less than 31 characters');
-                      }
-                    },
-                  ],
-                },
-                postalCode: {
-                  'ui:errorMessages': {
-                    pattern: 'Please provide a valid postal code',
-                  },
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('You must provide a response');
-                      }
-                    },
-                  ],
-                  'ui:options': {
-                    replaceSchema: formData => {
-                      if (
-                        formData.guardianMailingAddress?.address?.country !==
-                        'USA'
-                      ) {
-                        return {
-                          title: 'Postal code',
-                          type: 'string',
-                          pattern: '^[A-Z0-9 -]{3,10}$',
-                          minLength: 3,
-                          maxLength: 10,
-                        };
-                      }
-
-                      return {
-                        title: 'Zip code',
-                        type: 'string',
-                      };
-                    },
-                  },
-                },
-              },
+              [formFields.address]: guardianAddressFieldsUI,
             },
           },
           schema: {
