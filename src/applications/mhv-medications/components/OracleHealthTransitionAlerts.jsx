@@ -139,7 +139,7 @@ export const OracleHealthInCardAlert = () => (
   >
     <p className="vads-u-margin-y--0">
       You can’t refill this medication online right now. If you need more
-      medication, call your VA pharmacy's automated refill line.
+      medication, call your VA pharmacy’s automated refill line.
     </p>
   </va-alert>
 );
