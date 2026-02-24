@@ -102,6 +102,7 @@ const featureTogglesResponse = {
       TOGGLE_NAMES.travelPayClaimsManagement,
       TOGGLE_NAMES.travelPayClaimsManagementDecisionReason,
       TOGGLE_NAMES.travelPayEnableComplexClaims,
+      TOGGLE_NAMES.travelPayEnableCommunityCare,
     ]
       .map(name => ({ name, value: true }))
       .concat([
