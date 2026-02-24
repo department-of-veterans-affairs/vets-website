@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { showPdfFormAlignment } from '../../helpers';
-
-const threshold = showPdfFormAlignment() ? 75000 : 25000;
+import { threshold } from '../../helpers';
 
 const RequestFormDescription = ({
   intro,

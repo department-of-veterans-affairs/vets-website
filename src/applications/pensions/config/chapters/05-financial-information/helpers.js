@@ -1,18 +1,6 @@
 import React from 'react';
 import get from 'platform/utilities/data/get';
-import { showPdfFormAlignment } from '../../../helpers';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
-
-export const threshold = showPdfFormAlignment() ? 75000 : 25000;
-
-export const hideIfUnderThreshold = formData => {
-  const value = parseInt(formData.netWorthEstimation, 10);
-  return (
-    formData.netWorthEstimation == null || // null or undefined
-    Number.isNaN(value) ||
-    value <= threshold
-  );
-};
 
 /**
  * Determines if the applicant has care expenses

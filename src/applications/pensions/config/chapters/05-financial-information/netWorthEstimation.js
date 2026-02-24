@@ -4,7 +4,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { AssetInformationAlert } from '../../../components/FormAlerts';
-import { threshold } from './helpers';
+import { threshold } from '../../../helpers';
 
 /** @type {PageSchema} */
 export default {
