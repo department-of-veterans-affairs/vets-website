@@ -9,6 +9,11 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import schoolWasClosed from '../pages/schoolWasClosed';
+import oldSchoolNameAndAddress from '../pages/oldSchoolNameAndAddress';
+import eligibilityWarning from '../pages/eligibilityWarning';
+import remarks from '../pages/remarks';
+
 import prefillTransform from './prefillTransform';
 
 export const SUBMIT_URL = `${
@@ -69,6 +74,42 @@ const formConfig = {
           // disableMockContactInfo: true,
           // prefillPatternEnabled: true,
         }),
+      },
+    },
+  },
+  entitlementDetailsChapter: {
+    title: 'Entitlement restoration details',
+    pages: {
+      schoolWasClosed: {
+        path: 'school-closing',
+        title: 'School closures and program suspension',
+        uiSchema: schoolWasClosed.uiSchema,
+        schema: schoolWasClosed.schema,
+      },
+      oldSchoolNameAndAddress: {
+        path: 'school-name-and-address',
+        title: 'School name and mailing address',
+        uiSchema: oldSchoolNameAndAddress.uiSchema,
+        schema: oldSchoolNameAndAddress.schema,
+        depends: formData => !!formData.schoolWasClosed,
+      },
+      eligibilityWarning: {
+        path: 'eligibility-warning',
+        title: 'Eligibility warning',
+        uiSchema: eligibilityWarning.uiSchema,
+        schema: eligibilityWarning.schema,
+        depends: formData => !formData.schoolWasClosed,
+      },
+    },
+  },
+  remarksChapter: {
+    title: 'Remarks',
+    pages: {
+      remarks: {
+        path: 'remarks',
+        title: 'Remarks',
+        uiSchema: remarks.uiSchema,
+        schema: remarks.schema,
       },
     },
   },
