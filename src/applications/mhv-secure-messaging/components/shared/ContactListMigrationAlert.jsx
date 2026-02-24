@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { ContactListMigrationPhases } from '../../util/constants';
+import { ContactListMigrationAlertContent } from '../../util/constants';
 
 /**
  * ContactListMigrationAlert displays a warning alert on the Contact List page
- * when the user has facilities that recently completed migration to Oracle Health
- * (phase p6, T+2 to T+30).
+ * when the user has facilities in a migration phase defined in
+ * ContactListMigrationAlertContent.
  *
- * The alert informs the veteran that care teams from those facilities were
- * removed from their contact list and will reappear under different names.
+ * The component auto-detects the user's current migration phase from Redux
+ * state and renders the appropriate variant content (headline, body text,
+ * facility list). New variants can be added to ContactListMigrationAlertContent
+ * in constants.js without modifying this component.
  */
 const ContactListMigrationAlert = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -22,18 +24,28 @@ const ContactListMigrationAlert = () => {
     return null;
   }
 
-  // Filter migration schedules to those in a contact list migration phase (p6)
-  const migratingInPhase = migrationSchedules.filter(schedule =>
-    ContactListMigrationPhases.includes(schedule.phases?.current),
-  );
+  // Find the first matching variant based on the user's current phase
+  const variants = Object.values(ContactListMigrationAlertContent);
+  let matchedVariant = null;
+  const matchingSchedules = [];
 
-  if (!migratingInPhase.length) {
+  migrationSchedules.forEach(schedule => {
+    const variant = variants.find(v =>
+      v.phases.includes(schedule.phases?.current),
+    );
+    if (variant) {
+      matchedVariant = variant;
+      matchingSchedules.push(schedule);
+    }
+  });
+
+  if (!matchedVariant || !matchingSchedules.length) {
     return null;
   }
 
   // Collect all facilities from matching schedules, de-duplicating by facilityId
   const facilitiesMap = new Map();
-  migratingInPhase.forEach(schedule => {
+  matchingSchedules.forEach(schedule => {
     schedule.facilities?.forEach(facility => {
       if (facility.facilityId && facility.facilityName) {
         facilitiesMap.set(facility.facilityId, facility);
@@ -45,6 +57,10 @@ const ContactListMigrationAlert = () => {
   if (!facilities.length) {
     return null;
   }
+
+  // Resolve content — supports strings or functions (for dynamic date content)
+  const resolveContent = content =>
+    typeof content === 'function' ? content(matchingSchedules[0]) : content;
 
   return (
     <VaAlert
@@ -60,11 +76,9 @@ const ContactListMigrationAlert = () => {
       data-testid="contact-list-migration-alert"
       data-dd-action-name="Contact List Migration Alert"
     >
-      <h2 slot="headline">We updated your contact list</h2>
+      <h2 slot="headline">{matchedVariant.headline}</h2>
       <div>
-        <p>
-          We removed care teams from these facilities from your contact list:
-        </p>
+        <p>{resolveContent(matchedVariant.bodyTop)}</p>
         <ul>
           {facilities.map(facility => (
             <li key={facility.facilityId} data-dd-privacy="mask">
@@ -72,10 +86,7 @@ const ContactListMigrationAlert = () => {
             </li>
           ))}
         </ul>
-        <p>
-          You can still send messages to care teams at these facilities. But the
-          care team names will be different.
-        </p>
+        <p>{resolveContent(matchedVariant.bodyBottom)}</p>
       </div>
     </VaAlert>
   );
