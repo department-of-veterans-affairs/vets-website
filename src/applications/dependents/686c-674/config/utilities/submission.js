@@ -20,6 +20,7 @@ import {
   transformPicklistToV2,
   enrichDivorceWithSSN,
 } from './picklistTransform';
+import { PICKLIST_REMOVAL_FLAG } from '../constants';
 
 /**
  * Extract data fields with values from source data
@@ -65,7 +66,7 @@ function applyNoSsnReasonMappings(
     sourceData?.spouseInformation?.noSsn === true
   ) {
     cleanData.spouseInformation.noSsnReason =
-      noSsnReasonMappings[(sourceData?.spouseInformation?.noSsnReason)];
+      noSsnReasonMappings[sourceData?.spouseInformation?.noSsnReason];
   }
   if (addOptions.addChild === true && sourceData?.childrenToAdd?.length > 0) {
     sourceData.childrenToAdd.forEach((child, index) => {
@@ -132,6 +133,7 @@ export function buildSubmissionData(payload) {
     'statementOfTruthSignature',
     'statementOfTruthCertified',
     'metadata',
+    PICKLIST_REMOVAL_FLAG,
   ];
 
   essentialFields.forEach(field => {

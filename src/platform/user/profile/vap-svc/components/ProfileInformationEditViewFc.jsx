@@ -58,7 +58,6 @@ import {
 } from '../util/transactions';
 import { getEditButtonId } from '../util/id-factory';
 
-import VAPServiceEditModalErrorMessage from './base/VAPServiceEditModalErrorMessage';
 import CopyMailingAddress from '../containers/CopyMailingAddress';
 
 import { createPersonalInfoUpdate } from '../actions/personalInformation';
@@ -151,41 +150,30 @@ export const ProfileInformationEditViewFc = ({
 
   const contactInfoFormAppConfig = useContactInfoFormAppConfig();
 
-  const isPendingTransactionMemo = useMemo(
-    () => {
-      return isPendingTransaction(transaction);
-    },
-    [transaction],
-  );
+  const isPendingTransactionMemo = useMemo(() => {
+    return isPendingTransaction(transaction);
+  }, [transaction]);
 
-  const focusOnFirstFormElement = useCallback(
-    () => {
-      if (forceEditView) {
-        // Showing the edit view on its own page, so let the app handle focus
-        return;
-      }
+  const focusOnFirstFormElement = useCallback(() => {
+    if (forceEditView) {
+      // Showing the edit view on its own page, so let the app handle focus
+      return;
+    }
 
-      if (editFormRef.current) {
-        setTimeout(() => {
-          const focusableElement = getFocusableElements(
-            editFormRef.current,
-          )?.[0];
+    if (editFormRef.current) {
+      setTimeout(() => {
+        const focusableElement = getFocusableElements(editFormRef.current)?.[0];
 
-          if (focusableElement) {
-            focusElement(focusableElement);
-          }
-        }, 100);
-      }
-    },
-    [forceEditView],
-  );
+        if (focusableElement) {
+          focusElement(focusableElement);
+        }
+      }, 100);
+    }
+  }, [forceEditView]);
 
-  const handleRefreshTransaction = useCallback(
-    () => {
-      refreshTransactionAction(transaction, analyticsSectionName);
-    },
-    [transaction, analyticsSectionName, refreshTransactionAction],
-  );
+  const handleRefreshTransaction = useCallback(() => {
+    refreshTransactionAction(transaction, analyticsSectionName);
+  }, [transaction, analyticsSectionName, refreshTransactionAction]);
 
   // Component mount effects
   useEffect(() => {
@@ -224,54 +212,45 @@ export const ProfileInformationEditViewFc = ({
   }, []);
 
   // ComponentDidUpdate for field changes
-  useEffect(
-    () => {
-      if (field) {
-        focusOnFirstFormElement();
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [field, focusOnFirstFormElement],
-  );
+  useEffect(() => {
+    if (field) {
+      focusOnFirstFormElement();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [field, focusOnFirstFormElement]);
 
   // ComponentDidUpdate for error handling
-  useEffect(
-    () => {
-      if (transactionRequest?.error || isFailedTransaction(transaction)) {
-        focusElement('button[aria-label="Close notification"]');
-      }
-    },
-    [transactionRequest, transaction],
-  );
+  useEffect(() => {
+    if (transactionRequest?.error || isFailedTransaction(transaction)) {
+      focusElement('button[aria-label="Close notification"]');
+    }
+  }, [transactionRequest, transaction]);
 
   // ComponentDidUpdate for transaction polling
-  useEffect(
-    () => {
-      // If transaction just became pending, start calling refreshTransaction on an interval
-      if (isPendingTransactionMemo && !intervalId) {
-        const newIntervalId = window.setInterval(
-          () => handleRefreshTransaction(),
-          window.VetsGov.pollTimeout || 2000,
-        );
-        setIntervalId(newIntervalId);
-      }
+  useEffect(() => {
+    // If transaction just became pending, start calling refreshTransaction on an interval
+    if (isPendingTransactionMemo && !intervalId) {
+      const newIntervalId = window.setInterval(
+        () => handleRefreshTransaction(),
+        window.VetsGov.pollTimeout || 2000,
+      );
+      setIntervalId(newIntervalId);
+    }
 
-      // If we had an interval but transaction is no longer pending, clean it up
-      if (intervalId && !isPendingTransactionMemo) {
+    // If we had an interval but transaction is no longer pending, clean it up
+    if (intervalId && !isPendingTransactionMemo) {
+      window.clearInterval(intervalId);
+      setIntervalId(null);
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (intervalId) {
         window.clearInterval(intervalId);
         setIntervalId(null);
       }
-
-      // Cleanup on unmount
-      return () => {
-        if (intervalId) {
-          window.clearInterval(intervalId);
-          setIntervalId(null);
-        }
-      };
-    },
-    [isPendingTransactionMemo, intervalId, handleRefreshTransaction],
-  );
+    };
+  }, [isPendingTransactionMemo, intervalId, handleRefreshTransaction]);
 
   // ComponentWillUnmount
   useEffect(() => {
@@ -426,8 +405,6 @@ export const ProfileInformationEditViewFc = ({
   // Render
   const isLoading =
     transactionRequest?.isPending || isPendingTransaction(transaction);
-  const error =
-    transactionRequest?.error || (isFailedTransaction(transaction) ? {} : null);
 
   const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
 
@@ -459,15 +436,6 @@ export const ProfileInformationEditViewFc = ({
             onChange={event => onInput(event, field.formSchema, field.uiSchema)}
             onSubmit={onSubmit}
           >
-            {error && (
-              <div
-                role="alert"
-                className="vads-u-margin-y--2"
-                data-testid="edit-error-alert"
-              >
-                <VAPServiceEditModalErrorMessage error={error} />
-              </div>
-            )}
             <ProfileInformationActionButtons
               onCancel={onCancel}
               title={title}

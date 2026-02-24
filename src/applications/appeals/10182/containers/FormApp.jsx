@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
-
-import { getContestableIssues as getContestableIssuesAction } from '../actions';
-
+import {
+  getContestableIssues as getContestableIssuesAction,
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+} from '../../shared/actions';
 import formConfig from '../config/form';
 import { DATA_DOG_ID, DATA_DOG_TOKEN, DATA_DOG_SERVICE } from '../constants';
-
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
@@ -35,31 +33,28 @@ export const FormApp = ({
 }) => {
   const { pathname } = location || {};
 
-  useEffect(
-    () => {
-      if (loggedIn) {
-        const areaOfDisagreement = getSelected(formData);
-        if (
-          areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
-          !areaOfDisagreement.every(
-            (entry, index) =>
-              getIssueNameAndDate(entry) ===
-              getIssueNameAndDate(formData.areaOfDisagreement[index]),
-          )
-        ) {
-          setFormData({
-            ...formData,
-            // save existing settings
-            areaOfDisagreement: copyAreaOfDisagreementOptions(
-              areaOfDisagreement,
-              formData.areaOfDisagreement,
-            ),
-          });
-        }
+  useEffect(() => {
+    if (loggedIn) {
+      const areaOfDisagreement = getSelected(formData);
+      if (
+        areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
+        !areaOfDisagreement.every(
+          (entry, index) =>
+            getIssueNameAndDate(entry) ===
+            getIssueNameAndDate(formData.areaOfDisagreement[index]),
+        )
+      ) {
+        setFormData({
+          ...formData,
+          // save existing settings
+          areaOfDisagreement: copyAreaOfDisagreementOptions(
+            areaOfDisagreement,
+            formData.areaOfDisagreement,
+          ),
+        });
       }
-    },
-    [loggedIn, formData, setFormData],
-  );
+    }
+  }, [loggedIn, formData, setFormData]);
 
   // This useEffect is responsible for 1) loading contestable issues from the API,
   // 2) filtering and normalizing that data, and 3) updating `formData` with that
@@ -77,7 +72,7 @@ export const FormApp = ({
         // work properly is overly complicated
         (!isOutsideForm(pathname) || formData.internalTesting)
       ) {
-        getContestableIssues();
+        getContestableIssues({ appAbbr: 'NOD' });
       } else if (
         // Checks if the API has returned contestable issues not already reflected
         // in `formData`.
@@ -172,7 +167,4 @@ const mapDispatchToProps = {
   getContestableIssues: getContestableIssuesAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FormApp);
+export default connect(mapStateToProps, mapDispatchToProps)(FormApp);

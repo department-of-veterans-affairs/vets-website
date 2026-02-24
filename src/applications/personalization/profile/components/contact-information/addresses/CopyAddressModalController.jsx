@@ -41,34 +41,28 @@ const CopyAddressModal = props => {
     convertCleanDataToPayload,
   } = props;
 
-  const checkAddressAndPrompt = useCallback(
-    () => {
-      if (!homeAddress) {
-        updateCopyAddressModalAction(null);
-        return;
-      }
+  const checkAddressAndPrompt = useCallback(() => {
+    if (!homeAddress) {
+      updateCopyAddressModalAction(null);
+      return;
+    }
 
-      const modalStatus = areAddressesEqual(mailingAddress, homeAddress)
-        ? null
-        : VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT;
+    const modalStatus = areAddressesEqual(mailingAddress, homeAddress)
+      ? null
+      : VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT;
 
-      updateCopyAddressModalAction(modalStatus);
-    },
-    [mailingAddress, homeAddress, updateCopyAddressModalAction],
-  );
+    updateCopyAddressModalAction(modalStatus);
+  }, [mailingAddress, homeAddress, updateCopyAddressModalAction]);
 
   const overrideValidationKey = useSelector(
     state => state?.vapService?.addressValidation?.overrideValidationKey,
   );
 
-  useEffect(
-    () => {
-      if (copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.CHECKING) {
-        checkAddressAndPrompt();
-      }
-    },
-    [copyAddressModal, checkAddressAndPrompt],
-  );
+  useEffect(() => {
+    if (copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.CHECKING) {
+      checkAddressAndPrompt();
+    }
+  }, [copyAddressModal, checkAddressAndPrompt]);
 
   const isLoading =
     transactionRequest?.isPending || isPendingTransaction(transaction);
@@ -113,7 +107,7 @@ const CopyAddressModal = props => {
     },
     onCloseFailureModal() {
       updateCopyAddressModalAction(null);
-      focusElement('#mailing-address [data-testid=generic-error-alert]');
+      focusElement('#mailing-address [data-testid=vap-service-error-alert]');
     },
   };
 
@@ -201,7 +195,4 @@ const mapDispatchToProps = {
   createTransactionAction: createTransaction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CopyAddressModal);
+export default connect(mapStateToProps, mapDispatchToProps)(CopyAddressModal);

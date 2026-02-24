@@ -32,31 +32,33 @@ export const createIssueName = ({ attributes = {} } = {}) => {
  * @returns {ContestableIssueSubmittable}
  */
 export const getContestableIssues = ({ contestedIssues } = {}) =>
-  (contestedIssues || []).filter(issue => issue[SELECTED]).map(issue => {
-    const attr = issue.attributes;
-    const attributes = [
-      'decisionIssueId',
-      'ratingIssueReferenceId',
-      'ratingDecisionReferenceId',
-    ].reduce(
-      (acc, key) => {
-        // Don't submit null or empty strings
-        if (attr[key]) {
-          acc[key] = attr[key];
-        }
-        return acc;
-      },
-      {
-        issue: createIssueName(issue),
-        decisionDate: fixDateFormat(attr.approxDecisionDate),
-      },
-    );
+  (contestedIssues || [])
+    .filter(issue => issue[SELECTED])
+    .map(issue => {
+      const attr = issue.attributes;
+      const attributes = [
+        'decisionIssueId',
+        'ratingIssueReferenceId',
+        'ratingDecisionReferenceId',
+      ].reduce(
+        (acc, key) => {
+          // Don't submit null or empty strings
+          if (attr[key]) {
+            acc[key] = attr[key];
+          }
+          return acc;
+        },
+        {
+          issue: createIssueName(issue),
+          decisionDate: fixDateFormat(attr.approxDecisionDate),
+        },
+      );
 
-    return {
-      type: issue.type,
-      attributes,
-    };
-  });
+      return {
+        type: issue.type,
+        attributes,
+      };
+    });
 
 /**
  * Combine included issues and additional issues
@@ -64,7 +66,7 @@ export const getContestableIssues = ({ contestedIssues } = {}) =>
  * @returns {ContestableIssuesSubmittable}
  */
 export const addIncludedIssues = formData => {
-  const issues = getContestableIssues(formData);
+  const issues = getContestableIssues({ ...formData, appAbbr: 'NOD' });
 
   const result = issues.concat(
     (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {

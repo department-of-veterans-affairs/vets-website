@@ -75,7 +75,13 @@ export default function VAPServiceEditModalErrorMessage({
 
   return (
     <>
-      <va-alert background-only status="error" visible uswds>
+      <va-alert
+        background-only
+        status="error"
+        visible
+        data-testid="vap-service-error-alert"
+        tabindex="-1"
+      >
         <div className="vads-u-display--flex vads-u-align-items--baseline">
           <span className="sr-only">Alert: </span>
           <div role="alert">{content}</div>

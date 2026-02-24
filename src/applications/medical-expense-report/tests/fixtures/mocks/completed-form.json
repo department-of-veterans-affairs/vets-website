@@ -19,10 +19,10 @@
     "countryCode": "US",
     "contact": "5551234567",
     "callingCode": 1,
-    "Error": null,
-    "IsValid": true,
-    "Required": true,
-    "Touched": true
+    "error": null,
+    "isValid": true,
+    "required": true,
+    "touched": true
   },
   "veteranFullName": {
     "first": "John",

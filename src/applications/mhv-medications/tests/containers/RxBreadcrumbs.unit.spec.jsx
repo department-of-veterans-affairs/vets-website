@@ -49,9 +49,7 @@ describe('Medications Breadcrumbs', () => {
         initialState: {},
         reducers,
         initialEntries: [
-          `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}${
-            medicationsUrls.subdirectories.DOCUMENTATION
-          }`,
+          `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}${medicationsUrls.subdirectories.DOCUMENTATION}`,
         ],
       },
     );
@@ -77,18 +75,14 @@ describe('Medications Breadcrumbs', () => {
         initialState: {},
         reducers,
         initialEntries: [
-          `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}${
-            medicationsUrls.subdirectories.DOCUMENTATION
-          }?station_number=${stationNumber}`,
+          `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}${medicationsUrls.subdirectories.DOCUMENTATION}?station_number=${stationNumber}`,
         ],
       },
     );
     const breadcrumbs = screen.getByTestId('rx-breadcrumb-link');
     const href = breadcrumbs.getAttribute('href');
     expect(href).to.equal(
-      `${
-        medicationsUrls.PRESCRIPTION_DETAILS
-      }/${prescriptionId}?station_number=${stationNumber}`,
+      `${medicationsUrls.PRESCRIPTION_DETAILS}/${prescriptionId}?station_number=${stationNumber}`,
     );
     expect(breadcrumbs.getAttribute('text')).to.equal('Back');
   });
@@ -117,6 +111,17 @@ describe('Medications Breadcrumbs', () => {
 
   it('renders breadcrumbs on IN_PROGRESS route', async () => {
     const screen = setup({}, [medicationsUrls.subdirectories.IN_PROGRESS]);
+
+    await waitFor(() => {
+      const element = screen.container.querySelector('va-breadcrumbs');
+      expect(element).to.exist;
+      expect(element).to.have.attribute('data-testid', 'rx-breadcrumb');
+      expect(element.breadcrumbList).to.exist;
+    });
+  });
+
+  it('renders breadcrumbs on HISTORY route', async () => {
+    const screen = setup({}, [medicationsUrls.subdirectories.HISTORY]);
 
     await waitFor(() => {
       const element = screen.container.querySelector('va-breadcrumbs');

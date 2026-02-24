@@ -131,7 +131,7 @@ const DateTimeSelection = () => {
           times are displayed in {getTimezoneDescByTimeZoneString(timezone)}.
         </p>
         <p>
-          <strong>Note:</strong> You can schedule a appointment on a week day
+          <strong>Note:</strong> You can schedule an appointment on a weekday
           within the next 2 weeks.
         </p>
       </div>

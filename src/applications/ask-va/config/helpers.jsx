@@ -25,7 +25,6 @@ import {
   TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
-import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
 
 export const ServerErrorAlert = () => (
   <>
@@ -297,8 +296,8 @@ export const isLocationOfResidenceRequired = data => {
   // Flow 1.1
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN)
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN
   ) {
     return true;
   }
@@ -306,8 +305,8 @@ export const isLocationOfResidenceRequired = data => {
   // Flow 1.2
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER)
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER
   ) {
     return true;
   }
@@ -316,8 +315,8 @@ export const isLocationOfResidenceRequired = data => {
   // Flow 2.1
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN)
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN
   ) {
     return true;
   }
@@ -325,10 +324,10 @@ export const isLocationOfResidenceRequired = data => {
   // Flow 2.2.1
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN)
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN
   ) {
     return true;
   }
@@ -336,10 +335,10 @@ export const isLocationOfResidenceRequired = data => {
   // Flow 2.2.2
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE)
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE
   ) {
     return true;
   }
@@ -347,8 +346,8 @@ export const isLocationOfResidenceRequired = data => {
   // Flow 2.3
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK)
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.WORK
   ) {
     return true;
   }
@@ -404,8 +403,8 @@ export const isPostalCodeRequired = data => {
   // Flow 1.1
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN &&
     statesRequiringPostalCode.includes(yourLocationOfResidence)
   ) {
     return true;
@@ -422,8 +421,8 @@ export const isPostalCodeRequired = data => {
   // Flow 1.2
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
     statesRequiringPostalCode.includes(yourLocationOfResidence)
   ) {
     return true;
@@ -441,8 +440,8 @@ export const isPostalCodeRequired = data => {
   // Flow 2.1
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN &&
     statesRequiringPostalCode.includes(familyMembersLocationOfResidence)
   ) {
     return true;
@@ -459,10 +458,10 @@ export const isPostalCodeRequired = data => {
   // Flow 2.2.1
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN &&
     statesRequiringPostalCode.includes(veteransLocationOfResidence)
   ) {
     return true;
@@ -481,10 +480,10 @@ export const isPostalCodeRequired = data => {
   // Flow 2.2.2
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE &&
     statesRequiringPostalCode.includes(familyMembersLocationOfResidence)
   ) {
     return true;
@@ -503,8 +502,8 @@ export const isPostalCodeRequired = data => {
   // Flow 2.3
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
     statesRequiringPostalCode.includes(veteransLocationOfResidence)
   ) {
     return true;
@@ -666,35 +665,6 @@ export const getVAStatusFromCRM = status => {
     default:
       return 'In progress';
   }
-};
-
-export const getVAStatusIconAndMessage = {
-  New: {
-    icon: starIcon,
-    message: "We received your question. We'll review it soon.",
-    color: 'vads-u-border-color--primary',
-  },
-  'In progress': {
-    icon: clockIcon,
-    message: "We're reviewing your question.",
-    color: 'vads-u-border-color--grey',
-  },
-  Replied: {
-    icon: successIcon,
-    message:
-      "We either answered your question or didn't have enough information to answer your question. If you need more help, ask a new question.",
-    color: 'vads-u-border-color--green',
-  },
-  Reopened: {
-    icon: clockIcon,
-    message: "We received your reply. We'll respond soon.",
-    color: 'vads-u-border-color--grey',
-  },
-  Closed: {
-    icon: folderIcon,
-    message: 'We closed this question after 60 days without any updates.',
-    color: 'vads-u-border-color--grey',
-  },
 };
 
 export const getDescriptiveTextFromCRM = status => {
