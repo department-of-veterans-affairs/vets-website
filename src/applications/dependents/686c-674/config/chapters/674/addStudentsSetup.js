@@ -47,6 +47,7 @@ export function isStudentItemIncomplete(item) {
     return true;
 
   // School attendance
+  // == null catches both null and undefined
   if (item?.schoolInformation?.studentIsEnrolledFullTime == null) return true;
   if (item?.schoolInformation?.isSchoolAccredited == null) return true;
   if (
@@ -67,13 +68,10 @@ export function isStudentItemIncomplete(item) {
     return true;
 
   // Pension (if set, must be boolean)
-  if (
+  return (
     item?.claimsOrReceivesPension !== undefined &&
     ![true, false].includes(item?.claimsOrReceivesPension)
-  )
-    return true;
-
-  return false;
+  );
 }
 
 /** @type {ArrayBuilderOptions} */
