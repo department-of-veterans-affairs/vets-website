@@ -1,5 +1,5 @@
 import React from 'react';
-import { VASS_PHONE_NUMBER } from '../utils/constants';
+import { VASS_PHONE_NUMBER, SOLID_START_URL } from '../utils/constants';
 
 export default function NeedHelp() {
   return (
@@ -22,11 +22,8 @@ export default function NeedHelp() {
             contact={VASS_PHONE_NUMBER}
             data-testid="solid-start-telephone"
           />
-          or visit{' '}
-          <a href="https://benefits.va.gov/benefits/solid-start.asp">
-            VA Solid Start
-          </a>{' '}
-          for more information.
+          or visit <a href={SOLID_START_URL}>VA Solid Start</a> for more
+          information.
         </span>
       </p>
       <p className="vads-u-margin-top--0">
