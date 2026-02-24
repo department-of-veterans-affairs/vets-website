@@ -49,7 +49,7 @@ export const uiSchema = {
       createPayload,
       parseResponse,
       additionalInputRequired: true,
-      additionalInput: additionalInput(),
+      additionalInput,
       handleAdditionalInput,
       additionalInputUpdate,
     }),

@@ -919,6 +919,8 @@ export const flattenAttachments = formData => {
   const pmrAttachments = formData.privateMedicalRecordAttachments;
   // TODO: add additionalDocuments into this function as it utilizes the V3 component.
   const clonedData = _.cloneDeep(formData);
+  // V3 file input always (until deprecated) includes additionalData on all attachments when the
+  // enhancement toggle is on, so checking the first element is sufficient.
   if (pmrAttachments && pmrAttachments[0]?.additionalData) {
     clonedData.privateMedicalRecordAttachments = pmrAttachments.map(
       attachment => {

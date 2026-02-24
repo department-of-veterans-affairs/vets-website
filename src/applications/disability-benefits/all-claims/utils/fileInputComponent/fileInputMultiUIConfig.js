@@ -34,7 +34,7 @@ export const parseResponse = (response, file) => {
  * Updates the additional input instance with error and data
  * @param {HTMLElement} instance - The input element instance
  * @param {string} error - Error message to display
- * @param {Object} data - Data object containing docType
+ * @param {Object} data - Data object containing attachmentId
  */
 export const additionalInputUpdate = (instance, error, data) => {
   instance.setAttribute('error', error);
@@ -46,7 +46,7 @@ export const additionalInputUpdate = (instance, error, data) => {
 /**
  * Handles additional input change event
  * @param {CustomEvent} e - The change event
- * @returns {Object|null} Object with docType or null if empty
+ * @returns {Object|null} Object with attachmendId or null if empty
  */
 export const handleAdditionalInput = e => {
   const { value } = e.detail;
