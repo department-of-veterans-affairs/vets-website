@@ -1,5 +1,5 @@
 import React from 'react';
-import { lowercase } from 'lodash';
+import { lowerCase } from 'lodash';
 
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -72,7 +72,7 @@ export const options = {
       }
       const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
-      return `${possessiveName} income from ${lowercase(
+      return `${possessiveName} income from ${lowerCase(
         generatedIncomeTypeLabels[item.incomeGenerationMethod],
       )}`;
     },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { lowercase } from 'lodash';
+import { lowerCase } from 'lodash';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -105,7 +105,7 @@ export const options = {
       }
       const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
-      return `${possessiveName} income from a ${lowercase(
+      return `${possessiveName} income from a ${lowerCase(
         ownedAssetTypeLabels[item.assetType],
       )}`;
     },

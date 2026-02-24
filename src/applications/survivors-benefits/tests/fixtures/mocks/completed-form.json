@@ -55,10 +55,10 @@
     "callingCode": 1,
     "countryCode": "US",
     "contact": "5551113333",
-    "IsValid": true,
-    "Error": null,
-    "Touched": true,
-    "Required": true
+    "isValid": true,
+    "error": null,
+    "touched": true,
+    "required": true
   },
   "claimantAddress": {
     "view:militaryBaseDescription": {},
