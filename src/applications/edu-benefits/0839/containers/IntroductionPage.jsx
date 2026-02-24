@@ -169,16 +169,17 @@ export const IntroductionPage = props => {
           Program, you don’t need to submit this form.
         </li>
         <li>
-          Schools must submit a new agreement each academic year to stay in the
-          program, even if nothing is changing.
-        </li>
-        <li>
           U.S. schools can submit this form from March 15 through May 15 (or the
           following Monday if May 15 falls on a weekend).
         </li>
         <li>
           Foreign schools can submit this form from June 1 through July 31 (or
           the following Monday if July 31 falls on a weekend).
+        </li>
+        <li>
+          Schools that already have a Yellow Ribbon Agreement in place need to
+          send another agreement <u>only</u> if they are modifying or
+          withdrawing.
         </li>
       </ul>
       <p>
