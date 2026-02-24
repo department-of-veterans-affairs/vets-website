@@ -97,6 +97,12 @@ export const dataDogActionNames = {
       pageType.REFILL
     }`,
   },
+  renewalModal: {
+    MODAL_OPEN: 'Rx Renewal Modal Open',
+    MODAL_CONTINUE: 'Rx Renewal Modal Continue',
+    MODAL_BACK: 'Rx Renewal Modal Back',
+    MODAL_CLOSE: 'Rx Renewal Modal Close',
+  },
   shared: {
     DOWNLOAD_A_PDF_OF_THIS: 'Download A PDF Of This ',
     DOWNLOAD_A_TEXT_FILE_OF_THIS: 'Download A Text File Of This ',

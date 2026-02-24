@@ -144,7 +144,7 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(12);
+        expect(Object.keys(prefillData)).to.have.lengthOf(13);
         expect(Object.keys(prefillData).veteranAddress).to.not.exist;
         expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
         expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
@@ -197,7 +197,7 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(13);
+        expect(Object.keys(prefillData)).to.have.lengthOf(14);
         expect(prefillData.veteranAddress).to.equal(undefined);
         expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(8);
         expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
@@ -273,7 +273,7 @@ describe('ezr prefill transformer', () => {
             null,
             state,
           );
-          expect(Object.keys(prefillData)).to.have.lengthOf(14);
+          expect(Object.keys(prefillData)).to.have.lengthOf(15);
           expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(8);
           expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(
             8,
@@ -350,7 +350,7 @@ describe('ezr prefill transformer', () => {
             null,
             state,
           );
-          expect(Object.keys(prefillData)).to.have.lengthOf(13);
+          expect(Object.keys(prefillData)).to.have.lengthOf(14);
           expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
           expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(8);
           expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.true;
@@ -384,7 +384,7 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(12);
+        expect(Object.keys(prefillData)).to.have.lengthOf(13);
       });
     });
 

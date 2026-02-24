@@ -200,6 +200,7 @@ const getAlertConfigForBlockedList = blockedList => {
  * @param {string} params.parentComponent - Which component is rendering the alert
  * @param {Object} params.ehrDataByVhaId - EHR data for facility name resolution
  * @param {boolean} params.isOhMessage - Whether this is an Oracle Health message
+ * @param {boolean} params.facilityMigratingToOhInErrorPhase - Whether the user's facility is in an error phase
  * @returns {Object|null} Alert configuration with { shouldShow, title, message, blockedList, status }
  */
 export const getBlockedTriageAlertConfig = ({
@@ -208,6 +209,7 @@ export const getBlockedTriageAlertConfig = ({
   parentComponent,
   ehrDataByVhaId,
   isOhMessage = false,
+  facilityMigratingToOhInErrorPhase = false,
 }) => {
   const {
     noAssociations,
@@ -342,7 +344,7 @@ export const getBlockedTriageAlertConfig = ({
   // No current recipient - handle global states
 
   // SCENARIO: No associations at all
-  if (noAssociations) {
+  if (noAssociations && !facilityMigratingToOhInErrorPhase) {
     return {
       shouldShow: true,
       title: alertTitle.NO_ASSOCIATIONS,

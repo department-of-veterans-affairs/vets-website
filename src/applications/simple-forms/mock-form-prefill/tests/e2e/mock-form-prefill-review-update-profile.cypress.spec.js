@@ -45,7 +45,12 @@ const testConfig = createTestConfig(
               cy.get('va-button[label="Edit contact information"]').click();
 
               // Update mailing address in profile
-              cy.get('va-link[label="Edit mailing address"]').click();
+              cy.get('va-card-status')
+                .find('va-link-action')
+                .shadow()
+                .find('a')
+                .contains('Edit mailing address')
+                .click();
               cy.fillVaTextInput('root_addressLine1', '456 Edited Street');
               cy.fillVaTextInput('root_city', 'Updated City');
               cy.selectVaSelect('root_stateCode', 'CA');
@@ -67,7 +72,12 @@ const testConfig = createTestConfig(
               cy.findByTestId('confirm-address-button').click();
 
               // Update home phone number in profile
-              cy.get('va-link[label="Edit home phone number"]').click();
+              cy.get('va-card-status')
+                .find('va-link-action')
+                .shadow()
+                .find('a')
+                .contains('Edit home phone number')
+                .click();
               cy.fillVaTextInput('root_inputPhoneNumber', '2105556791');
 
               // Update the mock data
@@ -80,7 +90,12 @@ const testConfig = createTestConfig(
               cy.findByTestId('save-edit-button').click();
 
               // Update mobile phone number in profile
-              cy.get('va-link[label="Edit mobile phone number"]').click();
+              cy.get('va-card-status')
+                .find('va-link-action')
+                .shadow()
+                .find('a')
+                .contains('Edit mobile phone number')
+                .click();
               cy.fillVaTextInput('root_inputPhoneNumber', '2105556791');
 
               // Update the mock data
@@ -93,7 +108,12 @@ const testConfig = createTestConfig(
               cy.findByTestId('save-edit-button').click();
 
               // Update email address in profile
-              cy.get('va-link[label="Edit email address"]').click();
+              cy.get('va-card-status')
+                .find('va-link-action')
+                .shadow()
+                .find('a')
+                .contains('Edit email address')
+                .click();
               cy.fillVaTextInput(
                 'root_emailAddress',
                 'mitchell.jenkins.test1@gmail.com',
