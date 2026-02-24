@@ -21,6 +21,7 @@ import { generateTextFile, sendDataDogAction } from '../../util/helpers';
 import {
   pageTitles,
   LABS_AND_TESTS_DISPLAY_LABELS,
+  ALERT_TYPE_IMAGE_STATUS_ERROR,
 } from '../../util/constants';
 import { pdfPrinter, txtPrinter } from '../../util/printHelper';
 import {
@@ -28,6 +29,7 @@ import {
   getImagingStudyDicomZip,
 } from '../../actions/labsAndTests';
 import { fetchBbmiNotificationStatus } from '../../actions/images';
+import useAlerts from '../../hooks/use-alerts';
 
 const UnifiedRadiologyDetails = props => {
   const { record, user, runningUnitTest = false } = props;
@@ -38,6 +40,7 @@ const UnifiedRadiologyDetails = props => {
     state => state.mr.labsAndTests.scdfImageThumbnails,
   );
   const { notificationStatus } = useSelector(state => state.mr.images);
+  const activeAlert = useAlerts(dispatch);
 
   const emptyField = 'None noted';
 
@@ -93,6 +96,54 @@ const UnifiedRadiologyDetails = props => {
     setDownloadStarted(true);
     const data = txtPrinter({ record, user });
     generateTextFile(data.body, data.title);
+  };
+
+  const renderImagesContent = () => {
+    if (activeAlert?.type === ALERT_TYPE_IMAGE_STATUS_ERROR) {
+      return (
+        <va-alert
+          status="error"
+          visible
+          data-testid="image-request-error-alert"
+        >
+          <h3 slot="headline">We couldn’t access your images</h3>
+          <p>Try again later.</p>
+          <p>
+            If it still doesn’t work, call us at{' '}
+            <va-telephone contact="8773270022" /> (
+            <va-telephone tty contact="711" />
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </p>
+        </va-alert>
+      );
+    }
+    if (scdfImageThumbnails?.length > 0) {
+      return (
+        <p className="vads-u-margin-bottom--0">
+          <Link
+            to={`/labs-and-tests/${labId}/images`}
+            data-testid="radiology-view-all-images"
+            onClick={() => {
+              sendDataDogAction('View all images');
+            }}
+          >
+            <strong>
+              View
+              {scdfImageThumbnails.length > 1 ? ' all' : ''}{' '}
+              {scdfImageThumbnails.length}{' '}
+              {scdfImageThumbnails.length === 1 ? 'image' : 'images'}
+            </strong>
+          </Link>
+        </p>
+      );
+    }
+    return (
+      <TrackedSpinner
+        id="loading-images-spinner"
+        message="Loading images..."
+        data-testid="radiology-images-loading"
+      />
+    );
   };
 
   return (
@@ -178,30 +229,7 @@ const UnifiedRadiologyDetails = props => {
           <>
             <div className="test-results-container">
               <HeaderSection header="Images" className="test-results-header">
-                {scdfImageThumbnails?.length > 0 ? (
-                  <p className="vads-u-margin-bottom--0">
-                    <Link
-                      to={`/labs-and-tests/${labId}/images`}
-                      data-testid="radiology-view-all-images"
-                      onClick={() => {
-                        sendDataDogAction('View all images');
-                      }}
-                    >
-                      <strong>
-                        View
-                        {scdfImageThumbnails.length > 1 ? ' all' : ''}{' '}
-                        {scdfImageThumbnails.length}{' '}
-                        {scdfImageThumbnails.length === 1 ? 'image' : 'images'}
-                      </strong>
-                    </Link>
-                  </p>
-                ) : (
-                  <TrackedSpinner
-                    id="loading-images-spinner"
-                    message="Loading images..."
-                    data-testid="radiology-images-loading"
-                  />
-                )}
+                {renderImagesContent()}
                 {notificationStatus ? (
                   <p>
                     <strong>Note: </strong> If you do not want us to notify you
