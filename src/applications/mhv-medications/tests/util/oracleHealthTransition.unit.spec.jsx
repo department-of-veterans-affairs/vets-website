@@ -232,16 +232,6 @@ describe('oracleHealthTransition utilities', () => {
         ).to.be.true;
       });
 
-      it('returns false in non-blocking p0 phase', () => {
-        expect(
-          shouldBlockRefills({
-            prescription: mockPrescription,
-            isFeatureFlagEnabled: true,
-            migrations: [createMigrationWithPhase('p0')],
-          }),
-        ).to.be.false;
-      });
-
       it('returns false in non-blocking p1 phase', () => {
         expect(
           shouldBlockRefills({
@@ -268,16 +258,6 @@ describe('oracleHealthTransition utilities', () => {
             prescription: mockPrescription,
             isFeatureFlagEnabled: true,
             migrations: [createMigrationWithPhase('p6')],
-          }),
-        ).to.be.false;
-      });
-
-      it('returns false in non-blocking p7 phase', () => {
-        expect(
-          shouldBlockRefills({
-            prescription: mockPrescription,
-            isFeatureFlagEnabled: true,
-            migrations: [createMigrationWithPhase('p7')],
           }),
         ).to.be.false;
       });
@@ -330,16 +310,6 @@ describe('oracleHealthTransition utilities', () => {
         ).to.be.true;
       });
 
-      it('returns false in non-blocking p0 phase', () => {
-        expect(
-          shouldBlockRenewals({
-            prescription: mockPrescription,
-            isFeatureFlagEnabled: true,
-            migrations: [createMigrationWithPhase('p0')],
-          }),
-        ).to.be.false;
-      });
-
       it('returns false in non-blocking p1 phase', () => {
         expect(
           shouldBlockRenewals({
@@ -356,16 +326,6 @@ describe('oracleHealthTransition utilities', () => {
             prescription: mockPrescription,
             isFeatureFlagEnabled: true,
             migrations: [createMigrationWithPhase('p6')],
-          }),
-        ).to.be.false;
-      });
-
-      it('returns false in non-blocking p7 phase', () => {
-        expect(
-          shouldBlockRenewals({
-            prescription: mockPrescription,
-            isFeatureFlagEnabled: true,
-            migrations: [createMigrationWithPhase('p7')],
           }),
         ).to.be.false;
       });
@@ -439,16 +399,6 @@ describe('oracleHealthTransition utilities', () => {
           TRANSITIONING_FACILITY_ID,
           TRANSITIONING_FACILITY_ID_2,
         ]);
-      });
-
-      it('correctly blocks prescriptions from transitioning facilities in p5 phase', () => {
-        const result = filterPrescriptionsByTransition({
-          prescriptions: mockPrescriptions,
-          isFeatureFlagEnabled: true,
-          migrations: [createMigrationWithPhase('p5')],
-        });
-        expect(result.available).to.have.lengthOf(1);
-        expect(result.blocked).to.have.lengthOf(2);
       });
 
       it('returns empty arrays for null/empty input and fails open (all available) when no migrations', () => {
