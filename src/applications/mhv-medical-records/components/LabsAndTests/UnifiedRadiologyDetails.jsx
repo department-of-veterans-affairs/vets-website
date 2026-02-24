@@ -16,6 +16,7 @@ import ItemList from '../shared/ItemList';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import TrackedSpinner from '../shared/TrackedSpinner';
 import { generateTextFile, sendDataDogAction } from '../../util/helpers';
 import {
   pageTitles,
@@ -173,11 +174,11 @@ const UnifiedRadiologyDetails = props => {
           </HeaderSection>
         </div>
 
-        {scdfImageThumbnails &&
-          scdfImageThumbnails.length > 0 && (
-            <>
-              <div className="test-results-container">
-                <HeaderSection header="Images" className="test-results-header">
+        {record.imageCount > 0 && (
+          <>
+            <div className="test-results-container">
+              <HeaderSection header="Images" className="test-results-header">
+                {scdfImageThumbnails?.length > 0 ? (
                   <p className="vads-u-margin-bottom--0">
                     <Link
                       to={`/labs-and-tests/${labId}/images`}
@@ -187,35 +188,44 @@ const UnifiedRadiologyDetails = props => {
                       }}
                     >
                       <strong>
-                        View all {scdfImageThumbnails.length}{' '}
+                        View
+                        {scdfImageThumbnails.length > 1 ? ' all' : ''}{' '}
+                        {scdfImageThumbnails.length}{' '}
                         {scdfImageThumbnails.length === 1 ? 'image' : 'images'}
                       </strong>
                     </Link>
                   </p>
-                  {notificationStatus ? (
-                    <p>
-                      <strong>Note: </strong> If you do not want us to notify
-                      you about images, change your settings in your profile.
-                    </p>
-                  ) : (
-                    <>
-                      <h3>Get email notifications for images</h3>
-                      <p>
-                        If you want us to email you when your images are ready,
-                        change your notification settings in your profile.
-                      </p>
-                    </>
-                  )}
-                  <va-link
-                    className="vads-u-margin-top--1"
-                    href="/profile/notifications"
-                    text="Go to notification settings"
+                ) : (
+                  <TrackedSpinner
+                    id="loading-images-spinner"
+                    message="Loading images..."
+                    data-testid="radiology-images-loading"
                   />
-                </HeaderSection>
-              </div>
-              <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
-            </>
-          )}
+                )}
+                {notificationStatus ? (
+                  <p>
+                    <strong>Note: </strong> If you do not want us to notify you
+                    about images, change your settings in your profile.
+                  </p>
+                ) : (
+                  <>
+                    <h3>Get email notifications for images</h3>
+                    <p>
+                      If you want us to email you when your images are ready,
+                      change your notification settings in your profile.
+                    </p>
+                  </>
+                )}
+                <va-link
+                  className="vads-u-margin-top--1"
+                  href="/profile/notifications"
+                  text="Go to notification settings"
+                />
+              </HeaderSection>
+            </div>
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+          </>
+        )}
       </HeaderSection>
       <div className="vads-u-margin-top--3">
         <DownloadingRecordsInfo description="L&TR Detail" />
@@ -245,6 +255,7 @@ UnifiedRadiologyDetails.propTypes = {
     comments: PropTypes.arrayOf(PropTypes.string),
     result: PropTypes.string,
     source: PropTypes.string,
+    imageCount: PropTypes.number,
     imagingStudyId: PropTypes.string,
   }).isRequired,
   runningUnitTest: PropTypes.bool,
