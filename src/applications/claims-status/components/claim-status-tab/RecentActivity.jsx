@@ -17,6 +17,9 @@ import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 export default function RecentActivity({ claim }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
+  const champvaProviderEnabled = useToggleValue(
+    TOGGLE_NAMES.benefitsClaimsIvcChampvaProvider,
+  );
   const showEightPhases = getShowEightPhases(
     claim.attributes.claimTypeCode,
     cstClaimPhasesEnabled,
@@ -46,7 +49,9 @@ export default function RecentActivity({ claim }) {
   };
 
   const generateTrackedItems = () => {
-    const { trackedItems } = claim.attributes;
+    const trackedItems = champvaProviderEnabled
+      ? claim.attributes.trackedItems || []
+      : claim.attributes.trackedItems;
     const items = [];
     const addItems = (date, description, item) => {
       items.push({
@@ -116,10 +121,13 @@ export default function RecentActivity({ claim }) {
   };
 
   const generatePhaseItems = () => {
-    const {
-      currentPhaseBack,
-      previousPhases,
-    } = claim.attributes.claimPhaseDates;
+    const claimPhaseDates = champvaProviderEnabled
+      ? claim.attributes.claimPhaseDates || {}
+      : claim.attributes.claimPhaseDates;
+    const currentPhaseBack = claimPhaseDates?.currentPhaseBack;
+    const previousPhases = champvaProviderEnabled
+      ? claimPhaseDates?.previousPhases || {}
+      : claimPhaseDates.previousPhases;
     const claimPhases = [];
 
     const regex = /\d+/;
