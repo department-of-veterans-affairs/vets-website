@@ -72,7 +72,7 @@ const InsuranceSummary = props => {
     const fetchServiceHistory = async () => {
       try {
         const response = await apiRequest(
-          `${environment.API_URL}/v0/service_history`,
+          `${environment.API_URL}/v0/form1010_ezrs/service_history`,
         );
         if (isMounted) {
           setServiceHistory([
