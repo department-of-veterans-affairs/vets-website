@@ -80,26 +80,22 @@ const ApplicantInformationReviewPage = ({
         )}
 
         {/* High School Information */}
-        {data?.toeHighSchoolInfoChange && (
-          <>
-            {data?.highSchoolDiploma && (
-              <div className="review-row">
-                <dt>
-                  Did you earn a high school diploma or equivalency certificate?
-                </dt>
-                <dd>{data?.highSchoolDiploma}</dd>
-              </div>
-            )}
-            {data?.highSchoolDiplomaDate && (
-              <div className="review-row">
-                <dt>
-                  When did you earn your high school diploma or equivalency
-                  certificate?
-                </dt>
-                <dd>{formattedDiplomaDate}</dd>
-              </div>
-            )}
-          </>
+        {data?.highSchoolDiploma && (
+          <div className="review-row">
+            <dt>
+              Did you earn a high school diploma or equivalency certificate?
+            </dt>
+            <dd>{data?.highSchoolDiploma}</dd>
+          </div>
+        )}
+        {data?.highSchoolDiplomaDate && (
+          <div className="review-row">
+            <dt>
+              When did you earn your high school diploma or equivalency
+              certificate?
+            </dt>
+            <dd>{formattedDiplomaDate}</dd>
+          </div>
         )}
       </dl>
     </div>

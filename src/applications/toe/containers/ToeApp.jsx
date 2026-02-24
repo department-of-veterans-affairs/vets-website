@@ -29,7 +29,6 @@ function ToeApp({
   isLOA3,
   isLoggedIn,
   location,
-  meb1995Reroute,
   mebParentGuardianStep,
   mebBankInfoConfirmationField,
   setFormData,
@@ -37,8 +36,6 @@ function ToeApp({
   sponsorsInitial,
   sponsorsSavedState,
   user,
-  showMeb1990ER6MaintenanceMessage,
-  toeHighSchoolInfoChange,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -106,28 +103,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (
-        showMeb1990ER6MaintenanceMessage !==
-        formData.showMeb1990ER6MaintenanceMessage
-      ) {
-        setFormData({
-          ...formData,
-          showMeb1990ER6MaintenanceMessage,
-        });
-      }
-    },
-    [showMeb1990ER6MaintenanceMessage],
-  );
-
-  useEffect(
-    () => {
-      if (meb1995Reroute !== formData.meb1995Reroute) {
-        setFormData({
-          ...formData,
-          meb1995Reroute,
-        });
-      }
-
       if (mebParentGuardianStep !== formData.mebParentGuardianStep) {
         setFormData({
           ...formData,
@@ -135,7 +110,7 @@ function ToeApp({
         });
       }
     },
-    [formData, meb1995Reroute, mebParentGuardianStep, setFormData],
+    [mebParentGuardianStep],
   );
 
   useEffect(
@@ -202,18 +177,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (toeHighSchoolInfoChange !== formData.toeHighSchoolInfoChange) {
-        setFormData({
-          ...formData,
-          toeHighSchoolInfoChange,
-        });
-      }
-    },
-    [toeHighSchoolInfoChange],
-  );
-
-  useEffect(
-    () => {
       if (dob !== formData?.dob) {
         setFormData({
           ...formData,
@@ -271,16 +234,13 @@ ToeApp.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
-  meb1995Reroute: PropTypes.bool,
   mebBankInfoConfirmationField: PropTypes.bool,
   mebParentGuardianStep: PropTypes.bool,
   setFormData: PropTypes.func,
-  showMeb1990ER6MaintenanceMessage: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
-  toeHighSchoolInfoChange: PropTypes.bool,
   user: PropTypes.object,
 };
 

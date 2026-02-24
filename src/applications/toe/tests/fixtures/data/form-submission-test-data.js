@@ -78,35 +78,18 @@ export const submissionForm = {
     },
     parentGuardianSponsor: 'John Hancock',
     firstSponsor: '9001001080',
-    // Updated test data for toeHighSchoolInfoChange scenarios
+    // Test data for high school diploma scenarios
     noHighSchoolQuestions: {
-      toeHighSchoolInfoChange: undefined,
-      highSchoolDiplomaLegacy: undefined,
+      highSchoolDiploma: undefined,
     },
-    highSchoolDiplomaWithChangeFlagTrue: {
-      toeHighSchoolInfoChange: true,
+    highSchoolDiplomaYes: {
       highSchoolDiploma: 'Yes',
       highSchoolDiplomaDate: '2000-01-02',
     },
-    highSchoolDiplomaWithChangeFlagFalse: {
-      toeHighSchoolInfoChange: false,
-      highSchoolDiplomaLegacy: 'Yes',
-      highSchoolDiplomaDateLegacy: '2000-01-02',
-    },
-    noHighSchoolDiplomaWithChangeFlagTrue: {
-      toeHighSchoolInfoChange: true,
+    highSchoolDiplomaNo: {
       highSchoolDiploma: 'No',
     },
-    noHighSchoolDiplomaWithChangeFlagFalse: {
-      toeHighSchoolInfoChange: false,
-      highSchoolDiplomaLegacy: 'No',
-    },
-    noHighSchoolDiplomaDateWithChangeFlagTrue: {
-      toeHighSchoolInfoChange: true,
-    },
-    noHighSchoolDiplomaDateWithChangeFlagFalse: {
-      toeHighSchoolInfoChange: false,
-    },
+    noHighSchoolDiplomaDate: {},
     'view:directDepositLearnMore': {},
     'view:contactMethodIntro': {},
     contactMethod: 'Email',
