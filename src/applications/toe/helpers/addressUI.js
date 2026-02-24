@@ -178,17 +178,14 @@ export function createAddressFieldsUI(dataPath, options = {}) {
       'ui:options': {
         updateSchema: (formData, schema, uiSchema) => {
           const countryUI = uiSchema;
-          const addressFormData = get([dataPath, 'address'], formData);
           const livesOnMilitaryBase = getMilitaryBase(formData);
 
           if (livesOnMilitaryBase) {
             countryUI['ui:disabled'] = true;
-            const USA = { value: 'USA', label: 'United States' };
-            addressFormData.country = USA.value;
             return {
-              enum: [USA.value],
-              enumNames: [USA.label],
-              default: USA.value,
+              enum: ['USA'],
+              enumNames: ['United States'],
+              default: 'USA',
             };
           }
 
