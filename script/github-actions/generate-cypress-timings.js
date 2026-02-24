@@ -17,15 +17,28 @@
 
 const fs = require('fs');
 const path = require('path');
-const glob = require('glob');
 
 const RESULTS_DIR = process.env.RESULTS_DIR || 'cypress/results';
 const TIMINGS_FILE = process.env.TIMINGS_FILE || 'cypress-timings.json';
 const EXISTING_TIMINGS_FILE = process.env.EXISTING_TIMINGS_FILE || '';
 
+function findJsonFiles(dir) {
+  const results = [];
+  if (!fs.existsSync(dir)) return results;
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  entries.forEach(entry => {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      results.push(...findJsonFiles(fullPath));
+    } else if (entry.name.endsWith('.json')) {
+      results.push(fullPath);
+    }
+  });
+  return results;
+}
+
 function extractDurationsFromResults(resultsDir) {
-  const pattern = path.join(resultsDir, '**/*.json');
-  const files = glob.sync(pattern);
+  const files = findJsonFiles(resultsDir);
   const durations = {};
 
   files.forEach(file => {
