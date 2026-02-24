@@ -1,6 +1,6 @@
 /**
  * @module tests/shared/utils/submit/custom-submit.unit.spec
- * @description Unit tests for custom submit function with proactive token refresh
+ * @description Unit tests for custom submit function with proactive token refresh.
  */
 
 import { expect } from 'chai';
@@ -87,6 +87,24 @@ describe('customSubmit', () => {
   });
 
   describe('Token Refresh Decision Logic', () => {
+    // Some auth providers return Date objects for token expiration.
+    // The normalization layer must handle this format correctly, or the
+    // comparison with epoch seconds would produce NaN and silently skip refresh.
+    it('should refresh when expiration is a Date object within buffer', async () => {
+      const expirationTime = new Date(Date.now() + 60 * 1000);
+
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        [ACCESS_TOKEN_EXPIRATION]: expirationTime,
+      });
+
+      await customSubmit(mockForm, mockFormConfig);
+
+      expect(refreshStub.calledOnce).to.be.true;
+    });
+
+    // Verifies the happy path: a token with plenty of time left should NOT
+    // trigger a refresh. Unnecessary refreshes add latency to every submission.
     it('should skip refresh when token is fresh (180 seconds)', async () => {
       const currentTime = Math.floor(Date.now() / 1000);
       const expirationTime = currentTime + 180; // 3 minutes
@@ -101,6 +119,9 @@ describe('customSubmit', () => {
       expect(refreshStub.called).to.be.false;
     });
 
+    // Boundary condition: exactly at the buffer (120s) means the token won't
+    // expire during submission, so refreshing is unnecessary. The comparison
+    // uses strict less-than (<), not less-than-or-equal (<=).
     it('should skip refresh at exactly 120 second boundary', async () => {
       const currentTime = Math.floor(Date.now() / 1000);
       const expirationTime = currentTime + 120; // Exactly 2 minutes
@@ -115,6 +136,10 @@ describe('customSubmit', () => {
       expect(refreshStub.called).to.be.false;
     });
 
+    // Edge case: the token is already expired. This is the worst-case scenario
+    // for monitoring noise, without the proactive refresh, the submission goes
+    // out with a dead token, triggers a 403 that gets logged, and then the
+    // platform retries successfully. The 403 is a false positive.
     it('should refresh token when already expired (negative time)', async () => {
       const currentTime = Math.floor(Date.now() / 1000);
       const expirationTime = currentTime - 30; // Expired 30 seconds ago
@@ -143,6 +168,8 @@ describe('customSubmit', () => {
       expect(refreshStub.calledOnce).to.be.true;
     });
 
+    // Boundary condition: 119s is one second below the 120s buffer threshold.
+    // Confirms the strict less-than comparison triggers refresh at (buffer - 1).
     it('should refresh at 119 seconds (just under boundary)', async () => {
       const currentTime = Math.floor(Date.now() / 1000);
       const expirationTime = currentTime + 119;
@@ -156,8 +183,50 @@ describe('customSubmit', () => {
 
       expect(refreshStub.calledOnce).to.be.true;
     });
+
+    // Auth providers return expiration in different formats. Some (e.g., ID.me)
+    // return millisecond epochs. Without normalization, the raw millisecond
+    // value (≈1.7 trillion) minus the current seconds epoch (≈1.7 billion)
+    // would always look "fresh," so the refresh would never trigger  and
+    // every submission with a stale token would produce a false-positive 403
+    // in the monitoring platform.
+    it('should refresh when expiration is a millisecond epoch within buffer', async () => {
+      const expirationMs = Date.now() + 60 * 1000; // 60 seconds from now, in ms
+
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        [ACCESS_TOKEN_EXPIRATION]: expirationMs,
+      });
+
+      await customSubmit(mockForm, mockFormConfig);
+
+      expect(refreshStub.calledOnce).to.be.true;
+    });
+
+    // Some providers (e.g., Login.gov) return ISO 8601 date strings for
+    // expiration instead of numeric timestamps. Without normalization,
+    // subtracting a string from a number produces NaN, causing the refresh
+    // comparison to silently fail, meaning stale tokens would never get
+    // refreshed and every expiry would produce a 403 in monitoring.
+    it('should refresh when expiration is an ISO date string within buffer', async () => {
+      const futureDate = new Date(Date.now() + 60 * 1000);
+      const isoString = futureDate.toISOString(); // e.g. '2026-02-24T12:01:00.000Z'
+
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        [ACCESS_TOKEN_EXPIRATION]: isoString,
+      });
+
+      await customSubmit(mockForm, mockFormConfig);
+
+      expect(refreshStub.calledOnce).to.be.true;
+    });
   });
 
+  // These tests ensure submission always proceeds even when authentication
+  // state is incomplete. The proactive refresh is a monitoring optimization,
+  // not a submission requirement, unauthenticated or partially-authenticated
+  // submissions must still go through. The platform handles auth independently.
   describe('No Token Scenarios', () => {
     it('should skip refresh when no auth token exists', async () => {
       infoTokenExistsStub.returns(false);
@@ -189,8 +258,29 @@ describe('customSubmit', () => {
       expect(refreshStub.called).to.be.false;
       expect(submitToUrlStub.calledOnce).to.be.true;
     });
+
+    // If the expiration value is present but not a recognizable format
+    // (e.g., a boolean or garbage string), normalization returns null.
+    // The function should treat this the same as a missing expiration —
+    // skip the refresh but still submit. Submitting is critical; we never
+    // want an unparseable expiration to block form submission.
+    it('should skip refresh and still submit when expiration is unparseable', async () => {
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        [ACCESS_TOKEN_EXPIRATION]: 'not-a-valid-date',
+      });
+
+      await customSubmit(mockForm, mockFormConfig);
+
+      expect(refreshStub.called).to.be.false;
+      expect(submitToUrlStub.calledOnce).to.be.true;
+    });
   });
 
+  // The proactive refresh is wrapped in a try/catch because it's purely a
+  // monitoring optimization, if it fails, submission must still proceed.
+  // The platform's 403 retry handles the actual auth recovery. These tests
+  // verify the catch block never blocks submission.
   describe('Error Handling', () => {
     it('should proceed with submission if token refresh fails', async () => {
       const currentTime = Math.floor(Date.now() / 1000);
@@ -232,6 +322,9 @@ describe('customSubmit', () => {
     });
   });
 
+  // The custom submit supports both form-specific transformers (used by most
+  // BIO forms) and the platform's generic transformer as a fallback. This
+  // ensures forms work correctly whether or not they define transformForSubmit.
   describe('Form Transformation and Submission', () => {
     it('should use platform transformForSubmit if no custom transformer provided', async () => {
       infoTokenExistsStub.returns(false);
@@ -277,6 +370,9 @@ describe('customSubmit', () => {
     });
   });
 
+  // The refresh() call requires a service type (idme, logingov, etc.) to know
+  // which auth provider to use. This value comes from sessionStorage, set at
+  // login time. These tests verify the service name is passed through correctly.
   describe('Service Name Handling', () => {
     it('should use service name from sessionStorage for refresh', async () => {
       const currentTime = Math.floor(Date.now() / 1000);
@@ -310,6 +406,32 @@ describe('customSubmit', () => {
 
       expect(refreshStub.calledOnce).to.be.true;
       expect(refreshStub.firstCall.args[0]).to.deep.equal({ type: 'idme' });
+    });
+
+    // The refresh decision is gated only on token expiration, not on
+    // serviceName. If serviceName is missing from sessionStorage, refresh()
+    // should still be called so the failure is logged and visible in
+    // production — silently skipping the entire refresh block would make
+    // a missing serviceName impossible to diagnose from logs alone.
+    it('should still attempt refresh when serviceName is missing from sessionStorage', async () => {
+      const currentTime = Math.floor(Date.now() / 1000);
+      const expirationTime = currentTime + 60;
+
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        [ACCESS_TOKEN_EXPIRATION]: expirationTime,
+      });
+
+      sessionStorage.removeItem('serviceName');
+
+      await customSubmit(mockForm, mockFormConfig);
+
+      // Should still attempt the refresh so the platform logs the failure
+      expect(refreshStub.calledOnce).to.be.true;
+      expect(refreshStub.firstCall.args[0]).to.deep.equal({ type: null });
+
+      // Submission should proceed regardless
+      expect(submitToUrlStub.calledOnce).to.be.true;
     });
   });
 
