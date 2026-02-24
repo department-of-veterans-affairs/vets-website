@@ -7,6 +7,8 @@ import { stringifyFormReplacer } from 'platform/forms-system/src/js/helpers';
 import { MARRIAGE_TYPES, PICKLIST_DATA } from '../constants';
 
 export const PHONE_KEYS = ['phoneNumber', 'internationalPhone'];
+const WHITESPACE_REGEX = /\s+/g;
+const NON_DIGIT_REGEX = /\D/g;
 
 /**
  * Cleans up form data for submission; m* Mostly copied from the platform provided stringifyFormReplacer, with the
@@ -18,8 +20,14 @@ export const PHONE_KEYS = ['phoneNumber', 'internationalPhone'];
 export const customFormReplacer = (key, value) => {
   // Remove all non-digit characters from phone-related fields
   if (typeof value === 'string' && PHONE_KEYS.includes(key)) {
-    return value.replace(/\D/g, '');
+    return value.replace(NON_DIGIT_REGEX, '');
   }
+  if (typeof value === 'string') {
+    // Remove extra whitespace from strings to prevent submission issues with
+    // RBPS
+    return value.replace(WHITESPACE_REGEX, ' ').trim();
+  }
+
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object' && value !== null) {
     const fields = Object.keys(value);

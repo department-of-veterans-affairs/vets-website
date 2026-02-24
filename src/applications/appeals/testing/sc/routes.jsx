@@ -1,14 +1,14 @@
-import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import App from './containers/App';
+import SCApp from './SCApp';
 
 const onEnter = (nextState, replace) => replace('/introduction');
 
 const routes = [
   {
     path: '/',
-    component: App,
+    component: SCApp,
     indexRoute: { onEnter },
-    childRoutes: createRoutesWithSaveInProgress({}),
+    childRoutes: [{ path: 'introduction', component: App }],
   },
 ];
 

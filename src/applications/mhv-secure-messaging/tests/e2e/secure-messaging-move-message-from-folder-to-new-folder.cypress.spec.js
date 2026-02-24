@@ -27,7 +27,7 @@ describe('Secure Messaging Move Message to New Folder tests', () => {
       `folders/${createdFolderResponse.data.attributes.folderId}`,
     );
 
-    cy.get(`va-alert`).should('be.focused');
+    cy.get(`va-alert`).should('be.visible');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

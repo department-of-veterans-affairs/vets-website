@@ -218,3 +218,91 @@ const validateForm = () => {
 - Add `aria-label` or `aria-describedby` to all interactive elements
 - Use `message-aria-describedby` on web components
 - `focusElement()` from platform utilities for programmatic focus management
+
+### Delayed sr-only aria-live Announcement
+
+**When to use:** An `aria-live="polite"` region needs to announce alert content but page focus is still settling (e.g., heading receives focus on load). VoiceOver reads the focused element first — injecting polite live-region content simultaneously causes it to be skipped or to interrupt the current announcement.
+
+**Pattern:** Use `useLayoutEffect` to listen for any `focusin` event. Each focus change resets a 1s debounce timer — once focus settles for 1s, populate the sr-only span. Include a 5s hard ceiling in case focus keeps bouncing. Use `timerSourceRef` to prevent duplicate announces, and force a real DOM text mutation (clear → RAF → set) so screen readers detect the change reliably.
+
+```jsx
+const [srAlertContent, setSrAlertContent] = useState('');
+const timerSourceRef = useRef(null);
+
+useLayoutEffect(() => {
+  if (!alertContent) {
+    setSrAlertContent('');
+    timerSourceRef.current = null;
+    return undefined;
+  }
+  let debounceTimer;
+  let rafId;
+  timerSourceRef.current = null;
+
+  const scheduleAnnounce = source => {
+    timerSourceRef.current = source;
+    setSrAlertContent('');
+    rafId = requestAnimationFrame(() => {
+      setSrAlertContent(alertContent);
+    });
+  };
+
+  const onFocusIn = () => {
+    if (timerSourceRef.current) return;
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(
+      () => scheduleAnnounce('focus-settle'),
+      1000,
+    );
+  };
+
+  document.addEventListener('focusin', onFocusIn);
+  onFocusIn(); // kick off initial debounce
+
+  const ceilingTimer = setTimeout(() => {
+    if (!timerSourceRef.current) {
+      scheduleAnnounce('ceiling');
+    }
+  }, 5000);
+
+  return () => {
+    clearTimeout(debounceTimer);
+    clearTimeout(ceilingTimer);
+    cancelAnimationFrame(rafId);
+    document.removeEventListener('focusin', onFocusIn);
+  };
+}, [alertContent]);
+```
+
+**Why `useLayoutEffect`:** Fires before paint, guaranteeing the `focusin` listener is registered before the browser delivers focus events. `useEffect` has a timing gap.
+
+**Anti-pattern:**
+```jsx
+// ❌ Don't use useEffect — focusin may fire before the listener is registered
+useEffect(() => { document.addEventListener('focusin', handler); }, []);
+```
+
+**Why:** Discovered via VoiceOver testing (ticket #133563). Screen readers skip polite announcements when focus moves to a different element at the same time.
+
+### Focus Restriction for Non-Error Alerts
+
+**When to use:** A component uses `focusElement()` to move focus to an alert on load (e.g., via `onVa-component-did-load`), but VoiceOver is already reading other content.
+
+**Pattern:** Gate `focusElement()` calls to error alerts only. For success/info/warning alerts, let the delayed sr-only span handle the announcement instead.
+
+```jsx
+const handleAlertFocus = useCallback(() => {
+  if (activeAlert?.alertType !== 'error') return;
+  setTimeout(() => { focusElement(alertRef.current); }, 500);
+}, [activeAlert?.alertType, props.focus]);
+```
+
+**Anti-pattern:**
+```jsx
+// ❌ Don't steal focus for all alert types — interrupts VoiceOver mid-announcement
+const handleAlertFocus = useCallback(() => {
+  setTimeout(() => { focusElement(alertRef.current); }, 500);
+}, [props.focus]);
+```
+
+**Why:** The 500ms focus-steal for success alerts interrupts VoiceOver while it reads the page heading, causing the alert text to be skipped entirely.

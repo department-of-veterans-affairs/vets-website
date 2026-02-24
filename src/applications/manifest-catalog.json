@@ -268,6 +268,12 @@
       "rootUrl": "/education/0976"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0989",
+      "appName": "22-0989 Entitlement restoration",
+      "entryName": "0989-edu-benefits",
+      "rootUrl": "/forms/0989"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0994",
       "appName": "22-0994 Education benefits form",
       "entryName": "0994-edu-benefits",
@@ -421,7 +427,7 @@
       "directoryPath": "src/applications/ivc-champva/10-10d-extended",
       "appName": "10-10d Extended",
       "entryName": "10-10d-extended",
-      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-champva-form-10-10d"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959a",

@@ -59,7 +59,7 @@ async function testTransactionCreationFails(numberName) {
   deletePhoneNumber(numberName);
 
   // the error alert should appear
-  await view.findByTestId('generic-error-alert');
+  await view.findByTestId('vap-service-error-alert');
 
   expect(getVaButton('Edit', numberName)).to.exist;
 }

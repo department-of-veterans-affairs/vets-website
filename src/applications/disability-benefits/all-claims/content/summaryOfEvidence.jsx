@@ -30,9 +30,10 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   );
   // Evidence isn't always properly cleared out from form data if removed so
   // need to also check that 'no evidence' was explicitly selected
+  // TODO: refactor logic for this content when removing current flow
   if (
-    !evidenceLength ||
-    (!selectedEvidence && !serviceTreatmentRecordsSelected)
+    !formData.disability526SupportingEvidenceEnhancement &&
+    (!evidenceLength || (!selectedEvidence && !serviceTreatmentRecordsSelected))
   ) {
     return (
       <p>
