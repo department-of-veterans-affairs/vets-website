@@ -132,24 +132,27 @@ const RefillPrescriptions = () => {
   const [refillStatus, setRefillStatus] = useState(REFILL_STATUS.NOT_STARTED);
 
   // Compute the actual refill status based on RTK Query state to prevent race conditions
-  const refillRequestStatus = useMemo(() => {
-    if (isRefilling) {
-      return REFILL_STATUS.IN_PROGRESS;
-    }
-    if (refillRequestSuccess && result?.data) {
-      return REFILL_STATUS.FINISHED;
-    }
-    if (bulkRefillError) {
-      return REFILL_STATUS.ERROR;
-    }
-    return refillStatus; // Fallback to manual status for initial state
-  }, [
-    isRefilling,
-    refillRequestSuccess,
-    result?.data,
-    bulkRefillError,
-    refillStatus,
-  ]);
+  const refillRequestStatus = useMemo(
+    () => {
+      if (isRefilling) {
+        return REFILL_STATUS.IN_PROGRESS;
+      }
+      if (refillRequestSuccess && result?.data) {
+        return REFILL_STATUS.FINISHED;
+      }
+      if (bulkRefillError) {
+        return REFILL_STATUS.ERROR;
+      }
+      return refillStatus; // Fallback to manual status for initial state
+    },
+    [
+      isRefilling,
+      refillRequestSuccess,
+      result?.data,
+      bulkRefillError,
+      refillStatus,
+    ],
+  );
 
   // Handle API errors from RTK Query
   const prescriptionsApiError = refillableError || bulkRefillError;
@@ -176,14 +179,17 @@ const RefillPrescriptions = () => {
   const isDisabled = isDataLoading || isRefreshing;
 
   // Clear the submitted meds snapshot after cache refresh completes or error
-  useEffect(() => {
-    if (refillRequestStatus === REFILL_STATUS.FINISHED && !isFetching) {
-      submittedMedications.current = null;
-    }
-    if (refillRequestStatus === REFILL_STATUS.ERROR) {
-      submittedMedications.current = null;
-    }
-  }, [refillRequestStatus, isFetching]);
+  useEffect(
+    () => {
+      if (refillRequestStatus === REFILL_STATUS.FINISHED && !isFetching) {
+        submittedMedications.current = null;
+      }
+      if (refillRequestStatus === REFILL_STATUS.ERROR) {
+        submittedMedications.current = null;
+      }
+    },
+    [refillRequestStatus, isFetching],
+  );
 
   // Use the original refillable prescriptions list without client-side filtering
   // This prevents duplicate refill attempts by relying on server-side data consistency
@@ -305,18 +311,24 @@ const RefillPrescriptions = () => {
     }
   };
 
-  useEffect(() => {
-    // Remove session data on component mount
-    sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
+  useEffect(
+    () => {
+      // Remove session data on component mount
+      sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
 
-    updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
-  }, [selectedSortOption]);
+      updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
+    },
+    [selectedSortOption],
+  );
 
-  useEffect(() => {
-    if (!isLoading && !isRefilling) {
-      focusElement(document.querySelector('h1'));
-    }
-  }, [isLoading, isRefilling]);
+  useEffect(
+    () => {
+      if (!isLoading && !isRefilling) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [isLoading, isRefilling],
+  );
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
