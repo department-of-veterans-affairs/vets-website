@@ -124,6 +124,7 @@ ApplicantSuggestedAddressNotLoggedIn2.propTypes = {
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  NavButtons: PropTypes.func,
 };
 
 // Map state to props

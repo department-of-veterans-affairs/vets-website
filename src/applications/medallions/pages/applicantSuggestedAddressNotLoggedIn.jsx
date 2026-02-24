@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
@@ -42,6 +43,7 @@ function ApplicantSuggestedAddressNotLoggedIn({
     };
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Maintain Screen Reader Focus after isLoading returns and resolves
@@ -110,6 +112,17 @@ function ApplicantSuggestedAddressNotLoggedIn({
     </div>
   );
 }
+
+ApplicantSuggestedAddressNotLoggedIn.propTypes = {
+  contentAfterButtons: PropTypes.element,
+  contentBeforeButtons: PropTypes.element,
+  data: PropTypes.shape({
+    applicantMailingAddress: PropTypes.object,
+  }),
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  NavButtons: PropTypes.func,
+};
 
 // Map state to props
 const mapStateToProps = state => ({
