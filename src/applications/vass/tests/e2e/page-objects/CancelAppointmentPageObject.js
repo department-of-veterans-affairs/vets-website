@@ -42,10 +42,14 @@ export class CancelAppointmentPageObject extends PageObject {
     this.assertElement('when-section');
 
     // What section
-    this.assertElement('what-section', { containsText: 'VA Solid Start' });
+    this.assertElement('what-section', {
+      containsText: 'VA Solid Start',
+    });
 
     // Who section with agent name
-    this.assertElement('who-section', { containsText: agentName });
+    this.assertElement('who-section', {
+      containsText: agentName,
+    });
 
     // Cancel/print buttons should NOT be present on this page (different from Confirmation)
     this.assertElement('print-button', { exist: false });

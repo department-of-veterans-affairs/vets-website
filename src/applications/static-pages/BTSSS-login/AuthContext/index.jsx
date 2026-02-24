@@ -31,8 +31,8 @@ const AuthContext = () => {
       {smocEnabled ? (
         <>
           <p>
-            <strong>If you’re claiming mileage only</strong>, you can file a
-            travel claim for eligible past appointments here on VA.gov.
+            Go to your list of past appointments to file a travel reimbursement
+            claim for eligible appointments.
           </p>
           <va-link-action
             data-testid="vagov-smoc-link"
@@ -40,30 +40,33 @@ const AuthContext = () => {
             text="Go to your past appointments"
           />
           <p>
-            <strong>
-              If you need to submit receipts for other expenses, like tolls,
-              meals, or lodging
-            </strong>
-            , you can file your travel claim through the Beneficiary Travel
-            Self-Service System (BTSSS).
-          </p>
-          <va-link
-            data-testid="btsss-link"
-            href="https://dvagov-btsss.dynamics365portals.us/signin"
-            text="Go to BTSSS"
-            label="Go to the Beneficiary Travel Self-Service System (BTSSS)"
-          />
-          <p>
-            <strong>
-              If you want to check the status of all your travel claims
-            </strong>
-            , you can do that here on VA.gov.
+            Or you can check the status of all your travel reimbursement claims.
           </p>
           <va-link-action
             data-testid="vagov-travel-pay-link"
             type="secondary"
             href="/my-health/travel-pay/claims"
-            text="Review your travel claims"
+            text="Review your travel reimbursement claims"
+          />
+          <p>
+            <strong>
+              You’ll need to use the Beneficiary Travel Self Service System
+              (BTSSS) if any of these things are true:
+            </strong>
+          </p>
+          <ul>
+            <li>You don’t see your appointment in your appointments list</li>
+            <li>Your travel was one way</li>
+            <li>
+              Your travel started from an address other than the one we have on
+              file
+            </li>
+          </ul>
+          <va-link
+            data-testid="btsss-link"
+            href="https://dvagov-btsss.dynamics365portals.us/signin"
+            text="Go to BTSSS website"
+            label="Go to the Beneficiary Travel Self-Service System (BTSSS)"
           />
         </>
       ) : (

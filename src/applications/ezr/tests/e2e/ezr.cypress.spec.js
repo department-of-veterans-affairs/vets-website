@@ -154,11 +154,31 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             fillContactAddress(data.nextOfKins[1]);
           });
-          handleOptionalServiceHistoryPage({
-            historyEnabled: featureFlagObject.ezrServiceHistoryEnabled,
+        });
+      },
+      'military-service/review-service-information': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            handleOptionalServiceHistoryPage({
+              historyEnabled: featureFlagObject.ezrServiceHistoryEnabled,
+              hasServiceHistoryInfo: true,
+              fillServiceHistory: false,
+            });
           });
         });
       },
+      'military-service/service-period': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            handleOptionalServiceHistoryPage({
+              historyEnabled: featureFlagObject.ezrServiceHistoryEnabled,
+              hasServiceHistoryInfo: false,
+              fillServiceHistory: true,
+            });
+          });
+        });
+      },
+
       'household-information/spouse-contact-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {

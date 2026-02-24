@@ -345,9 +345,6 @@ describe('Travel Pay – ReviewPage', () => {
     // The "Add more expenses" button should still exist
     expect(document.querySelector('#add-expense-button')).to.exist;
 
-    // Help section
-    expect(getByText('Need help?')).to.exist;
-
     // No expense accordion items
     const accordionItems = container.querySelectorAll('va-accordion-item');
     expect(accordionItems.length).to.equal(0);

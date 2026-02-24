@@ -20,7 +20,6 @@ import {
   clearReviewPageAlert,
   setExpenseBackDestination,
 } from '../../../redux/actions';
-import { ComplexClaimsHelpSection } from '../../HelpText';
 
 const ReviewPage = () => {
   const navigate = useNavigate();
@@ -133,7 +132,6 @@ const ReviewPage = () => {
             You haven’t added any expenses. Add at least 1 expense to submit
             your claim.
           </p>
-          <ComplexClaimsHelpSection />
         </>
       ) : (
         <>
