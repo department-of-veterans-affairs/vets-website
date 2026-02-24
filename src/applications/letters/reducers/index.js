@@ -112,11 +112,12 @@ function letters(state = initialState, action) {
 
       // Initialize the benefit summary letter request body by mapping each
       // option in possibleOptions to its corresponding request option key.
-      // Set all request body options to true so that on page load, all options
-      // are checked.
+      // Options shown in the UI default to true (checked on page load).
+      // Options not shown (e.g., API value is false) default to false.
       const requestOptions = { militaryService: true };
       possibleOptions.forEach(option => {
-        requestOptions[benefitOptionsMap[option]] = true;
+        requestOptions[benefitOptionsMap[option]] =
+          benefitInfo[option] !== false;
       });
 
       return {
