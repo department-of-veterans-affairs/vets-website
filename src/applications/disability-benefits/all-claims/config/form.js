@@ -50,7 +50,6 @@ import {
   showSeparationLocation,
   isCompletingModern4142,
   onFormLoaded,
-  hasEvidenceChoice,
   normalizeReturnUrlForResume,
 } from '../utils';
 
@@ -740,7 +739,7 @@ const formConfig = {
           title: 'Upload supporting documents and additional forms',
           path: 'supporting-evidence/additional-evidence-enhancement',
           depends: formData =>
-            hasEvidenceChoice(formData) &&
+            hasOtherEvidence(formData) &&
             formData.disability526SupportingEvidenceEnhancement,
           uiSchema: evidenceChoiceAdditionalDocuments.uiSchema,
           schema: evidenceChoiceAdditionalDocuments.schema,

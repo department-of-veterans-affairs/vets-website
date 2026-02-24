@@ -151,10 +151,11 @@ const testConfig = createTestConfig(
 
       'supporting-evidence/additional-evidence-intro': () => {
         cy.get('@testData').then(data => {
-          const hasEvidenceChoice = data['view:hasEvidenceChoice'];
+          const hasAdditionalEvidence =
+            data['view:selectableEvidenceTypes']['view:hasOtherEvidence'];
 
           cy.get(
-            `va-radio-option[label="${hasEvidenceChoice ? 'Yes' : 'No'}"]`,
+            `va-radio-option[label="${hasAdditionalEvidence ? 'Yes' : 'No'}"]`,
           ).click();
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });

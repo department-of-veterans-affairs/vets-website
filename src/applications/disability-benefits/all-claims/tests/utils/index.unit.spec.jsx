@@ -6,7 +6,6 @@ import {
   onFormLoaded,
   redirectLegacyToEnhancement,
   redirectEnhancementToLegacy,
-  hasEvidenceChoice,
   normalizeReturnUrlForResume,
 } from '../../utils';
 
@@ -153,16 +152,6 @@ describe('utils', () => {
           formData: { disability526SupportingEvidenceEnhancement: false },
         }),
       ).to.be.false;
-    });
-  });
-
-  describe('hasEvidenceChoice', () => {
-    it('returns true when the radio selection is yes', () => {
-      expect(hasEvidenceChoice({ 'view:hasEvidenceChoice': true })).to.be.true;
-    });
-
-    it('returns false when no selection or uploads exist', () => {
-      expect(hasEvidenceChoice({})).to.be.false;
     });
   });
 
