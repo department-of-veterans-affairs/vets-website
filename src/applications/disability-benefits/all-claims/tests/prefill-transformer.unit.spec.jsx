@@ -516,6 +516,37 @@ describe('526v2 prefill transformer', () => {
         },
       });
     });
+
+    it('should normalize address fields by trimming and collapsing extra spaces', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '  123  Any   Street  ',
+            addressLine2: 'Apt   2',
+            addressLine3: '  Building   B  ',
+            city: '  Any   ville  ',
+            state: 'AK',
+            zipCode: '12345',
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      expect(transformedData.mailingAddress.addressLine1).to.equal(
+        '123 Any Street',
+      );
+      expect(transformedData.mailingAddress.addressLine2).to.equal('Apt 2');
+      expect(transformedData.mailingAddress.addressLine3).to.equal(
+        'Building B',
+      );
+      expect(transformedData.mailingAddress.city).to.equal('Any ville');
+    });
   });
 
   describe('prefillServiceInformation', () => {

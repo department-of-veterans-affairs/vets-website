@@ -16,6 +16,7 @@ import { generateCoe } from '../../shared/actions';
 import formConfig from '../config/form';
 import { isLoadingFeatures, showCoeFeature } from '../../shared/utils/helpers';
 import { WIP } from '../../shared/components/WIP';
+import { TOGGLE_KEY } from '../constants';
 
 function App({
   children,
@@ -28,7 +29,6 @@ function App({
   formData,
   setFormData,
 }) {
-  const TOGGLE_KEY = 'coeFormRebuildCveteam';
   const {
     TOGGLE_NAMES,
     useToggleValue,
@@ -70,7 +70,7 @@ function App({
     return <va-loading-indicator message="Loading application..." />;
   }
 
-  // Show WIP alert if the feature flag isn't set
+  // Show WIP alert if the feature flag isn't setshow
   return showCoe ? (
     <article
       id="form-26-1880"

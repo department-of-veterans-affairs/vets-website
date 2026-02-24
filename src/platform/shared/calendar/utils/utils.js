@@ -60,7 +60,9 @@ export function parseDurationFromSlotId(slotId) {
   }
 
   // Parse duration format like "1h30m0s", "30m0s", "2h0m0s", etc.
-  const match = durationString.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?/);
+  const match = durationString?.match(
+    /^(?:(\d{1,3})h)?(?:(\d{1,3})m)?(?:(\d{1,3})s)?$/,
+  );
   if (match) {
     const hours = match[1] ? parseInt(match[1], 10) : 0;
     const minutes = match[2] ? parseInt(match[2], 10) : 0;

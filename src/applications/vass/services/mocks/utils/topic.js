@@ -1,3 +1,5 @@
+/** @typedef {import('../../../utils/appointments').Topic} Topic */
+
 const mockTopics = [
   { topicId: 'burial', topicName: 'Burial' },
   {
@@ -30,4 +32,15 @@ const mockTopics = [
   { topicId: 'general-va-benefits', topicName: 'General VA benefits' },
 ];
 
-module.exports = mockTopics;
+/**
+ * Creates the default set of mock topics.
+ * @param {number} [numberOfTopics=17] - Number of topics to include in the response.
+ * @returns {Topic[]} Array of topic objects.
+ */
+const createDefaultTopics = (numberOfTopics = 17) => {
+  return mockTopics.slice(0, numberOfTopics);
+};
+
+module.exports = {
+  createDefaultTopics,
+};

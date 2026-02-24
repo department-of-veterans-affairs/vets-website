@@ -1,6 +1,5 @@
 /* eslint-disable no-plusplus */
 // @ts-check
-import debug from 'debug';
 import { subDays } from 'date-fns';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
@@ -14,13 +13,120 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 
-const d = debug('vaos:avs-spec');
-
 describe('VAOS past appointment AVS flow', () => {
   beforeEach(() => {
     vaosSetup();
     mockVamcEhrApi();
     cy.login(new MockUser());
+  });
+
+  describe('When feature flag is disabled, should not show section when no error occurs', () => {
+    describe('and is an OH appointment', () => {
+      const yesterday = subDays(new Date(), 1);
+      const responseObj = {
+        id: '1',
+        cancellable: false,
+        localStartTime: yesterday,
+        status: APPOINTMENT_STATUS.booked,
+        past: true,
+        isCerner: true,
+        avsPath: null,
+      };
+      it('and travelPayViewClaimDetails is enabled', () => {
+        mockFeatureToggles({
+          vaOnlineSchedulingAddOhAvs: false,
+          travelPayViewClaimDetails: true,
+        });
+
+        const response = new MockAppointmentResponse(responseObj);
+
+        mockAppointmentsGetApi({ response: [response] });
+
+        PastAppointmentListPageObject.visit().selectListItem();
+        AppointmentDetailPageObject.assertUrl()
+          .assertHeading({ name: /past in.person appointment/i, level: 1 })
+          .assertAfterVisitSummaryDoesNotExist();
+
+        cy.axeCheckBestPractice();
+      });
+
+      it('and travelPayViewClaimDetails is disabled', () => {
+        mockFeatureToggles({
+          vaOnlineSchedulingAddOhAvs: false,
+          travelPayViewClaimDetails: false,
+        });
+
+        const response = new MockAppointmentResponse(responseObj);
+
+        mockAppointmentsGetApi({ response: [response] });
+
+        PastAppointmentListPageObject.visit().selectListItem();
+        AppointmentDetailPageObject.assertUrl()
+          .assertHeading({
+            name: /past in.person appointment/i,
+            level: 1,
+          })
+          .assertAfterVisitSummaryVistALink({
+            exists: false,
+          })
+          .assertAfterVisitSummaryDoesNotExist();
+
+        cy.axeCheckBestPractice();
+      });
+    });
+    describe('and is NOT an OH appointment', () => {
+      const yesterday = subDays(new Date(), 1);
+      const responseObj = {
+        id: '1',
+        cancellable: false,
+        localStartTime: yesterday,
+        status: APPOINTMENT_STATUS.booked,
+        past: true,
+        isCerner: false,
+        avsPath: 'https://va.gov/avs/12345',
+      };
+      it('and travelPayViewClaimDetails is enabled', () => {
+        mockFeatureToggles({
+          vaOnlineSchedulingAddOhAvs: false,
+          travelPayViewClaimDetails: true,
+        });
+
+        const response = new MockAppointmentResponse(responseObj);
+
+        mockAppointmentsGetApi({ response: [response] });
+
+        PastAppointmentListPageObject.visit().selectListItem();
+        AppointmentDetailPageObject.assertUrl()
+          .assertHeading({
+            name: /past in.person appointment/i,
+            level: 1,
+          })
+          .assertAfterVisitSummaryVistALink();
+
+        cy.axeCheckBestPractice();
+      });
+
+      it('and travelPayViewClaimDetails is disabled', () => {
+        mockFeatureToggles({
+          vaOnlineSchedulingAddOhAvs: false,
+          travelPayViewClaimDetails: false,
+        });
+
+        const response = new MockAppointmentResponse(responseObj);
+
+        mockAppointmentsGetApi({ response: [response] });
+
+        PastAppointmentListPageObject.visit().selectListItem();
+        AppointmentDetailPageObject.assertUrl()
+          .assertHeading({
+            name: /past in.person appointment/i,
+            level: 1,
+          })
+          .assertAfterVisitSummaryVistALink();
+
+        cy.axeCheckBestPractice();
+      });
+    });
   });
 
   describe('When appointment has valid AVS PDFs', () => {
@@ -57,9 +163,15 @@ describe('VAOS past appointment AVS flow', () => {
       mockAppointmentsGetApi({ response: [response] });
 
       PastAppointmentListPageObject.visit().selectListItem();
-      AppointmentDetailPageObject.assertAfterVisitSummaryError({
-        exist: false,
-      }).assertAfterVisitSummaryPdf({ exist: true, count: 1 });
+      AppointmentDetailPageObject.assertUrl()
+        .assertHeading({
+          name: /past in.person appointment/i,
+          level: 1,
+        })
+        .assertAfterVisitSummaryError({
+          exist: false,
+        })
+        .assertAfterVisitSummaryPdf({ exist: true, count: 1 });
 
       cy.axeCheckBestPractice();
     });
@@ -95,16 +207,20 @@ describe('VAOS past appointment AVS flow', () => {
           },
         },
       });
-      d('Mocking appointment response with AVS retrieval error', {
-        response,
-      });
+
       mockAppointmentsGetApi({ response: [response] });
 
       PastAppointmentListPageObject.visit().selectListItem();
 
-      AppointmentDetailPageObject.assertAfterVisitSummaryError({
-        exist: true,
-      }).assertAfterVisitSummaryPdf({ exist: false });
+      AppointmentDetailPageObject.assertUrl()
+        .assertHeading({
+          name: /past in.person appointment/i,
+          level: 1,
+        })
+        .assertAfterVisitSummaryError({
+          exist: true,
+        })
+        .assertAfterVisitSummaryPdf({ exist: false });
 
       cy.axeCheckBestPractice();
     });
@@ -148,9 +264,15 @@ describe('VAOS past appointment AVS flow', () => {
 
       PastAppointmentListPageObject.visit().selectListItem();
 
-      AppointmentDetailPageObject.assertAfterVisitSummaryError({
-        exist: true,
-      }).assertAfterVisitSummaryPdf({ exist: true, count: 1 });
+      AppointmentDetailPageObject.assertUrl()
+        .assertHeading({
+          name: /past in.person appointment/i,
+          level: 1,
+        })
+        .assertAfterVisitSummaryError({
+          exist: true,
+        })
+        .assertAfterVisitSummaryPdf({ exist: true, count: 1 });
 
       cy.axeCheckBestPractice();
     });
@@ -182,9 +304,11 @@ describe('VAOS past appointment AVS flow', () => {
 
       PastAppointmentListPageObject.visit().selectListItem();
 
-      AppointmentDetailPageObject.assertAfterVisitSummaryError({
-        exist: false,
-      }).assertAfterVisitSummaryNotAvailable();
+      AppointmentDetailPageObject.assertUrl()
+        .assertAfterVisitSummaryError({
+          exist: false,
+        })
+        .assertAfterVisitSummaryNotAvailable();
 
       cy.axeCheckBestPractice();
     });
@@ -226,9 +350,10 @@ describe('VAOS past appointment AVS flow', () => {
 
       PastAppointmentListPageObject.visit().selectListItem();
 
-      AppointmentDetailPageObject.assertAfterVisitSummaryError({
-        exist: true,
-      }).assertAfterVisitSummaryPdf({ exist: false });
+      AppointmentDetailPageObject.assertUrl()
+        .assertHeading({ name: /past in.person appointment/i, level: 1 })
+        .assertAfterVisitSummaryError({ exist: true })
+        .assertAfterVisitSummaryPdf({ exist: false });
 
       cy.axeCheckBestPractice();
     });

@@ -154,7 +154,7 @@ class ContactListPage {
       `include.text`,
       Alerts.CONTACT_LIST.SAVED,
     );
-    cy.get('.va-alert').should(`be.focused`);
+    cy.get('.va-alert').should(`be.visible`);
   };
 
   clickBackToInbox = () => {

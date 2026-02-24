@@ -16,7 +16,7 @@ describe('Fully Developed Claim', () => {
     uiSchema,
   } = formConfig.chapters.additionalInformation.pages.fullyDevelopedClaim;
   it('should render', () => {
-    const { getByText, getByLabelText } = render(
+    const { container, getByText, getByLabelText } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
@@ -35,8 +35,14 @@ describe('Fully Developed Claim', () => {
     });
 
     // links
-    getByText('Learn more about the FDC program');
-    getByText('View the evidence requirements for disability claims');
+    const links = container.querySelectorAll('va-link');
+    expect(links).to.have.lengthOf(2);
+    expect(links[0].getAttribute('text')).to.equal(
+      'Learn more about the FDC program',
+    );
+    expect(links[1].getAttribute('text')).to.equal(
+      'View the evidence requirements for disability claims',
+    );
 
     // question with options
     getByText('Do you want to apply using the Fully Developed Claim program?');

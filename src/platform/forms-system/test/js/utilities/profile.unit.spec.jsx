@@ -141,7 +141,7 @@ describe('profile utilities', () => {
         city: a ? 'City' : '',
         zipCode: a ? '12345' : '',
       },
-      e: { emailAddress: e ? 'x@x.com' : '' },
+      e: e ? 'x@x.com' : '',
       h: { areaCode: h ? '123' : '', phoneNumber: h ? '5551212' : '' },
       m: { areaCode: m ? '234' : '', phoneNumber: m ? '5551313' : '' },
     });

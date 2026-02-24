@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, isPlainObject } from 'lodash';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { uploadFile as _uploadFile } from 'platform/forms-system/src/js/actions';
 import {
   standardFileChecks,
@@ -13,6 +14,26 @@ import {
 
 const MAX_FILE_SIZE_MB = 25;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
+
+// Validates that `additionalInputLabels` values are objects mapping
+// e.g. { fieldName: { value: 'Label' } }
+export function validateAdditionalInputLabels(callerName, labels) {
+  if (!labels || environment.isProduction()) {
+    return;
+  }
+
+  const invalidKeys = Object.entries(labels)
+    .filter(([, v]) => !isPlainObject(v))
+    .map(([k]) => k);
+
+  if (invalidKeys.length > 0) {
+    throw new Error(
+      `${callerName} "additionalInputLabels" values must be objects mapping values to labels, ` +
+        `e.g. { fieldName: { value: 'Label' } }. ` +
+        `Invalid keys: ${invalidKeys.join(', ')}`,
+    );
+  }
+}
 
 const createPayloadDefault = (file, formId, password = null) => {
   const payload = new FormData();
@@ -164,7 +185,7 @@ function getFileSizeError(type, size, tooBig) {
  */
 function checkFileSizeByFileType(
   file,
-  fileSizesByFileType,
+  fileSizesByFileType = {},
   maxFileSize,
   minFileSize,
 ) {
