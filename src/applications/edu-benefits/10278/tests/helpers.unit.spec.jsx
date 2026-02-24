@@ -159,6 +159,8 @@ describe('10278 helpers - validateOtherText', () => {
   });
 });
 
+const MockChild = () => null;
+
 describe('10278 helpers - InformationToDiscloseReviewField', () => {
   it('renders selected values and other text', () => {
     const disclosureKeys = ['status', 'other'];
@@ -181,7 +183,7 @@ describe('10278 helpers - InformationToDiscloseReviewField', () => {
         dataKey="claimInformation"
         otherTextKey="otherText"
       >
-        <div formData={formData} />
+        <MockChild formData={formData} />
       </InformationToDiscloseReviewField>,
     );
 
