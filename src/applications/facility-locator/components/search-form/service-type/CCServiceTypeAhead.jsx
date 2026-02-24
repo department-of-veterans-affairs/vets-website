@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import classNames from 'classnames';
 import MessagePromptDiv from './MessagePromptDiv';
+import { MIN_SEARCH_CHARS } from '../../../constants';
 
-const MIN_SEARCH_CHARS = 3;
 /**
  * CC Providers' Service Types Typeahead
  */
