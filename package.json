@@ -390,7 +390,12 @@
     "**/async": "^2.6.4",
     "**/ejs": "^3.1.7",
     "**/fbjs": "^3.0.4",
-    "ws": "7.5.10"
+    "ws": "7.5.10",
+    "@babel/eslint-parser": "7.25.9",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-cypress": "2.14.0",
+    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-jsx-a11y": "6.8.0"
   },
   "workspaces": {
     "packages": [
