@@ -367,6 +367,18 @@ describe('filterBenefits', () => {
     filterComponent.dispatchEvent(customEvent);
   };
 
+  it('shows only recommended benefits by default', async () => {
+    const recommendedOnly = mockBenefits.slice(0, 2);
+
+    const { mockStore, props } = getData(recommendedOnly, form2);
+    const wrapper = subject({ mockStore, props });
+
+    await waitFor(() => {
+      const items = wrapper.getAllByRole('listitem');
+      expect(items.length).to.equal(recommendedOnly.length);
+    });
+  });
+
   it('filters benefits by selected category', async () => {
     const { mockStore, props } = getData(mockBenefits, form2);
     const wrapper = subject({ mockStore, props });
@@ -436,6 +448,37 @@ describe('filterBenefits', () => {
     );
 
     expect(listItems.length).to.equal(BENEFITS_LIST.length);
+  });
+
+  it('updates filter text when multiple filters applied', async () => {
+    const { mockStore, props } = getData(mockBenefits, form2);
+    const wrapper = subject({ mockStore, props });
+    const { container } = wrapper;
+
+    const filterComponent = container.querySelector('va-search-filter');
+
+    filterComponent.dispatchEvent(
+      new CustomEvent('vaFilterApply', {
+        detail: [
+          {
+            id: 1,
+            label: 'When to apply',
+            category: [{ id: 'beforeSeparation', active: true }],
+          },
+          {
+            id: 2,
+            label: 'Benefit type',
+            category: [{ id: categories.EDUCATION, active: true }],
+          },
+        ],
+        bubbles: true,
+      }),
+    );
+
+    await waitFor(() => {
+      const filterText = container.querySelector('#filter-text');
+      expect(filterText.textContent).to.include('2 filters applied');
+    });
   });
 
   it('clears filters when "Clear all filters" is clicked', async () => {
