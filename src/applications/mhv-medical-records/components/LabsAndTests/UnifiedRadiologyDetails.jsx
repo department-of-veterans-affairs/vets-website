@@ -26,6 +26,7 @@ import {
   getImagingStudyThumbnails,
   getImagingStudyDicomZip,
 } from '../../actions/labsAndTests';
+import { fetchBbmiNotificationStatus } from '../../actions/images';
 
 const UnifiedRadiologyDetails = props => {
   const { record, user, runningUnitTest = false } = props;
@@ -35,6 +36,7 @@ const UnifiedRadiologyDetails = props => {
   const scdfImageThumbnails = useSelector(
     state => state.mr.labsAndTests.scdfImageThumbnails,
   );
+  const { notificationStatus } = useSelector(state => state.mr.images);
 
   const emptyField = 'None noted';
 
@@ -43,6 +45,13 @@ const UnifiedRadiologyDetails = props => {
       focusElement(document.querySelector('h1'));
     },
     [record],
+  );
+
+  useEffect(
+    () => {
+      dispatch(fetchBbmiNotificationStatus());
+    },
+    [dispatch],
   );
 
   useEffect(
@@ -183,11 +192,20 @@ const UnifiedRadiologyDetails = props => {
                       </strong>
                     </Link>
                   </p>
-                  <h3>Get email notifications for images</h3>
-                  <p>
-                    If you want us to email you when your images are ready,
-                    change your notification settings in your profile.
-                  </p>
+                  {notificationStatus ? (
+                    <p>
+                      <strong>Note: </strong> If you do not want us to notify
+                      you about images, change your settings in your profile.
+                    </p>
+                  ) : (
+                    <>
+                      <h3>Get email notifications for images</h3>
+                      <p>
+                        If you want us to email you when your images are ready,
+                        change your notification settings in your profile.
+                      </p>
+                    </>
+                  )}
                   <va-link
                     className="vads-u-margin-top--1"
                     href="/profile/notifications"
