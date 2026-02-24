@@ -67,6 +67,7 @@ const groupItemReducer = facilities => (groups, group) => {
   const newGroup = { ...group };
   const filteredItems = newGroup.communicationItems
     .filter(item => {
+      // Removes the RX tracking item if there are no facilities that support that
       if (item.id === 4) {
         return facilities.some(facility =>
           RX_TRACKING_SUPPORTING_FACILITIES.has(facility.facilityId),
