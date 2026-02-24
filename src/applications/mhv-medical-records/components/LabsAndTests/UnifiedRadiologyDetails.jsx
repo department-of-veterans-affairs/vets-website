@@ -98,25 +98,20 @@ const UnifiedRadiologyDetails = props => {
     generateTextFile(data.body, data.title);
   };
 
-  const renderImagesContent = () => {
-    if (activeAlert?.type === ALERT_TYPE_IMAGE_STATUS_ERROR) {
-      return (
-        <va-alert
-          status="error"
-          visible
-          data-testid="image-request-error-alert"
-        >
-          <h3 slot="headline">We couldn’t access your images</h3>
-          <p>Try again later.</p>
-          <p>
-            If it still doesn’t work, call us at{' '}
-            <va-telephone contact="8773270022" /> (
-            <va-telephone tty contact="711" />
-            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-          </p>
-        </va-alert>
-      );
-    }
+  const renderImagesError = () => (
+    <va-alert status="error" visible data-testid="image-request-error-alert">
+      <h3 slot="headline">We couldn’t access your images</h3>
+      <p>Try again later.</p>
+      <p>
+        If it still doesn’t work, call us at{' '}
+        <va-telephone contact="8773270022" /> (
+        <va-telephone tty contact="711" />
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
+    </va-alert>
+  );
+
+  const renderImagesLink = () => {
     if (scdfImageThumbnails?.length > 0) {
       return (
         <p className="vads-u-margin-bottom--0">
@@ -229,7 +224,9 @@ const UnifiedRadiologyDetails = props => {
           <>
             <div className="test-results-container">
               <HeaderSection header="Images" className="test-results-header">
-                {renderImagesContent()}
+                {activeAlert?.type === ALERT_TYPE_IMAGE_STATUS_ERROR
+                  ? renderImagesError()
+                  : renderImagesLink()}
                 {notificationStatus ? (
                   <p>
                     <strong>Note: </strong> If you do not want us to notify you
