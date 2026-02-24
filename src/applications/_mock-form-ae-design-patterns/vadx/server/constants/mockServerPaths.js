@@ -9,7 +9,6 @@ const MOCK_SERVER_PATHS = [
   'src/applications/education-letters/testing/response.js',
   'src/applications/financial-status-report/mocks/responses.js',
   'src/applications/health-care-supply-reordering/mocks/index.js',
-  'src/applications/ivc-champva/10-10D/tests/e2e/fixtures/mocks/local-mock-responses.js',
   'src/applications/ivc-champva/10-7959C/tests/e2e/fixtures/mocks/local-mock-responses.js',
   'src/applications/ivc-champva/10-7959f-1/tests/e2e/fixtures/mocks/local-mock-responses.js',
   'src/applications/mhv-landing-page/mocks/api/index.js',
