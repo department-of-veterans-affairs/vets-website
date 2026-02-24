@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   buildAddressArray,
-  mapboxToken,
   staticMapURL,
 } from 'platform/utilities/facilities-and-mapbox';
+import { mapboxToken } from './mapboxToken';
 
 export class FacilityMapWidget extends React.Component {
   componentDidMount() {

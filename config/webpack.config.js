@@ -510,6 +510,24 @@ module.exports = async (env = {}) => {
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
         __REGISTRY__: JSON.stringify(appRegistry),
+        'process.env.MAPBOX_TOKEN_FACILITY_LOCATOR': JSON.stringify(
+          process.env.MAPBOX_TOKEN_FACILITY_LOCATOR || '',
+        ),
+        'process.env.MAPBOX_TOKEN_ASK_VA': JSON.stringify(
+          process.env.MAPBOX_TOKEN_ASK_VA || '',
+        ),
+        'process.env.MAPBOX_TOKEN_REPRESENTATIVE_SEARCH': JSON.stringify(
+          process.env.MAPBOX_TOKEN_REPRESENTATIVE_SEARCH || '',
+        ),
+        'process.env.MAPBOX_TOKEN_CAREGIVERS': JSON.stringify(
+          process.env.MAPBOX_TOKEN_CAREGIVERS || '',
+        ),
+        'process.env.MAPBOX_TOKEN_GI': JSON.stringify(
+          process.env.MAPBOX_TOKEN_GI || '',
+        ),
+        'process.env.MAPBOX_TOKEN_STATIC_PAGES': JSON.stringify(
+          process.env.MAPBOX_TOKEN_STATIC_PAGES || '',
+        ),
         'process.env.MAPBOX_TOKEN': JSON.stringify(
           process.env.MAPBOX_TOKEN || '',
         ),

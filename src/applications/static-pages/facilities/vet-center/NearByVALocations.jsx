@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
-import {
-  calculateBoundingBox,
-  getFeaturesFromAddress,
-} from 'platform/utilities/facilities-and-mapbox';
+import { calculateBoundingBox } from 'platform/utilities/facilities-and-mapbox';
+import { getFeaturesFromAddress } from '../mapboxClient';
 import { multiTypeQuery } from '../actions';
 import {
   convertMetersToMiles,

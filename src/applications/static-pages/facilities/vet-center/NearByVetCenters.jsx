@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
-import {
-  calculateBoundingBox,
-  getFeaturesFromAddress,
-} from 'platform/utilities/facilities-and-mapbox';
+import { calculateBoundingBox } from 'platform/utilities/facilities-and-mapbox';
+import { getFeaturesFromAddress } from '../mapboxClient';
 import VetCenterInfoSection from './components/VetCenterInfoSection';
 import VetCenterImageSection from './components/VetCenterImageSection';
 import { fetchFacilityStarted, fetchFacilitySuccess } from '../actions';

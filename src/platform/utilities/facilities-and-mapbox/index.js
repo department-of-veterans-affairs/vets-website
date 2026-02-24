@@ -1,16 +1,18 @@
 import MapboxClient from '@mapbox/mapbox-sdk';
-import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+
 import { compact, isEmpty } from 'lodash';
 
 export const isPostcode = qs => /^\d{5}$/.test(qs);
 
 export const mapboxToken =
-  process.env.MAPBOX_TOKEN ||
-  'pk.eyJ1IjoiYWRob2MiLCJhIjoiY2wyZjNwM3dxMDZ4YjNjbzVwbTZ5aWQ1dyJ9.D8TZ1a4WobqcdYLWntXV_w';
+  process.env.MAPBOX_TOKEN_FACILITY_LOCATOR || process.env.MAPBOX_TOKEN;
 
-export const mapboxClient = new MapboxClient({ accessToken: mapboxToken });
+// Fallback token is a structurally valid placeholder so the SDK doesn't throw
+// at module load time when no real token is set (e.g. unit tests in CI).
+export const mapboxClient = new MapboxClient({
+  accessToken: mapboxToken || 'pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==',
+});
 
-const mbxClient = mbxGeo(mapboxClient);
 export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp', 'vi'];
 
 // Mapbox API request types
@@ -22,23 +24,6 @@ export const MAPBOX_QUERY_TYPES = [
   'country',
   'neighborhood',
 ];
-
-export const getFeaturesFromAddress = query => {
-  return new Promise(resolve => {
-    mbxClient
-      .forwardGeocode({
-        countries: CountriesList,
-        types: MAPBOX_QUERY_TYPES,
-        autocomplete: false,
-        query,
-        proximity: 'ip',
-      })
-      .send()
-      .then(features => {
-        resolve(features);
-      });
-  });
-};
 
 export const toRadians = value => {
   return (value * Math.PI) / 180;

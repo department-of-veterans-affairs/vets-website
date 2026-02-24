@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   buildAddressArray,
-  mapboxToken,
   staticMapURL,
 } from 'platform/utilities/facilities-and-mapbox';
+import { mapboxToken } from './mapboxToken';
 import { fetchMainSatelliteLocationFacility } from './actions';
 
 function cleanAddress(address, lat, long) {
