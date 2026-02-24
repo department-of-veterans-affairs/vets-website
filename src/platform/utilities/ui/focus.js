@@ -113,7 +113,7 @@ export function focusByOrder(selectors, root) {
                 focusElement(el);
               }
             }
-          }, 100);
+          }, 200);
           return true;
         }
         return false;
