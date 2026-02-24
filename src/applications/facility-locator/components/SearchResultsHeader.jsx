@@ -116,12 +116,17 @@ export const SearchResultsHeader = ({
     ) : null;
 
   const FormattedLocationText = () =>
-    location ? (
+    radius ? (
       <>
         {` within ${Math.round(radius)} miles of `}
         <b>{`"${location}"`}</b>
       </>
-    ) : null;
+    ) : (
+      <>
+        {` near `}
+        <b>{`"${location}"`}</b>{' '}
+      </>
+    );
 
   return (
     <div>
@@ -133,7 +138,7 @@ export const SearchResultsHeader = ({
         {`${resultsPrefix}`}
         <b>{`"${facilityTypes[facilityType] || ''}"`}</b>
         {FormattedServiceTypeText()}
-        {FormattedLocationText()}
+        {location ? FormattedLocationText() : null}
       </h2>
     </div>
   );

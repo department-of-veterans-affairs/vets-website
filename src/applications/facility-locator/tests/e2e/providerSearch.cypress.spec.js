@@ -88,7 +88,7 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /(Showing|results).*Community providers.*Dentist - Orofacial Pain.*(within|miles of).*Austin, Texas/i,
+        /(Showing|results).*Community providers.*Dentist - Orofacial Pain.*within (\d{1,}) miles of .*Austin, Texas/i,
       );
 
       h.verifyElementExists('#other-tools');
@@ -107,7 +107,7 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /(Showing|results).*Community providers.*in VA’s network.*(Clinic|Center).*Urgent Care.*(within|miles of).*Austin, Texas/i,
+        /(Showing|results).*Community providers.*in VA’s network.*(Clinic|Center).*Urgent Care.*within (\d{1,}) miles of.*Austin, Texas/i,
       );
 
       h.verifyElementExists('#other-tools');
@@ -132,7 +132,7 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /(Showing|results).*Urgent care.*In-network community urgent care.*(within|miles of).*Austin, Texas/i,
+        /(Showing|results).*Urgent care.*In-network community urgent care.*within (\d{1,}) miles of .*Austin, Texas/i,
       );
 
       h.verifyElementExists('#other-tools');
@@ -157,7 +157,7 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /(Showing|results).*Emergency Care.*In-network community emergency care.*(within|miles of).*Austin, Texas/i,
+        /(Showing|results).*Emergency Care.*In-network community emergency care.*within (\d{1,}) miles of .*Austin, Texas/i,
       );
 
       h.verifyElementExists('#emergency-care-info-note');
