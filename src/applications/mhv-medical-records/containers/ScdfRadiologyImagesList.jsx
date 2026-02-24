@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -12,6 +12,7 @@ import {
 import { buildThumbnailProxyUrl } from '../api/MrApi';
 import PrintHeader from '../components/shared/PrintHeader';
 import DateSubheading from '../components/shared/DateSubheading';
+import ImageGallery from '../components/shared/ImageGallery';
 import { pageTitles } from '../util/constants';
 import { sendDataDogAction } from '../util/helpers';
 
@@ -33,6 +34,20 @@ const ScdfRadiologyImagesList = ({ isTesting }) => {
 
   const [isDetailsLoaded, setDetailsLoaded] = useState(isTesting || false);
   const [dicomDownloadStarted, setDicomDownloadStarted] = useState(false);
+
+  // Convert thumbnail URL strings into { index, thumbnailUrl } objects for ImageGallery.
+  const imageList = useMemo(
+    () =>
+      scdfImageThumbnails
+        ? scdfImageThumbnails.map((url, i) => ({
+            index: i + 1,
+            thumbnailUrl: url,
+          }))
+        : [],
+    [scdfImageThumbnails],
+  );
+
+  const buildImageSrc = image => buildThumbnailProxyUrl(image.thumbnailUrl);
 
   // Fetch the record details if we navigated directly to this page.
   useEffect(
@@ -101,7 +116,7 @@ const ScdfRadiologyImagesList = ({ isTesting }) => {
     <>
       <PrintHeader />
       <h1 className="vads-u-margin-bottom--0" aria-describedby="radiology-date">
-        {scdfImageThumbnails && scdfImageThumbnails.length > 0
+        {imageList.length > 0
           ? `Images: ${labAndTestDetails.name}`
           : labAndTestDetails.name}
       </h1>
@@ -112,37 +127,13 @@ const ScdfRadiologyImagesList = ({ isTesting }) => {
       />
 
       {/*                    IMAGE GALLERY                         */}
-      {scdfImageThumbnails &&
-        scdfImageThumbnails.length > 0 && (
-          <div className="vads-u-margin-bottom--5">
-            <div data-testid="showing-image-records">
-              <span>
-                Showing 1 to {scdfImageThumbnails.length} of{' '}
-                {scdfImageThumbnails.length}{' '}
-                {scdfImageThumbnails.length === 1 ? 'image' : 'images'}
-              </span>
-            </div>
-            <div className="vads-u-padding--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-l-grid-container vads-l-row vads-u-margin-bottom--2">
-              {scdfImageThumbnails.map((thumbnailUrl, idx) => (
-                <div
-                  className="image-div vads-l-col--6"
-                  data-testid="image-div"
-                  key={thumbnailUrl}
-                >
-                  <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--h3">
-                    Image {idx + 1} of {scdfImageThumbnails.length}
-                  </h2>
-                  <div className="vads-u-padding-x--1 vads-u-padding-y--1 vads-u-background-color--black vads-u-margin-y--0p5">
-                    <img
-                      src={buildThumbnailProxyUrl(thumbnailUrl)}
-                      alt={`${idx + 1}, Details not provided`}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+      {imageList.length > 0 && (
+        <ImageGallery
+          imageList={imageList}
+          imagesPerPage={10}
+          buildImageSrc={buildImageSrc}
+        />
+      )}
 
       {/*                    DICOM DOWNLOAD                        */}
       <h2>How to share images with a non-VA provider</h2>
