@@ -1,0 +1,52 @@
+{
+  "type": "FeatureCollection",
+  "query": [
+    "alexandria"
+  ],
+  "features": [
+    {
+      "id": "place.1234567890123456",
+      "type": "Feature",
+      "place_type": [
+        "place"
+      ],
+      "relevance": 1,
+      "properties": {
+        "wikidata": "Q1234"
+      },
+      "text": "Alexandria",
+      "place_name": "Alexandria, Virginia, United States",
+      "bbox": [
+        -77.15,
+        38.75,
+        -77.0,
+        38.85
+      ],
+      "center": [
+        -77.0469,
+        38.8048
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.0469,
+          38.8048
+        ]
+      },
+      "context": [
+        {
+          "id": "region.1234567890123456",
+          "wikidata": "Q1234",
+          "short_code": "US-VA",
+          "text": "Virginia"
+        },
+        {
+          "id": "country.19678805456372290",
+          "short_code": "us",
+          "wikidata": "Q30",
+          "text": "United States"
+        }
+      ]
+    }
+  ]
+}

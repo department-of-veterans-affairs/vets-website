@@ -1,0 +1,52 @@
+{
+  "type": "FeatureCollection",
+  "query": [
+    "27606"
+  ],
+  "features": [
+    {
+      "id": "postcode.1234567890123456",
+      "type": "Feature",
+      "place_type": [
+        "postcode"
+      ],
+      "relevance": 1,
+      "properties": {
+        "wikidata": "Q1234"
+      },
+      "text": "27606",
+      "place_name": "Raleigh, North Carolina 27606, United States",
+      "bbox": [
+        -78.7,
+        35.7,
+        -78.6,
+        35.85
+      ],
+      "center": [
+        -78.6382,
+        35.7796
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6382,
+          35.7796
+        ]
+      },
+      "context": [
+        {
+          "id": "region.1234567890123456",
+          "wikidata": "Q1234",
+          "short_code": "US-NC",
+          "text": "North Carolina"
+        },
+        {
+          "id": "country.19678805456372290",
+          "short_code": "us",
+          "wikidata": "Q30",
+          "text": "United States"
+        }
+      ]
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import mockGeocodingAtlantaZip from '../../../constants/mock-geocoding-atlanta-zip.json';
 import data from './mock/search.limited.services.mocks.json';
 
 describe('Facility VA search', () => {
@@ -5,6 +6,7 @@ describe('Facility VA search', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept('POST', 'facilities_api/v2/va*', data).as('mockedData');
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingAtlantaZip);
   });
 
   it('does a simple search and finds a result on the list', () => {

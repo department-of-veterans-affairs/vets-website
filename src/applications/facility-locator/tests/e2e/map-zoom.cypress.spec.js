@@ -1,4 +1,5 @@
 import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 Cypress.Commands.add('verifySearchArea', () => {
   const clickInterval = 10;
@@ -60,6 +61,7 @@ it('handles map zooming correctly', () => {
     '/facilities_api/v2/**',
     mockFacilitiesSearchResultsV1,
   ).as('searchFacilitiesVA');
+  cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
   cy.visit('/find-locations');
 
   cy.get('#street-city-state-zip').type('Austin, TX');

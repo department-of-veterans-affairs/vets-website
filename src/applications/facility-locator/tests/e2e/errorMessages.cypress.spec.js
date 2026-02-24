@@ -1,5 +1,6 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import FacilityHelpers from './helpers/facility-helpers-cypress';
 import FeaturesHelpers from './helpers/features-helpers-cypress';
 import CcpHelpers from './helpers/ccp-helpers-cypress';
@@ -28,6 +29,7 @@ for (const featureSet of featureSets) {
       FeaturesHelpers.initApplicationMock(featureSet);
       CcpHelpers.initApplicationMock('1223X2210X', 'mockDentists');
       FacilityHelpers.initApplicationMock();
+      cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
 
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();

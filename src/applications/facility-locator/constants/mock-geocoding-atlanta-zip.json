@@ -1,0 +1,40 @@
+{
+  "type": "FeatureCollection",
+  "query": ["30310"],
+  "features": [
+    {
+      "id": "postcode.7084208338086880",
+      "type": "Feature",
+      "place_type": ["postcode"],
+      "relevance": 1,
+      "properties": {},
+      "text": "30310",
+      "place_name": "Atlanta, Georgia 30310, United States",
+      "bbox": [-84.46, 33.72, -84.38, 33.77],
+      "center": [-84.4133, 33.7384],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.4133, 33.7384]
+      },
+      "context": [
+        {
+          "id": "place.1234567890123456",
+          "wikidata": "Q23556",
+          "text": "Atlanta"
+        },
+        {
+          "id": "region.1234567890123456",
+          "wikidata": "Q1428",
+          "short_code": "US-GA",
+          "text": "Georgia"
+        },
+        {
+          "id": "country.19678805456372290",
+          "short_code": "us",
+          "wikidata": "Q30",
+          "text": "United States"
+        }
+      ]
+    }
+  ]
+}

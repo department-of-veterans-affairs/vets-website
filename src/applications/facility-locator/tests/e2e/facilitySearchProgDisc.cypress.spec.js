@@ -1,4 +1,5 @@
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import mockGeocodingRaleigh from '../../constants/mock-geocoding-raleigh.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
 import CcpHelpers from './helpers/ccp-helpers-cypress';
 import FacilityHelpers from './helpers/facility-helpers-cypress';
@@ -114,6 +115,7 @@ describe('Facility VA search', () => {
   });
 
   it('shows search result header even when no results are found', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingRaleigh);
     cy.visit('/find-locations');
     cy.injectAxe();
     cy.axeCheck();
@@ -177,6 +179,7 @@ describe('Facility VA search', () => {
   });
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingRaleigh);
     cy.visit('/find-locations');
     cy.injectAxe();
     cy.axeCheck();
@@ -192,6 +195,7 @@ describe('Facility VA search', () => {
   });
 
   it('finds VA emergency care', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
     cy.visit('/find-locations');
     typeInCityStateInput('Austin, TX');
     selectFacilityTypeInDropdown(FACILITY_TYPES.EMERGENCY);

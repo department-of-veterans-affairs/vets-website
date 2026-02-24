@@ -1,0 +1,52 @@
+{
+  "type": "FeatureCollection",
+  "query": [
+    "atlanta"
+  ],
+  "features": [
+    {
+      "id": "place.1234567890123456",
+      "type": "Feature",
+      "place_type": [
+        "place"
+      ],
+      "relevance": 1,
+      "properties": {
+        "wikidata": "Q1234"
+      },
+      "text": "Atlanta",
+      "place_name": "Atlanta, Georgia, United States",
+      "bbox": [
+        -84.55,
+        33.6,
+        -84.25,
+        33.9
+      ],
+      "center": [
+        -84.3880,
+        33.7490
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -84.3880,
+          33.7490
+        ]
+      },
+      "context": [
+        {
+          "id": "region.1234567890123456",
+          "wikidata": "Q1234",
+          "short_code": "US-GA",
+          "text": "Georgia"
+        },
+        {
+          "id": "country.19678805456372290",
+          "short_code": "us",
+          "wikidata": "Q30",
+          "text": "United States"
+        }
+      ]
+    }
+  ]
+}

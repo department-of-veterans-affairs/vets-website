@@ -86,6 +86,59 @@ beforeEach(() => {
   });
 });
 
+// ==========================================================================
+// Global Mapbox API mocks
+// Prevents CI from hitting real Mapbox APIs (cost + stability).
+// Tests with their own cy.intercept() for Mapbox override these via Cypress
+// LIFO (last-in-first-out) — test-level beforeEach runs after support file's,
+// so test-specific intercepts always take priority.
+// ==========================================================================
+beforeEach(() => {
+  // Geocoding API — minimal valid response for tests without their own mock
+  /* eslint-disable camelcase */
+  cy.intercept('GET', '**/geocoding/**', {
+    type: 'FeatureCollection',
+    query: ['mock'],
+    features: [
+      {
+        id: 'place.1',
+        type: 'Feature',
+        place_type: ['place'],
+        relevance: 1,
+        properties: {},
+        text: 'Mock City',
+        place_name: 'Mock City, State, United States',
+        center: [-97.7437, 30.2711],
+        geometry: {
+          type: 'Point',
+          coordinates: [-97.7437, 30.2711],
+        },
+        context: [
+          { id: 'region.1', text: 'State', short_code: 'US-TX' },
+          { id: 'country.1', text: 'United States', short_code: 'us' },
+        ],
+      },
+    ],
+  });
+  /* eslint-enable camelcase */
+
+  // Tile JSON metadata (GET for map init, HEAD for token health check)
+  cy.intercept('GET', '**/v4/mapbox.*', {});
+  cy.intercept('HEAD', '**/v4/mapbox.*', { statusCode: 200 });
+
+  // Vector/raster tiles from CDN subdomains
+  cy.intercept('GET', /\.tiles\.mapbox\.com/, { body: '' });
+
+  // Map fonts (glyphs)
+  cy.intercept('GET', '**/fonts/v1/**', { body: '' });
+
+  // Map sprites (icons)
+  cy.intercept('GET', '**/sprites/v1/**', { body: '' });
+
+  // Mapbox telemetry
+  cy.intercept('POST', '*events.mapbox.com/**', { statusCode: 204 });
+});
+
 // Assign the video path to the context property for failed tests
 Cypress.on('test:after:run', test => {
   if (test.state === 'failed') {

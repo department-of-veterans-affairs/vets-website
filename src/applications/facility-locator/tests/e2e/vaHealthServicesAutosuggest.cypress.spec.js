@@ -1,6 +1,7 @@
 import * as h from './helpers';
 import vaHealthServicesData from '../hooks/test-va-healthcare-services.json';
 import searchResultsData from './autosuggest-data/services-autosuggest.json';
+import mockGeocodingAtlanta from '../../constants/mock-geocoding-atlanta.json';
 
 describe('VA health services autosuggest', () => {
   beforeEach(() => {
@@ -28,6 +29,8 @@ describe('VA health services autosuggest', () => {
     cy.intercept('POST', '**/facilities_api/v2/va', searchResultsData).as(
       'searchResultsData',
     );
+
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingAtlanta);
   });
 
   const verifyDropdownIsOpen = () => {

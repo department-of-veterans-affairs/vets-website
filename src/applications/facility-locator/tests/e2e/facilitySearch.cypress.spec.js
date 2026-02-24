@@ -1,6 +1,8 @@
 import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
 import mockFacilityDataV1 from '../../constants/mock-facility-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import mockGeocodingRaleigh from '../../constants/mock-geocoding-raleigh.json';
+import mockGeocodingAlexandria from '../../constants/mock-geocoding-alexandria.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
 import mockServices from '../../constants/mock-provider-services.json';
 
@@ -145,6 +147,7 @@ describe('Facility VA search', () => {
   });
 
   it('shows search result header even when no results are found', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingRaleigh);
     cy.visit('/find-locations');
     cy.intercept('GET', '/facilities_api/v2/ccp/provider?**', {
       data: [],
@@ -219,6 +222,7 @@ describe('Facility VA search', () => {
   });
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingRaleigh);
     cy.visit('/find-locations');
 
     cy.injectAxeThenAxeCheck();
@@ -236,6 +240,7 @@ describe('Facility VA search', () => {
   });
 
   it('finds VA emergency care', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingAlexandria);
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Alexandria Virginia');
