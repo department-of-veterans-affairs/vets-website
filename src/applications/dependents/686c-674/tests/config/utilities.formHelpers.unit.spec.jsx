@@ -35,6 +35,9 @@ describe('Utilities', () => {
     expect(customFormReplacer('phoneNumber', '123-456-7890 blah')).to.be.eq(
       '1234567890',
     );
+    expect(customFormReplacer('test', '  test   test2   ')).to.be.eq(
+      'test test2',
+    );
   });
 });
 

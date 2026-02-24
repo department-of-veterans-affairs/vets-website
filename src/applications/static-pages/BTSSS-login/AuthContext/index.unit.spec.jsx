@@ -97,12 +97,12 @@ describe('AuthContext', () => {
       ).to.exist;
       expect(
         $(
-          'va-link[href="https://dvagov-btsss.dynamics365portals.us/signin"][text="Go to BTSSS"]',
+          'va-link[href="https://dvagov-btsss.dynamics365portals.us/signin"][text="Go to BTSSS website"]',
         ),
       ).to.exist;
       expect(
         $(
-          'va-link-action[href="/my-health/travel-pay/claims"][text="Review your travel claims"]',
+          'va-link-action[href="/my-health/travel-pay/claims"][text="Review your travel reimbursement claims"]',
         ),
       ).to.exist;
     });
