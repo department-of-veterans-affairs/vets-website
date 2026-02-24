@@ -6,7 +6,12 @@ describe('prefillTransform', () => {
     const pages = {};
     const metadata = {};
     const formData = {
-      applicantName: { first: 'Rita', middle: 'Ann', last: 'Jackson' },
+      applicantName: {
+        first: 'Rita',
+        middle: 'Ann',
+        last: 'Jackson',
+        suffix: 'II',
+      },
       ssn: '513096784',
       vaFileNumber: '0987654321',
     };

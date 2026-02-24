@@ -30,34 +30,34 @@ const SponsorAddressSelectionPage = props =>
   AddressSelectionPage({ ...props, dataKey: 'sponsorAddress' });
 
 export const sponsorPages = {
-  overview: {
+  sponsorInformationOverview: {
     path: 'veteran-information-overview',
     title: 'Veteran information',
     ...sectionOverview,
   },
-  personalInformation: {
+  sponsorPersonalInformation: {
     path: 'veteran-name-and-date-of-birth',
     title: 'Veteran’s name and date of birth',
     ...personalInformation,
   },
-  identityInformation: {
+  sponsorIdentityInformation: {
     path: 'veteran-social-security-number',
     title: `Veteran’s identification information`,
     ...identityInformation,
   },
-  livingStatus: {
+  sponsorLivingStatus: {
     path: 'veteran-life-status',
     title: 'Veteran’s status',
     depends: isNotSponsor,
     ...livingStatus,
   },
-  deathInformation: {
+  sponsorDeathInformation: {
     path: 'veteran-death-information',
     title: 'Veteran’s death details',
     depends: isDeceased,
     ...deathInformation,
   },
-  addressSelection: {
+  sponsorAddress: {
     path: 'veteran-address',
     title: 'Veteran’s address',
     depends: whenAll(isNotSponsor, isNotDeceased, hasCertifierStreet),
@@ -66,13 +66,13 @@ export const sponsorPages = {
     uiSchema: {},
     schema: blankSchema,
   },
-  mailingAddress: {
+  sponsorMailingAddress: {
     path: 'veteran-mailing-address',
     title: 'Veteran’s mailing address',
     depends: whenAll(isNotDeceased, noSharedAddress),
     ...mailingAddress,
   },
-  contactInformation: {
+  sponsorContactInformation: {
     path: 'veteran-contact-information',
     title: 'Veteran’s contact information',
     depends: isNotDeceased,
