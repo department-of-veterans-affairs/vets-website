@@ -176,17 +176,14 @@ const RefillPrescriptions = () => {
   const isDisabled = isDataLoading || isRefreshing;
 
   // Clear the submitted meds snapshot after cache refresh completes or error
-  useEffect(
-    () => {
-      if (refillRequestStatus === REFILL_STATUS.FINISHED && !isFetching) {
-        submittedMedications.current = null;
-      }
-      if (refillRequestStatus === REFILL_STATUS.ERROR) {
-        submittedMedications.current = null;
-      }
-    },
-    [refillRequestStatus, isFetching],
-  );
+  useEffect(() => {
+    if (refillRequestStatus === REFILL_STATUS.FINISHED && !isFetching) {
+      submittedMedications.current = null;
+    }
+    if (refillRequestStatus === REFILL_STATUS.ERROR) {
+      submittedMedications.current = null;
+    }
+  }, [refillRequestStatus, isFetching]);
 
   // Use the original refillable prescriptions list without client-side filtering
   // This prevents duplicate refill attempts by relying on server-side data consistency
@@ -308,24 +305,18 @@ const RefillPrescriptions = () => {
     }
   };
 
-  useEffect(
-    () => {
-      // Remove session data on component mount
-      sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
+  useEffect(() => {
+    // Remove session data on component mount
+    sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
 
-      updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
-    },
-    [selectedSortOption],
-  );
+    updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
+  }, [selectedSortOption]);
 
-  useEffect(
-    () => {
-      if (!isLoading && !isRefilling) {
-        focusElement(document.querySelector('h1'));
-      }
-    },
-    [isLoading, isRefilling],
-  );
+  useEffect(() => {
+    if (!isLoading && !isRefilling) {
+      focusElement(document.querySelector('h1'));
+    }
+  }, [isLoading, isRefilling]);
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
