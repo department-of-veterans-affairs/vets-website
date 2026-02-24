@@ -111,16 +111,15 @@ describe('VeteranStatusAlerts', () => {
 
   describe('DynamicVeteranStatusAlert', () => {
     it('renders alert with header and text body items', () => {
-      const attributes = {
-        header: 'Test Alert Header',
-        body: [
-          { type: 'text', value: 'First text message' },
-          { type: 'text', value: 'Second text message' },
-        ],
-        alert_type: 'warning', // eslint-disable-line camelcase -- API response uses snake_case
-      };
       const { getByText } = render(
-        <DynamicVeteranStatusAlert attributes={attributes} />,
+        <DynamicVeteranStatusAlert
+          header="Test Alert Header"
+          body={[
+            { type: 'text', value: 'First text message' },
+            { type: 'text', value: 'Second text message' },
+          ]}
+          alertType="warning"
+        />,
       );
       expect(getByText('Test Alert Header')).to.exist;
       expect(getByText('First text message')).to.exist;
@@ -128,13 +127,12 @@ describe('VeteranStatusAlerts', () => {
     });
 
     it('renders alert with phone body items', () => {
-      const attributes = {
-        header: 'Contact Us',
-        body: [{ type: 'phone', value: '800-698-2411', tty: true }],
-        alert_type: 'warning', // eslint-disable-line camelcase -- API response uses snake_case
-      };
       const { getByText } = render(
-        <DynamicVeteranStatusAlert attributes={attributes} />,
+        <DynamicVeteranStatusAlert
+          header="Contact Us"
+          body={[{ type: 'phone', value: '800-698-2411', tty: true }]}
+          alertType="warning"
+        />,
       );
       expect(getByText('Contact Us')).to.exist;
       expect(
@@ -145,7 +143,6 @@ describe('VeteranStatusAlerts', () => {
           );
         }),
       ).to.exist;
-      // Check for TTY telephone
       expect(
         getByText((content, element) => {
           return (
@@ -158,19 +155,18 @@ describe('VeteranStatusAlerts', () => {
     });
 
     it('renders alert with link body items', () => {
-      const attributes = {
-        header: 'Learn More',
-        body: [
-          {
-            type: 'link',
-            value: 'Learn how to correct your records',
-            url: 'https://example.com/correct-records',
-          },
-        ],
-        alert_type: 'info', // eslint-disable-line camelcase -- API response uses snake_case
-      };
       const { getByText } = render(
-        <DynamicVeteranStatusAlert attributes={attributes} />,
+        <DynamicVeteranStatusAlert
+          header="Learn More"
+          body={[
+            {
+              type: 'link',
+              value: 'Learn how to correct your records',
+              url: 'https://example.com/correct-records',
+            },
+          ]}
+          alertType="info"
+        />,
       );
       expect(getByText('Learn More')).to.exist;
       expect(
@@ -186,17 +182,16 @@ describe('VeteranStatusAlerts', () => {
     });
 
     it('renders alert with mixed body item types', () => {
-      const attributes = {
-        header: 'Mixed Content Alert',
-        body: [
-          { type: 'text', value: 'You are not eligible.' },
-          { type: 'phone', value: '866-279-3677', tty: false },
-          { type: 'link', value: 'Get help', url: 'https://va.gov/help' },
-        ],
-        alert_type: 'error', // eslint-disable-line camelcase -- API response uses snake_case
-      };
       const { getByText, container } = render(
-        <DynamicVeteranStatusAlert attributes={attributes} />,
+        <DynamicVeteranStatusAlert
+          header="Mixed Content Alert"
+          body={[
+            { type: 'text', value: 'You are not eligible.' },
+            { type: 'phone', value: '866-279-3677', tty: false },
+            { type: 'link', value: 'Get help', url: 'https://va.gov/help' },
+          ]}
+          alertType="error"
+        />,
       );
       expect(getByText('Mixed Content Alert')).to.exist;
       expect(getByText('You are not eligible.')).to.exist;
@@ -216,30 +211,27 @@ describe('VeteranStatusAlerts', () => {
           );
         }),
       ).to.exist;
-      // Check alert status
       const alert = container.querySelector('va-alert');
       expect(alert.getAttribute('status')).to.equal('error');
     });
 
-    it('defaults to warning status when alert_type is not provided', () => {
-      const attributes = {
-        header: 'Default Status Alert',
-        body: [{ type: 'text', value: 'Some message' }],
-      };
+    it('defaults to warning status when alertType is not provided', () => {
       const { container } = render(
-        <DynamicVeteranStatusAlert attributes={attributes} />,
+        <DynamicVeteranStatusAlert
+          header="Default Status Alert"
+          body={[{ type: 'text', value: 'Some message' }]}
+        />,
       );
       const alert = container.querySelector('va-alert');
       expect(alert.getAttribute('status')).to.equal('warning');
     });
 
     it('renders without header when header is not provided', () => {
-      const attributes = {
-        body: [{ type: 'text', value: 'Message without header' }],
-        alert_type: 'info', // eslint-disable-line camelcase -- API response uses snake_case
-      };
       const { getByText, container } = render(
-        <DynamicVeteranStatusAlert attributes={attributes} />,
+        <DynamicVeteranStatusAlert
+          body={[{ type: 'text', value: 'Message without header' }]}
+          alertType="info"
+        />,
       );
       expect(getByText('Message without header')).to.exist;
       expect(container.querySelector('h2[slot="headline"]')).to.be.null;

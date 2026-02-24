@@ -166,9 +166,7 @@ const renderBodyItem = (item, index) => {
   }
 };
 
-export const DynamicVeteranStatusAlert = ({ attributes }) => {
-  const { header, body, alert_type: alertType } = attributes;
-
+export const DynamicVeteranStatusAlert = ({ alertType, body, header }) => {
   return (
     <va-alert
       class="vads-u-margin-bottom--4"
@@ -183,17 +181,14 @@ export const DynamicVeteranStatusAlert = ({ attributes }) => {
 };
 
 DynamicVeteranStatusAlert.propTypes = {
-  attributes: PropTypes.shape({
-    // eslint-disable-next-line camelcase -- API response uses snake_case
-    alert_type: PropTypes.oneOf(['error', 'warning', 'info', 'success']),
-    body: PropTypes.arrayOf(
-      PropTypes.shape({
-        type: PropTypes.oneOf(['text', 'phone', 'link']),
-        url: PropTypes.string,
-        value: PropTypes.string,
-        tty: PropTypes.bool,
-      }),
-    ),
-    header: PropTypes.string,
-  }),
+  alertType: PropTypes.oneOf(['error', 'warning', 'info', 'success']),
+  body: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.oneOf(['text', 'phone', 'link']),
+      url: PropTypes.string,
+      value: PropTypes.string,
+      tty: PropTypes.bool,
+    }),
+  ),
+  header: PropTypes.string,
 };

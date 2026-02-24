@@ -183,7 +183,11 @@ const VeteranStatusSharedService = ({
             This card makes it easy to prove your service and access Veteran
             discounts, all while keeping your personal information secure.
           </p>
-          <DynamicVeteranStatusAlert attributes={data.attributes} />
+          <DynamicVeteranStatusAlert
+            alertType={data.attributes?.alert_type}
+            body={data.attributes?.body}
+            header={data.attributes?.header}
+          />
           <FrequentlyAskedQuestions createPdf={null} pdfError={pdfError} />
         </>
       );
