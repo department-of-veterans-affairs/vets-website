@@ -13,9 +13,12 @@ const ErrorLinks = props => {
   const errorRef = useRef(null);
   const [hadErrors, setHadErrors] = useState(false);
 
-  const resolved = hadErrors && errors.length === 0;
+  // Defensive check: ensure errors is always an array
+  const errorList = Array.isArray(errors) ? errors : [];
 
-  if (!hadErrors && errors.length > 0) {
+  const resolved = hadErrors && errorList.length === 0;
+
+  if (!hadErrors && errorList.length > 0) {
     setHadErrors(true);
   }
 
@@ -23,7 +26,7 @@ const ErrorLinks = props => {
     () => {
       // Move focus to legend
       if (
-        errors.length > 0 &&
+        errorList.length > 0 &&
         !errorRef.current.classList.contains('has-focused')
       ) {
         // initially focus on alert legend immediately above error links
@@ -31,7 +34,7 @@ const ErrorLinks = props => {
         errorRef.current.classList.add('has-focused');
       }
     },
-    [errors, errorRef],
+    [errorList, errorRef],
   );
 
   return (
@@ -65,11 +68,11 @@ const ErrorLinks = props => {
               className="vads-u-font-size--base"
             >
               {`Please return to the following ${
-                errors.length === 1 ? 'part' : `${errors.length} parts`
+                errorList.length === 1 ? 'part' : `${errorList.length} parts`
               } of the form:`}
             </legend>
             <ul className="vads-u-margin-left--2 error-message-list">
-              {errors.map(error => {
+              {errorList.map(error => {
                 const handleClick = event => {
                   event.preventDefault();
                   // If navigationType is 'redirect', navigate to the page directly

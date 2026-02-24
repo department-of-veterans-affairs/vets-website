@@ -5,6 +5,7 @@ import {
   getPropertyInfo,
   replaceNumberWithWord,
   formatErrors,
+  getErrorMessage,
 } from '../../../src/js/utilities/data/reduceErrors';
 
 describe('Process form validation errors', () => {
@@ -727,6 +728,37 @@ describe('Process form validation errors', () => {
     const result = reduceErrors(raw, pages);
     expect(result[0].message).to.equal('Validation error');
   });
+  
+  it('should handle reviewErrors with object values without causing React error #31', () => {
+    const pages = [
+      {
+        title: 'Test',
+        path: '/test',
+        uiSchema: {
+          testField: {},
+        },
+        schema: {},
+        chapterTitle: 'Test Chapter',
+        chapterKey: 'testChapter',
+        pageKey: 'testPage',
+      },
+    ];
+    const raw = [
+      {
+        testField: {
+          __errors: ['Test error'],
+        },
+      },
+    ];
+    // Simulate a misconfigured reviewErrors with an object value
+    const reviewErrors = {
+      testField: { chapterKey: 'test', pageKey: 'page' }, // Invalid: should be string or function
+    };
+    const result = reduceErrors(raw, pages, reviewErrors);
+    // The fix should ensure message is always a string, falling back to the __errors
+    expect(result[0].message).to.be.a('string');
+    expect(result[0].message).to.equal('Test error');
+  });
 });
 
 describe('getPropertyInfo', () => {
@@ -929,5 +961,47 @@ describe('formatErrors', () => {
       'x is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
     );
     expect(result).to.equal('X is not one of the available values');
+  });
+});
+
+describe('getErrorMessage', () => {
+  it('should return empty string for undefined', () => {
+    expect(getErrorMessage(undefined)).to.equal('');
+  });
+  
+  it('should return empty string for null', () => {
+    expect(getErrorMessage(null)).to.equal('');
+  });
+  
+  it('should return the string if message is a string', () => {
+    expect(getErrorMessage('Test error message')).to.equal('Test error message');
+  });
+  
+  it('should return empty string for empty string', () => {
+    expect(getErrorMessage('')).to.equal('');
+  });
+  
+  it('should call function and return result if message is a function', () => {
+    const fn = (index) => `Error at index ${index}`;
+    expect(getErrorMessage(fn, '2')).to.equal('Error at index 2');
+  });
+  
+  it('should return empty string for objects (preventing React error #31)', () => {
+    const obj = { chapterKey: 'test', pageKey: 'page' };
+    expect(getErrorMessage(obj)).to.equal('');
+  });
+  
+  it('should return empty string for arrays', () => {
+    const arr = ['test', 'error'];
+    expect(getErrorMessage(arr)).to.equal('');
+  });
+  
+  it('should return empty string for numbers', () => {
+    expect(getErrorMessage(123)).to.equal('');
+  });
+  
+  it('should return empty string for booleans', () => {
+    expect(getErrorMessage(true)).to.equal('');
+    expect(getErrorMessage(false)).to.equal('');
   });
 });
