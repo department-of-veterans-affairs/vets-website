@@ -1800,4 +1800,209 @@ describe('SelectCareTeam', () => {
       expect(history.location.pathname).to.equal(initialPath);
     });
   });
+
+  describe('CernerFacilityAlert', () => {
+    it('should render CernerFacilityAlert when user has pretransitioned facility', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            userAtPretransitionedOhFacility: true,
+            userFacilityMigratingToOh: false,
+            userFacilityReadyForInfoAlert: false,
+            facilities: [
+              {
+                facilityId: '692', // White City VA - pretransitioned facility
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        const alert = screen.container.querySelector('va-alert');
+        expect(alert).to.exist;
+        expect(alert.getAttribute('status')).to.equal('warning');
+      });
+    });
+
+    it('should render warning alert during migration warning phases (p1, p2)', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            userAtPretransitionedOhFacility: false,
+            userFacilityMigratingToOh: true,
+            userFacilityReadyForInfoAlert: false,
+            migrationSchedules: [
+              {
+                facilities: [
+                  {
+                    facilityId: '662',
+                    facilityName: 'Test Facility 1',
+                  },
+                ],
+                phases: {
+                  current: 'p1', // Warning phase
+                  p0: '2024-01-01',
+                  p1: '2024-02-01',
+                  p2: '2024-03-01',
+                  p3: '2024-04-01',
+                  p4: '2024-05-01',
+                  p5: '2024-06-01',
+                  p6: '2024-07-01',
+                },
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        const alert = screen.container.querySelector('va-alert-expandable');
+        expect(alert).to.exist;
+        expect(alert.getAttribute('status')).to.equal('warning');
+        expect(alert.getAttribute('trigger')).to.contain(
+          'Updates will begin on',
+        );
+      });
+    });
+
+    it('should render error alert during migration error phases (p3, p4, p5)', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            userAtPretransitionedOhFacility: false,
+            userFacilityMigratingToOh: true,
+            userFacilityReadyForInfoAlert: false,
+            migrationSchedules: [
+              {
+                facilities: [
+                  {
+                    facilityId: '662',
+                    facilityName: 'Test Facility 1',
+                  },
+                ],
+                phases: {
+                  current: 'p4', // Error phase
+                  p0: '2024-01-01',
+                  p1: '2024-02-01',
+                  p2: '2024-03-01',
+                  p3: '2024-04-01',
+                  p4: '2024-05-01',
+                  p5: '2024-06-01',
+                  p6: '2024-07-01',
+                },
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        const alert = screen.container.querySelector('va-alert');
+        expect(alert).to.exist;
+        expect(alert.getAttribute('status')).to.equal('error');
+      });
+    });
+
+    it('should NOT render alert outside of warning/error phases (p0, p6, p7)', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            userAtPretransitionedOhFacility: false,
+            userFacilityMigratingToOh: true,
+            userFacilityReadyForInfoAlert: false,
+            migrationSchedules: [
+              {
+                facilities: [
+                  {
+                    facilityId: '662',
+                    facilityName: 'Test Facility 1',
+                  },
+                ],
+                phases: {
+                  current: 'p0', // Outside warning/error phases
+                  p0: '2024-01-01',
+                  p1: '2024-02-01',
+                  p2: '2024-03-01',
+                  p3: '2024-04-01',
+                  p4: '2024-05-01',
+                  p5: '2024-06-01',
+                  p6: '2024-07-01',
+                },
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        // Check for Cerner-specific alerts (not EmergencyNote)
+        const cernerAlert = screen.container.querySelector(
+          '[data-testid="cerner-facilities-alert"]',
+        );
+        const cernerTransitionAlert = screen.container.querySelector(
+          '[data-testid="cerner-facilities-transition-alert"]',
+        );
+        const cernerInfoAlert = screen.container.querySelector(
+          '[data-testid="cerner-facilities-info-alert"]',
+        );
+        expect(cernerAlert).to.not.exist;
+        expect(cernerTransitionAlert).to.not.exist;
+        expect(cernerInfoAlert).to.not.exist;
+      });
+    });
+
+    it('should render info alert when facility is ready for info alert', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            userAtPretransitionedOhFacility: false,
+            userFacilityMigratingToOh: false,
+            userFacilityReadyForInfoAlert: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        const alert = screen.container.querySelector('va-alert-expandable');
+        expect(alert).to.exist;
+        expect(alert.getAttribute('status')).to.equal('info');
+      });
+    });
+  });
 });

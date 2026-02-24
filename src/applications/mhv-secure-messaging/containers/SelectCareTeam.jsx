@@ -19,6 +19,9 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { datadogRum } from '@datadog/browser-rum';
 import { scrollToFirstError } from 'platform/utilities/scroll';
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
+import { submitLaunchMyVaHealthAal } from '../api/SmApi';
+import useFeatureToggles from '../hooks/useFeatureToggles';
 
 import { populatedDraft } from '../selectors';
 import {
@@ -50,6 +53,7 @@ const SelectCareTeam = () => {
     vistaFacilities,
     error: recipientsError,
   } = useSelector(state => state.sm.recipients);
+  const { isAalEnabled } = useFeatureToggles();
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const { draftInProgress, acceptInterstitial } = useSelector(
     state => state.sm.threadDetails,
@@ -70,6 +74,15 @@ const SelectCareTeam = () => {
   const MAX_RADIO_OPTIONS = 6;
 
   const h1Ref = useRef(null);
+
+  const handleMyVaHealthLinkClick = useCallback(
+    () => {
+      if (isAalEnabled) {
+        submitLaunchMyVaHealthAal();
+      }
+    },
+    [isAalEnabled],
+  );
 
   useEffect(
     () => {
@@ -188,6 +201,7 @@ const SelectCareTeam = () => {
       draftInProgress?.subject,
       draftInProgress?.category,
       draftInProgress?.careSystemVhaId,
+      ehrDataByVhaId,
     ],
   );
 
@@ -552,6 +566,11 @@ const SelectCareTeam = () => {
       <h1 className="vads-u-margin-bottom--2" tabIndex="-1" ref={h1Ref}>
         Select care team
       </h1>
+      <CernerFacilityAlert
+        healthTool="SECURE_MESSAGING"
+        className="vads-u-margin-bottom--3 vads-u-margin-top--2"
+        onLinkClick={handleMyVaHealthLinkClick}
+      />
       {showBlockedAlert && (
         <BlockedTriageGroupAlert
           alertStyle={BlockedTriageAlertStyles.INFO}
