@@ -1,7 +1,7 @@
 import omit from 'platform/utilities/data/omit';
 import { MILITARY_CITIES } from '../constants';
 import { wrapInSingleArray } from './array-builder';
-
+import { hasServiceHistoryInfo } from './form-config';
 /**
  * Map address object to match the key names in the schema
  * @param {Array} address - an array of arrays that defines the keys/values to map
@@ -72,6 +72,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const veteranAddress = sanitizeAddress(mailingAddress);
   const doesAddressMatch =
     JSON.stringify(veteranHomeAddress) === JSON.stringify(veteranAddress);
+  const hasPrefillServiceHistory = hasServiceHistoryInfo(formData);
   const parsedAddressMatch =
     veteranAddress && veteranHomeAddress ? doesAddressMatch : undefined;
 
@@ -102,6 +103,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     'view:isMedicaidEligible': { isMedicaidEligible },
     'view:isEnrolledMedicarePartA': { isEnrolledMedicarePartA },
     'view:doesMailingMatchHomeAddress': parsedAddressMatch,
+    'view:hasPrefillServiceHistory': hasPrefillServiceHistory,
   };
 
   if (veteranAddress) {

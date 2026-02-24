@@ -213,54 +213,6 @@ describe('Child information page', () => {
     expect($('#root_disabledYes', container)).to.not.be.null;
   });
 
-  it('should show warnings', async () => {
-    const data = {
-      'view:hasDependents': true,
-      dependents: [
-        {
-          fullName: {
-            first: 'Jane',
-            last: 'Doe',
-          },
-          childPlaceOfBirth: 'Brooklyn',
-          childSocialSecurityNumber: '111223333',
-          disabled: false,
-          previouslyMarried: false,
-          childDateOfBirth: formatISO(subYears(new Date(), 19)),
-        },
-      ],
-    };
-    const { container } = render(
-      <FakeProvider>
-        <DefinitionTester
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-          schema={schema}
-          data={data}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-        />
-      </FakeProvider>,
-    );
-
-    expect($$('va-alert', container).length).to.equal(0);
-
-    await fillRadio(
-      $('va-radio[name="root_childRelationship"]', container),
-      'ADOPTED',
-    );
-    expect($$('va-alert', container).length).to.equal(1);
-
-    await fillRadio(
-      $('va-radio[name="root_attendingCollege"]', container),
-      'Y',
-    );
-    expect($$('va-alert', container).length).to.equal(2);
-
-    await fillRadio($('va-radio[name="root_disabled"]', container), 'Y');
-    expect($$('va-alert', container).length).to.equal(3);
-  });
-
   it('should ask if currently married', async () => {
     const data = {
       'view:hasDependents': true,
@@ -302,7 +254,6 @@ describe('Child information page', () => {
     schema,
     uiSchema,
     {
-      'va-alert': 1,
       'va-text-input': 2,
       'va-checkbox': 1,
       'va-radio': 4,

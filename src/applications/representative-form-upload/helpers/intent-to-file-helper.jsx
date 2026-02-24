@@ -28,15 +28,27 @@ const fetchIntentToFile = async (
   goPath,
   goNextPath,
 ) => {
-  let params = `?veteranFirstName=${formData.veteranFullName.first}`;
-  params = `${params}&veteranLastName=${formData.veteranFullName.last}`;
-  params = `${params}&veteranDateOfBirth=${formData.veteranDateOfBirth}`;
-  params = `${params}&veteranSsn=${formData.veteranSsn}`;
+  let params = `?veteranFirstName=${
+    formData.veteranSubPage.veteranFullName.first
+  }`;
+  params = `${params}&veteranLastName=${
+    formData.veteranSubPage.veteranFullName.last
+  }`;
+  params = `${params}&veteranDateOfBirth=${
+    formData.veteranSubPage.veteranDateOfBirth
+  }`;
+  params = `${params}&veteranSsn=${formData.veteranSubPage.veteranSsn}`;
   if (benefitType === 'survivor') {
-    params = `${params}&claimantFirstName=${formData.claimantFullName.first}`;
-    params = `${params}&claimantLastName=${formData.claimantFullName.last}`;
-    params = `${params}&claimantDateOfBirth=${formData.claimantDateOfBirth}`;
-    params = `${params}&claimantSsn=${formData.claimantSsn}`;
+    params = `${params}&claimantFirstName=${
+      formData.claimantSubPage.claimantFullName.first
+    }`;
+    params = `${params}&claimantLastName=${
+      formData.claimantSubPage.claimantFullName.last
+    }`;
+    params = `${params}&claimantDateOfBirth=${
+      formData.claimantSubPage.claimantDateOfBirth
+    }`;
+    params = `${params}&claimantSsn=${formData.claimantSubPage.claimantSsn}`;
   }
   params = `${params}&benefitType=${benefitType}`;
   try {

@@ -35,9 +35,9 @@ class MedicalRecordsSite {
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
     isAcceleratingLabsAndTests = false,
-    isAcceleratingVaccines = false,
     isAcceleratingCareNotes = false,
     isAcceleratingConditions = false,
+    isAcceleratingVaccines = false,
     isCcdExtendedFileTypesEnabled = false,
     isCcdOHEnabled = false,
     isImagesDomainEnabled = false,
@@ -67,12 +67,12 @@ class MedicalRecordsSite {
             value: isAcceleratingLabsAndTests,
           },
           {
-            name: 'mhv_accelerated_delivery_vaccines_enabled',
-            value: isAcceleratingVaccines,
-          },
-          {
             name: 'mhv_accelerated_delivery_conditions_enabled',
             value: isAcceleratingConditions,
+          },
+          {
+            name: 'mhv_accelerated_delivery_vaccines_enabled',
+            value: isAcceleratingVaccines,
           },
           {
             name: 'mhv_medical_records_ccd_extended_file_types',

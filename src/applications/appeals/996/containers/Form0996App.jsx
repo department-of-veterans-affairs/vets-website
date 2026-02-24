@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from '~/platform/forms-system/src/js/actions';
-
 import formConfig from '../config/form';
 import {
   DATA_DOG_ID,
@@ -15,10 +12,10 @@ import {
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
-
-import { getContestableIssues as getContestableIssuesAction } from '../actions';
-
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
+import {
+  getContestableIssues as getContestableIssuesAction,
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+} from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
@@ -30,7 +27,6 @@ import {
   processContestableIssues,
 } from '../../shared/utils/issues';
 import { isOutsideForm } from '../../shared/utils/helpers';
-
 import { data996 } from '../../shared/props';
 
 export const Form0996App = ({
@@ -78,7 +74,10 @@ export const Form0996App = ({
           if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
-            getContestableIssues({ benefitType: formData.benefitType });
+            getContestableIssues({
+              benefitType: formData.benefitType,
+              appAbbr: 'HLR',
+            });
           } else if (
             contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
             issuesNeedUpdating(

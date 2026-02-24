@@ -238,13 +238,7 @@
         "view:accredited": {},
         "name": "University of Missouri"
       },
-      "typeOfProgramOrBenefit": {
-        "ch35": true,
-        "fry": true,
-        "feca": true,
-        "other": true
-      },
-      "otherProgramOrBenefit": "Test",
+      "typeOfProgramOrBenefit": "ch35",
       "tuitionIsPaidByGovAgency": false,
       "view:programExamples": {},
       "ssn": "800662233",
