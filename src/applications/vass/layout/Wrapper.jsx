@@ -68,9 +68,14 @@ const Wrapper = props => {
     [disableBeforeUnload],
   );
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  useEffect(
+    () => {
+      if (!loading) {
+        focusElement('h1');
+      }
+    },
+    [loading],
+  );
 
   useEffect(
     () => {
