@@ -135,11 +135,6 @@ export const SystemErrorAlert = () => {
   );
 };
 
-/**
- * Renders a dynamic alert body item based on its type
- * @param {Object} item - The body item from the API response
- * @param {number} index - The item index for key
- */
 const renderBodyItem = (item, index) => {
   switch (item.type) {
     case 'text':
@@ -171,10 +166,6 @@ const renderBodyItem = (item, index) => {
   }
 };
 
-/**
- * Dynamic alert component for veteran status alerts
- * Renders alerts based on the new shared service API response structure
- */
 export const DynamicVeteranStatusAlert = ({ attributes }) => {
   const { header, body, alert_type: alertType } = attributes;
 

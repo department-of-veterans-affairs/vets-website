@@ -78,15 +78,12 @@ const VeteranStatusSharedService = ({
     };
   }, []);
 
-  // Determine if we should show the card based on the new API response
   const isCardEligible =
     data?.type === 'veteran_status_card' &&
     data?.veteran_status === 'confirmed';
 
-  // Get formatted full name from the new API response
   const formattedFullName = data?.attributes?.full_name || '';
 
-  // Get latest service info from the new API response
   const getLatestService = () => {
     const latestServiceData = data?.attributes?.latest_service;
     if (latestServiceData) {
@@ -110,11 +107,9 @@ const VeteranStatusSharedService = ({
 
   const latestService = getLatestService();
 
-  // Get disability rating from API response or fall back to Redux state
   const disabilityRating =
     data?.attributes?.disability_rating ?? totalDisabilityRating;
 
-  // Get EDIPI from API response or fall back to Redux state
   const cardEdipi = data?.attributes?.edipi ?? edipi;
 
   const pdfData = {
@@ -177,12 +172,10 @@ const VeteranStatusSharedService = ({
       );
     }
 
-    // Handle fetch error
     if (error) {
       return <LoadFail />;
     }
 
-    // Handle alert response type (ineligible or error scenarios)
     if (data?.type === 'veteran_status_alert') {
       return (
         <>
@@ -196,7 +189,6 @@ const VeteranStatusSharedService = ({
       );
     }
 
-    // Handle card response type (eligible)
     return (
       <>
         <p>

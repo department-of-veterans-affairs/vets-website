@@ -23,7 +23,6 @@ const VeteranStatusWrapper = props => {
     TOGGLE_NAMES.cveVeteranStatusNewService,
   );
 
-  // Show loading indicator while feature toggles are loading
   if (isLoading) {
     return (
       <va-loading-indicator
@@ -34,7 +33,6 @@ const VeteranStatusWrapper = props => {
     );
   }
 
-  // Render the appropriate component based on the feature toggle
   if (useSharedService) {
     return <VeteranStatusSharedService {...props} />;
   }
