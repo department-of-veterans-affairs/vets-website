@@ -7,6 +7,7 @@ import {
   Routes,
   useLocation,
 } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
@@ -150,7 +151,6 @@ describe('ChooseExpenseType', () => {
     const buttonPair = $('va-button-pair');
     expect(buttonPair).to.exist;
     expect(buttonPair.hasAttribute('continue')).to.be.true;
-    expect(buttonPair.hasAttribute('disable-analytics')).to.be.true;
   });
 
   it('displays correct heading text', () => {
@@ -597,6 +597,72 @@ describe('ChooseExpenseType', () => {
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
           '/file-new-claim/12345/claim123/review',
+        );
+      });
+    });
+
+    it('dispatches setExpenseBackDestination with "choose-expense" when continue is clicked with selected expense', async () => {
+      // Component to verify Redux state
+      const BackDestinationDisplay = () => {
+        const expenseBackDestination = useSelector(
+          state => state.travelPay.complexClaim.expenseBackDestination,
+        );
+        return (
+          <div data-testid="expense-back-destination">
+            {expenseBackDestination || 'none'}
+          </div>
+        );
+      };
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={['/file-new-claim/12345/claim123/choose-expense']}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpenseType />}
+            />
+          </Routes>
+          <BackDestinationDisplay />
+        </MemoryRouter>,
+        {
+          initialState: { ...initialState },
+          reducers: reducer,
+        },
+      );
+
+      // Select an expense type (Lodging)
+      const vaRadio = $('va-radio');
+      const lodgingOption = $('va-radio-option[value="lodging"]');
+
+      fireEvent(
+        lodgingOption,
+        new CustomEvent('click', {
+          detail: {},
+        }),
+      );
+
+      fireEvent(
+        vaRadio,
+        new CustomEvent('vaValueChange', {
+          detail: { value: 'lodging' },
+        }),
+      );
+
+      // Click continue button
+      const buttonPair = $('va-button-pair');
+      fireEvent(
+        buttonPair,
+        new CustomEvent('primaryClick', {
+          detail: {},
+        }),
+      );
+
+      // Verify backDestination is set to 'choose-expense'
+      await waitFor(() => {
+        expect(getByTestId('expense-back-destination').textContent).to.equal(
+          'choose-expense',
         );
       });
     });

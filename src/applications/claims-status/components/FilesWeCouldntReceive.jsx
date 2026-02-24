@@ -12,8 +12,8 @@ import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import { usePagination } from '../hooks/usePagination';
 import { fetchFailedUploads } from '../actions';
 import {
-  getTrackedItemDisplayNameFromEvidenceSubmission,
   setDocumentTitle,
+  getTrackedItemDisplayNameFromEvidenceSubmission,
 } from '../utils/helpers';
 import { setPageFocus } from '../utils/page';
 import { ITEMS_PER_PAGE } from '../constants';

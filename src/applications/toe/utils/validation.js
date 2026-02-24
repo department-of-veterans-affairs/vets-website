@@ -129,8 +129,8 @@ export const validateRoutingNumber = (
   schema,
   errorMessages,
 ) => {
-  const rountingNumberRegex = new RegExp(schema.pattern);
-  const isValidObfuscated = rountingNumberRegex.test(routingNumber.trim());
+  const routingNumberRegex = new RegExp(schema.pattern);
+  const isValidObfuscated = routingNumberRegex.test(routingNumber.trim());
 
   const bankAccount = formData[formFields.bankAccount];
   const matchesOriginal =

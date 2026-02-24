@@ -5,8 +5,8 @@
  * @returns {Array} The slots.
  */
 export const mapAppointmentAvailabilityToSlots = appointmentAvailability => {
-  if (!appointmentAvailability?.availableTimeSlots?.length) return [];
-  return appointmentAvailability?.availableTimeSlots?.map(slot => {
+  if (!appointmentAvailability?.availableSlots?.length) return [];
+  return appointmentAvailability?.availableSlots?.map(slot => {
     return {
       start: slot.dtStartUtc,
       end: slot.dtEndUtc,

@@ -8,6 +8,7 @@ const uiSchema = {
   ...titleUI('Total assets'),
   netWorthEstimation: currencyUI({
     title: 'Estimate the total value of your assets',
+    max: 999999999,
   }),
 };
 

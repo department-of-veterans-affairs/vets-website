@@ -63,6 +63,55 @@ export function dateFormatWithoutTimezone(
 }
 
 /**
+ * Format a UTC (or offset) ISO dateTime string in the user's local timezone with
+ * timezone abbreviation. Use for unified vitals (SCDF) where the API sends UTC.
+ * FHIR dateTime: YYYY-MM-DDThh:mm:ss(.sss)(Z|±HH:MM)
+ *
+ * @param {String} isoString ISO dateTime string, e.g. 2024-11-14T18:19:23Z
+ * @param {String} fmt defaults to 'MMMM d, yyyy, h:mm a'
+ * @param {String} [timeZone] IANA timezone (e.g. 'America/New_York'); if omitted, uses browser's timezone
+ * @returns {String} e.g. "November 14, 2024, 1:19 p.m. EST", or null for bad inputs
+ */
+export function formatDateTimeInUserTimezone(
+  isoString,
+  fmt = 'MMMM d, yyyy, h:mm a',
+  timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone,
+) {
+  if (!isoString || typeof isoString !== 'string') return null;
+
+  // Year-only: YYYY
+  if (/^\d{4}$/.test(isoString)) {
+    return isoString;
+  }
+
+  // Year+month: YYYY-MM
+  if (/^\d{4}-(0[1-9]|1[0-2])$/.test(isoString)) {
+    const d = parseISO(`${isoString}-01`);
+    if (!isValid(d)) return null;
+    return dateFnsFormat(d, 'MMMM yyyy');
+  }
+
+  // Date-only: YYYY-MM-DD
+  if (/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(isoString)) {
+    const d = parseISO(isoString);
+    if (!isValid(d)) return null;
+    return dateFnsFormat(d, 'MMMM d, yyyy');
+  }
+
+  // Date-time with Z or offset: parse as instant, format in target timezone
+  const fixedLeap = isoString.replace(/:60(\.\d+)?(?=Z|[+-]|$)/, ':59$1');
+  const dt = parseISO(fixedLeap);
+  if (!isValid(dt)) return null;
+
+  const formatted = formatInTimeZone(dt, timeZone, fmt);
+  const tzAbbr = formatInTimeZone(dt, timeZone, 'zzz');
+  const withPeriods = formatted
+    .replace(/\bAM\b/g, 'a.m.')
+    .replace(/\bPM\b/g, 'p.m.');
+  return `${withPeriods} ${tzAbbr}`;
+}
+
+/**
  * Current year formatted 'yyyy'.
  * @param {*} dateTime - Date/time value parsable by Date.
  * @returns {string} 'yyyy'

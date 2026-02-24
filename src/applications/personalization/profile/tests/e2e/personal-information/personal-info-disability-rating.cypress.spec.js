@@ -24,7 +24,7 @@ describe('Content for Disability Rating field', () => {
 
     findVaLinkByText('Learn more about VA disability ratings').should('exist');
     findVaLinkByText(
-      'PACT Act: Eligibility updates based on toxic exposure',
+      'Learn more about the PACT Act and eligibility updates based on toxic exposure',
     ).should('exist');
 
     cy.injectAxeThenAxeCheck();
@@ -47,9 +47,9 @@ describe('Content for Disability Rating field', () => {
       .contains('90% service connected')
       .should('exist');
 
-    findVaLinkByText('Learn more about your disability rating').should('exist');
+    findVaLinkByText('Learn more about VA disability ratings').should('exist');
     findVaLinkByText(
-      'PACT Act: Eligibility updates based on toxic exposure',
+      'Learn more about the PACT Act and eligibility updates based on toxic exposure',
     ).should('exist');
 
     cy.injectAxeThenAxeCheck();
@@ -78,7 +78,7 @@ describe('Content for Disability Rating field', () => {
 
     findVaLinkByText('Learn more about VA disability ratings').should('exist');
     findVaLinkByText(
-      'PACT Act: Eligibility updates based on toxic exposure',
+      'Learn more about the PACT Act and eligibility updates based on toxic exposure',
     ).should('exist');
 
     cy.injectAxeThenAxeCheck();

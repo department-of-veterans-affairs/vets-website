@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual } from 'recompose';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { getRealFacilityId } from '../../utils/appointment';
 import DetailPageLayout, {
   What,

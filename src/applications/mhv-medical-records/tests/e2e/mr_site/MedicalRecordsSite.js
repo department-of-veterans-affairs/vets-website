@@ -4,9 +4,13 @@ import sessionStatus from '../fixtures/session-status.json';
 import createAal from '../fixtures/create-aal.json';
 
 class MedicalRecordsSite {
-  login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
+  login = (
+    userFixture = mockUser,
+    useDefaultFeatureToggles = true,
+    featureToggleOptions = {},
+  ) => {
     if (useDefaultFeatureToggles) {
-      this.mockFeatureToggles();
+      this.mockFeatureToggles(featureToggleOptions);
     }
     this.mockVamcEhr();
     this.mockMaintenanceWindow();
@@ -31,11 +35,12 @@ class MedicalRecordsSite {
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
     isAcceleratingLabsAndTests = false,
-    isAcceleratingVaccines = false,
     isAcceleratingCareNotes = false,
     isAcceleratingConditions = false,
+    isAcceleratingVaccines = false,
     isCcdExtendedFileTypesEnabled = false,
     isCcdOHEnabled = false,
+    isImagesDomainEnabled = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -62,12 +67,12 @@ class MedicalRecordsSite {
             value: isAcceleratingLabsAndTests,
           },
           {
-            name: 'mhv_accelerated_delivery_vaccines_enabled',
-            value: isAcceleratingVaccines,
-          },
-          {
             name: 'mhv_accelerated_delivery_conditions_enabled',
             value: isAcceleratingConditions,
+          },
+          {
+            name: 'mhv_accelerated_delivery_vaccines_enabled',
+            value: isAcceleratingVaccines,
           },
           {
             name: 'mhv_medical_records_ccd_extended_file_types',
@@ -118,6 +123,14 @@ class MedicalRecordsSite {
           {
             name: 'mhv_medical_records_support_backend_pagination_vital',
             value: false,
+          },
+          {
+            name: 'mhv_medical_records_images_domain',
+            value: isImagesDomainEnabled,
+          },
+          {
+            name: 'mhvMedicalRecordsImagesDomain',
+            value: isImagesDomainEnabled,
           },
         ],
       },

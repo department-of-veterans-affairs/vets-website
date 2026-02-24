@@ -50,7 +50,7 @@ export const IntroductionPage = props => {
         test fees and use your VA education benefits.
       </p>
       <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
-        Follow the steps to get started:
+        Follow these steps to get started:
       </h2>
       <ProcessList />
       <va-additional-info

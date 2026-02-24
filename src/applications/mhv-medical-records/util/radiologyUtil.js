@@ -184,6 +184,23 @@ const generateHash = data => {
   return hash.toString(16).padStart(8, '0'); // Convert to hexadecimal, pad to 8 chars
 };
 
+/**
+ * Normalize a procedure name by replacing newlines and multiple whitespace characters
+ * with a single space. This ensures consistent hashing between PHR and CVIX records
+ * where procedure names may have different whitespace formatting.
+ *
+ * @param {string} name the procedure name to normalize
+ * @returns {string} the normalized procedure name
+ */
+export const normalizeProcedureName = name => {
+  if (!name) return '';
+  return name
+    .replace(/[\r\n]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+};
+
 export const radiologyRecordHash = record => {
   const { procedureName, radiologist, stationNumber } = record;
   let date = record.eventDate || record.performedDatePrecise;
@@ -197,7 +214,15 @@ export const radiologyRecordHash = record => {
     [date] = dateObj.toISOString().split('T'); // Extract the date part
   }
 
-  const dataString = `${procedureName}|${radiologist}|${stationNumber}|${date}`;
+  // Normalize procedure name to handle whitespace differences between PHR and CVIX
+  const normalizedProcedureName = normalizeProcedureName(procedureName);
+
+  // Use empty string for undefined/null values to ensure consistent hashing
+  // between PHR (which has radiologist) and CVIX (which may not have it at top level)
+  const normalizedRadiologist = radiologist || '';
+  const normalizedStationNumber = stationNumber || '';
+
+  const dataString = `${normalizedProcedureName}|${normalizedRadiologist}|${normalizedStationNumber}|${date}`;
   return generateHash(dataString).substring(0, 8);
 };
 

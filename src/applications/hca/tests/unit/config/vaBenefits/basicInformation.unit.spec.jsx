@@ -1,7 +1,7 @@
 // @ts-check
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
 import formConfig from '../../../../config/form';
@@ -14,8 +14,8 @@ describe('hca VaCompensationType config', () => {
   } = formConfig.chapters.vaBenefits.pages.vaBenefits;
 
   // run test for correct number of fields on the page
-  const expectedNumberOfFields = 3;
-  testNumberOfFields(
+  const expectedNumberOfFields = 1;
+  testNumberOfWebComponentFields(
     formConfig,
     schema,
     uiSchema,
@@ -25,7 +25,7 @@ describe('hca VaCompensationType config', () => {
 
   // run test for correct number of error messages on submit
   const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmit(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,

@@ -7,7 +7,7 @@ import { SEARCH_PARAMS } from '../utilities/constants';
 const Pagination = ({ meta, defaults }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const pageSize = Number(searchParams.get('pageSize'));
+  const pageSize = Number(searchParams.get('perPage'));
   const pageSelect = page => {
     const status = searchParams.get(SEARCH_PARAMS.STATUS) || defaults.STATUS;
     const sort = searchParams.get(SEARCH_PARAMS.SORT) || defaults.SORT;
@@ -18,13 +18,13 @@ const Pagination = ({ meta, defaults }) => {
     // status for request search page, second is for submissions pagination
     if (status) {
       navigate(
-        `?status=${status}&sort=${sort}&pageNumber=${page}&pageSize=${pageSize}&as_selected_individual=${selectedIndividual}`,
+        `?status=${status}&sort=${sort}&page=${page}&perPage=${pageSize}&show=${selectedIndividual}`,
       );
       setTimeout(() => {
         focusElement('.poa-request__meta');
       }, 500);
     } else {
-      navigate(`?sort=${sort}&pageNumber=${page}&pageSize=${pageSize}`);
+      navigate(`?sort=${sort}&page=${page}&perPage=${pageSize}`);
       setTimeout(() => {
         focusElement('.poa-request__meta');
       }, 500);

@@ -136,6 +136,48 @@ export const formMappings = {
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-535-ARE.pdf',
     showSupportingDocuments: true,
   },
+
+  '21-4170': {
+    subTitle: 'Statement of Marital Relationship',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-4170-ARE.pdf',
+    showSupportingDocuments: true,
+  },
+
+  '21P-524': {
+    subTitle:
+      'Statement of Person Claiming to Have Stood in Relation of Parent',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-524-ARE.pdf',
+    showSupportingDocuments: true,
+  },
+
+  '21P-601': {
+    subTitle: 'Application for Accrued Amounts Due a Deceased Beneficiary',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21p-601-ARE.pdf',
+    showSupportingDocuments: true,
+  },
+
+  '21P-4706b': {
+    subTitle: "VA Fiduciary's Account",
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-4706b-ARE.pdf',
+    showSupportingDocuments: true,
+  },
+
+  '21P-4171': {
+    subTitle: 'Supporting Statement Regarding Marriage',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-4171-ARE.pdf',
+    showSupportingDocuments: true,
+  },
+
+  '21P-8924': {
+    subTitle: 'Application of Surviving Spouse or Child for REPS Benefits',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-8924-ARE.pdf',
+  },
+
+  '20-10208': {
+    subTitle: 'Document/Evidence Submission',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-20-10208-ARE.pdf',
+    showSupportingDocuments: true,
+  },
 };
 
 const extractFormSlug = path => {

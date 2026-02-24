@@ -48,7 +48,7 @@ const StatusTabLink = ({
   if (active) classNames.push('active');
   return (
     <Link
-      to={`?status=${tabStatus}&sort=${tabSort}&pageSize=20&pageNumber=1&as_selected_individual=${selectedIndividual}`}
+      to={`?status=${tabStatus}&sort=${tabSort}&perPage=20&page=1&show=${selectedIndividual}`}
       className={classNames.join(' ')}
       role="tab"
       id={`tab-${tabStatus}`}
@@ -87,7 +87,7 @@ const POARequestSearchPage = title => {
       : { page: { total: 0, number: 1, totalPages: 1 } };
   const { showPOA403Alert } = loaderData;
   const searchStatus = searchParams.get('status');
-  const selectedIndividual = searchParams.get('as_selected_individual');
+  const selectedIndividual = searchParams.get('show');
   const navigation = useNavigation();
 
   return (

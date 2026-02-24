@@ -80,7 +80,10 @@ export const claimantContactSchema = {
       type: 'object',
       properties: {
         claimantPhoneNumber: internationalPhoneSchema(),
-        claimantEmail: emailSchema,
+        claimantEmail: {
+          ...emailSchema,
+          maxLength: 70,
+        },
       },
     },
   },

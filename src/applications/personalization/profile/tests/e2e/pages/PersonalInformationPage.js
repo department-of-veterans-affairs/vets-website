@@ -1,5 +1,5 @@
 import directDepositMocks from '@@profile/mocks/endpoints/direct-deposits';
-import { mvhUser } from '@@profile/mocks/endpoints/user';
+import { mhvUser } from '@@profile/mocks/endpoints/user';
 import mockFullNameSuccess from '../../fixtures/full-name-success.json';
 import mockPersonalInformation from '../../fixtures/personal-information-success.json';
 import mockServiceHistory from '../../fixtures/service-history-success.json';
@@ -57,7 +57,7 @@ class PersonalInformationPage {
     cy.intercept(`GET`, `/v0/feature_toggles*`, togglesResponse);
     cy.intercept('GET', 'v0/profile/direct_deposits', directDepositMocks.base);
 
-    cy.login(mvhUser);
+    cy.login(mhvUser);
 
     cy.visit(`/profile/personal-information`);
 

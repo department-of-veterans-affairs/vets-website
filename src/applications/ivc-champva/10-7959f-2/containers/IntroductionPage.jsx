@@ -13,24 +13,23 @@ const OMB_EXP_DATE = '03/31/2027';
 
 const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
-  const { customText, formId, prefillEnabled, savedFormMessages } = formConfig;
+  const { formId, prefillEnabled, savedFormMessages } = formConfig;
 
   const isUserLOA1 = useSelector(isLOA1);
   const isUserLOA3 = useSelector(isLOA3);
 
   const sipIntroProps = useMemo(
     () => ({
-      alertTitle: 'Sign in now to save time and save your work in progress',
       unauthStartText: 'Sign in to start your claim',
       messages: savedFormMessages,
       hideUnauthedStartLink: true,
-      formConfig: { customText },
       headingLevel: 2,
+      formConfig,
       prefillEnabled,
       pageList,
       formId,
     }),
-    [customText, formId, pageList, prefillEnabled, savedFormMessages],
+    [formConfig, formId, pageList, prefillEnabled, savedFormMessages],
   );
 
   const pageContent = useMemo(
@@ -42,9 +41,7 @@ const IntroductionPage = ({ route }) => {
           through the Foreign Medical Program (FMP). Use this form to file a
           claim with FMP.
         </p>
-        <h2 className="vads-u-font-size--h3">
-          What to know before you fill out this form
-        </h2>
+        <h2>What to know before you fill out this form</h2>
         <p>When you prepare to file, be sure to have these on hand:</p>
         <ul>
           <li>An itemized billing statement to support your claim</li>
@@ -54,17 +51,19 @@ const IntroductionPage = ({ route }) => {
           </li>
           <li>Other supporting documents for certain types of claims</li>
         </ul>
-        <p className="vads-u-margin-bottom--4">
+        <p>
           <va-link
             text="Find out which supporting documents you need"
             href="/health-care/file-foreign-medical-program-claim/#supporting-documents-to-send-w"
           />
         </p>
         {isUserLOA3 && (
-          <va-alert status="info" data-testid="fmp-direct-deposit-alert">
-            <h2 slot="headline">Set up direct deposit</h2>
+          <>
+            <h2 data-testid="fmp-direct-deposit-title">
+              Set up direct deposit
+            </h2>
             {directDepositSetupInfo}
-          </va-alert>
+          </>
         )}
         <div className="vads-u-margin-y--4">
           <SaveInProgressIntro {...sipIntroProps} />

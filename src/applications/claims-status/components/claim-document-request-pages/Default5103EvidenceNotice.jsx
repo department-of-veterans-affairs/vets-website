@@ -6,12 +6,8 @@ import {
   VaCheckbox,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  buildDateFormatter,
-  is5103Notice,
-  isStandard5103Notice,
-  isAutomated5103Notice,
-} from '../../utils/helpers';
+import { buildDateFormatter } from '../../utils/helpers';
+import * as TrackedItem from '../../utils/trackedItemContent';
 import {
   // START ligthouse_migration
   submit5103 as submit5103Action,
@@ -61,7 +57,7 @@ function Default5103EvidenceNotice({
   };
   const dateFormatter = buildDateFormatter();
 
-  if (!is5103Notice(item.displayName)) {
+  if (!TrackedItem.is5103Notice(item.displayName)) {
     return null;
   }
 
@@ -79,7 +75,7 @@ function Default5103EvidenceNotice({
       <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         Review evidence list (5103 notice)
       </h1>
-      {isStandard5103Notice(item.displayName) ? (
+      {TrackedItem.isStandard5103Notice(item.displayName) ? (
         <p>
           We sent you a “List of evidence we may need (5103 notice)” letter.
           This letter lets you know about different types of additional evidence
@@ -149,7 +145,7 @@ function Default5103EvidenceNotice({
         onClick={submit}
       />
 
-      {isAutomated5103Notice(item.displayName) && (
+      {TrackedItem.isAutomated5103Notice(item.displayName) && (
         <p data-testid="due-date-information">
           <strong>Note:</strong> If you don’t submit the evidence waiver, we'll
           wait for you to add evidence until{' '}

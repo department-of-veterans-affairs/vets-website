@@ -27,7 +27,11 @@ const rowTitleDescription = classNames([
   'vads-u-font-size--md',
 ]);
 
-const rowValue = classNames(['vads-u-margin--0', 'vads-u-width--full']);
+const rowValue = classNames([
+  'vads-u-margin--0',
+  'vads-u-width--full',
+  'dd-privacy-mask',
+]);
 
 export const classes = {
   sectionTitle,

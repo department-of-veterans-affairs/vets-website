@@ -23,6 +23,11 @@
       - [Run](#run)
       - [PORTS](#ports)
       - [Things of note](#things-of-note)
+- [Testing](#testing)
+  - [Unit tests](#unit-tests)
+  - [e2e tests](#e2e-tests)
+    - [Open Cypress UI](#open-cypress-ui)
+    - [Run Cypress from command line](#run-cypress-from-command-line)
 
 <!-- /TOC -->
 ## Test users
@@ -43,9 +48,7 @@ Users must be LOA3 and have 2FA set up to access Direct Deposit. Users must also
 
 ## Connected apps
 
-There is a dedicated team that manages the connected app integrations. The slack channel is #connected-apps.
-
-When running the app locally, all test users will have 2 connected apps available to them as they are mocked [here](src/applications/personalization/profile/util/connected-apps.js).
+When running the app locally, all test users will have 2 connected apps available to them as they are mocked [here](src/applications/personalization/profile/mocks/endpoints/connected-apps/index.js).
 
 [How to connect apps in staging](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/identity-personalization/profile/Combine%20Profile%20and%20Account/QA/how-to-turn-on-connected-apps.md)
 
@@ -135,3 +138,35 @@ Just like the API, make sure to change the PORT to public.
 - The main content will never load, that is static content. That is outside the scope of this setup.
 - Sometimes its a refresh or two to get things going
 - If you make changes, you will have to re-build and re-start the server
+
+# Testing
+
+## Unit tests
+
+Run all unit tests for Profile:
+```
+yarn test:unit src/applications/personalization/profile/tests/**/*.unit.spec.js*
+```
+
+## e2e tests
+
+**Before running any Cypress tests**, first make sure that:
+1. `vets-website` is being served locally on port 3001
+2. any mock server is **NOT** running
+   - this includes `vets-api` or our local mock server 
+
+### Open Cypress UI
+Caveat: can be buggy and laggy
+```
+yarn cy:open
+```
+### Run Cypress from command line
+Run all e2e tests for Profile:
+```
+yarn cy:run --spec "src/applications/personalization/profile/tests/e2e/**/*"
+```
+
+Run specific test:
+```
+yarn cy:run --spec "path/to/test-file.cypress.spec.js"
+```

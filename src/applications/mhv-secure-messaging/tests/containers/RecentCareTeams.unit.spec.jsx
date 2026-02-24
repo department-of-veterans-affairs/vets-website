@@ -214,6 +214,178 @@ describe('RecentCareTeams component', () => {
     });
   });
 
+  describe('Blocked Triage Group Alert', () => {
+    it('should render BlockedTriageGroupAlert with ALERT style when allTriageGroupsBlocked is true', () => {
+      const state = {
+        featureToggles: {
+          loading: false,
+          [`${'mhv_secure_messaging_recent_recipients'}`]: true,
+        },
+        sm: {
+          recipients: {
+            recentRecipients: mockRecentRecipients,
+            allRecipients: mockAllRecipients,
+            allTriageGroupsBlocked: true,
+            blockedFacilities: [],
+            blockedRecipients: [],
+            associatedBlockedTriageGroupsQty: 3,
+          },
+          threadDetails: {
+            acceptInterstitial: true,
+          },
+        },
+      };
+      const { container } = renderComponent(state);
+
+      // Should render the h1
+      expect(container.querySelector('h1')).to.exist;
+
+      // Should render the BlockedTriageGroupAlert as va-alert-expandable (ALERT style)
+      const alert = container.querySelector('va-alert-expandable');
+      expect(alert).to.exist;
+      expect(alert.getAttribute('status')).to.equal('warning');
+      expect(alert.getAttribute('trigger')).to.include(
+        "can't send messages to your care teams",
+      );
+
+      // Should NOT render the radio options
+      const radioGroup = container.querySelector('va-radio');
+      expect(radioGroup).to.not.exist;
+
+      // Should NOT render the continue button
+      const continueButton = container.querySelector(
+        '[data-testid="recent-care-teams-continue-button"]',
+      );
+      expect(continueButton).to.not.exist;
+    });
+
+    it('should render BlockedTriageGroupAlert with INFO style when single facility is blocked', () => {
+      const state = {
+        featureToggles: {
+          loading: false,
+          [`${'mhv_secure_messaging_recent_recipients'}`]: true,
+        },
+        drupalStaticData: {
+          vamcEhrData: {
+            data: {
+              ehrDataByVhaId: {
+                // Use string key to match blockedFacilities string values
+                '553': { vamcSystemName: 'VA Detroit Healthcare System' },
+              },
+            },
+          },
+        },
+        sm: {
+          recipients: {
+            recentRecipients: mockRecentRecipients,
+            allRecipients: mockAllRecipients,
+            allTriageGroupsBlocked: false,
+            blockedFacilities: ['553'],
+            blockedRecipients: [],
+            associatedBlockedTriageGroupsQty: 1,
+          },
+          threadDetails: {
+            acceptInterstitial: true,
+          },
+        },
+      };
+      const { container } = renderComponent(state);
+
+      // Should render the h1
+      expect(container.querySelector('h1')).to.exist;
+
+      // Should render the BlockedTriageGroupAlert as va-alert (INFO style)
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.exist;
+      expect(alert.getAttribute('status')).to.equal('info');
+
+      // Should still render the radio options
+      const radioGroup = container.querySelector('va-radio');
+      expect(radioGroup).to.exist;
+
+      // Should still render the continue button
+      const continueButton = container.querySelector(
+        '[data-testid="recent-care-teams-continue-button"]',
+      );
+      expect(continueButton).to.exist;
+    });
+
+    it('should NOT render BlockedTriageGroupAlert when no blocked facilities or teams', () => {
+      const state = {
+        featureToggles: {
+          loading: false,
+          [`${'mhv_secure_messaging_recent_recipients'}`]: true,
+        },
+        sm: {
+          recipients: {
+            recentRecipients: mockRecentRecipients,
+            allRecipients: mockAllRecipients,
+            allTriageGroupsBlocked: false,
+            blockedFacilities: [],
+            blockedRecipients: [],
+            associatedBlockedTriageGroupsQty: 0,
+          },
+          threadDetails: {
+            acceptInterstitial: true,
+          },
+        },
+      };
+      const { container } = renderComponent(state);
+
+      // Should render the h1
+      expect(container.querySelector('h1')).to.exist;
+
+      // Should NOT render any va-alert (BlockedTriageGroupAlert)
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.not.exist;
+
+      // Should render the radio options normally
+      const radioGroup = container.querySelector('va-radio');
+      expect(radioGroup).to.exist;
+
+      // Should render the continue button
+      const continueButton = container.querySelector(
+        '[data-testid="recent-care-teams-continue-button"]',
+      );
+      expect(continueButton).to.exist;
+    });
+
+    it('should NOT render BlockedTriageGroupAlert when multiple facilities are blocked but not all', () => {
+      const state = {
+        featureToggles: {
+          loading: false,
+          [`${'mhv_secure_messaging_recent_recipients'}`]: true,
+        },
+        sm: {
+          recipients: {
+            recentRecipients: mockRecentRecipients,
+            allRecipients: mockAllRecipients,
+            allTriageGroupsBlocked: false,
+            blockedFacilities: ['553', '648'],
+            blockedRecipients: [],
+            associatedBlockedTriageGroupsQty: 2,
+          },
+          threadDetails: {
+            acceptInterstitial: true,
+          },
+        },
+      };
+      const { container } = renderComponent(state);
+
+      // Should render the h1
+      expect(container.querySelector('h1')).to.exist;
+
+      // Should NOT render BlockedTriageGroupAlert when multiple (not single) facilities blocked
+      // Based on the condition: blockedFacilities?.length === 1 && !allTriageGroupsBlocked
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.not.exist;
+
+      // Should render the radio options normally
+      const radioGroup = container.querySelector('va-radio');
+      expect(radioGroup).to.exist;
+    });
+  });
+
   describe('Redux Integration', () => {
     // Note: These tests focus on component behavior rather than action dispatching
     it('should dispatch getRecentRecipients when allRecipients exist', () => {
@@ -326,6 +498,7 @@ describe('RecentCareTeams component', () => {
           careSystemVhaId: '636',
           careSystemName: 'Test Facility 1',
           ohTriageGroup: true,
+          stationNumber: '636',
         });
       });
 
@@ -339,6 +512,7 @@ describe('RecentCareTeams component', () => {
           ohTriageGroup: false,
           recipientId: 456,
           recipientName: 'VA Seattle',
+          stationNumber: '662',
         });
       });
     });
@@ -750,8 +924,15 @@ describe('RecentCareTeams component', () => {
   });
 
   describe('Google Analytics (recordEvent)', () => {
+    let addActionSpy;
+
     beforeEach(() => {
       window.dataLayer = [];
+      addActionSpy = sinon.spy(datadogRum, 'addAction');
+    });
+
+    afterEach(() => {
+      addActionSpy.restore();
     });
 
     it('should push event when a recent care team is selected', async () => {
@@ -768,6 +949,18 @@ describe('RecentCareTeams component', () => {
         );
         expect(hasEvent).to.be.true;
       });
+
+      // Check that datadogRum.addAction was called
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('Recent Care Team Selected', {
+          selectLabel: sinon.match.string,
+          selectValue: 'recent care team',
+          required: true,
+        }),
+      ).to.be.true;
     });
 
     it('should push event when "A different care team" is selected', async () => {
@@ -784,6 +977,18 @@ describe('RecentCareTeams component', () => {
         );
         expect(hasEvent).to.be.true;
       });
+
+      // Check that datadogRum.addAction was called
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('Recent Care Team Selected', {
+          selectLabel: sinon.match.string,
+          selectValue: 'other',
+          required: true,
+        }),
+      ).to.be.true;
     });
   });
 
@@ -896,6 +1101,93 @@ describe('RecentCareTeams component', () => {
       await new Promise(resolve => setTimeout(resolve, 100));
       // Should not redirect to inbox when there's no error
       expect(screen.history.location.pathname).to.not.equal(Paths.INBOX);
+    });
+  });
+
+  describe('Screen Reader Accessibility', () => {
+    it('should set error attribute for screen reader announcement', () => {
+      const screen = renderComponent();
+
+      const continueButton = screen.getByTestId(
+        'recent-care-teams-continue-button',
+      );
+      const radioGroup = document.querySelector('va-radio');
+
+      // Click continue without selecting a care team
+      continueButton.click();
+
+      // Verify error attribute is set (VaRadio handles screen reader announcement internally)
+      expect(radioGroup).to.exist;
+      expect(radioGroup.getAttribute('error')).to.equal('Select a care team');
+
+      // VaRadio web component internally manages ARIA attributes and announcements
+      // when the error prop is set, making the error accessible to screen readers
+    });
+
+    it('should focus radio group when validation fails', async () => {
+      const clock = sandbox.useFakeTimers({
+        toFake: ['setTimeout', 'clearTimeout'],
+      });
+      const screen = renderComponent();
+
+      const continueButton = screen.getByTestId(
+        'recent-care-teams-continue-button',
+      );
+      const radioGroup = document.querySelector('va-radio');
+
+      // Click continue without selecting a care team
+      continueButton.click();
+
+      // Verify error is set immediately
+      expect(radioGroup.getAttribute('error')).to.equal('Select a care team');
+
+      // Fast-forward time by 18 seconds to trigger focusOnErrorField
+      clock.tick(18000);
+
+      // Wait for any async operations to complete
+      await waitFor(() => {
+        // After 18s timeout, focusOnErrorField should have been called
+        // which focuses the first va-radio-option's input in the shadow DOM
+        const firstRadioOption = document.querySelector('va-radio-option');
+        expect(firstRadioOption).to.exist;
+      });
+
+      clock.restore();
+    });
+
+    it('should have required attribute for screen readers', () => {
+      renderComponent();
+
+      const radioGroup = document.querySelector('va-radio');
+      expect(radioGroup).to.exist;
+      expect(radioGroup.hasAttribute('required')).to.be.true;
+    });
+
+    it('should maintain error state until valid selection is made', () => {
+      const screen = renderComponent();
+
+      const continueButton = screen.getByTestId(
+        'recent-care-teams-continue-button',
+      );
+      const radioGroup = document.querySelector('va-radio');
+
+      // Trigger error
+      continueButton.click();
+      expect(radioGroup.getAttribute('error')).to.equal('Select a care team');
+
+      // Click continue again without selecting (error should persist)
+      continueButton.click();
+      expect(radioGroup.getAttribute('error')).to.equal('Select a care team');
+
+      // Make a valid selection
+      radioGroup.dispatchEvent(
+        new CustomEvent('vaValueChange', {
+          detail: { value: '1' },
+        }),
+      );
+
+      // Error should clear
+      expect(radioGroup.getAttribute('error')).to.be.null;
     });
   });
 });

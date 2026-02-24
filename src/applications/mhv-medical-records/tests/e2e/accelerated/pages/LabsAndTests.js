@@ -53,6 +53,10 @@ class LabsAndTests {
     cy.get('[data-testid="labs-and-tests-landing-page-link"]').click({
       waitForAnimations: true,
     });
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   checkTimeFrameDisplay = ({ fromDate, toDate }) => {

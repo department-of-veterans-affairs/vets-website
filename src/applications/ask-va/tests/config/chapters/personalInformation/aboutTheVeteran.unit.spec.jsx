@@ -52,7 +52,7 @@ describe('aboutTheVeteranPage', () => {
       'They/them/theirs',
       'Ze/zir/zirs',
       'Use my preferred name',
-      'If not listed, please provide your preferred pronouns',
+      'If not listed, provide your preferred pronouns',
       'Man',
       'Non-binary',
       'Transgender man',
@@ -90,7 +90,7 @@ describe('aboutTheVeteranPage', () => {
           '.usa-input-error-message',
         );
         expect(errorMessage.textContent).to.contain(
-          "Please enter either the Veteran's Social Security number or Service number",
+          "Enter either the Veteran's Social Security number or Service number",
         );
       });
     });

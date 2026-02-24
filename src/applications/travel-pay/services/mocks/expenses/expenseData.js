@@ -50,7 +50,7 @@ const commoncarrier = {
   costRequested: 45.0,
   costSubmitted: 45.0,
   carrierType: 'Taxi',
-  reasonNotUsingPOV: 'PrivatelyOwnedVehicleNotAvailable',
+  reasonNotUsingPOV: 'Privately Owned Vehicle Not Available',
 };
 
 const airtravel = {

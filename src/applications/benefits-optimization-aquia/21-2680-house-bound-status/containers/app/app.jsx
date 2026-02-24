@@ -10,6 +10,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config';
+import { useDatadogRum } from '@bio-aquia/shared/hooks';
 
 /**
  * Main application container component for VA Form 21-2680 House Bound Status
@@ -32,6 +33,9 @@ export const App = ({ location, children }) => {
 
   const isLoadingFeatures = useToggleLoadingValue();
   const formEnabled = useToggleValue(TOGGLE_NAMES.form2680Enabled);
+
+  // Initialize Datadog RUM for form monitoring
+  useDatadogRum('21-2680');
 
   // Show loading indicator while feature flags are being fetched
   if (isLoadingFeatures) {

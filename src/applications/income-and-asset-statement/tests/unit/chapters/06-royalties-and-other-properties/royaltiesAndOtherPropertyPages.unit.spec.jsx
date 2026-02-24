@@ -75,18 +75,6 @@ describe('royalties list and loop pages', () => {
         'John Doe’s income from intellectual property rights',
       );
     });
-    it('should return "Alex Smith’s income" if recipient is Veteran and not logged in', () => {
-      const item = {
-        recipientRelationship: 'VETERAN',
-        incomeGenerationMethod: 'USE_OF_LAND',
-      };
-      expect(
-        options.text.getItemName(item, 0, {
-          ...mockFormData,
-          isLoggedIn: false,
-        }),
-      ).to.equal('Alex Smith’s income from land usage fees');
-    });
     it('should return "Jane Doe’s income', () => {
       const recipientName = { first: 'Jane', middle: 'A', last: 'Doe' };
       const formattedName = formatFullNameNoSuffix(recipientName);

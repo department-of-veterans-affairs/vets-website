@@ -214,4 +214,41 @@ describe('ScheduleWithDifferentProvider', () => {
 
     dispatchSpy.restore();
   });
+
+  it('should not display call option with facility phone when requestEligibilityError is true and hasProviders is false', () => {
+    const store = createTestStore(defaultState);
+    const selectedFacility = {
+      id: '692',
+      name: 'White City VA Medical Center',
+      telecom: [
+        {
+          system: 'phone',
+          value: '541-987-6543',
+        },
+      ],
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ScheduleWithDifferentProvider
+        isEligibleForRequest
+        overRequestLimit={false}
+        selectedFacility={selectedFacility}
+        hasProviders={false}
+        requestEligibilityError
+      />,
+      { store },
+    );
+
+    // Should not display the title for scheduling with a different provider
+    expect(
+      screen.queryByText(/If you want to schedule with a different provider/i),
+    ).to.not.exist;
+
+    // Should not display instruction to call the facility
+    expect(
+      screen.queryByText(
+        /Call the facility and ask to schedule with that provider:/i,
+      ),
+    ).to.not.exist;
+  });
 });

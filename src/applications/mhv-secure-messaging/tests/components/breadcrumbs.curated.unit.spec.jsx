@@ -5,6 +5,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import reducer from '../../reducers';
 import { Paths } from '../../util/constants';
+import { assertBackBreadcrumbLabel } from '../util/helpers.breadcrumbs';
 
 /**
  * Curated list / new start message flow breadcrumb back-navigation unit tests.
@@ -19,6 +20,19 @@ import { Paths } from '../../util/constants';
 
 describe('Curated list breadcrumb back navigation', () => {
   afterEach(() => cleanup());
+
+  const getBackLink = container =>
+    container.querySelector('[data-testid="sm-breadcrumbs-back"]');
+
+  const expectBackLink = async container => {
+    await waitFor(() => {
+      const backLink = getBackLink(container);
+      expect(backLink).to.exist;
+      assertBackBreadcrumbLabel(container);
+    });
+
+    return getBackLink(container);
+  };
 
   const baseState = {
     sm: {
@@ -59,14 +73,8 @@ describe('Curated list breadcrumb back navigation', () => {
       },
     );
 
-    await waitFor(() => {
-      expect(container.querySelector('va-link')).to.have.attribute(
-        'text',
-        'Back',
-      );
-    });
-
-    fireEvent.click(await container.querySelector('va-link'));
+    const backLink = await expectBackLink(container);
+    fireEvent.click(backLink);
 
     await waitFor(() => {
       expect(history.location.pathname).to.equal(
@@ -86,14 +94,8 @@ describe('Curated list breadcrumb back navigation', () => {
         },
       },
     );
-    await waitFor(() => {
-      expect(container.querySelector('va-link')).to.have.attribute(
-        'text',
-        'Back',
-      );
-    });
-
-    fireEvent.click(await container.querySelector('va-link'));
+    const backLink = await expectBackLink(container);
+    fireEvent.click(backLink);
 
     await waitFor(() => {
       expect(history.location.pathname).to.equal(`${Paths.COMPOSE}`);
@@ -111,14 +113,8 @@ describe('Curated list breadcrumb back navigation', () => {
         },
       },
     );
-    await waitFor(() => {
-      expect(container.querySelector('va-link')).to.have.attribute(
-        'text',
-        'Back',
-      );
-    });
-
-    fireEvent.click(await container.querySelector('va-link'));
+    const backLink = await expectBackLink(container);
+    fireEvent.click(backLink);
 
     await waitFor(() => {
       expect(history.location.pathname).to.equal(Paths.COMPOSE);
@@ -133,13 +129,8 @@ describe('Curated list breadcrumb back navigation', () => {
         threadDetails: { drafts: [{ messageId }] },
       },
     });
-    await waitFor(() => {
-      expect(container.querySelector('va-link')).to.have.attribute(
-        'text',
-        'Back',
-      );
-    });
-    fireEvent.click(await container.querySelector('va-link'));
+    const backLink = await expectBackLink(container);
+    fireEvent.click(backLink);
 
     await waitFor(() => {
       expect(history.location.pathname).to.equal(
@@ -162,14 +153,8 @@ describe('Curated list breadcrumb back navigation', () => {
       },
     });
 
-    await waitFor(() => {
-      expect(container.querySelector('va-link')).to.have.attribute(
-        'text',
-        'Back',
-      );
-    });
-
-    fireEvent.click(await container.querySelector('va-link'));
+    const backLink = await expectBackLink(container);
+    fireEvent.click(backLink);
 
     await waitFor(() => {
       expect(history.location.pathname).to.equal(previousPage);
@@ -184,14 +169,8 @@ describe('Curated list breadcrumb back navigation', () => {
       },
     });
 
-    await waitFor(() => {
-      expect(container.querySelector('va-link')).to.have.attribute(
-        'text',
-        'Back',
-      );
-    });
-
-    fireEvent.click(await container.querySelector('va-link'));
+    const backLink = await expectBackLink(container);
+    fireEvent.click(backLink);
 
     await waitFor(() => {
       expect(history.location.pathname).to.equal(`${previous}`);
@@ -206,14 +185,8 @@ describe('Curated list breadcrumb back navigation', () => {
       },
     });
 
-    await waitFor(() => {
-      expect(container.querySelector('va-link')).to.have.attribute(
-        'text',
-        'Back',
-      );
-    });
-
-    fireEvent.click(await container.querySelector('va-link'));
+    const backLink = await expectBackLink(container);
+    fireEvent.click(backLink);
 
     await waitFor(() => {
       expect(history.location.pathname).to.equal(`${previous}`);
@@ -228,14 +201,8 @@ describe('Curated list breadcrumb back navigation', () => {
       },
     });
 
-    await waitFor(() => {
-      expect(container.querySelector('va-link')).to.have.attribute(
-        'text',
-        'Back',
-      );
-    });
-
-    fireEvent.click(await container.querySelector('va-link'));
+    const backLink = await expectBackLink(container);
+    fireEvent.click(backLink);
 
     await waitFor(() => {
       expect(history.location.pathname).to.equal(`${Paths.INBOX}`);

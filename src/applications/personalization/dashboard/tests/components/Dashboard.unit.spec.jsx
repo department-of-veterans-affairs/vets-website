@@ -1,16 +1,23 @@
 import React from 'react';
+import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import reducers from '~/applications/personalization/dashboard/reducers';
+import * as recordEventModule from '~/platform/monitoring/record-event';
+import { $ } from '~/platform/forms-system/src/js/utilities/ui';
 import Dashboard from '../../components/Dashboard';
 
 describe('<Dashboard />', () => {
   let initialState;
+  let sandbox;
+  let recordEventStub;
 
   beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    recordEventStub = sandbox.stub(recordEventModule, 'default');
     initialState = {
       vaProfile: {
         hero: {
@@ -47,10 +54,38 @@ describe('<Dashboard />', () => {
             highest: 3,
           },
           loading: false,
-          services: ['appeals-status'],
-          claims: {},
+          services: [
+            'appeals-status',
+            'benefits',
+            'claims',
+            'debt-letters',
+            'edu-benefits',
+            'evss-claims',
+            'facilities',
+            'hca',
+            'id-card',
+            'identity-proofed',
+            'lighthouse',
+            'messaging',
+            'rx',
+            'user-profile',
+            'vet360',
+          ],
+          claims: {
+            appeals: true,
+            militaryHistory: true,
+            paymentHistory: true,
+            ratingInfo: true,
+          },
           signIn: { serviceName: 'logingov' },
+          userFullName: {
+            first: 'Hector',
+            middle: 'J',
+            last: 'Allen',
+            suffix: null,
+          },
           vaPatient: true,
+          mhvAccountState: 'OK',
           vapContactInfo: {
             email: {
               createdAt: '2018-04-20T17:24:13.000Z',
@@ -130,6 +165,10 @@ describe('<Dashboard />', () => {
     };
   });
 
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   it('renders the verify your identity component for an LOA1 user', async () => {
     mockFetch();
     initialState.user.profile.loa.current = 1;
@@ -146,7 +185,27 @@ describe('<Dashboard />', () => {
     });
   });
 
-  it('renders the welcome modal for a recent LOA1 user', async () => {
+  it('tracks click on Go to your profile', async () => {
+    mockFetch();
+    initialState.user.profile.loa.current = 1;
+    initialState.user.profile.loa.highest = 1;
+
+    const { getByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    await waitFor(() => {
+      expect(getByTestId('dashboard-title')).to.exist;
+      expect(getByTestId('my-va-to-profile-link')).to.exist;
+    });
+
+    getByTestId('my-va-to-profile-link').click();
+
+    expect(recordEventStub.called).to.be.true;
+  });
+
+  it('renders the welcome modal for a recent LOA1 user and dismisses it', async () => {
     mockFetch();
     initialState.user.profile.loa.current = 1;
     initialState.user.profile.loa.highest = 1;
@@ -160,13 +219,39 @@ describe('<Dashboard />', () => {
       new Date().getTime() - 8 * 60 * 60 * 1000,
     );
 
+    const screen = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('welcome-modal')).to.exist;
+    });
+
+    $('va-modal', screen.container).__events.closeEvent();
+
+    await waitFor(() => {
+      expect(screen.getByTestId('welcome-modal')).to.have.attribute(
+        'visible',
+        'false',
+      );
+    });
+  });
+
+  it('renders the beta welcome flow', async () => {
+    mockFetch();
+    initialState.featureToggles = {
+      loading: false,
+      [Toggler.TOGGLE_NAMES.veteranOnboardingBetaFlow]: true,
+    };
+
     const { getByTestId } = renderInReduxProvider(<Dashboard />, {
       initialState,
       reducers,
     });
 
     await waitFor(() => {
-      expect(getByTestId('welcome-modal')).to.exist;
+      expect(getByTestId('onboarding-beta-alert')).to.exist;
     });
   });
 
@@ -226,6 +311,10 @@ describe('<Dashboard />', () => {
   it('renders for an LOA3 user', async () => {
     mockFetch();
 
+    initialState.user.profile.savedForms = [
+      { form: '1010ez', metadata: { expiresAt: 9999999999 } },
+    ];
+
     const { getByTestId } = renderInReduxProvider(<Dashboard />, {
       initialState,
       reducers,
@@ -234,6 +323,48 @@ describe('<Dashboard />', () => {
     await waitFor(() => {
       expect(getByTestId('dashboard-title')).to.exist;
       expect(getByTestId('dashboard-section-claims-and-appeals')).to.exist;
+      expect(getByTestId('dashboard-section-health-care')).to.exist;
+      expect(getByTestId('dashboard-section-debts')).to.exist;
+      expect(getByTestId('dashboard-section-payment')).to.exist;
+      expect(getByTestId('dashboard-section-benefit-application-drafts')).to
+        .exist;
+      expect(getByTestId('dashboard-section-education-and-training')).to.exist;
+    });
+  });
+
+  it('renders with default values when some parts of the state are missing', async () => {
+    mockFetch();
+    initialState.allDebts.debts = undefined;
+    initialState.allDebts.copays = undefined;
+    initialState.allPayments.payments = undefined;
+    initialState.user.profile.vaPatient = false;
+    initialState.user.profile.savedForms = [
+      { form: 'anything-except-1010ez', metadata: { expiresAt: 9999999999 } },
+    ];
+    initialState.user.profile.claims = {
+      appeals: false,
+      militaryHistory: false,
+      paymentHistory: false,
+      ratingInfo: false,
+    };
+    initialState.user.profile.services = [
+      'benefits',
+      'facilities',
+      'id-card',
+      'identity-proofed',
+      'messaging',
+      'rx',
+      'user-profile',
+      'vet360',
+    ];
+
+    const { getByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    await waitFor(() => {
+      expect(getByTestId('dashboard-title')).to.exist;
       expect(getByTestId('dashboard-section-health-care')).to.exist;
       expect(getByTestId('dashboard-section-debts')).to.exist;
       expect(getByTestId('dashboard-section-payment')).to.exist;
@@ -292,6 +423,22 @@ describe('<Dashboard />', () => {
       expect(getByTestId('dashboard-section-benefit-application-drafts')).to
         .exist;
       expect(getByTestId('dashboard-section-education-and-training')).to.exist;
+    });
+  });
+
+  it('renders the generic debit card', async () => {
+    mockFetch();
+    initialState.featureToggles[
+      Toggler.TOGGLE_NAMES.showGenericDebtCard
+    ] = true;
+
+    const { getByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    await waitFor(() => {
+      expect(getByTestId('generic-debt-card')).to.exist;
     });
   });
 
@@ -365,8 +512,9 @@ describe('<Dashboard />', () => {
 
     it('suppresses <MhvAlertConfirmEmail /> when email.updatedAt is after 3/1/2025', async () => {
       mockFetch();
-      initialState.user.profile.vapContactInfo.email.updatedAt =
-        '2025-09-09T12:00:00.000+00:00';
+      const date = '2025-09-09T12:00:00.000+00:00';
+      initialState.user.profile.vapContactInfo.email.updatedAt = date;
+      initialState.user.profile.vapContactInfo.email.confirmationDate = date;
       const { queryByTestId } = renderInReduxProvider(<Dashboard />, {
         initialState,
         reducers,

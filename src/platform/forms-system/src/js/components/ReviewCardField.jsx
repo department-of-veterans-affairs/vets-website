@@ -146,9 +146,7 @@ export default class ReviewCardField extends React.Component {
       this.props.uiSchema,
     );
 
-    const { volatileData, editTitle, ariaLabel } = this.props.uiSchema[
-      'ui:options'
-    ];
+    const { editTitle, ariaLabel } = this.props.uiSchema['ui:options'];
     const title = editTitle || this.getTitle();
     const subtitle = this.getSubtitle();
     const titleClasses = [
@@ -222,7 +220,7 @@ export default class ReviewCardField extends React.Component {
                 >
                   Save
                 </button>
-                {((volatileData && this.state.canCancel) || !volatileData) && (
+                {this.state.canCancel && (
                   <button
                     className={cancelButtonClasses}
                     style={{ boxShadow: 'none' }}

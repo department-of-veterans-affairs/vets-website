@@ -133,11 +133,13 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
       .findByText('Select a care team')
       .should('be.visible');
 
-    // validate the first va-radio-option is focused
-    // Use a longer timeout to allow focus to be applied after validation
-    cy.findByLabelText(`${recentCareTeams[0]}VA Madison health care`).should(
-      'have.focus',
-    );
+    // Validate the input element inside the first va-radio-option receives focus
+    // scrollToFirstError() focuses the input in the first option
+    cy.findByTestId(Locators.RECENT_CARE_TEAMS_RADIO_GROUP_TEST_ID)
+      .find('va-radio-option')
+      .first()
+      .find('input')
+      .should('have.focus');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 

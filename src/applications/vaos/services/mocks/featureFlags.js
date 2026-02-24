@@ -1,7 +1,6 @@
 module.exports = [
   { name: 'profile_show_profile_2.0', value: false },
   { name: 'vaOnlineScheduling', value: true },
-  { name: 'vaOnlineSchedulingCancel', value: true },
   { name: 'vaOnlineSchedulingCommunityCare', value: true },
   { name: 'vaOnlineSchedulingDirect', value: true },
   { name: 'vaOnlineSchedulingRequests', value: true },
@@ -23,8 +22,8 @@ module.exports = [
   },
   { name: 'vaOnlineSchedulingListViewClinicInfo', value: true },
   { name: 'vaOnlineSchedulingAddOhAvs', value: true },
-  { name: 'vaOnlineSchedulingImmediateCareAlert', value: false },
+  { name: 'vaOnlineSchedulingImmediateCareAlert', value: true },
   { name: 'vaOnlineSchedulingRemoveFacilityConfigCheck', value: true },
   { name: 'vaOnlineSchedulingUseBrowserTimezone', value: true },
-  { name: 'vaOnlineSchedulingUseVpg', value: false },
+  { name: 'vaOnlineSchedulingUseVpg', value: true },
 ];

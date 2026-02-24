@@ -40,14 +40,23 @@ import TrackedSpinner from '../shared/TrackedSpinner';
 import JobCompleteAlert from '../shared/JobsCompleteAlert';
 
 const RadiologyDetails = props => {
-  const { record, fullState, runningUnitTest } = props;
+  const {
+    record,
+    fullState,
+    runningUnitTest,
+    basePath = '/labs-and-tests',
+  } = props;
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const processingAlertHeadingRef = useRef(null);
 
   const user = useSelector(state => state.user.profile);
+  const isRadiologyDomain = basePath === '/imaging-results';
   const radiologyDetails = useSelector(
-    state => state.mr.labsAndTests.labsAndTestsDetails,
+    state =>
+      isRadiologyDomain
+        ? state.mr.radiology.radiologyDetails
+        : state.mr.labsAndTests.labsAndTestsDetails,
   );
   const {
     imageStatus: studyJobs,
@@ -355,7 +364,11 @@ ${record.results}`;
 
   const renderJobCompleteAlert = () => {
     return (
-      <JobCompleteAlert records={[radiologyDetails]} studyJobs={[studyJob]} />
+      <JobCompleteAlert
+        records={[radiologyDetails]}
+        studyJobs={[studyJob]}
+        basePath={basePath}
+      />
     );
   };
 
@@ -366,7 +379,7 @@ ${record.results}`;
           <TrackedSpinner
             id="radiology-images-requested-spinner"
             message="Loading..."
-            setFocus
+            set-focus
             data-testid="loading-indicator"
           />
         );
@@ -502,6 +515,7 @@ ${record.results}`;
 export default RadiologyDetails;
 
 RadiologyDetails.propTypes = {
+  basePath: PropTypes.string,
   fullState: PropTypes.object,
   record: PropTypes.object,
   runningUnitTest: PropTypes.bool,

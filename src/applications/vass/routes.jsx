@@ -1,9 +1,10 @@
 import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom-v5-compat';
+import { Route, Routes } from 'react-router-dom-v5-compat';
 
 import withAuthorization from './containers/withAuthorization';
 import withFormData from './containers/withFormData';
 import withFlowGuard from './containers/withFlowGuard';
+import Error from './pages/Error';
 import { routes } from './utils/navigation';
 import { AUTH_LEVELS, FLOW_TYPES } from './utils/constants';
 
@@ -38,8 +39,7 @@ const createRoutes = () => {
 
         return <Route key={index} path={route.path} element={<Component />} />;
       })}
-      {/* TODO: navigate to error page */}
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Error />} />
     </Routes>
   );
 };

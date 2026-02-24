@@ -22,7 +22,7 @@ describe('<ProfileInformationEditView/> - Email Address', () => {
 
   const uiSchema = {
     emailAddress: {
-      'ui:title': 'Email Address',
+      'ui:title': 'Email address',
       'ui:errorMessages': {
         required:
           'You must enter your email address, using this format: X@X.com',
@@ -138,50 +138,6 @@ describe('<ProfileInformationEditView/> - Email Address', () => {
       props.transactionRequest = { isPending: false };
       component = enzyme.mount(<ProfileInformationEditView {...props} />);
       expect(component.html()).to.include('Cancel');
-      component.unmount();
-    });
-  });
-
-  describe('VAPServiceEditModalErrorMessage', () => {
-    it("is not shown if there isn't an error", () => {
-      component = enzyme.shallow(<ProfileInformationEditView {...props} />);
-
-      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
-      expect(errorMessage).to.have.lengthOf(0);
-
-      component.unmount();
-    });
-    it('is shown if there is a transactionRequest error', () => {
-      props.transactionRequest = { error: true };
-      component = enzyme.shallow(<ProfileInformationEditView {...props} />);
-
-      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
-      expect(errorMessage).to.have.lengthOf(1);
-
-      component.unmount();
-    });
-    it('is shown if there is a transactionRequest error', () => {
-      props.transactionRequest = { error: {} };
-      component = enzyme.shallow(<ProfileInformationEditView {...props} />);
-
-      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
-      expect(errorMessage).to.have.lengthOf(1);
-
-      component.unmount();
-    });
-    it('is shown if there is a transaction error', () => {
-      props.transaction = {
-        data: {
-          attributes: {
-            transactionStatus: 'COMPLETED_FAILURE',
-          },
-        },
-      };
-      component = enzyme.shallow(<ProfileInformationEditView {...props} />);
-
-      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
-      expect(errorMessage).to.have.lengthOf(1);
-
       component.unmount();
     });
   });

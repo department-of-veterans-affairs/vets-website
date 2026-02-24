@@ -1,9 +1,13 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import environment from '~/platform/utilities/environment';
 import { TITLE, SUBTITLE } from '../constants';
 
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PresubmitInfo from '../components/PresubmitInfo';
+import submitForm from './submitForm';
+import transform from './transform';
 
 import authorizingOfficialName from '../pages/authorizingOfficialName';
 import whatToExpect from '../pages/whatToExpect';
@@ -43,18 +47,28 @@ import institutionContactsInstructions from '../pages/institutionContactsInstruc
 import institutionFinancialRepresentative from '../pages/institutionFinancialRepresentative';
 import institutionCertifyingOfficial from '../pages/institutionCertifyingOfficial';
 
+import officialsSummary from '../pages/officialsSummary';
+import officialsDetails from '../pages/officialsDetails';
+
+import submissionInstructions from '../pages/submissionInstructions';
+
 import {
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
   programInformationArrayOptions,
+  officialsArrayOptions,
 } from '../helpers';
+
+export const SUBMIT_URL = `${
+  environment.API_URL
+}/v0/education_benefits_claims/0976`;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
+  transformForSubmit: transform,
   trackingPrefix: 'edu-0976-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -83,6 +97,13 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
+  preSubmitInfo: {
+    CustomComponent: PresubmitInfo,
+    required: true,
+    statementOfTruth: {
+      fullNamePath: 'authorizingOfficial.fullName',
+    },
+  },
   chapters: {
     authorizingOfficialAndAcknowledgements: {
       title: 'Authorizing official details and acknowledgements',
@@ -344,6 +365,33 @@ const formConfig = {
           title: 'Certifying official',
           uiSchema: institutionCertifyingOfficial.uiSchema,
           schema: institutionCertifyingOfficial.schema,
+        },
+        ...arrayBuilderPages(officialsArrayOptions, pageBuilder => ({
+          officialsSummary: pageBuilder.summaryPage({
+            path: 'officials-summary',
+            title: 'Officials summary',
+            uiSchema: officialsSummary.uiSchema,
+            schema: officialsSummary.schema,
+          }),
+          officialsDetails: pageBuilder.itemPage({
+            path: 'officials-details/:index',
+            title: 'Officials details',
+            showPagePerItem: true,
+            uiSchema: officialsDetails.uiSchema,
+            schema: officialsDetails.schema,
+          }),
+        })),
+      },
+    },
+    submissionInstructions: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: 'Submission instructions',
+          uiSchema: submissionInstructions.uiSchema,
+          schema: submissionInstructions.schema,
         },
       },
     },

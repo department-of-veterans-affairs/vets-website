@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   useAcceleratedData,
@@ -19,6 +18,7 @@ import {
 } from '../util/constants';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
@@ -44,12 +44,9 @@ const HealthConditions = () => {
   useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_LIST);
 
   const { isLoading, isAcceleratingConditions } = useAcceleratedData();
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getConditionsList(isCurrent, isAcceleratingConditions);
-      };
-    },
+
+  const dispatchAction = useCallback(
+    isCurrent => getConditionsList(isCurrent, isAcceleratingConditions),
     [isAcceleratingConditions],
   );
 
@@ -60,6 +57,7 @@ const HealthConditions = () => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
@@ -72,7 +70,6 @@ const HealthConditions = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
     },
     [dispatch],
@@ -80,6 +77,11 @@ const HealthConditions = () => {
 
   const isLoadingAcceleratedData =
     isAcceleratingConditions && listState === loadStates.FETCHING;
+
+  useFocusAfterLoading({
+    isLoading: isLoading || listState !== loadStates.FETCHED,
+    isLoadingAcceleratedData,
+  });
 
   return (
     <>
@@ -133,7 +135,7 @@ const HealthConditions = () => {
             <TrackedSpinner
               id="conditions-page-spinner"
               message="We’re loading your records."
-              setFocus
+              set-focus
               data-testid="accelerated-loading-indicator"
             />
           </div>

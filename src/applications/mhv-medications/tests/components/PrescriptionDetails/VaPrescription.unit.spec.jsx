@@ -2,13 +2,15 @@ import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import { datadogRum } from '@datadog/browser-rum';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import VaPrescription from '../../../components/PrescriptionDetails/VaPrescription';
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
 import { dateFormat } from '../../../util/helpers';
 import * as rxApiExports from '../../../api/rxApi';
 import { RX_SOURCE } from '../../../util/constants';
+import { dataDogActionNames } from '../../../util/dataDogConstants';
 
 describe('vaPrescription details container', () => {
   const prescription = rxDetailsResponse.data.attributes;
@@ -40,11 +42,27 @@ describe('vaPrescription details container', () => {
 
   afterEach(() => {
     sandbox.restore();
+    sessionStorage.removeItem(`aal_called_${newRx.prescriptionId}`);
   });
 
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
+  });
+
+  it('calls datadogRum.addAction with facilityId when refill link is clicked', () => {
+    const addActionSpy = sandbox.spy(datadogRum, 'addAction');
+    const refillableRx = { ...newRx, isRefillable: true };
+    const screen = setup(refillableRx);
+    const link = screen.getByTestId('refill-nav-link');
+    fireEvent.click(link);
+    expect(addActionSpy.calledOnce).to.be.true;
+    expect(
+      addActionSpy.calledWith(
+        dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION,
+        { facilityId: '989' },
+      ),
+    ).to.be.true;
   });
 
   it('displays the formatted ordered date', () => {
@@ -573,6 +591,67 @@ describe('vaPrescription details container', () => {
       expect(screen.getByText('In progress')).to.exist;
       const statusElement = screen.getByTestId('status-dropdown');
       expect(statusElement).to.exist;
+    });
+  });
+
+  describe('Renewal action link on detail page for Oracle Health prescriptions', () => {
+    const setupOracleHealth = (rx = newRx) => {
+      return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
+        initialState: {
+          featureToggles: {
+            [FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent]: true,
+            [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: false,
+            [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: false,
+            [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: true,
+          },
+          drupalStaticData: {
+            vamcEhrData: {
+              data: {
+                cernerFacilities: [
+                  { vhaId: '668', vamcFacilityName: 'Spokane VA' },
+                ],
+              },
+            },
+          },
+        },
+        reducers: {},
+        initialEntries: ['/prescriptions/1234567891'],
+      });
+    };
+
+    it('displays renewal action link for OH prescription with sourceEhr=OH and isRenewable=true', () => {
+      const ohRx = {
+        ...newRx,
+        sourceEhr: 'OH',
+        stationNumber: '668',
+        isRenewable: true,
+      };
+      const screen = setupOracleHealth(ohRx);
+      expect(screen.getByTestId('send-renewal-request-message-action-link')).to
+        .exist;
+    });
+
+    it('does not display renewal action link for non-OH prescription', () => {
+      const vistaRx = {
+        ...newRx,
+        stationNumber: '989',
+        isRenewable: true,
+      };
+      const screen = setupOracleHealth(vistaRx);
+      expect(screen.queryByTestId('send-renewal-request-message-action-link'))
+        .to.not.exist;
+    });
+
+    it('does not display renewal action link when isRenewable is false', () => {
+      const ohNonRenewable = {
+        ...newRx,
+        sourceEhr: 'OH',
+        stationNumber: '668',
+        isRenewable: false,
+      };
+      const screen = setupOracleHealth(ohNonRenewable);
+      expect(screen.queryByTestId('send-renewal-request-message-action-link'))
+        .to.not.exist;
     });
   });
 });

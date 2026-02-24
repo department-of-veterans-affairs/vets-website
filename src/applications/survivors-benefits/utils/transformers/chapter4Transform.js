@@ -1,16 +1,15 @@
-import { combineCityState, truncateName, buildChildStatus } from './helpers';
+import { combineCityState, buildChildStatus } from './helpers';
 
 export function chapter4Transform(formData) {
   const parsedFormData = JSON.parse(formData);
-  const transformedValue = parsedFormData;
+  const transformedValue = { ...parsedFormData };
   // combine city and state/country for place of marriage and place of separation
   // for marriage and each previous/veteran previous marriage
-
   if (parsedFormData?.marriageToVeteranEndLocation) {
     transformedValue.placeOfMarriageTermination = combineCityState(
       parsedFormData.marriageToVeteranEndLocation?.city,
       parsedFormData.marriageToVeteranEndLocation?.state ||
-        parsedFormData.marriageToVeteranEndLocation?.country,
+        parsedFormData.marriageToVeteranEndLocation?.otherCountry,
     );
   }
 
@@ -18,7 +17,7 @@ export function chapter4Transform(formData) {
     transformedValue.placeOfMarriage = combineCityState(
       parsedFormData.marriageToVeteranStartLocation?.city,
       parsedFormData.marriageToVeteranStartLocation?.state ||
-        parsedFormData.marriageToVeteranStartLocation?.country,
+        parsedFormData.marriageToVeteranStartLocation?.otherCountry,
     );
   }
 
@@ -30,14 +29,13 @@ export function chapter4Transform(formData) {
           locationOfMarriage: combineCityState(
             marriage.locationOfMarriage?.city,
             marriage.locationOfMarriage?.state ||
-              marriage.locationOfMarriage?.country,
+              marriage.locationOfMarriage?.otherCountry,
           ),
           locationOfSeparation: combineCityState(
             marriage.locationOfSeparation?.city,
             marriage.locationOfSeparation?.state ||
-              marriage.locationOfSeparation?.country,
+              marriage.locationOfSeparation?.otherCountry,
           ),
-          spouseFullName: truncateName(marriage.spouseFullName, 12, 1, 18),
           reasonForSeparationExplanation: marriage?.separationExplanation || '',
         };
       },
@@ -52,14 +50,13 @@ export function chapter4Transform(formData) {
           locationOfMarriage: combineCityState(
             marriage.locationOfMarriage?.city,
             marriage.locationOfMarriage?.state ||
-              marriage.locationOfMarriage?.country,
+              marriage.locationOfMarriage?.otherCountry,
           ),
           locationOfSeparation: combineCityState(
             marriage.locationOfSeparation?.city,
-            marriage.locationOfSeparation?.city ||
-              marriage.locationOfSeparation?.country,
+            marriage.locationOfSeparation?.state ||
+              marriage.locationOfSeparation?.otherCountry,
           ),
-          spouseFullName: truncateName(marriage.spouseFullName, 12, 1, 18),
           reasonForSeparationExplanation: marriage?.separationExplanation || '',
         };
       },
@@ -71,10 +68,9 @@ export function chapter4Transform(formData) {
       child => {
         return {
           ...child,
-          childFullName: truncateName(child.childFullName, 12, 1, 18),
           childPlaceOfBirth: combineCityState(
             child.birthPlace?.city,
-            child.birthPlace?.state || child.birthPlace?.country,
+            child.birthPlace?.state || child.birthPlace?.otherCountry,
           ),
           childStatus: buildChildStatus(child),
         };
@@ -119,15 +115,6 @@ export function chapter4Transform(formData) {
   if (parsedFormData?.typeOfMarriageExplanation) {
     transformedValue.marriageTypeExplanation =
       parsedFormData.typeOfMarriageExplanation;
-  }
-
-  if (parsedFormData?.custodianFullName) {
-    transformedValue.custodianFullName = truncateName(
-      parsedFormData.custodianFullName,
-      12,
-      1,
-      18,
-    );
   }
 
   return JSON.stringify(transformedValue);

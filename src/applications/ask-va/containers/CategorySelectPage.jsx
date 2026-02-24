@@ -34,7 +34,7 @@ const CategorySelectPage = props => {
       goForward(formData);
     }
     focusElement('va-select');
-    return setValidationError('Please select a category');
+    return setValidationError('Select a category');
   };
 
   const handleChange = event => {

@@ -87,41 +87,49 @@ const editPhoneNumber = (
 ) => {
   cy.get(`va-button[label="Edit ${numberName}"]`).click({ force: true });
 
+  // Wait for the modal/form to fully render and be interactive
+  cy.get('va-telephone-input')
+    .should('exist')
+    .should('be.visible');
+
   // Update country picker
   // Country defaults to US, so only clear/fill if it's provided
   if (country) {
     cy.get('va-telephone-input')
-      .should('exist')
       .shadow()
       .find('va-combo-box')
       .shadow()
       .find('input')
-      .clear();
+      .clear({ force: true });
     cy.get('va-telephone-input')
-      .should('exist')
       .shadow()
       .find('va-combo-box')
       .shadow()
       .find('input')
-      .should('not.be.disabled')
-      .type(country, { force: true });
+      .type(country, { force: true, delay: 50 });
   }
 
-  // Edit phone number input
+  // Edit phone number input - capture the element and chain operations without requerying
   cy.get('va-telephone-input')
     .shadow()
     .find('va-text-input')
     .shadow()
     .find('input')
-    .clear();
+    .then($input => {
+      // Clear using native methods
+      cy.wrap($input)
+        .invoke('val', '')
+        .trigger('change');
+      cy.wrap($input).trigger('input');
+    });
+
   if (phoneNumber) {
     cy.get('va-telephone-input')
       .shadow()
       .find('va-text-input')
       .shadow()
       .find('input')
-      .should('not.be.disabled')
-      .type(phoneNumber, { force: true });
+      .type(phoneNumber, { force: true, delay: 50 });
   }
 
   // Always clear the extension field if present (home and work numbers only)
@@ -129,13 +137,17 @@ const editPhoneNumber = (
     cy.get('va-text-input[label="Extension (6 digits maximum)"]')
       .shadow()
       .find('input')
-      .clear();
+      .then($input => {
+        cy.wrap($input)
+          .invoke('val', '')
+          .trigger('change');
+        cy.wrap($input).trigger('input');
+      });
     if (extension) {
       cy.get('va-text-input[label="Extension (6 digits maximum)"]')
         .shadow()
         .find('input')
-        .should('not.be.disabled')
-        .type(extension, { force: true });
+        .type(extension, { force: true, delay: 50 });
     }
   }
 
@@ -152,7 +164,7 @@ describe('Profile - Contact Information - editing phone numbers', () => {
       phoneNumber: '(555) 123-4567',
       extension: '321',
     });
-    cy.contains('Update saved.').should('exist');
+    cy.contains('Update saved').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -162,7 +174,7 @@ describe('Profile - Contact Information - editing phone numbers', () => {
       country: 'France',
       phoneNumber: '01 23 45 67 89',
     });
-    cy.contains('Update saved.').should('exist');
+    cy.contains('Update saved').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -182,7 +194,7 @@ describe('Profile - Contact Information - editing phone numbers', () => {
       .first()
       .click();
 
-    cy.contains('Update saved.').should('exist');
+    cy.contains('Update saved').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -198,7 +210,7 @@ describe('Profile - Contact Information - editing phone numbers', () => {
       'Enter a valid United States of America phone number. Use 10 digits.',
     );
 
-    cy.contains('Update saved.').should('not.exist');
+    cy.contains('Update saved').should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
 });

@@ -2,17 +2,11 @@
   "statusCode": 200,
   "body": {
     "formData": {
-      "view:hasApplicants": false,
-      "sponsorPhone": "1231231234",
-      "sponsorEmail": "certifier@email.gov",
-      "sponsorSsn": "123123123",
-      "sponsorName": {
+      "certifierRole": "sponsor",
+      "certifierName": {
         "first": "Certifier",
         "last": "Jones"
       },
-      "sponsorDob": "1956-01-01",
-      "certifierPhone": "1231231234",
-      "certifierEmail": "certifier@email.gov",
       "certifierAddress": {
         "country": "USA",
         "street": "123 Certifier St",
@@ -20,15 +14,17 @@
         "state": "AL",
         "postalCode": "12312"
       },
-      "certifierName": {
-        "first": "Certifier",
-        "last": "Jones"
-      },
-      "certifierRole": "sponsor",
+      "certifierPhone": "1231231234",
+      "certifierEmail": "certifier@email.gov",
       "certifierRelationship": {
         "relationshipToVeteran": {}
       },
-      "sponsorIsDeceased": false,
+      "sponsorName": {
+        "first": "Certifier",
+        "last": "Jones"
+      },
+      "sponsorDob": "1995-01-01",
+      "sponsorSsn": "123123123",
       "sponsorAddress": {
         "country": "USA",
         "street": "123 Certifier St",
@@ -36,9 +32,17 @@
         "state": "AL",
         "postalCode": "12312"
       },
+      "sponsorPhone": "1231231234",
+      "view:hasApplicants": false,
       "applicants": [
         {
-          "applicantPhone": "5555551234",
+          "applicantName": {
+            "first": "Johnny",
+            "last": "Alvin"
+          },
+          "applicantDob": "2020-01-04",
+          "applicantSsn": "345345345",
+          "view:sharesAddressWith": "na",
           "applicantAddress": {
             "country": "USA",
             "street": "456 Circle St",
@@ -46,13 +50,7 @@
             "state": "IN",
             "postalCode": "46790"
           },
-          "applicantSsn": "345345345",
-          "applicantName": {
-            "first": "Johnny",
-            "last": "Alvin"
-          },
-          "applicantDob": "1993-01-04",
-          "view:sharesAddressWith": "na",
+          "applicantPhone": "5555551234",
           "applicantGender": {
             "gender": "male"
           },
@@ -64,14 +62,12 @@
           }
         },
         {
-          "dateOfMarriageToSponsor": "1980-01-01",
-          "applicantPhone": "5555551234",
-          "applicantSsn": "213454367",
           "applicantName": {
             "first": "Jenny",
             "last": "Jones"
           },
-          "applicantDob": "1958-01-04",
+          "applicantDob": "1995-01-04",
+          "applicantSsn": "213454367",
           "view:sharesAddressWith": "na",
           "applicantAddress": {
             "country": "USA",
@@ -80,12 +76,14 @@
             "state": "AL",
             "postalCode": "12312"
           },
+          "applicantPhone": "5555551234",
           "applicantGender": {
             "gender": "female"
           },
           "applicantRelationshipToSponsor": {
             "relationshipToVeteran": "spouse"
-          }
+          },
+          "dateOfMarriageToSponsor": "2019-01-01"
         }
       ]
     },

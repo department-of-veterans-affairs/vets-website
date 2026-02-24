@@ -16,7 +16,7 @@ export default {
       participatesInTitleIv: yesNoUI({
         yesNoReverse: true,
         title:
-          'Does the facility participate in a program under Title IV with the U.S. Department of Education?',
+          'Does the facility participate in a program under Title 4 with the U.S. Department of Education?',
         labels: {
           N: 'Yes',
           Y: 'No',
@@ -24,9 +24,9 @@ export default {
       }),
       opeidNumber: {
         ...textUI({
-          title: 'List your institution’s OPEID number below',
+          title: 'List your institution’s OPEID number',
           errorMessages: {
-            required: 'You must enter your institution’s OPEID number below',
+            required: 'You must enter your institution’s OPEID number',
           },
           required: formData =>
             formData.institutionProfile?.participatesInTitleIv === true,
@@ -38,8 +38,8 @@ export default {
         'ui:validations': [
           validateWhiteSpace,
           (errors, fieldData, _formData) => {
-            if (fieldData && !/^[\w\s]*$/.test(fieldData)) {
-              errors.addError('No special characters allowed');
+            if (fieldData && !/^[A-Za-z0-9]{8}$/.test(fieldData)) {
+              errors.addError('Enter a valid OPEID');
             }
           },
         ],
@@ -55,7 +55,8 @@ export default {
           participatesInTitleIv: yesNoSchema,
           opeidNumber: {
             ...textSchema,
-            maxLength: 500,
+            minLength: 8,
+            maxLength: 8,
           },
         },
         required: ['participatesInTitleIv'],

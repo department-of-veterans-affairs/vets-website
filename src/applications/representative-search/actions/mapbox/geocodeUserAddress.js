@@ -4,6 +4,7 @@ import { MAPBOX_QUERY_TYPES, CountriesList } from '../../constants';
 import {
   GEOCODE_STARTED,
   SEARCH_QUERY_UPDATED,
+  SEARCH_QUERY_COMMITED,
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
   SEARCH_FAILED,
@@ -51,31 +52,41 @@ export const geocodeUserAddress = query => {
             : [],
         });
 
+        const queryUpdatePayload = {
+          ...query,
+          context: {
+            location: query.locationInputString,
+            repOrgName: query.representativeInputString,
+          },
+          page: 1,
+          id: Date.now(),
+          inProgress: true,
+          position: {
+            latitude: features[0].center[1],
+            longitude: features[0].center[0],
+          },
+          mapBoxQuery: {
+            placeName: features[0].place_name,
+            placeType: features[0].place_type[0],
+          },
+          searchArea: query.searchArea,
+          address: query.locationInputString,
+          locationQueryString: query.locationInputString,
+          representativeQueryString: query.representativeInputString,
+          representativeType: query.representativeType,
+        };
+
+        const queryCommitPayload = (({ committedSearchQuery: _, ...rest }) =>
+          rest)(queryUpdatePayload);
+
         dispatch({
           type: SEARCH_QUERY_UPDATED,
-          payload: {
-            ...query,
-            context: {
-              location: query.locationInputString,
-              repOrgName: query.representativeInputString,
-            },
-            page: 1,
-            id: Date.now(),
-            inProgress: true,
-            position: {
-              latitude: features[0].center[1],
-              longitude: features[0].center[0],
-            },
-            mapBoxQuery: {
-              placeName: features[0].place_name,
-              placeType: features[0].place_type[0],
-            },
-            searchArea: query.searchArea,
-            address: query.locationInputString,
-            locationQueryString: query.locationInputString,
-            representativeQueryString: query.representativeInputString,
-            representativeType: query.representativeType,
-          },
+          payload: queryUpdatePayload,
+        });
+
+        dispatch({
+          type: SEARCH_QUERY_COMMITED,
+          payload: queryCommitPayload,
         });
       })
       .catch(_ => {

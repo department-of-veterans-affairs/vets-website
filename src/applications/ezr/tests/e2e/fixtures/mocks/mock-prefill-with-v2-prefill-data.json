@@ -1,6 +1,11 @@
 {
   "formData": {
+    "lastServiceBranch": "air force",
+    "lastEntryDate": "1999-01-01",
+    "lastDischargeDate": "2002-02-02",
+    "dischargeType": "honorable",
     "view:addInsurancePolicy": false,
+    "view:hasPrefillServiceHistory": true,
     "view:skipInsuranceInfo": true,
     "hasTeraResponse": false,
     "veteranFullName": {

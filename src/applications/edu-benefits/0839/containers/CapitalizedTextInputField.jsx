@@ -44,13 +44,21 @@ export default function CapitalizedTextInputField(props) {
     mappedProps.onInput(event, value);
   };
 
+  const { children, ...inputProps } = mappedProps;
+
   return (
-    <VaTextInput
-      {...mappedProps}
-      value={displayValue}
-      onInput={handleInput}
-      onBlur={handleBlur}
-      error={validationError || mappedProps.error}
-    />
+    <div className={mappedProps.className}>
+      {children}
+
+      <VaTextInput
+        {...inputProps}
+        value={displayValue}
+        onInput={handleInput}
+        onBlur={handleBlur}
+        error={validationError || mappedProps.error}
+        label="Initial here"
+        required={mappedProps.required}
+      />
+    </div>
   );
 }

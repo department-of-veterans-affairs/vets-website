@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 
 import {
   CheckboxWidget,
@@ -13,51 +13,51 @@ import {
 describe('Schemaform review widgets', () => {
   describe('<CheckboxWidget>', () => {
     it('should render', () => {
-      const tree = SkinDeep.shallowRender(<CheckboxWidget value />);
+      const { container } = render(<CheckboxWidget value />);
 
-      expect(tree.text()).to.equal('Selected');
+      expect(container.textContent).to.equal('Selected');
     });
     it('should render empty for false', () => {
-      const tree = SkinDeep.shallowRender(<CheckboxWidget />);
+      const { container } = render(<CheckboxWidget />);
 
-      expect(tree.text()).to.equal('');
+      expect(container.textContent).to.equal('');
     });
     it('should render custom value for true', () => {
-      const tree = SkinDeep.shallowRender(
+      const { container } = render(
         <CheckboxWidget value schema={{ enumNames: ['Yes!'] }} />,
       );
 
-      expect(tree.text()).to.equal('Yes!');
+      expect(container.textContent).to.equal('Yes!');
     });
     it('should render custom value for false', () => {
-      const tree = SkinDeep.shallowRender(
+      const { container } = render(
         <CheckboxWidget schema={{ enumNames: ['Yes', 'Nope'] }} />,
       );
 
-      expect(tree.text()).to.equal('Nope');
+      expect(container.textContent).to.equal('Nope');
     });
   });
   describe('<TextWidget>', () => {
     it('should render', () => {
-      const tree = SkinDeep.shallowRender(<TextWidget value="Testing" />);
+      const { container } = render(<TextWidget value="Testing" />);
 
-      expect(tree.text()).to.equal('Testing');
+      expect(container.textContent).to.equal('Testing');
     });
   });
   describe('<DateWidget>', () => {
     it('should render', () => {
-      const tree = SkinDeep.shallowRender(
+      const { container } = render(
         <DateWidget value="2010-01-02" options={{}} />,
       );
 
-      expect(tree.text()).to.equal('01/02/2010');
+      expect(container.textContent).to.equal('01/02/2010');
     });
     it('should render month year', () => {
-      const tree = SkinDeep.shallowRender(
+      const { container } = render(
         <DateWidget value="2010-01-02" options={{ monthYear: true }} />,
       );
 
-      expect(tree.text()).to.equal('01/2010');
+      expect(container.textContent).to.equal('01/2010');
     });
   });
   describe('<SelectWidget>', () => {
@@ -68,11 +68,11 @@ describe('Schemaform review widgets', () => {
           label: 'Label',
         },
       ];
-      const tree = SkinDeep.shallowRender(
+      const { container } = render(
         <SelectWidget options={{ enumOptions }} value="Test" />,
       );
 
-      expect(tree.text()).to.equal('Label');
+      expect(container.textContent).to.equal('Label');
     });
     it('should render empty', () => {
       const enumOptions = [
@@ -81,11 +81,11 @@ describe('Schemaform review widgets', () => {
           label: 'Label',
         },
       ];
-      const tree = SkinDeep.shallowRender(
+      const { container } = render(
         <SelectWidget options={{ enumOptions }} value="" />,
       );
 
-      expect(tree.text()).to.be.empty;
+      expect(container.textContent).to.be.empty;
     });
     it('should render label from options', () => {
       const enumOptions = [
@@ -98,35 +98,35 @@ describe('Schemaform review widgets', () => {
       const labels = {
         Test: 'Other',
       };
-      const tree = SkinDeep.shallowRender(
+      const { container } = render(
         <SelectWidget options={{ enumOptions, labels }} value="Test" />,
       );
 
-      expect(tree.text()).to.equal('Other');
+      expect(container.textContent).to.equal('Other');
     });
   });
   describe('<yesNo>', () => {
     it('should render true', () => {
       const YesNo = yesNo;
-      const tree = SkinDeep.shallowRender(<YesNo value />);
+      const { container } = render(<YesNo value />);
 
-      expect(tree.text()).to.equal('Yes');
+      expect(container.textContent).to.equal('Yes');
     });
     it('should render false', () => {
       const YesNo = yesNo;
-      const tree = SkinDeep.shallowRender(<YesNo value={false} />);
+      const { container } = render(<YesNo value={false} />);
 
-      expect(tree.text()).to.equal('No');
+      expect(container.textContent).to.equal('No');
     });
     it('should render undefined', () => {
       const YesNo = yesNo;
-      const tree = SkinDeep.shallowRender(<YesNo />);
+      const { container } = render(<YesNo />);
 
-      expect(tree.text()).to.be.empty;
+      expect(container.textContent).to.be.empty;
     });
     it('should render labels', () => {
       const YesNo = yesNo;
-      const tree = SkinDeep.shallowRender(
+      const { container } = render(
         <YesNo
           value
           options={{
@@ -137,11 +137,11 @@ describe('Schemaform review widgets', () => {
         />,
       );
 
-      expect(tree.text()).to.equal('Whatever');
+      expect(container.textContent).to.equal('Whatever');
     });
     it('should render reversed', () => {
       const YesNo = yesNo;
-      const tree = SkinDeep.shallowRender(
+      const { container } = render(
         <YesNo
           value={false}
           options={{
@@ -150,7 +150,7 @@ describe('Schemaform review widgets', () => {
         />,
       );
 
-      expect(tree.text()).to.equal('Yes');
+      expect(container.textContent).to.equal('Yes');
     });
   });
 });

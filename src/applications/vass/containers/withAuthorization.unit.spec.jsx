@@ -234,107 +234,17 @@ describe('VASS Containers: withAuthorization', () => {
     });
   });
 
-  describe('with AUTH_LEVELS.LOW_AUTH_ONLY', () => {
-    describe('when user has no token', () => {
-      it('should render the wrapped component', () => {
-        setupNoToken();
-        const WrappedComponent = withAuthorization(
-          TestComponent,
-          AUTH_LEVELS.LOW_AUTH_ONLY,
-        );
-
-        const { getByTestId } = renderWithStoreAndRouterV6(
-          <WrappedComponent />,
-          getDefaultRenderOptions({ hydrated: true }),
-        );
-
-        expect(getByTestId('test-component')).to.exist;
-      });
-    });
-
-    describe('when user has a valid token', () => {
-      it('should not render the component', () => {
-        setupValidToken();
-        const WrappedComponent = withAuthorization(
-          TestComponent,
-          AUTH_LEVELS.LOW_AUTH_ONLY,
-        );
-
-        const { queryByTestId } = renderWithStoreAndRouterV6(
-          <WrappedComponent />,
-          getDefaultRenderOptions({ hydrated: true }),
-        );
-
-        expect(queryByTestId('test-component')).to.not.exist;
-      });
-
-      it('should redirect to first token route when user has a valid token', async () => {
-        setupValidToken();
-        const WrappedComponent = withAuthorization(
-          TestComponent,
-          AUTH_LEVELS.LOW_AUTH_ONLY,
-        );
-
-        const { getByTestId } = renderWithStoreAndRouterV6(
-          <>
-            <Routes>
-              <Route path={URLS.ENTER_OTC} element={<WrappedComponent />} />
-              <Route
-                path={URLS.DATE_TIME}
-                element={<div data-testid="date-time-page">Date Time</div>}
-              />
-            </Routes>
-            <LocationDisplay />
-          </>,
-          {
-            ...getDefaultRenderOptions({
-              hydrated: true,
-            }),
-            initialEntries: [URLS.ENTER_OTC],
-          },
-        );
-
-        await waitFor(() => {
-          expect(getByTestId('location-display').textContent).to.equal(
-            URLS.DATE_TIME,
-          );
-        });
-      });
-    });
-
-    describe('when user has an expired token', () => {
-      it('should render the wrapped component (expired token is treated as no token)', () => {
-        setupExpiredToken();
-        const WrappedComponent = withAuthorization(
-          TestComponent,
-          AUTH_LEVELS.LOW_AUTH_ONLY,
-        );
-
-        const { getByTestId } = renderWithStoreAndRouterV6(
-          <WrappedComponent />,
-          getDefaultRenderOptions({ hydrated: true }),
-        );
-
-        expect(getByTestId('test-component')).to.exist;
-      });
-    });
-  });
-
   describe('hydration behavior', () => {
-    it('should attempt to hydrate from sessionStorage when not hydrated and no valid token', async () => {
-      setupNoToken();
+    it('should attempt to hydrate from sessionStorage when not hydrated', async () => {
+      setupValidToken();
       const savedData = {
         uuid: 'saved-uuid',
-        lastname: 'SavedName',
+        lastName: 'SavedName',
         dob: '1990-01-01',
       };
       loadFormDataFromStorageStub.returns(savedData);
 
-      // Use LOW_AUTH_ONLY to test hydration behavior without requiring a token
-      const WrappedComponent = withAuthorization(
-        TestComponent,
-        AUTH_LEVELS.LOW_AUTH_ONLY,
-      );
+      const WrappedComponent = withAuthorization(TestComponent);
 
       const { getByTestId } = renderWithStoreAndRouterV6(
         <WrappedComponent />,
@@ -364,43 +274,19 @@ describe('VASS Containers: withAuthorization', () => {
       });
     });
 
-    describe('auth level is LOW_AUTH_ONLY', () => {
-      it('should complete hydration even when no saved data exists', async () => {
-        setupNoToken();
-        loadFormDataFromStorageStub.returns(null);
+    it('should not render anything while waiting for hydration on token route', () => {
+      setupNoToken();
+      const WrappedComponent = withAuthorization(
+        TestComponent,
+        AUTH_LEVELS.TOKEN,
+      );
 
-        const WrappedComponent = withAuthorization(
-          TestComponent,
-          AUTH_LEVELS.LOW_AUTH_ONLY,
-        );
+      const { queryByTestId } = renderWithStoreAndRouterV6(
+        <WrappedComponent />,
+        getDefaultRenderOptions({ hydrated: false }),
+      );
 
-        const { getByTestId } = renderWithStoreAndRouterV6(
-          <WrappedComponent />,
-          getDefaultRenderOptions({ hydrated: false }),
-        );
-
-        // For LOW_AUTH_ONLY with no token, component should render after hydration completes
-        await waitFor(() => {
-          expect(getByTestId('test-component')).to.exist;
-        });
-      });
-    });
-
-    describe('auth level is TOKEN', () => {
-      it('should not render anything while waiting for hydration on token route', () => {
-        setupNoToken();
-        const WrappedComponent = withAuthorization(
-          TestComponent,
-          AUTH_LEVELS.TOKEN,
-        );
-
-        const { queryByTestId } = renderWithStoreAndRouterV6(
-          <WrappedComponent />,
-          getDefaultRenderOptions({ hydrated: false }),
-        );
-
-        expect(queryByTestId('test-component')).to.not.exist;
-      });
+      expect(queryByTestId('test-component')).to.not.exist;
     });
   });
 
@@ -435,7 +321,10 @@ describe('VASS Containers: withAuthorization', () => {
       });
 
       const state = defaultOptions.store.getState();
-      expect(state.vassForm.selectedDate).to.be.null;
+      expect(state.vassForm.selectedSlot).to.deep.equal({
+        dtStartUtc: null,
+        dtEndUtc: null,
+      });
       expect(state.vassForm.selectedTopics).to.deep.equal([]);
     });
 
@@ -470,7 +359,10 @@ describe('VASS Containers: withAuthorization', () => {
 
       // Verify clearFormData was called (state was reset)
       const state = defaultOptions.store.getState();
-      expect(state.vassForm.selectedDate).to.be.null;
+      expect(state.vassForm.selectedSlot).to.deep.equal({
+        dtStartUtc: null,
+        dtEndUtc: null,
+      });
       expect(state.vassForm.selectedTopics).to.deep.equal([]);
 
       // Verify expired token was removed

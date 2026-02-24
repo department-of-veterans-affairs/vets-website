@@ -6,6 +6,7 @@ import { focusElement } from 'platform/utilities/ui/focus';
 import {
   FIELD_TITLES,
   FIELD_OPTION_IDS,
+  errorMessages,
 } from '@@vap-svc/constants/schedulingPreferencesConstants';
 import { FIELD_NAMES } from 'platform/user/exportsFile';
 import { useSelector } from 'react-redux';
@@ -17,9 +18,7 @@ import { useSelector } from 'react-redux';
  * @param {Function} setPageData - updates subtask data
  * @returns {JSX}
  */
-const ContactMethodSelect = ({ error, options, setPageData }) => {
-  const fieldName = FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD;
-
+const ContactMethodSelect = ({ error, options, fieldName, setPageData }) => {
   const isLoading = useSelector(
     state => state.vaProfile.schedulingPreferences.loading,
   );
@@ -64,7 +63,7 @@ const ContactMethodSelect = ({ error, options, setPageData }) => {
   );
 
   const content = {
-    errorMessage: 'Please select a contact method',
+    errorMessage: errorMessages.noPreferenceSelected,
   };
 
   const handlers = {
@@ -100,10 +99,11 @@ const ContactMethodSelect = ({ error, options, setPageData }) => {
 };
 
 ContactMethodSelect.propTypes = {
+  fieldName: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
   setPageData: PropTypes.func.isRequired,
   data: PropTypes.string,
   error: PropTypes.bool,
 };
 
-export { ContactMethodSelect };
+export default ContactMethodSelect;

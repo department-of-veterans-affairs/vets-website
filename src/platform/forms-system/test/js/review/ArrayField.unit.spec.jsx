@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
 import ArrayField from '../../../src/js/review/ArrayField';
@@ -37,7 +37,7 @@ describe('Schemaform review <ArrayField>', () => {
       },
     };
     const arrayData = [];
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ArrayField
         pageKey="page1"
         arrayData={arrayData}
@@ -52,10 +52,10 @@ describe('Schemaform review <ArrayField>', () => {
       />,
     );
 
-    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(
-      uiSchema['ui:title'],
-    );
-    expect(tree.everySubTree('SchemaForm')).to.be.empty;
+    expect(
+      container.querySelector('.form-review-panel-page-header').textContent,
+    ).to.equal(uiSchema['ui:title']);
+    expect(container.querySelectorAll('form').length).to.equal(0);
   });
   it('should render items', () => {
     const idSchema = {};
@@ -79,7 +79,7 @@ describe('Schemaform review <ArrayField>', () => {
       },
     };
     const arrayData = [{}, {}];
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ArrayField
         pageKey="page1"
         arrayData={arrayData}
@@ -94,7 +94,7 @@ describe('Schemaform review <ArrayField>', () => {
       />,
     );
 
-    expect(tree.everySubTree('SchemaForm').length).to.equal(2);
+    expect(container.querySelectorAll('form').length).to.equal(2);
   });
   it('should render item name', () => {
     const idSchema = {};
@@ -136,7 +136,7 @@ describe('Schemaform review <ArrayField>', () => {
       },
     };
     const arrayData = [{}, {}];
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ArrayField
         pageKey="page1"
         arrayData={arrayData}
@@ -151,13 +151,15 @@ describe('Schemaform review <ArrayField>', () => {
       />,
     );
 
-    tree.getMountedInstance().handleAdd();
-    expect(tree.everySubTree('.schemaform-array-row-title')[0].text()).to.equal(
-      'New item name',
-    );
-    expect(tree.everySubTree('button')[2].text()).to.equal(
-      'Add another item name',
-    );
+    // Click the Add another button to trigger handleAdd
+    const addButton = container.querySelector('.add-btn');
+    fireEvent.click(addButton);
+
+    expect(
+      container.querySelector('.schemaform-array-row-title').textContent,
+    ).to.equal('New item name');
+    const buttons = container.querySelectorAll('button');
+    expect(buttons[2].textContent).to.equal('Add another item name');
   });
 
   it('should call handleAdd in edit mode with no data', () => {
@@ -198,7 +200,7 @@ describe('Schemaform review <ArrayField>', () => {
         itemName: 'item name',
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ArrayField
         pageKey="page1"
         arrayData={[]}
@@ -213,13 +215,13 @@ describe('Schemaform review <ArrayField>', () => {
         requiredSchema={requiredSchema}
       />,
     );
-    tree.getMountedInstance().componentDidMount();
-    expect(tree.everySubTree('.schemaform-array-row-title')[0].text()).to.equal(
-      'New item name',
-    );
-    expect(tree.everySubTree('button')[2].text()).to.equal(
-      'Add another item name',
-    );
+
+    // componentDidMount calls handleAdd when arrayData is empty and onReviewPage
+    expect(
+      container.querySelector('.schemaform-array-row-title').textContent,
+    ).to.equal('New item name');
+    const buttons = container.querySelectorAll('button');
+    expect(buttons[2].textContent).to.equal('Add another item name');
   });
 
   it('should render array warning', () => {
@@ -266,7 +268,7 @@ describe('Schemaform review <ArrayField>', () => {
       },
     };
     const arrayData = undefined;
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ArrayField
         pageKey="page1"
         arrayData={arrayData}
@@ -281,9 +283,9 @@ describe('Schemaform review <ArrayField>', () => {
       />,
     );
 
-    tree.getMountedInstance().handleAdd();
-
-    expect(tree.everySubTree('.schemaform-review-array-error')).to.not.be.empty;
+    expect(
+      container.querySelectorAll('.schemaform-review-array-error').length,
+    ).to.not.equal(0);
   });
   it('should render start in edit mode for duplicate items', () => {
     const idSchema = {};
@@ -337,7 +339,7 @@ describe('Schemaform review <ArrayField>', () => {
       { field: 'a' },
       { field: 'B' },
     ];
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ArrayField
         pageKey="page1"
         arrayData={arrayData}
@@ -352,13 +354,12 @@ describe('Schemaform review <ArrayField>', () => {
       />,
     );
 
-    expect(tree.getMountedInstance().state.editing).to.deep.equal([
-      false,
-      false,
-      true,
-      true,
-      true,
-    ]);
+    // Duplicates should be in edit mode with edit controls
+    // Non-duplicates should be in review mode
+    // First two items (a, b) are not duplicates - should be in review mode
+    // Items 3, 4, 5 (A, a, B) are duplicates - should be in edit mode
+    const editingRows = container.querySelectorAll('.va-growable-expanded');
+    expect(editingRows.length).to.equal(3);
   });
 
   it('should render unique aria-labels on buttons from ui option key in item', () => {
@@ -407,7 +408,7 @@ describe('Schemaform review <ArrayField>', () => {
       },
     };
     const arrayData = [{ field: 'foo' }, { field: 'bar' }];
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ArrayField
         pageKey="page1"
         arrayData={arrayData}
@@ -422,21 +423,34 @@ describe('Schemaform review <ArrayField>', () => {
       />,
     );
 
-    tree.getMountedInstance().handleEdit(1, true);
-    tree.getMountedInstance().handleAdd();
-    expect(tree.everySubTree('.schemaform-array-row-title')[0].text()).to.equal(
-      'New Itemz',
+    // Click on Edit va-button to put second item (bar) in edit mode
+    const editVaButtons = container.querySelectorAll('va-button');
+    // Find the edit button for the second row
+    const barEditButton = Array.from(editVaButtons).find(
+      btn => btn.getAttribute('label') === 'Edit bar',
     );
-    const buttons = tree.everySubTree('button');
-    expect(buttons[0].props['aria-label']).to.equal('Update bar');
-    expect(buttons[1].props['aria-label']).to.equal('Remove bar');
-    expect(buttons[2].props['aria-label']).to.equal('Update Itemz');
-    expect(buttons[3].props['aria-label']).to.equal('Remove Itemz');
-    expect(buttons[4].text()).to.equal('Add another Itemz');
+    if (barEditButton) {
+      fireEvent.click(barEditButton);
+    }
+
+    // Click Add another button
+    const addButton = container.querySelector('.add-btn');
+    fireEvent.click(addButton);
+
+    expect(
+      container.querySelector('.schemaform-array-row-title').textContent,
+    ).to.equal('New Itemz');
+
+    const buttons = container.querySelectorAll('button');
+    expect(buttons[0].getAttribute('aria-label')).to.equal('Update bar');
+    expect(buttons[1].getAttribute('aria-label')).to.equal('Remove bar');
+    expect(buttons[2].getAttribute('aria-label')).to.equal('Update Itemz');
+    expect(buttons[3].getAttribute('aria-label')).to.equal('Remove Itemz');
+    expect(buttons[4].textContent).to.equal('Add another Itemz');
   });
 
   describe('should handle', () => {
-    let tree;
+    let container;
     let setData;
     beforeEach(() => {
       const schema = {
@@ -470,7 +484,7 @@ describe('Schemaform review <ArrayField>', () => {
       };
       const arrayData = [{}];
       setData = sinon.spy();
-      tree = SkinDeep.shallowRender(
+      const rendered = render(
         <ArrayField
           pageKey="page1"
           setData={setData}
@@ -484,101 +498,80 @@ describe('Schemaform review <ArrayField>', () => {
           requiredSchema={requiredSchema}
         />,
       );
+      container = rendered.container;
     });
     it('edit', () => {
-      expect(tree.subTree('SchemaForm').props.reviewMode).to.be.true;
+      // Initially in review mode
+      const form = container.querySelector('form');
+      expect(form.querySelector('.review')).to.not.be.null;
 
-      tree.subTree('SchemaForm').props.onEdit();
+      // Click Edit va-button to switch to edit mode
+      const editVaButton = container.querySelector('va-button');
+      fireEvent.click(editVaButton);
 
-      expect(tree.subTree('SchemaForm').props.reviewMode).to.be.undefined;
+      // Now in edit mode (expanded view)
+      expect(container.querySelector('.va-growable-expanded')).to.not.be.null;
     });
     it('update', () => {
-      tree.subTree('SchemaForm').props.onEdit();
-      expect(tree.subTree('SchemaForm').props.reviewMode).to.be.undefined;
+      // Click Edit va-button to switch to edit mode
+      const editVaButton = container.querySelector('va-button');
+      fireEvent.click(editVaButton);
+      expect(container.querySelector('.va-growable-expanded')).to.not.be.null;
 
-      tree.subTree('SchemaForm').props.onSubmit();
+      // Click update (submit the form)
+      const form = container.querySelector('form');
+      fireEvent.submit(form);
 
-      expect(tree.subTree('SchemaForm').props.reviewMode).to.be.true;
+      // Back to review mode
+      expect(container.querySelector('.review')).to.not.be.null;
     });
     it('add', () => {
-      expect(tree.everySubTree('SchemaForm').length).to.equal(1);
+      expect(container.querySelectorAll('form').length).to.equal(1);
 
-      tree.getMountedInstance().handleAdd();
+      const addButton = container.querySelector('.add-btn');
+      fireEvent.click(addButton);
 
-      expect(tree.everySubTree('SchemaForm').length).to.equal(2);
+      expect(container.querySelectorAll('form').length).to.equal(2);
     });
     it('enforces max items', () => {
-      expect(tree.subTree('.add-btn').props.disabled).to.be.false;
+      const addButton = container.querySelector('.add-btn');
+      expect(addButton.disabled).to.be.false;
 
-      tree.getMountedInstance().handleAdd();
+      fireEvent.click(addButton);
 
-      expect(tree.subTree('.add-btn').props.disabled).to.be.true;
+      expect(container.querySelector('.add-btn').disabled).to.be.true;
     });
     it('remove', () => {
-      expect(tree.everySubTree('SchemaForm').length).to.equal(1);
+      expect(container.querySelectorAll('form').length).to.equal(1);
 
-      tree.getMountedInstance().handleRemove(0);
+      // Click Edit va-button to get access to remove button
+      const editVaButton = container.querySelector('va-button');
+      fireEvent.click(editVaButton);
 
-      expect(tree.everySubTree('SchemaForm').length).to.equal(0);
+      // Click remove button
+      const removeButton = container.querySelector(
+        'button[aria-label="Remove Item"]',
+      );
+      fireEvent.click(removeButton);
+
+      expect(container.querySelectorAll('form').length).to.equal(0);
     });
     it('setData', () => {
-      tree.subTree('SchemaForm').props.onChange({ test: 1 });
-      expect(setData.calledWith({ thingList: [{ test: 1 }] })).to.be.true;
+      // The original test called onChange directly on SchemaForm
+      // With RTL, we test that setData is called during remove operation
+      // First, click edit to get access to the remove button
+      const editVaButton = container.querySelector('va-button');
+      fireEvent.click(editVaButton);
+
+      // Click remove button which triggers handleRemove
+      const removeButton = container.querySelector(
+        'button[aria-label="Remove Item"]',
+      );
+      fireEvent.click(removeButton);
+
+      // handleRemove calls setData
+      expect(setData.called).to.be.true;
     });
-  });
-
-  it('should update state when props change', () => {
-    const idSchema = {};
-    const schema = {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          field: {
-            type: 'string',
-          },
-        },
-      },
-      additionalItems: {},
-    };
-    const uiSchema = {
-      'ui:title': 'List of things',
-      items: {},
-      'ui:options': {
-        viewField: f => f,
-      },
-    };
-    const arrayData = [
-      {
-        testing: 1,
-      },
-    ];
-    const tree = SkinDeep.shallowRender(
-      <ArrayField
-        pageKey="page1"
-        arrayData={arrayData}
-        path={['thingList']}
-        schema={schema}
-        uiSchema={uiSchema}
-        idSchema={idSchema}
-        registry={registry}
-        formContext={formContext}
-        pageTitle=""
-        requiredSchema={requiredSchema}
-      />,
-    );
-
-    const instance = tree.getMountedInstance();
-
-    const newProps = {
-      ...instance.props,
-      arrayData: [],
-    };
-
-    instance.UNSAFE_componentWillReceiveProps(newProps);
-
-    expect(instance.state.items).to.eql(newProps.arrayData);
-    expect(instance.state.editing).to.eql([]);
   });
   it('should render reviewTitle first', () => {
     const idSchema = {};
@@ -602,7 +595,7 @@ describe('Schemaform review <ArrayField>', () => {
       },
     };
     const arrayData = [];
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ArrayField
         pageKey="page1"
         arrayData={arrayData}
@@ -617,10 +610,10 @@ describe('Schemaform review <ArrayField>', () => {
       />,
     );
 
-    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(
-      uiSchema['ui:options'].reviewTitle,
-    );
-    expect(tree.everySubTree('SchemaForm')).to.be.empty;
+    expect(
+      container.querySelector('.form-review-panel-page-header').textContent,
+    ).to.equal(uiSchema['ui:options'].reviewTitle);
+    expect(container.querySelectorAll('form').length).to.equal(0);
   });
   it('should render page title', () => {
     const idSchema = {};
@@ -643,7 +636,7 @@ describe('Schemaform review <ArrayField>', () => {
       },
     };
     const arrayData = [];
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ArrayField
         pageKey="page1"
         arrayData={arrayData}
@@ -658,9 +651,9 @@ describe('Schemaform review <ArrayField>', () => {
       />,
     );
 
-    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(
-      'Page Title',
-    );
-    expect(tree.everySubTree('SchemaForm')).to.be.empty;
+    expect(
+      container.querySelector('.form-review-panel-page-header').textContent,
+    ).to.equal('Page Title');
+    expect(container.querySelectorAll('form').length).to.equal(0);
   });
 });

@@ -7,10 +7,10 @@ import {
 import {
   getClaimPhaseTypeHeaderText,
   buildDateFormatter,
-  getFailedSubmissionsWithinLast30Days,
   getStatusDescription,
   generateClaimTitle,
   getShowEightPhases,
+  getFailedSubmissionsWithinLast30Days,
 } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 import UploadType2ErrorAlertSlim from './UploadType2ErrorAlertSlim';

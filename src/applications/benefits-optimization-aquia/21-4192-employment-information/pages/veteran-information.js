@@ -10,6 +10,7 @@ import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { isValidNameLength } from '../../shared/utils/validators/validators';
 
 /**
  * Format title function for veteran's full name fields
@@ -35,6 +36,39 @@ const customVeteranNameSchema = {
   },
 };
 
+const customVeteranNameUISchema = formatTitle => {
+  const baseSchema = fullNameNoSuffixUI(formatTitle);
+  return {
+    ...baseSchema,
+    first: {
+      ...baseSchema.first,
+      'ui:validations': [
+        ...baseSchema.first['ui:validations'],
+        (errors = {}, _fieldData, formData) => {
+          isValidNameLength(
+            errors,
+            formData?.veteranInformation?.veteranFullName?.first,
+            12,
+          );
+        },
+      ],
+    },
+    last: {
+      ...baseSchema.last,
+      'ui:validations': [
+        ...baseSchema.last['ui:validations'],
+        (errors = {}, _fieldData, formData) => {
+          isValidNameLength(
+            errors,
+            formData?.veteranInformation?.veteranFullName?.last,
+            18,
+          );
+        },
+      ],
+    },
+  };
+};
+
 /**
  * uiSchema for Veteran Information page
  * Collects veteran's personal identification information
@@ -42,7 +76,7 @@ const customVeteranNameSchema = {
 export const veteranInformationUiSchema = {
   'ui:title': 'Who is the Veteran you are providing information for?',
   veteranInformation: {
-    veteranFullName: fullNameNoSuffixUI(formatVeteranNameTitle),
+    veteranFullName: customVeteranNameUISchema(formatVeteranNameTitle),
     dateOfBirth: dateOfBirthUI({
       title: "Veteran's date of birth",
       errorMessages: {

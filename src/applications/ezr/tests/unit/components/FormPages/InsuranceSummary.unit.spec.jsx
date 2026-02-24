@@ -18,6 +18,51 @@ describe('ezr InsuranceSummary', () => {
         },
       },
     ],
+    insuranceNumbersMissing: [
+      {
+        insuranceName: 'Cigna',
+        insurancePolicyHolderName: 'John Smith',
+        'view:policyOrGroup': {},
+      },
+    ],
+    insuranceNameTooLong: [
+      {
+        insuranceName:
+          '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901',
+        insurancePolicyHolderName: 'John Smith',
+        'view:policyOrGroup': {
+          insurancePolicyNumber: '006655',
+        },
+      },
+    ],
+    insurancePolicyHolderNameTooLong: [
+      {
+        insuranceName: 'Cigna',
+        insurancePolicyHolderName:
+          '123456789012345678901234567890123456789012345678901',
+        'view:policyOrGroup': {
+          insurancePolicyNumber: '006655',
+        },
+      },
+    ],
+    insurancePolicyNumberTooLong: [
+      {
+        insuranceName: 'Cigna',
+        insurancePolicyHolderName: 'John Smith',
+        'view:policyOrGroup': {
+          insurancePolicyNumber: '1234567890123456789012345678901',
+        },
+      },
+    ],
+    insuranceGroupCodeTooLong: [
+      {
+        insuranceName: 'Cigna',
+        insurancePolicyHolderName: 'John Smith',
+        'view:policyOrGroup': {
+          insuranceGroupCode: '1234567890123456789012345678901',
+        },
+      },
+    ],
   };
   const getData = ({
     onReviewPage = false,
@@ -124,6 +169,41 @@ describe('ezr InsuranceSummary', () => {
       expect(props.goToPath.called).to.be.false;
     });
 
+    [
+      {
+        description: 'missing both Insurance Policy and Group Code numbers',
+        data: policyData.insuranceNumbersMissing,
+      },
+      {
+        description: 'insurance name exceeds max length',
+        data: policyData.insuranceNameTooLong,
+      },
+      {
+        description: 'policy holder name exceeds max length',
+        data: policyData.insurancePolicyHolderNameTooLong,
+      },
+      {
+        description: 'policy number exceeds max length',
+        data: policyData.insurancePolicyNumberTooLong,
+      },
+      {
+        description: 'group code exceeds max length',
+        data: policyData.insuranceGroupCodeTooLong,
+      },
+    ].forEach(({ description, data }) => {
+      it(`should not fire the 'goForward' or 'goToPath' spy when there provider ${description} value is too long`, () => {
+        const { props } = getData({
+          providers: data,
+          addPolicy: false,
+        });
+        const { container } = render(<InsuranceSummary {...props} />);
+        const selector = container.querySelector('.usa-button-primary');
+        fireEvent.click(selector);
+        expect(props.goForward.called).to.be.false;
+        expect(props.goToPath.called).to.be.false;
+      });
+    });
+
     it('should fire the `goForward` spy when the field value is set to `false`', () => {
       const { props } = getData({ addPolicy: false });
       const { container } = render(<InsuranceSummary {...props} />);
@@ -159,13 +239,16 @@ describe('ezr InsuranceSummary', () => {
     it('should fire the `setFormData` spy when confirming the action', async () => {
       const { props } = getData({ providers: policyData.populated });
       const { container } = render(<InsuranceSummary {...props} />);
-      const selectors = {
-        removeBtn: container.querySelector('.ezr-button-remove'),
-        modal: container.querySelector('va-modal'),
-      };
+      const removeBtn = container.querySelector('.ezr-button-remove');
 
-      fireEvent.click(selectors.removeBtn);
-      selectors.modal.__events.primaryButtonClick();
+      fireEvent.click(removeBtn);
+
+      // Wait for modal to be visible after state update, then trigger confirm
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal.getAttribute('visible')).to.equal('true');
+        modal.__events.primaryButtonClick();
+      });
 
       await waitFor(() => {
         expect(props.setFormData.called).to.be.true;
@@ -175,13 +258,16 @@ describe('ezr InsuranceSummary', () => {
     it('should not fire the `setFormData` spy when cancelling the action', async () => {
       const { props } = getData({ providers: policyData.populated });
       const { container } = render(<InsuranceSummary {...props} />);
-      const selectors = {
-        removeBtn: container.querySelector('.ezr-button-remove'),
-        modal: container.querySelector('va-modal'),
-      };
+      const removeBtn = container.querySelector('.ezr-button-remove');
 
-      fireEvent.click(selectors.removeBtn);
-      selectors.modal.__events.secondaryButtonClick();
+      fireEvent.click(removeBtn);
+
+      // Wait for modal to be visible after state update, then trigger cancel
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal.getAttribute('visible')).to.equal('true');
+        modal.__events.secondaryButtonClick();
+      });
 
       await waitFor(() => {
         expect(props.setFormData.called).to.be.false;

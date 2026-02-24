@@ -12,39 +12,10 @@ import { useLocation } from 'react-router-dom-v5-compat';
 import reducers from '../redux/reducers';
 
 import { vassApi } from '../redux/api/vassApi';
-import { FLOW_TYPES } from './constants';
+import { defaultFormState, createRootFormState } from './form';
 
-/**
- * @typedef {{ topicId: string, topicName: string }} Topic
- */
-
-/**
- * @typedef {Object} VassFormState
- * @property {boolean} hydrated - Whether the form state has been hydrated from storage
- * @property {string | null} selectedDate - The selected appointment date (ISO 8601 string)
- * @property {Topic[]} selectedTopics - Array of selected discussion topics
- * @property {string | null} obfuscatedEmail - Partially hidden email for display
- * @property {string | null} uuid - Unique identifier from the appointment URL
- * @property {string | null} lastname - User's last name for verification
- * @property {string | null} dob - User's date of birth for verification (YYYY-MM-DD)
- * @property {'schedule'|'cancel'|'any'} flowType - The current user flow type
- */
-
-/**
- * Default initial state for vassForm slice.
- * This mirrors the initialState defined in formSlice.js
- * @type {VassFormState}
- */
-export const defaultVassFormState = {
-  hydrated: false,
-  selectedDate: null,
-  selectedTopics: [],
-  obfuscatedEmail: null,
-  uuid: null,
-  lastname: null,
-  dob: null,
-  flowType: FLOW_TYPES.ANY,
-};
+// Re-export for backwards compatibility
+export const defaultVassFormState = defaultFormState;
 
 /**
  * Default initial state for scheduledDowntime slice.
@@ -94,7 +65,7 @@ export const getDefaultRenderOptions = (
 ) => ({
   initialState: {
     vassForm: {
-      ...defaultVassFormState,
+      ...defaultFormState,
       ...vassFormOverrides,
     },
     scheduledDowntime: {
@@ -112,11 +83,14 @@ export const getHydratedFormRenderOptions = (vassFormOverrides = {}) => {
     ...defaultOptions.initialState,
     vassForm: {
       hydrated: true,
-      selectedDate: '2025-01-01',
+      selectedSlot: {
+        dtStartUtc: '2025-01-01T10:00:00.000Z',
+        dtEndUtc: '2025-01-01T10:30:00.000Z',
+      },
       obfuscatedEmail: 's***@example.com',
       selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
       uuid: 'test-uuid',
-      lastname: 'Smith',
+      lastName: 'Smith',
       dob: '1935-04-07',
       ...vassFormOverrides,
     },
@@ -151,6 +125,9 @@ export const LocationDisplay = () => {
 export const TestComponent = () => (
   <div data-testid="test-component">Test Content</div>
 );
+
+// Re-export for backwards compatibility
+export const createVassFormRootState = createRootFormState;
 
 // Re-export commonly used items for convenience
 export { reducers, vassApi };

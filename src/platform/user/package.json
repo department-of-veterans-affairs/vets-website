@@ -55,7 +55,6 @@
     "enzyme": "*",
     "chai": "*",
     "sinon": "*",
-    "skin-deep": "*",
     "@testing-library/react": "*",
     "append-query": "*"
   },

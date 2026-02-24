@@ -1,8 +1,203 @@
+import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { render } from '@testing-library/react';
+
 import {
   getFullName,
   organizationRepresentativesArrayOptions,
+  getThirdPartyName,
+  buildValidateAtLeastOne,
+  validateOtherText,
+  InformationToDiscloseReviewField,
+  ClaimInformationDescription,
 } from '../helpers';
+
+describe('10278 helpers - getThirdPartyName', () => {
+  it('returns organization name when authorize is "organization"', () => {
+    const formData = {
+      discloseInformation: { authorize: 'organization' },
+      organizationName: 'Acme Org',
+    };
+
+    expect(getThirdPartyName(formData)).to.equal('Acme Org');
+  });
+
+  it('returns person full name when authorize is "person"', () => {
+    const formData = {
+      discloseInformation: { authorize: 'person' },
+      thirdPartyPersonName: {
+        fullName: {
+          first: 'Jane',
+          last: 'Doe',
+        },
+      },
+    };
+
+    expect(getThirdPartyName(formData)).to.equal('Jane Doe');
+  });
+});
+
+describe('10278 helpers - buildValidateAtLeastOne', () => {
+  it('adds error on the anchor key when none are checked', () => {
+    const anchorAddError = sinon.spy();
+    const rootAddError = sinon.spy();
+    const errors = {
+      status: { addError: anchorAddError },
+      addError: rootAddError,
+    };
+
+    const validate = buildValidateAtLeastOne(['status', 'other']);
+    validate(errors, { status: false, other: false });
+
+    expect(anchorAddError.calledWith('You must provide an answer')).to.equal(
+      true,
+    );
+    expect(rootAddError.called).to.equal(false);
+  });
+
+  it('falls back to root addError when anchor path is missing', () => {
+    const rootAddError = sinon.spy();
+    const errors = { addError: rootAddError };
+
+    const validate = buildValidateAtLeastOne(['status', 'other']);
+    validate(errors, { status: false, other: false });
+
+    expect(rootAddError.calledWith('You must provide an answer')).to.equal(
+      true,
+    );
+  });
+
+  it('does nothing when at least one checkbox is checked', () => {
+    const anchorAddError = sinon.spy();
+    const rootAddError = sinon.spy();
+    const errors = {
+      status: { addError: anchorAddError },
+      addError: rootAddError,
+    };
+
+    const validate = buildValidateAtLeastOne(['status', 'other']);
+    validate(errors, { status: true, other: false });
+
+    expect(anchorAddError.called).to.equal(false);
+    expect(rootAddError.called).to.equal(false);
+  });
+});
+
+describe('10278 helpers - validateOtherText', () => {
+  it('adds error when other is checked and otherText is empty', () => {
+    const otherTextAddError = sinon.spy();
+    const rootAddError = sinon.spy();
+    const errors = {
+      otherText: { addError: otherTextAddError },
+      addError: rootAddError,
+    };
+
+    validateOtherText(errors, { other: true, otherText: '   ' });
+
+    expect(otherTextAddError.calledWith('Enter other information')).to.equal(
+      true,
+    );
+    expect(rootAddError.called).to.equal(false);
+  });
+
+  it('falls back to root addError when otherText path is missing', () => {
+    const rootAddError = sinon.spy();
+    const errors = { addError: rootAddError };
+
+    validateOtherText(errors, { other: true, otherText: '' });
+
+    expect(rootAddError.calledWith('Enter other information')).to.equal(true);
+  });
+
+  it('does nothing when other is not checked', () => {
+    const otherTextAddError = sinon.spy();
+    const rootAddError = sinon.spy();
+    const errors = {
+      otherText: { addError: otherTextAddError },
+      addError: rootAddError,
+    };
+
+    validateOtherText(errors, { other: false, otherText: '' });
+
+    expect(otherTextAddError.called).to.equal(false);
+    expect(rootAddError.called).to.equal(false);
+  });
+});
+
+describe('10278 helpers - InformationToDiscloseReviewField', () => {
+  it('renders selected values and other text', () => {
+    const disclosureKeys = ['status', 'other'];
+    const options = {
+      status: 'Status',
+      other: { title: 'Other' },
+    };
+    const formData = {
+      claimInformation: {
+        status: true,
+        other: true,
+        otherText: 'Custom details',
+      },
+    };
+
+    const { getByText } = render(
+      <InformationToDiscloseReviewField
+        disclosureKeys={disclosureKeys}
+        options={options}
+        dataKey="claimInformation"
+        otherTextKey="otherText"
+      >
+        <div formData={formData} />
+      </InformationToDiscloseReviewField>,
+    );
+
+    expect(getByText('Status')).to.exist;
+    expect(getByText('Other')).to.exist;
+    expect(getByText('Selected')).to.exist;
+    expect(getByText('Custom details')).to.exist;
+  });
+});
+
+describe('10278 helpers - ClaimInformationDescription', () => {
+  it('renders minor key with special label', () => {
+    const formData = {
+      claimInformation: { minor: true },
+    };
+
+    const { getByText } = render(
+      <ClaimInformationDescription formData={formData} />,
+    );
+
+    expect(
+      getByText('Change of address or direct deposit (minor claimants only)'),
+    ).to.exist;
+  });
+
+  it('renders other key with otherText value', () => {
+    const formData = {
+      claimInformation: { other: true, otherText: 'Custom reason' },
+    };
+
+    const { getByText } = render(
+      <ClaimInformationDescription formData={formData} />,
+    );
+
+    expect(getByText('Other: Custom reason')).to.exist;
+  });
+
+  it('renders regular keys with DISCLOSURE_OPTIONS labels', () => {
+    const formData = {
+      claimInformation: { statusOfClaim: true, paymentHistory: true },
+    };
+
+    const { getByText } = render(
+      <ClaimInformationDescription formData={formData} />,
+    );
+
+    expect(getByText('Status of pending claim or appeal')).to.exist;
+    expect(getByText('Payment history')).to.exist;
+  });
+});
 
 describe('organizationRepresentativesArrayOptions helpers', () => {
   describe('getFullName', () => {
@@ -35,7 +230,7 @@ describe('organizationRepresentativesArrayOptions helpers', () => {
   describe('organizationRepresentativesArrayOptions', () => {
     it('should define required array builder options correctly', () => {
       expect(organizationRepresentativesArrayOptions.arrayPath).to.equal(
-        'representatives',
+        'organizationRepresentatives',
       );
       expect(organizationRepresentativesArrayOptions.nounSingular).to.equal(
         'representative',

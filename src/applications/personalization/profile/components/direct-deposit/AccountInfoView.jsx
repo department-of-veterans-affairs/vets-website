@@ -78,7 +78,7 @@ const AccountWithInfo = forwardRef(
   ) => {
     return (
       <div>
-        <dl className="vads-u-margin-y--0 vads-u-line-height--6">
+        <dl className="vads-u-margin-y--0 vads-u-line-height--6 dd-privacy-mask">
           <dt className="sr-only">Bank name:</dt>
           <dd>{paymentAccount?.name}</dd>
           <dt className="sr-only">Bank account number:</dt>

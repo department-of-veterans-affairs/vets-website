@@ -12,10 +12,7 @@ import {
 } from 'react-router-dom-v5-compat';
 import reducer from '../../../../redux/reducer';
 import IntroductionPage from '../../../../components/complex-claims/pages/IntroductionPage';
-import {
-  BTSSS_PORTAL_URL,
-  FIND_FACILITY_TP_CONTACT_LINK,
-} from '../../../../constants';
+import { BTSSS_PORTAL_URL } from '../../../../constants';
 
 // Mock component for navigation testing
 const ChooseExpenseType = () => (
@@ -141,8 +138,7 @@ describe('Travel Pay – IntroductionPage', () => {
     expect(btsssPortalLink).to.exist;
     expect(btsssPortalLink).to.have.attribute('external');
 
-    expect($(`va-link[href="${FIND_FACILITY_TP_CONTACT_LINK}"]`, container)).to
-      .exist;
+    expect($('a[href="/claims/"]', container)).to.exist;
   });
 
   it('navigates to choose-expense when a claim already exists', async () => {
@@ -241,25 +237,6 @@ describe('Travel Pay – IntroductionPage', () => {
     expect($('va-omb-info[exp-date="11/30/2027"]'), container).to.exist;
     expect($('va-omb-info[omb-number="2900-0798"]'), container).to.exist;
     expect($('va-omb-info[res-burden="10"]'), container).to.exist;
-  });
-
-  it('renders the Need help section with contact info', () => {
-    const { container, getByText } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={[initialRoute]}>
-        <IntroductionPage />
-      </MemoryRouter>,
-      {
-        initialState: getData(),
-        reducers: reducer,
-      },
-    );
-
-    expect(getByText('Need help?')).to.exist;
-    expect(
-      getByText(/You can call the Beneficiary Travel Self Service System/i),
-    ).to.exist;
-    expect($('va-telephone[contact="8555747292"]', container)).to.exist;
-    expect($('va-telephone[tty][contact="711"]', container)).to.exist;
   });
 
   it('renders correctly even if appointment prop is missing', () => {
@@ -642,5 +619,73 @@ describe('Travel Pay – IntroductionPage', () => {
         'intro',
       );
     });
+  });
+
+  it('shows OutOfBoundsAppointmentAlert when appointment is out of bounds', () => {
+    const stateWithOutOfBoundsAppointment = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isOutOfBounds: true,
+          },
+        },
+      },
+    };
+
+    const { getByRole } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithOutOfBoundsAppointment,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the alert is displayed
+    expect(
+      getByRole('heading', {
+        name: /your appointment happened more than 30 days ago/i,
+      }),
+    ).to.exist;
+  });
+
+  it('does not show OutOfBoundsAppointmentAlert when appointment is not out of bounds', () => {
+    const stateWithInBoundsAppointment = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isOutOfBounds: false,
+          },
+        },
+      },
+    };
+
+    const { queryByRole } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithInBoundsAppointment,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the alert is NOT displayed
+    expect(
+      queryByRole('heading', {
+        name: /your appointment happened more than 30 days ago/i,
+      }),
+    ).to.not.exist;
   });
 });

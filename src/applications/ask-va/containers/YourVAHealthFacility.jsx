@@ -7,7 +7,12 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import SearchControls from '../components/search/SearchControls';
 import SearchItem from '../components/search/SearchItem';
 import { getHealthFacilityTitle } from '../config/helpers';
-import { CHAPTER_3, URL, envUrl, getMockTestingFlagforAPI } from '../constants';
+import {
+  CHAPTER_3,
+  URL,
+  envApiUrl,
+  getMockTestingFlagForAPI,
+} from '../constants';
 import { convertToLatLng } from '../utils/mapbox';
 import { mockHealthFacilityResponse } from '../utils/mockData';
 
@@ -42,7 +47,7 @@ const YourVAHealthFacilityPage = props => {
   const getApiData = url => {
     setIsSearching(true);
 
-    if (getMockTestingFlagforAPI()) {
+    if (getMockTestingFlagForAPI()) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
@@ -64,7 +69,7 @@ const YourVAHealthFacilityPage = props => {
   };
 
   const getFacilitiesFromLocation = async input => {
-    const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?type=health&lat=${
+    const url = `${envApiUrl}${URL.GET_HEALTH_FACILITY}?type=health&lat=${
       input[1]
     }&long=${input[0]}&radius=50`;
     await getApiData(url);
@@ -80,9 +85,9 @@ const YourVAHealthFacilityPage = props => {
       setPageURL('/error');
       setApiData(facilities);
     } else {
-      const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?lat=${latLong[1]}&long=${
-        latLong[0]
-      }&radius=50&type=health`;
+      const url = `${envApiUrl}${URL.GET_HEALTH_FACILITY}?lat=${
+        latLong[1]
+      }&long=${latLong[0]}&radius=50&type=health`;
       await getApiData(url);
       setPageURL(url);
     }
@@ -105,7 +110,7 @@ const YourVAHealthFacilityPage = props => {
     focusElement('va-radio');
     return setValidationError({
       ...validationError,
-      radioError: 'Please select a facility',
+      radioError: 'Select a facility',
     });
   };
 

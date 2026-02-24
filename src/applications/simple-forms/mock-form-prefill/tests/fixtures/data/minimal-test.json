@@ -1,10 +1,24 @@
 {
   "data": {
+    "ssn": "6789",
+    "vaFileNumber": "2345",
     "fullName": {
       "first": "Mitchell",
       "middle": "George",
       "last": "Jenkins"
     },
-    "dateOfBirth": "1980-01-01"
+    "dateOfBirth": "1956-07-10",
+    "veteran": {
+      "mailingAddress": {
+        "street": "125 Main St.",
+        "city": "Fulton",
+        "state": "NY",
+        "postalCode": "97063",
+        "country": "United States"
+      },
+      "email": {
+        "emailAddress": "mitchell.jenkins.test@gmail.com"
+      }
+    }
   }
 }

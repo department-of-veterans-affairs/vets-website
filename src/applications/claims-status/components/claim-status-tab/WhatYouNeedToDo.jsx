@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import {
-  getFilesNeeded,
-  getFailedSubmissionsWithinLast30Days,
-} from '../../utils/helpers';
+import { getFailedSubmissionsWithinLast30Days } from '../../utils/helpers';
+import * as TrackedItem from '../../utils/trackedItemContent';
 import FilesNeeded from '../claim-files-tab/FilesNeeded';
 import UploadType2ErrorAlert from '../UploadType2ErrorAlert';
 
@@ -17,7 +15,7 @@ function WhatYouNeedToDo({ claim }) {
   const filesNeeded = trackedItems
     ? // When user indicates they will not be submitting more evidence by adding a standard or automated 5103 waiver,
       // we will remove the automated 5103 request from the filesNeeded array, preventing the alert from showing.
-      getFilesNeeded(trackedItems)
+      TrackedItem.getFilesNeeded(trackedItems)
     : [];
 
   // Memoize failed submissions to prevent UploadType2ErrorAlert from receiving

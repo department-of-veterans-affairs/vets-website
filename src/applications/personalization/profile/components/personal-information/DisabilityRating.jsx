@@ -31,18 +31,14 @@ const DisabilityRating = () => {
       <p className="vads-u-margin--0">
         <va-link
           href="/disability/view-disability-rating/rating"
-          text={
-            shouldShowRating
-              ? 'Learn more about your disability rating'
-              : 'Learn more about VA disability ratings'
-          }
+          text="Learn more about VA disability ratings"
         />
       </p>
 
       <p>
         <va-link
           href="/resources/the-pact-act-and-your-va-benefits"
-          text="PACT Act: Eligibility updates based on toxic exposure"
+          text="Learn more about the PACT Act and eligibility updates based on toxic exposure"
         />
       </p>
     </div>

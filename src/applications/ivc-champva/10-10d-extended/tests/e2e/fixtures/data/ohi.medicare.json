@@ -1,5 +1,6 @@
 {
   "data": {
+    "view:hasMedicare": true,
     "medicare": [
       {
         "medicareParticipant": "28e7f1064a74",
@@ -45,46 +46,9 @@
             "isEncrypted": false
           }
         ]
-      },
-      {
-        "medicareParticipant": "280dbd145a55",
-        "medicarePlanType": "b",
-        "medicareNumber": "1EG4TE5MK73",
-        "view:medicarePartBEffectiveDate": {
-          "medicarePartBEffectiveDate": "2023-01-15"
-        },
-        "medicarePartBFrontCard": [
-          {
-            "attachmentId": "Front of Medicare Parts A or B card",
-            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
-            "name": "sample.png",
-            "isEncrypted": false
-          }
-        ],
-        "medicarePartBBackCard": [
-          {
-            "attachmentId": "Back of Medicare Parts A or B card",
-            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
-            "name": "sample.png",
-            "isEncrypted": false
-          }
-        ],
-        "view:hasPartADenial": {
-          "hasPartADenial": true
-        },
-        "medicarePartADenialProof": [
-          {
-            "attachmentId": "Letter from the SSA",
-            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
-            "name": "sample.png",
-            "isEncrypted": false
-          }
-        ],
-        "hasMedicarePartD": false
       }
     ],
     "view:hasHealthInsurance": false,
-    "view:hasMedicare": true,
     "statementOfTruthSignature": "Certifier Jones"
   }
 }

@@ -32,7 +32,7 @@ export default {
             additional guidance if needed).
           </p>
           <p>
-            <strong>Note:</strong> USE Department of Education, Title IV school
+            <strong>Note:</strong> USE Department of Education, Title 4 school
             participants are not required to provide financial statement with
             the application.
           </p>
@@ -77,10 +77,11 @@ export default {
       acknowledgement10a: {
         type: 'object',
         properties: {
-          financiallySound: yesNoSchema,
+          financiallySound: { ...yesNoSchema, title: 'Financially Sound' },
           financialSoundnessExplanation: {
             ...textareaSchema,
             maxLength: 500,
+            title: 'Financial Soundness Explanation',
           },
         },
         required: ['financiallySound'],

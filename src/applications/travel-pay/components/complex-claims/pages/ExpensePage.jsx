@@ -16,7 +16,6 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import useRecordPageview from '../../../hooks/useRecordPageview';
 import DocumentUpload from './DocumentUpload';
 import {
   EXPENSE_TYPES,
@@ -43,6 +42,7 @@ import {
 } from '../../../redux/selectors';
 import {
   DATE_VALIDATION_TYPE,
+  VALIDATION_ERROR_MESSAGES,
   validateRequestedAmount,
   validateReceiptDate,
   validateDescription,
@@ -132,7 +132,6 @@ const ExpensePage = () => {
   const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
 
   useSetFocus();
-  useRecordPageview('complex-claims', expenseTypeFields?.label || 'Expense');
 
   // Effects
   // Effect 1: Reset loaded flag when expenseId changes
@@ -297,6 +296,17 @@ const ExpensePage = () => {
 
     // Skip validation for partial dates, but still save them to formState
     if (isDateField && !isCompleteDate && value !== '') {
+      // If there's an existing error, replace it with incomplete date error
+      // This provides immediate feedback when user breaks a valid date
+      setExtraFieldErrors(prevErrors => {
+        const nextErrors = { ...prevErrors };
+        if (prevErrors[name]) {
+          nextErrors[name] = VALIDATION_ERROR_MESSAGES.INCOMPLETE_DATE;
+        } else {
+          delete nextErrors[name];
+        }
+        return nextErrors;
+      });
       return;
     }
 
@@ -313,12 +323,13 @@ const ExpensePage = () => {
         );
         if (validationResult.isValid) {
           delete nextErrors.purchaseDate;
-        } else if (hasExistingError && validationResult.purchaseDate) {
-          // Update error message if field already has an error
+        } else if (
+          validationResult.purchaseDate &&
+          (isCompleteDate || hasExistingError)
+        ) {
           nextErrors.purchaseDate = validationResult.purchaseDate;
         }
       }
-
       if (name === 'description') {
         const validationResult = validateDescription(
           value,
@@ -671,7 +682,11 @@ const ExpensePage = () => {
   const handleBack = () => {
     if (isEditMode) {
       setIsCancelModalVisible(true);
+    } else if (backDestination === 'review') {
+      // User clicked "Add another [expense]" from review page accordion
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
+      // User came from choose-expense page
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     }
   };

@@ -4,21 +4,6 @@ import {
   employmentAppliedFields,
 } from '../definitions/constants';
 
-const MAX_LENGTHS = {
-  firstName: 12,
-  middleInitial: 1,
-  lastName: 18,
-  disabilities: 81,
-  doctorAddresses: 135,
-  hospitalAddresses: 127,
-  occupation: 27,
-  previousEmployerNameAddress: 110,
-  previousEmployerType: 39,
-  appliedEmployerType: 62,
-  trainingName: 12,
-  remarks: 603,
-};
-
 const stringOrUndefined = value => {
   if (typeof value === 'string') {
     const trimmed = value.trim();
@@ -248,7 +233,7 @@ const toArray = value =>
 
 const formatDisabilitiesList = value => {
   if (typeof value === 'string') {
-    return truncateString(stringOrUndefined(value), MAX_LENGTHS.disabilities);
+    return truncateString(stringOrUndefined(value));
   }
 
   const entries = toArray(value)
@@ -269,7 +254,7 @@ const formatDisabilitiesList = value => {
     return undefined;
   }
 
-  return truncateString(entries.join(', '), MAX_LENGTHS.disabilities);
+  return truncateString(entries.join(', '));
 };
 
 const formatRelatedDisabilities = value => {
@@ -392,7 +377,6 @@ const buildDoctorsCare = doctors =>
         doctorsTreatmentDates: toDateRangeArray(entry?.treatmentDates),
         nameAndAddressOfDoctor: truncateString(
           formatNameAndAddress(entry?.doctorName, entry?.doctorAddress),
-          MAX_LENGTHS.doctorAddresses,
         ),
         inVANetwork: toVaNetworkFlag(entry?.doctorType),
         relatedDisability: formatRelatedDisabilities(entry?.relatedDisability),
@@ -407,7 +391,6 @@ const buildHospitalsCare = hospitals =>
         hospitalTreatmentDates: toDateRangeArray(entry?.treatmentDates),
         nameAndAddressOfHospital: truncateString(
           formatNameAndAddress(entry?.hospitalName, entry?.hospitalAddress),
-          MAX_LENGTHS.hospitalAddresses,
         ),
         inVANetwork: toVaNetworkFlag(entry?.hospitalType),
         relatedDisability: formatRelatedDisabilities(entry?.relatedDisability),
@@ -420,18 +403,12 @@ const buildVeteranFullName = fullName => {
     return undefined;
   }
 
-  const first = truncateString(
-    stringOrUndefined(fullName.first),
-    MAX_LENGTHS.firstName,
-  );
+  const first = truncateString(stringOrUndefined(fullName.first));
   const middle = stringOrUndefined(fullName.middle);
   const middleInitial = middle
-    ? truncateString(middle.charAt(0).toUpperCase(), MAX_LENGTHS.middleInitial)
+    ? truncateString(middle.charAt(0).toUpperCase())
     : undefined;
-  const last = truncateString(
-    stringOrUndefined(fullName.last),
-    MAX_LENGTHS.lastName,
-  );
+  const last = truncateString(stringOrUndefined(fullName.last));
 
   return pruneEmpty({
     first,
@@ -440,20 +417,36 @@ const buildVeteranFullName = fullName => {
   });
 };
 
+const buildVeteranFullNameString = fullName => {
+  const nameObj = buildVeteranFullName(fullName);
+  if (!nameObj) {
+    return undefined;
+  }
+
+  const parts = [];
+  if (nameObj.first) {
+    parts.push(nameObj.first);
+  }
+  if (nameObj.middleinitial) {
+    parts.push(nameObj.middleinitial);
+  }
+  if (nameObj.last) {
+    parts.push(nameObj.last);
+  }
+
+  return parts.length ? parts.join(' ') : undefined;
+};
+
 const mapPreviousEmployers = employers =>
   pruneEmpty(
     toArray(employers).map(item => {
       const nameAndAddress = truncateString(
         formatNameAndAddress(item?.employerName, item?.employerAddress),
-        MAX_LENGTHS.previousEmployerNameAddress,
       );
 
       return pruneEmpty({
         nameAndAddress,
-        typeOfWork: truncateString(
-          stringOrUndefined(item?.typeOfWork),
-          MAX_LENGTHS.previousEmployerType,
-        ),
+        typeOfWork: truncateString(stringOrUndefined(item?.typeOfWork)),
         hoursPerWeek: toInteger(item?.hoursPerWeek),
         datesOfEmployment: ensureDateRange(item, 'startDate', 'endDate'),
         timeLostFromIllness: toInteger(item?.timeLost),
@@ -472,14 +465,8 @@ const mapAppliedEmployers = (primary, fallback) => {
       );
 
       return pruneEmpty({
-        nameAndAddress: truncateString(
-          nameAndAddress,
-          MAX_LENGTHS.previousEmployerNameAddress,
-        ),
-        typeOfWork: truncateString(
-          stringOrUndefined(item?.typeOfWork),
-          MAX_LENGTHS.appliedEmployerType,
-        ),
+        nameAndAddress: truncateString(nameAndAddress),
+        typeOfWork: truncateString(stringOrUndefined(item?.typeOfWork)),
         dateApplied: stringOrUndefined(item?.dateApplied),
       });
     }),
@@ -528,10 +515,7 @@ const buildTrainingSection = (entries, rangePropName) => {
 
   const firstEntry = entryList[0];
   const details = pruneEmpty({
-    name: truncateString(
-      stringOrUndefined(firstEntry?.typeOfEducation),
-      MAX_LENGTHS.trainingName,
-    ),
+    name: truncateString(stringOrUndefined(firstEntry?.typeOfEducation)),
     [rangePropName]: ensureDateRange(firstEntry?.datesOfTraining, 'from', 'to'),
   });
 
@@ -637,7 +621,6 @@ const buildSubmissionPayload = data => {
     yearOfMostEarnings: normalizeYear(data?.yearEarned),
     occupationDuringMostEarnings: truncateString(
       stringOrUndefined(data?.occupation),
-      MAX_LENGTHS.occupation,
     ),
     previousEmployers,
     preventMilitaryDuties: toBoolean(data?.activeDutyOrders),
@@ -655,11 +638,9 @@ const buildSubmissionPayload = data => {
     educationTrainingPreUnemployability: preTraining.details,
     trainingPostUnemployment: postTraining.hasTraining,
     educationTrainingPostUnemployability: postTraining.details,
-    remarks: truncateString(
-      stringOrUndefined(data?.additionalRemarks),
-      MAX_LENGTHS.remarks,
-    ),
-    signature: stringOrUndefined(data?.signatureOfClaimant),
+    remarks: truncateString(stringOrUndefined(data?.additionalRemarks)),
+    signature: buildVeteranFullNameString(veteran.fullName),
+    // signature: stringOrUndefined(data?.signatureOfClaimant),
     signatureDate: stringOrUndefined(data?.dateSigned),
     files: pruneEmpty(toArray(data?.files)),
   };

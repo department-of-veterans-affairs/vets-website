@@ -176,7 +176,7 @@ describe('submit-helpers.js', () => {
     });
   });
 
-  describe('removeInvalidFields', () => {
+  describe('oveInvalidFields', () => {
     it('should remove undefined, null, and view: prefixed fields', () => {
       const formData = {
         data: {

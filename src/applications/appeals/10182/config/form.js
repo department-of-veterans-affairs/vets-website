@@ -4,13 +4,13 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 // Components
-import AddContestableIssue from '../components/AddContestableIssue';
+import AddIssue from '../../shared/components/AddIssue';
 import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
 // Pages
-import addIssue from '../pages/addIssue';
+import addIssue from '../../shared/pages/addIssue';
 import appealingVhaDenial from '../pages/appealingVhaDenial';
 import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
 import boardReview from '../pages/boardReview';
@@ -51,7 +51,7 @@ import {
   showExtensionReason,
 } from '../utils/helpers';
 import { appStateSelector } from '../../shared/utils/issues';
-import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import { CONTESTABLE_ISSUES_PATH, MAX_LENGTH } from '../../shared/constants';
 import {
   focusRadioH3,
   focusH3,
@@ -174,11 +174,13 @@ const formConfig = {
           title: 'Add issues for review',
           path: 'add-issue',
           depends: () => false, // accessed from contestableIssues page
-          // showPagePerItem: true,
-          // arrayPath: 'additionalIssues',
-          CustomPage: AddContestableIssue,
-          uiSchema: addIssue.uiSchema,
-          schema: addIssue.schema,
+          CustomPage: props =>
+            AddIssue({
+              ...props,
+              appAbbr: 'NOD',
+            }),
+          uiSchema: addIssue(MAX_LENGTH.NOD_ISSUE_NAME).uiSchema,
+          schema: addIssue(MAX_LENGTH.NOD_ISSUE_NAME).schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         areaOfDisagreementFollowUp: {

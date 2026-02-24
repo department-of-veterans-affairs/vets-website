@@ -51,16 +51,33 @@ describe('Form 526EZ Entry Page', () => {
     router = [],
     addBranches = true,
     claims = [],
+    loadedStatus = 'success',
+    savedStatus = '',
+    itfMessageDismissed = false,
+    sideNavEnabled = false,
   } = {}) => {
     const initialState = {
       form: {
-        loadedStatus: 'success',
-        savedStatus: '',
+        loadedStatus,
+        savedStatus,
         loadedData: {
           metadata: {
             inProgressFormId: '234',
           },
         },
+        data: {
+          veteranFullName: {
+            first: 'John',
+            last: 'Doe',
+          },
+        },
+      },
+      itf: {
+        fetchCallState: 'notCalled',
+        creationCallState: 'notCalled',
+        currentITF: null,
+        previousITF: null,
+        messageDismissed: itfMessageDismissed,
       },
       user: {
         login: {
@@ -85,6 +102,7 @@ describe('Form 526EZ Entry Page', () => {
       },
       featureToggles: {
         show526Wizard,
+        disability526SidenavEnabled: sideNavEnabled,
       },
     };
     const fakeStore = createStore(
@@ -252,6 +270,13 @@ describe('Form 526EZ Entry Page', () => {
         loadedStatus: 'success',
         savedStatus: '',
         loadedData: { metadata: {} },
+      },
+      itf: {
+        fetchCallState: 'notCalled',
+        creationCallState: 'notCalled',
+        currentITF: null,
+        previousITF: null,
+        messageDismissed: false,
       },
       user: {
         login: { currentlyLoggedIn: false },
@@ -438,6 +463,13 @@ describe('Form 526EZ Entry Page', () => {
         savedStatus: '',
         loadedData: { metadata: {} },
       },
+      itf: {
+        fetchCallState: 'notCalled',
+        creationCallState: 'notCalled',
+        currentITF: null,
+        previousITF: null,
+        messageDismissed: false,
+      },
       user: {
         login: { currentlyLoggedIn: false },
         profile: { verified: false, services: [], loading: false, status: '' },
@@ -475,6 +507,71 @@ describe('Form 526EZ Entry Page', () => {
   describe('isIntroPage', () => {
     it('should return false when no pathname param', () => {
       expect(isIntroPage()).to.be.false;
+    });
+  });
+
+  describe('Side navigation feature', () => {
+    it('should not render ClaimFormSideNav when feature is disabled', () => {
+      sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+      const tree = testPage({
+        verified: true,
+        services: serviceRequired,
+        sideNavEnabled: false,
+      });
+      expect(tree.find('ClaimFormSideNav')).to.have.lengthOf(0);
+      tree.unmount();
+    });
+
+    it('should hide ClaimFormSideNav when ITF message not dismissed', () => {
+      sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+      const tree = testPage({
+        verified: true,
+        services: serviceRequired,
+        sideNavEnabled: true,
+        itfMessageDismissed: false,
+        pathname: '/veteran-information',
+      });
+      expect(tree.find('ClaimFormSideNav')).to.have.lengthOf(0);
+      tree.unmount();
+    });
+
+    it('should hide ClaimFormSideNav on introduction page', () => {
+      sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+      const tree = testPage({
+        verified: true,
+        services: serviceRequired,
+        sideNavEnabled: true,
+        itfMessageDismissed: true,
+        pathname: '/introduction',
+      });
+      expect(tree.find('ClaimFormSideNav')).to.have.lengthOf(0);
+      tree.unmount();
+    });
+
+    it('should hide ClaimFormSideNav on confirmation page', () => {
+      sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+      const tree = testPage({
+        verified: true,
+        services: serviceRequired,
+        sideNavEnabled: true,
+        itfMessageDismissed: true,
+        pathname: '/confirmation',
+      });
+      expect(tree.find('ClaimFormSideNav')).to.have.lengthOf(0);
+      tree.unmount();
+    });
+
+    it('should hide ClaimFormSideNav on form-saved page', () => {
+      sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+      const tree = testPage({
+        verified: true,
+        services: serviceRequired,
+        sideNavEnabled: true,
+        itfMessageDismissed: true,
+        pathname: '/form-saved',
+      });
+      expect(tree.find('ClaimFormSideNav')).to.have.lengthOf(0);
+      tree.unmount();
     });
   });
 });

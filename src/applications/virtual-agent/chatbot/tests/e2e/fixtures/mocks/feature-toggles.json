@@ -1,0 +1,19 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "virtual_agent_use_v2_chatbot",
+        "value": true
+      },
+      {
+        "name": "virtual_agent_show_chatbot",
+        "value": true
+      },
+      {
+        "name": "virtual_agent_show_ai_disclaimer",
+        "value": true
+      }
+    ]
+  }
+}

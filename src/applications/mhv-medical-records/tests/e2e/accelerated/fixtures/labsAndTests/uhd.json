@@ -5,6 +5,7 @@
       "attributes": {
         "display": "Surgical Pathology",
         "testCode": "SP",
+        "testCodeDisplay": "Surgical Pathology",
         "dateCompleted": "2019-03-12T16:30:00Z",
         "sampleTested": "BONE MARROW",
         "bodySite": null,
@@ -19,6 +20,7 @@
       "attributes": {
         "display": "CH",
         "testCode": "CH",
+        "testCodeDisplay": "Chemistry and hematology",
         "dateCompleted": "2025-01-23T22:06:02Z",
         "sampleTested": "SERUM",
         "bodySite": "Central Vien",
@@ -107,6 +109,7 @@
       "attributes": {
         "display": "CH - FULL SAMPLE",
         "testCode": "CH",
+        "testCodeDisplay": "Chemistry and hematology",
         "dateCompleted": "2025-01-23T22:06:02Z",
         "sampleTested": "SERUM",
         "bodySite": "Central Vien",

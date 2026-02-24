@@ -1,16 +1,14 @@
-import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
-
-import Form0996App from './containers/Form0996App';
-import formConfig from './config/form';
+import App from './containers/App';
+import HLRApp from './HLRApp';
 
 const onEnter = (nextState, replace) => replace('/introduction');
 
 const routes = [
   {
     path: '/',
-    component: Form0996App,
+    component: HLRApp,
     indexRoute: { onEnter },
-    childRoutes: createRoutesWithSaveInProgress(formConfig),
+    childRoutes: [{ path: 'introduction', component: App }],
   },
 ];
 

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { I18nextProvider } from 'react-i18next';
 import {
   DowntimeNotification,
   externalServices,
@@ -7,7 +8,11 @@ import {
 import PropTypes from 'prop-types';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import { fetchDebtLetters } from '../actions/debts';
-import { getStatements, getCopaySummaryPageData } from '../actions/copays';
+import {
+  getAllCopayStatements,
+  getCopaySummaryStatements,
+} from '../actions/copays';
+import i18nCombinedDebtPortal from '../../i18n';
 import {
   combinedPortalAccess,
   selectLoadingFeatureFlags,
@@ -48,9 +53,9 @@ const CombinedPortalApp = ({ children }) => {
         fetchDebtLetters(dispatch, debtLettersActive);
 
         if (shouldUseLightHouseCopayData) {
-          getCopaySummaryPageData(dispatch);
+          getCopaySummaryStatements(dispatch);
         } else {
-          getStatements(dispatch);
+          getAllCopayStatements(dispatch);
         }
       }
     },
@@ -118,4 +123,12 @@ CombinedPortalApp.propTypes = {
   children: PropTypes.object,
 };
 
-export default CombinedPortalApp;
+export const withI18n = Component => {
+  return props => (
+    <I18nextProvider i18n={i18nCombinedDebtPortal}>
+      <Component {...props} />
+    </I18nextProvider>
+  );
+};
+
+export default withI18n(CombinedPortalApp);

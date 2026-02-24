@@ -26,6 +26,7 @@ import supportingDocuments from './chapters/03-additional-information/supporting
 import uploadDocuments from './chapters/03-additional-information/uploadDocuments';
 import expensesReview from './chapters/02-expenses/expensesReview';
 import GetFormHelp from '../components/GetFormHelp';
+import { onFormLoaded } from './onFormLoaded';
 import { hasNoExpenses, hasCareExpenses } from './chapters/02-expenses/helpers';
 
 /** @type {FormConfig} */
@@ -57,6 +58,7 @@ const formConfig = {
       saved: 'We saved your medical expense report',
     },
   },
+  onFormLoaded,
   version: 0,
   formSavedPage: FormSavedPage,
   savedFormMessages: {

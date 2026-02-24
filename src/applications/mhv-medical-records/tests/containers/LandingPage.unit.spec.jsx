@@ -107,12 +107,9 @@ describe('Landing Page', () => {
           loading: false,
         },
       },
-      /* eslint-disable camelcase */
       featureToggles: {
         loading: false,
-        mhv_landing_page_show_share_my_health_data_link: true,
       },
-      /* eslint-enable camelcase */
       ...initialState,
     };
 
@@ -350,12 +347,12 @@ describe('Landing Page', () => {
               migrationDate: '2026-05-01',
               facilities: [
                 {
-                  id: '528',
-                  name: 'Test VA Medical Center',
+                  facilityId: '528',
+                  facilityName: 'Test VA Medical Center',
                 },
                 {
-                  id: '123',
-                  name: 'Different VA Medical Center',
+                  facilityId: '123',
+                  facilityName: 'Different VA Medical Center',
                 },
               ],
               phases: {

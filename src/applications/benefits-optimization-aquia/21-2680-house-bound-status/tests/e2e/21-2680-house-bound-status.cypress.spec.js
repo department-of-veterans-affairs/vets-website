@@ -1,7 +1,7 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import { formConfig } from '@bio-aquia/21-2680-house-bound-status';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 import { featureToggles, user } from '../fixtures/mocks';
 

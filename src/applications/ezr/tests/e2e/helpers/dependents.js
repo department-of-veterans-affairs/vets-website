@@ -6,8 +6,9 @@ import {
   selectYesNoWebComponent,
   fillDateWebComponentPattern,
 } from '.';
+import { handleOptionalServiceHistoryPage } from './handleOptionalServiceHistoryPage';
 
-export const advanceToDependents = () => {
+export const advanceToDependents = testData => {
   cy.get('[href="#start"]')
     .first()
     .click();
@@ -29,8 +30,10 @@ export const advanceToDependents = () => {
   goToNextPage('/veteran-information/next-of-kin-summary');
   selectYesNoWebComponent('view:hasNextOfKin', false);
 
-  goToNextPage('/military-service/toxic-exposure');
-  cy.get('[name="root_hasTeraResponse"]').check('N');
+  handleOptionalServiceHistoryPage({
+    historyEnabled: testData['view:ezrServiceHistoryEnabled'],
+    hasServiceHistoryInfo: testData['view:hasPrefillServiceHistory'],
+  });
 
   goToNextPage('/household-information/marital-status');
   selectDropdownWebComponent(

@@ -7,7 +7,6 @@ import {
   setFetchJSONResponse,
 } from '~/platform/testing/unit/helpers';
 import * as useNotificationSettingsUtils from '@@profile/hooks/useNotificationSettingsUtils';
-import * as recordEventModule from '~/platform/monitoring/record-event';
 import { PaperlessDelivery } from '../../../components/paperless-delivery/PaperlessDelivery';
 import { LOADING_STATES } from '../../../../common/constants';
 import { renderWithProfileReducersAndRouter } from '../../unit-test-helpers';
@@ -42,7 +41,6 @@ const getBaseInitialState = (overrides = {}) => ({
 
 describe('PaperlessDelivery', () => {
   let sandbox;
-  let recordEventStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -61,7 +59,6 @@ describe('PaperlessDelivery', () => {
       .returns({
         usePaperlessDeliveryGroup: () => [],
       });
-    recordEventStub = sandbox.stub(recordEventModule, 'default');
   });
 
   afterEach(() => {
@@ -199,18 +196,6 @@ describe('PaperlessDelivery', () => {
         getByText(/Add your email to get notified when documents are ready/),
       ).to.exist;
     });
-    const missingEmailEvent = {
-      event: 'visible-alert-box',
-      'alert-box-type': 'info',
-      'alert-box-heading':
-        'Add your email to get notified when documents are ready',
-      'error-key': 'missing_email',
-      'alert-box-full-width': false,
-      'alert-box-background-only': false,
-      'alert-box-closeable': false,
-      'reason-for-alert': 'Missing email',
-    };
-    sinon.assert.calledWithExactly(recordEventStub, missingEmailEvent);
   });
 
   it('should render add email address link when user has no email address', async () => {

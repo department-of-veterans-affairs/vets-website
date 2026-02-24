@@ -2,28 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 
-import {
-  buildDateFormatter,
-  renderDefaultThirdPartyMessage,
-  renderOverrideThirdPartyMessage,
-} from '../../utils/helpers';
-import { evidenceDictionary } from '../../utils/evidenceDictionary';
+import { buildDateFormatter } from '../../utils/helpers';
+import * as TrackedItem from '../../utils/trackedItemContent';
 
 function FilesOptional({ item }) {
   const dateFormatter = buildDateFormatter();
+
   const getRequestText = () => {
     const formattedDate = dateFormatter(item.requestedDate);
-    if (
-      (evidenceDictionary[item.displayName] &&
-        evidenceDictionary[item.displayName].isDBQ) ||
-      item.displayName.toLowerCase().includes('dbq')
-    ) {
+    if (TrackedItem.getIsDBQ(item)) {
       return `We made a request for an exam on ${formattedDate}`;
     }
     return `We made a request outside VA on ${formattedDate}`;
   };
   const getItemDisplayName = () => {
-    if (item.displayName.toLowerCase().includes('dbq')) {
+    if (TrackedItem.getIsDBQ(item)) {
       return 'Request for an exam';
     }
     if (item.friendlyName) {
@@ -39,8 +32,8 @@ function FilesOptional({ item }) {
       <p>{getRequestText()}</p>
       <p className="alert-description">
         {item.shortDescription || item.activityDescription
-          ? renderOverrideThirdPartyMessage(item)
-          : renderDefaultThirdPartyMessage(item.displayName)}
+          ? TrackedItem.renderOverrideThirdPartyMessage(item)
+          : TrackedItem.renderDefaultThirdPartyMessage(item.displayName)}
       </p>
       <div className="call-to-action">
         <Link

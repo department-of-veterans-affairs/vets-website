@@ -20,13 +20,14 @@ const burialsLocation = {
 const store = ({
   burialFormEnabled = true,
   featuresLoading = true,
+  isLoggedIn = true,
   profileLoading = false,
   savedForms = [],
 } = {}) => ({
   getState: () => ({
     user: {
       login: {
-        currentlyLoggedIn: true,
+        currentlyLoggedIn: isLoggedIn,
       },
       profile: {
         loading: profileLoading,
@@ -68,5 +69,22 @@ describe('BurialsApp', () => {
     );
     const location = window.location.pathname || window.location.href;
     expect(location).to.eq('/burials-memorials/veterans-burial-allowance/');
+  });
+
+  it('should render redirect loading indicator when user is not logged in on form page', () => {
+    const mockStore = store({ featuresLoading: false, isLoggedIn: false });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <BurialsApp
+          location={{ ...burialsLocation, pathname: '/inside-form' }}
+        />
+      </Provider>,
+    );
+
+    const loadingIndicator = container.querySelector('va-loading-indicator');
+    expect(loadingIndicator).to.exist;
+    expect(loadingIndicator.getAttribute('message')).to.equal(
+      'Redirecting to introduction page...',
+    );
   });
 });

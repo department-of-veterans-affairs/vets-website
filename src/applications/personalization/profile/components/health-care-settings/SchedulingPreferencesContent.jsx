@@ -76,7 +76,10 @@ const SchedulingPreferencesContent = props => {
 
   if (isLoading) {
     return (
-      <va-loading-indicator message="Loading your scheduling preferences..." />
+      <va-loading-indicator
+        message="Loading your scheduling preferences..."
+        data-testid="loading-spinner"
+      />
     );
   }
 
