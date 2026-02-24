@@ -6,6 +6,9 @@
     "view:terminallyIllInfo": {},
     "view:hasEvidence": false,
     "view:hasMedicalRecords": false,
+    "view:selectableEvidenceTypes": {
+      "view:hasOtherEvidence": false
+    },
     "view:powStatus": false,
     "skip781ForCombatReason": false,
     "skip781ForNonCombatReason": true,
