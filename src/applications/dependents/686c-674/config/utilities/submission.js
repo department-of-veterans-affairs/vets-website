@@ -43,6 +43,7 @@ function extractDataFields(sourceData, fields) {
   return result;
 }
 
+/* eslint-disable no-param-reassign */
 /**
  * Apply noSsnReason payload mappings for spouse, children, and students.
  * Mutates cleanData in place by design — it is a local variable in the caller.
@@ -51,8 +52,8 @@ function extractDataFields(sourceData, fields) {
  * @param {object} sourceData - original form data
  * @param {object} addOptions - selected add-dependent options
  * @param {object} noSsnReasonMappings - mapping of noSsnReason values to payload values
+ * @returns {void} - mutates cleanData in place (TO DO: fix this)
  */
-/* eslint-disable no-param-reassign */
 function applyNoSsnReasonMappings(
   cleanData,
   sourceData,
