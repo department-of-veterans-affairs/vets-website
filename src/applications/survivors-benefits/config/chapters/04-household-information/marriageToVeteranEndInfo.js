@@ -15,6 +15,7 @@ import {
   COUNTRY_NAMES,
 } from '../../../utils/labels';
 import { customAddressSchema } from '../../definitions';
+import { validations } from '../../validations';
 
 /** @type {PageSchema} */
 export default {
@@ -23,10 +24,13 @@ export default {
       'When and where did your marriage end?',
       'If you were married at the time of their death, this will be their date and place of death.',
     ),
-    marriageToVeteranEndDate: currentOrPastDateUI({
-      title: 'Date marriage ended',
-      monthSelect: false,
-    }),
+    marriageToVeteranEndDate: {
+      ...currentOrPastDateUI({
+        title: 'Date marriage ended',
+        monthSelect: false,
+      }),
+      'ui:validations': [validations.isAfterMarriageStartDate],
+    },
     marriageToVeteranEndOutsideUs: checkboxUI({
       title: 'My marriage ended outside the U.S.',
     }),

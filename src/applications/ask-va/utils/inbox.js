@@ -27,9 +27,10 @@ export function flattenInquiry(rawInquiry) {
  *   business: Inquiry[],
  *   personal: Inquiry[],
  *   uniqueCategories: string[]
+ *   uniqueStatuses: string[]
  * }}
  */
-export function categorizeByLOA(rawInquiries) {
+export function standardizeInquiries(rawInquiries) {
   const buckets = rawInquiries.reduce(
     (accumulator, current) => {
       const loa = current.attributes.levelOfAuthentication.toLowerCase();
@@ -38,14 +39,24 @@ export function categorizeByLOA(rawInquiries) {
       // If business or personal, add to bucket
       if (accumulator[loa]) accumulator[loa].push(flattened);
 
-      // Use a Set to track categories
+      // Use Sets to track categories & statuses
       accumulator.uniqueCategories.add(flattened.categoryName);
+      accumulator.uniqueStatuses.add(flattened.status);
       return accumulator;
     },
-    { business: [], personal: [], uniqueCategories: new Set() },
+    {
+      business: [],
+      personal: [],
+      uniqueCategories: new Set(),
+      uniqueStatuses: new Set(),
+    },
   );
   // Convert the Set into an array
-  return { ...buckets, uniqueCategories: [...buckets.uniqueCategories] };
+  return {
+    ...buckets,
+    uniqueCategories: [...buckets.uniqueCategories],
+    uniqueStatuses: [...buckets.uniqueStatuses],
+  };
 }
 
 /** Splits an array into buckets of limited size
