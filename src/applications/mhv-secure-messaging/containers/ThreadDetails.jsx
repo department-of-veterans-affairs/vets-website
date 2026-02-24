@@ -156,7 +156,12 @@ const ThreadDetails = props => {
             style={{ display: isSending && 'none' }}
           >
             <ReplyForm
-              alertSlot={<AlertBackgroundBox closeable />}
+              alertSlot={
+                <AlertBackgroundBox
+                  closeable
+                  className="vads-u-margin-y--1 va-alert"
+                />
+              }
               cannotReply={threadCantReply}
               drafts={drafts || []}
               header={header}
@@ -193,7 +198,12 @@ const ThreadDetails = props => {
       return (
         <div className="compose-container">
           <ComposeForm
-            alertSlot={<AlertBackgroundBox closeable />}
+            alertSlot={
+              <AlertBackgroundBox
+                closeable
+                className="vads-u-margin-y--1 va-alert"
+              />
+            }
             draft={drafts[0]}
             recipients={recipients}
             pageTitle="Edit draft"
@@ -205,7 +215,12 @@ const ThreadDetails = props => {
       return (
         <>
           <MessageThreadHeader
-            alertSlot={<AlertBackgroundBox closeable />}
+            alertSlot={
+              <AlertBackgroundBox
+                closeable
+                className="vads-u-margin-y--1 va-alert"
+              />
+            }
             message={messages[0]}
             cannotReply={threadCantReply}
             isCreateNewModalVisible={isCreateNewModalVisible}

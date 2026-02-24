@@ -74,7 +74,12 @@ const MessageReply = () => {
 
     return (
       <ReplyForm
-        alertSlot={<AlertBackgroundBox closeable />}
+        alertSlot={
+          <AlertBackgroundBox
+            closeable
+            className="vads-u-margin-y--1 va-alert"
+          />
+        }
         drafts={drafts || []}
         replyMessage={replyMessage}
         recipients={recipients}

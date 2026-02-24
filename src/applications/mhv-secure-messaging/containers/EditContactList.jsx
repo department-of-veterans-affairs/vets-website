@@ -212,6 +212,7 @@ const EditContactList = () => {
       <AlertBackgroundBox
         closeable
         focus
+        className="vads-u-margin-y--1 va-alert"
         setShowAlertBackgroundBox={setShowAlertBackgroundBox}
       />
 

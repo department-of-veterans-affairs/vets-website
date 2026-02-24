@@ -113,7 +113,7 @@ const Folders = () => {
           Messages: {Breadcrumbs.FOLDERS.label}
         </h1>
 
-        <AlertBackgroundBox closeable />
+        <AlertBackgroundBox closeable className="vads-u-margin-y--1 va-alert" />
 
         {(noAssociations || allTriageGroupsBlocked) && (
           <BlockedTriageGroupAlert

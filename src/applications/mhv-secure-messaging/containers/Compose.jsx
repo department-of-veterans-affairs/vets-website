@@ -176,7 +176,12 @@ const Compose = () => {
             draft={draftMessage}
             recipients={!recipients.error && recipients}
             signature={signature}
-            alertSlot={<AlertBackgroundBox closeable />}
+            alertSlot={
+              <AlertBackgroundBox
+                closeable
+                className="vads-u-margin-y--1 va-alert"
+              />
+            }
           />
         </>
       );
