@@ -58,9 +58,9 @@ export default function GenericError(props) {
         {submitMessageLink ?? (
           <va-link-action
             type="primary"
-            href="/submissions"
+            href="/"
             class="vads-u-margin-right--2"
-            text="Go back to submissions page"
+            text="Go Back to VA.gov"
           />
         )}
         {submitButton}
