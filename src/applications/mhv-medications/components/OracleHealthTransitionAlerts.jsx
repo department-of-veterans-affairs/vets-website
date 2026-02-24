@@ -62,6 +62,7 @@ export const OracleHealthT3Alert = ({
       status="error"
       background-only
       data-testid={testId}
+      data-dd-action-name="oracle-health-t3-alert-displayed"
     >
       <h2 className="vads-u-font-size--md" slot="headline">
         {config.errorHeadline}
@@ -116,9 +117,29 @@ OracleHealthT3Alert.propTypes = {
         p4: PropTypes.string,
         p5: PropTypes.string,
         p6: PropTypes.string,
+        p7: PropTypes.string,
       }),
     }),
   ).isRequired,
   className: PropTypes.string,
   hasRefillable: PropTypes.bool,
 };
+
+/**
+ * Component for in-card Oracle Health transition alert.
+ * Rendered by MedicationsListCard when a prescription's refill is blocked.
+ */
+export const OracleHealthInCardAlert = () => (
+  <va-alert
+    class="vads-u-margin-top--2"
+    status="error"
+    background-only
+    data-testid="oracle-health-in-card-alert"
+    data-dd-action-name="oracle-health-in-card-alert-displayed"
+  >
+    <p className="vads-u-margin-y--0">
+      You can’t refill this medication online right now. If you need more
+      medication, call your VA pharmacy’s automated refill line.
+    </p>
+  </va-alert>
+);
