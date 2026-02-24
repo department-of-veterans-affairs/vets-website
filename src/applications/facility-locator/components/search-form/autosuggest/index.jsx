@@ -1,11 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-// TODO: downshift-v9 is pinned to 9.0.8 in package.json. Versions 9.1.0+
-// break jsdom tests (React.useId colons in querySelector) and 9.3.2 throws
-// on synthetic items not in the items array (getItemAndIndex validation).
-// Unpin once https://github.com/downshift-js/downshift/pull/1636 merges
-// and getItemAndIndex is fixed, or refactor AutosuggestOptions to stop
-// passing synthetic placeholder items to getItemProps.
 import { useCombobox } from 'downshift-v9';
 import { itemToString as toDisplay } from './helpers';
 import InputWithClear from './InputWithClear';

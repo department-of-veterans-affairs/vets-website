@@ -15,6 +15,7 @@ function AutosuggestOption({
   const role = item.isError ? 'alert' : 'option';
   const itemInfo = {
     item,
+    index,
     className: optionClasses(index === highlightedIndex),
     role,
   };
