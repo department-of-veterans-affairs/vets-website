@@ -1,5 +1,6 @@
-import { apiRequest } from 'platform/utilities/api';
-import { buildOutputUrl, buildDownloadUrl } from './idpEndpoints';
+import pollDocumentStatus from './status';
+import { fetchArtifactSummary, downloadArtifactData } from './artifacts';
+import { transformArtifactsToSections } from './transformers';
 
 const ARTIFACT_TYPES = {
   DD214: 'DD214',
@@ -7,18 +8,6 @@ const ARTIFACT_TYPES = {
 };
 
 const normalizeType = type => (type || '').toLowerCase();
-
-export const fetchArtifactSummary = async documentId => {
-  return apiRequest(buildOutputUrl(documentId, 'artifact'));
-};
-
-export const downloadArtifactData = async (documentId, kvpId) => {
-  return apiRequest(buildDownloadUrl(documentId, kvpId), {
-    headers: {
-      'X-Key-Inflection': 'snake',
-    },
-  });
-};
 
 export const fetchRelevantArtifacts = async documentId => {
   const summary = await fetchArtifactSummary(documentId);
@@ -52,4 +41,18 @@ export const fetchRelevantArtifacts = async documentId => {
   };
 };
 
-export default fetchRelevantArtifacts;
+export const processDocument = async (contract, options = {}) => {
+  if (!contract?.id) {
+    throw new Error('Invalid contract: missing document id.');
+  }
+
+  const status = await pollDocumentStatus(contract.id, options.polling);
+  if (status?.scanStatus !== 'completed') {
+    throw new Error('Document processing did not complete successfully.');
+  }
+
+  const artifacts = await fetchRelevantArtifacts(contract.id);
+  return transformArtifactsToSections(artifacts);
+};
+
+export default processDocument;

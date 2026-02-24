@@ -1,11 +1,5 @@
-// Utility for sending uploaded PDFs to the IDP intake endpoint.
-// Exports a single function that returns a promise resolving with
-// the document id (string) or throwing an error.
-
 import { apiRequest } from 'platform/utilities/api';
-import { buildIntakeUrl } from './idpEndpoints';
-
-const INTAKE_ENDPOINT = buildIntakeUrl();
+import { buildIntakeUrl } from './endpoints';
 
 const isPdfFile = file =>
   file?.type === 'application/pdf' ||
@@ -17,6 +11,7 @@ const readFileAsBase64 = file =>
     reader.onload = () => {
       try {
         const { result } = reader;
+        // result is in form data:<mime>;base64,<payload>
         const [, payload] = String(result).split(',');
         if (!payload) {
           reject(new Error('Unable to read file contents.'));
@@ -33,9 +28,9 @@ const readFileAsBase64 = file =>
     reader.readAsDataURL(file);
   });
 
-export const uploadPdfToIdp = async file => {
+export const uploadDocument = async file => {
   if (!isPdfFile(file)) {
-    throw new Error('Unsupported file type for IDP upload.');
+    throw new Error('Unsupported file type for CAVE upload.');
   }
 
   const pdfBase64 = await readFileAsBase64(file);
@@ -49,7 +44,7 @@ export const uploadPdfToIdp = async file => {
 
   let payload;
   try {
-    payload = await apiRequest(INTAKE_ENDPOINT, {
+    payload = await apiRequest(buildIntakeUrl(), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -59,21 +54,17 @@ export const uploadPdfToIdp = async file => {
   } catch (error) {
     const status = error?.status || 'unknown';
     const message =
-      error?.error || error?.message || 'IDP intake request failed.';
-    throw new Error(`IDP intake failed (${status}): ${message}`);
+      error?.error || error?.message || 'CAVE intake request failed.';
+    throw new Error(`CAVE intake failed (${status}): ${message}`);
   }
 
   const { id, bucket, pdfKey } = payload || {};
 
   if (!id) {
-    throw new Error('IDP intake succeeded but no document id was returned.');
+    throw new Error('CAVE intake succeeded but no document id was returned.');
   }
 
-  return {
-    id,
-    bucket,
-    pdfKey,
-  };
+  return { id, bucket, pdfKey };
 };
 
-export default uploadPdfToIdp;
+export default uploadDocument;

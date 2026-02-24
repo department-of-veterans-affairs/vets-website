@@ -21,8 +21,7 @@ import {
 import vaFileInputFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldMapping';
 import { errorManager } from 'platform/forms-system/src/js/utilities/file/passwordErrorState';
 
-import uploadPdfToIdp from '../utils/idpUpload';
-import processUploadedDocument from '../utils/idpWorkflow';
+import { uploadDocument, processDocument } from '../cave';
 
 const createTrackingKey = file => {
   const stamp = Date.now();
@@ -93,7 +92,7 @@ const mergeSecondaryInfo = (fileEntry, info, defaultStatus = 'pending') => {
   }
 
   if (info.contract) {
-    const { id, bucket, pdf_key: pdfKey } = info.contract;
+    const { id, bucket, pdfKey } = info.contract;
     if (id && id !== fileEntry.idpDocumentId) {
       next.idpDocumentId = id;
       changed = true;
@@ -153,8 +152,7 @@ const DualFileUploadField = props => {
   const componentRef = useRef(null);
   const isMountedRef = useRef(true);
 
-  // Read IDP feature flag
-  const idpEnabled = useSelector(
+  const caveEnabled = useSelector(
     state =>
       state.featureToggles?.[FEATURE_FLAG_NAMES.survivorsBenefitsIdp] ?? false,
   );
@@ -482,7 +480,7 @@ const DualFileUploadField = props => {
       ...metadata,
     });
 
-    uploadPdfToIdp(file)
+    uploadDocument(file)
       .then(contract => {
         secondaryStatusRef.current[trackingKey] = 'processing';
         setSecondaryUpload(trackingKey, {
@@ -490,7 +488,7 @@ const DualFileUploadField = props => {
           contract,
           ...metadata,
         });
-        return processUploadedDocument(contract);
+        return processDocument(contract);
       })
       .then(sections => {
         secondaryStatusRef.current[trackingKey] = 'success';
@@ -552,7 +550,7 @@ const DualFileUploadField = props => {
       : null;
 
     // Only start secondary upload if IDP is enabled
-    if (idpEnabled) {
+    if (caveEnabled) {
       if (!encryptedCheck) {
         if (
           !existingSecondary ||
@@ -641,7 +639,7 @@ const DualFileUploadField = props => {
           setEncrypted(_encrypted);
           const trackingKey = ensureTrackingKey(file.file);
           // Only start secondary upload if IDP is enabled
-          if (idpEnabled) {
+          if (caveEnabled) {
             startSecondaryUpload(file.file, trackingKey);
           }
           if (uiOptions.skipUpload) {
@@ -663,7 +661,7 @@ const DualFileUploadField = props => {
       childrenProps,
       encrypted,
       handleUpload,
-      idpEnabled,
+      caveEnabled,
       percentsUploaded,
       uiOptions.skipUpload,
     ],

@@ -1,5 +1,5 @@
 import { apiRequest } from 'platform/utilities/api';
-import { buildStatusUrl } from './idpEndpoints';
+import { buildStatusUrl } from './endpoints';
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
