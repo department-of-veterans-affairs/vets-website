@@ -357,9 +357,23 @@ for doing very specific things.
 
 ## API Keys
 
-In order to work with the Facility Locator locally, you will need a Mapbox API key with dev access. see [this link](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/working-with-vsp/policies-work-norms/sensitive-guidance.md) for details on handling non public keys and tokens. You will need to access the paramater store within AWS Systems manager, and get the dev mapbox token from this location: /dsva-vagov/vets-website/dev/mapbox_token.
+Several VA.gov applications (Facility Locator, Ask VA, Representative Search, Caregivers, GI Bill Comparison Tool, and Static Pages) use Mapbox for maps and geocoding. To run these features locally you need a Mapbox API token.
 
-Create a .env file in the root of vets-website, and assign the above token to a variable called MAPBOX_TOKEN. The .env file should already be configured to work with dotenv for webpack. Ensure that the .env file is in .gitigore and take care not to expose this token in any public commits. See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=external-request%2Coperations%2Cops-access-request&template=aws-access-request.yml&title=AWS+access+for+%5Bindividual%5D) for instructions on requesting AWS access.
+The **unrestricted dev token** is stored in AWS Parameter Store at `/dsva-vagov/vets-website/dev/mapbox_token`. See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/working-with-vsp/policies-work-norms/sensitive-guidance.md) for details on handling non-public keys and tokens. See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=external-request%2Coperations%2Cops-access-request&template=aws-access-request.yml&title=AWS+access+for+%5Bindividual%5D) for instructions on requesting AWS access.
+
+Once you have AWS access, fetch the token and add it to your `.env`:
+
+```sh
+aws ssm get-parameter \
+  --name /dsva-vagov/vets-website/dev/mapbox_token \
+  --with-decryption \
+  --query 'Parameter.Value' \
+  --output text \
+  --region us-gov-west-1 \
+  | xargs -I {} echo 'MAPBOX_TOKEN={}' >> .env
+```
+
+The `.env` file is already in `.gitignore`. Do not expose this token in any public commits.
 
 ## Additional Resources
 
