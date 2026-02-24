@@ -11,6 +11,7 @@ import {
   getLabsAndTestsDetails,
 } from '../actions/labsAndTests';
 import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
+import UnifiedRadiologyDetails from '../components/LabsAndTests/UnifiedRadiologyDetails';
 import MicroDetails from '../components/LabsAndTests/MicroDetails';
 import PathologyDetails from '../components/LabsAndTests/PathologyDetails';
 import ChemHemDetails from '../components/LabsAndTests/ChemHemDetails';
@@ -18,6 +19,7 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   labTypes,
+  loincCodes,
   pageTitles,
   statsdFrontEndActions,
 } from '../util/constants';
@@ -94,9 +96,14 @@ const LabAndTestDetails = () => {
   }
   if (isAcceleratingLabsAndTests && labAndTestDetails && !isLoading) {
     if (isRadiologyId(labId)) {
+      // This case is specifically for displaying old records from CVIX when accelerating.
       return (
         <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
       );
+    }
+    if (labAndTestDetails?.testCode === loincCodes.UHD_RADIOLOGY) {
+      // This case is for new UHD SCDF radiology records.
+      return <UnifiedRadiologyDetails record={labAndTestDetails} user={user} />;
     }
     return <UnifiedLabsAndTests record={labAndTestDetails} user={user} />;
   }
