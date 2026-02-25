@@ -14,8 +14,7 @@ const DuplicateRecordsAlert = ({ visible }) => {
     >
       <h2 slot="headline">You may notice duplicate records for a time</h2>
       <p>
-        We haven
-        {'\u2019'}t removed or changed any records. But recent updates may show
+        We haven’t removed or changed any records. But recent updates may show
         duplicate records.
       </p>
     </va-alert>
