@@ -4,36 +4,44 @@ import TipsForUploading from './TipsForUploading';
 const ToxicExposureDescription = (
   <>
     <p>
-      We recommend uploading supporting documents related to any toxins or other
-      hazards you may have been exposed to.
+      If you’re updating your service period or providing information about
+      toxic exposure or hazards, you can upload supporting documents here.
     </p>
-    <p>
-      It’s your choice whether you want to upload any supporting documents. But
-      they may help us confirm certain details about your service history and
-      process your form faster.
-    </p>
-    <h2 className="vads-u-font-size--h4">Documents you can upload</h2>
-    <p>
-      Upload a document with information about what you may have been exposed
-      to, the type of activity you were engaged in when you were exposed (like
-      basic training), and where and when you may have been exposed (including
-      the month and year).
-    </p>
-    <p>You can upload copies of any of these types of documents:</p>
+    <h2 className="vads-u-font-size--h5">
+      You may upload one or more of the following:
+    </h2>
+    <h3 className="vads-u-font-size--h5">Service and discharge documents</h3>
     <ul>
-      <li>Your DD214, DD215, or other separation documents</li>
-      <li>Any other service records</li>
-      <li>Military orders or unit histories</li>
       <li>
-        A written statement (like a personal statement or a buddy statement)
+        Military discharge paper (such as DD214, DD256, DD 257, NGB22 or other
+        separation documents
       </li>
-      <li>
-        Photos, journal entries, or news articles related to any toxins or other
-        hazards you may have been exposed to
-      </li>
+      <li>Military orders or service records</li>
     </ul>
+    <h3 className="vads-u-font-size--h5">
+      Toxic exposure or hazard-related documents
+    </h3>
+    <ul>
+      <li>
+        What you were exposed to, where you were exposed, and when (month and
+        year)
+      </li>
+      <li>
+        Type of activity you were in engaged in during exposure, such as basic
+        training
+      </li>
+      <li>
+        Written statements, such as a personal statement or a buddy statement
+      </li>
+      <li>Unit histories</li>
+      <li>News articles</li>
+      <li>Additional evidence, like photos, a personal journal, diary</li>
+    </ul>
+    <p>
+      Uploading these documents may help speed up your form processing time.
+    </p>
     <TipsForUploading />
-    <p>Upload supporting document</p>
+    <p>Upload a document (one at a time)</p>
   </>
 );
 
