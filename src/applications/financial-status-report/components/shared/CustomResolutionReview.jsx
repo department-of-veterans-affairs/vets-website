@@ -16,7 +16,7 @@ const CustomResolutionReview = ({ children }) => {
       <dt>
         Resolution amount for <strong>{getDebtName(currentDebt)}</strong>
       </dt>
-      <dd>{currency(compromiseAmount)}</dd>
+      <dd>{formatCurrency(compromiseAmount)}</dd>
     </div>
   );
 };

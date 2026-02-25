@@ -207,11 +207,11 @@ export default function ClaimDetailsContent({
                 Amount
               </p>
               <p className="vads-u-margin--0">
-                Submitted amount of {currency(totalCostRequested)}
+                Submitted amount of {formatCurrency(totalCostRequested)}
               </p>
               {reimbursementAmount > 0 && (
                 <p className="vads-u-margin--0">
-                  Reimbursement amount of {currency(reimbursementAmount)}
+                  Reimbursement amount of {formatCurrency(reimbursementAmount)}
                 </p>
               )}
             </div>

@@ -16,7 +16,7 @@ import { parse, format } from 'date-fns';
 import Modals from '../components/Modals';
 import { APP_TYPES } from '../utils/constants';
 import {
-  currency,
+  formatCurrency,
   setPageFocus,
   handlePdfGeneration,
   formatDate,
@@ -166,7 +166,7 @@ const CombinedStatements = () => {
           Total Due:
         </span>
         <span className="vads-u-font-weight--bold">
-          {currency(copay.pHAmtDue, 0)}
+          {formatCurrency(copay.pHAmtDue, 0)}
         </span>
       </va-table-row>
     );
@@ -179,7 +179,7 @@ const CombinedStatements = () => {
       <va-table-row>
         <span>Previous Balance</span>
         <span />
-        <span>{currency(parseFloat(copay.pHPrevBal || 0), 0)}</span>
+        <span>{formatCurrency(parseFloat(copay.pHPrevBal || 0), 0)}</span>
       </va-table-row>
     );
   };
@@ -191,7 +191,7 @@ const CombinedStatements = () => {
       <va-table-row>
         <span>Payments Received</span>
         <span />
-        <span>{currency(parseFloat(copay.pHTotCredits || 0), 0)}</span>
+        <span>{formatCurrency(parseFloat(copay.pHTotCredits || 0), 0)}</span>
       </va-table-row>
     );
   };
@@ -308,8 +308,8 @@ const CombinedStatements = () => {
                 <h3>{copay.station.facilityName}</h3>
                 <p className="vads-u-margin-bottom--0">
                   Payments made after{' '}
-                  {getLatestPaymentDateFromCopayForFacility(copay)} will not
-                  be reflected here
+                  {getLatestPaymentDateFromCopayForFacility(copay)} will not be
+                  reflected here
                 </p>
 
                 <va-table
@@ -335,7 +335,7 @@ const CombinedStatements = () => {
                           {cleanHtmlEntities(charge.pDTransDescOutput)}
                         </span>
                         <span>{charge.pDRefNo}</span>
-                        <span>{currency(charge.pDTransAmt, 0)}</span>
+                        <span>{formatCurrency(charge.pDTransAmt, 0)}</span>
                       </va-table-row>
                     ))}
 
@@ -422,7 +422,7 @@ const CombinedStatements = () => {
                           'VA Debt'}
                       </strong>
                     </span>
-                    <span>{currency(debtAmount, 0)}</span>
+                    <span>{formatCurrency(debtAmount, 0)}</span>
                   </va-table-row>
                 );
               })}
@@ -433,7 +433,7 @@ const CombinedStatements = () => {
                   Total Due:
                 </span>
                 <span className="vads-u-font-weight--bold">
-                  {currency(
+                  {formatCurrency(
                     debts.reduce(
                       (total, debt) =>
                         total +

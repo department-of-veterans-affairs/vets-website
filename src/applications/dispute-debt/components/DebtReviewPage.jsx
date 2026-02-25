@@ -30,7 +30,7 @@ const DebtReviewPage = ({ data, pagePerItemIndex, name, goToPath }) => {
   const debtNumber = parseInt(pagePerItemIndex, 10) + 1;
   const dynamicTitle =
     debt?.label ||
-    `Debt ${debtNumber} of ${total}: ${currency(amount)} for ${debtTitle}`;
+    `Debt ${debtNumber} of ${total}: ${formatCurrency(amount)} for ${debtTitle}`;
 
   return (
     <div className="form-review-panel-page">

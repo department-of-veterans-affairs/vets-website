@@ -4,7 +4,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
 import { APP_TYPES } from '../../utils/constants';
-import { currency } from '../../utils/helpers';
+import { formatCurrency } from '../../utils/helpers';
 import AlertCard from '../../components/AlertCard';
 import BalanceCard from '../../components/BalanceCard';
 import { GenericDisasterAlert } from '../../components/DisasterAlert';
@@ -53,7 +53,7 @@ describe('combined debt portal component helpers', () => {
         </MemoryRouter>,
       );
       const cardAmount = getByTestId('card-amount');
-      expect(cardAmount.textContent).to.include(currency(amount));
+      expect(cardAmount.textContent).to.include(formatCurrency(amount));
       expect(cardAmount.textContent).to.include(
         `for ${count} benefit overpayment${count > 1 ? 's' : ''}`,
       );

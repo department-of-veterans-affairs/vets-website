@@ -112,10 +112,10 @@ export const validateResolutionOption = (errors, fieldData) => {
     errors.addError(
       `Please select a resolution option for the selected ${
         fieldData.debtType === DEBT_TYPES.DEBT
-          ? `${currency(fieldData.currentAr)} debt for ${
+          ? `${formatCurrency(fieldData.currentAr)} debt for ${
               deductionCodes[fieldData.deductionCode]
             }` || fieldData.benefitType
-          : `${currency(fieldData.pHAmtDue)} copay debt  ${
+          : `${formatCurrency(fieldData.pHAmtDue)} copay debt  ${
               fieldData.station ? `for ${fieldData.station.facilityName}` : ''
             }`
       }`,

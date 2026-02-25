@@ -19,10 +19,10 @@ describe('createUrlWithQuery function', () => {
 
 describe('currency function', () => {
   it('should format a number to American dollar', () => {
-    expect(currency(44)).to.equal('$44.00');
+    expect(formatCurrency(44)).to.equal('$44.00');
   });
   it('should format a number to American dollar', () => {
-    expect(currency(23)).to.not.equal('€23');
+    expect(formatCurrency(23)).to.not.equal('€23');
   });
 });
 

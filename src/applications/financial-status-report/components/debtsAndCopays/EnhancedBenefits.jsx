@@ -19,7 +19,7 @@ const BenefitCard = React.memo(({ received }) => {
   return (
     <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
       <span>Amount received last month: </span>
-      <b>{currency(received)}</b>
+      <b>{formatCurrency(received)}</b>
     </p>
   );
 });

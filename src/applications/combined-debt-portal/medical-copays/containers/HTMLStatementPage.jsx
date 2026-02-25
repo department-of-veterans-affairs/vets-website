@@ -10,9 +10,10 @@ import {
 import {
   setPageFocus,
   isAnyElementFocused,
-  formatCurrency
+  formatCurrency,
+  getCopayCharge
 } from '../../combined/utils/helpers';
-import { useCurrentStatement } from '../../combined/utils/selectors';
+import { useCurrentStatement, useLighthouseCopays } from '../../combined/utils/selectors';
 import Modals from '../../combined/components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
@@ -52,81 +53,70 @@ const DEFAULT_STATEMENT_ATTRIBUTES = {
   DATE: '',
   PREV_PAGE: '',
   ACCOUNT_NUMBER: '',
-  CHARGES: []
+  CHARGES: [],
+  CURRENT_BALANCE: '',
+  PAYMENTS_RECEIVED: ''
 }
 
 const HTMLStatementPage = () => {
-  const shouldUseLighthouseCopays = useSelector(useCurrentStatement);
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
 
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
   const fullName = userFullName.middle
   ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
   : `${userFullName.first} ${userFullName.last}`;
   
-  const { id: copayId } = useParams();
   const { statementCopays, isLoading } = useCurrentStatement();
 
-  const getLegacyStatementDate = (latestCopay) => {
-    // need to add logic here to make it the month of the statement, not of the copay
-
-    // using statementDateOutput since it has delimiters ('/') unlike pSStatementDate
-    const parsedStatementDate = new Date(latestCopay.pSStatementDateOutput);
-    // like in copay detail page, this logic got combined and it should be separated
-    return isValid(parsedStatementDate)
-      ? format(parsedStatementDate, 'MMMM d')
-      : '';
-
-    // for lighthouse
-    // currentCopay?.attributes?.invoiceDate
-  }
-
+  const dateIsValid = () => (
+    isValid(parsedStatementDate) ? format(parsedStatementDate, 'MMMM d'): ''
+  )
+  
   const getLatestCopay = () => {
     return statementCopays.at(-1);
   }
-
   // change to i18 if can
-  const getPrevPage = (facilityName) => {
-    return `Copay bill for ${facilityName}`
-  }
+  const getPrevPage = facilityName => `Copay bill for ${facilityName}`
+  const title = statementDate => `${statementDate} statement`;
 
-  const getLegacyAttributes = (latestCopay) => {
+  const getLegacyAttributes = () => {
     const latestCopay = getLatestCopay();
-    const statementDate = getLegacyStatementDate(latestCopay);
-    const latestCopayCharges = latestCopay?.details?.filter(
-      charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
-    );
-    // loop through copays using latestCopayCharges logic to get them all
-    const allCharges = latestCopayCharges;
+    const statementDate = latestCopay.pSStatementDateOutput;
+    const statementCharges = statementCopays.flatMap(copay => getCopayCharge(copay));
+    const rawCurrentBalance = statementCharges.reduce((sum, charge) => sum + charge.pDTransAmt);
+    const formattedCurrentBalance = formatCurrency(rawCurrentBalance);
+    const payments_received = statementCopays.reduce((sum, copay) => sum + copay.pHTotCharges);
 
     return {
       LATEST_COPAY: latestCopay,
-      TITLE: `${statementDate} statement`,
+      TITLE: title(statementDate),
       DATE: statementDate,
       PREV_PAGE: getPrevPage(latestCopay.station.facilityName),
       ACCOUNT_NUMBER: latestCopay?.accountNumber || selectedCopay?.pHAccountNumber,
-      CHARGES: allCharges
-          //       currentBalance={currentCopay.pHNewBalance}
-          // newCharges={currentCopay.pHTotCharges}
-          // paymentsReceived={currentCopay.pHTotCredits}
-          // previousBalance={currentCopay.pHPrevBal}
+      CHARGES: statementCharges,
+      CURRENT_BALANCE: formattedCurrentBalance,
+      PAYMENTS_RECEIVED: payments_received
     } 
   }
 
   // see about putting all these gets in the helper - gonna have diff chargest logic, maybe diff title
-  const getLighthouseAttributes = (latestCopay) => {
+  const getLighthouseAttributes = () => {
     const latestCopay = getLatestCopay();
-    const latestCopayCharges = currentCopay?.attributes?.lineItems || [];
-
-    // loop through copays using latestCopayCharges logic to get them all
-    const allCharges = latestCopayCharges;
+    const statementDate = formatISODateToMMDDYYYY(currentCopay.attributes.invoiceDate);
+    const statementCharges = statementCopays.flatMap(copay => copay.attributes.lineItems)
+    const currentSumBalance = statementCharges.reduce((sum, charge) => sum + charge.pDTransAmt);
+    const formattedCurrentBalance = formatCurrency(currentSumBalance);
+    const payments_received = statementCopays.reduce((sum, copay) => sum + copay.attributes.principalPaid);
 
     return {
       LATEST_COPAY: latestCopay,
-      TITLE: `${statementDate} statement`,
-      DATE: getLegacyStatementDate(latestCopay), // change
+      TITLE: title(statementDate),
+      DATE: statementDate,
       PREV_PAGE: getPrevPage(latestCopay.attributes.facility.name),
       ACCOUNT_NUMBER: latestCopay.attributes.accountNumber,
-      CHARGES: allCharges
+      CHARGES: statementCharges,
+      CURRENT_BALANCE: formattedCurrentBalance,
+      PAYMENTS_RECEIVED: payments_received
     }
   }
 
@@ -158,12 +148,9 @@ const HTMLStatementPage = () => {
           {`${currentCopay?.station.facilityName}`}
         </p>
         <AccountSummary
-          acctNum={acctNum}
-          currentBalance={currentCopay.pHNewBalance}
-          newCharges={currentCopay.pHTotCharges}
-          paymentsReceived={currentCopay.pHTotCredits}
-          previousBalance={currentCopay.pHPrevBal}
-          statementDate={statementDate}
+          acctNum={statementAttributes.ACCOUNT_NUMBER}
+          newCharges={statementAttributes.NEW_CHARGES}
+          paymentsReceived={statementAttributes.PAYMENTS_RECEIVED}
         />
         {shouldUseLighthouseCopays && (
           <StatementTable
@@ -175,7 +162,7 @@ const HTMLStatementPage = () => {
         <DownloadStatement
           key={statementId}
           selectedId={statementId}
-          statementDate={statementAttributes.DATE}
+          statementDate={dateIsValid(statementAttributes.DATE)}
           fullName={fullName}
         />
         <StatementAddresses

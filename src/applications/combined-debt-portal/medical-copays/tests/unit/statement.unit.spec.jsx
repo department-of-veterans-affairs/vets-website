@@ -37,8 +37,8 @@ describe('mcp statement view', () => {
         />,
       );
       expect(summary.getByTestId('account-summary-head')).to.exist;
-      expect(summary.getByTestId('account-summary-previous')).to.exist;
-      expect(summary.getByTestId('account-summary-previous')).to.have.text(
+      expect(summary.getByTestId('account-summary-charges')).to.exist;
+      expect(summary.getByTestId('account-summary-charges')).to.have.text(
         'Previous balance: $30.00',
       );
       expect(summary.getByTestId('account-summary-credits')).to.exist;

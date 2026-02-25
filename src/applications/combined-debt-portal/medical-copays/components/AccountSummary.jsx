@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { currency } from '../../combined/utils/helpers';
+import { formatCurrency } from '../../combined/utils/helpers';
 
-export const AccountSummary = ({
-  acctNum,
-  paymentsReceived,
-  previousBalance,
-}) => {
+export const AccountSummary = ({ acctNum, paymentsReceived, newCharges }) => {
   return (
     <section>
       <h2
@@ -22,13 +18,13 @@ export const AccountSummary = ({
           data-testid="account-summary-previous"
           className="vads-u-margin-bottom--0p5"
         >
-          {`Previous balance: ${currency(previousBalance)}`}
+          {`This statement charges: ${formatCurrency(newCharges)}`}
         </li>
         <li
           data-testid="account-summary-credits"
           className="vads-u-margin-bottom--0p5"
         >
-          {`Payments received: ${currency(Math.abs(paymentsReceived))}`}
+          {`Payments received: ${formatCurrency(Math.abs(paymentsReceived))}`}
         </li>
       </ul>
       <h3 className="vads-u-margin-top--2">Account number</h3>

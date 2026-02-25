@@ -116,7 +116,7 @@ describe('CDP - Copay card content', () => {
         cy.findByTestId(`balance-details-${id}-statement-view`).click();
         // on page
         cy.findByTestId('account-summary-head').should('exist');
-        cy.findByTestId('account-summary-previous').contains(
+        cy.findByTestId('account-summary-charges').contains(
           'Previous balance: $135.00',
         );
         cy.findByTestId('account-summary-credits').contains(

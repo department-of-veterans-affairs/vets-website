@@ -31,13 +31,6 @@ export const formatISODateToMMDDYYYY = isoString => {
 
 export const formatCurrency = amount => {
   if (!amount) return '$0.00';
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(amount);
-};
-
-export const currency = amount => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -50,12 +43,18 @@ export const formatTableData = tableData =>
   tableData.map(row => ({
     date: row.date,
     desc: <strong>{row.desc}</strong>,
-    amount: currency(row.amount),
+    amount: formatCurrency(row.amount),
   }));
 
 export const calcDueDate = (date, days) => {
   return formatDate(addDays(new Date(date), days));
 };
+
+export const getCopayCharge = (copay = {}) => (
+  copay.details?.filter(
+    charge => !charge.pDTransDescOutput.startsWith('&nbsp;')
+  )
+);
 
 export const titleCase = str => {
   return str

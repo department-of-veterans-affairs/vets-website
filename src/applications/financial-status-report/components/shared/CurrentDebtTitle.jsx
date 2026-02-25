@@ -16,10 +16,10 @@ export const CurrentDebtTitle = ({ formContext }) => {
 
   const formattedDebtTitle =
     currentDebt.debtType === 'COPAY'
-      ? `${currency(currentDebt.pHAmtDue)} copay debt  ${
+      ? `${formatCurrency(currentDebt.pHAmtDue)} copay debt  ${
           currentDebt.station ? `for ${currentDebt.station.facilityName}` : ''
         }`
-      : `${currency(currentDebt.currentAr)} debt for ${
+      : `${formatCurrency(currentDebt.currentAr)} debt for ${
           deductionCodes[currentDebt.deductionCode]
         }` || currentDebt.benefitType;
 

@@ -9,7 +9,7 @@ import {
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
-  currency,
+  formatCurrency,
   calcDueDate,
   formatDate,
   verifyCurrentBalance,
@@ -75,7 +75,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         data-testid={`amount-${id}`}
       >
         <span className="vads-u-font-weight--normal">Current balance: </span>
-        <strong>{currency(amount)}</strong>
+        <strong>{formatCurrency(amount)}</strong>
       </p>
       <div className="vads-u-display--flex vads-u-margin-top--0  vads-u-margin-bottom--1p5">
         <va-icon

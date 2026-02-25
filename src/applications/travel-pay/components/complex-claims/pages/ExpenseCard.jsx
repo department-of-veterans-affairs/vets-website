@@ -28,7 +28,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
 
   const header = isMileage
     ? 'Mileage expense'
-    : `${formatDate(expense.dateIncurred)}, ${currency(expense.costRequested)}`;
+    : `${formatDate(expense.dateIncurred)}, ${formatCurrency(expense.costRequested)}`;
 
   const handleDeleteExpenseAndDocument = async () => {
     setShowDeleteModal(false);

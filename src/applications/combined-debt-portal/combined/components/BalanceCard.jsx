@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { APP_TYPES } from '../utils/constants';
-import { currency, formatDate } from '../utils/helpers';
+import { formatCurrency, formatDate } from '../utils/helpers';
 
 const BalanceCard = ({ amount, count, date, appType }) => {
   const cardHeader =
@@ -33,7 +33,7 @@ const BalanceCard = ({ amount, count, date, appType }) => {
         className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h3"
         data-testid="card-amount"
       >
-        {currency(amount)} {cardHeader}
+        {formatCurrency(amount)} {cardHeader}
       </h2>
       {date && (
         <p className="card-date vads-u-margin-top--0  vads-u-margin-bottom--1p5">

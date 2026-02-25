@@ -32,7 +32,7 @@ const DisputeSummaryReview = ({ data }) => {
           const debtType =
             debt.label || deductionCodes[debt.deductionCode] || 'VA debt';
           const debtLabel =
-            debt.label || `${currency(debtAmount)} for ${debtType}`;
+            debt.label || `${formatCurrency(debtAmount)} for ${debtType}`;
 
           return (
             <div

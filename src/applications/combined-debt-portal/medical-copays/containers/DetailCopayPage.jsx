@@ -17,7 +17,8 @@ import {
   setPageFocus,
   formatISODateToMMDDYYYY,
   isAnyElementFocused,
-  formatCurrency
+  formatCurrency,
+  getCopayCharge
 } from '../../combined/utils/helpers';
 import {
   useCurrentCopay,
@@ -56,10 +57,7 @@ const DetailCopayPage = ({ match }) => {
           ),
           ACCOUNT_NUMBER:
             currentCopay?.accountNumber || currentCopay?.pHAccountNumber,
-          CHARGES:
-            currentCopay?.details?.filter(
-              charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
-            ) ?? [],
+          CHARGES: getCopayCharge(currentCopay) ?? [],
         };
     /* eslint-disable no-nested-ternary */
   }, [currentCopay?.id, shouldUseLighthouseCopays]);

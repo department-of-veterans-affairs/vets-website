@@ -11,7 +11,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import MockDate from 'mockdate';
 import { APP_TYPES, ALERT_TYPES, API_RESPONSES } from '../../utils/constants';
 import {
-  currency,
+  formatCurrency,
   formatTableData,
   titleCase,
   verifyCurrentBalance,
@@ -81,10 +81,10 @@ describe('Helper Functions', () => {
     });
   });
 
-  describe('currency', () => {
+  describe('formatCurrency', () => {
     it('should format currency correctly', () => {
-      expect(currency(1234.56)).to.equal('$1,234.56');
-      expect(currency('1000')).to.equal('$1,000.00');
+      expect(formatCurrency(1234.56)).to.equal('$1,234.56');
+      expect(formatCurrency('1000')).to.equal('$1,000.00');
     });
   });
 
@@ -387,21 +387,21 @@ describe('Helper Functions', () => {
     });
   });
 
-  describe('currency edge cases', () => {
+  describe('formatCurrency edge cases', () => {
     it('should handle zero', () => {
-      expect(currency(0)).to.equal('$0.00');
+      expect(formatCurrency(0)).to.equal('$0.00');
     });
 
     it('should handle negative numbers', () => {
-      expect(currency(-100)).to.equal('-$100.00');
+      expect(formatCurrency(-100)).to.equal('-$100.00');
     });
 
     it('should handle very large numbers', () => {
-      expect(currency(1000000)).to.equal('$1,000,000.00');
+      expect(formatCurrency(1000000)).to.equal('$1,000,000.00');
     });
 
     it('should handle string with decimals', () => {
-      expect(currency('123.456')).to.equal('$123.46');
+      expect(formatCurrency('123.456')).to.equal('$123.46');
     });
   });
 
@@ -744,11 +744,11 @@ describe('Helper Functions', () => {
   it('useLighthouseCopays should return feature flag value true', () => {
     const mockState = {
       featureToggles: {
-        [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
       },
     };
 
-    const result = useLighthouseCopayPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.true;
   });
 
@@ -759,7 +759,7 @@ describe('Helper Functions', () => {
       },
     };
 
-    const result = useLighthouseCopayPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.false;
   });
 

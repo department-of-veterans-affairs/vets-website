@@ -171,7 +171,7 @@ export const getAmountCanBePaidTowardDebt = debts => {
 
 export const mergeAdditionalComments = (additionalComments, expenses) => {
   const individualExpenses = expenses
-    ?.map(expense => `${expense.name} (${currency(expense.amount)})`)
+    ?.map(expense => `${expense.name} (${formatCurrency(expense.amount)})`)
     .join(', ');
 
   const individualExpensesStr = `Individual expense amount: ${individualExpenses}`;

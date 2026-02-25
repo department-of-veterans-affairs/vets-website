@@ -1,7 +1,7 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
-  currency,
+  formatCurrency,
   calcDueDate,
   formatDate,
   formatISODateToMMDDYYYY,
@@ -63,7 +63,7 @@ export const getCopayAlertContent = (
       };
     case 'status':
       return {
-        headerText: `Pay your ${currency(
+        headerText: `Pay your ${formatCurrency(
           copay?.pHAmtDue,
         )} balance or request help now`,
         status: 'warning',
@@ -126,7 +126,7 @@ export const getCopayAlertContent = (
             </time>
             was{' '}
             <strong>
-              {currency(
+              {formatCurrency(
                 shouldUseLighthouseCopays
                   ? copay?.attributes?.principalBalance
                   : copay?.pHAmtDue,

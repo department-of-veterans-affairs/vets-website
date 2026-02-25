@@ -30,7 +30,7 @@ function DebtTitle({ formContext }) {
     <legend className="schemaform-block-title">
       <h3 className="vads-u-margin--0 vads-u-font-size--h2">
         Debt {debtNumber} of {total}:{' '}
-        {currentDebt.label || `${currency(amount)} for ${debtTitle}`}
+        {currentDebt.label || `${formatCurrency(amount)} for ${debtTitle}`}
       </h3>
     </legend>
   );
