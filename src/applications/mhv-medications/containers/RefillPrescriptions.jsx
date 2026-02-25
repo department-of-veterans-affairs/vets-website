@@ -233,12 +233,12 @@ const RefillPrescriptions = () => {
   // Functions
   const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
-      const facilityIds = [
+      const facilityId = [
         ...new Set(selectedRefillList.map(rx => rx.stationNumber)),
       ];
       datadogRum.addAction(
         dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON,
-        { facilityIds },
+        { facilityId },
       );
       setRefillStatus(REFILL_STATUS.IN_PROGRESS);
       window.scrollTo(0, 0);
