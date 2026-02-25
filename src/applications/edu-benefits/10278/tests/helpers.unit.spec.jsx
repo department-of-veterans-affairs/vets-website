@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
-
 import {
   getFullName,
   organizationRepresentativesArrayOptions,
