@@ -189,7 +189,7 @@ const Vaccines = props => {
     <div id="vaccines">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Vaccines</h1>
-      <DuplicateRecordsAlert visible={isCerner} />
+      {isCerner && <DuplicateRecordsAlert />}
       <p>
         This list includes all vaccines (immunizations) in your VA medical
         records. For a list of your allergies and reactions (including any

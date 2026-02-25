@@ -241,7 +241,7 @@ const LabsAndTests = () => {
       <h1 className="page-title vads-u-margin-bottom--1">
         Lab and test results
       </h1>
-      <DuplicateRecordsAlert visible={isCerner} />
+      {isCerner && <DuplicateRecordsAlert />}
 
       {holdTimeMessagingUpdate && <HoldTimeInfo locationPhrase="here" />}
       {!holdTimeMessagingUpdate && (

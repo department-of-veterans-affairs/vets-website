@@ -93,7 +93,7 @@ const HealthConditions = () => {
       <h1 className="vads-u-margin--0" data-testid="health-conditions">
         Health conditions
       </h1>
-      <DuplicateRecordsAlert visible={isCerner} />
+      {isCerner && <DuplicateRecordsAlert />}
 
       <p className="page-description">
         This list includes the same information as your "VA problem list" in the

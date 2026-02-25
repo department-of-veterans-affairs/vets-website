@@ -124,7 +124,7 @@ const CareSummariesAndNotes = () => {
       <h1 data-testid="care-summaries-and-notes" className="page-title">
         Care summaries and notes
       </h1>
-      <DuplicateRecordsAlert visible={isCerner} />
+      {isCerner && <DuplicateRecordsAlert />}
 
       {isAcceleratingCareNotes && (
         <div>
