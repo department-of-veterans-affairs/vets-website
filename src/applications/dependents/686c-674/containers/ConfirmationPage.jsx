@@ -24,7 +24,6 @@ export default function ConfirmationPage() {
   const confirmationNumber = response?.attributes?.confirmationNumber;
   const veteranFirstName = data?.veteranInformation?.fullName?.first || '';
   const veteranLastName = data?.veteranInformation?.fullName?.last || '';
-
   const dateSubmitted = submission?.timestamp
     ? format(new Date(submission?.timestamp), 'MMMM d, yyyy')
     : '';
@@ -68,6 +67,7 @@ export default function ConfirmationPage() {
                 text="Download or print the information you submitted (opens in a new tab)"
                 type="secondary"
                 class="form-renderer"
+                href={`/my-va/submissions/${12345}`}
               />
             </div>
           </section>
