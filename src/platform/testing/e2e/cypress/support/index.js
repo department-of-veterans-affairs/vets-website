@@ -93,13 +93,52 @@ beforeEach(() => {
 // LIFO (last-in-first-out) — test-level beforeEach runs after support file's,
 // so test-specific intercepts always take priority.
 // ==========================================================================
+
+// Default geocoding result used by the global mock below.
+// A single Austin, TX feature that satisfies the Mapbox SDK contract
+// (center, geometry, id, context) so apps can geocode without hitting the
+// real API.  Tests that need a different location override this in their own
+// beforeEach — Cypress LIFO ensures the test-level intercept wins.
+/* eslint-disable camelcase */
+const defaultGeocodingResponse = {
+  type: 'FeatureCollection',
+  query: ['austin'],
+  features: [
+    {
+      id: 'place.1183047979754850',
+      type: 'Feature',
+      place_type: ['place'],
+      relevance: 1,
+      properties: { wikidata: 'Q16559' },
+      text: 'Austin',
+      place_name: 'Austin, Texas, United States',
+      bbox: [-98.0261, 30.0678, -97.5416, 30.5194],
+      center: [-97.7437, 30.2711],
+      geometry: { type: 'Point', coordinates: [-97.7437, 30.2711] },
+      context: [
+        { id: 'region.12968715825342410', short_code: 'US-TX', text: 'Texas' },
+        {
+          id: 'country.19678805456372290',
+          short_code: 'us',
+          text: 'United States',
+        },
+      ],
+    },
+  ],
+};
+/* eslint-enable camelcase */
+
 beforeEach(() => {
-  // Geocoding API — empty response prevents real API calls without
-  // triggering autosuggest dropdowns that interfere with other fields.
-  cy.intercept('GET', '**/geocoding/**', {
-    type: 'FeatureCollection',
-    query: [],
-    features: [],
+  // Geocoding API — returns a valid Austin, TX result so the app can proceed
+  // through its search flow (geocode → build bounding box → fetch facilities).
+  cy.intercept('GET', '**/geocoding/**', defaultGeocodingResponse);
+
+  // Static map images (detail page map previews)
+  // Return a minimal 1×1 SVG so <img> elements report naturalWidth > 0.
+  cy.intercept('GET', '**/styles/v1/**', {
+    statusCode: 200,
+    headers: { 'content-type': 'image/svg+xml' },
+    body: '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>',
   });
 
   // Tile JSON metadata (GET for map init, HEAD for token health check)
