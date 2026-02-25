@@ -206,12 +206,4 @@ const MonthlyStatementPage = () => {
   );
 };
 
-MonthlyStatementPage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }),
-};
-
 export default MonthlyStatementPage;

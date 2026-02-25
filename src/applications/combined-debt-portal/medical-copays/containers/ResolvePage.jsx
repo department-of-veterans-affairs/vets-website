@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useParams } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
@@ -20,7 +20,7 @@ import { useLighthouseCopays } from '../../combined/utils/selectors';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import { getCopayDetail } from '../../combined/actions/copays';
 
-const ResolvePage = ({ match }) => {
+const ResolvePage = () => {
   const dispatch = useDispatch();
 
   const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
@@ -33,10 +33,10 @@ const ResolvePage = ({ match }) => {
   );
   const allCopays = useSelector(state => state.combinedPortal.mcp.copays) || [];
 
-  const selectedId = match.params.id;
+  const { id: copayId } = useParams();
   const selectedCopay = shouldUseLighthouseCopays
     ? copayDetail
-    : allCopays?.find(({ id }) => id === selectedId);
+    : allCopays?.find(({ id }) => id === copayId);
   const TITLE = `Resolve your copay bill`;
 
   const copayAttributes = useMemo(
@@ -95,16 +95,16 @@ const ResolvePage = ({ match }) => {
 
       const shouldFetch =
         shouldUseLighthouseCopays &&
-        selectedId &&
+        copayId &&
         !isCopayDetailLoading &&
-        copayDetail?.id !== selectedId;
+        copayDetail?.id !== copayId;
 
       if (shouldFetch) {
-        dispatch(getCopayDetail(`${selectedId}`));
+        dispatch(getCopayDetail(`${copayId}`));
       }
     },
     [
-      selectedId,
+      copayId,
       dispatch,
       copayDetail?.id,
       isCopayDetailLoading,
@@ -133,11 +133,11 @@ const ResolvePage = ({ match }) => {
             label: 'Copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
+            href: `/manage-va-debt/summary/copay-balances/${copayId}`,
             label: `Copay bill for ${copayAttributes.FACILITY_NAME}`,
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/resolve`,
+            href: `/manage-va-debt/summary/copay-balances/${copayId}/resolve`,
             label: 'Resolve your copay',
           },
         ]}
@@ -163,8 +163,8 @@ const ResolvePage = ({ match }) => {
           lightHouseFacilityName={copayAttributes.FACILITY_NAME}
         />
         <DownloadStatement
-          key={selectedId}
-          statementId={selectedId}
+          key={copayId}
+          statementId={copayId}
           statementDate={
             shouldUseLighthouseCopays
               ? formatISODateToMMDDYYYY(copayAttributes.INVOICE_DATE)
@@ -182,6 +182,5 @@ const ResolvePage = ({ match }) => {
 
 ResolvePage.propTypes = {
   copayDetail: PropTypes.object,
-  match: PropTypes.object,
 };
 export default ResolvePage;

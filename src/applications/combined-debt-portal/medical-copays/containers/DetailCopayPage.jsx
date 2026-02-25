@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useParams } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
@@ -28,8 +28,8 @@ import {
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import CopayAlertContainer from '../components/CopayAlertContainer';
 
-const DetailCopayPage = ({ match }) => {
-  const copayId = match?.params?.id;
+const DetailCopayPage = () => {
+  const { id: copayId } = useParams();
 
   const [alert, setAlert] = useState('status');
   const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
@@ -215,14 +215,6 @@ const DetailCopayPage = ({ match }) => {
       </div>
     </>
   );
-};
-
-DetailCopayPage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }),
 };
 
 export default DetailCopayPage;
