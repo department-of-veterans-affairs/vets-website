@@ -7,7 +7,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import { API_ENDPOINTS } from '@bio-aquia/21-2680-house-bound-status/constants';
+import DownloadFormPDF from './download-form-pdf';
+
 /**
  * Custom submission alert component that shows warning for additional steps needed
  * @returns {React.ReactElement} Warning alert component
@@ -28,26 +29,6 @@ const CustomSubmissionAlert = () => {
       </p>
     </va-alert>
   );
-};
-
-const DownloadFormPDF = ({ confirmationNumber }) => {
-  // Render download link
-  return (
-    confirmationNumber && (
-      <p>
-        <va-link
-          text="Download a copy of your VA Form 21-2680"
-          download
-          filetype="PDF"
-          href={`${API_ENDPOINTS.downloadPdf}${confirmationNumber}`}
-        />
-      </p>
-    )
-  );
-};
-
-DownloadFormPDF.propTypes = {
-  confirmationNumber: PropTypes.string,
 };
 
 /**
