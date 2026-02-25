@@ -4,6 +4,6 @@ steps:
     value:  State of property
   - action: select
     target: PROPERTY_STATE
-    value: California
+    value: CA
   - action: click
     target: call-to-action

@@ -138,6 +138,50 @@ link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }))
 expect(history.location.pathname).to.equal('/inbox');
 ```
 
+## Testing with Real Timers (setTimeout / setInterval)
+
+**When to use:** Testing components that use `setTimeout` or `setInterval` for delayed state updates.
+
+**Pattern:** Use real timers with `waitFor` and extended `timeout` — do NOT use `sinon.useFakeTimers()`.
+
+```javascript
+// ✅ CORRECT — real timers with extended waitFor
+await waitFor(
+  () => {
+    const srSpan = container.querySelector('span[aria-live="polite"]');
+    expect(srSpan.textContent).to.equal(expectedText);
+  },
+  { timeout: 4000 }, // must exceed the component's setTimeout delay
+);
+```
+
+**Anti-pattern:**
+```javascript
+// ❌ sinon.useFakeTimers() breaks React state updates — setState calls
+// inside setTimeout callbacks never flush, causing assertions to fail silently
+const clock = sinon.useFakeTimers();
+clock.tick(3000);
+// React state is stale — the component never re-rendered
+```
+
+**Why:** `sinon.useFakeTimers()` replaces the global timer functions, which prevents React's internal scheduler from flushing state updates triggered inside `setTimeout` callbacks. Tests appear to pass but assertions run against stale DOM.
+
+## Disambiguating `getByText` with sr-only Spans
+
+When a component renders the same text in both a visual element and an `aria-live` sr-only span, `getByText(text)` will find multiple elements once the sr-only content populates. Use `data-testid` selectors to disambiguate:
+
+```javascript
+// ✅ Unambiguous — targets the visual <p> only
+const alertText = container.querySelector('[data-testid="alert-text"]');
+expect(alertText.textContent).to.equal(expectedContent);
+
+// ✅ Or use getByText with selector option
+expect(screen.getByText(content, { selector: '[data-testid="alert-text"]' })).to.exist;
+
+// ❌ Fragile once sr-only span populates with matching text
+expect(screen.getByText(content)).to.exist; // "Found multiple elements"
+```
+
 ## File Naming Convention
 
 - Unit tests: `ComponentName.unit.spec.jsx` or `helperName.unit.spec.js`

@@ -136,41 +136,46 @@ const summaryPage = {
   },
 };
 
+const shouldShowPropertiesHomeLoansLoop = formData =>
+  formData['view:coeFormRebuildCveteam'] &&
+  formData?.loanHistory?.hadPriorLoans === true &&
+  formData?.loanHistory?.currentOwnership === true;
+
 export const propertiesHomeLoansPages = arrayBuilderPages(
   options,
   pageBuilder => ({
     propertiesHomeLoansSummary: pageBuilder.summaryPage({
       title: 'Summary of properties with VA home loans',
       path: 'relevant-prior-loans-summary',
-      depends: formData => formData['view:coeFormRebuildCveteam'],
+      depends: shouldShowPropertiesHomeLoansLoop,
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     propertyHomeLoanAddressPage: pageBuilder.itemPage({
       title: 'Property with VA home loan: Address of the property',
       path: 'relevant-prior-loans/:index/property-address',
-      depends: formData => formData['view:coeFormRebuildCveteam'],
+      depends: shouldShowPropertiesHomeLoansLoop,
       uiSchema: propertyAddress.uiSchema,
       schema: propertyAddress.schema,
     }),
     propertyHomeLoanDetailsPage: pageBuilder.itemPage({
       title: 'Property with VA home loan: Existing VA home loan details',
       path: 'relevant-prior-loans/:index/loan-details',
-      depends: formData => formData['view:coeFormRebuildCveteam'],
+      depends: shouldShowPropertiesHomeLoansLoop,
       uiSchema: loanDetails.uiSchema,
       schema: loanDetails.schema,
     }),
     propertyHomeLoanEntitlementRestorationPage: pageBuilder.itemPage({
       title: 'Property with VA home loan: Entitlement restoration',
       path: 'relevant-prior-loans/:index/entitlement-restoration',
-      depends: formData => formData['view:coeFormRebuildCveteam'],
+      depends: shouldShowPropertiesHomeLoansLoop,
       uiSchema: entitlementRestoration.uiSchema,
       schema: entitlementRestoration.schema,
     }),
     propertyHomeLoanDisasterDamagePage: pageBuilder.itemPage({
       title: 'Property with VA home loan: Disaster damage',
       path: 'relevant-prior-loans/:index/disaster-damage',
-      depends: formData => formData['view:coeFormRebuildCveteam'],
+      depends: shouldShowPropertiesHomeLoansLoop,
       uiSchema: disasterDamage.uiSchema,
       schema: disasterDamage.schema,
     }),

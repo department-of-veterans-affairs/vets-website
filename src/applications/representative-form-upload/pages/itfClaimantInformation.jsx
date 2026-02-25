@@ -13,6 +13,7 @@ import {
   checkboxGroupSchema,
   checkboxGroupUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import ITFClaimantInfoViewField from '../components/ITFClaimantInfoViewField';
 import { ITFVetBenefits } from './helpers';
 
 const claimantSubPageUI = {
@@ -81,6 +82,7 @@ const veteranSubPageSchema = {
 /** @type {PageSchema} */
 export const itfClaimantInformationPage = {
   uiSchema: {
+    'ui:objectViewField': ITFClaimantInfoViewField,
     claimantSubPage: {
       'ui:title': 'Claimant information',
       ...claimantSubPageUI,
