@@ -80,6 +80,7 @@ const UnifiedRadiologyDetails = props => {
   useEffect(
     () => {
       if (record?.imagingStudyId) {
+        setPollInterval(INITIAL_POLL_INTERVAL);
         dispatch(getImagingStudyThumbnails(record.imagingStudyId));
         dispatch(getImagingStudyDicomZip(record.imagingStudyId));
       }
