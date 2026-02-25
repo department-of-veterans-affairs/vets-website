@@ -8,6 +8,7 @@ import {
 import _ from 'platform/utilities/data';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/scroll';
+import { DATA_PATHS } from '../constants';
 import { checkValidations } from '../utils/submit';
 import { getAdditionalDocuments } from '../utils';
 import { renderFileList } from '../content/evidenceRequest';
@@ -30,8 +31,11 @@ export const AdditionalEvidenceIntroPage = ({
   goForward,
   updatePage,
 }) => {
-  const selectionField = 'view:hasEvidenceChoice';
-  const hasEvidenceChoice = _.get('view:hasEvidenceChoice', data, null);
+  const additionalEvidenceSelected = _.get(
+    DATA_PATHS.hasAdditionalDocuments,
+    data,
+    null,
+  );
   const [hasError, setHasError] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
@@ -39,9 +43,14 @@ export const AdditionalEvidenceIntroPage = ({
   const hasEvidenceToRemove = () => {
     return getAdditionalDocuments(data).length > 0;
   };
+
   const missingSelection = (error, _fieldData, formData) => {
-    const value = formData?.[selectionField];
-    if (value !== true && value !== false) {
+    if (
+      formData?.['view:selectableEvidenceTypes']['view:hasOtherEvidence'] !==
+        true &&
+      formData?.['view:selectableEvidenceTypes']['view:hasOtherEvidence'] !==
+        false
+    ) {
       error.addError?.(missingSelectionErrorMessage);
     }
   };
@@ -49,7 +58,7 @@ export const AdditionalEvidenceIntroPage = ({
   const checkErrors = (formData = data) => {
     const error = checkValidations(
       [missingSelection],
-      data?.[selectionField],
+      data?.['view:selectableEvidenceTypes']['view:hasOtherEvidence'],
       formData,
     );
 
@@ -62,7 +71,7 @@ export const AdditionalEvidenceIntroPage = ({
   const handlers = {
     onChangeAndRemove: () => {
       const updatedFormData = { ...data };
-      delete updatedFormData.evidenceChoiceAdditionalDocuments;
+      delete updatedFormData.additionalDocuments;
       setFormData(updatedFormData);
       setModalVisible(false);
       setAlertVisible(true);
@@ -70,7 +79,10 @@ export const AdditionalEvidenceIntroPage = ({
     onCancelChange: () => {
       const updatedFormData = {
         ...data,
-        [selectionField]: true,
+        'view:selectableEvidenceTypes': {
+          ...(data['view:selectableEvidenceTypes'] || {}),
+          'view:hasOtherEvidence': true,
+        },
       };
       setFormData(updatedFormData);
       setModalVisible(false);
@@ -80,7 +92,10 @@ export const AdditionalEvidenceIntroPage = ({
       const booleanValue = value === true || value === 'true';
       const formData = {
         ...data,
-        [selectionField]: booleanValue,
+        'view:selectableEvidenceTypes': {
+          ...(data['view:selectableEvidenceTypes'] || {}),
+          'view:hasOtherEvidence': booleanValue,
+        },
       };
       setFormData(formData);
       checkErrors(formData);
@@ -89,18 +104,24 @@ export const AdditionalEvidenceIntroPage = ({
       event.preventDefault();
       if (checkErrors()) {
         scrollToFirstError();
-      } else if (hasEvidenceChoice === false && hasEvidenceToRemove()) {
+      } else if (
+        additionalEvidenceSelected === false &&
+        hasEvidenceToRemove()
+      ) {
         setModalVisible(true);
       } else {
         setAlertVisible(false);
-        goForward(data);
+        goForward({ formData: data });
       }
     },
     onUpdatePage: event => {
       event.preventDefault();
       if (checkErrors()) {
         scrollToFirstError();
-      } else if (hasEvidenceChoice === false && hasEvidenceToRemove()) {
+      } else if (
+        additionalEvidenceSelected === false &&
+        hasEvidenceToRemove()
+      ) {
         setModalVisible(true);
       } else {
         setAlertVisible(false);
@@ -161,13 +182,13 @@ export const AdditionalEvidenceIntroPage = ({
           <va-radio-option
             label="Yes"
             name="private"
-            checked={hasEvidenceChoice === true}
+            checked={additionalEvidenceSelected === true}
             value="true"
           />
           <va-radio-option
             label="No"
             name="private"
-            checked={hasEvidenceChoice === false}
+            checked={additionalEvidenceSelected === false}
             value="false"
           />
         </VaRadio>
