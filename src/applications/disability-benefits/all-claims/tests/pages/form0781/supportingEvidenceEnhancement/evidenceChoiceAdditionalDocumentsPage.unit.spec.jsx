@@ -79,4 +79,66 @@ describe('evidenceChoiceAdditionalDocumentsPage', () => {
 
     unmount();
   });
+
+  it('should have additionalInputTitle configured', () => {
+    const { evidenceChoiceAdditionalDocuments } = uiSchema;
+    expect(
+      evidenceChoiceAdditionalDocuments['ui:options'].additionalInputTitle,
+    ).to.equal('What type of document is this?');
+  });
+
+  it('should have additionalInputLabels configured with correct structure', () => {
+    const { evidenceChoiceAdditionalDocuments } = uiSchema;
+    const { additionalInputLabels } = evidenceChoiceAdditionalDocuments[
+      'ui:options'
+    ];
+
+    expect(additionalInputLabels).to.exist;
+    expect(additionalInputLabels).to.have.property('attachmentId');
+    expect(additionalInputLabels.attachmentId).to.be.an('object');
+  });
+
+  it('should have all expected document types in additionalInputLabels', () => {
+    const { evidenceChoiceAdditionalDocuments } = uiSchema;
+    const { additionalInputLabels } = evidenceChoiceAdditionalDocuments[
+      'ui:options'
+    ];
+
+    // Verify some key document types exist
+    expect(additionalInputLabels.attachmentId).to.have.property('L015');
+    expect(additionalInputLabels.attachmentId.L015).to.equal(
+      'Buddy/Lay Statement',
+    );
+
+    expect(additionalInputLabels.attachmentId).to.have.property('L702');
+    expect(additionalInputLabels.attachmentId.L702).to.equal(
+      'Disability Benefits Questionnaire (DBQ)',
+    );
+
+    expect(additionalInputLabels.attachmentId).to.have.property('L107');
+    expect(additionalInputLabels.attachmentId.L107).to.equal(
+      'VA Form 21-4142 - Authorization To Disclose Information',
+    );
+
+    expect(additionalInputLabels.attachmentId).to.have.property('L023');
+    expect(additionalInputLabels.attachmentId.L023).to.equal(
+      'Other Correspondence',
+    );
+  });
+
+  it('should use additionalInputLabels for review page label mapping', () => {
+    const { evidenceChoiceAdditionalDocuments } = uiSchema;
+    const { additionalInputLabels } = evidenceChoiceAdditionalDocuments[
+      'ui:options'
+    ];
+
+    // Verify the structure matches what fileInputPattern expects
+    // fileInputPattern.jsx line 202: {uiOptions.additionalInputLabels?.[key]?.[value] || value}
+    const testValue = 'L702';
+    const testKey = 'attachmentId';
+
+    expect(additionalInputLabels[testKey][testValue]).to.equal(
+      'Disability Benefits Questionnaire (DBQ)',
+    );
+  });
 });

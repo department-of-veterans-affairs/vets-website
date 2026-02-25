@@ -291,4 +291,86 @@ describe('Private Medical Records Upload page', () => {
       expect(maxFileSize).to.equal(52428800);
     });
   });
+
+  describe('additionalInputTitle', () => {
+    it('should have additionalInputTitle configured', () => {
+      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      expect(fileConfig.additionalInputTitle).to.equal(
+        'What type of document is this?',
+      );
+    });
+
+    it('should display additionalInputTitle as the label for document type selection', () => {
+      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      expect(fileConfig.additionalInputTitle).to.exist;
+      expect(fileConfig.additionalInputTitle).to.be.a('string');
+    });
+  });
+
+  describe('additionalInputLabels', () => {
+    it('should have additionalInputLabels configured with correct structure', () => {
+      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const { additionalInputLabels } = fileConfig;
+
+      expect(additionalInputLabels).to.exist;
+      expect(additionalInputLabels).to.have.property('attachmentId');
+      expect(additionalInputLabels.attachmentId).to.be.an('object');
+    });
+
+    it('should have all expected PMR document types in additionalInputLabels', () => {
+      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const { additionalInputLabels } = fileConfig;
+
+      // Verify all PMR-specific document types exist
+      expect(additionalInputLabels.attachmentId).to.have.property('L049');
+      expect(additionalInputLabels.attachmentId.L049).to.equal(
+        'Medical Treatment Record - Non-Government Facility',
+      );
+
+      expect(additionalInputLabels.attachmentId).to.have.property('L702');
+      expect(additionalInputLabels.attachmentId.L702).to.equal(
+        'Disability Benefits Questionnaire (DBQ)',
+      );
+
+      expect(additionalInputLabels.attachmentId).to.have.property('L107');
+      expect(additionalInputLabels.attachmentId.L107).to.equal(
+        'VA 21-4142 Authorization for Release of Information',
+      );
+
+      expect(additionalInputLabels.attachmentId).to.have.property('L023');
+      expect(additionalInputLabels.attachmentId.L023).to.equal('Other');
+    });
+
+    it('should have exactly 4 PMR document types', () => {
+      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const { additionalInputLabels } = fileConfig;
+      const documentTypes = Object.keys(additionalInputLabels.attachmentId);
+
+      expect(documentTypes).to.have.lengthOf(4);
+      expect(documentTypes).to.include.members([
+        'L049',
+        'L702',
+        'L107',
+        'L023',
+      ]);
+    });
+
+    it('should use additionalInputLabels for review page label mapping', () => {
+      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const { additionalInputLabels } = fileConfig;
+      const testValue = 'L107';
+      const testKey = 'attachmentId';
+
+      expect(additionalInputLabels[testKey][testValue]).to.equal(
+        'VA 21-4142 Authorization for Release of Information',
+      );
+    });
+
+    it('should return undefined for non-existent document type codes', () => {
+      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const { additionalInputLabels } = fileConfig;
+
+      expect(additionalInputLabels.attachmentId.L999).to.be.undefined;
+    });
+  });
 });

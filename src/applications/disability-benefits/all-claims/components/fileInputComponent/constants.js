@@ -84,6 +84,42 @@ export const ATTACHMENTS_TYPE = [
   },
 ];
 
+export const ADDITIONAL_INPUT_LABELS = {
+  attachmentId: {
+    L015: 'Buddy/Lay Statement',
+    L018: 'Civilian Police Reports',
+    L029: 'Copy of a DD214',
+    L702: 'Disability Benefits Questionnaire (DBQ)',
+    L703: 'Goldmann Perimetry Chart/Field Of Vision Chart',
+    L034: 'Military Personnel Record',
+    L478: 'Medical Treatment Records - Furnished by SSA',
+    L048: 'Medical Treatment Record - Government Facility',
+    L049: 'Medical Treatment Record - Non-Government Facility',
+    L023: 'Other Correspondence',
+    L070: 'Photographs',
+    L222:
+      'VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid & Attendance',
+    L228:
+      'VA Form 21-0781 - Statement in Support of Claimed Mental Health Disorder(s) Due to an In-Service Traumatic Event(s)',
+    L229:
+      'VA Form 21-0781a - Statement in Support of Claim for PTSD Secondary to Personal Assault',
+    L102:
+      'VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid & Attendance',
+    L107: 'VA Form 21-4142 - Authorization To Disclose Information',
+    L827: 'VA Form 21-4142a - General Release for Medical Provider Information',
+    L115:
+      'VA Form 21-4192 - Request for Employment Information in Connection with Claim for Disability',
+    L117:
+      'VA Form 21-4502 - Application for Automobile or Other Conveyance and Adaptive Equipment Under 38 U.S.C. 3901-3904',
+    L159:
+      'VA Form 26-4555 - Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant',
+    L133: 'VA Form 21-674 - Request for Approval of School Attendance',
+    L139: 'VA Form 21-686c - Declaration of Status of Dependents',
+    L149:
+      'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
+  },
+};
+
 export const PMR_ATTACHMENTS_TYPES = [
   {
     value: 'L049',
@@ -96,4 +132,14 @@ export const PMR_ATTACHMENTS_TYPES = [
   },
   { value: 'L023', label: 'Other' },
 ];
-export const ADDITIONAL_ATTACHMENT_LABEL = 'What type of document is this?';
+
+export const PMR_ADDITIONAL_INPUT_LABELS = {
+  attachmentId: {
+    L049: 'Medical Treatment Record - Non-Government Facility',
+    L702: 'Disability Benefits Questionnaire (DBQ)',
+    L107: 'VA 21-4142 Authorization for Release of Information',
+    L023: 'Other',
+  },
+};
+
+export const ADDITIONAL_ATTACHMENT_TITLE = 'What type of document is this?';
