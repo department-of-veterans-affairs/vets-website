@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import StatusAlert from '../../../shared/components/StatusAlert';
 import DocumentList from '../DocumentList';
 import DocumentUploader from '../DocumentUploader';
 import { MoreQuestions } from '../MoreQuestions';
+import { PendingAlert } from '../StatusAlerts/PendingAlert';
 
 const Pending = ({
   notOnUploadPage,
@@ -13,15 +14,25 @@ const Pending = ({
   status,
   uploadsNeeded,
 }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const isCveFormRebuild = useToggleValue(TOGGLE_NAMES.coeFormRebuildCveteam);
+
   return (
     <div className="row vads-u-margin-bottom--7">
       <div className="medium-8 columns">
-        <StatusAlert.Pending
-          origin="status"
-          referenceNumber={referenceNumber}
-          requestDate={requestDate}
-          status={status}
-        />
+        {isCveFormRebuild ? (
+          <PendingAlert
+            referenceNumber={referenceNumber}
+            requestDate={requestDate}
+          />
+        ) : (
+          <StatusAlert.Pending
+            origin="status"
+            referenceNumber={referenceNumber}
+            requestDate={requestDate}
+            status={status}
+          />
+        )}
         {uploadsNeeded ? <DocumentUploader /> : ''}
         <DocumentList notOnUploadPage={notOnUploadPage} />
         <h2>Should I request a COE again?</h2>

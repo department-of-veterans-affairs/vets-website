@@ -93,7 +93,12 @@ const App = ({
   ) {
     switch (coe.status) {
       case COE_ELIGIBILITY_STATUS.available:
-        content = <Available />;
+        content = (
+          <Available
+            referenceNumber={coe.referenceNumber}
+            requestDate={coe.applicationCreateDate}
+          />
+        );
         break;
       case COE_ELIGIBILITY_STATUS.eligible:
         content = (
