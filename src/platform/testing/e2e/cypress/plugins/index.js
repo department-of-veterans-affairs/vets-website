@@ -29,7 +29,9 @@ module.exports = async (on, config) => {
 
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch ${REMOTE_CONTENT_BUILD_REGISTRY}.\n\n${response.status}:
+        `Failed to fetch ${REMOTE_CONTENT_BUILD_REGISTRY}.\n\n${
+          response.status
+        }:
           ${response.statusText}`,
       );
     }
