@@ -12,6 +12,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import BackToIntroLink from '../components/BackToIntroLink';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -118,18 +119,21 @@ export const employersPages = arrayBuilderPages(options, pageBuilder => ({
   employersSummary: pageBuilder.summaryPage({
     title: 'Your employers',
     path: 'employers',
+    ContentBeforeButtons: BackToIntroLink,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   employerNamePage: pageBuilder.itemPage({
     title: 'Name and address of employer or unit',
     path: 'employers/:index/name-and-address',
+    ContentBeforeButtons: BackToIntroLink,
     uiSchema: namePage.uiSchema,
     schema: namePage.schema,
   }),
   employerDatePage: pageBuilder.itemPage({
     title: 'Dates you were employed',
     path: 'employers/:index/dates',
+    ContentBeforeButtons: BackToIntroLink,
     uiSchema: datePage.uiSchema,
     schema: datePage.schema,
   }),

@@ -205,12 +205,39 @@ Cypress.Commands.add('fillVaFileInput', (field, value, file) => {
     element.then(async $el => {
       const el = $el[0];
 
-      cy.then(() => file || makeMinimalPNG()).then(async mockFile => {
+      return cy.then(() => file || makeMinimalPNG()).then(async mockFile => {
         const selectFileArg = await getFileContents(mockFile);
+
         cy.wrap(el)
           .shadow()
           .find('input[type="file"]')
           .selectFile(selectFileArg, { force: true });
+
+        // Wait for file to be attached to input
+        return cy
+          .wrap(el)
+          .should(() => {
+            const fileInput = el.shadowRoot.querySelector('input[type="file"]');
+            expect(fileInput.files.length).to.be.greaterThan(0);
+          })
+          .then(() => {
+            // Wait for upload to start (uploading status appears)
+            return cy.wrap(el).should(() => {
+              const uploadingStatus = el.shadowRoot.querySelector(
+                '.uploading-status',
+              );
+              expect(uploadingStatus).to.exist;
+            });
+          })
+          .then(() => {
+            // Wait for upload to complete (uploading status disappears)
+            return cy.wrap(el).should(() => {
+              const uploadingStatus = el.shadowRoot.querySelector(
+                '.uploading-status',
+              );
+              expect(uploadingStatus).to.not.exist;
+            });
+          });
       });
     });
   }

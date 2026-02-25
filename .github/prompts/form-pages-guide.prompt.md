@@ -392,37 +392,17 @@ yourDocument: fileInputUI({
     }
   },
   disallowEncryptedPdfs: true,
-  errorMessages: {
-    additionalInput: 'Choose a document status',
-  },
   createPayload: () => {}, // custom function to generate payload when uploading file
   parseResponse: () => {}, // custom function to handle response after uploading file
-  additionalInputRequired: true,
-  additionalInputLabels: {
-    documentStatus: { public: 'Public', private: 'Private' },
-  },
-  additionalInputTitle: 'Document status', // Optional title for additional input
-  additionalInput: (error, data, { labels, title }) => {
-    const { documentStatus } = data;
-    return (
-      <VaSelect
-        required
-        error={error}
-        value={documentStatus}
-        label={title}
-      >
-        {Object.entries(labels.documentStatus).map(([value, label]) => (
-          <option key={value} value={value}>{label}</option>
-        ))}
-      </VaSelect>
-    );
-  },
-  handleAdditionalInput: e => {
-    const { value } = e.detail;
-    if (value === '') return {};
-    return { documentStatus: e.detail.value };
-  },
 }) + fileInputSchema(),
+// Recommended: If additional input for fileInputUI is needed, add it as a separate field on the same page:
+documentStatus: selectUI({
+  title: 'Document status',
+  errorMessages: {
+    required: 'Please select the document status'
+  },
+  labels: { public: 'Public', private: 'Private' },
+}) + selectSchema(['public', 'private']),
 
 // A multiple file upload
 // fileInputMultipleUI - MINIMAL use case for testing
@@ -449,58 +429,7 @@ financialHardshipDocuments: fileInputMultipleUI({
   minFileSize: 1,
 }) + fileInputMultipleSchema(),
 
-// fileInputMultipleUI - WITH EXTRA PROPERTIES use case - with placeholder backend
-financialHardshipDocuments: fileInputMultipleUI({
-  title: 'Upload additional evidence',
-  required: true,
-  skipUpload: true // use fileUploadUrl to integrate with backend
-  // fileUploadUrl: `${
-  //   environment.API_URL
-  // }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-  accept: '.png,.pdf,.txt',
-  hint: 'Upload a file that is between 1KB and 5MB',
-  headerSize: '3',
-  formNumber: '31-4159',
-  // disallowEncryptedPdfs: true,
-  fileSizesByFileType: { // specify file size limits by file type
-    pdf: {
-      maxFileSize: 1024 * 1024 * 50,
-      minFileSize: 1024
-    },
-    default: {
-      maxFileSize: 1024 * 3,
-      minFileSize: 1
-    }
-  },
-  errorMessages: {
-    additionalInput: 'Choose a document status',
-  },
-  additionalInputRequired: true,
-  additionalInputTitle: 'Document status', // Optional title for additional input
-  additionalInputLabels: {
-    documentStatus: { public: 'Public', private: 'Private' },
-  },
-  additionalInput: ({ labels, title }) => {
-    return (
-      <VaSelect required label={title}>
-        {Object.entries(labels.documentStatus).map(([value, label]) => (
-          <option key={value} value={value}>{label}</option>
-        ))}
-      </VaSelect>
-    );
-  },
-  additionalInputUpdate: (instance, error, data) => {
-    instance.setAttribute('error', error);
-    if (data) {
-      instance.setAttribute('value', data.documentStatus);
-    }
-  },
-  handleAdditionalInput: e => {
-    const { value } = e.detail;
-    if (value === '') return null;
-    return { documentStatus: e.detail.value };
-  },
-}) + fileInputMultipleSchema(),
+// Recommendation: For multiple files + additional input, prefer to use arrayBuilder + single fileInputUI + individual field on a page, instead of fileInputMultipleUI.
 
 // checkboxGroupUI with various configurations - CORRECTED
 services: checkboxGroupUI({
