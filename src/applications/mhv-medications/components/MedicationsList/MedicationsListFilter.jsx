@@ -48,19 +48,19 @@ const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
         return filterCount.active;
       }
       case currentFilterOptions.RECENTLY_REQUESTED?.label: {
-        return filterCount.recentlyRequested;
+        return filterCount.recentlyRequested ?? filterCount.inProgress;
       }
       case currentFilterOptions.IN_PROGRESS?.label: {
         return filterCount.inProgress;
       }
       case currentFilterOptions.RENEWAL?.label: {
-        return filterCount.renewal;
+        return filterCount.renewal ?? filterCount.renewable;
       }
       case currentFilterOptions.RENEWABLE?.label: {
         return filterCount.renewable;
       }
       case currentFilterOptions.NON_ACTIVE?.label: {
-        return filterCount.nonActive;
+        return filterCount.nonActive ?? filterCount.inactive;
       }
       case currentFilterOptions.INACTIVE?.label: {
         return filterCount.inactive;
@@ -165,7 +165,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
                 filterCount &&
                 mapFilterCountToFilterLabels(
                   currentFilterOptions[option].label,
-                ) !== null
+                ) != null
                   ? ` (${mapFilterCountToFilterLabels(
                       currentFilterOptions[option].label,
                     )})`

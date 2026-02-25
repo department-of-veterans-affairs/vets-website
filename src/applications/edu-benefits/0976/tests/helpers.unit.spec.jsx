@@ -8,6 +8,7 @@ import {
   additionalInstitutionsWithoutCodeArrayOptions,
   programInformationArrayOptions,
   officialsArrayOptions,
+  institutionResponseToObject,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -263,6 +264,57 @@ describe('0839 Helpers', () => {
       expect(container.textContent).to.contain(
         'you will be asked to provide information about faculty members',
       );
+    });
+  });
+
+  describe('institutionResponseToObject', () => {
+    const exampleResponse = {
+      id: '40737698',
+      type: 'institutions',
+      attributes: {
+        name: 'UNIVERSITY OF TEST',
+        facilityCode: '11900000',
+        type: 'FLIGHT',
+        city: 'TUCSON',
+        state: 'AZ',
+        zip: '85721',
+        country: 'USA',
+        address1: '123 UNIVERSITY BOULEVARD',
+        address2: 'MODERN LANGUAGES',
+        address3: 'ROOM 347',
+        physicalAddress1: '321 E UNIVERSITY BOULEVARD',
+        physicalAddress2: 'MODERN LANGUAGES',
+        physicalAddress3: 'ROOM 348',
+        physicalCity: 'TUCSON',
+        physicalState: 'AZ',
+        physicalCountry: 'USA',
+        physicalZip: '85721',
+      },
+    };
+
+    it('correctly converts the api response', () => {
+      expect(institutionResponseToObject(exampleResponse)).to.deep.equal({
+        name: 'UNIVERSITY OF TEST',
+        type: 'PUBLIC',
+        mailingAddress: {
+          street: '123 UNIVERSITY BOULEVARD',
+          street2: 'MODERN LANGUAGES',
+          street3: 'ROOM 347',
+          city: 'TUCSON',
+          state: 'AZ',
+          postalCode: '85721',
+          country: 'USA',
+        },
+        physicalAddress: {
+          street: '321 E UNIVERSITY BOULEVARD',
+          street2: 'MODERN LANGUAGES',
+          street3: 'ROOM 348',
+          city: 'TUCSON',
+          state: 'AZ',
+          postalCode: '85721',
+          country: 'USA',
+        },
+      });
     });
   });
 });

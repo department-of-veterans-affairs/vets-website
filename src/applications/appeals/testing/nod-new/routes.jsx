@@ -1,14 +1,15 @@
-import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import App from './containers/App';
+import NODApp from './NODApp';
 
-const route = {
-  path: '/',
-  component: App,
-  indexRoute: {
-    onEnter: (nextState, replace) => replace('/introduction'),
+const onEnter = (nextState, replace) => replace('/introduction');
+
+const routes = [
+  {
+    path: '/',
+    component: NODApp,
+    indexRoute: { onEnter },
+    childRoutes: [{ path: 'introduction', component: App }],
   },
+];
 
-  childRoutes: createRoutesWithSaveInProgress({}),
-};
-
-export default route;
+export default routes;

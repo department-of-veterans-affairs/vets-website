@@ -1,6 +1,12 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
+@mixin medium {
+  @media (min-width: 769px) {
+    @content;
+  }
+}
+
 .header {
   min-height: auto;
   -webkit-font-smoothing: antialiased;
@@ -9,7 +15,7 @@
     width: 100%;
     padding: 8px 16px;
     max-width: 984px;
-    @media (min-width: $medium-screen) {
+    @include medium {
       margin: 0 auto;
       padding: 4px 16px;
       align-items: center;
@@ -20,7 +26,7 @@
       font-size: 12.8px;
       line-height: 14.08px;
 
-      @media (min-width: $medium-screen) {
+      @include medium {
         flex-direction: row;
         margin: 4px 0 4px 8px;
       }
@@ -28,7 +34,7 @@
       &-sub-text {
         text-decoration: underline;
         display: flex;
-        @media (min-width: $medium-screen) {
+        @include medium {
           margin-left: 8px;
         }
       }
@@ -39,7 +45,7 @@
     width: 16px;
     height: 16px;
     margin-right: 8px;
-    @media (min-width: $medium-screen) {
+    @include medium {
       margin: 4px 0;
     }
   }
@@ -85,7 +91,7 @@
   flex-wrap: wrap;
   border-bottom: 2px solid $vads-color-primary-darker;
   &:has(.is--displayed) {
-    @media (min-width: $medium-screen) {
+    @include medium {
       border-bottom: none;
     }
   }
@@ -100,7 +106,7 @@
 
   &__container-primary {
     padding: 8px 16px;
-    @media (min-width: $medium-screen) {
+    @include medium {
       padding: 20px 16px;
     }
   }
@@ -110,6 +116,10 @@
 
   &__sign-in {
     margin-left: auto;
+  }
+
+  &__sign-out {
+    text-transform: capitalize;
   }
 
   &__user-list {
@@ -135,7 +145,7 @@
           a {
             margin-left: 10px;
 
-            @media (min-width: $medium-screen) {
+            @include medium {
               margin-left: 0;
             }
           }
@@ -182,7 +192,7 @@
       margin: 0 auto !important;
     }
 
-    @media (min-width: $medium-screen) {
+    @include medium {
       display: flex;
       max-width: 984px;
       margin: 0 auto 48px;
@@ -199,6 +209,10 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+
+    @media (max-width: $xsmall-screen) {
+      padding: 12px;
+    }
 
     &.is--active {
       position: relative;
@@ -257,7 +271,7 @@
         background-color: transparent !important;
         border-radius: 0;
 
-        @media (min-width: $medium-screen) {
+        @include medium {
           background-color: $vads-color-primary !important;
           color: $vads-color-white !important;
         }
@@ -277,6 +291,10 @@
           &:first-letter {
             text-transform: uppercase;
           }
+        }
+
+        @media (max-width: $xsmall-screen) {
+          display: none;
         }
       }
     }
@@ -324,7 +342,7 @@
   }
 
   &__dropdown {
-    @media (min-width: $medium-screen) {
+    @include medium {
       padding: 0;
     }
 
@@ -361,20 +379,19 @@
     box-shadow: 0px 4px 10px -4px $vads-color-base;
     color: $vads-color-base;
     padding: 0.5rem;
-    width: 100%;
+    width: 180px;
     position: absolute;
     z-index: 2;
     top: 100%;
 
-    @media (min-width: $medium-screen) {
+    @include medium {
       padding: 0 16px;
       right: 0;
-      width: 180px;
     }
   }
 
   .mobile {
-    @media (min-width: $medium-screen) {
+    @include medium {
       display: none !important;
     }
   }
