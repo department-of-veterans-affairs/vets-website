@@ -182,15 +182,15 @@ export const scrollToFirstError = async (options = {}) => {
               errorEl.removeAttribute('role');
             });
 
-            setTimeout(() => {
-              focusTarget.focus({ preventScroll: true });
-            }, 100);
+            focusTarget.focus({ preventScroll: true });
 
+            // 500ms timeout here is somewhat arbitrary but is intended to be long enough for focus to occur
+            // and screen readers to announce the focused element before restoring alert roles to error message elements
             setTimeout(() => {
               originalAttributes.forEach(({ element, role }) => {
                 if (role) element.setAttribute('role', role);
               });
-            }, 100);
+            }, 500);
           }
         } else {
           focusElement(el);
