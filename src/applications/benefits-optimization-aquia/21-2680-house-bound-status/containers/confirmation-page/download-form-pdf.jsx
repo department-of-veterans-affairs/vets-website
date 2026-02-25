@@ -1,99 +1,115 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { apiRequest } from 'platform/utilities/api';
-import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
-import { API_ENDPOINTS } from '../../constants/constants';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  fetchPdfApi,
+  downloadBlob,
+  formatPdfFilename,
+} from '../../utils/pdfDownload';
 
-const DownloadFormPDF = ({ confirmationNumber }) => {
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+/**
+ * DownloadFormPDF Component
+ * Provides functionality to download the completed VA Form 21-2680 as a PDF
+ *
+ * @param {Object} props - Component props
+ * @param {string} props.guid - The submission GUID
+ * @param {Object} props.veteranName - The veteran's name for the filename
+ */
+export const DownloadFormPDF = ({ guid, veteranName }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handlePdfDownload = useCallback(blob => {
-    const downloadUrl = URL.createObjectURL(blob);
-    const downloadLink = document.createElement('a');
+  // Generate filename for the download
+  const filename = useMemo(
+    () => {
+      return formatPdfFilename(veteranName);
+    },
+    [veteranName],
+  );
 
-    downloadLink.href = downloadUrl;
-    downloadLink.download = '21-2680_completed.pdf';
-    document.body.appendChild(downloadLink);
+  // Handle PDF download
+  const handleDownload = useCallback(
+    async () => {
+      if (!guid) {
+        setError('No submission ID available. Please submit the form first.');
+        return;
+      }
 
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-    URL.revokeObjectURL(downloadUrl);
-  }, []);
-
-  const fetchPdf = useCallback(
-    async event => {
-      event.preventDefault();
-      setLoading(true);
-      setErrorMessage(null);
+      setIsLoading(true);
+      setError(null);
 
       try {
-        const response = await apiRequest(
-          `${API_ENDPOINTS.downloadPdf}${confirmationNumber}`,
-        );
+        // Fetch the PDF blob from the API
+        const blob = await fetchPdfApi(guid);
 
-        if (!response.ok) {
-          throw new Error();
-        }
-
-        const blob = await response.blob();
-        handlePdfDownload(blob);
-        recordEvent({ event: '21-2680-pdf-download--success' });
-      } catch (error) {
-        setErrorMessage(
+        // Trigger browser download
+        downloadBlob(blob, filename);
+      } catch (err) {
+        setError(
           "We're sorry. Something went wrong when downloading your form. Please try again later.",
         );
-        recordEvent({ event: '21-2680-pdf-download--failure' });
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     },
-    [confirmationNumber, handlePdfDownload],
+    [guid, filename],
   );
 
-  // apply focus to the error alert if we have errors set
-  useEffect(
-    () => {
-      if (errorMessage) focusElement('.form-download-error');
-    },
-    [errorMessage],
-  );
-
-  if (!confirmationNumber) return null;
-
-  // render loading indicator while application download is processing
-  if (loading) {
+  // Render loading state
+  if (isLoading) {
     return (
-      <va-loading-indicator
-        label="Loading your form"
+      <VaLoadingIndicator
+        label="Downloading"
         message="Downloading your completed form..."
+        class="vads-u-margin-y--4"
       />
     );
   }
 
+  // Render error state
+  if (error) {
+    return (
+      <va-alert status="error" class="vads-u-margin-y--4" role="alert" uswds>
+        <h3 slot="headline">Download failed</h3>
+        <p>{error}</p>
+        <va-button
+          text="Try again"
+          onClick={handleDownload}
+          secondary
+          class="vads-u-margin-top--2"
+        />
+      </va-alert>
+    );
+  }
+
+  // Render download link
   return (
-    <>
-      {errorMessage && (
-        <div className="form-download-error vads-u-margin-y--1">
-          <va-alert status="error">{errorMessage}</va-alert>
-        </div>
-      )}
+    <div className="vads-u-margin-y--4">
       <p>
         <va-link
-          text="Download a copy of your VA Form 21-2680"
-          onClick={fetchPdf}
-          filetype="PDF"
-          href="#"
+          text="Download a copy of your VA Form 21-2680 (PDF)"
+          onClick={handleDownload}
           download
         />
       </p>
-    </>
+    </div>
   );
 };
 
 DownloadFormPDF.propTypes = {
-  confirmationNumber: PropTypes.string,
+  guid: PropTypes.string.isRequired,
+  veteranName: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+  }),
+};
+
+DownloadFormPDF.defaultProps = {
+  veteranName: {
+    first: 'Veteran',
+    last: 'Submission',
+  },
 };
 
 export default DownloadFormPDF;

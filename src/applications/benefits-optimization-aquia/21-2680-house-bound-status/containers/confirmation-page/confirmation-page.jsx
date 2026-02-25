@@ -35,15 +35,14 @@ const CustomSubmissionAlert = () => {
  * Custom what's next section with step-by-step instructions
  * @returns {React.ReactElement} What's next section
  */
-const WhatsNextSection = ({ confirmationNumber }) => {
-  // Extract veteran name for PDF filename
+const WhatsNextSection = ({ guid, veteranName }) => {
   return (
     <div className="confirmation-whats-next-section">
       <h2>What you need to do next</h2>
       <p>Follow these steps to complete your application:</p>
       <va-process-list uswds>
         <va-process-list-item header="Download a PDF version of the Form you filled out.">
-          <DownloadFormPDF confirmationNumber={confirmationNumber} />
+          {guid && <DownloadFormPDF guid={guid} veteranName={veteranName} />}
         </va-process-list-item>
         <va-process-list-item header="Have an examiner complete the remaining sections.">
           <p>
@@ -69,7 +68,8 @@ const WhatsNextSection = ({ confirmationNumber }) => {
 };
 
 WhatsNextSection.propTypes = {
-  confirmationNumber: PropTypes.string,
+  guid: PropTypes.string,
+  veteranName: PropTypes.object,
 };
 
 /**
@@ -93,9 +93,18 @@ export const ConfirmationPage = ({ route }) => {
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
 
-  // Extract GUID/confirmation number (same string) from submission response
+  // Extract GUID/confirmation number from submission response
+  const guid =
+    submission?.response?.attributes?.guid ||
+    submission?.response?.attributes?.confirmationNumber ||
+    '';
+
   const confirmationNumber =
     submission?.response?.attributes?.confirmationNumber || '';
+
+  // Extract veteran name for PDF filename
+  const veteranName = form?.data?.claimantInformation?.claimantFullName || {};
+
   return (
     <ConfirmationView
       formConfig={route?.formConfig}
@@ -108,7 +117,7 @@ export const ConfirmationPage = ({ route }) => {
       <CustomSubmissionAlert />
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
-      <WhatsNextSection confirmationNumber={confirmationNumber} />
+      <WhatsNextSection guid={guid} veteranName={veteranName} />
       <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink />
       <ConfirmationView.NeedHelp />
