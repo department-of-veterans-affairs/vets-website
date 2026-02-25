@@ -387,6 +387,7 @@ module.exports = async (env = {}) => {
       moduleIds: 'named',
       minimizer: [
         new rspack.SwcJsMinimizerRspackPlugin({
+          extractComments: true,
           minimizerOptions: {
             compress: true,
             mangle: true,
