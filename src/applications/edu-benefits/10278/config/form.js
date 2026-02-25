@@ -21,8 +21,6 @@ import thirdPartyOrganizationRepresentativesSummary from '../pages/thirdPartyOrg
 import thirdPartyOrganizationInformation from '../pages/thirdPartyOrganizationInformation';
 import thirdPartyOrganizationRepresentativesIntro from '../pages/thirdPartyOrganizationRepresentativesIntro';
 import thirdPartyOrganizationRepresentativeName from '../pages/thirdPartyOrganizationRepresentativesName';
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import identificationInformation from '../pages/identificationInformation';
 import informationToDisclose from '../pages/informationToDisclose';
 import prefillTransform from './prefillTransform';
 
@@ -113,20 +111,6 @@ const formConfig = {
           },
           depends: formData => formData?.userLoggedIn === true,
         }),
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-          depends: formData => formData?.userLoggedIn !== true,
-        },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
-          depends: formData => formData?.userLoggedIn !== true,
-        },
         ...profileContactInfoPages({
           content: {
             ...getContent('request'),

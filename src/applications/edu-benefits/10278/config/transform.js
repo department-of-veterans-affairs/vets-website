@@ -5,54 +5,42 @@ export default function transform(formConfig, form) {
   const personalInformationTransform = formData => {
     const clonedData = cloneDeep(formData);
 
-    if (clonedData.userLoggedIn) {
-      clonedData.claimantPersonalInformation = {
-        ...clonedData.claimantPersonalInformation,
-        ssn: clonedData.ssn,
-      };
+    // profileContactInfoPages always saves contact data under the 'veteran'
+    // wrapper key regardless of login state
+    const { homePhone, mobilePhone, email, mailingAddress } =
+      clonedData.veteran || {};
 
-      delete clonedData.ssn;
-      delete clonedData.applicantName;
-      delete clonedData.dateOfBirth;
+    const phoneData = homePhone || mobilePhone;
 
-      // profileContactInfoPages saves contact data under the 'veteran' wrapper key
-      const phoneData =
-        clonedData.veteran?.homePhone || clonedData.veteran?.mobilePhone;
-      const emailData = clonedData.veteran?.email;
-      const mailingAddress = clonedData.veteran?.mailingAddress;
+    clonedData.claimantContactInformation = {
+      phoneNumber: phoneData
+        ? `${phoneData.areaCode || ''}${phoneData.phoneNumber || ''}`
+        : '',
+      emailAddress: email?.emailAddress || '',
+    };
 
-      clonedData.claimantContactInformation = {
-        phoneNumber: phoneData
-          ? `${phoneData.areaCode || ''}${phoneData.phoneNumber || ''}`
-          : '',
-        emailAddress: emailData?.emailAddress || '',
-      };
-
-      if (mailingAddress) {
-        clonedData.claimantAddress = {
-          country: mailingAddress.countryCodeIso2 || 'USA',
-          street: mailingAddress.addressLine1 || '',
-          street2: mailingAddress.addressLine2 || '',
-          city: mailingAddress.city || '',
-          state: mailingAddress.stateCode || '',
-          postalCode: mailingAddress.zipCode || '',
-        };
-      }
-    } else {
-      clonedData.claimantPersonalInformation = {
-        ...clonedData.claimantPersonalInformation,
-        ssn: clonedData.claimantPersonalInformation.veteranId.ssn,
-      };
-
-      delete clonedData.claimantPersonalInformation.veteranId;
-
-      clonedData.claimantContactInformation = {
-        ...clonedData.claimantContactInformation,
-        phoneNumber:
-          clonedData.claimantContactInformation.phoneNumber.callingCode +
-          clonedData.claimantContactInformation.phoneNumber.contact,
+    if (mailingAddress) {
+      clonedData.claimantAddress = {
+        country: mailingAddress.countryCodeIso2 || 'USA',
+        street: mailingAddress.addressLine1 || '',
+        street2: mailingAddress.addressLine2 || '',
+        city: mailingAddress.city || '',
+        state: mailingAddress.stateCode || '',
+        postalCode: mailingAddress.zipCode || '',
       };
     }
+
+    delete clonedData.veteran;
+
+    // ssn is provided via prefill at the top level; merge into claimantPersonalInformation
+    clonedData.claimantPersonalInformation = {
+      ...clonedData.claimantPersonalInformation,
+      ssn: clonedData.ssn,
+    };
+
+    delete clonedData.ssn;
+    delete clonedData.applicantName;
+    delete clonedData.dateOfBirth;
 
     return clonedData;
   };
