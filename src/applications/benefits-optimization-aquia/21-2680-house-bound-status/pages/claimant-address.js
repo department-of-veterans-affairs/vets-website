@@ -36,8 +36,7 @@ export const claimantAddressUiSchema = {
           data-dd-privacy="mask"
           data-dd-action-name="claimant address page"
         >
-          {fullName}
-          's address
+          {`${fullName}'s address`}
         </span>
       ) : (
         "Claimant's address"

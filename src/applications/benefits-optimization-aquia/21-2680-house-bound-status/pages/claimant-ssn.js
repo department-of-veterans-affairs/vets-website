@@ -27,8 +27,7 @@ export const claimantSsnUiSchema = {
       const fullName = `${firstName} ${lastName}`.trim();
       const title = fullName ? (
         <span data-dd-privacy="mask" data-dd-action-name="claimant ssn page">
-          {fullName}
-          's Social Security number
+          {`${fullName}'s Social Security number`}
         </span>
       ) : (
         "Claimant's Social Security number"

@@ -42,8 +42,7 @@ export const claimantContactUiSchema = {
           data-dd-privacy="mask"
           data-dd-action-name="claimant contact page"
         >
-          {fullName}
-          's phone number and email address
+          {`${fullName}'s phone number and email address`}
         </span>
       ) : (
         `${fallback} phone number and email address`
@@ -51,8 +50,7 @@ export const claimantContactUiSchema = {
 
       const homePhoneLabel = fullName ? (
         <span data-dd-privacy="mask" data-dd-action-name="phone number label">
-          {fullName}
-          's phone number
+          {`${fullName}'s phone number`}
         </span>
       ) : (
         `${fallback} phone number`
@@ -60,8 +58,7 @@ export const claimantContactUiSchema = {
 
       const emailLabel = fullName ? (
         <span data-dd-privacy="mask" data-dd-action-name="email label">
-          {fullName}
-          's email address
+          {`${fullName}'s email address`}
         </span>
       ) : (
         `${fallback} email address`

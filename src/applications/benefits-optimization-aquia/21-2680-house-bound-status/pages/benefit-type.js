@@ -107,8 +107,9 @@ export const benefitTypeUiSchema = {
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const radioTitle = getRadioTitle(formData || fullData);
-      // Check if title contains a name (not \"you are\")
-      const hasName = radioTitle && !radioTitle.includes('you are');
+      // Check if title contains a name (not "you are"), only when radioTitle is a string
+      const hasName =
+        typeof radioTitle === 'string' && !radioTitle.includes('you are');
 
       return {
         benefitType: {

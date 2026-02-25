@@ -5,6 +5,7 @@
  */
 
 import { expect } from 'chai';
+import React from 'react';
 
 import { benefitsDetailsUiSchema } from './benefits-details';
 
@@ -12,7 +13,7 @@ describe('Benefits Details Page', () => {
   describe('updateUiSchema dynamic titles', () => {
     const { updateUiSchema } = benefitsDetailsUiSchema['ui:options'];
 
-    it('should include veteran name in field titles', () => {
+    it('should include veteran name in field titles with masking', () => {
       const formData = {
         veteranInformation: {
           veteranFullName: { first: 'John', last: 'Doe' },
@@ -20,18 +21,21 @@ describe('Benefits Details Page', () => {
       };
 
       const result = updateUiSchema(formData, formData);
+      const title = result.benefitsDetails.stopReceivingDate['ui:title'];
 
-      expect(result.benefitsDetails.stopReceivingDate['ui:title']).to.include(
-        'John Doe',
-      );
+      // Title should be a JSX element with masking
+      expect(React.isValidElement(title)).to.be.true;
+      expect(title.props['data-dd-privacy']).to.equal('mask');
+      expect(title.props.children).to.include('John Doe');
     });
 
     it('should fall back to Veteran when name is missing', () => {
       const result = updateUiSchema({}, {});
+      const title = result.benefitsDetails.stopReceivingDate['ui:title'];
 
-      expect(result.benefitsDetails.stopReceivingDate['ui:title']).to.include(
-        'Veteran',
-      );
+      // Should be a plain string when using fallback
+      expect(title).to.be.a('string');
+      expect(title).to.include('Veteran');
     });
   });
 });
