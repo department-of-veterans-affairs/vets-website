@@ -184,14 +184,10 @@ function testEncryptedPdf() {
   cy.wrap(makeEncryptedPDF()).then(file => {
     cy.fillVaFileInput(SELECTOR, {}, file);
     cy.get('va-file-input')
-      .find('label')
-      .should('contain', 'File password');
-
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
-    cy.get('va-file-input')
-      .find('span.usa-error-message')
-      .should('contain', 'Encrypted file requires a password.');
+      .find('va-alert')
+      .shadow()
+      .find('p.password-alert-text')
+      .should('contain', /We can't open your file without its password./i);
 
     cy.get('va-file-input')
       .find('va-text-input')
@@ -199,18 +195,15 @@ function testEncryptedPdf() {
         cy.fillVaTextInput($el, 'testpassword');
       });
 
-    cy.get('va-file-input').then($el => {
-      const event = new CustomEvent('vaPasswordChange', {
-        detail: { password: 'testpassword' },
-        bubbles: true,
-        composed: true,
-      });
-      $el[0].dispatchEvent(event);
-    });
+    cy.get('va-file-input')
+      .find('va-button')
+      .click();
 
     cy.get('va-file-input')
-      .find('va-text-input')
-      .should('not.exist');
+      .find('va-alert')
+      .shadow()
+      .find('p.password-alert-text')
+      .should('contain', /File successfully unlocked/i);
   });
   deleteFile();
 }
