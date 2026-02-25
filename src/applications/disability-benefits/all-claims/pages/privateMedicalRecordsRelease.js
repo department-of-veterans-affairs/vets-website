@@ -2,11 +2,11 @@ import _ from 'platform/utilities/data';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import { validateDate } from 'platform/forms-system/src/js/validation';
 import {
   selectUI,
   yesNoUI,
+  textUI,
+  currentOrPastDateRangeUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   recordReleaseDescription,
@@ -57,9 +57,7 @@ export const uiSchema = {
       hideTitle: true,
     },
     items: {
-      providerFacilityName: {
-        'ui:title': 'Name of private provider or hospital',
-      },
+      providerFacilityName: textUI('Name of private provider or hospital'),
       treatmentLocation0781Related: {
         ...yesNoUI({
           title:
@@ -94,8 +92,7 @@ export const uiSchema = {
         'ui:required': formData => isCompletingModern4142(formData),
         'ui:confirmationField': PrivateMedicalProvidersConditions,
       },
-      'ui:validations': [validateDate],
-      treatmentDateRange: dateRangeUI(
+      treatmentDateRange: currentOrPastDateRangeUI(
         'When did your treatment start? (You can provide an estimated date)',
         'When did your treatment end? (You can provide an estimated date)',
         'End of treatment must be after start of treatment',
@@ -111,21 +108,17 @@ export const uiSchema = {
           'postalCode',
         ],
         country: selectUI('Country'),
-        street: {
-          'ui:title': 'Street address (20 characters maximum)',
+        street: textUI('Street address (20 characters maximum)', {
           'ui:autocomplete': 'off',
-        },
-        street2: {
-          'ui:title': 'Street address 2 (20 characters maximum)',
+        }),
+        street2: textUI('Street address 2 (20 characters maximum)', {
           'ui:autocomplete': 'off',
-        },
-        city: {
-          'ui:title': 'City (30 characters maximum)',
+        }),
+        city: textUI('City (30 characters maximum)', {
           'ui:autocomplete': 'off',
-        },
+        }),
         state: selectUI('State'),
-        postalCode: {
-          'ui:title': 'Postal code',
+        postalCode: textUI('Postal code', {
           'ui:autocomplete': 'off',
           'ui:validations': [validateZIP],
           'ui:errorMessages': {
@@ -135,7 +128,7 @@ export const uiSchema = {
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
           },
-        },
+        }),
       },
     },
   },
