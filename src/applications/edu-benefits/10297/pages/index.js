@@ -12,6 +12,7 @@ import * as trainingProviderDetails from './trainingProviderDetails';
 import * as trainingProviderStartDate from './trainingProviderStartDate';
 import * as atLeast3Years from './atLeast3Years';
 import * as directDeposit from './directDeposit';
+import * as contactPreferences from './contactPreferences';
 
 export {
   applicantFullname,
@@ -28,4 +29,5 @@ export {
   trainingProviderStartDate,
   atLeast3Years,
   directDeposit,
+  contactPreferences,
 };

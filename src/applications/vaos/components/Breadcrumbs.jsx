@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
+import { useBreadcrumbFocus } from 'platform/mhv/hooks/useBreadcrumbFocus';
 import manifest from '../manifest.json';
 import { getUrlLabel } from '../new-appointment/newAppointmentFlow';
 import { getCovidUrlLabel } from '../covid-19-vaccine/flow';
@@ -62,10 +63,14 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
   const history = useHistory();
 
   // Only handles breadcrumb isRouterLink:true items, so no routes without that are replaced
-  function handleRouteChange({ detail }) {
-    const { href } = detail;
+  const onRouteChange = event => {
+    const href = event?.detail?.href;
     history.push(relativeRouteProcessor(href));
-  }
+  };
+
+  const { handleRouteChange, handleClick } = useBreadcrumbFocus({
+    onRouteChange,
+  });
 
   let newLabel = labelOverride || label;
   if (isCovid) newLabel = covidLabel;
@@ -144,6 +149,7 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
         class="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2"
         breadcrumbList={getBreadcrumbList()}
         onRouteChange={handleRouteChange}
+        onClick={handleClick}
         uswds
       >
         {children}
