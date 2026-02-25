@@ -4,7 +4,7 @@ import environment from 'platform/utilities/environment';
 import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
-import IntroductionPage from '../containers/IntroductionPage';
+import { IntroductionPageSelector } from '../containers/IntroductionPageSelector';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { GetFormHelp } from '../components/GetFormHelp';
 import manifest from '../manifest.json';
@@ -12,10 +12,8 @@ import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
 
 // chapter schema imports
-import {
-  applicantInformation,
-  personalInformation,
-} from './chapters/applicant';
+import { applicantInformation } from './chapters/applicant';
+import personalInformation from '../pages/personalInformation';
 
 import {
   additionalInformation,
@@ -62,7 +60,7 @@ const formConfig = {
     startNewAppButtonText: 'Start a new request',
     reviewPageTitle: 'Review your request',
   },
-  introduction: IntroductionPage,
+  introduction: IntroductionPageSelector,
   confirmation: ConfirmationPage,
   dev: {
     showNavLinks: true,

@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { DocumentTypeSelect } from '../../pages/uploadDocuments';
+import { DocumentTypeSelect } from '../../../pages/uploadDocuments';
 import {
   serviceStatuses,
   entitlementRestorationOptions,
-} from '../../constants';
+} from '../../../constants';
 
 const mockStore = configureStore([]);
 
