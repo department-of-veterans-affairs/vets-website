@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import * as trainingProviderDetails from '../../pages/trainingProviderDetails';
@@ -21,7 +21,7 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
     expect($$('va-select', container).length).to.equal(1);
   });
 
-  it('should render errors on required inputs', () => {
+  it('should render errors on required inputs', async () => {
     const { container, getByRole } = render(
       <DefinitionTester
         schema={schema}
@@ -31,7 +31,9 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
     );
 
     getByRole('button', { name: /submit/i }).click();
-    expect($$('va-text-input[error]', container).length).to.equal(4);
-    expect($$('va-select[error]', container).length).to.equal(1);
+    await waitFor(() => {
+      expect($$('va-text-input[error]', container).length).to.equal(4);
+      expect($$('va-select[error]', container).length).to.equal(1);
+    });
   });
 });
