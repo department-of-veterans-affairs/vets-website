@@ -86,6 +86,28 @@ beforeEach(() => {
   });
 });
 
+// Global Mapbox API mocks — prevent real API calls in all E2E tests.
+// Geocoding is NOT mocked here; individual tests provide their own mocks.
+beforeEach(() => {
+  // Static map images
+  cy.intercept('GET', '**/styles/v1/mapbox/**', {
+    statusCode: 200,
+    headers: { 'content-type': 'image/png' },
+    body: '',
+  });
+  // Tile JSON metadata
+  cy.intercept('GET', '**/v4/mapbox.*', {});
+  cy.intercept('HEAD', '**/v4/mapbox.*', { statusCode: 200 });
+  // Vector/raster tiles
+  cy.intercept('GET', /\.tiles\.mapbox\.com/, { body: '' });
+  // Map fonts
+  cy.intercept('GET', '**/fonts/v1/mapbox/**', { body: '' });
+  // Map sprites
+  cy.intercept('GET', '**/sprites/v1/mapbox/**', { body: '' });
+  // Mapbox telemetry
+  cy.intercept('POST', '*events.mapbox.com/**', { statusCode: 204 });
+});
+
 // Assign the video path to the context property for failed tests
 Cypress.on('test:after:run', test => {
   if (test.state === 'failed') {
