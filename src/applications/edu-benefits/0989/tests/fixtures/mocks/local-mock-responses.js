@@ -6,8 +6,8 @@ const featureToggles = require('./feature-toggles.json');
 
 const responses = {
   'GET /v0/user': mockUser,
-  'PUT /v0/in_progress_forms/22-0803': sip,
-  'GET /v0/in_progress_forms/22-0803': prefilledForm,
+  'PUT /v0/in_progress_forms/22-0989': sip,
+  'GET /v0/in_progress_forms/22-0989': prefilledForm,
   'GET /v0/feature_toggles': featureToggles,
   'GET /data/cms/vamc-ehr.json': {},
 };

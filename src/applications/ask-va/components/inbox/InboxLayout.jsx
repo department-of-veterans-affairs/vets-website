@@ -17,13 +17,18 @@ import { filterAndSort } from '../../utils/inbox';
 /**
  * @typedef {Object} Props
  * @property {string[]} categoryOptions
+ * @property {string[]} statusOptions
  * @property {{ business: Inquiry[], personal: Inquiry[] }} inquiries
  */
 
 /**
  * @param {Props} props
  */
-export default function InboxLayout({ inquiries, categoryOptions }) {
+export default function InboxLayout({
+  inquiries,
+  categoryOptions,
+  statusOptions,
+}) {
   const [pendingCategoryFilter, setPendingCategoryFilter] = useState('All');
   const [pendingStatusFilter, setPendingStatusFilter] = useState('All');
   const [pendingQuery, setPendingQuery] = useState('');
@@ -62,9 +67,11 @@ export default function InboxLayout({ inquiries, categoryOptions }) {
                 }}
               >
                 <option value="All">All</option>
-                <option value="In progress">In progress</option>
-                <option value="Replied">Replied</option>
-                <option value="Reopened">Reopened</option>
+                {statusOptions.map(status => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
               </VaSelect>
             </div>
             <div className="vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--0">
@@ -186,6 +193,7 @@ export default function InboxLayout({ inquiries, categoryOptions }) {
 
 InboxLayout.propTypes = {
   categoryOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  statusOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   inquiries: PropTypes.shape({
     business: InquiriesList.propTypes.inquiries.isRequired,
     personal: InquiriesList.propTypes.inquiries.isRequired,
