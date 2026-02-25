@@ -40,7 +40,8 @@ describe('MhvTemporaryAccess', () => {
     const screen = renderInReduxProvider(<MhvTemporaryAccess />, {
       initialState: {
         featureToggles: {
-          [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+          [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+          [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
         },
       },
     });
@@ -56,7 +57,8 @@ describe('MhvTemporaryAccess', () => {
       sandbox.assert.calledWith(loginStub, {
         policy: 'mhv',
         queryParams: { operation: 'mhv_exception' },
-        ial2Enforcement: false,
+        idmeIal2Enforcement: false,
+        logingovIal2Enforcement: false,
       });
     });
     loginStub.restore();

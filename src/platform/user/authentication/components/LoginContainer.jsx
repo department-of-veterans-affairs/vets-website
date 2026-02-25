@@ -20,10 +20,16 @@ export default function LoginContainer({
     externalApplication,
   );
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityIal2FullEnforcement,
+  const idmeIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
   );
-  const { href, onClick } = useInternalTestingAuth({ ial2Enforcement });
+  const logingovIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
+  );
+  const { href, onClick } = useInternalTestingAuth({
+    idmeIal2Enforcement,
+    logingovIal2Enforcement,
+  });
 
   return (
     <>

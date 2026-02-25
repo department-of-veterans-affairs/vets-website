@@ -13,8 +13,11 @@ export default function MockAuthButton() {
   const [authType, setAuthType] = useState(CSP_IDS.LOGIN_GOV);
   const [mockLoginError, setMockLoginError] = useState('');
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityIal2FullEnforcement,
+  const idmeIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
+  );
+  const logingovIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
   );
   return [environments.LOCALHOST, environments.VAGOVDEV].includes(
     environment.getRawBuildtype(),
@@ -44,7 +47,11 @@ export default function MockAuthButton() {
         text="Sign in with mocked authentication"
         onClick={async () => {
           try {
-            await mockLogin({ type: authType, ial2Enforcement });
+            await mockLogin({
+              type: authType,
+              idmeIal2Enforcement,
+              logingovIal2Enforcement,
+            });
           } catch (error) {
             setMockLoginError(error.toString());
           }

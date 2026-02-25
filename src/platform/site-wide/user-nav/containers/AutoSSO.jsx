@@ -23,7 +23,8 @@ function AutoSSO(props) {
     loggedIn,
     profileLoading,
     profile,
-    ial2Enforcement,
+    idmeIal2Enforcement,
+    logingovIal2Enforcement,
   } = props;
 
   if (loggedIn) {
@@ -42,11 +43,15 @@ function AutoSSO(props) {
     !hasCalledKeepAlive &&
     !authenticatedWithOAuth
   ) {
-    checkAutoSession(loggedIn, transactionId, profile, ial2Enforcement).then(
-      () => {
-        props.checkKeepAlive();
-      },
-    );
+    checkAutoSession(
+      loggedIn,
+      transactionId,
+      profile,
+      idmeIal2Enforcement,
+      logingovIal2Enforcement,
+    ).then(() => {
+      props.checkKeepAlive();
+    });
   }
 
   return null;
@@ -59,8 +64,12 @@ const mapStateToProps = state => ({
   hasCalledKeepAlive: hasCheckedKeepAlive(state),
   profileLoading: isProfileLoading(state),
   loggedIn: isLoggedIn(state),
-  ial2Enforcement:
-    state.featureToggles?.[TOGGLE_NAMES.identityIal2FullEnforcement] || false,
+  idmeIal2Enforcement:
+    state.featureToggles?.[TOGGLE_NAMES.identityIdmeIal2FullEnforcement] ||
+    false,
+  logingovIal2Enforcement:
+    state.featureToggles?.[TOGGLE_NAMES.identityLogingovIal2FullEnforcement] ||
+    false,
 });
 
 const mapDispatchToProps = {

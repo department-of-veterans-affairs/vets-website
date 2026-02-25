@@ -19,7 +19,8 @@ const store = {
     featureToggles: {
       [TOGGLE_NAMES.identityLogingovIal2Enforcement]: false,
       [TOGGLE_NAMES.identityIdmeIal2Enforcement]: false,
-      [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+      [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+      [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
     },
   }),
   dispatch: () => {},
@@ -75,7 +76,8 @@ describe('Verify Buttons', () => {
         acr: defaultWebOAuthOptions.acrVerify[policy],
         queryParams,
         useOAuth,
-        ial2Enforcement: false,
+        idmeIal2Enforcement: false,
+        logingovIal2Enforcement: false,
       });
 
       // Verify that `updateStateAndVerifier` was called if `useOAuth` is true
@@ -132,7 +134,8 @@ describe('VerifyButton', () => {
 
     sinon.assert.calledOnce(verifyHandlerSpy);
     sinon.assert.calledWith(verifyHandlerSpy, {
-      ial2Enforcement: false,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
       policy: csp,
       queryParams,
       useOAuth,
@@ -166,7 +169,8 @@ describe('verifyHandler', () => {
       acr: defaultWebOAuthOptions.acrVerify[policy],
       queryParams,
       useOAuth,
-      ial2Enforcement: false,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
     });
 
     sinon.assert.calledOnce(OAuthUtils.updateStateAndVerifier);
@@ -186,7 +190,8 @@ describe('verifyHandler', () => {
       acr: defaultWebOAuthOptions.acrVerify[policy],
       queryParams,
       useOAuth,
-      ial2Enforcement: false,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
     });
 
     sinon.assert.notCalled(OAuthUtils.updateStateAndVerifier);

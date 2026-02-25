@@ -21,7 +21,8 @@ export function onVerifyClick({ useOAuth, policy }) {
 export function useIdentityVerificationURL({
   policy,
   useOAuth,
-  ial2Enforcement = false,
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
 }) {
   const [href, setHref] = useState('');
 
@@ -34,13 +35,14 @@ export function useIdentityVerificationURL({
           isSignup: false,
           isLink: true,
           useOAuth,
-          ial2Enforcement,
+          idmeIal2Enforcement,
+          logingovIal2Enforcement,
         });
         setHref(url);
       }
       generateURL();
     },
-    [policy, useOAuth, ial2Enforcement],
+    [policy, useOAuth, idmeIal2Enforcement, logingovIal2Enforcement],
   );
 
   const onClick = useCallback(onVerifyClick, [useOAuth, policy]);
@@ -54,7 +56,8 @@ export function useIdentityVerificationURL({
  */
 export function useInternalTestingAuth({
   queryParams = { operation: 'myhealthevet_test_account' },
-  ial2Enforcement = false,
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
 } = {}) {
   const [href, setHref] = useState('');
 
@@ -64,7 +67,8 @@ export function useInternalTestingAuth({
         type: 'mhv',
         useOauth: false,
         queryParams,
-        ial2Enforcement,
+        idmeIal2Enforcement,
+        logingovIal2Enforcement,
       });
 
       setHref(url);

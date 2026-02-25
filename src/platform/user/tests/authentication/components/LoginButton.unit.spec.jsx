@@ -15,9 +15,8 @@ const csps = Object.values(ACTIVE_SERVICE_PROVIDERS);
 const store = {
   getState: () => ({
     featureToggles: {
-      [TOGGLE_NAMES.identityLogingovIal2Enforcement]: false,
-      [TOGGLE_NAMES.identityIdmeIal2Enforcement]: false,
-      [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+      [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+      [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
     },
   }),
   dispatch: () => {},
@@ -77,7 +76,11 @@ describe('loginHandler', () => {
     expect(loginHandlerSpy.called).to.be.true;
     expect(mockAuthLogin.called).to.be.true;
     expect(
-      mockAuthLogin.calledWith({ policy: 'logingov', ial2Enforcement: false }),
+      mockAuthLogin.calledWith({
+        policy: 'logingov',
+        idmeIal2Enforcement: false,
+        logingovIal2Enforcement: false,
+      }),
     ).to.be.true;
 
     mockAuthLogin.restore();

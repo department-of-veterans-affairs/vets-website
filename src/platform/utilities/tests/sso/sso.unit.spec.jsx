@@ -177,7 +177,8 @@ describe('checkAutoSession', () => {
         [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.IDME,
       },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
-      ial2Enforcement: false,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
     });
   });
 
@@ -194,7 +195,8 @@ describe('checkAutoSession', () => {
       version: API_VERSION,
       clickedEvent: AUTH_EVENTS.SSO_LOGOUT,
       queryParams: { 'auto-logout': 'true' },
-      ial2Enforcement: false,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
     });
   });
 
@@ -227,7 +229,8 @@ describe('checkAutoSession', () => {
         ial: '2',
       },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
-      ial2Enforcement: false,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
     });
   });
 
@@ -280,7 +283,8 @@ describe('checkAutoSession', () => {
         [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.IDME,
       },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
-      ial2Enforcement: false,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
     });
   });
 
@@ -304,7 +308,8 @@ describe('checkAutoSession', () => {
         [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.IDME,
       },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
-      ial2Enforcement: false,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
     });
   });
 
@@ -327,7 +332,8 @@ describe('checkAutoSession', () => {
         [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.MHV,
       },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
-      ial2Enforcement: false,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
     });
   });
 
@@ -393,7 +399,8 @@ describe('checkAutoSession', () => {
         [AUTHN_KEYS.CSP_TYPE]: 'logingov',
       },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
-      ial2Enforcement: false,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
     });
     localStorage.clear();
   });

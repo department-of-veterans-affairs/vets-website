@@ -8,8 +8,11 @@ export default function ProdTestAccess() {
   const [email, setEmail] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityIal2FullEnforcement,
+  const idmeIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
+  );
+  const logingovIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
   );
 
   const isAllowedEmail = user => {
@@ -32,7 +35,8 @@ export default function ProdTestAccess() {
     login({
       policy: 'mhv',
       queryParams: { operation: 'myhealthevet_test_account' },
-      ial2Enforcement,
+      idmeIal2Enforcement,
+      logingovIal2Enforcement,
     });
   };
 

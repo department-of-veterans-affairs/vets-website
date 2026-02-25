@@ -45,7 +45,8 @@ describe('LoginActions component', () => {
 
       expect(authUtilities.login.calledOnce).to.be.true;
       expect(authUtilities.login.getCall(0).args[0]).to.deep.equal({
-        ial2Enforcement: false,
+        idmeIal2Enforcement: false,
+        logingovIal2Enforcement: false,
         ...expectedArgs[loginCSP],
       });
 

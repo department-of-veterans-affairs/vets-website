@@ -6,14 +6,23 @@ import CallToActionAlert from '../../CallToActionAlert';
 
 const MFA = () => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityIal2FullEnforcement,
+  const idmeIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
+  );
+  const logingovIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
   );
   const verifyLink = useCallback(
     async policy => {
-      await verify({ policy, isLink: true, isSignup: false, ial2Enforcement });
+      await verify({
+        policy,
+        isLink: true,
+        isSignup: false,
+        idmeIal2Enforcement,
+        logingovIal2Enforcement,
+      });
     },
-    [ial2Enforcement],
+    [idmeIal2Enforcement, logingovIal2Enforcement],
   );
 
   const content = {

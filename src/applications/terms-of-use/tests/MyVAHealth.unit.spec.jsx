@@ -27,7 +27,10 @@ describe('MyVAHealth', () => {
   it('should render', () => {
     const { container } = renderInReduxProvider(<MyVAHealth />, {
       initialState: {
-        featureToggles: { [TOGGLE_NAMES.identityIal2FullEnforcement]: false },
+        featureToggles: {
+          [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+          [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+        },
       },
     });
 
@@ -56,7 +59,10 @@ describe('MyVAHealth', () => {
 
       renderInReduxProvider(<MyVAHealth />, {
         initialState: {
-          featureToggles: { [TOGGLE_NAMES.identityIal2FullEnforcement]: false },
+          featureToggles: {
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+          },
         },
       });
 
@@ -84,7 +90,10 @@ describe('MyVAHealth', () => {
 
     renderInReduxProvider(<MyVAHealth />, {
       initialState: {
-        featureToggles: { [TOGGLE_NAMES.identityIal2FullEnforcement]: false },
+        featureToggles: {
+          [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+          [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+        },
       },
     });
 
@@ -118,7 +127,8 @@ describe('MyVAHealth', () => {
       initialState: {
         featureToggles: {
           terms_of_use: true,
-          [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+          [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+          [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
         },
       },
     });
@@ -156,7 +166,8 @@ describe('MyVAHealth', () => {
         initialState: {
           featureToggles: {
             terms_of_use: true,
-            [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
           },
         },
       });
@@ -186,7 +197,10 @@ describe('MyVAHealth', () => {
 
       renderInReduxProvider(<MyVAHealth />, {
         initialState: {
-          featureToggles: { [TOGGLE_NAMES.identityIal2FullEnforcement]: false },
+          featureToggles: {
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+          },
         },
       });
 
@@ -214,7 +228,10 @@ describe('MyVAHealth', () => {
 
       renderInReduxProvider(<MyVAHealth />, {
         initialState: {
-          featureToggles: { [TOGGLE_NAMES.identityIal2FullEnforcement]: false },
+          featureToggles: {
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+          },
         },
       });
 
@@ -251,7 +268,8 @@ describe('MyVAHealth', () => {
         initialState: {
           featureToggles: {
             terms_of_use: true,
-            [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
           },
         },
       });
@@ -290,7 +308,8 @@ describe('MyVAHealth', () => {
         initialState: {
           featureToggles: {
             terms_of_use: true,
-            [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
           },
         },
       });
@@ -326,7 +345,8 @@ describe('MyVAHealth', () => {
       renderInReduxProvider(<MyVAHealth />, {
         initialState: {
           featureToggles: { terms_of_use: true },
-          [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+          [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+          [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
         },
       });
 
@@ -361,7 +381,8 @@ describe('MyVAHealth', () => {
         initialState: {
           featureToggles: {
             terms_of_use: true,
-            [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
           },
         },
       });

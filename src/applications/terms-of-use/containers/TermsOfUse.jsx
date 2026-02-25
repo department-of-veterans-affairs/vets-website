@@ -37,8 +37,11 @@ export default function TermsOfUse() {
   const isFullyAuthenticated = isAuthenticatedWithIAM || isAuthenticatedWithSiS;
   const isUnauthenticated = !isMiddleAuth && !isFullyAuthenticated;
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2EnforcementEnabled = useToggleValue(
-    TOGGLE_NAMES.identityIal2FullEnforcement,
+  const idmeEnforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
+  );
+  const logingovEnforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
   );
 
   useEffect(
@@ -82,7 +85,10 @@ export default function TermsOfUse() {
     [error, buttonPushed],
   );
 
-  const handleTouClick = ial2Enforcement => async type => {
+  const handleTouClick = (
+    idmeIal2Enforcement,
+    logingovIal2Enforcement,
+  ) => async type => {
     const params = {
       ...(redirectLocation.searchParams.get('terms_code') && {
         // eslint-disable-next-line camelcase
@@ -133,7 +139,8 @@ export default function TermsOfUse() {
             termsCodeExists,
             shouldRedirectToMobile,
             isAuthenticatedWithSiS,
-            ial2Enforcement,
+            idmeIal2Enforcement,
+            logingovIal2Enforcement,
           });
         }
       }
@@ -234,7 +241,10 @@ export default function TermsOfUse() {
           <TermsAcceptance
             error={error}
             isMiddleAuth={isMiddleAuth}
-            handleTouClick={handleTouClick(ial2EnforcementEnabled)}
+            handleTouClick={handleTouClick(
+              idmeEnforcement,
+              logingovEnforcement,
+            )}
             setShowDeclineModal={setShowDeclineModal}
             isFullyAuthenticated={isFullyAuthenticated}
             isUnauthenticated={isUnauthenticated}
@@ -266,7 +276,9 @@ export default function TermsOfUse() {
             accounts, you’ll need to create one.
           </p>
           <va-button
-            onClick={() => handleTouClick(ial2EnforcementEnabled)('decline')}
+            onClick={() =>
+              handleTouClick(idmeEnforcement, logingovEnforcement)('decline')
+            }
             disabled={isDisabled}
             text="Decline and sign out"
           />

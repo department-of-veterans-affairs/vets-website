@@ -11,7 +11,8 @@ export function loginHandler(
   loginType,
   isOAuth,
   oktaParams = {},
-  ial2Enforcement = false,
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
 ) {
   const isOAuthAttempt = isOAuth && '-oauth';
   const { codeChallenge = '', clientId = '', state = '' } = oktaParams;
@@ -37,7 +38,11 @@ export function loginHandler(
   if (isProduction) {
     recordEvent({ event: `login-attempted-${loginType}${isOAuthAttempt}` });
   }
-  authUtilities.login({ policy: loginType, ial2Enforcement });
+  authUtilities.login({
+    policy: loginType,
+    idmeIal2Enforcement,
+    logingovIal2Enforcement,
+  });
 }
 
 export default function LoginButton({
@@ -49,8 +54,11 @@ export default function LoginButton({
   queryParams = {},
 }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityIal2FullEnforcement,
+  const idmeIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
+  );
+  const logingovIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
   );
   if (!csp) return null;
   const actionName = `${csp}-signin-button-${actionLocation}`;
@@ -60,7 +68,15 @@ export default function LoginButton({
       data-dd-action-name={actionName}
       className={`usa-button ${csp}-button vads-u-margin-y--1p5 vads-u-padding-y--2`}
       data-csp={csp}
-      onClick={() => onClick(csp, useOAuth, queryParams, ial2Enforcement)}
+      onClick={() =>
+        onClick(
+          csp,
+          useOAuth,
+          queryParams,
+          idmeIal2Enforcement,
+          logingovIal2Enforcement,
+        )
+      }
       aria-describedby={ariaDescribedBy}
     >
       {SERVICE_PROVIDERS[csp].image}

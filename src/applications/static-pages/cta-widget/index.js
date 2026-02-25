@@ -70,10 +70,17 @@ export const sendToMHV = authenticatedWithSSOe => () => {
   window.location = mhvUrl(authenticatedWithSSOe, 'home');
 };
 
-export const signOut = (authenticatedWithSSOe, ial2Enforcement) => () => {
+export const signOut = (
+  authenticatedWithSSOe,
+  idmeIal2Enforcement,
+  logingovIal2Enforcement,
+) => () => {
   recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
   if (authenticatedWithSSOe) {
-    IAMLogout({ ial2Enforcement });
+    IAMLogout({
+      idmeIal2Enforcement,
+      logingovIal2Enforcement,
+    });
   } else {
     window.location = logoutUrlSiS();
   }
@@ -165,8 +172,11 @@ export const CallToActionWidget = ({
   const [popup, setPopup] = useState(false);
   const mounted = useRef();
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityIal2FullEnforcement,
+  const idmeIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
+  );
+  const logingovIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
   );
 
   useEffect(
@@ -345,7 +355,8 @@ export const CallToActionWidget = ({
             primaryButtonHandler={sendToMHVCallback}
             secondaryButtonHandler={signOut(
               authenticatedWithSSOe,
-              ial2Enforcement,
+              idmeIal2Enforcement,
+              logingovIal2Enforcement,
             )}
           />
         );

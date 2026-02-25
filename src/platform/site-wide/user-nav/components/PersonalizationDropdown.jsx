@@ -25,20 +25,27 @@ const recordLettersEvent = recordNavUserEvent('letters');
 export function PersonalizationDropdown(props) {
   const { isSSOe, csp } = props;
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityIal2FullEnforcement,
+  const idmeIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
+  );
+  const logingovIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
   );
 
   const createSignout = useCallback(
     () => (
       <a
-        href={isSSOe ? logoutUrl(ial2Enforcement) : logoutUrlSiS()}
+        href={
+          isSSOe
+            ? logoutUrl(idmeIal2Enforcement, logingovIal2Enforcement)
+            : logoutUrlSiS()
+        }
         onClick={() => logoutEvent(csp, { shouldWait: !isSSOe, duration: 350 })}
       >
         Sign Out
       </a>
     ),
-    [isSSOe, csp, ial2Enforcement],
+    [isSSOe, csp, idmeIal2Enforcement, logingovIal2Enforcement],
   );
 
   return (

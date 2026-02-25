@@ -11,13 +11,17 @@ export default function VerifyAccountLink({
   children,
 }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityIal2FullEnforcement,
+  const idmeIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
+  );
+  const logingovIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
   );
   const { href } = useIdentityVerificationURL({
     policy,
     useOAuth,
-    ial2Enforcement,
+    idmeIal2Enforcement,
+    logingovIal2Enforcement,
   });
   return (
     <a

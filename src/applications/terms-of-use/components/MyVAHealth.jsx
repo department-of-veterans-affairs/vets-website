@@ -33,8 +33,11 @@ export default function MyVAHealth() {
   const url = new URL(window.location);
   const ssoeTarget = url.searchParams.get('ssoeTarget');
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2EnforcementEnabled = useToggleValue(
-    TOGGLE_NAMES.identityIal2FullEnforcement,
+  const idmeEnforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
+  );
+  const logingovEnforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
   );
 
   useEffect(
@@ -73,7 +76,10 @@ export default function MyVAHealth() {
     [ssoeTarget],
   );
 
-  const handleTouClick = ial2Enforcement => async type => {
+  const handleTouClick = (
+    idmeIal2Enforcement,
+    logingovIal2Enforcement,
+  ) => async type => {
     const cernerType = type === 'accept' ? 'accept_and_provision' : type;
 
     try {
@@ -103,7 +109,8 @@ export default function MyVAHealth() {
           termsCodeExists: false,
           shouldRedirectToMobile: false,
           isAuthenticatedWithSiS: false,
-          ial2Enforcement,
+          idmeIal2Enforcement,
+          logingovIal2Enforcement,
         });
       }
     } catch (err) {
@@ -207,7 +214,10 @@ export default function MyVAHealth() {
                 error={error}
                 isDisabled={isDisabled}
                 isMiddleAuth
-                handleTouClick={handleTouClick(ial2EnforcementEnabled)}
+                handleTouClick={handleTouClick(
+                  idmeEnforcement,
+                  logingovEnforcement,
+                )}
                 setShowDeclineModal={setShowDeclineModal}
                 isFullyAuthenticated
                 isUnauthenticated={false}
@@ -221,7 +231,7 @@ export default function MyVAHealth() {
           onCloseEvent={() => setShowDeclineModal(false)}
           modalTitle="Decline the terms of use and sign out?"
           onPrimaryButtonClick={() =>
-            handleTouClick(ial2EnforcementEnabled)('decline')
+            handleTouClick(idmeEnforcement, logingovEnforcement)('decline')
           }
           onSecondaryButtonClick={() => setShowDeclineModal(false)}
           primaryButtonText="Decline and sign out"

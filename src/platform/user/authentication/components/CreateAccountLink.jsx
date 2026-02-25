@@ -20,8 +20,11 @@ export default function CreateAccountLink({
 }) {
   const [href, setHref] = useState('');
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityIal2FullEnforcement,
+  const idmeIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
+  );
+  const logingovIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
   );
 
   useEffect(
@@ -34,13 +37,21 @@ export default function CreateAccountLink({
           allowVerification: false,
           useOAuth,
           config: externalApplication,
-          ial2Enforcement,
+          idmeIal2Enforcement,
+          logingovIal2Enforcement,
         });
         setHref(url);
       }
       generateURL();
     },
-    [policy, useOAuth, externalApplication, clientId, ial2Enforcement],
+    [
+      policy,
+      useOAuth,
+      externalApplication,
+      clientId,
+      idmeIal2Enforcement,
+      logingovIal2Enforcement,
+    ],
   );
 
   return (

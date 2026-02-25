@@ -21,7 +21,8 @@ const store = ({ authenticatedWithSiS = false } = {}) => ({
       },
     },
     featureToggles: {
-      [TOGGLE_NAMES.identityIal2FullEnforcement]: false,
+      [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+      [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
     },
   }),
   subscribe: () => {},
