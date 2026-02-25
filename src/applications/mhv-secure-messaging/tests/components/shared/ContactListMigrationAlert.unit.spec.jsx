@@ -1,8 +1,6 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import { cleanup, waitFor } from '@testing-library/react';
-import reducer from '../../../reducers';
 import ContactListMigrationAlert from '../../../components/shared/ContactListMigrationAlert';
 
 describe('ContactListMigrationAlert component', () => {
@@ -28,153 +26,124 @@ describe('ContactListMigrationAlert component', () => {
     },
   };
 
-  const createState = (
-    migrationSchedules,
-    userFacilityMigratingToOh = true,
-  ) => ({
-    sm: { recipients: {} },
-    user: {
-      profile: {
-        userFacilityMigratingToOh,
-        userAtPretransitionedOhFacility: false,
-        migrationSchedules,
-      },
-    },
-  });
+  const defaultProps = {
+    migrationSchedules: [baseMigrationSchedule],
+  };
 
-  const setup = (state = createState([baseMigrationSchedule])) => {
-    return renderWithStoreAndRouter(<ContactListMigrationAlert />, {
-      initialState: state,
-      reducers: reducer,
-    });
+  const setup = (props = {}) => {
+    return render(<ContactListMigrationAlert {...defaultProps} {...props} />);
   };
 
   afterEach(() => {
     cleanup();
   });
 
-  it('renders the alert when a facility is in phase p6', async () => {
-    const screen = setup();
+  describe('POST_MIGRATION variant (phase p6)', () => {
+    it('renders the alert when a facility is in phase p6', async () => {
+      const screen = setup();
 
-    await waitFor(() => {
-      expect(screen.getByTestId('contact-list-migration-alert')).to.exist;
-      expect(screen.getByText('We updated your contact list')).to.exist;
+      await waitFor(() => {
+        expect(screen.getByTestId('contact-list-migration-alert')).to.exist;
+        expect(screen.getByText('We updated your contact list')).to.exist;
+      });
+    });
+
+    it('displays migrating facility names', async () => {
+      const screen = setup();
+
+      await waitFor(() => {
+        expect(screen.getByText('VA Detroit Healthcare System')).to.exist;
+        expect(screen.getByText('VA Saginaw Healthcare System')).to.exist;
+      });
+    });
+
+    it('displays the correct body text', async () => {
+      const screen = setup();
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(
+            'We removed care teams from these facilities from your contact list:',
+          ),
+        ).to.exist;
+        expect(
+          screen.getByText((_, el) => {
+            return (
+              el.tagName === 'P' &&
+              el.textContent.includes(
+                'You can still send messages to care teams at these facilities.',
+              )
+            );
+          }),
+        ).to.exist;
+      });
+    });
+
+    it('is closeable', async () => {
+      const screen = setup();
+
+      await waitFor(() => {
+        expect(screen.getByTestId('contact-list-migration-alert')).to.exist;
+      });
+
+      const alert = screen.getByTestId('contact-list-migration-alert');
+      alert.__events.closeEvent();
+
+      await waitFor(() => {
+        expect(screen.queryByTestId('contact-list-migration-alert')).to.not
+          .exist;
+      });
     });
   });
 
-  it('displays migrating facility names', async () => {
-    const screen = setup();
+  describe('alert visibility conditions', () => {
+    it('does not render when facility is in phase p7', async () => {
+      const scheduleP7 = {
+        ...baseMigrationSchedule,
+        phases: { ...baseMigrationSchedule.phases, current: 'p7' },
+      };
+      const screen = setup({ migrationSchedules: [scheduleP7] });
 
-    await waitFor(() => {
-      expect(screen.getByText('VA Detroit Healthcare System')).to.exist;
-      expect(screen.getByText('VA Saginaw Healthcare System')).to.exist;
-    });
-  });
-
-  it('displays the correct body text', async () => {
-    const screen = setup();
-
-    await waitFor(() => {
-      expect(
-        screen.getByText(
-          'We removed care teams from these facilities from your contact list:',
-        ),
-      ).to.exist;
-      expect(
-        screen.getByText((_, el) => {
-          return (
-            el.tagName === 'P' &&
-            el.textContent.includes(
-              'You can still send messages to care teams at these facilities.',
-            )
-          );
-        }),
-      ).to.exist;
-    });
-  });
-
-  it('does not render when no facilities are in phase p6', async () => {
-    const schedule = {
-      ...baseMigrationSchedule,
-      phases: { ...baseMigrationSchedule.phases, current: 'p5' },
-    };
-    const screen = setup(createState([schedule]));
-
-    expect(screen.queryByTestId('contact-list-migration-alert')).to.not.exist;
-  });
-
-  it('does not render when facility is in phase p7', async () => {
-    const schedule = {
-      ...baseMigrationSchedule,
-      phases: { ...baseMigrationSchedule.phases, current: 'p7' },
-    };
-    const screen = setup(createState([schedule]));
-
-    expect(screen.queryByTestId('contact-list-migration-alert')).to.not.exist;
-  });
-
-  it('does not render when migrationSchedules is empty', async () => {
-    const screen = setup(createState([]));
-
-    expect(screen.queryByTestId('contact-list-migration-alert')).to.not.exist;
-  });
-
-  it('does not render when userFacilityMigratingToOh is false', async () => {
-    const screen = setup(createState([baseMigrationSchedule], false));
-
-    expect(screen.queryByTestId('contact-list-migration-alert')).to.not.exist;
-  });
-
-  it('does not render when migrationSchedules is undefined', async () => {
-    const state = {
-      sm: { recipients: {} },
-      user: {
-        profile: {
-          userFacilityMigratingToOh: true,
-        },
-      },
-    };
-    const screen = setup(state);
-
-    expect(screen.queryByTestId('contact-list-migration-alert')).to.not.exist;
-  });
-
-  it('is closeable', async () => {
-    const screen = setup();
-
-    await waitFor(() => {
-      expect(screen.getByTestId('contact-list-migration-alert')).to.exist;
-    });
-
-    const alert = screen.getByTestId('contact-list-migration-alert');
-    alert.__events.closeEvent();
-
-    await waitFor(() => {
       expect(screen.queryByTestId('contact-list-migration-alert')).to.not.exist;
     });
-  });
 
-  it('renders only p6 facilities when multiple schedules have mixed phases', async () => {
-    const scheduleP5 = {
-      ...baseMigrationSchedule,
-      facilities: [
-        { facilityId: '506', facilityName: 'VA Ann Arbor Healthcare System' },
-      ],
-      phases: { ...baseMigrationSchedule.phases, current: 'p5' },
-    };
-    const scheduleP6 = {
-      ...baseMigrationSchedule,
-      facilities: [
-        { facilityId: '553', facilityName: 'VA Detroit Healthcare System' },
-      ],
-      phases: { ...baseMigrationSchedule.phases, current: 'p6' },
-    };
-    const screen = setup(createState([scheduleP5, scheduleP6]));
+    it('does not render when migrationSchedules is empty', async () => {
+      const screen = setup({ migrationSchedules: [] });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('contact-list-migration-alert')).to.exist;
-      expect(screen.getByText('VA Detroit Healthcare System')).to.exist;
-      expect(screen.queryByText('VA Ann Arbor Healthcare System')).to.not.exist;
+      expect(screen.queryByTestId('contact-list-migration-alert')).to.not.exist;
+    });
+
+    it('does not render when migrationSchedules is undefined', async () => {
+      const screen = setup({ migrationSchedules: undefined });
+
+      expect(screen.queryByTestId('contact-list-migration-alert')).to.not.exist;
+    });
+
+    it('renders only matching-phase facilities when multiple schedules have mixed phases', async () => {
+      const scheduleP7 = {
+        ...baseMigrationSchedule,
+        facilities: [
+          { facilityId: '506', facilityName: 'VA Ann Arbor Healthcare System' },
+        ],
+        phases: { ...baseMigrationSchedule.phases, current: 'p7' },
+      };
+      const scheduleP6 = {
+        ...baseMigrationSchedule,
+        facilities: [
+          { facilityId: '553', facilityName: 'VA Detroit Healthcare System' },
+        ],
+        phases: { ...baseMigrationSchedule.phases, current: 'p6' },
+      };
+      const screen = setup({
+        migrationSchedules: [scheduleP7, scheduleP6],
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('contact-list-migration-alert')).to.exist;
+        expect(screen.getByText('VA Detroit Healthcare System')).to.exist;
+        expect(screen.queryByText('VA Ann Arbor Healthcare System')).to.not
+          .exist;
+      });
     });
   });
 });

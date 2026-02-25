@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { ContactListMigrationAlertContent } from '../../util/constants';
@@ -9,18 +9,18 @@ import { ContactListMigrationAlertContent } from '../../util/constants';
  * when the user has facilities in a migration phase defined in
  * ContactListMigrationAlertContent.
  *
- * The component auto-detects the user's current migration phase from Redux
- * state and renders the appropriate variant content (headline, body text,
+ * The component receives migration data as props from the parent container
+ * and renders the appropriate variant content (headline, body text,
  * facility list). New variants can be added to ContactListMigrationAlertContent
  * in constants.js without modifying this component.
+ *
+ * @param {Object} props
+ * @param {Array} props.migrationSchedules - Array of migration schedule objects
  */
-const ContactListMigrationAlert = () => {
+const ContactListMigrationAlert = ({ migrationSchedules }) => {
   const [isVisible, setIsVisible] = useState(true);
 
-  const userProfile = useSelector(state => state.user?.profile);
-  const { userFacilityMigratingToOh, migrationSchedules } = userProfile || {};
-
-  if (!userFacilityMigratingToOh || !migrationSchedules?.length || !isVisible) {
+  if (!isVisible) {
     return null;
   }
 
@@ -58,10 +58,6 @@ const ContactListMigrationAlert = () => {
     return null;
   }
 
-  // Resolve content — supports strings or functions (for dynamic date content)
-  const resolveContent = content =>
-    typeof content === 'function' ? content(matchingSchedules[0]) : content;
-
   return (
     <VaAlert
       class="vads-u-margin-bottom--2"
@@ -78,7 +74,7 @@ const ContactListMigrationAlert = () => {
     >
       <h2 slot="headline">{matchedVariant.headline}</h2>
       <div>
-        <p>{resolveContent(matchedVariant.bodyTop)}</p>
+        <p>{matchedVariant.bodyTop}</p>
         <ul>
           {facilities.map(facility => (
             <li key={facility.facilityId} data-dd-privacy="mask">
@@ -86,10 +82,30 @@ const ContactListMigrationAlert = () => {
             </li>
           ))}
         </ul>
-        <p>{resolveContent(matchedVariant.bodyBottom)}</p>
+        <p>{matchedVariant.bodyBottom}</p>
       </div>
     </VaAlert>
   );
+};
+
+ContactListMigrationAlert.propTypes = {
+  migrationSchedules: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilities: PropTypes.arrayOf(
+        PropTypes.shape({
+          facilityId: PropTypes.string,
+          facilityName: PropTypes.string,
+        }),
+      ),
+      phases: PropTypes.shape({
+        current: PropTypes.string,
+      }),
+    }),
+  ),
+};
+
+ContactListMigrationAlert.defaultProps = {
+  migrationSchedules: [],
 };
 
 export default ContactListMigrationAlert;

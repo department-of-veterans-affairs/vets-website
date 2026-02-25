@@ -530,8 +530,8 @@ export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
  * Each variant defines:
  * - phases: which migration phases trigger this alert
  * - headline: the alert heading text
- * - bodyTop: text above the facility list (string or function receiving schedule)
- * - bodyBottom: text below the facility list (string or function receiving schedule)
+ * - bodyTop: text above the facility list
+ * - bodyBottom: text below the facility list
  *
  * Phase timeline reference:
  * - p1: T-45 to T-30 (pre-migration)
