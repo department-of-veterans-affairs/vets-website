@@ -60,7 +60,11 @@ export const txtPrinter = ({ record, user }) => {
       ? `${LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}: ${record.location}`
       : `${LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}: None Noted`,
     record.comments
-      ? `${LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}: ${record.comments}`
+      ? `${LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}: ${
+          Array.isArray(record.comments)
+            ? record.comments.join('\n')
+            : record.comments
+        }`
       : `${LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}: None Noted`,
     `${txtLine}\n`,
   ];
@@ -93,7 +97,11 @@ export const txtPrinter = ({ record, user }) => {
               }`
             : `${OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED}: None Noted`,
           entry.comments
-            ? `${OBSERVATION_DISPLAY_LABELS.COMMENTS}: ${entry.comments}`
+            ? `${OBSERVATION_DISPLAY_LABELS.COMMENTS}: ${
+                Array.isArray(entry.comments)
+                  ? entry.comments.join('\n')
+                  : entry.comments
+              }`
             : `${OBSERVATION_DISPLAY_LABELS.COMMENTS}: None Noted`,
         ]
           .filter(line => line)
