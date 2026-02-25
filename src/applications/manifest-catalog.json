@@ -268,6 +268,12 @@
       "rootUrl": "/education/0976"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0989",
+      "appName": "22-0989 Entitlement restoration",
+      "entryName": "0989-edu-benefits",
+      "rootUrl": "/forms/0989"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0994",
       "appName": "22-0994 Education benefits form",
       "entryName": "0994-edu-benefits",

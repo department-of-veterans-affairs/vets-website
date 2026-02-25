@@ -64,7 +64,7 @@ export const getContestableIssues = ({ contestedIssues } = {}) =>
  * @returns {ContestableIssuesSubmittable}
  */
 export const addIncludedIssues = formData => {
-  const issues = getContestableIssues(formData);
+  const issues = getContestableIssues({ ...formData, appAbbr: 'NOD' });
 
   const result = issues.concat(
     (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {

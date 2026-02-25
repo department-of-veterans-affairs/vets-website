@@ -17,6 +17,7 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { datadogRum } from '@datadog/browser-rum';
 import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import CernerFacilityAlert from '~/platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import {
@@ -194,6 +195,13 @@ const RefillPrescriptionsV2 = () => {
 
   const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
+      const facilityIds = [
+        ...new Set(selectedRefillList.map(rx => rx.stationNumber)),
+      ];
+      datadogRum.addAction(
+        dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON,
+        { facilityIds },
+      );
       setRefillStatus(REFILL_STATUS.IN_PROGRESS);
       window.scrollTo(0, 0);
 
@@ -454,9 +462,6 @@ const RefillPrescriptionsV2 = () => {
                   className="vads-u-background-color--white vads-u-padding--0 vads-u-margin-top--1 no-print"
                   id="request-refill-button"
                   data-testid="request-refill-button"
-                  data-dd-action-name={
-                    dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON
-                  }
                   disabled={isDisabled}
                   onClick={() => onRequestRefills()}
                   text={`Request ${

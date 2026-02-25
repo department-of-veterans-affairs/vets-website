@@ -36,7 +36,7 @@ const ClaimantSubmissionHistoryPage = () => {
         </h2>
         <p className="va-introtext">
           This list shows all submissions sent through the portal for this
-          claimant form the past 60 days.
+          claimant from the past 60 days.
         </p>
         <va-link-action
           href="/representative/submissions"
