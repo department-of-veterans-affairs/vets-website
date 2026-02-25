@@ -209,7 +209,8 @@ export function sessionTypeUrl({
   allowVerification = false,
   useOauth = false,
   acr = null,
-  ial2Enforcement = false,
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
 }) {
   if (!type) {
     return null;
@@ -283,7 +284,8 @@ export function sessionTypeUrl({
         isSignup,
         forceVerify,
       },
-      ial2Enforcement,
+      idmeIal2Enforcement,
+      logingovIal2Enforcement,
     });
   }
   return appendQuery(
@@ -347,7 +349,8 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
 export async function mockLogin({
   clickedEvent = AUTH_EVENTS.MOCK_LOGIN,
   type = '',
-  ial2Enforcement = false,
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
 } = {}) {
   if (!type) {
     throw new Error('Attempted to call mockLogin without a type');
@@ -355,7 +358,8 @@ export async function mockLogin({
   const url = await createOAuthRequest({
     clientId: 'vamock',
     type,
-    ial2Enforcement,
+    idmeIal2Enforcement,
+    logingovIal2Enforcement,
   });
 
   return redirect(url, clickedEvent);
@@ -367,13 +371,15 @@ export async function login({
   queryParams = {},
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
   isLink = false,
-  ial2Enforcement = false,
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
 }) {
   const url = await sessionTypeUrl({
     type: policy,
     version,
     queryParams,
-    ial2Enforcement,
+    idmeIal2Enforcement,
+    logingovIal2Enforcement,
   });
   if (!isExternalRedirect()) {
     setLoginAttempted();
@@ -381,9 +387,18 @@ export async function login({
   return isLink ? url : redirect(url, clickedEvent);
 }
 
-export function mfa(version = API_VERSION, ial2Enforcement = false) {
+export function mfa(
+  version = API_VERSION,
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
+) {
   return redirect(
-    sessionTypeUrl({ type: POLICY_TYPES.MFA, version, ial2Enforcement }),
+    sessionTypeUrl({
+      type: POLICY_TYPES.MFA,
+      version,
+      idmeIal2Enforcement,
+      logingovIal2Enforcement,
+    }),
     AUTH_EVENTS.MFA,
   );
 }
@@ -396,7 +411,8 @@ export async function verify({
   useOAuth = false,
   acr = null,
   queryParams = {},
-  ial2Enforcement = false,
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
 }) {
   if (!policy) {
     throw new Error('`policy` must be provided');
@@ -409,7 +425,8 @@ export async function verify({
     ...(!useOAuth && { allowVerification: true }),
     acr,
     queryParams,
-    ial2Enforcement,
+    idmeIal2Enforcement,
+    logingovIal2Enforcement,
   });
 
   return isLink ? url : redirect(url, `${type}-${clickedEvent}`);
@@ -419,7 +436,8 @@ export function logout({
   version = API_VERSION,
   clickedEvent = AUTH_EVENTS.LOGOUT,
   queryParams = {},
-  ial2Enforcement = false,
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
 } = {}) {
   clearSentryLoginType();
   return redirect(
@@ -427,7 +445,8 @@ export function logout({
       type: POLICY_TYPES.SLO,
       version,
       queryParams,
-      ial2Enforcement,
+      idmeIal2Enforcement,
+      logingovIal2Enforcement,
     }),
     clickedEvent,
   );
@@ -441,20 +460,25 @@ export async function signupOrVerify({
   useOAuth = false,
   allowVerification = true,
   config = 'default',
-  ial2Enforcement = false,
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
 }) {
   const type = SIGNUP_TYPES[policy];
-  const appConfig =
-    config === 'default' && ial2Enforcement
-      ? ial2DefaultWebOAuthOptions
-      : externalApplicationsConfig[config].oAuthOptions;
+  const ial2Enforced =
+    config === 'default' &&
+    ((policy === CSP_IDS.ID_ME && idmeIal2Enforcement) ||
+      (policy === CSP_IDS.LOGIN_GOV && logingovIal2Enforcement));
+  const appConfig = ial2Enforced
+    ? ial2DefaultWebOAuthOptions
+    : externalApplicationsConfig[config]?.oAuthOptions;
   const url = await sessionTypeUrl({
     type,
     version,
     ...(useOAuth && {
       // acr determined by signup or verify
       acr: isSignup ? appConfig.acrSignup[type] : appConfig.acrVerify[policy],
-      ial2Enforcement,
+      idmeIal2Enforcement,
+      logingovIal2Enforcement,
       useOauth: useOAuth,
     }),
     // just verify (<csp>_signup_verified)
@@ -475,11 +499,15 @@ export async function signupOrVerify({
   return isLink ? url : redirect(url, event);
 }
 
-export const logoutUrl = ial2Enforcement => {
+export const logoutUrl = (
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
+) => {
   return sessionTypeUrl({
     type: POLICY_TYPES.SLO,
     version: API_VERSION,
-    ial2Enforcement,
+    idmeIal2Enforcement,
+    logingovIal2Enforcement,
   });
 };
 

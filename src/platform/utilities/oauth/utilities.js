@@ -98,11 +98,17 @@ export async function createOAuthRequest({
   passedOptions = {},
   type = '',
   acr,
-  ial2Enforcement = false,
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
 }) {
-  const defaultConfig = ial2Enforcement
-    ? { oAuthOptions: ial2DefaultWebOAuthOptions }
-    : externalApplicationsConfig.default;
+  const usedType = passedOptions.isSignup
+    ? type.slice(0, type.indexOf('_'))
+    : type;
+  const externalAppConfig = externalApplicationsConfig[application];
+  const ial2Enforced =
+    !externalAppConfig &&
+    ((usedType === CSP_IDS.ID_ME && idmeIal2Enforcement) ||
+      (usedType === CSP_IDS.LOGIN_GOV && logingovIal2Enforcement));
   const isDefaultOAuth =
     APPROVED_OAUTH_APPS.includes(application) ||
     !application ||
@@ -111,14 +117,11 @@ export async function createOAuthRequest({
     [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
       application,
     ) || [CLIENT_IDS.VAMOBILE].includes(clientId);
-  const { oAuthOptions } =
-    config ?? (externalApplicationsConfig[application] || defaultConfig);
-  const useType = passedOptions.isSignup
-    ? type.slice(0, type.indexOf('_'))
-    : type;
-
+  const { oAuthOptions } = ial2Enforced
+    ? { oAuthOptions: ial2DefaultWebOAuthOptions }
+    : config ?? (externalAppConfig || externalApplicationsConfig.default);
   const usedAcr =
-    passedOptions?.forceVerify === 'required'
+    passedOptions?.forceVerify === 'required' && !ial2Enforced
       ? FORCED_VERIFICATION_ACRS[type]
       : acr ?? oAuthOptions.acr[type];
 
@@ -156,7 +159,7 @@ export async function createOAuthRequest({
       }),
   };
 
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: usedType }));
 
   Object.keys(oAuthParams).forEach(param =>
     url.searchParams.append(param, oAuthParams[param]),
