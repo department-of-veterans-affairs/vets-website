@@ -120,10 +120,13 @@ export async function createOAuthRequest({
   const { oAuthOptions } = ial2Enforced
     ? { oAuthOptions: ial2DefaultWebOAuthOptions }
     : config ?? (externalAppConfig || externalApplicationsConfig.default);
+  const baseAcr = ial2Enforced
+    ? oAuthOptions.acr[type]
+    : acr ?? oAuthOptions.acr[type];
   const usedAcr =
     passedOptions?.forceVerify === 'required' && !ial2Enforced
       ? FORCED_VERIFICATION_ACRS[type]
-      : acr ?? oAuthOptions.acr[type];
+      : baseAcr;
 
   /*
     Web - Generate state & codeVerifier if default oAuth
