@@ -116,8 +116,8 @@ jobs:
             node_modules
 
       - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.environment }}
-        timeout-minutes: 30  
+        run: NODE_ENV=production yarn build:rspack --env buildtype=${{ matrix.environment }} --env scaffold
+        timeout-minutes: 30
         
       - name: Generate build details
         run: |
