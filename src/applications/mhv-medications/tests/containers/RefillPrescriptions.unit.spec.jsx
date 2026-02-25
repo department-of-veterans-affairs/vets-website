@@ -3,12 +3,14 @@ import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/plat
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { waitFor, fireEvent } from '@testing-library/react';
+import { datadogRum } from '@datadog/browser-rum';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi } from '../testing-utils';
 import RefillPrescriptions from '../../containers/RefillPrescriptions';
 import reducer from '../../reducers';
 import { dateFormat } from '../../util/helpers';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const refillablePrescriptions = require('../fixtures/refillablePrescriptionsList.json');
 
@@ -173,6 +175,26 @@ describe('Refill Prescriptions Component', () => {
     });
     expect(button).to.have.property('text', 'Request 1 refill');
     button.click();
+  });
+
+  it('calls datadogRum.addAction with facilityIds when request refill button is clicked', async () => {
+    const addActionSpy = sandbox.spy(datadogRum, 'addAction');
+    const screen = setup();
+    const checkbox = await screen.findByTestId(
+      'refill-prescription-checkbox-0',
+    );
+    checkbox.__events.vaChange({
+      detail: { checked: true },
+    });
+    const button = await screen.findByTestId('request-refill-button');
+    button.click();
+    expect(addActionSpy.calledOnce).to.be.true;
+    expect(
+      addActionSpy.calledWith(
+        dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON,
+        { facilityIds: ['989'] },
+      ),
+    ).to.be.true;
   });
 
   it('Shows the select all checkbox', async () => {
@@ -1241,7 +1263,7 @@ describe('Refill Prescriptions Component', () => {
         });
       });
 
-      it('shows generic no-refills message along with T-3 alert when prescriptions are blocked', async () => {
+      it('hides generic no-refills message when T-3 alert shows blocked prescriptions', async () => {
         sandbox.restore();
         const prescriptionInTransition = {
           ...refillablePrescriptions[0],
@@ -1263,11 +1285,11 @@ describe('Refill Prescriptions Component', () => {
         const screen = setup(state);
 
         await waitFor(() => {
-          // Both T-3 alert and no-refills message should display
+          // T-3 alert should display but no-refills message should be hidden
           expect(screen.queryByTestId('oracle-health-t3-alert-no-refillable'))
             .to.exist;
           const noRefillsMessage = screen.queryByTestId('no-refills-message');
-          expect(noRefillsMessage).to.exist;
+          expect(noRefillsMessage).to.not.exist;
         });
       });
     });

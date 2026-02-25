@@ -32,6 +32,7 @@ import {
   showAdditionalPointsOfContact,
   arrayBuilderOptions,
   CustomReviewTopContent,
+  focusOnH3,
 } from '../helpers';
 
 /** @type {FormConfig} */
@@ -156,6 +157,7 @@ const formConfig = {
               title: 'Additional institution details',
               uiSchema: additionalInstitutionDetailsSummary.uiSchema,
               schema: additionalInstitutionDetailsSummary.schema,
+              scrollAndFocusTarget: focusOnH3,
               depends: formData =>
                 formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
             }),
@@ -183,6 +185,7 @@ const formConfig = {
                 uiSchema:
                   additionalInstitutionDetailsSummaryWithdrawal.uiSchema,
                 schema: additionalInstitutionDetailsSummaryWithdrawal.schema,
+                scrollAndFocusTarget: focusOnH3,
                 depends: formData =>
                   formData?.agreementType === 'withdrawFromYellowRibbonProgram',
               },
