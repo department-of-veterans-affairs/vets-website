@@ -6,10 +6,7 @@ import { createStore, combineReducers } from 'redux';
 import { MemoryRouter, Route } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
-import {
-  useCurrentCopay,
-  useCurrentStatement,
-} from '../../utils/selectors';
+import { useCurrentCopay, useCurrentStatement } from '../../utils/selectors';
 
 const createFeatureToggles = (useLighthouseCopays = false) => ({
   [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: useLighthouseCopays,
@@ -33,7 +30,7 @@ const createStoreFromState = initialState =>
     combineReducers({
       combinedPortal: (state = initialState.combinedPortal ?? {}) => state,
       featureToggles: (
-        state = initialState.featureToggles ?? { loading: false }
+        state = initialState.featureToggles ?? { loading: false },
       ) => state,
     }),
   );
@@ -136,7 +133,7 @@ describe('useCurrentStatement', () => {
         wrapper: createHookWrapper(state, route, path),
       });
       expect(result.current.statementCopays).to.have.lengthOf(2);
-      expect(result.current.statementCopays[0]['statement_id']).to.equal(
+      expect(result.current.statementCopays[0].statement_id).to.equal(
         'stmt-456',
       );
       expect(result.current.isLoading).to.be.false;
