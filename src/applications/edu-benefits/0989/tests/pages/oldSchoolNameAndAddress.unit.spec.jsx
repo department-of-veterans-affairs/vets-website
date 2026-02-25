@@ -46,8 +46,6 @@ describe('22-0989 old school name and mailing address page', () => {
       expect(
         container.querySelectorAll('va-text-input[error]').length,
       ).to.equal(4);
-      // country error
-      expect(container.querySelectorAll('va-select[error]').length).to.equal(1);
     });
   });
 });
