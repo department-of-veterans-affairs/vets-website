@@ -31,11 +31,11 @@ export const uiSchema = {
   'ui:title': standardTitle(evidenceChoiceAdditionalDocumentsTitle),
   'ui:description': evidenceChoiceAdditionalDocuments,
   'ui:order': [
-    'evidenceChoiceAdditionalDocuments',
+    'additionalDocuments',
     'view:additionalSupportAccordionEvidenceChoiceAdditionalDocuments',
     'view:mentalHealthSupportAlertEvidenceChoiceAdditionalDocuments',
   ],
-  evidenceChoiceAdditionalDocuments: {
+  additionalDocuments: {
     ...fileInputMultipleUI({
       title: FILE_UPLOAD_TITLE,
       required: true,
@@ -78,9 +78,9 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['evidenceChoiceAdditionalDocuments'],
+  required: ['additionalDocuments'],
   properties: {
-    evidenceChoiceAdditionalDocuments: fileInputMultipleSchema(),
+    additionalDocuments: fileInputMultipleSchema(),
     'view:additionalSupportAccordionEvidenceChoiceAdditionalDocuments': {
       type: 'object',
       properties: {},

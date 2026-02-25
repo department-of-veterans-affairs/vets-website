@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { propertiesHomeLoansPages } from '../../pages/propertiesHomeLoansPages';
+import { propertiesHomeLoansPages } from '../../../pages/propertiesHomeLoansPages';
 
 describe('COE VA home loans array builder pages', () => {
   it('includes summary and item pages', () => {
