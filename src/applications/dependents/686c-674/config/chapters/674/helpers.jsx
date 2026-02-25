@@ -18,13 +18,14 @@ export const AddStudentsIntro = (
   </>
 );
 
-export const benefitSchemaLabels = ['ch35', 'fry', 'feca', 'other'];
+export const benefitSchemaLabels = ['ch35', 'fry', 'feca', 'none'];
 
 export const benefitUiLabels = {
-  ch35: 'Chapter 35 (also known as Dependent’s Educational Assistance program)',
+  ch35:
+    'Chapter 35 (also known as Dependent\u2019s Educational Assistance program)',
   fry: 'Fry Scholarship',
-  feca: 'Federal Employees’ Compensation Act (FECA)',
-  other: 'Another program',
+  feca: 'Federal Employees\u2019 Compensation Act (FECA)',
+  none: 'None of these benefits',
 };
 
 export const relationshipToStudentLabels = {
@@ -34,26 +35,47 @@ export const relationshipToStudentLabels = {
 };
 
 export const ProgramExamples = (
-  <va-additional-info trigger="Examples of federally funded programs or schools">
-    <ul>
-      <li>U.S Department of Labor’s Job Corps program</li>
-      <li>Military academies</li>
-      <li>Federally funded Native American schools</li>
-    </ul>
+  <va-additional-info trigger="About entirely federally funded schools">
+    <div>
+      <p>
+        At entirely federally funded schools, the federal government pays for
+        all student education and living costs. This includes tuition, housing,
+        meals, and other necessities.
+      </p>
+      <p className="vads-u-margin-top--2">
+        <strong>Examples include these:</strong>
+      </p>
+      <ul>
+        <li>U.S. Department of Labor’s Job Corps program</li>
+        <li>U.S. service academies and prep schools</li>
+        <li>Federally-funded Native American schools</li>
+      </ul>
+      <p className="vads-u-margin-top--2">
+        <strong>This doesn’t include these:</strong>
+      </p>
+      <ul>
+        <li>Public or charter high schools</li>
+        <li>Private colleges offering free tuition</li>
+        <li>Public universities</li>
+        <li>Schools where students receive Pell Grants or federal loans</li>
+      </ul>
+    </div>
   </va-additional-info>
 );
 
 export const AccreditedSchool = (
   <va-additional-info trigger="How to tell if a school is accredited">
-    <p>
-      You can go to the U.S. Department of Education’s website to check if a
-      school is accredited.
-    </p>
-    <va-link
-      href="https://ope.ed.gov/dapip/#/home"
-      external
-      text="Go to the U.S. Department of Education’s website"
-    />
+    <div>
+      <p>
+        You can go to the U.S. Department of Education’s website to check if a
+        school is accredited.
+      </p>
+      <va-link
+        href="https://ope.ed.gov/dapip/#/home"
+        external
+        text="Go to the U.S. Department of Education’s website"
+      />
+    </div>
   </va-additional-info>
 );
 
@@ -62,16 +84,18 @@ export const TermDateHint = (
     className="vads-u-margin-top--2"
     trigger="What is a regular school term or course?"
   >
-    <p>
-      For example, if the student’s school uses semesters, tell us when the
-      student’s current semester started. Or if the student’s school uses
-      quarters, tell us when the student’s current quarter started.
-    </p>
-    <br />
-    <p>
-      If the student is currently on academic break between semesters, tell us
-      when the student’s previous term started
-    </p>
+    <div>
+      <p>
+        For example, if the student’s school uses semesters, tell us when the
+        student’s current semester started. Or if the student’s school uses
+        quarters, tell us when the student’s current quarter started.
+      </p>
+      <br />
+      <p>
+        If the student is currently on academic break between semesters, tell us
+        when the student’s previous term started
+      </p>
+    </div>
   </va-additional-info>
 );
 
