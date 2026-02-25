@@ -74,10 +74,10 @@ const ScdfRadiologyImagesList = ({ isTesting }) => {
   useEffect(
     () => {
       if (isDetailsLoaded && labAndTestDetails?.imagingStudyId) {
-        if (!scdfImageThumbnails) {
+        if (!scdfImageThumbnails?.length) {
           dispatch(getImagingStudyThumbnails(labAndTestDetails.imagingStudyId));
         }
-        if (!scdfDicom) {
+        if (scdfDicom == null) {
           dispatch(getImagingStudyDicomZip(labAndTestDetails.imagingStudyId));
         }
       }
