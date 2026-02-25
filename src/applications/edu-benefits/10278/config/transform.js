@@ -14,6 +14,30 @@ export default function transform(formConfig, form) {
       delete clonedData.ssn;
       delete clonedData.applicantName;
       delete clonedData.dateOfBirth;
+
+      // profileContactInfoPages saves contact data under the 'veteran' wrapper key
+      const phoneData =
+        clonedData.veteran?.homePhone || clonedData.veteran?.mobilePhone;
+      const emailData = clonedData.veteran?.email;
+      const mailingAddress = clonedData.veteran?.mailingAddress;
+
+      clonedData.claimantContactInformation = {
+        phoneNumber: phoneData
+          ? `${phoneData.areaCode || ''}${phoneData.phoneNumber || ''}`
+          : '',
+        emailAddress: emailData?.emailAddress || '',
+      };
+
+      if (mailingAddress) {
+        clonedData.claimantAddress = {
+          country: mailingAddress.countryCodeIso2 || 'USA',
+          street: mailingAddress.addressLine1 || '',
+          street2: mailingAddress.addressLine2 || '',
+          city: mailingAddress.city || '',
+          state: mailingAddress.stateCode || '',
+          postalCode: mailingAddress.zipCode || '',
+        };
+      }
     } else {
       clonedData.claimantPersonalInformation = {
         ...clonedData.claimantPersonalInformation,
@@ -21,14 +45,14 @@ export default function transform(formConfig, form) {
       };
 
       delete clonedData.claimantPersonalInformation.veteranId;
-    }
 
-    clonedData.claimantContactInformation = {
-      ...clonedData.claimantContactInformation,
-      phoneNumber:
-        clonedData.claimantContactInformation.phoneNumber.callingCode +
-        clonedData.claimantContactInformation.phoneNumber.contact,
-    };
+      clonedData.claimantContactInformation = {
+        ...clonedData.claimantContactInformation,
+        phoneNumber:
+          clonedData.claimantContactInformation.phoneNumber.callingCode +
+          clonedData.claimantContactInformation.phoneNumber.contact,
+      };
+    }
 
     return clonedData;
   };
