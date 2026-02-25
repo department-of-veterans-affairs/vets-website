@@ -157,24 +157,26 @@ describe('UnifiedRadiologyDetails component', () => {
       expect(link.textContent).to.not.include('all');
     });
 
-    it('shows error alert when ALERT_TYPE_IMAGE_STATUS_ERROR is active', () => {
+    it('shows error alert when ALERT_TYPE_IMAGE_THUMBNAIL_ERROR is active', async () => {
       const screen = setup({
         alertList: [
           {
-            type: 'images status error',
+            type: 'image thumbnail error',
             isActive: true,
             datestamp: Date.now(),
           },
         ],
       });
-      expect(screen.getByTestId('image-request-error-alert')).to.exist;
+      await waitFor(() => {
+        expect(screen.getByTestId('image-request-error-alert')).to.exist;
+      });
     });
 
-    it('does not show the view images link when error alert is active', () => {
+    it('does not show the view images link when error alert is active', async () => {
       const screen = setup({
         alertList: [
           {
-            type: 'images status error',
+            type: 'image thumbnail error',
             isActive: true,
             datestamp: Date.now(),
           },
@@ -183,7 +185,9 @@ describe('UnifiedRadiologyDetails component', () => {
           scdfImageThumbnails: ['https://example.com/thumb1.jpg'],
         },
       });
-      expect(screen.queryByTestId('radiology-view-all-images')).to.not.exist;
+      await waitFor(() => {
+        expect(screen.queryByTestId('radiology-view-all-images')).to.not.exist;
+      });
     });
   });
 

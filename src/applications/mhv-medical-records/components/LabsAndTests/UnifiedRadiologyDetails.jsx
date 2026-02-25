@@ -21,7 +21,7 @@ import { generateTextFile, sendDataDogAction } from '../../util/helpers';
 import {
   pageTitles,
   LABS_AND_TESTS_DISPLAY_LABELS,
-  ALERT_TYPE_IMAGE_STATUS_ERROR,
+  ALERT_TYPE_IMAGE_THUMBNAIL_ERROR,
 } from '../../util/constants';
 import { pdfPrinter, txtPrinter } from '../../util/printHelper';
 import {
@@ -51,7 +51,7 @@ const UnifiedRadiologyDetails = props => {
   const [pollInterval, setPollInterval] = useState(INITIAL_POLL_INTERVAL);
 
   const hasLoadedThumbnails = scdfImageThumbnails?.length > 0;
-  const hasImageError = activeAlert?.type === ALERT_TYPE_IMAGE_STATUS_ERROR;
+  const hasImageError = activeAlert?.type === ALERT_TYPE_IMAGE_THUMBNAIL_ERROR;
 
   const pollThumbnails = useCallback(
     () => {
@@ -271,7 +271,7 @@ const UnifiedRadiologyDetails = props => {
           <>
             <div className="test-results-container">
               <HeaderSection header="Images" className="test-results-header">
-                {activeAlert?.type === ALERT_TYPE_IMAGE_STATUS_ERROR
+                {activeAlert?.type === ALERT_TYPE_IMAGE_THUMBNAIL_ERROR
                   ? renderImagesError()
                   : renderImagesLink()}
                 {notificationStatus ? (
