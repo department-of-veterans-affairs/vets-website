@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import UnifiedLabAndTestObservationDetail from './UnifiedLabAndTestObservationDetail';
+import ItemList from '../shared/ItemList';
 import { OBSERVATION_DISPLAY_LABELS } from '../../util/constants';
 
 const UnifiedLabAndTestObservations = props => {
@@ -50,11 +51,19 @@ const UnifiedLabAndTestObservations = props => {
                 value={result.sampleTested}
                 ddActionName="[lab and tests - sample tested]"
               />
-              <UnifiedLabAndTestObservationDetail
-                header={OBSERVATION_DISPLAY_LABELS.COMMENTS}
-                value={result.comments}
-                ddActionName="[lab and tests - comments]"
-              />
+              <>
+                <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
+                  {OBSERVATION_DISPLAY_LABELS.COMMENTS}
+                </h4>
+                <div
+                  className="vads-u-margin--0 vads-u-padding-bottom--2"
+                  data-dd-privacy="mask"
+                  data-dd-action-name="[lab and tests - comments]"
+                  data-testid="lab-and-test-observation-comments"
+                >
+                  <ItemList list={result.comments} />
+                </div>
+              </>
             </div>
           </li>
         );

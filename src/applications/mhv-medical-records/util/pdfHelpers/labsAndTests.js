@@ -71,9 +71,10 @@ export const generateGenericContent = record => {
             inline: true,
           },
           ...observationKeys.filter(key => item[key]).map(key => {
+            const val = item[key];
             return {
               title: OBSERVATION_DISPLAY_DISPLAY_MAP[key],
-              value: item[key],
+              value: Array.isArray(val) ? val.join('\n') : val,
               inline: true,
             };
           }),
