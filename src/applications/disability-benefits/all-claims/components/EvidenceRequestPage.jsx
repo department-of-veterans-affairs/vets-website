@@ -18,8 +18,10 @@ import {
   evidenceRequestAdditionalInfo,
   evidenceRequestQuestion,
   privateEvidenceContent,
+  privateEvidenceContentCombined,
   vaEvidenceContent,
   privateFacilityContent,
+  privateFacilityContentCombined,
   alertMessage,
   renderFacilityList,
   renderFileList,
@@ -131,7 +133,7 @@ export const EvidenceRequestPage = ({
         updatedFormData.patient4142Acknowledgement = false;
         setFormData(updatedFormData);
         setAlertVisible(false);
-        goForward(updatedFormData);
+        goForward({ formData: updatedFormData });
       } else {
         setAlertVisible(false);
         goForward(data);
@@ -176,7 +178,11 @@ export const EvidenceRequestPage = ({
         onSecondaryButtonClick={handlers.onCancelChange}
         visible={modalVisible}
         status="warning"
-        primaryButtonText="Change and remove"
+        primaryButtonText={
+          getPrivateEvidenceUploads(data).length > 0
+            ? 'Change and delete'
+            : 'Change and remove'
+        }
         secondaryButtonText="Cancel change"
       >
         {getVaEvidence(data).length > 0 && (
@@ -185,19 +191,24 @@ export const EvidenceRequestPage = ({
             {renderFacilityList(getVaEvidence(data), 'treatmentCenterName')}
           </>
         )}
-        {getPrivateEvidenceUploads.length > 0 && (
-          <>
-            {privateEvidenceContent}
-            {renderFileList(getPrivateEvidenceUploads(data), 'fileName')}
-          </>
-        )}
         {getPrivateFacilities(data).length > 0 && (
           <>
-            {privateFacilityContent}
+            {getVaEvidence(data).length > 0
+              ? privateFacilityContentCombined
+              : privateFacilityContent}
             {renderFacilityList(
               getPrivateFacilities(data),
               'providerFacilityName',
             )}
+          </>
+        )}
+        {getPrivateEvidenceUploads(data).length > 0 && (
+          <>
+            {getVaEvidence(data).length > 0 ||
+            getPrivateFacilities(data).length > 0
+              ? privateEvidenceContentCombined
+              : privateEvidenceContent}
+            {renderFileList(getPrivateEvidenceUploads(data))}
           </>
         )}
       </VaModal>

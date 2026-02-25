@@ -8,10 +8,7 @@ describe('Medical Records View Vaccines', () => {
 
   beforeEach(() => {
     site.login(oracleHealthUser, false);
-    site.mockFeatureToggles({
-      isAcceleratingEnabled: true,
-      isAcceleratingVaccines: true,
-    });
+    site.mockFeatureToggles();
     Vaccines.setIntercepts({ vaccinesData });
   });
 
