@@ -81,7 +81,7 @@ const IntroductionPage = props => {
             </li>
             <li>
               <strong>Your dependents information:</strong> This includes their
-              date of birthday and Social Security number.{' '}
+              date of birth and Social Security number.{' '}
             </li>
             <li>
               <strong>Your financial information:</strong> This includes your
