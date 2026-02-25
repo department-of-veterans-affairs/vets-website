@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { parseISODate } from '~/platform/forms-system/src/js/helpers';
 
 export const DISCLOSURE_KEYS = [
@@ -143,6 +144,12 @@ export const ClaimInformationDescription = ({ formData }) => {
   );
 };
 
+ClaimInformationDescription.propTypes = {
+  formData: PropTypes.shape({
+    claimInformation: PropTypes.object,
+  }),
+};
+
 export const InformationToDiscloseReviewField = ({
   children,
   disclosureKeys,
@@ -195,4 +202,12 @@ export const InformationToDiscloseReviewField = ({
       })}
     </>
   );
+};
+
+InformationToDiscloseReviewField.propTypes = {
+  children: PropTypes.node,
+  dataKey: PropTypes.string,
+  disclosureKeys: PropTypes.arrayOf(PropTypes.string),
+  options: PropTypes.object,
+  otherTextKey: PropTypes.string,
 };
