@@ -16,13 +16,16 @@ const DocumentUpload = ({
     TOGGLE_NAMES.travelPayEnableHeicConversion,
   );
 
-  const acceptedFileTypes = useMemo(() => {
-    const types = [...ACCEPTED_FILE_TYPES];
-    if (heicConversionEnabled) {
-      types.push('.heic', '.heif');
-    }
-    return types;
-  }, [heicConversionEnabled]);
+  const acceptedFileTypes = useMemo(
+    () => {
+      const types = [...ACCEPTED_FILE_TYPES];
+      if (heicConversionEnabled) {
+        types.push('.heic', '.heif');
+      }
+      return types;
+    },
+    [heicConversionEnabled],
+  );
 
   return (
     <>
