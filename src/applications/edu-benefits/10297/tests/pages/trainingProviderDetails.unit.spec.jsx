@@ -24,7 +24,7 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
         uiSchema={uiSchema}
         data={{
           providerName: undefined,
-          providerAddress: { country: '' },
+          providerAddress: {},
         }}
       />,
     );
