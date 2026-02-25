@@ -1263,7 +1263,7 @@ describe('Refill Prescriptions Component', () => {
         });
       });
 
-      it('shows generic no-refills message along with T-3 alert when prescriptions are blocked', async () => {
+      it('hides generic no-refills message when T-3 alert shows blocked prescriptions', async () => {
         sandbox.restore();
         const prescriptionInTransition = {
           ...refillablePrescriptions[0],
@@ -1285,11 +1285,11 @@ describe('Refill Prescriptions Component', () => {
         const screen = setup(state);
 
         await waitFor(() => {
-          // Both T-3 alert and no-refills message should display
+          // T-3 alert should display but no-refills message should be hidden
           expect(screen.queryByTestId('oracle-health-t3-alert-no-refillable'))
             .to.exist;
           const noRefillsMessage = screen.queryByTestId('no-refills-message');
-          expect(noRefillsMessage).to.exist;
+          expect(noRefillsMessage).to.not.exist;
         });
       });
     });
