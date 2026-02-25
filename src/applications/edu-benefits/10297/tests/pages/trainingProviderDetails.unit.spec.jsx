@@ -13,7 +13,7 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        data={{ trainingProvider: [] }}
+        data={{ trainingProviders: [] }}
       />,
     );
 
@@ -26,11 +26,7 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        data={{
-          trainingProvider: [
-            { providerAddress: { country: '' }, providerName: undefined },
-          ],
-        }}
+        data={{ trainingProviders: [] }}
       />,
     );
 
