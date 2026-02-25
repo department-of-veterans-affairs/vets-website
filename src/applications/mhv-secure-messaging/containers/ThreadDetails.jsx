@@ -45,9 +45,12 @@ const ThreadDetails = props => {
     replyDisabled,
   } = useSelector(state => state.sm.threadDetails);
 
-  const threadCantReply = useMemo(() => {
-    return useCanReplyField ? replyDisabled || cannotReply : cannotReply;
-  }, [useCanReplyField, cannotReply, replyDisabled]);
+  const threadCantReply = useMemo(
+    () => {
+      return useCanReplyField ? replyDisabled || cannotReply : cannotReply;
+    },
+    [useCanReplyField, cannotReply, replyDisabled],
+  );
 
   const { folder } = useSelector(state => state.sm.folders);
 
@@ -61,50 +64,68 @@ const ThreadDetails = props => {
   const header = useRef();
 
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
-  useEffect(() => {
-    dispatch(getFolders());
-  }, [dispatch]);
+  useEffect(
+    () => {
+      dispatch(getFolders());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    if (isSending === true) {
-      scrollToTop();
-    }
-  }, [isSending]);
+  useEffect(
+    () => {
+      if (isSending === true) {
+        scrollToTop();
+      }
+    },
+    [isSending],
+  );
 
-  useEffect(() => {
-    if (!folder && drafts?.length > 0) {
-      dispatch(retrieveFolder(threadFolderId));
-    }
-  }, [drafts, dispatch, folder, threadFolderId]);
+  useEffect(
+    () => {
+      if (!folder && drafts?.length > 0) {
+        dispatch(retrieveFolder(threadFolderId));
+      }
+    },
+    [drafts, dispatch, folder, threadFolderId],
+  );
 
-  const handleRedirectToFolder = useCallback(() => {
-    navigateToFolderByFolderId(folder?.folderId || 0, history);
-  }, [folder, history]);
+  const handleRedirectToFolder = useCallback(
+    () => {
+      navigateToFolderByFolderId(folder?.folderId || 0, history);
+    },
+    [folder, history],
+  );
 
-  useEffect(() => {
-    if (messageId) {
-      dispatch(retrieveMessageThread(messageId))
-        .then(() => {
-          setIsLoaded(true);
-        })
-        .catch(() => {
-          handleRedirectToFolder();
-        });
-    }
-    return () => {
-      dispatch(closeAlert());
-    };
-  }, [dispatch, messageId, location.pathname, handleRedirectToFolder]);
+  useEffect(
+    () => {
+      if (messageId) {
+        dispatch(retrieveMessageThread(messageId))
+          .then(() => {
+            setIsLoaded(true);
+          })
+          .catch(() => {
+            handleRedirectToFolder();
+          });
+      }
+      return () => {
+        dispatch(closeAlert());
+      };
+    },
+    [dispatch, messageId, location.pathname, handleRedirectToFolder],
+  );
 
-  useEffect(() => {
-    // Always focus on H1 per MHV accessibility decision records.
-    // Alert content is announced via role="status" without stealing focus.
-    if (!isCreateNewModalVisible && isLoaded) {
-      setTimeout(() => {
-        focusElement(document.querySelector('h1'));
-      }, 300);
-    }
-  }, [isLoaded, isCreateNewModalVisible, header]);
+  useEffect(
+    () => {
+      // Always focus on H1 per MHV accessibility decision records.
+      // Alert content is announced via role="status" without stealing focus.
+      if (!isCreateNewModalVisible && isLoaded) {
+        setTimeout(() => {
+          focusElement(document.querySelector('h1'));
+        }, 300);
+      }
+    },
+    [isLoaded, isCreateNewModalVisible, header],
+  );
 
   const content = () => {
     if (!isLoaded) {

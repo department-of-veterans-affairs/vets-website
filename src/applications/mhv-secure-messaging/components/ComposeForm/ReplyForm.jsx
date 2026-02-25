@@ -80,47 +80,63 @@ const ReplyForm = props => {
     [cannotReply, showBlockedTriageGroupAlert, hideDraft],
   );
 
-  useEffect(() => {
-    const draftToEdit = drafts?.[0];
-    if (draftToEdit) {
-      const tempRecipient = {
-        recipientId: draftToEdit.recipientId,
-        name:
-          messages.find(m => m.triageGroupName === draftToEdit.triageGroupName)
-            ?.triageGroupName || draftToEdit.triageGroupName,
-        type: Recipients.CARE_TEAM,
-        status: RecipientStatus.ALLOWED,
+  useEffect(
+    () => {
+      const draftToEdit = drafts?.[0];
+      if (draftToEdit) {
+        const tempRecipient = {
+          recipientId: draftToEdit.recipientId,
+          name:
+            messages.find(
+              m => m.triageGroupName === draftToEdit.triageGroupName,
+            )?.triageGroupName || draftToEdit.triageGroupName,
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.ALLOWED,
+        };
+
+        setCurrentRecipient(tempRecipient);
+      }
+      // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
+    },
+    [drafts, messages, recipients],
+  );
+
+  useEffect(
+    () => {
+      const pageTitleTag = getPageTitle({});
+      setSubject(replyMessage.subject);
+      setCategory(Categories[replyMessage.category]);
+      updatePageTitle(pageTitleTag);
+    },
+    [replyMessage],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearThread());
       };
+    },
+    [dispatch],
+  );
 
-      setCurrentRecipient(tempRecipient);
-    }
-    // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
-  }, [drafts, messages, recipients]);
+  useEffect(
+    () => {
+      if (!signature) {
+        dispatch(getPatientSignature());
+      }
+    },
+    [signature, dispatch],
+  );
 
-  useEffect(() => {
-    const pageTitleTag = getPageTitle({});
-    setSubject(replyMessage.subject);
-    setCategory(Categories[replyMessage.category]);
-    updatePageTitle(pageTitleTag);
-  }, [replyMessage]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearThread());
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!signature) {
-      dispatch(getPatientSignature());
-    }
-  }, [signature, dispatch]);
-
-  useEffect(() => {
-    if (alertStatus) {
-      focusElement(lastFocusableElement);
-    }
-  }, [alertStatus]);
+  useEffect(
+    () => {
+      if (alertStatus) {
+        focusElement(lastFocusableElement);
+      }
+    },
+    [alertStatus],
+  );
 
   useEffect(() => {
     if (header.current) {
@@ -128,11 +144,14 @@ const ReplyForm = props => {
     }
   }, []);
 
-  const messageTitle = useMemo(() => {
-    const casedCategory =
-      category === 'COVID' ? category : capitalize(category);
-    return `Messages: ${casedCategory} - ${subject}`;
-  }, [category, subject]);
+  const messageTitle = useMemo(
+    () => {
+      const casedCategory =
+        category === 'COVID' ? category : capitalize(category);
+      return `Messages: ${casedCategory} - ${subject}`;
+    },
+    [category, subject],
+  );
 
   return (
     replyMessage && (
@@ -190,22 +209,24 @@ const ReplyForm = props => {
           />
         )}
 
-        {currentRecipient && !isInMigrationPhase && (
-          <BlockedTriageGroupAlert
-            alertStyle={BlockedTriageAlertStyles.ALERT}
-            parentComponent={ParentComponent.REPLY_FORM}
-            currentRecipient={currentRecipient}
-            setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
-            isOhMessage={replyMessage.isOhMessage}
-          />
-        )}
+        {currentRecipient &&
+          !isInMigrationPhase && (
+            <BlockedTriageGroupAlert
+              alertStyle={BlockedTriageAlertStyles.ALERT}
+              parentComponent={ParentComponent.REPLY_FORM}
+              currentRecipient={currentRecipient}
+              setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+              isOhMessage={replyMessage.isOhMessage}
+            />
+          )}
 
-        {customFoldersRedesignEnabled && !hasDraftReplyActive && (
-          <ReplyButton
-            key="replyButton"
-            visible={!cannotReply && !showBlockedTriageGroupAlert}
-          />
-        )}
+        {customFoldersRedesignEnabled &&
+          !hasDraftReplyActive && (
+            <ReplyButton
+              key="replyButton"
+              visible={!cannotReply && !showBlockedTriageGroupAlert}
+            />
+          )}
 
         {!customFoldersRedesignEnabled && (
           <MessageActionButtons
@@ -220,9 +241,8 @@ const ReplyForm = props => {
             className="reply-form vads-u-padding-bottom--2"
             data-testid="reply-form"
           >
-            {!cannotReply && !showBlockedTriageGroupAlert && (
-              <EmergencyNote dropDownFlag />
-            )}
+            {!cannotReply &&
+              !showBlockedTriageGroupAlert && <EmergencyNote dropDownFlag />}
             {/* {DELETE BUTTON IS PRESSED, DELETES SINGLE DRAFT} */}
             {!hideDraft && (
               <>

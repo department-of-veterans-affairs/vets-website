@@ -46,49 +46,61 @@ const FolderHeader = props => {
     isAalEnabled,
   } = useFeatureToggles();
 
-  const folderDescription = useMemo(() => {
-    switch (folder.folderId) {
-      case Folders.INBOX.id:
-      case Folders.SENT.id: // Inbox
-        return Folders.INBOX.desc;
-      case Folders.DRAFTS.id: // Drafts
-        return Folders.DRAFTS.desc;
-      case Folders.DELETED.id: // Trash
-        return Folders.DELETED.desc;
-      default:
-        return null; // Custom folders don't need description in header
-    }
-  }, [folder]);
+  const folderDescription = useMemo(
+    () => {
+      switch (folder.folderId) {
+        case Folders.INBOX.id:
+        case Folders.SENT.id: // Inbox
+          return Folders.INBOX.desc;
+        case Folders.DRAFTS.id: // Drafts
+          return Folders.DRAFTS.desc;
+        case Folders.DELETED.id: // Trash
+          return Folders.DELETED.desc;
+        default:
+          return null; // Custom folders don't need description in header
+      }
+    },
+    [folder],
+  );
 
-  const handleFolderDescription = useCallback(() => {
-    return (
-      folderDescription && (
-        <p
-          data-testid="folder-description"
-          className="va-introtext folder-description vads-u-margin-top--0"
-        >
-          {folderDescription}
-        </p>
-      )
-    );
-  }, [folderDescription]);
+  const handleFolderDescription = useCallback(
+    () => {
+      return (
+        folderDescription && (
+          <p
+            data-testid="folder-description"
+            className="va-introtext folder-description vads-u-margin-top--0"
+          >
+            {folderDescription}
+          </p>
+        )
+      );
+    },
+    [folderDescription],
+  );
 
-  useEffect(() => {
-    if (location.pathname.includes(folder?.folderId)) {
-      const pageTitleTag = getPageTitle({
-        folderName: folder.name,
-      });
-      updatePageTitle(pageTitleTag);
-    }
-  }, [folder, location.pathname]);
+  useEffect(
+    () => {
+      if (location.pathname.includes(folder?.folderId)) {
+        const pageTitleTag = getPageTitle({
+          folderName: folder.name,
+        });
+        updatePageTitle(pageTitleTag);
+      }
+    },
+    [folder, location.pathname],
+  );
 
   const { folderName, ddTitle, ddPrivacy } = handleHeader(folder);
 
-  const handleMyVaHealthLinkClick = useCallback(() => {
-    if (isAalEnabled) {
-      submitLaunchMyVaHealthAal();
-    }
-  }, [isAalEnabled]);
+  const handleMyVaHealthLinkClick = useCallback(
+    () => {
+      if (isAalEnabled) {
+        submitLaunchMyVaHealthAal();
+      }
+    },
+    [isAalEnabled],
+  );
 
   const RecipientListErrorAlert = () => {
     return (
@@ -101,29 +113,32 @@ const FolderHeader = props => {
       </va-alert>
     );
   };
-  const OracleHealthMessagingAlert = useCallback(() => {
-    // The OracleHealthMessagingIssuesAlert was a temporary implementation
-    // Once removed, just move the CernerFacilityAlert into the main render
-    if (
-      cernerPilotSmFeatureFlag &&
-      mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag
-    )
-      return <OracleHealthMessagingIssuesAlert />;
-    if (folder.folderId === Folders.INBOX.id) {
-      return (
-        <CernerFacilityAlert
-          healthTool="SECURE_MESSAGING"
-          className="vads-u-margin-bottom--3 vads-u-margin-top--2"
-          onLinkClick={handleMyVaHealthLinkClick}
-        />
-      );
-    }
-    return null;
-  }, [
-    cernerPilotSmFeatureFlag,
-    mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
-    folder.folderId,
-  ]);
+  const OracleHealthMessagingAlert = useCallback(
+    () => {
+      // The OracleHealthMessagingIssuesAlert was a temporary implementation
+      // Once removed, just move the CernerFacilityAlert into the main render
+      if (
+        cernerPilotSmFeatureFlag &&
+        mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag
+      )
+        return <OracleHealthMessagingIssuesAlert />;
+      if (folder.folderId === Folders.INBOX.id) {
+        return (
+          <CernerFacilityAlert
+            healthTool="SECURE_MESSAGING"
+            className="vads-u-margin-bottom--3 vads-u-margin-top--2"
+            onLinkClick={handleMyVaHealthLinkClick}
+          />
+        );
+      }
+      return null;
+    },
+    [
+      cernerPilotSmFeatureFlag,
+      mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
+      folder.folderId,
+    ],
+  );
 
   return (
     <>
@@ -162,18 +177,21 @@ const FolderHeader = props => {
           )}
 
         <>{handleFolderDescription()}</>
-        {threadCount === 0 && showNoMessages && (
-          <div className="vads-u-margin-y--3">
-            <va-alert
-              background-only="true"
-              status="info"
-              className="vads-u-margin-bottom--1 va-alert"
-              data-testid="alert-no-messages"
-            >
-              <p className="vads-u-margin-y--0">{Alerts.Message.NO_MESSAGES}</p>
-            </va-alert>
-          </div>
-        )}
+        {threadCount === 0 &&
+          showNoMessages && (
+            <div className="vads-u-margin-y--3">
+              <va-alert
+                background-only="true"
+                status="info"
+                className="vads-u-margin-bottom--1 va-alert"
+                data-testid="alert-no-messages"
+              >
+                <p className="vads-u-margin-y--0">
+                  {Alerts.Message.NO_MESSAGES}
+                </p>
+              </va-alert>
+            </div>
+          )}
         {recipientsError && <RecipientListErrorAlert />}
         {showInnerNav &&
           !noAssociations &&

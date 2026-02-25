@@ -66,39 +66,48 @@ const MessageThreadHeader = props => {
   );
   const isInMigrationPhase = isMigrationPhaseBlockingReplies(ohMigrationPhase);
 
-  useEffect(() => {
-    if (message) {
-      const tempRecipient = {
-        recipientId,
-        name:
-          messages.find(m => m.triageGroupName === message.triageGroupName)
-            ?.triageGroupName || message.triageGroupName,
-        suggestedNameDisplay: message.suggestedNameDisplay,
-        type: Recipients.CARE_TEAM,
-        status: RecipientStatus.ALLOWED,
-      };
+  useEffect(
+    () => {
+      if (message) {
+        const tempRecipient = {
+          recipientId,
+          name:
+            messages.find(m => m.triageGroupName === message.triageGroupName)
+              ?.triageGroupName || message.triageGroupName,
+          suggestedNameDisplay: message.suggestedNameDisplay,
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.ALLOWED,
+        };
 
-      setCurrentRecipient(tempRecipient);
-    }
-
-    // The Blocked Triage Group alert should stay visible until the user navigates away
-  }, [message, messages, recipientId]);
-
-  useEffect(() => {
-    return () => {
-      if (location.pathname) {
-        dispatch(closeAlert());
+        setCurrentRecipient(tempRecipient);
       }
-    };
-  }, [location.pathname, dispatch]);
+
+      // The Blocked Triage Group alert should stay visible until the user navigates away
+    },
+    [message, messages, recipientId],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
 
   const categoryLabel = Categories[category];
 
-  useEffect(() => {
-    const pageTitleTag = getPageTitle({});
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitleTag);
-  }, [categoryLabel, message, subject]);
+  useEffect(
+    () => {
+      const pageTitleTag = getPageTitle({});
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitleTag);
+    },
+    [categoryLabel, message, subject],
+  );
 
   useEffect(() => {
     setTimeout(() => {
@@ -161,17 +170,18 @@ const MessageThreadHeader = props => {
         )}
       </header>
 
-      {currentRecipient && !isInMigrationPhase && (
-        <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
-          <BlockedTriageGroupAlert
-            alertStyle={BlockedTriageAlertStyles.ALERT}
-            parentComponent={ParentComponent.MESSAGE_THREAD}
-            currentRecipient={currentRecipient}
-            setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
-            isOhMessage={isOhMessage}
-          />
-        </div>
-      )}
+      {currentRecipient &&
+        !isInMigrationPhase && (
+          <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
+            <BlockedTriageGroupAlert
+              alertStyle={BlockedTriageAlertStyles.ALERT}
+              parentComponent={ParentComponent.MESSAGE_THREAD}
+              currentRecipient={currentRecipient}
+              setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+              isOhMessage={isOhMessage}
+            />
+          </div>
+        )}
 
       {customFoldersRedesignEnabled ? (
         <ReplyButton

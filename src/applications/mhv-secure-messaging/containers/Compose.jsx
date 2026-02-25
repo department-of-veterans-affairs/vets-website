@@ -52,99 +52,120 @@ const Compose = () => {
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
 
-  useEffect(() => {
-    const composePathNoSlash = Paths.COMPOSE.endsWith('/')
-      ? Paths.COMPOSE.slice(0, -1)
-      : Paths.COMPOSE;
-    if (location.pathname.startsWith(composePathNoSlash)) {
-      dispatch(clearThread());
-      setDraftType('compose');
-    } else if (draftId) {
-      dispatch(retrieveMessageThread(draftId));
-    }
-
-    const checkNextPath = history.listen(nextPath => {
-      if (nextPath.pathname !== Paths.CONTACT_LIST) {
+  useEffect(
+    () => {
+      const composePathNoSlash = Paths.COMPOSE.endsWith('/')
+        ? Paths.COMPOSE.slice(0, -1)
+        : Paths.COMPOSE;
+      if (location.pathname.startsWith(composePathNoSlash)) {
         dispatch(clearThread());
+        setDraftType('compose');
+      } else if (draftId) {
+        dispatch(retrieveMessageThread(draftId));
       }
-    });
-    return () => {
-      checkNextPath();
-    };
-  }, [dispatch, draftId, history, location.pathname]);
 
-  useEffect(() => {
-    if (!signature) {
-      dispatch(getPatientSignature());
-    }
-  }, [signature, dispatch]);
+      const checkNextPath = history.listen(nextPath => {
+        if (nextPath.pathname !== Paths.CONTACT_LIST) {
+          dispatch(clearThread());
+        }
+      });
+      return () => {
+        checkNextPath();
+      };
+    },
+    [dispatch, draftId, history, location.pathname],
+  );
 
-  useEffect(() => {
-    if (draftMessage?.messageId && draftMessage.draftDate === null) {
-      history.push(Paths.INBOX);
-    }
-    return () => {
+  useEffect(
+    () => {
+      if (!signature) {
+        dispatch(getPatientSignature());
+      }
+    },
+    [signature, dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (draftMessage?.messageId && draftMessage.draftDate === null) {
+        history.push(Paths.INBOX);
+      }
+      return () => {
+        if (isDraftPage) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [isDraftPage, draftMessage, history, dispatch],
+  );
+
+  useEffect(
+    () => {
       if (isDraftPage) {
-        dispatch(closeAlert());
+        setPageTitle('Edit draft');
       }
-    };
-  }, [isDraftPage, draftMessage, history, dispatch]);
-
-  useEffect(() => {
-    if (isDraftPage) {
-      setPageTitle('Edit draft');
-    }
-  }, [isDraftPage]);
+    },
+    [isDraftPage],
+  );
 
   const headerText = document.querySelector('h1')?.textContent;
-  useEffect(() => {
-    document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
-  }, [headerText]);
+  useEffect(
+    () => {
+      document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+    },
+    [headerText],
+  );
 
   // make sure the thread list is fetched when navigating to the compose page
-  useEffect(() => {
-    const shouldLoadSentFolder = () => {
-      const isThreadListEmpty = !threadList;
-      const didThreadListError = hasThreadListError;
-      const isFirstThreadNotSentFolder =
-        threadList?.[0]?.folderId !== DefaultFolders.SENT.id;
-      return (
-        !isLoading &&
-        !didThreadListError &&
-        (isThreadListEmpty || isFirstThreadNotSentFolder)
-      );
-    };
-
-    const loadSentFolder = () => {
-      dispatch(
-        getListOfThreads(
-          DefaultFolders.SENT.id,
-          100,
-          1,
-          threadSortingOptions.SENT_DATE_DESCENDING.value,
-          false,
-        ),
-      );
-    };
-    if (shouldLoadSentFolder()) {
-      loadSentFolder();
-    }
-  }, [dispatch, hasThreadListError, isLoading, threadList]);
-
-  useEffect(() => {
-    if (threadList?.length > 0 && !isLoading && recipients) {
-      const groups = getUniqueTriageGroups(threadList);
-      const recentMessages = getRecentThreads(threadList);
-      const dataForDataDog = {
-        allowedSMRecipients: recipients.allowedRecipients.length,
-        countOfSentMessagesInTheLastSixMonths: recentMessages.length || 0,
-        uniqueRecentTriageGroups: groups.length,
+  useEffect(
+    () => {
+      const shouldLoadSentFolder = () => {
+        const isThreadListEmpty = !threadList;
+        const didThreadListError = hasThreadListError;
+        const isFirstThreadNotSentFolder =
+          threadList?.[0]?.folderId !== DefaultFolders.SENT.id;
+        return (
+          !isLoading &&
+          !didThreadListError &&
+          (isThreadListEmpty || isFirstThreadNotSentFolder)
+        );
       };
-      addUserProperties({
-        ...dataForDataDog,
-      });
-    }
-  }, [threadList, isLoading, recipients]);
+
+      const loadSentFolder = () => {
+        dispatch(
+          getListOfThreads(
+            DefaultFolders.SENT.id,
+            100,
+            1,
+            threadSortingOptions.SENT_DATE_DESCENDING.value,
+            false,
+          ),
+        );
+      };
+      if (shouldLoadSentFolder()) {
+        loadSentFolder();
+      }
+    },
+    [dispatch, hasThreadListError, isLoading, threadList],
+  );
+
+  useEffect(
+    () => {
+      if (threadList?.length > 0 && !isLoading && recipients) {
+        const groups = getUniqueTriageGroups(threadList);
+        const recentMessages = getRecentThreads(threadList);
+        const dataForDataDog = {
+          allowedSMRecipients: recipients.allowedRecipients.length,
+          countOfSentMessagesInTheLastSixMonths: recentMessages.length || 0,
+          uniqueRecentTriageGroups: groups.length,
+        };
+        addUserProperties({
+          ...dataForDataDog,
+        });
+      }
+    },
+    [threadList, isLoading, recipients],
+  );
 
   const content = () => {
     if (!isDraftPage && recipients) {
@@ -191,19 +212,20 @@ const Compose = () => {
         />
       )}
 
-      {draftType && (noAssociations || allTriageGroupsBlocked) && (
-        <div className="vads-l-grid-container compose-container">
-          <h1>Start a new message</h1>
-          <BlockedTriageGroupAlert
-            alertStyle={
-              allTriageGroupsBlocked
-                ? BlockedTriageAlertStyles.WARNING
-                : BlockedTriageAlertStyles.INFO
-            }
-            parentComponent={ParentComponent.COMPOSE}
-          />
-        </div>
-      )}
+      {draftType &&
+        (noAssociations || allTriageGroupsBlocked) && (
+          <div className="vads-l-grid-container compose-container">
+            <h1>Start a new message</h1>
+            <BlockedTriageGroupAlert
+              alertStyle={
+                allTriageGroupsBlocked
+                  ? BlockedTriageAlertStyles.WARNING
+                  : BlockedTriageAlertStyles.INFO
+              }
+              parentComponent={ParentComponent.COMPOSE}
+            />
+          </div>
+        )}
       {draftType &&
       !acceptInterstitial &&
       noAssociations === (undefined || false) &&
