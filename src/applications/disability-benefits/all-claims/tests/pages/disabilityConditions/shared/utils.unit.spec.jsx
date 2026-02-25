@@ -198,4 +198,22 @@ describe('526 utils shared page', () => {
       }),
     ).to.be.false;
   });
+
+  it('arrayOptions.canDeleteItem hides delete on review and for locked items', () => {
+    const { canDeleteItem } = utils.arrayOptions;
+
+    expect(canDeleteItem({ itemData: { isLocked: false }, isReview: false })).to
+      .be.true;
+
+    expect(canDeleteItem({ itemData: {}, isReview: false })).to.be.true;
+
+    expect(canDeleteItem({ itemData: { isLocked: true }, isReview: false })).to
+      .be.false;
+
+    expect(canDeleteItem({ itemData: { isLocked: false }, isReview: true })).to
+      .be.false;
+
+    expect(canDeleteItem({ itemData: { isLocked: true }, isReview: true })).to
+      .be.false;
+  });
 });

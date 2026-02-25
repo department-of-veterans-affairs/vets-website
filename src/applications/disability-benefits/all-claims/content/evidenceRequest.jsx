@@ -31,15 +31,26 @@ export const vaEvidenceContent = (
 
 export const privateEvidenceContent = (
   <p>
-    We’ll also delete these medical records you uploaded related to your claimed
-    conditions:
+    You can choose not to submit medical records to support your claim. If you
+    do so, we’ll delete these medical records you uploaded:
   </p>
+);
+
+export const privateEvidenceContentCombined = (
+  <p>We’ll also delete these medical records you uploaded:</p>
 );
 
 export const privateFacilityContent = (
   <p>
     You can choose not to submit medical records to support your claim. If you
     do so, we’ll remove the information you shared about these private medical
+    centers:
+  </p>
+);
+
+export const privateFacilityContentCombined = (
+  <p>
+    We’ll also remove the information you shared about these private medical
     centers:
   </p>
 );
@@ -52,3 +63,93 @@ export const alertMessageForCenters =
 
 export const alertMessageForFiles =
   'We’ve deleted the medical records you uploaded from this claim.';
+
+export const alertMessage = alertType => {
+  if (
+    alertType.includes('privateMedicalRecords') &&
+    (alertType.includes('va') || alertType.includes('privateFacility'))
+  ) {
+    return alertMessageForCentersAndFiles;
+  }
+  if (
+    (alertType.includes('va') || alertType.includes('privateFacility')) &&
+    !alertType.includes('privateMedicalRecords')
+  ) {
+    return alertMessageForCenters;
+  }
+  if (
+    alertType.includes('privateMedicalRecords') &&
+    !alertType.includes('va') &&
+    !alertType.includes('privateFacility')
+  ) {
+    return alertMessageForFiles;
+  }
+  return '';
+};
+const maxDisplayedItems = 3;
+export const renderFacilityList = (facilities, nameKey) => {
+  const showAll = facilities.length <= maxDisplayedItems + 1;
+  const displayList = showAll
+    ? facilities
+    : facilities.slice(0, maxDisplayedItems);
+  return (
+    <ul>
+      {displayList.map((facility, index) => (
+        <li key={index}>
+          {facility[nameKey] || 'Name of medical center wasn’t added'}
+        </li>
+      ))}
+      {!showAll && (
+        <li>{facilities.length - maxDisplayedItems} other medical centers</li>
+      )}
+    </ul>
+  );
+};
+
+export const renderFileList = (files, additionalEvidencePage = false) => {
+  const showAll = files.length <= maxDisplayedItems + 1;
+  const displayList = showAll ? files : files.slice(0, maxDisplayedItems);
+  return (
+    <ul>
+      {displayList.map((file, index) => (
+        <li key={index}>{file.name || file.fileName}</li>
+      ))}
+
+      {!showAll && (
+        <li>
+          {files.length - maxDisplayedItems} other{' '}
+          {additionalEvidencePage ? 'files' : 'medical records'}
+        </li>
+      )}
+    </ul>
+  );
+};
+
+export const missingSelectionErrorMessageEvidenceRequestPage =
+  'You must provide a response';
+
+export const missingSelectionErrorMessageMedicalRecordPage =
+  'Select at least one type of medical record';
+
+export const medicalRecordQuestion =
+  'What types of medical records would you like us to access on your behalf?';
+
+export const vaEvidenceContentForMedicalRecordsPage = (
+  <p>
+    You can change the type of medical records you’d like us to access. If you
+    do so, we’ll remove information you entered about these medical centers:
+  </p>
+);
+export const privateEvidenceContentForMedicalRecordsPage = (
+  <p>
+    You can change the type of medical records you’d like us to access. If you
+    do so, we’ll delete these medical records you uploaded:
+  </p>
+);
+export const privateFacilityContentForMedicalRecordsPage = (
+  <p>
+    You can change the type of medical records you’d like us to access. If you
+    do so, we’ll remove the information you shared about these private medical
+    centers:
+  </p>
+);

@@ -10,14 +10,22 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { scrollToFirstError } from 'platform/utilities/scroll';
 import { checkValidations } from '../utils/submit';
 import {
+  getVaEvidence,
+  getPrivateFacilities,
+  getPrivateEvidenceUploads,
+} from '../utils';
+import {
   evidenceRequestAdditionalInfo,
   evidenceRequestQuestion,
   privateEvidenceContent,
+  privateEvidenceContentCombined,
   vaEvidenceContent,
   privateFacilityContent,
-  alertMessageForCentersAndFiles,
-  alertMessageForCenters,
-  alertMessageForFiles,
+  privateFacilityContentCombined,
+  alertMessage,
+  renderFacilityList,
+  renderFileList,
+  missingSelectionErrorMessageEvidenceRequestPage,
 } from '../content/evidenceRequest';
 
 export const EvidenceRequestPage = ({
@@ -31,16 +39,7 @@ export const EvidenceRequestPage = ({
   updatePage,
 }) => {
   const selectionField = 'view:hasMedicalRecords';
-  const missingSelectionErrorMessage = 'You must provide a response';
-  const maxDisplayedItems = 3;
   const hasMedicalRecords = _.get('view:hasMedicalRecords', data, null);
-  const vaEvidence = _.get('vaTreatmentFacilities', data, []);
-  const privateFacility = _.get('providerFacility', data, []);
-  const privateEvidenceUploads = _.get(
-    'privateMedicalRecordAttachments',
-    data,
-    [],
-  );
   const [hasError, setHasError] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
@@ -48,15 +47,15 @@ export const EvidenceRequestPage = ({
 
   const hasEvidenceToRemove = () => {
     return (
-      vaEvidence.length > 0 ||
-      privateEvidenceUploads.length > 0 ||
-      privateFacility.length > 0
+      getVaEvidence(data).length > 0 ||
+      getPrivateEvidenceUploads(data).length > 0 ||
+      getPrivateFacilities(data).length > 0
     );
   };
   const missingSelection = (error, _fieldData, formData) => {
     const value = formData?.[selectionField];
     if (value !== true && value !== false) {
-      error.addError?.(missingSelectionErrorMessage);
+      error.addError?.(missingSelectionErrorMessageEvidenceRequestPage);
     }
   };
 
@@ -80,17 +79,17 @@ export const EvidenceRequestPage = ({
         ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
       };
 
-      if (vaEvidence.length > 0) {
+      if (getVaEvidence(data).length > 0) {
         delete updatedFormData.vaTreatmentFacilities;
         selectableEvidenceTypes['view:hasVaMedicalRecords'] = false;
         setAlertType(prevState => [...prevState, 'va']);
       }
-      if (privateEvidenceUploads.length > 0) {
+      if (getPrivateEvidenceUploads(data).length > 0) {
         delete updatedFormData.privateMedicalRecordAttachments;
         selectableEvidenceTypes['view:hasPrivateMedicalRecords'] = false;
         setAlertType(prevState => [...prevState, 'privateMedicalRecords']);
       }
-      if (privateFacility.length > 0) {
+      if (getPrivateFacilities(data).length > 0) {
         delete updatedFormData.providerFacility;
         selectableEvidenceTypes['view:hasPrivateMedicalRecords'] = false;
         setAlertType(prevState => [...prevState, 'privateFacility']);
@@ -134,7 +133,7 @@ export const EvidenceRequestPage = ({
         updatedFormData.patient4142Acknowledgement = false;
         setFormData(updatedFormData);
         setAlertVisible(false);
-        goForward(updatedFormData);
+        goForward({ formData: updatedFormData });
       } else {
         setAlertVisible(false);
         goForward(data);
@@ -153,63 +152,6 @@ export const EvidenceRequestPage = ({
     },
   };
 
-  const alertMessage = () => {
-    if (
-      alertType.includes('privateMedicalRecords') &&
-      (alertType.includes('va') || alertType.includes('privateFacility'))
-    ) {
-      return alertMessageForCentersAndFiles;
-    }
-    if (
-      (alertType.includes('va') || alertType.includes('privateFacility')) &&
-      !alertType.includes('privateMedicalRecords')
-    ) {
-      return alertMessageForCenters;
-    }
-    if (
-      alertType.includes('privateMedicalRecords') &&
-      !alertType.includes('va') &&
-      !alertType.includes('privateFacility')
-    ) {
-      return alertMessageForFiles;
-    }
-    return '';
-  };
-  const renderFacilityList = (facilities, nameKey) => {
-    const showAll = facilities.length <= maxDisplayedItems + 1;
-    const displayList = showAll
-      ? facilities
-      : facilities.slice(0, maxDisplayedItems);
-    return (
-      <ul>
-        {displayList.map((facility, index) => (
-          <li key={index}>
-            {facility[nameKey] || 'Name of medical center wasn’t added'}
-          </li>
-        ))}
-        {!showAll && (
-          <li>{facilities.length - maxDisplayedItems} other medical centers</li>
-        )}
-      </ul>
-    );
-  };
-
-  const renderFileList = files => {
-    const showAll = files.length <= maxDisplayedItems + 1;
-    const displayList = showAll ? files : files.slice(0, maxDisplayedItems);
-    return (
-      <ul>
-        {displayList.slice(0, maxDisplayedItems).map((file, index) => (
-          <li key={index}>{file.name}</li>
-        ))}
-
-        {!showAll && (
-          <li>{files.length - maxDisplayedItems} other medical records</li>
-        )}
-      </ul>
-    );
-  };
-
   return (
     <>
       <h3>Medical records that support your disability claim</h3>
@@ -225,7 +167,7 @@ export const EvidenceRequestPage = ({
           uswds
           tabIndex="-1"
         >
-          <p className="vads-u-margin-y--0">{alertMessage()}</p>
+          <p className="vads-u-margin-y--0">{alertMessage(alertType)}</p>
         </VaAlert>
       </div>
       <VaModal
@@ -236,25 +178,37 @@ export const EvidenceRequestPage = ({
         onSecondaryButtonClick={handlers.onCancelChange}
         visible={modalVisible}
         status="warning"
-        primaryButtonText="Change and remove"
+        primaryButtonText={
+          getPrivateEvidenceUploads(data).length > 0
+            ? 'Change and delete'
+            : 'Change and remove'
+        }
         secondaryButtonText="Cancel change"
       >
-        {vaEvidence.length > 0 && (
+        {getVaEvidence(data).length > 0 && (
           <>
             {vaEvidenceContent}
-            {renderFacilityList(vaEvidence, 'treatmentCenterName')}
+            {renderFacilityList(getVaEvidence(data), 'treatmentCenterName')}
           </>
         )}
-        {privateEvidenceUploads.length > 0 && (
+        {getPrivateFacilities(data).length > 0 && (
           <>
-            {privateEvidenceContent}
-            {renderFileList(privateEvidenceUploads)}
+            {getVaEvidence(data).length > 0
+              ? privateFacilityContentCombined
+              : privateFacilityContent}
+            {renderFacilityList(
+              getPrivateFacilities(data),
+              'providerFacilityName',
+            )}
           </>
         )}
-        {privateFacility.length > 0 && (
+        {getPrivateEvidenceUploads(data).length > 0 && (
           <>
-            {privateFacilityContent}
-            {renderFacilityList(privateFacility, 'providerFacilityName')}
+            {getVaEvidence(data).length > 0 ||
+            getPrivateFacilities(data).length > 0
+              ? privateEvidenceContentCombined
+              : privateEvidenceContent}
+            {renderFileList(getPrivateEvidenceUploads(data))}
           </>
         )}
       </VaModal>
@@ -282,7 +236,7 @@ export const EvidenceRequestPage = ({
             value="false"
           />
         </VaRadio>
-        {evidenceRequestAdditionalInfo}
+        {!onReviewPage && evidenceRequestAdditionalInfo}
 
         {onReviewPage ? (
           /**

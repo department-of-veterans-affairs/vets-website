@@ -1,18 +1,48 @@
 import React from 'react';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { expect } from 'chai';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
+import sinon from 'sinon';
 
 import App from '../../containers/App';
 import formConfig from '../../config/form';
 
 describe('21P-0537 App', () => {
-  it('renders App component', () => {
-    const props = {
-      location: { pathname: '/introduction' },
-      children: <div>Test Child</div>,
-    };
+  let sandbox;
+  let clock;
 
-    const component = App(props);
-    expect(component).to.exist;
+  const createStoreWithPersistence = (persist = true) => {
+    const initialState = {
+      featureToggles: {
+        [TOGGLE_NAMES.bioHeartMMSSubmit]: persist,
+      },
+    };
+    return createStore((state = initialState) => state);
+  };
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    clock = sinon.useFakeTimers({
+      toFake: ['setInterval', 'clearInterval', 'Date'],
+    });
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+    clock.restore();
+  });
+
+  it('renders App component', () => {
+    const store = createStoreWithPersistence(true);
+    const { container } = render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+    );
+
+    expect(container).to.exist;
   });
 
   it('uses correct form config', () => {
@@ -25,36 +55,5 @@ describe('21P-0537 App', () => {
     expect(formConfig).to.have.property('chapters');
     expect(formConfig).to.have.property('title');
     expect(formConfig).to.have.property('prefillEnabled');
-  });
-
-  it('passes location prop correctly', () => {
-    const location = { pathname: '/veteran-info/name' };
-    const props = {
-      location,
-      children: <div>Form Content</div>,
-    };
-
-    const component = App(props);
-    expect(component).to.exist;
-    // Toggler wrapper obfuscating things - after we eventually remove
-    // the feature toggle constraint this expectation could be changed to:
-    // // expect(component.props.currentLocation).to.include(location);
-    expect(
-      component.props.children[0].props.children.props.currentLocation,
-    ).to.include(location);
-  });
-
-  it('renders with children', () => {
-    const props = {
-      location: { pathname: '/introduction' },
-      children: <div className="test-child">Test Child Content</div>,
-    };
-
-    const component = App(props);
-    expect(component).to.exist;
-    // Toggler wrapper obfuscating things - after we eventually remove
-    // the feature toggle constraint this expectation could be changed to:
-    // // expect(component.props.children.props.children).to.exist;
-    expect(component.props.children[0].props.children).to.exist;
   });
 });

@@ -294,6 +294,7 @@ describe('VASS Component: EnterOTP', () => {
 
   describe('appointment already booked redirect', () => {
     it('should navigate to already-scheduled page when user has existing appointment', async () => {
+      const appointmentId = 'appt-123';
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
           token: 'jwt-token',
@@ -303,7 +304,7 @@ describe('VASS Component: EnterOTP', () => {
       });
       setFetchJSONFailure(
         global.fetch.onCall(1),
-        createAppointmentAlreadyBookedError('appt-123'),
+        createAppointmentAlreadyBookedError({ appointmentId }),
       );
 
       const { container, getByTestId } = renderWithStoreAndRouterV6(
@@ -329,7 +330,7 @@ describe('VASS Component: EnterOTP', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          `${URLS.ALREADY_SCHEDULED}/appt-123`,
+          `${URLS.ALREADY_SCHEDULED}/${appointmentId}`,
         );
       });
     });

@@ -6,6 +6,10 @@ import {
   VaSidenavItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { buildMajorSteps } from '../utils/buildMajorStepsFromConfig';
+import {
+  trackSideNavChapterClick,
+  trackMobileAccordionClick,
+} from '../utils/tracking/datadogRumTracking';
 
 const DISABLED_STYLE =
   'vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-left--2 vads-u-padding-right--0p5 vads-u-color--gray vads-u-border-color--gray-lightest vads-u-border-bottom--1px';
@@ -39,6 +43,12 @@ export default function ClaimFormSideNav({
    * Ref to access the VaSidenav shadow DOM for mobile accordion control
    */
   const sidenavRef = useRef(null);
+
+  /**
+   * Track previous accordion state to detect actual toggle events
+   * Prevents tracking clicks on chapter items that bubble through
+   */
+  const previousAccordionStateRef = useRef(null);
 
   /**
    * Memoize major steps with formData and pathname dependencies
@@ -91,6 +101,9 @@ export default function ClaimFormSideNav({
 
           accordionItem.removeAttribute('open');
 
+          // Update ref to reflect closed state
+          previousAccordionStateRef.current = false;
+
           // Restore scroll position to prevent accordion close from scrolling
           window.scrollTo(0, scrollY);
         }
@@ -98,6 +111,46 @@ export default function ClaimFormSideNav({
     },
     [pathname],
   );
+
+  /**
+   * Handle clicks on sidenav to track accordion expand/collapse
+   * Only tracks when accordion state actually changes to avoid tracking
+   * chapter navigation clicks that bubble through
+   */
+  const handleSidenavClick = () => {
+    // Defer to next tick so web component's click handler updates aria-expanded first
+    setTimeout(() => {
+      const accordionItem = sidenavRef.current?.shadowRoot?.querySelector(
+        'va-accordion > va-accordion-item',
+      );
+
+      if (!accordionItem) return;
+
+      const accordionButton = accordionItem.shadowRoot?.querySelector(
+        'button[aria-expanded]',
+      );
+
+      if (!accordionButton) return;
+
+      const isExpanded =
+        accordionButton.getAttribute('aria-expanded') === 'true';
+
+      // Only track if the state actually changed
+      if (previousAccordionStateRef.current !== isExpanded) {
+        const state = isExpanded ? 'expanded' : 'collapsed';
+        const accordionTitle = accordionButton.textContent?.trim();
+
+        trackMobileAccordionClick({
+          pathname,
+          state,
+          accordionTitle,
+        });
+
+        // Update the ref with the new state
+        previousAccordionStateRef.current = isExpanded;
+      }
+    }, 0);
+  };
 
   /**
    * Handle navigation item click
@@ -116,51 +169,62 @@ export default function ClaimFormSideNav({
         'form-sidenav-destination-path': destination,
       });
     }
+    // Track side nav click for DataDog RUM
+    trackSideNavChapterClick({
+      pageData,
+      pathname,
+    });
+
     setFormData(formData);
     router.push(destination);
   }
 
   return (
-    <VaSidenav
-      ref={sidenavRef}
-      header="Form steps"
-      icon-background-color="vads-color-link"
-      icon-name="description"
-      id="default-sidenav"
-    >
-      {landingPages.map((page, index) => {
-        const label = `Step ${index + 1}: ${page.label}`;
-        if (page.current) {
-          return (
+    <div className="claim-form-sidenav-wrapper">
+      <VaSidenav
+        header="Form steps"
+        icon-background-color="vads-color-link"
+        icon-name="description"
+        id="default-sidenav"
+        mobileHeader="Select a step"
+        navAriaLabel="Form navigation menu"
+        ref={sidenavRef}
+        onClick={handleSidenavClick}
+      >
+        {landingPages.map((page, index) => {
+          const label = `Step ${index + 1}: ${page.label}`;
+          if (page.current) {
+            return (
+              <VaSidenavItem
+                key={page.key}
+                label={label}
+                href="#"
+                current-page
+                data-page={page.key}
+                onClick={e => handleClick(e, page)}
+              />
+            );
+          }
+
+          // page.idx instead of index for optional chapters that may
+          //  be included after being skipped (see CFI flow)
+          return page.idx <= maxChapterIndex ? (
             <VaSidenavItem
               key={page.key}
               label={label}
               href="#"
-              current-page
               data-page={page.key}
+              className={PREVIOUS_STEP_STYLE}
               onClick={e => handleClick(e, page)}
             />
+          ) : (
+            <p role="listitem" className={DISABLED_STYLE} key={page.key}>
+              {label}
+            </p>
           );
-        }
-
-        // page.idx instead of index for optional chapters that may
-        //  be included after being skipped (see CFI flow)
-        return page.idx <= maxChapterIndex ? (
-          <VaSidenavItem
-            key={page.key}
-            label={label}
-            href="#"
-            data-page={page.key}
-            className={PREVIOUS_STEP_STYLE}
-            onClick={e => handleClick(e, page)}
-          />
-        ) : (
-          <p role="listitem" className={DISABLED_STYLE} key={page.key}>
-            {label}
-          </p>
-        );
-      })}
-    </VaSidenav>
+        })}
+      </VaSidenav>
+    </div>
   );
 }
 

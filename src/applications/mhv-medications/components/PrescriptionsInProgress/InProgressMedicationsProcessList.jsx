@@ -54,15 +54,11 @@ const InProgressStep = ({ prescriptions }) => {
   return (
     <va-process-list-item header="Fill in progress" level={2}>
       <p>{descriptionText}</p>
-      {prescriptions.map(rx => (
-        <Prescription
-          key={rx.prescriptionId}
-          prescriptionId={rx.prescriptionId}
-          prescriptionName={rx.prescriptionName}
-          lastUpdated={rx.lastUpdated}
-          status={rx.status}
-        />
-      ))}
+      <div data-testid="in-progress-prescriptions">
+        {prescriptions.map(prescription => (
+          <Prescription key={prescription.prescriptionId} {...prescription} />
+        ))}
+      </div>
     </va-process-list-item>
   );
 };
@@ -82,7 +78,11 @@ const ShippedStep = ({ prescriptions }) => {
   return (
     <va-process-list-item header="Medication shipped" level={2}>
       <p>{descriptionText}</p>
-      {/* TODO map prescriptions to Prescription components */}
+      <div data-testid="shipped-prescriptions">
+        {prescriptions.map(prescription => (
+          <Prescription key={prescription.prescriptionId} {...prescription} />
+        ))}
+      </div>
     </va-process-list-item>
   );
 };
