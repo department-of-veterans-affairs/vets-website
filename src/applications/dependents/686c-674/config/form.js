@@ -17,10 +17,16 @@ import prefillTransformer from './prefill-transformer';
 // Chapter imports
 import {
   veteranInformation,
-  veteranAddress,
-  veteranContactInformation,
   checkVeteranPension,
 } from './chapters/veteran-information';
+
+import editAddressPage from './chapters/veteran-contact-information/editAddressPage';
+import editPhonePage from './chapters/veteran-contact-information/editPhonePage';
+import editInternationalPhonePage from './chapters/veteran-contact-information/editInternationalPhonePage';
+import editEmailPage from './chapters/veteran-contact-information/editEmailPage';
+
+import VeteranContactInformationPage from '../components/VeteranContactInformationPage';
+import VeteranContactInformationReviewPage from '../components/VeteranContactInformationReviewPage';
 import {
   addDependentOptions,
   removeDependentOptions,
@@ -57,6 +63,7 @@ import {
   isAddingDependents,
   isRemovingDependents,
 } from './utilities';
+import { focusContactInfo } from './utilities/focus';
 import migrations from './migrations';
 import reviewDependents from './chapters/picklist/reviewDependents';
 
@@ -132,21 +139,27 @@ export const formConfig = {
             useV2: true,
           },
         },
-        veteranAddress: {
-          path: 'veteran-address',
-          title: 'Veteran address',
-          uiSchema: veteranAddress.uiSchema,
-          schema: veteranAddress.schema,
-        },
+      },
+    },
+    veteranContactInformation: {
+      title: 'Veteran’s contact information',
+      pages: {
         veteranContactInformation: {
           path: 'veteran-contact-information',
           title: 'Veteran contact information',
-          uiSchema: veteranContactInformation.uiSchema,
-          schema: veteranContactInformation.schema,
+          initialData: {},
+          CustomPage: VeteranContactInformationPage,
+          CustomPageReview: VeteranContactInformationReviewPage,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          scrollAndFocusTarget: focusContactInfo,
         },
+        editAddressPage,
+        editEmailPage,
+        editPhonePage,
+        editInternationalPhonePage,
       },
     },
-
     optionSelection: {
       title: ({ formData }) =>
         showV3Picklist(formData)
