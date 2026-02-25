@@ -12,9 +12,12 @@ import {
   isAnyElementFocused,
   formatCurrency,
   formatISODateToMMDDYYYY,
-  getCopayCharge
+  getCopayCharge,
 } from '../../combined/utils/helpers';
-import { useCurrentStatement, useLighthouseCopays } from '../../combined/utils/selectors';
+import {
+  useCurrentStatement,
+  useLighthouseCopays,
+} from '../../combined/utils/selectors';
 import Modals from '../../combined/components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
@@ -23,7 +26,7 @@ import DownloadStatement from '../components/DownloadStatement';
 import NeedHelpCopay from '../components/NeedHelpCopay';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
-const getBreadcrumbs = (statementAttributes) => {
+const getBreadcrumbs = statementAttributes => {
   const latestCopay = statementAttributes.LATEST_COPAY || {};
   return [
     { href: '/', label: 'Home' },
@@ -34,7 +37,9 @@ const getBreadcrumbs = (statementAttributes) => {
       label: statementAttributes.PREV_PAGE,
     },
     {
-      href: `/manage-va-debt/summary/copay-balances/${latestCopay.statement_id}/statement`,
+      href: `/manage-va-debt/summary/copay-balances/${
+        latestCopay.statement_id
+      }/statement`,
       label: statementAttributes.TITLE,
     },
   ];
@@ -78,7 +83,9 @@ const MonthlyStatementPage = () => {
   const getLegacyAttributes = () => {
     const latest = getLatestCopay();
     const statementDate = latest?.pSStatementDateOutput;
-    const statementCharges = statementCopays.flatMap(copay => getCopayCharge(copay));
+    const statementCharges = statementCopays.flatMap(copay =>
+      getCopayCharge(copay),
+    );
     const rawCurrentBalance = statementCharges.reduce(
       (sum, charge) => sum + (charge.pDTransAmt || 0),
       0,
@@ -96,8 +103,8 @@ const MonthlyStatementPage = () => {
       ACCOUNT_NUMBER: latest?.accountNumber || '',
       CHARGES: statementCharges,
       CURRENT_BALANCE: formatCurrency(rawCurrentBalance),
-      PAYMENTS_RECEIVED: paymentsReceived,
-      NEW_CHARGES: rawCurrentBalance,
+      PAYMENTS_RECEIVED: formatCurrency(paymentsReceived),
+      NEW_CHARGES: formatCurrency(rawCurrentBalance),
     };
   };
 
@@ -125,17 +132,24 @@ const MonthlyStatementPage = () => {
       ACCOUNT_NUMBER: latest?.attributes?.accountNumber || '',
       CHARGES: statementCharges,
       CURRENT_BALANCE: formatCurrency(currentSumBalance),
-      PAYMENTS_RECEIVED: paymentsReceived,
-      NEW_CHARGES: currentSumBalance,
+      PAYMENTS_RECEIVED: formatCurrency(paymentsReceived),
+      NEW_CHARGES: formatCurrency(currentSumBalance),
     };
   };
 
-  const statementAttributes = useMemo(() => {
-    if (!statementCopays?.length) return DEFAULT_STATEMENT_ATTRIBUTES;
-    return shouldUseLighthouseCopays
-      ? getLighthouseAttributes()
-      : getLegacyAttributes();
-  }, [statementCopays?.length, statementCopays?.[0]?.id, shouldUseLighthouseCopays]);
+  const statementAttributes = useMemo(
+    () => {
+      if (!statementCopays?.length) return DEFAULT_STATEMENT_ATTRIBUTES;
+      return shouldUseLighthouseCopays
+        ? getLighthouseAttributes()
+        : getLegacyAttributes();
+    },
+    [
+      statementCopays?.length,
+      statementCopays?.[0]?.id,
+      shouldUseLighthouseCopays,
+    ],
+  );
 
   useHeaderPageTitle(statementAttributes.TITLE);
 

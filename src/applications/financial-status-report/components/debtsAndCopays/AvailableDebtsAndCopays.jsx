@@ -139,7 +139,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
 
   // helper functions to get debt and copay labels and descriptions
   const getDebtLabel = debt =>
-    `${formatCurrency(debt?.currentAr)} ${deductionCodes[debt.deductionCode] ||
+    `${currency(debt?.currentAr)} ${deductionCodes[debt.deductionCode] ||
       debt.benefitType}`;
 
   const getDebtDescription = debt => {
@@ -154,7 +154,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
   };
 
   const getCopayLabel = copay =>
-    `${formatCurrency(copay?.pHAmtDue)} copay bill for ${copay.station.facilityName ||
+    `${currency(copay?.pHAmtDue)} copay bill for ${copay.station.facilityName ||
       getMedicalCenterNameByID(copay.station.facilitYNum)}`;
 
   const getCopayDescription = copay =>

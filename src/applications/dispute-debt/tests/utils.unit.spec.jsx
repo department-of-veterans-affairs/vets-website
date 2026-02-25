@@ -92,52 +92,52 @@ describe('Dispute Debt Utils', () => {
 
   describe('currency', () => {
     it('should format positive number correctly', () => {
-      const result = formatCurrency(1234.56);
+      const result = currency(1234.56);
       expect(result).to.equal('$1,234.56');
     });
 
     it('should format negative number correctly', () => {
-      const result = formatCurrency(-789.25);
+      const result = currency(-789.25);
       expect(result).to.equal('-$789.25');
     });
 
     it('should format zero correctly', () => {
-      const result = formatCurrency(0);
+      const result = currency(0);
       expect(result).to.equal('$0.00');
     });
 
     it('should parse and format currency string', () => {
-      const result = formatCurrency('$1,500.75');
+      const result = currency('$1,500.75');
       expect(result).to.equal('$1,500.75');
     });
 
     it('should handle string with non-numeric characters', () => {
-      const result = formatCurrency('abc$1,234.56def');
+      const result = currency('abc$1,234.56def');
       expect(result).to.equal('$1,234.56');
     });
 
     it('should handle empty string', () => {
-      const result = formatCurrency('');
+      const result = currency('');
       expect(result).to.equal('$NaN');
     });
 
     it('should handle null input', () => {
-      const result = formatCurrency(null);
+      const result = currency(null);
       expect(result).to.equal('$0.00');
     });
 
     it('should handle undefined input', () => {
-      const result = formatCurrency(undefined);
+      const result = currency(undefined);
       expect(result).to.equal('$0.00');
     });
 
     it('should handle string with only numbers', () => {
-      const result = formatCurrency('1234.56');
+      const result = currency('1234.56');
       expect(result).to.equal('$1,234.56');
     });
 
     it('should handle decimal numbers', () => {
-      const result = formatCurrency(0.99);
+      const result = currency(0.99);
       expect(result).to.equal('$0.99');
     });
   });

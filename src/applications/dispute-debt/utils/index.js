@@ -100,7 +100,7 @@ export const getDebtPageTitle = (formData, { pagePerItemIndex } = {}) => {
   const total = formData?.selectedDebts?.length || 0;
   const debtNumber = parseInt(pagePerItemIndex, 10) + 1;
 
-  return `Debt ${debtNumber} of ${total}: ${formatCurrency(amount)} for ${debtTitle}`;
+  return `Debt ${debtNumber} of ${total}: ${currency(amount)} for ${debtTitle}`;
 };
 
 export const setDocumentTitle = title => {

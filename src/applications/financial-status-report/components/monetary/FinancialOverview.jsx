@@ -18,15 +18,15 @@ const FinancialOverview = ({ formData }) => {
         </h4>
         <div className="vads-u-margin-bottom--1 overview-container">
           <div>Total monthly income:</div>
-          <div>{formatCurrency(totalMonthlyNetIncome)}</div>
+          <div>{currency(totalMonthlyNetIncome)}</div>
         </div>
         <div className="vads-u-margin-bottom--1 overview-container">
           <div>Total monthly taxes and expenses:</div>
-          <div>{formatCurrency(monthlyExpenses)}</div>
+          <div>{currency(monthlyExpenses)}</div>
         </div>
         <div className="vads-u-margin-bottom--0 overview-container">
           <div>Income after taxes and expenses:</div>
-          <div>{formatCurrency(incomeMinusExpenses)}</div>
+          <div>{currency(incomeMinusExpenses)}</div>
         </div>
       </div>
     </>

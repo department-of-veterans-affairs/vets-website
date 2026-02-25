@@ -13,10 +13,10 @@ const CustomResolutionOptionReview = props => {
 
   const getDebtTitle = debt => {
     if (debt.debtType === DEBT_TYPES.COPAY) {
-      return `${formatCurrency(debt?.pHAmtDue)} for ${debt.station.facilityName}`;
+      return `${currency(debt?.pHAmtDue)} for ${debt.station.facilityName}`;
     }
     if (debt.debtType === DEBT_TYPES.DEBT) {
-      return `${formatCurrency(debt.currentAr)} overpayment for ${deductionCodes[
+      return `${currency(debt.currentAr)} overpayment for ${deductionCodes[
         debt.deductionCode
       ] || debt.benefitType}`;
     }
@@ -41,7 +41,7 @@ const CustomResolutionOptionReview = props => {
       debt.resolutionOption === RESOLUTION_OPTION_TYPES.MONTHLY ||
       debt.resolutionOption === RESOLUTION_OPTION_TYPES.COMPROMISE
     ) {
-      return `${formatCurrency(debt.resolutionComment)}`;
+      return `${currency(debt.resolutionComment)}`;
     }
     if (debt.resolutionOption === RESOLUTION_OPTION_TYPES.WAIVER) {
       return `${debt.resolutionWaiverCheck ? 'Yes' : 'No'}`;
