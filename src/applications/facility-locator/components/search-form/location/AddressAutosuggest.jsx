@@ -18,6 +18,7 @@ function AddressAutosuggest({
   isTablet,
   onClearClick,
   onChange,
+  onLocationSelection,
   useProgressiveDisclosure,
 }) {
   const [inputValue, setInputValue] = useState(null);
@@ -50,7 +51,8 @@ function AddressAutosuggest({
       return;
     }
     setSelectedItem(item);
-    onChange({
+
+    onLocationSelection?.({
       searchString: onlySpaces(item.toDisplay)
         ? item.toDisplay.trim()
         : item.toDisplay,
@@ -101,6 +103,7 @@ function AddressAutosuggest({
 
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
+    onLocationSelection?.({ searchString: value });
 
     // not expected to search when user leaves the field
     if (value !== '') {
@@ -250,6 +253,7 @@ AddressAutosuggest.propTypes = {
   isTablet: PropTypes.bool,
   useProgressiveDisclosure: PropTypes.bool,
   onClearClick: PropTypes.func,
+  onLocationSelection: PropTypes.func,
 };
 
 export default AddressAutosuggest;
