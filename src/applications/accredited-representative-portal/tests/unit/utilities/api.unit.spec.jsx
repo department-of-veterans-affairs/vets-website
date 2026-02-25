@@ -287,23 +287,23 @@ describe('API utilities', () => {
         headers: new Headers(),
       });
       sessionStub.resolves(res);
-  
+
       await api.getClaimantOverview('abc123');
-  
+
       const url = sessionStub.firstCall.args[0];
       expect(url).to.include('/claimant/abc123');
     });
-  
+
     it('ignores extra args (does not include benefitType)', async () => {
       const res = new Response(JSON.stringify({ data: {} }), {
         status: 200,
         headers: new Headers(),
       });
       sessionStub.resolves(res);
-  
+
       // even if someone passes it, the wrapper doesn’t use it
       await api.getClaimantOverview('abc123', { benefitType: 'compensation' });
-  
+
       const url = sessionStub.firstCall.args[0];
       expect(url).to.include('/claimant/abc123');
       expect(url).to.not.include('benefitType=');

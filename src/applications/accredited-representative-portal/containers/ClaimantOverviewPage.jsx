@@ -237,9 +237,8 @@ const ClaimantOverviewPage = () => {
           {claimant?.intentToFile?.length ? (
             claimant.intentToFile.map(itf => (
               <div
-                key={`${itf.benefitType}-${itf.itfDate || 'no-date'}-${
-                  itf.expirationDate || 'no-exp'
-                }`}
+                key={`${itf.benefitType}-${itf.itfDate ||
+                  'no-date'}-${itf.expirationDate || 'no-exp'}`}
                 className="vads-u-margin-top--3"
               >
                 <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--2">

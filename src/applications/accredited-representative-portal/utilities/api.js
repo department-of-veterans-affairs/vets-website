@@ -127,8 +127,12 @@ const wrapApiRequest = fn => {
   };
 };
 
-const paginationDefaults = `page[size]=${SORT_DEFAULTS.SIZE}&page[number]=${SORT_DEFAULTS.NUMBER}`;
-const sortDefaults = `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${SORT_DEFAULTS.SORT_ORDER}`;
+const paginationDefaults = `page[size]=${SORT_DEFAULTS.SIZE}&page[number]=${
+  SORT_DEFAULTS.NUMBER
+}`;
+const sortDefaults = `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${
+  SORT_DEFAULTS.SORT_ORDER
+}`;
 
 const api = {
   // Lightweight authorization check used by Dashboard loader

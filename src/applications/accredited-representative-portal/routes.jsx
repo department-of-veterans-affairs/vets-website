@@ -124,7 +124,8 @@ const routes = [
                   <ClaimantOverviewPage title="Claimant overview | Accredited Representative Portal" />
                 ),
                 loader: ClaimantOverviewPage.loader,
-
+              },
+              {
                 path: 'find-claimant/submission-history/:claimantId',
                 element: (
                   <ClaimantSubmissionHistoryPage title="Submission history | Accredited Representative Portal | Veterans Affairs" />
