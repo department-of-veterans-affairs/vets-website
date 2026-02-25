@@ -25,11 +25,15 @@ export default {
       'If you were married at the time of their death, this will be their date and place of death.',
     ),
     marriageToVeteranEndDate: {
-      ...currentOrPastDateUI({
-        title: 'Date marriage ended',
-        monthSelect: false,
-      }),
+      ...currentOrPastDateUI(),
+      title: 'Date marriage ended',
+      monthSelect: false,
       'ui:validations': [validations.isAfterMarriageStartDate],
+      'ui:required': formData =>
+        formData.marriedToVeteranAtTimeOfDeath === false,
+      'ui:options': {
+        hideIf: formData => formData.marriedToVeteranAtTimeOfDeath === true,
+      },
     },
     marriageToVeteranEndOutsideUs: checkboxUI({
       title: 'My marriage ended outside the U.S.',
@@ -68,7 +72,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['marriageToVeteranEndDate', 'marriageToVeteranEndLocation'],
+    required: ['marriageToVeteranEndLocation'],
     properties: {
       marriageToVeteranEndDate: currentOrPastDateSchema,
       marriageToVeteranEndOutsideUs: checkboxSchema,

@@ -43,8 +43,8 @@ describe('Survivors Benefits submit transformer', () => {
     const transformed = JSON.parse(transform(formConfig, formData));
     const form = JSON.parse(transformed.survivorsBenefitsClaim.form);
 
-    expect(form.marriageEndDate).to.exist;
-    expect(form.marriageEndDate).to.equal('2020-01-01');
+    expect(form.marriageToVeteranEndDate).to.exist;
+    expect(form.marriageToVeteranEndDate).to.equal('2020-01-01');
   });
 });
 

@@ -5,13 +5,13 @@
  * This transformer ensures that:
  * - When marriedToVeteranAtTimeOfDeath is true
  * - AND veteranDateOfDeath exists
- * - THEN marriageEndDate is automatically set to the veteranDateOfDeath value
+ * - THEN marriageToVeteranEndDate is automatically set to the veteranDateOfDeath value
  *
  * This satisfies the PDF form requirement where field 4E (Date marriage ended)
  * should match field 1H (Veteran Date of Death) when applicable.
  *
  * @param {string} formData - Stringified JSON form data
- * @returns {string} Stringified JSON with marriageEndDate populated if conditions are met
+ * @returns {string} Stringified JSON with marriageToVeteranEndDate populated if conditions are met
  */
 export function autoPopulateMarriageEndDate(formData) {
   const parsedFormData = JSON.parse(formData);
@@ -28,7 +28,7 @@ export function autoPopulateMarriageEndDate(formData) {
   if (wasMarriedAtDeath && veteranDateOfDeath) {
     return JSON.stringify({
       ...parsedFormData,
-      marriageEndDate: veteranDateOfDeath,
+      marriageToVeteranEndDate: veteranDateOfDeath,
     });
   }
 
