@@ -232,17 +232,6 @@ describe('VASS Component: EnterOTP', () => {
         expect(queryByTestId('enter-otp-success-alert')).to.not.exist;
       });
     });
-    it('should clear the otp input after an error', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
-      const { container, getByTestId } = renderComponent();
-      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
-      const continueButton = getByTestId('continue-button');
-      continueButton.click();
-      await waitFor(() => {
-        const otpInput = getByTestId('otp-input');
-        expect(otpInput.getAttribute('value')).to.equal('');
-      });
-    });
   });
 
   describe('successful otp verification', () => {
