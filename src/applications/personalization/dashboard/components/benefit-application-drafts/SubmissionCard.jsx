@@ -2,31 +2,85 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import {
+  Toggler,
+  useFeatureToggle,
+} from '~/platform/utilities/feature-toggles';
 import { selectPdfUrlLoading } from '~/applications/personalization/dashboard/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
 import fetchFormPdfUrl from '../../actions/form-pdf-url';
 import { formatFormTitle, formatSubmissionDisplayStatus } from '../../helpers';
 
-const QuestionsContent = () => (
-  <p className="vads-u-margin-bottom--0">
-    If you have questions, call us at <va-telephone contact="8008271000" /> (
-    <va-telephone contact="711" tty />
-    ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-  </p>
-);
+const CHAMPVA_FORM_IDS = ['10-10D', '10-10D-EXTENDED'];
 
-const ReceivedContent = ({ lastSavedDate }) => (
+const normalizeChampvaTitle = (title, formId) => {
+  const normalizedFormId = formId?.toString().toUpperCase();
+  if (!CHAMPVA_FORM_IDS.includes(normalizedFormId)) return title;
+  return title?.replace(/champva/gi, 'CHAMPVA');
+};
+
+const contactInfoFor = (formId, isBenefitsClaimsIvcChampvaProviderEnabled) => {
+  const normalized = formId?.toString().toUpperCase();
+  if (
+    isBenefitsClaimsIvcChampvaProviderEnabled &&
+    CHAMPVA_FORM_IDS.includes(normalized)
+  ) {
+    return {
+      phone: '8007338387',
+      hours: '8:00 a.m. to 7:30 p.m. ET',
+    };
+  }
+
+  return {
+    phone: '8008271000',
+    hours: '8:00 a.m. to 8:00 p.m. ET',
+  };
+};
+
+const QuestionsContent = ({
+  formId,
+  isBenefitsClaimsIvcChampvaProviderEnabled,
+}) => {
+  const contact = contactInfoFor(
+    formId,
+    isBenefitsClaimsIvcChampvaProviderEnabled,
+  );
+
+  return (
+    <p className="vads-u-margin-bottom--0">
+      If you have questions, call us at <va-telephone contact={contact.phone} />{' '}
+      (<va-telephone contact="711" tty />
+      ). We’re here Monday through Friday, {contact.hours}
+    </p>
+  );
+};
+QuestionsContent.propTypes = {
+  formId: PropTypes.string,
+  isBenefitsClaimsIvcChampvaProviderEnabled: PropTypes.bool,
+};
+
+const ReceivedContent = ({
+  formId,
+  lastSavedDate,
+  isBenefitsClaimsIvcChampvaProviderEnabled,
+}) => (
   <>
     <p className="vads-u-margin-y--0">Received on: {lastSavedDate}</p>
     <p>
       Next step: We’ll review your form. If we need more information, we’ll
       contact you.
     </p>
-    <QuestionsContent />
+    <QuestionsContent
+      formId={formId}
+      isBenefitsClaimsIvcChampvaProviderEnabled={
+        isBenefitsClaimsIvcChampvaProviderEnabled
+      }
+    />
   </>
 );
 ReceivedContent.propTypes = {
+  formId: PropTypes.string.isRequired,
+  isBenefitsClaimsIvcChampvaProviderEnabled: PropTypes.bool.isRequired,
   lastSavedDate: PropTypes.string.isRequired,
 };
 
@@ -144,40 +198,70 @@ SavePdfDownload.propTypes = {
   showLoadingIndicator: PropTypes.bool,
 };
 
-const InProgressContent = () => (
+const InProgressContent = ({
+  formId,
+  isBenefitsClaimsIvcChampvaProviderEnabled,
+}) => (
   <>
     <p>
       Next step: We’ll confirm that we’ve received your form. This can take up
-      to 30 days.
+      to{' '}
+      {isBenefitsClaimsIvcChampvaProviderEnabled &&
+      CHAMPVA_FORM_IDS.includes(formId?.toString().toUpperCase())
+        ? '10'
+        : '30'}{' '}
+      days.
     </p>
-    <QuestionsContent />
+    <QuestionsContent
+      formId={formId}
+      isBenefitsClaimsIvcChampvaProviderEnabled={
+        isBenefitsClaimsIvcChampvaProviderEnabled
+      }
+    />
   </>
 );
+InProgressContent.propTypes = {
+  formId: PropTypes.string.isRequired,
+  isBenefitsClaimsIvcChampvaProviderEnabled: PropTypes.bool.isRequired,
+};
 
-const ActionNeededContent = ({ lastSavedDate }) => (
-  <>
-    <p className="vads-u-margin-top--0 vads-u-margin-bottom--0p5">
-      Submission failed on: {lastSavedDate}
-    </p>
-    <va-alert
-      slim="true"
-      status="error"
-      disable-analytics="false"
-      visible="true"
-      closeable="false"
-      full-width="false"
-      class="hydrated"
-    >
-      <p className="vads-u-margin-y--0">
-        We’re sorry. There was a problem with our system. We couldn’t process
-        this form. Call us at <va-telephone contact="8008271000" /> (
-        <va-telephone contact="711" tty />
-        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+const ActionNeededContent = ({
+  formId,
+  lastSavedDate,
+  isBenefitsClaimsIvcChampvaProviderEnabled,
+}) => {
+  const contact = contactInfoFor(
+    formId,
+    isBenefitsClaimsIvcChampvaProviderEnabled,
+  );
+
+  return (
+    <>
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--0p5">
+        Submission failed on: {lastSavedDate}
       </p>
-    </va-alert>
-  </>
-);
+      <va-alert
+        slim="true"
+        status="error"
+        disable-analytics="false"
+        visible="true"
+        closeable="false"
+        full-width="false"
+        class="hydrated"
+      >
+        <p className="vads-u-margin-y--0">
+          We’re sorry. There was a problem with our system. We couldn’t process
+          this form. Call us at <va-telephone contact={contact.phone} /> (
+          <va-telephone contact="711" tty />
+          ). We’re here Monday through Friday, {contact.hours}
+        </p>
+      </va-alert>
+    </>
+  );
+};
 ActionNeededContent.propTypes = {
+  formId: PropTypes.string.isRequired,
+  isBenefitsClaimsIvcChampvaProviderEnabled: PropTypes.bool.isRequired,
   lastSavedDate: PropTypes.string.isRequired,
 };
 
@@ -193,6 +277,17 @@ const SubmissionCard = ({
   presentableFormId,
   status,
 }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const isBenefitsClaimsIvcChampvaProviderEnabled = useToggleValue(
+    TOGGLE_NAMES.benefits_claims_ivc_champva_provider,
+  );
+  const normalizedFormId = formId?.toString().toUpperCase();
+  const titleText =
+    isBenefitsClaimsIvcChampvaProviderEnabled &&
+    CHAMPVA_FORM_IDS.includes(normalizedFormId)
+      ? normalizeChampvaTitle(formTitle, formId)
+      : formatFormTitle(formTitle);
+
   const content = (
     <>
       <div className="vads-u-width--full">
@@ -201,7 +296,7 @@ const SubmissionCard = ({
             {formatSubmissionDisplayStatus(status)}
           </span>
           <span className="vads-u-display--block vads-u-font-size--h3 vads-u-margin-top--1p5">
-            {formatFormTitle(formTitle)}
+            {titleText}
           </span>
         </h3>
         {presentableFormId && (
@@ -227,12 +322,31 @@ const SubmissionCard = ({
           </Toggler.Enabled>
         </Toggler>
         <p className="vads-u-margin-bottom--0">Submitted on: {submittedDate}</p>
-        {status === 'inProgress' && <InProgressContent />}
+        {status === 'inProgress' && (
+          <InProgressContent
+            formId={formId}
+            isBenefitsClaimsIvcChampvaProviderEnabled={
+              isBenefitsClaimsIvcChampvaProviderEnabled
+            }
+          />
+        )}
         {status === 'received' && (
-          <ReceivedContent lastSavedDate={lastSavedDate} />
+          <ReceivedContent
+            formId={formId}
+            lastSavedDate={lastSavedDate}
+            isBenefitsClaimsIvcChampvaProviderEnabled={
+              isBenefitsClaimsIvcChampvaProviderEnabled
+            }
+          />
         )}
         {status === 'actionNeeded' && (
-          <ActionNeededContent lastSavedDate={lastSavedDate} />
+          <ActionNeededContent
+            formId={formId}
+            lastSavedDate={lastSavedDate}
+            isBenefitsClaimsIvcChampvaProviderEnabled={
+              isBenefitsClaimsIvcChampvaProviderEnabled
+            }
+          />
         )}
       </div>
     </>

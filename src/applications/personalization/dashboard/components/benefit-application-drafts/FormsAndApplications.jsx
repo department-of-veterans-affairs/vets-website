@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { selectProfile } from '~/platform/user/selectors';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import {
   filterOutExpiredForms,
   formatFormTitle,
@@ -20,11 +21,20 @@ import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import Error from './Error';
 import MissingApplicationHelp from './MissingApplicationHelp';
 
+const CHAMPVA_FORM_IDS = ['10-10D', '10-10D-EXTENDED'];
+const CHAMPVA_CARD_TITLE = 'Application for CHAMPVA benefits';
+const CHAMPVA_PRESENTABLE_FORM_ID = 'Form 10-10d';
+
 const FormsAndApplications = ({
   savedForms,
   submittedError,
   submittedForms,
 }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const enableChampvaOverrides = useToggleValue(
+    TOGGLE_NAMES.benefits_claims_ivc_champva_provider,
+  );
+
   const sectionRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -125,10 +135,14 @@ const FormsAndApplications = ({
         } else {
           formIdLabel = form.form.replace(/-V2$/i, '');
         }
-        const formTitle = hasBenefit
+        let formTitle = hasBenefit
           ? `application for ${formMeta.benefit}`
           : `VA Form ${formIdLabel}`;
-        const presentableFormId = presentableFormIDs[formId] || '';
+        let presentableFormId = presentableFormIDs[formId] || '';
+        if (enableChampvaOverrides && CHAMPVA_FORM_IDS.includes(formId)) {
+          formTitle = CHAMPVA_CARD_TITLE;
+          presentableFormId = CHAMPVA_PRESENTABLE_FORM_ID;
+        }
         const { lastUpdated } = form || {};
         const lastSavedDate = format(fromUnixTime(lastUpdated), 'MMMM d, yyyy');
 
@@ -176,7 +190,7 @@ const FormsAndApplications = ({
 
       return cards;
     },
-    [allForms],
+    [allForms, enableChampvaOverrides],
   );
 
   return (
