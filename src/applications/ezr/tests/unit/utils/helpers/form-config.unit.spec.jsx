@@ -587,7 +587,7 @@ describe('ezr form config helpers', () => {
             dischargeType: 'honorable',
           },
           expected: true,
-          descript: 'and theere is pre-existing service history information',
+          descript: 'and there is pre-existing service history information',
         },
       ];
       testGroups.forEach(({ data, expected, descript }) => {
