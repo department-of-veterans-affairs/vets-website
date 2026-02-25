@@ -51,7 +51,7 @@ const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
 
   const applicantName = useMemo(
     () => {
-      const { first, middle, last } = formData.applicantName;
+      const { first, middle, last } = formData.applicantName || {};
       return [first, middle, last]
         .map(part => part?.trim())
         .filter(Boolean)
