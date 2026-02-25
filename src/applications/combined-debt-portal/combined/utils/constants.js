@@ -23,8 +23,7 @@ export const DEFAULT_COPAY_ATTRIBUTES = Object.freeze({
   AMOUNT_DUE: 0.0,
 });
 
-
-export const DEFAULT_STATEMENT_ATTRIBUTES = {
+export const DEFAULT_STATEMENT_ATTRIBUTES = Object.freeze({
   LATEST_COPAY: {},
   TITLE: '',
   DATE: '',
@@ -34,6 +33,6 @@ export const DEFAULT_STATEMENT_ATTRIBUTES = {
   CURRENT_BALANCE: '',
   PAYMENTS_RECEIVED: '',
   NEW_CHARGES: 0,
-};
+});
 
 export const RESOLVE_HEADER = `Resolve your copay bill`;

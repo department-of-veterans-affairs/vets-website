@@ -73,7 +73,7 @@ describe('Monthly statement page', () => {
           combinedPortal: (state = initialState.combinedPortal ?? {}) => state,
           user: (state = initialState.user ?? {}) => state,
           featureToggles: (
-            state = initialState.featureToggles ?? { loading: false }
+            state = initialState.featureToggles ?? { loading: false },
           ) => state,
         }),
       );
@@ -103,17 +103,15 @@ describe('Monthly statement page', () => {
     });
 
     it('renders monthly statement page with legacy copay data', () => {
-      /* eslint-disable-next-line camelcase */
       const legacyCopay = {
         id: 'stmt-123',
+        /* eslint-disable-next-line camelcase */
         statement_id: 'stmt-123',
         station: { facilityName: 'Test VA Medical Center' },
         pSStatementDateOutput: '05/03/2024',
         accountNumber: 'ACC-456',
         pHTotCharges: 50,
-        details: [
-          { pDTransAmt: 100, pDTransDescOutput: 'Charge description' },
-        ],
+        details: [{ pDTransAmt: 100, pDTransDescOutput: 'Charge description' }],
       };
 
       const { getByTestId, getByText } = renderPage(
@@ -122,7 +120,7 @@ describe('Monthly statement page', () => {
 
       expect(getByTestId('statement-page-title')).to.exist;
       expect(getByTestId('statement-page-title').textContent).to.include(
-        '05/03/2024 statement',
+        'July 1, 2024 statement',
       );
       expect(getByTestId('facility-name').textContent).to.include(
         'Test VA Medical Center',
@@ -133,27 +131,32 @@ describe('Monthly statement page', () => {
     });
 
     it('renders monthly statement page with lighthouse copay data', () => {
-      /* eslint-disable-next-line camelcase */
       const lighthouseCopay = {
         id: 'stmt-456',
+        /* eslint-disable-next-line camelcase */
         statement_id: 'stmt-456',
         attributes: {
           facility: { name: 'Lighthouse VA Medical Center' },
           invoiceDate: '2024-06-15',
           accountNumber: 'ACC-789',
           principalPaid: 25,
-          lineItems: [{ pDTransAmt: 75, pDTransDescOutput: 'Lighthouse charge' }],
+          lineItems: [
+            { pDTransAmt: 75, pDTransDescOutput: 'Lighthouse charge' },
+          ],
         },
       };
 
       const { getByTestId, getByText, container } = renderPage(
-        createPageState({ copays: [lighthouseCopay], useLighthouseCopays: true }),
+        createPageState({
+          copays: [lighthouseCopay],
+          useLighthouseCopays: true,
+        }),
         '/copay-balances/stmt-456/statement',
       );
 
       expect(getByTestId('statement-page-title')).to.exist;
       expect(getByTestId('statement-page-title').textContent).to.include(
-        '06/15/2024 statement',
+        'July 1, 2024 statement',
       );
       expect(getByTestId('facility-name').textContent).to.include(
         'Lighthouse VA Medical Center',
@@ -175,9 +178,7 @@ describe('Monthly statement page', () => {
       pSStatementDateOutput: '05/03/2024',
       accountNumber: 'ACC-LEGACY',
       pHTotCharges: 50,
-      details: [
-        { pDTransAmt: 100, pDTransDescOutput: 'Charge description' },
-      ],
+      details: [{ pDTransAmt: 100, pDTransDescOutput: 'Charge description' }],
     };
 
     const legacyCopayTwo = {
@@ -198,9 +199,7 @@ describe('Monthly statement page', () => {
         invoiceDate: '2024-06-15',
         accountNumber: 'ACC-LIGHTHOUSE',
         principalPaid: 25,
-        lineItems: [
-          { pDTransAmt: 75, pDTransDescOutput: 'Lighthouse charge' },
-        ],
+        lineItems: [{ pDTransAmt: 75, pDTransDescOutput: 'Lighthouse charge' }],
       },
     };
 
@@ -226,15 +225,15 @@ describe('Monthly statement page', () => {
         const { getByTestId, getByText } = renderPage(initialState, route);
 
         expect(getByTestId('statement-page-title').textContent).to.equal(
-          '05/03/2024 statement',
+          'July 1, 2024 statement',
         );
         expect(getByTestId('facility-name').textContent).to.include(
           'Legacy VA Medical Center',
         );
         expect(getByText('ACC-LEGACY')).to.exist;
-        expect(
-          getByTestId('account-summary-previous').textContent,
-        ).to.include('$100.00');
+        expect(getByTestId('account-summary-previous').textContent).to.include(
+          '$100.00',
+        );
         expect(getByTestId('account-summary-credits').textContent).to.include(
           '$50.00',
         );
@@ -248,15 +247,15 @@ describe('Monthly statement page', () => {
         const { getByTestId, getByText } = renderPage(initialState, route);
 
         expect(getByTestId('statement-page-title').textContent).to.equal(
-          '05/03/2024 statement',
+          'July 1, 2024 statement',
         );
         expect(getByTestId('facility-name').textContent).to.include(
           'Legacy VA Medical Center',
         );
         expect(getByText('ACC-LEGACY')).to.exist;
-        expect(
-          getByTestId('account-summary-previous').textContent,
-        ).to.include('$130.00');
+        expect(getByTestId('account-summary-previous').textContent).to.include(
+          '$130.00',
+        );
         expect(getByTestId('account-summary-credits').textContent).to.include(
           '$75.00',
         );
@@ -272,15 +271,15 @@ describe('Monthly statement page', () => {
         const { getByTestId, getByText } = renderPage(initialState, route);
 
         expect(getByTestId('statement-page-title').textContent).to.include(
-          '06/15/2024 statement',
+          'July 1, 2024 statement',
         );
         expect(getByTestId('facility-name').textContent).to.include(
           'Lighthouse VA Medical Center',
         );
         expect(getByText('ACC-LIGHTHOUSE')).to.exist;
-        expect(
-          getByTestId('account-summary-previous').textContent,
-        ).to.include('$75.00');
+        expect(getByTestId('account-summary-previous').textContent).to.include(
+          '$75.00',
+        );
         expect(getByTestId('account-summary-credits').textContent).to.include(
           '$25.00',
         );
@@ -294,15 +293,15 @@ describe('Monthly statement page', () => {
         const { getByTestId, getByText } = renderPage(initialState, route);
 
         expect(getByTestId('statement-page-title').textContent).to.include(
-          '06/15/2024 statement',
+          'July 1, 2024 statement',
         );
         expect(getByTestId('facility-name').textContent).to.include(
           'Lighthouse VA Medical Center',
         );
         expect(getByText('ACC-LIGHTHOUSE')).to.exist;
-        expect(
-          getByTestId('account-summary-previous').textContent,
-        ).to.include('$115.00');
+        expect(getByTestId('account-summary-previous').textContent).to.include(
+          '$115.00',
+        );
         expect(getByTestId('account-summary-credits').textContent).to.include(
           '$35.00',
         );
@@ -321,11 +320,13 @@ describe('Monthly statement page', () => {
       );
       expect(summary.getByTestId('account-summary-head')).to.exist;
       expect(summary.getByTestId('account-summary-previous')).to.exist;
-      expect(summary.getByTestId('account-summary-previous').textContent).to
-        .include('This statement charges: $30.00');
+      expect(
+        summary.getByTestId('account-summary-previous').textContent,
+      ).to.include('This statement charges: $30.00');
       expect(summary.getByTestId('account-summary-credits')).to.exist;
-      expect(summary.getByTestId('account-summary-credits').textContent).to
-        .include('Payments received: $15.00');
+      expect(
+        summary.getByTestId('account-summary-credits').textContent,
+      ).to.include('Payments received: $15.00');
       expect(summary.getByText('ACC-123')).to.exist;
     });
   });

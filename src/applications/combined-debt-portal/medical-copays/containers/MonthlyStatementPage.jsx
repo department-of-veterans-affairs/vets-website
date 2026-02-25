@@ -62,13 +62,28 @@ const MonthlyStatementPage = () => {
     return isValid(parsed) ? format(parsed, 'MMMM d') : '';
   };
 
+  const formatDateAsMonth = (dateStr = '') => {
+    if (!dateStr) return { display: '', firstOfMonthOriginalFormat: '' };
+    const parsed = new Date(dateStr.replace(/-/g, '/'));
+    // Bill is for the previous month; show the next month (e.g. May statement → June 1)
+    const firstOfNextMonth = new Date(
+      parsed.getFullYear(),
+      parsed.getMonth() + 1,
+      1,
+    );
+    return {
+      display: format(firstOfNextMonth, 'MMMM d, yyyy'),
+      firstOfMonthOriginalFormat: format(firstOfNextMonth, 'MM/dd/yyyy'),
+    };
+  };
+
   const getPrevPage = facilityName => `Copay bill for ${facilityName}`;
-  const title = statementDate => `${statementDate} statement`;
+  const title = dateLabel => `${dateLabel} statement`;
 
   const getLegacyAttributes = () => {
     const latest = getLatestCopay();
-    // this date still needs to be modified to monthly
     const statementDate = latest?.pSStatementDateOutput;
+    const dateInfo = formatDateAsMonth(statementDate);
     const statementCharges = statementCopays.flatMap(copay =>
       getCopayCharge(copay),
     );
@@ -83,8 +98,8 @@ const MonthlyStatementPage = () => {
 
     return {
       LATEST_COPAY: latest,
-      TITLE: title(statementDate),
-      DATE: statementDate,
+      TITLE: title(dateInfo.display),
+      DATE: dateInfo.firstOfMonthOriginalFormat,
       PREV_PAGE: getPrevPage(latest?.station?.facilityName || ''),
       ACCOUNT_NUMBER: latest?.accountNumber || '',
       CHARGES: statementCharges,
@@ -96,10 +111,10 @@ const MonthlyStatementPage = () => {
 
   const getLighthouseAttributes = () => {
     const latest = getLatestCopay();
-    // this date still needs to be modified to monthly
     const statementDate = latest?.attributes?.invoiceDate
       ? formatISODateToMMDDYYYY(latest.attributes.invoiceDate)
       : '';
+    const dateInfo = formatDateAsMonth(statementDate);
     const statementCharges =
       statementCopays.flatMap(copay => copay.attributes?.lineItems || []) || [];
     const currentSumBalance = statementCharges.reduce(
@@ -113,8 +128,8 @@ const MonthlyStatementPage = () => {
 
     return {
       LATEST_COPAY: latest,
-      TITLE: title(statementDate),
-      DATE: statementDate,
+      TITLE: title(dateInfo.display),
+      DATE: dateInfo.firstOfMonthOriginalFormat,
       PREV_PAGE: getPrevPage(latest?.attributes?.facility?.name || ''),
       ACCOUNT_NUMBER: latest?.attributes?.accountNumber || '',
       CHARGES: statementCharges,
@@ -133,8 +148,9 @@ const MonthlyStatementPage = () => {
         ? getLighthouseAttributes()
         : getLegacyAttributes();
     },
-    [statementCopaysLength, firstCopayId, shouldUseLighthouseCopays],
-  ); // eslint-disable-line react-hooks/exhaustive-deps
+    // getLegacyAttributes/getLighthouseAttributes close over statementCopays; deps sufficient for cache invalidation
+    [statementCopaysLength, firstCopayId, shouldUseLighthouseCopays], // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   useHeaderPageTitle(statementAttributes.TITLE);
 
