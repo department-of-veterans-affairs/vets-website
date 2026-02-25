@@ -131,7 +131,7 @@ export const trainingProviderArrayOptions = {
   maxItems: 4,
   text: {
     getItemName: item =>
-      item?.providerName ? `${item?.providerName}`.trim() : 'training provider',
+      item?.providerName ? `${item?.providerName}`.trim() : 'Training provider',
     cardDescription: item => getCardDescription(item),
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',
@@ -140,12 +140,55 @@ export const trainingProviderArrayOptions = {
   },
 };
 
+export const lastDayOfMonth = (month, year = NaN) => {
+  const lastDay = new Date(year, month, 0).getDate();
+
+  // default values if provided year or month are invalid/blank
+  if (Number.isNaN(lastDay)) {
+    switch (month) {
+      case 4:
+      case 6:
+      case 9:
+      case 11:
+        return 30;
+      case 2:
+        return 29;
+      default:
+        return 31;
+    }
+  }
+
+  return lastDay;
+};
+
 export const validateTrainingProviderStartDate = (errors, dateString) => {
   if (!dateString) return;
-  const picked = new Date(`${dateString}T00:00:00`);
-  const startDate = new Date('2025-01-02T00:00:00');
 
-  if (picked < startDate) errors.addError('Enter a date after 1/2/2025');
+  const [year, month, day] = dateString.split('-').map(Number);
+
+  if (year && month && day) {
+    const picked = new Date(`${dateString}T00:00:00`);
+    const startDate = new Date('2026-07-01T00:00:00');
+
+    if (picked < startDate)
+      errors.addError('Enter a date on or after July 1, 2026');
+  }
+
+  const minYear = 2026;
+  const maxYear = new Date().getFullYear() + 100;
+  const maxDay = lastDayOfMonth(month, year);
+
+  if (!month || month < 1 || month > 12) {
+    errors.addError('Please enter a valid date');
+  }
+
+  if (!day || day < 1 || day > maxDay) {
+    errors.addError('Please enter a valid date');
+  }
+
+  if (!year || year < minYear || year > maxYear) {
+    errors.addError('Please enter a valid date');
+  }
 };
 
 export const dateSigned = () => {
@@ -584,24 +627,3 @@ export function getLTSCountryCode(schemaCountryValue) {
   // If a country was found, return the two-character code. If not, return 'ZZ' for unknown.
   return country?.ltsValue ? country.ltsValue : 'ZZ';
 }
-
-export const lastDayOfMonth = (month, year = NaN) => {
-  const lastDay = new Date(year, month, 0).getDate();
-
-  // default values if provided year or month are invalid/blank
-  if (Number.isNaN(lastDay)) {
-    switch (month) {
-      case 4:
-      case 6:
-      case 9:
-      case 11:
-        return 30;
-      case 2:
-        return 29;
-      default:
-        return 31;
-    }
-  }
-
-  return lastDay;
-};
