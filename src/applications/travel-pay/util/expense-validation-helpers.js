@@ -273,7 +273,7 @@ export const validateDescription = (description, type) => {
  * @param {string|number} amount - The value of the costRequested field from the form.
  * @param {string} type - Validation type: CHANGE, BLUR, SUBMIT
  * @param {string} fieldName - (Optional) Name of the field in formState, defaults to 'costRequested'.
- * @returns {{errors: Object, formattedValue: null, isValid: boolean}} - Returns errors and validity.
+ * @returns {{errors: Object, isValid: boolean}} - Returns errors and validity.
  */
 export const validateRequestedAmount = (
   amount,
@@ -281,7 +281,6 @@ export const validateRequestedAmount = (
   fieldName = 'costRequested',
 ) => {
   let error = null;
-  let formattedValue = null;
 
   const strAmount = (amount ?? '').toString().trim();
 
@@ -311,8 +310,8 @@ export const validateRequestedAmount = (
       error = 'Enter an amount greater than 0';
     }
 
-    // On BLUR/SUBMIT, require exactly 2 decimal places (format X.XX)
-    if (!error && type !== DATE_VALIDATION_TYPE.CHANGE) {
+    // Require exactly 2 decimal places on BLUR
+    if (!error && !Number.isNaN(parsed) && type === DATE_VALIDATION_TYPE.BLUR) {
       const strictFormat = /^\d+\.\d{2}$/;
       if (!strictFormat.test(strAmount)) {
         error = 'Enter an amount using this format: x.xx';
@@ -322,7 +321,6 @@ export const validateRequestedAmount = (
 
   return {
     errors: { [fieldName]: error },
-    formattedValue,
     isValid: !error,
   };
 };

@@ -345,12 +345,9 @@ const ExpensePage = () => {
       if (name === 'costRequested') {
         // If there's an existing error, use strict (BLUR) validation so the
         // error only clears once the user has entered a valid X.XX value
-        const amountValidationType = hasExistingError
-          ? DATE_VALIDATION_TYPE.BLUR
-          : DATE_VALIDATION_TYPE.CHANGE;
         const validationResult = validateRequestedAmount(
           value,
-          amountValidationType,
+          DATE_VALIDATION_TYPE.BLUR,
         );
         if (validationResult.isValid) {
           delete nextErrors.costRequested;
