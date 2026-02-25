@@ -343,9 +343,14 @@ const ExpensePage = () => {
       }
 
       if (name === 'costRequested') {
+        // If there's an existing error, use strict (BLUR) validation so the
+        // error only clears once the user has entered a valid X.XX value
+        const amountValidationType = hasExistingError
+          ? DATE_VALIDATION_TYPE.BLUR
+          : DATE_VALIDATION_TYPE.CHANGE;
         const validationResult = validateRequestedAmount(
           value,
-          DATE_VALIDATION_TYPE.CHANGE,
+          amountValidationType,
         );
         if (validationResult.isValid) {
           delete nextErrors.costRequested;
@@ -784,14 +789,6 @@ const ExpensePage = () => {
       ...prev,
       ...validationResult.errors,
     }));
-
-    // Update formatted value if provided
-    if (validationResult.formattedValue) {
-      setFormState(prev => ({
-        ...prev,
-        costRequested: validationResult.formattedValue,
-      }));
-    }
   };
 
   const pageTitle = expenseTypeFields?.expensePageText
