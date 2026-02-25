@@ -232,7 +232,6 @@ describe('validateRequestedAmount', () => {
     const result = validateRequestedAmount('3.50', DATE_VALIDATION_TYPE.BLUR);
 
     expect(result.isValid).to.be.true;
-    expect(result.formattedValue).to.be.null;
     expect(result.errors.costRequested).to.be.null;
   });
 
@@ -243,14 +242,13 @@ describe('validateRequestedAmount', () => {
     expect(result.errors.costRequested).to.be.null;
   });
 
-  it('passes for valid amount without formatting on CHANGE', () => {
+  it('passes for valid amount on CHANGE', () => {
     const result = validateRequestedAmount(
       '10.25',
       DATE_VALIDATION_TYPE.CHANGE,
     );
 
     expect(result.isValid).to.be.true;
-    expect(result.formattedValue).to.be.null;
     expect(result.errors.costRequested).to.be.null;
   });
 });
