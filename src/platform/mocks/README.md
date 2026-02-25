@@ -1,6 +1,55 @@
 # Platform Mocks
 
-Mock data and handlers for local development and testing.
+## What is this?
+
+This package provides **front-end API mocking** for VA.gov applications using [MSW (Mock Service Worker)](https://mswjs.io/). It lets you develop and test your React application in the browser **without running `vets-api` or any backend server**. Instead of proxying requests to a real API, MSW intercepts HTTP requests directly in the browser via a Service Worker and returns mock responses that you define.
+
+### Who is this for?
+
+Any front-end developer working on a `vets-website` application who wants to:
+
+- **Develop without `vets-api` running** — no Docker, no Ruby, no local backend setup needed.
+- **Control API responses** — return specific data, error states, or edge cases on demand.
+- **Work offline** — all responses are served locally from your mock definitions.
+- **Speed up development** — no waiting for slow or flaky backend environments.
+
+### How does it work?
+
+1. You create a small mock file in your app that defines which API endpoints to intercept and what data to return.
+2. You update your app's entry file to start the MSW service worker when `USE_MOCKS=true` is set.
+3. You run your app with `USE_MOCKS=true yarn watch --env entry=your-app --env api=http://mock-vets-api.local`.
+4. MSW registers a Service Worker in the browser that intercepts outgoing `fetch` / `XMLHttpRequest` calls and responds with your mock data. No CLI tool, no separate terminal, no server process — it all runs in the browser.
+
+You access your app at `http://localhost:3001` just like normal. The only difference is that API calls go to the mock domain (`http://mock-vets-api.local`) which the Service Worker intercepts before they ever leave the browser.
+
+### How does this relate to `mocker-api` / `yarn mock-api`?
+
+The existing `yarn mock-api` command (powered by [`mocker-api`](https://github.com/jaywcjlove/mocker-api)) runs a **separate Node.js server** in a second terminal that proxies and mocks API requests. It works, but requires:
+
+- A separate terminal process running the mock server.
+- A `responses.js` file using CommonJS/Node.js conventions.
+- Coordinating the mock server lifecycle with your dev server.
+
+**MSW browser mocking** (this package) is a **simpler alternative** that runs entirely in the browser:
+
+| | `mocker-api` (`yarn mock-api`) | MSW browser mocking (this package) |
+| --- | --- | --- |
+| **Runs in** | Separate Node.js process (CLI) | Browser Service Worker |
+| **Requires extra terminal** | Yes | No |
+| **Response format** | CommonJS `responses.js` | ES module handlers |
+| **Intercepts at** | Network proxy level | Browser `fetch`/`XHR` level |
+| **Shares code with unit tests** | Limited | Yes — same mock data/responses |
+
+Both approaches are currently supported. Teams are encouraged to try MSW browser mocking for new work, and over time we expect to migrate from `mocker-api` to MSW as the standard approach.
+
+### What's in this package?
+
+| File | Purpose |
+| --- | --- |
+| `responses.js` | Pure mock data and factory functions (user, feature toggles, etc.) — usable anywhere (unit tests, Cypress, browser mocking) |
+| `browser.js` | MSW request handlers and helpers for browser-based mocking (wraps `responses.js` data into MSW handlers) |
+| `exportsFile.js` | Public API surface for `@department-of-veterans-affairs/platform-mocks` |
+| `README.md` | This file — the source of truth for all documentation |
 
 ## Quick Start
 

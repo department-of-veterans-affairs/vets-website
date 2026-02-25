@@ -25,8 +25,14 @@ const PrescriptionDetails = lazyWithRetry(() =>
 const PrescriptionDetailsDocumentation = lazyWithRetry(() =>
   import('./containers/PrescriptionDetailsDocumentation'),
 );
+const RefillPrescriptionsV2 = lazyWithRetry(() =>
+  import('./containers/RefillPrescriptionsV2'),
+);
 const PrescriptionsInProgress = lazyWithRetry(() =>
   import('./containers/PrescriptionsInProgress'),
+);
+const MedicationHistory = lazyWithRetry(() =>
+  import('./containers/MedicationHistory'),
 );
 
 // Loading component to display while lazy-loaded components are being fetched
@@ -67,10 +73,13 @@ RouteWrapper.propTypes = {
   children: PropTypes.node,
 };
 
-const FeatureFlaggedRoute = ({ Component, selector }) => {
+const FeatureFlaggedRoute = ({ Component, ComponentIfFalse, selector }) => {
   const isEnabled = useSelector(selector);
 
   if (!isEnabled) {
+    if (ComponentIfFalse) {
+      return <RouteWrapper Component={ComponentIfFalse} />;
+    }
     return <MhvPageNotFound />;
   }
 
@@ -84,6 +93,7 @@ const FeatureFlaggedRoute = ({ Component, selector }) => {
 FeatureFlaggedRoute.propTypes = {
   Component: PropTypes.elementType.isRequired,
   selector: PropTypes.func.isRequired,
+  ComponentIfFalse: PropTypes.elementType,
 };
 
 const routes = [
@@ -94,7 +104,13 @@ const routes = [
   },
   {
     path: '/',
-    element: <RouteWrapper Component={Prescriptions} />,
+    element: (
+      <FeatureFlaggedRoute
+        Component={RefillPrescriptionsV2}
+        ComponentIfFalse={Prescriptions}
+        selector={selectMedicationsManagementImprovementsFlag}
+      />
+    ),
     // loader: prescriptionsLoader,
   },
   {
@@ -102,6 +118,16 @@ const routes = [
     element: (
       <FeatureFlaggedRoute
         Component={PrescriptionsInProgress}
+        selector={selectMedicationsManagementImprovementsFlag}
+      />
+    ),
+    // loader: prescriptionsLoader,
+  },
+  {
+    path: 'history',
+    element: (
+      <FeatureFlaggedRoute
+        Component={MedicationHistory}
         selector={selectMedicationsManagementImprovementsFlag}
       />
     ),

@@ -5,6 +5,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import reducer from '../../reducers';
 import { Paths } from '../../util/constants';
+import { assertBackBreadcrumbLabel } from '../util/helpers.breadcrumbs';
 
 /**
  * Curated list / new start message flow breadcrumb back-navigation unit tests.
@@ -27,7 +28,7 @@ describe('Curated list breadcrumb back navigation', () => {
     await waitFor(() => {
       const backLink = getBackLink(container);
       expect(backLink).to.exist;
-      expect(backLink.textContent.trim()).to.equal('Back');
+      assertBackBreadcrumbLabel(container);
     });
 
     return getBackLink(container);

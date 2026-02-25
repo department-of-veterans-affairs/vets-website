@@ -90,7 +90,7 @@ const generateSlots = (numberOfDays = 14, slotsPerDay = 12) => {
 function createMockJwt(uuid, expiresIn = 3600) {
   const now = Math.floor(Date.now() / 1000);
   const header = { alg: 'HS256', typ: 'JWT' };
-  // TODO: confirm the payload structure
+
   const defaultPayload = {
     sub: uuid,
     jti: 'mock-jti',

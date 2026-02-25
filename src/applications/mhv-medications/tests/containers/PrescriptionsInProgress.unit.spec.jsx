@@ -104,7 +104,7 @@ describe('PrescriptionsInProgress container', () => {
       name: /Go to your medication history/i,
     });
     expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal('/');
+    expect(link.getAttribute('href')).to.equal('/history');
   });
 
   it('displays the refill medications link', () => {
@@ -208,6 +208,18 @@ describe('PrescriptionsInProgress container', () => {
       );
       expect(processListItems[2].getAttribute('header')).to.equal(
         'Medication shipped',
+      );
+    });
+
+    it('displays in-progress prescription in the Fill in progress step', () => {
+      stubFetchHook({ prescriptions: mockPrescriptions });
+      const screen = setup();
+      const inProgressLink = screen.getByRole('link', {
+        name: /Zoloft 25mg/i,
+      });
+      expect(inProgressLink).to.exist;
+      expect(inProgressLink.getAttribute('href')).to.equal(
+        '/my-health/medications/2',
       );
     });
   });

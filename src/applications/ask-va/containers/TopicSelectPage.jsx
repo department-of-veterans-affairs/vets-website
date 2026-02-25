@@ -35,7 +35,7 @@ const TopicSelectPage = props => {
       goForward(formData);
     }
     focusElement('va-radio');
-    return setValidationError('Please select a topic');
+    return setValidationError('Select a topic');
   };
 
   const handleChange = event => {

@@ -5,9 +5,9 @@ import UseMyLocation from './UseMyLocation';
 import AddressInputError from './AddressInputError';
 import { searchAddresses } from '../../../utils/mapHelpers';
 import Autosuggest from '../autosuggest';
+import { MIN_SEARCH_CHARS } from '../../../constants';
 
 const onlySpaces = str => /^\s+$/.test(str);
-const MIN_SEARCH_CHARS = 3;
 
 function AddressAutosuggest({
   currentQuery,
@@ -187,7 +187,9 @@ function AddressAutosuggest({
       handleOnSelect={handleOnSelect}
       label={
         <>
-          <span id="city-state-zip-text">Zip code or city, state</span>{' '}
+          <span id="city-state-zip-text">
+            Enter a zip code or a city and state
+          </span>{' '}
           <span className="form-required-span">(*Required)</span>
         </>
       }
@@ -227,12 +229,12 @@ function AddressAutosuggest({
       keepDataOnBlur
       showDownCaret={false}
       shouldShowNoResults
-      showOptionsRestriction={
-        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
-      }
       isLoading={isGeocoding}
       loadingMessage="Searching..."
       useProgressiveDisclosure={useProgressiveDisclosure || false}
+      showOptionsRestriction={
+        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
+      }
     />
   );
 }

@@ -1,11 +1,16 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
-import { TITLE, SUBTITLE } from '../constants';
-import manifest from '../manifest.json';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import { organizationRepresentativesArrayOptions } from '../helpers';
+
+import manifest from '../manifest.json';
+import transform from './transform';
+import submitForm from './submitForm';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -18,8 +23,6 @@ import thirdPartyOrganizationRepresentativesIntro from '../pages/thirdPartyOrgan
 import thirdPartyOrganizationRepresentativeName from '../pages/thirdPartyOrganizationRepresentativesName';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import informationToDisclose from '../pages/informationToDisclose';
 import prefillTransform from './prefillTransform';
 
@@ -27,6 +30,7 @@ import {
   thirdPartyPersonName,
   thirdPartyPersonAddress,
   discloseInformation,
+  lengthOfRelease,
   securitySetup,
   securitySetupPinPassword,
   securitySetupCustomQuestion,
@@ -43,9 +47,8 @@ const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: 'edu-10278-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -85,7 +88,7 @@ const formConfig = {
     finishAppLaterMessage: 'Finish this form later',
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
     reviewPageTitle: 'Review',
-    submitButtonText: 'Continue',
+    submitButtonText: 'Submit',
   },
   defaultDefinitions: {
     fullName,
@@ -94,6 +97,7 @@ const formConfig = {
     dateRange,
     usaPhone,
   },
+  transformForSubmit: transform,
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
@@ -123,18 +127,14 @@ const formConfig = {
           schema: identificationInformation.schema,
           depends: formData => formData?.userLoggedIn !== true,
         },
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-        },
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
-        },
+        ...profileContactInfoPages({
+          content: {
+            ...getContent('request'),
+            title: 'Confirm the contact information we have on file for you',
+            description: null,
+          },
+          contactInfoRequiredKeys: ['mailingAddress'],
+        }),
       },
     },
     disclosureChapter: {
@@ -236,6 +236,17 @@ const formConfig = {
             }
             goPath('/third-party-person-details-1');
           },
+        },
+      },
+    },
+    lengthOfReleaseChapter: {
+      title: 'Length of release',
+      pages: {
+        lengthOfRelease: {
+          path: 'length-of-release',
+          title: 'Length of release',
+          uiSchema: lengthOfRelease.uiSchema,
+          schema: lengthOfRelease.schema,
         },
       },
     },

@@ -123,4 +123,26 @@ describe('Income and Asset Statement App', () => {
       );
     });
   });
+
+  it('should render redirect loading indicator when user is not logged in on form page', () => {
+    const { props, data } = getData({
+      loggedIn: false,
+      toggle: true,
+      isLoading: false,
+    });
+    const { container } = render(
+      <Provider store={mockStore(data)}>
+        <App
+          {...props}
+          location={{ ...appLocation, pathname: '/inside-form' }}
+        />
+      </Provider>,
+    );
+
+    const loadingIndicator = container.querySelector('va-loading-indicator');
+    expect(loadingIndicator).to.exist;
+    expect(loadingIndicator.getAttribute('message')).to.equal(
+      'Redirecting to introduction page...',
+    );
+  });
 });

@@ -529,6 +529,12 @@ export const POST_REFERRAL_REQUEST_CACHE = 'postReferralAppointmentCache';
 
 export const AMBULATORY_PATIENT_SUMMARY = 'ambulatory_patient_summary';
 
+export const APPOINTMENT_SYSTEM = {
+  vista: 'vista',
+  cerner: 'cerner',
+  hsrm: 'hsrm',
+};
+
 // AVS error message constants
 export const AVS_ERROR_EMPTY_BINARY = 'Retrieved empty AVS binary';
 export const AVS_ERROR_RETRIEVAL = 'Error retrieving AVS binary';

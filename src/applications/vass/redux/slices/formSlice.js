@@ -93,7 +93,10 @@ export const formSlice = createSlice({
       if (state.uuid) {
         saveFormDataToStorage(state.uuid, {
           ...state,
-          selectedSlot: action.payload,
+          selectedSlot: {
+            dtStartUtc: action.payload.dtStartUtc,
+            dtEndUtc: action.payload.dtEndUtc,
+          },
         });
       }
     },
