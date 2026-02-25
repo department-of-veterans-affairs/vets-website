@@ -1,4 +1,5 @@
 import { generateFeatureToggles } from '../../mocks/feature-toggles';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 describe('Find a Representative error handling', () => {
   beforeEach(() => {
@@ -10,6 +11,7 @@ describe('Find a Representative error handling', () => {
       },
     });
     cy.intercept('GET', '/v0/maintenance_windows', []);
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
     cy.intercept(
       'GET',
       '/services/veteran/v0/vso_accredited_representatives?**',
