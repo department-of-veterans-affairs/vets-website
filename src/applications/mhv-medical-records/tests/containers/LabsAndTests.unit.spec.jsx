@@ -602,3 +602,88 @@ describe('Labs and tests accelerated path with imaging studies gating', () => {
     expect(hasImagingStudiesAction).to.be.false;
   });
 });
+
+describe('LabsAndTests - DuplicateRecordsAlert integration', () => {
+  const labsAndTestsFhir = labsAndTests.entry.map(item =>
+    convertLabsAndTestsRecord(item),
+  );
+
+  it('does not render DuplicateRecordsAlert when isCerner is false', () => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
+      user: {
+        ...user,
+        profile: {
+          ...user.profile,
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
+      },
+      mr: {
+        labsAndTests: {
+          labsAndTestsList: labsAndTestsFhir,
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(screen.queryByTestId('duplicate-records-info-alert')).to.not.exist;
+  });
+
+  it('renders DuplicateRecordsAlert when isCerner is true', () => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+          data: {
+            cernerFacilities: [{ vhaId: '983' }],
+          },
+        },
+      },
+      user: {
+        ...user,
+        profile: {
+          ...user.profile,
+          facilities: [{ facilityId: '983', isCerner: true }],
+        },
+      },
+      mr: {
+        labsAndTests: {
+          labsAndTestsList: labsAndTestsFhir,
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(screen.getByTestId('duplicate-records-info-alert')).to.exist;
+  });
+});
