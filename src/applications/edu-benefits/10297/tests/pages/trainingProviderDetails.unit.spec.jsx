@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import * as trainingProviderDetails from '../../pages/trainingProviderDetails';
@@ -24,7 +24,7 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
         uiSchema={uiSchema}
         data={{
           providerName: undefined,
-          providerAddress: {},
+          providerAddress: { country: 'CAN' },
         }}
       />,
     );
@@ -34,6 +34,11 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
     expect(container.querySelectorAll('va-text-input[error]')).to.have.lengthOf(
       4,
     );
-    expect(container.querySelectorAll('va-select[error]')).to.have.lengthOf(1);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('va-select[error]')).to.have.lengthOf(
+        1,
+      );
+    });
   });
 });
