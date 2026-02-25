@@ -178,7 +178,7 @@ describe('VeteranStatusSharedService', () => {
     });
   });
 
-  describe('when the user is not eligible for a Veteran Status Card', () => {
+  describe('when the user is not eligible for a Veteran Status Card (warning)', () => {
     it('should render the DynamicVeteranStatusAlert with warning status', async () => {
       apiRequestStub.resolves(veteranStatusAlertWarning);
       const initialState = createBasicInitialState();
@@ -214,7 +214,9 @@ describe('VeteranStatusSharedService', () => {
         expect(pdfLink(view)).to.not.exist;
       });
     });
+  });
 
+  describe('when the user is not eligible for a Veteran Status Card (error)', () => {
     it('should render the DynamicVeteranStatusAlert with error status', async () => {
       apiRequestStub.resolves(veteranStatusAlertError);
       const initialState = createBasicInitialState();
@@ -239,7 +241,9 @@ describe('VeteranStatusSharedService', () => {
         expect(pdfLink(view)).to.not.exist;
       });
     });
+  });
 
+  describe('when an API error occurs', () => {
     it('should render the LoadFail alert when an API error occurs', async () => {
       apiRequestStub.rejects(new Error('API Error'));
       const initialState = createBasicInitialState();
