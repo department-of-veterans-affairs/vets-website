@@ -175,6 +175,7 @@ const validateForm = () => {
 | Hook | Purpose |
 |---|---|
 | `useDebounce` | Debounce value changes for auto-save |
+| `useFocusSettle` | Delay content until page focus is stable (1s debounce + 5s ceiling). Internal to `SmAlert` — consumers should not need to use directly. |
 | `useInterval` | Run function at intervals (e.g., session check) |
 | `usePreviousUrl` | Track previous URL for navigation |
 | `useBeforeUnloadGuard` | Warn before closing window with unsaved changes |
@@ -195,6 +196,7 @@ const validateForm = () => {
 
 | Component | Purpose |
 |---|---|
+| `SmAlert` | **App-standard alert wrapper** — drop-in replacement for `VaAlert` with built-in `useFocusSettle` for reliable screen-reader announcements. Use `SmAlert` for all alerts in secure messaging; `VaAlert` is only used internally by `SmAlert`. Pass `srMessage` prop with the text to announce. |
 | `BlockedTriageGroupAlert` | Display when recipients are blocked or not associated |
 | `EmergencyNote` | Crisis line info — always display above compose/reply forms |
 | `HorizontalRule` | Consistent divider component |
@@ -203,15 +205,29 @@ const validateForm = () => {
 
 ## Alert & Modal Patterns
 
-- Use `VaAlert` with `status` prop: 'error', 'success', 'warning', 'info'
+- Use `SmAlert` (not `VaAlert` directly) for all alerts in secure messaging — it wraps `VaAlert` with built-in focus-settle screen-reader announcement via `useFocusSettle`
+- Pass `srMessage` prop with the text to announce to screen readers; pass `''` or omit to silence
+- Use `status` prop: 'error', 'success', 'warning', 'info'
 - Use `closeable` prop for dismissible alerts
-- Focus alert after display for accessibility
+- Focus alert after display for accessibility (error alerts only — see Focus Restriction below)
 - Modals in `components/Modals/` — use `visible` prop, always manage focus on open/close
+
+**Why SmAlert exists (VaAlert limitation):** VaAlert's `visible` prop triggers a complete DOM swap — when `visible=false`, VaAlert renders a `<div aria-live="polite"></div>` placeholder; when `visible=true`, that div is destroyed and replaced with the full alert DOM tree (which has no `aria-live`). Because the live region is removed during the transition, screen readers never detect the content change and skip the announcement entirely. SmAlert works around this by managing its own persistent `aria-live="polite"` span inside the alert.
+
+**Anti-pattern:**
+```jsx
+// ❌ Don't use VaAlert directly — use SmAlert to get focus-settle announcements
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+<VaAlert status="success">...</VaAlert>
+
+// ✅ Use SmAlert with srMessage
+import SmAlert from '../shared/SmAlert';
+<SmAlert status="success" srMessage="Folder renamed successfully">...</SmAlert>
+```
 
 ## Accessibility
 
 - Focus first error after validation failure using `focusOnErrorField()`
-- Focus success alert after actions
 - Trap focus in modals with `trapFocus()` from MHV exports
 - Return focus after modal close
 - Use proper heading hierarchy and landmark regions
@@ -223,61 +239,28 @@ const validateForm = () => {
 
 **When to use:** An `aria-live="polite"` region needs to announce alert content but page focus is still settling (e.g., heading receives focus on load). VoiceOver reads the focused element first — injecting polite live-region content simultaneously causes it to be skipped or to interrupt the current announcement.
 
-**Pattern:** Use `useLayoutEffect` to listen for any `focusin` event. Each focus change resets a 1s debounce timer — once focus settles for 1s, populate the sr-only span. Include a 5s hard ceiling in case focus keeps bouncing. Use `timerSourceRef` to prevent duplicate announces, and force a real DOM text mutation (clear → RAF → set) so screen readers detect the change reliably.
+**Implementation:** This pattern is encapsulated in `useFocusSettle` (hook) and `SmAlert` (component). **Do not re-implement this logic inline** — use `SmAlert` with the `srMessage` prop instead. The hook and component handle:
+- `useLayoutEffect` + `focusin` listener for debounced focus detection
+- 1s debounce timer reset on each focus change
+- 5s hard ceiling to guarantee announcement
+- `timerSourceRef` to prevent duplicate announces
+- DOM text mutation (clear → RAF → set) for reliable screen-reader detection
 
 ```jsx
-const [srAlertContent, setSrAlertContent] = useState('');
-const timerSourceRef = useRef(null);
-
-useLayoutEffect(() => {
-  if (!alertContent) {
-    setSrAlertContent('');
-    timerSourceRef.current = null;
-    return undefined;
-  }
-  let debounceTimer;
-  let rafId;
-  timerSourceRef.current = null;
-
-  const scheduleAnnounce = source => {
-    timerSourceRef.current = source;
-    setSrAlertContent('');
-    rafId = requestAnimationFrame(() => {
-      setSrAlertContent(alertContent);
-    });
-  };
-
-  const onFocusIn = () => {
-    if (timerSourceRef.current) return;
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(
-      () => scheduleAnnounce('focus-settle'),
-      1000,
-    );
-  };
-
-  document.addEventListener('focusin', onFocusIn);
-  onFocusIn(); // kick off initial debounce
-
-  const ceilingTimer = setTimeout(() => {
-    if (!timerSourceRef.current) {
-      scheduleAnnounce('ceiling');
-    }
-  }, 5000);
-
-  return () => {
-    clearTimeout(debounceTimer);
-    clearTimeout(ceilingTimer);
-    cancelAnimationFrame(rafId);
-    document.removeEventListener('focusin', onFocusIn);
-  };
-}, [alertContent]);
+// ✅ Just use SmAlert — focus-settle is built in
+<SmAlert status="success" srMessage="Folder renamed successfully">
+  <p>Folder renamed successfully</p>
+</SmAlert>
 ```
 
-**Why `useLayoutEffect`:** Fires before paint, guaranteeing the `focusin` listener is registered before the browser delivers focus events. `useEffect` has a timing gap.
+**Why `useLayoutEffect` (inside useFocusSettle):** Fires before paint, guaranteeing the `focusin` listener is registered before the browser delivers focus events. `useEffect` has a timing gap.
 
 **Anti-pattern:**
 ```jsx
+// ❌ Don't implement focus-settle inline — use SmAlert
+const [srContent, setSrContent] = useState('');
+useLayoutEffect(() => { /* manual focusin logic */ }, [content]);
+
 // ❌ Don't use useEffect — focusin may fire before the listener is registered
 useEffect(() => { document.addEventListener('focusin', handler); }, []);
 ```

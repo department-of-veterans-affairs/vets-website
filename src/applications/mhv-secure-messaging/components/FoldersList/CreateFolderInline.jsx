@@ -1,13 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaAlert,
-  VaTextInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { datadogRum } from '@datadog/browser-rum';
 import recordEvent from 'platform/monitoring/record-event';
 import { Alerts } from '../../util/constants';
+import SmAlert from '../shared/SmAlert';
 
 const CreateFolderInline = ({ folders, onConfirm, onFolderCreated }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -17,27 +15,17 @@ const CreateFolderInline = ({ folders, onConfirm, onFolderCreated }) => {
   const folderNameInput = useRef();
   const createFolderButtonRef = useRef();
 
-  useEffect(
-    () => {
-      if (isExpanded && folderNameInput.current) {
-        focusElement(
-          folderNameInput.current.shadowRoot?.querySelector('input'),
-        );
-      }
-    },
-    [isExpanded],
-  );
+  useEffect(() => {
+    if (isExpanded && folderNameInput.current) {
+      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
+    }
+  }, [isExpanded]);
 
-  useEffect(
-    () => {
-      if (nameWarning.length && folderNameInput.current) {
-        focusElement(
-          folderNameInput.current.shadowRoot?.querySelector('input'),
-        );
-      }
-    },
-    [nameWarning],
-  );
+  useEffect(() => {
+    if (nameWarning.length && folderNameInput.current) {
+      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
+    }
+  }, [nameWarning]);
 
   const handleCancel = useCallback(() => {
     setFolderName('');
@@ -46,34 +34,31 @@ const CreateFolderInline = ({ folders, onConfirm, onFolderCreated }) => {
     datadogRum.addAction('Create New Folder Inline Cancelled');
   }, []);
 
-  const handleCreate = useCallback(
-    async () => {
-      const folderMatch = folders.filter(folder => folder.name === folderName);
+  const handleCreate = useCallback(async () => {
+    const folderMatch = folders.filter(folder => folder.name === folderName);
 
-      if (folderName === '' || folderName.match(/^[\s]+$/)) {
-        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
-      } else if (folderMatch.length > 0) {
-        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_EXSISTING_NAME);
-      } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-        try {
-          await onConfirm(folderName);
-          const createdFolderName = folderName;
-          setFolderName('');
-          setNameWarning('');
-          setIsExpanded(false);
-          setShowCreateSuccess(true);
-          if (onFolderCreated) onFolderCreated(createdFolderName);
-          // Allow render cycle to complete before focusing the button
-          setTimeout(() => focusElement(createFolderButtonRef.current), 100);
-        } catch (error) {
-          // If creation fails, keep form open - error alert will be shown by action
-        }
-      } else {
-        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_CHAR_TYPE);
+    if (folderName === '' || folderName.match(/^[\s]+$/)) {
+      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
+    } else if (folderMatch.length > 0) {
+      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_EXSISTING_NAME);
+    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+      try {
+        await onConfirm(folderName);
+        const createdFolderName = folderName;
+        setFolderName('');
+        setNameWarning('');
+        setIsExpanded(false);
+        setShowCreateSuccess(true);
+        if (onFolderCreated) onFolderCreated(createdFolderName);
+        // Allow render cycle to complete before focusing the button
+        setTimeout(() => focusElement(createFolderButtonRef.current), 100);
+      } catch (error) {
+        // If creation fails, keep form open - error alert will be shown by action
       }
-    },
-    [folders, folderName, onConfirm, onFolderCreated],
-  );
+    } else {
+      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_CHAR_TYPE);
+    }
+  }, [folders, folderName, onConfirm, onFolderCreated]);
 
   const handleExpand = () => {
     setIsExpanded(true);
@@ -88,22 +73,23 @@ const CreateFolderInline = ({ folders, onConfirm, onFolderCreated }) => {
   if (!isExpanded) {
     return (
       <>
-        {showCreateSuccess && (
-          <VaAlert
-            status="success"
-            slim
-            closeable
-            closeBtnAriaLabel="Close notification"
-            onCloseEvent={() => setShowCreateSuccess(false)}
-            className="vads-u-margin-bottom--2"
-            role="status"
-            data-testid="create-folder-success-alert"
-          >
-            <p className="vads-u-margin-y--0">
-              {Alerts.Folder.CREATE_FOLDER_SUCCESS}
-            </p>
-          </VaAlert>
-        )}
+        <SmAlert
+          status="success"
+          slim
+          closeable
+          visible={showCreateSuccess}
+          closeBtnAriaLabel="Close notification"
+          onCloseEvent={() => setShowCreateSuccess(false)}
+          className="vads-u-margin-bottom--2"
+          data-testid="create-folder-success-alert"
+          srMessage={
+            showCreateSuccess ? Alerts.Folder.CREATE_FOLDER_SUCCESS : ''
+          }
+        >
+          <p className="vads-u-margin-y--0">
+            {Alerts.Folder.CREATE_FOLDER_SUCCESS}
+          </p>
+        </SmAlert>{' '}
         <va-button
           ref={createFolderButtonRef}
           onClick={handleExpand}

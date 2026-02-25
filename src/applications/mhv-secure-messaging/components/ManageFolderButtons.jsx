@@ -1,5 +1,4 @@
 import {
-  VaAlert,
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -14,6 +13,7 @@ import { navigateToFoldersPage } from '../util/helpers';
 import { delFolder, getFolders, renameFolder } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
 import * as Constants from '../util/constants';
+import SmAlert from './shared/SmAlert';
 
 const ManageFolderButtons = props => {
   const { ErrorMessages, Alerts } = Constants;
@@ -43,62 +43,43 @@ const ManageFolderButtons = props => {
   }, []);
 
   // Reset local state when navigating to a different folder (not on initial mount)
-  useEffect(
-    () => {
-      if (
-        prevFolderIdRef.current !== undefined &&
-        prevFolderIdRef.current !== folder?.folderId
-      ) {
-        setShowRenameSuccess(false);
-        setIsEditExpanded(false);
-        setFolderName('');
-        setNameWarning('');
-        setIsEmptyWarning(false);
-        setDeleteModal(false);
-      }
-      prevFolderIdRef.current = folder?.folderId;
-    },
-    [folder?.folderId],
-  );
+  useEffect(() => {
+    if (
+      prevFolderIdRef.current !== undefined &&
+      prevFolderIdRef.current !== folder?.folderId
+    ) {
+      setShowRenameSuccess(false);
+      setIsEditExpanded(false);
+      setFolderName('');
+      setNameWarning('');
+      setIsEmptyWarning(false);
+      setDeleteModal(false);
+    }
+    prevFolderIdRef.current = folder?.folderId;
+  }, [folder?.folderId]);
 
-  useEffect(
-    () => {
-      if (alertStatus) {
-        editFolderButtonRef.current?.focus();
-      }
-    },
-    [alertStatus],
-  );
+  useEffect(() => {
+    if (alertStatus) {
+      editFolderButtonRef.current?.focus();
+    }
+  }, [alertStatus]);
 
-  useEffect(
-    () => {
-      if (nameWarning.length)
-        focusElement(
-          folderNameInput.current.shadowRoot?.querySelector('input'),
-        );
-    },
-    [nameWarning],
-  );
+  useEffect(() => {
+    if (nameWarning.length)
+      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
+  }, [nameWarning]);
 
-  useEffect(
-    () => {
-      if (isEditExpanded && folder?.name) {
-        setFolderName(folder.name);
-      }
-    },
-    [isEditExpanded, folder?.name],
-  );
+  useEffect(() => {
+    if (isEditExpanded && folder?.name) {
+      setFolderName(folder.name);
+    }
+  }, [isEditExpanded, folder?.name]);
 
-  useEffect(
-    () => {
-      if (isEditExpanded && folderNameInput.current) {
-        focusElement(
-          folderNameInput.current.shadowRoot?.querySelector('input'),
-        );
-      }
-    },
-    [isEditExpanded],
-  );
+  useEffect(() => {
+    if (isEditExpanded && folderNameInput.current) {
+      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
+    }
+  }, [isEditExpanded]);
 
   const openDelModal = () => {
     if (alertStatus) dispatch(closeAlert());
@@ -142,39 +123,36 @@ const ManageFolderButtons = props => {
     datadogRum.addAction('Edit Folder Name Cancelled');
   }, []);
 
-  const confirmRenameFolder = useCallback(
-    async () => {
-      const folderMatch = folders.filter(
-        testFolder => testFolder.name === folderName,
-      );
-      await setNameWarning(''); // Clear any previous warnings, so that the warning state can be updated and refocuses back to input if on repeat Save clicks.
-      if (folderName === '' || folderName.match(/^[\s]+$/)) {
-        setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED);
-      } else if (folderMatch.length > 0) {
-        setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
-      } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-        try {
-          // Pass suppressSuccessAlert=true to prevent global alert, we show inline alert instead
-          await dispatch(renameFolder(folder.folderId, folderName, true));
-          setIsEditExpanded(false);
-          setFolderName('');
-          setNameWarning('');
-          setShowRenameSuccess(true);
-          // Per accessibility guidance: leave focus on triggering control (Edit button)
-          // The slim alert with role="status" will announce the success message
-          focusElement(editFolderButtonRef.current);
-        } catch (error) {
-          // If rename fails, keep form open - global error alert will be shown by action
-          // Error already logged to Datadog via sendDatadogError in renameFolder action
-        }
-      } else {
-        setNameWarning(
-          ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
-        );
+  const confirmRenameFolder = useCallback(async () => {
+    const folderMatch = folders.filter(
+      testFolder => testFolder.name === folderName,
+    );
+    await setNameWarning(''); // Clear any previous warnings, so that the warning state can be updated and refocuses back to input if on repeat Save clicks.
+    if (folderName === '' || folderName.match(/^[\s]+$/)) {
+      setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED);
+    } else if (folderMatch.length > 0) {
+      setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
+    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+      try {
+        // Pass suppressSuccessAlert=true to prevent global alert, we show inline alert instead
+        await dispatch(renameFolder(folder.folderId, folderName, true));
+        setIsEditExpanded(false);
+        setFolderName('');
+        setNameWarning('');
+        setShowRenameSuccess(true);
+        // Per accessibility guidance: leave focus on triggering control (Edit button)
+        // The slim alert with role="status" will announce the success message
+        focusElement(editFolderButtonRef.current);
+      } catch (error) {
+        // If rename fails, keep form open - global error alert will be shown by action
+        // Error already logged to Datadog via sendDatadogError in renameFolder action
       }
-    },
-    [folders, folderName, folder.folderId, dispatch, ErrorMessages],
-  );
+    } else {
+      setNameWarning(
+        ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
+      );
+    }
+  }, [folders, folderName, folder.folderId, dispatch, ErrorMessages]);
 
   return (
     <>
@@ -183,22 +161,23 @@ const ManageFolderButtons = props => {
           <h2 className="vads-u-margin-top--3 vads-u-margin-bottom--2">
             Edit folder
           </h2>
-          {showRenameSuccess && (
-            <VaAlert
-              status="success"
-              slim
-              closeable
-              closeBtnAriaLabel="Close notification"
-              onCloseEvent={() => setShowRenameSuccess(false)}
-              className="vads-u-margin-bottom--2"
-              role="status"
-              data-testid="rename-success-alert"
-            >
-              <p className="vads-u-margin-y--0">
-                {Alerts.Folder.RENAME_FOLDER_SUCCESS}
-              </p>
-            </VaAlert>
-          )}
+          <SmAlert
+            status="success"
+            slim
+            closeable
+            visible={showRenameSuccess}
+            closeBtnAriaLabel="Close notification"
+            onCloseEvent={() => setShowRenameSuccess(false)}
+            className="vads-u-margin-bottom--2"
+            data-testid="rename-success-alert"
+            srMessage={
+              showRenameSuccess ? Alerts.Folder.RENAME_FOLDER_SUCCESS : ''
+            }
+          >
+            <p className="vads-u-margin-y--0">
+              {Alerts.Folder.RENAME_FOLDER_SUCCESS}
+            </p>
+          </SmAlert>
           <va-additional-info
             trigger="How can I use a custom folder?"
             class="custom-folder-info vads-u-margin-bottom--3"

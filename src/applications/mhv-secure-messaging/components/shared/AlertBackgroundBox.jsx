@@ -18,7 +18,6 @@
 
 import React, {
   useEffect,
-  useLayoutEffect,
   useState,
   useRef,
   useCallback,
@@ -27,13 +26,13 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import useInterval from '../../hooks/use-interval';
 import { Alerts, DefaultFolders, Errors, Paths } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
 import { retrieveFolder } from '../../actions/folders';
 import RouterLink from './RouterLink';
+import SmAlert from './SmAlert';
 
 const AlertBackgroundBox = props => {
   const { setShowAlertBackgroundBox = () => {} } = props;
@@ -41,9 +40,7 @@ const AlertBackgroundBox = props => {
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
   const [alertContent, setAlertContent] = useState('');
-  const [srAlertContent, setSrAlertContent] = useState('');
   const alertRef = useRef();
-  const timerSourceRef = useRef(null);
   const [activeAlert, setActiveAlert] = useState(null);
 
   // Check if user entered compose flow from sent folder (via sessionStorage)
@@ -85,51 +82,45 @@ const AlertBackgroundBox = props => {
     threadViewPage,
     replyViewPage,
     contactListPage,
-  } = useMemo(
-    () => {
-      return {
-        startNewMessagePage: /new-message|draft/.test(location.pathname),
-        foldersViewPage: /folders\/\d+/.test(location.pathname),
-        threadViewPage: /thread\/\d+/.test(location.pathname),
-        replyViewPage: /reply\/\d+/.test(location.pathname),
-        contactListPage: /contact-list/.test(location.pathname),
-      };
-    },
-    [location.pathname],
-  );
+  } = useMemo(() => {
+    return {
+      startNewMessagePage: /new-message|draft/.test(location.pathname),
+      foldersViewPage: /folders\/\d+/.test(location.pathname),
+      threadViewPage: /thread\/\d+/.test(location.pathname),
+      replyViewPage: /reply\/\d+/.test(location.pathname),
+      contactListPage: /contact-list/.test(location.pathname),
+    };
+  }, [location.pathname]);
 
-  useEffect(
-    () => {
-      if (alertList?.length) {
-        if (foldersViewPage && !folder?.name) return;
-        if (
-          (threadViewPage || replyViewPage) &&
-          (threadMessages === undefined || threadMessages?.length < 1)
-        )
-          return;
+  useEffect(() => {
+    if (alertList?.length) {
+      if (foldersViewPage && !folder?.name) return;
+      if (
+        (threadViewPage || replyViewPage) &&
+        (threadMessages === undefined || threadMessages?.length < 1)
+      )
+        return;
 
-        const filteredSortedAlerts = alertList
-          .filter(alert => alert?.isActive)
-          .sort((a, b) => {
-            // Sort chronologically descending.
-            return b.datestamp - a.datestamp;
-          });
+      const filteredSortedAlerts = alertList
+        .filter(alert => alert?.isActive)
+        .sort((a, b) => {
+          // Sort chronologically descending.
+          return b.datestamp - a.datestamp;
+        });
 
-        // The activeAlert is the most recent alert marked as active.
-        setActiveAlert(filteredSortedAlerts[0] || null);
-        if (filteredSortedAlerts[0]) setShowAlertBackgroundBox(true);
-      }
-    },
-    [
-      alertList,
-      folder,
-      foldersViewPage,
-      replyViewPage,
-      setShowAlertBackgroundBox,
-      threadMessages,
-      threadViewPage,
-    ],
-  );
+      // The activeAlert is the most recent alert marked as active.
+      setActiveAlert(filteredSortedAlerts[0] || null);
+      if (filteredSortedAlerts[0]) setShowAlertBackgroundBox(true);
+    }
+  }, [
+    alertList,
+    folder,
+    foldersViewPage,
+    replyViewPage,
+    setShowAlertBackgroundBox,
+    threadMessages,
+    threadViewPage,
+  ]);
 
   const handleShowIcon = () => {
     if (props.noIcon) {
@@ -149,92 +140,30 @@ const AlertBackgroundBox = props => {
   };
 
   // sets custom server error messages for the landing page and folder view pages
-  useEffect(
-    () => {
-      const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
-      const isErrorAlert = activeAlert?.alertType === 'error';
-      let content = activeAlert?.content;
+  useEffect(() => {
+    const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
+    const isErrorAlert = activeAlert?.alertType === 'error';
+    let content = activeAlert?.content;
 
-      if (
-        !startNewMessagePage &&
-        !foldersViewPage &&
-        !threadViewPage &&
-        !contactListPage &&
-        (isServiceOutage || isErrorAlert)
-      ) {
-        content = SERVER_ERROR_503;
-      }
-      setAlertContent(content ?? '');
-    },
-    [
-      SERVER_ERROR_503,
-      SERVICE_OUTAGE,
-      activeAlert,
-      contactListPage,
-      foldersViewPage,
-      startNewMessagePage,
-      threadViewPage,
-    ],
-  );
-
-  // Wait for page focus to settle, then populate the sr-only span.
-  // Each focusin event resets a 1s debounce timer so VoiceOver finishes
-  // reading whatever element received focus before the polite announcement
-  // queues.  A 5s hard ceiling guarantees the announcement fires even if
-  // focus keeps moving.  Force a real text mutation (clear → RAF set) so
-  // the live region fires reliably.  timerSourceRef prevents duplicates.
-  useLayoutEffect(
-    () => {
-      if (!alertContent) {
-        setSrAlertContent('');
-        timerSourceRef.current = null;
-        return undefined;
-      }
-
-      let debounceTimer;
-      let rafId;
-      timerSourceRef.current = null;
-
-      const scheduleAnnounce = source => {
-        timerSourceRef.current = source;
-        // Force a real DOM text mutation: clear, then set on next frame
-        setSrAlertContent('');
-        rafId = requestAnimationFrame(() => {
-          setSrAlertContent(alertContent);
-        });
-      };
-
-      const onFocusIn = () => {
-        if (timerSourceRef.current) return;
-        // Reset the 1s debounce on every focus change
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(
-          () => scheduleAnnounce('focus-settle'),
-          1000,
-        );
-      };
-
-      document.addEventListener('focusin', onFocusIn);
-
-      // Kick off the initial debounce in case focus already settled
-      onFocusIn();
-
-      // Hard ceiling: announce after 5s no matter what
-      const ceilingTimer = setTimeout(() => {
-        if (!timerSourceRef.current) {
-          scheduleAnnounce('ceiling');
-        }
-      }, 5000);
-
-      return () => {
-        clearTimeout(debounceTimer);
-        clearTimeout(ceilingTimer);
-        cancelAnimationFrame(rafId);
-        document.removeEventListener('focusin', onFocusIn);
-      };
-    },
-    [alertContent],
-  );
+    if (
+      !startNewMessagePage &&
+      !foldersViewPage &&
+      !threadViewPage &&
+      !contactListPage &&
+      (isServiceOutage || isErrorAlert)
+    ) {
+      content = SERVER_ERROR_503;
+    }
+    setAlertContent(content ?? '');
+  }, [
+    SERVER_ERROR_503,
+    SERVICE_OUTAGE,
+    activeAlert,
+    contactListPage,
+    foldersViewPage,
+    startNewMessagePage,
+    threadViewPage,
+  ]);
 
   useInterval(() => {
     const shouldRetrieveFolders =
@@ -247,27 +176,24 @@ const AlertBackgroundBox = props => {
     }
   }, 60000); // 1 minute
 
-  const handleAlertFocus = useCallback(
-    () => {
-      // Only steal focus for error alerts — for success/info alerts the
-      // focus-steal at 500ms interrupts VoiceOver mid-announcement.
-      if (activeAlert?.alertType !== 'error') return;
+  const handleAlertFocus = useCallback(() => {
+    // Only steal focus for error alerts — for success/info alerts the
+    // focus-steal at 500ms interrupts VoiceOver mid-announcement.
+    if (activeAlert?.alertType !== 'error') return;
 
-      setTimeout(() => {
-        focusElement(
-          props.focus
-            ? alertRef.current.shadowRoot.querySelector('button')
-            : alertRef.current,
-        );
-      }, 500);
-    },
-    [activeAlert?.alertType, props.focus],
-  );
+    setTimeout(() => {
+      focusElement(
+        props.focus
+          ? alertRef.current.shadowRoot.querySelector('button')
+          : alertRef.current,
+      );
+    }, 500);
+  }, [activeAlert?.alertType, props.focus]);
 
   return (
     activeAlert &&
     activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
-      <VaAlert
+      <SmAlert
         uswds
         ref={alertRef}
         background-only
@@ -282,6 +208,7 @@ const AlertBackgroundBox = props => {
           closeAlertBox // success, error, warning, info, continue
         }
         onVa-component-did-load={handleAlertFocus}
+        srMessage={alertContent}
       >
         <p
           className={
@@ -293,9 +220,6 @@ const AlertBackgroundBox = props => {
         >
           {alertContent}
         </p>
-        <span className="sr-only" aria-live="polite" aria-atomic="true">
-          {srAlertContent}
-        </span>
         {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS &&
           !enteredFromSent && (
             <RouterLink
@@ -305,7 +229,7 @@ const AlertBackgroundBox = props => {
               data-dd-action-name="Sent messages link in success alert"
             />
           )}
-      </VaAlert>
+      </SmAlert>
     )
   );
 };
