@@ -26,11 +26,11 @@
         "1": {
           "category": "Account is being updated",
           "summary": {
-            "body": "Account updates or payments may take a few days to appear here. Check back later. If you need your latest account details now, contact us."
+            "body": "Account updates or payments may take a few days to appear here."
           },
           "details": {
             "header": "We're updating your account",
-            "body": "Updates or payments may take a few days to appear here. Check back later. If you need your latest account details now, contact us."
+            "body": "Updates or payments may take a few days to appear here. Check back later. If you need your latest account details now, contact us. We're here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET."
           }
         },
         "2": {
@@ -56,7 +56,7 @@
         "4": {
           "category": "Collections are paused",
           "summary": {
-            "body": "We've paused collection on this balance at your request."
+            "body": "We've paused collection on this balance as you requested."
           },
           "details": {
             "header": "Collection currently paused",
@@ -70,7 +70,7 @@
           },
           "details": {
             "header": "Make your next payment by {{ endDateText }}",
-            "body": "We're reviewing your <strong>{{ type }}</strong> now. We'll send you a letter as soon as we've made a decision. This process often takes at least a month. To avoid late fees and other collection actions, make your payments on time until you get your decision letter."
+            "body": "We're reviewing your <strong>{{ type }}</strong> now. We'll send you a letter as soon as we've made a decision. This process often takes at least a month. To avoid collection actions, make your payments on time until you get your decision letter."
           }
         },
         "6": {
@@ -96,21 +96,21 @@
         "8": {
           "category": "Currently due payment",
           "summary": {
-            "body": "Pay your balance of <strong>{{ amountDue }}</strong> or request help by <strong>{{ endDateText }}</strong> to avoid any collection actions."
+            "body": "Pay your balance of <strong>{{ amountDue }}</strong> or request help by <strong>{{ endDateText }}</strong> to avoid collection actions."
           },
           "details": {
             "header": "Pay your balance now to avoid collection",
-            "body": "Your balance of <strong>{{ amountDue }}</strong> is due. Pay the full balance or request help by <strong>{{ endDateText }}</strong> to avoid any collection actions."
+            "body": "Your balance of <strong>{{ amountDue }}</strong> is due. Pay the full balance or request help by <strong>{{ endDateText }}</strong> to avoid collection actions."
           }
         },
         "9": {
           "category": "Payment overdue",
           "summary": {
-            "body": "Pay your past due balance of <strong>{{ amountDue }}</strong> or request help by <strong>{{ endDateText }}</strong> to avoid any collection actions."
+            "body": "Pay your past due balance of <strong>{{ amountDue }}</strong> or request help by <strong>{{ endDateText }}</strong> to avoid collection actions."
           },
           "details": {
             "header": "Pay your past due balance now to avoid collection",
-            "body": "Your balance of <strong>{{ amountDue }}</strong> is past due. Pay the full balance or request help by <strong>{{ endDateText }}</strong> to avoid any collection actions."
+            "body": "Your balance of <strong>{{ amountDue }}</strong> is past due. Pay the full balance or request help by <strong>{{ endDateText }}</strong> to avoid collection actions."
           }
         },
         "10": {

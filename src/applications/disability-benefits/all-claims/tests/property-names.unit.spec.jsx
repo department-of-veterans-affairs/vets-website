@@ -57,13 +57,14 @@ describe('Root property names', () => {
 
     // these properties are used on the original claim and BDD evidence type pages
     // (except _forceFieldBlur which is used across multiple toxic exposure pages)
-    // TODO: remove `privateMedicalRecordAttachments` once current 0781 PMR Upload page is deprecated.
-    // Added `privateMedicalRecordAttachments` to ignore as it's being tested in a new flow that's behind a feature toggle along with the current flow.
+    // TODO: remove `privateMedicalRecordAttachments` and  `additionalDocuments` once current 0781 PMR Upload page is deprecated.
+    // Added `privateMedicalRecordAttachments` and `additionalDocuments` to ignore as it's being tested in a new flow that's behind a feature toggle along with the current flow.
     const duplicatedPropertiesToIgnore = [
       'view:hasEvidence',
       'view:selectableEvidenceTypes',
       'view:evidenceTypeHelp',
       'privateMedicalRecordAttachments',
+      'additionalDocuments',
       '_forceFieldBlur',
     ];
 

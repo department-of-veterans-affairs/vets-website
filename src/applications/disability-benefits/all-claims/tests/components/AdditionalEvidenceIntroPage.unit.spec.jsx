@@ -48,8 +48,10 @@ describe('AdditionalEvidenceIntroPage', () => {
   });
   it('should display additional documents in modal when the user choose No but provided additional documents and clicks continue', async () => {
     const data = {
-      'view:hasEvidenceChoice': false,
-      evidenceChoiceAdditionalDocuments: [
+      'view:selectableEvidenceTypes': {
+        'view:hasOtherEvidence': false,
+      },
+      additionalDocuments: [
         {
           name: 'supportingDoc.pdf',
         },
@@ -69,8 +71,10 @@ describe('AdditionalEvidenceIntroPage', () => {
 
   it('should limit displayed files to maxDisplayedItems', async () => {
     const data = {
-      'view:hasEvidenceChoice': false,
-      evidenceChoiceAdditionalDocuments: [
+      'view:selectableEvidenceTypes': {
+        'view:hasOtherEvidence': false,
+      },
+      additionalDocuments: [
         {
           name: 'supportingDoc1.pdf',
         },
@@ -105,8 +109,10 @@ describe('AdditionalEvidenceIntroPage', () => {
   it('should remove additional documents when confirming modal', async () => {
     const setFormData = sinon.spy();
     const data = {
-      'view:hasEvidenceChoice': false,
-      evidenceChoiceAdditionalDocuments: [
+      'view:selectableEvidenceTypes': {
+        'view:hasOtherEvidence': false,
+      },
+      additionalDocuments: [
         {
           name: 'supportingDoc1.pdf',
         },
@@ -130,17 +136,17 @@ describe('AdditionalEvidenceIntroPage', () => {
     await waitFor(() => {
       expect(setFormData.called).to.be.true;
       const updatedData = setFormData.firstCall.args[0];
-      expect(updatedData).to.not.have.property(
-        'evidenceChoiceAdditionalDocuments',
-      );
+      expect(updatedData).to.not.have.property('additionalDocuments');
     });
   });
 
   it('should show success alert after removing evidence', async () => {
     const setFormData = sinon.spy();
     const data = {
-      'view:hasEvidenceChoice': false,
-      evidenceChoiceAdditionalDocuments: [
+      'view:selectableEvidenceTypes': {
+        'view:hasOtherEvidence': false,
+      },
+      additionalDocuments: [
         {
           name: 'supportingDoc1.pdf',
         },
@@ -173,8 +179,10 @@ describe('AdditionalEvidenceIntroPage', () => {
   it('should cancel modal and reset selection to Yes after user click cancel change', async () => {
     const setFormData = sinon.spy();
     const data = {
-      'view:hasEvidenceChoice': false,
-      evidenceChoiceAdditionalDocuments: [
+      'view:selectableEvidenceTypes': {
+        'view:hasOtherEvidence': false,
+      },
+      additionalDocuments: [
         {
           name: 'supportingDoc1.pdf',
         },
@@ -198,7 +206,9 @@ describe('AdditionalEvidenceIntroPage', () => {
     await waitFor(() => {
       expect(setFormData.called).to.be.true;
       const updatedData = setFormData.lastCall.args[0];
-      expect(updatedData['view:hasEvidenceChoice']).to.be.true;
+      expect(
+        updatedData['view:selectableEvidenceTypes']['view:hasOtherEvidence'],
+      ).to.be.true;
       expect(modal).to.have.attribute('visible', 'false');
     });
   });
@@ -206,8 +216,10 @@ describe('AdditionalEvidenceIntroPage', () => {
   it('should cancel modal and reset selection to Yes after user click x on the modal', async () => {
     const setFormData = sinon.spy();
     const data = {
-      'view:hasEvidenceChoice': false,
-      evidenceChoiceAdditionalDocuments: [
+      'view:selectableEvidenceTypes': {
+        'view:hasOtherEvidence': false,
+      },
+      additionalDocuments: [
         {
           name: 'supportingDoc1.pdf',
         },
@@ -231,7 +243,9 @@ describe('AdditionalEvidenceIntroPage', () => {
     await waitFor(() => {
       expect(setFormData.called).to.be.true;
       const updatedData = setFormData.lastCall.args[0];
-      expect(updatedData['view:hasEvidenceChoice']).to.be.true;
+      expect(
+        updatedData['view:selectableEvidenceTypes']['view:hasOtherEvidence'],
+      ).to.be.true;
       expect(modal).to.have.attribute('visible', 'false');
     });
   });
