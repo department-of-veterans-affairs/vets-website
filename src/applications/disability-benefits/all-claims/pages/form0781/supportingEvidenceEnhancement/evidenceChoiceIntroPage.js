@@ -15,9 +15,11 @@ import {
 export const uiSchema = {
   'ui:title': standardTitle(evidenceChoiceIntroTitle),
   'ui:description': evidenceChoiceIntroDescriptionContent,
-  'view:hasEvidenceChoice': yesNoUI({
-    title: evidenceChoiceIntroQuestion,
-  }),
+  'view:selectableEvidenceTypes': {
+    'view:hasOtherEvidence': yesNoUI({
+      title: evidenceChoiceIntroQuestion,
+    }),
+  },
   'view:mentalHealthSupportAlert': {
     'ui:description': mentalHealthSupportAlert,
   },
@@ -25,9 +27,15 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['view:hasEvidenceChoice'],
+  required: ['view:selectableEvidenceTypes'],
   properties: {
-    'view:hasEvidenceChoice': yesNoSchema,
+    'view:selectableEvidenceTypes': {
+      type: 'object',
+      required: ['view:hasOtherEvidence'],
+      properties: {
+        'view:hasOtherEvidence': yesNoSchema,
+      },
+    },
     'view:mentalHealthSupportAlert': {
       type: 'object',
       properties: {},
