@@ -5,10 +5,11 @@ import { compact, isEmpty } from 'lodash';
 export const isPostcode = qs => /^\d{5}$/.test(qs);
 
 export const mapboxToken =
-  process.env.MAPBOX_TOKEN ||
-  'pk.eyJ1IjoiYWRob2MiLCJhIjoiY2wyZjNwM3dxMDZ4YjNjbzVwbTZ5aWQ1dyJ9.D8TZ1a4WobqcdYLWntXV_w';
+  process.env.MAPBOX_TOKEN_FACILITY_LOCATOR || process.env.MAPBOX_TOKEN || '';
 
-export const mapboxClient = new MapboxClient({ accessToken: mapboxToken });
+export const mapboxClient = new MapboxClient({
+  accessToken: mapboxToken || 'pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==',
+});
 
 const mbxClient = mbxGeo(mapboxClient);
 export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp', 'vi'];
