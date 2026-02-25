@@ -8,6 +8,7 @@ import AutosuggestOptions from './AutosuggestOptions';
 import './sass/autosuggest.scss';
 import { AutosuggestProps } from '../../../types';
 import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
+import { MIN_SEARCH_CHARS } from '../../../constants';
 
 function Autosuggest({
   // downshift props
@@ -43,7 +44,8 @@ function Autosuggest({
   loadingMessage = '',
   useProgressiveDisclosure,
   AutosuggestOptionComponent = AutosuggestOption,
-  showOptionsRestriction = undefined,
+  showOptionsRestriction = !!inputValue &&
+    inputValue?.length >= MIN_SEARCH_CHARS,
 }) {
   const {
     isOpen,
