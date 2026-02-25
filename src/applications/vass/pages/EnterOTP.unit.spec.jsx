@@ -20,6 +20,8 @@ import {
   createOTPInvalidError,
   createOTPAccountLockedError,
   createAppointmentAlreadyBookedError,
+  createVassApiError,
+  createNotWithinCohortError,
 } from '../services/mocks/utils/errors';
 import { createAppointmentAvailabilityResponse } from '../services/mocks/utils/responses';
 
@@ -241,6 +243,92 @@ describe('VASS Component: EnterOTP', () => {
       await waitFor(() => {
         const otpInput = getByTestId('otp-input');
         expect(otpInput.getAttribute('value')).to.equal('');
+      });
+    });
+
+    describe('appointment availability', () => {
+      it('should display error alert when availability check returns a server error', async () => {
+        setFetchJSONResponse(global.fetch.onCall(0), {
+          data: {
+            token: 'jwt-token',
+            expiresIn: 3600,
+            tokenType: 'Bearer',
+          },
+        });
+        setFetchJSONFailure(global.fetch.onCall(1), createVassApiError());
+
+        const { container, getByTestId, queryByTestId } = renderComponent();
+        inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
+        const continueButton = getByTestId('continue-button');
+        continueButton.click();
+
+        await waitFor(() => {
+          expect(getByTestId('api-error-alert')).to.exist;
+          expect(queryByTestId('header')).to.not.exist;
+        });
+      });
+
+      it('should display error alert when availability check returns a not-within-cohort error', async () => {
+        setFetchJSONResponse(global.fetch.onCall(0), {
+          data: {
+            token: 'jwt-token',
+            expiresIn: 3600,
+            tokenType: 'Bearer',
+          },
+        });
+        setFetchJSONFailure(
+          global.fetch.onCall(1),
+          createNotWithinCohortError(),
+        );
+
+        const { container, getByTestId, queryByTestId } = renderComponent();
+        inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
+        const continueButton = getByTestId('continue-button');
+        continueButton.click();
+
+        await waitFor(() => {
+          expect(getByTestId('api-error-alert')).to.exist;
+          expect(queryByTestId('header')).to.not.exist;
+        });
+      });
+
+      it('should not navigate when availability check returns a server error', async () => {
+        setFetchJSONResponse(global.fetch.onCall(0), {
+          data: {
+            token: 'jwt-token',
+            expiresIn: 3600,
+            tokenType: 'Bearer',
+          },
+        });
+        setFetchJSONFailure(global.fetch.onCall(1), createVassApiError());
+
+        const { container, getByTestId } = renderWithStoreAndRouterV6(
+          <>
+            <Routes>
+              <Route path={URLS.ENTER_OTP} element={<EnterOTP />} />
+              <Route
+                path={URLS.DATE_TIME}
+                element={<div>Date Time Page</div>}
+              />
+            </Routes>
+            <LocationDisplay />
+          </>,
+          {
+            ...defaultRenderOptions,
+            initialEntries: [URLS.ENTER_OTP],
+          },
+        );
+
+        inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
+        const continueButton = getByTestId('continue-button');
+        continueButton.click();
+
+        await waitFor(() => {
+          expect(getByTestId('api-error-alert')).to.exist;
+          expect(getByTestId('location-display').textContent).to.equal(
+            URLS.ENTER_OTP,
+          );
+        });
       });
     });
   });
