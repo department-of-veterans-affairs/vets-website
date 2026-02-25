@@ -138,7 +138,8 @@ const ConfirmationPage = props => {
   const { submission } = form;
   const { formConfig } = props?.route;
   const submitDate = submission?.timestamp || submission?.submittedAt;
-  const confirmationNumber = submission?.response?.confirmationNumber || 'N/A';
+  const confirmationNumber =
+    submission?.response?.attributes?.confirmationNumber || 'N/A';
 
   useEffect(() => {
     scrollToTop('topScrollElement');

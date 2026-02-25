@@ -9,10 +9,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import content from '../../locales/en/content.json';
-import {
-  formatFullName,
-  replaceStrValues,
-} from '../../utils/helpers/formatting';
+import { replaceStrValues } from '../../utils/helpers/formatting';
 import { VaStatementOfTruth } from '../../utils/imports';
 
 const STATEMENT_TEXT_DEFAULT = content['statement-of-truth--default'];
@@ -53,7 +50,13 @@ const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
   );
 
   const applicantName = useMemo(
-    () => formatFullName(formData.applicantName, { includeMiddle: true }),
+    () => {
+      const { first, middle, last } = formData.applicantName || {};
+      return [first, middle, last]
+        .map(part => part?.trim())
+        .filter(Boolean)
+        .join(' ');
+    },
     [formData.applicantName],
   );
 

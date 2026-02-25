@@ -17,54 +17,10 @@ import { checkValidations } from '../../utils/submit';
 import { form0781WorkflowChoices } from './workflowChoices';
 
 export const workflowChoicePageTitle =
-  'Option to add a statement in support of mental health conditions';
-
-const isPlaceholderRated = v => v === 'Rated Disability';
-
-const conditionSelections = formData => {
-  const conditions = Array.isArray(formData?.newDisabilities)
-    ? formData.newDisabilities
-        .filter(
-          d => typeof d?.condition === 'string' && d.condition.trim() !== '',
-        )
-        .filter(d => !isPlaceholderRated(d.condition))
-        .map(d => {
-          const base = d.condition.trim();
-          const side =
-            typeof d?.sideOfBody === 'string'
-              ? d.sideOfBody.trim().toLowerCase()
-              : '';
-
-          const full = side ? `${base}, ${side}` : base;
-
-          return full.charAt(0).toUpperCase() + full.slice(1);
-        })
-        .filter(
-          (() => {
-            const seen = new Set();
-            return label => (seen.has(label) ? false : (seen.add(label), true));
-          })(),
-        )
-    : [];
-
-  if (conditions.length === 0) return null;
-
-  return (
-    <div>
-      <p>Your claim includes these new conditions:</p>
-      <ul>
-        {conditions.map((condition, index) => (
-          <li key={index}>
-            <strong>{condition}</strong>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+  'Optional statement if your claim includes mental health conditions';
 
 export const form0781WorkflowChoiceDescription =
-  'Do you want to add a statement in support of mental health conditions?';
+  'Do you want to add a statement to support mental health conditions related to traumatic events?';
 
 export const form0781WorkflowChoiceLabels = Object.freeze({
   [form0781WorkflowChoices.COMPLETE_ONLINE_FORM]:
@@ -72,17 +28,30 @@ export const form0781WorkflowChoiceLabels = Object.freeze({
   [form0781WorkflowChoices.SUBMIT_PAPER_FORM]:
     'Yes, and I want to fill out a PDF to upload.',
   [form0781WorkflowChoices.OPT_OUT_OF_FORM0781]:
-    'No, I don’t want to add this form to my claim.',
+    'No, I don’t want to add this statement to my claim.',
 });
 
-export const workflowChoicePageDescription = formData => {
+export const workflowChoicePageDescription = () => {
   return (
     <>
-      {conditionSelections(formData)}
       <p>
-        We encourage you to submit this optional statement for any new mental
-        health conditions related to a traumatic event that happened during your
-        military service. We’ll use the information to support your claim.
+        We encourage you to submit this optional statement if both of these
+        descriptions are true for you:
+      </p>
+      <ul>
+        <li>
+          Your claim includes one or more mental health conditions,{' '}
+          <strong>and</strong>
+        </li>
+        <li>
+          The mental health conditions relate to a traumatic event that happened
+          during your military service
+        </li>
+      </ul>
+      <p>We’ll use the information you provide to support your claim.</p>
+      <p>
+        If these descriptions don’t apply to you, you can skip adding this
+        statement.
       </p>
       <p>
         <strong>Here’s what to know before you decide:</strong>
@@ -554,7 +523,7 @@ const WorkflowChoicePage = props => {
           {titleWithTag(workflowChoicePageTitle, form0781HeadingTag)}
         </legend>
         <div>
-          {workflowChoicePageDescription(data)}
+          {workflowChoicePageDescription()}
           <div>
             <VaRadio
               label={form0781WorkflowChoiceDescription}
@@ -615,7 +584,7 @@ const WorkflowChoicePage = props => {
                 <va-link
                   external
                   href="https://www.va.gov/find-forms/about-form-21-0781/"
-                  text="Download VA Form 21-0781"
+                  text="Download VA Form 21-0781 to submit your statement"
                 />
               </p>
             </div>

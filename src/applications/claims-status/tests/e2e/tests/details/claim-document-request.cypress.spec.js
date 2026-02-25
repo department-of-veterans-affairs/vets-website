@@ -41,6 +41,10 @@ describe('Claim document request', () => {
       cy.findByRole('heading', { name: 'What we need from you', level: 2 });
       cy.findByRole('heading', { name: 'Next steps', level: 2 });
       cy.findByRole('heading', { name: 'Upload documents', level: 2 });
+      cy.findByText(/We requested this evidence from you on/);
+      cy.findByText(
+        /You can still send the evidence after the “respond by” date, but it may delay your claim/,
+      );
 
       cy.axeCheck();
     });

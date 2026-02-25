@@ -1,5 +1,6 @@
 export { requestStates } from './constants';
 export { default as sortListByFuzzyMatch } from './fuzzy-matching';
+export { lazyWithRetry } from './lazy-load-with-retry';
 export { default as prefixUtilityClasses } from './prefix-utility-classes';
 export { usePrevious } from './react-hooks';
 export { getAppUrl } from './registry-helpers';

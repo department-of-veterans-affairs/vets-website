@@ -149,6 +149,7 @@ const IntroductionPage = props => {
           exp-date={
             decisionReviewNodFeb2025PdfEnabled ? '4/30/2028' : '2/28/2022'
           }
+          modal-click-to-close
         />
       </div>
     </div>

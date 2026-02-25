@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import * as api from 'platform/utilities/api';
 import * as recordEventModule from 'platform/monitoring/record-event';
 import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink';
@@ -170,8 +170,12 @@ describe('hca <ApplicationDownloadLink>', () => {
         });
       });
 
-      // createObjectURL is not stubbed so it throws error
+      // Stub createObjectURL to throw an error to simulate a failure in PDF handling
       it('should display `generic` error message when any other error occurs not in the request response', async () => {
+        const createObjectStub = sinon
+          .stub(URL, 'createObjectURL')
+          .throws(new Error('createObjectURL failed'));
+
         const { selectors } = subject();
         const { vaLink: link } = selectors();
 
@@ -190,6 +194,8 @@ describe('hca <ApplicationDownloadLink>', () => {
           const event = 'hca-pdf-download--failure';
           expect(recordEventStub.calledWith({ event })).to.be.true;
         });
+
+        createObjectStub.restore();
       });
     });
   });

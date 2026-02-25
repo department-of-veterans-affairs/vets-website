@@ -36,12 +36,20 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     travelPayClaim = null,
     hasUnsavedChanges = false,
     expenses = [],
+    scheduledDowntime = null,
   } = {}) => ({
     featureToggles: {
       loading: false,
       /* eslint-disable camelcase */
       travel_pay_enable_complex_claims: complexClaimsEnabled,
       /* eslint-enable camelcase */
+    },
+    scheduledDowntime: scheduledDowntime || {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: { get() {} },
+      dismissedDowntimeWarnings: [],
     },
     travelPay: {
       appointment: {
@@ -207,7 +215,6 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         `/my-health/appointments/past/${appointmentId}`,
       );
       expect(backLink.getAttribute('text')).to.equal('Back to appointment');
-      expect(backLink.hasAttribute('disable-analytics')).to.be.true;
 
       sessionStorage.clear();
     });
@@ -236,6 +243,72 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       );
 
       expect(screen.getByTestId('review-page')).to.exist;
+    });
+
+    it('renders the "Need help?" section', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: { claimId },
+      });
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            `/file-new-claim/${appointmentId}/${claimId}/review`,
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route path="review" element={<ReviewPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>,
+        { initialState, reducers: reducer },
+      );
+
+      expect(getByTestId('complex-claim-help')).to.exist;
+    });
+
+    it('renders the "Need help?" section even during maintenance window', () => {
+      // Set up downtime scenario
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: { claimId },
+        scheduledDowntime: {
+          globalDowntime: {
+            externalService: 'travelPay',
+            startTime: new Date().toISOString(),
+            endTime: new Date(Date.now() + 3600000).toISOString(), // 1 hour from now
+          },
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      });
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            `/file-new-claim/${appointmentId}/${claimId}/review`,
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route path="review" element={<ReviewPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>,
+        { initialState, reducers: reducer },
+      );
+
+      // The help section should still render because it's outside DowntimeWindowAlert
+      expect(getByTestId('complex-claim-help')).to.exist;
     });
 
     it('shows the ReviewPage first, and after clicking Sign Agreement navigates to the AgreementPage', async () => {

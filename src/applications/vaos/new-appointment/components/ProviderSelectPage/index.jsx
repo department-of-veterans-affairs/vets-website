@@ -21,11 +21,13 @@ export default function SelectProviderPage() {
   const eligibility = useSelector(selectEligibility);
   const selectedFacility = useSelector(selectChosenFacilityInfo);
 
+  const isEligibleForDirect = eligibility?.direct;
+
   const {
     loading,
     patientRelationshipsError,
     patientProviderRelationships,
-  } = useGetPatientRelationships();
+  } = useGetPatientRelationships({ skip: !isEligibleForDirect });
 
   // page header setup
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
@@ -58,7 +60,7 @@ export default function SelectProviderPage() {
         return singleProviderTitle;
 
       // No provider header, no error
-      if (!hasProviders) return cantScheduleTitle;
+      if (!hasProviders || !isEligibleForDirect) return cantScheduleTitle;
 
       // return default pageTitle
       return pageTitle;
@@ -127,7 +129,7 @@ export default function SelectProviderPage() {
         )}
 
       {/* Has providers returned, no errors */}
-      {hasProviders ? (
+      {hasProviders && isEligibleForDirect ? (
         <>
           <TypeOfCareAndFacilityInfo />
           {patientProviderRelationships.map((provider, index) => (

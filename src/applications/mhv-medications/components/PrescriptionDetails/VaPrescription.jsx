@@ -8,13 +8,16 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
+import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   dateFormat,
   determineRefillLabel,
   displayProviderName,
+  getPrescriptionDetailUrl,
   getRefillHistory,
   getShowRefillHistory,
   hasCmopNdcNumber,
+  isOracleHealthPrescription,
   isRefillTakingLongerThanExpected,
   validateIfAvailable,
   prescriptionMedAndRenewalStatus,
@@ -26,7 +29,6 @@ import {
   DISPENSE_STATUS,
 } from '../../util/constants';
 import TrackingInfo from '../shared/TrackingInfo';
-import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import SendRxRenewalMessage from '../shared/SendRxRenewalMessage';
 import MedicationDescription from '../shared/MedicationDescription';
@@ -47,6 +49,11 @@ const VaPrescription = prescription => {
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const cernerFacilityIds = useSelector(selectCernerFacilityIds);
+  const isOracleHealth = isOracleHealthPrescription(
+    prescription,
+    cernerFacilityIds,
+  );
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
@@ -194,7 +201,11 @@ const VaPrescription = prescription => {
             data-testid="va-prescription-container"
             data-dd-privacy="mask"
           >
-            <SendRxRenewalMessage rx={prescription} isActionLink />
+            <SendRxRenewalMessage
+              rx={prescription}
+              isActionLink
+              isOracleHealth={isOracleHealth}
+            />
             <>
               {displayTrackingAlert()}
 
@@ -249,26 +260,27 @@ const VaPrescription = prescription => {
                   <>Most recent prescription</>
                 )}
               </h2>
-              {prescription?.isRefillable ? (
+              {prescription?.isRefillable && (
                 <Link
                   className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
                   to="/refill"
                   data-testid="refill-nav-link"
-                  data-dd-action-name={
-                    dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
-                  }
+                  onClick={() => {
+                    datadogRum.addAction(
+                      dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION,
+                      { facilityId: prescription?.stationNumber },
+                    );
+                  }}
                 >
                   {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
                 </Link>
-              ) : (
-                <FillRefillButton {...prescription} />
               )}
 
               {prescription && (
                 <ExtraDetails
                   {...prescription}
                   page={pageType.DETAILS}
-                  showRenewalLink
+                  renewalLinkShownAbove
                 />
               )}
               {!pendingMed &&
@@ -376,9 +388,7 @@ const VaPrescription = prescription => {
               {// Any of the Rx's NDC's will work here. They should all show the same information
               hasCmopNdcNumber(refillHistory) && (
                 <Link
-                  to={`/prescription/${
-                    prescription.prescriptionId
-                  }/documentation`}
+                  to={getPrescriptionDetailUrl(prescription, '/documentation')}
                   data-testid="va-prescription-documentation-link"
                   className="vads-u-display--inline-block vads-u-font-weight--bold"
                   data-dd-action-name={

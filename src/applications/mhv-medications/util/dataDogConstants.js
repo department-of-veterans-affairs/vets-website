@@ -8,15 +8,16 @@ import {
 
 export const pageType = {
   DETAILS: 'Details Page',
+  DOCUMENTATION: 'Documentation',
+  IN_PROGRESS: 'In-progress',
+  HISTORY: 'History',
   LIST: 'List Page',
   REFILL: 'Refill Page',
-  DOCUMENTATION: 'Documentation',
 };
 
 export const dataDogActionNames = {
   medicationsListPage: {
-    FILL_OR_REFILL_BUTTON: `Fill or Refill Button - ${pageType.LIST}`,
-    REQUEST_REFILL_CARD_LINK: `Request Refill Card Link - ${pageType.LIST}`,
+    REFILL_BUTTON: `Refill Button - ${pageType.LIST}`,
     MEDICATION_NAME_LINK_IN_CARD: `Medication Name Link In Card - ${
       pageType.LIST
     }`,
@@ -42,6 +43,16 @@ export const dataDogActionNames = {
     STOP_SHOWING_IPE_FILTERING_HINT: `In production education for filtering - Stop showing this hint`,
     REFILL_ALERT_LINK: `Med Link in Delay Alert - ${pageType.LIST}`,
     GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
+      pageType.LIST
+    }`,
+    GO_TO_ALLERGIES_AND_REACTIONS_LINK: `Go to allergies and reactions link - ${
+      pageType.LIST
+    }`,
+    LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK: `Learn more about managing medications online link - ${
+      pageType.LIST
+    }`,
+    START_A_NEW_MESSAGE_LINK: `Start a new message link - ${pageType.LIST}`,
+    GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
       pageType.LIST
     }`,
   },
@@ -76,6 +87,22 @@ export const dataDogActionNames = {
     GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
       pageType.REFILL
     }`,
+    GO_TO_ALLERGIES_AND_REACTIONS_LINK: `Go to allergies and reactions link - ${
+      pageType.REFILL
+    }`,
+    LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK: `Learn more about managing medications online link - ${
+      pageType.REFILL
+    }`,
+    START_A_NEW_MESSAGE_LINK: `Start a new message link - ${pageType.REFILL}`,
+    GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
+      pageType.REFILL
+    }`,
+  },
+  renewalModal: {
+    MODAL_OPEN: 'Rx Renewal Modal Open',
+    MODAL_CONTINUE: 'Rx Renewal Modal Continue',
+    MODAL_BACK: 'Rx Renewal Modal Back',
+    MODAL_CLOSE: 'Rx Renewal Modal Close',
   },
   shared: {
     DOWNLOAD_A_PDF_OF_THIS: 'Download A PDF Of This ',

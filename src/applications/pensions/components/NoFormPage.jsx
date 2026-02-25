@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 
-import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import {
   ApplicantInformation,
   MilitaryHistory,
@@ -15,7 +13,6 @@ import {
 export const NoFormPage = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
-  const loggedIn = useSelector(isLoggedIn);
 
   useEffect(() => {
     const resource = '/in_progress_forms/21P-527EZ';
@@ -39,7 +36,7 @@ export const NoFormPage = () => {
     );
   }
 
-  return loggedIn ? (
+  return (
     <div className="row vads-u-margin-bottom--4">
       <h1>Review pension benefits application</h1>
       <p>VA Form 21P-527EZ</p>
@@ -80,10 +77,9 @@ export const NoFormPage = () => {
                 <li>
                   <p>
                     <strong>
-                      You can wait until January 2024 and apply online then.
+                      You can wait until the updates are complete and apply
+                      online.
                     </strong>{' '}
-                    We’ll transfer your saved information to the new online
-                    application.
                   </p>
                 </li>
               </ul>
@@ -185,33 +181,6 @@ export const NoFormPage = () => {
           </p>
         </>
       )}
-    </div>
-  ) : (
-    <div className="row vads-u-margin-bottom--4">
-      <h1>Review pension benefits application</h1>
-      <p>VA Form 21P-527EZ</p>
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          You can’t use our online application right now
-        </h2>
-        <p>
-          We’re updating our online application. If you started applying online
-          already, you can still sign in to VA.gov to refer to your saved
-          information when you fill out the PDF form.
-        </p>
-        <va-link
-          href="/pension/how-to-apply/"
-          text="Learn more about how to apply for VA pension benefits"
-        />
-      </va-alert>
-      <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--lg vads-u-border-bottom--2px vads-u-border-color--primary">
-        Need help?
-      </h2>
-      <p>
-        Call us at <va-telephone contact="8008271000" />. We’re here Monday
-        through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call{' '}
-        <va-telephone contact="711" tty />.
-      </p>
     </div>
   );
 };

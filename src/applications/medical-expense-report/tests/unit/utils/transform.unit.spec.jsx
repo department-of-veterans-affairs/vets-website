@@ -46,7 +46,7 @@ describe('submit transformer', () => {
       veteranFullName: {
         first: 'John',
         middle: 'A',
-        last: 'Doe',
+        last: 'Doe Jr',
         suffix: 'Jr',
       },
     });
@@ -80,13 +80,13 @@ describe('submit transformer', () => {
       claimantFullName: {
         first: 'John',
         middle: 'A',
-        last: 'Doe',
+        last: 'Doe Jr',
         suffix: 'Jr',
       },
       veteranFullName: {
         first: 'Jane',
         middle: 'C',
-        last: 'Doee',
+        last: 'Doee Sr',
         suffix: 'Sr',
       },
     });
@@ -190,6 +190,7 @@ describe('submit transformer', () => {
     expect(parsedResult.medicalExpenseReportsClaim).to.have.property('form');
     expect(parsedForm).to.deep.equal({
       veteranSocialSecurityNumber: '123-45-6789',
+      vaFileNumber: '987654321',
     });
     expect(parsedResult).to.have.property('localTime');
   });

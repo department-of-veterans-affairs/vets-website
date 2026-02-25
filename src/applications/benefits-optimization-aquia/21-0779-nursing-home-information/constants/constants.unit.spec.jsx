@@ -15,7 +15,7 @@ describe('Constants', () => {
 
     it('should have expected TITLE value', () => {
       expect(TITLE).to.equal(
-        'Submit nursing home information to support a claim',
+        'Submit nursing home information in connection with claim for Aid and Attendance',
       );
     });
 

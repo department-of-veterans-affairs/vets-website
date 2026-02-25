@@ -6,7 +6,7 @@ import {
 import {
   currentOrPastMonthYearDateSchema,
   currentOrPastMonthYearDateUI,
-  inlineTitleUI,
+  titleUI,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -70,7 +70,7 @@ const doctorItemSchema = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...inlineTitleUI(
+    ...titleUI(
       'Recent Medical Care',
       'Your recent medical treatment continued.',
     ),

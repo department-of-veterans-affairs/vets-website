@@ -201,6 +201,7 @@ const RecipientsSelect = ({
           recipientName: recipient.name,
           recipientId: recipient.id,
           ohTriageGroup: recipient.ohTriageGroup,
+          stationNumber: recipient.stationNumber,
         }),
       );
 
@@ -221,14 +222,21 @@ const RecipientsSelect = ({
       }
     },
     [
+      mhvSecureMessagingCuratedListFlow,
+      recentRecipients,
       recipientsList,
-      dispatch,
       selectedRecipient,
+      onValueChange,
       handleSetCheckboxMarked,
       handleSetElectronicSignature,
-      onValueChange,
+      dispatch,
     ],
   );
+
+  const shortenSystemName = name => {
+    const prefixRemoved = name?.replace(/^VA\s+/i, '');
+    return prefixRemoved?.replace(/\s+health care$/i, '');
+  };
 
   const optionsValues = useMemo(
     () => {
@@ -251,6 +259,7 @@ const RecipientsSelect = ({
             {recentRecipients.map(r => (
               <option key={r.triageTeamId} value={r.triageTeamId}>
                 {r.name}
+                {`\t(${shortenSystemName(r.healthCareSystemName)})`}
               </option>
             ))}
           </optgroup>,
@@ -262,6 +271,9 @@ const RecipientsSelect = ({
           options.push(
             <option key={item.id} value={item.id}>
               {item.suggestedNameDisplay || item.name}
+              {item.vamcSystemName
+                ? `\t(${shortenSystemName(item.vamcSystemName)})`
+                : `\t(${shortenSystemName(item.healthCareSystemName)})`}
             </option>,
           );
         } else if (item.vamcSystemName !== currentVamcSystemName) {
@@ -281,6 +293,7 @@ const RecipientsSelect = ({
         groupedOptions.push(
           <option key={item.id} value={item.id}>
             {item.suggestedNameDisplay || item.name}
+            {`\t(${shortenSystemName(item.vamcSystemName)})`}
           </option>,
         );
       });

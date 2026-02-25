@@ -8,7 +8,7 @@ This document outlines a recommended incremental upgrade path from Node 14 + jsd
 
 | Component | Version | Status |
 |-----------|---------|--------|
-| Node.js | 14.x | ❌ EOL since April 2023 |
+| Node.js | 22.x | ✅ Current (LTS until April 2027) |
 | jsdom | 15.2.1 | Outdated |
 | Test Runner | Mocha + Chai | Current |
 

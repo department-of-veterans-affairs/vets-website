@@ -2,15 +2,41 @@ import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
+import { waitFor, fireEvent } from '@testing-library/react';
+import { datadogRum } from '@datadog/browser-rum';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi } from '../testing-utils';
 import RefillPrescriptions from '../../containers/RefillPrescriptions';
 import reducer from '../../reducers';
 import { dateFormat } from '../../util/helpers';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const refillablePrescriptions = require('../fixtures/refillablePrescriptionsList.json');
+
+const mockMichiganMigration = {
+  migrationDate: '2026-04-11',
+  facilities: [{ facilityId: 515 }],
+  phases: {
+    current: 'p4',
+    p0: 'February 10, 2026',
+    p1: 'February 12, 2026',
+    p2: 'March 12, 2026',
+    p3: 'April 5, 2026',
+    p4: 'April 8, 2026',
+    p5: 'April 11, 2026',
+    p6: 'April 13, 2026',
+    p7: 'April 18, 2026',
+  },
+};
+
+const mockMichiganMigrationT45 = {
+  ...mockMichiganMigration,
+  phases: {
+    ...mockMichiganMigration.phases,
+    current: 'p2',
+  },
+};
 
 let sandbox;
 
@@ -66,6 +92,13 @@ describe('Refill Prescriptions Component', () => {
     user: {
       login: {
         currentlyLoggedIn: true,
+      },
+      profile: {
+        userFullName: {
+          first: 'Test',
+          last: 'User',
+        },
+        dob: '1990-01-01',
       },
     },
   };
@@ -142,6 +175,26 @@ describe('Refill Prescriptions Component', () => {
     });
     expect(button).to.have.property('text', 'Request 1 refill');
     button.click();
+  });
+
+  it('calls datadogRum.addAction with facilityIds when request refill button is clicked', async () => {
+    const addActionSpy = sandbox.spy(datadogRum, 'addAction');
+    const screen = setup();
+    const checkbox = await screen.findByTestId(
+      'refill-prescription-checkbox-0',
+    );
+    checkbox.__events.vaChange({
+      detail: { checked: true },
+    });
+    const button = await screen.findByTestId('request-refill-button');
+    button.click();
+    expect(addActionSpy.calledOnce).to.be.true;
+    expect(
+      addActionSpy.calledWith(
+        dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON,
+        { facilityIds: ['989'] },
+      ),
+    ).to.be.true;
   });
 
   it('Shows the select all checkbox', async () => {
@@ -547,6 +600,7 @@ describe('Refill Prescriptions Component', () => {
           {
             isLoading: false,
             error: null,
+            isSuccess: true,
             data: {
               successfulIds: [prescription.prescriptionId],
               failedIds: [],
@@ -616,6 +670,7 @@ describe('Refill Prescriptions Component', () => {
           {
             isLoading: false,
             error: null,
+            isSuccess: true,
             data: {
               successfulIds: [
                 { id: prescription.prescriptionId, stationNumber: '989' },
@@ -647,35 +702,23 @@ describe('Refill Prescriptions Component', () => {
       });
     });
 
-    it('filters out successfully refilled prescriptions from the checkbox list immediately', async () => {
-      // This test verifies that after a successful refill, the prescription
-      // is immediately hidden from the refillable checkbox list without waiting for cache refresh
+    it('shows loading indicator during cache refresh (isFetching = true)', async () => {
+      // This test verifies the cache refresh behavior when isFetching is true
+      // In real usage, this happens after successful refills when RTK Query invalidates and refetches
       sandbox.restore();
-
-      const prescription1 = {
-        ...refillablePrescriptions[0],
-        prescriptionId: 11111111,
-        prescriptionName: 'MEDICATION A',
-      };
-      const prescription2 = {
-        ...refillablePrescriptions[1],
-        prescriptionId: 22222222,
-        prescriptionName: 'MEDICATION B',
-      };
 
       sandbox
         .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
         .returns({
           data: {
-            prescriptions: [prescription1, prescription2],
+            prescriptions: [refillablePrescriptions[0]],
             meta: {},
           },
           error: false,
           isLoading: false,
-          isFetching: false,
+          isFetching: true, // Cache invalidation in progress
         });
 
-      // Simulate completed mutation with prescription1 successfully refilled
       sandbox
         .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
         .returns([
@@ -683,107 +726,20 @@ describe('Refill Prescriptions Component', () => {
           {
             isLoading: false,
             error: null,
-            data: {
-              successfulIds: [prescription1.prescriptionId],
-              failedIds: [],
-            },
+            data: null, // No active refill
           },
         ]);
       stubAllergiesApi({ sandbox });
 
       const screen = setup(initialState);
 
-      // Wait for prescriptions to load and check the checkbox list
+      // When isFetching is true, component should show the form normally
+      // (The cache refresh hiding only occurs when refillStatus is FINISHED AND isFetching is true)
       await waitFor(() => {
-        // Only one checkbox should exist now (index 0) since prescription1 was refilled
-        const checkbox0 = screen.queryByTestId(
-          'refill-prescription-checkbox-0',
-        );
-        expect(checkbox0).to.exist;
-        // MEDICATION B should now be at index 0 since MEDICATION A was filtered out
-        expect(checkbox0).to.have.property('label', 'MEDICATION B');
-        // There should be no second checkbox
-        const checkbox1 = screen.queryByTestId(
-          'refill-prescription-checkbox-1',
-        );
-        expect(checkbox1).to.not.exist;
-      });
-    });
-
-    it('filters out successfully refilled prescriptions using stationNumber when pilot is enabled', async () => {
-      // This test verifies that prescriptions with same ID but different stationNumbers
-      // are correctly identified (only the matching one is filtered out from checkbox list)
-      sandbox.restore();
-
-      const prescription1 = {
-        ...refillablePrescriptions[0],
-        prescriptionId: 11111111,
-        stationNumber: '989',
-        prescriptionName: 'MEDICATION A - STATION 989',
-      };
-      const prescription2 = {
-        ...refillablePrescriptions[1],
-        prescriptionId: 11111111, // Same ID, different station
-        stationNumber: '123',
-        prescriptionName: 'MEDICATION A - STATION 123',
-      };
-
-      sandbox
-        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
-        .returns({
-          data: {
-            prescriptions: [prescription1, prescription2],
-            meta: {},
-          },
-          error: false,
-          isLoading: false,
-          isFetching: false,
-        });
-
-      // Simulate completed mutation with only prescription1 (station 989) successfully refilled
-      sandbox
-        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
-        .returns([
-          sinon.stub(),
-          {
-            isLoading: false,
-            error: null,
-            data: {
-              successfulIds: [
-                { id: prescription1.prescriptionId, stationNumber: '989' },
-              ],
-              failedIds: [],
-            },
-          },
-        ]);
-      stubAllergiesApi({ sandbox });
-
-      const stateWithPilotEnabled = {
-        ...initialState,
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medications_cerner_pilot: true,
-        },
-      };
-
-      const screen = setup(stateWithPilotEnabled);
-
-      await waitFor(() => {
-        // Only one checkbox should exist now (index 0) since prescription1 was refilled
-        const checkbox0 = screen.queryByTestId(
-          'refill-prescription-checkbox-0',
-        );
-        expect(checkbox0).to.exist;
-        // MEDICATION A - STATION 123 should now be at index 0 since STATION 989 was filtered out
-        expect(checkbox0).to.have.property(
-          'label',
-          'MEDICATION A - STATION 123',
-        );
-        // There should be no second checkbox
-        const checkbox1 = screen.queryByTestId(
-          'refill-prescription-checkbox-1',
-        );
-        expect(checkbox1).to.not.exist;
+        const checkboxGroup = screen.queryByTestId('refill-checkbox-group');
+        const button = screen.queryByTestId('request-refill-button');
+        expect(checkboxGroup).to.exist;
+        expect(button).to.exist;
       });
     });
 
@@ -844,63 +800,686 @@ describe('Refill Prescriptions Component', () => {
     });
   });
 
-  describe('URL param preselection', () => {
-    it('preselects prescription when refillId URL param matches a refillable prescription', async () => {
-      const targetPrescriptionId = refillablePrescriptions[0].prescriptionId;
+  describe('Duplicate refill prevention', () => {
+    it('shows loading indicator and hides form during refill submission', async () => {
+      sandbox.restore();
 
-      const screen = renderWithStoreAndRouterV6(<RefillPrescriptions />, {
-        initialState,
-        reducers: reducer,
-        initialEntries: [`/refill?refillId=${targetPrescriptionId}`],
-        additionalMiddlewares: [
-          allergiesApiModule.allergiesApi.middleware,
-          prescriptionsApiModule.prescriptionsApi.middleware,
-        ],
-      });
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [refillablePrescriptions[0]],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
 
+      // Simulate mutation in loading state (isRefilling = true)
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          sinon
+            .stub()
+            .resolves({ data: { successfulIds: [22377956], failedIds: [] } }),
+          { isLoading: true, error: null }, // This makes isDataLoading = true, preventing interactions
+        ]);
+      stubAllergiesApi({ sandbox });
+
+      const screen = setup();
+
+      // When isRefilling is true, should show loading indicator and hide form
       await waitFor(() => {
+        const loadingIndicator = screen.queryByTestId('loading-indicator');
+        expect(loadingIndicator).to.exist;
+
+        // Form elements should not exist during loading to prevent duplicate submissions
         const button = screen.queryByTestId('request-refill-button');
-        expect(button).to.exist;
-        expect(button).to.have.property('text', 'Request 1 refill');
+        const checkboxGroup = screen.queryByTestId('refill-checkbox-group');
+        expect(button).to.not.exist;
+        expect(checkboxGroup).to.not.exist;
       });
     });
 
-    it('does not preselect when refillId does not match any prescription', async () => {
-      const screen = renderWithStoreAndRouterV6(<RefillPrescriptions />, {
-        initialState,
-        reducers: reducer,
-        initialEntries: ['/refill?refillId=nonexistent-id'],
-        additionalMiddlewares: [
-          allergiesApiModule.allergiesApi.middleware,
-          prescriptionsApiModule.prescriptionsApi.middleware,
-        ],
+    it('prevents duplicate refill attempts when isRefilling is true', async () => {
+      sandbox.restore();
+
+      const mockBulkRefill = sinon.stub().resolves({
+        data: { successfulIds: [22377956], failedIds: [] },
       });
 
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [refillablePrescriptions[0]],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      // First call: normal state
+      const mutationStub = sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([mockBulkRefill, { isLoading: false, error: null }]);
+
+      stubAllergiesApi({ sandbox });
+      const screen = setup();
+
+      // Select a prescription
+      const checkbox = await screen.findByTestId(
+        'refill-prescription-checkbox-0',
+      );
+      fireEvent.click(checkbox);
+
+      // Now simulate isRefilling = true for subsequent calls
+      mutationStub.returns([
+        mockBulkRefill,
+        { isLoading: true, error: null }, // isRefilling = true
+      ]);
+
+      // Try to submit refill - should be prevented by isRefilling check
+      const refillButton = screen.getByTestId('request-refill-button');
+
+      // The button should be disabled when isRefilling is true
       await waitFor(() => {
-        const button = screen.queryByTestId('request-refill-button');
-        expect(button).to.exist;
-        expect(button.text).to.include('refills');
-        expect(button.text).to.not.include('1 refill');
+        expect(refillButton).to.have.attribute('disabled');
       });
     });
 
-    it('does not preselect when no refillId param is provided', async () => {
-      const screen = renderWithStoreAndRouterV6(<RefillPrescriptions />, {
-        initialState,
-        reducers: reducer,
-        initialEntries: ['/refill'],
-        additionalMiddlewares: [
-          allergiesApiModule.allergiesApi.middleware,
-          prescriptionsApiModule.prescriptionsApi.middleware,
-        ],
+    it('uses fixedCacheKey for shared mutation state', () => {
+      sandbox.restore();
+
+      const mockMutation = sinon
+        .stub()
+        .returns([sinon.stub(), { isLoading: false, error: null }]);
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .callsFake(options => {
+          // Verify that fixedCacheKey is being used
+          expect(options).to.have.property(
+            'fixedCacheKey',
+            'bulk-refill-request',
+          );
+          return mockMutation();
+        });
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: { prescriptions: [], meta: {} },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      stubAllergiesApi({ sandbox });
+      setup();
+    });
+  });
+
+  it('derives refillRequestStatus correctly from RTK Query state', async () => {
+    // This test ensures refillRequestStatus correctly derives FINISHED from RTK Query state
+    // preventing race condition where manual status updates conflict with RTK Query
+    sandbox.restore();
+
+    const bulkRefillStub = sinon.stub().resolves({
+      data: { successfulIds: [22377956], failedIds: [] },
+    });
+
+    sandbox
+      .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+      .returns({
+        data: { prescriptions: refillablePrescriptions, meta: {} },
+        error: false,
+        isLoading: false,
+        isFetching: false,
       });
 
-      await waitFor(() => {
-        const button = screen.queryByTestId('request-refill-button');
-        expect(button).to.exist;
-        expect(button.text).to.include('refills');
-        expect(button.text).to.not.include('1 refill');
+    sandbox
+      .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+      .returns([
+        bulkRefillStub,
+        {
+          isLoading: false,
+          error: null,
+          isSuccess: true,
+          data: { successfulIds: [22377956], failedIds: [] },
+        },
+      ]);
+
+    stubAllergiesApi({ sandbox });
+    const screen = setup();
+
+    // Should show success notification when RTK Query indicates success
+    // This tests that refillRequestStatus correctly derives FINISHED from RTK Query state
+    await waitFor(() => {
+      const successTitle = screen.queryByTestId('success-refill-title');
+      const errorTitle = screen.queryByTestId('error-refill-title');
+
+      // Should show success, not error
+      expect(successTitle).to.exist;
+      expect(errorTitle).to.not.exist;
+    });
+  });
+
+  describe('Oracle Health Transition Alerts', () => {
+    // Helper to create state with Oracle Health migration flags
+    const createMigrationState = ({
+      featureFlagEnabled,
+      migrationData = mockMichiganMigrationT45,
+      facilities = [],
+      includeMigrationSchedules = false,
+    }) => {
+      const userProfile = {
+        ...initialState.user.profile,
+        ...(facilities.length > 0 && { facilities }),
+        userFacilityMigratingToOh: true,
+        migrationSchedules: [migrationData],
+      };
+
+      if (includeMigrationSchedules) {
+        userProfile.vaProfile = {
+          ohMigrationInfo: {
+            migrationSchedules: [migrationData],
+          },
+        };
+      }
+
+      return {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_oracle_health_cutover: featureFlagEnabled,
+        },
+        user: {
+          ...initialState.user,
+          profile: userProfile,
+        },
+      };
+    };
+
+    // Common facility configurations
+    const michiganFacility515 = [{ facilityId: 515, isCerner: false }];
+    const allMichiganFacilities = [
+      { facilityId: 506, isCerner: false },
+      { facilityId: 515, isCerner: false },
+      { facilityId: 553, isCerner: false },
+      { facilityId: 585, isCerner: false },
+    ];
+
+    describe('when mhv_medications_oracle_health_cutover feature flag is disabled', () => {
+      it('does not show alerts and shows all prescriptions', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [prescriptionInTransition],
+        });
+
+        const state = {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_oracle_health_cutover: false,
+          },
+          user: {
+            ...initialState.user,
+            profile: {
+              userFullName: {
+                first: 'Test',
+                last: 'User',
+              },
+              dob: '1990-01-01',
+              facilities: [
+                {
+                  facilityId: 515,
+                  isCerner: false,
+                  oracleHealthTransitionDate: '2026-02-15',
+                },
+              ],
+            },
+          },
+        };
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3AlertNoRefillable = screen.queryByTestId(
+            'oracle-health-t3-alert-no-refillable',
+          );
+          const t3AlertWithRefillable = screen.queryByTestId(
+            'oracle-health-t3-alert-with-refillable',
+          );
+          expect(t3AlertNoRefillable).to.not.exist;
+          expect(t3AlertWithRefillable).to.not.exist;
+
+          const checkboxGroup = screen.queryByTestId('refill-checkbox-group');
+          expect(checkboxGroup).to.exist;
+          expect(checkboxGroup.label).to.equal(
+            'You have 1 prescription ready to refill.',
+          );
+        });
       });
+    });
+
+    describe('when mhv_medications_oracle_health_cutover feature flag is enabled', () => {
+      it('shows NoRefillable alert when all prescriptions are blocked', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [prescriptionInTransition],
+        });
+
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3Alert = screen.queryByTestId(
+            'oracle-health-t3-alert-no-refillable',
+          );
+          expect(t3Alert).to.exist;
+        });
+      });
+
+      it('shows WithRefillable alert when some prescriptions are blocked', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        const prescriptionNotInTransition = {
+          ...refillablePrescriptions[1],
+          facilityId: '442',
+          stationNumber: '442',
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [
+            prescriptionInTransition,
+            prescriptionNotInTransition,
+          ],
+        });
+
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3Alert = screen.queryByTestId(
+            'oracle-health-t3-alert-with-refillable',
+          );
+          expect(t3Alert).to.exist;
+        });
+      });
+
+      it('does not show alert when no prescriptions are blocked', async () => {
+        sandbox.restore();
+        const prescriptionNotInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: '442',
+          stationNumber: '442',
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [prescriptionNotInTransition],
+        });
+
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3AlertNoRefillable = screen.queryByTestId(
+            'oracle-health-t3-alert-no-refillable',
+          );
+          const t3AlertWithRefillable = screen.queryByTestId(
+            'oracle-health-t3-alert-with-refillable',
+          );
+          expect(t3AlertNoRefillable).to.not.exist;
+          expect(t3AlertWithRefillable).to.not.exist;
+        });
+      });
+
+      it('filters blocked prescriptions from refill list', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        const prescriptionNotInTransition = {
+          ...refillablePrescriptions[1],
+          facilityId: '442',
+          stationNumber: '442',
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [
+            prescriptionInTransition,
+            prescriptionNotInTransition,
+          ],
+        });
+
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const checkboxGroup = screen.queryByTestId('refill-checkbox-group');
+          expect(checkboxGroup).to.exist;
+          expect(checkboxGroup.label).to.equal(
+            'You have 1 prescription ready to refill.',
+          );
+        });
+      });
+
+      it('handles all 4 Michigan facilities correctly', async () => {
+        sandbox.restore();
+        const michiganPrescriptions = [
+          {
+            ...refillablePrescriptions[0],
+            facilityId: 506,
+            stationNumber: 506,
+          },
+          {
+            ...refillablePrescriptions[1],
+            facilityId: 515,
+            stationNumber: 515,
+          },
+          {
+            ...refillablePrescriptions[2],
+            facilityId: 553,
+            stationNumber: 553,
+          },
+          {
+            ...refillablePrescriptions[3],
+            facilityId: 585,
+            stationNumber: 585,
+          },
+        ];
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: michiganPrescriptions,
+        });
+
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: {
+            ...mockMichiganMigration,
+            facilities: [
+              { facilityId: 506 },
+              { facilityId: 515 },
+              { facilityId: 553 },
+              { facilityId: 585 },
+            ],
+          },
+          facilities: allMichiganFacilities,
+          includeMigrationSchedules: true,
+        });
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3Alert = screen.queryByTestId(
+            'oracle-health-t3-alert-no-refillable',
+          );
+          expect(t3Alert).to.exist;
+        });
+      });
+
+      it('hides generic no-refills message when T-3 alert shows blocked prescriptions', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [prescriptionInTransition],
+        });
+
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          // T-3 alert should display but no-refills message should be hidden
+          expect(screen.queryByTestId('oracle-health-t3-alert-no-refillable'))
+            .to.exist;
+          const noRefillsMessage = screen.queryByTestId('no-refills-message');
+          expect(noRefillsMessage).to.not.exist;
+        });
+      });
+    });
+
+    describe('CernerFacilityAlert (T-45 alert)', () => {
+      describe('when mhv_medications_oracle_health_cutover feature flag is disabled', () => {
+        it('shows CernerFacilityAlert even with flag disabled for pre-transitioned facilities', async () => {
+          sandbox.restore();
+          const prescriptionNotInTransition = {
+            ...refillablePrescriptions[0],
+            facilityId: '442',
+            stationNumber: '442',
+          };
+          initMockApis({
+            sinonSandbox: sandbox,
+            prescriptions: [prescriptionNotInTransition],
+          });
+
+          const state = createMigrationState({ featureFlagEnabled: false });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            // CernerFacilityAlert can show regardless of cutover flag (handles pre-transitioned facilities)
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+          });
+        });
+
+        it('shows CernerFacilityAlert with no refillable prescriptions when flag disabled', async () => {
+          sandbox.restore();
+          initMockApis({ sinonSandbox: sandbox, prescriptions: [] });
+
+          const state = createMigrationState({ featureFlagEnabled: false });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            // CernerFacilityAlert can show regardless of cutover flag
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+          });
+        });
+      });
+
+      describe('when mhv_medications_oracle_health_cutover feature flag is enabled', () => {
+        it('shows T-45 alert when there are refillable prescriptions and no blocked prescriptions', async () => {
+          sandbox.restore();
+          const prescriptionNotInTransition = {
+            ...refillablePrescriptions[0],
+            facilityId: '442',
+            stationNumber: '442',
+          };
+          initMockApis({
+            sinonSandbox: sandbox,
+            prescriptions: [prescriptionNotInTransition],
+          });
+
+          const state = createMigrationState({ featureFlagEnabled: true });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+          });
+        });
+
+        it('shows T-45 alert when there are no refillable prescriptions and no blocked prescriptions', async () => {
+          sandbox.restore();
+          initMockApis({ sinonSandbox: sandbox, prescriptions: [] });
+
+          const state = createMigrationState({ featureFlagEnabled: true });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+          });
+        });
+
+        it('shows T-3 alert but not T-45 alert when there are blocked prescriptions in error phase', async () => {
+          sandbox.restore();
+          const prescriptionInTransition = {
+            ...refillablePrescriptions[0],
+            facilityId: 515,
+            stationNumber: 515,
+          };
+          initMockApis({
+            sinonSandbox: sandbox,
+            prescriptions: [prescriptionInTransition],
+          });
+
+          const state = createMigrationState({
+            featureFlagEnabled: true,
+            migrationData: mockMichiganMigration, // Uses p4 error phase
+            facilities: michiganFacility515,
+            includeMigrationSchedules: true,
+          });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            // Should show T-3 alert with prescription details
+            expect(screen.queryByTestId('oracle-health-t3-alert-no-refillable'))
+              .to.exist;
+            // CernerFacilityAlert won't show anything in p4 (past warnings, errorPhases is null)
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.not.exist;
+          });
+        });
+
+        it('shows both T-45 warning alert and renders correctly in warning phase', async () => {
+          sandbox.restore();
+          const prescriptionNotInTransition = {
+            ...refillablePrescriptions[0],
+            facilityId: '442',
+            stationNumber: '442',
+          };
+          initMockApis({
+            sinonSandbox: sandbox,
+            prescriptions: [prescriptionNotInTransition],
+          });
+
+          const state = createMigrationState({
+            featureFlagEnabled: true,
+            migrationData: mockMichiganMigrationT45, // Uses p2 warning phase
+            facilities: michiganFacility515,
+            includeMigrationSchedules: true,
+          });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            // Should show T-45 warning alert (in warning phase, no blocked prescriptions)
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+            // Should not show T-3 alert (no blocked prescriptions)
+            expect(
+              screen.queryByTestId('oracle-health-t3-alert-with-refillable'),
+            ).to.not.exist;
+          });
+        });
+      });
+    });
+  });
+
+  it('shows success notification after refill even when cache invalidation removes the prescription', async () => {
+    sandbox.restore();
+
+    let currentPrescriptions = refillablePrescriptions;
+    let mutationResult = { isLoading: false, error: null };
+
+    const bulkRefillStub = sinon.stub().callsFake(() => {
+      currentPrescriptions = refillablePrescriptions.filter(
+        rx => rx.prescriptionId !== 22377956,
+      );
+      mutationResult = {
+        isLoading: false,
+        error: null,
+        isSuccess: true,
+        data: { successfulIds: [22377956], failedIds: [] },
+      };
+      return { unwrap: () => Promise.resolve(mutationResult.data) };
+    });
+
+    sandbox
+      .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+      .callsFake(() => ({
+        data: { prescriptions: currentPrescriptions, meta: {} },
+        error: false,
+        isLoading: false,
+        isFetching: false,
+      }));
+
+    sandbox
+      .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+      .callsFake(() => [bulkRefillStub, mutationResult]);
+
+    stubAllergiesApi({ sandbox });
+    const screen = setup();
+
+    const checkbox = await waitFor(() =>
+      screen.getByTestId('refill-prescription-checkbox-0'),
+    );
+    checkbox.__events.vaChange({ detail: { checked: true } });
+    const refillButton = screen.getByTestId('request-refill-button');
+    fireEvent.click(refillButton);
+
+    await waitFor(() => {
+      const successTitle = screen.queryByTestId('success-refill-title');
+      const errorTitle = screen.queryByTestId('error-refill-title');
+
+      expect(successTitle).to.exist;
+      expect(errorTitle).to.not.exist;
     });
   });
 });

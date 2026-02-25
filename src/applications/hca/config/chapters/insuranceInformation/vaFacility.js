@@ -1,14 +1,14 @@
+// @ts-check
 import {
   titleUI,
   descriptionUI,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { FacilityLocatorDescription } from '../../../components/FormDescriptions';
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
 import { emptyObjectSchema } from '../../../definitions';
-import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
-
-const { wantsInitialVaContact } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -22,10 +22,9 @@ export default {
     'view:locator': {
       ...descriptionUI(FacilityLocatorDescription),
     },
-    wantsInitialVaContact: {
-      'ui:title': content['insurance-info--appointment-label'],
-      'ui:widget': 'yesNo',
-    },
+    wantsInitialVaContact: yesNoUI({
+      title: content['insurance-info--appointment-label'],
+    }),
   },
   schema: {
     type: 'object',
@@ -43,7 +42,7 @@ export default {
         },
       },
       'view:locator': emptyObjectSchema,
-      wantsInitialVaContact,
+      wantsInitialVaContact: yesNoSchema,
     },
   },
 };

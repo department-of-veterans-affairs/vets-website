@@ -57,6 +57,10 @@ const customHospitalAddressSchema = {
       type: 'string',
       maxLength: 5,
     },
+    city: {
+      type: 'string',
+      maxLength: 18,
+    },
   },
 };
 

@@ -14,6 +14,7 @@ export {
 } from './filterRecentlyRequestedForAlerts';
 export { fromToNumbs } from './fromToNumbs';
 export { generateMedicationsPDF } from './generateMedicationsPDF';
+export { generateRxDetailFilename } from './generateRxDetailFilename';
 export { generateTextFile } from './generateTextFile';
 export { generateTimestampForFilename } from './generateTimestampForFilename';
 export { getErrorTypeFromFormat } from './getErrorTypeFromFormat';
@@ -31,6 +32,7 @@ export {
 export {
   prescriptionMedAndRenewalStatus,
 } from './prescriptionMedAndRenewalStatus';
+export { getPrescriptionDetailUrl } from './getPrescriptionDetailUrl';
 export { processList } from './processList';
 export { rxSourceIsNonVA } from './rxSourceIsNonVA';
 export { sanitizeKramesHtmlStr } from './sanitizeKramesHtmlStr';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   VaCheckboxGroup,
   VaCheckbox,
@@ -20,49 +20,48 @@ export const PreSubmitInfo = ({
     false,
   );
   const [formReplacementChecked, setFormReplacementChecked] = useState(false);
-  const [termsAndConditionsError, setTermsAndConditionsError] = useState(false);
-  const [formReplacementError, setFormReplacementError] = useState(false);
   const [privacyPolicyChecked, setPrivacyPolicyChecked] = useState(false);
-  const [privacyPolicyError, setPrivacyPolicyError] = useState(false);
+
+  // Derive error states directly from props and checked state.
+  // Avoids an extra render cycle from useEffect + setState, which caused
+  // flaky test failures under Node 22's faster scheduler timing.
+  const termsAndConditionsError =
+    showError && !hasSubmit && !termsAndConditionsChecked;
+  const formReplacementError =
+    showError && !hasSubmit && !formReplacementChecked;
+  const privacyPolicyError = showError && !hasSubmit && !privacyPolicyChecked;
 
   const applicantFullName = getApplicantName(formData);
 
   // Returns org for orgs and VSO reps, otherwise full name of attorney/claims agent
   const representativeName = getRepresentativeName(formData);
 
-  useEffect(
-    () => {
-      if (
-        termsAndConditionsChecked &&
-        formReplacementChecked &&
-        privacyPolicyChecked
-      ) {
-        onSectionComplete(true);
-      }
-      return () => {
-        onSectionComplete(false);
-      };
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [termsAndConditionsChecked, formReplacementChecked, privacyPolicyChecked],
-  );
+  // Notify the parent of section completion synchronously from the change
+  // handlers. Avoids a useEffect which would schedule the callback
+  // asynchronously, causing flaky tests under Node 22's scheduler timing.
+  const handleTermsAndConditionsChange = value => {
+    const { checked } = value.detail;
+    setTermsAndConditionsChecked(checked);
+    onSectionComplete(
+      checked && formReplacementChecked && privacyPolicyChecked,
+    );
+  };
 
-  useEffect(
-    () => {
-      if (showError && !hasSubmit) {
-        setTermsAndConditionsError(!termsAndConditionsChecked);
-        setFormReplacementError(!formReplacementChecked);
-        setPrivacyPolicyError(!privacyPolicyChecked);
-      }
-    },
-    [
-      showError,
-      hasSubmit,
-      termsAndConditionsChecked,
-      formReplacementChecked,
-      privacyPolicyChecked,
-    ],
-  );
+  const handleFormReplacementChange = value => {
+    const { checked } = value.detail;
+    setFormReplacementChecked(checked);
+    onSectionComplete(
+      termsAndConditionsChecked && checked && privacyPolicyChecked,
+    );
+  };
+
+  const handlePrivacyPolicyChange = value => {
+    const { checked } = value.detail;
+    setPrivacyPolicyChecked(checked);
+    onSectionComplete(
+      termsAndConditionsChecked && formReplacementChecked && checked,
+    );
+  };
 
   if (isSubmitPending) {
     return (
@@ -127,9 +126,7 @@ export const PreSubmitInfo = ({
             name="I agree to the terms and conditions"
             checked={termsAndConditionsChecked}
             aria-describedby="accept-terms-conditions"
-            onVaChange={value =>
-              setTermsAndConditionsChecked(value.detail.checked)
-            }
+            onVaChange={handleTermsAndConditionsChange}
             error={termsAndConditionsError ? 'This field is mandatory' : null}
             data-testid="terms-and-conditions"
           />
@@ -139,18 +136,14 @@ export const PreSubmitInfo = ({
             required
             aria-describedby="accept-form-replacement"
             checked={formReplacementChecked}
-            onVaChange={value =>
-              setFormReplacementChecked(value.detail.checked)
-            }
+            onVaChange={handleFormReplacementChange}
             error={formReplacementError ? 'This field is mandatory' : null}
             data-testid="form-replacement"
           />
           <div className="vads-u-margin-top--3">
             <VaPrivacyAgreement
               enable-analytics
-              onVaChange={value =>
-                setPrivacyPolicyChecked(value.detail.checked)
-              }
+              onVaChange={handlePrivacyPolicyChange}
               showError={privacyPolicyError}
             />
           </div>

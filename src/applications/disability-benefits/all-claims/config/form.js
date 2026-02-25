@@ -51,6 +51,7 @@ import {
   isCompletingModern4142,
   onFormLoaded,
   hasEvidenceChoice,
+  normalizeReturnUrlForResume,
 } from '../utils';
 
 import { gatePages } from '../utils/gatePages';
@@ -74,6 +75,7 @@ import {
   evidenceTypes,
   evidenceTypesBDD,
   evidenceChoiceIntro,
+  evidenceChoiceAdditionalDocuments,
   federalOrders,
   finalIncident,
   fullyDevelopedClaim,
@@ -87,6 +89,7 @@ import {
   physicalHealthChanges,
   prisonerOfWar,
   privateMedicalRecords,
+  privateMedicalRecordsUpload,
   privateMedicalRecordsAttachments,
   privateMedicalAuthorizeRelease,
   privateMedicalRecordsRelease,
@@ -147,6 +150,9 @@ import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
 import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/ConfirmationAncillaryFormsWizard';
+import { EvidenceRequestPage } from '../components/EvidenceRequestPage';
+import { MedicalRecordsPage } from '../components/MedicalRecordsPage';
+import { AdditionalEvidenceIntroPage } from '../components/AdditionalEvidenceIntroPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -174,8 +180,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_21_526EZ,
   wizardStorageKey: WIZARD_STATUS,
   customText: {
-    appAction: 'filing',
-    appContinuing: 'for disability compensation',
+    appAction: 'filing for disability compensation',
   },
   saveInProgress: {
     messages: {
@@ -208,6 +213,7 @@ const formConfig = {
   reviewErrors,
   customValidationErrors: getCustomValidationErrors,
   onFormLoaded,
+  normalizeReturnUrl: normalizeReturnUrlForResume,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
@@ -625,6 +631,8 @@ const formConfig = {
           path: 'supporting-evidence/evidence-request',
           depends: formData =>
             !isBDD(formData) && isEvidenceEnhancement(formData),
+          CustomPage: EvidenceRequestPage,
+          CustomPageReview: null,
           uiSchema: evidenceRequest.uiSchema,
           schema: evidenceRequest.schema,
         },
@@ -636,6 +644,8 @@ const formConfig = {
             isEvidenceEnhancement(formData) &&
             hasMedicalRecords(formData),
           updateFormData: medicalRecords.updateFormData,
+          CustomPage: MedicalRecordsPage,
+          CustomPageReview: null,
           uiSchema: medicalRecords.uiSchema,
           schema: medicalRecords.schema,
         },
@@ -660,10 +670,25 @@ const formConfig = {
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
         },
+        privateMedicalRecordsUpload: {
+          title: 'Upload non-VA treatment records',
+          // TODO: REPLACE this path with 'supporting-evidence/private-medical-records-upload' once we deprecate the old upload page
+          path:
+            'supporting-evidence/private-medical-records-upload-enhancement',
+          // TODO: Remove the `disability526SupportingEvidenceEnhancement` check once the feature is live to all users
+          depends: formData =>
+            formData.disability526SupportingEvidenceEnhancement &&
+            hasPrivateEvidence(formData) &&
+            !isNotUploadingPrivateMedical(formData),
+          uiSchema: privateMedicalRecordsUpload.uiSchema,
+          schema: privateMedicalRecordsUpload.schema,
+        },
         privateMedicalRecordsAttachments: {
           title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-upload',
+          // TODO: Remove page once enhanced page is approved to be merged prod flow
           depends: formData =>
+            !formData.disability526SupportingEvidenceEnhancement &&
             hasPrivateEvidence(formData) &&
             !isNotUploadingPrivateMedical(formData),
           uiSchema: privateMedicalRecordsAttachments.uiSchema,
@@ -706,23 +731,26 @@ const formConfig = {
             formData.disability526SupportingEvidenceEnhancement,
           // TODO: update this path to `'supporting-evidence/additional-evidence', once we can get rid of `additionalDocuments` page
           path: 'supporting-evidence/additional-evidence-intro',
+          CustomPage: AdditionalEvidenceIntroPage,
+          CustomPageReview: null,
           uiSchema: evidenceChoiceIntro.uiSchema,
           schema: evidenceChoiceIntro.schema,
         },
         evidenceChoiceAdditionalDocuments: {
-          title: 'Non-VA treatment records you uploaded',
-          // NOTE: a temporary copy of `additionalDocuments` for testing purposes
+          title: 'Upload supporting documents and additional forms',
           path: 'supporting-evidence/additional-evidence-enhancement',
           depends: formData =>
             hasEvidenceChoice(formData) &&
             formData.disability526SupportingEvidenceEnhancement,
-          uiSchema: additionalDocuments.uiSchema,
-          schema: additionalDocuments.schema,
+          uiSchema: evidenceChoiceAdditionalDocuments.uiSchema,
+          schema: evidenceChoiceAdditionalDocuments.schema,
         },
         additionalDocuments: {
           title: 'Non-VA treatment records you uploaded',
           path: 'supporting-evidence/additional-evidence',
-          depends: hasOtherEvidence,
+          depends: formData =>
+            hasOtherEvidence(formData) &&
+            !formData.disability526SupportingEvidenceEnhancement,
           uiSchema: additionalDocuments.uiSchema,
           schema: additionalDocuments.schema,
         },

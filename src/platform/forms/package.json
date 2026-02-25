@@ -65,7 +65,6 @@
     "react-dom": "*",
     "@department-of-veterans-affairs/react-jsonschema-form": "*",
     "moment": "*",
-    "skin-deep": "*",
     "@sentry/browser": "*",
     "chai": "*",
     "sinon": "*",

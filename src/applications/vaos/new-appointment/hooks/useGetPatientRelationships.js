@@ -5,8 +5,8 @@ import { useOHScheduling } from './useOHScheduling';
 import { getPatientRelationships } from '../redux/actions';
 import { selectPatientProviderRelationships } from '../redux/selectors';
 
-export function useGetPatientRelationships() {
-  const [loading, setLoading] = useState(true);
+export function useGetPatientRelationships({ skip = false } = {}) {
+  const [loading, setLoading] = useState(!skip);
   const [patientRelationshipsError, setPatientRelationshipsError] = useState(
     false,
   );
@@ -27,6 +27,11 @@ export function useGetPatientRelationships() {
 
   useEffect(
     () => {
+      if (skip) {
+        setLoading(false);
+        return;
+      }
+
       if (
         featureOHScheduling &&
         patientProviderRelationshipsStatus === FETCH_STATUS.notStarted
@@ -54,6 +59,7 @@ export function useGetPatientRelationships() {
       patientProviderRelationshipsStatus,
       patientProviderRelationships,
       hasBackendServiceFailures,
+      skip,
     ],
   );
 

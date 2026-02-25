@@ -105,6 +105,88 @@ export const getImagingStudies = () => {
 };
 
 /**
+ * Get imaging studies from Oracle Health / SCDF (v2 endpoint).
+ * @param {Object} options
+ * @param {string} options.startDate - Start date in YYYY-MM-DD format
+ * @param {string} options.endDate - End date in YYYY-MM-DD format
+ * @param {string} [options.imagingStudyType='ALL'] - Type of imaging studies to retrieve
+ * @returns {Promise} List of imaging studies
+ */
+export const getAcceleratedImagingStudies = async ({
+  startDate,
+  endDate,
+  imagingStudyType = 'ALL',
+} = {}) => {
+  const {
+    startDate: effectiveStart,
+    endDate: effectiveEnd,
+  } = resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
+  const params = new URLSearchParams();
+  params.append('start_date', effectiveStart);
+  params.append('end_date', effectiveEnd);
+  params.append('imaging_study_type', imagingStudyType);
+  const queryString = `?${params.toString()}`;
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/imaging${queryString}`,
+    { headers },
+  );
+};
+
+/**
+ * Get a single imaging study with thumbnail/image details from Oracle Health / SCDF (v2 endpoint).
+ * @param {Object} options
+ * @param {string} options.id - The record ID of the imaging study
+ * @param {string} options.startDate - Start date in YYYY-MM-DD format
+ * @param {string} options.endDate - End date in YYYY-MM-DD format
+ * @returns {Promise} Imaging study with series/instance details
+ */
+export const getAcceleratedImagingStudyThumbnails = async ({
+  id,
+  startDate,
+  endDate,
+} = {}) => {
+  const {
+    startDate: effectiveStart,
+    endDate: effectiveEnd,
+  } = resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
+  const params = new URLSearchParams();
+  params.append('start_date', effectiveStart);
+  params.append('end_date', effectiveEnd);
+  const queryString = `?${params.toString()}`;
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/imaging/${id}/thumbnails${queryString}`,
+    { headers },
+  );
+};
+
+/**
+ * Get the presigned DICOM zip download URL for an imaging study from Oracle Health / SCDF (v2 endpoint).
+ * @param {Object} options
+ * @param {string} options.id - The record ID of the imaging study
+ * @param {string} options.startDate - Start date in YYYY-MM-DD format
+ * @param {string} options.endDate - End date in YYYY-MM-DD format
+ * @returns {Promise} Imaging study with dicomZipUrl
+ */
+export const getAcceleratedImagingStudyDicomZip = async ({
+  id,
+  startDate,
+  endDate,
+} = {}) => {
+  const {
+    startDate: effectiveStart,
+    endDate: effectiveEnd,
+  } = resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
+  const params = new URLSearchParams();
+  params.append('start_date', effectiveStart);
+  params.append('end_date', effectiveEnd);
+  const queryString = `?${params.toString()}`;
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/imaging/${id}/dicom${queryString}`,
+    { headers },
+  );
+};
+
+/**
  * Request to download a particular study from CVIX.
  */
 export const requestImagingStudy = studyId => {
@@ -172,11 +254,14 @@ export const getNotes = async () => {
   });
 };
 
-// TODO: this will fail until upstream API supports fetching a single note
-// due to inability to determine original date range
-export const getAcceleratedNote = async id => {
+export const getAcceleratedNote = async (id, source) => {
+  const params = new URLSearchParams();
+  if (source) {
+    params.append('source', source);
+  }
+  const queryString = params.toString() ? `?${params.toString()}` : '';
   return apiRequest(
-    `${API_BASE_PATH_V2}/medical_records/clinical_notes/${id}`,
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes/${id}${queryString}`,
     {
       headers,
     },
@@ -280,18 +365,8 @@ export const getAcceleratedAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = async (page, useCache = true) => {
-  const params = new URLSearchParams();
-  // Send pagination params if page is defined and != 0
-  if (page) {
-    params.append('page', page);
-    params.append('per_page', '10');
-  }
-  if (!useCache) {
-    params.append('use_cache', 'false');
-  }
-  const queryString = params.toString() ? `?${params.toString()}` : '';
-  return apiRequest(`${apiBasePath}/medical_records/vaccines${queryString}`, {
+export const getVaccineList = async () => {
+  return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
     headers,
   });
 };

@@ -1,23 +1,58 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
-import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
+import { OracleHealthInCardAlert } from '../OracleHealthTransitionAlerts';
+import {
+  dateFormat,
+  getPrescriptionDetailUrl,
+  getRxStatus,
+  rxSourceIsNonVA,
+} from '../../util/helpers';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+import { shouldBlockRefills } from '../../util/oracleHealthTransition';
+import {
+  selectMhvMedicationsOracleHealthCutoverFlag,
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../../util/selectors';
+import { selectOracleHealthMigrations } from '../../selectors/selectUser';
 import {
   DATETIME_FORMATS,
   RX_SOURCE,
   DISPENSE_STATUS,
+  dispStatusObjV2,
 } from '../../util/constants';
 
 const MedicationsListCard = ({ rx }) => {
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const useV2StatusMapping = isCernerPilot && isV2StatusMapping;
+  const isPendingDispense =
+    rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE;
+  const isOracleHealthCutoverEnabled = useSelector(
+    selectMhvMedicationsOracleHealthCutoverFlag,
+  );
+  const migratingFacilities = useSelector(selectOracleHealthMigrations);
+  const isRefillBlocked = shouldBlockRefills({
+    prescription: rx,
+    isFeatureFlagEnabled: isOracleHealthCutoverEnabled,
+    migrations: migratingFacilities,
+  });
   const pendingMed =
-    rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
+    isPendingDispense &&
+    (useV2StatusMapping
+      ? rx?.dispStatus === dispStatusObjV2.inprogress &&
+        rx?.refillStatus?.toLowerCase() === 'neworder'
+      : rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER);
   const pendingRenewal =
-    rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus === DISPENSE_STATUS.RENEW;
+    isPendingDispense &&
+    (useV2StatusMapping
+      ? rx?.dispStatus === dispStatusObjV2.inprogress &&
+        rx?.refillStatus?.toLowerCase() === 'renew'
+      : rx?.dispStatus === DISPENSE_STATUS.RENEW);
   const latestTrackingStatus = rx?.trackingList?.[0];
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
@@ -55,7 +90,7 @@ const MedicationsListCard = ({ rx }) => {
       <>
         {rx &&
           rx.isRefillable &&
-          rx.refillRemaining >= 1 && (
+          rx.refillRemaining >= 0 && (
             <p
               data-testid="rx-refill-remaining"
               data-dd-privacy="mask"
@@ -95,7 +130,14 @@ const MedicationsListCard = ({ rx }) => {
             {rxStatus}
           </p>
         )}
-        {rx && <ExtraDetails {...rx} page={pageType.LIST} />}
+        {isRefillBlocked && <OracleHealthInCardAlert />}
+        {rx && (
+          <ExtraDetails
+            {...rx}
+            page={pageType.LIST}
+            isRefillBlocked={isRefillBlocked}
+          />
+        )}
       </>
     );
   };
@@ -115,7 +157,7 @@ const MedicationsListCard = ({ rx }) => {
           }
           data-testid="medications-history-details-link"
           className="vads-u-font-weight--bold"
-          to={`prescription/${rx.prescriptionId}`}
+          to={getPrescriptionDetailUrl(rx)}
         >
           <span data-dd-privacy="mask">
             {rx?.prescriptionName || rx?.orderableItem}

@@ -39,6 +39,7 @@ export const uiSchema = {
         expandUnderCondition: 'OTHER',
         expandedContentFocus: true,
         preserveHiddenData: true,
+        width: 'xl',
       },
     },
     'ui:options': {

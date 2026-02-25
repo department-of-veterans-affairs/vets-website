@@ -7,6 +7,11 @@ import { usePostAuthenticationMutation } from '../redux/api/vassApi';
 import { clearFormData, setFlowType } from '../redux/slices/formSlice';
 import { FLOW_TYPES, URLS } from '../utils/constants';
 import { useErrorFocus } from '../hooks/useErrorFocus';
+import {
+  isInvalidCredentialsError,
+  isRateLimitExceededError,
+  isServerError,
+} from '../utils/errors';
 
 const getPageTitle = (cancellationFlow, verificationError) => {
   if (verificationError) {
@@ -26,9 +31,6 @@ const Verify = () => {
   // Check for cancel=true URL parameter to initiate cancellation flow
   const cancellationFlow = searchParams.get('cancel') === 'true';
   const uuid = searchParams.get('uuid');
-  if (!uuid) {
-    // TODO: route to the "Something went wrong" page
-  }
 
   // Ensures a fresh start when landing on Verify page and sets the flow type
   useEffect(
@@ -43,7 +45,7 @@ const Verify = () => {
     [dispatch, cancellationFlow],
   );
 
-  const [lastname, setLastname] = useState('');
+  const [lastName, setLastName] = useState('');
   const [dob, setDob] = useState('');
 
   const [
@@ -52,7 +54,7 @@ const Verify = () => {
   ] = usePostAuthenticationMutation();
 
   const [
-    { error: lastnameError, handleSetError: setLastnameError },
+    { error: lastNameError, handleSetError: setLastNameError },
     { error: dobError, handleSetError: setDobError },
     { handleSetError: setAuthError },
   ] = useErrorFocus([
@@ -65,9 +67,9 @@ const Verify = () => {
   const [verificationError, setVerificationError] = useState(undefined);
 
   const handleSubmit = async () => {
-    if (lastname === '' || dob === '') {
-      if (lastname === '') {
-        setLastnameError('Please enter your last name');
+    if (lastName === '' || dob === '') {
+      if (lastName === '') {
+        setLastNameError('Please enter your last name');
       }
       if (dob === '') {
         setDobError('Please enter your date of birth');
@@ -76,12 +78,12 @@ const Verify = () => {
     }
     const response = await postAuthentication({
       uuid,
-      lastname,
+      lastName,
       dob,
     });
     if (response.error) {
       setAuthError('error');
-      if (attemptCount === 3 || response.error.code === 'rate_limit_exceeded') {
+      if (attemptCount === 3 || isRateLimitExceededError(response.error)) {
         setVerificationError(
           'We’re sorry. We couldn’t match your information to your records. Please call us for help.',
         );
@@ -89,18 +91,22 @@ const Verify = () => {
       setAttemptCount(count => count + 1);
       return;
     }
-    navigate(URLS.ENTER_OTC);
+    navigate(URLS.ENTER_OTP);
   };
 
   const pageTitle = getPageTitle(cancellationFlow, verificationError);
 
   return (
-    <Wrapper pageTitle={pageTitle} verificationError={verificationError}>
+    <Wrapper
+      errorAlert={!uuid || isServerError(postAuthenticationError)}
+      pageTitle={pageTitle}
+      verificationError={verificationError}
+    >
       <p data-testid="verify-intro-text">
         First, we’ll need your information so we can send you a one-time
         verification code to verify your identity.
       </p>
-      {postAuthenticationError && (
+      {isInvalidCredentialsError(postAuthenticationError) && (
         <div className="vads-u-margin-bottom--2">
           <va-alert data-testid="verify-error-alert" status="error">
             We’re sorry. We couldn’t find a record that matches that last name
@@ -111,19 +117,19 @@ const Verify = () => {
       <va-text-input
         data-testid="last-name-input"
         label="Your last name"
-        value={lastname}
+        value={lastName}
         name="last-name"
         onBlur={e => {
           // Clear the error if the user has entered a value
           if (e.target.value !== '') {
-            setLastnameError('');
+            setLastNameError('');
           }
         }}
         onInput={e => {
-          setLastname(e.target.value);
+          setLastName(e.target.value);
         }}
         required
-        error={lastnameError}
+        error={lastNameError}
         show-input-error
       />
       <VaMemorableDate
@@ -134,7 +140,7 @@ const Verify = () => {
         onDateBlur={e => {
           // Clear the error if the user has entered a value
           if (e.target.value !== '') {
-            setDobError(undefined);
+            setDobError('');
           }
         }}
         onDateChange={e => {

@@ -9,17 +9,13 @@ describe('HubCard', () => {
     const props = {
       title: 'Career Planning',
       body: 'Learn about the program and how to get started.',
-      icon: 'work',
     };
 
     const { container, getByText } = render(<HubCard {...props} />);
-
-    const wrapper = container.querySelector('.hub-card');
-    expect(wrapper).to.exist;
+    expect(container.firstElementChild).to.exist;
 
     const card = container.querySelector('va-card');
     expect(card).to.exist;
-    expect(card.getAttribute('icon-name')).to.equal('work');
 
     getByText('Career Planning');
     getByText('Learn about the program and how to get started.');

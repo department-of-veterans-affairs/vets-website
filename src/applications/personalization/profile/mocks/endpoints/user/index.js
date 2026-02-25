@@ -462,7 +462,7 @@ const baseUserResponses = {
       errors: null,
     },
   },
-  mvhUser: {
+  mhvUser: {
     data: {
       id: '',
       type: 'users_scaffolds',
@@ -529,9 +529,9 @@ const baseUserResponses = {
               isCerner: false,
             },
           ],
-          vaPatient: false,
-          mhvAccountState: 'NONE',
-          schedulingPreferencesPilotEligible: false,
+          vaPatient: true,
+          mhvAccountState: 'REGISTERED',
+          schedulingPreferencesPilotEligible: true,
         },
         veteranStatus: {
           status: 'OK',

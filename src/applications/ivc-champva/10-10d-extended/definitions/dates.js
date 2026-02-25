@@ -1,7 +1,7 @@
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 import DateReviewField from '../components/FormReview/DateReviewField';
-import { validateFutureDate } from '../helpers/validations';
-import { commonDefinitions } from '../imports';
+import { validateFutureDate } from '../utils/validations';
+import { commonDefinitions } from '../utils/imports';
 import content from '../locales/en/content.json';
 
 const INPUT_LABEL = content['dates--default-label'];

@@ -46,12 +46,14 @@ const AppointmentCard = ({
           </p>
         }
       />
-      <CardSection
-        data-testid="when-section"
-        heading="When"
-        appointmentData={appointmentData}
-        showAddToCalendarButton={showAddToCalendarButton}
-      />
+      {appointmentData?.startUTC && (
+        <CardSection
+          data-testid="when-section"
+          heading="When"
+          appointmentData={appointmentData}
+          showAddToCalendarButton={showAddToCalendarButton}
+        />
+      )}
       <CardSection
         data-testid="what-section"
         heading="What"
@@ -68,7 +70,7 @@ const AppointmentCard = ({
         appointmentData?.topics.length > 0 && (
           <CardSection
             data-testid="topics-section"
-            heading="Topics you'd like to learn more about"
+            heading="Topics you’d like to learn more about"
             textContent={appointmentData?.topics
               .map(topic => topic?.topicName || '')
               .join(', ')}

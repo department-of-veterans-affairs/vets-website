@@ -7,11 +7,11 @@ const NeedHelp = () => (
       <p>
         Call us at the VA benefits hotline{' '}
         <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday
-        through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call
-        TTY: <va-telephone contact={CONTACTS['711']} tty />.
+        through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call{' '}
+        <va-telephone contact={CONTACTS['711']} tty />.
       </p>
       <p>
-        You can also call MyVA411 main information line{' '}
+        You can also call MYVA411 main information line{' '}
         <va-telephone contact={CONTACTS.HELP_DESK} /> available 24/7 or{' '}
         <va-link
           href="https://ask.va.gov/"

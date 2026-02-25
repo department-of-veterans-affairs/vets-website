@@ -22,6 +22,7 @@ import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredG
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { HeaderSectionProvider } from '../context/HeaderSectionContext';
 
 import { selectBypassDowntime } from '../util/selectors';
@@ -126,10 +127,11 @@ const App = ({ children }) => {
       <>
         <MhvSecondaryNav />
         <div className="vads-l-grid-container">
-          <va-loading-indicator
+          <TrackedSpinner
+            id="mr-top-level-loading-indicator"
             message="Loading your medical records..."
-            setFocus
-            data-testid="mr-feature-flag-loading-indicator"
+            set-focus
+            data-testid="mr-top-level-loading-indicator"
           />
         </div>
       </>

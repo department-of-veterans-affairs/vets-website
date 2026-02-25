@@ -1,0 +1,48 @@
+{
+  "description": "Basic resubmission (PDI number)",
+  "data": {
+    "certifierRole": "applicant",
+    "certifierReceivedPacket": true,
+    "claimStatus": "resubmission",
+    "pdiOrClaimNumber": "PDI number",
+    "identifyingNumber": "va12345678",
+    "resubmissionLetterUpload": [
+      {
+        "name": "sample.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b63",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "resubmissionDocsUpload": [
+      {
+        "name": "sample.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b63",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "sponsorName": {
+      "first": "Sponsor",
+      "last": "Jones"
+    },
+    "applicantName": {
+      "first": "Beneficiary",
+      "last": "Jones"
+    },
+    "applicantDob": "2022-03-23",
+    "applicantMemberNumber": "123123123",
+    "view:sharesAddressWith": "na",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "123 Bene Street",
+      "city": "Citytown",
+      "state": "MD",
+      "postalCode": "12345"
+    },
+    "applicantNewAddress": "no",
+    "applicantPhone": "4106541234",
+    "applicantEmail": "app@email.gov",
+    "statementOfTruthSignature": "Beneficiary Jones"
+  }
+}

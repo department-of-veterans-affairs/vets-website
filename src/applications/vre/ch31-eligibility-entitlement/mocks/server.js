@@ -6,11 +6,16 @@ const responses = {
       type: 'ch31_case_details',
       attributes: {
         resCaseId: 123456,
-        isInterrupted: false,
         isTransferredToCwnrs: false,
+        orientationAppointmentDetails: {
+          appointmentDateTime: '2026-01-14T18:46:18.688Z',
+          appointmentPlace: '31223 Corn Drive , Hamilton NJ-21223',
+        },
         externalStatus: {
           isDiscontinued: false,
-          discontinuedReason: null,
+          discontinuedReason: '079 - Plan Developed/Redeveloped',
+          isInterrupted: false,
+          interruptedReason: '079 - Plan Developed/Redeveloped',
           stateList: [
             {
               stepCode: 'APPL',
@@ -22,11 +27,11 @@ const responses = {
             },
             {
               stepCode: 'ORICMPT',
-              status: 'ACTIVE',
+              status: 'COMPLETED',
             },
             {
               stepCode: 'INTAKE',
-              status: 'PENDING',
+              status: 'ACTIVE',
             },
             {
               stepCode: 'ENTLDET',

@@ -1,5 +1,6 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   transformVAOSAppointment,
   calculateIsOutOfBounds,
@@ -324,6 +325,12 @@ export function submitComplexClaim(claimId, claimData) {
     dispatch(submitComplexClaimStart());
 
     try {
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'PATCH submit complex claim',
+        'api-status': 'started',
+      });
+
       const options = {
         method: 'PATCH',
         body: JSON.stringify(claimData),
@@ -336,8 +343,23 @@ export function submitComplexClaim(claimId, claimData) {
         environment.API_URL
       }/travel_pay/v0/complex_claims/${claimId}/submit`;
       const response = await apiRequest(apptUrl, options);
+
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'PATCH submit complex claim',
+        'api-status': 'successful',
+        'claim-id': claimId,
+      });
+
       dispatch(submitComplexClaimSuccess(response));
     } catch (error) {
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'PATCH submit complex claim',
+        'api-status': 'failed',
+        'claim-id': claimId,
+      });
+
       dispatch(submitComplexClaimFailure(error));
       throw error;
     }
@@ -416,6 +438,12 @@ export function updateExpense(claimId, expenseType, expenseId, expenseData) {
         throw new Error('Missing expense id');
       }
 
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'PATCH update expense',
+        'api-status': 'started',
+      });
+
       const options = {
         method: 'PATCH',
         body: JSON.stringify(expenseData),
@@ -434,9 +462,23 @@ export function updateExpense(claimId, expenseType, expenseId, expenseData) {
       // to get the complete expense data with document info
       await dispatch(getComplexClaimDetails(claimId));
 
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'PATCH update expense',
+        'api-status': 'successful',
+        'expense-type': expenseType,
+      });
+
       dispatch(updateExpenseSuccess(expenseId));
       return response;
     } catch (error) {
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'PATCH update expense',
+        'api-status': 'failed',
+        'expense-type': expenseType,
+      });
+
       dispatch(updateExpenseFailure(error, expenseId));
       throw error;
     }
@@ -469,6 +511,12 @@ export function deleteExpense(claimId, expenseType, expenseId) {
         throw new Error('Missing expense id');
       }
 
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'DELETE expense',
+        'api-status': 'started',
+      });
+
       const options = {
         method: 'DELETE',
         headers: {
@@ -484,10 +532,24 @@ export function deleteExpense(claimId, expenseType, expenseId) {
       // Fetch the complete complex claim details and load expenses into store
       await dispatch(getComplexClaimDetails(claimId));
 
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'DELETE expense',
+        'api-status': 'successful',
+        'expense-type': expenseType,
+      });
+
       // Dispatch success only after claim details are fetched
       dispatch(deleteExpenseSuccess(expenseId));
       return { id: expenseId };
     } catch (error) {
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'DELETE expense',
+        'api-status': 'failed',
+        'expense-type': expenseType,
+      });
+
       dispatch(deleteExpenseFailure(error, expenseId));
       throw error;
     }
@@ -517,6 +579,12 @@ export function createExpense(claimId, expenseType, expenseData) {
         throw new Error('Missing expense type');
       }
 
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'POST create expense',
+        'api-status': 'started',
+      });
+
       const options = {
         method: 'POST',
         body: JSON.stringify(expenseData),
@@ -535,9 +603,23 @@ export function createExpense(claimId, expenseType, expenseData) {
       // to get the complete expense data with document info
       await dispatch(getComplexClaimDetails(claimId));
 
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'POST create expense',
+        'api-status': 'successful',
+        'expense-type': expenseType,
+      });
+
       dispatch(createExpenseSuccess());
       return response;
     } catch (error) {
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'POST create expense',
+        'api-status': 'failed',
+        'expense-type': expenseType,
+      });
+
       dispatch(createExpenseFailure(error));
       throw error;
     }

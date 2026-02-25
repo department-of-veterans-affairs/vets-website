@@ -43,7 +43,7 @@ export const IssueCard = ({
   const itemIsSelected = item[SELECTED];
   const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;
-  const isBlocked = item.isBlockedSameDay || false;
+  const isBlocked = item.isBlocked || false;
 
   const wrapperClass = [
     'widget-wrapper',

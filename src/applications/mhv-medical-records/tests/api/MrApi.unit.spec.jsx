@@ -19,6 +19,7 @@ import allergy from '../fixtures/allergy.json';
 import vaccines from '../fixtures/vaccines.json';
 import vaccine from '../fixtures/vaccine.json';
 import radiologyListMhv from '../fixtures/radiologyRecordsMhv.json';
+import { radiologyRecordHash } from '../../util/radiologyUtil';
 import medications from '../fixtures/blueButton/medications.json';
 import appointments from '../fixtures/blueButton/appointments.json';
 import demographicInfo from '../fixtures/blueButton/demographics.json';
@@ -59,6 +60,7 @@ import {
   getAcceleratedCondition,
   postRecordDatadogAction,
   getAcceleratedNotes,
+  getAcceleratedNote,
 } from '../../api/MrApi';
 
 describe('Get labs and tests api call', () => {
@@ -109,7 +111,10 @@ describe('Get radiology details from MHV api call', () => {
     const mockData = radiologyListMhv;
     mockApiRequest(mockData);
 
-    return getMhvRadiologyDetails('r12345-2a591974').then(res => {
+    const targetRecord = radiologyListMhv[1]; // Record with eventDate '2001-02-16T18:16:00Z'
+    const expectedHash = radiologyRecordHash(targetRecord);
+
+    return getMhvRadiologyDetails(`r12345-${expectedHash}`).then(res => {
       expect(res.phrDetails.eventDate).to.equal('2001-02-16T18:16:00Z');
       expect(res.cvixDetails).to.be.null;
     });
@@ -500,6 +505,34 @@ describe('Accelerated OH API calls', () => {
         const expectedUrl = `${
           environment.API_URL
         }/my_health/v2/medical_records/clinical_notes?start_date=${fromDate}&end_date=${toDate}`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
+      });
+    });
+  });
+
+  describe('getAcceleratedNote', () => {
+    it('should make an api call to get a single note with source param', () => {
+      const mockData = { data: { id: '123', type: 'clinical_note' } };
+      mockApiRequest(mockData);
+
+      return getAcceleratedNote('123', 'oracle-health').then(res => {
+        expect(res.data.id).to.equal('123');
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v2/medical_records/clinical_notes/123?source=oracle-health`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
+      });
+    });
+
+    it('should make an api call without source param when source is not provided', () => {
+      const mockData = { data: { id: '456', type: 'clinical_note' } };
+      mockApiRequest(mockData);
+
+      return getAcceleratedNote('456').then(res => {
+        expect(res.data.id).to.equal('456');
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v2/medical_records/clinical_notes/456`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });

@@ -15,7 +15,7 @@ import radiologyWithMissingFields from '../fixtures/radiologyWithMissingFields.j
 import {
   convertCvixRadiologyRecord,
   convertMhvRadiologyRecord,
-} from '../../reducers/labsAndTests';
+} from '../../util/imagesUtil';
 
 describe('RadiologyDetails component', () => {
   describe('images', () => {

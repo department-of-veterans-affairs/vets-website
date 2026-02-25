@@ -13,13 +13,14 @@ import {
 import { useGetTopicsQuery } from '../redux/api/vassApi';
 import { useErrorFocus } from '../hooks/useErrorFocus';
 import { URLS } from '../utils/constants';
+import { isServerError } from '../utils/errors';
 
 const TopicSelection = () => {
   const [{ error, handleSetError }] = useErrorFocus(['va-checkbox-group']);
   const dispatch = useDispatch();
   const selectedTopics = useSelector(selectSelectedTopics);
   const navigate = useNavigate();
-  const { data, isLoading: loading } = useGetTopicsQuery();
+  const { data, isLoading: loading, error: topicsError } = useGetTopicsQuery();
   const topics = useMemo(() => data?.topics || [], [data]);
 
   const handleTopicChange = event => {
@@ -57,6 +58,7 @@ const TopicSelection = () => {
       showBackLink
       required
       loading={loading}
+      errorAlert={isServerError(topicsError)}
     >
       <va-checkbox-group
         data-testid="topic-checkbox-group"
