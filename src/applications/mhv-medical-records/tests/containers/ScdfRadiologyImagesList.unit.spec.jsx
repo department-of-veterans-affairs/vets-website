@@ -6,6 +6,7 @@ import { createMemoryHistory } from 'history-v4';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducer from '../../reducers';
 import ScdfRadiologyImagesList from '../../containers/ScdfRadiologyImagesList';
+import { ALERT_TYPE_IMAGE_THUMBNAIL_ERROR } from '../../util/constants';
 
 const radiologyDetails = {
   name: 'ABDOMEN 2 + PA & LAT CHEST',
@@ -203,5 +204,30 @@ describe('ScdfRadiologyImagesList container', () => {
     await waitFor(() => {
       expect(history.push.called).to.be.true;
     });
+  });
+
+  it('shows error alert instead of spinner when thumbnail fetch fails', () => {
+    const errorState = {
+      mr: {
+        labsAndTests: {
+          labsAndTestsDetails: radiologyDetails,
+          labsAndTestsList: [radiologyDetails],
+          scdfImageThumbnails: null,
+          scdfDicom: null,
+        },
+        alerts: {
+          alertList: [
+            {
+              type: ALERT_TYPE_IMAGE_THUMBNAIL_ERROR,
+              isActive: true,
+              datestamp: Date.now(),
+            },
+          ],
+        },
+      },
+    };
+    const screen = setup(errorState);
+    expect(screen.getByTestId('image-request-error-alert')).to.exist;
+    expect(screen.queryByTestId('loading-indicator')).to.not.exist;
   });
 });

@@ -216,7 +216,7 @@ export const getImagingStudyThumbnails = id => async dispatch => {
       id,
     });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_IMAGE_STATUS_ERROR, error));
+    dispatch(addAlert(Constants.ALERT_TYPE_IMAGE_THUMBNAIL_ERROR, error));
     sendDatadogError(error, 'actions_labsAndTests_getImagingStudyThumbnails');
   }
 };

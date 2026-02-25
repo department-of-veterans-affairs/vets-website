@@ -13,8 +13,12 @@ import { buildThumbnailProxyUrl } from '../api/MrApi';
 import PrintHeader from '../components/shared/PrintHeader';
 import DateSubheading from '../components/shared/DateSubheading';
 import ImageGallery from '../components/shared/ImageGallery';
-import { pageTitles } from '../util/constants';
+import {
+  pageTitles,
+  ALERT_TYPE_IMAGE_THUMBNAIL_ERROR,
+} from '../util/constants';
 import { sendDataDogAction } from '../util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
 const ScdfRadiologyImagesList = ({ isTesting }) => {
   const history = useHistory();
@@ -31,6 +35,8 @@ const ScdfRadiologyImagesList = ({ isTesting }) => {
     state => state.mr.labsAndTests.scdfImageThumbnails,
   );
   const scdfDicom = useSelector(state => state.mr.labsAndTests.scdfDicom);
+  const activeAlert = useAlerts(dispatch);
+  const hasImageError = activeAlert?.type === ALERT_TYPE_IMAGE_THUMBNAIL_ERROR;
 
   const [isDetailsLoaded, setDetailsLoaded] = useState(isTesting || false);
   const [dicomDownloadStarted, setDicomDownloadStarted] = useState(false);
@@ -189,10 +195,28 @@ const ScdfRadiologyImagesList = ({ isTesting }) => {
     </>
   );
 
+  const renderImagesError = () => (
+    <va-alert status="error" visible data-testid="image-request-error-alert">
+      <h3 slot="headline">We couldn’t load your images</h3>
+      <p>Try again later.</p>
+      <p>
+        If it still doesn’t work, call us at{' '}
+        <va-telephone contact="8773270022" /> (
+        <va-telephone tty contact="711" />
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
+    </va-alert>
+  );
+
+  const isReady = labAndTestDetails && (scdfImageThumbnails || hasImageError);
+
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {labAndTestDetails && scdfImageThumbnails ? (
-        renderImageContent()
+      {isReady ? (
+        <>
+          {hasImageError && renderImagesError()}
+          {renderImageContent()}
+        </>
       ) : (
         <div className="vads-u-margin-y--8">
           <va-loading-indicator
