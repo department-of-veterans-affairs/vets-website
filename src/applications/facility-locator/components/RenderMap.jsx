@@ -30,6 +30,12 @@ const RenderMap = forwardRef(
       },
       [map],
     );
+
+    // useEffect(() => {
+    //   const feedbackButton = document.querySelector('button[text="Feedback"]');
+    //   console.log('feedbackButton', feedbackButton);
+    // }, []);
+
     const speakMapInstructions = () => {
       const mapInstructionsElement = document.getElementById(
         'map-instructions',
@@ -70,9 +76,9 @@ const RenderMap = forwardRef(
               : `${smallDesktop ? 'desktop' : 'tablet'}-map-container`
           }
         >
-          <a className="skip-map-link" tabIndex="0" href="#other-tools-link">
+          {/* <a className="skip-map-link" tabIndex="0" href="#content">
             SKIP MAP
-          </a>
+          </a> */}
           {shouldRenderSearchArea && (
             <SearchAreaControl
               handleSearchArea={handleSearchArea}
