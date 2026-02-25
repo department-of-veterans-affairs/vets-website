@@ -7,7 +7,12 @@ export const CCP_SERVICE_TYPE_INPUT = '#service-type-ahead-input';
 export const SEARCH_BUTTON = '#facility-search';
 export const SEARCH_AVAILABLE = '#search-available-service-prompt';
 export const NO_SERVICE = '#could-not-find-service-prompt';
-
+export const AUTOSUGGEST_ADDRESS_INPUT =
+  '[data-testid="street-city-state-zip-input-with-clear"]';
+export const AUTOSUGGEST_ADDRESS_CONTAINER =
+  '#street-city-state-zip-autosuggest-container';
+export const AUTOSUGGEST_ADDRESS_OPTIONS =
+  '[data-testid="autosuggest-options"]';
 export const AUTOSUGGEST_INPUT =
   '[data-testid="vamc-services-input-with-clear"]';
 export const AUTOSUGGEST_ARROW =
