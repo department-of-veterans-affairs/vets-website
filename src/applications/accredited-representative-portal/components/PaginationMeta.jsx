@@ -46,15 +46,8 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
     },
     [navigation.state],
   );
-  const metaLabel = `Showing ${
-    totalCount > 0 ? `${initCount}-${pageSizeCount} of ` : ''
-  }${totalCount} ${searchStatus || ''} ${resultType || ''} ${
-    selectedIndividual === 'you' ? 'for ' : ''
-  } ${selectedIndividual === 'you' ? userName : ''} sorted by ${
-    searchStatus === 'processed' ? 'Processed' : 'Submitted'
-  } date (${sortOrder})`;
   return (
-    <p className="poa-request__meta" role="text" aria-label={metaLabel}>
+    <p className="poa-request__meta">
       {`Showing ${
         totalCount > 0 ? `${initCount}-${pageSizeCount} of ` : ''
       }${totalCount} ${searchStatus || ''} ${resultType || ''} ${
