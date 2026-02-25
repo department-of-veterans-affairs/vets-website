@@ -5,9 +5,7 @@ import { compact, isEmpty } from 'lodash';
 export const isPostcode = qs => /^\d{5}$/.test(qs);
 
 export const mapboxToken =
-  process.env.MAPBOX_TOKEN_FACILITY_LOCATOR ||
-  process.env.MAPBOX_TOKEN ||
-  'pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==';
+  process.env.MAPBOX_TOKEN_FACILITY_LOCATOR || process.env.MAPBOX_TOKEN || '';
 
 export const mapboxClient = new MapboxClient({ accessToken: mapboxToken });
 

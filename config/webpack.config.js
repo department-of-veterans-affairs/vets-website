@@ -511,7 +511,7 @@ module.exports = async (env = {}) => {
         __API__: JSON.stringify(buildOptions.api),
         __REGISTRY__: JSON.stringify(appRegistry),
         'process.env.MAPBOX_TOKEN': JSON.stringify(
-          process.env.MAPBOX_TOKEN || '',
+          process.env.MAPBOX_TOKEN || 'pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==',
         ),
         'process.env.MAPBOX_TOKEN_FACILITY_LOCATOR': JSON.stringify(
           process.env.MAPBOX_TOKEN_FACILITY_LOCATOR || '',
