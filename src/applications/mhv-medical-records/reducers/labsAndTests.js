@@ -638,11 +638,12 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       // Extract thumbnail URLs from all series/instances, ordered by
       // series number then instance number.
       const studies = Array.isArray(action.response) ? action.response : [];
-      const thumbnails = studies
-        .flatMap(study => study.attributes?.series || [])
+      const thumbnails = [
+        ...studies.flatMap(study => study.attributes?.series || []),
+      ]
         .sort((a, b) => (a.number || 0) - (b.number || 0))
         .flatMap(series =>
-          (series.instances || [])
+          [...(series.instances || [])]
             .sort((a, b) => (a.number || 0) - (b.number || 0))
             .map(instance => instance.thumbnailUrl)
             .filter(Boolean),
