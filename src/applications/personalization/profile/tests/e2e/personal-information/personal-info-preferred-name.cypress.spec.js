@@ -128,7 +128,7 @@ describe('Preferred name field tests on the personal information page', () => {
 
     cy.findAllByTestId('save-edit-button').click({ waitForAnimations: true });
 
-    cy.findByTestId('edit-error-alert').should('exist');
+    cy.findByTestId('vap-service-error-alert').should('exist');
 
     cy.injectAxeThenAxeCheck();
   });

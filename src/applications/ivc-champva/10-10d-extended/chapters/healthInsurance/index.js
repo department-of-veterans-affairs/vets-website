@@ -15,55 +15,55 @@ const isMedigap = (formData, index) =>
   formData.healthInsurance?.[index]?.insuranceType === 'medigap';
 
 export const healthInsurancePages = {
-  overview: {
+  ohiOverview: {
     path: 'report-other-health-insurance',
     title: content['health-insurance--summary-title--review'],
     ...sectionOverview,
   },
   ...arrayBuilderPages(ohiArrayOptions, pageBuilder => ({
-    healthInsuranceSummary: pageBuilder.summaryPage({
+    ohiSummary: pageBuilder.summaryPage({
       path: 'other-health-insurance-plans',
       title: content['health-insurance--summary-title--review'],
       uiSchema: summary.uiSchema,
       schema: summary.schema,
     }),
-    healthInsuranceType: pageBuilder.itemPage({
+    ohiPlanType: pageBuilder.itemPage({
       path: 'health-insurance-plan-type/:index',
       title: content['health-insurance--plan-type-title'],
       ...planTypes,
     }),
-    medigapType: pageBuilder.itemPage({
+    ohiMedigapType: pageBuilder.itemPage({
       path: 'health-insurance-medigap-information/:index',
       title: content['health-insurance--medigap-title'],
       depends: isMedigap,
       ...medigap,
     }),
-    provider: pageBuilder.itemPage({
+    ohiProvider: pageBuilder.itemPage({
       path: 'health-insurance-provider-information/:index',
       title: content['health-insurance--provider-title'],
       ...provider,
     }),
-    throughEmployer: pageBuilder.itemPage({
+    ohiThroughEmployer: pageBuilder.itemPage({
       path: 'health-insurance-employer-sponsorship/:index',
       title: content['health-insurance--employer-title--review'],
       ...employer,
     }),
-    prescriptionCoverage: pageBuilder.itemPage({
+    ohiPrescriptionCoverage: pageBuilder.itemPage({
       path: 'health-insurance-prescription-coverage/:index',
       title: content['health-insurance--prescription-title--review'],
       ...prescriptions,
     }),
-    comments: pageBuilder.itemPage({
+    ohiComments: pageBuilder.itemPage({
       path: 'health-insurance-additional-comments/:index',
       title: content['health-insurance--addtl-comments-title--review'],
       ...addtlComments,
     }),
-    participants: pageBuilder.itemPage({
+    ohiParticipants: pageBuilder.itemPage({
       path: 'health-insurance-participants/:index',
       title: content['health-insurance--participant-title--review'],
       ...participants,
     }),
-    insuranceCard: pageBuilder.itemPage({
+    ohiCard: pageBuilder.itemPage({
       path: 'health-insurance-card/:index',
       title: content['health-insurance--card-upload-title--review'],
       ...cardUpload,

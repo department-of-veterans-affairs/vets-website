@@ -5,6 +5,7 @@ import {
   dateOfDeathUI,
   dateOfDeathSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { validations } from '../../validations';
 
 /** @type {PageSchema} */
 export default {
@@ -17,9 +18,12 @@ export default {
     diedOnDuty: yesNoUI({
       title: 'Did the Veteran die while on active duty?',
     }),
-    veteranDateOfDeath: dateOfDeathUI({
-      monthSelect: false,
-    }),
+    veteranDateOfDeath: {
+      ...dateOfDeathUI({
+        monthSelect: false,
+      }),
+      'ui:validations': [validations.isAfterVeteranBirthDate],
+    },
   },
   schema: {
     type: 'object',

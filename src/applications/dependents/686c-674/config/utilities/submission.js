@@ -20,6 +20,7 @@ import {
   transformPicklistToV2,
   enrichDivorceWithSSN,
 } from './picklistTransform';
+import { PICKLIST_REMOVAL_FLAG } from '../constants';
 
 /**
  * Extract data fields with values from source data
@@ -132,6 +133,7 @@ export function buildSubmissionData(payload) {
     'statementOfTruthSignature',
     'statementOfTruthCertified',
     'metadata',
+    PICKLIST_REMOVAL_FLAG,
   ];
 
   essentialFields.forEach(field => {
@@ -183,7 +185,7 @@ export function buildSubmissionData(payload) {
       }
     });
 
-    // Transform No SSN Reason for the payload
+    // Transform No SSN Reason for payload for pdf remarks section values
     applyNoSsnReasonMappings(
       cleanData,
       sourceData,
@@ -347,6 +349,36 @@ function extractDataFromPayload(payload) {
 }
 
 /**
+ * Transforms student typeOfProgramOrBenefit from radio string to
+ * checkbox object format expected by the backend.
+ *
+ * UI stores: 'ch35' (string)
+ * Backend expects: { ch35: true, fry: false, feca: false } (object)
+ *
+ * 'none' maps to all-false: { ch35: false, fry: false, feca: false }
+ *
+ * @param {Object} data - Form data object
+ * @returns {Object} Data with transformed typeOfProgramOrBenefit fields
+ */
+function transformStudentBenefitRadioToCheckbox(data) {
+  if (!data?.studentInformation?.length) return data;
+
+  const transformed = cloneDeep(data);
+  transformed.studentInformation.forEach(student => {
+    const value = student.typeOfProgramOrBenefit;
+    if (typeof value === 'string') {
+      // eslint-disable-next-line no-param-reassign
+      student.typeOfProgramOrBenefit = {
+        ch35: value === 'ch35',
+        fry: value === 'fry',
+        feca: value === 'feca',
+      };
+    }
+  });
+  return transformed;
+}
+
+/**
  * Transforms V3 picklist removal data to V2 format if V3 is enabled.
  *
  * @param {Object} data - Form data object
@@ -413,8 +445,15 @@ export function customTransformForSubmit(formConfig, form) {
   // Step 3: Extract data for transformation (type safety)
   const dataToTransform = extractDataFromPayload(payloadWithoutInactivePages);
 
+  // Step 3b: Transform student benefit radio string to checkbox object for backend
+  const dataWithStudentTransform = transformStudentBenefitRadioToCheckbox(
+    dataToTransform,
+  );
+
   // Step 4: Transform V3 picklist data to V2 format if needed
-  const transformedData = applyPicklistTransformations(dataToTransform);
+  const transformedData = applyPicklistTransformations(
+    dataWithStudentTransform,
+  );
 
   // Step 5: Enrich reportDivorce with SSN from awarded dependents
   const enrichedData = enrichDataWithSSN(transformedData);
