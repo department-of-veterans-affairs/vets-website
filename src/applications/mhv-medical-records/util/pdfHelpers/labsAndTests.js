@@ -70,14 +70,19 @@ export const generateGenericContent = record => {
             value: item.value?.text,
             inline: true,
           },
-          ...observationKeys.filter(key => item[key]).map(key => {
-            const val = item[key];
-            return {
-              title: OBSERVATION_DISPLAY_DISPLAY_MAP[key],
-              value: Array.isArray(val) ? val.join('\n') : val,
-              inline: true,
-            };
-          }),
+          ...observationKeys
+            .filter(key => {
+              const v = item[key];
+              return Array.isArray(v) ? v.length > 0 : Boolean(v);
+            })
+            .map(key => {
+              const val = item[key];
+              return {
+                title: OBSERVATION_DISPLAY_DISPLAY_MAP[key],
+                value: Array.isArray(val) ? val.join('\n') : val,
+                inline: true,
+              };
+            }),
         ],
       })),
     };

@@ -59,7 +59,7 @@ export const txtPrinter = ({ record, user }) => {
     record.location
       ? `${LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}: ${record.location}`
       : `${LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}: None Noted`,
-    record.comments
+    record.comments?.length
       ? `${LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}: ${
           Array.isArray(record.comments)
             ? record.comments.join('\n')
@@ -96,7 +96,7 @@ export const txtPrinter = ({ record, user }) => {
                 entry.sampleTested
               }`
             : `${OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED}: None Noted`,
-          entry.comments
+          entry.comments?.length
             ? `${OBSERVATION_DISPLAY_LABELS.COMMENTS}: ${
                 Array.isArray(entry.comments)
                   ? entry.comments.join('\n')

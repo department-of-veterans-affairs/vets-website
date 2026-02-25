@@ -51,7 +51,7 @@ ${
             if (record.labLocation)
               details.push(`Location: ${record.labLocation}`);
             if (record.date) details.push(`Date completed: ${record.date}`);
-            if (record.comments) {
+            if (record.comments?.length) {
               const commentsText = Array.isArray(record.comments)
                 ? record.comments.join('\n')
                 : record.comments;
