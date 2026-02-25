@@ -12,12 +12,12 @@ const aboutYourRelationshipToFamilyMemberPage = {
       labelHeaderLevel: '3',
       labels: aboutFamilyMemberRelationship,
       errorMessages: {
-        required: 'Please select your relationship to the family member',
+        required: 'Select your relationship to the family member',
       },
       required: () => true,
     }),
     relationshipNotListed: {
-      'ui:title': `Please describe your relationship to the family member`,
+      'ui:title': `Describe your relationship to the family member`,
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'aboutYourRelationshipToFamilyMember',
@@ -25,7 +25,7 @@ const aboutYourRelationshipToFamilyMemberPage = {
         expandedContentFocus: true,
       },
       'ui:errorMessages': {
-        required: `Please enter your relationship to the family member`,
+        required: `Enter your relationship to the family member`,
       },
     },
     'ui:options': {

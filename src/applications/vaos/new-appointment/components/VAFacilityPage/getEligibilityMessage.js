@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
+import FacilityDetails from '../FacilityDetails';
 
 export default function getEligibilityMessage({
   eligibility,
@@ -13,6 +13,7 @@ export default function getEligibilityMessage({
 
   const requestReason = eligibility.requestReasons[0];
   const directReason = eligibility.directReasons[0];
+  const requestDisabled = !eligibility.request;
 
   if (
     (requestReason === ELIGIBILITY_REASONS.notSupported &&
@@ -20,9 +21,6 @@ export default function getEligibilityMessage({
     requestReason === ELIGIBILITY_REASONS.noRecentVisit
   ) {
     title = 'You can’t schedule an appointment online';
-    const contact = facilityDetails?.telecom?.find(
-      tele => tele.system === 'phone',
-    )?.value;
 
     content = (
       <>
@@ -30,28 +28,16 @@ export default function getEligibilityMessage({
           You haven’t had a recent appointment at this facility. You’ll need to
           call to schedule, instead.
         </p>
-        <p>
-          <strong>{facilityDetails.name}</strong>
-          <br />
-          <strong>Main phone: </strong>
-          <VaTelephone contact={contact} />
-          <span>
-            &nbsp;(
-            <VaTelephone contact="711" tty data-testid="tty-telephone" />)
-          </span>
-        </p>
+        <FacilityDetails facility={facilityDetails} />
         <p>Or you can choose a different facility.</p>
       </>
     );
   } else if (
-    requestReason === ELIGIBILITY_REASONS.notSupported &&
+    (requestReason === ELIGIBILITY_REASONS.notSupported || requestDisabled) &&
     (directReason === ELIGIBILITY_REASONS.noClinics ||
       directReason === ELIGIBILITY_REASONS.noMatchingClinics)
   ) {
     title = 'You can’t schedule this appointment online';
-    const contact = facilityDetails?.telecom?.find(
-      tele => tele.system === 'phone',
-    )?.value;
 
     content = (
       <>
@@ -59,16 +45,7 @@ export default function getEligibilityMessage({
           We couldn’t find any open appointment times for online scheduling.
         </p>
         <p>You’ll need to call the facility to schedule an appointment.</p>
-        <p>
-          <strong>{facilityDetails.name}</strong>
-          <br />
-          <strong>Main phone: </strong>
-          <VaTelephone contact={contact} />
-          <span>
-            &nbsp;(
-            <VaTelephone contact="711" tty data-testid="tty-telephone" />)
-          </span>
-        </p>
+        <FacilityDetails facility={facilityDetails} />
         <p>Or you can go back and choose a different facility.</p>
       </>
     );
@@ -91,23 +68,11 @@ export default function getEligibilityMessage({
     );
   } else if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {
     title = 'You can’t schedule this appointment online';
-    const contact = facilityDetails?.telecom?.find(
-      tele => tele.system === 'phone',
-    )?.value;
 
     content = (
       <>
         <p>You’ll need to call to schedule at this facility.</p>
-        <p>
-          <strong>{facilityDetails.name}</strong>
-          <br />
-          <strong>Main phone: </strong>
-          <VaTelephone contact={contact} />
-          <span>
-            &nbsp;(
-            <VaTelephone contact="711" tty data-testid="tty-telephone" />)
-          </span>
-        </p>
+        <FacilityDetails facility={facilityDetails} />
         <p>Or you can choose a different facility.</p>
       </>
     );

@@ -52,7 +52,7 @@ describe('1010d IntroductionPage', () => {
     );
     const selectors = () => ({
       signInAlert: container.querySelector(
-        'va-alert-sign-in[variant="signInOptional"]',
+        'va-alert-sign-in[variant="signInOptionalNoPrefill"]',
       ),
       startBtn: container.querySelector('a[href="#start"]'),
     });

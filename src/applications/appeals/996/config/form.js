@@ -4,7 +4,7 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 // Components
-import AddContestableIssue from '../components/AddContestableIssue';
+import AddIssue from '../../shared/components/AddIssue';
 import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import InformalConference from '../components/InformalConference';
@@ -14,7 +14,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import SubTaskContainer from '../subtask/SubTaskContainer';
 
 // Pages
-import addIssue from '../pages/addIssue';
+import addIssue from '../../shared/pages/addIssue';
 import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
 import authorization from '../pages/authorization';
 import contactInfo from '../pages/contactInformation';
@@ -167,11 +167,13 @@ const formConfig = {
           title: 'Add issues for review',
           path: ADD_ISSUE_PATH,
           depends: () => false,
-          // showPagePerItem: true,
-          // arrayPath: 'additionalIssues',
-          CustomPage: AddContestableIssue,
-          uiSchema: addIssue.uiSchema,
-          schema: addIssue.schema,
+          CustomPage: props =>
+            AddIssue({
+              ...props,
+              appAbbr: 'HLR',
+            }),
+          uiSchema: addIssue().uiSchema,
+          schema: addIssue().schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         areaOfDisagreementFollowUp: {

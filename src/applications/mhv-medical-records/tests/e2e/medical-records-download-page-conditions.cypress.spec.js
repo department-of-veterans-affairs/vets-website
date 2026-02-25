@@ -9,7 +9,7 @@ import bothSourcesUser from './fixtures/users/both-sources-user.json';
  *
  * Tests all conditional branches in the component:
  * 1. if (hasBothDataSources) - Renders VistaAndOHContent
- * 2. if (hasOHOnly) - Renders OHOnlyContent
+ * 2. if (hasOHOnly) - Renders VistaAndOHContent (same layout as BOTH)
  * 3. Default return - Renders VistaOnlyContent (for VistA-only users)
  *
  * Based on the current DownloadReportPage.jsx logic:
@@ -83,8 +83,10 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
     });
 
     it('displays facility names in CCD section headings', () => {
-      // VistaAndOHContent shows facility names using formatFacilityList
-      cy.contains('p', 'CCD: medical records from').should('exist');
+      // VistaAndOHContent shows facility names using formatFacilityUnorderedList
+      cy.contains('p', 'Download your CCD for these facilities').should(
+        'exist',
+      );
 
       cy.injectAxeThenAxeCheck();
     });
@@ -100,12 +102,22 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
       DownloadReportsPage.goToReportsPage();
     });
 
-    it('renders OHOnlyContent component with singular heading', () => {
-      // Verify the page title for OHOnlyContent (singular "report")
-      cy.contains('h1', 'Download your medical records report').should('exist');
+    it('renders VistaAndOHContent component with plural heading for OH-only users', () => {
+      // Verify the page title (plural "reports" same as other user types)
+      cy.contains('h1', 'Download your medical records reports').should(
+        'exist',
+      );
 
       // Verify NeedHelpSection is rendered
       cy.contains('Need help?').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('displays Blue Button report section for OH-only users', () => {
+      // OH-only users now see same layout as both-sources users
+      cy.contains('h2', 'Download your VA Blue Button report').should('exist');
+      cy.get('[data-testid="go-to-download-all"]').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -118,20 +130,21 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
       cy.injectAxeThenAxeCheck();
     });
 
+    it('displays self-entered health information section with download button', () => {
+      // OH-only users now see same layout as both-sources users
+      cy.contains('h2', 'Download your self-entered health information').should(
+        'exist',
+      );
+      cy.get('[data-testid="downloadSelfEnteredButton"]').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
     it('displays Oracle Health CCD download buttons (XML, PDF, HTML)', () => {
       // OH-only users see the OH download buttons directly (no accordion)
       cy.get('[data-testid="generateCcdButtonXmlOH"]').should('exist');
       cy.get('[data-testid="generateCcdButtonPdfOH"]').should('exist');
       cy.get('[data-testid="generateCcdButtonHtmlOH"]').should('exist');
-
-      cy.injectAxeThenAxeCheck();
-    });
-
-    it('does NOT display Blue Button section for OH-only users', () => {
-      cy.contains('h2', 'Download your VA Blue Button report').should(
-        'not.exist',
-      );
-      cy.get('[data-testid="go-to-download-all"]').should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -263,12 +276,12 @@ describe('Medical Records Download Page - Feature Flag Conditions', () => {
       });
       DownloadReportsPage.goToReportsPage();
 
-      // With flag disabled, should NOT see PDF and HTML buttons
-      cy.get('[data-testid="generateCcdButtonPdfOH"]').should('not.exist');
-      cy.get('[data-testid="generateCcdButtonHtmlOH"]').should('not.exist');
+      // With flag disabled, should NOT see PDF and HTML buttons (no suffix variant)
+      cy.get('[data-testid="generateCcdButtonPdf"]').should('not.exist');
+      cy.get('[data-testid="generateCcdButtonHtml"]').should('not.exist');
 
-      // But XML should still exist
-      cy.get('[data-testid="generateCcdButtonXmlOH"]').should('exist');
+      // But XML should still exist (no suffix when flag disabled)
+      cy.get('[data-testid="generateCcdButtonXml"]').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -690,8 +703,10 @@ describe('Medical Records Download Page - AcceleratedCernerFacilityAlert', () =>
       });
       DownloadReportsPage.goToReportsPage();
 
-      // Verify the page loads correctly with OHOnlyContent
-      cy.contains('h1', 'Download your medical records report').should('exist');
+      // Verify the page loads correctly with VistaAndOHContent (plural heading)
+      cy.contains('h1', 'Download your medical records reports').should(
+        'exist',
+      );
 
       cy.injectAxeThenAxeCheck();
     });
@@ -755,7 +770,7 @@ describe('Medical Records Download Page - CCD Download Functionality', () => {
 describe('Medical Records Download Page - Component Differentiation', () => {
   const site = new MedicalRecordsSite();
 
-  it('OH-only users see singular "report" heading, VistA users see plural "reports"', () => {
+  it('OH-only users now see plural "reports" heading (same as other user types)', () => {
     // First check OH-only user
     site.login(ohOnlyUser, false);
     site.mockFeatureToggles({
@@ -764,10 +779,11 @@ describe('Medical Records Download Page - Component Differentiation', () => {
     });
     DownloadReportsPage.goToReportsPage();
 
-    cy.contains('h1', 'Download your medical records report').should('exist');
-    cy.contains('h1', 'Download your medical records reports').should(
-      'not.exist',
-    );
+    // Verify heading uses plural "reports" (not singular "report")
+    cy.contains('h1', 'Download your medical records reports').should('exist');
+    cy.get('h1').should($h1 => {
+      expect($h1.text()).to.include('reports');
+    });
 
     cy.injectAxeThenAxeCheck();
   });

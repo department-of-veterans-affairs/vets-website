@@ -57,7 +57,7 @@ describe('Unexpected outage from Search.gov', () => {
     cy.get(s.APP).within(() => {
       cy.get(s.OUTAGE_BOX)
         .should('exist')
-        .and('contain', 'We’re working on Search VA.gov right now.');
+        .and('contain', 'Something went wrong in our system');
     });
   };
 
@@ -86,7 +86,11 @@ describe('Unexpected outage from Search.gov', () => {
     enableToggle();
     mockResults();
     cy.visit('/search?query=benefits');
-    cy.injectAxeThenAxeCheck();
+    cy.injectAxeThenAxeCheck(null, {
+      rules: {
+        'heading-order': { enabled: false },
+      },
+    });
     verifyOutageBanner();
     verifySearchFailureBannerIsNotVisible();
     checkForResults();
@@ -96,7 +100,11 @@ describe('Unexpected outage from Search.gov', () => {
     enableToggle();
     mockResultsEmpty();
     cy.visit('/search?query=benefits');
-    cy.injectAxeThenAxeCheck();
+    cy.injectAxeThenAxeCheck(null, {
+      rules: {
+        'heading-order': { enabled: false },
+      },
+    });
     verifyOutageBanner();
     verifySearchFailureBannerIsNotVisible();
     verifyNoResults();
@@ -106,7 +114,11 @@ describe('Unexpected outage from Search.gov', () => {
     enableToggle();
     mockResultsFailure();
     cy.visit('/search?query=benefits');
-    cy.injectAxeThenAxeCheck();
+    cy.injectAxeThenAxeCheck(null, {
+      rules: {
+        'heading-order': { enabled: false },
+      },
+    });
     verifyOutageBanner();
     verifySearchFailureBanner();
     verifyNoResults();

@@ -25,6 +25,47 @@ const formatAddress = address => {
   return full || '—';
 };
 
+// Display labels to match the target UI screenshot
+const ITF_SECTION_TITLES = {
+  compensation: 'Disability compensation',
+  pension: 'Pension',
+  survivor: 'Survivor',
+};
+
+const ITF_BENEFIT_LABELS = {
+  compensation: 'Disability compensation (VA Form 21-526EZ)',
+  pension: 'Pension (VA Form 21P-527EZ)',
+  survivor: 'Survivor benefits',
+};
+
+// Normalize backend ITF array (controller now returns payload[:data][:itf] as an array)
+const normalizeItfArray = rawItf => {
+  if (!Array.isArray(rawItf)) return [];
+
+  return rawItf
+    .map(entry => {
+      // Most likely LH shape: { data: { attributes: { type, creationDate, expirationDate, status } } }
+      const attrs = entry?.data?.attributes || entry?.attributes || entry;
+
+      const benefitType =
+        attrs?.type || entry?.benefitType || entry?.benefit_type;
+      if (!benefitType) return null;
+
+      const itfDate = attrs?.creationDate || attrs?.itfDate || attrs?.itf_date;
+      const expirationDate =
+        attrs?.expirationDate || attrs?.expiration_date || null;
+
+      return {
+        benefitType,
+        benefit: ITF_BENEFIT_LABELS[benefitType] || benefitType,
+        itfDate: itfDate || null,
+        expirationDate,
+        status: attrs?.status || null,
+      };
+    })
+    .filter(Boolean);
+};
+
 const mapClaimantOverview = raw => ({
   firstName: raw?.first_name,
   lastName: raw?.last_name,
@@ -43,110 +84,10 @@ const mapClaimantOverview = raw => ({
   email: raw?.email,
   address: raw?.address || null,
   representativeInfo: raw?.representative_info || null,
-  intentToFile: [],
+
+  // ✅ NEW: backend now returns ITF data on claimant show
+  intentToFile: normalizeItfArray(raw?.itf),
 });
-
-const ITF_TYPES = ['compensation', 'pension', 'survivor'];
-
-// Display labels to match the target UI screenshot
-const ITF_SECTION_TITLES = {
-  compensation: 'Disability compensation',
-  pension: 'Pension',
-  survivor: 'Survivor',
-};
-
-const ITF_BENEFIT_LABELS = {
-  compensation: 'Disability compensation (VA Form 21-526EZ)',
-  pension: 'Pension (VA Form 21P-527EZ)',
-  survivor: 'Survivor benefits',
-};
-
-/**
- * Survivor ITF requires claimant identity fields (SSN, DOB, first, last).
- *
- * The Rails backend computes claimant_icn and runs authorization
- * BEFORE hitting the controller action. If these params are missing,
- * the request will fail (400/authorization error).
- *
- * We guard the call here to avoid sending an invalid survivor request.
- */
-const hasSurvivorParams = claimant =>
-  Boolean(
-    claimant?.claimantSsn &&
-      claimant?.claimantDateOfBirth &&
-      claimant?.claimantFullName?.first &&
-      claimant?.claimantFullName?.last,
-  );
-
-const loadIntentToFileByType = async (claimant, benefitType) => {
-  // survivor requires claimant identity fields; if we don’t have them, skip the call
-  if (benefitType === 'survivor' && !hasSurvivorParams(claimant)) return null;
-
-  const basePayload = {
-    benefitType,
-    veteranSsn: claimant.veteranSsn,
-    veteranDateOfBirth: claimant.dateOfBirth,
-    veteranFullName: { first: claimant.firstName, last: claimant.lastName },
-  };
-
-  const payload =
-    benefitType === 'survivor'
-      ? {
-          ...basePayload,
-          claimantSsn: claimant.claimantSsn,
-          claimantDateOfBirth: claimant.claimantDateOfBirth,
-          claimantFullName: claimant.claimantFullName,
-        }
-      : basePayload;
-
-  const res = await api.getIntentToFile(payload);
-
-  if (res.status === 401) throw res;
-
-  // Fail-soft for authorization failures / not found / any non-OK response
-  if (!res.ok) return null;
-
-  const json = await res.json();
-
-  /**
-   * Normalize ITF response shape.
-   * Backend mock returns: { data: { attributes: { creationDate, expirationDate, type, status } } }
-   */
-  const attrs = json?.data?.attributes;
-  if (attrs) {
-    return {
-      benefitType,
-      benefit: ITF_BENEFIT_LABELS[benefitType] || attrs.type || benefitType,
-      itfDate: attrs.creationDate || null,
-      expirationDate: attrs.expirationDate || null,
-      status: attrs.status || null,
-    };
-  }
-
-  // Fallback to older/alternate shapes if they exist
-  const raw = json?.data || json;
-  return {
-    benefitType,
-    benefit: raw?.benefit || raw?.benefitType || benefitType,
-    itfDate: raw?.itfDate || raw?.itf_date || null,
-    expirationDate: raw?.expirationDate || raw?.expiration_date || null,
-    status: raw?.status || null,
-  };
-};
-
-const loadAllIntentToFile = async claimant => {
-  // If required param is missing, just return empty list (no UI crash)
-  if (!claimant?.veteranSsn || !claimant?.dateOfBirth) return [];
-
-  const results = await Promise.allSettled(
-    ITF_TYPES.map(benefitType => loadIntentToFileByType(claimant, benefitType)),
-  );
-
-  // Keep order stable, include only successful non-null responses
-  return results
-    .map(r => (r.status === 'fulfilled' ? r.value : null))
-    .filter(Boolean);
-};
 
 // ✅ No cross-app date util needed.
 // Handles:
@@ -202,7 +143,6 @@ const showExpiryWarning = expirationDate => {
 };
 
 const ClaimantOverviewPage = () => {
-  // ✅ Fix: claimantId was unused; remove from destructure
   const { authorized = true, claimant = null } = useLoaderData() || {};
   const unauthorized = authorized === false;
 
@@ -296,7 +236,12 @@ const ClaimantOverviewPage = () => {
         <div className="vads-u-padding-left--3">
           {claimant?.intentToFile?.length ? (
             claimant.intentToFile.map(itf => (
-              <div key={itf.benefitType} className="vads-u-margin-top--3">
+              <div
+                key={`${itf.benefitType}-${itf.itfDate || 'no-date'}-${
+                  itf.expirationDate || 'no-exp'
+                }`}
+                className="vads-u-margin-top--3"
+              >
                 <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
                   {ITF_SECTION_TITLES[itf.benefitType] || itf.benefitType}
                 </h4>
@@ -347,8 +292,8 @@ ClaimantOverviewPage.loader = async ({ params }) => {
   const claimantId = params?.claimantId;
   if (!claimantId) throw new Response('Not Found', { status: 404 });
 
-  const overviewPromise = api.getClaimantOverview(claimantId);
-  const overviewRes = await overviewPromise;
+  // ✅ Single API call now (backend includes ITF)
+  const overviewRes = await api.getClaimantOverview(claimantId);
 
   if (overviewRes.status === 401) throw overviewRes;
   if (overviewRes.status === 403)
@@ -358,12 +303,6 @@ ClaimantOverviewPage.loader = async ({ params }) => {
   const overviewJson = await overviewRes.json();
   const overviewRaw = overviewJson?.data || overviewJson;
   const claimant = mapClaimantOverview(overviewRaw);
-
-  const itfPromise = loadAllIntentToFile(claimant);
-  const [itfSettled] = await Promise.allSettled([itfPromise]);
-
-  claimant.intentToFile =
-    itfSettled.status === 'fulfilled' ? itfSettled.value : [];
 
   return { authorized: true, claimant, claimantId };
 };

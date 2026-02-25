@@ -1,5 +1,6 @@
 /**
  * Base64 URL encode a string (for mock JWT creation)
+ * Works in both Node.js and browser environments.
  * @param {string} data - The string to encode
  * @returns {string} Base64 URL encoded string
  */
@@ -8,7 +9,19 @@ function base64UrlEncode(data) {
     return null;
   }
 
-  const base64 = Buffer.from(data, 'utf8').toString('base64');
+  let base64;
+
+  // Check if Buffer is available (Node.js environment)
+  if (typeof Buffer !== 'undefined') {
+    base64 = Buffer.from(data, 'utf8').toString('base64');
+  } else {
+    // Browser environment: use btoa with UTF-8 handling
+    // TextEncoder converts the string to UTF-8 bytes
+    const utf8Bytes = new TextEncoder().encode(data);
+    // Convert byte array to binary string for btoa
+    const binaryString = String.fromCharCode(...utf8Bytes);
+    base64 = btoa(binaryString);
+  }
 
   return base64
     .replace(/\+/g, '-')
@@ -17,7 +30,8 @@ function base64UrlEncode(data) {
 }
 
 /**
- * Base64 URL decode a string (browser-compatible)
+ * Base64 URL decode a string.
+ * Works in both Node.js and browser environments.
  * @param {string} data - The base64url encoded string to decode
  * @returns {string} Decoded string
  */
@@ -33,12 +47,22 @@ function base64UrlDecode(data) {
     base64 += '='.repeat(4 - padding);
   }
 
-  // TODO: use Buffer.from(base64, 'base64').toString('utf-8') instead of atob
-  return Buffer.from(base64, 'base64').toString('utf-8');
+  // Check if Buffer is available (Node.js environment)
+  if (typeof Buffer !== 'undefined') {
+    return Buffer.from(base64, 'base64').toString('utf-8');
+  }
+
+  // Browser environment: use atob with UTF-8 handling
+  const binaryString = atob(base64);
+  // Convert binary string to byte array
+  const bytes = Uint8Array.from(binaryString, char => char.charCodeAt(0));
+  // TextDecoder converts UTF-8 bytes back to string
+  return new TextDecoder().decode(bytes);
 }
 
 /**
  * Decodes a JWT token and extracts the payload.
+ * Works in both Node.js and browser environments.
  * Note: This does NOT verify the signature.
  *
  * @param {string} token - The JWT token to decode
@@ -52,8 +76,7 @@ function decodeJwt(token) {
   }
 
   const decode = str => {
-    const base64 = str.replace(/-/g, '+').replace(/_/g, '/');
-    return JSON.parse(Buffer.from(base64, 'base64').toString('utf-8'));
+    return JSON.parse(base64UrlDecode(str));
   };
 
   return {

@@ -98,14 +98,19 @@ export const hasDuplicates = (data = {}) => {
  *  of contestable issues
  */
 export const processContestableIssues = contestableIssues => {
+  if (!contestableIssues?.length) {
+    return [];
+  }
+
   const processDate = entry =>
     (entry.attributes?.approxDecisionDate || '').replace(REGEXP.DASH, '');
   // remove issues with no title & sort by date - see
   // https://dsva.slack.com/archives/CSKKUL36K/p1623956682119300
-  const result = (contestableIssues || [])
+  const result = contestableIssues
     .filter(issue => getIssueName(issue))
     .map(issue => {
       const attr = issue.attributes;
+
       return {
         ...issue,
         attributes: {
@@ -120,10 +125,12 @@ export const processContestableIssues = contestableIssues => {
     .sort((a, b) => {
       const dateA = processDate(a);
       const dateB = processDate(b);
+
       if (dateA === dateB) {
         // If the dates are the same, sort by title
         return getIssueName(a) > getIssueName(b) ? 1 : -1;
       }
+
       // YYYYMMDD string comparisons will work in place of using a library
       return dateA > dateB ? -1 : 1;
     });
@@ -146,13 +153,23 @@ export const processContestableIssues = contestableIssues => {
 export const calculateIndexOffset = (index, contestableIssuesLength) =>
   index - contestableIssuesLength;
 
+/**
+ * First clean up loaded & existing issues (see processContestableIssues)
+ * Then, if the loaded & existing issues' lengths do not match, return
+ * true: they do need to be updated
+ * If they do match, check each object in both arrays to be sure it's a deep match
+ * @param {[]} loaded issues from API
+ * @param {[]} formIssues already in the store
+ */
 export const issuesNeedUpdating = (loaded = [], formIssues = []) => {
   const loadedIssues = processContestableIssues(loaded);
   const existingIssues = processContestableIssues(formIssues);
+
   return loadedIssues.length !== existingIssues.length
     ? true
     : !loadedIssues.every(({ attributes }, index) => {
         const existing = existingIssues[index]?.attributes;
+
         return (
           attributes.ratingIssueSubjectText ===
             existing.ratingIssueSubjectText &&

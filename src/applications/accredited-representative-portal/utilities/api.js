@@ -18,6 +18,7 @@ const doNotRedirectUrl = [
   `${manifest.rootUrl}/sign-in`,
   `${manifest.rootUrl}/auth/login/callback`,
 ];
+
 // 403 redirect handler
 const redirectToUnauthorizedAndReturn = () => {
   const inAppPath = window.location.pathname.startsWith(manifest.rootUrl);
@@ -71,7 +72,7 @@ const wrapApiRequest = fn => {
         localStorage.setItem('csrfToken', csrfToken);
       }
 
-      // For successful responses,return data
+      // For successful responses, return data
       if (response.ok || response.status === 304) {
         return response;
       }
@@ -111,6 +112,7 @@ const wrapApiRequest = fn => {
         const redirected = redirectToUnauthorizedAndReturn();
         if (redirected) return redirected;
       }
+
       // Log network-like errors to Sentry
       if (!(err instanceof Response)) {
         Sentry.withScope(scope => {
@@ -119,47 +121,54 @@ const wrapApiRequest = fn => {
           Sentry.captureMessage(`vets_client_error: ${err.message}`);
         });
       }
+
       throw err;
     }
   };
 };
-const paginationDefaults = `page[size]=${SORT_DEFAULTS.SIZE}&page[number]=${
-  SORT_DEFAULTS.NUMBER
-}`;
-const sortDefaults = `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${
-  SORT_DEFAULTS.SORT_ORDER
-}`;
+
+const paginationDefaults = `page[size]=${SORT_DEFAULTS.SIZE}&page[number]=${SORT_DEFAULTS.NUMBER}`;
+const sortDefaults = `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${SORT_DEFAULTS.SORT_ORDER}`;
+
 const api = {
   // Lightweight authorization check used by Dashboard loader
   checkAuthorized: wrapApiRequest(() => {
     return ['/authorize_as_representative'];
   }),
+
   getPOARequests: wrapApiRequest(query => {
     const status = query.status ? `status=${query.status}` : '';
     const pagination = query.size
       ? `&page[size]=${query.size}&page[number]=${query.number}`
       : paginationDefaults;
+
     const sortParam = paramUpdate(query.sort, query.status);
     const sort = sortParam
       ? `&sort[by]=${sortParam.sortBy}&sort[order]=${sortParam.order}`
       : sortDefaults;
+
     const showAllRequests = query.selectedIndividual === 'you';
     const selectedIndividual = query.selectedIndividual
       ? `&as_selected_individual=${showAllRequests}`
       : `&as_selected_individual=${SORT_DEFAULTS.SELECTED_INDIVIDUAL}`;
+
     const params = `${status + pagination + sort + selectedIndividual}`;
     return [`/power_of_attorney_requests${params ? '?' : ''}${params}`];
   }),
+
   getSubmissions: wrapApiRequest(query => {
     const pagination = query.size
       ? `&page[size]=${query.size}&page[number]=${query.number}`
       : paginationDefaults;
+
     const subParam = paramUpdate(query.sort);
     const sort = subParam
       ? `&sort[by]=${subParam.sortBy}&sort[order]=${subParam.order}`
       : sortDefaults;
+
     return [`/claim_submissions?${pagination}${sort}`];
   }),
+
   claimantSearch: wrapApiRequest(data => {
     return [
       `/claimant/search`,
@@ -188,45 +197,10 @@ const api = {
     ];
   }),
 
+  // Single source of truth for claimant overview + ITFs now
   getClaimantOverview: wrapApiRequest(id => {
     return [`/claimant/${id}`];
   }),
-
-  getIntentToFile: wrapApiRequest(
-    ({
-      benefitType,
-      veteranSsn,
-      veteranDateOfBirth,
-      veteranFullName,
-      claimantSsn,
-      claimantDateOfBirth,
-      claimantFullName,
-    }) => {
-      const params = new URLSearchParams();
-
-      if (benefitType) params.set('benefitType', benefitType);
-      if (veteranSsn) params.set('veteranSsn', veteranSsn);
-      if (veteranDateOfBirth)
-        params.set('veteranDateOfBirth', veteranDateOfBirth);
-
-      if (veteranFullName?.first)
-        params.set('veteranFullName[first]', veteranFullName.first);
-      if (veteranFullName?.last)
-        params.set('veteranFullName[last]', veteranFullName.last);
-
-      if (benefitType === 'survivor') {
-        if (claimantSsn) params.set('claimantSsn', claimantSsn);
-        if (claimantDateOfBirth)
-          params.set('claimantDateOfBirth', claimantDateOfBirth);
-        if (claimantFullName?.first)
-          params.set('claimantFullName[first]', claimantFullName.first);
-        if (claimantFullName?.last)
-          params.set('claimantFullName[last]', claimantFullName.last);
-      }
-
-      return [`/intent_to_file?${params.toString()}`];
-    },
-  ),
 };
 
 export default api;

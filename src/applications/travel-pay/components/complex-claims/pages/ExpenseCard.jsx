@@ -77,7 +77,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                   {
                     label: 'Which address did you depart from?',
                     value: (
-                      <>
+                      <span data-dd-privacy="mask">
                         {address.addressLine1}{' '}
                         {address.addressLine2 && (
                           <span>{address.addressLine2} </span>
@@ -86,7 +86,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                           <span>{address.addressLine3} </span>
                         )}
                         {address.city}, {address.stateCode} {address.zipCode}
-                      </>
+                      </span>
                     ),
                   },
                 ]}

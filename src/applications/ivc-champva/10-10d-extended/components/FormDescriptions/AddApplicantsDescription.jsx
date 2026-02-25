@@ -1,5 +1,5 @@
 import React from 'react';
-import { APPLICANTS_MAX } from '../../constants';
+import { APPLICANTS_MAX } from '../../utils/constants';
 
 const AddApplicantsDescription = (
   <>

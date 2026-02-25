@@ -365,7 +365,7 @@
         "pending": false
       }
     },
-     {
+    {
       "id": "AVS_PDF_Test_1",
       "type": "appointments",
       "attributes": {
@@ -414,32 +414,29 @@
           "eCheckinAllowed": true
         },
         "localStartTime": "2025-10-13T09:00:00.000-06:00",
-        "avsPdf": [{
-            "id": "20875041789",
-            "apptId": "172646526",
-            "name": "Ambulatory Visit Summary",
+        "avsPdf": [
+          {
+            "id": "208750417891",
+            "apptId": "AVS_PDF_Test_1",
+            "name": "Ambulatory Visit Summary valid one",
             "noteType": "ambulatory_patient_summary",
-            "loincCodes": [
-              "4189669",
-               "96345-4"
-              ],
+            "loincCodes": ["4189669", "96345-4"],
             "contentType": "application/pdf",
-            "binary": "JVBERi0xLjQKMSAwIG9iago8PC9UeXBlIC9DYXRhbG9nCi9QYWdlcyAyIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PC9UeXBlIC9QYWdlcwovS2lkcyBbMyAwIFJdCi9Db3VudCAxCj4+CmVuZG9iagozIDAgb2JqCjw8L1R5cGUgL1BhZ2UKL1BhcmVudCAyIDAgUgovTWVkaWFCb3ggWzAgMCA1OTUgODQyXQovQ29udGVudHMgNSAwIFIKL1Jlc291cmNlcyA8PC9Qcm9jU2V0IFsvUERGIC9UZXh0XQovRm9udCA8PC9GMSA0IDAgUj4+Cj4+Cj4+CmVuZG9iago0IDAgb2JqCjw8L1R5cGUgL0ZvbnQKL1N1YnR5cGUgL1R5cGUxCi9OYW1lIC9GMQovQmFzZUZvbnQgL0hlbHZldGljYQovRW5jb2RpbmcgL01hY1Jv bWFuRW5jb2RpbmcKPj4KZW5kb2JqCjUgMCBvYmoKPDwvTGVuZ3RoIDUzCj4+CnN0cmVhbQpCVAovRjEgMjAgVGYKMjIwIDQwMCBUZAooRHVtbXkgUERGKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA2CjAwMDAwMDAwMDAgNjU1MzUgZgowMDAwMDAwMDA5IDAwMDAwIG4KMDAwMDAwMDA2MyAwMDAwMCBuCjAwMDAwMDAxMjQgMDAwMDAgbgowMDAwMDAwMjc3IDAwMDAwIG4KMDAwMDAwMDM5MiAwMDAwMCBuCnRyYWlsZXIKPDwvU2l6ZSA2Ci9Sb290IDEgMCBSCj4+CnN0YXJ0eHJlZgo0OTUKJSVFQ0VPRg=="
-        },
-        {
-            "id": "20875041789",
-            "apptId": "172646526",
-            "name": "Ambulatory Visit Summary",
+            "binary": null,
+            "error": null
+          },
+          {
+            "id": "208750417892",
+            "apptId": "AVS_PDF_Test_1",
+            "name": "Ambulatory Visit Summary valid two",
             "noteType": "ambulatory_patient_summary",
-            "loincCodes": [
-              "4189669",
-               "96345-4"
-              ],
+            "loincCodes": ["4189669", "96345-4"],
             "contentType": "application/pdf",
-            "binary": "JVBERi0xLjQKMSAwIG9iago8PC9UeXBlIC9DYXRhbG9nCi9QYWdlcyAyIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PC9UeXBlIC9QYWdlcwovS2lkcyBbMyAwIFJdCi9Db3VudCAxCj4+CmVuZG9iagozIDAgb2JqCjw8L1R5cGUgL1BhZ2UKL1BhcmVudCAyIDAgUgovTWVkaWFCb3ggWzAgMCA1OTUgODQyXQovQ29udGVudHMgNSAwIFIKL1Jlc291cmNlcyA8PC9Qcm9jU2V0IFsvUERGIC9UZXh0XQovRm9udCA8PC9GMSA0IDAgUj4+Cj4+Cj4+CmVuZG9iago0IDAgb2JqCjw8L1R5cGUgL0ZvbnQKL1N1YnR5cGUgL1R5cGUxCi9OYW1lIC9GMQovQmFzZUZvbnQgL0hlbHZldGljYQovRW5jb2RpbmcgL01hY1Jv bWFuRW5jb2RpbmcKPj4KZW5kb2JqCjUgMCBvYmoKPDwvTGVuZ3RoIDUzCj4+CnN0cmVhbQpCVAovRjEgMjAgVGYKMjIwIDQwMCBUZAooRHVtbXkgUERGKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA2CjAwMDAwMDAwMDAgNjU1MzUgZgowMDAwMDAwMDA5IDAwMDAwIG4KMDAwMDAwMDA2MyAwMDAwMCBuCjAwMDAwMDAxMjQgMDAwMDAgbgowMDAwMDAwMjc3IDAwMDAwIG4KMDAwMDAwMDM5MiAwMDAwMCBuCnRyYWlsZXIKPDwvU2l6ZSA2Ci9Sb290IDEgMCBSCj4+CnN0YXJ0eHJlZgo0OTUKJSVFQ0VPRg=="
-        }
-      ],
-        "serviceName": "clinic friendly name",
+            "binary": null,
+            "error": null
+          }
+        ],
+        "serviceName": "clinic friendly name OHAVS1",
         "location": {
           "id": "757",
           "type": "appointments",
@@ -501,7 +498,14 @@
         },
         "past": true,
         "pending": false,
-        "isCerner": true
+        "isCerner": true,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "success": true,
+            "message": "No claims found."
+          }
+        }
       }
     },
     {
@@ -553,20 +557,19 @@
           "eCheckinAllowed": true
         },
         "localStartTime": "2025-10-14T09:00:00.000-06:00",
-        "avsPdf": [{
-            "id": "20875041789",
-            "apptId": "172646526",
-            "name": "Ambulatory Visit Summary",
+        "avsPdf": [
+          {
+            "id": "208750417893",
+            "apptId": "AVS_PDF_Test_2",
+            "name": "Ambulatory Visit Summary BE error empty data",
             "noteType": "ambulatory_patient_summary",
-            "loincCodes": [
-              "4189669",
-               "96345-4"
-              ],
+            "loincCodes": ["4189669", "96345-4"],
             "contentType": "application/pdf",
-            "binary": ""
-        }
-      ],
-        "serviceName": "clinic friendly name",
+            "binary": null,
+            "error": null
+          }
+        ],
+        "serviceName": "clinic friendly name OHAVS2",
         "location": {
           "id": "757",
           "type": "appointments",
@@ -628,7 +631,14 @@
         },
         "past": true,
         "pending": false,
-        "isCerner": true
+        "isCerner": true,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "success": true,
+            "message": "No claims found."
+          }
+        }
       }
     },
     {
@@ -680,20 +690,19 @@
           "eCheckinAllowed": true
         },
         "localStartTime": "2025-10-15T09:00:00.000-06:00",
-        "avsPdf": [{
-            "id": "20875041789",
+        "avsPdf": [
+          {
+            "id": "208750417894",
             "apptId": "AVS_PDF_Test_3",
-            "name": "Ambulatory Visit Summary",
+            "name": "Ambulatory Visit Summary invalid binary",
             "noteType": "ambulatory_patient_summary",
-            "loincCodes": [
-              "4189669",
-               "96345-4"
-              ],
+            "loincCodes": ["4189669", "96345-4"],
             "contentType": "application/pdf",
-            "binary": "JVBERi0xLjQKJeLjz9M#INVALID-DATA$$%%123=="
-        }
-      ],
-        "serviceName": "clinic friendly name",
+            "binary": null,
+            "error": null
+          }
+        ],
+        "serviceName": "clinic friendly name OHAVS3",
         "location": {
           "id": "757",
           "type": "appointments",
@@ -755,7 +764,14 @@
         },
         "past": true,
         "pending": false,
-        "isCerner": true
+        "isCerner": true,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "success": true,
+            "message": "No claims found."
+          }
+        }
       }
     },
     {
@@ -807,20 +823,19 @@
           "eCheckinAllowed": true
         },
         "localStartTime": "2025-10-16T09:00:00.000-06:00",
-        "avsPdf": [{
-            "id": "20875041789",
+        "avsPdf": [
+          {
+            "id": "208750417895",
             "apptId": "AVS_PDF_Test_4",
-            "name": "Pharmacology Discharge summary",
+            "name": "Pharmacology Discharge summary valid but wrong type",
             "noteType": "pharmacology_discharge_summary",
-            "loincCodes": [
-              "4189669",
-               "96345-4"
-              ],
+            "loincCodes": ["4189669", "96345-4"],
             "contentType": "application/pdf",
-            "binary": "JVBERi0xLjQKMSAwIG9iago8PC9UeXBlIC9DYXRhbG9nCi9QYWdlcyAyIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PC9UeXBlIC9QYWdlcwovS2lkcyBbMyAwIFJdCi9Db3VudCAxCj4+CmVuZG9iagozIDAgb2JqCjw8L1R5cGUgL1BhZ2UKL1BhcmVudCAyIDAgUgovTWVkaWFCb3ggWzAgMCA1OTUgODQyXQovQ29udGVudHMgNSAwIFIKL1Jlc291cmNlcyA8PC9Qcm9jU2V0IFsvUERGIC9UZXh0XQovRm9udCA8PC9GMSA0IDAgUj4+Cj4+Cj4+CmVuZG9iago0IDAgb2JqCjw8L1R5cGUgL0ZvbnQKL1N1YnR5cGUgL1R5cGUxCi9OYW1lIC9GMQovQmFzZUZvbnQgL0hlbHZldGljYQovRW5jb2RpbmcgL01hY1Jv bWFuRW5jb2RpbmcKPj4KZW5kb2JqCjUgMCBvYmoKPDwvTGVuZ3RoIDUzCj4+CnN0cmVhbQpCVAovRjEgMjAgVGYKMjIwIDQwMCBUZAooRHVtbXkgUERGKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA2CjAwMDAwMDAwMDAgNjU1MzUgZgowMDAwMDAwMDA5IDAwMDAwIG4KMDAwMDAwMDA2MyAwMDAwMCBuCjAwMDAwMDAxMjQgMDAwMDAgbgowMDAwMDAwMjc3IDAwMDAwIG4KMDAwMDAwMDM5MiAwMDAwMCBuCnRyYWlsZXIKPDwvU2l6ZSA2Ci9Sb290IDEgMCBSCj4+CnN0YXJ0eHJlZgo0OTUKJSVFQ0VPRg=="
-        }
-      ],
-        "serviceName": "clinic friendly name",
+            "binary": null,
+            "error": null
+          }
+        ],
+        "serviceName": "clinic friendly name OHAVS4",
         "location": {
           "id": "757",
           "type": "appointments",
@@ -882,7 +897,14 @@
         },
         "past": true,
         "pending": false,
-        "isCerner": true
+        "isCerner": true,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "success": true,
+            "message": "No claims found."
+          }
+        }
       }
     },
     {
@@ -899,7 +921,7 @@
         "kind": "clinic",
         "type": "VA",
         "modality": "vaInPerson",
-        "status": "fulfilled",
+        "status": "booked",
         "serviceCategory": [
           {
             "coding": [
@@ -934,32 +956,29 @@
           "eCheckinAllowed": true
         },
         "localStartTime": "2025-10-17T09:00:00.000-06:00",
-        "avsPdf": [{
-            "id": "20875041789",
+        "avsPdf": [
+          {
+            "id": "208750417896",
             "apptId": "AVS_PDF_Test_5",
-            "name": "Pharmacology Discharge summary",
-            "noteType": "pharmacology_discharge_summary",
-            "loincCodes": [
-              "4189669",
-               "96345-4"
-              ],
-            "contentType": "application/pdf",
-            "binary": "JVBERi0xLjQKJeLjz9M#INVALID-DATA$$%%123=="
-        },
-        {
-            "id": "20875041789",
-            "apptId": "AVS_PDF_Test_5",
-            "name": "Ambulatory Visit Summary",
+            "name": "Ambulatory Visit Summary bad data",
             "noteType": "ambulatory_patient_summary",
-            "loincCodes": [
-              "4189669",
-               "96345-4"
-              ],
+            "loincCodes": ["4189669", "96345-4"],
             "contentType": "application/pdf",
-            "binary": "JVBERi0xLjQKMSAwIG9iago8PC9UeXBlIC9DYXRhbG9nCi9QYWdlcyAyIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PC9UeXBlIC9QYWdlcwovS2lkcyBbMyAwIFJdCi9Db3VudCAxCj4+CmVuZG9iagozIDAgb2JqCjw8L1R5cGUgL1BhZ2UKL1BhcmVudCAyIDAgUgovTWVkaWFCb3ggWzAgMCA1OTUgODQyXQovQ29udGVudHMgNSAwIFIKL1Jlc291cmNlcyA8PC9Qcm9jU2V0IFsvUERGIC9UZXh0XQovRm9udCA8PC9GMSA0IDAgUj4+Cj4+Cj4+CmVuZG9iago0IDAgb2JqCjw8L1R5cGUgL0ZvbnQKL1N1YnR5cGUgL1R5cGUxCi9OYW1lIC9GMQovQmFzZUZvbnQgL0hlbHZldGljYQovRW5jb2RpbmcgL01hY1Jv bWFuRW5jb2RpbmcKPj4KZW5kb2JqCjUgMCBvYmoKPDwvTGVuZ3RoIDUzCj4+CnN0cmVhbQpCVAovRjEgMjAgVGYKMjIwIDQwMCBUZAooRHVtbXkgUERGKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA2CjAwMDAwMDAwMDAgNjU1MzUgZgowMDAwMDAwMDA5IDAwMDAwIG4KMDAwMDAwMDA2MyAwMDAwMCBuCjAwMDAwMDAxMjQgMDAwMDAgbgowMDAwMDAwMjc3IDAwMDAwIG4KMDAwMDAwMDM5MiAwMDAwMCBuCnRyYWlsZXIKPDwvU2l6ZSA2Ci9Sb290IDEgMCBSCj4+CnN0YXJ0eHJlZgo0OTUKJSVFQ0VPRg=="
-        }
-      ],
-        "serviceName": "clinic friendly name",
+            "binary": null,
+            "error": null
+          },
+          {
+            "id": "208750417897",
+            "apptId": "AVS_PDF_Test_5",
+            "name": "Pharmacology Discharge summary valid but wrong type",
+            "noteType": "pharmacology_discharge_summary",
+            "loincCodes": ["4189669", "96345-4"],
+            "contentType": "application/pdf",
+            "binary": null,
+            "error": null
+          }
+        ],
+        "serviceName": "clinic friendly name OHAVS5",
         "location": {
           "id": "757",
           "type": "appointments",
@@ -1021,7 +1040,290 @@
         },
         "past": true,
         "pending": false,
-        "isCerner": true
+        "isCerner": true,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "success": true,
+            "message": "No claims found."
+          }
+        }
+      }
+    },
+    {
+      "id": "AVS_PDF_Test_6",
+      "type": "appointments",
+      "attributes": {
+        "id": "AVS_PDF_Test_6",
+        "identifier": [
+          {
+            "system": "urn:va.gov:masv2:cerner:appointment",
+            "value": "Appointment/52499028"
+          }
+        ],
+        "kind": "clinic",
+        "type": "VA",
+        "modality": "vaInPerson",
+        "status": "booked",
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "SERVICE CONNECTED",
+                "display": "SERVICE CONNECTED"
+              }
+            ],
+            "text": "SERVICE CONNECTED"
+          }
+        ],
+        "patientIcn": "1012845331V153043",
+        "locationId": "757",
+        "clinic": "757",
+        "start": "2025-10-18T15:00:00Z",
+        "end": "2025-10-18T16:00:00Z",
+        "minutesDuration": 60,
+        "slot": {
+          "id": "3230323331303133313530303A323032333130313331363030",
+          "start": "2025-10-18T15:00:00Z",
+          "end": "2025-10-18T16:00:00Z"
+        },
+        "created": "2025-10-01T00:00:00Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": ["CHECKED OUT"],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": true
+        },
+        "localStartTime": "2025-10-18T09:00:00.000-06:00",
+        "avsPdf": [
+          {
+            "id": "208750417898",
+            "apptId": "AVS_PDF_Test_6",
+            "name": "Ambulatory Visit Summary",
+            "noteType": "ambulatory_patient_summary",
+            "loincCodes": ["4189669", "96345-4"],
+            "contentType": "application/pdf",
+            "binary": null,
+            "error": null
+          }
+        ],
+        "serviceName": "clinic friendly name OHAVS6",
+        "location": {
+          "id": "757",
+          "type": "appointments",
+          "attributes": {
+            "id": "757",
+            "facilitiesApiId": "vha_757",
+            "vistaSite": "757",
+            "vastParent": "757",
+            "type": "va_health_facility",
+            "name": "Chalmers P. Wylie Veterans CERNER Clinic",
+            "classification": "Health Care Center (HCC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.98048,
+            "long": -82.9123,
+            "website": "https://www.va.gov/central-ohio-health-care/locations/chalmers-p-wylie-veterans-outpatient-clinic/",
+            "phone": {
+              "main": "614-257-5200",
+              "fax": "614-257-5460",
+              "pharmacy": "614-257-5230",
+              "afterHours": "614-257-5512",
+              "patientAdvocate": "614-257-5290",
+              "mentalHealthClinic": "614-257-5631",
+              "enrollmentCoordinator": "614-257-5628"
+            },
+            "mailingAddress": {
+              "type": "postal",
+              "line": [null, null, null]
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["420 North James Road", null, null],
+              "city": "Columbus",
+              "state": "OH",
+              "postalCode": "43219-1834"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "CaregiverSupport",
+              "Covid19Vaccine",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "Nutrition",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "UrgentCare",
+              "Urology"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "10"
+          }
+        },
+        "past": true,
+        "pending": false,
+        "isCerner": true,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "success": true,
+            "message": "No claims found."
+          }
+        }
+      }
+    },
+    {
+      "id": "AVS_PDF_Test_7",
+      "type": "appointments",
+      "attributes": {
+        "id": "AVS_PDF_Test_7",
+        "identifier": [
+          {
+            "system": "urn:va.gov:masv2:cerner:appointment",
+            "value": "Appointment/52499028"
+          }
+        ],
+        "kind": "clinic",
+        "type": "VA",
+        "modality": "vaInPerson",
+        "status": "booked",
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "SERVICE CONNECTED",
+                "display": "SERVICE CONNECTED"
+              }
+            ],
+            "text": "SERVICE CONNECTED"
+          }
+        ],
+        "patientIcn": "1012845331V153043",
+        "locationId": "757",
+        "clinic": "757",
+        "start": "2025-10-18T15:00:00Z",
+        "end": "2025-10-18T16:00:00Z",
+        "minutesDuration": 60,
+        "slot": {
+          "id": "3230323331303133313530303A323032333130313331363030",
+          "start": "2025-10-18T15:00:00Z",
+          "end": "2025-10-18T16:00:00Z"
+        },
+        "created": "2025-10-01T00:00:00Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": ["CHECKED OUT"],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": true
+        },
+        "localStartTime": "2025-10-18T09:00:00.000-06:00",
+        "avsPdf": [
+          {
+            "id": "208750417899",
+            "apptId": "AVS_PDF_Test_7",
+            "name": "Ambulatory Visit Summary",
+            "noteType": "ambulatory_patient_summary",
+            "loincCodes": ["4189669", "96345-4"],
+            "contentType": "application/pdf",
+            "binary": null,
+            "error": null
+          },
+          {
+            "id": "208750417900",
+            "apptId": "AVS_PDF_Test_7",
+            "name": "Ambulatory Visit Summary",
+            "noteType": "ambulatory_patient_summary",
+            "loincCodes": ["4189669", "96345-4"],
+            "contentType": "application/pdf",
+            "binary": null,
+            "error": null
+          }
+        ],
+        "serviceName": "clinic friendly name OHAVS7",
+        "location": {
+          "id": "757",
+          "type": "appointments",
+          "attributes": {
+            "id": "757",
+            "facilitiesApiId": "vha_757",
+            "vistaSite": "757",
+            "vastParent": "757",
+            "type": "va_health_facility",
+            "name": "Chalmers P. Wylie Veterans CERNER Clinic",
+            "classification": "Health Care Center (HCC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.98048,
+            "long": -82.9123,
+            "website": "https://www.va.gov/central-ohio-health-care/locations/chalmers-p-wylie-veterans-outpatient-clinic/",
+            "phone": {
+              "main": "614-257-5200",
+              "fax": "614-257-5460",
+              "pharmacy": "614-257-5230",
+              "afterHours": "614-257-5512",
+              "patientAdvocate": "614-257-5290",
+              "mentalHealthClinic": "614-257-5631",
+              "enrollmentCoordinator": "614-257-5628"
+            },
+            "mailingAddress": {
+              "type": "postal",
+              "line": [null, null, null]
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["420 North James Road", null, null],
+              "city": "Columbus",
+              "state": "OH",
+              "postalCode": "43219-1834"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "CaregiverSupport",
+              "Covid19Vaccine",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "Nutrition",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "UrgentCare",
+              "Urology"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "10"
+          }
+        },
+        "past": true,
+        "pending": false,
+        "isCerner": true,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "success": true,
+            "message": "No claims found."
+          }
+        }
       }
     },
     {
@@ -6586,6 +6888,111 @@
         "pending": false,
         "past": false,
         "future": true,
+        "showScheduleLink": false
+      }
+    },
+    {
+      "id": "9acb74b5706752a1f09a147fa838f709824c64f5d66fbea4eab4e7be34f1cdd0",
+      "type": "appointments",
+      "attributes": {
+        "id": "9acb74b5706752a1f09a147fa838f709824c64f5d66fbea4eab4e7be34f1cdd0",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "413938333136353130"
+          },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+            "value": "983:16510"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "SERVICE CONNECTED",
+                "display": "SERVICE CONNECTED"
+              }
+            ],
+            "text": "SERVICE CONNECTED"
+          }
+        ],
+        "patientIcn": "1012845331V153043",
+        "locationId": "984",
+        "clinic": "308",
+        "practitioners": [],
+        "start": "2025-12-26T00:20:00Z",
+        "end": "2025-12-26T00:50:00Z",
+        "minutesDuration": 30,
+        "slot": {
+          "id": "3230323531323235303032303A323032353132323530303530",
+          "start": "2025-12-26T00:20:00Z",
+          "end": "2025-12-26T00:50:00Z"
+        },
+        "created": "2025-05-14T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": ["CANCELLED BY PATIENT"],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": false,
+          "clinic": {
+            "physicalLocation": "Here",
+            "phoneNumber": "7325",
+            "primaryStopCode": 407,
+            "phoneNumberExtension": ""
+          }
+        },
+        "localStartTime": "2025-12-24T14:20:00.000-10:00",
+        "station": "983",
+        "ien": "16510",
+        "isCerner": false,
+        "serviceName": "Friendly Name Sydney Opthal",
+        "physicalLocation": "Here",
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_facilities",
+            "name": "Dayton VA Clinic",
+            "classification": "Other Outpatient Services (OOS)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 41.142464,
+            "long": -102.97669,
+            "website": "https://www.cheyenne.va.gov/locations/Sidney_VA_MSOC.asp",
+            "phone": {
+              "main": "308-254-6085"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["1116 10th Avenue"],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "69162-2001"
+            },
+            "healthService": [
+              "EmergencyCare",
+              "MentalHealthCare",
+              "PrimaryCare"
+            ],
+            "ehrSystem": "VistA"
+          }
+        },
+        "type": "VA",
+        "modality": "vaInPerson",
+        "pending": false,
+        "past": true,
+        "future": false,
         "showScheduleLink": false
       }
     }

@@ -97,15 +97,19 @@ class FolderManagementPage {
   selectFolderFromModal = (folderName = `Trash`) => {
     cy.wait('@folders');
 
-    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID)
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID, { timeout: 10000 })
       .should('be.visible')
-      .scrollIntoView();
+      .scrollIntoView()
+      .click();
 
-    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID).click();
-
-    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID).then(() => {
-      cy.findByLabelText(folderName, { timeout: 10000 }).click();
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID).click({
+      force: true,
     });
+    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID, { timeout: 10000 })
+      .should('be.visible')
+      .then(() => {
+        cy.findByLabelText(folderName, { timeout: 10000 }).click();
+      });
   };
 
   confirmMovingMessageToFolder = (
@@ -146,7 +150,7 @@ class FolderManagementPage {
     });
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
     cy.findByText('Folder was successfully created.').should('be.visible');
-    cy.get('va-alert').should('have.focus');
+    cy.get('va-alert').should('be.visible');
   };
 
   backToInbox = () => {

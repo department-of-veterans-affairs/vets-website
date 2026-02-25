@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import { selectMedicationsManagementImprovementsFlag } from '../../util/selectors';
 
-const NeedHelp = ({ page }) => {
+const NeedHelp = ({ page, headingLevel = 3 }) => {
   const isManagementImprovementsEnabled = useSelector(
     selectMedicationsManagementImprovementsFlag,
   );
 
   // Memoize DataDog action names based on page type to prevent recalculation on every render
+  // TODO add handling for in-progress page datadog actions
   const actionNames = useMemo(
     () => {
       const isListPage = page === pageType.LIST;
@@ -47,6 +48,8 @@ const NeedHelp = ({ page }) => {
     [page],
   );
 
+  const HeadingTag = `h${headingLevel}`;
+
   // Enhanced Need Help content for management improvements
   if (isManagementImprovementsEnabled) {
     return (
@@ -54,12 +57,12 @@ const NeedHelp = ({ page }) => {
         aria-labelledby="need-help-heading"
         data-testid="rx-need-help-container"
       >
-        <h3
+        <HeadingTag
           id="need-help-heading"
-          className="vads-u-border-bottom--2px vads-u-border-color--primary vads-u-line-height--5"
+          className="vads-u-border-bottom--2px vads-u-border-color--primary vads-u-line-height--5 vads-u-font-size--h3"
         >
           Need help?
-        </h3>
+        </HeadingTag>
 
         <p>Need to update your allergies and reactions?</p>
         <va-link
@@ -70,7 +73,7 @@ const NeedHelp = ({ page }) => {
         />
 
         <p>
-          Can't find your self-entered medications? You can still download a
+          Can’t find your self-entered medications? You can still download a
           copy of any self-entered health information.
         </p>
         <va-link
@@ -113,9 +116,9 @@ const NeedHelp = ({ page }) => {
   // Original Need Help content
   return (
     <div data-testid="rx-need-help-container">
-      <h3 className="vads-u-border-bottom--2px vads-u-border-color--primary vads-u-line-height--5">
+      <HeadingTag className="vads-u-border-bottom--2px vads-u-border-color--primary vads-u-line-height--5 vads-u-font-size--h3">
         Need help?
-      </h3>
+      </HeadingTag>
       <p>
         Can’t find your self-entered medications? You can still download a copy
         of any self-entered health information.
@@ -151,6 +154,7 @@ const NeedHelp = ({ page }) => {
 
 NeedHelp.propTypes = {
   page: PropTypes.string.isRequired,
+  headingLevel: PropTypes.oneOf([1, 2, 3, 4, 5, 6]),
 };
 
 export default NeedHelp;

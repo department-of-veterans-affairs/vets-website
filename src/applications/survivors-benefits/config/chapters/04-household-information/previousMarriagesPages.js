@@ -27,6 +27,7 @@ import {
   previousMarriageEndOptions,
 } from '../../../utils/labels';
 import { customAddressSchema } from '../../definitions';
+import { validations } from '../../validations';
 
 // Show previous marriages pages ONLY if user answered YES to hadPreviousMarriages
 // Ansering NO skips all previous marriage flows and jumps to Dependents
@@ -40,14 +41,13 @@ export const options = {
   nounSingular: 'previous marriage',
   nounPlural: 'previous marriages',
   required: false,
-  minItems: 0,
   isItemIncomplete: item =>
     !item?.spouseFullName?.first ||
     !item?.spouseFullName?.last ||
     !item?.dateOfMarriage ||
     !item?.locationOfMarriage?.city ||
-    (!item?.marriedOutsideUS && !item?.locationOfMarriage?.state) ||
-    (item?.marriedOutsideUS && !item?.locationOfMarriage?.otherCountry) ||
+    (!item?.marriedOutsideUs && !item?.locationOfMarriage?.state) ||
+    (item?.marriedOutsideUs && !item?.locationOfMarriage?.otherCountry) ||
     !item?.reasonForSeparation ||
     (item?.reasonForSeparation === 'OTHER' && !item?.separationExplanation),
   maxItems: 2,
@@ -180,7 +180,7 @@ const marriageDateAndLocationPage = {
       title: 'Date of marriage',
       monthSelect: false,
     }),
-    marriedOutsideUS: checkboxUI({
+    marriedOutsideUs: checkboxUI({
       title: 'I got married outside the U.S.',
     }),
     locationOfMarriage: {
@@ -190,13 +190,13 @@ const marriageDateAndLocationPage = {
         'ui:required': (formData, index) => {
           const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
-          return !(item?.marriedOutsideUS || currentPageData?.marriedOutsideUS);
+          return !(item?.marriedOutsideUs || currentPageData?.marriedOutsideUs);
         },
         'ui:options': {
           hideIf: (formData, index) => {
             const item = formData?.spouseMarriages?.[index];
             const currentPageData = formData;
-            return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
+            return item?.marriedOutsideUs || currentPageData?.marriedOutsideUs;
           },
           labels: STATE_VALUES.reduce((acc, value, idx) => {
             acc[value] = STATE_NAMES[idx];
@@ -212,14 +212,14 @@ const marriageDateAndLocationPage = {
         'ui:required': (formData, index) => {
           const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
-          return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
+          return item?.marriedOutsideUs || currentPageData?.marriedOutsideUs;
         },
         'ui:options': {
           hideIf: (formData, index) => {
             const item = formData?.spouseMarriages?.[index];
             const currentPageData = formData;
             return !(
-              item?.marriedOutsideUS || currentPageData?.marriedOutsideUS
+              item?.marriedOutsideUs || currentPageData?.marriedOutsideUs
             );
           },
           labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
@@ -238,7 +238,7 @@ const marriageDateAndLocationPage = {
     required: ['dateOfMarriage', 'locationOfMarriage'],
     properties: {
       dateOfMarriage: currentOrPastDateSchema,
-      marriedOutsideUS: checkboxSchema,
+      marriedOutsideUs: checkboxSchema,
       locationOfMarriage: customAddressSchema,
     },
   },
@@ -250,10 +250,13 @@ const marriageEndDateAndLocationPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'When and where did your marriage end?',
     ),
-    dateOfSeparation: currentOrPastDateUI({
-      title: 'Date marriage ended',
-      monthSelect: false,
-    }),
+    dateOfSeparation: {
+      ...currentOrPastDateUI({
+        title: 'Date marriage ended',
+        monthSelect: false,
+      }),
+      'ui:validations': [validations.isAfterPreviousMarriageStartDate],
+    },
     marriageEndedOutsideUS: checkboxUI({
       title: 'My marriage ended outside the U.S.',
     }),

@@ -74,20 +74,18 @@ const RequestDD214 = ({ router, formResponses, viewedIntroPage }) => {
                 show how serious you are about your case.
               </li>
             </ul>
-            <a
-              className="vads-u-display--block vads-u-margin-bottom--1 step-1-download"
+            <va-link
               download
+              filetype="PDF"
+              pages={3}
+              filename="dd0149.pdf"
+              text="Download Form 149 (opens in a new tab)"
               href="https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <va-icon
-                icon="file_download"
-                size={3}
-                className="vads-u-margin-top--0p5 vads-u-padding-right--1"
-              />
-              Download Form 149 (opens in a new tab)
-            </a>
+              onClick={e => {
+                e.preventDefault();
+                window.open(e.currentTarget.href, '_blank');
+              }}
+            />
           </va-process-list-item>
           <va-process-list-item header="Mail your completed form" level="2">
             <p>

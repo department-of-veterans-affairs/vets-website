@@ -7,6 +7,7 @@ import AuthenticatedLayoutContainer from './containers/AuthenticatedLayoutContai
 import LandingPage from './containers/LandingPage';
 import POARequestSearchPage from './containers/POARequestSearchPage';
 import ClaimantSearchPage from './containers/ClaimantSearchPage';
+import ClaimantSubmissionHistoryPage from './containers/ClaimantSubmissionHistoryPage';
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
 import SubmissionsPage from './containers/SubmissionsPage';
 import SignedInLayout from './containers/SignedInLayout';
@@ -123,6 +124,11 @@ const routes = [
                   <ClaimantOverviewPage title="Claimant overview | Accredited Representative Portal" />
                 ),
                 loader: ClaimantOverviewPage.loader,
+
+                path: 'find-claimant/submission-history/:claimantId',
+                element: (
+                  <ClaimantSubmissionHistoryPage title="Submission history | Accredited Representative Portal | Veterans Affairs" />
+                ),
               },
               {
                 path: 'representation-requests/:id',
