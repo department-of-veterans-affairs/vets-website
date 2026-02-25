@@ -3,12 +3,18 @@ import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import ConfirmationPage from '../../containers/ConfirmationPage';
+
+const formViewerFlag = FEATURE_FLAG_NAMES.dependentsEnableFormViewerMFE;
+const digitalFormsViewerLinkEnabled =
+  FEATURE_FLAG_NAMES.dependentsDigitalFormsViewerLinkEnabled;
 
 const getData = ({
   loggedIn = true,
   featureToggles = {},
   timestamp = new Date('09/07/2024'),
+  submissionResponse = {},
 } = {}) => ({
   mockStore: {
     getState: () => ({
@@ -30,6 +36,7 @@ const getData = ({
           attributes: {
             guid: '123fake-submission-id-567',
           },
+          response: submissionResponse,
         },
         data: {
           veteranInformation: {
@@ -44,7 +51,7 @@ const getData = ({
 });
 
 describe('Dependents Form (686c-674) confirmation page', () => {
-  it('should render', () => {
+  it('should render', async () => {
     const { mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
@@ -67,7 +74,7 @@ describe('Dependents Form (686c-674) confirmation page', () => {
 
     expect($$('.va-address-block', container).length).to.eq(2);
     expect($$('va-telephone', container).length).to.eq(4);
-    waitFor(() => {
+    await waitFor(() => {
       expect(document.activeElement.tagName).to.equal('H2');
     });
   });
@@ -102,7 +109,7 @@ describe('Dependents Form (686c-674) confirmation page', () => {
   it('should render Save a copy of your form section if feature flag is enabled', async () => {
     const { mockStore } = getData({
       featureToggles: {
-        [`dependents_enable_form_viewer_mfe`]: true,
+        [formViewerFlag]: true,
       },
     });
     const { container } = render(
@@ -124,7 +131,7 @@ describe('Dependents Form (686c-674) confirmation page', () => {
   it('should NOT render Save a copy of your form section if feature flag is not enabled', async () => {
     const { mockStore } = getData({
       featureToggles: {
-        [`dependents_enable_form_viewer_mfe`]: false,
+        [formViewerFlag]: false,
       },
     });
     const { container } = render(
@@ -141,5 +148,67 @@ describe('Dependents Form (686c-674) confirmation page', () => {
     expect(container.textContent).to.include('Your submission information');
     expect(container.textContent).to.include('Your name');
     expect(container.textContent).to.include('Date submitted');
+  });
+
+  it('should render My VA submission link if both feature flags are enabled and submissionId exists', () => {
+    const submissionId = 'a1ba50e4-e689-4852-bec7-2a66519f0ed3';
+    const { mockStore } = getData({
+      featureToggles: {
+        [formViewerFlag]: true,
+        [digitalFormsViewerLinkEnabled]: true,
+      },
+      submissionResponse: {
+        submissionId,
+      },
+    });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+
+    expect(
+      $(`va-link-action[href="/my-va/submissions/${submissionId}"]`, container),
+    ).to.exist;
+  });
+
+  it('should NOT render My VA submission link if submission link feature flag is disabled', () => {
+    const submissionId = 'a1ba50e4-e689-4852-bec7-2a66519f0ed3';
+    const { mockStore } = getData({
+      featureToggles: {
+        [formViewerFlag]: true,
+        [digitalFormsViewerLinkEnabled]: false,
+      },
+      submissionResponse: {
+        submissionId,
+      },
+    });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+
+    expect(
+      $(`va-link-action[href="/my-va/submissions/${submissionId}"]`, container),
+    ).not.to.exist;
+  });
+
+  it('should NOT render My VA submission link if submissionId is missing', () => {
+    const { mockStore } = getData({
+      featureToggles: {
+        [formViewerFlag]: true,
+        [digitalFormsViewerLinkEnabled]: true,
+      },
+      submissionResponse: {},
+    });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+
+    expect($('va-link-action[href^="/my-va/submissions/"]', container)).not.to
+      .exist;
   });
 });
