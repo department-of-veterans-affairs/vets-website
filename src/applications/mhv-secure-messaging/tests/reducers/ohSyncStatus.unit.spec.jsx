@@ -19,9 +19,9 @@ describe('ohSyncStatus reducer', () => {
       id: '1',
       type: 'oh_sync_status',
       attributes: {
-        syncStatus: 'completed',
-        lastSyncTime: '2026-02-25T10:30:00Z',
-        pendingMessages: 0,
+        status: 'FINISHED',
+        syncComplete: true,
+        error: null,
       },
     },
   };
@@ -32,9 +32,9 @@ describe('ohSyncStatus reducer', () => {
     await store.dispatch(fetchOHSyncStatus());
     expect(store.getState()).to.deep.equal({
       data: {
-        syncStatus: 'completed',
-        lastSyncTime: '2026-02-25T10:30:00Z',
-        pendingMessages: 0,
+        status: 'FINISHED',
+        syncComplete: true,
+        error: null,
       },
       error: undefined,
     });

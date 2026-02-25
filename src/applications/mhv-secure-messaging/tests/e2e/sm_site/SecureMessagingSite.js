@@ -4,6 +4,7 @@ import mockStatus from '../fixtures/profile-status.json';
 import vamcUser from '../fixtures/vamc-ehr.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockFacilities from '../fixtures/facilityResponse/facilities-no-cerner.json';
+import mockOHSyncStatusFinished from '../fixtures/ohSyncStatus/oh-sync-status-finished.json';
 import { Paths } from '../utils/constants';
 
 class SecureMessagingSite {
@@ -24,6 +25,11 @@ class SecureMessagingSite {
       cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, featureToggles).as(
         'featureToggle',
       );
+      cy.intercept(
+        'GET',
+        Paths.INTERCEPT.OH_SYNC_STATUS,
+        mockOHSyncStatusFinished,
+      ).as('ohSyncStatus');
       const facilityIDs = [];
       const objectIDs = [];
       for (

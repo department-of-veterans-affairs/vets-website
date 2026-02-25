@@ -1,0 +1,11 @@
+{
+  "data": {
+    "id": "",
+    "type": "oh_sync_status",
+    "attributes": {
+      "status": "FINISHED",
+      "syncComplete": true,
+      "error": null
+    }
+  }
+}
