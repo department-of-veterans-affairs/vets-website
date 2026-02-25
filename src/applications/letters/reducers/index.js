@@ -102,7 +102,7 @@ function letters(state = initialState, action) {
           (optionsToAlwaysDisplay.includes(key) ||
             benefitInfo[key] !== false) &&
           // and the option is not yet in the possibleOptions array
-          !possibleOptions.includes[key] &&
+          !possibleOptions.includes(key) &&
           // and the option is a customization option that vets-api supports
           REQUEST_OPTIONS[key]
         ) {
