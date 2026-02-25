@@ -12,10 +12,8 @@ import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
 
 // chapter schema imports
-import {
-  applicantInformation,
-  personalInformation,
-} from './chapters/applicant';
+import { applicantInformation } from './chapters/applicant';
+import personalInformation from '../pages/personalInformation';
 
 import {
   additionalInformation,
