@@ -1,7 +1,0 @@
-{
-  "appName": "View your representative",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "view-representative",
-  "rootUrl": "/view-change-representative/view",
-  "productId": "669f9818-10f5-4fa9-ac9d-c984c810a329"
-}

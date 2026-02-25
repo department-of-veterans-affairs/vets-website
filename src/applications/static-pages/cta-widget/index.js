@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
+import environment from '~/platform/utilities/environment';
 import recordEvent from '~/platform/monitoring/record-event';
 import { fetchMHVAccount } from '~/platform/user/profile/actions';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -110,6 +111,7 @@ export const CallToActionWidget = ({
   setFocus = true,
   toggleLoginModal: propsToggleLoginModal,
 }) => {
+  const isProduction = environment.isProduction() && !environment.isTest();
   const ctaWidget = ctaWidgetsLookup?.[appId];
   const featureToggle = ctaWidget?.featureToggle;
   const gaPrefix = 'register-mhv';
@@ -252,9 +254,11 @@ export const CallToActionWidget = ({
       if (authenticatedWithSSOe) {
         const errorContent = (() => {
           if (!verifiedProfile) {
-            recordEvent({
-              event: `${gaPrefix}-info-needs-identity-verification`,
-            });
+            if (isProduction) {
+              recordEvent({
+                event: `${gaPrefix}-info-needs-identity-verification`,
+              });
+            }
             return verifyAlert;
           }
           if (mhvAccountIdState === 'DEACTIVATED') {
@@ -348,9 +352,11 @@ export const CallToActionWidget = ({
     }
 
     if (!verifiedProfile) {
-      recordEvent({
-        event: `${gaPrefix}-info-needs-identity-verification`,
-      });
+      if (isProduction) {
+        recordEvent({
+          event: `${gaPrefix}-info-needs-identity-verification`,
+        });
+      }
       return verifyAlert;
     }
 

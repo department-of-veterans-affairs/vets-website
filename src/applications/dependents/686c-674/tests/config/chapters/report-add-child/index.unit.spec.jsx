@@ -50,44 +50,6 @@ describe('Add Child Chapter', () => {
     });
   });
 
-  describe('addChildRelationshipPartTwo dependency', () => {
-    beforeEach(() => {
-      sandbox.stub(helpers, 'isChapterFieldRequired').returns(true);
-    });
-
-    it('should show when isBiologicalChild is false', () => {
-      const formData = {
-        'view:addOrRemoveDependents': { add: true },
-        childrenToAdd: [{ isBiologicalChild: false }],
-      };
-
-      const { depends } = chapter.pages.addChildRelationshipPartTwo;
-      expect(depends(formData, 0)).to.be.true;
-    });
-
-    it('should not show when isBiologicalChild is true', () => {
-      const formData = {
-        'view:addOrRemoveDependents': { add: true },
-        childrenToAdd: [{ isBiologicalChild: true }],
-      };
-
-      const { depends } = chapter.pages.addChildRelationshipPartTwo;
-      expect(depends(formData, 0)).to.be.false;
-    });
-
-    it('should not show when shouldIncludePage is false', () => {
-      helpers.isChapterFieldRequired.returns(false);
-
-      const formData = {
-        'view:addOrRemoveDependents': { add: true },
-        childrenToAdd: [{ isBiologicalChild: false }],
-      };
-
-      const { depends } = chapter.pages.addChildRelationshipPartTwo;
-      expect(depends(formData, 0)).to.be.false;
-    });
-  });
-
   describe('addChildStepchild dependency', () => {
     beforeEach(() => {
       sandbox.stub(helpers, 'isChapterFieldRequired').returns(true);
@@ -99,6 +61,7 @@ describe('Add Child Chapter', () => {
         childrenToAdd: [
           {
             isBiologicalChild: false,
+            relationshipType: 'STEPCHILD',
             relationshipToChild: { stepchild: true },
           },
         ],
@@ -114,6 +77,7 @@ describe('Add Child Chapter', () => {
         childrenToAdd: [
           {
             isBiologicalChild: true,
+            relationshipType: 'BIOLOGICAL',
             relationshipToChild: { stepchild: true },
           },
         ],
@@ -129,6 +93,7 @@ describe('Add Child Chapter', () => {
         childrenToAdd: [
           {
             isBiologicalChild: false,
+            relationshipType: 'ADOPTED',
             relationshipToChild: { adopted: true },
           },
         ],
@@ -245,9 +210,8 @@ describe('Add Child Chapter', () => {
       'addChildIntro',
       'addChildSummary',
       'addChildInformation',
-      'addChildIdentification',
       'addChildPlaceOfBirth',
-      'addChildRelationshipPartOne',
+      'addChildRelationshipType',
       'disabilityPartOne',
       'addChildAdditionalInformationPartOne',
     ];
@@ -280,14 +244,12 @@ describe('Add Child Chapter', () => {
       };
 
       expect(chapter.pages.addChildIntro.depends(formData, 0)).to.be.true;
-      expect(chapter.pages.addChildRelationshipPartOne.depends(formData, 0)).to
-        .be.true;
+      expect(chapter.pages.addChildRelationshipType.depends(formData, 0)).to.be
+        .true;
       expect(
         chapter.pages.addChildAdditionalInformationPartTwo.depends(formData, 0),
       ).to.be.true;
 
-      expect(chapter.pages.addChildRelationshipPartTwo.depends(formData, 0)).to
-        .be.false;
       expect(chapter.pages.addChildStepchild.depends(formData, 0)).to.be.false;
       expect(chapter.pages.addChildChildAddressPartOne.depends(formData, 0)).to
         .be.false;
@@ -302,6 +264,7 @@ describe('Add Child Chapter', () => {
         childrenToAdd: [
           {
             isBiologicalChild: false,
+            relationshipType: 'STEPCHILD',
             relationshipToChild: { stepchild: true },
             doesChildLiveWithYou: false,
             hasChildEverBeenMarried: true,
@@ -310,8 +273,6 @@ describe('Add Child Chapter', () => {
         ],
       };
 
-      expect(chapter.pages.addChildRelationshipPartTwo.depends(formData, 0)).to
-        .be.true;
       expect(chapter.pages.addChildStepchild.depends(formData, 0)).to.be.true;
       expect(chapter.pages.addChildChildAddressPartOne.depends(formData, 0)).to
         .be.true;

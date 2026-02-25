@@ -157,7 +157,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     await cleanup();
   });
 
-  it('should show a yes/no choice when a single clinic is available', async () => {
+  it('should show a yes/no choice when a single clinic is available and past history is available', async () => {
     // Arrange
     const clinics = MockClinicResponse.createResponses({
       clinics: [
@@ -192,17 +192,91 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
     // Should show label
     expect(screen.baseElement).to.contain.text(
-      'Would you like to make an appointment at Green team clinic',
+      'Your last amputation care appointment was at Green team clinic',
     );
 
     // Should display yes or no options
     const radioOptions = screen.getAllByRole('radio');
     expect(radioOptions).to.have.lengthOf(2);
-    await screen.findByLabelText(/Yes, make my appointment here/i);
+    await screen.findByLabelText(
+      /Yes, make my appointment at Green team clinic/i,
+    );
     await screen.findByLabelText(/No, I need a different clinic/i);
 
     // Yes should go to direct flow
-    userEvent.click(screen.getByText(/Yes, make my appointment here/i));
+    userEvent.click(
+      screen.getByText(/Yes, make my appointment at Green team clinic/i),
+    );
+    userEvent.click(screen.getByText(/continue/i));
+    await waitFor(() =>
+      expect(screen.history.push.firstCall.args[0]).to.equal('preferred-date'),
+    );
+
+    // No sends you to the request flow
+    userEvent.click(screen.getByText(/No, I need a different clinic/i));
+    userEvent.click(screen.getByText(/continue/i));
+    await waitFor(() =>
+      expect(screen.history.push.secondCall.args[0]).to.equal('va-request/'),
+    );
+
+    await cleanup();
+  });
+
+  it('should show a yes/no choice when a single clinic is available and past history is not required', async () => {
+    // Arrange
+    const clinics = MockClinicResponse.createResponses({
+      clinics: [
+        {
+          id: '308',
+          name: 'Green team clinic',
+          locationId: '983',
+        },
+      ],
+    });
+
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: 'primaryCare',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics,
+      pastClinics: true,
+    });
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /primary care/i);
+    await setVAFacility(
+      store,
+      '983',
+      'primaryCare',
+      new MockFacilityResponse(),
+    );
+
+    // Act
+    const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
+      store,
+    });
+
+    // Should show label
+    expect(screen.baseElement).to.contain.text(
+      'Primary care appointments are available at Green team clinic',
+    );
+
+    // Should display yes or no options
+    const radioOptions = screen.getAllByRole('radio');
+    expect(radioOptions).to.have.lengthOf(2);
+    await screen.findByLabelText(
+      /Yes, make my appointment at Green team clinic/i,
+    );
+    await screen.findByLabelText(/No, I need a different clinic/i);
+
+    // Yes should go to direct flow
+    userEvent.click(
+      screen.getByText(/Yes, make my appointment at Green team clinic/i),
+    );
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal('preferred-date'),
@@ -316,13 +390,13 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
     // Then the page says the last appointment was at the matching clinic
     expect(screen.baseElement).to.contain.text(
-      'Your last amputation care appointment was at Green team clinic:',
+      'Your last amputation care appointment was at Green team clinic',
     );
 
     // And the user is asked if they want an appt at matching clinic
 
     expect(screen.baseElement).to.contain.text(
-      'Would you like to make an appointment at Green team clinic',
+      'Do you you want to schedule your appointment at this clinic?',
     );
   });
 });

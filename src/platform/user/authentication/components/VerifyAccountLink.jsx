@@ -6,7 +6,7 @@ import { SERVICE_PROVIDERS, AUTH_EVENTS } from '../constants';
 
 export default function VerifyAccountLink({
   policy,
-  useOAuth = false,
+  useOAuth = true,
   children,
 }) {
   const { href } = useIdentityVerificationURL({ policy, useOAuth });

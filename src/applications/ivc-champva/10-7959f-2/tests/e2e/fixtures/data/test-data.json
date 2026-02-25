@@ -1,30 +1,34 @@
 {
   "data": {
     "veteranFullName": {
-      "first": "First",
-      "middle": "middle",
-      "last": "last"
+      "first": "Jane",
+      "last": "Smith"
     },
     "veteranDateOfBirth": "2000-01-01",
     "veteranSocialSecurityNumber": "123123123",
     "veteranAddress": {
       "country": "USA",
-      "street": "123 Street Lane",
-      "city": "Cityburg",
-      "state": "AL",
+      "street": "123 Veteran St",
+      "city": "Veteran",
+      "state": "MD",
       "postalCode": "12312"
     },
-    "sameMailingAddress": false,
-    "physicalAddress": {
-      "country": "USA",
-      "street": "222 Street Lane",
-      "city": "Cityland",
-      "state": "MD",
-      "postalCode": "15312"
+    "sameMailingAddress": true,
+    "veteranPhoneNumber": {
+      "callingCode": "1",
+      "countryCode": "US",
+      "contact": "(432) 143-2143"
     },
-    "veteranPhoneNumber": "2341232345",
-    "veteranEmailAddress": "email@mail.gov",
+    "veteranEmailAddress": "testmail@email.gov",
     "sendPayment": "Veteran",
-    "statementOfTruthSignature": "First middle last"
+    "supportingDocs": [
+      {
+        "name": "sample.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b63",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "statementOfTruthSignature": "Jane Smith"
   }
 }

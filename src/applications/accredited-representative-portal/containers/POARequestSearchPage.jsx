@@ -14,15 +14,14 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import api from '../utilities/api';
+import { SEARCH_BC_LABEL, poaSearchBC } from '../utilities/poaRequests';
 import {
-  SEARCH_BC_LABEL,
-  poaSearchBC,
   SEARCH_PARAMS,
   SORT_BY,
   STATUSES,
   PENDING_SORT_DEFAULTS,
   PROCESSED_SORT_DEFAULTS,
-} from '../utilities/poaRequests';
+} from '../utilities/constants';
 import { recordDatalayerEvent } from '../utilities/analytics';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
@@ -49,9 +48,7 @@ const StatusTabLink = ({
   if (active) classNames.push('active');
   return (
     <Link
-      to={`?status=${tabStatus}&sortBy=${
-        tabStatus === 'pending' ? 'created_at' : 'resolved_at'
-      }&sortOrder=${tabSort}&pageSize=20&pageNumber=1&as_selected_individual=${selectedIndividual}`}
+      to={`?status=${tabStatus}&sort=${tabSort}&perPage=20&page=1&show=${selectedIndividual}`}
       className={classNames.join(' ')}
       role="tab"
       id={`tab-${tabStatus}`}
@@ -90,7 +87,7 @@ const POARequestSearchPage = title => {
       : { page: { total: 0, number: 1, totalPages: 1 } };
   const { showPOA403Alert } = loaderData;
   const searchStatus = searchParams.get('status');
-  const selectedIndividual = searchParams.get('as_selected_individual');
+  const selectedIndividual = searchParams.get('show');
   const navigation = useNavigation();
 
   return (
@@ -158,7 +155,7 @@ const POARequestSearchPage = title => {
           <StatusTabLink
             tabStatus={STATUSES.PENDING}
             searchStatus={searchStatus}
-            tabSort={SORT_BY.DESC}
+            tabSort={SORT_BY.NEWEST}
             selectedIndividual={selectedIndividual}
           >
             Pending
@@ -166,7 +163,7 @@ const POARequestSearchPage = title => {
           <StatusTabLink
             tabStatus={STATUSES.PROCESSED}
             searchStatus={searchStatus}
-            tabSort={SORT_BY.DESC}
+            tabSort={SORT_BY.NEWEST}
             selectedIndividual={selectedIndividual}
           >
             Processed
@@ -195,13 +192,11 @@ const POARequestSearchPage = title => {
                       <SortForm
                         options={[
                           {
-                            sortBy: 'created_at',
-                            sortOrder: 'desc',
+                            sort: 'newest',
                             label: 'Submitted date (newest)',
                           },
                           {
-                            sortBy: 'created_at',
-                            sortOrder: 'asc',
+                            sort: 'oldest',
                             label: 'Submitted date (oldest)',
                           },
                         ]}
@@ -231,13 +226,11 @@ const POARequestSearchPage = title => {
                       <SortForm
                         options={[
                           {
-                            sortBy: 'resolved_at',
-                            sortOrder: 'desc',
+                            sort: 'newest',
                             label: 'Processed date (newest)',
                           },
                           {
-                            sortBy: 'resolved_at',
-                            sortOrder: 'asc',
+                            sort: 'oldest',
                             label: 'Processed date (oldest)',
                           },
                         ]}
@@ -284,8 +277,7 @@ POARequestSearchPage.propTypes = {
 POARequestSearchPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get(SEARCH_PARAMS.STATUS);
-  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
-  const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
+  const sort = searchParams.get(SEARCH_PARAMS.SORT);
   const size = searchParams.get(SEARCH_PARAMS.SIZE);
   const number = searchParams.get(SEARCH_PARAMS.NUMBER);
   const selectedIndividual = searchParams.get(
@@ -296,8 +288,7 @@ POARequestSearchPage.loader = async ({ request }) => {
     !Object.values(STATUSES).includes(sort)
   ) {
     searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
-    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
-    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
+    searchParams.set(SEARCH_PARAMS.SORT, SORT_BY.NEWEST);
     searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
     searchParams.set(
@@ -309,7 +300,7 @@ POARequestSearchPage.loader = async ({ request }) => {
 
   try {
     return await api.getPOARequests(
-      { status, sort, size, number, sortBy, selectedIndividual },
+      { status, sort, size, number, selectedIndividual },
       {
         signal: request.signal,
         skip403Redirect: true,

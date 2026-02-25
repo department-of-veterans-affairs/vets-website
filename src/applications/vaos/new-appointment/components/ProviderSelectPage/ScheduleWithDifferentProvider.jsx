@@ -10,23 +10,44 @@ export default function ScheduleWithDifferentProvider({
   selectedFacility,
   hasProviders = true,
   patientRelationshipsError = false,
+  requestEligibilityError = false,
   pageKey = 'selectProvider',
 }) {
   const facilityPhone = getFacilityPhone(selectedFacility);
+
+  const title = hasProviders
+    ? 'If you want to schedule with a different provider'
+    : 'How to schedule';
 
   // If there is an endpoint error, return null
   if (patientRelationshipsError) {
     return null;
   }
 
+  // if request eligibility endpoint returns an error, ELIGIBILITY_REASONS.error
+  // AND one or more providers are returned
+  if (requestEligibilityError && hasProviders) {
+    return (
+      <>
+        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--2">
+          {title}
+        </h2>
+        <p className="vads-u-margin-y--0">
+          Call the facility and ask to schedule with that provider:{' '}
+          <FacilityPhone contact={facilityPhone} icon={false} />
+        </p>
+        <hr
+          aria-hidden="true"
+          className="vads-u-margin-y--2 vads-u-border-color--gray-medium"
+        />
+      </>
+    );
+  }
+
   // now under title text is handled in the no available providers info section
   if (overRequestLimit || !isEligibleForRequest) {
     return null;
   }
-
-  const title = hasProviders
-    ? 'If you want to schedule with a different provider'
-    : 'How to schedule';
 
   return (
     <>
@@ -66,4 +87,5 @@ ScheduleWithDifferentProvider.propTypes = {
   hasProviders: PropTypes.bool,
   pageKey: PropTypes.string,
   patientRelationshipsError: PropTypes.bool,
+  requestEligibilityError: PropTypes.bool,
 };

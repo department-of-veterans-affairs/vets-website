@@ -1,6 +1,11 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { currency, calcDueDate, formatDate } from './helpers';
+import {
+  currency,
+  calcDueDate,
+  formatDate,
+  formatISODateToMMDDYYYY,
+} from './helpers';
 
 export const phoneContent = () => {
   return (
@@ -14,8 +19,16 @@ export const phoneContent = () => {
   );
 };
 
-export const getCopayAlertContent = (copay, type) => {
-  const statementDate = formatDate(copay?.pSStatementDateOutput);
+export const getCopayAlertContent = (
+  copay,
+  type,
+  shouldShowVHAPaymentHistory = false,
+) => {
+  const statementDate = formatDate(
+    shouldShowVHAPaymentHistory
+      ? formatISODateToMMDDYYYY(copay?.attributes?.invoiceDate)
+      : copay?.pSStatementDateOutput,
+  );
 
   switch (type) {
     case 'no-health-care':
@@ -61,7 +74,9 @@ export const getCopayAlertContent = (copay, type) => {
             To avoid late fees or collection action on your bill, you must pay
             your full balance or request financial help before
             <span className="vads-u-margin-left--0p5">
-              {calcDueDate(copay?.pSStatementDateOutput, 30)}
+              {shouldShowVHAPaymentHistory
+                ? copay?.attributes?.paymentDueDate
+                : calcDueDate(copay?.pSStatementDateOutput, 30)}
             </span>
             .
           </p>
@@ -109,8 +124,16 @@ export const getCopayAlertContent = (copay, type) => {
             >
               {statementDate}
             </time>
-            was <strong>{currency(copay?.pHAmtDue)}</strong>. If you paid your
-            full balance, you don’t need to do anything else at this time.
+            was{' '}
+            <strong>
+              {currency(
+                shouldShowVHAPaymentHistory
+                  ? copay?.attributes?.principalBalance
+                  : copay?.pHAmtDue,
+              )}
+            </strong>
+            . If you paid your full balance, you don’t need to do anything else
+            at this time.
           </p>
         ),
       };

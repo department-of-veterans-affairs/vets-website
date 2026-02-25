@@ -409,4 +409,13 @@ export default [
     }
     return { formData: newFormData, metadata };
   },
+  // 11 > 12. remove additional spouse entries that are outside of the marriages
+  // array; See https://dsva.slack.com/archives/C090CFCVATW/p1768162996687189
+  ({ formData, metadata }) => {
+    const newFormData = { ...formData };
+    if (formData['view:pastMarriage']) {
+      delete newFormData['view:pastMarriage'];
+    }
+    return { formData: newFormData, metadata };
+  },
 ];

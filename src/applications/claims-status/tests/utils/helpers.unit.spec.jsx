@@ -13,50 +13,40 @@ import * as page from '../../utils/page';
 import { ANCHOR_LINKS } from '../../constants';
 
 import {
-  groupTimelineActivity,
-  isPopulatedClaim,
-  hasBeenReviewed,
-  getDocTypeDescription,
+  claimAvailable,
   displayFileSize,
-  getFilesNeeded,
-  getFilesOptional,
+  formatUploadDateTime,
+  generateClaimTitle,
+  getClaimPhaseTypeDescription,
+  getClaimPhaseTypeHeaderText,
+  getClaimStatusDescription,
+  getClaimType,
+  getDocTypeDescription,
   getFailedSubmissionsWithinLast30Days,
-  getUserPhase,
-  getUserPhaseDescription,
+  getItemDate,
   getPhaseDescription,
+  getPhaseItemText,
+  getShowEightPhases,
   getStatusDescription,
   getStatusMap,
-  getClaimStatusDescription,
-  truncateDescription,
-  getItemDate,
+  getTimezoneDiscrepancyMessage,
+  getTrackedItemDisplayNameFromEvidenceSubmission,
+  getUploadErrorMessage,
+  getUserPhase,
+  getUserPhaseDescription,
+  groupClaimsByDocsNeeded,
+  groupTimelineActivity,
   isClaimComplete,
   isClaimOpen,
   isDisabilityCompensationClaim,
-  itemsNeedingAttentionFromVet,
+  isPopulatedClaim,
   makeAuthRequest,
-  getClaimType,
   mockData,
   roundToNearest,
-  groupClaimsByDocsNeeded,
-  claimAvailable,
-  getClaimPhaseTypeHeaderText,
-  getPhaseItemText,
-  getUploadErrorMessage,
-  getClaimPhaseTypeDescription,
-  isAutomated5103Notice,
-  setDocumentRequestPageTitle,
+  sentenceCase,
   setPageFocus,
   setTabDocumentTitle,
-  getTrackedItemDateFromStatus,
-  sentenceCase,
-  generateClaimTitle,
-  isStandard5103Notice,
-  getShowEightPhases,
-  getTimezoneDiscrepancyMessage,
   showTimezoneDiscrepancyMessage,
-  formatUploadDateTime,
-  getTrackedItemDisplayFromSupportingDocument,
-  getTrackedItemDisplayNameFromEvidenceSubmission,
 } from '../../utils/helpers';
 
 import {
@@ -339,51 +329,6 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
-  describe('truncateDescription', () => {
-    context(' when default - maxlength is 120', () => {
-      it('should truncate text longer than 120 characters', () => {
-        const userText =
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
-        const userTextEllipsed =
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq…';
-
-        const text = truncateDescription(userText);
-        expect(text).to.equal(userTextEllipsed);
-      });
-    });
-    context('when maxlength is 200', () => {
-      it('should truncate text longer than 200 characters', () => {
-        const userText =
-          'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu quis nostrud exercitation ullamco laboris';
-        const userTextEllipsed =
-          'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu…';
-
-        const text = truncateDescription(userText, 200);
-        expect(text).to.equal(userTextEllipsed);
-      });
-    });
-  });
-
-  describe('hasBeenReviewed', () => {
-    it('should check that item is reviewed', () => {
-      const result = hasBeenReviewed({
-        type: 'received_from_you_list',
-        status: 'ACCEPTED',
-      });
-
-      expect(result).to.be.true;
-    });
-
-    it('should check that item has not been reviewed', () => {
-      const result = hasBeenReviewed({
-        type: 'received_from_you_list',
-        status: 'SUBMITTED_AWAITING_REVIEW',
-      });
-
-      expect(result).to.be.false;
-    });
-  });
-
   describe('getDocTypeDescription', () => {
     it('should get description by type', () => {
       const result = getDocTypeDescription('L070');
@@ -409,74 +354,6 @@ describe('Disability benefits helpers: ', () => {
       const size = displayFileSize(2097152);
 
       expect(size).to.equal('2MB');
-    });
-  });
-
-  describe('getFilesNeeded', () => {
-    context('when useLighthouse is true', () => {
-      const useLighthouse = true;
-      it('when trackedItems is empty, should return empty array', () => {
-        const trackedItems = [];
-        const filesNeeded = getFilesNeeded(trackedItems, useLighthouse);
-        expect(filesNeeded.length).to.equal(0);
-      });
-
-      it('when trackedItems exists, should return data', () => {
-        const trackedItems = [{ status: 'NEEDED_FROM_YOU' }];
-        const filesNeeded = getFilesNeeded(trackedItems, useLighthouse);
-        expect(filesNeeded.length).to.equal(1);
-      });
-    });
-
-    context('when useLighthouse is false', () => {
-      const useLighthouse = false;
-      it('when eventsTimeline is empty, should return empty array', () => {
-        const eventsTimeline = [];
-        const filesNeeded = getFilesNeeded(eventsTimeline, useLighthouse);
-        expect(filesNeeded.length).to.equal(0);
-      });
-
-      it('when eventsTimeline exists, should return data', () => {
-        const eventsTimeline = [
-          { type: 'still_need_from_you_list', status: 'NEEDED' },
-        ];
-        const filesNeeded = getFilesNeeded(eventsTimeline, useLighthouse);
-        expect(filesNeeded.length).to.equal(1);
-      });
-    });
-  });
-
-  describe('getFilesOptional', () => {
-    context('when useLighthouse is true', () => {
-      const useLighthouse = true;
-      it('when trackedItems is empty, should return empty array', () => {
-        const trackedItems = [];
-        const filesNeeded = getFilesOptional(trackedItems, useLighthouse);
-        expect(filesNeeded.length).to.equal(0);
-      });
-
-      it('when trackedItems exists, should return data', () => {
-        const trackedItems = [{ status: 'NEEDED_FROM_OTHERS' }];
-        const filesNeeded = getFilesOptional(trackedItems, useLighthouse);
-        expect(filesNeeded.length).to.equal(1);
-      });
-    });
-
-    context('when useLighthouse is false', () => {
-      const useLighthouse = false;
-      it('when eventsTimeline is empty, should return empty array', () => {
-        const eventsTimeline = [];
-        const filesNeeded = getFilesOptional(eventsTimeline, useLighthouse);
-        expect(filesNeeded.length).to.equal(0);
-      });
-
-      it('when eventsTimeline exists, should return data', () => {
-        const eventsTimeline = [
-          { type: 'still_need_from_others_list', status: 'NEEDED' },
-        ];
-        const filesNeeded = getFilesOptional(eventsTimeline, useLighthouse);
-        expect(filesNeeded.length).to.equal(1);
-      });
     });
   });
 
@@ -773,27 +650,6 @@ describe('Disability benefits helpers: ', () => {
           expect(isOpen).to.be.false;
         });
       });
-    });
-  });
-
-  describe('itemsNeedingAttentionFromVet', () => {
-    it('should return number of needed items from vet', () => {
-      const itemsNeeded = itemsNeedingAttentionFromVet([
-        {
-          id: 1,
-          status: 'NEEDED_FROM_YOU',
-        },
-        {
-          id: 2,
-          status: 'SUBMITTED_AWAITING_REVIEW',
-        },
-        {
-          id: 3,
-          status: 'NEEDED_FROM_OTHERS',
-        },
-      ]);
-
-      expect(itemsNeeded).to.equal(1);
     });
   });
 
@@ -1299,23 +1155,6 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
-  describe('setDocumentRequestPageTitle', () => {
-    it('should display 5103 Evidence Notice', () => {
-      const displayName = 'Automated 5103 Notice Response';
-      const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
-
-      expect(documentRequestPageTitle).to.equal(
-        'Review evidence list (5103 notice)',
-      );
-    });
-    it('should display Submit buddy statement(s)', () => {
-      const displayName = 'Submit buddy statement(s)';
-      const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
-
-      expect(documentRequestPageTitle).to.equal(displayName);
-    });
-  });
-
   describe('setTabDocumentTitle', () => {
     context('when there is no claim', () => {
       it('should set tab title for Status', () => {
@@ -1408,156 +1247,6 @@ describe('Disability benefits helpers: ', () => {
         setPageFocus('/status', false);
 
         expect(scrollAndFocus.called).to.be.true;
-      });
-    });
-  });
-
-  describe('getTrackedItemDateFromStatus', () => {
-    context('when item status is NEEDED_FROM_YOU', () => {
-      it('should return item requestedDate', () => {
-        const item = {
-          id: 1,
-          requestedDate: '2023-02-22',
-          status: 'NEEDED_FROM_YOU',
-          displayName: 'Test',
-        };
-        const date = getTrackedItemDateFromStatus(item);
-
-        expect(date).to.equal(item.requestedDate);
-      });
-    });
-    context('when item status is NEEDED_FROM_OTHERS', () => {
-      it('should return item requestedDate', () => {
-        const item = {
-          id: 1,
-          requestedDate: '2023-02-22',
-          status: 'NEEDED_FROM_OTHERS',
-          displayName: 'Test',
-        };
-        const date = getTrackedItemDateFromStatus(item);
-
-        expect(date).to.equal(item.requestedDate);
-      });
-    });
-    context('when item status is NO_LONGER_REQUIRED', () => {
-      it('should return item requestedDate', () => {
-        const item = {
-          id: 1,
-          closedDate: '2023-02-22',
-          status: 'NO_LONGER_REQUIRED',
-          displayName: 'Test',
-        };
-        const date = getTrackedItemDateFromStatus(item);
-
-        expect(date).to.equal(item.closedDate);
-      });
-    });
-    context('when item status is SUBMITTED_AWAITING_REVIEW', () => {
-      it('should return the oldest item.documents.uploadDate requestedDate', () => {
-        const item = {
-          id: 1,
-          date: '2023-02-22',
-          status: 'SUBMITTED_AWAITING_REVIEW',
-          displayName: 'Test',
-          documents: [
-            {
-              documentId: '{1}',
-              documentTypeLabel: 'Correspondence',
-              originalFileName: 'file.pdf',
-              trackedItemId: 1,
-              uploadDate: '2023-02-23',
-            },
-            {
-              documentId: '{2}',
-              documentTypeLabel: 'Correspondence',
-              originalFileName: 'file2.pdf',
-              trackedItemId: 1,
-              uploadDate: '2023-02-20',
-            },
-          ],
-        };
-        const date = getTrackedItemDateFromStatus(item);
-
-        expect(date).to.equal(item.documents[1].uploadDate);
-      });
-    });
-    context('when item status is INITIAL_REVIEW_COMPLETE', () => {
-      it('should return item receivedDate', () => {
-        const item = {
-          id: 1,
-          receivedDate: '2023-02-22',
-          status: 'INITIAL_REVIEW_COMPLETE',
-          displayName: 'Test',
-        };
-        const date = getTrackedItemDateFromStatus(item);
-
-        expect(date).to.equal(item.receivedDate);
-      });
-    });
-    context('when item status is ACCEPTED', () => {
-      it('should return item receivedDate', () => {
-        const item = {
-          id: 1,
-          receivedDate: '2023-02-22',
-          status: 'ACCEPTED',
-          displayName: 'Test',
-        };
-        const date = getTrackedItemDateFromStatus(item);
-
-        expect(date).to.equal(item.receivedDate);
-      });
-    });
-    context('when item status is not recognized', () => {
-      it('should return the default item requestedDate', () => {
-        const item = {
-          id: 1,
-          requestedDate: '2023-02-22',
-          status: 'TEST',
-          displayName: 'Test',
-        };
-        const date = getTrackedItemDateFromStatus(item);
-
-        expect(date).to.equal(item.requestedDate);
-      });
-    });
-  });
-
-  describe('isStandard5103Notice', () => {
-    context('when display name is not a standard 5103 notice', () => {
-      it('should return false', () => {
-        const displayName = 'Test';
-        expect(isStandard5103Notice(displayName)).to.be.false;
-      });
-    });
-    context('when display name is a standard 5103 notice from the API', () => {
-      it('should return true', () => {
-        const displayName = '5103 Notice Response';
-        expect(isStandard5103Notice(displayName)).to.be.true;
-      });
-    });
-    // See comment above the standard5103Item in constants.js
-    context(
-      'when display name is a standard 5103 notice mocked by the application',
-      () => {
-        it('should return true', () => {
-          const displayName = 'Review evidence list (5103 notice)';
-          expect(isStandard5103Notice(displayName)).to.be.true;
-        });
-      },
-    );
-  });
-
-  describe('isAutomated5103Notice', () => {
-    context('when display name is not an automated 5103 notice', () => {
-      it('should return false', () => {
-        const displayName = 'Test';
-        expect(isAutomated5103Notice(displayName)).to.be.false;
-      });
-    });
-    context('when display name is an automated 5103 notice', () => {
-      it('should return true', () => {
-        const displayName = 'Automated 5103 Notice Response';
-        expect(isAutomated5103Notice(displayName)).to.be.true;
       });
     });
   });
@@ -2381,51 +2070,6 @@ describe('Disability benefits helpers: ', () => {
       expect(() => formatUploadDateTime(undefined)).to.throw(
         /formatUploadDateTime: date parameter is required/,
       );
-    });
-  });
-
-  describe('getTrackedItemDisplayFromSupportingDocument', () => {
-    context('when the id is present', () => {
-      it('should return the friendlyName when it is present', () => {
-        const document = {
-          id: '123',
-          friendlyName: 'Medical Records',
-          displayName: 'Submit Medical Records',
-        };
-        const result = getTrackedItemDisplayFromSupportingDocument(document);
-
-        expect(result).to.equal('Medical Records');
-      });
-
-      it('should return the displayName when the friendlyName is not present', () => {
-        const document = {
-          id: '123',
-          displayName: 'Submit Medical Records',
-        };
-        const result = getTrackedItemDisplayFromSupportingDocument(document);
-
-        expect(result).to.equal('Submit Medical Records');
-      });
-
-      it("should return 'unknown' when neither friendlyName nor displayName are present", () => {
-        const document = {
-          id: '123',
-        };
-        const result = getTrackedItemDisplayFromSupportingDocument(document);
-
-        expect(result).to.equal('unknown');
-      });
-    });
-
-    context('when the id is not present', () => {
-      it('should return null', () => {
-        const document = {
-          friendlyName: 'Medical Records',
-        };
-        const result = getTrackedItemDisplayFromSupportingDocument(document);
-
-        expect(result).to.equal(null);
-      });
     });
   });
 

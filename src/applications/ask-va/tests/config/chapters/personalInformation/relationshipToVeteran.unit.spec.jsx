@@ -94,7 +94,7 @@ describe('relationshipToVeteranPage', () => {
       await waitFor(() => {
         const vaRadio = container.querySelector('va-radio');
         expect(vaRadio.getAttribute('error')).to.equal(
-          'Please select your relationship to the Veteran.',
+          'Select your relationship to the Veteran.',
         );
       });
     });

@@ -40,40 +40,7 @@ describe('NextStepsSection confirmation page component', () => {
     }
   });
 
-  it('renders heading and next steps when not logged in', () => {
-    const { container, getByText, getAllByRole, getByRole } = render(
-      <NextStepsSection loggedIn={false} />,
-    );
-
-    const h2 = getByRole('heading', { level: 2, name: /what to do next/i });
-    expect(h2).to.exist;
-
-    expect(getByText(/You don’t need to reapply for Veterans Pension or DIC/i))
-      .to.exist;
-
-    const h3s = getAllByRole('heading', { level: 3 });
-    expect(h3s.length).to.be.at.least(2);
-    expect(
-      getByRole('heading', {
-        level: 3,
-        name: /if you’re applying for veterans pension benefits/i,
-      }),
-    ).to.exist;
-    expect(
-      getByRole('heading', {
-        level: 3,
-        name: /if you’re applying for dic benefits/i,
-      }),
-    ).to.exist;
-
-    const pensionLinkEl = container.querySelector('va-link');
-    expect(pensionLinkEl).to.exist;
-    expect(pensionLinkEl.getAttribute('href')).to.equal(MOCK_PENSION_LINK);
-
-    expect(container.querySelector('va-loading-indicator')).to.not.exist;
-  });
-
-  it('shows loading indicator while checking in-progress app when logged in', async () => {
+  it('shows loading indicator while checking in-progress app', async () => {
     let resolveReq;
     const pending = new Promise(res => {
       resolveReq = res;

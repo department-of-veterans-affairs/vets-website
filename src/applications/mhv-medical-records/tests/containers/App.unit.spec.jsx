@@ -112,7 +112,7 @@ describe.skip('App', () => {
           reducers: reducer,
         },
       );
-      expect(screen.getByTestId('mr-feature-flag-loading-indicator'));
+      expect(screen.getByTestId('mr-top-level-loading-indicator'));
     });
 
     it('feature flags are done loading', async () => {

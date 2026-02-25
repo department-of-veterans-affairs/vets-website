@@ -1,6 +1,6 @@
 import recordEvent from 'platform/monitoring/record-event';
 
-export const recordPageview = (variant, page) => {
+const recordPageview = (variant, page) => {
   recordEvent({
     event: `${variant}-pageview`,
     action: 'view',
@@ -30,6 +30,23 @@ export const recordLinkClick = (variant, page, text, url) => {
     link_text: text, // link text
     link_url: url || undefined, // url, can be undefined
     /* eslint-enable camelcase */
+  });
+};
+
+export const recordCheckboxEvent = (variant, label) => {
+  recordEvent({
+    event: `${variant}-checkbox`,
+    action: 'check',
+    'checkbox-label': label,
+  });
+};
+
+export const recordRadioOptionClick = (label, optionLabel, required = true) => {
+  recordEvent({
+    event: 'int-radio-option-click',
+    'radio-button-label': label,
+    'radio-button-optionLabel': optionLabel,
+    'radio-button-required': required,
   });
 };
 

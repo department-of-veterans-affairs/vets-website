@@ -37,9 +37,9 @@ const PersonalHealthCareContacts = ({
 
   return (
     <>
-      <Headline>Personal health care contacts</Headline>
+      <Headline>Health care contacts</Headline>
       <DowntimeNotification
-        appTitle="personal health care contacts page"
+        appTitle="health care contacts page"
         dependencies={[externalServices.VAPRO_HEALTH_CARE_CONTACTS]}
       >
         {vaPatient ? (

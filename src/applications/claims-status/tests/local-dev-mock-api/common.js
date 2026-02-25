@@ -364,6 +364,107 @@ const appealData = {
         evidence: [],
       },
     },
+    {
+      id: 'SC20001',
+      type: 'supplementalClaim',
+      attributes: {
+        appealIds: ['SC20001'],
+        updated: '2024-03-15T10:30:00-04:00',
+        incompleteHistory: false,
+        active: false,
+        description: 'Service connection for hearing loss - Granted',
+        location: 'aoj',
+        aoj: 'vba',
+        programArea: 'compensation',
+        status: {
+          type: 'sc_closed',
+          details: {},
+        },
+        alerts: [],
+        issues: [
+          {
+            active: false,
+            lastAction: 'granted',
+            date: '2024-03-15',
+            description: 'Service connection for hearing loss',
+            diagnosticCode: '6100',
+          },
+        ],
+        events: [
+          { type: 'sc_request', date: '2024-01-10' },
+          { type: 'sc_decision', date: '2024-03-15' },
+        ],
+        evidence: [],
+      },
+    },
+    {
+      id: 'HLR20002',
+      type: 'higherLevelReview',
+      attributes: {
+        appealIds: ['HLR20002'],
+        updated: '2024-05-20T14:00:00-04:00',
+        incompleteHistory: false,
+        active: false,
+        description: 'Increased rating for knee condition - Denied',
+        location: 'aoj',
+        aoj: 'vba',
+        programArea: 'compensation',
+        status: {
+          type: 'hlr_closed',
+          details: {},
+        },
+        alerts: [],
+        issues: [
+          {
+            active: false,
+            lastAction: 'denied',
+            date: '2024-05-20',
+            description: 'Increased rating for right knee condition',
+            diagnosticCode: '5260',
+          },
+        ],
+        events: [
+          { type: 'hlr_request', date: '2024-02-15' },
+          { type: 'hlr_decision', date: '2024-05-20' },
+        ],
+        evidence: [],
+      },
+    },
+    {
+      id: '3001234',
+      type: 'legacyAppeal',
+      attributes: {
+        appealIds: ['3001234'],
+        updated: '2023-11-10T09:00:00-05:00',
+        incompleteHistory: false,
+        type: 'original',
+        active: false,
+        description: 'Service connection for back condition - Remanded',
+        aod: false,
+        location: 'bva',
+        aoj: 'vba',
+        programArea: 'compensation',
+        status: { type: 'remand', details: {} },
+        alerts: [],
+        docket: null,
+        issues: [
+          {
+            description: 'Service connection for lumbar spine condition',
+            diagnosticCode: '5242',
+            active: false,
+            lastAction: 'remanded',
+            date: '2023-11-10',
+          },
+        ],
+        events: [
+          { type: 'nod', date: '2020-06-15' },
+          { type: 'soc', date: '2021-01-20' },
+          { type: 'form9', date: '2021-03-10' },
+          { type: 'bva_decision', date: '2023-11-10' },
+        ],
+        evidence: [],
+      },
+    },
   ],
 };
 
@@ -410,6 +511,100 @@ const baseClaims = [
         name: 'Pension claim',
       },
     ],
+  }),
+  // Closed disability compensation claim - granted
+  createClaim('101', {
+    baseEndProductCode: '020',
+    claimDate: '2024-06-15',
+    phaseType: 'COMPLETE',
+    claimType: 'Compensation',
+    claimTypeCode: '020CPHLP',
+    endProductCode: '022',
+    status: 'COMPLETE',
+    closeDate: '2024-09-20',
+    decisionLetterSent: true,
+    developmentLetterSent: true,
+    documentsNeeded: false,
+    evidenceWaiverSubmitted5103: true,
+    issues: [
+      createIssue(
+        'Service connection for tinnitus',
+        '6260',
+        '2024-06-15',
+        '2024-09-20',
+      ),
+      createIssue(
+        'Service connection for hearing loss',
+        '6100',
+        '2024-06-15',
+        '2024-09-20',
+      ),
+    ],
+    evidence: [
+      createEvidence(
+        '2024-06-15',
+        'VA Form 21-526EZ, Application for Disability Compensation',
+      ),
+    ],
+    contentions: [
+      { name: 'Service connection for tinnitus' },
+      { name: 'Service connection for hearing loss' },
+    ],
+  }),
+  // Closed disability compensation claim - denied
+  createClaim('102', {
+    baseEndProductCode: '020',
+    claimDate: '2024-04-01',
+    phaseType: 'COMPLETE',
+    claimType: 'Compensation',
+    claimTypeCode: '020CPHLP',
+    endProductCode: '022',
+    status: 'COMPLETE',
+    closeDate: '2024-07-15',
+    decisionLetterSent: true,
+    developmentLetterSent: true,
+    documentsNeeded: false,
+    evidenceWaiverSubmitted5103: true,
+    issues: [
+      createIssue(
+        'Service connection for sleep apnea',
+        '6847',
+        '2024-04-01',
+        '2024-07-15',
+      ),
+    ],
+    evidence: [
+      createEvidence(
+        '2024-04-01',
+        'VA Form 21-526EZ, Application for Disability Compensation',
+      ),
+    ],
+    contentions: [{ name: 'Service connection for sleep apnea' }],
+  }),
+  // Closed dependency claim
+  createClaim('103', {
+    baseEndProductCode: '130',
+    claimDate: '2024-08-10',
+    phaseType: 'COMPLETE',
+    claimType: 'Dependency',
+    claimTypeCode: '130DPNEBNADJ',
+    endProductCode: '130',
+    status: 'COMPLETE',
+    closeDate: '2024-08-25',
+    decisionLetterSent: true,
+    developmentLetterSent: false,
+    documentsNeeded: false,
+    evidenceWaiverSubmitted5103: false,
+    issues: [
+      createIssue('Add dependent spouse', null, '2024-08-10', '2024-08-25'),
+    ],
+    evidence: [
+      createEvidence(
+        '2024-08-10',
+        'VA Form 21-686c, Declaration of Status of Dependents',
+      ),
+    ],
+    contentions: [{ name: 'Add dependent spouse' }],
   }),
   // Ask va to decide. `/track-claims/your-claims/2/ask-va-to-decide`
   createClaim('2', {
@@ -695,6 +890,92 @@ const baseClaims = [
           suspenseDate: '2026-12-01',
           canUploadFile: true,
           description: 'API-provided description for this request',
+        }),
+
+        // ---------------------------------------------------------
+        // FORMATTED API DESCRIPTION EXAMPLES
+        // These items demonstrate the formatDescription helper function for formatting the API description field
+        // ---------------------------------------------------------
+
+        // Example with newline characters (\n)
+        createTrackedItem(20, 'Request with Line Breaks', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            'Please submit the following documents:\nYour medical records from the past 5 years\nAny relevant treatment notes\nA signed statement from your physician',
+        }),
+
+        // Example with bold tags ({b}...{/b})
+        createTrackedItem(21, 'Request with Bold Text', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            '{b}Important:{/b} We need additional documentation to process your claim. Please ensure all forms are {b}signed and dated{/b} before submission.',
+        }),
+
+        // Example with list markers ([*])
+        createTrackedItem(22, 'Request with List Items', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            'Please provide the following:\n[*] VA Form 21-4142\n[*] Private medical records\n[*] Buddy statements\n[*] Any supporting evidence',
+        }),
+
+        // Example with {*} list markers
+        createTrackedItem(23, 'Request with Alt List Markers', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            'Required documents:{*} Completed VA Form 21-526EZ{*} Service treatment records{*} Post-service medical evidence',
+        }),
+
+        // Example with combined formatting (bold + list + newlines)
+        createTrackedItem(24, 'Request with Combined Formatting', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            '{b}Action Required:{/b} To complete your disability claim, please submit:\n\n[*] {b}VA Form 21-4142{/b} - Authorization to {b}release{/b} medical records\n[*] {b}Private medical records{/b} - From your treating physician\n[*] {b}Buddy statement{/b} - Statement from someone who witnessed your condition\n\nAll documents must be received by the suspense date shown above.\n\nBe sure to include stuff.',
+        }),
+
+        // Third party example with formatted description
+        createTrackedItem(25, 'Third Party Formatted Request', false, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            '{b}Notice:{/b} We have requested the following from external sources:\n[*] Military personnel records from the National Archives\n[*] Service treatment records from your duty station\n[*] Deployment records',
+        }),
+
+        // VA Form 21-4142 Medical Provider Information
+        createTrackedItem(26, 'Medical Provider Authorization', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            'On your application, you indicated that you received treatment from provdr_nm of no 4142.\n\nComplete and return the enclosed VA form 21-4142, Authorization to Disclose information and VA Form 21-4142a, General Release for Medical Provider Information, so that we can obtain treatment records on your behalf. You may want to obtain and send us the records yourself, if possible.\n\nPlease complete both of the attached forms in order for us to assist with obtaining your records.',
+        }),
+
+        // Electronic Payment Method - Treasury Notice
+        createTrackedItem(27, 'Treasury EFT Notice', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            'You recently claimed VA benefits and did not elect an electronic payment method. The Department of Treasury mandated that new recurring benefit payments must be made via EFT or prepaid debit card. You must contact the U.S. Treasury at {b}1-88-224-2950{/b} to discuss options available for receiving your future payments that are in compliance with U.S. Treasury regulations.\n\n{b}Before you call the Treasury, we can help!{/b} If compensation or pension is awarded, you can receive your payments through electronic funds transfer (EFT).\n\nTo have your federal benefits electronically transferred to your designated financial institution (e.g. bank) call VA at {b}1-800-827-1000{/b} with your banking information or go online to www.ebenefits.va.gov',
+        }),
+
+        // Asbestos Exposure Questionnaire
+        createTrackedItem(28, 'Asbestos Exposure Questionnaire', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            'Provide answers to the following questions about your claim for disability resulting from exposure to asbestos:\n{*} Where were you exposed to asbestos? (Organization, rank, task group, company or squadron, etc.)\n{*} When were you exposed?\n{*} How were you exposed?\n{*} What are the names of other service persons who were with you at the time of exposure?\n{*} What other things that may cause cancer (cigarettes, chemicals, etc.) were you exposed to while in service? After service?\n{*} What type of work did you do before service? What type of work have you been doing since service? Please state how long you did each job.',
         }),
       ],
     },
@@ -1247,7 +1528,7 @@ const baseClaims = [
   }),
   // Claim with one supporting document and one failed evidence submission
   createClaim(
-    '11',
+    '13',
     {
       baseEndProductCode: '020',
       claimDate: '2024-10-07',
@@ -1266,7 +1547,7 @@ const baseClaims = [
           acknowledgementDate: new Date(
             Date.now() + 30 * 24 * 60 * 60 * 1000,
           ).toISOString(),
-          claimId: 11,
+          claimId: 13,
           createdAt: new Date(
             Date.now() - 2 * 24 * 60 * 60 * 1000,
           ).toISOString(),
@@ -1284,7 +1565,7 @@ const baseClaims = [
       ],
       supportingDocuments: [
         createSupportingDocument(
-          '{11-SUPPORTING-DOC-1}',
+          '{13-SUPPORTING-DOC-1}',
           'Photographs',
           'evidence_photos.pdf',
           null,
@@ -1463,13 +1744,14 @@ const baseClaims = [
     false,
   ),
 
-  // STEM Scholarship claim for StemClaimListItem component
+  // STEM Scholarship claim - denied (automatedDenial: true)
   {
     data: {
       id: '11',
       type: 'education_benefits_claims',
       attributes: {
         confirmationNumber: 'V-EBC-11',
+        claimType: 'STEM',
         isEnrolledStem: true,
         isPursuingTeachingCert: false,
         benefitLeft: 'moreThanSixMonths',
@@ -1495,6 +1777,25 @@ const baseClaims = [
       },
     },
   },
+  // STEM Scholarship claim - denied (automatedDenial: true, teaching cert path)
+  {
+    data: {
+      id: '12',
+      type: 'education_benefits_claims',
+      attributes: {
+        confirmationNumber: 'V-EBC-12',
+        claimType: 'STEM',
+        isEnrolledStem: false,
+        isPursuingTeachingCert: true,
+        benefitLeft: 'sixMonthsOrLess',
+        remainingEntitlement: { months: 3, days: 15 },
+        automatedDenial: true,
+        deniedAt: '2024-11-20T10:30:00.000Z',
+        submittedAt: '2024-11-01T08:00:00.000Z',
+        evidenceSubmissions: [],
+      },
+    },
+  },
 ];
 
 function getClaimDataById(id) {
@@ -1506,7 +1807,7 @@ function getClaimSummary(claim) {
   return claim.data;
 }
 
-function generateMockClaims(count, startId = 100) {
+function generateMockClaims(count, startId = 200) {
   const claims = [];
   for (let i = 0; i < count; i++) {
     const id = (startId + i).toString();
@@ -1887,6 +2188,11 @@ const responses = {
   'GET /v0/benefits_claims/9': getClaimDataById('9'),
   'GET /v0/benefits_claims/10': getClaimDataById('10'),
   'GET /v0/benefits_claims/11': getClaimDataById('11'),
+  'GET /v0/benefits_claims/12': getClaimDataById('12'),
+  'GET /v0/benefits_claims/13': getClaimDataById('13'),
+  'GET /v0/benefits_claims/101': getClaimDataById('101'),
+  'GET /v0/benefits_claims/102': getClaimDataById('102'),
+  'GET /v0/benefits_claims/103': getClaimDataById('103'),
 
   'GET /v0/appeals': (_req, res) => {
     if (!SERVICE_AVAILABILITY.appeals) {
@@ -1949,6 +2255,7 @@ const responses = {
         { name: 'cst_claim_phases', value: true }, // <-- controls 8-step claim process (disabilityCompensationClaim)
         { name: 'cst_5103_update_enabled', value: false }, // <-- controls access to ask-va-to-decide and 5103-evidence-notice routes
         { name: 'cst_show_document_upload_status', value: true },
+        { name: 'cst_claims_list_filter', value: true },
       ],
     },
   },

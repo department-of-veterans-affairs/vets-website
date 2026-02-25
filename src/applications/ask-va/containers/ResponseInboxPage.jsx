@@ -25,14 +25,15 @@ import {
   getVAStatusFromCRM,
 } from '../config/helpers';
 import {
-  envUrl,
-  getMockTestingFlagforAPI,
+  envApiUrl,
+  getMockTestingFlagForAPI,
   RESPONSE_PAGE,
   URL,
 } from '../constants';
 import manifest from '../manifest.json';
 import { mockInquiryResponse, mockAttachmentResponse } from '../utils/mockData';
 import { askVAAttachmentStorage } from '../utils/StorageAdapter';
+import { ENDPOINTS, getInquiry } from '../utils/api';
 
 const getReplySubHeader = messageType => {
   if (!messageType) return 'No messageType';
@@ -72,7 +73,7 @@ const ResponseInboxPage = ({ router }) => {
 
       setLoading(true);
 
-      if (getMockTestingFlagforAPI()) {
+      if (getMockTestingFlagForAPI()) {
         // Simulate API delay
         return new Promise(resolve => {
           setTimeout(() => {
@@ -106,39 +107,39 @@ const ResponseInboxPage = ({ router }) => {
   const handleSubmitReply = event => {
     event.preventDefault();
     if (sendReply.reply) {
-      postApiData(
-        `${envUrl}${URL.GET_INQUIRIES}/${inquiryId}${URL.SEND_REPLY}`,
-      );
+      postApiData(`${ENDPOINTS.inquiries}/${inquiryId}${URL.SEND_REPLY}`);
     } else {
       setReplyTextError('Enter your message');
     }
   };
 
-  const getApiData = useCallback(url => {
-    setLoading(true);
-    setError(false);
+  const getApiData = useCallback(
+    () => {
+      setLoading(true);
+      setError(false);
 
-    if (getMockTestingFlagforAPI() && !window.Cypress) {
-      // Simulate API delay
-      return new Promise(resolve => {
-        setTimeout(() => {
-          setInquiryData(mockInquiryResponse.data);
+      if (getMockTestingFlagForAPI() && !window.Cypress) {
+        // Simulate API delay
+        return new Promise(resolve => {
+          setTimeout(() => {
+            setInquiryData(mockInquiryResponse.data);
+            setLoading(false);
+            resolve(mockInquiryResponse);
+          }, 500);
+        });
+      }
+      return getInquiry(inquiryId)
+        .then(res => {
+          setInquiryData(res.data);
           setLoading(false);
-          resolve(mockInquiryResponse);
-        }, 500);
-      });
-    }
-
-    return apiRequest(url)
-      .then(res => {
-        setInquiryData(res.data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-        setError(true);
-      });
-  }, []);
+        })
+        .catch(() => {
+          setLoading(false);
+          setError(true);
+        });
+    },
+    [inquiryId],
+  );
 
   const getDownload = (fileName, fileContent) => {
     const fileExtension = fileName.split('.');
@@ -168,7 +169,7 @@ const ResponseInboxPage = ({ router }) => {
   const getDownloadData = url => {
     setError(false);
 
-    if (getMockTestingFlagforAPI()) {
+    if (getMockTestingFlagForAPI()) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
@@ -196,7 +197,7 @@ const ResponseInboxPage = ({ router }) => {
 
   useEffect(
     () => {
-      if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
+      if (inquiryId) getApiData();
     },
     [inquiryId, getApiData],
   );
@@ -219,8 +220,8 @@ const ResponseInboxPage = ({ router }) => {
             We’ve run into a problem
           </h2>
           <p className="vads-u-font-size--base">
-            We’re sorry. Something went wrong on our end. Please try again later
-            or call us at <VaTelephone contact="800-698-2411" /> (
+            We’re sorry. Something went wrong on our end. Try again later or
+            call us at <VaTelephone contact="800-698-2411" /> (
             <VaTelephone contact="711" tty />
             ). We’re here 24/7.
           </p>
@@ -433,7 +434,7 @@ const ResponseInboxPage = ({ router }) => {
                                 text={file.name}
                                 onClick={() =>
                                   getDownloadData(
-                                    `${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
+                                    `${envApiUrl}${URL.DOWNLOAD_ATTACHMENT}${
                                       file.id
                                     }`,
                                   )
@@ -498,7 +499,7 @@ const ResponseInboxPage = ({ router }) => {
                   className="usa-link"
                   href={`${manifest.rootUrl}/introduction`}
                 >
-                  please ask a new question
+                  ask a new question
                 </a>
                 .
               </p>

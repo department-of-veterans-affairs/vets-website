@@ -4,20 +4,19 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import {
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    ...titleUI('Section IV: Schooling and Other Training'),
     'ui:description': (
       <div>
-        <h3 style={{ marginTop: 0 }}>
-          Section IV: Schooling and Other Training
-        </h3>
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h4 slot="headline">
+          <h2 slot="headline">
             <b>What to expect:</b>
-          </h4>
+          </h2>
           <div className="vads-u-margin--0">
             <ul style={{ marginBottom: 0 }}>
               <li>Highest level of education completed</li>
@@ -31,7 +30,7 @@ export default {
           </div>
         </VaAlert>
         <div className="vads-u-margin-top--5">
-          <h4 style={{ marginTop: 0 }}>Education Level</h4>
+          <h2 style={{ marginTop: 0 }}>Education Level</h2>
           <p>Your education background</p>
         </div>
       </div>
@@ -62,6 +61,9 @@ export default {
         hideIf: formData => formData.educationLevel !== 'gradeSchool',
       }),
       'ui:required': formData => formData.educationLevel === 'gradeSchool',
+      'ui:errorMessages': {
+        required: 'Please select your grade school level to proceed',
+      },
     },
 
     highSchool: {
@@ -76,6 +78,10 @@ export default {
         hideIf: formData => formData.educationLevel !== 'highSchool',
       }),
       'ui:required': formData => formData.educationLevel === 'highSchool',
+
+      'ui:errorMessages': {
+        required: 'Please select your high school grade level to proceed',
+      },
     },
 
     college: {
@@ -90,6 +96,10 @@ export default {
         hideIf: formData => formData.educationLevel !== 'college',
       }),
       'ui:required': formData => formData.educationLevel === 'college',
+
+      'ui:errorMessages': {
+        required: 'Please select your college level to proceed',
+      },
     },
   },
   schema: {

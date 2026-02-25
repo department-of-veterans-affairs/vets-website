@@ -1,3 +1,4 @@
+import { merge } from 'lodash';
 import {
   ssnOrVaFileNumberNoHintSchema,
   ssnOrVaFileNumberNoHintUI,
@@ -13,7 +14,11 @@ export default {
       'Veteran’s identification information',
       'You must enter a Social Security number or VA file number',
     ),
-    veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
+    veteranSocialSecurityNumber: merge({}, ssnOrVaFileNumberNoHintUI(), {
+      vaFileNumber: {
+        'ui:title': 'VA file number (if known)',
+      },
+    }),
     veteranServiceNumber: serviceNumberUI('Service number'),
   },
   schema: {

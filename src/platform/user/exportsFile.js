@@ -85,7 +85,6 @@ export {
 
 export {
   defaultSignInProviders,
-  legacySignInProviders,
   defaultMobileQueryParams,
   defaultMobileOAuthOptions,
   defaultWebOAuthOptions,
@@ -296,10 +295,6 @@ export {
 export {
   default as ContactInfoForm,
 } from './profile/vap-svc/components/ContactInfoForm';
-export {
-  default as GenericErrorAlert,
-} from './profile/vap-svc/components/GenericErrorAlert';
-
 export {
   default as ProfileInformationFieldController,
 } from './profile/vap-svc/components/ProfileInformationFieldController';

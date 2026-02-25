@@ -73,6 +73,17 @@ const maximalSetOfPreferences = {
                 },
               ],
             },
+            {
+              id: 16,
+              name: 'Missing claim information',
+              communicationChannels: [
+                {
+                  id: 1,
+                  name: 'Text',
+                  description: 'SMS Notification',
+                },
+              ],
+            },
           ],
         },
         {

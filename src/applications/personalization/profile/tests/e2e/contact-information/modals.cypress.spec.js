@@ -84,7 +84,7 @@ const checkModals = options => {
     .first()
     .find('va-button')
     .shadow()
-    .findByText(/yes, cancel my changes/i)
+    .findByText(/Cancel changes/i)
     .click();
 };
 
@@ -125,7 +125,7 @@ const checkRemovalWhileEditingModal = options => {
     .first()
     .find('va-button')
     .shadow()
-    .findByText(/yes, cancel my changes/i)
+    .findByText(/Cancel changes/i)
     .click();
 };
 
@@ -387,7 +387,7 @@ describe('Modals on the contact information and content page when they error', (
     });
 
     // expect an error to be shown
-    cy.findByTestId('edit-error-alert').should('exist');
+    cy.findByTestId('vap-service-error-alert').should('exist');
 
     cy.axeCheck();
   });

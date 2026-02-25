@@ -77,11 +77,14 @@ describe('SubmissionsPageResults', () => {
       <SubmissionsPageResults submissions={submissions} />,
     );
     const statusBlock = container.querySelector('.submission__card-status');
+    const statusBlockRow = container.querySelector(
+      '.submission__card-status--row',
+    );
 
     expect(statusBlock).to.exist;
     expect(statusBlock.textContent).to.include('CONFIRM-789');
-    expect(statusBlock.textContent).to.include('VBMS eFolder status');
-    expect(statusBlock.textContent).to.include('Received');
+    expect(statusBlockRow.textContent).to.include('VBMS eFolder status');
+    expect(statusBlockRow.textContent).to.include('Received');
   });
 
   it('renders form type with "packet" if applicable', () => {

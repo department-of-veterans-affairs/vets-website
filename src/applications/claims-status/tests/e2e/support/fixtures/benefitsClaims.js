@@ -2,6 +2,7 @@
  * Creates a claim list item for /v0/benefits_claims
  *
  * @param {Object} overrides - Properties to override defaults
+ * @param {string} overrides.id - Claim ID
  * @param {string} overrides.claimDate - Claim submission date
  * @param {string} overrides.phaseChangeDate - Date claim moved to current phase
  * @param {string} overrides.phaseType - Current phase type (for 8-phase status text)
@@ -16,6 +17,7 @@
  * @returns {Object} Claim list item object
  */
 export const createBenefitsClaimListItem = ({
+  id = '123456789',
   claimDate = '2025-01-01',
   phaseChangeDate = '2025-01-02',
   phaseType = 'CLAIM_RECEIVED',
@@ -28,7 +30,8 @@ export const createBenefitsClaimListItem = ({
   evidenceSubmissions = [],
   status = 'CLAIM_RECEIVED',
 } = {}) => ({
-  id: '123456789',
+  id,
+  type: 'claim',
   attributes: {
     claimDate,
     claimPhaseDates: {

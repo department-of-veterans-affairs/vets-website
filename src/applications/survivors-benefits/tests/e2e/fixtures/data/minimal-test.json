@@ -1,68 +1,100 @@
 {
   "data": {
-    "hasBankAccount": false,
-      "claimingMonthlySpecialPension": false,
-      "claimantLivesInANursingHome": false,
-      "dicType": "DIC",
-      "view:isAddingDependent": false,
-      "recognizedAsSpouse": false,
-      "hadPreviousMarriages": false,
-      "remarriedAfterVeteralDeath": false,
-      "livedContinuouslyWithVeteran": true,
-      "validMarriage": false,
-      "marriageToVeteranEndDate": "1999-05-05",
-      "marriageToVeteranEndLocation": {
-        "city": "wefgwfg",
-        "state": "AL"
-      },
-      "pregnantWithVeteran": false,
-      "childWithVeteran": false,
-      "marriageType": "ceremonial",
-      "marriageToVeteranStartDate": "1980-05-05",
-      "marriageToVeteranStartLocation": {
-        "city": "ewfgw",
-        "state": "AL"
-      },
-      "marriedToVeteranAtTimeOfDeath": true,
-      "receivedBenefits": true,
-      "claims": {
-        "dependencyIndemnityComp": true
-      },
-      "claimantEmail": "myemail72585885@unattended.com",
-      "claimantPhone": {
-        "callingCode": 1,
-        "countryCode": "US",
-        "contact": "(555) 511-2312"
-      },
-      "claimantAddress": {
-        "view:militaryBaseDescription": {},
-        "country": "USA",
-        "street": "123123",
-        "city": "123213",
-        "state": "AL",
-        "postalCode": "12313"
-      },
-      "claimantIsVeteran": false,
-      "claimantSocialSecurityNumber": "454544545",
-      "claimantFullName": {
-        "first": "Test",
-        "last": "Testerson"
-      },
-      "claimantDateOfBirth": "1955-05-05",
-      "claimantRelationship": "SURVIVING_SPOUSE",
-      "vaClaimsHistory": false,
-      "diedOnDuty": false,
-      "veteranDateOfDeath": "2002-02-02",
-      "veteranSocialSecurityNumber": {
-        "ssn": "454544545"
-      },
-      "veteranFullName": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "veteranDateOfBirth": "1954-01-11",
-      "veteranChildrenCount": "0",
-      "veteranAdditionalMarriagesCount": "0",
-      "spouseAdditionalMarriagesCount": "0"
+    "veteranFullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranSocialSecurityNumber": {
+      "ssn": "454544545"
+    },
+    "vaClaimsHistory": false,
+    "diedOnDuty": true,
+    "veteranDateOfDeath": "2020-02-02",
+    "claimantRelationship": "SURVIVING_SPOUSE",
+    "claimantFullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "claimantDateOfBirth": "1980-05-05",
+    "claimantSocialSecurityNumber": "332213313",
+    "claimantIsVeteran": false,
+    "claimantAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Testing Dr",
+      "city": "Testville",
+      "state": "AL",
+      "postalCode": "12313"
+    },
+    "claimantEmail": "myemail72585885@unattended.com",
+    "claimantPhone": {
+      "callingCode": 1,
+      "countryCode": "US",
+      "contact": "(555) 555-1111",
+      "_isValid": true,
+      "_error": null,
+      "_touched": true,
+      "_required": true
+    },
+    "claims": {
+      "survivorsPension": true
+    },
+    "receivedBenefits": true,
+    "marriedToVeteranAtTimeOfDeath": true,
+    "marriageToVeteranStartDate": "2022-03-03",
+    "marriageToVeteranStartLocation": {
+      "city": "StartCity",
+      "state": "AL"
+    },
+    "marriageType": "ceremonial",
+    "marriageToVeteranEndDate": "2023-03-03",
+    "marriageToVeteranEndOutsideUS": false,
+    "marriageToVeteranEndLocation": {
+      "city": "EndCity",
+      "state": "AL"
+    },
+    "validMarriage": true,
+    "marriageValidityExplanation": "Some explanation",
+    "livedContinuouslyWithVeteran": false,
+    "separationDueToAssignedReasons": "RELATIONSHIP_DIFFERENCES",
+    "separationExplanation": "Some explanation",
+    "separationStartDate": "2021-01-01",
+    "separationEndDate": "2022-01-01",
+    "courtOrderedSeparation": false,
+    "remarriedAfterVeteralDeath": true,
+    "remarriageEndCause": "other",
+    "endCauseExplanation": "Some other cause",
+    "remarriageDates": {
+      "from": "2020-01-01",
+      "to": "2022-02-02"
+    },
+    "claimantHasAdditionalMarriages": true,
+    "recognizedAsSpouse": true,
+    "hadPreviousMarriages": false,
+    "pregnantWithVeteran": false,
+    "childWithVeteran": false,
+    "veteranChildrenCount": "0",
+    "claimingMonthlySpecialPension": false,
+    "claimantLivesInANursingHome": false,
+    "totalNetWorth": false,
+    "netWorthEstimation": 60000,
+    "transferredAssets": true,
+    "homeOwnership": true,
+    "homeAcreageMoreThanTwo": true,
+    "homeAcreageValue": 5000,
+    "landMarketable": true,
+    "moreThanFourIncomeSources": false,
+    "otherIncome": false,
+    "view:hasMonthlyIncomeSource": false,
+    "view:careExpensesList": false,
+    "view:medicalExpensesList": false,
+    "hasBankAccount": true,
+    "bankAccount": {
+      "accountType": "checking",
+      "bankName": "My Bank",
+      "routingNumber": "011000015",
+      "accountNumber": "987654321"
+    }
   }
 }

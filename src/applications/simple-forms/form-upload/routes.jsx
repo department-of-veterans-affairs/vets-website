@@ -28,6 +28,13 @@ const formUploadForms = [
   '21-651',
   '21P-4185',
   '21P-535',
+  '21-4170',
+  '21P-524',
+  '21P-601',
+  '21P-4706b',
+  '21P-4171',
+  '21P-8924',
+  '20-10208',
 ];
 const config = formConfig();
 
@@ -43,6 +50,15 @@ const routes = formUploadForms.map(formId => {
     },
     childRoutes: createRoutesWithSaveInProgress(config),
   };
+});
+
+routes.push({
+  path: '/',
+  onEnter: () => {
+    if (!window.Cypress) {
+      window.location.replace('/forms');
+    }
+  },
 });
 // or dynamic
 // {

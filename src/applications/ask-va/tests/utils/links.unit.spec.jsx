@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-
-const { getConversationLink } = require('../../utils/links');
+import { getConversationLink } from '../../utils/links';
 
 describe('getConversationLink', () => {
   it('returns a properly formatted path', () => {

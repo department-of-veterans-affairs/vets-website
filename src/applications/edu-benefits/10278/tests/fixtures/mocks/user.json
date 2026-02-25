@@ -20,7 +20,7 @@
         "served_in_military": true
       },
       "in_progress_forms": [],
-      "prefills_available": [],
+      "prefills_available": ["22-10278"],
       "services": [
         "facilities",
         "hca",

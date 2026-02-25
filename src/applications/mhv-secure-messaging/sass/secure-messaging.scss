@@ -35,6 +35,23 @@ va-alert button {
   width: auto;
 }
 
+// Destructive button styling for dangerous/irreversible actions
+// Uses ::part() to pierce shadow DOM and apply red outline style
+// Uses VADS color tokens matching va-button-icon button-type="delete"
+// The outline button uses box-shadow for border, not border-color
+.sm-button-destructive::part(button) {
+  color: var(--vads-color-secondary-dark) !important;
+  box-shadow: inset 0 0 0 2px var(--vads-color-secondary-dark) !important;
+  background-color: transparent !important;
+}
+
+.sm-button-destructive::part(button):hover,
+.sm-button-destructive::part(button):active {
+  color: var(--vads-color-secondary-darkest) !important;
+  box-shadow: inset 0 0 0 2px var(--vads-color-secondary-darkest) !important;
+  background-color: var(--vads-color-secondary-lightest) !important;
+}
+
 va-modal va-radio {
   margin-left: 0px;
   margin-bottom: 24px;

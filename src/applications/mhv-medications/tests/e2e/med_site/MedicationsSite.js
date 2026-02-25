@@ -97,6 +97,28 @@ class MedicationsSite {
     this.mockVamcEhr();
   };
 
+  loginWithManagementImprovements = () => {
+    const toggles = JSON.parse(JSON.stringify(mockToggles));
+    const flag = toggles.data.features.find(
+      f => f.name === 'mhv_medications_management_improvements',
+    );
+    if (flag) flag.value = true;
+    this.mockVamcEhr();
+    cy.intercept('GET', '/v0/feature_toggles?*', toggles).as('featureToggles');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=999',
+      prescriptions,
+    ).as('prescriptions');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort=alphabetical-status',
+      exportList,
+    ).as('exportList');
+    cy.intercept('GET', '/health-care/refill-track-prescriptions');
+    cy.login(mockUser);
+  };
+
   verifyloadLogInModal = () => {
     cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
     cy.get('#signin-signup-modal-title').should('contain', 'Sign in');

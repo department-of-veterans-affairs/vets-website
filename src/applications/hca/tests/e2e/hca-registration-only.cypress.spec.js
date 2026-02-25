@@ -43,13 +43,13 @@ describe('HCA-Registration-Only: Authenticated user', () => {
     });
 
     it('should allow user to advance to the application if `full medical benefits` is selected on the form page', () => {
-      cy.selectRadio('root_view:vaBenefitsPackage', 'fullPackage');
+      cy.selectVaRadioOption('root_view:vaBenefitsPackage', 'fullPackage');
       goToNextPage('/veteran-information/birth-information');
       cy.injectAxeThenAxeCheck();
     });
 
     it('should block user from advancing to the application if `reg only` is selected on the form page', () => {
-      cy.selectRadio('root_view:vaBenefitsPackage', 'regOnly');
+      cy.selectVaRadioOption('root_view:vaBenefitsPackage', 'regOnly');
       goToNextPage('/care-for-service-connected-conditions');
       cy.injectAxeThenAxeCheck();
     });
@@ -90,13 +90,13 @@ describe('HCA-Registration-Only: Guest user', () => {
     });
 
     it('should allow user to continue through the application if `full medical benefits` is selected on the form page', () => {
-      cy.selectRadio('root_view:vaBenefitsPackage', 'fullPackage');
+      cy.selectVaRadioOption('root_view:vaBenefitsPackage', 'fullPackage');
       goToNextPage('/military-service/service-information');
       cy.injectAxeThenAxeCheck();
     });
 
     it('should block user from advancing to the application if `reg only` is selected on the form page', () => {
-      cy.selectRadio('root_view:vaBenefitsPackage', 'regOnly');
+      cy.selectVaRadioOption('root_view:vaBenefitsPackage', 'regOnly');
       goToNextPage('/va-benefits/service-connected-care');
       cy.injectAxeThenAxeCheck();
     });

@@ -6,7 +6,8 @@ const Intro = () => (
     <p>
       Next we’ll ask you to submit evidence (supporting documents) for your
       claim. If you upload all of this information online now, you may be able
-      to get a faster decision on your claim.
+      to get a faster decision on your claim. You can upload documents on the
+      next page.
     </p>
   </div>
 );
@@ -90,9 +91,9 @@ const Documents = () => (
             </span>
           </li>
           <li>
-            <strong>Royalties</strong> require a Statement in Support of Claim
-            for Pension or Parents’ Dependency and Indemnity Compensation (DIC)
-            (VA Form 21P-0969)
+            <strong>Royalties</strong> require an Income and Asset Statement in
+            Support of Claim for Pension or Parents' Dependency and Indemnity
+            Compensation (DIC) (VA Form 21P-0969)
             <span className="vads-u-display--block">
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21p-0969/"
@@ -190,7 +191,6 @@ const Documents = () => (
             Proof of payment from care provided, such as canceled checks or bank
             statements
           </li>
-          <li>Signed verification from care service provider</li>
         </ul>
       </va-accordion-item>
       <va-accordion-item level={5} bordered header="Dependent children">

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 
+import manifest from './manifest.json';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 
@@ -66,11 +67,26 @@ export default function BurialsApp({ location, children }) {
     return <NoFormPage />;
   }
 
-  return (
+  const content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
   );
+
+  // If on intro page, return content
+  if (location.pathname === '/introduction') {
+    return content;
+  }
+
+  // If a user is not logged in redirect them to the introduction page
+  if (!isLoggedIn) {
+    document.location.replace(manifest.rootUrl);
+    return (
+      <va-loading-indicator message="Redirecting to introduction page..." />
+    );
+  }
+
+  return content;
 }
 
 BurialsApp.propTypes = {

@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import NameTag from '~/applications/personalization/components/NameTag';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
+import { isSchedulingPreferencesPilotEligible as isSchedulingPreferencesPilotEligibleSelector } from '~/platform/user/selectors';
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import ProfileSubNav from './ProfileSubNav';
 import { PROFILE_PATHS } from '../constants';
@@ -55,6 +56,7 @@ const ProfileWrapper = ({
   children,
   isLOA3,
   isInMVI,
+  isSchedulingPreferencesPilotEligible,
   profile2Enabled,
   totalDisabilityRating,
   totalDisabilityRatingError,
@@ -105,6 +107,9 @@ const ProfileWrapper = ({
                   routes={routesForNav}
                   isLOA3={isLOA3}
                   isInMVI={isInMVI}
+                  isSchedulingPreferencesPilotEligible={
+                    isSchedulingPreferencesPilotEligible
+                  }
                 />
               </>
             ) : (
@@ -112,6 +117,9 @@ const ProfileWrapper = ({
                 routes={routesForNav}
                 isLOA3={isLOA3}
                 isInMVI={isInMVI}
+                isSchedulingPreferencesPilotEligible={
+                  isSchedulingPreferencesPilotEligible
+                }
               />
             )}
           </div>
@@ -132,6 +140,10 @@ const ProfileWrapper = ({
                     routes={routesForNav}
                     isLOA3={isLOA3}
                     isInMVI={isInMVI}
+                    isSchedulingPreferencesPilotEligible={
+                      isSchedulingPreferencesPilotEligible
+                    }
+                    className="vads-u-margin-bottom--5"
                   />
                 ) : (
                   <nav className="va-subnav" aria-labelledby="subnav-header">
@@ -146,6 +158,9 @@ const ProfileWrapper = ({
                         routes={routesForNav}
                         isLOA3={isLOA3}
                         isInMVI={isInMVI}
+                        isSchedulingPreferencesPilotEligible={
+                          isSchedulingPreferencesPilotEligible
+                        }
                       />
                     </div>
                   </nav>
@@ -202,12 +217,16 @@ const mapStateToProps = (state, ownProps) => {
   const hero = state.vaProfile?.hero;
   const profileToggles = selectProfileToggles(state);
   const profile2Enabled = profileToggles?.profile2Enabled;
+  const isSchedulingPreferencesPilotEligible = isSchedulingPreferencesPilotEligibleSelector(
+    state,
+  );
   return {
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     totalDisabilityRatingError: hasTotalDisabilityError(state),
     showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors) && !profile2Enabled,
     profile2Enabled,
+    isSchedulingPreferencesPilotEligible,
   };
 };
 
@@ -219,6 +238,7 @@ ProfileWrapper.propTypes = {
   hero: PropTypes.object,
   isInMVI: PropTypes.bool,
   isLOA3: PropTypes.bool,
+  isSchedulingPreferencesPilotEligible: PropTypes.bool,
   location: PropTypes.object,
   profile2Enabled: PropTypes.bool,
   showNameTag: PropTypes.bool,

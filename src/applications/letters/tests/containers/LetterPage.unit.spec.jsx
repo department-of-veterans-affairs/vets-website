@@ -1,5 +1,4 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 import { render } from '@testing-library/react';
@@ -62,19 +61,25 @@ const getStore = () => {
     featureToggles: {
       [FEATURE_FLAG_NAMES.tsaSafeTravelLetter]: true,
     },
+    user: {
+      profile: {
+        loa: { current: 3 },
+      },
+    },
   };
   return createStore(mockReducer, initialState, applyMiddleware(thunk));
 };
 
 describe('<LetterPage>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(
-      <MemoryRouter>
-        <LetterPage />
-      </MemoryRouter>,
+    const { container } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterPage />
+        </MemoryRouter>
+      </Provider>,
     );
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.exist;
+    expect(container).to.exist;
   });
   it('displays success alert when user successfully edit address', () => {
     const { container } = render(

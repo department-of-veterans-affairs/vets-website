@@ -15,7 +15,9 @@ const renderWithStore = (component, initialState) => {
     combineReducers({
       combinedPortal: (state = initialState.combinedPortal) => state,
       user: (state = initialState.user) => state,
-      featureToggles: (state = { loading: false }) => state,
+      featureToggles: (
+        state = initialState.featureToggles || { loading: false },
+      ) => state,
     }),
   );
   return render(<Provider store={store}>{component}</Provider>);
@@ -29,12 +31,20 @@ describe('CDP – Copay Pages (unit)', () => {
     pHTotCharges: 10,
     pHTotCredits: 5,
     pSStatementDateOutput: '11/05/2023',
+    pSStatementDate: '11/05/2023',
     pSFacilityNum: '534',
     station: {
       facilityName:
         'Ralph H. Johnson Department of Veterans Affairs Medical Center',
       city: 'Charleston',
+      staTAddress1: '109 Bee St',
+      state: 'SC',
+      ziPCde: '29401',
     },
+    pHAddress1: '123 Patient St',
+    pHCity: 'Charleston',
+    pHState: 'SC',
+    pHZipCde: '29401',
     details: [],
   };
 
@@ -42,6 +52,7 @@ describe('CDP – Copay Pages (unit)', () => {
     combinedPortal: {
       mcp: {
         statements: [selectedCopay],
+        selectedStatement: selectedCopay,
         error: null,
       },
       debtLetters: {
@@ -53,6 +64,10 @@ describe('CDP – Copay Pages (unit)', () => {
       profile: {
         userFullName: { first: 'Jane', last: 'Doe' },
       },
+    },
+    featureToggles: {
+      loading: false,
+      showVHAPaymentHistory: false,
     },
   };
 

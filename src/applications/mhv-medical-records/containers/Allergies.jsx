@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
 import {
   generatePdfScaffold,
@@ -33,6 +32,7 @@ import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { generateTextFile, getLastUpdatedText } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import RecordListSection from '../components/shared/RecordListSection';
@@ -73,9 +73,10 @@ const Allergies = props => {
       ({ facilityId }) => facilityId === MEDS_BY_MAIL_FACILITY_ID,
     ) ?? false;
 
-  const dispatchAction = isCurrent => {
-    return getAllergiesList(isCurrent, isAcceleratingAllergies, isCerner);
-  };
+  const dispatchAction = useCallback(
+    isCurrent => getAllergiesList(isCurrent, isAcceleratingAllergies, isCerner),
+    [isAcceleratingAllergies, isCerner],
+  );
 
   useListRefresh({
     listState,
@@ -84,6 +85,7 @@ const Allergies = props => {
     extractType: refreshExtractTypes.ALLERGY,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   useTrackAction(statsdFrontEndActions.ALLERGIES_LIST);
@@ -98,7 +100,6 @@ const Allergies = props => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
     },
     [dispatch],
@@ -106,6 +107,11 @@ const Allergies = props => {
 
   const isLoadingAcceleratedData =
     isAcceleratingAllergies && listState === loadStates.FETCHING;
+
+  useFocusAfterLoading({
+    isLoading: isLoading || listState !== loadStates.FETCHED,
+    isLoadingAcceleratedData,
+  });
 
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,
@@ -136,17 +142,20 @@ const Allergies = props => {
       ),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
-    makePdf(
-      pdfName,
-      pdfData,
-      'medicalRecords',
-      'Medical Records - Allergies - PDF generation error',
-      runningUnitTest,
-    );
+    try {
+      await makePdf(
+        pdfName,
+        pdfData,
+        'medicalRecords',
+        'Medical Records - Allergies - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generateAllergyListItemTxt = item => {
-    setDownloadStarted(true);
     if (isCerner) {
       return `
 ${txtLine}\n\n
@@ -169,6 +178,7 @@ Provider notes: ${item.notes}\n`;
   };
 
   const generateAllergiesTxt = async () => {
+    setDownloadStarted(true);
     // Conditional content based on whether user has Meds by Mail facility
     const additionalInfo = hasMedsByMailFacility
       ? `
@@ -225,7 +235,9 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         </div>
       )}
 
-      {downloadStarted && <DownloadSuccessAlert />}
+      {downloadStarted && (
+        <DownloadSuccessAlert className="vads-u-margin-bottom--3" />
+      )}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.ALLERGY}
@@ -254,7 +266,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
             <TrackedSpinner
               id="allergies-page-spinner"
               message="We’re loading your records."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>

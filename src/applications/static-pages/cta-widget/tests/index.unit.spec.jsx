@@ -401,45 +401,51 @@ describe('<CallToActionWidget>', () => {
     });
 
     it('should show VaAlertSignIn when the mvi status is not authorized', () => {
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{}}
-          mviStatus="NOT_AUTHORIZED"
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: true,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            mviStatus="NOT_AUTHORIZED"
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: true,
+            }}
+          />
+        </Provider>,
       );
       expect(tree.find('VaAlertSignIn').exists()).to.be.true;
       tree.unmount();
     });
 
     it('should show SignInOtherAccount when the mvi status is not authorized and the CSP is MHV', () => {
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{}}
-          mviStatus="NOT_AUTHORIZED"
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: true,
-          }}
-          serviceName={CSP_IDS.MHV}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            mviStatus="NOT_AUTHORIZED"
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: true,
+            }}
+            serviceName={CSP_IDS.MHV}
+          />
+        </Provider>,
       );
       expect(tree.find('SignInOtherAccount').exists()).to.be.true;
       tree.unmount();
@@ -528,23 +534,26 @@ describe('<CallToActionWidget>', () => {
 
     it('should show VaAlertSignIn if it is a health tool and the mvi status is not authorized', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{}}
-          mviStatus="NOT_AUTHORIZED"
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            mviStatus="NOT_AUTHORIZED"
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('VaAlertSignIn').exists()).to.be.true;
@@ -553,23 +562,26 @@ describe('<CallToActionWidget>', () => {
 
     it('should show VaAlertSignIn if it is a health tool authenticated with ssoe', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          authenticatedWithSSOe
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: false,
-            multifactor: true,
-          }}
-          mhvAccount={{}}
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            authenticatedWithSSOe
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: false,
+              multifactor: true,
+            }}
+            mhvAccount={{}}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('VaAlertSignIn').exists()).to.be.true;
@@ -797,22 +809,25 @@ describe('<CallToActionWidget>', () => {
 
     it('should show VaAlertSignIn if it is a health tool and the account needs verification', () => {
       const fetchMHVAccount = sinon.spy();
+      const { mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{ accountState: ACCOUNT_STATES.NEEDS_VERIFICATION }}
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={fetchMHVAccount}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{ accountState: ACCOUNT_STATES.NEEDS_VERIFICATION }}
+            featureToggles={{
+              loading: false,
+              vaOnlineScheduling: false,
+            }}
+          />
+        </Provider>,
       );
       expect(fetchMHVAccount.calledOnce).to.be.true;
       expect(tree.find('VaAlertSignIn').exists()).to.be.true;
@@ -1009,27 +1024,22 @@ describe('<CallToActionWidget>', () => {
       it('should sign out correctly when signOut is called', () => {
         const oldLocation = window.location;
 
-        const recordEventSpy = sinon.spy(recordEvent, 'default');
         const IAMLogoutSpy = sinon.spy(authUtils, 'logout');
         const logoutUrlSiSSpy = sinon.spy(oauthUtils, 'logoutUrlSiS');
         const innerFunc = signOut(true);
         innerFunc();
-        expect(recordEventSpy.calledTwice).to.be.true;
         expect(IAMLogoutSpy.calledOnce).to.be.true;
 
         IAMLogoutSpy.reset();
-        recordEventSpy.reset();
 
         const otherInnerFunc = signOut(false);
         expect(otherInnerFunc).to.be.a('function');
         otherInnerFunc();
-        expect(recordEventSpy.calledOnce).to.be.true;
         expect(IAMLogoutSpy.calledOnce).to.be.false;
         expect(logoutUrlSiSSpy.calledOnce).to.be.true;
         const location = window.location.href || window.location;
         expect(location).to.include(logoutUrlSiSSpy.returnValues[0]);
 
-        recordEventSpy.restore();
         IAMLogoutSpy.restore();
         logoutUrlSiSSpy.restore();
         window.location = oldLocation;

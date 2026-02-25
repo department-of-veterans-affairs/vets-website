@@ -12,6 +12,7 @@ import {
   defaultSelectedSortOption,
   INCLUDE_IMAGE_ENDPOINT,
   rxListSortingOptions,
+  STATION_NUMBER_PARAM,
 } from '../util/constants';
 import {
   selectCernerPilotFlag,
@@ -84,12 +85,19 @@ export const buildPrescriptionsListQuery = (params = {}) => {
 
 /**
  * Build query path for getPrescriptionById endpoint
- * @param {string} id - Prescription ID
+ * @param {Object} params - Query parameters
+ * @param {string} params.id - Prescription ID
+ * @param {string} [params.stationNumber] - Station number (required for v2 API)
  * @returns {Object} Object containing the path
  */
-export const buildPrescriptionByIdQuery = id => ({
-  path: `/prescriptions/${id}`,
-});
+export const buildPrescriptionByIdQuery = ({ id, stationNumber }) => {
+  const queryParams = stationNumber
+    ? `?${STATION_NUMBER_PARAM}=${stationNumber}`
+    : '';
+  return {
+    path: `/prescriptions/${id}${queryParams}`,
+  };
+};
 
 /**
  * Build query path for getRefillablePrescriptions endpoint
@@ -266,10 +274,13 @@ export const prescriptionsApi = createApi({
     }),
     getPrescriptionDocumentation: builder.query({
       // This endpoint always hits v1 docs API regardless of Cerner pilot flag
-      async queryFn(id, { getState }) {
+      async queryFn({ id, stationNumber }, { getState }) {
+        const queryParams = stationNumber
+          ? `?${STATION_NUMBER_PARAM}=${stationNumber}`
+          : '';
         try {
           const response = await apiRequest(
-            `${documentationApiBasePath}/prescriptions/${id}/documentation`,
+            `${documentationApiBasePath}/prescriptions/${id}/documentation${queryParams}`,
           );
 
           const state = getState();
@@ -340,7 +351,7 @@ export const prescriptionsApi = createApi({
               data: {
                 ...result,
                 successfulIds: result.data.attributes.prescriptionList || [],
-                failedIds: result.data.attributes.failedPrescriptionList || [],
+                failedIds: result.data.attributes.failedPrescriptionIds || [],
               },
             };
           } catch ({ errors }) {
@@ -375,9 +386,9 @@ export const prescriptionsApi = createApi({
           }
         }
       },
-      // Note: We intentionally don't invalidate tags here because the UI filters out
-      // successfully refilled prescriptions immediately. This avoids an extra API call.
-      // The cache will naturally refresh when the user navigates away and back.
+      // Invalidate prescription cache to prevent duplicate refill attempts
+      // This ensures the refillable list is updated immediately after successful refills
+      invalidatesTags: ['Prescription'],
       transformResponse: transformBulkRefillResponse,
     }),
   }),

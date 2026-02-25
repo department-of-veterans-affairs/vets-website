@@ -18,7 +18,7 @@ export const monthlyCostsUiSchema = {
     monthlyOutOfPocket: currencyUI({
       title:
         'What is the amount the patient needs to pay out of their own pocket every month?',
-      hint: "Include the patient's Share of Cost Medicaid",
+      hint: "Include the patient's Share of Cost Medicaid.",
     }),
   },
 };

@@ -2,12 +2,12 @@ import {
   radioUI,
   radioSchema,
   textUI,
-  textSchema,
   titleUI,
   currentOrPastDateRangeUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { remarriageEndOptions } from '../../../utils/labels';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -40,6 +40,7 @@ export default {
         hint: 'Leave blank if you are still married',
         monthSelect: false,
       },
+      'End date must be after the start date.',
     ),
   },
   schema: {
@@ -47,7 +48,7 @@ export default {
     required: ['remarriageEndCause', 'remarriageDates'],
     properties: {
       remarriageEndCause: radioSchema(Object.keys(remarriageEndOptions)),
-      endCauseExplanation: textSchema,
+      endCauseExplanation: customTextSchema,
       remarriageDates: {
         type: 'object',
         required: ['from'],

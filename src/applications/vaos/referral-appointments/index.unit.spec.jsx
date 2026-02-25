@@ -14,7 +14,6 @@ import * as vaosApi from '../redux/api/vaosApi';
 
 const initialStateVAOSService = {
   featureToggles: {
-    vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingCCDirectScheduling: true,
   },
 };
