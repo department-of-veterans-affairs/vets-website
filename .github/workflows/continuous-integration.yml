@@ -64,7 +64,7 @@ jobs:
           echo "Continuous deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}"
           echo "Deployment concurrency group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}"
 
-      - name: Get Mapbox Token
+      - name: Get Mapbox Tokens
         uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token

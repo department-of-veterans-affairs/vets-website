@@ -1,7 +1,5 @@
 import MapboxClient from '@mapbox/mapbox-sdk';
 import { mapboxToken } from './mapboxToken';
 
-const mapboxClient = new MapboxClient({
-  accessToken: mapboxToken || 'pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==',
-});
+const mapboxClient = new MapboxClient({ accessToken: mapboxToken });
 export default mapboxClient;

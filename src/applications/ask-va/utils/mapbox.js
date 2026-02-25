@@ -2,9 +2,7 @@ import MapboxClient from '@mapbox/mapbox-sdk';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { mapboxToken } from './mapboxToken';
 
-const mapboxClient = new MapboxClient({
-  accessToken: mapboxToken || 'pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==',
-});
+const mapboxClient = new MapboxClient({ accessToken: mapboxToken });
 const mbxClient = mbxGeo(mapboxClient);
 
 export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp'];
