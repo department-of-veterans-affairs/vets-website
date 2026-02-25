@@ -177,11 +177,13 @@ const UnifiedRadiologyDetails = props => {
       );
     }
     return (
-      <TrackedSpinner
-        id="loading-images-spinner"
-        message="Loading images..."
-        data-testid="radiology-images-loading"
-      />
+      <div id="loading-images-spinner">
+        <TrackedSpinner
+          id="loading-images-spinner"
+          message="Loading images..."
+          data-testid="radiology-images-loading"
+        />
+      </div>
     );
   };
 
