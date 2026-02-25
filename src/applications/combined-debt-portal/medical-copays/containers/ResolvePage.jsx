@@ -18,67 +18,56 @@ import {
 } from '../../combined/utils/helpers';
 import { useLighthouseCopays } from '../../combined/utils/selectors';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
-import { getCopayDetail } from '../../combined/actions/copays';
 
 const ResolvePage = () => {
   const dispatch = useDispatch();
+  const { id: copayId } = useParams();
 
   const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
-
-  // Get the selected copay ID from the URL and the selected copay data from Redux
-  const copayDetail =
-    useSelector(state => state.combinedPortal.mcp.currentCopay) || {};
-  const isCopayDetailLoading = useSelector(
-    state => state.combinedPortal.mcp.isCopayDetailLoading,
-  );
-  const allCopays = useSelector(state => state.combinedPortal.mcp.copays) || [];
-
-  const { id: copayId } = useParams();
-  const selectedCopay = shouldUseLighthouseCopays
-    ? copayDetail
-    : allCopays?.find(({ id }) => id === copayId);
+  const { currentCopay, isLoading } = useCurrentCopay();
+  
   const TITLE = `Resolve your copay bill`;
 
   const copayAttributes = useMemo(
     () => {
-      if (!selectedCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
+      if (!currentCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
 
       /* eslint-disable no-nested-ternary */
       return shouldUseLighthouseCopays
         ? {
-            TITLE: `Copay bill for ${selectedCopay?.attributes.facility.name}`,
+            TITLE: `Copay bill for ${currentCopay?.attributes.facility.name}`,
             FACILITY_NAME:
-              selectedCopay.attributes.facility.name ||
-              getMedicalCenterNameByID(selectedCopay.attributes.facility.name),
-            INVOICE_DATE: selectedCopay?.attributes?.invoiceDate,
+              currentCopay.attributes.facility.name ||
+              getMedicalCenterNameByID(currentCopay.attributes.facility.name),
+            INVOICE_DATE: currentCopay?.attributes?.invoiceDate,
             IS_CURRENT_DATE: verifyCurrentBalance(
-              selectedCopay?.attributes.invoiceDate,
+              currentCopay?.attributes.invoiceDate,
             ),
-            AMOUNT_DUE: `${selectedCopay?.attributes.principalBalance}`,
-            ACCOUNT_NUMBER: selectedCopay?.attributes.accountNumber,
-            CHARGES: selectedCopay?.attributes?.lineItems ?? [],
+            AMOUNT_DUE: `${currentCopay?.attributes.principalBalance}`,
+            ACCOUNT_NUMBER: currentCopay?.attributes.accountNumber,
+            CHARGES: currentCopay?.attributes?.lineItems ?? [],
           }
         : {
-            TITLE: `Copay bill for ${selectedCopay?.station.facilityName}`,
+            TITLE: `Copay bill for ${currentCopay?.station.facilityName}`,
             FACILITY_NAME:
-              selectedCopay.station.facilityName ||
-              getMedicalCenterNameByID(selectedCopay.station.facilityNum),
-            INVOICE_DATE: selectedCopay?.pSStatementDateOutput,
+              currentCopay.station.facilityName ||
+              getMedicalCenterNameByID(currentCopay.station.facilityNum),
+            INVOICE_DATE: currentCopay?.pSStatementDateOutput,
             IS_CURRENT_DATE: verifyCurrentBalance(
-              selectedCopay?.pSStatementDateOutput,
+              currentCopay?.pSStatementDateOutput,
             ),
             AMOUNT_DUE:
-              selectedCopay?.pHAmtDueOutput?.replace(/&nbsp;/g, '') || '',
+              currentCopay?.pHAmtDueOutput?.replace(/&nbsp;/g, '') || '',
             ACCOUNT_NUMBER:
-              selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber,
+              currentCopay?.accountNumber || currentCopay?.pHAccountNumber,
             CHARGES:
-              selectedCopay?.details?.filter(
+              currentCopay?.details?.filter(
                 charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
               ) ?? [],
           };
       /* eslint-disable no-nested-ternary */
     },
-    [selectedCopay?.id, shouldUseLighthouseCopays],
+    [currentCopay?.id, shouldUseLighthouseCopays],
   );
 
   // get veteran name
@@ -89,30 +78,11 @@ const ResolvePage = () => {
 
   useHeaderPageTitle(TITLE);
 
-  useEffect(
-    () => {
-      if (!isAnyElementFocused()) setPageFocus();
+  useEffect(() => {
+    if (!isAnyElementFocused()) setPageFocus();
+  }, []);
 
-      const shouldFetch =
-        shouldUseLighthouseCopays &&
-        copayId &&
-        !isCopayDetailLoading &&
-        copayDetail?.id !== copayId;
-
-      if (shouldFetch) {
-        dispatch(getCopayDetail(`${copayId}`));
-      }
-    },
-    [
-      copayId,
-      dispatch,
-      copayDetail?.id,
-      isCopayDetailLoading,
-      shouldUseLighthouseCopays,
-    ],
-  );
-
-  if (isCopayDetailLoading) {
+  if (isLoading) {
     return <VaLoadingIndicator message="Loading features..." />;
   }
 
@@ -158,7 +128,7 @@ const ResolvePage = () => {
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
         <HowToPay
           acctNum={copayAttributes.ACCOUNT_NUMBER}
-          facility={selectedCopay?.station}
+          facility={currentCopay?.station}
           amtDue={copayAttributes.AMOUNT_DUE}
           lightHouseFacilityName={copayAttributes.FACILITY_NAME}
         />
@@ -168,7 +138,7 @@ const ResolvePage = () => {
           statementDate={
             shouldUseLighthouseCopays
               ? formatISODateToMMDDYYYY(copayAttributes.INVOICE_DATE)
-              : selectedCopay.pSStatementDateOutput
+              : currentCopay.pSStatementDateOutput
           }
           fullName={fullName}
         />
