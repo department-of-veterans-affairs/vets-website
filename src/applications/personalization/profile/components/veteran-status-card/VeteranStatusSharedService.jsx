@@ -79,19 +79,14 @@ const VeteranStatusSharedService = ({
   }, []);
 
   const isCardEligible =
-    data?.type === 'veteran_status_card' &&
-    data?.veteran_status === 'confirmed';
+    data?.type === 'veteran_status_card' && data?.veteranStatus === 'confirmed';
 
-  const formattedFullName = data?.attributes?.full_name || '';
+  const formattedFullName = data?.attributes?.fullName || '';
 
   const getLatestService = () => {
-    const latestServiceData = data?.attributes?.latest_service;
+    const latestServiceData = data?.attributes?.latestService;
     if (latestServiceData) {
-      const {
-        branch,
-        begin_date: beginDate,
-        end_date: endDate,
-      } = latestServiceData;
+      const { branch, beginDate, endDate } = latestServiceData;
       const serviceStartYear = beginDate ? beginDate.substring(0, 4) : '';
       const serviceEndYear = endDate ? endDate.substring(0, 4) : '';
       const latestServiceDateRange =
@@ -108,7 +103,7 @@ const VeteranStatusSharedService = ({
   const latestService = getLatestService();
 
   const disabilityRating =
-    data?.attributes?.disability_rating ?? totalDisabilityRating;
+    data?.attributes?.disabilityRating ?? totalDisabilityRating;
 
   const cardEdipi = data?.attributes?.edipi ?? edipi;
 
@@ -184,7 +179,7 @@ const VeteranStatusSharedService = ({
             discounts, all while keeping your personal information secure.
           </p>
           <DynamicVeteranStatusAlert
-            alertType={data.attributes?.alert_type}
+            alertType={data.attributes?.alertType}
             body={data.attributes?.body}
             header={data.attributes?.header}
           />

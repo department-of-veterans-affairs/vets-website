@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import * as api from '~/platform/utilities/api';
 import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import { TOGGLE_NAMES } from '~/platform/utilities/feature-toggles';
 import { renderWithProfileReducers } from '../../unit-test-helpers';
 import VeteranStatusWrapper from '../../../components/veteran-status-card/VeteranStatusWrapper';
 
@@ -30,32 +31,29 @@ const vetStatusConfirmed = {
   },
 };
 
-/* eslint-disable camelcase */
 const veteranStatusCardConfirmed = {
   type: 'veteran_status_card',
-  veteran_status: 'confirmed',
-  service_summary_code: 'A1',
-  not_confirmed_reason: null,
+  veteranStatus: 'confirmed',
+  serviceSummaryCode: 'A1',
+  notConfirmedReason: null,
   attributes: {
-    full_name: 'John Doe',
-    disability_rating: 40,
-    latest_service: {
+    fullName: 'John Doe',
+    disabilityRating: 40,
+    latestService: {
       branch: 'Army',
-      begin_date: '2009-04-12',
-      end_date: '2013-04-11',
+      beginDate: '2009-04-12',
+      endDate: '2013-04-11',
     },
     edipi: 1234567890,
   },
 };
-/* eslint-enable camelcase */
 
 // Mock function to create a basic initial state
 function createBasicInitialState(useSharedService = false) {
   return {
     featureToggles: {
       loading: false,
-      // eslint-disable-next-line camelcase
-      cve_veteran_status_new_service: useSharedService,
+      [TOGGLE_NAMES.cveVeteranStatusNewService]: useSharedService,
     },
     scheduledDowntime: {
       globalDowntime: null,

@@ -27,19 +27,18 @@ const downtime = maintenanceWindows => {
 };
 
 // Mock API responses for the new shared service endpoint
-/* eslint-disable camelcase */
 const veteranStatusCardConfirmed = {
   type: 'veteran_status_card',
-  veteran_status: 'confirmed',
-  service_summary_code: 'A1',
-  not_confirmed_reason: null,
+  veteranStatus: 'confirmed',
+  serviceSummaryCode: 'A1',
+  notConfirmedReason: null,
   attributes: {
-    full_name: 'John Doe',
-    disability_rating: 40,
-    latest_service: {
+    fullName: 'John Doe',
+    disabilityRating: 40,
+    latestService: {
       branch: 'Army',
-      begin_date: '2009-04-12',
-      end_date: '2013-04-11',
+      beginDate: '2009-04-12',
+      endDate: '2013-04-11',
     },
     edipi: 1234567890,
   },
@@ -47,24 +46,24 @@ const veteranStatusCardConfirmed = {
 
 const veteranStatusAlertWarning = {
   type: 'veteran_status_alert',
-  veteran_status: 'not confirmed',
-  service_summary_code: 'D',
-  not_confirmed_reason: 'PERSON_NOT_FOUND',
+  veteranStatus: 'not confirmed',
+  serviceSummaryCode: 'D',
+  notConfirmedReason: 'PERSON_NOT_FOUND',
   attributes: {
     header: "You're not eligible for a Veteran Status Card",
     body: [
       { type: 'text', value: "Our records don't show you're a Veteran." },
       { type: 'phone', value: '800-698-2411', tty: true },
     ],
-    alert_type: 'warning',
+    alertType: 'warning',
   },
 };
 
 const veteranStatusAlertError = {
   type: 'veteran_status_alert',
-  veteran_status: 'not confirmed',
-  service_summary_code: 'VNA',
-  not_confirmed_reason: 'ERROR',
+  veteranStatus: 'not confirmed',
+  serviceSummaryCode: 'VNA',
+  notConfirmedReason: 'ERROR',
   attributes: {
     header: 'Something went wrong',
     body: [
@@ -74,10 +73,9 @@ const veteranStatusAlertError = {
           "We're sorry. We can't access your Veteran status information right now.",
       },
     ],
-    alert_type: 'error',
+    alertType: 'error',
   },
 };
-/* eslint-enable camelcase */
 
 // Mock function to create a basic initial state
 function createBasicInitialState() {

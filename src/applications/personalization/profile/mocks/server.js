@@ -138,21 +138,20 @@ const responses = {
     );
   },
   // New veteran status card endpoint (shared service)
-  /* eslint-disable camelcase */
   'GET /v0/veteran_status_card': (_req, res) => {
     // Eligible response - shows the veteran status card
     return res.json({
       type: 'veteran_status_card',
-      veteran_status: 'confirmed',
-      service_summary_code: 'A1',
-      not_confirmed_reason: null,
+      veteranStatus: 'confirmed',
+      serviceSummaryCode: 'A1',
+      notConfirmedReason: null,
       attributes: {
-        full_name: 'Jane Veteran',
-        disability_rating: 50,
-        latest_service: {
+        fullName: 'Jane Veteran',
+        disabilityRating: 50,
+        latestService: {
           branch: 'Army',
-          begin_date: '2010-01-01',
-          end_date: '2020-12-31',
+          beginDate: '2010-01-01',
+          endDate: '2020-12-31',
         },
         edipi: 1234567890,
       },
@@ -161,9 +160,9 @@ const responses = {
     // Warning alert - dishonorable discharge
     // return res.json({
     //   type: 'veteran_status_alert',
-    //   veteran_status: 'not confirmed',
-    //   service_summary_code: 'A5',
-    //   not_confirmed_reason: 'DISHONORABLE_DISCHARGE',
+    //   veteranStatus: 'not confirmed',
+    //   serviceSummaryCode: 'A5',
+    //   notConfirmedReason: 'DISHONORABLE_DISCHARGE',
     //   attributes: {
     //     header: "You're not eligible for a Veteran Status Card",
     //     body: [
@@ -184,16 +183,16 @@ const responses = {
     //           'https://www.archives.gov/veterans/military-service-records/correct-service-records.html',
     //       },
     //     ],
-    //     alert_type: 'warning',
+    //     alertType: 'warning',
     //   },
     // });
 
     // Warning alert - person not found
     // return res.json({
     //   type: 'veteran_status_alert',
-    //   veteran_status: 'not confirmed',
-    //   service_summary_code: 'D',
-    //   not_confirmed_reason: 'PERSON_NOT_FOUND',
+    //   veteranStatus: 'not confirmed',
+    //   serviceSummaryCode: 'D',
+    //   notConfirmedReason: 'PERSON_NOT_FOUND',
     //   attributes: {
     //     header: "You're not eligible for a Veteran Status Card",
     //     body: [
@@ -204,16 +203,16 @@ const responses = {
     //       },
     //       { type: 'phone', value: '800-698-2411', tty: true },
     //     ],
-    //     alert_type: 'warning',
+    //     alertType: 'warning',
     //   },
     // });
 
     // Error alert - system error
     // return res.json({
     //   type: 'veteran_status_alert',
-    //   veteran_status: 'not confirmed',
-    //   service_summary_code: 'VNA',
-    //   not_confirmed_reason: 'ERROR',
+    //   veteranStatus: 'not confirmed',
+    //   serviceSummaryCode: 'VNA',
+    //   notConfirmedReason: 'ERROR',
     //   attributes: {
     //     header: 'Something went wrong',
     //     body: [
@@ -223,11 +222,10 @@ const responses = {
     //           "We're sorry. We can't access your Veteran status information right now. Please try again later.",
     //       },
     //     ],
-    //     alert_type: 'error',
+    //     alertType: 'error',
     //   },
     // });
   },
-  /* eslint-enable camelcase */
   'GET /v0/user': (_req, res) => {
     const [shouldReturnUser, updatedUserResponse] = handleUserUpdate(
       requestHistory,
