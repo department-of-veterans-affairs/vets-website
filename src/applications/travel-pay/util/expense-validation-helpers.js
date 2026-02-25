@@ -268,7 +268,6 @@ export const validateDescription = (description, type) => {
  *  - Must have at most 2 decimal places
  *  - Must be greater than 0
  *  - On BLUR/SUBMIT, requires exactly 2 decimal places in X.XX format (e.g., 3.50)
- *  - On CHANGE, partial input like 3. or 3.5 is allowed while the user is still typing
  *
  * @param {string|number} amount - The value of the costRequested field from the form.
  * @param {string} type - Validation type: CHANGE, BLUR, SUBMIT
