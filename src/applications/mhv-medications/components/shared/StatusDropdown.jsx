@@ -10,14 +10,16 @@ import { dataDogActionNames } from '../../util/dataDogConstants';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
-  selectOracleHealthCutoverFlag,
+  selectMhvMedicationsOracleHealthCutoverFlag,
 } from '../../util/selectors';
 
 const StatusDropdown = props => {
   const { status } = props;
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
-  const isOracleHealthCutover = useSelector(selectOracleHealthCutoverFlag);
+  const isOracleHealthCutover = useSelector(
+    selectMhvMedicationsOracleHealthCutoverFlag,
+  );
   const useV2Statuses = isCernerPilot && isV2StatusMapping;
   const statusObj = useV2Statuses ? dispStatusObjV2 : dispStatusObj;
 

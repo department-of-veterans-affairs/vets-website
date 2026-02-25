@@ -103,7 +103,7 @@ describe('DisabilityRatingAlert component', () => {
       expect(ddLoggerStub.args[0][0]).to.deep.equal({
         message: 'Pension disability rating fetch error',
         attributes: {
-          error: 'unknown error',
+          error: 'Network error',
           state: 'visible',
           alertType: 'info',
         },
