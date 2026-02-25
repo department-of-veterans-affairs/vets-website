@@ -18,8 +18,13 @@ import {
   transform,
   setPageFocus,
   formatDate,
+  formatISODateToMMDDYYYY,
   calcDueDate,
   sortCopaysByDate,
+  getCopayCharge,
+  getSortedDate,
+  isAnyElementFocused,
+  focusElement,
 } from '../../utils/helpers';
 import {
   selectLoadingFeatureFlags,
@@ -234,6 +239,104 @@ describe('Helper Functions', () => {
       expect(output[0].station.state).to.equal('FL');
     });
   });
+  describe('getCopayCharge', () => {
+    it('should return details filtered to exclude &nbsp; description rows', () => {
+      const copay = {
+        details: [
+          { pDTransDescOutput: 'Valid charge', pDTransAmt: 100 },
+          { pDTransDescOutput: '&nbsp;Spacer row', pDTransAmt: 0 },
+          { pDTransDescOutput: 'Another charge', pDTransAmt: 50 },
+        ],
+      };
+      const result = getCopayCharge(copay);
+      expect(result).to.have.lengthOf(2);
+      expect(result[0].pDTransDescOutput).to.equal('Valid charge');
+      expect(result[1].pDTransDescOutput).to.equal('Another charge');
+    });
+
+    it('should return undefined when copay has no details', () => {
+      expect(getCopayCharge({})).to.be.undefined;
+      expect(getCopayCharge({ details: null })).to.be.undefined;
+    });
+
+    it('should return empty array when all details are &nbsp; rows', () => {
+      const copay = {
+        details: [
+          { pDTransDescOutput: '&nbsp;Spacer', pDTransAmt: 0 },
+        ],
+      };
+      const result = getCopayCharge(copay);
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should handle no argument', () => {
+      expect(getCopayCharge()).to.be.undefined;
+    });
+  });
+
+  describe('getSortedDate', () => {
+    it('should return most recent date formatted as MM/dd/yyyy', () => {
+      const data = {
+        debtHistory: [
+          { date: '2023-01-15T12:00:00.000Z' },
+          { date: '2023-03-20T12:00:00.000Z' },
+          { date: '2023-02-10T12:00:00.000Z' },
+        ],
+      };
+      const result = getSortedDate(data);
+      expect(result).to.match(/^\d{2}\/\d{2}\/\d{4}$/);
+      expect(result).to.equal('03/20/2023');
+    });
+
+    it('should use custom key and dateField', () => {
+      const data = {
+        payments: [
+          { postedAt: '2024-06-01T12:00:00.000Z' },
+          { postedAt: '2024-05-15T12:00:00.000Z' },
+        ],
+      };
+      const result = getSortedDate(data, 'payments', 'postedAt');
+      expect(result).to.match(/^\d{2}\/\d{2}\/\d{4}$/);
+      expect(result).to.equal('06/01/2024');
+    });
+
+    it('should return empty string when data is empty or invalid', () => {
+      expect(getSortedDate(null)).to.equal('');
+      expect(getSortedDate(undefined)).to.equal('');
+      expect(getSortedDate({})).to.equal('');
+      expect(getSortedDate({ debtHistory: [] })).to.equal('');
+    });
+  });
+
+  describe('isAnyElementFocused', () => {
+    it('should return false when body has focus', () => {
+      document.body.focus();
+      expect(isAnyElementFocused()).to.be.false;
+    });
+
+    it('should return true when an input has focus', () => {
+      document.body.innerHTML = '<input id="test-input" />';
+      const input = document.getElementById('test-input');
+      input.focus();
+      expect(isAnyElementFocused()).to.be.true;
+    });
+  });
+
+  describe('focusElement', () => {
+    it('should set tabIndex -1 and focus the element', () => {
+      document.body.innerHTML = '<div id="target">Focus me</div>';
+      const el = document.getElementById('target');
+      focusElement(el);
+      expect(el.getAttribute('tabIndex')).to.equal('-1');
+      expect(document.activeElement).to.equal(el);
+    });
+
+    it('should do nothing when given null or undefined', () => {
+      expect(() => focusElement(null)).to.not.throw();
+      expect(() => focusElement(undefined)).to.not.throw();
+    });
+  });
+
   describe('setPageFocus', () => {
     it('should set focus on the correct element', () => {
       document.body.innerHTML = '<div id="main"><h1></h1></div>';
@@ -384,6 +487,23 @@ describe('Helper Functions', () => {
 
     it('should handle ISO date strings', () => {
       expect(formatDate('2023-05-15')).to.equal('May 15, 2023');
+    });
+  });
+
+  describe('formatISODateToMMDDYYYY', () => {
+    it('should format ISO date string to MM/DD/YYYY', () => {
+      expect(formatISODateToMMDDYYYY('2023-05-15')).to.equal('05/15/2023');
+      expect(formatISODateToMMDDYYYY('2024-01-01')).to.equal('01/01/2024');
+    });
+
+    it('should pad single-digit month and day with zero', () => {
+      expect(formatISODateToMMDDYYYY('2023-06-05')).to.equal('06/05/2023');
+    });
+
+    it('should handle ISO string with time', () => {
+      expect(formatISODateToMMDDYYYY('2023-12-31T23:59:59.000Z')).to.equal(
+        '12/31/2023',
+      );
     });
   });
 

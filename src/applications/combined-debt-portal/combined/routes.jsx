@@ -5,7 +5,7 @@ import OverviewPage from './containers/OverviewPage';
 import CombinedPortalApp from './containers/CombinedPortalApp';
 import CombinedStatements from './containers/CombinedStatements';
 import Details from '../medical-copays/containers/Details';
-import HTMLStatementPage from '../medical-copays/containers/HTMLStatementPage';
+import MonthlyStatementPage from '../medical-copays/containers/MonthlyStatementPage';
 import MCPOverview from '../medical-copays/containers/SummaryPage';
 import DebtDetails from '../debt-letters/containers/DebtDetails';
 import DebtLettersDownload from '../debt-letters/containers/DebtLettersDownload';
@@ -28,8 +28,8 @@ const Routes = () => (
       <Route exact path="/copay-balances/:id" component={Details} />
       <Route
         exact
-        path="/copay-balances/:id/statement"
-        component={HTMLStatementPage}
+        path="/copay-balances/statement/:id"
+        component={MonthlyStatementPage}
       />
       <Route exact path="/copay-balances/:id/resolve" component={ResolvePage} />
       <Route exact path="/debt-balances" component={DebtLettersSummary} />

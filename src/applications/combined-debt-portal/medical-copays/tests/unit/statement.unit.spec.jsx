@@ -2,12 +2,15 @@ import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
+import { MemoryRouter, Route } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import AccountSummary from '../../components/AccountSummary';
 import StatementAddresses from '../../components/StatementAddresses';
 import StatementCharges from '../../components/StatementCharges';
 import StatementTable from '../../components/StatementTable';
 import DownloadStatement from '../../components/DownloadStatement';
+import MonthlyStatementPage from '../../containers/MonthlyStatementPage';
 
 // Helper to create a minimal Redux store for components that use useSelector
 const createMockStore = (featureToggleValue = false) => {
@@ -19,32 +22,311 @@ const createMockStore = (featureToggleValue = false) => {
   }));
 };
 
-describe('mcp statement view', () => {
-  describe('statement account summary component', () => {
-    it('should render account values', () => {
-      const selectedCopay = {
-        pHNewBalance: 25,
-        pHTotCharges: 10,
-        pHTotCredits: 15,
-        pHPrevBal: 30,
-        statementDate: 'November 5',
+const registerMockElement = name => {
+  class MockWebComponent extends HTMLElement {}
+  if (typeof window !== 'undefined' && !window.customElements.get(name)) {
+    window.customElements.define(name, MockWebComponent);
+  }
+};
+
+const defaultUser = {
+  profile: { userFullName: { first: 'Jane', last: 'Doe' } },
+};
+
+const createPageState = ({
+  copays = [],
+  isCopaysLoading = false,
+  useLighthouseCopays = false,
+} = {}) => ({
+  user: defaultUser,
+  combinedPortal: {
+    mcp: { copays, isCopaysLoading },
+  },
+  featureToggles: {
+    [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: useLighthouseCopays,
+    loading: false,
+  },
+});
+
+const expectLoadingIndicator = container => {
+  const el = container.querySelector('va-loading-indicator');
+  expect(el).to.exist;
+  expect(el.getAttribute('message')).to.equal('Loading features...');
+};
+
+describe('Monthly statement page', () => {
+  describe('MonthlyStatementPage container', () => {
+    before(() => {
+      registerMockElement('va-breadcrumbs');
+      registerMockElement('va-loading-indicator');
+      registerMockElement('va-link');
+      registerMockElement('va-table');
+      registerMockElement('va-table-row');
+    });
+
+    const renderPage = (
+      initialState,
+      route = '/copay-balances/stmt-123/statement',
+    ) => {
+      const store = createStore(
+        combineReducers({
+          combinedPortal: (state = initialState.combinedPortal ?? {}) => state,
+          user: (state = initialState.user ?? {}) => state,
+          featureToggles: (
+            state = initialState.featureToggles ?? { loading: false }
+          ) => state,
+        }),
+      );
+
+      return render(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={[route]}>
+            <Route
+              path="/copay-balances/:id/statement"
+              component={MonthlyStatementPage}
+            />
+          </MemoryRouter>
+        </Provider>,
+      );
+    };
+
+    it('shows loading indicator when copays are loading', () => {
+      const { container } = renderPage(
+        createPageState({ isCopaysLoading: true }),
+      );
+      expectLoadingIndicator(container);
+    });
+
+    it('shows loading indicator when there are no statement copays', () => {
+      const { container } = renderPage(createPageState());
+      expectLoadingIndicator(container);
+    });
+
+    it('renders monthly statement page with legacy copay data', () => {
+      /* eslint-disable-next-line camelcase */
+      const legacyCopay = {
+        id: 'stmt-123',
+        statement_id: 'stmt-123',
+        station: { facilityName: 'Test VA Medical Center' },
+        pSStatementDateOutput: '05/03/2024',
+        accountNumber: 'ACC-456',
+        pHTotCharges: 50,
+        details: [
+          { pDTransAmt: 100, pDTransDescOutput: 'Charge description' },
+        ],
       };
 
+      const { getByTestId, getByText } = renderPage(
+        createPageState({ copays: [legacyCopay] }),
+      );
+
+      expect(getByTestId('statement-page-title')).to.exist;
+      expect(getByTestId('statement-page-title').textContent).to.include(
+        '05/03/2024 statement',
+      );
+      expect(getByTestId('facility-name').textContent).to.include(
+        'Test VA Medical Center',
+      );
+      expect(getByTestId('account-summary-head')).to.exist;
+      expect(getByTestId('statement-address-head')).to.exist;
+      expect(getByText('Account summary')).to.exist;
+    });
+
+    it('renders monthly statement page with lighthouse copay data', () => {
+      /* eslint-disable-next-line camelcase */
+      const lighthouseCopay = {
+        id: 'stmt-456',
+        statement_id: 'stmt-456',
+        attributes: {
+          facility: { name: 'Lighthouse VA Medical Center' },
+          invoiceDate: '2024-06-15',
+          accountNumber: 'ACC-789',
+          principalPaid: 25,
+          lineItems: [{ pDTransAmt: 75, pDTransDescOutput: 'Lighthouse charge' }],
+        },
+      };
+
+      const { getByTestId, getByText, container } = renderPage(
+        createPageState({ copays: [lighthouseCopay], useLighthouseCopays: true }),
+        '/copay-balances/stmt-456/statement',
+      );
+
+      expect(getByTestId('statement-page-title')).to.exist;
+      expect(getByTestId('statement-page-title').textContent).to.include(
+        '06/15/2024 statement',
+      );
+      expect(getByTestId('facility-name').textContent).to.include(
+        'Lighthouse VA Medical Center',
+      );
+      expect(getByTestId('account-summary-head')).to.exist;
+      expect(getByTestId('statement-address-head')).to.exist;
+      expect(getByText('Account summary')).to.exist;
+      expect(container.querySelector('va-table')).to.exist;
+    });
+
+    const STATEMENT_ID = 'stmt-123';
+    const route = `/copay-balances/${STATEMENT_ID}/statement`;
+
+    /* eslint-disable camelcase */
+    const legacyCopaySingle = {
+      id: 'legacy-1',
+      statement_id: STATEMENT_ID,
+      station: { facilityName: 'Legacy VA Medical Center' },
+      pSStatementDateOutput: '05/03/2024',
+      accountNumber: 'ACC-LEGACY',
+      pHTotCharges: 50,
+      details: [
+        { pDTransAmt: 100, pDTransDescOutput: 'Charge description' },
+      ],
+    };
+
+    const legacyCopayTwo = {
+      id: 'legacy-2',
+      statement_id: STATEMENT_ID,
+      station: { facilityName: 'Legacy VA Medical Center' },
+      pSStatementDateOutput: '05/03/2024',
+      accountNumber: 'ACC-LEGACY',
+      pHTotCharges: 25,
+      details: [{ pDTransAmt: 30, pDTransDescOutput: 'Another charge' }],
+    };
+
+    const lighthouseCopaySingle = {
+      id: 'lighthouse-1',
+      statement_id: STATEMENT_ID,
+      attributes: {
+        facility: { name: 'Lighthouse VA Medical Center' },
+        invoiceDate: '2024-06-15',
+        accountNumber: 'ACC-LIGHTHOUSE',
+        principalPaid: 25,
+        lineItems: [
+          { pDTransAmt: 75, pDTransDescOutput: 'Lighthouse charge' },
+        ],
+      },
+    };
+
+    const lighthouseCopayTwo = {
+      id: 'lighthouse-2',
+      statement_id: STATEMENT_ID,
+      attributes: {
+        facility: { name: 'Lighthouse VA Medical Center' },
+        invoiceDate: '2024-06-15',
+        accountNumber: 'ACC-LIGHTHOUSE',
+        principalPaid: 10,
+        lineItems: [{ pDTransAmt: 40, pDTransDescOutput: 'Second charge' }],
+      },
+    };
+    /* eslint-enable camelcase */
+
+    describe('when flag is off (legacy)', () => {
+      it('getLegacyAttributes produces the correct object for a single copay', () => {
+        const initialState = createPageState({
+          copays: [legacyCopaySingle],
+          useLighthouseCopays: false,
+        });
+        const { getByTestId, getByText } = renderPage(initialState, route);
+
+        expect(getByTestId('statement-page-title').textContent).to.equal(
+          '05/03/2024 statement',
+        );
+        expect(getByTestId('facility-name').textContent).to.include(
+          'Legacy VA Medical Center',
+        );
+        expect(getByText('ACC-LEGACY')).to.exist;
+        expect(
+          getByTestId('account-summary-previous').textContent,
+        ).to.include('$100.00');
+        expect(getByTestId('account-summary-credits').textContent).to.include(
+          '$50.00',
+        );
+      });
+
+      it('getLegacyAttributes produces the correct object for multiple copays (flattened charges, summed payments, latest for metadata)', () => {
+        const initialState = createPageState({
+          copays: [legacyCopaySingle, legacyCopayTwo],
+          useLighthouseCopays: false,
+        });
+        const { getByTestId, getByText } = renderPage(initialState, route);
+
+        expect(getByTestId('statement-page-title').textContent).to.equal(
+          '05/03/2024 statement',
+        );
+        expect(getByTestId('facility-name').textContent).to.include(
+          'Legacy VA Medical Center',
+        );
+        expect(getByText('ACC-LEGACY')).to.exist;
+        expect(
+          getByTestId('account-summary-previous').textContent,
+        ).to.include('$130.00');
+        expect(getByTestId('account-summary-credits').textContent).to.include(
+          '$75.00',
+        );
+      });
+    });
+
+    describe('when flag is on (lighthouse)', () => {
+      it('getLighthouseAttributes produces the correct object for a single copay', () => {
+        const initialState = createPageState({
+          copays: [lighthouseCopaySingle],
+          useLighthouseCopays: true,
+        });
+        const { getByTestId, getByText } = renderPage(initialState, route);
+
+        expect(getByTestId('statement-page-title').textContent).to.include(
+          '06/15/2024 statement',
+        );
+        expect(getByTestId('facility-name').textContent).to.include(
+          'Lighthouse VA Medical Center',
+        );
+        expect(getByText('ACC-LIGHTHOUSE')).to.exist;
+        expect(
+          getByTestId('account-summary-previous').textContent,
+        ).to.include('$75.00');
+        expect(getByTestId('account-summary-credits').textContent).to.include(
+          '$25.00',
+        );
+      });
+
+      it('getLighthouseAttributes produces the correct object for multiple copays (flattened lineItems, summed balance and payments, latest for metadata)', () => {
+        const initialState = createPageState({
+          copays: [lighthouseCopaySingle, lighthouseCopayTwo],
+          useLighthouseCopays: true,
+        });
+        const { getByTestId, getByText } = renderPage(initialState, route);
+
+        expect(getByTestId('statement-page-title').textContent).to.include(
+          '06/15/2024 statement',
+        );
+        expect(getByTestId('facility-name').textContent).to.include(
+          'Lighthouse VA Medical Center',
+        );
+        expect(getByText('ACC-LIGHTHOUSE')).to.exist;
+        expect(
+          getByTestId('account-summary-previous').textContent,
+        ).to.include('$115.00');
+        expect(getByTestId('account-summary-credits').textContent).to.include(
+          '$35.00',
+        );
+      });
+    });
+  });
+
+  describe('statement account summary component', () => {
+    it('should render account values', () => {
       const summary = render(
         <AccountSummary
-          paymentsReceived={selectedCopay.pHTotCredits}
-          previousBalance={selectedCopay.pHPrevBal}
+          acctNum="ACC-123"
+          paymentsReceived={15}
+          newCharges={30}
         />,
       );
       expect(summary.getByTestId('account-summary-head')).to.exist;
-      expect(summary.getByTestId('account-summary-charges')).to.exist;
-      expect(summary.getByTestId('account-summary-charges')).to.have.text(
-        'Previous balance: $30.00',
-      );
+      expect(summary.getByTestId('account-summary-previous')).to.exist;
+      expect(summary.getByTestId('account-summary-previous').textContent).to
+        .include('This statement charges: $30.00');
       expect(summary.getByTestId('account-summary-credits')).to.exist;
-      expect(summary.getByTestId('account-summary-credits')).to.have.text(
-        'Payments received: $15.00',
-      );
+      expect(summary.getByTestId('account-summary-credits').textContent).to
+        .include('Payments received: $15.00');
+      expect(summary.getByText('ACC-123')).to.exist;
     });
   });
 

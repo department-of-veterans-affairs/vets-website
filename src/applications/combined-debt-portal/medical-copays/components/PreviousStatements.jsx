@@ -48,7 +48,11 @@ const PreviousStatements = ({ selectedId }) => {
       <ul className="no-bullets vads-u-x--0" data-testid="otpp-statement-list">
         {previousStatements.map(statement => (
           <HTMLStatementLink
-            id={statement.id}
+            statementId={
+              shouldUseLighthouseCopays
+                ? statement.id
+                : statement.statement_id ?? statement.id
+            }
             statementDate={
               shouldUseLighthouseCopays
                 ? statement.invoiceDate

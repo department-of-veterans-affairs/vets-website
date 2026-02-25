@@ -69,7 +69,7 @@ export const useCurrentStatement = () => {
   const statementCopays = useSelector(selectStatementCopays(allCopays, statementId));
   const isLoading = useSelector(selectIsCopaysLoading);
   
-  const hasCurrentStatement = allCopays[0]?.statementId !== statementId;
+  const hasCurrentStatement = allCopays[0]?.statement_id !== statementId;
   const shouldFetchCopays = !allCopays && !isLoading && !hasCurrentStatement
   if (shouldFetchCopays) {
     const dispatch = useDispatch();
