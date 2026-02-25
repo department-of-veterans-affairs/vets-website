@@ -4,6 +4,7 @@
  * VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
  */
 
+import React from 'react';
 import {
   yesNoUI,
   yesNoSchema,
@@ -23,10 +24,18 @@ export const hospitalizationStatusUiSchema = {
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const fieldLabel = getHospitalizationStatusTitle(fullData || formData);
+
       return {
         hospitalizationStatus: {
           isCurrentlyHospitalized: {
-            'ui:title': fieldLabel,
+            'ui:title': (
+              <span
+                data-dd-privacy="mask"
+                data-dd-action-name="hospitalization status"
+              >
+                {fieldLabel}
+              </span>
+            ),
           },
         },
       };

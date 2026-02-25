@@ -4,6 +4,7 @@
  * VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid and Attendance
  */
 
+import React from 'react';
 import {
   radioUI,
   radioSchema,
@@ -30,7 +31,15 @@ export const certificationLevelOfCareUiSchema = {
       const data = fullData || formData;
       const patientName = getPatientName(data);
 
-      const title = `I certify that ${patientName} is a patient in this facility because of a mental or physical disability and is receiving the following care`;
+      const title = (
+        <span
+          data-dd-privacy="mask"
+          data-dd-action-name="level of care certification"
+        >
+          I certify that {patientName} is a patient in this facility because of
+          a mental or physical disability and is receiving the following care
+        </span>
+      );
 
       return {
         certificationLevelOfCare: {

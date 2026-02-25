@@ -4,6 +4,7 @@
  * VA Form 21-4192 - Request for Employment Information
  */
 
+import React from 'react';
 import {
   yesNoUI,
   yesNoSchema,
@@ -16,7 +17,20 @@ import { getVeteranName } from './helpers';
 const getBenefitEntitlementTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Benefit entitlement';
   const veteranName = getVeteranName(formData);
-  return `As a result of their employment with you, is ${veteranName} receiving or entitled to receive sick, retirement, or other benefits?`;
+  const title = `As a result of their employment with you, is ${veteranName} receiving or entitled to receive sick, retirement, or other benefits?`;
+
+  // Mask if not using fallback text
+  if (veteranName !== 'Veteran') {
+    return (
+      <span
+        data-dd-privacy="mask"
+        data-dd-action-name="benefit entitlement field"
+      >
+        {title}
+      </span>
+    );
+  }
+  return title;
 };
 
 /**

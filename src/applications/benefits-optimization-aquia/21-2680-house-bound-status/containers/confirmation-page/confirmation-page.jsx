@@ -125,7 +125,9 @@ export const ConfirmationPage = ({ route }) => {
       }}
     >
       <CustomSubmissionAlert />
-      <ConfirmationView.ChapterSectionCollection />
+      <div data-dd-privacy="mask" data-dd-action-name="confirmation summary">
+        <ConfirmationView.ChapterSectionCollection />
+      </div>
       <ConfirmationView.PrintThisPage />
       <WhatsNextSection confirmationNumber={confirmationNumber} />
       <ConfirmationView.HowToContact />

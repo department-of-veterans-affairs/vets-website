@@ -4,6 +4,7 @@
  * VA Form 21-4192 - Request for Employment Information
  */
 
+import React from 'react';
 import {
   textareaUI,
   textUI,
@@ -26,7 +27,17 @@ const getTypeOfWorkTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Type of work';
   const veteranName = getVeteranName(formData);
   const tense = getEmploymentTense(formData);
-  return `What type of work ${tense.does} ${veteranName} do?`;
+  const title = `What type of work ${tense.does} ${veteranName} do?`;
+
+  // Mask if not using fallback text
+  if (veteranName !== 'Veteran') {
+    return (
+      <span data-dd-privacy="mask" data-dd-action-name="type of work field">
+        {title}
+      </span>
+    );
+  }
+  return title;
 };
 
 /**
@@ -36,7 +47,17 @@ const getAmountEarnedTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Amount earned';
   const veteranName = getVeteranName(formData);
   const timeframe = getEmploymentTimeframe(formData);
-  return `How much did ${veteranName} earn in the ${timeframe} (before deductions)?`;
+  const title = `How much did ${veteranName} earn in the ${timeframe} (before deductions)?`;
+
+  // Mask if not using fallback text
+  if (veteranName !== 'Veteran') {
+    return (
+      <span data-dd-privacy="mask" data-dd-action-name="amount earned field">
+        {title}
+      </span>
+    );
+  }
+  return title;
 };
 
 /**
@@ -47,7 +68,17 @@ const getTimeLostTitle = formData => {
     return 'Time lost to disability';
   const veteranName = getVeteranName(formData);
   const timeframe = getEmploymentTimeframe(formData);
-  return `How many hours did ${veteranName} lose to disability in the ${timeframe}?`;
+  const title = `How many hours did ${veteranName} lose to disability in the ${timeframe}?`;
+
+  // Mask if not using fallback text
+  if (veteranName !== 'Veteran') {
+    return (
+      <span data-dd-privacy="mask" data-dd-action-name="time lost field">
+        {title}
+      </span>
+    );
+  }
+  return title;
 };
 
 /**
@@ -57,7 +88,17 @@ const getDailyHoursTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Daily hours worked';
   const veteranName = getVeteranName(formData);
   const tense = getEmploymentTense(formData);
-  return `How many hours ${tense.does} ${veteranName} work each day?`;
+  const title = `How many hours ${tense.does} ${veteranName} work each day?`;
+
+  // Mask if not using fallback text
+  if (veteranName !== 'Veteran') {
+    return (
+      <span data-dd-privacy="mask" data-dd-action-name="daily hours field">
+        {title}
+      </span>
+    );
+  }
+  return title;
 };
 
 /**
@@ -67,19 +108,42 @@ const getWeeklyHoursTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Weekly hours worked';
   const veteranName = getVeteranName(formData);
   const tense = getEmploymentTense(formData);
-  return `How many hours ${tense.does} ${veteranName} work each week?`;
+  const title = `How many hours ${tense.does} ${veteranName} work each week?`;
+
+  // Mask if not using fallback text
+  if (veteranName !== 'Veteran') {
+    return (
+      <span data-dd-privacy="mask" data-dd-action-name="weekly hours field">
+        {title}
+      </span>
+    );
+  }
+  return title;
 };
 
 /**
  * Generate page title
  * @param {Object} props - Props object with formData and formContext
  * @param {Object} props.formData - The form data
- * @returns {string} The page title
+ * @returns {JSX.Element|string} The page title
  */
 const getPageTitle = ({ formData }) => {
   // Defensive: getVeteranName handles formData validation
   const veteranName = getVeteranName(formData);
-  return `Details about ${veteranName}'s employment`;
+  const title = `Details about ${veteranName}'s employment`;
+
+  // Mask if not using fallback text
+  if (veteranName !== 'Veteran') {
+    return (
+      <span
+        data-dd-privacy="mask"
+        data-dd-action-name="employment earnings page"
+      >
+        {title}
+      </span>
+    );
+  }
+  return title;
 };
 
 /**

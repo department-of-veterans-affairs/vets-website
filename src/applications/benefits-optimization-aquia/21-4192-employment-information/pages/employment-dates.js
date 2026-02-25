@@ -4,6 +4,7 @@
  * VA Form 21-4192 - Request for Employment Information
  */
 
+import React from 'react';
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -19,12 +20,22 @@ import { MemorableDateUI } from '../components/memorable-date-ui';
  * Generate page title
  * @param {Object} props - Props object with formData and formContext
  * @param {Object} props.formData - The form data
- * @returns {string} The page title
+ * @returns {JSX.Element|string} The page title
  */
 const getPageTitle = ({ formData }) => {
   // Defensive: getVeteranName handles formData validation
   const veteranName = getVeteranName(formData);
-  return `${veteranName}'s dates of employment`;
+  const title = `${veteranName}'s dates of employment`;
+
+  // Mask if not using fallback text
+  if (veteranName !== 'Veteran') {
+    return (
+      <span data-dd-privacy="mask" data-dd-action-name="employment dates page">
+        {title}
+      </span>
+    );
+  }
+  return title;
 };
 
 /**
@@ -35,7 +46,17 @@ const getBeginningDateTitle = formData => {
     return 'Beginning date of employment';
   const veteranName = getVeteranName(formData);
   const employerName = getEmployerName(formData);
-  return `When did ${veteranName} start working for ${employerName}?`;
+  const title = `When did ${veteranName} start working for ${employerName}?`;
+
+  // Mask if not using fallback text
+  if (veteranName !== 'Veteran' || employerName !== 'this employer') {
+    return (
+      <span data-dd-privacy="mask" data-dd-action-name="beginning date field">
+        {title}
+      </span>
+    );
+  }
+  return title;
 };
 
 /**
@@ -46,7 +67,17 @@ const getEndingDateTitle = formData => {
     return 'Ending date of employment';
   const veteranName = getVeteranName(formData);
   const employerName = getEmployerName(formData);
-  return `When did ${veteranName} stop working for ${employerName}?`;
+  const title = `When did ${veteranName} stop working for ${employerName}?`;
+
+  // Mask if not using fallback text
+  if (veteranName !== 'Veteran' || employerName !== 'this employer') {
+    return (
+      <span data-dd-privacy="mask" data-dd-action-name="ending date field">
+        {title}
+      </span>
+    );
+  }
+  return title;
 };
 
 /**
