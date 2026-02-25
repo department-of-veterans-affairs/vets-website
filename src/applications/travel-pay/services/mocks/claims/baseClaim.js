@@ -75,7 +75,6 @@ function buildClaim({
     selectedExpenses = Object.values(expenseByType).map(exp => ({
       ...exp,
       ...(isMileageExpense(exp) ? {} : { documentId: uuidv4() }),
-      costSubmitted: claimStatus === 'Saved' ? exp.costRequested : 0,
     }));
   } else if (expenseTypeOptions === EXPENSE_TYPE_OPTIONS.MILEAGE_ONLY) {
     const exp = expenseByType.mileage;
@@ -83,7 +82,6 @@ function buildClaim({
       {
         ...exp,
         documentId: uuidv4(),
-        costSubmitted: claimStatus === 'Saved' ? exp.costRequested : 0,
       },
     ];
   }

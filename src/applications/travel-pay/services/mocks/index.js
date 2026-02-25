@@ -6,54 +6,25 @@ const {
   createExpenseHandler,
   updateExpenseHandler,
   deleteExpenseHandler,
-  setClaimRef,
 } = require('./expenses/expenseHandlers');
-const { buildAppointmentsFromClaims } = require('./vaos/appointmentUtils');
+const { expensesStore } = require('./mockStore');
 const {
-  getAppointmentByIdHandler,
+  getClaimsHandler,
+  getClaimByIdHandler,
+  updateClaimHandler,
+  createClaimHandler,
+} = require('./claims/claimHandlers');
+const {
   getAppointmentsHandler,
+  getAppointmentByIdHandler,
 } = require('./vaos/appointmentHandlers');
-const { buildClaim } = require('./claims/baseClaim');
-const { baseClaimList, mockClaimsResponse } = require('./claims/baseClaimList');
-const {
-  STATUS_KEYS,
-  EXPENSE_TYPE_OPTIONS,
-  EXPENSE_TYPES,
-} = require('./constants');
-
+const { EXPENSE_TYPES } = require('./constants');
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 
 const user = {
   withAddress: require('./user.json'),
   noAddress: require('./user-no-address.json'),
 };
-
-// 👉 Change the claim status here to see the different claim status in appointments
-const {
-  baseAppointments,
-  savedClaim,
-  savedClaimAppointment,
-} = buildAppointmentsFromClaims(baseClaimList, STATUS_KEYS.SAVED);
-
-// 👉 Change the claim details here to see the different claim status for mocks
-const claim = buildClaim({
-  claimId: savedClaim.id,
-  claimNumber: savedClaim.claimNumber,
-  claimStatus: STATUS_KEYS.SAVED, // e.g., INCOMPLETE, SAVED, CLAIMPAID
-  expenseTypeOptions: EXPENSE_TYPE_OPTIONS.ALL, // ALL | NONE | MILEAGE_ONLY
-  daysOffset: -3, // Set this to the baseClaimList saved status -(index + 2)
-  appointmentOverride: {
-    id: savedClaimAppointment?.id,
-    appointmentDateTime:
-      savedClaimAppointment?.attributes?.travelPayClaim?.claim
-        ?.appointmentDateTime,
-    facilityId: savedClaim.facilityId,
-    facilityName: savedClaim.facilityName,
-  },
-});
-
-setClaimRef(claim);
-
 const maintenanceWindows = {
   none: require('./maintenance-windows/none.json'),
   enabled: require('./maintenance-windows/enabled.json'),
@@ -86,8 +57,9 @@ const responses = {
   'GET /v0/maintenance_windows': maintenanceWindows.none,
   'GET /v0/user': user.withAddress,
   'GET /v0/feature_toggles': featureTogglesResponse,
+
   // Get travel-pay appointment - handle specific IDs first
-  'GET /vaos/v2/appointments/:id': getAppointmentByIdHandler(baseAppointments),
+  'GET /vaos/v2/appointments/:id': getAppointmentByIdHandler(),
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
   //   return res.status(503).json({
   //     errors: [
@@ -100,22 +72,13 @@ const responses = {
   //     ],
   //   });
   // },
+
   // Get appointments - handles both date range queries and list view
-  'GET /vaos/v2/appointments': getAppointmentsHandler(baseAppointments),
+  'GET /vaos/v2/appointments': getAppointmentsHandler(),
 
   // Get all claims
   // 'GET /travel_pay/v0/claims'
-  'GET /travel_pay/v0/claims': mockClaimsResponse,
-  // 'GET /travel_pay/v0/claims': (req, res) => {
-  //   return res.status(200).json({
-  //     metadata: {
-  //       status: 200,
-  //       pageNumber: 1,
-  //       totalRecordCount: 0,
-  //     },
-  //     data: [],
-  //   });
-  // },
+  'GET /travel_pay/v0/claims': getClaimsHandler(),
   // 'GET /travel_pay/v0/claims': (req, res) => {
   //   return res.status(503).json({
   //     errors: [
@@ -156,25 +119,7 @@ const responses = {
 
   // Get claim
   // GET /travel_pay/v0/claims/:id
-  'GET /travel_pay/v0/claims/:id': (req, res) => {
-    const { id } = req.params;
-
-    // Find the claim the user actually clicked on
-    const listClaim = baseClaimList.find(c => c.id === id);
-    if (!listClaim) {
-      return res.status(404).json({
-        errors: [
-          {
-            title: 'Not found',
-            status: 404,
-            detail: 'Claim not found',
-          },
-        ],
-      });
-    }
-
-    return res.json(claim);
-  },
+  'GET /travel_pay/v0/claims/:id': getClaimByIdHandler({ expensesStore }),
   //
   // 'GET /travel_pay/v0/claims/:id': (req, res) => {
   //   return res.status(403).json({
@@ -189,9 +134,12 @@ const responses = {
   //   });
   // },
 
+  // Update the complex claim
+  'PATCH /travel_pay/v0/claims/:id': updateClaimHandler(),
+
   // Create a new claim
   // POST /travel_pay/v0/claims
-  'POST /travel_pay/v0/claims': { claimId: '12345' },
+  'POST /travel_pay/v0/claims': createClaimHandler(),
   // 'POST /travel_pay/v0/claims': (req, res) => {
   //   return res.status(502).json({
   //     errors: [

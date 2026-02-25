@@ -75,7 +75,6 @@ function buildVaosAppointmentFromClaim(claim, daysOffset) {
 
   // Generate a random ID if claim doesn't already have an appointment
   const savedClaimAppointmentId = randomInt(100000, 999999).toString();
-
   return {
     id: claim.appointment?.id || savedClaimAppointmentId,
     type: 'appointments',
@@ -137,7 +136,7 @@ function buildVaosAppointmentFromClaim(claim, daysOffset) {
           message: 'Data retrieved successfully.',
         },
         claim: {
-          id: claim.claimId,
+          id: claim.id,
           claimNumber: claim.claimNumber,
           claimSource: claim.claimSource,
           claimStatus: claim.claimStatus,
