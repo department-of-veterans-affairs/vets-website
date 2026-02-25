@@ -25,6 +25,12 @@ describe('Dependents Pages', () => {
     return wrapper ? wrapper.items : null;
   };
 
+  const getDependentsData = count => ({
+    veteranChildrenCount: String(count),
+    veteransChildren:
+      count === 0 ? [{}] : Array.from({ length: count }, () => ({})),
+  });
+
   it('SSN required field is hidden when noSsn is set', () => {
     // Render the dependent name page as an item page for dependents
     const { dependentName: page } = dependentsPages;
@@ -249,7 +255,7 @@ describe('Dependents Pages', () => {
     expect(alertOptions.hideIf(itemTrue, 0)).to.be.true;
 
     // undefined => hidden
-    const none = { veteransChildren: [{}] };
+    const none = { veteranChildrenCount: '0', veteransChildren: [{}] };
     expect(alertOptions.hideIf(none, 0)).to.be.true;
 
     // Render the household page with livesWith false so the alert is visible
@@ -260,7 +266,10 @@ describe('Dependents Pages', () => {
         schema={page.schema}
         uiSchema={page.uiSchema}
         pagePerItemIndex={0}
-        data={{ veteransChildren: [{ livesWith: false }] }}
+        data={{
+          veteranChildrenCount: '1',
+          veteransChildren: [{ livesWith: false }],
+        }}
       />,
     );
     const formDOM = getFormDOM(form);
@@ -291,6 +300,85 @@ describe('Dependents Pages', () => {
   //   expect(dependentCustodian.depends(itemTrue, 0)).to.be.false;
   //   expect(dependentCustodian.depends(none, 0)).to.be.false;
   // });
+  it('dependentsIntro depends shows only when veteranChildrenCount is 1 or more', () => {
+    const { dependentsIntro } = dependentsPages;
+
+    const itemZero = getDependentsData(0);
+    const itemOne = getDependentsData(1);
+    const itemTwo = getDependentsData(2);
+
+    expect(dependentsIntro.depends(itemZero)).to.be.false;
+    expect(dependentsIntro.depends(itemOne)).to.be.true;
+    expect(dependentsIntro.depends(itemTwo)).to.be.true;
+  });
+
+  it('dependentsSummary depends shows only when veteranChildrenCount is 1 or more', () => {
+    const { dependentsSummary } = dependentsPages;
+
+    const itemZero = getDependentsData(0);
+    const itemOne = getDependentsData(1);
+    const itemTwo = getDependentsData(2);
+
+    expect(dependentsSummary.depends(itemZero)).to.be.false;
+    expect(dependentsSummary.depends(itemOne)).to.be.true;
+    expect(dependentsSummary.depends(itemTwo)).to.be.true;
+  });
+
+  it('dependentName depends shows only when veteranChildrenCount is 1 or more', () => {
+    const { dependentName } = dependentsPages;
+
+    const itemZero = getDependentsData(0);
+    const itemOne = getDependentsData(1);
+    const itemTwo = getDependentsData(2);
+
+    expect(dependentName.depends(itemZero)).to.be.false;
+    expect(dependentName.depends(itemOne)).to.be.true;
+    expect(dependentName.depends(itemTwo)).to.be.true;
+  });
+
+  it('dependentDobPlace depends shows only when veteranChildrenCount is 1 or more', () => {
+    const { dependentDobPlace } = dependentsPages;
+
+    const itemZero = getDependentsData(0);
+    const itemOne = getDependentsData(1);
+    const itemTwo = getDependentsData(2);
+
+    expect(dependentDobPlace.depends(itemZero)).to.be.false;
+    expect(dependentDobPlace.depends(itemOne)).to.be.true;
+    expect(dependentDobPlace.depends(itemTwo)).to.be.true;
+  });
+
+  it('dependentRelationship depends shows only when veteranChildrenCount is 1 or more', () => {
+    const { dependentRelationship } = dependentsPages;
+
+    const itemZero = getDependentsData(0);
+    const itemOne = getDependentsData(1);
+    const itemTwo = getDependentsData(2);
+
+    expect(dependentRelationship.depends(itemZero)).to.be.false;
+    expect(dependentRelationship.depends(itemOne)).to.be.true;
+    expect(dependentRelationship.depends(itemTwo)).to.be.true;
+  });
+
+  it('dependentInfo depends shows only when veteranChildrenCount is 1 or more', () => {
+    const itemZero = getDependentsData(0);
+    const itemOne = getDependentsData(1);
+    const itemTwo = getDependentsData(2);
+
+    expect(dependentInfo.depends(itemZero)).to.be.false;
+    expect(dependentInfo.depends(itemOne)).to.be.true;
+    expect(dependentInfo.depends(itemTwo)).to.be.true;
+  });
+
+  it('dependentHousehold depends shows only when veteranChildrenCount is 1 or more', () => {
+    const itemZero = getDependentsData(0);
+    const itemOne = getDependentsData(1);
+    const itemTwo = getDependentsData(2);
+
+    expect(dependentHousehold.depends(itemZero)).to.be.false;
+    expect(dependentHousehold.depends(itemOne)).to.be.true;
+    expect(dependentHousehold.depends(itemTwo)).to.be.true;
+  });
 
   it('dependentChildSupport depends shows only when livesWith is false', () => {
     const { dependentChildSupport } = dependentsPages;

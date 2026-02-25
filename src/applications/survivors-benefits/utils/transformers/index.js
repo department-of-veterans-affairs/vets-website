@@ -6,5 +6,6 @@ export * from './combineUnitNameAddress';
 export * from './splitSsn';
 export * from './switchToInternationalPhone';
 export * from './transformCareExpenses';
+export * from './transformClaim';
 export * from './updateFullNames';
 export * from './updateBankValues';

@@ -96,19 +96,19 @@ const processDescriptionResubmit = (
 
 const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
-  const { customText, formId, prefillEnabled, savedFormMessages } = formConfig;
+  const { formId, prefillEnabled, savedFormMessages } = formConfig;
 
   const sipIntroProps = useMemo(
     () => ({
       unauthStartText: 'Sign in to start your claim',
       messages: savedFormMessages,
-      formConfig: { customText },
       headingLevel: 2,
+      formConfig,
       prefillEnabled,
       pageList,
       formId,
     }),
-    [customText, formId, pageList, prefillEnabled, savedFormMessages],
+    [formConfig, formId, pageList, prefillEnabled, savedFormMessages],
   );
 
   useEffect(() => focusElement('.schemaform-intro h1'), []);

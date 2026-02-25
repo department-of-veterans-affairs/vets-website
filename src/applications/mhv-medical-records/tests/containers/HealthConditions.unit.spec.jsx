@@ -278,7 +278,7 @@ describe('Health conditions with accelerated data', () => {
       const loadingIndicator = screen.getByTestId(
         'accelerated-loading-indicator',
       );
-      expect(loadingIndicator).to.have.attribute('setfocus');
+      expect(loadingIndicator).to.have.attribute('set-focus');
     });
   });
 });

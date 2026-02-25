@@ -152,3 +152,14 @@ export const showMultiplePageResponse = () =>
 
 export const showPdfFormAlignment = () =>
   window.sessionStorage.getItem('showPdfFormAlignment') === 'true';
+
+export const threshold = showPdfFormAlignment() ? 75000 : 25000;
+
+export const hideIfUnderThreshold = formData => {
+  const value = parseInt(formData.netWorthEstimation, 10);
+  return (
+    formData.netWorthEstimation == null || // null or undefined
+    Number.isNaN(value) ||
+    value <= threshold
+  );
+};
