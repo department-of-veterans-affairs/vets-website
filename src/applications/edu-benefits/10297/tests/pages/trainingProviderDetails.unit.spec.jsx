@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import * as trainingProviderDetails from '../../pages/trainingProviderDetails';
 
 describe('Training Provider Step 3 - Page 2 Details', () => {
@@ -17,8 +17,8 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
       />,
     );
 
-    expect($$('va-text-input', container).length).to.equal(7);
-    expect($$('va-select', container).length).to.equal(1);
+    expect(container.querySelectorAll('va-text-input')).to.have.lengthOf(7);
+    expect(container.querySelectorAll('va-select')).to.have.lengthOf(1);
   });
 
   it('should render errors on required inputs', async () => {
@@ -30,10 +30,10 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
       />,
     );
 
-    getByRole('button', { name: /submit/i }).click();
-    await waitFor(() => {
-      expect($$('va-text-input[error]', container).length).to.equal(4);
-      expect($$('va-select[error]', container).length).to.equal(1);
-    });
+    await userEvent.click(getByRole('button'));
+    expect(container.querySelectorAll('va-text-input[error]')).to.have.lengthOf(
+      4,
+    );
+    expect(container.querySelectorAll('va-select[error]')).to.have.lengthOf(1);
   });
 });
