@@ -150,7 +150,14 @@ const testConfig = createTestConfig(
       },
 
       'supporting-evidence/additional-evidence-intro': () => {
-        cy.fillPage();
+        cy.get('@testData').then(data => {
+          const hasEvidenceChoice = data['view:hasEvidenceChoice'];
+
+          cy.get(
+            `va-radio-option[label="${hasEvidenceChoice ? 'Yes' : 'No'}"]`,
+          ).click();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
       },
 
       'supporting-evidence/evidence-request': () => {

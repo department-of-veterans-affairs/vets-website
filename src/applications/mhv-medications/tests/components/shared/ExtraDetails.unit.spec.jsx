@@ -167,6 +167,38 @@ describe('Medications List Card Extra Details', () => {
         'Contact your VA provider if you need more of this medication.',
       );
     });
+
+    it('displays OH-specific text for active with no refills for Oracle Health', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.active,
+        refillRemaining: 0,
+        stationNumber: '668',
+      });
+      expect(
+        await screen.findByTestId('active-no-refill-left'),
+      ).to.contain.text('send a secure message to your care team');
+    });
+
+    it('displays fallback text for discontinued prescription (not renewable per spec Gate 1)', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.discontinued,
+      });
+      expect(await screen.findByTestId('discontinued')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+
+    it('displays fallback text for onHold prescription (not renewable per spec Gate 1)', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.onHold,
+      });
+      expect(await screen.findByTestId('active-onHold')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
   });
 
   // REFACTORED: Consolidated V2 status tests
@@ -522,6 +554,68 @@ describe('Medications List Card Extra Details', () => {
         true,
       );
       expect(screen.queryByTestId('refill-request-button')).to.not.exist;
+    });
+  });
+
+  describe('isRefillBlocked prop for Oracle Health transition', () => {
+    // Helper to create refillable prescription for testing hideRefillButton
+    const createRefillablePrescription = (overrides = {}) => ({
+      ...prescription,
+      dispStatus: dispStatusObj.active,
+      isRefillable: true,
+      refillRemaining: 3,
+      page: pageType.LIST,
+      ...overrides,
+    });
+
+    // Assertion helpers
+    const expectRefillButtonHidden = screen => {
+      expect(screen.queryByTestId('refill-request-button')).to.not.exist;
+    };
+
+    const expectRefillButtonVisible = async screen => {
+      expect(await screen.findByTestId('refill-request-button')).to.exist;
+    };
+
+    describe('when mhvMedicationsOracleHealthCutover feature flag is enabled', () => {
+      describe('when isRefillBlocked is true (prescription blocked by Oracle Health transition)', () => {
+        it('hides refill button', async () => {
+          const rx = createRefillablePrescription({ isRefillBlocked: true });
+          const screen = setup(rx, {}, false, false);
+          expectRefillButtonHidden(screen);
+        });
+
+        it('respects isRefillBlocked even when prescription is refillable with remaining refills', () => {
+          const rx = createRefillablePrescription({
+            refillRemaining: 5,
+            isRefillBlocked: true,
+          });
+          const screen = setup(rx, {}, false, false);
+          expectRefillButtonHidden(screen);
+        });
+      });
+
+      describe('when isRefillBlocked is not provided (no Oracle Health transition blocking)', () => {
+        it('shows refill button when isRefillBlocked is not provided (default behavior)', async () => {
+          const rx = createRefillablePrescription();
+          const screen = setup(rx, {}, false, false);
+          await expectRefillButtonVisible(screen);
+        });
+      });
+    });
+
+    describe('when mhvMedicationsOracleHealthCutover feature flag is disabled', () => {
+      it('shows refill button normally (isRefillBlocked is not set by parent)', async () => {
+        const rx = createRefillablePrescription();
+        const screen = setup(rx, {}, false, false);
+        await expectRefillButtonVisible(screen);
+      });
+
+      it('shows refill button even for transitioning facility prescription', async () => {
+        const rx = createRefillablePrescription({ stationNumber: '515' });
+        const screen = setup(rx, {}, false, false);
+        await expectRefillButtonVisible(screen);
+      });
     });
   });
 });

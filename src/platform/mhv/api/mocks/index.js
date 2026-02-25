@@ -119,6 +119,33 @@ const responses = {
     };
     return res.json(data);
   },
+  'GET /my_health/v2/prescriptions/:id': (req, res) => {
+    const { id } = req.params;
+    const stationNumber = req.query.station_number || 'unknown';
+    const data = {
+      data: prescriptions.mockPrescription(id, {
+        cmopNdcNumber: '00093721410',
+        stationNumber,
+        prescriptionSource: 'OH',
+      }),
+      meta: {
+        sort: {
+          dispStatus: 'DESC',
+          dispensedDate: 'DESC',
+          prescriptionName: 'DESC',
+        },
+        pagination: {
+          currentPage: 1,
+          perPage: 10,
+          totalPages: 1,
+          totalEntries: 1,
+        },
+        updatedAt: 'Wed, 28 Feb 2024 09:58:42 EST',
+        failedStationList: 'string',
+      },
+    };
+    return res.json(data);
+  },
   // 'GET /my_health/v1/prescriptions': prescriptionsFixture,
   // 'GET /my_health/v1/prescriptions/list_refillable_prescriptions': refillablePrescriptionsFixture,
   'GET /my_health/v1/prescriptions/list_refillable_prescriptions': prescriptions.generateMockPrescriptions(),
