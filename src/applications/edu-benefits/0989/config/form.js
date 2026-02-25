@@ -69,6 +69,11 @@ const formConfig = {
             ssnPath: 'ssn',
           },
         }),
+      },
+    },
+    contactInfoChapter: {
+      title: 'Your contact information',
+      pages: {
         ...profileContactInfoPages({
           contactInfoRequiredKeys: ['mailingAddress', 'email'],
           // disableMockContactInfo: true,
