@@ -40,7 +40,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
 
   it('renders expected content for diary code: 61', () => {
     cy.get('[data-testid^="summary-card-"]').contains(
-      "We've paused collection on this debt as you requested.",
+      "We've paused collection on this balance as you requested.",
     );
     cy.injectAxeThenAxeCheck();
   });

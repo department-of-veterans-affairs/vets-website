@@ -50,13 +50,13 @@
           },
           "details": {
             "header": "Contact us if you need help with benefit reduction",
-            "body": "We're reducing your monthly VA benefit payments to repay your overdue balance. If this reduction causes you financial stress, we can help. Contact us to find out your options. We're here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If you want to request help or make a payment, you can click here."
+            "body": "We're reducing your monthly VA benefit payments to repay your overdue balance. If this reduction causes you financial stress, we can help. Contact us to find out your options. We're here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET."
           }
         },
         "4": {
           "category": "Collections are paused",
           "summary": {
-            "body": "We've paused collection on this debt as you requested."
+            "body": "We've paused collection on this balance as you requested."
           },
           "details": {
             "header": "Collection currently paused",
