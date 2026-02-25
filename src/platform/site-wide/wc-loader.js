@@ -5,7 +5,6 @@ import {
   defineCustomElements,
 } from '@department-of-veterans-affairs/component-library';
 import { loadWithRetry } from '@department-of-veterans-affairs/platform-utilities/lazy-load-with-retry';
-import * as Sentry from '@sentry/browser';
 
 /**
  * Initialize web components with retry logic for transient network failures.
@@ -23,9 +22,5 @@ async function initWebComponents() {
 // content to become hidden. It does end up breaking the styling, but this is
 // better than not being able to see the internal content
 if (window.location?.protocol !== 'file:') {
-  loadWithRetry(initWebComponents, 3, 1000, 10000).catch(error => {
-    Sentry.captureException(error, {
-      tags: { source: 'wc-loader', retries: 'exhausted' },
-    });
-  });
+  loadWithRetry(initWebComponents, 3, 1000, 10000).catch(() => {});
 }
