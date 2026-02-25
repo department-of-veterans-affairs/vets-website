@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { VaCrisisLineModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import LogoRow from '../LogoRow';
 import Menu from '../../containers/Menu';
@@ -11,7 +10,7 @@ export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
       <OfficialGovtWebsite />
-      <VaCrisisLineModal mode="trigger" />
+      <va-crisis-line-modal mode="trigger" />
       <nav className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
         <LogoRow
           isMenuOpen={isMenuOpen}

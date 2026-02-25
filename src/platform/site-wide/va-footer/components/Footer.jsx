@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // Node modules.
 import React, { useEffect, useMemo, useState } from 'react';
-import { VaCrisisLineModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
@@ -54,7 +53,7 @@ const Footer = ({
 
   return (
     <div>
-      <VaCrisisLineModal mode="modal" />
+      <va-crisis-line-modal mode="modal" />
       <div className="footer-inner">
         <DesktopLinks visible={!isMinimalFooter && !isMobile} links={linkObj} />
         <MobileLinks
