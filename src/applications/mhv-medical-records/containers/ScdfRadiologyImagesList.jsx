@@ -8,6 +8,7 @@ import {
   getLabsAndTestsDetails,
   getImagingStudyThumbnails,
   getImagingStudyDicomZip,
+  clearLabsAndTestDetails,
 } from '../actions/labsAndTests';
 import { buildThumbnailProxyUrl } from '../api/MrApi';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -66,6 +67,12 @@ const ScdfRadiologyImagesList = ({ isTesting }) => {
         );
       }
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE);
+
+      // Clear detail + thumbnails/DICOM on unmount or labId change so stale
+      // data from a previous record is never shown.
+      return () => {
+        dispatch(clearLabsAndTestDetails());
+      };
     },
     [labId, labAndTestList, dispatch],
   );
