@@ -49,6 +49,10 @@ export const SearchForm = props => {
 
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
+  const prevSearchStringRef = useRef(currentQuery.searchString);
+  const prevServiceTypeRef = useRef(currentQuery.serviceType);
+  const prevVamcServiceDisplayRef = useRef(currentQuery.vamcServiceDisplay);
+  const prevLocationSearchRef = useRef(props.location?.search);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -71,7 +75,8 @@ export const SearchForm = props => {
       zoomLevel: currentQuery.zoomLevel,
     };
 
-    // CC_PROVIDER serviceType validation first (matches E2E test expectations)
+    // Validate most-specific field first: serviceType is only required for
+    // CC_PROVIDER, then location (most common error), then facilityType
     if (
       draftFormState.facilityType === LocationType.CC_PROVIDER &&
       (!draftFormState.serviceType || !selectedServiceType)
@@ -140,21 +145,23 @@ export const SearchForm = props => {
   // Sync draft state when Redux searchString updates from geolocation
   useEffect(
     () => {
-      if (currentQuery.searchString !== draftFormState.searchString) {
+      if (currentQuery.searchString !== prevSearchStringRef.current) {
+        prevSearchStringRef.current = currentQuery.searchString;
         updateDraftState({ searchString: currentQuery.searchString || '' });
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentQuery.searchString],
+    [currentQuery.searchString, updateDraftState],
   );
 
   // Sync draft state when VAMC autosuggest updates Redux serviceType/vamcServiceDisplay
   useEffect(
     () => {
       if (
-        currentQuery.serviceType !== draftFormState.serviceType ||
-        currentQuery.vamcServiceDisplay !== draftFormState.vamcServiceDisplay
+        currentQuery.serviceType !== prevServiceTypeRef.current ||
+        currentQuery.vamcServiceDisplay !== prevVamcServiceDisplayRef.current
       ) {
+        prevServiceTypeRef.current = currentQuery.serviceType;
+        prevVamcServiceDisplayRef.current = currentQuery.vamcServiceDisplay;
         setDraftFormState(prev => ({
           ...prev,
           serviceType: currentQuery.serviceType || null,
@@ -162,14 +169,17 @@ export const SearchForm = props => {
         }));
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentQuery.serviceType, currentQuery.vamcServiceDisplay],
   );
 
   // Sync all fields on URL parameter changes (browser back/forward)
   useEffect(
     () => {
-      if (props.location?.search) {
+      if (
+        props.location?.search &&
+        props.location?.search !== prevLocationSearchRef.current
+      ) {
+        prevLocationSearchRef.current = props.location?.search;
         setDraftFormState(prev => ({
           ...prev,
           facilityType: currentQuery.facilityType || null,
@@ -179,8 +189,13 @@ export const SearchForm = props => {
         }));
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.location?.search],
+    [
+      props.location?.search,
+      currentQuery.facilityType,
+      currentQuery.serviceType,
+      currentQuery.searchString,
+      currentQuery.vamcServiceDisplay,
+    ],
   );
 
   const handleGeolocationButtonClick = e => {
