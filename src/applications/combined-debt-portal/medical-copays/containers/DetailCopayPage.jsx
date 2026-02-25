@@ -1,6 +1,6 @@
-import React, { useMemo, useState, useEffect, useParams } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Modals from '../../combined/components/Modals';
@@ -13,16 +13,18 @@ import NeedHelpCopay from '../components/NeedHelpCopay';
 import { DEFAULT_COPAY_ATTRIBUTES } from '../../combined/utils/constants';
 import {
   formatDate,
+  formatFullName,
   verifyCurrentBalance,
   setPageFocus,
   formatISODateToMMDDYYYY,
   isAnyElementFocused,
   formatCurrency,
-  getCopayCharge
+  getCopayCharge,
 } from '../../combined/utils/helpers';
 import {
   useCurrentCopay,
   useLighthouseCopays,
+  selectUserFullName,
 } from '../../combined/utils/selectors';
 
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
@@ -30,9 +32,9 @@ import CopayAlertContainer from '../components/CopayAlertContainer';
 
 const DetailCopayPage = () => {
   const { id: copayId } = useParams();
-
   const [alert, setAlert] = useState('status');
   const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
+  const userFullName = useSelector(selectUserFullName);
   const { currentCopay, isLoading } = useCurrentCopay();
 
   const copayAttributes = useMemo(() => {
@@ -60,7 +62,7 @@ const DetailCopayPage = () => {
           CHARGES: getCopayCharge(currentCopay) ?? [],
         };
     /* eslint-disable no-nested-ternary */
-  }, [currentCopay?.id, shouldUseLighthouseCopays]);
+  }, [currentCopay, currentCopay?.id, shouldUseLighthouseCopays]);
 
   useEffect(
     () => {
@@ -73,11 +75,6 @@ const DetailCopayPage = () => {
   useEffect(() => {
     if (!isAnyElementFocused()) setPageFocus();
   }, []);
-
-  const userFullName = useSelector(({ user }) => user.profile.userFullName);
-  const fullName = userFullName?.middle
-    ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
-    : `${userFullName.first} ${userFullName.last}`;
 
   const getPaymentDueDate = () => {
     if (shouldUseLighthouseCopays) {
@@ -199,7 +196,7 @@ const DetailCopayPage = () => {
                 ? formatISODateToMMDDYYYY(copayAttributes.INVOICE_DATE)
                 : currentCopay.pSStatementDate
             }
-            fullName={fullName}
+            fullName={formatFullName(userFullName)}
           />
         </div>
         <PreviousStatements selectedId={copayId} />

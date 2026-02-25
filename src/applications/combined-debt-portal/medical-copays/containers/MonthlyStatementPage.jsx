@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import {
   VaBreadcrumbs,
@@ -11,12 +10,15 @@ import {
   setPageFocus,
   isAnyElementFocused,
   formatCurrency,
+  formatFullName,
   formatISODateToMMDDYYYY,
   getCopayCharge,
 } from '../../combined/utils/helpers';
+import { DEFAULT_STATEMENT_ATTRIBUTES } from '../../combined/utils/constants';
 import {
   useCurrentStatement,
   useLighthouseCopays,
+  selectUserFullName,
 } from '../../combined/utils/selectors';
 import Modals from '../../combined/components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
@@ -45,27 +47,10 @@ const getBreadcrumbs = statementAttributes => {
   ];
 };
 
-const DEFAULT_STATEMENT_ATTRIBUTES = {
-  LATEST_COPAY: {},
-  TITLE: '',
-  DATE: '',
-  PREV_PAGE: '',
-  ACCOUNT_NUMBER: '',
-  CHARGES: [],
-  CURRENT_BALANCE: '',
-  PAYMENTS_RECEIVED: '',
-  NEW_CHARGES: 0,
-};
-
 const MonthlyStatementPage = () => {
   const { id: statementId } = useParams();
   const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
-
-  const userFullName = useSelector(({ user }) => user.profile.userFullName);
-  const fullName = userFullName?.middle
-    ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
-    : `${userFullName?.first || ''} ${userFullName?.last || ''}`.trim();
-
+  const userFullName = useSelector(selectUserFullName);
   const { statementCopays, isLoading } = useCurrentStatement();
 
   const getLatestCopay = () => statementCopays?.at(-1) ?? null;
@@ -82,6 +67,7 @@ const MonthlyStatementPage = () => {
 
   const getLegacyAttributes = () => {
     const latest = getLatestCopay();
+    // this date still needs to be modified to monthly
     const statementDate = latest?.pSStatementDateOutput;
     const statementCharges = statementCopays.flatMap(copay =>
       getCopayCharge(copay),
@@ -110,6 +96,7 @@ const MonthlyStatementPage = () => {
 
   const getLighthouseAttributes = () => {
     const latest = getLatestCopay();
+    // this date still needs to be modified to monthly
     const statementDate = latest?.attributes?.invoiceDate
       ? formatISODateToMMDDYYYY(latest.attributes.invoiceDate)
       : '';
@@ -137,6 +124,8 @@ const MonthlyStatementPage = () => {
     };
   };
 
+  const statementCopaysLength = statementCopays?.length;
+  const firstCopayId = statementCopays?.[0]?.id;
   const statementAttributes = useMemo(
     () => {
       if (!statementCopays?.length) return DEFAULT_STATEMENT_ATTRIBUTES;
@@ -144,12 +133,8 @@ const MonthlyStatementPage = () => {
         ? getLighthouseAttributes()
         : getLegacyAttributes();
     },
-    [
-      statementCopays?.length,
-      statementCopays?.[0]?.id,
-      shouldUseLighthouseCopays,
-    ],
-  );
+    [statementCopaysLength, firstCopayId, shouldUseLighthouseCopays],
+  ); // eslint-disable-line react-hooks/exhaustive-deps
 
   useHeaderPageTitle(statementAttributes.TITLE);
 
@@ -191,7 +176,7 @@ const MonthlyStatementPage = () => {
           key={statementId}
           statementId={statementId}
           statementDate={dateIsValid(statementAttributes.DATE)}
-          fullName={fullName}
+          fullName={formatFullName(userFullName)}
         />
         <StatementAddresses
           data-testid="statement-addresses"

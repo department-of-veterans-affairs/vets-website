@@ -1,5 +1,6 @@
-import React, { useMemo, useEffect, useParams } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useMemo, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -9,24 +10,26 @@ import HowToPay from '../components/HowToPay';
 import DownloadStatement from '../components/DownloadStatement';
 import FinancialHelp from '../components/FinancialHelp';
 import NeedHelpCopay from '../components/NeedHelpCopay';
-import { DEFAULT_COPAY_ATTRIBUTES } from '../../combined/utils/constants';
+import { DEFAULT_COPAY_ATTRIBUTES, RESOLVE_HEADER } from '../../combined/utils/constants';
 import {
   setPageFocus,
+  formatFullName,
   formatISODateToMMDDYYYY,
   isAnyElementFocused,
   verifyCurrentBalance,
 } from '../../combined/utils/helpers';
-import { useLighthouseCopays } from '../../combined/utils/selectors';
+import {
+  useCurrentCopay,
+  useLighthouseCopays,
+  selectUserFullName,
+} from '../../combined/utils/selectors';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const ResolvePage = () => {
-  const dispatch = useDispatch();
   const { id: copayId } = useParams();
-
   const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
+  const userFullName = useSelector(selectUserFullName);
   const { currentCopay, isLoading } = useCurrentCopay();
-  
-  const TITLE = `Resolve your copay bill`;
 
   const copayAttributes = useMemo(
     () => {
@@ -68,15 +71,9 @@ const ResolvePage = () => {
       /* eslint-disable no-nested-ternary */
     },
     [currentCopay?.id, shouldUseLighthouseCopays],
-  );
+  ); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // get veteran name
-  const userFullName = useSelector(({ user }) => user.profile.userFullName);
-  const fullName = userFullName?.middle
-    ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
-    : `${userFullName.first} ${userFullName.last}`;
-
-  useHeaderPageTitle(TITLE);
+  useHeaderPageTitle(RESOLVE_HEADER);
 
   useEffect(() => {
     if (!isAnyElementFocused()) setPageFocus();
@@ -140,7 +137,7 @@ const ResolvePage = () => {
               ? formatISODateToMMDDYYYY(copayAttributes.INVOICE_DATE)
               : currentCopay.pSStatementDateOutput
           }
-          fullName={fullName}
+          fullName={formatFullName(userFullName)}
         />
         <FinancialHelp />
         <DisputeCharges />

@@ -7,6 +7,11 @@ import recordEvent from 'platform/monitoring/record-event';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { head } from 'lodash';
 
+export const formatFullName = (userFullName) => userFullName?.middle
+    ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
+    : `${userFullName?.first || ''} ${userFullName?.last || ''}`.trim();
+
+
 /* Helper function to consisently format date strings
  *
  * @param {string} date - date string or date type

@@ -5,6 +5,9 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { useParams } from 'react-router-dom';
 import { getAllCopays, getAllLighthouseCopays, getCopayDetail } from '../../combined/actions/copays';
 
+export const selectUserFullName = state =>
+  state?.user?.profile?.userFullName;
+
 export const cdpAccessToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
 
