@@ -25,21 +25,21 @@ const ContactListMigrationAlert = ({ migrationSchedules }) => {
   }
 
   // Find the first matching variant based on the user's current phase
-  const variants = Object.values(ContactListMigrationAlertContent);
-  let matchedVariant = null;
+  const contentOptions = Object.values(ContactListMigrationAlertContent);
+  let matchedPhase = null;
   const matchingSchedules = [];
 
   migrationSchedules.forEach(schedule => {
-    const variant = variants.find(v =>
-      v.phases.includes(schedule.phases?.current),
+    const hasPhase = contentOptions.find(option =>
+      option.phases.includes(schedule.phases?.current),
     );
-    if (variant) {
-      matchedVariant = variant;
+    if (hasPhase) {
+      matchedPhase = hasPhase;
       matchingSchedules.push(schedule);
     }
   });
 
-  if (!matchedVariant || !matchingSchedules.length) {
+  if (!matchedPhase || !matchingSchedules.length) {
     return null;
   }
 
@@ -72,9 +72,9 @@ const ContactListMigrationAlert = ({ migrationSchedules }) => {
       data-testid="contact-list-migration-alert"
       data-dd-action-name="Contact List Migration Alert"
     >
-      <h2 slot="headline">{matchedVariant.headline}</h2>
+      <h2 slot="headline">{matchedPhase.headline}</h2>
       <div>
-        <p>{matchedVariant.bodyTop}</p>
+        <p>{matchedPhase.bodyTop}</p>
         <ul>
           {facilities.map(facility => (
             <li key={facility.facilityId} data-dd-privacy="mask">
@@ -82,7 +82,7 @@ const ContactListMigrationAlert = ({ migrationSchedules }) => {
             </li>
           ))}
         </ul>
-        <p>{matchedVariant.bodyBottom}</p>
+        <p>{matchedPhase.bodyBottom}</p>
       </div>
     </VaAlert>
   );
