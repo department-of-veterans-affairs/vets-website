@@ -52,7 +52,7 @@ describe('EZR No Financial Submission', () => {
     advanceFromHouseholdToReview({
       featureFlags: featureTogglesObject,
       hasServiceHistoryInfo: !!mockPrefill.formData?.[
-        'view:hasPrefillServiceHistoryInfo'
+        'view:hasPrefillServiceHistory'
       ],
     });
 

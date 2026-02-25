@@ -17,6 +17,7 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { datadogRum } from '@datadog/browser-rum';
 import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import CernerFacilityAlert from '~/platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import {
@@ -42,8 +43,17 @@ import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import ProcessList from '../components/shared/ProcessList';
 import { refillProcessStepGuide } from '../util/processListData';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
-import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
-import { selectCernerPilotFlag } from '../util/selectors';
+import {
+  selectUserDob,
+  selectUserFullName,
+  selectOracleHealthMigrations,
+} from '../selectors/selectUser';
+import {
+  selectCernerPilotFlag,
+  selectMhvMedicationsOracleHealthCutoverFlag,
+} from '../util/selectors';
+import { OracleHealthT3Alert } from '../components/OracleHealthTransitionAlerts';
+import { filterPrescriptionsByTransition } from '../util/oracleHealthTransition';
 
 import { selectSortOption } from '../selectors/selectPreferences';
 
@@ -92,30 +102,27 @@ const RefillPrescriptions = () => {
   // Ref to snapshot the selected prescriptions at refill time
   const submittedMedications = useRef(null);
 
+  // Exclude refillableData from deps to preserve the ref snapshot
+  // during RTK Query cache invalidation after refill.
   const successfulMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.successfulIds,
         submittedMedications.current || refillableData?.prescriptions,
       ),
-    [
-      getMedicationsByIds,
-      result?.data?.successfulIds,
-      refillableData?.prescriptions,
-    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getMedicationsByIds, result?.data?.successfulIds, result?.data],
   );
 
+  // Same as above — exclude refillableData to preserve ref snapshot.
   const failedMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.failedIds,
         submittedMedications.current || refillableData?.prescriptions,
       ),
-    [
-      getMedicationsByIds,
-      result?.data?.failedIds,
-      refillableData?.prescriptions,
-    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getMedicationsByIds, result?.data?.failedIds, result?.data],
   );
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
@@ -158,6 +165,11 @@ const RefillPrescriptions = () => {
     isLoading: isAcceleratedDataLoading,
   } = useAcceleratedData();
 
+  const migratingFacilities = useSelector(selectOracleHealthMigrations);
+  const isOracleHealthCutoverEnabled = useSelector(
+    selectMhvMedicationsOracleHealthCutoverFlag,
+  );
+
   const isDataLoading = isLoading || isRefilling;
   const selectedRefillListLength = selectedRefillList.length;
 
@@ -182,8 +194,25 @@ const RefillPrescriptions = () => {
   // Use the original refillable prescriptions list without client-side filtering
   // This prevents duplicate refill attempts by relying on server-side data consistency
   // Cache invalidation in the API (invalidatesTags) will handle removing refilled prescriptions
-  const fullRefillList = useMemo(() => refillableData?.prescriptions || [], [
-    refillableData?.prescriptions,
+  const {
+    available: availablePrescriptions,
+    blocked: blockedPrescriptions,
+  } = useMemo(
+    () =>
+      filterPrescriptionsByTransition({
+        prescriptions: refillableData?.prescriptions,
+        isFeatureFlagEnabled: isOracleHealthCutoverEnabled,
+        migrations: migratingFacilities,
+      }),
+    [
+      refillableData?.prescriptions,
+      isOracleHealthCutoverEnabled,
+      migratingFacilities,
+    ],
+  );
+
+  const fullRefillList = useMemo(() => availablePrescriptions || [], [
+    availablePrescriptions,
   ]);
 
   // Hide the refillable list during cache refresh after successful refill to prevent duplicate attempts
@@ -204,6 +233,13 @@ const RefillPrescriptions = () => {
   // Functions
   const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
+      const facilityIds = [
+        ...new Set(selectedRefillList.map(rx => rx.stationNumber)),
+      ];
+      datadogRum.addAction(
+        dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON,
+        { facilityIds },
+      );
       setRefillStatus(REFILL_STATUS.IN_PROGRESS);
       window.scrollTo(0, 0);
 
@@ -371,7 +407,15 @@ const RefillPrescriptions = () => {
             />
             {fullRefillList?.length > 0 ? (
               <div>
-                <CernerFacilityAlert healthTool="MEDICATIONS" />
+                {blockedPrescriptions?.length > 0 ? (
+                  <OracleHealthT3Alert
+                    blockedPrescriptions={blockedPrescriptions}
+                    hasRefillable={fullRefillList?.length > 0}
+                    migratingFacilities={migratingFacilities}
+                  />
+                ) : (
+                  <CernerFacilityAlert healthTool="MEDICATIONS" />
+                )}
                 <h2
                   className="vads-u-margin-top--3"
                   data-testid="refill-page-subtitle"
@@ -445,9 +489,6 @@ const RefillPrescriptions = () => {
                   className="vads-u-background-color--white vads-u-padding--0 vads-u-margin-top--1 no-print"
                   id="request-refill-button"
                   data-testid="request-refill-button"
-                  data-dd-action-name={
-                    dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON
-                  }
                   disabled={isDisabled}
                   onClick={() => onRequestRefills()}
                   text={`Request ${
@@ -462,14 +503,25 @@ const RefillPrescriptions = () => {
               </div>
             ) : (
               <>
-                <p data-testid="no-refills-message">
-                  You don’t have any VA prescriptions with refills available. If
-                  you need a prescription, contact your care team.
-                </p>
-                <CernerFacilityAlert
-                  healthTool="MEDICATIONS"
-                  className="vads-u-margin-top--2"
-                />
+                {blockedPrescriptions?.length > 0 ? (
+                  <OracleHealthT3Alert
+                    blockedPrescriptions={blockedPrescriptions}
+                    hasRefillable={false}
+                    migratingFacilities={migratingFacilities}
+                  />
+                ) : (
+                  <>
+                    <CernerFacilityAlert
+                      healthTool="MEDICATIONS"
+                      className="vads-u-margin-top--2"
+                    />
+                    <p data-testid="no-refills-message">
+                      You don’t have any VA prescriptions with refills
+                      available. If you need a prescription, contact your care
+                      team.
+                    </p>
+                  </>
+                )}
               </>
             )}
             <p className="vads-u-margin-top--3" data-testid="note-refill-page">

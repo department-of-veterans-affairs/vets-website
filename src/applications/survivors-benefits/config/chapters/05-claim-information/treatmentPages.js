@@ -9,6 +9,7 @@ import {
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { transformDate } from './helpers';
 import { customTextSchema } from '../../definitions';
+import { validations } from '../../validations';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -101,10 +102,13 @@ const treatmentDatePage = {
       title: 'Start date of treatment',
       monthSelect: false,
     }),
-    endDate: currentOrPastDateUI({
-      title: 'End date of treatment',
-      monthSelect: false,
-    }),
+    endDate: {
+      ...currentOrPastDateUI({
+        title: 'End date of treatment',
+        monthSelect: false,
+      }),
+      'ui:validations': [validations.isAfterTreatmentStartDate],
+    },
   },
   schema: {
     type: 'object',

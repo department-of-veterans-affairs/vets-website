@@ -233,7 +233,7 @@ describe('10-10d-extended transform for submit', () => {
     const testData = {
       data: {
         sponsorIsDeceased: true,
-        sponsorDOD: '2022-05-15',
+        sponsorDod: '2022-05-15',
         sponsorDeathConditions: true,
       },
     };

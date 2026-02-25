@@ -48,10 +48,14 @@ describe('New letters page design', () => {
       'Your VA benefit letters and documents | Veterans Affairs',
     );
     cy.axeCheck('main');
-    cy.get('@lettersAccordion')
-      .shadow()
-      .find('button.va-accordion__button')
-      .click({ multiple: true });
+    cy.get('[data-test-id="letters-accordion"] va-accordion-item').each(
+      $item => {
+        cy.wrap($item)
+          .shadow()
+          .find('button[aria-expanded]')
+          .click({ force: true });
+      },
+    );
     cy.get('va-link[filetype="PDF"]', { timeout: Timeouts.slow }).should(
       'have.length',
       4,
@@ -64,10 +68,14 @@ describe('New letters page design', () => {
     cy.get('[data-test-id="letters-accordion"]', { timeout: Timeouts.slow })
       .as('lettersAccordion')
       .should('be.visible');
-    cy.get('@lettersAccordion')
-      .shadow()
-      .find('button.va-accordion__button')
-      .click({ multiple: true });
+    cy.get('[data-test-id="letters-accordion"] va-accordion-item').each(
+      $item => {
+        cy.wrap($item)
+          .shadow()
+          .find('button[aria-expanded]')
+          .click({ force: true });
+      },
+    );
     cy.get('va-link[filetype="PDF"]', { timeout: Timeouts.slow })
       .first()
       .click({ force: true });

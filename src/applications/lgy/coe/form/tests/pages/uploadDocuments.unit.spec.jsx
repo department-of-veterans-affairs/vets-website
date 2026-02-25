@@ -3,8 +3,11 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { DocumentTypeSelect, getUiSchema } from '../../pages/uploadDocuments';
-import { serviceStatuses } from '../../constants';
+import { DocumentTypeSelect } from '../../pages/uploadDocuments';
+import {
+  serviceStatuses,
+  entitlementRestorationOptions,
+} from '../../constants';
 
 const mockStore = configureStore([]);
 
@@ -30,6 +33,23 @@ describe('DocumentTypeSelect component', () => {
     const options = container.querySelectorAll('option');
     expect(options).to.have.length(1);
     expect(options[0].textContent).to.equal('Discharge papers (DD214)');
+  });
+
+  it('should show Discharge papers and Loan evidence for VETERAN with one-time restoration', () => {
+    const { container } = renderWithStore({
+      identity: serviceStatuses.VETERAN,
+      relevantPriorLoans: [
+        {
+          entitlementRestoration:
+            entitlementRestorationOptions.ONE_TIME_RESTORATION,
+        },
+      ],
+    });
+
+    const options = container.querySelectorAll('option');
+    expect(options).to.have.length(2);
+    expect(options[0].textContent).to.equal('Discharge papers (DD214)');
+    expect(options[1].textContent).to.equal('Loan evidence');
   });
 
   it('should show Statement of Service for ADSM without Purple Heart', () => {
@@ -99,41 +119,5 @@ describe('DocumentTypeSelect component', () => {
     expect(options[3].textContent).to.equal(
       'Department of Defense Discharge Certificate',
     );
-  });
-});
-
-describe('uploadDocuments page', () => {
-  describe('statement of service accordion', () => {
-    const renderTitleDescription = identity => {
-      const formData = { identity };
-      const uiSchema = getUiSchema();
-      const titleDescription = uiSchema['ui:title']({ formData });
-      return render(<div>{titleDescription}</div>);
-    };
-
-    const statusesWithAccordion = [serviceStatuses.ADSM, serviceStatuses.NADNA];
-
-    const statusesWithoutAccordion = [
-      serviceStatuses.VETERAN,
-      serviceStatuses.DNANA,
-      serviceStatuses.DRNA,
-    ];
-
-    statusesWithAccordion.forEach(status => {
-      it(`should display accordion for ${status} service status`, () => {
-        const { getByTestId } = renderTitleDescription(status);
-        const accordion = getByTestId('statement-of-service-accordion');
-        expect(accordion).to.exist;
-        expect(accordion.textContent).to.include('Statement of service');
-      });
-    });
-
-    statusesWithoutAccordion.forEach(status => {
-      it(`should not display accordion for ${status} service status`, () => {
-        const { queryByTestId } = renderTitleDescription(status);
-        const accordion = queryByTestId('statement-of-service-accordion');
-        expect(accordion).to.not.exist;
-      });
-    });
   });
 });

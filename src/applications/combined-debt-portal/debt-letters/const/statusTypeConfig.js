@@ -66,14 +66,16 @@ export const STATUS_TYPE_CONFIG = {
   '9': {
     alertType: 'warning',
     category: 'diaryCodes.statusTypes.9.category',
-    links: ['details'],
-    phoneSet: 'treasury',
+    linksByView: {
+      summary: ['details', 'resolve'],
+      details: ['resolve'],
+    },
   },
   '10': {
-    alertType: 'info',
+    alertType: 'warning',
     category: 'diaryCodes.statusTypes.10.category',
     links: ['details'],
-    phoneSet: 'dmc',
+    phoneSet: 'treasury',
   },
   '11': {
     alertType: 'info',
@@ -82,8 +84,14 @@ export const STATUS_TYPE_CONFIG = {
     phoneSet: 'dmc',
   },
   '12': {
-    alertType: 'warning',
+    alertType: 'info',
     category: 'diaryCodes.statusTypes.12.category',
+    links: ['details'],
+    phoneSet: 'dmc',
+  },
+  '13': {
+    alertType: 'warning',
+    category: 'diaryCodes.statusTypes.13.category',
     linksByView: {
       summary: ['details', 'resolve'],
       details: ['requestHelp'],
