@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import * as trainingProviderDetails from '../../pages/trainingProviderDetails';
@@ -10,11 +10,7 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
 
   it('should render with all input and select fields', () => {
     const { container } = render(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{ trainingProviders: [] }}
-      />,
+      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
     );
 
     expect(container.querySelectorAll('va-text-input')).to.have.lengthOf(7);
@@ -26,7 +22,10 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        data={{ trainingProviders: [] }}
+        data={{
+          providerName: undefined,
+          providerAddress: {},
+        }}
       />,
     );
 
@@ -35,11 +34,6 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
     expect(container.querySelectorAll('va-text-input[error]')).to.have.lengthOf(
       4,
     );
-
-    await waitFor(() => {
-      expect(container.querySelectorAll('va-select[error]')).to.have.lengthOf(
-        1,
-      );
-    });
+    expect(container.querySelectorAll('va-select[error]')).to.have.lengthOf(1);
   });
 });
