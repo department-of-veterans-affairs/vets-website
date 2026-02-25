@@ -89,7 +89,7 @@
 }
 .data-card {
   width: 416px;
-   @media (max-width: $small-screen) {
+  @media (max-width: $small-screen) {
     width: 100%;
   }
 }
@@ -110,30 +110,31 @@
 }
 
 .meb-definition-list {
-	margin: 0;
+  margin: 0;
 }
 .meb-definition-list:after {
-	clear: both;
-	content: "";
-	display: table;
+  clear: both;
+  content: "";
+  display: table;
 }
 .meb-definition-list_term,
 .meb-definition-list_definition {
-	float: left;
+  float: left;
 }
 .meb-definition-list_term {
-	clear: left;
-	font-weight: bold;
-	margin-top: 0;
+  clear: left;
+  font-weight: bold;
+  margin-top: 0;
 }
 .meb-definition-list_term--normal {
-	font-weight: normal;
+  font-weight: normal;
 }
 .meb-definition-list_definition {
-	margin-left: 1em;
+  margin-left: 1em;
 }
 
-select, input {
+select,
+input {
   font-size: 1.06rem;
 }
 
@@ -144,5 +145,27 @@ legend {
 .update-phone-button {
   &:hover {
     background-color: transparent;
+  }
+}
+
+.page {
+  h3 {
+    color: var(--vads-color-base) !important;
+    margin-top: 0 !important;
+  }
+}
+
+.training-provider-summary {
+  margin-top: 0 !important;
+
+  #root__title {
+    padding: 0 !important;
+  }
+}
+
+.form-review-panel-page {
+  h3,
+  h4 {
+    color: var(--vads-color-base) !important;
   }
 }

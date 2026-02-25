@@ -35,7 +35,6 @@ const uiSchema = {
         </p>
       </>
     ),
-    classNames: 'vads-u-color--base vads-u-margin-top--0',
   }),
   mailingAddress: {
     ...addressUiSchema,
