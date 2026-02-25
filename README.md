@@ -357,9 +357,33 @@ for doing very specific things.
 
 ## API Keys
 
-In order to work with the Facility Locator locally, you will need a Mapbox API key with dev access. see [this link](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/working-with-vsp/policies-work-norms/sensitive-guidance.md) for details on handling non public keys and tokens. You will need to access the paramater store within AWS Systems manager, and get the dev mapbox token from this location: /dsva-vagov/vets-website/dev/mapbox_token.
+### Mapbox
 
-Create a .env file in the root of vets-website, and assign the above token to a variable called MAPBOX_TOKEN. The .env file should already be configured to work with dotenv for webpack. Ensure that the .env file is in .gitigore and take care not to expose this token in any public commits. See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=external-request%2Coperations%2Cops-access-request&template=aws-access-request.yml&title=AWS+access+for+%5Bindividual%5D) for instructions on requesting AWS access.
+Mapbox tokens are stored in AWS Systems Manager Parameter Store and injected as environment variables at build time. Each app that uses Mapbox has its own token for usage tracking:
+
+| App | Env Var | SSM Parameter |
+| :-- | :------ | :------------ |
+| Facility Locator | `MAPBOX_TOKEN_FACILITY_LOCATOR` | `/dsva-vagov/vets-website/prod/mapbox_token_facility_locator` |
+| Ask VA | `MAPBOX_TOKEN_ASK_VA` | `/dsva-vagov/vets-website/prod/mapbox_token_ask_va` |
+| Representative Search | `MAPBOX_TOKEN_REPRESENTATIVE_SEARCH` | `/dsva-vagov/vets-website/prod/mapbox_token_representative_search` |
+| Caregivers | `MAPBOX_TOKEN_CAREGIVERS` | `/dsva-vagov/vets-website/prod/mapbox_token_caregivers` |
+| GI Bill | `MAPBOX_TOKEN_GI` | `/dsva-vagov/vets-website/prod/mapbox_token_gi` |
+| Static Pages | `MAPBOX_TOKEN_STATIC_PAGES` | `/dsva-vagov/vets-website/prod/mapbox_token_static_pages` |
+| Shared fallback | `MAPBOX_TOKEN` | `/dsva-vagov/vets-website/dev/mapbox_token` |
+
+**For local development**, fetch the shared dev token from AWS SSM and add it to a `.env` file in the project root:
+
+```sh
+aws ssm get-parameter --name /dsva-vagov/vets-website/dev/mapbox_token --with-decryption --query Parameter.Value --output text --region us-gov-west-1
+```
+
+Then add it to your `.env`:
+
+```
+MAPBOX_TOKEN=<token-value>
+```
+
+The `.env` file is already in `.gitignore`. See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=external-request%2Coperations%2Cops-access-request&template=aws-access-request.yml&title=AWS+access+for+%5Bindividual%5D) for instructions on requesting AWS access.
 
 ## Additional Resources
 
