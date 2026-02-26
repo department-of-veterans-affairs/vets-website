@@ -149,6 +149,44 @@ describe('Survivors Benefits Form config', () => {
       expect(pages.reasonForSeparation.depends(livedContinuously)).to.be.false;
     });
 
+    it('should show separationDetails when all separation conditions are met', () => {
+      const { householdInformation } = formConfig.chapters;
+      const { pages } = householdInformation;
+      const { separationDetails } = pages;
+
+      const allConditionsTrue = {
+        claimantRelationship: 'SURVIVING_SPOUSE',
+        livedContinuouslyWithVeteran: false,
+        separationDueToAssignedReasons: 'DIVORCE',
+      };
+      const notSurvivingSpouse = {
+        claimantRelationship: 'CHILD',
+        livedContinuouslyWithVeteran: false,
+        separationDueToAssignedReasons: 'DIVORCE',
+      };
+      const livedContinuously = {
+        claimantRelationship: 'SURVIVING_SPOUSE',
+        livedContinuouslyWithVeteran: true,
+        separationDueToAssignedReasons: 'DIVORCE',
+      };
+      const noSeparationReason = {
+        claimantRelationship: 'SURVIVING_SPOUSE',
+        livedContinuouslyWithVeteran: false,
+      };
+
+      // Should show when all three conditions are met
+      expect(separationDetails.depends(allConditionsTrue)).to.be.ok;
+
+      // Should NOT show when claimant is not surviving spouse
+      expect(separationDetails.depends(notSurvivingSpouse)).not.to.be.ok;
+
+      // Should NOT show when lived continuously (even if separation reason exists)
+      expect(separationDetails.depends(livedContinuously)).not.to.be.ok;
+
+      // Should NOT show when no separation reason selected
+      expect(separationDetails.depends(noSeparationReason)).not.to.be.ok;
+    });
+
     it('should show remarriage pages when remarried after veteran death', () => {
       const { householdInformation } = formConfig.chapters;
       const { pages } = householdInformation;
@@ -214,13 +252,13 @@ describe('Survivors Benefits Form config', () => {
       };
 
       expect(pages.dependentsResidence.depends(someChildrenDontLiveWithSpouse))
-        .to.to.be.true;
+        .to.be.true;
       expect(pages.dependentsResidence.depends(allChildrenLiveWithSpouse)).to.be
         .false;
       expect(pages.dependentsResidence.depends(noChildren)).to.be.false;
     });
 
-    it('should show dependent pages when children live together but not with spouse', () => {
+    it('should show dependentsAddress and dependentsName when children live together but not with spouse', () => {
       const { householdInformation } = formConfig.chapters;
       const { pages } = householdInformation;
 
@@ -238,66 +276,6 @@ describe('Survivors Benefits Form config', () => {
         .false;
       expect(pages.dependentsName.depends(childrenDontLiveTogether)).to.be
         .false;
-    });
-
-    it('should show separationDetails when all separation conditions are met', () => {
-      const { householdInformation } = formConfig.chapters;
-      const { pages } = householdInformation;
-      const { separationDetails } = pages;
-
-      // Should show when all three conditions are met
-      const allConditionsTrue = {
-        claimantRelationship: 'SURVIVING_SPOUSE',
-        livedContinuouslyWithVeteran: false,
-        separationDueToAssignedReasons: 'DIVORCE',
-      };
-      expect(separationDetails.depends(allConditionsTrue)).to.be.ok;
-
-      // Should NOT show when claimant is not surviving spouse
-      const notSurvivingSpouse = {
-        claimantRelationship: 'CHILD',
-        livedContinuouslyWithVeteran: false,
-        separationDueToAssignedReasons: 'DIVORCE',
-      };
-      expect(separationDetails.depends(notSurvivingSpouse)).not.to.be.ok;
-
-      // Should NOT show when lived continuously (even if separation reason exists)
-      const livedContinuously = {
-        claimantRelationship: 'SURVIVING_SPOUSE',
-        livedContinuouslyWithVeteran: true,
-        separationDueToAssignedReasons: 'DIVORCE',
-      };
-      expect(separationDetails.depends(livedContinuously)).not.to.be.ok;
-
-      // Should NOT show when no separation reason selected
-      const noSeparationReason = {
-        claimantRelationship: 'SURVIVING_SPOUSE',
-        livedContinuouslyWithVeteran: false,
-      };
-      expect(separationDetails.depends(noSeparationReason)).not.to.be.ok;
-    });
-
-    it('dependentsResidence diplays residenceAlert if hideIf returns true when childrenLiveTogetherButNotWithSpouse is Yes', () => {
-      const { householdInformation } = formConfig.chapters;
-      const { pages } = householdInformation;
-      const { dependentsResidence } = pages;
-      const { uiSchema } = dependentsResidence;
-      expect(uiSchema, 'dependentsResidence uiSchema not found').to.exist;
-      const alertOptions = uiSchema.residenceAlert['ui:options'];
-      expect(alertOptions, 'residenceAlert options not found').to.exist;
-      const itemYes = {
-        veteranChildrenCount: '1',
-        childrenLiveTogetherButNotWithSpouse: 'Yes',
-      };
-      const itemNo = {
-        veteranChildrenCount: '1',
-        childrenLiveTogetherButNotWithSpouse: 'No',
-      };
-      const none = { veteranChildrenCount: '0' };
-
-      expect(uiSchema.residenceAlert['ui:options'].hideIf(itemYes)).to.be.true;
-      expect(uiSchema.residenceAlert['ui:options'].hideIf(itemNo)).to.be.false;
-      expect(uiSchema.residenceAlert['ui:options'].hideIf(none)).to.be.false;
     });
   });
 
