@@ -21,6 +21,7 @@ import {
   isAccountLockedError,
   isServerError,
   isAppointmentAlreadyBookedError,
+  isNotWhithinCohortError,
 } from '../utils/errors';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
@@ -68,7 +69,7 @@ const EnterOTP = () => {
   ] = usePostOTPVerificationMutation();
   const [
     getAppointmentAvailability,
-    { isFetching: isCheckingAvailability },
+    { isFetching: isCheckingAvailability, error: appointmentAvailabilityError },
   ] = useLazyGetAppointmentAvailabilityQuery();
 
   const handleSubmit = async () => {
@@ -97,6 +98,13 @@ const EnterOTP = () => {
     }
 
     const availabilityCheck = await getAppointmentAvailability();
+
+    if (
+      isServerError(availabilityCheck.error) ||
+      isNotWhithinCohortError(availabilityCheck.error)
+    ) {
+      return;
+    }
 
     if (isAppointmentAlreadyBookedError(availabilityCheck.error)) {
       const { appointmentId } = availabilityCheck.error.appointment;
@@ -131,7 +139,11 @@ const EnterOTP = () => {
           ? errorMessage
           : undefined
       }
-      errorAlert={isServerError(postOTPVerificationError)}
+      errorAlert={
+        isServerError(postOTPVerificationError) ||
+        isServerError(appointmentAvailabilityError) ||
+        isNotWhithinCohortError(appointmentAvailabilityError)
+      }
     >
       {!postOTPVerificationError?.code && (
         <va-alert
