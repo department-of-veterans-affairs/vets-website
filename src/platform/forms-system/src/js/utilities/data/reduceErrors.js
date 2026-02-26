@@ -159,7 +159,7 @@ export const getPropertyInfo = (pageList = [], name, instance = '') => {
     }
     return -1;
   };
-  return pageList.find(page => findPageIndex(page) > -1) || {};
+  return pageList.filter(page => findPageIndex(page) > -1) || {};
 };
 
 /**
@@ -268,6 +268,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
             getPropertyInfo(pageList, name);
           const { chapterKey = '', pageKey = '', navigationType = 'edit' } =
             overrideResult || {};
+          const pageKeys = overrideResult.map(obj => obj.pageKey);
           // `message` can be null if a reviewErrors function explicitly returns null
           // to suppress the error link. This is useful when multiple related errors
           // exist and only one link should be displayed.
@@ -279,7 +280,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
               message:
                 message || err.__errors.map(e => formatErrors(e)).join('. '),
               chapterKey,
-              pageKey,
+              pageKeys,
               navigationType,
             });
           }
@@ -343,6 +344,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
               // page within the chapter that contains the error; will be used
               // in future work to highlight the specific page for the user
               pageKey,
+              pageKeys: 'blah',
               navigationType,
             });
           }

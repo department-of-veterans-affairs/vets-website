@@ -13,6 +13,8 @@ const ReviewSectionContent = ({
     .map(item => keys.filter(key => key.split('_')[0] === item.key)[0])
     .filter(key => key !== undefined && key !== null);
 
+  console.log('ReviewSectionContent title is', title);
+
   return (
     <div
       className="schemaform-chapter-accordion-content vads-u-padding-top--0 vads-u-margin-bottom--2"

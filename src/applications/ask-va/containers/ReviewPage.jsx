@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
@@ -11,6 +11,7 @@ import {
 import {
   setData,
   setEditMode,
+  setFormErrors,
   setViewedPages,
   uploadFile,
 } from '@department-of-veterans-affairs/platform-forms-system/actions';
@@ -18,7 +19,9 @@ import {
   getActiveExpandedPages,
   getPageKeys,
 } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { reduceErrors } from '~/platform/forms-system/src/js/utilities/data/reduceErrors';
 import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
+import { isValidForm } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
   isLOA3,
   isLoggedIn,
@@ -61,7 +64,12 @@ import {
   maskSocial,
 } from '../utils/reviewPageUtils';
 
+export const getErrorPageKeys = err => {
+  return err.pageKeys.map(pageKey => `${pageKey}${err.index ?? ''}`);
+};
+
 const ReviewPage = props => {
+  const errorPageKeys = useRef([]);
   const [showAlert, setShowAlert] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
   const [editSection, setEditSection] = useState([]);
@@ -73,6 +81,17 @@ const ReviewPage = props => {
 
   const scrollToChapter = chapterKey => {
     scrollTo(`chapter${chapterKey}ScrollElement`, getScrollOptions(chapterKey));
+  };
+
+  const sectionHasErrors = (section, pageKeys) => {
+    console.log('HERERERERE, sectionHasErrors', section, pageKeys);
+    const pages = props.routes[1].pageList;
+
+    const newPagesToCheck = pages.filter(page =>
+      pageKeys.includes(page.pageKey),
+    );
+
+    return newPagesToCheck.some(page => page.pageKey === section);
   };
 
   const handleToggleChapter = ({ name, open, pageKeys }) => {
@@ -112,42 +131,73 @@ const ReviewPage = props => {
   };
 
   const handleEdit = (pageKey, editing, index = null) => {
-    if (pageKey === 'question' && props.formData.question.length > 10000) {
-      focusElement('va-textarea');
-    } else {
-      if (pageKey === 'question') {
-        setEditAttachments(editing);
-        getUploadedFiles();
-      }
+    if (pageKey === 'question') {
+      setEditAttachments(editing);
+      getUploadedFiles();
+    }
 
-      const fullPageKey = `${pageKey}${index === null ? '' : index}`;
-      if (editing) {
-        props.setViewedPages([fullPageKey]);
-        dispatch(setUpdatedInReview(''));
-      }
+    const fullPageKey = `${pageKey}${index === null ? '' : index}`;
+    if (editing) {
+      props.setViewedPages([fullPageKey]);
+      dispatch(setUpdatedInReview(''));
+    } else {
+      dispatch(setUpdatedInReview(pageKey));
+    }
+
+    const { pageList } = props.routes[1];
+    const { errors } = isValidForm(props.form, pageList);
+    const cleanedErrors = reduceErrors(errors, pageList);
+    console.log('cleanedErrors are', cleanedErrors);
+    props.setFormErrors({
+      rawErrors: errors,
+      errors: cleanedErrors,
+    });
+
+    const tempErrorPageKeys = [];
+
+    cleanedErrors.forEach(error => {
+      const keys = getErrorPageKeys(error);
+      tempErrorPageKeys.push(...keys);
+    });
+
+    errorPageKeys.current = tempErrorPageKeys;
+
+    const hasErrors = cleanedErrors.some(error => {
+      const errorPages = getErrorPageKeys(error);
+      return errorPages.includes(pageKey);
+    });
+
+    console.log(hasErrors);
+
+    if ((!editing && !hasErrors) || editing) {
       props.setEditMode(pageKey, editing, index);
-      if (!editing) {
-        dispatch(setUpdatedInReview(pageKey));
-      }
     }
   };
 
   const editAll = (pageKeys, title) => {
+    console.log('title is', title);
+
     if (
       title === chapterTitles.yourContactInformation ||
       title === chapterTitles.yourInformation ||
       title === chapterTitles.yourQuestion
     ) {
+      console.log('handling edit for', pageKeys[0]);
       handleEdit(pageKeys[0], true, null);
     } else {
       pageKeys.forEach(key => handleEdit(key, true, null));
     }
+
+    console.log('edit section is', editSection, title);
     setEditSection([...editSection, title]);
   };
 
   const closeAll = (pageKeys, title) => {
     pageKeys.forEach(key => handleEdit(key, false));
-    const updateViewedList = editSection.filter(section => section !== title);
+    const updateViewedList = editSection.filter(
+      section =>
+        section !== title || !sectionHasErrors(section, errorPageKeys.current),
+    );
     setEditSection(updateViewedList);
   };
 
@@ -644,6 +694,7 @@ const ReviewPage = props => {
                     chapterKey={chapter.name}
                     // eslint-disable-next-line react/prop-types
                     form={props.form}
+                    GF
                     // eslint-disable-next-line react/prop-types
                     formContext={props.formContext}
                     onEdit={handleEdit}
@@ -1309,6 +1360,7 @@ const ReviewPage = props => {
                   <ReviewSectionContent
                     editSection={editAll}
                     keys={chapter.pageKeys}
+                    title={chapterTitles.yourQuestion}
                     items={[
                       {
                         name: 'Subject',
@@ -1511,6 +1563,7 @@ ReviewPage.propTypes = {
 const mapDispatchToProps = {
   setData,
   setEditMode,
+  setFormErrors,
   setViewedPages,
   uploadFile,
 };
