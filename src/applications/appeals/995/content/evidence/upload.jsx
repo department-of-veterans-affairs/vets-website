@@ -1,25 +1,24 @@
 import React from 'react';
 
+export const promptContent = {
+  title: 'Do you want to upload evidence to support your claim?',
+  description: (
+    <p>
+      Supporting evidence can include private medical records or a lay/witness
+      statement (sometimes called a “buddy statement”). A lay/witness statement
+      is a written statement from family, friends, or coworkers to help support
+      your claim.
+    </p>
+  ),
+};
+
 export const summaryContent = {
-  promptTitle: 'Do you want to upload evidence to support your claim?',
   summaryTitle: 'Review the evidence you’re submitting',
   options: {
     Y: 'Yes',
     N: 'No',
   },
   requiredError: 'Select if you want to upload evidence',
-  typesOfEvidenceContent: (
-    <>
-      <va-additional-info trigger="Types of supporting evidence">
-        <p>
-          Supporting evidence can include private medical records or a
-          lay/witness statement (sometimes called a “buddy statement”). A
-          lay/witness statement is a written statement from family, friends, or
-          coworkers to help support your claim.{' '}
-        </p>
-      </va-additional-info>
-    </>
-  ),
 };
 
 export const detailsContent = {
@@ -27,7 +26,7 @@ export const detailsContent = {
   inputLabel: 'Upload your files',
   description: (
     <>
-      <p>
+      <p className="vads-u-margin-top--0">
         You’ll need to upload new and relevant evidence for your Supplemental
         Claim. This may include supporting evidence like lay/witness statements.
       </p>

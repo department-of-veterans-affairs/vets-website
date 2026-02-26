@@ -9,11 +9,20 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 // import { getAddOrEditMode } from '../../utils/evidence';
-import { EVIDENCE_URLS, EVIDENCE_UPLOAD_URL } from '../../constants';
+import {
+  ATTACHMENTS_OTHER,
+  EVIDENCE_URLS,
+  EVIDENCE_UPLOAD_URL,
+  UPLOADED_EVIDENCE_PROMPT_KEY,
+} from '../../constants';
 import { MAX_FILE_SIZE_BYTES } from '../../../shared/constants';
 import { EVIDENCE_UPLOAD_API } from '../../constants/apis';
 import { redesignActive } from '../../utils';
-import { detailsContent, summaryContent } from '../../content/evidence/upload';
+import {
+  detailsContent,
+  promptContent,
+  summaryContent,
+} from '../../content/evidence/upload';
 
 /**
  * This is how we determine whether all of the info for one
@@ -69,37 +78,36 @@ const errorMessages = {
 /** @returns {PageSchema} */
 const summaryPage = {
   uiSchema: {
-    hasUploadedEvidence: arrayBuilderYesNoUI(
-      options,
-      {
-        title: summaryContent.promptTitle,
-        labels: summaryContent.options,
-        labelHeaderLevel: '3',
-        hint: null,
-        errorMessages,
-      },
-      {
-        title: summaryContent.summaryTitle,
-        labels: summaryContent.options,
-        labelHeaderLevel: '4',
-        hint: null,
-        errorMessages,
-      },
-    ),
-    'view:uploadEvidenceDescription': {
-      'ui:description': summaryContent.typesOfEvidenceContent,
+    [UPLOADED_EVIDENCE_PROMPT_KEY]: {
+      ...arrayBuilderYesNoUI(
+        options,
+        {
+          useFormsPattern: true,
+          formHeading: promptContent.title,
+          formDescription: summaryContent.description,
+          title: promptContent.title,
+          labels: summaryContent.options,
+          formHeadingLevel: '3',
+          labelHeaderLevel: null,
+          hint: null,
+          errorMessages,
+        },
+        {
+          title: summaryContent.summaryTitle,
+          labels: summaryContent.options,
+          labelHeaderLevel: '4',
+          hint: null,
+          errorMessages,
+        },
+      ),
     },
   },
   schema: {
     type: 'object',
     properties: {
-      hasUploadedEvidence: arrayBuilderYesNoSchema,
-      'view:uploadEvidenceDescription': {
-        type: 'object',
-        properties: {},
-      },
+      [UPLOADED_EVIDENCE_PROMPT_KEY]: arrayBuilderYesNoSchema,
     },
-    required: ['hasUploadedEvidence'],
+    required: [UPLOADED_EVIDENCE_PROMPT_KEY],
   },
 };
 
@@ -114,8 +122,15 @@ const uploadPage = {
       title: detailsContent.inputLabel,
       labelHeaderLevel: '4',
       fileUploadUrl: `${environment.API_URL}${EVIDENCE_UPLOAD_API}`,
+      accept: '.pdf',
       maxFileSize: MAX_FILE_SIZE_BYTES,
       required: true,
+      formNumber: '20-0995',
+      additionalInputRequired: true,
+      additionalInputLabels: {
+        documentType: { ...ATTACHMENTS_OTHER },
+      },
+      additionalInput: 
     }),
   },
   schema: {

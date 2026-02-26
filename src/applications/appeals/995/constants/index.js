@@ -70,6 +70,7 @@ export const HAS_PRIVATE_EVIDENCE = 'view:hasPrivateEvidence';
 export const HAS_OTHER_EVIDENCE = 'view:hasOtherEvidence';
 export const HAS_PRIVATE_LIMITATION = 'view:hasPrivateLimitation';
 export const MST_OPTION = 'mstOption';
+export const UPLOADED_EVIDENCE_PROMPT_KEY = 'hasUploadedEvidence';
 
 export const errorMessages = {
   evidence: {
