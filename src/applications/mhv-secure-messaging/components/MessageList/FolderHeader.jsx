@@ -70,7 +70,7 @@ const FolderHeader = props => {
         folderDescription && (
           <p
             data-testid="folder-description"
-            className="va-introtext folder-description vads-u-margin-top--0"
+            className="va-introtext folder-description vads-u-margin-top--0 vads-u-margin-bottom--1"
           >
             {folderDescription}
           </p>
@@ -180,7 +180,7 @@ const FolderHeader = props => {
         <>{handleFolderDescription()}</>
         {threadCount === 0 &&
           showNoMessages && (
-            <div className="vads-u-margin-y--3">
+            <div>
               <va-alert
                 background-only="true"
                 status="info"
