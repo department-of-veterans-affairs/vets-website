@@ -163,10 +163,19 @@ class ObjectField extends React.Component {
     const defaultEditButton = ({
       label = editLabel,
       onEdit = formContext?.onEdit,
-      text = 'Edit',
-    } = {}) => (
-      <va-button secondary label={label} onClick={onEdit} text={text} uswds />
-    );
+      text,
+    } = {}) => {
+      const buttonText = text !== undefined ? text : label || 'Edit';
+      return (
+        <va-button
+          secondary
+          label={label}
+          onClick={onEdit}
+          text={buttonText}
+          uswds
+        />
+      );
+    };
 
     if (isReactComponent(ObjectViewField)) {
       return (

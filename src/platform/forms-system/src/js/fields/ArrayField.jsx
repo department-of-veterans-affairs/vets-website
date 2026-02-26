@@ -544,7 +544,7 @@ export default class ArrayField extends React.Component {
                     secondary
                     label={`Edit ${ariaItemName}`}
                     onClick={() => this.handleEdit(index)}
-                    text="Edit"
+                    text={`Edit ${ariaItemName}`}
                   />
                 </div>
               </CardOrDiv>

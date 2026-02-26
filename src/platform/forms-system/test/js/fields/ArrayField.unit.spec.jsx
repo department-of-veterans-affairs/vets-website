@@ -211,7 +211,7 @@ describe('Schemaform <ArrayField>', () => {
     const button = container.querySelectorAll('button');
     expect(button.length).to.equal(1);
 
-    expect(container.innerHTML).to.contain('text="Edit"');
+    expect(container.innerHTML).to.contain('text="Edit item"');
     expect(container.innerHTML).to.contain('text="Remove"');
     expect(container.innerHTML).to.contain('text="Save"');
 

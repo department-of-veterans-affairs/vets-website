@@ -495,7 +495,7 @@ export default class ArrayField extends React.Component {
                     aria-label={`Edit ${itemName}`}
                     onClick={() => this.handleEdit(index)}
                   >
-                    Edit
+                    Edit {itemName}
                   </button>
                 </div>
               </div>
