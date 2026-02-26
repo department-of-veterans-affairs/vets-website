@@ -87,7 +87,7 @@ PreSubmitInfo.propTypes = {
   showError: PropTypes.bool,
   user: PropTypes.shape({
     profile: PropTypes.shape({
-      userFullName: PropTypes.string,
+      userFullName: PropTypes.object,
     }),
   }),
 };
