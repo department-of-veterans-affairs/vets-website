@@ -18,12 +18,12 @@ import { electronicCorrespondenceMessage } from '../config/chapters/veteran-cont
 const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
   const dispatch = useDispatch();
   const {
-    email,
-    phone,
-    address = {},
+    emailAddress,
+    phoneNumber,
+    veteranAddress = {},
     internationalPhone,
     electronicCorrespondence,
-  } = data || {};
+  } = data.veteranContactInformation || {};
 
   const [focusSection, setFocusSection] = useState(null);
   const didFocusRef = useRef(false);
@@ -98,7 +98,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
   const showError = message => (
     <span className="usa-input-error-message">{message}</span>
   );
-  const isUSA = address.country === 'USA';
+  const isUSA = veteranAddress.country === 'USA';
   const phoneSource = data['view:phoneSource'] || 'Mobile';
 
   return (
@@ -120,7 +120,9 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         <div className="review-row">
           <dt>Country</dt>
           <dd>
-            <strong>{address.country ?? showError('Missing country')}</strong>
+            <strong>
+              {veteranAddress.country ?? showError('Missing country')}
+            </strong>
           </dd>
         </div>
         <div className="review-row">
@@ -130,36 +132,26 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
             data-dd-action-name="address line 1"
           >
             <strong>
-              {address.street ?? showError('Missing street address line 1')}
+              {veteranAddress.street ??
+                showError('Missing street address line 1')}
             </strong>
           </dd>
         </div>
-        {address.street2 && (
+        {veteranAddress.street2 && (
           <div className="review-row">
             <dt>Street address line 2</dt>
             <dd
               className="dd-privacy-hidden"
               data-dd-action-name="address line 2"
             >
-              <strong>{address.street2}</strong>
-            </dd>
-          </div>
-        )}
-        {address.street3 && (
-          <div className="review-row">
-            <dt>Street address line 3</dt>
-            <dd
-              className="dd-privacy-hidden"
-              data-dd-action-name="address line 3"
-            >
-              <strong>{address.street3}</strong>
+              <strong>{veteranAddress.street2}</strong>
             </dd>
           </div>
         )}
         <div className="review-row">
           <dt>City</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="city">
-            <strong>{address.city ?? showError('Missing city')}</strong>
+            <strong>{veteranAddress.city ?? showError('Missing city')}</strong>
           </dd>
         </div>
         <div className="review-row">
@@ -169,7 +161,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
             data-dd-action-name="state or province"
           >
             <strong>
-              {address.state ??
+              {veteranAddress.state ??
                 showError(`Missing ${isUSA ? 'state' : 'province'}`)}
             </strong>
           </dd>
@@ -178,7 +170,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
           <dt>Postal code</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="postal code">
             <strong>
-              {address.postalCode ?? showError('Missing postal code')}
+              {veteranAddress.postalCode ?? showError('Missing postal code')}
             </strong>
           </dd>
         </div>
@@ -201,7 +193,9 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         <div className="review-row">
           <dt>Email address</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="email address">
-            <strong>{email ?? showError('Missing email address')}</strong>
+            <strong>
+              {emailAddress ?? showError('Missing email address')}
+            </strong>
           </dd>
         </div>
         <div className="review-row">
@@ -235,8 +229,8 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
             data-dd-action-name={`${phoneSource} phone number`}
           >
             <strong>
-              {phone ? (
-                <va-telephone contact={phone} not-clickable />
+              {phoneNumber ? (
+                <va-telephone contact={phoneNumber} not-clickable />
               ) : (
                 'None provided'
               )}
@@ -276,10 +270,10 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
 VeteranContactInformationReviewPage.propTypes = {
   goToPath: PropTypes.func.isRequired,
   data: PropTypes.shape({
-    email: PropTypes.string,
+    emailAddress: PropTypes.string,
     'view:phoneSource': PropTypes.string,
-    phone: PropTypes.string,
-    address: PropTypes.shape({
+    phoneNumber: PropTypes.string,
+    veteranAddress: PropTypes.shape({
       country: PropTypes.string,
       street: PropTypes.string,
       street2: PropTypes.string,

@@ -16,6 +16,7 @@ export default {
   hideNavButtons: true,
   CustomPage: EditPhonePage,
   CustomPageReview: null,
+  depends: () => false,
   uiSchema: {
     phoneNumber: {
       ...phoneUI({

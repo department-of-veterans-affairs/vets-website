@@ -18,6 +18,7 @@ export default {
   hideNavButtons: true,
   CustomPage: EditInternationalPhonePage,
   CustomPageReview: null,
+  depends: () => false,
   uiSchema: {
     internationalPhone: {
       ...phoneUI({

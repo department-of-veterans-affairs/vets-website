@@ -1,7 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollTo } from 'platform/utilities/scroll';
+
+import { updateSchemasAndData } from 'platform/forms-system/src/js/state/helpers';
+import {
+  addressSchema,
+  addressUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import EditPageButtons from './EditPageButtons';
 
 import { saveEditContactInformation } from '../config/utilities/contact-info';
@@ -21,8 +27,6 @@ import { saveEditContactInformation } from '../config/utilities/contact-info';
  * @returns {React.Component} - Edit mailing address page
  */
 const EditMailingAddress = ({
-  schema,
-  uiSchema,
   data,
   goToPath,
   contentBeforeButtons,
@@ -37,18 +41,47 @@ const EditMailingAddress = ({
     goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
   };
 
+  const initialAddressUI = addressUI({ omit: ['street3'] });
+  const address = data.veteranContactInformation?.veteranAddress || {};
   const originalAddress = useRef(data.veteranContactInformation.veteranAddress);
 
+  const [localData, setLocalData] = useState({
+    city: address?.city || '',
+    country: address?.country || '',
+    isMilitary: ['APO', 'FPO', 'DPO'].includes(address?.city),
+    postalCode: address?.postalCode || '',
+    state: address?.state || '',
+    street: address?.street || '',
+    street2: address?.street2 || '',
+  });
+  const [schema, setSchema] = useState(addressSchema({ omit: ['street3'] }));
+  const [uiSchema, setUiSchema] = useState(initialAddressUI);
+
+  const onChange = newData => {
+    // updateSchemasAndData is needed to ensure the schema callback functions
+    // are executed to update the schema based on form data
+    const result = updateSchemasAndData(
+      schema,
+      uiSchema,
+      newData,
+      false, // preserveHiddenData default
+      newData,
+    );
+    setLocalData(result.data);
+    setSchema(result.schema);
+    setUiSchema(result.uiSchema);
+
+    // Transform local data to formData structure
+    setFormData({
+      ...data,
+      veteranContactInformation: {
+        ...data.veteranContactInformation,
+        veteranAddress: result.data,
+      },
+    });
+  };
+
   const handlers = {
-    onInput: inputData => {
-      setFormData({
-        ...data,
-        veteranContactInformation: {
-          ...data.veteranContactInformation,
-          veteranAddress: inputData.veteranAddress,
-        },
-      });
-    },
     onUpdate: () => {
       saveEditContactInformation('veteranAddress', 'update');
       returnToPath();
@@ -68,6 +101,8 @@ const EditMailingAddress = ({
   };
 
   useEffect(() => {
+    onChange(localData); // initialize formData with localData on first render
+
     const timeout = setTimeout(() => {
       scrollTo('topScrollElement');
     }, 250);
@@ -91,9 +126,9 @@ const EditMailingAddress = ({
         title="Contact Info Form"
         idSchema={{}}
         schema={schema}
-        data={data.veteranContactInformation.veteranAddress}
+        data={localData}
         uiSchema={uiSchema}
-        onChange={handlers.onInput}
+        onChange={onChange}
         onSubmit={handlers.onUpdate}
       >
         {contentBeforeButtons}

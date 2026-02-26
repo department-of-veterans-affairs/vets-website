@@ -18,6 +18,7 @@ export default {
   hideStepper: true,
   CustomPage: EditEmailPage,
   CustomPageReview: null,
+  depends: () => false,
   uiSchema: {
     emailAddress: {
       ...emailUI({
