@@ -614,4 +614,358 @@ describe('Edit Contact List container', async () => {
 
     screen.unmount();
   });
+
+  describe('Migration Alert', () => {
+    it('displays migration alert when user is in phase p1-p6 with migrating facilities', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            migrationSchedules: [
+              {
+                phases: {
+                  current: 'p3',
+                },
+                facilities: [
+                  { facilityName: 'Test Facility 1' },
+                  { facilityName: 'Test Facility 2' },
+                ],
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        const alert = screen.getByTestId('contact-list-alert');
+        expect(alert).to.exist;
+        expect(alert).to.have.attribute('status', 'warning');
+      });
+
+      screen.unmount();
+    });
+
+    it('displays correct facility names in migration alert', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            migrationSchedules: [
+              {
+                phases: {
+                  current: 'p2',
+                },
+                facilities: [
+                  { facilityName: 'VA Boston Healthcare System' },
+                  { facilityName: 'VA Palo Alto Health Care System' },
+                  { facilityName: 'VA Pittsburgh Healthcare System' },
+                ],
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        const alert = screen.getByTestId('contact-list-alert');
+        expect(alert).to.exist;
+
+        expect(screen.getByText('VA Boston Healthcare System')).to.exist;
+        expect(screen.getByText('VA Palo Alto Health Care System')).to.exist;
+        expect(screen.getByText('VA Pittsburgh Healthcare System')).to.exist;
+      });
+
+      screen.unmount();
+    });
+
+    it('displays migration alert for phase p1', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            migrationSchedules: [
+              {
+                phases: {
+                  current: 'p1',
+                },
+                facilities: [{ facilityName: 'Test Facility' }],
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        const alert = screen.getByTestId('contact-list-alert');
+        expect(alert).to.exist;
+      });
+
+      screen.unmount();
+    });
+
+    it('displays migration alert for phase p6', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            migrationSchedules: [
+              {
+                phases: {
+                  current: 'p6',
+                },
+                facilities: [{ facilityName: 'Test Facility' }],
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        const alert = screen.getByTestId('contact-list-alert');
+        expect(alert).to.exist;
+      });
+
+      screen.unmount();
+    });
+
+    it('does not display migration alert when phase is before p1', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            migrationSchedules: [
+              {
+                phases: {
+                  current: 'p0',
+                },
+                facilities: [{ facilityName: 'Test Facility' }],
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        const alert = screen.queryByTestId('contact-list-alert');
+        expect(alert).to.not.exist;
+      });
+
+      screen.unmount();
+    });
+
+    it('does not display migration alert when phase is after p6', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            migrationSchedules: [
+              {
+                phases: {
+                  current: 'p7',
+                },
+                facilities: [{ facilityName: 'Test Facility' }],
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        const alert = screen.queryByTestId('contact-list-alert');
+        expect(alert).to.not.exist;
+      });
+
+      screen.unmount();
+    });
+
+    it('does not display migration alert when there are no migration schedules', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            migrationSchedules: [],
+          },
+        },
+      };
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        const alert = screen.queryByTestId('contact-list-alert');
+        expect(alert).to.not.exist;
+      });
+
+      screen.unmount();
+    });
+
+    it('does not display migration alert when there are no facilities in migration schedule', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            migrationSchedules: [
+              {
+                phases: {
+                  current: 'p3',
+                },
+                facilities: [],
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        const alert = screen.queryByTestId('contact-list-alert');
+        expect(alert).to.not.exist;
+      });
+
+      screen.unmount();
+    });
+
+    it('does not display migration alert when user profile is undefined', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: undefined,
+        },
+      };
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        const alert = screen.queryByTestId('contact-list-alert');
+        expect(alert).to.not.exist;
+      });
+
+      screen.unmount();
+    });
+
+    it('flattens facilities from multiple migration schedules correctly', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            migrationSchedules: [
+              {
+                phases: {
+                  current: 'p2',
+                },
+                facilities: [
+                  { facilityName: 'Facility A' },
+                  { facilityName: 'Facility B' },
+                ],
+              },
+              {
+                phases: {
+                  current: 'p4',
+                },
+                facilities: [
+                  { facilityName: 'Facility C' },
+                  { facilityName: 'Facility D' },
+                ],
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        const alert = screen.getByTestId('contact-list-alert');
+        expect(alert).to.exist;
+
+        expect(screen.getByText('Facility A')).to.exist;
+        expect(screen.getByText('Facility B')).to.exist;
+        expect(screen.getByText('Facility C')).to.exist;
+        expect(screen.getByText('Facility D')).to.exist;
+      });
+
+      screen.unmount();
+    });
+
+    it('displays migration alert with correct heading and content', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            migrationSchedules: [
+              {
+                phases: {
+                  current: 'p3',
+                },
+                facilities: [{ facilityName: 'Test Facility' }],
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        const alert = screen.getByTestId('contact-list-alert');
+        expect(alert).to.exist;
+
+        expect(screen.getByText("We're making changes to your contact list")).to
+          .exist;
+
+        expect(
+          screen.getByText((_, element) => {
+            return element.textContent.includes(
+              'You can still send messages to care teams at these facilities',
+            );
+          }),
+        ).to.exist;
+      });
+
+      screen.unmount();
+    });
+
+    // it('displays alert for all valid phases p1 through p6', async () => {
+    //   const phases = ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'];
+
+    //   for (const phase of phases) {
+    //     const customState = {
+    //       ...initialState,
+    //       user: {
+    //         profile: {
+    //           migrationSchedules: [
+    //             {
+    //               phases: {
+    //                 current: phase,
+    //               },
+    //               facilities: [{ facilityName: 'Test Facility' }],
+    //             },
+    //           ],
+    //         },
+    //       },
+    //     };
+
+    //     const screen = setup(customState);
+
+    //     await waitFor(() => {
+    //       const alert = screen.queryByTestId('contact-list-alert');
+    //       expect(alert, `Alert should exist for phase ${phase}`).to.exist;
+    //     });
+
+    //     screen.unmount();
+    //   }
+    // });
+  });
 });
