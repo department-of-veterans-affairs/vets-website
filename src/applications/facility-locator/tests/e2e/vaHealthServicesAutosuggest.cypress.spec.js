@@ -52,7 +52,8 @@ describe('VA health services autosuggest', () => {
 
       // Verify that the autosuggest dropdown does not open when its clicked into with no input
       h.clickElement(h.AUTOSUGGEST_ARROW);
-      verifyDropdownIsClosed();
+      verifyDropdownIsOpen();
+      cy.get(h.AUTOSUGGEST_INPUT).type('{esc}');
 
       h.submitSearchForm();
 
