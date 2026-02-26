@@ -64,6 +64,7 @@ describe('21-8940 submit transformer', () => {
             contact: '20 7946 0958',
             countryCode: 'GB',
           },
+          electronicCorrespondence: true,
         },
         doctorCareQuestion: {
           hasReceivedDoctorCare: true,
@@ -216,7 +217,7 @@ describe('21-8940 submit transformer', () => {
       postalCode: '12345',
       country: 'US',
     });
-    expect(payload.electronicCorrespondance).to.be.true;
+    expect(payload.electronicCorrespondence).to.be.true;
     expect(payload.email).to.equal('vet@example.com');
     expect(payload.veteranPhone).to.equal('5550000000');
     expect(payload.internationalPhone).to.equal('442079460958');
@@ -437,7 +438,7 @@ describe('21-8940 submit transformer', () => {
       disabilityDescription: '  Back pain ',
     });
 
-    expect(payload.electronicCorrespondance).to.be.false;
+    expect(payload.electronicCorrespondence).to.be.false;
     expect(payload.veteranPhone).to.equal('5551212');
     expect(payload.internationalPhone).to.equal('00301234');
     expect(payload.veteranAddress.country).to.equal('CA');
