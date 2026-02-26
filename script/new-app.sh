@@ -30,10 +30,10 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-YO_BIN="$PROJECT_ROOT/node_modules/.bin/yo"
-
+# Use npx to run yo@6 with the generator package
+# This isolates yo's ESM dependencies from the main node_modules
 if [ $# -eq 0 ]; then
-  "$YO_BIN" @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix > /dev/null 2>&1
+  npx --yes yo@6 @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix > /dev/null 2>&1
 else
-  "$YO_BIN" @department-of-veterans-affairs/vets-website "$@" && npm run lint:js:untracked:fix > /dev/null 2>&1
+  npx --yes yo@6 @department-of-veterans-affairs/vets-website "$@" && npm run lint:js:untracked:fix > /dev/null 2>&1
 fi
