@@ -38,6 +38,7 @@ import { personalInfoConfig } from '../helpers/personalInformationConfig';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  // This submitUrl changes based on a feature toggle - see App.jsx
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   transformForSubmit,
   trackingPrefix: '21p-601-accrued-benefits-',
@@ -54,6 +55,9 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for accrued benefits online.',
     noAuth: 'Please sign in again to continue your application.',

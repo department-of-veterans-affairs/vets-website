@@ -1,22 +1,24 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 
 import SpouseMarriageTitle from '../../../components/SpouseMarriageTitle';
 
 describe('Pensions SpouseMarriageTitle', () => {
   it('should render single marriage title', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <SpouseMarriageTitle id="id" formData={{ spouseMarriages: [{}] }} />,
     );
 
-    expect(tree.text()).to.contain('Spouse’s former marriage');
+    const text = container.textContent;
+    expect(text).to.contain('former marriage');
   });
   it('should render multi-marriage title', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <SpouseMarriageTitle id="id" formData={{ spouseMarriages: [{}, {}] }} />,
     );
 
-    expect(tree.text()).to.contain('Spouse’s former marriages');
+    const text = container.textContent;
+    expect(text).to.contain('former marriages');
   });
 });

@@ -30,7 +30,7 @@ import {
 } from '../utils/issues';
 import { isEmptyObject } from '../utils/helpers';
 import { isTodayOrInFuture } from '../validations/date';
-import { parseDateToDateObj, isLocalToday } from '../utils/dates';
+import { parseDateToDateObj } from '../utils/dates';
 
 /**
  * ContestableIssues - Form system parameters passed into this widget
@@ -51,12 +51,13 @@ import { parseDateToDateObj, isLocalToday } from '../utils/dates';
  */
 const ContestableIssues = props => {
   const {
+    apiLoadStatus,
+    appName,
+    formContext = {},
+    formData,
     id,
     options,
-    formContext = {},
     setFormData,
-    formData,
-    apiLoadStatus,
   } = props;
 
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -93,18 +94,11 @@ const ContestableIssues = props => {
           approxDecisionDate,
           FORMAT_YMD_DATE_FNS,
         );
-        let blockingType = null;
-
-        const isBlockedSameDay = isTodayOrInFuture(decisionDate);
-        if (isBlockedSameDay) {
-          blockingType = isLocalToday(decisionDate) ? 'local' : 'utc';
-        }
 
         return {
           ...issue?.attributes,
           [SELECTED]: issue?.[SELECTED],
-          isBlockedSameDay,
-          blockingType,
+          isBlocked: isTodayOrInFuture(new Date(decisionDate)),
         };
       }),
     [loadedIssues],
@@ -210,8 +204,7 @@ const ContestableIssues = props => {
     },
   };
 
-  const blockedIssues = items.filter(item => item.isBlockedSameDay);
-
+  const blockedIssues = items.filter(item => item.isBlocked);
   const blockedMessage = getBlockedMessage(blockedIssues);
 
   // Use wrapper div with conditional classes to fix va-alert inconsistent CSS rendering
@@ -223,15 +216,16 @@ const ContestableIssues = props => {
   const issueCards = items.map((item, index) => {
     const itemIsSelected = !!item?.[SELECTED];
     const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
+
     // If the previous issue was blocked and the current one is not, `showSeparator` is true
     const showSeparator =
-      index > 0 && !item.isBlockedSameDay && items[index - 1]?.isBlockedSameDay;
+      index > 0 && !item.isBlocked && items[index - 1]?.isBlocked;
 
     const showCheckbox =
-      !item?.isBlockedSameDay &&
-      (!onReviewPage || (onReviewPage && !inReviewMode));
+      !item?.isBlocked && (!onReviewPage || (onReviewPage && !inReviewMode));
 
     const cardProps = {
+      appName,
       id,
       index,
       item,

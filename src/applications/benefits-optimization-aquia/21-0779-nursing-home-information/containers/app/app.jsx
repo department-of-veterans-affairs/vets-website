@@ -5,6 +5,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import formConfig from '@bio-aquia/21-0779-nursing-home-information/config/form';
+import { useDatadogRum } from '@bio-aquia/shared/hooks';
 
 /**
  * Main application container component for VA Form 21-0779 Nursing Home Information
@@ -28,6 +29,9 @@ export const App = ({ location, children }) => {
 
   const isLoadingFeatures = useToggleLoadingValue();
   const formEnabled = useToggleValue(TOGGLE_NAMES.form0779Enabled);
+
+  // Initialize Datadog RUM for form monitoring
+  useDatadogRum('21-0779');
 
   // Show loading indicator while feature flags are being fetched
   if (isLoadingFeatures) {

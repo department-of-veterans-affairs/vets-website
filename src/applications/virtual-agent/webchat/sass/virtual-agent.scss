@@ -1,4 +1,5 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 #btnAcceptDisclaimer {
@@ -178,4 +179,40 @@ button.webchat__send-button[disabled] {
 
 .va-chatbot-session-expired-banner__icon {
   margin-right: 0.2rem;
+}
+
+// styles for new chatbot
+.va-chatbot-message-bubble {
+  border-radius: 0.25rem;
+  position: relative;
+}
+
+.va-chatbot-message-nub {
+  display: block;
+  height: 12px;
+  position: absolute;
+  top: 0;
+  width: 12px;
+}
+
+.va-chatbot-message-nub--va {
+  color: $color-primary-alt-lightest;
+  left: -8px;
+}
+
+.va-chatbot-message-nub--user {
+  color: $color-gray-lightest;
+  right: -8px;
+  transform: scaleX(-1);
+}
+
+.va-chatbot-message-nub__path {
+  fill: currentColor;
+}
+
+.va-chatbot-chatbox-container {
+  min-height: 550px;
+  max-height: 100%;
+  position: relative;
+  width: 100%;
 }

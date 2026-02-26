@@ -6,6 +6,9 @@ import environment from 'platform/utilities/environment';
 export const MCP_STATEMENTS_FETCH_INIT = 'MCP_STATEMENTS_FETCH_INIT';
 export const MCP_STATEMENTS_FETCH_SUCCESS = 'MCP_STATEMENTS_FETCH_SUCCESS';
 export const MCP_STATEMENTS_FETCH_FAILURE = 'MCP_STATEMENTS_FETCH_FAILURE';
+export const MCP_DETAIL_FETCH_SUCCESS = 'MCP_DETAIL_FETCH_SUCCESS';
+export const MCP_DETAIL_FETCH_FAILURE = 'MCP_DETAIL_FETCH_FAILURE';
+export const MCP_DETAIL_FETCH_INIT = 'MCP_DETAIL_FETCH_INIT';
 
 export const mcpStatementsFetchInit = () => ({
   type: MCP_STATEMENTS_FETCH_INIT,
@@ -47,7 +50,7 @@ const transform = data => {
   });
 };
 
-export const getStatements = async dispatch => {
+export const getAllCopayStatements = async dispatch => {
   dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
 
   const dataUrl = `${environment.API_URL}/v0/medical_copays`;
@@ -72,7 +75,7 @@ export const getStatements = async dispatch => {
     });
 };
 
-export const getCopaySummaryPageData = async dispatch => {
+export const getCopaySummaryStatements = async dispatch => {
   dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
 
   const dataUrl = `${environment.API_URL}/v1/medical_copays`;
@@ -92,6 +95,27 @@ export const getCopaySummaryPageData = async dispatch => {
       });
       return dispatch({
         type: MCP_STATEMENTS_FETCH_FAILURE,
+        error,
+      });
+    });
+};
+
+export const getCopayDetailStatement = copayId => async dispatch => {
+  dispatch({ type: MCP_DETAIL_FETCH_INIT });
+
+  const dataUrl = `${environment.API_URL}/v1/medical_copays/${copayId}`;
+
+  return apiRequest(dataUrl)
+    .then(responseData => {
+      return dispatch({
+        type: MCP_DETAIL_FETCH_SUCCESS,
+        response: responseData,
+      });
+    })
+    .catch(({ errors }) => {
+      const [error] = errors;
+      return dispatch({
+        type: MCP_DETAIL_FETCH_FAILURE,
         error,
       });
     });

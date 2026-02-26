@@ -293,13 +293,18 @@ describe('<MhvAlertConfirmEmail />', () => {
       });
       await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
       fireEvent.click(getByTestId('mhv-alert--confirm-email-button'));
-      await waitFor(() => {
-        const successAlert = getByTestId('mhv-alert--confirm-success');
-        expect(successAlert).to.exist;
-        expect(queryByTestId('mhv-alert--confirm-contact-email')).to.be.null;
-        // tabindex="-1" allows programmatic focus (actual focus tested in Cypress)
-        expect(successAlert.getAttribute('tabindex')).to.equal('-1');
+      // Wait for the success alert to appear
+      const successAlert = await waitFor(() => {
+        const alert = getByTestId('mhv-alert--confirm-success');
+        expect(alert).to.exist;
+        return alert;
       });
+      // only the success alert is rendered
+      expect(queryByTestId('mhv-alert--confirm-contact-email')).to.be.null;
+      // Check that the success alert has tabindex="-1" to allow focusing
+      expect(successAlert.getAttribute('tabindex')).to.equal('-1');
+      // check that the success alert has role="alert"
+      expect(successAlert.getAttribute('role')).to.equal('alert');
     });
 
     it('error alert has correct accessibility attributes for focus management', async () => {
@@ -310,13 +315,18 @@ describe('<MhvAlertConfirmEmail />', () => {
       });
       await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
       fireEvent.click(getByTestId('mhv-alert--confirm-email-button'));
-      await waitFor(() => {
-        const errorAlert = getByTestId('mhv-alert--confirm-error');
-        expect(errorAlert).to.exist;
-        expect(queryByTestId('mhv-alert--confirm-success')).to.be.null;
-        // tabindex="-1" allows programmatic focus (actual focus tested in Cypress)
-        expect(errorAlert.getAttribute('tabindex')).to.equal('-1');
+      // Wait for the error alert to appear
+      const errorAlert = await waitFor(() => {
+        const alert = getByTestId('mhv-alert--confirm-error');
+        expect(alert).to.exist;
+        return alert;
       });
+      // only the error alert is rendered
+      expect(queryByTestId('mhv-alert--confirm-success')).to.be.null;
+      // Check that the error alert has tabindex="-1" to allow focusing
+      expect(errorAlert.getAttribute('tabindex')).to.equal('-1');
+      // check that the error alert has role="alert"
+      expect(errorAlert.getAttribute('role')).to.equal('alert');
     });
   });
 

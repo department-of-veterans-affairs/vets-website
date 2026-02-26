@@ -2,13 +2,14 @@ import {
   yesNoSchema,
   yesNoUI,
   textUI,
-  textSchema,
   titleUI,
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { isYes } from '../../../utils/helpers';
+import { customTextSchema } from '../../definitions';
 import { CourtOrderSeparationAlert } from '../../../components/FormAlerts';
+import { validations } from '../../validations';
 
 /** @type {PageSchema} */
 export default {
@@ -23,10 +24,13 @@ export default {
       title: 'Start date of separation',
       monthSelect: false,
     }),
-    separationEndDate: currentOrPastDateUI({
-      title: 'End date of separation',
-      monthSelect: false,
-    }),
+    separationEndDate: {
+      ...currentOrPastDateUI({
+        title: 'End date of separation',
+        monthSelect: false,
+      }),
+      'ui:validations': [validations.isAfterSeparationStartDate],
+    },
     courtOrderedSeparation: yesNoUI({
       title: 'Was the separation due to a court order?',
     }),
@@ -47,7 +51,7 @@ export default {
       'courtOrderedSeparation',
     ],
     properties: {
-      separationExplanation: textSchema,
+      separationExplanation: customTextSchema,
       separationStartDate: currentOrPastDateSchema,
       separationEndDate: currentOrPastDateSchema,
       courtOrderedSeparation: yesNoSchema,

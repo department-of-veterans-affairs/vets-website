@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
@@ -9,36 +10,6 @@ import * as actions from 'platform/forms-system/src/js/actions';
 import { useValidateFacilityCode } from '../../hooks/useValidateFacilityCode';
 
 const mockStore = configureStore([]);
-
-function renderHook(renderCallback, options = {}) {
-  const { initialProps, ...renderOptions } = options;
-  const result = React.createRef();
-  result.current = null;
-
-  function TestComponent({ renderCallbackProps }) {
-    const hookResult = renderCallback(renderCallbackProps);
-    result.current = hookResult;
-
-    React.useEffect(() => {
-      result.current = hookResult;
-    });
-
-    return null;
-  }
-
-  const { rerender: baseRerender, unmount } = render(
-    <TestComponent renderCallbackProps={initialProps} />,
-    renderOptions,
-  );
-
-  function rerender(rerenderCallbackProps) {
-    return baseRerender(
-      <TestComponent renderCallbackProps={rerenderCallbackProps} />,
-    );
-  }
-
-  return { result, rerender, unmount };
-}
 
 describe('useValidateFacilityCode', () => {
   let store;

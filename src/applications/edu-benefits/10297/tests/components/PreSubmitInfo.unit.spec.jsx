@@ -13,7 +13,6 @@ const defaultProps = {
     privacyAgreementAccepted: false,
     statementOfTruthSignature: '',
     statementOfTruthCertified: false,
-    claimantType: 'VETERAN',
   },
   preSubmitInfo: {
     error: 'Test error',

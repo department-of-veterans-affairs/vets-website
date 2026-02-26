@@ -3,12 +3,9 @@ import sinon from 'sinon';
 
 import { parseISO } from 'date-fns';
 import {
-  buildRadiologyResults,
   convertChemHemObservation,
   convertChemHemRecord,
-  convertCvixRadiologyRecord,
   convertMicrobiologyRecord,
-  convertMhvRadiologyRecord,
   distillChemHemNotes,
   extractLabLocation,
   extractOrderedBy,
@@ -18,7 +15,6 @@ import {
   extractPractitioner,
   extractSpecimen,
   labsAndTestsReducer,
-  mergeRadiologyLists,
   convertUnifiedLabsAndTestRecord,
   convertPathologyRecord,
 } from '../../reducers/labsAndTests';
@@ -603,35 +599,6 @@ describe('extractOrderedBy', () => {
   });
 });
 
-describe('buildRadiologyResults', () => {
-  const REPORT = 'The report.';
-  const IMPRESSION = 'The impression.';
-
-  it('builds the full result', () => {
-    const record = {
-      reportText: REPORT,
-      impressionText: IMPRESSION,
-    };
-    const report = buildRadiologyResults(record);
-    expect(report).to.include(REPORT);
-    expect(report).to.include(IMPRESSION);
-  });
-
-  it('builds the result without impression', () => {
-    const record = { reportText: REPORT };
-    const report = buildRadiologyResults(record);
-    expect(report).to.include(REPORT);
-    expect(report).to.not.include(IMPRESSION);
-  });
-
-  it('builds the result without report', () => {
-    const record = { impressionText: IMPRESSION };
-    const report = buildRadiologyResults(record);
-    expect(report).to.not.include(REPORT);
-    expect(report).to.include(IMPRESSION);
-  });
-});
-
 describe('Sort date', () => {
   const date = new Date();
   const dateIso = `${date.toISOString().split('.')[0]}Z`; // e.g. 2024-11-20T13:42:33Z
@@ -644,7 +611,7 @@ describe('Sort date', () => {
     expect(parseISO(convertedRecord.sortDate).getTime()).to.eq(compareDate);
   });
 
-  it('matches for convertMhvRadiologyRecord', () => {
+  it('matches for convertMicrobiologyRecord', () => {
     const record = {
       contained: [
         {
@@ -658,79 +625,6 @@ describe('Sort date', () => {
     expect(parseISO(convertedRecord.sortDate).getTime()).to.eq(
       parseISO('1995-07-28').getTime(),
     );
-  });
-
-  it('matches for convertMhvRadiologyRecord', () => {
-    const record = { eventDate: dateIso };
-    const convertedRecord = convertMhvRadiologyRecord(record);
-    expect(parseISO(convertedRecord.sortDate).getTime()).to.eq(compareDate);
-  });
-
-  it('matches for convertCvixRadiologyRecord', () => {
-    const record = { performedDatePrecise: dateTimestamp };
-    const convertedRecord = convertCvixRadiologyRecord(record);
-    expect(parseISO(convertedRecord.sortDate).getTime()).to.eq(compareDate);
-  });
-});
-
-describe('mergeRadiologyLists', () => {
-  it('returns an empty array when both input arrays are empty', () => {
-    const result = mergeRadiologyLists([], []);
-    expect(result).to.deep.equal([]);
-  });
-
-  it('returns the PHR list when CVIX list is empty', () => {
-    const phrList = [{ id: 1, sortDate: '2020-01-01T12:00:00Z' }];
-    const result = mergeRadiologyLists(phrList, []);
-    expect(result).to.deep.equal(phrList);
-  });
-
-  it('returns the CVIX list when PHR list is empty', () => {
-    const cvixList = [{ id: 2, sortDate: '2020-01-02T12:00:00Z' }];
-    const result = mergeRadiologyLists([], cvixList);
-    expect(result).to.deep.equal(cvixList);
-  });
-
-  it('concatenates lists when there are no matching dates', () => {
-    const phrList = [{ id: 1, sortDate: '2020-01-01T12:00:00Z' }];
-    const cvixList = [{ id: 2, sortDate: '2020-01-02T12:00:00Z' }];
-    const result = mergeRadiologyLists(phrList, cvixList);
-    expect(result).to.deep.equal([...phrList, ...cvixList]);
-  });
-
-  it('handles multiple matches correctly', () => {
-    const phrList = [
-      { id: 1, sortDate: '2020-01-01T10:00:00Z', data: 'phr1' },
-      { id: 2, sortDate: '2020-01-02T11:00:00Z', data: 'phr2' },
-    ];
-    const cvixList = [
-      { id: 3, sortDate: '2020-01-01T10:00:00Z', studyId: 'c1', imageCount: 1 },
-      { id: 4, sortDate: '2020-01-02T11:00:00Z', studyId: 'c2', imageCount: 2 },
-      { id: 5, sortDate: '2020-01-03T12:00:00Z', studyId: 'c3', imageCount: 3 },
-    ];
-    const result = mergeRadiologyLists(phrList, cvixList);
-    expect(result).to.deep.equal([
-      {
-        id: 1,
-        sortDate: '2020-01-01T10:00:00Z',
-        data: 'phr1',
-        studyId: 'c1',
-        imageCount: 1,
-      },
-      {
-        id: 2,
-        sortDate: '2020-01-02T11:00:00Z',
-        data: 'phr2',
-        studyId: 'c2',
-        imageCount: 2,
-      },
-      {
-        id: 5,
-        sortDate: '2020-01-03T12:00:00Z',
-        studyId: 'c3',
-        imageCount: 3,
-      },
-    ]);
   });
 });
 
@@ -959,6 +853,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
         sampleTested: 'Blood',
         bodySite: 'Arm',
         testCode: '12345',
+        testCodeDisplay: '12345',
         comments: 'No issues',
         source: 'oracle-health',
         encodedData: 'VGhpcyBpcyBhIHRlc3Q=',
@@ -974,7 +869,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     expect(result.sampleTested).to.equal('Blood');
     expect(result.bodySite).to.equal('Arm');
     expect(result.testCode).to.equal('12345');
-    expect(result.type).to.equal('12345');
+    expect(result.type).to.equal('12345'); // type is raw testCode value
     expect(result.comments).to.equal('No issues');
     expect(result.source).to.equal('oracle-health');
     expect(result.result).to.equal('This is a test');
@@ -999,9 +894,11 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       sortDate: undefined,
       bodySite: undefined,
       testCode: undefined,
-      type: undefined,
+      testCodeDisplay: undefined,
+      type: undefined, // type is raw testCode value
       comments: undefined,
       source: undefined,
+      facilityTimezone: undefined,
       result: null,
       base: {
         ...record,
@@ -1030,14 +927,134 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       sortDate: 'invalid-date',
       bodySite: undefined,
       testCode: undefined,
-      type: undefined,
+      testCodeDisplay: undefined,
+      type: undefined, // type is raw testCode value
       comments: undefined,
       source: undefined,
+      facilityTimezone: undefined,
       result: null,
       base: {
         ...record,
       },
     });
+  });
+
+  it('should display facility timezone when facilityTimezone is present', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T12:42:00-05:00',
+        display: 'Test Name',
+        facilityTimezone: 'America/New_York',
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is present, formatDateTimeInUserTimezone uses it
+    // to display the time in facility timezone with abbreviation
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.equal('America/New_York');
+  });
+
+  it('should fall back to browser timezone when facilityTimezone is null', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T17:42:00+00:00',
+        display: 'Test Name',
+        facilityTimezone: null,
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is null, falls back to user's browser timezone
+    // with timezone abbreviation displayed
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.be.null;
+  });
+
+  it('should fall back to browser timezone when facilityTimezone is undefined', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T17:42:00Z',
+        display: 'Test Name',
+        // facilityTimezone not present (undefined)
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is undefined, falls back to user's browser timezone
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.be.undefined;
+  });
+
+  it('should use testCodeDisplay from API when available', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        testCode: 'CH',
+        testCodeDisplay: 'Chemistry and hematology',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.testCode).to.equal('CH');
+    expect(result.testCodeDisplay).to.equal('Chemistry and hematology');
+    expect(result.type).to.equal('CH'); // type is raw testCode value
+  });
+
+  it('should use testCodeDisplay from API for SP', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        testCode: 'SP',
+        testCodeDisplay: 'Surgical Pathology',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.testCode).to.equal('SP');
+    expect(result.testCodeDisplay).to.equal('Surgical Pathology');
+    expect(result.type).to.equal('SP'); // type is raw testCode value
+  });
+
+  it('should use testCodeDisplay from API for MI', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        testCode: 'MI',
+        testCodeDisplay: 'Microbiology',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.testCode).to.equal('MI');
+    expect(result.testCodeDisplay).to.equal('Microbiology');
+    expect(result.type).to.equal('MI'); // type is raw testCode value
+  });
+
+  it('should fall back to raw testCode when testCodeDisplay is not provided', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        testCode: 'UNKNOWN_CODE',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.testCode).to.equal('UNKNOWN_CODE'); // falls back to raw testCode
+    expect(result.testCodeDisplay).to.equal('UNKNOWN_CODE'); // falls back to raw testCode
+    expect(result.type).to.equal('UNKNOWN_CODE'); // type is raw testCode value
   });
 });
 
@@ -1055,6 +1072,7 @@ describe('labsAndTestsReducer - unified labs and tests', () => {
           sampleTested: 'Blood',
           bodySite: 'Arm',
           testCode: '12345',
+          testCodeDisplay: '12345',
           comments: 'No issues',
           encodedData: 'VGhpcyBpcyBhIHRlc3Q=',
         },
@@ -1079,7 +1097,8 @@ describe('labsAndTestsReducer - unified labs and tests', () => {
     expect(testRecord.sampleTested).to.equal('Blood');
     expect(testRecord.bodySite).to.equal('Arm');
     expect(testRecord.testCode).to.equal('12345');
-    expect(testRecord.type).to.equal('12345');
+    expect(testRecord.testCodeDisplay).to.equal('12345');
+    expect(testRecord.type).to.equal('12345'); // type is raw testCode value
     expect(testRecord.comments).to.equal('No issues');
     expect(testRecord.result).to.equal('This is a test');
   });
@@ -1186,5 +1205,153 @@ describe('labsAndTestsReducer - hardened array coercion', () => {
     const state = labsAndTestsReducer({}, action);
     expect(state.labsAndTestsList).to.be.an('array');
     expect(state.labsAndTestsList.length).to.equal(0);
+  });
+});
+
+describe('labsAndTestsReducer - SCDF imaging studies', () => {
+  it('stores converted imaging studies on GET_IMAGING_STUDIES', () => {
+    const response = [
+      {
+        id: 'study-1',
+        attributes: {
+          description: 'CHEST XRAY',
+          date: '2025-01-10T09:17:00Z',
+          notes: ['Note'],
+          identifier: 'urn:vastudy:1',
+          series: [],
+          status: 'available',
+        },
+      },
+    ];
+    const state = labsAndTestsReducer(
+      { scdfImagingStudiesMerged: true },
+      { type: Actions.LabsAndTests.GET_IMAGING_STUDIES, response },
+    );
+    expect(state.scdfImagingStudies).to.be.an('array');
+    expect(state.scdfImagingStudies).to.have.lengthOf(1);
+    expect(state.scdfImagingStudies[0].id).to.equal('study-1');
+    expect(state.scdfImagingStudies[0].name).to.equal('CHEST XRAY');
+    expect(state.scdfImagingStudiesMerged).to.be.false;
+  });
+
+  it('coerces non-array response to empty array on GET_IMAGING_STUDIES', () => {
+    const state = labsAndTestsReducer(
+      {},
+      { type: Actions.LabsAndTests.GET_IMAGING_STUDIES, response: null },
+    );
+    expect(state.scdfImagingStudies).to.be.an('array');
+    expect(state.scdfImagingStudies).to.have.lengthOf(0);
+  });
+
+  it('merges imaging studies into labs list on MERGE_IMAGING_STUDIES', () => {
+    const initialState = {
+      labsAndTestsList: [
+        { id: 'lab-1', sortDate: '2025-01-10T09:15:00Z', name: 'CHEST XRAY' },
+        { id: 'lab-2', sortDate: '2025-01-11T10:00:00Z', name: 'BLOOD TEST' },
+      ],
+      scdfImagingStudies: [
+        { id: 'study-1', rawDate: '2025-01-10T09:17:00Z', status: 'available' },
+      ],
+      scdfImagingStudiesMerged: false,
+    };
+    const state = labsAndTestsReducer(initialState, {
+      type: Actions.LabsAndTests.MERGE_IMAGING_STUDIES,
+    });
+    expect(state.scdfImagingStudiesMerged).to.be.true;
+    expect(state.labsAndTestsList[0].imagingStudyId).to.equal('study-1');
+    expect(state.labsAndTestsList[0].imagingStudyStatus).to.equal('available');
+    expect(state.labsAndTestsList[1]).to.not.have.property('imagingStudyId');
+    // imaging studies should be preserved
+    expect(state.scdfImagingStudies).to.have.lengthOf(1);
+  });
+
+  it('returns state unchanged when labsAndTestsList is missing on MERGE', () => {
+    const initialState = {
+      labsAndTestsList: undefined,
+      scdfImagingStudies: [{ id: 'study-1', rawDate: '2025-01-10T09:17:00Z' }],
+    };
+    const state = labsAndTestsReducer(initialState, {
+      type: Actions.LabsAndTests.MERGE_IMAGING_STUDIES,
+    });
+    expect(state).to.equal(initialState);
+  });
+
+  it('returns state unchanged when scdfImagingStudies is missing on MERGE', () => {
+    const initialState = {
+      labsAndTestsList: [{ id: 'lab-1', sortDate: '2025-01-10T09:15:00Z' }],
+      scdfImagingStudies: undefined,
+    };
+    const state = labsAndTestsReducer(initialState, {
+      type: Actions.LabsAndTests.MERGE_IMAGING_STUDIES,
+    });
+    expect(state).to.equal(initialState);
+  });
+
+  it('resets scdfImagingStudiesMerged on GET_UNIFIED_LIST', () => {
+    const unifiedLabsResponse = [
+      { id: 'lab-1', attributes: { dateCompleted: '2025-04-22T14:30:00Z' } },
+    ];
+    const state = labsAndTestsReducer(
+      { scdfImagingStudiesMerged: true },
+      {
+        type: Actions.LabsAndTests.GET_UNIFIED_LIST,
+        labsAndTestsResponse: unifiedLabsResponse,
+      },
+    );
+    expect(state.scdfImagingStudiesMerged).to.be.false;
+  });
+});
+
+describe('labsAndTestsReducer warnings', () => {
+  it('stores warnings on SET_WARNINGS', () => {
+    const mockWarnings = [
+      {
+        source: 'oracle-health',
+        message: 'Binary not found',
+        resourceType: 'Binary',
+      },
+    ];
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.SET_WARNINGS,
+      payload: mockWarnings,
+    });
+    expect(state.warnings).to.deep.equal(mockWarnings);
+  });
+
+  it('defaults warnings to empty array when payload is undefined', () => {
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.SET_WARNINGS,
+      payload: undefined,
+    });
+    expect(state.warnings).to.deep.equal([]);
+  });
+
+  it('clears warnings when UPDATE_LIST_STATE dispatches FETCHING', () => {
+    const prevState = {
+      warnings: [{ source: 'oracle-health' }],
+      listState: 'fetched',
+    };
+    const state = labsAndTestsReducer(prevState, {
+      type: Actions.LabsAndTests.UPDATE_LIST_STATE,
+      payload: 'fetching',
+    });
+    expect(state.warnings).to.deep.equal([]);
+  });
+
+  it('preserves warnings when UPDATE_LIST_STATE dispatches FETCHED', () => {
+    const prevState = {
+      warnings: [{ source: 'oracle-health' }],
+      listState: 'fetching',
+    };
+    const state = labsAndTestsReducer(prevState, {
+      type: Actions.LabsAndTests.UPDATE_LIST_STATE,
+      payload: 'fetched',
+    });
+    expect(state.warnings).to.deep.equal([{ source: 'oracle-health' }]);
+  });
+
+  it('initializes with empty warnings array', () => {
+    const state = labsAndTestsReducer(undefined, { type: 'INIT' });
+    expect(state.warnings).to.deep.equal([]);
   });
 });

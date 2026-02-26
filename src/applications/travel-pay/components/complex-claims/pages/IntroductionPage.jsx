@@ -2,9 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
 
-import { BTSSS_PORTAL_URL } from '../../../constants';
+import {
+  BTSSS_PORTAL_URL,
+  COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+} from '../../../constants';
 import {
   createComplexClaim,
   setExpenseBackDestination,
@@ -12,13 +15,13 @@ import {
 import ComplexClaimRedirect from './ComplexClaimRedirect';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import useRecordPageview from '../../../hooks/useRecordPageview';
+import { recordButtonClick } from '../../../util/events-helpers';
 import {
   selectAppointment,
   selectComplexClaim,
 } from '../../../redux/selectors';
 import { stripTZOffset } from '../../../util/dates';
-import { ComplexClaimsHelpSection } from '../../HelpText';
+import OutOfBoundsAppointmentAlert from '../../alerts/OutOfBoundsAppointmentAlert';
 
 const IntroductionPage = () => {
   const navigate = useNavigate();
@@ -32,7 +35,6 @@ const IntroductionPage = () => {
 
   useSetPageTitle(title);
   useSetFocus();
-  useRecordPageview('complex-claims', title);
 
   const apptId = appointment?.id;
 
@@ -40,6 +42,12 @@ const IntroductionPage = () => {
   const shouldShowRedirect = !location.state?.skipRedirect;
 
   const createClaim = async () => {
+    recordButtonClick(
+      COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+      title,
+      'Start your travel reimbursement claim',
+    );
+
     if (!appointment) {
       return;
     }
@@ -79,6 +87,11 @@ const IntroductionPage = () => {
       {shouldShowRedirect && <ComplexClaimRedirect />}
       <div data-testid="introduction-page">
         <h1>{title}</h1>
+        {appointment?.isOutOfBounds && (
+          <div className="vads-u-margin-top--4 vads-u-margin-bottom--3">
+            <OutOfBoundsAppointmentAlert />
+          </div>
+        )}
         <div className="vads-u-margin-left--2">
           <va-process-list>
             <va-process-list-item
@@ -146,6 +159,11 @@ const IntroductionPage = () => {
                 need to leave and come back. You can review your in-progress
                 claims in your travel reimbursement page.
               </p>
+              <p>
+                <Link to="/claims/">
+                  Go to your travel reimbursement claims page
+                </Link>
+              </p>
               {appointment &&
                 !appointment.isCC && (
                   <va-link-action
@@ -153,6 +171,7 @@ const IntroductionPage = () => {
                     href="#"
                     text="Start your travel reimbursement claim"
                     type="primary"
+                    disable-analytics
                   />
                 )}
             </va-process-list-item>
@@ -166,7 +185,6 @@ const IntroductionPage = () => {
             exp-date="11/30/2027"
           />
         </div>
-        <ComplexClaimsHelpSection />
       </div>
     </>
   );

@@ -154,3 +154,13 @@ export const checkPortalRequirements = ({
     needsMyHealth: redirectElligible && !hasApprovedFacility,
   };
 };
+
+export const parseAssuranceLevel = url => {
+  if (typeof url !== 'string') return undefined;
+
+  const match = url.match(/\/(loa|ial)\/(\d+)\/?$/i);
+  if (!match) return undefined;
+
+  const [, type, level] = match;
+  return `${type.toLowerCase()}${level}`;
+};

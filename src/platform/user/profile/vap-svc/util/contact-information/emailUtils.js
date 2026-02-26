@@ -15,7 +15,7 @@ export const emailFormSchema = {
 
 export const emailUiSchema = {
   emailAddress: {
-    'ui:title': 'Email Address',
+    'ui:title': 'Email address',
     'ui:autocomplete': 'email',
     'ui:webComponentField': VaTextInputField,
     'ui:errorMessages': {

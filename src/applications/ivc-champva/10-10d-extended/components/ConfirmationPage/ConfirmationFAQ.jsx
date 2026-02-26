@@ -1,6 +1,6 @@
 import React from 'react';
 import { CHAMPVA_PHONE_NUMBER } from '../../../shared/constants';
-import { CONTACTS } from '../../imports';
+import { CONTACTS } from '../../utils/imports';
 
 const ConfirmationFAQ = () => (
   <>

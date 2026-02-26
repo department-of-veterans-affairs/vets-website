@@ -3,6 +3,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayOptions, createNewConditionName } from './utils';
+import { updateClaimTypeFromArray } from './claimType';
 import ConfirmationNewAndRatedConditions from '../../../components/confirmationFields/ConfirmationNewAndRatedConditions';
 
 const isOrphanSecondary = (item, fullData = {}) => {
@@ -55,6 +56,7 @@ const summaryPage = {
     },
     required: ['view:hasConditions'],
   },
+  updateFormData: updateClaimTypeFromArray,
 };
 
 export default summaryPage;

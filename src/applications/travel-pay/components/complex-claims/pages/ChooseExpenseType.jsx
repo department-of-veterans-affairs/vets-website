@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   VaRadio,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import useRecordPageview from '../../../hooks/useRecordPageview';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import {
   selectComplexClaim,
   selectExpenseBackDestination,
 } from '../../../redux/selectors';
+import { setExpenseBackDestination } from '../../../redux/actions';
 
 const ChooseExpenseType = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
   const [selectedExpenseType, setSelectedExpenseType] = useState('');
   const [showError, setShowError] = useState(false);
@@ -30,7 +31,6 @@ const ChooseExpenseType = () => {
 
   useSetPageTitle(title);
   useSetFocus();
-  useRecordPageview('complex-claims', title);
 
   // Check if claim already has a mileage expense
   const hasExistingMileageExpense = () => {
@@ -68,6 +68,8 @@ const ChooseExpenseType = () => {
     );
 
     if (selectedExpense) {
+      // Set back destination so expense page knows to return to choose-expense
+      dispatch(setExpenseBackDestination('choose-expense'));
       navigate(`/file-new-claim/${apptId}/${claimId}/${selectedExpense.route}`);
     }
   };
@@ -97,6 +99,7 @@ const ChooseExpenseType = () => {
       <VaRadio
         label="Select an expense type"
         required
+        enableAnalytics
         class="vads-u-margin-top--2"
         error={showError || mileageError ? errorMessage : null}
         onVaValueChange={event => {
@@ -123,7 +126,6 @@ const ChooseExpenseType = () => {
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
-        disable-analytics
         onPrimaryClick={handleContinue}
         onSecondaryClick={handleBack}
       />

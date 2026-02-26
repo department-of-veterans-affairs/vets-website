@@ -132,6 +132,42 @@ describe('Medication card component', () => {
     expect(shippedOn);
   });
 
+  it('shows number of refills when it is refillable and has at least 1 refill remaining', () => {
+    const rx = {
+      ...prescriptionsListItem,
+      isRefillable: true,
+      dispStatus: 'Active',
+      refillRemaining: 3,
+    };
+    const { getByTestId } = setup(rx);
+    expect(getByTestId('rx-refill-remaining')).to.have.text(
+      'Refills remaining: 3',
+    );
+  });
+
+  it('Does not show number of refills when it is not refillable', () => {
+    const rx = {
+      ...prescriptionsListItem,
+      dispStatus: 'Active',
+      refillRemaining: 3,
+    };
+    const { queryByTestId } = setup(rx);
+    expect(queryByTestId('rx-refill-remaining')).to.be.null;
+  });
+
+  it('Does show number of refills when it has 0 refill remaining', () => {
+    const rx = {
+      ...prescriptionsListItem,
+      isRefillable: true,
+      dispStatus: 'Active',
+      refillRemaining: 0,
+    };
+    const { getByTestId } = setup(rx);
+    expect(getByTestId('rx-refill-remaining')).to.have.text(
+      'Refills remaining: 0',
+    );
+  });
+
   it('displays "Not available" when prescription number is missing', () => {
     const rx = {
       ...prescriptionsListItem,
@@ -314,6 +350,9 @@ describe('Medication card component', () => {
   });
 
   describe('Pending medication status handling', () => {
+    // V1 pending statuses only apply when V2 mapping is NOT enabled
+    const v1FlagCombinations = FLAG_COMBINATIONS.filter(({ useV2 }) => !useV2);
+
     const pendingStatuses = [
       {
         dispStatus: 'NewOrder',
@@ -323,7 +362,7 @@ describe('Medication card component', () => {
     ];
 
     pendingStatuses.forEach(({ dispStatus, expectedText }) => {
-      FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
+      v1FlagCombinations.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
         it(`shows pending ${dispStatus} text when ${desc}`, () => {
           const rx = {
             ...prescriptionsListItem,
@@ -334,6 +373,97 @@ describe('Medication card component', () => {
           expect(screen.getByText(expectedText)).to.exist;
         });
       });
+    });
+  });
+
+  describe('V2 pending medication status handling (when both flags are enabled)', () => {
+    it('shows pending new order text when V2 enabled with refillStatus neworder', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'In progress',
+        refillStatus: 'neworder',
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.getByText(/new prescription from your provider/)).to.exist;
+    });
+
+    it('shows pending renewal text when V2 enabled with refillStatus renew', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'In progress',
+        refillStatus: 'renew',
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.getByText(/renewal you requested/)).to.exist;
+    });
+
+    it('handles case-insensitive refillStatus values', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'In progress',
+        refillStatus: 'NewOrder',
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.getByText(/new prescription from your provider/)).to.exist;
+    });
+
+    it('does not show pending text when prescriptionSource is not PD with V2 In progress status', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'VA',
+        dispStatus: 'In progress',
+        refillStatus: 'neworder',
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.queryByTestId('pending-renewal-rx')).to.not.exist;
+    });
+
+    it('does not show pending text when dispStatus is not In progress with V2 enabled', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'Active',
+        refillStatus: 'neworder',
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.queryByTestId('pending-renewal-rx')).to.not.exist;
+    });
+
+    it('does not show pending text when refillStatus is missing with V2 enabled', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'In progress',
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.queryByTestId('pending-renewal-rx')).to.not.exist;
+    });
+
+    it('does not show V2 pending text when only cernerPilot flag is enabled', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'In progress',
+        refillStatus: 'neworder',
+      };
+      const screen = setupWithFlags(rx, true, false);
+      // V2 status mapping requires both flags; with only cernerPilot, 'In progress' is not recognized
+      expect(screen.queryByTestId('pending-renewal-rx')).to.not.exist;
+    });
+
+    it('does not show V2 pending text when only v2StatusMapping flag is enabled', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'In progress',
+        refillStatus: 'neworder',
+      };
+      const screen = setupWithFlags(rx, false, true);
+      // V2 status mapping requires both flags
+      expect(screen.queryByTestId('pending-renewal-rx')).to.not.exist;
     });
   });
 
@@ -354,6 +484,165 @@ describe('Medication card component', () => {
         const screen = setupWithFlags(rx, false, false);
         expect(screen.getByText(status)).to.exist;
       });
+    });
+  });
+});
+
+const TRANSITION_PHASES = {
+  current: 'p4',
+  p0: 'February 10, 2026',
+  p1: 'February 12, 2026',
+  p2: 'March 12, 2026',
+  p3: 'April 5, 2026',
+  p4: 'April 8, 2026',
+  p5: 'April 11, 2026',
+  p6: 'April 13, 2026',
+  p7: 'April 18, 2026',
+};
+
+describe('Oracle Health Transition - MedicationsListCard', () => {
+  // Test data fixtures
+  const MICHIGAN_FACILITY_515 = '515';
+  const MICHIGAN_FACILITY_506 = '506';
+  const NON_TRANSITIONING_FACILITY = '442';
+
+  const mockMichiganMigration = {
+    migrationDate: '2026-04-11',
+    facilities: [
+      {
+        facilityId: MICHIGAN_FACILITY_515,
+        facilityName: 'Battle Creek VA Medical Center',
+      },
+    ],
+    phases: TRANSITION_PHASES,
+  };
+
+  // Helper to create prescription with station number
+  const createRxWithStation = (stationNumber, overrides = {}) => ({
+    ...prescriptionsListItem,
+    stationNumber,
+    isRefillable: true,
+    refillRemaining: 3,
+    ...overrides,
+  });
+
+  const createMigrationWithPhase = phase => ({
+    ...mockMichiganMigration,
+    phases: { ...TRANSITION_PHASES, current: phase },
+  });
+
+  // Helper to setup component with migration data
+  const setupWithMigration = (
+    rx,
+    featureFlagEnabled = true,
+    migrations = [mockMichiganMigration],
+  ) => {
+    const initialState = {
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvMedicationsOracleHealthCutover]: featureFlagEnabled,
+      },
+      user: {
+        profile: {
+          vaProfile: {
+            ohMigrationInfo: {
+              migrationSchedules: migrations,
+            },
+          },
+        },
+      },
+    };
+    return renderWithStoreAndRouterV6(<MedicationsListCard rx={rx} />, {
+      initialState,
+      reducers,
+    });
+  };
+
+  // Assertion helpers
+  const expectAlertToExist = screen => {
+    expect(screen.getByTestId('oracle-health-in-card-alert')).to.exist;
+  };
+
+  const expectAlertNotToExist = screen => {
+    expect(screen.queryByTestId('oracle-health-in-card-alert')).to.not.exist;
+  };
+
+  describe('when prescription is at transitioning facility during blocking phase', () => {
+    const transitioningRx = createRxWithStation(MICHIGAN_FACILITY_515);
+
+    describe('when mhvMedicationsOracleHealthCutover feature flag is enabled', () => {
+      it('displays OracleHealthInCardAlert', () => {
+        const screen = setupWithMigration(transitioningRx, true);
+        expectAlertToExist(screen);
+      });
+
+      it('hides refill button when prescription is blocked', () => {
+        const screen = setupWithMigration(transitioningRx, true);
+        expect(screen.queryByTestId('refill-request-button')).to.not.exist;
+      });
+    });
+
+    describe('when mhvMedicationsOracleHealthCutover feature flag is disabled', () => {
+      it('does not display OracleHealthInCardAlert', () => {
+        const screen = setupWithMigration(transitioningRx, false);
+        expectAlertNotToExist(screen);
+      });
+    });
+  });
+
+  describe('when prescription is NOT at transitioning facility', () => {
+    const nonTransitioningRx = createRxWithStation(NON_TRANSITIONING_FACILITY);
+
+    it('does not display OracleHealthInCardAlert', () => {
+      const screen = setupWithMigration(nonTransitioningRx, true);
+      expectAlertNotToExist(screen);
+    });
+  });
+
+  describe('when in non-blocking phase (T-45, p1)', () => {
+    it('does not display alert during warning phase', () => {
+      const migrationP1 = createMigrationWithPhase('p1');
+      const transitioningRx = createRxWithStation(MICHIGAN_FACILITY_515);
+      const screen = setupWithMigration(transitioningRx, true, [migrationP1]);
+      expectAlertNotToExist(screen);
+    });
+  });
+
+  describe('multiple facilities - some transitioning', () => {
+    const multiMigrations = [
+      mockMichiganMigration,
+      {
+        migrationDate: '2026-05-15',
+        facilities: [
+          { facilityId: MICHIGAN_FACILITY_506, facilityName: 'Ann Arbor VA' },
+        ],
+        phases: { ...TRANSITION_PHASES, current: 'p4' },
+      },
+    ];
+
+    it('shows alert for prescription at facility 515 (Battle Creek)', () => {
+      const rx = createRxWithStation(MICHIGAN_FACILITY_515);
+      const screen = setupWithMigration(rx, true, multiMigrations);
+      expectAlertToExist(screen);
+    });
+  });
+
+  describe('handles missing or invalid migration data', () => {
+    it('handles prescription without stationNumber', () => {
+      const rx = createRxWithStation(null);
+      const screen = setupWithMigration(rx, true);
+      expectAlertNotToExist(screen);
+    });
+
+    it('handles empty migrations array', () => {
+      const rx = createRxWithStation(MICHIGAN_FACILITY_515);
+      const screen = setupWithMigration(rx, true, []);
+      expectAlertNotToExist(screen);
+    });
+
+    it('handles null migrations', () => {
+      const rx = createRxWithStation(MICHIGAN_FACILITY_515);
+      const screen = setupWithMigration(rx, true, null);
+      expectAlertNotToExist(screen);
     });
   });
 });

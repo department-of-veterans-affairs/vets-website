@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons, {
+  FormNavButtonContinue,
+} from 'platform/forms-system/src/js/components/FormNavButtons';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { scrollTo } from 'platform/utilities/scroll';
@@ -10,6 +12,7 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 const mapBooleanToRadioValue = value => {
   if (value === true) {
@@ -38,9 +41,7 @@ const ConfirmationQuestion = ({
   const currentPath = location?.pathname || '';
 
   const initialConfirmation = formData?.confirmationQuestion ?? null;
-  const initialNewCondition = formData?.newConditionQuestion ?? null;
   const [confirmation, setConfirmation] = useState(initialConfirmation);
-  const [newCondition, setNewCondition] = useState(initialNewCondition);
   const [attemptedSubmit, setAttemptedSubmit] = useState(false);
   const [confirmationAnswered, setConfirmationAnswered] = useState(false);
   const [radioError, setRadioError] = useState(undefined);
@@ -57,28 +58,17 @@ const ConfirmationQuestion = ({
 
     const nextPath = getNextPagePath(pageList, formData, currentPath);
 
-    if (
-      confirmation === true ||
-      (confirmation === false && newCondition === true)
-    ) {
+    if (confirmation === true) {
       setRadioError(undefined);
       router.push(nextPath);
       return;
     }
 
-    if (confirmation === false && newCondition === false) {
+    if (confirmation === false) {
       setRadioError(
         'Oops, we hit a snag. You told us you are NOT applying for increased unemployability compensation benefits. Select the Find a VA Form link to find the right form, or to continue with this form, 21-8940, select "Yes" and continue.',
       );
       scrollTo('confirmation-question');
-      return;
-    }
-
-    if (
-      confirmation === false &&
-      (newCondition === undefined || newCondition === null)
-    ) {
-      scrollTo('new-condition-question');
       return;
     }
 
@@ -90,30 +80,10 @@ const ConfirmationQuestion = ({
     setAttemptedSubmit(false);
     setConfirmationAnswered(true);
     setRadioError(undefined);
-    if (value === false) {
-      setNewCondition(null);
-      setFormData({
-        ...formData,
-        confirmationQuestion: value,
-        newConditionQuestion: null,
-      });
-    } else {
-      setFormData({
-        ...formData,
-        confirmationQuestion: value,
-      });
-    }
-  };
-
-  const handleNewConditionChange = value => {
-    setNewCondition(value);
-    setAttemptedSubmit(false);
-    if (value === true) {
-      setRadioError(undefined);
-    }
     setFormData({
       ...formData,
-      newConditionQuestion: value,
+      confirmationQuestion: value,
+      newConditionQuestion: null,
     });
   };
 
@@ -122,21 +92,17 @@ const ConfirmationQuestion = ({
       ? 'You must make a selection to proceed.'
       : undefined;
 
-  const newConditionError =
-    attemptedSubmit &&
-    confirmation === false &&
-    (newCondition === undefined || newCondition === null)
-      ? 'You must make a selection to proceed.'
-      : undefined;
-
   const confirmationValue = mapBooleanToRadioValue(confirmation);
-  const newConditionValue = mapBooleanToRadioValue(newCondition);
-  const shouldShowNewConditionAlert =
-    newCondition !== null && newCondition !== undefined;
+  const shouldShowConfirmationAlert =
+    confirmation !== null && confirmation !== undefined;
+  const useMinimalNav =
+    route?.formConfig?.useTopBackLink && isMinimalHeaderPath();
+  const useWebComponents =
+    route?.formConfig?.formOptions?.useWebComponentForNavigation;
 
-  let newConditionAlert = null;
-  if (newCondition === false) {
-    newConditionAlert = (
+  let confirmationAlert = null;
+  if (confirmation === false) {
+    confirmationAlert = (
       <VaAlert id="confirmation-alert" status="warning" uswds visible>
         <h3 slot="headline">Seems like you need a different form.</h3>
         <p>
@@ -162,8 +128,8 @@ const ConfirmationQuestion = ({
         </p>
       </VaAlert>
     );
-  } else if (newCondition === true) {
-    newConditionAlert = (
+  } else if (confirmation === true) {
+    confirmationAlert = (
       <VaAlert status="info" uswds visible>
         <h3 slot="headline">Important</h3>
         <p>
@@ -201,31 +167,21 @@ const ConfirmationQuestion = ({
         <VaRadioOption name="confirmation-question" label="Yes" value="Y" />
         <VaRadioOption name="confirmation-question" label="No" value="N" />
       </VaRadio>
-      {confirmationAnswered && confirmation === false ? (
-        <>
-          <VaRadio
-            id="new-condition-question"
-            name="new-condition-question"
-            label="Are you applying for a new or secondary condition?"
-            required
-            value={newConditionValue}
-            error={newConditionError}
-            onVaValueChange={e =>
-              handleNewConditionChange(e.detail.value === 'Y')
-            }
-          >
-            <VaRadioOption
-              name="new-condition-question"
-              label="Yes"
-              value="Y"
-            />
-            <VaRadioOption name="new-condition-question" label="No" value="N" />
-          </VaRadio>
-
-          {shouldShowNewConditionAlert && newConditionAlert}
-        </>
-      ) : null}
-      <FormNavButtons goBack={goBack} goForward={goForward} />
+      {confirmationAnswered && shouldShowConfirmationAlert
+        ? confirmationAlert
+        : null}
+      {useMinimalNav ? (
+        <FormNavButtonContinue
+          goForward={goForward}
+          useWebComponents={useWebComponents}
+        />
+      ) : (
+        <FormNavButtons
+          goBack={goBack}
+          goForward={goForward}
+          useWebComponents={useWebComponents}
+        />
+      )}
     </div>
   );
 };

@@ -4,18 +4,18 @@ import { mockApiRequest } from 'platform/testing/unit/helpers';
 import copays from '../e2e/fixtures/mocks/copays.json';
 import { transform } from '../../../combined/utils/helpers';
 import {
-  getStatements,
+  getAllCopayStatements,
   MCP_STATEMENTS_FETCH_INIT,
   MCP_STATEMENTS_FETCH_SUCCESS,
 } from '../../../combined/actions/copays';
 
-describe('getStatements', () => {
+describe('getAllCopayStatements', () => {
   it('should render response data', () => {
     const dispatch = sinon.spy();
     const response = transform(copays.data);
     mockApiRequest(copays);
 
-    return getStatements(dispatch).then(() => {
+    return getAllCopayStatements(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         MCP_STATEMENTS_FETCH_INIT,
       );

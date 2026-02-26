@@ -3,8 +3,8 @@ import {
   yesNoUI,
   titleUI,
   textUI,
-  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -32,7 +32,7 @@ export default {
     required: ['validMarriage'],
     properties: {
       validMarriage: yesNoSchema,
-      marriageValidityExplanation: textSchema,
+      marriageValidityExplanation: customTextSchema,
     },
   },
 };

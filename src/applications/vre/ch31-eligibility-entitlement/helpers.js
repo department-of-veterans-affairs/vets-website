@@ -37,3 +37,31 @@ export const pickStatusStyle = status => {
     ? { icon: 'check', cls: 'vads-u-color--green' }
     : { icon: 'close', cls: 'vads-u-color--secondary-dark' };
 };
+
+export const downloadPdfBlob = (blob, filename) => {
+  const downloadUrl = URL.createObjectURL(blob);
+  const downloadLink = document.createElement('a');
+
+  downloadLink.href = downloadUrl;
+  downloadLink.download = filename;
+  document.body.appendChild(downloadLink);
+
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+  URL.revokeObjectURL(downloadUrl);
+};
+
+export const getCurrentStepFromStateList = (stateList = [], total) => {
+  if (!Array.isArray(stateList) || stateList.length === 0) return 1;
+
+  // 1) Prefer explicit ACTIVE if present
+  const activeIndex = stateList.findIndex(s => s?.status === 'ACTIVE');
+  if (activeIndex >= 0) return Math.min(activeIndex + 1, total);
+
+  // 2) Otherwise, focus the first PENDING step
+  const firstPendingIndex = stateList.findIndex(s => s?.status === 'PENDING');
+  if (firstPendingIndex >= 0) return Math.min(firstPendingIndex + 1, total);
+
+  // 3) If no ACTIVE and no PENDING, assume all complete => last step
+  return total;
+};

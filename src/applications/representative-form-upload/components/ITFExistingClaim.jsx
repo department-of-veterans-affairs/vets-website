@@ -50,7 +50,8 @@ const ITFExistingClaim = ({ location, route, router }) => {
       </va-alert>
       <va-card class="form__itf-card vads-u-margin-top--2">
         <h3 className="vads-u-margin-y--0">
-          {formData?.veteranFullName?.last}, {formData?.veteranFullName?.first}
+          {formData?.veteranSubPage?.veteranFullName?.last},{' '}
+          {formData?.veteranSubPage?.veteranFullName?.first}
         </h3>
         <p className="vads-u-margin-bottom--0">
           <strong>Benefit:</strong> {type && benefitCopy(type)}

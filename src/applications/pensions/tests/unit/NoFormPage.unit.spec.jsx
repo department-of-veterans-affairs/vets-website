@@ -69,30 +69,7 @@ describe('NoFormPage', () => {
     server.resetHandlers();
   });
 
-  it('should render if NOT logged in', async () => {
-    server.use(
-      createGetHandler(
-        'https://dev-api.va.gov/v0/in_progress_forms/21P-527EZ',
-        () => jsonResponse({ formData: {}, metadata: {} }, { status: 200 }),
-      ),
-    );
-    const mockStore = store();
-    const { container } = render(
-      <Provider store={mockStore}>
-        <NoFormPage />
-      </Provider>,
-    );
-    await waitFor(() => {
-      expect($('h1', container).textContent).to.eql(
-        'Review pension benefits application',
-      );
-      expect($$('h2', container)[0].textContent).to.eql(
-        'You can’t use our online application right now',
-      );
-    });
-  });
-
-  it('should render if IS logged in && DOES NOT have form data in progress', async () => {
+  it('should render if it DOES NOT have form data in progress', async () => {
     server.use(
       createGetHandler(
         'https://dev-api.va.gov/v0/in_progress_forms/21P-527EZ',
@@ -112,7 +89,7 @@ describe('NoFormPage', () => {
     });
   });
 
-  it('should render if IS logged in && DOES have form data in progress', async () => {
+  it('should render if it DOES have form data in progress', async () => {
     server.use(
       createGetHandler(
         'https://dev-api.va.gov/v0/in_progress_forms/21P-527EZ',

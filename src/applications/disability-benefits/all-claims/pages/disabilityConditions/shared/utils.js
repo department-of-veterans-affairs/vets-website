@@ -51,19 +51,9 @@ export const isNewCondition = (formData = {}, index) => {
   if (!item) return true;
 
   const rd = item.ratedDisability;
-  const conditionName =
-    typeof item.condition === 'string' ? item.condition.trim() : '';
 
   if (rd && rd !== NEW_CONDITION_OPTION) {
     return false;
-  }
-
-  if (rd === NEW_CONDITION_OPTION) {
-    return true;
-  }
-
-  if (conditionName) {
-    return true;
   }
 
   return true;
@@ -193,6 +183,7 @@ export const arrayOptions = {
     },
   },
   enforceYesNoOnSummary: true,
+  canDeleteItem: ({ itemData, isReview }) => !isReview && !itemData?.isLocked,
 };
 
 export const hasSideOfBody = (formData, index) => {

@@ -1,0 +1,9 @@
+{
+    "data": {
+      "type": "feature_toggles",
+      "features": [
+        { "name": "loading", "value": false },
+        { "name": "form107959f2", "value": true }
+      ]
+    }
+  }

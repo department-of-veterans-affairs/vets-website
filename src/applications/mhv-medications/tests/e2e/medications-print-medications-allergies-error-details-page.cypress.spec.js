@@ -11,10 +11,10 @@ describe('Navigate to Print Error Message when Allergies API Fails on Details Pa
     site.login();
     listPage.visitMedicationsLinkWhenNoAllergiesAPICallFails();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
-    cy.injectAxe();
-    cy.axeCheck('main');
-    detailsPage.clickPrintOrDownloadThisPageDropDownOnDetailsPage();
+    listPage.clickPrintOrDownloadThisListDropDown();
     detailsPage.clickPrintThisPageButtonOnDetailsPage();
     listPage.verifyPrintErrorMessageForAllergiesAPICallFail();
+    cy.injectAxe();
+    cy.axeCheck('main');
   });
 });

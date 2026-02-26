@@ -1,26 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch, useSelector } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { isLoggedIn } from 'platform/user/selectors';
+import { useSelector } from 'react-redux';
 import { getTitle } from '../helpers';
 import PrivacyActStatement from '../components/PrivacyActStatement';
 
 const PrivacyPolicy = () => {
-  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const formData = useSelector(state => state.form.data);
   const title = getTitle(formData?.certifyingOfficial?.role);
-  const isAuthenticated = useSelector(state => isLoggedIn(state));
-
-  useEffect(
-    () => {
-      // add authentication field to *formData* before transform
-      dispatch(setData({ ...formData, isAuthenticated }));
-    },
-    [isAuthenticated],
-  );
 
   const removeNoteText = async () => {
     const noteText = await querySelectorWithShadowRoot(

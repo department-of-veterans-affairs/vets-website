@@ -311,6 +311,7 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   const { application } = getQueryParams();
   const externalRedirect = isExternalRedirect();
   const existingReturnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
+  const isProduction = environment.isProduction() && !environment.isTest();
 
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
@@ -322,12 +323,15 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
     createAndStoreReturnUrl();
   }
 
-  recordEvent({ event: type ? `${clickedEvent}-${type}` : clickedEvent });
+  if (isProduction) {
+    recordEvent({ event: type ? `${clickedEvent}-${type}` : clickedEvent });
+  }
 
   // Trigger USiP External Auth Event
   if (
     externalRedirect &&
-    [AUTH_EVENTS.SSO_LOGIN, AUTH_EVENTS.MODAL_LOGIN].includes(clickedEvent)
+    [AUTH_EVENTS.SSO_LOGIN, AUTH_EVENTS.MODAL_LOGIN].includes(clickedEvent) &&
+    isProduction
   ) {
     recordEvent({
       event: `${AUTHN_SETTINGS.REDIRECT_EVENT}-${application}-inbound`,

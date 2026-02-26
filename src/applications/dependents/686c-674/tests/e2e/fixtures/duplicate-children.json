@@ -204,6 +204,7 @@
       "hasChildEverBeenMarried": false,
       "doesChildHaveDisability": false,
       "isBiologicalChild": true,
+      "relationshipType": "BIOLOGICAL",
       "birthLocation": {
         "location": {
           "city": "Test",
@@ -222,6 +223,7 @@
       "doesChildLiveWithYou": true,
       "hasChildEverBeenMarried": false,
       "doesChildHaveDisability": false,
+      "relationshipType": "BIOLOGICAL",
       "isBiologicalChild": true,
       "birthLocation": {
         "location": {
@@ -236,6 +238,7 @@
       "hasChildEverBeenMarried": false,
       "doesChildHaveDisability": false,
       "isBiologicalChild": true,
+      "relationshipType": "BIOLOGICAL",
       "birthLocation": {
         "location": {
           "city": "Test",

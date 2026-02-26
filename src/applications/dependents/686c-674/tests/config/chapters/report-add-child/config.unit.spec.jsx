@@ -43,6 +43,7 @@ describe('arrayBuilderOptions', () => {
         },
         isBiologicalChild: true,
         isBiologicalChildOfSpouse: false,
+        relationshipType: 'STEPCHILD',
         relationshipToChild: { stepchild: true },
         dateEnteredHousehold: '2023-02-01',
         biologicalParentName: {
@@ -144,6 +145,7 @@ describe('arrayBuilderOptions', () => {
         birthDate: '2010-01-01',
         ssn: '111-22-3333',
         isBiologicalChild: false,
+        relationshipType: 'STEPCHILD',
         relationshipToChild: { stepchild: true },
         birthLocation: {
           location: { city: 'Here', state: 'NY', postalCode: '10001' },
@@ -161,6 +163,7 @@ describe('arrayBuilderOptions', () => {
         birthDate: '2008-07-04',
         ssn: '222-33-4444',
         isBiologicalChild: true,
+        relationshipType: 'BIOLOGICAL',
         relationshipToChild: {},
         birthLocation: {
           location: { city: 'Nowhere', state: 'WI', postalCode: '54321' },
@@ -202,6 +205,7 @@ describe('arrayBuilderOptions', () => {
           outsideUsa: false,
         },
         isBiologicalChild: true,
+        relationshipType: 'BIOLOGICAL',
         relationshipToChild: {},
         doesChildLiveWithYou: true,
         hasChildEverBeenMarried: true,
@@ -221,6 +225,7 @@ describe('arrayBuilderOptions', () => {
           outsideUsa: false,
         },
         isBiologicalChild: true,
+        relationshipType: 'BIOLOGICAL',
         relationshipToChild: {},
         doesChildLiveWithYou: false,
         hasChildEverBeenMarried: false,

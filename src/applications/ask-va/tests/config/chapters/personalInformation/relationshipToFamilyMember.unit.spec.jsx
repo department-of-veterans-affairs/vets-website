@@ -99,7 +99,7 @@ describe('relationshipToFamilyMemberPage', () => {
           'va-text-input[name="root_relationshipNotListed"]',
         );
         expect(textInput.getAttribute('error')).to.equal(
-          'Please enter your relationship to the family member',
+          'Enter your relationship to the family member',
         );
       });
     });

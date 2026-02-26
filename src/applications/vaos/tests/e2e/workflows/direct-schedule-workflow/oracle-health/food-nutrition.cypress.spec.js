@@ -40,6 +40,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
     mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles({
       vaOnlineSchedulingImmediateCareAlert: true,
+      vaOnlineSchedulingUseVpg: true,
     });
     mockVamcEhrApi({ isCerner: true });
   });
@@ -50,9 +51,15 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
         describe('And request limit reached', () => {
           it('should display choose proivder page without request option', () => {
             // Arrange
-            const mockEligibilityResponse = new MockEligibilityResponse({
+            const mockDirectEligibilityResponse = new MockEligibilityResponse({
               facilityId: '983',
               typeOfCareId,
+              type: 'direct',
+            });
+            const mockRequestEligibilityResponse = new MockEligibilityResponse({
+              facilityId: '983',
+              typeOfCareId,
+              type: 'request',
               ineligibilityReason:
                 INELIGIBILITY_CODES_VAOS.REQUEST_LIMIT_EXCEEDED,
             });
@@ -68,10 +75,10 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
               }),
             });
             mockEligibilityDirectApi({
-              response: mockEligibilityResponse,
+              response: mockDirectEligibilityResponse,
             });
             mockEligibilityRequestApi({
-              response: mockEligibilityResponse,
+              response: mockRequestEligibilityResponse,
             });
             mockEligibilityCCApi({ cceType, isEligible: true });
             mockRelationshipsApi({
@@ -206,9 +213,15 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
         describe('And request limit reached', () => {
           it('should display choose proivder page without request option', () => {
             // Arrange
-            const mockEligibilityResponse = new MockEligibilityResponse({
+            const mockDirectEligibilityResponse = new MockEligibilityResponse({
               facilityId: '983',
               typeOfCareId,
+              type: 'direct',
+            });
+            const mockRequestEligibilityResponse = new MockEligibilityResponse({
+              facilityId: '983',
+              typeOfCareId,
+              type: 'request',
               ineligibilityReason:
                 INELIGIBILITY_CODES_VAOS.REQUEST_LIMIT_EXCEEDED,
             });
@@ -224,10 +237,10 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
               }),
             });
             mockEligibilityDirectApi({
-              response: mockEligibilityResponse,
+              response: mockDirectEligibilityResponse,
             });
             mockEligibilityRequestApi({
-              response: mockEligibilityResponse,
+              response: mockRequestEligibilityResponse,
             });
             mockEligibilityCCApi({ cceType, isEligible: true });
             mockRelationshipsApi({
@@ -369,9 +382,15 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
         describe('And request limit reached', () => {
           it('should display choose proivder page without request option', () => {
             // Arrange
-            const mockEligibilityResponse = new MockEligibilityResponse({
+            const mockDirectEligibilityResponse = new MockEligibilityResponse({
               facilityId: '983',
               typeOfCareId,
+              type: 'direct',
+            });
+            const mockRequestEligibilityResponse = new MockEligibilityResponse({
+              facilityId: '983',
+              typeOfCareId,
+              type: 'request',
               ineligibilityReason:
                 INELIGIBILITY_CODES_VAOS.REQUEST_LIMIT_EXCEEDED,
             });
@@ -387,10 +406,10 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
               }),
             });
             mockEligibilityDirectApi({
-              response: mockEligibilityResponse,
+              response: mockDirectEligibilityResponse,
             });
             mockEligibilityRequestApi({
-              response: mockEligibilityResponse,
+              response: mockRequestEligibilityResponse,
             });
             mockEligibilityCCApi({ cceType, isEligible: true });
             mockRelationshipsApi({

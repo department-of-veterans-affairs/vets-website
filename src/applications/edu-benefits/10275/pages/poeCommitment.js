@@ -18,8 +18,9 @@ export const uiSchema = {
     description: (
       <div className="vads-u-margin-bottom--2 vads-u-margin-left--4">
         <p className="vads-u-margin-bottom--1 checkbox-text">
-          <span>1.</span> Provide students with a personalized College Financing
-          Plan (formerly known as the Financial Aid Shopping Sheet) to inform
+          <span>1.</span> Provide students who are eligible to receive veteran’s
+          education benefits with a personalized College Financing Plan
+          (formerly known as the Financial Aid Shopping Sheet) to inform
           students about the total cost of an education program and financial
           aid.
         </p>
@@ -68,9 +69,8 @@ export const uiSchema = {
     description: (
       <div className="vads-u-margin-bottom--2 vads-u-margin-left--4">
         <p className="vads-u-margin-bottom--1 checkbox-text">
-          <span>4.</span> Obtain the approval of the institution’s accrediting
-          agency for new courses or program offerings prior to enrolling
-          students.
+          <span>4.</span> Make sure all new programs are accredited (officially
+          approved) before enrolling students.
         </p>
       </div>
     ),

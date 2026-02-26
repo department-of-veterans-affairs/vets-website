@@ -13,7 +13,7 @@ const formatStatus = submission => {
             icon="check_circle"
             size="3"
           />
-          {` Received ${submission.vbmsReceivedDate &&
+          {`Received ${submission.vbmsReceivedDate &&
             formatDateParsedZoneLong(submission.vbmsReceivedDate)}`}
         </span>
       );
@@ -29,7 +29,9 @@ const formatStatus = submission => {
             />
             {' Processing error'}
           </span>
-          <span>Contact 855-225-0709 for assistance</span>
+          <span className="vads-u-margin-top--0p5">
+            Contact 855-225-0709 for assistance
+          </span>
         </>
       );
     case 'awaiting_receipt':
@@ -91,7 +93,7 @@ const SubmissionCard = ({ submission }) => {
           Submitted {formattedSubmittedDate}
         </p>
         <h3 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
-          {submission.lastName}, {submission.firstName}
+          {`${submission.lastName}, ${submission.firstName}`}
         </h3>
         <p className="submission__card-form-name vads-u-font-size--h5 vads-u-font-family--serif">
           <strong>
@@ -99,60 +101,44 @@ const SubmissionCard = ({ submission }) => {
             {submission.packet ? ' packet' : ''}
           </strong>
         </p>
-        <p className="submission__card-status">
-          {submission.benefitType ? (
-            <>
-              <span className="submission__card-attribute-text">
-                {'Benefit: '}
-              </span>
-              {getBenefitName(submission.benefitType)}
-              <br />
-            </>
-          ) : (
-            ''
-          )}
-          {isITF && (
-            <>
-              <span className="submission__card-attribute-text">
-                ITF Date:{' '}
-              </span>
-              {showWarningIcon && (
-                <va-icon
-                  icon="warning"
-                  class="submissions__inline-status-icon submissions__card-error"
-                  size="3"
-                />
-              )}
-              {formattedSubmittedDate} (Expires in {daysTilExpiration} days)
-              <br />
-            </>
-          )}
-          {!isITF && (
-            <>
-              {submission.confirmationNumber ? (
+        {submission.benefitType && (
+          <p className="submission__card-status">
+            <strong>Benefit: </strong> {getBenefitName(submission.benefitType)}
+          </p>
+        )}
+        {isITF && (
+          <p className="submission__card-status">
+            <strong>ITF Date: </strong>
+            {showWarningIcon && (
+              <va-icon
+                icon="warning"
+                class="submissions__inline-status-icon submissions__card-error"
+                size="3"
+              />
+            )}
+            {formattedSubmittedDate} (Expires in {daysTilExpiration} days)
+          </p>
+        )}
+        {!isITF && (
+          <>
+            <p className="submission__card-status">
+              {submission.confirmationNumber && (
                 <>
-                  <span className="submission__card-attribute-text">
-                    {'Confirmation: '}
-                  </span>
+                  <strong>Confirmation: </strong>
                   {submission.confirmationNumber}
-                  <br />
                 </>
-              ) : (
-                ''
               )}
-              <span
-                className={`submission__card-status--row ${
-                  submission.vbmsStatus
-                }`}
-              >
-                <span className="submission__card-attribute-text">
-                  {'VBMS eFolder status: '}
-                </span>
-                {formatStatus(submission)}
-              </span>
-            </>
-          )}
-        </p>
+            </p>
+            <p
+              className={`submission__card-status submission__card-status--row ${
+                submission.vbmsStatus
+              }`}
+            >
+              <strong>VBMS eFolder status:</strong>
+              {formatStatus(submission)}
+            </p>
+          </>
+        )}
       </va-card>
     </li>
   );

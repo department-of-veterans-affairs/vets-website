@@ -12,7 +12,7 @@ const theirRelationshipToVeteranPage = {
       labelHeaderLevel: '3',
       labels: aboutTheirRelationshipToVet,
       errorMessages: {
-        required: 'Please select their relationship to the Veteran',
+        required: 'Select their relationship to the Veteran',
       },
     }),
     theyHaveRelationshipNotListed: {
@@ -24,7 +24,7 @@ const theirRelationshipToVeteranPage = {
         expandedContentFocus: true,
       },
       'ui:errorMessages': {
-        required: `Please enter their relationship to the Veteran`,
+        required: `Enter their relationship to the Veteran`,
       },
     },
     'ui:options': {

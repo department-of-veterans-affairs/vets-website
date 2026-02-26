@@ -26,7 +26,7 @@ const SubTopicSelectPage = props => {
   const showError = data => {
     if (data.selectSubtopic) goForward(data);
     focusElement('va-radio');
-    return setValidationError('Please select a subtopic');
+    return setValidationError('Select a subtopic');
   };
 
   const handleChange = event => {

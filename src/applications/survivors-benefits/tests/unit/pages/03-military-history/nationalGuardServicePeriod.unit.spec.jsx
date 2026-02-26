@@ -20,15 +20,13 @@ describe('National Guard Service Period Page', () => {
     );
 
     const vaMemorableDates = $$('va-memorable-date', formDOM);
-    const vaTelephoneInputs = $$('va-telephone-input', formDOM);
     const vaTextInputs = $$('va-text-input', formDOM);
 
     expect(vaMemorableDates.length).to.equal(1);
-    expect(vaTelephoneInputs.length).to.equal(1);
-    expect(vaTextInputs.length).to.equal(1);
+    expect(vaTextInputs.length).to.equal(2);
 
     const vaTelephoneInput = $(
-      'va-telephone-input[label="Reserve or National Guard Unit primary phone number"]',
+      'va-text-input[label="Reserve or National Guard Unit primary phone number"]',
       formDOM,
     );
     const vaDateOfActivation = $(
@@ -40,7 +38,6 @@ describe('National Guard Service Period Page', () => {
       formDOM,
     );
 
-    expect(vaTelephoneInputs.length).to.equal(1);
     expect(vaMemorableDates.length).to.equal(1);
     expect(vaDateOfActivation.getAttribute('required')).to.equal('true');
     expect(vaTelephoneInput.getAttribute('required')).to.equal('true');

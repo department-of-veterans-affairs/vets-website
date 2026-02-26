@@ -173,7 +173,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
         data={serviceHistory.map(item =>
           transformServiceHistoryEntryIntoTableRow(item),
         )}
-        title="Period of Service"
+        title="Period of service"
         level={2}
         asList
       />
@@ -252,20 +252,6 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         text="Learn how to request your DD214 and other military records"
         active
       />
-
-      <va-alert
-        class="vads-u-margin-top--3"
-        close-btn-aria-label="Close notification"
-        slim="true"
-        status="info"
-        visible
-      >
-        Your Veteran Status Card has moved.{' '}
-        <va-link
-          href="/profile/veteran-status-card"
-          text="Access your Veteran Status Card"
-        />
-      </va-alert>
 
       <DevTools devToolsData={{ militaryInformation, veteranStatus }} panel>
         <p>Profile devtools test, please ignore.</p>

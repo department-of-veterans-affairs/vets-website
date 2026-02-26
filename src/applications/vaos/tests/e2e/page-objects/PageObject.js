@@ -53,6 +53,10 @@ export default class PageObject {
     return this.assertAlert({ text, exist, status: 'error' });
   }
 
+  assertErrorModal({ text, exist = true }) {
+    return this.assertModal({ text, exist, status: 'error' });
+  }
+
   assertValidationError(error) {
     cy.get(`span[role="alert"]`).as('alert');
     cy.get('@alert')
