@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 const programOverviewCard = {
   title: 'Program Overview',
-  body: `Read about how Veteran Readiness and Employment (Chapter 31) can help you explore employment options and address education or training needs.`,
+  body: `Read about how Veteran Readiness and Employment (Chapter 31) can help you address education or training needs.`,
   href: 'https://www.va.gov/careers-employment/vocational-rehabilitation',
   isExternal: true,
 };
@@ -20,13 +20,13 @@ const orientationCard = {
 
 const getCareerPlanningCard = step => {
   const body = [
-    `Explore career resources and tools to help you achieve your employment goals. This page provides links to guide you through your career journey, from assessing your interest, to finding a career path, and finding employment.`,
+    `Explore career resources and tools to help you achieve your employment goals. This page provides links to guide you through your career journey. Find how to assess your interest, to find a career path, and employment.`,
   ];
 
   // Show the “prepares you for Step 4” line only until you pass step 4
   if (step <= 4) {
     body.push(
-      `This will prepare you for your “Initial Evaluation Counselor Meeting” (Step 4 on the Progress Tracker).`,
+      `This will prepare you for your "Initial Evaluation Counselor Meeting".`,
     );
   }
 

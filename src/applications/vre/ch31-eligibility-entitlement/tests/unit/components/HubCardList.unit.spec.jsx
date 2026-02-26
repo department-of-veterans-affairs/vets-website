@@ -87,7 +87,9 @@ describe('HubCardList', () => {
     expect(links[0].getAttribute('href')).to.equal('/career-planning');
 
     // Step <= 4 includes helper text
-    getByText(/Step 4 on the Progress Tracker/i);
+    getByText(
+      /This will prepare you for your "Initial Evaluation Counselor Meeting"/i,
+    );
   });
 
   it('step 3: renders only Career Planning when status is PENDING and no milestones', () => {
@@ -103,7 +105,9 @@ describe('HubCardList', () => {
     expect(links[0].getAttribute('text')).to.equal('Career Planning');
     expect(links[0].getAttribute('href')).to.equal('/career-planning');
 
-    getByText(/Step 4 on the Progress Tracker/i);
+    getByText(
+      /This will prepare you for your "Initial Evaluation Counselor Meeting"/i,
+    );
   });
 
   it('step 3: renders all three cards when milestones data exists, even if ACTIVE', () => {
@@ -139,7 +143,9 @@ describe('HubCardList', () => {
     expect(links[0].getAttribute('href')).to.equal('/career-planning');
 
     // Step <= 4 includes helper text
-    getByText(/Step 4 on the Progress Tracker/i);
+    getByText(
+      /This will prepare you for your "Initial Evaluation Counselor Meeting"/i,
+    );
   });
 
   it('renders only Career Planning link for step 5 (no Step 4 helper text)', () => {
@@ -153,7 +159,11 @@ describe('HubCardList', () => {
     expect(links[0].getAttribute('text')).to.equal('Career Planning');
     expect(links[0].getAttribute('href')).to.equal('/career-planning');
 
-    expect(queryByText(/Step 4 on the Progress Tracker/i)).to.be.null;
+    expect(
+      queryByText(
+        /This will prepare you for your "Initial Evaluation Counselor Meeting"/i,
+      ),
+    ).to.be.null;
   });
 
   it('renders Career Planning for step 6 when step 6 is NOT complete', () => {

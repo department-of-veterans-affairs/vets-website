@@ -91,7 +91,7 @@ export default function SelectPreferenceView() {
           <div className="vads-u-margin-left--4">
             <p>
               VR&E services can help Veterans with job training, employment
-              accommodations, resume development, and coaching. Please watch the
+              assistance, resume development, and coaching. Please watch the
               full video and self-certify upon completion.
             </p>
             <p>

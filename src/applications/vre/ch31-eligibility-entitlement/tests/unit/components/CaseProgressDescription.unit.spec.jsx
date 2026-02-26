@@ -105,26 +105,38 @@ describe('CaseProgressDescription', () => {
     expect(queryByText(/Orientation Completion/i)).to.exist;
   });
 
+  // ...existing code...
+
   it('renders step 4 pending instructions', () => {
     const { getByText } = renderWithProviders(
       <CaseProgressDescription step={4} status="PENDING" />,
     );
 
-    getByText(/VR&E has received and processed your application/i);
-    getByText(/scheduled meeting or to schedule your meeting/i);
-    getByText(/confirmation of your meeting via email/i);
-    getByText(/Career Planning/i);
+    getByText(
+      /We've received and processed your application for Chapter 31 benefits/i,
+    );
+    getByText(/Check your email to schedule your meeting with your counselor/i);
+    getByText(
+      /After scheduling, you'll get a confirmation email and an appointment notification letter/i,
+    );
+    getByText(
+      /To get ready for your Initial Evaluation Counselor Meeting, visit the "Career Planning" page linked below/i,
+    );
   });
 
   it('renders step 4 scheduled instructions', () => {
     const { getByText } = renderWithProviders(
-      <CaseProgressDescription step={4} status="SCHEDULED" />,
+      <CaseProgressDescription step={4} status="ACTIVE" />,
     );
 
-    getByText(/Initial Evaluation Appointment has been scheduled/i);
-    getByText(/reschedule, please use your appointment confirmation/i);
-    getByText(/contact your counselor/i);
+    getByText(/Your Initial Evaluation Appointment has been scheduled/i);
+    getByText(
+      /If you need to reschedule, use your appointment confirmation rescheduling link sent to you via email and text/i,
+    );
+    getByText(/If you need further assistance, contact your counselor/i);
   });
+
+  // ...existing code...
 
   it('renders step 5 description', () => {
     const { getByText } = renderWithProviders(

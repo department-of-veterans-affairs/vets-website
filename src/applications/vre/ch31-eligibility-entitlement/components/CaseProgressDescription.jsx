@@ -110,8 +110,7 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
                     </h3>
                     <p className="va-nav-linkslist-description">
                       Read about how Veteran Readiness and Employment (Chapter
-                      31) can help you explore employment options and address
-                      education or training needs.
+                      31) can help you address education or training needs.
                     </p>
                   </li>
                   <li>
@@ -140,28 +139,23 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
     case 4: {
       if (status === 'PENDING') {
         return (
-          <>
-            <p>
-              VR&E has received and processed your application for Chapter 31
-              benefits. Please check your email for your scheduled meeting or to
-              schedule your meeting with your counselor.
-            </p>
-            <p>
-              Once scheduled, you will receive a confirmation of your meeting
-              via email and in a appointment notification letter. To prepare for
-              your Initial Evaluation Counselor Meeting, please visit the
-              "Career Planning" web page found below.
-            </p>
-          </>
+          <p>
+            We’ve received and processed your application for Chapter 31
+            benefits. Check your email to schedule your meeting with your
+            counselor. After scheduling, you’ll get a confirmation email and an
+            appointment notification letter. To get ready for your Initial
+            Evaluation Counselor Meeting, visit the "Career Planning" page
+            linked below.
+          </p>
         );
       }
 
       return (
         <p>
           Your Initial Evaluation Appointment has been scheduled. If you need to
-          reschedule, please use your appointment confirmation rescheduling link
-          sent to you via email and text. If you need further assistance, please
-          contact your counselor.
+          reschedule, use your appointment confirmation rescheduling link sent
+          to you via email and text. If you need further assistance, contact
+          your counselor.
         </p>
       );
     }
