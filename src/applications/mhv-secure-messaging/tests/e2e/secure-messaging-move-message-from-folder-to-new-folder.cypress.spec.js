@@ -27,6 +27,9 @@ describe('Secure Messaging Move Message to New Folder tests', () => {
       `folders/${createdFolderResponse.data.attributes.folderId}`,
     );
 
+    // Wait for folder detail and threads to load so the page renders h1
+    cy.wait(['@folderDetail', '@updatedFolder']);
+
     // Per MHV accessibility decision records, focus goes to H1
     cy.get('h1').should('have.focus');
 

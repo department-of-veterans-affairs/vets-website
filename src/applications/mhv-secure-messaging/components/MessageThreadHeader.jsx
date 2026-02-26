@@ -24,10 +24,10 @@ import StaleMessageAlert from './shared/StaleMessageAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 import ReplyButton from './ReplyButton';
+import AlertBackgroundBox from './shared/AlertBackgroundBox';
 
 const MessageThreadHeader = props => {
   const {
-    alertSlot,
     message,
     cannotReply,
     isCreateNewModalVisible,
@@ -127,7 +127,7 @@ const MessageThreadHeader = props => {
           {`Messages: ${categoryLabel} - ${subject}`}
         </h1>
 
-        {alertSlot}
+        <AlertBackgroundBox closeable className="vads-u-margin-y--1 va-alert" />
 
         {isInMigrationPhase && (
           <MigratingFacilitiesAlerts
@@ -201,7 +201,6 @@ const MessageThreadHeader = props => {
 };
 
 MessageThreadHeader.propTypes = {
-  alertSlot: PropTypes.node,
   cannotReply: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   message: PropTypes.object,

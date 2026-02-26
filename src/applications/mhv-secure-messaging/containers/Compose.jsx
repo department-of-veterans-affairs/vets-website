@@ -23,7 +23,6 @@ import {
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
 import featureToggles from '../hooks/useFeatureToggles';
-import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 
 const Compose = () => {
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
@@ -176,12 +175,6 @@ const Compose = () => {
             draft={draftMessage}
             recipients={!recipients.error && recipients}
             signature={signature}
-            alertSlot={
-              <AlertBackgroundBox
-                closeable
-                className="vads-u-margin-y--1 va-alert"
-              />
-            }
           />
         </>
       );

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { retrieveMessageThread } from '../actions/messages';
-import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import InterstitialPage from './InterstitialPage';
@@ -74,12 +73,6 @@ const MessageReply = () => {
 
     return (
       <ReplyForm
-        alertSlot={
-          <AlertBackgroundBox
-            closeable
-            className="vads-u-margin-y--1 va-alert"
-          />
-        }
         drafts={drafts || []}
         replyMessage={replyMessage}
         recipients={recipients}

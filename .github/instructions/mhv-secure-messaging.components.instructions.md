@@ -225,34 +225,22 @@ The `AlertBackgroundBox` component (`components/shared/AlertBackgroundBox.jsx`) 
   - Always focus H1 on page load, not the alert
   - For dismissible alerts, move focus back to H1 after alert is dismissed
 
-- **AlertSlot Pattern**: For containers where the H1 is inside a child component (ComposeForm, ReplyForm, MessageThreadHeader), use the `alertSlot` prop pattern:
+- **Direct Import Pattern**: Components that contain an H1 (ComposeForm, ReplyForm, FolderHeader, MessageThreadHeader) import and render `AlertBackgroundBox` directly after their H1:
   ```jsx
-  // Container (parent) - passes AlertBackgroundBox as prop
-  <ComposeForm
-    alertSlot={<AlertBackgroundBox closeable />}
-    // ... other props
-  />
-  
-  // Child component - renders alertSlot after H1
-  const ComposeForm = ({ alertSlot, ...props }) => {
+  import AlertBackgroundBox from '../shared/AlertBackgroundBox';
+
+  const ComposeForm = (props) => {
     return (
       <>
         <h1 className="page-title">{pageTitle}</h1>
-        {alertSlot}  {/* ← Alert renders AFTER H1 */}
+        <AlertBackgroundBox
+          closeable
+          className="vads-u-margin-y--1 va-alert"
+        />
         {/* ... rest of form */}
       </>
     );
   };
-  ```
-
-- **Direct Pattern**: For containers where H1 is in the same file (FolderThreadListView, Folders), render AlertBackgroundBox directly after the H1:
-  ```jsx
-  // In container component
-  <>
-    <FolderHeader folder={folder} />  {/* Contains H1 */}
-    <AlertBackgroundBox closeable />  {/* ← Alert AFTER H1 */}
-    {content}
-  </>
   ```
 
 - **Error State Handling**: When page data fails to load (e.g., 503 error), the H1 may not exist. Render AlertBackgroundBox at the top of the content area for error visibility:
@@ -265,7 +253,6 @@ The `AlertBackgroundBox` component (`components/shared/AlertBackgroundBox.jsx`) 
   {folderId !== undefined && (
     <>
       <FolderHeader folder={folder} />  {/* Contains H1 */}
-      <AlertBackgroundBox closeable />  {/* Normal state: after H1 */}
       {content}
     </>
   )}
@@ -286,14 +273,6 @@ The `AlertBackgroundBox` component (`components/shared/AlertBackgroundBox.jsx`) 
     const selector = alertVisible?.isActive ? 'va-alert' : 'h1';
     focusElement(document.querySelector(selector));
   }, [alertList, folder]);
-  ```
-
-- **PropTypes**: When using alertSlot pattern, add to component's propTypes:
-  ```jsx
-  ComponentName.propTypes = {
-    alertSlot: PropTypes.node,
-    // ... other props
-  };
   ```
 
 ## Accessibility

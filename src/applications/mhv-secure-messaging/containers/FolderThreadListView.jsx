@@ -328,12 +328,6 @@ const FolderThreadListView = () => {
         {folderId !== undefined && (
           <>
             <FolderHeader
-              alertSlot={
-                <AlertBackgroundBox
-                  closeable
-                  className="vads-u-margin-y--1 va-alert"
-                />
-              }
               folder={folder}
               threadCount={threadList?.length}
               searchProps={{ searchResults, awaitingResults, keyword, query }}

@@ -66,9 +66,10 @@ import {
 import SelectedRecipientTitle from './SelectedRecipientTitle';
 import AddYourMedicationInfoWarning from './AddYourMedicationInfoWarning';
 import useNavigationError from '../../hooks/useNavigationError';
+import AlertBackgroundBox from '../shared/AlertBackgroundBox';
 
 const ComposeForm = props => {
-  const { pageTitle, draft, recipients, signature, alertSlot } = props;
+  const { pageTitle, draft, recipients, signature } = props;
   const {
     noAssociations,
     allTriageGroupsBlocked,
@@ -997,7 +998,7 @@ const ComposeForm = props => {
         {pageTitle}
       </h1>
 
-      {alertSlot}
+      <AlertBackgroundBox closeable className="vads-u-margin-y--1 va-alert" />
 
       <DowntimeNotification
         appTitle={downtimeNotificationParams.appTitle}
@@ -1181,7 +1182,6 @@ const ComposeForm = props => {
 };
 
 ComposeForm.propTypes = {
-  alertSlot: PropTypes.node,
   draft: PropTypes.object,
   headerRef: PropTypes.object,
   pageTitle: PropTypes.string,

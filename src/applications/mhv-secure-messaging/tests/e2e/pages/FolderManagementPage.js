@@ -161,6 +161,13 @@ class FolderManagementPage {
       `GET`,
       `${Paths.SM_API_BASE}/folders/${
         createdFolderResponse.data.attributes.folderId
+      }?useCache=false`,
+      createdFolderResponse,
+    ).as(`folderDetail`);
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_BASE}/folders/${
+        createdFolderResponse.data.attributes.folderId
       }/threads*`,
       defaultMockThread,
     ).as(`updatedFolder`);

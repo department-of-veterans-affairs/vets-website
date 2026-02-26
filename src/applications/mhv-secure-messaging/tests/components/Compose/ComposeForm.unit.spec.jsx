@@ -156,18 +156,34 @@ describe('Compose form component', () => {
     expect(screen);
   });
 
-  it('renders alertSlot content after H1', async () => {
-    const screen = setup(initialState, Paths.COMPOSE, {
-      alertSlot: <div data-testid="test-alert-slot">Test alert</div>,
-    });
+  it('renders AlertBackgroundBox after H1', async () => {
+    const stateWithAlert = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        alerts: {
+          alertVisible: true,
+          alertList: [
+            {
+              datestamp: '2022-10-07T19:25:32.832Z',
+              isActive: true,
+              alertType: 'success',
+              header: 'Test',
+              content: 'Test alert content',
+            },
+          ],
+        },
+      },
+    };
+    const screen = setup(stateWithAlert, Paths.COMPOSE);
     await waitFor(() => {
       const h1 = screen.getByRole('heading', { level: 1 });
-      const alertSlot = screen.getByTestId('test-alert-slot');
+      const alertText = screen.getByTestId('alert-text');
       expect(h1).to.exist;
-      expect(alertSlot).to.exist;
+      expect(alertText).to.exist;
       const html = screen.container.innerHTML;
       expect(html.indexOf('<h1')).to.be.lessThan(
-        html.indexOf('data-testid="test-alert-slot"'),
+        html.indexOf('data-testid="alert-text"'),
       );
     });
   });

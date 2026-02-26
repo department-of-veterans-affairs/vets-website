@@ -27,9 +27,10 @@ import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import InnerNavigation from '../InnerNavigation';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 import OracleHealthMessagingIssuesAlert from '../shared/OracleHealthMessagingIssuesAlert';
+import AlertBackgroundBox from '../shared/AlertBackgroundBox';
 
 const FolderHeader = props => {
-  const { alertSlot, folder, searchProps, threadCount, showNoMessages } = props;
+  const { folder, searchProps, threadCount, showNoMessages } = props;
   const location = useLocation();
   const showInnerNav =
     folder.folderId === Folders.INBOX.id || folder.folderId === Folders.SENT.id;
@@ -151,7 +152,7 @@ const FolderHeader = props => {
         {`Messages: ${folderName}`}
       </h1>
 
-      {alertSlot}
+      <AlertBackgroundBox closeable className="vads-u-margin-y--1 va-alert" />
 
       {folder.folderId === Folders.INBOX.id && (
         <DowntimeNotification
@@ -216,7 +217,6 @@ const FolderHeader = props => {
 };
 
 FolderHeader.propTypes = {
-  alertSlot: PropTypes.node,
   folder: PropTypes.object,
   searchProps: PropTypes.object,
   showNoMessages: PropTypes.bool,

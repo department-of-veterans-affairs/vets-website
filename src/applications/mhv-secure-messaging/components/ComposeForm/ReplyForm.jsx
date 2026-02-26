@@ -28,10 +28,10 @@ import { clearThread } from '../../actions/threadDetails';
 import { getPatientSignature } from '../../actions/preferences';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 import ReplyButton from '../ReplyButton';
+import AlertBackgroundBox from '../shared/AlertBackgroundBox';
 
 const ReplyForm = props => {
   const {
-    alertSlot,
     cannotReply,
     drafts,
     replyMessage,
@@ -166,7 +166,7 @@ const ReplyForm = props => {
           {messageTitle}
         </h1>
 
-        {alertSlot}
+        <AlertBackgroundBox closeable className="vads-u-margin-y--1 va-alert" />
 
         {useCanReplyField ? (
           <>
@@ -275,7 +275,6 @@ const ReplyForm = props => {
 };
 
 ReplyForm.propTypes = {
-  alertSlot: PropTypes.node,
   cannotReply: PropTypes.bool,
   drafts: PropTypes.array,
   header: PropTypes.object,
