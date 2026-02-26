@@ -52,6 +52,16 @@ const ReviewPage = () => {
     [alertMessage],
   );
 
+  // Clear alert when user navigates away from review page
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearReviewPageAlert());
+      };
+    },
+    [dispatch],
+  );
+
   // Get total by expense type and return expenses in EXPENSE_TYPES order
   const totalByExpenseType = Object.fromEntries(
     Object.entries(

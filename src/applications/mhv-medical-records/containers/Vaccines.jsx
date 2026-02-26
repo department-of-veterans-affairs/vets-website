@@ -45,6 +45,7 @@ import {
   generateVaccinesContent,
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import DuplicateRecordsAlert from '../components/shared/DuplicateRecordsAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
@@ -66,7 +67,7 @@ const Vaccines = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  const { isLoading } = useAcceleratedData();
+  const { isLoading, isCerner } = useAcceleratedData();
   const isFetchingData = listState === loadStates.FETCHING;
 
   useTrackAction(statsdFrontEndActions.VACCINES_LIST);
@@ -188,6 +189,7 @@ const Vaccines = props => {
     <div id="vaccines">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Vaccines</h1>
+      {isCerner && <DuplicateRecordsAlert />}
       <p>
         This list includes all vaccines (immunizations) in your VA medical
         records. For a list of your allergies and reactions (including any

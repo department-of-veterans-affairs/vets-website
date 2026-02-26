@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import serviceStatus2 from '../../pages/serviceStatus2';
+import serviceStatus2 from '../../../pages/serviceStatus2';
 
 describe('COE serviceStatus2 page', () => {
   it('has the identity field in the UI schema', () => {
