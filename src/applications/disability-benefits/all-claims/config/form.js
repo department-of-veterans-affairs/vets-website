@@ -50,7 +50,6 @@ import {
   showSeparationLocation,
   isCompletingModern4142,
   onFormLoaded,
-  hasEvidenceChoice,
   normalizeReturnUrlForResume,
 } from '../utils';
 
@@ -686,7 +685,9 @@ const formConfig = {
         privateMedicalRecordsAttachments: {
           title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-upload',
+          // TODO: Remove page once enhanced page is approved to be merged prod flow
           depends: formData =>
+            !formData.disability526SupportingEvidenceEnhancement &&
             hasPrivateEvidence(formData) &&
             !isNotUploadingPrivateMedical(formData),
           uiSchema: privateMedicalRecordsAttachments.uiSchema,
@@ -738,7 +739,7 @@ const formConfig = {
           title: 'Upload supporting documents and additional forms',
           path: 'supporting-evidence/additional-evidence-enhancement',
           depends: formData =>
-            hasEvidenceChoice(formData) &&
+            hasOtherEvidence(formData) &&
             formData.disability526SupportingEvidenceEnhancement,
           uiSchema: evidenceChoiceAdditionalDocuments.uiSchema,
           schema: evidenceChoiceAdditionalDocuments.schema,

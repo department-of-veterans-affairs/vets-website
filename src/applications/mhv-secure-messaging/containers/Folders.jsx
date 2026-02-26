@@ -70,6 +70,10 @@ const Folders = () => {
     dispatch(newFolder(folderName)).then(() => {
       onSuccess();
       dispatch(getFolders());
+      // Focus H1 after React re-renders so AlertBackgroundBox's focus-settle announce path fires
+      setTimeout(() => {
+        focusElement(document.querySelector('h1'));
+      }, 100);
     });
   };
 

@@ -26,7 +26,6 @@ export const ConfirmationPage = props => {
       <ConfirmationView.WhatsNextProcessList />
       <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink />
-      <ConfirmationView.NeedHelp />
     </ConfirmationView>
   );
 };

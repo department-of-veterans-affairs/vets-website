@@ -54,6 +54,16 @@ const PhoneAndEmailPage = ({
           [{ value: data?.contactInfo?.emailAddress, dupe: '' }],
           [{ value: data?.contactInfo?.mobilePhone?.contact, dupe: '' }],
         );
+      } else if (isEmailValid && emailUpdated) {
+        getDuplicateContactInfo(
+          [{ value: data?.contactInfo?.emailAddress, dupe: '' }],
+          [{ value: '', dupe: '' }],
+        );
+      } else if (data?.contactInfo?.mobilePhone?.isValid && phoneUpdated) {
+        getDuplicateContactInfo(
+          [{ value: '', dupe: '' }],
+          [{ value: data?.contactInfo?.mobilePhone?.contact, dupe: '' }],
+        );
       }
     },
     [data, getDuplicateContactInfo],
