@@ -1,6 +1,8 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import {
   fetchPdfApi,
   downloadBlob,
@@ -16,8 +18,22 @@ import {
  * @param {Object} props.veteranName - The veteran's name for the filename
  */
 export const DownloadFormPDF = ({ guid, veteranName }) => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.user?.login?.currentlyLoggedIn);
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [sessionExpired, setSessionExpired] = useState(false);
+
+  // Clear session-expired state when the user signs back in
+  useEffect(
+    () => {
+      if (isLoggedIn && sessionExpired) {
+        setSessionExpired(false);
+      }
+    },
+    [isLoggedIn, sessionExpired],
+  );
 
   // Generate filename for the download
   const filename = useMemo(
@@ -25,6 +41,13 @@ export const DownloadFormPDF = ({ guid, veteranName }) => {
       return formatPdfFilename(veteranName);
     },
     [veteranName],
+  );
+
+  const handleSignIn = useCallback(
+    () => {
+      dispatch(toggleLoginModal(true, '21-2680-pdf-download'));
+    },
+    [dispatch],
   );
 
   // Handle PDF download
@@ -37,6 +60,7 @@ export const DownloadFormPDF = ({ guid, veteranName }) => {
 
       setIsLoading(true);
       setError(null);
+      setSessionExpired(false);
 
       try {
         // Fetch the PDF blob from the API
@@ -45,9 +69,13 @@ export const DownloadFormPDF = ({ guid, veteranName }) => {
         // Trigger browser download
         downloadBlob(blob, filename);
       } catch (err) {
-        setError(
-          "We're sorry. Something went wrong when downloading your form. Please try again later.",
-        );
+        if (err.sessionExpired) {
+          setSessionExpired(true);
+        } else {
+          setError(
+            "We're sorry. Something went wrong when downloading your form. Please try again later.",
+          );
+        }
       } finally {
         setIsLoading(false);
       }
@@ -63,6 +91,24 @@ export const DownloadFormPDF = ({ guid, veteranName }) => {
         message="Downloading your completed form..."
         class="vads-u-margin-y--4"
       />
+    );
+  }
+
+  // Render session expired state
+  if (sessionExpired) {
+    return (
+      <va-alert status="warning" class="vads-u-margin-y--4" uswds>
+        <h3 slot="headline">Your session has expired</h3>
+        <p>
+          Please sign in again to download your form. After signing in, select
+          the download link below.
+        </p>
+        <va-button
+          text="Sign in"
+          onClick={handleSignIn}
+          class="vads-u-margin-top--2"
+        />
+      </va-alert>
     );
   }
 

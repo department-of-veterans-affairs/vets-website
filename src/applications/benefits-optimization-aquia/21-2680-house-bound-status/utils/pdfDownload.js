@@ -17,6 +17,13 @@ export const fetchPdfApi = async guid => {
     throw new Error('Submission GUID is required to download PDF');
   }
 
+  // Prevent the platform's default 401 redirect (apiRequest navigates to
+  // the homepage on 401 when this flag is set). We handle session expiration
+  // in-place via the login modal so the user doesn't lose the confirmation
+  // page state.
+  const redirectFlag = sessionStorage.getItem('shouldRedirectExpiredSession');
+  sessionStorage.removeItem('shouldRedirectExpiredSession');
+
   try {
     const response = await apiRequest(`${API_ENDPOINTS.downloadPdf}/${guid}`, {
       method: 'GET',
@@ -43,12 +50,25 @@ export const fetchPdfApi = async guid => {
 
     return blob;
   } catch (error) {
+    // Check if this is a 401 session expiration
+    const status = error?.errors?.[0]?.status;
+    if (status === '401') {
+      recordEvent({ event: 'form-21-2680--pdf-download-session-expired' });
+      const sessionError = new Error('Session expired');
+      sessionError.sessionExpired = true;
+      throw sessionError;
+    }
+
     recordEvent({
       event: 'form-21-2680--pdf-download-failure',
       'error-message': error.message,
     });
 
     throw error;
+  } finally {
+    if (redirectFlag) {
+      sessionStorage.setItem('shouldRedirectExpiredSession', redirectFlag);
+    }
   }
 };
 
