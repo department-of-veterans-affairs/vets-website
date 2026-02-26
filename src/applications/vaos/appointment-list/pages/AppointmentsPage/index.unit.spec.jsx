@@ -236,7 +236,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     // and scheduling button should not be displayed
     expect(
       screen.queryByRole('button', {
-        name: 'Start scheduling an appointment',
+        name: 'Schedule a new appointment',
       }),
     ).not.to.exist;
 
@@ -295,7 +295,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     // and scheduling button should not be displayed
     expect(
       screen.queryByRole('button', {
-        name: 'Start scheduling an appointment',
+        name: 'Schedule a new appointment',
       }),
     ).not.to.exist;
 

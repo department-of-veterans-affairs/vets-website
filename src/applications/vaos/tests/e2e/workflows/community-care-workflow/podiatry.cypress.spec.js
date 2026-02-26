@@ -15,6 +15,7 @@ import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePag
 import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import {
   mockAppointmentCreateApi,
   mockAppointmentGetApi,
@@ -77,6 +78,8 @@ describe('VAOS community care flow - Podiatry', () => {
           cy.login(mockUser);
 
           AppointmentListPageObject.visit().scheduleAppointment();
+
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
             .selectTypeOfCare(/Podiatry/)
@@ -145,6 +148,8 @@ describe('VAOS community care flow - Podiatry', () => {
 
           AppointmentListPageObject.visit().scheduleAppointment();
 
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
           TypeOfCarePageObject.assertUrl()
             .selectTypeOfCare(/Podiatry/)
             .clickNextButton();
@@ -195,6 +200,8 @@ describe('VAOS community care flow - Podiatry', () => {
           cy.login(mockUser);
 
           AppointmentListPageObject.visit().scheduleAppointment();
+
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
             .selectTypeOfCare(/Podiatry/)
@@ -266,6 +273,8 @@ describe('VAOS community care flow - Podiatry', () => {
       // Act
       cy.login(new MockUser());
       AppointmentListPageObject.visit().scheduleAppointment();
+
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
         .selectTypeOfCare(/Podiatry/)
