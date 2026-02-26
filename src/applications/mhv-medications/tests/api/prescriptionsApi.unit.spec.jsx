@@ -1056,7 +1056,10 @@ describe('prescriptionsApi', () => {
       const store = createTestStore(false);
 
       await store.dispatch(
-        prescriptionsApi.endpoints.refillPrescription.initiate('12345'),
+        prescriptionsApi.endpoints.refillPrescription.initiate({
+          id: '12345',
+          stationNumber: '688',
+        }),
       );
 
       const [url, options] = fetchStub.firstCall.args;
@@ -1067,11 +1070,14 @@ describe('prescriptionsApi', () => {
       expect(options.body).to.be.undefined;
     });
 
-    it('should call v2 endpoint with POST and prescription ID in the request body', async () => {
+    it('should call v2 endpoint with POST and order objects in the request body', async () => {
       const store = createTestStore(true);
 
       await store.dispatch(
-        prescriptionsApi.endpoints.refillPrescription.initiate('12345'),
+        prescriptionsApi.endpoints.refillPrescription.initiate({
+          id: '12345',
+          stationNumber: '688',
+        }),
       );
 
       const [url, options] = fetchStub.firstCall.args;
@@ -1079,7 +1085,24 @@ describe('prescriptionsApi', () => {
         `${environment.API_URL}/my_health/v2/prescriptions/refill`,
       );
       expect(options.method).to.equal('POST');
-      expect(options.body).to.equal(JSON.stringify(['12345']));
+      expect(options.body).to.equal(
+        JSON.stringify([{ id: '12345', stationNumber: '688' }]),
+      );
+    });
+
+    it('should handle plain ID argument for backwards compatibility (v1)', async () => {
+      const store = createTestStore(false);
+
+      await store.dispatch(
+        prescriptionsApi.endpoints.refillPrescription.initiate('12345'),
+      );
+
+      const [url, options] = fetchStub.firstCall.args;
+      expect(url).to.equal(
+        `${environment.API_URL}/my_health/v1/prescriptions/12345/refill`,
+      );
+      expect(options.method).to.equal('PATCH');
+      expect(options.body).to.be.undefined;
     });
   });
 });

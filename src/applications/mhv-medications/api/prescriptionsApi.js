@@ -302,13 +302,21 @@ export const prescriptionsApi = createApi({
       },
     }),
     refillPrescription: builder.mutation({
-      queryFn: async (id, { getState }) => {
+      queryFn: async (prescription, { getState }) => {
         const state = getState();
         const apiBasePath = getApiBasePath(state);
         const method = getRefillMethod(state);
         const isOracleHealthPilot = selectCernerPilotFlag(state);
 
-        // v2: POST /prescriptions/refill with ID in body
+        // Support both plain ID (legacy) and {id, stationNumber} object
+        const id =
+          typeof prescription === 'object' ? prescription.id : prescription;
+        const stationNumber =
+          typeof prescription === 'object'
+            ? prescription.stationNumber
+            : undefined;
+
+        // v2: POST /prescriptions/refill with order objects in body
         // v1: PATCH /prescriptions/{id}/refill
         const url = isOracleHealthPilot
           ? `${apiBasePath}/prescriptions/refill`
@@ -320,7 +328,7 @@ export const prescriptionsApi = createApi({
             'Content-Type': 'application/json',
           },
           ...(isOracleHealthPilot && {
-            body: JSON.stringify([id]),
+            body: JSON.stringify([{ id, stationNumber }]),
           }),
         };
 
