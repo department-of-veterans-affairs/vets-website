@@ -2,7 +2,7 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+// import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import { TITLE, SUBTITLE } from '../utils/constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -11,16 +11,19 @@ import FormSavedPage from '../containers/FormSavedPage';
 import { defaultDefinitions } from './definitions';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
-import veteranIdentification from './chapters/01-veteran-information/veteranIdentification';
-import veteranAdditional from './chapters/01-veteran-information/veteranAdditional';
-import veteranName from './chapters/01-veteran-information/veteranName';
-import claimantRelationship from './chapters/02-claimant-information/claimantRelationship';
-import claimantInformation from './chapters/02-claimant-information/claimantInformation';
-import claimantIdentification from './chapters/02-claimant-information/claimantIdentification';
-import claimantHistory from './chapters/02-claimant-information/claimantHistory';
-import mailingAddress from './chapters/02-claimant-information/mailingAddress';
-import contactInformation from './chapters/02-claimant-information/contactInformation';
-import benefitType from './chapters/02-claimant-information/benefitType';
+import claimantRelationship from './chapters/claimantRelationship';
+import claimantInformation from './chapters/claimantInformation';
+import veteranInformation from './chapters/veteranInformation';
+// import veteranIdentification from './chapters/01-veteran-information/veteranIdentification';
+// import veteranAdditional from './chapters/01-veteran-information/veteranAdditional';
+// import veteranName from './chapters/01-veteran-information/veteranName';
+// import claimantRelationship from './chapters/02-claimant-information/claimantRelationship';
+// import claimantInformation from './chapters/02-claimant-information/claimantInformation';
+// import claimantIdentification from './chapters/02-claimant-information/claimantIdentification';
+// import claimantHistory from './chapters/02-claimant-information/claimantHistory';
+// import mailingAddress from './chapters/02-claimant-information/mailingAddress';
+// import contactInformation from './chapters/02-claimant-information/contactInformation';
+// import benefitType from './chapters/02-claimant-information/benefitType';
 import vaBenefits from './chapters/03-military-history/vaBenefits';
 import servicePeriod from './chapters/03-military-history/servicePeriod';
 import nationalGuardService from './chapters/03-military-history/nationalGuardService';
@@ -70,7 +73,7 @@ import directDepositAccount from './chapters/07-additional-information/directDep
 import otherPaymentOptions from './chapters/07-additional-information/otherPaymentOptions';
 import supportingDocuments from './chapters/07-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
-import IncorrectForm from '../containers/IncorrectForm';
+// import IncorrectForm from '../containers/IncorrectForm';
 // TODO: Will be added after mvp release
 // import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 import { transform } from './submit-transformer';
@@ -128,87 +131,9 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
-    // Chapter 1 - Veteran Information
-    veteranInformation: {
-      title: 'Veteran’s information',
-      pages: {
-        veteranName: {
-          title: 'Veteran’s name and date of birth',
-          path: 'veteran',
-          uiSchema: veteranName.uiSchema,
-          schema: veteranName.schema,
-        },
-        veteranIdentification: {
-          title: 'Veteran’s identification information',
-          path: 'veteran-identification',
-          uiSchema: veteranIdentification.uiSchema,
-          schema: veteranIdentification.schema,
-        },
-        veteranIdentificationAdditional: {
-          title: 'Additional Veteran information',
-          path: 'veteran-additional-information',
-          uiSchema: veteranAdditional.uiSchema,
-          schema: veteranAdditional.schema,
-        },
-      },
-    },
-    // Chapter 2 - Claimant Information
-    claimantInformation: {
-      title: "Claimant's information",
-      pages: {
-        claimantRelationship: {
-          path: 'claimant-relationship',
-          title: 'Claimant’s relationship to the Veteran',
-          uiSchema: claimantRelationship.uiSchema,
-          schema: claimantRelationship.schema,
-        },
-        claimantOther: {
-          path: 'claimant-other',
-          title: 'Claimant’s relationship to the Veteran',
-          CustomPage: IncorrectForm,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: blankSchema,
-          depends: formData => formData.claimantRelationship === 'OTHER',
-        },
-        claimantInformation: {
-          path: 'claimant-information',
-          title: 'Claimant’s name and date of birth',
-          uiSchema: claimantInformation.uiSchema,
-          schema: claimantInformation.schema,
-        },
-        claimantIdentification: {
-          path: 'claimant-identification',
-          title: 'Claimant’s identification information',
-          uiSchema: claimantIdentification.uiSchema,
-          schema: claimantIdentification.schema,
-        },
-        claimantHistory: {
-          path: 'claimant-service-history',
-          title: 'Claimant’s service history',
-          uiSchema: claimantHistory.uiSchema,
-          schema: claimantHistory.schema,
-        },
-        mailingAddress: {
-          path: 'claimant-mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-        },
-        contactInformation: {
-          path: 'claimant-contact-information',
-          title: 'Email address and phone number',
-          uiSchema: contactInformation.uiSchema,
-          schema: contactInformation.schema,
-        },
-        benefitType: {
-          path: 'claimant-benefit-type',
-          title: 'Benefit type',
-          uiSchema: benefitType.uiSchema,
-          schema: benefitType.schema,
-        },
-      },
-    },
+    claimantRelationship,
+    claimantInformation,
+    veteranInformation,
     // Chapter 3 - Military History
     militaryHistory: {
       title: 'Veteran’s military history',

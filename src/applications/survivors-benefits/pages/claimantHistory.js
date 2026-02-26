@@ -4,12 +4,14 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+export const historyTitle = 'Your service history';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Claimant’s service history'),
+    ...titleUI(historyTitle),
     claimantIsVeteran: yesNoUI({
-      title: 'Is the claimant a Veteran?',
+      title: 'Are you a Veteran?',
     }),
   },
   schema: {

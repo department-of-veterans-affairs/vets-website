@@ -3,6 +3,10 @@ import {
   addressUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { isCustodian } from '../utils/helpers';
+
+export const addressTitle = formData =>
+  `${isCustodian(formData) ? 'Child’s' : 'Your'} mailing address`;
 
 const updatedAddressSchema = addressSchema({
   omit: ['street3'],
@@ -16,7 +20,7 @@ const updatedAddressSchema = addressSchema({
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Mailing address'),
+    ...titleUI(({ formData }) => addressTitle(formData)),
     claimantAddress: addressUI({
       labels: {
         street2: 'Apartment or unit number',
