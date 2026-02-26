@@ -1,4 +1,5 @@
 import React from 'react';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from 'platform/utilities/environment';
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -84,7 +85,7 @@ const summaryPage = {
         {
           useFormsPattern: true,
           formHeading: promptContent.title,
-          formDescription: summaryContent.description,
+          formDescription: promptContent.description,
           title: promptContent.title,
           labels: summaryContent.options,
           formHeadingLevel: '3',
@@ -120,6 +121,9 @@ const uploadPage = {
     'ui:description': detailsContent.description,
     uploadedEvidence: fileInputUI({
       title: detailsContent.inputLabel,
+      createPayload: (file, formId, password) => {
+        console.log('data here: ', file, formId, password);
+      },
       labelHeaderLevel: '4',
       fileUploadUrl: `${environment.API_URL}${EVIDENCE_UPLOAD_API}`,
       accept: '.pdf',
@@ -130,7 +134,11 @@ const uploadPage = {
       additionalInputLabels: {
         documentType: { ...ATTACHMENTS_OTHER },
       },
-      additionalInput: 
+      additionalInput: (error, data, labels) => {
+        console.log('data: ', data);
+
+        return <VaSelect error={error} required label="" />;
+      },
     }),
   },
   schema: {
