@@ -19,6 +19,9 @@ import {
   includeGulfWarServiceDates,
   includeAgentOrangeExposureDates,
   includePostSept11ServiceDates,
+  doesVeteranWantToUpdateServiceInfo,
+  hasServiceHistoryInfo,
+  shouldHaveDocumentUpload,
 } from '../../../../utils/helpers/form-config';
 import {
   DEPENDENT_VIEW_FIELDS,
@@ -559,5 +562,191 @@ describe('ezr form config helpers', () => {
         });
       },
     );
+
+    context("When checking the veteran's service history:", () => {
+      const testGroups = [
+        {
+          data: {},
+          expected: false,
+          descript: 'and there is no preexisting service history information',
+        },
+        {
+          data: {
+            lastServiceBranch: 'air force',
+            dischargeType: 'honorable',
+          },
+          expected: false,
+          descript:
+            'and there is partial preexisting service history information',
+        },
+        {
+          data: {
+            lastServiceBranch: 'air force',
+            lastEntryDate: '2001-03-21',
+            lastDischargeDate: '2014-07-21',
+            dischargeType: 'honorable',
+          },
+          expected: true,
+          descript: 'and there is pre-existing service history information',
+        },
+      ];
+      testGroups.forEach(({ data, expected, descript }) => {
+        const exp = expected.toString();
+        it(`${descript} returns \`${exp}\``, () => {
+          expect(hasServiceHistoryInfo(data)).to.be[exp];
+        });
+      });
+    });
+
+    context(
+      'When checking if the veteran should update their service history:',
+      () => {
+        const testGroups = [
+          {
+            data: {
+              'view:ezrServiceHistoryEnabled': false,
+              'view:hasPrefillServiceHistory': true,
+              isServiceHistoryCorrect: true,
+            },
+            expected: false,
+            descript: 'and the feature flag is disabled',
+          },
+          {
+            data: {
+              'view:ezrServiceHistoryEnabled': true,
+              'view:hasPrefillServiceHistory': false,
+              isServiceHistoryCorrect: true,
+            },
+            expected: true,
+            descript: 'and there is no preexisting service history',
+          },
+          {
+            data: {
+              'view:ezrServiceHistoryEnabled': true,
+              'view:hasPrefillServiceHistory': true,
+              isServiceHistoryCorrect: false,
+            },
+            expected: true,
+            descript:
+              'and there is preexisting service history information and the veteran clicks that it is correct',
+          },
+          {
+            data: {
+              'view:ezrServiceHistoryEnabled': true,
+              'view:hasPrefillServiceHistory': true,
+              isServiceHistoryCorrect: false,
+            },
+            expected: true,
+            descript:
+              'and there is pre-existing service history information and the veteran clicks that it is NOT correct',
+          },
+        ];
+        testGroups.forEach(({ data, expected, descript }) => {
+          const exp = expected.toString();
+          it(`${descript} returns \`${exp}\``, () => {
+            expect(doesVeteranWantToUpdateServiceInfo(data)).to.be[exp];
+          });
+        });
+      },
+    );
+
+    context('Should the veteran upload supporting docs:', () => {
+      const testGroups = [
+        {
+          data: {
+            'view:ezrServiceHistoryEnabled': false,
+            'view:hasPrefillServiceHistory': false,
+            isServiceHistoryCorrect: false,
+            hasTeraResponse: false,
+          },
+          expected: false,
+          descript:
+            'ezrServiceHistoryEnabled is disabled and no TERA information',
+        },
+        {
+          data: {
+            'view:ezrServiceHistoryEnabled': false,
+            'view:hasPrefillServiceHistory': false,
+            isServiceHistoryCorrect: false,
+            hasTeraResponse: true,
+          },
+          expected: true,
+          descript:
+            'ezrServiceHistoryEnabled is disabled but it has TERA information',
+        },
+        {
+          data: {
+            'view:ezrServiceHistoryEnabled': true,
+            'view:hasPrefillServiceHistory': false,
+            isServiceHistoryCorrect: false,
+            hasTeraResponse: false,
+          },
+          expected: true,
+          descript:
+            'ezrServiceHistoryEnabled is enabled and no existing service history or TERA information',
+        },
+        {
+          data: {
+            'view:ezrServiceHistoryEnabled': true,
+            'view:hasPrefillServiceHistory': false,
+            isServiceHistoryCorrect: false,
+            hasTeraResponse: true,
+          },
+          expected: true,
+          descript:
+            'ezrServiceHistoryEnabled is enabled and no existing service history but has TERA information',
+        },
+        {
+          data: {
+            'view:ezrServiceHistoryEnabled': true,
+            'view:hasPrefillServiceHistory': true,
+            isServiceHistoryCorrect: false,
+            hasTeraResponse: false,
+          },
+          expected: true,
+          descript:
+            'ezrServiceHistoryEnabled is enabled has existing service history, that is not correct, but no TERA information!!!',
+        },
+        {
+          data: {
+            'view:ezrServiceHistoryEnabled': true,
+            'view:hasPrefillServiceHistory': true,
+            isServiceHistoryCorrect: false,
+            hasTeraResponse: true,
+          },
+          expected: true,
+          descript:
+            'ezrServiceHistoryEnabled is enabled has existing service history, that is not correct, and TERA information',
+        },
+        {
+          data: {
+            'view:ezrServiceHistoryEnabled': true,
+            'view:hasPrefillServiceHistory': true,
+            isServiceHistoryCorrect: true,
+            hasTeraResponse: false,
+          },
+          expected: false,
+          descript:
+            'ezrServiceHistoryEnabled is enabled has existing service history, that is correct, but no TERA information!!!',
+        },
+        {
+          data: {
+            'view:ezrServiceHistoryEnabled': true,
+            'view:hasPrefillServiceHistory': true,
+            isServiceHistoryCorrect: true,
+            hasTeraResponse: true,
+          },
+          expected: true,
+          descript:
+            'ezrServiceHistoryEnabled is enabled has existing service history, that is correct, and TERA information',
+        },
+      ];
+      testGroups.forEach(({ data, expected, descript }) => {
+        const exp = expected.toString();
+        it(`${descript} returns \`${exp}\``, () => {
+          expect(shouldHaveDocumentUpload(data)).to.be[exp];
+        });
+      });
+    });
   });
 });
