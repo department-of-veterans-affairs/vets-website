@@ -142,7 +142,10 @@ const EnterOTP = () => {
           <h2 slot="headline">
             We’ve emailed you a one-time verification code
           </h2>
-          <p className="vads-u-margin-y--0 vads-u-margin-bottom--2" data-dd-privacy="mask">
+          <p
+            className="vads-u-margin-y--0 vads-u-margin-bottom--2"
+            data-dd-privacy="mask"
+          >
             {`We emailed a one-time verification code (OTC) to ${obfuscatedEmail}. Enter the code here to complete your verification process and schedule your appointment.`}
           </p>
           <p className="vads-u-margin-y--0">
