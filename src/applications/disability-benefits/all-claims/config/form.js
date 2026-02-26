@@ -42,6 +42,7 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
+  showNewlyBDDPages,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
