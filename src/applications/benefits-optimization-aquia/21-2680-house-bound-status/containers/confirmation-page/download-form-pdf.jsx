@@ -53,6 +53,15 @@ const DownloadFormPDF = ({ confirmationNumber }) => {
       setErrorMessage(null);
       setSessionExpired(false);
 
+      // Prevent the platform's default 401 redirect (apiRequest navigates to
+      // the homepage on 401 when this flag is set). We handle session expiration
+      // in-place via the login modal so the user doesn't lose the confirmation
+      // page state.
+      const redirectFlag = sessionStorage.getItem(
+        'shouldRedirectExpiredSession',
+      );
+      sessionStorage.removeItem('shouldRedirectExpiredSession');
+
       try {
         const response = await apiRequest(
           `${API_ENDPOINTS.downloadPdf}${confirmationNumber}`,
@@ -77,6 +86,9 @@ const DownloadFormPDF = ({ confirmationNumber }) => {
           recordEvent({ event: '21-2680-pdf-download--failure' });
         }
       } finally {
+        if (redirectFlag) {
+          sessionStorage.setItem('shouldRedirectExpiredSession', redirectFlag);
+        }
         setLoading(false);
       }
     },
