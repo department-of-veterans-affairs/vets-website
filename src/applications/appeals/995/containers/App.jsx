@@ -51,7 +51,15 @@ export const App = ({
 }) => {
   // ------- REMOVE when new design toggle is removed
   const TOGGLE_KEY = 'decisionReviewsScRedesign';
-  const { useFormFeatureToggleSync } = useFeatureToggle();
+  const {
+    TOGGLE_NAMES,
+    useFormFeatureToggleSync,
+    useToggleValue,
+  } = useFeatureToggle();
+
+  const addUserAccountIdToRUM = useToggleValue(
+    TOGGLE_NAMES.decisionReviewAddUserAccountIdToRUM,
+  );
 
   useFormFeatureToggleSync([
     {
@@ -177,6 +185,8 @@ export const App = ({
     applicationId: DATA_DOG_ID,
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
+    accountUuid,
+    addUserAccountId: addUserAccountIdToRUM,
   });
 
   return wrapWithBreadcrumb(
