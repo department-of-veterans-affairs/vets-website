@@ -15,17 +15,27 @@ const CreateFolderInline = ({ folders, onConfirm, onFolderCreated }) => {
   const folderNameInput = useRef();
   const createFolderButtonRef = useRef();
 
-  useEffect(() => {
-    if (isExpanded && folderNameInput.current) {
-      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
-    }
-  }, [isExpanded]);
+  useEffect(
+    () => {
+      if (isExpanded && folderNameInput.current) {
+        focusElement(
+          folderNameInput.current.shadowRoot?.querySelector('input'),
+        );
+      }
+    },
+    [isExpanded],
+  );
 
-  useEffect(() => {
-    if (nameWarning.length && folderNameInput.current) {
-      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
-    }
-  }, [nameWarning]);
+  useEffect(
+    () => {
+      if (nameWarning.length && folderNameInput.current) {
+        focusElement(
+          folderNameInput.current.shadowRoot?.querySelector('input'),
+        );
+      }
+    },
+    [nameWarning],
+  );
 
   const handleCancel = useCallback(() => {
     setFolderName('');
@@ -34,31 +44,34 @@ const CreateFolderInline = ({ folders, onConfirm, onFolderCreated }) => {
     datadogRum.addAction('Create New Folder Inline Cancelled');
   }, []);
 
-  const handleCreate = useCallback(async () => {
-    const folderMatch = folders.filter(folder => folder.name === folderName);
+  const handleCreate = useCallback(
+    async () => {
+      const folderMatch = folders.filter(folder => folder.name === folderName);
 
-    if (folderName === '' || folderName.match(/^[\s]+$/)) {
-      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
-    } else if (folderMatch.length > 0) {
-      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_EXSISTING_NAME);
-    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-      try {
-        await onConfirm(folderName);
-        const createdFolderName = folderName;
-        setFolderName('');
-        setNameWarning('');
-        setIsExpanded(false);
-        setShowCreateSuccess(true);
-        if (onFolderCreated) onFolderCreated(createdFolderName);
-        // Allow render cycle to complete before focusing the button
-        setTimeout(() => focusElement(createFolderButtonRef.current), 100);
-      } catch (error) {
-        // If creation fails, keep form open - error alert will be shown by action
+      if (folderName === '' || folderName.match(/^[\s]+$/)) {
+        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
+      } else if (folderMatch.length > 0) {
+        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_EXSISTING_NAME);
+      } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+        try {
+          await onConfirm(folderName);
+          const createdFolderName = folderName;
+          setFolderName('');
+          setNameWarning('');
+          setIsExpanded(false);
+          setShowCreateSuccess(true);
+          if (onFolderCreated) onFolderCreated(createdFolderName);
+          // Allow render cycle to complete before focusing the button
+          setTimeout(() => focusElement(createFolderButtonRef.current), 100);
+        } catch (error) {
+          // If creation fails, keep form open - error alert will be shown by action
+        }
+      } else {
+        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_CHAR_TYPE);
       }
-    } else {
-      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_CHAR_TYPE);
-    }
-  }, [folders, folderName, onConfirm, onFolderCreated]);
+    },
+    [folders, folderName, onConfirm, onFolderCreated],
+  );
 
   const handleExpand = () => {
     setIsExpanded(true);

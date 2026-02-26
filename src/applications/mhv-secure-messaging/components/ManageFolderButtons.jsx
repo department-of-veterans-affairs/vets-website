@@ -43,43 +43,62 @@ const ManageFolderButtons = props => {
   }, []);
 
   // Reset local state when navigating to a different folder (not on initial mount)
-  useEffect(() => {
-    if (
-      prevFolderIdRef.current !== undefined &&
-      prevFolderIdRef.current !== folder?.folderId
-    ) {
-      setShowRenameSuccess(false);
-      setIsEditExpanded(false);
-      setFolderName('');
-      setNameWarning('');
-      setIsEmptyWarning(false);
-      setDeleteModal(false);
-    }
-    prevFolderIdRef.current = folder?.folderId;
-  }, [folder?.folderId]);
+  useEffect(
+    () => {
+      if (
+        prevFolderIdRef.current !== undefined &&
+        prevFolderIdRef.current !== folder?.folderId
+      ) {
+        setShowRenameSuccess(false);
+        setIsEditExpanded(false);
+        setFolderName('');
+        setNameWarning('');
+        setIsEmptyWarning(false);
+        setDeleteModal(false);
+      }
+      prevFolderIdRef.current = folder?.folderId;
+    },
+    [folder?.folderId],
+  );
 
-  useEffect(() => {
-    if (alertStatus) {
-      editFolderButtonRef.current?.focus();
-    }
-  }, [alertStatus]);
+  useEffect(
+    () => {
+      if (alertStatus) {
+        editFolderButtonRef.current?.focus();
+      }
+    },
+    [alertStatus],
+  );
 
-  useEffect(() => {
-    if (nameWarning.length)
-      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
-  }, [nameWarning]);
+  useEffect(
+    () => {
+      if (nameWarning.length)
+        focusElement(
+          folderNameInput.current.shadowRoot?.querySelector('input'),
+        );
+    },
+    [nameWarning],
+  );
 
-  useEffect(() => {
-    if (isEditExpanded && folder?.name) {
-      setFolderName(folder.name);
-    }
-  }, [isEditExpanded, folder?.name]);
+  useEffect(
+    () => {
+      if (isEditExpanded && folder?.name) {
+        setFolderName(folder.name);
+      }
+    },
+    [isEditExpanded, folder?.name],
+  );
 
-  useEffect(() => {
-    if (isEditExpanded && folderNameInput.current) {
-      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
-    }
-  }, [isEditExpanded]);
+  useEffect(
+    () => {
+      if (isEditExpanded && folderNameInput.current) {
+        focusElement(
+          folderNameInput.current.shadowRoot?.querySelector('input'),
+        );
+      }
+    },
+    [isEditExpanded],
+  );
 
   const openDelModal = () => {
     if (alertStatus) dispatch(closeAlert());
@@ -123,36 +142,39 @@ const ManageFolderButtons = props => {
     datadogRum.addAction('Edit Folder Name Cancelled');
   }, []);
 
-  const confirmRenameFolder = useCallback(async () => {
-    const folderMatch = folders.filter(
-      testFolder => testFolder.name === folderName,
-    );
-    await setNameWarning(''); // Clear any previous warnings, so that the warning state can be updated and refocuses back to input if on repeat Save clicks.
-    if (folderName === '' || folderName.match(/^[\s]+$/)) {
-      setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED);
-    } else if (folderMatch.length > 0) {
-      setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
-    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-      try {
-        // Pass suppressSuccessAlert=true to prevent global alert, we show inline alert instead
-        await dispatch(renameFolder(folder.folderId, folderName, true));
-        setIsEditExpanded(false);
-        setFolderName('');
-        setNameWarning('');
-        setShowRenameSuccess(true);
-        // Per accessibility guidance: leave focus on triggering control (Edit button)
-        // The slim alert with role="status" will announce the success message
-        focusElement(editFolderButtonRef.current);
-      } catch (error) {
-        // If rename fails, keep form open - global error alert will be shown by action
-        // Error already logged to Datadog via sendDatadogError in renameFolder action
-      }
-    } else {
-      setNameWarning(
-        ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
+  const confirmRenameFolder = useCallback(
+    async () => {
+      const folderMatch = folders.filter(
+        testFolder => testFolder.name === folderName,
       );
-    }
-  }, [folders, folderName, folder.folderId, dispatch, ErrorMessages]);
+      await setNameWarning(''); // Clear any previous warnings, so that the warning state can be updated and refocuses back to input if on repeat Save clicks.
+      if (folderName === '' || folderName.match(/^[\s]+$/)) {
+        setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED);
+      } else if (folderMatch.length > 0) {
+        setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
+      } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+        try {
+          // Pass suppressSuccessAlert=true to prevent global alert, we show inline alert instead
+          await dispatch(renameFolder(folder.folderId, folderName, true));
+          setIsEditExpanded(false);
+          setFolderName('');
+          setNameWarning('');
+          setShowRenameSuccess(true);
+          // Per accessibility guidance: leave focus on triggering control (Edit button)
+          // The slim alert with role="status" will announce the success message
+          focusElement(editFolderButtonRef.current);
+        } catch (error) {
+          // If rename fails, keep form open - global error alert will be shown by action
+          // Error already logged to Datadog via sendDatadogError in renameFolder action
+        }
+      } else {
+        setNameWarning(
+          ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
+        );
+      }
+    },
+    [folders, folderName, folder.folderId, dispatch, ErrorMessages],
+  );
 
   return (
     <>
