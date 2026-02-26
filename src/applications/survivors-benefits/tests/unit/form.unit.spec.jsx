@@ -280,14 +280,16 @@ describe('Survivors Benefits Form config', () => {
   });
 
   describe('Chapter 5: Claim Information with different data sets', () => {
-    it('should show dicBenefits page when DIC claim is selected', () => {
+    it('should show dicBenefits page when DIC or dic claim is selected', () => {
       const { claimInformation } = formConfig.chapters;
       const { pages } = claimInformation;
 
-      const dicClaim = { claims: { DIC: true } };
+      const dicClaimUppercase = { claims: { DIC: true } };
+      const dicClaimLowercase = { claims: { dic: true } };
       const noDicClaim = { claims: { DIC: false } };
 
-      expect(pages.dicBenefits.depends(dicClaim)).to.be.true;
+      expect(pages.dicBenefits.depends(dicClaimUppercase)).to.be.true;
+      expect(pages.dicBenefits.depends(dicClaimLowercase)).to.be.true;
       expect(pages.dicBenefits.depends(noDicClaim)).to.be.false;
     });
   });
