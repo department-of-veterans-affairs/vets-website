@@ -52,3 +52,6 @@ export const MILESTONE_COMPLETION_TYPES = {
   STEP_3: 'ORIENTATION_COMPLETION',
   STEP_4: 'INTAKE_MEETING_COMPLETION',
 };
+
+export const YOUTUBE_ORIENTATION_VIDEO_URL =
+  'https://www.youtube.com/watch?v=49eWvGitLPw';

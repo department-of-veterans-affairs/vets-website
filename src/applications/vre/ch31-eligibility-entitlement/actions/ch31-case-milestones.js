@@ -8,7 +8,10 @@ import {
   CH31_CASE_MILESTONES_FETCH_SUCCEEDED,
 } from '../constants';
 
-export function submitCh31CaseMilestones({ milestoneCompletionType, user }) {
+export function submitCh31CaseMilestones({
+  milestoneCompletionType,
+  postpone = false,
+}) {
   return dispatch => {
     dispatch({ type: CH31_CASE_MILESTONES_FETCH_STARTED });
 
@@ -18,13 +21,12 @@ export function submitCh31CaseMilestones({ milestoneCompletionType, user }) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        icn: user.profile.icn,
         milestones: [
           {
             milestoneType: milestoneCompletionType,
             isMilestoneCompleted: true,
             milestoneCompletionDate: moment().format('YYYY-MM-DD'),
-            milestoneSubmissionUser: user.profile.accountUuid,
+            postpone,
           },
         ],
       }),

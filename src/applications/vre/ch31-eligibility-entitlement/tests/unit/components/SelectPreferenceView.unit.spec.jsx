@@ -11,6 +11,7 @@ import * as MilestoneActions from '../../../actions/ch31-case-milestones';
 import {
   CH31_CASE_MILESTONES_RESET_STATE,
   MILESTONE_COMPLETION_TYPES,
+  YOUTUBE_ORIENTATION_VIDEO_URL,
 } from '../../../constants';
 
 const sandbox = sinon.createSandbox();
@@ -70,9 +71,9 @@ describe('SelectPreferenceView', () => {
     sandbox.stub(UserSelectors, 'selectUser').returns({ uuid: 'user-123' });
     sandbox
       .stub(MilestoneActions, 'submitCh31CaseMilestones')
-      .callsFake(({ milestoneCompletionType, user }) => ({
+      .callsFake(({ milestoneCompletionType, postpone }) => ({
         type: 'SUBMIT_CH31_CASE_MILESTONES',
-        payload: { milestoneCompletionType, user },
+        payload: { milestoneCompletionType, postpone },
       }));
   });
 
@@ -85,8 +86,9 @@ describe('SelectPreferenceView', () => {
       ch31CaseMilestones: { loading: false, error: null },
     });
 
-    getByText(/You will need to complete your Orientation/i);
-    getByText(/Which is your preferred course of action\?/i);
+    getByText(
+      /Choose between watching the VA Video Orientation online or completing orientation during the Initial Evaluation/i,
+    );
     // Radio host present
     expect(document.querySelector('va-radio')).to.exist;
   });
@@ -105,14 +107,18 @@ describe('SelectPreferenceView', () => {
     await waitFor(() => {
       // We can't directly access the store spy here; validate presence of host elements
       expect(
-        container.querySelector('va-link[channel][href="https://www.va.gov"]'),
+        container.querySelector(
+          `va-link[channel][href="${YOUTUBE_ORIENTATION_VIDEO_URL}"]`,
+        ),
       ).to.exist;
     });
 
     // Link and checkbox appear
     getByText(/Please watch the full video and self-certify/i);
     expect(
-      container.querySelector('va-link[channel][href="https://www.va.gov"]'),
+      container.querySelector(
+        `va-link[channel][href="${YOUTUBE_ORIENTATION_VIDEO_URL}"]`,
+      ),
     ).to.exist;
     expect(container.querySelector('va-checkbox')).to.exist;
 
@@ -153,7 +159,7 @@ describe('SelectPreferenceView', () => {
         type: 'SUBMIT_CH31_CASE_MILESTONES',
         payload: {
           milestoneCompletionType: MILESTONE_COMPLETION_TYPES.STEP_3,
-          user: { uuid: 'user-123' },
+          postpone: false,
         },
       }),
     ).to.be.true;
@@ -189,7 +195,7 @@ describe('SelectPreferenceView', () => {
         type: 'SUBMIT_CH31_CASE_MILESTONES',
         payload: {
           milestoneCompletionType: MILESTONE_COMPLETION_TYPES.STEP_3,
-          user: { uuid: 'user-123' },
+          postpone: true,
         },
       }),
     ).to.be.true;

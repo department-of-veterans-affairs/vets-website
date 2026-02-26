@@ -14,18 +14,11 @@ import { submitCh31CaseMilestones } from '../../../actions/ch31-case-milestones'
 describe('ch31-case-milestones actions', () => {
   let apiStub;
   let dispatch;
-  let user;
   let clock;
 
   beforeEach(() => {
     apiStub = sinon.stub(api, 'apiRequest');
     dispatch = sinon.spy();
-    user = {
-      profile: {
-        icn: '1234567890V123456',
-        accountUuid: 'uuid-abc-123',
-      },
-    };
     // Freeze time for predictable date
     clock = sinon.useFakeTimers(new Date('2024-01-01T12:00:00Z').getTime());
   });
@@ -41,7 +34,6 @@ describe('ch31-case-milestones actions', () => {
 
     await submitCh31CaseMilestones({
       milestoneCompletionType: 'TEST_MILESTONE',
-      user,
     })(dispatch);
 
     expect(dispatch.getCall(0).args[0].type).to.equal(
@@ -55,14 +47,11 @@ describe('ch31-case-milestones actions', () => {
     expect(options.method).to.equal('POST');
     expect(options.headers['Content-Type']).to.equal('application/json');
     const body = JSON.parse(options.body);
-    expect(body.icn).to.equal(user.profile.icn);
+    expect(body.milestones[0].postpone).to.be.false;
     expect(body.milestones[0].milestoneType).to.equal('TEST_MILESTONE');
     expect(body.milestones[0].isMilestoneCompleted).to.be.true;
     expect(body.milestones[0].milestoneCompletionDate).to.equal(
       moment().format('YYYY-MM-DD'),
-    );
-    expect(body.milestones[0].milestoneSubmissionUser).to.equal(
-      user.profile.accountUuid,
     );
 
     // Success action
@@ -85,7 +74,6 @@ describe('ch31-case-milestones actions', () => {
 
     await submitCh31CaseMilestones({
       milestoneCompletionType: 'TEST_MILESTONE',
-      user,
     })(dispatch);
 
     expect(dispatch.getCall(0).args[0].type).to.equal(
@@ -114,7 +102,6 @@ describe('ch31-case-milestones actions', () => {
 
     await submitCh31CaseMilestones({
       milestoneCompletionType: 'TEST_MILESTONE',
-      user,
     })(dispatch);
 
     expect(dispatch.getCall(1).args[0].type).to.equal(
@@ -140,7 +127,6 @@ describe('ch31-case-milestones actions', () => {
 
     await submitCh31CaseMilestones({
       milestoneCompletionType: 'TEST_MILESTONE',
-      user,
     })(dispatch);
 
     expect(dispatch.getCall(1).args[0].type).to.equal(

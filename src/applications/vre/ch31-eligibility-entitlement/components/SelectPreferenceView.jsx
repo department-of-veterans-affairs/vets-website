@@ -6,11 +6,11 @@ import {
   VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from 'platform/user/selectors';
 import { submitCh31CaseMilestones } from '../actions/ch31-case-milestones';
 import {
   CH31_CASE_MILESTONES_RESET_STATE,
   MILESTONE_COMPLETION_TYPES,
+  YOUTUBE_ORIENTATION_VIDEO_URL,
 } from '../constants';
 
 const ORIENTATION_TYPE = {
@@ -25,7 +25,6 @@ export default function SelectPreferenceView() {
   const [orientationTypeRadioValue, setOrientationTypeRadioValue] = useState();
   const [attestationChecked, setAttestationChecked] = useState(false);
   const [checkboxError, setCheckboxError] = useState(false);
-  const user = useSelector(selectUser);
 
   const ch31CaseMilestonesState = useSelector(
     state => state?.ch31CaseMilestones,
@@ -44,7 +43,9 @@ export default function SelectPreferenceView() {
     dispatch(
       submitCh31CaseMilestones({
         milestoneCompletionType: MILESTONE_COMPLETION_TYPES.STEP_3,
-        user,
+        postpone:
+          orientationTypeRadioValue ===
+          ORIENTATION_TYPE.COMPLETE_DURING_MEETING,
       }),
     );
   };
@@ -69,12 +70,8 @@ export default function SelectPreferenceView() {
   return (
     <>
       <p>
-        You will need to complete your Orientation by either scheduling a
-        meeting with your local RO, or by watching online the VA Orientation
-        Video.
-      </p>
-      <p>
-        Which is your preferred course of action? Please, make your selection:
+        Choose between watching the VA Video Orientation online or completing
+        orientation during the Initial Evaluation.
       </p>
       <VaRadio
         label="My preference is to:"
@@ -98,7 +95,11 @@ export default function SelectPreferenceView() {
               full video and self-certify upon completion.
             </p>
             <p>
-              <va-link channel href="https://www.va.gov" text="Link" />
+              <va-link
+                channel
+                href={YOUTUBE_ORIENTATION_VIDEO_URL}
+                text="Review VA Orientation Video"
+              />
             </p>
             <VaCheckbox
               checkboxDescription="Please check the box above if you have watched the Video Tutorial provided."
