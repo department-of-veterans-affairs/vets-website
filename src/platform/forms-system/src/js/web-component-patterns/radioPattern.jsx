@@ -49,13 +49,10 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  * }} options
  * @returns {UISchemaOptions}
  */
-export const radioUI = ({
-  title,
-  description,
-  errorMessages,
-  required,
-  ...uiOptions
-}) => {
+export const radioUI = options => {
+  const { title, description, errorMessages, required, ...uiOptions } =
+    typeof options === 'object' ? options : { title: options };
+
   return {
     'ui:title': title,
     'ui:description': description,

@@ -52,6 +52,7 @@ describe('SIP Finish Later', () => {
 
     cy.url().should('not.contain', '/first-page');
     cy.url().should('contain', 'form-saved');
+    cy.get('.usa-alert-body').should('be.visible');
 
     cy.axeCheck();
 
