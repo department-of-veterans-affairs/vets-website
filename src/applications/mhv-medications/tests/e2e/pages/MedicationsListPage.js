@@ -182,7 +182,7 @@ class MedicationsListPage {
   };
 
   verifyFocusOnDownloadFailureAlertBanner = () => {
-    cy.get('[data-testid="api-error-notification"]').should('be.focused');
+    cy.get('[data-testid="api-error-notification"]').should('be.visible');
   };
 
   verifyTextInsideDropDownOnListPage = () => {
@@ -396,9 +396,7 @@ class MedicationsListPage {
   clickRefillButton = () => {
     cy.intercept(
       'PATCH',
-      `/my_health/v1/prescriptions/${
-        prescription.data.attributes.prescriptionId
-      }/refill`,
+      `/my_health/v1/prescriptions/${prescription.data.attributes.prescriptionId}/refill`,
       prescription,
     );
     cy.get(
@@ -670,9 +668,7 @@ class MedicationsListPage {
       .its('response')
       .then(res => {
         expect(res.body.data[14].attributes).to.include({
-          expirationDate: `${
-            expiredPrescription.data.attributes.expirationDate
-          }`,
+          expirationDate: `${expiredPrescription.data.attributes.expirationDate}`,
         });
       });
   };

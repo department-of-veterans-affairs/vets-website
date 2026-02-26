@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom-v5-compat';
 import { useGetPrescriptionsListQuery } from '../../api/prescriptionsApi';
 import {
   rxListSortingOptions,
@@ -15,7 +16,10 @@ import {
   selectV2StatusMappingFlag,
 } from '../../util/selectors';
 
-export const useFetchMedicationHistory = (initialPage = 1, perPage = 10) => {
+export const useFetchMedicationHistory = (perPage = 10) => {
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get('page')) || 1;
+
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const selectedSortOption = useSelector(selectSortOption);
@@ -27,13 +31,17 @@ export const useFetchMedicationHistory = (initialPage = 1, perPage = 10) => {
   );
 
   const [queryParams, setQueryParams] = useState({
-    page: initialPage,
+    page,
     perPage,
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
     filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
   });
+
+  useEffect(() => {
+    setQueryParams(prev => ({ ...prev, page }));
+  }, [page]);
 
   const {
     data: apiData,
@@ -42,17 +50,12 @@ export const useFetchMedicationHistory = (initialPage = 1, perPage = 10) => {
     isFetching: apiIsFetching,
   } = useGetPrescriptionsListQuery(queryParams);
 
-  const setPage = page => {
-    setQueryParams(prev => ({ ...prev, page }));
-  };
-
   return {
     prescriptions: apiData?.prescriptions || [],
     prescriptionsData: apiData,
     prescriptionsApiError: apiError,
     isLoading: apiIsLoading || apiIsFetching,
     currentPage: queryParams.page,
-    setPage,
     setQueryParams,
   };
 };
