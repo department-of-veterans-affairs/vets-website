@@ -1,7 +1,7 @@
 // @ts-check
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import footerContent from 'platform/forms/components/FormFooter';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import footerContent from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -133,7 +133,7 @@ const formConfig = {
             key,
             {
               ...page,
-              depends: formData => {
+              depends: /** @param {any} formData */ formData => {
                 if (!shouldShowEmploymentSection(formData)) {
                   return false;
                 }
