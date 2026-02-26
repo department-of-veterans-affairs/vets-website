@@ -433,9 +433,16 @@ jobs:
       - name: Annotate ESLint results for all files if lint config or dependencies changed
         if: steps.check-full-lint.outputs.full_lint == 'true'
         run: |
-          find src/ -name '*.js' -o -name '*.jsx' | \
-            xargs -P 4 -n 500 yarn run eslint --no-error-on-unmatched-pattern \
-            --format ./script/github-actions/eslint-annotation-format.js
+          FILE_LIST=$(find src/ -name '*.js' -o -name '*.jsx')
+          BATCH_SIZE=$(( ($(echo "$FILE_LIST" | wc -l) + 3) / 4 ))
+          FAIL=0
+          echo "$FILE_LIST" | \
+            xargs -P 4 -n "$BATCH_SIZE" sh -c 'yarn run eslint --no-error-on-unmatched-pattern \
+            --format ./script/github-actions/eslint-annotation-format.js "$@"' _ || FAIL=$?
+          if [ "$FAIL" -ne 0 ]; then
+            echo "::error::ESLint found errors in the codebase"
+            exit 1
+          fi
 
       - name: Annotate ESLint results for modified files
         run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
