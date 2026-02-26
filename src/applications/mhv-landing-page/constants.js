@@ -19,7 +19,7 @@ const HEALTH_TOOL_LINKS = freeze({
     },
     {
       href: '/my-health/appointments/',
-      text: 'Manage upcoming appointments',
+      text: 'Manage appointments',
     },
   ]),
   MESSAGES: freeze([
