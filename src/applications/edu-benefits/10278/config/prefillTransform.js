@@ -13,6 +13,8 @@ export default function prefillTransformer(pages, formData, metadata, state) {
         last: userFullName.last,
       },
       dateOfBirth: dob,
+      ssn: formData.ssn,
+      vaFileNumber: formData.ssn,
     },
   };
 
