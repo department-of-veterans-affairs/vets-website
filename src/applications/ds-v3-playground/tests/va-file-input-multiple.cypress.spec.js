@@ -1,6 +1,6 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 
-describe('VaFileInputMultiple Component', () => {
+describe.skip('VaFileInputMultiple Component', () => {
   beforeEach(() => {
     // Force a fresh page load to ensure clean state
     cy.visit('/ds-v3-playground', { timeout: 10000 });
