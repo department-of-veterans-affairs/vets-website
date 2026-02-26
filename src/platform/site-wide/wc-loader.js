@@ -22,5 +22,7 @@ async function initWebComponents() {
 // content to become hidden. It does end up breaking the styling, but this is
 // better than not being able to see the internal content
 if (window.location?.protocol !== 'file:') {
-  loadWithRetry(initWebComponents, 3, 1000, 10000).catch(() => {});
+  loadWithRetry(initWebComponents, 3, 1000, 10000).catch(error =>
+    window.DD_RUM?.addError(error, { source: 'wc-loader' }),
+  );
 }
