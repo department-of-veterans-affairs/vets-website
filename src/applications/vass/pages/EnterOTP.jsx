@@ -88,7 +88,6 @@ const EnterOTP = () => {
 
     if (response.error) {
       setApiError('API Error');
-      setCode('');
       return;
     }
 
