@@ -173,7 +173,7 @@ export default function AuthApp({ location }) {
       setupProfileSession(userProfile);
     }
     if (needsPortalNotice) {
-      window.location.replace('/sign-in-health-portal');
+      window.location.replace('/sign-in-health-portal/');
       return;
     }
     if (needsMyHealth) {

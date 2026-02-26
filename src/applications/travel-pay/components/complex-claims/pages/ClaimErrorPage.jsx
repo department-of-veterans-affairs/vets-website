@@ -5,7 +5,7 @@ import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
 import { PAST_APPOINTMENTS_LINK } from '../../../constants';
 import WhatHappensNextSection from './WhatHappensNextSection';
-import { ComplexClaimsHelpSection } from '../../HelpText';
+
 // This page is displayed when the API GET CLAIM call and the API CREATE CLAIM call fails
 const ClaimErrorPage = ({ isCreate }) => {
   const header = isCreate
@@ -39,7 +39,6 @@ const ClaimErrorPage = ({ isCreate }) => {
         )}
       </va-alert>
       <WhatHappensNextSection isError />
-      <ComplexClaimsHelpSection />
     </div>
   );
 };

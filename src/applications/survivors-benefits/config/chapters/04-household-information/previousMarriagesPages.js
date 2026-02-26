@@ -27,6 +27,7 @@ import {
   previousMarriageEndOptions,
 } from '../../../utils/labels';
 import { customAddressSchema } from '../../definitions';
+import { validations } from '../../validations';
 
 // Show previous marriages pages ONLY if user answered YES to hadPreviousMarriages
 // Ansering NO skips all previous marriage flows and jumps to Dependents
@@ -249,10 +250,13 @@ const marriageEndDateAndLocationPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'When and where did your marriage end?',
     ),
-    dateOfSeparation: currentOrPastDateUI({
-      title: 'Date marriage ended',
-      monthSelect: false,
-    }),
+    dateOfSeparation: {
+      ...currentOrPastDateUI({
+        title: 'Date marriage ended',
+        monthSelect: false,
+      }),
+      'ui:validations': [validations.isAfterPreviousMarriageStartDate],
+    },
     marriageEndedOutsideUS: checkboxUI({
       title: 'My marriage ended outside the U.S.',
     }),

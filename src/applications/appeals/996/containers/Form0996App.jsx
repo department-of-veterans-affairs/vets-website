@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from '~/platform/forms-system/src/js/actions';
-
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import {
   DATA_DOG_ID,
@@ -15,10 +13,10 @@ import {
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
-
-import { getContestableIssues as getContestableIssuesAction } from '../actions';
-
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
+import {
+  getContestableIssues as getContestableIssuesAction,
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+} from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
@@ -30,10 +28,10 @@ import {
   processContestableIssues,
 } from '../../shared/utils/issues';
 import { isOutsideForm } from '../../shared/utils/helpers';
-
 import { data996 } from '../../shared/props';
 
 export const Form0996App = ({
+  accountUuid,
   loggedIn,
   location,
   children,
@@ -44,6 +42,10 @@ export const Form0996App = ({
   contestableIssues,
 }) => {
   const { pathname } = location || {};
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const addUserAccountIdToRUM = useToggleValue(
+    TOGGLE_NAMES.decisionReviewAddUserAccountIdToRUM,
+  );
 
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
@@ -78,7 +80,10 @@ export const Form0996App = ({
           if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
-            getContestableIssues({ benefitType: formData.benefitType });
+            getContestableIssues({
+              benefitType: formData.benefitType,
+              appAbbr: 'HLR',
+            });
           } else if (
             contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
             issuesNeedUpdating(
@@ -157,6 +162,8 @@ export const Form0996App = ({
     applicationId: DATA_DOG_ID,
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
+    accountUuid,
+    addUserAccountId: addUserAccountIdToRUM,
   });
 
   // Add data-location attribute to allow styling specific pages
@@ -171,6 +178,7 @@ export const Form0996App = ({
 Form0996App.propTypes = {
   getContestableIssues: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  accountUuid: PropTypes.string,
   children: PropTypes.any,
   contestableIssues: PropTypes.shape({
     status: PropTypes.string,
@@ -191,6 +199,7 @@ Form0996App.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  accountUuid: state?.user?.profile?.accountUuid,
   loggedIn: isLoggedIn(state),
   formData: state.form?.data || {},
   profile: selectProfile(state),

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
+import { OracleHealthInCardAlert } from '../shared/OracleHealthTransitionAlerts';
 import {
   dateFormat,
   getPrescriptionDetailUrl,
@@ -11,11 +12,16 @@ import {
   rxSourceIsNonVA,
 } from '../../util/helpers';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
-
 import {
+  shouldBlockRefills,
+  shouldBlockRenewals,
+} from '../../util/oracleHealthTransition';
+import {
+  selectMhvMedicationsOracleHealthCutoverFlag,
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
 } from '../../util/selectors';
+import { selectOracleHealthMigrations } from '../../selectors/selectUser';
 import {
   DATETIME_FORMATS,
   RX_SOURCE,
@@ -29,7 +35,20 @@ const MedicationsListCard = ({ rx }) => {
   const useV2StatusMapping = isCernerPilot && isV2StatusMapping;
   const isPendingDispense =
     rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE;
-
+  const isOracleHealthCutoverEnabled = useSelector(
+    selectMhvMedicationsOracleHealthCutoverFlag,
+  );
+  const migratingFacilities = useSelector(selectOracleHealthMigrations);
+  const isRefillBlocked = shouldBlockRefills({
+    prescription: rx,
+    isFeatureFlagEnabled: isOracleHealthCutoverEnabled,
+    migrations: migratingFacilities,
+  });
+  const isRenewalBlocked = shouldBlockRenewals({
+    prescription: rx,
+    isFeatureFlagEnabled: isOracleHealthCutoverEnabled,
+    migrations: migratingFacilities,
+  });
   const pendingMed =
     isPendingDispense &&
     (useV2StatusMapping
@@ -119,7 +138,15 @@ const MedicationsListCard = ({ rx }) => {
             {rxStatus}
           </p>
         )}
-        {rx && <ExtraDetails {...rx} page={pageType.LIST} />}
+        {isRefillBlocked && rx.isRefillable && <OracleHealthInCardAlert />}
+        {rx && (
+          <ExtraDetails
+            {...rx}
+            page={pageType.LIST}
+            isRefillBlocked={isRefillBlocked}
+            isRenewalBlocked={isRenewalBlocked}
+          />
+        )}
       </>
     );
   };

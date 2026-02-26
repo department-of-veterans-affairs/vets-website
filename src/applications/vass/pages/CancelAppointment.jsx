@@ -14,6 +14,7 @@ import {
   isCancellationFailedError,
   isMissingParameterError,
   isServerError,
+  isAppointmentNotFoundError,
 } from '../utils/errors';
 
 const getLoadingMessage = isCanceling => {
@@ -73,7 +74,8 @@ const CancelAppointment = () => {
         isCancellationFailedError(cancelAppointmentError) ||
         isMissingParameterError(cancelAppointmentError) ||
         isServerError(cancelAppointmentError) ||
-        isServerError(appointmentError)
+        isServerError(appointmentError) ||
+        isAppointmentNotFoundError(appointmentError)
       }
       testID="cancel-appointment-page"
       pageTitle="Would you like to cancel this appointment?"

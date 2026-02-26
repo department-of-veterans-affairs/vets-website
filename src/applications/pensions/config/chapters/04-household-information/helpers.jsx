@@ -121,6 +121,51 @@ export function isBetween18And23(childDOB) {
 }
 
 /**
+ * Determines if a dependent is adopted
+ * @param {object} formData - Full form data
+ * @param {number} index - Index of the dependent in the dependents array
+ * @returns {boolean} True if the dependent relationship is adopted
+ */
+export function dependentIsAdopted(formData, index) {
+  // if 'view:hasDependents' is false,
+  // all checks requiring dependents must be false
+  return (
+    doesHaveDependents(formData) &&
+    get(['dependents', index, 'childRelationship'], formData) === 'ADOPTED'
+  );
+}
+
+/**
+ * Determines if a dependent is attending school
+ * @param {object} formData - Full form data
+ * @param {number} index - Index of the dependent in the dependents array
+ * @returns {boolean} True if the dependent is attending school
+ */
+export function dependentIsAttendingSchool(formData, index) {
+  // if 'view:hasDependents' is false,
+  // all checks requiring dependents must be false
+  return (
+    doesHaveDependents(formData) &&
+    get(['dependents', index, 'attendingCollege'], formData)
+  );
+}
+
+/**
+ * Determines if a dependent is disabled
+ * @param {object} formData - Full form data
+ * @param {number} index - Index of the dependent in the dependents array
+ * @returns {boolean} True if the dependent is disabled
+ */
+export function dependentIsDisabled(formData, index) {
+  // if 'view:hasDependents' is false,
+  // all checks requiring dependents must be false
+  return (
+    doesHaveDependents(formData) &&
+    get(['dependents', index, 'disabled'], formData)
+  );
+}
+
+/**
  * Determines if a dependent is outside the household
  * @param {object} formData - Full form data
  * @param {number} index - Index of the dependent in the dependents array

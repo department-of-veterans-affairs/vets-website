@@ -58,7 +58,6 @@ import {
 } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
-import { otherToolsLink } from '../utils/mapLinks';
 
 const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
@@ -931,7 +930,7 @@ const FacilitiesMap = props => {
       )}
       <CommunityCareWarningBanner shouldShow={props.showCommunityCareBanner} />
       {renderView()}
-      {mapboxTokenValid && otherToolsLink()}
+      {mapboxTokenValid && <p>&nbsp;</p>}
     </>
   );
 };
