@@ -7,8 +7,6 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-
 import { PROFILE_PATH_NAMES, PROFILE_PATHS } from '@@profile/constants';
 import {
   fetchCommunicationPreferenceGroups,
@@ -163,7 +161,7 @@ const NotificationSettings = ({
         {shouldShowAPIError && <LoadFail />}
         {!shouldShowLoadingIndicator &&
           !shouldShowAPIError && (
-            <InitializeVAPServiceID>
+            <>
               {showMissingContactInfoAlert && (
                 <MissingContactInfoAlert
                   missingMobilePhone={
@@ -237,7 +235,7 @@ const NotificationSettings = ({
                   ))}
                 </>
               )}
-            </InitializeVAPServiceID>
+            </>
           )}
       </DowntimeNotification>
     </>

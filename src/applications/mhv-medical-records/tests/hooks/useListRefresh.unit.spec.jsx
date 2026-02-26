@@ -141,4 +141,59 @@ describe('useListRefresh', () => {
       });
     });
   });
+
+  describe('with isLoading parameter', () => {
+    it('should not fetch data when isLoading is true even if listState is PRE_FETCH', async () => {
+      const { dispatchActionMock } = renderTestComponentWithProps({
+        listState: loadStates.PRE_FETCH,
+        listCurrentAsOf: undefined,
+        refreshStatus: undefined,
+        isLoading: true,
+      });
+
+      await waitFor(() => {
+        sinon.assert.notCalled(dispatchActionMock);
+      });
+    });
+
+    it('should fetch data once isLoading becomes false', async () => {
+      const dispatchActionMock = sinon.spy();
+      const dispatchMock = sinon.spy();
+
+      const { rerender } = render(
+        <TestComponent
+          {...defaultTestProps}
+          listState={loadStates.PRE_FETCH}
+          listCurrentAsOf={undefined}
+          refreshStatus={undefined}
+          dispatchAction={dispatchActionMock}
+          dispatch={dispatchMock}
+          isLoading
+        />,
+      );
+
+      // Should not fetch while loading
+      await waitFor(() => {
+        sinon.assert.notCalled(dispatchActionMock);
+      });
+
+      // Re-render with isLoading = false
+      rerender(
+        <TestComponent
+          {...defaultTestProps}
+          listState={loadStates.PRE_FETCH}
+          listCurrentAsOf={undefined}
+          refreshStatus={undefined}
+          dispatchAction={dispatchActionMock}
+          dispatch={dispatchMock}
+          isLoading={false}
+        />,
+      );
+
+      // Should fetch now that loading is complete
+      await waitFor(() => {
+        sinon.assert.called(dispatchActionMock);
+      });
+    });
+  });
 });

@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
-
-import { getContestableIssues as getContestableIssuesAction } from '../actions';
-
+import {
+  getContestableIssues as getContestableIssuesAction,
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+} from '../../shared/actions';
 import formConfig from '../config/form';
 import { DATA_DOG_ID, DATA_DOG_TOKEN, DATA_DOG_SERVICE } from '../constants';
-
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
@@ -77,7 +75,7 @@ export const FormApp = ({
         // work properly is overly complicated
         (!isOutsideForm(pathname) || formData.internalTesting)
       ) {
-        getContestableIssues();
+        getContestableIssues({ appAbbr: 'NOD' });
       } else if (
         // Checks if the API has returned contestable issues not already reflected
         // in `formData`.

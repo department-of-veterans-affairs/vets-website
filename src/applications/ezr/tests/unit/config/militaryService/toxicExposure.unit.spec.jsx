@@ -11,8 +11,8 @@ describe('ezr Toxic Exposure config', () => {
     uiSchema,
     title: pageTitle,
   } = formConfig.chapters.militaryService.pages.toxicExposure;
-  const expectedNumberOfFields = 2;
-  const expectedNumberOfSubmissionErrors = 1;
+  const expectedNumberOfFields = 1;
+  const expectedNumberOfSubmissionErrors = 0;
 
   // run test for correct number of fields on the page
   testNumberOfFields(

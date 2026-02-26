@@ -13,7 +13,8 @@ import {
   STATE_NAMES,
   COUNTRY_VALUES,
   COUNTRY_NAMES,
-} from './helpers';
+} from '../../../utils/labels';
+import { customAddressSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -23,16 +24,16 @@ export default {
       title: 'Date of marriage',
       monthSelect: false,
     }),
-    marriageToVeteranStartOutsideUS: checkboxUI({
+    marriageToVeteranStartOutsideUs: checkboxUI({
       title: 'I got married outside the U.S.',
     }),
     marriageToVeteranStartLocation: {
       city: textUI('City'),
       state: {
         ...selectUI('State'),
-        'ui:required': formData => !formData?.marriageToVeteranStartOutsideUS,
+        'ui:required': formData => !formData?.marriageToVeteranStartOutsideUs,
         'ui:options': {
-          hideIf: formData => formData?.marriageToVeteranStartOutsideUS,
+          hideIf: formData => formData?.marriageToVeteranStartOutsideUs,
           labels: STATE_VALUES.reduce((acc, value, idx) => {
             acc[value] = STATE_NAMES[idx];
             return acc;
@@ -44,9 +45,9 @@ export default {
       },
       otherCountry: {
         ...selectUI('Country'),
-        'ui:required': formData => formData?.marriageToVeteranStartOutsideUS,
+        'ui:required': formData => formData?.marriageToVeteranStartOutsideUs,
         'ui:options': {
-          hideIf: formData => !formData?.marriageToVeteranStartOutsideUS,
+          hideIf: formData => !formData?.marriageToVeteranStartOutsideUs,
           labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
             acc[value] = COUNTRY_NAMES[idx];
             return acc;
@@ -63,26 +64,8 @@ export default {
     required: ['marriageToVeteranStartDate', 'marriageToVeteranStartLocation'],
     properties: {
       marriageToVeteranStartDate: currentOrPastDateSchema,
-      marriageToVeteranStartOutsideUS: checkboxSchema,
-      marriageToVeteranStartLocation: {
-        type: 'object',
-        required: ['city'],
-        properties: {
-          city: {
-            type: 'string',
-          },
-          state: {
-            type: 'string',
-            enum: STATE_VALUES,
-            enumNames: STATE_NAMES,
-          },
-          otherCountry: {
-            type: 'string',
-            enum: COUNTRY_VALUES,
-            enumNames: COUNTRY_NAMES,
-          },
-        },
-      },
+      marriageToVeteranStartOutsideUs: checkboxSchema,
+      marriageToVeteranStartLocation: customAddressSchema,
     },
   },
 };

@@ -31,6 +31,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
 
     mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles({
+      vaOnlineSchedulingImmediateCareAlert: false,
       vaOnlineSchedulingRemoveFacilityConfigCheck: false,
       vaOnlineSchedulingUseVpg: false,
     });

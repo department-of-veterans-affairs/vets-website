@@ -111,7 +111,7 @@ export const CallToActionWidget = ({
   setFocus = true,
   toggleLoginModal: propsToggleLoginModal,
 }) => {
-  const isProduction = environment.isProduction();
+  const isProduction = environment.isProduction() && !environment.isTest();
   const ctaWidget = ctaWidgetsLookup?.[appId];
   const featureToggle = ctaWidget?.featureToggle;
   const gaPrefix = 'register-mhv';

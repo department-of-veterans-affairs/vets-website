@@ -34,13 +34,19 @@ const UnifiedLabAndTestObservations = props => {
                 value={result.status}
                 ddActionName="[lab and tests - status]"
               />
+              {result.bodySite && (
+                <UnifiedLabAndTestObservationDetail
+                  header={OBSERVATION_DISPLAY_LABELS.BODY_SITE}
+                  value={result.bodySite}
+                  ddActionName="[lab and tests - body site]"
+                />
+              )}
               <UnifiedLabAndTestObservationDetail
-                header={OBSERVATION_DISPLAY_LABELS.BODY_SITE}
-                value={result.bodySite}
-                ddActionName="[lab and tests - body site]"
-              />
-              <UnifiedLabAndTestObservationDetail
-                header={OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED}
+                header={
+                  result.bodySite
+                    ? OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED
+                    : OBSERVATION_DISPLAY_LABELS.SITE_OR_SAMPLE_TESTED
+                }
                 value={result.sampleTested}
                 ddActionName="[lab and tests - sample tested]"
               />

@@ -7,8 +7,10 @@ import {
 import { focusElement } from 'platform/utilities/ui/focus';
 
 import {
+  FIELD_NAMES,
   FIELD_TITLES,
   FIELD_OPTION_IDS,
+  errorMessages,
 } from '@@vap-svc/constants/schedulingPreferencesConstants';
 import { useSelector } from 'react-redux';
 
@@ -94,7 +96,7 @@ const PreferenceSelection = ({
   );
 
   const content = {
-    errorMessage: 'Please choose an option to continue.',
+    errorMessage: errorMessages.noPreferenceSelected,
   };
 
   const handlers = {
@@ -133,7 +135,11 @@ const PreferenceSelection = ({
           key="continue"
           name={fieldName}
           value="continue"
-          label="Select days and time to be scheduled"
+          label={`Select days and times to be ${
+            fieldName === FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES
+              ? 'contacted'
+              : 'scheduled'
+          }`}
         />
       </VaRadio>
     </>

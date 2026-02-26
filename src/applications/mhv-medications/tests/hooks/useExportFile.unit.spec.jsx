@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
-import React from 'react';
 import { expect } from 'chai';
-import { waitFor, render } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react-hooks';
 import sinon from 'sinon';
 import useExportFile from '../../hooks/useExportFile';
 import {
@@ -9,37 +8,6 @@ import {
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
 } from '../../util/constants';
-
-// Custom renderHook function
-function renderHook(renderCallback, options = {}) {
-  const { initialProps, ...renderOptions } = options;
-  const result = React.createRef();
-  result.current = null;
-
-  function TestComponent({ renderCallbackProps }) {
-    const hookResult = renderCallback(renderCallbackProps);
-    result.current = hookResult;
-
-    React.useEffect(() => {
-      result.current = hookResult;
-    });
-
-    return null;
-  }
-
-  const { rerender: baseRerender, unmount } = render(
-    <TestComponent renderCallbackProps={initialProps} />,
-    renderOptions,
-  );
-
-  function rerender(rerenderCallbackProps) {
-    return baseRerender(
-      <TestComponent renderCallbackProps={rerenderCallbackProps} />,
-    );
-  }
-
-  return { result, rerender, unmount };
-}
 
 describe('useExportFile', () => {
   let sandbox;
@@ -92,9 +60,15 @@ describe('useExportFile', () => {
 
   describe('onDownload', () => {
     it('should set status to InProgress when called', async () => {
-      const { result } = renderHook(() => useExportFile(defaultProps));
+      const props = {
+        ...defaultProps,
+        isReady: false,
+      };
+      const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.status.status).to.equal(
@@ -112,7 +86,9 @@ describe('useExportFile', () => {
       };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.isLoading).to.be.true;
@@ -126,7 +102,9 @@ describe('useExportFile', () => {
       const props = { ...defaultProps, onGeneratePdf };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(onGeneratePdf.calledOnce).to.be.true;
@@ -138,7 +116,9 @@ describe('useExportFile', () => {
       const props = { ...defaultProps, onGeneratePdf };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.isSuccess).to.be.true;
@@ -154,7 +134,9 @@ describe('useExportFile', () => {
       };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.isLoading).to.be.true;
@@ -172,7 +154,9 @@ describe('useExportFile', () => {
       const props = { ...defaultProps, onGenerateTxt };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.TXT);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.TXT);
+      });
 
       await waitFor(() => {
         expect(onGenerateTxt.calledOnce).to.be.true;
@@ -184,7 +168,9 @@ describe('useExportFile', () => {
       const props = { ...defaultProps, onGenerateTxt };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.TXT);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.TXT);
+      });
 
       await waitFor(() => {
         expect(result.current.isSuccess).to.be.true;
@@ -198,7 +184,9 @@ describe('useExportFile', () => {
       const props = { ...defaultProps, onBeforePrint };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(PRINT_FORMAT.PRINT);
+      await act(async () => {
+        result.current.onDownload(PRINT_FORMAT.PRINT);
+      });
 
       await waitFor(() => {
         expect(result.current.shouldPrint).to.be.true;
@@ -210,7 +198,9 @@ describe('useExportFile', () => {
       const props = { ...defaultProps, onBeforePrint };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(PRINT_FORMAT.PRINT);
+      await act(async () => {
+        result.current.onDownload(PRINT_FORMAT.PRINT);
+      });
 
       await waitFor(() => {
         expect(onBeforePrint.calledOnce).to.be.true;
@@ -220,13 +210,17 @@ describe('useExportFile', () => {
     it('should clear print trigger when clearPrintTrigger is called', async () => {
       const { result } = renderHook(() => useExportFile(defaultProps));
 
-      result.current.onDownload(PRINT_FORMAT.PRINT);
+      await act(async () => {
+        result.current.onDownload(PRINT_FORMAT.PRINT);
+      });
 
       await waitFor(() => {
         expect(result.current.shouldPrint).to.be.true;
       });
 
-      result.current.clearPrintTrigger();
+      await act(async () => {
+        result.current.clearPrintTrigger();
+      });
 
       await waitFor(() => {
         expect(result.current.shouldPrint).to.be.false;
@@ -242,7 +236,9 @@ describe('useExportFile', () => {
       };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(PRINT_FORMAT.PRINT);
+      await act(async () => {
+        result.current.onDownload(PRINT_FORMAT.PRINT);
+      });
 
       await waitFor(() => {
         expect(result.current.hasError).to.be.ok;
@@ -261,7 +257,9 @@ describe('useExportFile', () => {
       };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.hasError).to.be.ok;
@@ -275,7 +273,9 @@ describe('useExportFile', () => {
       };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.errorFormat).to.equal(DOWNLOAD_FORMAT.PDF);
@@ -300,7 +300,9 @@ describe('useExportFile', () => {
       const props = { ...defaultProps, onGeneratePdf, onGenerationError };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.hasError).to.be.ok;
@@ -315,7 +317,9 @@ describe('useExportFile', () => {
       const props = { ...defaultProps, prepare };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(prepare.calledOnce).to.be.true;
@@ -329,7 +333,9 @@ describe('useExportFile', () => {
       const props = { ...defaultProps, prepare, onGenerationError };
       const { result } = renderHook(() => useExportFile(props));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.hasError).to.be.ok;
@@ -341,13 +347,17 @@ describe('useExportFile', () => {
     it('should reset all state', async () => {
       const { result } = renderHook(() => useExportFile(defaultProps));
 
-      result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      await act(async () => {
+        result.current.onDownload(DOWNLOAD_FORMAT.PDF);
+      });
 
       await waitFor(() => {
         expect(result.current.isSuccess).to.be.true;
       });
 
-      result.current.resetExportFlow();
+      await act(async () => {
+        result.current.resetExportFlow();
+      });
 
       await waitFor(() => {
         expect(result.current.isLoading).to.be.false;

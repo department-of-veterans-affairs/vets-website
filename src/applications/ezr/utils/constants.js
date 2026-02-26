@@ -131,3 +131,31 @@ export const API_ENDPOINTS = {
   downloadPdf: '/form1010_ezrs/download_pdf',
   enrollmentStatus: '/health_care_applications/enrollment_status',
 };
+
+// declare labels for discharge type select box
+export const DISCHARGE_TYPE_LABELS = Object.freeze({
+  honorable: 'Honorable',
+  general: 'General',
+  other: 'Other Than Honorable',
+  'bad-conduct': 'Bad Conduct',
+  dishonorable: 'Dishonorable',
+  undesirable: 'Undesirable',
+});
+
+// declare labels for last service branch select box
+export const SERVICE_BRANCH_LABELS = Object.freeze({
+  'air force': 'Air Force',
+  army: 'Army',
+  'coast guard': 'Coast Guard',
+  'marine corps': 'Marine Corps',
+  'merchant seaman': 'Merchant Seaman',
+  navy: 'Navy',
+  noaa: 'Noaa',
+  'space force': 'Space Force',
+  usphs: 'USPHS',
+  'f.commonwealth': 'Filipino Commonwealth Army',
+  'f.guerilla': 'Filipino Guerilla Forces',
+  'f.scouts new': 'Filipino New Scout',
+  'f.scouts old': 'Filipino Old Scout',
+  other: 'Other',
+});

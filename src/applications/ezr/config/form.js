@@ -15,7 +15,7 @@ import {
   isMissingVeteranDob,
   isMissingVeteranGender,
   hasDifferentHomeAddress,
-  teraUploadEnabled,
+  shouldHaveDocumentUpload,
   includeTeraInformation,
   includeGulfWarServiceDates,
   includePostSept11ServiceDates,
@@ -36,6 +36,7 @@ import {
   canVeteranProvideAgentOrangeResponse,
   includeHouseholdInformationWithV1Prefill,
   includeSpousalInformationWithV1Prefill,
+  doesVeteranWantToUpdateServiceInfo,
 } from '../utils/helpers/form-config';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
@@ -76,6 +77,9 @@ import spousalInformationPages from './chapters/householdInformation/spouseInfor
 import MaritalStatusPage from '../components/FormPages/MaritalStatusPage';
 
 // chapter 3 Military Service
+import serviceInformation from './chapters/militaryService/serviceInformation';
+import additionalInformation from './chapters/militaryService/additionalInformation';
+import reviewServiceInformation from './chapters/militaryService/reviewServiceInformation';
 import toxicExposure from './chapters/militaryService/toxicExposure';
 import radiationCleanup from './chapters/militaryService/radiationCleanup';
 import gulfWarService from './chapters/militaryService/gulfWarService';
@@ -131,7 +135,6 @@ const formConfig = {
   },
   customText: {
     appType: content['sip-text-app-type'],
-    appAction: content['sip-text-app-action'],
     continueAppButtonText: content['sip-text-continue-btn-text'],
     startNewAppButtonText: content['sip-text-start-new-btn-text'],
     appSavedSuccessfullyMessage: content['sip-text-app-saved-message'],
@@ -255,6 +258,29 @@ const formConfig = {
     militaryService: {
       title: 'Military service',
       pages: {
+        reviewServiceInformation: {
+          path: 'military-service/review-service-information',
+          title: 'Review your last military service',
+          uiSchema: reviewServiceInformation.uiSchema,
+          schema: reviewServiceInformation.schema,
+          depends: formData =>
+            formData['view:ezrServiceHistoryEnabled'] &&
+            formData['view:hasPrefillServiceHistory'],
+        },
+        serviceInformation: {
+          path: 'military-service/service-period',
+          title: 'Service periods',
+          uiSchema: serviceInformation.uiSchema,
+          schema: serviceInformation.schema,
+          depends: doesVeteranWantToUpdateServiceInfo,
+        },
+        additionalInformation: {
+          path: 'military-service/additional-information',
+          title: 'Service history',
+          uiSchema: additionalInformation.uiSchema,
+          schema: additionalInformation.schema,
+          depends: doesVeteranWantToUpdateServiceInfo,
+        },
         toxicExposure: {
           path: 'military-service/toxic-exposure',
           title: 'Toxic exposure',
@@ -341,7 +367,7 @@ const formConfig = {
         supportingDocuments: {
           path: 'military-service/upload-supporting-documents',
           title: 'Upload supporting documents',
-          depends: teraUploadEnabled,
+          depends: shouldHaveDocumentUpload,
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, isPlainObject } from 'lodash';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { uploadFile as _uploadFile } from 'platform/forms-system/src/js/actions';
 import {
   standardFileChecks,
@@ -13,6 +14,26 @@ import {
 
 const MAX_FILE_SIZE_MB = 25;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
+
+// Validates that `additionalInputLabels` values are objects mapping
+// e.g. { fieldName: { value: 'Label' } }
+export function validateAdditionalInputLabels(callerName, labels) {
+  if (!labels || environment.isProduction()) {
+    return;
+  }
+
+  const invalidKeys = Object.entries(labels)
+    .filter(([, v]) => !isPlainObject(v))
+    .map(([k]) => k);
+
+  if (invalidKeys.length > 0) {
+    throw new Error(
+      `${callerName} "additionalInputLabels" values must be objects mapping values to labels, ` +
+        `e.g. { fieldName: { value: 'Label' } }. ` +
+        `Invalid keys: ${invalidKeys.join(', ')}`,
+    );
+  }
+}
 
 const createPayloadDefault = (file, formId, password = null) => {
   const payload = new FormData();
@@ -140,6 +161,20 @@ export function formatFileSize(filesSize) {
   return `${formattedSize}\xa0${units[unitIndex]}`;
 }
 
+/** Return an error message if a file is too big or too small
+ * @param {string | undefined} type - the type of the uploaded file or undefined if a limit for that type was not provided
+ * @param {number} size - the size of the file
+ * @param {boolean} tooBig - was the error because the file was too big - false means it was due to file being too small
+ * @returns {string} - The error message
+ */
+function getFileSizeError(type, size, tooBig) {
+  const description = type ? `${type} files` : 'Files';
+  const comparison = tooBig ? 'less than' : 'at least';
+  return `We can't upload your file because it's too ${
+    tooBig ? 'big' : 'small'
+  }. ${description} must be ${comparison} ${formatFileSize(size)}.`;
+}
+
 /** @typedef {maxFileSize: number, minFileSize: number} FileSizeLimits */
 /** @typedef {Record<string, FileSizeLimits>} FileSizeMap */
 
@@ -148,23 +183,26 @@ export function formatFileSize(filesSize) {
  * @param {FileSizeMap} fileSizesByFileType - map of file types to max/min file sizes
  * @returns {string | null}
  */
-function checkFileSizeByFileType(file, fileSizesByFileType) {
+function checkFileSizeByFileType(
+  file,
+  fileSizesByFileType = {},
+  maxFileSize,
+  minFileSize,
+) {
   const { type, size } = file;
-  const _type = type.split('/')[1];
+  const _type = type.includes('text') ? 'txt' : type.split('/')[1];
   const limits = fileSizesByFileType[_type] || fileSizesByFileType.default;
+  const { minFileSize: _minFileSize, maxFileSize: _maxFileSize } = limits || {};
+
+  // file size limits from fileSizesByFileType take precedence if the user also provides maxFileSize / minFileSize in uiOptions
+  const maxLimit = _maxFileSize || maxFileSize;
+  const minLimit = _minFileSize || minFileSize;
   let error = null;
-  if (limits) {
-    const { minFileSize, maxFileSize } = limits;
-    if (maxFileSize && size > maxFileSize) {
-      error = `We can't upload your file because it's too big. ${_type} files must be less than ${formatFileSize(
-        maxFileSize,
-      )}.`;
-    }
-    if (minFileSize && size < minFileSize) {
-      error = `We can't upload your file because it's too small. ${_type} files must be at least ${formatFileSize(
-        minFileSize,
-      )}.`;
-    }
+  if (maxLimit && size > maxLimit) {
+    error = getFileSizeError(!!limits && _type, maxLimit, true);
+  }
+  if (minLimit && size < minLimit) {
+    error = getFileSizeError(!!limits && _type, minLimit, false);
   }
   return error;
 }
@@ -174,11 +212,11 @@ function checkFileSizeByFileType(file, fileSizesByFileType) {
  * @param {File} file the file to upload
  * @param { boolean } disallowEncryptedPdfs flag to prevent encrypted pdfs
  * @param { Object[] } files array of previously uploaded files
- * @returns {string | null} the error if one present else null
+ * @returns {Promise<string | null>} the error if one present else null
  */
 export async function getFileError(
   file,
-  { disallowEncryptedPdfs, fileSizesByFileType },
+  { disallowEncryptedPdfs, fileSizesByFileType, maxFileSize, minFileSize },
   files = [],
 ) {
   let fileError = null;
@@ -191,9 +229,13 @@ export async function getFileError(
     }
   }
 
-  if (fileSizesByFileType) {
-    fileError = checkFileSizeByFileType(file, fileSizesByFileType);
-  }
+  // always check file size; we don't rely on component file size validation
+  fileError = checkFileSizeByFileType(
+    file,
+    fileSizesByFileType,
+    maxFileSize,
+    minFileSize,
+  );
 
   // don't do more checks if there is a duplicate file or file size error
   if (!fileError) {

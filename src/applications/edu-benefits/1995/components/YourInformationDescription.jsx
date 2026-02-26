@@ -21,9 +21,10 @@ const BENEFIT_TYPE_LABELS = {
   CH1606: 'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
 
   // Dependents' Education Assistance
-  chapter35: "Dependents' Education Assistance (DEA, Chapter 35)",
-  CH35: "Dependents' Education Assistance (DEA, Chapter 35)",
-  DEA: "Dependents' Education Assistance (DEA, Chapter 35)",
+  chapter35:
+    "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
+  CH35: "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
+  DEA: "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
 
   // Legacy mappings (for backward compatibility)
   transferOfEntitlement:
@@ -34,9 +35,13 @@ const BENEFIT_TYPE_LABELS = {
   FRY: 'Fry Scholarship (Chapter 33)',
 };
 
+const getBenefitHeading = benefitType => {
+  return benefitType ? 'Your current benefit' : 'No last used benefit to show';
+};
+
 export const getBenefitLabel = benefitType => {
   if (!benefitType) {
-    return "We couldn't load your current benefit.";
+    return 'We don’t have a record of a last used benefit for you in our system.';
   }
   return BENEFIT_TYPE_LABELS[benefitType] || benefitType;
 };
@@ -63,9 +68,9 @@ const YourInformationDescription = ({ formData }) => {
               <h3
                 className="usa-summary-box__heading vads-u-margin-top--0"
                 id="summary-box-current-benefit"
-                style={{ marginBottom: '0.25rem', fontSize: '20px' }}
+                style={{ marginBottom: '0.25rem' }}
               >
-                Your current benefit
+                {getBenefitHeading(formData?.currentBenefitType)}
               </h3>
               <div className="usa-summary-box__text">
                 <p className="vads-u-margin-y--0">
@@ -76,12 +81,7 @@ const YourInformationDescription = ({ formData }) => {
           </div>
           <p className="vads-u-margin-top--2">
             <strong>Note:</strong> If this information is incorrect, contact us
-            at{' '}
-            <va-link
-              href="https://va.gov/contact-us/ask-va/introduction"
-              text="Ask VA"
-            />
-            .
+            at <va-link href="https://ask.va.gov/" text="Ask VA" />.
           </p>
         </>
       )}

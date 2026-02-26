@@ -7,6 +7,20 @@ describe('21-8940 submit transformer', () => {
   const formConfig = { formId: '21-8940', chapters: {} };
   let sharedTransformStub;
 
+  const runTransform = data => {
+    sharedTransformStub.callsFake((config, formArg) =>
+      JSON.stringify({
+        ...formArg.data,
+        formNumber: config.formId,
+      }),
+    );
+
+    const transformedResult = transformForSubmit(formConfig, { data });
+    const transformed = JSON.parse(transformedResult);
+
+    return JSON.parse(transformed.increase_compensation_claim.form);
+  };
+
   before(() => {
     global.window = global.window || {};
   });
@@ -190,9 +204,9 @@ describe('21-8940 submit transformer', () => {
     const payload = JSON.parse(transformed.increase_compensation_claim.form);
 
     expect(payload.veteranFullName).to.deep.equal({
-      first: 'AlexanderThe',
+      first: 'AlexanderTheGreat',
       middleinitial: 'M',
-      last: 'LonglastnameBeyond',
+      last: 'LonglastnameBeyondLimit',
     });
     expect(payload.veteranAddress).to.deep.equal({
       street: '123 Main St',
@@ -225,7 +239,7 @@ describe('21-8940 submit transformer', () => {
       },
     ]);
     expect(payload.occupationDuringMostEarnings).to.equal(
-      'Lead Systems Architect with',
+      'Lead Systems Architect with multiple responsibilities',
     );
     expect(payload.preventMilitaryDuties).to.be.true;
     expect(payload.previousEmployers).to.deep.equal([
@@ -255,14 +269,14 @@ describe('21-8940 submit transformer', () => {
     ]);
     expect(payload.education).to.deep.equal({ college: 'Jr' });
     expect(payload.educationTrainingPreUnemployability).to.deep.equal({
-      name: 'Vocational t',
+      name: 'Vocational training',
       datesOfTraining: {
         from: '2010-01-01',
         to: '2010-06-01',
       },
     });
     expect(payload.educationTrainingPostUnemployability).to.deep.equal({
-      name: 'Technical co',
+      name: 'Technical course',
       datesOfTraining: {
         from: '2015-01-01',
         to: '2015-03-01',
@@ -279,7 +293,9 @@ describe('21-8940 submit transformer', () => {
     expect(payload.receiveExpectWorkersCompensation).to.be.true;
     expect(payload.attemptedEmploy).to.be.true;
     expect(payload.remarks).to.equal('Needs assistance with tasks.');
-    expect(payload.signature).to.equal('AlexanderThe M LonglastnameBeyond');
+    expect(payload.signature).to.equal(
+      'AlexanderTheGreat M LonglastnameBeyondLimit',
+    );
     expect(payload.signatureDate).to.equal('2024-01-01');
     expect(payload.files).to.deep.equal([{ name: 'supporting.pdf' }]);
   });
@@ -356,7 +372,7 @@ describe('21-8940 submit transformer', () => {
 
     expect(payload.trainingPreDisabled).to.be.true;
     expect(payload.educationTrainingPreUnemployability).to.deep.equal({
-      name: 'Single entry',
+      name: 'Single entry training',
       datesOfTraining: {
         from: '2011-05-01',
         to: '2011-09-01',
@@ -364,11 +380,204 @@ describe('21-8940 submit transformer', () => {
     });
     expect(payload.trainingPostUnemployment).to.be.true;
     expect(payload.educationTrainingPostUnemployability).to.deep.equal({
-      name: 'Post disabil',
+      name: 'Post disability course',
       datesOfTraining: {
         from: '2018-02-01',
         to: '2018-06-01',
       },
     });
+  });
+
+  it('uses fallback employment flags when applied employers are missing', () => {
+    const payload = runTransform({
+      employmentHistory: {
+        hasTriedEmployment: true,
+        data: [],
+      },
+    });
+
+    expect(payload.attemptedEmploy).to.be.true;
+  });
+
+  it('respects array builder and legacy attempted employment flags', () => {
+    const payloadFromArrayBuilder = runTransform({
+      hasTriedEmployment: false,
+    });
+
+    const payloadFromLegacy = runTransform({
+      triedEmployment: true,
+    });
+
+    expect(payloadFromArrayBuilder.attemptedEmploy).to.be.false;
+    expect(payloadFromLegacy.attemptedEmploy).to.be.true;
+  });
+
+  it('formats phones, addresses, and disability strings', () => {
+    const payload = runTransform({
+      veteran: {
+        email: '   ',
+        homePhone: {
+          contact: '555 1212',
+          callingCode: 1,
+          countryCode: 'US',
+        },
+        alternatePhone: {
+          contact: '030 1234',
+          callingCode: 0,
+          countryCode: 'de',
+        },
+        address: {
+          street: '1 Main St',
+          city: 'Toronto',
+          state: 'ON',
+          postalCode: 'M1M1M1',
+          country: 'Canada',
+        },
+      },
+      disabilityDescription: '  Back pain ',
+    });
+
+    expect(payload.electronicCorrespondance).to.be.false;
+    expect(payload.veteranPhone).to.equal('5551212');
+    expect(payload.internationalPhone).to.equal('00301234');
+    expect(payload.veteranAddress.country).to.equal('CA');
+    expect(payload.listOfDisabilities).to.equal('Back pain');
+  });
+
+  it('maps care providers with related disabilities and treatment ranges', () => {
+    const payload = runTransform({
+      doctors: [
+        {
+          doctorName: 'Doctor Who',
+          doctorAddress: {
+            street: '100 Time St',
+            city: 'London',
+            state: 'LDN',
+            postalCode: 'N1',
+            country: 'GB',
+          },
+          doctorType: 'va',
+          relatedDisability: [
+            { relatedDisability: 'Knee pain' },
+            { disability: 'Back pain' },
+            { value: 'PTSD' },
+          ],
+          treatmentDates: [{ startDate: '2022-01-01' }],
+        },
+      ],
+      hospitals: [
+        {
+          hospitalName: 'City Hospital',
+          hospitalAddress: {
+            street: '200 Health Ave',
+            city: 'Seattle',
+            state: 'WA',
+            postalCode: '98101',
+            country: 'US',
+          },
+          hospitalType: 'non-va',
+          relatedDisability: 'Asthma',
+          treatmentDates: [{ endDate: '2023-03-01' }],
+        },
+      ],
+    });
+
+    expect(payload.doctorsCare[0].inVANetwork).to.be.true;
+    expect(payload.doctorsCare[0].relatedDisability).to.deep.equal([
+      'Knee pain',
+      'Back pain',
+      'PTSD',
+    ]);
+    expect(payload.doctorsCare[0].doctorsTreatmentDates).to.deep.equal([
+      { from: '2022-01-01', to: '2022-01-01' },
+    ]);
+    expect(payload.hospitalsCare[0].inVANetwork).to.be.false;
+    expect(payload.hospitalsCare[0].relatedDisability).to.deep.equal([
+      'Asthma',
+    ]);
+    expect(payload.hospitalsCare[0].hospitalTreatmentDates).to.deep.equal([
+      { from: '2023-03-01', to: '2023-03-01' },
+    ]);
+  });
+
+  it('maps education levels and handles numeric conversions', () => {
+    const gradeSchoolPayload = runTransform({
+      educationLevel: 'gradeSchool',
+      gradeSchool: '8',
+      maxYearlyEarnings: 'not-a-number',
+      yearEarned: '19999',
+    });
+
+    const highSchoolPayload = runTransform({
+      educationLevel: 'highSchool',
+      highSchool: 11,
+      maxYearlyEarnings: 55000,
+      yearEarned: '2001',
+    });
+
+    const collegePayload = runTransform({
+      educationLevel: 'college',
+      college: 'senior',
+    });
+
+    expect(gradeSchoolPayload.education).to.deep.equal({ gradeSchool: 8 });
+    expect(gradeSchoolPayload.mostEarningsInAYear).to.be.undefined;
+    expect(gradeSchoolPayload.yearOfMostEarnings).to.equal(1999);
+
+    expect(highSchoolPayload.education).to.deep.equal({ highSchool: 11 });
+    expect(highSchoolPayload.mostEarningsInAYear).to.equal(55000);
+    expect(highSchoolPayload.yearOfMostEarnings).to.equal(2001);
+
+    expect(collegePayload.education).to.deep.equal({ college: 'Sr' });
+  });
+
+  it('prunes empty entries and normalizes array-like inputs', () => {
+    const payload = runTransform({
+      veteran: {
+        address: 'not-an-object',
+        homePhone: { contact: '   ' },
+        alternatePhone: 999,
+      },
+      disabilityDescription: { records: ['  ', 'Diabetes'] },
+      doctors: [
+        {},
+        {
+          doctorName: 'Dr. Clean',
+          doctorAddress: {
+            street: '1 Clinic Way',
+          },
+          relatedDisability: 'Back pain',
+          treatmentDates: [{ startDate: '2021-01-01', endDate: '' }],
+        },
+      ],
+      hospitals: {
+        data: [
+          {
+            hospitalName: 'City Center',
+            hospitalAddress: {},
+            treatmentDates: [{ endDate: '2022-02-02' }],
+          },
+        ],
+      },
+      educationBeforeDisability: [],
+      educationAfterDisability: { typeOfEducation: '', datesOfTraining: {} },
+    });
+
+    expect(payload.veteranAddress).to.be.undefined;
+    expect(payload.veteranPhone).to.be.undefined;
+    expect(payload.internationalPhone).to.equal('999');
+    expect(payload.listOfDisabilities).to.equal('Diabetes');
+    expect(payload.doctorsCare).to.have.lengthOf(1);
+    expect(payload.doctorsCare[0].relatedDisability).to.deep.equal([
+      'Back pain',
+    ]);
+    expect(payload.doctorsCare[0].doctorsTreatmentDates).to.deep.equal([
+      { from: '2021-01-01', to: '2021-01-01' },
+    ]);
+    expect(payload.hospitalsCare[0].hospitalTreatmentDates).to.deep.equal([
+      { from: '2022-02-02', to: '2022-02-02' },
+    ]);
+    expect(payload.trainingPreDisabled).to.be.false;
+    expect(payload.trainingPostUnemployment).to.be.false;
   });
 });

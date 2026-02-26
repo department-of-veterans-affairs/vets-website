@@ -1,11 +1,17 @@
 import moment from 'moment-timezone';
 import DOMPurify from 'dompurify';
 import {
+  scrollToElement,
+  scrollToTop as scrollToTopUtil,
+} from 'platform/utilities/scroll';
+import { datadogRum } from '@datadog/browser-rum';
+import {
   DefaultFolders as Folders,
   Paths,
   RecipientStatus,
   Recipients,
   PageTitles,
+  OhMigrationPhasesBlockingReplies,
 } from './constants';
 
 /**
@@ -185,6 +191,17 @@ export const isOlderThan = (timestamp, days) => {
   const now = moment();
   const then = moment(timestamp);
   return now.diff(then, 'days') > days;
+};
+
+/**
+ * Check if the OH migration phase blocks replies.
+ * During facility migration from VistA to Oracle Health, replies are blocked
+ * during phases p3, p4, p5 (T-6 through T+2).
+ * @param {string} ohMigrationPhase - The migration phase from the message
+ * @returns {Boolean} true if the phase blocks replies
+ */
+export const isMigrationPhaseBlockingReplies = ohMigrationPhase => {
+  return OhMigrationPhasesBlockingReplies.includes(ohMigrationPhase);
 };
 
 export const getLastSentMessage = messages => {
@@ -464,12 +481,6 @@ export const findActiveDraftFacility = (facilityId, facilitiesArray) => {
 export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
 };
-
-import {
-  scrollToElement,
-  scrollToTop as scrollToTopUtil,
-} from 'platform/utilities/scroll';
-import { datadogRum } from '@datadog/browser-rum';
 
 export const scrollTo = (element, behavior = 'smooth') => {
   if (element) {

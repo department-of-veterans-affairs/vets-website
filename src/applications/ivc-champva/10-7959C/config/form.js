@@ -65,7 +65,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  showReviewErrors: !environment.isProduction(),
   footerContent: FormFooter,
   submissionError: SubmissionError,
   formId: '10-7959C',
@@ -100,7 +99,7 @@ const formConfig = {
   },
   version: migrations.length,
   migrations,
-  prefillEnabled: true,
+  prefillEnabled: false,
   prefillTransformer,
   transformForSubmit,
   savedFormMessages: {

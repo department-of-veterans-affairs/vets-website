@@ -28,4 +28,4 @@ export const fullNameMiddleInitialSchema = merge({}, fullNameSchema, {
   properties: { middle: { type: 'string', maxLength: 1 } },
 });
 
-export const textareaSchema = { type: 'string', maxLength: 200 };
+export const textareaSchema = { type: 'string', maxLength: 155 };

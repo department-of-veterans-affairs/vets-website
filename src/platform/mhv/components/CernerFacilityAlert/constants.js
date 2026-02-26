@@ -29,12 +29,12 @@ export const CernerAlertContent = {
     infoAlertText: 'You can manage most of your appointments here.',
     // Migration alert configuration
     warningPhases: ['p0', 'p1'],
-    warningMessage: `you won’t be able to schedule or cancel appointments online for`,
+    warningMessage: `you won’t be able to schedule appointments online for`,
     warningGetNote: facilityText =>
       `During this time, you can still call ${facilityText} to schedule or cancel appointments.`,
     errorPhases: ['p2', 'p3', 'p4', 'p5', 'p6'],
     errorHeadline: `You can’t manage appointments online for some facilities right now`,
-    errorMessage: `You can’t schedule or cancel appointments online for`,
+    errorMessage: `You can’t schedule appointments online for`,
     errorNote:
       'If you need to schedule or cancel appointments now, call the facility directly.',
     errorStartDate: 'p2',
@@ -79,6 +79,24 @@ export const CernerAlertContent = {
     errorHeadline: `You can’t refill medications online for some facilities right now`,
     errorMessage: `You can’t refill your medications online for`,
     errorNote: `If you need to refill a medication now, call your VA pharmacy’s automated refill line. The phone number is on your prescription label or in your medications details page.`,
+    errorStartDate: 'p4',
+    errorEndDate: 'p6',
+  },
+  MEDICATIONS_REFILL: {
+    linkPath: '/pages/medications/current',
+    headline: 'To view or manage your medications at',
+    pageName: 'medications',
+    infoAlertActionPhrase: 'manage your medications',
+    infoAlertText:
+      'You no longer need to go to My VA Health to manage your prescriptions for any VA facilities.',
+    // Migration alert configuration — refill-page variant
+    warningPhases: ['p1', 'p2', 'p3'],
+    warningMessage: `you won’t be able to refill your prescriptions online for`,
+    warningNote: `During this time, you can still call your VA pharmacy’s automated refill line to refill a prescription.`,
+    errorPhases: ['p4', 'p5'],
+    errorHeadline: `You can’t refill prescriptions online for some facilities right now`,
+    errorMessage: `You can’t refill your prescriptions online for`,
+    errorNote: `If you need a refill now, call your VA pharmacy’s automated refill line. The phone number is on your prescription label or in your medications details page.`,
     errorStartDate: 'p4',
     errorEndDate: 'p6',
   },

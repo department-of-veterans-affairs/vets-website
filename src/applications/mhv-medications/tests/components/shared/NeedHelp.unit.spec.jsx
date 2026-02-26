@@ -10,6 +10,7 @@ describe('Need Help shared component', () => {
   const setup = (
     isMedicationsManagementImprovementsEnabled = false,
     page = pageType.REFILL,
+    headingLevel = undefined,
   ) => {
     const initialState = {
       featureToggles: {
@@ -17,16 +18,31 @@ describe('Need Help shared component', () => {
       },
     };
 
-    return renderWithStoreAndRouterV6(<NeedHelp page={page} />, {
-      initialState,
-      reducers,
-    });
+    return renderWithStoreAndRouterV6(
+      <NeedHelp page={page} headingLevel={headingLevel} />,
+      {
+        initialState,
+        reducers,
+      },
+    );
   };
 
   describe('when mhvMedicationsManagementImprovements flag is disabled', () => {
     it('renders without errors', () => {
       const screen = setup(false);
       expect(screen.getByTestId('rx-need-help-container')).to.exist;
+    });
+
+    it('renders with default h3 heading level if no headingLevel prop is provided', () => {
+      const screen = setup();
+      const heading = screen.getByRole('heading', { name: 'Need help?' });
+      expect(heading.tagName).to.equal('H3');
+    });
+
+    it('renders with correct heading level when provided', () => {
+      const screen = setup(false, pageType.REFILL, 2);
+      const heading = screen.getByRole('heading', { name: 'Need help?' });
+      expect(heading.tagName).to.equal('H2');
     });
 
     it('displays original content structure', () => {
@@ -96,6 +112,18 @@ describe('Need Help shared component', () => {
     it('renders without errors', () => {
       const screen = setup(true);
       expect(screen.getByTestId('rx-need-help-container')).to.exist;
+    });
+
+    it('renders with default h3 heading level if no headingLevel prop is provided', () => {
+      const screen = setup(true);
+      const heading = screen.getByRole('heading', { name: 'Need help?' });
+      expect(heading.tagName).to.equal('H3');
+    });
+
+    it('renders with correct heading level when provided', () => {
+      const screen = setup(true, pageType.REFILL, 2);
+      const heading = screen.getByRole('heading', { name: 'Need help?' });
+      expect(heading.tagName).to.equal('H2');
     });
 
     it('displays enhanced content structure', () => {

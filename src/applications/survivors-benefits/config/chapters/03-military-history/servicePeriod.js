@@ -3,11 +3,11 @@ import {
   currentOrPastDateSchema,
   currentOrPastDateRangeUI,
   textUI,
-  textSchema,
   selectUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { servicesOptions } from '../../../utils/labels';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -33,6 +33,7 @@ export default {
         title: 'Final release date from active duty',
         monthSelect: false,
       },
+      'Final release date must be after date initially entered into active duty.',
     ),
     placeOfSeparation: textUI({
       title: 'Place of Veteran’s last separation',
@@ -56,7 +57,7 @@ export default {
           to: currentOrPastDateSchema,
         },
       },
-      placeOfSeparation: textSchema,
+      placeOfSeparation: customTextSchema,
     },
   },
 };

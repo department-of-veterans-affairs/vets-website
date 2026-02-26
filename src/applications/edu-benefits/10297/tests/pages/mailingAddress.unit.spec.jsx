@@ -1,88 +1,255 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, cleanup } from '@testing-library/react';
-// import { render, cleanup, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 describe('22-10297 Mailing address page', () => {
   afterEach(cleanup);
+
+  let screen;
 
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.identificationChapter.pages.mailingAddress;
 
-  const renderPage = (data = {}) =>
-    render(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={data}
-      />,
+  const renderPage = (data = { mailingAddress: {} }) => {
+    return render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} data={data} />,
     );
+  };
 
-  it('renders the military checkbox and address fields', () => {
-    const { container } = renderPage();
+  describe('Military base address', () => {
+    beforeEach(() => {
+      screen = renderPage({ mailingAddress: { isMilitary: true } });
+    });
 
-    expect(
-      $$('va-checkbox[name="root_mailingAddress_isMilitary"]', container)
-        .length,
-    ).to.equal(1);
-    expect(
-      $$('va-select[name="root_mailingAddress_country"]', container).length,
-    ).to.equal(1);
-    expect(
-      $$('va-text-input[name^="root_mailingAddress_street"]', container).length,
-    ).to.equal(3);
-    expect(
-      $$('va-text-input[name="root_mailingAddress_city"]', container).length,
-    ).to.equal(1);
-    expect(
-      $$('va-text-input[name="root_mailingAddress_state"]', container).length,
-    ).to.equal(1);
-    expect(
-      $$('va-text-input[name="root_mailingAddress_postalCode"]', container)
-        .length,
-    ).to.equal(1);
+    it('should show APO/FPO/DPO city options and AE/AA/AP state options', () => {
+      expect(screen.getByRole('option', { name: 'Armed Forces Americas (AA)' }))
+        .to.exist;
+      expect(screen.getByRole('option', { name: 'Armed Forces Europe (AE)' }))
+        .to.exist;
+      expect(screen.getByRole('option', { name: 'Armed Forces Pacific (AP)' }))
+        .to.exist;
+      expect(screen.getByRole('option', { name: 'APO' })).to.exist;
+      expect(screen.getByRole('option', { name: 'DPO' })).to.exist;
+      expect(screen.getByRole('option', { name: 'FPO' })).to.exist;
+    });
+
+    it('should show errors when required fields are left blank', async () => {
+      const submitButton = screen.getByRole('button', { name: /Submit/i });
+      await userEvent.click(submitButton);
+
+      expect(screen.getAllByText('You must provide a response')).to.have.length(
+        4,
+      );
+    });
+
+    it('should show errors when user input is invalid', async () => {
+      const streetInput = screen.getByRole('textbox', {
+        name: 'Street address (*Required)',
+      });
+
+      const zipCodeInput = screen.getByRole('textbox', {
+        name: /Zip code/i,
+      });
+
+      await userEvent.type(streetInput, '1');
+      await userEvent.type(zipCodeInput, 'abc');
+      await userEvent.tab(); // Need to blur the input to trigger validation
+
+      expect(screen.getByText('Please provide your full street address')).to
+        .exist;
+      expect(screen.getByText('Please provide a valid zip code')).to.exist;
+    });
   });
 
-  it('renders separate fields when the military checkbox is checked', () => {
-    const { container } = renderPage({ mailingAddress: { isMilitary: true } });
+  describe('U.S. address', () => {
+    beforeEach(() => {
+      screen = renderPage({ mailingAddress: { country: 'USA' } });
+    });
 
-    expect(
-      $$('va-text-input[label="Street address"]', container).length,
-    ).to.equal(1);
-    expect(
-      $$('va-text-input[label="Apartment or unit number"]', container).length,
-    ).to.equal(1);
-    expect(
-      $$('va-text-input[label="Additional address information"]', container)
-        .length,
-    ).to.equal(1);
-    expect(
-      $$('va-radio[label="Military post office"]', container).length,
-    ).to.equal(1);
-    expect(
-      $$('va-radio[name="root_mailingAddress_state"]', container).length,
-    ).to.equal(1);
-    expect($$('va-text-input[label="Postal code"]', container).length).to.equal(
-      1,
-    );
+    it('should render State dropdown', () => {
+      expect(screen.getByRole('combobox', { name: 'State (*Required)' })).to
+        .exist;
+      expect(
+        screen.queryByRole('combobox', { name: /State\/County\/Province/i }),
+      ).not.to.exist;
+    });
+
+    it('should show errors when required fields are left blank', async () => {
+      const submitButton = screen.getByRole('button', { name: /Submit/i });
+      await userEvent.click(submitButton);
+
+      expect(screen.getAllByText('You must provide a response')).to.have.length(
+        4,
+      );
+    });
+
+    it('should show errors when user input is invalid', async () => {
+      const streetInput = screen.getByRole('textbox', {
+        name: 'Street address (*Required)',
+      });
+      const cityInput = screen.getByRole('textbox', {
+        name: /City/i,
+      });
+      const zipCodeInput = screen.getByRole('textbox', {
+        name: /Zip code/i,
+      });
+
+      await userEvent.type(streetInput, '1');
+      await userEvent.type(cityInput, 'a');
+      await userEvent.type(zipCodeInput, 'abc');
+      await userEvent.tab(); // Need to blur the input to trigger validation
+
+      expect(screen.getByText('Please provide your full street address')).to
+        .exist;
+      expect(screen.getByText('Please provide a valid city')).to.exist;
+      expect(screen.getByText('Please provide a valid zip code')).to.exist;
+    });
   });
 
-  // it('shows errors when required fields are empty', async () => {
-  //   const { container, getByRole } = renderPage();
+  describe('International address', () => {
+    describe('Canadian address', () => {
+      beforeEach(() => {
+        screen = renderPage({ mailingAddress: { country: 'CAN' } });
+      });
 
-  //   getByRole('button', { name: /submit/i }).click();
+      it('should render State/County/Province dropdown', () => {
+        expect(
+          screen.getByRole('combobox', {
+            name: /Province\/Territory/i,
+          }),
+        ).to.exist;
+        expect(
+          screen.queryByRole('textbox', {
+            name: /Province\/Territory/i,
+          }),
+        ).not.to.exist;
+      });
 
-  //   await waitFor(() => {
-  //     // at least 3 address-line errors (street, city, postalCode)
-  //     expect($$('va-text-input[error]', container).length).to.equal(3);
-  //     // country error
-  //     expect($$('va-select[error]', container).length).to.equal(1);
-  //   });
-  // });
+      it('should show errors when required fields are left blank', async () => {
+        const submitButton = screen.getByRole('button', { name: /Submit/i });
+        await userEvent.click(submitButton);
+
+        expect(
+          screen.getAllByText('You must provide a response'),
+        ).to.have.length(4);
+      });
+
+      it('should show errors when user input is invalid', async () => {
+        const streetInput = screen.getByRole('textbox', {
+          name: 'Street address (*Required)',
+        });
+        const cityInput = screen.getByRole('textbox', {
+          name: /City/i,
+        });
+        const postalCodeInput = screen.getByRole('textbox', {
+          name: /Postal code/i,
+        });
+
+        await userEvent.type(streetInput, '1');
+        await userEvent.type(cityInput, 'a');
+        await userEvent.type(postalCodeInput, 'ab');
+        await userEvent.tab(); // Need to blur the input to trigger validation
+
+        expect(screen.getByText('Please provide your full street address')).to
+          .exist;
+        expect(screen.getByText('Please provide a valid city')).to.exist;
+        expect(screen.getByText('Please provide a valid postal code')).to.exist;
+      });
+    });
+
+    describe('Mexican address', () => {
+      beforeEach(() => {
+        screen = renderPage({ mailingAddress: { country: 'MEX' } });
+      });
+
+      it('should render State dropdown', () => {
+        expect(screen.getByRole('combobox', { name: 'State (*Required)' })).to
+          .exist;
+        expect(
+          screen.queryByRole('textbox', { name: /State\/County\/Province/i }),
+        ).not.to.exist;
+      });
+
+      it('should show errors when required fields are left blank', async () => {
+        const submitButton = screen.getByRole('button', { name: /Submit/i });
+        await userEvent.click(submitButton);
+
+        expect(
+          screen.getAllByText('You must provide a response'),
+        ).to.have.length(4);
+      });
+
+      it('should show errors when user input is invalid', async () => {
+        const streetInput = screen.getByRole('textbox', {
+          name: 'Street address (*Required)',
+        });
+        const cityInput = screen.getByRole('textbox', {
+          name: /City/i,
+        });
+        const postalCodeInput = screen.getByRole('textbox', {
+          name: /Postal code/i,
+        });
+
+        await userEvent.type(streetInput, '1');
+        await userEvent.type(cityInput, 'a');
+        await userEvent.type(postalCodeInput, 'ab');
+        await userEvent.tab(); // Need to blur the input to trigger validation
+
+        expect(screen.getByText('Please provide your full street address')).to
+          .exist;
+        expect(screen.getByText('Please provide a valid city')).to.exist;
+        expect(screen.getByText('Please provide a valid postal code')).to.exist;
+      });
+    });
+
+    describe('Other international address', () => {
+      beforeEach(() => {
+        screen = renderPage({ mailingAddress: { country: 'ALB' } });
+      });
+
+      it('should render State/Country/Province input', () => {
+        expect(
+          screen.getByRole('textbox', { name: /State\/County\/Province/i }),
+        ).to.exist;
+        expect(screen.queryByRole('combobox', { name: 'State (*Required)' }))
+          .not.to.exist;
+      });
+
+      it('should show errors when required fields are left blank', async () => {
+        const submitButton = screen.getByRole('button', { name: /Submit/i });
+        await userEvent.click(submitButton);
+
+        expect(
+          screen.getAllByText('You must provide a response'),
+        ).to.have.length(3);
+      });
+
+      it('should show errors when user input is invalid', async () => {
+        const streetInput = screen.getByRole('textbox', {
+          name: 'Street address (*Required)',
+        });
+        const cityInput = screen.getByRole('textbox', {
+          name: /City/i,
+        });
+        const postalCodeInput = screen.getByRole('textbox', {
+          name: /Postal code/i,
+        });
+
+        await userEvent.type(streetInput, '1');
+        await userEvent.type(cityInput, 'a');
+        await userEvent.type(postalCodeInput, 'ab');
+        await userEvent.tab(); // Need to blur the input to trigger validation
+
+        expect(screen.getByText('Please provide your full street address')).to
+          .exist;
+        expect(screen.getByText('Please provide a valid city')).to.exist;
+        expect(screen.getByText('Please provide a valid postal code')).to.exist;
+      });
+    });
+  });
 });

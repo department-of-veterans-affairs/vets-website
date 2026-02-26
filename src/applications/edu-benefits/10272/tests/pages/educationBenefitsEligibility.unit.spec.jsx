@@ -5,7 +5,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
-describe('educationBenefitsEligibility', () => {
+describe('22-10272 Your education benefits information Step 1 - Page 3', () => {
   const {
     schema,
     uiSchema,

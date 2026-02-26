@@ -15,7 +15,6 @@ import { isFieldEmpty } from '@@vap-svc/util';
 import { getInitialFormValues } from '@@vap-svc/util/contact-information/formValues';
 import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAttributes';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
-import InitializeVAPServiceIDContainer from '@@vap-svc/containers/InitializeVAPServiceID';
 
 import {
   hasVAPServiceConnectionError,
@@ -291,20 +290,18 @@ export const Edit = () => {
               </p>
             )}
 
-            <InitializeVAPServiceIDContainer>
-              {/* the EditConfirmCancelModal is passed here as props to allow a custom modal to be used
-                  for when the user clicks 'cancel' on the form with unsaved edits */}
-              <ProfileInformationFieldController
-                fieldName={fieldInfo.fieldName}
-                forceEditView
-                isDeleteDisabled
-                saveButtonText="Save to profile"
-                successCallback={handlers.success}
-                cancelCallback={handlers.cancel}
-                CustomConfirmCancelModal={EditConfirmCancelModal}
-                allowInternationalPhones
-              />
-            </InitializeVAPServiceIDContainer>
+            {/* the EditConfirmCancelModal is passed here as props to allow a custom modal to be used
+                for when the user clicks 'cancel' on the form with unsaved edits */}
+            <ProfileInformationFieldController
+              fieldName={fieldInfo.fieldName}
+              forceEditView
+              isDeleteDisabled
+              saveButtonText="Save to profile"
+              successCallback={handlers.success}
+              cancelCallback={handlers.cancel}
+              CustomConfirmCancelModal={EditConfirmCancelModal}
+              allowInternationalPhones
+            />
           </div>
         </>
       ) : (

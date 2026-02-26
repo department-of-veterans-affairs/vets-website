@@ -2,6 +2,8 @@ import * as hasPreviouslyApplied from './hasPreviouslyApplied';
 import * as educationBenefitsHistory from './educationBenefitsHistory';
 import * as educationBenefitsElibility from './educationBenefitsEligibility';
 import * as payeeNumber from './payeeNumber';
+import * as testName from './testName';
+import * as organizationInfo from './organizationInfo';
 import * as prepCourseName from './prepCourseName';
 import * as prepCourseAddress from './prepCourseAddress';
 import * as prepCourseOnline from './prepCourseOnline';
@@ -14,6 +16,8 @@ export {
   educationBenefitsHistory,
   educationBenefitsElibility,
   payeeNumber,
+  testName,
+  organizationInfo,
   prepCourseName,
   prepCourseAddress,
   prepCourseOnline,
