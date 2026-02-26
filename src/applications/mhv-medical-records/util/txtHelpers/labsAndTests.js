@@ -72,7 +72,11 @@ ${
                             result.standardRange
                               ? `Reference range: ${result.standardRange}`
                               : '',
-                            result.status ? `Status: ${result.status}` : '',
+                            result.status
+                              ? `Status: ${result.status
+                                  .charAt(0)
+                                  .toUpperCase()}${result.status.slice(1)}`
+                              : '',
                             result.labComments
                               ? `Lab comments: ${result.labComments}`
                               : '',

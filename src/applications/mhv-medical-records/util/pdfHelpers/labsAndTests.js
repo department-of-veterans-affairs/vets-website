@@ -76,10 +76,13 @@ export const generateGenericContent = record => {
               return Array.isArray(v) ? v.length > 0 : Boolean(v);
             })
             .map(key => {
-              const val = item[key];
+              let val = item[key];
+              if (Array.isArray(val)) val = val.join('\n');
+              if (key === 'status' && typeof val === 'string' && val.length)
+                val = val.charAt(0).toUpperCase() + val.slice(1);
               return {
                 title: OBSERVATION_DISPLAY_DISPLAY_MAP[key],
-                value: Array.isArray(val) ? val.join('\n') : val,
+                value: val,
                 inline: true,
               };
             }),

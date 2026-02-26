@@ -87,7 +87,11 @@ export const txtPrinter = ({ record, user }) => {
           `${OBSERVATION_DISPLAY_LABELS.REFERENCE_RANGE}: ${
             entry.referenceRange
           }`,
-          `${OBSERVATION_DISPLAY_LABELS.STATUS}: ${entry.status}`,
+          `${OBSERVATION_DISPLAY_LABELS.STATUS}: ${
+            entry.status
+              ? entry.status.charAt(0).toUpperCase() + entry.status.slice(1)
+              : 'None Noted'
+          }`,
           entry.bodySite
             ? `${OBSERVATION_DISPLAY_LABELS.BODY_SITE}: ${entry.bodySite}`
             : `${OBSERVATION_DISPLAY_LABELS.BODY_SITE}: None Noted`,

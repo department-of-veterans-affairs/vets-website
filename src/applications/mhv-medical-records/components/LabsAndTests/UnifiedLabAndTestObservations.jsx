@@ -32,7 +32,12 @@ const UnifiedLabAndTestObservations = props => {
               />
               <UnifiedLabAndTestObservationDetail
                 header={OBSERVATION_DISPLAY_LABELS.STATUS}
-                value={result.status}
+                value={
+                  result.status
+                    ? result.status.charAt(0).toUpperCase() +
+                      result.status.slice(1)
+                    : undefined
+                }
                 ddActionName="[lab and tests - status]"
               />
               {result.bodySite && (
