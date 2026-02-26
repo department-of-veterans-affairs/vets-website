@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { servicePeriodsPages } from '../../pages/servicePeriodsPages';
+import { servicePeriodsPages } from '../../../pages/servicePeriodsPages';
 
 describe('COE servicePeriods array builder pages', () => {
   it('includes the intro, item, and summary pages', () => {

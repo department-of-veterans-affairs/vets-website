@@ -14,12 +14,12 @@ const HEALTH_TOOL_NAMES = freeze(values(HEALTH_TOOL_HEADINGS));
 const HEALTH_TOOL_LINKS = freeze({
   APPOINTMENTS: freeze([
     {
-      href: '/my-health/appointments/schedule/type-of-care',
+      href: '/my-health/appointments/schedule',
       text: 'Schedule a new appointment',
     },
     {
       href: '/my-health/appointments/',
-      text: 'Manage upcoming appointments',
+      text: 'Manage appointments',
     },
   ]),
   MESSAGES: freeze([
