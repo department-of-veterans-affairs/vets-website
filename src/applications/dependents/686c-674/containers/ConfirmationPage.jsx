@@ -29,6 +29,11 @@ export default function ConfirmationPage() {
     ? format(new Date(submission?.timestamp), 'MMMM d, yyyy')
     : '';
 
+  const submissionId = response?.submissionId;
+  const myVaSubmissionUrl = submissionId
+    ? `/my-va/submissions/${submissionId}`
+    : null;
+
   useLayoutEffect(
     () => {
       scrollToTop('topScrollElement');
@@ -53,6 +58,7 @@ export default function ConfirmationPage() {
           text="Check the status of your form on My VA"
         />
       </va-alert>
+
       <Toggler toggleName={Toggler.TOGGLE_NAMES.dependentsEnableFormViewerMFE}>
         <Toggler.Enabled>
           <section>
@@ -63,6 +69,7 @@ export default function ConfirmationPage() {
               You can open, download, or print a copy of your submitted form
               now.
             </span>
+
             <div className="vads-u-margin-top--1p5">
               <va-link-action
                 text="Download or print the information you submitted (opens in a new tab)"
@@ -70,8 +77,23 @@ export default function ConfirmationPage() {
                 class="form-renderer"
               />
             </div>
+
+            <Toggler toggleName="dependents_digital_forms_viewer_link_enabled">
+              <Toggler.Enabled>
+                {myVaSubmissionUrl ? (
+                  <div className="vads-u-margin-top--1p5">
+                    <va-link-action
+                      href={myVaSubmissionUrl}
+                      text="Download or print the information you submitted (opens in a new tab)"
+                      type="secondary"
+                    />
+                  </div>
+                ) : null}
+              </Toggler.Enabled>
+            </Toggler>
           </section>
         </Toggler.Enabled>
+
         <Toggler.Disabled>
           <va-summary-box class="vads-u-margin-top--4">
             <h3 slot="headline">Your submission information</h3>
@@ -97,6 +119,7 @@ export default function ConfirmationPage() {
           </va-summary-box>
         </Toggler.Disabled>
       </Toggler>
+
       <section>
         <h2>What to expect</h2>
         <va-process-list>
@@ -118,6 +141,7 @@ export default function ConfirmationPage() {
           </va-process-list-item>
         </va-process-list>
       </section>
+
       <section>
         <h2>What if I have additional evidence I need to submit?</h2>
         <p>
@@ -168,6 +192,7 @@ export default function ConfirmationPage() {
           return them. Send us copies of your documents only.
         </p>
       </section>
+
       <section>
         <h2>What if I need to add or remove another dependent later?</h2>
         <p>
@@ -176,6 +201,7 @@ export default function ConfirmationPage() {
         </p>
         <va-link href={manifest.rootUrl} text="Start a new dependency claim" />
       </section>
+
       <section>
         <h2>How to contact us if you have questions</h2>
         <p>
