@@ -239,6 +239,11 @@ export const Alerts = {
     CANNOT_SAVE:
       "We're sorry. We couldn't save your changes. Try saving again.",
   },
+  OHSyncStatus: {
+    HEADLINE: "We're still adding some of your messages here",
+    BODY:
+      "We're working to add all of your messages to your inbox. They should be available soon.",
+  },
   Headers: {
     HIDE_ALERT: 'HIDE_ALERT',
   },
@@ -524,6 +529,18 @@ export const RecipientStatus = {
  * - p5: T to T+2
  */
 export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
+
+/**
+ * OH (Oracle Health) sync statuses returned by the API.
+ * Used to track the progress of migrating messages from VistA to Oracle Health.
+ */
+export const OHSyncStatuses = {
+  STARTED: 'STARTED',
+  NOT_STARTED: 'NOT_STARTED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  ERROR: 'ERROR',
+  FINISHED: 'FINISHED',
+};
 
 export const BlockedTriageAlertStyles = {
   INFO: 'info',

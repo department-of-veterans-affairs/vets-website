@@ -125,10 +125,9 @@ describe('Secure Messaging OH Sync Status Alert', () => {
     cy.wait('@ohSyncStatus');
 
     cy.get(Locators.ALERTS.OH_SYNC_STATUS_ALERT).should('be.visible');
-    cy.get(Locators.ALERTS.OH_SYNC_STATUS_ALERT).should(
-      'contain.text',
-      "We're still adding some of your messages here",
-    );
+    cy.get(Locators.ALERTS.OH_SYNC_STATUS_ALERT)
+      .find('h2[slot="headline"]')
+      .should('contain.text', Alerts.OH_SYNC_STATUS.HEADER);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

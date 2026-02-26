@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import OHSyncStatusAlert from '../../../components/shared/OHSyncStatusAlert';
+import { Alerts, OHSyncStatuses } from '../../../util/constants';
 
 const mockStore = configureMockStore();
 
@@ -19,7 +20,7 @@ describe('OHSyncStatusAlert', () => {
   it('should not render when status is FINISHED', () => {
     const store = createStore({
       data: {
-        status: 'FINISHED',
+        status: OHSyncStatuses.FINISHED,
         syncComplete: true,
         error: null,
       },
@@ -39,7 +40,7 @@ describe('OHSyncStatusAlert', () => {
   it('should render when status is IN_PROGRESS', () => {
     const store = createStore({
       data: {
-        status: 'IN_PROGRESS',
+        status: OHSyncStatuses.IN_PROGRESS,
         syncComplete: false,
         error: null,
       },
@@ -64,7 +65,7 @@ describe('OHSyncStatusAlert', () => {
   it('should render when status is STARTED', () => {
     const store = createStore({
       data: {
-        status: 'STARTED',
+        status: OHSyncStatuses.STARTED,
         syncComplete: false,
         error: null,
       },
@@ -84,7 +85,7 @@ describe('OHSyncStatusAlert', () => {
   it('should render when status is NOT_STARTED', () => {
     const store = createStore({
       data: {
-        status: 'NOT_STARTED',
+        status: OHSyncStatuses.NOT_STARTED,
         syncComplete: true,
         error: null,
       },
@@ -136,7 +137,7 @@ describe('OHSyncStatusAlert', () => {
   it('should render when status is ERROR', () => {
     const store = createStore({
       data: {
-        status: 'ERROR',
+        status: OHSyncStatuses.ERROR,
         syncComplete: false,
         error: 'Sync error occurred',
       },
@@ -156,7 +157,7 @@ describe('OHSyncStatusAlert', () => {
   it('should display correct heading and message', () => {
     const store = createStore({
       data: {
-        status: 'IN_PROGRESS',
+        status: OHSyncStatuses.IN_PROGRESS,
         syncComplete: false,
         error: null,
       },
@@ -171,13 +172,9 @@ describe('OHSyncStatusAlert', () => {
 
     const alert = container.querySelector('va-alert');
     const headline = alert.querySelector('h2[slot="headline"]');
-    expect(headline.textContent).to.equal(
-      "We're still adding some of your messages here",
-    );
+    expect(headline.textContent).to.equal(Alerts.OHSyncStatus.HEADLINE);
 
     const message = alert.querySelector('p');
-    expect(message.textContent).to.equal(
-      "We're working to add all of your messages to your inbox. They should be available soon.",
-    );
+    expect(message.textContent).to.equal(Alerts.OHSyncStatus.BODY);
   });
 });
