@@ -93,42 +93,44 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
                 </p>
               </va-alert>
             ) : (
-              <SelectPreferenceView />
+              <>
+                <SelectPreferenceView />
+                <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
+                  Reading Material
+                </h2>
+                <ul className="va-nav-linkslist-list vads-u-margin-bottom--2">
+                  <li>
+                    <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
+                      <va-link
+                        href="https://www.va.gov/careers-employment/vocational-rehabilitation"
+                        text="Program Overview"
+                        external
+                      />
+                    </h3>
+                    <p className="va-nav-linkslist-description">
+                      Read about how Veteran Readiness and Employment (Chapter
+                      31) can help you explore employment options and address
+                      education or training needs.
+                    </p>
+                  </li>
+                  <li>
+                    <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
+                      <va-link
+                        href="https://www.va.gov/careers-employment/vocational-rehabilitation/programs"
+                        text="VR&E Support-and-Services Tracks"
+                        external
+                      />
+                    </h3>
+                    <p className="va-nav-linkslist-description">
+                      We offer 5 support-and-services tracks to help you get
+                      education or training, find and keep a job, and live as
+                      independently as possible. Explore the different tracks
+                      and take charge of your future.
+                    </p>
+                  </li>
+                </ul>
+              </>
             )}
-            <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Reading Material
-            </h2>
-            <ul className="va-nav-linkslist-list vads-u-margin-bottom--2">
-              <li>
-                <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                  <va-link
-                    href="https://www.va.gov/careers-employment/vocational-rehabilitation"
-                    text="Program Overview"
-                    external
-                  />
-                </h3>
-                <p className="va-nav-linkslist-description">
-                  Read about how Veteran Readiness and Employment (Chapter 31)
-                  can help you explore employment options and address education
-                  or training needs.
-                </p>
-              </li>
-              <li>
-                <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                  <va-link
-                    href="https://www.va.gov/careers-employment/vocational-rehabilitation/programs"
-                    text="VR&E Support-and-Services Tracks"
-                    external
-                  />
-                </h3>
-                <p className="va-nav-linkslist-description">
-                  We offer 5 support-and-services tracks to help you get
-                  education or training, find and keep a job, and live as
-                  independently as possible. Explore the different tracks and
-                  take charge of your future.
-                </p>
-              </li>
-            </ul>
           </va-card>
           {hubCards}
         </>

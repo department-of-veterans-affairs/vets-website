@@ -98,7 +98,7 @@ export default function SelectPreferenceView() {
               <va-link
                 channel
                 href={YOUTUBE_ORIENTATION_VIDEO_URL}
-                text="Review VA Orientation Video"
+                text="Go to the video about Veteran Readiness and Employment (VR&E) 5 Tracks on"
               />
             </p>
             <VaCheckbox
