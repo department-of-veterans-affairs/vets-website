@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatCurrency } from '../../combined/utils/helpers';
 
-export const AccountSummary = ({ acctNum, paymentsReceived, newCharges }) => {
+export const AccountSummary = ({ acctNum, paymentsReceived, currentBalance }) => {
   return (
     <section>
       <h2
@@ -18,7 +18,7 @@ export const AccountSummary = ({ acctNum, paymentsReceived, newCharges }) => {
           data-testid="account-summary-previous"
           className="vads-u-margin-bottom--0p5"
         >
-          {`This statement charges: ${formatCurrency(newCharges)}`}
+          {`This statement charges: ${formatCurrency(currentBalance)}`}
         </li>
         <li
           data-testid="account-summary-credits"

@@ -156,6 +156,33 @@ describe('useCurrentStatement', () => {
     });
   });
 
+  context('when useLighthouseCopays is true (v1 response with data array)', () => {
+    it('returns statementCopays filtered by statementId from copays.data', () => {
+      /* eslint-disable camelcase */
+      const data = [
+        { id: 'a', statement_id: 'stmt-456', type: 'medicalCopays' },
+        { id: 'b', statement_id: 'stmt-456', type: 'medicalCopays' },
+        { id: 'c', statement_id: 'other-id', type: 'medicalCopays' },
+      ];
+      /* eslint-enable camelcase */
+      const state = createState({
+        useLighthouseCopays: true,
+        mcp: {
+          copays: { data, meta: {}, links: {} },
+          isCopaysLoading: false,
+        },
+      });
+      const { result } = renderHook(() => useCurrentStatement(), {
+        wrapper: createHookWrapper(state, route, path),
+      });
+      expect(result.current.statementCopays).to.have.lengthOf(2);
+      expect(result.current.statementCopays[0].statement_id).to.equal(
+        'stmt-456',
+      );
+      expect(result.current.isLoading).to.be.false;
+    });
+  });
+
   it('returns isLoading true when copays have not yet been loaded', () => {
     const state = createState({
       useLighthouseCopays: false,

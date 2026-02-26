@@ -87,7 +87,7 @@ const MonthlyStatementPage = () => {
     const statementCharges = statementCopays.flatMap(copay =>
       getCopayCharge(copay),
     );
-    const rawCurrentBalance = statementCharges.reduce(
+    const chargeSum = statementCharges.reduce(
       (sum, charge) => sum + (charge.pDTransAmt || 0),
       0,
     );
@@ -95,6 +95,7 @@ const MonthlyStatementPage = () => {
       (sum, copay) => sum + (copay.pHTotCharges || 0),
       0,
     );
+    const currentBalance = chargeSum - paymentsReceived;
 
     return {
       LATEST_COPAY: latest,
@@ -103,9 +104,8 @@ const MonthlyStatementPage = () => {
       PREV_PAGE: getPrevPage(latest?.station?.facilityName || ''),
       ACCOUNT_NUMBER: latest?.accountNumber || '',
       CHARGES: statementCharges,
-      CURRENT_BALANCE: formatCurrency(rawCurrentBalance),
-      PAYMENTS_RECEIVED: formatCurrency(paymentsReceived),
-      NEW_CHARGES: formatCurrency(rawCurrentBalance),
+      CURRENT_BALANCE: currentBalance,
+      PAYMENTS_RECEIVED: paymentsReceived,
     };
   };
 
@@ -117,14 +117,15 @@ const MonthlyStatementPage = () => {
     const dateInfo = formatDateAsMonth(statementDate);
     const statementCharges =
       statementCopays.flatMap(copay => copay.attributes?.lineItems || []) || [];
-    const currentSumBalance = statementCharges.reduce(
-      (sum, charge) => sum + (charge.pDTransAmt || 0),
+    const chargeSum = statementCharges.reduce(
+      (sum, charge) => sum + charge.priceComponents[0].amount,
       0,
     );
     const paymentsReceived = statementCopays.reduce(
       (sum, copay) => sum + (copay.attributes?.principalPaid || 0),
       0,
     );
+    const currentBalance = chargeSum - paymentsReceived;
 
     return {
       LATEST_COPAY: latest,
@@ -133,9 +134,8 @@ const MonthlyStatementPage = () => {
       PREV_PAGE: getPrevPage(latest?.attributes?.facility?.name || ''),
       ACCOUNT_NUMBER: latest?.attributes?.accountNumber || '',
       CHARGES: statementCharges,
-      CURRENT_BALANCE: formatCurrency(currentSumBalance),
-      PAYMENTS_RECEIVED: formatCurrency(paymentsReceived),
-      NEW_CHARGES: formatCurrency(currentSumBalance),
+      CURRENT_BALANCE: currentBalance,
+      PAYMENTS_RECEIVED: paymentsReceived,
     };
   };
 
@@ -178,7 +178,7 @@ const MonthlyStatementPage = () => {
         </p>
         <AccountSummary
           acctNum={statementAttributes.ACCOUNT_NUMBER}
-          newCharges={statementAttributes.NEW_CHARGES}
+          currentBalance={statementAttributes.CURRENT_BALANCE}
           paymentsReceived={statementAttributes.PAYMENTS_RECEIVED}
         />
         {shouldUseLighthouseCopays && (

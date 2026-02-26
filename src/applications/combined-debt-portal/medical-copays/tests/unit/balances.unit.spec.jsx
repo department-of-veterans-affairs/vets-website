@@ -143,7 +143,7 @@ describe('Balances', () => {
     expect(resolveLink.text).to.include('Resolve this bill');
 
     // Verify helper function returns true
-    const result = useLighthouseCopayPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.true;
   });
 
@@ -227,7 +227,7 @@ describe('Balances', () => {
     expect(resolveLink.text).to.include('Resolve this bill');
 
     // Verify helper function returns false
-    const result = useLighthouseCopayPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.false;
   });
 });

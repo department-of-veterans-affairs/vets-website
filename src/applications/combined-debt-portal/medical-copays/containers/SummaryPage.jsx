@@ -73,14 +73,9 @@ const OverviewPage = () => {
     ({ combinedPortal }) => combinedPortal,
   );
 
-  // feature toggle stuff for VHA payment history MVP
   const { useToggleLoadingValue } = useFeatureToggle();
-  // boolean value to represent if toggles are still loading or not
   const togglesLoading = useToggleLoadingValue();
-  // value of specific toggle
-  const shouldUseLighthouseCopays = useLighthouseCopayPaymentHistory(
-    useSelector(state => state),
-  );
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
 
   const {
     debts,

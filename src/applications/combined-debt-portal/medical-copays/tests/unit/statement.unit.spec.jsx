@@ -168,7 +168,7 @@ describe('Monthly statement page', () => {
     });
 
     const STATEMENT_ID = 'stmt-123';
-    const route = `/copay-balances/${STATEMENT_ID}/statement`;
+    const route = `/copay-balances/statements/${STATEMENT_ID}`;
 
     /* eslint-disable camelcase */
     const legacyCopaySingle = {

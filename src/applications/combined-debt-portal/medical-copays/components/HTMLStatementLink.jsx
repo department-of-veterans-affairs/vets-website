@@ -8,7 +8,7 @@ import { formatDate } from '../../combined/utils/helpers';
 
 const HTMLStatementLink = ({ statementId, statementDate }) => {
   const history = useHistory();
-  const statementPath = `/copay-balances/statement/${statementId}`;
+  const statementPath = `/copay-balances/statements/${statementId}`;
 
   return (
     <li>

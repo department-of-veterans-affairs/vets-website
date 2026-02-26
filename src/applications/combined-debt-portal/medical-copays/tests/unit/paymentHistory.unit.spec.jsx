@@ -75,7 +75,7 @@ describe('Feature Toggle Data Confirmation', () => {
 
     const firstRow = rows[1];
 
-    const result = useLighthouseCopayPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.true;
 
     expect(firstRow).to.exist;
@@ -238,7 +238,7 @@ describe('Feature Toggle Data Confirmation', () => {
     // Query the custom elements directly
     const firstRow = container.querySelectorAll('va-table-row')[1];
 
-    const result = useLighthouseCopayPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.false;
 
     expect(firstRow).to.exist;

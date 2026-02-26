@@ -28,7 +28,7 @@ const Routes = () => (
       <Route exact path="/copay-balances/:id" component={Details} />
       <Route
         exact
-        path="/copay-balances/statement/:id"
+        path="/copay-balances/statements/:id"
         component={MonthlyStatementPage}
       />
       <Route exact path="/copay-balances/:id/resolve" component={ResolvePage} />

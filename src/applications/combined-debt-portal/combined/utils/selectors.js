@@ -4,6 +4,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { useParams } from 'react-router-dom';
 import { getAllCopays, getAllLighthouseCopays, getCopayDetail } from '../../combined/actions/copays';
+import { lighthouseData } from './mocks/mockStatementForLocal';
 
 export const selectUserFullName = state =>
   state?.user?.profile?.userFullName;
@@ -60,24 +61,30 @@ export const useCurrentCopay = () => {
   return { currentCopay, isLoading };
 };
 
-const selectStatementCopays = (copays, statementId) => state =>
-  copays?.filter(
-    copay => copay.statement_id === statementId,
-  );
+const selectLighthouseCopays = state => {
+  // this is where new BE integration will go
+  return lighthouseData;
+};
+
+const selectStatementCopays = (statementId) => state => {
+  const list = selectLighthouseCopays(state);
+  return list?.filter(copay => copay.statement_id === statementId) ?? [];
+};
 
 export const useCurrentStatement = () => {
   const { id: statementId } = useParams();
   
   const allCopays = useSelector(selectAllCopays);
-  const statementCopays = useSelector(selectStatementCopays(allCopays, statementId));
+  const copaysList = useSelector(selectLighthouseCopays);
+  const statementCopays = useSelector(selectStatementCopays(statementId));
   const isLoading = useSelector(selectIsCopaysLoading);
   
-  const hasCurrentStatement = allCopays[0]?.statement_id !== statementId;
-  const shouldFetchCopays = !allCopays && !isLoading && !hasCurrentStatement
+  const hasCurrentStatement = copaysList[0]?.statement_id !== statementId;
+  const shouldFetchCopays = !allCopays && !isLoading && !hasCurrentStatement;
   if (shouldFetchCopays) {
     const dispatch = useDispatch();
     const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
-    shouldUseLighthouseCopays ? dispatch(getAllLighthouseCopays) : dispatch(getAllCopays)
+    shouldUseLighthouseCopays ? dispatch(getAllLighthouseCopays) : dispatch(getAllCopays);
   }
 
   return { statementCopays, isLoading };

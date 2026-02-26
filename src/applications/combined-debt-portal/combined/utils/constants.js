@@ -30,9 +30,8 @@ export const DEFAULT_STATEMENT_ATTRIBUTES = Object.freeze({
   PREV_PAGE: '',
   ACCOUNT_NUMBER: '',
   CHARGES: [],
-  CURRENT_BALANCE: '',
-  PAYMENTS_RECEIVED: '',
-  NEW_CHARGES: 0,
+  CURRENT_BALANCE: 0.00,
+  PAYMENTS_RECEIVED: 0.00,
 });
 
 export const RESOLVE_HEADER = `Resolve your copay bill`;
