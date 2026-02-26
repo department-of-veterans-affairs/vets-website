@@ -201,7 +201,6 @@ const api = {
     ];
   }),
 
-  // Single source of truth for claimant overview + ITFs now
   getClaimantOverview: wrapApiRequest(id => {
     return [`/claimant/${id}`];
   }),

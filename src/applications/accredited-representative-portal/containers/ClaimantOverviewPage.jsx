@@ -44,7 +44,6 @@ const normalizeItfArray = rawItf => {
 
   return rawItf
     .map(entry => {
-      // Most likely LH shape: { data: { attributes: { type, creationDate, expirationDate, status } } }
       const attrs = entry?.data?.attributes || entry?.attributes || entry;
 
       const benefitType =
@@ -84,8 +83,6 @@ const mapClaimantOverview = raw => ({
   email: raw?.email,
   address: raw?.address || null,
   representativeInfo: raw?.representative_info || null,
-
-  // ✅ NEW: backend now returns ITF data on claimant show
   intentToFile: normalizeItfArray(raw?.itf),
 });
 
