@@ -143,8 +143,6 @@ describe('Facility VA search', () => {
     cy.get('.i-pin-card-map').contains('2');
     cy.get('.i-pin-card-map').contains('3');
     cy.get('.i-pin-card-map').contains('4');
-
-    cy.get('#other-tools').should('exist');
   });
 
   it('shows search result header even when no results are found', () => {
@@ -172,8 +170,6 @@ describe('Facility VA search', () => {
       /No results found for.*Community providers.*in VA.*s network.*General Acute Care Hospital.*within.*\d{1,}.*miles of.*Raleigh.*North Carolina.*27606.*/i,
       // /No results found for.*Community providers.*in VA.*s network.*General Acute Care Hospital.*within.*\d{1,}.*miles of.*Raleigh.*North Carolina.*27606.*/i,
     );
-
-    cy.get('#other-tools').should('exist');
   });
 
   it('finds va benefits facility and views its page', () => {
@@ -193,7 +189,6 @@ describe('Facility VA search', () => {
     cy.get('#search-results-subheader').contains(
       /(Showing|Results).*VA benefits.*All VA benefit services.*within (\d{1,}) miles of.*Los Angeles.*California.*/i,
     );
-    cy.get('#other-tools').should('exist');
 
     cy.axeCheck();
 
@@ -221,7 +216,6 @@ describe('Facility VA search', () => {
       .contains(/Get directions/i);
     cy.get('[alt="Static map"]').should('exist');
     cy.get('#hours-op h3').contains('Hours of operation');
-    cy.get('#other-tools').should('not.exist');
 
     cy.axeCheck();
   });
@@ -308,7 +302,5 @@ describe('Facility VA search', () => {
     cy.get('.i-pin-card-map').contains('2');
     cy.get('.i-pin-card-map').contains('3');
     cy.get('.i-pin-card-map').contains('4');
-
-    cy.get('#other-tools').should('exist');
   });
 });

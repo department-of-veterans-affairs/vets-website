@@ -1,12 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { directDeposit } from '../../pages';
 
-import createDirectDepositPage from '../../pages/DirectDeposit';
-
-const { schema, uiSchema } = createDirectDepositPage();
+const { schema, uiSchema } = directDeposit;
 
 const renderPage = (data = {}, onSubmit = () => {}) =>
   render(
@@ -20,89 +19,67 @@ const renderPage = (data = {}, onSubmit = () => {}) =>
   );
 
 describe('22 10297 Direct deposit page', () => {
-  it('renders heading, top note, custom routing label, and help trigger', () => {
-    const { getByText, container } = renderPage();
+  describe('prefilled/view state', () => {
+    it('renders page', () => {
+      const screen = renderPage({
+        bankAccount: {
+          accountType: 'Checking',
+          routingNumber: '021000021',
+          routingNumberConfirmation: '021000021',
+          accountNumber: '1234567890',
+          accountNumberConfirmation: '1234567890',
+        },
+      });
 
-    expect(getByText('Direct deposit')).to.exist;
+      expect(screen.getByText('Direct deposit information')).to.exist;
 
-    expect(
-      getByText(
-        /direct deposit information is not required to determine eligibility/i,
-      ),
-    ).to.exist;
+      expect(
+        screen.getByText(
+          /We make payments only through direct deposit, also called electronic funds transfer \(EFT\)./i,
+        ),
+      ).to.exist;
+    });
 
-    expect(
-      container.querySelector(
-        'va-text-input[label="Bank’s 9-digit routing number"]',
-      ),
-    ).to.exist;
+    it('renders errors when data contains invalid values', () => {
+      const screen = renderPage({
+        bankAccount: {
+          accountType: 'Checking',
+          routingNumber: '021000021',
+          routingNumberConfirmation: '',
+          accountNumber: '1234567890',
+          accountNumberConfirmation: '1234567890',
+        },
+      });
 
-    expect(
-      container.querySelector(
-        'va-additional-info[trigger="What if I don’t have a bank account?"]',
-      ),
-    ).to.exist;
-  });
-
-  it('renders Account type before the check guide image (order check)', () => {
-    const { container } = renderPage();
-
-    const accountType = container.querySelector(
-      'va-radio[name="root_bankAccount_accountType"]',
-    );
-    const image = container.querySelector(
-      'img[alt*="bank’s 9-digit routing number"]',
-    );
-
-    expect(accountType).to.exist;
-    expect(image).to.exist;
-
-    const allNodes = Array.from(container.querySelectorAll('va-radio, img'));
-    const acctIdx = allNodes.indexOf(accountType);
-    const imgIdx = allNodes.indexOf(image);
-    expect(acctIdx).to.be.lessThan(imgIdx);
-  });
-
-  it('rejects invalid routing number (fails pattern/checksum)', async () => {
-    const badData = {
-      bankAccount: {
-        accountType: 'checking',
-        routingNumber: '12345678',
-        accountNumber: '123456789',
-      },
-    };
-
-    const { getByRole, container } = renderPage(badData);
-
-    fireEvent.click(getByRole('button', { name: /submit|continue/i }));
-
-    await waitFor(() => {
-      const routingError = container
-        .querySelector('va-text-input[name="root_bankAccount_routingNumber"]')
-        ?.getAttribute('error');
-
-      expect(routingError).to.equal(
-        'Please enter a valid 9 digit routing number',
-      );
+      expect(
+        screen.getByText(
+          "Banking information is missing or invalid. Please make sure it's correct.",
+        ),
+      ).to.exist;
     });
   });
 
-  it('submits successfully with valid data', () => {
-    const onSubmit = sinon.spy();
-    const goodBank = {
-      accountType: 'savings',
-      routingNumber: '021000021',
-      accountNumber: '456789123456',
-    };
+  describe('manual entry/edit state', () => {
+    it('renders page', () => {
+      const screen = renderPage();
+      expect(screen.getByText('Direct deposit information')).to.exist;
+      expect(screen.getByText('Account type')).to.exist;
+      expect(screen.getByText('Bank routing number')).to.exist;
+      expect(screen.getByText('Confirm bank routing number')).to.exist;
+      expect(screen.getByText('Bank account number')).to.exist;
+      expect(screen.getByText('Confirm bank account number')).to.exist;
+      expect(screen.container.querySelector('.save-button')).to.exist;
+    });
 
-    const { getByRole } = renderPage({ bankAccount: goodBank }, onSubmit);
+    it('renders errors when data contains invalid values', async () => {
+      const screen = renderPage();
 
-    fireEvent.click(getByRole('button', { name: /submit|continue/i }));
+      const saveButton = screen.container.querySelector('.save-button');
+      await userEvent.click(saveButton);
 
-    expect(onSubmit.calledOnce).to.be.true;
-
-    const submitted = onSubmit.firstCall.args[0].formData.bankAccount;
-
-    expect(submitted).to.include(goodBank);
+      expect(screen.getAllByText('You must provide a response')).to.have.length(
+        5,
+      );
+    });
   });
 });

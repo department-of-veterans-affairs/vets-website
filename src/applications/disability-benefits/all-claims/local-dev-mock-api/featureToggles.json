@@ -23,6 +23,10 @@
         "value": true
       },
       {
+        "name": "disability_526_new_bdd_sha_enforcement_workflow_enabled",
+        "value": true
+      },
+      {
         "name": "disability_526_maximum_rating",
         "value": true
       },

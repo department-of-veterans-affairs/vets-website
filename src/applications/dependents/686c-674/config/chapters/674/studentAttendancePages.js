@@ -81,12 +81,16 @@ export const studentStoppedAttendingDatePage = {
 export const schoolAccreditationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'School accreditation status',
+      ({ formData }) =>
+        `${formData.fullName?.first ||
+          'This child'}'s school accreditation status`,
+      null, // description
+      false, // lowercase
     ),
     schoolInformation: {
-      isSchoolAccredited: yesNoUI({
-        title: 'Is the student\u2019s school accredited?',
-      }),
+      isSchoolAccredited: yesNoUI(
+        'Is the school this student attends accredited?',
+      ),
       'view:accredited': {
         'ui:description': AccreditedSchool,
       },

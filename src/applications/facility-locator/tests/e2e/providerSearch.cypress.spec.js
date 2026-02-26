@@ -91,7 +91,6 @@ for (const featureSet of featureSetsToTest) {
         /(Showing|results).*Community providers.*Dentist - Orofacial Pain.*within (\d{1,}) miles of .*Austin, Texas/i,
       );
 
-      h.verifyElementExists('#other-tools');
       h.verifyElementShouldContainText('.facility-result h3', 'Kerr, Max Olen');
       h.verifyElementDoesNotExist('.va-pagination');
     });
@@ -110,7 +109,6 @@ for (const featureSet of featureSetsToTest) {
         /(Showing|results).*Community providers.*in VA’s network.*(Clinic|Center).*Urgent Care.*within (\d{1,}) miles of.*Austin, Texas/i,
       );
 
-      h.verifyElementExists('#other-tools');
       h.verifyElementShouldContainText('.facility-result h3', 'MinuteClinic');
       h.verifyElementDoesNotExist('.va-pagination');
     });
@@ -135,7 +133,6 @@ for (const featureSet of featureSetsToTest) {
         /(Showing|results).*Urgent care.*In-network community urgent care.*within (\d{1,}) miles of .*Austin, Texas/i,
       );
 
-      h.verifyElementExists('#other-tools');
       h.verifyElementShouldContainText('.facility-result h3', 'MinuteClinic');
       h.verifyElementDoesNotExist('.va-pagination');
     });

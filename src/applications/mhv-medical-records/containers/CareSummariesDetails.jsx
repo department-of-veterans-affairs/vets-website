@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import {
@@ -35,6 +35,7 @@ const CareSummariesDetails = () => {
   );
   const { summaryId } = useParams();
   const activeAlert = useAlerts(dispatch);
+  const fetchedIdRef = useRef(null);
 
   const { isAcceleratingCareNotes } = useAcceleratedData();
 
@@ -44,6 +45,7 @@ const CareSummariesDetails = () => {
     () => {
       return () => {
         dispatch(clearCareSummariesDetails());
+        fetchedIdRef.current = null;
       };
     },
     [dispatch],
@@ -51,17 +53,45 @@ const CareSummariesDetails = () => {
 
   useEffect(
     () => {
-      if (summaryId && !careSummary?.notFound) {
-        dispatch(
-          getCareSummaryAndNotesDetails(
-            summaryId,
-            careSummariesList,
-            isAcceleratingCareNotes,
-          ),
+      if (isAcceleratingCareNotes) {
+        // Accelerated path: redirect if the list is empty
+        if (!careSummariesList || careSummariesList.length === 0) {
+          history.push('/summaries-and-notes/');
+          return;
+        }
+        // Redirect if the note ID doesn't exist in the loaded list
+        const noteExistsInList = careSummariesList.some(
+          item => item.id === summaryId,
         );
-      }
-      if (careSummary?.notFound || !careSummariesList) {
-        history.push('/summaries-and-notes/');
+        if (summaryId && !noteExistsInList) {
+          history.push('/summaries-and-notes/');
+          return;
+        }
+        // Dispatch details only once per summaryId to prevent infinite re-fetch on error
+        if (summaryId && !careSummary && fetchedIdRef.current !== summaryId) {
+          fetchedIdRef.current = summaryId;
+          dispatch(
+            getCareSummaryAndNotesDetails(
+              summaryId,
+              careSummariesList,
+              isAcceleratingCareNotes,
+            ),
+          );
+        }
+      } else {
+        // Legacy path
+        if (summaryId && !careSummary?.notFound) {
+          dispatch(
+            getCareSummaryAndNotesDetails(
+              summaryId,
+              careSummariesList,
+              isAcceleratingCareNotes,
+            ),
+          );
+        }
+        if (careSummary?.notFound || !careSummariesList) {
+          history.push('/summaries-and-notes/');
+        }
       }
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
     },

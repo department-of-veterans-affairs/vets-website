@@ -13,13 +13,13 @@ import { transform } from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PreSubmitInfo from '../components/PreSubmitInfo';
+import PhoneAndEmailPage from '../components/PhoneAndEmailPage';
 
 // Pages
 import {
   applicantFullname,
   mailingAddress,
   phoneAndEmail,
-  // identificationInformation,
   employmentStatus,
   employmentDetails,
   employmentFocus,
@@ -29,15 +29,17 @@ import {
   trainingProviderDetails,
   trainingProviderStartDate,
   atLeast3Years,
+  directDeposit,
+  contactPreferences,
 } from '../pages';
 
 import { trainingProviderArrayOptions, focusOnH3 } from '../helpers';
 
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
-import createDirectDepositPage from '../pages/DirectDeposit';
 import prefillTransformer from './prefill-transformer';
 import applicantFullnameReviewPage from '../components/ApplicantFullnameReviewPage';
+import NeedHelp from '../components/NeedHelp';
 
 export const submitFormLogic = (form, formConfig) => {
   if (environment.isDev() || environment.isLocalhost()) {
@@ -115,18 +117,27 @@ const formConfig = {
         phoneAndEmail: {
           path: 'phone-and-email',
           title: 'Phone and email address',
+          CustomPage: PhoneAndEmailPage,
+          CustomPageReview: null,
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
+          updateFormData: phoneAndEmail.updateFormData,
+        },
+        contactPreferences: {
+          path: 'contact-preferences',
+          title: 'Contact preferences',
+          uiSchema: contactPreferences.uiSchema,
+          schema: contactPreferences.schema,
         },
         veteranStatus: {
           path: 'at-least-3-years',
-          title: 'Your Veteran status',
+          title: 'Your Veteran or service member status',
           uiSchema: atLeast3Years.uiSchema,
           schema: atLeast3Years.schema,
         },
         dateReleasedFromActiveDuty: {
           path: 'date-released-from-active-duty',
-          title: 'Date released from active duty',
+          title: 'Active duty status release date',
           uiSchema: dateReleasedFromActiveDuty.uiSchema,
           schema: dateReleasedFromActiveDuty.schema,
           depends: formData => formData?.dutyRequirement !== 'veteranStatus',
@@ -137,7 +148,12 @@ const formConfig = {
           uiSchema: activeDutyStatus.uiSchema,
           schema: activeDutyStatus.schema,
         },
-        directDeposit: createDirectDepositPage(),
+        directDeposit: {
+          path: 'direct-deposit',
+          title: 'Direct deposit',
+          uiSchema: directDeposit.uiSchema,
+          schema: directDeposit.schema,
+        },
       },
     },
     trainingProviderChapter: {
@@ -231,7 +247,7 @@ const formConfig = {
       },
     },
   },
-  // getHelp,
+  getHelp: NeedHelp,
   footerContent,
 };
 

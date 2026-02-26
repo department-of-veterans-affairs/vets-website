@@ -270,9 +270,6 @@ export const prescriptionsApi = createApi({
     getRefillablePrescriptions: builder.query({
       query: buildRefillablePrescriptionsQuery,
       providesTags: ['Prescription'],
-      // Refetch when tab regains focus to sync state across multiple tabs
-      refetchOnFocus: true,
-      refetchOnReconnect: true,
       transformResponse: transformRefillablePrescriptionsResponse,
     }),
     getPrescriptionDocumentation: builder.query({
@@ -305,21 +302,38 @@ export const prescriptionsApi = createApi({
       },
     }),
     refillPrescription: builder.mutation({
-      queryFn: async (id, { getState }) => {
+      queryFn: async (prescription, { getState }) => {
         const state = getState();
         const apiBasePath = getApiBasePath(state);
         const method = getRefillMethod(state);
+        const isOracleHealthPilot = selectCernerPilotFlag(state);
+
+        // Support both plain ID (legacy) and {id, stationNumber} object
+        const id =
+          typeof prescription === 'object' ? prescription.id : prescription;
+        const stationNumber =
+          typeof prescription === 'object'
+            ? prescription.stationNumber
+            : undefined;
+
+        // v2: POST /prescriptions/refill with order objects in body
+        // v1: PATCH /prescriptions/{id}/refill
+        const url = isOracleHealthPilot
+          ? `${apiBasePath}/prescriptions/refill`
+          : `${apiBasePath}/prescriptions/${id}/refill`;
+
+        const options = {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          ...(isOracleHealthPilot && {
+            body: JSON.stringify([{ id, stationNumber }]),
+          }),
+        };
 
         try {
-          const result = await apiRequest(
-            `${apiBasePath}/prescriptions/${id}/refill`,
-            {
-              method,
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          );
+          const result = await apiRequest(url, options);
           return { data: result };
         } catch ({ errors }) {
           return {
@@ -354,7 +368,7 @@ export const prescriptionsApi = createApi({
               data: {
                 ...result,
                 successfulIds: result.data.attributes.prescriptionList || [],
-                failedIds: result.data.attributes.failedPrescriptionList || [],
+                failedIds: result.data.attributes.failedPrescriptionIds || [],
               },
             };
           } catch ({ errors }) {
