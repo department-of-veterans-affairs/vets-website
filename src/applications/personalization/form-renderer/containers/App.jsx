@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import FormRenderer from 'platform/form-renderer/FormRenderer'; // eslint-disable-next-line require-jsdoc
 
 export default function App({ params }) {
   const { id } = params;
