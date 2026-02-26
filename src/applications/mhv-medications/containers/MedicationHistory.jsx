@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -26,8 +26,16 @@ const MedicationHistory = () => {
     setQueryParams,
   } = useFetchMedicationHistory();
 
-  const { pagination } = prescriptionsData || {};
-  const prescriptions = prescriptionsData?.prescriptions || [];
+  const { pagination, meta = {} } = prescriptionsData || {};
+  const filteredList = useMemo(() => prescriptionsData?.prescriptions || [], [
+    prescriptionsData?.prescriptions,
+  ]);
+  const { filterCount } = meta;
+
+  const noFilterMatches =
+    filteredList?.length === 0 &&
+    filterCount &&
+    Object.values(filterCount).some(value => value !== 0);
 
   const [loadingMessage, setLoadingMessage] = useState(
     'Loading medications...',
@@ -48,13 +56,13 @@ const MedicationHistory = () => {
 
   useFocusManagement({
     isLoading,
-    filteredList: prescriptions,
-    noFilterMatches: false,
+    filteredList,
+    noFilterMatches,
     showingFocusedAlert: false,
   });
 
   // Medications exist and should be displayed
-  const hasMedications = prescriptions?.length > 0;
+  const hasMedications = filteredList?.length > 0;
 
   const renderContent = () => {
     if (isLoading) {
@@ -83,7 +91,7 @@ const MedicationHistory = () => {
         {!isLoading && pagination && (
           <MedicationsList
             pagination={pagination}
-            rxList={prescriptions}
+            rxList={filteredList}
             selectedSortOption={selectedSortOption}
             updateLoadingStatus={setLoadingMessage}
           />
