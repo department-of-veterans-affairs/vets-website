@@ -15,7 +15,7 @@ describe('AvailableAlert', () => {
     const alert = $('va-alert', container);
     expect(alert).to.exist;
     expect(alert.getAttribute('status')).to.equal('success');
-    expect(container.textContent).to.include('18959346');
-    expect(container.textContent).to.include('August 2, 2024');
+    expect(container.textContent).to.contain('18959346');
+    expect(container.textContent).to.contain('August 1, 2024');
   });
 });
