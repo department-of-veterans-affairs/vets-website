@@ -1370,4 +1370,26 @@ describe('Thread Details container', () => {
     );
     expect(blockedTriageGroupAlert).not.to.exist;
   });
+
+  it('renders empty container when messages is undefined (API error state)', () => {
+    const state = {
+      sm: {
+        threadDetails: {
+          ...threadDetails,
+          messages: undefined,
+          drafts: [],
+        },
+      },
+    };
+    const screen = setup(state);
+    const container = screen.container.querySelector(
+      '.message-detail-container',
+    );
+
+    // When messages is undefined and isLoaded is true (testing prop),
+    // no content branch matches, so content() returns null
+    expect(container.querySelector('h1')).to.not.exist;
+    expect(container.querySelector('va-alert[status="error"]')).to.not.exist;
+    expect(container.querySelector('va-loading-indicator')).to.not.exist;
+  });
 });

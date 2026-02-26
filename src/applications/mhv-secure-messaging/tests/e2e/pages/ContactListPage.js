@@ -156,7 +156,7 @@ class ContactListPage {
     // isContactListChanged → isNavigationBlocked). Wait for the navigation
     // guard's data attribute to reflect that navigation is no longer blocked,
     // proving the full React state cascade has settled.
-    cy.get('[data-testid="navigation-guard"]').should(
+    cy.findByTestId('navigation-guard').should(
       'have.attr',
       'data-navigation-blocked',
       'false',
@@ -173,7 +173,7 @@ class ContactListPage {
       `include.text`,
       Alerts.CONTACT_LIST.SAVED,
     );
-    cy.get('.va-alert').should(`be.visible`);
+    cy.findByTestId('alert-text').should(`be.visible`);
   };
 
   clickBackToInbox = () => {

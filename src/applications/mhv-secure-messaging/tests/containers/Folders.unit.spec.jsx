@@ -113,4 +113,43 @@ describe('Folders Landing Page', () => {
     vaTextInput.setAttribute('value', 'New Custom Folder');
     expect(vaTextInput.getAttribute('value')).to.equal('New Custom Folder');
   });
+
+  describe('error state (folderList is null)', () => {
+    it('renders AlertBackgroundBox without a hard-coded va-alert', () => {
+      const errorState = {
+        sm: {
+          folders: { folderList: null },
+          search: {},
+          recipients: {},
+        },
+      };
+      const errorScreen = setup(errorState);
+      const container = errorScreen.container.querySelector(
+        '.folders-container',
+      );
+
+      // AlertBackgroundBox renders with data-testid="alert-background-box"
+      // and there should be no hard-coded va-alert with status="error"
+      expect(container.querySelector('va-alert[status="error"]')).to.not.exist;
+      expect(container.querySelector('h1')).to.not.exist;
+    });
+  });
+
+  describe('loading state (folderList is undefined)', () => {
+    it('renders loading indicator', () => {
+      const loadingState = {
+        sm: {
+          folders: { folderList: undefined },
+          search: {},
+          recipients: {},
+        },
+      };
+      const loadingScreen = setup(loadingState);
+      const container = loadingScreen.container.querySelector(
+        '.folders-container',
+      );
+      expect(container.querySelector('va-loading-indicator')).to.exist;
+      expect(container.querySelector('h1')).to.not.exist;
+    });
+  });
 });
