@@ -32,7 +32,10 @@ export default function CardSection({
         {heading}
       </Heading>
       {textContent && (
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+        <p
+          className="vads-u-margin-top--0 vads-u-margin-bottom--0"
+          data-dd-privacy="mask"
+        >
           {textContent}
         </p>
       )}

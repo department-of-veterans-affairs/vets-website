@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 import { CernerAlertContent } from '~/platform/mhv/components/CernerFacilityAlert/constants';
-import { getPrescriptionDetailUrl } from '../util/helpers';
-import { selectMhvMedicationsOracleHealthCutoverFlag } from '../util/selectors';
+import { getPrescriptionDetailUrl } from '../../util/helpers';
+import { selectMhvMedicationsOracleHealthCutoverFlag } from '../../util/selectors';
 
 /**
  * Component to render alerts for prescriptions blocked during Oracle Health transition
@@ -62,6 +62,7 @@ export const OracleHealthT3Alert = ({
       status="error"
       background-only
       data-testid={testId}
+      data-dd-action-name="oracle-health-t3-alert-displayed"
     >
       <h2 className="vads-u-font-size--md" slot="headline">
         {config.errorHeadline}
@@ -116,9 +117,49 @@ OracleHealthT3Alert.propTypes = {
         p4: PropTypes.string,
         p5: PropTypes.string,
         p6: PropTypes.string,
+        p7: PropTypes.string,
       }),
     }),
   ).isRequired,
   className: PropTypes.string,
   hasRefillable: PropTypes.bool,
 };
+
+/**
+ * Component for in-card Oracle Health transition alert.
+ * Rendered by MedicationsListCard when a prescription's refill is blocked.
+ */
+export const OracleHealthInCardAlert = () => (
+  <va-alert
+    class="vads-u-margin-top--2"
+    status="error"
+    background-only
+    data-testid="oracle-health-in-card-alert"
+    data-dd-action-name="oracle-health-in-card-alert-displayed"
+  >
+    <p className="vads-u-margin-y--0">
+      You can’t refill this medication online right now. If you need more
+      medication, call your VA pharmacy’s automated refill line.
+    </p>
+  </va-alert>
+);
+
+/**
+ * Component for in-card Oracle Health transition renewal alert.
+ * Rendered by MedicationsListCard when a prescription's renewal is blocked
+ * during phases p3-p5 (T-6 through T+2).
+ */
+export const OracleHealthRenewalInCardAlert = () => (
+  <va-alert
+    class="vads-u-margin-top--2"
+    status="error"
+    background-only
+    data-testid="oracle-health-renewal-in-card-alert"
+    data-dd-action-name="oracle-health-renewal-in-card-alert-displayed"
+  >
+    <p className="vads-u-margin-y--0">
+      You don’t have any refills left. If you need more medication, call your
+      provider to request a renewal.
+    </p>
+  </va-alert>
+);

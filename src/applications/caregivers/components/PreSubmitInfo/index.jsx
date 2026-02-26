@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { normalizeFullName } from '../../utils/helpers';
 import { DEFAULT_SIGNATURE_STATE } from '../../utils/constants';
 import { useSignaturesSync } from '../../hooks/useSignatureSync';
 import SubmitLoadingIndicator from './SubmitLoadingIndicator';
@@ -65,8 +64,13 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
           !hasSubmittedForm &&
           ((dirty && hasInvalidInputValue) || (!dirty && showError));
 
+        const nameToValidate = [fullName.first, fullName.middle, fullName.last]
+          .map(part => part?.trim())
+          .filter(Boolean)
+          .join(' ');
+
         const itemProps = {
-          fullName: normalizeFullName(fullName, true),
+          fullName: nameToValidate,
           hasCheckboxError,
           hasInputError,
           isRep,

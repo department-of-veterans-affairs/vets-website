@@ -40,7 +40,7 @@ const compensationClaimTypeCode = '110LCMP7IDES'; // 5103 Notice
 
 describe('<ClaimsListItem>', () => {
   context(
-    'cstClaimPhases feature flag enabled and compenstaiton claim type code',
+    'cstClaimPhases feature flag enabled and compensation claim type code',
     () => {
       it('should not show any flags and render proper fields', () => {
         const claim = {
@@ -189,31 +189,7 @@ describe('<ClaimsListItem>', () => {
         );
         getByText('Step 7 of 8: Final review');
       });
-      it('should show development letter flag', () => {
-        const claim = {
-          id: 1,
-          attributes: {
-            claimPhaseDates: {
-              phaseChangeDate: '2024-06-08',
-              phaseType: 'GATHERING_OF_EVIDENCE',
-            },
-            claimTypeCode: compensationClaimTypeCode,
-            decisionLetterSent: false,
-            developmentLetterSent: true,
-            documentsNeeded: false,
-            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
-          },
-        };
-
-        const { getByText } = renderWithRouter(
-          <Provider store={getStore()}>
-            <ClaimsListItem claim={claim} />
-          </Provider>,
-        );
-        getByText('We sent you a development letter');
-        getByText('Step 3 of 8: Evidence gathering');
-      });
-      it('should show decision letter flag decisionLetterSent is true, but not render the other flags', () => {
+      it('should show decision letter and suppress items needed alert when decisionLetterSent is true', () => {
         const claim = {
           id: 1,
           attributes: {
@@ -223,7 +199,6 @@ describe('<ClaimsListItem>', () => {
             },
             claimTypeCode: compensationClaimTypeCode,
             decisionLetterSent: true,
-            developmentLetterSent: true,
             documentsNeeded: true,
             status: 'INITIAL_REVIEW',
           },
@@ -234,7 +209,6 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
-        expect(queryByText('We sent you a development letter')).to.be.null;
         expect(queryByText('We requested more information from you:')).to.be
           .null;
         expect(getByText('You have a decision letter ready')).to.exist;
@@ -471,31 +445,7 @@ describe('<ClaimsListItem>', () => {
         );
         getByText('Step 4 of 5: Preparation for notification');
       });
-      it('should show development letter flag', () => {
-        const claim = {
-          id: 1,
-          attributes: {
-            claimPhaseDates: {
-              phaseChangeDate: '2024-06-08',
-              phaseType: 'GATHERING_OF_EVIDENCE',
-            },
-            claimTypeCode: dependencyClaimTypeCode,
-            decisionLetterSent: false,
-            developmentLetterSent: true,
-            documentsNeeded: false,
-            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
-          },
-        };
-
-        const { getByText } = renderWithRouter(
-          <Provider store={getStore()}>
-            <ClaimsListItem claim={claim} />
-          </Provider>,
-        );
-        getByText('We sent you a development letter');
-        getByText('Step 3 of 5: Evidence gathering, review, and decision');
-      });
-      it('should show decision letter flag decisionLetterSent is true, but not render the other flags', () => {
+      it('should show decision letter and suppress items needed alert when decisionLetterSent is true', () => {
         const claim = {
           id: 1,
           attributes: {
@@ -505,7 +455,6 @@ describe('<ClaimsListItem>', () => {
             },
             claimTypeCode: dependencyClaimTypeCode,
             decisionLetterSent: true,
-            developmentLetterSent: true,
             documentsNeeded: true,
             status: 'INITIAL_REVIEW',
           },
@@ -516,7 +465,6 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
-        expect(queryByText('We sent you a development letter')).to.be.null;
         expect(queryByText('We requested more information from you:')).to.be
           .null;
         expect(getByText('You have a decision letter ready')).to.exist;
@@ -753,31 +701,7 @@ describe('<ClaimsListItem>', () => {
         );
         getByText('Step 4 of 5: Preparation for notification');
       });
-      it('should show development letter flag', () => {
-        const claim = {
-          id: 1,
-          attributes: {
-            claimPhaseDates: {
-              phaseChangeDate: '2024-06-08',
-              phaseType: 'GATHERING_OF_EVIDENCE',
-            },
-            claimTypeCode: compensationClaimTypeCode,
-            decisionLetterSent: false,
-            developmentLetterSent: true,
-            documentsNeeded: false,
-            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
-          },
-        };
-
-        const { getByText } = renderWithRouter(
-          <Provider store={getStore(false)}>
-            <ClaimsListItem claim={claim} />
-          </Provider>,
-        );
-        getByText('We sent you a development letter');
-        getByText('Step 3 of 5: Evidence gathering, review, and decision');
-      });
-      it('should show decision letter flag decisionLetterSent is true, but not render the other flags', () => {
+      it('should show decision letter and suppress items needed alert when decisionLetterSent is true', () => {
         const claim = {
           id: 1,
           attributes: {
@@ -787,7 +711,6 @@ describe('<ClaimsListItem>', () => {
             },
             claimTypeCode: compensationClaimTypeCode,
             decisionLetterSent: true,
-            developmentLetterSent: true,
             documentsNeeded: true,
             status: 'INITIAL_REVIEW',
           },
@@ -798,7 +721,6 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
-        expect(queryByText('We sent you a development letter')).to.be.null;
         expect(queryByText('We requested more information from you:')).to.be
           .null;
         expect(getByText('You have a decision letter ready')).to.exist;

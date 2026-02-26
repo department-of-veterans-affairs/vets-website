@@ -52,7 +52,7 @@ import {
   selectCernerPilotFlag,
   selectMhvMedicationsOracleHealthCutoverFlag,
 } from '../util/selectors';
-import { OracleHealthT3Alert } from '../components/OracleHealthTransitionAlerts';
+import { OracleHealthT3Alert } from '../components/shared/OracleHealthTransitionAlerts';
 import { filterPrescriptionsByTransition } from '../util/oracleHealthTransition';
 
 import { selectSortOption } from '../selectors/selectPreferences';
@@ -510,15 +510,18 @@ const RefillPrescriptions = () => {
                     migratingFacilities={migratingFacilities}
                   />
                 ) : (
-                  <CernerFacilityAlert
-                    healthTool="MEDICATIONS"
-                    className="vads-u-margin-top--2"
-                  />
+                  <>
+                    <CernerFacilityAlert
+                      healthTool="MEDICATIONS"
+                      className="vads-u-margin-top--2"
+                    />
+                    <p data-testid="no-refills-message">
+                      You don’t have any VA prescriptions with refills
+                      available. If you need a prescription, contact your care
+                      team.
+                    </p>
+                  </>
                 )}
-                <p data-testid="no-refills-message">
-                  You don’t have any VA prescriptions with refills available. If
-                  you need a prescription, contact your care team.
-                </p>
               </>
             )}
             <p className="vads-u-margin-top--3" data-testid="note-refill-page">
