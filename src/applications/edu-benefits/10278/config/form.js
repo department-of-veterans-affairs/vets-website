@@ -117,7 +117,6 @@ const formConfig = {
             title: 'Confirm the contact information we have on file for you',
             description: null,
           },
-          contactInfoRequiredKeys: ['mailingAddress'],
         }),
       },
     },
