@@ -1,8 +1,11 @@
 import {
+  textareaSchema,
+  textareaUI,
   yesNoUI,
   yesNoSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { viewFieldNames } from '../definitions/constants';
 
 /** @type {PageSchema} */
 export default {
@@ -15,6 +18,20 @@ export default {
       errorMessages: {
         required:
           'Select a response to tell us if your disability is the reason you left your last job',
+      },
+    }),
+    disabilityLeavingExplanation: textareaUI({
+      title: 'Please explain how your disability led you to leave your job.',
+      expandUnder: 'leftDueToDisability',
+      expandUnderCondition: true,
+      required: formData =>
+        formData.leftDueToDisability === true &&
+        formData[viewFieldNames.isLeavingLastPositionExplanationEnabled],
+      hideIf: formData =>
+        !formData?.[viewFieldNames.isLeavingLastPositionExplanationEnabled],
+      errorMessages: {
+        required:
+          'Enter an explanation of how your disability affected your job',
       },
     }),
     receivesDisabilityRetirement: yesNoUI({
@@ -38,6 +55,7 @@ export default {
     type: 'object',
     properties: {
       leftDueToDisability: yesNoSchema,
+      disabilityLeavingExplanation: textareaSchema,
       receivesDisabilityRetirement: yesNoSchema,
       receivesWorkersCompensation: yesNoSchema,
     },
