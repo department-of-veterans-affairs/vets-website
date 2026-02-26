@@ -405,7 +405,10 @@
     "string.prototype.trimleft": "npm:@nolyfill/string.prototype.trimleft@^1.0.44",
     "string.prototype.trimright": "npm:@nolyfill/string.prototype.trimright@^1.0.44",
     "string.prototype.trimstart": "npm:@nolyfill/string.prototype.trimstart@^1.0.44",
-    "es-iterator-helpers": "npm:@nolyfill/es-iterator-helpers@^1.0.21"
+    "es-iterator-helpers": "npm:@nolyfill/es-iterator-helpers@^1.0.21",
+    "eslint-plugin-react": "7.25.1",
+    "eslint-plugin-jsx-a11y": "6.8.0",
+    "eslint-plugin-react-hooks": "4.2.0"
   },
   "workspaces": {
     "packages": [
