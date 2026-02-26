@@ -1,23 +1,40 @@
 import React from 'react';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
 import sinon from 'sinon';
 
 import TopicSelection from './TopicSelection';
-import topics from '../services/mocks/utils/topic';
-import * as apiHooks from '../redux/api/vassApi';
+import { createDefaultTopics } from '../services/mocks/utils/topic';
+import { createTopicsResponse } from '../services/mocks/utils/responses';
 import { getDefaultRenderOptions } from '../utils/test-utils';
+import * as authUtils from '../utils/auth';
 
 describe('VASS Component: TopicSelection', () => {
-  const sandbox = sinon.createSandbox();
-  afterEach(() => {
-    sandbox.restore();
+  let getVassTokenStub;
+  beforeEach(() => {
+    mockFetch();
+    getVassTokenStub = sinon
+      .stub(authUtils, 'getVassToken')
+      .returns('mock-token');
   });
 
-  it('should render all content', () => {
-    sandbox
-      .stub(apiHooks, 'useGetTopicsQuery')
-      .returns({ data: { topics }, isLoading: false });
+  afterEach(() => {
+    resetFetch();
+    getVassTokenStub.restore();
+  });
+
+  it('should render all content', async () => {
+    const topics = createDefaultTopics();
+    setFetchJSONResponse(
+      global.fetch.onCall(0),
+      createTopicsResponse({ topics }),
+    );
 
     const { getByTestId } = renderWithStoreAndRouterV6(
       <TopicSelection />,
@@ -28,6 +45,10 @@ describe('VASS Component: TopicSelection', () => {
         dob: '1935-04-07',
       }),
     );
+
+    await waitFor(() => {
+      expect(getByTestId('topic-checkbox-group')).to.exist;
+    });
 
     expect(getByTestId('header')).to.exist;
     expect(getByTestId('back-link')).to.exist;

@@ -30,7 +30,7 @@ export default function transform(formConfig, form) {
 
   // Make sure testCost is sent as a number
   if (data.testCost) {
-    data.testCost = parseInt(data.testCost, 10);
+    data.testCost = parseFloat(data.testCost);
   }
 
   // Organization address is assumed to be within the US

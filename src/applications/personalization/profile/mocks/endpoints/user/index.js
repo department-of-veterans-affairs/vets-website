@@ -462,7 +462,7 @@ const baseUserResponses = {
       errors: null,
     },
   },
-  mvhUser: {
+  mhvUser: {
     data: {
       id: '',
       type: 'users_scaffolds',

@@ -42,15 +42,12 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
-  // TODO: Once vetted, drop the feature toggle _and_ drop this obsolete
-  // conditionality.
-  showNewlyBDDPages,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
   isCompletingModern4142,
   onFormLoaded,
-  hasEvidenceChoice,
+  normalizeReturnUrlForResume,
 } from '../utils';
 
 import { gatePages } from '../utils/gatePages';
@@ -150,6 +147,8 @@ import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
 import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/ConfirmationAncillaryFormsWizard';
 import { EvidenceRequestPage } from '../components/EvidenceRequestPage';
+import { MedicalRecordsPage } from '../components/MedicalRecordsPage';
+import { AdditionalEvidenceIntroPage } from '../components/AdditionalEvidenceIntroPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -177,8 +176,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_21_526EZ,
   wizardStorageKey: WIZARD_STATUS,
   customText: {
-    appAction: 'filing',
-    appContinuing: 'for disability compensation',
+    appAction: 'filing for disability compensation',
   },
   saveInProgress: {
     messages: {
@@ -211,6 +209,7 @@ const formConfig = {
   reviewErrors,
   customValidationErrors: getCustomValidationErrors,
   onFormLoaded,
+  normalizeReturnUrl: normalizeReturnUrlForResume,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
@@ -240,7 +239,6 @@ const formConfig = {
         homelessOrAtRisk: {
           title: 'Housing situation',
           path: 'housing-situation',
-          depends: formData => showNewlyBDDPages(formData),
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
           onContinue: captureEvents.homelessOrAtRisk,
@@ -248,7 +246,6 @@ const formConfig = {
         terminallyIll: {
           title: 'Terminally ill',
           path: 'terminally-ill',
-          depends: formData => showNewlyBDDPages(formData),
           uiSchema: terminallyIll.uiSchema,
           schema: terminallyIll.schema,
         },
@@ -303,24 +300,21 @@ const formConfig = {
         separationPay: {
           title: SEPARATION_PAY_SECTION_TITLE,
           path: 'separation-pay',
-          depends: formData =>
-            !hasRatedDisabilities(formData) && showNewlyBDDPages(formData),
+          depends: formData => !hasRatedDisabilities(formData),
           uiSchema: separationPay.uiSchema,
           schema: separationPay.schema,
         },
         retirementPay: {
           title: 'Retirement pay',
           path: 'retirement-pay',
-          depends: formData =>
-            !hasRatedDisabilities(formData) && showNewlyBDDPages(formData),
+          depends: formData => !hasRatedDisabilities(formData),
           uiSchema: retirementPay.uiSchema,
           schema: retirementPay.schema,
         },
         trainingPay: {
           title: 'Training pay',
           path: 'training-pay',
-          depends: formData =>
-            !hasRatedDisabilities(formData) && showNewlyBDDPages(formData),
+          depends: formData => !hasRatedDisabilities(formData),
           uiSchema: trainingPay.uiSchema,
           schema: trainingPay.schema,
         },
@@ -642,6 +636,8 @@ const formConfig = {
             isEvidenceEnhancement(formData) &&
             hasMedicalRecords(formData),
           updateFormData: medicalRecords.updateFormData,
+          CustomPage: MedicalRecordsPage,
+          CustomPageReview: null,
           uiSchema: medicalRecords.uiSchema,
           schema: medicalRecords.schema,
         },
@@ -682,7 +678,9 @@ const formConfig = {
         privateMedicalRecordsAttachments: {
           title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-upload',
+          // TODO: Remove page once enhanced page is approved to be merged prod flow
           depends: formData =>
+            !formData.disability526SupportingEvidenceEnhancement &&
             hasPrivateEvidence(formData) &&
             !isNotUploadingPrivateMedical(formData),
           uiSchema: privateMedicalRecordsAttachments.uiSchema,
@@ -725,6 +723,8 @@ const formConfig = {
             formData.disability526SupportingEvidenceEnhancement,
           // TODO: update this path to `'supporting-evidence/additional-evidence', once we can get rid of `additionalDocuments` page
           path: 'supporting-evidence/additional-evidence-intro',
+          CustomPage: AdditionalEvidenceIntroPage,
+          CustomPageReview: null,
           uiSchema: evidenceChoiceIntro.uiSchema,
           schema: evidenceChoiceIntro.schema,
         },
@@ -732,7 +732,7 @@ const formConfig = {
           title: 'Upload supporting documents and additional forms',
           path: 'supporting-evidence/additional-evidence-enhancement',
           depends: formData =>
-            hasEvidenceChoice(formData) &&
+            hasOtherEvidence(formData) &&
             formData.disability526SupportingEvidenceEnhancement,
           uiSchema: evidenceChoiceAdditionalDocuments.uiSchema,
           schema: evidenceChoiceAdditionalDocuments.schema,
@@ -780,9 +780,7 @@ const formConfig = {
           title: 'Retirement pay waiver',
           path: 'retirement-pay-waiver',
           depends: formData =>
-            hasMilitaryRetiredPay(formData) &&
-            !hasRatedDisabilities(formData) &&
-            showNewlyBDDPages(formData),
+            hasMilitaryRetiredPay(formData) && !hasRatedDisabilities(formData),
           uiSchema: retirementPayWaiver.uiSchema,
           schema: retirementPayWaiver.schema,
         },
@@ -790,9 +788,7 @@ const formConfig = {
           title: 'Training pay waiver',
           path: 'training-pay-waiver',
           depends: formData =>
-            formData.hasTrainingPay &&
-            !hasRatedDisabilities(formData) &&
-            showNewlyBDDPages(formData),
+            formData.hasTrainingPay && !hasRatedDisabilities(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },

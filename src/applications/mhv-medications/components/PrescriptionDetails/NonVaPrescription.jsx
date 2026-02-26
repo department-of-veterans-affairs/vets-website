@@ -24,7 +24,7 @@ const NonVaPrescription = prescription => {
           <ExtraDetails
             {...prescription}
             page={pageType.DETAILS}
-            showRenewalLink
+            renewalLinkShownAbove
           />
         )}
         <section>

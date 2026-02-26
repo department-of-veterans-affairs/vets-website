@@ -35,7 +35,7 @@ describe('ConfirmationPage', () => {
     cleanup();
   });
 
-  it('shows success alert, heading, and confirmation number', () => {
+  it('shows success alert, heading, mailing address, and confirmation number', () => {
     const { container, cleanupAnchor } = initConfirmationPage();
     const alert = container.querySelector('va-alert');
     expect(alert).to.exist;
@@ -46,6 +46,15 @@ describe('ConfirmationPage', () => {
     expect(alert.textContent).to.include(
       'Your confirmation number is 1234567890.',
     );
+    const mailingAddress = container.querySelector('.va-address-block');
+    expect(mailingAddress).to.exist;
+    expect(mailingAddress.textContent).to.include(
+      'Department of Veterans Affairs',
+    );
+    expect(mailingAddress.textContent).to.include('Pension Intake Center');
+    expect(mailingAddress.textContent).to.include('PO Box 5365');
+    expect(mailingAddress.textContent).to.include('Janesville, WI 53547-5365');
+    expect(mailingAddress.textContent).to.include('United States of America');
     cleanupAnchor();
   });
 });

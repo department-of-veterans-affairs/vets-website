@@ -25,6 +25,7 @@ const DateTime = ({ dateTime }) => {
   return (
     <p
       className="vads-u-margin-top--0p5 vads-u-margin-bottom--1"
+      data-dd-privacy="mask"
       data-testid="date-time-description"
     >
       {formattedDate}

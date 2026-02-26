@@ -37,7 +37,6 @@ describe('VistaOnlyContent', () => {
     selfEnteredAccordionRef: { current: null },
     runningUnitTest: true,
     vistaFacilityNames: [],
-    ohFacilityNames: [],
   };
 
   const renderComponent = (contextOverrides = {}, state = {}) => {

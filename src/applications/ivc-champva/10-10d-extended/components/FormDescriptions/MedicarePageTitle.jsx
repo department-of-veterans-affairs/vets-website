@@ -6,7 +6,7 @@ import {
   generateParticipantName,
   getAgeInYears,
   getEligibleApplicantsWithoutMedicare,
-} from '../../helpers';
+} from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
 const EDIT_TEXT = content['button--edit'];

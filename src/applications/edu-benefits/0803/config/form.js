@@ -146,6 +146,9 @@ const formConfig = {
           title: 'Organization information',
           uiSchema: OrganizationInfo.uiSchema,
           schema: OrganizationInfo.schema,
+          initialData: {
+            organizationAddress: { country: 'USA' },
+          },
         },
         testCost: {
           path: 'test-cost',

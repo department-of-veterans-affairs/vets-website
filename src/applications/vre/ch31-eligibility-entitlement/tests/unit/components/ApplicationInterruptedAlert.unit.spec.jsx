@@ -36,7 +36,7 @@ describe('ApplicationInterruptedAlert', () => {
     const headline = container.querySelector('va-alert h3[slot="headline"]');
     expect(headline).to.exist;
     expect(headline.textContent).to.match(
-      /sorry, your vr&e chapter 31 benefits have been interrupted/i,
+      /your vr&e chapter 31 benefits have been interrupted/i,
     );
   });
 
@@ -63,18 +63,6 @@ describe('ApplicationInterruptedAlert', () => {
 
     expect(getByText(reason)).to.exist;
     expect(queryByText(/no reason provided\./i)).to.be.null;
-  });
-
-  it('renders "View my letter" link inside the alert', () => {
-    const { container } = renderWithStore(<ApplicationInterruptedAlert />, {
-      ch31PdfLetterDownload: { loading: false, error: null },
-    });
-
-    const link = container.querySelector('va-link-action');
-    expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal('#');
-    expect(link.getAttribute('type')).to.equal('primary');
-    expect(link.getAttribute('text')).to.equal('View my letter');
   });
 
   it('applies layout classes on outer container', () => {

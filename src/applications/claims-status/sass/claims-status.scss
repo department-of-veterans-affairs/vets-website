@@ -28,6 +28,17 @@
   margin: 1rem 0;
 }
 
+.claims-filter-container {
+  min-height: 53px;
+
+  // Desktop: left-align the segmented button
+  // Mobile: allow full-width (default block display)
+  @media (min-width: $tablet) {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+
 .claim-list {
   margin-bottom: 2em;
 }
