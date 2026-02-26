@@ -26,15 +26,12 @@ describe('22-10278 keyboard only specs', () => {
     cy.realPress('Enter');
 
     // Personal Information Page (authenticated - prefilled from profile)
-    // CustomPage renders Continue as <button type="button">, not type="submit",
-    // so tabToContinueForm won't find it — target by class instead.
     cy.url().should('include', 'personal-information');
     cy.injectAxeThenAxeCheck();
     cy.tabToElement('.usa-button-primary');
     cy.realPress('Space');
 
-    // Contact Information Page (from profileContactInfoPages)
-    // Same CustomPage pattern — Continue is <button type="button">.
+    // Contact Information Page
     cy.url().should('include', 'contact-information');
     cy.injectAxeThenAxeCheck();
     cy.tabToElement('.usa-button-primary');
@@ -75,8 +72,6 @@ describe('22-10278 keyboard only specs', () => {
     cy.selectVaSelect('root_thirdPartyPersonAddress_address_country', 'USA');
     cy.tabToElement('[name="root_thirdPartyPersonAddress_address_street"]');
     cy.typeInFocused('1234 Test Ave');
-    // street → street2 → street3 → city (addressUI includes street2 & street3
-    // by default; omit:['isMilitary'] does not remove them)
     cy.repeatKey('Tab', 3);
     cy.typeInFocused('Anaheim');
     cy.repeatKey('Tab', 1);

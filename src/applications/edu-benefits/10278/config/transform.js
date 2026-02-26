@@ -5,8 +5,8 @@ export default function transform(formConfig, form) {
   const personalInformationTransform = formData => {
     const clonedData = cloneDeep(formData);
 
-    // profileContactInfoPages always saves contact data under the 'veteran'
-    // wrapper key regardless of login state
+    // profileContactInfoPages saves contact data under the 'veteran'
+
     const { homePhone, mobilePhone, email, mailingAddress } =
       clonedData.veteran || {};
 
@@ -32,7 +32,6 @@ export default function transform(formConfig, form) {
 
     delete clonedData.veteran;
 
-    // ssn is provided via prefill at the top level; merge into claimantPersonalInformation
     clonedData.claimantPersonalInformation = {
       ...clonedData.claimantPersonalInformation,
       ssn: clonedData.ssn,
