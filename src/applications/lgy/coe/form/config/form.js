@@ -44,6 +44,7 @@ import {
 import certificateUse from '../pages/certificateUse';
 import hadPriorLoans from '../pages/hadPriorLoans';
 import currentOwnership from '../pages/currentOwnership';
+import { propertiesHomeLoansPages } from '../pages/propertiesHomeLoansPages';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -272,6 +273,7 @@ const formConfig = {
           uiSchema: currentOwnership.uiSchema,
           schema: currentOwnership.schema,
         },
+        ...propertiesHomeLoansPages,
       },
     },
     documentsChapter: {
