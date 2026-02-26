@@ -9,6 +9,7 @@ const getData = ({
   loggedIn = true,
   featureToggles = {},
   timestamp = new Date('09/07/2024'),
+  submissionResponse = {},
 } = {}) => ({
   mockStore: {
     getState: () => ({
@@ -30,6 +31,7 @@ const getData = ({
           attributes: {
             guid: '123fake-submission-id-567',
           },
+          response: submissionResponse,
         },
         data: {
           veteranInformation: {
@@ -99,10 +101,14 @@ describe('Dependents Form (686c-674) confirmation page', () => {
     expect(window.document.body.innerHTML.length).greaterThan(1);
   });
 
-  it('should render Save a copy of your form section if feature flag is enabled', async () => {
+  it('should render Save a copy of your form section if feature flag is enabled and submissionId exists', async () => {
+    const submissionId = 'a1ba50e4-e689-4852-bec7-2a66519f0ed3';
     const { mockStore } = getData({
       featureToggles: {
         [`dependents_enable_form_viewer_mfe`]: true,
+      },
+      submissionResponse: {
+        submissionId,
       },
     });
     const { container } = render(
@@ -114,8 +120,9 @@ describe('Dependents Form (686c-674) confirmation page', () => {
     expect(container.textContent).to.include(
       'You can open, download, or print a copy of your submitted form now.',
     );
-    expect($('va-link-action[class="form-renderer"]', container)).to.exist;
-
+    expect($('va-link[class="form-renderer"]', container)).to.exist;
+    expect($(`va-link[href="/my-va/submissions/${submissionId}"]`, container))
+      .to.exist;
     expect(container.textContent).not.to.include('Your submission information');
     expect(container.textContent).not.to.include('Your name');
     expect(container.textContent).not.to.include('Date submitted');
@@ -137,7 +144,29 @@ describe('Dependents Form (686c-674) confirmation page', () => {
       'You can open, download, or print a copy of your submitted form now.',
     );
     expect($('va-link-action[class="form-renderer"]', container)).not.to.exist;
+    expect($(`va-link[href="/my-va/submissions/"]`, container)).not.to.exist;
+    expect(container.textContent).to.include('Your submission information');
+    expect(container.textContent).to.include('Your name');
+    expect(container.textContent).to.include('Date submitted');
+  });
 
+  it('should NOT render Save a copy of your form section if feature flag is enabled but submissionId is null', async () => {
+    const { mockStore } = getData({
+      featureToggles: {
+        [`dependents_enable_form_viewer_mfe`]: true,
+      },
+    });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+    expect(container.textContent).not.to.include('Save a copy of your form');
+    expect(container.textContent).not.to.include(
+      'You can open, download, or print a copy of your submitted form now.',
+    );
+    expect($('va-link-action[class="form-renderer"]', container)).not.to.exist;
+    expect($(`va-link[href="/my-va/submissions/"]`, container)).not.to.exist;
     expect(container.textContent).to.include('Your submission information');
     expect(container.textContent).to.include('Your name');
     expect(container.textContent).to.include('Date submitted');
