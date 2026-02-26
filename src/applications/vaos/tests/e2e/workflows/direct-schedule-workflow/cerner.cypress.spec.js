@@ -44,7 +44,6 @@ describe('VAOS direct schedule flow - Cerner', () => {
           response: [new MockFacilityResponse()],
         });
         mockFeatureToggles({
-          vaOnlineSchedulingImmediateCareAlert: false,
           vaOnlineSchedulingRemoveFacilityConfigCheck: false,
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
@@ -94,7 +93,6 @@ describe('VAOS direct schedule flow - Cerner', () => {
           }),
         });
         mockFeatureToggles({
-          vaOnlineSchedulingImmediateCareAlert: false,
           vaOnlineSchedulingRemoveFacilityConfigCheck: false,
         });
         mockEligibilityCCApi({ cceType, isEligible: false });

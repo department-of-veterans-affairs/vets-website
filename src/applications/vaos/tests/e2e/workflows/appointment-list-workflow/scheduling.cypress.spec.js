@@ -13,9 +13,7 @@ describe('VAOS schedule flow', () => {
   beforeEach(() => {
     vaosSetup();
     mockAppointmentsGetApi({ response: [] });
-    mockFeatureToggles({
-      vaOnlineSchedulingImmediateCareAlert: true,
-    });
+    mockFeatureToggles();
     mockVamcEhrApi();
   });
 

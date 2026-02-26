@@ -350,7 +350,6 @@
   "vaOnlineSchedulingAddSubstanceUseDisorder": "va_online_scheduling_add_substance_use_disorder",
   "vaOnlineSchedulingListViewClinicInfo": "va_online_scheduling_list_view_clinic_info",
   "vaOnlineSchedulingAddOhAvs": "va_online_scheduling_add_OH_avs",
-  "vaOnlineSchedulingImmediateCareAlert": "va_online_scheduling_immediate_care_alert",
   "vaOnlineSchedulingRemoveFacilityConfigCheck": "va_online_scheduling_remove_facility_config_check",
   "vaOnlineSchedulingUseBrowserTimezone": "va_online_scheduling_use_browser_timezone",
   "vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative": "va_online_scheduling_add_primary_care_mental_health_initiative",

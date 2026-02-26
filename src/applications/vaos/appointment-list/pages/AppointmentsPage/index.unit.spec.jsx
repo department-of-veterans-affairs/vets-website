@@ -127,17 +127,15 @@ describe('VAOS Page: AppointmentsPage', () => {
       },
     });
 
-    expect(screen.getByText(/Start scheduling an appointment/)).to.be.ok;
+    expect(screen.getByText(/Schedule a new appointment/)).to.be.ok;
     userEvent.click(
       await screen.findByRole('link', {
-        name: /Start scheduling an appointment/i,
+        name: /Schedule a new appointment/i,
       }),
     );
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/schedule/type-of-care',
-      ),
+      expect(screen.history.push.lastCall.args[0]).to.equal('/schedule'),
     );
   });
 
@@ -172,9 +170,8 @@ describe('VAOS Page: AppointmentsPage', () => {
     ).not.to.exist;
 
     // and scheduling link should be displayed
-    expect(
-      screen.getByRole('link', { name: 'Start scheduling an appointment' }),
-    ).to.be.ok;
+    expect(screen.getByRole('link', { name: 'Schedule a new appointment' })).to
+      .be.ok;
 
     // and appointment list navigation should be displayed
     expect(screen.getByRole('navigation', { name: 'Appointment list' })).to.be
