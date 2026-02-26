@@ -666,10 +666,10 @@ export function validateAutosuggestOption(errors, formData) {
  */
 function rectifyData(data) {
   return {
-    isValid: data.isValid ?? data.IsValid,
-    error: data.error ?? data.Error,
-    touched: data.touched ?? data.Touched,
-    required: data.required ?? data.Required,
+    isValid: data.IsValid !== undefined ? data.IsValid : data.isValid,
+    error: data.Error !== undefined ? data.Error : data.error,
+    touched: data.Touched !== undefined ? data.Touched : data.touched,
+    required: data.Required !== undefined ? data.Required : data.required,
     contact: data.contact,
   };
 }
