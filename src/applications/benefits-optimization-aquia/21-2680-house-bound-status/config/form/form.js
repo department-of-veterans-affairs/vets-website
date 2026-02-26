@@ -19,7 +19,10 @@ import {
 import migrations from '@bio-aquia/21-2680-house-bound-status/config/migrations';
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
-import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
+import {
+  submitTransformer,
+  legacySubmitTransformer,
+} from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
 import { customSubmit } from '@bio-aquia/shared/utils';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 
@@ -91,7 +94,16 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: API_ENDPOINTS.multiPartyPrimaryCreate,
   transformForSubmit: submitTransformer,
-  submit: customSubmit,
+  submit: (form, formCfg) => {
+    const config = isMultiPartyEnabled()
+      ? formCfg
+      : {
+          ...formCfg,
+          submitUrl: API_ENDPOINTS.submitForm,
+          transformForSubmit: legacySubmitTransformer,
+        };
+    return customSubmit(form, config);
+  },
   trackingPrefix: '21-2680-house-bound-status-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,

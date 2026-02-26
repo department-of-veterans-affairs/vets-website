@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { API_ENDPOINTS } from '@bio-aquia/21-2680-house-bound-status/constants';
+import { isMultiPartyEnabled } from '@bio-aquia/21-2680-house-bound-status/utils/multi-party-state';
 /**
  * Submission alert for multi-party flow
  * @param {Object} props
@@ -188,10 +189,9 @@ export const ConfirmationPage = ({ route }) => {
   const confirmationNumber =
     submission?.response?.attributes?.confirmationNumber || '';
 
-  // Extract examiner email from form data to determine which flow was used.
-  // If examiner email exists, the multi-party flow was used.
+  // Determine which flow was used based on the feature toggle and examiner email.
   const examinerEmail = form?.data?.examinerNotification?.examinerEmail || '';
-  const isMultiParty = Boolean(examinerEmail);
+  const isMultiParty = isMultiPartyEnabled() && Boolean(examinerEmail);
 
   return (
     <ConfirmationView

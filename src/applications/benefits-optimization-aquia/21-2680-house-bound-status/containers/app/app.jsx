@@ -11,8 +11,6 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config';
-import { API_ENDPOINTS } from '@bio-aquia/21-2680-house-bound-status/constants';
-import { legacySubmitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
 import { setMultiPartyEnabled } from '@bio-aquia/21-2680-house-bound-status/utils/multi-party-state';
 import { useDatadogRum } from '@bio-aquia/shared/hooks';
 
@@ -55,9 +53,9 @@ export const App = ({ location, children }) => {
   setMultiPartyEnabled(multiPartyEnabled);
 
   // Build the active form config based on the multi-party feature toggle.
-  // When multi-party is disabled, override to use the legacy endpoint and transformer.
-  // Page visibility is handled by the `depends` function in form.js which reads
-  // the toggle state from the module-level holder set above.
+  // When multi-party is disabled, override formId for save-in-progress.
+  // Submission URL and transformer are handled by the `submit` function in form.js
+  // which reads the toggle state from the module-level holder set above.
   const activeFormConfig = useMemo(
     () => {
       if (multiPartyEnabled) return formConfig;
@@ -65,8 +63,6 @@ export const App = ({ location, children }) => {
       return {
         ...formConfig,
         formId: VA_FORM_IDS.FORM_21_2680,
-        submitUrl: API_ENDPOINTS.submitForm,
-        transformForSubmit: legacySubmitTransformer,
       };
     },
     [multiPartyEnabled],
