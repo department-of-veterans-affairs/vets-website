@@ -102,7 +102,7 @@ export default function SelectPreferenceView() {
               />
             </p>
             <VaCheckbox
-              checkboxDescription="Please check the box above if you have watched the Video Tutorial provided."
+              checkboxDescription="Check the box above if you have watched the Video Tutorial provided and hit the &quot;Submit&quot; button."
               label="I acknowledge and attest that I have watched and understand the five Paths for Career Planning."
               checked={attestationChecked}
               required
