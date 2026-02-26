@@ -126,7 +126,8 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  showReviewErrors: !environment.isProduction() && !environment.isStaging(),
+  showReviewErrors: true,
+  // showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
     // Chapter 1 - Veteran Information
     veteranInformation: {

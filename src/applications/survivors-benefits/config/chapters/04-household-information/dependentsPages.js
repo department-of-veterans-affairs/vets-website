@@ -3,7 +3,6 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import {
   currencyUI,
   currencySchema,
-  arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoUI,
   arrayBuilderYesNoSchema,
@@ -32,6 +31,13 @@ import {
 import { customAddressSchema } from '../../definitions';
 import { seriouslyDisabledDescription } from '../../../utils/helpers';
 
+const totalMaxItems = 3;
+
+const getMaxItemCount = formData =>
+  Number(formData?.veteranChildrenCount) < totalMaxItems
+    ? Number(formData?.veteranChildrenCount)
+    : totalMaxItems;
+
 /**
  * Dependent children (array builder)
  */
@@ -40,10 +46,19 @@ export const options = {
   arrayPath: 'veteransChildren',
   nounSingular: 'dependent child',
   nounPlural: 'dependent children',
-  required: true,
-  maxItems: 3,
+  required: formData => formData.veteranChildrenCount > 0,
+  maxItems: formData => getMaxItemCount(formData),
+  canAddItem: ({ arrayData, fullData }) => {
+    const maxItems = getMaxItemCount(fullData);
+    return arrayData?.length < maxItems;
+  },
   isItemIncomplete: item => !item?.childFullName || !item?.childDateOfBirth,
   text: {
+    // summaryDescription: props => {
+    //   const maxItems = getMaxItemCount(props.formData);
+    //   const itemCount = props.formData?.veteransChildren?.length || 0;
+    //   return `${itemCount} of ${maxItems} added`;
+    // },
     cancelAddTitle: 'Cancel adding this dependent child?',
     cancelEditTitle: 'Cancel editing this dependent child?',
     cancelAddDescription:
@@ -59,20 +74,26 @@ export const options = {
     deleteNo: 'No, keep',
     deleteTitle: 'Delete this dependent child?',
     deleteYes: 'Yes, delete',
-    alertMaxItems: (
-      <div>
-        <p className="vads-u-margin-top--0">
-          You have added the maximum number of allowed dependent children for
-          this application. Additional dependents can be added using VA Form
-          686c and uploaded at the end of this application.
-        </p>
-        <va-link
-          href="https://www.va.gov/find-forms/about-form-21-686c/"
-          external
-          text="Get VA Form 21P-686c to download"
-        />
-      </div>
-    ),
+    alertMaxItems: props => {
+      const maxItems = getMaxItemCount(props.formData);
+      if (maxItems === totalMaxItems) {
+        return (
+          <div>
+            <p className="vads-u-margin-top--0">
+              You have added the maximum number of allowed dependent children
+              for this application. Additional dependents can be added using VA
+              Form 686c and uploaded at the end of this application.
+            </p>
+            <va-link
+              href="https://www.va.gov/find-forms/about-form-21-686c/"
+              external
+              text="Get VA Form 21P-686c to download"
+            />
+          </div>
+        );
+      }
+      return `You can add up to ${maxItems} dependent children.`;
+    },
     getItemName: item => {
       if (item && item.childFullName?.first && item.childFullName?.last) {
         return `${item.childFullName.first} ${item.childFullName.last}`;
@@ -84,38 +105,38 @@ export const options = {
 };
 
 /** @returns {PageSchema} */
-const introPage = {
-  uiSchema: {
-    ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Dependents',
-      nounSingular: options.nounSingular,
-      nounPlural: options.nounPlural,
-    }),
-    'ui:description': () => (
-      <div>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--5">
-          Next we’ll ask you about the Veteran’s dependent children. You may add
-          up to 3 dependents.
-        </p>
-        <va-additional-info trigger="If you have more than 3 dependents">
-          <p>
-            Additional children can be added using VA Form 686c and uploaded at
-            the end of this application.
-          </p>
-          <va-link
-            href="https://www.va.gov/find-forms/about-form-21-686c/"
-            external
-            text="Get VA Form 21-686c to download"
-          />
-        </va-additional-info>
-      </div>
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
-  },
-};
+// const introPage = {
+//   uiSchema: {
+//     ...arrayBuilderItemFirstPageTitleUI({
+//       title: 'Dependents',
+//       nounSingular: options.nounSingular,
+//       nounPlural: options.nounPlural,
+//     }),
+//     'ui:description': () => (
+//       <div>
+//         <p className="vads-u-margin-top--0 vads-u-margin-bottom--5">
+//           Next we’ll ask you about the Veteran’s dependent children. You may add
+//           up to 3 dependents.
+//         </p>
+//         <va-additional-info trigger="If you have more than 3 dependents">
+//           <p>
+//             Additional children can be added using VA Form 686c and uploaded at
+//             the end of this application.
+//           </p>
+//           <va-link
+//             href="https://www.va.gov/find-forms/about-form-21-686c/"
+//             external
+//             text="Get VA Form 21-686c to download"
+//           />
+//         </va-additional-info>
+//       </div>
+//     ),
+//   },
+//   schema: {
+//     type: 'object',
+//     properties: {},
+//   },
+// };
 
 /** @returns {PageSchema} */
 const summaryPage = {
@@ -348,52 +369,66 @@ const childSupportPage = {
 
 /** @returns {PageSchema} */
 export const dependentsPages = arrayBuilderPages(options, pageBuilder => ({
-  dependentsIntro: pageBuilder.introPage({
-    title: 'Dependents',
-    path: 'household/dependents',
-    depends: formData => formData.veteranChildrenCount > 0,
-    uiSchema: introPage.uiSchema,
-    schema: introPage.schema,
-  }),
+  // dependentsIntro: pageBuilder.introPage({
+  //   title: 'Dependents',
+  //   path: 'household/dependents',
+  //   depends: formData =>
+  //     formData.veteranChildrenCount > 0 ||
+  //     formData?.veteransChildren?.length > 0,
+  //   uiSchema: introPage.uiSchema,
+  //   schema: introPage.schema,
+  // }),
   dependentsSummary: pageBuilder.summaryPage({
     title: 'Do you have a dependent child of the Veteran to add?',
     path: 'household/dependents/add',
-    depends: formData => formData.veteranChildrenCount > 0,
+    depends: formData =>
+      formData.veteranChildrenCount > 0 ||
+      formData?.veteransChildren?.length > 0,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   dependentName: pageBuilder.itemPage({
     title: "Dependent's name and information",
     path: 'household/dependents/:index/name-and-information',
-    depends: formData => formData.veteranChildrenCount > 0,
+    depends: formData =>
+      formData.veteranChildrenCount > 0 ||
+      formData?.veteransChildren?.length > 0,
     uiSchema: namePage.uiSchema,
     schema: namePage.schema,
   }),
   dependentDobPlace: pageBuilder.itemPage({
     title: "Dependent's date and place of birth",
     path: 'household/dependents/:index/date-and-place-of-birth',
-    depends: formData => formData.veteranChildrenCount > 0,
+    depends: formData =>
+      formData.veteranChildrenCount > 0 ||
+      formData?.veteransChildren?.length > 0,
     uiSchema: dobPlacePage.uiSchema,
     schema: dobPlacePage.schema,
   }),
   dependentRelationship: pageBuilder.itemPage({
     title: 'Relationship to dependent',
     path: 'household/dependents/:index/relationship-to-dependent',
-    depends: formData => formData.veteranChildrenCount > 0,
+    depends: formData =>
+      formData.veteranChildrenCount > 0 ||
+      formData?.veteransChildren?.length > 0,
     uiSchema: relationshipPage.uiSchema,
     schema: relationshipPage.schema,
   }),
   dependentInfo: pageBuilder.itemPage({
     title: "Dependent's information",
     path: 'household/dependents/:index/information',
-    depends: formData => formData.veteranChildrenCount > 0,
+    depends: formData =>
+      formData.veteranChildrenCount > 0 ||
+      formData?.veteransChildren?.length > 0,
     uiSchema: dependentInfoPage.uiSchema,
     schema: dependentInfoPage.schema,
   }),
   dependentHousehold: pageBuilder.itemPage({
     title: "Dependent's household",
     path: 'household/dependents/:index/household',
-    depends: formData => formData.veteranChildrenCount > 0,
+    depends: formData =>
+      formData.veteranChildrenCount > 0 ||
+      formData?.veteransChildren?.length > 0,
     uiSchema: householdPage.uiSchema,
     schema: householdPage.schema,
   }),
@@ -404,7 +439,8 @@ export const dependentsPages = arrayBuilderPages(options, pageBuilder => ({
     schema: childSupportPage.schema,
     depends: (formData, index) =>
       formData?.veteransChildren?.[index]?.livesWith === false &&
-      formData.veteranChildrenCount > 0,
+      (formData.veteranChildrenCount > 0 ||
+        formData?.veteransChildren?.length > 0),
   }),
 }));
 
