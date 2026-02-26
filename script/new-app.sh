@@ -27,14 +27,7 @@
 #   --addToMyVaSip=[true/false] \
 #   --templateType="WITH_1_PAGE"
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-
 # Use npx to run yo@6 with the generator package
 # This isolates yo's ESM dependencies from the main node_modules
 # -p flags install both packages temporarily before running yo
-if [ $# -eq 0 ]; then
-  npx --yes -p yo@6 -p @department-of-veterans-affairs/generator-vets-website@4 yo @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix > /dev/null 2>&1
-else
-  npx --yes -p yo@6 -p @department-of-veterans-affairs/generator-vets-website@4 yo @department-of-veterans-affairs/vets-website "$@" && npm run lint:js:untracked:fix > /dev/null 2>&1
-fi
+npx --yes -p yo@6 -p @department-of-veterans-affairs/generator-vets-website@4 yo @department-of-veterans-affairs/vets-website "$@" && npm run lint:js:untracked:fix > /dev/null 2>&1
