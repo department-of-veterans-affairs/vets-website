@@ -88,7 +88,6 @@ const EnterOTP = () => {
 
     if (response.error) {
       setApiError('API Error');
-      setCode('');
       return;
     }
 
@@ -135,7 +134,7 @@ const EnterOTP = () => {
           visible
           data-testid="enter-otp-success-alert"
         >
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" data-dd-privacy="mask">
             {`We just emailed a one-time verification code to ${obfuscatedEmail}.
           Please check your email and come back to enter the code to complete
           your verification process and start scheduling your appointment.`}
@@ -149,6 +148,7 @@ const EnterOTP = () => {
         </va-alert>
       )}
       <va-text-input
+        data-dd-privacy="mask"
         class="vads-u-margin-top--4"
         label="Enter your one-time verification code"
         name="otp"
