@@ -135,6 +135,7 @@ const ThreadDetails = props => {
           <va-loading-indicator
             message="Loading your secure message..."
             setFocus
+            data-testid="thread-loading-indicator"
           />
         </>
       );
@@ -232,7 +233,14 @@ const ThreadDetails = props => {
     return null;
   };
 
-  return <div className="message-detail-container">{content()}</div>;
+  return (
+    <div
+      className="message-detail-container"
+      data-testid="message-detail-container"
+    >
+      {content()}
+    </div>
+  );
 };
 
 ThreadDetails.propTypes = {

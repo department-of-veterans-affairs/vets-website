@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent } from '@testing-library/react';
+import { cleanup, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import { PageTitles, Paths } from '../../util/constants';
@@ -106,7 +106,7 @@ describe('Folders Landing Page', () => {
     expect(createFolderInline).to.exist;
 
     // checks input field to be empty
-    const vaTextInput = screen.queryByTestId('folder-name');
+    const vaTextInput = screen.getByTestId('folder-name');
     expect(vaTextInput.getAttribute('value')).to.equal('');
 
     // asserts new input field text value
@@ -123,15 +123,13 @@ describe('Folders Landing Page', () => {
           recipients: {},
         },
       };
+      cleanup();
       const errorScreen = setup(errorState);
-      const container = errorScreen.container.querySelector(
-        '.folders-container',
-      );
 
-      // AlertBackgroundBox renders with data-testid="alert-background-box"
+      // AlertBackgroundBox renders with data-testid="alert-text" when active
       // and there should be no hard-coded va-alert with status="error"
-      expect(container.querySelector('va-alert[status="error"]')).to.not.exist;
-      expect(container.querySelector('h1')).to.not.exist;
+      expect(errorScreen.queryByTestId('alert-text')).to.not.exist;
+      expect(errorScreen.queryByTestId('my-folder-header')).to.not.exist;
     });
   });
 
@@ -144,12 +142,10 @@ describe('Folders Landing Page', () => {
           recipients: {},
         },
       };
+      cleanup();
       const loadingScreen = setup(loadingState);
-      const container = loadingScreen.container.querySelector(
-        '.folders-container',
-      );
-      expect(container.querySelector('va-loading-indicator')).to.exist;
-      expect(container.querySelector('h1')).to.not.exist;
+      expect(loadingScreen.getByTestId('folders-loading-indicator')).to.exist;
+      expect(loadingScreen.queryByTestId('my-folder-header')).to.not.exist;
     });
   });
 });

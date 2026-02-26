@@ -473,7 +473,7 @@ describe('Thread Details container', () => {
 
     // Even though the message is stale, since replyDisabled is true, the stale alert is overridden
     expect(screen.queryByTestId('expired-alert-message')).to.be.null;
-    expect(screen.queryByTestId('cannot-reply-alert-message')).to.exist;
+    expect(screen.getByTestId('cannot-reply-alert-message')).to.exist;
   });
 
   it('with reply draft where message is not stale but cannotReply is true (useCanReplyField enabled)', async () => {
@@ -546,7 +546,7 @@ describe('Thread Details container', () => {
     // Since the message is less than 45 days old, the stale alert should NOT be shown
     // but the cannot reply alert should be shown
     expect(screen.queryByTestId('expired-alert-message')).to.be.null;
-    expect(screen.queryByTestId('cannot-reply-alert-message')).to.exist;
+    expect(screen.getByTestId('cannot-reply-alert-message')).to.exist;
 
     // Since cannotReply is true, the reply button is missing
     expect(screen.queryByText('Reply')).to.not.exist;
@@ -618,8 +618,8 @@ describe('Thread Details container', () => {
     expect(document.querySelector('va-textarea')).to.exist;
     expect(document.querySelector('section.old-reply-message-body')).to.be.null;
 
-    expect(screen.queryByTestId('send-button')).to.exist;
-    expect(screen.queryByTestId('save-draft-button')).to.exist;
+    expect(screen.getByTestId('send-button')).to.exist;
+    expect(screen.getByTestId('save-draft-button')).to.exist;
     // Delete draft button should still exist
     expect(screen.getByTestId('delete-draft-button')).to.exist;
 
@@ -1382,14 +1382,12 @@ describe('Thread Details container', () => {
       },
     };
     const screen = setup(state);
-    const container = screen.container.querySelector(
-      '.message-detail-container',
-    );
 
     // When messages is undefined and isLoaded is true (testing prop),
     // no content branch matches, so content() returns null
-    expect(container.querySelector('h1')).to.not.exist;
-    expect(container.querySelector('va-alert[status="error"]')).to.not.exist;
-    expect(container.querySelector('va-loading-indicator')).to.not.exist;
+    expect(screen.getByTestId('message-detail-container')).to.exist;
+    expect(screen.queryByRole('heading', { level: 1 })).to.not.exist;
+    expect(screen.queryByTestId('alert-text')).to.not.exist;
+    expect(screen.queryByTestId('thread-loading-indicator')).to.not.exist;
   });
 });

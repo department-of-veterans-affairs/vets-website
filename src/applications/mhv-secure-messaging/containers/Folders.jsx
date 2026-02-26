@@ -87,6 +87,7 @@ const Folders = () => {
           <va-loading-indicator
             message="Loading your secure message..."
             setFocus
+            data-testid="folders-loading-indicator"
           />
         </>
       );
@@ -137,7 +138,11 @@ const Folders = () => {
     );
   };
 
-  return <div className="folders-container">{content()}</div>;
+  return (
+    <div className="folders-container" data-testid="folders-container">
+      {content()}
+    </div>
+  );
 };
 
 export default Folders;
