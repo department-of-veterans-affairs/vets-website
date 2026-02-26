@@ -102,12 +102,16 @@ describe('Survivors Benefits Form config', () => {
       expect(pages.marriageStatus.depends(survivingSpouse)).to.be.true;
       expect(pages.remarriage.depends(survivingSpouse)).to.be.true;
       expect(pages.spouseMarriages.depends(survivingSpouse)).to.be.true;
-      expect(pages.veteranChildren.depends(survivingSpouse)).to.be.true;
 
       // These pages should hide for other relationships
       expect(pages.marriageToVeteran.depends(other)).to.be.false;
       expect(pages.marriageToVeteranLocation.depends(other)).to.be.false;
       expect(pages.marriageToVeteranInfo.depends(other)).to.be.false;
+      expect(pages.marriageToVeteranEndInfo.depends(other)).to.be.false;
+      expect(pages.legalStatusOfMarriage.depends(other)).to.be.false;
+      expect(pages.marriageStatus.depends(other)).to.be.false;
+      expect(pages.remarriage.depends(other)).to.be.false;
+      expect(pages.spouseMarriages.depends(other)).to.be.false;
     });
 
     it('should show marriageToVeteranEnd when not married at time of death', () => {
@@ -165,15 +169,23 @@ describe('Survivors Benefits Form config', () => {
       expect(pages.additionalMarriages.depends(notRemarried)).to.be.false;
     });
 
-    it('should show veteranChildren page when had previous marriages', () => {
+    it('should show veteranChildren page when claimantRelationship is SURVIVING_SPOUSE or had previous marriages', () => {
       const { householdInformation } = formConfig.chapters;
       const { pages } = householdInformation;
 
+      const survivingSpouse = { claimantRelationship: 'SURVIVING_SPOUSE' };
       const hadPreviousMarriages = { hadPreviousMarriages: true };
-      const noPreviousMarriages = { hadPreviousMarriages: false };
+      const neither = {
+        claimantRelationship: 'OTHER',
+        hadPreviousMarriages: false,
+      };
 
+      // Should show when claimant is surviving spouse
+      expect(pages.veteranChildren.depends(survivingSpouse)).to.be.true;
+      // Should show when had previous marriages
       expect(pages.veteranChildren.depends(hadPreviousMarriages)).to.be.true;
-      expect(pages.veteranChildren.depends(noPreviousMarriages)).to.be.false;
+      // Should hide when neither condition is met
+      expect(pages.veteranChildren.depends(neither)).to.be.false;
     });
 
     it('should show dependentsResidence when children do not all live with spouse', () => {
