@@ -1,5 +1,5 @@
-import CustomPersonalInfo from '../../../components/CustomPersonalInfo';
-import CustomPersonalInfoReview from '../../../components/CustomPersonalInfoReview';
+import CustomPersonalInfo from '../components/CustomPersonalInfo';
+import CustomPersonalInfoReview from '../components/CustomPersonalInfoReview';
 
 /** @type {PageSchema} */
 export default {

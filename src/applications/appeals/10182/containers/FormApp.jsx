@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
@@ -22,6 +23,7 @@ import {
 import { isOutsideForm } from '../../shared/utils/helpers';
 
 export const FormApp = ({
+  accountUuid,
   isLoading,
   loggedIn,
   location,
@@ -32,6 +34,10 @@ export const FormApp = ({
   contestableIssues = {},
 }) => {
   const { pathname } = location || {};
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const addUserAccountIdToRUM = useToggleValue(
+    TOGGLE_NAMES.decisionReviewAddUserAccountIdToRUM,
+  );
 
   useEffect(
     () => {
@@ -120,6 +126,8 @@ export const FormApp = ({
     applicationId: DATA_DOG_ID,
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
+    accountUuid,
+    addUserAccountId: addUserAccountIdToRUM,
   });
 
   return wrapWithBreadcrumb(
@@ -131,6 +139,7 @@ export const FormApp = ({
 };
 
 FormApp.propTypes = {
+  accountUuid: PropTypes.string,
   children: PropTypes.object,
   contestableIssues: PropTypes.shape({
     issues: PropTypes.array,
@@ -156,6 +165,7 @@ FormApp.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  accountUuid: state?.user?.profile?.accountUuid,
   formData: state.form?.data || {},
   contestableIssues: state.contestableIssues,
   isLoading: state.featureToggles?.loading,
