@@ -16,6 +16,7 @@ import HelpPage from './containers/HelpPage';
 import LoginContainer from './containers/LoginContainer';
 import AuthCallbackHandler from './containers/AuthCallbackHandler';
 import DashboardPage from './containers/DashboardPage';
+import ClaimantOverviewPage from './containers/ClaimantOverviewPage';
 
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
@@ -116,6 +117,13 @@ const routes = [
                   <ClaimantSearchPage title="Find claimant | Accredited Representative Portal | Veterans Affairs" />
                 ),
                 loader: ClaimantSearchPage.loader,
+              },
+              {
+                path: 'find-claimant/claimant-overview/:claimantId',
+                element: (
+                  <ClaimantOverviewPage title="Claimant overview | Accredited Representative Portal" />
+                ),
+                loader: ClaimantOverviewPage.loader,
               },
               {
                 path: 'find-claimant/submission-history/:claimantId',
