@@ -34,14 +34,14 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
     // Assert no links are rendered for these diary codes
     cy.get('@alert-content')
       .findByTestId('link-details')
-      .should('have.length', 1);
+      .should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
 
   it('renders expected content for diary code: 100, 102, 117, 123, 130, 140', () => {
     cy.contains(
       '[data-testid^="summary-card-"]',
-      'Pay your balance of $120.40 or request help by November 17, 2012 to avoid any collection actions',
+      'Pay your balance of $120.40 or request help by November 17, 2012 to avoid collection actions',
     )
       .findByTestId('link-details')
       .click({ waitForAnimations: true });
@@ -68,7 +68,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
   it('renders expected content for diary code: 61', () => {
     cy.contains(
       '[data-testid^="summary-card-"]',
-      "We've paused collection on this balance at your request.",
+      "We've paused collection on this balance as you requested.",
     )
       .findByTestId('link-details')
       .click({ waitForAnimations: true });
