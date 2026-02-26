@@ -8,9 +8,9 @@ import {
   OracleHealthT3Alert,
   OracleHealthInCardAlert,
   OracleHealthRenewalInCardAlert,
-} from '../../components/OracleHealthTransitionAlerts';
-import { michiganTransitioningUser } from '../../mocks/api/user';
-import michiganPrescriptions from '../e2e/fixtures/list-refillable-oh-ehr-michigan-prescriptions.json';
+} from '../../../components/OracleHealthTransitionAlerts';
+import { michiganTransitioningUser } from '../../../mocks/api/user';
+import michiganPrescriptions from '../../e2e/fixtures/list-refillable-oh-ehr-michigan-prescriptions.json';
 
 describe('OracleHealthTransitionAlerts', () => {
   const mockStore = configureStore([]);

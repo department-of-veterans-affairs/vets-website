@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 import { CernerAlertContent } from '~/platform/mhv/components/CernerFacilityAlert/constants';
-import { getPrescriptionDetailUrl } from '../util/helpers';
-import { selectMhvMedicationsOracleHealthCutoverFlag } from '../util/selectors';
+import { getPrescriptionDetailUrl } from '../../util/helpers';
+import { selectMhvMedicationsOracleHealthCutoverFlag } from '../../util/selectors';
 
 /**
  * Component to render alerts for prescriptions blocked during Oracle Health transition

@@ -18,7 +18,7 @@ import {
 import CallPharmacyPhone from './CallPharmacyPhone';
 import RefillButton from './RefillButton';
 import SendRxRenewalMessage from './SendRxRenewalMessage';
-import { OracleHealthRenewalInCardAlert } from '../OracleHealthTransitionAlerts';
+import { OracleHealthRenewalInCardAlert } from './OracleHealthTransitionAlerts';
 import { pageType } from '../../util/dataDogConstants';
 import {
   selectCernerPilotFlag,
