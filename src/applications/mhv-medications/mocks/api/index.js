@@ -186,15 +186,46 @@ const responses = {
       1500,
     );
   },
-  // Includes both v1 and v2 endpoints for refill prescriptions
+  // V2 refill endpoint — expects body: [{id, stationNumber}, ...]
   'POST /my_health/v2/prescriptions/refill': (req, res) => {
-    // Get requested IDs from query params.
-    const ids = req.body;
-    // Emulate a successful refill for the first ID and failed refill for subsequent IDs
-    const successfulIds = ids[0] ? [ids[0]] : [];
-    const failedIds = ids[1] ? ids.slice(1) : [];
-    // delay response to emulate network latency
-    delaySingleResponse(
+    const orders = req.body;
+
+    if (!Array.isArray(orders) || orders.length === 0) {
+      return res.status(400).json({
+        errors: [
+          {
+            status: '400',
+            title: 'Bad Request',
+            detail: 'Request body must be a non-empty array of orders',
+          },
+        ],
+      });
+    }
+
+    const invalidOrder = orders.find(
+      order =>
+        typeof order !== 'object' ||
+        order === null ||
+        !order.id ||
+        !order.stationNumber,
+    );
+    if (invalidOrder) {
+      return res.status(400).json({
+        errors: [
+          {
+            status: '400',
+            title: 'Bad Request',
+            detail: 'Each order must contain id and stationNumber fields',
+          },
+        ],
+      });
+    }
+
+    // Emulate a successful refill for the first order and failed for subsequent
+    const successfulIds = [orders[0]];
+    const failedIds = orders.length > 1 ? orders.slice(1) : [];
+
+    return delaySingleResponse(
       () =>
         res.status(200).json({
           data: {
