@@ -1845,15 +1845,16 @@ describe('SelectCareTeam', () => {
         expect(ipeAlert).to.exist;
         expect(ipeAlert).to.have.attribute(
           'aria-label',
-          'Your care team list may look different',
+          'We updated your list of care teams',
         );
       });
 
-      expect(screen.getByText(/Your care team list may look different/i)).to
+      expect(screen.getByText(/We updated your list of care teams/i)).to.exist;
+      expect(screen.getByText(/You may have more care teams in your list/i)).to
         .exist;
       expect(
         screen.getByText(
-          /If your VA health facility recently moved to a new electronic health record system/i,
+          /To find a care team, you can still search by type of care or facility location/i,
         ),
       ).to.exist;
       expect(screen.getByTestId('sm-care-team-name-ipe-stop-showing-hint')).to

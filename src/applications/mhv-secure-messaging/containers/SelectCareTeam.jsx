@@ -631,17 +631,16 @@ const SelectCareTeam = () => {
             id="sm-care-team-name-ipe-container"
             data-testid="sm-care-team-name-ipe-container"
             className="vads-u-margin-top--3 vads-u-padding--2p5"
-            aria-label="Your care team list may look different"
+            aria-label="We updated your list of care teams"
           >
             <p
               className="vads-u-margin--0 vads-u-padding-right--5"
               id="sm-care-team-name-ipe-description"
             >
-              <strong>Your care team list may look different</strong>
-              <br />
-              If your VA health facility recently moved to a new electronic
-              health record system, the names of your care teams in your list
-              may have changed.
+              We updated your list of care teams. You may have more care teams
+              in your list. And some of your care team names may have changed.
+              To find a care team, you can still search by type of care or
+              facility location.
             </p>
             <VaButton
               className="vads-u-margin-top--3"
