@@ -98,13 +98,15 @@ function createExpenseHandler(type) {
     // Attach to claim
     claim.expenses = claim.expenses || [];
     claim.expenses.push(newExpense);
-    claim.documents.push({
-      documentId,
-      filename,
-      mimetype,
-      createdOn: new Date().toISOString(),
-      expenseId: newExpense.id,
-    });
+    if (documentId) {
+      claim.documents.push({
+        documentId,
+        filename,
+        mimetype,
+        createdOn: new Date().toISOString(),
+        expenseId: newExpense.id,
+      });
+    }
 
     // Recalculate claim total cost
     claim.totalCostRequested = claim.expenses.reduce(
