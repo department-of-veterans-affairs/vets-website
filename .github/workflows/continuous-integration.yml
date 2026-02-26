@@ -584,7 +584,7 @@ jobs:
 
   linting:
     name: Linting (All)
-    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/revert/yeoman-update' }}
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/chore/update-yeoman-dependencies-to-resolve-security-vulnerabilities-2' }}
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
