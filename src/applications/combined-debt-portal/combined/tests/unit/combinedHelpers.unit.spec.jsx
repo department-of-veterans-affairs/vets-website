@@ -30,7 +30,7 @@ import {
   selectLoadingFeatureFlags,
   combinedPortalAccess,
   debtLettersShowLettersVBMS,
-  useLighthouseDebts,
+  showPaymentHistory,
   cdpAccessToggle,
   useLighthouseCopays,
 } from '../../utils/selectors';
@@ -261,9 +261,7 @@ describe('Helper Functions', () => {
 
     it('should return empty array when all details are &nbsp; rows', () => {
       const copay = {
-        details: [
-          { pDTransDescOutput: '&nbsp;Spacer', pDTransAmt: 0 },
-        ],
+        details: [{ pDTransDescOutput: '&nbsp;Spacer', pDTransAmt: 0 }],
       };
       const result = getCopayCharge(copay);
       expect(result).to.deep.equal([]);
@@ -676,25 +674,25 @@ describe('Helper Functions', () => {
       expect(result).to.be.false;
     });
 
-    it('useLighthouseDebts should return feature flag value true', () => {
+    it('showPaymentHistory should return feature flag value true', () => {
       const mockState = {
         featureToggles: {
           [FEATURE_FLAG_NAMES.CdpPaymentHistoryVba]: true,
         },
       };
 
-      const result = useLighthouseDebts(mockState);
+      const result = showPaymentHistory(mockState);
       expect(result).to.be.true;
     });
 
-    it('useLighthouseDebts should return feature flag value false', () => {
+    it('showPaymentHistory should return feature flag value false', () => {
       const mockState = {
         featureToggles: {
           [FEATURE_FLAG_NAMES.CdpPaymentHistoryVba]: false,
         },
       };
 
-      const result = useLighthouseDebts(mockState);
+      const result = showPaymentHistory(mockState);
       expect(result).to.be.false;
     });
 

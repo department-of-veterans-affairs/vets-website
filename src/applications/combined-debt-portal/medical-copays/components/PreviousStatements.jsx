@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useLighthouseCopays } from '../../combined/utils/selectors';
-import HTMLStatementLink from './HTMLStatementLink';
+import StatementLink from './StatementLink';
 
 const PreviousStatements = ({ selectedId }) => {
   const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
@@ -47,7 +47,7 @@ const PreviousStatements = ({ selectedId }) => {
       </p>
       <ul className="no-bullets vads-u-x--0" data-testid="otpp-statement-list">
         {previousStatements.map(statement => (
-          <HTMLStatementLink
+          <StatementLink
             statementId={
               shouldUseLighthouseCopays
                 ? statement.id

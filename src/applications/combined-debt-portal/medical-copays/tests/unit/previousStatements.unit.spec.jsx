@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import { createStore } from 'redux';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PreviousStatements from '../../components/PreviousStatements';
-import HTMLStatementLink from '../../components/HTMLStatementLink';
+import StatementLink from '../../components/StatementLink';
 
 const createMockStore = state => createStore(() => state);
 
@@ -104,7 +104,7 @@ describe('PreviousStatements', () => {
       expect(wrapper.find('[data-testid="view-statements"]')).to.have.lengthOf(
         1,
       );
-      expect(wrapper.find(HTMLStatementLink)).to.have.lengthOf(3);
+      expect(wrapper.find(StatementLink)).to.have.lengthOf(3);
       wrapper.unmount();
     });
 
@@ -152,7 +152,7 @@ describe('PreviousStatements', () => {
         </Provider>,
       );
 
-      const links = wrapper.find(HTMLStatementLink);
+      const links = wrapper.find(StatementLink);
       expect(links).to.have.lengthOf(4);
       expect(links.at(0).prop('statementDate')).to.equal('2024-01-01');
       expect(links.at(1).prop('statementDate')).to.equal('2024-03-01');
@@ -199,7 +199,7 @@ describe('PreviousStatements', () => {
       expect(wrapper.find('[data-testid="view-statements"]')).to.have.lengthOf(
         1,
       );
-      expect(wrapper.find(HTMLStatementLink)).to.have.lengthOf(2);
+      expect(wrapper.find(StatementLink)).to.have.lengthOf(2);
       wrapper.unmount();
     });
 
@@ -246,7 +246,7 @@ describe('PreviousStatements', () => {
         </Provider>,
       );
 
-      const links = wrapper.find(HTMLStatementLink);
+      const links = wrapper.find(StatementLink);
       expect(links).to.have.lengthOf(1);
       expect(links.at(0).prop('id')).to.equal('2');
       wrapper.unmount();
@@ -267,7 +267,7 @@ describe('PreviousStatements', () => {
         </Provider>,
       );
 
-      const links = wrapper.find(HTMLStatementLink);
+      const links = wrapper.find(StatementLink);
       expect(links).to.have.lengthOf(2);
       expect(links.at(0).prop('statementDate')).to.equal('03/01/2024');
       expect(links.at(1).prop('statementDate')).to.equal('02/01/2024');

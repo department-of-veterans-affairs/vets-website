@@ -6,7 +6,10 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import { head } from 'lodash';
 import HistoryTable from '../components/HistoryTable';
 import { setPageFocus, formatDate } from '../../combined/utils/helpers';
-import { debtLettersShowLettersVBMS } from '../../combined/utils/selectors';
+import {
+  debtLettersShowLettersVBMS,
+  showPaymentHistory,
+} from '../../combined/utils/selectors';
 import { getCurrentDebt, currency } from '../utils/page';
 import {
   deductionCodes,
@@ -28,6 +31,8 @@ const DebtDetails = () => {
 
   const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
   const dateUpdated = last(currentDebt.debtHistory)?.date;
+
+  const shouldShowpaymenthistory = useSelector(showPaymentHistory);
 
   const filteredHistory = currentDebt.debtHistory
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
@@ -145,7 +150,7 @@ const DebtDetails = () => {
               </h3>
             </div>
           </div>
-          {shouldShowPaymentHistory && (
+          {shouldShowpaymenthistory && (
             <PaymentHistoryTable currentDebt={currentDebt} />
           )}
         </div>

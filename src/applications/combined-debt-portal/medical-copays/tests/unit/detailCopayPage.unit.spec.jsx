@@ -41,7 +41,7 @@ describe('DetailCopayPage', () => {
   const mockMatch = { params: { id: '123' } };
 
   it('uses attributes.facility for TITLE when VHA payment history flag is true', () => {
-    const mockStatement = {
+    const mockCopay = {
       id: '123',
       attributes: {
         facility: {
@@ -67,8 +67,8 @@ describe('DetailCopayPage', () => {
       },
       combinedPortal: {
         mcp: {
-          currentCopay: mockStatement,
-          copays: [mockStatement],
+          currentCopay: mockCopay,
+          copays: [mockCopay],
         },
       },
       featureToggles: {
@@ -86,7 +86,7 @@ describe('DetailCopayPage', () => {
   });
 
   it('uses station.facilityName for TITLE when VHA payment history flag is false', () => {
-    const mockStatement = {
+    const mockCopay = {
       id: '123',
       station: {
         facilityName: 'Tampa VA Medical Center',
@@ -106,8 +106,8 @@ describe('DetailCopayPage', () => {
       },
       combinedPortal: {
         mcp: {
-          currentCopay: mockStatement,
-          copays: [mockStatement],
+          currentCopay: mockCopay,
+          copays: [mockCopay],
         },
       },
       featureToggles: {

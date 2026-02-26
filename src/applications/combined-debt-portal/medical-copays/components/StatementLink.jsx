@@ -6,7 +6,7 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 
 import { formatDate } from '../../combined/utils/helpers';
 
-const HTMLStatementLink = ({ statementId, statementDate }) => {
+const StatementLink = ({ statementId, statementDate }) => {
   const history = useHistory();
   const statementPath = `/copay-balances/statements/${statementId}`;
 
@@ -26,9 +26,9 @@ const HTMLStatementLink = ({ statementId, statementDate }) => {
   );
 };
 
-HTMLStatementLink.propTypes = {
+StatementLink.propTypes = {
   statementId: PropTypes.string.isRequired,
   statementDate: PropTypes.string,
 };
 
-export default HTMLStatementLink;
+export default StatementLink;

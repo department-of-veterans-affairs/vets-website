@@ -13,7 +13,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import StatementTable from '../../components/StatementTable';
 import { useLighthouseCopays } from '../../../combined/utils/selectors';
 import StatementCharges from '../../components/StatementCharges';
-import mockstatements from '../../../combined/utils/mocks/mockStatements.json';
+import mockCopays from '../../../combined/utils/mocks/mockCopays.json';
 
 const createCharges = count => {
   return Array.from({ length: count }, (_, i) => ({
@@ -231,9 +231,7 @@ describe('Feature Toggle Data Confirmation', () => {
       },
     };
 
-    const { container } = render(
-      <StatementCharges copay={mockstatements[2]} />,
-    );
+    const { container } = render(<StatementCharges copay={mockCopays[2]} />);
 
     // Query the custom elements directly
     const firstRow = container.querySelectorAll('va-table-row')[1];

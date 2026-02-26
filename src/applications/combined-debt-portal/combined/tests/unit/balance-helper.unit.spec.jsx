@@ -9,7 +9,7 @@ import {
 import { useLighthouseCopays } from '../../utils/selectors';
 // TODO: Update referece after refactoring
 import mockDebt from '../../utils/mocks/mockDebts.json';
-import mockBill from '../../utils/mocks/mockStatements.json';
+import mockBill from '../../utils/mocks/mockCopays.json';
 
 describe('combined debt portal helpers', () => {
   describe('calculateTotalDebts helper: ', () => {
