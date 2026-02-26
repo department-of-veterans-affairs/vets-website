@@ -318,7 +318,7 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
 .claim-form-sidenav-wrapper {
   va-sidenav::part(accordion-content) {
     background-color: var(--vads-color-white) !important;
-    border: 0.2rem solid var(--vads-color-primary) !important;
+    border: 0.15rem solid var(--vads-color-primary) !important;
     border-top: none !important;
     border-radius: 0 0 4px 4px;
     margin-top: -4px;
@@ -326,7 +326,7 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
 
   va-sidenav::part(accordion-header) {
     background-color: var(--vads-color-white) !important;
-    border: 0.2rem solid var(--vads-color-primary) !important;
+    border: 0.15rem solid var(--vads-color-primary) !important;
     color: var(--vads-color-primary) !important;
     border-radius: 4px;
   }

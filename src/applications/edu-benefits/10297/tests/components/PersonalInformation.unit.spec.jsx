@@ -49,7 +49,8 @@ describe('<PersonalInformation />', () => {
       profile,
     );
 
-    expect(getByText(/Confirm the personal information/i)).to.exist;
+    expect(getByText(/We have this personal information on file for you./i)).to
+      .exist;
     expect(getByText(/John A Doe, Jr./i)).to.exist;
     expect(getByText(/Last 4 digits of Social Security number/i)).to.exist;
     expect(getByText(/May 15, 1990/i)).to.exist;

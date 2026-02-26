@@ -24,7 +24,6 @@ const Dropdown = ({
   };
 
   const closeDropdown = () => setOpenDropdownId(null);
-
   return (
     <>
       {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
@@ -69,7 +68,11 @@ const Dropdown = ({
         data-testid={`${icon}-toggle-dropdown-${view}-list`}
       >
         <ul className="nav__user-list nav__dropdown">
-          <DropdownLinks closeDropdown={closeDropdown} category={category} />
+          <DropdownLinks
+            closeDropdown={closeDropdown}
+            category={category}
+            firstName={firstName}
+          />
         </ul>
       </div>
     </>
