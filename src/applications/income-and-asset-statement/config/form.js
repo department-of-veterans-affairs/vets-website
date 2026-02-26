@@ -76,6 +76,7 @@ const formConfig = {
         label: 'Submit a pension or DIC income and asset statement',
       },
     ],
+    wrapping: true,
   }),
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',

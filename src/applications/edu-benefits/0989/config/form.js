@@ -9,6 +9,15 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import schoolWasClosed from '../pages/schoolWasClosed';
+import oldSchoolNameAndAddress from '../pages/oldSchoolNameAndAddress';
+import eligibilityWarning from '../pages/eligibilityWarning';
+import didCompleteProgramOfStudy from '../pages/didCompleteProgramOfStudy';
+import didReceiveCredit from '../pages/didReceiveCredit';
+import wasEnrolledWhenSchoolClosed from '../pages/wasEnrolledWhenSchoolClosed';
+import wasOnApprovedLeave from '../pages/wasOnApprovedLeave';
+import remarks from '../pages/remarks';
+
 import prefillTransform from './prefillTransform';
 
 export const SUBMIT_URL = `${
@@ -64,11 +73,80 @@ const formConfig = {
             ssnPath: 'ssn',
           },
         }),
+      },
+    },
+    contactInfoChapter: {
+      title: 'Your contact information',
+      pages: {
         ...profileContactInfoPages({
           contactInfoRequiredKeys: ['mailingAddress', 'email'],
           // disableMockContactInfo: true,
           // prefillPatternEnabled: true,
         }),
+      },
+    },
+    entitlementDetailsChapter: {
+      title: 'Entitlement restoration details',
+      pages: {
+        schoolWasClosed: {
+          path: 'school-closing',
+          title: 'School closures and program suspension',
+          uiSchema: schoolWasClosed.uiSchema,
+          schema: schoolWasClosed.schema,
+        },
+        oldSchoolNameAndAddress: {
+          path: 'school-name-and-address',
+          title: 'School name and mailing address',
+          uiSchema: oldSchoolNameAndAddress.uiSchema,
+          schema: oldSchoolNameAndAddress.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        eligibilityWarning: {
+          path: 'eligibility-warning',
+          title: 'Eligibility warning',
+          uiSchema: eligibilityWarning.uiSchema,
+          schema: eligibilityWarning.schema,
+          depends: formData => !formData.schoolWasClosed,
+        },
+        didCompleteProgramOfStudy: {
+          path: 'complete-program-of-study',
+          title: 'Program information',
+          uiSchema: didCompleteProgramOfStudy.uiSchema,
+          schema: didCompleteProgramOfStudy.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        didReceiveCredit: {
+          path: 'receive-credit',
+          title: 'Enrollment and credit information',
+          uiSchema: didReceiveCredit.uiSchema,
+          schema: didReceiveCredit.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        wasEnrolledWhenSchoolClosed: {
+          path: 'enrolled-when-school-closed',
+          title: 'Enrollment and credit information',
+          uiSchema: wasEnrolledWhenSchoolClosed.uiSchema,
+          schema: wasEnrolledWhenSchoolClosed.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        wasOnApprovedLeave: {
+          path: 'approved-leave',
+          title: 'Leave of absence',
+          uiSchema: wasOnApprovedLeave.uiSchema,
+          schema: wasOnApprovedLeave.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+      },
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarks: {
+          path: 'remarks',
+          title: 'Remarks',
+          uiSchema: remarks.uiSchema,
+          schema: remarks.schema,
+        },
       },
     },
   },
