@@ -7,6 +7,7 @@ import AuthenticatedLayoutContainer from './containers/AuthenticatedLayoutContai
 import LandingPage from './containers/LandingPage';
 import POARequestSearchPage from './containers/POARequestSearchPage';
 import ClaimantSearchPage from './containers/ClaimantSearchPage';
+import ClaimantSubmissionHistoryPage from './containers/ClaimantSubmissionHistoryPage';
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
 import SubmissionsPage from './containers/SubmissionsPage';
 import SignedInLayout from './containers/SignedInLayout';
@@ -15,6 +16,7 @@ import HelpPage from './containers/HelpPage';
 import LoginContainer from './containers/LoginContainer';
 import AuthCallbackHandler from './containers/AuthCallbackHandler';
 import DashboardPage from './containers/DashboardPage';
+import ClaimantOverviewPage from './containers/ClaimantOverviewPage';
 
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
@@ -115,6 +117,19 @@ const routes = [
                   <ClaimantSearchPage title="Find claimant | Accredited Representative Portal | Veterans Affairs" />
                 ),
                 loader: ClaimantSearchPage.loader,
+              },
+              {
+                path: 'find-claimant/claimant-overview/:claimantId',
+                element: (
+                  <ClaimantOverviewPage title="Claimant overview | Accredited Representative Portal" />
+                ),
+                loader: ClaimantOverviewPage.loader,
+              },
+              {
+                path: 'find-claimant/submission-history/:claimantId',
+                element: (
+                  <ClaimantSubmissionHistoryPage title="Submission history | Accredited Representative Portal | Veterans Affairs" />
+                ),
               },
               {
                 path: 'representation-requests/:id',

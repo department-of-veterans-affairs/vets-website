@@ -21,7 +21,6 @@ import {
   selectComplexClaim,
 } from '../../../redux/selectors';
 import { stripTZOffset } from '../../../util/dates';
-import { ComplexClaimsHelpSection } from '../../HelpText';
 import OutOfBoundsAppointmentAlert from '../../alerts/OutOfBoundsAppointmentAlert';
 
 const IntroductionPage = () => {
@@ -186,7 +185,6 @@ const IntroductionPage = () => {
             exp-date="11/30/2027"
           />
         </div>
-        <ComplexClaimsHelpSection />
       </div>
     </>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { focusElement } from '~/platform/utilities/ui';
 import { CURRENCY_LABELS } from './constants';
 
 export const validateInitials = (inputValue, firstName, lastName) => {
@@ -416,4 +417,8 @@ export const CustomReviewTopContent = () => {
       Review your form
     </h3>
   );
+};
+
+export const focusOnH3 = () => {
+  focusElement('#main h3');
 };

@@ -25,6 +25,7 @@ import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import DuplicateRecordsAlert from '../components/shared/DuplicateRecordsAlert';
 import RecordListSection from '../components/shared/RecordListSection';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
@@ -121,6 +122,7 @@ const Vitals = () => {
       <h1 data-testid="vitals" className="vads-u-margin--0">
         Vitals
       </h1>
+      {isCerner && <DuplicateRecordsAlert />}
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
         Vitals are basic health numbers your providers check at your
         appointments.

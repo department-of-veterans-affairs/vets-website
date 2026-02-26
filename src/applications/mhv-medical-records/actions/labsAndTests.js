@@ -35,10 +35,22 @@ export const getLabsAndTestsList = (
       return getAcceleratedLabsAndTests(timeFrame);
     };
     if (isAccelerating) {
-      const [labsAndTestsResponse, cvixRadiologyResponse] = await Promise.all([
+      const [rawLabsResponse, cvixRadiologyResponse] = await Promise.all([
         getListWithRetry(dispatch, getList),
         mergeCvixWithScdf ? getImagingStudies() : Promise.resolve(undefined),
       ]);
+
+      const labsAndTestsResponse = Array.isArray(rawLabsResponse)
+        ? rawLabsResponse
+        : rawLabsResponse?.data || [];
+      const warnings = Array.isArray(rawLabsResponse)
+        ? []
+        : rawLabsResponse?.meta?.warnings || [];
+
+      dispatch({
+        type: Actions.LabsAndTests.SET_WARNINGS,
+        payload: warnings,
+      });
 
       dispatch({
         type: Actions.LabsAndTests.GET_UNIFIED_LIST,

@@ -31,9 +31,9 @@ describe('22-10278 transform', () => {
         applicantName: { first: 'John', last: 'Doe' },
         dateOfBirth: '1990-01-01',
         claimantPersonalInformation: { firstName: 'John', lastName: 'Doe' },
-        claimantContactInformation: {
-          phoneNumber: { callingCode: '1', contact: '5551234567' },
-          emailAddress: 'test@test.com',
+        veteran: {
+          homePhone: { areaCode: '555', phoneNumber: '1234567' },
+          email: { emailAddress: 'test@test.com' },
         },
         discloseInformation: { authorize: 'person' },
         thirdPartyPersonName: {
@@ -90,7 +90,7 @@ describe('22-10278 transform', () => {
     expect(formData.dateSigned).to.equal('2025-01-15');
 
     expect(formData.claimantContactInformation.phoneNumber).to.equal(
-      '15551234567',
+      '5551234567',
     );
   });
 
@@ -98,10 +98,10 @@ describe('22-10278 transform', () => {
     const form = {
       data: {
         userLoggedIn: false,
+        ssn: '987654321',
         claimantPersonalInformation: {
           firstName: 'John',
           lastName: 'Doe',
-          veteranId: { ssn: '987654321' },
         },
         claimantContactInformation: {
           phoneNumber: { callingCode: '1', contact: '5559876543' },
@@ -122,7 +122,6 @@ describe('22-10278 transform', () => {
     const formData = parseResult(transform({}, form));
 
     expect(formData.claimantPersonalInformation.ssn).to.equal('987654321');
-    expect(formData.claimantPersonalInformation.veteranId).to.be.undefined;
 
     expect(formData.thirdPartyOrganizationInformation).to.deep.equal({
       organizationName: 'Test Org',
@@ -140,6 +139,83 @@ describe('22-10278 transform', () => {
     expect(formData.securityAnswerLocation).to.be.undefined;
 
     expect(formData.isAuthenticated).to.be.true;
+  });
+
+  describe('personalInformationTransform – mailingAddress branch', () => {
+    const baseForm = data => ({
+      data: {
+        ssn: '111223333',
+        claimantPersonalInformation: {},
+        discloseInformation: { authorize: 'person' },
+        thirdPartyPersonName: { fullName: { first: 'A', last: 'B' } },
+        thirdPartyPersonAddress: { address: { street: '1 St', city: 'X' } },
+        claimInformation: {},
+        lengthOfRelease: { duration: 'ongoing' },
+        securityQuestion: { question: 'pin' },
+        securityAnswerText: 'x',
+        statementOfTruthCertified: true,
+        ...data,
+      },
+    });
+
+    it('sets claimantAddress from veteran.mailingAddress when present', () => {
+      const form = baseForm({
+        veteran: {
+          mailingAddress: {
+            countryCodeIso2: 'US',
+            addressLine1: '123 Main St',
+            addressLine2: 'Apt 4',
+            city: 'Springfield',
+            stateCode: 'IL',
+            zipCode: '62701',
+          },
+        },
+      });
+
+      const formData = parseResult(transform({}, form));
+
+      expect(formData.claimantAddress).to.deep.equal({
+        country: 'US',
+        street: '123 Main St',
+        street2: 'Apt 4',
+        city: 'Springfield',
+        state: 'IL',
+        postalCode: '62701',
+      });
+      expect(formData.veteran).to.be.undefined;
+    });
+
+    it('defaults country to "USA" and other fields to "" when mailingAddress fields are missing', () => {
+      const form = baseForm({
+        veteran: {
+          mailingAddress: {},
+        },
+      });
+
+      const formData = parseResult(transform({}, form));
+
+      expect(formData.claimantAddress).to.deep.equal({
+        country: 'USA',
+        street: '',
+        street2: '',
+        city: '',
+        state: '',
+        postalCode: '',
+      });
+    });
+
+    it('does not set claimantAddress when veteran has no mailingAddress', () => {
+      const form = baseForm({
+        veteran: {
+          homePhone: { areaCode: '555', phoneNumber: '1234567' },
+        },
+      });
+
+      const formData = parseResult(transform({}, form));
+
+      expect(formData.claimantAddress).to.be.undefined;
+      expect(formData.veteran).to.be.undefined;
+    });
   });
 
   it('transforms with custom security question and non-person/org disclosure', () => {

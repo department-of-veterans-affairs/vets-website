@@ -82,4 +82,19 @@ describe('createBreadcrumbs', () => {
       },
     ]);
   });
+
+  it('should return breadcrumbs for the HISTORY path', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.HISTORY),
+      1,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      ...defaultBreadcrumbs,
+      { href: medicationsUrls.MEDICATIONS_URL, label: 'Medications' },
+      {
+        href: medicationsUrls.MEDICATIONS_HISTORY,
+        label: 'Medication history',
+      },
+    ]);
+  });
 });

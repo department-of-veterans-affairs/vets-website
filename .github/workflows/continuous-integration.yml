@@ -12,102 +12,8 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  # TEMPORARY: This check will be removed once Shai Hulud 2.0 is no longer a moving target
-  # Fails and cancels the workflow if package.json or yarn.lock are modified
-  check-dependency-files:
-    name: Check for Dependency File Changes
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
-
-      - name: Check for package.json or yarn.lock changes
-        run: |
-          # Fetch main branch for comparison
-          git fetch origin main
-
-          # Check if package.json or yarn.lock have been modified
-          if git diff --name-only origin/main...HEAD | grep -qE '^(package\.json|yarn\.lock)$'; then
-            echo "⚠️  Dependency files modified. Checking if only approved packages were updated..."
-
-            # Get the diff and check if any non-approved package changes exist
-            PACKAGE_JSON_DIFF=$(git diff origin/main...HEAD package.json 2>/dev/null || echo "")
-            YARN_LOCK_DIFF=$(git diff origin/main...HEAD yarn.lock 2>/dev/null || echo "")
-
-            # Check if there are any changes to package.json that don't involve approved packages or scripts
-            if [ -n "$PACKAGE_JSON_DIFF" ]; then
-              # Get changed lines (excluding context lines and approved packages)
-              # Note: blob-polyfill, cheerio, and engines field changes are allowed for Node 22 upgrade
-              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'jsdom' | grep -v '"msw"' | grep -v '"node-sass"' | grep -v '"sass"' | grep -v 'patch-package' | grep -v 'blob-polyfill' | grep -v 'cheerio' | grep -v '"engines"' | grep -v '"node":' | grep -v '"yarn":' |  grep -v 'husky' | grep -v '"msw"' || echo "")
-
-              if [ -n "$CHANGED_LINES" ]; then
-                # Check if changes contain dependency version bumps (lines with version patterns like ^, ~, >=, etc.)
-                # or dependency section headers, excluding approved packages
-                DEPENDENCY_CHANGES=$(echo "$CHANGED_LINES" | grep -E '": "[\^~>=<]|"(dev|peer|optional)?[Dd]ependencies"' || echo "")
-
-                if [ -n "$DEPENDENCY_CHANGES" ]; then
-                  echo "❌ ERROR: package.json has dependency changes other than approved packages."
-                  echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, msw, node-sass, sass, patch-package, blob-polyfill, cheerio, engines field, and the scripts section are allowed."
-                  echo ""
-                  echo "Dependency changes detected:"
-                  echo "$DEPENDENCY_CHANGES"
-                  exit 1
-                fi
-
-                echo "✓ Changes detected in scripts section or other non-dependency fields. Allowing changes."
-              fi
-            fi
-
-            # Check if there are any changes to yarn.lock that don't involve approved packages
-            if [ -n "$YARN_LOCK_DIFF" ]; then
-              # For yarn.lock, we need to check if changes are only in approved package sections
-              # Get all added/removed lines that don't contain approved packages
-              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'node-sass' | grep -v 'sass' | grep -v 'patch-package' | grep -v 'jsdom' | grep -v 'husky' | grep -v 'msw' | grep -v 'cheerio' || echo "")
-
-              # Also check for package entry headers that might not contain the name on the same line
-              # In yarn.lock, package entries start with "package-name@version:"
-              # We need to be more lenient here as yarn.lock structure can have dependencies listed
-              # We'll check if there are substantial non-approved package changes
-              if [ -n "$NON_APPROVED_LOCK_CHANGES" ]; then
-                # Count lines to determine if changes are substantial
-                CHANGE_COUNT=$(echo "$NON_APPROVED_LOCK_CHANGES" | wc -l)
-
-                # If there are more than 20000 lines of non-approved package changes, it's likely other packages
-                # This is a heuristic - yarn.lock changes for a single package typically affect surrounding context
-                # Note: Threshold increased from 600 to 20000 to accommodate Node 22 upgrade transitive dependencies
-                if [ "$CHANGE_COUNT" -gt 20000 ]; then
-                  echo "❌ ERROR: yarn.lock has been modified with substantial changes beyond approved packages."
-                  echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, msw, node-sass, sass, patch-package, blob-polyfill, and cheerio are allowed."
-                  echo ""
-                  echo "Detected $CHANGE_COUNT lines of non-approved package changes in yarn.lock"
-                  exit 1
-                fi
-              fi
-            fi
-
-            echo "✓ Only approved package updates detected. Allowing changes."
-          else
-            echo "✓ No dependency file changes detected."
-          fi
-
-      - name: Cancel workflow on failure
-        if: failure()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.actions.cancelWorkflowRun({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: context.runId
-            });
-
   build:
     name: Build
-    needs: [check-dependency-files]
     runs-on: ubuntu-16-cores-latest
     permissions:
       id-token: write
@@ -678,7 +584,7 @@ jobs:
 
   linting:
     name: Linting (All)
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/revert/yeoman-update' }}
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -794,6 +700,7 @@ jobs:
         with:
           aws_region: us-gov-west-1
           role: ${{ vars.AWS_ASSUME_ROLE }}
+          role_duration: 7200
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -813,10 +720,10 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    if: |
-      needs.build.result == 'success' &&
-      needs.tests-prep.result == 'success' &&
-      needs.tests-prep.outputs.e2e_count != '0'
+#   if: |
+#     needs.build.result == 'success' &&
+#     needs.tests-prep.result == 'success' &&
+#     needs.tests-prep.outputs.e2e_count != '0'
 
     container:
       image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
