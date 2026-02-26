@@ -1800,4 +1800,220 @@ describe('SelectCareTeam', () => {
       expect(history.location.pathname).to.equal(initialPath);
     });
   });
+
+  describe('IPE Alert for Care Team Name Changes', () => {
+    const IPE_LOCALSTORAGE_KEY = 'sm-care-team-name-change-ipe-dismissed';
+
+    beforeEach(() => {
+      // Clear localStorage before each test
+      localStorage.removeItem(IPE_LOCALSTORAGE_KEY);
+    });
+
+    afterEach(() => {
+      // Clean up localStorage after each test
+      localStorage.removeItem(IPE_LOCALSTORAGE_KEY);
+    });
+
+    it('renders IPE alert for users with Cerner/OH facilities', async () => {
+      const stateWithCerner = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allowedRecipients: [
+              ...noBlockedRecipients.mockAllowedRecipients,
+              {
+                id: 999,
+                name: 'Cerner Care Team',
+                stationNumber: '668',
+                ohTriageGroup: true,
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithCerner,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        const ipeAlert = screen.getByTestId('sm-care-team-name-ipe-container');
+        expect(ipeAlert).to.exist;
+        expect(ipeAlert).to.have.attribute(
+          'aria-label',
+          'Your care team list may look different',
+        );
+      });
+
+      expect(screen.getByText(/Your care team list may look different/i)).to
+        .exist;
+      expect(
+        screen.getByText(
+          /If your VA health facility recently moved to a new electronic health record system/i,
+        ),
+      ).to.exist;
+      expect(screen.getByTestId('sm-care-team-name-ipe-stop-showing-hint')).to
+        .exist;
+    });
+
+    it('does NOT render IPE alert for users with only VistA facilities', async () => {
+      const stateWithoutCerner = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allowedRecipients: noBlockedRecipients.mockAllowedRecipients.map(
+              recipient => ({
+                ...recipient,
+                ohTriageGroup: false,
+              }),
+            ),
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithoutCerner,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        const ipeAlert = screen.queryByTestId(
+          'sm-care-team-name-ipe-container',
+        );
+        expect(ipeAlert).to.not.exist;
+      });
+    });
+
+    it('hides IPE alert when "Stop showing this hint" is clicked and sets localStorage', async () => {
+      const stateWithCerner = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allowedRecipients: [
+              ...noBlockedRecipients.mockAllowedRecipients,
+              {
+                id: 999,
+                name: 'Cerner Care Team',
+                stationNumber: '668',
+                ohTriageGroup: true,
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithCerner,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for IPE alert to appear
+      await waitFor(() => {
+        expect(screen.getByTestId('sm-care-team-name-ipe-container')).to.exist;
+      });
+
+      // Click the "Stop showing this hint" button
+      const stopShowingButton = screen.getByTestId(
+        'sm-care-team-name-ipe-stop-showing-hint',
+      );
+      fireEvent.click(stopShowingButton);
+
+      // Wait for IPE alert to disappear
+      await waitFor(() => {
+        const ipeAlert = screen.queryByTestId(
+          'sm-care-team-name-ipe-container',
+        );
+        expect(ipeAlert).to.not.exist;
+      });
+
+      // Verify localStorage was set
+      expect(localStorage.getItem(IPE_LOCALSTORAGE_KEY)).to.equal('true');
+    });
+
+    it('does NOT render IPE alert when localStorage dismissal flag is set', async () => {
+      // Set the dismissal flag
+      localStorage.setItem(IPE_LOCALSTORAGE_KEY, 'true');
+
+      const stateWithCerner = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allowedRecipients: [
+              ...noBlockedRecipients.mockAllowedRecipients,
+              {
+                id: 999,
+                name: 'Cerner Care Team',
+                stationNumber: '668',
+                ohTriageGroup: true,
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithCerner,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // IPE alert should not appear
+      await waitFor(() => {
+        const ipeAlert = screen.queryByTestId(
+          'sm-care-team-name-ipe-container',
+        );
+        expect(ipeAlert).to.not.exist;
+      });
+    });
+
+    it('includes screen-reader-only text for accessibility', async () => {
+      const stateWithCerner = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allowedRecipients: [
+              ...noBlockedRecipients.mockAllowedRecipients,
+              {
+                id: 999,
+                name: 'Cerner Care Team',
+                stationNumber: '668',
+                ohTriageGroup: true,
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithCerner,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        const srOnlySpan = screen.container.querySelector(
+          '#sm-care-team-name-ipe-stop-showing-hint-info',
+        );
+        expect(srOnlySpan).to.exist;
+        expect(srOnlySpan).to.have.class('sr-only');
+        expect(srOnlySpan.textContent).to.equal(
+          'This hint about care team name changes will not appear anymore',
+        );
+      });
+    });
+  });
 });
