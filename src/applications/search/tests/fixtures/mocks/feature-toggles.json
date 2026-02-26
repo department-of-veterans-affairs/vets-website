@@ -1,0 +1,12 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "search_gov_maintenance",
+        "value": false
+      }
+    ]
+  }
+}
+
