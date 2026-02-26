@@ -1,5 +1,6 @@
 const babbleConfig = require('./babel.config.json');
 
+// no-op comment to trigger eslint full CI
 const moduleResolverAlias =
   babbleConfig.plugins.find(plug => plug[0] === 'module-resolver')[1].alias ||
   {};
