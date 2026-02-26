@@ -24,6 +24,19 @@ export const API_URLS = {
 };
 
 /**
+ * The keys are the possible values for titleOfActiveReview coming back
+ * from the contestable issues API. If titleOfActiveReview is null,
+ * the issue is not under active review.
+ *
+ * The values are the DR app they correspond to.
+ */
+export const ACTIVE_REVIEW_TITLES = {
+  'Supplemental Claim': 'Supplemental Claim',
+  'Higher-Level Review': 'Higher-Level Review',
+  Appeal: 'Notice of Disagreement',
+};
+
+/**
  **** KEYS ****
  */
 // key for contestableIssues to indicate that the user selected the issue

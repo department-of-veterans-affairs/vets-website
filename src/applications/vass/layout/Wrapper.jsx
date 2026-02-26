@@ -128,17 +128,16 @@ const Wrapper = props => {
         )}
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {!errorAlert &&
-            pageTitle && (
-              <h1 tabIndex="-1" data-testid="header">
-                {pageTitle}
-                {required && (
-                  <span className="vass-usa-label--required vads-u-font-family--sans">
-                    (*Required)
-                  </span>
-                )}
-              </h1>
-            )}
+          {pageTitle && (
+            <h1 tabIndex="-1" data-testid="header">
+              {pageTitle}
+              {required && (
+                <span className="vass-usa-label--required vads-u-font-family--sans">
+                  (*Required)
+                </span>
+              )}
+            </h1>
+          )}
           <DowntimeNotification
             appTitle="VA Solid Start"
             dependencies={[externalServices.vass]}

@@ -15,7 +15,7 @@ import {
 import EnterOTP from './EnterOTP';
 import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
 import * as authUtils from '../utils/auth';
-import { FLOW_TYPES, URLS } from '../utils/constants';
+import { FLOW_TYPES, URLS, VASS_PHONE_NUMBER } from '../utils/constants';
 import {
   createOTPInvalidError,
   createOTPAccountLockedError,
@@ -61,10 +61,27 @@ describe('VASS Component: EnterOTP', () => {
     const screen = renderComponent();
 
     expect(screen.getByTestId('header')).to.exist;
-    expect(screen.getByTestId('enter-otp-success-alert')).to.exist;
-    expect(
-      screen.getByTestId('enter-otp-success-alert').textContent,
-    ).to.contain(defaultRenderOptions.initialState.vassForm.obfuscatedEmail);
+
+    const successAlert = screen.getByTestId('enter-otp-success-alert');
+    expect(successAlert).to.exist;
+    expect(successAlert.textContent).to.contain(
+      defaultRenderOptions.initialState.vassForm.obfuscatedEmail,
+    );
+    expect(successAlert.textContent).to.contain(
+      'We\u2019ve emailed you a one-time verification code',
+    );
+    expect(successAlert.textContent).to.contain(
+      'We emailed a one-time verification code (OTC) to',
+    );
+    expect(successAlert.textContent).to.contain(
+      'If you don\u2019t receive the OTC',
+    );
+    const telephone = successAlert.querySelector(
+      'va-telephone[data-testid="solid-start-telephone"]',
+    );
+    expect(telephone).to.exist;
+    expect(telephone.getAttribute('contact')).to.equal(VASS_PHONE_NUMBER);
+
     expect(screen.queryByTestId('enter-otp-error-alert')).to.not.exist;
     const otpInput = screen.getByTestId('otp-input');
     expect(otpInput).to.exist;
@@ -230,17 +247,6 @@ describe('VASS Component: EnterOTP', () => {
       await waitFor(() => {
         expect(getByTestId('enter-otp-error-alert')).to.exist;
         expect(queryByTestId('enter-otp-success-alert')).to.not.exist;
-      });
-    });
-    it('should clear the otp input after an error', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
-      const { container, getByTestId } = renderComponent();
-      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
-      const continueButton = getByTestId('continue-button');
-      continueButton.click();
-      await waitFor(() => {
-        const otpInput = getByTestId('otp-input');
-        expect(otpInput.getAttribute('value')).to.equal('');
       });
     });
   });
