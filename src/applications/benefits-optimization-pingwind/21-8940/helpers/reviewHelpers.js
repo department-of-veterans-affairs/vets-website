@@ -82,3 +82,35 @@ export const wrapDateRangeUiWithDl = dateRangeUi => {
     to: wrapDateUiWithDl(dateRangeUi.to),
   };
 };
+
+const createRadioReviewWidget = ({ title, labels }) => {
+  const RadioReviewWidget = ({ value }) => {
+    const label = labels?.[value] || value;
+    if (!label) return null;
+    return <span>{label}</span>;
+  };
+  RadioReviewWidget.displayName = `RadioReviewWidget(${title})`;
+  return RadioReviewWidget;
+};
+
+export const wrapRadioUiWithDl = uiSchema => {
+  if (!uiSchema) return uiSchema;
+  const options = uiSchema['ui:options'] || {};
+  const title = uiSchema['ui:title'] || 'Selection';
+
+  const wrappedUiSchema = {
+    ...uiSchema,
+    'ui:options': {
+      ...options,
+      useDlWrap: true,
+      customTitle: options.customTitle ?? ' ',
+    },
+    'ui:reviewWidget': createRadioReviewWidget({
+      title,
+      labels: options.labels,
+    }),
+  };
+
+  delete wrappedUiSchema['ui:reviewField'];
+  return wrappedUiSchema;
+};
