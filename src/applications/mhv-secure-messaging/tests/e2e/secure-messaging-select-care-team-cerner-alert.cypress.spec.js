@@ -181,10 +181,16 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
     );
 
     // Click the Start a new message link
-    cy.contains('a', 'Start a new message').click();
+    cy.contains('a', 'Start a new message').click({
+      force: true,
+      waitForAnimations: true,
+    });
 
     // Click the Continue to start message link
-    cy.contains('a', 'Continue to start message').click();
+    cy.contains('a', 'Continue to start message').click({
+      force: true,
+      waitForAnimations: true,
+    });
 
     // Verify the Cerner facility alert is displayed - look for va-alert with error status
     cy.get('va-alert[status="error"]')
@@ -254,10 +260,16 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
     );
 
     // Click the Start a new message link
-    cy.contains('a', 'Start a new message').click();
+    cy.contains('a', 'Start a new message').click({
+      force: true,
+      waitForAnimations: true,
+    });
 
     // Click the Continue to start message link
-    cy.contains('a', 'Continue to start message').click();
+    cy.contains('a', 'Continue to start message').click({
+      force: true,
+      waitForAnimations: true,
+    });
 
     // Verify the Cerner facility alert is NOT displayed (phase p1 is before T-6)
     cy.get('va-alert[status="error"]').should('not.exist');
@@ -325,10 +337,16 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
     );
 
     // Click the Start a new message link
-    cy.contains('a', 'Start a new message').click();
+    cy.contains('a', 'Start a new message').click({
+      force: true,
+      waitForAnimations: true,
+    });
 
     // Click the Continue to start message link
-    cy.contains('a', 'Continue to start message').click();
+    cy.contains('a', 'Continue to start message').click({
+      force: true,
+      waitForAnimations: true,
+    });
 
     // Verify the Cerner facility alert is NOT displayed (phase p6 is after transition window)
     cy.get('va-alert[status="error"]').should('not.exist');
