@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { configureStore } from '@reduxjs/toolkit';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
@@ -1015,6 +1017,69 @@ describe('prescriptionsApi', () => {
       );
 
       expect(result).to.be.null;
+    });
+  });
+
+  describe('refillPrescription mutation', () => {
+    let sandbox;
+    let fetchStub;
+
+    const createTestStore = (isCernerPilot = false) =>
+      configureStore({
+        reducer: {
+          featureToggles: () => ({
+            [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+            loading: false,
+          }),
+          [prescriptionsApi.reducerPath]: prescriptionsApi.reducer,
+        },
+        middleware: getDefault =>
+          getDefault().concat(prescriptionsApi.middleware),
+      });
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+      fetchStub = sandbox.stub(global, 'fetch');
+      fetchStub.resolves(
+        new Response(JSON.stringify({ data: 'ok' }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        }),
+      );
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should call v1 endpoint with PATCH and prescription ID in the URL path', async () => {
+      const store = createTestStore(false);
+
+      await store.dispatch(
+        prescriptionsApi.endpoints.refillPrescription.initiate('12345'),
+      );
+
+      const [url, options] = fetchStub.firstCall.args;
+      expect(url).to.equal(
+        `${environment.API_URL}/my_health/v1/prescriptions/12345/refill`,
+      );
+      expect(options.method).to.equal('PATCH');
+      expect(options.body).to.be.undefined;
+    });
+
+    it('should call v2 endpoint with POST and prescription ID in the request body', async () => {
+      const store = createTestStore(true);
+
+      await store.dispatch(
+        prescriptionsApi.endpoints.refillPrescription.initiate('12345'),
+      );
+
+      const [url, options] = fetchStub.firstCall.args;
+      expect(url).to.equal(
+        `${environment.API_URL}/my_health/v2/prescriptions/refill`,
+      );
+      expect(options.method).to.equal('POST');
+      expect(options.body).to.equal(JSON.stringify(['12345']));
     });
   });
 });

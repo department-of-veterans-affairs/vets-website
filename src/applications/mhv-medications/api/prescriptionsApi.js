@@ -306,17 +306,26 @@ export const prescriptionsApi = createApi({
         const state = getState();
         const apiBasePath = getApiBasePath(state);
         const method = getRefillMethod(state);
+        const isOracleHealthPilot = selectCernerPilotFlag(state);
+
+        // v2: POST /prescriptions/refill with ID in body
+        // v1: PATCH /prescriptions/{id}/refill
+        const url = isOracleHealthPilot
+          ? `${apiBasePath}/prescriptions/refill`
+          : `${apiBasePath}/prescriptions/${id}/refill`;
+
+        const options = {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          ...(isOracleHealthPilot && {
+            body: JSON.stringify([id]),
+          }),
+        };
 
         try {
-          const result = await apiRequest(
-            `${apiBasePath}/prescriptions/${id}/refill`,
-            {
-              method,
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          );
+          const result = await apiRequest(url, options);
           return { data: result };
         } catch ({ errors }) {
           return {
