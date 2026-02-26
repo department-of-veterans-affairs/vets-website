@@ -12,7 +12,7 @@ const programOverviewCard = {
 };
 const orientationCard = {
   title: 'VR&E Support-and-Services Tracks',
-  body: `We offer 5 support-and-services tracks to help you get education or training, find and keep a job, and live as independently as possible. Explore the different tracks and take charge of your future.`,
+  body: `We offer 5 support-and-services tracks to help you get education, training, career planning, and live independently.`,
   href:
     'https://www.va.gov/careers-employment/vocational-rehabilitation/programs',
   isExternal: true,

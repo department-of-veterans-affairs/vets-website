@@ -72,7 +72,9 @@ describe('CaseProgressDescription', () => {
       { ch31CaseMilestones: undefined },
     );
 
-    getByText(/basic eligibility confirmed/i);
+    getByText(
+      /VR&E has received and processed your application for Chapter 31 benefits/i,
+    );
     getByText(/Orientation Completion/i);
 
     expect(container.querySelector('va-card')).to.exist;
@@ -94,7 +96,9 @@ describe('CaseProgressDescription', () => {
       { ch31CaseMilestones: { data: { ok: true }, error: null } },
     );
 
-    getByText(/basic eligibility confirmed/i);
+    getByText(
+      /VR&E has received and processed your application for Chapter 31 benefits/i,
+    );
     expect(container.querySelector('va-alert')).to.exist;
     getByText(/Your choice has been recorded/i);
     expect(container.querySelector('va-card')).to.exist;

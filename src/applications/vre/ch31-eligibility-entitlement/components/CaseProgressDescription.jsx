@@ -66,14 +66,15 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
       return (
         <>
           <p>
-            Your application for VR&E Chapter 31 benefits is in process and
-            basic eligibility confirmed. Your next step is to watch the
-            Orientation Video and confirm its completion, which is below.
+            VR&E has received and processed your application for Chapter 31
+            benefits. Your next step is to watch the Orientation Video and
+            confirm its completion, which is below.
           </p>
           <p>
             If you prefer, you can complete the orientation during your Initial
             Evaluation Counselor Meeting. Once you make your selection, click
-            submit, and the Initial Evaluation schedule will arrive via email.
+            submit, and the Initial Evaluation scheduling link will be sent via
+            email.
           </p>
           <va-card background class="vads-u-padding-top--0">
             <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
@@ -123,9 +124,8 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
                     </h3>
                     <p className="va-nav-linkslist-description">
                       We offer 5 support-and-services tracks to help you get
-                      education or training, find and keep a job, and live as
-                      independently as possible. Explore the different tracks
-                      and take charge of your future.
+                      education, training, career planning, and live
+                      independently.
                     </p>
                   </li>
                 </ul>
