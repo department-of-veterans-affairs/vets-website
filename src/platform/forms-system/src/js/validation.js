@@ -658,10 +658,24 @@ export function validateAutosuggestOption(errors, formData) {
   }
 }
 
-export function validateTelephoneInput(
-  errors,
-  { isValid, error, touched, required, contact },
-) {
+/**
+ * This function corrects corrupt form data from SIP
+ * some keys in field data previously prefixed with an underscore; the server unexpectedly transformed underscores to capital letters
+ * this function maps capital letters back to camel-case
+ * see: https://github.com/department-of-veterans-affairs/va.gov-team/issues/133012
+ */
+function rectifyData(data) {
+  return {
+    isValid: data.isValid ?? data.IsValid,
+    error: data.error ?? data.Error,
+    touched: data.touched ?? data.Touched,
+    required: data.required ?? data.Required,
+    contact: data.contact,
+  };
+}
+
+export function validateTelephoneInput(errors, data) {
+  const { isValid, error, touched, required, contact } = rectifyData(data);
   // was validation triggered by navigation attempt
   const navState = navigationState.getNavigationEventStatus();
 
