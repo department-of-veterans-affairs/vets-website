@@ -12,7 +12,10 @@ import {
   rxSourceIsNonVA,
 } from '../../util/helpers';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
-import { shouldBlockRefills } from '../../util/oracleHealthTransition';
+import {
+  shouldBlockRefills,
+  shouldBlockRenewals,
+} from '../../util/oracleHealthTransition';
 import {
   selectMhvMedicationsOracleHealthCutoverFlag,
   selectCernerPilotFlag,
@@ -37,6 +40,11 @@ const MedicationsListCard = ({ rx }) => {
   );
   const migratingFacilities = useSelector(selectOracleHealthMigrations);
   const isRefillBlocked = shouldBlockRefills({
+    prescription: rx,
+    isFeatureFlagEnabled: isOracleHealthCutoverEnabled,
+    migrations: migratingFacilities,
+  });
+  const isRenewalBlocked = shouldBlockRenewals({
     prescription: rx,
     isFeatureFlagEnabled: isOracleHealthCutoverEnabled,
     migrations: migratingFacilities,
@@ -130,12 +138,13 @@ const MedicationsListCard = ({ rx }) => {
             {rxStatus}
           </p>
         )}
-        {isRefillBlocked && <OracleHealthInCardAlert />}
+        {isRefillBlocked && rx.isRefillable && <OracleHealthInCardAlert />}
         {rx && (
           <ExtraDetails
             {...rx}
             page={pageType.LIST}
             isRefillBlocked={isRefillBlocked}
+            isRenewalBlocked={isRenewalBlocked}
           />
         )}
       </>

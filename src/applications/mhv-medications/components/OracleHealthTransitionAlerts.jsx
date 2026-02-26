@@ -143,3 +143,23 @@ export const OracleHealthInCardAlert = () => (
     </p>
   </va-alert>
 );
+
+/**
+ * Component for in-card Oracle Health transition renewal alert.
+ * Rendered by MedicationsListCard when a prescription's renewal is blocked
+ * during phases p3-p5 (T-6 through T+2).
+ */
+export const OracleHealthRenewalInCardAlert = () => (
+  <va-alert
+    class="vads-u-margin-top--2"
+    status="error"
+    background-only
+    data-testid="oracle-health-renewal-in-card-alert"
+    data-dd-action-name="oracle-health-renewal-in-card-alert-displayed"
+  >
+    <p className="vads-u-margin-y--0">
+      You don’t have any refills left. If you need more medication, call your
+      provider to request a renewal.
+    </p>
+  </va-alert>
+);
