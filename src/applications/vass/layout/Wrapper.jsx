@@ -48,36 +48,45 @@ const Wrapper = props => {
   const navigate = useNavigate();
 
   // Warn on page refresh/close
-  useEffect(() => {
-    if (disableBeforeUnload) {
-      return undefined;
-    }
+  useEffect(
+    () => {
+      if (disableBeforeUnload) {
+        return undefined;
+      }
 
-    const handleBeforeUnload = e => {
-      e.preventDefault();
-      e.returnValue = '';
-    };
+      const handleBeforeUnload = e => {
+        e.preventDefault();
+        e.returnValue = '';
+      };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+      window.addEventListener('beforeunload', handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [disableBeforeUnload]);
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    },
+    [disableBeforeUnload],
+  );
 
-  useEffect(() => {
-    if (!loading) {
-      focusElement('h1');
-    }
-  }, [loading]);
+  useEffect(
+    () => {
+      if (!loading) {
+        focusElement('h1');
+      }
+    },
+    [loading],
+  );
 
-  useEffect(() => {
-    if (verificationError) {
-      setTimeout(() => {
-        focusElement('va-alert[data-testid="verification-error-alert"]');
-      }, 100);
-    }
-  }, [verificationError]);
+  useEffect(
+    () => {
+      if (verificationError) {
+        setTimeout(() => {
+          focusElement('va-alert[data-testid="verification-error-alert"]');
+        }, 100);
+      }
+    },
+    [verificationError],
+  );
 
   if (loading) {
     return (
@@ -101,21 +110,22 @@ const Wrapper = props => {
       })}
       data-testid={testID}
     >
-      {!errorAlert && showBackLink && (
-        <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--0">
-          <nav aria-label="Back">
-            <va-link
-              back
-              data-testid="back-link"
-              text="Back"
-              onClick={e => {
-                e.preventDefault();
-                navigate(-1);
-              }}
-            />
-          </nav>
-        </div>
-      )}
+      {!errorAlert &&
+        showBackLink && (
+          <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--0">
+            <nav aria-label="Back">
+              <va-link
+                back
+                data-testid="back-link"
+                text="Back"
+                onClick={e => {
+                  e.preventDefault();
+                  navigate(-1);
+                }}
+              />
+            </nav>
+          </div>
+        )}
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {pageTitle && (
