@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   fetchPdfApi,
   downloadBlob,
@@ -58,6 +59,14 @@ export const DownloadFormPDF = ({ guid, veteranName }) => {
         return;
       }
 
+      // Proactively check session before hitting the server so an expired
+      // session never produces a 401 in our metrics.
+      if (!isLoggedIn) {
+        setSessionExpired(true);
+        recordEvent({ event: 'form-21-2680--pdf-download-session-expired' });
+        return;
+      }
+
       setIsLoading(true);
       setError(null);
       setSessionExpired(false);
@@ -80,7 +89,7 @@ export const DownloadFormPDF = ({ guid, veteranName }) => {
         setIsLoading(false);
       }
     },
-    [guid, filename],
+    [guid, filename, isLoggedIn],
   );
 
   // Render loading state
