@@ -162,7 +162,7 @@ describe('<InboxLayout />', () => {
 
     // Confirm starting state
     const startingResults = view.getAllByTestId('inquiry-card');
-    expect(startingResults.length).to.equal(4);
+    expect(startingResults.length).to.equal(6);
     expect(startingResults[0].textContent).to.include('Reference number: A-2');
 
     const searchBox = view.container.querySelector('va-text-input');
