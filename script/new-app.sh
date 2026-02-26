@@ -27,7 +27,12 @@
 #   --addToMyVaSip=[true/false] \
 #   --templateType="WITH_1_PAGE"
 
-# Use npx to run yo@6 with the generator package
-# This isolates yo's ESM dependencies from the main node_modules
-# -p flags install both packages temporarily before running yo
-npx --yes -p yo@6 -p @department-of-veterans-affairs/generator-vets-website@4 yo @department-of-veterans-affairs/vets-website "$@" && npm run lint:js:untracked:fix > /dev/null 2>&1
+# Install yo@6 and the generator into a temporary directory to isolate
+# them from the main node_modules. npx -p does not reliably expose binaries
+# in npm 10 (Node 22), so we install explicitly and invoke the binary directly.
+TMPDIR=$(mktemp -d)
+trap "rm -rf $TMPDIR" EXIT
+
+npm install --prefix "$TMPDIR" --loglevel=error yo@6 @department-of-veterans-affairs/generator-vets-website@4 > /dev/null 2>&1
+
+"$TMPDIR/node_modules/.bin/yo" @department-of-veterans-affairs/vets-website "$@" && npm run lint:js:untracked:fix > /dev/null 2>&1
