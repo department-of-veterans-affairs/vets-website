@@ -7,7 +7,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { genderLabels } from 'platform/static-data/labels';
 
 import { maskSSN, normalizeFullName } from '../../../utils/helpers/general';
-import { APP_URLS } from '../../../utils/constants';
+import { getAppUrls } from '../../../utils/constants';
 
 const VeteranProfileInformation = ({
   goBack,
@@ -102,7 +102,7 @@ const VeteranProfileInformation = ({
           need to change this information for your health benefits, call your VA
           health facility.{' '}
           <va-link
-            href={APP_URLS.facilities}
+            href={getAppUrls().facilities}
             text="Find your VA health facility"
           />
         </p>

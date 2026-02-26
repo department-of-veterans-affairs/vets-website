@@ -7,7 +7,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { genderLabels } from 'platform/static-data/labels';
 import { maskSSN, normalizeFullName } from '../../../utils/helpers/general';
-import { APP_URLS } from '../../../utils/constants';
+import { getAppUrls } from '../../../utils/constants';
 
 const VeteranProfileInformation = ({
   goBack,
@@ -102,7 +102,7 @@ const VeteranProfileInformation = ({
           You can also call your VA health facility to get help changing your
           name on file with VA. Ask for the eligibility department.{' '}
           <va-link
-            href={APP_URLS.facilities}
+            href={getAppUrls().facilities}
             text="Find your nearest VA health facility"
           />
         </p>

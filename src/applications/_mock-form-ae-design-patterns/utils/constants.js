@@ -98,11 +98,11 @@ export const VIEW_FIELD_SCHEMA = {
   properties: {},
 };
 // declare global app URLs for use with content links
-export const APP_URLS = {
+export const getAppUrls = () => ({
   hca: getAppUrl('hca'),
   verify: getAppUrl('verify'),
   facilities: getAppUrl('facilities'),
-};
+});
 
 export const LOCATIONS_TO_REMOVE_FORM_HEADER = [
   '/1/task-green/veteran-information/edit-mailing-address',
