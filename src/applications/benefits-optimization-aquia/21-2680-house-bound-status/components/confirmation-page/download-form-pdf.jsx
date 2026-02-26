@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -21,6 +27,10 @@ import {
 export const DownloadFormPDF = ({ guid, veteranName }) => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.user?.login?.currentlyLoggedIn);
+  // Track prior auth state so we only clear the session-expired UI after an
+  // actual re-auth transition (logged-out -> logged-in), not just because the
+  // user is currently logged in.
+  const previousIsLoggedIn = useRef(isLoggedIn);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -29,9 +39,13 @@ export const DownloadFormPDF = ({ guid, veteranName }) => {
   // Clear session-expired state when the user signs back in
   useEffect(
     () => {
-      if (isLoggedIn && sessionExpired) {
+      // Reactive 401 can occur while `isLoggedIn` is still true. Clearing only
+      // on transition preserves the warning UI until the user actually re-signs in.
+      if (!previousIsLoggedIn.current && isLoggedIn && sessionExpired) {
         setSessionExpired(false);
       }
+
+      previousIsLoggedIn.current = isLoggedIn;
     },
     [isLoggedIn, sessionExpired],
   );

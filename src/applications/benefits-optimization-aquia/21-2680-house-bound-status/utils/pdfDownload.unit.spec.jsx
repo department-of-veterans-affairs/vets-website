@@ -120,6 +120,64 @@ describe('pdfDownload utilities', () => {
         ).to.be.true;
       }
     });
+
+    it('should throw with sessionExpired flag on 401 response', async () => {
+      const apiError = new Error('Unauthorized');
+      apiError.errors = [{ status: '401', title: 'Unauthorized' }];
+      apiRequestStub.rejects(apiError);
+
+      try {
+        await fetchPdfApi(mockGuid);
+        expect.fail('Should have thrown error');
+      } catch (error) {
+        expect(error.message).to.equal('Session expired');
+        expect(error.sessionExpired).to.be.true;
+        expect(
+          recordEventStub.calledWith({
+            event: 'form-21-2680--pdf-download-session-expired',
+          }),
+        ).to.be.true;
+      }
+    });
+
+    it('should remove shouldRedirectExpiredSession flag during fetch and restore it after', async () => {
+      sessionStorage.setItem('shouldRedirectExpiredSession', 'true');
+
+      const mockBlob = new Blob(['pdf content'], { type: 'application/pdf' });
+      const mockResponse = {
+        ok: true,
+        blob: sandbox.stub().resolves(mockBlob),
+      };
+      apiRequestStub.resolves(mockResponse);
+
+      await fetchPdfApi(mockGuid);
+
+      // Flag should be restored after fetch completes
+      expect(sessionStorage.getItem('shouldRedirectExpiredSession')).to.equal(
+        'true',
+      );
+
+      sessionStorage.removeItem('shouldRedirectExpiredSession');
+    });
+
+    it('should restore shouldRedirectExpiredSession flag even on error', async () => {
+      sessionStorage.setItem('shouldRedirectExpiredSession', 'true');
+
+      apiRequestStub.rejects(new Error('Network error'));
+
+      try {
+        await fetchPdfApi(mockGuid);
+      } catch (e) {
+        // expected
+      }
+
+      // Flag should be restored in finally block
+      expect(sessionStorage.getItem('shouldRedirectExpiredSession')).to.equal(
+        'true',
+      );
+
+      sessionStorage.removeItem('shouldRedirectExpiredSession');
+    });
   });
 
   describe('downloadBlob', () => {
