@@ -27,7 +27,7 @@ const getCareerPlanningCard = step => {
 
   if (step <= 4) {
     body.push(
-      'This will prepare you for your “Initial Evaluation Counselor Meeting."',
+      'This will prepare you for your "Initial Evaluation Counselor Meeting."',
     );
   }
 
