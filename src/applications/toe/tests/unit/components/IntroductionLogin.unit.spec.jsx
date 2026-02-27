@@ -82,28 +82,7 @@ describe('<IntroductionLogin />', () => {
     ).to.exist;
   });
 
-  it('should render maintenance alert with R6 maintenance period message', () => {
-    const state = {
-      ...defaultState,
-      featureToggles: {
-        ...defaultState.featureToggles,
-        [FEATURE_FLAGS.showMeb1990EMaintenanceAlert]: true,
-        [FEATURE_FLAGS.showMeb1990ER6MaintenanceMessage]: true,
-      },
-    };
-
-    const store = createMockStore(state);
-
-    const { getByText } = renderIntroductionLogin(store);
-
-    expect(
-      getByText(
-        'We are currently performing system updates. Please come back after 6:00 a.m. ET on Monday, July 28 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.',
-      ),
-    ).to.exist;
-  });
-
-  it('should render va-alert-sign-in with signInOptional variant as default', () => {
+  it('should render va-alert-sign-in with signInRequired variant', () => {
     const state = {
       ...defaultState,
       user: {
@@ -111,30 +90,6 @@ describe('<IntroductionLogin />', () => {
         login: {
           hasCheckedKeepAlive: true,
         },
-      },
-    };
-
-    const store = createMockStore(state);
-
-    const { container } = renderIntroductionLogin(store);
-
-    expect(
-      container.querySelector('va-alert-sign-in[variant="signInOptional"]'),
-    ).to.exist;
-  });
-
-  it('should render va-alert-sign-in with signInRequired variant when meb1995Reroute is true', () => {
-    const state = {
-      ...defaultState,
-      user: {
-        ...defaultState.user,
-        login: {
-          hasCheckedKeepAlive: true,
-        },
-      },
-      featureToggles: {
-        ...defaultState.featureToggles,
-        [FEATURE_FLAGS.meb1995Reroute]: true,
       },
     };
 
@@ -155,10 +110,6 @@ describe('<IntroductionLogin />', () => {
         login: {
           hasCheckedKeepAlive: true,
         },
-      },
-      featureToggles: {
-        ...defaultState.featureToggles,
-        [FEATURE_FLAGS.meb1995Reroute]: true,
       },
     };
 

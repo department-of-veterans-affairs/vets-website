@@ -9,7 +9,7 @@ import IntroductionLogin from '../components/IntroductionLogin';
 
 import { getAppData } from '../selectors';
 
-export const IntroductionPageContent = () => {
+export const IntroductionPageContent = ({ mebParentGuardianStep }) => {
   return (
     <div>
       <h1 className="vads-u-margin-bottom--1">
@@ -169,10 +169,10 @@ export const IntroductionPageContent = () => {
   );
 };
 
-export const IntroductionPage = ({ route, user }) => {
+export const IntroductionPage = ({ route, mebParentGuardianStep, user }) => {
   return (
     <div className="schemaform-intro">
-      <IntroductionPageContent />
+      <IntroductionPageContent mebParentGuardianStep={mebParentGuardianStep} />
 
       <IntroductionLogin route={route} />
 
@@ -195,6 +195,10 @@ const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
+  mebParentGuardianStep:
+    state?.featureToggles[featureFlagNames.mebParentGuardianStep],
+  showMeb1990EMaintenanceAlert:
+    state?.featureToggles[featureFlagNames.showMeb1990EZMaintenanceAlert],
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
@@ -207,5 +211,10 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.array,
   }).isRequired,
+  mebParentGuardianStep: PropTypes.bool,
   user: PropTypes.object,
+};
+
+IntroductionPageContent.propTypes = {
+  mebParentGuardianStep: PropTypes.bool,
 };

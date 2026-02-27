@@ -29,16 +29,13 @@ function ToeApp({
   isLOA3,
   isLoggedIn,
   location,
-  meb1995Reroute,
-  mebDpoAddressOptionEnabled,
+  mebParentGuardianStep,
   mebBankInfoConfirmationField,
   setFormData,
   sponsors,
   sponsorsInitial,
   sponsorsSavedState,
   user,
-  showMeb1990ER6MaintenanceMessage,
-  toeHighSchoolInfoChange,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -106,29 +103,14 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (
-        showMeb1990ER6MaintenanceMessage !==
-        formData.showMeb1990ER6MaintenanceMessage
-      ) {
+      if (mebParentGuardianStep !== formData.mebParentGuardianStep) {
         setFormData({
           ...formData,
-          showMeb1990ER6MaintenanceMessage,
+          mebParentGuardianStep,
         });
       }
     },
-    [showMeb1990ER6MaintenanceMessage],
-  );
-
-  useEffect(
-    () => {
-      if (meb1995Reroute !== formData.meb1995Reroute) {
-        setFormData({
-          ...formData,
-          meb1995Reroute,
-        });
-      }
-    },
-    [formData, meb1995Reroute, setFormData],
+    [mebParentGuardianStep],
   );
 
   useEffect(
@@ -195,30 +177,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (toeHighSchoolInfoChange !== formData.toeHighSchoolInfoChange) {
-        setFormData({
-          ...formData,
-          toeHighSchoolInfoChange,
-        });
-      }
-    },
-    [toeHighSchoolInfoChange],
-  );
-
-  useEffect(
-    () => {
-      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
-        setFormData({
-          ...formData,
-          mebDpoAddressOptionEnabled,
-        });
-      }
-    },
-    [mebDpoAddressOptionEnabled],
-  );
-
-  useEffect(
-    () => {
       if (dob !== formData?.dob) {
         setFormData({
           ...formData,
@@ -276,16 +234,13 @@ ToeApp.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
-  meb1995Reroute: PropTypes.bool,
   mebBankInfoConfirmationField: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
-  showMeb1990ER6MaintenanceMessage: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
-  toeHighSchoolInfoChange: PropTypes.bool,
   user: PropTypes.object,
 };
 

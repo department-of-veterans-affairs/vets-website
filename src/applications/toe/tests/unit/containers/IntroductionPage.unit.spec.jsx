@@ -2,7 +2,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import FEATURE_FLAGS from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   createPageList,
   createFormPageList,
@@ -52,40 +51,8 @@ const renderIntroductionPage = store => {
 };
 
 describe('<IntroductionPage />', () => {
-  it('should render v1', () => {
+  it('should render introduction page', () => {
     const store = createMockStore(defaultState);
-
-    const { container } = renderIntroductionPage(store);
-
-    expect(container).to.exist;
-  });
-
-  it('should render v2', () => {
-    const state = {
-      ...defaultState,
-      featureToggles: {
-        ...defaultState.featureToggles,
-        [FEATURE_FLAGS.showMeb54901990eTextUpdate]: true,
-      },
-    };
-
-    const store = createMockStore(state);
-
-    const { container } = renderIntroductionPage(store);
-
-    expect(container).to.exist;
-  });
-
-  it('should render v3', () => {
-    const state = {
-      ...defaultState,
-      featureToggles: {
-        ...defaultState.featureToggles,
-        [FEATURE_FLAGS.meb1995Reroute]: true,
-      },
-    };
-
-    const store = createMockStore(state);
 
     const { container } = renderIntroductionPage(store);
 
