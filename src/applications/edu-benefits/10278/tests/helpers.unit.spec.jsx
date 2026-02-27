@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import MockDate from 'mockdate';
 import { render } from '@testing-library/react';
 
 import {
@@ -15,15 +16,13 @@ import {
 } from '../helpers';
 
 describe('10278 helpers - validateTerminationDate', () => {
-  let clock;
-
   // Pin "today" to a known date so relative date math is deterministic.
   beforeEach(() => {
-    clock = sinon.useFakeTimers(new Date('2026-02-18T12:00:00Z').getTime());
+    MockDate.set('2026-02-18T12:00:00Z');
   });
 
   afterEach(() => {
-    clock.restore();
+    MockDate.reset();
   });
 
   it('adds an error when the date is more than 5 years in the future', () => {
