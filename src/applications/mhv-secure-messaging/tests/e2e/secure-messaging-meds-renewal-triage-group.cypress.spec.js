@@ -95,16 +95,12 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
       // Simulate a slow medication API response to test race condition:
       // The user selects a triage group and navigates to compose before
       // the prescription data has arrived.
-      cy.intercept(
-        'GET',
-        `${Paths.INTERCEPT.PRESCRIPTIONS}/24654491`,
-        (req) => {
-          req.reply({
-            body: medicationResponse,
-            delay: 2000,
-          });
-        },
-      ).as('medicationById');
+      cy.intercept('GET', `${Paths.INTERCEPT.PRESCRIPTIONS}/24654491`, req => {
+        req.reply({
+          body: medicationResponse,
+          delay: 2000,
+        });
+      }).as('medicationById');
 
       const prescriptionId = '24654491';
       const redirectPath = encodeURIComponent('/my-health/medications');
@@ -147,16 +143,12 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
     });
 
     it('prefills medication details with 404 error after triage group selection', () => {
-      cy.intercept(
-        'GET',
-        `${Paths.INTERCEPT.PRESCRIPTIONS}/24654491`,
-        (req) => {
-          req.reply({
-            body: medicationNotFoundResponse,
-            statusCode: 404,
-          });
-        },
-      ).as('medicationById');
+      cy.intercept('GET', `${Paths.INTERCEPT.PRESCRIPTIONS}/24654491`, req => {
+        req.reply({
+          body: medicationNotFoundResponse,
+          statusCode: 404,
+        });
+      }).as('medicationById');
 
       const prescriptionId = '24654491';
       const redirectPath = encodeURIComponent('/my-health/medications');
@@ -237,7 +229,7 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
       );
 
       // Verify the v2 API was called with station_number
-      cy.wait('@medicationByIdV2').then((interception) => {
+      cy.wait('@medicationByIdV2').then(interception => {
         expect(interception.request.url).to.include('station_number=989');
       });
       cy.wait('@vamcUser');
@@ -273,7 +265,7 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
       PatientComposePage.sendMessageButton().click();
       cy.wait('@sentMessage')
         .its('request')
-        .then((req) => {
+        .then(req => {
           const request = req.body;
           expect(request.body).to.contain(
             'Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB',
@@ -292,7 +284,7 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
       cy.intercept(
         'GET',
         `${Paths.INTERCEPT.PRESCRIPTIONS_V2}24654491*`,
-        (req) => {
+        req => {
           req.reply({
             body: medicationResponse,
             delay: 3000,
@@ -345,7 +337,7 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
       cy.intercept(
         'GET',
         `${Paths.INTERCEPT.PRESCRIPTIONS_V2}24654491*`,
-        (req) => {
+        req => {
           req.reply({
             body: medicationNotFoundResponse,
             statusCode: 404,
