@@ -22,22 +22,20 @@ featureToggles.data.features.push({
   name: 'ezrFormPrefillWithProvidersAndDependents',
   value: true,
 });
-featureToggles.data.features.push({
-  name: 'ezrSpouseConfirmationFlowEnabled',
-  value: false,
-});
 
 const { data } = maxTestData;
 
 function advanceToFinancialIntroductionPage(hasSpouse) {
-  goToNextPage('/household-information/marital-status');
+  goToNextPage('/household-information/marital-status-information');
   if (!hasSpouse) {
     cy.selectVaSelect('root_view:maritalStatus_maritalStatus', 'Never Married');
   }
   cy.injectAxeThenAxeCheck();
   if (hasSpouse) {
-    goToNextPage('/household-information/spouse-personal-information');
+    goToNextPage('/household-information/spouse-information');
     cy.injectAxeThenAxeCheck();
+    goToNextPage('/household-information/spouse-information-summary');
+    goToNextPage('/household-information/spouse-personal-information');
     goToNextPage('/household-information/spouse-additional-information');
     cy.selectRadio('root_cohabitedLastYear', 'Y');
     cy.selectRadio('root_sameAddress', 'Y');
@@ -141,24 +139,23 @@ describe('EZR V2 financial information flow', () => {
           .should('contain', `Deductible expenses from ${LAST_YEAR}`);
         cy.injectAxeThenAxeCheck();
       });
-
-      context('when the user does not have a spouse', () => {
-        it('should successfully fill veteran annual income and deductible expenses, but not render the spouse annual income page', () => {
-          advanceToVeteranAnnualIncomePage(false);
-          fillFinancialInformation(false, data);
-          cy.get('va-card')
-            .find('h4')
-            .should('have.length', 2);
-          cy.get('va-card')
-            .find('h4')
-            .first()
-            .should('contain', `Your annual income from ${LAST_YEAR}`);
-          cy.get('va-card')
-            .find('h4')
-            .last()
-            .should('contain', `Deductible expenses from ${LAST_YEAR}`);
-          cy.injectAxeThenAxeCheck();
-        });
+    });
+    context('when the user does not have a spouse', () => {
+      it('should successfully fill veteran annual income and deductible expenses, but not render the spouse annual income page', () => {
+        advanceToVeteranAnnualIncomePage(false);
+        fillFinancialInformation(false, data);
+        cy.get('va-card')
+          .find('h4')
+          .should('have.length', 2);
+        cy.get('va-card')
+          .find('h4')
+          .first()
+          .should('contain', `Your annual income from ${LAST_YEAR}`);
+        cy.get('va-card')
+          .find('h4')
+          .last()
+          .should('contain', `Deductible expenses from ${LAST_YEAR}`);
+        cy.injectAxeThenAxeCheck();
       });
     });
     // TODO: Fix this spec. This feature currently isn't enabled in production,

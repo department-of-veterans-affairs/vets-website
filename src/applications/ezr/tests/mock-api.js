@@ -20,7 +20,6 @@ const responses = {
       features: [
         { name: 'loading', value: false },
         { name: 'ezrProdEnabled', value: true },
-        { name: 'ezrSpouseConfirmationFlowEnabled', value: true },
         { name: 'ezrFormPrefillWithProvidersAndDependents', value: true },
       ],
     },
