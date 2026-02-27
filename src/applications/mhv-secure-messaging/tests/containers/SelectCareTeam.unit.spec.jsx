@@ -1871,7 +1871,9 @@ describe('SelectCareTeam', () => {
       });
 
       await waitFor(() => {
-        const alert = screen.container.querySelector('va-alert-expandable');
+        const alert = screen.container.querySelector(
+          '[data-testid="cerner-facilities-transition-alert"]',
+        );
         expect(alert).to.exist;
         expect(alert.getAttribute('status')).to.equal('warning');
         expect(alert.getAttribute('trigger')).to.contain(
@@ -1985,7 +1987,7 @@ describe('SelectCareTeam', () => {
         ...initialState,
         user: {
           profile: {
-            userAtPretransitionedOhFacility: false,
+            userAtPretransitionedOhFacility: true,
             userFacilityMigratingToOh: false,
             userFacilityReadyForInfoAlert: true,
           },
@@ -1999,7 +2001,9 @@ describe('SelectCareTeam', () => {
       });
 
       await waitFor(() => {
-        const alert = screen.container.querySelector('va-alert-expandable');
+        const alert = screen.container.querySelector(
+          '[data-testid="cerner-facilities-info-alert"]',
+        );
         expect(alert).to.exist;
         expect(alert.getAttribute('status')).to.equal('info');
       });
