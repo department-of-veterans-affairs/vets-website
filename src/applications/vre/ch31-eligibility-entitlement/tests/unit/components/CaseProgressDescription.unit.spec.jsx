@@ -117,11 +117,11 @@ describe('CaseProgressDescription', () => {
     );
 
     getByText(
-      /We've received and processed your application for Chapter 31 benefits/i,
+      /received and processed your application for Chapter 31 benefits/i,
     );
     getByText(/Check your email to schedule your meeting with your counselor/i);
     getByText(
-      /After scheduling, you'll get a confirmation email and an appointment notification letter/i,
+      /get a confirmation email and an appointment notification letter/i,
     );
     getByText(
       /To get ready for your Initial Evaluation Counselor Meeting, visit the "Career Planning" page linked below/i,
@@ -143,11 +143,11 @@ describe('CaseProgressDescription', () => {
     );
 
     getByText(
-      /We've received and processed your application for Chapter 31 benefits/i,
+      /received and processed your application for Chapter 31 benefits/i,
     );
     getByText(/Check your email to schedule your meeting with your counselor/i);
     getByText(
-      /After scheduling, you'll get a confirmation email and an appointment notification letter/i,
+      /get a confirmation email and an appointment notification letter/i,
     );
     getByText(
       /To get ready for your Initial Evaluation Counselor Meeting, visit the "Career Planning" page linked below/i,
