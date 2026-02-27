@@ -4,7 +4,7 @@ export const contactInfoXref = {
     path: 'mailing-address',
   },
   phoneNumber: {
-    label: 'phone number',
+    label: ' phone number',
     path: 'phone',
   },
   internationalPhone: {
