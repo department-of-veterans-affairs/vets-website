@@ -43,6 +43,9 @@ export const employmentConcessionsUiSchema = {
 
       return {
         employmentConcessions: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           concessions: {
             'ui:title': concessionsTitle,
           },
