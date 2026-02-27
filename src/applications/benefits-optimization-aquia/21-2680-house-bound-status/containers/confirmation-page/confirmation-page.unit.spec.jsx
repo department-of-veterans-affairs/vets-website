@@ -13,6 +13,7 @@ import {
   formConfig,
   ConfirmationPage,
 } from '@bio-aquia/21-2680-house-bound-status';
+import { setMultiPartyEnabled } from '@bio-aquia/21-2680-house-bound-status/utils/multi-party-state';
 
 const mockStore = state => createStore(() => state);
 
@@ -42,11 +43,13 @@ const initConfirmationPage = ({ formData } = {}) => {
 
 describe('ConfirmationPage', () => {
   afterEach(() => {
+    setMultiPartyEnabled(false);
     cleanup();
   });
 
   describe('Legacy Flow (no examiner email)', () => {
     it('should show warning alert with additional steps message', () => {
+      setMultiPartyEnabled(false);
       const { container } = initConfirmationPage();
       const alert = container.querySelector('va-alert');
       expect(alert).to.have.attribute('status', 'warning');
@@ -59,6 +62,7 @@ describe('ConfirmationPage', () => {
 
   describe('Multi-Party Flow (with examiner email)', () => {
     it('should show success alert when examiner email exists', () => {
+      setMultiPartyEnabled(true);
       const { container } = initConfirmationPage({
         formData: {
           examinerNotification: {
@@ -74,6 +78,7 @@ describe('ConfirmationPage', () => {
     });
 
     it('should display the examiner email address', () => {
+      setMultiPartyEnabled(true);
       const { container } = initConfirmationPage({
         formData: {
           examinerNotification: {
@@ -82,6 +87,20 @@ describe('ConfirmationPage', () => {
         },
       });
       expect(container).to.contain.text('doctor@hospital.com');
+    });
+
+    it('should stay in legacy mode when toggle is off even with examiner email', () => {
+      setMultiPartyEnabled(false);
+      const { container } = initConfirmationPage({
+        formData: {
+          examinerNotification: {
+            examinerEmail: 'doctor@hospital.com',
+          },
+        },
+      });
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.have.attribute('status', 'warning');
+      expect(container).to.contain.text('Additional steps are needed');
     });
   });
 });

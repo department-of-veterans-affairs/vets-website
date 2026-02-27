@@ -240,25 +240,6 @@ function buildFormData(cleanedData) {
 }
 
 /**
- * Transforms form data from frontend structure to backend schema
- *
- * Frontend uses flat structure with separate page objects:
- * - veteranInformation, veteranSsn, veteranAddress
- * - claimantRelationship, claimantInformation, claimantSsn, claimantAddress, claimantContact
- * - benefitType
- * - hospitalizationStatus, hospitalizationDate, hospitalizationFacility
- * - examinerNotification (multi-party: medical professional email)
- *
- * Backend (multi-party) expects:
- * - multi_party_form.form_type: '21-2680'
- * - multi_party_form.secondary_email: examiner email
- * - multi_party_form.form: stringified form data (Sections I-V)
- *
- * @param {Object} _formConfig - The form configuration object (unused)
- * @param {Object} form - The form state object from Redux
- * @returns {string} JSON string of the transformed payload
- */
-/**
  * Legacy transformer for the original single-party submission flow.
  * Wraps form data in { form: "{...}" } for the /v0/form212680 endpoint.
  *

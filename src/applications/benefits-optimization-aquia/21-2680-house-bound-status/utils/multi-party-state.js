@@ -9,8 +9,6 @@
  * its `depends` function.
  */
 
-import { logger } from '../../shared';
-
 let _multiPartyEnabled = false;
 
 /**
@@ -28,6 +26,5 @@ export function setMultiPartyEnabled(value) {
  * @returns {boolean} Whether the multi-party flow is enabled
  */
 export function isMultiPartyEnabled() {
-  logger.debug(`OTC - muliparty enabled? ${_multiPartyEnabled}`);
   return _multiPartyEnabled;
 }
