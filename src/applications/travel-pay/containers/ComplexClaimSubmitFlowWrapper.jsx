@@ -232,7 +232,7 @@ const ComplexClaimSubmitFlowWrapper = () => {
           </p>
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          <DowntimeWindowAlert>
+          <DowntimeWindowAlert appTitle="Travel Pay">
             <Outlet />
           </DowntimeWindowAlert>
           <div className="vads-u-padding-top--1">
