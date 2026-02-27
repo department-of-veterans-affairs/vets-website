@@ -324,7 +324,7 @@ const RecipientsSelect = ({
           required
           label="Select a care team"
           name="to"
-          hint="Start typing your care facility, provider’s name, or type of care to search."
+          hint="Start typing your care facility or type of care to search."
           value={defaultValue !== undefined ? defaultValue : ''}
           onVaSelect={handleRecipientSelect}
           data-testid="compose-recipient-combobox"

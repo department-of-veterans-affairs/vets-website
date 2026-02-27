@@ -19,6 +19,7 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { datadogRum } from '@datadog/browser-rum';
 import { scrollToFirstError } from 'platform/utilities/scroll';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { populatedDraft } from '../selectors';
 import {
@@ -67,9 +68,49 @@ const SelectCareTeam = () => {
   const [recipientsSelectKey, setRecipientsSelectKey] = useState(0); // controls resetting the careTeam combo box when the careSystem changes
   const careSystemSwitchCountRef = useRef(0);
 
+  // IPE alert state
+  const IPE_LOCALSTORAGE_KEY = 'sm-care-team-name-change-ipe-dismissed';
+  const [showIpeAlert, setShowIpeAlert] = useState(false);
+
   const MAX_RADIO_OPTIONS = 6;
 
   const h1Ref = useRef(null);
+
+  // Check if user has any Cerner/OH facilities
+  const hasCernerFacility = useMemo(
+    () => {
+      return allowedRecipients?.some(
+        recipient => recipient.ohTriageGroup === true,
+      );
+    },
+    [allowedRecipients],
+  );
+
+  // Initialize IPE alert visibility
+  useEffect(
+    () => {
+      const isDismissed = localStorage.getItem(IPE_LOCALSTORAGE_KEY);
+      if (hasCernerFacility && !isDismissed) {
+        setShowIpeAlert(true);
+      }
+    },
+    [hasCernerFacility],
+  );
+
+  const handleDismissIpe = useCallback(() => {
+    localStorage.setItem(IPE_LOCALSTORAGE_KEY, 'true');
+    setShowIpeAlert(false);
+
+    // Move focus back to the combo box
+    setTimeout(() => {
+      const comboBox = document.querySelector(
+        '[data-testid="compose-recipient-combobox"]',
+      );
+      if (comboBox) {
+        focusElement(comboBox);
+      }
+    }, 100);
+  }, []);
 
   useEffect(
     () => {
@@ -188,6 +229,7 @@ const SelectCareTeam = () => {
       draftInProgress?.subject,
       draftInProgress?.category,
       draftInProgress?.careSystemVhaId,
+      ehrDataByVhaId,
     ],
   );
 
@@ -584,6 +626,38 @@ const SelectCareTeam = () => {
               />
             )}
         </div>
+        {showIpeAlert && (
+          <aside
+            id="sm-care-team-name-ipe-container"
+            data-testid="sm-care-team-name-ipe-container"
+            className="vads-u-margin-top--3 vads-u-padding--2p5"
+            aria-label="We updated your list of care teams"
+          >
+            <p
+              className="vads-u-margin--0 vads-u-padding-right--5"
+              id="sm-care-team-name-ipe-description"
+            >
+              We updated your list of care teams. You may have more care teams
+              in your list. And some of your care team names may have changed.
+              To find a care team, you can still search by type of care or
+              facility location.
+            </p>
+            <VaButton
+              className="vads-u-margin-top--3"
+              secondary
+              text="Stop showing this hint"
+              data-testid="sm-care-team-name-ipe-stop-showing-hint"
+              onClick={handleDismissIpe}
+              aria-describedby="sm-care-team-name-ipe-stop-showing-hint-info"
+            />
+            <span
+              id="sm-care-team-name-ipe-stop-showing-hint-info"
+              className="sr-only"
+            >
+              This hint about care team name changes will not appear anymore
+            </span>
+          </aside>
+        )}
         <div className="vads-u-margin-top--2">
           <p className="vads-u-margin-bottom--1">
             <Link to={Paths.CARE_TEAM_HELP}>

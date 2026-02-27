@@ -729,5 +729,29 @@ describe('RecipientsSelect', () => {
         expect(ungroupedOption.textContent).to.include('(Unknown Facility)');
       });
     });
+
+    describe('Hint text', () => {
+      it('does not contain "provider\'s name" in the hint text', () => {
+        const state = {
+          ...initialState,
+          featureToggles: {
+            [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+          },
+        };
+
+        const screen = setup({ state });
+
+        const comboBox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(comboBox).to.exist;
+
+        const hintText = comboBox.getAttribute('hint');
+        expect(hintText).to.equal(
+          'Start typing your care facility or type of care to search.',
+        );
+        expect(hintText).to.not.include('provider');
+      });
+    });
   });
 });
