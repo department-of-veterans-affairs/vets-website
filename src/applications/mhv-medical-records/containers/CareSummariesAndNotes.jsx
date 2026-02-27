@@ -33,6 +33,7 @@ import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import DateRangeSelector from '../components/shared/DateRangeSelector';
 import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
+import DuplicateRecordsAlert from '../components/shared/DuplicateRecordsAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
@@ -66,7 +67,7 @@ const CareSummariesAndNotes = () => {
   const activeAlert = useAlerts(dispatch);
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_LIST);
 
-  const { isLoading, isAcceleratingCareNotes } = useAcceleratedData();
+  const { isLoading, isCerner, isAcceleratingCareNotes } = useAcceleratedData();
 
   const dispatchAction = useCallback(
     isCurrent =>
@@ -123,6 +124,7 @@ const CareSummariesAndNotes = () => {
       <h1 data-testid="care-summaries-and-notes" className="page-title">
         Care summaries and notes
       </h1>
+      {isCerner && <DuplicateRecordsAlert />}
 
       {isAcceleratingCareNotes && (
         <div>

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import {
   testSubmitsWithoutErrors,
   testComponentFieldsMarkedAsRequired,
@@ -6,9 +5,7 @@ import {
   testNumberOfFieldsByType,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
-import netWorthEstimation, {
-  hideIfUnderThreshold,
-} from '../../../../config/chapters/05-financial-information/netWorthEstimation';
+import netWorthEstimation from '../../../../config/chapters/05-financial-information/netWorthEstimation';
 
 const { schema, uiSchema } = netWorthEstimation;
 
@@ -42,19 +39,4 @@ describe('Financial information net worth estimation pension page', () => {
     },
     pageTitle,
   );
-
-  describe('hideIfUnderThreshold', () => {
-    it('should return true if under 25000', () => {
-      expect(hideIfUnderThreshold({ netWorthEstimation: 24999 })).to.be.true;
-    });
-    it('should return false if over 25000', () => {
-      expect(hideIfUnderThreshold({ netWorthEstimation: 26000 })).to.be.false;
-    });
-    it('should return true if undefined', () => {
-      expect(hideIfUnderThreshold({})).to.be.true;
-    });
-    it('should return true if null', () => {
-      expect(hideIfUnderThreshold({ netWorthEstimation: null })).to.be.true;
-    });
-  });
 });

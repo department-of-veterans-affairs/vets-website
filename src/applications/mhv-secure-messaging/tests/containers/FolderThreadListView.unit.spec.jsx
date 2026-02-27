@@ -224,12 +224,13 @@ describe('Folder Thread List View container', () => {
 
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
-      const ariaLabel = document.querySelector('span');
       expect(alert)
         .to.have.attribute('status')
         .to.equal('error');
       expect(screen.getByText(Alerts.Message.SERVER_ERROR_503)).to.exist;
-      expect(ariaLabel.textContent).to.contain(`You are in Inbox.`);
+      // sr-only span exists with delayed content (populated after H1 focusin + 1s or 3s fallback)
+      const srSpan = alert.querySelector('span[aria-live="polite"]');
+      expect(srSpan).to.exist;
       expect(alert).to.have.attribute(
         'close-btn-aria-label',
         'Close notification',

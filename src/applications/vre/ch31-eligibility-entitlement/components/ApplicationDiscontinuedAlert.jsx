@@ -28,16 +28,14 @@ const ApplicationDiscontinuedAlert = ({ discontinuedReason, resCaseId }) => {
         status="error"
         visible
       >
-        <h3 slot="headline">
-          Sorry, processing your Chapter 31 claim has been discontinued
-        </h3>
+        <h3 slot="headline">Your Chapter 31 claim has been discontinued</h3>
         <p>
           Your VR&E Chapter 31 claim has been discontinued for the following
           reasons:
         </p>
         <p>{discontinuedReason || 'No reason provided.'}</p>
-        <p>Please view your detailed letter and next steps.</p>
-        <p>If you need more information, please contact your counselor.</p>
+        <p>View your detailed letter and next steps.</p>
+        <p>If you need more information, contact your counselor.</p>
         {isDownloading ? (
           <va-loading-indicator
             label="Loading"

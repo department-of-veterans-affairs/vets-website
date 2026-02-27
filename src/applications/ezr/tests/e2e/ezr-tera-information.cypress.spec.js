@@ -54,6 +54,7 @@ function goToToxicExposurePageAndCheckYes() {
     hasServiceHistoryInfo: true,
     fillServiceHistory: false,
     hasTeraYes: true,
+    includeTera: false,
   });
   cy.injectAxeThenAxeCheck();
 }

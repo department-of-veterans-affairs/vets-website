@@ -4,10 +4,22 @@ import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/react';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { datadogRum } from '@datadog/browser-rum';
 import reducers from '../../../reducers';
 import SendRxRenewalMessage from '../../../components/shared/SendRxRenewalMessage';
+import { dataDogActionNames } from '../../../util/dataDogConstants';
 
 describe('SendRxRenewalMessage Component', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   // Oracle Health prescription with stationNumber matching cernerFacilityIds
   const mockRx = {
     prescriptionId: 12345,
@@ -329,6 +341,84 @@ describe('SendRxRenewalMessage Component', () => {
         const modal = screen.container.querySelector('va-modal');
         expect(modal?.getAttribute('visible')).to.equal('true');
       });
+    });
+
+    it('calls datadogRum.addAction with MODAL_OPEN and facilityId when link is clicked', () => {
+      const addActionSpy = sandbox.spy(datadogRum, 'addAction');
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+      expect(
+        addActionSpy.calledWith(dataDogActionNames.renewalModal.MODAL_OPEN, {
+          facilityId: '668',
+        }),
+      ).to.be.true;
+    });
+
+    it('calls datadogRum.addAction with MODAL_CONTINUE and facilityId when Continue is clicked', async () => {
+      const locationStub = sandbox.stub(window, 'location');
+      locationStub.value({ href: '' });
+      const addActionSpy = sandbox.spy(datadogRum, 'addAction');
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      expect(
+        addActionSpy.calledWith(
+          dataDogActionNames.renewalModal.MODAL_CONTINUE,
+          { facilityId: '668' },
+        ),
+      ).to.be.true;
+    });
+
+    it('calls datadogRum.addAction with MODAL_BACK and facilityId when Back is clicked', async () => {
+      const addActionSpy = sandbox.spy(datadogRum, 'addAction');
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.secondaryButtonClick();
+
+      expect(
+        addActionSpy.calledWith(dataDogActionNames.renewalModal.MODAL_BACK, {
+          facilityId: '668',
+        }),
+      ).to.be.true;
+    });
+
+    it('calls datadogRum.addAction with MODAL_CLOSE and facilityId when Close is clicked', async () => {
+      const addActionSpy = sandbox.spy(datadogRum, 'addAction');
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.closeEvent();
+
+      expect(
+        addActionSpy.calledWith(dataDogActionNames.renewalModal.MODAL_CLOSE, {
+          facilityId: '668',
+        }),
+      ).to.be.true;
     });
 
     it('displays correct modal title', () => {
