@@ -34,8 +34,20 @@ const EXPENSE_TYPES = [
   'other',
 ];
 
+const EXPENSE_TYPE_BY_API_ROUTE = Object.freeze({
+  mileage: 'Mileage',
+  parking: 'Parking',
+  toll: 'Toll',
+  commoncarrier: 'CommonCarrier',
+  airtravel: 'AirTravel',
+  lodging: 'Lodging',
+  meal: 'Meal',
+  other: 'Other',
+});
+
 module.exports = {
   STATUS_KEYS,
   EXPENSE_TYPE_OPTIONS,
   EXPENSE_TYPES,
+  EXPENSE_TYPE_BY_API_ROUTE,
 };

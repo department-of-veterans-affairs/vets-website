@@ -4,10 +4,15 @@ import Wrapper from '../layout/Wrapper';
 import AppointmentCard from '../components/AppointmentCard';
 import { VASS_PHONE_NUMBER } from '../utils/constants';
 import { useGetAppointmentQuery } from '../redux/api/vassApi';
+import { isServerError, isAppointmentNotFoundError } from '../utils/errors';
 
 const CancelConfirmation = () => {
   const { appointmentId } = useParams();
-  const { data: appointmentData, isLoading } = useGetAppointmentQuery({
+  const {
+    data: appointmentData,
+    isLoading,
+    error: appointmentError,
+  } = useGetAppointmentQuery({
     appointmentId,
   });
   return (
@@ -17,6 +22,10 @@ const CancelConfirmation = () => {
       loading={isLoading}
       pageTitle="You have canceled your appointment"
       loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
+      errorAlert={
+        isServerError(appointmentError) ||
+        isAppointmentNotFoundError(appointmentError)
+      }
     >
       <p
         className="vads-u-margin-bottom--4"
