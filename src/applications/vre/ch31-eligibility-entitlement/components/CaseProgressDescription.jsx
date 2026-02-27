@@ -165,7 +165,7 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
         <>
           <p>
             Your counselor is completing the Entitlement Determination Review.
-            Visit the “Career Planning” page for more information about career
+            Visit the "Career Planning" page for more information about career
             paths, support, and rehabilitation resources.
           </p>
           {hubCards}
