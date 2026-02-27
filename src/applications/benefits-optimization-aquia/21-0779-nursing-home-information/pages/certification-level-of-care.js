@@ -17,25 +17,13 @@ import { getPatientName } from '../utils';
  */
 export const certificationLevelOfCareUiSchema = {
   certificationLevelOfCare: {
-    levelOfCare: {
-      ...radioUI({
-        title: 'Level of care',
-        labels: {
-          skilled: 'Skilled nursing care',
-          intermediate: 'Intermediate nursing care',
-        },
-      }),
-      'ui:options': {
-        ...radioUI({
-          title: 'Level of care',
-          labels: {
-            skilled: 'Skilled nursing care',
-            intermediate: 'Intermediate nursing care',
-          },
-        })['ui:options'],
-        classNames: 'vads-u-margin-top--0',
+    levelOfCare: radioUI({
+      title: 'Level of care',
+      labels: {
+        skilled: 'Skilled nursing care',
+        intermediate: 'Intermediate nursing care',
       },
-    },
+    }),
   },
   'ui:options': {
     updateUiSchema: (formData, fullData) => {

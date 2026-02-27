@@ -193,36 +193,38 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
         U.S.C. 1001).
       </p>
 
-      <div aria-describedby="interment-allowance-declaration">
-        <div data-dd-privacy="mask" data-dd-action-name="certification label">
-          <VaStatementOfTruth
-            name="stateOrTribalOfficial"
-            heading="Certification and signature"
-            inputLabel="Your full name"
-            inputValue={signatoryFullName}
-            inputError={signatoryFullNameError}
-            checked={isCertified}
-            checkboxLabel={`I hereby certify that ${veteranName} was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge).`}
-            checkboxError={checkboxError}
-            onVaInputBlur={handleSignatoryFullNameBlur}
-            onVaInputChange={handleSignatoryFullNameChange}
-            onVaCheckboxChange={handleCheckboxChange}
-            hideLegalNote
-          >
-            <TextInputField
-              name="organizationTitle"
-              label="Your official title"
-              value={organizationTitle}
-              onChange={handleTitleChange}
-              onBlur={handleTitleBlur}
-              required
-              error={titleErrorMsg}
-              forceShowError={shouldShowTitleError && !isTitleValid}
-              minLength={TITLE_MIN_LENGTH}
-              maxLength={TITLE_MAX_LENGTH}
-            />
-          </VaStatementOfTruth>
-        </div>
+      <div
+        data-dd-privacy="mask"
+        data-dd-action-name="certification label"
+        aria-describedby="interment-allowance-declaration"
+      >
+        <VaStatementOfTruth
+          name="stateOrTribalOfficial"
+          heading="Certification and signature"
+          inputLabel="Your full name"
+          inputValue={signatoryFullName}
+          inputError={signatoryFullNameError}
+          checked={isCertified}
+          checkboxLabel={`I hereby certify that ${veteranName} was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge).`}
+          checkboxError={checkboxError}
+          onVaInputBlur={handleSignatoryFullNameBlur}
+          onVaInputChange={handleSignatoryFullNameChange}
+          onVaCheckboxChange={handleCheckboxChange}
+          hideLegalNote
+        >
+          <TextInputField
+            name="organizationTitle"
+            label="Your official title"
+            value={organizationTitle}
+            onChange={handleTitleChange}
+            onBlur={handleTitleBlur}
+            required
+            error={titleErrorMsg}
+            forceShowError={shouldShowTitleError && !isTitleValid}
+            minLength={TITLE_MIN_LENGTH}
+            maxLength={TITLE_MAX_LENGTH}
+          />
+        </VaStatementOfTruth>
       </div>
     </div>
   );

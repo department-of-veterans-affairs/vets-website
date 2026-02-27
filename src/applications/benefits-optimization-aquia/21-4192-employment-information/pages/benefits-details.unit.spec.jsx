@@ -5,7 +5,6 @@
  */
 
 import { expect } from 'chai';
-import React from 'react';
 
 import { benefitsDetailsUiSchema } from './benefits-details';
 
@@ -21,12 +20,16 @@ describe('Benefits Details Page', () => {
       };
 
       const result = updateUiSchema(formData, formData);
-      const title = result.benefitsDetails.stopReceivingDate['ui:title'];
 
-      // Title should be a JSX element with masking
-      expect(React.isValidElement(title)).to.be.true;
-      expect(title.props['data-dd-privacy']).to.equal('mask');
-      expect(title.props.children).to.include('John Doe');
+      // Should apply dd-privacy-mask class at field group level
+      expect(result.benefitsDetails['ui:options'].classNames).to.equal(
+        'dd-privacy-mask',
+      );
+
+      // Title should be a plain string with veteran name
+      const title = result.benefitsDetails.stopReceivingDate['ui:title'];
+      expect(title).to.be.a('string');
+      expect(title).to.include('John Doe');
     });
 
     it('should fall back to Veteran when name is missing', () => {
