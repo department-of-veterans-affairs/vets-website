@@ -132,32 +132,34 @@ function ToeApp({
     ],
   );
 
+  // Extract nested formData values so the dependency array stays simple
+  // and ESLint can statically verify exhaustive-deps.
+  const mobilePhone = formData?.['view:phoneNumbers']?.mobilePhoneNumber?.phone;
+  const emailAddress = formData?.email?.email;
+  const formDuplicateEmail = formData?.duplicateEmail;
+  const formDuplicatePhone = formData?.duplicatePhone;
+
   // Check for duplicate contact info when phone/email are available
   useEffect(
     () => {
       if (
-        formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
-        formData?.email?.email &&
-        !formData?.duplicateEmail &&
-        !formData?.duplicatePhone
+        mobilePhone &&
+        emailAddress &&
+        !formDuplicateEmail &&
+        !formDuplicatePhone
       ) {
         getDuplicateContactInfo(
-          [{ value: formData?.email?.email, dupe: '' }],
-          [
-            {
-              value: formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
-              dupe: '',
-            },
-          ],
+          [{ value: emailAddress, dupe: '' }],
+          [{ value: mobilePhone, dupe: '' }],
         );
       }
     },
     [
       getDuplicateContactInfo,
-      formData?.['view:phoneNumbers']?.mobilePhoneNumber?.phone,
-      formData?.email?.email,
-      formData?.duplicateEmail,
-      formData?.duplicatePhone,
+      mobilePhone,
+      emailAddress,
+      formDuplicateEmail,
+      formDuplicatePhone,
     ],
   );
 
