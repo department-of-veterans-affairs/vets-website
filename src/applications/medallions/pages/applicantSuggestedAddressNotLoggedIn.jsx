@@ -21,6 +21,7 @@ function ApplicantSuggestedAddressNotLoggedIn({
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [suggestedAddress, setSuggestedAddress] = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(true);
+  const [confidenceScore, setConfidenceScore] = useState(null);
 
   const extractUserAddress = () => {
     return data?.applicantMailingAddress || {};
@@ -35,10 +36,12 @@ function ApplicantSuggestedAddressNotLoggedIn({
       const {
         fetchedSuggestedAddress,
         fetchedShowSuggestions,
+        fetchedConfidenceScore,
       } = await fetchSuggestedAddress(formDataUserAddress);
 
       setSuggestedAddress(fetchedSuggestedAddress);
       setShowSuggestions(fetchedShowSuggestions);
+      setConfidenceScore(fetchedConfidenceScore);
       setIsLoading(false);
     };
 
@@ -90,7 +93,7 @@ function ApplicantSuggestedAddressNotLoggedIn({
   return showSuggestions ? (
     <div>
       <SuggestedAddressRadio
-        title="Confirm your mailing address"
+        title="Select your mailing address"
         userAddress={userAddress}
         selectedAddress={selectedAddress}
         suggestedAddress={suggestedAddress}
@@ -105,6 +108,7 @@ function ApplicantSuggestedAddressNotLoggedIn({
       <AddressConfirmation
         subHeader="Check your mailing address"
         userAddress={userAddress}
+        isExactMatch={confidenceScore === 100}
       />
       {contentBeforeButtons}
       {NavButtons && <NavButtons goBack={goBack} goForward={goForward} />}
