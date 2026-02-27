@@ -4,6 +4,7 @@ import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
+import { recordEventOnce } from '../../../monitoring/record-event';
 import navigationState from './utilities/navigation/navigationState';
 import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
@@ -658,10 +659,52 @@ export function validateAutosuggestOption(errors, formData) {
   }
 }
 
-export function validateTelephoneInput(
-  errors,
-  { isValid, error, touched, required, contact },
-) {
+/**
+ * This function corrects corrupt form data from SIP
+ * some keys in field data previously prefixed with an underscore; the server unexpectedly transformed underscores to capital letters
+ * this function maps capital letters back to camel-case
+ * see: https://github.com/department-of-veterans-affairs/va.gov-team/issues/133012
+ */
+export function rectifyData(data) {
+  const getValue = keys => {
+    for (const key of keys) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) return data[key];
+    }
+    return undefined;
+  };
+
+  // Track corruption detection for analytics (once per session)
+  if (typeof window !== 'undefined' && window.dataLayer) {
+    const hasCapitalKeys =
+      data.IsValid !== undefined ||
+      data.Required !== undefined ||
+      data.Touched !== undefined ||
+      data.Error !== undefined;
+
+    if (hasCapitalKeys) {
+      recordEventOnce(
+        {
+          event: 'api_call',
+          'api-name': 'International Phone SIP Corruption Fix Detected',
+          'api-status': 'successful',
+          'error-key': 'sip-underscore-capital-transformation',
+        },
+        'event',
+      );
+    }
+  }
+
+  return {
+    isValid: getValue(['isValid', 'IsValid', '_isValid']),
+    error: getValue(['error', 'Error', '_error']),
+    touched: getValue(['touched', 'Touched', '_touched']),
+    required: getValue(['required', 'Required', '_required']),
+    contact: data.contact,
+  };
+}
+
+export function validateTelephoneInput(errors, data) {
+  const { isValid, error, touched, required, contact } = rectifyData(data);
   // was validation triggered by navigation attempt
   const navState = navigationState.getNavigationEventStatus();
 
