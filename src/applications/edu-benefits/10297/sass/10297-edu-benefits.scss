@@ -161,6 +161,32 @@ legend {
   #root__title {
     padding: 0 !important;
   }
+
+  fieldset {
+    // targets the deleted alert on training provider summary page only when there are no training providers present
+    &:not(:has(va-modal)) {
+      div:has(va-alert[name="training-provider_0"]) {
+        margin-top: 0 !important;
+        margin-bottom: $vads-spacing-2;
+      }
+    }
+
+    // targets the updated/deleted alert on training provider summary page when there are training providers present
+    &:has(va-modal) {
+      div:has(va-alert[name^="training-provider_"]) {
+        margin-top: $vads-spacing-1 !important;
+        margin-bottom: $vads-spacing-1;
+      }
+    }
+
+    &:has(va-card) ul {
+      margin-top: 0 !important;
+
+      li:first-of-type > div {
+        margin-top: $vads-spacing-1 !important;
+      }
+    }
+  }
 }
 
 .form-review-panel-page {
