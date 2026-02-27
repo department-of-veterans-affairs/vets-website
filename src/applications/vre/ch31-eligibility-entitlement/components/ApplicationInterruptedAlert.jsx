@@ -17,7 +17,7 @@ const ApplicationInterruptedAlert = ({ interruptedReason }) => {
           reasons:
         </p>
         <p>{interruptedReason || 'No reason provided.'}</p>
-        <p>If you need more information, please contact your counselor.</p>
+        <p>If you need more information, contact your counselor.</p>
       </va-alert>
     </div>
   );

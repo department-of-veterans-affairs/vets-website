@@ -11,7 +11,7 @@ const makeState = (overrides = {}) => ({
 });
 
 describe('prefillTransform function', () => {
-  it('should transform form data correctly when not logged in', () => {
+  it('should transform form data correctly when no state is passed', () => {
     const pages = {};
     const metadata = {};
     const formData = {
@@ -28,7 +28,13 @@ describe('prefillTransform function', () => {
       ssn: '123456789',
       dateOfBirth: '1990-01-01',
       otherField: 'should be preserved',
-      userLoggedIn: false,
+      userLoggedIn: true,
+      claimantPersonalInformation: {
+        fullName: { first: undefined, middle: undefined, last: undefined },
+        dateOfBirth: '',
+        ssn: '123456789',
+        vaFileNumber: '123456789',
+      },
     });
     expect(result.metadata).to.equal(metadata);
     expect(result.pages).to.equal(pages);
@@ -61,7 +67,15 @@ describe('prefillTransform function', () => {
 
     const result = transform(pages, formData, metadata);
 
-    expect(result.formData).to.deep.equal({ userLoggedIn: false });
+    expect(result.formData).to.deep.equal({
+      userLoggedIn: true,
+      claimantPersonalInformation: {
+        fullName: { first: undefined, middle: undefined, last: undefined },
+        dateOfBirth: '',
+        ssn: undefined,
+        vaFileNumber: undefined,
+      },
+    });
     expect(result.metadata).to.equal(metadata);
     expect(result.pages).to.equal(pages);
   });
@@ -79,7 +93,7 @@ describe('prefillTransform function', () => {
     expect(result.formData.otherField).to.equal('x');
   });
 
-  it('should not add claimantPersonalInformation when logged in but profile has no name or DOB', () => {
+  it('should add claimantPersonalInformation with empty name fields when profile has no name or DOB', () => {
     const state = makeState({
       user: {
         login: { currentlyLoggedIn: true },
@@ -90,8 +104,13 @@ describe('prefillTransform function', () => {
     const result = transform({}, formData, {}, state);
 
     expect(result.formData.userLoggedIn).to.equal(true);
-    expect(result.formData.claimantPersonalInformation).to.be.undefined;
     expect(result.formData.existing).to.equal('data');
+    expect(result.formData.claimantPersonalInformation).to.deep.equal({
+      fullName: { first: undefined, middle: undefined, last: undefined },
+      dateOfBirth: '',
+      ssn: undefined,
+      vaFileNumber: undefined,
+    });
   });
 
   it('should add claimantPersonalInformation when logged in with first name only', () => {
@@ -108,8 +127,10 @@ describe('prefillTransform function', () => {
 
     expect(result.formData.userLoggedIn).to.equal(true);
     expect(result.formData.claimantPersonalInformation).to.deep.equal({
-      fullName: { first: 'Jane', middle: '', last: '' },
+      fullName: { first: 'Jane', middle: undefined, last: undefined },
       dateOfBirth: '',
+      ssn: undefined,
+      vaFileNumber: undefined,
     });
   });
 
@@ -127,8 +148,10 @@ describe('prefillTransform function', () => {
 
     expect(result.formData.userLoggedIn).to.equal(true);
     expect(result.formData.claimantPersonalInformation).to.deep.equal({
-      fullName: { first: '', middle: '', last: 'Doe' },
+      fullName: { first: undefined, middle: undefined, last: 'Doe' },
       dateOfBirth: '',
+      ssn: undefined,
+      vaFileNumber: undefined,
     });
   });
 
@@ -145,8 +168,10 @@ describe('prefillTransform function', () => {
     const result = transform({}, {}, {}, state);
 
     expect(result.formData.claimantPersonalInformation).to.deep.equal({
-      fullName: { first: '', middle: '', last: '' },
+      fullName: { first: undefined, middle: undefined, last: undefined },
       dateOfBirth: '1990-01-15',
+      ssn: undefined,
+      vaFileNumber: undefined,
     });
   });
 
@@ -169,10 +194,12 @@ describe('prefillTransform function', () => {
     expect(result.formData.claimantPersonalInformation).to.deep.equal({
       fullName: { first: 'John', middle: 'Q', last: 'Public' },
       dateOfBirth: '1985-05-20',
+      ssn: undefined,
+      vaFileNumber: undefined,
     });
   });
 
-  it('should not add claimantPersonalInformation when not logged in even if profile has data', () => {
+  it('should always add claimantPersonalInformation from profile regardless of login state', () => {
     const state = makeState({
       user: {
         login: { currentlyLoggedIn: false },
@@ -185,9 +212,14 @@ describe('prefillTransform function', () => {
     const formData = { ssn: '123456789' };
     const result = transform({}, formData, {}, state);
 
-    expect(result.formData.userLoggedIn).to.equal(false);
-    expect(result.formData.claimantPersonalInformation).to.be.undefined;
+    expect(result.formData.userLoggedIn).to.equal(true);
     expect(result.formData.ssn).to.equal('123456789');
+    expect(result.formData.claimantPersonalInformation).to.deep.equal({
+      fullName: { first: 'John', middle: undefined, last: 'Doe' },
+      dateOfBirth: '1990-01-01',
+      ssn: '123456789',
+      vaFileNumber: '123456789',
+    });
   });
 
   it('should preserve existing formData when adding claimantPersonalInformation from profile', () => {
@@ -205,19 +237,21 @@ describe('prefillTransform function', () => {
 
     expect(result.formData.otherField).to.equal('preserved');
     expect(result.formData.claimantPersonalInformation).to.deep.equal({
-      fullName: { first: 'Jane', middle: '', last: 'Doe' },
+      fullName: { first: 'Jane', middle: undefined, last: 'Doe' },
       dateOfBirth: '1990-01-01',
+      ssn: undefined,
+      vaFileNumber: undefined,
     });
   });
 
   it('should handle undefined or missing state', () => {
     const formData = { x: 1 };
-    expect(transform({}, formData, {}).formData.userLoggedIn).to.equal(false);
+    expect(transform({}, formData, {}).formData.userLoggedIn).to.equal(true);
     expect(
       transform({}, formData, {}, undefined).formData.userLoggedIn,
-    ).to.equal(false);
+    ).to.equal(true);
     expect(transform({}, formData, {}, null).formData.userLoggedIn).to.equal(
-      false,
+      true,
     );
   });
 });

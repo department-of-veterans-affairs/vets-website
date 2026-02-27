@@ -51,8 +51,11 @@ ${
             if (record.labLocation)
               details.push(`Location: ${record.labLocation}`);
             if (record.date) details.push(`Date completed: ${record.date}`);
-            if (record.comments) {
-              details.push(`Provider notes: ${record.comments}`);
+            if (record.comments?.length) {
+              const commentsText = Array.isArray(record.comments)
+                ? record.comments.join('\n')
+                : record.comments;
+              details.push(`Provider notes: ${commentsText}`);
             }
 
             details.push(' ', 'Results:', ' ');
@@ -69,7 +72,11 @@ ${
                             result.standardRange
                               ? `Reference range: ${result.standardRange}`
                               : '',
-                            result.status ? `Status: ${result.status}` : '',
+                            result.status
+                              ? `Status: ${result.status
+                                  .charAt(0)
+                                  .toUpperCase()}${result.status.slice(1)}`
+                              : '',
                             result.labComments
                               ? `Lab comments: ${result.labComments}`
                               : '',
