@@ -276,8 +276,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   }, []);
 
   const handleFilterClearAll = useCallback(() => {
-    setFilterValues(['recommended']);
-    setTempFilterValues(['recommended']);
     setSortValue('expiringSoonest');
   }, []);
 
