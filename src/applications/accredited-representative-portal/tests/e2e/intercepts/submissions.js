@@ -107,6 +107,10 @@ export const setSubmissions = () => {
         totalPages: 3,
       },
     },
+    claimant: {
+      firstName: 'Brooke',
+      lastName: 'Santiago',
+    },
   });
 };
 
