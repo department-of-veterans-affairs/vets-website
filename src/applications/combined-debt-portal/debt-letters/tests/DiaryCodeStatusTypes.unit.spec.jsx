@@ -81,7 +81,7 @@ describe('diaryCodeStatusTypes', () => {
     });
 
     it('has correct mappings for special status types', () => {
-      expect(DIARY_CODE_STATUS_TYPE['71']).to.equal('11');
+      expect(DIARY_CODE_STATUS_TYPE['071']).to.equal('11');
       expect(DIARY_CODE_STATUS_TYPE['212']).to.equal('12');
       expect(DIARY_CODE_STATUS_TYPE['655']).to.equal('13');
       expect(DIARY_CODE_STATUS_TYPE['817']).to.equal('13');

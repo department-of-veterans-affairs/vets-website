@@ -30,6 +30,8 @@ const CALLSTATUS = {
  * @property {Boolean} hasMinimumRating true if disability rating is 30 or higher
  * @property {Boolean} hasAwardDependents true if Veteran has active dependents
  * @property {String} updateDiariesStatus status of update diaries call
+ * @property {Boolean} showDependentsContent true if API has successfully loaded, disability rating is >= 30, and no API error
+ * @returns {JSX.Element} page title, description, and alert if showAlert is true
  */
 /**
  * Renders page elements
@@ -39,11 +41,17 @@ const CALLSTATUS = {
 function ViewDependentsHeader(props) {
   const {
     updateDiariesStatus,
-    showAlert,
     hasAwardDependents,
     hasMinimumRating,
+    showDependentsContent,
   } = props;
 
+  const showAlert = showDependentsContent && hasAwardDependents;
+
+  // getIsDependentsWarningHidden checks localStorage to see if the user had
+  // previously closed the alert. If the date it was closed is > 6 months, it
+  // clears the storage value. The local storage value is then used as the
+  // initial state for warningHidden
   const [warningHidden, setWarningHidden] = useState(
     getIsDependentsWarningHidden(),
   );
@@ -206,6 +214,7 @@ ViewDependentsHeader.propTypes = {
   hasAwardDependents: PropTypes.bool,
   hasMinimumRating: PropTypes.bool,
   showAlert: PropTypes.bool,
+  showDependentsContent: PropTypes.bool,
   updateDiariesStatus: PropTypes.string,
 };
 
