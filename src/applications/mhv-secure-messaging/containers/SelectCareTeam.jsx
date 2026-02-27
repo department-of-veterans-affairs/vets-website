@@ -574,11 +574,12 @@ const SelectCareTeam = () => {
         onLinkClick={handleMyVaHealthLinkClick}
       />
       {showBlockedAlert && (
-        <BlockedTriageGroupAlert
-          alertStyle={BlockedTriageAlertStyles.INFO}
-          parentComponent={ParentComponent.FOLDER_HEADER}
-          className="vads-u-margin-bottom--3 vads-u-margin-top--2"
-        />
+        <div className="vads-u-margin-bottom--3 vads-u-margin-top--2">
+          <BlockedTriageGroupAlert
+            alertStyle={BlockedTriageAlertStyles.INFO}
+            parentComponent={ParentComponent.FOLDER_HEADER}
+          />
+        </div>
       )}
       <RouteLeavingGuard
         saveDraftHandler={saveDraftHandler}
