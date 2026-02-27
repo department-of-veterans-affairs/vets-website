@@ -6,7 +6,6 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   arrayBuilderItemSubsequentPageTitleUI,
-  fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
@@ -34,6 +33,8 @@ import {
   generateHelpText,
   CancelButton,
   incomeQuestionUpdateUiSchema,
+  asciiValidation,
+  fullNameNoSuffixWithAsciiUI,
 } from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
 
@@ -139,7 +140,7 @@ export const deceasedDependentPersonalInfoPage = {
       title: 'Remove a dependent who has died',
       nounSingular: deceasedDependentOptions.nounSingular,
     }),
-    fullName: fullNameNoSuffixUI(),
+    fullName: fullNameNoSuffixWithAsciiUI(),
     ssn: {
       ...ssnUI('Dependent’s Social Security number'),
       'ui:required': () => true,
@@ -256,6 +257,7 @@ export const deceasedDependentLocationOfDeathPage = {
           'ui:errorMessages': {
             required: 'Enter a city',
           },
+          'ui:validations': [asciiValidation],
         },
         state: {
           'ui:title': 'Select a state',
