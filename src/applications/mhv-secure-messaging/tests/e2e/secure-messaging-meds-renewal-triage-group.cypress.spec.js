@@ -54,7 +54,9 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${
+          Paths.UI_MAIN
+        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@vamcUser');
       cy.wait('@recipients');
@@ -104,7 +106,9 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${
+          Paths.UI_MAIN
+        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@vamcUser');
       cy.wait('@recipients');
@@ -150,7 +154,9 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${
+          Paths.UI_MAIN
+        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@vamcUser');
       cy.wait('@recipients');
@@ -217,7 +223,9 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&station_number=${stationNumber}&redirectPath=${redirectPath}`,
+        `${
+          Paths.UI_MAIN
+        }/new-message?prescriptionId=${prescriptionId}&station_number=${stationNumber}&redirectPath=${redirectPath}`,
       );
 
       // Verify the v2 API was called with station_number
@@ -289,7 +297,9 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&station_number=${stationNumber}&redirectPath=${redirectPath}`,
+        `${
+          Paths.UI_MAIN
+        }/new-message?prescriptionId=${prescriptionId}&station_number=${stationNumber}&redirectPath=${redirectPath}`,
       );
       cy.wait('@vamcUser');
       cy.wait('@recipients');
@@ -340,7 +350,9 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&station_number=${stationNumber}&redirectPath=${redirectPath}`,
+        `${
+          Paths.UI_MAIN
+        }/new-message?prescriptionId=${prescriptionId}&station_number=${stationNumber}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationByIdV2');
       cy.wait('@vamcUser');
@@ -374,7 +386,9 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&station_number=${stationNumber}&redirectPath=${redirectPath}`,
+        `${
+          Paths.UI_MAIN
+        }/new-message?prescriptionId=${prescriptionId}&station_number=${stationNumber}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationByIdV2');
       cy.wait('@vamcUser');
