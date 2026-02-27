@@ -46,5 +46,9 @@ describe('0989 Helpers', () => {
         fullNameToString({ first: 'John', middle: 'Kay', last: 'Doe' }),
       ).to.eq('John Kay Doe');
     });
+
+    it('gets converts empty arguments without error', () => {
+      expect(fullNameToString({ first: null, last: null })).to.eq(' ');
+    });
   });
 });
