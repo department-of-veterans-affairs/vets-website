@@ -9,6 +9,7 @@ import {
 import SsnField from 'platform/forms-system/src/js/web-component-fields/SsnField';
 import { useSearchParams, useNavigation } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import api from '../utilities/api';
 import {
   SEARCH_BC_LABEL,
@@ -18,6 +19,7 @@ import {
 import { addStyleToShadowDomOnPages } from '../utilities/helpers';
 import POARequestCard from '../components/POARequestCard';
 import ClaimantSearchNoPOA from '../components/ClaimantSearchNoPOA';
+import ClaimantSearchHasPOA from '../components/ClaimantSearchHasPOA';
 
 const lastFour = ssn => {
   return ssn?.substring(5);
@@ -65,71 +67,84 @@ const poaStatusCta = claimant => {
 };
 
 const SearchResults = ({ claimant, searchData }) => {
-  if (!claimant) {
-    return <ClaimantSearchNoPOA {...searchData} />;
-  }
-
   return (
     <>
-      <p
-        data-testid="representation-requests-table-fetcher-poa-requests"
-        className="claimant-search-showing-results"
-      >
-        Showing result for <strong>"{searchData.first_name}"</strong>
-        {', '}
-        <strong>"{searchData.last_name}"</strong>
-        {', '}
-        <strong>"{searchData.dob}"</strong>
-        {', '}
-        <strong>
-          "***-**-
-          {lastFour(searchData.ssn)}"
-        </strong>
-      </p>
-      <h2 className="claimant-name">
-        {claimant.lastName}, {claimant.firstName}
-      </h2>
-      <p className="poa-request__card-field vads-u-margin-bottom--2">
-        <span>{claimant.city}</span>
-        <span>
-          {claimant.city ? ', ' : ''}
-          {claimant.state}
-        </span>
-        <span> {claimant.postalCode}</span>
-      </p>
-      {claimant.representative ? (
-        <span>
-          <strong>POA Status:</strong> {claimant.representative} has POA for
-          this claimant.
-        </span>
+      {!claimant ? (
+        <ClaimantSearchNoPOA {...searchData} />
       ) : (
-        <span>
-          <strong>POA Status: </strong>
-          <span>
-            <va-icon size={3} icon="warning" class="yellow-warning" />
-          </span>{' '}
-          You do not have POA for this claimant.
-        </span>
-      )}
-      {claimant.poaRequests?.length ? (
-        <>
-          <hr className="divider claimant-search" />
-          <h3 className="claimant-search-recent-representation-requests">
-            Recent representation requests
-          </h3>
-          <div className="poa-status-cta">{poaStatusCta(claimant)}</div>
-          <ul
-            data-testid="representation-requests-card"
-            className="poa-request__list poa-request__list--search"
-            sort-column={1}
-          >
-            {claimant.poaRequests.map((request, index) => (
-              <POARequestCard poaRequest={request} key={index} />
-            ))}
-          </ul>
-        </>
-      ) : (
-        ''
+        <Toggler
+          toggleName={
+            Toggler.TOGGLE_NAMES.accreditedRepresentativePortalClaimantDetails
+          }
+        >
+          <Toggler.Enabled>
+            <ClaimantSearchHasPOA searchData={searchData} claimant={claimant} />
+          </Toggler.Enabled>
+          <Toggler.Disabled>
+            <>
+              <p
+                data-testid="representation-requests-table-fetcher-poa-requests"
+                className="claimant-search-showing-results"
+              >
+                Showing result for <strong>"{searchData.first_name}"</strong>
+                {', '}
+                <strong>"{searchData.last_name}"</strong>
+                {', '}
+                <strong>"{searchData.dob}"</strong>
+                {', '}
+                <strong>
+                  "***-**-
+                  {lastFour(searchData.ssn)}"
+                </strong>
+              </p>
+              <h2 className="claimant-name">
+                {claimant.lastName}, {claimant.firstName}
+              </h2>
+              <p className="poa-request__card-field vads-u-margin-bottom--2">
+                <span>{claimant.city}</span>
+                <span>
+                  {claimant.city ? ', ' : ''}
+                  {claimant.state}
+                </span>
+                <span> {claimant.postalCode}</span>
+              </p>
+              {claimant.representative ? (
+                <span>
+                  <strong>POA Status:</strong> {claimant.representative} has POA
+                  for this claimant.
+                </span>
+              ) : (
+                <span>
+                  <strong>POA Status: </strong>
+                  <span>
+                    <va-icon size={3} icon="warning" class="yellow-warning" />
+                  </span>{' '}
+                  You do not have POA for this claimant.
+                </span>
+              )}
+              {claimant.poaRequests?.length ? (
+                <>
+                  <hr className="divider claimant-search" />
+                  <h3 className="claimant-search-recent-representation-requests">
+                    Recent representation requests
+                  </h3>
+                  <div className="poa-status-cta">{poaStatusCta(claimant)}</div>
+                  <ul
+                    data-testid="representation-requests-card"
+                    className="poa-request__list poa-request__list--search"
+                    sort-column={1}
+                  >
+                    {claimant.poaRequests.map((request, index) => (
+                      <POARequestCard poaRequest={request} key={index} />
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                ''
+              )}
+            </>
+          </Toggler.Disabled>
+        </Toggler>
       )}
     </>
   );
