@@ -115,6 +115,7 @@ const Verify = () => {
         </div>
       )}
       <va-text-input
+        data-dd-privacy="mask"
         data-testid="last-name-input"
         label="Your last name"
         value={lastName}
@@ -133,6 +134,7 @@ const Verify = () => {
         show-input-error
       />
       <VaMemorableDate
+        data-dd-privacy="mask"
         id="dob-input"
         data-testid="dob-input"
         label="Date of birth"

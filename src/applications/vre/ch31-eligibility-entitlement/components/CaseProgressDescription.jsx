@@ -31,10 +31,10 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
       {textBefore}{' '}
       <VaLink
         href={href}
-        text="VR&amp;E Check My Eligibility"
+        text="Your VR&E eligibility and benefits"
         onClick={handleRouteChange(href)}
       />{' '}
-      web page.
+      page.
     </p>
   );
 
@@ -43,7 +43,7 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
       return (
         <>
           <p>
-            We’ve received your application for VR&E benefits. There’s nothing
+            We’ve received your application for VR&E benefits. There is nothing
             you need to do right now.
           </p>
           {hubCards}
@@ -55,7 +55,7 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
       return (
         <>
           {withEligibilityLink(
-            "Your application for VR&E benefits is currently being reviewed for basic eligibility. If you haven't confirmed your eligibility yet, please visit the",
+            "Your application for VR&E benefits is currently being reviewed for basic eligibility. If you haven't confirmed your eligibility yet, visit",
           )}
           {hubCards}
         </>
@@ -164,10 +164,9 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
       return (
         <>
           <p>
-            Your counselor is now completing the Entitlement Determination
-            Review. Please visit the "Career Planning" web page for more
-            information about career paths, support, and rehabilitation
-            resources.
+            Your counselor is completing the Entitlement Determination Review.
+            Visit the “Career Planning” page for more information about career
+            paths, support, and rehabilitation resources.
           </p>
           {hubCards}
         </>
@@ -178,10 +177,8 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
       return (
         <>
           <p>
-            Your counselor is working with you to establish and initiate your
-            Chapter 31 Rehabilitation Plan and/or Career Track. Your counselor
-            will share the Rehabilitation Plan with you for your review and
-            approval.
+            Your counselor is working with you to establish your Chapter 31
+            Rehabilitation Plan or Career Track.
           </p>
           {hubCards}
         </>
@@ -192,8 +189,7 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
       return (
         <>
           <p>
-            Congratulations! Your Chapter 31 Rehabilitation Plan or Career Track
-            has been initiated.
+            Your Chapter 31 Rehabilitation Plan or Career Track has started.
           </p>
           {hubCards}
         </>

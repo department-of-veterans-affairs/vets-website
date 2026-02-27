@@ -10,23 +10,24 @@ const programOverviewCard = {
   href: 'https://www.va.gov/careers-employment/vocational-rehabilitation',
   isExternal: true,
 };
+
 const orientationCard = {
   title: 'VR&E Support-and-Services Tracks',
-  body: `We offer 5 support-and-services tracks to help you get education, training, career planning, and live independently.`,
+  body:
+    'We offer 5 support-and-services tracks to help you get education, training, career planning, and live independently. Explore the different tracks and take charge of your future.',
   href:
-    'https://www.va.gov/careers-employment/vocational-rehabilitation/programs',
+    'https://www.va.gov/careers-employment/vocational-rehabilitation/programs/',
   isExternal: true,
 };
 
 const getCareerPlanningCard = step => {
   const body = [
-    `Explore career resources and tools to help you achieve your employment goals. This page provides links to guide you through your career journey. Find how to assess your interest, to find a career path, and employment.`,
+    'Explore career resources and tools to help you achieve your employment goals. This page provides links to guide you through your career journey. Find how to assess your interest, to find a career path, and employment.',
   ];
 
-  // Show the “prepares you for Step 4” line only until you pass step 4
   if (step <= 4) {
     body.push(
-      `This will prepare you for your "Initial Evaluation Counselor Meeting".`,
+      'This will prepare you for your "Initial Evaluation Counselor Meeting."',
     );
   }
 
@@ -36,12 +37,6 @@ const getCareerPlanningCard = step => {
     href: '/career-planning',
   };
 };
-
-// const schedulingCard = {
-//   title: 'Scheduling',
-//   body: `Use this link to schedule or reschedule your Initial Evaluation Counselor Meeting appointment. Follow the on-screen instructions to choose your preferred date and time.`,
-//   href: '/my-case-management-hub',
-// };
 
 const getCardsForStep = (step, stateList = [], ch31CaseMilestonesState) => {
   const careerPlanningCard = getCareerPlanningCard(step);
@@ -71,12 +66,16 @@ const getCardsForStep = (step, stateList = [], ch31CaseMilestonesState) => {
     }
     case 4:
       return [careerPlanningCard];
+
     case 5:
       return [careerPlanningCard];
+
     case 6:
-      return isComplete ? [] : [careerPlanningCard]; // show only if NOT complete
+      return isComplete ? [] : [careerPlanningCard];
+
     case 7:
-      return []; // never show any cards on step 7
+      return [];
+
     default:
       return [];
   }
@@ -89,9 +88,7 @@ const HubCardList = ({ step, stateList = [] }) => {
   );
   const cards = getCardsForStep(step, stateList, ch31CaseMilestonesState);
 
-  if (!cards.length) {
-    return null;
-  }
+  if (!cards.length) return null;
 
   const handleRouteChange = (event, href, isExternal) => {
     event.preventDefault();
@@ -115,16 +112,21 @@ const HubCardList = ({ step, stateList = [] }) => {
               key={card.title}
               className="vads-u-margin-top--2 vads-u-padding-bottom--2"
             >
-              <VaLink
-                active
-                href={card.href}
-                text={card.title}
-                external={card.isExternal}
-                onClick={event => {
-                  handleRouteChange(event, card.href, card.isExternal);
-                }}
-              />
-
+              {card.isExternal ? (
+                <VaLink
+                  external
+                  href={card.href}
+                  text={card.title}
+                  className=" vads-u-font-weight--bold"
+                />
+              ) : (
+                <VaLink
+                  active
+                  href={card.href}
+                  text={card.title}
+                  onClick={event => handleRouteChange(event, card.href)}
+                />
+              )}
               {Array.isArray(card.body) ? (
                 card.body.map((text, i) => (
                   <p

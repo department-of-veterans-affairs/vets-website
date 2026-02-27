@@ -7,9 +7,10 @@ import configureStore from 'redux-mock-store';
 import {
   OracleHealthT3Alert,
   OracleHealthInCardAlert,
-} from '../../components/OracleHealthTransitionAlerts';
-import { michiganTransitioningUser } from '../../mocks/api/user';
-import michiganPrescriptions from '../e2e/fixtures/list-refillable-oh-ehr-michigan-prescriptions.json';
+  OracleHealthRenewalInCardAlert,
+} from '../../../components/shared/OracleHealthTransitionAlerts';
+import { michiganTransitioningUser } from '../../../mocks/api/user';
+import michiganPrescriptions from '../../e2e/fixtures/list-refillable-oh-ehr-michigan-prescriptions.json';
 
 describe('OracleHealthTransitionAlerts', () => {
   const mockStore = configureStore([]);
@@ -275,6 +276,40 @@ describe('OracleHealthTransitionAlerts', () => {
       );
       expect(container.textContent).to.include(
         'call your VA pharmacy’s automated refill line',
+      );
+    });
+  });
+  describe('OracleHealthRenewalInCardAlert', () => {
+    it('renders error alert with correct styling and status', () => {
+      const { container } = render(<OracleHealthRenewalInCardAlert />);
+
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.exist;
+      expect(alert.getAttribute('status')).to.equal('error');
+      expect(alert.hasAttribute('background-only')).to.be.true;
+      expect(alert.getAttribute('class')).to.include('vads-u-margin-top--2');
+    });
+
+    it('has correct test ID', () => {
+      const { getByTestId } = render(<OracleHealthRenewalInCardAlert />);
+      expect(getByTestId('oracle-health-renewal-in-card-alert')).to.exist;
+    });
+
+    it('displays correct DataDog action name for analytics', () => {
+      const { container } = render(<OracleHealthRenewalInCardAlert />);
+
+      const alert = container.querySelector('va-alert');
+      expect(alert.getAttribute('data-dd-action-name')).to.equal(
+        'oracle-health-renewal-in-card-alert-displayed',
+      );
+    });
+
+    it('displays correct message about renewal during transition', () => {
+      const { container } = render(<OracleHealthRenewalInCardAlert />);
+
+      expect(container.textContent).to.include('don’t have any refills left');
+      expect(container.textContent).to.include(
+        'call your provider to request a renewal',
       );
     });
   });

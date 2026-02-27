@@ -59,11 +59,15 @@ describe('CaseProgressDescription', () => {
     );
 
     getByText(/currently being reviewed for basic eligibility/i);
-    getByText(/web page\./i);
+
+    // Updated: copy now ends with "page." (not "web page.")
+    getByText(/page\./i);
 
     const link = container.querySelector('va-link[href="/"]');
     expect(link).to.exist;
-    expect(link.getAttribute('text')).to.equal('VR&E Check My Eligibility');
+    expect(link.getAttribute('text')).to.equal(
+      'Your VR&E eligibility and benefits',
+    );
   });
 
   it('step 3: shows orientation content and reading materials when no milestones data', () => {
@@ -152,8 +156,9 @@ describe('CaseProgressDescription', () => {
       <CaseProgressDescription step={6} />,
     );
 
-    getByText(/Rehabilitation Plan/i);
-    getByText(/review and approval/i);
+    // Updated: matches new Step 6 copy
+    getByText(/working with you to establish/i);
+    getByText(/Chapter 31 Rehabilitation Plan or Career Track/i);
   });
 
   it('renders step 7 description', () => {
@@ -161,7 +166,9 @@ describe('CaseProgressDescription', () => {
       <CaseProgressDescription step={7} />,
     );
 
-    getByText(/has been initiated/i);
+    getByText(
+      /Your Chapter 31 Rehabilitation Plan or Career Track has started/i,
+    );
   });
 
   it('returns null for unknown step', () => {

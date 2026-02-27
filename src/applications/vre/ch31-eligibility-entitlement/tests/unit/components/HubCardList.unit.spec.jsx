@@ -63,7 +63,7 @@ describe('HubCardList', () => {
         'VR&E Support-and-Services Tracks',
       );
       expect(links[1].getAttribute('href')).to.equal(
-        'https://www.va.gov/careers-employment/vocational-rehabilitation/programs',
+        'https://www.va.gov/careers-employment/vocational-rehabilitation/programs/',
       );
 
       expect(links[2].getAttribute('text')).to.equal('Career Planning');
@@ -88,7 +88,7 @@ describe('HubCardList', () => {
 
     // Step <= 4 includes helper text
     getByText(
-      /This will prepare you for your "Initial Evaluation Counselor Meeting"/i,
+      /This will prepare you for your "Initial Evaluation Counselor Meeting\."/i,
     );
   });
 
@@ -106,7 +106,7 @@ describe('HubCardList', () => {
     expect(links[0].getAttribute('href')).to.equal('/career-planning');
 
     getByText(
-      /This will prepare you for your "Initial Evaluation Counselor Meeting"/i,
+      /This will prepare you for your "Initial Evaluation Counselor Meeting\."/i,
     );
   });
 
@@ -144,7 +144,7 @@ describe('HubCardList', () => {
 
     // Step <= 4 includes helper text
     getByText(
-      /This will prepare you for your "Initial Evaluation Counselor Meeting"/i,
+      /This will prepare you for your "Initial Evaluation Counselor Meeting\."/i,
     );
   });
 
@@ -161,7 +161,7 @@ describe('HubCardList', () => {
 
     expect(
       queryByText(
-        /This will prepare you for your "Initial Evaluation Counselor Meeting"/i,
+        /This will prepare you for your "Initial Evaluation Counselor Meeting\."/i,
       ),
     ).to.be.null;
   });
