@@ -75,7 +75,9 @@ describe('evidenceChoiceIntroPage', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasEvidenceChoice': true,
+          'view:selectableEvidenceTypes': {
+            'view:hasOtherEvidence': true,
+          },
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -92,7 +94,9 @@ describe('evidenceChoiceIntroPage', () => {
   // TODO update test when new evidence-choice-upload page is created
   it('should show evidence-choice-upload(eventually) page when veteran selects "Yes" and feature flag is enabled', () => {
     const formData = {
-      'view:hasEvidenceChoice': true, // Veteran selected YES
+      'view:selectableEvidenceTypes': {
+        'view:hasOtherEvidence': true,
+      }, // Veteran selected YES
       //   TODO remove feature toggle when enhancement is fully launched
       disability526SupportingEvidenceEnhancement: true, // feature toggle ON
     };
@@ -100,7 +104,9 @@ describe('evidenceChoiceIntroPage', () => {
   });
   it('should not show evidence-choice-upload page when veteran selects "No" and show the summary of evidence page', () => {
     const formData = {
-      'view:hasEvidenceChoice': false, // Veteran selected NO
+      'view:selectableEvidenceTypes': {
+        'view:hasOtherEvidence': false,
+      }, // Veteran selected NO
       //   TODO remove feature toggle when enhancement is fully launched
       disability526SupportingEvidenceEnhancement: true, // feature toggle ON
     };
@@ -110,8 +116,8 @@ describe('evidenceChoiceIntroPage', () => {
   });
 
   describe('schema', () => {
-    it('should have required properties for view:hasEvidenceChoice', () => {
-      expect(schema.required).to.include('view:hasEvidenceChoice');
+    it('should have required properties for view:selectableEvidenceTypes', () => {
+      expect(schema.required).to.include('view:selectableEvidenceTypes');
     });
   });
 });

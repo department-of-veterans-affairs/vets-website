@@ -210,22 +210,45 @@ describe('validateRequestedAmount', () => {
     );
   });
 
-  it('auto-formats amount to 2 decimals on BLUR', () => {
+  it('rejects amount with fewer than 2 decimal places on BLUR', () => {
     const result = validateRequestedAmount('2.5', DATE_VALIDATION_TYPE.BLUR);
 
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal(
+      'Enter an amount using this format: x.xx',
+    );
+  });
+
+  it('rejects integer amount (no decimal) on BLUR', () => {
+    const result = validateRequestedAmount('3', DATE_VALIDATION_TYPE.BLUR);
+
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal(
+      'Enter an amount using this format: x.xx',
+    );
+  });
+
+  it('accepts valid X.XX format on BLUR', () => {
+    const result = validateRequestedAmount('3.50', DATE_VALIDATION_TYPE.BLUR);
+
     expect(result.isValid).to.be.true;
-    expect(result.formattedValue).to.equal('2.50');
     expect(result.errors.costRequested).to.be.null;
   });
 
-  it('passes for valid amount without formatting on CHANGE', () => {
+  it('allows partial input (1 decimal place) on CHANGE', () => {
+    const result = validateRequestedAmount('3.5', DATE_VALIDATION_TYPE.CHANGE);
+
+    expect(result.isValid).to.be.true;
+    expect(result.errors.costRequested).to.be.null;
+  });
+
+  it('passes for valid amount on CHANGE', () => {
     const result = validateRequestedAmount(
       '10.25',
       DATE_VALIDATION_TYPE.CHANGE,
     );
 
     expect(result.isValid).to.be.true;
-    expect(result.formattedValue).to.be.null;
     expect(result.errors.costRequested).to.be.null;
   });
 });
