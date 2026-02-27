@@ -1,20 +1,4 @@
-const buildAddress = unitAddress => {
-  const { street, street2, city, state, postalCode } = unitAddress;
-  let address = street || '';
-  if (street2) {
-    address += `, ${street2}`;
-  }
-  if (city) {
-    address += `, ${city}`;
-  }
-  if (state) {
-    address += `, ${state}`;
-  }
-  if (postalCode) {
-    address += ` ${postalCode}`;
-  }
-  return address;
-};
+import { buildAddress } from './helpers';
 
 export function combineUnitNameAddress(formData) {
   const parsedFormData = JSON.parse(formData);
