@@ -58,60 +58,91 @@ function getMigrationScheduleFacilityIds(migrationSchedule) {
 }
 
 /**
- * Function to determine if user is exclusively registered at Oracle Health facilities.
- * Exclusivity is determined by:
- * - All patient registered facility ids are included in the migration schedule facility table
- *
- * @param {Object} migrationSchedule - Migration schedule.
- * @param {Object} patientFacilities - Patient registered facilities.
- * @returns {Boolean} true or false
+ * Function to get patient facility ids.
+ * @param {Array} patientFacilities - Patient facility information array
+ * @returns {Array} Array of patient facility ids or null.
  */
-function checkExclusiveRegistration(migrationSchedule, patientFacilities) {
-  const migratingFacilitiesIds = getMigrationScheduleFacilityIds(
-    migrationSchedule,
+function getPatientFacilityIds(patientFacilities) {
+  return (
+    patientFacilities?.map(facility => {
+      return facility.facilityId;
+    }) || null
   );
-
-  const patientFacilityIds = patientFacilities?.map(facility => {
-    return facility.facilityId;
-  });
-
-  if (isEqual(migratingFacilitiesIds, patientFacilityIds)) return true;
-
-  return patientFacilityIds
-    ?.map(patientFacilityId =>
-      migratingFacilitiesIds?.some(
-        migratingFacilitiesId => migratingFacilitiesId === patientFacilityId,
-      ),
-    )
-    .every(Boolean);
 }
 
 /**
- * Function to determine if user is registered at some Oracle Health facilities.
+ * Function to determine if user is registered at Oracle Health facilities. When exclusivity flag
+ * is set, exclusivity is determined by:
+ * - All patient registered facility ids are included in the migration schedule facility table
  *
- * @param {Object} migrationSchedule - Migration schedule.
- * @param {Object} patientFacilities - Patient registered facilities.
+ * @param {Object} arguments
+ * @param {Object} arguments.migrationSchedule - Migration schedule.
+ * @param {Array<Object>} arguments.patientFacilities - Patient registered facilities.
+ * @param {Boolean} arguments.isExclusive - Flag to check for exclusivity.
  * @returns {Boolean} true or false
  */
-function checkMixedRegistration(migrationSchedule, patientFacilities) {
-  if (checkExclusiveRegistration(migrationSchedule, patientFacilities))
-    return false;
+function checkRegistration({
+  migrationSchedule,
+  patientFacilities,
+  isExclusive = false,
+}) {
+  if (!patientFacilities) return false;
 
   const migratingFacilitiesIds = getMigrationScheduleFacilityIds(
     migrationSchedule,
   );
 
-  const patientFacilityIds = patientFacilities?.map(facility => {
-    return facility.facilityId;
-  });
+  const patientFacilityIds = getPatientFacilityIds(patientFacilities);
 
-  return patientFacilityIds
-    ?.map(patientFacilityId =>
-      migratingFacilitiesIds?.some(
-        migratingFacilitiesId => migratingFacilitiesId === patientFacilityId,
-      ),
-    )
-    .some(val => val === true);
+  if (isExclusive) {
+    if (patientFacilityIds?.length === migratingFacilitiesIds.length) {
+      return isEqual(migratingFacilitiesIds, patientFacilityIds);
+    }
+
+    // Ex. [1,2], [1,2,3] is still considered exclusive registration if all of the user's
+    // registered facility ids match the migration facility ids.
+    if (patientFacilityIds?.length < migratingFacilitiesIds.length) {
+      return patientFacilityIds
+        ?.map(patientFacilityId =>
+          migratingFacilitiesIds?.some(
+            migratingFacilitiesId =>
+              migratingFacilitiesId === patientFacilityId,
+          ),
+        )
+        .every(Boolean);
+    }
+
+    // Ex. [1,2][1] is considered mixed
+    return false;
+  }
+
+  if (patientFacilityIds?.length === migratingFacilitiesIds.length) {
+    // Exclusive registration. [1][1]
+    if (isEqual(patientFacilityIds, migratingFacilitiesIds)) return false;
+
+    // Ex.[1,2], [1,3] is considered mixed.
+    return patientFacilityIds
+      ?.map(patientFacilityId =>
+        migratingFacilitiesIds?.some(
+          migratingFacilitiesId => migratingFacilitiesId === patientFacilityId,
+        ),
+      )
+      .some(val => val === true);
+  }
+
+  // Ex. [1,2], [1] is considered mixed registration
+  if (patientFacilityIds?.length > migratingFacilitiesIds.length) {
+    return patientFacilityIds
+      ?.map(patientFacilityId =>
+        migratingFacilitiesIds?.some(
+          migratingFacilitiesId => migratingFacilitiesId === patientFacilityId,
+        ),
+      )
+      .some(Boolean);
+  }
+
+  // Ex. [1][1,2] is considered exlusive
+  return false;
 }
 
 /**
@@ -127,7 +158,7 @@ function shouldDisplay(
   isInWarningPhase,
   isInErrorPhase,
   isMixedRegistration,
-  isExclusiveRegistration,
+  isErrorExclusiveRegistration,
 ) {
   let isDisplay = false;
 
@@ -140,13 +171,13 @@ function shouldDisplay(
     isDisplay = true;
   }
 
-  if (isInErrorPhase && isMixedRegistration) {
+  if (isInErrorPhase && isMixedRegistration && !isErrorExclusiveRegistration) {
     isDisplay = true;
   }
 
   // This occurs when in the migration phase but user is not registered at any of the
   // migration facilities.
-  if (isExclusiveRegistration === false && isMixedRegistration === false) {
+  if (isErrorExclusiveRegistration === false && isMixedRegistration === false) {
     isDisplay = true;
   }
 
@@ -162,35 +193,49 @@ export default function UrgentCareInformationPage() {
     state => state.user.profile.migrationSchedules,
   );
 
-  // Get migration warning phases.
-  let migrationSchedule = getMigrationSchedule(migrationSchedules, [
+  // Get warning migration schedule for the given phases.
+  const warningSchedule = getMigrationSchedule(migrationSchedules, [
     'p0',
     'p1',
   ]);
-  const isInWarningPhase = !!migrationSchedule;
 
-  // Get migration error phases if not in the warning phase.
-  let isInErrorPhase = false;
-  if (!isInWarningPhase) {
-    migrationSchedule = getMigrationSchedule(migrationSchedules, [
-      'p2',
-      'p3',
-      'p4',
-      'p5',
-      'p6',
-    ]);
-    isInErrorPhase = !!migrationSchedule;
-  }
+  // Get error migration schedule for the given phases.
+  const errorSchedule = getMigrationSchedule(migrationSchedules, [
+    'p2',
+    'p3',
+    'p4',
+    'p5',
+    'p6',
+  ]);
 
-  // Check if the user is exclusively registered at the migrating facilities.
-  const isExclusiveRegistration = checkExclusiveRegistration(
-    migrationSchedule,
+  // Check for exclusive registration in the warning migration schedule
+  const isWarningExclusiveRegistration = checkRegistration({
+    migrationSchedule: warningSchedule,
     patientFacilities,
-  );
-  const isMixedRegistration = checkMixedRegistration(
-    migrationSchedule,
+    isExclusive: true,
+  });
+
+  // Check for exclusive registration in the error migration schedule
+  const isErrorExclusiveRegistration = checkRegistration({
+    migrationSchedule: errorSchedule,
     patientFacilities,
-  );
+    isExclusive: true,
+  });
+
+  // Warning phase is determined by the user being registered (exclusively or not) at a facility in
+  // the warning migration phase.
+  const isInWarningPhase =
+    isWarningExclusiveRegistration ||
+    checkRegistration({
+      migrationSchedule: warningSchedule,
+      patientFacilities,
+    });
+
+  const isMixedRegistration = checkRegistration({
+    migrationSchedule: errorSchedule,
+    patientFacilities,
+  });
+  const isInErrorPhase = isMixedRegistration || isErrorExclusiveRegistration;
 
   useEffect(
     () => {
@@ -207,18 +252,18 @@ export default function UrgentCareInformationPage() {
     <div>
       <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
       {isInWarningPhase &&
-        (isExclusiveRegistration || isMixedRegistration) && (
+        (isWarningExclusiveRegistration || isMixedRegistration) && (
           <MigrationWarning
-            facilities={migrationSchedule.facilities}
-            startDate={migrationSchedule.phases.p0}
-            endDate={migrationSchedule.phases.p7}
+            facilities={warningSchedule.facilities}
+            startDate={warningSchedule.phases.p0}
+            endDate={warningSchedule.phases.p7}
           />
         )}
       {isInErrorPhase &&
-        (isExclusiveRegistration || isMixedRegistration) && (
+        (isErrorExclusiveRegistration || isMixedRegistration) && (
           <MigrationInProgressError
-            endDate={migrationSchedule.phases.p7}
-            facilities={migrationSchedule.facilities}
+            endDate={errorSchedule.phases.p7}
+            facilities={errorSchedule.facilities}
             isMixedRegistration={isMixedRegistration}
           />
         )}
@@ -226,7 +271,7 @@ export default function UrgentCareInformationPage() {
         isInWarningPhase,
         isInErrorPhase,
         isMixedRegistration,
-        isExclusiveRegistration,
+        isErrorExclusiveRegistration,
       ) && (
         <>
           <p>
