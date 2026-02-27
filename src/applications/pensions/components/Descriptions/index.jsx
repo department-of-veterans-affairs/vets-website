@@ -43,7 +43,7 @@ export const RequestIncomeAndAssetInformation = () => (
 
 export const RequestNursingHomeInformationDescription = () => (
   <RequestFormDescription
-    intro="Because you applied for medicaid"
+    intro="Because you applied for Medicaid"
     title="Nursing Home Information in Connection with Claim
     for Aid and Attendance"
     formName="VA Form 21-0779"
