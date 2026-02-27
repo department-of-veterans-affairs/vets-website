@@ -8,7 +8,7 @@ const FilterBy = ({ filterByOptions, onChange, selectedOption }) => {
       <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2">
         <VaSelect
           data-testid="events-filter-by"
-          label="Filter by"
+          label="Filter by TESTING"
           name="filterBy"
           onVaSelect={onChange}
           value={selectedOption?.value}

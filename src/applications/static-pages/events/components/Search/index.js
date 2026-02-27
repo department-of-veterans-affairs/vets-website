@@ -242,7 +242,7 @@ export const Search = ({ onSearch }) => {
         disable-analytics
         id="events-apply-filter-button"
         type="submit"
-        text="Apply filter"
+        text="Apply filter TESTING"
         onClick={onSubmitHandler}
         uswds
       />
