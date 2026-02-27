@@ -162,7 +162,7 @@ class ContactListPage {
       'false',
     );
 
-    cy.get(Locators.ALERTS.GEN_ALERT).should(
+    cy.findByTestId('alert-text').should(
       'include.text',
       Alerts.CONTACT_LIST.SAVED,
     );
