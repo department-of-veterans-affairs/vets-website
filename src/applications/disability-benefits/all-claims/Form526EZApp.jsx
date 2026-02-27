@@ -230,6 +230,7 @@ export const Form526Entry = ({
     'disability526ToxicExposureOptOutDataPurge',
     'disability526SupportingEvidenceEnhancement',
     'disability526ExtraBDDPagesEnabled',
+    'disability526NewBddShaEnforcementWorkflowEnabled',
   ]);
 
   // including this helper to showLoading when feature toggles are loading
