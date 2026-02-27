@@ -21,8 +21,17 @@ const ConfirmationDisCondNewDisabilities = ({ formData }) => {
               ? 'VA'
               : cause.charAt(0).toUpperCase() + cause.slice(1).toLowerCase();
           const causeLabel = getCauseLabel(cause);
+
           const conditionDate = formatDateString(dis?.conditionDate);
-          const condition = dis?.condition?.trim();
+
+          const baseCondition = dis?.condition?.trim() || '';
+          const sideOfBody = dis?.sideOfBody;
+          const condition = sideOfBody
+            ? `${baseCondition}, ${capitalizeEachWord(
+                sideOfBody.toLowerCase(),
+              )}`
+            : baseCondition;
+
           const key = condition
             ? `${cause}-${condition}`
             : `${cause}-unknown-${index}`;
@@ -73,24 +82,23 @@ const ConfirmationDisCondNewDisabilities = ({ formData }) => {
                 </>
               )}
 
-              {cause === 'SECONDARY' &&
-                causedByDisability && (
-                  <>
-                    <div className="vads-u-color--gray">Caused by</div>
-                    <div className="vads-u-margin-bottom--2">
-                      {causedByDisability}
-                    </div>
+              {cause === 'SECONDARY' && causedByDisability && (
+                <>
+                  <div className="vads-u-color--gray">Caused by</div>
+                  <div className="vads-u-margin-bottom--2">
+                    {causedByDisability}
+                  </div>
 
-                    {causedByDisabilityDescription && (
-                      <>
-                        <div className="vads-u-color--gray">Description</div>
-                        <div className="vads-u-margin-bottom--2">
-                          {causedByDisabilityDescription}
-                        </div>
-                      </>
-                    )}
-                  </>
-                )}
+                  {causedByDisabilityDescription && (
+                    <>
+                      <div className="vads-u-color--gray">Description</div>
+                      <div className="vads-u-margin-bottom--2">
+                        {causedByDisabilityDescription}
+                      </div>
+                    </>
+                  )}
+                </>
+              )}
 
               {cause === 'WORSENED' &&
                 (worsenedDescription || worsenedEffects) && (
