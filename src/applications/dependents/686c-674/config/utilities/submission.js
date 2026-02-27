@@ -68,7 +68,10 @@ function applyNoSsnReasonMappings(
     cleanData.spouseInformation.noSsnReason =
       noSsnReasonMappings[(sourceData?.spouseInformation?.noSsnReason)];
   }
-  if (addOptions.addChild === true && sourceData?.childrenToAdd?.length > 0) {
+  if (
+    (addOptions.addChild === true || addOptions.addDisabledChild === true) &&
+    sourceData?.childrenToAdd?.length > 0
+  ) {
     sourceData.childrenToAdd.forEach((child, index) => {
       if (child.noSsn === true) {
         cleanData.childrenToAdd[index].noSsnReason =
