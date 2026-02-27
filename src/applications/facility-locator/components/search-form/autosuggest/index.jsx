@@ -76,12 +76,7 @@ function Autosuggest({
   if (showOptionsRestriction) {
     const hasMinimumChars =
       !!inputValue && inputValue.length >= MIN_SEARCH_CHARS;
-    // console.log('hasMinimumChars', hasMinimumChars);
-    // console.log('hasMinimumChars type', typeof hasMinimumChars);
-
     shouldBeShown = isOpen && hasMinimumChars;
-    // console.log('shouldBeShown', shouldBeShown);
-    // console.log('shouldBeShown type', typeof shouldBeShown);
   }
 
   const { id } = getMenuProps();
