@@ -1923,7 +1923,9 @@ describe('SelectCareTeam', () => {
       });
 
       await waitFor(() => {
-        const alert = screen.container.querySelector('va-alert');
+        const alert = screen.getByTestId(
+          'cerner-facilities-transition-alert-error-phase',
+        );
         expect(alert).to.exist;
         expect(alert.getAttribute('status')).to.equal('error');
       });
