@@ -16,6 +16,13 @@ import didCompleteProgramOfStudy from '../pages/didCompleteProgramOfStudy';
 import didReceiveCredit from '../pages/didReceiveCredit';
 import wasEnrolledWhenSchoolClosed from '../pages/wasEnrolledWhenSchoolClosed';
 import wasOnApprovedLeave from '../pages/wasOnApprovedLeave';
+import withdrewPriorToClosing from '../pages/withdrewPriorToClosing';
+import withdrawDate from '../pages/withdrawDate';
+import enrolledAtNewSchool from '../pages/enrolledAtNewSchool';
+import newSchoolNameAndProgram from '../pages/newSchoolNameAndProgram';
+import isUsingTeachoutAgreement from '../pages/isUsingTeachoutAgreement';
+import newSchoolGrants12OrMoreCredits from '../pages/newSchoolGrants12OrMoreCredits';
+
 import remarks from '../pages/remarks';
 
 import prefillTransform from './prefillTransform';
@@ -135,6 +142,52 @@ const formConfig = {
           uiSchema: wasOnApprovedLeave.uiSchema,
           schema: wasOnApprovedLeave.schema,
           depends: formData => !!formData.schoolWasClosed,
+        },
+        withdrewPriorToClosing: {
+          path: 'withdrew-prior-to-closing',
+          title: 'Withdrawal details',
+          uiSchema: withdrewPriorToClosing.uiSchema,
+          schema: withdrewPriorToClosing.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        withdrawDate: {
+          path: 'withdraw-date',
+          title: 'Provide the date of your withdrawal from the school',
+          uiSchema: withdrawDate.uiSchema,
+          schema: withdrawDate.schema,
+          depends: formData =>
+            !!formData.schoolWasClosed && !!formData.withdrewPriorToClosing,
+        },
+        enrolledAtNewSchool: {
+          path: 'enrolled-at-new-school',
+          title: 'New school enrollment',
+          uiSchema: enrolledAtNewSchool.uiSchema,
+          schema: enrolledAtNewSchool.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        newSchoolNameAndProgram: {
+          path: 'new-school-name-and-program',
+          title: 'Name of new school and program',
+          uiSchema: newSchoolNameAndProgram.uiSchema,
+          schema: newSchoolNameAndProgram.schema,
+          depends: formData =>
+            !!formData.schoolWasClosed && !!formData.enrolledAtNewSchool,
+        },
+        isUsingTeachoutAgreement: {
+          path: 'teachout-agreement',
+          title: 'Teach out program details',
+          uiSchema: isUsingTeachoutAgreement.uiSchema,
+          schema: isUsingTeachoutAgreement.schema,
+          depends: formData =>
+            !!formData.schoolWasClosed && !!formData.enrolledAtNewSchool,
+        },
+        newSchoolGrants12OrMoreCredits: {
+          path: 'new-school-credits',
+          title: 'New school credit approvals',
+          uiSchema: newSchoolGrants12OrMoreCredits.uiSchema,
+          schema: newSchoolGrants12OrMoreCredits.schema,
+          depends: formData =>
+            !!formData.schoolWasClosed && !!formData.enrolledAtNewSchool,
         },
       },
     },
