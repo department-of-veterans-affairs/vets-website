@@ -52,7 +52,9 @@ const MedicationsListSort = props => {
               const sortActionSrText = document.querySelector(
                 "[data-testid='sort-action-sr-text']",
               );
-              sortActionSrText.textContent = `Sorting: ${rxListSortingOptions[newSortOption].LABEL}`;
+              sortActionSrText.textContent = `Sorting: ${
+                rxListSortingOptions[newSortOption].LABEL
+              }`;
               focusElement(sortActionSrText);
 
               sortRxList(null, newSortOption);

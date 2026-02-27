@@ -88,14 +88,15 @@ const MedicationHistory = () => {
           sortRxList={updateSort}
           shouldShowSelect={!isLoading}
         />
-        {!isLoading && pagination && (
-          <MedicationsList
-            pagination={pagination}
-            rxList={filteredList}
-            selectedSortOption={selectedSortOption}
-            updateLoadingStatus={setLoadingMessage}
-          />
-        )}
+        {!isLoading &&
+          pagination && (
+            <MedicationsList
+              pagination={pagination}
+              rxList={filteredList}
+              selectedSortOption={selectedSortOption}
+              updateLoadingStatus={setLoadingMessage}
+            />
+          )}
       </>
     );
   };

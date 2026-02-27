@@ -75,9 +75,10 @@ const MedicationsList = props => {
     const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
     return (
       <>
-        {!isFullList && !allMedsSelected && (
-          <strong>{selectedFilterDisplay} medications</strong>
-        )}
+        {!isFullList &&
+          !allMedsSelected && (
+            <strong>{selectedFilterDisplay} medications</strong>
+          )}
         {`${
           !isFullList && !allMedsSelected ? '' : ' medications'
         }, ${sortOptionLowercase}`}
@@ -106,7 +107,9 @@ const MedicationsList = props => {
         } of ${totalMedications} ${filterAndSortAriaLabel()}`}
       >
         <span className="no-print">
-          {`Showing ${displayNums[0]} - ${displayNums[1]} of ${totalMedications} `}
+          {`Showing ${displayNums[0]} - ${
+            displayNums[1]
+          } of ${totalMedications} `}
           {filterAndSortContent()}
         </span>
         <span className="print-only">

@@ -39,9 +39,12 @@ export const useFetchMedicationHistory = (perPage = 10) => {
     filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
   });
 
-  useEffect(() => {
-    setQueryParams(prev => ({ ...prev, page }));
-  }, [page]);
+  useEffect(
+    () => {
+      setQueryParams(prev => ({ ...prev, page }));
+    },
+    [page],
+  );
 
   const {
     data: apiData,
