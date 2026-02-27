@@ -141,6 +141,10 @@ const ApplicationsInProgress = ({
     TOGGLE_NAMES.benefitsClaimsIvcChampVaProvider,
   );
 
+  const displayDecisionReviewsForms = useToggleValue(
+    TOGGLE_NAMES.decisionReviewsMyVADisplay,
+  );
+
   // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
     () =>
@@ -218,7 +222,11 @@ const ApplicationsInProgress = ({
             <p data-testid="applications-in-progress-empty-state">
               {emptyStateText}
             </p>
-            {!hideMissingApplicationHelp && <MissingApplicationHelp />}
+            {!hideMissingApplicationHelp && (
+              <MissingApplicationHelp
+                displayDecisionReviewsForms={displayDecisionReviewsForms}
+              />
+            )}
           </>
         )}
         {hasForms && (
@@ -305,7 +313,11 @@ const ApplicationsInProgress = ({
 
               return null;
             })}
-            {!hideMissingApplicationHelp && <MissingApplicationHelp />}
+            {!hideMissingApplicationHelp && (
+              <MissingApplicationHelp
+                displayDecisionReviewsForms={displayDecisionReviewsForms}
+              />
+            )}
           </div>
         )}
       </DashboardWidgetWrapper>
