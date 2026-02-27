@@ -140,6 +140,15 @@ export const conditionReducer = (state = initialState, action) => {
     case Actions.Conditions.GET: {
       const condition = action.response;
 
+      // If the API returned a notFound marker, pass it through so the
+      // detail container can redirect back to the list page.
+      if (condition?.data?.notFound) {
+        return {
+          ...state,
+          conditionDetails: { notFound: true },
+        };
+      }
+
       let conditionDetails = null;
       if (condition) {
         conditionDetails = condition.resourceType
