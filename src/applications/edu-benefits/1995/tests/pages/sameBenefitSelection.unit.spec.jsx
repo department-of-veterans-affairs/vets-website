@@ -42,7 +42,7 @@ describe('sameBenefitSelectionPage', () => {
       'Montgomery GI Bill Active Duty (MGIB-AD, Chapter 30)',
       'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
       'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
-      "Dependents' Educational Assistance (DEA, Chapter 35)",
+      "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
       'Fry Scholarship (Chapter 33)',
     ]);
 

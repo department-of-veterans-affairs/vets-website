@@ -30,5 +30,14 @@ const responses = {
       attributes: {},
     },
   },
+  'POST /v0/claim_attachments': {
+    data: {
+      attributes: {
+        name: 'test-upload.pdf',
+        size: 15306,
+        confirmationCode: '5',
+      },
+    },
+  },
 };
 module.exports = responses;

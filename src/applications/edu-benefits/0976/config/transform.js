@@ -124,14 +124,12 @@ function collectOfficials(formData) {
     financialRepresentative: formData.financialRepresentative,
     schoolCertifyingOfficial: formData.schoolCertifyingOfficial,
   };
-  data.governingBodyAndFaculty = (formData.governingBodyAndFaculty || []).map(
-    fac => {
-      return {
-        fullName: fac.fullName,
-        title: fac.title,
-      };
-    },
-  );
+  data.governingBodyAndFaculty = (formData.officials || []).map(fac => {
+    return {
+      fullName: fac.fullName,
+      title: fac.title,
+    };
+  });
   return data;
 }
 

@@ -102,7 +102,7 @@ describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
             selection: /I need a different clinic/i,
           })
           .assertWarningAlert({
-            text: /This facility does not allow online requests for this type of care/i,
+            text: /We need more information to schedule this appointment/i,
           })
           .assertNextButton({ isEnabled: false });
 

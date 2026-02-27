@@ -24,7 +24,7 @@ const initialSchema = {
   },
 };
 
-export default function useClinicFormState(pageTitle) {
+export default function useClinicFormState(pageTitle, singleClinicTitlePrefix) {
   const initialData = useSelector(getFormData);
   const selectedTypeOfCare = getTypeOfCare(initialData);
 
@@ -85,7 +85,7 @@ export default function useClinicFormState(pageTitle) {
     },
   };
 
-  const formState = useFormState({
+  return useFormState({
     initialSchema() {
       let newSchema = initialSchema;
 
@@ -96,12 +96,12 @@ export default function useClinicFormState(pageTitle) {
           properties: {
             clinicId: {
               type: 'string',
-              title: `Would you like to make an appointment at ${
+              title: `${singleClinicTitlePrefix} ${
                 clinic.serviceName
-              }?`,
+              }. Do you you want to schedule your appointment at this clinic?`,
               enum: [clinic.id, 'NONE'],
               enumNames: [
-                'Yes, make my appointment here',
+                `Yes, make my appointment at ${clinic.serviceName}`,
                 'No, I need a different clinic',
               ],
             },
@@ -128,11 +128,4 @@ export default function useClinicFormState(pageTitle) {
     uiSchema,
     initialData,
   });
-
-  return {
-    ...formState,
-    firstMatchingClinic: clinics?.find(
-      clinic => clinic.id === formState.schema?.properties.clinicId.enum[0],
-    ),
-  };
 }

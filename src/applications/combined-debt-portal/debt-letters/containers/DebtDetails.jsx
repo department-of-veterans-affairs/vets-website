@@ -16,7 +16,7 @@ import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
 } from '../const/deduction-codes';
-import DebtDetailsCard from '../components/DebtDetailsCard';
+import DetailsAlert from '../../combined/components/DetailsAlert';
 import PaymentHistoryTable from '../components/PaymentHistoryTable';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import Modals from '../../combined/components/Modals';
@@ -112,7 +112,7 @@ const DebtDetails = () => {
             .
           </p>
         )}
-        <DebtDetailsCard debt={currentDebt} />
+        <DetailsAlert type="debt" data={currentDebt} />
         <va-accordion open-single>
           <va-accordion-item
             header="Why might I have this overpayment balance?"

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { getAlert, getFormNumber, onClickContinue } from '../helpers';
@@ -12,7 +11,7 @@ export const emptyObjectSchema = {
 
 const formNumber = getFormNumber();
 export const form686cBcList = [
-  { href: '/representative', label: 'VA.gov/representative home' },
+  { href: '/representative', label: 'Accredited representative portal home' },
   { href: '/representative/submissions', label: 'Submissions' },
   {
     href: `/representative/representative-form-upload/${formNumber}/introduction`,
@@ -49,12 +48,6 @@ export const claimantTitleAndDescription = {
         cause processing delays.
       </>,
     ),
-  },
-};
-
-export const ITFClaimantTitleAndDescription = {
-  'view:claimantTitle': {
-    ...titleUI('Claimant information'),
   },
 };
 
@@ -106,12 +99,6 @@ export const ITFBenefitTypes = Object.freeze({
       'Select this option if you intend to file a pension claim (VA Form 21P-527EZ)',
   },
 });
-
-export const ITFVeteranTitleAndDescription = {
-  'view:veteranTitle': {
-    ...titleUI('Veteran identification information'),
-  },
-};
 
 export const CustomTopContent = () => {
   const bcString = JSON.stringify(form686cBcList);

@@ -11,7 +11,11 @@ import {
   renderWithProfileReducersAndRouter,
 } from '../../unit-test-helpers';
 
-function createInitialState({ hasUnsavedEdits = false, toggles = {} } = {}) {
+const createInitialState = ({
+  hasUnsavedEdits = false,
+  toggles = {},
+  error = false,
+} = {}) => {
   return {
     ...createBasicInitialState(),
     ...createFeatureTogglesState(toggles),
@@ -27,35 +31,16 @@ function createInitialState({ hasUnsavedEdits = false, toggles = {} } = {}) {
       metadata: {
         mostRecentErroredTransactionId: '',
       },
-      addressValidation: {
-        addressValidationType: '',
-        suggestedAddresses: [],
-        confirmedSuggestions: [],
-        addressFromUser: {
-          addressLine1: '',
-          addressLine2: '',
-          addressLine3: '',
-          city: '',
-          stateCode: '',
-          zipCode: '',
-          countryCodeIso3: '',
-        },
-        addressValidationError: false,
-        validationKey: null,
-        selectedAddress: {},
-        selectedAddressId: null,
-      },
-      copyAddressModal: null,
     },
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: { get() {} },
-      dismissedDowntimeWarnings: [],
+    vaProfile: {
+      schedulingPreferences: {
+        loading: false,
+        error,
+        data: {},
+      },
     },
   };
-}
+};
 
 const defaultOptions = {
   path: '/profile/health-care-settings/scheduling-preferences',
@@ -133,5 +118,50 @@ describe('SchedulingPreferences', () => {
     await waitFor(() =>
       expect(document.title).to.contain('Scheduling Preferences'),
     );
+  });
+
+  it('renders error message when there is an error fetching preferences', () => {
+    const { getByTestId } = setup({ error: true });
+
+    const errorMessage = getByTestId('service-is-down-banner');
+    expect(errorMessage).to.exist;
+  });
+
+  it('shows the loading spinner when loading preferences', () => {
+    const initialState = createInitialState({
+      hasUnsavedEdits: false,
+      toggles: {},
+      error: false,
+    });
+
+    // Set loading to true for schedulingPreferences
+    initialState.vaProfile.schedulingPreferences.loading = true;
+
+    const { getByTestId } = renderWithProfileReducersAndRouter(
+      <SchedulingPreferences />,
+      {
+        initialState,
+      },
+    );
+
+    const loadingSpinner = getByTestId('loading-spinner');
+    expect(loadingSpinner).to.exist;
+  });
+
+  it('uses fallback values when schedulingPreferences data is missing', () => {
+    const initialState = createInitialState();
+    // Ensure schedulingPreferences data is undefined
+    initialState.vaProfile.schedulingPreferences = undefined;
+
+    const { container } = renderWithProfileReducersAndRouter(
+      <SchedulingPreferences />,
+      {
+        initialState,
+      },
+    );
+
+    // Check that the page still renders and shows the sections
+    const sections = container.querySelectorAll('.profile-info-section');
+    expect(sections.length).to.equal(3);
   });
 });

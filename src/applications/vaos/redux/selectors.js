@@ -48,8 +48,6 @@ export const selectRegisteredCernerFacilities = state => {
 
 export const selectFeatureApplication = state =>
   toggleValues(state).vaOnlineScheduling;
-export const selectFeatureCancel = state =>
-  toggleValues(state).vaOnlineSchedulingCancel;
 export const selectFeatureRequests = state =>
   toggleValues(state).vaOnlineSchedulingRequests;
 export const selectFeatureCommunityCare = state =>

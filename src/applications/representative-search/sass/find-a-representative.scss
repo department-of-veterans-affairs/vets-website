@@ -31,95 +31,41 @@
         display: flex;
         flex-direction: column;
         position: relative;
+        margin-bottom: 0;
 
         .search-controls-text-inputs {
           @media (min-width: $medium-screen) {
-            .geolocation-container {
-              display: flex;
-              min-width: 6.25rem;
-
-
-              .location-input {
-                min-width: 30rem;
-              }
-
-              .use-my-location-button-container {
-                align-self: flex-end;
-                min-width: 16rem;
-                margin-left: 4.8rem;
-                margin-bottom: 1.3rem;
-              }
-            }
-            .search-area-dropdown {
-              width: 30rem;
-            }
-
-            .representative-name-input {
-              width: 30rem;
-            }
+            width: 30rem;
           }
+
           @media (max-width: $medium-screen) {
-            .location-input {
-              max-width: 28.75rem;
-            }
-
-            .search-area-dropdown {
-              max-width: 28.75rem;
-            }
-
-            .representative-name-input {
-              max-width: 28.75rem;
-            }
-
-            .use-my-location-button-container {
-              margin-top: 1rem;
-              margin-left: -1rem;
-            }
+            max-width: 28.75rem;
           }
-        }
 
-        .usa-input-error {
-          margin-top: 0rem;
-        }
+          .use-my-location-button-container {
+            display: flex;
+            min-height: 2.75rem;
 
-        .use-my-location-button-container-error {
-          @media (min-width: $large-screen) {
-            top: 6.4rem;
-          }
-        }
+            .use-my-location-link {
+              text-decoration: none;
+              background-color: transparent;
+              color: var(--vads-color-link);
+              font-weight: normal;
+              padding: 0;
 
-        .use-my-location-link {
-          text-decoration: none;
-          background-color: transparent;
-          color: var(--vads-color-link);
-          font-weight: normal;
-          padding: 0;
-          margin: 0 0 0 1rem;
+              @media (max-width: $small-desktop-screen) {
+                text-align: left;
+              }
+            }
 
-          @media (max-width: $small-desktop-screen) {
-            text-align: left;
-          }
-        }
-
-        .finding-your-location-loading {
-          min-width: 22.4rem;
-          text-decoration: none;
-          background-color: transparent;
-          margin-top: 0.5rem;
-          color: var(--vads-color-link);
-          font-weight: normal;
-          background-repeat: no-repeat;
-          background-color: transparent;
-        }
-
-        #representative-search {
-          max-width: 12.8rem;
-          margin: 3.2rem 0 3.2rem 0 !important;
-        }
-
-        .rep-type-selector {
-          p:last-child {
-            margin-bottom: -1.6rem !important;
+            .finding-your-location-loading {
+              text-decoration: none;
+              background-color: transparent;
+              margin: 0.5rem 0;
+              color: var(--vads-color-link);
+              font-weight: normal;
+              background-repeat: no-repeat;
+            }
           }
         }
       }
@@ -151,36 +97,11 @@
       margin-bottom: 3.2rem;
     }
 
-    h3 {
-      margin: 0.8rem 0 0.8rem 0;
-    }
-
-    .sort-dropdown {
-      .sort-select-and-apply {
-        display: flex;
-        align-items: flex-end;
-
-        .sort-select {
-          min-width: 15.625rem;
-          margin-left: 0;
-        }
-
-        .sort-apply-button {
-          margin-left: 1.25rem;
-        }
-      }
-
-
-      @media (max-width: 16.25rem) {
-        .sort-select-and-apply {
-          flex-direction: column;
-          align-items: flex-start;
-
-          .sort-apply-button {
-            margin: 1.5rem 0 0 0;
-          }
-        }
-      }
+    .sort-select {
+      width: 18.8rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
     }
 
     .representative-results-list {

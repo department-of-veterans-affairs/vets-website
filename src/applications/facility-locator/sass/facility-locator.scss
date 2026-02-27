@@ -695,17 +695,6 @@ $text-color: rgba(27, 27, 27, 1);
   flex-direction: column;
 }
 
-#other-tools {
-  text-align: center;
-  margin: 22px auto;
-  clear: both;
-
-  @media (max-width: $small-screen) {
-    width: 260px;
-    white-space: pre-line;
-  }
-}
-
 #mapbox-gl-container {
   @media screen and (max-width: $medium-screen) {
     height: 55vh;

@@ -2,8 +2,17 @@ import Fuse from 'fuse.js';
 import { compareDesc } from 'date-fns';
 import { getVAStatusFromCRM } from '../config/helpers';
 
-export function flattenInquiry(inquiry) {
-  const { id, type, attributes } = inquiry;
+/**
+ * @typedef {import('../components/inbox/InquiryCard').Inquiry} Inquiry
+ */
+
+/**
+ *
+ * @param {object} rawInquiry
+ * @returns {Inquiry}
+ */
+export function flattenInquiry(rawInquiry) {
+  const { id, type, attributes } = rawInquiry;
   return {
     id,
     type,
@@ -14,8 +23,14 @@ export function flattenInquiry(inquiry) {
 
 /** Splits inquires into buckets by their Level of Authentication
  *  @param {Array} rawInquiries
+ *  @returns {{
+ *   business: Inquiry[],
+ *   personal: Inquiry[],
+ *   uniqueCategories: string[]
+ *   uniqueStatuses: string[]
+ * }}
  */
-export function categorizeByLOA(rawInquiries) {
+export function standardizeInquiries(rawInquiries) {
   const buckets = rawInquiries.reduce(
     (accumulator, current) => {
       const loa = current.attributes.levelOfAuthentication.toLowerCase();
@@ -24,19 +39,25 @@ export function categorizeByLOA(rawInquiries) {
       // If business or personal, add to bucket
       if (accumulator[loa]) accumulator[loa].push(flattened);
 
-      // Use a Set to track categories
+      // Use Sets to track categories & statuses
       accumulator.uniqueCategories.add(flattened.categoryName);
+      accumulator.uniqueStatuses.add(flattened.status);
       return accumulator;
     },
-    { business: [], personal: [], uniqueCategories: new Set() },
+    {
+      business: [],
+      personal: [],
+      uniqueCategories: new Set(),
+      uniqueStatuses: new Set(),
+    },
   );
   // Convert the Set into an array
-  return { ...buckets, uniqueCategories: [...buckets.uniqueCategories] };
+  return {
+    ...buckets,
+    uniqueCategories: [...buckets.uniqueCategories],
+    uniqueStatuses: [...buckets.uniqueStatuses],
+  };
 }
-
-/**
- * @typedef {import('../components/inbox/InquiryCard').Inquiry} Inquiry
- */
 
 /** Splits an array into buckets of limited size
  * @param {Inquiry[]} inquiries The list of items
@@ -67,17 +88,19 @@ export function paginateInquiries(inquiries, itemsPerPage) {
 
 export function filterAndSort({
   inquiriesArray,
-  query = '',
-  categoryFilter = 'All',
-  statusFilter = 'All',
+  filters: { category = 'All', status = 'All', query = '' } = {
+    category: 'All',
+    status: 'All',
+    query: '',
+  },
 }) {
   // Since Array.sort() sorts it in place, create a shallow copy first
   const inquiriesCopy = [...inquiriesArray];
   const filteredAndSorted = inquiriesCopy
     .filter(inq => {
       return (
-        [inq.categoryName, 'All'].includes(categoryFilter) &&
-        [inq.status, 'All'].includes(statusFilter)
+        [inq.categoryName, 'All'].includes(category) &&
+        [inq.status, 'All'].includes(status)
       );
     })
     .sort((a, b) =>

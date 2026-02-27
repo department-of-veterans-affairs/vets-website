@@ -31,7 +31,7 @@ describe('Notification Settings', () => {
   context(
     'when user is a VA patient at at least one facility that supports Rx tracking',
     () => {
-      it('should show the Health Care group first and show the Rx tracking item - C9477', () => {
+      it('should show the Rx tracking item - C9477', () => {
         cy.login(
           makeUserObject({
             isPatient: true,
@@ -56,10 +56,7 @@ describe('Notification Settings', () => {
 
         // TODO: uncomment when email is a supported communication channel
         // cy.findByText('veteran@gmail.com').should('exist');
-        cy.findAllByTestId('notification-group')
-          .should('have.length', 3)
-          .first()
-          .should('contain.text', 'Your health care');
+        cy.findAllByTestId('notification-group').should('have.length', 3);
         cy.get('[data-testid="checkbox-group-item4"]')
           .shadow()
           .invoke('text')
@@ -72,7 +69,7 @@ describe('Notification Settings', () => {
   context(
     'when user is a VA patient and is only associated with facilities that supports Rx tracking',
     () => {
-      it('should show the Health Care group first and show the Rx tracking item but hide the radio button hint text - C9478', () => {
+      it('should show the Rx tracking item but hide the radio button hint text - C9478', () => {
         cy.login(
           makeUserObject({
             isPatient: true,
@@ -94,10 +91,7 @@ describe('Notification Settings', () => {
           .should('exist');
         // TODO: uncomment when email is a supported communication channel
         // cy.findByText('veteran@gmail.com').should('exist');
-        cy.findAllByTestId('notification-group')
-          .should('have.length', 3)
-          .first()
-          .should('contain.text', 'Your health care');
+        cy.findAllByTestId('notification-group').should('have.length', 3);
         cy.get('[data-testid="checkbox-group-item4"]')
           .shadow()
           .invoke('text')
@@ -113,7 +107,7 @@ describe('Notification Settings', () => {
   context(
     'when user is a VA patient at a facility that does not support Rx tracking',
     () => {
-      it('should show the Health Care group first but not show the Rx tracking item - C9479', () => {
+      it('should not show the Rx tracking item - C9479', () => {
         cy.login(
           makeUserObject({
             isPatient: true,
@@ -136,8 +130,6 @@ describe('Notification Settings', () => {
         // cy.findByText('veteran@gmail.com').should('exist');
         cy.findAllByTestId('notification-group')
           .should('have.length', 3)
-          .first()
-          .should('contain.text', 'Your health care')
           .invoke('text')
           .should('not.match', /prescription.*shipment/i)
           .should('not.match', /prescription.*tracking/i);

@@ -194,7 +194,7 @@ const dobPlacePage = {
         'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
       required: formData => !formData['view:dateOfBirth'],
     }),
-    bornOutsideUS: checkboxUI({
+    bornOutsideUs: checkboxUI({
       title: 'They were born outside the U.S.',
     }),
     birthPlace: {
@@ -209,13 +209,13 @@ const dobPlacePage = {
         'ui:required': (formData, index) => {
           const item = formData?.veteransChildren?.[index];
           const currentPageData = formData;
-          return !(item?.bornOutsideUS || currentPageData?.bornOutsideUS);
+          return !(item?.bornOutsideUs || currentPageData?.bornOutsideUs);
         },
         'ui:options': {
           hideIf: (formData, index) => {
             const item = formData?.veteransChildren?.[index];
             const currentPageData = formData;
-            return item?.bornOutsideUS || currentPageData?.bornOutsideUS;
+            return item?.bornOutsideUs || currentPageData?.bornOutsideUs;
           },
         },
         'ui:errorMessages': {
@@ -227,13 +227,13 @@ const dobPlacePage = {
         'ui:required': (formData, index) => {
           const item = formData?.veteransChildren?.[index];
           const currentPageData = formData;
-          return item?.bornOutsideUS || currentPageData?.bornOutsideUS;
+          return item?.bornOutsideUs || currentPageData?.bornOutsideUs;
         },
         'ui:options': {
           hideIf: (formData, index) => {
             const item = formData?.veteransChildren?.[index];
             const currentPageData = formData;
-            return !(item?.bornOutsideUS || currentPageData?.bornOutsideUS);
+            return !(item?.bornOutsideUs || currentPageData?.bornOutsideUs);
           },
           labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
             acc[value] = COUNTRY_NAMES[idx];
@@ -251,7 +251,7 @@ const dobPlacePage = {
     required: ['birthPlace', 'childDateOfBirth'],
     properties: {
       childDateOfBirth: currentOrPastDateSchema,
-      bornOutsideUS: checkboxSchema,
+      bornOutsideUs: checkboxSchema,
       birthPlace: customAddressSchema,
     },
   },

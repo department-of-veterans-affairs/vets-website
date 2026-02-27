@@ -129,7 +129,9 @@ export function transformVAOSAppointment(
       };
     });
     requestFields = {
-      requestedPeriod: reqPeriods,
+      // Some appointments don't have requested periods, so we need to return an empty array
+      // to avoid errors in the UI
+      requestedPeriod: reqPeriods || [],
       created,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),

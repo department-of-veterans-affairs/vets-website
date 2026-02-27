@@ -93,7 +93,7 @@ const SubmissionCard = ({ submission }) => {
           Submitted {formattedSubmittedDate}
         </p>
         <h3 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
-          {submission.lastName}, {submission.firstName}
+          {`${submission.lastName}, ${submission.firstName}`}
         </h3>
         <p className="submission__card-form-name vads-u-font-size--h5 vads-u-font-family--serif">
           <strong>

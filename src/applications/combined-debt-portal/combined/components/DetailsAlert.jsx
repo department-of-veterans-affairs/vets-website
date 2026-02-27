@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 import CardLinks from './common/CardLinks';
 import PhoneNumbers from './common/PhoneNumbers';
 import { useStatusContent } from '../hooks/useStatusContent';
@@ -7,23 +8,29 @@ import { commonPropTypes } from './common/prop-types/CommonPropTypes';
 const DetailsAlert = ({ type, data }) => {
   const {
     transformedData,
-    headerText,
-    bodyText,
+    headerKey,
+    headerValues,
+    bodyKey,
+    bodyValues,
     alertStatus,
     linkIds,
     phoneSet,
   } = useStatusContent(type, data, 'details');
+  const { t } = useTranslation();
 
   return (
     <va-alert
       class="vads-u-margin-bottom--1"
       disable-analytics="false"
+      data-testid={`details-alert-${transformedData.id}`}
       full-width="false"
       status={alertStatus}
       visible="true"
     >
-      <h2 slot="headline">{headerText}</h2>
-      <p className="vads-u-margin-bottom--0">{bodyText}</p>
+      <h2 slot="headline">{t(headerKey, headerValues)}</h2>
+      <p className="vads-u-margin-bottom--0">
+        <Trans i18nKey={bodyKey} values={bodyValues} />
+      </p>
       <PhoneNumbers phoneSet={phoneSet} />
       <CardLinks
         links={linkIds}

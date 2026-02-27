@@ -3,7 +3,7 @@ import {
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import SchoolEnrollmentProofDescription from '../../components/FormDescriptions/SchoolEnrollmentProofDescription';
-import { ATTACHMENT_IDS } from '../../constants';
+import { ATTACHMENT_IDS } from '../../utils/constants';
 import { attachmentUI, attachmentWithMetadataSchema } from '../../definitions';
 import content from '../../locales/en/content.json';
 

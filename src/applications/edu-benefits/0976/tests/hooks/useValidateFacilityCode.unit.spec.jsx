@@ -6,7 +6,7 @@ import * as redux from 'react-redux';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { useValidateFacilityCode } from '../../hooks/useValidateFacilityCode';
-import apiSuccessResponse from '../fixtures/mocks/institution-facility-code-success.json';
+import apiSuccessResponse from '../fixtures/mocks/institution-facility-code-success1.json';
 
 const buildFormData = (details = { facilityCode: '' }) => ({
   primaryInstitutionDetails: {
@@ -85,7 +85,7 @@ describe('useFetchedData', () => {
       mailingAddress,
       failedToLoad,
     } = setDataStub.firstCall.args[0].primaryInstitutionDetails;
-    expect(name).to.eq('ARIZONA WESTERN COLLEGE');
+    expect(name).to.eq('ARIZONA WESTERN COLLEGE 1');
     expect(type).to.eq('PUBLIC');
     expect(mailingAddress.street).to.eq('PO BOX 929');
     expect(failedToLoad).to.eq(false);

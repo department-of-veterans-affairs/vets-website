@@ -4,22 +4,8 @@
  * Pre-built handlers for common VA.gov API endpoints using MSW's browser API.
  * Use these with setupWorker for local development mocking.
  *
- * @example
- * import { setupWorker } from 'msw';
- * import { mockApi, rest, commonHandlers } from 'platform/mocks/browser';
- *
- * // App handlers - mockApi.get/post automatically prefix with API_URL
- * const appHandlers = [
- *   mockApi.post('/facilities_api/v2/va', (req, res, ctx) => res(ctx.json(data))),
- *   mockApi.get('/my_health/v1/records', (req, res, ctx) => res(ctx.json(records))),
- * ];
- *
- * // Third-party handlers - use rest directly with full URL
- * const thirdPartyHandlers = [
- *   rest.get('https://api.mapbox.com/*', (req, res, ctx) => res(ctx.json(...))),
- * ];
- *
- * const worker = setupWorker(...appHandlers, ...thirdPartyHandlers, ...commonHandlers);
+ * For full setup instructions, usage examples, and troubleshooting,
+ * see the README: src/platform/mocks/README.md
  */
 
 // eslint-disable-next-line import/no-unresolved
@@ -46,24 +32,11 @@ export const MAINTENANCE_WINDOWS_DELAY = 300;
  * Creates a delay transformer for use with ctx.delay().
  * Use this in your handlers to add realistic network latency.
  *
+ * @param {Object} ctx - MSW context object
  * @param {number} ms - Delay in milliseconds (defaults to DEFAULT_DELAY)
  * @returns {Function} MSW context transformer
  *
- * @example
- * // Using default delay (500ms)
- * mockApi.get('/v0/user', (req, res, ctx) =>
- *   res(delay(ctx), ctx.json(userData))
- * )
- *
- * // Using custom delay
- * mockApi.get('/v0/slow-endpoint', (req, res, ctx) =>
- *   res(delay(ctx, 2000), ctx.json(data))
- * )
- *
- * // No delay
- * mockApi.get('/v0/fast-endpoint', (req, res, ctx) =>
- *   res(delay(ctx, 0), ctx.json(data))
- * )
+ * @see README.md#response-delays for usage examples
  */
 export const delay = (ctx, ms = DEFAULT_DELAY) => ctx.delay(ms);
 
@@ -109,11 +82,9 @@ export const apiUrl = environment.API_URL;
 
 /**
  * MSW rest wrapper that automatically prefixes paths with API_URL.
- * Use this for vets-api endpoints. For third-party APIs, use rest directly.
+ * Use this for vets-api endpoints. For third-party APIs, use `rest` directly.
  *
- * @example
- * mockApi.get('/v0/user', (req, res, ctx) => res(ctx.json(userData)))
- * mockApi.post('/facilities_api/v2/va', (req, res, ctx) => res(ctx.json(facilities)))
+ * @see README.md#api-helper for usage examples
  */
 export const mockApi = {
   get: (path, handler) => rest.get(`${apiUrl}${path}`, handler),
@@ -194,14 +165,10 @@ export const maintenanceWindowsHandler = createMaintenanceWindowsHandler();
  *
  * @param {Object|Array} mockData - Mock data: array of facilities or full response object
  * @param {string} baseUrl - Base URL for API (defaults to environment.API_URL)
+ * @param {number} delayMs - Response delay in milliseconds (defaults to DEFAULT_DELAY)
  * @returns {Function} MSW request handler
  *
- * @example
- * // With array of facilities
- * createVamcEhrHandler([{ id: 'vha_663', title: 'Seattle VA', system: 'cerner' }])
- *
- * // With full response object
- * createVamcEhrHandler(myVamcFixture)
+ * @see README.md#vamc-ehr-custom-handlers for usage examples
  */
 export function createVamcEhrHandler(
   mockData = null,
@@ -277,15 +244,7 @@ export const vamcEhrProxyHandler = createVamcEhrProxyHandler();
  * @param {number} delayMs - Response delay in milliseconds (defaults to DEFAULT_DELAY)
  * @returns {Array} Array of MSW handlers
  *
- * @example
- * // Use default API_URL (recommended)
- * const worker = setupWorker(...commonHandlers, ...appHandlers);
- *
- * // Or create with custom base URL
- * const handlers = createCommonHandlers('http://custom-api.local');
- *
- * // Or create with custom delay
- * const handlers = createCommonHandlers(apiUrl, 1000);
+ * @see README.md#handler-collections for usage examples
  */
 export function createCommonHandlers(
   baseUrl = apiUrl,
@@ -321,11 +280,7 @@ export function createCommonHandlersUnauthenticated(
  * Pre-configured common handlers using environment.API_URL.
  * Use these directly in most cases - no need to call factory functions.
  *
- * @example
- * import { setupWorker } from 'msw';
- * import { commonHandlers } from 'platform/mocks/browser';
- *
- * const worker = setupWorker(...commonHandlers, ...myAppHandlers);
+ * @see README.md#handler-collections for usage examples
  */
 export const commonHandlers = createCommonHandlers();
 export const commonHandlersUnauthenticated = createCommonHandlersUnauthenticated();

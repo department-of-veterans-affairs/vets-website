@@ -282,6 +282,7 @@ const Mileage = () => {
           value="home-address"
           checked={formState.departureAddress === 'home-address'}
           name="mileage-departure-address-radio"
+          data-dd-privacy="mask"
         />
         <va-radio-option
           label="Another address"

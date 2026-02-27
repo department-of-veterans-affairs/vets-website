@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { configureStore } from '@reduxjs/toolkit';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
@@ -331,24 +333,6 @@ describe('prescriptionsApi', () => {
           prescriptionsApi.endpoints.getRefillablePrescriptions.select,
         ).to.be.a('function');
       });
-
-      it('should have refetchOnFocus enabled for cross-tab synchronization', () => {
-        const endpoint = prescriptionsApi.endpoints.getRefillablePrescriptions;
-        // The refetchOnFocus option should be configured for this endpoint
-        // This ensures medication lists sync when switching between tabs
-        expect(endpoint).to.exist;
-        // RTK Query endpoints with refetchOnFocus: true will automatically
-        // refetch data when the browser tab regains focus
-      });
-
-      it('should have refetchOnReconnect enabled for network reliability', () => {
-        const endpoint = prescriptionsApi.endpoints.getRefillablePrescriptions;
-        // The refetchOnReconnect option should be configured for this endpoint
-        // This ensures medication lists refresh after network reconnection
-        expect(endpoint).to.exist;
-        // RTK Query endpoints with refetchOnReconnect: true will automatically
-        // refetch data when network connection is restored
-      });
     });
 
     describe('getPrescriptionDocumentation', () => {
@@ -367,6 +351,26 @@ describe('prescriptionsApi', () => {
         expect(
           prescriptionsApi.endpoints.getPrescriptionDocumentation.select,
         ).to.be.a('function');
+      });
+
+      it('should accept id parameter', () => {
+        const params = { id: '12345' };
+        // initiate returns a thunk, verify it can be called without error
+        expect(() =>
+          prescriptionsApi.endpoints.getPrescriptionDocumentation.initiate(
+            params,
+          ),
+        ).to.not.throw();
+      });
+
+      it('should accept id and stationNumber parameters', () => {
+        const params = { id: '12345', stationNumber: '688' };
+        // initiate returns a thunk, verify it can be called without error
+        expect(() =>
+          prescriptionsApi.endpoints.getPrescriptionDocumentation.initiate(
+            params,
+          ),
+        ).to.not.throw();
       });
     });
 
@@ -529,15 +533,30 @@ describe('prescriptionsApi', () => {
 
   describe('buildPrescriptionByIdQuery', () => {
     it('should build path with prescription ID', () => {
-      const result = buildPrescriptionByIdQuery('12345');
+      const result = buildPrescriptionByIdQuery({ id: '12345' });
 
       expect(result.path).to.equal('/prescriptions/12345');
     });
 
     it('should handle numeric ID', () => {
-      const result = buildPrescriptionByIdQuery(67890);
+      const result = buildPrescriptionByIdQuery({ id: 67890 });
 
       expect(result.path).to.equal('/prescriptions/67890');
+    });
+
+    it('should include station_number when provided', () => {
+      const result = buildPrescriptionByIdQuery({
+        id: '12345',
+        stationNumber: '688',
+      });
+
+      expect(result.path).to.equal('/prescriptions/12345?station_number=688');
+    });
+
+    it('should not include station_number when not provided', () => {
+      const result = buildPrescriptionByIdQuery({ id: '12345' });
+
+      expect(result.path).to.not.include('station_number');
     });
   });
 
@@ -998,6 +1017,92 @@ describe('prescriptionsApi', () => {
       );
 
       expect(result).to.be.null;
+    });
+  });
+
+  describe('refillPrescription mutation', () => {
+    let sandbox;
+    let fetchStub;
+
+    const createTestStore = (isCernerPilot = false) =>
+      configureStore({
+        reducer: {
+          featureToggles: () => ({
+            [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+            loading: false,
+          }),
+          [prescriptionsApi.reducerPath]: prescriptionsApi.reducer,
+        },
+        middleware: getDefault =>
+          getDefault().concat(prescriptionsApi.middleware),
+      });
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+      fetchStub = sandbox.stub(global, 'fetch');
+      fetchStub.resolves(
+        new Response(JSON.stringify({ data: 'ok' }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        }),
+      );
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should call v1 endpoint with PATCH and prescription ID in the URL path', async () => {
+      const store = createTestStore(false);
+
+      await store.dispatch(
+        prescriptionsApi.endpoints.refillPrescription.initiate({
+          id: '12345',
+          stationNumber: '688',
+        }),
+      );
+
+      const [url, options] = fetchStub.firstCall.args;
+      expect(url).to.equal(
+        `${environment.API_URL}/my_health/v1/prescriptions/12345/refill`,
+      );
+      expect(options.method).to.equal('PATCH');
+      expect(options.body).to.be.undefined;
+    });
+
+    it('should call v2 endpoint with POST and order objects in the request body', async () => {
+      const store = createTestStore(true);
+
+      await store.dispatch(
+        prescriptionsApi.endpoints.refillPrescription.initiate({
+          id: '12345',
+          stationNumber: '688',
+        }),
+      );
+
+      const [url, options] = fetchStub.firstCall.args;
+      expect(url).to.equal(
+        `${environment.API_URL}/my_health/v2/prescriptions/refill`,
+      );
+      expect(options.method).to.equal('POST');
+      expect(options.body).to.equal(
+        JSON.stringify([{ id: '12345', stationNumber: '688' }]),
+      );
+    });
+
+    it('should handle plain ID argument for backwards compatibility (v1)', async () => {
+      const store = createTestStore(false);
+
+      await store.dispatch(
+        prescriptionsApi.endpoints.refillPrescription.initiate('12345'),
+      );
+
+      const [url, options] = fetchStub.firstCall.args;
+      expect(url).to.equal(
+        `${environment.API_URL}/my_health/v1/prescriptions/12345/refill`,
+      );
+      expect(options.method).to.equal('PATCH');
+      expect(options.body).to.be.undefined;
     });
   });
 });

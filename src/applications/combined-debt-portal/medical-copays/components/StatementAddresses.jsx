@@ -8,37 +8,45 @@ const StatementAddresses = ({ copay }) => {
     showVHAPaymentHistory(state),
   );
 
-  const normalizeVHACopay = () => ({
-    facility: copay.attributes.facility.name,
-    statementAddress1: copay.attributes.facility.addressLine1,
-    statementAddress2: copay.attributes.facility.addressLine2,
-    statementAddress3: copay.attributes.facility.addressLine3,
-    statementCity: copay.attributes.city,
-    statementZip: copay.attributes.facility.postalCode,
-    statementState: copay.attributes.state,
-    recipientAddress1: copay.attributes.recipientAddress1,
-    recipientAddress2: copay.attributes.recipientAddress2,
-    recipientAddress3: copay.attributes.recipientAddress3,
-    recipientCity: copay.attributes.recipientCity,
-    recipientZip: copay.attributes.recipientZip,
-    recipientState: copay.attributes.recipientState,
-  });
+  const normalizeVHACopay = () => {
+    const facilityName = copay?.attributes?.facility.name;
+    const facilityAddress = copay?.attributes?.facility?.address;
+    const patientAddress = copay?.attributes?.patient?.address;
+    return {
+      facility: facilityName,
+      statementAddress1: facilityAddress?.addressLine1,
+      statementAddress2: facilityAddress?.addressLine2,
+      statementAddress3: facilityAddress?.addressLine3,
+      statementCity: facilityAddress?.city,
+      statementZip: facilityAddress?.postalCode,
+      statementState: facilityAddress?.state,
+      recipientAddress1: patientAddress?.addressLine1,
+      recipientAddress2: patientAddress?.addressLine2,
+      recipientAddress3: patientAddress?.addressLine3,
+      recipientCity: patientAddress?.city,
+      recipientZip: patientAddress?.postalCode,
+      recipientState: patientAddress?.state,
+    };
+  };
 
-  const normalizeStandardCopay = () => ({
-    facility: copay.station.facilityName,
-    statementAddress1: copay.station.staTAddress1,
-    statementAddress2: copay.station.staTAddress2,
-    statementAddress3: copay.station.staTAddress3,
-    statementCity: copay.station.city,
-    statementZip: copay.station.ziPCde,
-    statementState: copay.station.state,
-    recipientAddress1: copay.station.recipientAddress1,
-    recipientAddress2: copay.station.recipientAddress2,
-    recipientAddress3: copay.station.recipientAddress3,
-    recipientCity: copay.pHCity,
-    recipientZip: copay.pHZipCde,
-    recipientState: copay.pHState,
-  });
+  const normalizeStandardCopay = () => {
+    const station = copay?.station;
+    return {
+      facility: station?.facilityName,
+      statementAddress1: station?.staTAddress1,
+      statementAddress2: station?.staTAddress2,
+      statementAddress3: station?.staTAddress3,
+      statementCity: station?.city,
+      statementZip: station?.ziPCde,
+      statementState: station?.state,
+      recipientAddress1: station?.recipientAddress1,
+      recipientAddress2: station?.recipientAddress2,
+      recipientAddress3: station?.recipientAddress3,
+      recipientCity: copay?.pHCity,
+      recipientZip: copay?.pHZipCde,
+      recipientState: copay?.pHState,
+    };
+  };
 
   const normalizedCopay = shouldShowVHAPaymentHistory
     ? normalizeVHACopay()

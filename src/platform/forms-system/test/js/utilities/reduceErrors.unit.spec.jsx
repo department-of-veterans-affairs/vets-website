@@ -679,6 +679,54 @@ describe('Process form validation errors', () => {
     };
     expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
   });
+
+  it('should handle error with undefined property', () => {
+    const pages = [
+      {
+        title: 'Test',
+        path: '/test',
+        uiSchema: {
+          testField: {},
+        },
+        schema: {},
+        chapterKey: 'testChapter',
+        pageKey: 'testPage',
+      },
+    ];
+    const raw = [
+      {
+        property: undefined,
+        message: 'test error',
+        stack: 'test error stack',
+      },
+    ];
+    // Should not throw and should return empty array since property is undefined
+    expect(() => reduceErrors(raw, pages)).to.not.throw();
+    expect(reduceErrors(raw, pages)).to.eql([]);
+  });
+
+  it('should use fallback message when stack and message are undefined', () => {
+    const pages = [
+      {
+        title: 'Test',
+        path: '/test',
+        uiSchema: {
+          testField: {},
+        },
+        schema: {},
+        chapterKey: 'testChapter',
+        pageKey: 'testPage',
+      },
+    ];
+    const raw = [
+      {
+        property: 'instance.testField',
+        name: 'error',
+      },
+    ];
+    const result = reduceErrors(raw, pages);
+    expect(result[0].message).to.equal('Validation error');
+  });
 });
 
 describe('getPropertyInfo', () => {

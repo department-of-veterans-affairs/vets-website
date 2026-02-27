@@ -8,9 +8,11 @@ import {
 
 export const pageType = {
   DETAILS: 'Details Page',
+  DOCUMENTATION: 'Documentation',
+  IN_PROGRESS: 'In-progress',
+  HISTORY: 'History',
   LIST: 'List Page',
   REFILL: 'Refill Page',
-  DOCUMENTATION: 'Documentation',
 };
 
 export const dataDogActionNames = {
@@ -95,6 +97,12 @@ export const dataDogActionNames = {
     GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
       pageType.REFILL
     }`,
+  },
+  renewalModal: {
+    MODAL_OPEN: 'Rx Renewal Modal Open',
+    MODAL_CONTINUE: 'Rx Renewal Modal Continue',
+    MODAL_BACK: 'Rx Renewal Modal Back',
+    MODAL_CLOSE: 'Rx Renewal Modal Close',
   },
   shared: {
     DOWNLOAD_A_PDF_OF_THIS: 'Download A PDF Of This ',

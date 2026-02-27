@@ -28,6 +28,7 @@ const ProcessDescription = ({ route: { formConfig, pageList } }) => {
       const sipProps = {
         startText: content['sip-start-form-text'],
         messages: savedFormMessages,
+        formConfig,
         prefillEnabled,
         buttonOnly,
         downtime,

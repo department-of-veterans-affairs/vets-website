@@ -4,6 +4,7 @@ import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT } from './utils/constants';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageSentPage from './pages/PatientMessageSentPage';
+import SharedComponents from './pages/SharedComponents';
 
 describe(manifest.appName, () => {
   beforeEach(() => {
@@ -29,7 +30,7 @@ describe(manifest.appName, () => {
   it('Check the Draft folder', () => {
     FolderLoadPage.loadDraftMessages();
     FolderLoadPage.verifyFolderHeaderText('Messages: Drafts');
-    cy.findByTestId('sm-breadcrumbs-back').should('have.text', 'Back');
+    SharedComponents.assertBackBreadcrumbLabel();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
@@ -37,7 +38,7 @@ describe(manifest.appName, () => {
   it('Check the Trash folder', () => {
     FolderLoadPage.loadDeletedMessages();
     FolderLoadPage.verifyFolderHeaderText('Messages: Trash');
-    cy.findByTestId('sm-breadcrumbs-back').should('have.text', 'Back');
+    SharedComponents.assertBackBreadcrumbLabel();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

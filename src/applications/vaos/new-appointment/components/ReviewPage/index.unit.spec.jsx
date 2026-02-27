@@ -10,16 +10,9 @@ import {
 
 import ReviewPage from '.';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
 describe('VAOS Page: ReviewPage', () => {
   it('should return to appointment list page if no data', async () => {
     const store = createTestStore({
-      ...initialState,
       newAppointment: {
         pages: {},
         data: {},

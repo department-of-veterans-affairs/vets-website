@@ -73,7 +73,7 @@ export const useSignaturesSync = ({ formData, isRep }) => {
         shouldRender: hasSecondaryCaregiverTwo(formData),
       },
     }),
-    [formData, isRep],
+    [formData, isRep, veteranName],
   );
 
   const requiredElements = Object.values(signatureConfig).filter(

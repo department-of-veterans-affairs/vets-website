@@ -2,7 +2,9 @@ import PageObject from './PageObject';
 
 class ClinicChoicePageObject extends PageObject {
   assertSingleClinic() {
-    cy.findByText(/Would you like to make an appointment at/i);
+    cy.findByText(
+      /Do you you want to schedule your appointment at this clinic/i,
+    );
     return this;
   }
 

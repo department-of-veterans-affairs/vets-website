@@ -4,24 +4,28 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { datadogRum } from '@datadog/browser-rum';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 import { selectSecureMessagingMedicationsRenewalRequestFlag } from '../../util/selectors';
 
 const SendRxRenewalMessage = ({
   rx,
   fallbackContent = null,
-  showFallBackContent = false,
+  suppressRenewalLink = false,
   isActionLink = false,
   isOracleHealth = false,
 }) => {
   const showSecureMessagingRenewalRequest = useSelector(
     selectSecureMessagingMedicationsRenewalRequestFlag,
   );
-  const redirectPath = encodeURIComponent(
-    '/my-health/medications?page=1&rxRenewalMessageSuccess=true',
-  );
-  const secureMessagesUrl = `/my-health/secure-messages/new-message?prescriptionId=${
-    rx.prescriptionId
-  }&redirectPath=${redirectPath}`;
+  const params = new URLSearchParams({
+    prescriptionId: rx.prescriptionId,
+    redirectPath: '/my-health/medications?page=1&rxRenewalMessageSuccess=true',
+  });
+  if (rx.stationNumber) {
+    params.set('station_number', rx.stationNumber);
+  }
+  const secureMessagesUrl = `/my-health/secure-messages/new-message?${params}`;
   const [showRenewalModal, setShowRenewalModal] = useState(false);
 
   useEffect(
@@ -48,39 +52,69 @@ const SendRxRenewalMessage = ({
   if (
     !canSendRenewalRequest ||
     !showSecureMessagingRenewalRequest ||
-    showFallBackContent
+    suppressRenewalLink
   ) {
     return fallbackContent || null;
   }
+
+  const handleOpenModal = () => {
+    setShowRenewalModal(true);
+    recordEvent({
+      event: 'va-modal',
+      'modal-title': "You're leaving medications to send a message",
+    });
+    datadogRum.addAction(dataDogActionNames.renewalModal.MODAL_OPEN, {
+      facilityId: rx.stationNumber,
+    });
+  };
+
+  const handleContinue = () => {
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'Continue to send renewal message',
+    });
+    datadogRum.addAction(dataDogActionNames.renewalModal.MODAL_CONTINUE, {
+      facilityId: rx.stationNumber,
+    });
+    window.location.href = secureMessagesUrl;
+  };
+
+  const handleBack = () => {
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'Back from renewal modal',
+    });
+    datadogRum.addAction(dataDogActionNames.renewalModal.MODAL_BACK, {
+      facilityId: rx.stationNumber,
+    });
+    setShowRenewalModal(false);
+  };
+
+  const handleClose = () => {
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'Close renewal modal',
+    });
+    datadogRum.addAction(dataDogActionNames.renewalModal.MODAL_CLOSE, {
+      facilityId: rx.stationNumber,
+    });
+    setShowRenewalModal(false);
+  };
 
   return (
     <>
       <RenderLinkVariation
         isActionLink={isActionLink}
-        setShowRenewalModal={setShowRenewalModal}
+        setShowRenewalModal={handleOpenModal}
         isExpired={isExpiredLessThan120Days}
       />
       <VaModal
         modalTitle="You're leaving medications to send a message"
         primaryButtonText="Continue"
         secondaryButtonText="Back"
-        onPrimaryButtonClick={() => {
-          recordEvent({
-            event: 'cta-button-click',
-            'button-click-label': 'Continue',
-            'button-type': 'primary',
-          });
-          window.location.href = secureMessagesUrl;
-        }}
-        onSecondaryButtonClick={() => {
-          recordEvent({
-            event: 'cta-button-click',
-            'button-click-label': 'Back',
-            'button-type': 'secondary',
-          });
-          setShowRenewalModal(false);
-        }}
-        onCloseEvent={() => setShowRenewalModal(false)}
+        onPrimaryButtonClick={handleContinue}
+        onSecondaryButtonClick={handleBack}
+        onCloseEvent={handleClose}
         visible={showRenewalModal}
         status="info"
         clickToClose
@@ -111,8 +145,9 @@ SendRxRenewalMessage.propTypes = {
     expirationDate: PropTypes.string,
     prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     isRenewable: PropTypes.bool,
+    stationNumber: PropTypes.string,
   }),
-  showFallBackContent: PropTypes.bool,
+  suppressRenewalLink: PropTypes.bool,
 };
 
 const RenderLinkVariation = ({

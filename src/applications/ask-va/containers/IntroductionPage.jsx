@@ -1,7 +1,6 @@
 import {
   VaAlertSignIn,
   VaButton,
-  VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
@@ -12,7 +11,6 @@ import {
   isProfileLoading,
   selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import {
@@ -20,19 +18,14 @@ import {
   VerifyLogingovButton,
 } from 'platform/user/authentication/components/VerifyButton';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import Announcements from '../components/Announcements';
-import {
-  getVAStatusFromCRM,
-  getVAStatusIconAndMessage,
-} from '../config/helpers';
-import { envUrl, mockTestingFlagforAPI } from '../constants';
-import { mockInquiryStatusResponse } from '../utils/mockData';
 import Inbox from './Inbox';
+import StatusChecker from '../components/introduction/StatusChecker';
 
 const VerifiedAlert = (
   <div className="vads-u-margin-bottom--4">
@@ -61,9 +54,6 @@ const IntroductionPage = props => {
     signInServiceName,
   } = props;
   const { formConfig, pageList, pathname, formData } = route;
-  const [inquiryData, setInquiryData] = useState(false);
-  const [hasError, setHasError] = useState(false);
-  const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   // TODO Feature toggle this for CRM announcements on/off
   const showAnnouncements = false;
 
@@ -100,98 +90,6 @@ const IntroductionPage = props => {
     },
     [props],
   );
-
-  const getApiData = url => {
-    setHasError(false);
-
-    // Mocking the API response for testing when searching for reference number
-    // A-20250106-308944
-    if (
-      mockTestingFlagforAPI &&
-      searchReferenceNumber === 'A-20250106-308944'
-    ) {
-      setInquiryData(mockInquiryStatusResponse.data);
-      return Promise.resolve();
-    }
-
-    return apiRequest(url)
-      .then(res => {
-        setInquiryData(res.data);
-      })
-      .catch(() => setHasError(true));
-  };
-
-  const handleSearchByReferenceNumber = async () => {
-    const url = `${envUrl}/ask_va_api/v0/inquiries/${searchReferenceNumber}/status`;
-    await getApiData(url);
-    const headingElement = document.querySelector(
-      '[data-testid="status-message"] h3, [data-testid="error-message"] p:first-child',
-    );
-    if (headingElement) headingElement.focus();
-  };
-
-  const handleSearchInputChange = async e => {
-    setHasError(false);
-    setInquiryData(false);
-    const searchInputValue = e.target.value.trim();
-    setSearchReferenceNumber(searchInputValue);
-  };
-
-  const questionStatus = () => {
-    if (hasError) {
-      return (
-        <div className="vads-u-margin-y--3" data-testid="error-message">
-          <p tabIndex="-1">
-            We didn’t find a question with reference number "
-            <span className="vads-u-font-weight--bold">
-              {searchReferenceNumber}
-            </span>
-            ." Check your reference number and try again.
-          </p>
-          <p>
-            If it still doesn’t work, ask the same question again and include
-            your original reference number.
-          </p>
-        </div>
-      );
-    }
-
-    if (inquiryData?.attributes?.status) {
-      const { status } = inquiryData.attributes;
-      const AskVAStatus = getVAStatusFromCRM(status);
-      const classes = `vads-u-border-left--5px vads-u-padding--0p5 ${
-        getVAStatusIconAndMessage[AskVAStatus]?.color
-      }`;
-      return (
-        <div data-testid="status-message">
-          <h3
-            className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2"
-            tabIndex="-1"
-          >
-            Showing the status for reference number "
-            <span className="vads-u-font-weight--bold">
-              {searchReferenceNumber}
-            </span>
-            "
-          </h3>
-          <p>
-            <span className="vads-u-font-weight--bold">Status: </span>{' '}
-            {AskVAStatus}
-            {getVAStatusIconAndMessage[AskVAStatus]?.icon}
-          </p>
-          <div className={classes}>
-            {getVAStatusIconAndMessage[AskVAStatus]?.message && (
-              <p className="vads-u-margin-left--2">
-                {getVAStatusIconAndMessage[AskVAStatus].message}
-              </p>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    return null;
-  };
 
   const unAuthenticatedUI = () => {
     return (
@@ -301,19 +199,7 @@ const IntroductionPage = props => {
             Text <a href="tel:+1838255">838255</a>.
           </li>
         </ul>
-        <h2 className="vads-u-margin-top--6 vads-u-margin-bottom-2">
-          Check the status of your question
-        </h2>
-        <p className="vads-u-margin--0">Enter your reference number</p>
-        <VaSearchInput
-          big
-          buttonText="Search"
-          label="Reference number"
-          onInput={handleSearchInputChange}
-          onSubmit={handleSearchByReferenceNumber}
-          value={searchReferenceNumber}
-        />
-        <div className="vads-u-margin-bottom--7">{questionStatus()}</div>
+        <StatusChecker />
       </>
     );
   };
@@ -359,7 +245,7 @@ const IntroductionPage = props => {
         </va-additional-info>
       </div>
       <SaveInProgressIntro
-        formConfig={formConfig}
+        formConfig={{ ...formConfig, subTitle: '' }}
         messages={route.formConfig.savedFormMessages}
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}

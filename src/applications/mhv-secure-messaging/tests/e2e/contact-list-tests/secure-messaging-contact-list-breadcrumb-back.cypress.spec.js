@@ -26,8 +26,6 @@ describe('SM CONTACT LIST BREADCRUMB BACK NAVIGATION', () => {
   it('returns to Inbox when arriving from Inbox', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-
-    // Navigate to contact list (page object visit sets intercepts and visits URL)
     ContactListPage.loadContactList();
 
     // Verify we are on Contact list
@@ -36,7 +34,7 @@ describe('SM CONTACT LIST BREADCRUMB BACK NAVIGATION', () => {
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
     // Ensure Back breadcrumb visible and clickable
-    cy.findByTestId('sm-breadcrumbs-back').should('have.text', 'Back');
+    SharedComponents.assertBackBreadcrumbLabel();
     SharedComponents.clickBackBreadcrumb();
 
     // Verify returned to Inbox
@@ -66,7 +64,7 @@ describe('SM CONTACT LIST BREADCRUMB BACK NAVIGATION', () => {
     GeneralFunctionsPage.verifyPageHeader('Messages: Contact list');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-    cy.findByTestId('sm-breadcrumbs-back').should('have.text', 'Back');
+    SharedComponents.assertBackBreadcrumbLabel();
     SharedComponents.clickBackBreadcrumb();
 
     // When no active draft and previousUrl isn't properly set, falls back to inbox

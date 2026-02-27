@@ -13,16 +13,9 @@ import {
 import { DATE_FORMATS } from '../../utils/constants';
 import SecondDosePage from './SecondDosePage';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
 describe('VAOS vaccine flow: SecondDosePage', () => {
   const start = new Date('2025-08-05T08:00:00-06:00');
   const store = createTestStore({
-    ...initialState,
     covid19Vaccine: {
       newBooking: {
         previousPages: {},
