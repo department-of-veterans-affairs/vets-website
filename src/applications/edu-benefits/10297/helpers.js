@@ -766,6 +766,7 @@ export const addressSpecifications = {
         required: 'Enter a valid 6-character postal code',
         pattern: 'Enter a valid 6-character postal code',
         minLength: 'Enter a valid 6-character postal code',
+        maxLength: 'Enter a valid 6-character postal code',
       },
       label: 'Postal code',
       pattern:
@@ -778,6 +779,7 @@ export const addressSpecifications = {
         required: 'Enter a valid 5-digit postal code',
         pattern: 'Enter a valid 5-digit postal code',
         minLength: 'Enter a valid 5-digit postal code',
+        maxLength: 'Enter a valid 5-digit postal code',
       },
       label: 'Postal code',
       pattern: '^\\d{5}$',
