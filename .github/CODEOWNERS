@@ -28,6 +28,7 @@ src/applications/ds-playground @department-of-veterans-affairs/platform-design-s
 src/applications/ds-v3-playground @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sah @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/wizard @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/_mock-form-ae-design-patterns @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Platform Design System - Header/footer (VA.gov and TeamSites)
 src/platform/site-wide/header @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
@@ -72,10 +73,6 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/va-pla
 
 src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-
-# Authenticated Experience Design Patterns
-
-src/applications/_mock-form-ae-design-patterns @department-of-veterans-affairs/tmf-auth-exp-design-patterns @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Disability Benefits Experience
 src/applications/disability-benefits @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/va-platform-cop-frontend
