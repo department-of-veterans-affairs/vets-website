@@ -4,6 +4,7 @@ import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
+import { recordEventOnce } from '../../../monitoring/record-event';
 import navigationState from './utilities/navigation/navigationState';
 import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
@@ -671,6 +672,28 @@ export function rectifyData(data) {
     }
     return undefined;
   };
+
+  // Track corruption detection for analytics (once per session)
+  if (typeof window !== 'undefined' && window.dataLayer) {
+    const hasCapitalKeys =
+      data.IsValid !== undefined ||
+      data.Required !== undefined ||
+      data.Touched !== undefined ||
+      data.Error !== undefined;
+
+    if (hasCapitalKeys) {
+      recordEventOnce(
+        {
+          event: 'api_call',
+          'api-name': 'International Phone SIP Corruption Fix Detected',
+          'api-status': 'successful',
+          'error-key': 'sip-underscore-capital-transformation',
+        },
+        'event',
+      );
+    }
+  }
+
   return {
     isValid: getValue(['isValid', 'IsValid', '_isValid']),
     error: getValue(['error', 'Error', '_error']),
