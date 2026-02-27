@@ -55,7 +55,6 @@ const SelectCareTeam = () => {
   } = useSelector(state => state.sm.recipients);
   const { isAalEnabled } = useFeatureToggles();
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
-  const userProfile = useSelector(state => state.user.profile);
   const { draftInProgress, acceptInterstitial } = useSelector(
     state => state.sm.threadDetails,
   );
@@ -536,20 +535,6 @@ const SelectCareTeam = () => {
     return null;
   };
 
-  // Check if user has a facility in Oracle Health migration error phase (T-6 to T+2)
-  const isInMigrationErrorPhase = useMemo(
-    () => {
-      const errorPhases = ['p3', 'p4', 'p5'];
-      return (
-        userProfile?.userFacilityMigratingToOh &&
-        userProfile?.migrationSchedules?.some(schedule =>
-          errorPhases.includes(schedule.phases?.current),
-        )
-      );
-    },
-    [userProfile],
-  );
-
   if (allTriageGroupsBlocked) {
     return (
       <div className="choose-va-health-care-system">
@@ -572,10 +557,8 @@ const SelectCareTeam = () => {
     !blockedFacilities?.length &&
     !allTriageGroupsBlocked;
 
-  // Suppress BlockedTriageGroupAlert during migration error phase
   const showBlockedAlert =
-    !isInMigrationErrorPhase &&
-    (showSingleFacilityBlockedAlert || showIndividualTeamsBlockedAlert);
+    showSingleFacilityBlockedAlert || showIndividualTeamsBlockedAlert;
 
   return (
     <div className="choose-va-health-care-system">
