@@ -53,4 +53,22 @@ describe('ConfirmationPage', () => {
     const alert = container.querySelector('va-alert');
     expect(alert).to.have.attribute('status', 'success');
   });
+
+  it('handles blank submissions', () => {
+    const store = mockStore({
+      form: {
+        ...createInitialState(formConfig),
+        submission: null,
+        data: {},
+      },
+    });
+
+    const { container } = render(
+      <Provider store={store}>
+        <ConfirmationPage route={{ formConfig }} />
+      </Provider>,
+    );
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.have.attribute('status', 'success');
+  });
 });
