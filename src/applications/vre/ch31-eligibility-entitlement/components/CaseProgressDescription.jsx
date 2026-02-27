@@ -55,7 +55,6 @@ const CaseProgressDescription = ({
         </>
       );
     }
-
     case 2: {
       return (
         <>
@@ -66,7 +65,6 @@ const CaseProgressDescription = ({
         </>
       );
     }
-
     case 3: {
       return (
         <>
