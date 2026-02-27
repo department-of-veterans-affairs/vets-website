@@ -252,9 +252,13 @@ const VeteranContactInformationPage = ({
         </va-alert>
       ) : null}
       <p>
-        If you notice any errors, correct them now. Changes made here apply only
-        to this form. If you want to update your contact information in our
-        system, go to your VA profile.
+        If you notice any errors, correct them now.{' '}
+        <strong>
+          Any updates you make will change the information on this application
+          only.
+        </strong>{' '}
+        If you need to update your address with VA, go to your profile to make
+        any changes.
       </p>
       <va-link
         text="Update your contact information in your VA profile"
