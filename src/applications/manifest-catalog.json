@@ -208,12 +208,6 @@
       "rootUrl": "/disability/file-disability-claim-form-21-526ez"
     },
     {
-      "directoryPath": "src/applications/disability-benefits/view-payments",
-      "appName": "View Payments",
-      "entryName": "view-payments",
-      "rootUrl": "/va-payment-history/payments"
-    },
-    {
       "directoryPath": "src/applications/discharge-wizard",
       "appName": "Discharge Wizard",
       "entryName": "discharge-upgrade-instructions",
@@ -374,6 +368,12 @@
       "appName": "Facility Locator",
       "entryName": "facilities",
       "rootUrl": "/find-locations"
+    },
+    {
+      "directoryPath": "src/applications/financial-management/view-payments",
+      "appName": "View Payments",
+      "entryName": "view-payments",
+      "rootUrl": "/va-payment-history/payments"
     },
     {
       "directoryPath": "src/applications/financial-status-report",
