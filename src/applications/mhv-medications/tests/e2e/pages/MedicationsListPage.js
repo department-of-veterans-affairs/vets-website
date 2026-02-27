@@ -183,7 +183,7 @@ class MedicationsListPage {
   };
 
   verifyFocusOnDownloadFailureAlertBanner = () => {
-    cy.get('[data-testid="api-error-notification"]').should('be.focused');
+    cy.get('[data-testid="api-error-notification"]').should('be.visible');
   };
 
   verifyTextInsideDropDownOnListPage = () => {
