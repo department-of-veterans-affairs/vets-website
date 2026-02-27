@@ -130,7 +130,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       const screen = renderWithStoreAndRouter(<UrgentCareInformationPage />, {
         initialState,
       });
-      expect(screen.getByText(/From March 1, 2026 at 12:00AM ET/i)).to.be.ok;
+      expect(screen.getByText(/From April 1, 2026 at 12:00AM ET/i)).to.be.ok;
       expect(
         screen.getByText(/During this time, you can still call this facility/),
       ).to.be.ok;
@@ -301,7 +301,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       });
 
       // Assert
-      expect(screen.getByText(/From March 1, 2026 at 12:00AM ET/i)).to.be.ok;
+      expect(screen.getByText(/From April 1, 2026 at 12:00AM ET/i)).to.be.ok;
       expect(
         screen.getByText(
           /During this time, you can still call these facilities/,
@@ -496,7 +496,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
 
       // Assert
       // 1st alert
-      expect(screen.getByText(/From March 1, 2026 at 12:00AM ET/i)).to.be.ok;
+      expect(screen.getByText(/From April 1, 2026 at 12:00AM ET/i)).to.be.ok;
       expect(
         screen.getByText(
           /During this time, you can still call these facilities to schedule your appointment/,
@@ -623,7 +623,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
           user: {
             profile: {
               facilities: [
-                { facilityId: '983', isCerner: true },
+                { facilityId: '565', isCerner: true },
                 { facilityId: '984', isCerner: true },
               ],
               migrationSchedules: [
@@ -641,7 +641,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
                     },
                   ],
                   phases: {
-                    current: 'p2',
+                    current: 'p1',
                     p0: 'March 1, 2026 at 12:00AM ET',
                     p1: 'March 15, 2026 at 12:00AM ET',
                     p2: 'April 1, 2026 at 12:00AM ET',
@@ -688,7 +688,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
         expect(alert).to.have.attribute('status', 'warning');
         expect(
           screen.getByRole('heading', {
-            name: /You can.t schedule at some facilities right now/i,
+            name: /You can.t schedule at One More VA Medical Center right now/i,
           }),
         ).to.be.ok;
         expect(screen.getByText(/Scheduling online is unavailable until/i)).to

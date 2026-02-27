@@ -3,7 +3,6 @@ import { selectPatientFacilities } from '@department-of-veterans-affairs/platfor
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { isEqual } from 'lodash';
 import classNames from 'classnames';
 import { GA_PREFIX } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -64,9 +63,11 @@ function getMigrationScheduleFacilityIds(migrationSchedule) {
  */
 function getPatientFacilityIds(patientFacilities) {
   return (
-    patientFacilities?.map(facility => {
-      return facility.facilityId;
-    }) || null
+    patientFacilities
+      ?.map(facility => {
+        return facility.facilityId;
+      })
+      .sort() || null
   );
 }
 
@@ -95,54 +96,32 @@ function checkRegistration({
   const patientFacilityIds = getPatientFacilityIds(patientFacilities);
 
   if (isExclusive) {
-    if (patientFacilityIds?.length === migratingFacilitiesIds.length) {
-      return isEqual(migratingFacilitiesIds, patientFacilityIds);
-    }
-
-    // Ex. [1,2], [1,2,3] is still considered exclusive registration if all of the user's
-    // registered facility ids match the migration facility ids.
-    if (patientFacilityIds?.length < migratingFacilitiesIds.length) {
-      return patientFacilityIds
-        ?.map(patientFacilityId =>
-          migratingFacilitiesIds?.some(
-            migratingFacilitiesId =>
-              migratingFacilitiesId === patientFacilityId,
-          ),
-        )
-        .every(Boolean);
-    }
-
-    // Ex. [1,2][1] is considered mixed
-    return false;
-  }
-
-  if (patientFacilityIds?.length === migratingFacilitiesIds.length) {
-    // Exclusive registration. [1][1]
-    if (isEqual(patientFacilityIds, migratingFacilitiesIds)) return false;
-
-    // Ex.[1,2], [1,3] is considered mixed.
+    // Check if all patient registered facility ids are included in the migration schedule facility table
     return patientFacilityIds
       ?.map(patientFacilityId =>
         migratingFacilitiesIds?.some(
           migratingFacilitiesId => migratingFacilitiesId === patientFacilityId,
         ),
       )
-      .some(val => val === true);
+      .every(Boolean);
   }
 
-  // Ex. [1,2], [1] is considered mixed registration
-  if (patientFacilityIds?.length > migratingFacilitiesIds.length) {
-    return patientFacilityIds
-      ?.map(patientFacilityId =>
-        migratingFacilitiesIds?.some(
-          migratingFacilitiesId => migratingFacilitiesId === patientFacilityId,
-        ),
-      )
-      .some(Boolean);
-  }
+  const hasMigratingFacilities = patientFacilityIds
+    ?.map(patientFacilityId =>
+      migratingFacilitiesIds?.some(
+        migratingFacilitiesId => migratingFacilitiesId === patientFacilityId,
+      ),
+    )
+    .some(Boolean);
+  const hasNonMigratingFacilities = patientFacilityIds
+    ?.map(patientFacilityId =>
+      migratingFacilitiesIds?.every(
+        migratingFacilitiesId => migratingFacilitiesId !== patientFacilityId,
+      ),
+    )
+    .some(Boolean);
 
-  // Ex. [1][1,2] is considered exlusive
-  return false;
+  return hasMigratingFacilities && hasNonMigratingFacilities;
 }
 
 /**
@@ -251,22 +230,20 @@ export default function UrgentCareInformationPage() {
   return (
     <div>
       <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
-      {isInWarningPhase &&
-        (isWarningExclusiveRegistration || isMixedRegistration) && (
-          <MigrationWarning
-            facilities={warningSchedule.facilities}
-            startDate={warningSchedule.phases.p0}
-            endDate={warningSchedule.phases.p7}
-          />
-        )}
-      {isInErrorPhase &&
-        (isErrorExclusiveRegistration || isMixedRegistration) && (
-          <MigrationInProgressError
-            endDate={errorSchedule.phases.p7}
-            facilities={errorSchedule.facilities}
-            isMixedRegistration={isMixedRegistration}
-          />
-        )}
+      {isInWarningPhase && (
+        <MigrationWarning
+          facilities={warningSchedule.facilities}
+          startDate={warningSchedule.phases.p2}
+          endDate={warningSchedule.phases.p7}
+        />
+      )}
+      {isInErrorPhase && (
+        <MigrationInProgressError
+          endDate={errorSchedule.phases.p7}
+          facilities={errorSchedule.facilities}
+          isMixedRegistration={isMixedRegistration}
+        />
+      )}
       {shouldDisplay(
         isInWarningPhase,
         isInErrorPhase,
