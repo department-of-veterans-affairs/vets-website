@@ -40,6 +40,7 @@ export const organizationRepresentativesArrayOptions = {
   arrayPath: 'organizationRepresentatives',
   nounSingular: 'representative',
   nounPlural: 'representatives',
+  maxItems: 6,
   required: true,
   isItemIncomplete: item => !item?.fullName?.first || !item?.fullName?.last,
   text: {
