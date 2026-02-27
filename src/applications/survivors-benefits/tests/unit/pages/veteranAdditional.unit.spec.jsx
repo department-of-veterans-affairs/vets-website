@@ -6,7 +6,7 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import veteranAdditional from '../../../../config/chapters/01-veteran-information/veteranAdditional';
+import veteranAdditional from '../../../pages/veteranAdditional';
 
 describe('Claimant Information Page', () => {
   const { schema, uiSchema } = veteranAdditional;

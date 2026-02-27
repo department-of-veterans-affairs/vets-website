@@ -6,8 +6,9 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import claimantRelationship from '../../../../config/chapters/02-claimant-information/claimantRelationship';
-import { claimantRelationshipOptions } from '../../../../utils/labels';
+import claimantRelationship, {
+  claimantRelationshipOptions,
+} from '../../../pages/claimantRelationship';
 
 describe('Claimant relationship page', () => {
   const { schema, uiSchema } = claimantRelationship;
@@ -18,7 +19,7 @@ describe('Claimant relationship page', () => {
     const formDOM = getFormDOM(form);
 
     expect(form.getByRole('heading')).to.have.text(
-      'Claimant’s relationship to the Veteran',
+      'Your relationship to the Veteran',
     );
     const vaAdditionalInfos = $$('va-additional-info', formDOM);
 
@@ -26,7 +27,7 @@ describe('Claimant relationship page', () => {
       'What we consider a seriously disabled adult child',
     );
     const vaRelationshipRadio = $(
-      'va-radio[label="What is the claimant’s relationship to the Veteran?"]',
+      'va-radio[label="What’s your relationship to the Veteran?"]',
       formDOM,
     );
 

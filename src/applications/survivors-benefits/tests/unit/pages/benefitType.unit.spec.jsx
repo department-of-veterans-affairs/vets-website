@@ -6,7 +6,7 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import benefitType from '../../../../config/chapters/02-claimant-information/benefitType';
+import benefitType from '../../../pages/benefitType';
 
 describe('Claimant Information Page', () => {
   const { schema, uiSchema } = benefitType;

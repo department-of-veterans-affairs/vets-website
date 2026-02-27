@@ -6,10 +6,10 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import contactInformation from '../../../../config/chapters/02-claimant-information/contactInformation';
+import claimantContact from '../../../pages/claimantContact';
 
 describe('Claimant Information Page', () => {
-  const { schema, uiSchema } = contactInformation;
+  const { schema, uiSchema } = claimantContact;
   it('renders the claimant information page', async () => {
     const form = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,

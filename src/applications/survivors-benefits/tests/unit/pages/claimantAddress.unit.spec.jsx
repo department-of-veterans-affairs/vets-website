@@ -6,16 +6,17 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import mailingAddress from '../../../../config/chapters/02-claimant-information/mailingAddress';
+import claimantAddress from '../../../pages/claimantAddress';
 
-describe('Mailing Address Page', () => {
-  const { schema, uiSchema } = mailingAddress;
+describe('Claimant Address Page', () => {
+  const { schema, uiSchema } = claimantAddress;
+  const militaryBaseCheckboxLabel =
+    'Address is on a U.S. military base outside of the United States.';
   it('renders the mailing address fields', async () => {
     const form = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
     const formDOM = getFormDOM(form);
-    expect(form.getByRole('heading')).to.have.text('Mailing address');
 
     const vaTextInputs = $$('va-text-input', formDOM);
     const vaSelects = $$('va-select', formDOM);
@@ -23,7 +24,7 @@ describe('Mailing Address Page', () => {
     const vaAdditionalInfos = $$('va-additional-info', formDOM);
 
     const vaMailOutsideUS = $(
-      'va-checkbox[label="I receive mail outside of the United States on a U.S. military base"]',
+      `va-checkbox[label="${militaryBaseCheckboxLabel}"]`,
       formDOM,
     );
     const vaCountrySelect = $('va-select[label="Country"]', formDOM);
@@ -61,7 +62,7 @@ describe('Mailing Address Page', () => {
     );
     const formDOM = getFormDOM(form);
     const vaMailOutsideUS = $(
-      'va-checkbox[label="I receive mail outside of the United States on a U.S. military base"]',
+      `va-checkbox[label="${militaryBaseCheckboxLabel}"]`,
       formDOM,
     );
     // Check the checkbox to indicate mailing address is on a military base
@@ -93,5 +94,45 @@ describe('Mailing Address Page', () => {
     expect(vaPostOffice.getAttribute('required')).to.equal('true');
     expect(vaOverseasAbbreviation.getAttribute('required')).to.equal('true');
     expect(vaPostalCodeInput.getAttribute('required')).to.equal('true');
+  });
+  it('should show the correct title for surviving spouse', () => {
+    const form = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{ claimantRelationship: 'SURVIVING_SPOUSE' }}
+      />,
+    );
+    expect(form.getByRole('heading')).to.have.text('Your mailing address');
+  });
+  it('should show the correct title for custodian', () => {
+    const form = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{ claimantRelationship: 'CUSTODIAN_FILING_FOR_CHILD_UNDER_18' }}
+      />,
+    );
+    expect(form.getByRole('heading')).to.have.text('Child’s mailing address');
+  });
+  it('should show the correct title for adult child', () => {
+    const form = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{ claimantRelationship: 'CHILD_18-23_IN_SCHOOL' }}
+      />,
+    );
+    expect(form.getByRole('heading')).to.have.text('Your mailing address');
+  });
+  it('should show the correct title for helpless adult child', () => {
+    const form = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{ claimantRelationship: 'HELPLESS_ADULT_CHILD' }}
+      />,
+    );
+    expect(form.getByRole('heading')).to.have.text('Your mailing address');
   });
 });

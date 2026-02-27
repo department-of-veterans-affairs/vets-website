@@ -25,7 +25,7 @@ export default {
       labels: {
         street2: 'Apartment or unit number',
         militaryCheckbox:
-          'I receive mail outside of the United States on a U.S. military base',
+          'Address is on a U.S. military base outside of the United States.',
       },
       omit: ['street3'],
     }),

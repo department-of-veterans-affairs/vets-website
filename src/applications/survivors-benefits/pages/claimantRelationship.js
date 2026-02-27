@@ -3,7 +3,6 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-// import { claimantRelationshipOptions } from '../utils/labels';
 import { seriouslyDisabledDescription } from '../utils/helpers';
 
 export const claimantRelationshipOptions = {
