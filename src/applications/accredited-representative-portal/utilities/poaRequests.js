@@ -173,7 +173,7 @@ export const dashboardBC = [
 export const claimantOverviewBC = [
   {
     href: '/representative',
-    label: 'ARP Home',
+    label: HOME_LABEL,
   },
   {
     href: '/representative/find-claimant',
@@ -188,7 +188,7 @@ export const claimantOverviewBC = [
 export const submissionHistoryBC = [
   {
     href: '/representative',
-    label: 'ARP Home',
+    label: HOME_LABEL,
   },
   {
     href: '/representative/find-claimant',
