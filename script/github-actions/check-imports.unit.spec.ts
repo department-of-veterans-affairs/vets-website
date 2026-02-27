@@ -10,7 +10,7 @@ const {
   getDeletedFiles,
   checkBrokenImports,
   getAllProjectFiles,
-} = require('./brokenImports');
+} = require('./check-imports');
 describe('Broken Imports Checker', () => {
   let execSyncStub, readFileSyncStub, readdirSyncStub;
   beforeEach(() => {
@@ -21,7 +21,9 @@ describe('Broken Imports Checker', () => {
   });
   afterEach(() => {
     // Restore stubs after each test
-    sinon.restore();
+    execSyncStub.restore();
+    readFileSyncStub.restore();
+    readdirSyncStub.restore();
   });
   it('should correctly match import statements using createDynamicImportRegex', () => {
     const regex = createDynamicImportRegex('myModule');
