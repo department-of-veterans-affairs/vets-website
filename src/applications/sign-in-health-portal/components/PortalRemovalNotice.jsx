@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import appendQuery from 'append-query';
 import { AUTHN_SETTINGS } from '@department-of-veterans-affairs/platform-user/exports';
 
 export default function PortalRemovalNotice() {
+  useEffect(() => {
+    const newUrl = appendQuery(window.location.href, {
+      operation: 'myva_portal_interstitial',
+    });
+    window.history.replaceState({}, '', newUrl);
+  }, []);
+
   const returnUrl =
     sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/my-va';
   return (
