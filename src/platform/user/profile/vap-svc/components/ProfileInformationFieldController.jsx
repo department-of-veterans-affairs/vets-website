@@ -294,8 +294,17 @@ class ProfileInformationFieldController extends React.Component {
     this.props.clearTransactionRequest(this.props.fieldName);
   };
 
-  onEdit = (event = 'edit-link') => {
-    this.captureEvent(event);
+  onEdit = (event, isEmpty = 'edit-link') => {
+    const eventText = isEmpty ? 'add-link' : 'edit-link';
+    this.captureEvent(eventText);
+    if (isSchedulingPreference(this.props.fieldName)) {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': event.target.text,
+        'button-label': event.target.label.replace('Edit ', ''),
+      });
+    }
+
     // Check if this field should use subtask editing
     if (
       isSubtaskSchedulingPreference(this.props.fieldName) &&
@@ -559,12 +568,13 @@ class ProfileInformationFieldController extends React.Component {
                 text="Edit"
                 label={`Edit ${title}`}
                 message-aria-describedby={ariaDescribedBy}
-                onClick={() => {
-                  this.onEdit(isEmpty ? 'add-link' : 'edit-link');
+                onClick={event => {
+                  this.onEdit(event, isEmpty);
                 }}
                 id={getEditButtonId(fieldName)}
                 class={`vads-u-margin-top--1p5 ${classes.buttons}`}
                 primary
+                // disable-analytics={isSchedulingPreference(fieldName)}
               />
             )}
             {data &&

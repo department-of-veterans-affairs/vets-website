@@ -502,4 +502,51 @@ describe('Travel Pay – ReviewPage', () => {
       );
     });
   });
+
+  it('clears alert when navigating away from review page', async () => {
+    const AlertDisplay = () => {
+      const alert = useSelector(state => state.travelPay.reviewPageAlert);
+      return (
+        <div data-testid="alert-display">
+          {alert ? 'has-alert' : 'no-alert'}
+        </div>
+      );
+    };
+
+    const OtherPage = () => <div data-testid="other-page">Other Page</div>;
+
+    const { getByTestId, container } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/other"
+            element={<OtherPage />}
+          />
+        </Routes>
+        <AlertDisplay />
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+    // Verify alert is initially present
+    expect(getByTestId('alert-display').textContent).to.equal('has-alert');
+
+    // Navigate away from review page to trigger unmount
+    const addButton = container.querySelector('#add-expense-button');
+    fireEvent.click(addButton);
+
+    // Wait for navigation and check alert is cleared
+    await waitFor(() => {
+      expect(getByTestId('alert-display').textContent).to.equal('no-alert');
+    });
+  });
 });

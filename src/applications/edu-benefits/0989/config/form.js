@@ -12,6 +12,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import schoolWasClosed from '../pages/schoolWasClosed';
 import oldSchoolNameAndAddress from '../pages/oldSchoolNameAndAddress';
 import eligibilityWarning from '../pages/eligibilityWarning';
+import didCompleteProgramOfStudy from '../pages/didCompleteProgramOfStudy';
+import didReceiveCredit from '../pages/didReceiveCredit';
+import wasEnrolledWhenSchoolClosed from '../pages/wasEnrolledWhenSchoolClosed';
+import wasOnApprovedLeave from '../pages/wasOnApprovedLeave';
 import remarks from '../pages/remarks';
 
 import prefillTransform from './prefillTransform';
@@ -103,6 +107,34 @@ const formConfig = {
           uiSchema: eligibilityWarning.uiSchema,
           schema: eligibilityWarning.schema,
           depends: formData => !formData.schoolWasClosed,
+        },
+        didCompleteProgramOfStudy: {
+          path: 'complete-program-of-study',
+          title: 'Program information',
+          uiSchema: didCompleteProgramOfStudy.uiSchema,
+          schema: didCompleteProgramOfStudy.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        didReceiveCredit: {
+          path: 'receive-credit',
+          title: 'Enrollment and credit information',
+          uiSchema: didReceiveCredit.uiSchema,
+          schema: didReceiveCredit.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        wasEnrolledWhenSchoolClosed: {
+          path: 'enrolled-when-school-closed',
+          title: 'Enrollment and credit information',
+          uiSchema: wasEnrolledWhenSchoolClosed.uiSchema,
+          schema: wasEnrolledWhenSchoolClosed.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        wasOnApprovedLeave: {
+          path: 'approved-leave',
+          title: 'Leave of absence',
+          uiSchema: wasOnApprovedLeave.uiSchema,
+          schema: wasOnApprovedLeave.schema,
+          depends: formData => !!formData.schoolWasClosed,
         },
       },
     },

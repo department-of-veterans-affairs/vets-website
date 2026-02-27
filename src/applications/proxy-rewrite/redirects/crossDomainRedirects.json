@@ -361,6 +361,11 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/pension/index.asp",
+    "dest": "/pension/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/pension/vetpen.asp",
     "dest": "/pension/eligibility/"
   },
