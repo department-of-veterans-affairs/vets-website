@@ -684,7 +684,10 @@ export function rectifyData(data) {
     if (hasCapitalKeys) {
       recordEventOnce(
         {
-          event: 'int-tel--sip-data-corruption-fix',
+          event: 'api_call',
+          'api-name': 'International Phone SIP Corruption Fix Detected',
+          'api-status': 'successful',
+          'error-key': 'sip-underscore-capital-transformation',
         },
         'event',
       );
