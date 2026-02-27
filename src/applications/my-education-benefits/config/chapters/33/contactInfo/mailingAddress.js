@@ -17,7 +17,36 @@ function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
 
-const stateRequiredCountries = new Set(['USA']);
+const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
+const MILITARY_STATE_CODES = ['AE', 'AA', 'AP'];
+const MILITARY_ZIP_HINTS = {
+  AE: 'Must start with 09',
+  AA: 'Must start with 340',
+  AP: 'Must be in range 962xx\u2013966xx',
+};
+
+function validateMilitaryZipCode(errors, addressData) {
+  if (
+    !MILITARY_STATE_CODES.includes(addressData.state) ||
+    !addressData.postalCode
+  ) {
+    return;
+  }
+
+  const { state, postalCode } = addressData;
+  const isValidMilitaryZip =
+    (state === 'AA' && /^340\d*/.test(postalCode)) ||
+    (state === 'AE' && /^09[0-9]\d*/.test(postalCode)) ||
+    (state === 'AP' && /^96[2-6]\d*/.test(postalCode));
+
+  if (!isValidMilitaryZip) {
+    const hint = MILITARY_ZIP_HINTS[state];
+    errors.postalCode.addError(
+      `Please enter a valid zip code for ${state}. ${hint}`,
+    );
+  }
+}
+
 function customValidateAddress(errors, addressData, formData, currentSchema) {
   if (
     stateRequiredCountries.has(addressData.country) &&
@@ -37,6 +66,8 @@ function customValidateAddress(errors, addressData, formData, currentSchema) {
   if (addressData.postalCode && !isValidPostalCode) {
     errors.postalCode.addError('Please provide a valid postal code');
   }
+
+  validateMilitaryZipCode(errors, addressData);
 }
 
 const mailingAddress33 = {
@@ -103,8 +134,11 @@ const mailingAddress33 = {
               field => field !== 'state',
             );
 
-            // Only add state as required for USA or military base
-            if (livesOnMilitaryBase || country === 'USA') {
+            // Only add state as required for USA, Canada, Mexico, or military base
+            if (
+              livesOnMilitaryBase ||
+              ['USA', 'CAN', 'MEX'].includes(country)
+            ) {
               required.push('state');
             }
             if (livesOnMilitaryBase) {
@@ -135,6 +169,20 @@ const mailingAddress33 = {
                 ...stateSchema,
                 enum: constants.states.USA.map(state => state.value),
                 enumNames: constants.states.USA.map(state => state.label),
+              };
+            } else if (country === 'CAN') {
+              stateSchema = {
+                ...stateSchema,
+                title: 'Province',
+                enum: constants.states.CAN.map(state => state.value),
+                enumNames: constants.states.CAN.map(state => state.label),
+              };
+            } else if (country === 'MEX') {
+              stateSchema = {
+                ...stateSchema,
+                title: 'State',
+                enum: constants.states.MEX.map(state => state.value),
+                enumNames: constants.states.MEX.map(state => state.label),
               };
             }
             return {
