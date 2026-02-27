@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { isArray } from 'lodash';
 import merge from 'lodash/merge';
@@ -39,21 +39,54 @@ function ToeApp({
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
+  const formDataRef = useRef(formData);
+  formDataRef.current = formData;
 
+  // Sync props into formData in a single effect to avoid race conditions
+  // where multiple effects spread stale formData and overwrite each other.
   useEffect(
     () => {
+      const updates = {};
+
       if (
         mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
-      ) {
+      )
+        updates.mebBankInfoConfirmationField = mebBankInfoConfirmationField;
+      if (isLOA3 !== formData.isLOA3) updates.isLOA3 = isLOA3;
+      if (mebParentGuardianStep !== formData.mebParentGuardianStep)
+        updates.mebParentGuardianStep = mebParentGuardianStep;
+      if (dob !== formData?.dob) updates.dob = dob;
+      if (
+        duplicateEmail?.length > 0 &&
+        duplicateEmail !== formData?.duplicateEmail
+      )
+        updates.duplicateEmail = duplicateEmail;
+      if (
+        duplicatePhone?.length > 0 &&
+        duplicatePhone !== formData?.duplicatePhone
+      )
+        updates.duplicatePhone = duplicatePhone;
+
+      if (Object.keys(updates).length > 0) {
         setFormData({
           ...formData,
-          mebBankInfoConfirmationField,
+          ...updates,
         });
       }
     },
-    [mebBankInfoConfirmationField, formData, setFormData],
+    [
+      mebBankInfoConfirmationField,
+      isLOA3,
+      mebParentGuardianStep,
+      dob,
+      duplicateEmail,
+      duplicatePhone,
+      formData,
+      setFormData,
+    ],
   );
 
+  // Fetch personal information (one-time on login)
   useEffect(
     () => {
       if (!user?.login?.currentlyLoggedIn) {
@@ -63,98 +96,74 @@ function ToeApp({
         setFetchedUserInfo(true);
         getPersonalInformation();
       }
+    },
+    [fetchedUserInfo, getPersonalInformation, user?.login?.currentlyLoggedIn],
+  );
+
+  // Sync sponsors from saved state or initial fetch into formData.
+  // Uses formDataRef to read the latest formData without including it
+  // as a dependency — this prevents re-running on every keystroke.
+  useEffect(
+    () => {
+      if (!user?.login?.currentlyLoggedIn) {
+        return;
+      }
 
       if (
         !sponsors?.loadedFromSavedState &&
         isArray(sponsorsSavedState?.sponsors)
       ) {
-        setFormData(mapFormSponsors(formData, sponsorsSavedState));
+        setFormData(mapFormSponsors(formDataRef.current, sponsorsSavedState));
       } else if (
         sponsorsInitial &&
         !sponsors &&
         isArray(sponsorsInitial?.sponsors)
       ) {
-        setFormData(mapFormSponsors(formData, sponsorsInitial));
+        setFormData(mapFormSponsors(formDataRef.current, sponsorsInitial));
       }
     },
     [
-      fetchedUserInfo,
-      getPersonalInformation,
       user?.login?.currentlyLoggedIn,
-      setFormData,
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
-      formData,
+      setFormData,
+      formDataRef,
     ],
   );
 
-  useEffect(
-    () => {
-      if (isLOA3 !== formData.isLOA3) {
-        setFormData({
-          ...formData,
-          isLOA3,
-        });
-      }
-    },
-    [isLOA3],
-  );
+  // Extract nested formData values so the dependency array stays simple
+  // and ESLint can statically verify exhaustive-deps.
+  const mobilePhone = formData?.['view:phoneNumbers']?.mobilePhoneNumber?.phone;
+  const emailAddress = formData?.email?.email;
+  const formDuplicateEmail = formData?.duplicateEmail;
+  const formDuplicatePhone = formData?.duplicatePhone;
 
-  useEffect(
-    () => {
-      if (mebParentGuardianStep !== formData.mebParentGuardianStep) {
-        setFormData({
-          ...formData,
-          mebParentGuardianStep,
-        });
-      }
-    },
-    [mebParentGuardianStep],
-  );
-
+  // Check for duplicate contact info when phone/email are available
   useEffect(
     () => {
       if (
-        formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
-        formData?.email?.email &&
-        !formData?.duplicateEmail &&
-        !formData?.duplicatePhone
+        mobilePhone &&
+        emailAddress &&
+        !formDuplicateEmail &&
+        !formDuplicatePhone
       ) {
         getDuplicateContactInfo(
-          [{ value: formData?.email?.email, dupe: '' }],
-          [
-            {
-              value: formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
-              dupe: '',
-            },
-          ],
+          [{ value: emailAddress, dupe: '' }],
+          [{ value: mobilePhone, dupe: '' }],
         );
       }
-
-      if (
-        duplicateEmail?.length > 0 &&
-        duplicateEmail !== formData?.duplicateEmail
-      ) {
-        setFormData({
-          ...formData,
-          duplicateEmail,
-        });
-      }
-
-      if (
-        duplicatePhone?.length > 0 &&
-        duplicatePhone !== formData?.duplicatePhone
-      ) {
-        setFormData({
-          ...formData,
-          duplicatePhone,
-        });
-      }
     },
-    [getDuplicateContactInfo, duplicateEmail, duplicatePhone],
+    [
+      getDuplicateContactInfo,
+      mobilePhone,
+      emailAddress,
+      formDuplicateEmail,
+      formDuplicatePhone,
+    ],
   );
 
+  // Fetch direct deposit info (one-time after LOA3 confirmed)
   useEffect(
     () => {
       if (!user?.login?.currentlyLoggedIn) {
@@ -173,18 +182,6 @@ function ToeApp({
       getDirectDeposit,
       user?.login?.currentlyLoggedIn,
     ],
-  );
-
-  useEffect(
-    () => {
-      if (dob !== formData?.dob) {
-        setFormData({
-          ...formData,
-          dob,
-        });
-      }
-    },
-    [dob, formData, setFormData],
   );
   return (
     <>
