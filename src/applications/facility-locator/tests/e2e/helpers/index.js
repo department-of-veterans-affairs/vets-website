@@ -18,7 +18,7 @@ export const AUTOSUGGEST_INPUT =
 export const AUTOSUGGEST_ARROW =
   '[data-e2e-id="vamc-services-autosuggest-arrow-button"]';
 export const AUTOSUGGEST_CLEAR = '#clear-vamc-services';
-export const OPTIONS = 'p[role="option"]';
+export const OPTIONS = 'li[role="option"]';
 
 export const FACILITY_LISTING_CONTAINER = '.facility-result';
 export const FACILITY_DISTANCE = '[data-testid="fl-results-distance"]';
