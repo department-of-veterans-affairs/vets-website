@@ -1826,7 +1826,9 @@ describe('SelectCareTeam', () => {
       });
 
       await waitFor(() => {
-        const alert = screen.container.querySelector('va-alert');
+        const alert = screen.container.querySelector(
+          '[data-testid="cerner-facilities-transition-alert"]',
+        );
         expect(alert).to.exist;
         expect(alert.getAttribute('status')).to.equal('warning');
       });
