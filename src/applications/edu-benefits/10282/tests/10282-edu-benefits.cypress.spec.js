@@ -84,6 +84,13 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       // Log in if the form requires an authenticated session.
       // cy.login();
+      cy.intercept('GET', '/v0/feature_toggles?*', {
+        data: {
+          type: 'feature_toggles',
+          features: [{}],
+        },
+      });
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
 

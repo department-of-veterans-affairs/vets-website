@@ -7,6 +7,13 @@ describe('22-10282 Edu form', () => {
   });
 
   it('should be keyboard-only navigable', () => {
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [{}],
+      },
+    });
     // Go to application, should go to intro page
     cy.visit(
       'education/other-va-education-benefits/ibm-skillsbuild-program/apply-form-22-10282',
