@@ -1,19 +1,41 @@
 const { v4: uuidv4 } = require('uuid');
 const { expenseByType } = require('./expenseData');
+const { expensesStore, claimsStore } = require('../mockStore');
+const { EXPENSE_TYPE_BY_API_ROUTE } = require('../constants');
 
-const expensesStore = {};
-
-// Pre-fill store with static expense objects
-for (const [, expense] of Object.entries(expenseByType)) {
-  expensesStore[expense.id] = { ...expense };
+/**
+ * Find the claim that contains a given expenseId
+ *
+ * @param {Object} claimsStore
+ * @param {string} expenseId
+ * @returns {Object|null} claim
+ */
+function findClaimByExpenseId(expenseId) {
+  return (
+    Object.values(claimsStore).find(
+      claim =>
+        Array.isArray(claim.expenses) &&
+        claim.expenses.some(expense => expense.id === expenseId),
+    ) || null
+  );
 }
 
-let claimRef;
+function resolveClaimForCreate(claimId) {
+  if (claimsStore[claimId]) {
+    return claimsStore[claimId];
+  }
 
-function setClaimRef(claim) {
-  claimRef = claim;
+  return Object.values(claimsStore).find(
+    claim =>
+      claim.id === claimId ||
+      claim.claimId === claimId ||
+      claim.appointment?.associatedClaimId === claimId,
+  );
 }
 
+/**
+ * Get an expense by ID
+ */
 function getExpenseHandler() {
   return (req, res) => {
     const { expenseId } = req.params;
@@ -21,42 +43,73 @@ function getExpenseHandler() {
     if (!expenseId || !expensesStore[expenseId]) {
       return res
         .status(404)
-        .json({ errors: [{ detail: 'Expense not found test' }] });
+        .json({ errors: [{ detail: 'Expense not found' }] });
     }
 
     return res.json(expensesStore[expenseId]);
   };
 }
 
+/**
+ * Create a new expense for a specific claim
+ */
 function createExpenseHandler(type) {
   return (req, res) => {
-    const preset = expenseByType[type];
+    const { claimId } = req.params;
+    const expenseData = req.body;
 
-    if (!preset) {
-      return res.status(500).json({
-        errors: [{ detail: `Unknown expense type: ${type}` }],
+    // Create new document for this expense (except mileage, which doesn't require a receipt)
+    const documentId = type.toLowerCase() === 'mileage' ? null : uuidv4();
+    const filename = documentId ? expenseData.receipt.fileName : null;
+    const mimetype = documentId ? expenseData.receipt.contentType : null;
+
+    // Remove receipt from expense data since it's now represented as a separate document
+    delete expenseData.receipt;
+
+    // Create dateIncurred from purchaseDate for consistency
+    if (expenseData.purchaseDate) {
+      expenseData.dateIncurred = expenseData.purchaseDate;
+      delete expenseData.purchaseDate;
+    }
+
+    if (!claimsStore[claimId]) {
+      throw new Error(`Claim ${claimId} not loaded`);
+    }
+
+    const claim = resolveClaimForCreate(claimId);
+
+    if (!claim) {
+      return res.status(404).json({ errors: [{ detail: 'Claim not found' }] });
+    }
+    const newExpense = {
+      id: uuidv4(),
+      expenseType: EXPENSE_TYPE_BY_API_ROUTE[type],
+      name: `${expenseByType[type].name} Expense`,
+      dateIncurred: expenseData.dateIncurred,
+      description: expenseData.description,
+      costRequested: expenseData.costRequested,
+      costSubmitted: 0,
+      ...expenseData, // Include any additional fields sent in the request
+    };
+
+    // Persist expense globally
+    expensesStore[newExpense.id] = newExpense;
+
+    // Attach to claim
+    claim.expenses = claim.expenses || [];
+    claim.expenses.push(newExpense);
+    if (documentId) {
+      claim.documents.push({
+        documentId,
+        filename,
+        mimetype,
+        createdOn: new Date().toISOString(),
+        expenseId: newExpense.id,
       });
     }
 
-    const newExpense = {
-      ...preset,
-      id: uuidv4(),
-      documentId: uuidv4(),
-      dateIncurred: new Date().toISOString(),
-      ...(req.body || {}), // allow form values to override preset defaults
-      costRequested: parseFloat(
-        req.body?.costRequested ?? preset.costRequested ?? 0,
-      ),
-    };
-
-    // Persist expense
-    expensesStore[newExpense.id] = newExpense;
-
-    // Sync to claim (review page source of truth)
-    claimRef.expenses.push(newExpense);
-
-    // Recalculate claim totals
-    claimRef.totalCostRequested = claimRef.expenses.reduce(
+    // Recalculate claim total cost
+    claim.totalCostRequested = claim.expenses.reduce(
       (sum, e) => sum + parseFloat(e.costRequested || 0),
       0,
     );
@@ -65,84 +118,90 @@ function createExpenseHandler(type) {
   };
 }
 
+/**
+ * Update an existing expense
+ */
 function updateExpenseHandler() {
   return (req, res) => {
     const { expenseId } = req.params;
     const updateData = req.body;
 
-    const existing = expensesStore[expenseId];
-    if (!existing) {
-      return res.status(404).json({
-        errors: [{ detail: 'Expense not found' }],
-      });
+    const expense = expensesStore[expenseId];
+    if (!expense) {
+      return res
+        .status(404)
+        .json({ errors: [{ detail: 'Expense not found' }] });
     }
 
-    // Map purchaseDate -> dateIncurred for consistency
-    const normalizedUpdate = {
-      ...updateData,
-      ...(updateData.purchaseDate && {
-        dateIncurred: updateData.purchaseDate,
-      }),
-    };
-
-    // Ensure numeric fields are stored as numbers
-    const updatedExpense = {
-      ...existing,
-      ...normalizedUpdate,
-      costRequested:
-        normalizedUpdate.costRequested !== undefined
-          ? parseFloat(normalizedUpdate.costRequested)
-          : existing.costRequested,
-      reimbursementAmount:
-        normalizedUpdate.reimbursementAmount !== undefined
-          ? parseFloat(normalizedUpdate.reimbursementAmount)
-          : existing.reimbursementAmount,
-    };
-
-    // Update the store
-    expensesStore[expenseId] = updatedExpense;
-
-    // Sync with claim
-    const idx = claimRef.expenses.findIndex(e => e.id === expenseId);
-    if (idx !== -1) {
-      claimRef.expenses[idx] = {
-        ...claimRef.expenses[idx],
-        ...updatedExpense,
-      };
+    const claim = findClaimByExpenseId(expenseId);
+    if (!claim) {
+      return res.status(404).json({ errors: [{ detail: 'Claim not found' }] });
     }
 
-    // Recalculate claim totals
-    claimRef.totalCostRequested = claimRef.expenses.reduce(
-      (sum, e) => sum + parseFloat(e.costRequested || 0),
+    // Normalize fields
+    if (updateData.purchaseDate) {
+      updateData.dateIncurred = updateData.purchaseDate;
+      delete updateData.purchaseDate;
+    }
+
+    if (updateData.costRequested !== undefined) {
+      expense.costRequested = Number(updateData.costRequested);
+    }
+
+    // Mutate in place
+    Object.assign(expense, updateData);
+
+    // Force claim to reference the canonical expense object
+    claim.expenses = claim.expenses.map(
+      e => (e.id === expenseId ? expense : e),
+    );
+
+    // Recalculate totals
+    claim.totalCostRequested = claim.expenses.reduce(
+      (sum, e) => sum + Number(e.costRequested || 0),
       0,
     );
 
-    return res.json(updatedExpense);
+    return res.json(expense);
   };
 }
 
+/**
+ * Delete an expense
+ */
 function deleteExpenseHandler() {
   return (req, res) => {
     const { expenseId } = req.params;
 
-    const existing = expensesStore[expenseId];
-    if (!existing) {
-      return res.status(404).json({
-        errors: [{ detail: 'Expense not found' }],
-      });
+    const expense = expensesStore[expenseId];
+    if (!expense) {
+      return res
+        .status(404)
+        .json({ errors: [{ detail: 'Expense not found' }] });
     }
 
-    // Remove from expense store
+    const claimCopy = findClaimByExpenseId(expenseId);
+    const claim = claimsStore[claimCopy.id];
+    if (!claim) {
+      return res
+        .status(404)
+        .json({ errors: [{ detail: 'Claim not found for this expense' }] });
+    }
+
+    // Remove from global store
     delete expensesStore[expenseId];
 
-    // Remove from claim expenses (review page source)
-    claimRef.expenses = claimRef.expenses.filter(
-      expense => expense.id !== expenseId,
+    // Remove expense from claim entirely
+    claim.expenses = claim.expenses.filter(e => e.id !== expenseId);
+
+    // Remove from claim documents as well
+    claim.documents = claim.documents.filter(
+      doc => doc.expenseId !== expenseId,
     );
 
-    // Recalculate claim totals
-    claimRef.totalCostRequested = claimRef.expenses.reduce(
-      (sum, e) => sum + parseFloat(e.costRequested || 0),
+    // Recalculate total cost
+    claim.totalCostRequested = claim.expenses.reduce(
+      (sum, e) => sum + Number(e.costRequested || 0),
       0,
     );
 
@@ -153,7 +212,6 @@ function deleteExpenseHandler() {
 module.exports = {
   getExpenseHandler,
   createExpenseHandler,
-  setClaimRef,
   updateExpenseHandler,
   deleteExpenseHandler,
 };
