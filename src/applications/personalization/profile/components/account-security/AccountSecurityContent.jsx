@@ -65,7 +65,6 @@ AccountSecurityContent.propTypes = {
   isMultifactorEnabled: PropTypes.bool.isRequired,
   showMPIConnectionError: PropTypes.bool.isRequired,
   showNotInMPIError: PropTypes.bool.isRequired,
-  showWeHaveVerifiedYourID: PropTypes.bool.isRequired,
 };
 
 export const mapStateToProps = state => {
@@ -75,7 +74,6 @@ export const mapStateToProps = state => {
   const showMPIConnectionError = isIdentityVerified && hasMPIConnectionError;
   const showNotInMPIError =
     isIdentityVerified && !hasMPIConnectionError && !isInMPI;
-  const showWeHaveVerifiedYourID = isInMPI && isIdentityVerified;
   const isBlocked = selectIsBlocked(state);
 
   return {
@@ -84,7 +82,6 @@ export const mapStateToProps = state => {
     isMultifactorEnabled: isMultifactorEnabledSelector(state),
     showMPIConnectionError,
     showNotInMPIError,
-    showWeHaveVerifiedYourID,
   };
 };
 

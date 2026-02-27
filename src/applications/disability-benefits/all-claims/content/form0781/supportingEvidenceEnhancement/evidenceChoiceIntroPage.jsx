@@ -3,6 +3,9 @@ import React from 'react';
 export const evidenceChoiceIntroTitle =
   'Supporting documents and additional forms for your disability claim';
 
+export const evidenceChoiceIntroQuestion =
+  'Are there any supporting documents or additional forms that you want us to review with your claim?';
+
 const evidenceChoiceIntroDescription = (
   <p>Support your claim by providing documents from any of these sources</p>
 );
@@ -90,3 +93,8 @@ export const evidenceChoiceIntroDescriptionContent = (
     {additionalFormsLinkAndNote}
   </>
 );
+
+export const additionalEvidenceModalContent =
+  'You can choose not to include supporting documents and additional forms. If you do so, we’ll delete these files you uploaded:';
+
+export const missingSelectionErrorMessage = 'You must provide a response';

@@ -36,6 +36,10 @@ class Allergies {
     cy.findByTestId('allergies-landing-page-link').scrollIntoView();
     cy.findByTestId('allergies-landing-page-link').click({ force: true });
     cy.wait('@allergies-list');
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   selectAllergy = ({ index = 0 } = {}) => {

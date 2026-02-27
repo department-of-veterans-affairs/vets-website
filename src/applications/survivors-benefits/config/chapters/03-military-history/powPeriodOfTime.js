@@ -17,6 +17,7 @@ const powPeriodOfTimePage = {
         title: 'End date',
         monthSelect: false,
       },
+      'End date must be after the start date.',
     ),
   },
   schema: {

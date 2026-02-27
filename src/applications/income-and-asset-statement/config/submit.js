@@ -89,8 +89,8 @@ export function prepareFormData(data) {
   // Step 1: clone to avoid mutating original form (Redux immutability)
   const clonedData = cloneDeep(data);
 
-  const { claimantType, isLoggedIn } = clonedData;
-  const userIsVeteran = isLoggedIn === true && claimantType === 'VETERAN';
+  const { claimantType } = clonedData;
+  const userIsVeteran = claimantType === 'VETERAN';
 
   // Step 2: remap “otherVeteran*” → “veteran*” only when necessary
   const dataWithVeteranFieldsAdjusted = userIsVeteran

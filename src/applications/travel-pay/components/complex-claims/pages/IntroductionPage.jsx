@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
 
 import {
   BTSSS_PORTAL_URL,
@@ -21,7 +21,6 @@ import {
   selectComplexClaim,
 } from '../../../redux/selectors';
 import { stripTZOffset } from '../../../util/dates';
-import { ComplexClaimsHelpSection } from '../../HelpText';
 import OutOfBoundsAppointmentAlert from '../../alerts/OutOfBoundsAppointmentAlert';
 
 const IntroductionPage = () => {
@@ -160,6 +159,11 @@ const IntroductionPage = () => {
                 need to leave and come back. You can review your in-progress
                 claims in your travel reimbursement page.
               </p>
+              <p>
+                <Link to="/claims/">
+                  Go to your travel reimbursement claims page
+                </Link>
+              </p>
               {appointment &&
                 !appointment.isCC && (
                   <va-link-action
@@ -181,7 +185,6 @@ const IntroductionPage = () => {
             exp-date="11/30/2027"
           />
         </div>
-        <ComplexClaimsHelpSection />
       </div>
     </>
   );

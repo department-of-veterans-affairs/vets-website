@@ -38,6 +38,19 @@ export const pickStatusStyle = status => {
     : { icon: 'close', cls: 'vads-u-color--secondary-dark' };
 };
 
+export const downloadPdfBlob = (blob, filename) => {
+  const downloadUrl = URL.createObjectURL(blob);
+  const downloadLink = document.createElement('a');
+
+  downloadLink.href = downloadUrl;
+  downloadLink.download = filename;
+  document.body.appendChild(downloadLink);
+
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+  URL.revokeObjectURL(downloadUrl);
+};
+
 export const getCurrentStepFromStateList = (stateList = [], total) => {
   if (!Array.isArray(stateList) || stateList.length === 0) return 1;
 

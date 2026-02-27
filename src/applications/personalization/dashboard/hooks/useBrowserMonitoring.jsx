@@ -16,7 +16,7 @@ const CONFIG = {
   defaultPrivacyLevel: 'mask-user-input',
 };
 
-const initializeRealUserMonitoring = () => {
+export const initializeBrowserMonitoring = () => {
   // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
   if (environment.isLocalhost()) {
     return false;
@@ -50,7 +50,7 @@ export const useBrowserMonitoring = () => {
   useEffect(
     () => {
       if (isMonitoringEnabled) {
-        initializedByMyVA.current = initializeRealUserMonitoring();
+        initializedByMyVA.current = initializeBrowserMonitoring();
       }
 
       return () => {

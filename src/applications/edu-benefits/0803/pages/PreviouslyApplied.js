@@ -11,6 +11,10 @@ const uiSchema = {
     ...yesNoUI({
       title:
         'Have you previously applied and been found eligible for the VA education benefit you want to use?',
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+      },
       required: () => true,
     }),
   },

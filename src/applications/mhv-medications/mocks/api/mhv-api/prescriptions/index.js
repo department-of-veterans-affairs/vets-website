@@ -184,7 +184,79 @@ function mockPrescriptionArray(n = 20, isV2 = false) {
   });
 }
 
-function generateMockPrescriptions(req, n = 20, isV2 = false) {
+// Oracle Health (Cerner) prescription based on real Spokane facility data.
+// Used when ORACLE_HEALTH=true env var is set.
+function mockOracleHealthPrescription(
+  id = 99900001,
+  isV2 = false,
+  overrides = {},
+) {
+  const prescriptionId = isV2 ? `oh-${id}` : id;
+  return {
+    id: isV2 ? prescriptionId : `oh-${id}`,
+    type: 'prescription_details',
+    attributes: {
+      prescriptionId,
+      prescriptionNumber: '2720554',
+      prescriptionName: 'AMLODIPINE 5MG TAB',
+      refillStatus: 'active',
+      refillSubmitDate: null,
+      refillDate: '2023-07-13T04:00:00.000Z',
+      refillRemaining: 0,
+      facilityName: 'SPOKANE',
+      orderedDate: '2023-04-14T12:00:00.000Z',
+      quantity: '30',
+      expirationDate: '2027-04-14T12:00:00.000Z',
+      dispensedDate: null,
+      stationNumber: '668',
+      sourceEhr: 'OH',
+      isRefillable: false,
+      isRenewable: true,
+      isTrackable: false,
+      cmopNdcNumber: null,
+      inCernerTransition: false,
+      notRefillableDisplayMessage:
+        'A refill request cannot be submitted at this time.',
+      sig: 'TAKE ONE TABLET BY MOUTH DAILY FOR 30 DAYS',
+      cmopDivisionPhone: null,
+      userId: 16955936,
+      providerFirstName: 'MOHAMMAD',
+      providerLastName: 'ISLAM',
+      remarks: null,
+      divisionName: 'SPOKANE',
+      modifiedDate: '2023-08-11T15:56:58.000Z',
+      institutionId: null,
+      dialCmopDivisionPhone: '',
+      pharmacyPhoneNumber: '(509) 434-7000',
+      dispStatus: 'Active',
+      ndc: '00597-0030-01',
+      reason: null,
+      prescriptionNumberIndex: 'RX',
+      prescriptionSource: 'RX',
+      disclaimer: null,
+      indicationForUse: null,
+      indicationForUseFlag: null,
+      category: 'Rx Medication',
+      trackingList: [],
+      rxRfRecords: [],
+      tracking: false,
+      orderableItem: null,
+      sortedDispensedDate: null,
+      prescriptionImage: null,
+      ...overrides,
+    },
+    links: {
+      self: `http://127.0.0.1:3000/my_health/v1/prescriptions/${id}`,
+    },
+  };
+}
+
+function generateMockPrescriptions(
+  req,
+  n = 20,
+  isV2 = false,
+  includeOracleHealth = false,
+) {
   function edgeCasePrescription({
     prescriptionId,
     prescriptionName,
@@ -316,6 +388,21 @@ function generateMockPrescriptions(req, n = 20, isV2 = false) {
   ];
 
   const generatedPrescriptions = [
+    ...(includeOracleHealth
+      ? [
+          mockOracleHealthPrescription(99900001, isV2),
+          mockOracleHealthPrescription(99900002, isV2, {
+            prescriptionName: 'METOPROLOL 25MG TAB (OH Discontinued)',
+            dispStatus: 'Discontinued',
+            isRenewable: false,
+          }),
+          mockOracleHealthPrescription(99900003, isV2, {
+            prescriptionName: 'LISINOPRIL 20MG TAB (OH On Hold)',
+            dispStatus: 'Active: On Hold',
+            isRenewable: false,
+          }),
+        ]
+      : []),
     ...mockPrescriptionArray(n, isV2),
     mockPrescription(
       99,
@@ -336,6 +423,7 @@ function generateMockPrescriptions(req, n = 20, isV2 = false) {
   ];
 
   const filterKey = req.query['filter[']?.disp_status?.eq || ''; // e.g., "filter[[disp_status][eq]]=Active,Expired"
+  const isRenewableFilter = req.query['filter[']?.is_renewable?.eq; // e.g., "filter[[is_renewable][eq]]=true"
   const selectedStatuses = filterKey
     ? String(filterKey)
         .split(',')
@@ -343,12 +431,18 @@ function generateMockPrescriptions(req, n = 20, isV2 = false) {
         .filter(Boolean)
     : null;
 
-  let filteredPrescriptions = !selectedStatuses
-    ? generatedPrescriptions
-    : generatedPrescriptions.filter(data => {
-        const status = data?.attributes?.dispStatus ?? '';
-        return selectedStatuses.includes(status);
-      });
+  let filteredPrescriptions = generatedPrescriptions;
+  if (selectedStatuses) {
+    filteredPrescriptions = filteredPrescriptions.filter(data => {
+      const status = data?.attributes?.dispStatus ?? '';
+      return selectedStatuses.includes(status);
+    });
+  }
+  if (isRenewableFilter === 'true') {
+    filteredPrescriptions = filteredPrescriptions.filter(
+      data => data?.attributes?.isRenewable === true,
+    );
+  }
 
   const sortKey = String(req.query.sort || ''); // e.g., "sort=alphabetical-status"
   if (sortKey === 'alphabetical-status') {
@@ -385,6 +479,70 @@ function generateMockPrescriptions(req, n = 20, isV2 = false) {
   const totalPages = Math.max(1, Math.ceil(totalEntries / perPage));
   const start = (currentPage - 1) * perPage;
   const slice = filteredPrescriptions.slice(start, start + perPage);
+
+  // Build filter_count for the response -- V2 API uses these keys
+  const filterCount = isV2
+    ? {
+        allMedications: totalEntries,
+        active: generatedPrescriptions.filter(
+          d => d?.attributes?.dispStatus === 'Active',
+        ).length,
+        inProgress: generatedPrescriptions.filter(
+          d =>
+            d?.attributes?.dispStatus === 'Active: Refill in Process' ||
+            d?.attributes?.dispStatus === 'Active: Submitted' ||
+            d?.attributes?.dispStatus === 'In progress',
+        ).length,
+        shipped: 0,
+        renewable: generatedPrescriptions.filter(
+          d => d?.attributes?.isRenewable === true,
+        ).length,
+        inactive: generatedPrescriptions.filter(
+          d =>
+            d?.attributes?.dispStatus === 'Expired' ||
+            d?.attributes?.dispStatus === 'Discontinued' ||
+            d?.attributes?.dispStatus === 'Active: On Hold' ||
+            d?.attributes?.dispStatus === 'Inactive',
+        ).length,
+        transferred: generatedPrescriptions.filter(
+          d => d?.attributes?.dispStatus === 'Transferred',
+        ).length,
+        statusNotAvailable: generatedPrescriptions.filter(
+          d =>
+            d?.attributes?.dispStatus === 'Unknown' ||
+            d?.attributes?.dispStatus === 'Status not available',
+        ).length,
+      }
+    : {
+        allMedications: totalEntries,
+        active: generatedPrescriptions.filter(d =>
+          [
+            'Active',
+            'Active: Refill in Process',
+            'Active: Non-VA',
+            'Active: On Hold',
+            'Active: Parked',
+            'Active: Submitted',
+          ].includes(d?.attributes?.dispStatus),
+        ).length,
+        recentlyRequested: generatedPrescriptions.filter(d =>
+          ['Active: Refill in Process', 'Active: Submitted'].includes(
+            d?.attributes?.dispStatus,
+          ),
+        ).length,
+        renewal: generatedPrescriptions.filter(
+          d =>
+            (d?.attributes?.dispStatus === 'Active' &&
+              d?.attributes?.refillRemaining === 0) ||
+            d?.attributes?.dispStatus === 'Expired',
+        ).length,
+        nonActive: generatedPrescriptions.filter(d =>
+          ['Discontinued', 'Expired', 'Transferred', 'Unknown'].includes(
+            d?.attributes?.dispStatus,
+          ),
+        ).length,
+      };
+
   return {
     data: slice,
     meta: {
@@ -396,6 +554,7 @@ function generateMockPrescriptions(req, n = 20, isV2 = false) {
         totalPages,
         totalEntries,
       },
+      filterCount,
       recentlyRequested,
     },
     links: {},
@@ -408,6 +567,7 @@ const mockPrescriptionDocumentation = () => {
 
 module.exports = {
   mockPrescription,
+  mockOracleHealthPrescription,
   generateMockPrescriptions,
   mockPrescriptionDocumentation,
 };

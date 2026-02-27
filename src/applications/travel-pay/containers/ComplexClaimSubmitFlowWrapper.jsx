@@ -19,6 +19,7 @@ import {
   selectComplexClaimFetchLoadingState,
   selectHasUnsavedExpenseChanges,
 } from '../redux/selectors';
+import DowntimeWindowAlert from './DownTimeWindowAlert';
 import {
   getAppointmentData,
   getComplexClaimDetails,
@@ -29,6 +30,7 @@ import {
   hasUnassociatedDocuments,
   isClaimIncompleteOrSaved,
 } from '../util/complex-claims-helper';
+import { ComplexClaimsHelpSection } from '../components/HelpText';
 
 const getBackRoute = ({
   isIntroductionPage,
@@ -64,9 +66,9 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { apptId, claimId } = useParams();
-  const isErrorRoute = window?.location?.pathname?.endsWith('/get-claim-error');
-  const [shouldRedirect, setShouldRedirect] = useState(false);
   const location = useLocation();
+  const isErrorRoute = location.pathname.endsWith('/get-claim-error');
+  const [shouldRedirect, setShouldRedirect] = useState(false);
   const [
     isUnsavedChangesModalVisible,
     setIsUnsavedChangesModalVisible,
@@ -230,7 +232,12 @@ const ComplexClaimSubmitFlowWrapper = () => {
           </p>
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          <Outlet />
+          <DowntimeWindowAlert appTitle="Travel Pay">
+            <Outlet />
+          </DowntimeWindowAlert>
+          <div className="vads-u-padding-top--1">
+            <ComplexClaimsHelpSection />
+          </div>
         </div>
       </article>
       <UnsavedChangesModal

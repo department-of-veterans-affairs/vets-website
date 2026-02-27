@@ -11,7 +11,7 @@ const veteransLocationOfResidencePage = {
     veteransLocationOfResidence: selectUI({
       title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.QUESTION_1,
       errorMessages: {
-        required: 'Please select your location',
+        required: 'Select your location',
       },
     }),
   },

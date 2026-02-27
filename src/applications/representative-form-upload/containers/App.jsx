@@ -6,12 +6,12 @@ import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-li
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { isLoggedIn } from 'platform/user/selectors';
+import Footer from '~/platform/site-wide/representative/components/footer/Footer';
+import Header from '~/platform/site-wide/representative/components/header/Header';
 import { addStyleToShadowDomOnPages, getFormNumber } from '../helpers/index';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
 import { SIGN_IN_URL } from '../constants';
 import { fetchUser } from '../actions/user';
-import { selectIsUserLoading } from '../selectors/user';
+import { selectIsUserLoading, selectUserProfile } from '../selectors/user';
 import { selectShouldGoToSignIn } from '../selectors/navigation';
 import AccessTokenManager from './AccessTokenManager';
 
@@ -30,8 +30,8 @@ const App = ({ children }) => {
   const shouldGoToSignIn = useSelector(selectShouldGoToSignIn);
   const isUserLoading = useSelector(selectIsUserLoading);
   const userLoggedIn = useSelector(state => isLoggedIn(state));
+  const profile = useSelector(selectUserProfile);
   const formNumber = getFormNumber();
-
   useEffect(() => {
     document.title = `Submit VA Form ${formNumber} | Accredited Representative Portal | Veterans Affairs`;
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
@@ -106,7 +106,7 @@ const App = ({ children }) => {
   return (
     <AccessTokenManager userLoggedIn={userLoggedIn}>
       <div className="container">
-        <Header />
+        <Header profile={profile} />
         <div className={`form_container row form-${formNumber}`}>{content}</div>
         <Footer />
       </div>

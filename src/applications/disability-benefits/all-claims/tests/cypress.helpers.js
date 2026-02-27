@@ -17,7 +17,6 @@ import mockUser from './fixtures/mocks/user.json';
 import {
   capitalizeEachWord,
   showSeparationLocation,
-  isBDD,
   hasRatedDisabilities,
 } from '../utils';
 
@@ -340,11 +339,7 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       cy.contains(address.zipCode).should('exist');
     }
 
-    if (
-      data.homelessOrAtRisk &&
-      (data.disability526ExtraBDDPagesEnabled ||
-        data['view:isBddData'] !== true)
-    ) {
+    if (data.homelessOrAtRisk) {
       cy.contains(/are you homeless or at risk of becoming homeless/i).should(
         'exist',
       );
@@ -371,11 +366,7 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       );
     }
 
-    if (
-      !hasRatedDisabilities(data) &&
-      (data.disability526ExtraBDDPagesEnabled ||
-        (!isBDD(data) && data['view:isBddData'] !== true))
-    ) {
+    if (!hasRatedDisabilities(data)) {
       cy.contains(/have you ever received military retirement pay/i).should(
         'exist',
       );

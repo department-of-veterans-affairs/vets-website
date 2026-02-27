@@ -28,6 +28,7 @@ src/applications/ds-playground @department-of-veterans-affairs/platform-design-s
 src/applications/ds-v3-playground @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sah @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/wizard @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/_mock-form-ae-design-patterns @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Platform Design System - Header/footer (VA.gov and TeamSites)
 src/platform/site-wide/header @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
@@ -73,10 +74,6 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/va-pla
 src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
-# Authenticated Experience Design Patterns
-
-src/applications/_mock-form-ae-design-patterns @department-of-veterans-affairs/tmf-auth-exp-design-patterns @department-of-veterans-affairs/va-platform-cop-frontend
-
 # Disability Benefits Experience
 src/applications/disability-benefits @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 
@@ -85,7 +82,6 @@ src/platform/form-renderer @department-of-veterans-affairs/employee-experience @
 
 # Benefits Management Tools (DSVA Slack: #benefits-management-tools)
 src/applications/claims-status @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/disability-benefits/view-payments @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/letters @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/rated-disabilities @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/view-payment-history @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
@@ -115,6 +111,7 @@ src/applications/static-pages/medical-copays-cta @department-of-veterans-affairs
 src/applications/combined-debt-portal @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/burial-how-do-i-apply-widget @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/dispute-debt @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/financial-management/view-payments @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Form Engine
 src/applications/simple-forms-form-engine @department-of-veterans-affairs/form-engine @department-of-veterans-affairs/va-platform-cop-frontend
@@ -158,6 +155,7 @@ src/applications/hca @department-of-veterans-affairs/health-apps-frontend @depar
 src/applications/ezr @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/hca-performance-warning @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/ezr-submission-options @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/ivc-champva @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/ivc-champva @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Healthcare Experience
@@ -222,7 +220,7 @@ src/applications/health-care-supply-reordering @department-of-veterans-affairs/v
 src/applications/avs @department-of-veterans-affairs/after-visit-summary @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/mhv-signin-cta @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/mhv @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
-.github/instructions/mhv-secure-messaging.instructions.md @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
+.github/instructions/mhv-secure-messaging.*.instructions.md @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 .github/instructions/mhv-medical-records.instructions.md @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Profile

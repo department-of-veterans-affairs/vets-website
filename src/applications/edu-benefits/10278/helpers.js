@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { parseISODate } from '~/platform/forms-system/src/js/helpers';
 
 export const DISCLOSURE_KEYS = [
   'statusOfClaim',
@@ -94,6 +96,60 @@ export const validateOtherText = (errors, fieldData) => {
   }
 };
 
+export const validateTerminationDate = (errors, dateString) => {
+  const { day, month, year } = parseISODate(dateString);
+
+  const entered = new Date(year, month - 1, day);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const fiveYearsFromToday = new Date(
+    today.getFullYear() + 5,
+    today.getMonth(),
+    today.getDate(),
+  );
+
+  if (entered > fiveYearsFromToday) {
+    errors.addError('You must enter a valid date that’s within 5 years');
+  }
+};
+
+export const ClaimInformationDescription = ({ formData }) => {
+  const claimInformation = formData?.claimInformation;
+  const claimInformationKeys = Object.keys(claimInformation);
+  const claimInformationLabels = claimInformationKeys
+    .filter(key => key !== 'otherText')
+    .map((key, index) => {
+      if (!claimInformation[key]) {
+        return null;
+      }
+
+      const specialLabels = {
+        minor: 'Change of address or direct deposit (minor claimants only)',
+        other: `Other: ${claimInformation.otherText}`,
+      };
+
+      const label = specialLabels[key] || DISCLOSURE_OPTIONS[key];
+      return <li key={index}>{label}</li>;
+    });
+  return (
+    <va-card background>
+      <div>
+        <h3 className="vads-u-margin-top--0">
+          Here’s the personal information you selected:
+        </h3>
+        <ul>{claimInformationLabels}</ul>
+      </div>
+    </va-card>
+  );
+};
+
+ClaimInformationDescription.propTypes = {
+  formData: PropTypes.shape({
+    claimInformation: PropTypes.object,
+  }),
+};
+
 export const InformationToDiscloseReviewField = ({
   children,
   disclosureKeys,
@@ -146,4 +202,12 @@ export const InformationToDiscloseReviewField = ({
       })}
     </>
   );
+};
+
+InformationToDiscloseReviewField.propTypes = {
+  children: PropTypes.node,
+  dataKey: PropTypes.string,
+  disclosureKeys: PropTypes.arrayOf(PropTypes.string),
+  options: PropTypes.object,
+  otherTextKey: PropTypes.string,
 };

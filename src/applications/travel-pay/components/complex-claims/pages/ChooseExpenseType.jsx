@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   VaRadio,
   VaButtonPair,
@@ -12,9 +12,11 @@ import {
   selectComplexClaim,
   selectExpenseBackDestination,
 } from '../../../redux/selectors';
+import { setExpenseBackDestination } from '../../../redux/actions';
 
 const ChooseExpenseType = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
   const [selectedExpenseType, setSelectedExpenseType] = useState('');
   const [showError, setShowError] = useState(false);
@@ -66,6 +68,8 @@ const ChooseExpenseType = () => {
     );
 
     if (selectedExpense) {
+      // Set back destination so expense page knows to return to choose-expense
+      dispatch(setExpenseBackDestination('choose-expense'));
       navigate(`/file-new-claim/${apptId}/${claimId}/${selectedExpense.route}`);
     }
   };

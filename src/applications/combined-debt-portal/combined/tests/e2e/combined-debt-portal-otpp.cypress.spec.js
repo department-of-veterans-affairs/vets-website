@@ -42,7 +42,7 @@ describe('CDP - One Thing Per Page', () => {
         .within(() => {
           cy.findByTestId('card-amount')
             .invoke('text')
-            .should('contain', '3,305.40');
+            .should('contain', '4,655.40');
         });
 
       cy.findByTestId('balance-card-zero-copay').should('not.exist');
@@ -221,8 +221,8 @@ describe('CDP - One Thing Per Page', () => {
         cy.findByTestId('debt-details-button').should('not.exist');
 
         // Review details link should be present and work
-        cy.get('[data-testid="debt-summary-item"]')
-          .findByTestId('debt-details-link')
+        cy.get('[data-testid^="summary-card"]')
+          .findByTestId('link-details')
           .shadow()
           .find('a')
           .as('detailLink');
@@ -233,8 +233,8 @@ describe('CDP - One Thing Per Page', () => {
         cy.go('back');
 
         // Resolve this overpayment link should be present and work
-        cy.get('[data-testid="debt-summary-item"]')
-          .findByTestId('debt-resolve-link')
+        cy.get('[data-testid^="summary-card"]')
+          .findByTestId('link-resolve')
           .shadow()
           .find('a')
           .as('resolveLink');
@@ -250,8 +250,8 @@ describe('CDP - One Thing Per Page', () => {
           .findByTestId('card-link')
           .click();
 
-        cy.get('[data-testid="debt-summary-item"]')
-          .findByTestId('debt-resolve-link')
+        cy.get('[data-testid^="summary-card"]')
+          .findByTestId('link-resolve')
           .shadow()
           .find('a')
           .click();
@@ -272,8 +272,8 @@ describe('CDP - One Thing Per Page', () => {
           .findByTestId('card-link')
           .click();
 
-        cy.get('[data-testid="debt-summary-item"]')
-          .findByTestId('debt-details-link')
+        cy.get('[data-testid^="summary-card"]')
+          .findByTestId('link-details')
           .shadow()
           .find('a')
           .click();
@@ -283,9 +283,6 @@ describe('CDP - One Thing Per Page', () => {
         cy.get('#howDoIPay').should('not.exist');
         cy.findByTestId('financial-help').should('not.exist');
         cy.findByTestId('dispute-charges').should('not.exist');
-
-        // payment history hidden with cdp history disabled
-        cy.get('#debtDetailsHeader').should('not.exist');
 
         // 'why might I have...' accordion & not additional info component
         cy.get('va-accordion').should('exist');

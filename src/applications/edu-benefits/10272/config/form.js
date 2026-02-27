@@ -8,14 +8,20 @@ import {
 } from 'platform/forms-system/src/js/patterns/prefill';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
+import prefillTransform from './prefillTransform';
+import submitForm from './submitForm';
+import transform from './transform';
 
 // Components
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import SubmissionInstructions from '../components/SubmissionInstructions';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
+import PreSubmitInfo from '../components/PreSubmitInfo';
+import PrivacyPolicy from '../components/PrivacyPolicy';
 
 // Pages
 import {
@@ -33,15 +39,12 @@ import {
   remarks,
 } from '../pages';
 
-import prefillTransform from './prefillTransform';
-
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: '10272-edu-benefits',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -62,20 +65,33 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer: prefillTransform,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'applicantName',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your request.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  CustomReviewTopContent,
   customText: {
     appType: 'request',
     continueAppButtonText: 'Continue your request',
     startNewAppButtonText: 'Start a new request',
     finishAppLaterMessage: 'Finish this request later',
     appSavedSuccessfullyMessage: 'We’ve saved your request.',
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
   },
   defaultDefinitions: {},
+  transformForSubmit: transform,
   useCustomScrollAndFocus: true,
   chapters: {
     educationBenefitsChapter: {
@@ -152,6 +168,9 @@ const formConfig = {
             'The name and mailing address of organization awarding license or certification',
           uiSchema: organizationInfo.uiSchema,
           schema: organizationInfo.schema,
+          initialData: {
+            organizationAddress: { country: 'USA' },
+          },
         },
       },
     },
@@ -170,6 +189,9 @@ const formConfig = {
             'The name and mailing address of the organization giving the prep course',
           uiSchema: prepCourseAddress.uiSchema,
           schema: prepCourseAddress.schema,
+          initialData: {
+            prepCourseOrganizationAddress: { country: 'USA' },
+          },
         },
         prepCourseOnline: {
           path: 'prep-course-details-2',

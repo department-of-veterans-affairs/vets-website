@@ -15,6 +15,7 @@ import {
   COUNTRY_NAMES,
 } from '../../../utils/labels';
 import { customAddressSchema } from '../../definitions';
+import { validations } from '../../validations';
 
 /** @type {PageSchema} */
 export default {
@@ -23,20 +24,23 @@ export default {
       'When and where did your marriage end?',
       'If you were married at the time of their death, this will be their date and place of death.',
     ),
-    marriageToVeteranEndDate: currentOrPastDateUI({
-      title: 'Date marriage ended',
-      monthSelect: false,
-    }),
-    marriageToVeteranEndOutsideUS: checkboxUI({
+    marriageToVeteranEndDate: {
+      ...currentOrPastDateUI({
+        title: 'Date marriage ended',
+        monthSelect: false,
+      }),
+      'ui:validations': [validations.isAfterMarriageStartDate],
+    },
+    marriageToVeteranEndOutsideUs: checkboxUI({
       title: 'My marriage ended outside the U.S.',
     }),
     marriageToVeteranEndLocation: {
       city: textUI('City'),
       state: {
         ...selectUI('State'),
-        'ui:required': formData => !formData?.marriageToVeteranEndOutsideUS,
+        'ui:required': formData => !formData?.marriageToVeteranEndOutsideUs,
         'ui:options': {
-          hideIf: formData => formData?.marriageToVeteranEndOutsideUS,
+          hideIf: formData => formData?.marriageToVeteranEndOutsideUs,
           labels: STATE_VALUES.reduce((acc, value, idx) => {
             acc[value] = STATE_NAMES[idx];
             return acc;
@@ -48,9 +52,9 @@ export default {
       },
       otherCountry: {
         ...selectUI('Country'),
-        'ui:required': formData => formData?.marriageToVeteranEndOutsideUS,
+        'ui:required': formData => formData?.marriageToVeteranEndOutsideUs,
         'ui:options': {
-          hideIf: formData => !formData?.marriageToVeteranEndOutsideUS,
+          hideIf: formData => !formData?.marriageToVeteranEndOutsideUs,
           labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
             acc[value] = COUNTRY_NAMES[idx];
             return acc;
@@ -67,7 +71,7 @@ export default {
     required: ['marriageToVeteranEndDate', 'marriageToVeteranEndLocation'],
     properties: {
       marriageToVeteranEndDate: currentOrPastDateSchema,
-      marriageToVeteranEndOutsideUS: checkboxSchema,
+      marriageToVeteranEndOutsideUs: checkboxSchema,
       marriageToVeteranEndLocation: customAddressSchema,
     },
   },

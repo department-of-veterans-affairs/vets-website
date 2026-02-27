@@ -76,6 +76,7 @@ const formConfig = {
         label: 'Submit a pension or DIC income and asset statement',
       },
     ],
+    wrapping: true,
   }),
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
@@ -88,14 +89,10 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData => {
-        if (formData?.claimantType === 'VETERAN') {
-          return formData?.isLoggedIn
-            ? 'veteranFullName'
-            : 'otherVeteranFullName';
-        }
-        return 'claimantFullName';
-      },
+      fullNamePath: formData =>
+        formData?.claimantType === 'VETERAN'
+          ? 'veteranFullName'
+          : 'claimantFullName',
     },
   },
   title: 'Pension or DIC Income and Asset Statement',

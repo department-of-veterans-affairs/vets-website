@@ -226,6 +226,45 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
     );
   });
 
+  it('sorts expense groups in EXPENSE_TYPES order regardless of input order', () => {
+    const outOfOrderExpenses = [
+      {
+        id: 'exp-toll',
+        expenseType: 'Toll',
+        costRequested: 5.0,
+        dateIncurred: '2025-10-15',
+      },
+      {
+        id: 'exp-parking',
+        expenseType: 'Parking',
+        description: 'Parking at hospital',
+        costRequested: 10.0,
+        dateIncurred: '2025-10-15',
+      },
+      {
+        id: 'exp-mileage',
+        expenseType: 'Mileage',
+        costRequested: 15.0,
+        tripType: 'RoundTrip',
+        dateIncurred: '2025-10-15',
+      },
+    ];
+
+    renderAccordion({
+      expenses: outOfOrderExpenses,
+      documents: [],
+      groupAccordionItemsByType: true,
+    });
+
+    const accordionItems = document.querySelectorAll('va-accordion-item');
+    expect(accordionItems.length).to.equal(3);
+
+    // Should be sorted: Mileage, Parking, Toll (matching EXPENSE_TYPES order)
+    expect(accordionItems[0].getAttribute('header')).to.include('Mileage');
+    expect(accordionItems[1].getAttribute('header')).to.include('Parking');
+    expect(accordionItems[2].getAttribute('header')).to.include('Toll');
+  });
+
   it('renders headers for each expense group inside accordion item', () => {
     renderAccordion({ expenses, documents });
 

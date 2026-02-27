@@ -67,4 +67,34 @@ describe('createBreadcrumbs', () => {
       },
     ]);
   });
+
+  it('should return breadcrumbs for the IN_PROGRESS path', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.IN_PROGRESS),
+      1,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      ...defaultBreadcrumbs,
+      { href: medicationsUrls.MEDICATIONS_URL, label: 'Medications' },
+      {
+        href: medicationsUrls.MEDICATIONS_IN_PROGRESS,
+        label: 'In-progress medications',
+      },
+    ]);
+  });
+
+  it('should return breadcrumbs for the HISTORY path', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.HISTORY),
+      1,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      ...defaultBreadcrumbs,
+      { href: medicationsUrls.MEDICATIONS_URL, label: 'Medications' },
+      {
+        href: medicationsUrls.MEDICATIONS_HISTORY,
+        label: 'Medication history',
+      },
+    ]);
+  });
 });

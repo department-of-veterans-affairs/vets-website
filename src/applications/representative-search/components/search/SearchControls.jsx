@@ -101,89 +101,31 @@ const SearchControls = props => {
         Search for an accredited representative
       </h2>
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
-        <div className="additional-representative-info">
-          <div className="vads-u-margin-top--2p5">
-            <va-additional-info
-              trigger="What does an accredited VSO representative do?"
-              uswds
-              disable-border
-            >
-              <p>
-                <strong>
-                  An accredited Veterans Service Organization (VSO)
-                  representative
-                </strong>{' '}
-                can help you gather evidence, file a claim, or request a
-                decision review. They can also communicate with VA on your
-                behalf.
-              </p>
-              <br />
-              <p>
-                Accredited VSO representatives provide free services for
-                Veterans and their families. They have completed training and
-                passed tests about VA claims and decision reviews.
-              </p>
-              <br />
-              <p>
-                Accredited VSO representatives work for organizations like the
-                American Legion, Disabled American Veterans, and Veterans of
-                Foreign Wars.
-              </p>
-            </va-additional-info>
-          </div>
+        <RepTypeSelector
+          representativeType={representativeType}
+          onChange={onChange}
+        />
 
-          <div className="vads-u-margin-top--2p5">
-            <va-additional-info
-              trigger="What does an accredited attorney do?"
-              disable-border
-              uswds
-            >
-              <p>
-                <strong>An accredited attorney</strong> usually works on
-                decision reviews and cases that require legal knowledge. They
-                can charge fees for their services.
-              </p>
-              <br />
-              <p>
-                Accredited attorneys don’t have to take a test about VA claims
-                and decision reviews. But they have to be members in good
-                standing of the bar association.
-              </p>
-            </va-additional-info>
-          </div>
-
-          <div className="vads-u-margin-top--2p5">
-            <va-additional-info
-              trigger="What does an accredited claims agent do?"
-              disable-border
-              uswds
-            >
-              <p>
-                <strong>An accredited claims agent</strong> usually works on
-                decision reviews. They can charge fees for their services.
-              </p>
-              <br />
-              <p>
-                Accredited claims agents don’t work for Veterans Service
-                Organizations. But they have completed training and passed tests
-                about VA claims and decision reviews.
-              </p>
-            </va-additional-info>
-          </div>
-        </div>
-
-        <div className="vads-u-margin-top--4">
-          <RepTypeSelector
-            representativeType={representativeType}
-            onChange={onChange}
-          />
+        <div className="vads-u-margin-top--1">
+          <p>
+            <strong>Note:</strong> If you’re not sure what type of accredited
+            representative you’d like to appoint, you can learn about the
+            services they offer.
+          </p>
+          <p>
+            <va-link
+              id="accredited-representative-faqs-link"
+              href="/resources/va-accredited-representative-faqs/"
+              text="Learn about the types of accredited representatives"
+              external // Enables behavior of opening in a new tab
+            />
+          </p>
         </div>
 
         <div className="search-controls-text-inputs">
-          <div className="geolocation-container vads-u-margin-top--1">
+          <div className="geolocation-container">
             <div className="location-input">
               <va-text-input
-                style={{ order: 1 }}
                 error={(() => {
                   if (showEmptyError) {
                     return 'Please fill in a city, state, postal code or address.';
@@ -205,40 +147,33 @@ const SearchControls = props => {
                 value={locationInputString}
                 uswds
                 required
-              />
-            </div>
-
-            <div
-              className={classNames('use-my-location-button-container', {
-                'use-my-location-button-container-error':
-                  showEmptyError || showGeolocationError,
-              })}
-            >
-              {geolocationInProgress ? (
+              >
                 <div
-                  className="finding-your-location-loading"
-                  style={{ order: 2 }}
+                  className={classNames('use-my-location-button-container', {
+                    'use-my-location-button-container-error':
+                      showEmptyError || showGeolocationError,
+                  })}
                 >
-                  <va-icon
-                    size={4}
-                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                    className="use-my-location-icon"
-                    aria-hidden="true"
-                  />
-                  <span aria-live="assertive"> Finding your location...</span>
+                  {geolocationInProgress ? (
+                    <div className="finding-your-location-loading">
+                      <va-icon icon="autorenew" size={3} />
+                      <span aria-live="assertive">
+                        Finding your location...
+                      </span>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleGeolocationButtonClick}
+                      type="button"
+                      className="use-my-location-link"
+                      aria-label="Use my location"
+                    >
+                      <va-icon size={3} icon="near_me" aria-hidden="true" />
+                      Use my location
+                    </button>
+                  )}
                 </div>
-              ) : (
-                <button
-                  onClick={handleGeolocationButtonClick}
-                  type="button"
-                  className="use-my-location-link"
-                  aria-label="Use my location"
-                  style={{ order: 2 }}
-                >
-                  <va-icon size={4} icon="near_me" aria-hidden="true" />
-                  Use my location
-                </button>
-              )}
+              </va-text-input>
             </div>
           </div>
 

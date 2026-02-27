@@ -763,5 +763,279 @@ describe('Disability benefits 526EZ contact information', () => {
         form.unmount();
       });
     });
+
+    describe('ReviewCardField edit state for invalid prefilled addresses', () => {
+      // The mailingAddress uses ReviewCardField with
+      // startInEdit: hasInvalidPrefillData. This forces edit mode when
+      // prefilled/saved data would fail validation AFTER normalization
+      // (trim + collapse consecutive spaces). It checks both maxLength
+      // and pattern against the normalized value — the same logic used
+      // by createAddressValidator on user interaction.
+      //
+      // When startInEdit forces edit mode, ReviewCardField sets
+      // canCancel: false, which hides the Cancel button. This prevents
+      // the user from escaping to view mode with invalid data.
+
+      it('should start mailing address card in edit mode when addressLine1 exceeds 20 characters', () => {
+        const form = mount(
+          <Provider store={fakeStore}>
+            <DefinitionTester
+              definitions={formConfig.defaultDefinitions}
+              schema={schema}
+              data={{
+                phoneAndEmail: {
+                  primaryPhone: '1231231231',
+                  emailAddress: 'a@b.co',
+                },
+                mailingAddress: {
+                  'view:livesOnMilitaryBase': false,
+                  country: 'USA',
+                  addressLine1: 'This Address Is Way Too Long For The Field',
+                  city: 'Anytown',
+                  state: 'MI',
+                  zipCode: '12345',
+                },
+              }}
+              formData={{}}
+              uiSchema={uiSchema}
+            />
+          </Provider>,
+        );
+
+        // When invalid, ReviewCardField starts in edit mode which renders
+        // the input-section class and a Save button instead of an Edit button
+        const mailingSection = form.find('.review-card');
+        // The second review-card is the mailing address (first is phone/email)
+        const mailingCard = mailingSection.at(1);
+        expect(mailingCard.find('.input-section').length).to.be.greaterThan(0);
+        expect(mailingCard.find('.update-button').length).to.be.greaterThan(0);
+
+        form.unmount();
+      });
+
+      it('should NOT start in edit mode for address with extra spaces (spaces are normalized before validation)', () => {
+        // Regression test for PR #42005 — extra spaces in prefilled data
+        // should not trigger edit mode. hasInvalidPrefillData normalizes
+        // spaces before checking, just like createAddressValidator does.
+        const form = mount(
+          <Provider store={fakeStore}>
+            <DefinitionTester
+              definitions={formConfig.defaultDefinitions}
+              schema={schema}
+              data={{
+                phoneAndEmail: {
+                  primaryPhone: '1231231231',
+                  emailAddress: 'a@b.co',
+                },
+                mailingAddress: {
+                  'view:livesOnMilitaryBase': false,
+                  country: 'USA',
+                  addressLine1: '123  Main St',
+                  city: 'Anytown',
+                  state: 'MI',
+                  zipCode: '12345',
+                },
+              }}
+              formData={{}}
+              uiSchema={uiSchema}
+            />
+          </Provider>,
+        );
+
+        const mailingSection = form.find('.review-card');
+        const mailingCard = mailingSection.at(1);
+        // Should be in view mode — extra spaces are normalized (collapsed)
+        // before both maxLength and pattern checks
+        expect(mailingCard.find('.input-section').length).to.equal(0);
+        expect(mailingCard.find('button.edit-button').exists()).to.be.true;
+
+        form.unmount();
+      });
+
+      it('should start in edit mode when extra spaces make raw length exceed 20 even though normalized length is under 20', () => {
+        // The raw value "  also.        spaces" is 21 chars (> maxLength 20).
+        // After normalization it becomes "also. spaces" (12 chars), which
+        // hasInvalidPrefillData would allow. However, the JSON schema now
+        // enforces maxLength: 20 on the raw value, so RJSF's built-in
+        // validation catches it via invalidInitialData. This is correct
+        // behavior: prefilled data is normalized at prefill time, so if
+        // raw data exceeds maxLength it came from save-in-progress and
+        // the user should fix it.
+        const form = mount(
+          <Provider store={fakeStore}>
+            <DefinitionTester
+              definitions={formConfig.defaultDefinitions}
+              schema={schema}
+              data={{
+                phoneAndEmail: {
+                  primaryPhone: '1231231231',
+                  emailAddress: 'a@b.co',
+                },
+                mailingAddress: {
+                  'view:livesOnMilitaryBase': false,
+                  country: 'USA',
+                  addressLine1: '123 Main St',
+                  addressLine3: '  also.        spaces',
+                  city: 'Anytown',
+                  state: 'MI',
+                  zipCode: '12345',
+                },
+              }}
+              formData={{}}
+              uiSchema={uiSchema}
+            />
+          </Provider>,
+        );
+
+        const mailingSection = form.find('.review-card');
+        const mailingCard = mailingSection.at(1);
+        // Should be in edit mode — raw length > 20 triggers JSON schema error
+        expect(mailingCard.find('.input-section').length).to.equal(1);
+
+        form.unmount();
+      });
+
+      it('should start mailing address card in edit mode when addressLine1 has invalid characters', () => {
+        // Disallowed characters (like @, !, %, etc.) should force edit mode
+        // via the startInEdit / hasInvalidPrefillData function, which runs the
+        // same normalized pattern check as createAddressValidator.
+        const form = mount(
+          <Provider store={fakeStore}>
+            <DefinitionTester
+              definitions={formConfig.defaultDefinitions}
+              schema={schema}
+              data={{
+                phoneAndEmail: {
+                  primaryPhone: '1231231231',
+                  emailAddress: 'a@b.co',
+                },
+                mailingAddress: {
+                  'view:livesOnMilitaryBase': false,
+                  country: 'USA',
+                  addressLine1: '123 Main St @#!',
+                  city: 'Anytown',
+                  state: 'MI',
+                  zipCode: '12345',
+                },
+              }}
+              formData={{}}
+              uiSchema={uiSchema}
+            />
+          </Provider>,
+        );
+
+        const mailingSection = form.find('.review-card');
+        const mailingCard = mailingSection.at(1);
+        // startInEdit detects invalid characters → edit mode
+        expect(mailingCard.find('.input-section').length).to.be.greaterThan(0);
+        expect(mailingCard.find('.update-button').length).to.be.greaterThan(0);
+
+        form.unmount();
+      });
+
+      it('should start mailing address card in edit mode when city has invalid characters', () => {
+        const form = mount(
+          <Provider store={fakeStore}>
+            <DefinitionTester
+              definitions={formConfig.defaultDefinitions}
+              schema={schema}
+              data={{
+                phoneAndEmail: {
+                  primaryPhone: '1231231231',
+                  emailAddress: 'a@b.co',
+                },
+                mailingAddress: {
+                  'view:livesOnMilitaryBase': false,
+                  country: 'USA',
+                  addressLine1: '123 Main St',
+                  city: 'Any$town!',
+                  state: 'MI',
+                  zipCode: '12345',
+                },
+              }}
+              formData={{}}
+              uiSchema={uiSchema}
+            />
+          </Provider>,
+        );
+
+        const mailingSection = form.find('.review-card');
+        const mailingCard = mailingSection.at(1);
+        expect(mailingCard.find('.input-section').length).to.be.greaterThan(0);
+        expect(mailingCard.find('.update-button').length).to.be.greaterThan(0);
+
+        form.unmount();
+      });
+
+      it('should start mailing address card in view mode when address is valid', () => {
+        const form = mount(
+          <Provider store={fakeStore}>
+            <DefinitionTester
+              definitions={formConfig.defaultDefinitions}
+              schema={schema}
+              data={{
+                phoneAndEmail: {
+                  primaryPhone: '1231231231',
+                  emailAddress: 'a@b.co',
+                },
+                mailingAddress: {
+                  'view:livesOnMilitaryBase': false,
+                  country: 'USA',
+                  addressLine1: '123 Main St',
+                  city: 'Anytown',
+                  state: 'MI',
+                  zipCode: '12345',
+                },
+              }}
+              formData={{}}
+              uiSchema={uiSchema}
+            />
+          </Provider>,
+        );
+
+        const mailingSection = form.find('.review-card');
+        const mailingCard = mailingSection.at(1);
+        // In view mode, there should be no input-section
+        expect(mailingCard.find('.input-section').length).to.equal(0);
+        // Should have the Edit button in view mode
+        expect(mailingCard.find('button.edit-button').exists()).to.be.true;
+
+        form.unmount();
+      });
+
+      it('should start mailing address card in edit mode when addressLine2 exceeds 20 characters', () => {
+        const form = mount(
+          <Provider store={fakeStore}>
+            <DefinitionTester
+              definitions={formConfig.defaultDefinitions}
+              schema={schema}
+              data={{
+                phoneAndEmail: {
+                  primaryPhone: '1231231231',
+                  emailAddress: 'a@b.co',
+                },
+                mailingAddress: {
+                  'view:livesOnMilitaryBase': false,
+                  country: 'USA',
+                  addressLine1: '123 Main St',
+                  addressLine2: 'Apartment Number 12345678',
+                  city: 'Anytown',
+                  state: 'MI',
+                  zipCode: '12345',
+                },
+              }}
+              formData={{}}
+              uiSchema={uiSchema}
+            />
+          </Provider>,
+        );
+
+        const mailingSection = form.find('.review-card');
+        const mailingCard = mailingSection.at(1);
+        expect(mailingCard.find('.input-section').length).to.be.greaterThan(0);
+
+        form.unmount();
+      });
+    });
   });
 });
