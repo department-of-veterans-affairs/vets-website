@@ -123,3 +123,8 @@ export const relationshipToVeteranLabels = Object.freeze({
   alternateSigner,
   thirdParty: 'Third Party',
 });
+
+export const viewFieldNames = Object.freeze({
+  isLeavingLastPositionExplanationEnabled:
+    'view:isLeavingLastPositionExplanationEnabled',
+});
