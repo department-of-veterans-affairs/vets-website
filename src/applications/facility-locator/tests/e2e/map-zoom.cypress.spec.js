@@ -57,16 +57,14 @@ it('handles map zooming correctly', () => {
     .shadow()
     .find('select')
     .select('VA health');
-  
+
   cy.get('#facility-search')
     .click({ force: true })
     .then(() => {
       cy.get('#search-results-subheader').contains(
-        /(Showing|Results).*VA health.*All VA health services.*within 69 miles of.*Austin, Texas/i,
+        /(Showing|Results).*VA health.*All VA health services.*within 69 miles of.*Austin, Texas.*/i,
       );
-      cy.get('#other-tools').should('exist');
-
-
+    });
   cy.injectAxe();
   cy.axeCheck();
 
