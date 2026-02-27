@@ -4,7 +4,6 @@
  * VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
  */
 
-import React from 'react';
 import {
   emailUI,
   emailSchema,
@@ -37,32 +36,17 @@ export const claimantContactUiSchema = {
       // Use appropriate fallback based on relationship
       const fallback = isVeteran ? "Veteran's" : "Claimant's";
 
-      const title = fullName ? (
-        <span
-          data-dd-privacy="mask"
-          data-dd-action-name="claimant contact page"
-        >
-          {`${fullName}'s phone number and email address`}
-        </span>
-      ) : (
-        `${fallback} phone number and email address`
-      );
+      const title = fullName
+        ? `${fullName}'s phone number and email address`
+        : `${fallback} phone number and email address`;
 
-      const homePhoneLabel = fullName ? (
-        <span data-dd-privacy="mask" data-dd-action-name="phone number label">
-          {`${fullName}'s phone number`}
-        </span>
-      ) : (
-        `${fallback} phone number`
-      );
+      const homePhoneLabel = fullName
+        ? `${fullName}'s phone number`
+        : `${fallback} phone number`;
 
-      const emailLabel = fullName ? (
-        <span data-dd-privacy="mask" data-dd-action-name="email label">
-          {`${fullName}'s email address`}
-        </span>
-      ) : (
-        `${fallback} email address`
-      );
+      const emailLabel = fullName
+        ? `${fullName}'s email address`
+        : `${fallback} email address`;
 
       // Use appropriate pronouns for veterans vs other claimants
       const description = isVeteran
@@ -72,6 +56,9 @@ export const claimantContactUiSchema = {
       return {
         'ui:title': title,
         'ui:description': description,
+        'ui:options': {
+          classNames: 'dd-privacy-mask',
+        },
         claimantContact: {
           claimantPhoneNumber: {
             'ui:title': homePhoneLabel,

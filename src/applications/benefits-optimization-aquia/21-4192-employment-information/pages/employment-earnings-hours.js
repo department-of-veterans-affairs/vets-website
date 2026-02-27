@@ -27,17 +27,7 @@ const getTypeOfWorkTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Type of work';
   const veteranName = getVeteranName(formData);
   const tense = getEmploymentTense(formData);
-  const title = `What type of work ${tense.does} ${veteranName} do?`;
-
-  // Mask if not using fallback text
-  if (veteranName !== 'Veteran') {
-    return (
-      <span data-dd-privacy="mask" data-dd-action-name="type of work field">
-        {title}
-      </span>
-    );
-  }
-  return title;
+  return `What type of work ${tense.does} ${veteranName} do?`;
 };
 
 /**
@@ -47,17 +37,7 @@ const getAmountEarnedTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Amount earned';
   const veteranName = getVeteranName(formData);
   const timeframe = getEmploymentTimeframe(formData);
-  const title = `How much did ${veteranName} earn in the ${timeframe} (before deductions)?`;
-
-  // Mask if not using fallback text
-  if (veteranName !== 'Veteran') {
-    return (
-      <span data-dd-privacy="mask" data-dd-action-name="amount earned field">
-        {title}
-      </span>
-    );
-  }
-  return title;
+  return `How much did ${veteranName} earn in the ${timeframe} (before deductions)?`;
 };
 
 /**
@@ -68,17 +48,7 @@ const getTimeLostTitle = formData => {
     return 'Time lost to disability';
   const veteranName = getVeteranName(formData);
   const timeframe = getEmploymentTimeframe(formData);
-  const title = `How many hours did ${veteranName} lose to disability in the ${timeframe}?`;
-
-  // Mask if not using fallback text
-  if (veteranName !== 'Veteran') {
-    return (
-      <span data-dd-privacy="mask" data-dd-action-name="time lost field">
-        {title}
-      </span>
-    );
-  }
-  return title;
+  return `How many hours did ${veteranName} lose to disability in the ${timeframe}?`;
 };
 
 /**
@@ -88,17 +58,7 @@ const getDailyHoursTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Daily hours worked';
   const veteranName = getVeteranName(formData);
   const tense = getEmploymentTense(formData);
-  const title = `How many hours ${tense.does} ${veteranName} work each day?`;
-
-  // Mask if not using fallback text
-  if (veteranName !== 'Veteran') {
-    return (
-      <span data-dd-privacy="mask" data-dd-action-name="daily hours field">
-        {title}
-      </span>
-    );
-  }
-  return title;
+  return `How many hours ${tense.does} ${veteranName} work each day?`;
 };
 
 /**
@@ -108,17 +68,7 @@ const getWeeklyHoursTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Weekly hours worked';
   const veteranName = getVeteranName(formData);
   const tense = getEmploymentTense(formData);
-  const title = `How many hours ${tense.does} ${veteranName} work each week?`;
-
-  // Mask if not using fallback text
-  if (veteranName !== 'Veteran') {
-    return (
-      <span data-dd-privacy="mask" data-dd-action-name="weekly hours field">
-        {title}
-      </span>
-    );
-  }
-  return title;
+  return `How many hours ${tense.does} ${veteranName} work each week?`;
 };
 
 /**
@@ -207,6 +157,9 @@ export const employmentEarningsHoursUiSchema = {
 
       return {
         employmentEarningsHours: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           typeOfWork: {
             'ui:title': typeOfWorkTitle,
           },

@@ -4,7 +4,6 @@
  * VA Form 21-4192 - Request for Employment Information
  */
 
-import React from 'react';
 import {
   textareaUI,
   currencyUI,
@@ -22,20 +21,7 @@ import { MemorableDateUI } from '../components/memorable-date-ui';
 const getStartReceivingDateTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Start receiving date';
   const veteranName = getVeteranName(formData);
-  const title = `When did ${veteranName} start receiving this benefit?`;
-
-  // Mask if not using fallback text
-  if (veteranName !== 'Veteran') {
-    return (
-      <span
-        data-dd-privacy="mask"
-        data-dd-action-name="start receiving date field"
-      >
-        {title}
-      </span>
-    );
-  }
-  return title;
+  return `When did ${veteranName} start receiving this benefit?`;
 };
 
 /**
@@ -44,20 +30,7 @@ const getStartReceivingDateTitle = formData => {
 const getFirstPaymentDateTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'First payment date';
   const veteranName = getVeteranName(formData);
-  const title = `When did ${veteranName} receive their first payment for this benefit?`;
-
-  // Mask if not using fallback text
-  if (veteranName !== 'Veteran') {
-    return (
-      <span
-        data-dd-privacy="mask"
-        data-dd-action-name="first payment date field"
-      >
-        {title}
-      </span>
-    );
-  }
-  return title;
+  return `When did ${veteranName} receive their first payment for this benefit?`;
 };
 
 /**
@@ -66,20 +39,7 @@ const getFirstPaymentDateTitle = formData => {
 const getStopReceivingDateTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Stop receiving date';
   const veteranName = getVeteranName(formData);
-  const title = `When will ${veteranName} no longer receive this benefit (if known)?`;
-
-  // Mask if not using fallback text
-  if (veteranName !== 'Veteran') {
-    return (
-      <span
-        data-dd-privacy="mask"
-        data-dd-action-name="stop receiving date field"
-      >
-        {title}
-      </span>
-    );
-  }
-  return title;
+  return `When will ${veteranName} no longer receive this benefit (if known)?`;
 };
 
 /**
@@ -138,6 +98,9 @@ export const benefitsDetailsUiSchema = {
 
       return {
         benefitsDetails: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           startReceivingDate: {
             'ui:title': startReceivingDateTitle,
           },

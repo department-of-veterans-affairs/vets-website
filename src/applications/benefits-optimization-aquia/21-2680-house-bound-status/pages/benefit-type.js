@@ -27,11 +27,7 @@ const getRadioTitle = formData => {
 
   // If we have a name, use it; otherwise fallback to "you are"
   if (fullName) {
-    return (
-      <span data-dd-privacy="mask" data-dd-action-name="benefit type selection">
-        Select which benefit {fullName} is applying for
-      </span>
-    );
+    return `Select which benefit ${fullName} is applying for`;
   }
   return 'Select which benefit you are applying for ';
 };
@@ -107,23 +103,14 @@ export const benefitTypeUiSchema = {
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const radioTitle = getRadioTitle(formData || fullData);
-      // Check if title contains a name (not "you are"), only when radioTitle is a string
-      const hasName =
-        typeof radioTitle === 'string' && !radioTitle.includes('you are');
 
       return {
         benefitType: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           benefitType: {
-            'ui:title': hasName ? (
-              <span
-                data-dd-privacy="mask"
-                data-dd-action-name="benefit type selection"
-              >
-                {radioTitle}
-              </span>
-            ) : (
-              radioTitle
-            ),
+            'ui:title': radioTitle,
           },
         },
       };

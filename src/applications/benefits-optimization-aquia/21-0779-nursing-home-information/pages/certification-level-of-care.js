@@ -4,7 +4,6 @@
  * VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid and Attendance
  */
 
-import React from 'react';
 import {
   radioUI,
   radioSchema,
@@ -18,31 +17,37 @@ import { getPatientName } from '../utils';
  */
 export const certificationLevelOfCareUiSchema = {
   certificationLevelOfCare: {
-    levelOfCare: radioUI({
-      title: 'Level of care',
-      labels: {
-        skilled: 'Skilled nursing care',
-        intermediate: 'Intermediate nursing care',
+    levelOfCare: {
+      ...radioUI({
+        title: 'Level of care',
+        labels: {
+          skilled: 'Skilled nursing care',
+          intermediate: 'Intermediate nursing care',
+        },
+      }),
+      'ui:options': {
+        ...radioUI({
+          title: 'Level of care',
+          labels: {
+            skilled: 'Skilled nursing care',
+            intermediate: 'Intermediate nursing care',
+          },
+        })['ui:options'],
+        classNames: 'vads-u-margin-top--0',
       },
-    }),
+    },
   },
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const data = fullData || formData;
       const patientName = getPatientName(data);
-
-      const title = (
-        <span
-          data-dd-privacy="mask"
-          data-dd-action-name="level of care certification"
-        >
-          I certify that {patientName} is a patient in this facility because of
-          a mental or physical disability and is receiving the following care
-        </span>
-      );
+      const title = `I certify that ${patientName} is a patient in this facility because of a mental or physical disability and is receiving the following care`;
 
       return {
         certificationLevelOfCare: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           levelOfCare: {
             'ui:title': title,
           },

@@ -4,7 +4,6 @@
  * VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
  */
 
-import React from 'react';
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -29,15 +28,11 @@ export const hospitalizationDateUiSchema = {
 
       return {
         hospitalizationDate: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           admissionDate: {
-            'ui:title': (
-              <span
-                data-dd-privacy="mask"
-                data-dd-action-name="hospitalization date"
-              >
-                {admissionDateLabel}
-              </span>
-            ),
+            'ui:title': admissionDateLabel,
           },
         },
       };

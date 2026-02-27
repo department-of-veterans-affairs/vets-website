@@ -4,7 +4,6 @@
  * VA Form 21-4192 - Request for Employment Information
  */
 
-import React from 'react';
 import {
   textareaUI,
   yesNoUI,
@@ -18,20 +17,7 @@ import { getVeteranName } from './helpers';
 const getCurrentDutyStatusTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Current duty status';
   const veteranName = getVeteranName(formData);
-  const title = `What is ${veteranName}'s current duty status?`;
-
-  // Mask if not using fallback text
-  if (veteranName !== 'Veteran') {
-    return (
-      <span
-        data-dd-privacy="mask"
-        data-dd-action-name="current duty status field"
-      >
-        {title}
-      </span>
-    );
-  }
-  return title;
+  return `What is ${veteranName}'s current duty status?`;
 };
 
 /**
@@ -41,20 +27,7 @@ const getDisabilitiesPreventDutiesTitle = formData => {
   if (!formData || typeof formData !== 'object')
     return 'Disabilities prevent duties';
   const veteranName = getVeteranName(formData);
-  const title = `Does ${veteranName} have any disabilities that prevent them from performing their military duties?`;
-
-  // Mask if not using fallback text
-  if (veteranName !== 'Veteran') {
-    return (
-      <span
-        data-dd-privacy="mask"
-        data-dd-action-name="disabilities prevent duties field"
-      >
-        {title}
-      </span>
-    );
-  }
-  return title;
+  return `Does ${veteranName} have any disabilities that prevent them from performing their military duties?`;
 };
 
 /**
@@ -91,6 +64,9 @@ export const dutyStatusDetailsUiSchema = {
 
       return {
         dutyStatusDetails: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           currentDutyStatus: {
             'ui:title': currentDutyStatusTitle,
           },
