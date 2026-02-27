@@ -34,11 +34,9 @@ export default {
       },
       'ui:options': {
         updateSchema: _schema => {
-          const required = [];
-
           return {
             ..._schema,
-            required,
+            required: ['ssn'],
           };
         },
       },

@@ -46,9 +46,8 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
     },
     [navigation.state],
   );
-
   return (
-    <p className="poa-request__meta" role="text">
+    <p className="poa-request__meta">
       {`Showing ${
         totalCount > 0 ? `${initCount}-${pageSizeCount} of ` : ''
       }${totalCount} ${searchStatus || ''} ${resultType || ''} ${

@@ -10,6 +10,7 @@ import {
   generateTitle,
   CancelButton,
   incomeQuestionUpdateUiSchema,
+  asciiValidation,
 } from '../../config/helpers';
 
 describe('incomeQuestionUpdateUiSchema', () => {
@@ -267,5 +268,49 @@ describe('CancelButton Component (Web Components)', () => {
       expect(pushSpy.called).to.be.true;
       expect(pushSpy.calledWith(removePath));
     });
+  });
+});
+
+describe('asciiValidation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+  });
+
+  it('does nothing when value is undefined', () => {
+    asciiValidation(errors, undefined);
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('does nothing when value is an empty string', () => {
+    asciiValidation(errors, '');
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('does nothing for a plain ASCII string', () => {
+    asciiValidation(errors, 'John Smith');
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('adds an error when the value contains a non-ASCII character', () => {
+    asciiValidation(errors, 'Jöhn');
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.include('ö');
+  });
+
+  it('deduplicates repeated non-ASCII characters in the error message', () => {
+    asciiValidation(errors, 'Héllo Héllo');
+    expect(errors.addError.calledOnce).to.be.true;
+    const message = errors.addError.firstCall.args[0];
+    const match = message.match(/é/g);
+    expect(match).to.have.lengthOf(1);
+  });
+
+  it('lists all distinct non-ASCII characters in the error message', () => {
+    asciiValidation(errors, 'Héllo Wörld');
+    const message = errors.addError.firstCall.args[0];
+    expect(message).to.include('é');
+    expect(message).to.include('ö');
   });
 });

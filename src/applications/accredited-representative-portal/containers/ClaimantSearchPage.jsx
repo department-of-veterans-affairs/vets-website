@@ -17,6 +17,7 @@ import {
 } from '../utilities/poaRequests';
 import { addStyleToShadowDomOnPages } from '../utilities/helpers';
 import POARequestCard from '../components/POARequestCard';
+import ClaimantSearchNoPOA from '../components/ClaimantSearchNoPOA';
 
 const lastFour = ssn => {
   return ssn?.substring(5);
@@ -65,36 +66,7 @@ const poaStatusCta = claimant => {
 
 const SearchResults = ({ claimant, searchData }) => {
   if (!claimant) {
-    return (
-      <>
-        <p data-testid="representation-requests-table-fetcher-no-poa-requests">
-          No result found for <strong>"{searchData.first_name}"</strong>
-          {', '}
-          <strong>"{searchData.last_name}"</strong>
-          {', '}
-          <strong>"{searchData.dob}"</strong>
-          {', '}
-          <strong>
-            "***-**-
-            {lastFour(searchData.ssn)}"
-          </strong>
-        </p>
-        <va-banner
-          data-label="Info banner"
-          headline="How to establish power of attorney"
-          type="info"
-          className="home__banner"
-          visible
-        >
-          <p>
-            This individual may exist in the system, but if they have not
-            designated you as their representative, you cannot view their
-            information. To establish POA, have the claimant submit a POA
-            request online using {poaFormLink()}.
-          </p>
-        </va-banner>
-      </>
-    );
+    return <ClaimantSearchNoPOA {...searchData} />;
   }
 
   return (
@@ -234,7 +206,6 @@ const ClaimantSearchPage = title => {
           setLastSearchData({ ...searchData });
           setSearchPerformed(true);
           setLoading(false);
-          focusElement('div.representation-requests-page-table-container');
         });
     }
     return null;
@@ -369,15 +340,15 @@ const ClaimantSearchPage = title => {
             onBlur: () => {},
           }}
         />
-        <div className="poa-request-search__form-buttons-container">
+        <div className="claimant__form-buttons-container">
           <va-button
             text="Search"
-            class="poa-request-search__form-submit"
+            class="claimant__form-submit"
             onClick={handleSubmit}
           />
           <va-button
             text="Clear search"
-            class="poa-request-search__form-reset"
+            class="claimant__form-reset"
             onClick={handleReset}
             secondary
           />
