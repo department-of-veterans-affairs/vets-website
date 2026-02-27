@@ -1,17 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 export default function App({ params }) {
   const { id } = params;
+  const {
+    TOGGLE_NAMES: { dependentsEnableFormViewerMFE: appToggleKey },
+    useToggleLoadingValue,
+  } = useFeatureToggle();
+  const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
+
   return (
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.dependentsEnableFormViewerMFE}>
-      <Toggler.Enabled>{id}</Toggler.Enabled>
-      <Toggler.Disabled>
-        {/* If the feature flag is off, redirect user to /my-va */}
-        <RedirectHandler />
-      </Toggler.Disabled>
-    </Toggler>
+    <div>
+      {!isAppToggleLoading && (
+        <Toggler
+          toggleName={Toggler.TOGGLE_NAMES.dependentsEnableFormViewerMFE}
+        >
+          <Toggler.Enabled>{id}</Toggler.Enabled>
+          <Toggler.Disabled>
+            {/* If the feature flag is off, redirect user to /my-va */}
+            <RedirectHandler />
+          </Toggler.Disabled>
+        </Toggler>
+      )}
+    </div>
   );
 }
 

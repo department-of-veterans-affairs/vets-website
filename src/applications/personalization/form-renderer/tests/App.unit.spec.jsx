@@ -76,4 +76,25 @@ describe('App Component', () => {
     expect(container.textContent).not.to.include('test-456');
     expect(window.location.href).to.include('/my-va');
   });
+  it('shouldnt render anything if the feature toggles are still loading', async () => {
+    const { mockStore } = getData({
+      featureToggles: {
+        [`dependents_enable_form_viewer_mfe`]: true,
+        loading: true,
+      },
+    });
+    const mockParams = { id: 'test-123' };
+
+    const { container } = render(
+      <Provider store={mockStore}>
+        <App params={mockParams} />
+      </Provider>,
+    );
+    const loadingIndicator = $('va-loading-indicator', container);
+
+    expect(loadingIndicator).not.to.exist;
+
+    expect(container.textContent).to.include('');
+    expect(container.textContent).not.to.include('test-123');
+  });
 });
