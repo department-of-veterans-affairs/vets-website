@@ -213,10 +213,10 @@ const EditContactList = () => {
         cancelButtonText={navigationError?.cancelButtonText}
       />
       <h1>Messages: Contact list</h1>
-      {userFacilityMigratingToOh &&
-        migrationSchedules?.length > 0 && (
-          <ContactListMigrationAlert migrationSchedules={migrationSchedules} />
-        )}
+      <ContactListMigrationAlert
+        userFacilityMigratingToOh={userFacilityMigratingToOh}
+        migrationSchedules={migrationSchedules}
+      />
       <AlertBackgroundBox
         closeable
         focus

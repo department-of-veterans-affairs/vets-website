@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { ContactListMigrationAlertContent } from '../../util/constants';
+import { filterSchedulesByPhase } from '../../util/helpers';
 
 /**
  * ContactListMigrationAlert displays a warning alert on the Contact List page
@@ -17,44 +18,58 @@ import { ContactListMigrationAlertContent } from '../../util/constants';
  * @param {Object} props
  * @param {Array} props.migrationSchedules - Array of migration schedule objects
  */
-const ContactListMigrationAlert = ({ migrationSchedules }) => {
+const ContactListMigrationAlert = ({
+  userFacilityMigratingToOh,
+  migrationSchedules,
+}) => {
   const [isVisible, setIsVisible] = useState(true);
 
-  if (!isVisible) {
-    return null;
-  }
+  // Memoize phase matching and facility dedup so they only recompute when
+  // migrationSchedules actually changes, avoiding unnecessary re-renders.
+  const { matchedPhaseContent, facilities } = useMemo(
+    () => {
+      // Find the first content variant that matches any schedule's current phase
+      const contentOptions = Object.values(ContactListMigrationAlertContent);
+      const content = contentOptions.find(option => {
+        const matching = filterSchedulesByPhase(
+          migrationSchedules,
+          option.phases,
+        );
+        return matching.length > 0;
+      });
 
-  // Find the first matching variant based on the user's current phase
-  const contentOptions = Object.values(ContactListMigrationAlertContent);
-  let matchedPhase = null;
-  const matchingSchedules = [];
+      if (!content) return { matchedPhaseContent: null, facilities: [] };
 
-  migrationSchedules.forEach(schedule => {
-    const hasPhase = contentOptions.find(option =>
-      option.phases.includes(schedule.phases?.current),
-    );
-    if (hasPhase) {
-      matchedPhase = hasPhase;
-      matchingSchedules.push(schedule);
-    }
-  });
+      // Get schedules matching the found content's phases
+      const matchingSchedules = filterSchedulesByPhase(
+        migrationSchedules,
+        content.phases,
+      );
 
-  if (!matchedPhase || !matchingSchedules.length) {
-    return null;
-  }
+      // Collect all facilities from matching schedules, de-duplicating by facilityId
+      const facilitiesMap = new Map();
+      matchingSchedules.forEach(schedule => {
+        schedule.facilities?.forEach(facility => {
+          if (facility.facilityId && facility.facilityName) {
+            facilitiesMap.set(facility.facilityId, facility);
+          }
+        });
+      });
 
-  // Collect all facilities from matching schedules, de-duplicating by facilityId
-  const facilitiesMap = new Map();
-  matchingSchedules.forEach(schedule => {
-    schedule.facilities?.forEach(facility => {
-      if (facility.facilityId && facility.facilityName) {
-        facilitiesMap.set(facility.facilityId, facility);
-      }
-    });
-  });
-  const facilities = Array.from(facilitiesMap.values());
+      return {
+        matchedPhaseContent: content,
+        facilities: Array.from(facilitiesMap.values()),
+      };
+    },
+    [migrationSchedules],
+  );
 
-  if (!facilities.length) {
+  if (
+    !isVisible ||
+    !userFacilityMigratingToOh ||
+    !matchedPhaseContent ||
+    !facilities.length
+  ) {
     return null;
   }
 
@@ -72,9 +87,9 @@ const ContactListMigrationAlert = ({ migrationSchedules }) => {
       data-testid="contact-list-migration-alert"
       data-dd-action-name="Contact List Migration Alert"
     >
-      <h2 slot="headline">{matchedPhase.headline}</h2>
+      <h2 slot="headline">{matchedPhaseContent.headline}</h2>
       <div>
-        <p>{matchedPhase.bodyTop}</p>
+        <p>{matchedPhaseContent.bodyTop}</p>
         <ul>
           {facilities.map(facility => (
             <li key={facility.facilityId} data-dd-privacy="mask">
@@ -82,7 +97,7 @@ const ContactListMigrationAlert = ({ migrationSchedules }) => {
             </li>
           ))}
         </ul>
-        <p>{matchedPhase.bodyBottom}</p>
+        <p>{matchedPhaseContent.bodyBottom}</p>
       </div>
     </VaAlert>
   );
@@ -102,10 +117,12 @@ ContactListMigrationAlert.propTypes = {
       }),
     }),
   ),
+  userFacilityMigratingToOh: PropTypes.bool,
 };
 
 ContactListMigrationAlert.defaultProps = {
   migrationSchedules: [],
+  userFacilityMigratingToOh: false,
 };
 
 export default ContactListMigrationAlert;

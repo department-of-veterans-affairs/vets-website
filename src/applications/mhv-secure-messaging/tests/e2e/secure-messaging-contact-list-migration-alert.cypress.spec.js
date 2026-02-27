@@ -1,8 +1,71 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import ContactListPage from './pages/ContactListPage';
-import { AXE_CONTEXT } from './utils/constants';
-import mockUserP6 from './fixtures/userResponse/user-migrating-facility-p6.json';
+import { AXE_CONTEXT, Alerts, Locators } from './utils/constants';
 import mockUser from './fixtures/userResponse/user.json';
+
+/**
+ * Helper to create a migrating-user fixture from the base user fixture.
+ * Adds OH migration schedule data with the specified phase, avoiding the
+ * need for a separate full-response fixture file.
+ *
+ * @param {string} phase - The current migration phase (e.g. 'p6')
+ * @param {Array} facilities - Array of { facilityId, facilityName } objects
+ * @returns {Object} Modified user fixture with migration data
+ */
+const createMigratingUser = (
+  phase = 'p6',
+  facilities = [
+    { facilityId: '553', facilityName: 'VA Detroit Healthcare System' },
+    { facilityId: '655', facilityName: 'VA Saginaw Healthcare System' },
+  ],
+) => {
+  const migrationSchedule = {
+    migrationDate: 'February 15, 2026',
+    facilities,
+    migrationStatus: 'ACTIVE',
+    phases: {
+      current: phase,
+      p0: 'December 15, 2025',
+      p1: 'December 30, 2025',
+      p2: 'January 14, 2026',
+      p3: 'February 7, 2026',
+      p4: 'February 10, 2026',
+      p5: 'February 13, 2026',
+      p6: 'February 15, 2026',
+      p7: 'March 17, 2026',
+      p8: 'April 1, 2026',
+      p9: 'April 16, 2026',
+    },
+  };
+
+  return {
+    ...mockUser,
+    data: {
+      ...mockUser.data,
+      attributes: {
+        ...mockUser.data.attributes,
+        profile: {
+          ...mockUser.data.attributes.profile,
+          userFacilityMigratingToOh: true,
+          migrationSchedules: [migrationSchedule],
+        },
+        vaProfile: {
+          ...mockUser.data.attributes.vaProfile,
+          facilities: facilities.map(f => ({
+            facilityId: f.facilityId,
+            isCerner: false,
+          })),
+          ohMigrationInfo: {
+            userAtPretransitionedOhFacility: false,
+            userFacilityReadyForInfoAlert: false,
+            userFacilityMigratingToOh: true,
+            migrationSchedules: [migrationSchedule],
+          },
+        },
+      },
+    },
+  };
+};
 
 /**
  * E2E Test: Contact List Migration Alert (Issue #132291)
@@ -19,15 +82,20 @@ import mockUser from './fixtures/userResponse/user.json';
  */
 
 describe('SM Contact List Migration Alert', () => {
-  const ALERT_TESTID = 'contact-list-migration-alert';
+  const ALERT_TESTID = Locators.ALERTS.CONTACT_LIST_MIGRATION;
+  const {
+    HEADLINE: ALERT_HEADLINE,
+    BODY: ALERT_BODY,
+  } = Alerts.CONTACT_LIST_MIGRATION.POST_MIGRATION;
 
   describe('POST_MIGRATION variant (phase p6)', () => {
-    const ALERT_HEADLINE = 'We updated your contact list';
-    const ALERT_BODY =
-      'We removed care teams from these facilities from your contact list:';
-
     beforeEach(() => {
-      SecureMessagingSite.login(undefined, undefined, true, mockUserP6);
+      SecureMessagingSite.login(
+        undefined,
+        undefined,
+        true,
+        createMigratingUser(),
+      );
       ContactListPage.loadContactList();
     });
 

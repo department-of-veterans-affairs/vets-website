@@ -27,6 +27,7 @@ describe('ContactListMigrationAlert component', () => {
   };
 
   const defaultProps = {
+    userFacilityMigratingToOh: true,
     migrationSchedules: [baseMigrationSchedule],
   };
 
@@ -97,12 +98,38 @@ describe('ContactListMigrationAlert component', () => {
   });
 
   describe('alert visibility conditions', () => {
-    it('does not render when facility is in phase p7', async () => {
+    it('renders the alert when facility is in phase p7', async () => {
       const scheduleP7 = {
         ...baseMigrationSchedule,
         phases: { ...baseMigrationSchedule.phases, current: 'p7' },
       };
       const screen = setup({ migrationSchedules: [scheduleP7] });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('contact-list-migration-alert')).to.exist;
+        expect(screen.getByText('We updated your contact list')).to.exist;
+      });
+    });
+
+    it('renders the alert when facility is in phase p8', async () => {
+      const scheduleP8 = {
+        ...baseMigrationSchedule,
+        phases: { ...baseMigrationSchedule.phases, current: 'p8' },
+      };
+      const screen = setup({ migrationSchedules: [scheduleP8] });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('contact-list-migration-alert')).to.exist;
+        expect(screen.getByText('We updated your contact list')).to.exist;
+      });
+    });
+
+    it('does not render when facility is in phase p9', async () => {
+      const scheduleP9 = {
+        ...baseMigrationSchedule,
+        phases: { ...baseMigrationSchedule.phases, current: 'p9' },
+      };
+      const screen = setup({ migrationSchedules: [scheduleP9] });
 
       expect(screen.queryByTestId('contact-list-migration-alert')).to.not.exist;
     });
@@ -119,7 +146,13 @@ describe('ContactListMigrationAlert component', () => {
       expect(screen.queryByTestId('contact-list-migration-alert')).to.not.exist;
     });
 
-    it('renders only matching-phase facilities when multiple schedules have mixed phases', async () => {
+    it('does not render when userFacilityMigratingToOh is false', async () => {
+      const screen = setup({ userFacilityMigratingToOh: false });
+
+      expect(screen.queryByTestId('contact-list-migration-alert')).to.not.exist;
+    });
+
+    it('renders facilities from all matching-phase schedules when multiple schedules have mixed phases', async () => {
       const scheduleP7 = {
         ...baseMigrationSchedule,
         facilities: [
@@ -134,15 +167,26 @@ describe('ContactListMigrationAlert component', () => {
         ],
         phases: { ...baseMigrationSchedule.phases, current: 'p6' },
       };
+      const scheduleP9 = {
+        ...baseMigrationSchedule,
+        facilities: [
+          {
+            facilityId: '612',
+            facilityName: 'VA Northern Indiana Healthcare System',
+          },
+        ],
+        phases: { ...baseMigrationSchedule.phases, current: 'p9' },
+      };
       const screen = setup({
-        migrationSchedules: [scheduleP7, scheduleP6],
+        migrationSchedules: [scheduleP7, scheduleP6, scheduleP9],
       });
 
       await waitFor(() => {
         expect(screen.getByTestId('contact-list-migration-alert')).to.exist;
         expect(screen.getByText('VA Detroit Healthcare System')).to.exist;
-        expect(screen.queryByText('VA Ann Arbor Healthcare System')).to.not
-          .exist;
+        expect(screen.getByText('VA Ann Arbor Healthcare System')).to.exist;
+        expect(screen.queryByText('VA Northern Indiana Healthcare System')).to
+          .not.exist;
       });
     });
   });

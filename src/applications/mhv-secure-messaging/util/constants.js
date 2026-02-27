@@ -543,7 +543,7 @@ export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
  */
 export const ContactListMigrationAlertContent = {
   POST_MIGRATION: {
-    phases: ['p6'],
+    phases: ['p6', 'p7', 'p8'],
     headline: 'We updated your contact list',
     bodyTop:
       'We removed care teams from these facilities from your contact list:',
