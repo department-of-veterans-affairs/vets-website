@@ -1,7 +1,9 @@
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import api from '../utilities/api';
 import ClaimantDetailRow from '../components/ClaimantDetailRow';
+import ClaimantDetailsWrapper from '../components/ClaimantDetailsWrapper';
 
 const formatAddress = address => {
   if (!address) return '—';
@@ -139,147 +141,179 @@ const showExpiryWarning = expirationDate => {
   return d != null && d >= 0 && d <= 60;
 };
 
+const claimantOverviewBreadcrumbs = [
+  {
+    href: '/representative',
+    label: 'ARP Home',
+  },
+  {
+    href: '/representative/find-claimant',
+    label: 'Find claimant',
+  },
+  {
+    href: window.location.href,
+    label: 'Submission history',
+  },
+];
+
 const ClaimantOverviewPage = () => {
   const { authorized = true, claimant = null } = useLoaderData() || {};
   const unauthorized = authorized === false;
 
   return (
     <div>
-      <h2 className="vads-u-margin-top--0">Claimant overview</h2>
+      <VaBreadcrumbs
+        breadcrumbList={claimantOverviewBreadcrumbs}
+        label="claimant overview breadcrumb"
+        homeVeteransAffairs={false}
+      />
 
-      {unauthorized && (
-        <div className="vads-u-margin-y--2">
-          <va-alert status="warning">
-            <h3 slot="headline">You’re not authorized to view this claimant</h3>
-            <p>
-              You may not have access to this claimant yet, or your current
-              account isn’t set up with the required permissions.
-            </p>
-          </va-alert>
-        </div>
-      )}
+      <ClaimantDetailsWrapper
+        firstName={claimant?.firstName}
+        lastName={claimant?.lastName}
+      >
+        <h2 className="vads-u-margin-top--0">Claimant overview</h2>
 
-      <section className="vads-u-margin-top--3">
-        <h3 className="vads-u-margin-bottom--2">Claimant information</h3>
+        {unauthorized && (
+          <div className="vads-u-margin-y--2">
+            <va-alert status="warning">
+              <h3 slot="headline">
+                You’re not authorized to view this claimant
+              </h3>
+              <p>
+                You may not have access to this claimant yet, or your current
+                account isn’t set up with the required permissions.
+              </p>
+            </va-alert>
+          </div>
+        )}
 
-        <div className="vads-u-padding-left--3">
-          <dl className="vads-u-margin--0">
-            <ClaimantDetailRow
-              label="Social Security number"
-              value={
-                claimant?.veteranSsn
-                  ? `***-**-${String(claimant.veteranSsn).slice(-4)}`
-                  : '—'
-              }
-            />
-            <ClaimantDetailRow
-              label="Date of birth"
-              value={formatItfDate(claimant?.dateOfBirth)}
-            />
-            <ClaimantDetailRow
-              label="Address"
-              value={formatAddress(claimant?.address)}
-            />
-            <ClaimantDetailRow label="Phone" value={claimant?.phone || '—'} />
-            <ClaimantDetailRow
-              label="Email"
-              value={
-                claimant?.email ? (
-                  <a href={`mailto:${claimant.email}`}>{claimant.email}</a>
-                ) : (
-                  '—'
-                )
-              }
-            />
-          </dl>
-        </div>
-      </section>
+        <section className="vads-u-margin-top--3">
+          <h3 className="vads-u-margin-bottom--2">Claimant information</h3>
 
-      <section className="vads-u-margin-top--4">
-        <h3 className="vads-u-margin-bottom--2">Representative information</h3>
-
-        <div className="vads-u-padding-left--3">
-          <dl className="vads-u-margin--0">
-            <ClaimantDetailRow
-              label="Representative"
-              value={claimant?.representativeInfo?.representative || '—'}
-            />
-            <ClaimantDetailRow
-              label="VBMS eFolder access"
-              value={claimant?.representativeInfo?.vbmsEfolderAccess || '—'}
-            />
-            <ClaimantDetailRow
-              label="Change of address authorization"
-              value={
-                claimant?.representativeInfo?.changeOfAddressAuthorization ||
-                '—'
-              }
-            />
-            <ClaimantDetailRow
-              label="Type of representation"
-              value={claimant?.representativeInfo?.typeOfRepresentation || '—'}
-            />
-          </dl>
-        </div>
-      </section>
-
-      <p className="vads-u-margin-top--3 vads-u-margin-bottom--1 vads-u-color--gray-medium vads-u-font-size--sm">
-        The portal doesn’t check for limited representation
-      </p>
-
-      <section className="vads-u-margin-top--4">
-        <h3 className="vads-u-margin-bottom--2">Intent to file status</h3>
-
-        <div className="vads-u-padding-left--3">
-          {claimant?.intentToFile?.length ? (
-            claimant.intentToFile.map(itf => (
-              <div
-                key={`${itf.benefitType}-${itf.itfDate ||
-                  'no-date'}-${itf.expirationDate || 'no-exp'}`}
-                className="vads-u-margin-top--3"
-              >
-                <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-                  {ITF_SECTION_TITLES[itf.benefitType] || itf.benefitType}
-                </h4>
-
-                <div className="vads-u-padding-left--3">
-                  <dl className="vads-u-margin--0">
-                    <ClaimantDetailRow
-                      label="Benefit"
-                      value={itf.benefit || '—'}
-                    />
-                    <ClaimantDetailRow
-                      label="ITF date"
-                      value={
-                        <>
-                          {showExpiryWarning(itf.expirationDate) && (
-                            <va-icon
-                              icon="warning"
-                              size="3"
-                              className="vads-u-margin-right--1 vads-u-vertical-align--middle"
-                            />
-                          )}
-                          {formatItfDate(itf.itfDate)}{' '}
-                          {itf.expirationDate && (
-                            <span className="vads-u-color--gray-medium">
-                              {formatExpiresText(itf.expirationDate)}
-                            </span>
-                          )}
-                        </>
-                      }
-                    />
-                  </dl>
-                </div>
-              </div>
-            ))
-          ) : (
+          <div className="vads-u-padding-left--3">
             <dl className="vads-u-margin--0">
-              <ClaimantDetailRow label="Benefit" value="—" />
-              <ClaimantDetailRow label="ITF date" value="—" />
+              <ClaimantDetailRow
+                label="Social Security number"
+                value={
+                  claimant?.veteranSsn
+                    ? `***-**-${String(claimant.veteranSsn).slice(-4)}`
+                    : '—'
+                }
+              />
+              <ClaimantDetailRow
+                label="Date of birth"
+                value={formatItfDate(claimant?.dateOfBirth)}
+              />
+              <ClaimantDetailRow
+                label="Address"
+                value={formatAddress(claimant?.address)}
+              />
+              <ClaimantDetailRow label="Phone" value={claimant?.phone || '—'} />
+              <ClaimantDetailRow
+                label="Email"
+                value={
+                  claimant?.email ? (
+                    <a href={`mailto:${claimant.email}`}>{claimant.email}</a>
+                  ) : (
+                    '—'
+                  )
+                }
+              />
             </dl>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+
+        <section className="vads-u-margin-top--4">
+          <h3 className="vads-u-margin-bottom--2">
+            Representative information
+          </h3>
+
+          <div className="vads-u-padding-left--3">
+            <dl className="vads-u-margin--0">
+              <ClaimantDetailRow
+                label="Representative"
+                value={claimant?.representativeInfo?.representative || '—'}
+              />
+              <ClaimantDetailRow
+                label="VBMS eFolder access"
+                value={claimant?.representativeInfo?.vbmsEfolderAccess || '—'}
+              />
+              <ClaimantDetailRow
+                label="Change of address authorization"
+                value={
+                  claimant?.representativeInfo?.changeOfAddressAuthorization ||
+                  '—'
+                }
+              />
+              <ClaimantDetailRow
+                label="Type of representation"
+                value={
+                  claimant?.representativeInfo?.typeOfRepresentation || '—'
+                }
+              />
+            </dl>
+          </div>
+        </section>
+
+        <p className="vads-u-margin-top--3 vads-u-margin-bottom--1 vads-u-color--gray-medium vads-u-font-size--sm">
+          The portal doesn’t check for limited representation
+        </p>
+
+        <section className="vads-u-margin-top--4">
+          <h3 className="vads-u-margin-bottom--2">Intent to file status</h3>
+
+          <div className="vads-u-padding-left--3">
+            {claimant?.intentToFile?.length ? (
+              claimant.intentToFile.map(itf => (
+                <div
+                  key={`${itf.benefitType}-${itf.itfDate ||
+                    'no-date'}-${itf.expirationDate || 'no-exp'}`}
+                  className="vads-u-margin-top--3"
+                >
+                  <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+                    {ITF_SECTION_TITLES[itf.benefitType] || itf.benefitType}
+                  </h4>
+
+                  <div className="vads-u-padding-left--3">
+                    <dl className="vads-u-margin--0">
+                      <ClaimantDetailRow
+                        label="Benefit"
+                        value={itf.benefit || '—'}
+                      />
+                      <ClaimantDetailRow
+                        label="ITF date"
+                        value={
+                          <>
+                            {showExpiryWarning(itf.expirationDate) && (
+                              <va-icon
+                                icon="warning"
+                                size="3"
+                                className="vads-u-margin-right--1 vads-u-vertical-align--middle"
+                              />
+                            )}
+                            {formatItfDate(itf.itfDate)}{' '}
+                            {itf.expirationDate && (
+                              <span className="vads-u-color--gray-medium">
+                                {formatExpiresText(itf.expirationDate)}
+                              </span>
+                            )}
+                          </>
+                        }
+                      />
+                    </dl>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <dl className="vads-u-margin--0">
+                <ClaimantDetailRow label="Benefit" value="—" />
+                <ClaimantDetailRow label="ITF date" value="—" />
+              </dl>
+            )}
+          </div>
+        </section>
+      </ClaimantDetailsWrapper>
     </div>
   );
 };
