@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
@@ -31,6 +37,14 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const [tempFilterValues, setTempFilterValues] = useState(['recommended']);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
+  const searchFilterRef = useRef(null);
+
+  /**
+   * Value corresponds with the --tablet breakpoint size.
+   * https://design.va.gov/foundation/breakpoints
+   */
+  const TABLET_BREAKPOINT = 640;
+  const isMobile = window.innerWidth < TABLET_BREAKPOINT;
 
   const query = useMemo(
     () => {
@@ -307,6 +321,23 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     [resultsData, location.pathname, location.basename, applyInitialSort],
   );
 
+  const closeAccordionButton = () => {
+    if (!isMobile) {
+      return null;
+    }
+    const timer = setTimeout(() => {
+      const searchFilter = document.querySelector('va-search-filter');
+      const items = searchFilter?.shadowRoot?.querySelectorAll(
+        'va-accordion-item',
+      );
+      items?.forEach(item => {
+        item.setAttribute('open', false);
+      });
+    }, 500);
+
+    return () => clearTimeout(timer);
+  };
+
   const handleResults = useCallback(
     () => {
       if (isAllBenefits()) return;
@@ -413,6 +444,10 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     [filterValues, sortValue, filterAndSortBenefits],
   );
 
+  useEffect(() => {
+    closeAccordionButton();
+  }, []);
+
   return (
     <div>
       <article className="description-article vads-u-padding--0 vads-u-margin--0">
@@ -441,7 +476,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
         className="vads-u-margin-top--4 medium-screen:vads-u-margin-top--6 "
       >
         <div className="vads-l-row vads-u-margin-y--2">
-          <div id="filters-section-desktop">
+          <div id="filters-section-desktop" ref={searchFilterRef}>
             <VaSearchFilter
               filterOptions={filterOptions}
               header="Filters"
