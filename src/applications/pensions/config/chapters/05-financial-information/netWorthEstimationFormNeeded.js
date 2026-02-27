@@ -7,7 +7,7 @@ export default {
   path: 'financial/net-worth-estimation/additional-form-needed',
   initialData: {},
   depends: formData =>
-    formData.totalNetWorth === false && !hideIfUnderThreshold(formData),
+    formData.totalNetWorth || !hideIfUnderThreshold(formData),
   uiSchema: {
     ...titleUI(
       'Additional form needed',

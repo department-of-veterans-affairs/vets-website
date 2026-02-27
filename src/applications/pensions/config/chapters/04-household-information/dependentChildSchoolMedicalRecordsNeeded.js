@@ -2,7 +2,6 @@ import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { showMultiplePageResponse } from '../../../helpers';
 import { getDependentChildTitle, dependentIsDisabled } from './helpers';
-import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
 export default {
   title: item => getDependentChildTitle(item, 'medical records needed'),
@@ -16,7 +15,7 @@ export default {
     dependents: {
       items: {
         ...titleUI(
-          createHouseholdMemberTitle('fullName', 'medical records needed'),
+          'Medical records needed',
           <>
             <p>
               You’ll need to submit medical records that show the child became
