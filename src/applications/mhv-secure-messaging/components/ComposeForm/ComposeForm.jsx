@@ -1123,34 +1123,34 @@ const ComposeForm = props => {
           <EditSignatureLink />
 
           {recipientsList &&
-            !noAssociations &&
-            !allTriageGroupsBlocked && (
-              <section className="attachments-section">
-                <AttachmentsList
-                  compose
-                  attachments={attachments}
-                  setAttachments={setAttachments}
-                  attachFileSuccess={attachFileSuccess}
-                  setAttachFileSuccess={setAttachFileSuccess}
-                  setNavigationError={setNavigationError}
-                  editingEnabled
-                  attachmentScanError={attachmentScanError}
-                  attachFileError={attachFileError}
-                  setAttachFileError={setAttachFileError}
-                  isOhTriageGroup={draftInProgress?.ohTriageGroup}
-                />
+            (!noAssociations &&
+              !allTriageGroupsBlocked && (
+                <section className="attachments-section">
+                  <AttachmentsList
+                    compose
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    attachFileSuccess={attachFileSuccess}
+                    setAttachFileSuccess={setAttachFileSuccess}
+                    setNavigationError={setNavigationError}
+                    editingEnabled
+                    attachmentScanError={attachmentScanError}
+                    attachFileError={attachFileError}
+                    setAttachFileError={setAttachFileError}
+                    isOhTriageGroup={draftInProgress?.ohTriageGroup}
+                  />
 
-                <FileInput
-                  attachments={attachments}
-                  setAttachments={setAttachments}
-                  setAttachFileSuccess={setAttachFileSuccess}
-                  attachmentScanError={attachmentScanError}
-                  attachFileError={attachFileError}
-                  setAttachFileError={setAttachFileError}
-                  isOhTriageGroup={draftInProgress?.ohTriageGroup}
-                />
-              </section>
-            )}
+                  <FileInput
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    setAttachFileSuccess={setAttachFileSuccess}
+                    attachmentScanError={attachmentScanError}
+                    attachFileError={attachFileError}
+                    setAttachFileError={setAttachFileError}
+                    isOhTriageGroup={draftInProgress?.ohTriageGroup}
+                  />
+                </section>
+              ))}
           {isSignatureRequired && (
             <ElectronicSignature
               nameError={signatureError}
