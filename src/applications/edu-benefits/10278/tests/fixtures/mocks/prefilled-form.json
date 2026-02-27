@@ -7,7 +7,16 @@
     },
     "dateOfBirth": "1985-01-01",
     "ssn": "987654321",
-    "vaFileNumber": "987654321"
+    "vaFileNumber": "987654321",
+    "claimInformation": {
+      "statusOfClaim": true,
+      "currentBenefit": false,
+      "paymentHistory": false,
+      "amountOwed": false,
+      "minor": false,
+      "other": false,
+      "otherText": "other"
+    }
   },
   "metadata": {
     "version": 0,
