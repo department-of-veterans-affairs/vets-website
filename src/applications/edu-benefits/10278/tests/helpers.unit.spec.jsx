@@ -19,7 +19,10 @@ describe('10278 helpers - validateTerminationDate', () => {
 
   // Pin "today" to a known date so relative date math is deterministic.
   beforeEach(() => {
-    clock = sinon.useFakeTimers(new Date('2026-02-18T12:00:00Z').getTime());
+    clock = sinon.useFakeTimers({
+      now: new Date('2026-02-18T12:00:00Z').getTime(),
+      toFake: ['Date'],
+    });
   });
 
   afterEach(() => {
