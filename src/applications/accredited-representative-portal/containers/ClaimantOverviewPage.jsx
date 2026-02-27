@@ -4,6 +4,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import api from '../utilities/api';
 import ClaimantDetailRow from '../components/ClaimantDetailRow';
 import ClaimantDetailsWrapper from '../components/ClaimantDetailsWrapper';
+import { claimantOverviewBC } from '../utilities/poaRequests';
 
 const formatAddress = address => {
   if (!address) return '—';
@@ -141,21 +142,6 @@ const showExpiryWarning = expirationDate => {
   return d != null && d >= 0 && d <= 60;
 };
 
-const claimantOverviewBreadcrumbs = [
-  {
-    href: '/representative',
-    label: 'ARP Home',
-  },
-  {
-    href: '/representative/find-claimant',
-    label: 'Find claimant',
-  },
-  {
-    href: window.location.href,
-    label: 'Submission history',
-  },
-];
-
 const ClaimantOverviewPage = () => {
   const { authorized = true, claimant = null } = useLoaderData() || {};
   const unauthorized = authorized === false;
@@ -163,7 +149,7 @@ const ClaimantOverviewPage = () => {
   return (
     <div>
       <VaBreadcrumbs
-        breadcrumbList={claimantOverviewBreadcrumbs}
+        breadcrumbList={claimantOverviewBC}
         label="claimant overview breadcrumb"
         homeVeteransAffairs={false}
       />

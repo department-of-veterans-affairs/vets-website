@@ -170,6 +170,36 @@ export const dashboardBC = [
   },
 ];
 
+export const claimantOverviewBC = [
+  {
+    href: '/representative',
+    label: 'ARP Home',
+  },
+  {
+    href: '/representative/find-claimant',
+    label: 'Find claimant',
+  },
+  {
+    href: window.location.href,
+    label: 'Submission history',
+  },
+];
+
+export const submissionHistoryBC = [
+  {
+    href: '/representative',
+    label: 'ARP Home',
+  },
+  {
+    href: '/representative/find-claimant',
+    label: 'Find claimant',
+  },
+  {
+    href: window.location.href,
+    label: 'Submission history',
+  },
+];
+
 export const checkReason = poaRequest => {
   const declinationReason = poaRequest?.resolution?.declinationReason;
   switch (declinationReason) {
