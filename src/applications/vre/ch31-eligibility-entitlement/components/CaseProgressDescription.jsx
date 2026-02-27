@@ -6,7 +6,12 @@ import { useSelector } from 'react-redux';
 import HubCardList from './HubCardList';
 import SelectPreferenceView from './SelectPreferenceView';
 
-const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
+const CaseProgressDescription = ({
+  step,
+  showHubCards = false,
+  status,
+  attributes = {},
+}) => {
   const navigate = useNavigate();
 
   const ch31CaseMilestonesState = useSelector(
@@ -137,7 +142,11 @@ const CaseProgressDescription = ({ step, showHubCards = false, status }) => {
     }
 
     case 4: {
-      if (status === 'PENDING') {
+      if (
+        status === 'PENDING' ||
+        !attributes?.orientationAppointmentDetails?.appointmentDateTime ||
+        !attributes?.orientationAppointmentDetails?.appointmentPlace
+      ) {
         return (
           <p>
             We’ve received and processed your application for Chapter 31
@@ -205,6 +214,7 @@ CaseProgressDescription.propTypes = {
   step: PropTypes.number.isRequired,
   showHubCards: PropTypes.bool,
   status: PropTypes.string,
+  attributes: PropTypes.object,
 };
 
 export default CaseProgressDescription;

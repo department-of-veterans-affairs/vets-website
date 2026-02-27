@@ -111,7 +111,7 @@ describe('CaseProgressDescription', () => {
 
   // ...existing code...
 
-  it('renders step 4 pending instructions', () => {
+  it('renders step 4 pending instructions when status is PENDING', () => {
     const { getByText } = renderWithProviders(
       <CaseProgressDescription step={4} status="PENDING" />,
     );
@@ -128,9 +128,44 @@ describe('CaseProgressDescription', () => {
     );
   });
 
-  it('renders step 4 scheduled instructions', () => {
+  it('renders step 4 pending instructions when appointmentDateTime or appointmentPlace is missing', () => {
     const { getByText } = renderWithProviders(
-      <CaseProgressDescription step={4} status="ACTIVE" />,
+      <CaseProgressDescription
+        step={4}
+        status="ACTIVE"
+        attributes={{
+          orientationAppointmentDetails: {
+            appointmentDateTime: null,
+            appointmentPlace: null,
+          },
+        }}
+      />,
+    );
+
+    getByText(
+      /We've received and processed your application for Chapter 31 benefits/i,
+    );
+    getByText(/Check your email to schedule your meeting with your counselor/i);
+    getByText(
+      /After scheduling, you'll get a confirmation email and an appointment notification letter/i,
+    );
+    getByText(
+      /To get ready for your Initial Evaluation Counselor Meeting, visit the "Career Planning" page linked below/i,
+    );
+  });
+
+  it('renders step 4 scheduled instructions when appointmentDateTime and appointmentPlace exist', () => {
+    const { getByText } = renderWithProviders(
+      <CaseProgressDescription
+        step={4}
+        status="ACTIVE"
+        attributes={{
+          orientationAppointmentDetails: {
+            appointmentDateTime: '2026-02-27T10:00:00Z',
+            appointmentPlace: 'VA Office',
+          },
+        }}
+      />,
     );
 
     getByText(/Your Initial Evaluation Appointment has been scheduled/i);
