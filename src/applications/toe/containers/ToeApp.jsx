@@ -122,13 +122,13 @@ function ToeApp({
         setFormData(mapFormSponsors(formDataRef.current, sponsorsInitial));
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       user?.login?.currentlyLoggedIn,
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
       setFormData,
+      formDataRef,
     ],
   );
 
