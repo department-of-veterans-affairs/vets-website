@@ -5,7 +5,7 @@ import ContactListMigrationAlert from '../../../components/shared/ContactListMig
 
 describe('ContactListMigrationAlert component', () => {
   const baseMigrationSchedule = {
-    migrationDate: 'February 15, 2026',
+    migrationDate: 'February 13, 2026',
     facilities: [
       { facilityId: '553', facilityName: 'VA Detroit Healthcare System' },
       { facilityId: '655', facilityName: 'VA Saginaw Healthcare System' },
@@ -13,16 +13,16 @@ describe('ContactListMigrationAlert component', () => {
     migrationStatus: 'ACTIVE',
     phases: {
       current: 'p6',
-      p0: 'December 15, 2025',
-      p1: 'December 30, 2025',
-      p2: 'January 14, 2026',
-      p3: 'February 7, 2026',
-      p4: 'February 10, 2026',
-      p5: 'February 13, 2026',
-      p6: 'February 15, 2026',
-      p7: 'March 15, 2026',
-      p8: 'March 30, 2026',
-      p9: 'April 15, 2026',
+      p0: 'December 15, 2025 at 12:00AM ET',
+      p1: 'December 30, 2025 at 12:00AM ET',
+      p2: 'January 14, 2026 at 12:00AM ET',
+      p3: 'February 7, 2026 at 12:00AM ET',
+      p4: 'February 10, 2026 at 12:00AM ET',
+      p5: 'February 13, 2026 at 12:00AM ET',
+      p6: 'February 15, 2026 at 12:00AM ET',
+      p7: 'February 20, 2026 at 12:00AM ET',
+      p8: 'March 15, 2026 at 12:00AM ET',
+      p9: 'March 30, 2026 at 12:00AM ET',
     },
   };
 
