@@ -27,7 +27,7 @@ describe('SearchResultsHeader', () => {
         .find('h2')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
-    ).to.match(/No results found for.*within (\d{1,}) miles of.*11111.*/i);
+    ).to.match(/No results found for.*near.*11111.*/i);
 
     wrapper.unmount();
   });
