@@ -15,13 +15,9 @@ import {
   findClaimantBC,
   requestsContainStatus,
 } from '../utilities/poaRequests';
-import { addStyleToShadowDomOnPages } from '../utilities/helpers';
+import { addStyleToShadowDomOnPages, lastFour } from '../utilities/helpers';
 import POARequestCard from '../components/POARequestCard';
 import ClaimantSearchNoPOA from '../components/ClaimantSearchNoPOA';
-
-const lastFour = ssn => {
-  return ssn?.substring(5);
-};
 
 const poaFormLink = () => {
   return (
