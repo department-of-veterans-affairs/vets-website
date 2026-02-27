@@ -13,11 +13,15 @@ let _multiPartyEnabled = false;
 
 /**
  * Sets the multi-party feature toggle state.
- * Called from App.jsx after the toggle value is resolved.
+ * Called from App.jsx during render so form.js `depends` reads the current
+ * value in the same render pass.
+ * No-op when the value is unchanged.
  * @param {boolean} value - Whether the multi-party flow is enabled
  */
 export function setMultiPartyEnabled(value) {
-  _multiPartyEnabled = Boolean(value);
+  const nextValue = Boolean(value);
+  if (_multiPartyEnabled === nextValue) return;
+  _multiPartyEnabled = nextValue;
 }
 
 /**
