@@ -12,6 +12,21 @@ export const defaultFocusSelector =
   'va-segmented-progress-bar>>shadow>>h2, .nav-header > h2';
 
 /**
+ * Parse a shadow delimiter selector and return the host element and internal selector
+ * @param {String} selector - Selector potentially containing >>shadow>> delimiter
+ * @param {Element} root - Root element for querySelector
+ * @returns {Object|null} Object with { host, internalSelector } or null if not a shadow selector or host not found
+ */
+function parseShadowSelector(selector, root) {
+  if (!selector.includes(SHADOW_DELIMITER)) {
+    return null;
+  }
+  const [hostSelector, internalSelector] = selector.split(SHADOW_DELIMITER);
+  const host = (root || document).querySelector(hostSelector.trim());
+  return host ? { host, internalSelector: internalSelector.trim() } : null;
+}
+
+/**
  * @typedef FocusOptions
  * @description https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#parameters
  * @type {Object}
@@ -22,6 +37,7 @@ export const defaultFocusSelector =
 /**
  * Focus on element
  * @param {String|Element} selectorOrElement - CSS selector or attached DOM element.
+ *  Supports shadow DOM selectors using >>shadow>> delimiter (e.g., 'va-button>>shadow>>button').
  * @param {FocusOptions} [options]
  * @param {Element} [root] - root element for querySelector; would allow focusing
  *  on elements inside of shadow dom
@@ -54,16 +70,36 @@ export function focusElement(selectorOrElement, options = {}, root) {
     }
   }
 
+  // Handle shadow DOM selectors with >>shadow>> delimiter
+  if (typeof selectorOrElement === 'string') {
+    const shadowInfo = parseShadowSelector(selectorOrElement, root);
+    if (shadowInfo) {
+      const { host } = shadowInfo;
+      // Wait for the web component host to be ready before querying shadow DOM
+      querySelectorWithShadowRoot(host, root).then(readyHost => {
+        if (readyHost?.shadowRoot) {
+          const shadowEl = readyHost.shadowRoot.querySelector(
+            shadowInfo.internalSelector,
+          );
+          if (shadowEl) {
+            applyFocus(shadowEl);
+          }
+        }
+      });
+      return;
+    }
+  }
+
   if (isWebComponent(root) || isWebComponent(selectorOrElement, root)) {
     querySelectorWithShadowRoot(selectorOrElement, root).then(
-      elWithShadowRoot => applyFocus(elWithShadowRoot), // async code
+      elWithShadowRoot => applyFocus(elWithShadowRoot),
     );
   } else {
     const el =
       typeof selectorOrElement === 'string'
         ? (root || document).querySelector(selectorOrElement)
         : selectorOrElement;
-    applyFocus(el); // synchronous code
+    applyFocus(el);
   }
 }
 
@@ -92,37 +128,17 @@ export function focusByOrder(selectors, root) {
         return false;
       }
 
-      // Handle selectors in the shadow root
-      if (trimmedSelector.includes(SHADOW_DELIMITER)) {
-        const [hostSelector, internalSelector] = trimmedSelector.split(
-          SHADOW_DELIMITER,
-        );
-        const host = (root || document).querySelector(hostSelector.trim());
-        if (host && host.shadowRoot) {
-          const shadowEl = host.shadowRoot.querySelector(
-            internalSelector.trim(),
-          );
-          if (shadowEl) {
-            focusElement(shadowEl);
-            return true;
-          }
-          setTimeout(() => {
-            if (document.activeElement === document.body) {
-              const el = host.shadowRoot.querySelector(internalSelector.trim());
-              if (el) {
-                focusElement(el);
-              }
-            }
-          }, 200);
-          return true;
-        }
-        return false;
+      // Check if element exists, then let focusElement handle all parsing
+      const shadowInfo = parseShadowSelector(trimmedSelector, root);
+      if (shadowInfo) {
+        focusElement(trimmedSelector, {}, root);
+        return true;
       }
 
-      // Handle regular selectors
+      // Check if regular element exists before focusing
       const el = (root || document).querySelector(trimmedSelector);
       if (el) {
-        focusElement(el, {}, root);
+        focusElement(trimmedSelector, {}, root);
         return true;
       }
       return false;
