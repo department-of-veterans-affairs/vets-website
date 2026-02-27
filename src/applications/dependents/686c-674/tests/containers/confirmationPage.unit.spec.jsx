@@ -143,7 +143,7 @@ describe('Dependents Form (686c-674) confirmation page', () => {
     expect(container.textContent).not.to.include(
       'You can open, download, or print a copy of your submitted form now.',
     );
-    expect($('va-link-action[class="form-renderer"]', container)).not.to.exist;
+    expect($('va-link[class="form-renderer"]', container)).not.to.exist;
     expect($(`va-link[href="/my-va/submissions/"]`, container)).not.to.exist;
     expect(container.textContent).to.include('Your submission information');
     expect(container.textContent).to.include('Your name');
@@ -165,7 +165,7 @@ describe('Dependents Form (686c-674) confirmation page', () => {
     expect(container.textContent).not.to.include(
       'You can open, download, or print a copy of your submitted form now.',
     );
-    expect($('va-link-action[class="form-renderer"]', container)).not.to.exist;
+    expect($('va-link[class="form-renderer"]', container)).not.to.exist;
     expect($(`va-link[href="/my-va/submissions/"]`, container)).not.to.exist;
     expect(container.textContent).to.include('Your submission information');
     expect(container.textContent).to.include('Your name');
