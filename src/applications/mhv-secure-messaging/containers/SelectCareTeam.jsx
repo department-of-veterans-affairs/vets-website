@@ -55,6 +55,7 @@ const SelectCareTeam = () => {
   } = useSelector(state => state.sm.recipients);
   const { isAalEnabled } = useFeatureToggles();
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
+  const userProfile = useSelector(state => state.user.profile);
   const { draftInProgress, acceptInterstitial } = useSelector(
     state => state.sm.threadDetails,
   );
@@ -200,7 +201,6 @@ const SelectCareTeam = () => {
       draftInProgress?.body,
       draftInProgress?.subject,
       draftInProgress?.category,
-      draftInProgress?.careSystemVhaId,
       ehrDataByVhaId,
     ],
   );
@@ -536,6 +536,20 @@ const SelectCareTeam = () => {
     return null;
   };
 
+  // Check if user has a facility in Oracle Health migration error phase (T-6 to T+2)
+  const isInMigrationErrorPhase = useMemo(
+    () => {
+      const errorPhases = ['p3', 'p4', 'p5'];
+      return (
+        userProfile?.userFacilityMigratingToOh &&
+        userProfile?.migrationSchedules?.some(schedule =>
+          errorPhases.includes(schedule.phases?.current),
+        )
+      );
+    },
+    [userProfile],
+  );
+
   if (allTriageGroupsBlocked) {
     return (
       <div className="choose-va-health-care-system">
@@ -558,14 +572,19 @@ const SelectCareTeam = () => {
     !blockedFacilities?.length &&
     !allTriageGroupsBlocked;
 
+  // Suppress BlockedTriageGroupAlert during migration error phase
   const showBlockedAlert =
-    showSingleFacilityBlockedAlert || showIndividualTeamsBlockedAlert;
+    !isInMigrationErrorPhase &&
+    (showSingleFacilityBlockedAlert || showIndividualTeamsBlockedAlert);
 
   return (
     <div className="choose-va-health-care-system">
       <h1 className="vads-u-margin-bottom--2" tabIndex="-1" ref={h1Ref}>
         Select care team
       </h1>
+      <div className="vads-u-margin-bottom--2">
+        <EmergencyNote dropDownFlag />
+      </div>
       <CernerFacilityAlert
         healthTool="SECURE_MESSAGING"
         className="vads-u-margin-bottom--3 vads-u-margin-top--2"
@@ -575,9 +594,9 @@ const SelectCareTeam = () => {
         <BlockedTriageGroupAlert
           alertStyle={BlockedTriageAlertStyles.INFO}
           parentComponent={ParentComponent.FOLDER_HEADER}
+          className="vads-u-margin-bottom--3 vads-u-margin-top--2"
         />
       )}
-      <EmergencyNote dropDownFlag />
       <RouteLeavingGuard
         saveDraftHandler={saveDraftHandler}
         type="compose"

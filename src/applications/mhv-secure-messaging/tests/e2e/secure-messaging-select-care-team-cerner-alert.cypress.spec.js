@@ -7,106 +7,10 @@ import mockFacilities from './fixtures/facilityResponse/facilities-no-cerner.jso
 import mockVamcEhr from './fixtures/vamc-ehr.json';
 import mockUser from './fixtures/userResponse/user-cerner-mixed-pretransitioned.json';
 import { AXE_CONTEXT, Paths } from './utils/constants';
-
-// Custom recipients mock with transitioning (979) and non-transitioning (442) facilities
-const customRecipients = {
-  data: [
-    {
-      id: '1',
-      type: 'all_triage_teams',
-      attributes: {
-        triageTeamId: 1,
-        name: 'Test Care Team 979',
-        stationNumber: '979',
-        blockedStatus: false,
-        relationType: 'PATIENT',
-        preferredTeam: true,
-        ohTriageGroup: false,
-        migratingToOh: true,
-      },
-    },
-    {
-      id: '2',
-      type: 'all_triage_teams',
-      attributes: {
-        triageTeamId: 2,
-        name: 'Test Care Team 442',
-        stationNumber: '442',
-        blockedStatus: false,
-        relationType: 'PATIENT',
-        preferredTeam: false,
-        ohTriageGroup: false,
-      },
-    },
-  ],
-  meta: {
-    associatedTriageGroups: 2,
-    associatedBlockedTriageGroups: 0,
-  },
-};
-
-// Helper function to create user with specific migration info
-const createUserWithMigrationInfo = (ohMigrationInfo, facilities = null) => {
-  // Get existing facilities from mock user
-  const existingFacilities =
-    mockUser.data.attributes.vaProfile?.facilities || [];
-
-  // Ensure facility 979 exists and update it if needed
-  let updatedFacilities = [...existingFacilities];
-  const facility979Index = updatedFacilities.findIndex(
-    f => f.facilityId === '979',
-  );
-
-  // For pretransitioned facilities, isCerner should be true
-  // For migrating facilities, isCerner should be false
-  const isCernerFacility =
-    ohMigrationInfo.userAtPretransitionedOhFacility === true;
-
-  if (facility979Index === -1) {
-    // Add facility 979 if it doesn't exist
-    updatedFacilities.push({
-      facilityId: '979',
-      isCerner: isCernerFacility,
-    });
-  } else {
-    // Update existing facility 979
-    updatedFacilities[facility979Index] = {
-      ...updatedFacilities[facility979Index],
-      facilityId: '979',
-      isCerner: isCernerFacility,
-    };
-  }
-
-  // Add any additional facilities if provided
-  if (facilities) {
-    updatedFacilities = [...updatedFacilities, ...facilities];
-  }
-
-  return {
-    ...mockUser,
-    data: {
-      ...mockUser.data,
-      attributes: {
-        ...mockUser.data.attributes,
-        vaProfile: {
-          ...mockUser.data.attributes.vaProfile,
-          facilities: updatedFacilities,
-          isCernerPatient: true,
-          // Keep flags ONLY in ohMigrationInfo - reducer will map them to root level
-          ohMigrationInfo: {
-            userAtPretransitionedOhFacility:
-              ohMigrationInfo.userAtPretransitionedOhFacility,
-            userFacilityMigratingToOh:
-              ohMigrationInfo.userFacilityMigratingToOh,
-            userFacilityReadyForInfoAlert:
-              ohMigrationInfo.userFacilityReadyForInfoAlert,
-            migrationSchedules: ohMigrationInfo.migrationSchedules,
-          },
-        },
-      },
-    },
-  };
-};
+import {
+  createUserWithMigrationInfo,
+  customRecipients,
+} from './utils/user-helpers';
 
 describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
   const customFeatureToggles = {
@@ -125,6 +29,7 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
 
   it('verifies Cerner facility alert is present on Select care team page', () => {
     const mockUserWithMigrationInfo = createUserWithMigrationInfo(
+      mockUser,
       {
         userAtPretransitionedOhFacility: false,
         userFacilityMigratingToOh: true,
@@ -198,6 +103,7 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
 
   it('verifies Cerner facility alert is NOT present outside transition window (phase p1)', () => {
     const mockUserWithMigrationInfo = createUserWithMigrationInfo(
+      mockUser,
       {
         userAtPretransitionedOhFacility: false,
         userFacilityMigratingToOh: true,
@@ -269,6 +175,7 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
 
   it('verifies Cerner facility alert is NOT present after transition window (phase p6)', () => {
     const mockUserWithMigrationInfo = createUserWithMigrationInfo(
+      mockUser,
       {
         userAtPretransitionedOhFacility: false,
         userFacilityMigratingToOh: true,
