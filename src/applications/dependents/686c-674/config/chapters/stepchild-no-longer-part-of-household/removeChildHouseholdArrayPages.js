@@ -12,7 +12,6 @@ import {
   addressSchema,
   radioUI,
   radioSchema,
-  fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   ssnUI,
   ssnSchema,
@@ -20,7 +19,7 @@ import {
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { CancelButton } from '../../helpers';
+import { CancelButton, fullNameNoSuffixWithAsciiUI } from '../../helpers';
 import {
   isFieldMissing,
   isEmptyObject,
@@ -198,7 +197,7 @@ export const householdChildInfoPage = {
       title: 'Remove a stepchild who has left your household',
       nounSingular: removeChildHouseholdOptions.nounSingular,
     }),
-    fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
+    fullName: fullNameNoSuffixWithAsciiUI(title => `Child’s ${title}`),
     ssn: {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
@@ -349,7 +348,7 @@ export const parentOrGuardianPage = {
       () => 'Who does this stepchild live with?',
     ),
     whoDoesTheStepchildLiveWith: {
-      ...fullNameNoSuffixUI(title => `Parent or guardian’s ${title}`),
+      ...fullNameNoSuffixWithAsciiUI(title => `Parent or guardian’s ${title}`),
     },
   },
   schema: {
