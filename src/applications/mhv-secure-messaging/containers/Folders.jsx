@@ -69,7 +69,6 @@ const Folders = () => {
   const confirmFolderCreate = async folderName => {
     // Pass suppressSuccessAlert=true - inline alert shown in CreateFolderInline
     await dispatch(newFolder(folderName, true));
-    dispatch(getFolders());
   };
 
   const handleFolderCreated = folderName => {
