@@ -9,7 +9,9 @@ export default function Notification({
   type,
   onClose,
   onSetFocus,
-  maskTitle = false,
+  // Security: Defaults to true to mask PII (file names) in Datadog RUM session replays.
+  // Set to false only for titles that we are certain contain no PII.
+  maskTitle = true,
 }) {
   const closeable = !!onClose;
   useEffect(
@@ -52,6 +54,7 @@ export default function Notification({
 
 Notification.defaultProps = {
   type: 'success',
+  maskTitle: true, // Secure by default - masks title in Datadog RUM session replays
 };
 
 Notification.propTypes = {

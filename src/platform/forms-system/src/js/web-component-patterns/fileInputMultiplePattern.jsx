@@ -1,6 +1,7 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
 import { VaFileInputMultiple } from '../web-component-fields';
+import { validateAdditionalInputLabels } from '../web-component-fields/vaFileInputFieldHelpers';
 import navigationState from '../utilities/navigation/navigationState';
 import { errorManager } from '../utilities/file/passwordErrorState';
 import { MISSING_FILE, filePresenceValidation } from '../validation';
@@ -30,17 +31,16 @@ import ReviewField from '../review/FileInputMultiple';
  *   disallowEncryptedPdfs: true, // set to true to prohibit upload of encrypted pdfs
  *   formNumber: '20-10206', // required for upload
  *   additionalInputRequired: true, // user must supply additional input
- *   additionalInput: (error, data) => {
- *     const { documentStatus } = data;
+ *   additionalInputLabels: {
+ *     documentStatus: { public: 'Public', private: 'Private' },
+ *   },
+ *   additionalInputTitle: 'Document status', // title shown above the additional input inside the file card
+ *   additionalInput: ({ labels }) => {
  *     return (
- *       <VaSelect
- *         required
- *         error={error}
- *         value={documentStatus}
- *         label="Document status"
- *       >
- *         <option value="public">Public</option>
- *         <option value="private">Private</option>
+ *       <VaSelect required label="Document status">
+ *         {Object.entries(labels.documentStatus).map(([value, label]) => (
+ *           <option key={value} value={value}>{label}</option>
+ *         ))}
  *       </VaSelect>
  *     );
  *   },
@@ -52,7 +52,7 @@ import ReviewField from '../review/FileInputMultiple';
  *   },
  *   handleAdditionalInput: (e) => {    // handle optional additional input
  *     return { documentStatus: e.detail.value }
- *   }
+ *   },
  * })
  * ```
  *
@@ -92,9 +92,11 @@ import ReviewField from '../review/FileInputMultiple';
  * @param {number} [options.maxFileSize] - maximum allowed file size in bytes
  * @param {number} [options.minFileSize] - minimum allowed file size in bytes
  * @param {boolean} [options.additionalInputRequired] - is additional information required
- * @param {((error:any, data:any) => React.ReactNode) } [options.additionalInput] - renders the additional information
+ * @param {(options: { labels?: Record<string, Record<string, string>>, title?: string }) => React.ReactNode} [options.additionalInput] - renders the additional information template. Receives an object with `labels` from `additionalInputLabels` and `title` from `additionalInputTitle`.
  * @param {(instance: any, error: any, data: any) => void} [options.additionalInputUpdate] - function to update additional input instance
  * @param {(e: CustomEvent) => {[key: string]: any}} [options.handleAdditionalInput] - function to handle event payload from additional info
+ * @param {Record<string, Record<string, string>>} [options.additionalInputLabels] - explicit value-to-label mapping for additional input fields on the review page, e.g. `{ documentStatus: { public: 'Public', private: 'Private' } }`. Falls back to DOM querying if not provided.
+ * @param {string} [options.additionalInputTitle] - explicit label for the additional input field, used as the `<dt>` on the review and confirmation pages instead of the auto-generated camelCase-to-Title-Case key name
  * @param {string} [options.fileUploadUrl] - url to which file will be uploaded
  * @param {string} [options.formNumber] - the form's number
  * @param {boolean} [options.skipUpload] - skip attempt to upload in dev when there is no backend
@@ -120,6 +122,11 @@ export const fileInputMultipleUI = options => {
       the schema as well.`,
     );
   }
+
+  validateAdditionalInputLabels(
+    'fileInputMultipleUI',
+    uiOptions.additionalInputLabels,
+  );
 
   return {
     'ui:title': title,
@@ -225,12 +232,14 @@ export const fileInputMultipleUI = options => {
                   {Object.entries(file.additionalData).map(([key, value]) => (
                     <li key={key}>
                       <span className="vads-u-color--gray">
-                        {key
-                          .replace(/([A-Z])/g, ' $1')
-                          .replace(/^./, s => s.toUpperCase())
-                          .trim()}
+                        {uiOptions.additionalInputTitle ||
+                          key
+                            .replace(/([A-Z])/g, ' $1')
+                            .replace(/^./, s => s.toUpperCase())
+                            .trim()}
                       </span>
-                      : {value}
+                      :{' '}
+                      {uiOptions.additionalInputLabels?.[key]?.[value] || value}
                     </li>
                   ))}
                 </ul>

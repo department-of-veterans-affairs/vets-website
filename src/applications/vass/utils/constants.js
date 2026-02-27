@@ -1,4 +1,5 @@
 const VASS_PHONE_NUMBER = '8008270611';
+const SOLID_START_URL = 'https://benefits.va.gov/benefits/solid-start.asp';
 
 const URLS = Object.freeze({
   VERIFY: '/',
@@ -38,7 +39,6 @@ const VASS_COOKIE_OPTIONS = {
   secure: isProduction,
   sameSite: isProduction ? 'strict' : undefined,
   path: '/',
-  ...(isProduction ? { domain: 'va.gov' } : {}),
 };
 
 /**
@@ -52,8 +52,8 @@ const AUTH_ERROR_CODES = Object.freeze({
   MISSING_PARAMETER: 'missing_parameter',
 });
 
-// OTP/OTC Verification errors (POST /vass/v0/authenticate-otp)
-const OTC_ERROR_CODES = Object.freeze({
+// OTP Verification errors (POST /vass/v0/authenticate-otp)
+const OTP_ERROR_CODES = Object.freeze({
   INVALID_OTP: 'invalid_otp',
   ACCOUNT_LOCKED: 'account_locked',
   OTP_EXPIRED: 'otp_expired',
@@ -89,13 +89,14 @@ const SERVER_ERROR_CODES = Object.freeze({
 
 module.exports = {
   VASS_PHONE_NUMBER,
+  SOLID_START_URL,
   URLS,
   FLOW_TYPES,
   AUTH_LEVELS,
   VASS_TOKEN_COOKIE_NAME,
   VASS_COOKIE_OPTIONS,
   AUTH_ERROR_CODES,
-  OTC_ERROR_CODES,
+  OTP_ERROR_CODES,
   TOKEN_ERROR_CODES,
   AVAILABILITY_ERROR_CODES,
   APPOINTMENT_ERROR_CODES,

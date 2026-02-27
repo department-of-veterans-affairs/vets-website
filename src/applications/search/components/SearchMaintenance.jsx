@@ -28,11 +28,11 @@ const SearchMaintenance = ({ unexpectedMaintenance }) => {
     <div className="vads-u-margin-bottom--1p5">
       <va-banner
         data-label="Error banner"
-        headline="Search Maintenance"
+        headline="We couldn’t complete your search"
         type="warning"
       >
-        We’re working on Search VA.gov right now. If you have trouble using the
-        search tool, check back later. Thank you for your patience.
+        We’re sorry. Something went wrong in our system. Try again later. Or use
+        one of the other VA search tools on this page.
       </va-banner>
     </div>
   );
