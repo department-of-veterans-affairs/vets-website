@@ -11,11 +11,17 @@ import {
   selectFlowType,
   selectObfuscatedEmail,
 } from '../redux/slices/formSlice';
-import { FLOW_TYPES, URLS, OTP_ERROR_CODES } from '../utils/constants';
+import {
+  FLOW_TYPES,
+  URLS,
+  OTP_ERROR_CODES,
+  VASS_PHONE_NUMBER,
+} from '../utils/constants';
 import {
   isAccountLockedError,
   isServerError,
   isAppointmentAlreadyBookedError,
+  isNotWhithinCohortError,
 } from '../utils/errors';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
@@ -63,7 +69,7 @@ const EnterOTP = () => {
   ] = usePostOTPVerificationMutation();
   const [
     getAppointmentAvailability,
-    { isFetching: isCheckingAvailability },
+    { isFetching: isCheckingAvailability, error: appointmentAvailabilityError },
   ] = useLazyGetAppointmentAvailabilityQuery();
 
   const handleSubmit = async () => {
@@ -92,6 +98,13 @@ const EnterOTP = () => {
     }
 
     const availabilityCheck = await getAppointmentAvailability();
+
+    if (
+      isServerError(availabilityCheck.error) ||
+      isNotWhithinCohortError(availabilityCheck.error)
+    ) {
+      return;
+    }
 
     if (isAppointmentAlreadyBookedError(availabilityCheck.error)) {
       const { appointmentId } = availabilityCheck.error.appointment;
@@ -126,7 +139,11 @@ const EnterOTP = () => {
           ? errorMessage
           : undefined
       }
-      errorAlert={isServerError(postOTPVerificationError)}
+      errorAlert={
+        isServerError(postOTPVerificationError) ||
+        isServerError(appointmentAvailabilityError) ||
+        isNotWhithinCohortError(appointmentAvailabilityError)
+      }
     >
       {!postOTPVerificationError?.code && (
         <va-alert
@@ -134,10 +151,24 @@ const EnterOTP = () => {
           visible
           data-testid="enter-otp-success-alert"
         >
+          <h2 slot="headline">
+            We’ve emailed you a one-time verification code
+          </h2>
+          <p
+            className="vads-u-margin-y--0 vads-u-margin-bottom--2"
+            data-dd-privacy="mask"
+          >
+            {`We emailed a one-time verification code (OTC) to ${obfuscatedEmail}. Enter the code here to complete your verification process and schedule your appointment.`}
+          </p>
           <p className="vads-u-margin-y--0">
-            {`We just emailed a one-time verification code to ${obfuscatedEmail}.
-          Please check your email and come back to enter the code to complete
-          your verification process and start scheduling your appointment.`}
+            <strong>Note:</strong> If you don’t receive the OTC, request a new
+            code using the link in your original email. Or call us at{' '}
+            <va-telephone
+              contact={VASS_PHONE_NUMBER}
+              data-testid="solid-start-telephone"
+            />{' '}
+            to schedule. We’re here Monday through Friday, 8:00 a.m. to 9:00
+            p.m. ET.
           </p>
         </va-alert>
       )}
@@ -148,6 +179,7 @@ const EnterOTP = () => {
         </va-alert>
       )}
       <va-text-input
+        data-dd-privacy="mask"
         class="vads-u-margin-top--4"
         label="Enter your one-time verification code"
         name="otp"
