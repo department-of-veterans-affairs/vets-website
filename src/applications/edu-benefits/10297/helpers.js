@@ -1,7 +1,5 @@
 import React from 'react';
 
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import { countries } from 'platform/forms/address';
 import { focusElement } from '~/platform/utilities/ui';
 import { isValid, parseISO, parse } from 'date-fns';
@@ -10,70 +8,6 @@ import { isValidRoutingNumber } from 'platform/forms/validations';
 
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
 export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
-
-export const ConfirmationSubmissionAlert = ({ confirmationNumber }) => (
-  <>
-    <p>Your submission is in progress.</p>
-    <p>
-      It can take up to 30 days for us to review your application and make a
-      decision.
-      {confirmationNumber &&
-        ` Your confirmation number is ${confirmationNumber}.`}
-    </p>
-  </>
-);
-
-ConfirmationSubmissionAlert.propTypes = {
-  confirmationNumber: PropTypes.string,
-};
-
-export const ConfirmationWhatsNextProcessList = () => (
-  <>
-    <h2>What to expect next</h2>
-    <va-process-list>
-      <va-process-list-item header="We'll review your application and determine your eligibility">
-        <p>
-          If you’re eligible and the yearly cap of 4,000 students hasn’t been
-          met, we’ll send you a Certificate of Eligibility. If not, we’ll send
-          you a letter explaining why you’re not eligible.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="We'll check the training provider(s) you listed">
-        <p>
-          If you reported a school you want to attend, we’ll review whether that
-          school has programs currently approved for the High Technology
-          Program. If it doesn’t, we’ll reach out to the school to explore if
-          approval can be set up.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="We'll keep you updated">
-        <p>
-          You’ll get an email with our decision. If you’re signed up for VA
-          Notify, we’ll also send updates there.
-        </p>
-      </va-process-list-item>
-    </va-process-list>
-  </>
-);
-
-export const ConfirmationHowToContact = () => (
-  <p>
-    If you have questions about this form or need help, you can submit a request
-    through <va-link external href="https://ask.va.gov/" text="Ask VA" />
-  </p>
-);
-
-export const ConfirmationGoBackLink = () => (
-  <div
-    className={classNames(
-      'confirmation-go-back-link-section',
-      'screen-only',
-      'vads-u-margin-top--2',
-    )}
-  >
-    <va-link-action href="/" text="Go back to VA.gov homepage" type="primary" />
-  </div>
-);
 
 // Expects a birthDate as a string in YYYY-MM-DD format
 export const getAgeInYears = birthDate =>

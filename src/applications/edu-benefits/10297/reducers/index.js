@@ -12,6 +12,11 @@ import {
   FETCH_DUPLICATE_CONTACT_INFO_FAILURE,
   ACKNOWLEDGE_DUPLICATE,
   TOGGLE_MODAL,
+  FETCH_CLAIM_STATUS,
+  FETCH_CLAIM_STATUS_SUCCESS,
+  SEND_CONFIRMATION,
+  SEND_CONFIRMATION_SUCCESS,
+  SEND_CONFIRMATION_FAILURE,
 } from '../actions';
 
 const initialState = {
@@ -100,6 +105,35 @@ export default {
         return {
           ...state,
           openModal: action.toggle,
+        };
+      case FETCH_CLAIM_STATUS:
+        return {
+          ...state,
+          claimStatusFetchInProgress: true,
+        };
+      case FETCH_CLAIM_STATUS_SUCCESS:
+        return {
+          ...state,
+          claimStatusFetchInProgress: false,
+          claimStatus: action?.response?.attributes || null,
+        };
+      case SEND_CONFIRMATION:
+        return {
+          ...state,
+          confirmationLoading: true,
+          confirmationError: null,
+        };
+      case SEND_CONFIRMATION_SUCCESS:
+        return {
+          ...state,
+          confirmationLoading: false,
+          confirmationSuccess: true,
+        };
+      case SEND_CONFIRMATION_FAILURE:
+        return {
+          ...state,
+          confirmationLoading: false,
+          confirmationError: action.errors,
         };
       default:
         return state;
