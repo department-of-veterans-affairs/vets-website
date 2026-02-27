@@ -430,6 +430,77 @@ describe('buildSubmissionData', () => {
     expect(result.data.spouseSupportingDocuments).to.be.undefined;
   });
 
+  it('should transform noSsnReason enum values for addChild workflow', () => {
+    const payload = createTestData({
+      'view:addDependentOptions': {
+        addSpouse: false,
+        addChild: true,
+        report674: false,
+        addDisabledChild: false,
+      },
+      childrenToAdd: [
+        {
+          fullName: { first: 'Child', last: 'Doe' },
+          noSsn: true,
+          noSsnReason: 'NONRESIDENT_ALIEN',
+        },
+        {
+          fullName: { first: 'Child2', last: 'Doe' },
+          noSsn: true,
+          noSsnReason: 'NONE_ASSIGNED',
+        },
+        { fullName: { first: 'Child3', last: 'Doe' }, noSsn: false },
+      ],
+    });
+    const result = buildSubmissionData(payload);
+
+    expect(result.data.childrenToAdd[0].noSsnReason).to.equal(
+      'Nonresident Alien',
+    );
+    expect(result.data.childrenToAdd[1].noSsnReason).to.equal(
+      'No SSN Assigned by SSA',
+    );
+    expect(result.data.childrenToAdd[2].noSsnReason).to.be.undefined;
+  });
+
+  it('should transform noSsnReason enum values for addDisabledChild workflow (regression test)', () => {
+    // Regression test: disabled children share the childrenToAdd array with regular children
+    // but addDisabledChild is a separate option key from addChild. Previously, the
+    // applyNoSsnReasonMappings function only checked addChild, so disabled children's
+    // no-SSN reasons were sent as raw enum values (NONRESIDENT_ALIEN / NONE_ASSIGNED)
+    // instead of the human-readable payload values.
+    const payload = createTestData({
+      'view:addDependentOptions': {
+        addSpouse: false,
+        addChild: false,
+        report674: false,
+        addDisabledChild: true,
+      },
+      childrenToAdd: [
+        {
+          fullName: { first: 'Disabled', last: 'Child' },
+          noSsn: true,
+          noSsnReason: 'NONRESIDENT_ALIEN',
+        },
+        {
+          fullName: { first: 'Disabled2', last: 'Child' },
+          noSsn: true,
+          noSsnReason: 'NONE_ASSIGNED',
+        },
+        { fullName: { first: 'Disabled3', last: 'Child' }, noSsn: false },
+      ],
+    });
+    const result = buildSubmissionData(payload);
+
+    expect(result.data.childrenToAdd[0].noSsnReason).to.equal(
+      'Nonresident Alien',
+    );
+    expect(result.data.childrenToAdd[1].noSsnReason).to.equal(
+      'No SSN Assigned by SSA',
+    );
+    expect(result.data.childrenToAdd[2].noSsnReason).to.be.undefined;
+  });
+
   it('should not include view:addOrRemoveDependents when no valid options remain', () => {
     const payload = createTestData({
       'view:addDependentOptions': {
