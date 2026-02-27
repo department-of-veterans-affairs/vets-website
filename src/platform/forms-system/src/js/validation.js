@@ -667,7 +667,7 @@ export function validateAutosuggestOption(errors, formData) {
 export function rectifyData(data) {
   const getValue = keys => {
     for (const key of keys) {
-      if (Object.hasOwn(data, key)) return data[key];
+      if (Object.prototype.hasOwnProperty.call(data, key)) return data[key];
     }
     return undefined;
   };
