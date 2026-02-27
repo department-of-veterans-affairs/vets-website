@@ -14,18 +14,19 @@ const ConfirmationDisCondNewDisabilities = ({ formData }) => {
       {newDisabilities
         .filter(dis => dis?.condition !== 'Rated Disability')
         .map((dis, index) => {
-          // Guard is necessary for legacy 0781 conditions that do not have a cause
           const cause = dis?.cause || 'Claimed';
+
           const capitalizedConditionType =
             cause === 'VA'
               ? 'VA'
               : cause.charAt(0).toUpperCase() + cause.slice(1).toLowerCase();
-          const causeLabel = getCauseLabel(cause);
 
+          const causeLabel = getCauseLabel(cause);
           const conditionDate = formatDateString(dis?.conditionDate);
 
           const baseCondition = dis?.condition?.trim() || '';
           const sideOfBody = dis?.sideOfBody;
+
           const condition = sideOfBody
             ? `${baseCondition}, ${capitalizeEachWord(
                 sideOfBody.toLowerCase(),
