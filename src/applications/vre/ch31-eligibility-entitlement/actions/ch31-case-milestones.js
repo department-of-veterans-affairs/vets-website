@@ -7,6 +7,7 @@ import {
   CH31_CASE_MILESTONES_FETCH_STARTED,
   CH31_CASE_MILESTONES_FETCH_SUCCEEDED,
 } from '../constants';
+import { fetchCh31CaseStatusDetails } from './ch31-my-eligibility-and-benefits';
 
 export function submitCh31CaseMilestones({
   milestoneCompletionType,
@@ -36,6 +37,8 @@ export function submitCh31CaseMilestones({
           type: CH31_CASE_MILESTONES_FETCH_SUCCEEDED,
           payload: response.data,
         });
+
+        dispatch(fetchCh31CaseStatusDetails());
       })
       .catch(errOrResp => {
         const status = getStatus(errOrResp);
