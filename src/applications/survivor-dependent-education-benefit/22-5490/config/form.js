@@ -117,6 +117,11 @@ function phoneUISchema(category) {
 
 const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
 const MILITARY_STATE_CODES = ['AE', 'AA', 'AP'];
+const MILITARY_ZIP_HINTS = {
+  AE: 'Must start with 09',
+  AA: 'Must start with 340',
+  AP: 'Must be in range 962xx\u2013966xx',
+};
 
 function validateMilitaryZipCode(errors, addressData) {
   if (
@@ -133,8 +138,9 @@ function validateMilitaryZipCode(errors, addressData) {
     (state === 'AP' && /^96[2-6]\d*/.test(postalCode));
 
   if (!isValidMilitaryZip) {
+    const hint = MILITARY_ZIP_HINTS[state];
     errors.postalCode.addError(
-      'Please enter a valid zip code for the selected military state',
+      `Please enter a valid zip code for ${state}. ${hint}`,
     );
   }
 }

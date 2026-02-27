@@ -166,7 +166,7 @@ describe('22-5490 customValidateAddress', () => {
       customValidateAddress(errors, addressData, {}, { required: [] });
       expect(errors.postalCode.addError.calledOnce).to.be.true;
       expect(errors.postalCode.addError.firstCall.args[0]).to.contain(
-        'valid zip code for the selected military state',
+        'valid zip code for AE',
       );
     });
 
