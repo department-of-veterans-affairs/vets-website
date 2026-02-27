@@ -12,11 +12,21 @@ import { fetchCh31CaseStatusDetails } from './ch31-my-eligibility-and-benefits';
 export function submitCh31CaseMilestones({
   milestoneCompletionType,
   postpone = false,
+  user,
 }) {
   return dispatch => {
     dispatch({ type: CH31_CASE_MILESTONES_FETCH_STARTED });
 
     const url = `${environment.API_URL}/vre/v0/ch31_case_milestones`;
+    let milestoneSubmissionUser = '';
+
+    if (user?.profile?.userFullName?.last) {
+      milestoneSubmissionUser += user.profile.userFullName.last;
+    }
+
+    if (user?.profile?.userFullName?.first) {
+      milestoneSubmissionUser += `, ${user.profile.userFullName.first}`;
+    }
 
     return apiRequest(url, {
       method: 'POST',
@@ -28,6 +38,7 @@ export function submitCh31CaseMilestones({
             isMilestoneCompleted: true,
             milestoneCompletionDate: moment().format('YYYY-MM-DD'),
             postpone,
+            milestoneSubmissionUser,
           },
         ],
       }),

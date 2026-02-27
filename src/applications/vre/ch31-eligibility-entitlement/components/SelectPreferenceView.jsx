@@ -6,6 +6,7 @@ import {
   VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { submitCh31CaseMilestones } from '../actions/ch31-case-milestones';
 import {
   CH31_CASE_MILESTONES_RESET_STATE,
@@ -25,6 +26,7 @@ export default function SelectPreferenceView() {
   const [orientationTypeRadioValue, setOrientationTypeRadioValue] = useState();
   const [attestationChecked, setAttestationChecked] = useState(false);
   const [checkboxError, setCheckboxError] = useState(false);
+  const user = useSelector(selectUser);
 
   const ch31CaseMilestonesState = useSelector(
     state => state?.ch31CaseMilestones,
@@ -46,6 +48,7 @@ export default function SelectPreferenceView() {
         postpone:
           orientationTypeRadioValue ===
           ORIENTATION_TYPE.COMPLETE_DURING_MEETING,
+        user,
       }),
     );
   };

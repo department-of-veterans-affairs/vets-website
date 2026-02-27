@@ -71,9 +71,9 @@ describe('SelectPreferenceView', () => {
     sandbox.stub(UserSelectors, 'selectUser').returns({ uuid: 'user-123' });
     sandbox
       .stub(MilestoneActions, 'submitCh31CaseMilestones')
-      .callsFake(({ milestoneCompletionType, postpone }) => ({
+      .callsFake(({ milestoneCompletionType, postpone, user }) => ({
         type: 'SUBMIT_CH31_CASE_MILESTONES',
-        payload: { milestoneCompletionType, postpone },
+        payload: { milestoneCompletionType, postpone, user },
       }));
   });
 
@@ -160,6 +160,7 @@ describe('SelectPreferenceView', () => {
         payload: {
           milestoneCompletionType: MILESTONE_COMPLETION_TYPES.STEP_3,
           postpone: false,
+          user: { uuid: 'user-123' },
         },
       }),
     ).to.be.true;
@@ -196,6 +197,7 @@ describe('SelectPreferenceView', () => {
         payload: {
           milestoneCompletionType: MILESTONE_COMPLETION_TYPES.STEP_3,
           postpone: true,
+          user: { uuid: 'user-123' },
         },
       }),
     ).to.be.true;
