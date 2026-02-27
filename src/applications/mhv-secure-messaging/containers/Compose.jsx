@@ -221,14 +221,13 @@ const Compose = () => {
         )}
       {draftType &&
       !acceptInterstitial &&
-      noAssociations === (undefined || false) &&
-      !allTriageGroupsBlocked ? (
+      (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (
         <InterstitialPage type={draftType} />
       ) : (
         <>
           {draftType &&
-            noAssociations === (undefined || false) &&
-            !allTriageGroupsBlocked && (
+            (noAssociations === (undefined || false) &&
+              !allTriageGroupsBlocked) && (
               <div className="vads-l-grid-container compose-container">
                 {content()}
               </div>
