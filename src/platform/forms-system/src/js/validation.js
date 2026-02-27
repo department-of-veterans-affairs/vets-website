@@ -664,23 +664,18 @@ export function validateAutosuggestOption(errors, formData) {
  * this function maps capital letters back to camel-case
  * see: https://github.com/department-of-veterans-affairs/va.gov-team/issues/133012
  */
-function rectifyData(data) {
-  const getValue = (f1, f2, f3) => {
-    let key;
-    if (data[f1] !== undefined) {
-      key = f1;
-    } else if (data[f2] !== undefined) {
-      key = f2;
-    } else {
-      key = f3;
+export function rectifyData(data) {
+  const getValue = keys => {
+    for (const key of keys) {
+      if (Object.hasOwn(data, key)) return data[key];
     }
-    return data[key];
+    return undefined;
   };
   return {
-    isValid: getValue('IsValid', '_isValid', 'isValid'),
-    error: getValue('Error', '_error', 'error'),
-    touched: getValue('Touched', '_touched', 'touched'),
-    required: getValue('Required', '_required', 'required'),
+    isValid: getValue(['isValid', 'IsValid', '_isValid']),
+    error: getValue(['error', 'Error', '_error']),
+    touched: getValue(['touched', 'Touched', '_touched']),
+    required: getValue(['required', 'Required', '_required']),
     contact: data.contact,
   };
 }
