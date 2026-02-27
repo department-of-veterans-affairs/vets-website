@@ -231,7 +231,7 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
     PatientInboxPage.navigateToComposePageCuratedFlow();
 
     // Verify the Cerner facility alert is NOT displayed (phase p6 is after transition window)
-    cy.get('va-alert[status="error"]').should('not.exist');
+    cy.get('[data-testid="cerner-migration-alert"]').should('not.exist');
 
     // Run accessibility check
     cy.injectAxe();
