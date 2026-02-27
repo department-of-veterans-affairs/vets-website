@@ -771,7 +771,7 @@ export const addressSpecifications = {
       pattern:
         '^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$',
       minLength: 6,
-      maxLength: 6,
+      maxLength: 7,
     },
     MEX: {
       errorMessages: {
