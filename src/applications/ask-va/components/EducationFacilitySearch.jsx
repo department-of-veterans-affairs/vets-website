@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 import { VaRadioOption } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { URL, envUrl } from '../constants';
+import { URL, envApiUrl } from '../constants';
 import { convertLocation } from '../utils/mapbox';
 import EducationSearchItem from './search/EducationSearchItem';
 import SearchControls from './search/SearchControls';
@@ -55,19 +55,19 @@ export default function EducationFacilitySearch({ onChange }) {
   const getFacilitiesFromLocation = async input => {
     const place = await convertLocation(input);
     const getLocation = place.zipCode[0].text;
-    const url = `${envUrl}${URL.GET_SCHOOL}search?name=${getLocation}`;
+    const url = `${envApiUrl}${URL.GET_SCHOOL}search?name=${getLocation}`;
     await getApiData(url);
     setPageURL(url);
   };
 
   const getFacilities = async input => {
-    const url = `${envUrl}${URL.GET_SCHOOL}search?name=${input}`;
+    const url = `${envApiUrl}${URL.GET_SCHOOL}search?name=${input}`;
     await getApiData(url);
     setPageURL(url);
   };
 
   const getFacilitiesByCode = async input => {
-    const url = `${envUrl}${URL.GET_SCHOOL}${input}`;
+    const url = `${envApiUrl}${URL.GET_SCHOOL}${input}`;
     await getApiData(url);
     setPageURL(url);
   };

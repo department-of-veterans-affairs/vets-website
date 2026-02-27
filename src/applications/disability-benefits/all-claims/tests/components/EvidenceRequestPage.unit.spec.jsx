@@ -68,6 +68,12 @@ describe('EvidenceRequestPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and remove');
+      expect(modal.textContent).to.include(
+        'You can choose not to submit medical records to support your claim. If you do so, we’ll remove the information you shared about these VA medical centers:',
+      );
       expect(modal.textContent).to.include('VA Hospital 1');
       expect(modal.textContent).to.include('VA Hospital 2');
     });
@@ -91,6 +97,12 @@ describe('EvidenceRequestPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and delete');
+      expect(modal.textContent).to.include(
+        'You can choose not to submit medical records to support your claim. If you do so, we’ll delete these medical records you uploaded:',
+      );
       expect(modal.textContent).to.include('record1.pdf');
       expect(modal.textContent).to.include('record2.pdf');
     });
@@ -114,6 +126,12 @@ describe('EvidenceRequestPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and remove');
+      expect(modal.textContent).to.include(
+        'You can choose not to submit medical records to support your claim. If you do so, we’ll remove the information you shared about these private medical centers:',
+      );
       expect(modal.textContent).to.include('Private Clinic 1');
       expect(modal.textContent).to.include('Private Clinic 2');
     });
@@ -141,12 +159,21 @@ describe('EvidenceRequestPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
-
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and delete');
+      expect(modal.textContent).to.include(
+        'You can choose not to submit medical records to support your claim. If you do so, we’ll remove the information you shared about these private medical centers:',
+      );
+      expect(modal.textContent).to.include(
+        'We’ll also delete these medical records you uploaded:',
+      );
       const lists = modal.querySelectorAll('ul');
       expect(lists.length).to.equal(2);
 
       const facilityItems = lists[0].querySelectorAll('li');
       const facilityTexts = Array.from(facilityItems).map(li => li.textContent);
+
       expect(facilityTexts).to.include('Private Clinic 1');
       expect(facilityTexts).to.include('Private Clinic 2');
 
@@ -509,7 +536,9 @@ describe('EvidenceRequestPage', () => {
     expect(updatedData.patient4142Acknowledgement).to.be.false;
 
     expect(goForward.called).to.be.true;
-    expect(goForward.firstCall.args[0]).to.deep.equal(updatedData);
+    expect(goForward.firstCall.args[0]).to.deep.equal({
+      formData: updatedData,
+    });
   });
 
   it('should render update button on review page', () => {

@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { toHash } from '../../../../../shared/utilities';
-import { SCHEMA_LABELS } from '../../../../chapters/healthInsuranceInformation/planTypes';
+import { SCHEMA_LABELS } from '../../../../chapters/healthInsurance/planTypes';
 import HealthInsuranceSummaryCard from '../../../../components/FormDescriptions/HealthInsuranceSummaryCard';
 
 describe('HealthInsuranceSummaryCard', () => {

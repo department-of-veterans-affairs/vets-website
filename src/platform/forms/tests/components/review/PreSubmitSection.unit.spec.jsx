@@ -8,7 +8,9 @@ import createCommonStore from 'platform/startup/store';
 import createSchemaFormReducer from 'platform/forms-system/src/js/state';
 import reducers from 'platform/forms-system/src/js/state/reducers';
 
-import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
+import PreSubmitSection, {
+  statementOfTruthFullName,
+} from 'platform/forms/components/review/PreSubmitSection';
 
 const createForm = options => ({
   formId: 'test',
@@ -272,5 +274,108 @@ describe('Review PreSubmitSection component', () => {
 
     expect(tree.container.querySelector('va-statement-of-truth')).to.exist;
     tree.unmount();
+  });
+});
+
+describe('statementOfTruthFullName', () => {
+  it('should return full name with trimmed spaces', () => {
+    const formData = {
+      veteran: {
+        fullName: {
+          first: 'John ',
+          middle: ' Michael ',
+          last: ' Doe',
+        },
+      },
+    };
+    const statementOfTruth = {
+      fullNamePath: 'veteran.fullName',
+    };
+    const result = statementOfTruthFullName(formData, statementOfTruth);
+    expect(result).to.equal('John Michael Doe');
+  });
+
+  it('should handle name without middle name', () => {
+    const formData = {
+      veteran: {
+        fullName: {
+          first: 'John',
+          last: 'Doe',
+        },
+      },
+    };
+    const statementOfTruth = {
+      fullNamePath: 'veteran.fullName',
+    };
+    const result = statementOfTruthFullName(formData, statementOfTruth);
+    expect(result).to.equal('John Doe');
+  });
+
+  it('should handle name with trailing spaces', () => {
+    const formData = {
+      veteran: {
+        fullName: {
+          first: 'John',
+          last: 'Doe   ',
+        },
+      },
+    };
+    const statementOfTruth = {
+      fullNamePath: 'veteran.fullName',
+    };
+    const result = statementOfTruthFullName(formData, statementOfTruth);
+    expect(result).to.equal('John Doe');
+  });
+
+  it('should use profile full name when useProfileFullName is true', () => {
+    const formData = {};
+    const statementOfTruth = {
+      useProfileFullName: true,
+    };
+    const profileFullName = {
+      first: 'Jane ',
+      middle: ' Marie ',
+      last: ' Smith',
+    };
+    const result = statementOfTruthFullName(
+      formData,
+      statementOfTruth,
+      profileFullName,
+    );
+    expect(result).to.equal('Jane Marie Smith');
+  });
+
+  it('should handle empty middle name properly', () => {
+    const formData = {
+      veteran: {
+        fullName: {
+          first: 'John',
+          middle: '',
+          last: 'Doe',
+        },
+      },
+    };
+    const statementOfTruth = {
+      fullNamePath: 'veteran.fullName',
+    };
+    const result = statementOfTruthFullName(formData, statementOfTruth);
+    expect(result).to.equal('John Doe');
+  });
+
+  it('should filter out middle name with only whitespace', () => {
+    const formData = {
+      veteran: {
+        fullName: {
+          first: 'John',
+          middle: '   ',
+          last: 'Doe',
+        },
+      },
+    };
+    const statementOfTruth = {
+      fullNamePath: 'veteran.fullName',
+    };
+    const result = statementOfTruthFullName(formData, statementOfTruth);
+    expect(result).to.equal('John Doe');
   });
 });
