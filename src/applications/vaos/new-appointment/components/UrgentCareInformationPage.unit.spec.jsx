@@ -149,7 +149,6 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       ).to.exist;
     });
 
-    // Scenario on valid for multiple facilities!
     it('should display migration error alert without scheduling link', async () => {
       // Arrange
       const initialState = {
