@@ -49,6 +49,7 @@ import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import ProcessList from '../components/shared/ProcessList';
 import PrintOnlyPage from './PrintOnlyPage';
+import useOracleHealthAlertTracking from '../hooks/useOracleHealthAlertTracking';
 
 const RefillPrescriptionsV2 = () => {
   const {
@@ -59,6 +60,14 @@ const RefillPrescriptionsV2 = () => {
   } = useGetRefillablePrescriptionsQuery();
 
   const isCernerPilot = useSelector(selectCernerPilotFlag);
+
+  useOracleHealthAlertTracking({
+    warningActionName:
+      dataDogActionNames.oracleHealthTransition
+        .T45_WARNING_ALERT_DISPLAYED_REFILL,
+    errorActionName:
+      dataDogActionNames.oracleHealthTransition.T3_ERROR_ALERT_DISPLAYED_REFILL,
+  });
 
   const [bulkRefillPrescriptions, result] = useBulkRefillPrescriptionsMutation({
     fixedCacheKey: 'bulk-refill-request',

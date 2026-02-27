@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
+import { datadogRum } from '@datadog/browser-rum';
 import { CernerAlertContent } from '~/platform/mhv/components/CernerFacilityAlert/constants';
 import { getPrescriptionDetailUrl } from '../../util/helpers';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 import { selectMhvMedicationsOracleHealthCutoverFlag } from '../../util/selectors';
 
 /**
@@ -21,6 +23,55 @@ export const OracleHealthT3Alert = ({
     selectMhvMedicationsOracleHealthCutoverFlag,
   );
 
+  const blockedFacilityIds = useMemo(
+    () => [
+      ...new Set(
+        (blockedPrescriptions || [])
+          .map(rx => String(rx.stationNumber))
+          .filter(id => id != null && id !== 'undefined'),
+      ),
+    ],
+    [blockedPrescriptions],
+  );
+
+  // Find migration schedule(s) that include the blocked prescription facilities
+  const relevantMigration = useMemo(
+    () =>
+      migratingFacilities.find(migration =>
+        migration.facilities?.some(f =>
+          blockedFacilityIds.includes(String(f.facilityId)),
+        ),
+      ),
+    [migratingFacilities, blockedFacilityIds],
+  );
+
+  // Track when the refill blocked alert is displayed
+  useEffect(
+    () => {
+      if (
+        isOracleHealthCutoverEnabled &&
+        blockedFacilityIds.length &&
+        relevantMigration?.phases
+      ) {
+        datadogRum.addAction(
+          dataDogActionNames.oracleHealthTransition
+            .T3_REFILL_BLOCKED_ALERT_DISPLAYED,
+          {
+            facilityId: blockedFacilityIds,
+            phase: relevantMigration?.phases?.current,
+            blockedPrescriptionCount: blockedPrescriptions.length,
+          },
+        );
+      }
+    },
+    [
+      isOracleHealthCutoverEnabled,
+      blockedFacilityIds,
+      relevantMigration,
+      blockedPrescriptions,
+    ],
+  );
+
   // Don't render if feature flag is disabled
   if (!isOracleHealthCutoverEnabled) {
     return null;
@@ -30,21 +81,6 @@ export const OracleHealthT3Alert = ({
   if (!migratingFacilities?.length || !blockedPrescriptions?.length) {
     return null;
   }
-
-  const blockedFacilityIds = [
-    ...new Set(
-      blockedPrescriptions
-        .map(rx => String(rx.stationNumber))
-        .filter(id => id != null && id !== 'undefined'),
-    ),
-  ];
-
-  // Find migration schedule(s) that include the blocked prescription facilities
-  const relevantMigration = migratingFacilities.find(migration =>
-    migration.facilities?.some(f =>
-      blockedFacilityIds.includes(String(f.facilityId)),
-    ),
-  );
 
   // Don't render if no matching migration found or no phases defined
   if (!relevantMigration?.phases) {
@@ -56,13 +92,22 @@ export const OracleHealthT3Alert = ({
     ? 'oracle-health-t3-alert-with-refillable'
     : 'oracle-health-t3-alert-no-refillable';
 
+  // Track clicks on blocked prescription links
+  const handleBlockedRxLinkClick = prescription => {
+    datadogRum.addAction(
+      dataDogActionNames.oracleHealthTransition.T3_BLOCKED_RX_LINK_CLICK,
+      {
+        facilityId: prescription.stationNumber,
+      },
+    );
+  };
+
   return (
     <va-alert
       class={`vads-u-margin-bottom--2p5 ${className}`}
       status="error"
       background-only
       data-testid={testId}
-      data-dd-action-name="oracle-health-t3-alert-displayed"
     >
       <h2 className="vads-u-font-size--md" slot="headline">
         {config.errorHeadline}
@@ -79,6 +124,7 @@ export const OracleHealthT3Alert = ({
                 to={getPrescriptionDetailUrl(prescription)}
                 className="vads-u-text-decoration--underline"
                 aria-label={`View details for ${prescription.prescriptionName}`}
+                onClick={() => handleBlockedRxLinkClick(prescription)}
               >
                 {prescription.prescriptionName}
               </Link>
@@ -125,41 +171,110 @@ OracleHealthT3Alert.propTypes = {
   hasRefillable: PropTypes.bool,
 };
 
+// Module-scoped Set prevents duplicate Datadog events across remounts
+// caused by loading state toggles (RTK Query isFetching flips).
+const trackedInCardIds = new Set();
+const trackedRenewalInCardIds = new Set();
+
 /**
  * Component for in-card Oracle Health transition alert.
  * Rendered by MedicationsListCard when a prescription's refill is blocked.
  */
-export const OracleHealthInCardAlert = () => (
-  <va-alert
-    class="vads-u-margin-top--2"
-    status="error"
-    background-only
-    data-testid="oracle-health-in-card-alert"
-    data-dd-action-name="oracle-health-in-card-alert-displayed"
-  >
-    <p className="vads-u-margin-y--0">
-      You can’t refill this medication online right now. If you need more
-      medication, call your VA pharmacy’s automated refill line.
-    </p>
-  </va-alert>
-);
+export const OracleHealthInCardAlert = ({ stationNumber, prescriptionId }) => {
+  // Track when the in-card refill blocked alert is displayed
+  useEffect(
+    () => {
+      if (!trackedInCardIds.has(prescriptionId)) {
+        trackedInCardIds.add(prescriptionId);
+        datadogRum.addAction(
+          dataDogActionNames.oracleHealthTransition
+            .T3_IN_CARD_REFILL_BLOCKED_ALERT_DISPLAYED,
+          {
+            facilityId: stationNumber,
+          },
+        );
+      }
+    },
+    [stationNumber, prescriptionId],
+  );
+
+  // Clear this prescription's tracked state on unmount (page navigation)
+  useEffect(
+    () => () => {
+      trackedInCardIds.delete(prescriptionId);
+    },
+    [prescriptionId],
+  );
+
+  return (
+    <va-alert
+      class="vads-u-margin-top--2"
+      status="error"
+      background-only
+      data-testid="oracle-health-in-card-alert"
+    >
+      <p className="vads-u-margin-y--0">
+        You can’t refill this medication online right now. If you need more
+        medication, call your VA pharmacy’s automated refill line.
+      </p>
+    </va-alert>
+  );
+};
+
+OracleHealthInCardAlert.propTypes = {
+  prescriptionId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  stationNumber: PropTypes.string,
+};
 
 /**
  * Component for in-card Oracle Health transition renewal alert.
  * Rendered by MedicationsListCard when a prescription's renewal is blocked
  * during phases p3-p5 (T-6 through T+2).
  */
-export const OracleHealthRenewalInCardAlert = () => (
-  <va-alert
-    class="vads-u-margin-top--2"
-    status="error"
-    background-only
-    data-testid="oracle-health-renewal-in-card-alert"
-    data-dd-action-name="oracle-health-renewal-in-card-alert-displayed"
-  >
-    <p className="vads-u-margin-y--0">
-      You don’t have any refills left. If you need more medication, call your
-      provider to request a renewal.
-    </p>
-  </va-alert>
-);
+export const OracleHealthRenewalInCardAlert = ({
+  stationNumber,
+  prescriptionId,
+}) => {
+  // Track when the in-card renewal blocked alert is displayed
+  useEffect(
+    () => {
+      if (!trackedRenewalInCardIds.has(prescriptionId)) {
+        trackedRenewalInCardIds.add(prescriptionId);
+        datadogRum.addAction(
+          dataDogActionNames.oracleHealthTransition
+            .T6_IN_CARD_RENEWAL_BLOCKED_ALERT_DISPLAYED,
+          {
+            facilityId: stationNumber,
+          },
+        );
+      }
+    },
+    [stationNumber, prescriptionId],
+  );
+
+  // Clear this prescription's tracked state on unmount (page navigation)
+  useEffect(
+    () => () => {
+      trackedRenewalInCardIds.delete(prescriptionId);
+    },
+    [prescriptionId],
+  );
+  return (
+    <va-alert
+      class="vads-u-margin-top--2"
+      status="error"
+      background-only
+      data-testid="oracle-health-renewal-in-card-alert"
+    >
+      <p className="vads-u-margin-y--0">
+        You don’t have any refills left. If you need more medication, call your
+        provider to request a renewal.
+      </p>
+    </va-alert>
+  );
+};
+
+OracleHealthRenewalInCardAlert.propTypes = {
+  prescriptionId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  stationNumber: PropTypes.string,
+};
