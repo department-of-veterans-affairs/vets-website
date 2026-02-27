@@ -120,7 +120,7 @@ export const DownloadFormPDF = ({ guid, veteranName }) => {
   // Render session expired state
   if (sessionExpired) {
     return (
-      <va-alert status="warning" class="vads-u-margin-y--4" uswds>
+      <va-alert status="warning" class="vads-u-margin-y--4" role="alert" uswds>
         <h3 slot="headline">Your session has expired</h3>
         <p>
           Please sign in again to download your form. After signing in, select

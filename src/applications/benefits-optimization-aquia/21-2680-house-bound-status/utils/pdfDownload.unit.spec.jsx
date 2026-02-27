@@ -17,6 +17,7 @@ describe('pdfDownload utilities', () => {
 
   afterEach(() => {
     sandbox.restore();
+    sessionStorage.removeItem('shouldRedirectExpiredSession');
   });
 
   describe('fetchPdfApi', () => {
@@ -156,8 +157,6 @@ describe('pdfDownload utilities', () => {
       expect(sessionStorage.getItem('shouldRedirectExpiredSession')).to.equal(
         'true',
       );
-
-      sessionStorage.removeItem('shouldRedirectExpiredSession');
     });
 
     it('should restore shouldRedirectExpiredSession flag even on error', async () => {
@@ -175,8 +174,6 @@ describe('pdfDownload utilities', () => {
       expect(sessionStorage.getItem('shouldRedirectExpiredSession')).to.equal(
         'true',
       );
-
-      sessionStorage.removeItem('shouldRedirectExpiredSession');
     });
   });
 
