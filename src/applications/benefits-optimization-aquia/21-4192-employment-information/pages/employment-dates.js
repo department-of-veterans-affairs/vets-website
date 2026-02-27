@@ -94,12 +94,14 @@ export const employmentDatesUiSchema = {
     'ui:validations': [validateEmploymentDateRange],
     beginningDate: currentOrPastDateUI({
       title: 'Beginning date of employment', // Default title, will be updated by updateUiSchema
+      dataDogHidden: true,
       errorMessages: {
         required: 'Beginning date of employment is required',
       },
     }),
     endingDate: MemorableDateUI({
       title: 'Ending date of employment', // Default title, will be updated by updateUiSchema
+      dataDogHidden: true,
       required: false,
     }),
   },
