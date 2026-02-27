@@ -19,7 +19,7 @@ export default {
       CustomPageReview: null,
       uiSchema: {},
       schema: blankSchema,
-      depends: formData => formData.claimantRelationship === 'NONE',
+      depends: formData => formData.claimantRelationship === 'OTHER',
     },
   },
 };
