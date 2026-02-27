@@ -715,7 +715,7 @@ export const addressSpecifications = {
       label: 'Zip code',
       pattern: '(^\\d{5}$)|(^\\d{5}[ -]{0,1}\\d{4})$',
       minLength: 5,
-      maxLength: 9,
+      maxLength: 10,
     },
     MILITARY: {
       errorMessages: {
@@ -759,7 +759,7 @@ export const addressSpecifications = {
         AP: '(^96[2-6]\\d{2}$)|(^96[2-6]\\d{2}[ -]{0,1}\\d{4}$)',
       },
       minLength: 5,
-      maxLength: 9,
+      maxLength: 10,
     },
     CAN: {
       errorMessages: {
