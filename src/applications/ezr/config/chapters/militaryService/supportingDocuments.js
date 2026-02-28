@@ -1,3 +1,4 @@
+import React from 'react';
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import SupportingDocumentsDescription from '../../../components/FormDescriptions/SupportingDocumentsDescription';
@@ -11,7 +12,13 @@ import {
 export default {
   uiSchema: {
     'ui:title': content['military-service-supporting-documents-title'],
-    'ui:description': SupportingDocumentsDescription,
+    'ui:description': formData => (
+      <SupportingDocumentsDescription
+        ezrServiceHistoryEnabled={
+          formData.formData['view:ezrServiceHistoryEnabled']
+        }
+      />
+    ),
     attachments: fileUploadUI('', {
       buttonText: 'Upload a document',
       addAnotherLabel: 'Upload another document',
