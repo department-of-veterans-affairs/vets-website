@@ -26,12 +26,6 @@ import {
 
 const CHAMPVA_FORM_IDS = ['10-10D', '10-10D-EXTENDED'];
 
-const normalizeChampvaTitle = (title, formId) => {
-  const normalizedFormId = formId?.toString().toUpperCase();
-  if (!CHAMPVA_FORM_IDS.includes(normalizedFormId)) return title;
-  return title?.replace(/champva/gi, 'CHAMPVA');
-};
-
 const contactInfoFor = (formId, isBenefitsClaimsIvcChampvaProviderEnabled) => {
   const normalized = formId?.toString().toUpperCase();
   if (
@@ -290,18 +284,12 @@ export const ApplicationCard = ({
   );
 
   const isDraft = !!continueUrl;
-  const normalizedFormId = formId?.toString().toUpperCase();
 
   const headerLabel = isDraft ? 'Draft' : formatSubmissionDisplayStatus(status);
 
   let mainTitle = formTitle;
   if (!isDraft) {
-    const shouldApplyChampvaTitleOverride =
-      isBenefitsClaimsIvcChampvaProviderEnabled &&
-      CHAMPVA_FORM_IDS.includes(normalizedFormId);
-    mainTitle = shouldApplyChampvaTitleOverride
-      ? normalizeChampvaTitle(formTitle, formId)
-      : formatFormTitle(formTitle);
+    mainTitle = formatFormTitle(formTitle);
   }
 
   const testId = isDraft ? 'application-in-progress' : 'submitted-application';
