@@ -129,6 +129,7 @@ export function transform(formConfig, form) {
     const clonedData = _.cloneDeep(formData);
 
     delete clonedData['additional-certifying-official'];
+    delete clonedData.additionalCertifyingOfficial;
     delete clonedData.readOnlyCertifyingOfficials;
 
     return {

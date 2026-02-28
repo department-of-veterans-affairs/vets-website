@@ -105,12 +105,12 @@ describe('CH31 My Case Management Hub', () => {
     {
       step: 6,
       label: 'rehabilitation plan',
-      copy: /establish and initiate your chapter 31 rehabilitation plan/i,
+      copy: /working with you to establish your chapter 31 rehabilitation plan or career track/i,
     },
     {
       step: 7,
       label: 'benefits initiated',
-      copy: /rehabilitation plan or career track has been initiated/i,
+      copy: /rehabilitation plan or career track has started/i,
     },
   ];
 
@@ -155,9 +155,9 @@ describe('CH31 My Case Management Hub', () => {
     cy.contains('h1', /my vr&e chapter 31 benefits tracker/i, {
       timeout: Timeouts.slow,
     }).should('be.visible');
-    cy.contains(
-      /processing your chapter 31 claim has been discontinued/i,
-    ).should('be.visible');
+    cy.contains(/your chapter 31 claim has been discontinued/i).should(
+      'be.visible',
+    );
     cy.contains(/no response from veteran/i).should('be.visible');
     cy.get('va-link-action')
       .should('have.attr', 'text', 'View my letter')

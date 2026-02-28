@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 152,
+  "totalApplications": 151,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -208,12 +208,6 @@
       "rootUrl": "/disability/file-disability-claim-form-21-526ez"
     },
     {
-      "directoryPath": "src/applications/disability-benefits/view-payments",
-      "appName": "View Payments",
-      "entryName": "view-payments",
-      "rootUrl": "/va-payment-history/payments"
-    },
-    {
       "directoryPath": "src/applications/discharge-wizard",
       "appName": "Discharge Wizard",
       "entryName": "discharge-upgrade-instructions",
@@ -374,6 +368,12 @@
       "appName": "Facility Locator",
       "entryName": "facilities",
       "rootUrl": "/find-locations"
+    },
+    {
+      "directoryPath": "src/applications/financial-management/view-payments",
+      "appName": "View Payments",
+      "entryName": "view-payments",
+      "rootUrl": "/va-payment-history/payments"
     },
     {
       "directoryPath": "src/applications/financial-status-report",

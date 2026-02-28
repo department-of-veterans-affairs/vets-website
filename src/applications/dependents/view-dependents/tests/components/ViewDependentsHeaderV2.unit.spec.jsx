@@ -37,7 +37,7 @@ describe('<ViewDependentsHeader />', () => {
     const logSpy = sinon.spy();
     window.DD_LOGS = { logger: { log: logSpy } };
     const { container } = renderWithStore({
-      showAlert: true,
+      showDependentsContent: true,
       hasAwardDependents: true,
       hasMinimumRating: true,
     });
@@ -56,14 +56,15 @@ describe('<ViewDependentsHeader />', () => {
     expect(logSpy.args[0][1]).to.deep.equal({ state: 'visible', reason: '' });
   });
 
-  it('Should not render alert when showAlert is false & no dependents', () => {
+  it('Should not render alert when showDependentsContent is true & no dependents', () => {
     const logSpy = sinon.spy();
     window.DD_LOGS = { logger: { log: logSpy } };
     const { container } = renderWithStore({
-      showAlert: false,
+      showDependentsContent: true,
       hasAwardDependents: false,
       hasMinimumRating: true,
     });
+
     expect($('h1', container).textContent).to.equal(PAGE_TITLE);
     expect($('#update-warning-alert', container)).to.not.exist;
     expect(logSpy.args[0][0]).to.eq(
@@ -75,11 +76,11 @@ describe('<ViewDependentsHeader />', () => {
     });
   });
 
-  it('Should not render alert when showAlert is false & below minimum rating', () => {
+  it('Should not render alert when showDependentsContent is false & below minimum rating', () => {
     const logSpy = sinon.spy();
     window.DD_LOGS = { logger: { log: logSpy } };
     const { container } = renderWithStore({
-      showAlert: false,
+      showDependentsContent: false,
       hasAwardDependents: true,
       hasMinimumRating: false,
     });
@@ -100,7 +101,7 @@ describe('<ViewDependentsHeader />', () => {
     hideDependentsWarning();
 
     const { container } = renderWithStore({
-      showAlert: true,
+      showDependentsContent: true,
       hasAwardDependents: true,
       hasMinimumRating: true,
     });
@@ -121,7 +122,7 @@ describe('<ViewDependentsHeader />', () => {
     localStorage.removeItem(VIEW_DEPENDENTS_WARNING_KEY);
 
     const { container } = renderWithStore({
-      showAlert: true,
+      showDependentsContent: true,
       hasAwardDependents: true,
       hasMinimumRating: true,
     });
@@ -149,7 +150,7 @@ describe('<ViewDependentsHeader />', () => {
     const logSpy = sinon.spy();
     window.DD_LOGS = { logger: { log: logSpy } };
     const { container } = renderWithStore({
-      showAlert: true,
+      showDependentsContent: true,
       hasAwardDependents: true,
       hasMinimumRating: true,
     });
