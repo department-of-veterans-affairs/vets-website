@@ -41,7 +41,9 @@ describe('CaseProgressDescription', () => {
     // Updated: copy now ends with "page." (not "web page.")
     getByText(/page\./i);
 
-    const link = container.querySelector('va-link[href="/"]');
+    const link = container.querySelector(
+      'va-link[href="/careers-employment/your-vre-eligibility"]',
+    );
     expect(link).to.exist;
     expect(link.getAttribute('text')).to.equal(
       'Your VR&E eligibility and benefits',

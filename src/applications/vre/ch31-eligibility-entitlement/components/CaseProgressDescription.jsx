@@ -44,15 +44,16 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
     </div>
   ) : null;
 
-  const href = '/';
+  const eligibilityRoute = '/your-vre-eligibility';
+  const eligibilityHref = '/careers-employment/your-vre-eligibility';
 
   const withEligibilityLink = textBefore => (
     <p>
       {textBefore}{' '}
       <VaLink
-        href={href}
+        href={eligibilityHref}
         text="Your VR&E eligibility and benefits"
-        onClick={handleRouteChange(href)}
+        onClick={handleRouteChange(eligibilityRoute)}
       />{' '}
       page.
     </p>
