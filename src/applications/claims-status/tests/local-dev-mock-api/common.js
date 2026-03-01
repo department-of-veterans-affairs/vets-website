@@ -1744,6 +1744,38 @@ const baseClaims = [
     false,
   ),
 
+  // Stable fixture claim for local FE iteration.
+  // Use: /track-claims/your-claims/999999/status
+  createClaim('999999', {
+    baseEndProductCode: '020',
+    claimDate: '2025-01-15',
+    phaseType: 'GATHERING_OF_EVIDENCE',
+    claimType: 'Compensation',
+    claimTypeCode: '020CPHLP',
+    endProductCode: '022',
+    status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+    closeDate: null,
+    documentsNeeded: true,
+    developmentLetterSent: true,
+    evidenceWaiverSubmitted5103: false,
+    issues: [
+      createIssue(
+        'Service connection for migraine headaches',
+        '8100',
+        '2025-01-15',
+        '2025-01-20',
+      ),
+    ],
+    evidence: [
+      createEvidence(
+        '2025-01-15',
+        'VA Form 21-526EZ, Application for Disability Compensation and Related Compensation Benefits',
+      ),
+    ],
+    supportingDocuments: [],
+    contentions: [{ name: 'Service connection for migraine headaches' }],
+  }),
+
   // STEM Scholarship claim - denied (automatedDenial: true)
   {
     data: {
@@ -1798,11 +1830,6 @@ const baseClaims = [
   },
 ];
 
-function getClaimDataById(id) {
-  const claim = baseClaims.find(c => c.data.id === id);
-  return claim || null;
-}
-
 function getClaimSummary(claim) {
   return claim.data;
 }
@@ -1856,6 +1883,12 @@ const claimsToUse = (() => {
   }
   return baseClaims;
 })();
+
+function getClaimDataById(id) {
+  // Use all active mocks (base + generated) so list/detail stay in sync.
+  const claim = claimsToUse.find(c => c.data.id === id);
+  return claim || null;
+}
 
 // Responses
 const responses = {
@@ -2177,22 +2210,16 @@ const responses = {
     ],
   },
 
-  'GET /v0/benefits_claims/1': getClaimDataById('1'),
-  'GET /v0/benefits_claims/2': getClaimDataById('2'),
-  'GET /v0/benefits_claims/3': getClaimDataById('3'),
-  'GET /v0/benefits_claims/4': getClaimDataById('4'),
-  'GET /v0/benefits_claims/5': getClaimDataById('5'),
-  'GET /v0/benefits_claims/6': getClaimDataById('6'),
-  'GET /v0/benefits_claims/7': getClaimDataById('7'),
-  'GET /v0/benefits_claims/8': getClaimDataById('8'),
-  'GET /v0/benefits_claims/9': getClaimDataById('9'),
-  'GET /v0/benefits_claims/10': getClaimDataById('10'),
-  'GET /v0/benefits_claims/11': getClaimDataById('11'),
-  'GET /v0/benefits_claims/12': getClaimDataById('12'),
-  'GET /v0/benefits_claims/13': getClaimDataById('13'),
-  'GET /v0/benefits_claims/101': getClaimDataById('101'),
-  'GET /v0/benefits_claims/102': getClaimDataById('102'),
-  'GET /v0/benefits_claims/103': getClaimDataById('103'),
+  // Dynamic detail route avoids maintaining hardcoded ID routes.
+  'GET /v0/benefits_claims/:id': (req, res) => {
+    const claim = getClaimDataById(req.params.id);
+
+    if (!claim) {
+      return res.status(404).json({ errors: [] });
+    }
+
+    return res.status(200).json(claim);
+  },
 
   'GET /v0/appeals': (_req, res) => {
     if (!SERVICE_AVAILABILITY.appeals) {
