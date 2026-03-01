@@ -35,3 +35,8 @@ export async function addStyleToShadowDomOnPages(
       }
     });
 }
+
+export const lastFour = ssn => {
+  const digits = ssn.replace(/\D/g, '');
+  return digits.slice(-4);
+};
