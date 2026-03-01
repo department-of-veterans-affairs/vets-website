@@ -140,6 +140,18 @@ const resolveLandingPageLinks = (
       ]
   ).filter(isLinkData);
 
+  const medicationsLinks = [
+    HEALTH_TOOL_LINKS.MEDICATIONS[0],
+    {
+      href: featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements
+      ]
+        ? '/my-health/medications/history'
+        : '/my-health/medications',
+      text: 'Review medications',
+    },
+  ].filter(isLinkData);
+
   const medicalRecordsLinks = [
     HEALTH_TOOL_LINKS.MEDICAL_RECORDS[0],
     {
@@ -165,7 +177,7 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICATIONS,
       icon: 'pill',
-      links: HEALTH_TOOL_LINKS.MEDICATIONS,
+      links: medicationsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,

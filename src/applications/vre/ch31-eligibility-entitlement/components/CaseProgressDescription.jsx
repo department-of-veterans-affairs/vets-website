@@ -51,10 +51,10 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
       {textBefore}{' '}
       <VaLink
         href={href}
-        text="VR&amp;E Check My Eligibility"
+        text="Your VR&E eligibility and benefits"
         onClick={handleRouteChange(href)}
       />{' '}
-      web page.
+      page.
     </p>
   );
 
@@ -63,7 +63,7 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
       return (
         <>
           <p>
-            We’ve received your application for VR&E benefits. There’s nothing
+            We’ve received your application for VR&E benefits. There is nothing
             you need to do right now.
           </p>
           {hubCards}
@@ -75,7 +75,7 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
       return (
         <>
           {withEligibilityLink(
-            "Your application for VR&E benefits is currently being reviewed for basic eligibility. If you haven't confirmed your eligibility yet, please visit the",
+            "Your application for VR&E benefits is currently being reviewed for basic eligibility. If you haven't confirmed your eligibility yet, visit",
           )}
           {hubCards}
         </>
@@ -101,20 +101,25 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
             </h2>
             <ul className="va-nav-linkslist-list vads-u-margin-bottom--2">
               <li>
-                <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                  <va-link href="https://www.va.gov" text="Program Overview" />
-                </h3>
+                <VaLink
+                  external
+                  className=" vads-u-font-weight--bold"
+                  href="https://www.va.gov/careers-employment/vocational-rehabilitation/"
+                  text="Program Overview"
+                />
+
                 <p className="va-nav-linkslist-description">
                   More details in here.
                 </p>
               </li>
               <li>
-                <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                  <va-link
-                    href="https://www.va.gov"
-                    text="VR&E Support-and-Services Tracks"
-                  />
-                </h3>
+                <VaLink
+                  external
+                  className=" vads-u-font-weight--bold"
+                  href="https://www.va.gov/careers-employment/vocational-rehabilitation/programs/"
+                  text="VR&E Support-and-Services Tracks"
+                />
+
                 <p className="va-nav-linkslist-description">
                   We offer 5 support-and-services tracks to help you get
                   education or training, find and keep a job, and live as
@@ -253,10 +258,9 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
       return (
         <>
           <p>
-            Your counselor is now completing the Entitlement Determination
-            Review. Please visit the "Career Planning" web page for more
-            information about career paths, support, and rehabilitation
-            resources.
+            Your counselor is completing the Entitlement Determination Review.
+            Visit the “Career Planning” page for more information about career
+            paths, support, and rehabilitation resources.
           </p>
           {hubCards}
         </>
@@ -267,10 +271,8 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
       return (
         <>
           <p>
-            Your counselor is working with you to establish and initiate your
-            Chapter 31 Rehabilitation Plan and/or Career Track. Your counselor
-            will share the Rehabilitation Plan with you for your review and
-            approval.
+            Your counselor is working with you to establish your Chapter 31
+            Rehabilitation Plan or Career Track.
           </p>
           {hubCards}
         </>
@@ -281,8 +283,7 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
       return (
         <>
           <p>
-            Congratulations! Your Chapter 31 Rehabilitation Plan or Career Track
-            has been initiated.
+            Your Chapter 31 Rehabilitation Plan or Career Track has started.
           </p>
           {hubCards}
         </>

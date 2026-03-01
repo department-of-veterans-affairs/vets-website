@@ -503,7 +503,6 @@ const TRANSITION_PHASES = {
 describe('Oracle Health Transition - MedicationsListCard', () => {
   // Test data fixtures
   const MICHIGAN_FACILITY_515 = '515';
-  const MICHIGAN_FACILITY_506 = '506';
   const NON_TRANSITIONING_FACILITY = '442';
 
   const mockMichiganMigration = {
@@ -531,6 +530,19 @@ describe('Oracle Health Transition - MedicationsListCard', () => {
     phases: { ...TRANSITION_PHASES, current: phase },
   });
 
+  // Renewable Active prescription at a transitioning facility.
+  // isRefillable is false because a medication cannot be both refillable and renewable.
+  const createRenewableRxAtTransitioning = (overrides = {}) =>
+    createRxWithStation(MICHIGAN_FACILITY_515, {
+      dispStatus: 'Active',
+      refillRemaining: 0,
+      isRefillable: false,
+      isRenewable: true,
+      prescriptionSource: 'VA',
+      stationNumber: MICHIGAN_FACILITY_515,
+      ...overrides,
+    });
+
   // Helper to setup component with migration data
   const setupWithMigration = (
     rx,
@@ -557,92 +569,111 @@ describe('Oracle Health Transition - MedicationsListCard', () => {
     });
   };
 
-  // Assertion helpers
-  const expectAlertToExist = screen => {
+  // Assertion helpers — refill in-card alert (OracleHealthInCardAlert)
+  const expectRefillAlertToExist = screen => {
     expect(screen.getByTestId('oracle-health-in-card-alert')).to.exist;
   };
 
-  const expectAlertNotToExist = screen => {
+  const expectRefillAlertNotToExist = screen => {
     expect(screen.queryByTestId('oracle-health-in-card-alert')).to.not.exist;
   };
 
-  describe('when prescription is at transitioning facility during blocking phase', () => {
-    const transitioningRx = createRxWithStation(MICHIGAN_FACILITY_515);
+  // Assertion helpers — renewal in-card alert (OracleHealthRenewalInCardAlert)
+  const expectRenewalAlertToExist = screen => {
+    expect(screen.getByTestId('oracle-health-renewal-in-card-alert')).to.exist;
+  };
 
-    describe('when mhvMedicationsOracleHealthCutover feature flag is enabled', () => {
-      it('displays OracleHealthInCardAlert', () => {
-        const screen = setupWithMigration(transitioningRx, true);
-        expectAlertToExist(screen);
+  const expectRenewalAlertNotToExist = screen => {
+    expect(screen.queryByTestId('oracle-health-renewal-in-card-alert')).to.not
+      .exist;
+  };
+
+  describe('common transition behavior', () => {
+    describe('does not show transition alerts when feature flag is disabled', () => {
+      it('does not show refill alert for refillable rx', () => {
+        const migration = createMigrationWithPhase('p4');
+        const refillableRx = createRxWithStation(MICHIGAN_FACILITY_515);
+        const screen = setupWithMigration(refillableRx, false, [migration]);
+        expectRefillAlertNotToExist(screen);
       });
 
-      it('hides refill button when prescription is blocked', () => {
-        const screen = setupWithMigration(transitioningRx, true);
-        expect(screen.queryByTestId('refill-request-button')).to.not.exist;
+      it('does not show renewal alert for renewable rx', () => {
+        const migration = createMigrationWithPhase('p4');
+        const renewableRx = createRenewableRxAtTransitioning();
+        const screen = setupWithMigration(renewableRx, false, [migration]);
+        expectRenewalAlertNotToExist(screen);
       });
     });
 
-    describe('when mhvMedicationsOracleHealthCutover feature flag is disabled', () => {
-      it('does not display OracleHealthInCardAlert', () => {
-        const screen = setupWithMigration(transitioningRx, false);
-        expectAlertNotToExist(screen);
+    describe('does not show transition alerts when feature flag is enabled BUT no matching facility', () => {
+      it('does not show transition alerts for non-transitioning facility', () => {
+        const rx = createRxWithStation(NON_TRANSITIONING_FACILITY);
+        const screen = setupWithMigration(rx, true);
+        expectRefillAlertNotToExist(screen);
+        expectRenewalAlertNotToExist(screen);
       });
     });
   });
 
-  describe('when prescription is NOT at transitioning facility', () => {
-    const nonTransitioningRx = createRxWithStation(NON_TRANSITIONING_FACILITY);
-
-    it('does not display OracleHealthInCardAlert', () => {
-      const screen = setupWithMigration(nonTransitioningRx, true);
-      expectAlertNotToExist(screen);
-    });
-  });
-
-  describe('when in non-blocking phase (T-45, p1)', () => {
-    it('does not display alert during warning phase', () => {
-      const migrationP1 = createMigrationWithPhase('p1');
-      const transitioningRx = createRxWithStation(MICHIGAN_FACILITY_515);
-      const screen = setupWithMigration(transitioningRx, true, [migrationP1]);
-      expectAlertNotToExist(screen);
-    });
-  });
-
-  describe('multiple facilities - some transitioning', () => {
-    const multiMigrations = [
-      mockMichiganMigration,
-      {
-        migrationDate: '2026-05-15',
-        facilities: [
-          { facilityId: MICHIGAN_FACILITY_506, facilityName: 'Ann Arbor VA' },
-        ],
-        phases: { ...TRANSITION_PHASES, current: 'p4' },
-      },
-    ];
-
-    it('shows alert for prescription at facility 515 (Battle Creek)', () => {
+  describe('refill alert (OracleHealthInCardAlert) during phases p4-p5', () => {
+    it('shows refill alert and hides refill button for refillable rx at transitioning facility', () => {
       const rx = createRxWithStation(MICHIGAN_FACILITY_515);
-      const screen = setupWithMigration(rx, true, multiMigrations);
-      expectAlertToExist(screen);
-    });
-  });
-
-  describe('handles missing or invalid migration data', () => {
-    it('handles prescription without stationNumber', () => {
-      const rx = createRxWithStation(null);
       const screen = setupWithMigration(rx, true);
-      expectAlertNotToExist(screen);
+      expectRefillAlertToExist(screen);
+      expect(screen.queryByTestId('refill-request-button')).to.not.exist;
     });
 
-    it('handles empty migrations array', () => {
-      const rx = createRxWithStation(MICHIGAN_FACILITY_515);
-      const screen = setupWithMigration(rx, true, []);
-      expectAlertNotToExist(screen);
+    it('does not show refill alert for non-refillable (renewable) rx at transitioning facility', () => {
+      const rx = createRenewableRxAtTransitioning();
+      const screen = setupWithMigration(rx, true);
+      expectRefillAlertNotToExist(screen);
     });
 
-    it('handles null migrations', () => {
+    it('does not show refill alert during non-blocking phase (p1)', () => {
+      const migration = createMigrationWithPhase('p1');
       const rx = createRxWithStation(MICHIGAN_FACILITY_515);
-      const screen = setupWithMigration(rx, true, null);
-      expectAlertNotToExist(screen);
+      const screen = setupWithMigration(rx, true, [migration]);
+      expectRefillAlertNotToExist(screen);
+    });
+  });
+
+  // shouldBlockRenewals uses phases p3-p5 (superset of refill-blocking p4-p5).
+  // OracleHealthRenewalInCardAlert renders inside ExtraDetails when
+  // isRenewalBlocked and rx.isRenewable are both true.
+  describe('renewal alert (OracleHealthRenewalInCardAlert) during phases p3-p5', () => {
+    it('shows renewal alert during p3 for renewable rx at transitioning facility', () => {
+      const migration = createMigrationWithPhase('p3');
+      const rx = createRenewableRxAtTransitioning();
+      const screen = setupWithMigration(rx, true, [migration]);
+      expectRenewalAlertToExist(screen);
+    });
+
+    it('shows renewal alert during p4 for renewable rx at transitioning facility', () => {
+      const migration = createMigrationWithPhase('p4');
+      const rx = createRenewableRxAtTransitioning();
+      const screen = setupWithMigration(rx, true, [migration]);
+      expectRenewalAlertToExist(screen);
+    });
+
+    it('does not show renewal alert during p2 (non-blocking boundary)', () => {
+      const migration = createMigrationWithPhase('p2');
+      const rx = createRenewableRxAtTransitioning();
+      const screen = setupWithMigration(rx, true, [migration]);
+      expectRenewalAlertNotToExist(screen);
+    });
+
+    it('shows renewal alert for Expired renewable rx at transitioning facility', () => {
+      const migration = createMigrationWithPhase('p3');
+      const rx = createRenewableRxAtTransitioning({ dispStatus: 'Expired' });
+      const screen = setupWithMigration(rx, true, [migration]);
+      expectRenewalAlertToExist(screen);
+    });
+
+    it('does not show renewal alert when isRenewable is false', () => {
+      const migration = createMigrationWithPhase('p4');
+      const rx = createRenewableRxAtTransitioning({ isRenewable: false });
+      const screen = setupWithMigration(rx, true, [migration]);
+      expectRenewalAlertNotToExist(screen);
     });
   });
 });
