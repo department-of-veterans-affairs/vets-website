@@ -197,7 +197,7 @@ const formConfig = {
       pages: {
         page1e1: {
           path: 'resubmission-claim-number',
-          title: 'Claim ID number',
+          title: 'Claim identification number',
           depends: isResubmissionClaim,
           ...claimIdentificationNumber,
         },
