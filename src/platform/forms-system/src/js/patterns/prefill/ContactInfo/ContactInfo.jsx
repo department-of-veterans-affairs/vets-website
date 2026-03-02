@@ -621,9 +621,8 @@ export const ContactInfoBase = ({
           id={`${contactInfoPageKey}Header`}
           className="vads-u-margin-top--3 vads-u-margin-bottom--0"
         >
-          {content.title}
+          Confirm the contact information we have on file for you
         </MainHeader>
-        {content.description}
         {!loggedIn && (
           <strong className="usa-input-error-message">
             You must be logged in to enable view and edit this page.
