@@ -161,9 +161,9 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
     cy.get('va-alert[data-testid="cerner-migration-alert"]').should(
       'not.exist',
     );
-    cy.get(
-      'va-alert-expandable[data-testid="cerner-migration-alert"]',
-    ).should('not.exist');
+    cy.get('va-alert-expandable[data-testid="cerner-migration-alert"]').should(
+      'not.exist',
+    );
 
     // Run accessibility check
     cy.injectAxe();
