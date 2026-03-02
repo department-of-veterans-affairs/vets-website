@@ -8,18 +8,13 @@ export function useOHScheduling() {
   const data = useSelector(getFormData);
   const typeOfCare = getTypeOfCare(data);
 
-  // Enable all types of care in all environments other than production, in
-  // production utilize the constants that are defined in src/applications/vaos/utils/constants.js
-  const enableAllTypesOfCare =
-    process.env.NODE_ENV !== 'production' || process.env.NODE_ENV !== 'test';
-
   if (!featureUseVpg) {
     // OH only works when VPG is used
     return false;
   }
 
-  if (enableAllTypesOfCare) {
-    // env is not production or test
+  if (process.env.NODE_ENV === 'staging') {
+    // env is staging, let's enable all types of care
     return true;
   }
 
