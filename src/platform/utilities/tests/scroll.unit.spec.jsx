@@ -253,7 +253,11 @@ describe('scrollToElement', () => {
   // This function is an alias of scrollTo
   const setup = async (spy, scrollOptions) => {
     global.window.Forms = {};
-    Object.defineProperty(window, 'scrollTo', { value: spy });
+    Object.defineProperty(window, 'scrollTo', {
+      value: spy,
+      configurable: true,
+      writable: true,
+    });
     const { container } = render(
       <div>
         <div id="first" />
@@ -286,7 +290,11 @@ describe('scrollToElement', () => {
 describe('scrollToTop', () => {
   const setup = async (spy, selector, scrollOptions) => {
     global.window.Forms = {};
-    Object.defineProperty(window, 'scrollTo', { value: spy });
+    Object.defineProperty(window, 'scrollTo', {
+      value: spy,
+      configurable: true,
+      writable: true,
+    });
     const { container } = render(
       <div>
         <div id="first" />
@@ -350,7 +358,11 @@ describe('scrollToFirstError', () => {
     focusStub = sinon.stub(focusUtils, 'focusElement');
     consoleStub = sinon.stub(console, 'warn');
 
-    Object.defineProperty(window, 'scrollTo', { value: scrollSpy });
+    Object.defineProperty(window, 'scrollTo', {
+      value: scrollSpy,
+      configurable: true,
+      writable: true,
+    });
     Object.defineProperty(window, 'Forms', { value: {} });
   });
 
@@ -628,7 +640,11 @@ describe('scrollAndFocus', () => {
   it('should scroll to & focus element', async () => {
     const scrollSpy = sinon.spy();
     const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(window, 'scrollTo', { value: scrollSpy });
+    Object.defineProperty(window, 'scrollTo', {
+      value: scrollSpy,
+      configurable: true,
+      writable: true,
+    });
     const { container } = render(
       <div>
         <div id="first" />
@@ -651,7 +667,11 @@ describe('scrollAndFocus', () => {
   it('should not scroll or focus when element is missing', async () => {
     const scrollSpy = sinon.spy();
     const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(window, 'scrollTo', { value: scrollSpy });
+    Object.defineProperty(window, 'scrollTo', {
+      value: scrollSpy,
+      configurable: true,
+      writable: true,
+    });
     const { container } = render(
       <div>
         <div id="first" />
@@ -670,7 +690,11 @@ describe('customScrollAndFocus', () => {
   it('should focus on h3 when no param is passed', async () => {
     const scrollSpy = sinon.spy();
     const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(window, 'scrollTo', { value: scrollSpy });
+    Object.defineProperty(window, 'scrollTo', {
+      value: scrollSpy,
+      configurable: true,
+      writable: true,
+    });
 
     render(
       <>
@@ -697,7 +721,11 @@ describe('customScrollAndFocus', () => {
   it('should focus when passed a string selector', async () => {
     const scrollSpy = sinon.spy();
     const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(window, 'scrollTo', { value: scrollSpy });
+    Object.defineProperty(window, 'scrollTo', {
+      value: scrollSpy,
+      configurable: true,
+      writable: true,
+    });
 
     render(
       <>
