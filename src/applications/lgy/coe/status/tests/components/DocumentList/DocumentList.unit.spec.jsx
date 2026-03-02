@@ -1,20 +1,23 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { formatDateLong } from 'platform/utilities/date';
-
 import DocumentList from '../../../components/DocumentList/DocumentList';
 import mockDocumentList from '../../../../form/tests/fixtures/mocks/document-list.json';
 
 describe('DocumentList', () => {
+  const mockStore = configureStore([]);
+  const store = mockStore({});
+
   it('should render not on upload page content', () => {
     const { container } = render(
-      <div>
+      <Provider store={store}>
         <DocumentList notOnUploadPage />
-      </div>,
+      </Provider>,
     );
     const h2 = $('h2', container);
     expect(h2).to.exist;
@@ -25,9 +28,9 @@ describe('DocumentList', () => {
     const data = mockDocumentList.data.attributes;
 
     const { container } = render(
-      <div>
+      <Provider store={store}>
         <DocumentList />
-      </div>,
+      </Provider>,
     );
 
     setTimeout(() => {
