@@ -409,7 +409,7 @@ const ExpensePage = () => {
       if (name === 'costRequested') {
         const validationResult = validateRequestedAmount(
           value,
-          DATE_VALIDATION_TYPE.CHANGE,
+          DATE_VALIDATION_TYPE.BLUR,
         );
         if (validationResult.isValid) {
           delete nextErrors.costRequested;
@@ -836,14 +836,6 @@ const ExpensePage = () => {
       ...prev,
       ...validationResult.errors,
     }));
-
-    // Update formatted value if provided
-    if (validationResult.formattedValue) {
-      setFormState(prev => ({
-        ...prev,
-        costRequested: validationResult.formattedValue,
-      }));
-    }
   };
 
   const pageTitle = expenseTypeFields?.expensePageText

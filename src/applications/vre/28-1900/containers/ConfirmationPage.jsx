@@ -25,13 +25,25 @@ export const ConfirmationPage = props => {
           isValid(submitDate) ? ` on ${format(submitDate, 'MMMM d, yyyy')}` : ''
         }`}
         content={
-          <p>
-            We’ve recieved your VR&E application (VA Form 28-1900). After we
-            complete our review, we’ll mail you a decision letter with the
-            details of our decision.
-            {confirmationNumber &&
-              ` Your confirmation number is ${confirmationNumber}.`}
-          </p>
+          <>
+            <p>
+              We’ve received your VR&E application (VA Form 28-1900). After we
+              complete our review, we’ll mail you a decision letter with the
+              details of our decision.
+              {confirmationNumber &&
+                ` Your confirmation number is ${confirmationNumber}.`}
+            </p>
+            <p>
+              In the meantime, you can check the status of your VR&E Chapter 31
+              Benefits Progress using the following link:
+            </p>
+            <va-link-action
+              href="/careers-employment/track-your-vre-benefits/vre-benefit-status"
+              message-aria-describedby="Your VR&E benefit status"
+              text="Your VR&E benefit status"
+              type="primary"
+            />
+          </>
         }
         actions=""
       />
