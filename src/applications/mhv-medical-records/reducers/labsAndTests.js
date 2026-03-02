@@ -74,11 +74,15 @@ const initialState = {
   warnings: [],
 };
 
+const VISTA_HOSTNAME_PATTERN = /\.MED\.VA\.GOV$/i;
+
 export const extractLabLocation = (performer, record) => {
   if (!isArrayAndHasItems(performer)) return null;
   const locationRef = performer.find(item => item.reference);
   const labLocation = extractContainedResource(record, locationRef?.reference);
-  return labLocation?.name || null;
+  const name = labLocation?.name || null;
+  if (name && VISTA_HOSTNAME_PATTERN.test(name)) return null;
+  return name;
 };
 
 export const distillChemHemNotes = (notes, valueProp) => {
@@ -222,7 +226,9 @@ export const extractPerformingLabLocation = record => {
     fhirResourceTypes.ORGANIZATION,
     record.performer,
   );
-  return performingLab?.name || null;
+  const name = performingLab?.name || null;
+  if (name && VISTA_HOSTNAME_PATTERN.test(name)) return null;
+  return name;
 };
 
 export const extractOrderedBy = record => {

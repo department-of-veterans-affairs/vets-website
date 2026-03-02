@@ -61,6 +61,26 @@ describe('extractLabLocation', () => {
     };
     expect(extractLabLocation(record.performer, record)).to.be.null;
   });
+
+  it('should return null when location name is a VistA hostname', () => {
+    const record = {
+      contained: [
+        { id: 'OrgPerformer-989', name: 'DAYT29.FO-BAYPINES.MED.VA.GOV' },
+      ],
+      performer: [{ reference: '#OrgPerformer-989' }],
+    };
+    expect(extractLabLocation(record.performer, record)).to.be.null;
+  });
+
+  it('should return the name when it is not a VistA hostname', () => {
+    const record = {
+      contained: [{ id: 'Organization-552', name: 'DAYTON, OH VAMC' }],
+      performer: [{ reference: '#Organization-552' }],
+    };
+    expect(extractLabLocation(record.performer, record)).to.equal(
+      'DAYTON, OH VAMC',
+    );
+  });
 });
 
 describe('distillChemHemNotes', () => {
@@ -575,6 +595,20 @@ describe('extractPerformingLabLocation', () => {
   };
   it('gets the performing lab location', () => {
     expect(extractPerformingLabLocation(record)).to.eq('Org Name');
+  });
+
+  it('returns null when Organization name is a VistA hostname', () => {
+    const hostnameRecord = {
+      contained: [
+        {
+          id: 'OrgPerformer-989',
+          resourceType: fhirResourceTypes.ORGANIZATION,
+          name: 'SLC4.FO-BAYPINES.MED.VA.GOV',
+        },
+      ],
+      performer: [{ reference: '#OrgPerformer-989' }],
+    };
+    expect(extractPerformingLabLocation(hostnameRecord)).to.be.null;
   });
 });
 
