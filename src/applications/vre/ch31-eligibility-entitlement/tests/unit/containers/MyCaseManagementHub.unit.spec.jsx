@@ -4,7 +4,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import sinon from 'sinon';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
+import { CompatRouter } from 'react-router-dom-v5-compat';
 import { Provider } from 'react-redux';
 
 import * as UI from 'platform/utilities/ui';
@@ -36,11 +37,11 @@ const renderPage = state =>
   render(
     <Provider store={makeStore(state)}>
       <MemoryRouter
-        initialEntries={['/careers-employment/my-case-management-hub']}
+        initialEntries={['/track-your-vre-benefits/vre-benefit-status']}
       >
-        <Route path="/careers-employment/my-case-management-hub">
+        <CompatRouter>
           <MyCaseManagementHub />
-        </Route>
+        </CompatRouter>
       </MemoryRouter>
     </Provider>,
   );
@@ -101,13 +102,13 @@ describe('<MyCaseManagementHub>', () => {
 
   it('renders unavailable message when feature toggle is off', () => {
     const { getByRole, getByText } = renderPage(makeState({ toggleOn: false }));
-    getByRole('heading', { name: /My Case Management Hub/i });
+    getByRole('heading', { name: /Your VR&E Benefit Status/i });
     getByText(/This page isn’t available right now/i);
   });
 
   it('shows loading indicator when loading is true', () => {
     const { getByText, container } = renderPage(makeState({ loading: true }));
-    getByText(/My Case Management Hub/i);
+    getByText(/Your VR&E Benefit Status/i);
     expect(container.querySelector('va-loading-indicator')).to.exist;
   });
 
@@ -125,6 +126,6 @@ describe('<MyCaseManagementHub>', () => {
 
     const { getByText, queryByText } = renderPage(makeState({ attrs }));
     expect(queryByText(/This page isn’t available right now/i)).to.equal(null);
-    getByText(/My VR&E Chapter 31 Benefits Tracker/i);
+    getByText(/Your VR&E Benefit Status/i);
   });
 });
