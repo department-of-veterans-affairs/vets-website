@@ -18,7 +18,12 @@ const uiSchema = {
   providerName: textUI({
     title: 'Name of training provider',
     errorMessages: {
-      required: 'You must provide a response',
+      required:
+        'You must provide a response with minimum 3 characters and maximum of 75 characters. Accepted values are alphanumeric characters, apostrophes, commas, periods, spaces, colons, semicolons, and parentheses.',
+      minLength:
+        'You must provide a response with minimum 3 characters and maximum of 75 characters. Accepted values are alphanumeric characters, apostrophes, commas, periods, spaces, colons, semicolons, and parentheses.',
+      pattern:
+        'You must provide a response with minimum 3 characters and maximum of 75 characters. Accepted values are alphanumeric characters, apostrophes, commas, periods, spaces, colons, semicolons, and parentheses.',
     },
   }),
   providerAddress: addressUiSchema({ baseUiSchema: addressNoMilitaryUI({}) }),
