@@ -5,6 +5,10 @@
       {
         "name": "search_gov_maintenance",
         "value": false
+      },
+      {
+        "name": "search_results_ui_update",
+        "value": false
       }
     ]
   }
