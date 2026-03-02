@@ -13,7 +13,8 @@
  *  - SCSS/CSS compilation and extraction (replaces sass-loader + MiniCssExtractPlugin)
  *  - Asset inlining for images and fonts (replaces url-loader / file-loader)
  *  - DefinePlugin-style global replacements
- *  - Vendor chunk via manual chunking (replaces splitChunks)
+ *  - Self-contained IIFE bundles per entry (replaces splitChunks — each entry
+ *    gets all its dependencies inlined for HTTP/1 compatibility)
  *  - File manifest generation (replaces WebpackManifestPlugin)
  *  - Static file copying (replaces CopyPlugin)
  *
@@ -454,9 +455,10 @@ async function buildConfig(options = {}) {
     {},
   );
 
-  // With ESM splitting, shared modules (react, react-dom, etc.) are
-  // automatically extracted into shared chunks. No separate vendor
-  // entry is needed.
+  // IIFE format: each entry is self-contained with all dependencies
+  // inlined. This matches webpack's output model and works with HTTP/1
+  // serving on S3. Shared modules (react, etc.) are duplicated across
+  // entries but tree-shaking keeps each bundle lean.
 
   const aliasMap = buildAliasMap(rootDir);
 
@@ -464,7 +466,7 @@ async function buildConfig(options = {}) {
     entryPoints,
     bundle: true,
     outdir,
-    format: 'esm',
+    format: 'iife',
     platform: 'browser',
     // Note: esbuild handles syntax transforms differently from babel.
     // We target es2018 to support destructuring/rest/spread in node_modules.
@@ -476,16 +478,8 @@ async function buildConfig(options = {}) {
     metafile: true,
     logLevel: 'info',
     absWorkingDir: rootDir,
-    splitting: true,
+    splitting: false,
     treeShaking: true,
-    // NOTE: ESM splitting creates a separate chunk for every module boundary
-    // shared between 2+ entries. With many entry points, this produces hundreds
-    // of small chunks (e.g. ~100 per page). This is mitigated by:
-    // 1. <link rel="modulepreload"> hints in dev HTML (eliminates waterfalls)
-    // 2. HTTP/2 multiplexing (parallel requests over single connection)
-    // esbuild has no minSize/maxChunks/manualChunks controls like Rollup/webpack.
-    // For further chunk reduction, consider rspack or a Rollup post-build step.
-    chunkNames: 'chunks/[name]-[hash]',
 
     // Match webpack output naming
     entryNames: '[name]',
@@ -643,9 +637,7 @@ async function runBuild(options = {}) {
 
   const startTime = Date.now();
 
-  // ESM splitting mode handles code sharing automatically.
-  // Shared modules (react, react-dom, etc.) get extracted into
-  // shared chunks under generated/chunks/.
+  // IIFE mode: each entry is self-contained, no shared chunks.
   const result = await esbuild.build(config);
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
 

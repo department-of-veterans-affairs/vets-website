@@ -121,21 +121,6 @@ async function startDevServer() {
 
   const { config, buildPath } = await buildConfig(buildOptions);
 
-  // Track the latest metafile for modulepreload generation
-  let latestMetafile = null;
-
-  // Add an onEnd plugin to capture the metafile from each build
-  config.plugins.push({
-    name: 'capture-metafile',
-    setup(build) {
-      build.onEnd(result => {
-        if (result.metafile) {
-          latestMetafile = result.metafile;
-        }
-      });
-    },
-  });
-
   // Create esbuild context for incremental builds
   const ctx = await esbuild.context(config);
 
@@ -170,44 +155,6 @@ async function startDevServer() {
     .sort((a, b) => b.rootUrl.length - a.rootUrl.length);
 
   /**
-   * Collect all static import chunk paths for an entry point by walking
-   * the metafile import graph. Returns paths relative to /generated/.
-   */
-  function getModulePreloads(entryName) {
-    if (!latestMetafile) return [];
-    const entryKey = Object.keys(latestMetafile.outputs).find(
-      k => k.endsWith(`${entryName}.entry.js`) && !k.endsWith('.map'),
-    );
-    if (!entryKey) return [];
-
-    const visited = new Set();
-    const queue = [entryKey];
-    while (queue.length > 0) {
-      const file = queue.shift();
-      if (!visited.has(file)) {
-        visited.add(file);
-        const output = latestMetafile.outputs[file];
-        if (output) {
-          for (const imp of output.imports || []) {
-            if (imp.kind === 'import-statement' && !visited.has(imp.path)) {
-              queue.push(imp.path);
-            }
-          }
-        }
-      }
-    }
-
-    // Return chunk paths relative to /generated/
-    const generatedPrefix = `${buildPath.replace(/\/$/, '')}/generated/`;
-    return [...visited]
-      .filter(f => f.includes('/chunks/') && f.endsWith('.js'))
-      .map(f => {
-        const abs = path.resolve(config.absWorkingDir || '.', f);
-        return `/generated/${abs.slice(generatedPrefix.length)}`;
-      });
-  }
-
-  /**
    * Generate a dev HTML page using the same lodash/EJS template that
    * webpack uses (dev-template.ejs), with esbuild-specific script tags.
    */
@@ -219,7 +166,6 @@ async function startDevServer() {
       widgetTemplate,
       template,
     } = appRoute;
-    const preloads = getModulePreloads(entryName);
 
     // Build script/style tags that the template expects from HtmlWebpackPlugin.
     // The template calls modifyScriptAndStyleTags(htmlWebpackPlugin.tags.headTags)
@@ -244,26 +190,26 @@ async function startDevServer() {
         },
         tagName: 'link',
       },
-      // JS scripts (type="module" for ESM)
+      // JS scripts (IIFE, loaded with defer)
       {
-        attributes: { src: '/generated/polyfills.entry.js', type: 'module' },
+        attributes: { src: '/generated/polyfills.entry.js', defer: true },
         tagName: 'script',
       },
       {
         attributes: {
           src: '/generated/web-components.entry.js',
-          type: 'module',
+          defer: true,
         },
         tagName: 'script',
       },
       {
-        attributes: { src: `/generated/${entryName}.entry.js`, type: 'module' },
+        attributes: { src: `/generated/${entryName}.entry.js`, defer: true },
         tagName: 'script',
       },
     ];
 
     // Replicate the modifyScriptAndStyleTags function from webpack.config.js
-    // but adapted for ESM modules instead of defer scripts.
+    // Scripts use defer attribute for ordered loading.
     const modifyScriptAndStyleTags = originalTags => {
       const styleTags = [];
       const scriptTags = [];
@@ -298,19 +244,14 @@ async function startDevServer() {
         .join('\n    ');
     };
 
-    // Modulepreload hints for chunk loading performance
-    const preloadHtml = preloads
-      .map(p => `<link rel="modulepreload" href="${p}">`)
-      .join('\n    ');
-
-    let title = 'VA.gov Home | Veterans Affairs';
-    if (template && template.title) {
-      title = `${template.title} | Veterans Affairs`;
-    } else if (appName) {
-      title = `${appName} | Veterans Affairs`;
-    }
-
     try {
+      let title = 'VA.gov Home | Veterans Affairs';
+      if (template && template.title) {
+        title = `${template.title} | Veterans Affairs`;
+      } else if (appName) {
+        title = `${appName} | Veterans Affairs`;
+      }
+
       let html = devTemplate({
         htmlWebpackPlugin: {
           options: { title },
@@ -329,11 +270,6 @@ async function startDevServer() {
         rootUrl: appRoute.rootUrl,
         ...(template || {}),
       });
-
-      // Inject modulepreload hints after the opening <head> tag
-      if (preloadHtml) {
-        html = html.replace('</head>', `    ${preloadHtml}\n  </head>`);
-      }
 
       // Patch dev-template markup to match production (content-build) styling
       html = html.replace(
@@ -364,7 +300,7 @@ async function startDevServer() {
 <body class="merger">
   <div id="content"><div id="react-root"></div></div>
   <div id="footerNav"></div>
-  <script type="module" src="/generated/${entryName}.entry.js"></script>
+  <script defer src="/generated/${entryName}.entry.js"></script>
 </body>
 </html>`;
     }
