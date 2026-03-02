@@ -23,7 +23,9 @@ const esbuild = require('esbuild');
 const http = require('http');
 const path = require('path');
 const fs = require('fs');
+const zlib = require('zlib');
 const _ = require('lodash');
+const facilitySidebar = require('@department-of-veterans-affairs/platform-landing-pages/facility-sidebar');
 const { buildConfig } = require('../config/esbuild.config');
 const { getAppManifests } = require('../config/manifest-helpers');
 
@@ -31,7 +33,6 @@ const rootDir = path.resolve(__dirname, '..');
 
 // Data needed by the dev template (same as webpack.config.js)
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
-const facilitySidebar = require('@department-of-veterans-affairs/platform-landing-pages/facility-sidebar');
 const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
 
 // Load the dev template and compile it once
@@ -86,28 +87,57 @@ for (let i = 0; i < args.length; i += 1) {
 const port = parseInt(options.port || '3001', 10);
 const host = options.host || '127.0.0.1';
 
-function serveFile(res, filePath) {
-  const ext = path.extname(filePath).toLowerCase();
-  const mimeTypes = {
-    '.html': 'text/html',
-    '.js': 'application/javascript',
-    '.css': 'text/css',
-    '.json': 'application/json',
-    '.png': 'image/png',
-    '.jpg': 'image/jpeg',
-    '.gif': 'image/gif',
-    '.svg': 'image/svg+xml',
-    '.woff': 'font/woff',
-    '.woff2': 'font/woff2',
-    '.ttf': 'font/ttf',
-    '.eot': 'application/vnd.ms-fontobject',
-    '.map': 'application/json',
-  };
+const mimeTypes = {
+  '.html': 'text/html',
+  '.js': 'application/javascript',
+  '.css': 'text/css',
+  '.json': 'application/json',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.gif': 'image/gif',
+  '.svg': 'image/svg+xml',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2',
+  '.ttf': 'font/ttf',
+  '.eot': 'application/vnd.ms-fontobject',
+  '.map': 'application/json',
+};
 
+// Compressible text-based MIME types
+const compressible = new Set([
+  'text/html',
+  'application/javascript',
+  'text/css',
+  'application/json',
+  'image/svg+xml',
+]);
+
+function sendResponse(req, res, statusCode, contentType, body) {
+  const acceptEncoding = req.headers['accept-encoding'] || '';
+  if (compressible.has(contentType) && acceptEncoding.includes('gzip')) {
+    zlib.gzip(body, (err, compressed) => {
+      if (err) {
+        res.writeHead(statusCode, { 'Content-Type': contentType });
+        res.end(body);
+      } else {
+        res.writeHead(statusCode, {
+          'Content-Type': contentType,
+          'Content-Encoding': 'gzip',
+        });
+        res.end(compressed);
+      }
+    });
+  } else {
+    res.writeHead(statusCode, { 'Content-Type': contentType });
+    res.end(body);
+  }
+}
+
+function serveFile(req, res, filePath) {
+  const ext = path.extname(filePath).toLowerCase();
   const contentType = mimeTypes[ext] || 'application/octet-stream';
   const content = fs.readFileSync(filePath);
-  res.writeHead(200, { 'Content-Type': contentType });
-  res.end(content);
+  sendResponse(req, res, 200, contentType, content);
 }
 
 async function startDevServer() {
@@ -332,13 +362,13 @@ async function startDevServer() {
     // Try to serve from generated/ first
     const generatedPath = path.join(buildPath, 'generated', urlPath);
     if (urlPath.startsWith('/generated/') && fs.existsSync(generatedPath)) {
-      return serveFile(res, generatedPath);
+      return serveFile(req, res, generatedPath);
     }
 
     // Try to serve static files from the build directory
     const staticPath = path.join(buildPath, urlPath);
     if (fs.existsSync(staticPath) && fs.statSync(staticPath).isFile()) {
-      return serveFile(res, staticPath);
+      return serveFile(req, res, staticPath);
     }
 
     // SPA rewrite: match app routes and serve generated HTML.
@@ -351,15 +381,14 @@ async function startDevServer() {
         urlPath.startsWith(`${appRoute.rootUrl}/`)
       ) {
         const html = generateDevHtml(appRoute);
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        return res.end(html);
+        return sendResponse(req, res, 200, 'text/html', html);
       }
     }
 
     // Fall back to root index.html
     const rootIndex = path.join(buildPath, 'index.html');
     if (fs.existsSync(rootIndex)) {
-      return serveFile(res, rootIndex);
+      return serveFile(req, res, rootIndex);
     }
 
     res.writeHead(404);
