@@ -60,7 +60,10 @@ describe('All claims ITF page', () => {
   it('should show ITF found alert', () => {
     cy.intercept('GET', '/v0/intent_to_file', mockItf());
 
-    cy.findAllByText(/start the disability/i, { selector: 'a' })
+    cy.get('a[href="#start"], va-link-action[href="#start"]', {
+      timeout: 10000,
+    })
+      .filter(':visible')
       .first()
       .click();
 
@@ -80,7 +83,10 @@ describe('All claims ITF page', () => {
     cy.intercept('GET', '/v0/intent_to_file', mockItf({ years: -2 }));
     cy.intercept('POST', '/v0/intent_to_file/compensation', postItf());
 
-    cy.findAllByText(/start the disability/i, { selector: 'a' })
+    cy.get('a[href="#start"], va-link-action[href="#start"]', {
+      timeout: 10000,
+    })
+      .filter(':visible')
       .first()
       .click();
 
@@ -104,7 +110,10 @@ describe('All claims ITF page', () => {
     );
     cy.intercept('POST', '/v0/intent_to_file/compensation', postItf());
 
-    cy.findAllByText(/start the disability/i, { selector: 'a' })
+    cy.get('a[href="#start"], va-link-action[href="#start"]', {
+      timeout: 10000,
+    })
+      .filter(':visible')
       .first()
       .click();
 
@@ -128,7 +137,10 @@ describe('All claims ITF page', () => {
     );
     cy.intercept('POST', '/v0/intent_to_file/compensation', postItf());
 
-    cy.findAllByText(/start the disability/i, { selector: 'a' })
+    cy.get('a[href="#start"], va-link-action[href="#start"]', {
+      timeout: 10000,
+    })
+      .filter(':visible')
       .first()
       .click();
 
@@ -148,7 +160,10 @@ describe('All claims ITF page', () => {
     cy.intercept('GET', '/v0/intent_to_file', mockItf({ years: -2 }));
     cy.intercept('POST', '/v0/intent_to_file/compensation', errorItf());
 
-    cy.findAllByText(/start the disability/i, { selector: 'a' })
+    cy.get('a[href="#start"], va-link-action[href="#start"]', {
+      timeout: 10000,
+    })
+      .filter(':visible')
       .first()
       .click();
 
@@ -168,7 +183,10 @@ describe('All claims ITF page', () => {
     cy.intercept('GET', '/v0/intent_to_file', errorItf());
     cy.intercept('POST', '/v0/intent_to_file/compensation', errorItf());
 
-    cy.findAllByText(/start the disability/i, { selector: 'a' })
+    cy.get('a[href="#start"], va-link-action[href="#start"]', {
+      timeout: 10000,
+    })
+      .filter(':visible')
       .first()
       .click();
 

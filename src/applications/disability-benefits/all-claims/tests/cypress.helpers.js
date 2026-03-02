@@ -279,9 +279,21 @@ export const reviewAndSubmitPageFlow = (
     .shadow()
     .find('input')
     .click({ force: true });
-  cy.findByText(submitButtonText, {
-    selector: 'button',
-  }).click();
+  cy.get('body', { timeout: 10000 }).then($body => {
+    const vadsSubmitSelector = `va-button[text="${submitButtonText}"]`;
+
+    if ($body.find(vadsSubmitSelector).length > 0) {
+      cy.get(vadsSubmitSelector)
+        .first()
+        .shadow()
+        .find('button')
+        .click();
+    } else {
+      cy.findByText(submitButtonText, {
+        selector: 'button',
+      }).click();
+    }
+  });
 };
 
 Cypress.Commands.add('verifyVeteranDetails', data => {
@@ -646,6 +658,36 @@ Cypress.Commands.add('verifyAdditionalInformation', data => {
   }
 });
 
+const clickContinueButton = (cy, textPattern = /continue|next/i) => {
+  cy.get('body', { timeout: 10000 }).then($body => {
+    const vadsContinueSelector =
+      'va-button[continue], va-button[text*="Continue"], va-button[text*="Next"]';
+    const legacyContinueSelector =
+      'button[id$="continueButton"], a#continueButton';
+
+    if ($body.find(vadsContinueSelector).length > 0) {
+      // Click the va-button web component directly
+      cy.get(vadsContinueSelector)
+        .first()
+        .should('be.visible')
+        .click({ force: true });
+    } else if ($body.find(`${legacyContinueSelector}:visible`).length > 0) {
+      cy.get(`${legacyContinueSelector}:visible`)
+        .first()
+        .click();
+    } else if ($body.find(legacyContinueSelector).length > 0) {
+      cy.get(legacyContinueSelector)
+        .first()
+        .click({ force: true });
+    } else {
+      // Try with va-button selector first
+      cy.findByText(textPattern, { selector: 'va-button, button, a' }).click({
+        force: true,
+      });
+    }
+  });
+};
+
 export const pageHooks = (cy, testOptions) => ({
   start: () => {
     // skip wizard
@@ -665,7 +707,10 @@ export const pageHooks = (cy, testOptions) => ({
         window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
       }
       // Start form
-      cy.findAllByText(/start the/i, { selector: 'a' })
+      cy.get('a[href="#start"], va-link-action[href="#start"]', {
+        timeout: 10000,
+      })
+        .filter(':visible')
         .first()
         .click();
     });
@@ -676,10 +721,10 @@ export const pageHooks = (cy, testOptions) => ({
       .should('be.visible')
       .then(() => {
         // Click past the ITF message
-        cy.findByText(/continue/i, { selector: 'button' }).click();
+        clickContinueButton(cy);
       });
 
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    clickContinueButton(cy);
   },
 
   'contact-information': () => {
@@ -720,7 +765,7 @@ export const pageHooks = (cy, testOptions) => ({
         addressLine1,
       );
     });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    clickContinueButton(cy);
   },
 
   'review-veteran-details/military-service-history/federal-orders': () => {
@@ -746,11 +791,11 @@ export const pageHooks = (cy, testOptions) => ({
   },
 
   'mental-health-form-0781/workflow': () => {
+    // Select the online form option by checking the radio input inside va-radio-option
     cy.get('va-radio-option[value="optForOnlineForm0781"]')
       .find('input[type="radio"]')
+      .should('exist')
       .check({ force: true });
-
-    cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 
   'supporting-evidence/orientation': () => {
@@ -892,14 +937,14 @@ export const pageHooks = (cy, testOptions) => ({
       '/disability/file-disability-claim-form-21-526ez/new-disabilities/follow-up',
     );
 
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    clickContinueButton(cy);
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
         // Loop through each new disability and verify the follow-up pages
         if (!data.standardClaim) {
           // BDD Claim
           cy.fillPage();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
+          clickContinueButton(cy);
         } else {
           // Standard Claim
           cy.log(`Processing disability ${index + 1}: ${disability.condition}`);
@@ -921,10 +966,7 @@ export const pageHooks = (cy, testOptions) => ({
             cy.get('textarea[id="root_primaryDescription"]').type(
               disability.primaryDescription,
             );
-            cy.findByText(/continue/i, { selector: 'button' }).should(
-              'be.visible',
-            );
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            clickContinueButton(cy);
           } else if (disability.cause === 'SECONDARY') {
             // SECONDARY conditions should show secondary follow-up page
             cy.get(`input[value="SECONDARY"]`).click();
@@ -949,7 +991,7 @@ export const pageHooks = (cy, testOptions) => ({
                 .causedByDisabilityDescription,
             );
 
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            clickContinueButton(cy);
           } else if (disability.cause === 'WORSENED') {
             // WORSENED conditions should show worsened follow-up page
             cy.get(`input[value="WORSENED"]`).click();
@@ -973,7 +1015,7 @@ export const pageHooks = (cy, testOptions) => ({
               'textarea[id="root_view:worsenedFollowUp_worsenedEffects"]',
             ).type(disability['view:worsenedFollowUp'].worsenedEffects);
 
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            clickContinueButton(cy);
           } else if (disability.cause === 'VA') {
             // VA conditions should show VA mistreatment follow-up page
             cy.get(`input[value="VA"]`).click();
@@ -1002,7 +1044,7 @@ export const pageHooks = (cy, testOptions) => ({
               disability['view:vaFollowUp'].vaMistreatmentDate,
             );
 
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            clickContinueButton(cy);
           }
           // Verify we've moved to the next page or completed the flow
           if (index < data.newDisabilities.length - 1) {
@@ -1034,7 +1076,7 @@ export const pageHooks = (cy, testOptions) => ({
             ).check({
               force: true,
             });
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            clickContinueButton(cy);
           }
         });
       }
@@ -1076,7 +1118,7 @@ export const pageHooks = (cy, testOptions) => ({
       ) {
         cy.get('.form-checkbox').should('not.exist');
       }
-      cy.findByText(/continue/i, { selector: 'button' }).click();
+      clickContinueButton(cy);
     });
   },
 
@@ -1097,7 +1139,6 @@ export const pageHooks = (cy, testOptions) => ({
         cy.get('input[name="privacy-agreement"]').click({ force: true });
       }
     });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 
   'supporting-evidence/private-medical-records-release': () => {
@@ -1184,7 +1225,7 @@ export const pageHooks = (cy, testOptions) => ({
           cy.log('File Type selection successful');
         });
       }
-      cy.findByText(/continue/i, { selector: 'button' }).click();
+      clickContinueButton(cy);
     });
   },
 

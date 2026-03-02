@@ -44,7 +44,11 @@ const optionalEventPages = {
 
         cy.get('va-card').should('have.length', 1);
 
-        cy.findByText(/continue/i, { selector: 'button' }).click();
+        cy.get(
+          'va-button[continue], va-button[text*="Continue"], button[id$="continueButton"]',
+        )
+          .first()
+          .click({ force: true });
       } else {
         throw new Error(`Unexpected nextState: ${nextState}`);
       }

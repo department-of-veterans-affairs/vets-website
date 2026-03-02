@@ -110,7 +110,16 @@ const testConfig = createTestConfig(
         // Navigate to a different page via Continue button
         // This triggers the useEffect that closes the accordion
         cy.fillPage();
-        cy.findByText(/continue/i, { selector: 'button' }).click();
+        cy.get(
+          'va-button[continue], va-button[text*="Continue"], button[id$="continueButton"]',
+        )
+          .first()
+          .click({ force: true });
+        cy.get(
+          'va-button[continue], va-button[text*="Continue"], button[id$="continueButton"]',
+        )
+          .first()
+          .click({ force: true });
 
         // Wait for navigation to complete
         cy.url().should('not.include', '/rated-disabilities');
@@ -157,7 +166,6 @@ const testConfig = createTestConfig(
           cy.get(
             `va-radio-option[label="${hasAdditionalEvidence ? 'Yes' : 'No'}"]`,
           ).click();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
 
@@ -168,7 +176,6 @@ const testConfig = createTestConfig(
           cy.get(
             `va-radio-option[label="${hasMedicalRecords ? 'Yes' : 'No'}"]`,
           ).click();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
 
