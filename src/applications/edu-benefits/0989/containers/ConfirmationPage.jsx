@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
 export const ConfirmationPage = props => {
-  const form = useSelector(state => state.form || {});
+  const form = useSelector(state => state.form);
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
   const confirmationNumber = submission?.response?.confirmationNumber || '';

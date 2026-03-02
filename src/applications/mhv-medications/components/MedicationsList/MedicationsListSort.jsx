@@ -11,11 +11,15 @@ import { useSelector } from 'react-redux';
 import { rxListSortingOptions } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import { selectSortOption } from '../../selectors/selectPreferences';
+import { selectMedicationsManagementImprovementsFlag } from '../../util/selectors';
 
 const MedicationsListSort = props => {
   const { shouldShowSelect, sortRxList } = props;
   const navigate = useNavigate();
-
+  const isManagementImprovementsEnabled = useSelector(
+    selectMedicationsManagementImprovementsFlag,
+  );
+  const route = isManagementImprovementsEnabled ? `/history` : `/`;
   const selectedSortOption = useSelector(selectSortOption);
 
   const rxSortingOptions = Object.keys(rxListSortingOptions);
@@ -54,7 +58,7 @@ const MedicationsListSort = props => {
               focusElement(sortActionSrText);
 
               sortRxList(null, newSortOption);
-              navigate(`/?page=1`, {
+              navigate(`${route}?page=1`, {
                 replace: true,
               });
               waitForRenderThenFocus(

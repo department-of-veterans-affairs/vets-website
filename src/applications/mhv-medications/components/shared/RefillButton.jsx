@@ -41,7 +41,7 @@ const RefillButton = rx => {
     datadogRum.addAction(dataDogActionNames.medicationsListPage.REFILL_BUTTON, {
       facilityId: stationNumber,
     });
-    refillPrescription(prescriptionId);
+    refillPrescription({ id: prescriptionId, stationNumber });
   };
 
   if (!isRefillable || wasRecentlySubmitted(refillSubmitDate)) {

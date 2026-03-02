@@ -10,7 +10,9 @@ const initialState = {
   serviceConnectedCombinedDegree: null,
 };
 
-const minRating = 30;
+// Minimum disability rating required to be able to add dependents to your VA
+// benefits
+const MIN_RATING = 30;
 
 /**
  * @typedef {object} RatingInfoState
@@ -37,7 +39,7 @@ function ratingValue(state = initialState, action) {
         error: null,
       };
     case FETCH_RATING_INFO_SUCCESS:
-      if (action.response.userPercentOfDisability >= minRating) {
+      if (action.response.userPercentOfDisability >= MIN_RATING) {
         return {
           ...state,
           loading: false,

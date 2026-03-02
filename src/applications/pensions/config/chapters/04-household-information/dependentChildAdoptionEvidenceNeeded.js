@@ -2,7 +2,6 @@ import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { showMultiplePageResponse } from '../../../helpers';
 import { getDependentChildTitle, dependentIsAdopted } from './helpers';
-import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
 export default {
   title: item => getDependentChildTitle(item, 'supporting documents needed'),
@@ -16,7 +15,7 @@ export default {
     dependents: {
       items: {
         ...titleUI(
-          createHouseholdMemberTitle('fullName', 'supporting documents needed'),
+          'Supporting documents needed',
           <>
             <p>
               Because your child is adopted, you’ll need to submit adoption
