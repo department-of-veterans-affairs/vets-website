@@ -348,7 +348,6 @@ body.va-pos-fixed {
 #vetnav-va-benefits-and-health-care.vetnav-panel {
   width: 15.625rem;
   max-width: 100%;
-  overflow-wrap: anywhere;
 
   @include media($medium-screen) {
     &.vetnav-submenu--expanded {
