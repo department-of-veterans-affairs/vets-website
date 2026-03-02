@@ -125,6 +125,23 @@ const FacilitiesMap = props => {
     }
   };
 
+  const clickSkipMap = e => {
+    e.preventDefault();
+    // if feedback button is present, focus on that
+    const focusableFeedbackButton = document.querySelector(
+      '#mdFormButton > .usa-button',
+    );
+    // else focus on the footer
+    if (focusableFeedbackButton) {
+      focusableFeedbackButton.focus();
+    } else {
+      const firstFooterLink = document.querySelector(
+        '#footerNav > div > div.footer-inner > div.usa-grid-full > div.va-footer-linkgroup:first-of-type > ul.va-footer-links > li:first-of-type > a ',
+      );
+      if (firstFooterLink) firstFooterLink.focus();
+    }
+  };
+
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
     const queryParams = {
@@ -570,6 +587,7 @@ const FacilitiesMap = props => {
                         </div>
                       </div>
                       <RenderMap
+                        handleSkipMap={clickSkipMap}
                         currentQuery={currentQuery}
                         handleSearchArea={handleSearchArea}
                         isSearching={isSearching}

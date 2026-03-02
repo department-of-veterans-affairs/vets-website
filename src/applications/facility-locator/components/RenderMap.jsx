@@ -7,6 +7,7 @@ const RenderMap = forwardRef(
   (
     {
       currentQuery,
+      handleSkipMap,
       handleSearchArea,
       isSearching,
       mapboxGlContainer,
@@ -30,11 +31,6 @@ const RenderMap = forwardRef(
       },
       [map],
     );
-
-    // useEffect(() => {
-    //   const feedbackButton = document.querySelector('button[text="Feedback"]');
-    //   console.log('feedbackButton', feedbackButton);
-    // }, []);
 
     const speakMapInstructions = () => {
       const mapInstructionsElement = document.getElementById(
@@ -62,6 +58,15 @@ const RenderMap = forwardRef(
           data-testid="map-instructions"
           aria-live="assertive"
         />
+        <button
+          className="skip-map-link"
+          id="skip-map-link"
+          tabIndex="0"
+          type="button"
+          onClick={e => handleSkipMap(e)}
+        >
+          SKIP MAP
+        </button>
         <div
           id={mapboxGlContainer}
           data-testid={mapboxGlContainer}
@@ -76,9 +81,6 @@ const RenderMap = forwardRef(
               : `${smallDesktop ? 'desktop' : 'tablet'}-map-container`
           }
         >
-          {/* <a className="skip-map-link" tabIndex="0" href="#content">
-            SKIP MAP
-          </a> */}
           {shouldRenderSearchArea && (
             <SearchAreaControl
               handleSearchArea={handleSearchArea}
@@ -96,6 +98,7 @@ const RenderMap = forwardRef(
 );
 
 RenderMap.propTypes = {
+  handleSkipMap: PropTypes.func,
   currentQuery: PropTypes.object,
   handleSearchArea: PropTypes.func,
   isSearching: PropTypes.bool,

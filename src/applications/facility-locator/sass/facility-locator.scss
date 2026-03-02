@@ -101,6 +101,7 @@ $text-color: rgba(27, 27, 27, 1);
 
   .map-and-message-container {
     flex-grow: 1;
+    position: relative;
   }
 
   .search-result-title {
