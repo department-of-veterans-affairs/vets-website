@@ -6,6 +6,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import * as sinon from 'sinon';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 import * as prescriptionsApiModule from '../../../api/prescriptionsApi';
 import { useFetchMedicationHistory } from '../../../hooks/MedicationHistory/useFetchMedicationHistory';
 import {
@@ -20,13 +21,18 @@ const CERNER_PILOT_TOGGLE = 'mhv_medications_cerner_pilot';
 const V2_STATUS_MAPPING_TOGGLE = 'mhv_medications_v2_status_mapping';
 
 /**
- * Creates a test wrapper with Redux Provider
+ * Creates a test wrapper with Redux Provider and MemoryRouter
  * @param {Object} mockStore the mock Redux store
- * @returns {React.Component} A React component wrapping children with Provider
+ * @param {number} page The page number to include as the initialEntries 'page' query parameter
+ * @returns {React.Component} A React component wrapping children with Provider and MemoryRouter
  */
-function createTestWrapper(mockStore) {
+function createTestWrapper(mockStore, page = 1) {
   const Wrapper = ({ children }) => (
-    <Provider store={mockStore}>{children}</Provider>
+    <Provider store={mockStore}>
+      <MemoryRouter initialEntries={[page !== null ? `/?page=${page}` : '']}>
+        {children}
+      </MemoryRouter>
+    </Provider>
   );
 
   Wrapper.propTypes = {
@@ -143,7 +149,6 @@ describe('useFetchMedicationHistory', () => {
         expect(result.current.prescriptionsApiError).to.be.undefined;
         expect(result.current.isLoading).to.be.false;
         expect(result.current.setQueryParams).to.be.a('function');
-        expect(result.current.setPage).to.be.a('function');
         expect(result.current.currentPage).to.equal(1);
       });
     });
@@ -241,15 +246,15 @@ describe('useFetchMedicationHistory', () => {
       });
     });
 
-    it('accepts custom initialPage parameter', async () => {
+    it('reads page from URL search params', async () => {
       useGetPrescriptionsListQueryStub = sandbox
         .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
         .returns(getMockQueryResponse());
 
       const mockStore = createMockStore();
-      const wrapper = createTestWrapper(mockStore);
+      const wrapper = createTestWrapper(mockStore, 3);
 
-      const { result } = renderHook(() => useFetchMedicationHistory(3), {
+      const { result } = renderHook(() => useFetchMedicationHistory(), {
         wrapper,
       });
 
@@ -268,7 +273,7 @@ describe('useFetchMedicationHistory', () => {
       const mockStore = createMockStore();
       const wrapper = createTestWrapper(mockStore);
 
-      renderHook(() => useFetchMedicationHistory(1, 25), { wrapper });
+      renderHook(() => useFetchMedicationHistory(25), { wrapper });
 
       await waitFor(() => {
         const queryParams = useGetPrescriptionsListQueryStub.firstCall.args[0];
@@ -313,37 +318,6 @@ describe('useFetchMedicationHistory', () => {
         expect(queryParams.filterOption).to.equal(
           filterOptions[ACTIVE_FILTER_KEY].url,
         );
-      });
-    });
-  });
-
-  describe('setPage function', () => {
-    it('updates currentPage when setPage is called', async () => {
-      useGetPrescriptionsListQueryStub = sandbox
-        .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
-        .returns(getMockQueryResponse());
-
-      const mockStore = createMockStore();
-      const wrapper = createTestWrapper(mockStore);
-
-      const { result } = renderHook(() => useFetchMedicationHistory(), {
-        wrapper,
-      });
-
-      await waitFor(() => {
-        expect(result.current.currentPage).to.equal(1);
-      });
-
-      await act(async () => {
-        result.current.setPage(5);
-      });
-
-      await waitFor(() => {
-        expect(
-          useGetPrescriptionsListQueryStub
-            .getCalls()
-            .some(call => call.args[0]?.page === 5),
-        ).to.equal(true);
       });
     });
   });
