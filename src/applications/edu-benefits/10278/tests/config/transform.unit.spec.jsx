@@ -175,7 +175,7 @@ describe('22-10278 transform', () => {
       const formData = parseResult(transform({}, form));
 
       expect(formData.claimantAddress).to.deep.equal({
-        country: 'US',
+        country: 'USA',
         street: '123 Main St',
         street2: 'Apt 4',
         city: 'Springfield',
