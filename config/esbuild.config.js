@@ -33,6 +33,7 @@ const path = require('path');
 const fs = require('fs');
 const { sassPlugin } = require('esbuild-sass-plugin');
 const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 const postcss = require('postcss');
 
 const ENVIRONMENTS = require('../src/site/constants/environments');
@@ -235,6 +236,38 @@ function manifestPlugin() {
         fs.writeFileSync(
           path.join(outputDir, 'file-manifest.json'),
           JSON.stringify(manifest, null, 2),
+        );
+      });
+    },
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Plugin: post-build CSS minification with cssnano
+// Runs on the final merged CSS files (after esbuild concatenates SCSS outputs).
+// This is more effective than per-file minification because cssnano can
+// deduplicate rules that appear across multiple @imported SCSS partials.
+// ---------------------------------------------------------------------------
+function cssMinifyPlugin() {
+  return {
+    name: 'css-minify',
+    setup(build) {
+      build.onEnd(async result => {
+        if (!result.metafile) return;
+        const processor = postcss([cssnano({ preset: 'default' })]);
+        const cssFiles = Object.keys(result.metafile.outputs).filter(
+          f => f.endsWith('.css') && !f.endsWith('.map'),
+        );
+        await Promise.all(
+          cssFiles.map(async file => {
+            const absPath = path.resolve(
+              build.initialOptions.absWorkingDir || '.',
+              file,
+            );
+            const source = fs.readFileSync(absPath, 'utf8');
+            const minified = await processor.process(source, { from: absPath });
+            fs.writeFileSync(absPath, minified.css);
+          }),
         );
       });
     },
@@ -483,21 +516,24 @@ async function buildConfig(options = {}) {
 
     // Match webpack output naming
     entryNames: '[name]',
-    assetNames: '[name]',
+    assetNames: '[name]-[hash]',
 
     // Loaders for asset types
+    // Use 'file' for images and SVGs so they're emitted as separate files
+    // (matching webpack's url-loader with size limits). Using 'dataurl'
+    // for all images bloats CSS output with large base64-encoded data URIs.
     loader: {
       '.js': 'jsx',
       '.jsx': 'jsx',
       '.ts': 'tsx',
       '.tsx': 'tsx',
-      '.png': 'dataurl',
-      '.jpg': 'dataurl',
-      '.jpeg': 'dataurl',
-      '.gif': 'dataurl',
-      '.svg': 'dataurl',
-      '.woff': 'dataurl',
-      '.woff2': 'dataurl',
+      '.png': 'file',
+      '.jpg': 'file',
+      '.jpeg': 'file',
+      '.gif': 'file',
+      '.svg': 'file',
+      '.woff': 'file',
+      '.woff2': 'file',
       '.ttf': 'file',
       '.eot': 'file',
       '.afm': 'text',
@@ -613,6 +649,7 @@ async function buildConfig(options = {}) {
       }),
       copyAssetsPlugin(buildPath),
       manifestPlugin(),
+      ...(shouldMinify ? [cssMinifyPlugin()] : []),
     ],
 
     // Treat these as external to avoid bundling issues with dynamic requires
@@ -624,9 +661,7 @@ async function buildConfig(options = {}) {
   return { config, buildPath, outdir };
 }
 
-// ---------------------------------------------------------------------------
-// Build runner
-// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------\n// Build runner\n// ---------------------------------------------------------------------------
 
 async function runBuild(options = {}) {
   const { config, buildPath, outdir } = await buildConfig(options);
@@ -656,10 +691,8 @@ async function runBuild(options = {}) {
     process.exit(1);
   }
 
-  // The build uses ESM format with code splitting. Entry points and
-  // shared chunks are ES modules loaded via <script type="module">.
-  // The dev server and HTML templates need to use type="module" when
-  // loading these scripts.
+  // IIFE mode: each entry is self-contained, no shared chunks.
+  // Scripts are loaded with defer attribute in HTML templates.
 
   return result;
 }
