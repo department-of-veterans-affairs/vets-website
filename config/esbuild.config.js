@@ -402,6 +402,35 @@ function nodePolyfillPlugin() {
 }
 
 // ---------------------------------------------------------------------------
+// Plugin: warn on large SVGs being inlined as data URIs
+// ---------------------------------------------------------------------------
+const SVG_SIZE_WARN_BYTES = 25 * 1024; // 25 KB
+
+function svgSizeWarningPlugin() {
+  return {
+    name: 'svg-size-warning',
+    setup(build) {
+      build.onLoad({ filter: /\.svg$/ }, args => {
+        const stats = fs.statSync(args.path);
+        if (stats.size > SVG_SIZE_WARN_BYTES) {
+          const sizeKB = (stats.size / 1024).toFixed(1);
+          return {
+            warnings: [
+              {
+                text: `SVG is ${sizeKB} KB (> ${SVG_SIZE_WARN_BYTES /
+                  1024} KB) and will be inlined as a data URI. Consider optimizing or using a file reference instead.`,
+                detail: args.path,
+              },
+            ],
+          };
+        }
+        return undefined;
+      });
+    },
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Entry points
 // ---------------------------------------------------------------------------
 function getEntryPoints(entry) {
@@ -519,9 +548,8 @@ async function buildConfig(options = {}) {
     assetNames: '[name]-[hash]',
 
     // Loaders for asset types
-    // Use 'file' for images and SVGs so they're emitted as separate files
-    // (matching webpack's url-loader with size limits). Using 'dataurl'
-    // for all images bloats CSS output with large base64-encoded data URIs.
+    // SVGs are small UI icons — inline them as data URIs to avoid extra
+    // HTTP requests. Other images and fonts are emitted as files.
     loader: {
       '.js': 'jsx',
       '.jsx': 'jsx',
@@ -531,7 +559,7 @@ async function buildConfig(options = {}) {
       '.jpg': 'file',
       '.jpeg': 'file',
       '.gif': 'file',
-      '.svg': 'file',
+      '.svg': 'dataurl',
       '.woff': 'file',
       '.woff2': 'file',
       '.ttf': 'file',
@@ -599,6 +627,7 @@ async function buildConfig(options = {}) {
       aliasPlugin(aliasMap, rootDir),
       nullLoaderPlugin(),
       nodePolyfillPlugin(),
+      svgSizeWarningPlugin(),
       tildeResolverPlugin(),
       sassPlugin({
         async transform(source) {
