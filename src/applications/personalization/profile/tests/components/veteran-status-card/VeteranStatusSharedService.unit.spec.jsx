@@ -251,7 +251,7 @@ describe('VeteranStatusSharedService', () => {
 
       await waitFor(() => {
         sinon.assert.calledWith(apiRequestStub, '/veteran_status_card');
-        expect(view.getByText("This page isn't working right now")).to.exist;
+        expect(view.getByText('This page isn’t working right now')).to.exist;
 
         // Check that the description is not rendered
         expect(
