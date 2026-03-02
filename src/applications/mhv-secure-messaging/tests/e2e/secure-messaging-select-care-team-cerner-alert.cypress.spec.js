@@ -77,7 +77,7 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
       'GET',
       `${Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS}*`,
       customRecipients,
-    ).as('recipients');
+    ).as('allRecipients');
 
     PatientInboxPage.loadInboxMessages(
       mockMessages,
@@ -87,10 +87,10 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
 
     PatientInboxPage.navigateToComposePageCuratedFlow();
 
-    // Verify the Cerner facility alert is displayed - look for va-alert with error status
-    cy.get('va-alert[status="error"]')
-      .should('exist')
-      .and('be.visible');
+    // Verify the Cerner facility alert is displayed
+    cy.get(
+      '[data-testid="cerner-facilities-transition-alert-error-phase"]',
+    ).should('exist');
 
     // Run accessibility check
     cy.injectAxe();
@@ -147,7 +147,7 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
       'GET',
       `${Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS}*`,
       customRecipients,
-    ).as('recipients');
+    ).as('allRecipients');
 
     PatientInboxPage.loadInboxMessages(
       mockMessages,
@@ -217,7 +217,7 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
       'GET',
       `${Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS}*`,
       customRecipients,
-    ).as('recipients');
+    ).as('allRecipients');
 
     PatientInboxPage.loadInboxMessages(
       mockMessages,
