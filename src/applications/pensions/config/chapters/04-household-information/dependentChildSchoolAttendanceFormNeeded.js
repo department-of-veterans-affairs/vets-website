@@ -7,7 +7,6 @@ import {
   isBetween18And23,
   dependentIsAttendingSchool,
 } from './helpers';
-import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
 export default {
   title: item => getDependentChildTitle(item, 'additional form needed'),
@@ -24,10 +23,7 @@ export default {
   uiSchema: {
     dependents: {
       items: {
-        ...titleUI(
-          createHouseholdMemberTitle('fullName', 'additional form needed'),
-          SchoolAttendanceDescription,
-        ),
+        ...titleUI('Additional form needed', SchoolAttendanceDescription),
       },
     },
   },

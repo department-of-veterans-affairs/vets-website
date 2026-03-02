@@ -21,7 +21,7 @@ export default function transform(formConfig, form) {
 
     if (mailingAddress) {
       clonedData.claimantAddress = {
-        country: mailingAddress.countryCodeIso2 || 'USA',
+        country: mailingAddress.countryCodeIso3 || 'USA',
         street: mailingAddress.addressLine1 || '',
         street2: mailingAddress.addressLine2 || '',
         city: mailingAddress.city || '',

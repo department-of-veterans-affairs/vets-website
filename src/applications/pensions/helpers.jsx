@@ -155,11 +155,14 @@ export const showPdfFormAlignment = () =>
 
 export const threshold = showPdfFormAlignment() ? 75000 : 25000;
 
-export const hideIfUnderThreshold = formData => {
-  const value = parseInt(formData.netWorthEstimation, 10);
-  return (
-    formData.netWorthEstimation == null || // null or undefined
-    Number.isNaN(value) ||
-    value <= threshold
-  );
+export const netWorthEstimateIsOverThreshold = formData => {
+  const rawValue = formData?.netWorthEstimation;
+  if (rawValue == null) {
+    return false;
+  }
+  const value = parseInt(rawValue, 10);
+  if (Number.isNaN(value)) {
+    return false;
+  }
+  return value > threshold;
 };
