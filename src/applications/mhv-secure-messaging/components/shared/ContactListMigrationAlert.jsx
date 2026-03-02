@@ -16,6 +16,7 @@ import { filterSchedulesByPhase } from '../../util/helpers';
  * in constants.js without modifying this component.
  *
  * @param {Object} props
+ * @param {boolean} props.userFacilityMigratingToOh - Whether the user has a facility migrating to Oracle Health
  * @param {Array} props.migrationSchedules - Array of migration schedule objects
  */
 const ContactListMigrationAlert = ({
