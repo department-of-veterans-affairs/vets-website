@@ -382,6 +382,7 @@
     "**/glob-parent": "^5.1.2",
     "**/ansi-regex": "^5.0.1",
     "**/semver-regex": "^4.0.0",
+    "**/tough-cookie": "5.1.2",
     "**/yargs-parser": "13.1.2",
     "@babel/runtime": "^7.28.4",
     "punycode": "1.4.1",
