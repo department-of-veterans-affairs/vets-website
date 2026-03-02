@@ -688,6 +688,37 @@ const clickContinueButton = (cy, textPattern = /continue|next/i) => {
   });
 };
 
+// Helper to click elements by text pattern, handling web components with shadow DOM
+const clickElementWithText = (cy, textPattern) => {
+  cy.get('body', { timeout: 10000 }).then($body => {
+    // Try to find any clickable element (button, a, or va-button) containing the text
+    const buttons = $body.find('button, a, va-button');
+    let found = false;
+
+    // Check if any element's text content matches the pattern
+    for (let i = 0; i < buttons.length; i++) {
+      const $btn = buttons.eq(i);
+      const textContent = $btn.text() || '';
+      const textAttr = $btn.attr('text') || '';
+
+      if (textPattern.test(textContent) || textPattern.test(textAttr)) {
+        cy.wrap($btn)
+          .first()
+          .click({ force: true });
+        found = true;
+        return;
+      }
+    }
+
+    // Fallback to findByText if no match found
+    if (!found) {
+      cy.findByText(textPattern, { selector: 'button, a, va-button' }).click({
+        force: true,
+      });
+    }
+  });
+};
+
 export const pageHooks = (cy, testOptions) => ({
   start: () => {
     // skip wizard
@@ -889,7 +920,7 @@ export const pageHooks = (cy, testOptions) => ({
 
         // click add another if more than 1
         if (index > 0) {
-          cy.findByText(/add another condition/i).click();
+          clickElementWithText(cy, /add another condition/i);
 
           cy.get('va-button[text="Remove"]').should('be.visible');
         }
@@ -1299,7 +1330,7 @@ export const pageHooks = (cy, testOptions) => ({
             toDay: '7',
           },
         };
-        cy.findByText(/add another provider or hospital/i).click();
+        clickElementWithText(cy, /add another provider or hospital/i);
         // verify that the treated disability name checkboxes are visible and clickable
         const ratedDisabilitiesCount = data?.ratedDisabilities.filter(
           disability => disability['view:selected'] === true,
@@ -1360,9 +1391,7 @@ export const pageHooks = (cy, testOptions) => ({
         cy.get('input[name="root_treatmentDateRange1_to1Year"]').type(
           `${newProviderFacility.treatmentDateRange.toYear}`,
         );
-        cy.findByText('Update', { selector: 'button' })
-          .should('exist')
-          .click();
+        clickElementWithText(cy, /^Update$/i);
         cy.get('div[name="providerFacility-1"]')
           .should('be.visible')
           .within(() => {
@@ -1397,7 +1426,12 @@ export const pageHooks = (cy, testOptions) => ({
             cy.get('va-button[text="Edit"]').should('be.visible');
             cy.get('va-button[text="Edit"]').click();
             cy.findByText('New Provider or hospital').should('exist');
-            cy.get('button[aria-label="Remove Provider or hospital"]').click();
+            // Find and click the Remove button (may be va-button or regular button)
+            cy.get(
+              'va-button[text="Remove"], button[aria-label="Remove Provider or hospital"]',
+            )
+              .first()
+              .click();
             cy.findByText('New Provider or hospital').should('not.exist');
           });
       }
