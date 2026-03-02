@@ -7,6 +7,26 @@
 
 ---
 
+## BLUF
+
+The January 29, 2026 incident proved that our deploy-in-place model is architecturally unsafe: a single-app build can overwrite shared assets and break the entire site. Per-app CD to production is disabled as a result.
+
+**Proposal:** Upload every build to an immutable S3 prefix (`releases/{commit_sha}/`). The reverse proxy rewrites HTML responses and asset requests to point at the correct release prefix. Deploying becomes an S3 pointer swap; rollback is the same operation in reverse. Both take effect across all 40+ proxy instances within ~4 seconds.
+
+**Key outcomes:**
+- Per-app CD to production is re-enabled safely — per-app deploys never touch shared assets or live paths.
+- Deploys are truly atomic — no mixed old/new file window.
+- Rollback is instant — pointer swap, not a full re-sync.
+- 200+ lines of fragile regex-based webpack dependency analysis (`remove-global-assets.sh`) and manual rsync exclusion lists are eliminated.
+
+**What changes:** Proxy gains a Lua body filter and chunk routing layer. Content-build emits placeholder tokens instead of hardcoded S3 URLs. New deploy scripts replace `partial-deploy.sh` and `deploy.sh` live-path sync. A `[contenthash]` webpack change eliminates silent chunk mismatches.
+
+**What doesn't change:** Webpack config (aside from `chunkFilename`), developer workflow, daily deploy schedule, CI build commands.
+
+**Cross-repo coordination required:** Proxy body filter (vsp-platform-revproxy) must be deployed to each environment before content-build token emission is enabled for that environment. All changes are owned by Platform SRE. Application teams are not affected.
+
+---
+
 ## Context
 
 ### The January 29, 2026 Incident
@@ -214,10 +234,25 @@ Each deploy prepends the new SHA to the history file and trims it to 100 entries
 
 A systemd timer on each proxy instance polls the config bucket every 2 seconds, reads the version pointers and chunk manifests, and writes them to a local file. A Lua timer (`init_worker_by_lua_block`) reads this file and populates the `ngx.shared.versions`, `ngx.shared.app_versions`, and `ngx.shared.chunk_routes` dicts. Maximum convergence time: ~4 seconds across all 40+ instances.
 
+**Optimization: single-key config state.** Rather than polling multiple individual keys (`versions/base`, each `versions/apps/{entryName}`, each `manifests/{entryName}`) — which scales to 2N+1 GetObject calls per poll with N per-app overrides — the deploy script should write a single consolidated `current-state.json` key containing all version pointers and chunk manifests. Each poll becomes one GetObject call. This also eliminates the race window where the sync timer reads a partially-updated set of pointers (e.g., app pointer updated but manifest not yet written), since the consolidated state is written atomically by the deploy script after all individual updates succeed. The deploy script performs: (1) individual pointer/manifest writes (for auditability and history), then (2) a single write of `current-state.json` as the final step. The sync timer reads only `current-state.json`. S3 versioning on the config bucket provides the audit trail for state transitions.
+
 The sync script validates all inputs before writing the local file:
 - Version pointers must match `^[0-9a-f]{40}$` (reject anything that isn't a 40-char hex SHA).
 - Manifest filenames must match `^[a-zA-Z0-9._-]+$` (no path separators, no `..`, no special characters).
 - A sentinel file (`releases/{sha}/.build-complete`) must exist for a SHA before it is accepted. The CI upload writes this sentinel as the final step after all other files are uploaded.
+
+**Cold-start behavior:** If a proxy instance starts while the config bucket is unreachable (S3 outage, IAM misconfiguration), the local version pointer file does not exist and the `ngx.shared.versions` dict is empty. The body filter would serve HTML with unresolved `%%DEFINED_ASSET_PREFIX%%` tokens — a hard outage for that instance. To prevent this, the proxy must fail closed: the ALB health check endpoint returns unhealthy (503) until the first successful version pointer sync completes. This ensures the ALB routes around instances that cannot yet rewrite tokens, rather than allowing them to serve broken HTML. The health check is:
+
+```lua
+-- /health endpoint
+local base_sha = ngx.shared.versions:get("base")
+if base_sha and ngx.re.match(base_sha, "^[0-9a-f]{40}$", "jo") then
+    ngx.say("OK")
+else
+    ngx.status = 503
+    ngx.say("version sync not ready")
+end
+```
 
 #### App File Manifest
 
@@ -373,6 +408,15 @@ ngx.header.content_length = nil
 
 **Performance:** Simple string replacement on ~50-100KB HTML. Sub-millisecond. The existing Prometheus Lua metrics code adds more overhead.
 
+**HTML cache policy:** HTML responses must be served with `Cache-Control: no-cache` (or `no-store`) to ensure browsers always revalidate with the proxy. If a browser caches HTML containing chunk URLs from an old release, a subsequent deploy with `[contenthash]` changes would cause 404s — the old content-hashed filenames don't exist in the new release prefix. The proxy should set this header explicitly in the `header_filter_by_lua_block` for `text/html` responses, overriding any cache headers set by S3:
+
+```lua
+-- header_filter_by_lua_block for text/html responses
+if ngx.header.content_type and ngx.re.match(ngx.header.content_type, "text/html", "jo") then
+    ngx.header["Cache-Control"] = "no-cache"
+end
+```
+
 **Failure mode:** If the Lua body filter fails (no version SHA, Lua error), the browser sees `%%DEFINED_ASSET_PREFIX%%/generated/vendor.entry.js` — broken URLs. But since the HTML itself is served through the proxy, a Lua failure that prevents body filtering would also prevent serving the page. The fallback is the same as any proxy failure: the ALB serves the cached previous response, or the page doesn't load.
 
 ### TeamSite Constraint
@@ -511,6 +555,8 @@ This also serves as the primary detection for the convergence window chunk misma
 |---|---|---|
 | **What if the proxy body filter has a Lua error?** | HTML is served with unresolved `%%DEFINED_ASSET_PREFIX%%` tokens — broken page. | Standard Lua error handling (`pcall`). Body filter uses `ngx.re.gsub` (not `string.gsub`) for per-app overrides to avoid Lua pattern metacharacter issues with entry names. Test on dev/staging. ALB health checks detect proxy failures. The synthetic token check (see "Production Monitoring") detects unresolved tokens within 60 seconds. |
 | **What if the version pointer sync lags?** | For up to ~4 seconds after a deploy, some proxy instances serve the old version. During this window, a user could load HTML from instance A (old base SHA) and then request a lazy chunk from instance B (new base SHA). Because webpack uses `chunkFilename: '[name].entry.js'` (no `[contenthash]`), the chunk filename is the same across releases — the proxy routes it to whichever release the instance knows about. If the content changed between releases, the user gets the wrong chunk content. | This is a strict improvement over the status quo (`s3 sync` creates a much longer mixed-version window). The ~4s convergence window affects only users who navigate to a lazy-loaded route during those exact seconds. Mitigation: `proxy_buffering on` ensures each HTML response is self-consistent; the risk is limited to lazy chunks loaded after initial page render. **Required prerequisite:** Before step 10 of the rollout plan (deploy to production), add `[contenthash]` to `chunkFilename` in the webpack config. This converts silent wrong-code delivery into a visible 404, which is a strictly better failure mode. See rollout plan step 9a. |
+| **What if a lazy chunk 404s during the convergence window?** | With `[contenthash]`, a chunk mismatch produces a 404 instead of silently serving wrong code. However, webpack does not retry failed dynamic imports by default — a 404 rejects the `import()` promise, which crashes the lazy-loaded component (or the entire SPA if no error boundary is present). The user sees a broken page, not an automatic recovery. | **Required:** Wrap all lazy-loaded routes in React error boundaries that display a "try again" message and allow the user to retry navigation. **Recommended:** Add a small dynamic import retry wrapper (e.g., retry the `import()` once after a 1-second delay before rejecting) to handle transient chunk 404s during the convergence window automatically. This is a companion change to the `[contenthash]` rollout (step 9a). |
+| **What if two full deploys run simultaneously?** | The history file read-modify-write (`read base-history → prepend SHA → write base-history`) is not atomic. Two concurrent full deploys could clobber each other's history entries or leave an inconsistent base pointer. | A GitHub Actions concurrency group on the full deploy workflow (`daily-deploy-production` and `workflow_dispatch` full deploy) prevents concurrent full deploys. Only one full deploy can run at a time. |
 | **What if two per-app deploys run simultaneously?** | Each updates only its own app pointer and chunk manifest — no overlap. | GitHub Actions concurrency group prevents concurrent deploys of the *same* app. Different apps can deploy concurrently. |
 | **What if a per-app deploy races with the daily full deploy?** | If the full deploy runs second, it clears per-app overrides and sets the base pointer — correct. If the per-app deploy runs second, it sets an override on top of the new base — correct. | `check-deployability.js` already detects and waits on an in-progress daily deploy. |
 | **What if the chunk manifest write fails but the pointer updates?** | The pointer is updated without the chunk manifest — lazy chunks for the app fall through to the base SHA, which may not have the correct chunks. | The deploy script verifies the manifest exists in the config bucket after writing it and before updating the pointer. The ordering is enforced with error checking: (1) upload build, (2) write sentinel, (3) write manifest, (4) verify manifest, (5) update pointer. If any step fails, the script exits without advancing. |
@@ -638,7 +684,7 @@ This means the body filter and chunk routing Lua code can be tested on dev with 
 7. **Modify CI workflow** — replace the `remove-global-assets.sh` call with manifest generation; replace `partial-deploy.sh` with the new deploy script.
 8. **Enable tokens for staging** — add `vagovstaging` to the content-build gate. **Test full deploy on staging** — run the Phase 2 validation checklist. Verify daily deploy updates base pointer, syncs TeamSite assets, proxy routes correctly.
 9. **Test per-app deploy on staging** — verify app pointer update, chunk manifest, rollback, deploy ordering guarantees.
-9a. **Add `[contenthash]` to `chunkFilename`** in `config/webpack.config.js` (e.g., `'[name].[contenthash].entry.js'`). This must land before production deployment so that convergence-window chunk mismatches produce a 404 (retriable) instead of silently serving wrong code. Update the chunk routing rewrite and manifest generation to handle content-hashed filenames. Verify on dev and staging that chunk routing handles content-hashed filenames correctly and that content-hashed chunks receive `Cache-Control: public, max-age=31536000, immutable` headers.
+9a. **Add `[contenthash]` to `chunkFilename`** in `config/webpack.config.js` (e.g., `'[name].[contenthash].entry.js'`). This must land before production deployment so that convergence-window chunk mismatches produce a 404 (retriable) instead of silently serving wrong code. Update the chunk routing rewrite and manifest generation to handle content-hashed filenames. Verify on dev and staging that chunk routing handles content-hashed filenames correctly and that content-hashed chunks receive `Cache-Control: public, max-age=31536000, immutable` headers. **Companion change:** Add React error boundaries around all lazy-loaded routes and a dynamic import retry wrapper (retry `import()` once after a 1-second delay) so that transient 404s during the convergence window recover automatically rather than crashing the component.
 9b. **Deploy production monitoring** — set up the three monitors documented in "Production Monitoring" above: unresolved token synthetic check, version pointer convergence staleness alarm, and `/generated/*` 4xx spike detection. Verify alarms fire correctly on staging by simulating each failure mode before proceeding to production.
 10. **Deploy proxy body filter to production.** Enable tokens for `vagovprod` in content-build (remove the build-type gate entirely). Perform the first production deploy during a low-traffic window. Run `deploy:status` from multiple machines to verify convergence across all 40+ instances. Verify all three production monitors show green.
 11. **Enable per-app CD to production** for a single low-risk app on the allowlist.
@@ -674,6 +720,8 @@ This means the body filter and chunk routing Lua code can be tested on dev with 
 | Deploy scripts + CI workflow changes | Platform SRE | vets-website | After body filter + tokens verified on dev (steps 5-7) |
 
 All changes are owned by Platform SRE. The critical ordering constraint: the proxy body filter must be deployed to an environment **before** content-build token emission is enabled for that environment's build type. See "Testing in Lower Environments" for the detailed sequencing. Application teams are not affected.
+
+**Proxy rollback path:** Because the proxy is now the routing control plane for all VA.gov assets, a bad Lua deploy to the revproxy fleet is the highest-severity failure mode in the new architecture. Proxy deployments follow the existing rollback procedures in the `vsp-platform-revproxy` repo (revert the commit, re-deploy). The body filter code should be deployed behind a Lua feature flag (e.g., an `ngx.shared` toggle or an environment variable) so that it can be disabled without a full redeploy — falling back to pass-through behavior where S3 HTML is served unmodified. This fallback requires that the non-prefixed live S3 paths still contain valid assets (which they do, since the daily deploy continues to sync shared assets to live paths for TeamSite). The rollback path should be validated during the staging test phase (step 9) by disabling the body filter and confirming pages still load from the non-prefixed paths.
 
 ---
 
