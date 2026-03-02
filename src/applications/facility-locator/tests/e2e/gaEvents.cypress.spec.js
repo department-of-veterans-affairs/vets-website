@@ -4,6 +4,8 @@ import {
   assertEventAndAttributes,
 } from './analyticsUtils';
 import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import mockServices from '../../constants/mock-provider-services.json';
 import {
   featureCombinationsTogglesToTest,
   enabledFeatures,
@@ -25,6 +27,8 @@ for (const featureSet of featuresToTest) {
     });
     it('should search, pan map, click marker, zoom in and out and verify ga events related', () => {
       cy.intercept('GET', '/v0/maintenance_windows', []);
+      cy.intercept('GET', '/facilities_api/v2/ccp/specialties', mockServices);
+      cy.intercept('GET', '**/geocoding/**', mockGeocodingData);
       cy.intercept(
         'POST',
         '/facilities_api/v2/va',
@@ -49,26 +53,24 @@ for (const featureSet of featuresToTest) {
 
         cy.get('.i-pin-card-map')
           .first()
-          .click()
-          .as('markerClick')
-          .then(() => {
-            assertEventAndAttributes(win, 'fl-map-pin-click', [
-              'event',
-              'fl-facility-type',
-              'fl-facility-id',
-              'fl-facility-classification',
-              'fl-facility-name',
-              'fl-facility-distance-from-search',
-            ]);
-          });
+          .click();
+        cy.then(() => {
+          assertEventAndAttributes(win, 'fl-map-pin-click', [
+            'event',
+            'fl-facility-type',
+            'fl-facility-id',
+            'fl-facility-classification',
+            'fl-facility-name',
+            'fl-facility-distance-from-search',
+          ]);
+        });
 
         [...Array(5)].forEach(_ =>
           cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true }),
         );
 
-        cy.get('#mapbox-gl-container')
-          .should('exist')
-          .scrollIntoView();
+        cy.get('#mapbox-gl-container').should('exist');
+        cy.get('#mapbox-gl-container').scrollIntoView();
 
         cy.get('#mapbox-gl-container', { timeout: 10000 }).should(() => {
           assertDataLayerEvent(win, 'fl-map-zoom-in');

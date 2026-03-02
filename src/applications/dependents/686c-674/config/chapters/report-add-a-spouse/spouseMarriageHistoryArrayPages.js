@@ -4,7 +4,6 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   arrayBuilderItemSubsequentPageTitleUI,
-  fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
@@ -18,6 +17,8 @@ import {
   marriageEnums,
   spouseFormerMarriageLabels,
   customLocationSchema,
+  asciiValidation,
+  fullNameNoSuffixWithAsciiUI,
 } from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
 
@@ -84,7 +85,7 @@ export const formerMarriagePersonalInfoPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Name of your spouse’s former spouse',
     }),
-    fullName: fullNameNoSuffixUI(),
+    fullName: fullNameNoSuffixWithAsciiUI(),
   },
   schema: {
     type: 'object',
@@ -223,6 +224,7 @@ export const formerMarriageStartLocationPage = {
                 errors.addError('City must be 30 characters or less');
               }
             },
+            asciiValidation,
           ],
         },
         state: {
@@ -304,6 +306,7 @@ export const formerMarriageEndLocationPage = {
                 errors.addError('City must be 30 characters or less');
               }
             },
+            asciiValidation,
           ],
         },
         state: {

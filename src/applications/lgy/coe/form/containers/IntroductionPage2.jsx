@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { focusElement } from '~/platform/utilities/ui';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
-import { focusElement } from '~/platform/utilities/ui';
+import { IntroStatusAlert } from '../components/IntroStatusAlert';
 
 const ProcessList = () => {
   return (
@@ -85,6 +86,11 @@ export const IntroductionPage2 = ({ route }) => {
   const userLoggedIn = useSelector(isLoggedIn);
   const userIdVerified = useSelector(isLOA3);
   const showVerifyIdentity = userLoggedIn && !userIdVerified;
+  const certificateOfEligibility = useSelector(
+    state => state.certificateOfEligibility,
+  );
+  const { coe } = certificateOfEligibility;
+  const hasStatusAlert = coe?.status && coe.status !== 'INELIGIBLE';
 
   useEffect(() => {
     focusElement('va-breadcrumbs');
@@ -94,7 +100,9 @@ export const IntroductionPage2 = ({ route }) => {
     formTitle: 'Request a VA home loan Certificate of Eligibility (COE)',
     formSubTitle: 'Request for a Certificate of Eligibility (VA Form 26-1880)',
     hideSipIntro: userLoggedIn && !userIdVerified,
-    authStartFormText: 'Request a Certificate of Eligibility',
+    authStartFormText: hasStatusAlert
+      ? 'Start a new Certificate of Eligibility request'
+      : 'Request a Certificate of Eligibility',
   };
 
   const ombInfo = {
@@ -110,6 +118,13 @@ export const IntroductionPage2 = ({ route }) => {
         bring the COE to your lender to prove that you qualify for a VA home
         loan.
       </p>
+      {hasStatusAlert && (
+        <IntroStatusAlert
+          referenceNumber={coe.referenceNumber}
+          requestDate={coe.applicationCreateDate}
+          status={coe.status}
+        />
+      )}
       <h2 className="vads-u-margin-top--0">
         Follow these steps to request a new COE
       </h2>
