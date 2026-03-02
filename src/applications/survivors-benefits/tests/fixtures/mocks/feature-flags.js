@@ -1,6 +1,6 @@
 const APPLICATION_FEATURE_FLAGS = Object.freeze({
-  survivorsBenefitsFormEnabled: true,
-  survivorsBenefitsForm2025VersionEnabled: false,
+  survivorsBenefitsFormEnabled: false,
+  survivorsBenefitsForm2025VersionEnabled: true,
 });
 
 const generateFeatureFlags = ({ toggles = APPLICATION_FEATURE_FLAGS } = {}) => {
