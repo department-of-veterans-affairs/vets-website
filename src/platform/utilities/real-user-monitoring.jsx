@@ -82,25 +82,24 @@ const useBrowserMonitoring = ({ location, toggleName }) => {
   const isLoadingFeatureFlags = useToggleLoadingValue();
   const isBrowserMonitoringEnabled = useToggleValue(toggleName);
 
-  useEffect(
-    () => {
-      datadogRum.startView({ name: location.basename + location.pathname });
-    },
-    [location],
-  );
+  useEffect(() => {
+    // location.basename is v3-only; fall back to pathname which already
+    // includes the base path in v5 (history is created with basename option)
+    const viewName = location.basename
+      ? location.basename + location.pathname
+      : location.pathname;
+    datadogRum.startView({ name: viewName });
+  }, [location]);
 
-  useEffect(
-    () => {
-      if (isLoadingFeatureFlags) return;
-      if (isBrowserMonitoringEnabled) {
-        initializeRealUserMonitoring();
-        initializeBrowserLogging();
-      } else {
-        delete window.DD_RUM;
-      }
-    },
-    [isBrowserMonitoringEnabled, isLoadingFeatureFlags],
-  );
+  useEffect(() => {
+    if (isLoadingFeatureFlags) return;
+    if (isBrowserMonitoringEnabled) {
+      initializeRealUserMonitoring();
+      initializeBrowserLogging();
+    } else {
+      delete window.DD_RUM;
+    }
+  }, [isBrowserMonitoringEnabled, isLoadingFeatureFlags]);
 };
 
 export { useBrowserMonitoring };

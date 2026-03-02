@@ -30,7 +30,12 @@ const DEFAULT_FORBIDDEN_MESSAGE = `
 class SaveInProgressErrorPage extends React.Component {
   componentDidMount() {
     if (this.props.loadedStatus === LOAD_STATUSES.notAttempted) {
-      this.props.router.replace(this.props.location.basename);
+      // location.basename is v3-only; use formConfig.urlPrefix for v5 compat
+      const basename =
+        this.props.location.basename ||
+        this.props.route?.formConfig?.urlPrefix ||
+        '/';
+      this.props.router.replace(basename);
     }
   }
 
@@ -217,10 +222,7 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SaveInProgressErrorPage),
+  connect(mapStateToProps, mapDispatchToProps)(SaveInProgressErrorPage),
 );
 
 export { SaveInProgressErrorPage };

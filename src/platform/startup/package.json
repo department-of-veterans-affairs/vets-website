@@ -16,6 +16,7 @@
   },
   "peerDependencies": {
     "history": "*",
+    "history-v4": "*",
     "react": "*",
     "react-dom": "*",
     "react-redux": "*",
