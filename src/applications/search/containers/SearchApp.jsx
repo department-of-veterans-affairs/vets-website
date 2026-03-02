@@ -384,7 +384,7 @@ const SearchApp = ({
               </p>
               {searchResultsUiUpdateEnabled ? (
                 <VaSearchInput
-                  big
+                  big={searchResultsUiUpdateEnabled}
                   class="vads-u-width--full"
                   disableAnalytics
                   id="search-results-page-dropdown-input-field"
@@ -398,7 +398,7 @@ const SearchApp = ({
               ) : (
                 <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
                   <VaSearchInput
-                    big
+                    big={searchResultsUiUpdateEnabled}
                     class="vads-u-width--full"
                     disableAnalytics
                     id="search-results-page-dropdown-input-field"
@@ -413,22 +413,24 @@ const SearchApp = ({
               )}
             </div>
             {!shouldShowErrorMessage && renderResults()}
-            <div className="more-va-search-tools">
-              <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-                More VA search tools
-              </h2>
-              <MoreVASearchTools />
-            </div>
+            {searchResultsUiUpdateEnabled && (
+              <div className="more-va-search-tools">
+                <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+                  More VA search tools
+                </h2>
+                <MoreVASearchTools />
+              </div>
+            )}
           </DowntimeNotification>
-          {!searchResultsUiUpdateEnabled && (
-            <div className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 usa-width-one-fourth columns">
-              <h2 className="highlight vads-u-font-size--h4">
-                More VA search tools
-              </h2>
-              <MoreVASearchTools />
-            </div>
-          )}
         </div>
+        {!searchResultsUiUpdateEnabled && (
+          <div className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 usa-width-one-fourth columns">
+            <h2 className="highlight vads-u-font-size--h4">
+              More VA search tools
+            </h2>
+            <MoreVASearchTools />
+          </div>
+        )}
       </div>
     </div>
   );
