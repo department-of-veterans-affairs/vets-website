@@ -82,6 +82,21 @@ describe('getCustomValidationErrors', () => {
     expect(errors.length).to.equal(0);
   });
 
+  it('should return error when both view:claimingNew and view:claimingIncrease are false', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingNew': false,
+        'view:claimingIncrease': false,
+      },
+      newDisabilities: [],
+    };
+
+    const errors = getCustomValidationErrors(formData);
+
+    expect(errors.length).to.equal(1);
+    expect(errors[0].property).to.equal('instance.view:claimType');
+  });
+
   it('should handle null formData gracefully', () => {
     const errors = getCustomValidationErrors(null);
 
