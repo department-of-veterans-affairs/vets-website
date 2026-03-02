@@ -18,6 +18,7 @@ export {
 
 export {
   studentEducationBenefitsPage,
+  studentFederallyFundedPage,
   studentEducationBenefitsStartDatePage,
   studentProgramInfoPage,
 } from './studentEducationPages';

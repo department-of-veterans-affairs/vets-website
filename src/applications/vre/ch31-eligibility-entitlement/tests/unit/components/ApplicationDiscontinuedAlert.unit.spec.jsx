@@ -36,7 +36,7 @@ describe('ApplicationDiscontinuedAlert', () => {
     const headline = container.querySelector('va-alert h3[slot="headline"]');
     expect(headline).to.exist;
     expect(headline.textContent).to.match(
-      /processing your chapter 31 claim has been discontinued/i,
+      /your chapter 31 claim has been discontinued/i,
     );
   });
 

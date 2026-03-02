@@ -68,14 +68,6 @@ const ITFSubmissionError = () => {
           a.m. to 9:00 p.m. ET.
         </p>
       </va-alert>
-      <p className="vads-u-margin-top--4">
-        <a
-          className="vads-c-action-link--green"
-          href="/representative/submissions"
-        >
-          Go back to submissions page
-        </a>
-      </p>
     </>
   );
 };

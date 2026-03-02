@@ -19,7 +19,7 @@ const stepLabels = [
   'Orientation Video',
   'Initial Evaluation Counselor Meeting',
   'Entitlement Determination date',
-  'Rehabilitation Plan/Career Track',
+  'Rehabilitation Plan or Career Track',
   'Benefits Initiated',
 ];
 

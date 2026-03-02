@@ -4,7 +4,12 @@ import {
   jsonResponse,
 } from 'platform/testing/unit/msw-adapter';
 import { expect } from 'chai';
-import { ENDPOINTS, getAllInquiries, getInquiry } from '../../utils/api';
+import {
+  ENDPOINTS,
+  getAllInquiries,
+  getInquiry,
+  getInquiryStatus,
+} from '../../utils/api';
 
 describe('getAllInquiries', () => {
   it('calls the correct endpoint', async () => {
@@ -31,6 +36,25 @@ describe('getInquiry', () => {
     expect(resFail.data).to.equal('failure');
 
     const resSucceed = await getInquiry('success');
+    expect(resSucceed.data).to.equal('success');
+  });
+});
+
+describe('getInquiryStatus', () => {
+  it('requests correct inquiryId', async () => {
+    server.use(
+      createGetHandler(
+        `${ENDPOINTS.inquiries}/:inquiryId/status`,
+        ({ params }) => {
+          return jsonResponse({ data: params.inquiryId });
+        },
+      ),
+    );
+
+    const resFail = await getInquiryStatus('failure');
+    expect(resFail.data).to.equal('failure');
+
+    const resSucceed = await getInquiryStatus('success');
     expect(resSucceed.data).to.equal('success');
   });
 });

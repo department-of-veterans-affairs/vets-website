@@ -7,7 +7,7 @@ import { ERROR_MSG_INPUT_REP } from '../../../../components/PreSubmitInfo/Statem
 import * as useSignaturesSyncModule from '../../../../hooks/useSignatureSync';
 import PreSubmitInfo from '../../../../components/PreSubmitInfo';
 
-const MOCK_FULL_NAME = { first: 'John', last: 'Smith' };
+const MOCK_FULL_NAME = { first: 'John ', last: 'Smith', suffix: 'II' };
 
 describe('CG <PreSubmitCheckboxGroup>', () => {
   let dispatch;
