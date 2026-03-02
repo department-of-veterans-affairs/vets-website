@@ -5,10 +5,9 @@ import {
   CHAMPVA_PHONE_NUMBER,
   IVC_APPEALS_ADDRESS,
 } from '../../../shared/constants';
-import { FEATURE_TOGGLES } from '../../hooks/useDefaultFormData';
 import { CONTACTS } from '../../utils/imports';
 
-const TOGGLE_KEY = FEATURE_TOGGLES[0];
+const TOGGLE_KEY = Toggler.TOGGLE_NAMES.champvaEnableClaimResubmitQuestion;
 
 const ConfirmationFAQ = () => (
   <>
@@ -20,7 +19,7 @@ const ConfirmationFAQ = () => (
         you.
       </p>
 
-      <Toggler toggleName={Toggler.TOGGLE_NAMES[TOGGLE_KEY]}>
+      <Toggler toggleName={TOGGLE_KEY}>
         <Toggler.Enabled>
           <h3>If you requested our help getting supporting documents</h3>
           <p>
