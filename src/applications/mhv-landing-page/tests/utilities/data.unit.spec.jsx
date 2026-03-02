@@ -151,21 +151,16 @@ describe(manifest.appName, () => {
             'VA mobile apps for a healthy new year',
           );
 
-          // Non-patient spotlight should have the existing links
+          // Non-patient spotlight should have the same new links
           expect(nonPatientSpotlight.links).to.have.lengthOf(3);
           expect(nonPatientSpotlight.links[0].text).to.equal(
-            'Medical record hold periods are changing',
+            "Don't miss a message from VA",
           );
           expect(nonPatientSpotlight.links[1].text).to.equal(
-            'Treat your pain at VA',
+            'Travel pay: apply now on your phone',
           );
           expect(nonPatientSpotlight.links[2].text).to.equal(
-            'Managing PTSD while you age',
-          );
-
-          // Verify they are different arrays
-          expect(patientSpotlight.links).to.not.deep.equal(
-            nonPatientSpotlight.links,
+            'VA mobile apps for a healthy new year',
           );
         });
 

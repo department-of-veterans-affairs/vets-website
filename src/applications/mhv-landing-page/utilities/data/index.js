@@ -118,22 +118,19 @@ const resolveLandingPageLinks = (
     },
   ];
 
-  // Spotlight links for non-patients (existing content retained)
+  // Spotlight links for non-patients
   const nonPatientSpotlightLinks = [
     {
-      text: 'Medical record hold periods are changing',
-      href: mhvUrl(
-        authdWithSSOe,
-        'ss20250414-medical-record-hold-periods-changing',
-      ),
+      text: "Don't miss a message from VA",
+      href: mhvUrl(authdWithSSOe, 'ss20260116-dont-miss-va-messages'),
     },
     {
-      text: 'Treat your pain at VA',
-      href: mhvUrl(authdWithSSOe, 'ss20220915-treat-your-pain-at-va'),
+      text: 'Travel pay: apply now on your phone',
+      href: mhvUrl(authdWithSSOe, 'ss20251031-travel-pay-apply-phone'),
     },
     {
-      text: 'Managing PTSD while you age',
-      href: mhvUrl(authdWithSSOe, 'ss20210525-managing-ptsd-while-you-age'),
+      text: 'VA mobile apps for a healthy new year',
+      href: mhvUrl(authdWithSSOe, 'ss20260116-va-mobile-apps-healthy-new-year'),
     },
   ];
 
