@@ -5,13 +5,8 @@ export function buildUnitAddress(formData) {
   const transformedValue = parsedFormData;
 
   if (parsedFormData?.unitAddress) {
-    transformedValue.unitNameAndAddress = buildAddress(
-      parsedFormData.unitAddress,
-    );
+    transformedValue.unitAddress = buildAddress(parsedFormData.unitAddress);
   }
-
-  delete transformedValue.unitName;
-  delete transformedValue.unitAddress;
 
   return JSON.stringify(transformedValue);
 }
