@@ -3,7 +3,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 // declare list of feature toggles for this app
-const FEATURE_TOGGLES = [
+export const FEATURE_TOGGLES = [
   'champvaEnableClaimResubmitQuestion',
   'champvaClaimsLlmValidation',
 ];
