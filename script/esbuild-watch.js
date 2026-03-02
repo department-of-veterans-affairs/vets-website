@@ -121,6 +121,25 @@ async function startDevServer() {
 
   const { config, buildPath } = await buildConfig(buildOptions);
 
+  // Add a plugin to log rebuild timings
+  let buildStartTime;
+  config.plugins.push({
+    name: 'rebuild-timer',
+    setup(build) {
+      build.onStart(() => {
+        buildStartTime = Date.now();
+      });
+      build.onEnd(result => {
+        const elapsed = Date.now() - buildStartTime;
+        const errors = result.errors.length;
+        const warnings = result.warnings.length;
+        const status = errors ? `with ${errors} error(s)` : 'successfully';
+        const warn = warnings ? `, ${warnings} warning(s)` : '';
+        console.log(`  esbuild: Rebuilt ${status} in ${elapsed}ms${warn}`);
+      });
+    },
+  });
+
   // Create esbuild context for incremental builds
   const ctx = await esbuild.context(config);
 
