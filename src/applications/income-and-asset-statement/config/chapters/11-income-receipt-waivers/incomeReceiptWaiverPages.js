@@ -132,24 +132,6 @@ const yesNoOptionLabels = {
  * @returns {PageSchema}
  */
 const summaryPage = {
-  uiSchema: {
-    'view:isAddingIncomeReceiptWaivers': arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'Did you or your dependents waive or expect to waive any receipt of income in the next 12 months?',
-        hint: 'If yes, you’ll need to report at least one waived income',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-      },
-      {
-        title: 'Do you have more waived income to report?',
-        ...sharedYesNoOptionsBase,
-      },
-    ),
-  },
   schema: {
     type: 'object',
     properties: {

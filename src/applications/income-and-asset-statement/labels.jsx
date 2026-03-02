@@ -87,15 +87,6 @@ export const incomeTypeLabels = {
   OTHER: 'Another type of income',
 };
 
-// Remove after all files are updated
-export const updatedIncomeTypeLabels = {
-  WAGES: 'Wage from a job',
-  RETIREMENT_PENSION: 'Pension or retirement',
-  SOCIAL_SECURITY: 'Social Security',
-  UNEMPLOYMENT: 'Unemployment',
-  OTHER: 'Another type of income',
-};
-
 export const incomeTypeEarnedLabels = {
   INTEREST: 'Interest',
   DIVIDENDS: 'Dividends',

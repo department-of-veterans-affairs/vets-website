@@ -10,9 +10,6 @@ import { fullNameNoSuffixUI } from '~/platform/forms-system/src/js/web-component
 
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
-export const showUpdatedContent = () =>
-  window.sessionStorage.getItem('showUpdatedContent') === 'true';
-
 export const annualReceivedIncomeFromAnnuityRequired = (form, index) =>
   get(['annuities', index, 'receivingIncomeFromAnnuity'], form);
 
@@ -22,10 +19,6 @@ export const annualReceivedIncomeFromTrustRequired = (form, index) =>
 export const isReviewAndSubmitPage = () => {
   if (typeof window === 'undefined') return false;
   return window.location.pathname.includes('review-and-submit');
-};
-
-export const hasSession = () => {
-  return localStorage.getItem('hasSession') === 'true';
 };
 
 export const formatCurrency = num =>
@@ -108,15 +101,6 @@ export const surrenderValueRequired = (form, index) =>
   get(['annuities', index, 'canBeLiquidated'], form);
 
 export const isRecipientInfoIncomplete = item =>
-  !isDefined(item?.recipientRelationship) ||
-  (!isDefined(item?.recipientName) &&
-    item?.recipientRelationship !== 'VETERAN' &&
-    item?.recipientRelationship !== 'SPOUSE') ||
-  (!isDefined(item?.otherRecipientRelationshipType) &&
-    item?.recipientRelationship === 'OTHER');
-
-// Remove after all files are updated
-export const updatedIsRecipientInfoIncomplete = item =>
   !isDefined(item?.recipientRelationship) ||
   (!isDefined(item?.recipientName) &&
     item?.recipientRelationship !== 'VETERAN' &&

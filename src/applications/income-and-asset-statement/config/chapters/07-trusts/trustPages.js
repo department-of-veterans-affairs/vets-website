@@ -182,24 +182,6 @@ const yesNoOptionLabels = {
  * @returns {PageSchema}
  */
 const summaryPage = {
-  uiSchema: {
-    'view:isAddingTrusts': arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'Have you or your dependents established a trust or do you or your dependents have access to a trust?',
-        hint: 'If yes, you’ll need to report at least one trust',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-      },
-      {
-        title: 'Do you have more trusts to report?',
-        ...sharedYesNoOptionsBase,
-      },
-    ),
-  },
   schema: {
     type: 'object',
     properties: {

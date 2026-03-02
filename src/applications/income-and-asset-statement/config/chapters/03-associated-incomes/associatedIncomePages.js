@@ -24,11 +24,11 @@ import {
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
+  isRecipientInfoIncomplete,
   otherIncomeTypeExplanationRequired,
   otherRecipientRelationshipTypeUI,
   sharedRecipientRelationshipBase,
   sharedYesNoOptionsBase,
-  updatedIsRecipientInfoIncomplete,
   recipientNameRequired,
   resolveRecipientFullName,
   requireExpandedArrayField,
@@ -50,7 +50,7 @@ export const options = {
   nounPlural: 'financial accounts',
   required: false,
   isItemIncomplete: item =>
-    updatedIsRecipientInfoIncomplete(item) ||
+    isRecipientInfoIncomplete(item) ||
     isIncomeTypeInfoIncomplete(item) ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.accountValue) ||
@@ -113,9 +113,9 @@ export const options = {
 // Important: only one summary page should ever be displayed at a time.
 
 // Shared summary page text
-const updatedTitleNoItems =
+const titleNoItems =
   'Are you or your dependents receiving or expecting to receive any income in the next 12 months from financial accounts?';
-const updatedTitleWithItems = 'Do you have more financial accounts to report?';
+const titleWithItems = 'Do you have more financial accounts to report?';
 const summaryPageTitle =
   'Income and net worth associated with financial accounts';
 const incomeRecipientPageTitle = 'Financial account recipient';
@@ -130,24 +130,6 @@ const yesNoOptionLabels = {
  * @returns {PageSchema}
  */
 const summaryPage = {
-  uiSchema: {
-    'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'Are you or your dependents receiving or expecting to receive any income in the next 12 months that is related to financial accounts?',
-        hint: 'If yes, you’ll need to report at least one income',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-      },
-      {
-        title: updatedTitleWithItems,
-        ...sharedYesNoOptionsBase,
-      },
-    ),
-  },
   schema: {
     type: 'object',
     properties: {
@@ -162,14 +144,14 @@ const veteranSummaryPage = {
     'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -181,13 +163,13 @@ const spouseSummaryPage = {
     'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint: 'Your dependents include children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -206,7 +188,7 @@ const childSummaryPage = {
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -218,14 +200,14 @@ const parentSummaryPage = {
     'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -237,14 +219,14 @@ const custodianSummaryPage = {
     'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),

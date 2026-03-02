@@ -105,24 +105,6 @@ const yesNoOptionLabels = {
  * @returns {PageSchema}
  */
 const summaryPage = {
-  uiSchema: {
-    'view:isAddingUnreportedAssets': arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'Do you or your dependents have any assets not already reported?',
-        hint: 'If yes, you’ll need to report at least one asset',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-      },
-      {
-        title: 'Do you have more assets to report?',
-        ...sharedYesNoOptionsBase,
-      },
-    ),
-  },
   schema: {
     type: 'object',
     properties: {

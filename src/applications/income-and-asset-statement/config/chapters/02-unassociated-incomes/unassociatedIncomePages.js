@@ -122,24 +122,6 @@ const yesNoOptionLabels = {
  * @returns {PageSchema}
  */
 const summaryPage = {
-  uiSchema: {
-    'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'Are you or your dependents receiving or expecting to receive any income in the next 12 months from sources not related to an account or your assets?',
-        hint: 'If yes, you’ll need to report at least one income',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-      },
-      {
-        title: titleWithItems,
-        ...sharedYesNoOptionsBase,
-      },
-    ),
-  },
   schema: {
     type: 'object',
     properties: {

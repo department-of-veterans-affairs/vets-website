@@ -79,7 +79,7 @@ describe('unassociated income list and loop pages', () => {
     describe('Veteran recipient page', () => {
       const formData = { ...testData.data, claimantType: 'VETERAN' };
 
-      it('should display when showUpdatedContent is true and claimantType is VETERAN', () => {
+      it('should display when claimantType is VETERAN', () => {
         const { depends } = unassociatedIncomeVeteranRecipientPage;
         expect(depends(formData)).to.be.true;
       });
@@ -88,7 +88,7 @@ describe('unassociated income list and loop pages', () => {
     describe('Spouse recipient page', () => {
       const formData = { ...testData.data, claimantType: 'SPOUSE' };
 
-      it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
+      it('should display when claimantType is SPOUSE', () => {
         const { depends } = unassociatedIncomeSpouseRecipientPage;
         expect(depends(formData)).to.be.true;
       });
@@ -97,7 +97,7 @@ describe('unassociated income list and loop pages', () => {
     describe('Custodian recipient page', () => {
       const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
 
-      it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
+      it('should display when claimantType is CUSTODIAN', () => {
         const { depends } = unassociatedIncomeCustodianRecipientPage;
         expect(depends(formData)).to.be.true;
       });
@@ -106,7 +106,7 @@ describe('unassociated income list and loop pages', () => {
     describe('Parent recipient page', () => {
       const formData = { ...testData.data, claimantType: 'PARENT' };
 
-      it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
+      it('should display when claimantType is PARENT', () => {
         const { depends } = unassociatedIncomeParentRecipientPage;
         expect(depends(formData)).to.be.true;
       });

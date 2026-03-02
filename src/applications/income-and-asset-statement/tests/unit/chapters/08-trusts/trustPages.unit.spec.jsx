@@ -5,11 +5,9 @@ import {
   trustPages,
   options,
 } from '../../../../config/chapters/07-trusts/trustPages';
-import * as helpers from '../../../../helpers';
 import { trustTypeLabels } from '../../../../labels';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
-import testDataPostMVP from '../../../e2e/fixtures/data/test-data-post-mvp.json';
 
 import {
   testOptionsIsItemIncomplete,
@@ -24,20 +22,7 @@ import {
 } from '../pageTests.spec';
 
 describe('trust list and loop pages', () => {
-  let showUpdatedContentStub;
-
-  beforeEach(() => {
-    showUpdatedContentStub = sinon.stub(helpers, 'showUpdatedContent');
-  });
-
-  afterEach(() => {
-    if (showUpdatedContentStub && showUpdatedContentStub.restore) {
-      showUpdatedContentStub.restore();
-    }
-  });
-
   const {
-    trustPagesSummary,
     trustPagesVeteranSummary,
     trustPagesSpouseSummary,
     trustPagesChildSummary,
@@ -45,20 +30,19 @@ describe('trust list and loop pages', () => {
     trustPagesParentSummary,
   } = trustPages;
 
-  describe('MVP isItemIncomplete functions', () => {
-    beforeEach(() => {
-      showUpdatedContentStub.returns(false);
-    });
-
+  describe('isItemIncomplete functions', () => {
     describe('isItemIncomplete function', () => {
       /* eslint-disable no-unused-vars */
       const {
         receivingIncomeFromTrust,
         annualReceivedIncome,
         monthlyMedicalReimbursementAmount,
+        'view:addFormQuestion': _removedViewAddFormQuestion,
+        uploadedDocuments,
         ...baseItem
       } = testData.data.trusts[0];
       /* eslint-enable no-unused-vars */
+
       testOptionsIsItemIncomplete(options, baseItem);
     });
 
@@ -72,17 +56,6 @@ describe('trust list and loop pages', () => {
       } = testDataZeroes.data.trusts[0];
       /* eslint-enable no-unused-vars */
       testOptionsIsItemIncompleteWithZeroes(options, baseItem);
-    });
-  });
-
-  describe('Post MVP isItemIncomplete', () => {
-    it('isItemIncomplete function', () => {
-      showUpdatedContentStub.returns(true);
-      const baseItem = {
-        ...testDataPostMVP.data.trusts[0],
-        uploadedDocuments: [],
-      };
-      expect(options.isItemIncomplete(baseItem)).to.be.true;
     });
   });
 
@@ -125,233 +98,187 @@ describe('trust list and loop pages', () => {
     testOptionsTextCardDescription(options, baseItem, trustTypeLabels);
   });
 
-  describe('Post MVP cardDescription functions', () => {
-    beforeEach(() => {
-      showUpdatedContentStub.returns(true);
-    });
+  it('should show "Supporting documents uploaded: No" when user declines upload', () => {
+    const assetWithNoUpload = {
+      ...testData.data.trusts[0],
+      'view:addFormQuestion': false,
+    };
 
-    it('should show "Supporting documents uploaded: No" when user declines upload', () => {
-      const assetWithNoUpload = {
-        ...testDataPostMVP.data.trusts[0],
-        'view:addFormQuestion': false,
-      };
+    const result = options.text.cardDescription(assetWithNoUpload);
 
-      const result = options.text.cardDescription(assetWithNoUpload);
-
-      const resultString = JSON.stringify(result);
-      expect(resultString).to.include('Supporting documents uploaded:');
-      expect(resultString).to.include('No');
-    });
-
-    it('should show filename when user uploads file', () => {
-      const result = options.text.cardDescription(
-        testDataPostMVP.data.trusts[0],
-      );
-
-      const resultString = JSON.stringify(result);
-      expect(resultString).to.include('Supporting documents uploaded:');
-      expect(resultString).to.include('file.png');
-    });
+    const resultString = JSON.stringify(result);
+    expect(resultString).to.include('Supporting documents uploaded:');
+    expect(resultString).to.include('No');
   });
 
-  describe('MVP summary page', () => {
-    beforeEach(() => {
-      showUpdatedContentStub.returns(false);
+  it('should show filename when user uploads file', () => {
+    const result = options.text.cardDescription(testData.data.trusts[0]);
+
+    const resultString = JSON.stringify(result);
+    expect(resultString).to.include('Supporting documents uploaded:');
+    expect(resultString).to.include('file.png');
+  });
+
+  describe('veteran summary page', () => {
+    const { schema, uiSchema } = trustPagesVeteranSummary;
+    const formData = { ...testData.data, claimantType: 'VETERAN' };
+
+    it('should display when claimantType is VETERAN', () => {
+      const { depends } = trustPagesVeteranSummary;
+      expect(depends(formData)).to.be.true;
     });
 
-    const { schema, uiSchema } = trustPagesSummary;
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      { 'va-radio': 1 },
-      'trust summary page',
-    );
-    testComponentFieldsMarkedAsRequired(
-      formConfig,
-      schema,
-      uiSchema,
-      [
-        'va-radio[label="Have you or your dependents established a trust or do you or your dependents have access to a trust?"]',
-      ],
-      'trust summary page',
-    );
+    it('should have modified hint text for veteran', () => {
+      expect(
+        uiSchema['view:isAddingTrusts']['ui:options'].updateUiSchema()[
+          'ui:options'
+        ].hint,
+      ).to.include(
+        'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+      );
+    });
+
     testSubmitsWithoutErrors(
       formConfig,
       schema,
       uiSchema,
-      'trust summary page',
-      testData.data,
+      'spouse summary page',
+      formData,
       { loggedIn: true },
     );
   });
 
-  describe('Post MVP summary pages', () => {
-    beforeEach(() => {
-      showUpdatedContentStub.returns(true);
+  describe('spouse summary page', () => {
+    const { schema, uiSchema } = trustPagesSpouseSummary;
+    const formData = { ...testData.data, claimantType: 'SPOUSE' };
+
+    it('should display when claimantType is SPOUSE', () => {
+      const { depends } = trustPagesSpouseSummary;
+      expect(depends(formData)).to.be.true;
     });
 
-    describe('veteran summary page', () => {
-      const { schema, uiSchema } = trustPagesVeteranSummary;
-      const formData = { ...testData.data, claimantType: 'VETERAN' };
-
-      it('should display when showUpdatedContent is true and claimantType is VETERAN', () => {
-        const { depends } = trustPagesVeteranSummary;
-        expect(depends(formData)).to.be.true;
-      });
-
-      it('should have modified hint text for veteran', () => {
-        expect(
-          uiSchema['view:isAddingTrusts']['ui:options'].updateUiSchema()[
-            'ui:options'
-          ].hint,
-        ).to.include(
-          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
-        );
-      });
-
-      testSubmitsWithoutErrors(
-        formConfig,
-        schema,
-        uiSchema,
-        'spouse summary page',
-        formData,
-        { loggedIn: true },
-      );
-    });
-
-    describe('spouse summary page', () => {
-      const { schema, uiSchema } = trustPagesSpouseSummary;
-      const formData = { ...testData.data, claimantType: 'SPOUSE' };
-
-      it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
-        const { depends } = trustPagesSpouseSummary;
-        expect(depends(formData)).to.be.true;
-      });
-
-      it('should have modified hint text for spouse', () => {
-        expect(
-          uiSchema['view:isAddingTrusts']['ui:options'].updateUiSchema()[
-            'ui:options'
-          ].hint,
-        ).to.include(
-          'Your dependents include children who you financially support',
-        );
-      });
-
-      testSubmitsWithoutErrors(
-        formConfig,
-        schema,
-        uiSchema,
-        'spouse summary page',
-        formData,
-        { loggedIn: true },
-      );
-    });
-
-    describe('child summary page', () => {
-      const { schema, uiSchema } = trustPagesChildSummary;
-      const formData = { ...testData.data, claimantType: 'CHILD' };
-
-      it('should display when showUpdatedContent is true and claimantType is CHILD', () => {
-        const { depends } = trustPagesChildSummary;
-        expect(depends(formData)).to.be.true;
-      });
-
-      it('should have modified title text for child', () => {
-        expect(uiSchema['view:isAddingTrusts']['ui:title']).to.equal(
-          'Do you have access to a trust?',
-        );
-      });
-
-      it('should have no hint text for child', () => {
-        expect(uiSchema['view:isAddingTrusts']['ui:options'].hint).to.be
-          .undefined;
-      });
-
-      it('should have correct option labels', () => {
-        const { labels } = uiSchema['view:isAddingTrusts'][
+    it('should have modified hint text for spouse', () => {
+      expect(
+        uiSchema['view:isAddingTrusts']['ui:options'].updateUiSchema()[
           'ui:options'
-        ].updateUiSchema()['ui:options'];
-        expect(labels.Y).to.equal('Yes, I have a trust to report');
-        expect(labels.N).to.equal('No, I don’t have a trust to report');
-      });
+        ].hint,
+      ).to.include(
+        'Your dependents include children who you financially support',
+      );
+    });
 
-      it('should have correct labelHeaderLevel configuration', () => {
-        const { labelHeaderLevel } = uiSchema['view:isAddingTrusts'][
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'spouse summary page',
+      formData,
+      { loggedIn: true },
+    );
+  });
+
+  describe('child summary page', () => {
+    const { schema, uiSchema } = trustPagesChildSummary;
+    const formData = { ...testData.data, claimantType: 'CHILD' };
+
+    it('should display when claimantType is CHILD', () => {
+      const { depends } = trustPagesChildSummary;
+      expect(depends(formData)).to.be.true;
+    });
+
+    it('should have modified title text for child', () => {
+      expect(uiSchema['view:isAddingTrusts']['ui:title']).to.equal(
+        'Do you have access to a trust?',
+      );
+    });
+
+    it('should have no hint text for child', () => {
+      expect(uiSchema['view:isAddingTrusts']['ui:options'].hint).to.be
+        .undefined;
+    });
+
+    it('should have correct option labels', () => {
+      const { labels } = uiSchema['view:isAddingTrusts'][
+        'ui:options'
+      ].updateUiSchema()['ui:options'];
+      expect(labels.Y).to.equal('Yes, I have a trust to report');
+      expect(labels.N).to.equal('No, I don’t have a trust to report');
+    });
+
+    it('should have correct labelHeaderLevel configuration', () => {
+      const { labelHeaderLevel } = uiSchema['view:isAddingTrusts'][
+        'ui:options'
+      ].updateUiSchema()['ui:options'];
+
+      expect(labelHeaderLevel).to.equal('1');
+    });
+
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'child summary page',
+      formData,
+      { loggedIn: true },
+    );
+  });
+
+  describe('custodian summary page', () => {
+    const { schema, uiSchema } = trustPagesCustodianSummary;
+    const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
+
+    it('should display when claimantType is CUSTODIAN', () => {
+      const { depends } = trustPagesCustodianSummary;
+      expect(depends(formData)).to.be.true;
+    });
+
+    it('should have modified hint text for custodian', () => {
+      expect(
+        uiSchema['view:isAddingTrusts']['ui:options'].updateUiSchema()[
           'ui:options'
-        ].updateUiSchema()['ui:options'];
-
-        expect(labelHeaderLevel).to.equal('1');
-      });
-
-      testSubmitsWithoutErrors(
-        formConfig,
-        schema,
-        uiSchema,
-        'child summary page',
-        formData,
-        { loggedIn: true },
+        ].hint,
+      ).to.include(
+        'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
       );
     });
 
-    describe('custodian summary page', () => {
-      const { schema, uiSchema } = trustPagesCustodianSummary;
-      const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'custodian summary page',
+      formData,
+      { loggedIn: true },
+    );
+  });
 
-      it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
-        const { depends } = trustPagesCustodianSummary;
-        expect(depends(formData)).to.be.true;
-      });
+  describe('parent summary page', () => {
+    const { schema, uiSchema } = trustPagesParentSummary;
+    const formData = { ...testData.data, claimantType: 'PARENT' };
 
-      it('should have modified hint text for custodian', () => {
-        expect(
-          uiSchema['view:isAddingTrusts']['ui:options'].updateUiSchema()[
-            'ui:options'
-          ].hint,
-        ).to.include(
-          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
-        );
-      });
+    it('should display when claimantType is PARENT', () => {
+      const { depends } = trustPagesParentSummary;
+      expect(depends(formData)).to.be.true;
+    });
 
-      testSubmitsWithoutErrors(
-        formConfig,
-        schema,
-        uiSchema,
-        'custodian summary page',
-        formData,
-        { loggedIn: true },
+    it('should have modified hint text for parent', () => {
+      expect(
+        uiSchema['view:isAddingTrusts']['ui:options'].updateUiSchema()[
+          'ui:options'
+        ].hint,
+      ).to.include(
+        'Your dependents include your spouse, including a same-sex and common-law partner.',
       );
     });
 
-    describe('parent summary page', () => {
-      const { schema, uiSchema } = trustPagesParentSummary;
-      const formData = { ...testData.data, claimantType: 'PARENT' };
-
-      it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
-        const { depends } = trustPagesParentSummary;
-        expect(depends(formData)).to.be.true;
-      });
-
-      it('should have modified hint text for parent', () => {
-        expect(
-          uiSchema['view:isAddingTrusts']['ui:options'].updateUiSchema()[
-            'ui:options'
-          ].hint,
-        ).to.include(
-          'Your dependents include your spouse, including a same-sex and common-law partner.',
-        );
-      });
-
-      testSubmitsWithoutErrors(
-        formConfig,
-        schema,
-        uiSchema,
-        'parent summary page',
-        formData,
-        { loggedIn: true },
-      );
-    });
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'parent summary page',
+      formData,
+      { loggedIn: true },
+    );
   });
 
   describe('information page', () => {
@@ -683,21 +610,6 @@ describe('trust list and loop pages', () => {
   });
 
   describe('trustAdditionalFormNeeded page', () => {
-    beforeEach(() => {
-      showUpdatedContentStub.returns(true);
-    });
-
-    it('should display when showUpdatedContent is true', () => {
-      const { depends } = trustPages.trustSupportingDocumentsNeededNeededPage;
-      expect(depends({ ...testDataPostMVP.trusts }, 0)).to.be.true;
-    });
-
-    it('should not display when showUpdatedContent is false', () => {
-      showUpdatedContentStub.returns(false);
-      const { depends } = trustPages.trustSupportingDocumentsNeededNeededPage;
-      expect(depends({ ...testDataPostMVP.trusts }, 0)).to.be.false;
-    });
-
     describe('updateSchema functionality', () => {
       const schema =
         trustPages.trustSupportingDocumentsNeededNeededPage.schema.properties
@@ -803,10 +715,6 @@ describe('trust list and loop pages', () => {
   });
 
   describe('trustDocumentMailingAddressPage', () => {
-    beforeEach(() => {
-      showUpdatedContentStub.returns(true);
-    });
-
     it('should display when view:addFormQuestion is false', () => {
       const { depends } = trustPages.trustDocumentMailingAddressPage;
       const formData = {
@@ -825,19 +733,6 @@ describe('trust list and loop pages', () => {
         trusts: [
           {
             'view:addFormQuestion': true,
-          },
-        ],
-      };
-      expect(depends(formData, 0)).to.be.false;
-    });
-
-    it('should not display when showUpdatedContent is false', () => {
-      showUpdatedContentStub.returns(false);
-      const { depends } = trustPages.trustDocumentMailingAddressPage;
-      const formData = {
-        trusts: [
-          {
-            'view:addFormQuestion': false,
           },
         ],
       };

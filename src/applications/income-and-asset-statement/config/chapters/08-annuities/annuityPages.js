@@ -114,23 +114,6 @@ const yesNoOptionLabels = {
  * @returns {PageSchema}
  */
 const summaryPage = {
-  uiSchema: {
-    'view:isAddingAnnuities': arrayBuilderYesNoUI(
-      options,
-      {
-        title: 'Have you or your dependents established an annuity?',
-        hint: 'If yes, you’ll need to report at least one annuity',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-      },
-      {
-        title: titleWithItems,
-        ...sharedYesNoOptionsBase,
-      },
-    ),
-  },
   schema: {
     type: 'object',
     properties: {

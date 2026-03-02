@@ -133,24 +133,6 @@ const yesNoOptionLabels = {
  * @returns {PageSchema}
  */
 const summaryPage = {
-  uiSchema: {
-    'view:isAddingDiscontinuedIncomes': arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'Did you or your dependents receive income that has stopped or is no longer being received within the last calendar year?',
-        hint: 'If yes, you’ll need to report at least one income',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-      },
-      {
-        title: 'Do you have more discontinued incomes to report?',
-        ...sharedYesNoOptionsBase,
-      },
-    ),
-  },
   schema: {
     type: 'object',
     properties: {
