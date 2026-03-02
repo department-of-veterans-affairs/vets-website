@@ -64,6 +64,7 @@
  * @property {boolean} [showReviewErrors]
  * @property {boolean} [showSaveLinkAfterButtons] by default, when logged in, a save link is present before the back/continue buttons, but setting this to true will make it show up below it.
  * @property {(props: any) => JSX.Element} [submissionError]
+ * @property {(props: any) => JSX.Element} [submissionErrorLink]
  * @property {(form: any, formConfig: any) => Promise<any>} [submit]
  * @property {(props: any) => JSX.Element} [submitErrorText]
  * @property {string} [submitUrl]
