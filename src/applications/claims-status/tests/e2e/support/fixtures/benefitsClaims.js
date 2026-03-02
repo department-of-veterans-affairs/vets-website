@@ -174,6 +174,7 @@ export const createTrackedItem = ({
   status = 'NEEDED_FROM_YOU',
   requestedDate = '2025-05-01',
   closedDate = null,
+  ...rest
 } = {}) => ({
   id,
   status,
@@ -192,6 +193,7 @@ export const createTrackedItem = ({
   canUploadFile: true,
   activityDescription: null,
   supportAliases: ['Medical Records Request'],
+  ...rest,
 });
 
 /**
