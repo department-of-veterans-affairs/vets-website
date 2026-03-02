@@ -242,7 +242,7 @@ describe('VeteranStatusSharedService', () => {
   });
 
   describe('when an API error occurs', () => {
-    it('should render the LoadFail alert when an API error occurs', async () => {
+    it('should render the page level error alert when an API error occurs', async () => {
       apiRequestStub.rejects(new Error('API Error'));
       const initialState = createBasicInitialState();
       const view = renderWithProfileReducers(<VeteranStatusSharedService />, {
@@ -251,7 +251,7 @@ describe('VeteranStatusSharedService', () => {
 
       await waitFor(() => {
         sinon.assert.calledWith(apiRequestStub, '/veteran_status_card');
-        expect(view.getByText("This page isn't available right now.")).to.exist;
+        expect(view.getByText("This page isn't working right now")).to.exist;
 
         // Check that the description is not rendered
         expect(

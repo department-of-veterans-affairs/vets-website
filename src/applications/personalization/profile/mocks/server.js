@@ -145,6 +145,8 @@ const responses = {
     // return res.json(veteranStatusCard.dishonorableDischarge);
     // return res.json(veteranStatusCard.personNotFound);
     // return res.json(veteranStatusCard.systemError);
+    // 500 error - triggers page level error alert
+    // return res.status(500).json(error500);
   },
   'GET /v0/user': (_req, res) => {
     const [shouldReturnUser, updatedUserResponse] = handleUserUpdate(
@@ -334,6 +336,7 @@ const responses = {
   },
   'GET /v0/profile/vet_verification_status': (_req, res) => {
     return res.status(200).json(vetVerificationStatus.confirmed);
+    // return res.status(500).json(error500);
     // return res.status(200).json(vetVerificationStatus.notConfirmedProblem);
     // return res.status(200).json(vetVerificationStatus.notConfirmedIneligible);
     // return res.status(504).json(vetVerificationStatus.apiError);
