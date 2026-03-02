@@ -357,7 +357,7 @@
     "**/https-proxy-agent": "^2.2.3",
     "**/hosted-git-info": "^3.0.8",
     "**/locutus": "^2.0.39",
-    "**/node-forge": "^1.3.0",
+    "**/node-forge": "^1.3.3",
     "**/normalize-url": "^6.0.1",
     "**/qs": "^6.0.4",
     "**/axios": "^0.21.1",
