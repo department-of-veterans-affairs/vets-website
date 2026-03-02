@@ -140,7 +140,8 @@ va-loading-indicator {
   margin: 200px auto;
 }
 
-#new-records-indicator va-loading-indicator {
+#new-records-indicator va-loading-indicator,
+#loading-images-spinner va-loading-indicator {
   margin: initial;
 }
 

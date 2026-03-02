@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import environment from '~/platform/utilities/environment';
 import { setSubmission } from 'platform/forms-system/src/js/actions';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
@@ -238,6 +239,11 @@ export const ConfirmationPage = props => {
     },
     [submission],
   );
+
+  useEffect(() => {
+    const focusedEl = document.querySelector('va-alert');
+    scrollAndFocus(focusedEl);
+  }, []);
 
   return (
     <ConfirmationView

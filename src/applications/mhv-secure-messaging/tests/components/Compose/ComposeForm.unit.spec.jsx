@@ -156,6 +156,38 @@ describe('Compose form component', () => {
     expect(screen);
   });
 
+  it('renders AlertBackgroundBox after H1', async () => {
+    const stateWithAlert = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        alerts: {
+          alertVisible: true,
+          alertList: [
+            {
+              datestamp: '2022-10-07T19:25:32.832Z',
+              isActive: true,
+              alertType: 'success',
+              header: 'Test',
+              content: 'Test alert content',
+            },
+          ],
+        },
+      },
+    };
+    const screen = setup(stateWithAlert, Paths.COMPOSE);
+    await waitFor(() => {
+      const h1 = screen.getByRole('heading', { level: 1 });
+      const alertText = screen.getByTestId('alert-text');
+      expect(h1).to.exist;
+      expect(alertText).to.exist;
+      const html = screen.container.innerHTML;
+      expect(html.indexOf('<h1')).to.be.lessThan(
+        html.indexOf('data-testid="alert-text"'),
+      );
+    });
+  });
+
   it('records prefilling analytics when Rx renewal draft loads', async () => {
     window.dataLayer = [];
     const addActionSpy = sinon.spy(datadogRum, 'addAction');
