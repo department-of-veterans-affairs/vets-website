@@ -14,18 +14,14 @@ import { submitCh31CaseMilestones } from '../../../actions/ch31-case-milestones'
 describe('ch31-case-milestones actions', () => {
   let apiStub;
   let dispatch;
-  let clock;
 
   beforeEach(() => {
     apiStub = sinon.stub(api, 'apiRequest');
     dispatch = sinon.spy();
-    // Freeze time for predictable date
-    clock = sinon.useFakeTimers(new Date('2024-01-01T12:00:00Z').getTime());
   });
 
   afterEach(() => {
     apiStub.restore();
-    clock.restore();
   });
 
   it('dispatches STARTED and SUCCEEDED on successful POST', async () => {
