@@ -302,10 +302,18 @@ const ExpensePage = () => {
       if (!vaDateEl) return;
 
       const fieldName = vaDateEl.getAttribute('name');
+      const dateValue = vaDateEl.value;
 
       // Override VaDate's internal error after its blur validation runs but before browser paint
       const overrideVaDateError = () => {
-        vaDateEl.error = extraFieldErrorsRef.current[fieldName] || null;
+        const reactError = extraFieldErrorsRef.current[fieldName];
+        const dateIsComplete = isCompleteDate(normalizeDate(dateValue));
+
+        // Only override if we have a React error to show, or if the date is complete and valid
+        // (which means VaDate's error is incorrect). Otherwise, let VaDate's error display.
+        if (reactError || dateIsComplete) {
+          vaDateEl.error = reactError || null;
+        }
       };
       queueMicrotask(overrideVaDateError);
     };
