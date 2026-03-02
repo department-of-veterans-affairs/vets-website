@@ -10,7 +10,6 @@
       "./actions": "./user-nav/actions/index.js",
       "./actionTypes": "./feature-toggles/actionTypes.js",
       "./AutoSSO": "./user-nav/containers/AutoSSO.jsx",
-      "./EbenefitsLink": "./ebenefits/containers/EbenefitsLink.jsx",
       "./feature-toggles/reducers": "./feature-toggles/reducers/index.js",
       "./header": "./header/index.js",
       "./legacy/mega-menu": "./legacy/mega-menu.js",
