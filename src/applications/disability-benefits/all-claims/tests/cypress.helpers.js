@@ -658,64 +658,11 @@ Cypress.Commands.add('verifyAdditionalInformation', data => {
   }
 });
 
-const clickElementByText = (
-  cy,
-  textPattern,
-  selectors = 'va-button, button, a',
-) => {
-  cy.get('body', { timeout: 10000 }).then($body => {
-    const candidates = $body.find(selectors).toArray();
-    const match = candidates.find(element => {
-      const text =
-        element.getAttribute('text') ||
-        element.getAttribute('label') ||
-        element.innerText ||
-        element.textContent ||
-        '';
-      return textPattern.test(text);
-    });
-
-    if (!match) {
-      throw new Error(
-        `Unable to find element matching pattern: ${textPattern.toString()}`,
-      );
-    }
-
-    cy.wrap(match).click({ force: true });
-  });
-};
-
 const clickContinueButton = (cy, textPattern = /continue|next/i) => {
-  cy.get('body', { timeout: 10000 }).then($body => {
-    const vadsContinueSelector =
-      'va-button[continue], va-button[text*="Continue"], va-button[text*="continue"], va-button[text*="Next"], va-button[text*="next"], va-button[label*="Continue"], va-button[label*="continue"], va-button[label*="Next"], va-button[label*="next"]';
-    const legacyContinueSelector =
-      'button[id$="continueButton"], a#continueButton';
-
-    if ($body.find(vadsContinueSelector).length > 0) {
-      cy.get(vadsContinueSelector)
-        .first()
-        .should('be.visible')
-        .click({ force: true });
-      return;
-    }
-
-    if ($body.find(`${legacyContinueSelector}:visible`).length > 0) {
-      cy.get(`${legacyContinueSelector}:visible`)
-        .first()
-        .click();
-      return;
-    }
-
-    if ($body.find(legacyContinueSelector).length > 0) {
-      cy.get(legacyContinueSelector)
-        .first()
-        .click({ force: true });
-      return;
-    }
-
-    clickElementByText(cy, textPattern);
-  });
+  // First try using findByText which handles text matching better
+  cy.findByText(textPattern, { selector: 'button, va-button, a' })
+    .first()
+    .click({ force: true });
 };
 
 export const pageHooks = (cy, testOptions) => ({
@@ -919,7 +866,9 @@ export const pageHooks = (cy, testOptions) => ({
 
         // click add another if more than 1
         if (index > 0) {
-          clickElementByText(cy, /add another condition/i);
+          cy.findByText(/add another condition/i, { selector: 'button' })
+            .first()
+            .click({ force: true });
 
           cy.get('va-button[text="Remove"]').should('be.visible');
         }
@@ -1329,7 +1278,11 @@ export const pageHooks = (cy, testOptions) => ({
             toDay: '7',
           },
         };
-        clickElementByText(cy, /add another provider or hospital/i);
+        cy.findByText(/add another provider or hospital/i, {
+          selector: 'button',
+        })
+          .first()
+          .click({ force: true });
         // verify that the treated disability name checkboxes are visible and clickable
         const ratedDisabilitiesCount = data?.ratedDisabilities.filter(
           disability => disability['view:selected'] === true,
@@ -1390,7 +1343,9 @@ export const pageHooks = (cy, testOptions) => ({
         cy.get('input[name="root_treatmentDateRange1_to1Year"]').type(
           `${newProviderFacility.treatmentDateRange.toYear}`,
         );
-        clickElementByText(cy, /update/i, 'va-button, button');
+        cy.findByText(/update/i, { selector: 'button, va-button' })
+          .first()
+          .click({ force: true });
         cy.get('div[name="providerFacility-1"]')
           .should('be.visible')
           .within(() => {
