@@ -1302,6 +1302,148 @@ describe('labsAndTestsReducer - SCDF imaging studies', () => {
   });
 });
 
+describe('labsAndTestsReducer CLEAR_DETAIL', () => {
+  it('resets scdfImageThumbnails and scdfDicom', () => {
+    const prevState = {
+      labsAndTestsDetails: { id: 'test-1' },
+      scdfImageThumbnails: ['https://example.com/thumb1.jpg'],
+      scdfDicom: 'https://example.com/dicom.zip',
+    };
+    const state = labsAndTestsReducer(prevState, {
+      type: Actions.LabsAndTests.CLEAR_DETAIL,
+    });
+    expect(state.labsAndTestsDetails).to.be.undefined;
+    expect(state.scdfImageThumbnails).to.be.undefined;
+    expect(state.scdfDicom).to.be.undefined;
+  });
+});
+
+describe('labsAndTestsReducer GET_IMAGING_STUDY_THUMBNAILS', () => {
+  it('extracts and sorts thumbnails from series/instances', () => {
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.GET_IMAGING_STUDY_THUMBNAILS,
+      response: [
+        {
+          attributes: {
+            series: [
+              {
+                number: 2,
+                instances: [
+                  { number: 1, thumbnailUrl: 'https://s2-i1.jpg' },
+                  { number: 2, thumbnailUrl: 'https://s2-i2.jpg' },
+                ],
+              },
+              {
+                number: 1,
+                instances: [{ number: 1, thumbnailUrl: 'https://s1-i1.jpg' }],
+              },
+            ],
+          },
+        },
+      ],
+    });
+    expect(state.scdfImageThumbnails).to.deep.equal([
+      'https://s1-i1.jpg',
+      'https://s2-i1.jpg',
+      'https://s2-i2.jpg',
+    ]);
+  });
+
+  it('filters out instances without thumbnailUrl', () => {
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.GET_IMAGING_STUDY_THUMBNAILS,
+      response: [
+        {
+          attributes: {
+            series: [
+              {
+                number: 1,
+                instances: [
+                  { number: 1, thumbnailUrl: 'https://valid.jpg' },
+                  { number: 2, thumbnailUrl: null },
+                  { number: 3 },
+                ],
+              },
+            ],
+          },
+        },
+      ],
+    });
+    expect(state.scdfImageThumbnails).to.deep.equal(['https://valid.jpg']);
+  });
+
+  it('returns empty array when response is empty', () => {
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.GET_IMAGING_STUDY_THUMBNAILS,
+      response: [],
+    });
+    expect(state.scdfImageThumbnails).to.deep.equal([]);
+  });
+
+  it('returns empty array when response is not an array', () => {
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.GET_IMAGING_STUDY_THUMBNAILS,
+      response: null,
+    });
+    expect(state.scdfImageThumbnails).to.deep.equal([]);
+  });
+
+  it('handles studies without series gracefully', () => {
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.GET_IMAGING_STUDY_THUMBNAILS,
+      response: [{ attributes: {} }],
+    });
+    expect(state.scdfImageThumbnails).to.deep.equal([]);
+  });
+});
+
+describe('labsAndTestsReducer GET_IMAGING_STUDY_DICOM', () => {
+  it('extracts the first dicomZipUrl from response', () => {
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.GET_IMAGING_STUDY_DICOM,
+      response: [
+        { attributes: { dicomZipUrl: 'https://example.com/dicom.zip' } },
+      ],
+    });
+    expect(state.scdfDicom).to.equal('https://example.com/dicom.zip');
+  });
+
+  it('returns null when no dicomZipUrl is found', () => {
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.GET_IMAGING_STUDY_DICOM,
+      response: [{ attributes: {} }],
+    });
+    expect(state.scdfDicom).to.be.null;
+  });
+
+  it('returns null when response is empty', () => {
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.GET_IMAGING_STUDY_DICOM,
+      response: [],
+    });
+    expect(state.scdfDicom).to.be.null;
+  });
+
+  it('returns null when response is not an array', () => {
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.GET_IMAGING_STUDY_DICOM,
+      response: undefined,
+    });
+    expect(state.scdfDicom).to.be.null;
+  });
+
+  it('skips null dicomZipUrl entries and takes the first valid one', () => {
+    const state = labsAndTestsReducer(undefined, {
+      type: Actions.LabsAndTests.GET_IMAGING_STUDY_DICOM,
+      response: [
+        { attributes: { dicomZipUrl: null } },
+        { attributes: { dicomZipUrl: 'https://second.zip' } },
+      ],
+    });
+    expect(state.scdfDicom).to.equal('https://second.zip');
+  });
+});
+
 describe('labsAndTestsReducer warnings', () => {
   it('stores warnings on SET_WARNINGS', () => {
     const mockWarnings = [

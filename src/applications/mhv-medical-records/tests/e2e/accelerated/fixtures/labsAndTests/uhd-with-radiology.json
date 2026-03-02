@@ -1,0 +1,46 @@
+[
+  {
+    "id": "e9513940-bf84-4120-ac9c-718f537b00e0",
+    "type": "DiagnosticReport",
+    "attributes": {
+      "display": "CH",
+      "testCode": "CH",
+      "testCodeDisplay": "Chemistry and hematology",
+      "dateCompleted": "2025-01-23T22:06:02Z",
+      "sampleTested": "SERUM",
+      "bodySite": "Central Vien",
+      "location": "CHYSHR TEST LAB",
+      "orderedBy": "ZZGeorge Washington",
+      "observations": [
+        {
+          "testCode": "GLUCOSE",
+          "referenceRange": "70 - 110",
+          "status": "final",
+          "sampleTested": "SERUM",
+          "bodySite": "Central Vien",
+          "comments": "this is a comment",
+          "value": {
+            "text": "99 mg/dL",
+            "type": "Quantity"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "a1b2c3d4-5678-9012-abcd-ef0123456789",
+    "type": "DiagnosticReport",
+    "attributes": {
+      "display": "CT HEAD W/O CONTRAST",
+      "testCode": "LP29684-5",
+      "testCodeDisplay": "Radiology",
+      "dateCompleted": "2025-01-22T14:30:00Z",
+      "sampleTested": "CT scan",
+      "bodySite": "Head",
+      "location": "VA Portland HCS",
+      "orderedBy": "Dr. Jane Smith",
+      "comments": ["Comparison: None available", "Technique: Non-contrast CT of the head"],
+      "source": "OH"
+    }
+  }
+]

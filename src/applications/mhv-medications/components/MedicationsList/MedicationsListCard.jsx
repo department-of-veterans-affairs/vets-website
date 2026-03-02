@@ -138,7 +138,13 @@ const MedicationsListCard = ({ rx }) => {
             {rxStatus}
           </p>
         )}
-        {isRefillBlocked && rx.isRefillable && <OracleHealthInCardAlert />}
+        {isRefillBlocked &&
+          rx.isRefillable && (
+            <OracleHealthInCardAlert
+              stationNumber={rx.stationNumber}
+              prescriptionId={rx.prescriptionId}
+            />
+          )}
         {rx && (
           <ExtraDetails
             {...rx}

@@ -104,6 +104,32 @@ export const dataDogActionNames = {
     MODAL_BACK: 'Rx Renewal Modal Back',
     MODAL_CLOSE: 'Rx Renewal Modal Close',
   },
+  oracleHealthTransition: {
+    T45_WARNING_ALERT_DISPLAYED: `OH EHR T45 Warning Alert Displayed - ${
+      pageType.LIST
+    }`,
+    T45_WARNING_ALERT_DISPLAYED_REFILL: `OH EHR T45 Warning Alert Displayed - ${
+      pageType.REFILL
+    }`,
+    T6_IN_CARD_RENEWAL_BLOCKED_ALERT_DISPLAYED: `OH EHR T6 In-Card Renewal Blocked Alert Displayed - ${
+      pageType.LIST
+    }`,
+    T3_REFILL_BLOCKED_ALERT_DISPLAYED: `OH EHR T3 Refill Blocked Alert Displayed - ${
+      pageType.REFILL
+    }`,
+    T3_IN_CARD_REFILL_BLOCKED_ALERT_DISPLAYED: `OH EHR T3 In-Card Refill Blocked Alert Displayed - ${
+      pageType.LIST
+    }`,
+    T3_BLOCKED_RX_LINK_CLICK: `OH EHR T3 Blocked Rx Link Click - ${
+      pageType.REFILL
+    }`,
+    T3_ERROR_ALERT_DISPLAYED: `OH EHR T3 Error Alert Displayed - ${
+      pageType.LIST
+    }`,
+    T3_ERROR_ALERT_DISPLAYED_REFILL: `OH EHR T3 Error Alert Displayed - ${
+      pageType.REFILL
+    }`,
+  },
   shared: {
     DOWNLOAD_A_PDF_OF_THIS: 'Download A PDF Of This ',
     DOWNLOAD_A_TEXT_FILE_OF_THIS: 'Download A Text File Of This ',

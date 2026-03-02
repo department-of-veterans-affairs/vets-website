@@ -77,9 +77,11 @@ const MyCaseManagementHub = () => {
     stateList = [],
   } = externalStatus;
 
-  const showAppointmentAlert = stateList.some(
-    s => s?.stepCode === 'INTAKE' && s?.status === 'ACTIVE',
-  );
+  const showAppointmentAlert =
+    attrs?.orientationAppointmentDetails?.appointmentDateTime &&
+    attrs?.orientationAppointmentDetails?.appointmentPlace &&
+    stateList.some(s => s?.stepCode === 'INTAKE' && s?.status === 'ACTIVE');
+
   const appointment = attrs?.orientationAppointmentDetails;
 
   useEffect(
@@ -202,6 +204,7 @@ const MyCaseManagementHub = () => {
               current={current}
               stepLabels={stepLabels}
               stateList={stateList}
+              attributes={attrs}
             />
 
             <HubCardList step={current} stateList={stateList} />
