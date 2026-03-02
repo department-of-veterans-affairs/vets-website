@@ -118,7 +118,7 @@ describe('PrintDownloadCard component', () => {
   describe('accessibility', () => {
     it('should have proper heading structure', () => {
       const { container } = renderComponent();
-      const heading = container.querySelector('h3#print-download-heading');
+      const heading = container.querySelector('h2#print-download-heading');
       expect(heading).to.exist;
       expect(heading.textContent).to.equal(
         'Print or download your medications list',
