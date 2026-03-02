@@ -24,7 +24,26 @@ import { PersonalInformationReview } from './PersonalInformationReview';
 /**
  * Add this page to config/form
  * Spread the returned object into the app config/form
- * @type {PrefillPersonalInfoPageConfig}
+ *
+ * README: {@link https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/platform/forms-system/src/js/patterns/prefill/README.md|Prefill Usage/Guidance/Examples}
+ *
+ * @param {Object} [options] - Configuration options for the personal information page
+ * @param {boolean} [options.background] - Whether to display a background on the page
+ * @param {JSX.Element|React.ReactNode} [options.cardHeader] - Custom card header component
+ * @param {JSX.Element|React.ReactNode} [options.contentAfterButtons] - Content to display after the navigation buttons
+ * @param {JSX.Element|React.ReactNode} [options.contentBeforeButtons] - Content to display before the navigation buttons
+ * @param {DataAdapter} [options.dataAdapter] - Data adapter configuration object for the PersonalInformation component
+ * @param {Function} [options.depends] - Conditional function to determine if page should be shown
+ * @param {string|Function} [options.errorMessage] - Custom error message or component for missing data
+ * @param {JSX.Element|React.ReactNode} [options.footer] - Custom footer component
+ * @param {JSX.Element|React.ReactNode} [options.header] - Custom header component
+ * @param {boolean} [options.hideOnReview] - Whether to hide the page on the review page
+ * @param {string} [options.key] - The page key within the form config chapter
+ * @param {JSX.Element|React.ReactNode} [options.note] - Custom note component
+ * @param {string} [options.path] - The path of the page
+ * @param {PersonalInformationConfig} [options.personalInfoConfig] - Configuration object for the PersonalInformation component
+ * @param {boolean} [options.prefillPatternEnabled] - enable prefill pattern for personal info
+ * @param {string} [options.title] - The title of the page
  * @returns {Object} - form config pages for a chapter
  */
 const profilePersonalInfoPage = ({
