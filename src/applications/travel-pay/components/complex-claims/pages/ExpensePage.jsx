@@ -454,7 +454,7 @@ const ExpensePage = () => {
       'checkOutDate',
     ];
 
-    // Skip blur validation for date fields (validated on change and submit instead)
+    // Date field blur validation is handled by the focusout effect (Effect 4)
     if (dateFields.includes(name)) {
       return;
     }
@@ -466,7 +466,7 @@ const ExpensePage = () => {
       return;
     }
 
-    // Run validation on blur for non-date fields
+    // Run validation on blur - always update errors
     setExtraFieldErrors(prevErrors => {
       const nextErrors = { ...prevErrors };
 
@@ -494,7 +494,7 @@ const ExpensePage = () => {
         }
       }
 
-      // Run type-specific validations on blur for non-date fields
+      // Run type-specific validations - always update errors on blur
       let fieldErrors = {};
       if (isAirTravel) {
         fieldErrors = validateAirTravelFields(formState, name);
