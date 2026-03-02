@@ -41,7 +41,7 @@ const ClaimantSubmissionHistoryPage = title => {
   const { firstName, lastName } = useLoaderData().claimant;
 
   return (
-    <section className="vads-u-width--full">
+    <section className="vads-u-width--full claimant-details-submission-history">
       <VaBreadcrumbs
         breadcrumbList={submissionHistoryBC}
         label={SUBMISSION_HISTORY_BC_LABEL}
