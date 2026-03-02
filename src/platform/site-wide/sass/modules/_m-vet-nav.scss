@@ -255,7 +255,7 @@ body.va-pos-fixed {
     margin-left: 0.5rem;
     padding: 0.5rem 0 0.5rem 1rem;
     position: relative;
-    width: 15.8125rem;
+    width: calc(100% - 0.5rem);
 
     &:hover {
       background-color: transparent;
@@ -340,23 +340,27 @@ body.va-pos-fixed {
   &,
   & .vetnav-panel.vetnav-panel--submenu {
     @media screen and (min-width: 768px) {
-      height: 490px !important;
+      height: fit-content !important;
     }
   }
 }
 
 #vetnav-va-benefits-and-health-care.vetnav-panel {
-  width: 250px;
+  width: 15.625rem;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 
   @include media($medium-screen) {
     &.vetnav-submenu--expanded {
-      width: 768px;
+      width: 48rem;
+      max-width: 100%;
     }
   }
 
   @include media($small-desktop-screen) {
     &.vetnav-submenu--expanded {
-      width: 1008px;
+      width: 63rem;
+      max-width: 100%;
     }
   }
 }
