@@ -11,6 +11,10 @@ const defaultProps = {
   formData: {
     statementOfTruthSignature: '',
     statementOfTruthCertified: false,
+    applicantName: {
+      first: 'John',
+      last: 'Doe',
+    },
   },
   preSubmitInfo: {
     error: 'Test error',
@@ -120,5 +124,24 @@ describe('<PresubmitInfo />', () => {
     await waitFor(() => {
       expect(completedSpy.called).to.be.true;
     });
+  });
+
+  it('shows errors correctly', async () => {
+    const props = {
+      ...defaultProps,
+      showError: true,
+    };
+
+    const { container } = renderWithStore(<PresubmitInfo {...props} />);
+    const statementOfTruth = container.querySelector('va-statement-of-truth');
+    expect(statementOfTruth).to.have.attr(
+      'input-error',
+      'Enter your name exactly as it appears on your application: John Doe',
+    );
+
+    expect(statementOfTruth).to.have.attr(
+      'checkbox-error',
+      'You must certify by checking the box',
+    );
   });
 });
