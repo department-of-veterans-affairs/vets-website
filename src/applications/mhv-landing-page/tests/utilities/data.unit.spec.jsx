@@ -151,16 +151,25 @@ describe(manifest.appName, () => {
             'VA mobile apps for a healthy new year',
           );
 
-          // Non-patient spotlight should have the same new links
+          // Non-patient spotlight should have the same new links with public URLs
           expect(nonPatientSpotlight.links).to.have.lengthOf(3);
           expect(nonPatientSpotlight.links[0].text).to.equal(
             "Don't miss a message from VA",
           );
+          expect(nonPatientSpotlight.links[0].href).to.include(
+            'www.myhealth.va.gov',
+          );
           expect(nonPatientSpotlight.links[1].text).to.equal(
             'Travel pay: apply now on your phone',
           );
+          expect(nonPatientSpotlight.links[1].href).to.include(
+            'www.myhealth.va.gov',
+          );
           expect(nonPatientSpotlight.links[2].text).to.equal(
             'VA mobile apps for a healthy new year',
+          );
+          expect(nonPatientSpotlight.links[2].href).to.include(
+            'www.myhealth.va.gov',
           );
         });
 
