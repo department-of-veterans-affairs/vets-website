@@ -391,7 +391,7 @@ export function MedicalEvidenceNotice() {
         things like:
       </p>
       <ul>
-        <li>Doctor's notes, treatment records, or clinical summaries</li>
+        <li>Doctor’s notes, treatment records, or clinical summaries</li>
         <li>Test results, lab work, or imaging (like X-rays or MRIs)</li>
         <li>
           A letter or statement from your doctor describing your condition and
