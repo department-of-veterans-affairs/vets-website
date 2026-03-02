@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
-// import {requestsContainStatus} from '../utilities/poaRequests';
+import { requestsContainStatus } from '../utilities/poaRequests';
 
 const ClaimantSearchHasPOA = ({ searchData, claimant }) => {
   const lastFour = ssn => {
@@ -12,6 +12,30 @@ const ClaimantSearchHasPOA = ({ searchData, claimant }) => {
     focusElement('.claimant__results-text');
   }, []);
   const firstPOA = claimant.poaRequests?.[0];
+
+  const statusAlert = claim => {
+    if (
+      claim.representative &&
+      requestsContainStatus('pending', claim.poaRequests)
+    ) {
+      return (
+        <va-alert status="warning" visible>
+          <h2>There is a pending representation request</h2>
+          <p className="vads-u-margin-y--0">
+            To establish representation with this claimant, review and accept
+            the pending representation request.
+          </p>
+          <va-link-action
+            href={`/representative/representation-requests/${firstPOA.id}`}
+            text="Review the representation request"
+            type="primary"
+          />
+        </va-alert>
+      );
+    }
+
+    return null;
+  };
   return (
     <>
       <hr className="divider claimant-search" aria-hidden="true" />
@@ -31,21 +55,7 @@ const ClaimantSearchHasPOA = ({ searchData, claimant }) => {
           {lastFour(searchData.ssn)}"
         </strong>
       </p>
-
-      {firstPOA && (
-        <va-alert status="warning" visible>
-          <h2>There is a pending representation request</h2>
-          <p className="vads-u-margin-y--0">
-            To establish representation with this claimant, review and accept
-            the pending representation request.
-          </p>
-          <va-link-action
-            href={`/representative/representation-requests/${firstPOA.id}`}
-            text="Review the representation request"
-            type="primary"
-          />
-        </va-alert>
-      )}
+      {statusAlert(claimant)}
       <h2 className="claimant__name">
         {claimant.lastName}, {claimant.firstName}
       </h2>
