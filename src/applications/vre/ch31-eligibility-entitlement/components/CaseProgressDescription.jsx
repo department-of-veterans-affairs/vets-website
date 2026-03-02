@@ -1,37 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import {
-  VaLink,
-  VaRadio,
-  VaRadioOption,
-  VaButton,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useSelector } from 'react-redux';
 import HubCardList from './HubCardList';
 import SelectPreferenceView from './SelectPreferenceView';
 
-const initialEvaluationMeetingTypeRadioGroupName =
-  'initial_evaluation_meeting_type_preference';
-
-const INITIAL_EVALUATION_MEETING_TYPE = {
-  TELECOUNSELING: 'Telecounseling meeting',
-  IN_PERSON: 'In-person appointment',
-};
-
-const CaseProgressDescription = ({ step, showHubCards = false }) => {
+const CaseProgressDescription = ({
+  step,
+  showHubCards = false,
+  status,
+  attributes = {},
+}) => {
   const navigate = useNavigate();
-  const [
-    initialEvaluationMeetingType,
-    setInitialEvaluationMeetingType,
-  ] = useState();
-  const [
-    initialEvaluationMeetingTypeSubmitted,
-    setInitialEvaluationMeetingTypeSubmitted,
-  ] = useState(false);
 
-  const submitInitialEvaluationMeetingType = () => {
-    setInitialEvaluationMeetingTypeSubmitted(true);
-  };
+  const ch31CaseMilestonesState = useSelector(
+    state => state?.ch31CaseMilestones,
+  );
 
   const handleRouteChange = href => event => {
     event.preventDefault();
@@ -70,7 +55,6 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
         </>
       );
     }
-
     case 2: {
       return (
         <>
@@ -81,57 +65,74 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
         </>
       );
     }
-
     case 3: {
       return (
         <>
           <p>
-            Your application for VR&E Chapter 31 benefits has been processed and
-            your basic eligibility has been determined. Your next step is to
-            watch the Orientation Video and confirm its completion, which can be
-            found below. If you prefer, you can complete your orientation during
-            your Initial Evaluation Counselor Meeting. Once you make your
-            selection and submit your choice, you will receive an email
-            confirming that you are ready to schedule your Initial Evaluation
-            with your counselor.
+            VR&E has received and processed your application for Chapter 31
+            benefits. Your next step is to watch the Orientation Video and
+            confirm its completion, which is below.
+          </p>
+          <p>
+            If you prefer, you can complete the orientation during your Initial
+            Evaluation Counselor Meeting. Once you make your selection, click
+            submit, and the Initial Evaluation scheduling link will be sent via
+            email.
           </p>
           <va-card background class="vads-u-padding-top--0">
             <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Reading Material
-            </h2>
-            <ul className="va-nav-linkslist-list vads-u-margin-bottom--2">
-              <li>
-                <VaLink
-                  external
-                  className=" vads-u-font-weight--bold"
-                  href="https://www.va.gov/careers-employment/vocational-rehabilitation/"
-                  text="Program Overview"
-                />
-
-                <p className="va-nav-linkslist-description">
-                  More details in here.
-                </p>
-              </li>
-              <li>
-                <VaLink
-                  external
-                  className=" vads-u-font-weight--bold"
-                  href="https://www.va.gov/careers-employment/vocational-rehabilitation/programs/"
-                  text="VR&E Support-and-Services Tracks"
-                />
-
-                <p className="va-nav-linkslist-description">
-                  We offer 5 support-and-services tracks to help you get
-                  education or training, find and keep a job, and live as
-                  independently as possible. Explore the different tracks and
-                  take charge of your future.
-                </p>
-              </li>
-            </ul>
-            <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
               Orientation Completion
             </h2>
-            <SelectPreferenceView />
+            {ch31CaseMilestonesState?.data &&
+            !ch31CaseMilestonesState?.error ? (
+              <va-alert
+                class="vads-u-margin-top--2"
+                full-width="false"
+                slim
+                status="success"
+                visible
+              >
+                <p className="vads-u-margin-y--0">
+                  Your choice has been recorded
+                </p>
+              </va-alert>
+            ) : (
+              <>
+                <SelectPreferenceView />
+                <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
+                  Reading Material
+                </h2>
+                <ul className="va-nav-linkslist-list vads-u-margin-bottom--2">
+                  <li>
+                    <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
+                      <va-link
+                        href="https://www.va.gov/careers-employment/vocational-rehabilitation"
+                        text="Program Overview"
+                        external
+                      />
+                    </h3>
+                    <p className="va-nav-linkslist-description">
+                      Read about how Veteran Readiness and Employment (Chapter
+                      31) can help you address education or training needs.
+                    </p>
+                  </li>
+                  <li>
+                    <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
+                      <va-link
+                        href="https://www.va.gov/careers-employment/vocational-rehabilitation/programs"
+                        text="VR&E Support-and-Services Tracks"
+                        external
+                      />
+                    </h3>
+                    <p className="va-nav-linkslist-description">
+                      We offer 5 support-and-services tracks to help you get
+                      education, training, career planning, and live
+                      independently.
+                    </p>
+                  </li>
+                </ul>
+              </>
+            )}
           </va-card>
           {hubCards}
         </>
@@ -139,118 +140,30 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
     }
 
     case 4: {
-      if (initialEvaluationMeetingTypeSubmitted) {
+      if (
+        status === 'PENDING' ||
+        !attributes?.orientationAppointmentDetails?.appointmentDateTime ||
+        !attributes?.orientationAppointmentDetails?.appointmentPlace
+      ) {
         return (
-          <>
-            <p>
-              You have scheduled your Initial Evaluation Appointment. If you
-              need to reschedule, please use your appointment confirmation,
-              rescheduling link sent to you via email and text. If you need
-              further assistance, please contact your counselor.
-            </p>
-            {hubCards}
-          </>
+          <p>
+            We’ve received and processed your application for Chapter 31
+            benefits. Check your email to schedule your meeting with your
+            counselor. After scheduling, you’ll get a confirmation email and an
+            appointment notification letter. To get ready for your Initial
+            Evaluation Counselor Meeting, visit the "Career Planning" page
+            linked below.
+          </p>
         );
       }
+
       return (
-        <>
-          <p>
-            VR&E has received and processed your application for Chapter 31
-            benefits. Please check your email for confirmation that you can
-            schedule your Initial Evaluation Counselor Meeting online. After
-            scheduling, you will receive a confirmation of the meeting in a
-            VR-03 Appointment and Orientation Notification Letter, which will be
-            mailed to you. To prepare for your Initial Evaluation Counselor
-            Meeting, please visit the "Career Planning" web page found below.
-          </p>
-          <va-card background class="vads-u-padding-top--0">
-            <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Schedule your Initial Evaluation Counselor Meeting
-            </h2>
-            <p>
-              You can either meet them in person, at their office, or you can
-              meet them online. Please, select your preference from the radio
-              button down below.
-            </p>
-            <VaRadio
-              label="My preference is to:"
-              onVaValueChange={e => {
-                setInitialEvaluationMeetingType(e.detail.value);
-              }}
-            >
-              <VaRadioOption
-                label={INITIAL_EVALUATION_MEETING_TYPE.TELECOUNSELING}
-                name={initialEvaluationMeetingTypeRadioGroupName}
-                value={INITIAL_EVALUATION_MEETING_TYPE.TELECOUNSELING}
-              />
-              {initialEvaluationMeetingType ===
-                INITIAL_EVALUATION_MEETING_TYPE.TELECOUNSELING && (
-                <div className="vads-u-margin-left--4">
-                  <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-padding-left--2">
-                    <p>
-                      Telecounseling uses Microsoft Teams, which is accessible
-                      on any web-enabled device, such as a smartphone, tablet,
-                      or laptop computer, with a webcam and microphone. You will
-                      need to download the free application and click on
-                      Telecounseling link to start the meeting.
-                    </p>
-                    <p>
-                      Note: During the Telecounseling initial evaluation
-                      appointment, you must be in a private setting to ensure
-                      confidentiality of your personal information and to avoid
-                      any distractions. If you wish to have anyone present
-                      during your appointment, you must sign a release of
-                      information before the person may attend your appointment.
-                      The setting must also provide sufficient lightning and
-                      noise control. If you are driving or a passenger in an
-                      automobile during the scheduled appointment, the meeting
-                      will be immediately canceled or rescheduled.
-                    </p>
-                  </div>
-
-                  <VaButton
-                    onClick={submitInitialEvaluationMeetingType}
-                    text="Submit"
-                  />
-                </div>
-              )}
-              <VaRadioOption
-                label={INITIAL_EVALUATION_MEETING_TYPE.IN_PERSON}
-                name={initialEvaluationMeetingTypeRadioGroupName}
-                value={INITIAL_EVALUATION_MEETING_TYPE.IN_PERSON}
-              />
-              {initialEvaluationMeetingType ===
-                INITIAL_EVALUATION_MEETING_TYPE.IN_PERSON && (
-                <div className="vads-u-margin-left--4">
-                  <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-padding-left--2">
-                    <p>
-                      If your appointment is in-person appointment at a
-                      specified location
-                    </p>
-                    <p>
-                      a) Plan for the initial evaluation appointment to last two
-                      hours or more as the appointment may also involve career
-                      assessment, if you did not complete the online career
-                      assessment.
-                    </p>
-                    <p>b) Do not bring minor children with you.</p>
-                    <p>
-                      c) If you have not submitted your required documents prior
-                      to your scheduled initial evaluation, you may bring the
-                      documents outlined.
-                    </p>
-                  </div>
-
-                  <VaButton
-                    onClick={submitInitialEvaluationMeetingType}
-                    text="Submit"
-                  />
-                </div>
-              )}
-            </VaRadio>
-          </va-card>
-          {hubCards}
-        </>
+        <p>
+          Your Initial Evaluation Appointment has been scheduled. If you need to
+          reschedule, use your appointment confirmation rescheduling link sent
+          to you via email and text. If you need further assistance, contact
+          your counselor.
+        </p>
       );
     }
 
@@ -259,7 +172,7 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
         <>
           <p>
             Your counselor is completing the Entitlement Determination Review.
-            Visit the “Career Planning” page for more information about career
+            Visit the "Career Planning" page for more information about career
             paths, support, and rehabilitation resources.
           </p>
           {hubCards}
@@ -298,6 +211,8 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
 CaseProgressDescription.propTypes = {
   step: PropTypes.number.isRequired,
   showHubCards: PropTypes.bool,
+  status: PropTypes.string,
+  attributes: PropTypes.object,
 };
 
 export default CaseProgressDescription;
