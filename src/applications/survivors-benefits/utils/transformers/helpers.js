@@ -65,7 +65,11 @@ export const buildAddress = unitAddress => {
     address += `, ${state}`;
   }
   if (postalCode) {
-    address += ` ${postalCode}`;
+    if (!state) {
+      address += `, ${postalCode}`;
+    } else {
+      address += ` ${postalCode}`;
+    }
   }
   return address;
 };

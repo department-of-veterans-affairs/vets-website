@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as transformHelpers from 'platform/forms-system/src/js/helpers';
-import * as transformers from '../../utils/transformers';
 import { transform } from '../../config/submit-transformer';
 import completedForm from '../fixtures/mocks/completed-form.json';
 
@@ -35,70 +34,85 @@ describe('Survivors Benefits submit transformer', () => {
 
     expect(form.veteranSocialSecurityNumber).to.equal('321313311');
   });
+});
 
-  describe('feature flag - unit name and address transformation', () => {
-    let buildUnitAddressStub;
-    let combineUnitNameAddressStub;
-
-    beforeEach(() => {
-      // Stub both functions to pass through the data
-      buildUnitAddressStub = sinon
-        .stub(transformers, 'buildUnitAddress')
-        .callsFake(data => data);
-      combineUnitNameAddressStub = sinon
-        .stub(transformers, 'combineUnitNameAddress')
-        .callsFake(data => data);
-    });
-
-    afterEach(() => {
-      buildUnitAddressStub.restore();
-      combineUnitNameAddressStub.restore();
-    });
-
-    it('should call buildUnitAddress when use2025Version is true', () => {
-      const formConfig = {};
-      const formData = {
-        data: {
-          ...completedForm.data,
-          survivorsBenefitsForm2025VersionEnabled: true,
+describe('feature flag - unit name and address transformation', () => {
+  it('should use buildUnitAddress format when use2025Version is true', () => {
+    const formConfig = {};
+    const formData = {
+      data: {
+        unitName: 'Alpha Company',
+        unitAddress: {
+          street: '123 Military Base',
+          city: 'Fort Worth',
+          state: 'TX',
+          postalCode: '76102',
         },
-      };
+        survivorsBenefitsForm2025VersionEnabled: true,
+      },
+    };
 
-      transform(formConfig, formData);
+    const result = JSON.parse(transform(formConfig, formData));
+    const formDataResult = JSON.parse(result.survivorsBenefitsClaim.form);
 
-      expect(buildUnitAddressStub.calledOnce).to.be.true;
-      expect(combineUnitNameAddressStub.called).to.be.false;
-    });
+    // With buildUnitAddress, unitAddress becomes a string and unitName stays separate
+    expect(formDataResult.unitAddress).to.be.a('string');
+    expect(formDataResult.unitAddress).to.include('123 Military Base');
+    expect(formDataResult.unitAddress).to.include('Fort Worth');
+    expect(formDataResult.unitName).to.equal('Alpha Company');
+    expect(formDataResult.unitNameAndAddress).to.be.undefined;
+  });
 
-    it('should call combineUnitNameAddress when use2025Version is false', () => {
-      const formConfig = {};
-      const formData = {
-        data: {
-          ...completedForm.data,
-          survivorsBenefitsForm2025VersionEnabled: false,
+  it('should use combineUnitNameAddress format when use2025Version is false', () => {
+    const formConfig = {};
+    const formData = {
+      data: {
+        unitName: 'Bravo Company',
+        unitAddress: {
+          street: '456 Base Road',
+          city: 'San Diego',
+          state: 'CA',
+          postalCode: '92101',
         },
-      };
+        survivorsBenefitsForm2025VersionEnabled: false,
+      },
+    };
 
-      transform(formConfig, formData);
+    const result = JSON.parse(transform(formConfig, formData));
+    const formDataResult = JSON.parse(result.survivorsBenefitsClaim.form);
 
-      expect(combineUnitNameAddressStub.calledOnce).to.be.true;
-      expect(buildUnitAddressStub.called).to.be.false;
-    });
+    // With combineUnitNameAddress, unitName and unitAddress are combined into unitNameAndAddress
+    expect(formDataResult.unitNameAndAddress).to.be.a('string');
+    expect(formDataResult.unitNameAndAddress).to.include('Bravo Company');
+    expect(formDataResult.unitNameAndAddress).to.include('456 Base Road');
+    expect(formDataResult.unitNameAndAddress).to.include('San Diego');
+    expect(formDataResult.unitName).to.be.undefined;
+    expect(formDataResult.unitAddress).to.be.undefined;
+  });
 
-    it('should call combineUnitNameAddress when use2025Version is undefined', () => {
-      const formConfig = {};
-      const formData = {
-        data: {
-          ...completedForm.data,
+  it('should use combineUnitNameAddress format when use2025Version is undefined', () => {
+    const formConfig = {};
+    const formData = {
+      data: {
+        unitName: 'Charlie Company',
+        unitAddress: {
+          street: '789 Military Dr',
+          city: 'Houston',
+          state: 'TX',
+          postalCode: '77002',
         },
-      };
-      // Ensure flag is not set
-      delete formData.data.survivorsBenefitsForm2025VersionEnabled;
+      },
+    };
 
-      transform(formConfig, formData);
+    const result = JSON.parse(transform(formConfig, formData));
+    const formDataResult = JSON.parse(result.survivorsBenefitsClaim.form);
 
-      expect(combineUnitNameAddressStub.calledOnce).to.be.true;
-      expect(buildUnitAddressStub.called).to.be.false;
-    });
+    // With combineUnitNameAddress (default when flag is undefined)
+    expect(formDataResult.unitNameAndAddress).to.be.a('string');
+    expect(formDataResult.unitNameAndAddress).to.include('Charlie Company');
+    expect(formDataResult.unitNameAndAddress).to.include('789 Military Dr');
+    expect(formDataResult.unitNameAndAddress).to.include('Houston');
+    expect(formDataResult.unitName).to.be.undefined;
+    expect(formDataResult.unitAddress).to.be.undefined;
   });
 });
