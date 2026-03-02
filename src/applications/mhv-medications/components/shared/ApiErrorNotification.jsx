@@ -1,13 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const ApiErrorNotification = ({ errorType, content, children }) => {
   const ref = useRef(null);
-
-  useEffect(() => {
-    focusElement(ref.current);
-  }, []);
 
   return (
     <va-alert

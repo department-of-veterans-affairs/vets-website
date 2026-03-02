@@ -43,6 +43,14 @@ const initializeRealUserMonitoring = customRumSettings => {
     // If sessionReplaySampleRate > 0, we need to manually start the recording
     datadogRum.startSessionReplayRecording();
   }
+
+  // Set user property regardless of whether we initialized RUM above,
+  // since the platform may have already initialized it.
+  if (customRumSettings?.addUserAccountId) {
+    datadogRum.setUserProperty({
+      userAccountId: customRumSettings?.accountUuid || null,
+    });
+  }
 };
 
 // https://docs.datadoghq.com/logs/log_collection/javascript/?tab=us#configuration
