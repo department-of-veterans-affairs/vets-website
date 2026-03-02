@@ -2,6 +2,45 @@
 
 This tool allows va users to check the status of thier VA claim, decision review or appeal online.
 
+## Feature Flag Status
+
+This table should be updated whenever a feature flag is added or its status changes.
+
+- **Descriptions**: [features.yml](https://github.com/department-of-veterans-affairs/vets-api/blob/master/config/features.yml)
+- **Current status**: [Flipper UI](https://api.va.gov/flipper/features)
+
+_Last updated: 2026-03-02_
+
+| Feature Flag | Staging Status | Production Status | Used in vets-website | Notes |
+|---|---|---|---|---|
+| `claim_letters_access` | Fully Enabled | Fully Enabled | Yes | Can likely be removed |
+| `cst_claim_letters_use_lighthouse_api_provider` | Fully Enabled | Fully Enabled | No | Can likely be removed |
+| `cst_claim_letters_use_lighthouse_api_provider_mobile` | Fully Enabled | Fully Enabled | No | Can likely be removed |
+| `cst_claim_phases` | Fully Enabled | Partially Enabled (2 actors, 100% of actors) | Yes | |
+| `cst_claims_list_filter` | Disabled | Disabled | Yes | |
+| `cst_evidence_requests_content_override_mobile` | Partially Enabled (2 actors) | Disabled | No | |
+| `cst_filter_ep_290` | Disabled | Disabled | No | |
+| `cst_filter_ep_960` | Disabled | Fully Enabled | No | Can likely be removed; Staging/prod mismatch |
+| `cst_include_ddl_5103_letters` | Fully Enabled | Fully Enabled | Yes | Can likely be removed |
+| `cst_include_ddl_boa_letters` | Disabled | Disabled | Yes | Rollout on hold by stakeholder request |
+| `cst_include_ddl_sqd_letters` | Fully Enabled | Partially Enabled (1 actor, 100% of actors) | No | |
+| `cst_multi_claim_provider` | Disabled | Disabled | No | |
+| `cst_multi_claim_provider_mobile` | Disabled | Disabled | No | |
+| `cst_override_reserve_records_mobile` | Disabled | Disabled | No | |
+| `cst_send_evidence_failure_emails` | Fully Enabled | Fully Enabled | No | Can likely be removed |
+| `cst_send_evidence_submission_failure_emails` | Fully Enabled | Fully Enabled | No | Can likely be removed |
+| `cst_show_document_upload_status` | Fully Enabled | Partially Enabled (50% of actors) | Yes | Actively being rolled out |
+| `cst_suppress_evidence_requests_mobile` | Disabled | Disabled | No | |
+| `cst_suppress_evidence_requests_website` | Disabled | Fully Enabled | No | Can likely be removed; Staging/prod mismatch |
+| `cst_synchronous_evidence_uploads` | Disabled | Disabled | No | |
+| `cst_timezone_discrepancy_mitigation` | Fully Enabled | Fully Enabled | Yes | Temporary mitigation — keep flagged until Lighthouse fixes UTC timestamps |
+| `cst_update_evidence_submission_on_show` | Fully Enabled | Fully Enabled | No | Can likely be removed |
+| `cst_use_claim_title_generator_mobile` | Fully Enabled | Fully Enabled | No | Can likely be removed |
+| `cst_use_claim_title_generator_web` | Fully Enabled | Fully Enabled | No | Can likely be removed |
+| `cst_use_dd_rum` | Fully Enabled | Fully Enabled | Yes | Can likely be removed |
+| `letters_hide_service_verification_letter` | Fully Enabled | Disabled | No | Staging/prod mismatch |
+| `stem_automated_decision` | Not in features.yml anymore | Not in features.yml anymore | Yes | Referenced in code but removed from backend |
+
 ## How to run locally
 
 ### Run vets-api locally
