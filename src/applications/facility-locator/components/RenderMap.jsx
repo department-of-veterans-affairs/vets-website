@@ -7,7 +7,6 @@ const RenderMap = forwardRef(
   (
     {
       currentQuery,
-      handleSkipMap,
       handleSearchArea,
       isSearching,
       mapboxGlContainer,
@@ -31,6 +30,23 @@ const RenderMap = forwardRef(
       },
       [map],
     );
+
+    function clickSkipMap(e) {
+      e.preventDefault();
+      // if feedback button is present, focus on that
+      const focusableFeedbackButton = document.querySelector(
+        '#mdFormButton > .usa-button',
+      );
+      // else focus on the footer
+      if (focusableFeedbackButton) {
+        focusableFeedbackButton.focus();
+      } else {
+        const firstFooterLink = document.querySelector(
+          '#footerNav > div > div.footer-inner > div.usa-grid-full > div.va-footer-linkgroup:first-of-type > ul.va-footer-links > li:first-of-type > a ',
+        );
+        if (firstFooterLink) firstFooterLink.focus();
+      }
+    }
 
     const speakMapInstructions = () => {
       const mapInstructionsElement = document.getElementById(
@@ -63,7 +79,7 @@ const RenderMap = forwardRef(
           id="skip-map-link"
           tabIndex="0"
           type="button"
-          onClick={e => handleSkipMap(e)}
+          onClick={clickSkipMap}
         >
           SKIP MAP
         </button>
@@ -98,7 +114,6 @@ const RenderMap = forwardRef(
 );
 
 RenderMap.propTypes = {
-  handleSkipMap: PropTypes.func,
   currentQuery: PropTypes.object,
   handleSearchArea: PropTypes.func,
   isSearching: PropTypes.bool,
