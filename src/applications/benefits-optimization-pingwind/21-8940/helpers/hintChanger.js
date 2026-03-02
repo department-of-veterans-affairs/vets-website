@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
-const useDateHintUpdater = () => {
+export const changeDefaultDateHint = () => {
   useEffect(() => {
     const targetElements = ['va-memorable-date'];
     targetElements.forEach(selector => {
@@ -20,11 +20,6 @@ const useDateHintUpdater = () => {
       });
     });
   }, []);
-};
 
-const ChangeDefaultDateHint = () => {
-  useDateHintUpdater();
   return null;
 };
-
-export const changeDefaultDateHint = ChangeDefaultDateHint;

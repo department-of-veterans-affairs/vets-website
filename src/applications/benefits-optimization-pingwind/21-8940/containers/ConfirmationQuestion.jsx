@@ -113,7 +113,7 @@ const ConfirmationQuestion = ({
             target="_blank"
             rel="noreferrer"
           >
-            Veteran Service Organization
+            Veteran Service Organization (opens in a new tab)
           </a>
           .
         </p>
@@ -123,7 +123,7 @@ const ConfirmationQuestion = ({
             target="_blank"
             rel="noreferrer"
           >
-            Find a VA Form
+            Find a VA Form (opens in a new tab)
           </a>
         </p>
       </VaAlert>
@@ -143,7 +143,7 @@ const ConfirmationQuestion = ({
             target="_blank"
             rel="noreferrer"
           >
-            VA Form 21-526EZ
+            VA Form 21-526EZ (opens in a new tab)
           </a>
         </p>
       </VaAlert>
@@ -170,18 +170,18 @@ const ConfirmationQuestion = ({
       {confirmationAnswered && shouldShowConfirmationAlert
         ? confirmationAlert
         : null}
-      {useMinimalNav ? (
-        <FormNavButtonContinue
-          goForward={goForward}
-          useWebComponents={useWebComponents}
-        />
-      ) : (
-        <FormNavButtons
-          goBack={goBack}
-          goForward={goForward}
-          useWebComponents={useWebComponents}
-        />
-      )}
+        {useMinimalNav ? (
+          <FormNavButtonContinue
+            goForward={goForward}
+            useWebComponents={useWebComponents}
+          />
+        ) : (
+          <FormNavButtons
+            goBack={goBack}
+            goForward={goForward}
+            useWebComponents={useWebComponents}
+          />
+        )}
     </div>
   );
 };

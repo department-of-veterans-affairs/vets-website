@@ -15,9 +15,9 @@ export default {
     'ui:description': (
       <div>
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h2 slot="headline">
+          <h4 slot="headline">
             <b>What to expect:</b>
-          </h2>
+          </h4>
           <div className="vads-u-margin--0">
             <ul style={{ marginBottom: 0 }}>
               <li>
@@ -36,7 +36,7 @@ export default {
         </VaAlert>
 
         <div className="vads-u-margin-top--5">
-          <h3 style={{ marginTop: 0 }}>Disability And Medical Treatment</h3>
+          <h4 style={{ marginTop: 0 }}>Disability And Medical Treatment</h4>
         </div>
       </div>
     ),
@@ -62,9 +62,8 @@ export default {
           title:
             'What service-connected disability prevents you from getting or keeping a job?',
           useDlWrap: true,
-          errorMessages: {
-            required:
-              'You must enter a least one service-connected disability to proceed',
+           errorMessages: {
+            required: 'You must enter a least one service-connected disability to proceed',
           },
         }),
       },

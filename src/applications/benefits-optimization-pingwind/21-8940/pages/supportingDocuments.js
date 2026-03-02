@@ -13,7 +13,7 @@ const PAGE_DESCRIPTION = (
       You can upload documents to support your claim. This step is optional.
     </p>
     <VaAlert status="info" uswds visible class="vads-u-margin-bottom--3">
-      <h2 slot="headline">What you can upload</h2>
+      <h3 slot="headline">What you can upload</h3>
       <ul className="vads-u-margin-top--1">
         <li>Medical records and treatment history</li>
         <li>Doctor’s statements or reports</li>

@@ -18,6 +18,10 @@ export default {
           Y: 'Yes, I have been hospitalized in the past 12 months ',
           N: 'No, I have NOT been hospitalized in the past 12 months ',
         },
+        errorMessages: {
+          required:
+            'Select a response to tell us if you have been hospitalized in the past 12 months.',
+        },
       }),
       'view:nonVAAuthorizationInfo': {
         'ui:description': () => (
@@ -30,16 +34,27 @@ export default {
             </p>
             <ul>
               <li>
-                <va-link
+
+                <a
                   href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
-                  text="VA Form 21-4142 - Authorization to Disclose Information to the Department of Veterans Affairs"
-                />
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  VA Form 21-4142 – Authorization to Disclose Information to the
+                  Department of Veterans Affairs (opens in a new tab)
+                </a>
+
               </li>
               <li>
-                <va-link
+
+                <a
                   href="/find-forms/about-form-21-4142a/"
-                  text="VA Form 21-4142a - General Release for Medical Provider Information to the Department of Veterans Affairs"
-                />
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  VA Form 21-4142a - General Release for Medical Provider Information to the Department of Veterans Affairs (opens in a new tab)
+                </a>
+
               </li>
             </ul>
             <p>

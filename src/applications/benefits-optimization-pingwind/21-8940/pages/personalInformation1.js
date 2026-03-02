@@ -29,9 +29,9 @@ export default {
     'ui:description': (
       <div>
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h2 slot="headline">
+          <h4 slot="headline">
             <b>What to expect:</b>
-          </h2>
+          </h4>
           <div className="vads-u-margin--0">
             <ul style={{ marginBottom: 0 }}>
               <li>Veteran's Name</li>
@@ -53,7 +53,7 @@ export default {
     [veteranFields.parentObject]: {
       'ui:description': (
         <div className="vads-u-margin-top--8">
-          <h2 style={{ marginTop: 0 }}>Basic Information:</h2>
+          <h4 style={{ marginTop: 0 }}>Basic Information:</h4>
           <p>We need to collect some basic information about you first.</p>
         </div>
       ),

@@ -14,9 +14,9 @@ export default {
     'ui:description': (
       <div>
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h2 slot="headline">
+          <h4 slot="headline">
             <b>What to expect:</b>
-          </h2>
+          </h4>
           <div className="vads-u-margin--0">
             <ul style={{ marginBottom: 0 }}>
               <li>Highest level of education completed</li>
@@ -30,7 +30,7 @@ export default {
           </div>
         </VaAlert>
         <div className="vads-u-margin-top--5">
-          <h2 style={{ marginTop: 0 }}>Education Level</h2>
+          <h4 style={{ marginTop: 0 }}>Education Level</h4>
           <p>Your education background</p>
         </div>
       </div>
@@ -62,7 +62,7 @@ export default {
       }),
       'ui:required': formData => formData.educationLevel === 'gradeSchool',
       'ui:errorMessages': {
-        required: 'Please select your grade school level to proceed',
+        required: "Please select your grade school level to proceed",
       },
     },
 
@@ -79,8 +79,8 @@ export default {
       }),
       'ui:required': formData => formData.educationLevel === 'highSchool',
 
-      'ui:errorMessages': {
-        required: 'Please select your high school grade level to proceed',
+       'ui:errorMessages': {
+        required: "Please select your high school grade level to proceed",
       },
     },
 
@@ -97,8 +97,8 @@ export default {
       }),
       'ui:required': formData => formData.educationLevel === 'college',
 
-      'ui:errorMessages': {
-        required: 'Please select your college level to proceed',
+       'ui:errorMessages': {
+        required: "Please select your college level to proceed",
       },
     },
   },

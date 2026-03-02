@@ -4,8 +4,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns/addressPattern';
 
 import {
-  currentOrPastMonthYearDateSchema,
-  currentOrPastMonthYearDateUI,
+  currentOrPastMonthYearDateRangeSchema,
+  currentOrPastMonthYearDateRangeUI,
   titleUI,
   radioUI,
   radioSchema,
@@ -22,12 +22,8 @@ const doctorTypeLabels = {
 };
 
 const treatmentDateSchema = {
-  type: 'object',
-  properties: {
-    startDate: currentOrPastMonthYearDateSchema,
-    endDate: currentOrPastMonthYearDateSchema,
-  },
-  required: ['startDate'],
+  ...currentOrPastMonthYearDateRangeSchema,
+  required: ['from'],
 };
 
 const doctorItemSchema = {
@@ -250,14 +246,16 @@ export default {
             'ui:options': {
               classNames: 'vads-u-margin-left--1p5',
             },
-            startDate: currentOrPastMonthYearDateUI({
-              title: 'Start date',
-              hint: 'For example: January 2022',
-            }),
-            endDate: currentOrPastMonthYearDateUI({
-              title: 'End date (if applicable)',
-              hint: 'For example: January 2022',
-            }),
+            ...currentOrPastMonthYearDateRangeUI(
+              {
+                title: 'Start date',
+                hint: 'For example: January 2022',
+              },
+              {
+                title: 'End date (if applicable)',
+                hint: 'For example: January 2022',
+              },
+            ),
           },
         },
       },

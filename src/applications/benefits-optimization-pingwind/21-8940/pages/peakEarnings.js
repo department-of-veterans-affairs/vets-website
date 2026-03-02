@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   textUI,
   numberUI,
@@ -26,14 +28,16 @@ export default {
     yearEarned: yearUI({
       title: 'What year did you make your peak earnings?',
       hint: 'numeric characters only',
-      errorMessage:
-        'Please enter the 4-digit year you earned the most while working',
+      errorMessage: 'Please enter the 4-digit year you earned the most while working',
+
     }),
     occupation: textUI({
       title: 'Your job(s) during that year',
       errorMessages: {
-        required: 'Enter the work you did the year you earned the most',
-        pattern: 'Enter the work you did the year you earned the most',
+        required:
+          'Enter the work you did the year you earned the most',
+        pattern:
+          'Enter the work you did the year you earned the most',
       },
     }),
   },

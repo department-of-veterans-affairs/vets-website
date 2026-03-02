@@ -9,6 +9,7 @@ export const veteranFields = {
   homePhone: 'homePhone',
   alternatePhone: 'alternatePhone',
   email: 'email',
+  electronicCorrespondence: 'electronicCorrespondence',
 };
 
 export const providerFacilityFields = {
@@ -123,3 +124,11 @@ export const relationshipToVeteranLabels = Object.freeze({
   alternateSigner,
   thirdParty: 'Third Party',
 });
+
+
+export const workInProgressContent = {
+  description:
+    "We're rolling out Veteran's application (VA Form 21-8940) in stages. It's not quite ready yet. Please check back again soon.",
+  redirectLink: '/',
+  redirectText: 'Return to VA home page',
+};

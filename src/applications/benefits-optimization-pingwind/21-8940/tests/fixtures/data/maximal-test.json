@@ -1,0 +1,92 @@
+{
+  "data": {
+    "supportingEvidence": [
+      {
+        "name": "1658895.png",
+        "size": 1647614,
+        "type": "image/png",
+        "confirmationCode": "mock-upload-1760028229636"
+      },
+      {
+        "name": "635770.jpg",
+        "size": 95803,
+        "type": "image/jpeg",
+        "confirmationCode": "mock-upload-1760028249721"
+      }
+    ],
+    "view:employersMissingInformation": {},
+    "view:hasEmployers": false,
+    "phoneNumber": "345-345-3455",
+    "mobilePhoneNumber": "345-345-3455",
+    "emailAddress": "person.name@testmail.com",
+    "employmentCheck": {
+      "hasEmploymentInLast12Months": "yes"
+    },
+    "address": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Main St",
+      "street2": "test",
+      "city": "City",
+      "state": "AL",
+      "postalCode": "12345"
+    },
+    "idNumber": {
+      "ssn": "454544545",
+      "vaFileNumber": "454544544"
+    },
+    "serviceNumber": "01234",
+    "fullName": {
+      "first": "Person",
+      "middle": "Middle",
+      "last": "LastName",
+      "suffix": "Jr."
+    },
+    "dateOfBirth": "1999-01-03",
+    "employers": [
+      {
+        "employerName": "Employer 1",
+        "employerAddress": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "city": "city",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "typeOfWork": "test",
+        "hoursPerWeek": "22",
+        "lostTimeFromIllness": "22",
+        "highestGrossIncomePerMonth": 22,
+        "employmentDates": {
+          "from": "1999-01-03",
+          "to": "1999-01-03"
+        }
+      },
+      {
+        "typeOfWork": "test",
+        "hoursPerWeek": "160",
+        "lostTimeFromIllness": "160",
+        "highestGrossIncomePerMonth": 2200,
+        "employmentDates": {
+          "from": "1999-01-03",
+          "to": "1999-01-03"
+        },
+        "employerName": "Employer 2",
+        "employerAddress": {
+          "view:militaryBaseDescription": {},
+          "country": "ATA",
+          "street": "test",
+          "city": "city",
+          "state": "AN",
+          "postalCode": "12345"
+        }
+      }
+    ],
+    "employmentCertifications": {
+      "employmentCertification": true,
+      "employmentAccuracyCertification": true
+    },
+    "unemploymentCertifications": {}
+  }
+}

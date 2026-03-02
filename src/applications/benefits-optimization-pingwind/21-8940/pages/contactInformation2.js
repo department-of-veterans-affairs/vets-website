@@ -11,6 +11,30 @@ import TelephoneFieldNoInternalErrors from '../components/TelephoneFieldNoIntern
 
 import { veteranFields } from '../definitions/constants';
 
+function validateElectronicCorrespondence(errors, fieldData, formData) {
+
+ if (!formData?.['view:isEmailPresenceRequired']) {
+    return;
+  }
+
+  const email = fieldData?.email;
+  const wantsElectronic = fieldData?.electronicCorrespondence;
+  if (wantsElectronic && (!email || email.trim() === '')) {
+    errors.electronicCorrespondence.addError(
+      'Enter an email address to receive electronic correspondence'
+    );
+  }
+}
+
+const emailAddressUISchema = emailToSendNotificationsUI({
+  title: 'Email address',
+  hint: 'We’ll use this email address to confirm when we receive your form',
+});
+emailAddressUISchema['ui:required'] = formData =>
+  !!formData?.['view:isEmailPresenceRequired'];
+
+
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -30,12 +54,8 @@ export default {
         }),
         'ui:webComponentField': TelephoneFieldNoInternalErrors,
       },
-      [veteranFields.email]: emailToSendNotificationsUI({
-        title: 'Email address',
-        hint:
-          'We’ll use this email address to confirm when we receive your form',
-      }),
-      electronicCorrespondence: {
+      [veteranFields.email]: emailAddressUISchema,
+      [veteranFields.electronicCorrespondence]: {
         'ui:title':
           'I agree to receive electronic correspondence from the VA about my claim.',
         'ui:webComponentField': VaCheckboxField,
@@ -43,6 +63,7 @@ export default {
           classNames: 'custom-width',
         },
       },
+      'ui:validations': [validateElectronicCorrespondence],
     },
   },
   schema: {
@@ -50,14 +71,14 @@ export default {
     properties: {
       [veteranFields.parentObject]: {
         type: 'object',
-        required: [veteranFields.homePhone],
+        required: [veteranFields.homePhone, veteranFields.email],
         properties: {
           [veteranFields.homePhone]: internationalPhoneSchema({
             required: true,
           }),
           [veteranFields.alternatePhone]: internationalPhoneSchema(),
           [veteranFields.email]: emailToSendNotificationsSchema,
-          electronicCorrespondence: { type: 'boolean' },
+          [veteranFields.electronicCorrespondence]: { type: 'boolean' },
         },
       },
     },

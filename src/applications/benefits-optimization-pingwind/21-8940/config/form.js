@@ -48,6 +48,10 @@ import {
   hospitalizationQuestionFields,
 } from '../definitions/constants';
 
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+
+
 const handleFormLoaded = props => {
   const {
     returnUrl,
@@ -119,7 +123,7 @@ const formConfig = {
   subTitle:
     'Please take your time to complete this form as accurately as you can.',
   customText: {
-    appType: 'veteran application',
+    appType: 'Veteran application',
   },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
@@ -139,6 +143,7 @@ const formConfig = {
       },
     ],
   }),
+  //useTopBackLink: false,
 
   additionalRoutes: [
     {
@@ -176,6 +181,12 @@ const formConfig = {
           title: 'Additional contact information',
           uiSchema: contactInformation2.uiSchema,
           schema: contactInformation2.schema,
+
+          appStateSelector: state => ({
+            isEmailPresenceRequired: toggleValues(state)[
+              FEATURE_FLAG_NAMES.form218940ValidateEmailPresence
+            ],
+          }),
         },
       },
     },
@@ -201,7 +212,7 @@ const formConfig = {
           schema: doctorInformation.schema,
           depends: formData =>
             !!formData?.[doctorCareQuestionFields.parentObject]?.[
-              doctorCareQuestionFields.hasReceivedDoctorCare
+            doctorCareQuestionFields.hasReceivedDoctorCare
             ],
         },
         hospitalCareQuestionPage: {
@@ -217,7 +228,7 @@ const formConfig = {
           schema: hospitalInformation.schema,
           depends: formData =>
             !!formData?.[hospitalizationQuestionFields.parentObject]?.[
-              hospitalizationQuestionFields.hasBeenHospitalized
+            hospitalizationQuestionFields.hasBeenHospitalized
             ],
         },
       },

@@ -13,9 +13,9 @@ export default {
     'ui:description': (
       <div>
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h2 slot="headline" className="vads-u-font-weight--bold">
+          <span slot="headline" className="vads-u-font-weight--bold">
             What to expect:
-          </h2>
+          </span>
           <div className="vads-u-margin--0">
             <ul style={{ marginBottom: 0 }}>
               <li>Authorize the release of your application</li>
@@ -50,9 +50,9 @@ export default {
       'ui:field': 'ViewField',
       'ui:description': (
         <VaAlert status="warning" class="vads-u-margin-top--3" uswds visible>
-          <h2 slot="headline" className="vads-u-font-weight--bold">
+          <span slot="headline" className="vads-u-font-weight--bold">
             Penalty
-          </h2>
+          </span>
           <p className="vads-u-margin--0">
             The law provides severe penalties which include fine or imprisonment
             or both for the willful submission of any statement or evidence of a
@@ -66,9 +66,9 @@ export default {
       'ui:field': 'ViewField',
       'ui:description': (
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h3 slot="headline" className="vads-u-font-weight--bold">
+          <span slot="headline" className="vads-u-font-weight--bold">
             Privacy Act Notice
-          </h3>
+          </span>
           <p className="vads-u-margin--0">
             VA will not disclose information collected on this form to any
             source other than what has been authorized under the Privacy Act of
@@ -95,9 +95,9 @@ export default {
       'ui:field': 'ViewField',
       'ui:description': (
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h3 slot="headline" className="vads-u-font-weight--bold">
+          <span slot="headline" className="vads-u-font-weight--bold">
             Respondent Burden
-          </h3>
+          </span>
           <p className="vads-u-margin--0">
             An agency may not conduct or sponsor, and a person is not required
             to respond to a collection of information unless it displays a

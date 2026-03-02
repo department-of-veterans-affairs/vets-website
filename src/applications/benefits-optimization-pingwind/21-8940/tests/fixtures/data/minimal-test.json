@@ -1,0 +1,29 @@
+{
+  "data": {
+    "fullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "dateOfBirth": "1980-01-01",
+    "idNumber" : {
+      "ssn": "987654321"
+    },
+    "address": {
+      "country": "USA",
+      "street": "123 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "phoneNumber": "555-123-4567",
+    "emailAddress": "john.doe@example.com",
+    "employmentCheck": {
+      "hasEmploymentInLast12Months": "no"
+    },
+    "view:hasEmployers": false,
+    "unemploymentCertifications": {
+      "unemploymentCertification": true,
+      "accuracyCertification": true
+    }
+  }
+}

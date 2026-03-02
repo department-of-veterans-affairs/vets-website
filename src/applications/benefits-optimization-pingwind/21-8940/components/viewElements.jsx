@@ -60,8 +60,8 @@ const renderTreatmentDates = dates => {
       <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0">
         {dates.map((range, index) => (
           <li key={`treatment-${index}`}>
-            {range?.startDate || 'Not provided'} &mdash;{' '}
-            {range?.endDate || 'Not provided'}
+            {range?.from || range?.startDate || 'Not provided'} &mdash;{' '}
+            {range?.to || range?.endDate || 'Not provided'}
           </li>
         ))}
       </ul>
@@ -84,8 +84,8 @@ export const DateRangeView = ({ formData }) => {
   return (
     <div className="vads-u-padding--2">
       <p>
-        Duration: {formData.startDate || 'Not provided'} &mdash;{' '}
-        {formData.endDate || 'Not provided'}
+        Duration: {formData.from || formData.startDate || 'Not provided'}
+        &mdash; {formData.to || formData.endDate || 'Not provided'}
       </p>
     </div>
   );

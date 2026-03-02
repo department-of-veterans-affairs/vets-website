@@ -16,9 +16,9 @@ export default {
     'ui:description': (
       <div>
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h2 slot="headline">
+          <h4 slot="headline">
             <b>What to expect:</b>
-          </h2>
+          </h4>
           <div className="vads-u-margin--0">
             <ul style={{ marginBottom: 0 }}>
               <li>When your disability began affecting your work</li>
@@ -36,7 +36,7 @@ export default {
           </div>
         </VaAlert>
         <div className="vads-u-margin-top--5">
-          <h2 style={{ marginTop: 0 }}>Employment Timeline</h2>
+          <h4 style={{ marginTop: 0 }}>Employment Timeline</h4>
           <p>When did your disability affect your work?</p>
         </div>
       </div>

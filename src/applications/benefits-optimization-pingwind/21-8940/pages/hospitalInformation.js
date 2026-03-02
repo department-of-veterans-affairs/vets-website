@@ -6,14 +6,15 @@ import {
 import {
   textUI,
   textSchema,
-  currentOrPastMonthYearDateSchema,
-  currentOrPastMonthYearDateUI,
+  currentOrPastMonthYearDateRangeSchema,
+  currentOrPastMonthYearDateRangeUI,
   titleUI,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { HospitalView, DateRangeView } from '../components/viewElements';
+import { wrapRadioUiWithDl } from '../helpers/reviewHelpers';
 import SafeArrayField from '../components/SafeArrayField';
 import ConnectedDisabilitiesField from '../components/ConnectedDisabilitiesField';
 import { extractDisabilityLabels } from '../helpers/disabilityOptions';
@@ -23,13 +24,46 @@ const hospitalTypeLabels = {
   nonVa: 'Non-VA Hospital',
 };
 
+const DEFAULT_DL_TITLES = {
+  city: 'City',
+  state: 'State',
+};
+
+const addUseDlWrap = (field, key) => {
+  if (!field) {
+    return field;
+  }
+
+  const updatedField = {
+    ...field,
+    'ui:options': {
+      ...field['ui:options'],
+      useDlWrap: true,
+    },
+  };
+
+  if (key && DEFAULT_DL_TITLES[key] && !updatedField['ui:title']) {
+    updatedField['ui:title'] = DEFAULT_DL_TITLES[key];
+  }
+
+  return updatedField;
+};
+
+const addressWithDlWrap = uiSchema =>
+  Object.keys(uiSchema).reduce((acc, key) => {
+    const value = uiSchema[key];
+    if (key.startsWith('ui:') || key.startsWith('view:')) {
+      acc[key] = value;
+      return acc;
+    }
+
+    acc[key] = addUseDlWrap(value, key);
+    return acc;
+  }, {});
+
 const treatmentDateSchema = {
-  type: 'object',
-  properties: {
-    startDate: currentOrPastMonthYearDateSchema,
-    endDate: currentOrPastMonthYearDateSchema,
-  },
-  required: ['startDate'],
+  ...currentOrPastMonthYearDateRangeSchema,
+  required: ['from'],
 };
 
 const hospitalItemSchema = {
@@ -194,33 +228,37 @@ export default {
         'ui:options': {
           classNames: 'vads-u-margin-left--1p5',
         },
-        hospitalType: {
-          ...radioUI({
+        hospitalType: wrapRadioUiWithDl(
+          radioUI({
             title: 'Hospital type',
             labels: hospitalTypeLabels,
             required: () => true,
             errorMessages: {
               required: 'Please select if this is a VA or Non-VA hospital.',
             },
-            tile: true,
-            useDlWrap: true,
-          }),
-        },
-        hospitalName: {
-          ...textUI('Hospital name'),
-          'ui:errorMessages': {
+         
+           // useDlWrap: true,
+          })
+        ),
+        hospitalName: textUI({
+          title: 'Hospital name',
+           useDlWrap: true,
+          required: () => true,
+          errorMessages: {
             required: 'Enter the hospital name',
           },
-          'ui:required': () => true,
-        },
+        }),
         hospitalAddress: {
-          ...addressUI({
-            labels: {
-              militaryCheckbox: 'Hospital is on a military base',
-            },
-            omit: ['street2', 'street3'],
-          }),
-          'ui:required': () => true,
+          ...addressWithDlWrap(
+            addressUI({
+              labels: {
+                militaryCheckbox: 'Hospital is on a military base',
+              },
+              omit: ['street2', 'street3'],
+            }),
+          ),
+          required: () => true,
+          //'ui:required': () => true,
         },
         connectedDisabilities: {
           'ui:title':
@@ -250,19 +288,16 @@ export default {
             'ui:options': {
               classNames: 'vads-u-margin-left--1p5',
             },
-            startDate: {
-              ...currentOrPastMonthYearDateUI({
+            ...currentOrPastMonthYearDateRangeUI(
+              {
                 title: 'Start date of treatment',
-                hint: 'For example: January 19 2022',
-              }),
-              'ui:required': () => true,
-            },
-            endDate: {
-              ...currentOrPastMonthYearDateUI({
+                hint: 'For example: January 2022',
+              },
+              {
                 title: 'End date of treatment (if applicable)',
-                hint: 'For example: January 19 2022',
-              }),
-            },
+                hint: 'For example: January 2022',
+              },
+            ),
           },
         },
       },

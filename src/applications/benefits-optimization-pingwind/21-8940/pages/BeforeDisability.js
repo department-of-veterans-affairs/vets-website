@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   textUI,
   yesNoUI,
@@ -9,6 +11,7 @@ import {
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
 } from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
+
 
 import { wrapDateRangeUiWithDl } from '../helpers/reviewHelpers';
 import { changeDefaultDateHint } from '../helpers/hintChanger';
@@ -47,7 +50,7 @@ export default {
         title: 'Type of education or training',
         useDlWrap: true,
         required: formData => formData.otherBeforeEducation === true,
-        errorMessages: {
+         errorMessages: {
           required:
             'Tell us what kind of education or training you had before becoming disabled',
         },
@@ -70,7 +73,7 @@ export default {
           ).from,
           'ui:required': formData => formData.otherBeforeEducation === true,
           'ui:description': changeDefaultDateHint,
-          'ui:errorMessages': {
+           'ui:errorMessages': {
             required:
               'Enter the start date (month, day, and 4-digit year) of your education or training',
           },
@@ -83,8 +86,8 @@ export default {
             ),
           ).to,
           'ui:required': formData => formData.otherBeforeEducation === true,
-          'ui:description': changeDefaultDateHint,
-          'ui:errorMessages': {
+            'ui:description': changeDefaultDateHint,
+              'ui:errorMessages': {
             required:
               'Enter the end date (month, day, and 4-digit year) of your education or training',
           },

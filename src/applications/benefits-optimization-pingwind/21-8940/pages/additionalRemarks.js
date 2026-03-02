@@ -9,9 +9,9 @@ export default {
     'ui:description': (
       <div>
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h2 slot="headline">
+          <h4 slot="headline">
             <b>What to expect:</b>
-          </h2>
+          </h4>
           <div className="vads-u-margin--0">
             <ul style={{ marginBottom: 0 }}>
               <li>Space for any additional details about your situation</li>
@@ -21,7 +21,7 @@ export default {
           </div>
         </VaAlert>
         <div className="vads-u-margin-top--5">
-          <h2 style={{ marginTop: 0 }}>Additional Information</h2>
+          <h4 style={{ marginTop: 0 }}>Additional Information</h4>
           <p>Add any additional information we should know</p>
         </div>
       </div>

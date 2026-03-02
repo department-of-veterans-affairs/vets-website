@@ -17,7 +17,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
     formTitle:
       "VETERAN'S APPLICATION FOR INCREASED COMPENSATION BASED ON UNEMPLOYABILITY (VA 21-8940) ",
     formSubTitle: '',
-    authStartFormText: "Start the veteran's application",
+    authStartFormText: "Start the Veteran's application",
     saveInProgressText:
       'Please complete the 21-8940 form to provide information about your employment.',
     displayNonVeteranMessaging: true,
@@ -100,8 +100,6 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.array,
   }),
-  userIdVerified: PropTypes.bool,
-  userLoggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

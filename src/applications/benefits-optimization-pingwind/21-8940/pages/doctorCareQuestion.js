@@ -36,16 +36,24 @@ export default {
             </p>
             <ul>
               <li>
-                <va-link
+                <a
                   href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
-                  text="VA Form 21-4142 - Authorization to Disclose Information to the Department of Veterans Affairs"
-                />
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  VA Form 21-4142 – Authorization to Disclose Information to the
+                  Department of Veterans Affairs (opens in a new tab)
+                </a>
               </li>
               <li>
-                <va-link
+                <a
                   href="/find-forms/about-form-21-4142a/"
-                  text="VA Form 21-4142a - General Release for Medical Provider Information to the Department of Veterans Affairs"
-                />
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  VA Form 21-4142a – General Release for Medical Provider Information
+                  to the Department of Veterans Affairs (opens in a new tab)
+                </a>
               </li>
             </ul>
             <p>
@@ -59,6 +67,7 @@ export default {
           expandUnderCondition: true,
         },
       },
+
       'ui:options': {
         showFieldLabel: true,
         classNames: 'confirmation-required-radio',

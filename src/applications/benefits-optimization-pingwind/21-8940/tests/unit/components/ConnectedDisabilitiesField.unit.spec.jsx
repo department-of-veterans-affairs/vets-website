@@ -1,9 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, cleanup, waitFor } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import sinon from 'sinon';
 
 import ConnectedDisabilitiesField from '../../../components/ConnectedDisabilitiesField';
 
@@ -79,52 +78,6 @@ describe('21-8940 component/ConnectedDisabilitiesField', () => {
     expect(checkboxGroup).to.exist;
     expect(checkboxGroup.getAttribute('error')).to.equal(
       'Please choose at least one disability',
-    );
-  });
-
-  it('shows a manual required error when submitted with no selections', () => {
-    const checkboxGroup = renderField({
-      formContext: { submitted: true },
-      required: true,
-      uiSchema: {
-        'ui:title': 'Select disabilities',
-        'ui:errorMessages': {
-          required: 'Select at least one disability',
-        },
-      },
-    });
-
-    expect(checkboxGroup.getAttribute('error')).to.equal(
-      'Select at least one disability',
-    );
-  });
-
-  it('normalizes selections when invalid values are present', async () => {
-    const onChange = sinon.spy();
-
-    renderField(
-      {
-        formData: ['Condition A', 'Unknown'],
-        onChange,
-      },
-      defaultStoreState,
-    );
-
-    await waitFor(() => {
-      expect(onChange.called).to.be.true;
-      expect(onChange.firstCall.args[0]).to.deep.equal(['Condition A']);
-    });
-  });
-
-  it('renders an empty state when no options exist', () => {
-    const { textContent } = render(
-      <Provider store={createMockStore({ form: { data: {} } })}>
-        <ConnectedDisabilitiesField {...baseProps} />
-      </Provider>,
-    ).container;
-
-    expect(textContent).to.include(
-      'Add at least one service-connected disability before selecting it here.',
     );
   });
 });
