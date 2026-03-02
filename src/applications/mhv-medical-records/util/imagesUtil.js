@@ -23,6 +23,7 @@ export const convertScdfImagingStudy = record => {
       : EMPTY_FIELD,
     rawDate: attrs.date || null,
     results: attrs.notes?.length ? attrs.notes.join('\n') : EMPTY_FIELD,
+    imageCount: attrs.imageCount || 0,
     studyId: attrs.identifier || record.id,
     series: attrs.series || [],
     status: attrs.status || null,
@@ -41,8 +42,7 @@ const IMAGING_MATCH_TOLERANCE_MS = 10 * 60 * 1000; // 10 minutes
  *
  * For each imaging study, find the first unmatched lab record whose sortDate
  * is within IMAGING_MATCH_TOLERANCE_MS of the imaging study's rawDate.
- * When matched, copy `imagingStudyId` and `imagingStudyStatus` onto the
- * lab record.
+ * When matched, copy relevant fields onto the lab record.
  *
  * @param {Array} labsList  - Converted labs-and-tests records (each has `sortDate`)
  * @param {Array} imagingStudies - Converted SCDF imaging studies (each has `rawDate`)
@@ -76,6 +76,7 @@ export const mergeImagingStudiesIntoLabs = (
         ...lab,
         imagingStudyId: match.id,
         imagingStudyStatus: match.status,
+        imageCount: match.imageCount || 0,
       };
     }
     return lab;

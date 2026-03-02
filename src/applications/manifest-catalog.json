@@ -574,6 +574,12 @@
       "rootUrl": "/my-va"
     },
     {
+      "directoryPath": "src/applications/personalization/form-renderer",
+      "appName": "form-renderer",
+      "entryName": "form-renderer",
+      "rootUrl": "/my-va/submissions"
+    },
+    {
       "directoryPath": "src/applications/personalization/profile",
       "appName": "VA Profile",
       "entryName": "profile",

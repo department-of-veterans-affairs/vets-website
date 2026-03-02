@@ -266,7 +266,7 @@ describe('App', () => {
   it('redirects user to /my-health/secure-messages/inbox', async () => {
     const customState = { ...initialState, featureToggles: [] };
 
-    const { history } = renderWithStoreAndRouter(<App />, {
+    const { history, getByTestId } = renderWithStoreAndRouter(<App />, {
       initialState: customState,
       reducers: reducer,
       path: `/`,
@@ -274,9 +274,7 @@ describe('App', () => {
 
     await waitFor(() => {
       // sr-only span exists with delayed content (populated after H1 focusin + 1s or 3s fallback)
-      const srSpan = document.querySelector(
-        'va-alert span[aria-live="polite"]',
-      );
+      const srSpan = getByTestId('sr-only-alert-text');
       expect(srSpan).to.exist;
       expect(history.location.pathname).to.equal('/inbox/');
     });

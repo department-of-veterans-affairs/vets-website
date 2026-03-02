@@ -36,7 +36,6 @@ const ThreadDetails = props => {
   const location = useLocation();
   const history = useHistory();
 
-  const alertList = useSelector(state => state.sm.alerts?.alertList);
   const recipients = useSelector(state => state.sm.recipients);
   const {
     cannotReply,
@@ -117,33 +116,28 @@ const ThreadDetails = props => {
 
   useEffect(
     () => {
-      if (!isCreateNewModalVisible) {
-        const alertVisible = alertList[alertList?.length - 1];
-        const alertSelector =
-          folder !== undefined && !alertVisible?.isActive
-            ? 'h1'
-            : alertVisible?.isActive && 'va-alert';
+      // Always focus on H1 per MHV accessibility decision records.
+      // Alert content is announced via role="status" without stealing focus.
+      if (!isCreateNewModalVisible && isLoaded) {
         setTimeout(() => {
-          focusElement(document.querySelector(alertSelector));
+          focusElement(document.querySelector('h1'));
         }, 300);
       }
     },
-    [alertList, folder, isCreateNewModalVisible, header],
+    [isLoaded, isCreateNewModalVisible, header],
   );
-
-  useEffect(() => {
-    if (header.current) {
-      focusElement(header.current);
-    }
-  });
 
   const content = () => {
     if (!isLoaded) {
       return (
-        <va-loading-indicator
-          message="Loading your secure message..."
-          setFocus
-        />
+        <>
+          <AlertBackgroundBox closeable />
+          <va-loading-indicator
+            message="Loading your secure message..."
+            setFocus
+            data-testid="thread-loading-indicator"
+          />
+        </>
       );
     }
     if (drafts?.length > 0 && messages?.length > 0) {
@@ -234,21 +228,16 @@ const ThreadDetails = props => {
       );
     }
     if (message !== undefined && message === null) {
-      <va-alert status="error" visible class="vads-u-margin-y--9">
-        <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
-        <p>
-          You can’t view your secure message because something went wrong on our
-          end. Please check back soon.
-        </p>
-      </va-alert>;
+      return <AlertBackgroundBox closeable />;
     }
     return null;
   };
 
   return (
-    <div className="message-detail-container">
-      {/* Only display alerts after acknowledging the Interstitial page or if this thread does not contain drafts */}
-      <AlertBackgroundBox closeable />
+    <div
+      className="message-detail-container"
+      data-testid="message-detail-container"
+    >
       {content()}
     </div>
   );
