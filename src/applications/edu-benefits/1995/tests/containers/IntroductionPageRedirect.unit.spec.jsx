@@ -21,12 +21,10 @@ describe('IntroductionPageRedirect', () => {
     pageList: [],
   };
 
-  const createMockStore = (rerouteFlag, user) => {
+  const createMockStore = user => {
     return mockStore({
       featureToggles: {
         loading: false,
-        // eslint-disable-next-line camelcase
-        meb_1995_re_reroute: rerouteFlag,
       },
       form: {
         data: {},
@@ -44,23 +42,8 @@ describe('IntroductionPageRedirect', () => {
     });
   };
 
-  it('should return null when rerouteFlag is false', () => {
-    const store = createMockStore(false, {
-      login: { currentlyLoggedIn: false },
-      profile: { savedForms: [], loading: false, prefillsAvailable: [] },
-    });
-
-    const { container } = render(
-      <Provider store={store}>
-        <IntroductionPageRedirect route={mockRoute} router={mockRouter} />
-      </Provider>,
-    );
-
-    expect(container.querySelector('.schemaform-intro')).to.not.exist;
-  });
-
-  it('should render the introduction page when rerouteFlag is true', () => {
-    const store = createMockStore(true, {
+  it('should render the introduction page', () => {
+    const store = createMockStore({
       login: { currentlyLoggedIn: false },
       profile: { savedForms: [], loading: false, prefillsAvailable: [] },
     });
@@ -81,7 +64,7 @@ describe('IntroductionPageRedirect', () => {
   });
 
   it('should show start button and prefill alert for authenticated users', () => {
-    const store = createMockStore(true, {
+    const store = createMockStore({
       login: { currentlyLoggedIn: true },
       profile: {
         savedForms: [],
@@ -109,7 +92,7 @@ describe('IntroductionPageRedirect', () => {
   });
 
   it('should render for unauthenticated users', () => {
-    const store = createMockStore(true, {
+    const store = createMockStore({
       login: { currentlyLoggedIn: false },
       profile: { savedForms: [], loading: false, prefillsAvailable: [] },
     });
@@ -139,7 +122,7 @@ describe('IntroductionPageRedirect', () => {
         pageList: [{ path: '/first-page' }, { path: '/second-page' }],
       };
 
-      const store = createMockStore(true, {
+      const store = createMockStore({
         login: { currentlyLoggedIn: true },
         profile: {
           savedForms: [
@@ -184,8 +167,6 @@ describe('IntroductionPageRedirect', () => {
       const store = mockStore({
         featureToggles: {
           loading: false,
-          // eslint-disable-next-line camelcase
-          meb_1995_re_reroute: true,
         },
         form: {
           data: {},
@@ -245,8 +226,6 @@ describe('IntroductionPageRedirect', () => {
       const store = mockStore({
         featureToggles: {
           loading: false,
-          // eslint-disable-next-line camelcase
-          meb_1995_re_reroute: true,
         },
         form: {
           data: undefined,
@@ -301,7 +280,7 @@ describe('IntroductionPageRedirect', () => {
       const routerPushSpy = sinon.spy();
       const testRouter = { push: routerPushSpy };
 
-      const store = createMockStore(true, {
+      const store = createMockStore({
         login: { currentlyLoggedIn: false },
         profile: { savedForms: [], loading: false, prefillsAvailable: [] },
       });

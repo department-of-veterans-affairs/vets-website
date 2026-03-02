@@ -1,23 +1,3 @@
-import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
-import createApplicantInformationPage from '~/platform/forms/pages/applicantInformation';
-import get from '~/platform/utilities/data/get';
-import createContactInformationPage from '../../pages/contactInformation';
-import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
-
-import {
-  applicantInformationUpdate,
-  dependents,
-  newSchoolUpdate,
-  servicePeriodsUpdate,
-  tourOfDuty,
-  sponsorInfo,
-  changeAnotherBenefitPage,
-} from '../pages';
-import * as benefitSelectionUpdate from '../pages/benefitSelectionUpdate';
-
-import { sponsorInformationTitle } from '../helpers';
-import guardianInformation from '../pages/guardianInformation';
-import { updateApplicantInformationPage } from '../../utils/helpers';
 import {
   yourInformationPage,
   benefitSwitchPage,
@@ -25,209 +5,21 @@ import {
   buildResultPage,
 } from '../pages/mebQuestionnaire';
 
-const isRerouteEnabledOnForm = formData => formData?.isMeb1995Reroute === true;
-const isLegacyFlow = formData => !isRerouteEnabledOnForm(formData);
-
-export const applicantInformationField = () => {
-  const applicantInformationPage = {
-    ...createApplicantInformationPage(fullSchema1995, {
-      isVeteran: true,
-      fields: [
-        'veteranFullName',
-        'veteranSocialSecurityNumber',
-        'view:noSSN',
-        'vaFileNumber',
-        'dateOfBirth',
-        'minorHighSchoolQuestions',
-        'applicantGender',
-      ],
-      required: [
-        'veteranFullName',
-        'veteranSocialSecurityNumber',
-        'dateOfBirth',
-      ],
-    }),
-    uiSchema: applicantInformationUpdate.uiSchema,
-  };
-  return updateApplicantInformationPage(applicantInformationPage);
-};
-
-export const directDepositField = () => {
-  return createDirectDepositChangePageUpdate(fullSchema1995);
-};
-
-const militaryService = {
-  title: 'Applicant service history',
-  pages: {
-    servicePeriods: {
-      path: 'military/service',
-      title: 'Service periods',
-      uiSchema: servicePeriodsUpdate.uiSchema,
-      schema: servicePeriodsUpdate.schema,
-      depends: isLegacyFlow,
-    },
-    toursOfDutyIsActiveDutyTrue: {
-      path: 'military/service-tour-of-duty-isActiveDuty-true',
-      title: 'Service periods tour Of Duty',
-      depends: form =>
-        isLegacyFlow(form) &&
-        get('view:newService', form) &&
-        form.applicantServed === 'Yes' &&
-        form.isActiveDuty,
-      uiSchema: tourOfDuty.uiSchema,
-      schema: tourOfDuty.schemaIsActiveDuty,
-    },
-    toursOfDutyIsActiveDutyFalse: {
-      path: 'military/service-tour-of-duty-isActiveDuty-false',
-      title: 'Service periods tour Of Duty',
-      depends: form =>
-        isLegacyFlow(form) &&
-        get('view:newService', form) &&
-        form.applicantServed === 'Yes' &&
-        !form.isActiveDuty,
-      uiSchema: tourOfDuty.uiSchema,
-      schema: tourOfDuty.schema,
-    },
-  },
-};
-
-export const chapters = {
-  applicantInformation: {
-    title: 'Applicant information',
-    pages: {
-      applicantInformation: {
-        ...applicantInformationField(),
-        depends: isLegacyFlow,
-      },
-    },
-  },
-  guardianInformation: {
-    title: 'Guardian information',
-    depends: formData => {
-      const page = guardianInformation(fullSchema1995, {});
-      return isLegacyFlow(formData) && page.depends(formData);
-    },
-    pages: {
-      guardianInformation: (() => {
-        const page = guardianInformation(fullSchema1995, {});
-        const originalDepends = page.depends;
-        return {
-          ...page,
-          depends: formData =>
-            isLegacyFlow(formData) && originalDepends(formData),
-        };
-      })(),
-    },
-  },
-  benefitSelection: {
-    title: 'Education benefit',
-    pages: {
-      benefitSelection: {
-        title: 'Education benefit selection',
-        path: 'benefits/eligibility',
-        uiSchema: benefitSelectionUpdate.uiSchema,
-        schema: benefitSelectionUpdate.schema,
-        depends: isLegacyFlow,
-        updateFormData: (oldFormData, newFormData) => {
-          // Clear sponsor and benefit fields when rudisillReview changes to Yes
-          if (newFormData.rudisillReview === 'Yes') {
-            return {
-              ...newFormData,
-              changeAnotherBenefit: undefined,
-              benefitAppliedFor: undefined,
-              sponsorFullName: undefined,
-              sponsorSocialSecurityNumber: undefined,
-              vaFileNumber: undefined,
-              'view:noSSN': undefined,
-            };
-          }
-          return newFormData;
-        },
-      },
-      changeAnotherBenefit: {
-        title: 'Change to another benefit',
-        path: 'benefits/education-benefit',
-        uiSchema: changeAnotherBenefitPage.uiSchema,
-        schema: changeAnotherBenefitPage.schema,
-        depends: formData =>
-          isLegacyFlow(formData) && formData?.rudisillReview === 'No',
-      },
-    },
-  },
-  sponsorInformation: {
-    title: sponsorInformationTitle(),
-    depends: formData => {
-      const page = sponsorInfo(fullSchema1995);
-      return isLegacyFlow(formData) && page.depends(formData);
-    },
-    pages: {
-      sponsorInformation: (() => {
-        const page = sponsorInfo(fullSchema1995);
-        const originalDepends = page.depends;
-        return {
-          ...page,
-          depends: formData =>
-            isLegacyFlow(formData) && originalDepends(formData),
-        };
-      })(),
-    },
-  },
-  militaryService,
-  schoolSelection: {
-    title: 'School/training facility selection',
-    pages: {
-      newSchool: {
-        path: 'school-selection/new-school',
-        title: 'School or training facility you want to attend',
-        initialData: {
-          newSchoolAddress: {},
-        },
-        uiSchema: newSchoolUpdate.uiSchema,
-        schema: newSchoolUpdate.schema,
-        depends: isLegacyFlow,
-      },
-    },
-  },
-  personalInformation: {
-    title: 'Personal information',
-    pages: {
-      contactInformation: {
-        ...createContactInformationPage(fullSchema1995),
-        depends: isLegacyFlow,
-      },
-      dependents: {
-        title: 'Dependents',
-        path: 'personal-information/dependents',
-        depends: form =>
-          isLegacyFlow(form) && form['view:hasServiceBefore1978'] === true,
-        uiSchema: dependents.uiSchema,
-        schema: dependents.schema,
-      },
-      directDeposit: {
-        ...directDepositField(),
-        depends: isLegacyFlow,
-      },
-    },
-  },
-};
-
 export const mebChapters = {
   questionnaire: {
     title: 'Determine your path',
+    hideFormNavProgress: true,
     pages: {
       mebYourInformation: {
         path: 'questionnaire/your-information',
         title: 'Your information',
-        depends: formData => isRerouteEnabledOnForm(formData),
         hideSaveLinkAndStatus: true,
         ...yourInformationPage(),
       },
       mebBenefitSelection: {
         path: 'questionnaire/benefit-selection',
         title: 'Benefit you want to change to',
-        depends: formData =>
-          isRerouteEnabledOnForm(formData) &&
-          formData.mebWhatDoYouWantToDo === 'switch-benefit',
+        depends: formData => formData.mebWhatDoYouWantToDo === 'switch-benefit',
         hideSaveLinkAndStatus: true,
         ...benefitSwitchPage(),
       },
@@ -235,7 +27,6 @@ export const mebChapters = {
         path: 'questionnaire/same-benefit-selection',
         title: 'Which benefit have you most recently used?',
         depends: formData =>
-          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'same-benefit' &&
           !formData.currentBenefitType,
         hideSaveLinkAndStatus: true,
@@ -246,7 +37,6 @@ export const mebChapters = {
         title:
           "Dependents' Application for VA Education Benefits (VA Form 22-5490)",
         depends: formData =>
-          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'same-benefit' &&
           (formData.currentBenefitType || formData.mebSameBenefitSelection),
         hideSaveLinkAndStatus: true,
@@ -255,9 +45,7 @@ export const mebChapters = {
       },
       foreignSchoolResult: {
         path: 'results/foreign-school',
-        depends: formData =>
-          isRerouteEnabledOnForm(formData) &&
-          formData.mebWhatDoYouWantToDo === 'foreign-school',
+        depends: formData => formData.mebWhatDoYouWantToDo === 'foreign-school',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
         ...buildResultPage(),
@@ -266,7 +54,6 @@ export const mebChapters = {
         path: 'results/mgib-ad',
         title: 'Application for VA Education Benefits (VA Form 22-1990)',
         depends: formData =>
-          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'mgib-ad',
         hideSaveLinkAndStatus: true,
@@ -277,7 +64,6 @@ export const mebChapters = {
         path: 'results/mgib-sr',
         title: 'Application for VA Education Benefits (VA Form 22-1990)',
         depends: formData =>
-          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'mgib-sr',
         hideSaveLinkAndStatus: true,
@@ -288,7 +74,6 @@ export const mebChapters = {
         path: 'results/toe',
         title: 'Application for VA Education Benefits (VA Form 22-1990e)',
         depends: formData =>
-          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'toe',
         hideSaveLinkAndStatus: true,
@@ -299,7 +84,6 @@ export const mebChapters = {
         path: 'results/dea',
         title: 'Application for VA Education Benefits (VA Form 22-5490)',
         depends: formData =>
-          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'dea',
         hideSaveLinkAndStatus: true,
@@ -310,7 +94,6 @@ export const mebChapters = {
         path: 'results/fry',
         title: 'Application for VA Education Benefits (VA Form 22-5490)',
         depends: formData =>
-          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'fry',
         hideSaveLinkAndStatus: true,
@@ -321,7 +104,6 @@ export const mebChapters = {
         path: 'results/pgib',
         title: 'Application for VA Education Benefits (VA Form 22-1990)',
         depends: formData =>
-          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'pgib',
         hideSaveLinkAndStatus: true,
@@ -330,9 +112,4 @@ export const mebChapters = {
       },
     },
   },
-};
-
-export const allChapters = {
-  ...chapters,
-  ...mebChapters,
 };

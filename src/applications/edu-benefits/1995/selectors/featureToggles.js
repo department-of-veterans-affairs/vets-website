@@ -6,6 +6,3 @@ export const selectMerge1995And5490 = state =>
 
 export const selectShowEduBenefits1995Wizard = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.showEduBenefits1995Wizard];
-
-export const selectMeb1995Reroute = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.meb1995Reroute];
