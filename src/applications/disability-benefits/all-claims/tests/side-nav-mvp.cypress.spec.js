@@ -8,7 +8,12 @@ import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import { setup, pageHooks, reviewAndSubmitPageFlow, clickContinueButton } from './cypress.helpers';
+import {
+  setup,
+  pageHooks,
+  reviewAndSubmitPageFlow,
+  clickContinueButton,
+} from './cypress.helpers';
 
 const verifySideNavState = (chapterIndex, chapterKey) => {
   // Verify sidenav exists
