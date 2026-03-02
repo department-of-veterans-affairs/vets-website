@@ -103,6 +103,11 @@ const SmRouteNavigationGuard = ({
   return (
     <>
       <Prompt when={when} message={handleBlockedNavigation} />
+      <div
+        data-testid="navigation-guard"
+        data-navigation-blocked={when.toString()}
+        hidden
+      />
       <VaModal
         modalTitle={modalTitle}
         modalText={modalText}
