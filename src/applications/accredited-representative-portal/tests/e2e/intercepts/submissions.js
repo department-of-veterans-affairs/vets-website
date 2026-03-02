@@ -125,5 +125,9 @@ export const setEmptySubmissions = () => {
         totalPages: 1,
       },
     },
+    claimant: {
+      firstName: 'Brooke',
+      lastName: 'Santiago',
+    },
   });
 };

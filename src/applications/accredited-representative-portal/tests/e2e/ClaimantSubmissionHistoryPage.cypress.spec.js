@@ -12,7 +12,7 @@ const vamcUser = {
 };
 
 const CLAIMANT_DETAILS_SUBMISSIONS_PAGE =
-  '/representative/find-claimant/submission-history/f87aaa2f-37da-4dc7-ae20-bf36aedbbc85'
+  '/representative/find-claimant/submission-history/f87aaa2f-37da-4dc7-ae20-bf36aedbbc85';
 
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
@@ -26,8 +26,7 @@ const setUpInterceptsAndVisit = (featureToggles, url) => {
   setFeatureToggles(
     featureToggles || {
       isAppEnabled: true,
-      isInPilot: true,
-      isSubmissionsEnabled: true,
+      isClaimantDetailsEnabled: true,
     },
   );
   cy.visit(url || '/representative');
@@ -43,7 +42,7 @@ describe('Claimant details submissions history', () => {
 
   it('Allows the user to see the Submissions page when visiting directly', () => {
     cy.injectAxeThenAxeCheck();
-    cy.contains('Submission History').should('be.visible');
+    cy.contains('Submission history').should('be.visible');
     cy.contains('Santiago, Brooke').should('be.visible');
   });
 
@@ -51,7 +50,7 @@ describe('Claimant details submissions history', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('ul.submissions__list li:nth-of-type(1)').should(
       'contain',
-      'Snyder, John',
+      'e3bd5925-6902-4b94-acbc-49b554ffcec1',
     );
     cy.get('ul.submissions__list li:nth-of-type(1)').should(
       'contain',
@@ -59,7 +58,7 @@ describe('Claimant details submissions history', () => {
     );
     cy.get('ul.submissions__list li:nth-of-type(2)').should(
       'contain',
-      'Anderson, Montgomery',
+      '58d1c6a3-f970-48cb-bc92-65403e2a0c16',
     );
     cy.get('ul.submissions__list li:nth-of-type(2)').should(
       'contain',
@@ -67,7 +66,7 @@ describe('Claimant details submissions history', () => {
     );
     cy.get('ul.submissions__list li:nth-of-type(3)').should(
       'contain',
-      'Fahey, Isias',
+      'f344d484-8b4b-4e81-93dc-5f6b6ef52bac',
     );
     cy.get('ul.submissions__list li:nth-of-type(3)').should(
       'contain',
@@ -75,7 +74,7 @@ describe('Claimant details submissions history', () => {
     );
     cy.get('ul.submissions__list li:nth-of-type(4)').should(
       'contain',
-      'Davis, Brooks',
+      'b4d7ae1d-6aa9-4231-930c-e3b3e73f0e31',
     );
     cy.get('ul.submissions__list li:nth-of-type(4)').should(
       'contain',
@@ -83,15 +82,11 @@ describe('Claimant details submissions history', () => {
     );
     cy.get('ul.submissions__list li:nth-of-type(5)').should(
       'contain',
-      'Karlsson, Rachel',
+      'e3bd5925-6902-4b94-acbc-49b554ffce22',
     );
     cy.get('ul.submissions__list li:nth-of-type(5)').should(
       'contain',
       'Processing error',
-    );
-    cy.get('ul.submissions__list li:nth-of-type(6)').should(
-      'contain',
-      'Ryan, Logan',
     );
     cy.get('ul.submissions__list li:nth-of-type(6)').should(
       'contain',
@@ -100,10 +95,6 @@ describe('Claimant details submissions history', () => {
     cy.get('ul.submissions__list li:nth-of-type(6)').should(
       'contain',
       'Expires in 365 days',
-    );
-    cy.get('ul.submissions__list li:nth-of-type(7)').should(
-      'contain',
-      'Andrews, David',
     );
     cy.get('ul.submissions__list li:nth-of-type(7)').should(
       'contain',
@@ -116,10 +107,6 @@ describe('Claimant details submissions history', () => {
     cy.get('ul.submissions__list li:nth-of-type(7)')
       .find('va-icon')
       .should('exist');
-    cy.get('ul.submissions__list li:nth-of-type(8)').should(
-      'contain',
-      'Dobson, Aaron',
-    );
     cy.get('ul.submissions__list li:nth-of-type(8)').should(
       'contain',
       'VA Form 21-0966 packet',
@@ -135,8 +122,8 @@ describe('Claimant details submissions history', () => {
 
   it('Allows the user to visit Submissions', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      "va-link-action[href='/representative/submissions']",
-    ).click({ force: true });
+    cy.get("va-link-action[href='/representative/submissions']").click({
+      force: true,
+    });
   });
 });

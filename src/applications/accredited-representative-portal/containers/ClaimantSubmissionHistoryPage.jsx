@@ -22,8 +22,6 @@ import {
   SORT_BY,
   SUBMISSION_DEFAULTS,
   SORT_DEFAULTS,
-  submissionsBC,
-  SUBMISSIONS_BC_LABEL,
 } from '../utilities/constants';
 
 const ClaimantSubmissionHistoryPage = title => {
@@ -35,7 +33,6 @@ const ClaimantSubmissionHistoryPage = title => {
     [title],
   );
   const submissions = useLoaderData().data || [];
-  const meta = useLoaderData().meta || {};
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
   const { firstName, lastName } = useLoaderData().claimant;
@@ -86,7 +83,10 @@ const ClaimantSubmissionHistoryPage = title => {
               role="tabpanel"
               aria-labelledby={`tab-${searchStatus}`}
             >
-              <SubmissionsPageResults submissions={submissions} omitClaimantName={true} />
+              <SubmissionsPageResults
+                submissions={submissions}
+                omitClaimantName
+              />
             </div>
           )}
         </div>
@@ -107,7 +107,7 @@ ClaimantSubmissionHistoryPage.loader = async ({ request }) => {
     searchParams.set(SEARCH_PARAMS.SORT, SORT_BY.NEWEST);
     searchParams.set(SEARCH_PARAMS.SIZE, SUBMISSION_DEFAULTS.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, SUBMISSION_DEFAULTS.NUMBER);
-    throw redirect(`?${searchParams}`);
+    redirect(`?${searchParams}`);
   }
 
   // Wait for the Promise-based Response object
@@ -118,7 +118,7 @@ ClaimantSubmissionHistoryPage.loader = async ({ request }) => {
     },
   );
 
-  // Returns the actual response so we can grab the `.submission` and `.meta` with the `useLoaderData()` hook
+  // Returns the actual response so we can grab the `.data` and `.claimant` with the `useLoaderData()` hook
   return response?.json();
 };
 
