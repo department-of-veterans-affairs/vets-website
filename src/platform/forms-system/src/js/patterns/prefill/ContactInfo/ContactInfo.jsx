@@ -395,7 +395,9 @@ export const ContactInfoBase = ({
     return (
       <ContactInfoCard
         key={FIELD_NAMES.MAILING_ADDRESS}
-        error={missingRequiredAddress ? 'You must add your address' : ''}
+        error={
+          submitted && missingRequiredAddress ? 'You must add your address' : ''
+        }
         contactPath={contactPath}
         required={requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS)}
         formKey={keys.address}
@@ -434,7 +436,9 @@ export const ContactInfoBase = ({
       <ContactInfoCard
         key={FIELD_NAMES.HOME_PHONE}
         error={
-          missingRequiredHomePhone ? 'You must add your home phone number' : ''
+          submitted && missingRequiredHomePhone
+            ? 'You must add your home phone number'
+            : ''
         }
         contactPath={contactPath}
         required={requiredKeys.includes(FIELD_NAMES.HOME_PHONE)}
@@ -475,7 +479,7 @@ export const ContactInfoBase = ({
       <ContactInfoCard
         key={FIELD_NAMES.MOBILE_PHONE}
         error={
-          missingRequiredMobilePhone
+          submitted && missingRequiredMobilePhone
             ? 'You must add your mobile phone number'
             : ''
         }
@@ -515,7 +519,11 @@ export const ContactInfoBase = ({
     return (
       <ContactInfoCard
         key={FIELD_NAMES.EMAIL}
-        error={missingRequiredEmail ? 'You must add your email address' : ''}
+        error={
+          submitted && missingRequiredEmail
+            ? 'You must add your email address'
+            : ''
+        }
         contactPath={contactPath}
         required={requiredKeys.includes(FIELD_NAMES.EMAIL)}
         formKey={keys.email}
