@@ -5,10 +5,98 @@ import {
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '~/platform/utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import RepTypeSelector from './RepTypeSelector';
 import { ErrorTypes } from '../../constants';
 import { searchAreaOptions } from '../../config';
+
+const ORGANIZATIONS = [
+  'African American PTSD Association',
+  'Alabama Department of Veterans Affairs',
+  'American Legion',
+  'American Veterans',
+  'Arizona Department of Veterans Services',
+  'Arkansas Department of Veterans Affairs',
+  'Armed Forces Services Corporation',
+  'Blinded Veterans Association',
+  'California Department of Veterans Affairs',
+  'Catholic War Veterans of the USA',
+  'Colorado Division of Veterans Affairs',
+  'Commonwealth of the Northern Mariana Islands Division',
+  'Connecticut Department of Veterans Affairs',
+  'Dale K. Graham Veterans Foundation',
+  'Delaware Commission of Veterans Affairs',
+  'Disabled American Veterans',
+  'Fleet Reserve Association',
+  'Florida Department of Veterans Affairs',
+  'Georgia Department of Veterans Service',
+  'Gila River Indian Community Vet.&Fam. Svcs Office',
+  'Green Beret Foundation',
+  'Guam Office of Veterans Affairs',
+  'Hawaii Office of Veterans Services',
+  'IAM Veterans Benefits Support (IAM VBS)',
+  'Idaho Division of Veterans Services',
+  'Illinois Department of Veterans Affairs',
+  'Indiana Department of Veterans Affairs',
+  'Iowa Department of Veterans Affairs',
+  'Jewish War Veterans of the USA',
+  'Kansas Office of Veterans Services',
+  'Kentucky Department of Veterans Affairs',
+  'Louisiana Department of Veterans Affairs',
+  "Maine Veterans' Services",
+  'Marine Corps League',
+  'Maryland Department of Veterans Affairs',
+  'Massachusetts Executive Office of Veterans Service',
+  'Michigan Veterans Affairs Agency',
+  'Minnesota Department of Veterans Affairs',
+  'Mississippi Veterans Affairs',
+  'Missouri Veterans Commission',
+  'Montana Veterans Affairs (MVAD)',
+  'National Association for Black Veterans, Inc.',
+  'National Association of County Veterans Service Officers',
+  'National Law School Veterans Clinic Consortium',
+  'National Montford Point Marine Association, Inc.',
+  'National Veterans Legal Services Program',
+  'Navajo Nation Veterans Administration',
+  'Navy Mutual Aid Association',
+  'Nebraska Department of Veterans Affairs',
+  'Nevada Department of Veterans Services',
+  'New Hampshire Division of Veteran Services',
+  'New Jersey Department of Military and Veterans Affairs',
+  'New Mexico Department of Veterans Services',
+  "New York State Department of Veterans' Services",
+  'North Carolina Dept Military and Veterans Affairs',
+  'North Dakota Department Veterans Affairs',
+  'Office of Veterans Affairs American Samoa Government',
+  'Ohio Department of Veterans Services',
+  'Oklahoma Department of Veterans Affairs',
+  'Oregon Department of Veterans Affairs',
+  'Paralyzed Veterans of America',
+  'Pennsylvania Department of Military and Veterans Affairs',
+  'Polish Legion of American Veterans',
+  'Puerto Rico Veterans Advocate Office',
+  'Rhode Island Office of Veterans Services (RIVETS)',
+  'South Dakota Department of Veterans Affairs',
+  'Swords to Plowshares',
+  'Tennessee Department of Veterans Services',
+  'Texas Veterans Commission',
+  'The Retired Enlisted Association',
+  'The South Carolina Department of Veterans Affairs',
+  'UDT-SEAL Association',
+  'Utah Department of Veterans and Military Affairs',
+  'Vermont Office of Veterans Affairs',
+  'Veterans of Foreign Wars',
+  "Veterans' Voice of America",
+  'Vietnam Veterans of America',
+  'Virgin Islands Office of Veterans Affairs',
+  'Virginia Department of Veterans Services',
+  'Washington Department of Veterans Affairs',
+  'West Virginia Dept of Veterans Assistance',
+  'Wisconsin Department of Veterans Affairs',
+  'Wounded Warrior Project',
+  'Wyoming Veterans Commission',
+];
 
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 
@@ -29,12 +117,19 @@ const SearchControls = props => {
     geolocationInProgress,
     isErrorEmptyInput,
     searchArea,
+    organizationFilter,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
 
   const showEmptyError = isErrorEmptyInput && !geolocationInProgress;
   const showGeolocationError = geocodeError && !geolocationInProgress;
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+
+  const organizationFilterEnabled = useToggleValue(
+    TOGGLE_NAMES.findARepresentativeEnabled,
+  );
 
   const searchAreaSelectOptions = Object.keys(searchAreaOptions).map(
     optionKey => (
@@ -43,6 +138,12 @@ const SearchControls = props => {
       </option>
     ),
   );
+
+  const organizationSelectOptions = ORGANIZATIONS.map(organization => (
+    <option key={organization} value={organization}>
+      {organization}
+    </option>
+  ));
 
   const handleLocationChange = e => {
     onChange({
@@ -55,6 +156,13 @@ const SearchControls = props => {
   const handleSearchAreaChange = e => {
     onChange({
       searchArea: onlySpaces(e.target.value)
+        ? e.target.value.trim()
+        : e.target.value,
+    });
+  };
+  const handleOrganizationChange = e => {
+    onChange({
+      organizationFilter: onlySpaces(e.target.value)
         ? e.target.value.trim()
         : e.target.value,
     });
@@ -176,7 +284,6 @@ const SearchControls = props => {
               </va-text-input>
             </div>
           </div>
-
           <div className="search-area-dropdown">
             <VaSelect
               name="area"
@@ -188,7 +295,20 @@ const SearchControls = props => {
               {searchAreaSelectOptions}
             </VaSelect>
           </div>
-
+          {organizationFilterEnabled &&
+            representativeType === 'veteran_service_officer' && (
+              <div className="organization-select">
+                <VaSelect
+                  name="organization"
+                  value={organizationFilter}
+                  label="Veterans Service Organization (VSO)"
+                  onVaSelect={handleOrganizationChange}
+                  uswds
+                >
+                  {organizationSelectOptions}
+                </VaSelect>
+              </div>
+            )}
           <div className="representative-name-input vads-u-margin-top--4">
             <va-text-input
               hint={null}
