@@ -17,11 +17,11 @@ const ContactHelpText = idType => (
 const ClaimIdentificationInfo = (
   <div className="vads-u-margin-top--4">
     <p>
-      <strong>For PDI numbers</strong> don’t include the date in the beginning
+      <strong>For PDI numbers</strong>, don’t include the date in the beginning
       of the PDI number. Enter the 2 letters and all the numbers after it.
     </p>
     <p>
-      <strong>For control numbers</strong> include all the numbers listed under
+      <strong>For control numbers</strong>, include all the numbers listed under
       “Control Number” on the CHAMPVA explanation of benefits.
     </p>
 
