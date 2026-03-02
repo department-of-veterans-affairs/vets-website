@@ -44,14 +44,16 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
             ],
             phases: {
               current: 'p4',
-              p0: '2025-12-28',
-              p1: '2026-01-12',
-              p2: '2026-01-27',
-              p3: '2026-02-20',
-              p4: '2026-02-23',
-              p5: '2026-02-26',
-              p6: '2026-02-28',
-              p7: '2026-03-03',
+              p0: 'December 28, 2025 at 12:00AM ET',
+              p1: 'January 12, 2026 at 12:00AM ET',
+              p2: 'January 27, 2026 at 12:00AM ET',
+              p3: 'February 20, 2026 at 12:00AM ET',
+              p4: 'February 23, 2026 at 12:00AM ET',
+              p5: 'February 26, 2026 at 12:00AM ET',
+              p6: 'February 28, 2026 at 12:00AM ET',
+              p7: 'March 3, 2026 at 12:00AM ET',
+              p8: 'March 10, 2026 at 12:00AM ET',
+              p9: 'March 17, 2026 at 12:00AM ET',
             },
           },
         ],
@@ -88,9 +90,9 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
     PatientInboxPage.navigateToComposePageCuratedFlow();
 
     // Verify the Cerner facility alert is displayed
-    cy.get(
-      '[data-testid="cerner-facilities-transition-alert-error-phase"]',
-    ).should('exist');
+    cy.findByTestId('cerner-facilities-transition-alert-error-phase').should(
+      'exist',
+    );
 
     // Run accessibility check
     cy.injectAxe();
@@ -114,14 +116,16 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
             ],
             phases: {
               current: 'p1', // Before T-6 window
-              p0: '2025-12-28',
-              p1: '2026-01-12',
-              p2: '2026-01-27',
-              p3: '2026-02-20',
-              p4: '2026-02-23',
-              p5: '2026-02-26',
-              p6: '2026-02-28',
-              p7: '2026-03-03',
+              p0: 'December 28, 2025 at 12:00AM ET',
+              p1: 'January 12, 2026 at 12:00AM ET',
+              p2: 'January 27, 2026 at 12:00AM ET',
+              p3: 'February 20, 2026 at 12:00AM ET',
+              p4: 'February 23, 2026 at 12:00AM ET',
+              p5: 'February 26, 2026 at 12:00AM ET',
+              p6: 'February 28, 2026 at 12:00AM ET',
+              p7: 'March 3, 2026 at 12:00AM ET',
+              p8: 'March 10, 2026 at 12:00AM ET',
+              p9: 'March 17, 2026 at 12:00AM ET',
             },
           },
         ],
@@ -158,9 +162,9 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
     PatientInboxPage.navigateToComposePageCuratedFlow();
 
     // Verify the Cerner facility alert is NOT displayed (phase p1 is before T-6)
-    cy.get(
-      '[data-testid="cerner-facilities-transition-alert-error-phase"]',
-    ).should('not.exist');
+    cy.findByTestId('cerner-facilities-transition-alert-error-phase').should(
+      'not.exist',
+    );
 
     // Run accessibility check
     cy.injectAxe();
@@ -184,14 +188,16 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
             ],
             phases: {
               current: 'p6', // After T+2 window
-              p0: '2025-12-28',
-              p1: '2026-01-12',
-              p2: '2026-01-27',
-              p3: '2026-02-20',
-              p4: '2026-02-23',
-              p5: '2026-02-26',
-              p6: '2026-02-28',
-              p7: '2026-03-03',
+              p0: 'December 28, 2025 at 12:00AM ET',
+              p1: 'January 12, 2026 at 12:00AM ET',
+              p2: 'January 27, 2026 at 12:00AM ET',
+              p3: 'February 20, 2026 at 12:00AM ET',
+              p4: 'February 23, 2026 at 12:00AM ET',
+              p5: 'February 26, 2026 at 12:00AM ET',
+              p6: 'February 28, 2026 at 12:00AM ET',
+              p7: 'March 3, 2026 at 12:00AM ET',
+              p8: 'March 10, 2026 at 12:00AM ET',
+              p9: 'March 17, 2026 at 12:00AM ET',
             },
           },
         ],
@@ -228,9 +234,9 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
     PatientInboxPage.navigateToComposePageCuratedFlow();
 
     // Verify the Cerner facility alert is NOT displayed (phase p6 is after transition window)
-    cy.get(
-      '[data-testid="cerner-facilities-transition-alert-error-phase"]',
-    ).should('not.exist');
+    cy.findByTestId('cerner-facilities-transition-alert-error-phase').should(
+      'not.exist',
+    );
 
     // Run accessibility check
     cy.injectAxe();
