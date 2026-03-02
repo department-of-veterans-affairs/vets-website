@@ -31,8 +31,8 @@ import {
   showUpdatedContent,
   sharedYesNoOptionsBase,
   updatedIsRecipientInfoIncomplete,
-  updatedRecipientNameRequired,
-  updatedResolveRecipientFullName,
+  recipientNameRequired,
+  resolveRecipientFullName,
 } from '../../../helpers';
 
 import SupplementaryFormsAlert, {
@@ -103,7 +103,7 @@ export const options = {
       ) {
         return undefined;
       }
-      const fullName = updatedResolveRecipientFullName(item, formData);
+      const fullName = resolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} income from a ${lowerCase(
         ownedAssetTypeLabels[item.assetType],
@@ -751,7 +751,7 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'property-and-business/:index/recipient-name',
     depends: (formData, index) =>
       (!showUpdatedContent() || formData.claimantType !== 'CHILD') &&
-      updatedRecipientNameRequired(formData, index, 'ownedAssets'),
+      recipientNameRequired(formData, index, 'ownedAssets'),
     uiSchema: recipientNamePage.uiSchema,
     schema: recipientNamePage.schema,
   }),

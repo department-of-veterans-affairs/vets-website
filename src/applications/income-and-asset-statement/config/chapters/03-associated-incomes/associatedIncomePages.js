@@ -31,8 +31,8 @@ import {
   showUpdatedContent,
   sharedYesNoOptionsBase,
   updatedIsRecipientInfoIncomplete,
-  updatedRecipientNameRequired,
-  updatedResolveRecipientFullName,
+  recipientNameRequired,
+  resolveRecipientFullName,
   requireExpandedArrayField,
 } from '../../../helpers';
 import {
@@ -69,7 +69,7 @@ export const options = {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
       }
-      const fullName = updatedResolveRecipientFullName(item, formData);
+      const fullName = resolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} income from ${item.payer}`;
     },
@@ -645,7 +645,7 @@ export const associatedIncomePages = arrayBuilderPages(
       path: 'financial-accounts/:index/recipient-name',
       depends: (formData, index) =>
         (!showUpdatedContent() || formData.claimantType !== 'CHILD') &&
-        updatedRecipientNameRequired(formData, index, 'associatedIncomes'),
+        recipientNameRequired(formData, index, 'associatedIncomes'),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),

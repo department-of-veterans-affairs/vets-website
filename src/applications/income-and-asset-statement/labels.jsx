@@ -74,12 +74,6 @@ export const claimantTypeLabels = {
 };
 
 export const incomeFrequencyLabels = {
-  RECURRING: 'Recurring',
-  IRREGULAR: 'Irregular',
-  ONE_TIME: 'One time payment',
-};
-
-export const updatedIncomeFrequencyLabels = {
   RECURRING: 'Regularly (monthly or weekly)',
   IRREGULAR: 'Irregular (like every month or week)',
   ONE_TIME: 'Once',

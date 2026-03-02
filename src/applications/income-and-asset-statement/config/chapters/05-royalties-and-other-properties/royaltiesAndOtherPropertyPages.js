@@ -34,8 +34,8 @@ import {
   showUpdatedContent,
   sharedYesNoOptionsBase,
   updatedIsRecipientInfoIncomplete,
-  updatedRecipientNameRequired,
-  updatedResolveRecipientFullName,
+  recipientNameRequired,
+  resolveRecipientFullName,
 } from '../../../helpers';
 import {
   custodianRelationshipLabels,
@@ -70,7 +70,7 @@ export const options = {
       if (!isDefined(item?.recipientRelationship)) {
         return undefined;
       }
-      const fullName = updatedResolveRecipientFullName(item, formData);
+      const fullName = resolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} income from ${lowerCase(
         generatedIncomeTypeLabels[item.incomeGenerationMethod],
@@ -640,11 +640,7 @@ export const royaltiesAndOtherPropertyPages = arrayBuilderPages(
       path: 'royalties/:index/recipient-name',
       depends: (formData, index) =>
         (!showUpdatedContent() || formData.claimantType !== 'CHILD') &&
-        updatedRecipientNameRequired(
-          formData,
-          index,
-          'royaltiesAndOtherProperties',
-        ),
+        recipientNameRequired(formData, index, 'royaltiesAndOtherProperties'),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),

@@ -21,7 +21,6 @@ import annuities from './chapters/08-annuities';
 import unreportedAssets from './chapters/09-unreported-assets';
 import discontinuedIncomes from './chapters/10-discontinued-incomes';
 import incomeReceiptWaivers from './chapters/11-income-receipt-waivers';
-import supportingDocuments from './chapters/12-supporting-documents';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -110,7 +109,6 @@ const formConfig = {
     unreportedAssets,
     discontinuedIncomes,
     incomeReceiptWaivers,
-    supportingDocuments,
   },
 };
 

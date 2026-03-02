@@ -777,7 +777,7 @@ describe('owned asset list and loop pages', () => {
 
       it('should display when recipientNameRequired returns true', () => {
         const recipientNameRequiredStub = sandbox
-          .stub(helpers, 'updatedRecipientNameRequired')
+          .stub(helpers, 'recipientNameRequired')
           .returns(true);
         const { depends } = ownedAssetPages.ownedAssetRecipientNamePage;
         const formData = { ownedAssets: [{ recipientRelationship: 'CHILD' }] };
@@ -789,7 +789,7 @@ describe('owned asset list and loop pages', () => {
 
       it('should not display when recipientNameRequired returns false', () => {
         const recipientNameRequiredStub = sandbox
-          .stub(helpers, 'updatedRecipientNameRequired')
+          .stub(helpers, 'recipientNameRequired')
           .returns(false);
         const { depends } = ownedAssetPages.ownedAssetRecipientNamePage;
         const formData = {
@@ -801,7 +801,7 @@ describe('owned asset list and loop pages', () => {
 
       it('should not display when recipientNameRequired returns false', () => {
         const recipientNameRequiredStub = sandbox
-          .stub(helpers, 'updatedRecipientNameRequired')
+          .stub(helpers, 'recipientNameRequired')
           .returns(false);
         const { depends } = ownedAssetPages.ownedAssetRecipientNamePage;
         const formData = {

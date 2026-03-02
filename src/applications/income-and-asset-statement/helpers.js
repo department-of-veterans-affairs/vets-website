@@ -73,9 +73,6 @@ export const isDefined = value => {
 export const monthlyMedicalReimbursementAmountRequired = (form, index) =>
   get(['trusts', index, 'monthlyMedicalReimbursementAmount'], form);
 
-export const otherAssetOwnerRelationshipExplanationRequired = (form, index) =>
-  get(['unreportedAssets', index, 'assetOwnerRelationship'], form) === 'OTHER';
-
 export const otherRecipientRelationshipExplanationRequired = (
   form,
   index,
@@ -94,13 +91,7 @@ export const otherGeneratedIncomeTypeExplanationRequired = (form, index) =>
 export const otherTransferMethodExplanationRequired = (form, index) =>
   get(['assetTransfers', index, 'transferMethod'], form) === 'OTHER';
 
-export const recipientNameRequired = (form, index, arrayKey) =>
-  get([arrayKey, index, 'recipientRelationship'], form) !== 'VETERAN';
-
-export const updatedRecipientNameRequired = (form, index, arrayKey) => {
-  if (!showUpdatedContent()) {
-    return recipientNameRequired(form, index, arrayKey);
-  }
+export const recipientNameRequired = (form, index, arrayKey) => {
   const recipientRelationship = get(
     [arrayKey, index, 'recipientRelationship'],
     form,
@@ -119,30 +110,26 @@ export const surrenderValueRequired = (form, index) =>
 export const isRecipientInfoIncomplete = item =>
   !isDefined(item?.recipientRelationship) ||
   (!isDefined(item?.recipientName) &&
-    item?.recipientRelationship !== 'VETERAN') ||
+    item?.recipientRelationship !== 'VETERAN' &&
+    item?.recipientRelationship !== 'SPOUSE') ||
   (!isDefined(item?.otherRecipientRelationshipType) &&
     item?.recipientRelationship === 'OTHER');
 
-export const updatedIsRecipientInfoIncomplete = item => {
-  if (!showUpdatedContent()) {
-    return isRecipientInfoIncomplete(item);
-  }
-  return (
-    !isDefined(item?.recipientRelationship) ||
-    (!isDefined(item?.recipientName) &&
-      item?.recipientRelationship !== 'VETERAN' &&
-      item?.recipientRelationship !== 'SPOUSE') ||
-    (!isDefined(item?.otherRecipientRelationshipType) &&
-      item?.recipientRelationship === 'OTHER')
-  );
-};
+// Remove after all files are updated
+export const updatedIsRecipientInfoIncomplete = item =>
+  !isDefined(item?.recipientRelationship) ||
+  (!isDefined(item?.recipientName) &&
+    item?.recipientRelationship !== 'VETERAN' &&
+    item?.recipientRelationship !== 'SPOUSE') ||
+  (!isDefined(item?.otherRecipientRelationshipType) &&
+    item?.recipientRelationship === 'OTHER');
 
 export const isIncomeTypeInfoIncomplete = item =>
   !isDefined(item?.incomeType) ||
   (!isDefined(item?.otherIncomeType) && item?.incomeType === 'OTHER');
 
 export const sharedRecipientRelationshipBase = {
-  title: 'Who receives this income?',
+  title: 'Who received this income?',
   hint: 'You’ll be able to add individual incomes separately',
   labelHeaderLevel: '2',
   labelHeaderLevelStyle: '3',
@@ -224,7 +211,8 @@ export const generateDeleteDescription = (props, getItemName) => {
 /**
  * Resolve the recipient's full name to display on summary cards.
  *
- * - If the recipient is the Veteran, use `veteranFullName`
+ * - If the recipientRelationship is "VETERAN", use `veteranFullName`
+ * - If the recipientRelationship is "SPOUSE", use "Spouse"
  * - If the recipient is not the Veteran, use `recipientName`
  *
  * This helper is useful across multiple arrayBuilder pages where we conditionally display
@@ -240,37 +228,11 @@ export function resolveRecipientFullName(item, formData) {
 
   const isVeteran = recipientRelationship === 'VETERAN';
 
-  return isVeteran
-    ? formatFullNameNoSuffix(veteranFullName)
-    : formatFullNameNoSuffix(recipientName);
-}
-
-/**
- * Resolve the recipient's full name to display on summary cards.
- * Post-MVP updates
- *
- * - If the recipientRelationship is "VETERAN", use `veteranFullName`
- * - If the recipientRelationship is "SPOUSE", use "Spouse"
- * - If the recipient is not the Veteran, use `recipientName`
- *
- * This helper is useful across multiple arrayBuilder pages where we conditionally display
- * either the Veteran's name or the name of another recipient.
- *
- * @param {object} item - The array item object containing recipient data.
- * @param {object} formData - The overall form data, which includes applicant names
- * @returns {string} The formatted full name string or undefined if no name is resolvable
- */
-export function updatedResolveRecipientFullName(item, formData) {
-  const { recipientRelationship, recipientName } = item;
-  const { veteranFullName } = formData;
-
-  const isVeteran = recipientRelationship === 'VETERAN';
-
   if (isVeteran) {
     return formatFullNameNoSuffix(veteranFullName);
   }
   const isSpouse = recipientRelationship === 'SPOUSE';
-  if (showUpdatedContent() && isSpouse) {
+  if (isSpouse) {
     return 'Spouse';
   }
 
