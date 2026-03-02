@@ -18,13 +18,12 @@ import manifest from '../manifest.json';
 export default function ConfirmationPage() {
   const form = useSelector(state => state?.form);
   const alertRef = useRef(null);
-
   const { submission, data } = form;
   const response = submission?.response ?? {};
+  const submissionId = response?.submissionId;
   const confirmationNumber = response?.attributes?.confirmationNumber;
   const veteranFirstName = data?.veteranInformation?.fullName?.first || '';
   const veteranLastName = data?.veteranInformation?.fullName?.last || '';
-
   const dateSubmitted = submission?.timestamp
     ? format(new Date(submission?.timestamp), 'MMMM d, yyyy')
     : '';
@@ -36,6 +35,30 @@ export default function ConfirmationPage() {
     },
     [alertRef],
   );
+
+  const submissionBox = () => {
+    return (
+      <va-summary-box class="vads-u-margin-top--4">
+        <h3 slot="headline">Your submission information</h3>
+        <p>
+          <strong>Your name</strong>
+        </p>
+        <p className="dd-privacy-hidden" data-dd-action-name="Veteran's name">
+          {veteranFirstName} {veteranLastName}
+        </p>
+        <p>
+          <strong>Date submitted</strong>
+        </p>
+        <p data-testid="dateSubmitted">{dateSubmitted}</p>
+        <va-button
+          text="Print this page for your records"
+          onClick={() => {
+            window.print();
+          }}
+        />
+      </va-summary-box>
+    );
+  };
 
   return (
     <>
@@ -55,47 +78,31 @@ export default function ConfirmationPage() {
       </va-alert>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.dependentsEnableFormViewerMFE}>
         <Toggler.Enabled>
-          <section>
-            <h2 className="vads-u-margin-top--3 vads-u-margin-bottom--2">
-              Save a copy of your form
-            </h2>
-            <span>
-              You can open, download, or print a copy of your submitted form
-              now.
-            </span>
-            <div className="vads-u-margin-top--1p5">
-              <va-link-action
-                text="Download or print the information you submitted (opens in a new tab)"
-                type="secondary"
-                class="form-renderer"
-              />
-            </div>
-          </section>
+          {submissionId ? (
+            <section>
+              <h2 className="vads-u-margin-top--3 vads-u-margin-bottom--2">
+                Save a copy of your form
+              </h2>
+              <span>
+                You can open, download, or print a copy of your submitted form
+                now.
+              </span>
+              <div className="vads-u-margin-top--1p5">
+                <va-link
+                  external
+                  text="Download or print the information you submitted"
+                  class="form-renderer"
+                  href={
+                    submissionId ? `/my-va/submissions/${submissionId}` : ''
+                  }
+                />
+              </div>
+            </section>
+          ) : (
+            submissionBox()
+          )}
         </Toggler.Enabled>
-        <Toggler.Disabled>
-          <va-summary-box class="vads-u-margin-top--4">
-            <h3 slot="headline">Your submission information</h3>
-            <p>
-              <strong>Your name</strong>
-            </p>
-            <p
-              className="dd-privacy-hidden"
-              data-dd-action-name="Veteran's name"
-            >
-              {veteranFirstName} {veteranLastName}
-            </p>
-            <p>
-              <strong>Date submitted</strong>
-            </p>
-            <p data-testid="dateSubmitted">{dateSubmitted}</p>
-            <va-button
-              text="Print this page for your records"
-              onClick={() => {
-                window.print();
-              }}
-            />
-          </va-summary-box>
-        </Toggler.Disabled>
+        <Toggler.Disabled>{submissionBox()}</Toggler.Disabled>
       </Toggler>
       <section>
         <h2>What to expect</h2>

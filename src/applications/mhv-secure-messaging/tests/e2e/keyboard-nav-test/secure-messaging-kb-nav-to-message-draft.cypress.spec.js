@@ -18,7 +18,7 @@ describe('Secure Messaging Delete Draft', () => {
     //   mockSavedDraftResponse,
     // );
     // PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
-    // PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
+    // PatientMessageDraftsPage.verifyDraftDeletedAlertAndH1Focus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

@@ -816,7 +816,7 @@ export const BENEFITS_LIST = [
     category: categories.BURIALS,
     id: 'BUR',
     description:
-      'Veterans, service members and some family members, may be eligible for burial in a VA national cemetery. Reserves or National Guard members that became disabled or died from an injury or certain cardiovascular disorders caused - or made worse - by their service during a period of inactive-duty training may also be eligible.',
+      'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. Reserves or National Guard members that became disabled or died from an injury or certain cardiovascular disorders caused - or made worse - by their service during a period of inactive-duty training may also be eligible.',
     whenToApplyDescription: 'Before or after you separate from service',
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
