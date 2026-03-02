@@ -158,12 +158,9 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
     PatientInboxPage.navigateToComposePageCuratedFlow();
 
     // Verify the Cerner facility alert is NOT displayed (phase p1 is before T-6)
-    cy.get('va-alert[data-testid="cerner-migration-alert"]').should(
-      'not.exist',
-    );
-    cy.get('va-alert-expandable[data-testid="cerner-migration-alert"]').should(
-      'not.exist',
-    );
+    cy.get(
+      '[data-testid="cerner-facilities-transition-alert-error-phase"]',
+    ).should('not.exist');
 
     // Run accessibility check
     cy.injectAxe();
@@ -231,7 +228,9 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
     PatientInboxPage.navigateToComposePageCuratedFlow();
 
     // Verify the Cerner facility alert is NOT displayed (phase p6 is after transition window)
-    cy.get('[data-testid="cerner-migration-alert"]').should('not.exist');
+    cy.get(
+      '[data-testid="cerner-facilities-transition-alert-error-phase"]',
+    ).should('not.exist');
 
     // Run accessibility check
     cy.injectAxe();
