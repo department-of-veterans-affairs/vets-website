@@ -341,18 +341,15 @@ async function startDevServer() {
       return serveFile(res, staticPath);
     }
 
-    // SPA rewrite: match app routes and serve generated HTML
+    // SPA rewrite: match app routes and serve generated HTML.
+    // Always use the dynamically generated template so we never serve
+    // stale pre-built HTML from a different build tool (e.g. webpack)
+    // that may reference bundles esbuild doesn't produce.
     for (const appRoute of appRoutes) {
       if (
         urlPath === appRoute.rootUrl ||
         urlPath.startsWith(`${appRoute.rootUrl}/`)
       ) {
-        // First try a pre-built index.html
-        const indexPath = path.join(buildPath, appRoute.rootUrl, 'index.html');
-        if (fs.existsSync(indexPath)) {
-          return serveFile(res, indexPath);
-        }
-        // Fall back to dynamically generated dev HTML
         const html = generateDevHtml(appRoute);
         res.writeHead(200, { 'Content-Type': 'text/html' });
         return res.end(html);
