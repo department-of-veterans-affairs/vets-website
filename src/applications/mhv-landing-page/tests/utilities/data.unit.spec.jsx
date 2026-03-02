@@ -1,7 +1,12 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
-import { countUnreadMessages, isLinkData } from '../../utilities/data/index';
+import {
+  countUnreadMessages,
+  isLinkData,
+  resolveLandingPageLinks,
+} from '../../utilities/data/index';
 import manifest from '../../manifest.json';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 describe(manifest.appName, () => {
   describe('utilities/data', () => {
@@ -109,6 +114,115 @@ describe(manifest.appName, () => {
         // Test non-objects, since
         expect(isLinkData(null)).to.be.false;
         expect(isLinkData(false)).to.be.false;
+      });
+    });
+
+    describe('resolveLandingPageLinks', () => {
+      describe('paymentsLinks', () => {
+        it('includes new appointments link when travelPaySubmitMileageExpense is enabled', () => {
+          const featureToggles = {
+            [FEATURE_FLAG_NAMES.travelPaySubmitMileageExpense]: true,
+            [FEATURE_FLAG_NAMES.travelPayPowerSwitch]: false,
+          };
+          const result = resolveLandingPageLinks(
+            false,
+            featureToggles,
+            null,
+            false,
+          );
+          const paymentsCard = result.cards.find(
+            card => card.title === 'Payments',
+          );
+          const paymentsLinks = paymentsCard.links;
+
+          // Should have 3 links
+          expect(paymentsLinks).to.have.lengthOf(3);
+
+          // Check the travel pay link text has been updated
+          const travelPayLink = paymentsLinks.find(
+            link => link.href === '/my-health/travel-pay/claims',
+          );
+          expect(travelPayLink).to.exist;
+          expect(travelPayLink.text).to.equal(
+            'Check travel reimbursement claim status',
+          );
+
+          // Check the new appointments link is the last link
+          const lastLink = paymentsLinks[paymentsLinks.length - 1];
+          expect(lastLink.href).to.equal(
+            'https://www.va.gov/my-health/appointments/past',
+          );
+          expect(lastLink.text).to.equal(
+            'Go to past appointments to file for travel pay',
+          );
+        });
+
+        it('includes new appointments link when travelPayPowerSwitch is enabled', () => {
+          const featureToggles = {
+            [FEATURE_FLAG_NAMES.travelPaySubmitMileageExpense]: false,
+            [FEATURE_FLAG_NAMES.travelPayPowerSwitch]: true,
+          };
+          const result = resolveLandingPageLinks(
+            false,
+            featureToggles,
+            null,
+            false,
+          );
+          const paymentsCard = result.cards.find(
+            card => card.title === 'Payments',
+          );
+          const paymentsLinks = paymentsCard.links;
+
+          // Should have 4 links (copay, travel pay, BTSSS, appointments)
+          expect(paymentsLinks).to.have.lengthOf(4);
+
+          // Check the travel pay link text
+          const travelPayLink = paymentsLinks.find(
+            link => link.href === '/my-health/travel-pay/claims',
+          );
+          expect(travelPayLink).to.exist;
+          expect(travelPayLink.text).to.equal(
+            'Check travel reimbursement claim status',
+          );
+
+          // Check the new appointments link is the last link
+          const lastLink = paymentsLinks[paymentsLinks.length - 1];
+          expect(lastLink.href).to.equal(
+            'https://www.va.gov/my-health/appointments/past',
+          );
+          expect(lastLink.text).to.equal(
+            'Go to past appointments to file for travel pay',
+          );
+        });
+
+        it('includes new appointments link when both feature flags are disabled', () => {
+          const featureToggles = {
+            [FEATURE_FLAG_NAMES.travelPaySubmitMileageExpense]: false,
+            [FEATURE_FLAG_NAMES.travelPayPowerSwitch]: false,
+          };
+          const result = resolveLandingPageLinks(
+            false,
+            featureToggles,
+            null,
+            false,
+          );
+          const paymentsCard = result.cards.find(
+            card => card.title === 'Payments',
+          );
+          const paymentsLinks = paymentsCard.links;
+
+          // Should have 3 links (copay, BTSSS, appointments)
+          expect(paymentsLinks).to.have.lengthOf(3);
+
+          // Check the new appointments link is the last link
+          const lastLink = paymentsLinks[paymentsLinks.length - 1];
+          expect(lastLink.href).to.equal(
+            'https://www.va.gov/my-health/appointments/past',
+          );
+          expect(lastLink.text).to.equal(
+            'Go to past appointments to file for travel pay',
+          );
+        });
       });
     });
   });

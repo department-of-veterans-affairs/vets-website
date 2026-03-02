@@ -127,7 +127,11 @@ const resolveLandingPageLinks = (
         HEALTH_TOOL_LINKS.PAYMENTS[0],
         {
           href: '/my-health/travel-pay/claims',
-          text: 'Review and file travel claims',
+          text: 'Check travel reimbursement claim status',
+        },
+        {
+          href: 'https://www.va.gov/my-health/appointments/past',
+          text: 'Go to past appointments to file for travel pay',
         },
       ]
     : [
@@ -137,6 +141,10 @@ const resolveLandingPageLinks = (
           text: 'Check travel reimbursement claim status',
         },
         HEALTH_TOOL_LINKS.PAYMENTS[1],
+        {
+          href: 'https://www.va.gov/my-health/appointments/past',
+          text: 'Go to past appointments to file for travel pay',
+        },
       ]
   ).filter(isLinkData);
 
