@@ -5,30 +5,41 @@ export default function transform(formConfig, form) {
   const personalInformationTransform = formData => {
     const clonedData = cloneDeep(formData);
 
-    if (clonedData.userLoggedIn) {
-      clonedData.claimantPersonalInformation = {
-        ...clonedData.claimantPersonalInformation,
-        ssn: clonedData.ssn,
-      };
+    // profileContactInfoPages saves contact data under the 'veteran'
 
-      delete clonedData.ssn;
-      delete clonedData.applicantName;
-      delete clonedData.dateOfBirth;
-    } else {
-      clonedData.claimantPersonalInformation = {
-        ...clonedData.claimantPersonalInformation,
-        ssn: clonedData.claimantPersonalInformation.veteranId.ssn,
-      };
+    const { homePhone, mobilePhone, email, mailingAddress } =
+      clonedData.veteran || {};
 
-      delete clonedData.claimantPersonalInformation.veteranId;
-    }
+    const phoneData = homePhone || mobilePhone;
 
     clonedData.claimantContactInformation = {
-      ...clonedData.claimantContactInformation,
-      phoneNumber:
-        clonedData.claimantContactInformation.phoneNumber.callingCode +
-        clonedData.claimantContactInformation.phoneNumber.contact,
+      phoneNumber: phoneData
+        ? `${phoneData.areaCode || ''}${phoneData.phoneNumber || ''}`
+        : '',
+      emailAddress: email?.emailAddress || '',
     };
+
+    if (mailingAddress) {
+      clonedData.claimantAddress = {
+        country: mailingAddress.countryCodeIso2 || 'USA',
+        street: mailingAddress.addressLine1 || '',
+        street2: mailingAddress.addressLine2 || '',
+        city: mailingAddress.city || '',
+        state: mailingAddress.stateCode || '',
+        postalCode: mailingAddress.zipCode || '',
+      };
+    }
+
+    delete clonedData.veteran;
+
+    clonedData.claimantPersonalInformation = {
+      ...clonedData.claimantPersonalInformation,
+      ssn: clonedData.ssn,
+    };
+
+    delete clonedData.ssn;
+    delete clonedData.applicantName;
+    delete clonedData.dateOfBirth;
 
     return clonedData;
   };

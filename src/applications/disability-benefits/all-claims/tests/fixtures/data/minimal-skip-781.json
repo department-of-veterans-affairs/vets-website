@@ -5,8 +5,10 @@
     "isTerminallyIll": false,
     "view:terminallyIllInfo": {},
     "view:hasEvidence": false,
-    "view:hasEvidenceChoice": false,
     "view:hasMedicalRecords": false,
+    "view:selectableEvidenceTypes": {
+      "view:hasOtherEvidence": false
+    },
     "view:powStatus": false,
     "skip781ForCombatReason": false,
     "skip781ForNonCombatReason": true,
@@ -17,9 +19,11 @@
       "view:nonCombatPtsdType": true
     },
     "view:ptsdTypeHelp": {},
-    "newDisabilities": [{
-      "condition": "PTSD"
-    }],
+    "newDisabilities": [
+      {
+        "condition": "PTSD"
+      }
+    ],
     "view:newDisabilityErrors": {},
     "hasTrainingPay": false,
     "view:hasMilitaryRetiredPay": false,
@@ -32,13 +36,15 @@
         },
         "unitName": "Unit 1"
       },
-      "servicePeriods": [{
-        "serviceBranch": "Air Force Reserves",
-        "dateRange": {
-          "from": "2001-03-21",
-          "to": "2014-07-21"
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force Reserves",
+          "dateRange": {
+            "from": "2001-03-21",
+            "to": "2014-07-21"
+          }
         }
-      }],
+      ],
       "view:militaryHistoryNote": {},
       "view:separationLocation": {},
       "separationLocation": {}
