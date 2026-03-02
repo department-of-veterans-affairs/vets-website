@@ -80,14 +80,14 @@ export const incomeFrequencyLabels = {
 };
 
 export const incomeTypeLabels = {
+  WAGES: 'Wage from a job',
+  RETIREMENT_PENSION: 'Pension or retirement',
   SOCIAL_SECURITY: 'Social Security',
-  RETIREMENT_PENSION: 'Pension or retirement income',
-  WAGES: 'Wages',
   UNEMPLOYMENT: 'Unemployment',
-  CIVIL_SERVICE: 'Civil Service',
-  OTHER: 'Other',
+  OTHER: 'Another type of income',
 };
 
+// Remove after all files are updated
 export const updatedIncomeTypeLabels = {
   WAGES: 'Wage from a job',
   RETIREMENT_PENSION: 'Pension or retirement',
