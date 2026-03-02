@@ -22,6 +22,9 @@ import enrolledAtNewSchool from '../pages/enrolledAtNewSchool';
 import newSchoolNameAndProgram from '../pages/newSchoolNameAndProgram';
 import isUsingTeachoutAgreement from '../pages/isUsingTeachoutAgreement';
 import newSchoolGrants12OrMoreCredits from '../pages/newSchoolGrants12OrMoreCredits';
+import schoolDidTransferCredits from '../pages/schoolDidTransferCredits';
+import lastDateOfAttendance from '../pages/lastDateOfAttendance';
+import attestation from '../pages/attestation';
 
 import remarks from '../pages/remarks';
 
@@ -188,6 +191,27 @@ const formConfig = {
           schema: newSchoolGrants12OrMoreCredits.schema,
           depends: formData =>
             !!formData.schoolWasClosed && !!formData.enrolledAtNewSchool,
+        },
+        schoolDidTransferCredits: {
+          path: 'school-credits-transfer',
+          title: 'Transfer credits from NCD schools',
+          uiSchema: schoolDidTransferCredits.uiSchema,
+          schema: schoolDidTransferCredits.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        lastDateOfAttendance: {
+          path: 'last-date-of-attendance',
+          title: 'Last date of attendance',
+          uiSchema: lastDateOfAttendance.uiSchema,
+          schema: lastDateOfAttendance.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        attestation: {
+          path: 'attestation',
+          title: 'Attestation of Hours Transferred',
+          uiSchema: attestation.uiSchema,
+          schema: attestation.schema,
+          depends: formData => !!formData.schoolWasClosed,
         },
       },
     },
