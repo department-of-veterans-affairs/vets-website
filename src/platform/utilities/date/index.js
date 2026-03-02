@@ -8,9 +8,8 @@ import {
   parse,
   parseISO,
 } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import { coerceToDate } from '../../mhv/downtime/utils/date';
-
-const { utcToZonedTime } = require('date-fns-tz');
 
 export function dateFieldToDate(dateField) {
   const year = dateField.year.value;

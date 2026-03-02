@@ -101,6 +101,51 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.zst
           retention-days: 1
 
+  esbuild-benchmark:
+    name: esbuild Build (Benchmark)
+    runs-on: ubuntu-16-cores-latest
+    if: github.ref != 'refs/heads/main'
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name'
+
+      - name: Build with esbuild
+        run: node script/esbuild.js --buildtype=vagovprod ${ENTRY:+"--entry=$ENTRY"}
+        timeout-minutes: 30
+        env:
+          NODE_ENV: production
+          ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}
+
+      - name: Report build output size
+        run: |
+          echo "## esbuild Build Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          du -sh build/vagovprod/generated/ >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "No output" >> $GITHUB_STEP_SUMMARY
+          find build/vagovprod/generated/ -name "*.js" | wc -l | xargs -I{} echo "JS files: {}" >> $GITHUB_STEP_SUMMARY 2>/dev/null || true
+          find build/vagovprod/generated/ -name "*.css" | wc -l | xargs -I{} echo "CSS files: {}" >> $GITHUB_STEP_SUMMARY 2>/dev/null || true
+
   determine-cd-eligibility:
     name: Determine CD Eligibility
     runs-on: ubuntu-latest
