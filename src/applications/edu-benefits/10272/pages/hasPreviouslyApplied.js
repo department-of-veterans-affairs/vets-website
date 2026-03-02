@@ -19,4 +19,13 @@ const schema = {
   required: ['hasPreviouslyApplied'],
 };
 
-export { schema, uiSchema };
+const updateFormData = (_oldData, formData) => {
+  return !formData?.hasPreviouslyApplied
+    ? {
+        ...formData,
+        vaBenefitProgram: null,
+      }
+    : formData;
+};
+
+export { schema, uiSchema, updateFormData };
