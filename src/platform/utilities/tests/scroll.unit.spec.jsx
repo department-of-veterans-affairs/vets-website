@@ -182,7 +182,11 @@ describe('getElementPosition', () => {
 describe('scrollTo', () => {
   const setup = async (spy, scrollOptions) => {
     global.window.Forms = {};
-    Object.defineProperty(window, 'scrollTo', { value: spy });
+    Object.defineProperty(window, 'scrollTo', {
+      value: spy,
+      configurable: true,
+      writable: true,
+    });
     const { container } = render(
       <div>
         <div id="first" />
