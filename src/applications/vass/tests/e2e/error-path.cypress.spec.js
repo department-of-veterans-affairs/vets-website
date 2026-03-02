@@ -4,6 +4,7 @@ import DateTimeSelectionPageObject from './page-objects/DateTimeSelectionPageObj
 import TopicSelectionPageObject from './page-objects/TopicSelectionPageObject';
 import ReviewPageObject from './page-objects/ReviewPageObject';
 import CancelAppointmentPageObject from './page-objects/CancelAppointmentPageObject';
+import AlreadyScheduledPageObject from './page-objects/AlreadyScheduledPageObject';
 import {
   mockRequestOtpApi,
   mockAuthenticateOtpApi,
@@ -261,6 +262,27 @@ describe('VASS Error Paths', () => {
         });
       });
 
+      describe('when the OTP has expired', () => {
+        beforeEach(() => {
+          mockAuthenticateOtpApi({
+            response: MockAuthenticateOtpResponse.createOtpExpiredError(),
+            responseCode: 401,
+          });
+        });
+
+        it('should display an OTP error alert', () => {
+          EnterOTPPageObject.assertEnterOTPPage();
+          cy.injectAxeThenAxeCheck();
+
+          EnterOTPPageObject.enterOTP('123456');
+          EnterOTPPageObject.clickContinue();
+
+          cy.wait('@vass:post:authenticate-otp');
+
+          EnterOTPPageObject.assertOTPErrorAlert({ exist: true });
+        });
+      });
+
       describe('when the API returns a server error', () => {
         beforeEach(() => {
           mockAuthenticateOtpApi({
@@ -383,19 +405,49 @@ describe('VASS Error Paths', () => {
       });
     });
 
-    // TODO: implement this case
-    // describe('when no slots are available', () => {
-    //   beforeEach(() => {
-    //     mockAppointmentAvailabilityApi({
-    //       response: MockAppointmentAvailabilityResponse.createNoSlotsAvailableError(),
-    //       responseCode: 404,
-    //     });
-    //   });
+    describe('when the user already has an appointment booked', () => {
+      beforeEach(() => {
+        const appointmentId = 'e61e1a40-1e63-f011-bec2-001dd80351ea';
+        mockAppointmentAvailabilityApi({
+          response: MockAppointmentAvailabilityResponse.createAppointmentAlreadyBookedError(
+            { appointmentId },
+          ),
+          responseCode: 409,
+        });
+        mockAppointmentDetailsApi({
+          response: new MockAppointmentDetailsResponse({
+            appointmentId,
+          }).toJSON(),
+          responseCode: 200,
+        });
+      });
 
-    //   it('should display a no slots available error', () => {
-    //     // TODO: implement
-    //   });
-    // });
+      it('should redirect to the already scheduled page', () => {
+        EnterOTPPageObject.fillAndSubmitOTP();
+        cy.wait('@vass:get:appointment-availability');
+        cy.wait('@vass:get:appointment-details');
+        cy.injectAxeThenAxeCheck();
+
+        AlreadyScheduledPageObject.assertAlreadyScheduledPage();
+      });
+    });
+
+    describe('when no slots are available', () => {
+      beforeEach(() => {
+        mockAppointmentAvailabilityApi({
+          response: MockAppointmentAvailabilityResponse.createNoSlotsAvailableError(),
+          responseCode: 404,
+        });
+      });
+
+      it('should display a wrapper error alert', () => {
+        EnterOTPPageObject.fillAndSubmitOTP();
+        cy.wait('@vass:get:appointment-availability');
+        cy.injectAxeThenAxeCheck();
+
+        DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+      });
+    });
 
     describe('when the API returns a server error', () => {
       beforeEach(() => {
@@ -622,6 +674,23 @@ describe('VASS Error Paths', () => {
         ReviewPageObject.assertWrapperErrorAlert({ exist: true });
       });
     });
+
+    describe('when the service is unavailable', () => {
+      beforeEach(() => {
+        mockAppointmentDetailsApi({
+          response: MockAppointmentDetailsResponse.createServiceError(),
+          responseCode: 503,
+        });
+      });
+
+      it('should display a wrapper error alert', () => {
+        ReviewPageObject.clickConfirmAppointment();
+        cy.wait('@vass:post:appointment');
+        cy.injectAxeThenAxeCheck();
+
+        ReviewPageObject.assertWrapperErrorAlert({ exist: true });
+      });
+    });
   });
 
   describe('Cancel Appointment Errors', () => {
@@ -704,11 +773,55 @@ describe('VASS Error Paths', () => {
       });
     });
 
+    describe('when the cancellation returns appointment not found', () => {
+      beforeEach(() => {
+        mockCancelAppointmentApi({
+          response: MockCancelAppointmentResponse.createAppointmentNotFoundError(),
+          responseCode: 404,
+        });
+      });
+
+      it('should display a wrapper error alert', () => {
+        EnterOTPPageObject.fillAndSubmitOTP();
+        cy.wait('@vass:post:authenticate-otp');
+        CancelAppointmentPageObject.clickYesCancelAppointment();
+        cy.wait('@vass:post:cancel-appointment');
+        cy.injectAxeThenAxeCheck();
+
+        CancelAppointmentPageObject.assertWrapperErrorAlert({
+          exist: true,
+          flowType: FLOW_TYPES.CANCEL,
+        });
+      });
+    });
+
     describe('when the API returns a server error', () => {
       beforeEach(() => {
         mockCancelAppointmentApi({
           response: MockCancelAppointmentResponse.createVassApiError(),
           responseCode: 500,
+        });
+      });
+
+      it('should display a wrapper error alert', () => {
+        EnterOTPPageObject.fillAndSubmitOTP();
+        cy.wait('@vass:post:authenticate-otp');
+        CancelAppointmentPageObject.clickYesCancelAppointment();
+        cy.wait('@vass:post:cancel-appointment');
+        cy.injectAxeThenAxeCheck();
+
+        CancelAppointmentPageObject.assertWrapperErrorAlert({
+          exist: true,
+          flowType: FLOW_TYPES.CANCEL,
+        });
+      });
+    });
+
+    describe('when the service is unavailable', () => {
+      beforeEach(() => {
+        mockCancelAppointmentApi({
+          response: MockCancelAppointmentResponse.createServiceError(),
+          responseCode: 503,
         });
       });
 
@@ -759,6 +872,18 @@ describe('VASS Error Paths', () => {
           return true; // accept
         });
         cy.go('back');
+      });
+    });
+
+    describe('when the user navigates to the solid start page without a uuid', () => {
+      beforeEach(() => {
+        cy.visit('/service-member/benefits/solid-start/schedule');
+      });
+
+      it('should show the wrapper error alert', () => {
+        cy.injectAxeThenAxeCheck();
+
+        VerifyPageObject.assertWrapperErrorAlert({ exist: true });
       });
     });
   });
