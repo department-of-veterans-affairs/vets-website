@@ -1,19 +1,34 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom-v5-compat';
 import configureStore from 'redux-mock-store';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   OracleHealthT3Alert,
   OracleHealthInCardAlert,
   OracleHealthRenewalInCardAlert,
 } from '../../../components/shared/OracleHealthTransitionAlerts';
+import { dataDogActionNames } from '../../../util/dataDogConstants';
 import { michiganTransitioningUser } from '../../../mocks/api/user';
 import michiganPrescriptions from '../../e2e/fixtures/list-refillable-oh-ehr-michigan-prescriptions.json';
 
 describe('OracleHealthTransitionAlerts', () => {
   const mockStore = configureStore([]);
+  let sandbox;
+  let addActionSpy;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    addActionSpy = sandbox.stub(datadogRum, 'addAction');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   const initialState = {
     featureToggles: {
       // eslint-disable-next-line camelcase
@@ -200,6 +215,89 @@ describe('OracleHealthTransitionAlerts', () => {
         });
       });
 
+      describe('Datadog tracking', () => {
+        it('calls datadogRum.addAction with T3_REFILL_BLOCKED_ALERT_DISPLAYED on mount', async () => {
+          renderWithProviders(
+            <OracleHealthT3Alert
+              blockedPrescriptions={blockedPrescriptions}
+              migratingFacilities={mockMigratingFacilities}
+              hasRefillable
+            />,
+          );
+
+          await waitFor(() => {
+            expect(addActionSpy.callCount).to.be.greaterThan(0);
+          });
+
+          const call = addActionSpy
+            .getCalls()
+            .find(
+              c =>
+                c.args[0] ===
+                dataDogActionNames.oracleHealthTransition
+                  .T3_REFILL_BLOCKED_ALERT_DISPLAYED,
+            );
+          expect(call).to.exist;
+          expect(call.args[1]).to.have.property('facilityId');
+          expect(call.args[1]).to.have.property('phase', 'p4');
+          expect(call.args[1]).to.have.property(
+            'blockedPrescriptionCount',
+            blockedPrescriptions.length,
+          );
+        });
+
+        it('calls datadogRum.addAction with T3_BLOCKED_RX_LINK_CLICK when a blocked prescription link is clicked', () => {
+          const { container } = renderWithProviders(
+            <OracleHealthT3Alert
+              blockedPrescriptions={singleBlockedPrescription}
+              migratingFacilities={mockMigratingFacilities}
+              hasRefillable
+            />,
+          );
+
+          const link = container.querySelector('a');
+          fireEvent.click(link);
+
+          expect(
+            addActionSpy.calledWith(
+              dataDogActionNames.oracleHealthTransition
+                .T3_BLOCKED_RX_LINK_CLICK,
+              {
+                facilityId: singleBlockedPrescription[0].stationNumber,
+              },
+            ),
+          ).to.be.true;
+        });
+
+        it('does not fire tracking action when feature flag is disabled', () => {
+          const stateWithFlagDisabled = {
+            featureToggles: {
+              // eslint-disable-next-line camelcase
+              mhv_medications_oracle_health_cutover: false,
+            },
+          };
+
+          renderWithProviders(
+            <OracleHealthT3Alert
+              blockedPrescriptions={blockedPrescriptions}
+              migratingFacilities={mockMigratingFacilities}
+              hasRefillable
+            />,
+            stateWithFlagDisabled,
+          );
+
+          const call = addActionSpy
+            .getCalls()
+            .find(
+              c =>
+                c.args[0] ===
+                dataDogActionNames.oracleHealthTransition
+                  .T3_REFILL_BLOCKED_ALERT_DISPLAYED,
+            );
+          expect(call).to.not.exist;
+        });
+      });
+
       describe('custom end date', () => {
         it('uses custom end date from migration phases', () => {
           const customMigration = [
@@ -249,8 +347,15 @@ describe('OracleHealthTransitionAlerts', () => {
   });
 
   describe('OracleHealthInCardAlert', () => {
+    const inCardProps = {
+      stationNumber: '506',
+      prescriptionId: 100506,
+    };
+
     it('renders error alert with correct styling and status', () => {
-      const { container } = render(<OracleHealthInCardAlert />);
+      const { container } = render(
+        <OracleHealthInCardAlert {...inCardProps} />,
+      );
 
       const alert = container.querySelector('va-alert');
       expect(alert).to.exist;
@@ -259,17 +364,10 @@ describe('OracleHealthTransitionAlerts', () => {
       expect(alert.getAttribute('class')).to.include('vads-u-margin-top--2');
     });
 
-    it('displays correct DataDog action name for analytics', () => {
-      const { container } = render(<OracleHealthInCardAlert />);
-
-      const alert = container.querySelector('va-alert');
-      expect(alert.getAttribute('data-dd-action-name')).to.equal(
-        'oracle-health-in-card-alert-displayed',
-      );
-    });
-
     it('displays correct message about facility transition', () => {
-      const { container } = render(<OracleHealthInCardAlert />);
+      const { container } = render(
+        <OracleHealthInCardAlert {...inCardProps} />,
+      );
 
       expect(container.textContent).to.include(
         'refill this medication online right now',
@@ -280,8 +378,15 @@ describe('OracleHealthTransitionAlerts', () => {
     });
   });
   describe('OracleHealthRenewalInCardAlert', () => {
+    const renewalInCardProps = {
+      stationNumber: '506',
+      prescriptionId: 200506,
+    };
+
     it('renders error alert with correct styling and status', () => {
-      const { container } = render(<OracleHealthRenewalInCardAlert />);
+      const { container } = render(
+        <OracleHealthRenewalInCardAlert {...renewalInCardProps} />,
+      );
 
       const alert = container.querySelector('va-alert');
       expect(alert).to.exist;
@@ -291,26 +396,82 @@ describe('OracleHealthTransitionAlerts', () => {
     });
 
     it('has correct test ID', () => {
-      const { getByTestId } = render(<OracleHealthRenewalInCardAlert />);
+      const { getByTestId } = render(
+        <OracleHealthRenewalInCardAlert {...renewalInCardProps} />,
+      );
       expect(getByTestId('oracle-health-renewal-in-card-alert')).to.exist;
     });
 
-    it('displays correct DataDog action name for analytics', () => {
-      const { container } = render(<OracleHealthRenewalInCardAlert />);
-
-      const alert = container.querySelector('va-alert');
-      expect(alert.getAttribute('data-dd-action-name')).to.equal(
-        'oracle-health-renewal-in-card-alert-displayed',
-      );
-    });
-
     it('displays correct message about renewal during transition', () => {
-      const { container } = render(<OracleHealthRenewalInCardAlert />);
+      const { container } = render(
+        <OracleHealthRenewalInCardAlert {...renewalInCardProps} />,
+      );
 
-      expect(container.textContent).to.include('don’t have any refills left');
+      expect(container.textContent).to.include(
+        'don\u2019t have any refills left',
+      );
       expect(container.textContent).to.include(
         'call your provider to request a renewal',
       );
+    });
+
+    describe('Datadog tracking', () => {
+      it('calls datadogRum.addAction with T6_IN_CARD_RENEWAL_BLOCKED_ALERT_DISPLAYED on mount', async () => {
+        render(<OracleHealthRenewalInCardAlert {...renewalInCardProps} />);
+
+        await waitFor(() => {
+          expect(addActionSpy.callCount).to.be.greaterThan(0);
+        });
+
+        const call = addActionSpy
+          .getCalls()
+          .find(
+            c =>
+              c.args[0] ===
+              dataDogActionNames.oracleHealthTransition
+                .T6_IN_CARD_RENEWAL_BLOCKED_ALERT_DISPLAYED,
+          );
+        expect(call).to.exist;
+        expect(call.args[1]).to.deep.equal({
+          facilityId: renewalInCardProps.stationNumber,
+        });
+      });
+
+      it('does not fire duplicate events for the same prescriptionId', async () => {
+        const { unmount } = render(
+          <OracleHealthRenewalInCardAlert {...renewalInCardProps} />,
+        );
+
+        await waitFor(() => {
+          expect(addActionSpy.callCount).to.be.greaterThan(0);
+        });
+
+        const firstCount = addActionSpy
+          .getCalls()
+          .filter(
+            c =>
+              c.args[0] ===
+              dataDogActionNames.oracleHealthTransition
+                .T6_IN_CARD_RENEWAL_BLOCKED_ALERT_DISPLAYED,
+          ).length;
+
+        // Re-render with same prescriptionId (simulates loading state toggle)
+        render(<OracleHealthRenewalInCardAlert {...renewalInCardProps} />);
+
+        const secondCount = addActionSpy
+          .getCalls()
+          .filter(
+            c =>
+              c.args[0] ===
+              dataDogActionNames.oracleHealthTransition
+                .T6_IN_CARD_RENEWAL_BLOCKED_ALERT_DISPLAYED,
+          ).length;
+
+        expect(secondCount).to.equal(firstCount);
+
+        // Unmount clears tracked state so future navigations fire again
+        unmount();
+      });
     });
   });
 });

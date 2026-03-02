@@ -27,6 +27,7 @@ import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import InnerNavigation from '../InnerNavigation';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 import OracleHealthMessagingIssuesAlert from '../shared/OracleHealthMessagingIssuesAlert';
+import AlertBackgroundBox from '../shared/AlertBackgroundBox';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount, showNoMessages } = props;
@@ -69,7 +70,7 @@ const FolderHeader = props => {
         folderDescription && (
           <p
             data-testid="folder-description"
-            className="va-introtext folder-description vads-u-margin-top--0"
+            className="va-introtext folder-description vads-u-margin-top--0 vads-u-margin-bottom--1"
           >
             {folderDescription}
           </p>
@@ -151,6 +152,8 @@ const FolderHeader = props => {
         {`Messages: ${folderName}`}
       </h1>
 
+      <AlertBackgroundBox closeable className="vads-u-margin-y--1 va-alert" />
+
       {folder.folderId === Folders.INBOX.id && (
         <DowntimeNotification
           appTitle={downtimeNotificationParams.appTitle}
@@ -177,7 +180,7 @@ const FolderHeader = props => {
         <>{handleFolderDescription()}</>
         {threadCount === 0 &&
           showNoMessages && (
-            <div className="vads-u-margin-y--3">
+            <div>
               <va-alert
                 background-only="true"
                 status="info"
@@ -192,9 +195,9 @@ const FolderHeader = props => {
           )}
         {recipientsError && <RecipientListErrorAlert />}
         {showInnerNav &&
-          (!noAssociations && !allTriageGroupsBlocked && !recipientsError) && (
-            <ComposeMessageButton />
-          )}
+          !noAssociations &&
+          !allTriageGroupsBlocked &&
+          !recipientsError && <ComposeMessageButton />}
 
         {showInnerNav && <InnerNavigation />}
 

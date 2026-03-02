@@ -121,6 +121,7 @@ const formConfigKeys = [
   'signInHelpList',
   'stepLabels',
   'submissionError',
+  'submissionErrorLink',
   'submit',
   'submitErrorText',
   'submitUrl',
@@ -323,6 +324,7 @@ const validateForm = async (formSlug, formConfigParam) => {
     formSavedPage: 'component',
     signInHelpList: 'function',
     submissionError: 'function',
+    submissionErrorLink: 'function',
     CustomTopContent: 'component',
     useTopBackLink: 'boolean',
   };
@@ -340,7 +342,7 @@ const validateForm = async (formSlug, formConfigParam) => {
 };
 
 // Main test suite section
-describe('Form Configuration Tests', function() {
+describe('Form Configuration Tests', function formConfigurationTests() {
   const tracker = trackMemoryUsage('Form Configuration Tests - BATCHED');
   this.timeout(30000);
 

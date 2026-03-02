@@ -111,7 +111,8 @@ class PatientReplyPage {
   };
 
   verifySendMessageConfirmationHasFocus = () => {
-    cy.get('va-alert').should('be.visible');
+    // Per MHV accessibility decision records, focus goes to H1
+    cy.get('h1').should('have.focus');
   };
 
   verifyModalMessageDisplayAndButtonsCantSaveDraft = () => {
