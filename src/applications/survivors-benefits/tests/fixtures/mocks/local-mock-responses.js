@@ -1,17 +1,17 @@
 // yarn mock-api --responses ./src/applications/{application}/tests/e2e/fixtures/mocks/local-mock-responses.js
 const mockItf = require('./mock-itf');
 const mockUser = require('./user.json');
-const { generateFeatureFlags } = require('./feature-flags');
+const features = require('./feature-flags');
 const submit = require('./completed.json');
 const completedForm = require('./completed-form.json');
 
 const responses = {
   'GET /v0/user': mockUser,
-  'GET /v0/feature_toggles': generateFeatureFlags(),
-  'GET /v0/intent_to_file/pension': (req, res) => {
-    return res.json({
-      ...mockItf.getItf(),
-    });
+  'GET /v0/feature_toggles': {
+    data: {
+      type: 'feature_toggles',
+      features,
+    },
   },
   'POST /v0/intent_to_file/pension': (req, res) => {
     return res.json({
