@@ -6,7 +6,7 @@ import {
   isRoleOther,
   isNewClaim,
   isResubmissionClaim,
-  isResubmissionEnabled,
+  isDtaEnabled,
   canSelectAddress,
   isMedicalClaim,
   isPharmacyClaim,
@@ -53,9 +53,9 @@ describe('10-7959a form-config helpers', () => {
       expect(isResubmissionClaim({ claimStatus: 'resubmission' })).to.be.true;
     });
 
-    it('isResubmissionEnabled should return true when view flag is set', () => {
+    it('isDtaEnabled should return true when view flag is set', () => {
       expect(
-        isResubmissionEnabled({
+        isDtaEnabled({
           'view:champvaEnableClaimResubmitQuestion': true,
         }),
       ).to.be.true;
@@ -118,7 +118,6 @@ describe('10-7959a form-config helpers', () => {
       const formData = {
         claimStatus: 'resubmission',
         hasOhi: true,
-        'view:champvaEnableClaimResubmitQuestion': true,
       };
       expect(hasOhi(formData)).to.be.false;
     });
