@@ -4,7 +4,9 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { employmentCheckFields } from '../definitions/constants';
+import {
+  employmentCheckFields,
+} from '../definitions/constants';
 import { applyEmploymentSelection } from '../utils/employment';
 
 const EmploymentCheckReviewObjectField = ({ title, renderedProperties }) => {

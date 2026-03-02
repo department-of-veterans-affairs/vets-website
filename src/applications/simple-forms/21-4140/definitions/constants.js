@@ -22,4 +22,5 @@ export const employedByVAFields = {
 
   hasCertifiedSection3: 'hasCertifiedSection3',
   hasUnderstoodSection3: 'hasUnderstoodSection3',
+
 };
