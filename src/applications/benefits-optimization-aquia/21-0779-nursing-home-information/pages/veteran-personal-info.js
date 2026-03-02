@@ -12,6 +12,46 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { isPatientVeteran } from '../utils';
+import { isValidNameLength } from '../../shared/utils/validators/validators';
+
+const customVeteranNameUISchema = () => {
+  const baseSchema = fullNameNoSuffixUI();
+  return {
+    ...baseSchema,
+    first: {
+      ...baseSchema.first,
+      'ui:title': 'First or given name',
+      'ui:validations': [
+        ...baseSchema.first['ui:validations'],
+        (errors = {}, _fieldData, formData) => {
+          isValidNameLength(
+            errors,
+            formData?.veteranPersonalInfo?.fullName?.first,
+            12,
+          );
+        },
+      ],
+    },
+    middle: {
+      ...baseSchema.middle,
+      'ui:title': 'Middle initial',
+    },
+    last: {
+      ...baseSchema.last,
+      'ui:title': 'Last or family name',
+      'ui:validations': [
+        ...baseSchema.last['ui:validations'],
+        (errors = {}, _fieldData, formData) => {
+          isValidNameLength(
+            errors,
+            formData?.veteranPersonalInfo?.fullName?.last,
+            18,
+          );
+        },
+      ],
+    },
+  };
+};
 
 /**
  * uiSchema for Veteran Personal Info page
@@ -20,13 +60,7 @@ import { isPatientVeteran } from '../utils';
 export const veteranPersonalInfoUiSchema = {
   'ui:title': "Veteran's name and date of birth",
   veteranPersonalInfo: {
-    fullName: {
-      ...fullNameNoSuffixUI(),
-      middle: {
-        ...fullNameNoSuffixUI().middle,
-        'ui:title': 'Middle initial',
-      },
-    },
+    fullName: customVeteranNameUISchema(),
     dateOfBirth: dateOfBirthUI(),
   },
   'ui:options': {
@@ -55,7 +89,6 @@ const fullNameSchemaWithMiddleInitial = {
     ...fullNameNoSuffixSchema.properties,
     first: {
       type: 'string',
-      maxLength: 12,
     },
     middle: {
       type: 'string',
@@ -63,7 +96,6 @@ const fullNameSchemaWithMiddleInitial = {
     },
     last: {
       type: 'string',
-      maxLength: 18,
     },
   },
 };
