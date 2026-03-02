@@ -117,7 +117,12 @@ const ExtraDetails = ({
         // Both map to "Active" in V2
         if (noRefillRemaining) {
           if (isRenewalBlocked && rx.isRenewable) {
-            return <OracleHealthRenewalInCardAlert />;
+            return (
+              <OracleHealthRenewalInCardAlert
+                stationNumber={rx.stationNumber}
+                prescriptionId={rx.prescriptionId}
+              />
+            );
           }
           return (
             <div className="no-print">
@@ -142,7 +147,12 @@ const ExtraDetails = ({
       case dispStatusObjV2.inactive:
         // All map to "Inactive" in V2
         if (isRenewalBlocked && rx.isRenewable) {
-          return <OracleHealthRenewalInCardAlert />;
+          return (
+            <OracleHealthRenewalInCardAlert
+              stationNumber={rx.stationNumber}
+              prescriptionId={rx.prescriptionId}
+            />
+          );
         }
         return (
           <div>
@@ -307,7 +317,12 @@ const ExtraDetails = ({
 
       case dispStatusObj.expired:
         if (isRenewalBlocked && rx.isRenewable) {
-          return <OracleHealthRenewalInCardAlert />;
+          return (
+            <OracleHealthRenewalInCardAlert
+              stationNumber={rx.stationNumber}
+              prescriptionId={rx.prescriptionId}
+            />
+          );
         }
         return (
           <div>
@@ -385,7 +400,12 @@ const ExtraDetails = ({
       case dispStatusObj.active:
         if (noRefillRemaining) {
           if (isRenewalBlocked && rx.isRenewable) {
-            return <OracleHealthRenewalInCardAlert />;
+            return (
+              <OracleHealthRenewalInCardAlert
+                stationNumber={rx.stationNumber}
+                prescriptionId={rx.prescriptionId}
+              />
+            );
           }
           return (
             <div className="no-print">
