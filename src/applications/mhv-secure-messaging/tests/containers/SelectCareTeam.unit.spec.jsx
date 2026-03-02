@@ -1827,7 +1827,7 @@ describe('SelectCareTeam', () => {
 
       await waitFor(() => {
         const alert = screen.container.querySelector(
-          '[data-testid="cerner-facilities-transition-alert"]',
+          '[data-testid="cerner-facilities-alert"]',
         );
         expect(alert).to.exist;
         expect(alert.getAttribute('status')).to.equal('warning');
@@ -1923,8 +1923,8 @@ describe('SelectCareTeam', () => {
       });
 
       await waitFor(() => {
-        const alert = screen.getByTestId(
-          'cerner-facilities-transition-alert-error-phase',
+        const alert = screen.container.querySelector(
+          '[data-testid="cerner-facilities-transition-alert-error-phase"]',
         );
         expect(alert).to.exist;
         expect(alert.getAttribute('status')).to.equal('error');
