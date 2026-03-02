@@ -21,21 +21,25 @@ describe('<FindEmploymentAccordionItem>', () => {
     const byTextAttr = text =>
       container.querySelector(`va-link[text="${text}"]`);
 
-    const costs = byTextAttr('Compare Costs of Living');
+    const costs = byTextAttr(
+      'View Compare Costs of Living on Career One Stop website',
+    );
     expect(costs).to.exist;
     expect(costs.getAttribute('href')).to.equal(
       'https://www.careeronestop.org/Toolkit/Wages/cost-of-living.aspx',
     );
     expect(costs.hasAttribute('external')).to.be.true;
 
-    const salary = byTextAttr('Salary Finder');
+    const salary = byTextAttr('View Salary Finder on Career One Stop website');
     expect(salary).to.exist;
     expect(salary.getAttribute('href')).to.equal(
       'https://www.careeronestop.org/Toolkit/Wages/find-salary.aspx',
     );
     expect(salary.hasAttribute('external')).to.be.true;
 
-    const jobs = byTextAttr('Employment Finder');
+    const jobs = byTextAttr(
+      'View Employment Finder on Career One Stop website',
+    );
     expect(jobs).to.exist;
     expect(jobs.getAttribute('href')).to.equal(
       'https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx',
@@ -45,8 +49,14 @@ describe('<FindEmploymentAccordionItem>', () => {
 
   it('renders descriptive text for each link in light DOM', () => {
     const { getByText } = render(<FindEmploymentAccordionItem />);
-    getByText(/Evaluate how your income and expenses might vary/i);
-    getByText(/Compare typical earnings for different occupations/i);
-    getByText(/Search for current job openings/i);
+    getByText(
+      /Evaluate how your income and expenses might vary across different cities or regions to make informed decisions about your job search and relocation./i,
+    );
+    getByText(
+      /Compare typical earnings for different occupations to understand salary expectations based on location and experience./i,
+    );
+    getByText(
+      /Search for current job openings in your area or nationwide, filtered by occupation, industry, and experience level./i,
+    );
   });
 });

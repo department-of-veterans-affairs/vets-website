@@ -81,6 +81,38 @@ describe('Reply form component', () => {
     expect(screen).to.exist;
   });
 
+  it('renders AlertBackgroundBox after H1', async () => {
+    const stateWithAlert = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        alerts: {
+          alertVisible: true,
+          alertList: [
+            {
+              datestamp: '2022-10-07T19:25:32.832Z',
+              isActive: true,
+              alertType: 'success',
+              header: 'Test',
+              content: 'Test alert content',
+            },
+          ],
+        },
+      },
+    };
+    const screen = render(stateWithAlert);
+    await waitFor(() => {
+      const h1 = screen.getByRole('heading', { level: 1 });
+      const alertText = screen.getByTestId('alert-text');
+      expect(h1).to.exist;
+      expect(alertText).to.exist;
+      const html = screen.container.innerHTML;
+      expect(html.indexOf('<h1')).to.be.lessThan(
+        html.indexOf('data-testid="alert-text"'),
+      );
+    });
+  });
+
   // Note: This test is skipped because the ReplyForm component does not directly
   // add a beforeunload event listener. The beforeunload behavior is handled by
   // SmRouteNavigationGuard or RouteLeavingGuard at the parent component level.

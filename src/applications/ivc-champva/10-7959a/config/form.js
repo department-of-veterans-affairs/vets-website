@@ -20,7 +20,6 @@ import {
   isNewPharmacyClaim,
   isNotEnrolledInChampva,
   isResubmissionClaim,
-  isResubmissionEnabled,
   isRoleOther,
   isRoleSponsor,
 } from '../utils/helpers';
@@ -187,7 +186,6 @@ const formConfig = {
         page1e: {
           path: 'champva-claim-status',
           title: 'CHAMPVA claim status',
-          depends: isResubmissionEnabled,
           ...certifierClaimStatusSchema,
         },
       },
