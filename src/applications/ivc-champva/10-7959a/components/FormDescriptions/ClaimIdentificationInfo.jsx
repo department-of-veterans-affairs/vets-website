@@ -29,7 +29,7 @@ const ClaimIdentificationInfo = (
       trigger="Where to find the PDI number"
       class="vads-u-margin-y--3"
     >
-      <span>
+      <div>
         <p className="vads-u-margin-top--0">
           Find the PDI number at the end of the letter we mailed you requesting
           missing documents. It begins with a date, followed by 2 letters (VA,
@@ -37,20 +37,20 @@ const ClaimIdentificationInfo = (
           02/26/2025-VA1753294097390-001.
         </p>
         {ContactHelpText('PDI number')}
-      </span>
+      </div>
     </va-additional-info>
     <va-additional-info
       trigger="Where to find the control number"
       class="vads-u-margin-y--3"
     >
-      <span>
+      <div>
         <p className="vads-u-margin-top--0">
           Find the control number on the CHAMPVA explanation of benefits we
           mailed you. It’s a 12-digit code or it may begin with the letter “M”
           followed by an 11-digit code. Example: M00001234567.
         </p>
         {ContactHelpText('control number')}
-      </span>
+      </div>
     </va-additional-info>
   </div>
 );
