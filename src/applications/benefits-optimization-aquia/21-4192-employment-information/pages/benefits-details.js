@@ -60,9 +60,11 @@ export const benefitsDetailsUiSchema = {
     }),
     grossMonthlyAmount: currencyUI({
       title: 'Gross monthly amount of benefit',
+      max: 999999.99,
       errorMessages: {
         required: 'Gross monthly amount is required',
         min: 'Gross monthly amount must be at least $0',
+        max: 'Gross monthly amount cannot exceed $999,999.99',
       },
     }),
     startReceivingDate: currentOrPastDateUI({

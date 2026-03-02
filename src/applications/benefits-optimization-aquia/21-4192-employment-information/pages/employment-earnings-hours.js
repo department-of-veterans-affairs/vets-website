@@ -99,9 +99,11 @@ export const employmentEarningsHoursUiSchema = {
     }),
     amountEarned: currencyUI({
       title: 'Amount earned',
+      max: 999999.99,
       errorMessages: {
         required: 'Amount earned is required',
         min: 'Amount earned must be at least $0',
+        max: 'Amount earned cannot exceed $999,999.99',
       },
     }),
     timeLost: textUI({

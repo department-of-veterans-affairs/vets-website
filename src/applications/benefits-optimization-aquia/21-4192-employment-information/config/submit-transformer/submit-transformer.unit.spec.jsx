@@ -766,7 +766,7 @@ describe('Submit Transformer', () => {
       const form = {
         data: {
           employmentEarningsHours: {
-            amountEarned: '$999,999,999.99',
+            amountEarned: '$999999.99',
           },
         },
       };
@@ -775,7 +775,7 @@ describe('Submit Transformer', () => {
 
       expect(
         result.employmentInformation.amountEarnedLast12MonthsOfEmployment,
-      ).to.equal(999999999.99);
+      ).to.equal(999999.99);
     });
 
     it('should handle zero currency values', () => {
