@@ -607,6 +607,21 @@ async function buildConfig(options = {}) {
       zlib: require.resolve('browserify-zlib'),
       'process/browser': require.resolve('process/browser'),
       // fs is handled by the nodePolyfillPlugin as an empty module
+
+      // These packages have broken exports maps (main/require point to
+      // non-existent lib/ dirs). Alias to their actual dist files.
+      'p-defer-es5': path.resolve(
+        rootDir,
+        'node_modules/p-defer-es5/dist/p-defer-es5.production.min.js',
+      ),
+      'markdown-it-attrs-es5': path.resolve(
+        rootDir,
+        'node_modules/markdown-it-attrs-es5/dist/markdown-it-attrs-es5.production.min.js',
+      ),
+      'abort-controller-es5': path.resolve(
+        rootDir,
+        'node_modules/abort-controller-es5/dist/abort-controller-es5.production.min.js',
+      ),
     },
 
     plugins: [
