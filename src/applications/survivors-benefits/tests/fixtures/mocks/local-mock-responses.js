@@ -13,6 +13,11 @@ const responses = {
       features,
     },
   },
+  'GET /v0/intent_to_file/pension': (req, res) => {
+    return res.json({
+      ...mockItf.getItf(),
+    });
+  },
   'POST /v0/intent_to_file/pension': (req, res) => {
     return res.json({
       ...mockItf.postItf(),
