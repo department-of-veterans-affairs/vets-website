@@ -4,8 +4,8 @@ import thunk from 'redux-thunk';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import {
   fetchDependents,
   DEPENDENTS_FETCH_STARTED,
@@ -23,17 +23,12 @@ const badResponse = {
 
 describe('fetchDependents actions', () => {
   let store;
-  const server = setupServer();
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
-
-  before(() => server.listen());
 
   beforeEach(() => {
     store = mockStore();
   });
-
-  after(() => server.close());
 
   afterEach(() => {
     server.resetHandlers();

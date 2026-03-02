@@ -1,0 +1,51 @@
+flow:
+  title: Education benefits and work study connected through work :q(auth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value:  start-your-question-auth
+
+    - action: include
+      target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
+      value:  select-category-education-benefits-and-work-study
+
+    - action: include
+      target: page
+      value:  select-topic-work-study
+
+    - action: include
+      target: page
+      value:  select-subtopic-application
+    
+    - action: include
+      target: page
+      value:  what-is-your-relationship-to-the-veteran-connected-through-work
+     
+    - action: include
+      target: page
+      value:  what-is-your-role-sco
+      
+    - action: include
+      target: page
+      value:  do-you-want-to-use-your-school-info-no-update
+    
+    - action: include
+      target: page
+      value:  school-information
+
+    - action: include
+      target: page
+      value:  do-you-want-to-save-your-school-info-yes-replace
+      
+    - action: include
+      target: page
+      value: your-contact-information
+
+    - action: include
+      target: page
+      value: sad-your-question-education

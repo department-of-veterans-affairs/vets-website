@@ -63,11 +63,14 @@ export function parseApiList(resp) {
  *    combined with the id, an errors array of the errors and an array of failures is returned.
  */
 export function parseApiListWithErrors(resp) {
+  const isArray = Array.isArray(resp.data);
   return {
-    data: resp.data.map(item => ({
-      ...item.attributes,
-      id: item.id,
-    })),
+    data: isArray
+      ? resp.data.map(item => ({
+          ...item.attributes,
+          id: item.id,
+        }))
+      : [],
     errors: resp.meta?.errors,
     backendSystemFailures: resp.meta?.failures,
   };

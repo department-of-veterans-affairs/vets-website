@@ -13,7 +13,6 @@
       "veteranAddress": {
         "street": "Cloud City Administration",
         "street2": "BQ",
-        "street3": "Level 121-138",
         "city": "Denver",
         "state": "CO",
         "country": "USA",
@@ -38,7 +37,6 @@
       "claimantAddress": {
         "street": "Bespin Mining Colony",
         "street2": "Res",
-        "street3": "Suite 42",
         "city": "Cloud City",
         "state": "CO",
         "country": "USA",
@@ -46,8 +44,14 @@
       }
     },
     "claimantContact": {
-      "claimantPhoneNumber": "7205551937",
-      "claimantMobilePhone": "7205551980",
+      "claimantPhoneNumber": {
+        "callingCode": 880,
+        "countryCode": "BD",
+        "contact": "212345678",
+        "IsValid": true,
+        "Error": null,
+        "Touched": true
+      },
       "claimantEmail": "lando.jr@cloudcity.com"
     },
     "benefitType": {

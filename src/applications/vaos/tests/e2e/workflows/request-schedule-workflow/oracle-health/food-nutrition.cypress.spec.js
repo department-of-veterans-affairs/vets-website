@@ -38,6 +38,7 @@ import {
 const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
   TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID,
 );
+const labelRegexReasonForAppointment = /Enter a brief reason for this appointment\. Your provider will contact you if they need more details\./;
 
 describe('OH request flow - Food and Nutrition', () => {
   beforeEach(() => {
@@ -53,6 +54,7 @@ describe('OH request flow - Food and Nutrition', () => {
     mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles({
       vaOnlineSchedulingImmediateCareAlert: true,
+      vaOnlineSchedulingUseVpg: true,
     });
     mockVamcEhrApi({ isCerner: true });
   });
@@ -129,7 +131,7 @@ describe('OH request flow - Food and Nutrition', () => {
               name: /What.s the reason for this appointment/i,
             })
             .assertLabel({
-              label: /Add any details you.d like to share with your provider/,
+              label: labelRegexReasonForAppointment,
             })
             .typeAdditionalText({
               content: 'This is a test',
@@ -233,7 +235,7 @@ describe('OH request flow - Food and Nutrition', () => {
               name: /What.s the reason for this appointment/i,
             })
             .assertLabel({
-              label: /Add any details you.d like to share with your provider/,
+              label: labelRegexReasonForAppointment,
             })
             .typeAdditionalText({
               content: 'This is a test',
@@ -337,7 +339,7 @@ describe('OH request flow - Food and Nutrition', () => {
               name: /What.s the reason for this appointment/i,
             })
             .assertLabel({
-              label: /Add any details you.d like to share with your provider/,
+              label: labelRegexReasonForAppointment,
             })
             .typeAdditionalText({
               content: 'This is a test',
@@ -438,7 +440,7 @@ describe('OH request flow - Food and Nutrition', () => {
               name: /What.s the reason for this appointment/i,
             })
             .assertLabel({
-              label: /Add any details you.d like to share with your provider/,
+              label: labelRegexReasonForAppointment,
             })
             .typeAdditionalText({
               content: 'This is a test',

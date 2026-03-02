@@ -1,6 +1,8 @@
 import {
   testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFields,
+  testNumberOfWebComponentFields,
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../../definitions/constants';
 import formConfig from '../../config/form';
@@ -16,7 +18,30 @@ const mockData = {
   veteranSSN: '321540988',
 };
 
-const expectedNumberOfFields = 3;
+const expectedNumberOfWebComponentFields = 3;
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentFields,
+  pageTitle,
+  mockData,
+);
+
+const expectedNumberOfWebComponentErrors = 1;
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentErrors,
+  pageTitle,
+  {
+    claimOwnership: CLAIM_OWNERSHIPS.SELF,
+    claimantType: CLAIMANT_TYPES.VETERAN,
+  },
+);
+
+const expectedNumberOfFields = 0;
 testNumberOfFields(
   formConfig,
   schema,
@@ -26,7 +51,7 @@ testNumberOfFields(
   mockData,
 );
 
-const expectedNumberOfErrors = 1;
+const expectedNumberOfErrors = 0;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,

@@ -1,5 +1,9 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import {
+  selectUI,
+  textUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 import { bankFieldsHaveInput } from '../utils';
 import PaymentView from '../components/PaymentView';
@@ -36,34 +40,29 @@ export const uiSchema = {
     'view:newAccountAlert': {
       'ui:description': addAccountAlert,
     },
-    bankAccountType: {
-      'ui:title': 'Account type',
-      'ui:options': {
-        widgetClassNames: 'va-select-medium-large',
+    bankAccountType: selectUI({
+      title: 'Account type',
+      labels: {
+        Checking: 'Checking',
+        Savings: 'Savings',
       },
-      'ui:required': bankFieldsHaveInput,
-    },
-    bankAccountNumber: {
-      'ui:title': 'Account number',
-      'ui:options': {
-        widgetClassNames: 'va-input-medium-large',
-      },
-      'ui:required': bankFieldsHaveInput,
-    },
-    bankRoutingNumber: {
-      'ui:title': 'Routing number',
-      'ui:errorMessages': {
+      required: bankFieldsHaveInput,
+    }),
+    bankAccountNumber: textUI({
+      title: 'Account number',
+      required: bankFieldsHaveInput,
+    }),
+    bankRoutingNumber: textUI({
+      title: 'Routing number',
+      required: bankFieldsHaveInput,
+      errorMessages: {
         pattern: 'Routing number must be 9 digits',
       },
-      'ui:options': {
-        widgetClassNames: 'va-input-medium-large',
-      },
-      'ui:required': bankFieldsHaveInput,
-    },
-    bankName: {
-      'ui:title': 'Bank name',
-      'ui:required': bankFieldsHaveInput,
-    },
+    }),
+    bankName: textUI({
+      title: 'Bank name',
+      required: bankFieldsHaveInput,
+    }),
   },
   'ui:confirmationField': ConfirmationPaymentInformation,
 };

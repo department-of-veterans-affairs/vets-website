@@ -1,0 +1,22 @@
+{
+  "name": "@department-of-veterans-affairs/form-renderer",
+  "version": "1.0.0",
+  "scripts": {
+    "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+  },
+  "exports": {
+    ".": "./exportsFile.js",
+    "./FormRenderer": "./FormRenderer.jsx"
+  },
+  "dependencies": {
+    "date-fns": "^2.24.0",
+    "handlebars": "^4.7.7"
+  },
+  "peerDependencies": {
+    "@department-of-veterans-affairs/css-library": ">=0.26.0",
+    "react": ">=17.0.2",
+    "react-dom": ">=17.0.2"
+  },
+  "license": "MIT",
+  "private": true
+}

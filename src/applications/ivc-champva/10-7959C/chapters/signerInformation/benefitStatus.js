@@ -11,13 +11,13 @@ const INPUT_LABEL = content['signer--benefit-status-label'];
 export default {
   uiSchema: {
     ...titleWithRoleUI(TITLE_TEXT),
-    champvaBenefitStatus: yesNoUI(INPUT_LABEL),
+    'view:champvaBenefitStatus': yesNoUI(INPUT_LABEL),
   },
   schema: {
     type: 'object',
-    required: ['champvaBenefitStatus'],
+    required: ['view:champvaBenefitStatus'],
     properties: {
-      champvaBenefitStatus: yesNoSchema,
+      'view:champvaBenefitStatus': yesNoSchema,
     },
   },
 };

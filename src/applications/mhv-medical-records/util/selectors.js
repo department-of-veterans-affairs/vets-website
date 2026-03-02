@@ -13,3 +13,11 @@ export const selectBypassDowntime = state =>
 
 export const selectFilterAndSortFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsFilterAndSort];
+
+export const selectImagesDomainFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsImagesDomain];
+
+export const selectHoldTimeMessagingUpdate = state =>
+  state.featureToggles[
+    FEATURE_FLAG_NAMES.mhvMedicalRecordsHoldTimeMessagingUpdate
+  ];

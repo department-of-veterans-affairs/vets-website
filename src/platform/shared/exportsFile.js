@@ -29,3 +29,20 @@ export {
   isOutsideForm,
 } from './itf/utils';
 export { fetchItf, getAndProcessItf, createItf } from './itf/utils/api';
+
+/* Calendar */
+export { default as CalendarWidget } from './calendar/CalendarWidget';
+export { CalendarContext } from './calendar/CalendarContext';
+export {
+  APPOINTMENT_STATUS,
+  DEFAULT_WEEK_DAYS,
+  DATE_FORMATS,
+} from './calendar/constants';
+export {
+  getAppointmentConflict,
+  getCalendarWeeks,
+  getMaxMonth,
+  handleNext,
+  handlePrev,
+  parseDurationFromSlotId,
+} from './calendar/utils/utils';

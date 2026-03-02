@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 152,
+  "totalApplications": 151,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -184,12 +184,6 @@
       "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
     },
     {
-      "directoryPath": "src/applications/dependents/686c-674-old",
-      "appName": "686C-674",
-      "entryName": "686C-674",
-      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
-    },
-    {
       "directoryPath": "src/applications/dependents/dependents-verification",
       "appName": "21-0538 Dependents verification",
       "entryName": "0538-dependents-verification",
@@ -212,12 +206,6 @@
       "appName": "21-526EZ disability compensation claim form",
       "entryName": "526EZ-all-claims",
       "rootUrl": "/disability/file-disability-claim-form-21-526ez"
-    },
-    {
-      "directoryPath": "src/applications/disability-benefits/view-payments",
-      "appName": "View Payments",
-      "entryName": "view-payments",
-      "rootUrl": "/va-payment-history/payments"
     },
     {
       "directoryPath": "src/applications/discharge-wizard",
@@ -253,7 +241,13 @@
       "directoryPath": "src/applications/edu-benefits/0803",
       "appName": "22-0803 Request for reimbursement of licensing or certification test fees",
       "entryName": "0803-edu-benefits",
-      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-0803"
+      "rootUrl": "/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees-online"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/0810",
+      "appName": "Request for Reimbursement of National Exam Fee",
+      "entryName": "0810-edu-benefits",
+      "rootUrl": "/education/0810"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0839",
@@ -266,6 +260,12 @@
       "appName": "Program Apporval in a Foreign Country (VA Form 22-0976)",
       "entryName": "0976-edu-benefits",
       "rootUrl": "/education/0976"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/0989",
+      "appName": "22-0989 Entitlement restoration",
+      "entryName": "0989-edu-benefits",
+      "rootUrl": "/forms/0989"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0994",
@@ -295,7 +295,7 @@
       "directoryPath": "src/applications/edu-benefits/10272",
       "appName": "22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test",
       "entryName": "10272-edu-benefits",
-      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-10272"
+      "rootUrl": "/forms/22-10272/request-prep-course-reimbursement-online"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10275",
@@ -370,6 +370,12 @@
       "rootUrl": "/find-locations"
     },
     {
+      "directoryPath": "src/applications/financial-management/view-payments",
+      "appName": "View Payments",
+      "entryName": "view-payments",
+      "rootUrl": "/va-payment-history/payments"
+    },
+    {
       "directoryPath": "src/applications/financial-status-report",
       "appName": "Financial Status Report",
       "entryName": "request-debt-help-form-5655",
@@ -421,7 +427,7 @@
       "directoryPath": "src/applications/ivc-champva/10-10d-extended",
       "appName": "10-10d Extended",
       "entryName": "10-10d-extended",
-      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-champva-form-10-10d"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959a",
@@ -568,12 +574,6 @@
       "rootUrl": "/my-va"
     },
     {
-      "directoryPath": "src/applications/personalization/notification-center",
-      "appName": "Notification Center",
-      "entryName": "notification-center",
-      "rootUrl": "/notification-center"
-    },
-    {
       "directoryPath": "src/applications/personalization/profile",
       "appName": "VA Profile",
       "entryName": "profile",
@@ -584,12 +584,6 @@
       "appName": "Welcome VA Setup Review Information Form",
       "entryName": "welcome-va-setup-review-information",
       "rootUrl": "/my-va/welcome-va-setup"
-    },
-    {
-      "directoryPath": "src/applications/personalization/view-representative",
-      "appName": "View your representative",
-      "entryName": "view-representative",
-      "rootUrl": "/view-change-representative/view"
     },
     {
       "directoryPath": "src/applications/post-911-gib-status",

@@ -19,6 +19,9 @@
     "phoneNumber": "345-345-3455",
     "mobilePhoneNumber": "345-345-3455",
     "emailAddress": "person.name@testmail.com",
+    "employmentCheck": {
+      "hasEmploymentInLast12Months": "yes"
+    },
     "address": {
       "view:militaryBaseDescription": {},
       "country": "USA",
@@ -62,8 +65,8 @@
       },
       {
         "typeOfWork": "test",
-        "hoursPerWeek": "223",
-        "lostTimeFromIllness": "223",
+        "hoursPerWeek": "160",
+        "lostTimeFromIllness": "160",
         "highestGrossIncomePerMonth": 2200,
         "employmentDates": {
           "from": "1999-01-03",
@@ -80,6 +83,10 @@
         }
       }
     ],
+    "employmentCertifications": {
+      "employmentCertification": true,
+      "employmentAccuracyCertification": true
+    },
     "unemploymentCertifications": {}
   }
 }

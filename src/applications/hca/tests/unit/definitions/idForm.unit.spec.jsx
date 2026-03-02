@@ -1,8 +1,8 @@
-import formConfig from '../../../config/form';
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import formConfig from '../../../config/form';
 import {
   idFormSchema as schema,
   idFormUiSchema as uiSchema,
@@ -13,7 +13,7 @@ describe('hca IDForm config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 8;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,

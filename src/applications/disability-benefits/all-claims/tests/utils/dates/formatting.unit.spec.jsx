@@ -85,9 +85,19 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
   });
 
   describe('formatMonthYearDate', () => {
-    it('should format valid dates as month and year', () => {
-      expect(formatMonthYearDate('2023-01-15')).to.equal('January 2023');
-      expect(formatMonthYearDate('2023-12-31')).to.equal('December 2023');
+    it('should format month/year format (YYYY-MM)', () => {
+      expect(formatMonthYearDate('2023-01')).to.equal('January 2023');
+      expect(formatMonthYearDate('2023-12')).to.equal('December 2023');
+    });
+
+    it('should format year-only format (YYYY-XX)', () => {
+      expect(formatMonthYearDate('2023-XX')).to.equal('2023');
+      expect(formatMonthYearDate('2000-XX')).to.equal('2000');
+    });
+
+    it('should handle full date format (YYYY-MM-DD) for backward compatibility', () => {
+      expect(formatMonthYearDate('2000-05-15')).to.equal('May 2000');
+      expect(formatMonthYearDate('2020-12-31')).to.equal('December 2020');
     });
 
     it('should return empty string for invalid dates', () => {

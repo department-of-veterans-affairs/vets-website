@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import localStorage from 'platform/utilities/storage/localStorage';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import {
   SessionTimeoutModal,
   mapStateToProps,
@@ -58,7 +59,7 @@ describe('SessionTimeoutModal', () => {
     };
     const component = shallow(<SessionTimeoutModal {...props} />);
 
-    component.find('Modal').prop('onClose')();
+    component.find(Modal).prop('onClose')();
 
     expect(onExtendSessionSpy.calledOnce).to.be.true;
 

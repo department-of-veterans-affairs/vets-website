@@ -225,8 +225,9 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
       </va-process-list-item>
       <va-process-list-item header="Upload your PDF to the Education File Upload Portal or email it to your State Approving Agency (SAA)">
         <div itemProp="itemListElement">
-          <p className="vads-u-margin-top--4">
-            <strong>If your institution has a facility code:</strong> Visit the{' '}
+          <p className="vads-u-margin-top--1p5">
+            <strong>If your institution has a VA facility code:</strong> Visit
+            the{' '}
             <va-link
               external
               text="Education File Upload Portal"
@@ -236,9 +237,7 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
           </p>
           <p>
             <strong>
-              If your institution doesn’t have a VA facility code or if you are
-              submitting the form because your institution has changed
-              ownership:
+              If your institution doesn’t have a VA facility code:
             </strong>{' '}
             Email your downloaded PDF to your State Approving Agency (SAA). If
             you need help finding their email address,{' '}
@@ -253,7 +252,7 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
       </va-process-list-item>
       <va-process-list-item header="Next steps">
         <div itemProp="itemListElement">
-          <p>
+          <p className="vads-u-margin-top--1">
             We will generally review your submission within 7-10 business days.
           </p>
           <p>

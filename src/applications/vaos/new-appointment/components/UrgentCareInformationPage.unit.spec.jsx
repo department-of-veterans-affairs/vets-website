@@ -31,7 +31,9 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
         /You can schedule or request non-urgent appointments for future dates./i,
       ),
     );
-    expect(screen.getByRole('link', { name: /Start scheduling/i }));
+    expect(
+      screen.getByRole('link', { name: /Start scheduling an appointment/i }),
+    );
     expect(
       screen.getByRole('heading', {
         level: 2,
@@ -55,7 +57,9 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       store,
     });
 
-    const link = screen.getByRole('link', { name: 'Start scheduling' });
+    const link = screen.getByRole('link', {
+      name: 'Start scheduling an appointment',
+    });
     link.click();
 
     // Assert

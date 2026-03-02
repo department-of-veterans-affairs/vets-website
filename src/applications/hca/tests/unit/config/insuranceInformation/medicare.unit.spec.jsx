@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca Medicare config', () => {
   const {
@@ -12,8 +14,8 @@ describe('hca Medicare config', () => {
   } = formConfig.chapters.insuranceInformation.pages.medicare;
 
   // run test for correct number of fields on the page
-  const expectedNumberOfFields = 2;
-  testNumberOfFormFields(
+  const expectedNumberOfFields = 1;
+  testNumberOfWebComponentFields(
     formConfig,
     schema,
     uiSchema,
@@ -23,11 +25,34 @@ describe('hca Medicare config', () => {
 
   // run test for correct number of error messages on submit
   const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmit(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        isEnrolledMedicarePartA: {
+          type: 'boolean',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      isEnrolledMedicarePartA: {
+        'ui:title': {},
+        'ui:webComponentField': {},
+      },
+    },
+    expectedRequired: ['isEnrolledMedicarePartA'],
+    pageName: pageTitle,
+  });
 });

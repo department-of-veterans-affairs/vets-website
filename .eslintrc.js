@@ -40,6 +40,15 @@ module.exports = {
   },
   rules: {
     /* || Eslint main rules || */
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector:
+          'CallExpression[callee.object.name="require"][callee.property.name="ensure"]',
+        message:
+          'require.ensure is deprecated. Use dynamic import() instead. See https://webpack.js.org/guides/code-splitting/#dynamic-imports',
+      },
+    ],
     camelcase: [2, { properties: 'always' }], // Override airbnb style.
     'react/jsx-wrap-multilines': 'off', // Conflicts with Prettier
     '@department-of-veterans-affairs/no-cross-app-imports': [
@@ -54,21 +63,8 @@ module.exports = {
     'deprecate/import': [
       'warn',
       {
-        name: '@department-of-veterans-affairs/component-library/TextInput',
-        use: '<va-text-input>',
-      },
-      {
-        name:
-          '@department-of-veterans-affairs/component-library/ExpandingGroup',
-        use: 'a custom solution',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Modal',
         use: '<va-modal>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/FileInput',
-        use: '<va-file-input>',
       },
     ],
     'jsx-a11y/control-has-associated-label': 1, // 2

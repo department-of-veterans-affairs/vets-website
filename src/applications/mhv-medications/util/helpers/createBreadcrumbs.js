@@ -23,8 +23,10 @@ export const createBreadcrumbs = (location, currentPage) => {
   ];
   const {
     subdirectories,
-    MEDICATIONS_URL,
+    MEDICATIONS_IN_PROGRESS,
     MEDICATIONS_REFILL,
+    MEDICATIONS_URL,
+    MEDICATIONS_HISTORY,
   } = medicationsUrls;
 
   if (pathname === subdirectories.BASE) {
@@ -39,6 +41,24 @@ export const createBreadcrumbs = (location, currentPage) => {
     return defaultBreadcrumbs.concat([
       { href: MEDICATIONS_URL, label: 'Medications' },
       { href: MEDICATIONS_REFILL, label: 'Refill prescriptions' },
+    ]);
+  }
+  if (pathname.includes(subdirectories.IN_PROGRESS)) {
+    return defaultBreadcrumbs.concat([
+      { href: MEDICATIONS_URL, label: 'Medications' },
+      {
+        href: MEDICATIONS_IN_PROGRESS,
+        label: 'In-progress medications',
+      },
+    ]);
+  }
+  if (pathname.includes(subdirectories.HISTORY)) {
+    return defaultBreadcrumbs.concat([
+      { href: MEDICATIONS_URL, label: 'Medications' },
+      {
+        href: MEDICATIONS_HISTORY,
+        label: 'Medication history',
+      },
     ]);
   }
   return [];

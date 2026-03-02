@@ -2,6 +2,7 @@ import {
   textUI,
   yesNoUI,
   yesNoSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
@@ -9,79 +10,102 @@ import {
   currentOrPastDateRangeSchema,
 } from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
 
-import { EducationView } from '../components/viewElements';
-import SafeArrayField from '../components/SafeArrayField';
 import { wrapDateRangeUiWithDl } from '../helpers/reviewHelpers';
+
+import { changeDefaultDateHint } from '../helpers/hintChanger';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Education and Training Before Becoming Disabled',
+    ...titleUI('Education and Training After Becoming Disabled'),
     'ui:description':
-      'Tell us about your education and training after becoming too disabled to work.',
+      'Tell us about your education or training after becoming too disabled to work.',
 
-    otherEducation: yesNoUI({
+    otherAfterEducation: yesNoUI({
       title:
-        'Did you have any other education and training after you were too disabled to work?',
+        'Did you have any other education or training after you became too disabled to work?',
       labels: {
         Y: 'Yes',
         N: 'No',
       },
+      required: () => true,
       useDlWrap: true,
+      errorMessages: {
+        required:
+          'Select a response to tell us if you had education or training after becoming disabled.',
+      },
     }),
 
     educationAfterDisability: {
-      'ui:field': SafeArrayField,
       'ui:options': {
-        itemName: 'Education/Training',
-        viewField: EducationView,
         customTitle: 'Education after disability',
         useDlWrap: true,
-        keepInPageOnReview: true,
-        doNotScroll: true,
-        confirmRemove: true,
-        confirmRemoveDescription:
-          'Are you sure you want to remove this education/training?',
-        addAnotherText: 'Add another education/training',
-        hideIf: formData => formData.otherEducation !== true,
+
+        expandUnder: 'otherAfterEducation',
+        expandUnderCondition: true,
       },
-      items: {
-        'ui:options': {
-          classNames: 'vads-u-margin-left--1p5',
+      typeOfEducation: textUI({
+        title: 'Type of education or training',
+        useDlWrap: true,
+        required: formData => formData.otherAfterEducation === true,
+        errorMessages: {
+          required:
+            'Tell us what kind of education or training you had after becoming disabled',
         },
-        typeOfEducation: textUI({
-          title: 'Type of education or training',
-          useDlWrap: true,
-        }),
-        datesOfTraining: wrapDateRangeUiWithDl(
+      }),
+      datesOfTraining: {
+        ...wrapDateRangeUiWithDl(
           currentOrPastDateRangeUI(
             { title: 'Start date of training' },
             { title: 'End date of training' },
           ),
         ),
+        from: {
+          ...wrapDateRangeUiWithDl(
+            currentOrPastDateRangeUI(
+              { title: 'Start date of training' },
+              { title: 'End date of training' },
+            ),
+          ).from,
+          'ui:required': formData => formData.otherAfterEducation === true,
+          'ui:description': changeDefaultDateHint,
+          'ui:errorMessages': {
+            required:
+              'Enter the start date (month, day, and 4-digit year) of your education or training',
+          },
+        },
+        to: {
+          ...wrapDateRangeUiWithDl(
+            currentOrPastDateRangeUI(
+              { title: 'Start date of training' },
+              { title: 'End date of training' },
+            ),
+          ).to,
+          'ui:required': formData => formData.otherAfterEducation === true,
+          'ui:description': changeDefaultDateHint,
+          'ui:errorMessages': {
+            required:
+              'Enter the end date (month, day, and 4-digit year) of your education or training',
+          },
+        },
       },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      otherEducation: yesNoSchema,
+      otherAfterEducation: yesNoSchema,
       educationAfterDisability: {
-        type: 'array',
-        minItems: 0,
-        maxItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            typeOfEducation: {
-              type: 'string',
-              maxLength: 100,
-            },
-            datesOfTraining: currentOrPastDateRangeSchema,
+        type: 'object',
+        properties: {
+          typeOfEducation: {
+            type: 'string',
+            maxLength: 100,
           },
-          required: ['typeOfEducation', 'datesOfTraining'],
+          datesOfTraining: { ...currentOrPastDateRangeSchema, required: [] },
         },
       },
     },
+    required: ['otherAfterEducation'],
   },
 };

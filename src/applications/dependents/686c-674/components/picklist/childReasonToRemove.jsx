@@ -74,7 +74,7 @@ const childReasonToRemove = {
         case 'stepchildNotMember':
           return 'stepchild-financial-support';
         case 'childNotInSchool':
-          return 'child-disability';
+          return 'child-left-school';
         case 'childAdopted':
           return 'child-adopted-exit';
         default:

@@ -473,7 +473,7 @@ describe('Submit Transformer', () => {
         .to.be.false;
     });
 
-    it('should omit military duty status when reserveOrGuardStatus is no', () => {
+    it('should not include military duty status when reserveOrGuardStatus is no', () => {
       const form = {
         data: {
           dutyStatus: {
@@ -487,7 +487,7 @@ describe('Submit Transformer', () => {
       expect(result.militaryDutyStatus).to.not.exist;
     });
 
-    it('should omit military duty status when reserveOrGuardStatus is false', () => {
+    it('should not include military duty status when reserveOrGuardStatus is false', () => {
       const form = {
         data: {
           dutyStatus: {
@@ -556,7 +556,7 @@ describe('Submit Transformer', () => {
       );
     });
 
-    it('should omit benefitEntitlementPayments section when benefitEntitlement is no', () => {
+    it('should include benefitEntitlementPayments section with false value when benefitEntitlement is no', () => {
       const form = {
         data: {
           benefitsInformation: {
@@ -567,11 +567,13 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      // Section should be completely omitted when veteran doesn't receive benefits
-      expect(result.benefitEntitlementPayments).to.not.exist;
+      // Section should include false value so backend can fill "NO" in the PDF
+      expect(result.benefitEntitlementPayments).to.exist;
+      expect(result.benefitEntitlementPayments.sickRetirementOtherBenefits).to
+        .be.false;
     });
 
-    it('should omit benefitEntitlementPayments section when benefitEntitlement is false', () => {
+    it('should include benefitEntitlementPayments section with false value when benefitEntitlement is false', () => {
       const form = {
         data: {
           benefitsInformation: {
@@ -582,8 +584,32 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      // Section should be omitted when using boolean false
-      expect(result.benefitEntitlementPayments).to.not.exist;
+      // Section should include false value when using boolean false
+      expect(result.benefitEntitlementPayments).to.exist;
+      expect(result.benefitEntitlementPayments.sickRetirementOtherBenefits).to
+        .be.false;
+    });
+
+    it('should include remarks when benefitEntitlement is no', () => {
+      const form = {
+        data: {
+          benefitsInformation: {
+            benefitEntitlement: 'no',
+          },
+          remarks: {
+            remarks: 'Additional information here',
+          },
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.benefitEntitlementPayments).to.exist;
+      expect(result.benefitEntitlementPayments.sickRetirementOtherBenefits).to
+        .be.false;
+      expect(result.benefitEntitlementPayments.remarks).to.equal(
+        'Additional information here',
+      );
     });
 
     it('should include benefitEntitlementPayments when benefitEntitlement is true', () => {
@@ -713,11 +739,13 @@ describe('Submit Transformer', () => {
       expect(result.employmentInformation).to.exist;
       expect(result.certification).to.exist;
 
-      // Verify no militaryDutyStatus when not reserve/guard
+      // Verify militaryDutyStatus does not exist when not reserve/guard
       expect(result.militaryDutyStatus).to.not.exist;
 
-      // Verify no benefitEntitlementPayments when benefitEntitlement is 'no'
-      expect(result.benefitEntitlementPayments).to.not.exist;
+      // Verify benefitEntitlementPayments includes false value when benefitEntitlement is 'no'
+      expect(result.benefitEntitlementPayments).to.exist;
+      expect(result.benefitEntitlementPayments.sickRetirementOtherBenefits).to
+        .be.false;
 
       // Verify key transformations
       expect(result.veteranInformation.fullName.first).to.equal('John');
@@ -727,9 +755,9 @@ describe('Submit Transformer', () => {
         result.employmentInformation.amountEarnedLast12MonthsOfEmployment,
       ).to.equal(120000);
 
-      // Verify certification is generated from veteran name
-      expect(result.certification.signature).to.equal('John Q Veteran');
-      expect(result.certification.certified).to.be.true;
+      // Verify certification defaults when not provided
+      expect(result.certification.signature).to.be.undefined;
+      expect(result.certification.certified).to.be.false;
     });
   });
 
@@ -851,7 +879,7 @@ describe('Submit Transformer', () => {
   });
 
   describe('Certification Transformation', () => {
-    it('should use provided certification signature', () => {
+    it('should use provided statementOfTruth signature', () => {
       const form = {
         data: {
           veteranInformation: {
@@ -860,10 +888,8 @@ describe('Submit Transformer', () => {
               last: 'Doe',
             },
           },
-          certification: {
-            signature: 'J. Doe',
-            certified: true,
-          },
+          statementOfTruthSignature: 'J. Doe',
+          statementOfTruthCertified: true,
         },
       };
 
@@ -874,7 +900,7 @@ describe('Submit Transformer', () => {
       expect(result.certification.certified).to.be.true;
     });
 
-    it('should generate signature from veteran name when not provided', () => {
+    it('should have undefined signature when not provided', () => {
       const form = {
         data: {
           veteranInformation: {
@@ -890,27 +916,8 @@ describe('Submit Transformer', () => {
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
       expect(result.certification).to.exist;
-      expect(result.certification.signature).to.equal('John M Smith');
-      expect(result.certification.certified).to.be.true;
-    });
-
-    it('should generate signature without middle name when not provided', () => {
-      const form = {
-        data: {
-          veteranInformation: {
-            veteranFullName: {
-              first: 'Jane',
-              last: 'Doe',
-            },
-          },
-        },
-      };
-
-      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
-
-      expect(result.certification).to.exist;
-      expect(result.certification.signature).to.equal('Jane Doe');
-      expect(result.certification.certified).to.be.true;
+      expect(result.certification.signature).to.be.undefined;
+      expect(result.certification.certified).to.be.false;
     });
 
     it('should respect certified false when explicitly provided', () => {
@@ -922,10 +929,8 @@ describe('Submit Transformer', () => {
               last: 'Jones',
             },
           },
-          certification: {
-            signature: 'Bob Jones',
-            certified: false,
-          },
+          statementOfTruthSignature: 'Bob Jones',
+          statementOfTruthCertified: false,
         },
       };
 
@@ -944,13 +949,13 @@ describe('Submit Transformer', () => {
 
       // Certification should always exist even with empty form data
       expect(result.certification).to.exist;
-      expect(result.certification.certified).to.be.true;
+      expect(result.certification.certified).to.be.false;
     });
 
     it('should handle platform statementOfTruth signature pattern', () => {
       const form = {
         data: {
-          signature: 'Platform Signature',
+          statementOfTruthSignature: 'Platform Signature',
           statementOfTruthCertified: true,
         },
       };
@@ -965,7 +970,7 @@ describe('Submit Transformer', () => {
     it('should handle platform statementOfTruthCertified false', () => {
       const form = {
         data: {
-          signature: 'Test User',
+          statementOfTruthSignature: 'Test User',
           statementOfTruthCertified: false,
         },
       };
@@ -976,15 +981,11 @@ describe('Submit Transformer', () => {
       expect(result.certification.certified).to.be.false;
     });
 
-    it('should prefer platform pattern over custom component pattern', () => {
+    it('should use statementOfTruthSignature field', () => {
       const form = {
         data: {
-          signature: 'Platform Pattern',
+          statementOfTruthSignature: 'Platform Pattern',
           statementOfTruthCertified: true,
-          certification: {
-            signature: 'Custom Component Pattern',
-            certified: false,
-          },
         },
       };
 

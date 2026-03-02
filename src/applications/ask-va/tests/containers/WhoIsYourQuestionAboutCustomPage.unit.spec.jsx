@@ -190,7 +190,7 @@ describe('WhoIsYourQuestionAboutCustomPage', () => {
       await waitFor(() => {
         const radio = container.querySelector('va-radio');
         expect(radio.getAttribute('error')).to.equal(
-          'Please select who your question is about',
+          'Select who your question is about',
         );
       });
     });

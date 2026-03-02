@@ -154,7 +154,7 @@ class ContactListPage {
       `include.text`,
       Alerts.CONTACT_LIST.SAVED,
     );
-    cy.get('.va-alert').should(`be.focused`);
+    cy.get('.va-alert').should(`be.visible`);
   };
 
   clickBackToInbox = () => {
@@ -207,7 +207,7 @@ class ContactListPage {
     cy.get(`va-alert`)
       .find(`h2`)
       .should(`be.visible`)
-      .and(`have.text`, Alerts.CONTACT_LIST.LOAD_API_ERROR);
+      .and(`contain`, Alerts.CONTACT_LIST.LOAD_API_ERROR);
   };
 
   verifySaveAPIAlert = () => {

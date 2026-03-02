@@ -6,48 +6,114 @@ import {
   RECENTLY_REQUESTED_FILTER_KEY,
   RENEWAL_FILTER_KEY,
   NON_ACTIVE_FILTER_KEY,
+  INACTIVE_FILTER_KEY,
+  IN_PROGRESS_FILTER_KEY,
+  SHIPPED_FILTER_KEY,
+  TRANSFERRED_FILTER_KEY,
+  STATUS_NOT_AVAILABLE_FILTER_KEY,
   filterOptions,
+  filterOptionsV2,
 } from '../../../util/constants';
 
 describe('displayMedicationsListHeader function', () => {
-  it('should display correct header for ALL_MEDICATIONS_FILTER_KEY filter option', () => {
-    const selectedFilterOption = ALL_MEDICATIONS_FILTER_KEY;
-    expect(displayMedicationsListHeader(selectedFilterOption)).to.equal(
-      filterOptions[ALL_MEDICATIONS_FILTER_KEY].label,
-    );
+  // Shared test data
+  const V2_FILTER_KEYS = [
+    {
+      key: IN_PROGRESS_FILTER_KEY,
+      label: filterOptionsV2[IN_PROGRESS_FILTER_KEY].label,
+    },
+    {
+      key: SHIPPED_FILTER_KEY,
+      label: filterOptionsV2[SHIPPED_FILTER_KEY].label,
+    },
+    {
+      key: TRANSFERRED_FILTER_KEY,
+      label: filterOptionsV2[TRANSFERRED_FILTER_KEY].label,
+    },
+    {
+      key: INACTIVE_FILTER_KEY,
+      label: filterOptionsV2[INACTIVE_FILTER_KEY].label,
+    },
+    {
+      key: STATUS_NOT_AVAILABLE_FILTER_KEY,
+      label: filterOptionsV2[STATUS_NOT_AVAILABLE_FILTER_KEY].label,
+    },
+    { key: ACTIVE_FILTER_KEY, label: filterOptionsV2[ACTIVE_FILTER_KEY].label },
+  ];
+
+  describe('V1 behavior - default when no flags provided', () => {
+    it('returns ALL_MEDICATIONS label correctly', () => {
+      expect(displayMedicationsListHeader(ALL_MEDICATIONS_FILTER_KEY)).to.equal(
+        filterOptions[ALL_MEDICATIONS_FILTER_KEY].label,
+      );
+    });
+
+    it('returns ACTIVE medications header', () => {
+      expect(displayMedicationsListHeader(ACTIVE_FILTER_KEY)).to.equal(
+        `${filterOptions[ACTIVE_FILTER_KEY].label} medications`,
+      );
+    });
+
+    it('returns RECENTLY_REQUESTED medications header', () => {
+      expect(
+        displayMedicationsListHeader(RECENTLY_REQUESTED_FILTER_KEY),
+      ).to.equal(
+        `${filterOptions[RECENTLY_REQUESTED_FILTER_KEY].label} medications`,
+      );
+    });
+
+    it('returns RENEWAL header with custom text', () => {
+      expect(displayMedicationsListHeader(RENEWAL_FILTER_KEY)).to.equal(
+        `Medications that need renewal before refill`,
+      );
+    });
+
+    it('returns NON_ACTIVE medications header', () => {
+      expect(displayMedicationsListHeader(NON_ACTIVE_FILTER_KEY)).to.equal(
+        `${filterOptions[NON_ACTIVE_FILTER_KEY].label} medications`,
+      );
+    });
+
+    it('throws error for unrecognized filter option', () => {
+      expect(() => displayMedicationsListHeader('__INVALID_FILTER__')).to.throw(
+        'Unknown filter option: __INVALID_FILTER__',
+      );
+    });
   });
 
-  it('should display correct header for ACTIVE_FILTER_KEY filter option', () => {
-    const selectedFilterOption = ACTIVE_FILTER_KEY;
-    expect(displayMedicationsListHeader(selectedFilterOption)).to.equal(
-      `${filterOptions[ACTIVE_FILTER_KEY].label} medications`,
-    );
+  describe('V1 behavior persists when either CernerPilot or  V2StatusMapping is enabled alone', () => {
+    it('uses V1 options when cernerPilot=true but v2StatusMapping=false', () => {
+      expect(
+        displayMedicationsListHeader(ACTIVE_FILTER_KEY, true, false),
+      ).to.equal(`${filterOptions[ACTIVE_FILTER_KEY].label} medications`);
+    });
+
+    it('uses V1 options when cernerPilot=false but v2StatusMapping=true', () => {
+      expect(
+        displayMedicationsListHeader(ACTIVE_FILTER_KEY, false, true),
+      ).to.equal(`${filterOptions[ACTIVE_FILTER_KEY].label} medications`);
+    });
   });
 
-  it('should display correct header for RECENTLY_REQUESTED_FILTER_KEY filter option', () => {
-    const selectedFilterOption = RECENTLY_REQUESTED_FILTER_KEY;
-    expect(displayMedicationsListHeader(selectedFilterOption)).to.equal(
-      `${filterOptions[RECENTLY_REQUESTED_FILTER_KEY].label} medications`,
-    );
-  });
+  // REFACTORED: Consolidated V2 behavior tests
+  describe('V2 behavior when both cernerPilot AND v2StatusMapping are enabled', () => {
+    const bothFlagsEnabled = [true, true];
 
-  it('should display correct header for RENEWAL_FILTER_KEY filter option', () => {
-    const selectedFilterOption = RENEWAL_FILTER_KEY;
-    expect(displayMedicationsListHeader(selectedFilterOption)).to.equal(
-      `Medications that need renewal before refill`,
-    );
-  });
+    V2_FILTER_KEYS.forEach(({ key, label }) => {
+      it(`returns ${key} header from V2 options`, () => {
+        expect(displayMedicationsListHeader(key, ...bothFlagsEnabled)).to.equal(
+          `${label} medications`,
+        );
+      });
+    });
 
-  it('should display correct header for NON_ACTIVE_FILTER_KEY filter option', () => {
-    const selectedFilterOption = NON_ACTIVE_FILTER_KEY;
-    expect(displayMedicationsListHeader(selectedFilterOption)).to.equal(
-      `${filterOptions[NON_ACTIVE_FILTER_KEY].label} medications`,
-    );
-  });
-
-  it('should throw an error for an unknown filter option', () => {
-    expect(() => displayMedicationsListHeader('__NOT_A_FILTER__')).to.throw(
-      'Unknown filter option: __NOT_A_FILTER__',
-    );
+    it('returns ALL_MEDICATIONS label from V2 options', () => {
+      expect(
+        displayMedicationsListHeader(
+          ALL_MEDICATIONS_FILTER_KEY,
+          ...bothFlagsEnabled,
+        ),
+      ).to.equal(filterOptionsV2[ALL_MEDICATIONS_FILTER_KEY].label);
+    });
   });
 });

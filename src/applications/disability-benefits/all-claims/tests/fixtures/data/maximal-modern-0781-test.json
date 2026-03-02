@@ -5,6 +5,7 @@
       "view:claimingNew": true
     },
     "standardClaim": true,
+    "disability526ToxicExposureOptOutDataPurge": true,
     "view:fdcWarning": {},
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",

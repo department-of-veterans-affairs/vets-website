@@ -3,6 +3,17 @@ import PropTypes from 'prop-types';
 
 import ViewDependentsList from '../components/ViewDependentsList/ViewDependentsList';
 
+/**
+ * @typedef {Object} ViewDependentsListsProps
+ * @property {Array} onAwardDependents - list of dependents on award
+ * @property {Array} notOnAwardDependents - list of dependents not on award
+ * @property {boolean} loading - whether data is loading
+ * @property {boolean} manageDependentsToggle - whether manage dependents
+ * feature is enabled
+ *
+ * @param {ViewDependentsListsProps} props - component props
+ * @returns {JSX.Element} - ViewDependentsLists component
+ */
 function ViewDependentsLists(props) {
   const onAwardSubhead = (
     <>

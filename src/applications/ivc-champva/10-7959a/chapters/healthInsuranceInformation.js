@@ -19,7 +19,11 @@ import {
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { privWrapper } from '../../shared/utilities';
 import { validFieldCharsOnly } from '../../shared/validations';
-import { personalizeTitleByName, replaceStrValues } from '../utils/helpers';
+import {
+  hasOhi,
+  personalizeTitleByName,
+  replaceStrValues,
+} from '../utils/helpers';
 import content from '../locales/en/content.json';
 
 const INSURANCE_TYPE_LABELS = {
@@ -135,7 +139,7 @@ const policyPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Policy information',
-      nounSingular: insuranceOptions.nounSingular,
+      showEditExplanationText: false,
     }),
     name: textUI('Name of insurance provider'),
     policyNum: textUI('Policy number'),
@@ -230,9 +234,7 @@ export const insurancePages = arrayBuilderPages(
     insuranceIntro: pageBuilder.introPage({
       path: 'insurance-intro',
       title: '[noun plural]',
-      depends: formData =>
-        get('hasOhi', formData) &&
-        get('claimStatus', formData) !== 'resubmission',
+      depends: hasOhi,
       uiSchema: {
         ...titleUI(content['health-insurance--intro-title']),
         ...descriptionUI(content['health-insurance--intro-desc']),
@@ -245,25 +247,19 @@ export const insurancePages = arrayBuilderPages(
     insuranceSummary: pageBuilder.summaryPage({
       title: 'Review your [noun plural]',
       path: 'insurance-review',
-      depends: formData =>
-        get('hasOhi', formData) &&
-        get('claimStatus', formData) !== 'resubmission',
+      depends: hasOhi,
       ...summaryPage,
     }),
     insurancePolicy: pageBuilder.itemPage({
       title: 'Policy information',
       path: 'policy-info/:index',
-      depends: formData =>
-        get('hasOhi', formData) &&
-        get('claimStatus', formData) !== 'resubmission',
+      depends: hasOhi,
       ...policyPage,
     }),
     insuranceType: pageBuilder.itemPage({
       title: 'Type',
       path: 'insurance-type/:index',
-      depends: formData =>
-        get('hasOhi', formData) &&
-        get('claimStatus', formData) !== 'resubmission',
+      depends: hasOhi,
       ...insuranceProviderPage,
     }),
   }),

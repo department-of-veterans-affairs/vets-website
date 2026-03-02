@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { daysAgo } from '@@profile/tests/helpers';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
-import Claim from '../../../components/claims-and-appeals/Claim';
+import ClaimLegacy from '../../../components/claims-and-appeals/ClaimLegacy';
 
 function makeClaimObject({
   claimDate,
@@ -41,7 +41,7 @@ describe('<Claim />', () => {
   it('should render', () => {
     const claim = makeClaimObject({ updateDate: daysAgo(15) });
 
-    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+    const tree = renderWithStoreAndRouter(<ClaimLegacy claim={claim} />, {
       initialState: {},
     });
 
@@ -59,7 +59,7 @@ describe('<Claim />', () => {
       decisionLetterSent: true,
     });
 
-    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+    const tree = renderWithStoreAndRouter(<ClaimLegacy claim={claim} />, {
       initialState: {},
     });
 
@@ -72,7 +72,7 @@ describe('<Claim />', () => {
       developmentLetterSent: true,
     });
 
-    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+    const tree = renderWithStoreAndRouter(<ClaimLegacy claim={claim} />, {
       initialState: {},
     });
 
@@ -85,7 +85,7 @@ describe('<Claim />', () => {
       documentsNeeded: true,
     });
 
-    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+    const tree = renderWithStoreAndRouter(<ClaimLegacy claim={claim} />, {
       initialState: {},
     });
 

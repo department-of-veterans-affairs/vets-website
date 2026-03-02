@@ -11,6 +11,7 @@ const getData = ({
   toggle = false,
   verified = false,
   savedForm = false,
+  ratingToggle = false,
 } = {}) => ({
   props: {
     loggedIn,
@@ -51,6 +52,7 @@ const getData = ({
       featureToggles: {
         loading: false,
         [`pbb_forms_require_loa3`]: toggle,
+        [`pension_rating_alert_logging_enabled`]: ratingToggle,
       },
     }),
     subscribe: () => {},
@@ -72,17 +74,6 @@ describe('<IntroductionPage />', () => {
     );
     // logged in false, toggle false, verified false, saved form false
     expect($('va-alert-sign-in[variant="signInOptional"]', container)).to.exist;
-  });
-
-  it('renders sign in required alert when not logged in & toggle on', () => {
-    // logged in false, toggle true, verified false, saved form false
-    const { props, mockStore } = getData({ loggedIn: false, toggle: true });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-    expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.exist;
   });
 
   it('renders start action link when logged in, no saved form & toggle off', () => {
@@ -158,5 +149,33 @@ describe('<IntroductionPage />', () => {
       </Provider>,
     );
     expect($('va-link-action, .vads-c-action-link--green', container)).to.exist;
+  });
+
+  it('renders rating info alert when logged in, and the endpoint has an error', () => {
+    // logged in true, ratingToggle true
+    const { props, mockStore } = getData({
+      loggedIn: true,
+      ratingToggle: true,
+    });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect($('va-alert[status="info"]', container)).to.exist;
+  });
+
+  it('renders rating info alert when logged in, no saved form & toggle off', () => {
+    // logged in false, ratingToggle true
+    const { props, mockStore } = getData({
+      loggedIn: false,
+      ratingToggle: true,
+    });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect($('va-alert[status="info"]', container)).to.not.exist;
   });
 });

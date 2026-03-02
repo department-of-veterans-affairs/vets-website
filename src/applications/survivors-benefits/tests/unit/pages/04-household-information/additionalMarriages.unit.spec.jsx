@@ -26,18 +26,6 @@ describe('Additional marriages page', () => {
     expect(vaRadio.getAttribute('required')).to.equal('true');
   });
 
-  it('depends is true only for SPOUSE and remarried true', () => {
-    const { depends } = additionalMarriages;
-
-    expect(depends({ claimantRelationship: 'SPOUSE', remarried: true })).to.be
-      .true;
-    expect(depends({ claimantRelationship: 'SPOUSE', remarried: false })).to.be
-      .false;
-    expect(depends({ claimantRelationship: 'CHILD', remarried: true })).to.be
-      .false;
-    expect(depends({})).to.be.false;
-  });
-
   it('additionalMarriagesAlert is not displayed unless answer is YES', () => {
     const {
       additionalMarriagesAlert: {
@@ -46,13 +34,13 @@ describe('Additional marriages page', () => {
     } = uiSchema;
 
     // when additionalMarriages is true => isYes true => hideIf should be false
-    expect(hideIf({ additionalMarriages: true })).to.be.false;
+    expect(hideIf({ claimantHasAdditionalMarriages: true })).to.be.false;
 
     // when additionalMarriages is 'yes' string => not hidden
-    expect(hideIf({ additionalMarriages: 'yes' })).to.be.false;
+    expect(hideIf({ claimantHasAdditionalMarriages: 'yes' })).to.be.false;
 
     // when additionalMarriages is falsey/undefined => hidden
-    expect(hideIf({ additionalMarriages: false })).to.be.true;
+    expect(hideIf({ claimantHasAdditionalMarriages: false })).to.be.true;
     expect(hideIf({})).to.be.true;
   });
 
@@ -62,7 +50,7 @@ describe('Additional marriages page', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        data={{ additionalMarriages: true }}
+        data={{ claimantHasAdditionalMarriages: true }}
       />,
     );
     const formDOM = getFormDOM(form);

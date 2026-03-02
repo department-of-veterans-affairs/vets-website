@@ -16,8 +16,9 @@ const EducationSearchItem = ({
   onChange,
   searchInput,
   dataError,
+  defaultValue,
 }) => {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(defaultValue);
 
   const onPageChange = async page => {
     await getData(`${pageURL}&page=${page}&per_page=10`);
@@ -131,6 +132,7 @@ EducationSearchItem.propTypes = {
     hasError: PropTypes.bool,
     errorMessage: PropTypes.string,
   }),
+  defaultValue: PropTypes.string,
   facilityData: PropTypes.shape({
     data: PropTypes.arrayOf(
       PropTypes.shape({

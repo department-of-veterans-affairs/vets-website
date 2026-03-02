@@ -385,3 +385,74 @@ describe('Vitals list container first time loading', () => {
     expect(screen.queryByTestId('initial-fhir-loading-indicator')).to.not.exist;
   });
 });
+
+describe('Vitals list container - DuplicateRecordsAlert integration', () => {
+  it('does not render DuplicateRecordsAlert when isCerner is false', () => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
+      user: {
+        ...user,
+        profile: {
+          ...user.profile,
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
+      },
+      mr: {
+        vitals: {
+          vitalsList: vitals.entry.map(item => convertVital(item.resource)),
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Vitals />, {
+      initialState,
+      reducers: reducer,
+      path: '/vitals',
+    });
+
+    expect(screen.queryByTestId('duplicate-records-info-alert')).to.not.exist;
+  });
+
+  it('renders DuplicateRecordsAlert when isCerner is true', () => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+          data: {
+            cernerFacilities: [{ vhaId: '983' }],
+          },
+        },
+      },
+      user: {
+        ...user,
+        profile: {
+          ...user.profile,
+          facilities: [{ facilityId: '983', isCerner: true }],
+        },
+      },
+      mr: {
+        vitals: {
+          vitalsList: vitals.entry.map(item => convertVital(item.resource)),
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Vitals />, {
+      initialState,
+      reducers: reducer,
+      path: '/vitals',
+    });
+
+    expect(screen.getByTestId('duplicate-records-info-alert')).to.exist;
+  });
+});

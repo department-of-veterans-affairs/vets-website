@@ -45,8 +45,16 @@ const routes = (
           element={<DocumentRedirectPage />}
         />
         <Route
+          path="needed-from-you"
+          element={<Navigate to="../status" replace />}
+        />
+        <Route
           path="needed-from-you/:trackedItemId"
           element={<DocumentRequestPage />}
+        />
+        <Route
+          path="needed-from-others"
+          element={<Navigate to="../status" replace />}
         />
         <Route
           path="needed-from-others/:trackedItemId"
@@ -57,6 +65,10 @@ const routes = (
         <Route path="status" element={<ClaimStatusPage />} />
       </Route>
       <Route path="your-claim-letters" element={<YourClaimLetters />} />
+      <Route
+        path="your-claim-letters/link"
+        element={<Navigate to="/your-claim-letters" replace />}
+      />
       <Route path="your-stem-claims/:id">
         <Route index element={<Navigate to="status" replace />} />
         <Route path="status" element={<StemClaimStatusPage />} />

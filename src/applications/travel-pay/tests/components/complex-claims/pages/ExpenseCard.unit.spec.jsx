@@ -101,14 +101,10 @@ describe('ExpenseCard', () => {
     expect(container.textContent).to.include('Apt 4B');
     expect(container.textContent).to.include('Washington, DC 20001');
 
-    // Trip type
-    expect(getByText('Was your drive round trip or one way?')).to.exist;
-    expect(container.textContent).to.include('Round trip');
-
     // Edit button
     const editLink = queryByTestId('expense1-edit-expense-link');
     expect(editLink).to.exist;
-    expect(editLink.textContent).to.include('EDIT');
+    expect(editLink.textContent).to.include('Edit');
 
     // Delete button exists
     const deleteButton = queryByTestId('expense1-delete-expense-button');
@@ -156,13 +152,11 @@ describe('ExpenseCard', () => {
       costRequested: 30.75,
     };
 
-    const { getByText, container } = renderExpenseCard(expense);
+    const { container } = renderExpenseCard(expense);
 
     expect(container.textContent).to.include('456 Elm St');
     expect(container.textContent).to.include('Seattle, WA 98101');
     expect(container.textContent).to.not.include('undefined');
-
-    expect(getByText('Round trip')).to.exist;
   });
 
   it('opens the delete modal and calls deleteExpenseAndDocument on confirm', async () => {
@@ -241,10 +235,6 @@ describe('ExpenseCard', () => {
     expect(container.textContent).to.include('123 Main St');
     expect(container.textContent).to.include('Apt 4B');
     expect(container.textContent).to.include('Washington, DC 20001');
-
-    // Trip type
-    expect(getByText('Was your drive round trip or one way?')).to.exist;
-    expect(container.textContent).to.include('Round trip');
 
     // Edit button does not exist
     expect(queryByTestId('expense1-edit-expense-link')).to.not.exist;

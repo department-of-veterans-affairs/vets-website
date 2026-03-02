@@ -345,6 +345,7 @@ class ReviewCardField extends React.Component {
     if (this.props.name === 'temporaryAddress') {
       isTempAddressValid = Boolean(street && city && country);
     }
+    const displayAddress = Boolean(street && city && country);
     const addressTypeWithSpace = this.props.name.replace('Address', ' address');
 
     return (
@@ -376,7 +377,11 @@ class ReviewCardField extends React.Component {
               this.props.name !== this.props['view:currentAddress'],
           })}
         >
-          <ViewComponent formData={this.props.formData} />
+          {displayAddress ? (
+            <ViewComponent formData={this.props.formData} />
+          ) : (
+            <p> </p>
+          )}
           {!volatileData &&
             isTempAddressValid && (
               <button

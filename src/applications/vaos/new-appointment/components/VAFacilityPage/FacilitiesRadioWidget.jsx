@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useSelector } from 'react-redux';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButton,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
 import InfoAlert from '../../../components/InfoAlert';
@@ -102,14 +105,14 @@ export default function FacilitiesRadioWidget({
               level="3"
             >
               <p>Make sure your browser’s location feature is turned on.</p>
-              <va-link
+              <VaButton
                 text="Retry searching based on current location"
-                className="va-button-link"
                 onClick={() =>
                   updateFacilitySortMethod(
                     FACILITY_SORT_METHODS.distanceFromCurrentLocation,
                   )
                 }
+                uswds
               />
             </InfoAlert>
           </div>

@@ -4,7 +4,7 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import environment from 'platform/utilities/environment';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { TITLE } from '../constants';
+import i18nDebtApp from '../i18n';
 import ShowAlertOrSip from '../components/ShowAlertOrSip';
 
 export const IntroductionPage = props => {
@@ -29,13 +29,13 @@ export const IntroductionPage = props => {
 
   const sipOptions = {
     formId,
-    startText: 'Start your dispute',
-    unauthStartText: 'Sign in or create an account',
+    startText: i18nDebtApp.t('sip-options.start-text'),
+    unauthStartText: i18nDebtApp.t('sip-options.unauth-start-text'),
     messages: savedFormMessages,
     gaStartEventName: 'digital-dispute-request',
     pageList,
     formConfig,
-    retentionPeriod: '60 days',
+    retentionPeriod: i18nDebtApp.t('sip-options.retention-period'),
     downtime,
     prefillEnabled,
     hideUnauthedStartLink: true,
@@ -50,41 +50,57 @@ export const IntroductionPage = props => {
   if (isLoadingFeatures) {
     return (
       <va-loading-indicator
-        label="Loading"
-        message="Loading application..."
+        label={i18nDebtApp.t('loading-indicator.label')}
+        message={i18nDebtApp.t('loading-indicator.message')}
         set-focus
       />
     );
   }
 
+  const FormInstructions = () => (
+    <div>
+      <p className="va-introtext">
+        {i18nDebtApp.t('form-intro.info.about-form')}
+      </p>
+      <h2>{i18nDebtApp.t('form-intro.info.before-form')}</h2>
+      <div>
+        <ul>
+          <li>
+            {i18nDebtApp.t('form-intro.info.form-usage')}
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/health-care/pay-copay-bill/dispute-charges/"
+                text={i18nDebtApp.t('form-intro.info.dispute-charges-link')}
+              />
+            </span>
+          </li>
+          <li>{i18nDebtApp.t('form-intro.info.payments-note')} </li>
+        </ul>
+      </div>
+    </div>
+  );
+
+  const VaAlertFormIntro = () => (
+    <va-alert status="error" visible>
+      <h2 slot="headline">{i18nDebtApp.t('form-intro.alert.title')}</h2>
+      <p className="vads-u-font-size--base vads-u-font-family--sans">
+        {i18nDebtApp.t('form-intro.alert.description')}
+      </p>
+      <a
+        className="vads-c-action-link--green vads-u-margin-top--1p5"
+        href={`${environment.BASE_URL}`}
+      >
+        {i18nDebtApp.t('form-intro.alert.link')}
+      </a>
+    </va-alert>
+  );
+
   return (
     <article className="schemaform-intro">
-      <FormTitle title={TITLE} />
+      <FormTitle title={i18nDebtApp.t('form-intro.title')} />
       {disputeDebtActive ? (
         <>
-          <p className="va-introtext">
-            Use this form if you’d like to dispute all or part of the debt.
-          </p>
-          <h2>What to know before you fill out this form</h2>
-          <div>
-            <ul>
-              <li>
-                Right now, you can only use this form to dispute debts from
-                benefit overpayments. You can’t use it to dispute copay bills at
-                this time.
-                <span className="vads-u-display--block">
-                  <va-link
-                    href="https://www.va.gov/health-care/pay-copay-bill/dispute-charges/"
-                    text="Learn how to dispute copay bills"
-                  />
-                </span>
-              </li>
-              <li>
-                You may need to make payments on your debt while we review your
-                dispute.
-              </li>
-            </ul>
-          </div>
+          <FormInstructions />
           <br />
           <ShowAlertOrSip
             user={user}
@@ -96,18 +112,7 @@ export const IntroductionPage = props => {
           />
         </>
       ) : (
-        <va-alert status="error" visible>
-          <h2 slot="headline">We’re sorry. This application is unavailable.</h2>
-          <p className="vads-u-font-size--base vads-u-font-family--sans">
-            We are currently working on this application
-          </p>
-          <a
-            className="vads-c-action-link--green vads-u-margin-top--1p5"
-            href={`${environment.BASE_URL}`}
-          >
-            Go back to VA.gov
-          </a>
-        </va-alert>
+        <VaAlertFormIntro />
       )}
     </article>
   );

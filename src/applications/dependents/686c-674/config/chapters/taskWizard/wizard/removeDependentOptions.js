@@ -30,10 +30,24 @@ export const uiSchema = {
       labelHeaderLevel: '3',
       enableAnalytics: true,
       updateSchema: (formData, schema) => {
-        // Check if new option is selected
-        // update view:selectable686Options with the selection
-        // this is to preserve field validation
-
+        /**
+         * NAVIGATION FLAGS (not submission flags)
+         *
+         * This sets view:selectable686Options based on what the user SELECTED
+         * in the wizard, not on what data they've COMPLETED. These flags are used
+         * for:
+         * 1. Page visibility (depends functions check these flags)
+         * 2. Field validation during form editing
+         *
+         * IMPORTANT: These flags may not match the final submission!
+         * - User might select an option but not complete the data entry
+         * - On submission, buildSubmissionData() rebuilds these flags based on
+         *   actual data presence (single source of truth)
+         * - Backend receives only flags for completed workflows with data
+         *
+         * This separation allows users to navigate the form freely while ensuring
+         * we only submit flags for workflows they actually completed.
+         */
         if (formData?.['view:removeDependentOptions']) {
           // eslint-disable-next-line no-param-reassign
           formData['view:selectable686Options'] = {

@@ -4,25 +4,31 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui/focus';
 
-import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
+import {
+  FIELD_NAMES,
+  FIELD_SECTION_HEADERS,
+  FIELD_TITLES,
+} from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import { openModal, updateFormFieldWithSchema } from '@@vap-svc/actions';
 import { isFieldEmpty } from '@@vap-svc/util';
 import { getInitialFormValues } from '@@vap-svc/util/contact-information/formValues';
 import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAttributes';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
-import InitializeVAPServiceIDContainer from '@@vap-svc/containers/InitializeVAPServiceID';
 
-import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
+import {
+  hasVAPServiceConnectionError,
+  isSchedulingPreferencesPilotEligible as isSchedulingPreferencesPilotEligibleSelector,
+} from '~/platform/user/selectors';
 
+import { isSubtaskSchedulingPreference } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { EditFallbackContent } from './EditFallbackContent';
 import { EditContext } from './EditContext';
 import { EditConfirmCancelModal } from './EditConfirmCancelModal';
-import { EditBreadcrumb } from './EditBreadcrumb';
 
-import { getRoutesForNav } from '../../routesForNav';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 import { getRouteInfoFromPath } from '../../../common/helpers';
+import { getRoutesForNav } from '../../routesForNav';
 
 const useQuery = () => {
   const { search } = useLocation();
@@ -36,11 +42,14 @@ const getFieldInfo = fieldName => {
   if (!fieldNameKey) {
     return null;
   }
+  const fieldTitle = isSubtaskSchedulingPreference(fieldName)
+    ? `Edit ${FIELD_SECTION_HEADERS?.[fieldName]}`
+    : FIELD_TITLES?.[fieldName];
 
   return {
     fieldName,
     fieldKey: fieldNameKey,
-    title: FIELD_TITLES?.[fieldName] || '',
+    title: fieldTitle,
   };
 };
 
@@ -63,9 +72,17 @@ export const Edit = () => {
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const profile2Toggle = useToggleValue(TOGGLE_NAMES.profile2Enabled);
+  const profileHealthCareSettingsPageToggle = useToggleValue(
+    TOGGLE_NAMES.profileHealthCareSettingsPage,
+  );
+  const isSchedulingPreferencesPilotEligible = useSelector(state =>
+    isSchedulingPreferencesPilotEligibleSelector(state),
+  );
 
   const routesForNav = getRoutesForNav({
     profile2Enabled: profile2Toggle,
+    profileHealthCareSettingsPage: profileHealthCareSettingsPageToggle,
+    profileSchedulingPreferencesEnabled: isSchedulingPreferencesPilotEligible,
   });
 
   const fieldInfo = getFieldInfo(query.get('fieldName'));
@@ -98,15 +115,27 @@ export const Edit = () => {
     selectVAPContactInfoField(state, fieldInfo?.fieldName),
   );
 
+  const isReturningToSchedulingPreferences = path => {
+    return path === PROFILE_PATHS.SCHEDULING_PREFERENCES;
+  };
+
   const editPageHeadingString = useMemo(
     () => {
+      if (
+        isSubtaskSchedulingPreference(fieldInfo?.fieldName) ||
+        isReturningToSchedulingPreferences(returnPath)
+      ) {
+        return `Edit ${FIELD_SECTION_HEADERS?.[
+          fieldInfo.fieldName
+        ].toLowerCase()}`;
+      }
       const addOrUpdate = isFieldEmpty(fieldData, fieldInfo?.fieldName)
         ? 'Add'
         : 'Update';
 
       return `${addOrUpdate} your ${fieldInfo?.title.toLowerCase()}`;
     },
-    [fieldData, fieldInfo],
+    [fieldData, fieldInfo, returnPath],
   );
 
   const internationalPhonesToggleValue = useToggleValue(
@@ -217,6 +246,10 @@ export const Edit = () => {
     },
   };
 
+  const breadcrumbText = isReturningToSchedulingPreferences(returnPath)
+    ? returnPathName
+    : `Back to ${returnPathName}`;
+
   return (
     <EditContext.Provider value={{ onCancel: handlers.cancel }}>
       {fieldInfo && !hasVAPServiceError ? (
@@ -228,36 +261,47 @@ export const Edit = () => {
             onHide={() => setShowConfirmCancelModal(false)}
           />
           <div className="vads-u-display--block medium-screen:vads-u-display--block">
-            <EditBreadcrumb
-              className="vads-u-margin-top--2 vads-u-margin-bottom--3"
-              onClickHandler={handlers.breadCrumbClick}
-              href={returnPath}
+            <nav
+              aria-label="Breadcrumb"
+              className="vads-u-margin-top--3 vads-u-margin-bottom--3"
             >
-              {`Back to ${returnPathName}`}
-            </EditBreadcrumb>
+              <va-link
+                back
+                href={returnPath}
+                onClick={handlers.breadCrumbClick}
+                text={breadcrumbText}
+              />
+            </nav>
 
-            <p className="vads-u-margin-bottom--0p5">
-              {formattedReturnPathName}
-            </p>
+            {!isReturningToSchedulingPreferences(returnPath) && (
+              <p className="vads-u-margin-bottom--0p5">
+                {formattedReturnPathName}
+              </p>
+            )}
 
             <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
               {editPageHeadingString}
             </h1>
 
-            <InitializeVAPServiceIDContainer>
-              {/* the EditConfirmCancelModal is passed here as props to allow a custom modal to be used
-                  for when the user clicks 'cancel' on the form with unsaved edits */}
-              <ProfileInformationFieldController
-                fieldName={fieldInfo.fieldName}
-                forceEditView
-                isDeleteDisabled
-                saveButtonText="Save to profile"
-                successCallback={handlers.success}
-                cancelCallback={handlers.cancel}
-                CustomConfirmCancelModal={EditConfirmCancelModal}
-                allowInternationalPhones
-              />
-            </InitializeVAPServiceIDContainer>
+            {isReturningToSchedulingPreferences(returnPath) && (
+              <p>
+                Enter the {fieldInfo.title.toLowerCase()} you want to use for
+                scheduling. We’ll also update this information in your profile.
+              </p>
+            )}
+
+            {/* the EditConfirmCancelModal is passed here as props to allow a custom modal to be used
+                for when the user clicks 'cancel' on the form with unsaved edits */}
+            <ProfileInformationFieldController
+              fieldName={fieldInfo.fieldName}
+              forceEditView
+              isDeleteDisabled
+              saveButtonText="Save to profile"
+              successCallback={handlers.success}
+              cancelCallback={handlers.cancel}
+              CustomConfirmCancelModal={EditConfirmCancelModal}
+              allowInternationalPhones
+            />
           </div>
         </>
       ) : (

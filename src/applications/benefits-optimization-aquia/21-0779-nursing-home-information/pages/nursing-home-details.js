@@ -32,10 +32,15 @@ export const nursingHomeDetailsUiSchema = {
  */
 const addressSchemaWithDefault = addressSchema({
   omit: ['isMilitary', 'street3'],
+  extend: {
+    country: { default: 'USA', maxLength: 3 },
+    street: { maxLength: 30 },
+    street2: { maxLength: 5 },
+    city: { maxLength: 18 },
+    state: { maxLength: 2 },
+    postalCode: { maxLength: 9 },
+  },
 });
-
-// Set default country to USA
-addressSchemaWithDefault.properties.country.default = 'USA';
 
 export const nursingHomeDetailsSchema = {
   type: 'object',

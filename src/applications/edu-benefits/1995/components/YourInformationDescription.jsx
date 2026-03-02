@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { isLOA3 } from '~/platform/user/selectors';
 
 // Map benefit type codes to full descriptions
 const BENEFIT_TYPE_LABELS = {
@@ -19,9 +21,10 @@ const BENEFIT_TYPE_LABELS = {
   CH1606: 'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
 
   // Dependents' Education Assistance
-  chapter35: "Dependents' Education Assistance (DEA, Chapter 35)",
-  CH35: "Dependents' Education Assistance (DEA, Chapter 35)",
-  DEA: "Dependents' Education Assistance (DEA, Chapter 35)",
+  chapter35:
+    "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
+  CH35: "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
+  DEA: "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
 
   // Legacy mappings (for backward compatibility)
   transferOfEntitlement:
@@ -32,51 +35,59 @@ const BENEFIT_TYPE_LABELS = {
   FRY: 'Fry Scholarship (Chapter 33)',
 };
 
-const getBenefitLabel = benefitType => {
+const getBenefitHeading = benefitType => {
+  return benefitType ? 'Your current benefit' : 'No last used benefit to show';
+};
+
+export const getBenefitLabel = benefitType => {
   if (!benefitType) {
-    return "We couldn't load your current benefit.";
+    return 'We don’t have a record of a last used benefit for you in our system.';
   }
   return BENEFIT_TYPE_LABELS[benefitType] || benefitType;
 };
 
-const YourInformationDescription = ({ formData }) => (
-  <div className="vads-u-margin-bottom--4">
-    <h2 style={{ fontSize: '30px' }}>Your information</h2>
-    <div
-      className="usa-summary-box"
-      role="region"
-      aria-labelledby="summary-box-current-benefit"
-      style={{
-        backgroundColor: 'white',
-        border: '2px solid #919191',
-        borderRadius: '4px',
-      }}
-    >
-      <div className="usa-summary-box__body vads-u-padding-x--3 vads-u-padding-top--1 vads-u-padding-bottom--2">
-        <h3
-          className="usa-summary-box__heading vads-u-margin-top--0"
-          id="summary-box-current-benefit"
-          style={{ marginBottom: '0.25rem', fontSize: '20px' }}
-        >
-          Your current benefit
-        </h3>
-        <div className="usa-summary-box__text">
-          <p className="vads-u-margin-y--0">
-            {getBenefitLabel(formData?.currentBenefitType)}
+const YourInformationDescription = ({ formData }) => {
+  const isLoa3 = useSelector(isLOA3);
+
+  return (
+    <div className="vads-u-margin-bottom--4" style={{ maxWidth: '35rem' }}>
+      {isLoa3 && (
+        <>
+          <h2 style={{ fontSize: '30px' }}>Your information</h2>
+          <div
+            className="usa-summary-box"
+            role="region"
+            aria-labelledby="summary-box-current-benefit"
+            style={{
+              backgroundColor: 'white',
+              border: '2px solid #919191',
+              borderRadius: '4px',
+            }}
+          >
+            <div className="usa-summary-box__body vads-u-padding-x--3 vads-u-padding-top--1 vads-u-padding-bottom--2">
+              <h3
+                className="usa-summary-box__heading vads-u-margin-top--0"
+                id="summary-box-current-benefit"
+                style={{ marginBottom: '0.25rem' }}
+              >
+                {getBenefitHeading(formData?.currentBenefitType)}
+              </h3>
+              <div className="usa-summary-box__text">
+                <p className="vads-u-margin-y--0">
+                  {getBenefitLabel(formData?.currentBenefitType)}
+                </p>
+              </div>
+            </div>
+          </div>
+          <p className="vads-u-margin-top--2">
+            <strong>Note:</strong> If this information is incorrect, contact us
+            at <va-link href="https://ask.va.gov/" text="Ask VA" />.
           </p>
-        </div>
-      </div>
+        </>
+      )}
     </div>
-    <p className="vads-u-margin-top--2">
-      <strong>Note:</strong> If this information is incorrect, contact us at{' '}
-      <va-link
-        href="https://va.gov/contact-us/ask-va/introduction"
-        text="Ask VA"
-      />
-      .
-    </p>
-  </div>
-);
+  );
+};
 
 YourInformationDescription.propTypes = {
   formData: PropTypes.shape({

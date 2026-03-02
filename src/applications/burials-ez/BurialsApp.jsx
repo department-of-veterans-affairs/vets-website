@@ -1,24 +1,59 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
-import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
+import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
+
+import manifest from './manifest.json';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 
 /**
- * Render the 686C-674 application
- * @param {object} location - react router location object
- * @param {JSX.Element} children - child components
- * @returns {JSX.Element} - rendered component
+ * Burials Application
+ * @typedef {object} BurialsAppProps
+ * @property {object} location - current location object
+ * @property {node} children - child components
+ *
+ * @param {BurialsAppProps} props - Component props
+ * @returns {React.Component} - Burials Application
  */
 export default function BurialsApp({ location, children }) {
-  const { loading: isLoadingFeatures, burialFormEnabled } = useSelector(
-    state => state?.featureToggles,
+  const {
+    loading: isLoadingFeatures,
+    burialFormEnabled,
+    burialPdfFormAlignment,
+  } = useSelector(state => state?.featureToggles);
+  const isLoggedIn = useSelector(
+    state => state?.user?.login?.currentlyLoggedIn,
   );
 
-  useBrowserMonitoring();
+  useBrowserMonitoring({
+    loggedIn: isLoggedIn,
+    toggleName: 'burialBrowserMonitoringEnabled',
+
+    applicationId: '88a7f64b-7f8c-4e26-bef8-55954cab8973',
+    clientToken: 'pub2261e01d7a3f40a23796d0b4c256c5bd',
+    service: 'benefits-burial',
+    version: '1.0.0',
+
+    // record 100% of staging & production sessions; adjust the dashboard
+    // retention filters to manage volume & cost
+    sessionSampleRate: 100,
+    sessionReplaySampleRate: 100,
+  });
+
+  useEffect(
+    () => {
+      if (!isLoadingFeatures) {
+        window.sessionStorage.setItem(
+          'showPdfFormAlignment',
+          burialPdfFormAlignment,
+        );
+      }
+    },
+    [isLoadingFeatures, burialPdfFormAlignment],
+  );
 
   if (isLoadingFeatures) {
     return <va-loading-indicator message="Loading application..." />;
@@ -32,11 +67,26 @@ export default function BurialsApp({ location, children }) {
     return <NoFormPage />;
   }
 
-  return (
+  const content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
   );
+
+  // If on intro page, return content
+  if (location.pathname === '/introduction') {
+    return content;
+  }
+
+  // If a user is not logged in redirect them to the introduction page
+  if (!isLoggedIn) {
+    document.location.replace(manifest.rootUrl);
+    return (
+      <va-loading-indicator message="Redirecting to introduction page..." />
+    );
+  }
+
+  return content;
 }
 
 BurialsApp.propTypes = {

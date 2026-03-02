@@ -61,3 +61,14 @@ export const fasterClaimLabels = {
     'Yes. I’ve uploaded all my supporting documents for my application for burial benefits',
   N: 'No. I have other supporting documents to submit later',
 };
+
+export const serviceBranchLabels = {
+  army: 'Army',
+  navy: 'Navy',
+  airForce: 'Air Force',
+  coastGuard: 'Coast Guard',
+  marineCorps: 'Marine Corps',
+  spaceForce: 'Space Force',
+  usphs: 'USPHS',
+  noaa: 'NOAA',
+};

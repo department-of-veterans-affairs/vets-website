@@ -132,7 +132,6 @@ function isLivingSituationInfoMissing(item) {
  * @property {string} fullName.first - First name
  * @property {string} fullName.last - Last name
  * @property {string} birthDate - Birth date
- * @property {string} ssn - SSN
  * @property {BirthLocation} birthLocation - Birth location object
  * @property {boolean} isBiologicalChild - Is biological child
  * @property {object} relationshipToChild - Relationship to child object
@@ -167,7 +166,14 @@ function isItemIncomplete(item) {
   fail(isFieldMissing(item?.fullName?.first), 'Missing child first name');
   fail(isFieldMissing(item?.fullName?.last), 'Missing child last name');
   fail(isFieldMissing(item?.birthDate), 'Missing birth date');
-  fail(isFieldMissing(item?.ssn), 'Missing SSN');
+  fail(
+    isFieldMissing(item?.ssn) && !item?.noSsn,
+    'Missing Social Security number',
+  );
+  fail(
+    isFieldMissing(item?.noSsnReason) && item?.noSsn === true,
+    'Missing reason for no Social Security number',
+  );
   fail(
     isBirthLocationIncomplete(item?.birthLocation),
     'Incomplete birth location',
@@ -218,7 +224,13 @@ export const arrayBuilderOptions = {
     cardDescription: item => (
       <div>
         Date of birth:
-        <strong> {getFormatedDate(item?.birthDate)}</strong>
+        <strong
+          className="dd-privacy-mask"
+          data-dd-action-name="child date of birth"
+        >
+          {' '}
+          {getFormatedDate(item?.birthDate)}
+        </strong>
       </div>
     ),
     duplicateSummaryCardLabel: () => 'DUPLICATE CHILD',

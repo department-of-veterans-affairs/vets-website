@@ -1,8 +1,7 @@
-import { rest, http, HttpResponse } from 'msw';
+// Re-export rest from mocha-setup for consistency
+import { rest } from 'platform/testing/unit/mocha-setup';
 
-const restOrHttp = rest || http;
-
-export const headKeepAliveSuccess = restOrHttp.head(
+export const headKeepAliveSuccess = rest.head(
   'https://int.eauth.va.gov/keepalive',
-  () => new HttpResponse(null, { status: 200 }),
+  (req, res, ctx) => res(ctx.status(200)),
 );

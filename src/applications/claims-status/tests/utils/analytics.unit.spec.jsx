@@ -5,11 +5,11 @@ import {
   storeFailedUpload,
   checkIfRetry,
   clearUploadTracking,
-  recordType2FailureEventListPage,
-  recordType2FailureEventStatusPage,
+  recordType2FailureEvent,
   recordUploadStartEvent,
   recordUploadFailureEvent,
   recordUploadSuccessEvent,
+  recordUploadCancelEvent,
 } from '../../utils/analytics';
 
 describe('analytics helpers', () => {
@@ -287,27 +287,23 @@ describe('analytics helpers', () => {
     });
   });
 
-  describe('recordType2FailureEventListPage', () => {
-    it('should record event', () => {
-      recordType2FailureEventListPage({ count: 3 });
+  describe('recordType2FailureEvent', () => {
+    it('should record event with all metadata keys', () => {
+      recordType2FailureEvent({ count: 3 });
 
       expect(window.dataLayer.length).to.equal(1);
       expect(window.dataLayer[0]).to.deep.equal({
         event: 'claims-upload-failure-type-2',
-        count: 3,
-        'entry-point': 'claims-list-page',
-      });
-    });
-  });
-
-  describe('recordType2FailureEventStatusPage', () => {
-    it('should record event', () => {
-      recordType2FailureEventStatusPage();
-
-      expect(window.dataLayer.length).to.equal(1);
-      expect(window.dataLayer[0]).to.deep.equal({
-        event: 'claims-upload-failure-type-2',
-        'entry-point': 'claims-status-page',
+        'api-name': 'Claims and Appeals Upload Fail Type 2 Alert',
+        'api-status': undefined,
+        'error-key': undefined,
+        'upload-cancel-file-count': undefined,
+        'upload-fail-alert-count': 3,
+        'upload-fail-file-count': undefined,
+        'upload-file-count': undefined,
+        'upload-retry': undefined,
+        'upload-retry-file-count': undefined,
+        'upload-success-file-count': undefined,
       });
     });
   });
@@ -328,12 +324,22 @@ describe('analytics helpers', () => {
       const result = recordUploadStartEvent({ files, claimId: TEST_CLAIM_ID });
 
       expect(window.dataLayer.length).to.equal(1);
-      expect(window.dataLayer[0].event).to.equal('claims-upload-start');
-      expect(window.dataLayer[0]['file-count']).to.equal(2);
-      expect(window.dataLayer[0]['retry-file-count']).to.equal(0);
-      expect(window.dataLayer[0]['total-retry-attempts']).to.equal(0);
-      expect(result).to.have.lengthOf(2);
-      expect(result[0]).to.have.property('docInstanceId');
+      expect(window.dataLayer[0]).to.deep.equal({
+        event: 'claims-upload-start',
+        'api-name': 'Claims and Appeals Upload',
+        'api-status': 'started',
+        'error-key': undefined,
+        'upload-cancel-file-count': undefined,
+        'upload-fail-alert-count': undefined,
+        'upload-fail-file-count': undefined,
+        'upload-file-count': 2,
+        'upload-retry': false,
+        'upload-retry-file-count': 0,
+        'upload-success-file-count': undefined,
+      });
+      expect(result.filesWithRetryInfo).to.have.lengthOf(2);
+      expect(result.filesWithRetryInfo[0]).to.have.property('docInstanceId');
+      expect(result.retryFileCount).to.equal(0);
     });
 
     it('should detect and count retry attempts', () => {
@@ -351,10 +357,10 @@ describe('analytics helpers', () => {
       recordUploadStartEvent({ files, claimId: TEST_CLAIM_ID });
       // Record second attempt (should be detected as retry)
       recordUploadStartEvent({ files, claimId: TEST_CLAIM_ID });
-      // Both files are retries (2 files) with 1 previous attempt each (2 total attempts)
+      // Both files are retries (2 files) with 1 previous attempt each
       expect(window.dataLayer.length).to.equal(2);
-      expect(window.dataLayer[1]['retry-file-count']).to.equal(2);
-      expect(window.dataLayer[1]['total-retry-attempts']).to.equal(2);
+      expect(window.dataLayer[1]['upload-retry']).to.equal(true);
+      expect(window.dataLayer[1]['upload-retry-file-count']).to.equal(2);
     });
 
     it("should use 'Unknown' as fallback when file object is missing docType property", () => {
@@ -366,31 +372,40 @@ describe('analytics helpers', () => {
       ];
       const result = recordUploadStartEvent({ files, claimId: TEST_CLAIM_ID });
 
-      expect(result[0].docType).to.equal('Unknown');
+      expect(result.filesWithRetryInfo[0].docType).to.equal('Unknown');
     });
   });
 
   describe('recordUploadFailureEvent', () => {
     it('should record event', () => {
-      const file = createTestFile();
+      const file1 = createTestFile('test1.pdf', TEST_TIMESTAMP_1);
+      const file2 = createTestFile('test2.pdf', TEST_TIMESTAMP_2);
       const errorFiles = [
         {
-          fileName: 'test.pdf',
+          fileName: 'test1.pdf',
           docType: 'Other document type',
+          errors: [{ detail: 'DOC_UPLOAD_DUPLICATE' }],
+        },
+        {
+          fileName: 'test2.pdf',
+          docType: 'Medical Records',
           errors: [{ detail: 'DOC_UPLOAD_DUPLICATE' }],
         },
       ];
       const files = [
-        {
-          file,
-          docType: { value: TEST_DOC_TYPE },
-        },
+        { file: file1, docType: { value: TEST_DOC_TYPE } },
+        { file: file2, docType: { value: TEST_DOC_TYPE_2 } },
       ];
       const filesWithRetryInfo = [
         {
           docInstanceId: TEST_DOC_INSTANCE_ID,
-          retryInfo: { isRetry: false, retryCount: 0 },
+          retryInfo: { isRetry: true, retryCount: 1 },
           docType: TEST_DOC_TYPE,
+        },
+        {
+          docInstanceId: TEST_DOC_INSTANCE_ID_2,
+          retryInfo: { isRetry: false, retryCount: 0 },
+          docType: TEST_DOC_TYPE_2,
         },
       ];
 
@@ -399,13 +414,22 @@ describe('analytics helpers', () => {
         files,
         filesWithRetryInfo,
         claimId: TEST_CLAIM_ID,
+        retryFileCount: 1,
       });
 
       expect(window.dataLayer.length).to.equal(1);
       expect(window.dataLayer[0]).to.deep.equal({
         event: 'claims-upload-failure',
-        'failed-file-count': 1,
-        'error-code': 'DOC_UPLOAD_DUPLICATE',
+        'api-name': 'Claims and Appeals Upload',
+        'api-status': 'failed',
+        'error-key': 'DOC_UPLOAD_DUPLICATE',
+        'upload-cancel-file-count': undefined,
+        'upload-fail-alert-count': undefined,
+        'upload-fail-file-count': 2,
+        'upload-file-count': undefined,
+        'upload-retry': true,
+        'upload-retry-file-count': 1,
+        'upload-success-file-count': undefined,
       });
     });
 
@@ -422,11 +446,12 @@ describe('analytics helpers', () => {
         files: [],
         filesWithRetryInfo: [],
         claimId: TEST_CLAIM_ID,
+        retryFileCount: 0,
       });
 
       expect(window.dataLayer.length).to.equal(1);
-      expect(window.dataLayer[0]['failed-file-count']).to.equal(1);
-      expect(window.dataLayer[0]['error-code']).to.equal('Unknown');
+      expect(window.dataLayer[0]['upload-fail-file-count']).to.equal(1);
+      expect(window.dataLayer[0]['error-key']).to.equal('Unknown');
     });
 
     it("should store 'Unknown' as docType when errorFile is missing docType property", () => {
@@ -452,6 +477,7 @@ describe('analytics helpers', () => {
         files,
         filesWithRetryInfo,
         claimId: TEST_CLAIM_ID,
+        retryFileCount: 0,
       });
 
       const storedFailures = getStoredFailures();
@@ -485,6 +511,7 @@ describe('analytics helpers', () => {
         files,
         filesWithRetryInfo,
         claimId: TEST_CLAIM_ID,
+        retryFileCount: 0,
       });
 
       const storedFailures = getStoredFailures();
@@ -497,13 +524,43 @@ describe('analytics helpers', () => {
   });
 
   describe('recordUploadSuccessEvent', () => {
-    it('should record event', () => {
-      recordUploadSuccessEvent({ fileCount: 2 });
+    it('should record event with all metadata keys', () => {
+      recordUploadSuccessEvent({ fileCount: 2, retryFileCount: 1 });
 
       expect(window.dataLayer.length).to.equal(1);
       expect(window.dataLayer[0]).to.deep.equal({
         event: 'claims-upload-success',
-        'file-count': 2,
+        'api-name': 'Claims and Appeals Upload',
+        'api-status': 'successful',
+        'error-key': undefined,
+        'upload-cancel-file-count': undefined,
+        'upload-fail-alert-count': undefined,
+        'upload-fail-file-count': undefined,
+        'upload-file-count': undefined,
+        'upload-retry': true,
+        'upload-retry-file-count': 1,
+        'upload-success-file-count': 2,
+      });
+    });
+  });
+
+  describe('recordUploadCancelEvent', () => {
+    it('should record event', () => {
+      recordUploadCancelEvent({ cancelFileCount: 3, retryFileCount: 2 });
+
+      expect(window.dataLayer.length).to.equal(1);
+      expect(window.dataLayer[0]).to.deep.equal({
+        event: 'claims-upload-cancel',
+        'api-name': 'Claims and Appeals Upload',
+        'api-status': 'cancel',
+        'error-key': undefined,
+        'upload-cancel-file-count': 3,
+        'upload-fail-alert-count': undefined,
+        'upload-fail-file-count': undefined,
+        'upload-file-count': undefined,
+        'upload-retry': true,
+        'upload-retry-file-count': 2,
+        'upload-success-file-count': undefined,
       });
     });
   });

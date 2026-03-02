@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "title": "Record not found",
+      "detail": "Record with the specified code was not found",
+      "code": "GI404",
+      "source": "Record not found",
+      "status": "404"
+    }
+  ]
+}

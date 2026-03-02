@@ -1,3 +1,6 @@
+/**
+ * E2E test for keyboard only navigation on 10182 form.
+ */
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';

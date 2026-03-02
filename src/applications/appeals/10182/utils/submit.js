@@ -1,10 +1,8 @@
 import { MAX_LENGTH, SELECTED } from '../../shared/constants';
 import '../../shared/definitions';
 import { returnUniqueIssues } from '../../shared/utils/issues';
-import {
-  fixDateFormat,
-  replaceSubmittedData,
-} from '../../shared/utils/replace';
+import { replaceSubmittedData } from '../../shared/utils/replace';
+import { fixDateFormat } from '../../shared/utils/dates';
 import { removeEmptyEntries, getIso2Country } from '../../shared/utils/submit';
 
 /**
@@ -66,7 +64,7 @@ export const getContestableIssues = ({ contestedIssues } = {}) =>
  * @returns {ContestableIssuesSubmittable}
  */
 export const addIncludedIssues = formData => {
-  const issues = getContestableIssues(formData);
+  const issues = getContestableIssues({ ...formData, appAbbr: 'NOD' });
 
   const result = issues.concat(
     (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {

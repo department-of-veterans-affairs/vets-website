@@ -11,23 +11,19 @@ export const FDCDescription = (
     </p>
     <ul>
       <li>
-        <a
+        <va-link
           href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn more about the FDC program
-        </a>
+          text="Learn more about the FDC program"
+          external
+        />
         .
       </li>
       <li>
-        <a
+        <va-link
           href="/disability/how-to-file-claim/evidence-needed/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View the evidence requirements for disability claims
-        </a>
+          text="View the evidence requirements for disability claims"
+          external
+        />
         .
       </li>
     </ul>
@@ -60,7 +56,12 @@ export const noFDCWarning = (
         <ul>
           <li>
             Visit the Claim Status tool and upload your documents under the File
-            tab. <a href="/track-claims">Track the status of your claims</a>
+            tab.{' '}
+            <va-link
+              href="/track-claims"
+              text="Track the status of your claims"
+              external
+            />
           </li>
           <li>
             Call Veterans Benefits Assistance at{' '}

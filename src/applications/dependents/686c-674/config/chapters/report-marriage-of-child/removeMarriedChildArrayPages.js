@@ -8,7 +8,6 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   radioUI,
   radioSchema,
-  fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   ssnUI,
   ssnSchema,
@@ -16,7 +15,11 @@ import {
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { CancelButton } from '../../helpers';
+import {
+  CancelButton,
+  incomeQuestionUpdateUiSchema,
+  fullNameNoSuffixWithAsciiUI,
+} from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
@@ -99,7 +102,7 @@ export const marriedChildInformationPage = {
       title: 'Remove a child who got married',
       nounSingular: removeMarriedChildOptions.nounSingular,
     }),
-    fullName: fullNameNoSuffixUI(),
+    fullName: fullNameNoSuffixWithAsciiUI(),
     ssn: {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
@@ -154,11 +157,7 @@ export const marriedChildIncomeQuestionPage = {
       },
       required: (_chapterData, _index, formData) =>
         formData?.vaDependentsNetWorthAndPension,
-      updateUiSchema: () => ({
-        'ui:options': {
-          hint: '',
-        },
-      }),
+      updateUiSchema: incomeQuestionUpdateUiSchema,
       updateSchema: (formData = {}, formSchema) => {
         const { vaDependentsNetWorthAndPension } = formData;
 

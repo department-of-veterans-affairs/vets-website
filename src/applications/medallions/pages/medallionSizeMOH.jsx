@@ -4,6 +4,13 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import environment from 'platform/utilities/environment';
+import buckets from 'site/constants/buckets';
+import { VAGOVPROD, VAGOVSTAGING } from 'site/constants/environments';
+
+const mohImageSrc = environment.isProduction()
+  ? `${buckets[VAGOVPROD]}/img/medallions-moh.png`
+  : `${buckets[VAGOVSTAGING]}/img/medallions-moh.png`;
 
 const MOHSizeDescription = () => {
   return (
@@ -13,7 +20,7 @@ const MOHSizeDescription = () => {
         to check if they’ll accept the size of medallion you request.
       </p>
       <img
-        src="/img/medallions-moh.png"
+        src={mohImageSrc}
         alt="Medal of Honor VA medallions in medium and large sizes"
         className="vads-u-margin-y--2 vads-u-display--block"
         style={{ maxWidth: '100%', width: '400px' }}

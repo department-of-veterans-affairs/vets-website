@@ -47,7 +47,10 @@ export default {
           },
           dateOfMarriage: merge(
             {},
-            currentOrPastDateUI('Date of marriage'),
+            currentOrPastDateUI({
+              title: 'Date of marriage',
+              dataDogHidden: true,
+            }),
             {
               'ui:required': (...args) => isCurrentMarriage(...args),
             },
@@ -118,7 +121,10 @@ export default {
           },
           dateOfMarriage: merge(
             {},
-            currentOrPastDateUI('Date of marriage'),
+            currentOrPastDateUI({
+              title: 'Date of marriage',
+              dataDogHidden: true,
+            }),
             {
               'ui:required': (...args) => !isCurrentMarriage(...args),
             },
@@ -130,7 +136,10 @@ export default {
           ),
           dateOfSeparation: merge(
             {},
-            currentOrPastDateUI('Date marriage ended'),
+            currentOrPastDateUI({
+              title: 'Date marriage ended',
+              dataDogHidden: true,
+            }),
             {
               'ui:required': (...args) => !isCurrentMarriage(...args),
             },

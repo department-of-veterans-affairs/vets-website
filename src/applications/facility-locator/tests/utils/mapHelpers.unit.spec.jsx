@@ -3,12 +3,20 @@ import { getBoxCenter, getPlaceName } from '../../utils/mapHelpers';
 
 describe('mapHelpers utils', () => {
   describe('getBoxCenter', () => {
-    it('should properly calculate the box center when given bounds', () => {
+    it('should properly calculate the box center when given square bounds', () => {
       expect(
         getBoxCenter([-77.955898, 38.380263, -76.955898, 39.380263]),
       ).to.deep.equal({
         lat: 38.880263,
         lon: -77.455898,
+      });
+    });
+
+    it('should properly calculate the box center when given non-square bounds', () => {
+      // Non-square box ensures lonDiff !== latDiff to catch swap bugs
+      expect(getBoxCenter([-123.0, 36.0, -121.0, 37.0])).to.deep.equal({
+        lon: -122.0,
+        lat: 36.5,
       });
     });
 

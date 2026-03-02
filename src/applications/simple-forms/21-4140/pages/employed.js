@@ -14,9 +14,9 @@ export default {
         hint: 'You must select both statements to submit this form',
         labels: {
           employmentCertification:
-            'I CERTIFY THAT I have been employed by the VA, other employers or self-employed during the past twelve months.',
+            'I certify that I have been employed by the VA, other employers or self-employed during the past twelve months.',
           employmentAccuracyCertification:
-            'I FURTHER CERTIFY THAT the items completed on this form are true and correct to the best of my knowledge and belief. I believe that my service-connected disability(ies) has not improved and continues to prevent me from securing or following gainful employment.',
+            'I understand that my continued entitlement to VA unemployability compensation benefits will be based on information that I have furnished on this form or that I hereafter may be required to furnish VA.',
         },
         errorMessages: {
           atLeastOne: 'You must check both certifications to continue',

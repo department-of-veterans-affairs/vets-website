@@ -28,7 +28,7 @@ function interceptSetup() {
       },
     },
   });
-  cy.intercept('GET', '/v0/preneeds/cemeteries', cemeteries);
+  cy.intercept('GET', '/simple_forms_api/v1/cemeteries', cemeteries);
   cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
 }
 

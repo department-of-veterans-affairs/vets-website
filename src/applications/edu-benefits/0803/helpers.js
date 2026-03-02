@@ -1,16 +1,48 @@
 import React from 'react';
+import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
 
-export const getTransformIntlPhoneNumber = (phone = {}) => {
-  let _contact = '';
-  const { callingCode, contact, countryCode } = phone;
+export const transformPhoneNumberObject = (phone = {}) => {
+  const { isInternational, areaCode, phoneNumber, countryCode } = phone;
 
-  if (contact) {
-    const _callingCode = callingCode ? `+${callingCode} ` : '';
-    const _countryCode = countryCode ? ` (${countryCode})` : '';
-    _contact = `${_callingCode}${contact}${_countryCode}`;
+  if (!phoneNumber || !areaCode) {
+    return '';
   }
 
-  return _contact;
+  let base = `${areaCode}${phoneNumber}`;
+  if (isInternational && countryCode) {
+    base = `+${countryCode} ${base}`;
+  }
+
+  return base;
+};
+
+export const transformMailingAddress = (addr = {}) => {
+  const {
+    addressType,
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    countryCodeIso3,
+    stateCode,
+    internationalPostalCode,
+    province,
+    zipCode,
+  } = addr;
+
+  return {
+    isMilitary: addressType === ADDRESS_TYPES.military,
+    street: addressLine1,
+    street2: addressLine2,
+    street3: addressLine3,
+    city,
+    state: addressType === ADDRESS_TYPES.international ? province : stateCode,
+    postalCode:
+      addressType === ADDRESS_TYPES.international
+        ? internationalPostalCode
+        : zipCode,
+    country: countryCodeIso3,
+  };
 };
 
 export const todaysDate = () => {

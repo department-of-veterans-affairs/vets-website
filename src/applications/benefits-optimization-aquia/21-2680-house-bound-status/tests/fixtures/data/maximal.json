@@ -14,7 +14,6 @@
       "veteranAddress": {
         "street": "501 Jedi Temple Avenue",
         "street2": "Rm 1A",
-        "street3": "Floor 1138",
         "city": "Coruscant",
         "state": "DC",
         "country": "USA",
@@ -39,7 +38,6 @@
       "claimantAddress": {
         "street": "500 Republica Luxury Apts",
         "street2": "PH",
-        "street3": "Tower A",
         "city": "Naboo",
         "state": "NM",
         "country": "USA",
@@ -47,8 +45,14 @@
       }
     },
     "claimantContact": {
-      "claimantPhoneNumber": "5055551977",
-      "claimantMobilePhone": "5055551983",
+      "claimantPhoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "(505) 555-1977",
+        "IsValid": true,
+        "Error": null,
+        "Touched": true
+      },
       "claimantEmail": "senator.amidala@galacticsenate.gov"
     },
     "benefitType": {
@@ -65,7 +69,6 @@
       "facilityAddress": {
         "street": "1 Outer Rim Medical Center",
         "street2": "ER",
-        "street3": "Bldg C",
         "city": "Washington",
         "state": "DC",
         "country": "USA",

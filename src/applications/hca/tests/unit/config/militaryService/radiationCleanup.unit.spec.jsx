@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca Radiation Cleanup Efforts config', () => {
   const {
@@ -12,8 +14,8 @@ describe('hca Radiation Cleanup Efforts config', () => {
   } = formConfig.chapters.militaryService.pages.radiationCleanup;
 
   // run test for correct number of fields on the page
-  const expectedNumberOfFields = 2;
-  testNumberOfFormFields(
+  const expectedNumberOfFields = 1;
+  testNumberOfWebComponentFields(
     formConfig,
     schema,
     uiSchema,
@@ -23,11 +25,35 @@ describe('hca Radiation Cleanup Efforts config', () => {
 
   // run test for correct number of error messages on submit
   const expectedNumberOfErrors = 0;
-  testNumberOfErrorsOnSubmit(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        radiationCleanupEfforts: {
+          type: 'boolean',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      radiationCleanupEfforts: {
+        'ui:title': {},
+        'ui:description': {},
+        'ui:webComponentField': {},
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

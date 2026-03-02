@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
-import PrivacyActStatement from '../components/PrivacyActStatement';
 import { getTitle } from '../helpers';
+import PrivacyActStatement from '../components/PrivacyActStatement';
 
 const PrivacyPolicy = () => {
   const [showModal, setShowModal] = useState(false);

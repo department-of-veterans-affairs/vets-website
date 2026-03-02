@@ -63,10 +63,10 @@ describe('ConfirmationPage', () => {
     expect(getByText('Your dispute submission is in progress')).to.exist;
     const alert = container.querySelector('va-alert');
     expect(alert.textContent).to.include(
-      'An email confirmation has been sent to testemail@test.com',
+      'We sent a confirmation email to testemail@test.com',
     );
     expect(alert.textContent).to.include(
-      'You should also receive a confirmation letter in the mail within 60 days',
+      'We’ll send you a confirmation letter in the mail once we’ve processed your dispute. You should receive that letter within 60 days.',
     );
   });
 
@@ -87,7 +87,7 @@ describe('ConfirmationPage', () => {
     );
 
     expect(firstItem.getAttribute('header')).to.equal(
-      'We’ll confirm when we processed your request',
+      'We’ll confirm when we processed your dispute',
     );
     expect(
       'After we receive your submission, we’ll review your dispute. You should receive a confirmation letter by mail within 60 days.',

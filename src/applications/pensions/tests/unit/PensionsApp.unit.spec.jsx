@@ -16,11 +16,15 @@ const pensionLocation = {
   query: '{}',
 };
 
-const store = ({ pensionFormEnabled = true, loading = true } = {}) => ({
+const store = ({
+  pensionFormEnabled = true,
+  loading = true,
+  isLoggedIn = true,
+} = {}) => ({
   getState: () => ({
     user: {
       login: {
-        currentlyLoggedIn: true,
+        currentlyLoggedIn: isLoggedIn,
       },
     },
     featureToggles: {
@@ -61,6 +65,9 @@ describe('PensionsApp', () => {
   });
 
   it('should render the ITF wrapper on first page', async () => {
+    const oldLocation = global.window.location;
+    global.window.location = { href: '' };
+
     const mockStore = store({ loading: false, pensionFormEnabled: false });
     const { container } = render(
       <Provider store={mockStore}>
@@ -72,5 +79,24 @@ describe('PensionsApp', () => {
     await waitFor(() => {
       expect($('.itf-wrapper', container)).to.not.exist;
     });
+
+    global.window.location = oldLocation;
+  });
+
+  it('should render redirect loading indicator when user is not logged in on form page', () => {
+    const mockStore = store({ loading: false, isLoggedIn: false });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <PensionsApp
+          location={{ ...pensionLocation, pathname: '/inside-form' }}
+        />
+      </Provider>,
+    );
+
+    const loadingIndicator = container.querySelector('va-loading-indicator');
+    expect(loadingIndicator).to.exist;
+    expect(loadingIndicator.getAttribute('message')).to.equal(
+      'Redirecting to introduction page...',
+    );
   });
 });

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { focusElement } from 'platform/utilities/ui/focus';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
@@ -19,12 +20,12 @@ import {
   clearReviewPageAlert,
   setExpenseBackDestination,
 } from '../../../redux/actions';
-import { ComplexClaimsHelpSection } from '../../HelpText';
 
 const ReviewPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
+  const alertRef = useRef(null);
 
   const { data: claimDetails = {} } = useSelector(selectComplexClaim);
   const expenses = useSelector(selectAllExpenses) ?? [];
@@ -35,7 +36,33 @@ const ReviewPage = () => {
 
   useSetPageTitle(title);
 
-  // Get total by expense type and return expenses alphabetically
+  useEffect(
+    () => {
+      if (alertMessage) {
+        if (alertRef.current) {
+          focusElement(alertRef.current);
+        }
+      } else {
+        const firstH1 = document.getElementsByTagName('h1')[0];
+        if (firstH1) {
+          focusElement(firstH1);
+        }
+      }
+    },
+    [alertMessage],
+  );
+
+  // Clear alert when user navigates away from review page
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearReviewPageAlert());
+      };
+    },
+    [dispatch],
+  );
+
+  // Get total by expense type and return expenses in EXPENSE_TYPES order
   const totalByExpenseType = Object.fromEntries(
     Object.entries(
       expenses.reduce((acc, expense) => {
@@ -44,7 +71,10 @@ const ReviewPage = () => {
           (acc[expenseType] || 0) + (expense.costRequested || 0);
         return acc;
       }, {}),
-    ).sort(([a], [b]) => a.localeCompare(b)),
+    ).sort(([a], [b]) => {
+      const order = Object.keys(EXPENSE_TYPES);
+      return order.indexOf(a) - order.indexOf(b);
+    }),
   );
 
   // Create a grouped version of expenses by expenseType
@@ -83,13 +113,14 @@ const ReviewPage = () => {
   };
 
   const numGroupedExpenses = Object.keys(groupedExpenses).length;
-  const isAlertVisible = !!alertMessage && numGroupedExpenses > 0;
+  const isAlertVisible = !!alertMessage;
 
   return (
     <div data-testid="review-page">
       <h1>{title}</h1>
       {isAlertVisible && (
         <ReviewPageAlert
+          alertRef={alertRef}
           header={alertMessage.title}
           description={alertMessage.description}
           status={alertMessage.type}
@@ -111,7 +142,6 @@ const ReviewPage = () => {
             You haven’t added any expenses. Add at least 1 expense to submit
             your claim.
           </p>
-          <ComplexClaimsHelpSection />
         </>
       ) : (
         <>
@@ -125,10 +155,11 @@ const ReviewPage = () => {
             expenses={expenses}
             documents={documents}
             groupAccordionItemsByType
+            headerLevel={3}
           />
-          <div className="vads-u-margin-top--1">
+          <div className="vads-u-margin-top--3">
             <va-card data-testid="summary-box" background>
-              <h3 className="vads-u-margin-top--1">Estimated reimbursement</h3>
+              <h2 className="vads-u-margin-top--1">Estimated reimbursement</h2>
               <ul>
                 {Object.entries(totalByExpenseType)
                   .filter(([_, total]) => total > 0) // only show if total > 0

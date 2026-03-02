@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   useAcceleratedData,
@@ -9,10 +9,16 @@ import {
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
+import {
+  selectHoldTimeMessagingUpdate,
+  selectImagesDomainFlag,
+} from '../util/selectors';
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import {
   getLabsAndTestsList,
+  getAcceleratedImagingStudiesList,
+  mergeImagingStudies,
   reloadRecords,
   updateLabsAndTestDateRange,
 } from '../actions/labsAndTests';
@@ -28,43 +34,73 @@ import {
   loadStates,
   statsdFrontEndActions,
 } from '../util/constants';
-import {
-  calculateDateRange,
-  getTimeFrame,
-  getDisplayTimeFrame,
-  sendDataDogAction,
-} from '../util/helpers';
+import { getTimeFrame, getDisplayTimeFrame } from '../util/helpers';
 
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
+import useDateRangeSelector from '../hooks/useDateRangeSelector';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import DateRangeSelector, {
-  getDateRangeList,
-} from '../components/shared/DateRangeSelector';
+import DateRangeSelector from '../components/shared/DateRangeSelector';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import HoldTimeInfo from '../components/shared/HoldTimeInfo';
 import { fetchImageRequestStatus } from '../actions/images';
 import JobCompleteAlert from '../components/shared/JobsCompleteAlert';
 import { useTrackAction } from '../hooks/useTrackAction';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
+import DuplicateRecordsAlert from '../components/shared/DuplicateRecordsAlert';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const dateRange = useSelector(state => state.mr.labsAndTests.dateRange);
+  const scdfImagingStudies = useSelector(
+    state => state.mr.labsAndTests.scdfImagingStudies,
+  );
+  const scdfImagingStudiesMerged = useSelector(
+    state => state.mr.labsAndTests.scdfImagingStudiesMerged,
+  );
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
   );
-  const labsAndTests = useSelector(
+  const labsAndTestsRaw = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
   );
+  const showImagesDomain = useSelector(selectImagesDomainFlag);
   const { imageStatus: studyJobs } = useSelector(state => state.mr.images);
+  const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
   const mergeCvixWithScdf = useSelector(
     state =>
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicalRecordsMergeCvixIntoScdf
       ],
+  );
+
+  // Filter out radiology records when the images domain flag is enabled
+  const filterOutRadiology = useCallback(
+    list => {
+      if (!showImagesDomain || !list) return list;
+      return list.filter(
+        record =>
+          record?.type !== labTypes.RADIOLOGY &&
+          record?.type !== labTypes.CVIX_RADIOLOGY,
+      );
+    },
+    [showImagesDomain],
+  );
+
+  const labsAndTests = useMemo(() => filterOutRadiology(labsAndTestsRaw), [
+    filterOutRadiology,
+    labsAndTestsRaw,
+  ]);
+
+  // Also filter updatedRecordList so NewRecordsIndicator comparison is accurate
+  const filteredUpdatedList = useMemo(
+    () => filterOutRadiology(updatedRecordList),
+    [filterOutRadiology, updatedRecordList],
   );
 
   const radRecordsWithImagesReady = labsAndTests?.filter(radRecord => {
@@ -77,6 +113,7 @@ const LabsAndTests = () => {
     return isRadRecord && jobComplete;
   });
 
+  const warnings = useSelector(state => state.mr.labsAndTests.warnings);
   const activeAlert = useAlerts(dispatch);
   const listState = useSelector(state => state.mr.labsAndTests.listState);
   const refresh = useSelector(state => state.mr.refresh);
@@ -92,25 +129,73 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
+  const {
+    isLoading,
+    isCerner,
+    isAcceleratingLabsAndTests,
+    isAcceleratingImagingStudies,
+  } = useAcceleratedData();
+
+  useEffect(
+    /** Fetch accelerated imaging studies when accelerating labs */
+    () => {
+      if (
+        isAcceleratingLabsAndTests &&
+        isAcceleratingImagingStudies &&
+        !isLoading
+      ) {
+        dispatch(
+          getAcceleratedImagingStudiesList({
+            startDate: dateRange.fromDate,
+            endDate: dateRange.toDate,
+          }),
+        );
+      }
+    },
+    [
+      dispatch,
+      isAcceleratingLabsAndTests,
+      isAcceleratingImagingStudies,
+      isLoading,
+      dateRange,
+    ],
+  );
+
+  useEffect(
+    /** Merge imaging studies into labs list once both are available */
+    () => {
+      if (
+        isAcceleratingLabsAndTests &&
+        labsAndTestsRaw &&
+        scdfImagingStudies &&
+        !scdfImagingStudiesMerged
+      ) {
+        dispatch(mergeImagingStudies());
+      }
+    },
+    [
+      dispatch,
+      isAcceleratingLabsAndTests,
+      labsAndTestsRaw,
+      scdfImagingStudies,
+      scdfImagingStudiesMerged,
+    ],
+  );
 
   const isLoadingAcceleratedData =
     isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getLabsAndTestsList(
-          isCurrent,
-          isAcceleratingLabsAndTests,
-          {
-            startDate: dateRange.fromDate,
-            endDate: dateRange.toDate,
-          },
-          mergeCvixWithScdf,
-        );
-      };
-    },
+  const dispatchAction = useCallback(
+    isCurrent =>
+      getLabsAndTestsList(
+        isCurrent,
+        isAcceleratingLabsAndTests,
+        {
+          startDate: dateRange.fromDate,
+          endDate: dateRange.toDate,
+        },
+        mergeCvixWithScdf,
+      ),
     [isAcceleratingLabsAndTests, dateRange, mergeCvixWithScdf],
   );
 
@@ -121,6 +206,7 @@ const LabsAndTests = () => {
     extractType: [refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR],
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
@@ -133,48 +219,40 @@ const LabsAndTests = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
     },
     [dispatch],
   );
 
-  const handleDateRangeSelect = useCallback(
-    event => {
-      const { value } = event.detail;
-      const { fromDate, toDate } = calculateDateRange(value);
+  useFocusAfterLoading({
+    isLoading: isLoading || listState !== loadStates.FETCHED,
+    isLoadingAcceleratedData,
+  });
 
-      // Update Redux with new range
-      dispatch(updateLabsAndTestDateRange(value, fromDate, toDate));
-
-      dispatch({
-        type: Actions.LabsAndTests.UPDATE_LIST_STATE,
-        payload: loadStates.PRE_FETCH,
-      });
-
-      // DataDog tracking
-      const selectedOption = getDateRangeList().find(
-        option => option.value === value,
-      );
-      const label = selectedOption ? selectedOption.label : 'Unknown';
-      sendDataDogAction(`Date range option - ${label}`);
-    },
-    [dispatch],
-  );
+  const handleDateRangeSelect = useDateRangeSelector({
+    updateDateRangeAction: updateLabsAndTestDateRange,
+    updateListStateActionType: Actions.LabsAndTests.UPDATE_LIST_STATE,
+    dataDogLabel: 'Date range option',
+    history,
+  });
 
   return (
     <div id="labs-and-tests">
       <h1 className="page-title vads-u-margin-bottom--1">
         Lab and test results
       </h1>
+      {isCerner && <DuplicateRecordsAlert />}
 
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-        Most lab and test results are available{' '}
-        <span className="vads-u-font-weight--bold">36 hours</span> after the lab
-        confirms them. Pathology results may take{' '}
-        <span className="vads-u-font-weight--bold">14 days</span> or longer to
-        confirm.{' '}
-      </p>
+      {holdTimeMessagingUpdate && <HoldTimeInfo locationPhrase="here" />}
+      {!holdTimeMessagingUpdate && (
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Most lab and test results are available{' '}
+          <span className="vads-u-font-weight--bold">36 hours</span> after the
+          lab confirms them. Pathology results may take{' '}
+          <span className="vads-u-font-weight--bold">14 days</span> or longer to
+          confirm.
+        </p>
+      )}
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -193,8 +271,8 @@ const LabsAndTests = () => {
             ]}
             newRecordsFound={
               Array.isArray(labsAndTests) &&
-              Array.isArray(updatedRecordList) &&
-              labsAndTests.length !== updatedRecordList.length
+              Array.isArray(filteredUpdatedList) &&
+              labsAndTests.length !== filteredUpdatedList.length
             }
             reloadFunction={() => {
               dispatch(reloadRecords());
@@ -216,7 +294,7 @@ const LabsAndTests = () => {
             <TrackedSpinner
               id="labs-and-tests-page-spinner"
               message="We’re loading your records."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>
@@ -227,6 +305,26 @@ const LabsAndTests = () => {
             <>
               {labsAndTests?.length ? (
                 <>
+                  {warnings?.length > 0 && (
+                    <VaAlert
+                      status="warning"
+                      visible
+                      class="vads-u-margin-y--3 no-print"
+                      data-testid="alert-partial-records-warning"
+                    >
+                      <h3
+                        slot="headline"
+                        className="vads-u-font-size--lg no-print"
+                      >
+                        Some records may be incomplete
+                      </h3>
+                      <p>
+                        We couldn\u2019t retrieve all attached documents for
+                        some of your lab and test results. The records below may
+                        be missing PDF reports or other files.
+                      </p>
+                    </VaAlert>
+                  )}
                   {radRecordsWithImagesReady?.length > 0 &&
                     studyJobs?.length > 0 && (
                       <VaAlert

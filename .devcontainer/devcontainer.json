@@ -3,16 +3,18 @@
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
-			"VARIANT": "14"
+			"VARIANT": "22-bookworm"
 		}
 	},
+	// Node 14 is default, switch to Node 22 with: nvm use 22
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2":{},
 		"ghcr.io/devcontainers/features/desktop-lite:1": {
 			"vncPort": "5900",
 			"webPort": "6080"
 		},
-		"ghcr.io/devcontainers/features/github-cli:1": {}
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/aws-cli:1": {}
 	},
 	"customizations": {
 		"vscode": {
@@ -55,6 +57,9 @@
 	],
 	"postCreateCommand": "./.devcontainer/codespaces-create.sh",
 	"postStartCommand": "./.devcontainer/codespaces-start.sh",
+	"remoteEnv": {
+		"NODE_ENV": "development"
+	},
 	"remoteUser": "node",
 	"hostRequirements": {
 		"cpus": 16,

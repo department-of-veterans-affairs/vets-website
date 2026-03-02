@@ -4,25 +4,22 @@ import { useSelector } from 'react-redux';
 import last from 'lodash/last';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { head } from 'lodash';
-import HowDoIPay from '../components/HowDoIPay';
 import HistoryTable from '../components/HistoryTable';
 import {
   setPageFocus,
   debtLettersShowLettersVBMS,
   showPaymentHistory,
   formatDate,
-  showOneThingPerPage,
 } from '../../combined/utils/helpers';
 import { getCurrentDebt, currency } from '../utils/page';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
 } from '../const/deduction-codes';
-import DebtDetailsCard from '../components/DebtDetailsCard';
+import DetailsAlert from '../../combined/components/DetailsAlert';
 import PaymentHistoryTable from '../components/PaymentHistoryTable';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import Modals from '../../combined/components/Modals';
-import HowDoIGetHelp from '../components/HowDoIGetHelp';
 import NeedHelp from '../components/NeedHelp';
 
 const DebtDetails = () => {
@@ -40,14 +37,6 @@ const DebtDetails = () => {
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
     .reverse();
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
-
-  const howToUserData = {
-    fileNumber: currentDebt.fileNumber,
-    payeeNumber: currentDebt.payeeNumber,
-    personEntitled: currentDebt.personEntitled,
-    deductionCode: currentDebt.deductionCode,
-    receivableId: currentDebt.rcvblId,
-  };
 
   const title = `${deductionCodes[currentDebt.deductionCode]}`;
   useHeaderPageTitle(title);
@@ -72,10 +61,6 @@ const DebtDetails = () => {
 
   const shouldShowPaymentHistory = useSelector(state =>
     showPaymentHistory(state),
-  );
-
-  const oneThingPerPageActive = useSelector(state =>
-    showOneThingPerPage(state),
   );
 
   if (Object.keys(currentDebt).length === 0) {
@@ -127,29 +112,17 @@ const DebtDetails = () => {
             .
           </p>
         )}
-        <DebtDetailsCard debt={currentDebt} showOTPP={oneThingPerPageActive} />
-        {oneThingPerPageActive ? (
-          <va-accordion open-single>
-            <va-accordion-item
-              header="Why might I have this overpayment balance?"
-              id="first"
-              bordered
-            >
-              {whyContent}
-            </va-accordion-item>
-          </va-accordion>
-        ) : (
-          <>
-            <va-additional-info
-              trigger="Why might I have this debt?"
-              class="vads-u-margin-y--2"
-            >
-              {whyContent}
-            </va-additional-info>
-            <va-on-this-page />
-          </>
-        )}
-        {shouldShowPaymentHistory && (
+        <DetailsAlert type="debt" data={currentDebt} />
+        <va-accordion open-single>
+          <va-accordion-item
+            header="Why might I have this overpayment balance?"
+            id="first"
+            bordered
+          >
+            {whyContent}
+          </va-accordion-item>
+        </va-accordion>
+        {shouldShowPaymentHistory ? (
           <div className="vads-u-margin-y--2">
             <h2
               id="debtDetailsHeader"
@@ -185,29 +158,27 @@ const DebtDetails = () => {
             </div>
             <PaymentHistoryTable currentDebt={currentDebt} />
           </div>
+        ) : (
+          <>
+            <h2
+              id="debtDetailsHeader"
+              className="vads-u-margin-y--2 vads-u-margin-top--4"
+              data-testid="otpp-details-header"
+            >
+              Overpayment details
+            </h2>
+            <p>
+              <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                Current balance:{' '}
+                <strong>{formatCurrency(currentDebt.currentAr)}</strong>
+              </span>
+              <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                Original amount:{' '}
+                <strong>{formatCurrency(currentDebt.originalAr)}</strong>
+              </span>
+            </p>
+          </>
         )}
-        {oneThingPerPageActive &&
-          !shouldShowPaymentHistory && (
-            <>
-              <h2
-                id="debtDetailsHeader"
-                className="vads-u-margin-y--2 vads-u-margin-top--4"
-                data-testid="otpp-details-header"
-              >
-                Overpayment details
-              </h2>
-              <p>
-                <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                  Current balance:{' '}
-                  <strong>{formatCurrency(currentDebt.currentAr)}</strong>
-                </span>
-                <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                  Original amount:{' '}
-                  <strong>{formatCurrency(currentDebt.originalAr)}</strong>
-                </span>
-              </p>
-            </>
-          )}
         {hasFilteredHistory && (
           <>
             <h2
@@ -234,16 +205,6 @@ const DebtDetails = () => {
                 </Link>
               </>
             ) : null}
-          </>
-        )}
-
-        {!oneThingPerPageActive && (
-          <>
-            <HowDoIPay userData={howToUserData} />
-            <HowDoIGetHelp
-              showVHAPaymentHistory={false}
-              showOneThingPerPage={oneThingPerPageActive}
-            />
           </>
         )}
         <Modals title="Notice of rights and responsibilities" id="notice-modal">

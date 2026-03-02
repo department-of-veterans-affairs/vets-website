@@ -13,22 +13,49 @@ import ListItemView from '../../../components/ListItemView';
 import { getJobTitleOrType } from '../../../helpers';
 import ArrayDescription from '../../../components/ArrayDescription';
 
+/**
+ * Determines if the applicant has federal treatment history
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant has federal treatment history, false
+ * otherwise
+ */
 export function hasFederalTreatmentHistory(formData) {
   return formData.federalTreatmentHistory === true;
 }
 
+/**
+ * Determines if the applicant does not have social security disability
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant does not have social security disability, false otherwise
+ */
 export function hasNoSocialSecurityDisability(formData) {
   return formData.socialSecurityDisability === false;
 }
 
+/**
+ * Determines if the applicant has VA treatment history
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant has VA treatment history, false otherwise
+ */
 export function hasVaTreatmentHistory(formData) {
   return formData.vaTreatmentHistory === true;
 }
 
+/**
+ * Determines if the applicant is in a nursing home
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant is in a nursing home, false otherwise
+ */
 export function isInNursingHome(formData) {
   return formData.nursingHome === true;
 }
 
+/**
+ * Determines if the applicant is under 65 years old
+ * @param {object} formData - full form data
+ * @param {Date} currentDate - current date
+ * @returns {boolean} True if the applicant is under 65, false otherwise
+ */
 export function isUnder65(formData, currentDate) {
   const today = currentDate || new Date();
   const dateToCompare = startOfDay(subYears(today, 65));
@@ -39,23 +66,48 @@ export function isUnder65(formData, currentDate) {
   );
 }
 
+/**
+ * Determines if employment history is required
+ * @param {object} formData - full form data
+ * @returns {boolean} True if employment history is required, false otherwise
+ */
 export function requiresEmploymentHistory(formData) {
   return isUnder65(formData) && hasNoSocialSecurityDisability(formData);
 }
 
+/**
+ * Determines if the applicant is employed and under 65 years old
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant is employed and under 65, false otherwise
+ */
 export function isEmployedUnder65(formData) {
   return formData.currentEmployment === true && isUnder65(formData);
 }
 
+/**
+ * Determines if the applicant is unemployed and under 65 years old
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant is unemployed and under 65, false otherwise
+ */
 export function isUnemployedUnder65(formData) {
   return formData.currentEmployment === false && isUnder65(formData);
 }
 
+/**
+ * Determines if the applicant does not have current employers
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant does not have current employers, false otherwise
+ */
 export function doesNotHaveCurrentEmployers(formData) {
   const currentEmployers = formData?.currentEmployers;
   return !currentEmployers || currentEmployers.length === 0;
 }
 
+/**
+ * Determines if Medicaid does not cover nursing home
+ * @param {object} formData - full form data
+ * @returns {boolean} True if Medicaid does not cover nursing home, false otherwise
+ */
 export function medicaidDoesNotCoverNursingHome(formData) {
   return formData.nursingHome === true && formData.medicaidCoverage === false;
 }
@@ -275,9 +327,13 @@ export const generateEmployersSchemas = ({
   };
 };
 
+/**
+ * Medical condition description component
+ * @returns {React.Element} Medical condition description
+ */
 export function MedicalConditionDescription() {
   return (
-    <div>
+    <>
       <p>
         A medical condition is an illness or injury that affects your mind or
         body. It doesn't have to be service connected.
@@ -303,21 +359,49 @@ export function MedicalConditionDescription() {
           </ul>
         </div>
       </va-additional-info>
-    </div>
+    </>
   );
 }
 
+/**
+ * Medical evidence notice component
+ * @returns {React.Element} Medical evidence notice
+ */
 export function MedicalEvidenceNotice() {
   return (
-    <div>
+    <>
       <p>
-        Based on your answer, you’ll need to submit additional evidence about
-        your medical condition or disability.
+        Because you're under 65 and have a medical condition that prevents you
+        from working, you’ll need to submit medical evidence of your disability.
       </p>
+      <p>Your records should show:</p>
+      <ul>
+        <li>Your diagnosis or diagnoses</li>
+        <li>
+          How your condition affects your ability to work or perform daily
+          activities
+        </li>
+        <li>That your condition is permanent or unlikely to improve</li>
+      </ul>
+      <p>
+        <strong>What to gather</strong>
+      </p>
+      <p>
+        Records from your doctor, specialist, or treatment facility that include
+        things like: Doctor's notes, treatment records, or clinical summaries
+      </p>
+      <ul>
+        <li>Test results, lab work, or imaging (like X-rays or MRIs)</li>
+        <li>
+          A letter or statement from your doctor describing your condition and
+          limitations
+        </li>
+        <li>Visits to a nursing home or rehabilitation facility</li>
+      </ul>
       <p>
         We’ll give you instructions for submitting your additional evidence at
         the end of this application.
       </p>
-    </div>
+    </>
   );
 }

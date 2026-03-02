@@ -10,8 +10,7 @@ export default function SingleFacilityAvailable({
   return (
     <div className="vads-u-margin-bottom--3">
       <p>
-        We found one VA facility for your {lowerCase(typeOfCareName)}{' '}
-        appointment.
+        We found 1 VA facility for your {lowerCase(typeOfCareName)} appointment.
       </p>
       <strong>{facility.name}</strong>
       <br />

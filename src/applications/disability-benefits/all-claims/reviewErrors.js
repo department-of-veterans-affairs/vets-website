@@ -1,5 +1,3 @@
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
-
 // Link text for review & submit page errors
 // key = "name" from `form.formErrors.errors`
 // see src/platform/forms-system/docs/reviewErrors.md
@@ -10,13 +8,11 @@ export default {
     'Did you serve in a combat zone after September 11, 2001? (select yes or no)',
   ratedDisabilities:
     'Rated disability (select the disability you’re filing for)',
-  // newDisabilities is returning null so it doesn't render because a missing
-  // "condition" will show the error
-  newDisabilities: () => null,
-  condition: index =>
-    `New conditions (in the ${numberToWords(
-      index + 1,
-    )} section, enter a condition or select one from the list)`,
+  // newDisabilities validation error when view:claimType exists but newDisabilities is empty
+  newDisabilities:
+    'Reason for claim (select at least one type and add at least one new condition)',
+  condition: () =>
+    'Reason for claim (select at least one type and add at least one new condition)',
   cause: 'What caused this condition? (select from the list of causes)',
   'view:hasMilitaryRetiredPay':
     'Have you ever received military retirement pay? (select yes or no)',
@@ -188,58 +184,91 @@ export default {
   'toxicExposure.specifyOtherExposures.endDate':
     'Exposure end date for other toxic exposures',
   _override: error => {
-    if (typeof error === 'string') {
-      if (error?.endsWith('startDate') || error?.endsWith('endDate')) {
-        const errorParts = error.split('.');
-        if (error.startsWith('toxicExposure.gulfWar1990Details')) {
-          return {
-            chapterKey: 'disabilities',
-            pageKey: `gulf-war-1990-location-${errorParts[2]}`,
-          };
-        }
-        if (error.startsWith('toxicExposure.gulfWar2001Details')) {
-          return {
-            chapterKey: 'disabilities',
-            pageKey: `gulf-war-2001-location-${errorParts[2]}`,
-          };
-        }
-        if (error.startsWith('toxicExposure.herbicideDetails')) {
-          return {
-            chapterKey: 'disabilities',
-            pageKey: `herbicide-location-${errorParts[2]}`,
-          };
-        }
-        if (error.startsWith('toxicExposure.otherExposuresDetails')) {
-          return {
-            chapterKey: 'disabilities',
-            pageKey: `additional-exposure-${errorParts[2]}`,
-          };
-        }
-        if (error.startsWith('toxicExposure.otherHerbicideLocations')) {
-          return {
-            chapterKey: 'disabilities',
-            pageKey: `herbicide-location-other`,
-          };
-        }
-        if (error.startsWith('toxicExposure.specifyOtherExposures')) {
-          return {
-            chapterKey: 'disabilities',
-            pageKey: `additional-exposure-other`,
-          };
-        }
-      }
-      if (error === 'toxicExposure.otherHerbicideLocations.description') {
+    if (typeof error !== 'string') {
+      return null;
+    }
+
+    // Handle newDisabilities and condition validation errors - redirect to claim-type page
+    const claimTypeRedirect = {
+      chapterKey: 'disabilities',
+      pageKey: 'claimType',
+      navigationType: 'redirect',
+    };
+
+    if (error === 'newDisabilities' || error === 'instance.newDisabilities') {
+      return claimTypeRedirect;
+    }
+
+    if (error === 'condition') {
+      return claimTypeRedirect;
+    }
+
+    // Matches array index patterns like 'newDisabilities[0]' or 'newDisabilities[0].condition'
+    if (/newDisabilities\[\d+\](\.condition)?/.test(error)) {
+      return claimTypeRedirect;
+    }
+
+    // Matches newDisabilities array errors with minimum length or condition issues
+    if (
+      error.includes('newDisabilities') &&
+      (error.includes('does not meet minimum length') ||
+        error.includes('condition'))
+    ) {
+      return claimTypeRedirect;
+    }
+
+    if (error?.endsWith('startDate') || error?.endsWith('endDate')) {
+      const errorParts = error.split('.');
+      if (error.startsWith('toxicExposure.gulfWar1990Details')) {
         return {
           chapterKey: 'disabilities',
-          pageKey: `herbicideLocations`,
+          pageKey: `gulf-war-1990-location-${errorParts[2]}`,
         };
       }
-      if (error === 'toxicExposure.specifyOtherExposures.description') {
+      if (error.startsWith('toxicExposure.gulfWar2001Details')) {
         return {
           chapterKey: 'disabilities',
-          pageKey: `additional-exposures`,
+          pageKey: `gulf-war-2001-location-${errorParts[2]}`,
         };
       }
+      if (error.startsWith('toxicExposure.herbicideDetails')) {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: `herbicide-location-${errorParts[2]}`,
+        };
+      }
+      if (error.startsWith('toxicExposure.otherExposuresDetails')) {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: `additional-exposure-${errorParts[2]}`,
+        };
+      }
+      if (error.startsWith('toxicExposure.otherHerbicideLocations')) {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: `herbicide-location-other`,
+        };
+      }
+      if (error.startsWith('toxicExposure.specifyOtherExposures')) {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: `additional-exposure-other`,
+        };
+      }
+    }
+
+    if (error === 'toxicExposure.otherHerbicideLocations.description') {
+      return {
+        chapterKey: 'disabilities',
+        pageKey: `herbicideLocations`,
+      };
+    }
+
+    if (error === 'toxicExposure.specifyOtherExposures.description') {
+      return {
+        chapterKey: 'disabilities',
+        pageKey: `additional-exposures`,
+      };
     }
 
     // always return null for non-matches

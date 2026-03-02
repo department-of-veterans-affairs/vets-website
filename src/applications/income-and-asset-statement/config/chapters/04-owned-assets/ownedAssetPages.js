@@ -1,5 +1,5 @@
 import React from 'react';
-import { lowercase } from 'lodash';
+import { lowerCase } from 'lodash';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -105,22 +105,28 @@ export const options = {
       }
       const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
-      return `${possessiveName} income from a ${lowercase(
+      return `${possessiveName} income from a ${lowerCase(
         ownedAssetTypeLabels[item.assetType],
       )}`;
     },
     cardDescription: item => {
+      if (!item) {
+        return undefined;
+      }
+
       const mvpContent = [
         <li key="income">
           Gross monthly income:{' '}
           <span className="vads-u-font-weight--bold">
-            {formatCurrency(item.grossMonthlyIncome)}
+            {isDefined(item?.grossMonthlyIncome) &&
+              formatCurrency(item.grossMonthlyIncome)}
           </span>
         </li>,
         <li key="value">
           Owned portion value:{' '}
           <span className="vads-u-font-weight--bold">
-            {formatCurrency(item.ownedPortionValue)}
+            {isDefined(item?.grossMonthlyIncome) &&
+              formatCurrency(item.ownedPortionValue)}
           </span>
         </li>,
       ];
@@ -131,11 +137,9 @@ export const options = {
           <li key="upload">
             Form uploaded:{' '}
             <span className="vads-u-font-weight--bold">
-              {item?.['view:addFormQuestion'] === true &&
-              isDefined(item?.uploadedDocuments) &&
-              item.uploadedDocuments.name
-                ? item.uploadedDocuments.name
-                : 'No'}
+              {(item?.['view:addFormQuestion'] === true &&
+                item?.uploadedDocuments?.name) ||
+                'No'}
             </span>
           </li>
         ) : null;

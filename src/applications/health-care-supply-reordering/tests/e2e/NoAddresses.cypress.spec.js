@@ -100,6 +100,7 @@ describe(`${appName} -- Veteran w/o address`, () => {
     cy.findByText(/^Save permanent address$/).click();
 
     // Temp address
+    cy.findByText(/^Add a temporary address$/).click();
     cy.get('select#options[name="root_temporaryAddress_country"]').select(
       'USA',
     );
@@ -157,7 +158,7 @@ describe(`${appName} -- Veteran w/o address`, () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 2,
-      name: /^Your order has been submitted$/,
+      name: /^Success Alert Your order has been submitted$/,
     };
     cy.findByRole('heading', heading); // .should('have.focus'); // it _should_ have focus, but does not
   });

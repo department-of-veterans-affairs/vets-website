@@ -17,6 +17,7 @@ import { IntroductionPage } from '@bio-aquia/21-4192-employment-information/cont
 import { GetHelp } from '@bio-aquia/21-4192-employment-information/components/get-help';
 import { transformForSubmit } from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
 import { PreSubmitInfo } from '@bio-aquia/21-4192-employment-information/components/pre-submit-info';
+import { customSubmit } from '@bio-aquia/shared/utils';
 import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
 
 // Import page configurations (uiSchema and schema)
@@ -55,6 +56,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/form214192`,
   transformForSubmit,
+  submit: customSubmit,
   trackingPrefix: '21-4192-employment-information-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
@@ -87,6 +89,7 @@ const formConfig = {
   // Validates basic name format (letters including accented/international characters,
   // spaces, hyphens, apostrophes, periods) but does NOT require exact match to veteran's name
   preSubmitInfo: {
+    required: true,
     CustomComponent: PreSubmitInfo,
   },
   chapters: {
@@ -108,11 +111,11 @@ const formConfig = {
       },
     },
     employerInformationChapter: {
-      title: 'Employers Information',
+      title: "Employer's Information",
       pages: {
         employerInformation: {
           path: 'employer-information',
-          title: 'Employers Information',
+          title: "Employer's Information",
           uiSchema: employerInformationUiSchema,
           schema: employerInformationSchema,
         },

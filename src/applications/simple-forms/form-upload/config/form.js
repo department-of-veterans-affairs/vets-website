@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -28,7 +29,6 @@ import {
   veteranIdentificationInformationPage,
 } from '../pages/veteranIdentificationInformation';
 import { phoneNumberAndEmailPage } from '../pages/phoneNumberAndEmail';
-import { CustomTopContent } from '../pages/helpers';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/veteran.json';
@@ -52,9 +52,13 @@ const formConfig = (pathname = null) => {
     dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
     trackingPrefix,
     confirmation: ConfirmationPage,
-    CustomTopContent,
     CustomReviewTopContent,
-    customText: { appType: 'form' },
+    dynamicPaths: true,
+    ...minimalHeaderFormConfigOptions(),
+    customText: {
+      appType: 'form',
+      reviewPageFormTitle: `Review and submit VA Form ${formNumber}`,
+    },
     hideReviewChapters: true,
     introduction: IntroductionPage,
     formId,
@@ -131,9 +135,7 @@ const formConfig = (pathname = null) => {
             title: 'Supporting documents',
             uiSchema: showSupportingDocuments.uiSchema,
             schema: showSupportingDocuments.schema,
-            depends: () =>
-              formMappings[formNumber]?.showSupportingDocuments &&
-              !environment.isProduction(),
+            depends: () => formMappings[formNumber]?.showSupportingDocuments,
             scrollAndFocusTarget,
           },
           uploadSupportingDocuments: {

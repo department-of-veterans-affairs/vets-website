@@ -9,6 +9,7 @@ import { format, isAfter, isDate, parseISO, startOfMinute } from 'date-fns';
 import {
   selectFeatureUseBrowserTimezone,
   selectSystemIds,
+  selectFeatureUseVpg,
 } from '../../redux/selectors';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -153,6 +154,7 @@ export function openFacilityPage() {
       const siteIds = selectSystemIds(initialState);
       let { facilities } = newBooking;
       let facilityId = newBooking.data.vaFacility;
+      const featureUseVpg = selectFeatureUseVpg(initialState);
 
       dispatch({
         type: FORM_PAGE_FACILITY_OPEN,
@@ -162,6 +164,7 @@ export function openFacilityPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
+          useVpg: featureUseVpg,
         });
       }
 
@@ -171,14 +174,18 @@ export function openFacilityPage() {
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
         facilities: facilities || [],
         address: selectVAPResidentialAddress(initialState),
+        useVpg: featureUseVpg,
       });
 
       // If we have an already selected location or only have a single location
       // fetch eligbility data immediately
       const supportedFacilities = facilities?.filter(
         facility =>
-          facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]?.direct
-            .enabled,
+          featureUseVpg
+            ? facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]
+                ?.bookedAppointments
+            : facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]
+                ?.direct.enabled,
       );
       const clinicsNeeded = !!facilityId || supportedFacilities?.length === 1;
 
@@ -455,6 +462,7 @@ export function openContactFacilitiesPage() {
       const newBooking = selectCovid19VaccineNewBooking(initialState);
       const siteIds = selectSystemIds(initialState);
       let { facilities } = newBooking;
+      const featureUseVpg = selectFeatureUseVpg(initialState);
 
       dispatch({
         type: FORM_PAGE_CONTACT_FACILITIES_OPEN,
@@ -464,6 +472,7 @@ export function openContactFacilitiesPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
+          useVpg: featureUseVpg,
         });
       }
 

@@ -6,30 +6,29 @@ describe('Legal status of marriage page', () => {
 
   it('has required awareOfLegalIssues in schema', () => {
     expect(schema).to.be.an('object');
-    expect(schema.required).to.include('awareOfLegalIssues');
+    expect(schema.required).to.include('validMarriage');
   });
 
-  it('legalIssueExplanation expandUnder options are correct', () => {
+  it('marriageValidityExplanation expandUnder options are correct', () => {
     expect(uiSchema).to.be.an('object');
-    const explanation = uiSchema.legalIssueExplanation;
-    expect(explanation, 'legalIssueExplanation not found in uiSchema').to.exist;
+    const explanation = uiSchema.marriageValidityExplanation;
+    expect(explanation, 'marriageValidityExplanation not found in uiSchema').to
+      .exist;
     expect(explanation['ui:options']).to.be.an('object');
-    expect(explanation['ui:options'].expandUnder).to.equal(
-      'awareOfLegalIssues',
-    );
+    expect(explanation['ui:options'].expandUnder).to.equal('validMarriage');
     expect(explanation['ui:options'].expandUnderCondition).to.equal(true);
   });
 
-  it('legalIssueExplanation required callback respects awareOfLegalIssues', () => {
-    const explanation = uiSchema.legalIssueExplanation;
+  it('marriageValidityExplanation required callback respects validMarriage', () => {
+    const explanation = uiSchema.marriageValidityExplanation;
     // required function provided via textUI required option
     const requiredFn = explanation['ui:required'];
     expect(requiredFn).to.be.a('function');
 
-    const falseData = { awareOfLegalIssues: false };
+    const falseData = { validMarriage: false };
     expect(Boolean(requiredFn(falseData))).to.be.false;
 
-    const trueData = { awareOfLegalIssues: true };
+    const trueData = { validMarriage: true };
     expect(Boolean(requiredFn(trueData))).to.be.true;
   });
 });

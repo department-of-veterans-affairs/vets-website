@@ -5,6 +5,7 @@ import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { useDispatch } from 'react-redux';
+import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import NeedHelp from '../../components/NeedHelp';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -45,6 +46,7 @@ export default function ReferralLayout({
 
   return (
     <>
+      <MhvSecondaryNav />
       <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2">
         <ReferralBreadcrumbs />
         {location.pathname.endsWith('type-of-care') && (

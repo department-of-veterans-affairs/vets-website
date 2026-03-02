@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GovBanner from './Header/GovBanner';
+import GovBanner from '~/platform/site-wide/representative/components/header/GovBanner';
 
 const PublicHeader = () => {
   return (

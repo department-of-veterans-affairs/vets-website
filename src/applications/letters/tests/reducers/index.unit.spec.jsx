@@ -14,6 +14,9 @@ import {
   GET_LETTER_PDF_DOWNLOADING,
   GET_LETTER_PDF_SUCCESS,
   GET_LETTER_PDF_FAILURE,
+  GET_TSA_LETTER_ELIGIBILITY_ERROR,
+  GET_TSA_LETTER_ELIGIBILITY_LOADING,
+  GET_TSA_LETTER_ELIGIBILITY_SUCCESS,
   INVALID_ADDRESS_PROPERTY,
   LETTER_ELIGIBILITY_ERROR,
   LETTER_TYPES,
@@ -134,6 +137,20 @@ describe('letters reducer', () => {
     // TODO: Test what makes it to requestOptions when we have a firmer grasp of the business logic
   });
 
+  it('should default request option to false when API value is false', () => {
+    const state = reduce({
+      type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+      data: {
+        ...benefitSummaryOptionData,
+        benefitInformation: {
+          ...benefitSummaryOptionData.benefitInformation,
+          hasChapter35Eligibility: false,
+        },
+      },
+    });
+    expect(state.requestOptions.chapter35Eligibility).to.be.false;
+  });
+
   it('should handle a letter eligibility error', () => {
     const state = reduce({ type: LETTER_ELIGIBILITY_ERROR });
 
@@ -224,5 +241,47 @@ describe('letters reducer', () => {
     expect(state.enhancedLetterStatus.letterType).to.equal(
       DOWNLOAD_STATUSES.failure,
     );
+  });
+
+  it('should handle error when fetching TSA letter eligibility', () => {
+    const errorState = {
+      error: true,
+      loading: false,
+    };
+    const state = reduce({
+      type: GET_TSA_LETTER_ELIGIBILITY_ERROR,
+    });
+    expect(state.tsaLetterEligibility).to.deep.equal(errorState);
+  });
+
+  it('should handle loading when fetching TSA letter eligibility', () => {
+    const loadingState = {
+      error: false,
+      loading: true,
+    };
+    const state = reduce({
+      type: GET_TSA_LETTER_ELIGIBILITY_LOADING,
+    });
+    expect(state.tsaLetterEligibility).to.deep.equal(loadingState);
+  });
+
+  it('should handle success when fetching TSA letter eligibility', () => {
+    const letter = {
+      attributes: {
+        documentId: '123',
+        documentVersion: 'abc',
+      },
+    };
+    const successState = {
+      documentId: '123',
+      documentVersion: 'abc',
+      error: false,
+      loading: false,
+    };
+    const state = reduce({
+      type: GET_TSA_LETTER_ELIGIBILITY_SUCCESS,
+      data: letter,
+    });
+    expect(state.tsaLetterEligibility).to.deep.equal(successState);
   });
 });

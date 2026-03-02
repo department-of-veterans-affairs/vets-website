@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { formatDateShort } from '../../utilities/date';
 import { updatePageTitle as updatePageTitleFn } from '../util/helpers';
+import { formatBirthDateShort } from '../util/dateUtil';
 
 const usePrintTitle = (
   baseTitle,
@@ -15,10 +15,18 @@ const usePrintTitle = (
         .filter(part => part !== undefined && part !== null)
         .join(' ')
         .trim();
-      // eslint-disable-next-line no-irregular-whitespace
-      const pageTitle = `${name}${name ? '\u2003' : ''}​DOB:​${formatDateShort(
-        new Date(dob),
-      )}`;
+
+      let pageTitle = '';
+      if (dob) {
+        let formattedDob = '';
+        try {
+          formattedDob = formatBirthDateShort(dob);
+        } catch (error) {
+          formattedDob = '';
+        }
+        // eslint-disable-next-line no-irregular-whitespace
+        pageTitle = `${name}${name ? '\u2003' : ''}​DOB:​${formattedDob}`;
+      }
 
       const beforePrintHandler = () => {
         updatePageTitle(pageTitle);

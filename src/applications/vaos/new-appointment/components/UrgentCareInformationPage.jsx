@@ -51,7 +51,7 @@ export default function UrgentCareInformationPage() {
         href="/"
         onClick={handleClick(history, dispatch)}
       >
-        Start scheduling
+        Start scheduling an appointment
       </a>
       <h2 className="vads-u-font-size--h3 vads-u-margin--0">
         If you need help sooner, use one of these urgent communications options:

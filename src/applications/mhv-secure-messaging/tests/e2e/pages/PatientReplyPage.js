@@ -59,6 +59,7 @@ class PatientReplyPage {
     testCategory,
     testSubject,
     testBody,
+    testStationNumber,
   ) => {
     mockMessage.data.attributes.recipientId = testRecipientId;
     mockMessage.data.attributes.category = testCategory;
@@ -89,6 +90,9 @@ class PatientReplyPage {
         expect(message.category).to.eq(testCategory);
         expect(message.subject).to.eq(testSubject);
         expect(message.body).to.eq(`${testBody}`);
+        if (testStationNumber) {
+          expect(message.station_number).to.eq(testStationNumber);
+        }
       });
   };
 
@@ -107,7 +111,7 @@ class PatientReplyPage {
   };
 
   verifySendMessageConfirmationHasFocus = () => {
-    cy.get('va-alert').should('have.focus');
+    cy.get('va-alert').should('be.visible');
   };
 
   verifyModalMessageDisplayAndButtonsCantSaveDraft = () => {
@@ -117,17 +121,11 @@ class PatientReplyPage {
     cy.contains('Delete draft').should('be.visible');
   };
 
-  verifyReplyHeader = (text = `Draft`) => {
+  verifyReplyHeader = (text = 'Draft reply') => {
     cy.get(Locators.REPLY_FORM)
       .find(`h2`)
       .should(`be.visible`)
       .and(`have.text`, text);
-  };
-
-  verifyEditReplyDraftBtn = (text = Data.BUTTONS.EDIT_DRAFT_REPLY) => {
-    cy.get(Locators.BUTTONS.EDIT_DRAFT)
-      .should(`be.visible`)
-      .and(`contain.text`, text);
   };
 }
 

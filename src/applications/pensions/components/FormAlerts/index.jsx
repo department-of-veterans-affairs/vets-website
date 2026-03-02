@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export const AssetInformationAlert = () => (
   <va-additional-info trigger="How we define assets">
@@ -50,10 +49,6 @@ export const AssetsInformation = () => (
           marriages)
         </li>
         <li>
-          A parent, if you’re directly caring for them and their income and net
-          worth are below a certain amount
-        </li>
-        <li>
           An unmarried child (including an adopted child or stepchild) who meets
           one of the eligibility requirements listed here
         </li>
@@ -69,8 +64,8 @@ export const AssetsInformation = () => (
           They’re under 18 years old, <strong>or</strong>
         </li>
         <li>
-          They’re between the ages of 18 and 23 years old and enrolled in school
-          full time, <strong>or</strong>
+          They’re between the ages of 18 and 23 years old and enrolled in
+          school, <strong>or</strong>
         </li>
         <li>They became permanently disabled before they turned 18</li>
       </ul>
@@ -109,25 +104,8 @@ export const ContactWarningMultiAlert = () => (
   </va-alert>
 );
 
-export const DisabilityDocsAlert = () => (
-  <va-alert status="warning">
-    <p className="vads-u-margin-y--0">
-      You’ll need to provide all private medical records for your child’s
-      disability.
-    </p>
-  </va-alert>
-);
-
-export const IncomeAssetStatementFormAlert = () => (
-  <RequestFormAlert
-    title="Income and Asset Statement in Support of Claim for Pension or Parents' Dependency and Indemnity Compensation"
-    formName="VA Form 21P-0969"
-    formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
-  />
-);
-
 export const IncomeInformationAlert = () => (
-  <va-additional-info trigger="What is income?">
+  <va-additional-info trigger="How we define income">
     <p>
       Your income is how much you earn. It includes your Social Security
       benefits, investment and retirement payments, and any income your spouse
@@ -151,70 +129,6 @@ export const LandMarketableAlert = () => (
   </va-alert>
 );
 
-const RequestFormAlert = ({ title, formName, formLink, children }) => (
-  <va-alert status="warning">
-    <p className="vads-u-margin-y--0">
-      You’ll need to submit an {title} ({formName}
-      ).
-    </p>
-    <p>{children}</p>
-    <p>
-      We’ll ask you to upload this form at the end of this application. Or you
-      can send it to us by mail.
-    </p>
-    <p>
-      <va-link href={formLink} external text={`Get ${formName} to download`} />
-    </p>
-  </va-alert>
-);
-
-RequestFormAlert.propTypes = {
-  formLink: PropTypes.string.isRequired,
-  formName: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node,
-};
-
-export const RequestIncomeAndAssetInformationAlert = () => (
-  <RequestFormAlert
-    title="Income and Asset Statement in Support of Claim for Pension or Parents' Dependency and Indemnity Compensation"
-    formName="VA Form 21P-0969"
-    formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
-  />
-);
-
-export const RequestNursingHomeInformationAlert = () => (
-  <RequestFormAlert
-    title="Nursing Home Information in Connection with Claim
-    for Aid and Attendance"
-    formName="VA Form 21-0779"
-    formLink="https://www.va.gov/find-forms/about-form-21-0779/"
-  >
-    An official from your nursing home must complete the form.
-  </RequestFormAlert>
-);
-
-export const SchoolAttendanceAlert = () => (
-  <RequestFormAlert
-    title="Request for Approval of School Attendance"
-    formName="VA Form 21-674"
-    formLink="https://www.va.gov/find-forms/about-form-21-674/"
-  />
-);
-
-export const SpecialMonthlyPensionEvidenceAlert = () => (
-  <RequestFormAlert
-    title="Examination for Housebound Status or Permanent
-    Need for Regular Aid and Attendance"
-    formName="VA Form 21-2680"
-    formLink="https://www.va.gov/find-forms/about-form-21-2680/"
-  >
-    Make sure every box is complete and has a signature from a physician,
-    physician assistant, certified nurse practitioner (CNP), or clinical nurse
-    specialist (CNS).
-  </RequestFormAlert>
-);
-
 export const WartimeWarningAlert = () => (
   <va-alert status="warning">
     <p className="vads-u-margin-y--0">
@@ -236,12 +150,6 @@ export const WartimeWarningAlert = () => (
 
 export const FormReactivationAlert = () => (
   <p>
-    You should know that we updated our online form.{' '}
-    <strong>If you started applying online before November 8, 2023</strong>, we
-    have some new questions for you to answer. And we changed some questions, so
-    you may need to provide certain information again.
-    <br />
-    <br />
     Select <strong>Continue your application</strong> to use our updated form.
     Or come back later to finish your application.
   </p>
@@ -265,13 +173,4 @@ export const AccountInformationAlert = () => (
       </p>
     </va-alert>
   </div>
-);
-
-export const AdoptionEvidenceAlert = () => (
-  <va-alert status="warning">
-    <p className="vads-u-margin-y--0">
-      You’ll need to submit adoption papers or amended birth certificate with
-      this application.
-    </p>
-  </va-alert>
 );

@@ -13,6 +13,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-fields';
 import { setDefaultIsOver65 } from './helpers';
 
+const updatedFullNameSchema = fullNameSchema;
+updatedFullNameSchema.properties.first.maxLength = 40;
+updatedFullNameSchema.properties.last.maxLength = 50;
+
 /** @type {PageSchema} */
 export default {
   updateFormData: setDefaultIsOver65,
@@ -76,7 +80,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      veteranFullName: { ...fullNameSchema, required: [] },
+      veteranFullName: { ...updatedFullNameSchema, required: [] },
       veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },

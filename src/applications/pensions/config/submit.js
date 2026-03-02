@@ -6,6 +6,12 @@ import { ensureValidCSRFToken } from '../ensureValidCSRFToken';
 
 const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
 
+/**
+ * Data replacer function to clean up form data before submission.
+ * @param {string} key - The key of the current property being processed.
+ * @param {any} value - The value of the current property being processed.
+ * @returns {any} - The transformed value to be used in the JSON stringification.
+ */
 export function replacer(key, value) {
   if (usaPhoneKeys.includes(key) && value?.length) {
     // Strip spaces, dashes, and parens from phone numbers
@@ -26,6 +32,12 @@ export function replacer(key, value) {
   return value;
 }
 
+/**
+ * Transforms the form data for submission.
+ * @param {object} formConfig - The form configuration object
+ * @param {object} form - The form object from Redux store
+ * @returns {string} - The transformed form data as a JSON string
+ */
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form, replacer);
   return JSON.stringify({
@@ -37,6 +49,13 @@ export function transform(formConfig, form) {
   });
 }
 
+/**
+ * Submits the form data to the specified API endpoint.
+ * @param {object} form - The form object from Redux store
+ * @param {object} formConfig - The form configuration object
+ * @param {string} apiPath - The API endpoint path
+ * @returns {Promise<object>} - The response data from the API
+ */
 export async function submit(
   form,
   formConfig,

@@ -22,9 +22,31 @@ import ContactInfo from './ContactInfo';
 import ContactInfoReview from './ContactInfoReview';
 
 /**
- * Add this page with 3-4 edit pages to config/form
+ * Add this page containing 4 edit pages to config/form
  * Spread the returned object into the app config/form
- * @type {ContactInformationPageSettings}
+ *
+ * README: {@link https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/platform/forms-system/src/js/patterns/prefill/README.md|Prefill Usage/Guidance/Examples}
+ *
+ * @param {Object} [options] - Configuration options for the contact information pages
+ * @param {string} [options.addressKey] - address key value set in ContactInfoKeys
+ * @param {Object} [options.addressSchema] - Profile address schema object
+ * @param {string} [options.contactInfoPageKey] - set page key within the form config chapter
+ * @param {string[]} [options.contactInfoRequiredKeys] - array of key values in ContactInfoKeys that are to be required before proceeding
+ * @param {Object} [options.contactInfoUiSchema] - custom uiSchema for the contact info page
+ * @param {string} [options.contactPath] - Contact info path of formConfig page
+ * @param {number} [options.contactSectionHeadingLevel] - heading level for contact info sections
+ * @param {import('../utilities/data/profile').ContactInfoContent} [options.content] - Content configuration object
+ * @param {Function} [options.depends] - depends callback function; return true to make the main confirmation page visible
+ * @param {boolean} [options.disableMockContactInfo] - disable mock contact info data for testing
+ * @param {number} [options.editContactInfoHeadingLevel] - heading level for edit contact info pages
+ * @param {string} [options.emailKey] - email key value set in ContactInfoKeys
+ * @param {Object} [options.emailSchema] - Email schema object for email string
+ * @param {string} [options.homePhoneKey] - home phone key value set in ContactInfoKeys
+ * @param {string[]} [options.included] - array of ContactInfoKeys to show on the contact info page
+ * @param {string} [options.mobilePhoneKey] - mobile phone key value set in ContactInfoKeys
+ * @param {Object} [options.phoneSchema] - Phone schema object with country code, area code, phone number & extension values
+ * @param {boolean} [options.prefillPatternEnabled] - enable prefill pattern for contact info
+ * @param {string} [options.wrapperKey] - wrapper key value set in ContactInfoKeys
  * @returns {Object} - form config pages for a chapter
  */
 const profileContactInfoPages = ({
@@ -53,7 +75,7 @@ const profileContactInfoPages = ({
   // depends callback for contact info page
   depends = null,
   contactInfoUiSchema = {},
-  disableMockContactInfo = false,
+  disableMockContactInfo = true,
   contactSectionHeadingLevel = null,
   editContactInfoHeadingLevel = null,
   prefillPatternEnabled = true,
@@ -86,6 +108,7 @@ const profileContactInfoPages = ({
       depends: () => false, // accessed from contact info page
       uiSchema: {},
       schema: blankSchema,
+      onNavBack: ({ goPath }) => goPath(contactPath),
     };
   }
 
@@ -111,6 +134,7 @@ const profileContactInfoPages = ({
       depends: () => false, // accessed from contact info page
       uiSchema: {},
       schema: blankSchema,
+      onNavBack: ({ goPath }) => goPath(contactPath),
     };
   }
 
@@ -137,6 +161,7 @@ const profileContactInfoPages = ({
       depends: () => false, // accessed from contact info page
       uiSchema: {},
       schema: blankSchema,
+      onNavBack: ({ goPath }) => goPath(contactPath),
     };
   }
 
@@ -161,6 +186,7 @@ const profileContactInfoPages = ({
       depends: () => false, // accessed from contact info page
       uiSchema: {},
       schema: blankSchema,
+      onNavBack: ({ goPath }) => goPath(contactPath),
     };
   }
 

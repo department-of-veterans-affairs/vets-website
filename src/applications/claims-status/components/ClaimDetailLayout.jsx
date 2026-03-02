@@ -87,6 +87,7 @@ export default function ClaimDetailLayout(props) {
                 title={message.title}
                 body={message.body}
                 type={message.type}
+                maskTitle={message.type === 'error'}
                 onClose={() => {
                   focusElement('.claim-title');
                   clearNotification();
@@ -106,6 +107,7 @@ export default function ClaimDetailLayout(props) {
                 body={
                   <Type1UnknownUploadError errorFiles={type1UnknownErrors} />
                 }
+                role="alert"
                 type="error"
                 onSetFocus={focusNotificationAlert}
               />
@@ -152,7 +154,11 @@ export default function ClaimDetailLayout(props) {
     bodyContent = (
       <>
         <h1>We encountered a problem</h1>
-        <ServiceUnavailableAlert services={['claims']} headerLevel={2} />
+        <ServiceUnavailableAlert
+          headerLevel={2}
+          services={['claims']}
+          useSingular
+        />
       </>
     );
   }

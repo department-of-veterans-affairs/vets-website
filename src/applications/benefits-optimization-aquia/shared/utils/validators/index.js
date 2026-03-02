@@ -16,6 +16,7 @@ export {
   isValidVAFileNumber,
   isValidMexicoPostalCode,
   isValidMilitaryZip,
+  isValidNameLength,
   MILITARY_ZIP_PATTERNS,
   VALIDATION_MESSAGES,
 } from './validators';

@@ -139,3 +139,7 @@ export const Alerts = {
   REFILL_SUBMIT_FAILURE:
     'We’re sorry. There’s a problem with our system. We couldn’t submit these refill requests:',
 };
+export const DownloadFormat = {
+  PDF: 'pdf',
+  TXT: 'txt',
+};

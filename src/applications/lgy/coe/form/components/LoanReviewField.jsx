@@ -50,7 +50,7 @@ const LoanReviewField = ({ defaultEditButton, title, formData } = {}) => {
 };
 
 LoanReviewField.propTypes = {
-  defaultEditButton: PropTypes.element,
+  defaultEditButton: PropTypes.func,
   formData: PropTypes.shape({
     relevantPriorLoans: PropTypes.array,
   }),

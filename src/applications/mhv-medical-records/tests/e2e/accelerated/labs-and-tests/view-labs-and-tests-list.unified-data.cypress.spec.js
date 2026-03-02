@@ -42,10 +42,9 @@ describe('Medical Records View Lab and Tests', () => {
     cy.injectAxeThenAxeCheck();
 
     const CARDS_PER_PAGE = 3;
-    cy.get(':nth-child(4) > [data-testid="record-list-item"]').should(
-      'have.length',
-      CARDS_PER_PAGE,
-    );
+    cy.get(
+      'ul.record-list-items.no-print [data-testid="record-list-item"]',
+    ).should('have.length', CARDS_PER_PAGE);
     cy.get("[data-testid='filter-display-message']").should('be.visible');
     cy.get("[data-testid='filter-display-message']").should('not.be.empty');
   });

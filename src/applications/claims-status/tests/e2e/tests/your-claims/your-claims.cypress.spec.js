@@ -75,11 +75,11 @@ describe('Your claims', () => {
     cy.get('va-additional-info')
       .shadow()
       .findByRole('button', {
-        name: 'Find out why we sometimes combine claims.',
+        name: 'Find out why we sometimes combine claims',
       });
 
     cy.findByText(
-      'If you turn in a new claim while we’re reviewing another one from you, we’ll add any new information to the original claim and close the new claim, with no action required from you.',
+      "If you turn in a new claim while we're reviewing another one from you, we'll add any new information to the original claim and close the new claim, with no action required from you.",
     ).should('not.be.visible');
 
     cy.axeCheck();
@@ -89,12 +89,12 @@ describe('Your claims', () => {
     cy.get('va-additional-info')
       .shadow()
       .findByRole('button', {
-        name: 'Find out why we sometimes combine claims.',
+        name: 'Find out why we sometimes combine claims',
       })
       .click();
 
     cy.findByText(
-      'If you turn in a new claim while we’re reviewing another one from you, we’ll add any new information to the original claim and close the new claim, with no action required from you.',
+      "If you turn in a new claim while we're reviewing another one from you, we'll add any new information to the original claim and close the new claim, with no action required from you.",
     ).should('be.visible');
 
     cy.axeCheck();

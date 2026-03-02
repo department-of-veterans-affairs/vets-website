@@ -11,7 +11,7 @@ export const emptyObjectSchema = {
 
 const formNumber = getFormNumber();
 export const form686cBcList = [
-  { href: '/representative', label: 'VA.gov/representative home' },
+  { href: '/representative', label: 'Accredited representative portal home' },
   { href: '/representative/submissions', label: 'Submissions' },
   {
     href: `/representative/representative-form-upload/${formNumber}/introduction`,
@@ -48,12 +48,6 @@ export const claimantTitleAndDescription = {
         cause processing delays.
       </>,
     ),
-  },
-};
-
-export const ITFClaimantTitleAndDescription = {
-  'view:claimantTitle': {
-    'ui:title': 'Claimant information',
   },
 };
 
@@ -105,12 +99,6 @@ export const ITFBenefitTypes = Object.freeze({
       'Select this option if you intend to file a pension claim (VA Form 21P-527EZ)',
   },
 });
-
-export const ITFVeteranTitleAndDescription = {
-  'view:veteranTitle': {
-    'ui:title': 'Veteran identification information',
-  },
-};
 
 export const CustomTopContent = () => {
   const bcString = JSON.stringify(form686cBcList);

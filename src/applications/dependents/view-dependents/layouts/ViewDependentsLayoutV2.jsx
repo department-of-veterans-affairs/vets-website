@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getAppUrl } from 'platform/utilities/registry-helpers';
 import ViewDependentsLists from './ViewDependentsListsV2';
 import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDependentsHeaderV2';
-import { isServerError, isClientError } from '../util';
 import { errorFragment, noDependentsAlertV2 } from './helpers';
 
 /**
@@ -23,55 +21,49 @@ import { errorFragment, noDependentsAlertV2 } from './helpers';
  * @returns {JSX.Element} View dependents page layout
  */
 function ViewDependentsLayout(props) {
+  const {
+    hasMinimumRating,
+    loading,
+    error,
+    onAwardDependents,
+    notOnAwardDependents,
+  } = props;
   let mainContent;
-  let hasDependents = false;
+  const hasError = !!error;
+  // Only show the alert if there are on award dependents AND a rating of 30+
+  const showDependentsContent = !loading && !hasError && hasMinimumRating;
 
-  if (props.loading) {
+  if (loading) {
     mainContent = (
       <va-loading-indicator message="Loading your information..." />
     );
-  } else if (props.error && isServerError(props.error.code)) {
+  } else if (error) {
     mainContent = <va-alert status="error">{errorFragment}</va-alert>;
   } else if (
-    (props.error && isClientError(props.error.code)) ||
-    (props.onAwardDependents == null && props.notOnAwardDependents == null)
+    onAwardDependents.length === 0 &&
+    notOnAwardDependents.length === 0
   ) {
     mainContent = noDependentsAlertV2;
   } else {
-    // Only show the alert if there are on award dependents AND a rating of 30+
-    hasDependents =
-      props.onAwardDependents?.length > 0 && props.hasMinimumRating;
     mainContent = (
       <ViewDependentsLists
         manageDependentsToggle={props.manageDependentsToggle}
-        loading={props.loading}
-        hasDependents={hasDependents}
-        onAwardDependents={props.onAwardDependents}
-        notOnAwardDependents={props.notOnAwardDependents}
+        loading={loading}
+        onAwardDependents={onAwardDependents}
+        notOnAwardDependents={notOnAwardDependents}
       />
     );
   }
 
-  const showActionLink =
-    !hasDependents &&
-    (props.notOnAwardDependents === null ||
-      props.notOnAwardDependents?.length === 0);
   const layout = (
     <>
       <ViewDependentsHeader
         updateDiariesStatus={props.updateDiariesStatus}
-        showAlert={hasDependents}
+        hasAwardDependents={onAwardDependents.length > 0}
+        hasMinimumRating={hasMinimumRating}
+        showDependentsContent={showDependentsContent}
       />
       {mainContent}
-      {showActionLink && (
-        <p>
-          <va-link-action
-            href={getAppUrl('686C-674-v2')}
-            text="Add or remove a dependent"
-            type="primary"
-          />
-        </p>
-      )}
     </>
   );
 

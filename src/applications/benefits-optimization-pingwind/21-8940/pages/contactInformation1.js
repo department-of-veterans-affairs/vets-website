@@ -1,5 +1,5 @@
 import {
-  inlineTitleUI,
+  titleUI,
   addressUI,
   addressSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -9,20 +9,21 @@ import { veteranFields } from '../definitions/constants';
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      ...inlineTitleUI(
-        'How can we reach you?',
-        'We need to collect some basic information about you first. ',
+      ...titleUI(
+        "What's your mailing address?",
+        "This is where we'll send important information about your claim.",
       ),
       [veteranFields.address]: addressUI({
         labels: {
           street2: 'Apartment or unit number',
-          postalCode: 'Zip Code',
+          postalCode: 'ZIP code/Postal code',
         },
         omit: ['street3'],
         required: true,
       }),
     },
   },
+
   schema: {
     type: 'object',
     properties: {

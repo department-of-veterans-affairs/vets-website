@@ -27,10 +27,9 @@ describe('Medical Records View Care Summary and Notes', () => {
     cy.injectAxeThenAxeCheck();
 
     const CARDS_PER_PAGE = 6;
-    cy.get(':nth-child(4) > [data-testid="record-list-item"]').should(
-      'have.length',
-      CARDS_PER_PAGE,
-    );
+    cy.get(
+      'ul.record-list-items.no-print [data-testid="record-list-item"]',
+    ).should('have.length', CARDS_PER_PAGE);
 
     CareSummaryAndNotes.checkInfoAlert();
     CareSummaryAndNotes.checkDischargeListItem();

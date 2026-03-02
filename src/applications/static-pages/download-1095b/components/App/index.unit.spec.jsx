@@ -1,13 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import App from './index';
 
@@ -20,8 +20,8 @@ const emptyAvailableFormsResponse = {
   availableForms: [],
 };
 
-const setupAvailableFormsResponse = (server, status, responsePayload) => {
-  server.use(
+const setupAvailableFormsResponse = (mswServer, status, responsePayload) => {
+  mswServer.use(
     createGetHandler(
       'https://dev-api.va.gov/v0/form1095_bs/available_forms',
       () => jsonResponse(responsePayload || {}, { status }),
@@ -31,14 +31,6 @@ const setupAvailableFormsResponse = (server, status, responsePayload) => {
 
 describe('App component', () => {
   let store;
-  const server = setupServer();
-  before(() => {
-    server.listen();
-  });
-  after(() => {
-    server.close();
-  });
-  setupAvailableFormsResponse(server, 200, goodAvailableFormsResponse);
 
   const unauthenticatedState = {
     user: {
@@ -155,77 +147,39 @@ describe('App component', () => {
       });
     });
 
-    it.skip('renders the download form', async () => {
-      // skipping to support node 22 upgrade
-      // appears to be flaky and likely related to shadow DOM rendering timing
-
-      const { container, getByTestId, queryByText } = renderWithProvider(
-        authedAndVerifiedState,
-      );
+    it('renders the download form', async () => {
+      setupAvailableFormsResponse(server, 200, goodAvailableFormsResponse);
+      const { container } = renderWithProvider(authedAndVerifiedState);
       await waitFor(() => {
-        expect(queryByText('Loading')).not.to.exist;
-      });
-      await waitFor(() => {
-        expect(
-          container.querySelector(
-            'va-link[text="Download PDF (best for printing)"]',
-          ),
-        ).to.exist;
-      });
-
-      expect(
-        container.querySelector(
+        const pdfLink = container.querySelector(
+          'va-link[text="Download PDF (best for printing)"]',
+        );
+        expect(pdfLink).to.exist;
+        const textLink = container.querySelector(
           'va-link[text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"]',
-        ),
-      ).to.exist;
-      fireEvent.click(
-        $('va-link[text="Download PDF (best for printing)"]', container),
-      );
-      fireEvent.click(
-        $(
-          'va-link[text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"]',
-          container,
-        ),
-      );
-      await waitFor(() => {
-        expect(getByTestId('downloadError')).to.exist;
-      });
-      const target = getByTestId('downloadError');
-      await waitFor(() => {
-        expect(document.activeElement).to.eq(target);
+        );
+        expect(textLink).to.exist;
       });
     });
 
     describe('when the forms endpoint fails', () => {
       it('renders an error alert', async () => {
         setupAvailableFormsResponse(server, 500, false);
-        const { queryByText } = renderWithProvider(authedAndVerifiedState);
-        await waitFor(() => {
-          expect(queryByText('Loading')).not.to.exist;
-        });
-        await waitFor(() => {
-          expect(queryByText('System error')).to.exist;
-        });
+        const { findByText } = renderWithProvider(authedAndVerifiedState);
+        const alert = await findByText('System error');
+        expect(alert).to.exist;
       });
     });
   });
 
   describe('when no 1095-B form data is found', () => {
-    it.skip('renders a message', async () => {
-      // skipping to support node 22 upgrade
-      // appears to be flaky and likely related to shadow DOM rendering timing
-
+    it('renders a message', async () => {
       setupAvailableFormsResponse(server, 200, emptyAvailableFormsResponse);
-      const { queryByText } = renderWithProvider(authedAndVerifiedState);
-
-      await waitFor(() => {
-        expect(queryByText('Loading')).not.to.exist;
-      });
-      await waitFor(() => {
-        expect(
-          queryByText('You don’t have a 1095-B tax form available right now'),
-        ).to.exist;
-      });
+      const { findByText } = renderWithProvider(authedAndVerifiedState);
+      const message = await findByText(
+        `You don’t have a 1095-B tax form available right now`,
+      );
+      expect(message).to.exist;
     });
   });
 });

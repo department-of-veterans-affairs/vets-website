@@ -266,24 +266,27 @@ export function createArrayBuilderItemEditPath({ path, index, isReview }) {
   }`;
 }
 
-export function slugifyText(nounSingular) {
-  return nounSingular.toLowerCase().replace(/ /g, '-');
+export function slugifyText(text, { convertCamelCase = true } = {}) {
+  if (!text) return '';
+  let result = text;
+
+  if (convertCamelCase) {
+    result = result.replace(/([a-z])([A-Z])/g, '$1-$2');
+  }
+
+  return result.toLowerCase().replace(/ /g, '-');
 }
 
 /**
  * Creates a path with a `updated` query param
  * @param {Object} props
- * @param {string} props.path e.g. `/path-summary`
- * @param {string} props.nounSingular e.g. `employer`
+ * @param {string} props.basePath e.g. `/path-summary`
+ * @param {string} props.arrayPath e.g. `employers`
  * @param {string | number} props.index
- * @returns {string} e.g. `/path-summary?updated=employer-0`
+ * @returns {string} e.g. `/path-summary?updated=employers-0`
  */
-export function createArrayBuilderUpdatedPath({
-  basePath,
-  nounSingular,
-  index,
-}) {
-  return `${basePath}?updated=${slugifyText(nounSingular)}-${index}`;
+export function createArrayBuilderUpdatedPath({ basePath, arrayPath, index }) {
+  return `${basePath}?updated=${slugifyText(arrayPath)}-${index}`;
 }
 
 export function isDeepEmpty(obj) {
@@ -306,10 +309,10 @@ export function getArrayIndexFromPathName(
 }
 
 /**
- * Gets the nounSingular and index from the URL `updated=` path
- * @param {string} [search] e.g. `?add=true`
+ * Gets the arrayPathSlug and index from the URL `updated=` query parameter
+ * @param {string} [search] e.g. `?updated=employers-0`
  * @returns {{
- *   nounSingular: string | null,
+ *   arrayPathSlug: string | null,
  *   index: number | null,
  * }}
  */
@@ -318,7 +321,7 @@ export function getUpdatedItemFromPath(search = window?.location?.search) {
   const updatedValue = urlParams.get('updated');
 
   const updatedItem = {
-    nounSingular: null,
+    arrayPathSlug: null,
     index: null,
   };
 
@@ -327,7 +330,7 @@ export function getUpdatedItemFromPath(search = window?.location?.search) {
     if (parts?.length) {
       const index = Number(parts.pop());
       updatedItem.index = index;
-      updatedItem.nounSingular = parts.join(' ');
+      updatedItem.arrayPathSlug = parts.join('-');
     }
   } catch (e) {
     // do nothing
@@ -595,6 +598,7 @@ export const processArrayData = array => {
   // Make sure we're not slugifying strings with only spaces
   return slugifyText(
     array.map(item => (item || '').toString().trim()).join(';'),
+    { convertCamelCase: false },
   );
 };
 

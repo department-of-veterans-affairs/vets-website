@@ -17,10 +17,10 @@ import withRouter from '../utils/withRouter';
 
 import {
   claimAvailable,
-  getFailedSubmissionsWithinLast30Days,
   isClaimOpen,
   setPageFocus,
   setTabDocumentTitle,
+  getFailedSubmissionsWithinLast30Days,
 } from '../utils/helpers';
 import {
   setUpPage,

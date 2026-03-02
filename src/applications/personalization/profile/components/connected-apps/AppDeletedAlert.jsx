@@ -9,11 +9,11 @@ export const AppDeletedAlert = ({ title, privacyUrl }) => {
   }, []);
 
   return (
-    <div tabIndex="-1" data-focus-target className="vads-u-margin-y--4">
+    <div tabIndex="-1" data-focus-target>
       <va-alert
         status="success"
         backgroundOnly
-        class="vads-u-padding-bottom--0 vasd-u-margin-bottom--2"
+        class="vads-u-padding-bottom--0 vads-u-margin-bottom--2"
         uswds
       >
         <p className="vads-u-margin-top--0" role="alert" aria-live="polite">
@@ -30,7 +30,6 @@ export const AppDeletedAlert = ({ title, privacyUrl }) => {
 };
 
 AppDeletedAlert.propTypes = {
-  id: PropTypes.string.isRequired,
   privacyUrl: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };

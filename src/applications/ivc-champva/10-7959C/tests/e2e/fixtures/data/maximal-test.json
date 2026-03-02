@@ -1,7 +1,9 @@
 {
   "description": "Has Medicare (ABD), both OHIs (Medigap), US address (new), third party signer",
   "data": {
-    "champvaBenefitStatus": true,
+    "view:champvaBenefitStatus": true,
+    "secondaryInsuranceCardFront": [],
+    "secondaryInsuranceCardBack": [],
     "secondaryAdditionalComments": "Secondary comments",
     "secondaryMedigapPlan": "C",
     "applicantSecondaryInsuranceType": "medigap",
@@ -11,6 +13,8 @@
     "applicantSecondaryEffectiveDate": "2019-04-01",
     "applicantSecondaryExpirationDate": "2024-04-02",
     "applicantHasSecondary": true,
+    "primaryInsuranceCardFront": [],
+    "primaryInsuranceCardBack": [],
     "primaryAdditionalComments": "Additional Comment 1",
     "primaryMedigapPlan": "G",
     "applicantPrimaryInsuranceType": "medigap",
@@ -30,6 +34,10 @@
     "applicantMedicarePartACarrier": "MedCarrierA",
     "applicantMedicarePartAEffectiveDate": "2020-01-05",
     "applicantMedicareStatus": true,
+    "applicantMedicarePartAPartBCardFront": [],
+    "applicantMedicarePartAPartBCardBack": [],
+    "medicarePartDCardFront": [],
+    "medicarePartDCardBack": [],
     "applicantPhone": "5551231234",
     "applicantGender": "male",
     "applicantAddress": {
@@ -46,57 +54,6 @@
       "last": "Jones",
       "suffix": "Jr."
     },
-    "missingUploads": [
-      {
-        "name": "applicantMedicarePartAPartBCardFront",
-        "path": "medicare-ab-upload",
-        "required": true,
-        "uploaded": false
-      },
-      {
-        "name": "applicantMedicarePartAPartBCardBack",
-        "path": "medicare-ab-upload",
-        "required": true,
-        "uploaded": false
-      },
-      {
-        "name": "applicantMedicarePartDCardFront",
-        "path": "medicare-d-upload",
-        "required": true,
-        "uploaded": false
-      },
-      {
-        "name": "applicantMedicarePartDCardBack",
-        "path": "medicare-d-upload",
-        "required": true,
-        "uploaded": false
-      },
-      {
-        "name": "primaryInsuranceCardFront",
-        "path": "insurance-upload",
-        "required": true,
-        "uploaded": false
-      },
-      {
-        "name": "primaryInsuranceCardBack",
-        "path": "insurance-upload",
-        "required": true,
-        "uploaded": false
-      },
-      {
-        "name": "secondaryInsuranceCardFront",
-        "path": "secondary-insurance-card-upload",
-        "required": true,
-        "uploaded": false
-      },
-      {
-        "name": "secondaryInsuranceCardBack",
-        "path": "secondary-insurance-card-upload",
-        "required": true,
-        "uploaded": false
-      }
-    ],
-    "consentToMailMissingRequiredFiles": true,
     "certifierRole": "other",
     "certifierEmail": "certifier@email.gov",
     "signature": "Certifier Jones"

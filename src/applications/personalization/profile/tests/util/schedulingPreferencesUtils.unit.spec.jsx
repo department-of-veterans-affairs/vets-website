@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import * as schedulingPreferencesUtils from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
-import { FIELD_NAMES } from '@@vap-svc/constants';
+import { FIELD_NAMES } from '@@vap-svc/constants/schedulingPreferencesConstants';
 
 describe('Profile utils', () => {
   describe('scheduling preferences utils', () => {
@@ -40,15 +40,6 @@ describe('Profile utils', () => {
           result[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
         ).to.have.property('ui:options');
       });
-
-      it('returns empty schema for subtask scheduling preference fields', () => {
-        const result = schedulingPreferencesUtils.schedulingPreferencesUiSchema(
-          FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
-        );
-        expect(result).to.deep.equal({
-          [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {},
-        });
-      });
     });
 
     describe('schedulingPreferencesFormSchema', () => {
@@ -68,15 +59,28 @@ describe('Profile utils', () => {
           result.properties[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
         ).to.have.property('enum');
       });
+    });
 
-      it('returns empty schema for subtask scheduling preference fields', () => {
-        const result = schedulingPreferencesUtils.schedulingPreferencesFormSchema(
-          FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
+    describe('sortDaysAndTimes', () => {
+      it('returns sorted days and times', () => {
+        const unsortedDaysAndTimes = {
+          Friday: ['afternoon', 'morning'],
+          Monday: ['morning'],
+          Wednesday: ['afternoon'],
+          Tuesday: ['morning', 'afternoon'],
+        };
+
+        const sortedDaysAndTimes = [
+          ['Monday', ['morning']],
+          ['Tuesday', ['morning', 'afternoon']],
+          ['Wednesday', ['afternoon']],
+          ['Friday', ['morning', 'afternoon']],
+        ];
+
+        const result = schedulingPreferencesUtils.sortDaysAndTimes(
+          unsortedDaysAndTimes,
         );
-        expect(result).to.deep.equal({
-          type: 'object',
-          properties: {},
-        });
+        expect(result).to.deep.equal(sortedDaysAndTimes);
       });
     });
   });

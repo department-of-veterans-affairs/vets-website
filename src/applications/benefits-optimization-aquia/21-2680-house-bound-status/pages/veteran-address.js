@@ -20,6 +20,7 @@ export const veteranAddressUiSchema = {
       labels: {
         militaryCheckbox:
           'Veteran lives on a United States military base outside of the U.S.',
+        street2: 'Apt./Unit Number',
       },
     }),
   },
@@ -33,7 +34,9 @@ export const veteranAddressUiSchema = {
 const customVeteranAddressSchema = {
   ...addressSchema(),
   properties: {
-    ...addressSchema().properties,
+    ...addressSchema({
+      omit: ['street3'],
+    }).properties,
     street: {
       type: 'string',
       maxLength: 30,
@@ -41,6 +44,10 @@ const customVeteranAddressSchema = {
     street2: {
       type: 'string',
       maxLength: 5,
+    },
+    city: {
+      type: 'string',
+      maxLength: 18,
     },
   },
 };

@@ -3,26 +3,8 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import NeedHelp from '../../components/NeedHelp';
 
-// Simple mock for the VA web components that don't exist in test environment
-beforeEach(() => {
-  global.customElements = {
-    get: () => undefined,
-    define: () => {},
-  };
-
-  // Register all components with a single function to avoid multiple class definitions
-  const defineElement = name => {
-    const proto = Object.create(HTMLElement.prototype);
-    proto.connectedCallback = function() {};
-    customElements.define(name, function createElement() {
-      return proto;
-    });
-  };
-  defineElement('va-need-help');
-  defineElement('va-telephone');
-  defineElement('va-alert');
-  defineElement('va-button');
-});
+// jsdom 20+ provides native customElements support, so no mocking needed.
+// VA web components render as custom elements without explicit registration.
 
 describe('NeedHelp', () => {
   it('renders the component', () => {

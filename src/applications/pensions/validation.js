@@ -2,6 +2,13 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { isValidDateRange } from '@department-of-veterans-affairs/platform-forms/validations';
 import { convertToDateField } from '@department-of-veterans-affairs/platform-forms-system/validation';
 
+/**
+ * Validates that the date of separation is after the date of marriage.
+ * @param {object} errors - form system error object
+ * @param {string} dateOfSeparation - date string to validate
+ * @param {object} formData - form data object
+ * @returns {void}
+ */
 export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
   const fromDate = convertToDateField(
     formData['view:pastMarriage']?.dateOfMarriage || formData.dateOfMarriage,
@@ -13,6 +20,13 @@ export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
   }
 }
 
+/**
+ * Find date of separation fields in formData and validate it
+ * @param {object} errors - form system error object
+ * @param {string} dateOfSeparation - date string to validate
+ * @param {object} formData - form data object
+ * @returns {void}
+ */
 export function validateAfterMarriageDates(errors, dateOfSeparation, formData) {
   formData.spouseMarriages?.forEach(marriage => {
     if (marriage.dateOfSeparation === dateOfSeparation) {
@@ -21,6 +35,13 @@ export function validateAfterMarriageDates(errors, dateOfSeparation, formData) {
   });
 }
 
+/**
+ * Validate if marriage entry is unique by date of marriage
+ * @param {object} errors - form system error object
+ * @param {string} dateOfMarriage - date string to validate
+ * @param {object} formData - form data object
+ * @returns {void}
+ */
 export function validateUniqueMarriageDates(errors, dateOfMarriage, formData) {
   let count = 0;
   formData.spouseMarriages?.forEach(marriage => {
@@ -33,6 +54,13 @@ export function validateUniqueMarriageDates(errors, dateOfMarriage, formData) {
   }
 }
 
+/**
+ * Validates that the date entering active service is after the birth date
+ * @param {object} errors - form system error object
+ * @param {object} service - service data object
+ * @param {object} formData - form data object
+ * @returns {void}
+ */
 export function validateServiceBirthDates(errors, service, formData) {
   const fromDate = convertToDateField(formData.veteranDateOfBirth);
   const toDate = convertToDateField(
@@ -59,9 +87,14 @@ export const isValidCurrency = currencyAmount => {
   return regex.test(currencyAmount);
 };
 
-// Benefits Intake API metadata name validation only accepts a-z, A-Z, hyphen, and whitespace.
-// When generating the metadata, we erase all invalid characters. If this leaves an empty string,
-// the submission will fail.
+/**
+ * Benefits Intake API metadata name validation only accepts a-z, A-Z, hyphen, and whitespace.
+ * When generating the metadata, we erase all invalid characters. If this leaves an empty string,
+ * the submission will fail
+ * @param {object} errors - form system error object
+ * @param {string} value - string to validate
+ * @returns {void}
+ */
 export function validateBenefitsIntakeName(errors, value) {
   const validCharsPattern = /[a-zA-Z]/g;
   const matches = value.match(validCharsPattern);

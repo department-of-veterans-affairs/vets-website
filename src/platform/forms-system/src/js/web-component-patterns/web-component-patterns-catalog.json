@@ -11,16 +11,16 @@
       "uiSchemaDescription": "uiSchema for address - Same as addressUI, but without the military checkbox. Includes fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.",
       "schema": "addressNoMilitarySchema",
       "schemaType": "function",
-      "schemaDescription": "Schema for addressNoMilitaryUI. Fields may be omitted."
+      "schemaDescription": "Schema for addressNoMilitaryUI. Fields may be omitted, remapped, or extended."
     },
     {
       "category": "Address",
       "uiSchema": "addressUI",
       "uiSchemaType": "function",
-      "uiSchemaDescription": "uiSchema for address - includes checkbox for military base, and fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.",
+      "uiSchemaDescription": "uiSchema for address - includes checkbox for military base, and fields for country, street, street2, street3, city, state, postal code. Fields may be omitted or mapped to alternative key names.",
       "schema": "addressSchema",
       "schemaType": "function",
-      "schemaDescription": "Schema for addressUI. Fields may be omitted."
+      "schemaDescription": "Schema for addressUI. Fields may be omitted, remapped, or extended."
     },
     {
       "category": "AddressDeprecated",

@@ -519,7 +519,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       path = createArrayBuilderUpdatedPath({
         basePath,
         index: foundIndex == null ? index : foundIndex,
-        nounSingular,
+        arrayPath,
       });
     }
     goPath(path);

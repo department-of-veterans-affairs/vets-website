@@ -567,8 +567,15 @@ describe('scrollToFirstError', () => {
   });
 
   it('should log a warning to the console when no error element is found and timer expires ', async () => {
+    // Temporarily remove Mocha flag to test the warning behavior in non-test environments
+    const originalMocha = window.Mocha;
+    window.Mocha = undefined;
+
     renderForm();
     await scrollToFirstError();
+
+    // Restore Mocha flag
+    window.Mocha = originalMocha;
 
     sinon.assert.calledWithMatch(consoleStub, /Error element not found/);
     sinon.assert.notCalled(focusStub);

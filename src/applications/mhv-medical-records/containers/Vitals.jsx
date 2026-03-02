@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   usePrintTitle,
@@ -21,10 +20,12 @@ import {
 } from '../util/constants';
 import { Actions } from '../util/actionTypes';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import DuplicateRecordsAlert from '../components/shared/DuplicateRecordsAlert';
 import RecordListSection from '../components/shared/RecordListSection';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
@@ -51,12 +52,8 @@ const Vitals = () => {
   const isLoadingAcceleratedData =
     (isCerner || isAcceleratingVitals) && listState === loadStates.FETCHING;
 
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getVitals(isCurrent, isCerner, isAcceleratingVitals);
-      };
-    },
+  const dispatchAction = useCallback(
+    isCurrent => getVitals(isCurrent, isCerner, isAcceleratingVitals),
     [isCerner, isAcceleratingVitals],
   );
 
@@ -69,6 +66,7 @@ const Vitals = () => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
@@ -81,11 +79,15 @@ const Vitals = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
     },
     [dispatch],
   );
+
+  useFocusAfterLoading({
+    isLoading: isLoading || listState !== loadStates.FETCHED,
+    isLoadingAcceleratedData,
+  });
 
   usePrintTitle(
     pageTitles.VITALS_PAGE_TITLE,
@@ -120,6 +122,7 @@ const Vitals = () => {
       <h1 data-testid="vitals" className="vads-u-margin--0">
         Vitals
       </h1>
+      {isCerner && <DuplicateRecordsAlert />}
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
         Vitals are basic health numbers your providers check at your
         appointments.
@@ -153,7 +156,7 @@ const Vitals = () => {
             <TrackedSpinner
               id="vitals-page-spinner"
               message="We’re loading your vitals."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>

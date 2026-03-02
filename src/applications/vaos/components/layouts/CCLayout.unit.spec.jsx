@@ -127,7 +127,7 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
       expect(screen.getByText(/This is a test:Additional information/i));
@@ -231,7 +231,7 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
       expect(screen.getByText(/This is a test:Additional information/i));
@@ -321,7 +321,7 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
       expect(screen.getByText(/This is a test:Additional information/i));
@@ -425,7 +425,7 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
       expect(screen.getByText(/This is a test:Additional information/i));

@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca SpouseAnnualIncome config', () => {
   const {
@@ -13,7 +15,7 @@ describe('hca SpouseAnnualIncome config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 3;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -30,4 +32,74 @@ describe('hca SpouseAnnualIncome config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        'view:spouseGrossIncome': {
+          type: 'object',
+          properties: {
+            spouseGrossIncome: {
+              type: 'number',
+            },
+          },
+        },
+        'view:spouseNetIncome': {
+          type: 'object',
+          properties: {
+            spouseNetIncome: {
+              type: 'number',
+            },
+          },
+        },
+        'view:spouseOtherIncome': {
+          type: 'object',
+          properties: {
+            spouseOtherIncome: {
+              type: 'number',
+            },
+          },
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'view:spouseGrossIncome': {
+        'ui:title': {},
+        'ui:description': {},
+        spouseGrossIncome: {
+          'ui:title': {},
+          'ui:options': {},
+          'ui:validations': {},
+          'ui:errorMessages': {},
+        },
+      },
+      'view:spouseNetIncome': {
+        'ui:title': {},
+        'ui:description': {},
+        spouseNetIncome: {
+          'ui:title': {},
+          'ui:options': {},
+          'ui:validations': {},
+          'ui:errorMessages': {},
+        },
+      },
+      'view:spouseOtherIncome': {
+        'ui:title': {},
+        'ui:description': {},
+        spouseOtherIncome: {
+          'ui:title': {},
+          'ui:options': {},
+          'ui:validations': {},
+          'ui:errorMessages': {},
+        },
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

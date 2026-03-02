@@ -88,8 +88,12 @@ const defaultUser = {
         vaPatient: true,
         mhvAccountState: 'MULTIPLE',
         activeMHVIds: ['22461761', '22461761'],
-        userAtPretransitionedOhFacility: false,
-        userFacilityReadyForInfoAlert: false,
+        ohMigrationInfo: {
+          userAtPretransitionedOhFacility: false,
+          userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          migrationSchedules: [],
+        },
       },
       veteranStatus: null,
       inProgressForms: [],
@@ -226,8 +230,12 @@ const cernerUser = {
         vaPatient: true,
         mhvAccountState: 'OK',
         activeMHVIds: [],
-        userAtPretransitionedOhFacility: true,
-        userFacilityReadyForInfoAlert: false,
+        ohMigrationInfo: {
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          migrationSchedules: [],
+        },
       },
     },
   },
@@ -252,6 +260,7 @@ const acceleratedCernerUser = {
         'vet360',
         'medical-records',
         'messaging',
+        'rx',
       ],
       account: {
         accountUuid: '9b8a5a1f-d99f-4e03-9b43-4c689f3e4f00',
@@ -330,8 +339,12 @@ const acceleratedCernerUser = {
         vaPatient: true,
         mhvAccountState: 'OK',
         activeMHVIds: [],
-        userAtPretransitionedOhFacility: true,
-        userFacilityReadyForInfoAlert: true,
+        ohMigrationInfo: {
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: true,
+          userFacilityMigratingToOh: false,
+          migrationSchedules: [],
+        },
       },
       veteranStatus: {
         status: 'OK',
@@ -485,6 +498,70 @@ const acceleratedCernerUser = {
   },
 };
 
+const transitioningUser = {
+  ...cernerUser,
+  data: {
+    ...cernerUser.data,
+    attributes: {
+      ...cernerUser.data.attributes,
+      vaProfile: {
+        ...cernerUser.data.attributes.vaProfile,
+        ohMigrationInfo: {
+          userAtPretransitionedOhFacility: false,
+          userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: true,
+          migrationSchedules: [
+            {
+              migrationDate: '2026-05-01',
+              facilities: [
+                {
+                  facilityId: '528',
+                  facilityName: 'Test VA Medical Center',
+                },
+                {
+                  facilityId: '123',
+                  facilityName: 'Different VA Medical Center',
+                },
+              ],
+              phases: {
+                current: 'p1', // All tools in warning alert phase
+                p0: 'March 1, 2026',
+                p1: 'March 15, 2026',
+                p2: 'April 1, 2026',
+                p3: 'April 24, 2026',
+                p4: 'April 27, 2026',
+                p5: 'May 1, 2026',
+                p6: 'May 3, 2026',
+                p7: 'May 8, 2026',
+              },
+            },
+            {
+              migrationDate: '2026-03-01',
+              facilities: [
+                {
+                  id: '565',
+                  name: 'One More VA Medical Center',
+                },
+              ],
+              phases: {
+                current: 'p5', // All tools in error alert phase
+                p0: 'January 1, 2026',
+                p1: 'January 15, 2026',
+                p2: 'February 1, 2026',
+                p3: 'February 24, 2026',
+                p4: 'February 27, 2026',
+                p5: 'March 1, 2026',
+                p6: 'March 3, 2026',
+                p7: 'March 8, 2026',
+              },
+            },
+          ],
+        },
+      },
+    },
+  },
+};
+
 const generateUserWithFacilities = ({ facilities = [], name = 'Harry' }) => {
   const vaPatient = facilities.length > 0;
   return {
@@ -494,7 +571,7 @@ const generateUserWithFacilities = ({ facilities = [], name = 'Harry' }) => {
       attributes: {
         ...defaultUser.data.attributes,
         vaProfile: {
-          ...defaultUser.data.attributes.va_profile,
+          ...defaultUser.data.attributes.vaProfile,
           facilities,
           vaPatient,
         },
@@ -534,9 +611,9 @@ const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
       attributes: {
         ...defaultUser.data.attributes,
         vaProfile: {
-          ...defaultUser.data.attributes.va_profile,
+          ...defaultUser.data.attributes.vaProfile,
           facilities:
-            facilities || defaultUser.data.attributes.va_profile.facilities,
+            facilities || defaultUser.data.attributes.vaProfile.facilities,
         },
         profile: {
           ...defaultUser.data.attributes.profile,
@@ -557,6 +634,7 @@ module.exports = {
   cernerUser,
   noFacilityUser,
   acceleratedCernerUser,
+  transitioningUser,
   generateUser,
   generateUserWithServiceProvider,
   generateUserWithFacilities,

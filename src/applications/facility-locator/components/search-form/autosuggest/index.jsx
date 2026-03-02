@@ -8,6 +8,7 @@ import AutosuggestOptions from './AutosuggestOptions';
 import './sass/autosuggest.scss';
 import { AutosuggestProps } from '../../../types';
 import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
+import { MIN_SEARCH_CHARS } from '../../../constants';
 
 function Autosuggest({
   // downshift props
@@ -43,7 +44,8 @@ function Autosuggest({
   loadingMessage = '',
   useProgressiveDisclosure,
   AutosuggestOptionComponent = AutosuggestOption,
-  showOptionsRestriction = undefined,
+  showOptionsRestriction = !!inputValue &&
+    inputValue?.length >= MIN_SEARCH_CHARS,
 }) {
   const {
     isOpen,
@@ -76,6 +78,8 @@ function Autosuggest({
     shouldBeShown = isOpen && showOptionsRestriction;
   }
 
+  const { id } = getMenuProps();
+
   return (
     <div
       id={`${inputId}-autosuggest-container`}
@@ -98,6 +102,7 @@ function Autosuggest({
       {inputError}
       <div className="autosuggest-input-container">
         <InputWithClear
+          dropdownIsOpen={shouldBeShown}
           getInputProps={getInputProps}
           getToggleButtonProps={getToggleButtonProps}
           className={inputContainerClassName}
@@ -108,6 +113,7 @@ function Autosuggest({
           showClearButton={!!inputValue}
           onClearClick={inputClearClick}
           downshiftInputProps={downshiftInputProps}
+          dropdownId={id}
         />
         <AutosuggestOptions
           getItemProps={getItemProps}

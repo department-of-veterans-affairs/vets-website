@@ -3,8 +3,8 @@ import sinon from 'sinon';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import {
   VERIFY_VA_FILE_NUMBER_SUCCEEDED,
   VERIFY_VA_FILE_NUMBER_FAILED,
@@ -12,16 +12,6 @@ import {
 } from '../../actions';
 
 describe('Verify VA file number actions: verifyVaFileNumber', () => {
-  const server = setupServer();
-
-  before(() => {
-    server.listen();
-  });
-
-  after(() => {
-    server.close();
-  });
-
   it('should fetch a va file number', () => {
     const verified = {
       attributes: {

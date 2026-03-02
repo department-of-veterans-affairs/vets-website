@@ -22,8 +22,9 @@ import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
 import { canUseMocks, ANCHOR_LINKS } from '../constants';
 import {
-  recordUploadStartEvent,
+  recordUploadCancelEvent,
   recordUploadFailureEvent,
+  recordUploadStartEvent,
   recordUploadSuccessEvent,
 } from '../utils/analytics';
 import {
@@ -442,7 +443,10 @@ export function submitFiles(
   const trackedItemId = trackedItem ? trackedItem.id : null;
 
   // Record enhanced upload start event and get retry info for each file
-  const filesWithRetryInfo = recordUploadStartEvent({ files, claimId });
+  const { filesWithRetryInfo, retryFileCount } = recordUploadStartEvent({
+    files,
+    claimId,
+  });
 
   return dispatch => {
     dispatch(clearNotification());
@@ -455,11 +459,10 @@ export function submitFiles(
       type: SET_PROGRESS,
       progress: 0,
     });
-    require.ensure(
-      [],
-      require => {
+    import(/* webpackChunkName: "claims-uploader" */ 'fine-uploader/lib/core').then(
+      module => {
+        const { FineUploaderBasic } = module.default;
         const csrfTokenStored = localStorage.getItem('csrfToken');
-        const { FineUploaderBasic } = require('fine-uploader/lib/core');
         const uploader = new FineUploaderBasic({
           request: {
             endpoint: `${
@@ -480,7 +483,10 @@ export function submitFiles(
           callbacks: {
             onAllComplete: () => {
               if (!hasError) {
-                recordUploadSuccessEvent({ fileCount: totalFiles });
+                recordUploadSuccessEvent({
+                  fileCount: totalFiles,
+                  retryFileCount,
+                });
                 dispatch({
                   type: DONE_UPLOADING,
                 });
@@ -509,6 +515,7 @@ export function submitFiles(
                   files,
                   filesWithRetryInfo,
                   claimId,
+                  retryFileCount,
                 });
                 dispatch({
                   type: SET_UPLOAD_ERROR,
@@ -573,9 +580,9 @@ export function submitFiles(
                   } else {
                     error.docType = 'Unknown';
                   }
-
-                  errorFiles.push(error);
                 }
+
+                errorFiles.push(error);
 
                 hasError = error;
               }
@@ -601,7 +608,6 @@ export function submitFiles(
         });
         /* eslint-enable camelcase */
       },
-      'claims-uploader',
     );
   };
 }
@@ -654,12 +660,10 @@ export function getStemClaims() {
   };
 }
 
-export function cancelUpload() {
+export function cancelUpload({ cancelFileCount, retryFileCount }) {
   return (dispatch, getState) => {
     const { uploader } = getState().disability.status.uploads;
-    recordEvent({
-      event: 'claims-upload-cancel',
-    });
+    recordUploadCancelEvent({ cancelFileCount, retryFileCount });
 
     if (uploader) {
       uploader.cancelAll();

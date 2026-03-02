@@ -36,9 +36,17 @@ export const veteranPersonalInformationPage = {
             ...fullNameNoSuffixSchema,
             properties: {
               ...fullNameNoSuffixSchema.properties,
+              first: {
+                ...fullNameNoSuffixSchema.properties.first,
+                maxLength: 12,
+              },
               middle: {
                 ...fullNameNoSuffixSchema.properties.middle,
                 maxLength: 1,
+              },
+              last: {
+                ...fullNameNoSuffixSchema.properties.last,
+                maxLength: 18,
               },
             },
           },

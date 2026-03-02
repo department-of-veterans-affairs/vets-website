@@ -129,14 +129,13 @@ function App({
 
     applicationId: '48416fb2-5b5e-428c-a1b1-b6e83b7c4088',
     clientToken: 'pubd3c0ed031341634412d7af1c9abf2a30',
-    // `site` refers to the Datadog site parameter of your organization
-    // see https://docs.datadoghq.com/getting_started/site/
     service: 'benefits-dependents-management',
     version: '1.0.0',
-    // record 100% of staging sessions, but only 20% of production
-    sessionReplaySampleRate:
-      environment.vspEnvironment() === 'staging' ? 100 : 20,
-    sessionSampleRate: 50,
+
+    // record 100% of staging & production sessions; adjust the dashboard
+    // retention filters to manage volume & cost
+    sessionReplaySampleRate: 100,
+    sessionSampleRate: 100,
   });
 
   const {
@@ -148,6 +147,7 @@ function App({
     'vaDependentsNetWorthAndPension',
     'vaDependentsDuplicateModals',
     'vaDependentsV3',
+    'vaDependentsNoSsn',
   ]);
   const dependentsModuleEnabled = useToggleValue(
     TOGGLE_NAMES.dependentsModuleEnabled,

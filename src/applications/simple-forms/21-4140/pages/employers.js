@@ -17,6 +17,7 @@ import {
   currencySchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { validateEmploymentStartAfterDob } from '../helpers/validations';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -28,7 +29,6 @@ export const options = {
     !item?.employerName ||
     !item?.employerAddress ||
     !item?.employmentDates?.from ||
-    !item?.employmentDates?.to ||
     !item?.typeOfWork ||
     !item?.hoursPerWeek ||
     !item?.lostTimeFromIllness ||
@@ -37,19 +37,31 @@ export const options = {
   text: {
     getItemName: (item, index) => item?.employerName || `Employer ${index + 1}`,
     cardDescription: itemData => {
-      if (itemData?.employmentDates?.from && itemData?.employmentDates?.to) {
-        try {
-          const startDate = formatDateLong(itemData.employmentDates?.from);
-          const endDate = formatDateLong(itemData.employmentDates?.to);
-          return `${startDate} to ${endDate}`;
-        } catch (error) {
-          // Fallback to raw dates if formatting fails
-          return `${itemData.employmentDates?.from} to ${
-            itemData.employmentDates?.to
-          }`;
-        }
+      const fromDate = itemData?.employmentDates?.from;
+      const toDate = itemData?.employmentDates?.to;
+
+      if (!fromDate && !toDate) {
+        return '';
       }
-      return '';
+
+      const formatSafely = dateValue => {
+        if (!dateValue) return '';
+        try {
+          return formatDateLong(dateValue);
+        } catch (error) {
+          return dateValue;
+        }
+      };
+
+      if (fromDate && toDate) {
+        return `${formatSafely(fromDate)} to ${formatSafely(toDate)}`;
+      }
+
+      if (fromDate) {
+        return `${formatSafely(fromDate)} to present`;
+      }
+
+      return formatSafely(toDate);
     },
     summaryDescription: () => 'You can add up to 4 employers.',
   },
@@ -87,7 +99,8 @@ const summaryPage = {
           Y: 'Yes, I have employment to report',
           N: "No, I don't have any employment to report",
         },
-        hint: 'You’ll need to add at least 1 employer. You can add up to 4.',
+        hint:
+          "If you have employment to report, you'll need to add at least one employer. You can add up to four.",
         errorMessages: {
           required: 'Select if you have employment to report.',
         },
@@ -157,26 +170,41 @@ const employmentDatesPage = {
           ? `Dates you were employed at ${formData.employerName}`
           : 'Employment dates',
     ),
-    employmentDates: currentOrPastDateRangeUI(
-      {
-        title: 'Employment start date',
-        errorMessages: {
-          required: 'Enter start date of employment',
+    employmentDates: (() => {
+      const baseUiSchema = currentOrPastDateRangeUI(
+        {
+          title: 'Employment start date',
+          errorMessages: {
+            required: 'Enter start date of employment',
+          },
         },
-      },
-      {
-        title: 'Employment end date',
-        errorMessages: {
-          required: 'Enter end date of employment',
+        {
+          title: 'Employment end date',
+          hint: 'Leave blank if you still work here.',
         },
-      },
-      'End date must be after start date',
-    ),
+        'End date must be after start date',
+      );
+
+      return {
+        ...baseUiSchema,
+        'ui:validations': [
+          ...(baseUiSchema['ui:validations'] || []),
+          validateEmploymentStartAfterDob,
+        ],
+        'ui:options': {
+          ...(baseUiSchema['ui:options'] || {}),
+          useAllFormData: true,
+        },
+      };
+    })(),
   },
   schema: {
     type: 'object',
     properties: {
-      employmentDates: currentOrPastDateRangeSchema,
+      employmentDates: {
+        ...currentOrPastDateRangeSchema,
+        required: ['from'],
+      },
     },
     required: ['employmentDates'],
   },
@@ -205,8 +233,10 @@ const employmentDetailsPage = {
     hoursPerWeek: {
       ...numberUI({
         title: 'Hours per week',
+        max: 168,
         errorMessages: {
           required: 'Enter hours per week',
+          max: 'Hours per week cannot exceed 168 hours',
         },
       }),
     },

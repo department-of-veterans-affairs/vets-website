@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
-import { setupServer } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -33,7 +33,6 @@ const ui = (
   </MemoryRouter>
 );
 let view;
-let server;
 
 // helper function that returns the Edit va-button
 // since RTL doesn't support getByRole/getByText queries for web components
@@ -133,12 +132,12 @@ async function testTransactionCreationFails(numberName) {
   editPhoneNumber(numberName);
 
   // expect an error to be shown
-  const alert = await view.findByTestId('edit-error-alert');
+  const alert = await view.findByTestId('vap-service-error-alert');
   expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
   await wait(75);
-  expect(view.getByTestId('edit-error-alert')).to.exist;
+  expect(view.getByTestId('vap-service-error-alert')).to.exist;
   expect(getEditVaButton(numberName)).to.not.exist;
 }
 
@@ -149,12 +148,12 @@ async function testQuickFailure(numberName) {
   editPhoneNumber(numberName);
 
   // expect an error to be shown
-  const alert = await view.findByTestId('edit-error-alert');
+  const alert = await view.findByTestId('vap-service-error-alert');
   expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
   await wait(75);
-  expect(view.getByTestId('edit-error-alert')).to.exist;
+  expect(view.getByTestId('vap-service-error-alert')).to.exist;
   expect(getEditVaButton(numberName)).to.not.exist;
 }
 
@@ -178,7 +177,7 @@ async function testSlowFailure(numberName) {
   server.use(...mocks.transactionFailed);
 
   // the error alert should appear
-  await view.findByTestId('generic-error-alert');
+  await view.findByTestId('vap-service-error-alert');
 
   // and the edit button should be back
   expect(getEditVaButton(numberName)).to.exist;
@@ -205,27 +204,18 @@ const testBase = async numberName => {
 };
 
 describe('Editing', () => {
-  before(() => {
-    server = setupServer(
+  beforeEach(() => {
+    server.use(
       ...mocks.editPhoneNumberSuccess(),
       ...mocks.apmTelemetry,
       ...mocks.rootTransactionStatus,
     );
-    server.listen();
-  });
-  beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
     const initialState = createBasicInitialState();
 
     view = renderWithProfileReducers(ui, {
       initialState,
     });
-  });
-  afterEach(() => {
-    server.resetHandlers();
-  });
-  after(() => {
-    server.close();
   });
 
   testBase(FIELD_TITLES[FIELD_NAMES.HOME_PHONE]);

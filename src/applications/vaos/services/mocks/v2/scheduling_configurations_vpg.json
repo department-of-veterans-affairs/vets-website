@@ -1,0 +1,336 @@
+{
+  "data": [
+    {
+      "id": "692",
+      "type": "schedulingConfiguration",
+      "attributes": {
+        "facilityId": "692",
+        "vaServices": [
+          {
+            "clinicalServiceId": "amputation",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "covid",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "CR1",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "outpatientMentalHealth",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "audiology",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "clinicalPharmacyPrimaryCare",
+            "bookedAppointments": true,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "primaryCare",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "cpap",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "moveProgram",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "socialWork",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "individualSubstanceUseDisorder",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "foodAndNutrition",
+            "bookedAppointments": true,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "primaryCareMentalHealth",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "ophthalmology",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "optometry",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "homeSleepTesting",
+            "bookedAppointments": false,
+            "apptRequests": false
+          }
+        ],
+        "ccServices": [
+          {
+            "clinicalServiceId": "primaryCare",
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "optometry",
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "foodAndNutrition",
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "audiology-routine exam",
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "audiology-hearing aid support",
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "podiatry",
+            "apptRequests": true
+          }
+        ],
+        "communityCare": true
+      }
+    },
+    {
+      "id": "984",
+      "type": "schedulingConfiguration",
+      "attributes": {
+        "facilityId": "984",
+        "vaServices": [
+          {
+            "clinicalServiceId": "amputation",
+            "bookedAppointments": false,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "covid",
+            "bookedAppointments": true,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "CR1",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "outpatientMentalHealth",
+            "bookedAppointments": true,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "audiology",
+            "bookedAppointments": false,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "clinicalPharmacyPrimaryCare",
+            "bookedAppointments": false,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "primaryCare",
+            "bookedAppointments": true,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "cpap",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "moveProgram",
+            "bookedAppointments": false,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "socialWork",
+            "bookedAppointments": false,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "individualSubstanceUseDisorder",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "foodAndNutrition",
+            "bookedAppointments": false,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "primaryCareMentalHealth",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "ophthalmology",
+            "bookedAppointments": false,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "optometry",
+            "bookedAppointments": true,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "homeSleepTesting",
+            "bookedAppointments": false,
+            "apptRequests": false
+          }
+        ],
+        "ccServices": [
+          { "clinicalServiceId": "primaryCare", "apptRequests": true },
+          { "clinicalServiceId": "optometry", "apptRequests": true },
+          { "clinicalServiceId": "foodAndNutrition", "apptRequests": true },
+          {
+            "clinicalServiceId": "audiology-routine exam",
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "audiology-hearing aid support",
+            "apptRequests": true
+          },
+          { "clinicalServiceId": "podiatry", "apptRequests": true }
+        ],
+        "communityCare": true
+      }
+    },
+    {
+      "id": "983",
+      "type": "schedulingConfiguration",
+      "attributes": {
+        "facilityId": "983",
+        "vaServices": [
+          {
+            "clinicalServiceId": "amputation",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "covid",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "CR1",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "outpatientMentalHealth",
+            "bookedAppointments": true,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "audiology",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "clinicalPharmacyPrimaryCare",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "primaryCare",
+            "bookedAppointments": true,
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "cpap",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "moveProgram",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "socialWork",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "individualSubstanceUseDisorder",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "foodAndNutrition",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "primaryCareMentalHealth",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "ophthalmology",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "optometry",
+            "bookedAppointments": false,
+            "apptRequests": false
+          },
+          {
+            "clinicalServiceId": "homeSleepTesting",
+            "bookedAppointments": false,
+            "apptRequests": false
+          }
+        ],
+        "ccServices": [
+          { "clinicalServiceId": "primaryCare", "apptRequests": true },
+          { "clinicalServiceId": "optometry", "apptRequests": true },
+          { "clinicalServiceId": "foodAndNutrition", "apptRequests": true },
+          {
+            "clinicalServiceId": "audiology-routine exam",
+            "apptRequests": true
+          },
+          {
+            "clinicalServiceId": "audiology-hearing aid support",
+            "apptRequests": true
+          },
+          { "clinicalServiceId": "podiatry", "apptRequests": true }
+        ],
+        "communityCare": true
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "currentPage": 0,
+      "perPage": 0,
+      "totalPages": 0,
+      "totalEntries": 0
+    }
+  }
+}

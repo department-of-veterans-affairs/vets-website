@@ -99,7 +99,9 @@ class TrackClaimsPageV2 {
     cy.get('.card-status')
       .first()
       .should('contain', `Moved to this step October 31, 2016`);
-    cy.get('.claim-list-item:first-child a.active-va-link')
+    cy.get('.claim-list-item:first-child va-link')
+      .shadow()
+      .find('a')
       .click()
       .then(() => {
         cy.url().should('contain', '/your-claims/189685/status');
@@ -107,7 +109,9 @@ class TrackClaimsPageV2 {
   }
 
   verifyReadyClaim() {
-    cy.get('.claim-list-item:first-child a.active-va-link')
+    cy.get('.claim-list-item:first-child va-link')
+      .shadow()
+      .find('a')
       .click()
       .then(() => {
         cy.get('body').should('be.visible');
@@ -127,7 +131,9 @@ class TrackClaimsPageV2 {
   }
 
   verifyInProgressClaim(inProgress = true) {
-    cy.get('.claim-list-item:first-child a.active-va-link')
+    cy.get('.claim-list-item:first-child va-link')
+      .shadow()
+      .find('a')
       .click()
       .then(() => {
         cy.get('body').should('be.visible');
@@ -665,13 +671,11 @@ class TrackClaimsPageV2 {
       .should('be.visible');
     cy.get('va-alert.primary-alert')
       .first()
-      .shadow()
-      .get('va-alert.primary-alert:first-of-type a')
-      .should('contain', 'About this request');
+      .find('va-link-action[text="About this request"]')
+      .should('exist');
     cy.get('va-alert.primary-alert')
       .first()
-      .shadow()
-      .get('va-alert.primary-alert:first-of-type a')
+      .find('va-link-action[text="About this request"]')
       .click();
     cy.url().should(
       'contain',
@@ -682,15 +686,13 @@ class TrackClaimsPageV2 {
   verifyPrimaryAlertforSubmitBuddyStatement() {
     cy.get('[data-testid="item-2"]').should('be.visible');
     cy.get('[data-testid="item-2"]')
-      .shadow()
-      .get('[data-testid="item-2"]:first-of-type a')
-      .should('contain', 'About this request');
+      .find('va-link-action[text="About this request"]')
+      .should('exist');
     cy.get('[data-testid="item-2"]')
       .find('.alert-description')
       .should('contain', 'Submit Buddy Statement(s)');
     cy.get('[data-testid="item-2"]')
-      .shadow()
-      .get('[data-testid="item-2"]:first-of-type a')
+      .find('va-link-action[text="About this request"]')
       .click();
     cy.url().should(
       'contain',
@@ -718,8 +720,8 @@ class TrackClaimsPageV2 {
         .should('contain', 'Request for evidence');
     }
     cy.get(testId)
-      .find('a')
-      .should('contain', 'About this request');
+      .find('va-link-action[text="About this request"]')
+      .should('exist');
     cy.get(testId)
       .find('.alert-description')
       .first()
@@ -872,7 +874,7 @@ class TrackClaimsPageV2 {
     );
     cy.get('.what-were-doing-container va-card')
       .find('.active-va-link')
-      .should('contain', 'Overview of the process');
+      .should('contain', 'Learn more about the review process');
     cy.get('.what-were-doing-container va-card')
       .find('.active-va-link')
       .click();
@@ -939,7 +941,9 @@ class TrackClaimsPageV2 {
 
   verifyFirstPartyFriendlyEvidenceRequest() {
     cy.get('[data-testid="item-2"]')
-      .find('a.vads-c-action-link--blue')
+      .find('va-link-action')
+      .shadow()
+      .find('a')
       .click();
     cy.url().should('contain', '/needed-from-you/');
     cy.get('#default-page')
@@ -978,10 +982,12 @@ class TrackClaimsPageV2 {
     );
   }
 
-  verifyUploadType2ErrorAlert() {
+  verifyUploadType2ErrorAlert(isStatusPage = false) {
+    const headingElement = isStatusPage ? 'h4' : 'h3';
+
     cy.get('va-alert[status="error"]').should('be.visible');
     cy.get('va-alert[status="error"]')
-      .find('h3')
+      .find(headingElement)
       .should('contain', 'We need you to submit files by mail or in person');
   }
 

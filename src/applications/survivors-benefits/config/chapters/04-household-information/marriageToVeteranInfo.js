@@ -2,9 +2,9 @@ import {
   radioUI,
   radioSchema,
   textUI,
-  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { marriageTypeOptions } from '../../../utils/labels';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -14,16 +14,16 @@ export default {
       labels: marriageTypeOptions,
       labelHeaderLevel: 3,
     }),
-    marriageTypeOther: {
+    typeOfMarriageExplanation: {
       ...textUI({
         title: 'Tell us how you got married',
-        required: formData => formData?.marriageType === 'OTHER_WAY',
+        required: formData => formData?.marriageType === 'other',
       }),
       'ui:options': {
         hint:
           'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
         expandUnder: 'marriageType',
-        expandUnderCondition: 'OTHER_WAY',
+        expandUnderCondition: 'other',
       },
     },
   },
@@ -32,7 +32,7 @@ export default {
     required: ['marriageType'],
     properties: {
       marriageType: radioSchema(Object.keys(marriageTypeOptions)),
-      marriageTypeOther: textSchema,
+      typeOfMarriageExplanation: customTextSchema,
     },
   },
 };

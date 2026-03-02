@@ -5,7 +5,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import formConfig from '@bio-aquia/21-0779-nursing-home-information/config/form';
-import { SaveInProgress } from '@bio-aquia/shared/components';
+import { useDatadogRum } from '@bio-aquia/shared/hooks';
 
 /**
  * Main application container component for VA Form 21-0779 Nursing Home Information
@@ -20,7 +20,7 @@ import { SaveInProgress } from '@bio-aquia/shared/components';
  * @param {Object} props.location - React Router location object
  * @param {Object} props.router - React Router instance
  */
-export const App = ({ location, router, children }) => {
+export const App = ({ location, children }) => {
   const {
     useToggleValue,
     useToggleLoadingValue,
@@ -29,6 +29,9 @@ export const App = ({ location, router, children }) => {
 
   const isLoadingFeatures = useToggleLoadingValue();
   const formEnabled = useToggleValue(TOGGLE_NAMES.form0779Enabled);
+
+  // Initialize Datadog RUM for form monitoring
+  useDatadogRum('21-0779');
 
   // Show loading indicator while feature flags are being fetched
   if (isLoadingFeatures) {
@@ -45,30 +48,21 @@ export const App = ({ location, router, children }) => {
 
   // Redirect to home if form is disabled
   if (!formEnabled) {
-    window.location.replace('/find-forms/about-form-21-0779/');
+    window.location.replace('/forms/21-0779/');
     return null;
   }
 
   // Render normal app if flag is true
   return (
-    <SaveInProgress formConfig={formConfig} location={location} router={router}>
-      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
-        <RoutedSavableApp
-          formConfig={formConfig}
-          currentLocation={location}
-          router={router}
-        >
-          {children}
-        </RoutedSavableApp>
-      </div>
-    </SaveInProgress>
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
   );
 };
 
 App.propTypes = {
   children: PropTypes.node,
   location: PropTypes.object,
-  router: PropTypes.object,
 };
 
 export default App;

@@ -7,6 +7,7 @@ import AlertConfirmContactEmailContent from './AlertConfirmContactEmailContent';
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7184-44682&t=CogySEDQUAcvZwHQ-4
 const AlertConfirmContactEmail = ({
   emailAddress,
+  isConfirming = false,
   onConfirmClick,
   recordEvent,
 }) => {
@@ -26,6 +27,7 @@ const AlertConfirmContactEmail = ({
       </h2>
       <AlertConfirmContactEmailContent
         emailAddress={emailAddress}
+        isConfirming={isConfirming}
         onConfirmClick={() => onConfirmClick()}
       />
     </VaAlert>
@@ -34,8 +36,9 @@ const AlertConfirmContactEmail = ({
 
 AlertConfirmContactEmail.propTypes = {
   emailAddress: PropTypes.string.isRequired,
-  recordEvent: PropTypes.func.isRequired,
   onConfirmClick: PropTypes.func.isRequired,
+  recordEvent: PropTypes.func.isRequired,
+  isConfirming: PropTypes.bool,
 };
 
 export default AlertConfirmContactEmail;

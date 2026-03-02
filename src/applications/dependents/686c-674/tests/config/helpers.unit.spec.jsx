@@ -9,7 +9,110 @@ import {
   generateTransition,
   generateTitle,
   CancelButton,
+  incomeQuestionUpdateUiSchema,
+  asciiValidation,
 } from '../../config/helpers';
+
+describe('incomeQuestionUpdateUiSchema', () => {
+  it('should return empty ui:options hint when feature flag is true', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: true,
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({
+      'ui:options': {
+        hint: '',
+      },
+    });
+  });
+
+  it('should return empty object when feature flag is false', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: false,
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty object when feature flag is undefined', () => {
+    const formData = {};
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty object when formData is undefined', () => {
+    const result = incomeQuestionUpdateUiSchema(undefined);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty object when formData is null', () => {
+    const result = incomeQuestionUpdateUiSchema(null);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty object when feature flag is null', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: null,
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty object when feature flag is 0', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: 0,
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty object when feature flag is empty string', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: '',
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty ui:options hint when feature flag is truthy non-boolean', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: 'true',
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({
+      'ui:options': {
+        hint: '',
+      },
+    });
+  });
+
+  it('should preserve other formData properties without modification', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: true,
+      someOtherProperty: 'value',
+      anotherProperty: 123,
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({
+      'ui:options': {
+        hint: '',
+      },
+    });
+    // Verify formData wasn't modified
+    expect(formData.someOtherProperty).to.equal('value');
+    expect(formData.anotherProperty).to.equal(123);
+  });
+});
 
 describe('generateTransition and generateTitle', () => {
   it('renders a transition element with the correct class and text', () => {
@@ -165,5 +268,49 @@ describe('CancelButton Component (Web Components)', () => {
       expect(pushSpy.called).to.be.true;
       expect(pushSpy.calledWith(removePath));
     });
+  });
+});
+
+describe('asciiValidation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+  });
+
+  it('does nothing when value is undefined', () => {
+    asciiValidation(errors, undefined);
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('does nothing when value is an empty string', () => {
+    asciiValidation(errors, '');
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('does nothing for a plain ASCII string', () => {
+    asciiValidation(errors, 'John Smith');
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('adds an error when the value contains a non-ASCII character', () => {
+    asciiValidation(errors, 'Jöhn');
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.include('ö');
+  });
+
+  it('deduplicates repeated non-ASCII characters in the error message', () => {
+    asciiValidation(errors, 'Héllo Héllo');
+    expect(errors.addError.calledOnce).to.be.true;
+    const message = errors.addError.firstCall.args[0];
+    const match = message.match(/é/g);
+    expect(match).to.have.lengthOf(1);
+  });
+
+  it('lists all distinct non-ASCII characters in the error message', () => {
+    asciiValidation(errors, 'Héllo Wörld');
+    const message = errors.addError.firstCall.args[0];
+    expect(message).to.include('é');
+    expect(message).to.include('ö');
   });
 });

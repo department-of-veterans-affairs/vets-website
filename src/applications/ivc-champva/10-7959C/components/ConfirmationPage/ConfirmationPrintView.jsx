@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ConfirmationPrintView = ({
-  alertContent,
-  beneficiary,
-  signee,
-  submitDate,
-}) => (
+const ConfirmationPrintView = ({ beneficiary, signee, submitDate }) => (
   <>
     <img
       src="/img/design/logo/logo-black-and-white.png"
@@ -19,7 +14,9 @@ const ConfirmationPrintView = ({
     </h1>
     <div>CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)</div>
 
-    {alertContent}
+    <h2 className="vads-u-font-size--h3">
+      You’ve submitted your CHAMPVA Other Health Insurance Certification form
+    </h2>
 
     <hr className="vads-u-margin-y--4" />
 
@@ -51,7 +48,6 @@ const ConfirmationPrintView = ({
 );
 
 ConfirmationPrintView.propTypes = {
-  alertContent: PropTypes.node,
   beneficiary: PropTypes.string,
   signee: PropTypes.string,
   submitDate: PropTypes.string,

@@ -1,10 +1,10 @@
 import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { capitalize } from 'lodash';
 import {
   addressUI,
   addressSchema,
+  descriptionUI,
   titleUI,
   ssnUI,
   ssnSchema,
@@ -21,32 +21,16 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
-import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
-import {
-  fileUploadBlurbCustom,
-  fileWithMetadataSchema,
-} from '../../shared/components/fileUploads/attachments';
-import {
-  applicantWording,
-  nameWording,
-  getAgeInYears,
-  fmtDate,
-} from '../../shared/utilities';
+import { applicantWording, nameWording } from '../../shared/utilities';
 
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
-import {
-  validateApplicant,
-  validateApplicantSsn,
-} from '../helpers/validations';
-import { page15aDepends } from '../helpers/utilities';
-import { APPLICANTS_MAX } from '../constants';
+import { validateApplicant, validateApplicantSsn } from '../utils/validations';
+import { isOfCollegeAge, page15aDepends } from '../utils/helpers';
+import { attachmentSchema, attachmentUI } from '../definitions';
+import { APPLICANTS_MAX } from '../utils/constants';
 
-import { acceptableFiles } from '../../10-10D/components/Sponsor/sponsorFileUploads';
-import { isInRange } from '../../10-10D/helpers/utilities';
-import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
 import AddressSelectionPage, {
   NOT_SHARED,
 } from '../components/FormPages/AddressSelectionPage';
@@ -54,9 +38,12 @@ import CustomPrefillMessage from '../components/CustomPrefillAlert';
 import sectionOverview from './applicantInformation/sectionOverview';
 import personalInformation from './applicantInformation/personalInformation';
 import remarriageProof from './applicantInformation/remarriageProof';
+import dependentStatus from './applicantInformation/dependentStatus';
 import schoolEnrollmentProof from './applicantInformation/schoolEnrollmentProof';
 import marriageDate from './applicantInformation/marriageDate';
 import stepchildMarriageProof from './applicantInformation/stepchildMarriageProof';
+import ApplicantSummaryCard from '../components/FormDescriptions/ApplicantSummaryCard';
+import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
 
 /**
  * Wraps array builder function withEditTitle and calls the result
@@ -80,31 +67,7 @@ export const applicantOptions = {
   maxItems: APPLICANTS_MAX,
   text: {
     getItemName: item => applicantWording(item, false, true, false),
-    cardDescription: item => (
-      <ul className="no-bullets">
-        <li>
-          <b>Date of birth:</b>{' '}
-          {item?.applicantDob ? fmtDate(item?.applicantDob) : ''}
-        </li>
-        <li>
-          <b>Address:</b> {item?.applicantAddress?.street}{' '}
-          {item?.applicantAddress?.city}, {item?.applicantAddress?.state}
-        </li>
-        <li>
-          <b>Phone number:</b> {item?.applicantPhone}
-        </li>
-        <li>
-          <b>Relationship to Veteran:</b>{' '}
-          {capitalize(
-            item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
-            'other'
-              ? item?.applicantRelationshipToSponsor?.relationshipToVeteran
-              : item?.applicantRelationshipToSponsor
-                  ?.otherRelationshipToVeteran,
-          )}
-        </li>
-      </ul>
-    ),
+    cardDescription: ApplicantSummaryCard,
   },
 };
 
@@ -298,8 +261,8 @@ const applicantBirthCertUploadPage = {
         );
       },
     ),
-    ...fileUploadBlurbCustom(),
-    applicantBirthCertOrSocialSecCard: fileUploadUI({
+    ...descriptionUI(FileUploadDescription),
+    applicantBirthCertOrSocialSecCard: attachmentUI({
       label: 'Upload copy of birth certificate',
       attachmentId: 'Birth certificate',
     }),
@@ -308,18 +271,7 @@ const applicantBirthCertUploadPage = {
     type: 'object',
     required: ['applicantBirthCertOrSocialSecCard'],
     properties: {
-      'view:fileUploadBlurb': blankSchema,
-      applicantBirthCertOrSocialSecCard: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      applicantBirthCertOrSocialSecCard: attachmentSchema,
     },
   },
 };
@@ -338,8 +290,8 @@ const applicantAdoptionUploadPage = {
         </>
       ),
     ),
-    ...fileUploadBlurbCustom(),
-    applicantAdoptionPapers: fileUploadUI({
+    ...descriptionUI(FileUploadDescription),
+    applicantAdoptionPapers: attachmentUI({
       label: 'Upload a copy of adoption documents',
       attachmentId: 'Court ordered adoption papers',
     }),
@@ -348,32 +300,8 @@ const applicantAdoptionUploadPage = {
     type: 'object',
     required: ['applicantAdoptionPapers'],
     properties: {
-      'view:fileUploadBlurb': blankSchema,
-      applicantAdoptionPapers: fileWithMetadataSchema(
-        acceptableFiles.adoptionCert,
-      ),
+      applicantAdoptionPapers: attachmentSchema,
     },
-  },
-};
-
-const applicantDependentStatusPage = {
-  uiSchema: {},
-  schema: {
-    type: 'object',
-    properties: {
-      applicantDependentStatus: {
-        type: 'object',
-        properties: {
-          status: radioSchema([
-            'enrolled',
-            'intendsToEnroll',
-            'over18HelplessChild',
-          ]),
-          _unused: { type: 'string' },
-        },
-      },
-    },
-    required: ['applicantDependentStatus'],
   },
 };
 
@@ -510,7 +438,6 @@ export const applicantPages = arrayBuilderPages(
             'applicantRelationshipOrigin.relationshipToVeteran',
             formData?.applicants?.[index],
           ) === 'step'),
-      CustomPage: FileFieldCustom,
       ...applicantBirthCertUploadPage,
     }),
     page18d: pageBuilder.itemPage({
@@ -525,7 +452,6 @@ export const applicantPages = arrayBuilderPages(
           'applicantRelationshipOrigin.relationshipToVeteran',
           formData?.applicants?.[index],
         ) === 'adoption',
-      CustomPage: FileFieldCustom,
       ...applicantAdoptionUploadPage,
     }),
     page18e: pageBuilder.itemPage({
@@ -540,7 +466,6 @@ export const applicantPages = arrayBuilderPages(
           'applicantRelationshipOrigin.relationshipToVeteran',
           formData?.applicants?.[index],
         ) === 'step',
-      CustomPage: FileFieldCustom,
       ...stepchildMarriageProof,
     }),
     page18b1: pageBuilder.itemPage({
@@ -549,13 +474,8 @@ export const applicantPages = arrayBuilderPages(
       depends: (formData, index) =>
         formData.applicants[index]?.applicantRelationshipToSponsor
           ?.relationshipToVeteran === 'child' &&
-        isInRange(
-          getAgeInYears(formData.applicants[index]?.applicantDob),
-          18,
-          23,
-        ),
-      CustomPage: ApplicantDependentStatusPage,
-      ...applicantDependentStatusPage,
+        isOfCollegeAge(formData.applicants[index]?.applicantDob),
+      ...dependentStatus,
     }),
     page18b: pageBuilder.itemPage({
       path: 'applicant-proof-of-school-enrollment/:index',
@@ -563,15 +483,10 @@ export const applicantPages = arrayBuilderPages(
       depends: (formData, index) =>
         formData.applicants[index]?.applicantRelationshipToSponsor
           ?.relationshipToVeteran === 'child' &&
-        isInRange(
-          getAgeInYears(formData.applicants[index]?.applicantDob),
-          18,
-          23,
-        ) &&
+        isOfCollegeAge(formData.applicants[index]?.applicantDob) &&
         ['enrolled', 'intendsToEnroll'].includes(
           formData.applicants[index]?.applicantDependentStatus?.status,
         ),
-      CustomPage: FileFieldCustom,
       ...schoolEnrollmentProof,
     }),
     page18f3: pageBuilder.itemPage({
@@ -604,7 +519,6 @@ export const applicantPages = arrayBuilderPages(
         ) === 'spouse' &&
         get('sponsorIsDeceased', formData) &&
         get('applicantRemarried', formData?.applicants?.[index]),
-      CustomPage: FileFieldCustom,
       ...remarriageProof,
     }),
   }),

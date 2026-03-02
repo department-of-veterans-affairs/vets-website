@@ -31,7 +31,9 @@ describe('CreateAccountLink', () => {
     });
 
     it(`should set correct href for ${policy} (SAML)`, async () => {
-      const screen = render(<CreateAccountLink policy={policy} />);
+      const screen = render(
+        <CreateAccountLink policy={policy} useOAuth={false} />,
+      );
       const anchor = await screen.findByTestId(policy);
       const href = await authUtilities.signupOrVerify({ policy, isLink: true });
       await waitFor(() => expect(anchor.href).to.eql(href));
@@ -56,7 +58,9 @@ describe('CreateAccountLink', () => {
     });
 
     it(`should not call updateStateAndVerifier for ${policy} (SAML)`, async () => {
-      const screen = render(<CreateAccountLink policy={policy} />);
+      const screen = render(
+        <CreateAccountLink policy={policy} useOAuth={false} />,
+      );
       const anchor = await screen.findByTestId(policy);
       const href = await authUtilities.signupOrVerify({ policy, isLink: true });
       fireEvent.click(anchor);

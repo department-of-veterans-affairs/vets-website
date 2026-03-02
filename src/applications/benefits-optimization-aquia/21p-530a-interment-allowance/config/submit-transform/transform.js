@@ -44,14 +44,20 @@ export const transform = (formConfig, form) => {
   const { name, phoneNumber, address } = recipientOrganization;
 
   const servedUnderDifferentName = previousNames?.reduce((acc, val) => {
-    const { previousName } = val;
+    const { previousName, servicePeriod } = val;
     const parts = [
       capitalize(previousName?.first),
       capitalize(previousName?.middle),
       capitalize(previousName?.last),
     ].filter(Boolean);
     const formattedName = parts?.join(' ');
-    return `${acc ? `${acc}, ` : ''}${formattedName}`;
+
+    // Add service period if provided
+    const nameWithService = servicePeriod
+      ? `${formattedName}, Service Periods: ${servicePeriod}`
+      : formattedName;
+
+    return `${acc ? `${acc}; ` : ''}${nameWithService}`;
   }, '');
 
   // convert service period branch name to label

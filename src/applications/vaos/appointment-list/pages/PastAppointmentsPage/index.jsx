@@ -136,14 +136,6 @@ export default function PastAppointmentsPage() {
     <>
       <BackendAppointmentServiceAlert />
       {dropdown}
-      <div aria-live="assertive" className="sr-only">
-        {`Showing appointments for ${
-          dateRangeOptions[pastSelectedIndex]?.label
-        }`}
-      </div>
-      <div className="vaos-print-only vads-u-margin-top--neg2 vads-u-margin-bottom--2">
-        {dateRangeOptions[pastSelectedIndex]?.label}
-      </div>
 
       <div
         id="appointment-count"

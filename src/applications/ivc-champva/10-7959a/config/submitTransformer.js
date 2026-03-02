@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 import { adjustYearString, concatStreets } from '../../shared/utilities';
+import { ID_NUMBER_OPTIONS } from '../chapters/resubmission';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be
@@ -28,7 +30,11 @@ const applyAttachments = (formData, mapping) => {
     .filter(Boolean);
 };
 
-export default function transformForSubmit(formConfig, form) {
+export default function transformForSubmit(
+  formConfig,
+  form,
+  disableAnalytics = false,
+) {
   const transformedData = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
   );
@@ -89,6 +95,18 @@ export default function transformForSubmit(formConfig, form) {
   copyOfData.fileNumber = copyOfData.applicantMemberNumber;
 
   copyOfData = adjustYearString(copyOfData);
+
+  if (!disableAnalytics) {
+    const getEventName = () => {
+      if (copyOfData.claimStatus === 'new') return '10-7959a_new_claim';
+      if (copyOfData.pdiOrClaimNumber === ID_NUMBER_OPTIONS[1]) {
+        return '10-7959a_reopen_claim_control_number';
+      }
+      return '10-7959a_resubmission_pdi_number';
+    };
+
+    recordEvent({ event: getEventName() });
+  }
 
   return JSON.stringify({
     ...copyOfData,

@@ -13,7 +13,7 @@ import numberToWords from './numberToWords';
 export const replaceNumberWithWord = (_, word, number) => {
   const num = parseInt(number, 10);
   return `${
-    isNaN(num) || !isFinite(num) ? number : numberToWords(num + 1)
+    Number.isNaN(num) || !Number.isFinite(num) ? number : numberToWords(num + 1)
   } ${word}`;
 };
 
@@ -263,13 +263,14 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
           err.__errors?.length &&
           !errorExists(processedErrors, name, errorIndex)
         ) {
-          const { chapterKey = '', pageKey = '' } =
+          const overrideResult =
             reviewErrors._override?.(name || err.stack || err.argument, err) ||
             getPropertyInfo(pageList, name);
-          // `message` is null if we don't want a link to show up.
-          // For example, this happens for the 526 when a new disability is
-          // missing (has error), and the nested required condition (also has
-          // an error) is also missing.
+          const { chapterKey = '', pageKey = '', navigationType = 'edit' } =
+            overrideResult || {};
+          // `message` can be null if a reviewErrors function explicitly returns null
+          // to suppress the error link. This is useful when multiple related errors
+          // exist and only one link should be displayed.
           const message = getErrorMessage(reviewErrors[name], errorIndex);
           if (message !== null) {
             processedErrors.push({
@@ -279,9 +280,10 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
                 message || err.__errors.map(e => formatErrors(e)).join('. '),
               chapterKey,
               pageKey,
+              navigationType,
             });
           }
-        } else if (err.property) {
+        } else if (err.property && typeof err.property === 'string') {
           // property includes a path to the error; we'll remove "instance",
           // then use `getPropertyInfo` to search the pageList to find the
           // matching chapterKey & pageKey
@@ -292,7 +294,9 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
           //
           // http://sentry.vfs.va.gov/vets-gov/website-production/issues/12188/events/cf24a5bc9ef9452e9611f3e14846f6f0/
           const argument =
-            Array.isArray(err.argument) || !err.argument || !isNaN(err.argument)
+            Array.isArray(err.argument) ||
+            !err.argument ||
+            typeof err.argument === 'number'
               ? property.split('.').slice(-1)[0]
               : err.argument;
           // name is the property that had the validation error
@@ -310,7 +314,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
            * anyone and show both
           */
           if (!errorExists(processedErrors, propertyName, index)) {
-            const { chapterKey = '', pageKey = '' } =
+            const overrideResult =
               reviewErrors._override?.(property || err?.stack || argument) ||
               getPropertyInfo(
                 // List of all form pages; includes chapterKey, pageKey and
@@ -320,6 +324,8 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
                 // full path to the error
                 property,
               );
+            const { chapterKey = '', pageKey = '', navigationType = 'edit' } =
+              overrideResult || {};
             processedErrors.push({
               // property name
               name: propertyName,
@@ -329,19 +335,22 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
               // display this message to the user in some future work
               message:
                 getErrorMessage(reviewErrors[propertyName], index) ||
-                formatErrors(err.stack || err.message),
+                (err.stack || err.message
+                  ? formatErrors(err.stack || err.message)
+                  : 'Validation error'),
               // Accordion (chapter) key that needs to be highlighted
               chapterKey,
               // page within the chapter that contains the error; will be used
               // in future work to highlight the specific page for the user
               pageKey,
+              navigationType,
             });
           }
           return null;
         }
         // process nested error messages (follows uiSchema nesting)
         Object.keys(err).forEach(key => {
-          if (!isNaN(key) && typeof err[key] !== 'string') {
+          if (!Number.isNaN(Number(key)) && typeof err[key] !== 'string') {
             // save array/object index if key is a number; but ignore it if the
             // value is a string, e.g. an __error message string
             errorIndex = key;

@@ -28,6 +28,17 @@
   margin: 1rem 0;
 }
 
+.claims-filter-container {
+  min-height: 53px;
+
+  // Desktop: left-align the segmented button
+  // Mobile: allow full-width (default block display)
+  @media (min-width: $tablet) {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+
 .claim-list {
   margin-bottom: 2em;
 }
@@ -91,6 +102,16 @@
 
 .additional-evidence-desc {
   margin: 0;
+}
+
+#default-page {
+  h2 {
+    margin-top: 32px;
+    margin-bottom: 16px;
+  }
+  p {
+    margin: 16px 0;
+  }
 }
 
 .reviewed-file {

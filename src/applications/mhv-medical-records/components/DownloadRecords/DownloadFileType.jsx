@@ -20,9 +20,9 @@ import {
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { selectHoldTimeMessagingUpdate } from '../../util/selectors';
 import NeedHelpSection from './NeedHelpSection';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import {
   generateTextFile,
   focusOnErrorField,
@@ -90,8 +90,8 @@ const DownloadFileType = props => {
   const recordFilter = useSelector(state => state.mr.downloads?.recordFilter);
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
   const refreshStatus = useSelector(state => state.mr.refresh.status);
-
-  const [downloadStarted, setDownloadStarted] = useState(false);
+  const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const { fromDate, toDate, option: dateFilterOption } = dateFilter;
 
@@ -350,8 +350,9 @@ const DownloadFileType = props => {
 
   const generatePdf = useCallback(
     async () => {
+      if (isGenerating) return; // Prevent double-clicks
+      setIsGenerating(true);
       try {
-        setDownloadStarted(true);
         dispatch(clearAlerts());
 
         if (isDataFetched) {
@@ -361,7 +362,11 @@ const DownloadFileType = props => {
           const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
           const pdfData = {
             ...formatDateRange(),
-            recordSets: generateBlueButtonData(recordData, recordFilter),
+            recordSets: generateBlueButtonData(
+              recordData,
+              recordFilter,
+              holdTimeMessagingUpdate,
+            ),
             failedDomains: getFailedDomainList(
               failedDomains,
               BB_DOMAIN_DISPLAY_MAP,
@@ -389,15 +394,19 @@ const DownloadFileType = props => {
         logAal(0);
         sendDatadogError(error, 'Blue Button report - download_report_pdf');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
+      } finally {
+        setIsGenerating(false);
       }
     },
     [
+      isGenerating,
       dispatch,
       isDataFetched,
       user,
       formatDateRange,
       recordData,
       recordFilter,
+      holdTimeMessagingUpdate,
       failedDomains,
       name,
       dob,
@@ -408,8 +417,9 @@ const DownloadFileType = props => {
 
   const generateTxt = useCallback(
     async () => {
+      if (isGenerating) return; // Prevent double-clicks
+      setIsGenerating(true);
       try {
-        setDownloadStarted(true);
         dispatch(clearAlerts());
         if (isDataFetched) {
           const title = 'Blue Button report';
@@ -429,6 +439,7 @@ const DownloadFileType = props => {
             user,
             dateRange,
             failedDomainsList,
+            holdTimeMessagingUpdate,
           );
 
           generateTextFile(content, pdfName, user);
@@ -439,9 +450,20 @@ const DownloadFileType = props => {
         logAal(0);
         sendDatadogError(error, 'Blue Button report - download_report_txt');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
+      } finally {
+        setIsGenerating(false);
       }
     },
-    [dispatch, failedDomains, formatDateRange, isDataFetched, recordData, user],
+    [
+      isGenerating,
+      dispatch,
+      failedDomains,
+      formatDateRange,
+      holdTimeMessagingUpdate,
+      isDataFetched,
+      recordData,
+      user,
+    ],
   );
 
   const checkFileTypeValidity = useCallback(
@@ -553,7 +575,13 @@ const DownloadFileType = props => {
                   checked={fileType === 'txt'}
                 />
               </VaRadio>
-              {downloadStarted && <DownloadSuccessAlert />}
+              {isGenerating && (
+                <va-loading-indicator
+                  message="Downloading report..."
+                  set-focus
+                  data-testid="downloading-indicator"
+                />
+              )}
               <div className="vads-u-margin-top--1">
                 <DownloadingRecordsInfo description="Blue Button Report" />
               </div>
@@ -574,6 +602,9 @@ const DownloadFileType = props => {
                 type="submit"
                 className="vads-u-margin-y--0p5 vads-u-width--auto"
                 data-testid="download-report-button"
+                disabled={isGenerating}
+                aria-disabled={isGenerating || undefined}
+                aria-busy={isGenerating || undefined}
               >
                 Download report
               </button>

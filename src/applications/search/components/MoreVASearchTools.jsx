@@ -4,12 +4,18 @@ const MoreVASearchTools = () => (
   <ul>
     <li>
       <va-link
+        href="https://www.va.gov/find-locations/"
+        text="Find a VA location"
+      />
+    </li>
+    <li>
+      <va-link
         href="https://search.usa.gov/search?affiliate=bvadecisions"
         text="Look up Board of Veterans' Appeals (BVA) decisions"
       />
     </li>
     <li>
-      <va-link href="/find-forms/" text="Find a VA form" />
+      <va-link href="/forms/" text="Find a VA form" />
     </li>
     <li>
       <va-link

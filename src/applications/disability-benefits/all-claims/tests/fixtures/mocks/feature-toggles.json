@@ -23,6 +23,10 @@
         "value": true
       },
       {
+        "name": "disability_526_new_bdd_sha_enforcement_workflow_enabled",
+        "value": false
+      },
+      {
         "name": "disability_compensation_toxic_exposure_destruction_modal",
         "value": false
       },
@@ -33,8 +37,11 @@
       {
         "name": "disability_compensation_new_conditions_workflow",
         "value": false
+      },
+      {
+        "name": "disability_526_supporting_evidence_enhancement",
+        "value": false
       }
     ]
   }
 }
-

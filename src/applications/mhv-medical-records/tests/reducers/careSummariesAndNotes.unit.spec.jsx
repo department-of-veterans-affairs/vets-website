@@ -352,6 +352,14 @@ describe('getRecordType', () => {
     expect(getRecordType(pnNote)).to.equal(noteTypes.PHYSICIAN_PROCEDURE_NOTE);
     expect(getRecordType(crNote)).to.equal(noteTypes.CONSULT_RESULT);
   });
+
+  it('should handle records with missing type or coding without crashing', () => {
+    expect(() => getRecordType({})).to.not.throw();
+    expect(() => getRecordType({ type: {} })).to.not.throw();
+    expect(() => getRecordType({ type: { coding: undefined } })).to.not.throw();
+    expect(getRecordType({})).to.equal(noteTypes.OTHER);
+    expect(getRecordType({ type: {} })).to.equal(noteTypes.OTHER);
+  });
 });
 
 describe('getAttending', () => {
@@ -901,5 +909,59 @@ describe('careSummariesAndNotesReducer', () => {
     ]);
     expect(newState.listCurrentAsOf).to.equal(null);
     expect(newState.listState).to.equal('fetched');
+  });
+});
+
+describe('careSummariesAndNotesReducer warnings', () => {
+  it('stores warnings on SET_WARNINGS', () => {
+    const mockWarnings = [
+      {
+        source: 'oracle-health',
+        message: 'Binary not found',
+        resourceType: 'Binary',
+      },
+    ];
+    const state = careSummariesAndNotesReducer(undefined, {
+      type: Actions.CareSummariesAndNotes.SET_WARNINGS,
+      payload: mockWarnings,
+    });
+    expect(state.warnings).to.deep.equal(mockWarnings);
+  });
+
+  it('defaults warnings to empty array when payload is undefined', () => {
+    const state = careSummariesAndNotesReducer(undefined, {
+      type: Actions.CareSummariesAndNotes.SET_WARNINGS,
+      payload: undefined,
+    });
+    expect(state.warnings).to.deep.equal([]);
+  });
+
+  it('clears warnings when UPDATE_LIST_STATE dispatches FETCHING', () => {
+    const prevState = {
+      warnings: [{ source: 'oracle-health' }],
+      listState: 'fetched',
+    };
+    const state = careSummariesAndNotesReducer(prevState, {
+      type: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+      payload: 'fetching',
+    });
+    expect(state.warnings).to.deep.equal([]);
+  });
+
+  it('preserves warnings when UPDATE_LIST_STATE dispatches FETCHED', () => {
+    const prevState = {
+      warnings: [{ source: 'oracle-health' }],
+      listState: 'fetching',
+    };
+    const state = careSummariesAndNotesReducer(prevState, {
+      type: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+      payload: 'fetched',
+    });
+    expect(state.warnings).to.deep.equal([{ source: 'oracle-health' }]);
+  });
+
+  it('initializes with empty warnings array', () => {
+    const state = careSummariesAndNotesReducer(undefined, { type: 'INIT' });
+    expect(state.warnings).to.deep.equal([]);
   });
 });

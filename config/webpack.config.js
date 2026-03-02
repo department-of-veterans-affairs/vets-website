@@ -292,13 +292,15 @@ module.exports = async (env = {}) => {
   const buildOptions = {
     api: '',
     buildtype,
-    host: LOCALHOST,
+    host: '127.0.0.1',
     port: 3001,
     scaffold: false,
     watch: false,
     destination: buildtype,
     ...env,
   };
+  const isStylelintEnabled =
+    buildOptions.stylelint === true || buildOptions.stylelint === 'true';
 
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = { ...apps, ...globalEntryFiles };
@@ -318,6 +320,18 @@ module.exports = async (env = {}) => {
   const baseConfig = {
     mode: isOptimizedBuild ? 'production' : 'development',
     devtool: false,
+    cache:
+      buildtype !== LOCALHOST
+        ? false
+        : {
+            type: 'filesystem',
+            cacheDirectory: path.resolve(__dirname, '../.cache/webpack'),
+            buildDependencies: {
+              config: [__filename],
+              babel: [path.resolve(__dirname, '../babel.config.json')],
+              postcss: [path.resolve(__dirname, '../postcss.config.js')],
+            },
+          },
     entry: entryFiles,
     output: {
       path: path.resolve(buildPath, 'generated'),
@@ -368,7 +382,19 @@ module.exports = async (env = {}) => {
             },
             {
               loader: 'sass-loader',
-              options: { sourceMap: true },
+              options: {
+                sourceMap: true,
+                sassOptions: {
+                  silenceDeprecations: [
+                    'legacy-js-api',
+                    'import',
+                    'if-function',
+                    'slash-div',
+                    'global-builtin',
+                    'color-functions',
+                  ],
+                },
+              },
             },
           ],
         },
@@ -505,6 +531,7 @@ module.exports = async (env = {}) => {
         ),
         'process.env.USE_LOCAL_DIRECTLINE':
           process.env.USE_LOCAL_DIRECTLINE || false,
+        'process.env.USE_MOCKS': JSON.stringify(process.env.USE_MOCKS || ''),
         'process.env.HOST_NAME': JSON.stringify(process.env.HOST_NAME || ''),
         'process.env.LOG_LEVEL': JSON.stringify(
           process.env.LOG_LEVEL || 'info',
@@ -522,12 +549,6 @@ module.exports = async (env = {}) => {
       new webpack.SourceMapDevToolPlugin({
         append: `\n//# sourceMappingURL=${sourceMapSlug}/generated/[url]`,
         filename: '[file].map',
-      }),
-
-      new StylelintPlugin({
-        configFile: '.stylelintrc.json',
-        exclude: ['node_modules', 'build', 'coverage', '.cache'],
-        fix: true,
       }),
 
       new MiniCssExtractPlugin(),
@@ -552,6 +573,15 @@ module.exports = async (env = {}) => {
               'node_modules/@department-of-veterans-affairs/component-library/dist/img/',
             to: `${buildPath}/img/`,
           },
+          // MSW service worker for browser mocking (only in dev)
+          ...(buildOptions.buildtype === 'localhost'
+            ? [
+                {
+                  from: 'node_modules/msw/lib/mockServiceWorker.js',
+                  to: buildPath,
+                },
+              ]
+            : []),
         ],
       }),
 
@@ -565,6 +595,16 @@ module.exports = async (env = {}) => {
       new WebpackManifestPlugin({
         fileName: 'file-manifest.json',
         filter: ({ isChunk }) => isChunk,
+      }),
+    );
+  }
+
+  if (isStylelintEnabled) {
+    baseConfig.plugins.push(
+      new StylelintPlugin({
+        configFile: '.stylelintrc.json',
+        exclude: ['node_modules', 'build', 'coverage', '.cache', '.direnv'],
+        fix: true,
       }),
     );
   }

@@ -40,7 +40,6 @@ export default function CustomArrayBuilderButtonPair(props) {
   const searchParams = getArrayUrlSearchParams();
   const isEdit = !!searchParams.get('edit');
   const isAdd = !!searchParams.get('add');
-
   const NavButtons = props.NavButtons || FormNavButtons;
 
   // This ref allows us to listen for the "Continue" VaButton's onclick, which

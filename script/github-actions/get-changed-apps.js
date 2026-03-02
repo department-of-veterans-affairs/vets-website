@@ -1,27 +1,54 @@
 /* eslint-disable no-console */
 const fs = require('fs');
-const find = require('find');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
 const changedAppsConfig = require('../../config/changed-apps-build.json');
 
 /**
+ * Recursively finds all files matching a pattern in a directory.
+ *
+ * @param {RegExp} pattern - Regex pattern to match file names.
+ * @param {string} directory - Directory to search in.
+ * @param {Object} fsModule - File system module (defaults to fs).
+ * @returns {string[]} Array of matching file paths.
+ */
+const findFilesSync = (pattern, directory, fsModule = fs) => {
+  const results = [];
+
+  const search = dir => {
+    const entries = fsModule.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        search(fullPath);
+      } else if (entry.isFile() && pattern.test(entry.name)) {
+        results.push(fullPath);
+      }
+    }
+  };
+
+  search(directory);
+  return results;
+};
+
+/**
  * Gets the manifest of all apps in the root app folder that a file belongs to.
  *
  * @param {string} filePath - Relative file path.
+ * @param {Object} fsModule - File system module (defaults to fs).
  * @returns {Object[]} Application manifests.
  */
-const getManifests = filePath => {
-  const root = path.join(__dirname, '../..');
+const getManifests = (filePath, fsModule = fs) => {
+  const root = process.cwd();
   const rootAppFolderName = filePath.split('/')[2];
-  const fullAppPath = path.join(root, './src/applications', rootAppFolderName);
+  const fullAppPath = path.join(root, 'src/applications', rootAppFolderName);
 
-  if (!fs.existsSync(fullAppPath)) return [];
+  if (!fsModule.existsSync(fullAppPath)) return [];
 
-  return find
-    .fileSync(/manifest\.(json|js)$/, fullAppPath)
-    .map(file => JSON.parse(fs.readFileSync(file)));
+  return findFilesSync(/manifest\.(json|js)$/, fullAppPath, fsModule).map(
+    file => JSON.parse(fsModule.readFileSync(file)),
+  );
 };
 
 /**
@@ -30,14 +57,15 @@ const getManifests = filePath => {
  *
  * @param {string} filePath - Relative file path.
  * @param {Object} allowedApps - List of allowed apps.
+ * @param {Object} fsModule - File system module (defaults to fs).
  * @returns {Object[]} Sliced manifests of allowed apps.
  */
-const getAllowedApps = (filePath, allowedApps) => {
+const getAllowedApps = (filePath, allowedApps, fsModule = fs) => {
   const appsDirectory = 'src/applications';
 
   if (!filePath.startsWith(appsDirectory)) return [];
 
-  const manifests = getManifests(filePath);
+  const manifests = getManifests(filePath, fsModule);
   const rootAppFolderName = filePath.split('/')[2];
   const allowedApp = allowedApps.find(
     app => app.rootFolder === rootAppFolderName,
@@ -49,6 +77,7 @@ const getAllowedApps = (filePath, allowedApps) => {
       entryName,
       rootUrl,
       rootPath: path.join(appsDirectory, rootAppFolderName),
+      rootFolder: rootAppFolderName,
       slackGroup,
       slackChannel,
       continuousDeployment,
@@ -67,6 +96,7 @@ const getAllowedApps = (filePath, allowedApps) => {
  * @param {Object} config - Changed apps config.
  * @param {string} outputType - Determines what app information should be returned.
  * @param {string} delimiter - Delimiter to use for string output.
+ * @param {Object} fsModule - File system module (defaults to fs).
  * @returns {string} A delimited string of app entry names, relative paths, URLs, or Slack user groups.
  */
 const getChangedAppsString = (
@@ -74,11 +104,12 @@ const getChangedAppsString = (
   config,
   outputType = 'entry',
   delimiter = ' ',
+  fsModule = fs,
 ) => {
   const appStrings = [];
 
   for (const filePath of filePaths) {
-    const allowedApps = getAllowedApps(filePath, config.apps);
+    const allowedApps = getAllowedApps(filePath, config.apps, fsModule);
 
     if (allowedApps.length) {
       allowedApps.forEach(app => {
@@ -86,6 +117,8 @@ const getChangedAppsString = (
           appStrings.push(app.entryName);
         } else if (outputType === 'folder') {
           appStrings.push(app.rootPath);
+        } else if (outputType === 'concurrency-group') {
+          appStrings.push(app.rootFolder);
         } else if (outputType === 'slack-group') {
           if (app.slackGroup) appStrings.push(app.slackGroup);
         } else if (outputType === 'slack-channel') {
@@ -97,7 +130,7 @@ const getChangedAppsString = (
     } else return '';
   }
 
-  return [...new Set(appStrings)].join(delimiter);
+  return [...new Set(appStrings)].sort().join(delimiter);
 };
 
 /**
@@ -106,13 +139,14 @@ const getChangedAppsString = (
  *
  * @param {string[]} filePaths - A list of relative file paths.
  * @param {Object} config - Changed apps config.
+ * @param {Object} fsModule - File system module (defaults to fs).
  * @returns {Boolean} Whether apps of file paths have enabled continuous deployment.
  */
-const isContinuousDeploymentEnabled = (filePaths, config) => {
+const isContinuousDeploymentEnabled = (filePaths, config, fsModule = fs) => {
   if (!filePaths.length) return false;
 
   for (const filePath of filePaths) {
-    const allowedApps = getAllowedApps(filePath, config.apps);
+    const allowedApps = getAllowedApps(filePath, config.apps, fsModule);
 
     if (allowedApps.length) {
       const { continuousDeployment, rootPath } = allowedApps[0];
@@ -142,6 +176,7 @@ if (process.env.CHANGED_FILE_PATHS) {
     // Use the --output-type option to specify one of the following outputs:
     // 'entry': The entry names of the changed apps.
     // 'folder': The relative path of the changed apps root folders.
+    // 'concurrency-group': The root folder names for deployment concurrency groups.
     // 'url': The root URLs of the changed apps.
     // 'slack-group': The Slack group of the app's team, specified in the config.
     { name: 'output-type', type: String, defaultValue: 'entry' },

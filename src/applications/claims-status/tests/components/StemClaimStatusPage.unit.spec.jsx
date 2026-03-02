@@ -36,7 +36,7 @@ describe('<StemClaimStatusPage>', () => {
     getByText('We encountered a problem');
     expect($('va-alert', container)).to.exist;
     expect(container.textContent).to.include(
-      'VA.gov is having trouble loading claims information',
+      "We can't access your claim right now",
     );
   });
 
@@ -55,7 +55,7 @@ describe('<StemClaimStatusPage>', () => {
     getByText('We encountered a problem');
     expect($('va-alert', container)).to.exist;
     expect(container.textContent).to.include(
-      'VA.gov is having trouble loading claims information',
+      "We can't access your claim right now",
     );
   });
 

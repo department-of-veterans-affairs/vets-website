@@ -33,7 +33,9 @@ describe('RouterLinkAction', () => {
   it('renders with correct href attribute', () => {
     const { container } = setup({ href: '/test-path' });
     const link = container.querySelector('va-link-action');
-    expect(link.getAttribute('href')).to.equal('/test-path');
+    expect(link.getAttribute('href')).to.equal(
+      '/my-health/secure-messages/test-path',
+    );
   });
 
   it('renders with correct text attribute', () => {

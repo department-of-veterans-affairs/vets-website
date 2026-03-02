@@ -1,13 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import DateTime from './DateTime';
 import AddToCalendarButton from './AddToCalendarButton';
 
+/**
+ * Renders a card section.
+ * @param {Object} props
+ * @param {import('../utils/appointments').Appointment} props.appointmentData - The appointment data
+ * @param {string} props.textContent - The text content
+ * @param {string} props.heading - The heading
+ * @param {number} props.level - The heading level. Defaults to 3.
+ * @param {boolean} props.showAddToCalendarButton - Whether to show the add to calendar button if appointmentData is provided
+ * @param {React.ReactNode} props.customBodyElement - The custom body element
+ * @returns {JSX.Element}
+ */
 export default function CardSection({
-  dateContent,
+  appointmentData,
   textContent,
   heading,
-  level = 2,
+  level = 3,
+  customBodyElement,
+  showAddToCalendarButton,
   ...props
 }) {
   const Heading = `h${level}`;
@@ -18,25 +32,31 @@ export default function CardSection({
         {heading}
       </Heading>
       {textContent && (
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+        <p
+          className="vads-u-margin-top--0 vads-u-margin-bottom--0"
+          data-dd-privacy="mask"
+        >
           {textContent}
         </p>
       )}
-      {dateContent && (
+      {appointmentData && (
         <>
-          <DateTime dateTime={dateContent.dateTime} />
-          {dateContent.showAddToCalendarButton && (
-            <AddToCalendarButton appointment={dateContent} />
+          <DateTime dateTime={appointmentData.startUTC} />
+          {showAddToCalendarButton && (
+            <AddToCalendarButton appointment={appointmentData} />
           )}
         </>
       )}
+      {customBodyElement}
     </div>
   );
 }
 
 CardSection.propTypes = {
-  dateContent: PropTypes.object,
+  appointmentData: PropTypes.object,
+  customBodyElement: PropTypes.node,
   heading: PropTypes.string,
   level: PropTypes.number,
+  showAddToCalendarButton: PropTypes.bool,
   textContent: PropTypes.string,
 };

@@ -6,16 +6,17 @@ import {
 
 const uiSchema = {
   ...titleUI('Total assets'),
-  totalAssets: currencyUI({
+  netWorthEstimation: currencyUI({
     title: 'Estimate the total value of your assets',
+    max: 999999999,
   }),
 };
 
 const schema = {
   type: 'object',
-  required: ['totalAssets'],
+  required: ['netWorthEstimation'],
   properties: {
-    totalAssets: currencySchema,
+    netWorthEstimation: currencySchema,
   },
 };
 

@@ -10,7 +10,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import SubmissionInstructions from '../components/SubmissionInstructions';
-import YellowRibbonProgramRequestSummaryReview from '../containers/YellowRibbonProgramRequestSummaryReview';
 import {
   authorizedOfficial,
   agreementType,
@@ -33,6 +32,7 @@ import {
   showAdditionalPointsOfContact,
   arrayBuilderOptions,
   CustomReviewTopContent,
+  focusOnH3,
 } from '../helpers';
 
 /** @type {FormConfig} */
@@ -80,6 +80,7 @@ const formConfig = {
     reviewPageTitle: 'Review form',
     submitButtonText: 'Continue',
   },
+  useCustomScrollAndFocus: true,
   transformForSubmit: transform,
   chapters: {
     personalInformationChapter: {
@@ -156,6 +157,7 @@ const formConfig = {
               title: 'Additional institution details',
               uiSchema: additionalInstitutionDetailsSummary.uiSchema,
               schema: additionalInstitutionDetailsSummary.schema,
+              scrollAndFocusTarget: focusOnH3,
               depends: formData =>
                 formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
             }),
@@ -183,6 +185,7 @@ const formConfig = {
                 uiSchema:
                   additionalInstitutionDetailsSummaryWithdrawal.uiSchema,
                 schema: additionalInstitutionDetailsSummaryWithdrawal.schema,
+                scrollAndFocusTarget: focusOnH3,
                 depends: formData =>
                   formData?.agreementType === 'withdrawFromYellowRibbonProgram',
               },
@@ -221,15 +224,15 @@ const formConfig = {
             schema: yellowRibbonProgramRequestSummary.schema,
             depends: formData =>
               formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
-            CustomPageReview: YellowRibbonProgramRequestSummaryReview,
           }),
           yellowRibbonProgramContribution: pageBuilder.itemPage({
             title: 'Add a Yellow Ribbon Program contribution',
             path: 'yellow-ribbon-program-request/:index',
             uiSchema: eligibleIndividualsSupported.uiSchema,
             schema: eligibleIndividualsSupported.schema,
-            depends: formData =>
-              formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
+            depends: (formData, index) =>
+              formData?.agreementType !== 'withdrawFromYellowRibbonProgram' &&
+              index < 1,
           }),
           contributionLimitsAndDegreeLevel: pageBuilder.itemPage({
             title: 'Contribution limits and degree level',

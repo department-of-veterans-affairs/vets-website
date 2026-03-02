@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca SpouseBasicInformation config', () => {
   const {
@@ -13,7 +15,7 @@ describe('hca SpouseBasicInformation config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 11;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -30,4 +32,80 @@ describe('hca SpouseBasicInformation config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        spouseFullName: {
+          type: 'object',
+          properties: {
+            first: {
+              type: 'string',
+            },
+            middle: {
+              type: 'string',
+            },
+            last: {
+              type: 'string',
+            },
+            suffix: {
+              type: 'string',
+            },
+          },
+        },
+        spouseSocialSecurityNumber: {
+          type: 'string',
+        },
+        spouseDateOfBirth: {
+          $ref: {},
+        },
+        dateOfMarriage: {
+          $ref: {},
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      spouseFullName: {
+        first: {
+          'ui:title': {},
+        },
+        middle: {
+          'ui:title': {},
+        },
+        last: {
+          'ui:title': {},
+        },
+        suffix: {
+          'ui:title': {},
+          'ui:options': {},
+        },
+      },
+      spouseSocialSecurityNumber: {
+        'ui:title': {},
+        'ui:errorMessages': {},
+        'ui:options': {},
+      },
+      spouseDateOfBirth: {
+        'ui:title': {},
+        'ui:errorMessages': {},
+        'ui:validations': {},
+      },
+      dateOfMarriage: {
+        'ui:title': {},
+        'ui:errorMessages': {},
+        'ui:validations': {},
+      },
+    },
+    expectedRequired: [
+      'spouseSocialSecurityNumber',
+      'spouseDateOfBirth',
+      'dateOfMarriage',
+    ],
+    pageName: pageTitle,
+  });
 });

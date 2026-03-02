@@ -1,6 +1,7 @@
 import {
   textareaUI,
   titleUI,
+  textareaSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -24,10 +25,7 @@ export const statementPage = {
     type: 'object',
     required: ['statement'],
     properties: {
-      statement: {
-        type: 'string',
-        maxLength: 3650,
-      },
+      statement: textareaSchema,
     },
   },
 };

@@ -38,6 +38,21 @@ describe('ClaimFormSideNav', () => {
     tree.unmount();
   });
 
+  it('should ensure all items include a role of listitem for assistive technology', () => {
+    const tree = mount(<ClaimFormSideNav {...defaultProps} />);
+
+    // The enabled items uses the VaSidenavItem component, which is a web component that renders a list item with
+    // role="listitem". This test presumes the VaSidenavItem will continue to honor this behavior and does not attempt
+    // to verify as part of this test suite. Even if it were desirable, Enzyme does not support traversing into the
+    // shadow DOM to verify this attribute on the rendered list item. Therefore, we only verify the disabled items.
+    const disabledItems = tree.find('p');
+    const listItems = tree.find('[role="listitem"]');
+
+    expect(listItems.length).to.equal(disabledItems.length);
+
+    tree.unmount();
+  });
+
   it('should mark current page as active', () => {
     const tree = mount(<ClaimFormSideNav {...defaultProps} />);
     const items = tree.find('VaSidenavItem');
@@ -198,7 +213,7 @@ describe('ClaimFormSideNav', () => {
     const tree = mount(<ClaimFormSideNav {...defaultProps} />);
     const sidenav = tree.find('VaSidenav');
 
-    expect(sidenav.prop('header')).to.equal('Form sections');
+    expect(sidenav.prop('header')).to.equal('Form steps');
     expect(sidenav.prop('icon-name')).to.equal('description');
     expect(sidenav.prop('icon-background-color')).to.equal('vads-color-link');
     tree.unmount();
@@ -278,7 +293,7 @@ describe('ClaimFormSideNav', () => {
     const items = tree.find('VaSidenavItem');
     const reviewItem = items.last();
 
-    expect(reviewItem.prop('label')).to.contain('Review and submit');
+    expect(reviewItem.prop('label')).to.contain('Review application');
     tree.unmount();
   });
 

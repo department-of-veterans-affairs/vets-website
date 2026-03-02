@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca VeteranDemographicInformation config', () => {
   const {
@@ -13,7 +15,7 @@ describe('hca VeteranDemographicInformation config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 7;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -30,4 +32,71 @@ describe('hca VeteranDemographicInformation config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        'view:demographicCategories': {
+          type: 'object',
+          properties: {
+            isAmericanIndianOrAlaskanNative: {
+              type: 'boolean',
+            },
+            isAsian: {
+              type: 'boolean',
+            },
+            isBlackOrAfricanAmerican: {
+              type: 'boolean',
+            },
+            isSpanishHispanicLatino: {
+              type: 'boolean',
+            },
+            isNativeHawaiianOrOtherPacificIslander: {
+              type: 'boolean',
+            },
+            isWhite: {
+              type: 'boolean',
+            },
+            hasDemographicNoAnswer: {
+              type: 'boolean',
+            },
+          },
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'view:demographicCategories': {
+        'ui:title': {},
+        'ui:field': {},
+        isAmericanIndianOrAlaskanNative: {
+          'ui:title': {},
+        },
+        isSpanishHispanicLatino: {
+          'ui:title': {},
+        },
+        isAsian: {
+          'ui:title': {},
+        },
+        isBlackOrAfricanAmerican: {
+          'ui:title': {},
+        },
+        isNativeHawaiianOrOtherPacificIslander: {
+          'ui:title': {},
+        },
+        isWhite: {
+          'ui:title': {},
+        },
+        hasDemographicNoAnswer: {
+          'ui:title': {},
+        },
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

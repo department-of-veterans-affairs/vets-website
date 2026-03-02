@@ -11,12 +11,13 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
-import {
-  fileUploadUi as fileUploadUI,
-  singleFileSchema,
-} from '../../shared/components/fileUploads/upload';
 import { validateChars } from '../utils/validation';
-import { blankSchema } from '../definitions';
+import {
+  attachmentUI,
+  blankSchema,
+  singleAttachmentSchema,
+  textareaSchema,
+} from '../definitions';
 
 const MEDIGAP = {
   A: 'Medigap Plan A',
@@ -194,16 +195,17 @@ export function applicantInsuranceSOBSchema(isPrimary) {
         'You’ll need to submit a copy of the card or document that shows the schedule of benefits that lists the beneficiary’s co-payments.',
       ),
       ...fileUploadBlurb,
-      [keyname]: fileUploadUI({
+      [keyname]: attachmentUI({
         label: 'Upload schedule of benefits document',
         attachmentId: 'Schedule of benefits document',
       }),
     },
     schema: {
       type: 'object',
+      required: [keyname],
       properties: {
         'view:fileUploadBlurb': blankSchema,
-        [keyname]: singleFileSchema,
+        [keyname]: singleAttachmentSchema,
       },
     },
   };
@@ -291,7 +293,7 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
     schema: {
       type: 'object',
       properties: {
-        [keyname]: { type: 'string', maxLength: 200 },
+        [keyname]: textareaSchema,
       },
     },
   };
@@ -309,21 +311,22 @@ export function applicantInsuranceCardSchema(isPrimary) {
         'You’ll need to submit a copy of the front and back of this health insurance card.',
       ),
       ...fileUploadBlurb,
-      [`${keyname}Front`]: fileUploadUI({
+      [`${keyname}Front`]: attachmentUI({
         label: 'Upload front of insurance card',
         attachmentId: 'Front of insurance card', // used behind the scenes
       }),
-      [`${keyname}Back`]: fileUploadUI({
+      [`${keyname}Back`]: attachmentUI({
         label: 'Upload back of insurance card',
         attachmentId: 'Back of insurance card', // used behind the scenes
       }),
     },
     schema: {
       type: 'object',
+      required: [`${keyname}Front`, `${keyname}Back`],
       properties: {
         'view:fileUploadBlurb': blankSchema,
-        [`${keyname}Front`]: singleFileSchema,
-        [`${keyname}Back`]: singleFileSchema,
+        [`${keyname}Front`]: singleAttachmentSchema,
+        [`${keyname}Back`]: singleAttachmentSchema,
       },
     },
   };

@@ -29,7 +29,7 @@ Benefits Intake Optimization - Aquia Team
 - **Respondent Burden**: 30 minutes
 - **Entry Name**: `21-2680-house-bound-status`
 - **Root URL**: `/pension/aid-attendance-housebound/apply-form-21-2680`
-- **Submit Endpoint**: `POST /v0/form212680` 
+- **Submit Endpoint**: `POST /v0/form212680`
 - **Product ID**: `803cc23f-a627-4ea7-a3ea-0f5595d0dfd3`
 
 ## Form Flow and Sections
@@ -234,6 +234,16 @@ yarn watch --env entry=auth,static-pages,dashboard,find-forms,login-page,21-2680
 
 - Hospitalization Date
 - Hospitalization Facility
+
+## Content Widget
+
+This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/forms/about-form-21-2680/`).
+
+- **Widget Type**: `form212680`
+- **Feature Flag**: `form_2680_enabled`
+- **Widget Location**: `src/applications/static-pages/benefits-optimization-aquia/21-2680/`
+
+When the feature flag is off, the widget shows "Submit this form by mail" instead of a link to the digital form.
 
 ## Support
 

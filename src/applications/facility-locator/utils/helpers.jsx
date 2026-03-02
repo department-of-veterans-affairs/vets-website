@@ -38,7 +38,7 @@ export const buildMarker = (
 ) => {
   if (type === 'location') {
     const { loc, attrs } = values;
-    const markerElement = document.createElement('span');
+    const markerElement = document.createElement('button');
 
     markerElement.style.cursor = 'pointer';
     markerElement.textContent = attrs.letter;
@@ -85,6 +85,11 @@ export const buildMarker = (
 
         locationElement.classList.add('active');
         recordMarkerEvents(loc);
+
+        const titleElement = locationElement.querySelector('h3');
+        if (titleElement) {
+          setFocus(titleElement);
+        }
 
         const searchResultsContainer = document.getElementById(
           'searchResultsContainer',

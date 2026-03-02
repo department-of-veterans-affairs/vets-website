@@ -3,23 +3,19 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import AppointmentCard from './AppointmentCard';
+import { createAppointmentData } from '../utils/appointments';
 
 describe('VASS Component: AppointmentCard', () => {
   it('renders card sections and actions', () => {
-    const appointmentData = {
-      appointmentId: '123',
-      phoneNumber: '8005551212',
-      dtStartUtc: '2025-05-01T16:00:00.000Z',
-      typeOfCare: 'Solid Start',
-      providerName: 'Bill Brasky',
+    const appointmentData = createAppointmentData({
       topics: [{ topicName: 'Benefits' }, { topicName: 'Health care' }],
-      showAddToCalendarButton: true,
-    };
+    });
 
     const { getByTestId } = render(
       <AppointmentCard
         appointmentData={appointmentData}
         handleCancelAppointment={() => {}}
+        showAddToCalendarButton
       />,
     );
 
@@ -27,6 +23,10 @@ describe('VASS Component: AppointmentCard', () => {
     expect(getByTestId('appointment-type').textContent).to.equal(
       'Phone appointment',
     );
+    expect(getByTestId('solid-start-telephone')).to.exist;
+    expect(
+      getByTestId('solid-start-telephone').getAttribute('contact'),
+    ).to.equal('8008270611');
     expect(getByTestId('how-to-join-section')).to.exist;
     expect(getByTestId('when-section')).to.exist;
     expect(getByTestId('what-section')).to.exist;
@@ -40,23 +40,37 @@ describe('VASS Component: AppointmentCard', () => {
   });
 
   it('omits calendar and cancel actions when not provided', () => {
-    const appointmentData = {
-      appointmentId: '456',
-      phoneNumber: '8005551212',
-      dtStartUtc: '2025-06-01T16:00:00.000Z',
-      typeOfCare: 'Solid Start',
-      providerName: 'Bill Brasky',
-      topics: [{ topicName: 'Benefits' }],
-      showAddToCalendarButton: false,
-    };
+    const appointmentData = createAppointmentData();
 
     const { getByTestId, queryByTestId } = render(
       <AppointmentCard appointmentData={appointmentData} />,
     );
 
     expect(getByTestId('appointment-card')).to.exist;
-    expect(queryByTestId('add-to-calendar-button')).to.not.exist;
     expect(queryByTestId('print-button')).to.not.exist;
     expect(queryByTestId('cancel-button')).to.not.exist;
+  });
+
+  it('omits add to calendar button when showAddToCalendarButton is false', () => {
+    const appointmentData = createAppointmentData();
+
+    const { queryByTestId } = render(
+      <AppointmentCard
+        appointmentData={appointmentData}
+        showAddToCalendarButton={false}
+      />,
+    );
+
+    expect(queryByTestId('add-to-calendar-button')).not.to.exist;
+  });
+
+  it('omits topics section when no topics are provided', () => {
+    const appointmentData = createAppointmentData({ topics: [] });
+
+    const { queryByTestId } = render(
+      <AppointmentCard appointmentData={appointmentData} />,
+    );
+
+    expect(queryByTestId('topics-section')).to.not.exist;
   });
 });

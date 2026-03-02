@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 // platform level imports
+import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import recordEvent from '../../../../monitoring/record-event';
 import { isVAPatient } from '../../../selectors';
 import { waitForRenderThenFocus } from '../../../../utilities/ui';
@@ -59,12 +61,12 @@ import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
 import ConfirmRemoveModal from './ContactInformationFieldInfo/ConfirmRemoveModal';
 import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
-import GenericErrorAlert from './GenericErrorAlert';
 
 import ProfileInformationView from './ProfileInformationView';
 import ProfileInformationEditView from './ProfileInformationEditView';
 import { updateMessagingSignature } from '../../actions/mhv';
 import ProfileInformationEditViewFc from './ProfileInformationEditViewFc';
+import { SCHEDULING_PREF_PATHS } from '../constants/schedulingPreferencesConstants';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -253,6 +255,7 @@ class ProfileInformationFieldController extends React.Component {
         analyticsSectionName,
         value: payload,
       });
+      this.closeModal();
       return;
     }
     if (fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
@@ -274,6 +277,7 @@ class ProfileInformationFieldController extends React.Component {
         analyticsSectionName,
       );
     }
+    this.closeModal();
   };
 
   confirmDeleteAction = e => {
@@ -290,10 +294,35 @@ class ProfileInformationFieldController extends React.Component {
     this.props.clearTransactionRequest(this.props.fieldName);
   };
 
-  onEdit = (event = 'edit-link') => {
-    this.captureEvent(event);
+  onEdit = (event, isEmpty = 'edit-link') => {
+    const eventText = isEmpty ? 'add-link' : 'edit-link';
+    this.captureEvent(eventText);
+    if (isSchedulingPreference(this.props.fieldName)) {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': event.target.text,
+        'button-label': event.target.label.replace('Edit ', ''),
+      });
+    }
+
     // Check if this field should use subtask editing
-    if (isSubtaskSchedulingPreference(this.props.fieldName)) {
+    if (
+      isSubtaskSchedulingPreference(this.props.fieldName) &&
+      this.props.history
+    ) {
+      switch (this.props.fieldName) {
+        case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
+          this.props.history.push(SCHEDULING_PREF_PATHS.CONTACT_METHOD);
+          break;
+        case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
+          this.props.history.push(SCHEDULING_PREF_PATHS.CONTACT_TIMES);
+          break;
+        case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
+          this.props.history.push(SCHEDULING_PREF_PATHS.APPOINTMENT_TIMES);
+          break;
+        default:
+          return;
+      }
       return;
     }
     // Use inline editing flow
@@ -474,13 +503,13 @@ class ProfileInformationFieldController extends React.Component {
       showValidationView,
       title,
       transaction,
+      transactionError,
       transactionRequest,
       data,
       isEnrolledInVAHealthCare,
       ariaDescribedBy,
       CustomConfirmCancelModal,
       showUpdateSuccessAlert,
-      showErrorAlert,
       showCopyAddressModal,
     } = this.props;
 
@@ -515,12 +544,6 @@ class ProfileInformationFieldController extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        {showErrorAlert && (
-          <div className="vads-u-width--full">
-            <GenericErrorAlert fieldName={fieldName} />
-          </div>
-        )}
-
         {showUpdateSuccessAlert && (
           <div className="vads-u-width--full">
             <UpdateSuccessAlert fieldName={fieldName} />
@@ -532,6 +555,11 @@ class ProfileInformationFieldController extends React.Component {
           fieldName={fieldName}
           title={title}
           id={ariaDescribedBy}
+          email={this.props.email}
+          mailingAddress={this.props.mailingAddress}
+          mobilePhone={this.props.mobilePhone}
+          homePhone={this.props.homePhone}
+          workPhone={this.props.workPhone}
         />
         <div className="vads-u-width--full">
           <div>
@@ -540,12 +568,13 @@ class ProfileInformationFieldController extends React.Component {
                 text="Edit"
                 label={`Edit ${title}`}
                 message-aria-describedby={ariaDescribedBy}
-                onClick={() => {
-                  this.onEdit(isEmpty ? 'add-link' : 'edit-link');
+                onClick={event => {
+                  this.onEdit(event, isEmpty);
                 }}
                 id={getEditButtonId(fieldName)}
                 class={`vads-u-margin-top--1p5 ${classes.buttons}`}
                 primary
+                // disable-analytics={isSchedulingPreference(fieldName)}
               />
             )}
             {data &&
@@ -582,20 +611,19 @@ class ProfileInformationFieldController extends React.Component {
         <AddressValidationView
           refreshTransaction={this.refreshTransactionNotProps}
           transaction={transaction}
-          transactionRequest={transactionRequest}
+          transactionError={transactionError}
           title={title}
-          clearErrors={this.clearErrors}
           successCallback={this.props.successCallback}
         />
       );
     }
 
-    const error =
-      transactionRequest?.error ||
-      (isFailedTransaction(transaction) ? {} : null);
-
     return (
       <div data-field-name={fieldName} data-testid={fieldName}>
+        {transactionError && (
+          <VAPServiceEditModalErrorMessage error={transactionError} />
+        )}
+
         {CustomConfirmCancelModal ? (
           <CustomConfirmCancelModal
             activeSection={activeSection}
@@ -635,7 +663,7 @@ class ProfileInformationFieldController extends React.Component {
           isEnrolledInVAHealthCare={isEnrolledInVAHealthCare}
           isVisible={showRemoveModal}
           onHide={this.closeModal}
-          error={error}
+          error={transactionError}
         />
 
         {content}
@@ -695,8 +723,13 @@ ProfileInformationFieldController.propTypes = {
   contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
   editViewData: PropTypes.object,
+  email: PropTypes.object,
   forceEditView: PropTypes.bool,
+  history: PropTypes.object,
+  homePhone: PropTypes.object,
   isDeleteDisabled: PropTypes.bool,
+  mailingAddress: PropTypes.object,
+  mobilePhone: PropTypes.object,
   prefillPatternEnabled: PropTypes.bool,
   recordCustomProfileEvent: PropTypes.func,
   refreshTransaction: PropTypes.func,
@@ -710,8 +743,17 @@ ProfileInformationFieldController.propTypes = {
   successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
+  transactionError: PropTypes.shape({
+    errors: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.string,
+        message: PropTypes.string,
+      }),
+    ),
+  }),
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
+  workPhone: PropTypes.object,
   onCancelButtonFocused: PropTypes.func,
 };
 
@@ -727,6 +769,8 @@ export const mapStateToProps = (state, ownProps) => {
     state,
     fieldName,
   );
+  const transactionError =
+    transactionRequest?.error || (isFailedTransaction(transaction) ? {} : null);
   const data =
     selectVAPContactInfoField(state, fieldName) ||
     selectVAProfilePersonalInformation(state, fieldName) ||
@@ -803,6 +847,7 @@ export const mapStateToProps = (state, ownProps) => {
     showValidationView: !!showValidationView,
     isEmpty,
     transaction,
+    transactionError,
     transactionRequest,
     editViewData: selectEditViewData(state),
     title: ownProps.title || title, // Use custom title if provided, otherwise use default
@@ -814,6 +859,11 @@ export const mapStateToProps = (state, ownProps) => {
     showUpdateSuccessAlert: shouldShowUpdateSuccessAlert(state, fieldName),
     showErrorAlert: shouldShowErrorAlert(state, fieldName),
     showCopyAddressModal,
+    email: selectVAPContactInfoField(state, 'email'),
+    mailingAddress: selectVAPContactInfoField(state, 'mailingAddress'),
+    mobilePhone: selectVAPContactInfoField(state, 'mobilePhone'),
+    homePhone: selectVAPContactInfoField(state, 'homePhone'),
+    workPhone: selectVAPContactInfoField(state, 'workPhone'),
   };
 };
 
@@ -831,4 +881,12 @@ export default connect(
   mapDispatchToProps,
 )(ProfileInformationFieldController);
 
-export { ProfileInformationFieldController };
+const RoutedProfileInformationFieldController = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withRouter(ProfileInformationFieldController));
+
+export {
+  ProfileInformationFieldController,
+  RoutedProfileInformationFieldController,
+};

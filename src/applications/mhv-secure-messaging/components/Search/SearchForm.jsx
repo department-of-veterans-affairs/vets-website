@@ -282,6 +282,7 @@ const SearchForm = props => {
         }}
       >
         <h2
+          className="vads-u-font-size--h3 vads-u-margin-top--0"
           ref={filterFormTitleRef}
           aria-describedby={getAriaDescribedBy}
           onBlur={() => {
@@ -321,7 +322,7 @@ const SearchForm = props => {
         {!location.pathname.includes(Paths.DRAFTS) && (
           <va-additional-info
             trigger="What's a message ID?"
-            class="message-id-info"
+            class="message-id-info vads-u-margin-top--1"
             data-dd-action-name="What's a message ID? Expandable Info"
           >
             A message ID is a number we assign to each message. If you sign up

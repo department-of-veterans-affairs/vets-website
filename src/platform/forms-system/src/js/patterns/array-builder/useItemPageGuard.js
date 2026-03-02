@@ -1,5 +1,5 @@
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
-import { getArrayUrlSearchParams } from './helpers';
+import * as helpers from './helpers';
 
 /**
  * Handles navigation redirects and conditional rendering based on page state
@@ -22,7 +22,7 @@ export function useItemPageGuard({
   checkForReview = true,
   checkForEditSchema = true,
 }) {
-  const searchParams = getArrayUrlSearchParams();
+  const searchParams = helpers.getArrayUrlSearchParams();
   const isEdit = !!searchParams.get('edit');
   const isAdd = !!searchParams.get('add');
   const introRoute = arrayBuilderProps.getIntroPath(customPageProps.fullData);

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
-import { URL, envUrl } from '../constants';
+import { VaRadioOption } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { URL, envApiUrl } from '../constants';
 import { convertLocation } from '../utils/mapbox';
 import EducationSearchItem from './search/EducationSearchItem';
 import SearchControls from './search/SearchControls';
@@ -13,6 +15,7 @@ const facilities = {
 };
 
 export default function EducationFacilitySearch({ onChange }) {
+  const school = useSelector(state => state.form?.data?.school);
   const [apiData, setApiData] = useState(facilities);
   const [isSearching, setIsSearching] = useState(false);
   const [pageURL, setPageURL] = useState('');
@@ -52,19 +55,19 @@ export default function EducationFacilitySearch({ onChange }) {
   const getFacilitiesFromLocation = async input => {
     const place = await convertLocation(input);
     const getLocation = place.zipCode[0].text;
-    const url = `${envUrl}${URL.GET_SCHOOL}search?name=${getLocation}`;
+    const url = `${envApiUrl}${URL.GET_SCHOOL}search?name=${getLocation}`;
     await getApiData(url);
     setPageURL(url);
   };
 
   const getFacilities = async input => {
-    const url = `${envUrl}${URL.GET_SCHOOL}search?name=${input}`;
+    const url = `${envApiUrl}${URL.GET_SCHOOL}search?name=${input}`;
     await getApiData(url);
     setPageURL(url);
   };
 
   const getFacilitiesByCode = async input => {
-    const url = `${envUrl}${URL.GET_SCHOOL}${input}`;
+    const url = `${envApiUrl}${URL.GET_SCHOOL}${input}`;
     await getApiData(url);
     setPageURL(url);
   };
@@ -77,6 +80,8 @@ export default function EducationFacilitySearch({ onChange }) {
     return getFacilitiesByCode(input);
   };
 
+  const showInitialValue = school && !isSearching && !apiData.data?.length;
+
   return (
     <div className="facility-locator vads-u-margin-top--2">
       <SearchControls
@@ -85,6 +90,7 @@ export default function EducationFacilitySearch({ onChange }) {
         searchTitle="Search for your school"
         searchHint="You can search by school name, code or location."
       />
+      {showInitialValue && <VaRadioOption label={school} checked />}
       {isSearching ? (
         <va-loading-indicator label="Loading" message="Loading..." set-focus />
       ) : (
@@ -94,6 +100,7 @@ export default function EducationFacilitySearch({ onChange }) {
           getData={getApiData}
           onChange={onChange}
           dataError={fetchDataError}
+          defaultValue={school}
         />
       )}
     </div>

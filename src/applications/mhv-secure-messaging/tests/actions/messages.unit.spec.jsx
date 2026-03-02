@@ -7,6 +7,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 import { expect } from 'chai';
+import * as monitoring from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { Actions } from '../../util/actionTypes';
 import * as Constants from '../../util/constants';
 import {
@@ -25,6 +26,7 @@ describe('messages actions', () => {
   const mockStore = (initialState = { featureToggles: {} }) =>
     configureStore(middlewares)(initialState);
   let loggerSpy;
+  let recordEventStub;
 
   beforeEach(() => {
     // Mock the global DD_LOGS logger
@@ -36,9 +38,14 @@ describe('messages actions', () => {
         },
       },
     };
+    recordEventStub = sinon.stub(monitoring, 'recordEvent').callsFake(event => {
+      global.window.dataLayer = global.window.dataLayer || [];
+      global.window.dataLayer.push(event);
+    });
   });
 
   afterEach(() => {
+    recordEventStub.restore();
     delete global.window;
   });
   const errorResponse = {
@@ -420,9 +427,62 @@ describe('messages actions', () => {
       });
   });
 
+  it('should dispatch clearPrescription action on successful sendMessage', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    await store
+      .dispatch(
+        sendMessage(
+          {
+            category: 'EDUCATION',
+            body: 'Test body',
+            subject: 'Test subject',
+            recipientId: '2710520',
+          },
+          false,
+          false,
+          false,
+        ),
+      )
+      .then(() => {
+        const actions = store.getActions();
+
+        expect(actions).to.deep.include({
+          type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
+        });
+      });
+  });
+
+  it('should NOT dispatch clearPrescription action on failed sendMessage', async () => {
+    const store = mockStore();
+    mockFetch({ ...errorResponse }, false);
+    await store
+      .dispatch(
+        sendMessage(
+          {
+            category: 'EDUCATION',
+            body: 'Test body',
+            subject: 'Test subject',
+            recipientId: '2710520',
+          },
+          false,
+          false,
+          false,
+        ),
+      )
+      .catch(() => {
+        const actions = store.getActions();
+
+        expect(actions).to.not.deep.include({
+          type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
+        });
+      });
+  });
+
   it('should log prescription renewal message when isRxRenewal is true', async () => {
     const store = mockStore();
     mockApiRequest(messageResponse);
+    window.dataLayer = [];
 
     const messageData = {
       category: 'MEDICATIONS',
@@ -450,6 +510,14 @@ describe('messages actions', () => {
       hasAttachments: false,
     });
     expect(call.args[2]).to.equal('info');
+
+    const hasApiCall = window.dataLayer?.some(
+      e =>
+        e?.event === 'api_call' &&
+        e?.['api-name'] === 'Rx SM Renewal' &&
+        e?.['api-status'] === 'successful',
+    );
+    expect(hasApiCall).to.be.true;
   });
 
   it('should log error when prescription renewal message fails', async () => {
@@ -465,6 +533,7 @@ describe('messages actions', () => {
       ],
     };
     mockApiRequest(rxErrorResponse, false);
+    window.dataLayer = [];
     const messageData = {
       category: 'MEDICATIONS',
       body: 'Test body',
@@ -493,6 +562,14 @@ describe('messages actions', () => {
     // errorCode and errorDetail may vary based on error structure
     expect(call.args[2]).to.equal('error');
     expect(call.args[3]).to.exist;
+
+    const failEvent = window.dataLayer?.find(
+      e =>
+        e?.event === 'api_call' &&
+        e?.['api-name'] === 'Rx SM Renewal' &&
+        e?.['api-status'] === 'fail',
+    );
+    expect(failEvent).to.exist;
   });
 
   it('should dispatch action on sendReply', async () => {

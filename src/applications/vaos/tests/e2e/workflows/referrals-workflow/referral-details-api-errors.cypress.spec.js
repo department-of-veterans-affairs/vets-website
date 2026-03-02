@@ -1,5 +1,8 @@
 import { mockFeatureToggles } from '../../vaos-cypress-helpers';
-import { mockAppointmentDetailsApi } from './referrals-cypress-helpers';
+import {
+  mockAppointmentDetailsApi,
+  saveScreenshot,
+} from './referrals-cypress-helpers';
 import MockUser from '../../../fixtures/MockUser';
 import MockReferralAppointmentDetailsResponse from '../../../fixtures/MockReferralAppointmentDetailsResponse';
 import epsAppointmentDetails from '../../referrals/page-objects/EpsAppointmentDetails';
@@ -50,6 +53,9 @@ describe('Referral Appointment Details API Errors', () => {
       cy.wait('@v2:get:appointmentDetails');
       epsAppointmentDetails.assertApiError();
       cy.injectAxeThenAxeCheck();
+      saveScreenshot(
+        `vaos_ccDirectScheduling_appointmentDetails_apiError_${errorType}`,
+      );
     });
   });
 });

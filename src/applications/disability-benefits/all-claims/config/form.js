@@ -23,6 +23,7 @@ import {
   capitalizeEachWord,
   getPageTitle,
   hasGuardOrReservePeriod,
+  hasMedicalRecords,
   hasNewPtsdDisability,
   hasOtherEvidence,
   hasPrivateEvidence,
@@ -32,6 +33,7 @@ import {
   isAnswering781aQuestions,
   isAnswering781Questions,
   isBDD,
+  isEvidenceEnhancement,
   isNewConditionsOn,
   isNewConditionsOff,
   isNotUploadingPrivateMedical,
@@ -40,14 +42,13 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
-  // TODO: Once vetted, drop the feature toggle _and_ drop this obsolete
-  // conditionality.
   showNewlyBDDPages,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
   isCompletingModern4142,
   onFormLoaded,
+  normalizeReturnUrlForResume,
 } from '../utils';
 
 import { gatePages } from '../utils/gatePages';
@@ -67,13 +68,17 @@ import {
   choosePtsdType,
   claimExamsInfo,
   contactInformation,
+  evidenceRequest,
   evidenceTypes,
   evidenceTypesBDD,
+  evidenceChoiceIntro,
+  evidenceChoiceAdditionalDocuments,
   federalOrders,
   finalIncident,
   fullyDevelopedClaim,
   homelessOrAtRisk,
   individualUnemployability,
+  medicalRecords,
   mentalHealthChanges,
   militaryHistory,
   newPTSDFollowUp,
@@ -81,6 +86,7 @@ import {
   physicalHealthChanges,
   prisonerOfWar,
   privateMedicalRecords,
+  privateMedicalRecordsUpload,
   privateMedicalRecordsAttachments,
   privateMedicalAuthorizeRelease,
   privateMedicalRecordsRelease,
@@ -135,11 +141,15 @@ import {
 
 import migrations from '../migrations';
 import reviewErrors from '../reviewErrors';
+import { getCustomValidationErrors } from '../utils/customValidationErrors';
 
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
 import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/ConfirmationAncillaryFormsWizard';
+import { EvidenceRequestPage } from '../components/EvidenceRequestPage';
+import { MedicalRecordsPage } from '../components/MedicalRecordsPage';
+import { AdditionalEvidenceIntroPage } from '../components/AdditionalEvidenceIntroPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -167,8 +177,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_21_526EZ,
   wizardStorageKey: WIZARD_STATUS,
   customText: {
-    appAction: 'filing',
-    appContinuing: 'for disability compensation',
+    appAction: 'filing for disability compensation',
   },
   saveInProgress: {
     messages: {
@@ -199,7 +208,9 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: true,
   reviewErrors,
+  customValidationErrors: getCustomValidationErrors,
   onFormLoaded,
+  normalizeReturnUrl: normalizeReturnUrlForResume,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
@@ -229,7 +240,6 @@ const formConfig = {
         homelessOrAtRisk: {
           title: 'Housing situation',
           path: 'housing-situation',
-          depends: formData => showNewlyBDDPages(formData),
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
           onContinue: captureEvents.homelessOrAtRisk,
@@ -237,7 +247,6 @@ const formConfig = {
         terminallyIll: {
           title: 'Terminally ill',
           path: 'terminally-ill',
-          depends: formData => showNewlyBDDPages(formData),
           uiSchema: terminallyIll.uiSchema,
           schema: terminallyIll.schema,
         },
@@ -292,24 +301,21 @@ const formConfig = {
         separationPay: {
           title: SEPARATION_PAY_SECTION_TITLE,
           path: 'separation-pay',
-          depends: formData =>
-            !hasRatedDisabilities(formData) && showNewlyBDDPages(formData),
+          depends: formData => !hasRatedDisabilities(formData),
           uiSchema: separationPay.uiSchema,
           schema: separationPay.schema,
         },
         retirementPay: {
           title: 'Retirement pay',
           path: 'retirement-pay',
-          depends: formData =>
-            !hasRatedDisabilities(formData) && showNewlyBDDPages(formData),
+          depends: formData => !hasRatedDisabilities(formData),
           uiSchema: retirementPay.uiSchema,
           schema: retirementPay.schema,
         },
         trainingPay: {
           title: 'Training pay',
           path: 'training-pay',
-          depends: formData =>
-            !hasRatedDisabilities(formData) && showNewlyBDDPages(formData),
+          depends: formData => !hasRatedDisabilities(formData),
           uiSchema: trainingPay.uiSchema,
           schema: trainingPay.schema,
         },
@@ -495,7 +501,8 @@ const formConfig = {
           title: 'Prisoner of war (POW)',
           path: 'pow',
           depends: formData =>
-            !isBDD(formData) && hasRealNewOrSecondaryConditions(formData),
+            showNewlyBDDPages(formData) &&
+            hasRealNewOrSecondaryConditions(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
           appStateSelector: state => ({
@@ -585,8 +592,7 @@ const formConfig = {
             'ui:title': standardTitle(
               'Supporting evidence for your disability claim',
             ),
-            'ui:description': formData =>
-              supportingEvidenceOrientation(formData),
+            'ui:description': supportingEvidenceOrientation,
           },
           schema: { type: 'object', properties: {} },
         },
@@ -605,14 +611,39 @@ const formConfig = {
           schema: serviceTreatmentRecordsAttachments.schema,
         },
         evidenceTypes: {
-          title: 'Supporting evidence types',
+          title: 'Types of supporting evidence',
           path: 'supporting-evidence/evidence-types',
-          depends: formData => !isBDD(formData),
+          depends: formData =>
+            !isBDD(formData) && !isEvidenceEnhancement(formData),
+          updateFormData: evidenceTypes.updateFormData,
           uiSchema: evidenceTypes.uiSchema,
           schema: evidenceTypes.schema,
         },
+        evidenceRequest: {
+          title: 'Medical records that support your disability claim',
+          path: 'supporting-evidence/evidence-request',
+          depends: formData =>
+            !isBDD(formData) && isEvidenceEnhancement(formData),
+          CustomPage: EvidenceRequestPage,
+          CustomPageReview: null,
+          uiSchema: evidenceRequest.uiSchema,
+          schema: evidenceRequest.schema,
+        },
+        medicalRecords: {
+          title: 'Types of medical records',
+          path: 'supporting-evidence/medical-records',
+          depends: formData =>
+            !isBDD(formData) &&
+            isEvidenceEnhancement(formData) &&
+            hasMedicalRecords(formData),
+          updateFormData: medicalRecords.updateFormData,
+          CustomPage: MedicalRecordsPage,
+          CustomPageReview: null,
+          uiSchema: medicalRecords.uiSchema,
+          schema: medicalRecords.schema,
+        },
         evidenceTypesBDD: {
-          title: 'Supporting evidence types for BDD',
+          title: 'Types of supporting evidence for BDD',
           path: 'supporting-evidence/evidence-types-bdd',
           depends: formData => isBDD(formData),
           uiSchema: evidenceTypesBDD.uiSchema,
@@ -626,16 +657,31 @@ const formConfig = {
           schema: vaMedicalRecords.schema,
         },
         privateMedicalRecords: {
-          title: 'Non-VA treatment records',
+          title: 'Options for providing non-VA treatment records',
           path: 'supporting-evidence/private-medical-records',
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
         },
+        privateMedicalRecordsUpload: {
+          title: 'Upload non-VA treatment records',
+          // TODO: REPLACE this path with 'supporting-evidence/private-medical-records-upload' once we deprecate the old upload page
+          path:
+            'supporting-evidence/private-medical-records-upload-enhancement',
+          // TODO: Remove the `disability526SupportingEvidenceEnhancement` check once the feature is live to all users
+          depends: formData =>
+            formData.disability526SupportingEvidenceEnhancement &&
+            hasPrivateEvidence(formData) &&
+            !isNotUploadingPrivateMedical(formData),
+          uiSchema: privateMedicalRecordsUpload.uiSchema,
+          schema: privateMedicalRecordsUpload.schema,
+        },
         privateMedicalRecordsAttachments: {
           title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-upload',
+          // TODO: Remove page once enhanced page is approved to be merged prod flow
           depends: formData =>
+            !formData.disability526SupportingEvidenceEnhancement &&
             hasPrivateEvidence(formData) &&
             !isNotUploadingPrivateMedical(formData),
           uiSchema: privateMedicalRecordsAttachments.uiSchema,
@@ -643,7 +689,7 @@ const formConfig = {
         },
         // 2024 authorization
         privateMedicalAuthorizeRelease: {
-          title: 'Non-VA treatment records',
+          title: 'Authorization to release non-VA treatment records to VA',
           path: 'supporting-evidence/private-medical-records-authorize-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&
@@ -656,18 +702,48 @@ const formConfig = {
         },
         // PMR Facilities Page
         privateMedicalRecordsRelease: {
-          title: 'Non-VA treatment records',
+          title:
+            'Option to limit consent to retrieve information from treatment providers',
           path: 'supporting-evidence/private-medical-records-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&
             isNotUploadingPrivateMedical(formData),
-          uiSchema: privateMedicalRecordsRelease.uiSchema,
+          uiSchema: {
+            ...privateMedicalRecordsRelease.uiSchema,
+            providerFacility: {
+              ...privateMedicalRecordsRelease.uiSchema.providerFacility,
+              'ui:title': 'Non-VA treatment provider details',
+            },
+          },
           schema: privateMedicalRecordsRelease.schema,
         },
+        evidenceChoiceIntro: {
+          title:
+            'Supporting documents and additional forms for your disability claim',
+          depends: formData =>
+            formData.disability526SupportingEvidenceEnhancement,
+          // TODO: update this path to `'supporting-evidence/additional-evidence', once we can get rid of `additionalDocuments` page
+          path: 'supporting-evidence/additional-evidence-intro',
+          CustomPage: AdditionalEvidenceIntroPage,
+          CustomPageReview: null,
+          uiSchema: evidenceChoiceIntro.uiSchema,
+          schema: evidenceChoiceIntro.schema,
+        },
+        evidenceChoiceAdditionalDocuments: {
+          title: 'Upload supporting documents and additional forms',
+          path: 'supporting-evidence/additional-evidence-enhancement',
+          depends: formData =>
+            hasOtherEvidence(formData) &&
+            formData.disability526SupportingEvidenceEnhancement,
+          uiSchema: evidenceChoiceAdditionalDocuments.uiSchema,
+          schema: evidenceChoiceAdditionalDocuments.schema,
+        },
         additionalDocuments: {
-          title: 'Lay statements and other evidence',
+          title: 'Non-VA treatment records you uploaded',
           path: 'supporting-evidence/additional-evidence',
-          depends: hasOtherEvidence,
+          depends: formData =>
+            hasOtherEvidence(formData) &&
+            !formData.disability526SupportingEvidenceEnhancement,
           uiSchema: additionalDocuments.uiSchema,
           schema: additionalDocuments.schema,
         },
@@ -705,9 +781,7 @@ const formConfig = {
           title: 'Retirement pay waiver',
           path: 'retirement-pay-waiver',
           depends: formData =>
-            hasMilitaryRetiredPay(formData) &&
-            !hasRatedDisabilities(formData) &&
-            showNewlyBDDPages(formData),
+            hasMilitaryRetiredPay(formData) && !hasRatedDisabilities(formData),
           uiSchema: retirementPayWaiver.uiSchema,
           schema: retirementPayWaiver.schema,
         },
@@ -715,9 +789,7 @@ const formConfig = {
           title: 'Training pay waiver',
           path: 'training-pay-waiver',
           depends: formData =>
-            formData.hasTrainingPay &&
-            !hasRatedDisabilities(formData) &&
-            showNewlyBDDPages(formData),
+            formData.hasTrainingPay && !hasRatedDisabilities(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },

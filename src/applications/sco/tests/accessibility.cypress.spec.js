@@ -1,4 +1,17 @@
 describe('Accessibility', () => {
+  beforeEach(() => {
+    cy.intercept('GET', '**/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'form_1919_release', value: true },
+          { name: 'form_8794_release', value: true },
+          { name: 'form_10275_release', value: true },
+        ],
+      },
+    }).as('featureToggles');
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
+  });
   /* eslint-disable cypress/unsafe-to-chain-command */
   it('Traverses content via keyboard', () => {
     cy.visit('/school-administrators');
@@ -39,8 +52,8 @@ describe('Accessibility', () => {
     cy.focused().should('contain.text', 'GovDelivery Message Archive');
     // Tab to 'Program approval information' links
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'WEAMS Institution Search');
-    cy.repeatKey('Tab', 12);
+    cy.focused().should('contain.text', 'GI Bill® Comparison Tool');
+    cy.repeatKey('Tab', 11);
     cy.focused().should(
       'contain.text',
       'State Approving Agency contact information',
@@ -49,22 +62,10 @@ describe('Accessibility', () => {
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Education File Upload Portal');
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Expand all +');
-    cy.realPress('Enter');
-    cy.focused().should('contain.text', 'Collapse all -');
-    cy.realPress('Enter');
-    cy.realPress('Tab');
-    cy.focused().should(
-      'contain.text',
-      'Forms library and other accepted documents',
-    );
+    cy.focused().should('contain.text', 'Expand all');
+    cy.repeatKey('Tab', 5);
     // Tab to 'Other resources for schools' section
-    cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Expand all +');
     cy.realPress('Enter');
-    cy.focused().should('contain.text', 'Collapse all -');
-    cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Enrollment Manager');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Launch VA Education Platform Portal');
     cy.repeatKey('Tab', 8);
@@ -75,6 +76,7 @@ describe('Accessibility', () => {
     // Tab to 'Other resources New SCO Toolkit' section
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'New SCO Toolkit');
+    cy.realPress('Enter');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'New SCO Toolkit');
     cy.realPress('Tab');
@@ -98,11 +100,13 @@ describe('Accessibility', () => {
 
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Payment and debt');
+    cy.realPress('Enter');
     cy.repeatKey('Tab', 4);
     cy.focused().should(
       'contain.text',
       'Veteran Readiness and Employment (VR&E) Chapter 31',
     );
+    cy.realPress('Enter');
     cy.realPress('Tab');
     cy.focused().should(
       'contain.text',
@@ -112,15 +116,16 @@ describe('Accessibility', () => {
     cy.focused().should('contain.text', 'How to apply for VR&E');
     cy.repeatKey('Tab', 2);
     cy.focused().should('contain.text', '85/15');
+    cy.realPress('Enter');
     cy.repeatKey('Tab', 11);
     cy.focused().should('contain.text', 'About GI Bill benefits');
     cy.repeatKey('Tab', 6);
     // Should be focused on right panel now
     cy.focused().should('contain.text', 'Access Enrollment Manager');
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Collapse all -');
+    cy.focused().should('contain.text', 'Expand all');
     // Tab to 'Ask questions' section
-    cy.realPress('Tab');
+    cy.repeatKey('Tab', 2);
     cy.focused().should('contain.text', 'Ask questions');
     cy.repeatKey('Tab', 11);
     // Tab to 'Connect with us' section

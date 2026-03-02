@@ -7,7 +7,11 @@ import * as Sentry from '@sentry/browser';
 import environment from '../utilities/environment';
 
 // url check is necessary for e2e tests and local environments
-const trackErrors = environment.BASE_URL.indexOf('localhost') < 0;
+// Also skip in test environment (NODE_ENV=test) to preserve testkit transport
+const isTestEnvironment =
+  typeof process !== 'undefined' && process.env?.NODE_ENV === 'test';
+const trackErrors =
+  !isTestEnvironment && environment.BASE_URL.indexOf('localhost') < 0;
 
 if (trackErrors) {
   const url = `${environment.BASE_URL}/js-report/0`.replace('//', '//faker@');

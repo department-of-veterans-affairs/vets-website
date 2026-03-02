@@ -48,12 +48,17 @@ const getLastFilledAndRxNumberBlock = rx => {
           DATETIME_FORMATS.longMonthDate,
           'Date not available',
         )}`,
-        `Prescription number: ${rx.prescriptionNumber}`,
+        `Prescription number: ${rx.prescriptionNumber || 'Not available'}`,
       );
 };
-const getAttributes = (rx, isCernerPilot) =>
+const getAttributes = (rx, isCernerPilot, isV2StatusMapping = false) =>
   joinLines(
-    `Status: ${prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.TXT)}`,
+    `Status: ${prescriptionMedAndRenewalStatus(
+      rx,
+      medStatusDisplayTypes.TXT,
+      isCernerPilot,
+      isV2StatusMapping,
+    )}`,
     fieldLine('Refills left', rx.refillRemaining),
     `Request refills by this prescription expiration date: ${dateFormat(
       rx.expirationDate,
@@ -126,7 +131,11 @@ export const buildNonVAPrescriptionTXT = (
 /**
  * Return prescriptions list TXT
  */
-export const buildPrescriptionsTXT = (prescriptions, isCernerPilot = false) => {
+export const buildPrescriptionsTXT = (
+  prescriptions,
+  isCernerPilot = false,
+  isV2StatusMapping = false,
+) => {
   const mostRecentRxRefillLine = rx => {
     const newest = getMostRecentRxRefill(rx);
 
@@ -161,7 +170,7 @@ export const buildPrescriptionsTXT = (prescriptions, isCernerPilot = false) => {
     return joinBlocks(
       title,
       getLastFilledAndRxNumberBlock(rx),
-      getAttributes(rx, isCernerPilot),
+      getAttributes(rx, isCernerPilot, isV2StatusMapping),
       mostRecent,
     ).trimEnd();
   });
@@ -219,7 +228,11 @@ export const buildAllergiesTXT = allergies => {
 /**
  * Return VA prescription TXT
  */
-export const buildVAPrescriptionTXT = (prescription, isCernerPilot = false) => {
+export const buildVAPrescriptionTXT = (
+  prescription,
+  isCernerPilot = false,
+  isV2StatusMapping = false,
+) => {
   const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
   const rxTitle = prescription?.prescriptionName || prescription?.orderableItem;
   const subTitle = `Most recent prescription`;
@@ -228,7 +241,7 @@ export const buildVAPrescriptionTXT = (prescription, isCernerPilot = false) => {
     `${rxTitle}${newLine()}`,
     `${subTitle}${newLine()}`,
     getLastFilledAndRxNumberBlock(prescription),
-    getAttributes(prescription, isCernerPilot),
+    getAttributes(prescription, isCernerPilot, isV2StatusMapping),
   ).trimEnd();
 
   let refillHistorySection = '';
@@ -311,7 +324,8 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
     const previousRxs = prescription.groupedMedications
       .map(previousRx => {
         return joinBlocks(
-          `Prescription number: ${previousRx.prescriptionNumber}`,
+          `Prescription number: ${previousRx.prescriptionNumber ||
+            'Not available'}`,
           `Last filled: ${dateFormat(
             previousRx.sortedDispensedDate,
             DATETIME_FORMATS.longMonthDate,

@@ -8,7 +8,7 @@ import {
 const powPeriodOfTimePage = {
   uiSchema: {
     ...titleUI('Period of time held as a POW'),
-    powPeriod: currentOrPastDateRangeUI(
+    powDateRange: currentOrPastDateRangeUI(
       {
         title: 'Start date',
         monthSelect: false,
@@ -17,13 +17,14 @@ const powPeriodOfTimePage = {
         title: 'End date',
         monthSelect: false,
       },
+      'End date must be after the start date.',
     ),
   },
   schema: {
     type: 'object',
-    required: ['powPeriod'],
+    required: ['powDateRange'],
     properties: {
-      powPeriod: {
+      powDateRange: {
         type: 'object',
         required: ['from', 'to'],
         properties: {

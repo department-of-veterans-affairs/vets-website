@@ -8,7 +8,8 @@ const uiSchema = {
   ...titleUI('Enter any remarks you would like to share'),
   remarks: {
     ...textareaUI({
-      title: 'Use this space to add any information you’d like to include',
+      title:
+        'Use this space to add any information you’d like to include in your request',
       charcount: true,
       errorMessages: {
         maxLength:

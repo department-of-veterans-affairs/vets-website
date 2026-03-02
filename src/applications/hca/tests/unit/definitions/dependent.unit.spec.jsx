@@ -1,8 +1,8 @@
-import formConfig from '../../../config/form';
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import formConfig from '../../../config/form';
 import {
   dependentSchema,
   dependentUISchema,
@@ -16,7 +16,7 @@ describe('hca Dependent config', () => {
 
     // run test for correct number of fields on the page
     const expectedNumberOfFields = 12;
-    testNumberOfFormFields(
+    testNumberOfFields(
       formConfig,
       schema,
       uiSchema,
@@ -42,7 +42,7 @@ describe('hca Dependent config', () => {
 
     // run test for correct number of fields on the page
     const expectedNumberOfFields = 3;
-    testNumberOfFormFields(
+    testNumberOfFields(
       formConfig,
       schema,
       uiSchema,
@@ -68,7 +68,7 @@ describe('hca Dependent config', () => {
 
     // run test for correct number of fields on the page
     const expectedNumberOfFields = 6;
-    testNumberOfFormFields(
+    testNumberOfFields(
       formConfig,
       schema,
       uiSchema,
@@ -94,7 +94,7 @@ describe('hca Dependent config', () => {
 
     // run test for correct number of fields on the page
     const expectedNumberOfFields = 2;
-    testNumberOfFormFields(
+    testNumberOfFields(
       formConfig,
       schema,
       uiSchema,
@@ -120,7 +120,7 @@ describe('hca Dependent config', () => {
 
     // run test for correct number of fields on the page
     const expectedNumberOfFields = 3;
-    testNumberOfFormFields(
+    testNumberOfFields(
       formConfig,
       schema,
       uiSchema,

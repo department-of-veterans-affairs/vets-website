@@ -4,6 +4,13 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import environment from 'platform/utilities/environment';
+import buckets from 'site/constants/buckets';
+import { VAGOVPROD, VAGOVSTAGING } from 'site/constants/environments';
+
+const bronzeImageSrc = environment.isProduction()
+  ? `${buckets[VAGOVPROD]}/img/medallions-bronze.png`
+  : `${buckets[VAGOVSTAGING]}/img/medallions-bronze.png`;
 
 const BronzeSizeDescription = () => {
   return (
@@ -13,7 +20,7 @@ const BronzeSizeDescription = () => {
         cemetery to check if they’ll accept the size of medallion you request.
       </p>
       <img
-        src="/img/medallions-bronze.png"
+        src={bronzeImageSrc}
         alt="Bronze VA medallions in small, medium, and large sizes"
         className="vads-u-margin-y--2 vads-u-display--block"
         style={{ maxWidth: '100%', width: '400px' }}

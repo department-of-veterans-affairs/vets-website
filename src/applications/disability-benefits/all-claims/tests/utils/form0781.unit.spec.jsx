@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 
 import {
   showForm0781Pages,
@@ -12,6 +13,7 @@ import {
   showBehaviorDescriptionsPage,
 } from '../../utils/form0781';
 import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
+import { rememberTextBlob } from '../../content/form0781';
 
 describe('showForm0781Pages', () => {
   describe('when the flipper is on and a user is claiming a new condition', () => {
@@ -71,6 +73,80 @@ describe('showForm0781Pages', () => {
         'view:claimType': {
           'view:claimingIncrease': true,
         },
+      };
+      expect(showForm0781Pages(formData)).to.eq(false);
+    });
+  });
+
+  describe('when user has rated disabilities and new conditions (new conditions workflow)', () => {
+    it('should return true when flipper is on', () => {
+      const formData = {
+        syncModern0781Flow: true,
+        ratedDisabilities: [
+          {
+            name: 'Tinnitus',
+            ratedDisabilityId: '111111',
+            diagnosticCode: 6260,
+            decisionCode: 'SVCCONNCTED',
+            ratingPercentage: 10,
+          },
+        ],
+        newDisabilities: [
+          {
+            condition: 'PTSD',
+          },
+        ],
+        disabilityCompNewConditionsWorkflow: true,
+      };
+      expect(showForm0781Pages(formData)).to.eq(true);
+    });
+
+    it('should return false when flipper is off', () => {
+      const formData = {
+        syncModern0781Flow: false,
+        ratedDisabilities: [
+          {
+            name: 'Tinnitus',
+            ratedDisabilityId: '111111',
+            diagnosticCode: 6260,
+            decisionCode: 'SVCCONNCTED',
+            ratingPercentage: 10,
+          },
+        ],
+        newDisabilities: [
+          {
+            condition: 'PTSD',
+          },
+        ],
+        disabilityCompNewConditionsWorkflow: true,
+      };
+      expect(showForm0781Pages(formData)).to.eq(false);
+    });
+  });
+
+  describe('when only placeholder rated disability exists', () => {
+    it('should return false', () => {
+      const formData = {
+        syncModern0781Flow: true,
+        newDisabilities: [
+          {
+            condition: 'Rated Disability',
+          },
+        ],
+      };
+      expect(showForm0781Pages(formData)).to.eq(false);
+    });
+  });
+
+  describe('when condition is empty or whitespace', () => {
+    it('should return false', () => {
+      const formData = {
+        syncModern0781Flow: true,
+        newDisabilities: [
+          {
+            condition: '   ',
+          },
+        ],
       };
       expect(showForm0781Pages(formData)).to.eq(false);
     });
@@ -558,5 +634,22 @@ describe('showBehaviorSummaryPage', () => {
       };
       expect(showBehaviorSummaryPage(formData)).to.eq(false);
     });
+  });
+});
+
+describe('rememberTextBlob', () => {
+  it('should render the text explaining that questions may be skipped and/or the form saved ', () => {
+    const { container } = render(rememberTextBlob);
+
+    const strong = container.querySelector('strong');
+    expect(strong).to.exist;
+    expect(strong.textContent).to.equal('Note: ');
+
+    expect(container.textContent).to.include(
+      'you can skip questions you can’t or don’t want to answer.',
+    );
+    expect(container.textContent).to.include(
+      'you can save your in-progress online form anytime if you need a break.',
+    );
   });
 });

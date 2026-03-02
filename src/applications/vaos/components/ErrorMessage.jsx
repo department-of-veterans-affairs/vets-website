@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import InfoAlert from '../components/InfoAlert';
+import InfoAlert from './InfoAlert';
 
 export default function ErrorMessage({ level }) {
   return (
@@ -15,3 +16,7 @@ export default function ErrorMessage({ level }) {
     </div>
   );
 }
+
+ErrorMessage.propTypes = {
+  level: PropTypes.number,
+};

@@ -5,48 +5,40 @@ import { SERVICE_REGISTRY } from '../constants';
 
 const listFmt = new Intl.ListFormat('en', {
   style: 'long',
-  type: 'conjunction',
+  type: 'disjunction',
 });
 
-const CONTENT = {
-  heading: names => `${names} status is unavailable`,
-  body: names =>
-    `VA.gov is having trouble loading ${names} information at this time. Check back again in an hour.`,
-  note: availableNames =>
-    `Note: You are still able to review ${availableNames} information.`,
-};
-
-function formatServiceNames(services, property) {
+function formatServiceNames(services, useSingular) {
+  const property = useSingular ? 'singular' : 'plural';
   const names = services
     .map(service => SERVICE_REGISTRY[service]?.[property])
     .filter(Boolean);
   return listFmt.format(names);
 }
 
-function ServiceUnavailableAlert({ services, headerLevel = 3 }) {
+function ServiceUnavailableAlert({
+  headerLevel = 3,
+  services,
+  useSingular = false,
+}) {
   if (!services?.length) return null;
 
-  const clampedLevel = Math.min(6, Math.max(1, headerLevel));
-  const HeadingTag = `h${clampedLevel}`;
+  const HeadingTag = `h${headerLevel}`;
 
-  const headingNames = formatServiceNames(services, 'singularTitle'); // "Claim and Appeal"
-  const bodyNames = formatServiceNames(services, 'lowercase'); // "claims and appeals"
-
-  // Calculate available services
-  const availableServices = Object.keys(SERVICE_REGISTRY).filter(
-    service => !services.includes(service),
-  );
-  const availableNames = formatServiceNames(availableServices, 'lowercase');
+  const names = formatServiceNames(services, useSingular);
+  const headingText = useSingular
+    ? `We can't access your ${names} right now`
+    : `We can't access some of your ${names} right now`;
 
   return (
     <va-alert
       class="vads-u-margin-top--1 vads-u-margin-bottom--3"
       status="warning"
     >
-      <HeadingTag slot="headline">{CONTENT.heading(headingNames)}</HeadingTag>
+      <HeadingTag slot="headline">{headingText}</HeadingTag>
       <p className="vads-u-margin-y--0">
-        {CONTENT.body(bodyNames)}
-        {availableNames && ` ${CONTENT.note(availableNames)}`}
+        We're sorry. There's a problem with our system. Refresh this page or try
+        again later.
       </p>
     </va-alert>
   );
@@ -55,7 +47,8 @@ function ServiceUnavailableAlert({ services, headerLevel = 3 }) {
 ServiceUnavailableAlert.propTypes = {
   services: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(SERVICE_REGISTRY)))
     .isRequired,
-  headerLevel: PropTypes.number,
+  headerLevel: PropTypes.oneOf([1, 2, 3, 4, 5, 6]),
+  useSingular: PropTypes.bool,
 };
 
 export default ServiceUnavailableAlert;

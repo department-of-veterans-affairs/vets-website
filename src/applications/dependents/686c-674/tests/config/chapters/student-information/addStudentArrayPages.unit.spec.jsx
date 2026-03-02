@@ -10,6 +10,7 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../../../config/form';
 import { addStudentsOptions } from '../../../../config/chapters/674/addStudentsArrayPages';
+import { isStudentItemIncomplete } from '../../../../config/chapters/674/addStudentsSetup';
 import { calculateStudentAssetTotal } from '../../../../config/chapters/674/helpers';
 
 const defaultStore = createCommonStore();
@@ -22,6 +23,21 @@ const formData = () => {
       report674: true,
     },
     studentInformation: [{}],
+  };
+};
+
+const noSsnFormData = () => {
+  return {
+    'view:selectable686Options': {
+      report674: true,
+    },
+    studentInformation: [
+      {
+        noSsn: true,
+        noSsnReason: 'NONRESIDENT_ALIEN',
+      },
+    ],
+    vaDependentsNoSsn: true,
   };
 };
 
@@ -49,7 +65,7 @@ describe('addStudentsOptions', () => {
         studentDidAttendSchoolLastTerm: true,
         lastTermSchoolInformation: { termBegin: '', dateTermEnded: '' },
       },
-      typeOfProgramOrBenefit: { someBenefit: true },
+      typeOfProgramOrBenefit: 'ch35',
       benefitPaymentDate: '',
     };
 
@@ -103,6 +119,110 @@ describe('addStudentsOptions', () => {
       expect(addStudentsOptions.isItemIncomplete(item)).to.be.true;
     });
 
+    it('should return true for US address missing state', () => {
+      const item = {
+        ...incompleteItem,
+        fullName: { first: 'John', last: 'Doe' },
+        birthDate: '2000-01-01',
+        ssn: '123-45-6789',
+        address: {
+          country: 'USA',
+          street: '123 Main St',
+          city: 'Springfield',
+          postalCode: '62701',
+          // state intentionally omitted
+        },
+      };
+      expect(isStudentItemIncomplete(item)).to.be.true;
+    });
+
+    it('should not require state for international addresses', () => {
+      const item = {
+        ...incompleteItem,
+        fullName: { first: 'John', last: 'Doe' },
+        birthDate: '2000-01-01',
+        ssn: '123-45-6789',
+        address: {
+          country: 'MEX',
+          street: '123 Main St',
+          city: 'Mexico City',
+          postalCode: '06600',
+          // no state - valid for international
+        },
+        wasMarried: false,
+        tuitionIsPaidByGovAgency: false,
+        typeOfProgramOrBenefit: 'none',
+        schoolInformation: {
+          name: 'Test School',
+          studentIsEnrolledFullTime: true,
+          isSchoolAccredited: true,
+          currentTermDates: {
+            officialSchoolStartDate: '2024-01-01',
+            expectedStudentStartDate: '2024-08-01',
+            expectedGraduationDate: '2024-05-01',
+          },
+          studentDidAttendSchoolLastTerm: false,
+          lastTermSchoolInformation: { termBegin: '', dateTermEnded: '' },
+        },
+      };
+      expect(isStudentItemIncomplete(item)).to.be.false;
+    });
+
+    it('should return true when studentIsEnrolledFullTime is not answered', () => {
+      const item = {
+        ...incompleteItem,
+        fullName: { first: 'John', last: 'Doe' },
+        birthDate: '2000-01-01',
+        ssn: '123-45-6789',
+        address: {
+          country: 'USA',
+          street: '123 Main St',
+          city: 'Springfield',
+          state: 'IL',
+          postalCode: '62701',
+        },
+        wasMarried: false,
+        tuitionIsPaidByGovAgency: false,
+        typeOfProgramOrBenefit: 'none',
+        schoolInformation: {
+          ...incompleteItem.schoolInformation,
+          studentIsEnrolledFullTime: undefined,
+        },
+      };
+      expect(isStudentItemIncomplete(item)).to.be.true;
+    });
+
+    it('should return true when studentDidAttendSchoolLastTerm is not answered', () => {
+      const item = {
+        ...incompleteItem,
+        fullName: { first: 'John', last: 'Doe' },
+        birthDate: '2000-01-01',
+        ssn: '123-45-6789',
+        address: {
+          country: 'USA',
+          street: '123 Main St',
+          city: 'Springfield',
+          state: 'IL',
+          postalCode: '62701',
+        },
+        wasMarried: false,
+        tuitionIsPaidByGovAgency: false,
+        typeOfProgramOrBenefit: 'none',
+        schoolInformation: {
+          ...incompleteItem.schoolInformation,
+          studentIsEnrolledFullTime: true,
+          isSchoolAccredited: true,
+          currentTermDates: {
+            officialSchoolStartDate: '2024-01-01',
+            expectedStudentStartDate: '2024-08-01',
+            expectedGraduationDate: '2024-05-01',
+          },
+          studentDidAttendSchoolLastTerm: undefined,
+        },
+      };
+      expect(isStudentItemIncomplete(item)).to.be.true;
+    });
+
     it('should return true when maximum items exceeded', () => {
       const items = Array.from({ length: 8 }, (_, i) => ({
         fullName: { first: `Student${i}`, last: 'Test' },
@@ -143,7 +263,7 @@ describe('addStudentsOptions', () => {
       const errors = { addError: sinon.spy() };
       const {
         uiSchema,
-      } = formConfig.chapters.report674.pages.addStudentsPartTen;
+      } = formConfig.chapters.report674.pages.addStudentsPartNine;
       const validateSchoolName =
         uiSchema.studentInformation.items.schoolInformation.name[
           'ui:validations'
@@ -161,7 +281,7 @@ describe('addStudentsOptions', () => {
       const errors = { addError: sinon.spy() };
       const {
         uiSchema,
-      } = formConfig.chapters.report674.pages.addStudentsPartTen;
+      } = formConfig.chapters.report674.pages.addStudentsPartNine;
       const validateSchoolName =
         uiSchema.studentInformation.items.schoolInformation.name[
           'ui:validations'
@@ -280,16 +400,16 @@ describe('674 Add students: Student info page ', () => {
       </Provider>,
     );
 
-    expect($$('va-text-input', container).length).to.equal(3);
+    expect($$('va-text-input', container).length).to.equal(4);
     expect($$('va-memorable-date', container).length).to.equal(1);
   });
 });
 
-describe('674 Add students: Student SSN ', () => {
+describe('674 Add students: Student info page no SSN', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartTwo;
+  } = formConfig.chapters.report674.pages.addStudentsPartOne;
 
   it('should render', () => {
     const { container } = render(
@@ -298,14 +418,17 @@ describe('674 Add students: Student SSN ', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
-          data={formData()}
+          data={noSsnFormData()}
           arrayPath={arrayPath}
           pagePerItemIndex={0}
         />
       </Provider>,
     );
 
-    expect($$('va-text-input', container).length).to.equal(1);
+    expect($$('va-text-input', container).length).to.equal(3);
+    expect($$('va-memorable-date', container).length).to.equal(1);
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(2);
   });
 });
 
@@ -489,9 +612,34 @@ describe('674 Add students: Student education benefits ', () => {
       </Provider>,
     );
 
-    expect($$('va-checkbox', container).length).to.equal(4);
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(4);
+  });
+});
+
+describe('674 Add students: Federally funded ', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartEightB;
+
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(2);
+    expect($$('va-additional-info', container).length).to.equal(1);
   });
 });
 
@@ -499,7 +647,7 @@ describe('674 Add students: Student education benefits payment start date ', () 
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartNine;
+  } = formConfig.chapters.report674.pages.addStudentsPartTen;
 
   it('should render', () => {
     const { container } = render(
@@ -523,7 +671,7 @@ describe('674 Add students: Program name ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartTen;
+  } = formConfig.chapters.report674.pages.addStudentsPartNine;
 
   it('should render', () => {
     const { container } = render(

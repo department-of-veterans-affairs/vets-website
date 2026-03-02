@@ -33,8 +33,8 @@
         "productName": "ZA1239",
         "productGroup": "Battery",
         "productId": 1,
-        "lastOrderDate": "2024-01-01",
-        "nextAvailabilityDate": "2024-09-01",
+        "lastOrderDate": "2025-01-01",
+        "nextAvailabilityDate": "2025-09-01",
         "quantity": 60,
         "prescribedDate": "2022-12-20"
       },
@@ -43,8 +43,8 @@
         "productGroup": "Accessory",
         "productId": 3,
         "availableForReorder": true,
-        "lastOrderDate": "2023-06-30",
-        "nextAvailabilityDate": "2023-12-15",
+        "lastOrderDate": "2025-06-30",
+        "nextAvailabilityDate": "2025-12-15",
         "quantity": 10,
         "size": "6mm"
       },
@@ -53,8 +53,8 @@
         "productGroup": "Accessory",
         "productId": 4,
         "availableForReorder": true,
-        "lastOrderDate": "2023-06-30",
-        "nextAvailabilityDate": "2023-12-15",
+        "lastOrderDate": "2025-06-30",
+        "nextAvailabilityDate": "2025-12-15",
         "quantity": 10,
         "size": "7mm"
       },
@@ -63,8 +63,8 @@
         "productGroup": "Accessory",
         "productId": 5,
         "availableForReorder": true,
-        "lastOrderDate": "2023-06-30",
-        "nextAvailabilityDate": "2023-12-15",
+        "lastOrderDate": "2025-06-30",
+        "nextAvailabilityDate": "2025-12-15",
         "quantity": 10
       }
     ]

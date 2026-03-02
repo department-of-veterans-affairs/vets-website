@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ConfirmAddBtnGroup from '../components/ConfirmAddBtnGroup';
@@ -12,9 +12,7 @@ describe('ConfirmAddBtnGroup', () => {
     );
     const link = container.querySelector('va-link-action');
     expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal(
-      'https://va.gov/profile/contact-information',
-    );
+    expect(link.getAttribute('href')).to.equal('/profile/contact-information');
     expect(link.getAttribute('text')).to.equal('Add email in profile');
   });
 
@@ -37,7 +35,7 @@ describe('ConfirmAddBtnGroup', () => {
     );
   });
 
-  it('should call handleConfirmation when Confirm button is clicked', () => {
+  it('should call handleConfirmation when Confirm button is clicked', async () => {
     const email = 'test@test.com';
     const handleConfirmation = sinon.spy();
     const { container } = render(
@@ -49,11 +47,13 @@ describe('ConfirmAddBtnGroup', () => {
 
     const confirmButton = container.querySelector('.confirm-button');
     expect(confirmButton).to.exist;
-    fireEvent.click(confirmButton);
-    expect(handleConfirmation.calledOnce).to.be.true;
+    await fireEvent.click(confirmButton);
+    await waitFor(() => {
+      expect(handleConfirmation.calledOnce).to.be.true;
+    });
   });
 
-  it('should redirect to profile contact information when Update button is clicked', () => {
+  it('should redirect to profile contact information when Update button is clicked', async () => {
     const email = 'test@test.com';
     const { container } = render(<ConfirmAddBtnGroup email={email} />);
 
@@ -62,10 +62,10 @@ describe('ConfirmAddBtnGroup', () => {
     const originalLocation = window.location;
     window.location = { href: '' };
 
-    fireEvent.click(updateButton);
-    expect(window.location.href).to.equal(
-      'https://www.va.gov/profile/contact-information',
-    );
-    window.location = originalLocation;
+    await fireEvent.click(updateButton);
+    await waitFor(() => {
+      expect(window.location.pathname).to.equal('/profile/contact-information');
+      window.location = originalLocation;
+    });
   });
 });

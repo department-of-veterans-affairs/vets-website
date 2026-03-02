@@ -16,15 +16,17 @@ const content = {
 const ombInfo = {
   resBurden: '5',
   ombNumber: '2900-0495',
-  expDate: '8/31/2025',
+  expDate: '12/31/2028',
 };
 
 const childContent = (
   <>
-    <p>
-      Use this form to verify your marital status and maintain your eligibility
-      for Dependency and Indemnity Compensation (DIC) benefits.
-    </p>
+    <div className="va-introtext">
+      <p>
+        Use this form to verify your marital status and maintain your
+        eligibility for Dependency and Indemnity Compensation (DIC) benefits.
+      </p>
+    </div>
     <h2>What to know before you fill out this form</h2>
     <ul>
       <li>

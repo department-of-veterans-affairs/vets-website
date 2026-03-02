@@ -86,9 +86,14 @@ describe('Enrollment Verification Page Tests', () => {
       '[class="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center"]',
     ).should('contain', 'Verified');
   });
-  it("should  have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
+  it("should have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('a[aria-label="page 1, first page"]').click();
+    // Click next page using shadow DOM access for va-pagination web component
+    cy.get('va-pagination')
+      .should('be.visible')
+      .shadow()
+      .find('[class="usa-pagination__link usa-pagination__next-page"]')
+      .click();
     cy.get('[id="vye-pagination-page-status-text"]').should('be.focused');
   });
 

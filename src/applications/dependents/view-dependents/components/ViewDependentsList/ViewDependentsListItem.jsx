@@ -10,6 +10,23 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import ManageDependents from '../../manage-dependents/containers/ManageDependentsApp';
 import { maskID } from '../../../shared/utils';
 
+/**
+ * @typedef {Object} ViewDependentsListItemProps
+ * @property {string} firstName - dependent's first name
+ * @property {string} lastName - dependent's last name
+ * @property {string} relationship - dependent's relationship to user
+ * @property {string} ssn - dependent's social security number
+ * @property {string} dateOfBirth - dependent's date of birth
+ * @property {number} stateKey - index key for dependent
+ * @property {boolean} manageDependentsToggle - whether manage dependents
+ * feature is enabled
+ * @property {boolean} openFormlett - whether formlett is open
+ * @property {Array} submittedDependents - list of successfully submitted
+ * dependents
+ *
+ * @param {ViewDependentsListItemProps} props - component props
+ * @returns {JSX.Element} - ViewDependentsListItem component
+ */
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);
   const openRef = useRef(null);

@@ -48,7 +48,7 @@ describe('21-8940 component/viewElements', () => {
         state: 'VA',
         postalCode: '22150',
       },
-      connectedDisabilities: 'Back pain',
+      connectedDisabilities: ['Back pain', 'PTSD'],
     };
 
     const { container, rerender, getByText } = render(
@@ -59,9 +59,13 @@ describe('21-8940 component/viewElements', () => {
       'Dr. Jane Doe',
     );
     expect(container.querySelector('p').textContent).to.include('123 Main St');
-    expect(container.textContent).to.include(
-      'Connected disabilities: Back pain',
-    );
+    const connectedList = container.querySelectorAll('li');
+    expect(connectedList.length).to.equal(2);
+    expect(connectedList[0].textContent).to.equal('Back pain');
+    expect(connectedList[1].textContent).to.equal('PTSD');
+
+    rerender(<DoctorView formData={{ connectedDisabilities: 'Anxiety' }} />);
+    expect(container.textContent).to.include('Connected disabilities: Anxiety');
 
     rerender(<DoctorView formData={{}} />);
     expect(getByText('Doctor name not provided')).to.exist;
@@ -76,7 +80,7 @@ describe('21-8940 component/viewElements', () => {
         state: 'VA',
         postalCode: '23219',
       },
-      connectedDisabilities: 'Chronic fatigue',
+      connectedDisabilities: ['Chronic fatigue'],
     };
 
     const { container, rerender, getByText } = render(
@@ -91,8 +95,60 @@ describe('21-8940 component/viewElements', () => {
       'Connected disabilities: Chronic fatigue',
     );
 
+    rerender(
+      <HospitalView formData={{ connectedDisabilities: 'Back pain' }} />,
+    );
+    expect(container.textContent).to.include(
+      'Connected disabilities: Back pain',
+    );
+
     rerender(<HospitalView formData={{}} />);
     expect(getByText('Hospital name not provided')).to.exist;
+  });
+
+  it('renders connected disabilities from string and object inputs', () => {
+    const { container, rerender } = render(
+      <DoctorView
+        formData={{
+          doctorName: 'Dr. Branch',
+          connectedDisabilities: {
+            PTSD: true,
+            Anxiety: false,
+          },
+        }}
+      />,
+    );
+
+    expect(container.textContent).to.include('Connected disabilities: PTSD');
+    expect(container.textContent).to.not.include('Anxiety');
+
+    rerender(
+      <HospitalView
+        formData={{
+          hospitalName: 'Branch Clinic',
+          connectedDisabilities: 'Back pain,  Tinnitus',
+        }}
+      />,
+    );
+
+    expect(container.textContent).to.include('Connected disabilities:');
+    expect(container.textContent).to.include('Back pain');
+    expect(container.textContent).to.include('Tinnitus');
+  });
+
+  it('renders treatment dates with missing values', () => {
+    const { container } = render(
+      <DoctorView
+        formData={{
+          doctorName: 'Dr. Date',
+          treatmentDates: [{ startDate: '2024-01-01' }, {}],
+        }}
+      />,
+    );
+
+    expect(container.textContent).to.include('Treatment dates:');
+    expect(container.textContent).to.include('2024-01-01');
+    expect(container.textContent).to.include('Not provided');
   });
 
   it('renders employer information with fallbacks', () => {

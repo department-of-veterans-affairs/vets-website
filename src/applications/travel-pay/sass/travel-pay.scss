@@ -37,6 +37,8 @@
 .expense-card-details {
   p {
     margin-block: 8px !important;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 }
 
@@ -51,7 +53,6 @@
   }
 
   .review-edit-button {
-    padding-inline: 20px;
     padding-block: 8px;
     line-height: 25px;
     align-items: center;
@@ -162,6 +163,17 @@ h2#pagination-info {
   va-icon {
     margin-right: 0.2rem;
     vertical-align: middle;
+  }
+}
+
+// Ensure document download links wrap long filenames
+[data-testid="user-submitted-documents"] {
+  word-break: break-word;
+  overflow-wrap: break-word;
+
+  va-link {
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 }
 

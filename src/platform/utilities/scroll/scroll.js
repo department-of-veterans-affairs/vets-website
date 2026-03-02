@@ -102,8 +102,12 @@ export const scrollToFirstError = async (options = {}) => {
 
     const runCleanup = el => {
       if (!el) {
-        console.warn('scrollToFirstError: Error element not found', el);
+        // Suppress warning in test environments to avoid noisy output
+        if (!window.Mocha) {
+          console.warn('scrollToFirstError: Error element not found', el);
+        }
         if (
+          !window.Mocha &&
           !environment.isProduction() &&
           Array.isArray(errorContext) &&
           errorContext.length &&

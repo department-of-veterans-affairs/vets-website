@@ -23,14 +23,29 @@ class CareSummaryAndNotes {
     cy.intercept('GET', '/my_health/v1/medical_records/session/status', req => {
       req.reply(sessionStatus);
     });
+
+    // List endpoint — glob '*' does not match '/', so this only handles the list URL
     cy.intercept(
       'GET',
       '/my_health/v2/medical_records/clinical_notes*',
       req => {
-        // check the correct param was used
         req.reply(careSummaryAndNotesData);
       },
     ).as('clinical_notes-list');
+
+    // Single-note endpoint for oracle-health notes that need a separate detail fetch
+    cy.intercept(
+      'GET',
+      /\/my_health\/v2\/medical_records\/clinical_notes\/[^/]+/,
+      req => {
+        const urlObj = new URL(req.url, 'http://localhost');
+        const pathParts = urlObj.pathname.split('/');
+        const noteId = pathParts[pathParts.length - 1];
+        const allNotes = careSummaryAndNotesData?.data || [];
+        const note = allNotes.find(n => n.id === noteId);
+        req.reply({ data: note || {} });
+      },
+    ).as('clinical_note-detail');
   };
 
   checkLandingPageLinks = () => {
@@ -42,6 +57,10 @@ class CareSummaryAndNotes {
     cy.get('[data-testid="notes-landing-page-link"]').click({
       waitForAnimations: true,
     });
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   checkInfoAlert = () => {
@@ -96,8 +115,10 @@ class CareSummaryAndNotes {
 
   selectCareSummaryOrNote = ({ index = 1 } = {}) => {
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > .vads-u-font-weight--bold > [data-testid="note-name"]`,
-    ).click({ waitForAnimations: true });
+      `ul.record-list-items.no-print > :nth-child(${index}) [data-testid="note-name"]`,
+    )
+      .first()
+      .click({ waitForAnimations: true });
   };
 
   loadVAPaginationNext = () => {
@@ -109,10 +130,10 @@ class CareSummaryAndNotes {
 
   checkDischargeListItem = ({ index = 1, title = 'Clinical Summary' } = {}) => {
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > :nth-child(5) > :nth-child(1)`,
+      `ul.record-list-items.no-print > :nth-child(${index}) [data-testid="record-list-item"]`,
     ).should('contain.text', 'Discharged');
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > .vads-u-font-weight--bold`,
+      `ul.record-list-items.no-print > :nth-child(${index}) .vads-u-font-weight--bold`,
     ).should('contain.text', title);
   };
 
@@ -121,10 +142,10 @@ class CareSummaryAndNotes {
     title = 'Inpatient Discharge Instructions - VA',
   } = {}) => {
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > :nth-child(5) > :nth-child(1)`,
+      `ul.record-list-items.no-print > :nth-child(${index}) [data-testid="record-list-item"]`,
     ).should('contain.text', 'Written by');
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > .vads-u-font-weight--bold`,
+      `ul.record-list-items.no-print > :nth-child(${index}) .vads-u-font-weight--bold`,
     ).should('contain.text', title);
   };
 

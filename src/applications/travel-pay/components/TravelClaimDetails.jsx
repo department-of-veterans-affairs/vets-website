@@ -66,7 +66,9 @@ export default function TravelClaimDetails() {
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <Breadcrumbs />
         <DowntimeWindowAlert appTitle="Travel Pay">
-          <TravelClaimDetailsContent />
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <TravelClaimDetailsContent />
+          </div>
         </DowntimeWindowAlert>
       </article>
     </Element>

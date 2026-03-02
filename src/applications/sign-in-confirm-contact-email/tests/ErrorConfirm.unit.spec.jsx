@@ -16,7 +16,7 @@ describe('ErrorConfirm', () => {
     const { getByRole } = render(<ErrorConfirm />);
     const headline = getByRole('heading', {
       level: 2,
-      name: /We couldn't confirm your contact email/i,
+      name: /We couldn’t confirm your contact email/i,
     });
     expect(headline).to.exist;
   });

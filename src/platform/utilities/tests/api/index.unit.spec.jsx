@@ -1,8 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import { expect } from 'chai';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import { server, rest } from 'platform/testing/unit/mocha-setup';
 import sinon from 'sinon';
 import { apiRequest, fetchAndUpdateSessionExpiration } from '../../api';
 import environment from '../../environment';
@@ -10,23 +9,6 @@ import * as ssoModule from '../../sso';
 import * as oauthModule from '../../oauth/utilities';
 
 describe('test wrapper', () => {
-  const server = setupServer();
-  let expected;
-
-  before(() => {
-    server.listen();
-    server.events.on('request:end', async req => {
-      expected = { ...expected, request: req };
-    });
-    server.events.on('response:mocked', async res => {
-      expected = { ...expected, response: res };
-    });
-  });
-
-  after(() => {
-    server.close();
-  });
-
   describe('apiRequest', () => {
     const mockEnv = {
       ...environment,
@@ -35,7 +17,6 @@ describe('test wrapper', () => {
 
     afterEach(() => {
       server.resetHandlers();
-      expected = undefined;
       sessionStorage.removeItem('shouldRedirectExpiredSession');
     });
 
@@ -188,9 +169,6 @@ describe('test wrapper', () => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      expect(expected.response.body).to.have.a.lengthOf(
-        JSON.stringify(jsonResponse).length,
-      );
       expect(response.status).to.eql('ok');
     });
 
@@ -204,43 +182,36 @@ describe('test wrapper', () => {
       });
 
       expect(response.ok).to.eql(true);
-      expect(expected.response.body).to.be.null;
-      expect(response.body._readableState.buffer.length).to.eql(0);
+      expect(response.status).to.eql(204);
     });
 
     it('should not return JSON on (status: 404)', async () => {
+      const errorResponse = { errors: [{ status: '404', title: 'Not found' }] };
       server.use(
         rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(404),
-            ctx.json({ errors: [{ status: '404', title: 'Not found' }] }),
-          ),
+          res(ctx.status(404), ctx.json(errorResponse)),
         ),
       );
 
       await apiRequest('/status', {
         headers: { 'Content-Type': 'application/json' },
       }).catch(error => {
-        expect(expected.response.body).to.not.be.null;
-        expect(error).to.deep.equal(JSON.parse(expected.response.body));
+        expect(error).to.deep.equal(errorResponse);
       });
     });
 
     it('should return JSON on (status: 403)', async () => {
+      const errorResponse = { errors: [{ status: '403', title: 'Forbidden' }] };
       server.use(
         rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(403),
-            ctx.json({ errors: [{ status: '403', title: 'Forbidden' }] }),
-          ),
+          res(ctx.status(403), ctx.json(errorResponse)),
         ),
       );
 
       await apiRequest('/status', {
         headers: { 'Content-Type': 'application/json' },
       }).catch(error => {
-        expect(expected.response.body).to.not.be.null;
-        expect(error).to.deep.equal(JSON.parse(expected.response.body));
+        expect(error).to.deep.equal(errorResponse);
       });
     });
 
@@ -261,8 +232,7 @@ describe('test wrapper', () => {
       );
 
       expect(response.ok).to.eql(true);
-      expect(expected.response.body).to.be.null;
-      expect(response.body._readableState.buffer.length).to.eql(0);
+      expect(response.status).to.eql(202);
     });
 
     it('should not fail when downloading a file', async () => {
@@ -304,13 +274,15 @@ describe('test wrapper', () => {
 
       expect(response.bodyUsed).to.be.false;
       expect(response.status).to.eql(200);
-      expect(expected.response.body).to.not.be.null;
     });
   });
 
   describe('fetchAndUpdateSessionExpiration', () => {
     let checkAndUpdateSSOSessionMock;
     let checkOrSetSessionExpirationMock;
+    let infoTokenExistsMock;
+    let refreshIfAccessTokenExpiringSoonMock;
+
     beforeEach(() => {
       checkAndUpdateSSOSessionMock = sinon.stub(
         ssoModule,
@@ -320,13 +292,34 @@ describe('test wrapper', () => {
         oauthModule,
         'checkOrSetSessionExpiration',
       );
+      infoTokenExistsMock = sinon
+        .stub(oauthModule, 'infoTokenExists')
+        .returns(false);
+      refreshIfAccessTokenExpiringSoonMock = sinon
+        .stub(oauthModule, 'refreshIfAccessTokenExpiringSoon')
+        .resolves(false);
+
+      sessionStorage.setItem('serviceName', 'logingov');
+
+      delete window.Mocha;
+
+      server.use(
+        rest.get(environment.API_URL, (req, res, ctx) =>
+          res(ctx.status(200), ctx.json({ ok: true })),
+        ),
+      );
     });
 
     afterEach(() => {
       server.resetHandlers();
-      expected = undefined;
       checkOrSetSessionExpirationMock.restore();
       checkAndUpdateSSOSessionMock.restore();
+      infoTokenExistsMock.restore();
+      refreshIfAccessTokenExpiringSoonMock.restore();
+
+      sessionStorage.removeItem('serviceName');
+
+      delete window.Mocha;
     });
 
     it('calls checkOrSetSessionExpiration and checkAndUpdateSSOSession if the hasSessionSSO flag is set', async () => {
@@ -349,13 +342,79 @@ describe('test wrapper', () => {
 
     it('does not call checkOrSetSessionExpiration and checkAndUpdateSSOSession if the url does not include the API url', async () => {
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) =>
-          res(ctx.status(404), ctx.json({})),
-        ),
+        rest.get('*', (req, res, ctx) => res(ctx.status(404), ctx.json({}))),
       );
       await fetchAndUpdateSessionExpiration(environment.BASE_URL, {});
       expect(checkOrSetSessionExpirationMock.callCount).to.equal(0);
       expect(checkAndUpdateSSOSessionMock.callCount).to.equal(0);
+    });
+
+    it('proactively attempts refresh before fetch when info token exists and serviceName is set', async () => {
+      const callOrder = [];
+
+      infoTokenExistsMock.restore();
+      infoTokenExistsMock = sinon
+        .stub(oauthModule, 'infoTokenExists')
+        .callsFake(() => {
+          callOrder.push('infoTokenExists');
+          return true;
+        });
+
+      refreshIfAccessTokenExpiringSoonMock.restore();
+      refreshIfAccessTokenExpiringSoonMock = sinon
+        .stub(oauthModule, 'refreshIfAccessTokenExpiringSoon')
+        .callsFake(async () => {
+          callOrder.push('refreshIfAccessTokenExpiringSoon');
+          return true;
+        });
+
+      server.use(
+        rest.get(environment.API_URL, (req, res, ctx) => {
+          callOrder.push('fetch');
+          return res(ctx.status(200), ctx.json({ ok: true }));
+        }),
+      );
+
+      await fetchAndUpdateSessionExpiration(environment.API_URL, {});
+
+      expect(callOrder).to.eql([
+        'infoTokenExists',
+        'refreshIfAccessTokenExpiringSoon',
+        'fetch',
+      ]);
+      expect(refreshIfAccessTokenExpiringSoonMock.calledOnce).to.be.true;
+      expect(
+        refreshIfAccessTokenExpiringSoonMock.firstCall.args[0],
+      ).to.deep.include({
+        thresholdSeconds: 30,
+        type: 'logingov',
+      });
+    });
+
+    it('does not proactively refresh when info token does not exist', async () => {
+      infoTokenExistsMock.returns(false);
+
+      await fetchAndUpdateSessionExpiration(environment.API_URL, {});
+
+      expect(refreshIfAccessTokenExpiringSoonMock.called).to.be.false;
+    });
+
+    it('does not proactively refresh when serviceName is missing', async () => {
+      infoTokenExistsMock.returns(true);
+      sessionStorage.removeItem('serviceName');
+
+      await fetchAndUpdateSessionExpiration(environment.API_URL, {});
+
+      expect(refreshIfAccessTokenExpiringSoonMock.called).to.be.false;
+    });
+
+    it('does not proactively refresh when window.Mocha is set', async () => {
+      infoTokenExistsMock.returns(true);
+      window.Mocha = true;
+
+      await fetchAndUpdateSessionExpiration(environment.API_URL, {});
+
+      expect(refreshIfAccessTokenExpiringSoonMock.called).to.be.false;
     });
   });
 });

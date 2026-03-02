@@ -322,7 +322,7 @@ describe('Complex Claims ConfirmationPage', () => {
 
     expect(screen.getByText('What happens next')).to.exist;
     expect($('va-process-list')).to.exist;
-    expect($('va-process-list-item[header="VA will review your claim"]')).to
+    expect($('va-process-list-item[header="We’ll review your claim"]')).to
       .exist;
     // Check for the second process list item by counting them
     const processListItems = document.querySelectorAll('va-process-list-item');
@@ -331,7 +331,7 @@ describe('Complex Claims ConfirmationPage', () => {
     // Links in process list
     expect(
       $(
-        'va-link[href="/my-health/travel-pay/claims/"][text="Check your travel reimbursement claim status"]',
+        'va-link[href="/my-health/travel-pay/claims/"][text="Review your travel reimbursement claim status"]',
       ),
     ).to.exist;
     expect(

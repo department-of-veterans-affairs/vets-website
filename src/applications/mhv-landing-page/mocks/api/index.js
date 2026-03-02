@@ -64,7 +64,30 @@ const responses = (userMock = USER_MOCKS.DEFAULT) => ({
   'GET /my_health/v1/medical_records/self_entered/vitals': seiVitals,
   'GET /my_health/v1/medical_records/self_entered': seiAllDomains,
 
-  'PUT /v0/profile/email_addresses': 'OK',
+  'PUT /v0/profile/email_addresses': {
+    data: {
+      id: '',
+      type: 'async_transaction_va_profile_email_address_transactions',
+      attributes: {
+        transactionId: 'mock-transaction-id',
+        transactionStatus: 'RECEIVED',
+        type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
+        metadata: [],
+      },
+    },
+  },
+  'GET /v0/profile/status/mock-transaction-id': {
+    data: {
+      id: '',
+      type: 'async_transaction_va_profile_email_address_transactions',
+      attributes: {
+        transactionId: 'mock-transaction-id',
+        transactionStatus: 'COMPLETED_SUCCESS',
+        type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
+        metadata: [],
+      },
+    },
+  },
 });
 
 module.exports = responses(USER_MOCKS.DEFAULT);

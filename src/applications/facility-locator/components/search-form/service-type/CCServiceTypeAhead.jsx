@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import classNames from 'classnames';
 import MessagePromptDiv from './MessagePromptDiv';
+import { MIN_SEARCH_CHARS } from '../../../constants';
 
-const MIN_SEARCH_CHARS = 2;
 /**
  * CC Providers' Service Types Typeahead
  */
@@ -83,7 +83,7 @@ class CCServiceTypeAhead extends Component {
       return false;
     }
     const specialtyName = this.getSpecialtyName(specialty);
-    if (input.length >= 2 && specialtyName) {
+    if (input.length >= MIN_SEARCH_CHARS && specialtyName) {
       return specialtyName
         .trim()
         .toLowerCase()
@@ -126,6 +126,7 @@ class CCServiceTypeAhead extends Component {
   ) => {
     return (
       <div
+        id="service-typeahead-listbox"
         className={`dropdown${
           this.props.useProgressiveDisclosure && this.props.isSmallDesktop
             ? ' drowpdown-fl-sm-desktop'
@@ -153,7 +154,7 @@ class CCServiceTypeAhead extends Component {
   renderTryAnotherServicePrompt = inputValue => {
     if (
       inputValue &&
-      inputValue.length >= 2 &&
+      inputValue.length >= MIN_SEARCH_CHARS &&
       !this.matchingServices(inputValue).length
     ) {
       return (
@@ -199,61 +200,65 @@ class CCServiceTypeAhead extends Component {
           isOpen,
           inputValue,
           highlightedIndex,
-        }) => (
-          <div
-            id="service-error"
-            className={classNames('vads-u-margin--0', {
-              'usa-input-error': showError,
-            })}
-          >
-            <label {...getLabelProps()} htmlFor="service-type-ahead-input">
-              Service type{' '}
-              <span className="form-required-span">(*Required)</span>
-            </label>
-            {this.props.useProgressiveDisclosure && (
-              <p className="service-hint-text">
-                Start typing to search for a service, like Chiropractor or
-                Optometrist.
-              </p>
-            )}
-            {showError && (
-              <span className="usa-input-error-message" role="alert">
-                <span id="error-message">
-                  <span className="sr-only">Error</span>
-                  Start typing and select a service type
-                </span>
-              </span>
-            )}
-            <span id="service-typeahead">
-              <input
-                {...getInputProps({
-                  placeholder: this.props.useProgressiveDisclosure
-                    ? undefined
-                    : 'like Chiropractor or Optometrist',
-
-                  onFocus: () => this.setState({ isFocused: true }),
-                  disabled: currentQuery?.fetchSvcsInProgress,
-                })}
-                onBlur={() => {
-                  this.setState({ isFocused: false });
-                }}
-                id="service-type-ahead-input"
-                aria-describedby="could-not-find-service-prompt error-message"
-              />
-
-              {this.renderSearchForAvailableServicePrompt(inputValue)}
-              {isOpen &&
-                inputValue &&
-                inputValue.length >= MIN_SEARCH_CHARS &&
-                this.renderServiceTypeDropdownOptions(
-                  getItemProps,
-                  highlightedIndex,
-                  inputValue,
+        }) => {
+          const showExpanded =
+            isOpen && inputValue && MIN_SEARCH_CHARS <= inputValue.length;
+          return (
+            <div
+              id="service-error"
+              className={classNames('vads-u-margin--0', {
+                'usa-input-error': showError,
+              })}
+            >
+              <label {...getLabelProps()} htmlFor="service-type-ahead-input">
+                Select a provider type{' '}
+                <span className="form-required-span">(*Required)</span>
+                {this.props.useProgressiveDisclosure && (
+                  <span className="usa-hint">
+                    Type a medical specialty or service to find providers
+                  </span>
                 )}
-              {this.renderTryAnotherServicePrompt(inputValue)}
-            </span>
-          </div>
-        )}
+              </label>
+              {showError && (
+                <span className="usa-input-error-message" role="alert">
+                  <span id="error-message">
+                    <span className="sr-only">Error</span>
+                    Start typing and select a service type
+                  </span>
+                </span>
+              )}
+              <span id="service-typeahead">
+                <input
+                  role="combobox"
+                  {...getInputProps({
+                    placeholder: this.props.useProgressiveDisclosure
+                      ? undefined
+                      : 'like Chiropractor or Optometrist',
+
+                    onFocus: () => this.setState({ isFocused: true }),
+                    disabled: currentQuery?.fetchSvcsInProgress,
+                  })}
+                  onBlur={() => {
+                    this.setState({ isFocused: false });
+                  }}
+                  id="service-type-ahead-input"
+                  aria-describedby="could-not-find-service-prompt error-message"
+                  aria-expanded={showExpanded ? 'true' : 'false'}
+                  aria-controls="service-typeahead-listbox"
+                />
+
+                {this.renderSearchForAvailableServicePrompt(inputValue)}
+                {showExpanded &&
+                  this.renderServiceTypeDropdownOptions(
+                    getItemProps,
+                    highlightedIndex,
+                    inputValue,
+                  )}
+                {this.renderTryAnotherServicePrompt(inputValue)}
+              </span>
+            </div>
+          );
+        }}
       </Downshift>
     );
   }

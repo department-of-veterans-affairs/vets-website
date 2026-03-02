@@ -108,6 +108,7 @@ const newConditionPage = {
       ),
       'ui:errorMessages': {
         required: ERR_MISSING_CONDITION,
+        minLength: ERR_MISSING_CONDITION,
       },
       'ui:validations': [validateCondition],
       'ui:options': {
@@ -122,6 +123,8 @@ const newConditionPage = {
     properties: {
       condition: {
         type: 'string',
+        minLength: 1,
+        maxLength: 255,
       },
     },
   },

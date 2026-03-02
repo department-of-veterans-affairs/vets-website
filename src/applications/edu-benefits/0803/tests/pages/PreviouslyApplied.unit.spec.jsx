@@ -20,7 +20,7 @@ describe('22-0803 previously applied page', () => {
     const vaRadio = container.querySelector('va-radio');
     expect(vaRadio).to.exist;
     expect(vaRadio.getAttribute('label')).to.equal(
-      'Have you previously applied for VA education benefits?',
+      'Have you previously applied and been found eligible for the VA education benefit you want to use?',
     );
   });
 

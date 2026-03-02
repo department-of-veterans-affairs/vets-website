@@ -6,68 +6,70 @@ import sinon from 'sinon';
 
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 import formConfig from '../../../config/form';
-import { BENEFITS_LIST } from '../../../constants/benefits';
+import { categories, BENEFITS_LIST } from '../../../constants/benefits';
 
 const mockBenefits = [
   {
     id: '1',
     name: 'GI Bill benefits',
-    category: 'Education',
-    isTimeSensitive: false,
+    category: categories.EDUCATION,
+    whenToApplyDescription: 'Up to 2 years before you separate from service',
   },
   {
     id: '2',
-    name: 'Careers and Employment',
-    category: 'Employment',
-    isTimeSensitive: false,
+    name: 'Careers and employment benefit',
+    category: categories.EMPLOYMENT,
+    whenToApplyDescription: 'Up to 180 days before you separate from service',
   },
   {
     id: '3',
-    name: 'More Support',
-    category: 'Support',
-    isTimeSensitive: false,
+    name: 'More Support benefit',
+    category: categories.MORE_SUPPORT,
+    whenToApplyDescription: 'Before you separate from service',
   },
   {
     id: '4',
-    name: 'Disability Compensation',
-    category: 'Disability',
-    isTimeSensitive: true,
+    name: 'Disability Compensation benefit',
+    category: categories.DISABILITY,
+    whenToApplyDescription:
+      'Up to 180 days before you separate from service or up to 1 year after you separate from service',
   },
   {
     id: '5',
-    name: 'Foreign Medical Program',
-    category: 'Health Care',
-    isTimeSensitive: true,
+    name: 'Foreign Medical Program benefit',
+    category: categories.HEALTH_CARE,
+    whenToApplyDescription:
+      'Up to 1 year and 120 days after you separate from service',
   },
   {
     id: '6',
-    name: 'Veterans Pension',
-    category: 'Pension',
-    isTimeSensitive: false,
-  },
-  {
-    id: '7',
-    name: 'VA national cemetery burial',
-    category: 'Burials',
-    isTimeSensitive: false,
-  },
-  {
-    id: '8',
-    name: 'Veterans Affairs Life Insurance',
-    category: 'Life Insurance',
-    isTimeSensitive: false,
+    name: 'Veterans Pension benefit',
+    category: categories.PENSION,
+    whenToApplyDescription: 'Before or after you separate from service',
   },
   {
     id: '9',
-    name: 'Disability housing grant',
-    category: 'Housing',
-    isTimeSensitive: false,
+    name: 'Disability housing grant benefit',
+    category: categories.HOUSING,
+    whenToApplyDescription: 'After you separate from service',
   },
   {
     id: '10',
-    name: 'Quick Access Benefit',
-    category: 'Support',
-    isTimeSensitive: true,
+    name: 'Quick Access Benefit benefit',
+    category: categories.MORE_SUPPORT,
+    whenToApplyDescription: 'After you separate from service',
+  },
+  {
+    id: '7',
+    name: 'VA national cemetery burial benefit',
+    category: categories.BURIALS,
+    whenToApplyDescription: 'After you separate from service',
+  },
+  {
+    id: '8',
+    name: 'Veterans Affairs Life Insurance benefit',
+    category: categories.LIFE_INSURANCE,
+    whenToApplyDescription: 'After you separate from service',
   },
 ];
 
@@ -158,7 +160,7 @@ describe('<ConfirmationPage>', () => {
       );
       expect(vaLink).to.have.attribute(
         'label',
-        'Learn more about VA benefits for service members',
+        'Learn more about VA benefits for service members (opens in a new tab)',
       );
     });
 
@@ -230,74 +232,6 @@ describe('<ConfirmationPage>', () => {
       mockBenefits.forEach(({ name }) => {
         expect(getByText(name)).to.exist;
       });
-    });
-
-    it('shows all benefits when no results are found but allBenefits=true is in the query', async () => {
-      const sortedBenefits = [...BENEFITS_LIST].sort((a, b) =>
-        a.name.localeCompare(b.name),
-      );
-
-      const { mockStore, props } = getData([], form2, { allBenefits: 'true' });
-
-      const updatedStore = {
-        ...mockStore,
-        getState: () => ({
-          ...mockStore.getState(),
-          results: {
-            data: null,
-            error: null,
-            isError: false,
-            isLoading: false,
-          },
-        }),
-      };
-
-      const { container, getAllByRole } = render(
-        <Provider store={updatedStore}>
-          <ConfirmationPage
-            {...props}
-            location={{
-              ...props.location,
-              query: { allBenefits: 'true' },
-            }}
-          />
-        </Provider>,
-      );
-
-      const seenBenefitNames = new Set();
-      const pageSize = 10;
-      const totalPages = Math.ceil(BENEFITS_LIST.length / pageSize);
-      const pagination = container.querySelector('va-pagination');
-
-      // Page 1 is already rendered
-      await waitFor(() => {
-        const items = getAllByRole('listitem');
-        expect(items.length).to.be.greaterThan(0);
-        items.forEach(item => seenBenefitNames.add(item.textContent.trim()));
-      });
-
-      // Dispatch page changes synchronously (skip page 1, it renders initially)
-      for (let page = 2; page <= totalPages; page++) {
-        pagination.dispatchEvent(
-          new CustomEvent('pageSelect', {
-            detail: { page },
-            bubbles: true,
-          }),
-        );
-
-        // eslint-disable-next-line no-await-in-loop
-        await waitFor(() => {
-          const items = getAllByRole('listitem');
-          expect(items.length).to.be.greaterThan(0);
-          items.forEach(item => seenBenefitNames.add(item.textContent.trim()));
-        });
-      }
-
-      const allNamesSeen = sortedBenefits.every(b =>
-        Array.from(seenBenefitNames).some(name => name.includes(b.name)),
-      );
-
-      expect(allNamesSeen).to.be.true;
     });
 
     it('renders banner when results not found', () => {
@@ -386,18 +320,18 @@ describe('sortBenefits', () => {
     const benefitNames = listItems.map(li => li.textContent);
 
     expect(benefitNames[0]).to.include('VA national cemetery burial');
-    expect(benefitNames[1]).to.include('Disability Compensation');
-    expect(benefitNames[2]).to.include('GI Bill benefits');
-    expect(benefitNames[3]).to.include('Careers and Employment');
+    expect(benefitNames[1]).to.include('Careers and Employment');
+    expect(benefitNames[2]).to.include('Disability Compensation');
+    expect(benefitNames[3]).to.include('GI Bill benefits');
     expect(benefitNames[4]).to.include('Foreign Medical Program');
     expect(benefitNames[5]).to.include('Disability housing grant');
     expect(benefitNames[6]).to.include('Veterans Affairs Life Insurance');
-    expect(benefitNames[7]).to.include('Veterans Pension');
-    expect(benefitNames[8]).to.include('More Support');
-    expect(benefitNames[9]).to.include('Quick Access Benefit');
+    expect(benefitNames[7]).to.include('More Support');
+    expect(benefitNames[8]).to.include('Quick Access Benefit');
+    expect(benefitNames[9]).to.include('Veterans Pension');
   });
 
-  it('sorts benefits by time sensitivity', async () => {
+  it('sorts benefits by time by expiring soonest', async () => {
     const { mockStore, props } = getData(mockBenefits);
 
     const screen = render(
@@ -411,30 +345,26 @@ describe('sortBenefits', () => {
     fireEvent(
       sortSelect,
       new CustomEvent('vaSelect', {
-        detail: { value: 'isTimeSensitive' },
+        detail: { value: 'expiringSoonest' },
         bubbles: true,
       }),
     );
 
     const listItems = await screen.findAllByRole('listitem');
     const benefitNames = listItems.map(li => li.textContent);
-    const topBenefits = benefitNames.slice(0, 3);
 
-    // Time-sensitive benefits should appear first
-    expect(topBenefits.join(' ')).to.include('Disability Compensation');
-    expect(topBenefits.join(' ')).to.include('Foreign Medical Program');
-    expect(topBenefits.join(' ')).to.include('Quick Access Benefit');
+    for (let i = 0; i < benefitNames.length; i++) {
+      expect(benefitNames[i]).to.include(mockBenefits[i].name);
+    }
   });
 });
 
 describe('filterBenefits', () => {
   const dispatchFilterApply = (filterComponent, filters) => {
-    filterComponent.dispatchEvent(
-      new CustomEvent('vaFilterApply', {
-        detail: filters,
-        bubbles: true,
-      }),
-    );
+    const customEvent = new CustomEvent('vaFilterApply', {
+      detail: filters,
+    });
+    filterComponent.dispatchEvent(customEvent);
   };
 
   it('filters benefits by selected category', async () => {
@@ -446,11 +376,20 @@ describe('filterBenefits', () => {
 
     dispatchFilterApply(filterComponent, [
       {
+        id: 0,
+        label: 'Show results',
+        category: [
+          { id: 'recommended', label: 'Recommended for you', active: true },
+        ],
+      },
+      {
+        id: 2,
         label: 'Benefit type',
-        category: [{ id: 'Employment', label: 'Careers and employment' }],
+        category: [
+          { id: 'Careers', label: 'Careers and employment', active: true },
+        ],
       },
     ]);
-
     await waitFor(() => {
       const listItems = wrapper.getAllByRole('listitem');
       expect(listItems.length).to.equal(1);
@@ -458,32 +397,77 @@ describe('filterBenefits', () => {
     });
   });
 
+  it('filters benefits by all', async () => {
+    const { mockStore, props } = getData(mockBenefits, form2);
+    const wrapper = subject({ mockStore, props });
+    const { container } = wrapper;
+
+    const filterComponent = container.querySelector('va-search-filter');
+
+    await dispatchFilterApply(filterComponent, [
+      {
+        id: 0,
+        label: 'Show results',
+        category: [{ id: 'all', label: 'All results', active: true }],
+      },
+    ]);
+
+    let listItems = wrapper.getAllByRole('listitem').map(li => li.textContent);
+
+    const pagination = container.querySelector('va-pagination');
+    await pagination.dispatchEvent(
+      new CustomEvent('pageSelect', {
+        detail: { page: 2 },
+        bubbles: true,
+      }),
+    );
+    listItems = listItems.concat(
+      wrapper.getAllByRole('listitem').map(li => li.textContent),
+    );
+
+    await pagination.dispatchEvent(
+      new CustomEvent('pageSelect', {
+        detail: { page: 3 },
+        bubbles: true,
+      }),
+    );
+    listItems = listItems.concat(
+      wrapper.getAllByRole('listitem').map(li => li.textContent),
+    );
+
+    expect(listItems.length).to.equal(BENEFITS_LIST.length);
+  });
+
   it('clears filters when "Clear all filters" is clicked', async () => {
     const { mockStore, props } = getData(mockBenefits, form2);
     const wrapper = subject({ mockStore, props });
     const { container, getAllByRole } = wrapper;
-
     const filterComponent = container.querySelector('va-search-filter');
-
     dispatchFilterApply(filterComponent, [
       {
+        id: 0,
+        label: 'Show results',
+        category: [
+          { id: 'recommended', label: 'Recommended for you', active: true },
+        ],
+      },
+      {
         label: 'Benefit type',
-        category: [{ id: 'Employment', label: 'Careers and employment' }],
+        category: [
+          { id: 'Employment', label: 'Careers and employment', active: true },
+        ],
       },
     ]);
-
     await waitFor(() => {
       const items = getAllByRole('listitem');
       expect(items.length).to.equal(1);
       expect(items[0].textContent).to.include('Careers');
     });
-
     filterComponent.dispatchEvent(
       new CustomEvent('vaFilterClearAll', {
         bubbles: true,
       }),
     );
-
     await waitFor(() => {
       const items = getAllByRole('listitem');
       expect(items.length).to.equal(mockBenefits.length);
@@ -497,19 +481,28 @@ describe('pagination', () => {
       id: String(i + 1),
       name: `Benefit ${i + 1}`,
       category: '',
-      isTimeSensitive: false,
+      whenToApplyDescription: 'After you separate from service',
     }));
-
     const sortedBenefits = [...benefits].sort((a, b) =>
       a.name.localeCompare(b.name),
     );
-
     const { mockStore, props } = getData(benefits, form2);
-    const { container, getAllByRole } = subject({
+    const screen = subject({
       mockStore,
       props,
     });
+    const { container } = screen;
+    const { getAllByRole } = screen;
 
+    const sortSelect = screen.getByLabelText(/Sort Benefits/i);
+
+    fireEvent(
+      sortSelect,
+      new CustomEvent('vaSelect', {
+        detail: { value: 'alphabetical' },
+        bubbles: true,
+      }),
+    );
     // Page 1 (items 0–9)
     await waitFor(() => {
       const items = getAllByRole('listitem').map(li => li.textContent);
@@ -517,7 +510,6 @@ describe('pagination', () => {
       expect(items[0]).to.include(sortedBenefits[0].name);
       expect(items[9]).to.include(sortedBenefits[9].name);
     });
-
     // Click to page 2
     const pagination = container.querySelector('va-pagination');
     pagination.dispatchEvent(
@@ -526,7 +518,6 @@ describe('pagination', () => {
         bubbles: true,
       }),
     );
-
     // Page 2 (items 10–19)
     await waitFor(() => {
       const items = getAllByRole('listitem').map(li => li.textContent);
@@ -534,7 +525,6 @@ describe('pagination', () => {
       expect(items[0]).to.include(sortedBenefits[10].name);
       expect(items[9]).to.include(sortedBenefits[19].name);
     });
-
     // Click to page 3
     pagination.dispatchEvent(
       new CustomEvent('pageSelect', {
@@ -542,7 +532,6 @@ describe('pagination', () => {
         bubbles: true,
       }),
     );
-
     // Page 3 (items 20–22)
     await waitFor(() => {
       const items = getAllByRole('listitem').map(li => li.textContent);

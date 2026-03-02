@@ -16,6 +16,7 @@ import {
   formatFullName,
   hasGuardOrReservePeriod,
   hasHospitalCare,
+  hasMedicalRecords,
   hasNewPtsdDisability,
   hasOtherEvidence,
   increaseOnly,
@@ -211,6 +212,78 @@ describe('526 helpers', () => {
         },
       };
       expect(hasOtherEvidence(formData)).to.equal(true);
+    });
+  });
+
+  describe('hasMedicalRecords', () => {
+    it('should return true in enhancement flow when view:hasMedicalRecords is true', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': true,
+      };
+      expect(hasMedicalRecords(formData)).to.equal(true);
+    });
+
+    it('should return false in enhancement flow when view:hasMedicalRecords is false', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': false,
+      };
+      expect(hasMedicalRecords(formData)).to.equal(false);
+    });
+
+    it('should return false when view:hasMedicalRecords is false even if legacy data exists', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': false,
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': true,
+        },
+      };
+      expect(hasMedicalRecords(formData)).to.equal(false);
+    });
+
+    it('should derive from legacy data in enhancement flow when enhancement field is undefined', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': true,
+        },
+      };
+      expect(hasMedicalRecords(formData)).to.equal(true);
+    });
+
+    it('should return false in enhancement flow when legacy data indicates no medical records', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+        },
+      };
+      expect(hasMedicalRecords(formData)).to.equal(false);
+    });
+
+    it('should return true in legacy flow when view:hasEvidence is true', () => {
+      const formData = {
+        'view:hasEvidence': true,
+      };
+      expect(hasMedicalRecords(formData)).to.equal(true);
+    });
+
+    it('should return false in legacy flow when view:hasEvidence is false', () => {
+      const formData = {
+        'view:hasEvidence': false,
+      };
+      expect(hasMedicalRecords(formData)).to.equal(false);
+    });
+
+    it('should return false in legacy flow when view:hasEvidence is undefined', () => {
+      const formData = {};
+      expect(hasMedicalRecords(formData)).to.equal(false);
     });
   });
 

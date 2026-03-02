@@ -23,49 +23,27 @@ class ContactInformationPage {
   };
 
   clickConfirmEmail = () => {
-    cy.findByTestId('profile-alert--confirm-contact-email')
-      .find('va-button-pair')
-      .shadow()
-      .find('va-button')
-      .first()
-      .shadow()
-      .find('button')
-      .click();
+    cy.findByTestId('mhv-alert--confirm-email-button').click();
   };
 
   clickEditEmail = () => {
     cy.findByTestId('profile-alert--confirm-contact-email')
-      .find('va-button-pair')
-      .shadow()
-      .within(() => {
-        cy.get('va-button[secondary]')
-          .shadow()
-          .find('button')
-          .click();
-      });
-  };
-
-  clickErrorConfirmEmail = () => {
-    cy.findByTestId('mhv-alert--confirm-error')
-      .find('va-button-pair')
-      .shadow()
-      .find('va-button')
-      .first()
+      .find('va-button[text="Edit contact email"]')
       .shadow()
       .find('button')
       .click();
   };
 
+  clickErrorConfirmEmail = () => {
+    cy.findByTestId('mhv-alert--confirm-email-button').click();
+  };
+
   clickErrorEditEmail = () => {
     cy.findByTestId('mhv-alert--confirm-error')
-      .find('va-button-pair')
+      .find('va-button[text="Edit contact email"]')
       .shadow()
-      .within(() => {
-        cy.get('va-button[secondary]')
-          .shadow()
-          .find('button')
-          .click();
-      });
+      .find('button')
+      .click();
   };
 }
 

@@ -58,6 +58,7 @@ describe('Process form validation errors', () => {
         chapterKey: '',
         pageKey: '',
         index: null,
+        navigationType: 'edit',
       },
     ]);
   });
@@ -111,6 +112,7 @@ describe('Process form validation errors', () => {
         chapterKey: 'fooIssues',
         pageKey: 'barIssues',
         index: null,
+        navigationType: 'edit',
       },
       {
         name: 'deeplyNestedObj',
@@ -118,6 +120,7 @@ describe('Process form validation errors', () => {
         chapterKey: 'fooIssues',
         pageKey: 'barIssues',
         index: null,
+        navigationType: 'edit',
       },
     ];
     expect(reduceErrors(raw, pages)).to.eql(result);
@@ -163,6 +166,7 @@ describe('Process form validation errors', () => {
         chapterKey: 'fooIssues',
         pageKey: 'barIssues',
         index: null,
+        navigationType: 'edit',
       },
       {
         name: 'deeplyNestedObj',
@@ -170,6 +174,91 @@ describe('Process form validation errors', () => {
         chapterKey: 'fooIssues',
         pageKey: 'barIssues',
         index: null,
+        navigationType: 'edit',
+      },
+    ];
+    expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
+  });
+
+  it('should include navigationType from _override return value', () => {
+    const pages = [
+      {
+        title: 'Issues',
+        path: '/issues',
+        uiSchema: {},
+        schema: {},
+        chapterTitle: 'Issues',
+        chapterKey: 'fooIssues',
+        pageKey: 'barIssues',
+      },
+    ];
+    const raw = [
+      {
+        issues: {
+          __errors: ['Please select an issue'],
+        },
+      },
+    ];
+    const reviewErrors = {
+      _override: err => {
+        if (err === 'issues') {
+          return {
+            chapterKey: 'fooIssues',
+            pageKey: 'barIssues',
+            navigationType: 'redirect',
+          };
+        }
+        return null;
+      },
+    };
+    const result = [
+      {
+        name: 'issues',
+        message: 'Please select an issue',
+        chapterKey: 'fooIssues',
+        pageKey: 'barIssues',
+        index: null,
+        navigationType: 'redirect',
+      },
+    ];
+    expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
+  });
+
+  it('should default navigationType to edit when not provided in _override', () => {
+    const pages = [
+      {
+        title: 'Issues',
+        path: '/issues',
+        uiSchema: {},
+        schema: {},
+        chapterTitle: 'Issues',
+        chapterKey: 'fooIssues',
+        pageKey: 'barIssues',
+      },
+    ];
+    const raw = [
+      {
+        issues: {
+          __errors: ['Please select an issue'],
+        },
+      },
+    ];
+    const reviewErrors = {
+      _override: err => {
+        if (err === 'issues') {
+          return { chapterKey: 'fooIssues', pageKey: 'barIssues' };
+        }
+        return null;
+      },
+    };
+    const result = [
+      {
+        name: 'issues',
+        message: 'Please select an issue',
+        chapterKey: 'fooIssues',
+        pageKey: 'barIssues',
+        index: null,
+        navigationType: 'edit',
       },
     ];
     expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
@@ -243,6 +332,7 @@ describe('Process form validation errors', () => {
         chapterKey: 'bar',
         pageKey: 'zoo',
         index: null,
+        navigationType: 'edit',
       },
       {
         name: 'city',
@@ -250,6 +340,7 @@ describe('Process form validation errors', () => {
         chapterKey: 'info',
         pageKey: 'contact',
         index: null,
+        navigationType: 'edit',
       },
     ];
     expect(reduceErrors(raw, pages)).to.eql(result);
@@ -310,6 +401,7 @@ describe('Process form validation errors', () => {
         chapterKey: 'bar',
         pageKey: 'zoo',
         index: null,
+        navigationType: 'edit',
       },
       {
         name: 'city',
@@ -317,6 +409,7 @@ describe('Process form validation errors', () => {
         chapterKey: 'info',
         pageKey: 'contact',
         index: null,
+        navigationType: 'edit',
       },
     ];
     expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
@@ -363,6 +456,7 @@ describe('Process form validation errors', () => {
         chapterKey: 'diz',
         pageKey: 'news',
         index: '0',
+        navigationType: 'edit',
       },
     ];
     expect(reduceErrors(raw, pages)).to.eql(result);
@@ -405,6 +499,7 @@ describe('Process form validation errors', () => {
         chapterKey: 'diz',
         pageKey: 'news',
         index: '0',
+        navigationType: 'edit',
       },
     ];
     expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
@@ -439,6 +534,7 @@ describe('Process form validation errors', () => {
         chapterKey: 'diz',
         pageKey: 'news0',
         index: '0',
+        navigationType: 'edit',
       },
     ];
     expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
@@ -485,6 +581,7 @@ describe('Process form validation errors', () => {
         chapterKey: 'diz',
         pageKey: 'news',
         index: null,
+        navigationType: 'edit',
       },
     ];
     expect(reduceErrors(raw, pages)).to.eql(result);
@@ -564,6 +661,7 @@ describe('Process form validation errors', () => {
         message: 'Fifth new disability is missing a value',
         chapterKey: 'disabilities',
         pageKey: 'newDisabilityFollowUp',
+        navigationType: 'edit',
       },
       {
         name: 'newDisabilities.view:secondaryFollowUp.causedByDisability',
@@ -572,6 +670,7 @@ describe('Process form validation errors', () => {
           'Seventh newDisabilities.secondaryFollowUp.causedByDisability is not one of the available values',
         chapterKey: 'disabilities',
         pageKey: 'newDisabilityFollowUp',
+        navigationType: 'edit',
       },
     ];
     const reviewErrors = {
@@ -579,6 +678,54 @@ describe('Process form validation errors', () => {
         index === 4 ? 'Fifth new disability is missing a value' : null,
     };
     expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
+  });
+
+  it('should handle error with undefined property', () => {
+    const pages = [
+      {
+        title: 'Test',
+        path: '/test',
+        uiSchema: {
+          testField: {},
+        },
+        schema: {},
+        chapterKey: 'testChapter',
+        pageKey: 'testPage',
+      },
+    ];
+    const raw = [
+      {
+        property: undefined,
+        message: 'test error',
+        stack: 'test error stack',
+      },
+    ];
+    // Should not throw and should return empty array since property is undefined
+    expect(() => reduceErrors(raw, pages)).to.not.throw();
+    expect(reduceErrors(raw, pages)).to.eql([]);
+  });
+
+  it('should use fallback message when stack and message are undefined', () => {
+    const pages = [
+      {
+        title: 'Test',
+        path: '/test',
+        uiSchema: {
+          testField: {},
+        },
+        schema: {},
+        chapterKey: 'testChapter',
+        pageKey: 'testPage',
+      },
+    ];
+    const raw = [
+      {
+        property: 'instance.testField',
+        name: 'error',
+      },
+    ];
+    const result = reduceErrors(raw, pages);
+    expect(result[0].message).to.equal('Validation error');
   });
 });
 

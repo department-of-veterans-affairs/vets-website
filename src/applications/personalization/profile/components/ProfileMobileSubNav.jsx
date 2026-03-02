@@ -12,7 +12,12 @@ const menuButtonClasses = prefixUtilityClasses([
   'display--inline',
 ]).join(' ');
 
-const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
+const ProfileMobileSubNav = ({
+  isLOA3,
+  isInMVI,
+  isSchedulingPreferencesPilotEligible,
+  routes,
+}) => {
   // refs used so we can easily set focus
   const closeMenuButton = useRef(null);
   const openMenuButton = useRef(null);
@@ -109,6 +114,9 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
               isLOA3={isLOA3}
               isInMVI={isInMVI}
               routes={routes}
+              isSchedulingPreferencesPilotEligible={
+                isSchedulingPreferencesPilotEligible
+              }
               clickHandler={() => {
                 setIsMenuOpen(false);
               }}
@@ -123,6 +131,7 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
 ProfileMobileSubNav.propTypes = {
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
+  isSchedulingPreferencesPilotEligible: PropTypes.bool.isRequired,
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       path: PropTypes.string.isRequired,

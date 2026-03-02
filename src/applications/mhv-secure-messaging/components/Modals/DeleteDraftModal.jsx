@@ -5,40 +5,30 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { Prompts } from '../../util/constants';
 
 const DeleteDraftModal = props => {
-  const { unsavedDraft, draftSequence } = props;
+  const { draftSequence } = props;
   return (
     <VaModal
       id={`delete-draft-modal${draftSequence ? `-${draftSequence}` : ''}`}
       data-testid={`delete-draft-modal${
         draftSequence ? `-${draftSequence}` : ''
       }`}
-      data-dd-action-name={` ${
-        unsavedDraft
-          ? Prompts.Draft.DELETE_NEW_DRAFT_TITLE
-          : Prompts.Draft.DELETE_DRAFT_CONFIRM
-      } Modal${draftSequence ? ` ${draftSequence}` : ''}`}
-      modalTitle={
-        unsavedDraft
-          ? Prompts.Draft.DELETE_NEW_DRAFT_TITLE
-          : Prompts.Draft.DELETE_DRAFT_CONFIRM
-      }
+      data-dd-action-name={`${Prompts.Draft.DELETE_DRAFT_CONFIRM_HEADER} Modal${
+        draftSequence ? ` ${draftSequence}` : ''
+      }`}
+      modalTitle={Prompts.Draft.DELETE_DRAFT_CONFIRM_HEADER}
       onCloseEvent={() => {
         props.onClose();
         datadogRum.addAction(
-          `${
-            unsavedDraft
-              ? Prompts.Draft.DELETE_NEW_DRAFT_TITLE
-              : Prompts.Draft.DELETE_DRAFT_CONFIRM
-          } Modal${draftSequence ? ` ${draftSequence} Closed` : ' Closed'}`,
+          `${Prompts.Draft.DELETE_DRAFT_CONFIRM_HEADER} Modal${
+            draftSequence ? ` ${draftSequence} Closed` : ' Closed'
+          }`,
         );
       }}
       visible={props.visible}
       status="warning"
     >
       <p style={{ whiteSpace: 'pre-line' }}>
-        {unsavedDraft
-          ? Prompts.Draft.DELETE_NEW_DRAFT_CONTENT
-          : Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE}
+        {Prompts.Draft.DELETE_DRAFT_CONFIRM_CONTENT}
       </p>
       <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
         <va-button
@@ -69,7 +59,6 @@ const DeleteDraftModal = props => {
 DeleteDraftModal.propTypes = {
   draftSequence: PropTypes.number,
   id: PropTypes.number,
-  unsavedDraft: PropTypes.bool,
   visible: PropTypes.bool,
   onClose: PropTypes.func,
   onDelete: PropTypes.func,

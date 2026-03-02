@@ -41,30 +41,6 @@ const InsurancePolicyInformation = props => {
     searchIndex,
   });
 
-  // Transform prefill data structure to match form expectations
-  const transformInsurancePrefillData = formData => {
-    if (!formData) return formData;
-
-    const {
-      insurancePolicyNumber,
-      insuranceGroupCode,
-      ...remainingData
-    } = formData;
-
-    // If we have policy number or group code at the top level, move them to 'view:policyOrGroup'
-    if (insurancePolicyNumber || insuranceGroupCode) {
-      return {
-        ...remainingData,
-        'view:policyOrGroup': {
-          insurancePolicyNumber,
-          insuranceGroupCode,
-        },
-      };
-    }
-
-    return formData;
-  };
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const listRef = useMemo(() => providers, []);
 
@@ -73,11 +49,7 @@ const InsurancePolicyInformation = props => {
    *  - localData - the object that will hold the dependent form data
    *  - modal - the settings to trigger cancel confirmation show/hide
    */
-  const [localData, setLocalData] = useState(
-    data['view:isProvidersAndDependentsPrefillEnabled']
-      ? transformInsurancePrefillData(defaultState.data)
-      : defaultState.data,
-  );
+  const [localData, setLocalData] = useState(defaultState.data);
   const [modal, showModal] = useState(false);
 
   /**
@@ -107,31 +79,6 @@ const InsurancePolicyInformation = props => {
       handlers.showConfirm();
     },
     onSubmit: () => {
-      let transformedLocalData = localData;
-
-      // Transform form data back to expected structure for providers array
-      if (data['view:isProvidersAndDependentsPrefillEnabled']) {
-        const transformFormData = formData => {
-          if (!formData) return formData;
-
-          const {
-            'view:policyOrGroup': policyOrGroup,
-            ...otherFormData
-          } = formData;
-
-          if (policyOrGroup) {
-            return {
-              ...otherFormData,
-              ...policyOrGroup,
-            };
-          }
-
-          return formData;
-        };
-
-        transformedLocalData = transformFormData(localData);
-      }
-
       const dataToSet = getDataToSet({
         slices: {
           beforeIndex: providers.slice(0, searchIndex),
@@ -139,7 +86,7 @@ const InsurancePolicyInformation = props => {
         },
         viewFields: INSURANCE_VIEW_FIELDS,
         dataKey: 'providers',
-        localData: transformedLocalData,
+        localData,
         listRef,
       });
       setFormData({ ...data, ...dataToSet });

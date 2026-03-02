@@ -1,15 +1,11 @@
 import { expect } from 'chai';
 import formConfig from '../../../config/form';
 
-const {
-  sectionOneBannerPage,
-} = formConfig.chapters.veteranIdInformationChapter.pages;
+const sectionOneBannerPage =
+  formConfig.chapters?.veteranIdInformationChapter?.pages?.sectionOneBannerPage;
 
 describe('8940 sectionOneBannerPage schema basics', () => {
-  it('has empty properties object', () => {
-    expect(sectionOneBannerPage.schema).to.deep.equal({
-      type: 'object',
-      properties: {},
-    });
+  it('is no longer configured', () => {
+    expect(sectionOneBannerPage).to.be.undefined;
   });
 });

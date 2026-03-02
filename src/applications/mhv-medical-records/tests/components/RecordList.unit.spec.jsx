@@ -59,4 +59,18 @@ describe('Record list component', () => {
       expect(screen.getAllByTestId('record-list-item')).to.have.length(4);
     });
   });
+
+  it('renders records in semantic list elements for accessibility', async () => {
+    await waitFor(() => {
+      const lists = screen.container.querySelectorAll('ul.record-list-items');
+      // 2 lists: one for no-print view and one for print-only view
+      expect(lists).to.have.length(2);
+
+      // Each list should contain li elements
+      lists.forEach(list => {
+        const listItems = list.querySelectorAll('li');
+        expect(listItems.length).to.be.greaterThan(0);
+      });
+    });
+  });
 });

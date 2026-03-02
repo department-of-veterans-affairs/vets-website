@@ -44,7 +44,7 @@ describe('Medications detail page with PrintOnlyPage component wrapper', () => {
         preface={
           rx
             ? 'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.'
-            : "We're sorry. There's a problem with our system. Check back later. If you need help now, call your VA pharmacy. You can find the pharmacy phone number on the prescription label."
+            : 'We’re sorry. There’s a problem with our system. Check back later. If you need help now, call your VA pharmacy. You can find the pharmacy phone number on the prescription label.'
         }
         subtitle="test"
       >
@@ -68,7 +68,7 @@ describe('Medications detail page with PrintOnlyPage component wrapper', () => {
   it('shows error message if the API call fails', () => {
     const screen = setup(null);
     const text =
-      "We're sorry. There's a problem with our system. Check back later.";
+      'We’re sorry. There’s a problem with our system. Check back later.';
     const el = screen.getByTestId('print-only-preface');
     expect(el).to.exist;
     expect(el.textContent).to.include(text);

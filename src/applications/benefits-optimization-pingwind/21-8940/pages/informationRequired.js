@@ -3,6 +3,7 @@ import { VaSummaryBox } from '@department-of-veterans-affairs/component-library/
 import {
   checkboxRequiredSchema,
   checkboxUI,
+  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 const fieldNames = {
@@ -15,10 +16,11 @@ export default {
   path: 'information-we-are-required-to-share',
   title: 'Information we are required to share',
   uiSchema: {
-    'ui:title': 'Information we are required to share',
+    ...titleUI('Information we are required to share'),
     'ui:order': [fieldNames.fairInformationPractices, fieldNames.privacyAct],
     [fieldNames.fairInformationPractices]: checkboxUI({
-      title: 'I have read this statement.',
+      title:
+        'I understand that VA Form 21-8940 is a claim for compensation benefits based on unemployability.',
       required: () => true,
       marginTop: 0,
       description: (
@@ -27,24 +29,25 @@ export default {
           uswds
           class="vads-u-margin-bottom--2"
         >
-          <h2 slot="headline">IMPORTANT</h2>
+          <h2 slot="headline">About VA Form 21-8940</h2>
           <p>
-            This is a claim for compensation benefits based on unemployability.
-            When you complete this form you are claiming total disability
-            because of a service-connected disability(ies) which has/have
-            prevented you from securing or following any substantially gainful
-            occupation. Answer all questions fully and accurately.
+            Important: This is a claim for compensation benefits based on
+            unemployability. When you complete this form you are claiming total
+            disability because of a service-connected disability(ies) which
+            has/have prevented you from securing or following any substantially
+            gainful occupation. Answer all questions fully and accurately.
           </p>
         </VaSummaryBox>
       ),
       errorMessages: {
         enum: 'You must acknowledge how VA uses your information to continue.',
         required:
-          'You must acknowledge how VA uses your information to continue.',
+          'You must acknowledge that you understand the purpose of VA Form 21-8940',
       },
     }),
     [fieldNames.privacyAct]: checkboxUI({
-      title: 'I have read this statement.',
+      title:
+        'I acknowledge that I have read the information about Social Security benefits. ',
       required: () => true,
       marginTop: 0,
       description: (
@@ -53,7 +56,7 @@ export default {
           uswds
           class="vads-u-margin-bottom--2 vads-u-margin-top--4"
         >
-          <h2 slot="headline">Your rights and responsibilities</h2>
+          <h2 slot="headline">Social Security Benefits</h2>
           <p>
             Individuals who have a disability and meet medical criteria may
             qualify for Social Security or Supplemental Security Income
@@ -79,7 +82,8 @@ export default {
       ),
       errorMessages: {
         enum: 'You must acknowledge your privacy rights to continue.',
-        required: 'You must acknowledge your privacy rights to continue.',
+        required:
+          'You must acknowledge that you have read about Social Security benefits.',
       },
     }),
   },

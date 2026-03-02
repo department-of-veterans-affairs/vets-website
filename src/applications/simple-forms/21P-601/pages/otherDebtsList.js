@@ -67,7 +67,7 @@ const debtDetailsPage = {
       required: () => true,
     }),
     creditorName: textUI({
-      title: 'Creditor name (optional)',
+      title: 'Creditor name',
       hint: 'Name of the person or institution the debt is owed to',
     }),
   },

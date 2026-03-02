@@ -5,7 +5,7 @@ import set from 'lodash/set';
 import { waitFor } from '@testing-library/react';
 
 import vapService from '@@vap-svc/reducers';
-import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import {
   CSP_IDS,
@@ -47,7 +47,7 @@ const setSignInServiceName = (state, signInServiceName) => {
 
 describe('EmailInformationSection', () => {
   it('should render Contact email section', () => {
-    const view = renderInReduxProvider(<ComponentUnderTest />, {
+    const view = renderWithStoreAndRouter(<ComponentUnderTest />, {
       initialState: baseState,
       reducers: { vapService },
     });
@@ -62,7 +62,7 @@ describe('EmailInformationSection', () => {
 
   it('should render Sign In email section for ID.me', () => {
     const state = setSignInServiceName(baseState, CSP_IDS.ID_ME);
-    const view = renderInReduxProvider(<ComponentUnderTest />, {
+    const view = renderWithStoreAndRouter(<ComponentUnderTest />, {
       initialState: state,
       reducers: { vapService },
     });
@@ -74,7 +74,7 @@ describe('EmailInformationSection', () => {
 
   it('should render Sign In email section for LOGIN.GOV', () => {
     const state = setSignInServiceName(baseState, CSP_IDS.LOGIN_GOV);
-    const view = renderInReduxProvider(<ComponentUnderTest />, {
+    const view = renderWithStoreAndRouter(<ComponentUnderTest />, {
       initialState: state,
       reducers: { vapService },
     });
@@ -86,7 +86,7 @@ describe('EmailInformationSection', () => {
 
   it('should not render Sign In email section for MHV', () => {
     const state = setSignInServiceName(baseState, CSP_IDS.MHV);
-    const view = renderInReduxProvider(<ComponentUnderTest />, {
+    const view = renderWithStoreAndRouter(<ComponentUnderTest />, {
       initialState: state,
       reducers: { vapService },
     });
@@ -101,7 +101,7 @@ describe('EmailInformationSection', () => {
         'user.profile.vapContactInfo.email.updatedAt',
         '2024-01-01T12:00:00.000+00:00',
       );
-      const { getByTestId } = renderInReduxProvider(<ComponentUnderTest />, {
+      const { getByTestId } = renderWithStoreAndRouter(<ComponentUnderTest />, {
         initialState: state,
         reducers: { vapService },
       });
@@ -116,7 +116,7 @@ describe('EmailInformationSection', () => {
         'user.profile.vapContactInfo.email.emailAddress',
         '',
       );
-      const { getByTestId } = renderInReduxProvider(<ComponentUnderTest />, {
+      const { getByTestId } = renderWithStoreAndRouter(<ComponentUnderTest />, {
         initialState: state,
         reducers: { vapService },
       });
@@ -126,10 +126,13 @@ describe('EmailInformationSection', () => {
     });
 
     it('suppresses <ProfileAlertContactEmail /> when email.updatedAt is after the threshold value', async () => {
-      const { queryByTestId } = renderInReduxProvider(<ComponentUnderTest />, {
-        initialState: baseState,
-        reducers: { vapService },
-      });
+      const { queryByTestId } = renderWithStoreAndRouter(
+        <ComponentUnderTest />,
+        {
+          initialState: baseState,
+          reducers: { vapService },
+        },
+      );
       await waitFor(() => {
         expect(queryByTestId('profile-alert--confirm-contact-email')).to.not
           .exist;
@@ -143,10 +146,13 @@ describe('EmailInformationSection', () => {
         'featureToggles.mhvEmailConfirmation',
         false,
       );
-      const { queryByTestId } = renderInReduxProvider(<ComponentUnderTest />, {
-        initialState: state,
-        reducers: { vapService },
-      });
+      const { queryByTestId } = renderWithStoreAndRouter(
+        <ComponentUnderTest />,
+        {
+          initialState: state,
+          reducers: { vapService },
+        },
+      );
       await waitFor(() => {
         expect(queryByTestId('profile-alert--confirm-contact-email')).to.not
           .exist;

@@ -4,7 +4,6 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { SpecialMonthlyPensionEvidenceAlert } from '../../../components/FormAlerts';
 
 const { specialMonthlyPension } = fullSchemaPensions.properties;
 
@@ -32,23 +31,12 @@ export default {
       title: 'Are you claiming special monthly pension?',
       classNames: 'vads-u-margin-bottom--2',
     }),
-
-    'view:warningAlert': {
-      'ui:description': SpecialMonthlyPensionEvidenceAlert,
-      'ui:options': {
-        hideIf: formData => formData.specialMonthlyPension !== true,
-      },
-    },
   },
   schema: {
     type: 'object',
     required: ['specialMonthlyPension'],
     properties: {
       specialMonthlyPension,
-      'view:warningAlert': {
-        type: 'object',
-        properties: {},
-      },
     },
   },
 };

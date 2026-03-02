@@ -7,10 +7,10 @@ import {
 import {
   getClaimPhaseTypeHeaderText,
   buildDateFormatter,
-  getFailedSubmissionsWithinLast30Days,
   getStatusDescription,
   generateClaimTitle,
   getShowEightPhases,
+  getFailedSubmissionsWithinLast30Days,
 } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 import UploadType2ErrorAlertSlim from './UploadType2ErrorAlertSlim';
@@ -58,7 +58,6 @@ export default function ClaimsListItem({ claim }) {
     claimPhaseDates,
     claimTypeCode,
     decisionLetterSent,
-    developmentLetterSent,
     documentsNeeded,
     status,
     evidenceSubmissions = [],
@@ -96,11 +95,6 @@ export default function ClaimsListItem({ claim }) {
       subtitle={`Received on ${formattedReceiptDate}`}
     >
       <ul className="communications">
-        {showPrecomms && developmentLetterSent ? (
-          <CommunicationsItem icon="mail">
-            We sent you a development letter
-          </CommunicationsItem>
-        ) : null}
         {decisionLetterSent && (
           <CommunicationsItem icon="mail">
             You have a decision letter ready

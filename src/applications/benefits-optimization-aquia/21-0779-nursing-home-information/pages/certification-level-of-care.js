@@ -30,7 +30,7 @@ export const certificationLevelOfCareUiSchema = {
       const data = fullData || formData;
       const patientName = getPatientName(data);
 
-      const title = `I certify that ${patientName} is a patient in this facility because of a mental or physical disability and is receiving`;
+      const title = `I certify that ${patientName} is a patient in this facility because of a mental or physical disability and is receiving the following care`;
 
       return {
         certificationLevelOfCare: {

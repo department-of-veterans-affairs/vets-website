@@ -7,6 +7,7 @@ import {
 import { validateChars } from '../utils/validation';
 
 export * from './attachments';
+export * from './dates';
 
 export const addressWithValidationUI = (options = {}) => {
   const charValidation = { 'ui:validations': [validateChars] };
@@ -27,4 +28,4 @@ export const fullNameMiddleInitialSchema = merge({}, fullNameSchema, {
   properties: { middle: { type: 'string', maxLength: 1 } },
 });
 
-export const textareaSchema = { type: 'string', maxLength: 200 };
+export const textareaSchema = { type: 'string', maxLength: 155 };

@@ -17,7 +17,7 @@ const getData = ({
   props: {
     loggedIn,
     location: {
-      basename: '/sc-base-url',
+      basename: '/get-help-from-accredited-representative/appoint-rep',
     },
     route: {
       formConfig,

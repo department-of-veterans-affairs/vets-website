@@ -64,18 +64,6 @@ export const DependentSeriouslyDisabledDescription = (
   </div>
 );
 
-export const DependentChildDescription = (
-  <div className="vads-u-padding-y--1">
-    <va-additional-info trigger="Who we consider a dependent child">
-      <span>
-        In most circumstances, children over the age of 23 aren’t considered
-        dependent for VA purposes, unless the child is determined to be
-        seriously disabled based on a condition that started before turning 18.
-      </span>
-    </va-additional-info>
-  </div>
-);
-
 export const seriouslyDisabledDescription = (
   <div className="vads-u-padding-y--1">
     <va-additional-info

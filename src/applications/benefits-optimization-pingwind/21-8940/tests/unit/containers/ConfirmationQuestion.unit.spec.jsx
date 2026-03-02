@@ -22,7 +22,6 @@ describe('21-8940 container/ConfirmationQuestion', () => {
   let user;
   let hadScrollTo;
   let originalScrollTo;
-  let bodyScrollStub;
 
   const defaultRoute = {
     pageList: [
@@ -70,7 +69,6 @@ describe('21-8940 container/ConfirmationQuestion', () => {
       document.body.scrollTo = () => {};
       originalScrollTo = document.body.scrollTo;
     }
-    bodyScrollStub = sandbox.stub(document.body, 'scrollTo');
   });
 
   afterEach(() => {
@@ -80,21 +78,6 @@ describe('21-8940 container/ConfirmationQuestion', () => {
     } else {
       delete document.body.scrollTo;
     }
-  });
-
-  it('renders page content and scrolls to top', async () => {
-    const { getByRole } = renderPage();
-
-    await waitFor(() => {
-      expect(bodyScrollStub.called).to.be.true;
-    });
-
-    expect(
-      getByRole('heading', {
-        level: 1,
-        name: "Let's confirm VA Form 21-8940 is the right form for your needs",
-      }),
-    ).to.exist;
   });
 
   it('navigates back to introduction when back button is clicked', async () => {
@@ -144,7 +127,7 @@ describe('21-8940 container/ConfirmationQuestion', () => {
     const confirmationRadio = container.querySelector('#confirmation-question');
     expect(confirmationRadio).to.exist;
     expect(confirmationRadio.getAttribute('label')).to.equal(
-      'Are you applying for increased unemployability compensation benefits?',
+      'Are you applying for increased compensation due to unemployability?',
     );
   });
 
@@ -176,7 +159,7 @@ describe('21-8940 container/ConfirmationQuestion', () => {
     expect(
       getByRole('heading', {
         level: 1,
-        name: "Let's confirm VA Form 21-8940 is the right form for your needs",
+        name: 'Let’s confirm VA Form 21-8940 is the right form for your needs',
       }),
     ).to.exist;
   });

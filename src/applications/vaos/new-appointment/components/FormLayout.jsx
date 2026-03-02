@@ -14,7 +14,6 @@ import WarningNotification from '../../components/WarningNotification';
 import { getFlowType, getFormData } from '../redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 import { routeToPreviousAppointmentPage } from '../redux/actions';
-import getNewAppointmentFlow from '../newAppointmentFlow';
 import { selectFeatureImmediateCareAlert } from '../../redux/selectors';
 
 function Title() {
@@ -85,16 +84,13 @@ Nav.propTypes = {
 
 export default function FormLayout({ children, pageTitle }) {
   const location = useLocation();
-  const flow = useSelector(state => getNewAppointmentFlow(state));
   const featureImmediateCareAlert = useSelector(
     selectFeatureImmediateCareAlert,
   );
 
-  const typeOfCareUrl = flow.typeOfCare?.url;
-
   return (
     <>
-      {location.pathname === typeOfCareUrl && <MhvSecondaryNav />}
+      <MhvSecondaryNav />
       <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2">
         <Nav pageTitle={pageTitle} />
         {location.pathname.endsWith('type-of-care') && (

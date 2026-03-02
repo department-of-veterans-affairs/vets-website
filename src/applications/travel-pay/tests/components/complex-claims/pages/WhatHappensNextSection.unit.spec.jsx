@@ -53,7 +53,7 @@ describe('<WhatHappensNextSection />', () => {
     // Process list item headers
     expect(
       container.querySelector(
-        `va-process-list-item[header="VA will review your claim"]`,
+        `va-process-list-item[header="We’ll review your claim"]`,
       ),
     ).to.exist;
     expect(
@@ -65,7 +65,7 @@ describe('<WhatHappensNextSection />', () => {
     // Claim status link
     expect(
       container.querySelector(
-        `va-link[href="/my-health/travel-pay/claims/"][text="Check your travel reimbursement claim status"]`,
+        `va-link[href="/my-health/travel-pay/claims/"][text="Review your travel reimbursement claim status"]`,
       ),
     ).to.exist;
 
@@ -88,7 +88,7 @@ describe('<WhatHappensNextSection />', () => {
     // Should still show success content
     expect(
       container.querySelector(
-        `va-process-list-item[header="VA will review your claim"]`,
+        `va-process-list-item[header="We’ll review your claim"]`,
       ),
     ).to.exist;
   });

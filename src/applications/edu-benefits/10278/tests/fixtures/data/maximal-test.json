@@ -20,6 +20,13 @@
     },
     "homePhone": "5551234567",
     "mobilePhone": "5559876543",
-    "emailAddress": "john.doe@example.com"
+    "claimantContactInformation": {
+      "phoneNumber": {
+        "countryCode": "1",
+        "areaCode": "555",
+        "phoneNumber": "1234567"
+      },
+      "emailAddress": "john.doe@example.com"
+    }
   }
 }

@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca DeductibleExpenses config', () => {
   const {
@@ -13,7 +15,7 @@ describe('hca DeductibleExpenses config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 3;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -30,4 +32,74 @@ describe('hca DeductibleExpenses config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        'view:deductibleMedicalExpenses': {
+          type: 'object',
+          properties: {
+            deductibleMedicalExpenses: {
+              type: 'number',
+            },
+          },
+        },
+        'view:deductibleEducationExpenses': {
+          type: 'object',
+          properties: {
+            deductibleEducationExpenses: {
+              type: 'number',
+            },
+          },
+        },
+        'view:deductibleFuneralExpenses': {
+          type: 'object',
+          properties: {
+            deductibleFuneralExpenses: {
+              type: 'number',
+            },
+          },
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'view:deductibleMedicalExpenses': {
+        'ui:title': {},
+        'ui:description': {},
+        deductibleMedicalExpenses: {
+          'ui:title': {},
+          'ui:options': {},
+          'ui:validations': {},
+          'ui:errorMessages': {},
+        },
+      },
+      'view:deductibleEducationExpenses': {
+        'ui:title': {},
+        'ui:description': {},
+        deductibleEducationExpenses: {
+          'ui:title': {},
+          'ui:options': {},
+          'ui:validations': {},
+          'ui:errorMessages': {},
+        },
+      },
+      'view:deductibleFuneralExpenses': {
+        'ui:title': {},
+        'ui:description': {},
+        deductibleFuneralExpenses: {
+          'ui:title': {},
+          'ui:options': {},
+          'ui:validations': {},
+          'ui:errorMessages': {},
+        },
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca SpouseAdditionalInformation config', () => {
   const {
@@ -12,8 +14,8 @@ describe('hca SpouseAdditionalInformation config', () => {
   } = formConfig.chapters.householdInformation.pages.SpouseAdditionalInformation;
 
   // run test for correct number of fields on the page
-  const expectedNumberOfFields = 4;
-  testNumberOfFormFields(
+  const expectedNumberOfFields = 2;
+  testNumberOfWebComponentFields(
     formConfig,
     schema,
     uiSchema,
@@ -23,11 +25,42 @@ describe('hca SpouseAdditionalInformation config', () => {
 
   // run test for correct number of error messages on submit
   const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmit(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        cohabitedLastYear: {
+          type: 'boolean',
+        },
+        sameAddress: {
+          type: 'boolean',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'ui:description': {},
+      cohabitedLastYear: {
+        'ui:title': {},
+        'ui:webComponentField': {},
+      },
+      sameAddress: {
+        'ui:title': {},
+        'ui:webComponentField': {},
+      },
+    },
+    expectedRequired: ['sameAddress'],
+    pageName: pageTitle,
+  });
 });

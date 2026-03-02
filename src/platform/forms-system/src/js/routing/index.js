@@ -71,14 +71,20 @@ export function goBack({
   router.push(path);
 }
 
-export function getRoute(routes, location) {
+// if a form uses dynamic routes then we check if the last part of the
+// pathname ends with the page path (e.g. /21-0779/introduction and /introduction),
+// not whether the pathname equals the page path (/introduction and /introduction)
+export function getRoute(routes, location, dynamicPaths = false) {
   try {
     return routes.find(r => {
       if (r.path.includes(':index')) {
         const regex = new RegExp(r.path.replace(':index', '\\d+'));
         return regex.test(location.pathname);
       }
-      return `/${r.path}` === location.pathname;
+      const comparator = `/${r.path}`;
+      return dynamicPaths
+        ? location.pathname.endsWith(comparator)
+        : location.pathname === comparator;
     });
   } catch (e) {
     return null;

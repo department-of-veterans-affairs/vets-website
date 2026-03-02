@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
+import {
+  FormNavButtonContinue,
+  SchemaForm,
+} from 'platform/forms-system/exportsFile';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { getFormNumber, onClickContinue } from '../helpers';
 
@@ -71,8 +74,7 @@ export const CustomAlertPage = props => {
       <SchemaForm {...props}>
         <>
           {props.contentBeforeButtons}
-          <FormNavButtons
-            goBack={props.goBack}
+          <FormNavButtonContinue
             goForward={() => onClickContinue(props, setContinueClicked)}
             submitToContinue
           />

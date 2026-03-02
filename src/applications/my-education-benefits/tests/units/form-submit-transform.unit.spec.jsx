@@ -463,7 +463,7 @@ describe('form submit transform', () => {
   describe('has a bank account capture method', () => {
     it('should return with users bank savings account number, if they decide to enroll', () => {
       const bankAccount = createDirectDeposit(mockSubmissionForm);
-      expect(bankAccount.directDepositAccountType).to.eql('Savings');
+      expect(bankAccount.directDepositAccountType).to.eql('savings');
     });
     describe('createDirectDeposit function', () => {
       it('extracts bank account info when available directly in submissionForm', () => {
@@ -475,7 +475,7 @@ describe('form submit transform', () => {
 
         const result = createDirectDeposit(mockSubmissionForm);
 
-        expect(result.directDepositAccountType).to.eql('Savings');
+        expect(result.directDepositAccountType).to.eql('savings');
         expect(result.directDepositAccountNumber).to.eql('123456');
         expect(result.directDepositRoutingNumber).to.eql('322271627');
       });
@@ -491,7 +491,7 @@ describe('form submit transform', () => {
 
         const result = createDirectDeposit(mockSubmissionForm);
 
-        expect(result.directDepositAccountType).to.eql('Checking');
+        expect(result.directDepositAccountType).to.eql('checking');
         expect(result.directDepositAccountNumber).to.eql('654321');
         expect(result.directDepositRoutingNumber).to.eql('123456789');
       });
@@ -511,6 +511,24 @@ describe('form submit transform', () => {
         };
         const result = createDirectDeposit(mockSubmissionForm);
         expect(result).to.eql({});
+      });
+      it('does not include accountNumberConfirmation in the submission', () => {
+        mockSubmissionForm['view:directDeposit'] = {
+          bankAccount: {
+            accountType: 'Checking',
+            accountNumber: '654321',
+            routingNumber: '123456789',
+            accountNumberConfirmation: '654321',
+          },
+        };
+        mockSubmissionForm.bankAccount = {};
+
+        const result = createDirectDeposit(mockSubmissionForm);
+
+        expect(result.directDepositAccountType).to.eql('checking');
+        expect(result.directDepositAccountNumber).to.eql('654321');
+        expect(result.directDepositRoutingNumber).to.eql('123456789');
+        expect(result.directDepositAccountNumberConfirmation).to.be.undefined;
       });
     });
   });

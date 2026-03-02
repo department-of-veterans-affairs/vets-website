@@ -8,18 +8,18 @@ import { IncomeAssetStatementFormAlert } from '../../../../components/FormAlerts
 
 const uiSchema = {
   ...titleUI('Income sources'),
-  moreThanFourSources: yesNoUI({
+  moreThanFourIncomeSources: yesNoUI({
     title: 'Do you or your dependents have more than 4 sources of income?',
     'ui:required': true,
   }),
   incomeAssetStatementFormAlert: {
     'ui:description': IncomeAssetStatementFormAlert,
     'ui:options': {
-      hideIf: formData => !isYes(formData?.moreThanFourSources),
+      hideIf: formData => !isYes(formData?.moreThanFourIncomeSources),
       displayEmptyObjectOnReview: true,
     },
   },
-  otherIncomeLastYearNoLongerReceive: yesNoUI({
+  otherIncome: yesNoUI({
     title:
       'Other than Social Security, did you or your dependents receive any income last year that you no longer receive?',
     'ui:required': true,
@@ -27,7 +27,7 @@ const uiSchema = {
   incomeAssetStatementFormAlertOtherIncome: {
     'ui:description': IncomeAssetStatementFormAlert,
     'ui:options': {
-      hideIf: formData => !isYes(formData?.otherIncomeLastYearNoLongerReceive),
+      hideIf: formData => !isYes(formData?.otherIncome),
       displayEmptyObjectOnReview: true,
     },
   },
@@ -35,14 +35,14 @@ const uiSchema = {
 
 const schema = {
   type: 'object',
-  required: ['moreThanFourSources', 'otherIncomeLastYearNoLongerReceive'],
+  required: ['moreThanFourIncomeSources', 'otherIncome'],
   properties: {
-    moreThanFourSources: yesNoSchema,
+    moreThanFourIncomeSources: yesNoSchema,
     incomeAssetStatementFormAlert: {
       type: 'object',
       properties: {},
     },
-    otherIncomeLastYearNoLongerReceive: yesNoSchema,
+    otherIncome: yesNoSchema,
     incomeAssetStatementFormAlertOtherIncome: {
       type: 'object',
       properties: {},

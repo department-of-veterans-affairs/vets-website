@@ -9,7 +9,11 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryAllergiesEnabled = true,
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
     mhvSecureMessagingMedicationsRenewalRequest = false,
-    mhvMedicationsCernerPilot = true,
+    mhvMedicationsCernerPilot = false,
+    mhvMedicationsV2StatusMapping = false,
+    mhvMedicationsEnableKramesHtmlSanitization = true,
+    mhvMedicationsManagementImprovements = false,
+    mhvMedicationsOracleHealthCutover = false,
   } = toggles;
 
   return {
@@ -55,6 +59,22 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_cerner_pilot',
           value: mhvMedicationsCernerPilot,
+        },
+        {
+          name: 'mhv_medications_v2_status_mapping',
+          value: mhvMedicationsV2StatusMapping,
+        },
+        {
+          name: 'mhv_medications_enable_krames_html_sanitization',
+          value: mhvMedicationsEnableKramesHtmlSanitization,
+        },
+        {
+          name: 'mhv_medications_management_improvements',
+          value: mhvMedicationsManagementImprovements,
+        },
+        {
+          name: 'mhv_medications_oracle_health_cutover',
+          value: mhvMedicationsOracleHealthCutover,
         },
       ],
     },

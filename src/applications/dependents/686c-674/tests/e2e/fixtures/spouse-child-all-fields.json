@@ -163,6 +163,7 @@
       },
       "biologicalParentSsn": "333445555",
       "biologicalParentDob": "1991-09-19",
+      "relationshipType": "STEPCHILD",
       "relationshipToChild": {
         "stepchild": true
       },
@@ -209,7 +210,7 @@
         "isEncrypted": false
       }
     ],
-  
+
   "view:additionalEvidenceDescription": {},
   "view:selectable686Options": {
     "addSpouse": true,

@@ -1,21 +1,15 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useRef,
-  useCallback,
-} from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  focusElement,
-  scrollTo,
-} from '@department-of-veterans-affairs/platform-utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import MigratingFacilitiesAlerts from 'platform/mhv/components/CernerFacilityAlert/MigratingFacilitiesAlerts';
 import EmergencyNote from '../EmergencyNote';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
+import StaleMessageAlert from '../shared/StaleMessageAlert';
+
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ReplyDrafts from './ReplyDrafts';
 import MessageActionButtons from '../MessageActionButtons';
@@ -26,7 +20,10 @@ import {
   RecipientStatus,
   Recipients,
 } from '../../util/constants';
-import { getPageTitle } from '../../util/helpers';
+import {
+  getPageTitle,
+  isMigrationPhaseBlockingReplies,
+} from '../../util/helpers';
 import { clearThread } from '../../actions/threadDetails';
 import { getPatientSignature } from '../../actions/preferences';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
@@ -47,14 +44,25 @@ const ReplyForm = props => {
     setIsSending,
   } = props;
   const dispatch = useDispatch();
-  const { customFoldersRedesignEnabled } = useFeatureToggles();
+  const {
+    customFoldersRedesignEnabled,
+    useCanReplyField,
+  } = useFeatureToggles();
   const header = useRef();
+
+  const userProfile = useSelector(state => state.user.profile);
+  const migratingFacilities = userProfile?.migrationSchedules || [];
 
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const signature = useSelector(state => state.sm.preferences?.signature);
-  const { replyToName, isSaving } = useSelector(
-    state => state.sm.threadDetails,
-  );
+  const {
+    replyToName,
+    isSaving,
+    isStale,
+    replyDisabled,
+    ohMigrationPhase,
+  } = useSelector(state => state.sm.threadDetails);
+  const isInMigrationPhase = isMigrationPhaseBlockingReplies(ohMigrationPhase);
 
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [category, setCategory] = useState(null);
@@ -66,20 +74,7 @@ const ReplyForm = props => {
   const [hideDraft, setHideDraft] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
 
-  const handleEditDraftButton = useCallback(
-    () => {
-      if (isEditing === false) {
-        setIsEditing(true);
-        scrollTo('draft-reply-header');
-        focusElement(document.getElementById('draft-reply-header'));
-      } else {
-        setIsEditing(false);
-      }
-    },
-    [isEditing, setIsEditing],
-  );
-
-  const showEditDraftButton = useMemo(
+  const hasDraftReplyActive = useMemo(
     () => !cannotReply && !showBlockedTriageGroupAlert && !hideDraft,
     [cannotReply, showBlockedTriageGroupAlert, hideDraft],
   );
@@ -170,67 +165,70 @@ const ReplyForm = props => {
           {messageTitle}
         </h1>
 
-        <CannotReplyAlert
-          visible={cannotReply && !showBlockedTriageGroupAlert}
-          isOhMessage={replyMessage.isOhMessage}
-        />
-
-        {currentRecipient && (
-          <BlockedTriageGroupAlert
-            alertStyle={BlockedTriageAlertStyles.ALERT}
-            parentComponent={ParentComponent.REPLY_FORM}
-            currentRecipient={currentRecipient}
-            setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+        {useCanReplyField ? (
+          <>
+            <CannotReplyAlert
+              visible={
+                cannotReply &&
+                replyDisabled &&
+                !showBlockedTriageGroupAlert &&
+                !isInMigrationPhase
+              }
+              isOhMessage={replyMessage.isOhMessage}
+            />
+            <StaleMessageAlert
+              visible={
+                cannotReply &&
+                isStale &&
+                !replyDisabled &&
+                !showBlockedTriageGroupAlert
+              }
+              isOhMessage={replyMessage.isOhMessage}
+            />
+          </>
+        ) : (
+          <StaleMessageAlert
+            visible={
+              cannotReply &&
+              isStale &&
+              !showBlockedTriageGroupAlert &&
+              !isInMigrationPhase
+            }
             isOhMessage={replyMessage.isOhMessage}
           />
         )}
 
-        {customFoldersRedesignEnabled && showEditDraftButton ? (
-          <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto">
-            <button
-              type="button"
-              className="usa-button
-                  vads-u-width--full
-                  mobile-lg:vads-u-width--auto
-                  reply-button-in-body
-                  vads-u-display--flex
-                  vads-u-flex-direction--row
-                  vads-u-justify-content--center
-                  vads-u-align-items--center
-                  vads-u-margin-right--0
-                  mobile-lg:vads-u-padding-x--7"
-              data-testid="edit-draft-button-body"
-              onClick={handleEditDraftButton}
-            >
-              <div className="vads-u-margin-right--0p5">
-                <va-icon icon="undo" aria-hidden="true" />
-              </div>
-              <span
-                className="message-action-button-text"
-                data-testid="edit-draft-button-body-text"
-              >
-                {`Edit draft repl${drafts?.length > 1 ? 'ies' : 'y'}`}
-              </span>
-            </button>
-          </div>
-        ) : (
-          !showEditDraftButton && (
+        {isInMigrationPhase && (
+          <MigratingFacilitiesAlerts
+            healthTool="SECURE_MESSAGING"
+            className="vads-u-margin-y--4"
+            migratingFacilities={migratingFacilities}
+          />
+        )}
+
+        {currentRecipient &&
+          !isInMigrationPhase && (
+            <BlockedTriageGroupAlert
+              alertStyle={BlockedTriageAlertStyles.ALERT}
+              parentComponent={ParentComponent.REPLY_FORM}
+              currentRecipient={currentRecipient}
+              setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+              isOhMessage={replyMessage.isOhMessage}
+            />
+          )}
+
+        {customFoldersRedesignEnabled &&
+          !hasDraftReplyActive && (
             <ReplyButton
               key="replyButton"
               visible={!cannotReply && !showBlockedTriageGroupAlert}
             />
-          )
-        )}
+          )}
 
         {!customFoldersRedesignEnabled && (
           <MessageActionButtons
             threadId={threadId}
-            hideDraft={hideDraft}
             hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
-            replyMsgId={replyMessage.messageId}
-            showEditDraftButton={showEditDraftButton}
-            handleEditDraftButton={handleEditDraftButton}
-            hasMultipleDrafts={drafts?.length > 1}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
           />
@@ -246,7 +244,9 @@ const ReplyForm = props => {
             {!hideDraft && (
               <>
                 <h2 id="draft-reply-header" data-testid="draft-reply-header">
-                  {drafts && drafts.length > 1 ? 'Drafts' : 'Draft'}
+                  {drafts && drafts.length > 1
+                    ? 'Draft replies'
+                    : 'Draft reply'}
                 </h2>
                 <ReplyDrafts
                   drafts={drafts}

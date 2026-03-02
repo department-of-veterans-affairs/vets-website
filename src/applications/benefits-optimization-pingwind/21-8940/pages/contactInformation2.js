@@ -1,11 +1,14 @@
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   emailToSendNotificationsSchema,
   emailToSendNotificationsUI,
-  inlineTitleUI,
+  titleUI,
   internationalPhoneSchema,
   internationalPhoneUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  checkboxSchema,
+  checkboxUI,
+} from 'platform/forms-system/src/js/web-component-patterns/checkboxPattern';
 
 import TelephoneFieldNoInternalErrors from '../components/TelephoneFieldNoInternalErrors';
 
@@ -15,7 +18,7 @@ import { veteranFields } from '../definitions/constants';
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      ...inlineTitleUI('Contact information', 'How can we reach you?'),
+      ...titleUI('Contact information', 'How can we reach you?'),
       [veteranFields.homePhone]: {
         ...internationalPhoneUI({
           title: 'Primary phone number',
@@ -35,14 +38,11 @@ export default {
         hint:
           'We’ll use this email address to confirm when we receive your form',
       }),
-      electronicCorrespondence: {
-        'ui:title':
+      electronicCorrespondence: checkboxUI({
+        title:
           'I agree to receive electronic correspondence from the VA about my claim.',
-        'ui:webComponentField': VaCheckboxField,
-        'ui:options': {
-          classNames: 'custom-width',
-        },
-      },
+        classNames: 'custom-width',
+      }),
     },
   },
   schema: {
@@ -50,14 +50,14 @@ export default {
     properties: {
       [veteranFields.parentObject]: {
         type: 'object',
-        required: [veteranFields.homePhone, veteranFields.email],
+        required: [veteranFields.homePhone],
         properties: {
           [veteranFields.homePhone]: internationalPhoneSchema({
             required: true,
           }),
           [veteranFields.alternatePhone]: internationalPhoneSchema(),
           [veteranFields.email]: emailToSendNotificationsSchema,
-          electronicCorrespondence: { type: 'boolean' },
+          electronicCorrespondence: checkboxSchema,
         },
       },
     },

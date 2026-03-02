@@ -53,4 +53,67 @@ describe('parseAllergies', () => {
     expect(result).to.include('Observed or historical: Reported');
     expect(result).to.include('Provider notes: ');
   });
+
+  it('should handle null/undefined records and reaction fields without crashing', () => {
+    // Test undefined records
+    expect(() => parseAllergies(undefined)).to.not.throw();
+    expect(() => parseAllergies(null)).to.not.throw();
+
+    // Test record with undefined reaction
+    const recordWithNoReaction = [{ name: 'Test Allergy', date: '2021-01-01' }];
+    expect(() => parseAllergies(recordWithNoReaction)).to.not.throw();
+    const result = parseAllergies(recordWithNoReaction);
+    expect(result).to.include('Signs and symptoms:');
+  });
+
+  it('should handle records with all undefined field values', () => {
+    const records = [
+      {
+        name: undefined,
+        date: undefined,
+        reaction: undefined,
+        type: undefined,
+        location: undefined,
+        observedOrReported: undefined,
+        notes: undefined,
+      },
+    ];
+    expect(() => parseAllergies(records)).to.not.throw();
+    const result = parseAllergies(records);
+    expect(result).to.include('Date entered: undefined');
+    expect(result).to.include('Signs and symptoms:');
+    expect(result).to.include('Type of allergy: undefined');
+  });
+
+  it('should handle records with partially missing properties', () => {
+    const records = [
+      {
+        name: 'Partial Allergy',
+        // date, type, location, observedOrReported, notes are missing
+        reaction: ['Rash'],
+      },
+    ];
+    expect(() => parseAllergies(records)).to.not.throw();
+    const result = parseAllergies(records);
+    expect(result).to.include('Partial Allergy');
+    expect(result).to.include('Signs and symptoms: Rash');
+    expect(result).to.include('Date entered: undefined');
+  });
+
+  it('should handle empty reaction array', () => {
+    const records = [
+      {
+        name: 'No Reaction Allergy',
+        date: '2021-01-01',
+        reaction: [],
+        type: 'Drug',
+        location: 'Clinic',
+        observedOrReported: 'Reported',
+        notes: 'None',
+      },
+    ];
+    expect(() => parseAllergies(records)).to.not.throw();
+    const result = parseAllergies(records);
+    expect(result).to.include('Signs and symptoms: ');
+  });
 });

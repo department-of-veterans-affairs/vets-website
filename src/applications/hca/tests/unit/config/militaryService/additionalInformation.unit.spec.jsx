@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca Military Service History config', () => {
   const {
@@ -13,7 +15,7 @@ describe('hca Military Service History config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 5;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -30,4 +32,57 @@ describe('hca Military Service History config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        'view:serviceHistory': {
+          type: 'object',
+          properties: {
+            purpleHeartRecipient: {
+              type: 'boolean',
+            },
+            isFormerPow: {
+              type: 'boolean',
+            },
+            postNov111998Combat: {
+              type: 'boolean',
+            },
+            disabledInLineOfDuty: {
+              type: 'boolean',
+            },
+            swAsiaCombat: {
+              type: 'boolean',
+            },
+          },
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'view:serviceHistory': {
+        purpleHeartRecipient: {
+          'ui:title': {},
+        },
+        isFormerPow: {
+          'ui:title': {},
+        },
+        postNov111998Combat: {
+          'ui:title': {},
+        },
+        disabledInLineOfDuty: {
+          'ui:title': {},
+        },
+        swAsiaCombat: {
+          'ui:title': {},
+        },
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

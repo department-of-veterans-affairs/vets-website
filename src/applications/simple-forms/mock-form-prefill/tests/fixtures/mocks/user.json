@@ -69,7 +69,7 @@
         "servedInMilitary": true
       },
       "inProgressForms": [],
-      "prefillsAvailable": ["FORM_MOCK_PREFILL"],
+      "prefillsAvailable": ["FORM-MOCK-PREFILL"],
       "vet360ContactInformation": {
         "email": {
           "createdAt": "2024-04-20T17:24:13.000Z",

@@ -5,7 +5,9 @@ import {
   VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getTrackedItemDisplayNameFromEvidenceSubmission } from '../utils/helpers';
-import { recordType2FailureEventStatusPage } from '../utils/analytics';
+import { recordType2FailureEvent } from '../utils/analytics';
+
+const HEADING = 'We need you to submit files by mail or in person';
 
 function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
   // Record Type 2 failure event every time component mounts with failed submissions
@@ -13,7 +15,7 @@ function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
   useEffect(
     () => {
       if (failedSubmissions && failedSubmissions.length > 0 && isStatusPage) {
-        recordType2FailureEventStatusPage();
+        recordType2FailureEvent({ count: 1 });
       }
     },
     [failedSubmissions, isStatusPage],
@@ -56,7 +58,12 @@ function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
           return (
             <li key={submission.id}>
               <span>
-                <strong>{submission.fileName}</strong>
+                <strong
+                  data-dd-privacy="mask"
+                  data-dd-action-name="type 2 error filename"
+                >
+                  {submission.fileName}
+                </strong>
               </span>
               <br />
               <span>File type: {submission.documentType}</span>
@@ -99,9 +106,11 @@ function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
       status="error"
       visible
     >
-      <h3 className="usa-alert-heading">
-        We need you to submit files by mail or in person
-      </h3>
+      {isStatusPage ? (
+        <h4 className="usa-alert-heading vads-u-font-size--h3">{HEADING}</h4>
+      ) : (
+        <h3 className="usa-alert-heading">{HEADING}</h3>
+      )}
       <div className="vads-u-margin-y--0">{body}</div>
     </VaAlert>
   );

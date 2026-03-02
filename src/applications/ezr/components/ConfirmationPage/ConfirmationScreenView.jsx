@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { focusElement } from 'platform/utilities/ui';
 import { scrollToTop } from 'platform/utilities/scroll';
-import { useSelector } from 'react-redux';
 import ApplicationDownloadLink from '../ApplicationDownloadLink';
 import content from '../../locales/en/content.json';
 
@@ -12,8 +11,6 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
     focusElement('.ezr-success-message');
     scrollToTop();
   }, []);
-
-  const { data: formData } = useSelector(state => state.form);
 
   return (
     <>
@@ -62,13 +59,9 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
             uswds
           />
         </div>
-        {formData['view:isDownloadPdfEnabled'] && (
-          <div className="ezr-application--download">
-            <ApplicationDownloadLink
-              linkText={content['button-pdf-download']}
-            />
-          </div>
-        )}
+        <div className="ezr-application--download">
+          <ApplicationDownloadLink linkText={content['button-pdf-download']} />
+        </div>
       </va-summary-box>
     </>
   );

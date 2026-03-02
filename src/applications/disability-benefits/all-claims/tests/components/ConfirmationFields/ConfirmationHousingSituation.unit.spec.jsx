@@ -47,8 +47,13 @@ describe('all-claims <ConfirmationHousingSituation>', () => {
 
   it('should display homelessness contact information', () => {
     const result = render(<ConfirmationHousingSituation formData={formData} />);
-    expect(result.getByText(/Name: John Doe/i)).to.exist;
-    expect(result.getByText(/Phone number: 555-123-4567/i)).to.exist;
+    expect(result.getByText(/Name of alternate contact or place: John Doe/i)).to
+      .exist;
+    expect(
+      result.getByText(
+        /Phone number of alternate contact or place: 555-123-4567/i,
+      ),
+    ).to.exist;
   });
 
   it('should handle missing data gracefully', () => {

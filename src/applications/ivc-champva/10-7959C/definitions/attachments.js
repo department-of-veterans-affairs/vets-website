@@ -47,6 +47,7 @@ export const attachmentUI = ({ label = '', attachmentId = '' } = {}) => {
 
 export const singleAttachmentSchema = Object.freeze({
   type: 'array',
+  minItems: 1,
   maxItems: 1,
   items: {
     type: 'object',

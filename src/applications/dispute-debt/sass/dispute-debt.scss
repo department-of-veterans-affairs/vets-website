@@ -22,6 +22,27 @@
       font-weight: normal;
     }
   }
+
+  // Match va-card width to va-checkbox[tile] width
+  // Both should have the same computed width including padding/borders
+  va-checkbox[tile] {
+    box-sizing: border-box;
+  }
+
+  va-card {
+    // Match the exact width calculation of tiled checkboxes
+    // Use the same max-width and ensure box-sizing matches
+    max-width: 480px;
+    width: 100%;
+    box-sizing: border-box;
+
+    // Match any padding/border that checkboxes have
+    // You may need to inspect the checkbox's computed styles to match exactly
+
+    &::part(body) {
+      box-sizing: border-box;
+    }
+  }
 }
 
 // Remove bullets from debt selection list

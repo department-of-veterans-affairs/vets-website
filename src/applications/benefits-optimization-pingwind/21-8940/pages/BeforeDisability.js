@@ -1,9 +1,8 @@
-import React from 'react';
-
 import {
   textUI,
   yesNoUI,
   yesNoSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
@@ -11,83 +10,104 @@ import {
   currentOrPastDateRangeSchema,
 } from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
 
-import { EducationView } from '../components/viewElements';
-import SafeArrayField from '../components/SafeArrayField';
 import { wrapDateRangeUiWithDl } from '../helpers/reviewHelpers';
+import { changeDefaultDateHint } from '../helpers/hintChanger';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': (
-      <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
-        Education and Training Before Becoming Disabled
-      </h3>
-    ),
+    ...titleUI('Education and Training Before Becoming Disabled'),
     'ui:description':
-      'Tell us about your education and training before becoming too disabled to work.',
+      'Tell us about your education or training before becoming too disabled to work.',
 
-    otherEducation: yesNoUI({
+    otherBeforeEducation: yesNoUI({
       title:
-        'Did you have any other education and training before you were too disabled to work?',
+        'Did you have any other education or training before you became too disabled to work?',
       labels: {
         Y: 'Yes',
         N: 'No',
       },
+      required: () => true,
       useDlWrap: true,
+      errorMessages: {
+        required:
+          'Select a response to tell us if you had education or training before becoming disabled.',
+      },
     }),
 
     educationBeforeDisability: {
-      'ui:field': SafeArrayField,
       'ui:options': {
-        itemName: 'Education/Training',
-        viewField: EducationView,
         customTitle: 'Education before disability',
         useDlWrap: true,
-        keepInPageOnReview: true,
-        doNotScroll: true,
-        confirmRemove: true,
-        confirmRemoveDescription:
-          'Are you sure you want to remove this education/training?',
-        addAnotherText: 'Add another education/training',
-        hideIf: formData => formData.otherEducation !== true,
+
+        expandUnder: 'otherBeforeEducation',
+        expandUnderCondition: true,
       },
-      items: {
-        'ui:options': {
-          classNames: 'vads-u-margin-left--1p5',
+      typeOfEducation: textUI({
+        title: 'Type of education or training',
+        useDlWrap: true,
+        required: formData => formData.otherBeforeEducation === true,
+        errorMessages: {
+          required:
+            'Tell us what kind of education or training you had before becoming disabled',
         },
-        typeOfEducation: textUI({
-          title: 'Type of education or training',
-          useDlWrap: true,
-        }),
-        datesOfTraining: wrapDateRangeUiWithDl(
+      }),
+      datesOfTraining: {
+        ...wrapDateRangeUiWithDl(
           currentOrPastDateRangeUI(
             { title: 'Start date of training' },
             { title: 'End date of training' },
           ),
+          { 'ui:description': changeDefaultDateHint },
         ),
+
+        from: {
+          ...wrapDateRangeUiWithDl(
+            currentOrPastDateRangeUI(
+              { title: 'Start date of training' },
+              { title: 'End date of training' },
+            ),
+          ).from,
+          'ui:required': formData => formData.otherBeforeEducation === true,
+          'ui:description': changeDefaultDateHint,
+          'ui:errorMessages': {
+            required:
+              'Enter the start date (month, day, and 4-digit year) of your education or training',
+          },
+        },
+        to: {
+          ...wrapDateRangeUiWithDl(
+            currentOrPastDateRangeUI(
+              { title: 'Start date of training' },
+              { title: 'End date of training' },
+            ),
+          ).to,
+          'ui:required': formData => formData.otherBeforeEducation === true,
+          'ui:description': changeDefaultDateHint,
+          'ui:errorMessages': {
+            required:
+              'Enter the end date (month, day, and 4-digit year) of your education or training',
+          },
+        },
       },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      otherEducation: yesNoSchema,
+      otherBeforeEducation: yesNoSchema,
       educationBeforeDisability: {
-        type: 'array',
-        minItems: 0,
-        maxItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            typeOfEducation: {
-              type: 'string',
-              maxLength: 100,
-            },
-            datesOfTraining: currentOrPastDateRangeSchema,
+        type: 'object',
+        properties: {
+          typeOfEducation: {
+            type: 'string',
+            maxLength: 100,
           },
-          required: ['typeOfEducation', 'datesOfTraining'],
+          // Overriding the individual dates required in the schema
+          datesOfTraining: { ...currentOrPastDateRangeSchema, required: [] },
         },
       },
     },
+    required: ['otherBeforeEducation'],
   },
 };

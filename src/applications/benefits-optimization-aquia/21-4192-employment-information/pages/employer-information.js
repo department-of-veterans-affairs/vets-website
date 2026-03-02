@@ -19,13 +19,42 @@ export const employerInformationUiSchema = {
   employerInformation: {
     employerName: textUI({
       title: 'Name of employer',
-      hint: 'The business name of the employer',
+      hint: 'The business name of the employer.',
       errorMessages: {
         required: 'Employer name is required',
         maxLength: 'Employer name must be less than 100 characters',
       },
     }),
     employerAddress: addressNoMilitaryUI(),
+  },
+};
+
+const baseAddressSchema = addressNoMilitarySchema({ omit: ['street3'] });
+
+const customAddressSchema = {
+  ...baseAddressSchema,
+  properties: {
+    ...baseAddressSchema.properties,
+    street: {
+      type: 'string',
+      maxLength: 30,
+    },
+    street2: {
+      type: 'string',
+      maxLength: 30,
+    },
+    city: {
+      type: 'string',
+      maxLength: 18,
+    },
+    state: {
+      type: 'string',
+      maxLength: 2,
+    },
+    postalCode: {
+      type: 'string',
+      maxLength: 9,
+    },
   },
 };
 
@@ -45,7 +74,7 @@ export const employerInformationSchema = {
           type: 'string',
           maxLength: 100,
         },
-        employerAddress: addressNoMilitarySchema(),
+        employerAddress: customAddressSchema,
       },
     },
   },

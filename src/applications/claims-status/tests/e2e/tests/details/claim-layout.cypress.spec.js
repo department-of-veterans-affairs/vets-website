@@ -51,11 +51,11 @@ describe('Claim layout', () => {
       level: 1,
     });
     cy.findByRole('heading', {
-      name: 'Claim status is unavailable',
+      name: "We can't access your claim right now",
       level: 2,
     });
     cy.findByText(
-      'VA.gov is having trouble loading claims information at this time. Check back again in an hour. Note: You are still able to review appeals information.',
+      "We're sorry. There's a problem with our system. Refresh this page or try again later.",
     );
 
     cy.axeCheck();

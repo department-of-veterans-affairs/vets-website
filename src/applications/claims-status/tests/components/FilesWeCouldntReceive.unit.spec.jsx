@@ -67,7 +67,7 @@ describe('<FilesWeCouldntReceive>', () => {
         .to.exist;
       expect(
         getByText(
-          'If we couldn\u2019t receive files you submitted online, you\u2019ll need to submit them by mail or in person.',
+          'If we couldn\u2019t receive files you submitted online, you\u2019ll need to submit them by mail or in person. If you already resubmitted these files, you don\u2019t need to do anything else. Files submitted by mail or in person, by you or by others, don\u2019t appear in this tool.',
         ),
       ).to.exist;
       expect(
@@ -89,13 +89,7 @@ describe('<FilesWeCouldntReceive>', () => {
 
       expect(
         getByText(
-          'This is a list of files you submitted using this tool that we couldn\u2019t receive. You\u2019ll need to resubmit these documents by mail or in person. We\u2019re sorry about this.',
-        ),
-      ).to.exist;
-      expect(getByText('Note:')).to.exist;
-      expect(
-        getByText(
-          'If you already resubmitted these files, you don\u2019t need to do anything else. Files submitted by mail or in person, by you or by others, don\u2019t appear in this tool.',
+          'We couldn\u2019t receive these files you submitted. We only show files from the last 60 days.',
         ),
       ).to.exist;
     });
@@ -140,7 +134,9 @@ describe('<FilesWeCouldntReceive>', () => {
       expect(getByText('We\u2019ve received all files you submitted online.'))
         .exist;
       expect(
-        queryByText('This is a list of files you submitted using this tool'),
+        queryByText(
+          'We couldn\u2019t receive these files you submitted. We only show files from the last 60 days.',
+        ),
       ).to.not.exist;
       expect(queryByTestId('failed-files-list')).to.not.exist;
       expect(getByTestId('other-ways-to-send-documents')).to.exist;
@@ -159,7 +155,9 @@ describe('<FilesWeCouldntReceive>', () => {
       expect(getByText('We\u2019ve received all files you submitted online.'))
         .to.exist;
       expect(
-        queryByText('This is a list of files you submitted using this tool'),
+        queryByText(
+          'We couldn\u2019t receive these files you submitted. We only show files from the last 60 days.',
+        ),
       ).to.not.exist;
       expect(queryByTestId('failed-files-list')).to.not.exist;
       expect(getByTestId('other-ways-to-send-documents')).to.exist;
@@ -269,7 +267,7 @@ describe('<FilesWeCouldntReceive>', () => {
       ];
 
       vaLinks.forEach((link, index) => {
-        const expectedLabel = `Go to the claim this file was uploaded for: ${
+        const expectedLabel = `Go to the claim associated with this file: ${
           expectedFileOrder[index]
         }`;
         expect(link).to.have.attribute('label', expectedLabel);

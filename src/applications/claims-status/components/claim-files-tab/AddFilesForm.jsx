@@ -16,6 +16,7 @@ import {
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { DOC_TYPES } from '../../utils/helpers';
 import { FILE_TYPES, isPdf, validateFiles } from '../../utils/validations';
+import { checkIfRetry } from '../../utils/analytics';
 import mailMessage from '../MailMessage';
 import UploadStatus from '../UploadStatus';
 
@@ -368,6 +369,8 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           onVaMultipleChange={handleFileChange}
           errors={errors}
           encrypted={encrypted}
+          data-dd-privacy="mask"
+          data-dd-action-name="file upload input"
         >
           <VaSelect
             required
@@ -420,7 +423,13 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           <UploadStatus
             progress={progress}
             files={files.length}
-            onCancel={onCancel}
+            onCancel={() => {
+              const retryFileCount = files.filter(
+                fileData => checkIfRetry(fileData.file, claimId).isRetry,
+              ).length;
+
+              onCancel({ cancelFileCount: files.length, retryFileCount });
+            }}
           />
         </VaModal>
       </div>

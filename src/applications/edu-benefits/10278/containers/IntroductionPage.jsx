@@ -3,16 +3,29 @@ import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { TITLE, SUBTITLE } from '../constants';
 
 // Components
 import OmbInfo from '../components/OmbInfo';
 import TechnologyProgramAccordion from '../components/TechnologyProgramAccordion';
 
+const customLink = ({ children, ...props }) => (
+  <va-link-action
+    type="primary-entry"
+    text="Start your Authorization to disclose personal information"
+    {...props}
+  >
+    {children}
+  </va-link-action>
+);
+
 export const IntroductionPage = props => {
+  const dispatch = useDispatch();
   const userLoggedIn = useSelector(state => isLoggedIn(state));
+  const formData = useSelector(state => state.form?.data || {});
   const { route } = props;
   const { formConfig, pageList } = route;
 
@@ -20,6 +33,15 @@ export const IntroductionPage = props => {
     scrollToTop();
     focusElement('h1');
   }, []);
+
+  useEffect(
+    () => {
+      if (formData.userLoggedIn !== userLoggedIn) {
+        dispatch(setData({ ...formData, userLoggedIn }));
+      }
+    },
+    [userLoggedIn, formData, dispatch],
+  );
 
   return (
     <article className="schemaform-intro">
@@ -51,18 +73,29 @@ export const IntroductionPage = props => {
           have already released based on your authorization.
         </li>
       </ul>
-
-      <SaveInProgressIntro
-        hideUnauthedStartLink={!userLoggedIn}
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        formConfig={route.formConfig}
-        pageList={pageList}
-        startText="Start your Authorization to disclose personal information"
-        unauthStartText="Sign in or create an account"
-      />
-      <p />
+      <div className="vads-u-margin-y--4">
+        {!userLoggedIn ? (
+          <SaveInProgressIntro
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            formConfig={formConfig}
+            pageList={pageList}
+            startText="Start your Authorization to disclose personal information"
+            unauthStartText="Sign in to start your form"
+            hideUnauthedStartLink={!userLoggedIn}
+          />
+        ) : (
+          <SaveInProgressIntro
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            formConfig={formConfig}
+            pageList={pageList}
+            startText="Start your Authorization to disclose personal information"
+            customLink={customLink}
+          />
+        )}
+      </div>
 
       <div
         className={userLoggedIn ? 'vads-u-margin-top--4' : ''}
@@ -86,6 +119,7 @@ IntroductionPage.propTypes = {
   location: PropTypes.shape({
     basename: PropTypes.string,
   }),
+  toggleLoginModal: PropTypes.func,
 };
 
 export default IntroductionPage;

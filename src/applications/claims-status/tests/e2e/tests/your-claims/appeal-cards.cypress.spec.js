@@ -40,9 +40,9 @@ describe('Appeal cards', () => {
       cy.findByText('Tinnitus');
       cy.findByText(/Status:/);
       cy.findByText('Last updated: January 15, 2025');
-      cy.findByRole('link', {
-        name: 'Details for Disability compensation appeal',
-      }).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
+      cy.get(
+        'va-link[aria-label="Details for Disability compensation appeal"]',
+      ).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
 
       cy.axeCheck();
     });
@@ -64,9 +64,9 @@ describe('Appeal cards', () => {
       cy.findByText('Tinnitus');
       cy.findByText(/Status:/);
       cy.findByText('Last updated: January 15, 2025');
-      cy.findByRole('link', {
-        name: 'Details for Supplemental claim for disability compensation',
-      }).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
+      cy.get(
+        'va-link[aria-label="Details for Supplemental claim for disability compensation"]',
+      ).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
 
       cy.axeCheck();
     });
@@ -88,9 +88,9 @@ describe('Appeal cards', () => {
       cy.findByText('Tinnitus');
       cy.findByText(/Status:/);
       cy.findByText('Last updated: January 15, 2025');
-      cy.findByRole('link', {
-        name: 'Details for Higher-level review for disability compensation',
-      }).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
+      cy.get(
+        'va-link[aria-label="Details for Higher-level review for disability compensation"]',
+      ).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
 
       cy.axeCheck();
     });
@@ -111,9 +111,9 @@ describe('Appeal cards', () => {
       cy.findByText('Tinnitus');
       cy.findByText(/Status:/);
       cy.findByText('Last updated: January 15, 2025');
-      cy.findByRole('link', {
-        name: 'Details for Disability compensation appeal',
-      }).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
+      cy.get(
+        'va-link[aria-label="Details for Disability compensation appeal"]',
+      ).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
 
       cy.axeCheck();
     });

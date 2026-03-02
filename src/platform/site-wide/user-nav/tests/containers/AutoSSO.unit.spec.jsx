@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { setupServer } from 'msw/node';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import * as ssoUtils from 'platform/utilities/sso';
 import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
@@ -25,15 +25,8 @@ const generateProps = ({
 });
 
 describe('<AutoSSO>', () => {
-  let server;
-
   beforeEach(() => {
-    server = setupServer(headKeepAliveSuccess);
-    server.listen();
-  });
-
-  afterEach(() => {
-    server.close();
+    server.use(headKeepAliveSuccess);
   });
 
   it('should not call removeLoginAttempted if user is logged out', () => {

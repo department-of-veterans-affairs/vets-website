@@ -11,7 +11,7 @@ class RadiologyDetailsPage extends BaseDetailsPage {
 
   verifyDate = date => {
     // In need of future revision:
-    // See moment function in verifyVaccineDate() in VaccineDetailsPage.js
+    // See date formatting function in verifyVaccineDate() in VaccineDetailsPage.js
     cy.get('[data-testid="header-time"]').contains(date);
   };
 

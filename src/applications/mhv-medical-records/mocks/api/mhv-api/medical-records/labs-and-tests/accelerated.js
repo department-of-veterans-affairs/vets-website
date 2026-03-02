@@ -1,10 +1,83 @@
 const sample = [
+  // Test case: Result field shows "None Noted" but observations are displayed below
+  // This reproduces the issue where the "Results" field shows "none noted" but there are
+  // actual results displayed further down the page in the observations section
+  {
+    id: 'SCDF-RESULT-NONE-NOTED-TEST-001',
+    type: 'DiagnosticReport',
+    attributes: {
+      display: 'Complete Blood Count - Results None Noted Issue',
+      testCode: 'CH',
+      dateCompleted: '2025-01-28T14:30:00Z',
+      sampleTested: 'WHOLE BLOOD',
+      bodySite: 'Left Arm',
+      location: 'VA TEST LAB',
+      orderedBy: 'Dr. Jane Smith',
+      // NOTE: No 'result' field here - this will cause "None Noted" to display
+      // but observations below contain actual results that display on the page
+      observations: [
+        {
+          testCode: 'WBC',
+          referenceRange: '4.5 - 10.0',
+          status: 'final',
+          sampleTested: 'WHOLE BLOOD',
+          bodySite: 'Left Arm',
+          comments: 'Within normal limits',
+          value: {
+            text: '7.2 10^3/uL',
+            type: 'Quantity',
+          },
+        },
+        {
+          testCode: 'RBC',
+          referenceRange: '4.6 - 5.5',
+          status: 'final',
+          comments: '',
+          value: {
+            text: '4.8 10^6/uL',
+            type: 'Quantity',
+          },
+        },
+        {
+          testCode: 'Hemoglobin',
+          referenceRange: '11.5 - 16.0',
+          status: 'final',
+          comments: '',
+          value: {
+            text: '14.2 g/dL',
+            type: 'Quantity',
+          },
+        },
+        {
+          testCode: 'Hematocrit',
+          referenceRange: '34.0 - 47.0',
+          status: 'final',
+          comments: '',
+          value: {
+            text: '42.0 %',
+            type: 'Quantity',
+          },
+        },
+        {
+          testCode: 'Platelets',
+          referenceRange: '150 - 400',
+          status: 'final',
+          comments: 'Platelet count is normal',
+          value: {
+            text: '250 10^3/uL',
+            type: 'Quantity',
+          },
+        },
+      ],
+    },
+  },
   {
     id: 'I2-2BCP5BAI6N7NQSAPSVIJ6INQ4A000000',
     type: 'diagnostic_report',
     attributes: {
       display: 'Surgical Pathology',
       testCode: 'SP',
+      testCodeDisplay: 'Surgical Pathology',
       dateCompleted: '2019-03-12T16:30:00Z',
       sampleTested: 'BONE MARROW',
       bodySite: null,
@@ -19,6 +92,7 @@ const sample = [
     attributes: {
       display: 'CH',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-23T22:06:02Z',
       sampleTested: 'SERUM',
       bodySite: 'Central Vien',
@@ -107,6 +181,7 @@ const sample = [
     attributes: {
       display: 'CH - FULL SAMPLE',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-23T22:06:02Z',
       sampleTested: 'SERUM',
       bodySite: 'Central Vien',
@@ -141,12 +216,80 @@ const sample = [
 ];
 
 const staging = [
+  // Test case: Result field shows "None Noted" but observations are displayed below
+  // This reproduces the issue where the "Results" field shows "none noted" but there are
+  // actual results displayed further down the page in the observations section
+  {
+    id: 'STAGING-RESULT-NONE-NOTED-TEST-001',
+    type: 'DiagnosticReport',
+    attributes: {
+      display: 'Lipid Panel - Results None Noted Issue',
+      testCode: 'CH',
+      dateCompleted: '2025-01-25T10:15:00Z',
+      sampleTested: 'SERUM',
+      bodySite: '',
+      location: 'VA STAGING LAB',
+      orderedBy: 'Dr. Test Provider',
+      // NOTE: No 'result' field - will show "None Noted" but observations contain actual results
+      observations: [
+        {
+          testCode: 'Total Cholesterol',
+          referenceRange: '<=200',
+          status: 'final',
+          comments: '',
+          value: {
+            text: '185 mg/dL',
+            type: 'quantity',
+          },
+          bodySite: '',
+          sampleTested: '',
+        },
+        {
+          testCode: 'HDL Cholesterol',
+          referenceRange: '>=60',
+          status: 'final',
+          comments: 'Good HDL level',
+          value: {
+            text: '65 mg/dL',
+            type: 'quantity',
+          },
+          bodySite: '',
+          sampleTested: '',
+        },
+        {
+          testCode: 'LDL Cholesterol',
+          referenceRange: '<=100',
+          status: 'final',
+          comments: '',
+          value: {
+            text: '98 mg/dL',
+            type: 'quantity',
+          },
+          bodySite: '',
+          sampleTested: '',
+        },
+        {
+          testCode: 'Triglycerides',
+          referenceRange: '<=150',
+          status: 'final',
+          comments: '',
+          value: {
+            text: '110 mg/dL',
+            type: 'quantity',
+          },
+          bodySite: '',
+          sampleTested: '',
+        },
+      ],
+    },
+  },
   {
     id: '15246817889',
     type: 'DiagnosticReport',
     attributes: {
       display: '*Glomerular Filtration Rate, Estimated',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00Z',
       sampleTested: '',
       encodedData: '',
@@ -176,6 +319,7 @@ const staging = [
     attributes: {
       display: 'Hemoglobin A1c',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -216,6 +360,7 @@ const staging = [
     attributes: {
       display: 'RBC Product',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-22T17:18:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -244,6 +389,7 @@ const staging = [
     attributes: {
       display: 'Basic Metabolic Panel',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -356,6 +502,7 @@ const staging = [
     attributes: {
       display: 'Flexible Crossmatch',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-22T17:19:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -432,6 +579,7 @@ const staging = [
     attributes: {
       display: 'Blood Type',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-22T17:19:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -460,6 +608,7 @@ const staging = [
     attributes: {
       display: 'Thyroid Stimulating Hormone',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -488,6 +637,7 @@ const staging = [
     attributes: {
       display: 'ABSC',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-22T17:19:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -516,6 +666,7 @@ const staging = [
     attributes: {
       display: '*Differential Automated',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -580,6 +731,7 @@ const staging = [
     attributes: {
       display: 'Lipid Panel',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -633,6 +785,7 @@ const staging = [
     attributes: {
       display: 'CBC w/ Diff',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00+00:00',
       sampleTested: '',
       encodedData: '',

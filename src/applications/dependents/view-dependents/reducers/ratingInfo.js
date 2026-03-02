@@ -10,13 +10,25 @@ const initialState = {
   serviceConnectedCombinedDegree: null,
 };
 
-const minRating = 30;
+// Minimum disability rating required to be able to add dependents to your VA
+// benefits
+const MIN_RATING = 30;
 
 /**
+ * @typedef {object} RatingInfoState
+ * @property {boolean} loading - whether data is loading
+ * @property {object|null} error - error object
+ * @property {boolean|null} hasMinimumRating - whether user has minimum rating
+ *
+ * @typedef {object} RatingInfoAction
+ * @property {string} type - action type
+ * @property {object} response - API response object
+ * @property {object} error - error object
+ *
  * Sets hasMinimumRating state value
- * @param {object} state
- * @param {object} action
- * @returns {object} state object and loading state
+ * @param {RatingInfoState} state - redux state
+ * @param {RatingInfoAction} action - redux action
+ * @returns {RatingInfoState} - updated redux state
  */
 function ratingValue(state = initialState, action) {
   switch (action.type) {
@@ -27,7 +39,7 @@ function ratingValue(state = initialState, action) {
         error: null,
       };
     case FETCH_RATING_INFO_SUCCESS:
-      if (action.response.userPercentOfDisability >= minRating) {
+      if (action.response.userPercentOfDisability >= MIN_RATING) {
         return {
           ...state,
           loading: false,

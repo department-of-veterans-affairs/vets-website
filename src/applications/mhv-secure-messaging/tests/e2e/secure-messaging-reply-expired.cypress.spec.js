@@ -12,10 +12,10 @@ describe('Secure Messaging Reply to Expired Message', () => {
 
     cy.get(Locators.ALERTS.OLD_MSG_HEAD)
       .should(`be.visible`)
-      .and('have.text', Alerts.OLD_MSG_HEAD);
+      .and(`contain`, Alerts.OLD_MSG_HEAD);
 
     cy.get(`${Locators.ALERTS.OLD_MSG_HEAD}+p`).should(
-      'have.text',
+      `contain`,
       Alerts.OLD_MSG_SUBHEAD,
     );
 

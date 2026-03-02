@@ -53,6 +53,10 @@ export default class PageObject {
     return this.assertAlert({ text, exist, status: 'error' });
   }
 
+  assertErrorModal({ text, exist = true }) {
+    return this.assertModal({ text, exist, status: 'error' });
+  }
+
   assertValidationError(error) {
     cy.get(`span[role="alert"]`).as('alert');
     cy.get('@alert')
@@ -248,7 +252,7 @@ export default class PageObject {
     return this.clickButton({ label });
   }
 
-  scheduleAppointment(text = 'Start scheduling') {
+  scheduleAppointment(text = 'Start scheduling an appointment') {
     cy.findByText(text).click({ waitForAnimations: true });
     return this;
   }

@@ -30,11 +30,11 @@ describe('<ServicePeriodReview>', () => {
     expect($$('dt', container)[1].textContent).to.eq(
       'Date initially entered active duty',
     );
-    expect($$('dd', container)[1].textContent).to.eq('03/02/2003');
+    expect($$('dd', container)[1].textContent).to.eq('March 2, 2003');
     expect($$('dt', container)[2].textContent).to.eq(
       'Final release date from active duty',
     );
-    expect($$('dd', container)[2].textContent).to.eq('03/20/2007');
+    expect($$('dd', container)[2].textContent).to.eq('March 20, 2007');
     expect($$('dt', container)[3].textContent).to.eq('Military Service number');
     expect($$('dd', container)[3].textContent).to.eq('123456');
   });

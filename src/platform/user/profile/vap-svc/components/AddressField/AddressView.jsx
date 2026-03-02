@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { formatAddress } from 'platform/forms/address/helpers';
 
@@ -22,3 +23,7 @@ export default function AddressView({ data: address }) {
     </>
   );
 }
+
+AddressView.propTypes = {
+  data: PropTypes.object.isRequired,
+};

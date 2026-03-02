@@ -1,6 +1,6 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
 @import "./user-profile";
 @import "./dashboard-alert";
 @import "./test-notification";
@@ -25,4 +25,10 @@
     background-color: var(--vads-color-base-lightest);
     cursor: pointer;
   }
+}
+
+#completed-forms-accordion-item::part(accordion-content) {
+  padding: 0 !important;
+  padding-top: .5rem !important;
+  margin: 0 !important;
 }

@@ -78,11 +78,11 @@ describe('Folders Landing Page', () => {
     );
   });
 
-  it('opens and closes Create New Folder modal', async () => {
+  it('opens and closes Create New Folder inline form', async () => {
     const createNewFolderBtn = screen.getByTestId('create-new-folder');
     fireEvent.click(createNewFolderBtn);
-    const createNewFolderModal = screen.getByTestId('create-folder-modal');
-    expect(createNewFolderModal).to.be.visible;
+    const createFolderInline = screen.getByTestId('create-folder-inline');
+    expect(createFolderInline).to.exist;
 
     const vaTextInput = screen.getByTestId('folder-name');
     expect(vaTextInput).to.exist;
@@ -94,16 +94,16 @@ describe('Folders Landing Page', () => {
     expect(cancelFolderButton).to.exist;
     fireEvent.click(cancelFolderButton);
     await waitFor(() => {
-      expect(createNewFolderModal.getAttribute('visible')).to.equal('false');
+      expect(screen.queryByTestId('create-folder-inline')).to.be.null;
     });
   });
 
-  it('should allow input field text changes in Create New Folder Modal', () => {
-    // opens create new folder modal
+  it('should allow input field text changes in Create New Folder inline form', () => {
+    // opens create new folder inline form
     const createNewFolderBtn = screen.getByTestId('create-new-folder');
     fireEvent.click(createNewFolderBtn);
-    const createNewFolderModal = screen.getByTestId('create-folder-modal');
-    expect(createNewFolderModal).to.be.visible;
+    const createFolderInline = screen.getByTestId('create-folder-inline');
+    expect(createFolderInline).to.exist;
 
     // checks input field to be empty
     const vaTextInput = screen.queryByTestId('folder-name');

@@ -27,6 +27,29 @@ export const getClaimantName = (formData, fallback = 'the claimant') => {
 };
 
 /**
+ * Helper function to get claimant's full name including middle name from form data
+ * @param {Object} formData - The form data
+ * @returns {string|null} The claimant's full name with middle, or null if not available
+ */
+export const getClaimantFullNameWithMiddle = formData => {
+  if (!formData || typeof formData !== 'object' || Array.isArray(formData)) {
+    return null;
+  }
+
+  const firstName =
+    formData?.claimantInformation?.claimantFullName?.first || '';
+  const middleName =
+    formData?.claimantInformation?.claimantFullName?.middle || '';
+  const lastName = formData?.claimantInformation?.claimantFullName?.last || '';
+
+  // Only return if there's a middle name and it differs from the base name
+  if (middleName) {
+    return [firstName, middleName, lastName].filter(Boolean).join(' ');
+  }
+  return null;
+};
+
+/**
  * Helper function to get veteran's name from form data
  * @param {Object} formData - The form data
  * @param {string} [fallback='the Veteran'] - Default text when name is not available
@@ -43,6 +66,28 @@ export const getVeteranName = (formData, fallback = 'the Veteran') => {
   const fullName = `${firstName} ${lastName}`.trim();
 
   return fullName || fallback;
+};
+
+/**
+ * Helper function to get veteran's full name including middle name from form data
+ * @param {Object} formData - The form data
+ * @returns {string|null} The veteran's full name with middle, or null if not available
+ */
+export const getVeteranFullNameWithMiddle = formData => {
+  if (!formData || typeof formData !== 'object' || Array.isArray(formData)) {
+    return null;
+  }
+
+  const firstName = formData?.veteranInformation?.veteranFullName?.first || '';
+  const middleName =
+    formData?.veteranInformation?.veteranFullName?.middle || '';
+  const lastName = formData?.veteranInformation?.veteranFullName?.last || '';
+
+  // Only return if there's a middle name and it differs from the base name
+  if (middleName) {
+    return [firstName, middleName, lastName].filter(Boolean).join(' ');
+  }
+  return null;
 };
 
 /**

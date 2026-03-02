@@ -9,6 +9,15 @@ export const FORM_DATA_SUBMIT_START = 'MANAGE_DEPENDENTS_SUBMIT_START';
 export const FORM_DATA_SUBMIT_SUCCESS = 'MANAGE_DEPENDENTS_SUBMIT_SUCCESS';
 export const FORM_DATA_SUBMIT_FAILED = 'MANAGE_DEPENDENTS_SUBMIT_FAILED';
 
+/**
+ * Update form data action (submit 686C-674 from inside view dependents) -
+ * We don't have a plan to move forward with this implementation
+ * @param {object} formSchema - schema for 686c-674 (possibly using v1 still)
+ * @param {object} uiSchema - uiSchema for 686c-674
+ * @param {object} formData - form data for 686c-674
+ * @param {string} stateKey - form data key
+ * @returns {object} action
+ */
 export function updateFormData(formSchema, uiSchema, formData, stateKey) {
   return {
     type: FORM_DATA_UPDATED,
@@ -19,6 +28,11 @@ export function updateFormData(formSchema, uiSchema, formData, stateKey) {
   };
 }
 
+/**
+ * Form data cleanup action
+ * @param {string} stateKey - form data key
+ * @returns {object} action to clean up form data
+ */
 export function cleanupFormData(stateKey) {
   return {
     type: FORM_DATA_CLEANUP,
@@ -26,6 +40,12 @@ export function cleanupFormData(stateKey) {
   };
 }
 
+/**
+ * Submit 686c-674 form action
+ * @param {string} stateKey - section key for type of dependent to remove
+ * @param {object} payload - form data payload
+ * @returns {Promise} dispatches actions based on API request result
+ */
 export function submitFormData(stateKey, payload) {
   return async dispatch => {
     dispatch({

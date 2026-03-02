@@ -133,6 +133,7 @@ describe('Burials Form', () => {
     it('should hide state of true when burial allowance not selected', () => {
       const result = formConfig.chapters.benefitsSelection.pages.burialAllowanceConfirmation.depends(
         {
+          relationshipToVeteran: 'spouse',
           'view:claimedBenefits': {
             plotAllowance: true,
           },
@@ -147,6 +148,7 @@ describe('Burials Form', () => {
     it('should show state of true when burial allowance not selected', () => {
       const result = formConfig.chapters.benefitsSelection.pages.burialAllowanceConfirmation.depends(
         {
+          relationshipToVeteran: 'funeralDirector',
           'view:claimedBenefits': {
             burialAllowance: true,
           },

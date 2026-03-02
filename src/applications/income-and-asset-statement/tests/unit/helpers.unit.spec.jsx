@@ -5,8 +5,11 @@ import { waitFor } from '@testing-library/react';
 import * as api from 'platform/utilities/api';
 import * as recordEventModule from 'platform/monitoring/record-event';
 import {
+  formatCurrency,
   formatFullNameNoSuffix,
   formatPossessiveString,
+  hasUploadedDocuments,
+  hasIncompleteTrust,
   isDefined,
   isReviewAndSubmitPage,
   resolveRecipientFullName,
@@ -102,6 +105,31 @@ describe('Income and Asset helpers', () => {
           expect(apiRequestStub.callCount).to.equal(3);
         });
       });
+    });
+  });
+
+  describe('formatCurrency', () => {
+    it('formats a whole number as currency', () => {
+      expect(formatCurrency(1000)).to.equal('$1,000');
+    });
+
+    it('formats a decimal number as currency', () => {
+      expect(formatCurrency(1234.56)).to.equal('$1,234.56');
+    });
+
+    it('formats zero correctly', () => {
+      expect(formatCurrency(0)).to.equal('$0');
+    });
+
+    it('formats negative numbers correctly', () => {
+      expect(formatCurrency(-500)).to.equal('$-500');
+    });
+
+    it('returns empty string when input is not a number', () => {
+      expect(formatCurrency(null)).to.equal('');
+      expect(formatCurrency(undefined)).to.equal('');
+      expect(formatCurrency('100')).to.equal('');
+      expect(formatCurrency({})).to.equal('');
     });
   });
 
@@ -218,7 +246,7 @@ describe('Income and Asset helpers', () => {
     const veteran = { first: 'john', middle: 'm', last: 'doe' };
     const otherVeteran = { first: 'alex', last: 'carter' };
 
-    it('returns veteranFullName when recipient is VETERAN and isLoggedIn is true', () => {
+    it('returns veteranFullName when recipient is VETERAN', () => {
       const item = { recipientRelationship: 'VETERAN' };
       const formData = {
         isLoggedIn: true,
@@ -227,17 +255,6 @@ describe('Income and Asset helpers', () => {
       };
 
       expect(resolveRecipientFullName(item, formData)).to.equal('John M. Doe');
-    });
-
-    it('returns otherVeteranFullName when recipient is VETERAN and isLoggedIn is false', () => {
-      const item = { recipientRelationship: 'VETERAN' };
-      const formData = {
-        isLoggedIn: false,
-        veteranFullName: veteran,
-        otherVeteranFullName: otherVeteran,
-      };
-
-      expect(resolveRecipientFullName(item, formData)).to.equal('Alex Carter');
     });
 
     it('returns recipientName when recipient is not the Veteran', () => {
@@ -293,6 +310,119 @@ describe('Income and Asset helpers', () => {
       const result = formatPossessiveString('Jones');
       expect(result).to.include('’');
       expect(result).to.not.include("'");
+    });
+
+    describe('hasUploadedDocuments', () => {
+      it('returns false when value is not an array', () => {
+        expect(hasUploadedDocuments(undefined)).to.be.false;
+        expect(hasUploadedDocuments(null)).to.be.false;
+        expect(hasUploadedDocuments({})).to.be.false;
+      });
+
+      it('returns false for an empty array', () => {
+        expect(hasUploadedDocuments([])).to.be.false;
+      });
+
+      it('returns false when documents have no name', () => {
+        const uploadedDocuments = [{}, { size: 1234 }];
+        expect(hasUploadedDocuments(uploadedDocuments)).to.be.false;
+      });
+
+      it('returns true when at least one document has a name', () => {
+        const uploadedDocuments = [
+          { name: '' },
+          { name: 'trust-document.pdf' },
+        ];
+
+        expect(hasUploadedDocuments(uploadedDocuments)).to.be.true;
+      });
+
+      it('ignores non-object entries safely', () => {
+        const uploadedDocuments = [
+          null,
+          undefined,
+          'string',
+          { name: 'valid.pdf' },
+        ];
+
+        expect(hasUploadedDocuments(uploadedDocuments)).to.be.true;
+      });
+    });
+
+    describe('hasIncompleteTrust', () => {
+      it('returns false when trusts is undefined or empty', () => {
+        expect(hasIncompleteTrust(undefined)).to.be.false;
+        expect(hasIncompleteTrust([])).to.be.false;
+      });
+
+      it('returns true when user declined to upload documents', () => {
+        const trusts = [
+          {
+            'view:addFormQuestion': false,
+          },
+        ];
+
+        expect(hasIncompleteTrust(trusts)).to.be.true;
+      });
+
+      it('returns true when user said yes but uploaded no documents', () => {
+        const trusts = [
+          {
+            'view:addFormQuestion': true,
+            uploadedDocuments: [],
+          },
+        ];
+
+        expect(hasIncompleteTrust(trusts)).to.be.true;
+      });
+
+      it('returns false when user said yes and uploaded documents', () => {
+        const trusts = [
+          {
+            'view:addFormQuestion': true,
+            uploadedDocuments: [{ name: 'trust.pdf' }],
+          },
+        ];
+
+        expect(hasIncompleteTrust(trusts)).to.be.false;
+      });
+
+      it('returns false when trust has no addFormQuestion value', () => {
+        const trusts = [
+          {
+            uploadedDocuments: [{ name: 'trust.pdf' }],
+          },
+        ];
+
+        expect(hasIncompleteTrust(trusts)).to.be.false;
+      });
+
+      it('returns true when at least one trust is incomplete', () => {
+        const trusts = [
+          {
+            'view:addFormQuestion': true,
+            uploadedDocuments: [{ name: 'valid.pdf' }],
+          },
+          {
+            'view:addFormQuestion': false,
+          },
+        ];
+
+        expect(hasIncompleteTrust(trusts)).to.be.true;
+      });
+
+      it('handles malformed trust entries safely', () => {
+        const trusts = [
+          null,
+          {},
+          {
+            'view:addFormQuestion': true,
+            uploadedDocuments: [{ name: 'trust.pdf' }],
+          },
+        ];
+
+        expect(hasIncompleteTrust(trusts)).to.be.false;
+      });
     });
   });
 });

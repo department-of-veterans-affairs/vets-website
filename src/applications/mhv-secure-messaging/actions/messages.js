@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { dataDogLogger } from 'platform/monitoring/Datadog';
 import { Actions } from '../util/actionTypes';
 import {
@@ -15,9 +16,11 @@ import {
   getLastSentMessage,
   isOlderThan,
   decodeHtmlEntities,
+  isMigrationPhaseBlockingReplies,
 } from '../util/helpers';
 import { resetRecentRecipient } from './recipients';
 import { setThreadRefetchRequired } from './threads';
+import { clearPrescription } from './prescription';
 
 export const clearThread = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
@@ -85,14 +88,22 @@ export const retrieveMessageThread = messageId => async dispatch => {
         ?.attributes.folderId.toString() ||
       response.data[0].attributes.folderId;
 
-    const { isOhMessage } = response.data[0].attributes;
+    const replyDisabled = response.data.some(
+      m => m.attributes.replyDisabled === true,
+    );
+
+    const { isOhMessage, ohMigrationPhase } = response.data[0].attributes;
 
     dispatch({
       type: Actions.Thread.GET_THREAD,
       payload: {
         replyToName,
         threadFolderId,
-        cannotReply: isOlderThan(lastSentDate, 45),
+        isStale: isOlderThan(lastSentDate, 45),
+        replyDisabled,
+        cannotReply:
+          isOlderThan(lastSentDate, 45) ||
+          isMigrationPhaseBlockingReplies(ohMigrationPhase),
         replyToMessageId: response.data[0].attributes.messageId,
         drafts: drafts.map(m => ({
           ...m.attributes,
@@ -105,6 +116,7 @@ export const retrieveMessageThread = messageId => async dispatch => {
           messageBody: decodeHtmlEntities(m.attributes.body),
         })),
         isOhMessage,
+        ohMigrationPhase,
       },
     });
   } catch (e) {
@@ -171,6 +183,7 @@ export const sendMessage = (
 ) => async dispatch => {
   const messageData =
     typeof message === 'string' ? JSON.parse(message) : message;
+  const startTimeMs = Date.now();
   try {
     const response = await createMessage(message, attachments, ohTriageGroup);
 
@@ -197,9 +210,17 @@ export const sendMessage = (
         },
         status: 'info',
       });
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'Rx SM Renewal',
+        'api-status': 'successful',
+        'api-latency-ms': Date.now() - startTimeMs,
+        'error-key': undefined,
+      });
     }
     dispatch(resetRecentRecipient());
     dispatch(setThreadRefetchRequired(true));
+    dispatch(clearPrescription());
   } catch (e) {
     const errorCode = e.errors?.[0]?.code;
     const errorDetail = e.errors?.[0]?.detail || e.message;
@@ -216,6 +237,13 @@ export const sendMessage = (
         },
         status: 'error',
         error: e,
+      });
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'Rx SM Renewal',
+        'api-status': 'fail',
+        'api-latency-ms': Date.now() - startTimeMs,
+        'error-key': errorCode,
       });
     }
 

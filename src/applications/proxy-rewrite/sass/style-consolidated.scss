@@ -49,10 +49,10 @@
 #ts-modal-crisisline {
   $font-path: "/fonts";
   $image-path: "~uswds/src/img";
-  
+
   @import "./accordions.scss";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
-  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities";
 
   /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
@@ -222,8 +222,8 @@
       padding-left: 3rem;
     }
 
-    // overriding utility class because teamsites has a root font-size of 10px and we don't have a utility class 
-    // in rem that computes exactly to that. 
+    // overriding utility class because teamsites has a root font-size of 10px and we don't have a utility class
+    // in rem that computes exactly to that.
     .medium-screen\:vads-u-padding--2 {
       padding: 16px !important;
     }
@@ -763,7 +763,7 @@
       background-color: transparent;
       color: #000;
     }
-  
+
     &:active {
       background-color: transparent;
       color: #162e51;
@@ -2729,7 +2729,7 @@
     * {
       color: #fff;
     }
-    
+
     background-color: #b50909;
     display: block;
     border-radius: 0;
@@ -2791,7 +2791,7 @@
     line-height: 1;
     text-align: center;
     text-decoration: none;
-    
+
     @media screen and (min-width: 768px) {
       width: 78px;
       padding: .625rem .35rem;

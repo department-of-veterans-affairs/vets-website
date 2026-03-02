@@ -1,5 +1,4 @@
-import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { currentOrPastMonthYearDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   additionalExposuresPageTitle,
@@ -10,9 +9,16 @@ import {
   getOtherFieldDescription,
   getSelectedCount,
   notSureHazardDetails,
+  reviewDateField,
   teSubtitle,
 } from '../../content/toxicExposure';
 import { validateToxicExposureDates } from '../../utils/validations';
+import { validateApproximateMonthYearDate } from '../../utils/dates';
+import {
+  ForceFieldBlur,
+  makeDateConfirmationField,
+  monthYearDateSchemaWithFullDateSupport,
+} from './utils';
 
 export const uiSchema = {
   'ui:title': ({ formData }) => {
@@ -35,12 +41,38 @@ export const uiSchema = {
 
   toxicExposure: {
     specifyOtherExposures: {
-      startDate: currentOrPastDateUI({
-        title: exposureStartDateApproximate,
-      }),
-      endDate: currentOrPastDateUI({
-        title: exposureEndDateApproximate,
-      }),
+      startDate: {
+        ...currentOrPastMonthYearDateUI({
+          title: exposureStartDateApproximate,
+        }),
+        'ui:required': false,
+        // Replace platform validation (validateCurrentOrPastMonthYear) with custom validation
+        'ui:validations': [validateApproximateMonthYearDate],
+        'ui:errorMessages': {
+          pattern: 'Please enter a valid date',
+          required: 'Please enter a date',
+        },
+        'ui:reviewField': reviewDateField,
+        'ui:confirmationField': makeDateConfirmationField(
+          exposureStartDateApproximate,
+        ),
+      },
+      endDate: {
+        ...currentOrPastMonthYearDateUI({
+          title: exposureEndDateApproximate,
+        }),
+        'ui:required': false,
+        // Replace platform validation (validateCurrentOrPastMonthYear) with custom validation
+        'ui:validations': [validateApproximateMonthYearDate],
+        'ui:errorMessages': {
+          pattern: 'Please enter a valid date',
+          required: 'Please enter a date',
+        },
+        'ui:reviewField': reviewDateField,
+        'ui:confirmationField': makeDateConfirmationField(
+          exposureEndDateApproximate,
+        ),
+      },
       'ui:validations': [validateToxicExposureDates],
       'view:notSure': {
         'ui:title': notSureHazardDetails,
@@ -54,6 +86,12 @@ export const uiSchema = {
       'ui:description': dateRangeAdditionalInfo,
     },
   },
+  _forceFieldBlur: {
+    'ui:field': ForceFieldBlur,
+    'ui:options': {
+      hideOnReview: true,
+    },
+  },
 };
 
 export const schema = {
@@ -65,8 +103,8 @@ export const schema = {
         specifyOtherExposures: {
           type: 'object',
           properties: {
-            startDate: full526EZSchema.definitions.minimumYearDate,
-            endDate: full526EZSchema.definitions.minimumYearDate,
+            startDate: monthYearDateSchemaWithFullDateSupport,
+            endDate: monthYearDateSchemaWithFullDateSupport,
             'view:notSure': {
               type: 'boolean',
             },
@@ -77,6 +115,9 @@ export const schema = {
           properties: {},
         },
       },
+    },
+    _forceFieldBlur: {
+      type: 'boolean',
     },
   },
 };

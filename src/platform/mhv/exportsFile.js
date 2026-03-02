@@ -22,7 +22,6 @@ export {
 export { default as usePrintTitle } from './hooks/usePrintTitle';
 export {
   formatName,
-  formatBirthDate,
   generatePdfScaffold,
   updatePageTitle,
   openCrisisModal,
@@ -32,6 +31,7 @@ export {
   makePdf,
   formatUserDob,
 } from './util/helpers';
+export { formatBirthDateLong } from './util/dateUtil';
 export {
   txtLine,
   txtLineDotted,
@@ -58,3 +58,4 @@ export {
   default as MhvAlertConfirmEmail,
   ProfileAlertConfirmEmail,
 } from './components/MhvAlertConfirmEmail';
+export { useBreadcrumbFocus } from './hooks/useBreadcrumbFocus';

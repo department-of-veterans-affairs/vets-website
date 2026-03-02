@@ -1,3 +1,6 @@
+// Keeping this file just in case we need more custom file upload later
+// Currently not used because the fileInputUI from platform/forms-system/src/js/web-component-patterns is standard from Platform
+
 import FileField from '../components/FileField';
 import { createPayload, parseResponse } from './helpers';
 

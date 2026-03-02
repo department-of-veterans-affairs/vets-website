@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { AUTHN_SETTINGS } from '@department-of-veterans-affairs/platform-user/exports';
+import useConfirmEmailTransaction from 'platform/mhv/hooks/useConfirmEmailTransaction';
 import SuccessConfirm from '../components/alerts/SuccessConfirm';
 import ErrorConfirm from '../components/alerts/ErrorConfirm';
 import ConfirmAddBtnGroup from '../components/ConfirmAddBtnGroup';
 
 export default function EmailConfirmationInterstitial() {
-  const [confirmationSuccess, setConfirmationSuccess] = useState(false);
-  const [confirmationError, setConfirmationError] = useState(false);
-
   useEffect(() => {
     document.title = 'Confirm your contact email address';
     if (!localStorage.getItem('hasSession')) {
@@ -21,35 +18,20 @@ export default function EmailConfirmationInterstitial() {
   const vapContactInfo = useSelector(selectVAPContactInfo);
   const emailAddress =
     vapContactInfo?.email?.emailAddress || 'No email provided';
-  const id = vapContactInfo?.email?.id;
+  const emailAddressId = vapContactInfo?.email?.id;
 
   const returnUrl =
     sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/my-va';
 
-  const handleConfirmation = () => {
-    apiRequest('/profile/email_addresses', {
-      method: 'PUT',
-      body: JSON.stringify({
-        id,
-        // eslint-disable-next-line camelcase
-        email_address: emailAddress,
-        // eslint-disable-next-line camelcase
-        confirmation_date: new Date().toISOString(),
-      }),
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(() => {
-        setConfirmationSuccess(true);
-        setConfirmationError(false);
-      })
-      .catch(() => {
-        setConfirmationError(true);
-        setConfirmationSuccess(false);
-      });
-  };
+  const {
+    confirmEmail,
+    isLoading: isConfirming,
+    isSuccess: confirmationSuccess,
+    isError: confirmationError,
+  } = useConfirmEmailTransaction({
+    emailAddressId,
+    emailAddress,
+  });
 
   return (
     <>
@@ -61,7 +43,7 @@ export default function EmailConfirmationInterstitial() {
           <va-card icon-name="" className="vads-u-width--100">
             <h2 className="vads-u-margin-top--0">Contact email address</h2>
             <p>
-              We'll send notifications about your VA health care and benefits to
+              We’ll send notifications about your VA health care and benefits to
               this email.
             </p>
             <p>
@@ -72,7 +54,8 @@ export default function EmailConfirmationInterstitial() {
         {!confirmationSuccess && (
           <ConfirmAddBtnGroup
             email={emailAddress}
-            handleConfirmation={handleConfirmation}
+            handleConfirmation={confirmEmail}
+            isConfirming={isConfirming}
           />
         )}
         {confirmationSuccess ? (
@@ -88,10 +71,10 @@ export default function EmailConfirmationInterstitial() {
           </div>
         )}
         <div>
-          <h2 className="vads-u-margin-top--0">What's changing</h2>
+          <h2 className="vads-u-margin-top--0">What’s changing</h2>
           <p>
-            We'll send all VA notifications to the contact email address listed
-            in your VA.gov profile. We won't send any more notifications to the
+            We’ll send all VA notifications to the contact email address listed
+            in your VA.gov profile. We won’t send any more notifications to the
             email listed in the previous MyHealtheVet experience. Make sure the
             contact email address listed in your VA.gov profile is the one you
             want us to send notifications to.

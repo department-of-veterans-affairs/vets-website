@@ -14,6 +14,24 @@
     "homePhone": "5551234567",
     "email": "john.doe@example.com"
   },
+  "employersHistory": [
+    {
+      "employerName": "Springfield Foundry",
+      "employerAddress": {
+        "street": "456 Industrial Rd",
+        "city": "Springfield",
+        "state": "IL",
+        "postalCode": "62702",
+        "country": "USA"
+      },
+      "typeOfWork": "Machinist",
+      "hoursPerWeek": 40,
+      "startDate": "2018-01-01",
+      "endDate": "2020-12-31",
+      "timeLost": 12,
+      "earnings": 3200
+    }
+  ],
   "sectionTwoP1": {
     "disabilityDescription": [
       { "disability": "Lower back pain" }
@@ -49,8 +67,8 @@
     "educationLevel": "highSchool",
     "highSchool": "12"
   },
-  "beforeDisability": { "otherEducation": false },
-  "afterDisability": { "otherEducation": false },
+  "beforeDisability": { "otherBeforeEducation": false },
+  "afterDisability": { "otherAfterEducation": false },
   "sectionSix": {
     "signatureOfClaimant": "John Q Doe",
     "dateSigned": "2024-01-01"

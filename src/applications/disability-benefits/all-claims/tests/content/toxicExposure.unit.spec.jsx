@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { render } from '@testing-library/react';
 import {
   datesDescription,
   getKeyIndex,
@@ -8,6 +9,7 @@ import {
   isClaimingTECondition,
   makeTEConditionsSchema,
   makeTEConditionsUISchema,
+  reviewDateField,
   showCheckboxLoopDetailsPage,
   showSummaryPage,
   showToxicExposurePages,
@@ -46,6 +48,17 @@ describe('toxicExposure', () => {
       expect(showToxicExposurePages(formData)).to.be.false;
     });
 
+    it('returns false when newDisabilities is undefined', () => {
+      const formData = {
+        'view:claimType': {
+          'view:claimingIncrease': true,
+          'view:claimingNew': false,
+        },
+      };
+
+      expect(showToxicExposurePages(formData)).to.be.false;
+    });
+
     it('returns true when both claim types', () => {
       const formData = {
         'view:claimType': {
@@ -63,6 +76,78 @@ describe('toxicExposure', () => {
       };
 
       expect(showToxicExposurePages(formData)).to.be.true;
+    });
+
+    it('returns true when user has rated disabilities and new conditions (new conditions workflow)', () => {
+      const formData = {
+        ratedDisabilities: [
+          {
+            name: 'Tinnitus',
+            ratedDisabilityId: '111111',
+            diagnosticCode: 6260,
+            decisionCode: 'SVCCONNCTED',
+            ratingPercentage: 10,
+          },
+        ],
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            condition: 'PTSD',
+          },
+        ],
+        disabilityCompNewConditionsWorkflow: true,
+      };
+
+      expect(showToxicExposurePages(formData)).to.be.true;
+    });
+
+    it('returns true when user has rated disabilities and secondary condition (new conditions workflow)', () => {
+      const formData = {
+        ratedDisabilities: [
+          {
+            name: 'Tinnitus',
+            ratedDisabilityId: '111111',
+            diagnosticCode: 6260,
+            decisionCode: 'SVCCONNCTED',
+            ratingPercentage: 10,
+          },
+        ],
+        newDisabilities: [
+          {
+            cause: 'SECONDARY',
+            condition: 'Hearing loss',
+          },
+        ],
+        disabilityCompNewConditionsWorkflow: true,
+      };
+
+      expect(showToxicExposurePages(formData)).to.be.true;
+    });
+
+    it('returns false when only placeholder rated disability exists', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            condition: 'Rated Disability', // placeholder
+          },
+        ],
+      };
+
+      expect(showToxicExposurePages(formData)).to.be.false;
+    });
+
+    it('returns false when cause is not NEW or SECONDARY', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            cause: 'WORSENED',
+            condition: 'Back pain',
+          },
+        ],
+      };
+
+      expect(showToxicExposurePages(formData)).to.be.false;
     });
   });
 
@@ -144,6 +229,35 @@ describe('toxicExposure', () => {
       };
 
       expect(isClaimingTECondition(formData)).to.be.false;
+    });
+
+    it('returns true when user has rated disabilities and TE condition selected (new conditions workflow)', () => {
+      const formData = {
+        ratedDisabilities: [
+          {
+            name: 'Tinnitus',
+            ratedDisabilityId: '111111',
+            diagnosticCode: 6260,
+            decisionCode: 'SVCCONNCTED',
+            ratingPercentage: 10,
+          },
+        ],
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            condition: 'PTSD',
+          },
+        ],
+        toxicExposure: {
+          conditions: {
+            ptsd: true,
+            none: false,
+          },
+        },
+        disabilityCompNewConditionsWorkflow: true,
+      };
+
+      expect(isClaimingTECondition(formData)).to.be.true;
     });
   });
 
@@ -853,6 +967,66 @@ describe('toxicExposure', () => {
       expect(
         getOtherFieldDescription(formData, 'otherHerbicideLocations'),
       ).to.equal('location 1, location 2');
+    });
+  });
+
+  describe('reviewDateField', () => {
+    const createChildren = (formData, uiSchema) => ({
+      props: { formData, uiSchema },
+    });
+
+    it('renders formatted month/year date correctly', () => {
+      const children = createChildren('2023-05', { 'ui:title': 'Start date' });
+      const { container } = render(reviewDateField({ children }));
+
+      expect(container.querySelector('dt').textContent).to.equal('Start date');
+      expect(container.querySelector('dd').textContent).to.equal('May 2023');
+    });
+
+    it('renders year-only date (YYYY-XX) correctly', () => {
+      const children = createChildren('2020-XX', {
+        'ui:title': 'Approximate start date',
+      });
+      const { container } = render(reviewDateField({ children }));
+
+      expect(container.querySelector('dt').textContent).to.equal(
+        'Approximate start date',
+      );
+      expect(container.querySelector('dd').textContent).to.equal('2020');
+    });
+
+    it('handles null formData', () => {
+      const children = createChildren(null, { 'ui:title': 'Date field' });
+      const { container } = render(reviewDateField({ children }));
+
+      expect(container.querySelector('dt').textContent).to.equal('Date field');
+      expect(container.querySelector('dd').textContent).to.equal('');
+    });
+
+    it('handles undefined formData', () => {
+      const children = createChildren(undefined, { 'ui:title': 'Date field' });
+      const { container } = render(reviewDateField({ children }));
+
+      expect(container.querySelector('dt').textContent).to.equal('Date field');
+      expect(container.querySelector('dd').textContent).to.equal('');
+    });
+
+    it('handles empty string formData', () => {
+      const children = createChildren('', { 'ui:title': 'Date field' });
+      const { container } = render(reviewDateField({ children }));
+
+      expect(container.querySelector('dt').textContent).to.equal('Date field');
+      expect(container.querySelector('dd').textContent).to.equal('');
+    });
+
+    it('handles invalid date string', () => {
+      const children = createChildren('invalid-date', {
+        'ui:title': 'Date field',
+      });
+      const { container } = render(reviewDateField({ children }));
+
+      expect(container.querySelector('dt').textContent).to.equal('Date field');
+      expect(container.querySelector('dd').textContent).to.equal('');
     });
   });
 });

@@ -5,7 +5,7 @@ describe('ezr FeatureToggles selector', () => {
   const state = {
     featureToggles: {
       /* eslint-disable camelcase */
-      hca_browser_monitoring_enabled: true,
+      ezr_browser_monitoring_enabled: true,
       ezr_upload_enabled: true,
       ezr_emergency_contacts_enabled: true,
       loading: false,

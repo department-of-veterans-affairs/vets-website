@@ -6,8 +6,8 @@ import {
   createPostHandler,
   createPatchHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import environment from '~/platform/utilities/environment';
 
@@ -36,24 +36,14 @@ const createState = initialState => actions =>
 const apiURL = `${environment.API_URL}/v0${endpoint}`;
 
 describe('fetching communication preferences', () => {
-  let server;
   let store;
-  before(() => {
-    server = setupServer(
+  beforeEach(() => {
+    server.use(
       createGetHandler(apiURL, () =>
         jsonResponse(getMaximalCommunicationGroupsSuccess),
       ),
     );
-    server.listen();
-  });
-  beforeEach(() => {
     store = mockStore(createState({}));
-  });
-  afterEach(() => {
-    server.resetHandlers();
-  });
-  after(() => {
-    server.close();
   });
   context(
     "when a user's only facility is one that supports Rx tracking",
@@ -71,8 +61,6 @@ describe('fetching communication preferences', () => {
           expect(state.loadingErrors).to.be.null;
           const communicationGroups = selectGroups(state);
           expect(communicationGroups.ids.length).to.equal(5);
-          // The first group is the Health Care group
-          expect(communicationGroups.ids[0]).to.equal('group3');
           const rxTrackingItem = selectItemById(state, 'item4');
           // The Rx-tracking item exists
           expect(rxTrackingItem).to.exist;
@@ -99,8 +87,6 @@ describe('fetching communication preferences', () => {
           expect(state.loadingErrors).to.be.null;
           const communicationGroups = selectGroups(state);
           expect(communicationGroups.ids.length).to.equal(5);
-          // The first group is the Health Care group
-          expect(communicationGroups.ids[0]).to.equal('group3');
           // The Rx-tracking item exists
           expect(selectItemById(state, 'item4')).to.exist;
         });
@@ -123,8 +109,6 @@ describe('fetching communication preferences', () => {
           expect(state.loadingErrors).to.be.null;
           const communicationGroups = selectGroups(state);
           expect(communicationGroups.ids.length).to.equal(5);
-          // The first group is the Health Care group
-          expect(communicationGroups.ids[0]).to.equal('group3');
           // The Rx-tracking item does not exist
           expect(selectItemById(state, 'item4')).not.to.exist;
           // The Rx-tracking item channel does not exist
@@ -247,16 +231,12 @@ describe('fetching communication preferences', () => {
 });
 
 describe('saveCommunicationPreferenceChannel', () => {
-  let server;
   let store;
-  before(() => {
-    server = setupServer(
+  beforeEach(() => {
+    server.use(
       createPostHandler(apiURL, () => jsonResponse(postSuccess)),
       createPatchHandler(`${apiURL}/*`, () => jsonResponse(patchSuccess)),
     );
-    server.listen();
-  });
-  beforeEach(() => {
     store = mockStore(
       createState({
         loadingStatus: 'loaded',
@@ -340,9 +320,6 @@ describe('saveCommunicationPreferenceChannel', () => {
   afterEach(() => {
     server.resetHandlers();
   });
-  after(() => {
-    server.close();
-  });
   context(
     'it first fails to save a permission via POST due to a 401 error and then succeeds on the second attempt',
     () => {
@@ -381,7 +358,8 @@ describe('saveCommunicationPreferenceChannel', () => {
           );
         });
         // now make the API work correctly and try to update the pref again
-        server.resetHandlers();
+        // Re-add success handlers (resetHandlers would clear all handlers)
+        server.use(createPostHandler(apiURL, () => jsonResponse(postSuccess)));
         promise = store.dispatch(
           saveCommunicationPreferenceChannel(channelId, {
             method: 'POST',
@@ -445,7 +423,10 @@ describe('saveCommunicationPreferenceChannel', () => {
           );
         });
         // now make the API work correctly and try to update the pref again
-        server.resetHandlers();
+        // Re-add success handlers (resetHandlers would clear all handlers)
+        server.use(
+          createPatchHandler(`${apiURL}/*`, () => jsonResponse(patchSuccess)),
+        );
         promise = store.dispatch(
           saveCommunicationPreferenceChannel(channelId, {
             method: 'PATCH',

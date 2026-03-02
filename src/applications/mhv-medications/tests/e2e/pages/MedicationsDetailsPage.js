@@ -183,10 +183,6 @@ class MedicationsDetailsPage {
     });
   };
 
-  verifyLoadingSpinnerForDownloadOnDetailsPage = () => {
-    cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
-  };
-
   verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
       .should('have.text', 'Download a PDF of this page')
@@ -383,7 +379,7 @@ class MedicationsDetailsPage {
   verifyExpiredStatusDescriptionOnDetailsPage = () => {
     cy.get('[data-testid="expired"]').should(
       'contain',
-      'This prescription is too old to refill. If you need more, request a renewal.',
+      'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
     );
   };
 
@@ -415,7 +411,7 @@ class MedicationsDetailsPage {
   clickLearnMoreAboutMedicationLinkOnDetailsPage = prescriptionId => {
     cy.intercept(
       'GET',
-      `my_health/v1/prescriptions/${prescriptionId}/documentation`,
+      `/my_health/v1/prescriptions/${prescriptionId}/documentation*`,
       medicationInformation,
     ).as('medicationDescription');
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
@@ -427,7 +423,7 @@ class MedicationsDetailsPage {
   clickLearnMoreAboutMedicationLinkOnDetailsPageWithNoInfo = prescriptionId => {
     cy.intercept(
       'GET',
-      `my_health/v1/prescriptions/${prescriptionId}/documentation`,
+      `/my_health/v1/prescriptions/${prescriptionId}/documentation*`,
       noMedicationInformation,
     ).as('medicationDescription');
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
@@ -499,19 +495,22 @@ class MedicationsDetailsPage {
       .click({ force: true, multiple: true });
   };
 
+  // In component-library 54.7.0, va-accordion's expand/collapse button changed
+  // from <button aria-pressed="true/false"> to <va-button-icon> without
+  // aria-pressed. We verify state by checking which button is rendered:
+  // expand-all visible = collapsed, collapse-all visible = expanded.
   verifyAccordionCollapsedOnDetailsPage = () => {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .should('have.attr', 'aria-pressed', 'false');
+      .should('exist');
   };
 
   verifyAccordionExpandedOnDetailsPage = () => {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
-      .find('[data-testid="expand-all-accordions"]')
-      .first()
-      .should('have.attr', 'aria-pressed', 'true');
+      .find('[data-testid="collapse-all-accordions"]')
+      .should('exist');
   };
 
   verifyRefillHistoryInformationTextOnDetailsPage = text => {
@@ -549,12 +548,15 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="previous-rx"]').should('contain', text);
   };
 
-  visitMedDetailsPage = prescriptionDetails => {
+  visitMedDetailsPage = (prescriptionDetails, stationNumber = null) => {
+    const urlSuffix = stationNumber ? `?station_number=${stationNumber}` : '';
     cy.intercept(
       'GET',
-      `/my-health/medications/prescription/${prescriptionDetails}`,
+      `/my-health/medications/prescription/${prescriptionDetails}${urlSuffix}`,
     );
-    cy.visit(`/my-health/medications/prescription/${prescriptionDetails}`);
+    cy.visit(
+      `/my-health/medications/prescription/${prescriptionDetails}${urlSuffix}`,
+    );
   };
 
   verifyNoMedicationsErrorAlertWhenUserNavsToDetailsPage = text => {
@@ -578,7 +580,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPendingRxWarningTextOnDetailsPage = alert => {
-    cy.get('[data-testid="pending-med-alert"]').should('have.text', alert);
+    cy.get('[data-testid="pending-med-alert"]').should('contain', alert);
   };
 
   verifyHeaderTextOnDetailsPage = text => {
@@ -590,7 +592,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPendingTextAlertForLessThanSevenDays = text => {
-    cy.get('[data-testid="pending-med-alert"]').should('have.text', text);
+    cy.get('[data-testid="pending-med-alert"]').should('contain', text);
   };
 
   verifyRefillDelayAlertBannerOnDetailsPage = text => {

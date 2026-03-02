@@ -1,10 +1,10 @@
+import React, { useEffect, useState } from 'react';
 import { addDays } from 'date-fns';
 import { scrollToFirstError } from 'platform/utilities/scroll';
-import React, { useEffect, useState } from 'react';
+import CalendarWidget from 'platform/shared/calendar/CalendarWidget';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import FormButtons from '../../../components/FormButtons';
-import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import { FETCH_STATUS, FLOW_TYPES } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getPageTitle } from '../../newAppointmentFlow';

@@ -1,5 +1,14 @@
+// Helper to get a fresh axe-core instance.
+// In jsdom 16+, axe-core captures window/document references at module load time.
+// Since mocha-setup creates a new JSDOM for each test (in beforeEach), the cached
+// axe-core module may have stale references. Re-requiring fixes this.
+function getFreshAxe() {
+  const axeCachePath = require.resolve('axe-core');
+  delete require.cache[axeCachePath];
+  return require('axe-core');
+}
+
 module.exports = function(chai, utils) {
-  const axe = require('axe-core');
   const { Assertion } = chai;
 
   utils.addMethod(chai.Assertion.prototype, 'accessible', function(
@@ -13,6 +22,7 @@ module.exports = function(chai, utils) {
       'best-practice',
     ],
   ) {
+    const axe = getFreshAxe();
     const el = this._obj;
     const config = {
       runOnly: {

@@ -7,6 +7,7 @@ import {
   hasAccountFlaggedError,
   hasRoutingNumberFlaggedError,
   hasInvalidHomePhoneNumberError,
+  getHealthCareSettingsHubDescription,
 } from '../../util';
 
 describe('profile utils', () => {
@@ -138,6 +139,45 @@ describe('profile utils', () => {
           ...mockDirectDeposits.updates.errors.invalidAccountNumber.errors,
         ]),
       ).to.be.not.ok;
+    });
+  });
+
+  describe('ProfileHub content for Health Care Settings', () => {
+    it('returns correct description when both properties are true', () => {
+      const description = getHealthCareSettingsHubDescription({
+        hideHealthCareContacts: true,
+        isSchedulingPreferencesPilotEligible: true,
+      });
+      expect(description).to.equal(
+        'Messages signature and scheduling preferences',
+      );
+    });
+    it('returns correct description when both properties are false', () => {
+      const description = getHealthCareSettingsHubDescription({
+        hideHealthCareContacts: false,
+        isSchedulingPreferencesPilotEligible: false,
+      });
+      expect(description).to.equal(
+        'Health care contacts and messages signature',
+      );
+    });
+    it('returns correct description when just scheduling preferences is true', () => {
+      const description = getHealthCareSettingsHubDescription({
+        hideHealthCareContacts: false,
+        isSchedulingPreferencesPilotEligible: true,
+      });
+      expect(description).to.equal(
+        'Health care contacts, messages signature, and scheduling preferences',
+      );
+    });
+    it('returns correct description when just health care contacts is true', () => {
+      const description = getHealthCareSettingsHubDescription({
+        hideHealthCareContacts: true,
+        isSchedulingPreferencesPilotEligible: false,
+      });
+      expect(description).to.equal(
+        'Messages signature and other health care settings',
+      );
     });
   });
 });

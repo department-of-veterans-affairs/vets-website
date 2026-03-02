@@ -15,12 +15,108 @@ import {
 
 import { MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 import { getFormLink } from '~/platform/forms/helpers';
+import { getCustomCardHeaderConfigs } from '../../utils/custom-card-header-configs';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import DraftCard from './DraftCard';
 import MissingApplicationHelp from './MissingApplicationHelp';
 import SubmissionCard from './SubmissionCard';
 import Error from './Error';
+
+/**
+ * formIdLabel is used to construct part of the card header
+ */
+const getFormIdLabel = (formHeaderConfig, formId, formMeta, isForm) => {
+  if (isForm) {
+    return formMeta?.title ? `${formId} (${formMeta.title})` : formId;
+  }
+
+  if (formHeaderConfig && formHeaderConfig?.formIdLabel) {
+    return formHeaderConfig?.formIdLabel;
+  }
+
+  return formId.replace(/-V2$/i, '');
+};
+
+/**
+ * presentableFormId is used to construct the optional card subheader
+ * It is always preceded with VA, e.g. "VA {presentableFormId}"
+ */
+const getPresentableFormId = (formHeaderConfig, formId) => {
+  let presentableFormId = presentableFormIDs[formId] || '';
+  let hasCustomPresentableFormId = false;
+
+  if (formHeaderConfig && formHeaderConfig?.presentableFormId) {
+    presentableFormId = formHeaderConfig?.presentableFormId;
+    hasCustomPresentableFormId = true;
+  }
+
+  return { presentableFormId, hasCustomPresentableFormId };
+};
+
+/**
+ * formTitle is used as the card header
+ */
+const getFormTitle = (
+  formHeaderConfig,
+  formIdLabel,
+  formMeta,
+  hasBenefit,
+  isForm,
+) => {
+  let formTitle = hasBenefit
+    ? `application for ${formMeta.benefit}`
+    : `VA Form ${formIdLabel}`;
+
+  if (formHeaderConfig && formHeaderConfig?.formTitle) {
+    formTitle = formHeaderConfig?.formTitle;
+  }
+
+  return isForm ? formTitle : formatFormTitle(formTitle);
+};
+
+/**
+ * Used for defining the default or custom headers and
+ * optional subheaders for status cards
+ * To define custom headers, add an entry in getCustomCardHeaderConfigs
+ */
+export const getCardHeaders = (formId, formMeta, hasBenefit) => {
+  const customCardHeaderConfigs = getCustomCardHeaderConfigs(formMeta);
+
+  const formHeaderConfig = customCardHeaderConfigs.find(
+    config => config.formId === formId,
+  );
+
+  const formArrays = ['22-10275', '22-10278', '22-10297'];
+  const isForm = formArrays.includes(formId);
+
+  const formIdLabel = getFormIdLabel(
+    formHeaderConfig,
+    formId,
+    formMeta,
+    isForm,
+  );
+
+  const {
+    presentableFormId,
+    hasCustomPresentableFormId,
+  } = getPresentableFormId(formHeaderConfig, formId);
+
+  const formattedFormTitle = getFormTitle(
+    formHeaderConfig,
+    formIdLabel,
+    formMeta,
+    hasBenefit,
+    isForm,
+  );
+
+  return {
+    formTitle: formattedFormTitle,
+    hasCustomPresentableFormId,
+    isForm,
+    presentableFormId,
+  };
+};
 
 const ApplicationsInProgress = ({
   submittedError,
@@ -113,8 +209,6 @@ const ApplicationsInProgress = ({
         {hasForms && (
           <div>
             {allForms.map(form => {
-              const formArrays = ['22-10275', '22-10278', '22-10297'];
-
               const formId = form.form;
               const formStatus = form.status;
               const { pdfSupport } = form;
@@ -122,30 +216,19 @@ const ApplicationsInProgress = ({
               // otherwise use "VA Form {formId}" for non-SiP forms
               const formMeta = MY_VA_SIP_FORMS.find(e => e.id === formId);
               const hasBenefit = !!formMeta?.benefit;
-              const isForm = formArrays.includes(formId);
-              // Temporary custom label for 21-4142 via 526 claim
-              // and for 686C-674-v2 so they can be user-friendly
-              let formIdLabel;
-              if (formId === 'form526_form4142') {
-                formIdLabel = '21-4142 submitted with VA Form 21-526EZ';
-              } else if (isForm) {
-                formIdLabel = formMeta?.title
-                  ? `${formId} (${formMeta.title})`
-                  : formId;
-              } else if (formId === 'form0995_form4142') {
-                formIdLabel = '21-4142 submitted with VA Form 20-0995';
-              } else {
-                formIdLabel = form.form.replace(/-V2$/i, '');
-              }
-              const formTitle = hasBenefit
-                ? `application for ${formMeta.benefit}`
-                : `VA Form ${formIdLabel}`;
-              const presentableFormId = presentableFormIDs[formId] || '';
+
               const { lastUpdated } = form || {};
               const lastSavedDate = format(
                 fromUnixTime(lastUpdated),
                 'MMMM d, yyyy',
               );
+
+              const {
+                formTitle,
+                hasCustomPresentableFormId,
+                isForm,
+                presentableFormId,
+              } = getCardHeaders(formId, formMeta, hasBenefit);
 
               if (Object.hasOwn(form, 'savedAt')) {
                 // if form is draft, then render Draft Card
@@ -162,9 +245,13 @@ const ApplicationsInProgress = ({
                     continueUrl={continueUrl}
                     expirationDate={expirationDate}
                     formId={formId}
-                    formTitle={isForm ? formTitle : formatFormTitle(formTitle)}
+                    formTitle={formTitle}
                     lastSavedDate={lastSavedDate}
-                    presentableFormId={hasBenefit ? presentableFormId : false}
+                    presentableFormId={
+                      hasBenefit || hasCustomPresentableFormId
+                        ? presentableFormId
+                        : false
+                    }
                     isForm={isForm}
                   />
                 );
@@ -186,7 +273,11 @@ const ApplicationsInProgress = ({
                     lastSavedDate={lastSavedDate}
                     submittedDate={submittedDate}
                     pdfSupport={pdfSupport}
-                    presentableFormId={hasBenefit ? presentableFormId : false}
+                    presentableFormId={
+                      hasBenefit || hasCustomPresentableFormId
+                        ? presentableFormId
+                        : false
+                    }
                     status={normalizeSubmissionStatus(formStatus)}
                   />
                 );

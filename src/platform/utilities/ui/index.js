@@ -3,6 +3,7 @@ import * as ReactIs from 'react-is';
 import {
   focusElement,
   focusByOrder,
+  waitTime,
   waitForRenderThenFocus,
   defaultFocusSelector,
 } from './focus';
@@ -18,6 +19,7 @@ import { ERROR_ELEMENTS, FOCUSABLE_ELEMENTS } from '../constants';
 export {
   focusElement,
   focusByOrder,
+  waitTime,
   waitForRenderThenFocus,
   defaultFocusSelector,
   getScrollOptions,

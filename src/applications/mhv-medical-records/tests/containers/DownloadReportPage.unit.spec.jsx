@@ -94,7 +94,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     expect(ccdAccordion).to.exist;
 
     fireEvent.click(ccdAccordion);
-    const ccdGenerateButton = screen.getByTestId('generateCcdButtonXml');
+    const ccdGenerateButton = screen.getByTestId('generateCcdButtonXmlVistA');
     expect(ccdGenerateButton).to.exist;
     expect(ccdGenerateButton).to.have.attribute(
       'text',
@@ -102,8 +102,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-indicator')).to
-      .exist;
+    expect(screen.getByTestId('generating-ccd-VistA-indicator')).to.exist;
   });
 
   it('generates CCD (PDF) on button click', () => {
@@ -111,7 +110,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     expect(ccdAccordion).to.exist;
 
     fireEvent.click(ccdAccordion);
-    const ccdGenerateButton = screen.getByTestId('generateCcdButtonPdf');
+    const ccdGenerateButton = screen.getByTestId('generateCcdButtonPdfVistA');
     expect(ccdGenerateButton).to.exist;
     expect(ccdGenerateButton).to.have.attribute(
       'text',
@@ -119,8 +118,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-indicator')).to
-      .exist;
+    expect(screen.getByTestId('generating-ccd-VistA-indicator')).to.exist;
   });
 
   it('generates CCD (HTML) on button click', () => {
@@ -128,7 +126,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     expect(ccdAccordion).to.exist;
 
     fireEvent.click(ccdAccordion);
-    const ccdGenerateButton = screen.getByTestId('generateCcdButtonHtml');
+    const ccdGenerateButton = screen.getByTestId('generateCcdButtonHtmlVistA');
     expect(ccdGenerateButton).to.exist;
     expect(ccdGenerateButton).to.have.attribute(
       'text',
@@ -136,8 +134,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-indicator')).to
-      .exist;
+    expect(screen.getByTestId('generating-ccd-VistA-indicator')).to.exist;
   });
 });
 
@@ -158,12 +155,12 @@ describe('DownloadRecordsPage - Oracle Health Only User', () => {
     expect(screen).to.exist;
   });
 
-  it('renders OH-only intro text with singular "report"', () => {
-    expect(screen.getByText('Download your medical records report')).to.exist;
-    // Verify the intro paragraph exists (not the h2)
+  it('renders OH intro text with facility names', () => {
+    expect(screen.getByText('Download your medical records reports')).to.exist;
+    // Verify the h1 heading exists
     expect(
       screen.getByRole('heading', {
-        name: /Download your medical records report/i,
+        name: /Download your medical records reports/i,
         level: 1,
       }),
     ).to.exist;
@@ -423,6 +420,44 @@ describe('DownloadRecordsPage with last successful update timestamp', () => {
   });
 });
 
+describe('DownloadRecordsPage - Missing EHR data for facility names', () => {
+  const testEmptyFacilityList = ehrData => {
+    const state = {
+      ...getBaseState(bothFacilities, ['456']),
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: ehrData,
+            cernerFacilities: [{ vhaId: '456' }],
+          },
+          loading: false,
+        },
+      },
+    };
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: state,
+      reducers: reducer,
+      path: '/download-all',
+    });
+    // When ehrDataByVhaId is missing or doesn't contain matching facility IDs,
+    // vistaFacilityNames will be an empty array
+    // The component should still render without errors
+    expect(screen).to.exist;
+    expect(screen.getByText('Download your medical records reports')).to.exist;
+    // Should NOT show any facility names since mapping failed
+    expect(screen.queryByText('VA Medical Center - Vista')).to.be.null;
+    expect(screen.queryByText('VA Medical Center - Oracle Health')).to.be.null;
+  };
+
+  it('renders page without facility names when ehrDataByVhaId is missing', () => {
+    testEmptyFacilityList(undefined);
+  });
+
+  it('renders page without facility names when facility IDs not found', () => {
+    testEmptyFacilityList({ 999: { vamcSystemName: 'Other' } });
+  });
+});
+
 describe('DownloadRecordsPage - Oracle Health CCD not enabled', () => {
   it('shows VistaOnlyContent for VistA-only users when flag is false', () => {
     const state = getBaseState(vistaOnlyFacilities, []);
@@ -450,14 +485,11 @@ describe('DownloadRecordsPage - Oracle Health CCD not enabled', () => {
       path: '/download-all',
     });
 
-    // Should show VistA intro text, not OH intro text
+    // Should show VistA intro text since OH flag is disabled
     expect(
       screen.getByText(/Download your VA medical records as a single report/i),
     ).to.exist;
     expect(screen.getByText('Download your medical records reports')).to.exist;
-    // Should not show OH-specific singular "report" heading
-    expect(screen.queryByText('Download your medical records report')).to.not
-      .exist;
   });
 
   it('shows VistaOnlyContent for users with both facilities when flag is false', () => {

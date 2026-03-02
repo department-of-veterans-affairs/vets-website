@@ -4,9 +4,10 @@ import page from '../../../../config/chapters/04-household-information/spouseMar
 describe('Previous marriages page', () => {
   const { uiSchema, schema, depends } = page;
 
-  it('depends function returns true only for claimantRelationship === SPOUSE', () => {
+  it('depends function returns true only for claimantRelationship === SURVIVING_SPOUSE', () => {
     expect(depends).to.be.a('function');
-    expect(Boolean(depends({ claimantRelationship: 'SPOUSE' }))).to.be.true;
+    expect(Boolean(depends({ claimantRelationship: 'SURVIVING_SPOUSE' }))).to.be
+      .true;
     expect(Boolean(depends({ claimantRelationship: 'CHILD' }))).to.be.false;
     expect(Boolean(depends({}))).to.be.false;
   });

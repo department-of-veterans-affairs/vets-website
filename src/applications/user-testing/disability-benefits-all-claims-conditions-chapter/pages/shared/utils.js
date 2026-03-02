@@ -217,7 +217,7 @@ export const ForceFieldBlur = () => {
 
 // VA platform runs validation based on formData.dateString,
 // which is populated after all field blur events
-const getCurrentYear = () => new Date().getFullYear();
+const getCurrentYear = () => new Date(Date.now()).getFullYear();
 
 export const validateApproximateDate = (errors, dateString) => {
   if (!dateString) return;

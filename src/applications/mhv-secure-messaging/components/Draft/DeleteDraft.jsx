@@ -205,7 +205,6 @@ const DeleteDraft = props => {
       </button>
       <DeleteDraftModal
         draftSequence={draftSequence}
-        unsavedDraft={unsavedDraft}
         visible={isModalVisible}
         onClose={handleDeleteModalClose}
         onDelete={handleDeleteDraftConfirm}

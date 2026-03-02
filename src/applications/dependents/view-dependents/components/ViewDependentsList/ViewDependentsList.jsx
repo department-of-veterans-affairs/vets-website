@@ -13,6 +13,24 @@ const RemoveDependentSuccessMessage = () => (
     more information or documents, we’ll contact you by mail.
   </p>
 );
+
+/**
+ * @typedef {Object} ViewDependentsListProps
+ * @property {Array} dependents - list of dependents to display
+ * @property {string} header - header text
+ * @property {boolean} isAward - whether viewing award dependents
+ * @property {string} link - link URL
+ * @property {string} linkText - link text
+ * @property {boolean} loading - whether data is loading
+ * @property {boolean} manageDependentsToggle - whether manage dependents
+ * feature is enabled
+ * @property {object} subHeader - subheader content
+ * @property {Array} submittedDependents - list of successfully submitted
+ * dependents
+ *
+ * @param {ViewDependentsListProps} props - component props
+ * @returns {JSX.Element} - ViewDependentsList component
+ */
 function ViewDependentsList(props) {
   let mainContent;
   const manageDependentsToggle = props?.manageDependentsToggle ?? null;

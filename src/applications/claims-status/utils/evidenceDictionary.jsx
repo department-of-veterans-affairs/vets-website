@@ -29,7 +29,6 @@ export const evidenceDictionary = {
           upload or mail it.
           <br />
           <va-link
-            active
             data-testid="VA Form 21-4142"
             text="VA Form 21-4142"
             href="/find-forms/about-form-21-4142/"
@@ -52,7 +51,6 @@ export const evidenceDictionary = {
           us your employment information.
           <br />
           <va-link
-            active
             text="VA Form 21-4192"
             data-testid="VA Form 21-4192"
             href="/find-forms/about-form-21-4192/"
@@ -76,7 +74,6 @@ export const evidenceDictionary = {
           by phone, or by mail.
           <br />
           <va-link
-            active
             text="Add or change direct deposit information"
             data-testid="Add or change direct deposit information"
             href="/profile/direct-deposit"
@@ -87,21 +84,13 @@ export const evidenceDictionary = {
           If you don’t already have a bank account, the Veterans Benefits
           Banking Program (VBBP) can connect you with a bank that will help you
           set up an account.
-          <a
-            className="external-active-link vads-u-margin-top--0"
-            rel="noopener noreferrer"
-            target="_blank"
-            data-testid="Set up a bank account through VBBP (opens in new tab)"
+          <br />
+          <va-link
+            external
+            data-testid="Set up a bank account through VBBP"
             href="https://veteransbenefitsbanking.org/"
-          >
-            Set up a bank account through VBBP (opens in new tab)
-            <va-icon
-              icon="chevron_right"
-              class="active-link-icon"
-              size={2}
-              aria-hidden="true"
-            />
-          </a>
+            text="Set up a bank account through VBBP"
+          />
         </p>
       </>
     ),
@@ -235,7 +224,6 @@ export const evidenceDictionary = {
           mail it.
           <br />
           <va-link
-            active
             data-testid="VA Form 21-8940"
             text="VA Form 21-8940"
             href="/find-forms/about-form-21-8940/"
@@ -246,7 +234,6 @@ export const evidenceDictionary = {
           ask them to mail us your employment information.
           <br />
           <va-link
-            active
             data-testid="VA Form 21-4192"
             text="VA Form 21-4192"
             href="/find-forms/about-form-21-4192/"
@@ -311,7 +298,6 @@ export const evidenceDictionary = {
           mail it.
           <br />
           <va-link
-            active
             data-testid="VA Form 21-4142a"
             text="VA Form 21-4142a"
             href="/find-forms/about-form-21-4142a/"
@@ -365,7 +351,6 @@ export const evidenceDictionary = {
           it.
           <br />
           <va-link
-            active
             data-testid="VA Form 21-10210"
             text="VA Form 21-10210"
             href="/find-forms/about-form-21-10210/"
@@ -409,13 +394,49 @@ export const evidenceDictionary = {
       <>
         <p>
           Use Statement in Support of Claim (VA Form 21-4138) to answer the
-          questions listed under "what we need from you."
+          questions listed under <strong>What we need from you</strong>.
         </p>
         <p>
           After completing and signing the form, you can upload or mail it.
           <br />
           <va-link
-            active
+            data-testid="VA Form 21-4138"
+            text="VA Form 21-4138"
+            href="/find-forms/about-form-21-4138/"
+          />
+        </p>
+      </>
+    ),
+    isSensitive: true,
+  },
+  'ASB-tell us specific disability fm asbestos exposure': {
+    longDescription: (
+      <>
+        <p>
+          To process your disability claim for asbestos exposure, we need
+          information about your asbestos-related disease or disability:
+        </p>
+        <ol>
+          <li>
+            The specific disease or disability caused by asbestos exposure
+          </li>
+          <li>Why you believe asbestos caused your disease or disability</li>
+          <li>
+            Evidence of this connection, like a medical opinion from your doctor
+          </li>
+        </ol>
+      </>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          Use Statement in Support of Claim (VA Form 21-4138) to answer the
+          questions listed under <strong>What we need from you</strong>.
+        </p>
+        <p>
+          After completing and signing the form, you can upload or mail it.
+          <br />
+          <va-link
             data-testid="VA Form 21-4138"
             text="VA Form 21-4138"
             href="/find-forms/about-form-21-4138/"
@@ -468,7 +489,6 @@ export const evidenceDictionary = {
           upload or mail it.
           <br />
           <va-link
-            active
             text="VA Form 21-526EZ"
             data-testid="VA Form 21-526EZ"
             href="/find-forms/about-form-21-526ez/"
@@ -573,7 +593,6 @@ export const evidenceDictionary = {
           upload or mail it.
           <br />
           <va-link
-            active
             data-testid="VA Form 21-4142"
             text="VA Form 21-4142"
             href="/find-forms/about-form-21-4142/"
@@ -608,7 +627,6 @@ export const evidenceDictionary = {
           upload or mail it.
           <br />
           <va-link
-            active
             data-testid="VA Form 21-4142a"
             text="VA Form 21-4142a"
             href="/find-forms/about-form-21-4142a/"
@@ -679,7 +697,6 @@ export const evidenceDictionary = {
           or use VA Form 21-4138, Statement in Support of Claim.
           <br />
           <va-link
-            active
             data-testid="VA Form 21-4138"
             text="VA Form 21-4138"
             href="/find-forms/about-form-21-4138/"
@@ -735,7 +752,6 @@ export const evidenceDictionary = {
           authorize VA to request your medical records.
           <br />
           <va-link
-            active
             data-testid="VA Form 21-4142"
             text="VA Form 21-4142"
             href="/find-forms/about-form-21-4142/"
