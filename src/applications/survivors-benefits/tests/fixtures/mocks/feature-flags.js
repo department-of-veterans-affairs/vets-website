@@ -1,13 +1,16 @@
 const APPLICATION_FEATURE_FLAGS = Object.freeze({
-  survivorsBenefitsFormEnabled: false,
-  survivorsBenefitsForm2025VersionEnabled: true,
+  survivorsBenefitsFormEnabled: true,
+  survivorsBenefitsForm2025VersionEnabled: false,
 });
 
 const generateFeatureFlags = ({ toggles = APPLICATION_FEATURE_FLAGS } = {}) => {
-  const {
-    survivorsBenefitsFormEnabled,
-    survivorsBenefitsForm2025VersionEnabled,
-  } = toggles;
+  // const {
+  //   survivorsBenefitsFormEnabled,
+  //   survivorsBenefitsForm2025VersionEnabled,
+  // } = toggles;
+
+  // eslint-disable-next-line no-console
+  console.log(toggles);
 
   return {
     data: {
@@ -15,11 +18,11 @@ const generateFeatureFlags = ({ toggles = APPLICATION_FEATURE_FLAGS } = {}) => {
       features: [
         {
           name: 'survivors_benefits_form_enabled',
-          value: survivorsBenefitsFormEnabled,
+          value: true,
         },
         {
-          name: 'survivors_benefits_form_2025_version_enabled',
-          value: survivorsBenefitsForm2025VersionEnabled,
+          name: 'survivorsBenefitsFormEnabled',
+          value: true,
         },
       ],
     },
