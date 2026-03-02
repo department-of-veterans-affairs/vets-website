@@ -3,55 +3,72 @@ export default function prefillTransformer(pages, formData, metadata, state) {
   const profile = state?.user?.profile || {};
   const vaProfile = profile?.vaProfile || {};
 
-  // formData = {
-  //   "veteranFullName": {
-  //     "first": "James",
-  //     "middle": "M",
-  //     "last": "Beck"
-  //   },
-  //   "veteranSocialSecurityNumber": "111111111",
-  //   "veteranAddress": {
-  //     "street": "1700 Clairmont Rd",
-  //     "city": "Decatur",
-  //     "state": "GA",
-  //     "country": "USA",
-  //     "postalCode": "30033"
-  //   },
-  //   "veteranPhone": "2023336688",
-  //   "email": "vets.gov.user80@gmail.com"
-  // }
-  console.log(formData);
-
-  const fullName = {};
-  if (profile.userFullName) {
-    fullName.first = profile.userFullName.first || '';
-    fullName.middle = profile.userFullName.middle || '';
-    fullName.last = profile.userFullName.last || '';
-    fullName.suffix = profile.userFullName.suffix || '';
+  let fullName = {};
+  if (formData?.veteranFullName) {
+    fullName = formData.veteranFullName;
+  } else {
+    fullName.first = profile?.userFullName?.first || '';
+    fullName.middle = profile?.userFullName?.middle || '';
+    fullName.last = profile?.userFullName?.last || '';
+    fullName.suffix = profile?.userFullName?.suffix || '';
   }
 
-  const veteranDateOfBirth =
-    profile.dob || profile.birthDate || vaProfile.birthDate || '';
-
-  const veteranPhone =
-    profile.vapContactInfo.homePhone ||
-    profile.vapContactInfo.mobilePhone ||
-    profile.vapContactInfo.workPhone ||
+  const dateOfBirth =
+    formData.veteranDateOfBirth ||
+    profile.dob ||
+    profile.birthDate ||
+    vaProfile.birthDate ||
     '';
 
-  const emailAddress = profile.email || '';
+  const ssn = formData.veteranSocialSecurityNumber || '';
 
-  // profile.vapContactInfo.residentialAddress
-  // profile.vapContactInfo.mailingAddress
+  const phoneNum =
+    formData?.veteranPhone ||
+    profile?.vapContactInfo?.mobilePhone ||
+    profile?.vapContactInfo?.workPhone ||
+    '';
+  const homePhone = {
+    callingCode: '',
+    contact: phoneNum,
+    countryCode: '',
+  };
+
+  const email =
+    formData.email ||
+    formData.emailAddress ||
+    profile?.email ||
+    profile?.vapContactInfo?.email ||
+    '';
+
+  let address = {};
+  if (formData?.veteranAddress) {
+    address = formData.veteranAddress;
+  } else {
+    address.street =
+      profile?.vapContactInfo?.mailingAddress?.addressLine1 || '';
+    address.street2 =
+      profile?.vapContactInfo?.mailingAddress?.addressLine2 || '';
+    address.street3 =
+      profile?.vapContactInfo?.mailingAddress?.addressLine3 || '';
+    address.city = profile?.vapContactInfo?.mailingAddress?.city || '';
+    address.state = profile?.vapContactInfo?.mailingAddress?.stateCode || '';
+    address.country =
+      profile?.vapContactInfo?.mailingAddress?.countryCodeIso3 || '';
+    address.postalCode = profile?.vapContactInfo?.mailingAddress?.zipCode || '';
+    // profile.vapContactInfo.residentialAddress
+  }
+
   return {
     pages,
     formData: {
       veteran: {
         fullName,
+        dateOfBirth,
+        address,
+        email,
+        homePhone,
+        ssn,
       },
-      veteranDateOfBirth,
-      veteranPhone,
-      emailAddress,
     },
     metadata,
   };
