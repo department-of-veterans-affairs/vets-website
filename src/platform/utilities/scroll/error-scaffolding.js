@@ -67,6 +67,7 @@ const SUPPORTED_ELEMENTS = [
   // Category 4: Date components
   'va-date',
   'va-memorable-date',
+  'va-telephone-input',
 ];
 
 const ERROR_ATTR_SELECTORS = [
