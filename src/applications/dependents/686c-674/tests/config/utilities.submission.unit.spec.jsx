@@ -5,7 +5,7 @@ import {
   customTransformForSubmit,
 } from '../../config/utilities/submission';
 
-import { PICKLIST_DATA } from '../../config/constants';
+import { PICKLIST_DATA, PICKLIST_REMOVAL_FLAG } from '../../config/constants';
 import { formConfig } from '../../config/form';
 
 const dataOptions = 'view:removeDependentOptions';
@@ -430,6 +430,77 @@ describe('buildSubmissionData', () => {
     expect(result.data.spouseSupportingDocuments).to.be.undefined;
   });
 
+  it('should transform noSsnReason enum values for addChild workflow', () => {
+    const payload = createTestData({
+      'view:addDependentOptions': {
+        addSpouse: false,
+        addChild: true,
+        report674: false,
+        addDisabledChild: false,
+      },
+      childrenToAdd: [
+        {
+          fullName: { first: 'Child', last: 'Doe' },
+          noSsn: true,
+          noSsnReason: 'NONRESIDENT_ALIEN',
+        },
+        {
+          fullName: { first: 'Child2', last: 'Doe' },
+          noSsn: true,
+          noSsnReason: 'NONE_ASSIGNED',
+        },
+        { fullName: { first: 'Child3', last: 'Doe' }, noSsn: false },
+      ],
+    });
+    const result = buildSubmissionData(payload);
+
+    expect(result.data.childrenToAdd[0].noSsnReason).to.equal(
+      'Nonresident Alien',
+    );
+    expect(result.data.childrenToAdd[1].noSsnReason).to.equal(
+      'No SSN Assigned by SSA',
+    );
+    expect(result.data.childrenToAdd[2].noSsnReason).to.be.undefined;
+  });
+
+  it('should transform noSsnReason enum values for addDisabledChild workflow (regression test)', () => {
+    // Regression test: disabled children share the childrenToAdd array with regular children
+    // but addDisabledChild is a separate option key from addChild. Previously, the
+    // applyNoSsnReasonMappings function only checked addChild, so disabled children's
+    // no-SSN reasons were sent as raw enum values (NONRESIDENT_ALIEN / NONE_ASSIGNED)
+    // instead of the human-readable payload values.
+    const payload = createTestData({
+      'view:addDependentOptions': {
+        addSpouse: false,
+        addChild: false,
+        report674: false,
+        addDisabledChild: true,
+      },
+      childrenToAdd: [
+        {
+          fullName: { first: 'Disabled', last: 'Child' },
+          noSsn: true,
+          noSsnReason: 'NONRESIDENT_ALIEN',
+        },
+        {
+          fullName: { first: 'Disabled2', last: 'Child' },
+          noSsn: true,
+          noSsnReason: 'NONE_ASSIGNED',
+        },
+        { fullName: { first: 'Disabled3', last: 'Child' }, noSsn: false },
+      ],
+    });
+    const result = buildSubmissionData(payload);
+
+    expect(result.data.childrenToAdd[0].noSsnReason).to.equal(
+      'Nonresident Alien',
+    );
+    expect(result.data.childrenToAdd[1].noSsnReason).to.equal(
+      'No SSN Assigned by SSA',
+    );
+    expect(result.data.childrenToAdd[2].noSsnReason).to.be.undefined;
+  });
+
   it('should not include view:addOrRemoveDependents when no valid options remain', () => {
     const payload = createTestData({
       'view:addDependentOptions': {
@@ -639,6 +710,189 @@ describe('buildSubmissionData', () => {
   });
 });
 
+describe('stale student benefit field cleanup (regression for inactive page filtering bug)', () => {
+  // When a user answers 9A "No" (no benefit + no gov funding), the start-date and
+  // school-name pages are inactive. However filterInactivePageData only operates on
+  // top-level form-data keys and cannot reach fields nested inside array items like
+  // studentInformation[0].benefitPaymentDate. This suite verifies that stale data
+  // from those inactive pages is stripped before the payload reaches the backend.
+  //
+  // Note: filterInactiveNestedPageData (the newer helper) still cannot remove these
+  // fields in practice because its sibling-preservation heuristic retains all fields
+  // for any array item with 2+ active fields — which is always true for students.
+  // The actual fix is an explicit stripStaleBenefitFields step in the pipeline.
+
+  const baseStudent = {
+    fullName: { first: 'Test', last: 'Student' },
+    birthDate: '2000-01-01',
+    ssn: '123456789',
+    noSsn: false,
+    address: {
+      country: 'USA',
+      street: '123 Main St',
+      city: 'Testville',
+      state: 'CA',
+      postalCode: '12345',
+    },
+    wasMarried: false,
+    schoolInformation: {
+      studentIsEnrolledFullTime: true,
+    },
+  };
+
+  const createForm674 = (studentOverrides = {}) => ({
+    data: {
+      'view:addOrRemoveDependents': { add: true },
+      'view:addDependentOptions': {
+        report674: true,
+        addSpouse: false,
+        addChild: false,
+        addDisabledChild: false,
+      },
+      'view:selectable686Options': { report674: true },
+      dependents: { hasError: false, hasDependents: false, awarded: [] },
+      studentInformation: [
+        {
+          ...baseStudent,
+          ...studentOverrides,
+          schoolInformation: {
+            ...baseStudent.schoolInformation,
+            ...(studentOverrides.schoolInformation || {}),
+          },
+        },
+      ],
+      veteranInformation: { fullName: { first: 'Test', last: 'Veteran' } },
+      veteranContactInformation: { phoneNumber: '555-1234' },
+      statementOfTruthSignature: 'Test Signature',
+      statementOfTruthCertified: true,
+      metadata: { version: 1 },
+    },
+  });
+
+  it('should remove stale benefitPaymentDate when no benefit program is active and tuition is not gov-funded', () => {
+    // Reproduces the production payload bug: tuition_is_paid_by_gov_agency=false yet
+    // benefit_payment_date was still present in the submission.
+    // Both the start-date page (addStudentsPartTen) and the school-name page
+    // (addStudentsPartNine) have depends conditions that evaluate to false here,
+    // so any previously-entered date must be stripped.
+    const form = createForm674({
+      typeOfProgramOrBenefit: 'none', // new radio format — no benefit
+      tuitionIsPaidByGovAgency: false, // 9A answered "No"
+      benefitPaymentDate: '2022-01-01', // stale — user had previously entered this
+    });
+
+    const result = customTransformForSubmit(formConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    expect(submittedData.studentInformation).to.be.an('array');
+    expect(submittedData.studentInformation).to.have.lengthOf(1);
+    expect(
+      submittedData.studentInformation[0].benefitPaymentDate,
+      'stale benefitPaymentDate should be absent from the payload',
+    ).to.be.undefined;
+  });
+
+  it('should remove stale benefitPaymentDate when typeOfProgramOrBenefit is old object format (cache scenario)', () => {
+    // Simulates a user who filled the form before the radio migration (commit 58faab9).
+    // Old code stored typeOfProgramOrBenefit as a checkbox object; new depends functions
+    // check for a string value so the page is always inactive for old-format data.
+    const form = createForm674({
+      typeOfProgramOrBenefit: { ch35: false, fry: false, feca: false }, // old object format
+      tuitionIsPaidByGovAgency: false,
+      benefitPaymentDate: '2022-01-01', // stale from old session
+    });
+
+    const result = customTransformForSubmit(formConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    expect(
+      submittedData.studentInformation[0].benefitPaymentDate,
+      'stale benefitPaymentDate from old object-format session should be absent',
+    ).to.be.undefined;
+  });
+
+  it('should preserve benefitPaymentDate when a benefit program is selected', () => {
+    const form = createForm674({
+      typeOfProgramOrBenefit: 'fry',
+      tuitionIsPaidByGovAgency: false,
+      benefitPaymentDate: '2022-01-01',
+    });
+
+    const result = customTransformForSubmit(formConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    expect(submittedData.studentInformation[0].benefitPaymentDate).to.equal(
+      '2022-01-01',
+    );
+  });
+
+  it('should preserve benefitPaymentDate when tuition is paid by government agency', () => {
+    const form = createForm674({
+      typeOfProgramOrBenefit: 'none',
+      tuitionIsPaidByGovAgency: true,
+      schoolInformation: {
+        name: 'Federal Academy',
+        studentIsEnrolledFullTime: true,
+      },
+      benefitPaymentDate: '2022-01-01',
+    });
+
+    const result = customTransformForSubmit(formConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    expect(submittedData.studentInformation[0].benefitPaymentDate).to.equal(
+      '2022-01-01',
+    );
+  });
+
+  it('should remove stale schoolInformation.name when tuitionIsPaidByGovAgency is false', () => {
+    // Reproduces the bug shown in the payload screenshot: user originally answered
+    // tuitionIsPaidByGovAgency=true (triggering addStudentsPartNine and entering a
+    // program name), then went back and changed to false. The program name page is now
+    // inactive but filterInactivePageData can't reach the nested field.
+    const form = createForm674({
+      typeOfProgramOrBenefit: 'none',
+      tuitionIsPaidByGovAgency: false,
+      schoolInformation: {
+        name: 'test123', // stale — page is hidden when tuitionIsPaidByGovAgency=false
+        studentIsEnrolledFullTime: true,
+      },
+    });
+
+    const result = customTransformForSubmit(formConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    expect(
+      submittedData.studentInformation[0].schoolInformation?.name,
+      'stale schoolInformation.name should be absent when tuitionIsPaidByGovAgency is false',
+    ).to.be.undefined;
+    // Other schoolInformation fields from always-active attendance pages must be kept
+    expect(
+      submittedData.studentInformation[0].schoolInformation
+        ?.studentIsEnrolledFullTime,
+      'always-active attendance fields in schoolInformation should be preserved',
+    ).to.not.be.undefined;
+  });
+
+  it('should preserve schoolInformation.name when tuitionIsPaidByGovAgency is true', () => {
+    const form = createForm674({
+      typeOfProgramOrBenefit: 'none',
+      tuitionIsPaidByGovAgency: true,
+      schoolInformation: {
+        name: 'Federal Academy',
+        studentIsEnrolledFullTime: true,
+      },
+    });
+
+    const result = customTransformForSubmit(formConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    expect(
+      submittedData.studentInformation[0].schoolInformation?.name,
+    ).to.equal('Federal Academy');
+  });
+});
+
 describe('customTransformForSubmit integration', () => {
   // Mock formConfig with minimal required structure
   const mockFormConfig = {
@@ -755,6 +1009,8 @@ describe('customTransformForSubmit integration', () => {
     // 5. Transformed divorce data should be present
     expect(submittedData.reportDivorce.fullName.first).to.equal('Ex');
     expect(submittedData.reportDivorce.fullName.last).to.equal('Spouse');
+
+    expect(submittedData[PICKLIST_REMOVAL_FLAG]).to.be.true;
   });
 
   it('should correctly handle V2 flow with empty stepChildren through full transformation pipeline', () => {

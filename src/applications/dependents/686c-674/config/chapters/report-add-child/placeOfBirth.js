@@ -5,6 +5,7 @@ import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaS
 import {
   customLocationSchemaStatePostal,
   generateHelpText,
+  asciiValidation,
 } from '../../helpers';
 
 export const placeOfBirth = {
@@ -30,6 +31,7 @@ export const placeOfBirth = {
                 errors.addError('City must be 30 characters or less');
               }
             },
+            asciiValidation,
           ],
         },
         state: {

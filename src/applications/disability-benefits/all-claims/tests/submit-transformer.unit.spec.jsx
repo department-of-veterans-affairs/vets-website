@@ -10,6 +10,7 @@ import { CHAR_LIMITS } from '../constants';
 import { transform } from '../submit-transformer';
 
 import maximalData from './fixtures/data/maximal-test.json';
+import minimalBddData from './fixtures/data/minimal-bdd-test.json';
 
 describe('transform', () => {
   beforeEach(() => {
@@ -193,6 +194,98 @@ describe('Test internal transform functions', () => {
         )}`,
       },
     ]);
+  });
+});
+
+describe('BDD description preservation in submit transformer', () => {
+  const servicePeriodsBDD = [
+    {
+      serviceBranch: 'Air Force Reserves',
+      dateRange: {
+        from: '2001-03-21',
+        to: daysFromToday(90),
+      },
+    },
+  ];
+
+  it('should preserve user-provided primaryDescription for BDD NEW cause', () => {
+    const userDescription = 'I injured my knee during a training exercise.';
+    const form = {
+      data: {
+        ...minimalBddData.data,
+        serviceInformation: {
+          ...minimalBddData.data.serviceInformation,
+          servicePeriods: servicePeriodsBDD,
+        },
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            primaryDescription: userDescription,
+            condition: 'asthma',
+            'view:descriptionInfo': {},
+          },
+        ],
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    const newDisability = result.form526.newPrimaryDisabilities[0];
+    expect(newDisability.primaryDescription).to.equal(userDescription);
+  });
+
+  it('should preserve user-provided descriptions for BDD WORSENED cause', () => {
+    const userWorsenedDesc = 'Carrying heavy gear worsened my back.';
+    const userWorsenedEffects = 'Mild pain before, chronic pain after service.';
+    const form = {
+      data: {
+        ...minimalBddData.data,
+        serviceInformation: {
+          ...minimalBddData.data.serviceInformation,
+          servicePeriods: servicePeriodsBDD,
+        },
+        newDisabilities: [
+          {
+            cause: 'WORSENED',
+            'view:worsenedFollowUp': {
+              worsenedDescription: userWorsenedDesc,
+              worsenedEffects: userWorsenedEffects,
+            },
+            condition: 'back pain',
+            'view:descriptionInfo': {},
+          },
+        ],
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    const newDisability = result.form526.newPrimaryDisabilities[0];
+    expect(newDisability.worsenedDescription).to.equal(userWorsenedDesc);
+    expect(newDisability.worsenedEffects).to.equal(userWorsenedEffects);
+  });
+
+  it('should fall back to default descriptions for BDD when user does not provide values', () => {
+    const form = {
+      data: {
+        ...minimalBddData.data,
+        serviceInformation: {
+          ...minimalBddData.data.serviceInformation,
+          servicePeriods: servicePeriodsBDD,
+        },
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            condition: 'asthma',
+            'view:descriptionInfo': {},
+          },
+        ],
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    const newDisability = result.form526.newPrimaryDisabilities[0];
+    expect(newDisability.primaryDescription).to.equal(
+      'This disability is related to my military service.',
+    );
   });
 });
 
