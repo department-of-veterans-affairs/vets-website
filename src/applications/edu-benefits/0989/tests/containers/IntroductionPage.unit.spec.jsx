@@ -45,7 +45,7 @@ const mockStore = {
       loadedData: {
         metadata: {},
       },
-      data: {},
+      data: null,
     },
     scheduledDowntime: {
       globalDowntime: null,

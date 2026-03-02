@@ -13,6 +13,7 @@ import {
 import { getFilterOptions } from '../../util/helpers/getRxStatus';
 import {
   selectCernerPilotFlag,
+  selectMedicationsManagementImprovementsFlag,
   selectV2StatusMappingFlag,
 } from '../../util/selectors';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
@@ -34,7 +35,11 @@ const MedicationsList = props => {
     selectedSortOption
   ]?.LABEL.toLowerCase();
   const totalMedications = pagination.totalEntries;
+  const isManagementImprovementsEnabled = useSelector(
+    selectMedicationsManagementImprovementsFlag,
+  );
 
+  const route = isManagementImprovementsEnabled ? `/history` : `/`;
   const perPage = 10;
 
   const displaynumberOfPrescriptionsSelector =
@@ -42,7 +47,7 @@ const MedicationsList = props => {
 
   const onPageChange = page => {
     datadogRum.addAction(dataDogActionNames.medicationsListPage.PAGINATION);
-    navigate(`/?page=${page}`, {
+    navigate(`${route}?page=${page}`, {
       replace: true,
     });
     updateLoadingStatus('Loading your medications...');

@@ -326,7 +326,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h2>Access you VA benefits in other ways</h2>
+          <h2>Access your VA benefits in other ways</h2>
           <p>
             Until we fix this issue, you can manage your VA benefits over the
             phone, by mail, or in person. We understand this isn’t as
