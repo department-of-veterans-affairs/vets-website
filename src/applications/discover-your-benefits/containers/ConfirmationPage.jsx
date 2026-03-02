@@ -24,6 +24,7 @@ import {
 } from '../constants/benefits';
 import GetFormHelp from '../components/GetFormHelp';
 import Benefits from './components/Benefits';
+import useMediaQuery from '../hooks/useMediaQuery';
 
 const ConfirmationPage = ({ formConfig, location, router }) => {
   const dispatch = useDispatch();
@@ -43,8 +44,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
    * Value corresponds with the --tablet breakpoint size.
    * https://design.va.gov/foundation/breakpoints
    */
-  const TABLET_BREAKPOINT = 640;
-  const isMobile = window.innerWidth < TABLET_BREAKPOINT;
+  const isMobile = useMediaQuery('(max-width: 640px)');
 
   const query = useMemo(
     () => {
@@ -205,12 +205,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       }
       if (nonRecommendedFilters.length > 0) {
         filtered = filtered.filter(benefit =>
-          nonRecommendedFilters.some(key => {
-            if (benefit.category?.includes(key)) {
-              return true;
-            }
-            return false;
-          }),
+          nonRecommendedFilters.some(key => benefit.category?.includes(key)),
         );
       }
 
@@ -321,23 +316,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     [resultsData, location.pathname, location.basename, applyInitialSort],
   );
 
-  const closeAccordionButton = () => {
-    if (!isMobile) {
-      return null;
-    }
-    const timer = setTimeout(() => {
-      const searchFilter = document.querySelector('va-search-filter');
-      const items = searchFilter?.shadowRoot?.querySelectorAll(
-        'va-accordion-item',
-      );
-      items?.forEach(item => {
-        item.setAttribute('open', false);
-      });
-    }, 500);
-
-    return () => clearTimeout(timer);
-  };
-
   const handleResults = useCallback(
     () => {
       if (isAllBenefits()) return;
@@ -444,9 +422,23 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     [filterValues, sortValue, filterAndSortBenefits],
   );
 
-  useEffect(() => {
-    closeAccordionButton();
-  }, []);
+  useEffect(
+    () => {
+      if (!isMobile) return null;
+      const timer = setTimeout(() => {
+        const searchFilter = document.querySelector('va-search-filter');
+        const items = searchFilter?.shadowRoot?.querySelectorAll(
+          'va-accordion-item',
+        );
+        items?.forEach(item => {
+          item.setAttribute('open', false);
+        });
+      }, 500);
+
+      return () => clearTimeout(timer);
+    },
+    [isMobile],
+  );
 
   return (
     <div>
