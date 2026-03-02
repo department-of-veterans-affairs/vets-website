@@ -12,7 +12,15 @@ const ClaimantSearchHasPOA = ({ searchData, claimant }) => {
     focusElement('.claimant__results-text');
   }, []);
   const firstPOA = claimant.poaRequests?.[0];
-
+  const checkStatus = status => {
+    if (
+      status.representative &&
+      requestsContainStatus('pending', status.poaRequests)
+    ) {
+      return true;
+    }
+    return null;
+  };
   const statusAlert = claim => {
     if (
       claim.representative &&
@@ -80,7 +88,7 @@ const ClaimantSearchHasPOA = ({ searchData, claimant }) => {
           You do not have POA for this claimant.
         </span>
       )}
-      {firstPOA ? (
+      {checkStatus(claimant) ? (
         <va-link
           href={`/representative/find-claimant/claimant-overview/${
             claimant.id
