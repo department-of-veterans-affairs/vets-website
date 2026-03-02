@@ -8,7 +8,7 @@ import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import { setup, pageHooks, reviewAndSubmitPageFlow } from './cypress.helpers';
+import { setup, pageHooks, reviewAndSubmitPageFlow, clickContinueButton } from './cypress.helpers';
 
 const verifySideNavState = (chapterIndex, chapterKey) => {
   // Verify sidenav exists
@@ -110,16 +110,8 @@ const testConfig = createTestConfig(
         // Navigate to a different page via Continue button
         // This triggers the useEffect that closes the accordion
         cy.fillPage();
-        cy.get(
-          'va-button[continue], va-button[text*="Continue"], button[id$="continueButton"]',
-        )
-          .first()
-          .click({ force: true });
-        cy.get(
-          'va-button[continue], va-button[text*="Continue"], button[id$="continueButton"]',
-        )
-          .first()
-          .click({ force: true });
+        clickContinueButton(cy);
+        clickContinueButton(cy);
 
         // Wait for navigation to complete
         cy.url().should('not.include', '/rated-disabilities');

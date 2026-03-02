@@ -4,7 +4,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import mockUser from './fixtures/mocks/user.json';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import { setup, pageHooks } from './cypress.helpers';
+import { setup, pageHooks, clickContinueButton } from './cypress.helpers';
 
 Cypress.config('waitForAnimations', true);
 
@@ -44,11 +44,7 @@ const optionalEventPages = {
 
         cy.get('va-card').should('have.length', 1);
 
-        cy.get(
-          'va-button[continue], va-button[text*="Continue"], button[id$="continueButton"]',
-        )
-          .first()
-          .click({ force: true });
+        clickContinueButton(cy);
       } else {
         throw new Error(`Unexpected nextState: ${nextState}`);
       }

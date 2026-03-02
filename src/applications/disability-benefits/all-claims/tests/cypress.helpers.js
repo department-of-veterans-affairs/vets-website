@@ -658,7 +658,7 @@ Cypress.Commands.add('verifyAdditionalInformation', data => {
   }
 });
 
-const clickContinueButton = (cy, textPattern = /continue|next/i) => {
+export const clickContinueButton = (cy, textPattern = /continue|next/i) => {
   cy.get('body', { timeout: 10000 }).then($body => {
     const vadsContinueSelector =
       'va-button[continue], va-button[text*="Continue"], va-button[text*="Next"]';
