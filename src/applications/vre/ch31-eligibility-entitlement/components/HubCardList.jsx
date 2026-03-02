@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useSelector } from 'react-redux';
 
 const programOverviewCard = {
   title: 'Program Overview',
-  body:
-    'Read about how Veteran Readiness and Employment (Chapter 31) can help you address education or training needs. ',
-  href: 'https://www.va.gov/careers-employment/vocational-rehabilitation/',
+  body: `Read about how Veteran Readiness and Employment (Chapter 31) can help you address education or training needs.`,
+  href: 'https://www.va.gov/careers-employment/vocational-rehabilitation',
   isExternal: true,
 };
 
@@ -35,11 +35,10 @@ const getCareerPlanningCard = step => {
     title: 'Career Planning',
     body,
     href: '/career-planning',
-    isExternal: false,
   };
 };
 
-const getCardsForStep = (step, stateList = []) => {
+const getCardsForStep = (step, stateList = [], ch31CaseMilestonesState) => {
   const careerPlanningCard = getCareerPlanningCard(step);
 
   const currentStatus = stateList?.[step - 1]?.status;
@@ -49,16 +48,22 @@ const getCardsForStep = (step, stateList = []) => {
 
   const isActive = currentStatus === 'ACTIVE';
 
+  const isPending = currentStatus === 'PENDING';
+
+  const allCards = [programOverviewCard, orientationCard, careerPlanningCard];
+
   switch (step) {
     case 1:
+      return allCards;
     case 2:
-      return [programOverviewCard, orientationCard, careerPlanningCard];
+      return allCards;
+    case 3: {
+      if (ch31CaseMilestonesState?.data && !ch31CaseMilestonesState?.error) {
+        return allCards;
+      }
 
-    case 3:
-      return isActive || isComplete
-        ? [careerPlanningCard]
-        : [programOverviewCard, orientationCard, careerPlanningCard];
-
+      return isActive || isPending ? [careerPlanningCard] : allCards;
+    }
     case 4:
       return [careerPlanningCard];
 
@@ -78,13 +83,20 @@ const getCardsForStep = (step, stateList = []) => {
 
 const HubCardList = ({ step, stateList = [] }) => {
   const history = useHistory();
-  const cards = getCardsForStep(step, stateList);
+  const ch31CaseMilestonesState = useSelector(
+    state => state?.ch31CaseMilestones,
+  );
+  const cards = getCardsForStep(step, stateList, ch31CaseMilestonesState);
 
   if (!cards.length) return null;
 
-  const handleRouteChange = (event, href) => {
+  const handleRouteChange = (event, href, isExternal) => {
     event.preventDefault();
-    history.push(href);
+    if (isExternal) {
+      window.open(href, '_blank', 'noopener,noreferrer');
+    } else {
+      history.push(href);
+    }
   };
 
   return (
@@ -115,7 +127,6 @@ const HubCardList = ({ step, stateList = [] }) => {
                   onClick={event => handleRouteChange(event, card.href)}
                 />
               )}
-
               {Array.isArray(card.body) ? (
                 card.body.map((text, i) => (
                   <p
