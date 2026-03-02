@@ -2,21 +2,23 @@ import {
   titleUI,
   currentOrPastDateUI,
   currentOrPastDateSchema,
-  textUI,
-  textSchema,
-  selectUI,
+  addressUI,
+  addressSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { states } from '@department-of-veterans-affairs/platform-forms/address';
 
 export const veteranBirthInformationPage = {
   uiSchema: {
     ...titleUI('Veteran’s birth information'),
     veteranInformation: {
       dateOfBirth: currentOrPastDateUI('Date of birth'),
-      placeOfBirth: {
-        city: textUI('City of birth'),
-        state: selectUI('State of birth'),
-      },
+      placeOfBirth: addressUI({
+        omit: ['isMilitary', 'street', 'street2', 'postalCode', 'street3'],
+        required: {
+          country: () => false,
+          city: () => false,
+          state: () => false,
+        },
+      }),
     },
   },
   schema: {
@@ -27,16 +29,9 @@ export const veteranBirthInformationPage = {
         required: ['dateOfBirth'],
         properties: {
           dateOfBirth: currentOrPastDateSchema,
-          placeOfBirth: {
-            type: 'object',
-            properties: {
-              city: textSchema,
-              state: {
-                type: 'string',
-                enum: states.USA.map(state => state.label),
-              },
-            },
-          },
+          placeOfBirth: addressSchema({
+            omit: ['isMilitary', 'street', 'street2', 'postalCode', 'street3'],
+          }),
         },
       },
     },
