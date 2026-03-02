@@ -182,6 +182,7 @@ src/applications/personalization/profile/tests/components/veteran-status-card @d
 # GOVCIO Team
 
 src/applications/vre/28-1900 @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend 
+src/applications/vre/ch31-eligibility-entitlement @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/vre @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend 
 src/applications/yellow-ribbon @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/school-resources @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
