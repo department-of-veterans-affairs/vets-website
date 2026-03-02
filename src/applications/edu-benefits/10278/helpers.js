@@ -110,7 +110,7 @@ export const validateTerminationDate = (errors, dateString) => {
     today.getDate(),
   );
 
-  if (entered > fiveYearsFromToday) {
+  if (entered < today || entered > fiveYearsFromToday) {
     errors.addError('You must enter a valid date that’s within 5 years');
   }
 };
