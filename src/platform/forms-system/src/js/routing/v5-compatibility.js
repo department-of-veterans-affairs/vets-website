@@ -75,7 +75,9 @@ export function withRouterV5Compat(WrappedComponent) {
     );
   }
 
-  WithRouterV5Compat.displayName = `withRouterV5Compat(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+  WithRouterV5Compat.displayName = `withRouterV5Compat(${WrappedComponent.displayName ||
+    WrappedComponent.name ||
+    'Component'})`;
   WithRouterV5Compat.WrappedComponent = WrappedComponent;
   return WithRouterV5Compat;
 }

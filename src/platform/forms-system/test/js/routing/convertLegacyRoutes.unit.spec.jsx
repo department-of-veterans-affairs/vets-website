@@ -30,7 +30,7 @@ describe('convertLegacyRoutes', () => {
 
   it('should pass route config as route prop to component', () => {
     let receivedRoute;
-    const PageComponent = (props) => {
+    const PageComponent = props => {
       receivedRoute = props.route;
       return <div data-testid="page">Page</div>;
     };
@@ -49,7 +49,7 @@ describe('convertLegacyRoutes', () => {
 
   it('should pass formConfig on intro/review routes', () => {
     let receivedRoute;
-    const IntroPage = (props) => {
+    const IntroPage = props => {
       receivedRoute = props.route;
       return <div data-testid="intro">Intro</div>;
     };
@@ -140,7 +140,7 @@ describe('convertLegacyRoutes', () => {
 
   it('should provide react-router routeProps (match, location, history)', () => {
     let receivedProps;
-    const PageComponent = (props) => {
+    const PageComponent = props => {
       receivedProps = props;
       return <div>Page</div>;
     };
@@ -180,7 +180,7 @@ describe('convertLegacyRoutes', () => {
     ];
     const converted = convertLegacyRoutes(routes);
 
-    const keys = converted.map((el) => el.key);
+    const keys = converted.map(el => el.key);
     expect(new Set(keys).size).to.equal(keys.length);
   });
 });

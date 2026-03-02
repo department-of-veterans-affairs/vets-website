@@ -64,7 +64,7 @@ export default function startApp({
   try {
     store.dispatch(updateRoute(history.location));
 
-    history.listen((location) => {
+    history.listen(location => {
       if (location) {
         store.dispatch(updateRoute(location));
       }

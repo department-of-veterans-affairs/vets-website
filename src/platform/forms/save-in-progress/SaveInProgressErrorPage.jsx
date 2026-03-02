@@ -222,7 +222,10 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SaveInProgressErrorPage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SaveInProgressErrorPage),
 );
 
 export { SaveInProgressErrorPage };

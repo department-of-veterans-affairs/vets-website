@@ -29,7 +29,7 @@ export function convertLegacyRoutes(routeConfigs, { urlPrefix = '' } = {}) {
       if (routeConfig.onEnter && !routeConfig.component) {
         // Extract the redirect target by calling onEnter with a mock replace
         let redirectTo = urlPrefix || '/';
-        routeConfig.onEnter({}, (path) => {
+        routeConfig.onEnter({}, path => {
           redirectTo = path;
         });
         return (
@@ -55,7 +55,7 @@ export function convertLegacyRoutes(routeConfigs, { urlPrefix = '' } = {}) {
           key={routeConfig.path || `route-${index}`}
           path={routePath}
           exact={routeConfig.path === '/' || !routeConfig.path}
-          render={(routeProps) => (
+          render={routeProps => (
             <RouteComponent {...routeProps} route={routeConfig} />
           )}
         />

@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history-v4';
@@ -51,7 +50,7 @@ describe('v5-compatibility', () => {
 
     it('should provide router.push from history', () => {
       let receivedRouter;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedRouter = props.router;
         return <div>test</div>;
       };
@@ -65,7 +64,7 @@ describe('v5-compatibility', () => {
 
     it('should provide router.replace from history', () => {
       let receivedRouter;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedRouter = props.router;
         return <div>test</div>;
       };
@@ -78,7 +77,7 @@ describe('v5-compatibility', () => {
 
     it('should provide location with synthesized query', () => {
       let receivedLocation;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedLocation = props.location;
         return <div>test</div>;
       };
@@ -93,7 +92,7 @@ describe('v5-compatibility', () => {
 
     it('should provide location.basename from route.urlPrefix', () => {
       let receivedLocation;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedLocation = props.location;
         return <div>test</div>;
       };
@@ -106,7 +105,7 @@ describe('v5-compatibility', () => {
 
     it('should provide location.basename from formConfig.urlPrefix', () => {
       let receivedLocation;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedLocation = props.location;
         return <div>test</div>;
       };
@@ -119,7 +118,7 @@ describe('v5-compatibility', () => {
 
     it('should forward route prop to wrapped component', () => {
       let receivedRoute;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedRoute = props.route;
         return <div>test</div>;
       };
@@ -132,7 +131,7 @@ describe('v5-compatibility', () => {
 
     it('should provide params prop', () => {
       let receivedParams;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedParams = props.params;
         return <div>test</div>;
       };
@@ -144,7 +143,7 @@ describe('v5-compatibility', () => {
 
     it('should provide router.params', () => {
       let receivedRouter;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedRouter = props.router;
         return <div>test</div>;
       };
@@ -156,7 +155,7 @@ describe('v5-compatibility', () => {
 
     it('should provide router.goBack', () => {
       let receivedRouter;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedRouter = props.router;
         return <div>test</div>;
       };
@@ -168,7 +167,7 @@ describe('v5-compatibility', () => {
 
     it('should provide router.go', () => {
       let receivedRouter;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedRouter = props.router;
         return <div>test</div>;
       };
@@ -180,7 +179,7 @@ describe('v5-compatibility', () => {
 
     it('should provide setRouteLeaveHook as a no-op', () => {
       let receivedRouter;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedRouter = props.router;
         return <div>test</div>;
       };
@@ -207,7 +206,7 @@ describe('v5-compatibility', () => {
 
     it('should forward additional props', () => {
       let receivedProps;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedProps = props;
         return <div>test</div>;
       };
@@ -220,7 +219,7 @@ describe('v5-compatibility', () => {
 
     it('should support router.push with object argument', () => {
       let receivedRouter;
-      const TestComponent = (props) => {
+      const TestComponent = props => {
         receivedRouter = props.router;
         return <div>test</div>;
       };
