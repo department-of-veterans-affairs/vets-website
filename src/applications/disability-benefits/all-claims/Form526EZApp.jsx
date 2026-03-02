@@ -229,6 +229,7 @@ export const Form526Entry = ({
     'disability526Enable2024Form4142',
     'disability526ToxicExposureOptOutDataPurge',
     'disability526SupportingEvidenceEnhancement',
+    'disability526SupportingEvidenceFileInputV3',
     'disability526ExtraBDDPagesEnabled',
   ]);
 
