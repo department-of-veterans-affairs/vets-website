@@ -14,6 +14,7 @@ import {
 import FacilityCheckboxGroup from '../components/FacilityCheckboxGroup';
 import GetFormHelp from '../components/GetFormHelp';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
+import ContactListMigrationAlert from '../components/shared/ContactListMigrationAlert';
 import {
   BlockedTriageAlertStyles,
   ErrorMessages,
@@ -59,6 +60,9 @@ const EditContactList = () => {
   } = recipients;
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
+
+  const userProfile = useSelector(state => state.user?.profile);
+  const { userFacilityMigratingToOh, migrationSchedules } = userProfile || {};
 
   const isContactListChanged = useMemo(
     () => !_.isEqual(vistaRecipients, allTriageTeams),
@@ -113,7 +117,7 @@ const EditContactList = () => {
         history.push(Paths.INBOX);
       }
     },
-    [history, previousUrl],
+    [activeDraftId, history, previousUrl],
   );
 
   const handleSave = async e => {
@@ -209,6 +213,10 @@ const EditContactList = () => {
         cancelButtonText={navigationError?.cancelButtonText}
       />
       <h1>Messages: Contact list</h1>
+      <ContactListMigrationAlert
+        userFacilityMigratingToOh={userFacilityMigratingToOh}
+        migrationSchedules={migrationSchedules}
+      />
       <AlertBackgroundBox
         closeable
         focus
