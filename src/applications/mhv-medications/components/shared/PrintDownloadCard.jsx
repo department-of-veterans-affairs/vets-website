@@ -72,12 +72,12 @@ const PrintDownloadCard = ({ onDownload, onPrint, isSuccess, isLoading }) => {
     <>
       <va-card class="vads-u-border--1px vads-u-border-color--black vads-u-padding-top--1">
         <div className="vads-u-padding-x--1">
-          <h3
+          <h2
             className="vads-u-border-bottom--2px vads-u-border-color--primary vads-u-line-height--5 vads-u-font-size--h3 vads-u-margin-top--0"
             id="print-download-heading"
           >
             Print or download your medications list
-          </h3>
+          </h2>
           <p>
             Print or save a copy of this filtered and sorted medications list.
           </p>
