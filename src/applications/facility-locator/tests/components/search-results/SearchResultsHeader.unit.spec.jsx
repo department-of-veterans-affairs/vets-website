@@ -2,8 +2,17 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { SearchResultsHeader } from '../../../components/SearchResultsHeader';
-import { LocationType } from '../../../constants';
-import { urgentCareServices, emergencyCareServices } from '../../../config';
+import { LocationType, isSpecialCategory } from '../../../constants';
+import { urgentCareServices } from '../../../config';
+
+const regexForCare = (careType, serviceType, facilityType) => {
+  const resultsPrefix = isSpecialCategory(facilityType)
+    ? 'Results for'
+    : `Showing 1 - 5 results for`;
+
+  const stringRaw = String.raw`${resultsPrefix} "${careType}".*"${serviceType}".*within \d{1,} miles of.*new york.*`;
+  return new RegExp(stringRaw, 'i');
+};
 
 describe('SearchResultsHeader', () => {
   it('should not render header if context is not provided', () => {
@@ -43,6 +52,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.HEALTH}
         context="new york"
         pagination={{ totalEntries: 5 }}
@@ -50,7 +60,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA health".*"All VA health services".*within (\d{1,}) miles of.*new york.*/i,
+      /Showing 1 - 5 results for "VA health".*"All VA health services".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -58,6 +68,7 @@ describe('SearchResultsHeader', () => {
   it('should render header with LocationType.HEALTH for VA health service autosuggest, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
+        radius={50}
         facilityType={LocationType.HEALTH}
         inProgress={false}
         pagination={{ totalEntries: 1 }}
@@ -69,7 +80,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "VA health".*"All VA health services".*within (\d{1,}) miles of.*s+new york.*/i,
+      /Showing 1 result for "VA health".*"All VA health services".*within \d{1,} miles of.*new york.*/i,
     );
 
     wrapper.unmount();
@@ -79,6 +90,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.HEALTH}
         serviceType="PrimaryCare"
         context="new york"
@@ -87,7 +99,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "VA health".*"Primary care".*within (\d{1,}) miles of.*new york.*/i,
+      /Showing 1 result for "VA health".*"Primary care".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -96,6 +108,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.HEALTH}
         serviceType="PrimaryCare"
         context="new york"
@@ -104,7 +117,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA health".*"Primary care".*within (\d{1,}) miles of.*new york.*/i,
+      /Showing 1 - 5 results for "VA health".*"Primary care".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -113,6 +126,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.HEALTH}
         serviceType="PrimaryCare"
         context="new york"
@@ -121,7 +135,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "VA health".*"Primary care".*within (\d{1,}) miles of.*new york.*/i,
+      /Showing 11 - 15 of 15 results for "VA health".*"Primary care".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -130,6 +144,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.HEALTH}
         context="new york"
         pagination={{ totalEntries: 5 }}
@@ -137,7 +152,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA health".*"All VA health services".*within (\d{1,}) miles of.*new york.*/i,
+      /Showing 1 - 5 results for "VA health".*"All VA health services".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -146,6 +161,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.URGENT_CARE}
         serviceType="NonVAUrgentCare"
         context="new york"
@@ -153,10 +169,10 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      new RegExp(
-        `Results for "Urgent care".*"${
-          urgentCareServices.NonVAUrgentCare
-        }".*within (\\d{1,}) miles of.*new york.*`,
+      regexForCare(
+        'Urgent care',
+        urgentCareServices.NonVAUrgentCare,
+        LocationType.URGENT_CARE,
       ),
     );
     wrapper.unmount();
@@ -166,16 +182,17 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.URGENT_CARE}
         context="new york"
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      new RegExp(
-        `Results for "Urgent care".*"${
-          urgentCareServices.AllUrgentCare
-        }".*within (\\d{1,}) miles of.*new york.*`,
+      regexForCare(
+        'Urgent care',
+        'All in-network urgent care',
+        LocationType.URGENT_CARE,
       ),
     );
     wrapper.unmount();
@@ -185,6 +202,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.EMERGENCY_CARE}
         serviceType="NonVAEmergencyCare"
         context="new york"
@@ -192,10 +210,10 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      new RegExp(
-        `Results for "Emergency Care".*"${
-          emergencyCareServices.NonVAEmergencyCare
-        }".*within (\\d{1,}) miles of.*new york.*`,
+      regexForCare(
+        'Emergency Care',
+        'In-network community emergency care',
+        LocationType.EMERGENCY_CARE,
       ),
     );
     wrapper.unmount();
@@ -205,16 +223,17 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.EMERGENCY_CARE}
         context="new york"
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      new RegExp(
-        `Results for "Emergency Care".*"${
-          emergencyCareServices.AllEmergencyCare
-        }".*within (\\d{1,}) miles of.*new york.*`,
+      regexForCare(
+        'Emergency Care',
+        'All in-network emergency care',
+        LocationType.EMERGENCY_CARE,
       ),
     );
     wrapper.unmount();
@@ -224,6 +243,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.URGENT_CARE_PHARMACIES}
         context="new york"
         pagination={{ totalEntries: 1 }}
@@ -231,7 +251,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "Community pharmacies \(in VA’s network\)".*within (\\d{1,}) miles of.*new york.*/i,
+      /Showing 1 result for "Community pharmacies \(in VA’s network\)".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -240,6 +260,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.URGENT_CARE_PHARMACIES}
         context="new york"
         pagination={{ totalEntries: 5 }}
@@ -247,7 +268,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "Community pharmacies \(in VA’s network\)".*within (\\d{1,}) miles of.*new york.*/i,
+      /Showing 1 - 5 results for "Community pharmacies \(in VA’s network\)".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -256,6 +277,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.URGENT_CARE_PHARMACIES}
         context="new york"
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
@@ -263,7 +285,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "Community pharmacies \(in VA’s network\)".*within (\\d{1,}) miles of.*new york.*/,
+      /Showing 11 - 15 of 15 results for "Community pharmacies \(in VA’s network\)".*within \d{1,} miles of.*new york.*/,
     );
     wrapper.unmount();
   });
@@ -272,6 +294,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.CC_PROVIDER}
         serviceType="foo"
         context="new york"
@@ -281,7 +304,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "Community providers \(in VA’s network\)",\s+"test".*within (\\d{1,}) miles of.*new york.*/,
+      /Showing 1 result for "Community providers \(in VA’s network\)".*"test".*within \d{1,} miles of.*new york.*/,
     );
     wrapper.unmount();
   });
@@ -290,6 +313,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.CC_PROVIDER}
         serviceType="foo"
         context="new york"
@@ -299,7 +323,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "Community providers \(in VA’s network\)",\s+"test".*within (\\d{1,}) miles of.*new york.*/i,
+      /Showing 1 - 5 results for "Community providers \(in VA’s network\)".*"test".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -308,6 +332,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.CC_PROVIDER}
         serviceType="foo"
         context="new york"
@@ -317,7 +342,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "Community providers \(in VA’s network\)",\s+"test".*within (\\d{1,}) miles of.*new york.*/i,
+      /Showing 11 - 15 of 15 results for "Community providers \(in VA’s network\)".*"test".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -326,6 +351,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.BENEFITS}
         serviceType="ApplyingForBenefits"
         context="new york"
@@ -334,7 +360,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "VA benefits".*"Applying for benefits".*within (\d{1,}) miles of.*new york.*/i,
+      /Showing 1 result for "VA benefits".*"Applying for benefits".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -343,6 +369,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.BENEFITS}
         serviceType="ApplyingForBenefits"
         context="new york"
@@ -351,7 +378,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA benefits".*"Applying for benefits".*within (\d{1,}) miles of.*new york.*/i,
+      /Showing 1 - 5 results for "VA benefits".*"Applying for benefits".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -360,6 +387,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.BENEFITS}
         serviceType="ApplyingForBenefits"
         context="new york"
@@ -368,7 +396,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "VA benefits".*"Applying for benefits".*within (\d{1,}) miles of.*new york.*/i,
+      /Showing 11 - 15 of 15 results for "VA benefits".*"Applying for benefits".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -377,6 +405,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.BENEFITS}
         context="new york"
         pagination={{ totalEntries: 5 }}
@@ -384,7 +413,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA benefits".*"All VA benefit services".*within (\d{1,}) miles of.*new york.*/i,
+      /Showing 1 - 5 results for "VA benefits".*"All VA benefit services".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -393,6 +422,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.CEMETERY}
         context="new york"
         pagination={{ totalEntries: 1 }}
@@ -400,7 +430,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "VA cemeteries".*within (\d{1,}) miles of.*new york.*/i,
+      /Showing 1 result for "VA cemeteries".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -409,6 +439,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.CEMETERY}
         context="new york"
         pagination={{ totalEntries: 5 }}
@@ -416,7 +447,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA cemeteries".*within (\d{1,}) miles of.*new york.*/i,
+      /Showing 1 - 5 results for "VA cemeteries".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -425,6 +456,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.CEMETERY}
         context="new york"
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
@@ -432,7 +464,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "VA cemeteries".*within (\d{1,}) miles of.*new york.*/i,
+      /Showing 11 - 15 of 15 results for "VA cemeteries".*within \d{1,} miles of.*new york.*/i,
     );
     wrapper.unmount();
   });
@@ -440,6 +472,7 @@ describe('SearchResultsHeader', () => {
     let wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.HEALTH}
         context="new york"
         pagination={{ totalEntries: 5 }}
@@ -448,6 +481,7 @@ describe('SearchResultsHeader', () => {
     wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
+        radius={50}
         facilityType={LocationType.HEALTH}
         context="new jersey"
         pagination={{ totalEntries: 5 }}
@@ -455,7 +489,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA health".*"All VA health services".*within (\d{1,}) miles of.*new jersey.*/i,
+      /Showing 1 - 5 results for "VA health".*"All VA health services".*within \d{1,} miles of.*new jersey.*/i,
     );
     wrapper.unmount();
   });

@@ -211,3 +211,8 @@ export const Covid19Vaccine = 'Covid19Vaccine';
  */
 
 export const MIN_SEARCH_CHARS = 3;
+
+export const isSpecialCategory = facilityType =>
+  [LocationType.URGENT_CARE, LocationType.EMERGENCY_CARE].includes(
+    facilityType,
+  );

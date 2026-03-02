@@ -8,7 +8,10 @@ import {
   benefitsServices,
   emergencyCareServices,
 } from '../config';
-import { LocationType } from '../constants';
+import {
+  LocationType,
+  isSpecialCategory as determineSpecialCategory,
+} from '../constants';
 import { PaginationTypes } from '../types';
 
 export const SearchResultsHeader = ({
@@ -98,10 +101,7 @@ export const SearchResultsHeader = ({
     return 'Results';
   };
 
-  const isSpecialCategory = [
-    LocationType.URGENT_CARE,
-    LocationType.EMERGENCY_CARE,
-  ].includes(facilityType);
+  const isSpecialCategory = determineSpecialCategory(facilityType);
 
   const resultsPrefix = isSpecialCategory
     ? `${messagePrefix} for `
