@@ -32,8 +32,6 @@ import attestation from '../pages/attestation';
 
 import remarks from '../pages/remarks';
 
-import submissionInstructions from '../pages/submissionInstructions';
-
 import prefillTransform from './prefillTransform';
 
 export const SUBMIT_URL = `${
@@ -240,18 +238,6 @@ const formConfig = {
           title: 'Remarks',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
-        },
-      },
-    },
-    submissionInstructionsChapter: {
-      title: 'Review',
-      hideOnReviewPage: true,
-      pages: {
-        submisionInstructions: {
-          path: 'submission-instructions',
-          title: 'Submission instructions',
-          uiSchema: submissionInstructions.uiSchema,
-          schema: submissionInstructions.schema,
         },
       },
     },
