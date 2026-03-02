@@ -177,33 +177,47 @@ const trackedInCardIds = new Set();
 const trackedRenewalInCardIds = new Set();
 
 /**
+ * Shared hook for in-card Oracle Health transition Datadog tracking.
+ * Fires a single event per prescriptionId per mount cycle, using a
+ * module-scoped Set to deduplicate across RTK Query re-renders.
+ */
+const useTrackOracleHealthEvent = (
+  prescriptionId,
+  stationNumber,
+  actionName,
+  trackingSet,
+) => {
+  useEffect(
+    () => {
+      if (!trackingSet.has(prescriptionId)) {
+        trackingSet.add(prescriptionId);
+        datadogRum.addAction(actionName, {
+          facilityId: stationNumber,
+        });
+      }
+    },
+    [prescriptionId, stationNumber, actionName, trackingSet],
+  );
+
+  useEffect(
+    () => () => {
+      trackingSet.delete(prescriptionId);
+    },
+    [prescriptionId, trackingSet],
+  );
+};
+
+/**
  * Component for in-card Oracle Health transition alert.
  * Rendered by MedicationsListCard when a prescription's refill is blocked.
  */
 export const OracleHealthInCardAlert = ({ stationNumber, prescriptionId }) => {
-  // Track when the in-card refill blocked alert is displayed
-  useEffect(
-    () => {
-      if (!trackedInCardIds.has(prescriptionId)) {
-        trackedInCardIds.add(prescriptionId);
-        datadogRum.addAction(
-          dataDogActionNames.oracleHealthTransition
-            .T3_IN_CARD_REFILL_BLOCKED_ALERT_DISPLAYED,
-          {
-            facilityId: stationNumber,
-          },
-        );
-      }
-    },
-    [stationNumber, prescriptionId],
-  );
-
-  // Clear this prescription's tracked state on unmount (page navigation)
-  useEffect(
-    () => () => {
-      trackedInCardIds.delete(prescriptionId);
-    },
-    [prescriptionId],
+  useTrackOracleHealthEvent(
+    prescriptionId,
+    stationNumber,
+    dataDogActionNames.oracleHealthTransition
+      .T3_IN_CARD_REFILL_BLOCKED_ALERT_DISPLAYED,
+    trackedInCardIds,
   );
 
   return (
@@ -235,30 +249,14 @@ export const OracleHealthRenewalInCardAlert = ({
   stationNumber,
   prescriptionId,
 }) => {
-  // Track when the in-card renewal blocked alert is displayed
-  useEffect(
-    () => {
-      if (!trackedRenewalInCardIds.has(prescriptionId)) {
-        trackedRenewalInCardIds.add(prescriptionId);
-        datadogRum.addAction(
-          dataDogActionNames.oracleHealthTransition
-            .T6_IN_CARD_RENEWAL_BLOCKED_ALERT_DISPLAYED,
-          {
-            facilityId: stationNumber,
-          },
-        );
-      }
-    },
-    [stationNumber, prescriptionId],
+  useTrackOracleHealthEvent(
+    prescriptionId,
+    stationNumber,
+    dataDogActionNames.oracleHealthTransition
+      .T6_IN_CARD_RENEWAL_BLOCKED_ALERT_DISPLAYED,
+    trackedRenewalInCardIds,
   );
 
-  // Clear this prescription's tracked state on unmount (page navigation)
-  useEffect(
-    () => () => {
-      trackedRenewalInCardIds.delete(prescriptionId);
-    },
-    [prescriptionId],
-  );
   return (
     <va-alert
       class="vads-u-margin-top--2"
