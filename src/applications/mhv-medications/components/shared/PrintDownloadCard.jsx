@@ -70,7 +70,6 @@ const PrintDownloadCard = ({ onDownload, onPrint, isSuccess, isLoading }) => {
 
   return (
     <>
-      (
       <va-card class="vads-u-border--1px vads-u-border-color--black vads-u-padding-top--1">
         <div className="vads-u-padding-x--1">
           <h3
@@ -146,7 +145,6 @@ const PrintDownloadCard = ({ onDownload, onPrint, isSuccess, isLoading }) => {
           />
         </div>
       </va-card>
-      )
     </>
   );
 };
