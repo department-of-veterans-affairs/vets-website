@@ -25,6 +25,9 @@
     },
     "hospitalizationStatus": {
       "isCurrentlyHospitalized": false
+    },
+    "examinerNotification": {
+      "examinerEmail": "doctor@example.com"
     }
   }
 }

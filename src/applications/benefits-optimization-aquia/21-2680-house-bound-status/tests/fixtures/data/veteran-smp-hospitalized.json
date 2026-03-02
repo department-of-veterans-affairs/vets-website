@@ -52,6 +52,9 @@
         "country": "USA",
         "postalCode": "85326"
       }
+    },
+    "examinerNotification": {
+      "examinerEmail": "dr.evazan@tatooineregional.med"
     }
   }
 }

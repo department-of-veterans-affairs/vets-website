@@ -73,6 +73,9 @@
         "country": "USA",
         "postalCode": "12201"
       }
+    },
+    "examinerNotification": {
+      "examinerEmail": "dr.bantha@alderaangeneral.med"
     }
   }
 }

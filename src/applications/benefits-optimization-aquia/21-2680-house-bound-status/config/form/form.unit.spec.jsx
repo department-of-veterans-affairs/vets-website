@@ -4,6 +4,7 @@
  */
 
 import { expect } from 'chai';
+import { setMultiPartyEnabled } from '@bio-aquia/21-2680-house-bound-status/utils/multi-party-state';
 import { formConfig } from './form';
 
 describe('Form Configuration', () => {
@@ -14,7 +15,7 @@ describe('Form Configuration', () => {
 
     it('should have form ID', () => {
       expect(formConfig.formId).to.exist;
-      expect(formConfig.formId).to.equal('21-2680');
+      expect(formConfig.formId).to.equal('21-2680-PRIMARY');
     });
 
     it('should have title', () => {
@@ -33,7 +34,7 @@ describe('Form Configuration', () => {
     });
 
     it('should have submitUrl', () => {
-      expect(formConfig.submitUrl).to.include('/v0/form212680');
+      expect(formConfig.submitUrl).to.include('/v0/multi_party_forms/primary');
     });
   });
 
@@ -67,6 +68,13 @@ describe('Form Configuration', () => {
       expect(formConfig.chapters.hospitalizationChapter).to.exist;
       expect(formConfig.chapters.hospitalizationChapter.title).to.include(
         'Hospital care',
+      );
+    });
+
+    it('should have examinerNotificationChapter', () => {
+      expect(formConfig.chapters.examinerNotificationChapter).to.exist;
+      expect(formConfig.chapters.examinerNotificationChapter.title).to.include(
+        'Medical professional',
       );
     });
   });
@@ -116,6 +124,22 @@ describe('Form Configuration', () => {
       expect(page.path).to.equal('hospitalization-status');
       expect(page.uiSchema).to.exist;
       expect(page.schema).to.exist;
+    });
+
+    it('should have examiner email page', () => {
+      const page =
+        formConfig.chapters.examinerNotificationChapter.pages.examinerEmail;
+      expect(page).to.exist;
+      expect(page.path).to.equal('examiner-email');
+      expect(page.uiSchema).to.exist;
+      expect(page.schema).to.exist;
+    });
+
+    it('should have depends function on examiner email page', () => {
+      const page =
+        formConfig.chapters.examinerNotificationChapter.pages.examinerEmail;
+      expect(page.depends).to.exist;
+      expect(page.depends).to.be.a('function');
     });
   });
 
@@ -666,6 +690,34 @@ describe('Form Configuration', () => {
         // Should NOT work with incorrect root-level path
         expect(hospitalizationDatePage.depends(formDataWithIncorrectPath)).to.be
           .false;
+      });
+    });
+
+    describe('Examiner Email Conditional Page', () => {
+      const examinerEmailPage =
+        formConfig.chapters.examinerNotificationChapter.pages.examinerEmail;
+
+      afterEach(() => {
+        // Reset toggle state after each test
+        setMultiPartyEnabled(false);
+      });
+
+      it('should show examiner email page when multi-party is enabled', () => {
+        setMultiPartyEnabled(true);
+        expect(examinerEmailPage.depends()).to.be.true;
+      });
+
+      it('should hide examiner email page when multi-party is disabled', () => {
+        setMultiPartyEnabled(false);
+        expect(examinerEmailPage.depends()).to.be.false;
+      });
+
+      it('should read from isMultiPartyEnabled at evaluation time', () => {
+        expect(examinerEmailPage.depends()).to.be.false;
+        setMultiPartyEnabled(true);
+        expect(examinerEmailPage.depends()).to.be.true;
+        setMultiPartyEnabled(false);
+        expect(examinerEmailPage.depends()).to.be.false;
       });
     });
   });

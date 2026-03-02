@@ -5,6 +5,10 @@
       {
         "name": "form_2680_enabled",
         "value": true
+      },
+      {
+        "name": "form_2680_multi_party_forms_enabled",
+        "value": true
       }
     ]
   }

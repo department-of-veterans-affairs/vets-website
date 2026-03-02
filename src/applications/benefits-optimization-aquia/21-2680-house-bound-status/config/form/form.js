@@ -19,7 +19,10 @@ import {
 import migrations from '@bio-aquia/21-2680-house-bound-status/config/migrations';
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
-import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
+import {
+  submitTransformer,
+  legacySubmitTransformer,
+} from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
 import { customSubmit } from '@bio-aquia/shared/utils';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 
@@ -49,9 +52,12 @@ import {
   hospitalizationDateSchema,
   hospitalizationFacilityUiSchema,
   hospitalizationFacilitySchema,
+  examinerEmailUiSchema,
+  examinerEmailSchema,
 } from '@bio-aquia/21-2680-house-bound-status/pages';
 
 import { isClaimantVeteran } from '@bio-aquia/21-2680-house-bound-status/utils/relationship-helpers';
+import { isMultiPartyEnabled } from '@bio-aquia/21-2680-house-bound-status/utils/multi-party-state';
 import {
   getVeteranName,
   getClaimantName,
@@ -86,9 +92,18 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: API_ENDPOINTS.submitForm,
+  submitUrl: API_ENDPOINTS.multiPartyPrimaryCreate,
   transformForSubmit: submitTransformer,
-  submit: customSubmit,
+  submit: (form, formCfg) => {
+    const config = isMultiPartyEnabled()
+      ? formCfg
+      : {
+          ...formCfg,
+          submitUrl: API_ENDPOINTS.submitForm,
+          transformForSubmit: legacySubmitTransformer,
+        };
+    return customSubmit(form, config);
+  },
   trackingPrefix: '21-2680-house-bound-status-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
@@ -99,7 +114,7 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  formId: VA_FORM_IDS.FORM_21_2680,
+  formId: VA_FORM_IDS.FORM_21_2680_PRIMARY,
   saveInProgress: {
     messages: {
       inProgress: 'Your benefits application (21-2680) is in progress.',
@@ -343,6 +358,20 @@ const formConfig = {
           schema: hospitalizationFacilitySchema,
           depends: formData =>
             formData?.hospitalizationStatus?.isCurrentlyHospitalized === true,
+        },
+      },
+    },
+
+    // Step 5 of 5: Medical professional notification
+    examinerNotificationChapter: {
+      title: 'Medical professional',
+      pages: {
+        examinerEmail: {
+          path: 'examiner-email',
+          title: 'Medical professional information',
+          uiSchema: examinerEmailUiSchema,
+          schema: examinerEmailSchema,
+          depends: () => isMultiPartyEnabled(),
         },
       },
     },

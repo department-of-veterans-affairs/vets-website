@@ -8,11 +8,41 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { API_ENDPOINTS } from '@bio-aquia/21-2680-house-bound-status/constants';
+import { isMultiPartyEnabled } from '@bio-aquia/21-2680-house-bound-status/utils/multi-party-state';
 /**
- * Custom submission alert component that shows warning for additional steps needed
+ * Submission alert for multi-party flow
+ * @param {Object} props
+ * @param {string} props.examinerEmail - The medical professional's email address
+ * @returns {React.ReactElement} Success alert component
+ */
+const MultiPartySubmissionAlert = ({ examinerEmail }) => {
+  return (
+    <va-alert
+      uswds
+      status="success"
+      className="confirmation-submission-alert-section vads-u-margin-bottom--4"
+    >
+      <h2 slot="headline" tabIndex="-1">
+        We’ve notified the medical professional
+      </h2>
+      <p>
+        We sent an email to <strong>{examinerEmail}</strong> with a link to
+        complete the medical examination portion of this form (Sections
+        VI&ndash;VIII).
+      </p>
+    </va-alert>
+  );
+};
+
+MultiPartySubmissionAlert.propTypes = {
+  examinerEmail: PropTypes.string,
+};
+
+/**
+ * Submission alert for legacy single-party flow
  * @returns {React.ReactElement} Warning alert component
  */
-const CustomSubmissionAlert = () => {
+const LegacySubmissionAlert = () => {
   return (
     <va-alert
       uswds
@@ -31,7 +61,6 @@ const CustomSubmissionAlert = () => {
 };
 
 const DownloadFormPDF = ({ confirmationNumber }) => {
-  // Render download link
   return (
     confirmationNumber && (
       <p>
@@ -51,11 +80,57 @@ DownloadFormPDF.propTypes = {
 };
 
 /**
- * Custom what's next section with step-by-step instructions
+ * What's next section for the multi-party flow
+ * Explains the automated examiner notification process
+ * @param {Object} props
+ * @param {string} props.examinerEmail - The medical professional's email
+ * @param {string} props.confirmationNumber - Submission confirmation number
  * @returns {React.ReactElement} What's next section
  */
-const WhatsNextSection = ({ confirmationNumber }) => {
-  // Extract veteran name for PDF filename
+const WhatsNextSection = ({ examinerEmail, confirmationNumber }) => {
+  return (
+    <div className="confirmation-whats-next-section">
+      <h2>What happens next</h2>
+      <va-process-list uswds>
+        <va-process-list-item header="We sent an email to the medical professional">
+          <p>
+            We sent an email to <strong>{examinerEmail}</strong> with a secure
+            link to complete the examination portion of this form.
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="The medical professional completes their sections">
+          <p>
+            The examiner must be a Medical Doctor (MD) or Doctor of Osteopathic
+            (DO) medicine, physician assistant, or advanced practice registered
+            nurse. They will complete and sign Sections VI&ndash;VIII.
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="We'll notify you when it's complete">
+          <p>
+            Once the medical professional submits their portion, we’ll send you
+            an email notification. Your completed application will then be
+            submitted for processing.
+          </p>
+        </va-process-list-item>
+      </va-process-list>
+      <DownloadFormPDF confirmationNumber={confirmationNumber} />
+    </div>
+  );
+};
+
+WhatsNextSection.propTypes = {
+  confirmationNumber: PropTypes.string,
+  examinerEmail: PropTypes.string,
+};
+
+/**
+ * Legacy what's next section for the single-party flow
+ * Instructs the user to download, have examiner complete, and upload
+ * @param {Object} props
+ * @param {string} props.confirmationNumber - Submission confirmation number
+ * @returns {React.ReactElement} What's next section
+ */
+const LegacyWhatsNextSection = ({ confirmationNumber }) => {
   return (
     <div className="confirmation-whats-next-section">
       <h2>What you need to do next</h2>
@@ -71,9 +146,7 @@ const WhatsNextSection = ({ confirmationNumber }) => {
             nurse.
           </p>
         </va-process-list-item>
-
         <va-process-list-item header="Once the examiner has completed their part of the form and signed it, they'll return it to you." />
-
         <va-process-list-item header="Upload your fully completed form.">
           <p>
             <va-link-action
@@ -87,7 +160,7 @@ const WhatsNextSection = ({ confirmationNumber }) => {
   );
 };
 
-WhatsNextSection.propTypes = {
+LegacyWhatsNextSection.propTypes = {
   confirmationNumber: PropTypes.string,
 };
 
@@ -112,9 +185,14 @@ export const ConfirmationPage = ({ route }) => {
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
 
-  // Extract GUID/confirmation number (same string) from submission response
+  // Extract GUID/confirmation number from submission response
   const confirmationNumber =
     submission?.response?.attributes?.confirmationNumber || '';
+
+  // Determine which flow was used based on the feature toggle and examiner email.
+  const examinerEmail = form?.data?.examinerNotification?.examinerEmail || '';
+  const isMultiParty = isMultiPartyEnabled() && Boolean(examinerEmail);
+
   return (
     <ConfirmationView
       formConfig={route?.formConfig}
@@ -124,10 +202,21 @@ export const ConfirmationPage = ({ route }) => {
         showButtons: true,
       }}
     >
-      <CustomSubmissionAlert />
+      {isMultiParty ? (
+        <MultiPartySubmissionAlert examinerEmail={examinerEmail} />
+      ) : (
+        <LegacySubmissionAlert />
+      )}
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
-      <WhatsNextSection confirmationNumber={confirmationNumber} />
+      {isMultiParty ? (
+        <WhatsNextSection
+          examinerEmail={examinerEmail}
+          confirmationNumber={confirmationNumber}
+        />
+      ) : (
+        <LegacyWhatsNextSection confirmationNumber={confirmationNumber} />
+      )}
       <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink />
       <ConfirmationView.NeedHelp />

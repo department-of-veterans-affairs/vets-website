@@ -4,29 +4,40 @@
  */
 
 import { expect } from 'chai';
-import { submitTransformer } from './submit-transformer';
+import {
+  submitTransformer,
+  legacySubmitTransformer,
+} from './submit-transformer';
 
-function transformAndParse(mockFormConfig, formData) {
-  const result = JSON.parse(submitTransformer(mockFormConfig, formData));
+function legacyTransformAndParse(mockFormConfig, formData) {
+  const result = JSON.parse(legacySubmitTransformer(mockFormConfig, formData));
   return JSON.parse(result.form);
 }
 
-describe('Submit Transformer', () => {
+function multiPartyTransformAndParse(mockFormConfig, formData) {
+  const result = JSON.parse(submitTransformer(mockFormConfig, formData));
+  return {
+    wrapper: result.multi_party_form,
+    formData: JSON.parse(result.multi_party_form.form),
+  };
+}
+
+describe('Legacy Submit Transformer', () => {
   const mockFormConfig = {};
 
   describe('Basic Functionality', () => {
     it('should export a function', () => {
-      expect(submitTransformer).to.be.a('function');
+      expect(legacySubmitTransformer).to.be.a('function');
     });
 
     it('should return a JSON string', () => {
-      const result = submitTransformer(mockFormConfig, {});
+      const result = legacySubmitTransformer(mockFormConfig, {});
       expect(result).to.be.a('string');
       expect(() => JSON.parse(result)).to.not.throw();
     });
 
     it('should wrap output in form object', () => {
-      const result = submitTransformer(mockFormConfig, {});
+      const result = legacySubmitTransformer(mockFormConfig, {});
       const parsed = JSON.parse(result);
       expect(parsed).to.have.property('form');
     });
@@ -49,7 +60,7 @@ describe('Submit Transformer', () => {
         },
         statementOfTruthSignature: 'Anakin Skywalker',
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result).to.have.property('veteranInformation');
       expect(result).to.have.property('claimantInformation');
       expect(result).to.have.property('benefitInformation');
@@ -72,7 +83,7 @@ describe('Submit Transformer', () => {
           veteranVaFileNumber: '987654321',
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.veteranInformation).to.deep.equal({
         fullName: {
           first: 'Anakin',
@@ -96,7 +107,7 @@ describe('Submit Transformer', () => {
           veteranSsn: '123456789',
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.veteranInformation.fullName.middle).to.equal('');
     });
   });
@@ -131,7 +142,7 @@ describe('Submit Transformer', () => {
           claimantEmail: 'anakin@jedi.org',
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.claimantInformation.fullName).to.deep.equal({
         first: 'Anakin',
         middle: 'L',
@@ -156,7 +167,7 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.veteranInformation.ssn).to.equal('123456789');
       expect(result.claimantInformation.ssn).to.equal('123456789');
     });
@@ -174,7 +185,7 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.claimantInformation.phoneNumber).to.equal('5551234567');
     });
 
@@ -191,7 +202,7 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.claimantInformation.internationalPhoneNumber).to.equal(
         '+880212345678',
       );
@@ -238,7 +249,7 @@ describe('Submit Transformer', () => {
           claimantEmail: 'padme@naboo.org',
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.claimantInformation.fullName).to.deep.equal({
         first: 'Padmé',
         middle: 'A',
@@ -262,7 +273,7 @@ describe('Submit Transformer', () => {
           benefitType: 'SMC',
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.benefitInformation.benefitSelection).to.equal('smc');
     });
 
@@ -272,7 +283,7 @@ describe('Submit Transformer', () => {
           benefitType: 'SMP',
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.benefitInformation.benefitSelection).to.equal('smp');
     });
   });
@@ -284,7 +295,7 @@ describe('Submit Transformer', () => {
           isCurrentlyHospitalized: false,
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.additionalInformation.currentlyHospitalized).to.equal(
         false,
       );
@@ -319,7 +330,7 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.additionalInformation.currentlyHospitalized).to.equal(true);
       expect(result.additionalInformation.admissionDate).to.equal('2024-01-15');
       expect(result.additionalInformation.hospitalName).to.equal(
@@ -341,7 +352,7 @@ describe('Submit Transformer', () => {
       const formData = {
         statementOfTruthSignature: 'Anakin L Skywalker',
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.veteranSignature.signature).to.equal('Anakin L Skywalker');
       expect(result.veteranSignature.date).to.match(/^\d{4}-\d{2}-\d{2}$/);
     });
@@ -356,7 +367,7 @@ describe('Submit Transformer', () => {
           'view:someOtherField': 'also removed',
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       const resultString = JSON.stringify(result);
       expect(resultString).to.not.include('view:');
     });
@@ -369,7 +380,7 @@ describe('Submit Transformer', () => {
           veteranFullName: { first: 'Anakin' },
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.veteranInformation.fullName.middle).to.equal('');
       expect(result.veteranInformation.ssn).to.equal('');
       expect(result.veteranInformation.vaFileNumber).to.be.undefined;
@@ -391,7 +402,7 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.claimantInformation.address.country).to.equal('US');
     });
 
@@ -410,7 +421,7 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
       expect(result.claimantInformation.address.country).to.equal('USA');
     });
   });
@@ -465,7 +476,7 @@ describe('Submit Transformer', () => {
         },
         statementOfTruthSignature: 'Anakin L Skywalker',
       };
-      const result = transformAndParse(mockFormConfig, formData);
+      const result = legacyTransformAndParse(mockFormConfig, formData);
 
       // Verify all sections exist
       expect(result).to.have.all.keys([
@@ -495,6 +506,103 @@ describe('Submit Transformer', () => {
 
       // Verify signature
       expect(result.veteranSignature.signature).to.equal('Anakin L Skywalker');
+    });
+  });
+});
+
+describe('Multi-Party Submit Transformer', () => {
+  const mockFormConfig = {};
+
+  describe('Basic Functionality', () => {
+    it('should export a function', () => {
+      expect(submitTransformer).to.be.a('function');
+    });
+
+    it('should return a JSON string', () => {
+      const result = submitTransformer(mockFormConfig, {});
+      expect(result).to.be.a('string');
+      expect(() => JSON.parse(result)).to.not.throw();
+    });
+
+    it('should wrap output in multi_party_form object', () => {
+      const result = JSON.parse(submitTransformer(mockFormConfig, {}));
+      expect(result).to.have.property('multi_party_form');
+    });
+
+    it('should include form_type', () => {
+      const result = JSON.parse(submitTransformer(mockFormConfig, {}));
+      expect(result.multi_party_form.form_type).to.equal('21-2680');
+    });
+
+    it('should include form as stringified JSON', () => {
+      const result = JSON.parse(submitTransformer(mockFormConfig, {}));
+      expect(result.multi_party_form.form).to.be.a('string');
+      expect(() => JSON.parse(result.multi_party_form.form)).to.not.throw();
+    });
+  });
+
+  describe('Secondary Email Extraction', () => {
+    it('should extract secondary email from examinerNotification', () => {
+      const formData = {
+        examinerNotification: {
+          examinerEmail: 'doctor@hospital.com',
+        },
+      };
+      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
+      expect(result.multi_party_form.secondary_email).to.equal(
+        'doctor@hospital.com',
+      );
+    });
+
+    it('should return null when examiner email is missing', () => {
+      const result = JSON.parse(submitTransformer(mockFormConfig, {}));
+      expect(result.multi_party_form.secondary_email).to.be.null;
+    });
+  });
+
+  describe('Form Data Sections', () => {
+    it('should include all required backend sections in form data', () => {
+      const formData = {
+        veteranInformation: {
+          veteranFullName: { first: 'Anakin', last: 'Skywalker' },
+          veteranDob: '1980-01-01',
+          veteranSsn: '123456789',
+        },
+        claimantRelationship: { relationship: 'veteran' },
+        benefitType: { benefitType: 'SMC' },
+        hospitalizationStatus: { isCurrentlyHospitalized: false },
+        statementOfTruthSignature: 'Anakin Skywalker',
+        examinerNotification: { examinerEmail: 'doc@example.com' },
+      };
+      const { formData: innerForm } = multiPartyTransformAndParse(
+        mockFormConfig,
+        formData,
+      );
+      expect(innerForm).to.have.property('veteranInformation');
+      expect(innerForm).to.have.property('claimantInformation');
+      expect(innerForm).to.have.property('benefitInformation');
+      expect(innerForm).to.have.property('additionalInformation');
+      expect(innerForm).to.have.property('veteranSignature');
+    });
+
+    it('should produce identical form data as legacy transformer', () => {
+      const formData = {
+        veteranInformation: {
+          veteranFullName: { first: 'Anakin', middle: 'L', last: 'Skywalker' },
+          veteranDob: '1980-01-01',
+          veteranSsn: '123456789',
+        },
+        claimantRelationship: { relationship: 'veteran' },
+        benefitType: { benefitType: 'SMC' },
+        hospitalizationStatus: { isCurrentlyHospitalized: false },
+        statementOfTruthSignature: 'Anakin L Skywalker',
+      };
+      const legacyResult = legacyTransformAndParse(mockFormConfig, formData);
+      const { formData: multiPartyResult } = multiPartyTransformAndParse(
+        mockFormConfig,
+        formData,
+      );
+      expect(multiPartyResult).to.deep.equal(legacyResult);
     });
   });
 });

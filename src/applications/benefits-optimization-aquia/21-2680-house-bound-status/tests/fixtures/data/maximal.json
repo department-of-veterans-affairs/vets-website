@@ -74,6 +74,9 @@
         "country": "USA",
         "postalCode": "20001"
       }
+    },
+    "examinerNotification": {
+      "examinerEmail": "dr.kaldera@polismassa.med"
     }
   }
 }

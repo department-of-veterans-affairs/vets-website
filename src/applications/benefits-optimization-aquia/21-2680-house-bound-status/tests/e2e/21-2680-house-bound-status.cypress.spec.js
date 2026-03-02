@@ -5,6 +5,96 @@ import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 import { featureToggles, user } from '../fixtures/mocks';
 
+const legacyFeatureToggles = {
+  data: {
+    type: 'feature_toggles',
+    features: [
+      {
+        name: 'form_2680_enabled',
+        value: true,
+      },
+      {
+        name: 'form_2680_multi_party_forms_enabled',
+        value: false,
+      },
+    ],
+  },
+};
+
+// Shared page hooks used by both multi-party and legacy test configs
+const introductionHook = ({ afterHook }) => {
+  cy.injectAxeThenAxeCheck();
+  afterHook(() => {
+    // Click the start link to begin the form
+    cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
+      .last()
+      .click();
+  });
+};
+
+const claimantContactHook = ({ afterHook }) => {
+  afterHook(() => {
+    cy.get('@testData').then(data => {
+      const { claimantContact } = data;
+      if (claimantContact?.claimantPhoneNumber) {
+        const countryCode =
+          claimantContact.claimantPhoneNumber.countryCode || 'US';
+        cy.get('va-combo-box')
+          .shadow()
+          .find('button.usa-combo-box__toggle-list')
+          .click();
+
+        cy.get(`li[data-value="${countryCode}"]`).click({ force: true });
+
+        const phoneNumber = claimantContact.claimantPhoneNumber.contact || '';
+        cy.get('input[type="tel"]').type(phoneNumber);
+
+        if (claimantContact.claimantEmail) {
+          cy.get('input[name="root_claimantContact_claimantEmail"]').type(
+            claimantContact.claimantEmail,
+          );
+        }
+      }
+      cy.axeCheck();
+      cy.findByText(/continue/i, { selector: 'button' }).click();
+    });
+  });
+};
+
+const reviewAndSubmitHook = ({ afterHook }) => {
+  afterHook(() => {
+    cy.get('@testData').then(data => {
+      const { veteranFullName } = data.veteranInformation;
+      // Build full name for signature (middle is optional, no suffix)
+      // The platform displays the full name but validates flexibly
+      const veteranName = [
+        veteranFullName.first,
+        veteranFullName.middle,
+        veteranFullName.last,
+      ]
+        .filter(Boolean)
+        .join(' ');
+
+      // Fill signature field within VaStatementOfTruth component
+      cy.get('va-statement-of-truth')
+        .shadow()
+        .find('input[type="text"]')
+        .type(veteranName);
+
+      // Check statement of truth checkbox within VaStatementOfTruth component
+      cy.get('va-statement-of-truth')
+        .shadow()
+        .find('input[type="checkbox"]')
+        .check({ force: true });
+
+      cy.axeCheck();
+
+      // Submit the form
+      cy.findByText(/submit/i, { selector: 'button' }).click();
+    });
+  });
+};
+
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -17,77 +107,22 @@ const testConfig = createTestConfig(
     ],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
-      introduction: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          // Click the start link to begin the form
-          cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
-            .last()
-            .click();
-        });
-      },
-      'claimant-contact': ({ afterHook }) => {
+      introduction: introductionHook,
+      'claimant-contact': claimantContactHook,
+      'examiner-email': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const { claimantContact } = data;
-            if (claimantContact?.claimantPhoneNumber) {
-              const countryCode =
-                claimantContact.claimantPhoneNumber.countryCode || 'US';
-              cy.get('va-combo-box')
-                .shadow()
-                .find('button.usa-combo-box__toggle-list')
-                .click();
-
-              cy.get(`li[data-value="${countryCode}"]`).click({ force: true });
-
-              const phoneNumber =
-                claimantContact.claimantPhoneNumber.contact || '';
-              cy.get('input[type="tel"]').type(phoneNumber);
-
-              if (claimantContact.claimantEmail) {
-                cy.get('input[name="root_claimantContact_claimantEmail"]').type(
-                  claimantContact.claimantEmail,
-                );
-              }
-            }
+            const email =
+              data.examinerNotification?.examinerEmail || 'doctor@example.com';
+            cy.get(
+              'input[name="root_examinerNotification_examinerEmail"]',
+            ).type(email);
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
-      'review-and-submit': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const { veteranFullName } = data.veteranInformation;
-            // Build full name for signature (middle is optional, no suffix)
-            // The platform displays the full name but validates flexibly
-            const veteranName = [
-              veteranFullName.first,
-              veteranFullName.middle,
-              veteranFullName.last,
-            ]
-              .filter(Boolean)
-              .join(' ');
-
-            // Fill signature field within VaStatementOfTruth component
-            cy.get('va-statement-of-truth')
-              .shadow()
-              .find('input[type="text"]')
-              .type(veteranName);
-
-            // Check statement of truth checkbox within VaStatementOfTruth component
-            cy.get('va-statement-of-truth')
-              .shadow()
-              .find('input[type="checkbox"]')
-              .check({ force: true });
-
-            cy.axeCheck();
-
-            // Submit the form
-            cy.findByText(/submit/i, { selector: 'button' }).click();
-          });
-        });
-      },
+      'review-and-submit': reviewAndSubmitHook,
     },
     setupPerTest: () => {
       // Mock user and authentication
@@ -97,7 +132,7 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
 
       // Mock save-in-progress endpoints
-      cy.intercept('GET', '/v0/in_progress_forms/21-2680', {
+      cy.intercept('GET', '/v0/in_progress_forms/21-2680-PRIMARY', {
         statusCode: 200,
         body: {
           formData: {},
@@ -105,7 +140,7 @@ const testConfig = createTestConfig(
         },
       });
 
-      cy.intercept('PUT', '/v0/in_progress_forms/21-2680', {
+      cy.intercept('PUT', '/v0/in_progress_forms/21-2680-PRIMARY', {
         statusCode: 200,
         body: {
           data: {
@@ -156,3 +191,69 @@ const testConfig = createTestConfig(
 );
 
 testForm(testConfig);
+
+const legacyTestConfig = createTestConfig(
+  {
+    dataPrefix: 'data',
+    dataSets: ['minimal'],
+    dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
+    pageHooks: {
+      introduction: introductionHook,
+      'claimant-contact': claimantContactHook,
+      'review-and-submit': reviewAndSubmitHook,
+    },
+    setupPerTest: () => {
+      cy.intercept('GET', '/v0/user', user);
+      cy.intercept('GET', '/v0/feature_toggles*', legacyFeatureToggles);
+
+      cy.intercept('GET', '/v0/in_progress_forms/21-2680', {
+        statusCode: 200,
+        body: {
+          formData: {},
+          metadata: {},
+        },
+      });
+
+      cy.intercept('PUT', '/v0/in_progress_forms/21-2680', {
+        statusCode: 200,
+        body: {
+          data: {
+            attributes: {
+              metadata: {
+                version: 0,
+                returnUrl: '/veteran-information',
+              },
+            },
+          },
+        },
+      });
+
+      cy.intercept('POST', '/v0/form212680', req => {
+        req.reply({
+          statusCode: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: {
+            data: {
+              id: '8',
+              type: 'saved_claims',
+              attributes: {
+                submittedAt: '2025-11-24T04:36:36.556Z',
+                confirmationNumber: 'legacy-21-2680-confirmation',
+                guid: 'legacy-21-2680-guid',
+                form: '21-2680',
+              },
+            },
+          },
+        });
+      });
+
+      cy.login(user);
+    },
+  },
+  manifest,
+  formConfig,
+);
+
+testForm(legacyTestConfig);
