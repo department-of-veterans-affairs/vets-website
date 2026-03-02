@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import {
   useNavigate,
   useParams,
@@ -43,6 +43,8 @@ import {
 import {
   DATE_VALIDATION_TYPE,
   VALIDATION_ERROR_MESSAGES,
+  isCompleteDate,
+  normalizeDate,
   validateRequestedAmount,
   validateReceiptDate,
   validateDescription,
@@ -96,6 +98,7 @@ const ExpensePage = () => {
   const initialFormStateRef = useRef({});
   const previousHasChangesRef = useRef(false);
   const hasLoadedExpenseRef = useRef(false);
+  const extraFieldErrorsRef = useRef({});
 
   // State
   const [formState, setFormState] = useState({});
@@ -169,10 +172,33 @@ const ExpensePage = () => {
           if (!isMounted) return;
 
           // Step 2: Hydrate form with expense data
+          // Build initial state with all dates normalized to YYYY-MM-DD
           const initialState = {
             ...fetchedExpense,
-            purchaseDate: fetchedExpense.dateIncurred || '',
+            purchaseDate: normalizeDate(fetchedExpense.dateIncurred) || '',
           };
+
+          // Normalize date fields for expense types that use them
+          // Do this unconditionally to ensure proper override
+          if (fetchedExpense.departureDate) {
+            initialState.departureDate = normalizeDate(
+              fetchedExpense.departureDate,
+            );
+          }
+          if (fetchedExpense.returnDate) {
+            initialState.returnDate = normalizeDate(fetchedExpense.returnDate);
+          }
+          if (fetchedExpense.checkInDate) {
+            initialState.checkInDate = normalizeDate(
+              fetchedExpense.checkInDate,
+            );
+          }
+          if (fetchedExpense.checkOutDate) {
+            initialState.checkOutDate = normalizeDate(
+              fetchedExpense.checkOutDate,
+            );
+          }
+
           setFormState(initialState);
           setPreviousFormState(initialState);
           initialFormStateRef.current = initialState;
@@ -259,7 +285,36 @@ const ExpensePage = () => {
     [formState, dispatch],
   );
 
-  // Effect 4: Scroll to first error after validation and DOM update
+  // Sync ref with latest extraFieldErrors before focusout handler reads it
+  useLayoutEffect(() => {
+    extraFieldErrorsRef.current = extraFieldErrors;
+  });
+
+  // Effect 4: Override VaDate's internal validation error after blur.
+  //
+  // VaDate incorrectly shows 'date-error' in edit mode when pre-filled dates are changed.
+  // We listen for focusout on document and use queueMicrotask to replace VaDate's error
+  // with our React validation error before the browser paints.
+  useEffect(() => {
+    // focusout bubbles across shadow DOM; listening on document catches all va-date blurs
+    const handleFocusOut = event => {
+      const vaDateEl = event.target?.closest('va-date');
+      if (!vaDateEl) return;
+
+      const fieldName = vaDateEl.getAttribute('name');
+
+      // Override VaDate's internal error after its blur validation runs but before browser paint
+      const overrideVaDateError = () => {
+        vaDateEl.error = extraFieldErrorsRef.current[fieldName] || null;
+      };
+      queueMicrotask(overrideVaDateError);
+    };
+
+    document.addEventListener('focusout', handleFocusOut);
+    return () => document.removeEventListener('focusout', handleFocusOut);
+  }, []);
+
+  // Effect 5: Scroll to first error after validation and DOM update
   // Using scrollToFirstError on its own fails to find the errors before they have rendered
   useEffect(
     () => {
@@ -278,11 +333,6 @@ const ExpensePage = () => {
     const value =
       event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
 
-    // Always update formState with the current value (including partial dates)
-    // This ensures the field doesn't get cleared on re-render
-    const newFormState = { ...formState, [name]: value };
-    setFormState(newFormState);
-
     // For date fields, only run validation if we have a complete date
     const dateFields = [
       'purchaseDate',
@@ -292,12 +342,17 @@ const ExpensePage = () => {
       'checkOutDate',
     ];
     const isDateField = dateFields.includes(name);
-    const isCompleteDate = /^\d{4}-\d{2}-\d{2}$/.test(value);
+
+    // Calculate new form state (but don't set it yet to avoid re-render before errors are updated)
+    const newFormState = { ...formState, [name]: value };
+
+    const isCompleteDateValue = isCompleteDate(value);
 
     // Skip validation for partial dates, but still save them to formState
-    if (isDateField && !isCompleteDate && value !== '') {
+    if (isDateField && !isCompleteDateValue && value !== '') {
       // If there's an existing error, replace it with incomplete date error
       // This provides immediate feedback when user breaks a valid date
+      setFormState(newFormState);
       setExtraFieldErrors(prevErrors => {
         const nextErrors = { ...prevErrors };
         if (prevErrors[name]) {
@@ -310,12 +365,13 @@ const ExpensePage = () => {
       return;
     }
 
+    setFormState(newFormState);
+
     // On change: clear errors if field becomes valid, OR update error if field has existing error
     setExtraFieldErrors(prevErrors => {
       const nextErrors = { ...prevErrors };
       const hasExistingError = prevErrors[name];
 
-      // Validate base fields
       if (name === 'purchaseDate') {
         const validationResult = validateReceiptDate(
           value,
@@ -325,7 +381,7 @@ const ExpensePage = () => {
           delete nextErrors.purchaseDate;
         } else if (
           validationResult.purchaseDate &&
-          (isCompleteDate || hasExistingError)
+          (isCompleteDateValue || hasExistingError)
         ) {
           nextErrors.purchaseDate = validationResult.purchaseDate;
         }
@@ -354,7 +410,7 @@ const ExpensePage = () => {
         }
       }
 
-      // Run type-specific validations - clear errors if valid, update if has existing error
+      // Run type-specific validations
       let fieldErrors = {};
       if (isAirTravel) {
         fieldErrors = validateAirTravelFields(newFormState, name);
@@ -366,12 +422,11 @@ const ExpensePage = () => {
         fieldErrors = validateMealFields(newFormState, name);
       }
 
-      // Clear errors if valid, or update if field already has an error
+      // Clear errors if valid, or always show if invalid
       Object.keys(fieldErrors).forEach(field => {
         if (fieldErrors[field] === null) {
           delete nextErrors[field];
-        } else if (prevErrors[field] && fieldErrors[field]) {
-          // Update error message if field already has an error
+        } else if (fieldErrors[field]) {
           nextErrors[field] = fieldErrors[field];
         }
       });
@@ -383,7 +438,6 @@ const ExpensePage = () => {
   const handleFormBlur = (event, explicitName) => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name;
 
-    // For date fields, use value from formState instead of event
     const dateFields = [
       'purchaseDate',
       'departureDate',
@@ -391,31 +445,22 @@ const ExpensePage = () => {
       'checkInDate',
       'checkOutDate',
     ];
-    const value = dateFields.includes(name)
-      ? formState[name] || ''
-      : event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
 
-    // Only validate on blur if the field has a value
+    // Skip blur validation for date fields (validated on change and submit instead)
+    if (dateFields.includes(name)) {
+      return;
+    }
+
+    const value =
+      event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
+
     if (!value) {
       return;
     }
 
-    // Run validation on blur - always update errors
+    // Run validation on blur for non-date fields
     setExtraFieldErrors(prevErrors => {
       const nextErrors = { ...prevErrors };
-
-      // Validate base fields
-      if (name === 'purchaseDate') {
-        const validationResult = validateReceiptDate(
-          value,
-          DATE_VALIDATION_TYPE.BLUR,
-        );
-        if (validationResult.purchaseDate) {
-          nextErrors.purchaseDate = validationResult.purchaseDate;
-        } else {
-          delete nextErrors.purchaseDate;
-        }
-      }
 
       if (name === 'description') {
         const validationResult = validateDescription(
@@ -441,7 +486,7 @@ const ExpensePage = () => {
         }
       }
 
-      // Run type-specific validations - always update errors on blur
+      // Run type-specific validations on blur for non-date fields
       let fieldErrors = {};
       if (isAirTravel) {
         fieldErrors = validateAirTravelFields(formState, name);
@@ -453,7 +498,6 @@ const ExpensePage = () => {
         fieldErrors = validateMealFields(formState, name);
       }
 
-      // Update errors from validators
       Object.keys(fieldErrors).forEach(field => {
         if (fieldErrors[field]) {
           nextErrors[field] = fieldErrors[field];
@@ -866,9 +910,7 @@ const ExpensePage = () => {
             hint={dateHintText}
             onDateChange={handleFormChange}
             onDateBlur={handleFormBlur}
-            {...extraFieldErrors.purchaseDate && {
-              error: extraFieldErrors.purchaseDate,
-            }}
+            error={extraFieldErrors.purchaseDate || ''}
           />
 
           <div className="currency-input-wrapper vads-u-margin-top--2">

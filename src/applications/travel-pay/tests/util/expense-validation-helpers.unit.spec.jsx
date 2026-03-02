@@ -412,6 +412,26 @@ describe('validateAirTravelFields', () => {
     expect(nextErrors.returnDate).to.equal("Don't enter a future date");
   });
 
+  it('throws incomplete date error when departureDate is partial', () => {
+    formState.departureDate = '2025-01';
+    formState.returnDate = '2025-01-10';
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+
+    const nextErrors = validateAirTravelFields(formState, 'departureDate');
+
+    expect(nextErrors.departureDate).to.equal('Please enter a complete date');
+  });
+
+  it('throws incomplete date error when returnDate is partial for ROUND_TRIP', () => {
+    formState.departureDate = '2025-01-05';
+    formState.returnDate = '2025-01';
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+
+    const nextErrors = validateAirTravelFields(formState, 'returnDate');
+
+    expect(nextErrors.returnDate).to.equal('Please enter a complete date');
+  });
+
   it('clears returnDate error when switching from ROUND_TRIP to ONE_WAY', () => {
     formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
     formState.departureDate = '2025-01-01';
@@ -634,7 +654,7 @@ describe('validateLodgingFields', () => {
     expect(nextErrors.checkOutDate).to.be.undefined;
   });
 
-  it('does not throw ordering error when checkInDate is incomplete', () => {
+  it('throws incomplete date error when checkInDate is incomplete', () => {
     const nextErrors = validateLodgingFields(
       {
         checkInDate: '2025-01',
@@ -643,10 +663,10 @@ describe('validateLodgingFields', () => {
       'checkInDate',
     );
 
-    expect(nextErrors.checkInDate).to.equal(null);
+    expect(nextErrors.checkInDate).to.equal('Please enter a complete date');
   });
 
-  it('does not throw ordering error when checkOutDate is incomplete', () => {
+  it('throws incomplete date error when checkOutDate is incomplete', () => {
     const nextErrors = validateLodgingFields(
       {
         checkInDate: '2025-01-10',
@@ -655,7 +675,7 @@ describe('validateLodgingFields', () => {
       'checkOutDate',
     );
 
-    expect(nextErrors.checkOutDate).to.equal(null);
+    expect(nextErrors.checkOutDate).to.equal('Please enter a complete date');
   });
 
   it('requires checkInDate if empty', () => {
