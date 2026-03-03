@@ -40,7 +40,11 @@ runs:
       id: cache-dependencies
       uses: actions/cache@v4
       with:
-        path: ${{ inputs.path }}
+        path: |
+          ${{ inputs.path }}
+          src/platform/*/node_modules
+          src/applications/*/node_modules
+          src/applications/*/*/node_modules
         key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.key }}
         # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
 
