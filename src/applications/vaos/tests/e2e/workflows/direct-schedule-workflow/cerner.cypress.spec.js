@@ -6,6 +6,7 @@ import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import ScheduleCernerPageObject from '../../page-objects/ScheduleCernerPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
@@ -44,7 +45,6 @@ describe('VAOS direct schedule flow - Cerner', () => {
           response: [new MockFacilityResponse()],
         });
         mockFeatureToggles({
-          vaOnlineSchedulingImmediateCareAlert: false,
           vaOnlineSchedulingRemoveFacilityConfigCheck: false,
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
@@ -59,6 +59,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
@@ -94,7 +96,6 @@ describe('VAOS direct schedule flow - Cerner', () => {
           }),
         });
         mockFeatureToggles({
-          vaOnlineSchedulingImmediateCareAlert: false,
           vaOnlineSchedulingRemoveFacilityConfigCheck: false,
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
@@ -109,6 +110,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
@@ -166,6 +169,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
           cy.login(mockUser);
 
           AppointmentListPageObject.visit().scheduleAppointment();
+
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
@@ -228,6 +233,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
             cy.login(mockUser);
 
             AppointmentListPageObject.visit().scheduleAppointment();
+
+            UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
             TypeOfCarePageObject.assertUrl()
               .assertAddressAlert({ exist: false })
@@ -299,6 +306,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
             cy.login(mockUser);
 
             AppointmentListPageObject.visit().scheduleAppointment();
+
+            UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
             TypeOfCarePageObject.assertUrl()
               .assertAddressAlert({ exist: false })
