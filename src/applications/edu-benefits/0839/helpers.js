@@ -1,5 +1,6 @@
 import React from 'react';
 import { focusElement } from '~/platform/utilities/ui';
+import { CURRENCY_LABELS } from './constants';
 
 export const validateInitials = (inputValue, firstName, lastName) => {
   if (!inputValue || inputValue.length === 0) {
@@ -259,18 +260,20 @@ const yellowRibbonCardTitleCase = str => {
   return result.join(' ');
 };
 
-export const yellowRibbonProgramCardDescription = item => {
+export const yellowRibbonProgramCardDescription = (item, formData) => {
   const degreeLevel = yellowRibbonCardTitleCase(item.degreeLevel);
   const school = yellowRibbonCardTitleCase(item.collegeOrProfessionalSchool);
   if (!item) return null;
+  const isUsaSchool = formData?.institutionDetails?.isUsaSchool;
   return (
     <div>
       <p>{degreeLevel}</p>
       {school && <p>{school}</p>}
+      {item.schoolCurrency && <p>{CURRENCY_LABELS[item.schoolCurrency]}</p>}
       <p>
         {!item.specificContributionAmount
           ? 'Pay remaining mandatory tuition and fees not covered by Post-9/11 GI Bill (unlimited)'
-          : `${item.collegeOrProfessionalSchool ? '$' : ''}${Number(
+          : `${isUsaSchool ? '$' : ''}${Number(
               item.specificContributionAmount,
             ).toLocaleString()}`}
       </p>
@@ -297,7 +300,8 @@ export const arrayBuilderOptions = {
           : 'Unlimited'
       }`}`;
     },
-    cardDescription: item => yellowRibbonProgramCardDescription(item),
+    cardDescription: (item, _index, formData) =>
+      yellowRibbonProgramCardDescription(item, formData),
     summaryTitle: props => {
       const institutionDetails = props?.formData?.institutionDetails;
       const { isUsaSchool } = institutionDetails || {};

@@ -240,9 +240,8 @@ const formConfig = {
             uiSchema: contributionLimitsAndDegreeLevel.uiSchema,
             schema: contributionLimitsAndDegreeLevel.schema,
             depends: formData =>
-              formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
-            // &&
-            // !!formData?.institutionDetails?.isUsaSchool,
+              formData?.agreementType !== 'withdrawFromYellowRibbonProgram' &&
+              !!formData?.institutionDetails?.isUsaSchool,
             pageClass: 'ypr-no-expander-border',
           }),
           foreignContributionLimitsAndDegreeLevel: pageBuilder.itemPage({
