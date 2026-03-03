@@ -78,7 +78,7 @@ export const SpecialMonthlyPensionEvidenceDescription = () => (
 
 export const NetWorthEstimationFormNeededDescription = () => (
   <RequestFormDescription
-    intro={`Because you and your dependents have over ${threshold.toLocaleString()} in assets`}
+    intro={`Because you and your dependents have over $${threshold.toLocaleString()} in assets`}
     title="Income and Asset Statement in Support of
           Claim for Pension or Parents' Dependency and Indemnity Compensation
     Need for Regular Aid and Attendance"

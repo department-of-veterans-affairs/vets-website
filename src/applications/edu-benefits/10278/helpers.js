@@ -40,6 +40,7 @@ export const organizationRepresentativesArrayOptions = {
   arrayPath: 'organizationRepresentatives',
   nounSingular: 'representative',
   nounPlural: 'representatives',
+  maxItems: 6,
   required: true,
   isItemIncomplete: item => !item?.fullName?.first || !item?.fullName?.last,
   text: {
@@ -109,7 +110,7 @@ export const validateTerminationDate = (errors, dateString) => {
     today.getDate(),
   );
 
-  if (entered > fiveYearsFromToday) {
+  if (entered < today || entered > fiveYearsFromToday) {
     errors.addError('You must enter a valid date that’s within 5 years');
   }
 };

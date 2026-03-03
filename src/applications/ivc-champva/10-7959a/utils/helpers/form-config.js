@@ -10,11 +10,10 @@ export const isRoleSponsor = formData => formData.certifierRole === 'sponsor';
 export const isRoleOther = formData => formData.certifierRole === 'other';
 
 // claim status section
-export const isResubmissionEnabled = formData =>
+export const isDtaEnabled = formData =>
   formData['view:champvaEnableClaimResubmitQuestion'];
 
-export const isNewClaim = formData =>
-  !isResubmissionEnabled(formData) || formData.claimStatus === 'new';
+export const isNewClaim = formData => formData.claimStatus === 'new';
 
 export const isResubmissionClaim = formData =>
   formData.claimStatus === 'resubmission';

@@ -4,7 +4,7 @@ import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
-import { recordEventOnce } from '../../../monitoring/record-event';
+import recordEvent from '../../../monitoring/record-event';
 import navigationState from './utilities/navigation/navigationState';
 import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
@@ -681,8 +681,11 @@ export function rectifyData(data) {
       data.Touched !== undefined ||
       data.Error !== undefined;
 
-    if (hasCapitalKeys) {
-      recordEventOnce(
+    const sessionKey = 'va-sip-underscore-capital-transformation-tracked';
+    const alreadyRecorded = sessionStorage.getItem(sessionKey);
+
+    if (hasCapitalKeys && !alreadyRecorded) {
+      recordEvent(
         {
           event: 'api_call',
           'api-name': 'International Phone SIP Corruption Fix Detected',
@@ -691,6 +694,7 @@ export function rectifyData(data) {
         },
         'event',
       );
+      sessionStorage.setItem(sessionKey, 'true');
     }
   }
 

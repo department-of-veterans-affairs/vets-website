@@ -23,33 +23,39 @@ describe('<AssessYourInterestsAccordionItem>', () => {
     const byTextAttr = text =>
       container.querySelector(`va-link[text="${text}"]`);
 
-    const skills = byTextAttr('Skills Matcher');
+    const skills = byTextAttr('View Skills Matcher on Career One Stop website');
     expect(skills).to.exist;
     expect(skills.getAttribute('href')).to.equal(
       'https://www.careeronestop.org/Toolkit/Skills/skills-matcher.aspx',
     );
     expect(skills.hasAttribute('external')).to.be.true;
 
-    const interest = byTextAttr('Interest Assessment');
+    const interest = byTextAttr(
+      'View Interest Assessment on Career One Stop website',
+    );
     expect(interest).to.exist;
     expect(interest.getAttribute('href')).to.equal(
       'https://www.careeronestop.org/Toolkit/Careers/interest-assessment.aspx',
     );
     expect(interest.hasAttribute('external')).to.be.true;
 
-    const occupation = byTextAttr('Occupation Profile');
+    const occupation = byTextAttr(
+      'View Occupation Profile on Career One Stop website',
+    );
     expect(occupation).to.exist;
     expect(occupation.getAttribute('href')).to.equal(
       'https://www.careeronestop.org/Toolkit/Careers/Occupations/occupation-profile.aspx',
     );
     expect(occupation.hasAttribute('external')).to.be.true;
 
-    const lmi = byTextAttr('Labor Market Information');
+    const lmi = byTextAttr(
+      'View Labor Market Information on U.S Bureau of Labor Statistics website',
+    );
     expect(lmi).to.exist;
     expect(lmi.getAttribute('href')).to.equal('https://www.bls.gov');
     expect(lmi.hasAttribute('external')).to.be.true;
 
-    const resume = byTextAttr('Resume Builder');
+    const resume = byTextAttr('View Resume Builder on Career One Stop website');
     expect(resume).to.exist;
     expect(resume.getAttribute('href')).to.equal(
       'https://www.careeronestop.org/JobSearch/Resumes/ResumeGuide/introduction.aspx?secondaryNavPanels=CA%3D%3D',
@@ -59,14 +65,20 @@ describe('<AssessYourInterestsAccordionItem>', () => {
 
   it('renders descriptive text for each link in light DOM', () => {
     const { getByText } = render(<AssessYourInterestsAccordionItem />);
-    getByText(/Match your current skills/i);
-    getByText(/identify your strengths, preferences, and work interests/i);
-    getByText(/Provides detailed information about specific occupations/i);
     getByText(
-      /help you understand which career paths offer string opportunities/i,
+      /Discover how your existing skills, including those from military service,/i,
     );
     getByText(
-      /Guides you step-by-step through creating a professional resume/i,
+      /Identify your strengths, preferences, and work interests to find career paths/i,
+    );
+    getByText(
+      /Get detailed information about specific occupations, including job duties, required skills,/i,
+    );
+    getByText(
+      /Explore current job trends, in-demand occupations, and projected growth to help/i,
+    );
+    getByText(
+      /Follow a step-by-step guide to create a professional resume that showcases your experience, skills, and achievements./i,
     );
   });
 });
