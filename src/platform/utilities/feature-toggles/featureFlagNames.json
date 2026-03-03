@@ -50,6 +50,7 @@
   "checkVAInboxEnabled": "check_va_inbox_enabled",
   "claimLettersAccess": "claim_letters_access",
   "coeAccess": "coe_access",
+  "coeEnableCveStatus": "coe_enable_cve_status",
   "coeFormRebuildCveteam": "coe_form_rebuild_cveteam",
   "combinedDebtPortalAccess": "combined_debt_portal_access",
   "confirmationPageNew": "confirmation_page_new",

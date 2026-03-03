@@ -15,12 +15,12 @@ const Pending = ({
   uploadsNeeded,
 }) => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const isCveFormRebuild = useToggleValue(TOGGLE_NAMES.coeFormRebuildCveteam);
+  const enableCveStatus = useToggleValue(TOGGLE_NAMES.coeEnableCveStatus);
 
   return (
     <div className="row vads-u-margin-bottom--7">
       <div className="medium-8 columns">
-        {isCveFormRebuild ? (
+        {enableCveStatus ? (
           <PendingAlert
             referenceNumber={referenceNumber}
             requestDate={requestDate}
