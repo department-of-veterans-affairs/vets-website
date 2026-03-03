@@ -917,6 +917,7 @@ async function buildConfig(options = {}) {
         process.env.DATADOG_TAGS || '',
       ),
       global: 'window',
+      __dirname: '""',
     },
 
     // Inject process and Buffer browser polyfills as globals
@@ -970,6 +971,7 @@ async function buildConfig(options = {}) {
       },
       lazyLoadPlugin(),
       aliasPlugin(aliasMap, rootDir),
+      requireContextPlugin(),
       nullLoaderPlugin(),
       nodePolyfillPlugin(),
       svgSizeWarningPlugin(),
