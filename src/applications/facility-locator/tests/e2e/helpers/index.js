@@ -1,5 +1,6 @@
 export const ROOT_URL = '/find-locations';
 export const MAP_CONTAINER = '#mapbox-gl-container';
+export const SKIP_MAP_LINK = '#skip-map-link';
 export const CITY_STATE_ZIP_INPUT = '#street-city-state-zip';
 export const FACILITY_TYPE_DROPDOWN = '#facility-type-dropdown';
 export const VA_HEALTH_SERVICE_DROPDOWN = '#service-type-dropdown';
