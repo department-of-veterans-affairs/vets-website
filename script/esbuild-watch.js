@@ -183,7 +183,12 @@ async function startDevServer() {
 
   // Build web-components as ESM with code splitting (lazy-loaded chunks)
   const outdir = path.join(buildPath, 'generated');
-  await buildWebComponents(outdir, false, rootDir, buildOptions);
+  const wcSharedChunks = await buildWebComponents(
+    outdir,
+    false,
+    rootDir,
+    buildOptions,
+  );
 
   // Build lazy bundles (platform-pdf, cheerio) so they're available on demand
   await buildLazyBundles(outdir, false, rootDir, buildOptions);
@@ -250,6 +255,11 @@ async function startDevServer() {
         },
         tagName: 'link',
       },
+      // Modulepreload shared WC chunks to eliminate ESM import waterfalls
+      ...wcSharedChunks.map(href => ({
+        attributes: { href, rel: 'modulepreload' },
+        tagName: 'link',
+      })),
       // JS scripts (polyfills defer, app + wc as modules for ordered loading)
       {
         attributes: { src: '/generated/polyfills.entry.js', defer: true },

@@ -1056,16 +1056,24 @@ async function buildConfig(options = {}) {
 //
 // By building web-components as a separate ESM pass with splitting:true,
 // esbuild preserves the dynamic imports and produces:
-//   - A small web-components.entry.js (~50KB) with the Stencil runtime
-//   - ~64 chunk files loaded on demand as components appear in the DOM
+//   - web-components.entry.js (~434KB) with polyfills + Stencil bootstrap
+//   - ~64 component entry chunks loaded on demand via import()
+//   - ~8 shared utility chunks (classnames, i18n, Stencil runtime, etc.)
 //
-// This matches webpack's output where the web-components entry is ~341KB
-// and 70 separate chunk files are loaded lazily.
+// Unlike webpack's self-contained JSONP chunks, ESM component entries have
+// static imports from shared chunks.  Without modulepreload hints, each
+// lazy import() creates a waterfall: fetch component entry → discover its
+// static imports → fetch shared chunks → execute.  The scaffold HTML adds
+// <link rel="modulepreload"> for shared chunks so they're pre-fetched,
+// eliminating the second round trip and matching webpack's single-fetch
+// behavior.
 // ---------------------------------------------------------------------------
 
 /**
  * Build the web-components entry as an ESM bundle with code splitting.
  * Must be called after the main IIFE build so that the outdir exists.
+ *
+ * @returns {string[]} Paths to shared chunk files (for modulepreload hints)
  */
 async function buildWebComponents(outdir, shouldMinify, rootDir, options = {}) {
   const aliasMap = buildAliasMap(rootDir);
@@ -1126,14 +1134,29 @@ async function buildWebComponents(outdir, shouldMinify, rootDir, options = {}) {
   ).toFixed(0);
   const chunkDir = path.join(outdir, 'wc-chunks');
   let chunkCount = 0;
+  const sharedChunks = [];
   if (fs.existsSync(chunkDir)) {
-    chunkCount = fs
+    const chunkFiles = fs
       .readdirSync(chunkDir)
-      .filter(f => f.endsWith('.js') && !f.endsWith('.js.map')).length;
+      .filter(f => f.endsWith('.js') && !f.endsWith('.js.map'));
+    chunkCount = chunkFiles.length;
+    // Shared chunks (chunk-HASH.js) are utility code split out by esbuild.
+    // Component entries lazy-load these via static imports, creating a second
+    // network round trip (waterfall).  Returning them lets the scaffold HTML
+    // add <link rel="modulepreload"> so they're pre-fetched and the lazy
+    // import resolves instantly — matching webpack's self-contained JSONP.
+    for (const f of chunkFiles) {
+      if (f.startsWith('chunk-')) {
+        sharedChunks.push(`/generated/wc-chunks/${f}`);
+      }
+    }
   }
   console.log(
-    `    \u2713 web-components.entry.js (${wcSize}K) + ${chunkCount} lazy chunks`,
+    `    \u2713 web-components.entry.js (${wcSize}K) + ${chunkCount} lazy chunks (${
+      sharedChunks.length
+    } shared, modulepreloaded)`,
   );
+  return sharedChunks;
 }
 
 // ---------------------------------------------------------------------------
@@ -1148,7 +1171,7 @@ async function buildWebComponents(outdir, shouldMinify, rootDir, options = {}) {
  * webpack's HtmlWebpackPlugin + dev-template.ejs does and is also
  * consistent with the on-the-fly scaffold in esbuild-watch.js.
  */
-function generateScaffoldPages(buildPath) {
+function generateScaffoldPages(buildPath, wcSharedChunks = []) {
   const rootDir = path.resolve(__dirname, '..');
 
   // Load dev template
@@ -1323,6 +1346,12 @@ function generateScaffoldPages(buildPath) {
         },
         tagName: 'link',
       },
+      // Modulepreload shared WC chunks so lazy component imports resolve
+      // without a second network round trip (eliminates ESM import waterfall).
+      ...wcSharedChunks.map(href => ({
+        attributes: { href, rel: 'modulepreload' },
+        tagName: 'link',
+      })),
       {
         attributes: { src: '/generated/polyfills.entry.js', defer: true },
         tagName: 'script',
@@ -1387,6 +1416,9 @@ function generateScaffoldPages(buildPath) {
 <body class="merger">
   <div id="content"><div id="react-root"></div></div>
   <div id="footerNav"></div>
+${wcSharedChunks
+        .map(href => `  <link rel="modulepreload" href="${_.escape(href)}">`)
+        .join('\n')}
   <script defer src="/generated/polyfills.entry.js"></script>
   <script type="module" src="/generated/web-components.entry.js"></script>
   <script type="module" src="/generated/${_.escape(
@@ -1444,7 +1476,12 @@ async function runBuild(options = {}) {
   const result = await esbuild.build(config);
 
   // Build web-components as ESM with code splitting (lazy-loaded chunks)
-  await buildWebComponents(outdir, shouldMinify, rootDir, options);
+  const wcSharedChunks = await buildWebComponents(
+    outdir,
+    shouldMinify,
+    rootDir,
+    options,
+  );
 
   // Build lazy bundles (platform-pdf, cheerio, etc.)
   await buildLazyBundles(outdir, shouldMinify, rootDir, options);
@@ -1463,7 +1500,7 @@ async function runBuild(options = {}) {
 
   // Generate scaffold HTML pages so that the test-server (and any
   // static-file server) can serve SPA routes at /{rootUrl}/index.html.
-  generateScaffoldPages(buildPath);
+  generateScaffoldPages(buildPath, wcSharedChunks);
 
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
 
