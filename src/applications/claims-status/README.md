@@ -17,7 +17,7 @@ _Last updated: 2026-03-02_
 | `cst_claim_letters_use_lighthouse_api_provider` | Fully Enabled | Fully Enabled | No | Can likely be removed |
 | `cst_claim_letters_use_lighthouse_api_provider_mobile` | Fully Enabled | Fully Enabled | No | Can likely be removed |
 | `cst_claim_phases` | Fully Enabled | Partially Enabled (2 actors, 100% of actors) | Yes | |
-| `cst_claims_list_filter` | Disabled | Disabled | Yes | |
+| `cst_claims_list_filter` | Fully Enabled | Disabled | Yes | Staging Review is 3/19/2026 |
 | `cst_evidence_requests_content_override_mobile` | Partially Enabled (2 actors) | Disabled | No | |
 | `cst_filter_ep_290` | Disabled | Disabled | No | |
 | `cst_filter_ep_960` | Disabled | Fully Enabled | No | Can likely be removed; Staging/prod mismatch |
