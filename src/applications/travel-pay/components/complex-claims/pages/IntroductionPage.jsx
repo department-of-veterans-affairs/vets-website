@@ -152,15 +152,16 @@ const IntroductionPage = () => {
               </ul>
               <p>
                 You’ll be asked to submit receipts when you file your claim.
-                {ccEnabled && appointment?.isCC && (
-                  <>
-                    {' '}
-                    You’ll also need to submit proof of attendance, like a work
-                    or school release note from the community care provider or a
-                    document on the community provider letterhead showing the
-                    appointment date.
-                  </>
-                )}
+                {ccEnabled &&
+                  appointment?.isCC && (
+                    <>
+                      {' '}
+                      You’ll also need to submit proof of attendance, like a
+                      work or school release note from the community care
+                      provider or a document on the community provider
+                      letterhead showing the appointment date.
+                    </>
+                  )}
               </p>
               <p>
                 {ccEnabled ? (
