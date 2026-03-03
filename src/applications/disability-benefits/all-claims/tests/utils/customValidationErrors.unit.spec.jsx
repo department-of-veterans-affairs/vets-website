@@ -3,7 +3,7 @@ import { NEW_CONDITION_OPTION } from '../../constants';
 import { getCustomValidationErrors } from '../../utils/customValidationErrors';
 
 describe('getCustomValidationErrors', () => {
-  it('should return error when any claim type is true and newDisabilities is empty', () => {
+  it('should return error when view:claimingNew is true and newDisabilities is empty', () => {
     const formData = {
       'view:claimType': {
         'view:claimingNew': true,
@@ -20,7 +20,7 @@ describe('getCustomValidationErrors', () => {
     expect(errors[0].argument).to.equal(1);
   });
 
-  it('should return error when any claim type is true and newDisabilities is missing', () => {
+  it('should return error when view:claimingNew is true and newDisabilities is missing', () => {
     const formData = {
       'view:claimType': {
         'view:claimingNew': true,
@@ -35,7 +35,7 @@ describe('getCustomValidationErrors', () => {
     expect(errors[0].name).to.equal('minItems');
   });
 
-  it('should return error when any claim type is true and newDisabilities is not an array', () => {
+  it('should return error when view:claimingNew is true and newDisabilities is not an array', () => {
     const formData = {
       'view:claimType': {
         'view:claimingNew': true,
@@ -50,6 +50,20 @@ describe('getCustomValidationErrors', () => {
     expect(errors[0].property).to.equal('instance.newDisabilities');
   });
 
+  it('should not return newDisabilities error when only view:claimingIncrease is true and newDisabilities is empty', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingNew': false,
+        'view:claimingIncrease': true,
+      },
+      newDisabilities: [],
+    };
+
+    const errors = getCustomValidationErrors(formData);
+
+    expect(errors.length).to.equal(0);
+  });
+
   it('should not return error when claimType is missing', () => {
     const formData = {
       newDisabilities: [],
@@ -60,7 +74,7 @@ describe('getCustomValidationErrors', () => {
     expect(errors.length).to.equal(0);
   });
 
-  it('should not return error when any claim type is true and newDisabilities has items', () => {
+  it('should not return error when view:claimingNew is true and newDisabilities has items', () => {
     const formData = {
       'view:claimType': {
         'view:claimingNew': true,

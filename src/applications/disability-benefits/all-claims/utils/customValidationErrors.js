@@ -15,9 +15,8 @@ export const getCustomValidationErrors = formData => {
   const claimingNew = claimType?.['view:claimingNew'];
   const claimingIncrease = claimType?.['view:claimingIncrease'];
 
-  // Check if user has selected at least one claim type (new or increase) but
-  // hasn't added any new disabilities
-  if (claimingNew || claimingIncrease) {
+  // Check if user is claiming new conditions but hasn't added any new disabilities.
+  if (claimingNew) {
     const newDisabilities = formData?.newDisabilities;
     if (
       !newDisabilities ||
