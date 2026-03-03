@@ -81,12 +81,12 @@ describe('<FilesOptional>', () => {
     );
   });
 
-  context('isDBQ boolean property fallback pattern', () => {
+  context('isDBQ property', () => {
     it('should use API value when provided (true)', () => {
       const itemWithApiIsDBQ = {
         displayName: 'Non-DBQ Request',
         requestedDate: '2025-04-21',
-        isDBQ: true, // API value is true, displayName doesn't include 'dbq'
+        isDBQ: true,
       };
       const { getByText } = renderWithRouter(
         <FilesOptional item={itemWithApiIsDBQ} />,
@@ -97,11 +97,11 @@ describe('<FilesOptional>', () => {
       getByText('We made a request for an exam on April 21, 2025');
     });
 
-    it('should fall back to displayName check when API value is false', () => {
+    it('should use displayName when isDBQ is false but displayName contains dbq', () => {
       const itemWithApiIsDBQFalse = {
         displayName: 'DBQ AUDIO Hearing Loss',
         requestedDate: '2025-04-21',
-        isDBQ: false, // API value is false, but displayName contains 'dbq'
+        isDBQ: false,
       };
       const { getByText } = renderWithRouter(
         <FilesOptional item={itemWithApiIsDBQFalse} />,
@@ -112,26 +112,23 @@ describe('<FilesOptional>', () => {
       getByText('We made a request for an exam on April 21, 2025');
     });
 
-    it('should fallback to evidenceDictionary when API value not provided', () => {
-      const itemWithDictIsDBQ = {
-        displayName: 'DBQ AUDIO Hearing Loss and Tinnitus', // In dictionary with isDBQ: true
+    it('should use displayName check when isDBQ not provided', () => {
+      const itemWithoutIsDBQ = {
+        displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
         requestedDate: '2025-04-21',
-        // No isDBQ property from API
       };
       const { getByText } = renderWithRouter(
-        <FilesOptional item={itemWithDictIsDBQ} />,
+        <FilesOptional item={itemWithoutIsDBQ} />,
       );
 
-      // Should use dictionary value (true)
       getByText('Request for an exam');
       getByText('We made a request for an exam on April 21, 2025');
     });
 
-    it('should fallback to displayName check when neither API nor dictionary has value', () => {
+    it('should use displayName check when isDBQ not provided (displayName contains dbq)', () => {
       const itemWithDbqInName = {
-        displayName: 'Some DBQ Related Request', // Contains 'dbq' but not in dictionary
+        displayName: 'Some DBQ Related Request',
         requestedDate: '2025-04-21',
-        // No isDBQ property from API or dictionary
       };
       const { getByText } = renderWithRouter(
         <FilesOptional item={itemWithDbqInName} />,
@@ -142,11 +139,10 @@ describe('<FilesOptional>', () => {
       getByText('We made a request for an exam on April 21, 2025');
     });
 
-    it('should default to false when all fallbacks fail', () => {
+    it('should default to false when isDBQ not provided and displayName has no dbq', () => {
       const itemWithNoDBQ = {
-        displayName: 'Medical Records Request', // Not in dictionary, no 'dbq'
+        displayName: 'Medical Records Request',
         requestedDate: '2025-04-21',
-        // No isDBQ property from API
       };
       const { getByText } = renderWithRouter(
         <FilesOptional item={itemWithNoDBQ} />,
@@ -157,11 +153,11 @@ describe('<FilesOptional>', () => {
       getByText('We made a request outside VA on April 21, 2025');
     });
 
-    it('should return false when API value is false and displayName does not contain dbq', () => {
+    it('should return false when isDBQ is false and displayName does not contain dbq', () => {
       const itemWithApiFalseNoDbqName = {
-        displayName: 'Medical Records Request', // No 'dbq' in name
+        displayName: 'Medical Records Request',
         requestedDate: '2025-04-21',
-        isDBQ: false, // API explicitly says false
+        isDBQ: false,
       };
       const { getByText } = renderWithRouter(
         <FilesOptional item={itemWithApiFalseNoDbqName} />,
@@ -172,16 +168,15 @@ describe('<FilesOptional>', () => {
       getByText('We made a request outside VA on April 21, 2025');
     });
 
-    it('should use dictionary value when displayName has dbq but is in dictionary', () => {
-      const itemInDictionary = {
-        displayName: 'DBQ PSYCH Mental Disorders', // In dictionary with isDBQ: true
+    it('should treat as DBQ when isDBQ not provided but displayName contains dbq', () => {
+      const itemWithDbqInDisplayName = {
+        displayName: 'DBQ PSYCH Mental Disorders',
         requestedDate: '2025-04-21',
       };
       const { getByText } = renderWithRouter(
-        <FilesOptional item={itemInDictionary} />,
+        <FilesOptional item={itemWithDbqInDisplayName} />,
       );
 
-      // Should use dictionary value
       getByText('Request for an exam');
       getByText('We made a request for an exam on April 21, 2025');
     });
