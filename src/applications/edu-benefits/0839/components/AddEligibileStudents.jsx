@@ -13,8 +13,20 @@ const AddEligibileStudents = () => {
   const allUnlimited = formData?.yellowRibbonProgramRequest?.every(
     item => item?.maximumStudentsOption === 'unlimited',
   );
+  const firstRequest = formData?.yellowRibbonProgramRequest?.[0];
+  const academicYear =
+    firstRequest?.academicYearDisplay || firstRequest?.academicYear;
+
   return (
-    <div className="eligible-students-container">
+    <va-summary-box class="eligible-students-container">
+      {academicYear && (
+        <>
+          <h4 className="vads-u-margin-top--0">
+            Academic year this agreement applies to:
+          </h4>
+          <p>{academicYear}</p>
+        </>
+      )}
       <h4>Total number of maximum eligible students reported:</h4>
       {!allUnlimited &&
         !hasUnlimited && (
@@ -44,7 +56,7 @@ const AddEligibileStudents = () => {
           students.
         </p>
       )}
-    </div>
+    </va-summary-box>
   );
 };
 

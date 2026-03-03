@@ -1,6 +1,5 @@
 import React from 'react';
 import { focusElement } from '~/platform/utilities/ui';
-import { CURRENCY_LABELS } from './constants';
 
 export const validateInitials = (inputValue, firstName, lastName) => {
   if (!inputValue || inputValue.length === 0) {
@@ -261,22 +260,16 @@ const yellowRibbonCardTitleCase = str => {
 };
 
 export const yellowRibbonProgramCardDescription = item => {
+  const degreeLevel = yellowRibbonCardTitleCase(item.degreeLevel);
+  const school = yellowRibbonCardTitleCase(item.collegeOrProfessionalSchool);
   if (!item) return null;
   return (
     <div>
-      <p>
-        {`Max. number of students: ${
-          item?.maximumStudentsOption === 'specific'
-            ? item?.maximumStudents
-            : 'Unlimited'
-        }`}
-      </p>
-      <p>{yellowRibbonCardTitleCase(item.degreeLevel)}</p>
-      <p>{yellowRibbonCardTitleCase(item.collegeOrProfessionalSchool)}</p>
-      <p>{CURRENCY_LABELS[item.schoolCurrency]}</p>
+      <p>{degreeLevel}</p>
+      {school && <p>{school}</p>}
       <p>
         {!item.specificContributionAmount
-          ? 'Pay remaining tuition that Post-9/11 GI Bill doesn’t cover (unlimited)'
+          ? 'Pay remaining mandatory tuition and fees not covered by Post-9/11 GI Bill (unlimited)'
           : `${item.collegeOrProfessionalSchool ? '$' : ''}${Number(
               item.specificContributionAmount,
             ).toLocaleString()}`}
@@ -298,7 +291,11 @@ export const arrayBuilderOptions = {
   },
   text: {
     getItemName: item => {
-      return item?.academicYear || item?.academicYearDisplay;
+      return `${`Max. number of students: ${
+        item?.maximumStudentsOption === 'specific'
+          ? item?.maximumStudents
+          : 'Unlimited'
+      }`}`;
     },
     cardDescription: item => yellowRibbonProgramCardDescription(item),
     summaryTitle: props => {
@@ -350,7 +347,6 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
       return;
     }
 
-    // TODO: move below 'not found' check after new response code is configured
     if (hasXInThirdPosition) {
       errors.addError(
         'Codes with an "X" in the third position are not eligible',
