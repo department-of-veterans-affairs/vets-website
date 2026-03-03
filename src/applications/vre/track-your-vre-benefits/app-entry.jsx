@@ -1,4 +1,5 @@
 import '@department-of-veterans-affairs/platform-polyfills';
+import './sass/track-your-vre-benefits.scss';
 
 import startApp from '@department-of-veterans-affairs/platform-startup/router';
 
