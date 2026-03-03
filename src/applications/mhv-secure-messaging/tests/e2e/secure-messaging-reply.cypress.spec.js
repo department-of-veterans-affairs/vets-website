@@ -17,6 +17,11 @@ describe('Secure Messaging Reply Axe Check', () => {
     PatientInboxPage.loadInboxMessages();
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
+
+    // Wait for interstitial page to render before clicking
+    GeneralFunctionsPage.verifyPageHeader(
+      'Only use messages for non-urgent needs',
+    );
     PatientInterstitialPage.getContinueButton().click();
 
     PatientReplyPage.getMessageBodyField()

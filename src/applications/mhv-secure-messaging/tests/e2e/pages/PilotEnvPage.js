@@ -234,6 +234,9 @@ class PilotEnvPage {
       .should('be.visible')
       .click({ force: true });
 
+    // Wait for the dropdown list to be visible before selecting an item
+    cy.get(`.usa-combo-box__list`).should('be.visible');
+
     cy.get(`.usa-combo-box__list > li`)
       .eq(index)
       .should('be.visible')
