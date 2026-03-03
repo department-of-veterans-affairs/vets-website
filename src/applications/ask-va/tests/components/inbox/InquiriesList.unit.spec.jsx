@@ -8,7 +8,7 @@ import { mockInquiries as rawInquiries } from '../../utils/mock-inquiries';
 describe('InquiriesList', () => {
   const mockInquiries = standardizeInquiries(rawInquiries);
 
-  it('only renders 4 items per page', () => {
+  it('only renders 6 items per page', () => {
     const view = render(
       <InquiriesList
         categoryFilter="All"
@@ -18,10 +18,10 @@ describe('InquiriesList', () => {
     );
 
     const cards = view.getAllByTestId('inquiry-card');
-    expect(cards.length).to.equal(4);
+    expect(cards.length).to.equal(6);
   });
 
-  it('renders first 4 inquiries on first page', () => {
+  it('renders first 6 inquiries on first page', () => {
     const view = render(
       <InquiriesList
         categoryFilter="All"
@@ -35,7 +35,9 @@ describe('InquiriesList', () => {
     expect(pageText).to.contain(mockInquiries.personal[1].inquiryNumber);
     expect(pageText).to.contain(mockInquiries.personal[2].inquiryNumber);
     expect(pageText).to.contain(mockInquiries.personal[3].inquiryNumber);
-    expect(pageText).to.not.contain(mockInquiries.personal[4].inquiryNumber);
+    expect(pageText).to.contain(mockInquiries.personal[4].inquiryNumber);
+    expect(pageText).to.contain(mockInquiries.personal[5].inquiryNumber);
+    expect(pageText).to.not.contain(mockInquiries.personal[6].inquiryNumber);
   });
 
   it('renders an alert if inquiries array is empty', () => {
@@ -64,7 +66,7 @@ describe('InquiriesList', () => {
 
     // Confirm starting state
     const firstPageFirstNumber = mockInquiries.personal[0].inquiryNumber;
-    const secondPageFirstNumber = mockInquiries.personal[4].inquiryNumber;
+    const secondPageFirstNumber = mockInquiries.personal[6].inquiryNumber;
     const pagination = view.container.querySelector('va-pagination');
 
     expect(view.getByText(firstPageFirstNumber)).to.exist;
