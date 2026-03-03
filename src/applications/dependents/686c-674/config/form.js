@@ -27,6 +27,7 @@ import editEmailPage from './chapters/veteran-contact-information/editEmailPage'
 
 import VeteranContactInformationPage from '../components/VeteranContactInformationPage';
 import VeteranContactInformationReviewPage from '../components/VeteranContactInformationReviewPage';
+import VeteranInformationReviewPage from '../components/VeteranInformationReviewPage';
 import {
   addDependentOptions,
   removeDependentOptions,
@@ -137,6 +138,7 @@ export const formConfig = {
             // submissions without it
             useV2: true,
           },
+          CustomPageReview: VeteranInformationReviewPage,
         },
       },
     },
