@@ -867,9 +867,9 @@ export function clearReviewPageAlert() {
 }
 
 // Unsaved changes modal visibility action
-export function setUnsavedChangesModalVisible(isVisible) {
+export function setUnsavedChangesModalVisible(isVisible, source = null) {
   return {
     type: SET_UNSAVED_CHANGES_MODAL_VISIBLE,
-    payload: isVisible,
+    payload: { visible: isVisible, source },
   };
 }

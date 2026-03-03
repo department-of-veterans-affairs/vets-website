@@ -163,7 +163,10 @@ const initialState = {
       error: null,
     },
     expenseBackDestination: null,
-    isUnsavedChangesModalVisible: false,
+    unsavedChangesModal: {
+      visible: false,
+      source: null,
+    },
   },
 };
 
@@ -746,7 +749,10 @@ function travelPayReducer(state = initialState, action) {
         ...state,
         complexClaim: {
           ...state.complexClaim,
-          isUnsavedChangesModalVisible: action.payload,
+          unsavedChangesModal: {
+            visible: action.payload.visible,
+            source: action.payload.source,
+          },
         },
       };
 
