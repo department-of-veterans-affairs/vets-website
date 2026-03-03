@@ -45,6 +45,7 @@ runs:
         # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
 
     - name: Install dependencies
+      if: steps.cache-dependencies.outputs.cache-hit != 'true'
       uses: nick-fields/retry@v3
       with:
         command: |
@@ -57,5 +58,6 @@ runs:
         YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_folder }}
 
     - name: Run postinstall scripts
+      if: steps.cache-dependencies.outputs.cache-hit != 'true'
       shell: bash
       run: yarn postinstall
