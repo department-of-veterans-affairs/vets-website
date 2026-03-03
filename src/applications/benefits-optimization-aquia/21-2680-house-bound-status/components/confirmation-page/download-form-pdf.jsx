@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import recordEvent from 'platform/monitoring/record-event';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   fetchPdfApi,
   downloadBlob,
@@ -31,6 +32,7 @@ export const DownloadFormPDF = ({ guid, veteranName }) => {
   // actual re-auth transition (logged-out -> logged-in), not just because the
   // user is currently logged in.
   const previousIsLoggedIn = useRef(isLoggedIn);
+  const sessionExpiredAlertRef = useRef(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -48,6 +50,16 @@ export const DownloadFormPDF = ({ guid, veteranName }) => {
       previousIsLoggedIn.current = isLoggedIn;
     },
     [isLoggedIn, sessionExpired],
+  );
+
+  // Move screen reader focus to the session-expired alert heading
+  useEffect(
+    () => {
+      if (sessionExpired && sessionExpiredAlertRef.current) {
+        waitForRenderThenFocus('h3', sessionExpiredAlertRef.current);
+      }
+    },
+    [sessionExpired],
   );
 
   // Generate filename for the download
@@ -120,7 +132,12 @@ export const DownloadFormPDF = ({ guid, veteranName }) => {
   // Render session expired state
   if (sessionExpired) {
     return (
-      <va-alert status="warning" class="vads-u-margin-y--4" role="alert" uswds>
+      <va-alert
+        status="warning"
+        class="vads-u-margin-y--4"
+        ref={sessionExpiredAlertRef}
+        uswds
+      >
         <h3 slot="headline">Your session has expired</h3>
         <p>
           Please sign in again to download your form. After signing in, select
