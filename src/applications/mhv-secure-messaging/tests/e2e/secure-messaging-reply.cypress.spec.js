@@ -24,6 +24,9 @@ describe('Secure Messaging Reply Axe Check', () => {
     );
     PatientInterstitialPage.getContinueButton().click();
 
+    // Wait for reply form to fully render before interacting with textarea
+    PatientReplyPage.verifyReplyHeader();
+
     PatientReplyPage.getMessageBodyField()
       .should('not.be.disabled')
       .clear()
