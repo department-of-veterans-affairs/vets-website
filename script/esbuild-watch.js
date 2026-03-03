@@ -26,7 +26,11 @@ const fs = require('fs');
 const zlib = require('zlib');
 const _ = require('lodash');
 const facilitySidebar = require('@department-of-veterans-affairs/platform-landing-pages/facility-sidebar');
-const { buildConfig, buildLazyBundles } = require('../config/esbuild.config');
+const {
+  buildConfig,
+  buildLazyBundles,
+  buildWebComponents,
+} = require('../config/esbuild.config');
 const { getAppManifests } = require('../config/manifest-helpers');
 
 const rootDir = path.resolve(__dirname, '..');
@@ -177,8 +181,11 @@ async function startDevServer() {
   await ctx.watch();
   console.log('  esbuild: Watching for changes...\n');
 
-  // Build lazy bundles (platform-pdf, cheerio) so they're available on demand
+  // Build web-components as ESM with code splitting (lazy-loaded chunks)
   const outdir = path.join(buildPath, 'generated');
+  await buildWebComponents(outdir, false, rootDir, buildOptions);
+
+  // Build lazy bundles (platform-pdf, cheerio) so they're available on demand
   await buildLazyBundles(outdir, false, rootDir, buildOptions);
 
   // Build app route rewrites for SPA support, including registry data
@@ -251,7 +258,7 @@ async function startDevServer() {
       {
         attributes: {
           src: '/generated/web-components.entry.js',
-          defer: true,
+          type: 'module',
         },
         tagName: 'script',
       },

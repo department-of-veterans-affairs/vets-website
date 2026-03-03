@@ -773,9 +773,6 @@ function getGlobalEntries(rootDir) {
       rootDir,
       'src/applications/proxy-rewrite/sass/style-consolidated.scss',
     ),
-    'web-components': require.resolve(
-      '@department-of-veterans-affairs/platform-site-wide/wc-loader',
-    ),
   };
 }
 
@@ -1038,6 +1035,97 @@ async function buildConfig(options = {}) {
 }
 
 // ---------------------------------------------------------------------------
+// Web-components ESM build with code splitting
+// ---------------------------------------------------------------------------
+//
+// The VA Design System web components use Stencil's lazy-loading architecture.
+// The ESM loader (dist/esm/loader.js) calls import() for each component
+// (e.g. import('./va-alert.entry.js')).  With format:'iife' + splitting:false,
+// esbuild inlines ALL 64 components into a single 2.7MB file.
+//
+// By building web-components as a separate ESM pass with splitting:true,
+// esbuild preserves the dynamic imports and produces:
+//   - A small web-components.entry.js (~50KB) with the Stencil runtime
+//   - ~64 chunk files loaded on demand as components appear in the DOM
+//
+// This matches webpack's output where the web-components entry is ~341KB
+// and 70 separate chunk files are loaded lazily.
+// ---------------------------------------------------------------------------
+
+/**
+ * Build the web-components entry as an ESM bundle with code splitting.
+ * Must be called after the main IIFE build so that the outdir exists.
+ */
+async function buildWebComponents(outdir, shouldMinify, rootDir, options = {}) {
+  const aliasMap = buildAliasMap(rootDir);
+
+  const wcEntry = require.resolve(
+    '@department-of-veterans-affairs/platform-site-wide/wc-loader',
+  );
+
+  console.log('  Building web-components (ESM with splitting)...');
+
+  await esbuild.build({
+    entryPoints: { 'web-components.entry': wcEntry },
+    bundle: true,
+    outdir,
+    format: 'esm',
+    splitting: true,
+    chunkNames: 'wc-chunks/[name]-[hash]',
+    platform: 'browser',
+    target: ['es2018', 'chrome67', 'firefox68', 'safari12', 'edge79'],
+    minify: shouldMinify,
+    sourcemap: true,
+    metafile: true,
+    absWorkingDir: rootDir,
+    treeShaking: true,
+    define: {
+      __BUILDTYPE__: JSON.stringify(options.buildtype || 'localhost'),
+      __API__: JSON.stringify(options.api || ''),
+      'process.env.NODE_ENV': JSON.stringify(
+        shouldMinify ? 'production' : 'development',
+      ),
+      global: 'window',
+      __dirname: '""',
+    },
+    loader: {
+      '.js': 'jsx',
+      '.jsx': 'jsx',
+      '.ts': 'tsx',
+      '.tsx': 'tsx',
+      '.svg': 'dataurl',
+    },
+    resolveExtensions: ['.js', '.jsx', '.tsx', '.ts', '.json', '.scss', '.css'],
+    alias: {
+      querystring: require.resolve('querystring-es3'),
+      assert: require.resolve('assert/'),
+      buffer: require.resolve('buffer/'),
+      path: require.resolve('path-browserify'),
+      stream: require.resolve('stream-browserify'),
+      util: require.resolve('util/'),
+      zlib: require.resolve('browserify-zlib'),
+      'process/browser': require.resolve('process/browser'),
+    },
+    plugins: [aliasPlugin(aliasMap, rootDir), nodePolyfillPlugin()],
+    external: ['/img/*', '/fonts/*', '/generated/*'],
+  });
+
+  const wcSize = (
+    fs.statSync(path.join(outdir, 'web-components.entry.js')).size / 1024
+  ).toFixed(0);
+  const chunkDir = path.join(outdir, 'wc-chunks');
+  let chunkCount = 0;
+  if (fs.existsSync(chunkDir)) {
+    chunkCount = fs
+      .readdirSync(chunkDir)
+      .filter(f => f.endsWith('.js') && !f.endsWith('.js.map')).length;
+  }
+  console.log(
+    `    \u2713 web-components.entry.js (${wcSize}K) + ${chunkCount} lazy chunks`,
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Scaffold HTML generation
 // ---------------------------------------------------------------------------
 
@@ -1231,7 +1319,7 @@ function generateScaffoldPages(buildPath) {
       {
         attributes: {
           src: '/generated/web-components.entry.js',
-          defer: true,
+          type: 'module',
         },
         tagName: 'script',
       },
@@ -1289,7 +1377,7 @@ function generateScaffoldPages(buildPath) {
   <div id="content"><div id="react-root"></div></div>
   <div id="footerNav"></div>
   <script defer src="/generated/polyfills.entry.js"></script>
-  <script defer src="/generated/web-components.entry.js"></script>
+  <script type="module" src="/generated/web-components.entry.js"></script>
   <script defer src="/generated/${_.escape(entryName)}.entry.js"></script>
 </body>
 </html>`;
@@ -1342,6 +1430,9 @@ async function runBuild(options = {}) {
   // IIFE mode: each entry is self-contained, no shared chunks.
   const result = await esbuild.build(config);
 
+  // Build web-components as ESM with code splitting (lazy-loaded chunks)
+  await buildWebComponents(outdir, shouldMinify, rootDir, options);
+
   // Build lazy bundles (platform-pdf, cheerio, etc.)
   await buildLazyBundles(outdir, shouldMinify, rootDir, options);
 
@@ -1390,6 +1481,7 @@ module.exports = {
   getEntryPoints,
   buildAliasMap,
   buildLazyBundles,
+  buildWebComponents,
   generateScaffoldPages,
   LAZY_MODULES,
 };
