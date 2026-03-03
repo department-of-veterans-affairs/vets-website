@@ -1,8 +1,10 @@
 import React from 'react';
 import _ from 'platform/utilities/data';
 import { DATA_PATHS } from '../constants';
+import { getBddShaUploads } from '../utils';
 
 export const summaryOfEvidenceDescription = ({ formData }) => {
+  const separationHealthAssessmentUploads = getBddShaUploads(formData);
   const vaEvidence = _.get('vaTreatmentFacilities', formData, []);
   const privateEvidence = _.get('providerFacility', formData, []);
   const privateEvidenceUploads = _.get(
@@ -44,6 +46,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     );
   }
 
+  let separationHealthAssessmentContent = null;
   let vaContent = null;
   let privateContent = null;
   let layContent = null;
@@ -67,6 +70,33 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     formData,
     false,
   );
+
+  if (separationHealthAssessmentUploads.length) {
+    const shaUploadsList = (
+      <ul>
+        {separationHealthAssessmentUploads.map(upload => (
+          <li key={upload.name}>{upload.name}</li>
+        ))}
+      </ul>
+    );
+    separationHealthAssessmentContent = formData.disability526SupportingEvidenceEnhancement ? (
+      <div className="vads-u-margin-top--2">
+        <strong>
+          We’ll submit the Separation Health Assessment Part A (SHA A) you
+          uploaded:
+        </strong>
+        {shaUploadsList}
+      </div>
+    ) : (
+      <div>
+        <p>
+          We’ll submit the Separation Health Assessment Part A document that you
+          uploaded:
+        </p>
+        {shaUploadsList}
+      </div>
+    );
+  }
 
   if (vaEvidence.length && vaEvidenceSelected) {
     const facilitiesList = vaEvidence.map((facility, index) => (
@@ -185,6 +215,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
         formData.disability526SupportingEvidenceEnhancement && (
           <p>You provided documents to support your claim.</p>
         )}
+      {separationHealthAssessmentContent}
       {vaContent}
       {privateContent}
       {privateEvidenceContent}
