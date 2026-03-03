@@ -63,7 +63,6 @@ import {
   isAddingDependents,
   isRemovingDependents,
 } from './utilities';
-import { focusContactInfo } from './utilities/focus';
 import migrations from './migrations';
 import reviewDependents from './chapters/picklist/reviewDependents';
 
@@ -152,7 +151,6 @@ export const formConfig = {
           CustomPageReview: VeteranContactInformationReviewPage,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
-          scrollAndFocusTarget: focusContactInfo,
         },
         editAddressPage,
         editEmailPage,

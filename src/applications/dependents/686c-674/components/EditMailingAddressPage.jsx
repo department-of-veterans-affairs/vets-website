@@ -41,7 +41,14 @@ const EditMailingAddress = ({
     goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
   };
 
-  const initialAddressUI = addressUI({ omit: ['street3'] });
+  const initialAddressUI = addressUI({
+    omit: ['street3'],
+    labels: {
+      street2: 'Apartment or unit number',
+      militaryCheckbox:
+        'I live on a United States military base outside of the U.S.',
+    },
+  });
   const address = data.veteranContactInformation?.veteranAddress || {};
   const originalAddress = useRef(data.veteranContactInformation.veteranAddress);
 

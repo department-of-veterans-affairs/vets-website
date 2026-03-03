@@ -51,7 +51,7 @@ const EditPhonePage = ({
       });
     },
     onUpdate: () => {
-      saveEditContactInformation('phone', 'update');
+      saveEditContactInformation('phoneNumber', 'update');
       returnToPath();
     },
     onCancel: event => {
@@ -63,7 +63,7 @@ const EditPhonePage = ({
           phoneNumber: originalPhone.current,
         },
       });
-      saveEditContactInformation('phone', 'cancel');
+      saveEditContactInformation('phoneNumber', 'cancel');
       returnToPath();
     },
   };

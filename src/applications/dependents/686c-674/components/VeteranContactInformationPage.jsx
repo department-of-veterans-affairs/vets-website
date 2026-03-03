@@ -137,6 +137,7 @@ const VeteranContactInformationPage = ({
     updateContactInfo({
       'view:phoneSource': phoneSource,
       emailAddress: emailAddress || profileEmail?.emailAddress || '',
+      electronicCorrespondence,
       phoneNumber:
         phoneNumber || profileMobilePhoneString || profileHomePhoneString || '',
       veteranAddress: newAddress,
@@ -269,7 +270,7 @@ const VeteranContactInformationPage = ({
       <div
         className={submitted && hasMissingAddress ? 'contact-info-error' : ''}
       >
-        <va-card class="vads-u-margin-top--3" data-field="address">
+        <va-card class="vads-u-margin-top--3" data-field="veteranAddress">
           <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
             Mailing address{' '}
             <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
@@ -325,7 +326,7 @@ const VeteranContactInformationPage = ({
       </div>
 
       <div className={submitted && hasMissingEmail ? 'contact-info-error' : ''}>
-        <va-card class="vads-u-margin-top--3" data-field="email">
+        <va-card class="vads-u-margin-top--3" data-field="emailAddress">
           <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
             Email address{' '}
             <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
@@ -370,7 +371,7 @@ const VeteranContactInformationPage = ({
         </va-card>
       </div>
 
-      <va-card class="vads-u-margin-top--3" data-field="phone">
+      <va-card class="vads-u-margin-top--3" data-field="phoneNumber">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
           {`${phoneSource} phone number`}
         </h4>

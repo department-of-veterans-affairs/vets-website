@@ -15,10 +15,6 @@ export const contactInfoXref = {
     label: 'email address',
     path: 'email',
   },
-  electronicCorrespondence: {
-    label: 'electronic correspondence preference',
-    path: 'email',
-  },
 };
 
 const EDIT_KEY = 'editContactInformation';

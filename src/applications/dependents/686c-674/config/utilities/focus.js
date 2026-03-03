@@ -2,11 +2,8 @@ import {
   focusElement,
   scrollTo,
   scrollToFirstError,
-  scrollAndFocus,
 } from 'platform/utilities/ui';
 import { $ } from '~/platform/forms-system/src/js/utilities/ui';
-
-import { getEditContactInformation } from './contact-info';
 
 /**
  * Move focus to first error on the page
@@ -37,20 +34,6 @@ export const focusH3 = (index, root) => {
     // va-alert h2 = prefill alert on Veteran info page
     // #main h3 = main heading all other pages
     focusElement('va-alert h2, #main h3');
-  }
-};
-
-/**
- * Focus on contact information h3, or first error if present
- * @returns {void}
- */
-export const focusContactInfo = () => {
-  const { name } = getEditContactInformation();
-  // If name is set in session storage, it means a contact field was just edited
-  // so, scroll & focus code internal to VeteranContactInformation is run.
-  // Otherwise, scroll to the top of the page
-  if (!name) {
-    scrollAndFocus('h3');
   }
 };
 
