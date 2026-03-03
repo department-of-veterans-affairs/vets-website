@@ -85,7 +85,7 @@ const PdfDownload = ({ pdfUrl, trackingPrefix }) => {
 };
 
 export const ConfirmationPage = ({ router, route }) => {
-  const form = useSelector(state => state.form || {});
+  const form = useSelector(state => state.form);
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
   const dispatch = useDispatch();
