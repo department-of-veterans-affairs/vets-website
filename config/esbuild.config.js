@@ -624,24 +624,9 @@ async function buildLazyBundles(outdir, shouldMinify, rootDir, options = {}) {
 
   const aliasMap = buildAliasMap(rootDir);
 
-  // Create a process shim for inject — provides the `process` global
-  // that readable-stream and other browserified packages expect.
+  // Reuse the process/Buffer shim files already created by buildConfig()
   const processShimFile = path.join(outdir, '_process-shim.js');
-  fs.writeFileSync(
-    processShimFile,
-    `import process from ${JSON.stringify(
-      require.resolve('process/browser'),
-    )};\nexport { process };\n`,
-  );
-
-  // Create a Buffer shim — pdfkit / fontkit use the global Buffer
   const bufferShimFile = path.join(outdir, '_buffer-shim.js');
-  fs.writeFileSync(
-    bufferShimFile,
-    `import { Buffer } from ${JSON.stringify(
-      require.resolve('buffer/'),
-    )};\nexport { Buffer };\n`,
-  );
 
   for (const [, info] of entries) {
     const wrapperContents = `
@@ -718,9 +703,6 @@ async function buildLazyBundles(outdir, shouldMinify, rootDir, options = {}) {
       ).toFixed(0)}K)`,
     );
   }
-
-  // Clean up shim file
-  fs.unlinkSync(processShimFile);
 }
 
 // ---------------------------------------------------------------------------
@@ -846,6 +828,26 @@ async function buildConfig(options = {}) {
 
   const aliasMap = buildAliasMap(rootDir);
 
+  // Create process and Buffer shim files — these inject the browser
+  // polyfills as globals so that node_modules packages (util, readable-
+  // stream, etc.) that reference bare `process` or `Buffer` work in the
+  // browser.  Without these, the IIFE crashes with ReferenceError.
+  fs.mkdirSync(outdir, { recursive: true });
+  const processShimFile = path.join(outdir, '_process-shim.js');
+  fs.writeFileSync(
+    processShimFile,
+    `import process from ${JSON.stringify(
+      require.resolve('process/browser'),
+    )};\nexport { process };\n`,
+  );
+  const bufferShimFile = path.join(outdir, '_buffer-shim.js');
+  fs.writeFileSync(
+    bufferShimFile,
+    `import { Buffer } from ${JSON.stringify(
+      require.resolve('buffer/'),
+    )};\nexport { Buffer };\n`,
+  );
+
   const config = {
     entryPoints,
     bundle: true,
@@ -912,8 +914,8 @@ async function buildConfig(options = {}) {
       global: 'window',
     },
 
-    // Inject Buffer and process polyfills
-    inject: [],
+    // Inject process and Buffer browser polyfills as globals
+    inject: [processShimFile, bufferShimFile],
 
     // Resolve configuration
     resolveExtensions: ['.js', '.jsx', '.tsx', '.ts', '.json', '.scss', '.css'],
@@ -1025,7 +1027,7 @@ async function buildConfig(options = {}) {
     external: ['/img/*', '/fonts/*', '/generated/*'],
   };
 
-  return { config, buildPath, outdir };
+  return { config, buildPath, outdir, processShimFile, bufferShimFile };
 }
 
 // ---------------------------------------------------------------------------
@@ -1265,7 +1267,13 @@ function generateScaffoldPages(buildPath) {
 // ---------------------------------------------------------------------------
 
 async function runBuild(options = {}) {
-  const { config, buildPath, outdir } = await buildConfig(options);
+  const {
+    config,
+    buildPath,
+    outdir,
+    processShimFile,
+    bufferShimFile,
+  } = await buildConfig(options);
 
   const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(
     options.buildtype,
@@ -1285,6 +1293,18 @@ async function runBuild(options = {}) {
 
   // Build lazy bundles (platform-pdf, cheerio, etc.)
   await buildLazyBundles(outdir, shouldMinify, rootDir, options);
+
+  // Clean up shim files used by inject
+  try {
+    fs.unlinkSync(processShimFile);
+  } catch {
+    /* already gone */
+  }
+  try {
+    fs.unlinkSync(bufferShimFile);
+  } catch {
+    /* already gone */
+  }
 
   // Generate scaffold HTML pages so that the test-server (and any
   // static-file server) can serve SPA routes at /{rootUrl}/index.html.
