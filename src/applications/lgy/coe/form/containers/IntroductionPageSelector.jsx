@@ -1,16 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getFormData } from 'platform/forms-system/src/js/state/selectors';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import IntroductionPage from './IntroductionPage';
 import IntroductionPage2 from './IntroductionPage2';
 
-const TOGGLE_KEY = 'view:coeFormRebuildCveteam';
-
 export const IntroductionPageSelector = props => {
-  const formData = useSelector(getFormData) || {};
-  const useNewIntro = !!formData[TOGGLE_KEY];
-  const IntroductionPageComponent = useNewIntro
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const enableCveIntro = useToggleValue(TOGGLE_NAMES.coeEnableCveIntro);
+  const IntroductionPageComponent = enableCveIntro
     ? IntroductionPage2
     : IntroductionPage;
 
