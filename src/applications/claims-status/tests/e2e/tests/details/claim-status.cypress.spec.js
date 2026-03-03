@@ -84,6 +84,7 @@ describe('Claim status', () => {
             trackedItems: [
               createTrackedItem({
                 displayName: 'ASB - tell us where, when, how exposed',
+                isSensitive: true,
               }),
             ],
           }),
