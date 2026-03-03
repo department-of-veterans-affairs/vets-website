@@ -38,7 +38,7 @@ const EditPhonePage = ({
     );
   };
 
-  const originalPhone = useRef(data.veteranContactInformation.phoneNumber);
+  const originalPhone = useRef(data.veteranContactInformation?.phoneNumber);
 
   const handlers = {
     onInput: inputData => {

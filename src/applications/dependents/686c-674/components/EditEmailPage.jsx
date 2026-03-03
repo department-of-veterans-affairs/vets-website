@@ -61,9 +61,11 @@ const EditEmailPage = ({
     onCancel: event => {
       event.preventDefault();
       setFormData({
-        ...data,
-        emailAddress: originalEmail.current,
-        electronicCorrespondence: originalElectronicCorrespondence.current,
+        veteranContactInformation: {
+          ...data.veteranContactInformation,
+          emailAddress: originalEmail.current,
+          electronicCorrespondence: originalElectronicCorrespondence.current,
+        },
       });
       saveEditContactInformation('emailAddress', 'cancel');
       returnToPath();

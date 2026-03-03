@@ -12,7 +12,7 @@ import EditCardLink from './EditCardLink';
 import {
   getEditContactInformation,
   removeEditContactInformation,
-  // contactInfoXref,
+  contactInfoXref,
   convertPhoneObjectToString,
 } from '../config/utilities/contact-info';
 import { isEmptyObject } from '../../shared/utils';
@@ -229,7 +229,7 @@ const VeteranContactInformationPage = ({
       <h3 className="vads-u-margin-y--2">
         Confirm the contact information we have on file for you
       </h3>
-      {/* {name &&
+      {name &&
         action === 'update' && (
           <va-alert ref={updateAlertRef} status="success" visible>
             <h3 slot="headline">
@@ -237,7 +237,7 @@ const VeteranContactInformationPage = ({
             </h3>
             <p>This update only applies to this application</p>
           </va-alert>
-        )} */}
+        )}
       {!submitted && showPrefillAlert ? (
         <va-alert status="warning" visible>
           We could not prefill this form with your {prefillMissingInfo} address.

@@ -277,7 +277,6 @@ VeteranContactInformationReviewPage.propTypes = {
       country: PropTypes.string,
       street: PropTypes.string,
       street2: PropTypes.string,
-      street3: PropTypes.string,
       city: PropTypes.string,
       state: PropTypes.string,
       postalCode: PropTypes.string,
