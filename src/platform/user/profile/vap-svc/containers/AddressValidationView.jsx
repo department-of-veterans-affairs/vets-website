@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -29,62 +29,92 @@ import { getValidationMessageKey } from '../util';
 import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
 import { formatDisplayAddressInRadio } from '../util/contact-information/addressUtils';
 
-class AddressValidationView extends React.Component {
+const AddressValidationView = ({
+  addressFromUser,
+  addressValidationError,
+  addressValidationErrorCode,
+  addressValidationType,
+  analyticsSectionName,
+  clearAddressValidationKey: clearAddressValidationKeyAction,
+  confirmedSuggestions,
+  createTransaction: createTransactionAction,
+  isLoading,
+  isNoValidationKeyAlertEnabled,
+  openModal: openModalAction,
+  overrideValidationKey,
+  refreshTransaction: refreshTransactionProp,
+  selectedAddress,
+  selectedAddressId,
+  successCallback,
+  suggestedAddresses,
+  transaction,
+  transactionError,
+  updateSelectedAddress: updateSelectedAddressAction,
+  updateValidationKeyAndSave: updateValidationKeyAndSaveAction,
+  userHasBadAddress,
+  vapServiceFormFields,
+}) => {
+  const context = useContext(ContactInfoFormAppConfigContext);
+  const intervalRef = useRef(null);
+
   // using the context so we can get the right fieldName to access
   // the updateProfileChoice in the vapService.formFields state
-  updateProfileChoice =
-    this.context?.fieldName &&
-    this.props.vapServiceFormFields[(this.context?.fieldName)]?.value
-      ?.updateProfileChoice;
+  const updateProfileChoice =
+    context?.fieldName &&
+    vapServiceFormFields?.[context?.fieldName]?.value?.updateProfileChoice;
 
-  componentDidMount() {
+  useEffect(() => {
     // scroll on the alert since the web component doesn't have a focus/auto-scroll method built in like the React component
     waitForRenderThenFocus('#address-validation-alert-heading');
-  }
+  }, []);
 
-  componentDidUpdate(prevProps) {
-    // if the transaction just became pending, start calling the
-    // refreshTransaction() on an interval
-    if (
-      isPendingTransaction(this.props.transaction) &&
-      !isPendingTransaction(prevProps.transaction)
-    ) {
-      this.interval = window.setInterval(
-        this.props.refreshTransaction,
-        window.VetsGov.pollTimeout || 1000,
-      );
-    }
-    // if the transaction is no longer pending, stop refreshing it
-    if (
-      isPendingTransaction(prevProps.transaction) &&
-      !isPendingTransaction(this.props.transaction)
-    ) {
-      window.clearInterval(this.interval);
-    }
-  }
+  useEffect(
+    () => {
+      // if the transaction just became pending, start calling the
+      // refreshTransaction() on an interval
+      if (isPendingTransaction(transaction)) {
+        if (!intervalRef.current) {
+          intervalRef.current = window.setInterval(
+            refreshTransactionProp,
+            window.VetsGov.pollTimeout || 1000,
+          );
+        }
+      } else if (intervalRef.current) {
+        // if the transaction is no longer pending, stop refreshing it
+        window.clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    },
+    [transaction, refreshTransactionProp],
+  );
 
-  componentWillUnmount() {
-    if (this.interval) {
-      window.clearInterval(this.interval);
-    }
-    focusElement(`#${this.props.addressValidationType}-edit-link`);
-  }
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        window.clearInterval(intervalRef.current);
+      }
+      focusElement(`#${addressValidationType}-edit-link`);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  onChangeSelectedAddress = (address, selectedAddressId) => {
-    let selectedAddress = {};
-    if (selectedAddressId !== 'userEntered') {
-      // if the user selected a suggested address, grab that address from the confirmedSuggestions prop
-      const { confirmedSuggestions } = this.props;
-      selectedAddress = confirmedSuggestions[parseInt(selectedAddressId, 10)];
-    } else {
-      selectedAddress = address;
-    }
-    this.props.updateSelectedAddress(selectedAddress, selectedAddressId);
-  };
+  const onChangeSelectedAddress = useCallback(
+    (address, addrSelectedId) => {
+      let newSelectedAddress = {};
+      if (addrSelectedId !== 'userEntered') {
+        // if the user selected a suggested address, grab that address from the confirmedSuggestions prop
+        newSelectedAddress = confirmedSuggestions[parseInt(addrSelectedId, 10)];
+      } else {
+        newSelectedAddress = address;
+      }
+      updateSelectedAddressAction(newSelectedAddress, addrSelectedId);
+    },
+    [confirmedSuggestions, updateSelectedAddressAction],
+  );
 
-  requiresNewValidationKey = payload => {
-    const { addressMetaData, overrideValidationKey } = payload;
-    if (overrideValidationKey) {
+  const requiresNewValidationKey = useCallback(payload => {
+    const { addressMetaData, overrideValidationKey: overrideKey } = payload;
+    if (overrideKey) {
       // if there is a overrideValidationKey, assume the overrideValidationKey is already updated
       return false;
     }
@@ -100,126 +130,129 @@ class AddressValidationView extends React.Component {
       addressMetaData?.addressType?.toUpperCase() === 'INTERNATIONAL' &&
       addressMetaData?.confidenceScore < 70
     );
-  };
+  }, []);
 
-  onSubmit = async event => {
-    event.preventDefault();
-    const {
-      overrideValidationKey,
-      addressValidationType,
-      selectedAddress,
-      selectedAddressId,
+  const onEditClick = useCallback(
+    () => {
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': 'edit-link',
+        'profile-section': analyticsSectionName,
+      });
+
+      // adding the updateProfileChoice to the addressFromUser object so that
+      // the radio button on address form can be set correctly for new edits
+      openModalAction(addressValidationType, {
+        ...addressFromUser,
+        updateProfileChoice,
+      });
+    },
+    [
       analyticsSectionName,
-    } = this.props;
-
-    const payload = {
-      ...selectedAddress,
-      overrideValidationKey,
-    };
-
-    if (this.context?.prefillPatternEnabled) {
-      const shouldOnlyUpdateForm = this.updateProfileChoice === 'no';
-
-      if (shouldOnlyUpdateForm) {
-        // using this context allows us to get the initial formKey and keys that may
-        // potentially be customized when the main profileContactInfo factory function is used
-        const { updateContactInfoForFormApp, fieldName } = this.context;
-
-        updateContactInfoForFormApp(
-          fieldName,
-          payload,
-          this.updateProfileChoice,
-        );
-
-        // this should cause navigation back to the ContactInfo page
-        this.props.successCallback();
-
-        this.props.openModal();
-        return;
-      }
-    }
-
-    const suggestedAddressSelected = selectedAddressId !== 'userEntered';
-
-    const method = payload.id ? 'PUT' : 'POST';
-
-    if (this.props.userHasBadAddress) {
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'Updating bad address',
-        'api-status': 'started',
-        'profile-section': analyticsSectionName,
-        'profile-addressSuggestionUsed': suggestedAddressSelected
-          ? 'yes'
-          : 'no',
-      });
-    } else {
-      recordEvent({
-        event: 'profile-transaction',
-        'profile-section': analyticsSectionName,
-        'profile-addressSuggestionUsed': suggestedAddressSelected
-          ? 'yes'
-          : 'no',
-      });
-    }
-
-    if (suggestedAddressSelected) {
-      // if the user selected a suggested address, we need to remove the overrideValidationKey
-      // so that the API doesn't throw an error
-      delete payload.overrideValidationKey;
-      this.props.clearAddressValidationKey();
-    }
-    if (this.requiresNewValidationKey(payload)) {
-      // if the suggested address selected, there will be no overrideValidationKey so if the
-      // address has a low confidence rating we need to fetch a new overrideValidationKey for
-      // the update request
-      await this.props.updateValidationKeyAndSave(
-        VAP_SERVICE.API_ROUTES.ADDRESSES,
-        method,
-        addressValidationType,
-        payload,
-        analyticsSectionName,
-      );
-    } else {
-      await this.props.createTransaction(
-        VAP_SERVICE.API_ROUTES.ADDRESSES,
-        method,
-        addressValidationType,
-        payload,
-        analyticsSectionName,
-      );
-    }
-  };
-
-  onEditClick = () => {
-    const {
+      openModalAction,
       addressValidationType,
       addressFromUser,
-      analyticsSectionName,
-    } = this.props;
-    recordEvent({
-      event: 'profile-navigation',
-      'profile-action': 'edit-link',
-      'profile-section': analyticsSectionName,
-    });
+      updateProfileChoice,
+    ],
+  );
 
-    // adding the updateProfileChoice to the addressFromUser object so that
-    // the radio button on address form can be set correctly for new edits
-    this.props.openModal(addressValidationType, {
-      ...addressFromUser,
-      updateProfileChoice: this.updateProfileChoice,
-    });
-  };
+  const onSubmit = useCallback(
+    async event => {
+      event.preventDefault();
 
-  renderPrimaryButton = () => {
-    const {
-      addressValidationError,
+      const payload = {
+        ...selectedAddress,
+        overrideValidationKey,
+      };
+
+      if (context?.prefillPatternEnabled) {
+        const shouldOnlyUpdateForm = updateProfileChoice === 'no';
+
+        if (shouldOnlyUpdateForm) {
+          // using this context allows us to get the initial formKey and keys that may
+          // potentially be customized when the main profileContactInfo factory function is used
+          const { updateContactInfoForFormApp, fieldName } = context;
+
+          updateContactInfoForFormApp(fieldName, payload, updateProfileChoice);
+
+          // this should cause navigation back to the ContactInfo page
+          successCallback();
+
+          openModalAction();
+          return;
+        }
+      }
+
+      const suggestedAddressSelected = selectedAddressId !== 'userEntered';
+
+      const method = payload.id ? 'PUT' : 'POST';
+
+      if (userHasBadAddress) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'Updating bad address',
+          'api-status': 'started',
+          'profile-section': analyticsSectionName,
+          'profile-addressSuggestionUsed': suggestedAddressSelected
+            ? 'yes'
+            : 'no',
+        });
+      } else {
+        recordEvent({
+          event: 'profile-transaction',
+          'profile-section': analyticsSectionName,
+          'profile-addressSuggestionUsed': suggestedAddressSelected
+            ? 'yes'
+            : 'no',
+        });
+      }
+
+      if (suggestedAddressSelected) {
+        // if the user selected a suggested address, we need to remove the overrideValidationKey
+        // so that the API doesn't throw an error
+        delete payload.overrideValidationKey;
+        clearAddressValidationKeyAction();
+      }
+      if (requiresNewValidationKey(payload)) {
+        // if the suggested address selected, there will be no overrideValidationKey so if the
+        // address has a low confidence rating we need to fetch a new overrideValidationKey for
+        // the update request
+        await updateValidationKeyAndSaveAction(
+          VAP_SERVICE.API_ROUTES.ADDRESSES,
+          method,
+          addressValidationType,
+          payload,
+          analyticsSectionName,
+        );
+      } else {
+        await createTransactionAction(
+          VAP_SERVICE.API_ROUTES.ADDRESSES,
+          method,
+          addressValidationType,
+          payload,
+          analyticsSectionName,
+        );
+      }
+    },
+    [
+      selectedAddress,
       overrideValidationKey,
-      isLoading,
-      confirmedSuggestions,
+      context,
+      updateProfileChoice,
+      successCallback,
+      openModalAction,
       selectedAddressId,
-    } = this.props;
+      userHasBadAddress,
+      analyticsSectionName,
+      clearAddressValidationKeyAction,
+      requiresNewValidationKey,
+      updateValidationKeyAndSaveAction,
+      addressValidationType,
+      createTransactionAction,
+    ],
+  );
 
+  const renderPrimaryButton = () => {
     let buttonText = 'Use address you entered';
 
     if (confirmedSuggestions.length === 0 && overrideValidationKey) {
@@ -240,7 +273,7 @@ class AddressValidationView extends React.Component {
       return (
         <va-button
           data-testid="edit-address-button"
-          onClick={this.onEditClick}
+          onClick={onEditClick}
           label="Edit address"
           text="Edit"
           class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
@@ -259,13 +292,7 @@ class AddressValidationView extends React.Component {
     );
   };
 
-  renderAddressOption = (address, id = 'userEntered') => {
-    const {
-      confirmedSuggestions,
-      selectedAddressId,
-      overrideValidationKey,
-    } = this.props;
-
+  const renderAddressOption = (address, id = 'userEntered') => {
     const isAddressFromUser = id === 'userEntered';
     const hasConfirmedSuggestions =
       (confirmedSuggestions.length > 0 && overrideValidationKey) ||
@@ -289,7 +316,7 @@ class AddressValidationView extends React.Component {
             }
             labelHeaderLevel={5}
             onVaValueChange={event => {
-              this.onChangeSelectedAddress(address, event.detail.value);
+              onChangeSelectedAddress(address, event.detail.value);
             }}
             className={
               id === 'userEntered'
@@ -349,84 +376,66 @@ class AddressValidationView extends React.Component {
     );
   };
 
-  render() {
-    const {
-      addressFromUser,
-      addressValidationError,
-      addressValidationErrorCode,
-      confirmedSuggestions,
-      suggestedAddresses,
-      transactionError,
-      isLoading,
-      overrideValidationKey,
-      isNoValidationKeyAlertEnabled,
-    } = this.props;
+  const validationMessageKey = getValidationMessageKey({
+    suggestedAddresses,
+    addressValidationError,
+    confirmedSuggestions,
+    overrideValidationKey,
+    addressValidationErrorCode,
+    isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
+  });
 
-    const validationMessageKey = getValidationMessageKey({
-      suggestedAddresses,
-      addressValidationError,
-      confirmedSuggestions,
-      overrideValidationKey,
-      addressValidationErrorCode,
-      isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
-    });
+  const addressValidationMessage =
+    ADDRESS_VALIDATION_MESSAGES[validationMessageKey];
 
-    const addressValidationMessage =
-      ADDRESS_VALIDATION_MESSAGES[validationMessageKey];
+  const shouldShowSuggestions =
+    confirmedSuggestions && confirmedSuggestions.length > 0;
 
-    const shouldShowSuggestions =
-      confirmedSuggestions && confirmedSuggestions.length > 0;
+  return (
+    <>
+      {/*
+      Show the address validation alert when there is no service transaction error.
+      A transaction error alert will appear in the element position right before this component and
+      under the field component header.
+      */}
+      {!transactionError && (
+        <VaAlert
+          className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+          status={addressValidationError ? 'error' : 'warning'}
+          visible
+          slim={addressValidationMessage?.slim}
+          role="alert"
+        >
+          {addressValidationMessage.headline && (
+            <h4 id="address-validation-alert-heading" slot="headline">
+              {addressValidationMessage.headline}
+            </h4>
+          )}
+          <addressValidationMessage.ModalText editFunction={onEditClick} />
+        </VaAlert>
+      )}
+      <form onSubmit={onSubmit}>
+        {renderAddressOption(addressFromUser)}
+        {shouldShowSuggestions && renderAddressOption({}, 'suggested')}
 
-    return (
-      <>
-        {/*
-        Show the address validation alert when there is no service transaction error.
-        A transaction error alert will appear in the element position right before this component and
-        under the field component header.
-        */}
-        {!transactionError && (
-          <VaAlert
-            className="vads-u-margin-bottom--1 vads-u-margin-top--0"
-            status={addressValidationError ? 'error' : 'warning'}
-            visible
-            slim={addressValidationMessage?.slim}
-            role="alert"
-          >
-            {addressValidationMessage.headline && (
-              <h4 id="address-validation-alert-heading" slot="headline">
-                {addressValidationMessage.headline}
-              </h4>
+        <div className="vads-u-display--flex mobile-lg:vads-u-display--block vads-u-flex-direction--column">
+          {renderPrimaryButton()}
+          {!addressValidationError &&
+            !isLoading && (
+              <va-button
+                data-testid="edit-address-button"
+                onClick={onEditClick}
+                label="Edit address"
+                text="Edit"
+                class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                secondary
+              />
             )}
-            <addressValidationMessage.ModalText
-              editFunction={this.onEditClick}
-            />
-          </VaAlert>
-        )}
-        <form onSubmit={this.onSubmit}>
-          {this.renderAddressOption(addressFromUser)}
-          {shouldShowSuggestions && this.renderAddressOption({}, 'suggested')}
-
-          <div className="vads-u-display--flex mobile-lg:vads-u-display--block vads-u-flex-direction--column">
-            {this.renderPrimaryButton()}
-            {!addressValidationError &&
-              !isLoading && (
-                <va-button
-                  data-testid="edit-address-button"
-                  onClick={this.onEditClick}
-                  label="Edit address"
-                  text="Edit"
-                  class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
-                  secondary
-                />
-              )}
-          </div>
-        </form>
-      </>
-    );
-  }
-}
-
-AddressValidationView.contextType = ContactInfoFormAppConfigContext;
+        </div>
+      </form>
+    </>
+  );
+};
 
 const mapStateToProps = (state, ownProps) => {
   const { transaction } = ownProps;

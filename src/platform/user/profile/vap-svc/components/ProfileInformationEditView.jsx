@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Toggler } from 'platform/utilities/feature-toggles';
@@ -60,49 +60,152 @@ import { updateMessagingSignature } from '../../actions/mhv';
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 import { isSchedulingPreference } from '../util/health-care-settings/schedulingPreferencesUtils';
 
-export class ProfileInformationEditView extends Component {
-  componentDidMount() {
-    const { getInitialFormValues } = this.props;
+export const ProfileInformationEditView = props => {
+  const {
+    analyticsSectionName,
+    apiRoute,
+    cancelButtonText,
+    clearTransactionRequest: clearTransactionRequestAction,
+    convertCleanDataToPayload,
+    createPersonalInfoUpdate: createPersonalInfoUpdateAction,
+    createSchedulingPreferencesUpdate: createSchedulingPreferencesUpdateAction,
+    createTransaction: createTransactionAction,
+    field,
+    fieldName,
+    forceEditView,
+    formSchema,
+    getInitialFormValues,
+    intlMobileConfirmModalEnabled,
+    onCancel,
+    onCancelButtonFocused,
+    openIntlMobileConfirmModal: openIntlMobileConfirmModalAction,
+    openModal: openModalAction,
+    refreshTransaction: refreshTransactionAction,
+    saveButtonText,
+    shouldFocusCancelButton,
+    title,
+    transaction,
+    transactionRequest,
+    uiSchema,
+    updateFormFieldWithSchema: updateFormFieldWithSchemaAction,
+    updateMessagingSignature: updateMessagingSignatureAction,
+    validateAddress: validateAddressAction,
+    allowInternationalPhones,
+  } = props;
 
-    this.onChangeFormDataAndSchemas(
-      getInitialFormValues(),
-      this.props.formSchema,
-      this.props.uiSchema,
-    );
-    this.focusOnFirstFormElement();
-  }
+  const context = useContext(ContactInfoFormAppConfigContext);
+  const editFormRef = useRef(null);
+  const intervalRef = useRef(null);
+  const prevFieldRef = useRef(field);
+  const prevTransactionRef = useRef(transaction);
+  const prevTransactionRequestRef = useRef(transactionRequest);
+  const prevShouldFocusCancelButtonRef = useRef(shouldFocusCancelButton);
 
-  componentDidUpdate(prevProps) {
-    // Check if the cancel button should be focused before focusing
-    // on the first form element
-    if (
-      this.props.shouldFocusCancelButton &&
-      !prevProps.shouldFocusCancelButton
-    ) {
-      this.focusOnCancelButton();
+  const onChangeFormDataAndSchemas = useCallback(
+    (value, schema, uiSchemaVal) => {
+      updateFormFieldWithSchemaAction(fieldName, value, schema, uiSchemaVal);
+    },
+    [fieldName, updateFormFieldWithSchemaAction],
+  );
+
+  const focusOnFirstFormElement = useCallback(
+    () => {
+      if (forceEditView) {
+        // Showing the edit view on its own page, so let the app handle focus
+        return;
+      }
+
+      if (editFormRef.current) {
+        setTimeout(() => {
+          // Set focus on the country picker if we're using the va-telephone-input component
+          const vaTel = editFormRef.current?.querySelector?.(
+            'va-telephone-input',
+          );
+          const vaComboBox = vaTel?.shadowRoot?.querySelector?.('va-combo-box');
+          const countrySelect = vaComboBox?.shadowRoot?.querySelector?.(
+            'input',
+          );
+
+          if (vaTel && countrySelect) {
+            countrySelect.focus();
+          } else {
+            // If no va-telephone-input, focus the first focusable element in the form
+            const focusableElement = getFocusableElements(
+              editFormRef.current,
+            )?.[0];
+
+            if (focusableElement) {
+              focusElement(focusableElement);
+            }
+          }
+        }, 100);
+      }
+    },
+    [forceEditView],
+  );
+
+  // We manually set focus on the cancel button when the confirm cancel modal is closed
+  // Since va-button is a web component, we need to wait for the shadow DOM to render
+  // before we can focus the native button inside it
+  const focusOnCancelButton = useCallback(
+    () => {
+      setTimeout(() => {
+        const cancelButton = editFormRef.current?.querySelector(
+          'va-button[data-testid="cancel-edit-button"]',
+        );
+        if (cancelButton && cancelButton.shadowRoot) {
+          const shadowButton = cancelButton.shadowRoot.querySelector('button');
+          if (shadowButton) shadowButton.focus();
+        }
+        if (onCancelButtonFocused) {
+          onCancelButtonFocused();
+        }
+      }, 100);
+    },
+    [onCancelButtonFocused],
+  );
+
+  const doRefreshTransaction = useCallback(
+    () => {
+      refreshTransactionAction(transaction, analyticsSectionName);
+    },
+    [refreshTransactionAction, transaction, analyticsSectionName],
+  );
+
+  // componentDidMount
+  useEffect(() => {
+    onChangeFormDataAndSchemas(getInitialFormValues(), formSchema, uiSchema);
+    focusOnFirstFormElement();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // componentDidUpdate logic
+  useEffect(() => {
+    // Check if the cancel button should be focused
+    if (shouldFocusCancelButton && !prevShouldFocusCancelButtonRef.current) {
+      focusOnCancelButton();
     }
 
-    if (!prevProps.field && !!this.props.field) {
-      this.focusOnFirstFormElement();
+    if (!prevFieldRef.current && !!field) {
+      focusOnFirstFormElement();
     }
 
     const isAddressValidationError =
-      this.props.transactionRequest?.error?.errors?.some(
+      transactionRequest?.error?.errors?.some(
         e => e.code === 'VET360_AV_ERROR',
       ) || false;
 
     // If we get an address validation error, open the validation modal
     if (
       isAddressValidationError &&
-      !prevProps.transactionRequest?.error // Only trigger on new error
+      !prevTransactionRequestRef.current?.error // Only trigger on new error
     ) {
-      this.props.openModal(ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION);
+      openModalAction(ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION);
     }
 
     if (
       !isAddressValidationError &&
-      (this.props.transactionRequest?.error ||
-        isFailedTransaction(this.props.transaction))
+      (transactionRequest?.error || isFailedTransaction(transaction))
     ) {
       focusElement('button[aria-label="Close notification"]');
     }
@@ -110,99 +213,93 @@ export class ProfileInformationEditView extends Component {
     // if the transaction just became pending, start calling
     // refreshTransaction() on an interval
     if (
-      isPendingTransaction(this.props.transaction) &&
-      !isPendingTransaction(prevProps.transaction)
+      isPendingTransaction(transaction) &&
+      !isPendingTransaction(prevTransactionRef.current)
     ) {
-      this.interval = window.setInterval(
-        this.refreshTransaction,
+      intervalRef.current = window.setInterval(
+        doRefreshTransaction,
         window.VetsGov.pollTimeout || 2000,
       );
     }
     // if the transaction is no longer pending, stop refreshing it
     if (
-      isPendingTransaction(prevProps.transaction) &&
-      !isPendingTransaction(this.props.transaction)
+      isPendingTransaction(prevTransactionRef.current) &&
+      !isPendingTransaction(transaction)
     ) {
-      window.clearInterval(this.interval);
+      window.clearInterval(intervalRef.current);
 
       // Dismiss the MHV email confirmation alert if email transaction succeeded
-      // This handles cases where the component stays mounted after transaction completion
       if (
-        this.props.fieldName === FIELD_NAMES.EMAIL &&
-        this.props.transaction &&
-        isSuccessfulTransaction(this.props.transaction)
+        fieldName === FIELD_NAMES.EMAIL &&
+        transaction &&
+        isSuccessfulTransaction(transaction)
       ) {
         dismissEmailConfirmationAlertViaCookie();
       }
     }
-  }
 
-  componentWillUnmount() {
-    if (this.interval) {
-      window.clearInterval(this.interval);
-    }
+    prevFieldRef.current = field;
+    prevTransactionRef.current = transaction;
+    prevTransactionRequestRef.current = transactionRequest;
+    prevShouldFocusCancelButtonRef.current = shouldFocusCancelButton;
+  });
 
-    const { fieldName } = this.props;
+  // componentWillUnmount
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        window.clearInterval(intervalRef.current);
+      }
 
-    // Errors returned directly from the API request (as opposed through a transaction lookup) are
-    // displayed in this modal, rather than on the page. Once the modal is closed, reset the state
-    // for the next time the modal is opened by removing any existing transaction request from the store.
-    if (this.props.transactionRequest?.error) {
-      this.props.clearTransactionRequest(fieldName);
-    } else if (
-      // Dismiss the MHV email confirmation alert if email transaction succeeded
-      // This is a fallback for cases where componentDidUpdate doesn't run
-      // (e.g., when the component unmounts immediately after transaction completion)
-      fieldName === FIELD_NAMES.EMAIL &&
-      this.props.transactionRequest &&
-      !this.props.transactionRequest.isPending
-    ) {
-      dismissEmailConfirmationAlertViaCookie();
-    }
+      // Errors returned directly from the API request (as opposed through a transaction lookup) are
+      // displayed in this modal, rather than on the page. Once the modal is closed, reset the state
+      // for the next time the modal is opened by removing any existing transaction request from the store.
+      if (transactionRequest?.error) {
+        clearTransactionRequestAction(fieldName);
+      } else if (
+        // Dismiss the MHV email confirmation alert if email transaction succeeded
+        fieldName === FIELD_NAMES.EMAIL &&
+        transactionRequest &&
+        !transactionRequest.isPending
+      ) {
+        dismissEmailConfirmationAlertViaCookie();
+      }
 
-    // AS DONE IN ADDRESSEDITVIEW, CHECK FOR CORRECTNESS
-    if (fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS) {
-      focusElement(`#${getEditButtonId(fieldName)}`);
-    }
-  }
+      // AS DONE IN ADDRESSEDITVIEW, CHECK FOR CORRECTNESS
+      if (fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS) {
+        focusElement(`#${getEditButtonId(fieldName)}`);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // 48147 - Temporary click handler that will be removed once the analytics stats have been gathered around
   // multiple inline validation errors.
-  onClickUpdateHandler = () => {
+  const onClickUpdateHandler = () => {
     handleUpdateButtonClick(
       getErrorsFromDom,
-      this.props.fieldName,
+      fieldName,
       recordCustomProfileEvent,
     );
   };
 
-  copyMailingAddress = mailingAddress => {
-    const newAddressValue = { ...this.props.field.value, ...mailingAddress };
-    this.onChangeFormDataAndSchemas(
+  const copyMailingAddress = mailingAddress => {
+    const newAddressValue = { ...field.value, ...mailingAddress };
+    onChangeFormDataAndSchemas(
       transformInitialFormValues(newAddressValue),
-      this.props.field.formSchema,
-      this.props.field.uiSchema,
+      field.formSchema,
+      field.uiSchema,
     );
   };
 
-  refreshTransaction = () => {
-    this.props.refreshTransaction(
-      this.props.transaction,
-      this.props.analyticsSectionName,
-    );
-  };
-
-  onSubmit = () => {
-    const {
-      convertCleanDataToPayload,
-      fieldName,
-      analyticsSectionName,
-      apiRoute,
-      field,
-    } = this.props;
+  const onSubmit = () => {
     const isAddressField = fieldName.toLowerCase().includes('address');
     if (!isAddressField) {
-      this.captureEvent('update-button');
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': 'update-button',
+        'profile-section': analyticsSectionName,
+      });
     }
 
     let payload = field.value;
@@ -219,7 +316,7 @@ export class ProfileInformationEditView extends Component {
         !field.value?.[PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME]
       ) {
         field.formSchema.required = [fieldName];
-        this.onChangeFormDataAndSchemas(
+        onChangeFormDataAndSchemas(
           field.value,
           field.formSchema,
           field.uiSchema,
@@ -228,11 +325,11 @@ export class ProfileInformationEditView extends Component {
       }
 
       if (fieldName === PERSONAL_INFO_FIELD_NAMES.MESSAGING_SIGNATURE) {
-        this.props.updateMessagingSignature(payload, fieldName, 'POST');
+        updateMessagingSignatureAction(payload, fieldName, 'POST');
         return;
       }
 
-      this.props.createPersonalInfoUpdate({
+      createPersonalInfoUpdateAction({
         route: apiRoute,
         method: 'PUT',
         fieldName,
@@ -244,7 +341,7 @@ export class ProfileInformationEditView extends Component {
     }
 
     if (isSchedulingPreference(fieldName)) {
-      this.props.createSchedulingPreferencesUpdate({
+      createSchedulingPreferencesUpdateAction({
         route: apiRoute,
         method: 'POST',
         fieldName,
@@ -258,7 +355,7 @@ export class ProfileInformationEditView extends Component {
     const method = payload?.id ? 'PUT' : 'POST';
 
     if (isAddressField) {
-      this.props.validateAddress(
+      validateAddressAction(
         apiRoute,
         method,
         fieldName,
@@ -269,7 +366,7 @@ export class ProfileInformationEditView extends Component {
     }
 
     const createTransactionFn = () => {
-      this.props.createTransaction(
+      createTransactionAction(
         apiRoute,
         method,
         fieldName,
@@ -286,7 +383,7 @@ export class ProfileInformationEditView extends Component {
       payload.isInternational &&
       String(payload.countryCode) !== USA.COUNTRY_CODE
     ) {
-      this.props.openIntlMobileConfirmModal(
+      openIntlMobileConfirmModalAction(
         payload.countryCode,
         payload.phoneNumber,
         createTransactionFn,
@@ -297,14 +394,14 @@ export class ProfileInformationEditView extends Component {
     createTransactionFn();
   };
 
-  onInput = (value, schema, uiSchema) => {
+  const onInput = (value, schema, uiSchemaVal) => {
     const addressFieldNames = [
       FIELD_NAMES.MAILING_ADDRESS,
       FIELD_NAMES.RESIDENTIAL_ADDRESS,
     ];
 
-    if (!addressFieldNames.includes(this.props.fieldName)) {
-      this.onChangeFormDataAndSchemas(value, schema, uiSchema);
+    if (!addressFieldNames.includes(fieldName)) {
+      onChangeFormDataAndSchemas(value, schema, uiSchemaVal);
     }
 
     const newFieldValue = {
@@ -314,201 +411,110 @@ export class ProfileInformationEditView extends Component {
       newFieldValue.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
     }
 
-    this.onChangeFormDataAndSchemas(newFieldValue, schema, uiSchema);
+    onChangeFormDataAndSchemas(newFieldValue, schema, uiSchemaVal);
   };
 
-  onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
-    // Validate before updating
+  const isLoading =
+    transactionRequest?.isPending || isPendingTransaction(transaction);
 
-    this.props.updateFormFieldWithSchema(
-      this.props.fieldName,
-      value,
-      schema,
-      uiSchema,
-    );
-  };
+  const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
 
-  captureEvent(actionName) {
-    recordEvent({
-      event: 'profile-navigation',
-      'profile-action': actionName,
-      'profile-section': this.props.analyticsSectionName,
-    });
-  }
-
-  focusOnFirstFormElement() {
-    if (this.props.forceEditView) {
-      // Showing the edit view on its own page, so let the app handle focus
-      return;
-    }
-
-    if (this.editForm) {
-      setTimeout(() => {
-        // Set focus on the country picker if we're using the va-telephone-input component
-        const vaTel = this.editForm?.querySelector?.('va-telephone-input');
-        const vaComboBox = vaTel?.shadowRoot?.querySelector?.('va-combo-box');
-        const countrySelect = vaComboBox?.shadowRoot?.querySelector?.('input');
-
-        if (vaTel && countrySelect) {
-          countrySelect.focus();
-        } else {
-          // If no va-telephone-input, focus the first focusable element in the form
-          const focusableElement = getFocusableElements(this.editForm)?.[0];
-
-          if (focusableElement) {
-            focusElement(focusableElement);
+  const formData =
+    context?.formFieldData?.formOnlyUpdate === true
+      ? (() => {
+          // Merge objects but also handle inputPhoneNumber explicitly
+          const merged = {
+            ...field?.value,
+            ...context.formFieldData,
+          };
+          // For phone fields, ensure inputPhoneNumber is updated to match the new number
+          if (
+            [FIELD_NAMES.HOME_PHONE, FIELD_NAMES.MOBILE_PHONE].includes(
+              fieldName,
+            ) &&
+            context.formFieldData?.phoneNumber
+          ) {
+            merged.inputPhoneNumber =
+              context.formFieldData.areaCode +
+              context.formFieldData.phoneNumber;
           }
-        }
-      }, 100);
-    }
-  }
+          return merged;
+        })()
+      : field?.value;
 
-  // We manually set focus on the cancel button when the confirm cancel modal is closed
-  // Since va-button is a web component, we need to wait for the shadow DOM to render
-  // before we can focus the native button inside it
-  focusOnCancelButton() {
-    setTimeout(() => {
-      const cancelButton = this.editForm?.querySelector(
-        'va-button[data-testid="cancel-edit-button"]',
-      );
-      if (cancelButton && cancelButton.shadowRoot) {
-        const shadowButton = cancelButton.shadowRoot.querySelector('button');
-        if (shadowButton) shadowButton.focus();
-      }
-      if (this.props.onCancelButtonFocused) {
-        this.props.onCancelButtonFocused();
-      }
-    }, 100);
-  }
+  return (
+    <>
+      {!!field && (
+        <div ref={editFormRef}>
+          {isResidentialAddress && (
+            <CopyMailingAddress copyMailingAddress={copyMailingAddress} />
+          )}
 
-  render() {
-    const {
-      onSubmit,
-      props: {
-        analyticsSectionName,
-        field,
-        fieldName,
-        onCancel,
-        title,
-        transaction,
-        transactionRequest,
-        cancelButtonText,
-        saveButtonText,
-        intlMobileConfirmModalEnabled,
-      },
-      onClickUpdateHandler,
-    } = this;
-
-    const isLoading =
-      transactionRequest?.isPending || isPendingTransaction(transaction);
-
-    const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
-
-    const formData =
-      this.context?.formFieldData?.formOnlyUpdate === true
-        ? (() => {
-            // Merge objects but also handle inputPhoneNumber explicitly
-            const merged = {
-              ...field.value,
-              ...this.context.formFieldData,
-            };
-            // For phone fields, ensure inputPhoneNumber is updated to match the new number
-            if (
-              [FIELD_NAMES.HOME_PHONE, FIELD_NAMES.MOBILE_PHONE].includes(
-                fieldName,
-              ) &&
-              this.context.formFieldData?.phoneNumber
-            ) {
-              merged.inputPhoneNumber =
-                this.context.formFieldData.areaCode +
-                this.context.formFieldData.phoneNumber;
-            }
-            return merged;
-          })()
-        : field?.value;
-
-    return (
-      <>
-        {!!field && (
-          <div
-            ref={el => {
-              this.editForm = el;
-            }}
+          <SchemaForm
+            addNameAttribute
+            // `name` and `title` are required by SchemaForm, but are only used
+            // internally by the SchemaForm component
+            name="Contact Info Form"
+            title="Contact Info Form"
+            schema={field.formSchema}
+            data={formData}
+            uiSchema={field.uiSchema}
+            onChange={event => onInput(event, field.formSchema, field.uiSchema)}
+            onSubmit={onSubmit}
           >
-            {isResidentialAddress && (
-              <CopyMailingAddress
-                copyMailingAddress={this.copyMailingAddress}
-              />
-            )}
-
-            <SchemaForm
-              addNameAttribute
-              // `name` and `title` are required by SchemaForm, but are only used
-              // internally by the SchemaForm component
-              name="Contact Info Form"
-              title="Contact Info Form"
-              schema={field.formSchema}
-              data={formData}
-              uiSchema={field.uiSchema}
-              onChange={event =>
-                this.onInput(event, field.formSchema, field.uiSchema)
-              }
-              onSubmit={onSubmit}
+            {fieldName === FIELD_NAMES.MOBILE_PHONE &&
+              allowInternationalPhones && (
+                <Toggler.Hoc
+                  toggleName={
+                    Toggler.TOGGLE_NAMES.profileInternationalPhoneNumbers
+                  }
+                >
+                  {toggleValue =>
+                    toggleValue ? (
+                      <p>
+                        Enter a U.S. mobile phone number to receive text
+                        notifications. We can’t send text notifications to
+                        international numbers.
+                      </p>
+                    ) : null
+                  }
+                </Toggler.Hoc>
+              )}
+            <ProfileInformationActionButtons
+              onCancel={onCancel}
+              title={title}
+              analyticsSectionName={analyticsSectionName}
+              isLoading={isLoading}
             >
-              {fieldName === FIELD_NAMES.MOBILE_PHONE &&
-                this.props.allowInternationalPhones && (
-                  <Toggler.Hoc
-                    toggleName={
-                      Toggler.TOGGLE_NAMES.profileInternationalPhoneNumbers
-                    }
-                  >
-                    {toggleValue =>
-                      toggleValue ? (
-                        <p>
-                          Enter a U.S. mobile phone number to receive text
-                          notifications. We can’t send text notifications to
-                          international numbers.
-                        </p>
-                      ) : null
-                    }
-                  </Toggler.Hoc>
-                )}
-              <ProfileInformationActionButtons
-                onCancel={onCancel}
-                title={title}
-                analyticsSectionName={analyticsSectionName}
-                isLoading={isLoading}
-              >
-                <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
-                  <va-button
-                    data-action="save-edit"
-                    data-testid="save-edit-button"
-                    loading={isLoading}
-                    submit="prevent"
-                    onClick={onClickUpdateHandler}
-                    text={isLoading ? '' : saveButtonText || 'Save'}
-                    class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
-                  />
+              <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
+                <va-button
+                  data-action="save-edit"
+                  data-testid="save-edit-button"
+                  loading={isLoading}
+                  submit="prevent"
+                  onClick={onClickUpdateHandler}
+                  text={isLoading ? '' : saveButtonText || 'Save'}
+                  class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                />
 
-                  {!isLoading && (
-                    <va-button
-                      data-testid="cancel-edit-button"
-                      onClick={onCancel}
-                      text={cancelButtonText || 'Cancel'}
-                      class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
-                      secondary
-                    />
-                  )}
-                </div>
-              </ProfileInformationActionButtons>
-            </SchemaForm>
-          </div>
-        )}
-        {intlMobileConfirmModalEnabled && <IntlMobileConfirmModal />}
-      </>
-    );
-  }
-}
+                {!isLoading && (
+                  <va-button
+                    data-testid="cancel-edit-button"
+                    onClick={onCancel}
+                    text={cancelButtonText || 'Cancel'}
+                    class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                    secondary
+                  />
+                )}
+              </div>
+            </ProfileInformationActionButtons>
+          </SchemaForm>
+        </div>
+      )}
+      {intlMobileConfirmModalEnabled && <IntlMobileConfirmModal />}
+    </>
+  );
+};
 
 ProfileInformationEditView.propTypes = {
   analyticsSectionName: PropTypes.oneOf(Object.values(ANALYTICS_FIELD_MAP))
@@ -612,5 +618,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ProfileInformationEditView);
-
-ProfileInformationEditView.contextType = ContactInfoFormAppConfigContext;

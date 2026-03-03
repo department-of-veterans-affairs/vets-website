@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -30,95 +30,122 @@ import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessa
 
 import * as VAP_SERVICE from '../constants';
 
-class AddressValidationModal extends React.Component {
-  componentWillUnmount() {
-    focusElement(`#${this.props.addressValidationType}-edit-link`);
-  }
-
-  onChangeHandler = (address, selectedAddressId) => _event => {
-    this.props.updateSelectedAddress(address, selectedAddressId);
-  };
-
-  onSubmit = event => {
-    event.preventDefault();
-    const {
-      overrideValidationKey,
-      addressValidationType,
-      selectedAddress,
-      selectedAddressId,
-      analyticsSectionName,
-    } = this.props;
-
-    const payload = {
-      ...selectedAddress,
-      overrideValidationKey,
+const AddressValidationModal = ({
+  addressFromUser,
+  addressValidationError,
+  addressValidationType,
+  analyticsSectionName,
+  closeModal: closeModalAction,
+  confirmedSuggestions,
+  createTransaction: createTransactionAction,
+  isLoading,
+  openModal: openModalAction,
+  overrideValidationKey,
+  resetAddressValidation,
+  selectedAddress,
+  selectedAddressId,
+  suggestedAddresses,
+  transaction,
+  transactionRequest,
+  updateSelectedAddress: updateSelectedAddressAction,
+  updateValidationKeyAndSave: updateValidationKeyAndSaveAction,
+  userHasBadAddress,
+}) => {
+  useEffect(() => {
+    return () => {
+      focusElement(`#${addressValidationType}-edit-link`);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    const suggestedAddressSelected = selectedAddressId !== 'userEntered';
+  const onChangeHandler = useCallback(
+    (address, addrSelectedId) => _event => {
+      updateSelectedAddressAction(address, addrSelectedId);
+    },
+    [updateSelectedAddressAction],
+  );
 
-    const method = payload.id ? 'PUT' : 'POST';
-
-    if (this.props.userHasBadAddress) {
+  const onEditClick = useCallback(
+    () => {
       recordEvent({
-        event: 'api_call',
-        'api-name': 'Updating bad address',
-        'api-status': 'started',
+        event: 'profile-navigation',
+        'profile-action': 'edit-link',
         'profile-section': analyticsSectionName,
-        'profile-addressSuggestionUsed': suggestedAddressSelected
-          ? 'yes'
-          : 'no',
       });
-    } else {
-      recordEvent({
-        event: 'profile-transaction',
-        'profile-section': analyticsSectionName,
-        'profile-addressSuggestionUsed': suggestedAddressSelected
-          ? 'yes'
-          : 'no',
-      });
-    }
-
-    if (suggestedAddressSelected) {
-      this.props.updateValidationKeyAndSave(
-        VAP_SERVICE.API_ROUTES.ADDRESSES,
-        method,
-        addressValidationType,
-        payload,
-        analyticsSectionName,
-      );
-    } else {
-      this.props.createTransaction(
-        VAP_SERVICE.API_ROUTES.ADDRESSES,
-        method,
-        addressValidationType,
-        payload,
-        analyticsSectionName,
-      );
-    }
-  };
-
-  onEditClick = () => {
-    const {
+      openModalAction(addressValidationType, addressFromUser);
+    },
+    [
+      analyticsSectionName,
+      openModalAction,
       addressValidationType,
       addressFromUser,
-      analyticsSectionName,
-    } = this.props;
-    recordEvent({
-      event: 'profile-navigation',
-      'profile-action': 'edit-link',
-      'profile-section': analyticsSectionName,
-    });
-    this.props.openModal(addressValidationType, addressFromUser);
-  };
+    ],
+  );
 
-  renderPrimaryButton = () => {
-    const {
-      addressValidationError,
+  const onSubmit = useCallback(
+    event => {
+      event.preventDefault();
+
+      const payload = {
+        ...selectedAddress,
+        overrideValidationKey,
+      };
+
+      const suggestedAddressSelected = selectedAddressId !== 'userEntered';
+
+      const method = payload.id ? 'PUT' : 'POST';
+
+      if (userHasBadAddress) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'Updating bad address',
+          'api-status': 'started',
+          'profile-section': analyticsSectionName,
+          'profile-addressSuggestionUsed': suggestedAddressSelected
+            ? 'yes'
+            : 'no',
+        });
+      } else {
+        recordEvent({
+          event: 'profile-transaction',
+          'profile-section': analyticsSectionName,
+          'profile-addressSuggestionUsed': suggestedAddressSelected
+            ? 'yes'
+            : 'no',
+        });
+      }
+
+      if (suggestedAddressSelected) {
+        updateValidationKeyAndSaveAction(
+          VAP_SERVICE.API_ROUTES.ADDRESSES,
+          method,
+          addressValidationType,
+          payload,
+          analyticsSectionName,
+        );
+      } else {
+        createTransactionAction(
+          VAP_SERVICE.API_ROUTES.ADDRESSES,
+          method,
+          addressValidationType,
+          payload,
+          analyticsSectionName,
+        );
+      }
+    },
+    [
+      selectedAddress,
       overrideValidationKey,
-      isLoading,
-      confirmedSuggestions,
-    } = this.props;
+      selectedAddressId,
+      userHasBadAddress,
+      analyticsSectionName,
+      updateValidationKeyAndSaveAction,
+      addressValidationType,
+      createTransactionAction,
+    ],
+  );
 
+  const renderPrimaryButton = () => {
     let buttonText = 'Update';
 
     if (confirmedSuggestions.length === 0 && overrideValidationKey) {
@@ -137,7 +164,7 @@ class AddressValidationModal extends React.Component {
         <button
           type="button"
           className="usa-button-primary"
-          onClick={this.onEditClick}
+          onClick={onEditClick}
         >
           Edit Address
         </button>
@@ -151,14 +178,7 @@ class AddressValidationModal extends React.Component {
     );
   };
 
-  renderAddressOption = (address, id = 'userEntered') => {
-    const {
-      overrideValidationKey,
-      addressValidationError,
-      selectedAddressId,
-      confirmedSuggestions,
-    } = this.props;
-
+  const renderAddressOption = (address, id = 'userEntered') => {
     const isAddressFromUser = id === 'userEntered';
     const hasConfirmedSuggestions =
       (confirmedSuggestions.length > 0 && overrideValidationKey) ||
@@ -182,9 +202,7 @@ class AddressValidationModal extends React.Component {
             <input
               type="radio"
               id={id}
-              onChange={
-                isFirstOptionOrEnabled && this.onChangeHandler(address, id)
-              }
+              onChange={isFirstOptionOrEnabled && onChangeHandler(address, id)}
               checked={selectedAddressId === id}
             />
           )}
@@ -212,7 +230,7 @@ class AddressValidationModal extends React.Component {
                 <button
                   type="button"
                   className="va-button-link"
-                  onClick={this.onEditClick}
+                  onClick={onEditClick}
                 >
                   Edit Address
                 </button>
@@ -223,88 +241,72 @@ class AddressValidationModal extends React.Component {
     );
   };
 
-  render() {
-    const {
-      addressValidationType,
-      suggestedAddresses,
-      addressFromUser,
-      addressValidationError,
-      resetAddressValidation,
-      confirmedSuggestions,
-      transaction,
-      transactionRequest,
-    } = this.props;
+  const resetDataAndCloseModal = () => {
+    resetAddressValidation();
+    closeModalAction();
+  };
 
-    const resetDataAndCloseModal = () => {
-      resetAddressValidation();
-      this.props.closeModal();
-    };
+  const validationMessageKey = getValidationMessageKey({
+    suggestedAddresses,
+    addressValidationError,
+    confirmedSuggestions,
+  });
 
-    const validationMessageKey = getValidationMessageKey({
-      suggestedAddresses,
-      addressValidationError,
-      confirmedSuggestions,
-    });
+  const addressValidationMessage =
+    ADDRESS_VALIDATION_MESSAGES[validationMessageKey];
 
-    const addressValidationMessage =
-      ADDRESS_VALIDATION_MESSAGES[validationMessageKey];
+  const shouldShowSuggestions = confirmedSuggestions.length > 0;
 
-    const shouldShowSuggestions = confirmedSuggestions.length > 0;
+  const error =
+    transactionRequest?.error || (isFailedTransaction(transaction) ? {} : null);
 
-    const error =
-      transactionRequest?.error ||
-      (isFailedTransaction(transaction) ? {} : null);
-
-    return (
-      <VaModal
-        modalTitle={
-          addressValidationType.includes('mailing')
-            ? 'Edit mailing address'
-            : 'Edit home address'
-        }
-        id="address-validation-warning"
-        onCloseEvent={resetDataAndCloseModal}
-        visible
+  return (
+    <VaModal
+      modalTitle={
+        addressValidationType.includes('mailing')
+          ? 'Edit mailing address'
+          : 'Edit home address'
+      }
+      id="address-validation-warning"
+      onCloseEvent={resetDataAndCloseModal}
+      visible
+      uswds
+    >
+      {error && (
+        <div className="vads-u-margin-bottom--1">
+          <VAPServiceEditModalErrorMessage error={error} />
+        </div>
+      )}
+      <VaAlert
+        className="vads-u-margin-bottom--1"
+        status="warning"
+        headline={addressValidationMessage.headline}
         uswds
       >
-        {error && (
-          <div className="vads-u-margin-bottom--1">
-            <VAPServiceEditModalErrorMessage error={error} />
-          </div>
+        <addressValidationMessage.ModalText editFunction={onEditClick} />
+      </VaAlert>
+      <form onSubmit={onSubmit}>
+        <span className="vads-u-font-weight--bold">You entered:</span>
+        {renderAddressOption(addressFromUser)}
+        {shouldShowSuggestions && (
+          <span className="vads-u-font-weight--bold">Suggested Addresses:</span>
         )}
-        <VaAlert
-          className="vads-u-margin-bottom--1"
-          status="warning"
-          headline={addressValidationMessage.headline}
-          uswds
-        >
-          <addressValidationMessage.ModalText editFunction={this.onEditClick} />
-        </VaAlert>
-        <form onSubmit={this.onSubmit}>
-          <span className="vads-u-font-weight--bold">You entered:</span>
-          {this.renderAddressOption(addressFromUser)}
-          {shouldShowSuggestions && (
-            <span className="vads-u-font-weight--bold">
-              Suggested Addresses:
-            </span>
+        {shouldShowSuggestions &&
+          confirmedSuggestions.map((address, index) =>
+            renderAddressOption(address, String(index)),
           )}
-          {shouldShowSuggestions &&
-            confirmedSuggestions.map((address, index) =>
-              this.renderAddressOption(address, String(index)),
-            )}
-          {this.renderPrimaryButton()}
-          <button
-            type="button"
-            className="usa-button-secondary"
-            onClick={resetDataAndCloseModal}
-          >
-            Cancel
-          </button>
-        </form>
-      </VaModal>
-    );
-  }
-}
+        {renderPrimaryButton()}
+        <button
+          type="button"
+          className="usa-button-secondary"
+          onClick={resetDataAndCloseModal}
+        >
+          Cancel
+        </button>
+      </form>
+    </VaModal>
+  );
+};
 
 const mapStateToProps = (state, ownProps) => {
   const { transaction } = ownProps;

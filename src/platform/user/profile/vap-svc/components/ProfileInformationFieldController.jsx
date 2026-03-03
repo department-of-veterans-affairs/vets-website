@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -84,33 +84,186 @@ const hasError = (transaction, transactionRequest) => {
   return transactionRequest?.isFailed || isFailedTransaction(transaction);
 };
 
-class ProfileInformationFieldController extends React.Component {
-  closeModalTimeoutID = null;
+const ProfileInformationFieldController = props => {
+  const {
+    activeEditView,
+    allowInternationalPhones,
+    analyticsSectionName,
+    apiRoute,
+    ariaDescribedBy,
+    blockEditMode,
+    cancelButtonText,
+    cancelCallback,
+    clearTransactionRequest: clearTransactionRequestAction,
+    convertCleanDataToPayload,
+    createSchedulingPreferencesUpdate: createSchedulingPreferencesUpdateAction,
+    createTransaction: createTransactionAction,
+    CustomConfirmCancelModal,
+    data,
+    editViewData,
+    email,
+    fieldName,
+    forceEditView,
+    formSchema,
+    hasUnsavedEdits,
+    history,
+    homePhone,
+    isDeleteDisabled,
+    isEmpty,
+    isEnrolledInVAHealthCare,
+    mailingAddress,
+    mobilePhone,
+    openModal: openModalAction,
+    prefillPatternEnabled,
+    refreshTransaction: refreshTransactionAction,
+    saveButtonText,
+    showCopyAddressModal,
+    showEditView,
+    showErrorAlert,
+    showRemoveModal,
+    showUpdateSuccessAlert,
+    showValidationView,
+    successCallback,
+    title,
+    transaction,
+    transactionError,
+    transactionRequest,
+    uiSchema,
+    updateMessagingSignature: updateMessagingSignatureAction,
+    workPhone,
+  } = props;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showCannotEditModal: false,
-      showConfirmCancelModal: false,
-      shouldFocusCancelButton: false,
-    };
-  }
+  const [showCannotEditModal, setShowCannotEditModal] = useState(false);
+  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
+  const [shouldFocusCancelButton, setShouldFocusCancelButton] = useState(false);
+  const closeModalTimeoutRef = useRef(null);
+  const prevPropsRef = useRef({});
 
-  componentDidUpdate(prevProps) {
-    const {
-      fieldName,
-      forceEditView,
-      successCallback,
+  const isAnyModalOpen = useCallback(() => {
+    const openModals = document.querySelectorAll(
+      'va-modal[visible="true"], va-modal[visible]',
+    );
+    return openModals.length > 0;
+  }, []);
+
+  const shouldFocusAlert = useCallback(
+    () => {
+      if (isAnyModalOpen()) {
+        return Promise.resolve(false);
+      }
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(!isAnyModalOpen());
+        }, 100);
+      });
+    },
+    [isAnyModalOpen],
+  );
+
+  const transactionJustFailed = useCallback((prevP, currentP) => {
+    const hadPreviousError = hasError(
+      prevP.transaction,
+      prevP.transactionRequest,
+    );
+    const hasCurrentError = hasError(
+      currentP.transaction,
+      currentP.transactionRequest,
+    );
+    return !hadPreviousError && hasCurrentError;
+  }, []);
+
+  const closeModal = useCallback(
+    () => {
+      openModalAction(null);
+    },
+    [openModalAction],
+  );
+
+  const clearErrors = useCallback(
+    () => {
+      clearTransactionRequestAction(fieldName);
+    },
+    [clearTransactionRequestAction, fieldName],
+  );
+
+  const openEditModal = useCallback(
+    () => {
+      if (blockEditMode) {
+        setShowCannotEditModal(true);
+      } else {
+        // Clear errors on open to prevent showing an alert from a previous transaction
+        clearErrors();
+        openModalAction(fieldName);
+      }
+    },
+    [blockEditMode, clearErrors, openModalAction, fieldName],
+  );
+
+  const openRemoveModal = useCallback(
+    () => {
+      if (blockEditMode) {
+        setShowCannotEditModal(true);
+        return;
+      }
+      // Clear errors on open to prevent showing an alert from a previous transaction
+      clearErrors();
+      openModalAction(`remove-${fieldName}`);
+    },
+    [blockEditMode, clearErrors, openModalAction, fieldName],
+  );
+
+  const captureEvent = useCallback(
+    actionName => {
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': actionName,
+        'profile-section': analyticsSectionName,
+      });
+    },
+    [analyticsSectionName],
+  );
+
+  const refreshTransactionNotProps = useCallback(
+    () => {
+      refreshTransactionAction(transaction, analyticsSectionName);
+    },
+    [refreshTransactionAction, transaction, analyticsSectionName],
+  );
+
+  const justClosedModal = useCallback((prevP, currentP) => {
+    return (
+      (prevP.showEditView && !currentP.showEditView) ||
+      (prevP.showRemoveModal && !currentP.showRemoveModal) ||
+      (prevP.showValidationView && !currentP.showValidationView)
+    );
+  }, []);
+
+  // componentDidUpdate logic
+  useEffect(() => {
+    const prev = prevPropsRef.current;
+    const currentProps = {
+      showEditView,
+      showRemoveModal,
+      showValidationView,
+      transaction,
+      transactionRequest,
       showUpdateSuccessAlert,
       showErrorAlert,
-    } = this.props;
+    };
+
+    // Skip first render (no previous props yet)
+    if (Object.keys(prev).length === 0) {
+      prevPropsRef.current = currentProps;
+      return;
+    }
+
     // Exit the edit view if it takes more than 5 seconds for the update/save
     // transaction to resolve. If the transaction has not resolved after 5
     // seconds we will show a "we're saving your new information..." message on
     // the Profile
-    if (!prevProps.transaction && this.props.transaction) {
-      this.closeModalTimeoutID = setTimeout(
-        this.closeModal,
+    if (!prev.transaction && transaction) {
+      closeModalTimeoutRef.current = setTimeout(
+        closeModal,
         // Using 50ms as the unit test timeout before exiting edit view while
         // waiting for an update to happen. Being too aggressive, like 5ms,
         // results in exiting the edit view before Redux has had time to do
@@ -124,30 +277,30 @@ class ProfileInformationFieldController extends React.Component {
     // this is used to prevent the alerts from disappearing when a user directly updates
     // their mailing address from the home address flow
     if (showUpdateSuccessAlert) {
-      clearTimeout(this.closeModalTimeoutID);
+      clearTimeout(closeModalTimeoutRef.current);
     }
 
     // Do not auto-exit edit view if the transaction failed
-    if (this.transactionJustFailed(prevProps, this.props)) {
-      clearTimeout(this.closeModalTimeoutID);
+    if (transactionJustFailed(prev, currentProps)) {
+      clearTimeout(closeModalTimeoutRef.current);
     }
 
     // Exit the remove modal if the delete transaction failed
     if (
-      prevProps.showRemoveModal &&
-      this.props.showRemoveModal &&
-      this.transactionJustFailed(prevProps, this.props)
+      prev.showRemoveModal &&
+      showRemoveModal &&
+      transactionJustFailed(prev, currentProps)
     ) {
-      clearTimeout(this.closeModalTimeoutID);
-      this.closeModal();
+      clearTimeout(closeModalTimeoutRef.current);
+      closeModal();
     }
 
-    if (this.justClosedModal(prevProps, this.props)) {
-      clearTimeout(this.closeModalTimeoutID);
+    if (justClosedModal(prev, currentProps)) {
+      clearTimeout(closeModalTimeoutRef.current);
       if (showErrorAlert || showUpdateSuccessAlert) {
         // Focus on whichever alert is showing for the current field (success or error)
         // Use async check for modal state to avoid focusing on alert while a modal is open (e.g. copy address flow)
-        this.shouldFocusAlert().then(shouldFocus => {
+        shouldFocusAlert().then(shouldFocus => {
           if (shouldFocus) {
             waitForRenderThenFocus(
               `[data-field-name="${fieldName}"] va-alert`,
@@ -165,7 +318,7 @@ class ProfileInformationFieldController extends React.Component {
           successCallback();
         }
       } else if (!forceEditView) {
-        if (prevProps.showRemoveModal && !this.props.showRemoveModal) {
+        if (prev.showRemoveModal && !showRemoveModal) {
           // Focus on the remove button after exiting the remove modal without saving
           waitForRenderThenFocus(
             `#${getRemoveButtonId(fieldName)}`,
@@ -185,9 +338,9 @@ class ProfileInformationFieldController extends React.Component {
         }
       }
     } else if (
-      !this.isAnyModalOpen() &&
-      ((!prevProps.showUpdateSuccessAlert && showUpdateSuccessAlert) ||
-        (!prevProps.showErrorAlert && showErrorAlert))
+      !isAnyModalOpen() &&
+      ((!prev.showUpdateSuccessAlert && showUpdateSuccessAlert) ||
+        (!prev.showErrorAlert && showErrorAlert))
     ) {
       // Success or error alert just appeared after a modal closed during a pending transaction
       waitForRenderThenFocus(
@@ -200,477 +353,412 @@ class ProfileInformationFieldController extends React.Component {
         forceEditView &&
         typeof successCallback === 'function' &&
         showUpdateSuccessAlert &&
-        !prevProps.showUpdateSuccessAlert
+        !prev.showUpdateSuccessAlert
       ) {
         successCallback();
       }
     } else if (
       forceEditView &&
       typeof successCallback === 'function' &&
-      prevProps.transactionRequest &&
-      !this.props.transactionRequest
+      prev.transactionRequest &&
+      !transactionRequest
     ) {
-      // forceEditView will result in now standard edit button being rendered, so we don't want to focus on it
+      // forceEditView will result in no standard edit button being rendered, so we don't want to focus on it
       // Success callback (non-address) after updating a field
       successCallback();
     }
-  }
 
-  onCancel = () => {
-    this.captureEvent('cancel-button');
+    prevPropsRef.current = currentProps;
+  });
 
-    if (!this.props.hasUnsavedEdits) {
-      this.closeModal();
-      // cancel form app inline editing. Allows changing route
-      if (typeof this.props.cancelCallback === 'function') {
-        this.props.cancelCallback();
+  const onCancel = useCallback(
+    () => {
+      captureEvent('cancel-button');
+
+      if (!hasUnsavedEdits) {
+        closeModal();
+        // cancel form app inline editing. Allows changing route
+        if (typeof cancelCallback === 'function') {
+          cancelCallback();
+        }
+        return;
       }
-      return;
-    }
 
-    this.setState({ showConfirmCancelModal: true });
-  };
+      setShowConfirmCancelModal(true);
+    },
+    [captureEvent, hasUnsavedEdits, closeModal, cancelCallback],
+  );
 
-  cancelDeleteAction = () => {
-    recordEvent({
-      event: 'profile-navigation',
-      'profile-action': 'cancel-delete-button',
-      'profile-section': this.props.analyticsSectionName,
-    });
-    this.closeModal();
-  };
-
-  onDelete = () => {
-    let payload = this.props.data;
-    const { fieldName, apiRoute, analyticsSectionName } = this.props;
-    if (this.props.convertCleanDataToPayload) {
-      payload = this.props.convertCleanDataToPayload(payload, fieldName);
-    }
-    if (isSchedulingPreference(fieldName)) {
-      this.props.createSchedulingPreferencesUpdate({
-        route: apiRoute,
-        method: 'DELETE',
-        fieldName,
-        payload,
-        analyticsSectionName,
-        value: payload,
-      });
-      this.closeModal();
-      return;
-    }
-    if (fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
-      this.props.updateMessagingSignature(
-        {
-          signatureName: '',
-          signatureTitle: '',
-          includeSignature: false,
-        },
-        fieldName,
-        'POST',
-      );
-    } else {
-      this.props.createTransaction(
-        apiRoute,
-        'DELETE',
-        fieldName,
-        payload,
-        analyticsSectionName,
-      );
-    }
-    this.closeModal();
-  };
-
-  confirmDeleteAction = e => {
-    e.preventDefault();
-    recordEvent({
-      event: 'profile-navigation',
-      'profile-action': 'confirm-delete-button',
-      'profile-section': this.props.analyticsSectionName,
-    });
-    this.onDelete();
-  };
-
-  clearErrors = () => {
-    this.props.clearTransactionRequest(this.props.fieldName);
-  };
-
-  onEdit = (event, isEmpty = 'edit-link') => {
-    const eventText = isEmpty ? 'add-link' : 'edit-link';
-    this.captureEvent(eventText);
-    if (isSchedulingPreference(this.props.fieldName)) {
+  const cancelDeleteAction = useCallback(
+    () => {
       recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': event.target.text,
-        'button-label': event.target.label.replace('Edit ', ''),
+        event: 'profile-navigation',
+        'profile-action': 'cancel-delete-button',
+        'profile-section': analyticsSectionName,
       });
-    }
+      closeModal();
+    },
+    [analyticsSectionName, closeModal],
+  );
 
-    // Check if this field should use subtask editing
-    if (
-      isSubtaskSchedulingPreference(this.props.fieldName) &&
-      this.props.history
-    ) {
-      switch (this.props.fieldName) {
-        case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
-          this.props.history.push(SCHEDULING_PREF_PATHS.CONTACT_METHOD);
-          break;
-        case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
-          this.props.history.push(SCHEDULING_PREF_PATHS.CONTACT_TIMES);
-          break;
-        case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
-          this.props.history.push(SCHEDULING_PREF_PATHS.APPOINTMENT_TIMES);
-          break;
-        default:
-          return;
+  const onDelete = useCallback(
+    () => {
+      let payload = data;
+      if (convertCleanDataToPayload) {
+        payload = convertCleanDataToPayload(payload, fieldName);
       }
-      return;
-    }
-    // Use inline editing flow
-    this.openEditModal();
-  };
+      if (isSchedulingPreference(fieldName)) {
+        createSchedulingPreferencesUpdateAction({
+          route: apiRoute,
+          method: 'DELETE',
+          fieldName,
+          payload,
+          analyticsSectionName,
+          value: payload,
+        });
+        closeModal();
+        return;
+      }
+      if (fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
+        updateMessagingSignatureAction(
+          {
+            signatureName: '',
+            signatureTitle: '',
+            includeSignature: false,
+          },
+          fieldName,
+          'POST',
+        );
+      } else {
+        createTransactionAction(
+          apiRoute,
+          'DELETE',
+          fieldName,
+          payload,
+          analyticsSectionName,
+        );
+      }
+      closeModal();
+    },
+    [
+      data,
+      convertCleanDataToPayload,
+      fieldName,
+      apiRoute,
+      analyticsSectionName,
+      createSchedulingPreferencesUpdateAction,
+      updateMessagingSignatureAction,
+      createTransactionAction,
+      closeModal,
+    ],
+  );
 
-  justClosedModal = (prevProps, props) => {
-    return (
-      (prevProps.showEditView && !props.showEditView) ||
-      (prevProps.showRemoveModal && !props.showRemoveModal) ||
-      (prevProps.showValidationView && !props.showValidationView)
-    );
-  };
+  const confirmDeleteAction = useCallback(
+    e => {
+      e.preventDefault();
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': 'confirm-delete-button',
+        'profile-section': analyticsSectionName,
+      });
+      onDelete();
+    },
+    [analyticsSectionName, onDelete],
+  );
 
-  isAnyModalOpen = () => {
-    const openModals = document.querySelectorAll(
-      'va-modal[visible="true"], va-modal[visible]',
-    );
-    return openModals.length > 0;
-  };
+  const onEdit = useCallback(
+    (event, isEmptyParam = 'edit-link') => {
+      const eventText = isEmptyParam ? 'add-link' : 'edit-link';
+      captureEvent(eventText);
+      if (isSchedulingPreference(fieldName)) {
+        recordEvent({
+          event: 'cta-button-click',
+          'button-click-label': event.target.text,
+          'button-label': event.target.label.replace('Edit ', ''),
+        });
+      }
 
-  shouldFocusAlert = () => {
-    if (this.isAnyModalOpen()) {
-      return false;
-    }
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(!this.isAnyModalOpen());
-      }, 100);
-    });
-  };
+      // Check if this field should use subtask editing
+      if (isSubtaskSchedulingPreference(fieldName) && history) {
+        switch (fieldName) {
+          case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
+            history.push(SCHEDULING_PREF_PATHS.CONTACT_METHOD);
+            break;
+          case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
+            history.push(SCHEDULING_PREF_PATHS.CONTACT_TIMES);
+            break;
+          case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
+            history.push(SCHEDULING_PREF_PATHS.APPOINTMENT_TIMES);
+            break;
+          default:
+            return;
+        }
+        return;
+      }
+      // Use inline editing flow
+      openEditModal();
+    },
+    [captureEvent, fieldName, history, openEditModal],
+  );
 
-  transactionJustFailed = (prevProps, props) => {
-    const hadPreviousError = hasError(
-      prevProps.transaction,
-      prevProps.transactionRequest,
-    );
-    const hasCurrentError = hasError(
-      props.transaction,
-      props.transactionRequest,
-    );
-    return !hadPreviousError && hasCurrentError;
-  };
-
-  closeModal = () => {
-    this.props.openModal(null);
-  };
-
-  openEditModal = () => {
-    if (this.props.blockEditMode) {
-      this.setState({ showCannotEditModal: true });
-    } else {
-      // Clear errors on open to prevent showing an alert from a previous transaction
-      this.clearErrors();
-      this.props.openModal(this.props.fieldName);
-    }
-  };
-
-  openRemoveModal = () => {
-    if (this.props.blockEditMode) {
-      this.setState({ showCannotEditModal: true });
-      return;
-    }
-    // Clear errors on open to prevent showing an alert from a previous transaction
-    this.clearErrors();
-    this.props.openModal(`remove-${this.props.fieldName}`);
-  };
-
-  refreshTransactionNotProps = () => {
-    this.props.refreshTransaction(
-      this.props.transaction,
-      this.props.analyticsSectionName,
-    );
-  };
-
-  captureEvent = actionName => {
-    recordEvent({
-      event: 'profile-navigation',
-      'profile-action': actionName,
-      'profile-section': this.props.analyticsSectionName,
-    });
-  };
-
-  handleDeleteInitiated = () => {
-    recordEvent({
-      event: 'profile-navigation',
-      'profile-action': 'delete-button',
-      'profile-section': this.props.analyticsSectionName,
-    });
-    this.openRemoveModal();
-  };
+  const handleDeleteInitiated = useCallback(
+    () => {
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': 'delete-button',
+        'profile-section': analyticsSectionName,
+      });
+      openRemoveModal();
+    },
+    [analyticsSectionName, openRemoveModal],
+  );
 
   // only require certain fields based on initial data from api on that field
-  requireFieldBasedOnInitialValue = formSchema => {
-    const activeFields = [
-      VAP_SERVICE.PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY,
-    ];
+  const requireFieldBasedOnInitialValue = useCallback(
+    formSchemaParam => {
+      const activeFields = [
+        VAP_SERVICE.PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY,
+      ];
 
-    // TODO: handle multi-select values for when sexual orientation and pronouns are released
-    const newFormSchema = { ...formSchema };
-    const { fieldName, data, editViewData } = this.props;
+      // TODO: handle multi-select values for when sexual orientation and pronouns are released
+      const newFormSchema = { ...formSchemaParam };
 
-    // only check field value if field is one of personal info fields
-    if (Object.values(activeFields).includes(fieldName)) {
-      const initialValues = getInitialFormValues({
-        fieldName,
-        data,
-        modalData: editViewData,
-      });
+      // only check field value if field is one of personal info fields
+      if (Object.values(activeFields).includes(fieldName)) {
+        const initialValues = getInitialFormValues({
+          fieldName,
+          data,
+          modalData: editViewData,
+        });
 
-      // only make the field required if there is an initial value for the field
-      if (initialValues?.[fieldName]) {
-        newFormSchema.required = [fieldName];
+        // only make the field required if there is an initial value for the field
+        if (initialValues?.[fieldName]) {
+          newFormSchema.required = [fieldName];
+        }
       }
-    }
-    return newFormSchema;
-  };
+      return newFormSchema;
+    },
+    [fieldName, data, editViewData],
+  );
 
-  getEditViewProps = () => {
-    const baseProps = {
-      getInitialFormValues: () =>
-        getInitialFormValues({
-          fieldName: this.props.fieldName,
-          data: this.props.data,
-          modalData: this.props.editViewData,
-        }),
-      onCancel: this.onCancel,
-      fieldName: this.props.fieldName,
-      apiRoute: this.props.apiRoute,
-      convertCleanDataToPayload: this.props.convertCleanDataToPayload,
-      uiSchema: this.props.uiSchema,
-      formSchema: this.requireFieldBasedOnInitialValue(this.props.formSchema),
-      title: this.props.title,
-      recordCustomProfileEvent,
-      forceEditView: this.props.forceEditView,
-      cancelButtonText: this.props?.cancelButtonText,
-      saveButtonText: this.props?.saveButtonText,
-      showMailingAddressUpdateProfileChoice:
-        this.props?.prefillPatternEnabled &&
-        this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS,
-      successCallback: this.props.successCallback,
-      // shouldFocusCancelButton and onCancelButtonFocused are used to set focus on the
-      // cancel button after the user returns to edit view from the confirm/cancel modal
-      shouldFocusCancelButton: this.state.shouldFocusCancelButton,
-      onCancelButtonFocused: () =>
-        this.setState({ shouldFocusCancelButton: false }),
-      allowInternationalPhones: this.props.allowInternationalPhones,
-    };
-
-    // Add flag for email/phone fields to indicate they should use formOnlyUpdate
-    if (
-      [
-        FIELD_NAMES.EMAIL,
-        FIELD_NAMES.HOME_PHONE,
-        FIELD_NAMES.MOBILE_PHONE,
-      ].includes(this.props.fieldName) ||
-      (this.props?.prefillPatternEnabled &&
-        this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS)
-    ) {
-      return {
-        ...baseProps,
-        useFormOnlyUpdate: true, // Flag to indicate this field should use formOnlyUpdate
+  const getEditViewProps = useCallback(
+    () => {
+      const baseProps = {
+        getInitialFormValues: () =>
+          getInitialFormValues({
+            fieldName,
+            data,
+            modalData: editViewData,
+          }),
+        onCancel,
+        fieldName,
+        apiRoute,
+        convertCleanDataToPayload,
+        uiSchema,
+        formSchema: requireFieldBasedOnInitialValue(formSchema),
+        title,
+        recordCustomProfileEvent,
+        forceEditView,
+        cancelButtonText,
+        saveButtonText,
+        showMailingAddressUpdateProfileChoice:
+          prefillPatternEnabled && fieldName === FIELD_NAMES.MAILING_ADDRESS,
+        successCallback,
+        // shouldFocusCancelButton and onCancelButtonFocused are used to set focus on the
+        // cancel button after the user returns to edit view from the confirm/cancel modal
+        shouldFocusCancelButton,
+        onCancelButtonFocused: () => setShouldFocusCancelButton(false),
+        allowInternationalPhones,
       };
-    }
 
-    return baseProps;
+      // Add flag for email/phone fields to indicate they should use formOnlyUpdate
+      if (
+        [
+          FIELD_NAMES.EMAIL,
+          FIELD_NAMES.HOME_PHONE,
+          FIELD_NAMES.MOBILE_PHONE,
+        ].includes(fieldName) ||
+        (prefillPatternEnabled && fieldName === FIELD_NAMES.MAILING_ADDRESS)
+      ) {
+        return {
+          ...baseProps,
+          useFormOnlyUpdate: true, // Flag to indicate this field should use formOnlyUpdate
+        };
+      }
+
+      return baseProps;
+    },
+    [
+      fieldName,
+      data,
+      editViewData,
+      onCancel,
+      apiRoute,
+      convertCleanDataToPayload,
+      uiSchema,
+      formSchema,
+      requireFieldBasedOnInitialValue,
+      title,
+      forceEditView,
+      cancelButtonText,
+      saveButtonText,
+      prefillPatternEnabled,
+      successCallback,
+      shouldFocusCancelButton,
+      allowInternationalPhones,
+    ],
+  );
+
+  // If the activeEditView is on the scheduling preferences page, use the section heading for modals
+  const activeSection = isSchedulingPreference(activeEditView)
+    ? VAP_SERVICE.FIELD_SECTION_HEADERS[activeEditView]?.toLowerCase()
+    : VAP_SERVICE.FIELD_TITLES[activeEditView]?.toLowerCase();
+
+  const isLoading =
+    transactionRequest?.isPending || isPendingTransaction(transaction);
+
+  const wrapInTransaction = children => {
+    return (
+      <VAPServiceTransaction
+        isModalOpen={
+          showEditView ||
+          showValidationView ||
+          showRemoveModal ||
+          forceEditView ||
+          showCopyAddressModal
+        }
+        id={`${fieldName}-transaction-status`}
+        title={title}
+        transaction={transaction}
+        transactionRequest={transactionRequest}
+        refreshTransaction={refreshTransactionNotProps}
+      >
+        {children}
+      </VAPServiceTransaction>
+    );
   };
 
-  render() {
-    const {
-      activeEditView,
-      fieldName,
-      isEmpty,
-      showEditView,
-      forceEditView,
-      isDeleteDisabled,
-      showRemoveModal,
-      showValidationView,
-      title,
-      transaction,
-      transactionError,
-      transactionRequest,
-      data,
-      isEnrolledInVAHealthCare,
-      ariaDescribedBy,
-      CustomConfirmCancelModal,
-      showUpdateSuccessAlert,
-      showCopyAddressModal,
-    } = this.props;
-
-    // If the activeEditView is on the scheduling preferences page, use the section heading for modals
-    const activeSection = isSchedulingPreference(activeEditView)
-      ? VAP_SERVICE.FIELD_SECTION_HEADERS[activeEditView]?.toLowerCase()
-      : VAP_SERVICE.FIELD_TITLES[activeEditView]?.toLowerCase();
-
-    const isLoading =
-      transactionRequest?.isPending || isPendingTransaction(transaction);
-
-    const wrapInTransaction = children => {
-      return (
-        <VAPServiceTransaction
-          isModalOpen={
-            showEditView ||
-            showValidationView ||
-            showRemoveModal ||
-            forceEditView ||
-            showCopyAddressModal
-          }
-          id={`${fieldName}-transaction-status`}
-          title={title}
-          transaction={transaction}
-          transactionRequest={transactionRequest}
-          refreshTransaction={this.refreshTransactionNotProps}
-        >
-          {children}
-        </VAPServiceTransaction>
-      );
-    };
-    // default the content to the read-view
-    let content = wrapInTransaction(
-      <div className={classes.wrapper}>
-        {showUpdateSuccessAlert && (
-          <div className="vads-u-width--full">
-            <UpdateSuccessAlert fieldName={fieldName} />
-          </div>
-        )}
-
-        <ProfileInformationView
-          data={data}
-          fieldName={fieldName}
-          title={title}
-          id={ariaDescribedBy}
-          email={this.props.email}
-          mailingAddress={this.props.mailingAddress}
-          mobilePhone={this.props.mobilePhone}
-          homePhone={this.props.homePhone}
-          workPhone={this.props.workPhone}
-        />
+  // default the content to the read-view
+  let content = wrapInTransaction(
+    <div className={classes.wrapper}>
+      {showUpdateSuccessAlert && (
         <div className="vads-u-width--full">
-          <div>
-            {!isLoading && (
+          <UpdateSuccessAlert fieldName={fieldName} />
+        </div>
+      )}
+
+      <ProfileInformationView
+        data={data}
+        fieldName={fieldName}
+        title={title}
+        id={ariaDescribedBy}
+        email={email}
+        mailingAddress={mailingAddress}
+        mobilePhone={mobilePhone}
+        homePhone={homePhone}
+        workPhone={workPhone}
+      />
+      <div className="vads-u-width--full">
+        <div>
+          {!isLoading && (
+            <va-button
+              text="Edit"
+              label={`Edit ${title}`}
+              message-aria-describedby={ariaDescribedBy}
+              onClick={event => {
+                onEdit(event, isEmpty);
+              }}
+              id={getEditButtonId(fieldName)}
+              class={`vads-u-margin-top--1p5 ${classes.buttons}`}
+              primary
+            />
+          )}
+          {data &&
+            !isLoading &&
+            !isDeleteDisabled &&
+            fieldName !== FIELD_NAMES.MAILING_ADDRESS && (
               <va-button
-                text="Edit"
-                label={`Edit ${title}`}
-                message-aria-describedby={ariaDescribedBy}
-                onClick={event => {
-                  this.onEdit(event, isEmpty);
-                }}
-                id={getEditButtonId(fieldName)}
-                class={`vads-u-margin-top--1p5 ${classes.buttons}`}
-                primary
-                // disable-analytics={isSchedulingPreference(fieldName)}
+                text="Remove"
+                label={`Remove ${title}`}
+                id={getRemoveButtonId(fieldName)}
+                class={`vads-u-margin-top--1 ${classes.buttons}`}
+                onClick={handleDeleteInitiated}
+                secondary
               />
             )}
-            {data &&
-              !isLoading &&
-              !isDeleteDisabled &&
-              fieldName !== FIELD_NAMES.MAILING_ADDRESS && (
-                <va-button
-                  text="Remove"
-                  label={`Remove ${title}`}
-                  id={getRemoveButtonId(fieldName)}
-                  class={`vads-u-margin-top--1 ${classes.buttons}`}
-                  onClick={this.handleDeleteInitiated}
-                  secondary
-                />
-              )}
-          </div>
         </div>
-      </div>,
-    );
-
-    if (showEditView || forceEditView) {
-      if (
-        this.props?.prefillPatternEnabled &&
-        this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
-      ) {
-        content = <ProfileInformationEditViewFc {...this.getEditViewProps()} />;
-      } else {
-        content = <ProfileInformationEditView {...this.getEditViewProps()} />;
-      }
-    }
-
-    if (showValidationView) {
-      content = (
-        <AddressValidationView
-          refreshTransaction={this.refreshTransactionNotProps}
-          transaction={transaction}
-          transactionError={transactionError}
-          title={title}
-          successCallback={this.props.successCallback}
-        />
-      );
-    }
-
-    return (
-      <div data-field-name={fieldName} data-testid={fieldName}>
-        {transactionError && (
-          <VAPServiceEditModalErrorMessage error={transactionError} />
-        )}
-
-        {CustomConfirmCancelModal ? (
-          <CustomConfirmCancelModal
-            activeSection={activeSection}
-            isVisible={this.state.showConfirmCancelModal}
-            onHide={() =>
-              this.setState({
-                showConfirmCancelModal: false,
-                shouldFocusCancelButton: true,
-              })
-            }
-          />
-        ) : (
-          <ConfirmCancelModal
-            activeSection={activeSection}
-            closeModal={this.closeModal}
-            onHide={() =>
-              this.setState({
-                showConfirmCancelModal: false,
-                shouldFocusCancelButton: true,
-              })
-            }
-            isVisible={this.state.showConfirmCancelModal}
-          />
-        )}
-
-        <CannotEditModal
-          activeSection={activeSection}
-          onHide={() => this.setState({ showCannotEditModal: false })}
-          isVisible={this.state.showCannotEditModal}
-        />
-
-        <ConfirmRemoveModal
-          cancelAction={this.cancelDeleteAction}
-          deleteAction={this.confirmDeleteAction}
-          title={title}
-          fieldName={fieldName}
-          isEnrolledInVAHealthCare={isEnrolledInVAHealthCare}
-          isVisible={showRemoveModal}
-          onHide={this.closeModal}
-          error={transactionError}
-        />
-
-        {content}
       </div>
+    </div>,
+  );
+
+  if (showEditView || forceEditView) {
+    if (prefillPatternEnabled && fieldName === FIELD_NAMES.MAILING_ADDRESS) {
+      content = <ProfileInformationEditViewFc {...getEditViewProps()} />;
+    } else {
+      content = <ProfileInformationEditView {...getEditViewProps()} />;
+    }
+  }
+
+  if (showValidationView) {
+    content = (
+      <AddressValidationView
+        refreshTransaction={refreshTransactionNotProps}
+        transaction={transaction}
+        transactionError={transactionError}
+        title={title}
+        successCallback={successCallback}
+      />
     );
   }
-}
+
+  return (
+    <div data-field-name={fieldName} data-testid={fieldName}>
+      {transactionError && (
+        <VAPServiceEditModalErrorMessage error={transactionError} />
+      )}
+
+      {CustomConfirmCancelModal ? (
+        <CustomConfirmCancelModal
+          activeSection={activeSection}
+          isVisible={showConfirmCancelModal}
+          onHide={() => {
+            setShowConfirmCancelModal(false);
+            setShouldFocusCancelButton(true);
+          }}
+        />
+      ) : (
+        <ConfirmCancelModal
+          activeSection={activeSection}
+          closeModal={closeModal}
+          onHide={() => {
+            setShowConfirmCancelModal(false);
+            setShouldFocusCancelButton(true);
+          }}
+          isVisible={showConfirmCancelModal}
+        />
+      )}
+
+      <CannotEditModal
+        activeSection={activeSection}
+        onHide={() => setShowCannotEditModal(false)}
+        isVisible={showCannotEditModal}
+      />
+
+      <ConfirmRemoveModal
+        cancelAction={cancelDeleteAction}
+        deleteAction={confirmDeleteAction}
+        title={title}
+        fieldName={fieldName}
+        isEnrolledInVAHealthCare={isEnrolledInVAHealthCare}
+        isVisible={showRemoveModal}
+        onHide={closeModal}
+        error={transactionError}
+      />
+
+      {content}
+    </div>
+  );
+};
 
 const shouldShowUpdateSuccessAlert = (state, field) => {
   const mostRecentSaveField = selectMostRecentlyUpdatedField(state);

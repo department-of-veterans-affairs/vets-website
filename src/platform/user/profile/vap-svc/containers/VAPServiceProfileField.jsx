@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
@@ -30,238 +30,315 @@ import VAPServiceTransaction from '../components/base/VAPServiceTransaction';
 import ProfileInformationFieldController from '../components/ProfileInformationFieldController';
 import ContactInformationUpdateSuccessAlert from '../components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 
-class VAPServiceProfileField extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showSuccessAlert: false,
-    };
-  }
+const VAPServiceProfileField = ({
+  alertClosingDisabled,
+  analyticsSectionName,
+  apiRoute,
+  Content,
+  convertCleanDataToPayload,
+  createTransaction: createTransactionAction,
+  clearTransactionRequest: clearTransactionRequestAction,
+  data,
+  field,
+  fieldName,
+  isEditing,
+  isEmpty,
+  openModal: openModalAction,
+  refreshTransaction: refreshTransactionAction,
+  showValidationModal,
+  title,
+  transaction,
+  transactionRequest,
+  updateFormFieldWithSchema: updateFormFieldWithSchemaAction,
+  validateAddress: validateAddressAction,
+  ...restProps
+}) => {
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const prevTransactionRef = useRef(transaction);
+  const prevShowValidationModalRef = useRef(showValidationModal);
+  const prevIsEditingRef = useRef(isEditing);
 
-  componentDidUpdate(prevProps) {
-    const { transaction, showValidationModal, isEditing } = prevProps;
-    const modalOpenInPrevProps =
-      transaction || showValidationModal || isEditing;
-    const modalIsClosed =
-      !this.props.transaction &&
-      !this.props.showValidationModal &&
-      !this.props.isEditing;
-
-    if (modalOpenInPrevProps && modalIsClosed) {
-      focusElement(`button#${this.props.fieldName}-edit-link`);
-    }
-    // Just close the edit modal if it takes more than 5 seconds for the update
-    // transaction to resolve. ie, give it 5 seconds before reverting to the old
-    // behavior of showing the "we're saving your new information..." message on
-    // the Profile page
-    if (!prevProps.transaction && this.props.transaction) {
-      setTimeout(() => this.props.openModal(), 5000);
-    }
-    if (this.justClosedModal(prevProps, this.props) && this.props.transaction) {
-      focusElement(`div#${this.props.fieldName}-transaction-status`);
-    }
-  }
-
-  onAdd = () => {
-    this.captureEvent('add-link');
-    this.openEditModal();
-  };
-
-  onCancel = () => {
-    this.captureEvent('cancel-button');
-    this.closeModal();
-  };
-
-  onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
-    this.props.updateFormFieldWithSchema(
-      this.props.fieldName,
-      value,
-      schema,
-      uiSchema,
-    );
-  };
-
-  onDelete = () => {
-    let payload = this.props.data;
-    if (this.props.convertCleanDataToPayload) {
-      payload = this.props.convertCleanDataToPayload(
-        payload,
-        this.props.fieldName,
+  const justClosedModal = useCallback(
+    (prevIsEditingVal, prevShowValidationVal) => {
+      return (
+        (prevIsEditingVal && !isEditing) ||
+        (prevShowValidationVal && !showValidationModal)
       );
-    }
-    this.props.createTransaction(
-      this.props.apiRoute,
-      'DELETE',
-      this.props.fieldName,
-      payload,
-      this.props.analyticsSectionName,
-    );
-  };
+    },
+    [isEditing, showValidationModal],
+  );
 
-  onEdit = () => {
-    this.captureEvent('edit-link');
-    this.openEditModal();
-  };
+  useEffect(
+    () => {
+      const prevTransaction = prevTransactionRef.current;
+      const prevShowValidation = prevShowValidationModalRef.current;
+      const prevIsEditingVal = prevIsEditingRef.current;
 
-  onSubmit = () => {
-    if (!this.props.fieldName.toLowerCase().includes('address')) {
-      this.captureEvent('update-button');
-    }
+      const modalOpenInPrevProps =
+        prevTransaction || prevShowValidation || prevIsEditingVal;
+      const modalIsClosed = !transaction && !showValidationModal && !isEditing;
 
-    let payload = this.props.field.value;
-    if (this.props.convertCleanDataToPayload) {
-      payload = this.props.convertCleanDataToPayload(
-        payload,
-        this.props.fieldName,
-      );
-    }
+      if (modalOpenInPrevProps && modalIsClosed) {
+        focusElement(`button#${fieldName}-edit-link`);
+      }
+      // Just close the edit modal if it takes more than 5 seconds for the update
+      // transaction to resolve. ie, give it 5 seconds before reverting to the old
+      // behavior of showing the "we're saving your new information..." message on
+      // the Profile page
+      if (!prevTransaction && transaction) {
+        setTimeout(() => openModalAction(), 5000);
+      }
+      if (
+        justClosedModal(prevIsEditingVal, prevShowValidation) &&
+        transaction
+      ) {
+        focusElement(`div#${fieldName}-transaction-status`);
+      }
 
-    const method = payload.id ? 'PUT' : 'POST';
-
-    if (this.props.fieldName.toLowerCase().includes('address')) {
-      this.props.validateAddress(
-        this.props.apiRoute,
-        method,
-        this.props.fieldName,
-        payload,
-        this.props.analyticsSectionName,
-      );
-      return;
-    }
-
-    this.props.createTransaction(
-      this.props.apiRoute,
-      method,
-      this.props.fieldName,
-      payload,
-      this.props.analyticsSectionName,
-    );
-  };
-
-  justClosedModal(prevProps, props) {
-    return (
-      (prevProps.isEditing && !props.isEditing) ||
-      (prevProps.showValidationModal && !props.showValidationModal)
-    );
-  }
-
-  clearErrors = () => {
-    this.props.clearTransactionRequest(this.props.fieldName);
-  };
-
-  closeModal = () => {
-    this.props.openModal(null);
-  };
-
-  openEditModal = () => {
-    this.props.openModal(this.props.fieldName);
-    this.setState(state => ({ ...state, showSuccessAlert: false }));
-  };
-
-  refreshTransaction = () => {
-    this.props.refreshTransaction(
-      this.props.transaction,
-      this.props.analyticsSectionName,
-    );
-  };
-
-  captureEvent(actionName) {
-    recordEvent({
-      event: 'profile-navigation',
-      'profile-action': actionName,
-      'profile-section': this.props.analyticsSectionName,
-    });
-  }
-
-  isEditLinkVisible = () => {
-    let transactionPending = false;
-    if (this.props.transaction) {
-      transactionPending = isPendingTransaction(this.props.transaction);
-    }
-    return (
-      !this.props.isEmpty &&
-      !(this.props.isEditing || this.props.showValidationModal) &&
-      !transactionPending
-    );
-  };
-
-  onSuccessfulSave = () => {
-    this.setState({ showSuccessAlert: true });
-  };
-
-  render() {
-    const {
-      analyticsSectionName,
-      fieldName,
-      isEditing,
-      isEmpty,
-      Content,
-      showValidationModal,
-      title,
+      prevTransactionRef.current = transaction;
+      prevShowValidationModalRef.current = showValidationModal;
+      prevIsEditingRef.current = isEditing;
+    },
+    [
       transaction,
-      transactionRequest,
-      alertClosingDisabled,
-    } = this.props;
+      showValidationModal,
+      isEditing,
+      fieldName,
+      openModalAction,
+      justClosedModal,
+    ],
+  );
 
-    const childProps = {
-      ...this.props,
-      refreshTransaction: this.refreshTransaction,
-      clearErrors: alertClosingDisabled ? null : this.clearErrors,
-      onAdd: this.onAdd,
-      onEdit: this.onEdit,
-      onChangeFormDataAndSchemas: this.onChangeFormDataAndSchemas,
-      onDelete: this.onDelete,
-      onCancel: this.onCancel,
-      onSubmit: this.onSubmit,
-    };
+  const captureEvent = useCallback(
+    actionName => {
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': actionName,
+        'profile-section': analyticsSectionName,
+      });
+    },
+    [analyticsSectionName],
+  );
 
-    const shouldShowFields = isEditing || showValidationModal;
+  const closeModal = useCallback(
+    () => {
+      openModalAction(null);
+    },
+    [openModalAction],
+  );
 
+  const openEditModal = useCallback(
+    () => {
+      openModalAction(fieldName);
+      setShowSuccessAlert(false);
+    },
+    [openModalAction, fieldName],
+  );
+
+  const onAdd = useCallback(
+    () => {
+      captureEvent('add-link');
+      openEditModal();
+    },
+    [captureEvent, openEditModal],
+  );
+
+  const onCancel = useCallback(
+    () => {
+      captureEvent('cancel-button');
+      closeModal();
+    },
+    [captureEvent, closeModal],
+  );
+
+  const onChangeFormDataAndSchemas = useCallback(
+    (value, schema, uiSchema) => {
+      updateFormFieldWithSchemaAction(fieldName, value, schema, uiSchema);
+    },
+    [updateFormFieldWithSchemaAction, fieldName],
+  );
+
+  const onDelete = useCallback(
+    () => {
+      let payload = data;
+      if (convertCleanDataToPayload) {
+        payload = convertCleanDataToPayload(payload, fieldName);
+      }
+      createTransactionAction(
+        apiRoute,
+        'DELETE',
+        fieldName,
+        payload,
+        analyticsSectionName,
+      );
+    },
+    [
+      data,
+      convertCleanDataToPayload,
+      fieldName,
+      createTransactionAction,
+      apiRoute,
+      analyticsSectionName,
+    ],
+  );
+
+  const onEdit = useCallback(
+    () => {
+      captureEvent('edit-link');
+      openEditModal();
+    },
+    [captureEvent, openEditModal],
+  );
+
+  const onSubmit = useCallback(
+    () => {
+      if (!fieldName.toLowerCase().includes('address')) {
+        captureEvent('update-button');
+      }
+
+      let payload = field.value;
+      if (convertCleanDataToPayload) {
+        payload = convertCleanDataToPayload(payload, fieldName);
+      }
+
+      const method = payload.id ? 'PUT' : 'POST';
+
+      if (fieldName.toLowerCase().includes('address')) {
+        validateAddressAction(
+          apiRoute,
+          method,
+          fieldName,
+          payload,
+          analyticsSectionName,
+        );
+        return;
+      }
+
+      createTransactionAction(
+        apiRoute,
+        method,
+        fieldName,
+        payload,
+        analyticsSectionName,
+      );
+    },
+    [
+      fieldName,
+      field,
+      convertCleanDataToPayload,
+      captureEvent,
+      validateAddressAction,
+      createTransactionAction,
+      apiRoute,
+      analyticsSectionName,
+    ],
+  );
+
+  const handleRefreshTransaction = useCallback(
+    () => {
+      refreshTransactionAction(transaction, analyticsSectionName);
+    },
+    [refreshTransactionAction, transaction, analyticsSectionName],
+  );
+
+  const clearErrors = useCallback(
+    () => {
+      clearTransactionRequestAction(fieldName);
+    },
+    [clearTransactionRequestAction, fieldName],
+  );
+
+  const isEditLinkVisible = () => {
+    let transactionPending = false;
+    if (transaction) {
+      transactionPending = isPendingTransaction(transaction);
+    }
     return (
-      <div className="vet360-profile-field" data-field-name={fieldName}>
-        <VAPServiceProfileFieldHeading
-          onEditClick={this.isEditLinkVisible() ? this.onEdit : null}
-          fieldName={fieldName}
-        >
-          {title}
-        </VAPServiceProfileFieldHeading>
-        {this.state.showSuccessAlert && (
-          <ContactInformationUpdateSuccessAlert fieldName={fieldName} />
-        )}
-        <div
-          className={
-            shouldShowFields ? 'vads-u-display--block' : 'vads-u-display--none'
-          }
-        >
-          <ProfileInformationFieldController
-            fieldName={fieldName}
-            isDeleteDisabled
-            successCallback={() => this.onSuccessfulSave()}
-            cancelCallback={() => this.onCancel()}
-          />
-        </div>
-        <div
-          className={
-            !shouldShowFields ? 'vads-u-display--block' : 'vads-u-display--none'
-          }
-        >
-          <VAPServiceTransaction
-            isModalOpen={isEditing || showValidationModal}
-            id={`${fieldName}-transaction-status`}
-            title={title}
-            transaction={transaction}
-            transactionRequest={transactionRequest}
-            refreshTransaction={() =>
-              this.props.refreshTransaction(transaction, analyticsSectionName)
-            }
-          >
-            {!isEmpty && <Content {...childProps} />}
-          </VAPServiceTransaction>
-        </div>
-      </div>
+      !isEmpty && !(isEditing || showValidationModal) && !transactionPending
     );
-  }
-}
+  };
+
+  const onSuccessfulSave = useCallback(() => {
+    setShowSuccessAlert(true);
+  }, []);
+
+  const childProps = {
+    ...restProps,
+    alertClosingDisabled,
+    analyticsSectionName,
+    apiRoute,
+    Content,
+    convertCleanDataToPayload,
+    createTransaction: createTransactionAction,
+    clearTransactionRequest: clearTransactionRequestAction,
+    data,
+    field,
+    fieldName,
+    isEditing,
+    isEmpty,
+    openModal: openModalAction,
+    refreshTransaction: handleRefreshTransaction,
+    showValidationModal,
+    title,
+    transaction,
+    transactionRequest,
+    updateFormFieldWithSchema: updateFormFieldWithSchemaAction,
+    validateAddress: validateAddressAction,
+    clearErrors: alertClosingDisabled ? null : clearErrors,
+    onAdd,
+    onEdit,
+    onChangeFormDataAndSchemas,
+    onDelete,
+    onCancel,
+    onSubmit,
+  };
+
+  const shouldShowFields = isEditing || showValidationModal;
+
+  return (
+    <div className="vet360-profile-field" data-field-name={fieldName}>
+      <VAPServiceProfileFieldHeading
+        onEditClick={isEditLinkVisible() ? onEdit : null}
+        fieldName={fieldName}
+      >
+        {title}
+      </VAPServiceProfileFieldHeading>
+      {showSuccessAlert && (
+        <ContactInformationUpdateSuccessAlert fieldName={fieldName} />
+      )}
+      <div
+        className={
+          shouldShowFields ? 'vads-u-display--block' : 'vads-u-display--none'
+        }
+      >
+        <ProfileInformationFieldController
+          fieldName={fieldName}
+          isDeleteDisabled
+          successCallback={() => onSuccessfulSave()}
+          cancelCallback={() => onCancel()}
+        />
+      </div>
+      <div
+        className={
+          !shouldShowFields ? 'vads-u-display--block' : 'vads-u-display--none'
+        }
+      >
+        <VAPServiceTransaction
+          isModalOpen={isEditing || showValidationModal}
+          id={`${fieldName}-transaction-status`}
+          title={title}
+          transaction={transaction}
+          transactionRequest={transactionRequest}
+          refreshTransaction={() =>
+            refreshTransactionAction(transaction, analyticsSectionName)
+          }
+        >
+          {!isEmpty && <Content {...childProps} />}
+        </VAPServiceTransaction>
+      </div>
+    </div>
+  );
+};
 
 VAPServiceProfileField.propTypes = {
   Content: PropTypes.func.isRequired,

@@ -14,9 +14,7 @@ describe('<VAPServiceTransactionPending/>', () => {
   });
 
   it('renders', done => {
-    const component = enzyme.shallow(
-      <VAPServiceTransactionPending {...props} />,
-    );
+    const component = enzyme.mount(<VAPServiceTransactionPending {...props} />);
 
     setTimeout(() => {
       // This should be a 3 or 4, but I'm undershooting this by setting it at 2. I don't know what to expect with a shallow-render on the Jenkins server.

@@ -1,35 +1,38 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-class VAPServiceTransactionPending extends React.Component {
-  componentDidMount() {
-    this.interval = window.setInterval(
-      this.props.refreshTransaction,
-      window.VetsGov.pollTimeout || 1000,
-    );
+const VAPServiceTransactionPending = ({ refreshTransaction, children }) => {
+  const intervalRef = useRef(null);
+
+  useEffect(
+    () => {
+      intervalRef.current = window.setInterval(
+        refreshTransaction,
+        window.VetsGov.pollTimeout || 1000,
+      );
+
+      return () => {
+        window.clearInterval(intervalRef.current);
+      };
+    },
+    [refreshTransaction],
+  );
+
+  if (children) {
+    return <div>{children}</div>;
   }
 
-  componentWillUnmount() {
-    window.clearInterval(this.interval);
-  }
+  const content = (
+    <va-loading-indicator
+      label="Updating"
+      message="Updating your information..."
+      set-focus
+      data-testid="loading-indicator"
+    />
+  );
 
-  render() {
-    if (this.props.children) {
-      return <div>{this.props.children}</div>;
-    }
-
-    const content = (
-      <va-loading-indicator
-        label="Updating"
-        message="Updating your information..."
-        set-focus
-        data-testid="loading-indicator"
-      />
-    );
-
-    return <div>{content}</div>;
-  }
-}
+  return <div>{content}</div>;
+};
 
 VAPServiceTransactionPending.propTypes = {
   refreshTransaction: PropTypes.func.isRequired,

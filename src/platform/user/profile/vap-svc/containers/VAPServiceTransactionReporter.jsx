@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -13,42 +13,35 @@ import { clearTransaction } from '../actions';
 
 import VAPServiceTransactionErrorBanner from '../components/base/VAPServiceTransactionErrorBanner';
 
-class VAPServiceTransactionReporter extends React.Component {
-  static propTypes = {
-    clearTransaction: PropTypes.func.isRequired,
-    mostRecentErroredTransaction: PropTypes.object,
-    erroredTransactions: PropTypes.array.isRequired,
-  };
+const VAPServiceTransactionReporter = ({
+  clearTransaction: clearTransactionAction,
+  erroredTransactions,
+  mostRecentErroredTransaction,
+}) => {
+  const clearAllErroredTransactions = useCallback(
+    () => {
+      erroredTransactions.forEach(clearTransactionAction);
+    },
+    [erroredTransactions, clearTransactionAction],
+  );
 
-  /*
-  componentDidUpdate(prevProps) {
-    const newMessageVisible =
-      prevProps.erroredTransactions.length <
-      this.props.erroredTransactions.length;
+  return (
+    <div className="vet360-transaction-reporter">
+      {mostRecentErroredTransaction && (
+        <VAPServiceTransactionErrorBanner
+          transaction={mostRecentErroredTransaction}
+          clearTransaction={clearAllErroredTransactions}
+        />
+      )}
+    </div>
+  );
+};
 
-    if (newMessageVisible) scrollToTop();
-  }
-  */
-
-  clearAllErroredTransactions = () => {
-    this.props.erroredTransactions.forEach(this.props.clearTransaction);
-  };
-
-  render() {
-    const { mostRecentErroredTransaction } = this.props;
-
-    return (
-      <div className="vet360-transaction-reporter">
-        {mostRecentErroredTransaction && (
-          <VAPServiceTransactionErrorBanner
-            transaction={mostRecentErroredTransaction}
-            clearTransaction={this.clearAllErroredTransactions}
-          />
-        )}
-      </div>
-    );
-  }
-}
+VAPServiceTransactionReporter.propTypes = {
+  clearTransaction: PropTypes.func.isRequired,
+  erroredTransactions: PropTypes.array.isRequired,
+  mostRecentErroredTransaction: PropTypes.object,
+};
 
 const mapStateToProps = state => ({
   mostRecentErroredTransaction: selectMostRecentErroredTransaction(state),

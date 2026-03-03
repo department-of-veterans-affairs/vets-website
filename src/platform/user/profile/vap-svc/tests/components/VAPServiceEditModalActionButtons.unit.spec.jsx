@@ -1,5 +1,5 @@
 import React from 'react';
-import enzyme from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 
 import VAPServiceEditModalActionButtons from '../../components/base/VAPServiceEditModalActionButtons';
@@ -18,78 +18,83 @@ describe('<VAPServiceEditModalActionButtons/>', () => {
   });
 
   it('renders correctly when delete enabled', () => {
-    const component = enzyme.shallow(
+    const { container, unmount } = render(
       <VAPServiceEditModalActionButtons {...props}>
         <p>Children</p>
       </VAPServiceEditModalActionButtons>,
     );
 
-    expect(component.html(), 'renders children components').to.contain(
+    expect(container.innerHTML, 'renders children components').to.contain(
       'Children',
     );
 
-    expect(component.find('va-icon'), 'renders delete icon').to.have.lengthOf(
-      1,
-    );
+    expect(
+      container.querySelectorAll('va-icon').length,
+      'renders delete icon',
+    ).to.equal(1);
 
     expect(
-      component.find('.usa-button-secondary.button-link'),
+      container.querySelectorAll('.usa-button-secondary.button-link').length,
       'renders delete button',
-    ).to.have.lengthOf(1);
-    component.unmount();
+    ).to.equal(1);
+    unmount();
   });
 
   it('renders correctly when delete triggered', () => {
-    const component = enzyme.shallow(
+    const { container, unmount } = render(
       <VAPServiceEditModalActionButtons {...props}>
         <p>Children</p>
       </VAPServiceEditModalActionButtons>,
     );
 
-    component.setState({
-      deleteInitiated: true,
-    });
+    // Click the delete button to trigger delete initiated state
+    const deleteButton = container.querySelector(
+      '.usa-button-secondary.button-link',
+    );
+    fireEvent.click(deleteButton);
 
-    expect(component.html(), 'renders alert contents').to.contain(
+    expect(container.innerHTML, 'renders alert contents').to.contain(
       'Are you sure?',
     );
 
     expect(
-      component.html(),
+      container.innerHTML,
       'does not render children components after triggered',
     ).to.not.contain('Children');
 
     expect(
-      component.find('va-icon'),
+      container.querySelectorAll('va-icon').length,
       'hides delete icon correctly',
-    ).to.have.lengthOf(0);
+    ).to.equal(0);
 
     expect(
-      component.find('.usa-button-secondary.button-link'),
+      container.querySelectorAll('.usa-button-secondary.button-link').length,
       'hide delete button',
-    ).to.have.lengthOf(0);
-    component.unmount();
+    ).to.equal(0);
+    unmount();
   });
 
   it('renders correctly when delete disabled', () => {
-    const component = enzyme.shallow(
+    const { container, rerender, unmount } = render(
       <VAPServiceEditModalActionButtons {...props}>
         <p>Children</p>
       </VAPServiceEditModalActionButtons>,
     );
 
-    expect(component.html(), 'renders children components').to.contain(
+    expect(container.innerHTML, 'renders children components').to.contain(
       'Children',
     );
 
-    component.setProps({
-      deleteEnabled: false,
-    });
+    rerender(
+      <VAPServiceEditModalActionButtons {...props} deleteEnabled={false}>
+        <p>Children</p>
+      </VAPServiceEditModalActionButtons>,
+    );
 
     expect(
-      component.find('.usa-button-secondary.button-link'),
+      container.querySelectorAll('.usa-button-secondary.button-link').length,
       'hide delete button',
-    ).to.have.lengthOf(0);
-    component.unmount();
+    ).to.equal(0);
+    unmount();
   });
 });

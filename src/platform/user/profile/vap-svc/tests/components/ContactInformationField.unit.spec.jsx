@@ -1,7 +1,10 @@
 import React from 'react';
 import enzyme from 'enzyme';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 
 import {
   ProfileInformationFieldController,
@@ -139,28 +142,67 @@ describe('<ProfileInformationFieldController/>', () => {
     component.unmount();
   });
   it('calls the successCallback (non-address changes)', () => {
+    const mockStoreCreator = configureStore([]);
+    const store = mockStoreCreator({
+      vapService: {
+        formFields: {
+          homePhone: {
+            value: {},
+            formSchema: { type: 'object', properties: {} },
+            uiSchema: {},
+          },
+        },
+        modal: null,
+        transactions: [],
+        fieldTransactionMap: {},
+        addressValidation: {},
+      },
+      user: { profile: { vapContactInfo: {} } },
+    });
     const successCallbackSpy = sinon.spy();
     const data = {
       ...props,
       forceEditView: true,
       transactionRequest: { isPending: true },
       successCallback: successCallbackSpy,
+      formSchema: { type: 'object', properties: {} },
+      uiSchema: {},
     };
-    component = enzyme.shallow(<ProfileInformationFieldController {...data} />);
+    const { rerender } = render(
+      <Provider store={store}>
+        <ProfileInformationFieldController {...data} />
+      </Provider>,
+    );
 
-    expect(
-      component.find('Connect(ProfileInformationEditView)'),
-      'the ProfileInformationEditView was rendered',
-    ).to.have.lengthOf(1);
-
-    data.transactionRequest = null; // non-address success
-    component.setProps(data);
+    rerender(
+      <Provider store={store}>
+        <ProfileInformationFieldController
+          {...data}
+          transactionRequest={null}
+        />
+      </Provider>,
+    );
 
     expect(successCallbackSpy.calledOnce, 'successCallback called').to.be.true;
-
-    component.unmount();
   });
   it('calls the successCallback (address changes)', () => {
+    const mockStoreCreator = configureStore([]);
+    const store = mockStoreCreator({
+      vapService: {
+        formFields: {
+          mailingAddress: {
+            value: {},
+            formSchema: { type: 'object', properties: {} },
+            uiSchema: {},
+          },
+        },
+        modal: null,
+        transactions: [],
+        fieldTransactionMap: {},
+        addressValidation: {},
+      },
+      user: { profile: { vapContactInfo: {} } },
+    });
     const successCallbackSpy = sinon.spy();
     const data = {
       ...props,
@@ -169,13 +211,14 @@ describe('<ProfileInformationFieldController/>', () => {
       fieldName: FIELD_NAMES.MAILING_ADDRESS,
       transaction: { data: { attributes: { transactionStatus: '' } } },
       successCallback: successCallbackSpy,
+      formSchema: { type: 'object', properties: {} },
+      uiSchema: {},
     };
-    component = enzyme.shallow(<ProfileInformationFieldController {...data} />);
-
-    expect(
-      component.find('Connect(ProfileInformationEditView)'),
-      'the ProfileInformationEditView was rendered',
-    ).to.have.lengthOf(1);
+    const { rerender } = render(
+      <Provider store={store}>
+        <ProfileInformationFieldController {...data} />
+      </Provider>,
+    );
 
     const newData = {
       ...data,
@@ -184,14 +227,33 @@ describe('<ProfileInformationFieldController/>', () => {
       showUpdateSuccessAlert: true, // success check
     };
     // Address success callback
-    component.setProps(newData);
+    rerender(
+      <Provider store={store}>
+        <ProfileInformationFieldController {...newData} />
+      </Provider>,
+    );
 
     expect(successCallbackSpy.calledOnce, 'successCallback called').to.be.true;
-
-    component.unmount();
   });
 
   it('calls successCallback when success alert appears in forceEditView flow', () => {
+    const mockStoreCreator = configureStore([]);
+    const store = mockStoreCreator({
+      vapService: {
+        formFields: {
+          homePhone: {
+            value: {},
+            formSchema: { type: 'object', properties: {} },
+            uiSchema: {},
+          },
+        },
+        modal: null,
+        transactions: [],
+        fieldTransactionMap: {},
+        addressValidation: {},
+      },
+      user: { profile: { vapContactInfo: {} } },
+    });
     const successCallbackSpy = sinon.spy();
 
     const initialProps = {
@@ -203,10 +265,14 @@ describe('<ProfileInformationFieldController/>', () => {
       showRemoveModal: false,
       showValidationView: false,
       transactionRequest: null,
+      formSchema: { type: 'object', properties: {} },
+      uiSchema: {},
     };
 
-    component = enzyme.shallow(
-      <ProfileInformationFieldController {...initialProps} />,
+    const { rerender } = render(
+      <Provider store={store}>
+        <ProfileInformationFieldController {...initialProps} />
+      </Provider>,
     );
 
     const updatedProps = {
@@ -214,11 +280,13 @@ describe('<ProfileInformationFieldController/>', () => {
       showUpdateSuccessAlert: true,
     };
 
-    component.setProps(updatedProps);
+    rerender(
+      <Provider store={store}>
+        <ProfileInformationFieldController {...updatedProps} />
+      </Provider>,
+    );
 
     expect(successCallbackSpy.calledOnce, 'successCallback called').to.be.true;
-
-    component.unmount();
   });
 });
 
