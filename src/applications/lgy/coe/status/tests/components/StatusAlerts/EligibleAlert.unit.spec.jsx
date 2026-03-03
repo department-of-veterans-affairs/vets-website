@@ -1,5 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { EligibleAlert } from '../../../components/StatusAlerts/EligibleAlert';
@@ -9,8 +11,15 @@ const defaultProps = {
 };
 
 describe('EligibleAlert', () => {
+  const mockStore = configureStore([]);
+  const store = mockStore({});
+
   it('should display reference number and download text', () => {
-    const { container } = render(<EligibleAlert {...defaultProps} />);
+    const { container } = render(
+      <Provider store={store}>
+        <EligibleAlert {...defaultProps} />
+      </Provider>,
+    );
     const alert = $('va-alert', container);
     expect(alert).to.exist;
     expect(alert.getAttribute('status')).to.equal('success');

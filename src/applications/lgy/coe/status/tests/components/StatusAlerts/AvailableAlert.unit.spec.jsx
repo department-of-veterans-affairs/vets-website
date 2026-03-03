@@ -1,5 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { AvailableAlert } from '../../../components/StatusAlerts/AvailableAlert';
@@ -10,8 +12,15 @@ const defaultProps = {
 };
 
 describe('AvailableAlert', () => {
+  const mockStore = configureStore([]);
+  const store = mockStore({});
+
   it('should display formatted request date and reference number', () => {
-    const { container } = render(<AvailableAlert {...defaultProps} />);
+    const { container } = render(
+      <Provider store={store}>
+        <AvailableAlert {...defaultProps} />
+      </Provider>,
+    );
     const alert = $('va-alert', container);
     expect(alert).to.exist;
     expect(alert.getAttribute('status')).to.equal('success');
