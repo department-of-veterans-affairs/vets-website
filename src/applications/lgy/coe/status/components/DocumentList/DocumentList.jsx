@@ -7,7 +7,7 @@ import List from './List';
 const DocumentList = ({ notOnUploadPage }) => {
   const [documents, setDocuments] = useState([]);
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const isCveFormRebuild = useToggleValue(TOGGLE_NAMES.coeFormRebuildCveteam);
+  const enableCveStatus = useToggleValue(TOGGLE_NAMES.coeEnableCveStatus);
 
   useEffect(() => {
     const getData = async () => {
@@ -32,7 +32,7 @@ const DocumentList = ({ notOnUploadPage }) => {
           We’ve emailed you notification letters about your COE request. Read
           these and follow the steps they outline. You may need to take action
           before we can make a final decision.
-          {isCveFormRebuild && (
+          {enableCveStatus && (
             <div>
               <va-link
                 href="/resources/how-to-download-and-open-a-vagov-pdf-form/"
