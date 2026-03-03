@@ -45,7 +45,7 @@ runs:
           src/platform/*/node_modules
           src/applications/*/node_modules
           src/applications/*/*/node_modules
-        key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.key }}
+        key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-v2-${{ inputs.key }}
         # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
 
     - name: Install dependencies
