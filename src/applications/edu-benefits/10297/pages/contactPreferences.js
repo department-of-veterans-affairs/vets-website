@@ -10,7 +10,6 @@ const contactMethods = ['Email', 'Mobile Phone', 'Home Phone', 'Mail'];
 const uiSchema = {
   ...titleUI({
     title: 'Contact preferences',
-    classNames: 'vads-u-color--base vads-u-margin-top--0',
     description: (
       <h4 className="vads-u-margin-bottom--0">
         Choose your contact method for follow-up questions

@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -50,12 +51,14 @@ describe('Folder Header component', () => {
     path = initialPath,
     threadCount = initialThreadCount,
     folder = customFolder,
+    extraProps = {},
   ) => {
     return renderWithStoreAndRouter(
       <FolderHeader
         folder={folder}
         threadCount={threadCount}
         searchProps={{ ...searchProps }}
+        {...extraProps}
       />,
       {
         initialState: state,
@@ -64,6 +67,43 @@ describe('Folder Header component', () => {
       },
     );
   };
+
+  it('renders AlertBackgroundBox after H1', async () => {
+    const stateWithAlert = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        alerts: {
+          alertVisible: true,
+          alertList: [
+            {
+              datestamp: '2022-10-07T19:25:32.832Z',
+              isActive: true,
+              alertType: 'success',
+              header: 'Test',
+              content: 'Test alert content',
+            },
+          ],
+        },
+      },
+    };
+    const screen = setup(
+      stateWithAlert,
+      initialPath,
+      initialThreadCount,
+      customFolder,
+    );
+    await waitFor(() => {
+      const h1 = screen.getByRole('heading', { level: 1 });
+      const alertText = screen.getByTestId('alert-text');
+      expect(h1).to.exist;
+      expect(alertText).to.exist;
+      const html = screen.container.innerHTML;
+      expect(html.indexOf('<h1')).to.be.lessThan(
+        html.indexOf('data-testid="alert-text"'),
+      );
+    });
+  });
 
   describe('displays empty custom folder view', () => {
     const emptyFolder = {
