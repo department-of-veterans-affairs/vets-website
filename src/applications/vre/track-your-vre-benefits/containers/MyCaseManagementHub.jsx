@@ -27,6 +27,9 @@ const stepLabels = [
 const pageHeading = 'Your VR&E benefit status';
 const pageTitle = 'Your VR&E Benefit Status';
 const statusBasePath = '';
+// Internal router root. In the browser this resolves to:
+// /careers-employment/track-your-vre-benefits/vre-benefit-status
+const statusRootRoute = '/';
 
 const toStepSlug = label =>
   label
@@ -125,6 +128,13 @@ const MyCaseManagementHub = () => {
         return;
       }
 
+      if (isDiscontinued || isInterrupted) {
+        if (location.pathname !== statusRootRoute) {
+          navigate(statusRootRoute, { replace: true });
+        }
+        return;
+      }
+
       const stepSlug = stepSlugByIndex[current];
       if (!stepSlug) return;
 
@@ -138,6 +148,8 @@ const MyCaseManagementHub = () => {
       loading,
       caseStatusError,
       caseStatusDetails,
+      isDiscontinued,
+      isInterrupted,
       current,
       location.pathname,
       navigate,

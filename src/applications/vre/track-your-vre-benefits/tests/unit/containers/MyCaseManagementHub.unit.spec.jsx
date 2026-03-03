@@ -2,10 +2,10 @@
 /* eslint-disable no-shadow */
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { MemoryRouter } from 'react-router-dom';
-import { CompatRouter } from 'react-router-dom-v5-compat';
+import { CompatRouter, useLocation } from 'react-router-dom-v5-compat';
 import { Provider } from 'react-redux';
 
 import * as UI from 'platform/utilities/ui';
@@ -32,12 +32,18 @@ const makeStore = state => {
   };
 };
 
-const renderPage = state =>
+const LocationDisplay = () => {
+  const location = useLocation();
+  return <div data-testid="location-display">{location.pathname}</div>;
+};
+
+const renderPage = (state, initialEntries = ['/'], showLocation = false) =>
   render(
     <Provider store={makeStore(state)}>
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter initialEntries={initialEntries}>
         <CompatRouter>
           <MyCaseManagementHub />
+          {showLocation && <LocationDisplay />}
         </CompatRouter>
       </MemoryRouter>
     </Provider>,
@@ -59,6 +65,16 @@ const makeState = ({
     data: attrs ? { attributes: attrs } : null,
   },
 });
+
+const activeBenefitsStateList = [
+  { stepCode: 'APPL', status: 'COMPLETED' },
+  { stepCode: 'ELGLDET', status: 'COMPLETED' },
+  { stepCode: 'ORICMPT', status: 'COMPLETED' },
+  { stepCode: 'INTAKE', status: 'COMPLETED' },
+  { stepCode: 'ENTLDET', status: 'COMPLETED' },
+  { stepCode: 'PLANSELECT', status: 'COMPLETED' },
+  { stepCode: 'BFSACT', status: 'ACTIVE' },
+];
 
 describe('<MyCaseManagementHub>', () => {
   beforeEach(() => {
@@ -123,5 +139,65 @@ describe('<MyCaseManagementHub>', () => {
     const { getByText, queryByText } = renderPage(makeState({ attrs }));
     expect(queryByText(/This page isn’t available right now/i)).to.equal(null);
     getByText(/Your VR&E Benefit Status/i);
+  });
+
+  it('redirects interrupted cases back to the root route instead of keeping the active step slug', async () => {
+    const attrs = {
+      orientationAppointmentDetails: {
+        appointmentDateTime: '2026-01-14T18:46:18.688Z',
+        appointmentPlace: '31223 Corn Drive, Hamilton NJ-21223',
+      },
+      externalStatus: {
+        isDiscontinued: false,
+        discontinuedReason: null,
+        isInterrupted: true,
+        interruptedReason: '079 - Plan Developed/Redeveloped',
+        stateList: activeBenefitsStateList,
+      },
+    };
+
+    const { getByTestId, queryByTestId } = renderPage(
+      makeState({ attrs }),
+      ['/benefits-initiated'],
+      true,
+    );
+
+    getByTestId('interrupted-alert');
+    expect(queryByTestId('case-progress-bar')).to.equal(null);
+    expect(queryByTestId('hub-card-list')).to.equal(null);
+
+    await waitFor(() => {
+      expect(getByTestId('location-display').textContent).to.equal('/');
+    });
+  });
+
+  it('redirects discontinued cases back to the root route instead of keeping the active step slug', async () => {
+    const attrs = {
+      orientationAppointmentDetails: {
+        appointmentDateTime: '2026-01-14T18:46:18.688Z',
+        appointmentPlace: '31223 Corn Drive, Hamilton NJ-21223',
+      },
+      externalStatus: {
+        isDiscontinued: true,
+        discontinuedReason: '079 - Plan Developed/Redeveloped',
+        isInterrupted: false,
+        interruptedReason: null,
+        stateList: activeBenefitsStateList,
+      },
+    };
+
+    const { getByTestId, queryByTestId } = renderPage(
+      makeState({ attrs }),
+      ['/benefits-initiated'],
+      true,
+    );
+
+    getByTestId('discontinued-alert');
+    expect(queryByTestId('case-progress-bar')).to.equal(null);
+    expect(queryByTestId('hub-card-list')).to.equal(null);
+
+    await waitFor(() => {
+      expect(getByTestId('location-display').textContent).to.equal('/');
+    });
   });
 });
