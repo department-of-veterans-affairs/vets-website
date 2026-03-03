@@ -60,10 +60,7 @@ const Mileage = () => {
         : selectExpenseCreationLoadingState(state),
   );
 
-  const initialFormStateRef = useRef({
-    departureAddress: '',
-    tripType: '',
-  });
+  const initialFormStateRef = useRef({});
   const previousHasChangesRef = useRef(false);
 
   const [formState, setFormState] = useState({});
