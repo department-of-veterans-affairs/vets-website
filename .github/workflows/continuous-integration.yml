@@ -134,64 +134,12 @@ jobs:
         if: ${{ always() }}
         id: deploy-to-prod
         run: echo "can_deploy=$CAN_DEPLOY_TO_PROD" >> $GITHUB_OUTPUT
-  fetch-allow-lists:
-    name: Fetch Test Stability Allow Lists
+  tests-prep:
+    name: Tests Prep
     runs-on: ubuntu-22.04
     permissions:
       id-token: write
       contents: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-
-      - name: Configure AWS credentials
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_region: us-gov-west-1
-          role: ${{ vars.AWS_ASSUME_ROLE }}
-
-      - name: Get va-vsp-bot token
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Fetch E2E Test Stability Allow List
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_TYPE: e2e
-
-      - name: Fetch Unit Test Stability Allow List
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_TYPE: unit_test
-
-      - name: Archive E2E Test Stability Allow List
-        if: ${{ always() }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: e2e-allow-list
-          path: qa-standards-dashboard-data/e2e_allow_list.json
-
-      - name: Archive Unit Test Stability Allow List
-        if: ${{ always() }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: unit-test-allow-list
-          path: qa-standards-dashboard-data/unit_test_allow_list.json
-
-  tests-prep:
-    name: Tests Prep
-    needs: [fetch-allow-lists]
-    runs-on: ubuntu-22.04
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       apps-to-stress-test: ${{ steps.apps-to-stress-test.outputs.apps_to_test }}
@@ -231,17 +179,40 @@ jobs:
           delimiter: ','
           output-type: 'entry_name, url, folder'
 
-      - name: Download Unit Test Stability Allow List
-        uses: ./.github/workflows/download-artifact
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          name: unit-test-allow-list
-          path: .
+          aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
-      - name: Download E2E Test Stability Allow List
-        uses: ./.github/workflows/download-artifact
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
         with:
-          name: e2e-allow-list
-          path: .
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch E2E Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: e2e
+
+      - name: Fetch Unit Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
+
+      - name: Copy allow lists to workspace root
+        run: |
+          cp qa-standards-dashboard-data/e2e_allow_list.json .
+          cp qa-standards-dashboard-data/unit_test_allow_list.json .
 
       - name: Select E2E Tests
         run: node script/github-actions/select-e2e-tests.js
@@ -332,10 +303,24 @@ jobs:
         id: matrix
         run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
 
+      - name: Archive E2E Test Stability Allow List
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data/e2e_allow_list.json
+
+      - name: Archive Unit Test Stability Allow List
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-allow-list
+          path: qa-standards-dashboard-data/unit_test_allow_list.json
+
   unit-tests:
     name: Unit Tests
     # if: ${{ needs.tests-prep.outputs.tests_ran == 'true' }}
-    needs: [fetch-allow-lists, tests-prep]
+    needs: [tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
     permissions:
@@ -430,8 +415,8 @@ jobs:
     name: Unit Test Stability Review
     runs-on: ubuntu-22.04
     timeout-minutes: 30
-    needs: [fetch-allow-lists, tests-prep]
-    if: ${{ always() && !cancelled() && needs.tests-prep.outputs.unit-tests-to-stress-test == 'true' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep.result == 'success' }}
+    needs: [tests-prep]
+    if: ${{ always() && !cancelled() && needs.tests-prep.outputs.unit-tests-to-stress-test == 'true' && github.ref != 'refs/heads/main' && needs.tests-prep.result == 'success' }}
 
     env:
       APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
@@ -496,7 +481,7 @@ jobs:
   update-unit-test-allow-list:
     name: Update Unit Test Stability Allow List
     runs-on: ubuntu-22.04
-    needs: [unit-tests-stress-test, fetch-allow-lists]
+    needs: [unit-tests-stress-test]
     permissions:
       id-token: write
       contents: read
@@ -686,7 +671,6 @@ jobs:
     name: Fetch ECR Credentials
     runs-on: ubuntu-22.04
     timeout-minutes: 10
-    needs: [build]
     permissions:
       id-token: write
       contents: read
@@ -1017,7 +1001,6 @@ jobs:
         testing-reports-prep,
         tests-prep,
         stress-test-cypress-tests,
-        fetch-allow-lists,
       ]
     permissions:
       checks: write
@@ -1553,7 +1536,7 @@ jobs:
       checks: write
       id-token: write
       contents: read
-    if: ${{ always() && (needs.stress-test-cypress-tests.result == 'success' || needs.stresss-test-cypress-tests.result == 'failure') }}
+    if: ${{ always() && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true
