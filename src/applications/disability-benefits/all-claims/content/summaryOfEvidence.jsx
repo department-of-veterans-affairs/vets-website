@@ -3,8 +3,69 @@ import _ from 'platform/utilities/data';
 import { DATA_PATHS } from '../constants';
 import { getBddShaUploads } from '../utils';
 
+const SECTIONS_LIST_CONFIGURATIONS = {
+  ENHANCED: [
+    {
+      key: 'bdd-sha',
+      getUploads: getBddShaUploads,
+      headerText:
+        'We’ll submit the Separation Health Assessment Part A (SHA A) you uploaded',
+    },
+  ],
+  UNENHANCED: [
+    {
+      key: 'bdd-sha',
+      getUploads: getBddShaUploads,
+      headerText:
+        'We’ll submit the Separation Health Assessment Part A document that you uploaded',
+    },
+  ],
+};
+
+const buildSectionsList = (formData, { shouldEnhance }) => {
+  const sectionsList = [];
+  const configurations = shouldEnhance
+    ? SECTIONS_LIST_CONFIGURATIONS.ENHANCED
+    : SECTIONS_LIST_CONFIGURATIONS.UNENHANCED;
+
+  for (const configuration of configurations) {
+    const { key } = configuration;
+    const headerText = `${configuration.headerText}:`;
+    const uploads = configuration.getUploads(formData);
+
+    if (uploads.length) {
+      const uploadsList = (
+        <ul>
+          {uploads.map(upload => (
+            <li key={upload.confirmationCode}>{upload.name}</li>
+          ))}
+        </ul>
+      );
+
+      const section = shouldEnhance ? (
+        <div key={key} className="vads-u-margin-top--2">
+          <strong>{headerText}</strong>
+          {uploadsList}
+        </div>
+      ) : (
+        <div key={key}>
+          <p>{headerText}</p>
+          {uploadsList}
+        </div>
+      );
+
+      sectionsList.push(section);
+    }
+  }
+
+  return sectionsList;
+};
+
 export const summaryOfEvidenceDescription = ({ formData }) => {
-  const separationHealthAssessmentUploads = getBddShaUploads(formData);
+  const sectionsList = buildSectionsList(formData, {
+    shouldEnhance: formData.disability526SupportingEvidenceEnhancement,
+  });
+
   const vaEvidence = _.get('vaTreatmentFacilities', formData, []);
   const privateEvidence = _.get('providerFacility', formData, []);
   const privateEvidenceUploads = _.get(
@@ -35,6 +96,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   // TODO: refactor logic for this content when removing current flow
   if (
     !formData.disability526SupportingEvidenceEnhancement &&
+    !sectionsList.length &&
     (!evidenceLength || (!selectedEvidence && !serviceTreatmentRecordsSelected))
   ) {
     return (
@@ -46,7 +108,6 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     );
   }
 
-  let separationHealthAssessmentContent = null;
   let vaContent = null;
   let privateContent = null;
   let layContent = null;
@@ -70,33 +131,6 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     formData,
     false,
   );
-
-  if (separationHealthAssessmentUploads.length) {
-    const shaUploadsList = (
-      <ul>
-        {separationHealthAssessmentUploads.map(upload => (
-          <li key={upload.name}>{upload.name}</li>
-        ))}
-      </ul>
-    );
-    separationHealthAssessmentContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll submit the Separation Health Assessment Part A (SHA A) you
-          uploaded:
-        </strong>
-        {shaUploadsList}
-      </div>
-    ) : (
-      <div>
-        <p>
-          We’ll submit the Separation Health Assessment Part A document that you
-          uploaded:
-        </p>
-        {shaUploadsList}
-      </div>
-    );
-  }
 
   if (vaEvidence.length && vaEvidenceSelected) {
     const facilitiesList = vaEvidence.map((facility, index) => (
@@ -211,11 +245,11 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
 
   return (
     <div className="vads-u-margin-top--3">
-      {(evidenceLength || selectedEvidence) &&
+      {(evidenceLength || selectedEvidence || sectionsList.length) &&
         formData.disability526SupportingEvidenceEnhancement && (
           <p>You provided documents to support your claim.</p>
         )}
-      {separationHealthAssessmentContent}
+      {sectionsList}
       {vaContent}
       {privateContent}
       {privateEvidenceContent}
