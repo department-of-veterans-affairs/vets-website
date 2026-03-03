@@ -52,7 +52,9 @@ export default function CareerPlanning() {
         <div className="medium-screen:vads-u-display--inline-block vads-u-display--none vads-u-margin-top--2">
           <VaButton
             back
-            onClick={() => history.push('/my-case-management-hub')}
+            onClick={() =>
+              history.push('/track-your-vre-benefits/vre-benefit-status')
+            }
             text="Back to Case Tracker"
           />
         </div>

@@ -907,7 +907,7 @@
       "directoryPath": "src/applications/vre/ch31-eligibility-entitlement",
       "appName": "VRE CH31 Eligibility &amp; Entitlement",
       "entryName": "ch31-eligibility-entitlement",
-      "rootUrl": "/careers-employment/your-vre-eligibility"
+      "rootUrl": "/careers-employment"
     },
     {
       "directoryPath": "src/applications/yellow-ribbon",

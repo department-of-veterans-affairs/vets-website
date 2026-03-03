@@ -29,15 +29,16 @@ const CaseProgressDescription = ({
     </div>
   ) : null;
 
-  const href = '/';
+  const eligibilityRoute = '/your-vre-eligibility';
+  const eligibilityHref = '/careers-employment/your-vre-eligibility';
 
   const withEligibilityLink = textBefore => (
     <p>
       {textBefore}{' '}
       <VaLink
-        href={href}
+        href={eligibilityHref}
         text="Your VR&E eligibility and benefits"
-        onClick={handleRouteChange(href)}
+        onClick={handleRouteChange(eligibilityRoute)}
       />{' '}
       page.
     </p>
@@ -104,26 +105,26 @@ const CaseProgressDescription = ({
                 </h2>
                 <ul className="va-nav-linkslist-list vads-u-margin-bottom--2">
                   <li>
-                    <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                      <va-link
-                        href="https://www.va.gov/careers-employment/vocational-rehabilitation"
-                        text="Program Overview"
-                        external
-                      />
-                    </h3>
+                    <VaLink
+                      href="https://www.va.gov/careers-employment/vocational-rehabilitation"
+                      text="Program Overview"
+                      className=" vads-u-font-weight--bold"
+                      external
+                    />
+
                     <p className="va-nav-linkslist-description">
                       Read about how Veteran Readiness and Employment (Chapter
                       31) can help you address education or training needs.
                     </p>
                   </li>
                   <li>
-                    <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                      <va-link
-                        href="https://www.va.gov/careers-employment/vocational-rehabilitation/programs"
-                        text="VR&E Support-and-Services Tracks"
-                        external
-                      />
-                    </h3>
+                    <VaLink
+                      className=" vads-u-font-weight--bold"
+                      href="https://www.va.gov/careers-employment/vocational-rehabilitation/programs"
+                      text="VR&E Support-and-Services Tracks"
+                      external
+                    />
+
                     <p className="va-nav-linkslist-description">
                       We offer 5 support-and-services tracks to help you get
                       education, training, career planning, and live
