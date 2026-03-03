@@ -360,7 +360,6 @@ describe('pageDetails', () => {
         address: {
           street: '123 Test St',
           street2: 'Suite 100',
-          street3: 'Station 3',
           city: 'Test City',
           state: 'AK',
           postalCode: '99501',
@@ -380,7 +379,7 @@ describe('pageDetails', () => {
 
       expect(details[3].label).to.equal('Child’s current address');
       expect(details[3].value).to.equal(
-        '123 Test St, Suite 100, Station 3, Test City, AK 99501',
+        '123 Test St, Suite 100, Test City, AK 99501',
       );
       expect(details[4].label).to.equal('Child lives with');
       expect(details[4].value).to.equal('John A Doe');

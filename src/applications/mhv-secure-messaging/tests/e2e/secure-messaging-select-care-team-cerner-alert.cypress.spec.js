@@ -7,10 +7,7 @@ import mockFacilities from './fixtures/facilityResponse/facilities-no-cerner.jso
 import mockVamcEhr from './fixtures/vamc-ehr.json';
 import mockUser from './fixtures/userResponse/user-cerner-mixed-pretransitioned.json';
 import { AXE_CONTEXT, Paths } from './utils/constants';
-import {
-  createUserWithMigrationInfo,
-  customRecipients,
-} from './utils/user-helpers';
+import { createMigratingUser, customRecipients } from './utils/user-helpers';
 
 describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
   const customFeatureToggles = {
@@ -28,50 +25,11 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
   };
 
   it('verifies Cerner facility alert is present on Select care team page', () => {
-    const mockUserWithMigrationInfo = createUserWithMigrationInfo(
-      mockUser,
-      {
-        userAtPretransitionedOhFacility: false,
-        userFacilityMigratingToOh: true,
-        userFacilityReadyForInfoAlert: false,
-        migrationSchedules: [
-          {
-            facilities: [
-              {
-                facilityId: '979',
-                facilityName: 'Test 1',
-              },
-            ],
-            phases: {
-              current: 'p4',
-              p0: 'December 28, 2025 at 12:00AM ET',
-              p1: 'January 12, 2026 at 12:00AM ET',
-              p2: 'January 27, 2026 at 12:00AM ET',
-              p3: 'February 20, 2026 at 12:00AM ET',
-              p4: 'February 23, 2026 at 12:00AM ET',
-              p5: 'February 26, 2026 at 12:00AM ET',
-              p6: 'February 28, 2026 at 12:00AM ET',
-              p7: 'March 3, 2026 at 12:00AM ET',
-              p8: 'March 10, 2026 at 12:00AM ET',
-              p9: 'March 17, 2026 at 12:00AM ET',
-            },
-          },
-        ],
-      },
-      [
-        // Add facility 442 as non-transitioning facility
-        {
-          facilityId: '442',
-          isCerner: false,
-        },
-      ],
-    );
-
     SecureMessagingSite.login(
       customFeatureToggles,
       mockVamcEhr,
       true,
-      mockUserWithMigrationInfo,
+      createMigratingUser(mockUser, 'p4'),
       mockFacilities,
     );
 
@@ -99,51 +57,12 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verifies Cerner facility alert is NOT present outside transition window (phase p1)', () => {
-    const mockUserWithMigrationInfo = createUserWithMigrationInfo(
-      mockUser,
-      {
-        userAtPretransitionedOhFacility: false,
-        userFacilityMigratingToOh: true,
-        userFacilityReadyForInfoAlert: false,
-        migrationSchedules: [
-          {
-            facilities: [
-              {
-                facilityId: '979',
-                facilityName: 'Test 1',
-              },
-            ],
-            phases: {
-              current: 'p1', // Before T-6 window
-              p0: 'December 28, 2025 at 12:00AM ET',
-              p1: 'January 12, 2026 at 12:00AM ET',
-              p2: 'January 27, 2026 at 12:00AM ET',
-              p3: 'February 20, 2026 at 12:00AM ET',
-              p4: 'February 23, 2026 at 12:00AM ET',
-              p5: 'February 26, 2026 at 12:00AM ET',
-              p6: 'February 28, 2026 at 12:00AM ET',
-              p7: 'March 3, 2026 at 12:00AM ET',
-              p8: 'March 10, 2026 at 12:00AM ET',
-              p9: 'March 17, 2026 at 12:00AM ET',
-            },
-          },
-        ],
-      },
-      [
-        // Add facility 442 as non-transitioning facility
-        {
-          facilityId: '442',
-          isCerner: false,
-        },
-      ],
-    );
-
+  it('verifies Cerner facility error alert is NOT present before error phase window (phase p1)', () => {
     SecureMessagingSite.login(
       customFeatureToggles,
       mockVamcEhr,
       true,
-      mockUserWithMigrationInfo,
+      createMigratingUser(mockUser, 'p1'),
       mockFacilities,
     );
 
@@ -161,7 +80,7 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
 
     PatientInboxPage.navigateToComposePageCuratedFlow();
 
-    // Verify the Cerner facility alert is NOT displayed (phase p1 is before T-6)
+    // Verify the error alert is NOT displayed (p1 is before error phase window p3-p5)
     cy.findByTestId('cerner-facilities-transition-alert-error-phase').should(
       'not.exist',
     );
@@ -171,51 +90,12 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verifies Cerner facility alert is NOT present after transition window (phase p6)', () => {
-    const mockUserWithMigrationInfo = createUserWithMigrationInfo(
-      mockUser,
-      {
-        userAtPretransitionedOhFacility: false,
-        userFacilityMigratingToOh: true,
-        userFacilityReadyForInfoAlert: false,
-        migrationSchedules: [
-          {
-            facilities: [
-              {
-                facilityId: '979',
-                facilityName: 'Test 1',
-              },
-            ],
-            phases: {
-              current: 'p6', // After T+2 window
-              p0: 'December 28, 2025 at 12:00AM ET',
-              p1: 'January 12, 2026 at 12:00AM ET',
-              p2: 'January 27, 2026 at 12:00AM ET',
-              p3: 'February 20, 2026 at 12:00AM ET',
-              p4: 'February 23, 2026 at 12:00AM ET',
-              p5: 'February 26, 2026 at 12:00AM ET',
-              p6: 'February 28, 2026 at 12:00AM ET',
-              p7: 'March 3, 2026 at 12:00AM ET',
-              p8: 'March 10, 2026 at 12:00AM ET',
-              p9: 'March 17, 2026 at 12:00AM ET',
-            },
-          },
-        ],
-      },
-      [
-        // Add facility 442 as non-transitioning facility
-        {
-          facilityId: '442',
-          isCerner: false,
-        },
-      ],
-    );
-
+  it('verifies Cerner facility error alert is NOT present after error phase window (phase p6)', () => {
     SecureMessagingSite.login(
       customFeatureToggles,
       mockVamcEhr,
       true,
-      mockUserWithMigrationInfo,
+      createMigratingUser(mockUser, 'p6'),
       mockFacilities,
     );
 
@@ -233,7 +113,7 @@ describe('Secure Messaging - Select Care Team Cerner Facility Alert', () => {
 
     PatientInboxPage.navigateToComposePageCuratedFlow();
 
-    // Verify the Cerner facility alert is NOT displayed (phase p6 is after transition window)
+    // Verify the error alert is NOT displayed (p6 is after error phase window p3-p5)
     cy.findByTestId('cerner-facilities-transition-alert-error-phase').should(
       'not.exist',
     );

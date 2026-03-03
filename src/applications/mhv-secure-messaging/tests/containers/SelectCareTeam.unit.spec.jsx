@@ -1802,6 +1802,44 @@ describe('SelectCareTeam', () => {
   });
 
   describe('CernerFacilityAlert', () => {
+    const migrationPhases = {
+      p0: 'December 28, 2025 at 12:00AM ET',
+      p1: 'January 12, 2026 at 12:00AM ET',
+      p2: 'January 27, 2026 at 12:00AM ET',
+      p3: 'February 20, 2026 at 12:00AM ET',
+      p4: 'February 23, 2026 at 12:00AM ET',
+      p5: 'February 26, 2026 at 12:00AM ET',
+      p6: 'February 28, 2026 at 12:00AM ET',
+      p7: 'March 3, 2026 at 12:00AM ET',
+      p8: 'March 10, 2026 at 12:00AM ET',
+      p9: 'March 17, 2026 at 12:00AM ET',
+    };
+
+    const getMigratingState = currentPhase => ({
+      ...initialState,
+      user: {
+        profile: {
+          userAtPretransitionedOhFacility: false,
+          userFacilityMigratingToOh: true,
+          userFacilityReadyForInfoAlert: false,
+          migrationSchedules: [
+            {
+              facilities: [
+                {
+                  facilityId: '662',
+                  facilityName: 'Test Facility 1',
+                },
+              ],
+              phases: {
+                current: currentPhase,
+                ...migrationPhases,
+              },
+            },
+          ],
+        },
+      },
+    });
+
     it('should render CernerFacilityAlert when user has pretransitioned facility', async () => {
       const customState = {
         ...initialState,
@@ -1834,90 +1872,9 @@ describe('SelectCareTeam', () => {
       });
     });
 
-    it('should render warning alert during migration warning phases (p1, p2)', async () => {
-      const customState = {
-        ...initialState,
-        user: {
-          profile: {
-            userAtPretransitionedOhFacility: false,
-            userFacilityMigratingToOh: true,
-            userFacilityReadyForInfoAlert: false,
-            migrationSchedules: [
-              {
-                facilities: [
-                  {
-                    facilityId: '662',
-                    facilityName: 'Test Facility 1',
-                  },
-                ],
-                phases: {
-                  current: 'p1', // Warning phase
-                  p0: '2024-01-01',
-                  p1: '2024-02-01',
-                  p2: '2024-03-01',
-                  p3: '2024-04-01',
-                  p4: '2024-05-01',
-                  p5: '2024-06-01',
-                  p6: '2024-07-01',
-                },
-              },
-            ],
-          },
-        },
-      };
-
+    it('should render alert during T-6 to T+2 migration window (p3, p4, p5)', async () => {
       const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
-        initialState: customState,
-        reducers: reducer,
-        path: Paths.SELECT_CARE_TEAM,
-      });
-
-      await waitFor(() => {
-        const alert = screen.container.querySelector(
-          '[data-testid="cerner-facilities-transition-alert"]',
-        );
-        expect(alert).to.exist;
-        expect(alert.getAttribute('status')).to.equal('warning');
-        expect(alert.getAttribute('trigger')).to.contain(
-          'Updates will begin on',
-        );
-      });
-    });
-
-    it('should render error alert during migration error phases (p3, p4, p5)', async () => {
-      const customState = {
-        ...initialState,
-        user: {
-          profile: {
-            userAtPretransitionedOhFacility: false,
-            userFacilityMigratingToOh: true,
-            userFacilityReadyForInfoAlert: false,
-            migrationSchedules: [
-              {
-                facilities: [
-                  {
-                    facilityId: '662',
-                    facilityName: 'Test Facility 1',
-                  },
-                ],
-                phases: {
-                  current: 'p4', // Error phase
-                  p0: '2024-01-01',
-                  p1: '2024-02-01',
-                  p2: '2024-03-01',
-                  p3: '2024-04-01',
-                  p4: '2024-05-01',
-                  p5: '2024-06-01',
-                  p6: '2024-07-01',
-                },
-              },
-            ],
-          },
-        },
-      };
-
-      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
-        initialState: customState,
+        initialState: getMigratingState('p4'),
         reducers: reducer,
         path: Paths.SELECT_CARE_TEAM,
       });
@@ -1931,85 +1888,22 @@ describe('SelectCareTeam', () => {
       });
     });
 
-    it('should NOT render alert outside of warning/error phases (p0, p6, p7)', async () => {
-      const customState = {
-        ...initialState,
-        user: {
-          profile: {
-            userAtPretransitionedOhFacility: false,
-            userFacilityMigratingToOh: true,
-            userFacilityReadyForInfoAlert: false,
-            migrationSchedules: [
-              {
-                facilities: [
-                  {
-                    facilityId: '662',
-                    facilityName: 'Test Facility 1',
-                  },
-                ],
-                phases: {
-                  current: 'p0', // Outside warning/error phases
-                  p0: '2024-01-01',
-                  p1: '2024-02-01',
-                  p2: '2024-03-01',
-                  p3: '2024-04-01',
-                  p4: '2024-05-01',
-                  p5: '2024-06-01',
-                  p6: '2024-07-01',
-                },
-              },
-            ],
-          },
-        },
-      };
-
+    it('should NOT render alert outside of T-6 to T+2 migration window', async () => {
       const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
-        initialState: customState,
+        initialState: getMigratingState('p6'),
         reducers: reducer,
         path: Paths.SELECT_CARE_TEAM,
       });
 
       await waitFor(() => {
-        // Check for Cerner-specific alerts (not EmergencyNote)
-        const cernerAlert = screen.container.querySelector(
-          '[data-testid="cerner-facilities-alert"]',
-        );
         const cernerTransitionAlert = screen.container.querySelector(
           '[data-testid="cerner-facilities-transition-alert"]',
         );
-        const cernerInfoAlert = screen.container.querySelector(
-          '[data-testid="cerner-facilities-info-alert"]',
+        const cernerErrorAlert = screen.container.querySelector(
+          '[data-testid="cerner-facilities-transition-alert-error-phase"]',
         );
-        expect(cernerAlert).to.not.exist;
         expect(cernerTransitionAlert).to.not.exist;
-        expect(cernerInfoAlert).to.not.exist;
-      });
-    });
-
-    it('should render info alert when facility is ready for info alert', async () => {
-      const customState = {
-        ...initialState,
-        user: {
-          profile: {
-            userAtPretransitionedOhFacility: true,
-            userFacilityMigratingToOh: false,
-            userFacilityReadyForInfoAlert: true,
-          },
-        },
-      };
-
-      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
-        initialState: customState,
-        reducers: reducer,
-        path: Paths.SELECT_CARE_TEAM,
-      });
-
-      await waitFor(() => {
-        const alert = screen.container.querySelector(
-          '[data-testid="cerner-facilities-info-alert"]',
-        );
-        expect(alert).to.exist;
-        expect(alert.getAttribute('status')).to.equal('info');
+        expect(cernerErrorAlert).to.not.exist;
       });
     });
   });

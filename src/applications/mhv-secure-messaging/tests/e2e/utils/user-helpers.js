@@ -101,6 +101,64 @@ export const createUserWithMigrationInfo = (
 };
 
 /**
+ * Default migration phase dates used for testing OH migration scenarios.
+ */
+export const defaultMigrationPhases = {
+  p0: 'December 28, 2025 at 12:00AM ET',
+  p1: 'January 12, 2026 at 12:00AM ET',
+  p2: 'January 27, 2026 at 12:00AM ET',
+  p3: 'February 20, 2026 at 12:00AM ET',
+  p4: 'February 23, 2026 at 12:00AM ET',
+  p5: 'February 26, 2026 at 12:00AM ET',
+  p6: 'February 28, 2026 at 12:00AM ET',
+  p7: 'March 3, 2026 at 12:00AM ET',
+  p8: 'March 10, 2026 at 12:00AM ET',
+  p9: 'March 17, 2026 at 12:00AM ET',
+};
+
+/**
+ * Creates a mock user in a specific migration phase. A convenience wrapper
+ * around createUserWithMigrationInfo for the common case of testing a
+ * migrating facility at a given phase.
+ *
+ * @param {Object} mockUser - The base mock user fixture to extend.
+ * @param {string} currentPhase - The current migration phase (e.g., 'p1', 'p4', 'p6').
+ * @param {Object} [options] - Optional overrides.
+ * @param {string} [options.facilityId='979'] - The migrating facility ID.
+ * @param {string} [options.facilityName='Test 1'] - The migrating facility name.
+ * @param {Array}  [options.additionalFacilities] - Extra facilities to add.
+ * @returns {Object} A mock user object configured for the given migration phase.
+ */
+export const createMigratingUser = (
+  mockUser,
+  currentPhase,
+  {
+    facilityId = '979',
+    facilityName = 'Test 1',
+    additionalFacilities = [{ facilityId: '442', isCerner: false }],
+  } = {},
+) => {
+  return createUserWithMigrationInfo(
+    mockUser,
+    {
+      userAtPretransitionedOhFacility: false,
+      userFacilityMigratingToOh: true,
+      userFacilityReadyForInfoAlert: false,
+      migrationSchedules: [
+        {
+          facilities: [{ facilityId, facilityName }],
+          phases: {
+            current: currentPhase,
+            ...defaultMigrationPhases,
+          },
+        },
+      ],
+    },
+    additionalFacilities,
+  );
+};
+
+/**
  * Custom recipients mock with a transitioning (979) and non-transitioning (442) facility.
  * Useful for testing Cerner/OH migration alerts on the care-team selection page.
  */
