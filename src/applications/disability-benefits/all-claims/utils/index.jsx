@@ -669,6 +669,9 @@ export const isUploadingSTR = formData =>
     false,
   );
 
+export const isBddShaWorkflowActive = formData =>
+  formData.disability526NewBddShaEnforcementWorkflowEnabled && isBDD(formData);
+
 export const DISABILITY_SHARED_CONFIG = {
   orientation: {
     path: 'disabilities/orientation',
