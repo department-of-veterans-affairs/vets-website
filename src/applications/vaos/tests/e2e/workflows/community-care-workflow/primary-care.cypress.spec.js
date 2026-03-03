@@ -19,6 +19,7 @@ import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointm
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import {
   mockAppointmentCreateApi,
   mockAppointmentGetApi,
@@ -81,6 +82,8 @@ describe('VAOS community care flow - Primary care', () => {
 
         AppointmentListPageObject.visit().scheduleAppointment();
 
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
@@ -134,6 +137,8 @@ describe('VAOS community care flow - Primary care', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert()
@@ -206,6 +211,8 @@ describe('VAOS community care flow - Primary care', () => {
 
         AppointmentListPageObject.visit().scheduleAppointment();
 
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
@@ -264,6 +271,8 @@ describe('VAOS community care flow - Primary care', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert()
@@ -341,6 +350,8 @@ describe('VAOS community care flow - Primary care', () => {
 
       AppointmentListPageObject.visit().scheduleAppointment();
 
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/Primary care/i)
@@ -404,6 +415,8 @@ describe('VAOS community care flow - Primary care', () => {
           });
         },
       }).scheduleAppointment();
+
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
