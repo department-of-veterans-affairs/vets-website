@@ -36,9 +36,7 @@ const IntroductionPage = () => {
   const complexClaim = useSelector(selectComplexClaim);
 
   const { useToggleValue } = useFeatureToggle();
-  const isCommunityCareFlagEnabled = useToggleValue(
-    TOGGLE_NAMES.travelPayEnableCommunityCare,
-  );
+  const ccEnabled = useToggleValue(TOGGLE_NAMES.travelPayEnableCommunityCare);
 
   const title = 'File a travel reimbursement claim';
 
@@ -152,35 +150,34 @@ const IntroductionPage = () => {
                 <li>Parking and tolls from your trip</li>
                 <li>Pre-approved meals and lodging expenses</li>
               </ul>
-              {isCommunityCareFlagEnabled ? (
-                <>
-                  <p>
-                    You’ll be asked to submit receipts when you file your claim.
-                    You'll also need to submit proof of attendance, like a work
+              <p>
+                You’ll be asked to submit receipts when you file your claim.
+                {ccEnabled && appointment?.isCC && (
+                  <>
+                    {' '}
+                    You’ll also need to submit proof of attendance, like a work
                     or school release note from the community care provider or a
                     document on the community provider letterhead showing the
-                    appointment date. when you file your claim.
-                  </p>
-                  <p>
+                    appointment date.
+                  </>
+                )}
+              </p>
+              <p>
+                {ccEnabled ? (
+                  <>
                     If your trip was one way, if you started from somewhere
                     other than your home address, or if you’re a caregiver,
                     you’ll need to file your claim through the Beneficiary
                     Travel Self Service System (BTSSS).{' '}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p>
-                    You’ll be further asked to submit receipts when you file
-                    your claim.
-                  </p>
-                  <p>
+                  </>
+                ) : (
+                  <>
                     If your trip was one way, or if you started from somewhere
                     other than your home address, you’ll need to file your claim
                     through the Beneficiary Travel Self Service System (BTSSS).{' '}
-                  </p>
-                </>
-              )}
+                  </>
+                )}
+              </p>
               <p>
                 <va-link href={BTSSS_PORTAL_URL} external text="Go to BTSSS" />
               </p>
