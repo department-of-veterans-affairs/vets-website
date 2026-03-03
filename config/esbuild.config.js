@@ -1078,6 +1078,41 @@ function generateScaffoldPages(buildPath) {
     }
   }
 
+  // Load content-build app registry (has template.title overrides, e.g.
+  // Dashboard app uses template.title "My VA").  Mirrors webpack's loadAsset
+  // approach: try local content-build first, then download from GitHub.
+  let contentBuildRegistry = [];
+  const cbRegistryPath = path.join(
+    contentBuildRoot,
+    'src/applications/registry.json',
+  );
+  if (fs.existsSync(cbRegistryPath)) {
+    try {
+      contentBuildRegistry = JSON.parse(
+        fs.readFileSync(cbRegistryPath, 'utf8'),
+      );
+    } catch {
+      // ignore parse errors
+    }
+  } else {
+    // Download from content-build repo (matches webpack fallback behavior)
+    try {
+      const registryUrl =
+        'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/main/src/applications/registry.json';
+      const result = require('child_process') // eslint-disable-line global-require
+        .execSync(`curl -sf "${registryUrl}"`, {
+          encoding: 'utf8',
+          timeout: 10000,
+        });
+      contentBuildRegistry = JSON.parse(result);
+    } catch {
+      // Content-build registry unavailable — titles will fall back to appName
+    }
+  }
+
+  // Combine scaffold + content-build registries for template lookups
+  const combinedRegistry = [...scaffoldRegistry, ...contentBuildRegistry];
+
   // Build app routes from manifests + scaffold registry (mirrors webpack's
   // [...appRegistry, ...scaffoldRegistry] approach)
   const manifests = getAppManifests();
@@ -1088,16 +1123,16 @@ function generateScaffoldPages(buildPath) {
     }
   }
 
-  // Start with manifest entries, enriched with scaffold metadata
+  // Start with manifest entries, enriched with scaffold/content-build metadata
   const appRoutes = manifests.filter(m => m.rootUrl).map(m => {
-    const scaffoldEntry = scaffoldRegistry.find(s => s.rootUrl === m.rootUrl);
+    const registryEntry = combinedRegistry.find(s => s.rootUrl === m.rootUrl);
     return {
       rootUrl: m.rootUrl,
       entryName: m.entryName,
       appName: m.appName,
-      widgetType: scaffoldEntry?.widgetType,
-      widgetTemplate: scaffoldEntry?.widgetTemplate,
-      template: scaffoldEntry?.template || {},
+      widgetType: registryEntry?.widgetType,
+      widgetTemplate: registryEntry?.widgetTemplate,
+      template: registryEntry?.template || {},
     };
   });
 
