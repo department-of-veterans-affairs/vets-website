@@ -24,7 +24,7 @@ import { filterAndSort } from '../../utils/inbox';
 /**
  * @param {Props} props
  */
-export default function InboxLayout({
+export default function InboxLayoutOld({
   inquiries,
   categoryOptions,
   statusOptions,
@@ -191,7 +191,7 @@ export default function InboxLayout({
   );
 }
 
-InboxLayout.propTypes = {
+InboxLayoutOld.propTypes = {
   categoryOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   statusOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   inquiries: PropTypes.shape({

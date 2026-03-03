@@ -1,17 +1,17 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
-import InboxLayout from '~/applications/ask-va/components/inbox/InboxLayout';
+import InboxLayoutOld from '~/applications/ask-va/components/inbox/InboxLayoutOld';
 import { standardizeInquiries } from '~/applications/ask-va/utils/inbox';
 import { expect } from 'chai';
 import { mockInquiries as rawInquiries } from '../../utils/mock-inquiries';
 
-describe('<InboxLayout />', () => {
+describe('<InboxLayoutOld />', () => {
   const mockInquiries = standardizeInquiries(rawInquiries);
   const selectedStatus = 'In progress';
 
   it('displays a message when there are no inquiries', () => {
     const view = render(
-      <InboxLayout
+      <InboxLayoutOld
         categoryOptions={mockInquiries.uniqueCategories}
         statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: [], business: [] }}
@@ -28,7 +28,7 @@ describe('<InboxLayout />', () => {
 
   it('renders a list of inquiries', () => {
     const view = render(
-      <InboxLayout
+      <InboxLayoutOld
         categoryOptions={mockInquiries.uniqueCategories}
         statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: mockInquiries.personal, business: [] }}
@@ -41,7 +41,7 @@ describe('<InboxLayout />', () => {
 
   it('only renders filter options available in the list', () => {
     const view = render(
-      <InboxLayout
+      <InboxLayoutOld
         categoryOptions={mockInquiries.uniqueCategories}
         statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: mockInquiries.personal, business: [] }}
@@ -65,7 +65,7 @@ describe('<InboxLayout />', () => {
 
   it('applies and clears a filter', () => {
     const view = render(
-      <InboxLayout
+      <InboxLayoutOld
         categoryOptions={mockInquiries.uniqueCategories}
         statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: mockInquiries.personal, business: [] }}
@@ -120,7 +120,7 @@ describe('<InboxLayout />', () => {
 
   it('shifts focus to search description after a button is clicked', () => {
     const view = render(
-      <InboxLayout
+      <InboxLayoutOld
         categoryOptions={mockInquiries.uniqueCategories}
         statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: mockInquiries.personal, business: [] }}
@@ -153,7 +153,7 @@ describe('<InboxLayout />', () => {
     inquiriesCopy.push(newItem);
 
     const view = render(
-      <InboxLayout
+      <InboxLayoutOld
         categoryOptions={mockInquiries.uniqueCategories}
         statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: inquiriesCopy, business: [] }}
@@ -183,7 +183,7 @@ describe('<InboxLayout />', () => {
   describe('business and personal tabs', () => {
     it('hides tabs when there are no business inquiries', () => {
       const view = render(
-        <InboxLayout
+        <InboxLayoutOld
           categoryOptions={mockInquiries.uniqueCategories}
           statusOptions={mockInquiries.uniqueStatuses}
           inquiries={{ personal: mockInquiries.personal, business: [] }}
@@ -195,7 +195,7 @@ describe('<InboxLayout />', () => {
 
     it('shows tabs when there are business inquiries', () => {
       const view = render(
-        <InboxLayout
+        <InboxLayoutOld
           categoryOptions={mockInquiries.uniqueCategories}
           statusOptions={mockInquiries.uniqueStatuses}
           inquiries={mockInquiries}
@@ -217,7 +217,7 @@ describe('<InboxLayout />', () => {
 
     it('switches list content based on the selected tab', () => {
       const view = render(
-        <InboxLayout
+        <InboxLayoutOld
           categoryOptions={mockInquiries.uniqueCategories}
           statusOptions={mockInquiries.uniqueStatuses}
           inquiries={mockInquiries}

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { ServerErrorAlert } from '../config/helpers';
 import { mockTestingFlagForAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
 import { standardizeInquiries } from '../utils/inbox';
-import InboxLayout from '../components/inbox/InboxLayout';
+import InboxLayoutOld from '../components/inbox/InboxLayoutOld';
+import InboxLayoutNew from '../components/inbox/InboxLayoutNew';
 import { getAllInquiries } from '../utils/api';
 
 export default function Inbox() {
@@ -62,5 +64,15 @@ export default function Inbox() {
     );
   }
 
-  return <InboxLayout {...{ inquiries, categoryOptions, statusOptions }} />;
+  // TODO feature toggle uses redux state - remember to remove from unit tests as well
+  return (
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.askVaEnhancedInbox}>
+      <Toggler.Enabled>
+        <InboxLayoutNew {...{ inquiries, categoryOptions, statusOptions }} />
+      </Toggler.Enabled>
+      <Toggler.Disabled>
+        <InboxLayoutOld {...{ inquiries, categoryOptions, statusOptions }} />
+      </Toggler.Disabled>
+    </Toggler>
+  );
 }
