@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import * as api from '~/platform/utilities/api';
 import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import { TOGGLE_NAMES } from '~/platform/utilities/feature-toggles';
 import { renderWithProfileReducers } from '../../unit-test-helpers';
 import VeteranStatusWrapper from '../../../components/veteran-status-card/VeteranStatusWrapper';
 
@@ -30,11 +31,29 @@ const vetStatusConfirmed = {
   },
 };
 
+const veteranStatusCardConfirmed = {
+  type: 'veteran_status_card',
+  veteranStatus: 'confirmed',
+  serviceSummaryCode: 'A1',
+  notConfirmedReason: null,
+  attributes: {
+    fullName: 'John Doe',
+    disabilityRating: 40,
+    latestService: {
+      branch: 'Army',
+      beginDate: '2009-04-12',
+      endDate: '2013-04-11',
+    },
+    edipi: 1234567890,
+  },
+};
+
 // Mock function to create a basic initial state
-function createBasicInitialState() {
+function createBasicInitialState(useSharedService = false) {
   return {
     featureToggles: {
       loading: false,
+      [TOGGLE_NAMES.cveVeteranStatusNewService]: useSharedService,
     },
     scheduledDowntime: {
       globalDowntime: null,
@@ -97,17 +116,17 @@ describe('VeteranStatusWrapper', () => {
     });
   });
 
-  describe('when feature toggles have loaded', () => {
-    it('should render the VeteranStatus component', async () => {
+  describe('when feature toggle cveVeteranStatusNewService is disabled', () => {
+    it('should render the old VeteranStatus component', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
-      const initialState = createBasicInitialState();
+      const initialState = createBasicInitialState(false);
 
       const view = renderWithProfileReducers(<VeteranStatusWrapper />, {
         initialState,
       });
 
       await waitFor(() => {
-        // VeteranStatus component calls the old API endpoint
+        // Old component calls the old API endpoint
         sinon.assert.calledWith(
           apiRequestStub,
           '/profile/vet_verification_status',
@@ -124,5 +143,30 @@ describe('VeteranStatusWrapper', () => {
     });
   });
 
-  // TODO: Add test for VeteranStatusSharedService when feature toggle is enabled
+  describe('when feature toggle cveVeteranStatusNewService is enabled', () => {
+    it('should render the new VeteranStatusSharedService component', async () => {
+      apiRequestStub.resolves(veteranStatusCardConfirmed);
+      const initialState = createBasicInitialState(true);
+
+      const view = renderWithProfileReducers(<VeteranStatusWrapper />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        // New component calls the new API endpoint
+        sinon.assert.calledWith(apiRequestStub, '/veteran_status_card');
+
+        // Check that the heading is rendered
+        expect(
+          view.getByRole('heading', {
+            name: 'Veteran Status Card',
+            level: 1,
+          }),
+        ).to.exist;
+
+        // Check that the user's full name from the new API is rendered
+        expect(view.getByText('John Doe')).to.exist;
+      });
+    });
+  });
 });
