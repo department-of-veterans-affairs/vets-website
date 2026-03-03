@@ -208,6 +208,73 @@ const validateForm = () => {
 - Focus alert after display for accessibility
 - Modals in `components/Modals/` — use `visible` prop, always manage focus on open/close
 
+### AlertBackgroundBox & Alert Positioning Pattern
+
+The `AlertBackgroundBox` component (`components/shared/AlertBackgroundBox.jsx`) displays success, error, and warning alerts throughout the application. **CRITICAL**: Alerts must always appear **below** the page H1 heading, never above.
+
+- **Accessibility Requirements**:
+  - **WCAG SC 1.3.2 (Meaningful Sequence)**: Content order must be programmatically determinable
+  - **WCAG SC 2.4.3 (Focus Order)**: Focus order preserves meaning and operability
+  - **WCAG SC 4.1.3 (Status Messages)**: Status messages announced by AT without receiving focus
+  - **MHV Decision Records**: Focus should be set to H1 on page load
+
+- **Implementation Pattern**:
+  - Use conditional role based on alert type:
+    - `role="status"` for success and warning alerts (non-interruptive)
+    - `role="alert"` for error alerts (interruptive, higher priority)
+  - Always focus H1 on page load, not the alert
+  - For dismissible alerts, move focus back to H1 after alert is dismissed
+
+- **Direct Import Pattern**: Components that contain an H1 (ComposeForm, ReplyForm, FolderHeader, MessageThreadHeader) import and render `AlertBackgroundBox` directly after their H1:
+  ```jsx
+  import AlertBackgroundBox from '../shared/AlertBackgroundBox';
+
+  const ComposeForm = (props) => {
+    return (
+      <>
+        <h1 className="page-title">{pageTitle}</h1>
+        <AlertBackgroundBox
+          closeable
+          className="vads-u-margin-y--1 va-alert"
+        />
+        {/* ... rest of form */}
+      </>
+    );
+  };
+  ```
+
+- **Error State Handling**: When page data fails to load (e.g., 503 error), the H1 may not exist. Render AlertBackgroundBox at the top of the content area for error visibility:
+  ```jsx
+  {folder === null ? (
+    <AlertBackgroundBox closeable />  {/* Error state: no H1 */}
+  ) : (
+    folderId === undefined && <LoadingIndicator />
+  )}
+  {folderId !== undefined && (
+    <>
+      <FolderHeader folder={folder} />  {/* Contains H1 */}
+      {content}
+    </>
+  )}
+  ```
+
+- **Focus Management**: Always focus H1, never the alert:
+  ```jsx
+  // ✅ CORRECT: Always focus H1, let role="status" announce alert
+  useEffect(() => {
+    if (folder !== undefined) {
+      focusElement(document.querySelector('h1'));
+    }
+  }, [alertList, folder]);
+  
+  // ❌ WRONG: Conditional focus on alert
+  useEffect(() => {
+    const alertVisible = alertList[alertList?.length - 1];
+    const selector = alertVisible?.isActive ? 'va-alert' : 'h1';
+    focusElement(document.querySelector(selector));
+  }, [alertList, folder]);
+  ```
+
 ## Accessibility
 
 - Focus first error after validation failure using `focusOnErrorField()`
@@ -218,3 +285,91 @@ const validateForm = () => {
 - Add `aria-label` or `aria-describedby` to all interactive elements
 - Use `message-aria-describedby` on web components
 - `focusElement()` from platform utilities for programmatic focus management
+
+### Delayed sr-only aria-live Announcement
+
+**When to use:** An `aria-live="polite"` region needs to announce alert content but page focus is still settling (e.g., heading receives focus on load). VoiceOver reads the focused element first — injecting polite live-region content simultaneously causes it to be skipped or to interrupt the current announcement.
+
+**Pattern:** Use `useLayoutEffect` to listen for any `focusin` event. Each focus change resets a 1s debounce timer — once focus settles for 1s, populate the sr-only span. Include a 5s hard ceiling in case focus keeps bouncing. Use `timerSourceRef` to prevent duplicate announces, and force a real DOM text mutation (clear → RAF → set) so screen readers detect the change reliably.
+
+```jsx
+const [srAlertContent, setSrAlertContent] = useState('');
+const timerSourceRef = useRef(null);
+
+useLayoutEffect(() => {
+  if (!alertContent) {
+    setSrAlertContent('');
+    timerSourceRef.current = null;
+    return undefined;
+  }
+  let debounceTimer;
+  let rafId;
+  timerSourceRef.current = null;
+
+  const scheduleAnnounce = source => {
+    timerSourceRef.current = source;
+    setSrAlertContent('');
+    rafId = requestAnimationFrame(() => {
+      setSrAlertContent(alertContent);
+    });
+  };
+
+  const onFocusIn = () => {
+    if (timerSourceRef.current) return;
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(
+      () => scheduleAnnounce('focus-settle'),
+      1000,
+    );
+  };
+
+  document.addEventListener('focusin', onFocusIn);
+  onFocusIn(); // kick off initial debounce
+
+  const ceilingTimer = setTimeout(() => {
+    if (!timerSourceRef.current) {
+      scheduleAnnounce('ceiling');
+    }
+  }, 5000);
+
+  return () => {
+    clearTimeout(debounceTimer);
+    clearTimeout(ceilingTimer);
+    cancelAnimationFrame(rafId);
+    document.removeEventListener('focusin', onFocusIn);
+  };
+}, [alertContent]);
+```
+
+**Why `useLayoutEffect`:** Fires before paint, guaranteeing the `focusin` listener is registered before the browser delivers focus events. `useEffect` has a timing gap.
+
+**Anti-pattern:**
+```jsx
+// ❌ Don't use useEffect — focusin may fire before the listener is registered
+useEffect(() => { document.addEventListener('focusin', handler); }, []);
+```
+
+**Why:** Discovered via VoiceOver testing (ticket #133563). Screen readers skip polite announcements when focus moves to a different element at the same time.
+
+### Focus Restriction for Non-Error Alerts
+
+**When to use:** A component uses `focusElement()` to move focus to an alert on load (e.g., via `onVa-component-did-load`), but VoiceOver is already reading other content.
+
+**Pattern:** Gate `focusElement()` calls to error alerts only. For success/info/warning alerts, let the delayed sr-only span handle the announcement instead.
+
+```jsx
+const handleAlertFocus = useCallback(() => {
+  if (activeAlert?.alertType !== 'error') return;
+  setTimeout(() => { focusElement(alertRef.current); }, 500);
+}, [activeAlert?.alertType, props.focus]);
+```
+
+**Anti-pattern:**
+```jsx
+// ❌ Don't steal focus for all alert types — interrupts VoiceOver mid-announcement
+const handleAlertFocus = useCallback(() => {
+  setTimeout(() => { focusElement(alertRef.current); }, 500);
+}, [props.focus]);
+```
+
+**Why:** The 500ms focus-steal for success alerts interrupts VoiceOver while it reads the page heading, causing the alert text to be skipped entirely.

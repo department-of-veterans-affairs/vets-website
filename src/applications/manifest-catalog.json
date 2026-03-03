@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 152,
+  "totalApplications": 151,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -208,12 +208,6 @@
       "rootUrl": "/disability/file-disability-claim-form-21-526ez"
     },
     {
-      "directoryPath": "src/applications/disability-benefits/view-payments",
-      "appName": "View Payments",
-      "entryName": "view-payments",
-      "rootUrl": "/va-payment-history/payments"
-    },
-    {
       "directoryPath": "src/applications/discharge-wizard",
       "appName": "Discharge Wizard",
       "entryName": "discharge-upgrade-instructions",
@@ -266,6 +260,12 @@
       "appName": "Program Apporval in a Foreign Country (VA Form 22-0976)",
       "entryName": "0976-edu-benefits",
       "rootUrl": "/education/0976"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/0989",
+      "appName": "22-0989 Entitlement restoration",
+      "entryName": "0989-edu-benefits",
+      "rootUrl": "/forms/0989"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0994",
@@ -368,6 +368,12 @@
       "appName": "Facility Locator",
       "entryName": "facilities",
       "rootUrl": "/find-locations"
+    },
+    {
+      "directoryPath": "src/applications/financial-management/view-payments",
+      "appName": "View Payments",
+      "entryName": "view-payments",
+      "rootUrl": "/va-payment-history/payments"
     },
     {
       "directoryPath": "src/applications/financial-status-report",
@@ -566,6 +572,12 @@
       "appName": "Dashboard",
       "entryName": "dashboard",
       "rootUrl": "/my-va"
+    },
+    {
+      "directoryPath": "src/applications/personalization/form-renderer",
+      "appName": "form-renderer",
+      "entryName": "form-renderer",
+      "rootUrl": "/my-va/submissions"
     },
     {
       "directoryPath": "src/applications/personalization/profile",
@@ -895,7 +907,7 @@
       "directoryPath": "src/applications/vre/ch31-eligibility-entitlement",
       "appName": "VRE CH31 Eligibility &amp; Entitlement",
       "entryName": "ch31-eligibility-entitlement",
-      "rootUrl": "/careers-employment/your-vre-eligibility"
+      "rootUrl": "/careers-employment"
     },
     {
       "directoryPath": "src/applications/yellow-ribbon",

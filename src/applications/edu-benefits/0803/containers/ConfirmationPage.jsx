@@ -66,7 +66,7 @@ function AlertBox() {
 
 export const ConfirmationPage = props => {
   const [claimId, setClaimId] = useState(null);
-  const form = useSelector(state => state.form || {});
+  const form = useSelector(state => state.form);
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
   const confirmationNumber = submission?.response?.confirmationNumber || '';

@@ -8,6 +8,10 @@ import {
   FETCH_DIRECT_DEPOSIT,
   FETCH_DIRECT_DEPOSIT_SUCCESS,
   FETCH_DIRECT_DEPOSIT_FAILED,
+  FETCH_DUPLICATE_CONTACT_INFO_SUCCESS,
+  FETCH_DUPLICATE_CONTACT_INFO_FAILURE,
+  ACKNOWLEDGE_DUPLICATE,
+  TOGGLE_MODAL,
 } from '../actions';
 
 const initialState = {
@@ -74,6 +78,28 @@ export default {
           ...state,
           fetchDirectDepositInProgress: false,
           bankInformation: handleDirectDepositApi(action),
+        };
+      case FETCH_DUPLICATE_CONTACT_INFO_SUCCESS:
+        return {
+          ...state,
+          duplicateEmail: action?.response?.data?.attributes?.email,
+          duplicatePhone: action?.response?.data?.attributes?.phone,
+        };
+      case FETCH_DUPLICATE_CONTACT_INFO_FAILURE:
+        return {
+          ...state,
+          email: action?.email,
+        };
+      case ACKNOWLEDGE_DUPLICATE:
+        return {
+          ...state,
+          duplicateEmail: action?.contactInfo?.email,
+          duplicatePhone: action?.contactInfo?.phone,
+        };
+      case TOGGLE_MODAL:
+        return {
+          ...state,
+          openModal: action.toggle,
         };
       default:
         return state;

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -14,6 +13,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderOptions } from './config';
 import { NO_SSN_REASON_UI_MAPPINGS } from '../../dataMappings';
+import { fullNameNoSuffixWithAsciiUI } from '../../helpers';
 
 export const information = {
   uiSchema: {
@@ -24,7 +24,7 @@ export const information = {
     'view:childNameTitle': {
       'ui:description': <h4>Child’s name</h4>,
     },
-    fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
+    fullName: fullNameNoSuffixWithAsciiUI(title => `Child’s ${title}`),
     birthDate: currentOrPastDateUI({
       title: 'Child’s date of birth',
       labelHeaderLevel: '4',

@@ -50,7 +50,11 @@ const AlreadyScheduled = () => {
       loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
       errorAlert={isServerError(appointmentError)}
     >
-      <p id="appointment-date-time" data-testid="already-scheduled-date-time">
+      <p
+        id="appointment-date-time"
+        data-dd-privacy="mask"
+        data-testid="already-scheduled-date-time"
+      >
         Your VA Solid Start appointment is scheduled for {appointmentDate} at{' '}
         {appointmentTime}.
       </p>

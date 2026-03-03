@@ -7,6 +7,11 @@ import { focusElement } from '~/platform/utilities/ui';
 import { isValid, parseISO, parse } from 'date-fns';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { isValidRoutingNumber } from 'platform/forms/validations';
+import {
+  VaSelectField,
+  VaTextInputField,
+} from 'platform/forms-system/src/js/web-component-fields';
+import constants from 'vets-json-schema/dist/constants.json';
 
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
 export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
@@ -131,7 +136,7 @@ export const trainingProviderArrayOptions = {
   maxItems: 4,
   text: {
     getItemName: item =>
-      item?.providerName ? `${item?.providerName}`.trim() : 'training provider',
+      item?.providerName ? `${item?.providerName}`.trim() : 'Training provider',
     cardDescription: item => getCardDescription(item),
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',
@@ -140,12 +145,55 @@ export const trainingProviderArrayOptions = {
   },
 };
 
+export const lastDayOfMonth = (month, year = NaN) => {
+  const lastDay = new Date(year, month, 0).getDate();
+
+  // default values if provided year or month are invalid/blank
+  if (Number.isNaN(lastDay)) {
+    switch (month) {
+      case 4:
+      case 6:
+      case 9:
+      case 11:
+        return 30;
+      case 2:
+        return 29;
+      default:
+        return 31;
+    }
+  }
+
+  return lastDay;
+};
+
 export const validateTrainingProviderStartDate = (errors, dateString) => {
   if (!dateString) return;
-  const picked = new Date(`${dateString}T00:00:00`);
-  const startDate = new Date('2025-01-02T00:00:00');
 
-  if (picked < startDate) errors.addError('Enter a date after 1/2/2025');
+  const [year, month, day] = dateString.split('-').map(Number);
+
+  if (year && month && day) {
+    const picked = new Date(`${dateString}T00:00:00`);
+    const startDate = new Date('2026-07-01T00:00:00');
+
+    if (picked < startDate)
+      errors.addError('Enter a date on or after July 1, 2026');
+  }
+
+  const minYear = 2026;
+  const maxYear = new Date().getFullYear() + 100;
+  const maxDay = lastDayOfMonth(month, year);
+
+  if (!month || month < 1 || month > 12) {
+    errors.addError('Please enter a valid date');
+  }
+
+  if (!day || day < 1 || day > maxDay) {
+    errors.addError('Please enter a valid date');
+  }
+
+  if (!year || year < minYear || year > maxYear) {
+    errors.addError('Please enter a valid date');
+  }
 };
 
 export const dateSigned = () => {
@@ -172,8 +220,8 @@ export const focusOnH3 = () => {
 };
 
 export const getPrefillIntlPhoneNumber = (phone = {}) => {
-  const areaCode = (phone.areaCode || '').trim();
-  const phoneNumber = (phone.phoneNumber || '').trim();
+  const areaCode = (phone?.areaCode || '').trim();
+  const phoneNumber = (phone?.phoneNumber || '').trim();
 
   /**
    * All user profile numbers set to the *US* country code by default.
@@ -585,23 +633,281 @@ export function getLTSCountryCode(schemaCountryValue) {
   return country?.ltsValue ? country.ltsValue : 'ZZ';
 }
 
-export const lastDayOfMonth = (month, year = NaN) => {
-  const lastDay = new Date(year, month, 0).getDate();
+export const addressSpecifications = {
+  street: {
+    minLength: 3,
+    maxLength: 40,
+    errorMessages: {
+      required: 'Enter a street address',
+      minLength: 'Enter a minimum of 3 characters and maximum of 40 characters',
+    },
+  },
+  street2: {
+    maxLength: 40,
+  },
+  street3: {
+    maxLength: 40,
+  },
+  city: {
+    minLength: 2,
+    maxLength: 20,
+    errorMessages: {
+      required: 'Enter a city',
+      minLength: 'Enter a minimum of 2 characters and maximum of 20 characters',
+    },
+    MILITARY: {
+      errorMessages: {
+        required:
+          'Select an Abbreviation: AA (Armed Forces America), AE (Armed Forces Europe), or AP (Armed Forces Pacific)',
+        enum:
+          'Select an Abbreviation: AA (Armed Forces America), AE (Armed Forces Europe), or AP (Armed Forces Pacific)',
+      },
+      label: 'AA/AE/AP',
+    },
+  },
+  state: {
+    USA: {
+      errorMessages: {
+        required: 'Select a state or territory',
+        enum: 'Select a state or territory',
+      },
+      label: 'State or territory',
+    },
+    CAN: {
+      errorMessages: {
+        required: 'Select a province or territory',
+        enum: 'Select a province or territory',
+      },
+      label: 'Province or territory',
+    },
+    MEX: {
+      errorMessages: {
+        required: 'Select a state',
+        enum: 'Select a state',
+      },
+      label: 'State',
+    },
+    MILITARY: {
+      errorMessages: {
+        required: 'Select an abbreviation: AA, AE, or AP',
+        enum: 'Select an abbreviation: AA, AE, or AP',
+      },
+      label: 'AA/AE/AP',
+    },
+    OTHER: {
+      label: 'State, county, or province',
+      minLength: 2,
+      maxLength: 40,
+      errorMessages: {
+        minLength:
+          'Enter a minimum of 2 characters and maximum of 40 characters',
+      },
+    },
+  },
+  postalCode: {
+    USA: {
+      errorMessages: {
+        required: 'Enter a valid 5-digit or 9-digit zip code',
+        pattern: 'Enter a valid 5-digit or 9-digit zip code',
+        minLength: 'Enter a valid 5-digit or 9-digit zip code',
+        maxLength: 'Enter a valid 5-digit or 9-digit zip code',
+      },
+      label: 'Zip code',
+      pattern: '(^\\d{5}$)|(^\\d{5}[ -]{0,1}\\d{4})$',
+      minLength: 5,
+      maxLength: 10,
+    },
+    MILITARY: {
+      errorMessages: {
+        required: {
+          AA:
+            'Enter a valid zip code for AA. Must start with 360 and be a 5-digit or 9-digit zip code',
+          AE:
+            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
+          AP:
+            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+        },
+        pattern: {
+          AA:
+            'Enter a valid zip code for AA. Must start with 360 and be a 5-digit or 9-digit zip code',
+          AE:
+            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
+          AP:
+            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+        },
+        minLength: {
+          AA:
+            'Enter a valid zip code for AA. Must start with 360 and be a 5-digit or 9-digit zip code',
+          AE:
+            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
+          AP:
+            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+        },
+        maxLength: {
+          AA:
+            'Enter a valid zip code for AA. Must start with 360 and be a 5-digit or 9-digit zip code',
+          AE:
+            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
+          AP:
+            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+        },
+      },
+      label: 'Zip code',
+      pattern: {
+        AA: '(^360\\d{2}$)|(^360\\d{2}[ -]{0,1}\\d{4}$)',
+        AE: '(^09\\d{3}$)|(^09\\d{3}[ -]{0,1}\\d{4}$)',
+        AP: '(^96[2-6]\\d{2}$)|(^96[2-6]\\d{2}[ -]{0,1}\\d{4}$)',
+      },
+      minLength: 5,
+      maxLength: 10,
+    },
+    CAN: {
+      errorMessages: {
+        required: 'Enter a valid 6-character postal code',
+        pattern: 'Enter a valid 6-character postal code',
+        minLength: 'Enter a valid 6-character postal code',
+        maxLength: 'Enter a valid 6-character postal code',
+      },
+      label: 'Postal code',
+      pattern:
+        '^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$',
+      minLength: 6,
+      maxLength: 7,
+    },
+    MEX: {
+      errorMessages: {
+        required: 'Enter a valid 5-digit postal code',
+        pattern: 'Enter a valid 5-digit postal code',
+        minLength: 'Enter a valid 5-digit postal code',
+        maxLength: 'Enter a valid 5-digit postal code',
+      },
+      label: 'Postal code',
+      pattern: '^\\d{5}$',
+      minLength: 5,
+      maxLength: 5,
+    },
+    OTHER: {
+      errorMessages: {
+        required:
+          'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
+        minLength:
+          'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
+        pattern:
+          'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
+      },
+      label: 'Postal code',
+      pattern: '^[A-Za-z0-9 -]+$',
+      minLength: 3,
+      maxLength: 10,
+    },
+  },
+};
 
-  // default values if provided year or month are invalid/blank
-  if (isNaN(lastDay)) {
-    switch (month) {
-      case 4:
-      case 6:
-      case 9:
-      case 11:
-        return 30;
-      case 2:
-        return 29;
-      default:
-        return 31;
-    }
-  }
+export const addressUiSchema = ({ baseUiSchema }) => {
+  return {
+    ...baseUiSchema,
+    street: {
+      ...baseUiSchema.street,
+      'ui:errorMessages': addressSpecifications.street.errorMessages,
+    },
+    city: {
+      ...baseUiSchema.city,
+      'ui:options': {
+        ...baseUiSchema.city['ui:options'],
+        replaceSchema: (_formData, _schema, _uiSchema) => {
+          const cityUI = _uiSchema;
+          cityUI['ui:errorMessages'] = addressSpecifications.city.errorMessages;
+          return {
+            type: 'string',
+            title: 'City',
+            minLength: addressSpecifications.city.minLength,
+            maxLength: addressSpecifications.city.maxLength,
+          };
+        },
+      },
+    },
+    state: {
+      ...baseUiSchema.state,
+      'ui:options': {
+        ...baseUiSchema.state['ui:options'],
+        replaceSchema: (formData, _schema, _uiSchema, index) => {
+          const stateUI = _uiSchema;
+          const country =
+            formData.trainingProviders?.[index]?.providerAddress?.country ||
+            formData.providerAddress?.country;
 
-  return lastDay;
+          if (['USA', 'CAN', 'MEX'].includes(country)) {
+            stateUI['ui:errorMessages'] =
+              addressSpecifications.state[country].errorMessages;
+            stateUI['ui:webComponentField'] = VaSelectField;
+            return {
+              type: 'string',
+              title: addressSpecifications.state[country].label,
+              enum: constants.states[country].map(state => state.value),
+              enumNames: constants.states[country].map(state => state.label),
+            };
+          }
+
+          stateUI['ui:errorMessages'] =
+            addressSpecifications.state.OTHER.errorMessages;
+          stateUI['ui:webComponentField'] = VaTextInputField;
+          return {
+            type: 'string',
+            title: addressSpecifications.state.OTHER.label,
+            minLength: addressSpecifications.state.OTHER.minLength,
+            maxLength: addressSpecifications.state.OTHER.maxLength,
+          };
+        },
+      },
+    },
+    postalCode: {
+      ...baseUiSchema.postalCode,
+      'ui:title': undefined,
+      'ui:options': {
+        ...baseUiSchema.postalCode['ui:options'],
+        widgetClassNames: undefined,
+        replaceSchema: (formData, _schema, _uiSchema, index) => {
+          const country =
+            formData.trainingProviders?.[index]?.providerAddress?.country ||
+            formData.providerAddress?.country;
+
+          const newUiSchema = _uiSchema;
+          const newSchema = {
+            type: 'string',
+            title: addressSpecifications.postalCode.OTHER.label,
+            minLength: addressSpecifications.postalCode.OTHER.minLength,
+            maxLength: addressSpecifications.postalCode.OTHER.maxLength,
+            pattern: addressSpecifications.postalCode.OTHER.pattern,
+          };
+
+          newUiSchema['ui:errorMessages'] =
+            addressSpecifications.postalCode.OTHER.errorMessages;
+
+          if (country === 'USA') {
+            newSchema.pattern = addressSpecifications.postalCode.USA.pattern;
+            newSchema.title = addressSpecifications.postalCode.USA.label;
+            newSchema.minLength =
+              addressSpecifications.postalCode.USA.minLength;
+            newSchema.maxLength =
+              addressSpecifications.postalCode.USA.maxLength;
+            newUiSchema['ui:errorMessages'] =
+              addressSpecifications.postalCode.USA.errorMessages;
+          } else if (['CAN', 'MEX'].includes(country)) {
+            newSchema.pattern =
+              addressSpecifications.postalCode[country].pattern;
+            newSchema.minLength =
+              addressSpecifications.postalCode[country].minLength;
+            newSchema.maxLength =
+              addressSpecifications.postalCode[country].maxLength;
+            newUiSchema['ui:errorMessages'] =
+              addressSpecifications.postalCode[country].errorMessages;
+          }
+
+          return {
+            ...newSchema,
+          };
+        },
+      },
+    },
+  };
 };

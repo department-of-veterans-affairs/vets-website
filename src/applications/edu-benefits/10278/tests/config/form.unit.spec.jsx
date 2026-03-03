@@ -35,46 +35,6 @@ describe('22-10278 formConfig – page visibility', () => {
     });
   });
 
-  describe('personalInformationChapter -> nameAndDateOfBirth', () => {
-    const page =
-      formConfig.chapters.personalInformationChapter.pages.nameAndDateOfBirth;
-
-    it('is wired with required fields', () => {
-      expect(page.path).to.equal('name-and-date-of-birth');
-      expect(page.uiSchema).to.be.an('object');
-      expect(page.schema).to.be.an('object');
-      expect(page.depends).to.be.a('function');
-    });
-
-    it('depends on userLoggedIn !== true', () => {
-      expect(page.depends({ userLoggedIn: false })).to.be.true;
-      expect(page.depends({ userLoggedIn: true })).to.be.false;
-      expect(page.depends({})).to.be.true;
-      expect(page.depends(undefined)).to.be.true;
-    });
-  });
-
-  describe('personalInformationChapter -> identificationInformation', () => {
-    const page =
-      formConfig.chapters.personalInformationChapter.pages
-        .identificationInformation;
-
-    it('is wired with required fields', () => {
-      expect(page.path).to.equal('identification-information');
-      expect(page.title).to.equal('Identification information');
-      expect(page.uiSchema).to.be.an('object');
-      expect(page.schema).to.be.an('object');
-      expect(page.depends).to.be.a('function');
-    });
-
-    it('depends on userLoggedIn !== true', () => {
-      expect(page.depends({ userLoggedIn: false })).to.be.true;
-      expect(page.depends({ userLoggedIn: true })).to.be.false;
-      expect(page.depends({})).to.be.true;
-      expect(page.depends(undefined)).to.be.true;
-    });
-  });
-
   describe('thirdPartyContactInformation -> thirdPartyPersonName', () => {
     const page =
       formConfig.chapters.thirdPartyContactInformation.pages
