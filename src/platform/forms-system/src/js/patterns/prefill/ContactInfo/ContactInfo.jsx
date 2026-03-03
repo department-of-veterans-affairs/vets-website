@@ -287,6 +287,11 @@ export const ContactInfoBase = ({
 
   // Render alerts above contact sections
   const renderContactAlerts = () => {
+    // Don't show success alerts if there are errors
+    if (submitted && (missingInfo.length > 0 || validationErrors.length > 0)) {
+      return null;
+    }
+
     const alerts = [];
 
     Object.entries(fieldConfig).forEach(([id, { text, key }]) => {
