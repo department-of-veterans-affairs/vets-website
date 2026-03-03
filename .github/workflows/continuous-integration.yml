@@ -33,6 +33,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Configure AWS credentials
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -111,8 +112,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -161,6 +160,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -335,8 +335,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -431,8 +429,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -546,6 +542,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -576,6 +573,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -1659,6 +1657,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -1885,6 +1884,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -2005,6 +2005,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         if: env.ALERT_TEAMS == 'true'
