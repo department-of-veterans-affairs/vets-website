@@ -175,6 +175,11 @@ function aliasPlugin(aliasMap, rootDir) {
           return undefined;
         if (!args.resolveDir) return undefined;
 
+        // Don't intercept resolution within node_modules — let esbuild
+        // handle it natively so that package.json "browser" field mappings
+        // are respected (e.g. @mapbox/mapbox-sdk redirects node→browser).
+        if (args.resolveDir.includes('node_modules')) return undefined;
+
         let candidate;
         if (path.isAbsolute(args.path)) {
           candidate = args.path;
@@ -926,7 +931,7 @@ async function buildConfig(options = {}) {
       assert: require.resolve('assert/'),
       buffer: require.resolve('buffer/'),
       path: require.resolve('path-browserify'),
-      stream: require.resolve('readable-stream'),
+      stream: require.resolve('stream-browserify'),
       util: require.resolve('util/'),
       zlib: require.resolve('browserify-zlib'),
       'process/browser': require.resolve('process/browser'),
