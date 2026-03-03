@@ -16,6 +16,14 @@ export const cleanupErrorAnnotations = cleanupErrorAnnotationsInternal;
 // Let the form system control scroll behavior
 window.history.scrollRestoration = 'manual';
 
+// Error message selectors used for alert role removal before focus
+const ERROR_MESSAGE_SELECTORS = [
+  '#error-message',
+  '#input-error-message',
+  '#radio-error-message',
+  '#checkbox-error-message',
+];
+
 /**
  * Scroll element to top of the page
  * @param {String|Number|Element} el - selector, id, name, class name, number,
@@ -161,11 +169,28 @@ export const scrollToFirstError = async (options = {}) => {
           scaffoldErrorsFromSelectors(selectors);
 
           // Find and focus the appropriate input element
+          // Temporarily remove alert role from error message elements to prevent competing announcements
           const focusTarget = findFocusTarget(el);
           if (focusTarget) {
+            const errorElements = el?.shadowRoot?.querySelectorAll(
+              ERROR_MESSAGE_SELECTORS.join(', '),
+            );
+            const originalAttributes = [];
+            errorElements?.forEach(errorEl => {
+              const role = errorEl.getAttribute('role');
+              originalAttributes.push({ element: errorEl, role });
+              errorEl.removeAttribute('role');
+            });
+
+            focusTarget.focus({ preventScroll: true });
+
+            // 500ms timeout here is somewhat arbitrary but is intended to be long enough for focus to occur
+            // and screen readers to announce the focused element before restoring alert roles to error message elements
             setTimeout(() => {
-              focusTarget.focus({ preventScroll: true });
-            }, 100);
+              originalAttributes.forEach(({ element, role }) => {
+                if (role) element.setAttribute('role', role);
+              });
+            }, 500);
           }
         } else {
           focusElement(el);

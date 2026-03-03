@@ -229,7 +229,7 @@ describe('Folder Thread List View container', () => {
         .to.equal('error');
       expect(screen.getByText(Alerts.Message.SERVER_ERROR_503)).to.exist;
       // sr-only span exists with delayed content (populated after H1 focusin + 1s or 3s fallback)
-      const srSpan = alert.querySelector('span[aria-live="polite"]');
+      const srSpan = screen.getByTestId('sr-only-alert-text');
       expect(srSpan).to.exist;
       expect(alert).to.have.attribute(
         'close-btn-aria-label',
@@ -403,7 +403,7 @@ describe('Folder Thread List View container', () => {
       const getListOfThreadsSpy = sandbox
         .stub(threadsActions, 'getListOfThreads')
         .callThrough();
-      const sortComponent = screen.queryByTestId('thread-list-sort');
+      const sortComponent = screen.getByTestId('thread-list-sort');
       const sortButton = screen.getByTestId('sort-button');
       selectVaSelect(sortComponent, 'SENT_DATE_ASCENDING');
       fireEvent.click(sortButton);

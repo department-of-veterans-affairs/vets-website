@@ -34,7 +34,8 @@ const getCareerPlanningCard = step => {
   return {
     title: 'Career Planning',
     body,
-    href: '/career-planning',
+    href: '/track-your-vre-benefits/vre-benefit-status/career-planning',
+    isExternal: false,
   };
 };
 

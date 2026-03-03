@@ -155,6 +155,7 @@ const ManageFolderButtons = props => {
           <va-additional-info
             trigger="How can I use a custom folder?"
             class="custom-folder-info vads-u-margin-bottom--3"
+            data-testid="custom-folder-info"
           >
             This is a folder you created. You can add conversations to this
             folder by moving them from your inbox or other folders.
