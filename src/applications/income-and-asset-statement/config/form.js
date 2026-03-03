@@ -5,6 +5,7 @@ import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/pat
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
+import migrations from '../migrations';
 import prefillTransformer from './prefill-transformer';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -47,8 +48,8 @@ const formConfig = {
     //   saved: 'Your benefits application has been saved.',
     // },
   },
-  version: 0,
-  migrations: [],
+  version: 1,
+  migrations,
   prefillEnabled: true,
   prefillTransformer,
   dev: {
