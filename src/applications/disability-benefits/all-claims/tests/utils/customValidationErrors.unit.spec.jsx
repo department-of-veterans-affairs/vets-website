@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { NEW_CONDITION_OPTION } from '../../constants';
 import { getCustomValidationErrors } from '../../utils/customValidationErrors';
 
 describe('getCustomValidationErrors', () => {
@@ -82,7 +83,7 @@ describe('getCustomValidationErrors', () => {
       newDisabilities: [
         {
           condition: 'Knee pain',
-          ratedDisability: "A condition I haven't claimed before",
+          ratedDisability: NEW_CONDITION_OPTION,
         },
       ],
     };
