@@ -71,7 +71,7 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText(/Claim number:/)).to.exist;
     expect(screen.getByText('TC0928098230498')).to.exist;
     expect(screen.getByText('Tomah VA Medical Center')).to.exist;
-    expect(screen.getByText('Claim status: Claim submitted')).to.exist;
+    expect(screen.getByText('Claim status: Submitted')).to.exist;
   });
 
   it('sets the page title correctly', () => {
@@ -111,7 +111,7 @@ describe('ClaimDetailsContent', () => {
       },
     );
 
-    expect(screen.getByText('Claim status: Claim submitted')).to.exist;
+    expect(screen.getByText('Claim status: Submitted')).to.exist;
     expect(screen.getByText(/You submitted this claim for review/i)).to.exist;
   });
 

@@ -2,7 +2,7 @@ const STATUS_KEYS = Object.freeze({
   INCOMPLETE: 'Incomplete',
   SAVED: 'Saved',
   IN_PROCESS: 'In process',
-  CLAIM_SUBMITTED: 'Claim submitted',
+  CLAIM_SUBMITTED: 'Submitted',
   IN_MANUAL_REVIEW: 'In manual review',
   ON_HOLD: 'On hold',
   APPEALED: 'Appealed',
@@ -12,7 +12,7 @@ const STATUS_KEYS = Object.freeze({
   APPROVED_FOR_PAYMENT: 'Approved for payment',
   SUBMITTED_FOR_PAYMENT: 'Submitted for payment',
   FISCAL_RESCINDED: 'Fiscal rescinded',
-  CLAIM_PAID: 'Claim paid',
+  CLAIM_PAID: 'Paid',
   PAYMENT_CANCELED: 'Payment canceled',
 });
 

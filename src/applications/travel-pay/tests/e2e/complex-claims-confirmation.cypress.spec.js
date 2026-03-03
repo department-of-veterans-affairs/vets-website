@@ -69,7 +69,7 @@ describe('Complex Claims Confirmation Page', () => {
     cy.get('va-alert[status="success"]').should('be.visible');
     cy.get('va-alert[status="success"]')
       .find('[slot="headline"]')
-      .should('contain.text', 'Claim submitted');
+      .should('contain.text', 'Submitted');
 
     // Check claim number placeholder
     cy.get('va-alert[status="success"]').should(
