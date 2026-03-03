@@ -1,7 +1,7 @@
 // import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-export const envUrl = environment.API_URL;
+export const envApiUrl = environment.API_URL;
 
 export const baseURL = '/ask_va_api/v0';
 
@@ -18,38 +18,37 @@ export const baseURL = '/ask_va_api/v0';
 // const isMockApiEnabled = useToggleValue(toggleName);
 // const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
 
-// const isLocalhost = envUrl === 'http://localhost:3000';
+// const isLocalhost = envApiUrl === 'http://localhost:3000';
 // const isToggleEnabled = !isLoadingFeatureFlags && isMockApiEnabled;
 // const isProduction = environment.isProduction();
 
-// export const mockTestingFlagforAPI =
+// export const mockTestingFlagForAPI =
 //   (isToggleEnabled || isLocalhost) && !isProduction;
 
-export const mockTestingFlagforAPI = envUrl === 'http://localhost:3000'; // enable this flag when testing locally for API calls
+export const mockTestingFlagForAPI =
+  envApiUrl === 'http://localhost:3000' ||
+  envApiUrl === 'http://127.0.0.1:3000'; // enable this flag when testing locally for API calls
 
 // Overridable for testing
-export const getMockTestingFlagforAPI = () => mockTestingFlagforAPI;
+export const getMockTestingFlagForAPI = () => mockTestingFlagForAPI;
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/contents?type=category${
-    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+    mockTestingFlagForAPI ? '&user_mock_data=true' : ''
   }`,
   GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%${
-    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+    mockTestingFlagForAPI ? '&user_mock_data=true' : ''
   }`,
   GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%${
-    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+    mockTestingFlagForAPI ? '&user_mock_data=true' : ''
   }`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   ANNOUNCEMENTS: `${baseURL}/announcements${
-    mockTestingFlagforAPI ? '?user_mock_data=true' : ''
+    mockTestingFlagForAPI ? '?user_mock_data=true' : ''
   }`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
-  GET_INQUIRIES: `${baseURL}/inquiries`,
-  INQUIRIES: `${baseURL}/inquiries`,
-  AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
   DOWNLOAD_ATTACHMENT: `${baseURL}/download_attachment?id=`,
 };
 
@@ -66,7 +65,7 @@ export const getApiUrl = (url, params) => {
       apiUrl = apiUrl.replace(`%${key}%`, params[key]);
     });
   }
-  return envUrl + apiUrl;
+  return envApiUrl + apiUrl;
 };
 
 export const branchesOfService = [
@@ -412,7 +411,7 @@ export const CHAPTER_3 = {
   THEIR_RELATIONSHIP_TO_VET: {
     TITLE: 'What is their relationship to the Veteran?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Please describe their relationship to the Veteran',
+    QUESTION_1: 'Describe their relationship to the Veteran',
   },
   ABOUT_THE_VET: {
     TITLE: 'Tell us about the Veteran',
@@ -495,7 +494,7 @@ export const CHAPTER_3 = {
     },
     QUESTION_2: {
       QUESTION: 'How should we contact you?',
-      ERROR: 'Please select your contact preference',
+      ERROR: 'Select your contact preference',
     },
   },
   YOUR_COUNTRY: {
@@ -558,7 +557,7 @@ export const CHAPTER_3 = {
     TITLE: 'School state or residency state',
     PAGE_DESCRIPTION: 'School or state of residency',
     QUESTION_1:
-      "Please provide your school state. If you don't have a school state, you can provide your residency state instead.",
+      "Provide your school state. If you don't have a school state, you can provide your residency state instead.",
   },
   VETERAN_LOCATION_OF_RESIDENCE: {
     TITLE: `Veteran's location of residence`,
@@ -594,31 +593,31 @@ export const CHAPTER_3 = {
   YOUR_VRE_INFORMATION: {
     TITLE:
       'Have you ever applied for Veteran Readiness and Employment benefits and services?',
-    ERROR: "Please select if you've applied for services.",
+    ERROR: "Select if you've applied for services.",
   },
   YOUR_VRE_COUNSELOR: {
     TITLE: 'Veteran Readiness and Employment counselor',
     DESCRIPTION: 'Name of your counselor:',
-    ERROR: 'Please enter the name of your counselor',
+    ERROR: 'Enter the name of your counselor',
   },
   THEIR_VRE_INFORMATION: {
     TITLE:
       'Have they ever applied for Veteran Readiness and Employment benefits and services?',
-    ERROR: "Please select if they've applied for services.",
+    ERROR: "Select if they've applied for services.",
   },
   THEIR_VRE_COUNSELOR: {
     TITLE: 'Veteran Readiness and Employment counselor',
     DESCRIPTION: 'Name of their counselor:',
-    ERROR: 'Please enter the name of their counselor',
+    ERROR: 'Enter the name of their counselor',
   },
   BRANCH_OF_SERVICE: {
     TITLE: 'Your branch of service',
     DESCRIPTION: 'Select your branch of service',
-    ERROR: 'Please select your branch of service',
+    ERROR: 'Select your branch of service',
   },
   VETERANS_BRANCH_OF_SERVICE: {
     TITLE: 'Branch of service',
-    ERROR: "Please select the Veteran's branch of service",
+    ERROR: "Select the Veteran's branch of service",
   },
 };
 

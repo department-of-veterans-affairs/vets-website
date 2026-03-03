@@ -12,7 +12,7 @@ const vamcUser = {
 };
 
 const SUBMISSIONS_PAGE =
-  '/representative/submissions?sortOrder=desc&sortBy=created_at&pageSize=20&pageNumber=1';
+  '/representative/submissions?sort=newest&pageSize=20&pageNumber=1';
 
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
@@ -117,10 +117,6 @@ describe('Accredited Representative Portal', () => {
       );
       cy.get('ul.submissions__list li:nth-of-type(6)').should(
         'contain',
-        'Benefit: Disability Compensation (VA Form 21-526EZ)',
-      );
-      cy.get('ul.submissions__list li:nth-of-type(6)').should(
-        'contain',
         'Expires in 365 days',
       );
       cy.get('ul.submissions__list li:nth-of-type(7)').should(
@@ -130,10 +126,6 @@ describe('Accredited Representative Portal', () => {
       cy.get('ul.submissions__list li:nth-of-type(7)').should(
         'contain',
         'VA Form 21-0966 packet',
-      );
-      cy.get('ul.submissions__list li:nth-of-type(7)').should(
-        'contain',
-        'Benefit: Pension (VA Form 21P-527EZ)',
       );
       cy.get('ul.submissions__list li:nth-of-type(7)').should(
         'contain',
@@ -152,10 +144,6 @@ describe('Accredited Representative Portal', () => {
       );
       cy.get('ul.submissions__list li:nth-of-type(8)').should(
         'contain',
-        'Benefit: Survivors pension and/or dependency and indemnity compensation (DIC) (VA Form 21P-534 or VA Form 21P-534EZ)',
-      );
-      cy.get('ul.submissions__list li:nth-of-type(8)').should(
-        'contain',
         'Expires in 70 days',
       );
       cy.get('ul.submissions__list li:nth-of-type(8)')
@@ -167,7 +155,7 @@ describe('Accredited Representative Portal', () => {
       cy.injectAxeThenAxeCheck();
       cy.get(
         "va-link-action[href='/representative/representative-form-upload/submit-va-form-21-686c']",
-      ).click();
+      ).click({ force: true });
     });
 
     context('526ez feature flag is off', () => {
@@ -196,7 +184,7 @@ describe('Accredited Representative Portal', () => {
       cy.injectAxeThenAxeCheck();
       cy.get(
         "va-link-action[href='/representative/representative-form-upload/submit-va-form-21-526EZ']",
-      ).click();
+      ).click({ force: true });
     });
   });
 });

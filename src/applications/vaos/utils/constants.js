@@ -491,6 +491,10 @@ export const OH_ENABLED_TYPES_OF_CARE = [
   // 'socialWork',
 ];
 
+export const CLINIC_HISTORY_MONTHS = {
+  [TYPE_OF_CARE_IDS.MENTAL_HEALTH_PRIMARY_CARE_ID]: 12,
+};
+
 export const TRAVEL_CLAIM_MESSAGES = {
   noClaim: 'No claims found.',
   error: 'Travel Pay service unavailable.',
@@ -528,3 +532,13 @@ export const POST_DRAFT_REFERRAL_APPOINTMENT_CACHE =
 export const POST_REFERRAL_REQUEST_CACHE = 'postReferralAppointmentCache';
 
 export const AMBULATORY_PATIENT_SUMMARY = 'ambulatory_patient_summary';
+
+export const APPOINTMENT_SYSTEM = {
+  vista: 'vista',
+  cerner: 'cerner',
+  hsrm: 'hsrm',
+};
+
+// AVS error message constants
+export const AVS_ERROR_EMPTY_BINARY = 'Retrieved empty AVS binary';
+export const AVS_ERROR_RETRIEVAL = 'Error retrieving AVS binary';

@@ -12,7 +12,7 @@ describe('UnifiedLabAndTestObservations Component', () => {
       status: 'Status 1',
       bodySite: 'Body Site 1',
       sampleTested: 'Sample 1',
-      comments: 'Comment 1',
+      comments: ['Comment 1'],
     },
     {
       testCode: 'Test Code 2',
@@ -49,5 +49,47 @@ describe('UnifiedLabAndTestObservations Component', () => {
     expect(screen.queryByText('Body Site 2')).not.to.exist;
     expect(screen.queryByText('Sample 2')).not.to.exist;
     expect(screen.queryByText('Comment 2')).not.to.exist;
+  });
+
+  it('renders multiple comments as separate list items', () => {
+    const multiCommentResults = [
+      {
+        testCode: 'Cholesterol',
+        value: { text: '180 mg/dL' },
+        referenceRange: '',
+        status: 'Final',
+        comments: [
+          '<200 mg/dL: Desirable',
+          '200-240 mg/dL: Borderline',
+          '>240 mg/dL: At risk',
+        ],
+      },
+    ];
+
+    const screen = render(
+      <UnifiedLabAndTestObservations results={multiCommentResults} />,
+    );
+
+    expect(screen.getByText('<200 mg/dL: Desirable')).to.exist;
+    expect(screen.getByText('200-240 mg/dL: Borderline')).to.exist;
+    expect(screen.getByText('>240 mg/dL: At risk')).to.exist;
+  });
+
+  it('renders string comments for backward compatibility', () => {
+    const stringCommentResults = [
+      {
+        testCode: 'Glucose',
+        value: { text: '100 mg/dL' },
+        referenceRange: '',
+        status: 'Final',
+        comments: 'Old format string comment',
+      },
+    ];
+
+    const screen = render(
+      <UnifiedLabAndTestObservations results={stringCommentResults} />,
+    );
+
+    expect(screen.getByText('Old format string comment')).to.exist;
   });
 });

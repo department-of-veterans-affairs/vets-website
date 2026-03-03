@@ -1,0 +1,42 @@
+{
+  "data": [
+    {
+      "id": "7176615",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 7176615,
+        "folderId": 0,
+        "messageId": 7179613,
+        "threadPageSize": 28,
+        "messageCount": 2,
+        "category": "OTHER",
+        "subject": "Test Migration Phase Message",
+        "triageGroupName": "Test-Cardio-Clinic",
+        "sentDate": "2026-02-05T14:34:28.000Z",
+        "draftDate": null,
+        "senderId": 20029,
+        "senderName": "SPARROW, JACK",
+        "recipientName": "MORGAN, JAMES",
+        "recipientId": 6820911,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false,
+        "isOhMessage": true,
+        "ohMigrationPhase": "p3",
+        "suggestedNameDisplay": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/7176615"
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "perPage": 10,
+      "totalPages": 1,
+      "totalEntries": 1
+    }
+  }
+}

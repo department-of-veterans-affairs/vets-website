@@ -14,6 +14,7 @@ import {
   macroCase,
   extractContainedResource,
   dateFormatWithoutTimezone,
+  formatDateTimeInUserTimezone,
 } from '../util/helpers';
 
 const initialState = {
@@ -162,7 +163,7 @@ export const convertUnifiedVital = record => {
     id: record.id,
     measurement: record.attributes.measurement || EMPTY_FIELD,
     date: record.attributes.date
-      ? dateFormatWithoutTimezone(record.attributes.date)
+      ? formatDateTimeInUserTimezone(record.attributes.date)
       : EMPTY_FIELD,
     effectiveDateTime: record?.attributes.date,
     location: record.attributes.location || EMPTY_FIELD,

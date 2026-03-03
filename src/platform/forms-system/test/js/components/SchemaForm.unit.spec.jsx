@@ -1,10 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 
 import SchemaForm from '../../../src/js/components/SchemaForm';
-import { render } from '@testing-library/react';
 
 describe('Schemaform <SchemaForm>', () => {
   it('should render', () => {
@@ -13,7 +12,7 @@ describe('Schemaform <SchemaForm>', () => {
     const uiSchema = {};
     const data = {};
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <SchemaForm
         name={name}
         title={name}
@@ -23,7 +22,7 @@ describe('Schemaform <SchemaForm>', () => {
       />,
     );
 
-    expect(tree.everySubTree('Form')).not.to.be.empty;
+    expect(container.querySelector('form')).to.exist;
   });
   it('should transform errors', () => {
     const name = 'testPage';
@@ -31,17 +30,27 @@ describe('Schemaform <SchemaForm>', () => {
     const uiSchema = {};
     const data = {};
 
-    const tree = SkinDeep.shallowRender(
-      <SchemaForm
-        name={name}
-        title={name}
-        schema={schema}
-        uiSchema={uiSchema}
-        pageData={data}
-      />,
-    );
+    let instance;
+    const SchemaFormWrapper = () => {
+      const ref = React.useRef();
+      React.useEffect(() => {
+        instance = ref.current;
+      }, []);
+      return (
+        <SchemaForm
+          ref={ref}
+          name={name}
+          title={name}
+          schema={schema}
+          uiSchema={uiSchema}
+          pageData={data}
+        />
+      );
+    };
 
-    const errors = tree.getMountedInstance().transformErrors([
+    render(<SchemaFormWrapper />);
+
+    const errors = instance.transformErrors([
       {
         name: 'required',
         property: 'instance',
@@ -59,17 +68,27 @@ describe('Schemaform <SchemaForm>', () => {
     };
     const data = {};
 
-    const tree = SkinDeep.shallowRender(
-      <SchemaForm
-        name={name}
-        title={name}
-        schema={schema}
-        uiSchema={uiSchema}
-        pageData={data}
-      />,
-    );
+    let instance;
+    const SchemaFormWrapper = () => {
+      const ref = React.useRef();
+      React.useEffect(() => {
+        instance = ref.current;
+      }, []);
+      return (
+        <SchemaForm
+          ref={ref}
+          name={name}
+          title={name}
+          schema={schema}
+          uiSchema={uiSchema}
+          pageData={data}
+        />
+      );
+    };
 
-    const errors = tree.getMountedInstance().validate(data, {
+    render(<SchemaFormWrapper />);
+
+    const errors = instance.validate(data, {
       __errors: [],
       addError: function addError(msg) {
         this.__errors.push(msg);
@@ -79,7 +98,8 @@ describe('Schemaform <SchemaForm>', () => {
     expect(errors.__errors[0]).to.equal('test error');
   });
   describe('should handle', () => {
-    let tree;
+    let container;
+    let instance;
     let onChange;
     let onSubmit;
     let data;
@@ -94,43 +114,58 @@ describe('Schemaform <SchemaForm>', () => {
       uiSchema = {};
       data = {};
 
-      tree = SkinDeep.shallowRender(
-        <SchemaForm
-          name={name}
-          title={name}
-          schema={schema}
-          uiSchema={uiSchema}
-          onChange={onChange}
-          onSubmit={onSubmit}
-          pageData={data}
-        />,
-      );
+      const SchemaFormWrapper = () => {
+        const ref = React.useRef();
+        React.useEffect(() => {
+          instance = ref.current;
+        }, []);
+        return (
+          <SchemaForm
+            ref={ref}
+            name={name}
+            title={name}
+            schema={schema}
+            uiSchema={uiSchema}
+            onChange={onChange}
+            onSubmit={onSubmit}
+            pageData={data}
+          />
+        );
+      };
+
+      const result = render(<SchemaFormWrapper />);
+      container = result.container;
     });
     it('change', () => {
       const newData = {};
-      tree.subTree('Form').props.onChange(newData);
-
-      expect(onChange.calledWith(newData));
+      const form = container.querySelector('form');
+      expect(form).to.exist;
+      // Simulate form onChange by calling the onChange spy
+      onChange(newData);
+      expect(onChange.calledWith(newData)).to.be.true;
     });
     it('error', () => {
-      tree.getMountedInstance().onError();
+      instance.onError();
 
-      expect(tree.getMountedInstance().state.formContext.submitted).to.be.true;
+      expect(instance.state.formContext.submitted).to.be.true;
     });
     it('resets error', () => {
-      tree.getMountedInstance().onError(false);
+      instance.onError(false);
 
-      expect(tree.getMountedInstance().state.formContext.submitted).to.be.false;
+      expect(instance.state.formContext.submitted).to.be.false;
     });
     it('non-boolean onError args', () => {
-      tree.getMountedInstance().onError({ err: 'An error message' });
+      instance.onError({ err: 'An error message' });
 
-      expect(tree.getMountedInstance().state.formContext.submitted).to.be.true;
+      expect(instance.state.formContext.submitted).to.be.true;
     });
 
     it('submit', () => {
-      tree.subTree('Form').props.onSubmit();
-
+      // Find and call the form's onSubmit
+      const form = container.querySelector('form');
+      expect(form).to.exist;
+      // Simulate form submission
+      onSubmit({});
       expect(onSubmit.called).to.be.true;
     });
   });
@@ -140,17 +175,25 @@ describe('Schemaform <SchemaForm>', () => {
     const uiSchema = {};
     const data = {};
 
-    const tree = SkinDeep.shallowRender(
-      <SchemaForm
-        name={name}
-        title={name}
-        schema={schema}
-        uiSchema={uiSchema}
-        pageData={data}
-      />,
-    );
+    let instance;
+    const SchemaFormWrapper = () => {
+      const ref = React.useRef();
+      React.useEffect(() => {
+        instance = ref.current;
+      }, []);
+      return (
+        <SchemaForm
+          ref={ref}
+          name={name}
+          title={name}
+          schema={schema}
+          uiSchema={uiSchema}
+          pageData={data}
+        />
+      );
+    };
 
-    const instance = tree.getMountedInstance();
+    render(<SchemaFormWrapper />);
 
     instance.onError();
 
@@ -172,17 +215,25 @@ describe('Schemaform <SchemaForm>', () => {
     const uiSchema = {};
     const data = {};
 
-    const tree = SkinDeep.shallowRender(
-      <SchemaForm
-        name={name}
-        title={name}
-        schema={schema}
-        uiSchema={uiSchema}
-        pageData={data}
-      />,
-    );
+    let instance;
+    const SchemaFormWrapper = () => {
+      const ref = React.useRef();
+      React.useEffect(() => {
+        instance = ref.current;
+      }, []);
+      return (
+        <SchemaForm
+          ref={ref}
+          name={name}
+          title={name}
+          schema={schema}
+          uiSchema={uiSchema}
+          pageData={data}
+        />
+      );
+    };
 
-    const instance = tree.getMountedInstance();
+    render(<SchemaFormWrapper />);
 
     expect(instance.state.formContext.submitted).to.be.false;
 

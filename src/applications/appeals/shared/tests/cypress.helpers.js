@@ -11,14 +11,6 @@ export const verifyElement = selector => cy.get(selector).should('exist');
 export const verifyElementDoesNotExist = selector =>
   cy.get(selector).should('not.exist');
 
-export const selectRadio = (parentSelector, index) =>
-  cy
-    .get(parentSelector)
-    .should('exist')
-    .get('va-radio-option')
-    .eq(index)
-    .click();
-
 export const startAppKeyboard = () => {
   cy.get(START_LINK)
     .should('exist')

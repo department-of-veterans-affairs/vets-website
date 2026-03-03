@@ -18,6 +18,7 @@ const ProfileSubNav = ({
   routes,
   clickHandler = null,
   className,
+  isSchedulingPreferencesPilotEligible,
 }) => {
   const mobileNavRef = useRef();
   const history = useHistory();
@@ -34,6 +35,13 @@ const ProfileSubNav = ({
     if (route.requiresLOA3 && (!isLOA3 || isBlocked)) {
       return false;
     }
+    // scheduling preferences pilot check
+    if (
+      route.requiresSchedulingPreferencesPilot &&
+      !isSchedulingPreferencesPilotEligible
+    ) {
+      return false;
+    }
 
     // mvi check
     return !(route.requiresMVI && !isInMVI);
@@ -42,6 +50,8 @@ const ProfileSubNav = ({
   const recordNavUserEvent = e => {
     recordEvent({
       event: 'nav-sidenav',
+      'sidenav-click-label': e.target.label,
+      'sidenav-click-url': e.target.href,
     });
     if (clickHandler) {
       clickHandler();
@@ -148,6 +158,7 @@ ProfileSubNav.propTypes = {
   // Optional handler to fire when a nav item is clicked
   className: PropTypes.string,
   clickHandler: PropTypes.func,
+  isSchedulingPreferencesPilotEligible: PropTypes.bool,
 };
 
 export default ProfileSubNav;

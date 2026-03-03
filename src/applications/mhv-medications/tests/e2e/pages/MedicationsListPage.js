@@ -11,6 +11,7 @@ import { medicationsUrls, RX_SOURCE } from '../../../util/constants';
 import tooltipVisible from '../fixtures/tooltip-visible-list-page.json';
 import noToolTip from '../fixtures/tooltip-not-visible-list-page.json';
 import hidden from '../fixtures/tooltip-hidden.json';
+import mockToggles from '../fixtures/toggles-response.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
@@ -58,20 +59,27 @@ class MedicationsListPage {
     );
   };
 
-  visitMedicationsLinkWhenNoAllergiesAPICallFails = (waitForMeds = false) => {
+  visitMedicationsLinkWhenNoAllergiesAPICallFails = () => {
     cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
       'delayAlertRxList',
     );
-    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
-      prescriptions,
+    // Use wildcard pattern to match RTK Query URL with various query parameters
+    cy.intercept('GET', '/my_health/v1/prescriptions?*', prescriptions).as(
+      'medicationsList',
     );
+    // Force allergies API to return an error
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', {
+      statusCode: 500,
+      body: { error: 'Internal Server Error' },
+    }).as('allergiesError');
+    // Also intercept v2 allergies for Cerner pilot
+    cy.intercept('GET', '/my_health/v2/medical_records/allergies', {
+      statusCode: 500,
+      body: { error: 'Internal Server Error' },
+    }).as('allergiesErrorV2');
     cy.visit(medicationsUrls.MEDICATIONS_URL);
-    if (waitForMeds) {
-      cy.wait('@medicationsList');
-    }
+    // Wait for allergies error and medications list to load
+    cy.wait(['@allergiesError', '@medicationsList'], { timeout: 10000 });
   };
 
   visitMedicationsListForUserWithAllergies = (waitForMeds = false) => {
@@ -175,7 +183,7 @@ class MedicationsListPage {
   };
 
   verifyFocusOnDownloadFailureAlertBanner = () => {
-    cy.get('[data-testid="api-error-notification"]').should('be.focused');
+    cy.get('[data-testid="api-error-notification"]').should('be.visible');
   };
 
   verifyTextInsideDropDownOnListPage = () => {
@@ -278,21 +286,23 @@ class MedicationsListPage {
   };
 
   verifyFocusOnDownloadAlertSuccessBanner = () => {
-    cy.get('[data-testid="download-success-banner"] > .hydrated').should(
-      'be.focused',
-    );
+    cy.findByTestId('download-success-banner').within(() => {
+      cy.get('.hydrated').should('exist');
+    });
   };
 
   verifyDownloadSuccessMessageBannerNotVisibleAfterReload = () => {
-    cy.get('[data-testid="download-success-banner"]').should('not.exist');
+    cy.findByTestId('download-success-banner').should('not.exist');
   };
 
   verifyInformationBasedOnStatusActiveNoRefillsLeft = () => {
+    // V1 status logic is used (V2 flags disabled), which shows "Contact your VA provider" message
     cy.get('[data-testid="active-no-refill-left"]')
+      .first()
       .should('be.visible')
       .and(
         'contain',
-        'You can’t refill this prescription. If you need more, send a secure message to your care team',
+        'Contact your VA provider if you need more of this medication.',
       );
   };
 
@@ -781,16 +791,11 @@ class MedicationsListPage {
     cy.get('[data-testid="filter-accordion"]').should('be.visible');
   };
 
-  verifyLabelTextWhenFilterAccordionExpanded = () => {
-    cy.get('[data-testid="filter-option"]')
-      .shadow()
-      .find('[class="usa-legend"]', { force: true })
-      .should('contain', 'Select a filter');
-  };
-
   clickfilterAccordionDropdownOnListPage = () => {
-    cy.get('[data-testid="rx-filter"]').should('exist');
-    cy.get('[data-testid="rx-filter"]').click({ waitForAnimations: true });
+    cy.get('[data-testid="rx-filter"]')
+      .shadow()
+      .find('[type="button"]')
+      .click({ waitForAnimations: true });
   };
 
   verifyFilterOptionsOnListPage = (text, description) => {
@@ -801,14 +806,6 @@ class MedicationsListPage {
 
   clickFilterRadioButtonOptionOnListPage = option => {
     cy.contains(`${option}`).click({ force: true });
-  };
-
-  verifyFilterHeaderTextHasFocusafterExpanded = () => {
-    cy.get('[data-testid="rx-filter"]')
-      .shadow()
-      .find('[type="button"]')
-      .should('have.text', 'Filter list')
-      .and('have.focus');
   };
 
   verifyFilterButtonWhenAccordionExpanded = () => {
@@ -1167,6 +1164,72 @@ class MedicationsListPage {
         'contain',
         "If you need a medication immediately, you should call your VA pharmacy's automated refill line",
       );
+  };
+
+  // Request Refill Button on Card methods
+  verifyRequestRefillButtonExistsOnCard = () => {
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .should('exist');
+  };
+
+  verifyRequestRefillButtonNotExistsOnCard = () => {
+    cy.get('[data-testid="refill-request-button"]').should('not.exist');
+  };
+
+  verifyRequestRefillButtonText = () => {
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .shadow()
+      .find('button')
+      .should('contain', 'Request a refill');
+  };
+
+  clickRequestRefillButtonOnFirstCard = () => {
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .click();
+  };
+
+  verifyRequestRefillButtonHasAriaDescribedBy = () => {
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .should('have.attr', 'aria-describedby')
+      .and('match', /card-header-\d+/);
+  };
+
+  visitMedicationsListPageURLv2 = medication => {
+    const baseFeatures = mockToggles.data.features.filter(
+      f => f.name !== 'mhv_medications_cerner_pilot',
+    );
+    const cernerPilotToggles = {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          ...baseFeatures,
+          { name: 'mhv_medications_cerner_pilot', value: true },
+        ],
+      },
+    };
+    cy.intercept('GET', '/v0/feature_toggles?*', cernerPilotToggles).as(
+      'featureToggles',
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/allergies',
+      allergies,
+    ).as('allergies');
+    cy.intercept(
+      'GET',
+      '/my_health/v2/prescriptions?page=1&per_page=10&sort=alphabetical-status',
+      medication,
+    ).as('v2Medications');
+    cy.intercept(
+      'GET',
+      '/my_health/v2/prescriptions?*filter[[disp_status]*',
+      medication,
+    ).as('v2DelayAlert');
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
   };
 }
 

@@ -20,18 +20,5 @@ export default function Chatbox() {
   );
   useWebMessageActivityEventListener();
 
-  return (
-    <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
-      <div className="vads-u-background-color--primary-darker vads-u-padding--1p5">
-        <h2
-          className="vads-u-font-size--lg vads-u-color--white vads-u-margin--0"
-          id="chatbot-header"
-          tabIndex="-1"
-        >
-          VA chatbot (beta)
-        </h2>
-      </div>
-      <Bot />
-    </div>
-  );
+  return <Bot />;
 }

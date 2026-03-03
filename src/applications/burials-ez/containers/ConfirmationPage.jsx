@@ -7,7 +7,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { benefitsLabels } from '../utils/labels';
 
-const ConfirmationPage = ({ form, isLoggedIn, route }) => {
+const ConfirmationPage = ({ form, route }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const burialsConfirmationPage = useToggleValue(
     TOGGLE_NAMES.burialConfirmationPage,
@@ -356,33 +356,23 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
         information, we’ll contact you by phone, email, or mail. Then we’ll send
         you a letter with our decision.
       </p>
-      {isLoggedIn && (
-        <>
-          <h2>How can I check the status of my claim?</h2>
-          <p>
-            You can check the status of your claim online. <br />
-            <strong>Note:</strong> It may take 7 to 10 days after you apply for
-            the status of your claim to show online.
-          </p>
-          <va-link-action
-            href="/claim-or-appeal-status/"
-            text="Check the status of your claim"
-            class="vads-u-margin-bottom--4"
-          />
-          <br />
-          <va-link-action
-            href="https://www.va.gov/"
-            text="Go back to VA.gov"
-            type="secondary"
-          />
-        </>
-      )}
-      {!isLoggedIn && (
-        <>
-          <va-link-action href="https://www.va.gov/" text="Go back to VA.gov" />
-        </>
-      )}
-
+      <h2>How can I check the status of my claim?</h2>
+      <p>
+        You can check the status of your claim online. <br />
+        <strong>Note:</strong> It may take 7 to 10 days after you apply for the
+        status of your claim to show online.
+      </p>
+      <va-link-action
+        href="/claim-or-appeal-status/"
+        text="Check the status of your claim"
+        class="vads-u-margin-bottom--4"
+      />
+      <br />
+      <va-link-action
+        href="https://www.va.gov/"
+        text="Go back to VA.gov"
+        type="secondary"
+      />
       <div className="vads-u-margin-top--9">
         <va-need-help>
           <div slot="content">
@@ -405,7 +395,6 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
 function mapStateToProps(state) {
   return {
     form: state.form,
-    isLoggedIn: state.user?.login?.currentlyLoggedIn,
   };
 }
 
@@ -420,7 +409,6 @@ ConfirmationPage.propTypes = {
       transportationReceipts: PropTypes.arrayOf(PropTypes.shape({})),
     }),
   }),
-  isLoggedIn: PropTypes.bool,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({}),
   }),

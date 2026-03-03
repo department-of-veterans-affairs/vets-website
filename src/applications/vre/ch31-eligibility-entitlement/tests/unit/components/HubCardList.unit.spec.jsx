@@ -1,64 +1,212 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import sinon from 'sinon';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import HubCardList from '../../../components/HubCardList';
 
+const sandbox = sinon.createSandbox();
+
+const makeStore = state => {
+  const dispatch = sandbox.spy();
+  return {
+    getState: () => state || {},
+    subscribe: () => () => {},
+    dispatch,
+  };
+};
+
+const renderWithProviders = (ui, state = {}) =>
+  render(
+    <Provider store={makeStore(state)}>
+      <MemoryRouter>{ui}</MemoryRouter>
+    </Provider>,
+  );
+
 describe('HubCardList', () => {
-  it('renders Orientation + Career Planning cards for steps 1-3', () => {
-    [1, 2, 3].forEach(step => {
-      const { container, getByText, unmount } = render(
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it('renders Program Overview + Tracks + Career Planning links for steps 1 and 2 (always all cards)', () => {
+    [1, 2].forEach(step => {
+      const { container, getByText, unmount } = renderWithProviders(
         <HubCardList step={step} />,
+        {}, // no ch31CaseMilestones in store
       );
 
-      const list = container.querySelector('.hub-card-list');
-      expect(list).to.exist;
+      // Host elements only (shadow components)
+      const wrapper = container.querySelector(
+        '.vads-u-margin-top--2.vads-u-margin-bottom--2',
+      );
+      expect(wrapper).to.exist;
 
-      const cards = container.querySelectorAll('.hub-card');
-      expect(cards.length).to.equal(2);
+      const vaCard = container.querySelector('va-card');
+      expect(vaCard).to.exist;
 
-      getByText('Orientation Tools and Resources');
-      getByText('Career Planning');
+      // Heading text
+      getByText('Preparing for the next steps');
 
-      expect(container.querySelector('va-card[icon-name="location_city"]')).to
-        .exist;
-      expect(container.querySelector('va-card[icon-name="work"]')).to.exist;
+      // Three links
+      const links = container.querySelectorAll('va-link');
+      expect(links.length).to.equal(3);
+
+      // Assert link texts and hrefs
+      expect(links[0].getAttribute('text')).to.equal('Program Overview');
+      expect(links[0].getAttribute('href')).to.equal(
+        'https://www.va.gov/careers-employment/vocational-rehabilitation',
+      );
+
+      expect(links[1].getAttribute('text')).to.equal(
+        'VR&E Support-and-Services Tracks',
+      );
+      expect(links[1].getAttribute('href')).to.equal(
+        'https://www.va.gov/careers-employment/vocational-rehabilitation/programs/',
+      );
+
+      expect(links[2].getAttribute('text')).to.equal('Career Planning');
+      expect(links[2].getAttribute('href')).to.equal(
+        '/track-your-vre-benefits/vre-benefit-status/career-planning',
+      );
 
       unmount();
     });
   });
 
-  it('renders Scheduling + Career Planning cards for step 4', () => {
-    const { container, getByText } = render(<HubCardList step={4} />);
+  it('step 3: renders only Career Planning when status is ACTIVE and no milestones', () => {
+    const stateList = [{}, {}, { status: 'ACTIVE' }];
 
-    const cards = container.querySelectorAll('.hub-card');
-    expect(cards.length).to.equal(2);
+    const { container, getByText } = renderWithProviders(
+      <HubCardList step={3} stateList={stateList} />,
+      {},
+    );
 
-    getByText('Scheduling');
-    getByText('Career Planning');
+    const links = container.querySelectorAll('va-link');
+    expect(links.length).to.equal(1);
+    expect(links[0].getAttribute('text')).to.equal('Career Planning');
+    expect(links[0].getAttribute('href')).to.equal(
+      '/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
 
-    expect(container.querySelector('va-card[icon-name="event"]')).to.exist;
-    expect(container.querySelector('va-card[icon-name="work"]')).to.exist;
+    // Step <= 4 includes helper text
+    getByText(
+      /This will prepare you for your "Initial Evaluation Counselor Meeting\."/i,
+    );
   });
 
-  it('renders only Career Planning card for steps 5-7', () => {
-    [5, 6, 7].forEach(step => {
-      const { container, getByText, unmount } = render(
-        <HubCardList step={step} />,
-      );
+  it('step 3: renders only Career Planning when status is PENDING and no milestones', () => {
+    const stateList = [{}, {}, { status: 'PENDING' }];
 
-      const cards = container.querySelectorAll('.hub-card');
-      expect(cards.length).to.equal(1);
+    const { container, getByText } = renderWithProviders(
+      <HubCardList step={3} stateList={stateList} />,
+      {},
+    );
 
-      getByText('Career Planning');
-      expect(container.querySelector('va-card[icon-name="work"]')).to.exist;
+    const links = container.querySelectorAll('va-link');
+    expect(links.length).to.equal(1);
+    expect(links[0].getAttribute('text')).to.equal('Career Planning');
+    expect(links[0].getAttribute('href')).to.equal(
+      '/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
 
-      unmount();
-    });
+    getByText(
+      /This will prepare you for your "Initial Evaluation Counselor Meeting\."/i,
+    );
   });
 
-  it('returns null when no cards are available', () => {
-    const { container } = render(<HubCardList step={999} />);
-    expect(container.querySelector('.hub-card-list')).to.equal(null);
+  it('step 3: renders all three cards when milestones data exists, even if ACTIVE', () => {
+    const stateList = [{}, {}, { status: 'ACTIVE' }];
+
+    const { container, getByText } = renderWithProviders(
+      <HubCardList step={3} stateList={stateList} />,
+      { ch31CaseMilestones: { data: { ok: true }, error: null } },
+    );
+
+    getByText('Preparing for the next steps');
+
+    const links = container.querySelectorAll('va-link');
+    expect(links.length).to.equal(3);
+    expect(links[0].getAttribute('text')).to.equal('Program Overview');
+    expect(links[1].getAttribute('text')).to.equal(
+      'VR&E Support-and-Services Tracks',
+    );
+    expect(links[2].getAttribute('text')).to.equal('Career Planning');
+    expect(links[2].getAttribute('href')).to.equal(
+      '/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
+  });
+
+  it('renders only Career Planning link for step 4', () => {
+    const { container, getByText } = renderWithProviders(
+      <HubCardList step={4} />,
+      {},
+    );
+
+    getByText('Preparing for the next steps');
+
+    const links = container.querySelectorAll('va-link');
+    expect(links.length).to.equal(1);
+    expect(links[0].getAttribute('text')).to.equal('Career Planning');
+    expect(links[0].getAttribute('href')).to.equal(
+      '/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
+
+    // Step <= 4 includes helper text
+    getByText(
+      /This will prepare you for your "Initial Evaluation Counselor Meeting\."/i,
+    );
+  });
+
+  it('renders only Career Planning link for step 5 (no Step 4 helper text)', () => {
+    const { container } = renderWithProviders(<HubCardList step={5} />, {});
+
+    const links = container.querySelectorAll('va-link');
+    expect(links.length).to.equal(1);
+    expect(links[0].getAttribute('text')).to.equal('Career Planning');
+    expect(links[0].getAttribute('href')).to.equal(
+      '/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
+  });
+
+  it('renders Career Planning for step 6 when step 6 is NOT complete', () => {
+    const stateList = [
+      {}, // 1
+      {}, // 2
+      {}, // 3
+      {}, // 4
+      {}, // 5
+      { status: 'ACTIVE' }, // 6
+    ];
+
+    const { container } = renderWithProviders(
+      <HubCardList step={6} stateList={stateList} />,
+      {},
+    );
+
+    const links = container.querySelectorAll('va-link');
+    expect(links.length).to.equal(1);
+    expect(links[0].getAttribute('text')).to.equal('Career Planning');
+  });
+
+  it('returns null for step 6 when step 6 is complete', () => {
+    const stateList = [{}, {}, {}, {}, {}, { status: 'COMPLETED' }];
+
+    const { container } = renderWithProviders(
+      <HubCardList step={6} stateList={stateList} />,
+      {},
+    );
+    expect(container.innerHTML.trim()).to.equal('');
+  });
+
+  it('returns null for step 7 (never shows any cards)', () => {
+    const { container } = renderWithProviders(<HubCardList step={7} />, {});
+    expect(container.innerHTML.trim()).to.equal('');
+  });
+
+  it('returns null when no cards are available (unknown step)', () => {
+    const { container } = renderWithProviders(<HubCardList step={999} />, {});
+    expect(container.innerHTML.trim()).to.equal('');
   });
 });

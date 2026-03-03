@@ -16,13 +16,26 @@ const refillAlertList = [
   },
 ];
 
-const setup = () => {
+// Test data for V2 API response format where only `id` is available
+// TODO: Remove this test data after vets-api PR #26244 is deployed
+const refillAlertListWithIdOnly = [
+  {
+    id: '345678',
+    prescriptionName: 'V2 API Test name 1',
+  },
+  {
+    id: '456789',
+    prescriptionName: 'V2 API Test name 2',
+  },
+];
+
+const setup = (alertList = refillAlertList) => {
   return renderWithStoreAndRouterV6(
-    <DelayedRefillAlert refillAlertList={refillAlertList} />,
+    <DelayedRefillAlert refillAlertList={alertList} />,
     {
       initialState: {
         rx: {
-          refillAlertList,
+          refillAlertList: alertList,
           showRefillProgressContent: true,
         },
       },
@@ -59,6 +72,23 @@ describe('Alert if refill is taking longer than expected', () => {
     expect(
       screen.getByTestId(
         `refill-alert-link-${refillAlertList[1].prescriptionId}`,
+      ),
+    );
+  });
+
+  // Test for V2 API fallback where only `id` is available (not `prescriptionId`)
+  // TODO: Remove this test after vets-api PR #26244 is deployed
+  it('falls back to id when prescriptionId is not available (V2 API workaround)', () => {
+    const screen = setup(refillAlertListWithIdOnly);
+
+    expect(
+      screen.getByTestId(
+        `refill-alert-link-${refillAlertListWithIdOnly[0].id}`,
+      ),
+    );
+    expect(
+      screen.getByTestId(
+        `refill-alert-link-${refillAlertListWithIdOnly[1].id}`,
       ),
     );
   });

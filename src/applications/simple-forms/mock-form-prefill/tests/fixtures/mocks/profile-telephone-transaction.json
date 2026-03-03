@@ -1,0 +1,15 @@
+{
+  "statusCode": 200,
+  "body": {
+    "data": {
+      "id": "",
+      "type": "async_transaction_va_profile_telephone_transactions",
+      "attributes": {
+        "transactionId": "c2a14e7b-0ac8-4e37-8908-aa7a433cbb61",
+        "transactionStatus": "COMPLETED_SUCCESS",
+        "type": "AsyncTransaction::VAProfile::TelephoneTransaction",
+        "metadata": []
+      }
+    }
+  }
+}

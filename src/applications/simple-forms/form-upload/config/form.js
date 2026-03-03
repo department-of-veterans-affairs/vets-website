@@ -135,9 +135,7 @@ const formConfig = (pathname = null) => {
             title: 'Supporting documents',
             uiSchema: showSupportingDocuments.uiSchema,
             schema: showSupportingDocuments.schema,
-            depends: () =>
-              formMappings[formNumber]?.showSupportingDocuments &&
-              !environment.isProduction(),
+            depends: () => formMappings[formNumber]?.showSupportingDocuments,
             scrollAndFocusTarget,
           },
           uploadSupportingDocuments: {

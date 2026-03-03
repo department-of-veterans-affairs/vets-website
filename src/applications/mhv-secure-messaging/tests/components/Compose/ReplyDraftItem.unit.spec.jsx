@@ -56,6 +56,16 @@ describe('ReplyDraftItem component', () => {
         ],
         isSaving: false,
       },
+      recipients: {
+        allRecipients: [
+          {
+            triageTeamId: 1013155,
+            name: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+            stationNumber: '989',
+          },
+        ],
+      },
+      alerts: { alertList: [] },
     },
   };
 
@@ -215,7 +225,7 @@ describe('ReplyDraftItem component', () => {
       expect(sendReplySpy.lastCall.args[0]).to.include({
         replyToId: 3190971,
         message:
-          '{"category":"APPOINTMENTS","body":"draft test postman #1","subject":"Test","draft_id":3190971,"recipient_id":1013155}',
+          '{"category":"APPOINTMENTS","body":"draft test postman #1","subject":"Test","draft_id":3190971,"recipient_id":1013155,"station_number":"989"}',
         attachments: false,
         ohTriageGroup: undefined,
       });
@@ -245,7 +255,7 @@ describe('ReplyDraftItem component', () => {
       expect(sendReplySpy.lastCall.args[0]).to.include({
         replyToId: 3190971,
         message:
-          '{"category":"APPOINTMENTS","body":"draft test postman #1","subject":"Test","draft_id":3190971,"recipient_id":1013155}',
+          '{"category":"APPOINTMENTS","body":"draft test postman #1","subject":"Test","draft_id":3190971,"recipient_id":1013155,"station_number":"989"}',
         attachments: false,
         ohTriageGroup: true,
       });

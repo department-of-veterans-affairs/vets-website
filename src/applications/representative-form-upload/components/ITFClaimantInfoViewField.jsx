@@ -25,13 +25,17 @@ const ITFClaimantInfoViewField = props => {
   const { formData, defaultEditButton } = props;
 
   const {
-    veteranSsn,
-    veteranFullName,
-    veteranDateOfBirth,
-    vaFileNumber,
-    claimantSsn,
-    claimantFullName,
-    claimantDateOfBirth,
+    veteranSubPage: {
+      veteranSsn,
+      veteranFullName,
+      veteranDateOfBirth,
+      vaFileNumber,
+    } = {},
+    claimantSubPage: {
+      claimantSsn,
+      claimantFullName,
+      claimantDateOfBirth,
+    } = {},
     benefitType,
     isVeteran,
   } = formData;
@@ -61,9 +65,9 @@ const ITFClaimantInfoViewField = props => {
   return (
     <div className="form-review-panel-page form-review-panel-page-representative-form-upload">
       <div className="form-review-panel-page-header-row vads-u-justify-content--space-between">
-        <h4 className="vads-u-font-size--h5 vads-u-margin--0">
+        <h5 className="vads-u-font-size--h5 vads-u-margin--0">
           Claimant information
-        </h4>
+        </h5>
         {defaultEditButton()}
         <dl className="review vads-u-margin-top--2 vads-u-width--full">
           {Object.entries(claimantDisplay).map(
@@ -83,9 +87,9 @@ const ITFClaimantInfoViewField = props => {
 
       {isDependentClaim && (
         <div className="form-review-panel-page-header-row vads-u-justify-content--flex-start">
-          <h4 className="vads-u-font-size--h5 vads-u-margin-top--3 vads-u-margin-bottom--0">
+          <h5 className="vads-u-font-size--h5 vads-u-margin-top--3 vads-u-margin-bottom--0">
             Veteran identification information
-          </h4>
+          </h5>
           <dl className="review vads-u-margin-top--2 vads-u-width--full">
             {Object.entries(veteranDisplay).map(
               ([label, value]) =>
@@ -108,19 +112,27 @@ const ITFClaimantInfoViewField = props => {
 
 ITFClaimantInfoViewField.propTypes = {
   formData: PropTypes.shape({
-    veteranSsn: PropTypes.string,
-    veteranFullName: PropTypes.shape({
-      first: PropTypes.string,
-      last: PropTypes.string,
+    veteranSubPage: PropTypes.shape({
+      veteranSsn: PropTypes.string,
+      veteranFullName: PropTypes.shape({
+        first: PropTypes.string,
+        last: PropTypes.string,
+      }),
+      veteranDateOfBirth: PropTypes.string,
+      address: PropTypes.shape({
+        country: PropTypes.string,
+        postalCode: PropTypes.string,
+      }),
+      vaFileNumber: PropTypes.string,
     }),
-    veteranDateOfBirth: PropTypes.string,
-    vaFileNumber: PropTypes.string,
-    claimantSsn: PropTypes.string,
-    claimantFullName: PropTypes.shape({
-      first: PropTypes.string,
-      last: PropTypes.string,
+    claimantSubPage: PropTypes.shape({
+      claimantSsn: PropTypes.string,
+      claimantFullName: PropTypes.shape({
+        first: PropTypes.string,
+        last: PropTypes.string,
+      }),
+      claimantDateOfBirth: PropTypes.string,
     }),
-    claimantDateOfBirth: PropTypes.string,
     benefitType: PropTypes.string,
     isVeteran: PropTypes.oneOf(['yes', 'no']),
   }).isRequired,

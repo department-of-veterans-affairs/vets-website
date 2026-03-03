@@ -5,11 +5,10 @@ import { connect, useSelector } from 'react-redux';
 import { selectItemById } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
 import {
-  RX_TRACKING_SUPPORTING_FACILITIES,
   NOTIFICATION_CHANNEL_IDS,
+  NOTIFICATION_ITEM_DESCRIPTIONS,
 } from '@@profile/constants';
 
-import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import {
   selectVAPEmailAddress,
   selectVAPMobilePhone,
@@ -18,7 +17,6 @@ import {
 import { LOADING_STATES } from '~/applications/personalization/common/constants';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NotificationChannel from './NotificationChannel';
-// import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
 import { useNotificationSettingsUtils } from '../../hooks';
 
 const getChannelsByItemId = (itemId, channelEntities) => {
@@ -27,7 +25,7 @@ const getChannelsByItemId = (itemId, channelEntities) => {
   );
 };
 
-const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
+const NotificationItem = ({ channelIds, itemName, itemId }) => {
   const {
     profileShowMhvNotificationSettingsEmailAppointmentReminders: aptReminderToggle,
     profileShowMhvNotificationSettingsEmailRxShipment: shipmentToggle,
@@ -45,6 +43,7 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
     }
   })();
 
+  const description = NOTIFICATION_ITEM_DESCRIPTIONS[itemId];
   const mobilePhone = useSelector(state => selectVAPMobilePhone(state));
 
   // this is filtering all the channels that end with 1, which is the text channel
@@ -131,7 +130,7 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
         <VaCheckboxGroup
           label={itemName}
           label-header-level="3"
-          description={description}
+          hint={description}
           data-testid={`checkbox-group-${itemId}`}
         >
           {filteredChannels.map((channelId, index) => (
@@ -152,7 +151,6 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
 NotificationItem.propTypes = {
   channelIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   itemId: PropTypes.string.isRequired,
-  description: PropTypes.string,
   itemName: PropTypes.string,
 };
 
@@ -161,23 +159,10 @@ const mapStateToProps = (state, ownProps) => {
 
   const item = selectItemById(communicationPreferencesState, ownProps.itemId);
 
-  const allFacilitiesSupportRxTracking = selectPatientFacilities(
-    state,
-  )?.every?.(facility => {
-    return RX_TRACKING_SUPPORTING_FACILITIES.has(facility.facilityId);
-  });
-
-  const description =
-    item.channels.some(channel => channel.includes('channel4')) &&
-    !allFacilitiesSupportRxTracking
-      ? 'Only available at some VA health facilities. Check with your VA pharmacy first.'
-      : null;
-
   return {
     item,
     itemName: item.name,
     channelIds: item.channels,
-    description,
   };
 };
 

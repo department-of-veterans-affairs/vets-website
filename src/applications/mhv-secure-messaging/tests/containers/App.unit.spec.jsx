@@ -266,15 +266,16 @@ describe('App', () => {
   it('redirects user to /my-health/secure-messages/inbox', async () => {
     const customState = { ...initialState, featureToggles: [] };
 
-    const { history } = renderWithStoreAndRouter(<App />, {
+    const { history, getByTestId } = renderWithStoreAndRouter(<App />, {
       initialState: customState,
       reducers: reducer,
       path: `/`,
     });
 
     await waitFor(() => {
-      const ariaLabel = document.querySelector('va-alert span');
-      expect(ariaLabel.textContent).to.contain(`You are in Inbox.`);
+      // sr-only span exists with delayed content (populated after H1 focusin + 1s or 3s fallback)
+      const srSpan = getByTestId('sr-only-alert-text');
+      expect(srSpan).to.exist;
       expect(history.location.pathname).to.equal('/inbox/');
     });
   });
@@ -472,29 +473,30 @@ describe('App', () => {
   });
 
   it('renders LaunchMessagingAal component', async () => {
-    const stubUseFeatureToggles = value => {
-      const useFeatureToggles = require('../../hooks/useFeatureToggles');
-      return sinon.stub(useFeatureToggles, 'default').returns(value);
+    const sandbox = sinon.createSandbox();
+    const submitStub = sandbox
+      .stub(SmApi, 'submitLaunchMessagingAal')
+      .resolves();
+
+    const customState = {
+      ...initialState,
+      featureToggles: {
+        loading: false,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingMilestone2AAL]: true,
+      },
     };
 
-    const submitStub = sinon.stub(SmApi, 'submitLaunchMessagingAal');
-    submitStub.resolves();
-    const useFeatureTogglesStub = stubUseFeatureToggles({
-      isAalEnabled: true,
-      largeAttachmentsEnabled: true,
-    });
-    useFeatureTogglesStub;
+    try {
+      renderWithStoreAndRouter(<App />, {
+        initialState: customState,
+        reducers: reducer,
+      });
 
-    renderWithStoreAndRouter(<App />, {
-      initialState,
-      reducers: reducer,
-    });
-    await waitFor(() => {
-      expect(submitStub.calledOnce).to.be.true;
-    });
-    submitStub.restore();
-    if (useFeatureTogglesStub && useFeatureTogglesStub.restore) {
-      useFeatureTogglesStub.restore();
+      await waitFor(() => {
+        expect(submitStub.calledOnce).to.be.true;
+      });
+    } finally {
+      sandbox.restore();
     }
   });
 });

@@ -29,7 +29,7 @@ export const generateGenericContent = record => {
     items: itemKeys.filter(key => record[key]).map(key => {
       return {
         title: LABS_AND_TESTS_DISPLAY_DISPLAY_MAP[key],
-        value: record[key],
+        value: key === 'testCode' ? record.testCodeDisplay : record[key],
         inline: true,
       };
     }),
@@ -70,13 +70,22 @@ export const generateGenericContent = record => {
             value: item.value?.text,
             inline: true,
           },
-          ...observationKeys.filter(key => item[key]).map(key => {
-            return {
-              title: OBSERVATION_DISPLAY_DISPLAY_MAP[key],
-              value: item[key],
-              inline: true,
-            };
-          }),
+          ...observationKeys
+            .filter(key => {
+              const v = item[key];
+              return Array.isArray(v) ? v.length > 0 : Boolean(v);
+            })
+            .map(key => {
+              let val = item[key];
+              if (Array.isArray(val)) val = val.join('\n');
+              if (key === 'status' && typeof val === 'string' && val.length)
+                val = val.charAt(0).toUpperCase() + val.slice(1);
+              return {
+                title: OBSERVATION_DISPLAY_DISPLAY_MAP[key],
+                value: val,
+                inline: true,
+              };
+            }),
         ],
       })),
     };

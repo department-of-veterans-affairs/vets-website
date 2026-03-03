@@ -9,6 +9,8 @@ import {
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { validateWhiteSpace } from 'platform/forms/validations';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -30,7 +32,7 @@ export default {
             additional guidance if needed).
           </p>
           <p>
-            <strong>Note:</strong> USE Department of Education, Title IV school
+            <strong>Note:</strong> USE Department of Education, Title 4 school
             participants are not required to provide financial statement with
             the application.
           </p>
@@ -59,6 +61,7 @@ export default {
               'You must specify a reason the institution is not capable of fulfilling its commitments for training.',
           },
         }),
+        'ui:validations': [validateWhiteSpace],
         'ui:options': {
           charcount: true,
           hideLabelText: true,
@@ -74,10 +77,11 @@ export default {
       acknowledgement10a: {
         type: 'object',
         properties: {
-          financiallySound: yesNoSchema,
+          financiallySound: { ...yesNoSchema, title: 'Financially Sound' },
           financialSoundnessExplanation: {
             ...textareaSchema,
             maxLength: 500,
+            title: 'Financial Soundness Explanation',
           },
         },
         required: ['financiallySound'],

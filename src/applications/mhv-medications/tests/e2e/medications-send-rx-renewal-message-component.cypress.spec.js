@@ -13,10 +13,11 @@ describe('Send Rx Renewal Message Component', () => {
     listPage.visitMedicationsListPageURL(rxList);
 
     cy.get('[data-testid="active-no-refill-left"]')
+      .first()
       .should('be.visible')
       .and(
         'contain',
-        'You can’t refill this prescription. If you need more, send a secure message to your care team',
+        'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
       );
 
     cy.injectAxe();

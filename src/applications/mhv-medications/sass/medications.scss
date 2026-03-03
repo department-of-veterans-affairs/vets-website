@@ -257,7 +257,9 @@
   }
 }
 
-.rx-fill-refill-button {
+.rx-refill-button {
+  width: 100%;
+
   va-loading-indicator {
     display: flex;
     justify-content: left;

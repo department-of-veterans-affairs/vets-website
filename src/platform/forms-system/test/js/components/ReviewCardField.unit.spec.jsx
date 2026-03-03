@@ -235,6 +235,29 @@ describe('Schemaform: ReviewCardField', () => {
       expect(tree.find('.input-section').length).to.equal(1);
       tree.unmount();
     });
+
+    it('should not show cancel button when startInEdit forces edit mode (non-volatile)', () => {
+      const props = set('uiSchema.ui:options.startInEdit', true, defaultProps);
+      const tree = shallow(<ReviewCardField {...props} />);
+      expect(tree.find('.input-section').length).to.equal(1);
+      expect(tree.find('.cancel-button').length).to.equal(0);
+      tree.unmount();
+    });
+
+    it('should show cancel button after a successful save then re-edit (non-volatile)', () => {
+      const props = set('uiSchema.ui:options.startInEdit', true, defaultProps);
+      const tree = shallow(<ReviewCardField {...props} />);
+      // Started in edit, no cancel
+      expect(tree.find('.cancel-button').length).to.equal(0);
+
+      // Save successfully
+      tree.find('.update-button').simulate('click');
+      // Now in view mode, click edit
+      tree.find('.usa-button-secondary').simulate('click');
+      // Cancel should now be available
+      expect(tree.find('.cancel-button').length).to.equal(1);
+      tree.unmount();
+    });
   });
 
   it('should handle a custom editTitle', () => {

@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   updatePageTitle,
   renderMHVDowntime,
@@ -12,12 +11,12 @@ import {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import {
   BlockedTriageAlertStyles,
   DefaultFolders as Folders,
   ParentComponent,
   downtimeNotificationParams,
+  Alerts,
 } from '../../util/constants';
 import { handleHeader, getPageTitle } from '../../util/helpers';
 import { submitLaunchMyVaHealthAal } from '../../api/SmApi';
@@ -25,19 +24,16 @@ import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
-import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
 import InnerNavigation from '../InnerNavigation';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 import OracleHealthMessagingIssuesAlert from '../shared/OracleHealthMessagingIssuesAlert';
+import AlertBackgroundBox from '../shared/AlertBackgroundBox';
 
 const FolderHeader = props => {
-  const { folder, searchProps, threadCount } = props;
+  const { folder, searchProps, threadCount, showNoMessages } = props;
   const location = useLocation();
-  const userFacilities = useSelector(state => state?.user?.profile?.facilities);
   const showInnerNav =
     folder.folderId === Folders.INBOX.id || folder.folderId === Folders.SENT.id;
-
-  const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
   const {
     noAssociations,
@@ -51,17 +47,6 @@ const FolderHeader = props => {
     isAalEnabled,
   } = useFeatureToggles();
 
-  const cernerFacilities = useMemo(
-    () => {
-      return userFacilities?.filter(facility =>
-        drupalCernerFacilities.some(
-          f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
-        ),
-      );
-    },
-    [userFacilities, drupalCernerFacilities],
-  );
-
   const folderDescription = useMemo(
     () => {
       switch (folder.folderId) {
@@ -73,7 +58,7 @@ const FolderHeader = props => {
         case Folders.DELETED.id: // Trash
           return Folders.DELETED.desc;
         default:
-          return Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-header;
+          return null; // Custom folders don't need description in header
       }
     },
     [folder],
@@ -85,7 +70,7 @@ const FolderHeader = props => {
         folderDescription && (
           <p
             data-testid="folder-description"
-            className="va-introtext folder-description vads-u-margin-top--0"
+            className="va-introtext folder-description vads-u-margin-top--0 vads-u-margin-bottom--1"
           >
             {folderDescription}
           </p>
@@ -131,18 +116,17 @@ const FolderHeader = props => {
   };
   const OracleHealthMessagingAlert = useCallback(
     () => {
+      // The OracleHealthMessagingIssuesAlert was a temporary implementation
+      // Once removed, just move the CernerFacilityAlert into the main render
       if (
         cernerPilotSmFeatureFlag &&
         mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag
       )
         return <OracleHealthMessagingIssuesAlert />;
-      if (
-        folder.folderId === Folders.INBOX.id &&
-        cernerFacilities?.length > 0
-      ) {
+      if (folder.folderId === Folders.INBOX.id) {
         return (
           <CernerFacilityAlert
-            {...CernerAlertContent.SECURE_MESSAGING}
+            healthTool="SECURE_MESSAGING"
             className="vads-u-margin-bottom--3 vads-u-margin-top--2"
             onLinkClick={handleMyVaHealthLinkClick}
           />
@@ -154,7 +138,6 @@ const FolderHeader = props => {
       cernerPilotSmFeatureFlag,
       mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
       folder.folderId,
-      cernerFacilities,
     ],
   );
 
@@ -169,6 +152,8 @@ const FolderHeader = props => {
         {`Messages: ${folderName}`}
       </h1>
 
+      <AlertBackgroundBox closeable className="vads-u-margin-y--1 va-alert" />
+
       {folder.folderId === Folders.INBOX.id && (
         <DowntimeNotification
           appTitle={downtimeNotificationParams.appTitle}
@@ -177,9 +162,6 @@ const FolderHeader = props => {
         />
       )}
 
-      {folder.folderId === Folders.INBOX.id && (
-        <CernerTransitioningFacilityAlert />
-      )}
       <OracleHealthMessagingAlert />
 
       <>
@@ -196,15 +178,29 @@ const FolderHeader = props => {
           )}
 
         <>{handleFolderDescription()}</>
+        {threadCount === 0 &&
+          showNoMessages && (
+            <div>
+              <va-alert
+                background-only="true"
+                status="info"
+                className="vads-u-margin-bottom--1 va-alert"
+                data-testid="alert-no-messages"
+              >
+                <p className="vads-u-margin-y--0">
+                  {Alerts.Message.NO_MESSAGES}
+                </p>
+              </va-alert>
+            </div>
+          )}
         {recipientsError && <RecipientListErrorAlert />}
         {showInnerNav &&
-          (!noAssociations && !allTriageGroupsBlocked && !recipientsError) && (
-            <ComposeMessageButton />
-          )}
+          !noAssociations &&
+          !allTriageGroupsBlocked &&
+          !recipientsError && <ComposeMessageButton />}
 
         {showInnerNav && <InnerNavigation />}
 
-        <ManageFolderButtons folder={folder} />
         {threadCount > 0 && (
           <SearchForm
             folder={folder}
@@ -214,6 +210,7 @@ const FolderHeader = props => {
             threadCount={threadCount}
           />
         )}
+        <ManageFolderButtons folder={folder} />
       </>
     </>
   );
@@ -222,6 +219,7 @@ const FolderHeader = props => {
 FolderHeader.propTypes = {
   folder: PropTypes.object,
   searchProps: PropTypes.object,
+  showNoMessages: PropTypes.bool,
   threadCount: PropTypes.number,
 };
 

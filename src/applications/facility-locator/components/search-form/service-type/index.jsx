@@ -19,7 +19,8 @@ const ServiceType = ({
   isMobile,
   isSmallDesktop,
   isTablet,
-  onChange,
+  committedVamcServiceDisplay,
+  onVamcDraftChange,
   searchInitiated,
   setSearchInitiated,
   useProgressiveDisclosure,
@@ -31,7 +32,9 @@ const ServiceType = ({
   if (facilityType === LocationType.HEALTH && vamcAutoSuggestEnabled) {
     return (
       <VAMCServiceAutosuggest
-        onChange={onChange}
+        committedServiceDisplay={committedVamcServiceDisplay}
+        isMobile={isMobile}
+        onDraftChange={onVamcDraftChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
       />
@@ -49,6 +52,7 @@ const ServiceType = ({
   const filteredHealthServices = healthServices;
 
   let services;
+  let serviceTypeLabel = 'Select a health service';
 
   // Determine what service types to display for the location type (if any).
   switch (facilityType) {
@@ -57,9 +61,12 @@ const ServiceType = ({
       break;
     case LocationType.URGENT_CARE:
       services = urgentCareServices;
+      serviceTypeLabel = 'Select an urgent care network';
       break;
     case LocationType.EMERGENCY_CARE:
       services = emergencyCareServices;
+      serviceTypeLabel = 'Select an emergency care network';
+
       break;
     case LocationType.BENEFITS:
       if (useProgressiveDisclosure) {
@@ -80,6 +87,7 @@ const ServiceType = ({
               data-testid="cc-service-typeahead-pd"
             >
               <CCServiceTypeAhead
+                getProviderSpecialties={getProviderSpecialties}
                 handleServiceTypeChange={handleServiceTypeChange}
                 initialSelectedServiceType={serviceType}
                 isSmallDesktop={isSmallDesktop}
@@ -135,7 +143,7 @@ const ServiceType = ({
       })}
       data-testid={disabled ? 'disabled-service-type-dropdown' : 'service-type'}
     >
-      <label htmlFor="service-type-dropdown">Service type</label>
+      <label htmlFor="service-type-dropdown">{serviceTypeLabel}</label>
       <select
         id="service-type-dropdown"
         disabled={disabled || !facilityType}

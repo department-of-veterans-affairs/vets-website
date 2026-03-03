@@ -7,6 +7,8 @@ import {
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
   programInformationArrayOptions,
+  officialsArrayOptions,
+  institutionResponseToObject,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -226,6 +228,93 @@ describe('0839 Helpers', () => {
     it('has the right card title', () => {
       const title = text.getItemName(exampleItem);
       expect(title).to.eq('MBA');
+    });
+  });
+
+  describe('officials array options', () => {
+    const exampleItem = {
+      fullName: {
+        first: 'John',
+        last: 'Doe',
+      },
+      title: 'Duke',
+    };
+
+    const { isItemIncomplete, text } = officialsArrayOptions;
+
+    it('has the right completeness check', () => {
+      expect(isItemIncomplete({ fullName: null, title: null })).to.be.true;
+      expect(isItemIncomplete(exampleItem)).to.be.false;
+    });
+
+    it('has the right card description', () => {
+      const description = text.cardDescription(exampleItem);
+      const { container } = render(description);
+      expect(container.textContent).to.contain('Duke');
+    });
+
+    it('has the right card title', () => {
+      const title = text.getItemName(exampleItem);
+      expect(title).to.eq('John Doe');
+    });
+
+    it('has the right summary without items', () => {
+      const summary = text.summaryDescriptionWithoutItems();
+      const { container } = render(summary);
+      expect(container.textContent).to.contain(
+        'you will be asked to provide information about faculty members',
+      );
+    });
+  });
+
+  describe('institutionResponseToObject', () => {
+    const exampleResponse = {
+      id: '40737698',
+      type: 'institutions',
+      attributes: {
+        name: 'UNIVERSITY OF TEST',
+        facilityCode: '11900000',
+        type: 'FLIGHT',
+        city: 'TUCSON',
+        state: 'AZ',
+        zip: '85721',
+        country: 'USA',
+        address1: '123 UNIVERSITY BOULEVARD',
+        address2: 'MODERN LANGUAGES',
+        address3: 'ROOM 347',
+        physicalAddress1: '321 E UNIVERSITY BOULEVARD',
+        physicalAddress2: 'MODERN LANGUAGES',
+        physicalAddress3: 'ROOM 348',
+        physicalCity: 'TUCSON',
+        physicalState: 'AZ',
+        physicalCountry: 'USA',
+        physicalZip: '85721',
+      },
+    };
+
+    it('correctly converts the api response', () => {
+      expect(institutionResponseToObject(exampleResponse)).to.deep.equal({
+        name: 'UNIVERSITY OF TEST',
+        type: 'PUBLIC',
+        mailingAddress: {
+          street: '123 UNIVERSITY BOULEVARD',
+          street2: 'MODERN LANGUAGES',
+          street3: 'ROOM 347',
+          city: 'TUCSON',
+          state: 'AZ',
+          postalCode: '85721',
+          country: 'USA',
+        },
+        physicalAddress: {
+          street: '321 E UNIVERSITY BOULEVARD',
+          street2: 'MODERN LANGUAGES',
+          street3: 'ROOM 348',
+          city: 'TUCSON',
+          state: 'AZ',
+          postalCode: '85721',
+          country: 'USA',
+        },
+      });
     });
   });
 });

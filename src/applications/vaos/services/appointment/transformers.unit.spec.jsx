@@ -1,7 +1,9 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
-import { getAppointmentType } from './transformers';
+import { getAppointmentType, getAppointmentTimezone } from './transformers';
+import * as timezoneUtils from '../../utils/timezone';
 
 describe('getAppointmentType util', () => {
   it('should return appointment type as ccAppointment', async () => {
@@ -38,6 +40,111 @@ describe('getAppointmentType util', () => {
     };
     const result = getAppointmentType(appointment);
     expect(result).to.equal('request');
+  });
+});
+
+describe('getAppointmentTimezone util', () => {
+  let getTimezoneByFacilityIdStub;
+
+  beforeEach(() => {
+    getTimezoneByFacilityIdStub = sinon
+      .stub(timezoneUtils, 'getTimezoneByFacilityId')
+      .returns('America/Chicago');
+  });
+
+  afterEach(() => {
+    getTimezoneByFacilityIdStub.restore();
+  });
+
+  it('should return appointment timezone when available', () => {
+    const appointment = {
+      locationId: '123',
+      location: {
+        attributes: {
+          timezone: {
+            timeZoneId: 'America/Los_Angeles',
+          },
+        },
+      },
+    };
+
+    const result = getAppointmentTimezone(appointment);
+    expect(result).to.equal('America/Los_Angeles');
+    expect(getTimezoneByFacilityIdStub.called).to.be.false;
+  });
+
+  it('should return null and fallback when timezone is GMT', () => {
+    const appointment = {
+      locationId: '456',
+      location: {
+        attributes: {
+          timezone: {
+            timeZoneId: 'GMT',
+          },
+        },
+      },
+    };
+
+    const result = getAppointmentTimezone(appointment);
+    expect(result).to.equal('America/Chicago');
+    expect(getTimezoneByFacilityIdStub.calledWith('456')).to.be.true;
+  });
+
+  it('should return null and fallback when timezone is UTC', () => {
+    const appointment = {
+      locationId: '789',
+      location: {
+        attributes: {
+          timezone: {
+            timeZoneId: 'UTC',
+          },
+        },
+      },
+    };
+
+    const result = getAppointmentTimezone(appointment);
+    expect(result).to.equal('America/Chicago');
+    expect(getTimezoneByFacilityIdStub.calledWith('789')).to.be.true;
+  });
+
+  it('should fallback to facility timezone when appointment timezone is unavailable', () => {
+    const appointment = {
+      locationId: '999',
+      location: {
+        attributes: {},
+      },
+    };
+
+    const result = getAppointmentTimezone(appointment);
+    expect(result).to.equal('America/Chicago');
+    expect(getTimezoneByFacilityIdStub.calledWith('999')).to.be.true;
+  });
+
+  it('should pass featureUseBrowserTimezone to getTimezoneByFacilityId', () => {
+    const appointment = {
+      locationId: '555',
+      location: {
+        attributes: {
+          timezone: {
+            timeZoneId: 'UTC',
+          },
+        },
+      },
+    };
+
+    const result = getAppointmentTimezone(appointment, true);
+    expect(result).to.equal('America/Chicago');
+    expect(getTimezoneByFacilityIdStub.calledWith('555', true)).to.be.true;
+  });
+
+  it('should handle missing location attribute gracefully', () => {
+    const appointment = {
+      locationId: '111',
+    };
+
+    const result = getAppointmentTimezone(appointment);
+    expect(result).to.equal('America/Chicago');
+    expect(getTimezoneByFacilityIdStub.calledWith('111')).to.be.true;
   });
 });
 

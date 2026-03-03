@@ -3,19 +3,18 @@ import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 import { intersection } from 'lodash';
 
-import { connect } from 'react-redux';
 import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import backendServices from '../../profile/constants/backendServices';
 import { hasSession } from '../../profile/utilities';
 // import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const signInQuery = useSiS => ({
+const signInQuery = {
   next: window.location.pathname,
-  oauth: useSiS,
-});
+  oauth: true,
+};
 const nextQuery = { next: window.location.pathname };
-const signInUrl = useSiS => appendQuery('/', signInQuery(useSiS));
+const signInUrl = appendQuery('/', signInQuery);
 const verifyUrl = appendQuery('/verify', nextQuery);
 
 const RequiredLoginLoader = () => {
@@ -36,7 +35,7 @@ const ProfileErrorMessage = () => {
 };
 
 export const RequiredLoginView = props => {
-  const { user, verify, useSiS, showProfileErrorMessage = false } = props;
+  const { user, verify, showProfileErrorMessage = false } = props;
 
   const shouldSignIn = useCallback(() => !user.login.currentlyLoggedIn, [
     user.login.currentlyLoggedIn,
@@ -73,7 +72,7 @@ export const RequiredLoginView = props => {
     () => {
       const redirectIfNeeded = () => {
         if (!user.profile.loading) {
-          if (shouldSignIn()) window.location.replace(signInUrl(useSiS));
+          if (shouldSignIn()) window.location.replace(signInUrl);
           else if (shouldVerify()) window.location.replace(verifyUrl);
         }
       };
@@ -195,14 +194,9 @@ RequiredLoginView.propTypes = {
   user: PropTypes.object.isRequired,
   loadingIndicator: PropTypes.node,
   showProfileErrorMessage: PropTypes.bool,
-  useSiS: PropTypes.bool,
   verify: PropTypes.bool,
 };
 
-const mapStateToProps = state => {
-  return { useSiS: state.featureToggles.signInServiceEnabled || true };
-};
-
-export default connect(mapStateToProps)(RequiredLoginView);
+export default RequiredLoginView;
 
 export { RequiredLoginLoader };

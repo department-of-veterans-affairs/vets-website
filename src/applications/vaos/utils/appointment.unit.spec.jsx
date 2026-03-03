@@ -1,8 +1,18 @@
 import { expect } from 'chai';
 import { subDays } from 'date-fns';
+import MockDate from 'mockdate';
 import { getRealFacilityId, getDaysRemainingToFileClaim } from './appointment';
+import { getTestDate } from '../tests/mocks/setup';
 
 describe('VAOS appointment helpers', () => {
+  beforeEach(() => {
+    MockDate.set(getTestDate());
+  });
+
+  afterEach(() => {
+    MockDate.reset();
+  });
+
   describe('getRealFacilityId', () => {
     it('should return the real facility id for not production environemnts', () => {
       expect(getRealFacilityId('983')).to.equal('442');

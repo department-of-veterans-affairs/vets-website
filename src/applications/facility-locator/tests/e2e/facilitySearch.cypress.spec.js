@@ -142,8 +142,6 @@ describe('Facility VA search', () => {
     cy.get('.i-pin-card-map').contains('2');
     cy.get('.i-pin-card-map').contains('3');
     cy.get('.i-pin-card-map').contains('4');
-
-    cy.get('#other-tools').should('exist');
   });
 
   it('shows search result header even when no results are found', () => {
@@ -152,6 +150,8 @@ describe('Facility VA search', () => {
       data: [],
       meta: { pagination: { totalEntries: 0 } },
     }).as('searchFacilities');
+
+    cy.injectAxeThenAxeCheck();
 
     cy.get('#street-city-state-zip').type('27606');
     cy.get('#facility-type-dropdown')
@@ -162,13 +162,12 @@ describe('Facility VA search', () => {
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
+    cy.wait('@searchFacilities');
 
-    cy.focused().contains(
+    cy.focused().should(
+      'contain.text',
       'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
     );
-    cy.get('#other-tools').should('exist');
   });
 
   it('finds va benefits facility and views its page', () => {
@@ -188,7 +187,6 @@ describe('Facility VA search', () => {
     cy.get('#search-results-subheader').contains(
       /(Showing|Results).*VA benefits.*All VA benefit services.*near.*Los Angeles.*California/i,
     );
-    cy.get('#other-tools').should('exist');
 
     cy.axeCheck();
 
@@ -216,13 +214,14 @@ describe('Facility VA search', () => {
       .contains(/Get directions/i);
     cy.get('[alt="Static map"]').should('exist');
     cy.get('#hours-op h3').contains('Hours of operation');
-    cy.get('#other-tools').should('not.exist');
 
     cy.axeCheck();
   });
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
     cy.visit('/find-locations');
+
+    cy.injectAxeThenAxeCheck();
 
     cy.get('#street-city-state-zip').type('27606{enter}');
     // Wait for Use My Location to be triggered (it should not be)
@@ -284,7 +283,7 @@ describe('Facility VA search', () => {
     cy.get('#facility-type-dropdown')
       .shadow()
       .find('select')
-      .select('VA health');
+      .select('VA health', { force: true });
     cy.get('#service-type-dropdown').select('Primary care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#facility-search').click({ waitForAnimations: true });
@@ -301,7 +300,5 @@ describe('Facility VA search', () => {
     cy.get('.i-pin-card-map').contains('2');
     cy.get('.i-pin-card-map').contains('3');
     cy.get('.i-pin-card-map').contains('4');
-
-    cy.get('#other-tools').should('exist');
   });
 });

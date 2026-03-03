@@ -7,7 +7,12 @@ export const CCP_SERVICE_TYPE_INPUT = '#service-type-ahead-input';
 export const SEARCH_BUTTON = '#facility-search';
 export const SEARCH_AVAILABLE = '#search-available-service-prompt';
 export const NO_SERVICE = '#could-not-find-service-prompt';
-
+export const AUTOSUGGEST_ADDRESS_INPUT =
+  '[data-testid="street-city-state-zip-input-with-clear"]';
+export const AUTOSUGGEST_ADDRESS_CONTAINER =
+  '#street-city-state-zip-autosuggest-container';
+export const AUTOSUGGEST_ADDRESS_OPTIONS =
+  '[data-testid="autosuggest-options"]';
 export const AUTOSUGGEST_INPUT =
   '[data-testid="vamc-services-input-with-clear"]';
 export const AUTOSUGGEST_ARROW =
@@ -41,6 +46,7 @@ export const MOBILE_MAP_RESULT_CONTAINER = '.mobile-search-result';
 
 // Error message that appears if something is blank or incorrect in the search form
 export const SEARCH_FORM_ERROR_MESSAGE = '.usa-input-error-message';
+export const SEARCH_FORM_ERROR_MESSAGE_2 = '.usa-error-message';
 
 export const typeInCityStateInput = (value, shouldCloseDropdown = false) => {
   cy.get(CITY_STATE_ZIP_INPUT).type(value);
@@ -266,6 +272,9 @@ export const verifyElementIsNotDisabled = selector =>
 
 export const errorMessageContains = text =>
   verifyElementShouldContainText(SEARCH_FORM_ERROR_MESSAGE, text);
+
+export const errorMessageContains2 = text =>
+  verifyElementShouldContainText(SEARCH_FORM_ERROR_MESSAGE_2, text);
 
 export const elementIsFocused = selector =>
   cy.get(selector).should('be.focused');

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { getTrackedItemDisplayFromSupportingDocument } from '../../utils/helpers';
+import * as TrackedItem from '../../utils/trackedItemContent';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
 import { ANCHOR_LINKS } from '../../constants';
 import DocumentCard from '../DocumentCard';
@@ -25,7 +25,7 @@ const getTrackedItemText = item => {
 const generateDocsFiled = docsFiled => {
   return docsFiled.flatMap(document => {
     if (document.id && document.status) {
-      const requestTypeDisplayName = getTrackedItemDisplayFromSupportingDocument(
+      const requestTypeDisplayName = TrackedItem.getTrackedItemDisplayFromSupportingDocument(
         document,
       );
       const requestTypeText =

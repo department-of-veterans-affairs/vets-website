@@ -12,8 +12,6 @@ import {
 } from './api';
 import {
   customFormReplacer,
-  buildSubmissionData,
-  customTransformForSubmit,
   parseDateToDateObj,
   spouseEvidence,
   childEvidence,
@@ -26,7 +24,8 @@ import {
   hasAwardedDependents,
   isVisiblePicklistPage,
   hasSelectedPicklistItems,
-} from './data';
+} from './formHelpers';
+import { buildSubmissionData, customTransformForSubmit } from './submission';
 
 export {
   // api

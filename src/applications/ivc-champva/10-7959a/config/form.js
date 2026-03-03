@@ -20,7 +20,6 @@ import {
   isNewPharmacyClaim,
   isNotEnrolledInChampva,
   isResubmissionClaim,
-  isResubmissionEnabled,
   isRoleOther,
   isRoleSponsor,
 } from '../utils/helpers';
@@ -65,7 +64,7 @@ import {
 
 import content from '../locales/en/content.json';
 
-// import mockData from '../tests/e2e/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/medical-claim.json';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -103,7 +102,7 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: content['form-messages--not-found'],
     noAuth: content['form-messages--no-auth'],
@@ -111,6 +110,10 @@ const formConfig = {
   title: content['form--title'],
   subTitle: content['form--subtitle'],
   dev: { disableWindowUnloadInCI: true },
+  formOptions: {
+    useWebComponentForNavigation: true,
+    filterInactiveNestedPageData: true,
+  },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
       {
@@ -183,7 +186,6 @@ const formConfig = {
         page1e: {
           path: 'champva-claim-status',
           title: 'CHAMPVA claim status',
-          depends: isResubmissionEnabled,
           ...certifierClaimStatusSchema,
         },
       },

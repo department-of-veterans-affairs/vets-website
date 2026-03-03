@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import * as schedulingPreferencesUtils from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
-import { FIELD_NAMES } from '@@vap-svc/constants';
+import { FIELD_NAMES } from '@@vap-svc/constants/schedulingPreferencesConstants';
 
 describe('Profile utils', () => {
   describe('scheduling preferences utils', () => {
@@ -58,6 +58,29 @@ describe('Profile utils', () => {
         expect(
           result.properties[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
         ).to.have.property('enum');
+      });
+    });
+
+    describe('sortDaysAndTimes', () => {
+      it('returns sorted days and times', () => {
+        const unsortedDaysAndTimes = {
+          Friday: ['afternoon', 'morning'],
+          Monday: ['morning'],
+          Wednesday: ['afternoon'],
+          Tuesday: ['morning', 'afternoon'],
+        };
+
+        const sortedDaysAndTimes = [
+          ['Monday', ['morning']],
+          ['Tuesday', ['morning', 'afternoon']],
+          ['Wednesday', ['afternoon']],
+          ['Friday', ['morning', 'afternoon']],
+        ];
+
+        const result = schedulingPreferencesUtils.sortDaysAndTimes(
+          unsortedDaysAndTimes,
+        );
+        expect(result).to.deep.equal(sortedDaysAndTimes);
       });
     });
   });

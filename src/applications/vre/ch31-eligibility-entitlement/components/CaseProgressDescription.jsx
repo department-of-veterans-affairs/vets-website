@@ -2,96 +2,207 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useSelector } from 'react-redux';
+import HubCardList from './HubCardList';
+import SelectPreferenceView from './SelectPreferenceView';
 
-const CaseProgressDescription = ({ step }) => {
+const CaseProgressDescription = ({
+  step,
+  showHubCards = false,
+  status,
+  attributes = {},
+}) => {
   const navigate = useNavigate();
+
+  const ch31CaseMilestonesState = useSelector(
+    state => state?.ch31CaseMilestones,
+  );
 
   const handleRouteChange = href => event => {
     event.preventDefault();
     navigate(href);
   };
 
-  switch (step) {
-    case 1:
-      return (
-        <p className="usa-width-two-thirds">
-          Your application for VR&E benefits has not yet been received and/or is
-          being routed for evaluation.
-        </p>
-      );
+  const hubCards = showHubCards ? (
+    <div className="vads-u-clear--both">
+      <HubCardList step={step} />
+    </div>
+  ) : null;
 
-    case 2: {
-      const href = '/';
+  const eligibilityRoute = '/your-vre-eligibility';
+  const eligibilityHref = '/careers-employment/your-vre-eligibility';
+
+  const withEligibilityLink = textBefore => (
+    <p>
+      {textBefore}{' '}
+      <VaLink
+        href={eligibilityHref}
+        text="Your VR&E eligibility and benefits"
+        onClick={handleRouteChange(eligibilityRoute)}
+      />{' '}
+      page.
+    </p>
+  );
+
+  switch (step) {
+    case 1: {
       return (
-        <p className="usa-width-two-thirds">
-          Once your VR&E Benefits Application has been deemed complete, it will
-          be assessed for basic eligibility. If you have not yet verified your
-          eligibility for VR&E CH31 Benefits, please visit the{' '}
-          <VaLink
-            href={href}
-            text="VR&amp;E Check My Eligibility web page."
-            onClick={handleRouteChange(href)}
-          />{' '}
+        <>
+          <p>
+            We’ve received your application for VR&E benefits. There is nothing
+            you need to do right now.
+          </p>
+          {hubCards}
+        </>
+      );
+    }
+    case 2: {
+      return (
+        <>
+          {withEligibilityLink(
+            "Your application for VR&E benefits is currently being reviewed for basic eligibility. If you haven't confirmed your eligibility yet, visit",
+          )}
+          {hubCards}
+        </>
+      );
+    }
+    case 3: {
+      return (
+        <>
+          <p>
+            VR&E has received and processed your application for Chapter 31
+            benefits. Your next step is to watch the Orientation Video and
+            confirm its completion, which is below.
+          </p>
+          <p>
+            If you prefer, you can complete the orientation during your Initial
+            Evaluation Counselor Meeting. Once you make your selection, click
+            submit, and the Initial Evaluation scheduling link will be sent via
+            email.
+          </p>
+          <va-card background class="vads-u-padding-top--0">
+            <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Orientation Completion
+            </h2>
+            {ch31CaseMilestonesState?.data &&
+            !ch31CaseMilestonesState?.error ? (
+              <va-alert
+                class="vads-u-margin-top--2"
+                full-width="false"
+                slim
+                status="success"
+                visible
+              >
+                <p className="vads-u-margin-y--0">
+                  Your choice has been recorded
+                </p>
+              </va-alert>
+            ) : (
+              <>
+                <SelectPreferenceView />
+                <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
+                  Reading Material
+                </h2>
+                <ul className="va-nav-linkslist-list vads-u-margin-bottom--2">
+                  <li>
+                    <VaLink
+                      href="https://www.va.gov/careers-employment/vocational-rehabilitation"
+                      text="Program Overview"
+                      className=" vads-u-font-weight--bold"
+                      external
+                    />
+
+                    <p className="va-nav-linkslist-description">
+                      Read about how Veteran Readiness and Employment (Chapter
+                      31) can help you address education or training needs.
+                    </p>
+                  </li>
+                  <li>
+                    <VaLink
+                      className=" vads-u-font-weight--bold"
+                      href="https://www.va.gov/careers-employment/vocational-rehabilitation/programs"
+                      text="VR&E Support-and-Services Tracks"
+                      external
+                    />
+
+                    <p className="va-nav-linkslist-description">
+                      We offer 5 support-and-services tracks to help you get
+                      education, training, career planning, and live
+                      independently.
+                    </p>
+                  </li>
+                </ul>
+              </>
+            )}
+          </va-card>
+          {hubCards}
+        </>
+      );
+    }
+
+    case 4: {
+      if (
+        status === 'PENDING' ||
+        !attributes?.orientationAppointmentDetails?.appointmentDateTime ||
+        !attributes?.orientationAppointmentDetails?.appointmentPlace
+      ) {
+        return (
+          <p>
+            We’ve received and processed your application for Chapter 31
+            benefits. Check your email to schedule your meeting with your
+            counselor. After scheduling, you’ll get a confirmation email and an
+            appointment notification letter. To get ready for your Initial
+            Evaluation Counselor Meeting, visit the "Career Planning" page
+            linked below.
+          </p>
+        );
+      }
+
+      return (
+        <p>
+          Your Initial Evaluation Appointment has been scheduled. If you need to
+          reschedule, use your appointment confirmation rescheduling link sent
+          to you via email and text. If you need further assistance, contact
+          your counselor.
         </p>
       );
     }
 
-    case 3:
+    case 5: {
       return (
-        <p className="usa-width-two-thirds">
-          Once your application for VR&E Chapter 31 benefits is processed, then
-          your basic eligible is determined. You will then receive a VR-03
-          Appointment and Orientation Notification Letter. Your first step will
-          be to watch and confirm completion of the Orientation Video, which can
-          be found on the "Orientation Tools and Resources" tile at the bottom
-          of this web page.
-        </p>
+        <>
+          <p>
+            Your counselor is completing the Entitlement Determination Review.
+            Visit the "Career Planning" page for more information about career
+            paths, support, and rehabilitation resources.
+          </p>
+          {hubCards}
+        </>
       );
+    }
 
-    case 4:
+    case 6: {
       return (
-        <p className="usa-width-two-thirds">
-          After your application for VR&E Benefits is processed and your basic
-          eligible is determined for Chapter 31 Benefits, you will receive a
-          notification for an appointment, usually in the form of a VR-03
-          Appointment and Orientation Notification Letter. This letter will
-          include the date and time of your telecounseling appointment. If you
-          prefer not to complete your initial evaluation via a telecounseling
-          session, you have the option to request an in-person appointment.
-        </p>
+        <>
+          <p>
+            Your counselor is working with you to establish your Chapter 31
+            Rehabilitation Plan or Career Track.
+          </p>
+          {hubCards}
+        </>
       );
+    }
 
-    case 5:
+    case 7: {
       return (
-        <p className="usa-width-two-thirds">
-          Once you complete your initial evaluation, then your Counselor will
-          confirm your Entitlement Determination for Chapter 31 Benefits. They
-          will document their findings and record the date of confirmation,
-          known as the Entitlement Determination Date.
-        </p>
+        <>
+          <p>
+            Your Chapter 31 Rehabilitation Plan or Career Track has started.
+          </p>
+          {hubCards}
+        </>
       );
-
-    case 6:
-      return (
-        <p className="usa-width-two-thirds">
-          Program participants are informed and then select a specific track to
-          achieve their rehabilitation goal: Reemployment, Rapid Access to
-          Employment, Employment through Long-Term Services, Independent Living,
-          or Self-Employment. Once you complete your Orientation, Initial
-          Evaluation, and receive a positive Entitlement Determination, your
-          journey on one of these Rehabilitation Paths or Career Tracks will
-          begin.
-        </p>
-      );
-
-    case 7:
-      return (
-        <p className="usa-width-two-thirds">
-          Once you complete all the previous steps and your Chapter 31
-          Rehabilitation Plan or Career Track is approved, your Chapter 31
-          benefits will begin.
-        </p>
-      );
+    }
 
     default:
       return null;
@@ -100,6 +211,9 @@ const CaseProgressDescription = ({ step }) => {
 
 CaseProgressDescription.propTypes = {
   step: PropTypes.number.isRequired,
+  showHubCards: PropTypes.bool,
+  status: PropTypes.string,
+  attributes: PropTypes.object,
 };
 
 export default CaseProgressDescription;

@@ -35,6 +35,9 @@ class PatientComposePage {
           expect(request.category).to.eq(mockRequest.category);
           expect(request.recipient_id).to.eq(mockRequest.recipient_id);
           expect(request.subject).to.eq(mockRequest.subject);
+          if (mockRequest.station_number) {
+            expect(request.station_number).to.eq(mockRequest.station_number);
+          }
         }
         return req;
       });
@@ -76,8 +79,8 @@ class PatientComposePage {
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {
-    // eslint-disable-next-line cypress/unsafe-to-chain-command
-    cy.focused().should('contain.text', Data.SECURE_MSG_SENT_SUCCESSFULLY);
+    // Per MHV accessibility decision records, focus goes to H1
+    cy.get('h1').should('have.focus');
   };
 
   selectRecipient = (index = 1) => {

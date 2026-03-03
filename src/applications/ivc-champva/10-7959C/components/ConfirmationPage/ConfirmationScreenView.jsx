@@ -7,12 +7,14 @@ const ConfirmationScreenView = ({ beneficiary, signee, submitDate }) => {
 
   return (
     <>
-      <va-alert status="success" class="vads-u-margin-bottom--4">
-        <h2 slot="headline" className="vads-u-font-size--h3">
-          You’ve submitted your CHAMPVA Other Health Insurance Certification
-          form
-        </h2>
-      </va-alert>
+      <div className="success-message vads-u-margin-bottom--4">
+        <va-alert status="success">
+          <h2 slot="headline" className="vads-u-font-size--h3">
+            You’ve submitted your CHAMPVA Other Health Insurance Certification
+            form
+          </h2>
+        </va-alert>
+      </div>
 
       <va-summary-box class="vads-u-margin-bottom--4">
         <h3 slot="headline">Your submission information</h3>

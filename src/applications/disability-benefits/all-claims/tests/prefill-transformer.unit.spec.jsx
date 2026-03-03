@@ -239,6 +239,314 @@ describe('526v2 prefill transformer', () => {
         },
       });
     });
+
+    it('should transform country name "United States" to "USA" code', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'United States',
+            addressLine1: '123 Any Street',
+            city: 'Anyville',
+            state: 'AK',
+            zipCode: '12345',
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': false,
+          country: 'USA',
+          addressLine1: '123 Any Street',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'Anyville',
+          state: 'AK',
+          zipCode: '12345',
+        },
+      });
+    });
+
+    it('should transform international country name to country code', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'Canada',
+            addressLine1: '123 Maple Street',
+            city: 'Toronto',
+            state: 'ON',
+            zipCode: 'M1M 1M1',
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': false,
+          country: 'CAN',
+          addressLine1: '123 Maple Street',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'Toronto',
+          state: 'ON',
+          zipCode: 'M1M 1M1',
+        },
+      });
+    });
+
+    it('should fallback to original country value when mapping not found', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'Unknown Country',
+            addressLine1: '123 Unknown Street',
+            city: 'Unknown City',
+            state: 'UK',
+            zipCode: '00000',
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': false,
+          country: 'Unknown Country',
+          addressLine1: '123 Unknown Street',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'Unknown City',
+          state: 'UK',
+          zipCode: '00000',
+        },
+      });
+    });
+
+    it('should auto-detect military base when prefill has military city but checkbox unchecked', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 Base Street',
+            city: 'APO', // Military city
+            state: 'NY', // Regular state
+            zipCode: '09012',
+            // Military checkbox NOT set in prefill data
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': true, // Should be auto-detected as true
+          country: 'USA',
+          addressLine1: '123 Base Street',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'APO',
+          state: 'NY',
+          zipCode: '09012',
+        },
+      });
+    });
+
+    it('should auto-detect military base when prefill has military state but checkbox unchecked', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '456 Military Ave',
+            city: 'Some City', // Regular city
+            state: 'AE', // Military state
+            zipCode: '09033',
+            // Military checkbox NOT set in prefill data
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': true, // Should be auto-detected as true
+          country: 'USA',
+          addressLine1: '456 Military Ave',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'Some City',
+          state: 'AE',
+          zipCode: '09033',
+        },
+      });
+    });
+
+    it('should auto-detect military base with case insensitive city and state', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '789 Lowercase Ave',
+            city: 'apo', // Military city in lowercase
+            state: 'ae', // Military state in lowercase
+            zipCode: '09033',
+            // Military checkbox NOT set in prefill data
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': true, // Should be auto-detected as true despite lowercase
+          country: 'USA',
+          addressLine1: '789 Lowercase Ave',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'apo',
+          state: 'ae',
+          zipCode: '09033',
+        },
+      });
+    });
+
+    it('should override explicitly set military checkbox to false', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 Base Street',
+            city: 'APO', // Military city
+            state: 'NY',
+            zipCode: '09012',
+            'view:livesOnMilitaryBase': false,
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': true,
+          country: 'USA',
+          addressLine1: '123 Base Street',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'APO',
+          state: 'NY',
+          zipCode: '09012',
+        },
+      });
+    });
+
+    it('should normalize address fields by trimming and collapsing extra spaces', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '  123  Any   Street  ',
+            addressLine2: 'Apt   2',
+            addressLine3: '  Building   B  ',
+            city: '  Any   ville  ',
+            state: 'AK',
+            zipCode: '12345',
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      expect(transformedData.mailingAddress.addressLine1).to.equal(
+        '123 Any Street',
+      );
+      expect(transformedData.mailingAddress.addressLine2).to.equal('Apt 2');
+      expect(transformedData.mailingAddress.addressLine3).to.equal(
+        'Building B',
+      );
+      expect(transformedData.mailingAddress.city).to.equal('Any ville');
+    });
   });
 
   describe('prefillServiceInformation', () => {
