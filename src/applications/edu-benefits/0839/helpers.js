@@ -261,9 +261,9 @@ const yellowRibbonCardTitleCase = str => {
 };
 
 export const yellowRibbonProgramCardDescription = (item, formData) => {
+  if (!item) return null;
   const degreeLevel = yellowRibbonCardTitleCase(item.degreeLevel);
   const school = yellowRibbonCardTitleCase(item.collegeOrProfessionalSchool);
-  if (!item) return null;
   const isUsaSchool = formData?.institutionDetails?.isUsaSchool;
   return (
     <div>

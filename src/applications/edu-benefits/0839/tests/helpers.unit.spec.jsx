@@ -1266,22 +1266,23 @@ describe('0839 Helpers', () => {
       });
     });
     describe('text.getItemName', () => {
-      it('returns expected ItemName starting new agreement', () => {
+      it('returns expected ItemName with unlimited students', () => {
         const props = {
-          academicYearDisplay: '2026-2027',
+          maximumStudentsOption: 'unlimited',
         };
 
         expect(arrayBuilderOptions.text.getItemName(props)).to.equal(
-          '2026-2027',
+          'Max. number of students: Unlimited',
         );
       });
-      it('returns expected ItemName modify existing agreement', () => {
+      it('returns expected ItemName with specific number of students', () => {
         const props = {
-          academicYear: '2026-2027',
+          maximumStudentsOption: 'specific',
+          maximumStudents: 25,
         };
 
         expect(arrayBuilderOptions.text.getItemName(props)).to.equal(
-          '2026-2027',
+          'Max. number of students: 25',
         );
       });
     });
