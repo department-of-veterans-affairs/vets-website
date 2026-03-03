@@ -14,7 +14,7 @@ import content from '../../locales/en/content.json';
 const TITLE_TEXT = content['resubmission--addtl-docs-title'];
 const INPUT_LABEL = content['resubmission--addtl-docs-label'];
 
-export const resubmissionDocsUpload = {
+export default {
   uiSchema: {
     ...titleUI(TITLE_TEXT, ResubmissionAddtlDocsDescription),
     ...descriptionUI(ResubmissionAddtlDocsUploadDescription),

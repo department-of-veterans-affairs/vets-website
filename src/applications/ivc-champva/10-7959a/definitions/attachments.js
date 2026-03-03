@@ -29,6 +29,7 @@ export const attachmentUI = ({ label = '', attachmentId = '' } = {}) => {
     name: file.name,
     confirmationCode: res.data.attributes.confirmationCode,
     attachmentId,
+    ...(res.llmResponse ? { llmResponse: res.llmResponse } : {}),
   });
 
   return fileUploadUI(label, {

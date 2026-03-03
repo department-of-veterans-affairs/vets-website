@@ -29,12 +29,12 @@ export default {
       validations: [validateChars],
     }),
     serviceStartDate: currentOrPastDateUI({
-      title: INPUT_LABELS.effectiveDate,
-      hint: HINT_TEXT.effectiveDate,
+      title: INPUT_LABELS.startDate,
+      hint: HINT_TEXT.startDate,
     }),
     serviceEndDate: currentOrPastDateUI({
-      title: INPUT_LABELS.expirationDate,
-      hint: HINT_TEXT.expirationDate,
+      title: INPUT_LABELS.endDate,
+      hint: HINT_TEXT.endDate,
     }),
     'ui:validations': [
       validateDateRange({

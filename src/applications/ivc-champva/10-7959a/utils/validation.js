@@ -10,7 +10,7 @@ import content from '../locales/en/content.json';
  */
 export const validateChars = (errors, data) => {
   const invalidCharsPattern = /[~!@#$%^&*+=[\]{}()<>;:"`\\/_|]/g;
-  const matches = data.match(invalidCharsPattern);
+  const matches = (data || '').match(invalidCharsPattern);
 
   if (!matches) return;
 
