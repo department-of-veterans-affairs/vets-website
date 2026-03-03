@@ -21,6 +21,7 @@ import * as TrackedItem from '../utils/trackedItemContent';
 import { setUpPage, setPageFocus, focusNotificationAlert } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
+import { cstMultiClaimProvider } from '../selectors';
 
 const filesPath = '../files';
 const statusPath = '../status';
@@ -56,7 +57,10 @@ class DocumentRequestPage extends React.Component {
   }
 
   handleUploadComplete() {
-    this.props.getClaim(this.props.claim.id);
+    const provider = this.props.cstMultiClaimProviderEnabled
+      ? this.props.claim?.attributes?.provider
+      : null;
+    this.props.getClaim(this.props.claim.id, null, provider);
     const redirectPath = this.props.showDocumentUploadStatus
       ? statusPath
       : filesPath;
@@ -211,6 +215,7 @@ function mapStateToProps(state, ownProps) {
     uploading: uploads.uploading,
     timezoneMitigationEnabled:
       state.featureToggles?.cst_timezone_discrepancy_mitigation || false,
+    cstMultiClaimProviderEnabled: cstMultiClaimProvider(state),
   };
 }
 
@@ -233,6 +238,7 @@ DocumentRequestPage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
+  cstMultiClaimProviderEnabled: PropTypes.bool,
   getClaim: PropTypes.func,
   loading: PropTypes.bool,
   message: PropTypes.object,
