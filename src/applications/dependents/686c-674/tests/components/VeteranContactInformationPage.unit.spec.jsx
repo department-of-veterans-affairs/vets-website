@@ -17,7 +17,7 @@ const defaultProfile = ({
   hasEmail = true,
 } = {}) => ({
   vapContactInfo: {
-    emailAddress: {
+    email: {
       emailAddress: hasEmail ? 'vet@example.com' : '',
     },
     mailingAddress: hasAddress
@@ -52,7 +52,7 @@ const defaultProfile = ({
   },
 });
 
-const defaultData = {
+const defaultData = (newSettings = {}) => ({
   veteranContactInformation: {
     emailAddress: 'vet@example.com',
     electronicCorrespondence: false,
@@ -69,11 +69,12 @@ const defaultData = {
       internationalPostalCode: null,
     },
     internationalPhone: null,
+    ...newSettings,
   },
-};
+});
 
 function renderPage({
-  data = defaultData,
+  data = defaultData(),
   goBack = () => {},
   goToPath = () => {},
   setFormData = () => {},
@@ -137,12 +138,12 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
 
   it('shows add links and "None provided" if info is missing', () => {
     const { container } = renderPage({
-      data: {
+      data: defaultData({
         emailAddress: '',
         phoneNumber: '',
         veteranAddress: {},
         internationalPhone: '',
-      },
+      }),
       profile: {
         vapContactInfo: {},
       },
@@ -159,12 +160,12 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
 
   it('does not show missing prefill alert if prefill data in place', () => {
     const { container } = renderPage({
-      data: {
+      data: defaultData({
         emailAddress: '',
         phoneNumber: '',
         veteranAddress: {},
         internationalPhone: '',
-      },
+      }),
     });
     expect($$('va-alert', container)).to.have.lengthOf(0);
   });
@@ -172,7 +173,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
   it('shows prefill & error alert on submit if email is missing', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
-      data: {
+      data: defaultData({
         emailAddress: '',
         phoneNumber: '5551234567',
         veteranAddress: {
@@ -182,7 +183,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
           postalCode: '12345',
           country: 'USA',
         },
-      },
+      }),
       profile: defaultProfile({ hasEmail: false }),
       goToPath,
     });
@@ -206,11 +207,11 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
   it('shows prefill & error alert on submit if mailing address is missing', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
-      data: {
+      data: defaultData({
         emailAddress: 'test@test.com',
         phoneNumber: '5551234567',
         veteranAddress: {},
-      },
+      }),
       profile: defaultProfile({ hasAddress: false }),
       goToPath,
     });
@@ -234,11 +235,11 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
   it('shows prefill & error alert on submit if email & mailing address are missing', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
-      data: {
+      data: defaultData({
         emailAddress: '',
         phoneNumber: '',
         veteranAddress: {},
-      },
+      }),
       profile: defaultProfile({ hasAddress: false, hasEmail: false }),
       goToPath,
     });
@@ -262,12 +263,13 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
   it('shows error alert on submit if address is missing', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
-      data: {
+      data: defaultData({
         emailAddress: 'vet@example.com',
         electronicCorrespondence: true,
         phoneNumber: '5551234567',
         veteranAddress: {},
-      },
+      }),
+
       goToPath,
     });
 
@@ -287,7 +289,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
   it('navigates to dependents page when all info is provided and Continue is clicked', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
-      data: defaultData,
+      data: defaultData(),
       goToPath,
     });
     const continueBtn = $('va-button[continue]', container);
@@ -295,7 +297,8 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
 
     await waitFor(() => {
       fireEvent.click(continueBtn);
-      expect(goToPath.calledWith('/dependents', { force: true })).to.be.true;
+      expect(goToPath.calledWith('/review-dependents', { force: true })).to.be
+        .true;
     });
   });
 
@@ -303,7 +306,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       goToPath,
-      data: defaultData,
+      data: defaultData(),
     });
 
     const editAddLink = $$('va-link', container).find(
@@ -321,12 +324,12 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
 
   it('shows prefill warning alert if profile is missing info', () => {
     const { container } = renderPage({
-      data: {
+      data: defaultData({
         emailAddress: '',
         phoneNumber: '',
         veteranAddress: {},
         internationalPhone: '',
-      },
+      }),
       profile: {
         vapContactInfo: {},
       },
@@ -336,7 +339,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
 
   it('should go to mailing address edit page on edit link click', async () => {
     const goToPath = sinon.spy();
-    const { container } = renderPage({ goToPath, data: defaultData });
+    const { container } = renderPage({ goToPath, data: defaultData() });
 
     const editLink = $('va-link[label="Edit mailing address"]', container);
     expect(editLink).to.not.be.null;
@@ -352,7 +355,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
 
   it('should go to email address edit page on edit link click', async () => {
     const goToPath = sinon.spy();
-    const { container } = renderPage({ goToPath, data: defaultData });
+    const { container } = renderPage({ goToPath, data: defaultData() });
 
     const editLink = $('va-link[label="Edit email address"]', container);
     expect(editLink).to.not.be.null;
@@ -369,11 +372,12 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       goToPath,
-      data: defaultData,
-      'view:phoneSource': 'mobile',
+      data: defaultData({
+        'view:phoneSource': 'mobile',
+      }),
     });
 
-    const editLink = $('va-link[label="Edit home phone number"]', container);
+    const editLink = $('va-link[label="Edit mobile phone number"]', container);
     expect(editLink).to.not.be.null;
     expect($('va-telephone', container).getAttribute('contact')).to.eq(
       '5551234567',
@@ -391,11 +395,10 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       goToPath,
-      data: {
-        ...defaultData,
+      data: defaultData({
         phoneNumber: '5557654321',
         'view:phoneSource': 'mobile',
-      },
+      }),
     });
 
     const editLink = $('va-link[label="Edit mobile phone number"]', container);
@@ -414,7 +417,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
 
   it('should go to international phone add page on add link click', async () => {
     const goToPath = sinon.spy();
-    const { container } = renderPage({ goToPath, data: defaultData });
+    const { container } = renderPage({ goToPath, data: defaultData() });
 
     const addLink = $(
       'va-link[label="Add international phone number"]',
@@ -433,7 +436,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
 
   it('should show address success update alert & focus on it', async () => {
     saveEditContactInformation('veteranAddress', 'update');
-    const { container } = renderPage({ data: defaultData });
+    const { container } = renderPage({ data: defaultData() });
 
     await waitFor(() => {
       const alert = $('va-alert[status="success"]', container);
@@ -446,7 +449,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
 
   it('should focus on edit link if editing was canceled', async () => {
     saveEditContactInformation('veteranAddress', 'cancel');
-    const { container } = renderPage({ data: defaultData });
+    const { container } = renderPage({ data: defaultData() });
 
     await waitFor(() => {
       const alert = $('va-alert[status="success"]', container);

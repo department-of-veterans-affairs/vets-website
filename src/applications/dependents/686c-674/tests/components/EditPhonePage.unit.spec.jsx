@@ -113,7 +113,7 @@ describe('EditPhonePage', () => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
       expect(sessionStorage.getItem('editContactInformation')).to.eq(
-        'phone,cancel',
+        'phoneNumber,cancel',
       );
     });
   });
@@ -142,6 +142,9 @@ describe('EditPhonePage', () => {
     await waitFor(() => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/veteran-contact-information')).to.be.true;
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'phoneNumber,cancel',
+      );
     });
   });
 

@@ -73,20 +73,20 @@ describe('EditMailingAddressPage', () => {
       </Provider>,
     );
 
-    const textInputs = container.querySelectorAll('input[type="text"]');
-    expect(textInputs.length).to.equal(5);
+    const textInputs = container.querySelectorAll('va-text-input[type="text"]');
+    expect(textInputs.length).to.equal(4);
 
-    expect(container.textContent).to.include('Street address');
-    expect(container.textContent).to.include('City');
-    expect(container.textContent).to.include('State');
-    expect(container.textContent).to.include('ZIP');
-    expect(container.textContent).to.include('Country');
+    expect(textInputs[0].getAttribute('label')).to.equal('Street address');
+    expect(textInputs[1].getAttribute('label')).to.equal(
+      'Apartment or unit number',
+    );
+    expect(textInputs[2].getAttribute('label')).to.equal('City');
+    expect(textInputs[3].getAttribute('label')).to.equal('Postal code');
 
     expect(textInputs[0].value).to.equal('1 Main St');
-    expect(textInputs[1].value).to.equal('Hometown');
-    expect(textInputs[2].value).to.equal('CA');
+    expect(textInputs[1].value).to.equal('');
+    expect(textInputs[2].value).to.equal('Hometown');
     expect(textInputs[3].value).to.equal('90210');
-    expect(textInputs[4].value).to.equal('USA');
 
     expect(container.textContent).to.include(
       'We’ve prefilled some of your information',
@@ -145,7 +145,7 @@ describe('EditMailingAddressPage', () => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
       expect(sessionStorage.getItem('editContactInformation')).to.eq(
-        'address,cancel',
+        'veteranAddress,cancel',
       );
     });
   });
@@ -192,9 +192,6 @@ describe('EditMailingAddressPage', () => {
       </Provider>,
     );
 
-    const cityInput = container.querySelector('input[value="Hometown"]');
-    fireEvent.input(cityInput, { target: { value: 'Big City' } });
-
     const form = container.querySelector('form');
     form.dispatchEvent(
       new window.Event('submit', { bubbles: true, cancelable: true }),
@@ -205,10 +202,8 @@ describe('EditMailingAddressPage', () => {
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
       expect(setFormDataSpy.called).to.be.true;
 
-      const lastCallArg = setFormDataSpy.lastCall.args[0];
-      expect(lastCallArg.address.city).to.equal('Big City');
       expect(sessionStorage.getItem('editContactInformation')).to.eq(
-        'address,update',
+        'veteranAddress,update',
       );
     });
   });

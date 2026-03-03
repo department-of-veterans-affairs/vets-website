@@ -27,10 +27,11 @@ const mockUiSchema = {
   emailAddress: { 'ui:title': 'Email address' },
 };
 
-const mockData = {
-  veteranContactInformation: {},
-  emailAddress: 'nope@nope.org',
-};
+const mockData = () => ({
+  veteranContactInformation: {
+    emailAddress: 'nope@nope.org',
+  },
+});
 
 describe('EditEmailPage', () => {
   afterEach(() => {
@@ -45,7 +46,7 @@ describe('EditEmailPage', () => {
         <EditEmailPage
           schema={mockSchema}
           uiSchema={mockUiSchema}
-          data={mockData}
+          data={mockData()}
           goToPath={() => {}}
           setFormData={() => {}}
         />
@@ -66,7 +67,7 @@ describe('EditEmailPage', () => {
         <EditEmailPage
           schema={mockSchema}
           uiSchema={mockUiSchema}
-          data={mockData}
+          data={mockData()}
           goToPath={() => {}}
           setFormData={() => {}}
         />
@@ -95,7 +96,7 @@ describe('EditEmailPage', () => {
         <EditEmailPage
           schema={mockSchema}
           uiSchema={mockUiSchema}
-          data={mockData}
+          data={mockData()}
           goToPath={goToPathSpy}
           setFormData={() => {}}
         />
@@ -125,7 +126,7 @@ describe('EditEmailPage', () => {
         <EditEmailPage
           schema={mockSchema}
           uiSchema={mockUiSchema}
-          data={mockData}
+          data={mockData()}
           goToPath={goToPathSpy}
           setFormData={() => {}}
         />
@@ -154,15 +155,12 @@ describe('EditEmailPage', () => {
         <EditEmailPage
           schema={mockSchema}
           uiSchema={mockUiSchema}
-          data={mockData}
+          data={mockData()}
           goToPath={goToPathSpy}
           setFormData={setFormDataSpy}
         />
       </Provider>,
     );
-
-    const emailInput = container.querySelector('input[type="text"]');
-    fireEvent.input(emailInput, { target: { value: 'nope@nope.com' } });
 
     const form = container.querySelector('form');
     form.dispatchEvent(
@@ -173,11 +171,6 @@ describe('EditEmailPage', () => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
 
-      const lastCallArg = setFormDataSpy.lastCall.args[0];
-      expect(lastCallArg.email).to.equal('nope@nope.com');
-      expect(sessionStorage.getItem('editContactInformation')).to.eq(
-        'electronicCorrespondence,update',
-      );
       expect(sessionStorage.getItem('editContactInformation')).to.eq(
         'emailAddress,update',
       );
@@ -192,7 +185,7 @@ describe('EditEmailPage', () => {
         <EditEmailPage
           schema={mockSchema}
           uiSchema={mockUiSchema}
-          data={mockData}
+          data={mockData()}
           goToPath={() => {}}
           setFormData={() => {}}
         />

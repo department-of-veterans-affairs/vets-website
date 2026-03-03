@@ -13,7 +13,7 @@ describe('EditCardLink', () => {
     const { container } = render(
       <EditCardLink
         value="123 Main St" // passing in address street (required) value
-        name="address"
+        name="veteranAddress"
         onClick={mockOnClick}
       />,
     );
@@ -30,7 +30,7 @@ describe('EditCardLink', () => {
   it('renders add link with correct attributes', () => {
     const mockOnClick = sinon.spy();
     const { container } = render(
-      <EditCardLink value="" name="email" onClick={mockOnClick} />,
+      <EditCardLink value="" name="emailAddress" onClick={mockOnClick} />,
     );
 
     const link = $('va-link', container);
@@ -45,7 +45,7 @@ describe('EditCardLink', () => {
   it('calls onClick with correct path when clicked', () => {
     const mockOnClick = sinon.spy();
     const { container } = render(
-      <EditCardLink value="" name="address" onClick={mockOnClick} />,
+      <EditCardLink value="" name="veteranAddress" onClick={mockOnClick} />,
     );
 
     fireEvent.click($('va-link', container));

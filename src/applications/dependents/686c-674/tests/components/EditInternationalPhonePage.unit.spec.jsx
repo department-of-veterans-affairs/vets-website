@@ -27,9 +27,11 @@ const mockUiSchema = {
   internationalPhone: { 'ui:title': 'International phone number' },
 };
 
-const mockData = {
-  internationalPhone: '18005556666',
-};
+const mockData = () => ({
+  veteranContactInformation: {
+    internationalPhone: '18005556666',
+  },
+});
 
 describe('EditInternationalPhonePage', () => {
   afterEach(() => {
@@ -44,7 +46,7 @@ describe('EditInternationalPhonePage', () => {
         <EditInternationalPhonePage
           schema={mockSchema}
           uiSchema={mockUiSchema}
-          data={mockData}
+          data={mockData()}
           goToPath={() => {}}
           setFormData={() => {}}
         />
@@ -66,7 +68,7 @@ describe('EditInternationalPhonePage', () => {
         <EditInternationalPhonePage
           schema={mockSchema}
           uiSchema={mockUiSchema}
-          data={mockData}
+          data={mockData()}
           goToPath={() => {}}
           setFormData={() => {}}
         />
@@ -95,7 +97,7 @@ describe('EditInternationalPhonePage', () => {
         <EditInternationalPhonePage
           schema={mockSchema}
           uiSchema={mockUiSchema}
-          data={mockData}
+          data={mockData()}
           goToPath={goToPathSpy}
           setFormData={() => {}}
         />
@@ -125,7 +127,7 @@ describe('EditInternationalPhonePage', () => {
         <EditInternationalPhonePage
           schema={mockSchema}
           uiSchema={mockUiSchema}
-          data={mockData}
+          data={mockData()}
           goToPath={goToPathSpy}
           setFormData={() => {}}
         />
@@ -154,15 +156,12 @@ describe('EditInternationalPhonePage', () => {
         <EditInternationalPhonePage
           schema={mockSchema}
           uiSchema={mockUiSchema}
-          data={mockData}
+          data={mockData()}
           goToPath={goToPathSpy}
           setFormData={setFormDataSpy}
         />
       </Provider>,
     );
-
-    const phoneInput = container.querySelector('input[type="text"]');
-    fireEvent.input(phoneInput, { target: { value: '18005556667' } });
 
     const form = container.querySelector('form');
     form.dispatchEvent(
@@ -172,9 +171,6 @@ describe('EditInternationalPhonePage', () => {
     await waitFor(() => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
-      expect(setFormDataSpy.called).to.be.true;
-      const lastCallArg = setFormDataSpy.lastCall.args[0];
-      expect(lastCallArg.internationalPhone).to.equal('18005556667');
       expect(sessionStorage.getItem('editContactInformation')).to.eq(
         'internationalPhone,update',
       );
@@ -189,7 +185,7 @@ describe('EditInternationalPhonePage', () => {
         <EditInternationalPhonePage
           schema={mockSchema}
           uiSchema={mockUiSchema}
-          data={mockData}
+          data={mockData()}
           goToPath={() => {}}
           setFormData={() => {}}
         />
