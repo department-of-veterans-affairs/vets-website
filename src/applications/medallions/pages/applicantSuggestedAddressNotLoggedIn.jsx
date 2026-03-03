@@ -11,6 +11,7 @@ function ApplicantSuggestedAddressNotLoggedIn({
   data,
   goBack,
   goForward,
+  goToPath,
   NavButtons,
   contentBeforeButtons,
   contentAfterButtons,
@@ -84,6 +85,46 @@ function ApplicantSuggestedAddressNotLoggedIn({
     dispatch(setData(updatedFormData));
   };
 
+  const handleContinue = () => {
+    // Check if we're in edit mode (editing from review page)
+    const isEditMode = data?.['view:notLoggedInEditAddress'] === true;
+
+    if (isEditMode) {
+      // Clear the edit flag to return to normal flow
+      const updatedFormData = {
+        ...data,
+        'view:notLoggedInEditAddress': false,
+      };
+      dispatch(setData(updatedFormData));
+
+      // Check if there's a stored return path
+      const returnPath = sessionStorage.getItem('addressEditReturnPath');
+      if (returnPath) {
+        sessionStorage.removeItem('addressEditReturnPath');
+        goToPath(returnPath);
+      } else {
+        // Default to review page
+        goToPath('/review-and-submit');
+      }
+      return;
+    }
+
+    // Normal flow - just continue to next page
+    if (goForward) {
+      goForward({ formData: data });
+    }
+  };
+
+  const handleBack = () => {
+    // Use goBack to go to previous page
+    if (goBack) {
+      goBack();
+    } else {
+      // Fallback to edit address page
+      goToPath('/applicant-mailing-address/edit');
+    }
+  };
+
   if (isLoading) {
     return (
       <va-loading-indicator label="Loading" message="Loading..." set-focus />
@@ -100,7 +141,9 @@ function ApplicantSuggestedAddressNotLoggedIn({
         onChangeSelectedAddress={onChangeSelectedAddress}
       />
       {contentBeforeButtons}
-      {NavButtons && <NavButtons goBack={goBack} goForward={goForward} />}
+      {NavButtons && (
+        <NavButtons goBack={handleBack} goForward={handleContinue} />
+      )}
       {contentAfterButtons}
     </div>
   ) : (
@@ -111,21 +154,25 @@ function ApplicantSuggestedAddressNotLoggedIn({
         isExactMatch={confidenceScore === 100}
       />
       {contentBeforeButtons}
-      {NavButtons && <NavButtons goBack={goBack} goForward={goForward} />}
+      {NavButtons && (
+        <NavButtons goBack={handleBack} goForward={handleContinue} />
+      )}
       {contentAfterButtons}
     </div>
   );
 }
 
 ApplicantSuggestedAddressNotLoggedIn.propTypes = {
+  NavButtons: PropTypes.func,
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   data: PropTypes.shape({
     applicantMailingAddress: PropTypes.object,
+    'view:notLoggedInEditAddress': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  NavButtons: PropTypes.func,
+  goToPath: PropTypes.func,
 };
 
 // Map state to props

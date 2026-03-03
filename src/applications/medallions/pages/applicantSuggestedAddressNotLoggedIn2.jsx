@@ -11,6 +11,7 @@ function ApplicantSuggestedAddressNotLoggedIn2({
   data,
   goBack,
   goForward,
+  goToPath,
   NavButtons,
   contentBeforeButtons,
   contentAfterButtons,
@@ -87,6 +88,36 @@ function ApplicantSuggestedAddressNotLoggedIn2({
     dispatch(setData(updatedFormData));
   };
 
+  const handleContinue = () => {
+    // Check if we're in edit mode (editing from review page)
+    const isEditMode = data?.['view:notLoggedInEditAddress2'] === true;
+
+    if (isEditMode) {
+      // Clear the edit flag to return to normal flow
+      const updatedFormData = {
+        ...data,
+        'view:notLoggedInEditAddress2': false,
+      };
+      dispatch(setData(updatedFormData));
+
+      // Check if there's a stored return path
+      const returnPath = sessionStorage.getItem('addressEditReturnPath');
+      if (returnPath) {
+        sessionStorage.removeItem('addressEditReturnPath');
+        goToPath(returnPath);
+      } else {
+        // Default to review page
+        goToPath('/review-and-submit');
+      }
+      return;
+    }
+
+    // Normal flow - just continue to next page
+    if (goForward) {
+      goForward({ formData: data });
+    }
+  };
+
   if (isLoading) {
     return (
       <va-loading-indicator label="Loading" message="Loading..." set-focus />
@@ -103,7 +134,7 @@ function ApplicantSuggestedAddressNotLoggedIn2({
         onChangeSelectedAddress={onChangeSelectedAddress}
       />
       {contentBeforeButtons}
-      {NavButtons && <NavButtons goBack={goBack} goForward={goForward} />}
+      {NavButtons && <NavButtons goBack={goBack} goForward={handleContinue} />}
       {contentAfterButtons}
     </div>
   ) : (
@@ -114,7 +145,7 @@ function ApplicantSuggestedAddressNotLoggedIn2({
         isExactMatch={confidenceScore === 100}
       />
       {contentBeforeButtons}
-      {NavButtons && <NavButtons goBack={goBack} goForward={goForward} />}
+      {NavButtons && <NavButtons goBack={goBack} goForward={handleContinue} />}
       {contentAfterButtons}
     </div>
   );
@@ -125,9 +156,11 @@ ApplicantSuggestedAddressNotLoggedIn2.propTypes = {
   contentBeforeButtons: PropTypes.element,
   data: PropTypes.shape({
     address: PropTypes.object,
+    'view:notLoggedInEditAddress2': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   NavButtons: PropTypes.func,
 };
 
