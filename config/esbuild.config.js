@@ -1071,28 +1071,43 @@ function generateScaffoldPages(buildPath) {
     }
   }
 
-  // Build app routes from manifests + scaffold registry
+  // Build app routes from manifests + scaffold registry (mirrors webpack's
+  // [...appRegistry, ...scaffoldRegistry] approach)
   const manifests = getAppManifests();
-  const registryMap = new Map();
-  for (const entry of scaffoldRegistry) {
-    if (entry.rootUrl) {
-      registryMap.set(entry.rootUrl, entry);
+  const manifestMap = new Map();
+  for (const m of manifests) {
+    if (m.rootUrl) {
+      manifestMap.set(m.rootUrl, m);
     }
   }
 
-  const appRoutes = manifests
-    .map(m => {
-      const registryEntry = registryMap.get(m.rootUrl) || {};
-      return {
-        rootUrl: m.rootUrl,
-        entryName: m.entryName,
-        appName: m.appName,
-        widgetType: registryEntry.widgetType,
-        widgetTemplate: registryEntry.widgetTemplate,
-        template: registryEntry.template || {},
-      };
-    })
-    .filter(m => m.rootUrl);
+  // Start with manifest entries, enriched with scaffold metadata
+  const appRoutes = manifests.filter(m => m.rootUrl).map(m => {
+    const scaffoldEntry = scaffoldRegistry.find(s => s.rootUrl === m.rootUrl);
+    return {
+      rootUrl: m.rootUrl,
+      entryName: m.entryName,
+      appName: m.appName,
+      widgetType: scaffoldEntry?.widgetType,
+      widgetTemplate: scaffoldEntry?.widgetTemplate,
+      template: scaffoldEntry?.template || {},
+    };
+  });
+
+  // Add scaffold-only entries (like rootUrl "/") that have no matching manifest.
+  // These default to the 'static-pages' entry, matching webpack's behavior.
+  for (const entry of scaffoldRegistry) {
+    if (entry.rootUrl && !manifestMap.has(entry.rootUrl)) {
+      appRoutes.push({
+        rootUrl: entry.rootUrl,
+        entryName: entry.entryName || 'static-pages',
+        appName: entry.appName || '',
+        widgetType: entry.widgetType,
+        widgetTemplate: entry.widgetTemplate,
+        template: entry.template || {},
+      });
+    }
+  }
 
   const modifyScriptAndStyleTags = originalTags => {
     const styleTags = [];
