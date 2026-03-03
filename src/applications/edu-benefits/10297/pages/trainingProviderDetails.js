@@ -3,10 +3,12 @@ import {
   addressNoMilitaryUI,
   addressNoMilitarySchema,
   textUI,
-  textSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
-
-import { trainingProviderArrayOptions } from '../helpers';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  addressUiSchema,
+  trainingProviderArrayOptions,
+  addressSpecifications,
+} from '../helpers';
 
 const uiSchema = {
   ...arrayBuilderItemFirstPageTitleUI({
@@ -16,18 +18,45 @@ const uiSchema = {
   providerName: textUI({
     title: 'Name of training provider',
     errorMessages: {
-      required: 'You must provide a response',
+      required:
+        'You must provide a response with minimum 3 characters and maximum of 75 characters. Accepted values are alphanumeric characters, apostrophes, commas, periods, spaces, colons, semicolons, and parentheses.',
+      minLength:
+        'You must provide a response with minimum 3 characters and maximum of 75 characters. Accepted values are alphanumeric characters, apostrophes, commas, periods, spaces, colons, semicolons, and parentheses.',
+      pattern:
+        'You must provide a response with minimum 3 characters and maximum of 75 characters. Accepted values are alphanumeric characters, apostrophes, commas, periods, spaces, colons, semicolons, and parentheses.',
     },
   }),
-  providerAddress: addressNoMilitaryUI({}),
+  providerAddress: addressUiSchema({ baseUiSchema: addressNoMilitaryUI({}) }),
 };
 
 const schema = {
   type: 'object',
   required: ['providerName', 'providerAddress'],
   properties: {
-    providerName: textSchema,
-    providerAddress: addressNoMilitarySchema({}),
+    providerName: {
+      type: 'string',
+      minLength: 3,
+      maxLength: 75,
+      pattern: `^[A-Za-z0-9;:.', ()-]+$`,
+    },
+    providerAddress: addressNoMilitarySchema({
+      extend: {
+        street: {
+          minLength: addressSpecifications.street.minLength,
+          maxLength: addressSpecifications.street.maxLength,
+        },
+        street2: { maxLength: addressSpecifications.street2.maxLength },
+        street3: { maxLength: addressSpecifications.street3.maxLength },
+        city: {
+          minLength: addressSpecifications.city.minLength,
+          maxLength: addressSpecifications.city.maxLength,
+        },
+        postalCode: {
+          minLength: addressSpecifications.postalCode.minLength,
+          maxLength: addressSpecifications.postalCode.maxLength,
+        },
+      },
+    }),
   },
 };
 

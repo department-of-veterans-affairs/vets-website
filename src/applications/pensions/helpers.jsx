@@ -152,3 +152,17 @@ export const showMultiplePageResponse = () =>
 
 export const showPdfFormAlignment = () =>
   window.sessionStorage.getItem('showPdfFormAlignment') === 'true';
+
+export const threshold = showPdfFormAlignment() ? 75000 : 25000;
+
+export const netWorthEstimateIsOverThreshold = formData => {
+  const rawValue = formData?.netWorthEstimation;
+  if (rawValue == null) {
+    return false;
+  }
+  const value = parseInt(rawValue, 10);
+  if (Number.isNaN(value)) {
+    return false;
+  }
+  return value > threshold;
+};

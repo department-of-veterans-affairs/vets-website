@@ -15,11 +15,7 @@ import ItemList from '../shared/ItemList';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import {
-  generateTextFile,
-  itemListWrapper,
-  sendDataDogAction,
-} from '../../util/helpers';
+import { generateTextFile, sendDataDogAction } from '../../util/helpers';
 import { RADIOLOGY_DETAILS_MY_VA_HEALTH_LINK } from '../../util/rumConstants';
 import {
   pageTitles,
@@ -138,7 +134,7 @@ const UnifiedLabsAndTests = props => {
             />
             <LabelValue
               label={LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}
-              element={itemListWrapper(record?.comments)}
+              element="div"
               testId="lab-and-test-comments"
             >
               <ItemList list={record.comments} />

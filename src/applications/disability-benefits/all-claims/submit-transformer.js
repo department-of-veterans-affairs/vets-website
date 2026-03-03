@@ -176,7 +176,7 @@ export function transform(formConfig, form) {
           default:
         }
 
-        return { ...disability, ...disabilityDescription };
+        return { ...disabilityDescription, ...disability };
       },
     );
 

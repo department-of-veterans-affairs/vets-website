@@ -74,7 +74,6 @@ import IncorrectForm from '../containers/IncorrectForm';
 // TODO: Will be added after mvp release
 // import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 import { transform } from './submit-transformer';
-import { onFormLoaded } from '../utils/onFormLoaded';
 // import prefillTransformer from './prefill-transformer';
 
 /** @type {FormConfig} */
@@ -105,7 +104,6 @@ const formConfig = {
     },
   },
   version: 0,
-  onFormLoaded,
   formSavedPage: FormSavedPage,
   defaultDefinitions,
   savedFormMessages: {
@@ -340,7 +338,9 @@ const formConfig = {
           path: 'household/separation-details',
           title: 'Separation details',
           depends: formData =>
-            formData.claimantRelationship === 'SURVIVING_SPOUSE',
+            formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
+            formData.livedContinuouslyWithVeteran === false &&
+            formData.separationDueToAssignedReasons,
           uiSchema: separationDetails.uiSchema,
           schema: separationDetails.schema,
         },

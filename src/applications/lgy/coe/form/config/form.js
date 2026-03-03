@@ -4,7 +4,7 @@ import environment from 'platform/utilities/environment';
 import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
-import IntroductionPage from '../containers/IntroductionPage';
+import { IntroductionPageSelector } from '../containers/IntroductionPageSelector';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { GetFormHelp } from '../components/GetFormHelp';
 import manifest from '../manifest.json';
@@ -12,10 +12,8 @@ import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
 
 // chapter schema imports
-import {
-  applicantInformation,
-  personalInformation,
-} from './chapters/applicant';
+import { applicantInformation } from './chapters/applicant';
+import personalInformation from '../pages/personalInformation';
 
 import {
   additionalInformation,
@@ -38,10 +36,15 @@ import { uploadDocumentsSchema, getUiSchema } from '../pages/uploadDocuments';
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
 
-import { certificateUseOptions, TOGGLE_KEY } from '../constants';
+import {
+  certificateUseOptions,
+  serviceStatuses,
+  TOGGLE_KEY,
+} from '../constants';
 import certificateUse from '../pages/certificateUse';
 import hadPriorLoans from '../pages/hadPriorLoans';
 import currentOwnership from '../pages/currentOwnership';
+import { propertiesHomeLoansPages } from '../pages/propertiesHomeLoansPages';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -58,7 +61,7 @@ const formConfig = {
     startNewAppButtonText: 'Start a new request',
     reviewPageTitle: 'Review your request',
   },
-  introduction: IntroductionPage,
+  introduction: IntroductionPageSelector,
   confirmation: ConfirmationPage,
   dev: {
     showNavLinks: true,
@@ -179,7 +182,10 @@ const formConfig = {
           path: 'pending-pre-discharge-claim',
           title: 'Pending pre-discharge claim',
           depends: formData => {
-            return formData[`view:${TOGGLE_KEY}`];
+            return (
+              formData[`view:${TOGGLE_KEY}`] &&
+              formData?.identity === serviceStatuses.ADSM
+            );
           },
           uiSchema: preDischargeClaim.uiSchema,
           schema: preDischargeClaim.schema,
@@ -188,7 +194,10 @@ const formConfig = {
           path: 'purple-heart-recipient',
           title: 'Purple Heart recipient',
           depends: formData => {
-            return formData[`view:${TOGGLE_KEY}`];
+            return (
+              formData[`view:${TOGGLE_KEY}`] &&
+              formData?.identity === serviceStatuses.ADSM
+            );
           },
           uiSchema: purpleHeartRecipient.uiSchema,
           schema: purpleHeartRecipient.schema,
@@ -264,6 +273,7 @@ const formConfig = {
           uiSchema: currentOwnership.uiSchema,
           schema: currentOwnership.schema,
         },
+        ...propertiesHomeLoansPages,
       },
     },
     documentsChapter: {

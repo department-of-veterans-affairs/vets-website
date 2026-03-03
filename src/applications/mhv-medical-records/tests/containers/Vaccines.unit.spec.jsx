@@ -211,3 +211,78 @@ describe('Vaccines list container with errors', async () => {
     expect(printButton).to.be.null;
   });
 });
+
+describe('Vaccines list container - DuplicateRecordsAlert integration', () => {
+  it('does not render DuplicateRecordsAlert when isCerner is false', () => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
+      user: {
+        ...user,
+        profile: {
+          ...user.profile,
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
+      },
+      mr: {
+        vaccines: {
+          vaccinesList: vaccines.entry.map(vaccine =>
+            convertVaccine(vaccine.resource),
+          ),
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vaccines',
+    });
+
+    expect(screen.queryByTestId('duplicate-records-info-alert')).to.not.exist;
+  });
+
+  it('renders DuplicateRecordsAlert when isCerner is true', () => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+          data: {
+            cernerFacilities: [{ vhaId: '983' }],
+          },
+        },
+      },
+      user: {
+        ...user,
+        profile: {
+          ...user.profile,
+          facilities: [{ facilityId: '983', isCerner: true }],
+        },
+      },
+      mr: {
+        vaccines: {
+          vaccinesList: vaccines.entry.map(vaccine =>
+            convertVaccine(vaccine.resource),
+          ),
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vaccines',
+    });
+
+    expect(screen.getByTestId('duplicate-records-info-alert')).to.exist;
+  });
+});
