@@ -112,7 +112,12 @@ describe('trust list and loop pages', () => {
   });
 
   it('should show filename when user uploads file', () => {
-    const result = options.text.cardDescription(testData.data.trusts[0]);
+    const trustWithUpload = {
+      ...testData.data.trusts[0],
+      'view:addFormQuestion': true,
+      uploadedDocuments: [{ name: 'file.png' }],
+    };
+    const result = options.text.cardDescription(trustWithUpload);
 
     const resultString = JSON.stringify(result);
     expect(resultString).to.include('Supporting documents uploaded:');
