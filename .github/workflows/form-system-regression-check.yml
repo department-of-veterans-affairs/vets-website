@@ -1,0 +1,42 @@
+name: Form System Regression Checks
+
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+
+jobs:
+  get_changed_files:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.filter.outputs.changed }}
+      changed_files: ${{ steps.filter.outputs.changed_files }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          list-files: json
+          filters: |
+            changed:
+              - 'src/platform/forms-system/src/js/**'  
+  get_exports:
+    needs: get_changed_files
+    if: needs.get_changed_files.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      #- name: Install dependencies
+      #  run: npm install @babel/parser @babel/traverse
+      - name: Get them exports
+        env:
+          CHANGED_FILES: ${{ needs.get_changed_files.outputs.changed_files }}
+        run: node script/github-actions/find-form-exports.js
+
+      
+
