@@ -2,12 +2,19 @@
 import commonFieldMapping from './commonFieldMapping';
 
 /** @param {WebComponentFieldProps} props */
-export default function VaTelephoneInputFieldMapping(props) {
+export default function VaTelephoneInputFieldMapping(props, initialLoad) {
   const { childrenProps } = props;
   const commonFieldProps = commonFieldMapping(props);
   return {
     ...commonFieldProps,
-    contact: childrenProps?.formData?.contact || '',
+    // only include contact on initial load for prefill;
+    // otherwise an internal bad contact may be overwritten
+    // by an immediately previous valid contact and an error will be suppressed
+    ...(initialLoad
+      ? {
+          contact: childrenProps?.formData?.contact || '',
+        }
+      : {}),
     country: childrenProps?.formData?.countryCode || 'US',
     onVaContact: (event, value) => {
       const payload = value || event.detail || {};
