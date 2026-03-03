@@ -133,21 +133,6 @@ function sendResponse(req, res, statusCode, contentType, body) {
   }
 }
 
-/**
- * Resolve a URL path relative to a root directory, returning null if the
- * resolved path escapes the root (path traversal protection).
- */
-function safePath(root, urlPath) {
-  const resolved = path.resolve(root, `.${urlPath}`);
-  if (
-    !resolved.startsWith(path.resolve(root) + path.sep) &&
-    resolved !== path.resolve(root)
-  ) {
-    return null;
-  }
-  return resolved;
-}
-
 function serveFile(req, res, filePath) {
   const ext = path.extname(filePath).toLowerCase();
   const contentType = mimeTypes[ext] || 'application/octet-stream';
@@ -376,26 +361,37 @@ async function startDevServer() {
 
   // Create a simple dev server that serves the build output
   const server = http.createServer((req, res) => {
-    const urlPath = req.url.split('?')[0];
+    // Sanitize URL to prevent path traversal: decode, normalize, strip query
+    const rawPath = decodeURIComponent(req.url.split('?')[0]);
+    const urlPath = path.posix.normalize(rawPath);
+
+    // Reject any path that still contains traversal sequences after normalization
+    if (urlPath.includes('..')) {
+      res.writeHead(400);
+      res.end('Bad Request');
+      return undefined;
+    }
 
     // Try to serve from generated/ first
-    const generatedDir = path.join(buildPath, 'generated');
-    const generatedPath = safePath(
-      generatedDir,
-      urlPath.replace(/^\/generated/, ''),
-    );
-    if (
-      generatedPath &&
-      urlPath.startsWith('/generated/') &&
-      fs.existsSync(generatedPath)
-    ) {
-      return serveFile(req, res, generatedPath);
+    if (urlPath.startsWith('/generated/')) {
+      const generatedDir = path.resolve(buildPath, 'generated');
+      const generatedPath = path.resolve(
+        generatedDir,
+        urlPath.slice('/generated/'.length),
+      );
+      if (
+        generatedPath.startsWith(generatedDir + path.sep) && // lgtm[js/path-injection]
+        fs.existsSync(generatedPath)
+      ) {
+        return serveFile(req, res, generatedPath);
+      }
     }
 
     // Try to serve static files from the build directory
-    const staticPath = safePath(buildPath, urlPath);
+    const resolvedRoot = path.resolve(buildPath);
+    const staticPath = path.resolve(resolvedRoot, urlPath.slice(1));
     if (
-      staticPath &&
+      staticPath.startsWith(resolvedRoot + path.sep) && // lgtm[js/path-injection]
       fs.existsSync(staticPath) &&
       fs.statSync(staticPath).isFile()
     ) {
