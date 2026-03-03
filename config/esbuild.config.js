@@ -1073,7 +1073,6 @@ async function buildConfig(options = {}) {
  * Build the web-components entry as an ESM bundle with code splitting.
  * Must be called after the main IIFE build so that the outdir exists.
  *
- * @returns {string[]} Paths to shared chunk files (for modulepreload hints)
  */
 async function buildWebComponents(outdir, shouldMinify, rootDir, options = {}) {
   const aliasMap = buildAliasMap(rootDir);
@@ -1129,34 +1128,48 @@ async function buildWebComponents(outdir, shouldMinify, rootDir, options = {}) {
     external: ['/img/*', '/fonts/*', '/generated/*'],
   });
 
-  const wcSize = (
-    fs.statSync(path.join(outdir, 'web-components.entry.js')).size / 1024
-  ).toFixed(0);
+  // Shared chunks (chunk-HASH.js) are utility code split out by esbuild.
+  // Component entries have static imports from these shared chunks, which
+  // creates an ESM import waterfall: the browser fetches the component entry
+  // via lazy import(), discovers its static imports, then fetches those in a
+  // second round trip.  Webpack's JSONP chunks don't have this issue because
+  // each chunk is self-contained.
+  //
+  // Fix: prepend static imports for any shared chunks NOT already in the
+  // entry's import graph.  When the browser loads web-components.entry.js,
+  // it discovers all shared chunks up front and fetches them in parallel.
+  // Later, when a component's lazy import() fires, its shared dependencies
+  // resolve instantly from cache.  This is self-contained in the build
+  // output — no HTML changes or content-build coordination needed.
+  const entryPath = path.join(outdir, 'web-components.entry.js');
+  const entryContent = fs.readFileSync(entryPath, 'utf8');
   const chunkDir = path.join(outdir, 'wc-chunks');
   let chunkCount = 0;
-  const sharedChunks = [];
+  let preloadCount = 0;
   if (fs.existsSync(chunkDir)) {
     const chunkFiles = fs
       .readdirSync(chunkDir)
       .filter(f => f.endsWith('.js') && !f.endsWith('.js.map'));
     chunkCount = chunkFiles.length;
-    // Shared chunks (chunk-HASH.js) are utility code split out by esbuild.
-    // Component entries lazy-load these via static imports, creating a second
-    // network round trip (waterfall).  Returning them lets the scaffold HTML
-    // add <link rel="modulepreload"> so they're pre-fetched and the lazy
-    // import resolves instantly — matching webpack's self-contained JSONP.
-    for (const f of chunkFiles) {
-      if (f.startsWith('chunk-')) {
-        sharedChunks.push(`/generated/wc-chunks/${f}`);
-      }
+
+    // Find shared chunks not already statically imported by the entry
+    const missingImports = chunkFiles.filter(
+      f => f.startsWith('chunk-') && !entryContent.includes(f),
+    );
+
+    if (missingImports.length > 0) {
+      const importLines = missingImports
+        .map(f => `import "./wc-chunks/${f}";`)
+        .join('\n');
+      fs.writeFileSync(entryPath, `${importLines}\n${entryContent}`);
+      preloadCount = missingImports.length;
     }
   }
+
+  const wcSize = (fs.statSync(entryPath).size / 1024).toFixed(0);
   console.log(
-    `    \u2713 web-components.entry.js (${wcSize}K) + ${chunkCount} lazy chunks (${
-      sharedChunks.length
-    } shared, modulepreloaded)`,
+    `    \u2713 web-components.entry.js (${wcSize}K) + ${chunkCount} lazy chunks (${preloadCount} shared chunks hoisted into entry)`,
   );
-  return sharedChunks;
 }
 
 // ---------------------------------------------------------------------------
@@ -1171,7 +1184,7 @@ async function buildWebComponents(outdir, shouldMinify, rootDir, options = {}) {
  * webpack's HtmlWebpackPlugin + dev-template.ejs does and is also
  * consistent with the on-the-fly scaffold in esbuild-watch.js.
  */
-function generateScaffoldPages(buildPath, wcSharedChunks = []) {
+function generateScaffoldPages(buildPath) {
   const rootDir = path.resolve(__dirname, '..');
 
   // Load dev template
@@ -1346,12 +1359,6 @@ function generateScaffoldPages(buildPath, wcSharedChunks = []) {
         },
         tagName: 'link',
       },
-      // Modulepreload shared WC chunks so lazy component imports resolve
-      // without a second network round trip (eliminates ESM import waterfall).
-      ...wcSharedChunks.map(href => ({
-        attributes: { href, rel: 'modulepreload' },
-        tagName: 'link',
-      })),
       {
         attributes: { src: '/generated/polyfills.entry.js', defer: true },
         tagName: 'script',
@@ -1416,9 +1423,6 @@ function generateScaffoldPages(buildPath, wcSharedChunks = []) {
 <body class="merger">
   <div id="content"><div id="react-root"></div></div>
   <div id="footerNav"></div>
-${wcSharedChunks
-        .map(href => `  <link rel="modulepreload" href="${_.escape(href)}">`)
-        .join('\n')}
   <script defer src="/generated/polyfills.entry.js"></script>
   <script type="module" src="/generated/web-components.entry.js"></script>
   <script type="module" src="/generated/${_.escape(
@@ -1476,12 +1480,7 @@ async function runBuild(options = {}) {
   const result = await esbuild.build(config);
 
   // Build web-components as ESM with code splitting (lazy-loaded chunks)
-  const wcSharedChunks = await buildWebComponents(
-    outdir,
-    shouldMinify,
-    rootDir,
-    options,
-  );
+  await buildWebComponents(outdir, shouldMinify, rootDir, options);
 
   // Build lazy bundles (platform-pdf, cheerio, etc.)
   await buildLazyBundles(outdir, shouldMinify, rootDir, options);
@@ -1500,7 +1499,7 @@ async function runBuild(options = {}) {
 
   // Generate scaffold HTML pages so that the test-server (and any
   // static-file server) can serve SPA routes at /{rootUrl}/index.html.
-  generateScaffoldPages(buildPath, wcSharedChunks);
+  generateScaffoldPages(buildPath);
 
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
 
