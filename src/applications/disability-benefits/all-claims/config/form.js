@@ -49,6 +49,7 @@ import {
   isCompletingModern4142,
   onFormLoaded,
   normalizeReturnUrlForResume,
+  isBddShaWorkflowActive,
 } from '../utils';
 
 import { gatePages } from '../utils/gatePages';
@@ -99,6 +100,7 @@ import {
   retirementPay,
   retirementPayWaiver,
   secondaryFinalIncident,
+  separationHealthAssessment,
   separationLocation,
   separationPay,
   serviceTreatmentRecords,
@@ -595,6 +597,13 @@ const formConfig = {
             'ui:description': supportingEvidenceOrientation,
           },
           schema: { type: 'object', properties: {} },
+        },
+        separationHealthAssessment: {
+          title: 'Separation health assessment',
+          path: 'supporting-evidence/separation-health-assessment',
+          depends: isBddShaWorkflowActive,
+          uiSchema: separationHealthAssessment.uiSchema,
+          schema: separationHealthAssessment.schema,
         },
         serviceTreatmentRecords: {
           title: 'Service treatment records',
