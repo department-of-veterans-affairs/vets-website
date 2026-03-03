@@ -566,6 +566,7 @@ jobs:
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
+          install-cypress: 'true'
           path: |
             .cache/yarn
             /github/home/.cache/Cypress
