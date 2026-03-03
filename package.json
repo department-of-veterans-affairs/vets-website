@@ -394,6 +394,7 @@
     "**/async": "^2.6.4",
     "**/ejs": "^3.1.7",
     "**/fbjs": "^3.0.4",
+    "**/validator": "^13.9.0",
     "ws": "7.5.10",
     "array-includes": "npm:@nolyfill/array-includes@^1.0.44",
     "array.prototype.findlastindex": "npm:@nolyfill/array.prototype.findlastindex@^1.0.44",
