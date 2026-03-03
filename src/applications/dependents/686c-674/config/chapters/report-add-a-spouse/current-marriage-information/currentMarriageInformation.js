@@ -10,7 +10,7 @@ export const schema = {
     doesLiveWithSpouse: {
       type: 'object',
       properties: {
-        address: addressSchema(),
+        address: addressSchema({ omit: ['street3'] }),
       },
     },
   },
@@ -22,7 +22,9 @@ export const uiSchema = {
     address: {
       ...addressUI({
         title: '',
+        omit: ['street3'],
         labels: {
+          street2: 'Apartment or unit number',
           militaryCheckbox:
             'Spouse receives mail outside of the United States on a U.S. military base.',
         },

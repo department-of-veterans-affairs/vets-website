@@ -75,16 +75,13 @@ describe('stepchildCurrentAddress', () => {
     expect(selects[0].getAttribute('label')).to.equal('Country');
     expect(selects[1].getAttribute('label')).to.equal('State');
 
-    expect(textInputs.length).to.equal(5);
+    expect(textInputs.length).to.equal(4);
     expect(textInputs[0].getAttribute('label')).to.equal('Street address');
     expect(textInputs[1].getAttribute('label')).to.equal(
-      'Street address line 2',
+      'Apartment or unit number',
     );
-    expect(textInputs[2].getAttribute('label')).to.equal(
-      'Street address line 3',
-    );
-    expect(textInputs[3].getAttribute('label')).to.equal('City');
-    expect(textInputs[4].getAttribute('label')).to.equal('Postal code');
+    expect(textInputs[2].getAttribute('label')).to.equal('City');
+    expect(textInputs[3].getAttribute('label')).to.equal('Postal code');
 
     fireEvent.submit($('form', container));
     expect(onSubmit.called).to.be.true;
@@ -112,16 +109,13 @@ describe('stepchildCurrentAddress', () => {
     expect(selects[0].getAttribute('label')).to.equal('Country');
     expect(selects[1].getAttribute('label')).to.equal('Province or territory');
 
-    expect(textInputs.length).to.equal(5);
+    expect(textInputs.length).to.equal(4);
     expect(textInputs[0].getAttribute('label')).to.equal('Street address');
     expect(textInputs[1].getAttribute('label')).to.equal(
-      'Street address line 2',
+      'Apartment or unit number',
     );
-    expect(textInputs[2].getAttribute('label')).to.equal(
-      'Street address line 3',
-    );
-    expect(textInputs[3].getAttribute('label')).to.equal('City');
-    expect(textInputs[4].getAttribute('label')).to.equal('Postal code');
+    expect(textInputs[2].getAttribute('label')).to.equal('City');
+    expect(textInputs[3].getAttribute('label')).to.equal('Postal code');
 
     fireEvent.submit($('form', container));
     expect(onSubmit.called).to.be.true;
@@ -156,15 +150,12 @@ describe('stepchildCurrentAddress', () => {
       'Overseas "state" abbreviation',
     );
 
-    expect(textInputs.length).to.equal(4);
+    expect(textInputs.length).to.equal(3);
     expect(textInputs[0].getAttribute('label')).to.equal('Street address');
     expect(textInputs[1].getAttribute('label')).to.equal(
       'Apartment or unit number',
     );
-    expect(textInputs[2].getAttribute('label')).to.equal(
-      'Additional address information',
-    );
-    expect(textInputs[3].getAttribute('label')).to.equal('Postal code');
+    expect(textInputs[2].getAttribute('label')).to.equal('Postal code');
 
     fireEvent.submit($('form', container));
     expect(onSubmit.called).to.be.true;
