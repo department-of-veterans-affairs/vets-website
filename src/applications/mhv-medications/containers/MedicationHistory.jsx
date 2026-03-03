@@ -5,7 +5,6 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 
 import NeedHelp from '../components/shared/NeedHelp';
-import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import PrintDownloadCard from '../components/shared/PrintDownloadCard';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
@@ -201,7 +200,6 @@ const MedicationHistory = () => {
               updateLoadingStatus={setLoadingMessage}
             />
           )}
-        <BeforeYouDownloadDropdown page={pageType.LIST} />
         <PrintDownloadCard
           onDownload={handleExportListDownload}
           isSuccess={isExportSuccess}
