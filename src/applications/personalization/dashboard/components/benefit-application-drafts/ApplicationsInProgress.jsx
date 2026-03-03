@@ -138,7 +138,7 @@ const ApplicationsInProgress = ({
 }) => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const enableChampvaOverrides = useToggleValue(
-    TOGGLE_NAMES.benefits_claims_ivc_champva_provider,
+    TOGGLE_NAMES.benefitsClaimsIvcChampVaProvider,
   );
 
   // Filter out non-SIP-enabled applications and expired applications

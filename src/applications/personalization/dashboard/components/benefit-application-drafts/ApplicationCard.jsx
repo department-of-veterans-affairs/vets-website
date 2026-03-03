@@ -280,7 +280,7 @@ export const ApplicationCard = ({
 }) => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const isBenefitsClaimsIvcChampvaProviderEnabled = useToggleValue(
-    TOGGLE_NAMES.benefits_claims_ivc_champva_provider,
+    TOGGLE_NAMES.benefitsClaimsIvcChampVaProvider,
   );
 
   const isDraft = !!continueUrl;
