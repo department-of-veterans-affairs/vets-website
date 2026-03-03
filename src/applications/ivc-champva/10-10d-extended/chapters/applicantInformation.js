@@ -431,9 +431,9 @@ export const applicantPages = arrayBuilderPages(
       depends: (formData, index) => {
         const applicant = formData?.applicants?.[index];
         const relationshipToSponsor =
-          applicant?.applicantRelationshipToSponsor.relationshipToVeteran;
+          applicant?.applicantRelationshipToSponsor?.relationshipToVeteran;
         const relationshipOrigin =
-          applicant?.applicantRelationshipOrigin.relationshipToVeteran;
+          applicant?.applicantRelationshipOrigin?.relationshipToVeteran;
 
         const isChild = relationshipToSponsor === 'child';
         const isNotBiologicalChild = relationshipOrigin !== 'blood';

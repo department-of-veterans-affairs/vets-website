@@ -126,7 +126,7 @@ describe('1010d `getAgeInMonths` util', () => {
     expect(getAgeInMonths('2020-10-14', asOf)).to.equal(59);
   });
 
-  it('should increment the day after the monthly anniversary', () => {
+  it('should remain the same the day after the monthly anniversary', () => {
     const asOf = asOfUTC(2025, 10, 15);
     expect(getAgeInMonths('2020-10-14', asOf)).to.equal(60);
   });
