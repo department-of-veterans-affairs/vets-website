@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators, Data } from './utils/constants';
+import { AXE_CONTEXT, Data } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 import FolderLoadPage from './pages/FolderLoadPage';
 
@@ -28,7 +28,7 @@ describe('edit custom folder name validation', () => {
       .should('be.visible')
       .and('contain.text', Data.FOLDER_RENAMED_SUCCESSFULLY);
 
-    cy.get(Locators.FOLDERS.FOLDER_HEADER).should('be.visible');
+    cy.findByTestId('folder-header').should('be.visible');
   });
 
   it('verify edit folder name error', () => {

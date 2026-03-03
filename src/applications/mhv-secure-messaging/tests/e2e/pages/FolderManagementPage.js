@@ -9,29 +9,29 @@ class FolderManagementPage {
 
   createANewFolderButton = () => {
     return cy
-      .get(Locators.ALERTS.CREATE_NEW_FOLDER)
+      .findByTestId('create-new-folder')
       .shadow()
       .find('[type="button"]');
   };
 
   clickDeleteFolderButton = () => {
-    cy.get(Locators.BUTTONS.DELETE_FOLDER).click();
+    cy.findByTestId('remove-folder-button').click();
   };
 
   editFolderNameButton = () => {
-    return cy.get(Locators.BUTTONS.EDIT_FOLDER);
+    return cy.findByTestId('edit-folder-button');
   };
 
   createFolderTextBox = () => {
     return cy
-      .get('[name="folder-name"]')
+      .findByTestId('folder-name')
       .shadow()
       .find('[name="folder-name"]');
   };
 
   createFolderModalButton = () => {
     return cy
-      .get('[text="Create"]')
+      .findByTestId('create-folder-button')
       .shadow()
       .find('[type="button"]');
   };
@@ -59,11 +59,11 @@ class FolderManagementPage {
   };
 
   folderConfirmation = () => {
-    return cy.get('[data-testid="alert-text"]');
+    return cy.findByTestId('alert-text');
   };
 
   createFolderSuccessAlert = () => {
-    return cy.get('[data-testid="create-folder-success-alert"]');
+    return cy.findByTestId('create-folder-success-alert');
   };
 
   verifyCreateFolderSuccessMessage = () => {
@@ -73,7 +73,7 @@ class FolderManagementPage {
   };
 
   verifyCreateFolderSuccessMessageHasFocus = () => {
-    cy.get('[data-testid="create-new-folder"]').should('have.focus');
+    cy.findByTestId('create-new-folder').should('have.focus');
   };
 
   verifyDeleteSuccessMessageText = () => {
@@ -85,7 +85,7 @@ class FolderManagementPage {
 
   verifyDeleteSuccessMessageHasFocus = () => {
     // Per MHV accessibility decision records, focus goes to H1
-    cy.get('h1').should('have.focus');
+    cy.findByRole('heading', { level: 1 }).should('have.focus');
   };
 
   verifyCreateFolderNetworkFailureMessage = () => {
@@ -100,31 +100,33 @@ class FolderManagementPage {
 
   verifyFolderActionMessageHasFocus = () => {
     // Per MHV accessibility decision records, focus goes to H1
-    cy.get('h1').should('have.focus');
+    cy.findByRole('heading', { level: 1 }).should('have.focus');
   };
 
   verifyFolderInList = assertion => {
-    cy.get(`.folder-link`)
-      .last()
-      .invoke(`attr`, `data-testid`)
-      .should(`${assertion}`, createdFolderResponse.data.attributes.name);
+    const folderName = createdFolderResponse.data.attributes.name;
+    if (assertion === 'eq') {
+      cy.findByTestId(folderName).should('exist');
+    } else {
+      cy.findByTestId(folderName).should('not.exist');
+    }
   };
 
   selectFolderFromModal = (folderName = `Trash`) => {
     cy.wait('@folders');
 
-    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID, { timeout: 10000 })
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID)
       .should('be.visible')
-      .scrollIntoView()
-      .click();
-
+      .scrollIntoView();
     cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID).click({
       force: true,
+      waitForAnimations: true,
     });
-    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID, { timeout: 10000 })
+
+    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID)
       .should('be.visible')
       .then(() => {
-        cy.findByLabelText(folderName, { timeout: 10000 }).click();
+        cy.findByLabelText(folderName).click();
       });
   };
 
@@ -160,14 +162,17 @@ class FolderManagementPage {
       { statusCode: 204 },
     ).as(`threadNoContent`);
 
-    cy.get(Locators.BUTTONS.TEXT_CONFIRM).click();
-    cy.get(`#inputField`).type(createdFolderResponse.data.attributes.name, {
-      force: true,
+    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID).within(() => {
+      cy.get(Locators.BUTTONS.TEXT_CONFIRM).click();
     });
-    cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
+    cy.fillVaTextInput(
+      'folder-name',
+      createdFolderResponse.data.attributes.name,
+    );
+    cy.findByTestId('create-folder-button').click();
     cy.findByText('Folder was successfully created.').should('be.visible');
     // Per MHV accessibility decision records, focus goes to H1
-    cy.get('h1').should('have.focus');
+    cy.findByRole('heading', { level: 1 }).should('have.focus');
   };
 
   backToInbox = () => {
@@ -198,7 +203,7 @@ class FolderManagementPage {
   verifyMoveMessageSuccessConfirmationHasFocus = () => {
     // Per MHV accessibility decision records, focus should go to H1, not alert.
     // Alert content is announced via role="status" without stealing focus.
-    cy.get('h1').should('have.focus');
+    cy.findByRole('heading', { level: 1 }).should('have.focus');
   };
 }
 
