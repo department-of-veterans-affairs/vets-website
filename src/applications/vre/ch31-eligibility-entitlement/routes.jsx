@@ -8,10 +8,24 @@ import CareerPlanning from './containers/CareerPlanning';
 
 const routes = (
   <Routes>
-    <Route path="/" element={<App />}>
-      <Route index element={<MyEligibilityAndBenefits />} />
-      <Route path="my-case-management-hub" element={<MyCaseManagementHub />} />
-      <Route path="career-planning" element={<CareerPlanning />} />
+    <Route element={<App />}>
+      <Route
+        path="/your-vre-eligibility"
+        element={<MyEligibilityAndBenefits />}
+      />
+
+      <Route
+        path="/track-your-vre-benefits/vre-benefit-status"
+        element={<MyCaseManagementHub />}
+      />
+      <Route
+        path="/track-your-vre-benefits/vre-benefit-status/career-planning"
+        element={<CareerPlanning />}
+      />
+      <Route
+        path="/track-your-vre-benefits/vre-benefit-status/:stepSlug"
+        element={<MyCaseManagementHub />}
+      />
     </Route>
   </Routes>
 );
