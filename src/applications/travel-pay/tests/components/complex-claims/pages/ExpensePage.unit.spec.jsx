@@ -1309,42 +1309,52 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
   //
   // Store containing an existing expense
   //
-  const getEditState = expenses => ({
-    travelPay: {
-      claimSubmission: { isSubmitting: false, error: null, data: null },
-      complexClaim: {
-        claim: {
-          creation: { isLoading: false, error: null },
-          submission: { id: '', isSubmitting: false, error: null, data: null },
-          fetch: { isLoading: false, error: null },
-          data: {
-            documents: [
-              {
-                filename: 'saved.pdf',
-                mimetype: 'application/pdf',
-                fileData: 'AA==',
-                documentId: TEST_DOCUMENT_ID,
-                createdon: '2025-11-17',
-              },
-            ],
+  const getEditState = (expenses, overrides = {}) => {
+    const { expenses: expenseOverrides, ...complexClaimOverrides } = overrides;
+    return {
+      travelPay: {
+        claimSubmission: { isSubmitting: false, error: null, data: null },
+        complexClaim: {
+          claim: {
+            creation: { isLoading: false, error: null },
+            submission: {
+              id: '',
+              isSubmitting: false,
+              error: null,
+              data: null,
+            },
+            fetch: { isLoading: false, error: null },
+            data: {
+              documents: [
+                {
+                  filename: 'saved.pdf',
+                  mimetype: 'application/pdf',
+                  fileData: 'AA==',
+                  documentId: TEST_DOCUMENT_ID,
+                  createdon: '2025-11-17',
+                },
+              ],
+            },
           },
-        },
-        expenses: {
-          creation: { isLoading: false, error: null },
-          update: { id: '', isLoading: false, error: null },
-          delete: { id: '', isLoading: false, error: null },
-          data: [...expenses],
-        },
-        documentDelete: {
-          id: '',
-          isLoading: false,
-          error: null,
+          expenses: {
+            creation: { isLoading: false, error: null },
+            update: { id: '', isLoading: false, error: null },
+            delete: { id: '', isLoading: false, error: null },
+            data: [...expenses],
+            ...expenseOverrides,
+          },
+          documentDelete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          ...complexClaimOverrides,
         },
       },
-    },
-  });
+    };
+  };
 
-  const renderEditPage = (expenses = [{ ...defaultExpense }]) =>
+  const renderEditPage = (expenses = [{ ...defaultExpense }], overrides) =>
     renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/12345/43555/meal/${TEST_EXPENSE_ID}`]}
@@ -1361,7 +1371,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
-      { initialState: getEditState(expenses), reducers: reducer },
+      { initialState: getEditState(expenses, overrides), reducers: reducer },
     );
 
   let apiStub;
@@ -1443,8 +1453,10 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     expect(addCancelButton).to.not.exist;
   });
 
-  it('"Back" button opens modal in edit mode', async () => {
-    const { container } = renderEditPage();
+  it('"Back" button opens modal in edit mode when there are unsaved changes', async () => {
+    const { container } = renderEditPage([{ ...defaultExpense }], {
+      expenses: { hasUnsavedChanges: true },
+    });
 
     // Wait for data to load and buttons to render
     let backButton;
@@ -2072,7 +2084,13 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     });
 
     it('navigates to review page when confirming cancel in edit mode', async () => {
-      const { container, getByTestId } = renderEditPage();
+      const { container, getByTestId } = renderEditPage(
+        [{ ...defaultExpense }],
+        {
+          expenses: { hasUnsavedChanges: true },
+          expenseBackDestination: 'review',
+        },
+      );
 
       // Wait for data to load
       await waitFor(() => {
