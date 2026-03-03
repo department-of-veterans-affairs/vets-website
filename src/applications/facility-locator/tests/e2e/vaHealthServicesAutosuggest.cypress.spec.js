@@ -1,9 +1,12 @@
 import * as h from './helpers';
 import vaHealthServicesData from '../hooks/test-va-healthcare-services.json';
 import searchResultsData from './autosuggest-data/services-autosuggest.json';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 describe('VA health services autosuggest', () => {
   beforeEach(() => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
+
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         features: [
@@ -43,7 +46,7 @@ describe('VA health services autosuggest', () => {
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
 
-      h.typeInCityStateInput('Atlanta, GA');
+      h.typeInCityStateInput('Austin, TX');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.HEALTH);
 
       cy.wait('@vaHealthServices');
@@ -62,7 +65,7 @@ describe('VA health services autosuggest', () => {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        'results for "VA health", "All VA health services" near "Atlanta, Georgia',
+        'results for "VA health", "All VA health services" near "Austin, TX"',
       );
 
       h.clickElement(h.AUTOSUGGEST_CLEAR);
@@ -79,7 +82,7 @@ describe('VA health services autosuggest', () => {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        'results for "VA health", "Polytrauma and traumatic brain injury (TBI and multiple traumas)" near "Atlanta, Georgia"',
+        'results for "VA health", "Polytrauma and traumatic brain injury (TBI and multiple traumas)" near "Austin, TX"',
       );
 
       h.clickElement(h.AUTOSUGGEST_ARROW);
