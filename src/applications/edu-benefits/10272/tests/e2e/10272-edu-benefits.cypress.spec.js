@@ -29,6 +29,13 @@ const testConfig = createTestConfig(
           cy.tabToSubmitForm();
         });
       },
+      'prep-course-details-3': ({ afterHook }) => {
+        afterHook(() => {
+          cy.waitForMemorableDate();
+          cy.fillPage();
+          cy.tabToSubmitForm();
+        });
+      },
       remarks: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(({ remarks }) => {
@@ -52,6 +59,16 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       Cypress.Commands.add('waitForTextarea', () => {
         cy.get('#input-type-textarea')
+          .should('be.visible')
+          .and('not.be.disabled')
+          .clear({
+            delay: 250,
+            waitForAnimations: false,
+          });
+      });
+
+      Cypress.Commands.add('waitForMemorableDate', () => {
+        cy.get('input[name="root_prepCourseStartDateMonth"]')
           .should('be.visible')
           .and('not.be.disabled')
           .clear({
