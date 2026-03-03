@@ -402,6 +402,325 @@ function nodePolyfillPlugin() {
 }
 
 // ---------------------------------------------------------------------------
+// Lazy-load splitting: build heavy dependencies as separate on-demand bundles
+// ---------------------------------------------------------------------------
+//
+// FUTURE: Auto-discover dynamic imports
+// --------------------------------------
+// Currently, lazy modules must be manually registered in LAZY_MODULES below.
+// To match webpack's DX (where any import() "just works"), the plugin could
+// be refactored to auto-discover all dynamic imports:
+//
+//   1. In lazyLoadPlugin(), intercept ALL onResolve calls with
+//      kind === 'dynamic-import' (not just configured specifiers).
+//   2. Resolve the real path, derive a deterministic bundle name from the
+//      specifier (e.g. slugify('cheerio') → 'cheerio'), and emit the
+//      script-tag loader as today.
+//   3. Collect discovered imports in a shared Map (specifier → resolved path).
+//   4. After the main build, buildLazyBundles() iterates the collected Map
+//      instead of LAZY_MODULES — no manual config needed.
+//
+// The requireContextPlugin would still be needed for platform-pdf's
+// webpack-specific require.context() call, but could be triggered by
+// detecting the import specifier rather than hardcoding it.
+// ---------------------------------------------------------------------------
+
+/**
+ * Modules that should be split into separate on-demand bundles.
+ * Each key is the import specifier, value describes the bundle:
+ *  - bundleName: output filename (without .entry.js)
+ *  - globalKey: property name on window.__lazyBundles
+ *  - entryPoint: the file to bundle
+ */
+const LAZY_MODULES = {
+  '@department-of-veterans-affairs/platform-pdf/exports': {
+    bundleName: 'platform-pdf',
+    globalKey: 'platformPdf',
+    entryPoint: require.resolve('@department-of-veterans-affairs/platform-pdf'),
+  },
+  cheerio: {
+    bundleName: 'cheerio',
+    globalKey: 'cheerio',
+    entryPoint: require.resolve('cheerio'),
+  },
+};
+
+/**
+ * Plugin that intercepts dynamic import() calls for configured lazy modules
+ * and replaces them with a runtime script loader. The lazy module is built
+ * separately as an IIFE that registers its exports on window.__lazyBundles.
+ */
+function lazyLoadPlugin() {
+  return {
+    name: 'lazy-load',
+    setup(build) {
+      // For each lazy module, intercept its import resolution
+      Object.entries(LAZY_MODULES).forEach(([specifier, info]) => {
+        const filterRe = new RegExp(
+          `^${specifier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`,
+        );
+
+        // When this module is imported, redirect to a virtual namespace
+        build.onResolve({ filter: filterRe }, args => {
+          // Only intercept dynamic imports (import expressions).
+          // Static imports use 'import-statement' or 'require-call'.
+          if (args.kind !== 'dynamic-import') return undefined;
+          return {
+            path: `lazy:${info.globalKey}`,
+            namespace: 'lazy-load',
+          };
+        });
+      });
+
+      // Return a runtime loader for the virtual module
+      build.onLoad({ filter: /.*/, namespace: 'lazy-load' }, args => {
+        const globalKey = args.path.replace('lazy:', '');
+        const info = Object.values(LAZY_MODULES).find(
+          m => m.globalKey === globalKey,
+        );
+        const scriptSrc = `/generated/${info.bundleName}.entry.js`;
+
+        // The runtime code:
+        // 1. Checks if the module is already loaded on window.__lazyBundles
+        // 2. If not, creates a <script> tag and waits for it to load
+        // 3. Resolves with the module's exports from window.__lazyBundles
+        //
+        // IMPORTANT: esbuild converts dynamic import() to
+        //   Promise.resolve().then(() => __toESM(require_lazy_xxx()))
+        // __toESM(obj) creates Object.create(getPrototypeOf(obj)).
+        // If obj is a raw Promise, the target inherits Promise.prototype,
+        // making it a broken thenable (has .then() but no internal slots).
+        // Fix: export a plain { __esModule, then } object so __toESM
+        // creates a target with Object.prototype that delegates .then()
+        // to the real loading Promise.
+        const contents = `
+          var loaded = (window.__lazyBundles || {})[${JSON.stringify(
+            globalKey,
+          )}];
+          if (loaded) {
+            module.exports = loaded;
+          } else {
+            var p = new Promise(function(resolve, reject) {
+              // Check again in case of race condition
+              var existing = (window.__lazyBundles || {})[${JSON.stringify(
+                globalKey,
+              )}];
+              if (existing) { module.exports = existing; resolve(existing); return; }
+              var s = document.createElement('script');
+              s.src = ${JSON.stringify(scriptSrc)};
+              s.onload = function() {
+                var mod = (window.__lazyBundles || {})[${JSON.stringify(
+                  globalKey,
+                )}];
+                if (mod) { module.exports = mod; resolve(mod); }
+                else reject(new Error('Lazy bundle ${globalKey} did not register on window.__lazyBundles'));
+              };
+              s.onerror = function() {
+                reject(new Error('Failed to load lazy bundle: ${scriptSrc}'));
+              };
+              document.head.appendChild(s);
+            });
+            module.exports = { __esModule: true, then: function(a, b) { return p.then(a, b); } };
+          }
+        `;
+
+        return { contents, loader: 'js' };
+      });
+    },
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Plugin: replace webpack-only require.context in platform-pdf
+// ---------------------------------------------------------------------------
+// registerStaticFiles.js uses require.context('pdfkit/js/data', false,
+// /Helvetica.*\.afm$/) which is webpack-only.  This plugin intercepts
+// that file and replaces its contents with explicit requires for the
+// four known Helvetica AFM files bundled with pdfkit.
+function requireContextPlugin() {
+  // Locate pdfkit's virtual-fs.js once (singleton in-memory filesystem).
+  // Both registerStaticFiles.js and pdfkit.js itself do require('fs')
+  // expecting this virtual-fs, but nodePolyfillPlugin stubs fs to {}.
+  const platformPdfDir = path.dirname(
+    require.resolve('@department-of-veterans-affairs/platform-pdf'),
+  );
+  const pdfkitVirtualFs = path.join(
+    platformPdfDir,
+    'node_modules/pdfkit/js/virtual-fs.js',
+  );
+  const pdfkitData = path.join(platformPdfDir, 'node_modules/pdfkit/js/data');
+
+  return {
+    name: 'require-context-polyfill',
+    setup(build) {
+      // Redirect require('fs') to pdfkit's virtual-fs for pdfkit,
+      // fontkit, and platform-pdf files so they share the same
+      // in-memory filesystem.  The alias plugin maps the package name
+      // to src/platform/pdf so we match both path forms.
+      const pdfkitScope = /platform-pdf|platform\/pdf|pdfkit|fontkit/;
+      build.onResolve({ filter: /^fs$/ }, args => {
+        if (args.importer && pdfkitScope.test(args.importer)) {
+          return { path: pdfkitVirtualFs };
+        }
+        return undefined; // fall through to nodePolyfillPlugin
+      });
+
+      build.onLoad({ filter: /registerStaticFiles\.js$/ }, async args => {
+        const src = await fs.promises.readFile(args.path, 'utf8');
+        if (!src.includes('require.context')) return undefined;
+
+        const files = fs
+          .readdirSync(pdfkitData)
+          .filter(f => /Helvetica.*\.afm$/.test(f));
+
+        const requires = files
+          .map(
+            f =>
+              `  "./${f}": require(${JSON.stringify(
+                path.join(pdfkitData, f),
+              )})`,
+          )
+          .join(',\n');
+
+        // Use pdfkit's virtual-fs directly via absolute path so we
+        // don't depend on the onResolve hook matching the importer.
+        const replacement = `
+var fs = require(${JSON.stringify(pdfkitVirtualFs)});
+var _ctxMap = {\n${requires}\n};
+function _ctx(key) { return _ctxMap[key]; }
+_ctx.keys = function() { return Object.keys(_ctxMap); };
+function registerAFMFonts(ctx) {
+  ctx.keys().forEach(function(key) {
+    var match = key.match(/([^/]*\\.afm$)/);
+    if (match) { fs.writeFileSync("data/" + match[0], ctx(key)); }
+  });
+}
+if (process.env.NODE_ENV !== 'test') { registerAFMFonts(_ctx); }
+`;
+        return {
+          contents: replacement,
+          loader: 'js',
+          resolveDir: path.dirname(args.path),
+        };
+      });
+    },
+  };
+}
+
+/**
+ * Build lazy bundles as separate IIFE files. Each bundle registers its
+ * exports on window.__lazyBundles[key] so the runtime loader can find them.
+ *
+ * Called after the main build to produce companion bundles.
+ */
+async function buildLazyBundles(outdir, shouldMinify, rootDir, options = {}) {
+  const entries = Object.entries(LAZY_MODULES);
+  if (entries.length === 0) return;
+
+  console.log(`  Building ${entries.length} lazy bundle(s)...`);
+
+  const aliasMap = buildAliasMap(rootDir);
+
+  // Create a process shim for inject — provides the `process` global
+  // that readable-stream and other browserified packages expect.
+  const processShimFile = path.join(outdir, '_process-shim.js');
+  fs.writeFileSync(
+    processShimFile,
+    `import process from ${JSON.stringify(
+      require.resolve('process/browser'),
+    )};\nexport { process };\n`,
+  );
+
+  // Create a Buffer shim — pdfkit / fontkit use the global Buffer
+  const bufferShimFile = path.join(outdir, '_buffer-shim.js');
+  fs.writeFileSync(
+    bufferShimFile,
+    `import { Buffer } from ${JSON.stringify(
+      require.resolve('buffer/'),
+    )};\nexport { Buffer };\n`,
+  );
+
+  for (const [, info] of entries) {
+    const wrapperContents = `
+      // Lazy bundle wrapper: registers exports on window.__lazyBundles
+      var _mod = require(${JSON.stringify(info.entryPoint)});
+      window.__lazyBundles = window.__lazyBundles || {};
+      window.__lazyBundles[${JSON.stringify(info.globalKey)}] = _mod;
+    `;
+
+    const wrapperFile = path.join(outdir, `_lazy_${info.bundleName}_entry.js`);
+    fs.writeFileSync(wrapperFile, wrapperContents);
+
+    // eslint-disable-next-line no-await-in-loop
+    await esbuild.build({
+      entryPoints: { [`${info.bundleName}.entry`]: wrapperFile },
+      bundle: true,
+      outdir,
+      format: 'iife',
+      platform: 'browser',
+      target: ['es2018', 'chrome67', 'firefox68', 'safari12', 'edge79'],
+      minify: shouldMinify,
+      sourcemap: true,
+      metafile: true,
+      absWorkingDir: rootDir,
+      treeShaking: true,
+      inject: [processShimFile, bufferShimFile],
+      define: {
+        __BUILDTYPE__: JSON.stringify(options.buildtype || 'localhost'),
+        __API__: JSON.stringify(options.api || ''),
+        'process.env.NODE_ENV': JSON.stringify(
+          shouldMinify ? 'production' : 'development',
+        ),
+        global: 'window',
+        __dirname: '""',
+      },
+      alias: {
+        querystring: require.resolve('querystring-es3'),
+        assert: require.resolve('assert/'),
+        buffer: require.resolve('buffer/'),
+        path: require.resolve('path-browserify'),
+        stream: require.resolve('stream-browserify'),
+        util: require.resolve('util/'),
+        zlib: require.resolve('browserify-zlib'),
+        process: require.resolve('process/browser'),
+        'process/browser': require.resolve('process/browser'),
+      },
+      loader: {
+        '.js': 'jsx',
+        '.afm': 'text',
+      },
+      resolveExtensions: [
+        '.js',
+        '.jsx',
+        '.tsx',
+        '.ts',
+        '.json',
+        '.scss',
+        '.css',
+      ],
+      plugins: [
+        aliasPlugin(aliasMap, rootDir),
+        requireContextPlugin(),
+        nodePolyfillPlugin(),
+      ],
+      external: ['/img/*', '/fonts/*', '/generated/*'],
+    });
+
+    // Clean up wrapper file
+    fs.unlinkSync(wrapperFile);
+    console.log(
+      `    ✓ ${info.bundleName}.entry.js (${(
+        fs.statSync(path.join(outdir, `${info.bundleName}.entry.js`)).size /
+        1024
+      ).toFixed(0)}K)`,
+    );
+  }
+
+  // Clean up shim file
+  fs.unlinkSync(processShimFile);
+}
+
+// ---------------------------------------------------------------------------
 // Plugin: warn on large SVGs being inlined as data URIs
 // ---------------------------------------------------------------------------
 const SVG_SIZE_WARN_BYTES = 25 * 1024; // 25 KB
@@ -639,6 +958,7 @@ async function buildConfig(options = {}) {
           }));
         },
       },
+      lazyLoadPlugin(),
       aliasPlugin(aliasMap, rootDir),
       nullLoaderPlugin(),
       nodePolyfillPlugin(),
@@ -710,6 +1030,13 @@ async function buildConfig(options = {}) {
 async function runBuild(options = {}) {
   const { config, buildPath, outdir } = await buildConfig(options);
 
+  const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(
+    options.buildtype,
+  );
+  const shouldMinify =
+    options.minify !== undefined ? options.minify : isOptimizedBuild;
+  const rootDir = path.resolve(__dirname, '..');
+
   console.log(`\n  esbuild: Building to ${buildPath}`);
   console.log(`  buildtype: ${options.buildtype || LOCALHOST}`);
   console.log(`  entries: ${Object.keys(config.entryPoints).length}\n`);
@@ -718,6 +1045,10 @@ async function runBuild(options = {}) {
 
   // IIFE mode: each entry is self-contained, no shared chunks.
   const result = await esbuild.build(config);
+
+  // Build lazy bundles (platform-pdf, cheerio, etc.)
+  await buildLazyBundles(outdir, shouldMinify, rootDir, options);
+
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
 
   console.log(`\n  Build completed in ${elapsed}s`);
@@ -741,4 +1072,11 @@ async function runBuild(options = {}) {
   return result;
 }
 
-module.exports = { buildConfig, runBuild, getEntryPoints, buildAliasMap };
+module.exports = {
+  buildConfig,
+  runBuild,
+  getEntryPoints,
+  buildAliasMap,
+  buildLazyBundles,
+  LAZY_MODULES,
+};
