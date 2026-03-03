@@ -31,7 +31,7 @@ describe('Veteran Information', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect($$('va-text-input', formDOM).length).to.equal(6);
+    expect($$('va-text-input', formDOM).length).to.equal(5);
   });
 
   it('should render custom city error', async () => {

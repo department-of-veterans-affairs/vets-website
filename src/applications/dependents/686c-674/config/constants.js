@@ -38,3 +38,4 @@ export const PICKLIST_DATA = 'view:removeDependentPickList';
 export const PICKLIST_PATHS = 'view:removeDependentPaths';
 
 export const PICKLIST_EDIT_REVIEW_FLAG = 'editFromReviewPage';
+export const PICKLIST_REMOVAL_FLAG = 'isV3RemovalFlow';

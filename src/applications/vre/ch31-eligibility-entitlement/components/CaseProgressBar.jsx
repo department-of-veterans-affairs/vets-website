@@ -9,6 +9,8 @@ const CaseProgressBar = ({
   headingText = 'VA Benefits',
   label = 'Label is here',
   counters = 'small',
+  headerLevel = 2,
+  attributes = {},
 }) => {
   const total = stepLabels.length;
 
@@ -20,6 +22,7 @@ const CaseProgressBar = ({
         <va-segmented-progress-bar
           counters={counters}
           current={String(current)}
+          header-level={headerLevel}
           heading-text={headingText}
           label={label}
           labels={stepLabels.join(';')}
@@ -27,7 +30,11 @@ const CaseProgressBar = ({
         />
       </div>
 
-      <CaseProgressDescription step={current} status={currentStatus} />
+      <CaseProgressDescription
+        step={current}
+        status={currentStatus}
+        attributes={attributes}
+      />
     </>
   );
 };
@@ -39,6 +46,8 @@ CaseProgressBar.propTypes = {
   headingText: PropTypes.string,
   label: PropTypes.string,
   counters: PropTypes.oneOf(['small', 'large']),
+  headerLevel: PropTypes.number,
+  attributes: PropTypes.object,
 };
 
 export default CaseProgressBar;

@@ -1,29 +1,51 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import sinon from 'sinon';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import CaseProgressDescription from '../../../components/CaseProgressDescription';
 
-const renderWithRouter = ui => render(<MemoryRouter>{ui}</MemoryRouter>);
+// Stub children that can throw in JSDOM/unit tests
+import * as HubCardListMod from '../../../components/HubCardList';
+import * as SelectPreferenceViewMod from '../../../components/SelectPreferenceView';
 
-function selectVaRadio(container, value) {
-  const vaRadio = container.querySelector('va-radio');
-  expect(vaRadio).to.exist;
-  // Simulate va-radio value change (shadow event)
-  fireEvent(
-    vaRadio,
-    new CustomEvent('vaValueChange', {
-      detail: { value },
-      bubbles: true,
-      composed: true,
-    }),
+const sandbox = sinon.createSandbox();
+
+const makeStore = state => {
+  const dispatch = sandbox.spy();
+  return {
+    getState: () => state || {},
+    subscribe: () => () => {},
+    dispatch,
+  };
+};
+
+const renderWithProviders = (ui, state = {}) =>
+  render(
+    <Provider store={makeStore(state)}>
+      <MemoryRouter>{ui}</MemoryRouter>
+    </Provider>,
   );
-}
 
 describe('CaseProgressDescription', () => {
+  beforeEach(() => {
+    // Child component stubs
+    sandbox
+      .stub(HubCardListMod, 'default')
+      .callsFake(() => <div data-testid="hub-card-list" />);
+    sandbox
+      .stub(SelectPreferenceViewMod, 'default')
+      .callsFake(() => <div data-testid="select-preference-view" />);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   it('renders step 1 description', () => {
-    const { getByText } = renderWithRouter(
+    const { getByText } = renderWithProviders(
       <CaseProgressDescription step={1} />,
     );
 
@@ -31,157 +53,134 @@ describe('CaseProgressDescription', () => {
     getByText(/nothing you need to do right now\./i);
   });
 
-  it('renders step 2 description (includes va-link)', () => {
-    const { container, getByText } = renderWithRouter(
+  it('renders step 2 with eligibility link (va-link host)', () => {
+    const { container, getByText } = renderWithProviders(
       <CaseProgressDescription step={2} />,
     );
 
     getByText(/currently being reviewed for basic eligibility/i);
-    getByText(/web page\./i);
 
-    const link = container.querySelector('va-link[href="/"]');
+    // Updated: copy now ends with "page." (not "web page.")
+    getByText(/page\./i);
+
+    const link = container.querySelector(
+      'va-link[href="/careers-employment/your-vre-eligibility"]',
+    );
     expect(link).to.exist;
-    expect(link.getAttribute('text')).to.equal('VR&E Check My Eligibility');
+    expect(link.getAttribute('text')).to.equal(
+      'Your VR&E eligibility and benefits',
+    );
   });
 
-  it('renders step 3 description and orientation content', () => {
-    const { container, getByText } = renderWithRouter(
+  it('step 3: shows orientation content and reading materials when no milestones data', () => {
+    const { container, getByText } = renderWithProviders(
       <CaseProgressDescription step={3} />,
+      { ch31CaseMilestones: undefined },
     );
 
-    getByText(/basic eligibility has been determined/i);
-    const orientationMentions = container.querySelectorAll('p');
-    expect(
-      Array.from(orientationMentions).some(node =>
-        /Orientation Video/i.test(node.textContent),
-      ),
-    ).to.equal(true);
+    getByText(
+      /VR&E has received and processed your application for Chapter 31 benefits/i,
+    );
     getByText(/Orientation Completion/i);
 
-    const card = container.querySelector('va-card');
-    expect(card).to.exist;
-  });
-
-  it('renders step 4 PENDING instructions and radio options', () => {
-    const { container, getByText, getAllByText } = renderWithRouter(
-      <CaseProgressDescription step={4} status="PENDING" />,
-    );
-    getByText(/VR&E has received and processed your application/i);
-    getAllByText(/Schedule your Initial Evaluation Counselor Meeting/i);
-
-    // Find va-radio and its options
-    const vaRadio = container.querySelector('va-radio');
-    expect(vaRadio).to.exist;
-    const options = container.querySelectorAll('va-radio-option');
-    expect(options.length).to.equal(2);
-
-    // Labels
+    expect(container.querySelector('va-card')).to.exist;
     expect(
-      Array.from(options).some(
-        opt => opt.getAttribute('label') === 'Telecounseling meeting',
+      container.querySelector(
+        'va-link[href="https://www.va.gov/careers-employment/vocational-rehabilitation"]',
       ),
-    ).to.be.true;
+    ).to.exist;
     expect(
-      Array.from(options).some(
-        opt => opt.getAttribute('label') === 'In-person appointment',
+      container.querySelector(
+        'va-link[href="https://www.va.gov/careers-employment/vocational-rehabilitation/programs"]',
       ),
-    ).to.be.true;
-
-    // No VaAdditionalInfo or VaButton yet
-    expect(container.querySelector('va-additional-info')).to.be.null;
-    expect(container.querySelector('va-button')).to.be.null;
+    ).to.exist;
   });
 
-  it('shows Telecounseling info and submit when selected', async () => {
-    const { container, getByText } = renderWithRouter(
-      <CaseProgressDescription step={4} status="PENDING" />,
+  it('step 3: shows orientation completion alert when milestones data exists and no error', () => {
+    const { container, getByText, queryByText } = renderWithProviders(
+      <CaseProgressDescription step={3} />,
+      { ch31CaseMilestones: { data: { ok: true }, error: null } },
     );
-    selectVaRadio(container, 'Telecounseling meeting');
-
-    // Wait for info and button to appear
-    await waitFor(() => {
-      const btn = container.querySelector('va-button');
-      expect(btn).to.exist;
-    });
-
-    // Info content
-    getByText(/Telecounseling uses Microsoft Teams/i);
-    getByText(/private setting to ensure confidentiality/i);
-    // Button
-    const btn = container.querySelector('va-button');
-    expect(btn.getAttribute('text')).to.equal('Submit');
-  });
-
-  it('shows In-person info and submit when selected', async () => {
-    const { container, getByText } = renderWithRouter(
-      <CaseProgressDescription step={4} status="PENDING" />,
-    );
-    selectVaRadio(container, 'In-person appointment');
-
-    await waitFor(() => {
-      const btn = container.querySelector('va-button');
-      expect(btn).to.exist;
-    });
 
     getByText(
-      /If your appointment is in-person appointment at a specified location/i,
+      /VR&E has received and processed your application for Chapter 31 benefits/i,
+    );
+    expect(container.querySelector('va-alert')).to.exist;
+    getByText(/Your choice has been recorded/i);
+    expect(container.querySelector('va-card')).to.exist;
+    expect(queryByText(/Orientation Completion/i)).to.exist;
+  });
+
+  // ...existing code...
+
+  it('renders step 4 pending instructions when status is PENDING', () => {
+    const { getByText } = renderWithProviders(
+      <CaseProgressDescription step={4} status="PENDING" />,
+    );
+
+    getByText(
+      /received and processed your application for Chapter 31 benefits/i,
+    );
+    getByText(/Check your email to schedule your meeting with your counselor/i);
+    getByText(
+      /get a confirmation email and an appointment notification letter/i,
     );
     getByText(
-      /Plan for the initial evaluation appointment to last two hours or more/i,
+      /To get ready for your Initial Evaluation Counselor Meeting, visit the "Career Planning" page linked below/i,
     );
-    getByText(/Do not bring minor children with you/i);
-    getByText(/you may bring the documents outlined/i);
-
-    const btn = container.querySelector('va-button');
-    expect(btn.getAttribute('text')).to.equal('Submit');
   });
 
-  it('submits Telecounseling and shows confirmation', async () => {
-    const { container, getByText, queryByText } = renderWithRouter(
-      <CaseProgressDescription step={4} status="PENDING" />,
+  it('renders step 4 pending instructions when appointmentDateTime or appointmentPlace is missing', () => {
+    const { getByText } = renderWithProviders(
+      <CaseProgressDescription
+        step={4}
+        status="ACTIVE"
+        attributes={{
+          orientationAppointmentDetails: {
+            appointmentDateTime: null,
+            appointmentPlace: null,
+          },
+        }}
+      />,
     );
-    selectVaRadio(container, 'Telecounseling meeting');
-    await waitFor(() => {
-      expect(container.querySelector('va-button')).to.exist;
-    });
-    const btn = container.querySelector('va-button');
-    fireEvent.click(btn);
 
-    // Confirmation text
-    await waitFor(() => {
-      getByText(/You have scheduled your Initial Evaluation Appointment/i);
-      getByText(/please use your appointment confirmation/i);
-    });
-
-    // Radio and options gone
-    expect(container.querySelector('va-radio')).to.be.null;
-    expect(queryByText(/Schedule your Initial Evaluation Counselor Meeting/i))
-      .to.be.null;
+    getByText(
+      /received and processed your application for Chapter 31 benefits/i,
+    );
+    getByText(/Check your email to schedule your meeting with your counselor/i);
+    getByText(
+      /get a confirmation email and an appointment notification letter/i,
+    );
+    getByText(
+      /To get ready for your Initial Evaluation Counselor Meeting, visit the "Career Planning" page linked below/i,
+    );
   });
 
-  it('submits In-person and shows confirmation', async () => {
-    const { container, getByText, queryByText } = renderWithRouter(
-      <CaseProgressDescription step={4} status="PENDING" />,
+  it('renders step 4 scheduled instructions when appointmentDateTime and appointmentPlace exist', () => {
+    const { getByText } = renderWithProviders(
+      <CaseProgressDescription
+        step={4}
+        status="ACTIVE"
+        attributes={{
+          orientationAppointmentDetails: {
+            appointmentDateTime: '2026-02-27T10:00:00Z',
+            appointmentPlace: 'VA Office',
+          },
+        }}
+      />,
     );
-    selectVaRadio(container, 'In-person appointment');
-    await waitFor(() => {
-      expect(container.querySelector('va-button')).to.exist;
-    });
-    const btn = container.querySelector('va-button');
-    fireEvent.click(btn);
 
-    await waitFor(() => {
-      getByText(/You have scheduled your Initial Evaluation Appointment/i);
-      getByText(/please use your appointment confirmation/i);
-    });
-
-    expect(container.querySelector('va-radio')).to.be.null;
-    expect(queryByText(/Schedule your Initial Evaluation Counselor Meeting/i))
-      .to.be.null;
+    getByText(/Your Initial Evaluation Appointment has been scheduled/i);
+    getByText(
+      /If you need to reschedule, use your appointment confirmation rescheduling link sent to you via email and text/i,
+    );
+    getByText(/If you need further assistance, contact your counselor/i);
   });
+
+  // ...existing code...
 
   it('renders step 5 description', () => {
-    const { getByText } = renderWithRouter(
+    const { getByText } = renderWithProviders(
       <CaseProgressDescription step={5} />,
     );
 
@@ -190,30 +189,30 @@ describe('CaseProgressDescription', () => {
   });
 
   it('renders step 6 description', () => {
-    const { getByText } = renderWithRouter(
+    const { getByText } = renderWithProviders(
       <CaseProgressDescription step={6} />,
     );
 
-    getByText(/Rehabilitation Plan/i);
-    getByText(/review and approval/i);
+    // Updated: matches new Step 6 copy
+    getByText(/working with you to establish/i);
+    getByText(/Chapter 31 Rehabilitation Plan or Career Track/i);
   });
 
   it('renders step 7 description', () => {
-    const { getByText } = renderWithRouter(
+    const { getByText } = renderWithProviders(
       <CaseProgressDescription step={7} />,
     );
 
-    getByText(/Career Track has been initiated/i);
+    getByText(
+      /Your Chapter 31 Rehabilitation Plan or Career Track has started/i,
+    );
   });
 
-  // --------------------------
-  // Default
-  // --------------------------
   it('returns null for unknown step', () => {
-    const { container } = renderWithRouter(
+    const { container } = renderWithProviders(
       <CaseProgressDescription step={999} />,
     );
 
-    expect(container.innerHTML).to.equal('');
+    expect(container.innerHTML.trim()).to.equal('');
   });
 });

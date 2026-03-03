@@ -13,20 +13,20 @@ const OMB_EXP_DATE = '12/31/2027';
 
 export const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
-  const { customText, formId, prefillEnabled, savedFormMessages } = formConfig;
+  const { formId, prefillEnabled, savedFormMessages } = formConfig;
   const totalResBurden = OMB_RES_BURDEN_1010D + OMB_RES_BURDEN_OHI;
 
   const sipIntroProps = useMemo(
     () => ({
       startText: content['form-start-text'],
       messages: savedFormMessages,
-      formConfig: { customText },
       headingLevel: 2,
+      formConfig,
       prefillEnabled,
       pageList,
       formId,
     }),
-    [customText, formId, pageList, prefillEnabled, savedFormMessages],
+    [formConfig, formId, pageList, prefillEnabled, savedFormMessages],
   );
 
   return (

@@ -3,7 +3,7 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { Actions } from '../util/actionTypes';
 import { getPrescriptionById as apiGetPrescriptionById } from '../api/RxApi';
 
-export const getPrescriptionById = prescriptionId => async (
+export const getPrescriptionById = (prescriptionId, stationNumber) => async (
   dispatch,
   getState,
 ) => {
@@ -20,6 +20,7 @@ export const getPrescriptionById = prescriptionId => async (
     const response = await apiGetPrescriptionById(
       prescriptionId,
       isCernerPilot,
+      stationNumber,
     );
     if (response?.errors) {
       const error = new Error(
@@ -30,7 +31,7 @@ export const getPrescriptionById = prescriptionId => async (
     }
     if (
       !response.data?.attributes?.prescriptionName ||
-      !response.data?.attributes?.prescriptionNumber
+      response.data?.attributes?.prescriptionSource === 'NV'
     ) {
       throw new Error('Non-VA medication');
     }

@@ -18,14 +18,21 @@ import {
 import CallPharmacyPhone from './CallPharmacyPhone';
 import RefillButton from './RefillButton';
 import SendRxRenewalMessage from './SendRxRenewalMessage';
+import { OracleHealthRenewalInCardAlert } from './OracleHealthTransitionAlerts';
 import { pageType } from '../../util/dataDogConstants';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
-  selectOracleHealthCutoverFlag,
+  selectMhvMedicationsOracleHealthCutoverFlag,
 } from '../../util/selectors';
 
-const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
+const ExtraDetails = ({
+  renewalLinkShownAbove = false,
+  page,
+  isRefillBlocked = false,
+  isRenewalBlocked = false,
+  ...rx
+}) => {
   const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const cernerFacilityIds = useSelector(selectCernerFacilityIds);
@@ -34,10 +41,15 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
   const isOracleHealth = isOracleHealthPrescription(rx, cernerFacilityIds);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
-  const isOracleHealthCutover = useSelector(selectOracleHealthCutoverFlag);
+  const isOracleHealthCutover = useSelector(
+    selectMhvMedicationsOracleHealthCutoverFlag,
+  );
   const useV2Status = isCernerPilot && isV2StatusMapping;
 
-  const refillButton = page === pageType.LIST ? <RefillButton {...rx} /> : null;
+  const refillButton =
+    page === pageType.LIST && !isRefillBlocked ? (
+      <RefillButton {...rx} />
+    ) : null;
 
   const renderV2Content = () => {
     switch (dispStatus) {
@@ -104,6 +116,14 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
       case dispStatusObjV2.active:
         // Both map to "Active" in V2
         if (noRefillRemaining) {
+          if (isRenewalBlocked && rx.isRenewable) {
+            return (
+              <OracleHealthRenewalInCardAlert
+                stationNumber={rx.stationNumber}
+                prescriptionId={rx.prescriptionId}
+              />
+            );
+          }
           return (
             <div className="no-print">
               <p
@@ -126,6 +146,14 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
 
       case dispStatusObjV2.inactive:
         // All map to "Inactive" in V2
+        if (isRenewalBlocked && rx.isRenewable) {
+          return (
+            <OracleHealthRenewalInCardAlert
+              stationNumber={rx.stationNumber}
+              prescriptionId={rx.prescriptionId}
+            />
+          );
+        }
         return (
           <div>
             <SendRxRenewalMessage
@@ -288,6 +316,14 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
         );
 
       case dispStatusObj.expired:
+        if (isRenewalBlocked && rx.isRenewable) {
+          return (
+            <OracleHealthRenewalInCardAlert
+              stationNumber={rx.stationNumber}
+              prescriptionId={rx.prescriptionId}
+            />
+          );
+        }
         return (
           <div>
             <SendRxRenewalMessage
@@ -363,14 +399,23 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
 
       case dispStatusObj.active:
         if (noRefillRemaining) {
+          if (isRenewalBlocked && rx.isRenewable) {
+            return (
+              <OracleHealthRenewalInCardAlert
+                stationNumber={rx.stationNumber}
+                prescriptionId={rx.prescriptionId}
+              />
+            );
+          }
           return (
             <div className="no-print">
               <p
                 className="vads-u-margin-y--0"
                 data-testid="active-no-refill-left"
               >
-                You can’t refill this prescription. Contact your VA provider if
-                you need more of this medication.
+                {isOracleHealth
+                  ? 'You can’t refill this prescription. If you need more, send a secure message to your care team.'
+                  : 'You can’t refill this prescription. Contact your VA provider if you need more of this medication.'}
               </p>
               <SendRxRenewalMessage
                 rx={rx}
@@ -425,7 +470,9 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
 ExtraDetails.propTypes = {
   dispStatus: PropTypes.string,
   expirationDate: PropTypes.string,
+  isRefillBlocked: PropTypes.bool,
   isRenewable: PropTypes.bool,
+  isRenewalBlocked: PropTypes.bool,
   page: PropTypes.string,
   pharmacyPhoneNumber: PropTypes.string,
   prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
