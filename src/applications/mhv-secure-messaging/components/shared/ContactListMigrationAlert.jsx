@@ -90,7 +90,7 @@ const ContactListMigrationAlert = ({
     >
       <h2 slot="headline">{matchedPhaseContent.headline}</h2>
       <div>
-        <p>{matchedPhaseContent.bodyTop}</p>
+        {matchedPhaseContent.bodyTop()}
         <ul>
           {facilities.map(facility => (
             <li key={facility.facilityId} data-dd-privacy="mask">
@@ -98,7 +98,7 @@ const ContactListMigrationAlert = ({
             </li>
           ))}
         </ul>
-        <p>{matchedPhaseContent.bodyBottom}</p>
+        {matchedPhaseContent.bodyBottom()}
       </div>
     </VaAlert>
   );

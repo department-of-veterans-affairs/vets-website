@@ -64,18 +64,13 @@ const EditContactList = () => {
   const userProfile = useSelector(state => state.user?.profile);
   const { userFacilityMigratingToOh, migrationSchedules } = userProfile || {};
 
-  const isInPhaseP1ToP6 = userProfile?.migrationSchedules?.some(schedule =>
-    ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'].includes(schedule?.phases?.current),
-  );
+  // const isInPhaseP1ToP6 = userProfile?.migrationSchedules?.some(schedule =>
+  //   ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'].includes(schedule?.phases?.current),
+  // );
 
-  const migratingFacilities = userProfile?.migrationSchedules?.flatMap(
-    facility => facility.facilities?.map(f => f.facilityName),
-  );
-
-  const isInAlertDisplayWindow =
-    migratingFacilities.length > 0 &&
-    vistaFacilities.length > 0 &&
-    isInPhaseP1ToP6;
+  // const migratingFacilities = userProfile?.migrationSchedules?.flatMap(
+  //   facility => facility.facilities?.map(f => f.facilityName),
+  // );
 
   const isContactListChanged = useMemo(
     () => !_.isEqual(vistaRecipients, allTriageTeams),
@@ -252,41 +247,6 @@ const EditContactList = () => {
           setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
         />
       </div>
-
-      {isInAlertDisplayWindow && (
-        <div>
-          <VaAlert
-            role="alert"
-            aria-live="assertive"
-            class="vads-u-margin-y--4"
-            status="warning"
-            visible
-            data-testid="contact-list-alert"
-          >
-            <h2 className="vads-u-margin-y--0">
-              We’re making changes to your contact list
-            </h2>
-            <p>
-              On <b>[T-6]</b>, we’ll remove care teams from these facilities
-              from your contact list:
-            </p>
-            <ul>
-              {migratingFacilities?.map((facilityName, index) => (
-                <li key={index}>{facilityName}</li>
-              ))}
-            </ul>
-            <p>
-              If these are your only facilities, you’ll no longer have access to
-              your contact list.
-            </p>
-            <p>
-              <b>Note:</b> You can still send messages to care teams at these
-              facilities after <b>[T+2]</b>. But the care team names will be
-              different.
-            </p>
-          </VaAlert>
-        </div>
-      )}
 
       <p className="vads-u-margin-bottom--3">
         Select and save the care teams you want to send messages to. You must

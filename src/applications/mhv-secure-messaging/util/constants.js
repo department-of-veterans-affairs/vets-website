@@ -1,3 +1,4 @@
+import React from 'react';
 import manifest from '../manifest.json';
 
 /** time to wait (in ms) after the user stops typing before initiating draft auto-save */
@@ -542,13 +543,41 @@ export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
  * - p6: T+2 to T+30 (post-migration)
  */
 export const ContactListMigrationAlertContent = {
+  P1_TO_P5_MIGRATION: {
+    phases: ['p1', 'p2', 'p3', 'p4', 'p5'],
+    headline: 'We’re making changes to your contact list',
+    bodyTop: () => (
+      <>
+        On <b>[T-6]</b>, we’ll remove care teams from these facilities from your
+        contact list:
+      </>
+    ),
+    bodyBottom: () => (
+      <>
+        <p>
+          If these are your only facilities, you’ll no longer have access to
+          your contact list.
+        </p>
+        <p>
+          <b>Note:</b> You can still send messages to care teams at these
+          facilities after <b>[T+2]</b>. But the care team names will be
+          different.
+        </p>
+      </>
+    ),
+  },
   POST_MIGRATION: {
     phases: ['p6', 'p7', 'p8'],
     headline: 'We updated your contact list',
-    bodyTop:
-      'We removed care teams from these facilities from your contact list:',
-    bodyBottom:
-      'You can still send messages to care teams at these facilities. But the care team names will be different.',
+    bodyTop: () => (
+      <>We removed care teams from these facilities from your contact list:</>
+    ),
+    bodyBottom: () => (
+      <p>
+        You can still send messages to care teams at these facilities. But the
+        care team names will be different.
+      </p>
+    ),
   },
 };
 
