@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropTypes, defaultProps } from 'prop-types';
+import { PropTypes } from 'prop-types';
 import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 import { differenceInDays } from 'date-fns';
 
@@ -74,12 +74,10 @@ const getBenefitName = benefitType => {
   }
 };
 
-const formNameText = submission => (
-  [
-    getFormName(submission.formType),
-    (submission.packet ? ' packet' : '')
-  ]
-);
+const formNameText = submission => [
+  getFormName(submission.formType),
+  submission.packet ? ' packet' : '',
+];
 
 const SubmissionCard = ({ submission, omitClaimantName }) => {
   const formattedSubmittedDate = formatDateParsedZoneLong(
@@ -99,21 +97,20 @@ const SubmissionCard = ({ submission, omitClaimantName }) => {
         <p className="submission__card-date">
           Submitted {formattedSubmittedDate}
         </p>
-        { omitClaimantName ?
+        {omitClaimantName ? (
           <h3 className="submission__card-form-name vads-u-font-size--h3 vads-u-font-family--serif">
-            { formNameText(submission) }
-          </h3> :
+            {formNameText(submission)}
+          </h3>
+        ) : (
           <>
             <h3 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
               {`${submission.lastName}, ${submission.firstName}`}
             </h3>
             <p className="submission__card-form-name vads-u-font-size--h5 vads-u-font-family--serif">
-              <strong>
-                { formNameText(submission) }
-              </strong>
+              <strong>{formNameText(submission)}</strong>
             </p>
           </>
-        }
+        )}
         {submission.benefitType && (
           <p className="submission__card-status">
             <strong>Benefit: </strong> {getBenefitName(submission.benefitType)}
@@ -160,8 +157,8 @@ const SubmissionCard = ({ submission, omitClaimantName }) => {
 SubmissionCard.propTypes = {
   cssClass: PropTypes.string,
   id: PropTypes.string,
-  submission: PropTypes.object,
   omitClaimantName: PropTypes.bool,
+  submission: PropTypes.object,
 };
 
 SubmissionCard.defaultProps = {
