@@ -1,4 +1,3 @@
-// @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
   APPOINTMENT_STATUS,

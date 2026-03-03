@@ -1,4 +1,3 @@
-// @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';

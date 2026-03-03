@@ -1,4 +1,3 @@
-// @ts-check
 import { addMonths } from 'date-fns';
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
