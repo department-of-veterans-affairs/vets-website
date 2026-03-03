@@ -38,7 +38,7 @@ describe('686 add child child address part one', () => {
     );
 
     const formDOM = getFormDOM(form);
-    expect(formDOM.querySelectorAll('va-text-input').length).to.eq(6);
+    expect(formDOM.querySelectorAll('va-text-input').length).to.eq(5);
   });
 
   it('should render custom city error', async () => {
