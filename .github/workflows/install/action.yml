@@ -18,6 +18,10 @@ inputs:
     description: path for actions/cache@v4
     required: false
     default: ''
+  install-cypress:
+    description: Whether to install Cypress binary (only needed for E2E test jobs)
+    required: false
+    default: 'false'
 
 runs:
   using: composite
@@ -48,13 +52,18 @@ runs:
       uses: nick-fields/retry@v3
       with:
         command: |
-          CYPRESS_INSTALL_BINARY=https://vetsgov-website-builds-s3-upload.s3.us-gov-west-1.amazonaws.com/artifacts/cypress/13.15.0.zip yarn install --frozen-lockfile --prefer-offline --production=false --network-timeout 1000000000 --ignore-scripts
-          npx cypress install
-          npx cypress --version
+          yarn install --frozen-lockfile --prefer-offline --production=false --network-timeout 1000000000 --ignore-scripts
         max_attempts: 3
         timeout_minutes: 7
       env:
         YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_folder }}
+
+    - name: Install Cypress
+      if: inputs.install-cypress == 'true'
+      shell: bash
+      run: |
+        npx cypress install
+        npx cypress --version
 
     - name: Run postinstall scripts
       shell: bash
