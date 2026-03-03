@@ -6,6 +6,7 @@ import useServiceType, {
   FACILITY_TYPE_FILTERS,
 } from '../../../hooks/useServiceType';
 import Autosuggest from '../autosuggest';
+import { MIN_SEARCH_CHARS } from '../../../constants';
 
 const VAMCServiceAutosuggest = ({
   committedServiceDisplay,
