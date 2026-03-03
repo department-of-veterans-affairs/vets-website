@@ -133,6 +133,21 @@ function sendResponse(req, res, statusCode, contentType, body) {
   }
 }
 
+/**
+ * Resolve a URL path relative to a root directory, returning null if the
+ * resolved path escapes the root (path traversal protection).
+ */
+function safePath(root, urlPath) {
+  const resolved = path.resolve(root, `.${urlPath}`);
+  if (
+    !resolved.startsWith(path.resolve(root) + path.sep) &&
+    resolved !== path.resolve(root)
+  ) {
+    return null;
+  }
+  return resolved;
+}
+
 function serveFile(req, res, filePath) {
   const ext = path.extname(filePath).toLowerCase();
   const contentType = mimeTypes[ext] || 'application/octet-stream';
@@ -364,14 +379,26 @@ async function startDevServer() {
     const urlPath = req.url.split('?')[0];
 
     // Try to serve from generated/ first
-    const generatedPath = path.join(buildPath, 'generated', urlPath);
-    if (urlPath.startsWith('/generated/') && fs.existsSync(generatedPath)) {
+    const generatedDir = path.join(buildPath, 'generated');
+    const generatedPath = safePath(
+      generatedDir,
+      urlPath.replace(/^\/generated/, ''),
+    );
+    if (
+      generatedPath &&
+      urlPath.startsWith('/generated/') &&
+      fs.existsSync(generatedPath)
+    ) {
       return serveFile(req, res, generatedPath);
     }
 
     // Try to serve static files from the build directory
-    const staticPath = path.join(buildPath, urlPath);
-    if (fs.existsSync(staticPath) && fs.statSync(staticPath).isFile()) {
+    const staticPath = safePath(buildPath, urlPath);
+    if (
+      staticPath &&
+      fs.existsSync(staticPath) &&
+      fs.statSync(staticPath).isFile()
+    ) {
       return serveFile(req, res, staticPath);
     }
 

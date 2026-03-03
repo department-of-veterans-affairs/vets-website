@@ -36,6 +36,9 @@ const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 const postcss = require('postcss');
 
+const _ = require('lodash');
+const facilitySidebar = require('@department-of-veterans-affairs/platform-landing-pages/facility-sidebar');
+
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const {
   getAppManifests,
@@ -1038,9 +1041,6 @@ async function buildConfig(options = {}) {
  * consistent with the on-the-fly scaffold in esbuild-watch.js.
  */
 function generateScaffoldPages(buildPath) {
-  const _ = require('lodash'); // eslint-disable-line global-require
-  const facilitySidebar = require('@department-of-veterans-affairs/platform-landing-pages/facility-sidebar'); // eslint-disable-line global-require
-
   const rootDir = path.resolve(__dirname, '..');
 
   // Load dev template
