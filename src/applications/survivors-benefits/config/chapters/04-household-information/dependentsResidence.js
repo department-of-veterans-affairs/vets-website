@@ -18,6 +18,7 @@ export default {
       'ui:description': AdditionalDependentsAlert,
       'ui:options': {
         hideIf: formData =>
+          formData?.childrenLiveTogetherButNotWithSpouse == null ||
           isYes(formData?.childrenLiveTogetherButNotWithSpouse),
         displayEmptyObjectOnReview: true,
       },
