@@ -1056,7 +1056,13 @@ function generateScaffoldPages(buildPath) {
     'node_modules/@department-of-veterans-affairs/platform-landing-pages/dev-template.ejs',
   );
   const devTemplateSource = fs.readFileSync(devTemplatePath, 'utf8');
-  const devTemplate = _.template(devTemplateSource);
+  // Use an explicit interpolate regex so lodash does NOT also process ES6
+  // template-literal syntax (${...}).  The dev-template.ejs contains JS
+  // template literals like `/${path}` inside <script> tags that are meant to
+  // run in the browser, not be evaluated at compile time.
+  const devTemplate = _.template(devTemplateSource, {
+    interpolate: /<%=([\s\S]+?)%>/g,
+  });
 
   // Load header/footer data and scaffold registry
   const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json'); // eslint-disable-line global-require
@@ -1265,6 +1271,9 @@ function generateScaffoldPages(buildPath) {
       });
     } catch (err) {
       // Fallback to minimal HTML if template rendering fails
+      console.warn(
+        `  ⚠ Template failed for ${appRoute.rootUrl}: ${err.message}`,
+      );
       html = `<!DOCTYPE html>
 <html lang="en">
 <head>
