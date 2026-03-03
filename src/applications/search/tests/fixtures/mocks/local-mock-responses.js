@@ -4,6 +4,7 @@ const featureToggles = require('./feature-toggles.json');
 const user = require('./user.json');
 const stub = require('../../../constants/stub.json');
 const stubPage2 = require('../../../constants/stub-page-2.json');
+const stubNoBestBets = require('../../../constants/stub-no-best-bets.json');
 const stubNewTerm = require('../../../constants/stub-new-term.json');
 const stubZeroResults = require('../../../constants/stubZeroResults.json');
 
@@ -20,6 +21,10 @@ const responses = {
 
     if (query === 'benefits' && page === '2') {
       return res.json(stubPage2);
+    }
+
+    if (query === 'benef') {
+      return res.json(stubNoBestBets);
     }
 
     if (query === 'benefits') {
