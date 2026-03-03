@@ -10,6 +10,7 @@ import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObjec
 import DosesReceivedPageObject from '../../page-objects/DosesReceivedPageObject';
 import PlanAheadPageObject from '../../page-objects/PlanAheadPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
@@ -80,6 +81,8 @@ describe('VAOS select appointment date', () => {
 
       AppointmentListPageObject.visit().scheduleAppointment();
 
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/COVID-19 vaccine/i)
@@ -142,6 +145,8 @@ describe('VAOS select appointment date', () => {
 
       AppointmentListPageObject.visit().scheduleAppointment();
 
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/COVID-19 vaccine/i)
@@ -202,6 +207,8 @@ describe('VAOS select appointment date', () => {
       cy.login(mockUser);
 
       AppointmentListPageObject.visit().scheduleAppointment();
+
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl({
         url: '/type-of-care',
@@ -276,6 +283,8 @@ describe('VAOS select appointment date', () => {
 
       AppointmentListPageObject.visit().scheduleAppointment();
 
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/COVID-19 vaccine/i)
@@ -336,6 +345,8 @@ describe('VAOS select appointment date', () => {
       cy.login(mockUser);
 
       AppointmentListPageObject.visit().scheduleAppointment();
+
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })

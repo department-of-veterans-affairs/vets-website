@@ -20,7 +20,6 @@ const inlineContentShape = PropTypes.oneOfType([
     text: PropTypes.string,
     href: PropTypes.string,
     style: PropTypes.oneOf(['active', 'default', 'external']),
-    testId: PropTypes.string,
     // Telephone-specific properties
     contact: PropTypes.string,
     tty: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -59,7 +58,6 @@ export const InlineContentPropType = PropTypes.oneOfType([
     text: PropTypes.string,
     href: PropTypes.string,
     style: PropTypes.oneOf(['active', 'default', 'external']),
-    testId: PropTypes.string,
     contact: PropTypes.string,
     tty: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }),
