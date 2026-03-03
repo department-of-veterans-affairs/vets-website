@@ -7,7 +7,6 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { renderWithReduxAndRouter } from '../../utils';
 import { buildDateFormatter } from '../../../utils/helpers';
-import { evidenceDictionary } from '../../../utils/evidenceDictionary';
 
 import ThirdPartyRequestPage from '../../../components/claim-document-request-pages/ThirdPartyRequestPage';
 
@@ -98,9 +97,7 @@ describe('<ThirdPartyRequestPage>', () => {
       { initialState },
     );
     getByText('Your friendly RV1 name');
-    getByText(
-      'For your benefits claim, we\u2019ve requested your service records or treatment records from your reserve unit.',
-    );
+    getByText('old description');
     getByText(
       `We made a request outside VA on ${formatDate(item.requestedDate)}`,
     );
@@ -292,9 +289,6 @@ describe('<ThirdPartyRequestPage>', () => {
   describe('Third party path coverage tests', () => {
     const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
 
-    // Helper to get dictionary entry for a displayName
-    const getDictEntry = displayName => evidenceDictionary[displayName];
-
     const thirdPartyTestCases = [
       {
         id: 9,
@@ -306,17 +300,16 @@ describe('<ThirdPartyRequestPage>', () => {
           requestedDate: '2025-12-01',
           suspenseDate: futureSuspenseDate,
           canUploadFile: true,
+          noActionNeeded: true,
         },
-        dictionaryEntry: getDictEntry('DBQ AUDIO Hearing Loss and Tinnitus'),
         expectedHeader: 'Request for an exam',
         expectedSubheaderPattern: /We made a request on .* for: DBQ AUDIO/,
-        expectedDescriptionText:
-          'we\u2019ve requested a disability exam for your hearing',
+        expectedDescriptionText: null,
         showsAddFilesForm: true,
       },
       {
         id: 10,
-        name: 'Frontend override with noActionNeeded (non-DBQ)',
+        name: 'noActionNeeded (non-DBQ)',
         item: {
           id: 10,
           displayName: 'Employer (21-4192)',
@@ -324,16 +317,16 @@ describe('<ThirdPartyRequestPage>', () => {
           requestedDate: '2025-12-01',
           suspenseDate: futureSuspenseDate,
           canUploadFile: true,
+          noActionNeeded: true,
         },
-        dictionaryEntry: getDictEntry('Employer (21-4192)'),
         expectedHeader: 'Request for evidence outside VA',
         expectedSubheaderPattern: /We made a request outside VA on .* for: Employer/,
-        expectedDescriptionText: 'we sent a letter to your last employer',
+        expectedDescriptionText: null,
         showsAddFilesForm: true,
       },
       {
         id: 11,
-        name: 'WITH friendlyName, no frontend override',
+        name: 'With friendlyName, no description from item',
         item: {
           id: 11,
           displayName: 'Unknown Third Party Request',
@@ -343,7 +336,6 @@ describe('<ThirdPartyRequestPage>', () => {
           friendlyName: 'Third party friendly name',
           canUploadFile: true,
         },
-        dictionaryEntry: null,
         expectedHeader: 'Your third party friendly name',
         expectedSubheaderPattern: /We made a request outside VA on/,
         expectedSubheaderExcludes: 'Unknown Third Party Request',
@@ -352,7 +344,7 @@ describe('<ThirdPartyRequestPage>', () => {
       },
       {
         id: 12,
-        name: 'No friendlyName, no frontend override',
+        name: 'No friendlyName, no description from item',
         item: {
           id: 12,
           displayName: 'Generic Third Party Request',
@@ -361,7 +353,6 @@ describe('<ThirdPartyRequestPage>', () => {
           suspenseDate: futureSuspenseDate,
           canUploadFile: true,
         },
-        dictionaryEntry: null,
         expectedHeader: 'Request for evidence outside VA',
         expectedSubheaderPattern: /We made a request outside VA on .* for: Generic Third Party Request/,
         expectedDescriptionText: null,
@@ -369,7 +360,7 @@ describe('<ThirdPartyRequestPage>', () => {
       },
       {
         id: 13,
-        name: 'Frontend override with longDescription, NOT noActionNeeded',
+        name: 'No description from item, upload suggestion shown',
         item: {
           id: 13,
           displayName: 'PMR Pending',
@@ -378,16 +369,14 @@ describe('<ThirdPartyRequestPage>', () => {
           suspenseDate: futureSuspenseDate,
           canUploadFile: true,
         },
-        dictionaryEntry: getDictEntry('PMR Pending'),
         expectedHeader: 'Request for evidence outside VA',
         expectedSubheaderPattern: /We made a request outside VA on .* for: PMR Pending/,
-        expectedDescriptionText:
-          'we\u2019ve requested your non-VA medical records',
+        expectedDescriptionText: null,
         showsAddFilesForm: true,
       },
       {
         id: 14,
-        name: 'No frontend override, WITH API description',
+        name: 'With item.description',
         item: {
           id: 14,
           displayName: 'Generic Third Party Request',
@@ -397,7 +386,6 @@ describe('<ThirdPartyRequestPage>', () => {
           description: 'API-provided description for this request',
           canUploadFile: true,
         },
-        dictionaryEntry: null,
         expectedHeader: 'Request for evidence outside VA',
         expectedSubheaderPattern: /We made a request outside VA on .* for: Generic Third Party Request/,
         expectedDescriptionText: 'API-provided description for this request',
@@ -442,25 +430,26 @@ describe('<ThirdPartyRequestPage>', () => {
           queryByText('This is just a notice. No action is needed by you.'),
         ).to.exist;
 
-        // Verify description content (no "Learn about" section for third party)
-        if (testCase.dictionaryEntry?.longDescription) {
-          expect(getByTestId('frontend-description')).to.exist;
-          getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
+        // Verify description content: from item (longDescription.blocks or description). No "Learn about" section for third party.
+        if (testCase.item.longDescription?.blocks) {
+          expect(getByTestId('api-long-description')).to.exist;
+          if (testCase.expectedDescriptionText) {
+            getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
+          }
         } else if (testCase.item.description) {
           expect(getByTestId('api-description')).to.exist;
           getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
         } else {
-          expect(queryByTestId('frontend-description')).to.not.exist;
           expect(queryByTestId('api-description')).to.not.exist;
           expect(queryByTestId('empty-state-description')).to.not.exist;
         }
         expect(queryByTestId('learn-about-request-section')).to.not.exist;
 
-        // Verify upload suggestion visibility (hidden when noActionNeeded is true)
+        // Verify upload suggestion: hidden when item.noActionNeeded is true
         const uploadSuggestion = queryByText(
           /if you have documents related to this request, uploading them/i,
         );
-        if (testCase.dictionaryEntry?.noActionNeeded) {
+        if (testCase.item.noActionNeeded) {
           expect(uploadSuggestion).to.not.exist;
         } else {
           expect(uploadSuggestion).to.exist;
@@ -477,113 +466,110 @@ describe('<ThirdPartyRequestPage>', () => {
     });
   });
 
-  // ============================================================
-  // BOOLEAN PROPERTY FALLBACK TESTS
-  // Tests for API → dictionary → false fallback hierarchy
-  // for isSensitive, isDBQ, and noActionNeeded properties
-  // ============================================================
-  describe('Boolean property fallback pattern (API -> dictionary -> false)', () => {
+  describe('isDBQ property', () => {
     const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
 
-    describe('isDBQ property', () => {
-      const isDBQTestCases = [
-        {
-          name: 'uses API value when present (API: true, dictionary: false)',
-          displayName: 'Unknown third party request', // no dictionary entry
-          isDBQ: true,
-          expectOutsideVA: false,
-        },
-        {
-          name: 'uses dictionary value when API absent (dictionary: true)',
-          displayName: 'DBQ AUDIO Hearing Loss and Tinnitus', // dictionary has isDBQ: true
-          isDBQ: undefined,
-          expectOutsideVA: false,
-        },
-        {
-          name: 'defaults to false when both API and dictionary absent',
-          displayName: 'Unknown third party type',
-          isDBQ: undefined,
-          expectOutsideVA: true,
-        },
-      ];
+    const isDBQTestCases = [
+      {
+        name: 'returns true when item.isDBQ is true',
+        displayName: 'Unknown third party request',
+        isDBQ: true,
+        expectOutsideVA: false,
+      },
+      {
+        name: 'returns true when displayName contains "dbq" (case-insensitive)',
+        displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
+        isDBQ: undefined,
+        expectOutsideVA: false,
+      },
+      {
+        name:
+          'returns false when item has no isDBQ and displayName has no "dbq"',
+        displayName: 'Unknown third party type',
+        isDBQ: undefined,
+        expectOutsideVA: true,
+      },
+    ];
 
-      isDBQTestCases.forEach(testCase => {
-        it(testCase.name, () => {
-          const item = {
-            id: 304,
-            displayName: testCase.displayName,
-            status: 'NEEDED_FROM_OTHERS',
-            requestedDate: '2025-12-01',
-            suspenseDate: futureSuspenseDate,
-            friendlyName: 'Test request',
-            canUploadFile: true,
-            isDBQ: testCase.isDBQ,
-          };
+    isDBQTestCases.forEach(testCase => {
+      it(testCase.name, () => {
+        const item = {
+          id: 304,
+          displayName: testCase.displayName,
+          status: 'NEEDED_FROM_OTHERS',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          friendlyName: 'Test request',
+          canUploadFile: true,
+          isDBQ: testCase.isDBQ,
+        };
 
-          const { container } = renderWithReduxAndRouter(
-            <ThirdPartyRequestPage {...defaultProps} item={item} />,
-            { initialState },
-          );
+        const { container } = renderWithReduxAndRouter(
+          <ThirdPartyRequestPage {...defaultProps} item={item} />,
+          { initialState },
+        );
 
-          const h1 = container.querySelector('h1');
-          const subheaderSpan = h1.querySelector('span');
-          if (testCase.expectOutsideVA) {
-            expect(subheaderSpan.textContent).to.include('outside VA');
-          } else {
-            expect(subheaderSpan.textContent).to.not.include('outside VA');
-          }
-        });
+        const h1 = container.querySelector('h1');
+        const subheaderSpan = h1.querySelector('span');
+        if (testCase.expectOutsideVA) {
+          expect(subheaderSpan.textContent).to.include('outside VA');
+        } else {
+          expect(subheaderSpan.textContent).to.not.include('outside VA');
+        }
       });
     });
+  });
 
-    describe('noActionNeeded property', () => {
-      const noActionNeededTestCases = [
-        {
-          name: 'uses API value when present (API: true, dictionary: false)',
-          displayName: 'PMR Pending', // dictionary has no noActionNeeded
-          noActionNeeded: true,
-          expectUploadSuggestion: false,
-        },
-        {
-          name: 'uses dictionary value when API absent (dictionary: true)',
-          displayName: 'DBQ AUDIO Hearing Loss and Tinnitus', // dictionary has noActionNeeded: true
-          noActionNeeded: undefined,
-          expectUploadSuggestion: false,
-        },
-        {
-          name: 'defaults to false when both API and dictionary absent',
-          displayName: 'Unknown third party type', // no dictionary entry
-          noActionNeeded: undefined,
-          expectUploadSuggestion: true,
-        },
-      ];
+  describe('noActionNeeded property', () => {
+    const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
 
-      noActionNeededTestCases.forEach(testCase => {
-        it(testCase.name, () => {
-          const item = {
-            id: 308,
-            displayName: testCase.displayName,
-            status: 'NEEDED_FROM_OTHERS',
-            requestedDate: '2025-12-01',
-            suspenseDate: futureSuspenseDate,
-            canUploadFile: true,
-            noActionNeeded: testCase.noActionNeeded,
-          };
+    const noActionNeededTestCases = [
+      {
+        name: 'hides upload suggestion when item.noActionNeeded is true',
+        displayName: 'PMR Pending',
+        noActionNeeded: true,
+        expectUploadSuggestion: false,
+      },
+      {
+        name: 'shows upload suggestion when item has no noActionNeeded',
+        displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
+        noActionNeeded: undefined,
+        expectUploadSuggestion: true,
+      },
+      {
+        name:
+          'shows upload suggestion when item has no noActionNeeded (unknown type)',
+        displayName: 'Unknown third party type',
+        noActionNeeded: undefined,
+        expectUploadSuggestion: true,
+      },
+    ];
 
-          const { queryByText } = renderWithReduxAndRouter(
-            <ThirdPartyRequestPage {...defaultProps} item={item} />,
-            { initialState },
-          );
+    noActionNeededTestCases.forEach(testCase => {
+      it(testCase.name, () => {
+        const item = {
+          id: 308,
+          displayName: testCase.displayName,
+          status: 'NEEDED_FROM_OTHERS',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          noActionNeeded: testCase.noActionNeeded,
+        };
 
-          const uploadSuggestion = queryByText(
-            /if you have documents related to this request, uploading them/i,
-          );
-          if (testCase.expectUploadSuggestion) {
-            expect(uploadSuggestion).to.exist;
-          } else {
-            expect(uploadSuggestion).to.not.exist;
-          }
-        });
+        const { queryByText } = renderWithReduxAndRouter(
+          <ThirdPartyRequestPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        const uploadSuggestion = queryByText(
+          /if you have documents related to this request, uploading them/i,
+        );
+        if (testCase.expectUploadSuggestion) {
+          expect(uploadSuggestion).to.exist;
+        } else {
+          expect(uploadSuggestion).to.not.exist;
+        }
       });
     });
   });

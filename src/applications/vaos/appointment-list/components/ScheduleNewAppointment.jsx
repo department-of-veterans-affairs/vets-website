@@ -6,7 +6,6 @@ import { GA_PREFIX } from 'applications/vaos/utils/constants';
 import { startNewAppointmentFlow } from '../redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
-import { selectFeatureImmediateCareAlert } from '../../redux/selectors';
 
 function handleClick(history, dispatch, pageKey) {
   return e => {
@@ -24,30 +23,15 @@ function handleClick(history, dispatch, pageKey) {
 function ScheduleNewAppointmentButton() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { typeOfCare } = useSelector(getNewAppointmentFlow);
   const { urgentCareInformation } = useSelector(getNewAppointmentFlow);
-  const featureImmediateCareAlert = useSelector(
-    selectFeatureImmediateCareAlert,
-  );
-
-  if (featureImmediateCareAlert)
-    return (
-      <a
-        className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--2p5"
-        href="/"
-        onClick={handleClick(history, dispatch, urgentCareInformation)}
-      >
-        Schedule a new appointment
-      </a>
-    );
 
   return (
     <a
       className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--2p5"
       href="/"
-      onClick={handleClick(history, dispatch, typeOfCare)}
+      onClick={handleClick(history, dispatch, urgentCareInformation)}
     >
-      Start scheduling an appointment
+      Schedule a new appointment
     </a>
   );
 }
