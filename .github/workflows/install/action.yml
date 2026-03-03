@@ -45,11 +45,23 @@ runs:
           src/platform/*/node_modules
           src/applications/*/node_modules
           src/applications/*/*/node_modules
-        key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-v2-${{ inputs.key }}
+        key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.key }}
         # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
 
+    - name: Verify cache integrity
+      if: steps.cache-dependencies.outputs.cache-hit == 'true'
+      id: cache-verify
+      shell: bash
+      run: |
+        if [ ! -f node_modules/.yarn-integrity ]; then
+          echo "::warning::Cache integrity check failed — running full install"
+          echo "cache-valid=false" >> $GITHUB_OUTPUT
+        else
+          echo "cache-valid=true" >> $GITHUB_OUTPUT
+        fi
+
     - name: Install dependencies
-      if: steps.cache-dependencies.outputs.cache-hit != 'true'
+      if: steps.cache-dependencies.outputs.cache-hit != 'true' || steps.cache-verify.outputs.cache-valid == 'false'
       uses: nick-fields/retry@v3
       with:
         command: |
@@ -62,6 +74,6 @@ runs:
         YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_folder }}
 
     - name: Run postinstall scripts
-      if: steps.cache-dependencies.outputs.cache-hit != 'true'
+      if: steps.cache-dependencies.outputs.cache-hit != 'true' || steps.cache-verify.outputs.cache-valid == 'false'
       shell: bash
       run: yarn postinstall
