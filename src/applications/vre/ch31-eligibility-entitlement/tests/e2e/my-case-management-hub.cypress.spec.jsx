@@ -4,7 +4,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 Cypress.config('includeShadowDom', true);
 
 const baseUrl =
-  '/careers-employment/your-vre-eligibility/my-case-management-hub';
+  '/careers-employment/track-your-vre-benefits/vre-benefit-status';
 
 const buildCaseDetails = ({ stateList = [], overrides = {} } = {}) => ({
   data: {
@@ -80,7 +80,7 @@ describe('CH31 My Case Management Hub', () => {
     cy.wait('@featureToggles', { timeout: 20000 });
     cy.wait('@caseDetails', { timeout: 20000 });
 
-    cy.contains('h1', /my case management hub/i, {
+    cy.contains('h1', /your vr&e benefit status/i, {
       timeout: Timeouts.slow,
     }).should('be.visible');
     cy.contains(/page isn.?t available right now/i).should('be.visible');
@@ -126,7 +126,7 @@ describe('CH31 My Case Management Hub', () => {
       cy.wait('@featureToggles', { timeout: 20000 });
       cy.wait('@caseDetails', { timeout: 20000 });
 
-      cy.contains('h1', /my vr&e chapter 31 benefits tracker/i, {
+      cy.contains('h1', /your vr&e benefit status/i, {
         timeout: Timeouts.slow,
       }).should('be.visible');
 
@@ -152,7 +152,7 @@ describe('CH31 My Case Management Hub', () => {
     cy.wait('@featureToggles', { timeout: 20000 });
     cy.wait('@caseDetails', { timeout: 20000 });
 
-    cy.contains('h1', /my vr&e chapter 31 benefits tracker/i, {
+    cy.contains('h1', /your vr&e benefit status/i, {
       timeout: Timeouts.slow,
     }).should('be.visible');
     cy.contains(/your chapter 31 claim has been discontinued/i).should(

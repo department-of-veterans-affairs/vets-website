@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 import { focusElement } from 'platform/utilities/ui';
+import { lastFour } from '../utilities/helpers';
 
 const ClaimantSearchNoPOA = searchData => {
-  const lastFour = ssn => {
-    return ssn?.substring(5);
-  };
   useEffect(() => {
     focusElement('.claimant__results-text');
   }, []);
@@ -42,7 +40,7 @@ const ClaimantSearchNoPOA = searchData => {
           information or act on their behalf until you establish representation.
         </p>
         <va-link
-          href="/representative/ help#establishing-representation"
+          href="/representative/help#establishing-representation"
           text="Learn about establishing representation"
         />
       </va-banner>

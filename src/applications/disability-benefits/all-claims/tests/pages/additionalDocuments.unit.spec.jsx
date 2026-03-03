@@ -5,13 +5,11 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import { createStore } from 'redux';
 import { render } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
-import { SAVED_SEPARATION_DATE } from '../../constants';
 import { selfAssessmentHeadline } from '../../content/selfAssessmentAlert';
-import { daysFromToday } from '../../utils/dates/formatting';
+import * as utils from '../../utils';
 
 const invalidDocumentData = {
   additionalDocuments: [
@@ -32,9 +30,45 @@ const validDocumentData = {
   ],
 };
 
+const getDocumentDataWithDisability526NewBddShaEnforcementWorkflowEnabledFlagSet = featureFlagValue => ({
+  ...validDocumentData,
+  disability526NewBddShaEnforcementWorkflowEnabled: featureFlagValue,
+});
+
 describe('526EZ document upload', () => {
   const page = formConfig.chapters.supportingEvidence.pages.additionalDocuments;
   const { schema, uiSchema, arrayPath } = page;
+
+  let sandbox;
+
+  /**
+   * Utility for reducing the noise in tests and highlighting only the important signals of the test.
+   *
+   * @param {*} props - Overrides to the default value of DefinitionTester. Primarily used to pass the data prop.
+   * @returns {JSX.Element} The rendered DefinitionTester component.
+   */
+  const DefaultDefinitionTester = props => {
+    return (
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          {...props}
+        />
+      </Provider>
+    );
+  };
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   it('should render', async () => {
     const form = mount(
@@ -128,47 +162,60 @@ describe('526EZ document upload', () => {
     form.unmount();
   });
 
-  it('should not display alert if not BDD', () => {
-    const { queryByText } = render(
-      <Provider store={uploadStore}>
-        <DefinitionTester
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={validDocumentData}
-          uiSchema={uiSchema}
-        />
-      </Provider>,
-    );
+  describe('Separation Health Assessment Alert', () => {
+    const configureMocksAndGetData = ({
+      isBddReturn,
+      bddShaEnforcementWorkflowFlagReturn,
+    }) => {
+      sandbox.stub(utils, 'isBDD').returns(isBddReturn);
+      return getDocumentDataWithDisability526NewBddShaEnforcementWorkflowEnabledFlagSet(
+        bddShaEnforcementWorkflowFlagReturn,
+      );
+    };
 
-    expect(queryByText(selfAssessmentHeadline)).to.not.exist;
-  });
+    it('should not display if submission is not considered BDD and new BDD SHA enforcement workflow is not enabled', () => {
+      const data = configureMocksAndGetData({
+        isBddReturn: false,
+        bddShaEnforcementWorkflowFlagReturn: false,
+      });
 
-  it('should display alert when BDD SHA enabled', () => {
-    const fakeStore = createStore(() => ({
-      featureToggles: {},
-    }));
+      const { queryByText } = render(<DefaultDefinitionTester data={data} />);
 
-    // mock BDD
-    window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(90));
+      expect(queryByText(selfAssessmentHeadline)).to.not.exist;
+    });
 
-    const form = render(
-      <Provider store={fakeStore}>
-        <DefinitionTester
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={validDocumentData}
-          uiSchema={uiSchema}
-        />
-      </Provider>,
-    );
+    it('should not display if submission is not considered BDD but new BDD SHA enforcement workflow is enabled', () => {
+      const data = configureMocksAndGetData({
+        isBddReturn: false,
+        bddShaEnforcementWorkflowFlagReturn: true,
+      });
 
-    form.getByText(
-      'Please submit your Separation Health Assessment - Part A Self-Assessment as soon as possible',
-    );
+      const { queryByText } = render(<DefaultDefinitionTester data={data} />);
+
+      expect(queryByText(selfAssessmentHeadline)).to.not.exist;
+    });
+
+    it('should display when submission is considered BDD and new BDD SHA enforcement workflow is not enabled', () => {
+      const data = configureMocksAndGetData({
+        isBddReturn: true,
+        bddShaEnforcementWorkflowFlagReturn: false,
+      });
+
+      const { queryByText } = render(<DefaultDefinitionTester data={data} />);
+
+      expect(queryByText(selfAssessmentHeadline)).to.exist;
+    });
+
+    it('should not display alert when submission is considered BDD but new BDD SHA enforcement workflow is enabled', () => {
+      const data = configureMocksAndGetData({
+        isBddReturn: true,
+        bddShaEnforcementWorkflowFlagReturn: true,
+      });
+
+      const { queryByText } = render(<DefaultDefinitionTester data={data} />);
+
+      expect(queryByText(selfAssessmentHeadline)).to.not.exist;
+    });
   });
 
   describe('ui:confirmationField', () => {

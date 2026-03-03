@@ -574,6 +574,12 @@
       "rootUrl": "/my-va"
     },
     {
+      "directoryPath": "src/applications/personalization/form-renderer",
+      "appName": "form-renderer",
+      "entryName": "form-renderer",
+      "rootUrl": "/my-va/submissions"
+    },
+    {
       "directoryPath": "src/applications/personalization/profile",
       "appName": "VA Profile",
       "entryName": "profile",
@@ -901,7 +907,7 @@
       "directoryPath": "src/applications/vre/ch31-eligibility-entitlement",
       "appName": "VRE CH31 Eligibility &amp; Entitlement",
       "entryName": "ch31-eligibility-entitlement",
-      "rootUrl": "/careers-employment/your-vre-eligibility"
+      "rootUrl": "/careers-employment"
     },
     {
       "directoryPath": "src/applications/yellow-ribbon",

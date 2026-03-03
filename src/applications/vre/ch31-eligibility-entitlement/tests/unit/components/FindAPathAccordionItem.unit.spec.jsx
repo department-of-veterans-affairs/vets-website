@@ -21,28 +21,34 @@ describe('<FindAPathAccordionItem>', () => {
     const byTextAttr = text =>
       container.querySelector(`va-link[text="${text}"]`);
 
-    const orientation = byTextAttr('Orientation Video');
+    const orientation = byTextAttr('View Orientation Video on YouTube website');
     expect(orientation).to.exist;
     expect(orientation.getAttribute('href')).to.equal(
       'https://www.youtube.com/watch?v=49eWvGitLPw',
     );
     expect(orientation.hasAttribute('external')).to.be.true;
 
-    const employment = byTextAttr('Employment Options');
+    const employment = byTextAttr(
+      'View Employment Options on Career One Stop website',
+    );
     expect(employment).to.exist;
     expect(employment.getAttribute('href')).to.equal(
       'https://www.careeronestop.org/ExploreCareers/Learn/self-employment.aspx?secondaryNavPanels=Ag%3D%3D',
     );
     expect(employment.hasAttribute('external')).to.be.true;
 
-    const training = byTextAttr('Location Training Finder');
+    const training = byTextAttr(
+      'View Location Training Finder on Career One Stop website',
+    );
     expect(training).to.exist;
     expect(training.getAttribute('href')).to.equal(
       'https://www.careeronestop.org/Toolkit/Training/find-local-training.aspx',
     );
     expect(training.hasAttribute('external')).to.be.true;
 
-    const cert = byTextAttr('Certification Finder');
+    const cert = byTextAttr(
+      'View Certification Finder on Career One Stop website',
+    );
     expect(cert).to.exist;
     expect(cert.getAttribute('href')).to.equal(
       'https://www.careeronestop.org/Toolkit/Training/find-certifications.aspx',
@@ -52,11 +58,17 @@ describe('<FindAPathAccordionItem>', () => {
 
   it('renders descriptive text for each link in light DOM', () => {
     const { getByText } = render(<FindAPathAccordionItem />);
-    getByText(/Learn more about the 5 tracks/i);
-    getByText(/Return to your last employer/i);
     getByText(
-      /Search for training programs, schools, and education opportunities/i,
+      /Learn more about the 5 tracks available in the Vocational Rehabilitation and Employment \(VR&E\) program./i,
     );
-    getByText(/Explore certifications available for your chosen field/i);
+    getByText(
+      /Explore options such as returning to your last employer, finding a transferable skills occupation, self-employment, or training for new employment./i,
+    );
+    getByText(
+      /Search for training programs, schools, and educational opportunities available near your location or in areas where you'd like to train./i,
+    );
+    getByText(
+      /Explore available certifications for your chosen field and understand the requirements, costs, and career relevance./i,
+    );
   });
 });
