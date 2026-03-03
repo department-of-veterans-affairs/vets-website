@@ -687,10 +687,21 @@ export function updateReasonForAppointmentData(page, uiSchema, data) {
 export function getAppointmentSlots(start, end, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
-    const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const typeOfCare = getTypeOfCare(getFormData(state))?.idV2;
+    const selectedEhr = selectAppointmentEhr(state);
     const { data } = newAppointment;
+
+    let siteId;
+
+    if (selectedEhr === APPOINTMENT_SYSTEM.cerner) {
+      // For OH slot searches we want to use the user selected facility id,
+      // NOT the parent site id
+      siteId = getFormData(state).vaFacility;
+    } else {
+      // VistA uses the parent site's id for slot searches
+      siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
+    }
 
     let startDate = start;
     let endDate = end;
