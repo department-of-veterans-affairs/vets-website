@@ -106,8 +106,7 @@ export const BuildPageBase = ({
           {field !== 'MAILING_ADDRESS' && (
             <va-alert status="info" visible slim>
               <p className="vads-u-margin--0">
-                Any changes you make will also be reflected on your VA.gov
-                profile.
+                Any changes you make will also be reflected on your profile.
               </p>
             </va-alert>
           )}
