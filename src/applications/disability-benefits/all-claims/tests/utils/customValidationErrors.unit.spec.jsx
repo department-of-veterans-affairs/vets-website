@@ -2,10 +2,11 @@ import { expect } from 'chai';
 import { getCustomValidationErrors } from '../../utils/customValidationErrors';
 
 describe('getCustomValidationErrors', () => {
-  it('should return error when view:claimingNew is true and newDisabilities is empty', () => {
+  it('should return error when any claim type is true and newDisabilities is empty', () => {
     const formData = {
       'view:claimType': {
         'view:claimingNew': true,
+        'view:claimingIncrease': false,
       },
       newDisabilities: [],
     };
@@ -18,10 +19,11 @@ describe('getCustomValidationErrors', () => {
     expect(errors[0].argument).to.equal(1);
   });
 
-  it('should return error when view:claimingNew is true and newDisabilities is missing', () => {
+  it('should return error when any claim type is true and newDisabilities is missing', () => {
     const formData = {
       'view:claimType': {
         'view:claimingNew': true,
+        'view:claimingIncrease': false,
       },
     };
 
@@ -32,10 +34,11 @@ describe('getCustomValidationErrors', () => {
     expect(errors[0].name).to.equal('minItems');
   });
 
-  it('should return error when view:claimingNew is true and newDisabilities is not an array', () => {
+  it('should return error when any claim type is true and newDisabilities is not an array', () => {
     const formData = {
       'view:claimType': {
         'view:claimingNew': true,
+        'view:claimingIncrease': false,
       },
       newDisabilities: 'not an array',
     };
@@ -46,20 +49,7 @@ describe('getCustomValidationErrors', () => {
     expect(errors[0].property).to.equal('instance.newDisabilities');
   });
 
-  it('should not return error when view:claimingNew is false', () => {
-    const formData = {
-      'view:claimType': {
-        'view:claimingNew': false,
-      },
-      newDisabilities: [],
-    };
-
-    const errors = getCustomValidationErrors(formData);
-
-    expect(errors.length).to.equal(0);
-  });
-
-  it('should not return error when view:claimingNew is missing', () => {
+  it('should not return error when claimType is missing', () => {
     const formData = {
       newDisabilities: [],
     };
@@ -69,10 +59,11 @@ describe('getCustomValidationErrors', () => {
     expect(errors.length).to.equal(0);
   });
 
-  it('should not return error when view:claimingNew is true and newDisabilities has items', () => {
+  it('should not return error when any claim type is true and newDisabilities has items', () => {
     const formData = {
       'view:claimType': {
         'view:claimingNew': true,
+        'view:claimingIncrease': false,
       },
       newDisabilities: [{ condition: 'Test condition' }],
     };
@@ -82,7 +73,63 @@ describe('getCustomValidationErrors', () => {
     expect(errors.length).to.equal(0);
   });
 
-  it('should return error when both view:claimingNew and view:claimingIncrease are false', () => {
+  it('should return error when both flags are false but at least one condition has ratedDisability', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingNew': false,
+        'view:claimingIncrease': false,
+      },
+      newDisabilities: [
+        {
+          condition: 'Knee pain',
+          ratedDisability: "A condition I haven't claimed before",
+        },
+      ],
+    };
+
+    const errors = getCustomValidationErrors(formData);
+
+    expect(errors.length).to.equal(1);
+    expect(errors[0].property).to.equal('instance.view:claimType');
+  });
+
+  it('should not return error when both flags are false but no condition has ratedDisability', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingNew': false,
+        'view:claimingIncrease': false,
+      },
+      newDisabilities: [
+        {
+          primaryDescription: 'a',
+          cause: 'NEW',
+          sideOfBody: 'RIGHT',
+          condition: 'ACL tear (anterior cruciate ligament tear)',
+        },
+      ],
+    };
+
+    const errors = getCustomValidationErrors(formData);
+
+    expect(errors.length).to.equal(0);
+  });
+
+  it('should return error when both flags are false and newDisabilities contains only an empty object', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingNew': false,
+        'view:claimingIncrease': false,
+      },
+      newDisabilities: [{}],
+    };
+
+    const errors = getCustomValidationErrors(formData);
+
+    expect(errors.length).to.equal(1);
+    expect(errors[0].property).to.equal('instance.view:claimType');
+  });
+
+  it('should return error when both flags are false and newDisabilities is empty', () => {
     const formData = {
       'view:claimType': {
         'view:claimingNew': false,
