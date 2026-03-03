@@ -1234,6 +1234,15 @@ function generateScaffoldPages(buildPath) {
   }
 
   console.log(`  Generated ${count} scaffold HTML pages`);
+
+  // Write a root index.html so the test-server health check (GET /) returns 200
+  const rootIndexPath = path.join(buildPath, 'index.html');
+  if (!fs.existsSync(rootIndexPath)) {
+    fs.writeFileSync(
+      rootIndexPath,
+      '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url=/"></head><body></body></html>',
+    );
+  }
 }
 
 // ---------------------------------------------------------------------------
