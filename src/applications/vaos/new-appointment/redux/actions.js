@@ -696,10 +696,12 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
 
     if (selectedEhr === APPOINTMENT_SYSTEM.cerner) {
       // For OH slot searches we want to use the user selected facility id,
-      // NOT the parent site id
+      // NOT the parent site id, this means that if vaFacility: 653BY,
+      // use the full 5 character string
       siteId = getFormData(state).vaFacility;
     } else {
-      // VistA uses the parent site's id for slot searches
+      // VistA uses the parent site's id for slot searches, this means that
+      // if vaFacility: 653BY, we use 653 for the slots query
       siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     }
 
