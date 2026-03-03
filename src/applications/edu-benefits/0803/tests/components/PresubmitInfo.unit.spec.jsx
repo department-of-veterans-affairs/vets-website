@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
-import PresubmitInfo from '../../components/PresubmitInfo';
+import { BasePresubmitInfo as PresubmitInfo } from '../../components/PresubmitInfo';
 
 const defaultProps = {
   formData: {
@@ -27,7 +27,7 @@ const defaultProps = {
     profile: {
       userFullName: {
         first: 'John',
-        middle: 'A',
+        middle: '',
         last: 'Doe',
       },
     },
@@ -58,6 +58,89 @@ describe('<PresubmitInfo />', () => {
 
     expect(statementOfTruth.textContent).to.contain(
       'Willfully false statements as to a material fact in a claim for education benefits payable by VA may result in a fine',
+    );
+  });
+
+  it('handles text input correctly', async () => {
+    const spy = sinon.spy();
+    const props = {
+      ...defaultProps,
+      setPreSubmit: spy,
+    };
+
+    const { container } = renderWithStore(<PresubmitInfo {...props} />);
+    const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+    fireEvent(
+      statementOfTruth,
+      new CustomEvent('vaInputChange', {
+        detail: { value: 'John Doe' },
+      }),
+    );
+    await waitFor(() => {
+      expect(spy.called).to.be.true;
+    });
+  });
+
+  it('handles checkbox input correctly', async () => {
+    const spy = sinon.spy();
+    const props = {
+      ...defaultProps,
+      setPreSubmit: spy,
+    };
+
+    const { container } = renderWithStore(<PresubmitInfo {...props} />);
+    const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+    fireEvent(
+      statementOfTruth,
+      new CustomEvent('vaCheckboxChange', {
+        detail: { checked: true },
+      }),
+    );
+    await waitFor(() => {
+      expect(spy.called).to.be.true;
+    });
+  });
+
+  it('handles a completed state correctly', async () => {
+    const completedSpy = sinon.spy();
+    const props = {
+      ...defaultProps,
+      formData: {
+        statementOfTruthSignature: 'John Doe',
+        statementOfTruthCertified: true,
+        applicantName: {
+          first: 'John',
+          last: 'Doe',
+        },
+      },
+      onSectionComplete: completedSpy,
+    };
+
+    renderWithStore(<PresubmitInfo {...props} />);
+
+    await waitFor(() => {
+      expect(completedSpy.called).to.be.true;
+    });
+  });
+
+  it('shows errors correctly', async () => {
+    const props = {
+      ...defaultProps,
+      showError: true,
+    };
+
+    const { container } = renderWithStore(<PresubmitInfo {...props} />);
+    const statementOfTruth = container.querySelector('va-statement-of-truth');
+    expect(statementOfTruth).to.have.attr(
+      'input-error',
+      'Enter your name exactly as it appears on your form: John Doe',
+    );
+
+    expect(statementOfTruth).to.have.attr(
+      'checkbox-error',
+      'You must certify by checking the box',
     );
   });
 });

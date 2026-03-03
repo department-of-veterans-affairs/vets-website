@@ -208,7 +208,7 @@ describe('VASS Component: Review', () => {
       await waitFor(() => {
         expect(getByTestId('api-error-alert')).to.exist;
         expect(queryByTestId('back-link')).to.not.exist;
-        expect(queryByTestId('header')).to.not.exist;
+        expect(queryByTestId('header')).to.exist;
       });
     });
   });

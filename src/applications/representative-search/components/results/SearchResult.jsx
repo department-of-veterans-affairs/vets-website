@@ -240,32 +240,37 @@ const SearchResult = ({
 
           <div className="representative-contact-section vads-u-margin-top--3">
             {addressExists && (
-              <div className="address-link">
-                {isEstimatedAddress && <div>No street address provided</div>}
-                <a {...addressAnchorProps}>
-                  {isEstimatedAddress ? partialLocationText : fullLocationText}
-                </a>
-              </div>
+              <WithIcon iconName="location_on">
+                <div className="address-link">
+                  {isEstimatedAddress && <div>No street address provided</div>}
+                  <a {...addressAnchorProps}>
+                    {isEstimatedAddress
+                      ? partialLocationText
+                      : fullLocationText}
+                  </a>
+                </div>
+              </WithIcon>
             )}
-            {phone && (
-              <div className="vads-u-margin-top--1p5">
+            {contact && (
+              <WithIcon iconName="phone" addTopMargin>
                 <va-telephone
                   contact={contact}
                   extension={extension}
                   onClick={() => recordContactLinkClick()}
                   disable-analytics
                 />
-              </div>
+              </WithIcon>
             )}
             {email && (
-              <div className="vads-u-margin-top--1p5">
+              <WithIcon iconName="mail" addTopMargin>
                 <a
                   href={`mailto:${email}`}
                   onClick={() => recordContactLinkClick()}
+                  style={{ overflowWrap: 'anywhere' }}
                 >
                   {email}
                 </a>
-              </div>
+              </WithIcon>
             )}
           </div>
           {reportFeatureEnabled && (
@@ -356,6 +361,19 @@ SearchResult.propTypes = {
   submitRepresentativeReport: PropTypes.func,
   type: PropTypes.string,
   zipCode: PropTypes.string,
+};
+
+const WithIcon = ({ iconName, children, addTopMargin }) => (
+  <div className={addTopMargin ? 'vads-u-margin-top--1p5' : ''}>
+    <va-icon class="vads-u-position--absolute" icon={iconName} size={3} />
+    <div className="vads-u-margin-left--4">{children}</div>
+  </div>
+);
+
+WithIcon.propTypes = {
+  children: PropTypes.element.isRequired,
+  iconName: PropTypes.string.isRequired,
+  addTopMargin: PropTypes.bool,
 };
 
 export default SearchResult;

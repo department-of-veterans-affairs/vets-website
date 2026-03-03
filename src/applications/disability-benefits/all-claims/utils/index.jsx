@@ -275,7 +275,7 @@ export const getPrivateFacilities = formData =>
 export const getPrivateEvidenceUploads = formData =>
   _.get('privateMedicalRecordAttachments', formData, []);
 export const getAdditionalDocuments = formData =>
-  _.get('evidenceChoiceAdditionalDocuments', formData, []);
+  _.get('additionalDocuments', formData, []);
 
 export const hasMedicalRecords = formData => {
   if (isEvidenceEnhancement(formData)) {
@@ -1046,6 +1046,34 @@ export const isNewConditionsOn = formData =>
 
 export const isNewConditionsOff = formData => !isNewConditionsOn(formData);
 
+/**
+ * Redirect-time normalization: rewrite array-builder item page returnUrls to
+ * their summary page so resume lands on a stable page (avoids redirect loops
+ * when item pages require ?add=true or ?edit=true).
+ * Use as formConfig.normalizeReturnUrl for redirect-time normalization.
+ *
+ * @param {string} returnUrl - URL from SIP metadata
+ * @returns {string} returnUrl to use for redirect (summary path if item page, else unchanged)
+ */
+export const normalizeReturnUrlForResume = returnUrl => {
+  if (!returnUrl || typeof returnUrl !== 'string') return returnUrl;
+
+  const conditionsItemPage = new RegExp(
+    `(.*)(conditions)/\\d+/(?:condition|new-condition-date|new-condition|rated-disability-date|side-of-body|cause-new|cause-secondary|cause-worsened|cause-va|cause)`,
+  );
+  const traumaticEventsItemPage = new RegExp(
+    `(.*)(mental-health-form-0781)/\\d+/(?:event-details|event-report|event-police-report)`,
+  );
+
+  if (conditionsItemPage.test(returnUrl)) {
+    return returnUrl.replace(conditionsItemPage, '$1$2/summary');
+  }
+  if (traumaticEventsItemPage.test(returnUrl)) {
+    return returnUrl.replace(traumaticEventsItemPage, '$1$2/events-summary');
+  }
+  return returnUrl;
+};
+
 export const onFormLoaded = props => {
   const { returnUrl, formData, router } = props;
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
@@ -1085,12 +1113,3 @@ export const onFormLoaded = props => {
     router.push(returnUrl);
   }
 };
-
-/**
- * Checks if
- * Veteran has additional evidence to upload within the 0781 flow
- * @param {object} formData
- * @returns {boolean} true if hasEvidenceChoice is present, false otherwise
- */
-export const hasEvidenceChoice = formData =>
-  formData?.['view:hasEvidenceChoice'] === true;

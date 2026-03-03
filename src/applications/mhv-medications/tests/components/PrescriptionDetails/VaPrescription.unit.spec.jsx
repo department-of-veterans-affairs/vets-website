@@ -2,13 +2,15 @@ import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import { datadogRum } from '@datadog/browser-rum';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import VaPrescription from '../../../components/PrescriptionDetails/VaPrescription';
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
 import { dateFormat } from '../../../util/helpers';
 import * as rxApiExports from '../../../api/rxApi';
 import { RX_SOURCE } from '../../../util/constants';
+import { dataDogActionNames } from '../../../util/dataDogConstants';
 
 describe('vaPrescription details container', () => {
   const prescription = rxDetailsResponse.data.attributes;
@@ -46,6 +48,21 @@ describe('vaPrescription details container', () => {
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
+  });
+
+  it('calls datadogRum.addAction with facilityId when refill link is clicked', () => {
+    const addActionSpy = sandbox.spy(datadogRum, 'addAction');
+    const refillableRx = { ...newRx, isRefillable: true };
+    const screen = setup(refillableRx);
+    const link = screen.getByTestId('refill-nav-link');
+    fireEvent.click(link);
+    expect(addActionSpy.calledOnce).to.be.true;
+    expect(
+      addActionSpy.calledWith(
+        dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION,
+        { facilityId: '989' },
+      ),
+    ).to.be.true;
   });
 
   it('displays the formatted ordered date', () => {

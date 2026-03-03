@@ -137,7 +137,7 @@ describe('trainingProviderArrayOptions', () => {
       trainingProviderArrayOptions.text.getItemName({ providerName: 'X' }),
     ).to.equal('X');
     expect(trainingProviderArrayOptions.text.getItemName({})).to.equal(
-      'training provider',
+      'Training provider',
     );
   });
 
@@ -207,14 +207,15 @@ describe('getCardDescription', () => {
 describe('validateTrainingProviderStartDate', () => {
   it('allows valid dates', () => {
     const errors = { addError: sinon.spy() };
-    validateTrainingProviderStartDate(errors, '2025-01-03');
+    validateTrainingProviderStartDate(errors, '2026-07-01');
     expect(errors.addError.called).to.be.false;
   });
 
   it('rejects invalid dates', () => {
     const errors = { addError: sinon.spy() };
     validateTrainingProviderStartDate(errors, '2025-01-01');
-    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.calledWith('Enter a date on or after July 1, 2026'))
+      .to.be.true;
   });
 
   it('does nothing on undefined date', () => {

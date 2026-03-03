@@ -40,7 +40,8 @@
 .form-21-686c,
 .form-21-526EZ {
   -webkit-font-smoothing: antialiased;
-  [for="root_vaFileNumber"] {
+  [for="root_vaFileNumber"],
+  [for="root_veteranSubPage_vaFileNumber"] {
     margin-top: 1.5rem;
   }
   .usa-width-two-thirds {
@@ -175,10 +176,6 @@
     }
   }
 
-  va-link-action[href="/"] {
-    display: none;
-  }
-
   .review .review-row {
     padding: 20px 0 !important;
   }
@@ -278,11 +275,18 @@
   font-size: 1.25rem;
   font-weight: 700;
 }
-
+.vads-u-margin-top--4:has(.schemaform-sip-save-link) {
+  display: none;
+}
 .form {
   &__icon {
     &--warning {
       margin: 0 4px;
+    }
+  }
+  &__submissions-link {
+    ~ va-button {
+      display: none;
     }
   }
 }

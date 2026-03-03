@@ -1,54 +1,88 @@
 {
   "data": {
+    "id": "",
+    "type": "users_scaffolds",
     "attributes": {
-      "profile": {
-        "sign_in": {
-          "service_name": "idme"
-        },
-        "email": "john.doe@example.com",
-        "loa": { "current": 3 },
-        "first_name": "John",
-        "middle_name": "",
-        "last_name": "Doe",
-        "gender": "M",
-        "birth_date": "1985-01-01",
-        "verified": true
-      },
-      "veteran_status": {
-        "status": "OK",
-        "is_veteran": true,
-        "served_in_military": true
-      },
-      "in_progress_forms": [],
-      "prefills_available": ["22-10278"],
       "services": [
         "facilities",
         "hca",
         "edu-benefits",
-        "evss-claims",
-        "form526",
+        "form-save-in-progress",
+        "form-prefill",
         "user-profile",
-        "health-records",
-        "rx",
-        "messaging"
+        "vet360"
       ],
-      "va_profile": {
-        "status": "OK",
-        "birth_date": "19850101",
-        "family_name": "Doe",
+      "profile": {
+        "email": "john.doe@example.com",
+        "firstName": "John",
+        "middleName": "",
+        "lastName": "Doe",
+        "birthDate": "1985-01-01",
         "gender": "M",
-        "given_names": ["John", ""],
-        "active_status": "active",
-        "facilities": [
-          {
-            "facility_id": "983",
-            "is_cerner": false
-          },
-          {
-            "facility_id": "984",
-            "is_cerner": false
-          }
-        ]
+        "loa": {
+          "current": 3,
+          "highest": 3
+        },
+        "verified": true,
+        "signIn": {
+          "serviceName": "idme"
+        }
+      },
+      "vaProfile": {
+        "status": "OK",
+        "birthDate": "19850101",
+        "familyName": "Doe",
+        "gender": "M",
+        "givenNames": ["John"],
+        "activeStatus": "active",
+        "facilities": [{ "facilityId": "983", "isCerner": false }],
+        "isCernerPatient": false,
+        "vaPatient": true,
+        "mhvAccountState": "OK"
+      },
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": true,
+        "servedInMilitary": true
+      },
+      "inProgressForms": [],
+      "prefillsAvailable": ["22-10278"],
+      "vet360ContactInformation": {
+        "email": {
+          "id": 20648,
+          "emailAddress": "john.doe@example.com"
+        },
+        "mailingAddress": {
+          "id": 311999,
+          "addressLine1": "123 Main St",
+          "addressLine2": null,
+          "addressPou": "CORRESPONDENCE",
+          "addressType": "DOMESTIC",
+          "city": "San Francisco",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "stateCode": "CA",
+          "zipCode": "94118"
+        },
+        "homePhone": {
+          "id": 2272982,
+          "areaCode": "415",
+          "countryCode": "1",
+          "extension": null,
+          "isInternational": false,
+          "phoneNumber": "5559876",
+          "phoneType": "HOME"
+        },
+        "mobilePhone": {
+          "id": 269804,
+          "areaCode": "415",
+          "countryCode": "1",
+          "extension": null,
+          "isInternational": false,
+          "phoneNumber": "5551234",
+          "phoneType": "MOBILE"
+        }
       }
     }
   },

@@ -8,12 +8,20 @@ class BaseDetailsPage {
     cy.get('[data-testid="print-download-menu"]')
       .should('be.visible')
       .and('not.be.disabled')
-      .click({ force: true });
+      .click();
+    // Wait for the menu to open before proceeding
+    cy.get('[data-testid="print-download-menu"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true',
+    );
   };
 
   verifyPrintButton = () => {
     // should display print button for a list "Print this list"
-    cy.get('[data-testid="printButton-0"]').should('be.visible');
+    cy.get('[data-testid="printButton-0"]', { timeout: 10000 }).should(
+      'be.visible',
+    );
   };
 
   verifyDownloadPDF = () => {

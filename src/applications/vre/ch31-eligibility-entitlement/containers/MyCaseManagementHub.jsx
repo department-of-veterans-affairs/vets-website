@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { fetchCh31CaseStatusDetails } from '../actions/ch31-my-eligibility-and-benefits';
@@ -19,12 +20,36 @@ const stepLabels = [
   'Orientation Video',
   'Initial Evaluation Counselor Meeting',
   'Entitlement Determination date',
-  'Rehabilitation Plan/Career Track',
+  'Rehabilitation Plan or Career Track',
   'Benefits Initiated',
+];
+
+const pageHeading = 'Your VR&E benefit status';
+const pageTitle = 'Your VR&E Benefit Status';
+const statusBasePath = '/track-your-vre-benefits/vre-benefit-status';
+
+const toStepSlug = label =>
+  label
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+const stepSlugOverrides = {
+  4: 'counselor-appointment',
+};
+
+const stepSlugByIndex = [
+  null,
+  ...stepLabels.map((label, index) => {
+    const step = index + 1;
+    return stepSlugOverrides[step] ?? toStepSlug(label);
+  }),
 ];
 
 const MyCaseManagementHub = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showMyCaseManagementHubPage = useToggleValue(
@@ -52,9 +77,11 @@ const MyCaseManagementHub = () => {
     stateList = [],
   } = externalStatus;
 
-  const showAppointmentAlert = stateList.some(
-    s => s?.stepCode === 'INTAKE' && s?.status === 'ACTIVE',
-  );
+  const showAppointmentAlert =
+    attrs?.orientationAppointmentDetails?.appointmentDateTime &&
+    attrs?.orientationAppointmentDetails?.appointmentPlace &&
+    stateList.some(s => s?.stepCode === 'INTAKE' && s?.status === 'ACTIVE');
+
   const appointment = attrs?.orientationAppointmentDetails;
 
   useEffect(
@@ -66,6 +93,10 @@ const MyCaseManagementHub = () => {
     },
     [loading],
   );
+
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+  }, []);
 
   useEffect(
     () => {
@@ -84,10 +115,39 @@ const MyCaseManagementHub = () => {
     [stateList, total],
   );
 
+  useEffect(
+    () => {
+      if (
+        !showMyCaseManagementHubPage ||
+        loading ||
+        caseStatusError ||
+        !caseStatusDetails
+      )
+        return;
+
+      const stepSlug = stepSlugByIndex[current];
+      if (!stepSlug) return;
+
+      const targetPath = `${statusBasePath}/${stepSlug}`;
+      if (location.pathname !== targetPath) {
+        navigate(targetPath, { replace: true });
+      }
+    },
+    [
+      showMyCaseManagementHubPage,
+      loading,
+      caseStatusError,
+      caseStatusDetails,
+      current,
+      location.pathname,
+      navigate,
+    ],
+  );
+
   if (!showMyCaseManagementHubPage) {
     return (
       <div className="usa-width-two-thirds vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0">
-        <h1>My Case Management Hub</h1>
+        <h1>{pageHeading}</h1>
         <p className="vads-u-color--gray-medium">
           This page isn’t available right now.
         </p>
@@ -98,7 +158,7 @@ const MyCaseManagementHub = () => {
     return (
       <div>
         <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
-          <h1>My Case Management Hub</h1>
+          <h1>{pageHeading}</h1>
           <va-loading-indicator
             set-focus
             message="Loading your case management hub..."
@@ -110,12 +170,12 @@ const MyCaseManagementHub = () => {
 
   return (
     <div className="usa-width-two-thirds vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0">
-      <h1>My VR&E Chapter 31 Benefits Tracker</h1>
+      <h1>{pageHeading}</h1>
 
       <p>
-        The VR&E Benefits Tracker enables Veterans to manage their entire VR&E
-        journey independently, from eligibility determination through program
-        participation and completion.
+        The Veteran Readiness and Employment (Chapter 31) Benefits Tracker
+        enables Veterans to manage their entire VR&E journey independently, from
+        eligibility determination through program participation and completion.
       </p>
 
       {caseStatusError && <LoadCaseDetailsFailedAlert />}
@@ -144,6 +204,7 @@ const MyCaseManagementHub = () => {
               current={current}
               stepLabels={stepLabels}
               stateList={stateList}
+              attributes={attrs}
             />
 
             <HubCardList step={current} stateList={stateList} />
