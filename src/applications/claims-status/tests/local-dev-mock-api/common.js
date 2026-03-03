@@ -747,7 +747,7 @@ const baseClaims = [
         // FIRST PARTY (NEEDED_FROM_YOU) PATHS
         // ---------------------------------------------------------
 
-        // Path 1: Frontend override with longDescription + nextSteps
+        // Path 1: Item with longDescription + nextSteps
         createTrackedItem(1, '21-4142/21-4142a', true, {
           requestedDate: '2025-12-01',
           suspenseDate: '2026-12-01',
@@ -762,13 +762,14 @@ const baseClaims = [
           canUploadFile: true,
         }),
 
-        // Path 3: Frontend override with isSensitive: true
+        // Path 3: Item with isSensitive: true
         // Shows "Request for evidence" header, "Respond by [date] for: [friendlyName]"
         createTrackedItem(3, 'ASB - tell us where, when, how exposed', true, {
           requestedDate: '2025-12-01',
           suspenseDate: '2026-12-01',
           friendlyName: 'Asbestos exposure details',
           canUploadFile: true,
+          isSensitive: true,
         }),
 
         // ASB - tell us specific disability (isSensitive: true)
@@ -787,10 +788,11 @@ const baseClaims = [
               'ASB-tell us specific disability fm asbestos exposure',
             ],
             canUploadFile: true,
+            isSensitive: true,
           },
         ),
 
-        // Path 4: Frontend override with longDescription but NO nextSteps
+        // Path 4: Item with longDescription but NO nextSteps
         // Shows generic "Next steps" section
         createTrackedItem(4, 'Employer (21-4192)', true, {
           requestedDate: '2025-12-01',
@@ -798,7 +800,7 @@ const baseClaims = [
           canUploadFile: true,
         }),
 
-        // Path 5: No frontend override, WITH friendlyName
+        // Path 5: Item with friendlyName only
         // Header shows friendlyName, "Respond by [date]" without displayName
         createTrackedItem(5, 'Unknown Request Type', true, {
           requestedDate: '2025-12-01',
@@ -807,7 +809,7 @@ const baseClaims = [
           canUploadFile: true,
         }),
 
-        // Path 6: No frontend override, NO friendlyName
+        // Path 6: Item with no friendlyName, no description
         // Falls back to "We're unable to provide more information..." with claim letter link
         createTrackedItem(6, 'Generic Request No Override', true, {
           requestedDate: '2025-12-01',
@@ -816,7 +818,7 @@ const baseClaims = [
           canUploadFile: true,
         }),
 
-        // Path 7: Not past due, no friendlyName, no frontend override, WITH API description
+        // Path 7: Item with API description only
         // Shows "We requested this evidence from you on..." paragraph
         createTrackedItem(7, 'Another Generic Request', true, {
           requestedDate: '2025-12-01',
@@ -849,15 +851,16 @@ const baseClaims = [
           canUploadFile: true,
         }),
 
-        // Path 10: Frontend override with noActionNeeded: true (non-DBQ)
+        // Path 10: Item with noActionNeeded: true (non-DBQ)
         // Shows notice without "But, if you have documents..." text
         createTrackedItem(10, 'Employer (21-4192)', false, {
           requestedDate: '2025-12-01',
           suspenseDate: '2026-12-01',
           canUploadFile: true,
+          noActionNeeded: true,
         }),
 
-        // Path 11: Third party with friendlyName, no DBQ, no frontend override
+        // Path 11: Third party with friendlyName only
         // Shows "Your [friendlyName]" header
         createTrackedItem(11, 'Unknown Third Party Request', false, {
           requestedDate: '2025-12-01',
@@ -866,7 +869,7 @@ const baseClaims = [
           canUploadFile: true,
         }),
 
-        // Path 12: Third party, no friendlyName, no frontend override, no API description
+        // Path 12: Third party, no friendlyName, no API description
         // Shows "Request for evidence outside VA" header
         // Falls back description with claim letter link
         createTrackedItem(12, 'Generic Third Party Request', false, {
@@ -875,7 +878,7 @@ const baseClaims = [
           canUploadFile: true,
         }),
 
-        // Path 13: Frontend override with longDescription, NOT noActionNeeded
+        // Path 13: Item with longDescription, NOT noActionNeeded
         // Shows "But, if you have documents..." text
         createTrackedItem(13, 'PMR Pending', false, {
           requestedDate: '2025-12-01',
@@ -883,7 +886,7 @@ const baseClaims = [
           canUploadFile: true,
         }),
 
-        // Path 14: Third party, no friendlyName, no frontend override, with API description
+        // Path 14: Third party, no friendlyName, with API description
         // Shows "But, if you have documents..." text
         createTrackedItem(14, 'Generic Third Party Request', false, {
           requestedDate: '2025-12-01',
@@ -1299,7 +1302,6 @@ const baseClaims = [
           documents: '[]',
           date: '2024-03-07',
         }),
-        // Test item for generic "Next steps" content (not in evidenceDictionary)
         createTrackedItem(99999, 'Generic Document Request', true, {
           closedDate: null,
           description: 'Generic document request for testing',

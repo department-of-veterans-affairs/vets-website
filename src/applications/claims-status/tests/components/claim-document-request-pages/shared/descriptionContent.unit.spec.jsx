@@ -8,118 +8,6 @@ import { resolveSharedContent } from '../../../../components/claim-document-requ
 const renderContent = content => render(<div>{content}</div>);
 
 describe('resolveSharedContent', () => {
-  describe('longDescription priority', () => {
-    const mockApiLongDescription = {
-      blocks: [
-        {
-          type: 'paragraph',
-          content:
-            'This is API-provided structured content for longDescription.',
-        },
-      ],
-    };
-
-    it('Priority 1: uses API-provided structured content when present', () => {
-      const item = {
-        displayName: '21-4142/21-4142a',
-        longDescription: mockApiLongDescription,
-        description: 'Old simple description',
-      };
-
-      const result = resolveSharedContent(item);
-
-      expect(result.longDescriptionTestId).to.equal('api-long-description');
-      expect(result.longDescriptionContent).to.not.be.null;
-      expect(result.hasDescriptionContent).to.be.ok;
-    });
-
-    it('Priority 2: uses frontend dictionary when API content absent', () => {
-      const item = {
-        displayName: '21-4142/21-4142a',
-        description: 'Old simple description',
-      };
-
-      const result = resolveSharedContent(item);
-
-      expect(result.longDescriptionTestId).to.equal('frontend-description');
-      expect(result.longDescriptionContent).to.not.be.null;
-      expect(result.hasDescriptionContent).to.be.ok;
-    });
-
-    it('Priority 3: uses simple API description when no structured or dictionary content', () => {
-      const item = {
-        displayName: 'Unknown Item Type',
-        description: 'Simple API description text',
-      };
-
-      const result = resolveSharedContent(item);
-
-      expect(result.longDescriptionTestId).to.equal('api-description');
-      expect(result.longDescriptionContent).to.not.be.null;
-      expect(result.hasDescriptionContent).to.be.ok;
-    });
-
-    it('returns null when no content is available', () => {
-      const item = {
-        displayName: 'Unknown Item Type',
-        description: null,
-      };
-
-      const result = resolveSharedContent(item);
-
-      expect(result.longDescriptionContent).to.be.null;
-      expect(result.longDescriptionTestId).to.be.null;
-      expect(result.hasDescriptionContent).to.not.be.ok;
-    });
-  });
-
-  describe('nextSteps priority', () => {
-    const mockApiNextSteps = {
-      blocks: [
-        {
-          type: 'paragraph',
-          content: 'These are API-provided structured next steps.',
-        },
-      ],
-    };
-
-    it('Priority 1: uses API-provided structured next steps', () => {
-      const item = {
-        displayName: '21-4142/21-4142a',
-        nextSteps: mockApiNextSteps,
-      };
-
-      const result = resolveSharedContent(item);
-
-      expect(result.nextStepsContent).to.not.be.null;
-      const { getByTestId, getByText } = renderContent(result.nextStepsContent);
-      expect(getByTestId('api-next-steps')).to.exist;
-      getByText('These are API-provided structured next steps.');
-    });
-
-    it('Priority 2: uses frontend dictionary next steps', () => {
-      const item = {
-        displayName: '21-4142/21-4142a',
-      };
-
-      const result = resolveSharedContent(item);
-
-      expect(result.nextStepsContent).to.not.be.null;
-      const { getByTestId } = renderContent(result.nextStepsContent);
-      expect(getByTestId('frontend-next-steps')).to.exist;
-    });
-
-    it('returns null when no next steps available', () => {
-      const item = {
-        displayName: 'Unknown Item Type',
-      };
-
-      const result = resolveSharedContent(item);
-
-      expect(result.nextStepsContent).to.be.null;
-    });
-  });
-
   describe('API description formatting', () => {
     it('should render newlines as separate paragraphs', () => {
       const item = {
@@ -230,8 +118,8 @@ describe('resolveSharedContent', () => {
     });
   });
 
-  // API STRUCTURED CONTENT FALLBACK PATTERN TESTS
-  describe('API structured content fallback pattern', () => {
+  // Two-tier content: longDescription/nextSteps blocks or item.description only
+  describe('Structured content (longDescription / nextSteps blocks)', () => {
     const mockApiLongDescription = {
       blocks: [
         {
@@ -256,7 +144,7 @@ describe('resolveSharedContent', () => {
       ],
     };
 
-    context('longDescription fallback priority', () => {
+    context('longDescription', () => {
       it('Priority 1: API-provided structured content (JSON blocks → TrackedItemContent)', () => {
         const item = {
           id: 200,
@@ -270,13 +158,12 @@ describe('resolveSharedContent', () => {
 
         const result = resolveSharedContent(item);
 
-        // Should render API structured content
         expect(result.longDescriptionTestId).to.equal('api-long-description');
         expect(result.longDescriptionContent).to.not.be.null;
       });
     });
 
-    context('nextSteps fallback priority', () => {
+    context('nextSteps', () => {
       it('Priority 1: API structured next steps', () => {
         const item = {
           id: 205,
@@ -289,7 +176,6 @@ describe('resolveSharedContent', () => {
 
         const result = resolveSharedContent(item);
 
-        // Should render API structured next steps
         expect(result.nextStepsContent).to.not.be.null;
         const { getByTestId, getByText } = renderContent(
           result.nextStepsContent,
@@ -299,8 +185,8 @@ describe('resolveSharedContent', () => {
       });
     });
 
-    context('combined API structured content scenarios', () => {
-      it('Renders both API longDescription and nextSteps when both are provided', () => {
+    context('combined scenarios', () => {
+      it('should render both longDescription and nextSteps when both provided', () => {
         const item = {
           id: 213,
           displayName: 'Unknown Item Type',
@@ -313,13 +199,12 @@ describe('resolveSharedContent', () => {
 
         const result = resolveSharedContent(item);
 
-        // Should render both API structured contents
         expect(result.longDescriptionTestId).to.equal('api-long-description');
         const { getByTestId } = renderContent(result.nextStepsContent);
         expect(getByTestId('api-next-steps')).to.exist;
       });
 
-      it('Renders API longDescription with frontend nextSteps (mixed API and dictionary)', () => {
+      it('should render longDescription when nextSteps not provided', () => {
         const item = {
           id: 214,
           displayName: '21-4142/21-4142a',
@@ -327,57 +212,48 @@ describe('resolveSharedContent', () => {
           requestedDate: '2025-12-01',
           canUploadFile: true,
           longDescription: mockApiLongDescription,
-          // nextSteps will come from dictionary
         };
 
         const result = resolveSharedContent(item);
 
-        // Should render API structured longDescription
         expect(result.longDescriptionTestId).to.equal('api-long-description');
-        // Should render frontend dictionary nextSteps
-        const { getByTestId } = renderContent(result.nextStepsContent);
-        expect(getByTestId('frontend-next-steps')).to.exist;
+        expect(result.nextStepsContent).to.be.null;
       });
 
-      it('Renders frontend description with API nextSteps', () => {
+      it('should render only nextSteps when no description content', () => {
         const item = {
           id: 215,
           displayName: '21-4142/21-4142a',
           status: 'NEEDED_FROM_YOU',
           requestedDate: '2025-12-01',
           canUploadFile: true,
-          // longDescription will come from dictionary
           nextSteps: mockApiNextSteps,
         };
 
         const result = resolveSharedContent(item);
 
-        // Should render frontend dictionary longDescription
-        expect(result.longDescriptionTestId).to.equal('frontend-description');
-        // Should render API structured nextSteps
+        expect(result.longDescriptionTestId).to.be.null;
+        expect(result.longDescriptionContent).to.be.null;
         const { getByTestId } = renderContent(result.nextStepsContent);
         expect(getByTestId('api-next-steps')).to.exist;
       });
     });
 
-    context('backward compatibility', () => {
-      it('Maintains existing behavior when API fields are undefined', () => {
+    context('when no blocks or description provided', () => {
+      it('returns null description and nextSteps', () => {
         const item = {
           id: 216,
           displayName: '21-4142/21-4142a',
           status: 'NEEDED_FROM_YOU',
           requestedDate: '2025-12-01',
           canUploadFile: true,
-          // longDescription and nextSteps not included (undefined)
         };
 
         const result = resolveSharedContent(item);
 
-        // Should fallback to dictionary (existing behavior)
-        expect(result.longDescriptionTestId).to.equal('frontend-description');
-        expect(result.longDescriptionContent).to.not.be.null;
-        const { getByTestId } = renderContent(result.nextStepsContent);
-        expect(getByTestId('frontend-next-steps')).to.exist;
+        expect(result.longDescriptionTestId).to.be.null;
+        expect(result.longDescriptionContent).to.be.null;
+        expect(result.nextStepsContent).to.be.null;
       });
     });
   });
