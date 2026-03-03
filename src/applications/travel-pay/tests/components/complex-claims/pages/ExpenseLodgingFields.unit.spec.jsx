@@ -144,8 +144,8 @@ describe('ExpenseLodgingFields', () => {
     const checkIn = container.querySelector('va-date[name="checkInDate"]');
     const checkOut = container.querySelector('va-date[name="checkOutDate"]');
 
-    expect(vendorInput.getAttribute('error') || null).to.be.null;
-    expect(checkIn.getAttribute('error') || null).to.be.null;
-    expect(checkOut.getAttribute('error') || null).to.be.null;
+    expect(vendorInput.getAttribute('error')).to.be.null;
+    expect(checkIn.getAttribute('error')).to.be.null;
+    expect(checkOut.getAttribute('error')).to.be.null;
   });
 });

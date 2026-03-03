@@ -42,7 +42,7 @@ const ConfirmationPage = () => {
         <>
           {claimData && (
             <va-alert status="success" visible>
-              <h2 slot="headline">Submitted</h2>
+              <h2 slot="headline">Claim submitted</h2>
               <p className="vads-u-margin-y--0">
                 This claim is for your appointment{' '}
                 {data.location?.attributes?.name

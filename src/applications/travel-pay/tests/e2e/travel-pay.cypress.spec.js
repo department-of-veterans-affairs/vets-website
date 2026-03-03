@@ -4,7 +4,7 @@ import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
 
 const testStatuses = [
-  'Submitted',
+  'Claim submitted',
   'Saved',
   'In process',
   'Incomplete',
@@ -170,7 +170,7 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('select[name="claimsOrder"]').select('oldest');
     cy.get('select[name="claimsOrder"]').should('have.value', 'oldest');
 
-    cy.selectVaCheckbox('Submitted', true);
+    cy.selectVaCheckbox('Claim submitted', true);
 
     cy.get('va-button[data-testid="apply_filters"]').click({
       waitForAnimations: true,

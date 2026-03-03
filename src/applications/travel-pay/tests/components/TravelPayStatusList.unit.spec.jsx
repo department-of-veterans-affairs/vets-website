@@ -226,7 +226,7 @@ describe('TravelPayStatusList', () => {
         'Denied',
         'In manual review',
         'Appealed',
-        'Submitted',
+        'Claim submitted',
         'Closed',
         'In process',
         'Incomplete',
@@ -312,7 +312,7 @@ describe('TravelPayStatusList', () => {
 
       const orderedStatuses = [
         'Appealed',
-        'Submitted',
+        'Claim submitted',
         'Closed',
         'In process',
         'Incomplete',

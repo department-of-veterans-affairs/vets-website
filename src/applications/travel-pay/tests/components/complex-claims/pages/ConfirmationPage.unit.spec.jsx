@@ -243,7 +243,7 @@ describe('Complex Claims ConfirmationPage', () => {
       'We’re processing your travel reimbursement claim',
     );
     expect($('va-alert[status="success"]')).to.exist;
-    expect(screen.getByText('Submitted')).to.exist;
+    expect(screen.getByText('Claim submitted')).to.exist;
   });
 
   it('renders appointment details in success alert', () => {

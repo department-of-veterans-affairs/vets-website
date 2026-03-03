@@ -38,7 +38,7 @@ export const STATUSES = {
     reasons: null,
   },
   ClaimSubmitted: {
-    name: 'Submitted',
+    name: 'Claim submitted',
     description: 'You submitted a claim for a completed appointment.',
     definition: 'You submitted this claim for review.',
     reasons: null,
@@ -124,7 +124,7 @@ export const STATUSES = {
     reasons: null,
   },
   ClaimPaid: {
-    name: 'Paid',
+    name: 'Claim paid',
     description:
       'The reimbursement on the approved claim is paid to the submitter. Note that reimbursements for claims submitted by a Caregiver on behalf of a Veteran claimant are sent to the Caregiver’s address or deposited in the Caregiver’s account.',
     definition:

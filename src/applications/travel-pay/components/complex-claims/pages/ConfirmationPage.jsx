@@ -38,7 +38,7 @@ const ConfirmationPage = () => {
   } else if (submitResponse) {
     alertConfig = {
       status: 'success',
-      headline: 'Submitted',
+      headline: 'Claim submitted',
     };
   }
 
