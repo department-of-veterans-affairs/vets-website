@@ -31,6 +31,7 @@ import {
   fetchExpenseSuccess,
   fetchExpenseFailure,
   fetchExpenseStart,
+  setUnsavedChangesModalVisible,
 } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
@@ -39,6 +40,7 @@ import {
   selectDocumentDeleteLoadingState,
   selectExpenseFetchLoadingState,
   selectExpenseBackDestination,
+  selectHasUnsavedExpenseChanges,
 } from '../../../redux/selectors';
 import {
   DATE_VALIDATION_TYPE,
@@ -91,6 +93,7 @@ const ExpensePage = () => {
     state => (isEditMode ? selectExpenseFetchLoadingState(state) : false),
   );
   const backDestination = useSelector(selectExpenseBackDestination);
+  const hasUnsavedChanges = useSelector(selectHasUnsavedExpenseChanges);
 
   // Refs
   const initialFormStateRef = useRef({});
