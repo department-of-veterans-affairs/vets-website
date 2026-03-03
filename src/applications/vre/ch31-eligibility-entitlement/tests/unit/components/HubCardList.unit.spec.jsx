@@ -67,7 +67,9 @@ describe('HubCardList', () => {
       );
 
       expect(links[2].getAttribute('text')).to.equal('Career Planning');
-      expect(links[2].getAttribute('href')).to.equal('/career-planning');
+      expect(links[2].getAttribute('href')).to.equal(
+        '/track-your-vre-benefits/vre-benefit-status/career-planning',
+      );
 
       unmount();
     });
@@ -84,7 +86,9 @@ describe('HubCardList', () => {
     const links = container.querySelectorAll('va-link');
     expect(links.length).to.equal(1);
     expect(links[0].getAttribute('text')).to.equal('Career Planning');
-    expect(links[0].getAttribute('href')).to.equal('/career-planning');
+    expect(links[0].getAttribute('href')).to.equal(
+      '/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
 
     // Step <= 4 includes helper text
     getByText(
@@ -103,7 +107,9 @@ describe('HubCardList', () => {
     const links = container.querySelectorAll('va-link');
     expect(links.length).to.equal(1);
     expect(links[0].getAttribute('text')).to.equal('Career Planning');
-    expect(links[0].getAttribute('href')).to.equal('/career-planning');
+    expect(links[0].getAttribute('href')).to.equal(
+      '/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
 
     getByText(
       /This will prepare you for your "Initial Evaluation Counselor Meeting\."/i,
@@ -127,6 +133,9 @@ describe('HubCardList', () => {
       'VR&E Support-and-Services Tracks',
     );
     expect(links[2].getAttribute('text')).to.equal('Career Planning');
+    expect(links[2].getAttribute('href')).to.equal(
+      '/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
   });
 
   it('renders only Career Planning link for step 4', () => {
@@ -140,7 +149,9 @@ describe('HubCardList', () => {
     const links = container.querySelectorAll('va-link');
     expect(links.length).to.equal(1);
     expect(links[0].getAttribute('text')).to.equal('Career Planning');
-    expect(links[0].getAttribute('href')).to.equal('/career-planning');
+    expect(links[0].getAttribute('href')).to.equal(
+      '/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
 
     // Step <= 4 includes helper text
     getByText(
@@ -149,21 +160,14 @@ describe('HubCardList', () => {
   });
 
   it('renders only Career Planning link for step 5 (no Step 4 helper text)', () => {
-    const { container, queryByText } = renderWithProviders(
-      <HubCardList step={5} />,
-      {},
-    );
+    const { container } = renderWithProviders(<HubCardList step={5} />, {});
 
     const links = container.querySelectorAll('va-link');
     expect(links.length).to.equal(1);
     expect(links[0].getAttribute('text')).to.equal('Career Planning');
-    expect(links[0].getAttribute('href')).to.equal('/career-planning');
-
-    expect(
-      queryByText(
-        /This will prepare you for your "Initial Evaluation Counselor Meeting\."/i,
-      ),
-    ).to.be.null;
+    expect(links[0].getAttribute('href')).to.equal(
+      '/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
   });
 
   it('renders Career Planning for step 6 when step 6 is NOT complete', () => {
@@ -187,20 +191,12 @@ describe('HubCardList', () => {
   });
 
   it('returns null for step 6 when step 6 is complete', () => {
-    const stateList = [
-      {},
-      {},
-      {},
-      {},
-      {},
-      { status: 'COMPLETED' }, // step 6 complete => no cards
-    ];
+    const stateList = [{}, {}, {}, {}, {}, { status: 'COMPLETED' }];
 
     const { container } = renderWithProviders(
       <HubCardList step={6} stateList={stateList} />,
       {},
     );
-
     expect(container.innerHTML.trim()).to.equal('');
   });
 

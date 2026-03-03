@@ -22,10 +22,10 @@ const renderPage = state =>
     <Provider store={makeStore(state)}>
       <MemoryRouter
         initialEntries={[
-          '/careers-employment/your-vre-eligibility/career-planning',
+          '/careers-employment/track-your-vre-benefits/vre-benefit-status/career-planning',
         ]}
       >
-        <Route path="/careers-employment/your-vre-eligibility/career-planning">
+        <Route path="/careers-employment/track-your-vre-benefits/vre-benefit-status/career-planning">
           <CareerPlanning />
         </Route>
       </MemoryRouter>

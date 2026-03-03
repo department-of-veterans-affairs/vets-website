@@ -14,9 +14,9 @@ import { LLM_RESPONSE } from '../components/llmUploadResponse';
 import {
   ResubmissionDocsDescription,
   ResubmissionLetterDescription,
-  ResubmissionUploadDescription,
   ResubmissionDocsUploadDescription,
 } from '../components/FormDescriptions/ResubmissionDescriptions';
+import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
 import ClaimIdentificationInfo from '../components/FormDescriptions/ClaimIdentificationInfo';
 import { blankSchema, fileUploadSchema } from '../definitions';
 import content from '../locales/en/content.json';
@@ -37,7 +37,10 @@ export const claimIdentificationNumber = {
       content['resubmission-id-number--page-desc'],
     ),
     pdiOrClaimNumber: selectUI(content['resubmission-id-number--select-label']),
-    identifyingNumber: textUI(content['resubmission-id-number--input-label']),
+    identifyingNumber: textUI({
+      title: content['resubmission-id-number--input-label'],
+      hint: content['resubmission-id-number--input-hint'],
+    }),
     'ui:validations': [
       (errors, formData) =>
         validFieldCharsOnly(errors, null, formData, 'identifyingNumber'),
@@ -61,7 +64,7 @@ export const resubmissionLetterUpload = {
       content['resubmission-letter-upload--page-title'],
       ResubmissionLetterDescription,
     ),
-    ...descriptionUI(ResubmissionUploadDescription),
+    ...descriptionUI(FileUploadDescription),
     ...LLM_UPLOAD_WARNING,
     resubmissionLetterUpload: fileUploadUI({
       label: content['resubmission-letter-upload--input-label'],
