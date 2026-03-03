@@ -62,6 +62,17 @@ const buildSectionsList = (formData, { shouldEnhance }) => {
 };
 
 export const summaryOfEvidenceDescription = ({ formData }) => {
+  /**
+   * Refactor plan - incremental per-section or all at once:
+   *
+   *   1. Migrate each evidence section to `SECTIONS_LIST_CONFIGURATIONS`, where
+   *      `ENHANCED` vs. `UNENHANCED` allow for bringing about differing copy
+   *      _and_ ordering declaratively!
+   *   2. Keep logic that understands which uploads are relevant _exclusively_
+   *      in each `getUploads` implementation as the singular source of truth
+   *   3. Use `sectionsList.length` as the singular source of truth for
+   *      answering the question "is there any evidence provided?"
+   */
   const sectionsList = buildSectionsList(formData, {
     shouldEnhance: formData.disability526SupportingEvidenceEnhancement,
   });
