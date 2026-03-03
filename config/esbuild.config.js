@@ -794,17 +794,28 @@ async function buildConfig(options = {}) {
   );
   const outdir = path.join(buildPath, 'generated');
 
-  // Load app registry for DefinePlugin equivalent
+  // Load app registry for DefinePlugin equivalent.
+  // The registry lives in the content-build repo.  Try a local sibling clone
+  // first, then fall back to the raw file on GitHub (same strategy as webpack).
   let appRegistry = [];
-  try {
-    appRegistry = JSON.parse(
-      fs.readFileSync(
-        path.join(rootDir, 'src/applications/registry.json'),
-        'utf8',
-      ),
-    );
-  } catch {
-    // registry.json may not exist in all environments
+  const localRegistryPath = path.resolve(
+    rootDir,
+    '../content-build/src/applications/registry.json',
+  );
+  if (fs.existsSync(localRegistryPath)) {
+    appRegistry = JSON.parse(fs.readFileSync(localRegistryPath, 'utf8'));
+  } else {
+    const registryUrl =
+      'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/main/src/applications/registry.json';
+    try {
+      const res = await fetch(registryUrl);
+      if (res.ok) {
+        appRegistry = JSON.parse(await res.text());
+        console.log('  Downloaded registry.json from content-build');
+      }
+    } catch {
+      // registry.json may not be available in all environments
+    }
   }
 
   // envBucketUrl available for sourcemap URL suffix in production
