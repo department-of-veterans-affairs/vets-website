@@ -4,6 +4,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns/addressPattern';
 
 import {
+  textUI,
+  textSchema,
   currentOrPastMonthYearDateRangeSchema,
   currentOrPastMonthYearDateRangeUI,
   titleUI,
@@ -12,6 +14,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { DoctorView, DateRangeView } from '../components/viewElements';
+import { wrapRadioUiWithDl } from '../helpers/reviewHelpers';
 import SafeArrayField from '../components/SafeArrayField';
 import ConnectedDisabilitiesField from '../components/ConnectedDisabilitiesField';
 import { extractDisabilityLabels } from '../helpers/disabilityOptions';
@@ -20,6 +23,43 @@ const doctorTypeLabels = {
   va: 'VA doctor',
   nonVa: 'Non-VA doctor',
 };
+
+const DEFAULT_DL_TITLES = {
+  city: 'City',
+  state: 'State',
+};
+
+const addUseDlWrap = (field, key) => {
+  if (!field) {
+    return field;
+  }
+
+  const updatedField = {
+    ...field,
+    'ui:options': {
+      ...field['ui:options'],
+      useDlWrap: true,
+    },
+  };
+
+  if (key && DEFAULT_DL_TITLES[key] && !updatedField['ui:title']) {
+    updatedField['ui:title'] = DEFAULT_DL_TITLES[key];
+  }
+
+  return updatedField;
+};
+
+const addressWithDlWrap = uiSchema =>
+  Object.keys(uiSchema).reduce((acc, key) => {
+    const value = uiSchema[key];
+    if (key.startsWith('ui:') || key.startsWith('view:')) {
+      acc[key] = value;
+      return acc;
+    }
+
+    acc[key] = addUseDlWrap(value, key);
+    return acc;
+  }, {});
 
 const treatmentDateSchema = {
   ...currentOrPastMonthYearDateRangeSchema,
@@ -30,10 +70,7 @@ const doctorItemSchema = {
   type: 'object',
   properties: {
     doctorType: radioSchema(Object.keys(doctorTypeLabels)),
-    doctorName: {
-      type: 'string',
-      maxLength: 100,
-    },
+    doctorName: textSchema,
     doctorAddress: addressSchema({
       omit: ['street2', 'street3'],
     }),
@@ -195,29 +232,41 @@ export default {
         'ui:options': {
           classNames: 'vads-u-margin-left--1p5',
         },
-        doctorType: {
-          ...radioUI({
+        doctorType: wrapRadioUiWithDl(
+          radioUI({
             title: 'Doctor type',
             labels: doctorTypeLabels,
             required: () => true,
             errorMessages: {
               required: 'Please select if this is a VA or Non-VA doctor.',
             },
-            tile: true,
+
+            // useDlWrap: true,
           }),
-        },
-        doctorName: {
-          'ui:title': "Doctor's name",
-          'ui:errorMessages': {
-            required: "Enter your doctor's name",
+        ),
+
+        doctorName: textUI({
+          title: "Doctor's name",
+          useDlWrap: true,
+          required: () => true,
+          errorMessages: {
+            required: "Enter the doctor's name",
           },
-        },
-        doctorAddress: addressUI({
-          labels: {
-            militaryCheckbox: 'Doctor is on a military base',
-          },
-          omit: ['street2', 'street3'],
         }),
+
+        doctorAddress: {
+          ...addressWithDlWrap(
+            addressUI({
+              labels: {
+                militaryCheckbox: 'Doctor is on a military base',
+              },
+              omit: ['street2', 'street3'],
+            }),
+          ),
+          required: () => true,
+          // 'ui:required': () => true,
+        },
+
         connectedDisabilities: {
           'ui:title':
             'Please select the service-connected disabilities this doctor treated you for.',
