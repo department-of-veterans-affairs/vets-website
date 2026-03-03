@@ -1,4 +1,4 @@
-const { execSync } = require('child_process');
+const child_process = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -8,9 +8,9 @@ function createDynamicImportRegex(fileName) {
   const pattern =
     String.raw`import\s+(?:` +
     String.raw`${safeFileName}\s*(?:,\s*\{[^}]*\})?` + // default import
-    String.raw`|\{\s*${safeFileName}(?:\s*,\s*[^}]*)?\}` + // named import
+    String.raw`|\{\s*${safeFileName}\s*(?:,\s*[^}]*)?\}` + // named import (added \s* before (?:...)
     String.raw`)\s+from\s+["'][^"']*${safeFileName}[^"']*["']`;
-  return new RegExp(pattern, 'gm');
+  return new RegExp(pattern, 'm');
 }
 
 function getFileName(filePath) {
@@ -19,7 +19,7 @@ function getFileName(filePath) {
 }
 function getDeletedFiles() {
   try {
-    const output = execSync('git ls-files --deleted').toString();
+    const output = child_process.execSync('git ls-files --deleted').toString();
     return output.split('\n').filter(Boolean);
   } catch (error) {
     /* eslint-disable-next-line no-console */
@@ -88,3 +88,12 @@ function checkImport() {
   }
 }
 checkImport();
+
+// Export functions for testing
+module.exports = {
+  createDynamicImportRegex,
+  getFileName,
+  getDeletedFiles,
+  checkBrokenImports,
+  getAllProjectFiles,
+};
