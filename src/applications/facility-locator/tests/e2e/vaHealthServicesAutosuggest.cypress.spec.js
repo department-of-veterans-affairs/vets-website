@@ -5,7 +5,8 @@ import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 describe('VA health services autosuggest', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
+    // Match both proxied (/geocoding/) and direct Mapbox API (api.mapbox.com/geocoding/) requests
+    cy.intercept('GET', '**/geocoding/**', mockGeocodingData).as('geocoding');
 
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -28,7 +29,7 @@ describe('VA health services autosuggest', () => {
       vaHealthServicesData.data,
     ).as('vaHealthServices');
 
-    cy.intercept('POST', '**/facilities_api/v2/va', searchResultsData).as(
+    cy.intercept('POST', '**/facilities_api/v2/va*', searchResultsData).as(
       'searchResultsData',
     );
   });
@@ -61,6 +62,8 @@ describe('VA health services autosuggest', () => {
 
       h.submitSearchForm();
 
+      // Wait for geocoding to complete so bounds are set, then facilities API is called
+      cy.wait('@geocoding');
       cy.wait('@searchResultsData');
 
       h.verifyElementShouldContainString(
