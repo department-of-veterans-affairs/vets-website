@@ -162,7 +162,7 @@ export const createMultipleSupportingDocuments = (count, overrides = {}) => {
  *
  * @param {Object} overrides - Properties to override defaults
  * @param {number} overrides.id - Tracked item ID
- * @param {string} overrides.displayName - Display name (determines heading logic via evidenceDictionary)
+ * @param {string} overrides.displayName - Display name (used for heading/display)
  * @param {string} overrides.status - Tracked item status
  * @param {string} overrides.requestedDate - Date the item was requested
  * @param {string|null} overrides.closedDate - Date the item was closed (for NO_LONGER_REQUIRED status)
@@ -174,6 +174,7 @@ export const createTrackedItem = ({
   status = 'NEEDED_FROM_YOU',
   requestedDate = '2025-05-01',
   closedDate = null,
+  ...rest
 } = {}) => ({
   id,
   status,
@@ -192,6 +193,7 @@ export const createTrackedItem = ({
   canUploadFile: true,
   activityDescription: null,
   supportAliases: ['Medical Records Request'],
+  ...rest,
 });
 
 /**
