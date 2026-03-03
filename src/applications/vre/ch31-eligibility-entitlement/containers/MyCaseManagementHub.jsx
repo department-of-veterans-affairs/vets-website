@@ -173,9 +173,10 @@ const MyCaseManagementHub = () => {
       <h1>{pageHeading}</h1>
 
       <p>
-        The Veteran Readiness and Employment (Chapter 31) Benefits Tracker
-        enables Veterans to manage their entire VR&E journey independently, from
-        eligibility determination through program participation and completion.
+        The Veteran Readiness and Employment (VR&E) (Chapter 31) Benefits
+        Tracker enables Veterans to manage their entire VR&E journey
+        independently, from eligibility determination through program
+        participation and completion.
       </p>
 
       {caseStatusError && <LoadCaseDetailsFailedAlert />}
