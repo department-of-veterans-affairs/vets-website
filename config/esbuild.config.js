@@ -1326,7 +1326,7 @@ function generateScaffoldPages(buildPath) {
       {
         attributes: {
           src: `/generated/${entryName}.entry.js`,
-          defer: true,
+          type: 'module',
         },
         tagName: 'script',
       },
@@ -1378,7 +1378,9 @@ function generateScaffoldPages(buildPath) {
   <div id="footerNav"></div>
   <script defer src="/generated/polyfills.entry.js"></script>
   <script type="module" src="/generated/web-components.entry.js"></script>
-  <script defer src="/generated/${_.escape(entryName)}.entry.js"></script>
+  <script type="module" src="/generated/${_.escape(
+    entryName,
+  )}.entry.js"></script>
 </body>
 </html>`;
     }

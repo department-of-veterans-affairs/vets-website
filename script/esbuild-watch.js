@@ -250,7 +250,7 @@ async function startDevServer() {
         },
         tagName: 'link',
       },
-      // JS scripts (IIFE, loaded with defer)
+      // JS scripts (polyfills defer, app + wc as modules for ordered loading)
       {
         attributes: { src: '/generated/polyfills.entry.js', defer: true },
         tagName: 'script',
@@ -263,7 +263,7 @@ async function startDevServer() {
         tagName: 'script',
       },
       {
-        attributes: { src: `/generated/${entryName}.entry.js`, defer: true },
+        attributes: { src: `/generated/${entryName}.entry.js`, type: 'module' },
         tagName: 'script',
       },
     ];
@@ -360,7 +360,7 @@ async function startDevServer() {
 <body class="merger">
   <div id="content"><div id="react-root"></div></div>
   <div id="footerNav"></div>
-  <script defer src="/generated/${entryName}.entry.js"></script>
+  <script type="module" src="/generated/${entryName}.entry.js"></script>
 </body>
 </html>`;
     }
