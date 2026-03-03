@@ -277,6 +277,8 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
 
   const handleFilterClearAll = useCallback(() => {
     setSortValue('expiringSoonest');
+    setFilterValues([]);
+    setTempFilterValues([]);
   }, []);
 
   const handlePageChange = useCallback(
