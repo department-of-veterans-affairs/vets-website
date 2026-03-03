@@ -18,7 +18,7 @@ const AddEligibileStudents = () => {
     firstRequest?.academicYearDisplay || firstRequest?.academicYear;
 
   return (
-    <va-summary-box class="eligible-students-container vads-u-width--full vads-u-margin-top--2">
+    <va-summary-box class="eligible-students-container vads-u-width--full vads-u-margin-y--3">
       {academicYear && (
         <>
           <h4 className="vads-u-margin-top--0">
