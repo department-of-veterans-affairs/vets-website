@@ -265,7 +265,6 @@ export const pageDetails = {
                 value: `${[
                   item.address?.street,
                   item.address?.street2,
-                  item.address?.street3,
                   item.address?.city,
                   item.address?.state,
                   item.address?.country === 'USA' ? '' : item.address?.country,
