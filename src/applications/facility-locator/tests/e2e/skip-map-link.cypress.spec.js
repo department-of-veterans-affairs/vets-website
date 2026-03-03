@@ -39,6 +39,11 @@ describe('Skip map link', () => {
       .should('exist')
       .and('have.text', 'SKIP MAP');
 
+    // Wait for a focus target to exist before clicking (footer/feedback load async; CI can be slower)
+    cy.get('#footerNav a, #mdFormButton .usa-button')
+      .first()
+      .should('exist');
+
     // Focus and click the skip map link
     cy.get(SKIP_MAP_LINK)
       .focus()
