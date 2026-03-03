@@ -27,7 +27,11 @@ import { applicantWording, nameWording } from '../../shared/utilities';
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
 import { validateApplicant, validateApplicantSsn } from '../utils/validations';
-import { isOfCollegeAge, page15aDepends } from '../utils/helpers';
+import {
+  getAgeInMonths,
+  isOfCollegeAge,
+  page15aDepends,
+} from '../utils/helpers';
 import { attachmentSchema, attachmentUI } from '../definitions';
 import { APPLICANTS_MAX } from '../utils/constants';
 
@@ -399,8 +403,7 @@ export const applicantPages = arrayBuilderPages(
     }),
     page18: pageBuilder.itemPage({
       path: 'applicant-relationship-to-veteran/:index',
-      title: item =>
-        `What's ${applicantWording(item)} relationship to the Veteran`,
+      title: 'Applicant relationship to the Veteran',
       ...applicantRelationshipPage,
       CustomPage: props =>
         ApplicantRelationshipPage({
@@ -413,7 +416,7 @@ export const applicantPages = arrayBuilderPages(
     }),
     page18c: pageBuilder.itemPage({
       path: 'applicant-dependent-status/:index',
-      title: item => `${applicantWording(item)} dependent status`,
+      title: 'Applicant dependent status',
       depends: (formData, index) =>
         get(
           'applicantRelationshipToSponsor.relationshipToVeteran',
@@ -424,25 +427,24 @@ export const applicantPages = arrayBuilderPages(
     }),
     page18a: pageBuilder.itemPage({
       path: 'applicant-birth-certificate/:index',
-      title: item => `${applicantWording(item)} birth certificate`,
-      depends: (formData, index) =>
-        get(
-          'applicantRelationshipToSponsor.relationshipToVeteran',
-          formData?.applicants?.[index],
-        ) === 'child' &&
-        (get(
-          'applicantRelationshipOrigin.relationshipToVeteran',
-          formData?.applicants?.[index],
-        ) === 'adoption' ||
-          get(
-            'applicantRelationshipOrigin.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'step'),
+      title: 'Applicant birth certificate',
+      depends: (formData, index) => {
+        const applicant = formData?.applicants?.[index];
+        const relationshipToSponsor =
+          applicant?.applicantRelationshipToSponsor.relationshipToVeteran;
+        const relationshipOrigin =
+          applicant?.applicantRelationshipOrigin.relationshipToVeteran;
+
+        const isChild = relationshipToSponsor === 'child';
+        const isNotBiologicalChild = relationshipOrigin !== 'blood';
+        const isNewbornChild = getAgeInMonths(applicant?.applicantDob) <= 12;
+        return isChild && (isNewbornChild || isNotBiologicalChild);
+      },
       ...applicantBirthCertUploadPage,
     }),
     page18d: pageBuilder.itemPage({
       path: 'applicant-adoption-documents/:index',
-      title: item => `${applicantWording(item)} adoption documents`,
+      title: 'Applicant adoption documents',
       depends: (formData, index) =>
         get(
           'applicantRelationshipToSponsor.relationshipToVeteran',
@@ -470,7 +472,7 @@ export const applicantPages = arrayBuilderPages(
     }),
     page18b1: pageBuilder.itemPage({
       path: 'applicant-dependent-status-details/:index',
-      title: item => `${applicantWording(item)} dependent status`,
+      title: 'Applicant dependent status',
       depends: (formData, index) =>
         formData.applicants[index]?.applicantRelationshipToSponsor
           ?.relationshipToVeteran === 'child' &&
@@ -479,7 +481,7 @@ export const applicantPages = arrayBuilderPages(
     }),
     page18b: pageBuilder.itemPage({
       path: 'applicant-proof-of-school-enrollment/:index',
-      title: item => `${applicantWording(item)} school documents`,
+      title: 'Applicant school documents',
       depends: (formData, index) =>
         formData.applicants[index]?.applicantRelationshipToSponsor
           ?.relationshipToVeteran === 'child' &&
@@ -491,7 +493,7 @@ export const applicantPages = arrayBuilderPages(
     }),
     page18f3: pageBuilder.itemPage({
       path: 'applicant-marriage-dates/:index',
-      title: item => `${applicantWording(item)} marriage dates`,
+      title: 'Applicant marriage dates',
       depends: (formData, index) =>
         get(
           'applicantRelationshipToSponsor.relationshipToVeteran',

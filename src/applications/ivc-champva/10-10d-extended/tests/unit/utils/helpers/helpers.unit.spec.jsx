@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import {
   createModalTitleOrDescription,
+  getAgeInMonths,
   getAgeInYears,
   isOfCollegeAge,
   page15aDepends,
@@ -103,6 +104,85 @@ describe('1010d `populateFirstApplicant` util', () => {
     expect(result.applicants.length).to.equal(2);
     expect(result.applicants[0].applicantEmailAddress).to.equal(undefined);
     expect(result.applicants[1].applicantEmailAddress).to.equal(undefined);
+  });
+});
+
+describe('1010d `getAgeInMonths` util', () => {
+  const asOfUTC = (y, m, d) => new Date(Date.UTC(y, m - 1, d));
+
+  it('should return the correct age in months', () => {
+    const asOf = asOfUTC(2025, 10, 14);
+    expect(getAgeInMonths('2023-10-14', asOf)).to.equal(24);
+    expect(getAgeInMonths('2023-09-14', asOf)).to.equal(25);
+  });
+
+  it('should handle `on the monthly anniversary` correctly (exact boundary)', () => {
+    const asOf = asOfUTC(2025, 10, 14);
+    expect(getAgeInMonths('2020-10-14', asOf)).to.equal(60);
+  });
+
+  it('should be one month less the day before the monthly anniversary', () => {
+    const asOf = asOfUTC(2025, 10, 13);
+    expect(getAgeInMonths('2020-10-14', asOf)).to.equal(59);
+  });
+
+  it('should increment the day after the monthly anniversary', () => {
+    const asOf = asOfUTC(2025, 10, 15);
+    expect(getAgeInMonths('2020-10-14', asOf)).to.equal(60);
+  });
+
+  it('should respect the provided `asOf` date (historical calc)', () => {
+    const asOf = asOfUTC(2020, 6, 1);
+    expect(getAgeInMonths('2020-01-01', asOf)).to.equal(5);
+    expect(getAgeInMonths('2020-01-02', asOf)).to.equal(4);
+  });
+
+  it('should handle leap-day birthdays safely (non-leap target year)', () => {
+    expect(getAgeInMonths('2024-02-29', asOfUTC(2025, 2, 28))).to.equal(11);
+    expect(getAgeInMonths('2024-02-29', asOfUTC(2025, 3, 1))).to.equal(12);
+  });
+
+  it('should return `NaN` for invalid or unsupported formats', () => {
+    const asOf = asOfUTC(2025, 10, 14);
+    const cases = [
+      '',
+      'not-a-date',
+      '2025/10/14',
+      '2000-1-01',
+      '1-01-2000',
+      '13-40-2000',
+      '2000-13-01',
+      '2000-00-01',
+      null,
+      undefined,
+      0,
+      {},
+      [],
+      true,
+      false,
+    ];
+    cases.forEach(input => {
+      expect(Number.isNaN(getAgeInMonths(input, asOf))).to.equal(
+        true,
+        `Expected NaN for ${String(input)}`,
+      );
+    });
+  });
+
+  it('should be timezone-robust (time of day does not affect result)', () => {
+    const dob = '2024-06-15';
+    const asOfMorningUTC = new Date(Date.UTC(2025, 5, 15, 0, 5, 0));
+    const asOfEveningUTC = new Date(Date.UTC(2025, 5, 15, 23, 59, 59));
+    expect(getAgeInMonths(dob, asOfMorningUTC)).to.equal(12);
+    expect(getAgeInMonths(dob, asOfEveningUTC)).to.equal(12);
+  });
+
+  it('should handle short time periods accurately', () => {
+    const asOf = asOfUTC(2025, 3, 15);
+    expect(getAgeInMonths('2025-01-15', asOf)).to.equal(2);
+    expect(getAgeInMonths('2025-02-15', asOf)).to.equal(1);
+    expect(getAgeInMonths('2025-03-15', asOf)).to.equal(0);
+    expect(getAgeInMonths('2025-03-14', asOf)).to.equal(0);
   });
 });
 
