@@ -482,7 +482,7 @@ const ExpensePage = () => {
     handleCloseCancelModal();
     // Clear unsaved changes when canceling
     dispatch(setUnsavedExpenseChanges(false));
-    if (isEditMode || backDestination === 'review') {
+    if (backDestination === 'review') {
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
@@ -695,7 +695,7 @@ const ExpensePage = () => {
       setIsCancelModalVisible(true);
     } else if (!isEditMode && hasUnsavedChanges) {
       // On add mode, the back button should trigger the "leave page" modal if there are unsaved changes
-      dispatch(setUnsavedChangesModalVisible(true));
+      dispatch(setUnsavedChangesModalVisible(true, 'expense-back'));
     } else {
       navigate(
         `/file-new-claim/${apptId}/${claimId}/${
