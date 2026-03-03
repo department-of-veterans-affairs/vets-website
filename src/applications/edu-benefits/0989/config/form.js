@@ -9,6 +9,25 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import schoolWasClosed from '../pages/schoolWasClosed';
+import oldSchoolNameAndAddress from '../pages/oldSchoolNameAndAddress';
+import eligibilityWarning from '../pages/eligibilityWarning';
+import didCompleteProgramOfStudy from '../pages/didCompleteProgramOfStudy';
+import didReceiveCredit from '../pages/didReceiveCredit';
+import wasEnrolledWhenSchoolClosed from '../pages/wasEnrolledWhenSchoolClosed';
+import wasOnApprovedLeave from '../pages/wasOnApprovedLeave';
+import withdrewPriorToClosing from '../pages/withdrewPriorToClosing';
+import withdrawDate from '../pages/withdrawDate';
+import enrolledAtNewSchool from '../pages/enrolledAtNewSchool';
+import newSchoolNameAndProgram from '../pages/newSchoolNameAndProgram';
+import isUsingTeachoutAgreement from '../pages/isUsingTeachoutAgreement';
+import newSchoolGrants12OrMoreCredits from '../pages/newSchoolGrants12OrMoreCredits';
+import schoolDidTransferCredits from '../pages/schoolDidTransferCredits';
+import lastDateOfAttendance from '../pages/lastDateOfAttendance';
+import attestation from '../pages/attestation';
+
+import remarks from '../pages/remarks';
+
 import prefillTransform from './prefillTransform';
 
 export const SUBMIT_URL = `${
@@ -64,11 +83,147 @@ const formConfig = {
             ssnPath: 'ssn',
           },
         }),
+      },
+    },
+    contactInfoChapter: {
+      title: 'Your contact information',
+      pages: {
         ...profileContactInfoPages({
           contactInfoRequiredKeys: ['mailingAddress', 'email'],
           // disableMockContactInfo: true,
           // prefillPatternEnabled: true,
         }),
+      },
+    },
+    entitlementDetailsChapter: {
+      title: 'Entitlement restoration details',
+      pages: {
+        schoolWasClosed: {
+          path: 'school-closing',
+          title: 'School closures and program suspension',
+          uiSchema: schoolWasClosed.uiSchema,
+          schema: schoolWasClosed.schema,
+        },
+        oldSchoolNameAndAddress: {
+          path: 'school-name-and-address',
+          title: 'School name and mailing address',
+          uiSchema: oldSchoolNameAndAddress.uiSchema,
+          schema: oldSchoolNameAndAddress.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        eligibilityWarning: {
+          path: 'eligibility-warning',
+          title: 'Eligibility warning',
+          uiSchema: eligibilityWarning.uiSchema,
+          schema: eligibilityWarning.schema,
+          depends: formData => !formData.schoolWasClosed,
+        },
+        didCompleteProgramOfStudy: {
+          path: 'complete-program-of-study',
+          title: 'Program information',
+          uiSchema: didCompleteProgramOfStudy.uiSchema,
+          schema: didCompleteProgramOfStudy.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        didReceiveCredit: {
+          path: 'receive-credit',
+          title: 'Enrollment and credit information',
+          uiSchema: didReceiveCredit.uiSchema,
+          schema: didReceiveCredit.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        wasEnrolledWhenSchoolClosed: {
+          path: 'enrolled-when-school-closed',
+          title: 'Enrollment and credit information',
+          uiSchema: wasEnrolledWhenSchoolClosed.uiSchema,
+          schema: wasEnrolledWhenSchoolClosed.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        wasOnApprovedLeave: {
+          path: 'approved-leave',
+          title: 'Leave of absence',
+          uiSchema: wasOnApprovedLeave.uiSchema,
+          schema: wasOnApprovedLeave.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        withdrewPriorToClosing: {
+          path: 'withdrew-prior-to-closing',
+          title: 'Withdrawal details',
+          uiSchema: withdrewPriorToClosing.uiSchema,
+          schema: withdrewPriorToClosing.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        withdrawDate: {
+          path: 'withdraw-date',
+          title: 'Provide the date of your withdrawal from the school',
+          uiSchema: withdrawDate.uiSchema,
+          schema: withdrawDate.schema,
+          depends: formData =>
+            !!formData.schoolWasClosed && !!formData.withdrewPriorToClosing,
+        },
+        enrolledAtNewSchool: {
+          path: 'enrolled-at-new-school',
+          title: 'New school enrollment',
+          uiSchema: enrolledAtNewSchool.uiSchema,
+          schema: enrolledAtNewSchool.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        newSchoolNameAndProgram: {
+          path: 'new-school-name-and-program',
+          title: 'Name of new school and program',
+          uiSchema: newSchoolNameAndProgram.uiSchema,
+          schema: newSchoolNameAndProgram.schema,
+          depends: formData =>
+            !!formData.schoolWasClosed && !!formData.enrolledAtNewSchool,
+        },
+        isUsingTeachoutAgreement: {
+          path: 'teachout-agreement',
+          title: 'Teach out program details',
+          uiSchema: isUsingTeachoutAgreement.uiSchema,
+          schema: isUsingTeachoutAgreement.schema,
+          depends: formData =>
+            !!formData.schoolWasClosed && !!formData.enrolledAtNewSchool,
+        },
+        newSchoolGrants12OrMoreCredits: {
+          path: 'new-school-credits',
+          title: 'New school credit approvals',
+          uiSchema: newSchoolGrants12OrMoreCredits.uiSchema,
+          schema: newSchoolGrants12OrMoreCredits.schema,
+          depends: formData =>
+            !!formData.schoolWasClosed && !!formData.enrolledAtNewSchool,
+        },
+        schoolDidTransferCredits: {
+          path: 'school-credits-transfer',
+          title: 'Transfer credits from NCD schools',
+          uiSchema: schoolDidTransferCredits.uiSchema,
+          schema: schoolDidTransferCredits.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        lastDateOfAttendance: {
+          path: 'last-date-of-attendance',
+          title: 'Last date of attendance',
+          uiSchema: lastDateOfAttendance.uiSchema,
+          schema: lastDateOfAttendance.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        attestation: {
+          path: 'attestation',
+          title: 'Attestation of Hours Transferred',
+          uiSchema: attestation.uiSchema,
+          schema: attestation.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+      },
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarks: {
+          path: 'remarks',
+          title: 'Remarks',
+          uiSchema: remarks.uiSchema,
+          schema: remarks.schema,
+        },
       },
     },
   },

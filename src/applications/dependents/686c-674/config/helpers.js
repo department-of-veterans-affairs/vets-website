@@ -4,6 +4,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import constants from 'vets-json-schema/dist/constants.json';
 import { focusElement } from 'platform/utilities/ui';
+import { fullNameNoSuffixUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const isChapterFieldRequired = (formData, option) =>
   formData[`view:selectable686Options`]?.[option];
@@ -239,6 +240,55 @@ export const veteranFormerMarriageLabels = {
   Divorce: 'We divorced',
   Annulment: 'We got an annulment',
   Other: 'Some other way',
+};
+
+/**
+ * Validates that a field contains only ASCII characters (code points 0–127).
+ * BGS/RBPS rejects non-ASCII characters in free-text fields.
+ * Error message surfaces the exact offending characters so the user knows what to remove.
+ */
+export const asciiValidation = (errors, value) => {
+  if (!value) return;
+  const nonAsciiChars = [
+    ...new Set([...value].filter(c => c.charCodeAt(0) > 127)),
+  ].join('');
+  if (nonAsciiChars) {
+    errors.addError(
+      `You entered a character we can't accept. Try removing "${nonAsciiChars}".`,
+    );
+  }
+};
+
+/**
+ * Wraps fullNameNoSuffixUI and appends asciiValidation to first, middle, and last name fields.
+ * Use in place of fullNameNoSuffixUI() for any name that will be submitted to BGS.
+ */
+export const fullNameNoSuffixWithAsciiUI = (formatTitle, uiOptions) => {
+  const base = fullNameNoSuffixUI(formatTitle, uiOptions);
+  return {
+    ...base,
+    first: {
+      ...base.first,
+      'ui:validations': [
+        ...(base.first?.['ui:validations'] || []),
+        asciiValidation,
+      ],
+    },
+    middle: {
+      ...base.middle,
+      'ui:validations': [
+        ...(base.middle?.['ui:validations'] || []),
+        asciiValidation,
+      ],
+    },
+    last: {
+      ...base.last,
+      'ui:validations': [
+        ...(base.last?.['ui:validations'] || []),
+        asciiValidation,
+      ],
+    },
+  };
 };
 
 /**

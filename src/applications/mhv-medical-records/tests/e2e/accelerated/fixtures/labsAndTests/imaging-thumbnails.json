@@ -1,0 +1,19 @@
+[
+  {
+    "id": "imaging-study-abc-123",
+    "type": "ImagingStudy",
+    "attributes": {
+      "dicomZipUrl": null,
+      "series": [
+        {
+          "number": 1,
+          "instances": [
+            { "number": 1, "thumbnailUrl": "https://s3.example.com/presigned/thumb-1.jpg?token=abc" },
+            { "number": 2, "thumbnailUrl": "https://s3.example.com/presigned/thumb-2.jpg?token=def" },
+            { "number": 3, "thumbnailUrl": "https://s3.example.com/presigned/thumb-3.jpg?token=ghi" }
+          ]
+        }
+      ]
+    }
+  }
+]

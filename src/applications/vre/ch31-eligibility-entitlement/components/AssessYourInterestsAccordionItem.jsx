@@ -4,72 +4,72 @@ export default function AssessYourInterestsAccordionItem() {
   return (
     <va-accordion-item header="1. Assess your interests" open bordered>
       <ul className="va-nav-linkslist-list vads-u-margin-bottom--3">
-        <li>
-          <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
+        <li className="vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2 vads-u-margin-bottom--4">
+          <p className="va-nav-linkslist-description">
+            Discover how your existing skills, including those from military
+            service, align with civilian job opportunities and training
+            programs.
+          </p>
+          <p className="va-nav-linkslist-description vads-u-margin-top--2 vads-u-font-weight--bold">
             <va-link
               href="https://www.careeronestop.org/Toolkit/Skills/skills-matcher.aspx"
-              text="Skills Matcher"
+              text="View Skills Matcher on Career One Stop website"
               external
             />
-          </h3>
-          <p className="va-nav-linkslist-description">
-            Match your current skills, including those gained in the military,
-            to potential civilian careers and training programs.
           </p>
         </li>
-        <li>
-          <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
+        <li className="vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2 vads-u-margin-bottom--4">
+          <p className="va-nav-linkslist-description">
+            Identify your strengths, preferences, and work interests to find
+            career paths that align with your personality and goals.
+          </p>
+          <p className="va-nav-linkslist-description vads-u-margin-top--2 vads-u-font-weight--bold">
             <va-link
               href="https://www.careeronestop.org/Toolkit/Careers/interest-assessment.aspx"
-              text="Interest Assessment"
+              text="View Interest Assessment on Career One Stop website"
               external
             />
-          </h3>
-          <p className="va-nav-linkslist-description">
-            Helps you identify your strengths, preferences, and work interests
-            so you can discover career paths that match your personality and
-            goals.
           </p>
         </li>
-        <li>
-          <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-            <va-link
-              href="https://www.careeronestop.org/Toolkit/Careers/Occupations/occupation-profile.aspx"
-              text="Occupation Profile"
-              external
-            />
-          </h3>
+        <li className="vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2 vads-u-margin-bottom--4">
           <p className="va-nav-linkslist-description">
-            Provides detailed information about specific occupations including
-            job duties, required skills, education, career outlook, and salary
+            Get detailed information about specific occupations, including job
+            duties, required skills, education, career outlook, and salary
             expectations.
           </p>
-        </li>
-        <li>
-          <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
+          <p className="va-nav-linkslist-description vads-u-margin-top--2 vads-u-font-weight--bold">
             <va-link
-              href="https://www.bls.gov"
-              text="Labor Market Information"
+              href="https://www.careeronestop.org/Toolkit/Careers/Occupations/occupation-profile.aspx"
+              text="View Occupation Profile on Career One Stop website"
               external
             />
-          </h3>
+          </p>
+        </li>
+        <li className="vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2 vads-u-margin-bottom--4">
           <p className="va-nav-linkslist-description">
             Explore current job trends, in-demand occupations, and projected
-            growth to help you understand which career paths offer string
+            growth to help you understand which career paths offer the best
             opportunities.
+          </p>
+          <p className="va-nav-linkslist-description vads-u-margin-top--2 vads-u-font-weight--bold">
+            <va-link
+              href="https://www.bls.gov"
+              text="View Labor Market Information on U.S Bureau of Labor Statistics website"
+              external
+            />
           </p>
         </li>
         <li>
-          <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
+          <p className="va-nav-linkslist-description">
+            Follow a step-by-step guide to create a professional resume that
+            showcases your experience, skills, and achievements.
+          </p>
+          <p className="va-nav-linkslist-description vads-u-margin-top--2 vads-u-font-weight--bold">
             <va-link
               href="https://www.careeronestop.org/JobSearch/Resumes/ResumeGuide/introduction.aspx?secondaryNavPanels=CA%3D%3D"
-              text="Resume Builder"
+              text="View Resume Builder on Career One Stop website"
               external
             />
-          </h3>
-          <p className="va-nav-linkslist-description">
-            Guides you step-by-step through creating a professional resume that
-            highlights your experience, skills and accomplishments.
           </p>
         </li>
       </ul>

@@ -10,6 +10,7 @@ const CaseProgressBar = ({
   label = 'Label is here',
   counters = 'small',
   headerLevel = 2,
+  attributes = {},
 }) => {
   const total = stepLabels.length;
 
@@ -29,7 +30,11 @@ const CaseProgressBar = ({
         />
       </div>
 
-      <CaseProgressDescription step={current} status={currentStatus} />
+      <CaseProgressDescription
+        step={current}
+        status={currentStatus}
+        attributes={attributes}
+      />
     </>
   );
 };
@@ -42,6 +47,7 @@ CaseProgressBar.propTypes = {
   label: PropTypes.string,
   counters: PropTypes.oneOf(['small', 'large']),
   headerLevel: PropTypes.number,
+  attributes: PropTypes.object,
 };
 
 export default CaseProgressBar;

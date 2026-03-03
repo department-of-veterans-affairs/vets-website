@@ -293,7 +293,12 @@ const AlertBackgroundBox = props => {
         >
           {alertContent}
         </p>
-        <span className="sr-only" aria-live="polite" aria-atomic="true">
+        <span
+          className="sr-only"
+          aria-live="polite"
+          aria-atomic="true"
+          data-testid="sr-only-alert-text"
+        >
           {srAlertContent}
         </span>
         {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS &&
