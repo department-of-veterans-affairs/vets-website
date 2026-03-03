@@ -60,8 +60,7 @@
         "grossMonthlyIncome": 2500,
         "ownedPortionValue": 100000,
         "assetType": "FARM",
-        "view:addFormQuestion": true,
-        "uploadedDocuments": { "name": "file.png" }
+        "view:addFormQuestion": false
       }
     ],
     "view:isAddingRoyalties": true,
@@ -106,8 +105,7 @@
         "monthlyMedicalReimbursementAmount": 0.0,
         "trustEstablishedForVeteransChild": false,
         "haveAuthorityOrControlOfTrust": true,
-        "view:addFormQuestion": true,
-        "uploadedDocuments": [{ "name": "file.png" }]
+        "view:addFormQuestion": false
       }
     ],
     "view:isAddingAnnuities": true,
