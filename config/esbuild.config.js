@@ -1025,7 +1025,220 @@ async function buildConfig(options = {}) {
   return { config, buildPath, outdir };
 }
 
-// ---------------------------------------------------------------------------\n// Build runner\n// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// Scaffold HTML generation
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate HTML scaffold pages for each app route.
+ *
+ * These are the index.html files that the test server (and in the future
+ * the production CDN) needs to serve SPA routes.  The logic mirrors what
+ * webpack's HtmlWebpackPlugin + dev-template.ejs does and is also
+ * consistent with the on-the-fly scaffold in esbuild-watch.js.
+ */
+function generateScaffoldPages(buildPath) {
+  const _ = require('lodash'); // eslint-disable-line global-require
+  const facilitySidebar = require('@department-of-veterans-affairs/platform-landing-pages/facility-sidebar'); // eslint-disable-line global-require
+
+  const rootDir = path.resolve(__dirname, '..');
+
+  // Load dev template
+  const devTemplatePath = path.join(
+    rootDir,
+    'node_modules/@department-of-veterans-affairs/platform-landing-pages/dev-template.ejs',
+  );
+  const devTemplateSource = fs.readFileSync(devTemplatePath, 'utf8');
+  const devTemplate = _.template(devTemplateSource);
+
+  // Load header/footer data and scaffold registry
+  const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json'); // eslint-disable-line global-require
+  const scaffoldRegistry = require('../src/applications/registry.scaffold.json'); // eslint-disable-line global-require
+
+  // Load inline script assets from content-build (same approach as esbuild-watch.js)
+  const contentBuildRoot = path.resolve(rootDir, '../content-build');
+  const inlineScripts = {};
+  for (const filename of ['record-event.js', 'static-page-widgets.js']) {
+    const localPath = path.join(
+      contentBuildRoot,
+      'src/site/assets/js',
+      filename,
+    );
+    if (fs.existsSync(localPath)) {
+      inlineScripts[filename] = fs.readFileSync(localPath, 'utf8');
+    } else {
+      inlineScripts[filename] = '// content-build asset not available';
+    }
+  }
+
+  // Build app routes from manifests + scaffold registry
+  const manifests = getAppManifests();
+  const registryMap = new Map();
+  for (const entry of scaffoldRegistry) {
+    if (entry.rootUrl) {
+      registryMap.set(entry.rootUrl, entry);
+    }
+  }
+
+  const appRoutes = manifests
+    .map(m => {
+      const registryEntry = registryMap.get(m.rootUrl) || {};
+      return {
+        rootUrl: m.rootUrl,
+        entryName: m.entryName,
+        appName: m.appName,
+        widgetType: registryEntry.widgetType,
+        widgetTemplate: registryEntry.widgetTemplate,
+        template: registryEntry.template || {},
+      };
+    })
+    .filter(m => m.rootUrl);
+
+  const modifyScriptAndStyleTags = originalTags => {
+    const styleTags = [];
+    const scriptTags = [];
+
+    originalTags.forEach(tag => {
+      if (tag.tagName === 'link' && tag.attributes.href) {
+        if (tag.attributes.href.includes('style')) {
+          styleTags.unshift(tag);
+        } else {
+          styleTags.push(tag);
+        }
+      } else if (tag.tagName === 'script' && tag.attributes.src) {
+        if (tag.attributes.src.includes('polyfills')) {
+          scriptTags.unshift(tag);
+        } else {
+          scriptTags.push(tag);
+        }
+      }
+    });
+
+    return [...styleTags, ...scriptTags]
+      .map(tag => {
+        const attrs = Object.entries(tag.attributes)
+          .map(([k, v]) => (v === true ? k : `${k}="${v}"`))
+          .join(' ');
+        if (tag.tagName === 'script') {
+          return `<script ${attrs}></script>`;
+        }
+        return `<${tag.tagName} ${attrs}>`;
+      })
+      .join('\n    ');
+  };
+
+  let count = 0;
+  for (const appRoute of appRoutes) {
+    const {
+      entryName,
+      appName,
+      widgetType,
+      widgetTemplate,
+      template,
+    } = appRoute;
+
+    const headTags = [
+      {
+        attributes: {
+          href: '/generated/style.entry.css',
+          rel: 'stylesheet',
+        },
+        tagName: 'link',
+      },
+      {
+        attributes: {
+          href: '/generated/web-components.entry.css',
+          rel: 'stylesheet',
+        },
+        tagName: 'link',
+      },
+      {
+        attributes: {
+          href: `/generated/${entryName}.entry.css`,
+          rel: 'stylesheet',
+        },
+        tagName: 'link',
+      },
+      {
+        attributes: { src: '/generated/polyfills.entry.js', defer: true },
+        tagName: 'script',
+      },
+      {
+        attributes: {
+          src: '/generated/web-components.entry.js',
+          defer: true,
+        },
+        tagName: 'script',
+      },
+      {
+        attributes: {
+          src: `/generated/${entryName}.entry.js`,
+          defer: true,
+        },
+        tagName: 'script',
+      },
+    ];
+
+    let title = 'VA.gov Home | Veterans Affairs';
+    if (template && template.title) {
+      title = `${template.title} | Veterans Affairs`;
+    } else if (appName) {
+      title = `${appName} | Veterans Affairs`;
+    }
+
+    let html;
+    try {
+      html = devTemplate({
+        htmlWebpackPlugin: {
+          options: { title },
+          tags: { headTags },
+        },
+        headerFooterData,
+        facilitySidebar,
+        loadInlineScript: filename => inlineScripts[filename] || '',
+        modifyScriptAndStyleTags,
+        breadcrumbs_override: [], // eslint-disable-line camelcase
+        includeBreadcrumbs: false,
+        loadingMessage: 'Please wait while we load the application for you.',
+        entryName,
+        widgetType,
+        widgetTemplate,
+        rootUrl: appRoute.rootUrl,
+        ...(template || {}),
+      });
+    } catch (err) {
+      // Fallback to minimal HTML if template rendering fails
+      html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>${_.escape(title)}</title>
+  <link rel="stylesheet" href="/generated/style.entry.css">
+  <link rel="stylesheet" href="/generated/web-components.entry.css">
+  <link rel="stylesheet" href="/generated/${_.escape(entryName)}.entry.css">
+</head>
+<body class="merger">
+  <div id="content"><div id="react-root"></div></div>
+  <div id="footerNav"></div>
+  <script defer src="/generated/polyfills.entry.js"></script>
+  <script defer src="/generated/web-components.entry.js"></script>
+  <script defer src="/generated/${_.escape(entryName)}.entry.js"></script>
+</body>
+</html>`;
+    }
+
+    const htmlDir = path.join(buildPath, appRoute.rootUrl);
+    fs.mkdirSync(htmlDir, { recursive: true });
+    fs.writeFileSync(path.join(htmlDir, 'index.html'), html);
+    count += 1;
+  }
+
+  console.log(`  Generated ${count} scaffold HTML pages`);
+}
+
+// ---------------------------------------------------------------------------
+// Build runner
+// ---------------------------------------------------------------------------
 
 async function runBuild(options = {}) {
   const { config, buildPath, outdir } = await buildConfig(options);
@@ -1048,6 +1261,10 @@ async function runBuild(options = {}) {
 
   // Build lazy bundles (platform-pdf, cheerio, etc.)
   await buildLazyBundles(outdir, shouldMinify, rootDir, options);
+
+  // Generate scaffold HTML pages so that the test-server (and any
+  // static-file server) can serve SPA routes at /{rootUrl}/index.html.
+  generateScaffoldPages(buildPath);
 
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
 
@@ -1078,5 +1295,6 @@ module.exports = {
   getEntryPoints,
   buildAliasMap,
   buildLazyBundles,
+  generateScaffoldPages,
   LAZY_MODULES,
 };
