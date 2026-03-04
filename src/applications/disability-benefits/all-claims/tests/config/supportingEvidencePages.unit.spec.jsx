@@ -35,6 +35,12 @@ describe('Supporting Evidence Pages - Conditional Rendering', () => {
     evidenceTypes,
     evidenceRequest,
     medicalRecords,
+    privateMedicalRecordsUpload,
+    privateMedicalRecordsAttachments,
+    evidenceChoiceIntro,
+    evidenceChoiceAdditionalDocuments,
+    additionalDocuments,
+    summaryOfEvidence,
   } = formConfig.chapters.supportingEvidence.pages;
 
   describe('evidenceTypes depends', () => {
@@ -98,6 +104,176 @@ describe('Supporting Evidence Pages - Conditional Rendering', () => {
         'view:hasEvidence': true,
       });
       expect(medicalRecords.depends(formData)).to.be.false;
+    });
+  });
+
+  describe('privateMedicalRecordsUpload depends', () => {
+    it('should return true for enhancement flow with private evidence and uploading', () => {
+      const formData = createEnhancementFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      });
+      expect(privateMedicalRecordsUpload.depends(formData)).to.be.true;
+    });
+
+    it('should return false for legacy flow', () => {
+      const formData = createLegacyFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      });
+      expect(privateMedicalRecordsUpload.depends(formData)).to.be.false;
+    });
+
+    it('should return false without private evidence', () => {
+      const formData = createEnhancementFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': false,
+        },
+      });
+      expect(privateMedicalRecordsUpload.depends(formData)).to.be.false;
+    });
+
+    it('should return false when not uploading private records', () => {
+      const formData = createEnhancementFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': false,
+        },
+      });
+      expect(privateMedicalRecordsUpload.depends(formData)).to.be.false;
+    });
+  });
+
+  describe('privateMedicalRecordsAttachments depends', () => {
+    it('should return true for legacy flow with private evidence and uploading', () => {
+      const formData = createLegacyFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      });
+      expect(privateMedicalRecordsAttachments.depends(formData)).to.be.true;
+    });
+
+    it('should return false for enhancement flow', () => {
+      const formData = createEnhancementFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      });
+      expect(privateMedicalRecordsAttachments.depends(formData)).to.be.false;
+    });
+
+    it('should return false without private evidence', () => {
+      const formData = createLegacyFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': false,
+        },
+      });
+      expect(privateMedicalRecordsAttachments.depends(formData)).to.be.false;
+    });
+
+    it('should return false when not uploading private records', () => {
+      const formData = createLegacyFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': false,
+        },
+      });
+      expect(privateMedicalRecordsAttachments.depends(formData)).to.be.false;
+    });
+  });
+
+  describe('evidenceChoiceIntro depends', () => {
+    it('should return true for enhancement flow', () => {
+      const formData = createEnhancementFlowFormData();
+      expect(evidenceChoiceIntro.depends(formData)).to.be.true;
+    });
+
+    it('should return false for legacy flow', () => {
+      const formData = createLegacyFlowFormData();
+      expect(evidenceChoiceIntro.depends(formData)).to.be.false;
+    });
+  });
+
+  describe('evidenceChoiceAdditionalDocuments depends', () => {
+    it('should return true for enhancement flow with other evidence', () => {
+      const formData = createEnhancementFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasOtherEvidence': true,
+        },
+      });
+      expect(evidenceChoiceAdditionalDocuments.depends(formData)).to.be.true;
+    });
+
+    it('should return false for enhancement flow without other evidence', () => {
+      const formData = createEnhancementFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasOtherEvidence': false,
+        },
+      });
+      expect(evidenceChoiceAdditionalDocuments.depends(formData)).to.be.false;
+    });
+
+    it('should return false for legacy flow with other evidence', () => {
+      const formData = createLegacyFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasOtherEvidence': true,
+        },
+      });
+      expect(evidenceChoiceAdditionalDocuments.depends(formData)).to.be.false;
+    });
+  });
+
+  describe('additionalDocuments depends', () => {
+    it('should return true for legacy flow with other evidence', () => {
+      const formData = createLegacyFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasOtherEvidence': true,
+        },
+      });
+      expect(additionalDocuments.depends(formData)).to.be.true;
+    });
+
+    it('should return false for legacy flow without other evidence', () => {
+      const formData = createLegacyFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasOtherEvidence': false,
+        },
+      });
+      expect(additionalDocuments.depends(formData)).to.be.false;
+    });
+
+    it('should return false for enhancement flow with other evidence', () => {
+      const formData = createEnhancementFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasOtherEvidence': true,
+        },
+      });
+      expect(additionalDocuments.depends(formData)).to.be.false;
+    });
+  });
+
+  describe('summaryOfEvidence depends', () => {
+    it('should not have a depends function (always shown)', () => {
+      expect(summaryOfEvidence.depends).to.be.undefined;
     });
   });
 });
