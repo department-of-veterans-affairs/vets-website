@@ -33,6 +33,10 @@ const additionalActivityTextarea = textareaUI({
   title: 'Specify additional activity below',
 });
 
+const restrictiveDisabilities = textareaUI({
+  title: 'What disabilities restrict the activities/functions listed above?',
+});
+
 /**
  * uiSchema for Assistance with Activities page
  * Checkbox group with conditionally revealed textarea for additional activities
@@ -55,6 +59,7 @@ export const assistanceWithActivitiesUiSchema = {
       expandedContentFocus: true,
     },
   },
+  restrictiveDisabilities,
 };
 
 /**
@@ -77,5 +82,6 @@ export const assistanceWithActivitiesSchema = {
       'additionalActivities',
     ]),
     additionalActivitiesSpecify: { type: 'string' },
+    restrictiveDisabilities: { type: 'string' },
   },
 };
