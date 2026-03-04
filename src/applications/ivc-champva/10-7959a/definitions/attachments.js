@@ -56,6 +56,11 @@ export const attachmentSchema = Object.freeze({
   },
 });
 
+export const attachmentRequiredSchema = Object.freeze({
+  ...attachmentSchema,
+  minItems: 1,
+});
+
 export const llmResponseAlertUI = Object.freeze({
   'view:llmResponseAlert': descriptionUI(LlmResponseAlert),
 });

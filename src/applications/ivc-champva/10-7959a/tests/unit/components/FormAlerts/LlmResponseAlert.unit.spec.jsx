@@ -12,15 +12,16 @@ const makeFile = (name, missingFields) => ({
 });
 
 describe('10-7959a <LlmResponseAlert>', () => {
-  const subject = ({ enabled = true, files = [], schema = {} } = {}) => {
+  const subject = ({
+    enabled = true,
+    files = [],
+    includeUploadKey = true,
+  } = {}) => {
     const formContext = {
       data: { [TOGGLE_KEY]: enabled },
       fullData: { [UPLOAD_KEY]: files },
       schema: {
-        properties: {
-          [UPLOAD_KEY]: { type: 'array' },
-          ...schema,
-        },
+        properties: includeUploadKey ? { [UPLOAD_KEY]: { type: 'array' } } : {},
       },
     };
     const { container } = render(
@@ -38,13 +39,14 @@ describe('10-7959a <LlmResponseAlert>', () => {
       expect(vaAlert).to.not.exist;
     });
 
-    it('should not render when no upload key exists', () => {
-      const { vaAlert } = subject({ schema: {} });
+    it('should not render when no files uploaded', () => {
+      const { vaAlert } = subject({ files: [] });
       expect(vaAlert).to.not.exist;
     });
 
-    it('should not render when no files uploaded', () => {
-      const { vaAlert } = subject({ files: [] });
+    it('should not render when no upload key exists', () => {
+      const files = [makeFile('test.pdf')];
+      const { vaAlert } = subject({ includeUploadKey: false, files });
       expect(vaAlert).to.not.exist;
     });
   });

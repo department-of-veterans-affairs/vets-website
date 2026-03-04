@@ -15,7 +15,7 @@ import {
   ResubmissionLetterDescription,
 } from '../components/FormDescriptions/ResubmissionDescriptions';
 import {
-  attachmentSchema,
+  attachmentRequiredSchema,
   attachmentUI,
   blankSchema,
   llmResponseAlertSchema,
@@ -82,7 +82,7 @@ export const resubmissionLetterUpload = {
     required: ['resubmissionLetterUpload'],
     properties: {
       ...llmUploadAlertSchema,
-      resubmissionLetterUpload: attachmentSchema,
+      resubmissionLetterUpload: attachmentRequiredSchema,
       ...llmResponseAlertSchema,
     },
   },
@@ -107,7 +107,7 @@ export const resubmissionDocsUpload = {
     required: ['resubmissionDocsUpload'],
     properties: {
       ...llmUploadAlertSchema,
-      resubmissionDocsUpload: attachmentSchema,
+      resubmissionDocsUpload: attachmentRequiredSchema,
       ...llmResponseAlertSchema,
     },
   },

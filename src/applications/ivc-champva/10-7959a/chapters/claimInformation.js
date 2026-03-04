@@ -10,7 +10,7 @@ import MedicalClaimsDescription from '../components/FormDescriptions/MedicalClai
 import MedicalEobDescription from '../components/FormDescriptions/MedicalEobDescription';
 import PharmacyClaimsDescription from '../components/FormDescriptions/PharmacyClaimsDescription';
 import {
-  attachmentSchema,
+  attachmentRequiredSchema,
   attachmentUI,
   llmResponseAlertSchema,
   llmResponseAlertUI,
@@ -89,7 +89,7 @@ export const medicalClaimUploadSchema = {
     required: ['medicalUpload'],
     properties: {
       ...llmUploadAlertSchema,
-      medicalUpload: attachmentSchema,
+      medicalUpload: attachmentRequiredSchema,
       ...llmResponseAlertSchema,
     },
   },
@@ -118,7 +118,7 @@ export const eobUploadSchema = isPrimary => {
       required: [keyName],
       properties: {
         ...llmUploadAlertSchema,
-        [keyName]: attachmentSchema,
+        [keyName]: attachmentRequiredSchema,
         ...llmResponseAlertSchema,
       },
     },
@@ -141,7 +141,7 @@ export const pharmacyClaimUploadSchema = {
     required: ['pharmacyUpload'],
     properties: {
       ...llmUploadAlertSchema,
-      pharmacyUpload: attachmentSchema,
+      pharmacyUpload: attachmentRequiredSchema,
       ...llmResponseAlertSchema,
     },
   },

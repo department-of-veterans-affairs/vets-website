@@ -19,7 +19,7 @@ describe('10-7959a <LlmUploadAlert>', () => {
     expect(vaAlert).to.exist;
   });
 
-  it('should render alert when the feature toggle is disabled', () => {
+  it('should not render alert when the feature toggle is disabled', () => {
     const { vaAlert } = subject({ enabled: false });
     expect(vaAlert).to.not.exist;
   });
