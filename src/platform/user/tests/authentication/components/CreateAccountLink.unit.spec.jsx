@@ -5,6 +5,19 @@ import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import CreateAccountLink from 'platform/user/authentication/components/CreateAccountLink';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
+import { Provider } from 'react-redux';
+
+const store = {
+  getState: () => ({
+    featureToggles: {
+      [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+      [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+    },
+  }),
+  dispatch: () => {},
+  subscribe: () => {},
+};
 
 describe('CreateAccountLink', () => {
   const csps = ['logingov', 'idme'];
@@ -21,7 +34,11 @@ describe('CreateAccountLink', () => {
     });
 
     it(`should render correctly for each ${policy}`, async () => {
-      const screen = render(<CreateAccountLink policy={policy} />);
+      const screen = render(
+        <Provider store={store}>
+          <CreateAccountLink policy={policy} />
+        </Provider>,
+      );
       const anchor = await screen.findByTestId(policy);
       expect(anchor.textContent).to.include(
         `Create an account with ${SERVICE_PROVIDERS[policy].label}`,
@@ -32,7 +49,9 @@ describe('CreateAccountLink', () => {
 
     it(`should set correct href for ${policy} (SAML)`, async () => {
       const screen = render(
-        <CreateAccountLink policy={policy} useOAuth={false} />,
+        <Provider store={store}>
+          <CreateAccountLink policy={policy} useOAuth={false} />
+        </Provider>,
       );
       const anchor = await screen.findByTestId(policy);
       const href = await authUtilities.signupOrVerify({ policy, isLink: true });
@@ -42,7 +61,11 @@ describe('CreateAccountLink', () => {
     });
 
     it(`should set correct href for ${policy} (OAuth)`, async () => {
-      const screen = render(<CreateAccountLink policy={policy} useOAuth />);
+      const screen = render(
+        <Provider store={store}>
+          <CreateAccountLink policy={policy} useOAuth />
+        </Provider>,
+      );
       const anchor = await screen.findByTestId(policy);
 
       await waitFor(() => {
@@ -59,7 +82,9 @@ describe('CreateAccountLink', () => {
 
     it(`should not call updateStateAndVerifier for ${policy} (SAML)`, async () => {
       const screen = render(
-        <CreateAccountLink policy={policy} useOAuth={false} />,
+        <Provider store={store}>
+          <CreateAccountLink policy={policy} useOAuth={false} />
+        </Provider>,
       );
       const anchor = await screen.findByTestId(policy);
       const href = await authUtilities.signupOrVerify({ policy, isLink: true });
@@ -70,7 +95,11 @@ describe('CreateAccountLink', () => {
     });
 
     it(`should call updateStateAndVerifier ${policy} (OAuth)`, async () => {
-      const screen = render(<CreateAccountLink policy={policy} useOAuth />);
+      const screen = render(
+        <Provider store={store}>
+          <CreateAccountLink policy={policy} useOAuth />
+        </Provider>,
+      );
       const anchor = await screen.findByTestId(policy);
       fireEvent.click(anchor);
 

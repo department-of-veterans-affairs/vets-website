@@ -10,19 +10,22 @@ import {
   verifyHandler,
 } from 'platform/user/authentication/components/VerifyButton';
 import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
+import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 import * as OAuthUtils from 'platform/utilities/oauth/utilities';
 import * as AuthUtils from 'platform/user/authentication/utilities';
 
-const sharedStore = () => ({
+const store = {
   getState: () => ({
     featureToggles: {
       [TOGGLE_NAMES.identityLogingovIal2Enforcement]: false,
       [TOGGLE_NAMES.identityIdmeIal2Enforcement]: false,
+      [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+      [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
     },
   }),
   dispatch: () => {},
   subscribe: () => {},
-});
+};
 
 describe('Verify Buttons', () => {
   let sandbox;
@@ -52,7 +55,6 @@ describe('Verify Buttons', () => {
 
   buttonTests.forEach(({ component: ButtonComponent, className, policy }) => {
     it(`should render the ${policy} button and call verifyHandler with correct parameters`, () => {
-      const store = sharedStore();
       const queryParams = { operation: `${policy}_verification` };
       const useOAuth = true;
 
@@ -71,9 +73,11 @@ describe('Verify Buttons', () => {
       sinon.assert.calledOnce(AuthUtils.verify);
       sinon.assert.calledWith(AuthUtils.verify, {
         policy,
-        acr: sinon.match.string,
+        acr: defaultWebOAuthOptions.acrVerify[policy],
         queryParams,
         useOAuth,
+        idmeIal2Enforcement: false,
+        logingovIal2Enforcement: false,
       });
 
       // Verify that `updateStateAndVerifier` was called if `useOAuth` is true
@@ -85,7 +89,6 @@ describe('Verify Buttons', () => {
   });
 
   it('should not call updateStateAndVerifier if useOAuth is false', () => {
-    const store = sharedStore();
     const queryParams = { operation: 'idme_verification' };
     const useOAuth = false;
 
@@ -107,7 +110,6 @@ describe('Verify Buttons', () => {
 
 describe('VerifyButton', () => {
   it('should render and call verifyHandler with correct parameters', () => {
-    const store = sharedStore();
     const queryParams = { operation: 'generic_verification' };
     const useOAuth = true;
     const csp = 'logingov';
@@ -132,7 +134,8 @@ describe('VerifyButton', () => {
 
     sinon.assert.calledOnce(verifyHandlerSpy);
     sinon.assert.calledWith(verifyHandlerSpy, {
-      ial2Enforcement: false,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
       policy: csp,
       queryParams,
       useOAuth,
@@ -163,9 +166,11 @@ describe('verifyHandler', () => {
     sinon.assert.calledOnce(AuthUtils.verify);
     sinon.assert.calledWith(AuthUtils.verify, {
       policy,
-      acr: sinon.match.string,
+      acr: defaultWebOAuthOptions.acrVerify[policy],
       queryParams,
       useOAuth,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
     });
 
     sinon.assert.calledOnce(OAuthUtils.updateStateAndVerifier);
@@ -182,9 +187,11 @@ describe('verifyHandler', () => {
     sinon.assert.calledOnce(AuthUtils.verify);
     sinon.assert.calledWith(AuthUtils.verify, {
       policy,
-      acr: sinon.match.string,
+      acr: defaultWebOAuthOptions.acrVerify[policy],
       queryParams,
       useOAuth,
+      idmeIal2Enforcement: false,
+      logingovIal2Enforcement: false,
     });
 
     sinon.assert.notCalled(OAuthUtils.updateStateAndVerifier);

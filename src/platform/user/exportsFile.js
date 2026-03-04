@@ -88,6 +88,7 @@ export {
   defaultMobileQueryParams,
   defaultMobileOAuthOptions,
   defaultWebOAuthOptions,
+  ial2DefaultWebOAuthOptions,
 } from './authentication/config/constants';
 export { default as DEV } from './authentication/config/dev.config';
 export { default as STAGING } from './authentication/config/staging.config';

@@ -62,6 +62,8 @@ export const declineAndLogout = ({
   termsCodeExists,
   isAuthenticatedWithSiS,
   shouldRedirectToMobile,
+  idmeIal2Enforcement,
+  logingovIal2Enforcement,
 }) => {
   if (termsCodeExists || isAuthenticatedWithSiS) {
     if (shouldRedirectToMobile) {
@@ -72,7 +74,11 @@ export const declineAndLogout = ({
       });
     }
   } else {
-    IAMLogout({ queryParams: { [`agreements_declined`]: true } });
+    IAMLogout({
+      queryParams: { [`agreements_declined`]: true },
+      idmeIal2Enforcement,
+      logingovIal2Enforcement,
+    });
   }
 };
 

@@ -11,6 +11,7 @@ import {
   CSP_IDS,
 } from 'platform/user/authentication/constants';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
+import { ial2DefaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 import {
   ALL_STATE_AND_VERIFIERS,
   API_SIGN_IN_SERVICE_URL,
@@ -97,7 +98,17 @@ export async function createOAuthRequest({
   passedOptions = {},
   type = '',
   acr,
+  idmeIal2Enforcement = false,
+  logingovIal2Enforcement = false,
 }) {
+  const usedType = passedOptions.isSignup
+    ? type.slice(0, type.indexOf('_'))
+    : type;
+  const externalAppConfig = externalApplicationsConfig[application];
+  const ial2Enforced =
+    !externalAppConfig &&
+    ((usedType === CSP_IDS.ID_ME && idmeIal2Enforcement) ||
+      (usedType === CSP_IDS.LOGIN_GOV && logingovIal2Enforcement));
   const isDefaultOAuth =
     APPROVED_OAUTH_APPS.includes(application) ||
     !application ||
@@ -106,18 +117,16 @@ export async function createOAuthRequest({
     [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
       application,
     ) || [CLIENT_IDS.VAMOBILE].includes(clientId);
-  const { oAuthOptions } =
-    config ??
-    (externalApplicationsConfig[application] ||
-      externalApplicationsConfig.default);
-  const useType = passedOptions.isSignup
-    ? type.slice(0, type.indexOf('_'))
-    : type;
-
+  const { oAuthOptions } = ial2Enforced
+    ? { oAuthOptions: ial2DefaultWebOAuthOptions }
+    : config ?? (externalAppConfig || externalApplicationsConfig.default);
+  const baseAcr = ial2Enforced
+    ? oAuthOptions.acr[type]
+    : acr ?? oAuthOptions.acr[type];
   const usedAcr =
-    passedOptions?.forceVerify === 'required'
+    passedOptions?.forceVerify === 'required' && !ial2Enforced
       ? FORCED_VERIFICATION_ACRS[type]
-      : acr ?? oAuthOptions.acr[type];
+      : baseAcr;
 
   /*
     Web - Generate state & codeVerifier if default oAuth
@@ -153,7 +162,7 @@ export async function createOAuthRequest({
       }),
   };
 
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: usedType }));
 
   Object.keys(oAuthParams).forEach(param =>
     url.searchParams.append(param, oAuthParams[param]),

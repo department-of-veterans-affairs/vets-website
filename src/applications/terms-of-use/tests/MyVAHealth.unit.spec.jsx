@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor, cleanup, fireEvent } from '@testing-library/react';
+import { waitFor, cleanup, fireEvent } from '@testing-library/react';
 import {
   createPutHandler,
   createPostHandler,
@@ -10,6 +10,7 @@ import {
 import { server } from 'platform/testing/unit/mocha-setup';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 import MyVAHealth from '../components/MyVAHealth';
 
 const oldLocation = window.location;
@@ -24,7 +25,14 @@ describe('MyVAHealth', () => {
   });
 
   it('should render', () => {
-    const { container } = render(<MyVAHealth />);
+    const { container } = renderInReduxProvider(<MyVAHealth />, {
+      initialState: {
+        featureToggles: {
+          [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+          [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+        },
+      },
+    });
 
     const loadingIndicator = container.querySelector(
       'va-loading-indicator',
@@ -49,7 +57,14 @@ describe('MyVAHealth', () => {
         ),
       );
 
-      render(<MyVAHealth />);
+      renderInReduxProvider(<MyVAHealth />, {
+        initialState: {
+          featureToggles: {
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+          },
+        },
+      });
 
       await waitFor(() => {
         const location = window.location.href || window.location;
@@ -73,7 +88,14 @@ describe('MyVAHealth', () => {
       ),
     );
 
-    render(<MyVAHealth />);
+    renderInReduxProvider(<MyVAHealth />, {
+      initialState: {
+        featureToggles: {
+          [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+          [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+        },
+      },
+    });
 
     await waitFor(() => {
       const location = window.location.href || window.location;
@@ -103,7 +125,11 @@ describe('MyVAHealth', () => {
 
     const { findByTestId } = renderInReduxProvider(<MyVAHealth />, {
       initialState: {
-        featureToggles: { terms_of_use: true },
+        featureToggles: {
+          terms_of_use: true,
+          [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+          [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+        },
       },
     });
 
@@ -138,7 +164,11 @@ describe('MyVAHealth', () => {
 
       const { queryByText } = renderInReduxProvider(<MyVAHealth />, {
         initialState: {
-          featureToggles: { terms_of_use: true },
+          featureToggles: {
+            terms_of_use: true,
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+          },
         },
       });
 
@@ -165,7 +195,14 @@ describe('MyVAHealth', () => {
         ),
       );
 
-      render(<MyVAHealth />);
+      renderInReduxProvider(<MyVAHealth />, {
+        initialState: {
+          featureToggles: {
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+          },
+        },
+      });
 
       await waitFor(() => {
         const location = window.location.href || window.location;
@@ -189,7 +226,14 @@ describe('MyVAHealth', () => {
         ),
       );
 
-      render(<MyVAHealth />);
+      renderInReduxProvider(<MyVAHealth />, {
+        initialState: {
+          featureToggles: {
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+          },
+        },
+      });
 
       await waitFor(() => {
         const location = window.location.href || window.location;
@@ -222,7 +266,11 @@ describe('MyVAHealth', () => {
 
       const { findByTestId } = renderInReduxProvider(<MyVAHealth />, {
         initialState: {
-          featureToggles: { terms_of_use: true },
+          featureToggles: {
+            terms_of_use: true,
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+          },
         },
       });
 
@@ -258,7 +306,11 @@ describe('MyVAHealth', () => {
 
       const { container } = renderInReduxProvider(<MyVAHealth />, {
         initialState: {
-          featureToggles: { terms_of_use: true },
+          featureToggles: {
+            terms_of_use: true,
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+          },
         },
       });
 
@@ -293,6 +345,8 @@ describe('MyVAHealth', () => {
       renderInReduxProvider(<MyVAHealth />, {
         initialState: {
           featureToggles: { terms_of_use: true },
+          [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+          [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
         },
       });
 
@@ -325,7 +379,11 @@ describe('MyVAHealth', () => {
 
       const { findByTestId } = renderInReduxProvider(<MyVAHealth />, {
         initialState: {
-          featureToggles: { terms_of_use: true },
+          featureToggles: {
+            terms_of_use: true,
+            [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+            [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+          },
         },
       });
 

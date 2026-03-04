@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { SERVICE_PROVIDERS } from '../constants';
 
 function signupHandler(loginType, isOAuth) {
@@ -18,6 +19,13 @@ export default function CreateAccountLink({
   clientId = 'vaweb',
 }) {
   const [href, setHref] = useState('');
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const idmeIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
+  );
+  const logingovIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
+  );
 
   useEffect(
     () => {
@@ -29,12 +37,21 @@ export default function CreateAccountLink({
           allowVerification: false,
           useOAuth,
           config: externalApplication,
+          idmeIal2Enforcement,
+          logingovIal2Enforcement,
         });
         setHref(url);
       }
       generateURL();
     },
-    [policy, useOAuth, externalApplication, clientId],
+    [
+      policy,
+      useOAuth,
+      externalApplication,
+      clientId,
+      idmeIal2Enforcement,
+      logingovIal2Enforcement,
+    ],
   );
 
   return (

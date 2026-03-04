@@ -26,6 +26,22 @@ export const defaultWebOAuthOptions = {
   acrVerify: { idme: 'loa3', logingov: 'ial2' },
 };
 
+export const ial2DefaultWebOAuthOptions = {
+  clientId: CLIENT_IDS.VAWEB,
+  acr: {
+    idme: 'urn:acr.va.gov:verified-facial-match-required',
+    logingov: 'urn:acr.va.gov:verified-facial-match-required',
+  },
+  acrSignup: {
+    idme_signup: 'urn:acr.va.gov:verified-facial-match-required',
+    logingov_signup: 'urn:acr.va.gov:verified-facial-match-required',
+  },
+  acrVerify: {
+    idme: 'urn:acr.va.gov:verified-facial-match-required',
+    logingov: 'urn:acr.va.gov:verified-facial-match-required',
+  },
+};
+
 export const arpWebOAuthOptions = {
   clientId: CLIENT_IDS.ARP,
   acr: { idme: 'loa3', logingov: 'ial2' },

@@ -9,13 +9,20 @@ import SignInServiceUpdateLink from '../contact-information/email-addresses/Sign
 import { ProfileInfoSection } from '../ProfileInfoSection';
 import { useSignInServiceProvider } from '../../hooks';
 
-const mfaHandler = () => {
+const mfaHandler = (idmeIal2Enforcement, logingovIal2Enforcement) => () => {
   recordEvent({ event: AUTH_EVENTS.MFA });
-  mfa();
+  mfa(undefined, idmeIal2Enforcement, logingovIal2Enforcement);
 };
 
 const AccountSetupList = ({ isIdentityVerified, isMultifactorEnabled }) => {
   const { label } = useSignInServiceProvider();
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const idmeIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2FullEnforcement,
+  );
+  const logingovIal2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2FullEnforcement,
+  );
   return (
     <va-process-list>
       <va-process-list-item
@@ -53,7 +60,7 @@ const AccountSetupList = ({ isIdentityVerified, isMultifactorEnabled }) => {
               access your account—even if someone gets your password.
             </p>
             <va-button
-              onClick={mfaHandler}
+              onClick={mfaHandler(idmeIal2Enforcement, logingovIal2Enforcement)}
               text={`Sign in again through ${label} to get started`}
             />
           </>

@@ -6,9 +6,21 @@ import * as authUtilities from 'platform/user/authentication/utilities';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import VerifyAccountLink from 'platform/user/authentication/components/VerifyAccountLink';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
+import { Provider } from 'react-redux';
 
 const csps = ['logingov', 'idme'];
 const oldCrypto = global.window.crypto;
+const store = {
+  getState: () => ({
+    featureToggles: {
+      [TOGGLE_NAMES.identityIdmeIal2FullEnforcement]: false,
+      [TOGGLE_NAMES.identityLogingovIal2FullEnforcement]: false,
+    },
+  }),
+  dispatch: () => {},
+  subscribe: () => {},
+};
 
 describe('VerifyAccountLink', () => {
   csps.forEach(policy => {
@@ -23,7 +35,11 @@ describe('VerifyAccountLink', () => {
     });
 
     it(`should render correctly for each ${policy}`, async () => {
-      const screen = render(<VerifyAccountLink policy={policy} />);
+      const screen = render(
+        <Provider store={store}>
+          <VerifyAccountLink policy={policy} />
+        </Provider>,
+      );
       const anchor = await screen.findByTestId(policy);
 
       expect(anchor.textContent).to.include(
@@ -35,7 +51,9 @@ describe('VerifyAccountLink', () => {
 
     it(`should set correct href for ${policy} (SAML)`, async () => {
       const screen = render(
-        <VerifyAccountLink policy={policy} useOAuth={false} />,
+        <Provider store={store}>
+          <VerifyAccountLink policy={policy} useOAuth={false} />
+        </Provider>,
       );
       const anchor = await screen.findByTestId(policy);
       const href = await authUtilities.signupOrVerify({
@@ -50,7 +68,11 @@ describe('VerifyAccountLink', () => {
     });
 
     it(`should set correct href for ${policy} (OAuth)`, async () => {
-      const screen = render(<VerifyAccountLink policy={policy} useOAuth />);
+      const screen = render(
+        <Provider store={store}>
+          <VerifyAccountLink policy={policy} useOAuth />
+        </Provider>,
+      );
       const anchor = await screen.findByTestId(policy);
       const href = decodeURIComponent(anchor.href);
       const expectedAcr =
