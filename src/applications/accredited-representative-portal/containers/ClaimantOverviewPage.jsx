@@ -155,7 +155,7 @@ const ClaimantOverviewPage = () => {
   // This removes the claimant header + left rail and matches the target "Claimant not found" layout.
   if (unauthorized && notRepresented) {
     return (
-      <div>
+      <section className="vads-u-width--full">
         <VaBreadcrumbs
           breadcrumbList={claimantOverviewBC}
           label="claimant overview breadcrumb"
@@ -184,12 +184,12 @@ const ClaimantOverviewPage = () => {
         >
           Find another claimant
         </a>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div>
+    <section className="vads-u-width--full">
       <VaBreadcrumbs
         breadcrumbList={claimantOverviewBC}
         label="claimant overview breadcrumb"
@@ -379,7 +379,7 @@ const ClaimantOverviewPage = () => {
           </>
         )}
       </ClaimantDetailsWrapper>
-    </div>
+    </section>
   );
 };
 
