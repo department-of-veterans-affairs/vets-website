@@ -44,16 +44,17 @@ import ProcessList from '../components/shared/ProcessList';
 import { refillProcessStepGuide } from '../util/processListData';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import {
+  selectOracleHealthMigrations,
   selectUserDob,
   selectUserFullName,
-  selectOracleHealthMigrations,
 } from '../selectors/selectUser';
 import {
   selectCernerPilotFlag,
   selectMhvMedicationsOracleHealthCutoverFlag,
 } from '../util/selectors';
-import { OracleHealthT3Alert } from '../components/OracleHealthTransitionAlerts';
+import { OracleHealthT3Alert } from '../components/shared/OracleHealthTransitionAlerts';
 import { filterPrescriptionsByTransition } from '../util/oracleHealthTransition';
+import useOracleHealthAlertTracking from '../hooks/useOracleHealthAlertTracking';
 
 import { selectSortOption } from '../selectors/selectPreferences';
 
@@ -165,10 +166,48 @@ const RefillPrescriptions = () => {
     isLoading: isAcceleratedDataLoading,
   } = useAcceleratedData();
 
+  // Get migration data from selectors for early blocked-rx computation
   const migratingFacilities = useSelector(selectOracleHealthMigrations);
   const isOracleHealthCutoverEnabled = useSelector(
     selectMhvMedicationsOracleHealthCutoverFlag,
   );
+
+  // Use the original refillable prescriptions list without client-side filtering
+  // This prevents duplicate refill attempts by relying on server-side data consistency
+  // Cache invalidation in the API (invalidatesTags) will handle removing refilled prescriptions
+  //
+  // Computed BEFORE the tracking hook so we can suppress the generic T3 error
+  // event when blocked-rx-specific tracking applies
+  const {
+    available: availablePrescriptions,
+    blocked: blockedPrescriptions,
+  } = useMemo(
+    () =>
+      filterPrescriptionsByTransition({
+        prescriptions: refillableData?.prescriptions,
+        isFeatureFlagEnabled: isOracleHealthCutoverEnabled,
+        migrations: migratingFacilities,
+      }),
+    [
+      refillableData?.prescriptions,
+      isOracleHealthCutoverEnabled,
+      migratingFacilities,
+    ],
+  );
+
+  // Only fire the generic T3 error alert when prescription data has loaded
+  // AND there are no blocked prescriptions. When blocked prescriptions exist,
+  // OracleHealthT3Alert handles its own Datadog tracking.
+  useOracleHealthAlertTracking({
+    warningActionName:
+      dataDogActionNames.oracleHealthTransition
+        .T45_WARNING_ALERT_DISPLAYED_REFILL,
+    errorActionName:
+      !isLoading && !blockedPrescriptions?.length
+        ? dataDogActionNames.oracleHealthTransition
+            .T3_ERROR_ALERT_DISPLAYED_REFILL
+        : null,
+  });
 
   const isDataLoading = isLoading || isRefilling;
   const selectedRefillListLength = selectedRefillList.length;
@@ -189,26 +228,6 @@ const RefillPrescriptions = () => {
       }
     },
     [refillRequestStatus, isFetching],
-  );
-
-  // Use the original refillable prescriptions list without client-side filtering
-  // This prevents duplicate refill attempts by relying on server-side data consistency
-  // Cache invalidation in the API (invalidatesTags) will handle removing refilled prescriptions
-  const {
-    available: availablePrescriptions,
-    blocked: blockedPrescriptions,
-  } = useMemo(
-    () =>
-      filterPrescriptionsByTransition({
-        prescriptions: refillableData?.prescriptions,
-        isFeatureFlagEnabled: isOracleHealthCutoverEnabled,
-        migrations: migratingFacilities,
-      }),
-    [
-      refillableData?.prescriptions,
-      isOracleHealthCutoverEnabled,
-      migratingFacilities,
-    ],
   );
 
   const fullRefillList = useMemo(() => availablePrescriptions || [], [
@@ -233,12 +252,12 @@ const RefillPrescriptions = () => {
   // Functions
   const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
-      const facilityIds = [
+      const facilityId = [
         ...new Set(selectedRefillList.map(rx => rx.stationNumber)),
       ];
       datadogRum.addAction(
         dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON,
-        { facilityIds },
+        { facilityId },
       );
       setRefillStatus(REFILL_STATUS.IN_PROGRESS);
       window.scrollTo(0, 0);

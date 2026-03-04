@@ -290,3 +290,88 @@ describe('CareSummariesAndNotes global isLoading states', () => {
     expect(screen.queryByTestId('loading-indicator')).to.exist;
   });
 });
+
+describe('CareSummariesAndNotes - DuplicateRecordsAlert integration', () => {
+  it('does not render DuplicateRecordsAlert when isCerner is false', () => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
+      user: {
+        ...user,
+        profile: {
+          ...user.profile,
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
+      },
+      mr: {
+        careSummariesAndNotes: {
+          careSummariesAndNotesList: notes.entry.map(note =>
+            convertCareSummariesAndNotesRecord(note.resource),
+          ),
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<CareSummariesAndNotes />, {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes',
+    });
+
+    expect(screen.queryByTestId('duplicate-records-info-alert')).to.not.exist;
+  });
+
+  it('renders DuplicateRecordsAlert when isCerner is true', () => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+          data: {
+            cernerFacilities: [{ vhaId: '983' }],
+          },
+        },
+      },
+      user: {
+        ...user,
+        profile: {
+          ...user.profile,
+          facilities: [{ facilityId: '983', isCerner: true }],
+        },
+      },
+      mr: {
+        careSummariesAndNotes: {
+          careSummariesAndNotesList: notes.entry.map(note =>
+            convertCareSummariesAndNotesRecord(note.resource),
+          ),
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<CareSummariesAndNotes />, {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes',
+    });
+
+    expect(screen.getByTestId('duplicate-records-info-alert')).to.exist;
+  });
+});

@@ -11,13 +11,13 @@ describe('<TravelClaimsSection>', () => {
   it('renders the travel claims section', () => {
     const { getByRole, getByText } = render(<TravelClaimsSection />);
     const heading = getByRole('heading', {
-      name: 'Your travel claims',
+      name: 'Your travel reimbursement claims',
     });
     const link = getByRole('link', {
-      name: 'Review and file travel claims',
+      name: 'Review and file travel reimbursement claims',
     });
     const details = getByText(
-      'File new claims for travel reimbursement and review the status of all your travel claims.',
+      'File new claims for travel pay and review the status of all your travel reimbursement claims.',
     );
 
     expect(heading).to.be.visible;
@@ -30,7 +30,7 @@ describe('<TravelClaimsSection>', () => {
     const recordEventStub = sinon.stub(recordEventModule, 'default');
     const { getByRole } = render(<TravelClaimsSection />);
     const link = getByRole('link', {
-      name: 'Review and file travel claims',
+      name: 'Review and file travel reimbursement claims',
     });
 
     await userEvent.click(link);
@@ -38,7 +38,7 @@ describe('<TravelClaimsSection>', () => {
     expect(
       recordEventStub.calledWith({
         event: 'nav-link-click',
-        'link-label': 'Review and file travel claims',
+        'link-label': 'Review and file travel reimbursement claims',
         'link-destination': '/my-health/travel-pay/claims',
       }),
     ).to.be.true;

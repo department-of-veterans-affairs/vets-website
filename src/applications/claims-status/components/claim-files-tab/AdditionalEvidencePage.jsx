@@ -18,6 +18,7 @@ import {
 import { isClaimOpen } from '../../utils/helpers';
 import * as TrackedItem from '../../utils/trackedItemContent';
 import withRouter from '../../utils/withRouter';
+import { cstMultiClaimProvider } from '../../selectors';
 
 const filesPath = `../files`;
 
@@ -56,7 +57,10 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   goToFilesPage() {
-    this.props.getClaim(this.props.claim.id);
+    const provider = this.props.cstMultiClaimProviderEnabled
+      ? this.props.claim?.attributes?.provider
+      : null;
+    this.props.getClaim(this.props.claim.id, null, provider);
     this.props.navigate(filesPath);
   }
 
@@ -157,6 +161,7 @@ function mapStateToProps(state) {
       state.featureToggles?.cst_show_document_upload_status || false,
     timezoneMitigationEnabled:
       state.featureToggles?.cst_timezone_discrepancy_mitigation || false,
+    cstMultiClaimProviderEnabled: cstMultiClaimProvider(state),
   };
 }
 
@@ -173,6 +178,7 @@ AdditionalEvidencePage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
+  cstMultiClaimProviderEnabled: PropTypes.bool,
   filesNeeded: PropTypes.array,
   filesOptional: PropTypes.array,
   getClaim: PropTypes.func,

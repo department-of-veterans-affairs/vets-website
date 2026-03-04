@@ -64,18 +64,24 @@ export const ProgramExamples = (
 );
 
 export const AccreditedSchool = (
-  <va-additional-info trigger="How to tell if a school is accredited">
-    <div>
-      <p>
-        You can go to the U.S. Department of Education’s website to check if a
-        school is accredited.
-      </p>
-      <va-link
-        href="https://ope.ed.gov/dapip/#/home"
-        external
-        text="Go to the U.S. Department of Education’s website"
-      />
-    </div>
+  <va-additional-info trigger="What to know about school accreditation">
+    <p>
+      Accreditation means a school meets recognized education quality standards.
+    </p>
+    <p>
+      Most public high schools are accredited. For private, charter, online, to
+      other non-traditional high-schools, you can find accreditation information
+      on the school’s website or by contacting the school directly.
+    </p>
+    <p>
+      For colleges and trade schools, you can check accreditation on the U.S.
+      Department of Education’s website.
+    </p>
+    <va-link
+      href="https://ope.ed.gov/dapip/#/home"
+      external
+      text="Go to the U.S. Department of Education’s website"
+    />
   </va-additional-info>
 );
 

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { retrieveMessageThread } from '../actions/messages';
-import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import InterstitialPage from './InterstitialPage';
@@ -122,7 +121,6 @@ const MessageReply = () => {
             className="vads-l-grid-container compose-container"
             style={{ display: isSending && 'none' }}
           >
-            <AlertBackgroundBox closeable />
             {content()}
             {messages?.length && thread()}
           </div>

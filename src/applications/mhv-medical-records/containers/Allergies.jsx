@@ -41,6 +41,7 @@ import {
   generateAllergiesContent,
 } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import DuplicateRecordsAlert from '../components/shared/DuplicateRecordsAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
@@ -208,6 +209,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
     <div id="allergies">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Allergies and reactions</h1>
+      {isCerner && <DuplicateRecordsAlert />}
       <p className="page-description">
         Review allergies, reactions, and side effects in your VA medical
         records. This includes medication side effects (also called adverse drug

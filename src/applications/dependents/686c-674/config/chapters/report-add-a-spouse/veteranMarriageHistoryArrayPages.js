@@ -3,7 +3,6 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   arrayBuilderItemSubsequentPageTitleUI,
-  fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
@@ -19,6 +18,8 @@ import {
   veteranFormerMarriageLabels,
   customLocationSchema,
   generateHelpText,
+  asciiValidation,
+  fullNameNoSuffixWithAsciiUI,
 } from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
 
@@ -99,7 +100,7 @@ export const vetFormerMarriagePersonalInfoPage = {
       title: 'Your former marriage',
       nounSingular: veteranMarriageHistoryOptions.nounSingular,
     }),
-    fullName: fullNameNoSuffixUI(),
+    fullName: fullNameNoSuffixWithAsciiUI(),
   },
   schema: {
     type: 'object',
@@ -242,6 +243,7 @@ export const vetFormerMarriageStartLocationPage = {
                 errors.addError('City must be 30 characters or less');
               }
             },
+            asciiValidation,
           ],
         },
         state: {
@@ -322,6 +324,7 @@ export const vetFormerMarriageEndLocationPage = {
                 errors.addError('City must be 30 characters or less');
               }
             },
+            asciiValidation,
           ],
         },
         state: {

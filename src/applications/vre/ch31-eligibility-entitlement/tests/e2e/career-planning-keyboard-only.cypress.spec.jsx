@@ -16,7 +16,9 @@ describe('CH31 Career Planning Keyboard Only Navigation', () => {
   });
 
   it('focuses the main heading on load and passes basic a11y check', () => {
-    cy.visit('/careers-employment/your-vre-eligibility/career-planning');
+    cy.visit(
+      '/careers-employment/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
     cy.wait('@featureToggles', { timeout: 20000 });
 
     cy.injectAxeThenAxeCheck();
@@ -24,7 +26,9 @@ describe('CH31 Career Planning Keyboard Only Navigation', () => {
   });
 
   it('toggles the first accordion item using keyboard (Tab to header)', () => {
-    cy.visit('/careers-employment/your-vre-eligibility/career-planning');
+    cy.visit(
+      '/careers-employment/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
     cy.wait('@featureToggles', { timeout: 20000 });
 
     // Ensure web components are hydrated
@@ -68,7 +72,9 @@ describe('CH31 Career Planning Keyboard Only Navigation', () => {
   });
 
   it('navigates to Case Tracker via Back button using Enter', () => {
-    cy.visit('/careers-employment/your-vre-eligibility/career-planning');
+    cy.visit(
+      '/careers-employment/track-your-vre-benefits/vre-benefit-status/career-planning',
+    );
     cy.wait('@featureToggles', { timeout: 20000 });
 
     cy.window().then(win => win.customElements.whenDefined('va-button'));
@@ -81,6 +87,6 @@ describe('CH31 Career Planning Keyboard Only Navigation', () => {
     cy.tabToElement('va-button[back][text="Back to Case Tracker"]');
     cy.realPress('Enter');
 
-    cy.url().should('include', '/my-case-management-hub');
+    cy.url().should('include', '/track-your-vre-benefits/vre-benefit-status');
   });
 });

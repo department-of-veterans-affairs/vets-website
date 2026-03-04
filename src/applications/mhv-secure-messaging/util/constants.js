@@ -531,15 +531,30 @@ export const RecipientStatus = {
 export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
 
 /**
- * OH (Oracle Health) sync statuses returned by the API.
- * Used to track the progress of migrating messages from VistA to Oracle Health.
+ * Config map for Contact List migration alert content.
+ * Each variant defines:
+ * - phases: which migration phases trigger this alert
+ * - headline: the alert heading text
+ * - bodyTop: text above the facility list
+ * - bodyBottom: text below the facility list
+ *
+ * Phase timeline reference:
+ * - p1: T-45 to T-30 (pre-migration)
+ * - p2: T-30 to T-6 (pre-migration)
+ * - p3: T-6 to T-3
+ * - p4: T-3 to T-1
+ * - p5: T to T+2
+ * - p6: T+2 to T+30 (post-migration)
  */
-export const OHSyncStatuses = {
-  STARTED: 'STARTED',
-  NOT_STARTED: 'NOT_STARTED',
-  IN_PROGRESS: 'IN_PROGRESS',
-  ERROR: 'ERROR',
-  FINISHED: 'FINISHED',
+export const ContactListMigrationAlertContent = {
+  POST_MIGRATION: {
+    phases: ['p6', 'p7', 'p8'],
+    headline: 'We updated your contact list',
+    bodyTop:
+      'We removed care teams from these facilities from your contact list:',
+    bodyBottom:
+      'You can still send messages to care teams at these facilities. But the care team names will be different.',
+  },
 };
 
 export const BlockedTriageAlertStyles = {

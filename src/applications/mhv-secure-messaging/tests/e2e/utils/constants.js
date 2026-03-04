@@ -252,6 +252,7 @@ export const Locators = {
     EL_SIGN_NAME: '#input-error-message .usa-error-message',
     EL_SIGN_CHECK: `#checkbox-error-message .usa-error-message`,
     ADD_MEDICATION_INFO_WARNING: 'add-medication-info-warning',
+    CONTACT_LIST_MIGRATION: 'contact-list-migration-alert',
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -326,6 +327,13 @@ export const Alerts = {
     EMPTY: `Select at least one team`,
     SAVE_API_ERROR: `We're sorry. We couldn't save your changes. Try saving again.`,
     LOAD_API_ERROR: `We can’t load your contact list right now`,
+  },
+  CONTACT_LIST_MIGRATION: {
+    POST_MIGRATION: {
+      HEADLINE: 'We updated your contact list',
+      BODY:
+        'We removed care teams from these facilities from your contact list:',
+    },
   },
   ATTACHMENT: {
     TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, JPEG, PDF, PNG, RTF, TXT, XLS, XLSX, JFIF, PJPEG, or PJP.`,
