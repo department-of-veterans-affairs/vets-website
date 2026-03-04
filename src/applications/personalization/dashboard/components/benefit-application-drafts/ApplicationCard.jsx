@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import {
+  Toggler,
+  useFeatureToggle,
+} from '~/platform/utilities/feature-toggles';
 import { selectPdfUrlLoading } from '~/applications/personalization/dashboard/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
 import fetchFormPdfUrl from '../../actions/form-pdf-url';
@@ -21,54 +24,131 @@ import {
 
 // Shared content blocks (copied from SubmissionCard/DraftCard where applicable)
 
-const QuestionsContent = () => (
-  <p className="vads-u-margin-bottom--0">
-    If you have questions, call us at <va-telephone contact="8008271000" /> (
-    <va-telephone contact="711" tty />
-    ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-  </p>
-);
+const CHAMPVA_FORM_IDS = ['10-10D', '10-10D-EXTENDED'];
 
-const ReceivedContent = () => (
+const contactInfoFor = (formId, isBenefitsClaimsIvcChampvaProviderEnabled) => {
+  const normalized = formId?.toString().toUpperCase();
+  if (
+    isBenefitsClaimsIvcChampvaProviderEnabled &&
+    CHAMPVA_FORM_IDS.includes(normalized)
+  ) {
+    return {
+      phone: '8007338387',
+      hours: '8:00 a.m. to 7:30 p.m. ET',
+    };
+  }
+
+  return {
+    phone: '8008271000',
+    hours: '8:00 a.m. to 8:00 p.m. ET',
+  };
+};
+
+const QuestionsContent = ({
+  formId,
+  isBenefitsClaimsIvcChampvaProviderEnabled,
+}) => {
+  const contact = contactInfoFor(
+    formId,
+    isBenefitsClaimsIvcChampvaProviderEnabled,
+  );
+
+  return (
+    <p className="vads-u-margin-bottom--0">
+      If you have questions, call us at <va-telephone contact={contact.phone} />{' '}
+      (<va-telephone contact="711" tty />
+      ). We’re here Monday through Friday, {contact.hours}
+    </p>
+  );
+};
+QuestionsContent.propTypes = {
+  formId: PropTypes.string,
+  isBenefitsClaimsIvcChampvaProviderEnabled: PropTypes.bool,
+};
+
+const ReceivedContent = ({
+  formId,
+  isBenefitsClaimsIvcChampvaProviderEnabled,
+}) => (
   <>
     <p>
       Next step: We’ll review your form. If we need more information, we’ll
       contact you.
     </p>
-    <QuestionsContent />
+    <QuestionsContent
+      formId={formId}
+      isBenefitsClaimsIvcChampvaProviderEnabled={
+        isBenefitsClaimsIvcChampvaProviderEnabled
+      }
+    />
   </>
 );
+ReceivedContent.propTypes = {
+  formId: PropTypes.string.isRequired,
+  isBenefitsClaimsIvcChampvaProviderEnabled: PropTypes.bool.isRequired,
+};
 
-const InProgressContent = () => (
+const InProgressContent = ({
+  formId,
+  isBenefitsClaimsIvcChampvaProviderEnabled,
+}) => (
   <>
     <p>
       Next step: We’ll confirm that we’ve received your form. This can take up
-      to 30 days.
+      to{' '}
+      {isBenefitsClaimsIvcChampvaProviderEnabled &&
+      CHAMPVA_FORM_IDS.includes(formId?.toString().toUpperCase())
+        ? '10'
+        : '30'}{' '}
+      days.
     </p>
-    <QuestionsContent />
+    <QuestionsContent
+      formId={formId}
+      isBenefitsClaimsIvcChampvaProviderEnabled={
+        isBenefitsClaimsIvcChampvaProviderEnabled
+      }
+    />
   </>
 );
+InProgressContent.propTypes = {
+  formId: PropTypes.string.isRequired,
+  isBenefitsClaimsIvcChampvaProviderEnabled: PropTypes.bool.isRequired,
+};
 
-const ActionNeededContent = () => (
-  <div className="vads-u-margin-top--0p5">
-    <va-alert
-      slim="true"
-      status="error"
-      disable-analytics="false"
-      visible="true"
-      closeable="false"
-      full-width="false"
-      class="hydrated"
-    >
-      <p className="vads-u-margin-y--0">
-        We’re sorry. There was a problem with our system. We couldn’t process
-        this form. Call us at <va-telephone contact="8008271000" /> (
-        <va-telephone contact="711" tty />
-        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
-      </p>
-    </va-alert>
-  </div>
-);
+const ActionNeededContent = ({
+  formId,
+  isBenefitsClaimsIvcChampvaProviderEnabled,
+}) => {
+  const contact = contactInfoFor(
+    formId,
+    isBenefitsClaimsIvcChampvaProviderEnabled,
+  );
+
+  return (
+    <div className="vads-u-margin-top--0p5">
+      <va-alert
+        slim="true"
+        status="error"
+        disable-analytics="false"
+        visible="true"
+        closeable="false"
+        full-width="false"
+        class="hydrated"
+      >
+        <p className="vads-u-margin-y--0">
+          We’re sorry. There was a problem with our system. We couldn’t process
+          this form. Call us at <va-telephone contact={contact.phone} /> (
+          <va-telephone contact="711" tty />
+          ). We’re here Monday through Friday, {contact.hours}
+        </p>
+      </va-alert>
+    </div>
+  );
+};
+ActionNeededContent.propTypes = {
+  formId: PropTypes.string.isRequired,
+  isBenefitsClaimsIvcChampvaProviderEnabled: PropTypes.bool.isRequired,
+};
 
 const SavePdfDownload = ({
   formId,
@@ -198,11 +278,19 @@ export const ApplicationCard = ({
   getPdfDownloadUrl,
   showLoadingIndicator,
 }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const isBenefitsClaimsIvcChampvaProviderEnabled = useToggleValue(
+    TOGGLE_NAMES.benefitsClaimsIvcChampVaProvider,
+  );
+
   const isDraft = !!continueUrl;
 
   const headerLabel = isDraft ? 'Draft' : formatSubmissionDisplayStatus(status);
 
-  const mainTitle = isDraft ? formTitle : formatFormTitle(formTitle);
+  let mainTitle = formTitle;
+  if (!isDraft) {
+    mainTitle = formatFormTitle(formTitle);
+  }
 
   const testId = isDraft ? 'application-in-progress' : 'submitted-application';
 
@@ -286,9 +374,30 @@ export const ApplicationCard = ({
                   )}
                 </p>
 
-                {status === 'inProgress' && <InProgressContent />}
-                {status === 'received' && <ReceivedContent />}
-                {status === 'actionNeeded' && <ActionNeededContent />}
+                {status === 'inProgress' && (
+                  <InProgressContent
+                    formId={formId}
+                    isBenefitsClaimsIvcChampvaProviderEnabled={
+                      isBenefitsClaimsIvcChampvaProviderEnabled
+                    }
+                  />
+                )}
+                {status === 'received' && (
+                  <ReceivedContent
+                    formId={formId}
+                    isBenefitsClaimsIvcChampvaProviderEnabled={
+                      isBenefitsClaimsIvcChampvaProviderEnabled
+                    }
+                  />
+                )}
+                {status === 'actionNeeded' && (
+                  <ActionNeededContent
+                    formId={formId}
+                    isBenefitsClaimsIvcChampvaProviderEnabled={
+                      isBenefitsClaimsIvcChampvaProviderEnabled
+                    }
+                  />
+                )}
               </>
             )}
           </div>
