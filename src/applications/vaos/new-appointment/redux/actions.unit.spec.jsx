@@ -5,13 +5,20 @@ import {
   routeToPageInFlow,
   startDirectScheduleFlow,
   startRequestAppointmentFlow,
+  getAppointmentSlots,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_UPDATE_FACILITY_EHR,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
+  FORM_CALENDAR_FETCH_SLOTS,
+  FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+  FORM_CALENDAR_FETCH_SLOTS_FAILED,
 } from './actions';
 import { APPOINTMENT_SYSTEM } from '../../utils/constants';
+import * as locationService from '../../services/location';
+import * as slotService from '../../services/slot';
+import * as selectors from './selectors';
 
 const testFlow = {
   page1: {
@@ -266,6 +273,303 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.calledOnce).to.be.true;
       expect(global.window.dataLayer.length).to.equal(0);
+    });
+  });
+
+  describe('getAppointmentSlots', () => {
+    let sandbox;
+    let getSiteIdFromFacilityIdStub;
+    let getSlotsStub;
+    let getNewAppointmentStub;
+    let getTypeOfCareStub;
+    let getFormDataStub;
+    let selectAppointmentEhrStub;
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+      getSiteIdFromFacilityIdStub = sandbox.stub(
+        locationService,
+        'getSiteIdFromFacilityId',
+      );
+      getSlotsStub = sandbox.stub(slotService, 'getSlots');
+      getNewAppointmentStub = sandbox.stub(selectors, 'getNewAppointment');
+      getTypeOfCareStub = sandbox.stub(selectors, 'getTypeOfCare');
+      getFormDataStub = sandbox.stub(selectors, 'getFormData');
+      selectAppointmentEhrStub = sandbox.stub(
+        selectors,
+        'selectAppointmentEhr',
+      );
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should use full facility ID (653BY) for Cerner/OH appointments', async () => {
+      const fullFacilityId = '653BY';
+      const parentSiteId = '653';
+      const dispatch = sinon.spy();
+      const mockSlots = [
+        {
+          start: new Date(Date.now() + 86400000 * 2).toISOString(), // 2 days from now
+          end: new Date(Date.now() + 86400000 * 2 + 3600000).toISOString(),
+        },
+      ];
+
+      getSiteIdFromFacilityIdStub.returns(parentSiteId);
+      getSlotsStub.resolves(mockSlots);
+      getNewAppointmentStub.returns({
+        data: { clinicId: 'clinic123' },
+        fetchedAppointmentSlotMonths: [],
+        availableSlots: [],
+      });
+      getTypeOfCareStub.returns({ idV2: 'primaryCare' });
+      getFormDataStub.returns({ vaFacility: fullFacilityId });
+      selectAppointmentEhrStub.returns(APPOINTMENT_SYSTEM.cerner);
+
+      const getState = () => ({});
+      const thunk = getAppointmentSlots('2024-01-01', '2024-01-31');
+      await thunk(dispatch, getState);
+
+      // Should use full facility ID (653BY) for Cerner/OH, NOT trimmed parent site ID (653)
+      expect(getSlotsStub.calledOnce).to.be.true;
+      expect(getSlotsStub.firstCall.args[0].siteId).to.equal(fullFacilityId);
+      expect(getSiteIdFromFacilityIdStub.called).to.be.false;
+
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: FORM_CALENDAR_FETCH_SLOTS,
+      });
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+      );
+    });
+
+    it('should use trimmed parent site ID (653) for VistA appointments', async () => {
+      const fullFacilityId = '653BY';
+      const parentSiteId = '653';
+      const dispatch = sinon.spy();
+      const mockSlots = [
+        {
+          start: new Date(Date.now() + 86400000 * 2).toISOString(),
+          end: new Date(Date.now() + 86400000 * 2 + 3600000).toISOString(),
+        },
+      ];
+
+      getSiteIdFromFacilityIdStub.returns(parentSiteId);
+      getSlotsStub.resolves(mockSlots);
+      getNewAppointmentStub.returns({
+        data: { clinicId: 'clinic123' },
+        fetchedAppointmentSlotMonths: [],
+        availableSlots: [],
+      });
+      getTypeOfCareStub.returns({ idV2: 'primaryCare' });
+      getFormDataStub.returns({ vaFacility: fullFacilityId });
+      selectAppointmentEhrStub.returns(APPOINTMENT_SYSTEM.vista);
+
+      const getState = () => ({});
+      const thunk = getAppointmentSlots('2024-01-01', '2024-01-31');
+      await thunk(dispatch, getState);
+
+      // Should call getSiteIdFromFacilityId to trim 653BY to 653 for VistA
+      expect(getSiteIdFromFacilityIdStub.calledOnce).to.be.true;
+      expect(getSiteIdFromFacilityIdStub.firstCall.args[0]).to.equal(
+        fullFacilityId,
+      );
+      expect(getSlotsStub.calledOnce).to.be.true;
+      expect(getSlotsStub.firstCall.args[0].siteId).to.equal(parentSiteId);
+
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: FORM_CALENDAR_FETCH_SLOTS,
+      });
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+      );
+    });
+
+    it('should skip fetch if month already fetched and not forced', async () => {
+      const facilityId = '653BY';
+      const dispatch = sinon.spy();
+
+      getNewAppointmentStub.returns({
+        data: { clinicId: 'clinic123' },
+        fetchedAppointmentSlotMonths: ['2024-01'],
+        availableSlots: [],
+      });
+      getTypeOfCareStub.returns({ idV2: 'primaryCare' });
+      getFormDataStub.returns({ vaFacility: facilityId });
+      selectAppointmentEhrStub.returns(APPOINTMENT_SYSTEM.vista);
+
+      const getState = () => ({});
+      const thunk = getAppointmentSlots('2024-01-01', '2024-01-31', false);
+      await thunk(dispatch, getState);
+
+      // Should not call getSlots since month is already fetched
+      expect(getSlotsStub.called).to.be.false;
+      expect(dispatch.called).to.be.false;
+    });
+
+    it('should fetch even if month already fetched when forceFetch is true', async () => {
+      const fullFacilityId = '653BY';
+      const parentSiteId = '653';
+      const dispatch = sinon.spy();
+      const mockSlots = [
+        {
+          start: new Date(Date.now() + 86400000 * 2).toISOString(),
+          end: new Date(Date.now() + 86400000 * 2 + 3600000).toISOString(),
+        },
+      ];
+
+      getSiteIdFromFacilityIdStub.returns(parentSiteId);
+      getSlotsStub.resolves(mockSlots);
+      getNewAppointmentStub.returns({
+        data: { clinicId: 'clinic123' },
+        fetchedAppointmentSlotMonths: ['2024-01'],
+        availableSlots: [],
+      });
+      getTypeOfCareStub.returns({ idV2: 'primaryCare' });
+      getFormDataStub.returns({ vaFacility: fullFacilityId });
+      selectAppointmentEhrStub.returns(APPOINTMENT_SYSTEM.vista);
+
+      const getState = () => ({});
+      const thunk = getAppointmentSlots('2024-01-01', '2024-01-31', true);
+      await thunk(dispatch, getState);
+
+      // Should call getSlots even though month is fetched because forceFetch is true
+      expect(getSlotsStub.calledOnce).to.be.true;
+      expect(dispatch.calledTwice).to.be.true;
+    });
+
+    it('should filter out slots before tomorrow', async () => {
+      const fullFacilityId = '653BY';
+      const parentSiteId = '653';
+      const dispatch = sinon.spy();
+      const now = new Date();
+      const mockSlots = [
+        {
+          start: new Date(now.getTime() - 86400000).toISOString(), // Yesterday
+          end: new Date(now.getTime() - 86400000 + 3600000).toISOString(),
+        },
+        {
+          start: new Date(now.getTime() + 3600000).toISOString(), // 1 hour from now (today)
+          end: new Date(now.getTime() + 7200000).toISOString(),
+        },
+        {
+          start: new Date(now.getTime() + 86400000 * 2).toISOString(), // 2 days from now
+          end: new Date(now.getTime() + 86400000 * 2 + 3600000).toISOString(),
+        },
+      ];
+
+      getSiteIdFromFacilityIdStub.returns(parentSiteId);
+      getSlotsStub.resolves(mockSlots);
+      getNewAppointmentStub.returns({
+        data: { clinicId: 'clinic123' },
+        fetchedAppointmentSlotMonths: [],
+        availableSlots: [],
+      });
+      getTypeOfCareStub.returns({ idV2: 'primaryCare' });
+      getFormDataStub.returns({ vaFacility: fullFacilityId });
+      selectAppointmentEhrStub.returns(APPOINTMENT_SYSTEM.vista);
+
+      const getState = () => ({});
+      const thunk = getAppointmentSlots('2024-01-01', '2024-01-31');
+      await thunk(dispatch, getState);
+
+      // Should only return slots after tomorrow (filtered out yesterday and today)
+      const successAction = dispatch.secondCall.args[0];
+      expect(successAction.availableSlots.length).to.equal(1);
+      expect(successAction.availableSlots[0].start).to.equal(
+        mockSlots[2].start,
+      );
+    });
+
+    it('should dispatch FORM_CALENDAR_FETCH_SLOTS_FAILED on error', async () => {
+      const fullFacilityId = '653BY';
+      const parentSiteId = '653';
+      const dispatch = sinon.spy();
+
+      getSiteIdFromFacilityIdStub.returns(parentSiteId);
+      getSlotsStub.rejects(new Error('Network error'));
+      getNewAppointmentStub.returns({
+        data: { clinicId: 'clinic123' },
+        fetchedAppointmentSlotMonths: [],
+        availableSlots: [],
+      });
+      getTypeOfCareStub.returns({ idV2: 'primaryCare' });
+      getFormDataStub.returns({ vaFacility: fullFacilityId });
+      selectAppointmentEhrStub.returns(APPOINTMENT_SYSTEM.vista);
+
+      const getState = () => ({});
+      const thunk = getAppointmentSlots('2024-01-01', '2024-01-31');
+      await thunk(dispatch, getState);
+
+      expect(dispatch.secondCall.args[0]).to.deep.equal({
+        type: FORM_CALENDAR_FETCH_SLOTS_FAILED,
+      });
+    });
+
+    it('should pass typeOfCare and provider to getSlots for OH', async () => {
+      const fullFacilityId = '653BY';
+      const dispatch = sinon.spy();
+      const mockProvider = { id: 'provider123' };
+      const mockSlots = [
+        {
+          start: new Date(Date.now() + 86400000 * 2).toISOString(),
+          end: new Date(Date.now() + 86400000 * 2 + 3600000).toISOString(),
+        },
+      ];
+
+      getSlotsStub.resolves(mockSlots);
+      getNewAppointmentStub.returns({
+        data: { clinicId: 'clinic123', selectedProvider: mockProvider },
+        fetchedAppointmentSlotMonths: [],
+        availableSlots: [],
+      });
+      getTypeOfCareStub.returns({ idV2: 'foodAndNutrition' });
+      getFormDataStub.returns({ vaFacility: fullFacilityId });
+      selectAppointmentEhrStub.returns(APPOINTMENT_SYSTEM.cerner);
+
+      const getState = () => ({});
+      const thunk = getAppointmentSlots('2024-01-01', '2024-01-31');
+      await thunk(dispatch, getState);
+
+      expect(getSlotsStub.calledOnce).to.be.true;
+      const callArgs = getSlotsStub.firstCall.args[0];
+      expect(callArgs.siteId).to.equal(fullFacilityId);
+      expect(callArgs.typeOfCare).to.equal('foodAndNutrition');
+      expect(callArgs.provider).to.deep.equal(mockProvider);
+    });
+
+    it('should pass clinicId to getSlots for VistA', async () => {
+      const fullFacilityId = '653BY';
+      const parentSiteId = '653';
+      const clinicId = '653_308';
+      const dispatch = sinon.spy();
+      const mockSlots = [
+        {
+          start: new Date(Date.now() + 86400000 * 2).toISOString(),
+          end: new Date(Date.now() + 86400000 * 2 + 3600000).toISOString(),
+        },
+      ];
+
+      getSiteIdFromFacilityIdStub.returns(parentSiteId);
+      getSlotsStub.resolves(mockSlots);
+      getNewAppointmentStub.returns({
+        data: { clinicId },
+        fetchedAppointmentSlotMonths: [],
+        availableSlots: [],
+      });
+      getTypeOfCareStub.returns({ idV2: 'primaryCare' });
+      getFormDataStub.returns({ vaFacility: fullFacilityId });
+      selectAppointmentEhrStub.returns(APPOINTMENT_SYSTEM.vista);
+
+      const getState = () => ({});
+      const thunk = getAppointmentSlots('2024-01-01', '2024-01-31');
+      await thunk(dispatch, getState);
+
+      expect(getSlotsStub.calledOnce).to.be.true;
+      const callArgs = getSlotsStub.firstCall.args[0];
+      expect(callArgs.siteId).to.equal(parentSiteId);
+      expect(callArgs.clinicId).to.equal(clinicId);
     });
   });
 });

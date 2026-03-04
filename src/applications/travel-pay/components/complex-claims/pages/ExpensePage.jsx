@@ -42,6 +42,7 @@ import {
 } from '../../../redux/selectors';
 import {
   DATE_VALIDATION_TYPE,
+  VALIDATION_ERROR_MESSAGES,
   validateRequestedAmount,
   validateReceiptDate,
   validateDescription,
@@ -295,6 +296,17 @@ const ExpensePage = () => {
 
     // Skip validation for partial dates, but still save them to formState
     if (isDateField && !isCompleteDate && value !== '') {
+      // If there's an existing error, replace it with incomplete date error
+      // This provides immediate feedback when user breaks a valid date
+      setExtraFieldErrors(prevErrors => {
+        const nextErrors = { ...prevErrors };
+        if (prevErrors[name]) {
+          nextErrors[name] = VALIDATION_ERROR_MESSAGES.INCOMPLETE_DATE;
+        } else {
+          delete nextErrors[name];
+        }
+        return nextErrors;
+      });
       return;
     }
 
@@ -311,12 +323,13 @@ const ExpensePage = () => {
         );
         if (validationResult.isValid) {
           delete nextErrors.purchaseDate;
-        } else if (hasExistingError && validationResult.purchaseDate) {
-          // Update error message if field already has an error
+        } else if (
+          validationResult.purchaseDate &&
+          (isCompleteDate || hasExistingError)
+        ) {
           nextErrors.purchaseDate = validationResult.purchaseDate;
         }
       }
-
       if (name === 'description') {
         const validationResult = validateDescription(
           value,
@@ -332,7 +345,7 @@ const ExpensePage = () => {
       if (name === 'costRequested') {
         const validationResult = validateRequestedAmount(
           value,
-          DATE_VALIDATION_TYPE.CHANGE,
+          DATE_VALIDATION_TYPE.BLUR,
         );
         if (validationResult.isValid) {
           delete nextErrors.costRequested;
@@ -771,14 +784,6 @@ const ExpensePage = () => {
       ...prev,
       ...validationResult.errors,
     }));
-
-    // Update formatted value if provided
-    if (validationResult.formattedValue) {
-      setFormState(prev => ({
-        ...prev,
-        costRequested: validationResult.formattedValue,
-      }));
-    }
   };
 
   const pageTitle = expenseTypeFields?.expensePageText

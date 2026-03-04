@@ -63,13 +63,16 @@ const withAuthorization = (Component, authLevel = AUTH_LEVELS.TOKEN) => {
           dispatch(clearFormData());
 
           // Redirect to Verify page (root of the app)
+          let redirectUrl = URLS.VERIFY;
           if (uuid) {
-            navigate(`${URLS.VERIFY}?uuid=${uuid}`, {
-              replace: true,
-            });
-          } else {
-            // TODO: route to the "Something went wrong" page
+            const searchParams = new URLSearchParams();
+            searchParams.set('uuid', uuid);
+            redirectUrl = `${URLS.VERIFY}?${searchParams.toString()}`;
           }
+          // Navigating to the Verify page without the uuid will show the user the Something went wrong page.
+          navigate(redirectUrl, {
+            replace: true,
+          });
         }
       },
       [

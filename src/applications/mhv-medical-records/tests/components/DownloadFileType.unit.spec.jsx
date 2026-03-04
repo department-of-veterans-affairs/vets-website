@@ -291,6 +291,10 @@ describe('DownloadFileType — AAL logging', () => {
   // provides the actual double-click prevention, and the disabled button state
   // tested here ensures the UI properly indicates this to users.
   it('disables download button during PDF generation to prevent double-clicks (PDF)', async () => {
+    // Make makePdf return a promise that doesn't resolve immediately
+    // so we can observe the disabled state
+    makePdfStub.returns(new Promise(() => {})); // Never resolves
+
     const screen = renderWithFormat('pdf');
     const btn = await screen.findByTestId('download-report-button');
 

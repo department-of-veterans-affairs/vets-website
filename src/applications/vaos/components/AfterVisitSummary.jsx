@@ -85,7 +85,7 @@ export default function AfterVisitSummary({ data: appointment }) {
       </Section>
     );
   }
-  if (!hasAvs && !hasValidPdfAvs) {
+  if (!hasAvs && !hasValidPdfAvs && featureAddOHAvs) {
     return (
       <Section heading={heading}>
         <p className="vads-u-margin--0">
@@ -106,14 +106,29 @@ export default function AfterVisitSummary({ data: appointment }) {
       </Section>
     );
   }
+  // Cerner/OH appointments use the OH AVS PDF flow; if the feature flag is off
+  // there is no legacy avsPath to link to, so render nothing.
+  if (appointment?.vaos?.isCerner) {
+    return null;
+  }
+  // Legacy VistA AVS link — only render when an avsPath actually exists.
+  if (appointment?.avsPath) {
+    return (
+      <Section heading={heading}>
+        <va-link
+          href={`${appointment.avsPath}`}
+          text="Go to after visit summary"
+          data-testid="after-visit-summary-link"
+          onClick={handleLegacyAvsClick}
+        />
+      </Section>
+    );
+  }
   return (
     <Section heading={heading}>
-      <va-link
-        href={`${appointment?.avsPath}`}
-        text="Go to after visit summary"
-        data-testid="after-visit-summary-link"
-        onClick={handleLegacyAvsClick}
-      />
+      <p className="vads-u-margin--0">
+        An after-visit summary is not available at this time.
+      </p>
     </Section>
   );
 }

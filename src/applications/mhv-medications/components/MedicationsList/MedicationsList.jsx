@@ -13,12 +13,12 @@ import {
 import { getFilterOptions } from '../../util/helpers/getRxStatus';
 import {
   selectCernerPilotFlag,
+  selectMedicationsManagementImprovementsFlag,
   selectV2StatusMappingFlag,
 } from '../../util/selectors';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
-import { selectPrescriptionId } from '../../selectors/selectPrescription';
 import { selectFilterOption } from '../../selectors/selectPreferences';
 
 const MAX_PAGE_LIST_LENGTH = 6;
@@ -30,14 +30,16 @@ const MedicationsList = props => {
     pagination,
     selectedSortOption,
     updateLoadingStatus,
-    scrollLocation,
   } = props;
   const sortOptionLowercase = rxListSortingOptions[
     selectedSortOption
   ]?.LABEL.toLowerCase();
   const totalMedications = pagination.totalEntries;
-  const prescriptionId = useSelector(selectPrescriptionId);
+  const isManagementImprovementsEnabled = useSelector(
+    selectMedicationsManagementImprovementsFlag,
+  );
 
+  const route = isManagementImprovementsEnabled ? `/history` : `/`;
   const perPage = 10;
 
   const displaynumberOfPrescriptionsSelector =
@@ -45,7 +47,7 @@ const MedicationsList = props => {
 
   const onPageChange = page => {
     datadogRum.addAction(dataDogActionNames.medicationsListPage.PAGINATION);
-    navigate(`/?page=${page}`, {
+    navigate(`${route}?page=${page}`, {
       replace: true,
     });
     updateLoadingStatus('Loading your medications...');
@@ -125,18 +127,11 @@ const MedicationsList = props => {
         data-testid="medication-list"
       >
         {rxList?.length > 0 &&
-          rxList.map(
-            (rx, idx) =>
-              rx.prescriptionId === prescriptionId ? (
-                <li ref={scrollLocation} key={idx}>
-                  <MedicationsListCard rx={rx} />
-                </li>
-              ) : (
-                <li key={idx}>
-                  <MedicationsListCard rx={rx} />
-                </li>
-              ),
-          )}
+          rxList.map((rx, idx) => (
+            <li key={idx}>
+              <MedicationsListCard rx={rx} />
+            </li>
+          ))}
       </ul>
       <VaPagination
         max-page-list-length={MAX_PAGE_LIST_LENGTH}

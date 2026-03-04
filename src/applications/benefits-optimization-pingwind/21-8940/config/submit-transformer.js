@@ -606,7 +606,7 @@ const buildSubmissionPayload = data => {
     vaFileNumber: stringOrUndefined(veteran.vaFileNumber),
     dateOfBirth: stringOrUndefined(veteran.dateOfBirth),
     veteranAddress: buildAddress(veteran.address),
-    electronicCorrespondance: Boolean(stringOrUndefined(veteran.email)),
+    electronicCorrespondance: Boolean(veteran?.electronicCorrespondence),
     email: stringOrUndefined(veteran.email),
     veteranPhone: formatPhoneNumber(veteran.homePhone),
     internationalPhone: formatPhoneNumber(veteran.alternatePhone),

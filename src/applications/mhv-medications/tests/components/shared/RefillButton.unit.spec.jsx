@@ -1,11 +1,13 @@
 import { expect } from 'chai';
 import React from 'react';
+import sinon from 'sinon';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import {
   mockFetch,
   resetFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { datadogRum } from '@datadog/browser-rum';
 import { prescriptionsApi } from '../../../api/prescriptionsApi';
 import reducer from '../../../reducers';
 import RefillButton from '../../../components/shared/RefillButton';
@@ -18,6 +20,7 @@ describe('Refill Button component', () => {
     refillRemaining: 1,
     dispStatus: 'Active',
     isRefillable: true,
+    stationNumber: '506',
   };
   const setup = (rxOverrides = {}) => {
     return renderWithStoreAndRouterV6(
@@ -31,12 +34,16 @@ describe('Refill Button component', () => {
     );
   };
 
+  let sandbox;
+
   beforeEach(() => {
     mockFetch();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
     resetFetch();
+    sandbox.restore();
   });
 
   it('renders without errors', () => {
@@ -60,10 +67,20 @@ describe('Refill Button component', () => {
       'aria-describedby',
       'card-header-1234567890',
     );
-    expect(button).to.have.attribute(
-      'data-dd-action-name',
-      dataDogActionNames.medicationsListPage.REFILL_BUTTON,
-    );
+  });
+
+  it('calls datadogRum.addAction with facilityId on click', () => {
+    const addActionSpy = sandbox.spy(datadogRum, 'addAction');
+    const screen = setup();
+    const button = screen.getByTestId('refill-request-button');
+    fireEvent.click(button);
+    expect(addActionSpy.calledOnce).to.be.true;
+    expect(
+      addActionSpy.calledWith(
+        dataDogActionNames.medicationsListPage.REFILL_BUTTON,
+        { facilityId: '506' },
+      ),
+    ).to.be.true;
   });
 
   it('dispatches refillPrescription action and shows correct loading message', () => {

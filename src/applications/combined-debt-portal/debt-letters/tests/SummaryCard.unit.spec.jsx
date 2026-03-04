@@ -1,7 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { I18nextProvider } from 'react-i18next';
 import SummaryCard from '../../combined/components/SummaryCard';
+import i18nCombinedDebtPortal from '../../i18n';
 
 describe('SummaryCard', () => {
   const mockDebt = {
@@ -26,8 +28,16 @@ describe('SummaryCard', () => {
     compositeDebtId: '2111599',
   };
 
+  const renderWithI18n = component => {
+    return render(
+      <I18nextProvider i18n={i18nCombinedDebtPortal}>
+        {component}
+      </I18nextProvider>,
+    );
+  };
+
   it('renders debt summary card correctly', () => {
-    const wrapper = render(<SummaryCard type="debt" data={mockDebt} />);
+    const wrapper = renderWithI18n(<SummaryCard type="debt" data={mockDebt} />);
 
     // Check that card is rendered with correct test ID
     expect(wrapper.getByTestId('summary-card-2111599')).to.exist;
@@ -43,7 +53,7 @@ describe('SummaryCard', () => {
   });
 
   it('renders icon, message, link', () => {
-    const wrapper = render(<SummaryCard type="debt" data={mockDebt} />);
+    const wrapper = renderWithI18n(<SummaryCard type="debt" data={mockDebt} />);
 
     // Check for icon
     expect(wrapper.container.querySelector('va-icon[icon="info"]')).to.exist;

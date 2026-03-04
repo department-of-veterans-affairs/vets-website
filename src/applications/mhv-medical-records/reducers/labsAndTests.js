@@ -3,6 +3,7 @@ import {
   concatObservationInterpretations,
   formatDate,
   dateFormatWithoutTimezone,
+  formatDateTimeInUserTimezone,
   extractContainedByRecourceType,
   extractContainedResource,
   getObservationValueWithUnits,
@@ -10,7 +11,6 @@ import {
   decodeBase64Report,
   formatNameFirstToLast,
   buildInitialDateRange,
-  formatDateTime,
   sortByDate,
 } from '../util/helpers';
 import {
@@ -24,6 +24,8 @@ import {
 import {
   convertMhvRadiologyRecord,
   convertCvixRadiologyRecord,
+  convertScdfImagingStudy,
+  mergeImagingStudiesIntoLabs,
   mergeRadiologyLists,
   mergeRadiologyDetails,
 } from '../util/imagesUtil';
@@ -50,13 +52,34 @@ const initialState = {
    */
   updatedList: undefined,
   /**
+   * The list of imaging studies retrieved from SCDF
+   */
+  scdfImagingStudies: undefined,
+  /**
+   * Whether SCDF imaging studies have been merged into the UHD labs list
+   */
+  scdfImagingStudiesMerged: false,
+  /**
    * The lab or test result currently being displayed to the user
    */
   labsAndTestsDetails: undefined,
   /**
+   * The list of thumbnails for the currently displayed radiology record
+   */
+  scdfImageThumbnails: undefined,
+  /**
+   * The path to the DICOM file for the currently displayed radiology record
+   */
+  scdfDicom: undefined,
+  /**
    * The selected date range for displaying labs and tests
    * */
   dateRange: buildInitialDateRange(DEFAULT_DATE_RANGE),
+  /**
+   * Warnings from the backend when some Binary resources (PDFs, etc.) couldn't be retrieved.
+   * @type {Array}
+   */
+  warnings: [],
 };
 
 export const extractLabLocation = (performer, record) => {
@@ -411,12 +434,17 @@ export const convertLabsAndTestsRecord = record => {
 };
 
 export const convertUnifiedLabsAndTestRecord = record => {
-  const { formattedDate, formattedTime } = formatDateTime(
-    record.attributes.dateCompleted,
-  );
-  const date = formattedDate
-    ? `${formattedDate}, ${formattedTime}`
-    : EMPTY_FIELD;
+  // Always show timezone abbreviation for clarity (per UX feedback).
+  // If facilityTimezone is available, display in facility timezone.
+  // Otherwise, fall back to user's browser timezone.
+  const { facilityTimezone, dateCompleted } = record.attributes;
+  const date =
+    formatDateTimeInUserTimezone(
+      dateCompleted,
+      undefined,
+      facilityTimezone || undefined,
+    ) || EMPTY_FIELD;
+
   return {
     id: record.id,
     date,
@@ -432,10 +460,11 @@ export const convertUnifiedLabsAndTestRecord = record => {
     type: record.attributes.testCode,
     comments: record.attributes.comments,
     source: record.attributes.source,
+    facilityTimezone,
     result: record.attributes.encodedData
       ? decodeBase64Report(record.attributes.encodedData)
       : null,
-    sortDate: record.attributes.dateCompleted,
+    sortDate: dateCompleted,
     base: {
       ...record,
     },
@@ -505,6 +534,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
         labsAndTestsList: sortByDate(mergedList),
+        scdfImagingStudiesMerged: false,
       };
     }
     case Actions.LabsAndTests.GET_LIST: {
@@ -560,18 +590,82 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         labsAndTestsDetails: undefined,
+        scdfImageThumbnails: undefined,
+        scdfDicom: undefined,
+      };
+    }
+    case Actions.LabsAndTests.SET_WARNINGS: {
+      return {
+        ...state,
+        warnings: action.payload || [],
       };
     }
     case Actions.LabsAndTests.UPDATE_LIST_STATE: {
       return {
         ...state,
         listState: action.payload,
+        ...(action.payload === loadStates.FETCHING ? { warnings: [] } : {}),
       };
     }
     case Actions.LabsAndTests.SET_DATE_RANGE: {
       return {
         ...state,
         dateRange: action.payload,
+      };
+    }
+    case Actions.LabsAndTests.GET_IMAGING_STUDIES: {
+      const data = Array.isArray(action.response) ? action.response : [];
+      return {
+        ...state,
+        scdfImagingStudies: data.map(convertScdfImagingStudy),
+        scdfImagingStudiesMerged: false,
+      };
+    }
+    case Actions.LabsAndTests.MERGE_IMAGING_STUDIES: {
+      const { labsAndTestsList, scdfImagingStudies } = state;
+      if (!labsAndTestsList || !scdfImagingStudies) return state;
+      return {
+        ...state,
+        labsAndTestsList: mergeImagingStudiesIntoLabs(
+          labsAndTestsList,
+          scdfImagingStudies,
+        ),
+        scdfImagingStudiesMerged: true,
+      };
+    }
+    case Actions.LabsAndTests.GET_IMAGING_STUDY_THUMBNAILS: {
+      // Response is an array of JSONAPI imaging study resources.
+      // Extract thumbnail URLs from all series/instances, ordered by
+      // series number then instance number.
+      const studies = Array.isArray(action.response) ? action.response : [];
+      const thumbnails = [
+        ...studies.flatMap(study => study.attributes?.series || []),
+      ]
+        .sort((a, b) => (a.number || 0) - (b.number || 0))
+        .flatMap(series =>
+          [...(series.instances || [])]
+            .sort((a, b) => (a.number || 0) - (b.number || 0))
+            .map(instance => instance.thumbnailUrl)
+            .filter(Boolean),
+        );
+      return {
+        ...state,
+        scdfImageThumbnails: thumbnails,
+      };
+    }
+    case Actions.LabsAndTests.GET_IMAGING_STUDY_DICOM: {
+      // Response is an array of JSONAPI imaging study resources.
+      // Extract the first non-null dicomZipUrl.
+      const dicomStudies = Array.isArray(action.response)
+        ? action.response
+        : [];
+      const dicomUrl =
+        dicomStudies
+          .map(study => study.attributes?.dicomZipUrl)
+          .find(Boolean) || null;
+      return {
+        ...state,
+        scdfDicom: dicomUrl,
       };
     }
     default:

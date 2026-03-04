@@ -27,6 +27,7 @@ import {
   removeExtraData,
   cleanUpMailingAddress,
   getDisabilityName,
+  flattenAttachments,
 } from '../../utils/submit';
 import {
   PTSD_INCIDENT_ITERATION,
@@ -1749,5 +1750,379 @@ describe('cleanUpMailingAddress', () => {
     // Empty strings are filtered out (not included in result)
     expect(result.mailingAddress).to.not.have.property('addressLine2');
     expect(result.mailingAddress).to.not.have.property('addressLine3');
+  });
+});
+
+describe('flattenAttachments', () => {
+  it('should return cloned data when privateMedicalRecordAttachments is undefined', () => {
+    const formData = {
+      veteranFullName: { first: 'John', last: 'Doe' },
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result).to.deep.equal(formData);
+    expect(result).to.not.equal(formData); // Should be a clone
+  });
+
+  it('should return cloned data when privateMedicalRecordAttachments is an empty array', () => {
+    const formData = {
+      privateMedicalRecordAttachments: [],
+      veteranFullName: { first: 'John', last: 'Doe' },
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result).to.deep.equal(formData);
+    expect(result).to.not.equal(formData); // Should be a clone
+  });
+
+  it('should return cloned data when privateMedicalRecordAttachments has no additionalData', () => {
+    const formData = {
+      privateMedicalRecordAttachments: [
+        {
+          name: 'test-file.pdf',
+          confirmationCode: '12345678-1234-1234-1234-123456789012',
+          isEncrypted: false,
+          size: 1024,
+          type: 'application/pdf',
+        },
+      ],
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result).to.deep.equal(formData);
+    expect(result).to.not.equal(formData); // Should be a clone
+  });
+
+  it('should not modify attachments when additionalData is not present', () => {
+    const formData = {
+      privateMedicalRecordAttachments: [
+        {
+          name: 'document.pdf',
+          confirmationCode: 'abcd1234-5678-90ef-ghij-klmnopqrstuv',
+          isEncrypted: true,
+          size: 2048576,
+          type: 'application/pdf',
+        },
+      ],
+    };
+
+    const result = flattenAttachments(formData);
+
+    const originalAttachment = formData.privateMedicalRecordAttachments[0];
+    const resultAttachment = result.privateMedicalRecordAttachments[0];
+
+    // Result attachment should have same properties as original
+    expect(resultAttachment.name).to.equal(originalAttachment.name);
+    expect(resultAttachment.confirmationCode).to.equal(
+      originalAttachment.confirmationCode,
+    );
+    expect(resultAttachment.isEncrypted).to.equal(
+      originalAttachment.isEncrypted,
+    );
+    expect(resultAttachment.size).to.equal(originalAttachment.size);
+    expect(resultAttachment.type).to.equal(originalAttachment.type);
+    expect(resultAttachment).to.not.have.property('additionalData');
+  });
+
+  it('should flatten additionalData properties into the attachment object', () => {
+    const formData = {
+      privateMedicalRecordAttachments: [
+        {
+          name: 'test-10mb.txt',
+          confirmationCode: 'a1b2c3d4-5e6f-7g8h-9i0j-1k2l3m4n5o6p',
+          isEncrypted: false,
+          size: 10485760,
+          type: 'text/plain',
+          additionalData: {
+            attachmentId: 'L107',
+          },
+        },
+      ],
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result.privateMedicalRecordAttachments).to.have.lengthOf(1);
+    const attachment = result.privateMedicalRecordAttachments[0];
+    expect(attachment.name).to.equal('test-10mb.txt');
+    expect(attachment.confirmationCode).to.equal(
+      'a1b2c3d4-5e6f-7g8h-9i0j-1k2l3m4n5o6p',
+    );
+    expect(attachment.isEncrypted).to.be.false;
+    expect(attachment.size).to.equal(10485760);
+    expect(attachment.type).to.equal('text/plain');
+    expect(attachment.attachmentId).to.equal('L107');
+    expect(attachment).to.not.have.property('additionalData');
+  });
+
+  it('should handle multiple attachments with additionalData', () => {
+    const formData = {
+      privateMedicalRecordAttachments: [
+        {
+          name: 'medical-record-1.pdf',
+          confirmationCode: 'aaaaaaaa-1111-2222-3333-444444444444',
+          isEncrypted: false,
+          size: 5242880,
+          type: 'application/pdf',
+          additionalData: {
+            attachmentId: 'L101',
+          },
+        },
+        {
+          name: 'medical-record-2.pdf',
+          confirmationCode: 'bbbbbbbb-5555-6666-7777-888888888888',
+          isEncrypted: true,
+          size: 3145728,
+          type: 'application/pdf',
+          additionalData: {
+            attachmentId: 'L102',
+          },
+        },
+      ],
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result.privateMedicalRecordAttachments).to.have.lengthOf(2);
+    expect(result.privateMedicalRecordAttachments[0].attachmentId).to.equal(
+      'L101',
+    );
+    expect(result.privateMedicalRecordAttachments[0]).to.not.have.property(
+      'additionalData',
+    );
+    expect(result.privateMedicalRecordAttachments[1].attachmentId).to.equal(
+      'L102',
+    );
+    expect(result.privateMedicalRecordAttachments[1]).to.not.have.property(
+      'additionalData',
+    );
+  });
+
+  it('should preserve other formData properties', () => {
+    const formData = {
+      privateMedicalRecordAttachments: [
+        {
+          name: 'test-10mb.txt',
+          confirmationCode: '28b469fb-0f40-4b85-b9f2-4043956441fe',
+          isEncrypted: false,
+          size: 10485760,
+          type: 'text/plain',
+          additionalData: {
+            attachmentId: 'L107',
+          },
+        },
+      ],
+      veteranFullName: { first: 'John', last: 'Doe' },
+      disabilities: ['Tinnitus', 'PTSD'],
+      serviceInformation: {
+        servicePeriods: [
+          { serviceBranch: 'Army', dateRange: { from: '2010-01-01' } },
+        ],
+      },
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result.veteranFullName).to.deep.equal({
+      first: 'John',
+      last: 'Doe',
+    });
+    expect(result.disabilities).to.deep.equal(['Tinnitus', 'PTSD']);
+    expect(result.serviceInformation).to.deep.equal({
+      servicePeriods: [
+        { serviceBranch: 'Army', dateRange: { from: '2010-01-01' } },
+      ],
+    });
+  });
+
+  it('should return cloned data when additionalDocuments is undefined', () => {
+    const formData = {
+      veteranFullName: { first: 'John', last: 'Doe' },
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result).to.deep.equal(formData);
+    expect(result).to.not.equal(formData);
+  });
+
+  it('should return cloned data when additionalDocuments is an empty array', () => {
+    const formData = {
+      additionalDocuments: [],
+      veteranFullName: { first: 'John', last: 'Doe' },
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result).to.deep.equal(formData);
+    expect(result.additionalDocuments).to.be.an('array').that.is.empty;
+  });
+
+  it('should return cloned data when additionalDocuments has no additionalData', () => {
+    const formData = {
+      additionalDocuments: [
+        {
+          name: 'document.pdf',
+          confirmationCode: 'abc123',
+          size: 1024,
+        },
+      ],
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result).to.deep.equal(formData);
+    expect(result.additionalDocuments[0]).to.not.have.property(
+      'additionalData',
+    );
+  });
+
+  it('should flatten additionalData properties into additionalDocuments attachment object', () => {
+    const formData = {
+      additionalDocuments: [
+        {
+          name: 'evidence.pdf',
+          confirmationCode: 'xyz789',
+          isEncrypted: false,
+          size: 2048,
+          type: 'application/pdf',
+          additionalData: {
+            attachmentId: 'L702',
+          },
+        },
+      ],
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result.additionalDocuments).to.have.lengthOf(1);
+    expect(result.additionalDocuments[0]).to.deep.equal({
+      name: 'evidence.pdf',
+      confirmationCode: 'xyz789',
+      isEncrypted: false,
+      size: 2048,
+      type: 'application/pdf',
+      attachmentId: 'L702',
+    });
+    expect(result.additionalDocuments[0]).to.not.have.property(
+      'additionalData',
+    );
+  });
+
+  it('should handle multiple additionalDocuments with additionalData', () => {
+    const formData = {
+      additionalDocuments: [
+        {
+          name: 'doc1.pdf',
+          confirmationCode: 'code1',
+          size: 1024,
+          additionalData: {
+            attachmentId: 'L015',
+          },
+        },
+        {
+          name: 'doc2.pdf',
+          confirmationCode: 'code2',
+          size: 2048,
+          additionalData: {
+            attachmentId: 'L702',
+          },
+        },
+        {
+          name: 'doc3.pdf',
+          confirmationCode: 'code3',
+          size: 3072,
+          additionalData: {
+            attachmentId: 'L107',
+          },
+        },
+      ],
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result.additionalDocuments).to.have.lengthOf(3);
+    expect(result.additionalDocuments[0].attachmentId).to.equal('L015');
+    expect(result.additionalDocuments[1].attachmentId).to.equal('L702');
+    expect(result.additionalDocuments[2].attachmentId).to.equal('L107');
+    result.additionalDocuments.forEach(doc => {
+      expect(doc).to.not.have.property('additionalData');
+    });
+  });
+
+  it('should handle both privateMedicalRecordAttachments and additionalDocuments with additionalData', () => {
+    const formData = {
+      privateMedicalRecordAttachments: [
+        {
+          name: 'medical-record.pdf',
+          confirmationCode: 'pmr123',
+          size: 5120,
+          additionalData: {
+            attachmentId: 'L049',
+          },
+        },
+      ],
+      additionalDocuments: [
+        {
+          name: 'evidence.pdf',
+          confirmationCode: 'doc456',
+          size: 2048,
+          additionalData: {
+            attachmentId: 'L702',
+          },
+        },
+      ],
+      veteranFullName: { first: 'Jane', last: 'Smith' },
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result.privateMedicalRecordAttachments).to.have.lengthOf(1);
+    expect(result.privateMedicalRecordAttachments[0].attachmentId).to.equal(
+      'L049',
+    );
+    expect(result.privateMedicalRecordAttachments[0]).to.not.have.property(
+      'additionalData',
+    );
+
+    expect(result.additionalDocuments).to.have.lengthOf(1);
+    expect(result.additionalDocuments[0].attachmentId).to.equal('L702');
+    expect(result.additionalDocuments[0]).to.not.have.property(
+      'additionalData',
+    );
+
+    expect(result.veteranFullName).to.deep.equal({
+      first: 'Jane',
+      last: 'Smith',
+    });
+  });
+
+  it('should preserve other formData properties when flattening additionalDocuments', () => {
+    const formData = {
+      additionalDocuments: [
+        {
+          name: 'document.pdf',
+          confirmationCode: 'abc123',
+          size: 1024,
+          additionalData: {
+            attachmentId: 'L023',
+          },
+        },
+      ],
+      veteranFullName: { first: 'Bob', last: 'Johnson' },
+      disabilities: ['Back pain', 'Knee injury'],
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result.veteranFullName).to.deep.equal({
+      first: 'Bob',
+      last: 'Johnson',
+    });
+    expect(result.disabilities).to.deep.equal(['Back pain', 'Knee injury']);
+    expect(result.additionalDocuments[0].attachmentId).to.equal('L023');
   });
 });

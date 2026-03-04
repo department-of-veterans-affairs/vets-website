@@ -29,6 +29,7 @@ const status = require('./medical-records/status');
 const labsAndTests = require('./medical-records/labs-and-tests');
 const acceleratedLabsAndTests = require('./medical-records/labs-and-tests/accelerated');
 const mhvRadiology = require('./medical-records/mhv-radiology');
+const acceleratedImaging = require('./medical-records/mhv-radiology/accelerated-imaging');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
 const acceleratedCareSummariesAndNotes = require('./medical-records/care-summaries-and-notes/accelerated');
 const healthConditions = require('./medical-records/health-conditions');
@@ -85,9 +86,10 @@ const responses = {
     mhvAcceleratedDeliveryConditionsEnabled: true,
     mhvAcceleratedDeliveryCareNotesEnabled: true,
     mhvAcceleratedDeliveryVitalSignsEnabled: true,
-    mhvAcceleratedDeliveryVaccinesEnabled: true,
     mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
+    mhvAcceleratedDeliveryVaccinesEnabled: true,
     mhvMedicalRecordsCcdExtendedFileTypes: true,
+    mhvMedicalRecordsFetchScdfImagingStudies: true,
   }),
 
   // VAMC facility data that apps query for on startup
@@ -100,6 +102,33 @@ const responses = {
     const data = {
       data: prescriptions.mockPrescription(id, {
         cmopNdcNumber: '00093721410',
+      }),
+      meta: {
+        sort: {
+          dispStatus: 'DESC',
+          dispensedDate: 'DESC',
+          prescriptionName: 'DESC',
+        },
+        pagination: {
+          currentPage: 1,
+          perPage: 10,
+          totalPages: 1,
+          totalEntries: 1,
+        },
+        updatedAt: 'Wed, 28 Feb 2024 09:58:42 EST',
+        failedStationList: 'string',
+      },
+    };
+    return res.json(data);
+  },
+  'GET /my_health/v2/prescriptions/:id': (req, res) => {
+    const { id } = req.params;
+    const stationNumber = req.query.station_number || 'unknown';
+    const data = {
+      data: prescriptions.mockPrescription(id, {
+        cmopNdcNumber: '00093721410',
+        stationNumber,
+        prescriptionSource: 'OH',
       }),
       meta: {
         sort: {
@@ -174,6 +203,13 @@ const responses = {
   'GET /my_health/v2/medical_records/labs_and_tests':
     acceleratedLabsAndTests.staging,
   'GET /my_health/v1/medical_records/radiology': mhvRadiology.empty,
+  'GET /my_health/v2/medical_records/imaging': acceleratedImaging.studies,
+  'GET /my_health/v2/medical_records/imaging/thumbnail_proxy':
+    acceleratedImaging.thumbnailProxy,
+  'GET /my_health/v2/medical_records/imaging/:id/thumbnails':
+    acceleratedImaging.thumbnails,
+  'GET /my_health/v2/medical_records/imaging/:id/dicom':
+    acceleratedImaging.dicom,
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
   'GET /my_health/v1/medical_records/clinical_notes/:id':
     careSummariesAndNotes.single,

@@ -70,7 +70,7 @@ const AppointmentCard = ({
         appointmentData?.topics.length > 0 && (
           <CardSection
             data-testid="topics-section"
-            heading="Topics you'd like to learn more about"
+            heading="Topics you’d like to learn more about"
             textContent={appointmentData?.topics
               .map(topic => topic?.topicName || '')
               .join(', ')}

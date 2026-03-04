@@ -16,20 +16,20 @@ describe(`${appName} -- editing test`, () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 1,
-      name: /^Medical supplies$/,
+      name: /Medical supplies$/,
     };
     cy.findByRole('heading', heading).should('have.focus');
-    cy.findByText(/^Start a new order$/).click({ waitForAnimations: true });
+    cy.findByText(/Start a new order$/).click({ waitForAnimations: true });
 
     // choose supplies
     cy.injectAxeThenAxeCheck();
     cy.selectVaCheckbox('root_chosenSupplies_6584', true);
-    cy.findByText(/^Continue$/).click();
+    cy.findByText(/Continue$/).click();
 
     // contact information
     cy.injectAxeThenAxeCheck();
     // assertions
-    cy.findByText(/^vets\.gov\.user\+1@gmail\.com$/).should('exist');
+    cy.findByText(/vets\.gov\.user\+1@gmail\.com$/).should('exist');
     cy.findByText(/101 EXAMPLE STREET/).should('exist');
     cy.findByText(/APT 2/).should('exist');
     cy.findByText(/KANSAS CITY, MO 64117/).should('exist');
@@ -43,8 +43,8 @@ describe(`${appName} -- editing test`, () => {
     cy.get('va-button[text="update"]').click();
 
     // assert for email change
-    cy.findByText(/^vets\.gov\.newuser\+5@gmail\.com$/).should('exist');
-    cy.findByText(/^vets\.gov\.user\+1@gmail\.com$/).should('not.exist');
+    cy.findByText(/vets\.gov\.newuser\+5@gmail\.com$/).should('exist');
+    cy.findByText(/vets\.gov\.user\+1@gmail\.com$/).should('not.exist');
 
     cy.findByRole('link', {
       name: 'Edit mailing address',
@@ -66,7 +66,7 @@ describe(`${appName} -- editing test`, () => {
 
     // contact information
     cy.injectAxeThenAxeCheck();
-    cy.findByText(/^Continue$/).click();
+    cy.findByText(/Continue$/).click();
 
     // review supplies reordering
     cy.injectAxeThenAxeCheck();
@@ -77,7 +77,7 @@ describe(`${appName} -- editing test`, () => {
     // review: edit supplies reordering
     cy.get('va-button[label="Edit Available for reorder"]').click();
     cy.selectVaCheckbox('root_chosenSupplies_6650', true);
-    cy.findByText(/^Update page$/, { selector: 'button' }).click();
+    cy.findByText(/Update page$/, { selector: 'button' }).click();
 
     // review: assert supplies reordering
     cy.findByText(/ERHK HE11 680 MINI/).should('exist');
@@ -88,7 +88,7 @@ describe(`${appName} -- editing test`, () => {
       'va-accordion-item[data-chapter="contactInformationChapter"]',
     ).click();
     // review: assert for email and mailing address
-    cy.findByText(/^vets\.gov\.newuser\+5@gmail\.com$/).should('exist');
+    cy.findByText(/vets\.gov\.newuser\+5@gmail\.com$/).should('exist');
     cy.findByText(/123 NEW STREET/).should('exist');
     cy.findByText(/APT 2/).should('exist');
     cy.findByText(/TAMPA, FL 33611/).should('exist');
@@ -101,7 +101,7 @@ describe(`${appName} -- editing test`, () => {
     cy.get('va-button[text="Cancel"]').click();
 
     // review: assert that email remains unchanged
-    cy.findByText(/^vets\.gov\.newuser\+5@gmail\.com$/).should('exist');
+    cy.findByText(/vets\.gov\.newuser\+5@gmail\.com$/).should('exist');
 
     // review: edit mailing address
     cy.get('va-button[label="Edit Shipping address"]').click();
@@ -115,7 +115,7 @@ describe(`${appName} -- editing test`, () => {
     cy.findByText(/TAMPA, FL 33611/).should('exist');
 
     // submit review
-    cy.findByRole('button', { name: /^Submit$/ }).click();
+    cy.findByRole('button', { name: /Submit$/ }).click();
 
     // confirmation
     cy.injectAxeThenAxeCheck();
