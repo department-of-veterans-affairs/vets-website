@@ -39,11 +39,6 @@ const veteranStatusCardConfirmed = {
   attributes: {
     fullName: 'John Doe',
     disabilityRating: 40,
-    latestService: {
-      branch: 'Army',
-      beginDate: '2009-04-12',
-      endDate: '2013-04-11',
-    },
     edipi: 1234567890,
   },
 };

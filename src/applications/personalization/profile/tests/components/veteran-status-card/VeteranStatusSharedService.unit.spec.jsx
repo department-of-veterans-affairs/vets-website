@@ -35,11 +35,6 @@ const veteranStatusCardConfirmed = {
   attributes: {
     fullName: 'John Doe',
     disabilityRating: 40,
-    latestService: {
-      branch: 'Army',
-      beginDate: '2009-04-12',
-      endDate: '2013-04-11',
-    },
     edipi: 1234567890,
   },
 };
@@ -158,9 +153,6 @@ describe('VeteranStatusSharedService', () => {
 
         // Check that the user's full name from API is rendered on the card
         expect(view.getByText('John Doe')).to.exist;
-
-        // Check that service history is rendered
-        expect(view.getByText('United States Army • 2009–2013')).to.exist;
 
         // Check that the FAQ section is rendered
         expect(view.getByText('Frequently asked questions')).to.exist;

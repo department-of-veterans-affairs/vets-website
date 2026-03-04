@@ -9,11 +9,6 @@ const eligible = {
   attributes: {
     fullName: 'Jane Veteran',
     disabilityRating: 50,
-    latestService: {
-      branch: 'Army',
-      beginDate: '2010-01-01',
-      endDate: '2020-12-31',
-    },
     edipi: 1234567890,
   },
 };
