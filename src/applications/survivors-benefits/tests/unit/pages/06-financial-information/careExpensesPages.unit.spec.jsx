@@ -162,6 +162,44 @@ describe('Care Expenses Pages', () => {
     expect(vaWeeklyHours.getAttribute('required')).to.equal('true');
   });
 
+  it('should hide care end date when noCareEndDate is checked', () => {
+    const { careDatesPage } = careExpensesPages;
+    const formData = {
+      careDateRange: { from: '2020-01-01', to: '2020-01-31' },
+      noCareEndDate: false,
+    };
+    const testData = { [arrayPath]: [formData] };
+    const form = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        schema={careDatesPage.schema}
+        uiSchema={careDatesPage.uiSchema}
+        pagePerItemIndex={0}
+        data={testData}
+      />,
+    );
+    const formDOM = getFormDOM(form);
+
+    // Initially, both start and end date fields should be visible
+    const startDate = $('va-memorable-date[label*="Care start date"]', formDOM);
+    let endDate = $('va-memorable-date[label*="Care end date"]', formDOM);
+    expect(startDate).to.exist;
+    expect(endDate).to.exist;
+
+    // Check the "No end date" checkbox
+    const noEndDateCheckbox = $('va-checkbox[label*="No end date"]', formDOM);
+    expect(noEndDateCheckbox).to.exist;
+
+    noEndDateCheckbox.__events.vaChange({
+      target: { checked: true },
+      detail: { checked: true },
+    });
+
+    // After checking, end date should be hidden
+    endDate = $$('va-memorable-date[label*="Care end date"]', formDOM);
+    expect(endDate[0]).to.not.exist;
+  });
+
   it('should check if isItemIncomplete', () => {
     const { isItemIncomplete } = options;
     const completeItem = {
