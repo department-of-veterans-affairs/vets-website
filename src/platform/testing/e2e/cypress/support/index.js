@@ -86,6 +86,53 @@ beforeEach(() => {
   });
 });
 
+// Global Mapbox API mocks — prevent real API calls in all E2E tests.
+// Individual tests can override with their own cy.intercept() calls.
+beforeEach(() => {
+  // Static map images
+  cy.intercept('GET', '**/styles/v1/mapbox/**', {
+    statusCode: 200,
+    headers: { 'content-type': 'image/png' },
+    body: '',
+  });
+  // Tile JSON metadata
+  cy.intercept('GET', '**/v4/mapbox.*', {});
+  cy.intercept('HEAD', '**/v4/mapbox.*', { statusCode: 200 });
+  // Vector/raster tiles
+  cy.intercept('GET', /\.tiles\.mapbox\.com/, { body: '' });
+  // Map fonts
+  cy.intercept('GET', '**/fonts/v1/mapbox/**', { body: '' });
+  // Map sprites
+  cy.intercept('GET', '**/sprites/v1/mapbox/**', { body: '' });
+  // Geocoding (default fallback — tests needing specific results should override)
+  /* eslint-disable camelcase */
+  cy.intercept('GET', '**/geocoding/**', {
+    type: 'FeatureCollection',
+    query: ['austin'],
+    features: [
+      {
+        id: 'place.1183047979754850',
+        type: 'Feature',
+        place_type: ['place'],
+        relevance: 1,
+        properties: {},
+        text: 'Austin',
+        place_name: 'Austin, Texas, United States',
+        bbox: [-98.026, 30.068, -97.542, 30.519],
+        center: [-97.7437, 30.2711],
+        geometry: { type: 'Point', coordinates: [-97.7437, 30.2711] },
+        context: [
+          { id: 'region.123', short_code: 'US-TX', text: 'Texas' },
+          { id: 'country.456', short_code: 'us', text: 'United States' },
+        ],
+      },
+    ],
+  });
+  /* eslint-enable camelcase */
+  // Mapbox telemetry
+  cy.intercept('POST', '*events.mapbox.com/**', { statusCode: 204 });
+});
+
 // Assign the video path to the context property for failed tests
 Cypress.on('test:after:run', test => {
   if (test.state === 'failed') {

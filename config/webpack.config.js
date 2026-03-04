@@ -510,8 +510,10 @@ module.exports = async (env = {}) => {
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
         __REGISTRY__: JSON.stringify(appRegistry),
+        // Format-valid placeholder prevents @mapbox/mapbox-sdk from throwing
+        // at import time when no real token is available (local dev without .env).
         'process.env.MAPBOX_TOKEN': JSON.stringify(
-          process.env.MAPBOX_TOKEN || '',
+          process.env.MAPBOX_TOKEN || 'pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==',
         ),
         'process.env.MAPBOX_TOKEN_FACILITY_LOCATOR': JSON.stringify(
           process.env.MAPBOX_TOKEN_FACILITY_LOCATOR || '',

@@ -94,7 +94,9 @@ module.exports = async (on, config) => {
       __REGISTRY__: JSON.stringify(appRegistry),
       'process.env.NODE_ENV': '"production"',
       'process.env.BUILDTYPE': '"production"',
-      'process.env.MAPBOX_TOKEN': '""',
+      'process.env.MAPBOX_TOKEN': JSON.stringify(
+        process.env.MAPBOX_TOKEN || 'pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==',
+      ),
       'process.env.MAPBOX_TOKEN_FACILITY_LOCATOR': '""',
       'process.env.MAPBOX_TOKEN_STATIC_PAGES': '""',
       'process.env.MAPBOX_TOKEN_GI': '""',
