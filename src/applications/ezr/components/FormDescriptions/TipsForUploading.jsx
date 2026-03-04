@@ -2,9 +2,11 @@ import React from 'react';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import PropTypes from 'prop-types';
 
+const TOGGLE_KEY = Toggler.TOGGLE_NAMES.ezrServiceHistoryEnabled;
+
 const TipsForUploading = ({ trigger = 'Tips for uploading' }) => (
   <va-additional-info trigger={trigger} class="vads-u-margin-bottom--3" uswds>
-    <Toggler feature="ezrServiceHistoryEnabled">
+    <Toggler toggleName={TOGGLE_KEY}>
       <Toggler.Enabled>
         <ul>
           <li>Use a .jpg, .png, .pdf, .doc, or .rtf file</li>

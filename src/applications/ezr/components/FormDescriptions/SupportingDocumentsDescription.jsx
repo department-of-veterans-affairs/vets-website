@@ -2,8 +2,10 @@ import React from 'react';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import TipsForUploading from './TipsForUploading';
 
+const TOGGLE_KEY = Toggler.TOGGLE_NAMES.ezrServiceHistoryEnabled;
+
 const ToxicExposureDescription = (
-  <Toggler feature="ezrServiceHistoryEnabled">
+  <Toggler toggleName={TOGGLE_KEY}>
     <Toggler.Enabled>
       <>
         <p>
