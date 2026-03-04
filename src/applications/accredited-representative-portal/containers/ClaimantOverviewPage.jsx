@@ -147,7 +147,7 @@ const ClaimantOverviewPage = () => {
   const unauthorized = authorized === false;
 
   return (
-    <div>
+    <section className="vads-u-width--full">
       <VaBreadcrumbs
         breadcrumbList={claimantOverviewBC}
         label="claimant overview breadcrumb"
@@ -300,7 +300,7 @@ const ClaimantOverviewPage = () => {
           </div>
         </section>
       </ClaimantDetailsWrapper>
-    </div>
+    </section>
   );
 };
 

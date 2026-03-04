@@ -4,6 +4,8 @@ const institutionSuccess1 = require('./institution-facility-code-success1.json')
 const institutionSuccess2 = require('./institution-facility-code-success2.json');
 const institutionSuccess3 = require('./institution-facility-code-success3.json');
 const institutionFail = require('./institution-facility-code-fail.json');
+const sip = require('./sip-put.json');
+const prefilledForm = require('./prefilled-form.json');
 
 const responses = {
   'GET /v0/user': mockUser,
@@ -13,6 +15,8 @@ const responses = {
   'GET /v0/gi/institutions/87654321': (_req, res) => {
     res.status(404).json(institutionFail);
   },
+  'PUT /v0/in_progress_forms/22-0976': sip,
+  'GET /v0/in_progress_forms/22-0976': prefilledForm,
 };
 
 module.exports = responses;

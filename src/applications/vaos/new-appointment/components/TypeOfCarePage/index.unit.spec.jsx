@@ -120,14 +120,20 @@ describe('VAOS Page: TypeOfCarePage', () => {
     ).to.exist;
     expect(
       screen.getByText(
-        /you’ll need to call your va health facility to schedule an appointment./i,
+        /You’ll need to call your local VA health care facility to schedule an appointment./i,
       ),
     ).to.exist;
-    expect(screen.getByRole('link', { name: /find a va location/i })).to.exist;
-    fireEvent.click(screen.getByText(/Find a VA location/i));
+    expect(
+      screen.getByRole('link', {
+        name: /Find your local VA health care facility/i,
+      }),
+    ).to.exist;
+    fireEvent.click(
+      screen.getByText(/Find your local VA health care facility/i),
+    );
 
     expect(global.window.dataLayer[0]).to.eql({
-      'alert-box-click-label': 'Find a VA location',
+      'alert-box-click-label': 'Find your local VA health care facility',
       'alert-box-heading': 'Is the type of care you need not listed here',
       'alert-box-subheading': undefined,
       'alert-box-type': 'informational',
