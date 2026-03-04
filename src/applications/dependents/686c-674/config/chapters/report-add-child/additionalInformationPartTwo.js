@@ -1,5 +1,5 @@
 import {
-  titleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -7,7 +7,9 @@ import { incomeQuestionUpdateUiSchema } from '../../helpers';
 
 export const additionalInformationPartTwo = {
   uiSchema: {
-    ...titleUI('Child’s income'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => `${formData?.fullName?.first || 'Child'}’s income`,
+    ),
     incomeInLastYear: radioUI({
       title: 'Has this child received income in the last 365 days?',
       hint:

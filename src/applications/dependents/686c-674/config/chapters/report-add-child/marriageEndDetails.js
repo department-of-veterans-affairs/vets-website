@@ -1,5 +1,5 @@
 import {
-  titleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   radioUI,
   radioSchema,
   currentOrPastDateUI,
@@ -9,9 +9,10 @@ import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/
 
 export const marriageEndDetails = {
   uiSchema: {
-    ...titleUI({
-      title: 'How and when marriage ended',
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `How and when ${formData?.fullName?.first || 'child'}'s marriage ended`,
+    ),
     marriageEndDate: {
       ...currentOrPastDateUI({
         title: 'When did this marriage end?',
