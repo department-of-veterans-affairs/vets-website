@@ -24,7 +24,6 @@ import {
 } from '../constants/benefits';
 import GetFormHelp from '../components/GetFormHelp';
 import Benefits from './components/Benefits';
-import useMediaQuery from '../hooks/useMediaQuery';
 
 const ConfirmationPage = ({ formConfig, location, router }) => {
   const dispatch = useDispatch();
@@ -44,7 +43,8 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
    * Value corresponds with the --tablet breakpoint size.
    * https://design.va.gov/foundation/breakpoints
    */
-  const isMobile = useMediaQuery('(max-width: 640px)');
+  const TABLET_BREAKPOINT = 640;
+  const isMobile = () => window.innerWidth < TABLET_BREAKPOINT;
 
   const query = useMemo(
     () => {
@@ -424,7 +424,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
 
   useEffect(
     () => {
-      if (!isMobile) return null;
+      if (!isMobile()) return null;
       const timer = setTimeout(() => {
         const searchFilter = document.querySelector('va-search-filter');
         const items = searchFilter?.shadowRoot?.querySelectorAll(
