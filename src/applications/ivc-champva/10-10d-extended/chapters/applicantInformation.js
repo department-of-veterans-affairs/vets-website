@@ -1,5 +1,4 @@
 import React from 'react';
-import { addYears } from 'date-fns';
 import get from 'platform/utilities/data/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -28,7 +27,11 @@ import { applicantWording, nameWording } from '../../shared/utilities';
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
 import { validateApplicant, validateApplicantSsn } from '../utils/validations';
-import { isOfCollegeAge, page15aDepends } from '../utils/helpers';
+import {
+  isOfCollegeAge,
+  page15aDepends,
+  requireBirthCertificate,
+} from '../utils/helpers';
 import { attachmentSchema, attachmentUI } from '../definitions';
 import { APPLICANTS_MAX } from '../utils/constants';
 
@@ -425,19 +428,7 @@ export const applicantPages = arrayBuilderPages(
     page18a: pageBuilder.itemPage({
       path: 'applicant-birth-certificate/:index',
       title: 'Applicant birth certificate',
-      depends: (formData, index) => {
-        const applicant = formData?.applicants?.[index];
-        const relationshipToSponsor =
-          applicant?.applicantRelationshipToSponsor?.relationshipToVeteran;
-        const relationshipOrigin =
-          applicant?.applicantRelationshipOrigin?.relationshipToVeteran;
-
-        const isChild = relationshipToSponsor === 'child';
-        const isNotBiologicalChild = relationshipOrigin !== 'blood';
-        const isNewbornChild =
-          new Date(applicant?.applicantDob) >= addYears(new Date(), -1);
-        return isChild && (isNewbornChild || isNotBiologicalChild);
-      },
+      depends: requireBirthCertificate,
       ...applicantBirthCertUploadPage,
     }),
     page18d: pageBuilder.itemPage({
