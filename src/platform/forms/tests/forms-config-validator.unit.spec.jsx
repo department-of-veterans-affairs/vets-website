@@ -66,7 +66,6 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_21P_0537,
   VA_FORM_IDS.FORM_21P_601,
   VA_FORM_IDS.FORM_MOCK_PREFILL,
-  VA_FORM_IDS.FORM_22_0989,
   VA_FORM_IDS.FORM_22_0810,
 ];
 
@@ -121,6 +120,7 @@ const formConfigKeys = [
   'signInHelpList',
   'stepLabels',
   'submissionError',
+  'submissionErrorLink',
   'submit',
   'submitErrorText',
   'submitUrl',
@@ -323,6 +323,7 @@ const validateForm = async (formSlug, formConfigParam) => {
     formSavedPage: 'component',
     signInHelpList: 'function',
     submissionError: 'function',
+    submissionErrorLink: 'function',
     CustomTopContent: 'component',
     useTopBackLink: 'boolean',
   };
@@ -340,7 +341,7 @@ const validateForm = async (formSlug, formConfigParam) => {
 };
 
 // Main test suite section
-describe('Form Configuration Tests', function() {
+describe('Form Configuration Tests', function formConfigurationTests() {
   const tracker = trackMemoryUsage('Form Configuration Tests - BATCHED');
   this.timeout(30000);
 

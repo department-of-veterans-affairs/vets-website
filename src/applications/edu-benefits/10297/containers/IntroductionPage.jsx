@@ -54,12 +54,9 @@ const IntroductionPage = props => {
 
   return (
     <article className="schemaform-intro form-10297-introduction-page">
-      <FormTitle title={TITLE} />
-      <div>
-        <p className="vads-u-margin-y--2">{SUBTITLE}</p>
-      </div>
-      <p className="vads-u-font-size--lg vads-u-font-family--serif vads-u-color--base vads-u-font-weight--normal">
-        Use this form to apply for the High Technology Program, which covers
+      <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <p>
+        Use this form to apply for the VET TEC 2.0 Program, which covers
         short-term, high-tech training like coding bootcamps and IT courses not
         typically covered by the GI Bill. If approved, VA will pay your tuition,
         housing allowance, and book stipend while you’re enrolled.
@@ -68,13 +65,6 @@ const IntroductionPage = props => {
         Follow these steps to get started:
       </h2>
       <ProcessList />
-      <va-additional-info trigger="What happens after I apply?">
-        <p>
-          If you’re eligible and the 4,000-student cap hasn’t been met, we’ll
-          email you a Certificate of Eligibility. Otherwise, we’ll explain why
-          you’re not eligible.
-        </p>
-      </va-additional-info>
       <div className="vads-u-margin-y--2 mobile-lg:vads-u-margin-y--3">
         {!loggedIn ? (
           <va-alert-sign-in
@@ -92,13 +82,15 @@ const IntroductionPage = props => {
           </va-alert-sign-in>
         ) : (
           <>
-            <h2 className="vads-u-margin-top--1p5">Start the form</h2>
+            <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+              Start your application for benefits
+            </h3>
             <SaveInProgressIntro
               prefillEnabled={route.formConfig.prefillEnabled}
               messages={route.formConfig.savedFormMessages}
               formConfig={route.formConfig}
               pageList={route.pageList}
-              startText="Start your Application for the High Technology Program"
+              startText="Start your application for VET TEC 2.0"
             />
           </>
         )}

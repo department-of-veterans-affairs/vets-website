@@ -3,7 +3,6 @@ import {
   yesNoUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { isYes } from '../../../utils/helpers';
 import { AdditionalDependentsAlert } from '../../../components/FormAlerts';
 
 /** @type {PageSchema} */
@@ -17,8 +16,9 @@ export default {
     residenceAlert: {
       'ui:description': AdditionalDependentsAlert,
       'ui:options': {
+        // Should hide if undefined when first landing on page or true/yes.
         hideIf: formData =>
-          isYes(formData?.childrenLiveTogetherButNotWithSpouse),
+          formData?.childrenLiveTogetherButNotWithSpouse !== false,
         displayEmptyObjectOnReview: true,
       },
     },

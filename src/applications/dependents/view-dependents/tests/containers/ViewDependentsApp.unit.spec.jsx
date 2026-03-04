@@ -116,7 +116,7 @@ describe('<ViewDependentsApp />', () => {
     ).to.equal(1);
     expect(
       $$(
-        'va-link-action[text="Start your disability benefits dependents verification"]',
+        'va-link-action[text="Verify your VA disability benefits dependents"]',
         container,
       ).length,
     ).to.equal(1);

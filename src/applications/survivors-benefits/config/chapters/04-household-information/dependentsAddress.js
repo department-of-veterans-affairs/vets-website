@@ -17,11 +17,12 @@ const updatedAddressSchema = addressSchema({
 export default {
   uiSchema: {
     ...titleUI('Dependent’s mailing address'),
-    custodianAddress: {
-      ...addressUI({
-        omit: ['isMilitary', 'street3'],
-      }),
-    },
+    custodianAddress: addressUI({
+      labels: {
+        street2: 'Apartment or unit number',
+      },
+      omit: ['isMilitary', 'street3'],
+    }),
   },
   schema: {
     type: 'object',

@@ -11,6 +11,7 @@ export default {
   // newDisabilities validation error when view:claimType exists but newDisabilities is empty
   newDisabilities:
     'Reason for claim (select at least one type and add at least one new condition)',
+  'view:claimType': 'Please select at least one type of condition',
   condition: () =>
     'Reason for claim (select at least one type and add at least one new condition)',
   cause: 'What caused this condition? (select from the list of causes)',

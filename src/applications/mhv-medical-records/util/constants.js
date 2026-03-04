@@ -260,6 +260,7 @@ export const vitalUnitDisplayText = {
 
 export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_IMAGE_STATUS_ERROR = 'images status error';
+export const ALERT_TYPE_IMAGE_THUMBNAIL_ERROR = 'image thumbnail error';
 export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_BB_ERROR = 'blue button download error';
 export const ALERT_TYPE_CCD_ERROR =
