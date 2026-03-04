@@ -389,6 +389,23 @@ export const showAdditionalPointsOfContact = formData => {
   return !hasBothRoles;
 };
 
+export const getAdditionalContactRole = formData => {
+  const isYellowRibbonProgramPointOfContact =
+    formData?.pointsOfContact?.roles?.isYellowRibbonProgramPointOfContact ===
+    true;
+  const isSchoolFinancialRepresentative =
+    formData?.pointsOfContact?.roles?.isSchoolFinancialRepresentative === true;
+
+  if (
+    !isSchoolFinancialRepresentative &&
+    !isYellowRibbonProgramPointOfContact
+  ) {
+    return 'Yellow Ribbon Program point of contact';
+  }
+
+  return 'School certifying official';
+};
+
 export const getAdditionalContactTitle = formData => {
   const isYellowRibbonProgramPointOfContact =
     formData?.pointsOfContact?.roles?.isYellowRibbonProgramPointOfContact ===
