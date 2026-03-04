@@ -125,32 +125,43 @@ const HealthCareContent = ({
 
   return (
     <>
-      <div className="vads-l-row">
-        <DashboardWidgetWrapper>
-          {isVAPatient && (
-            <h3 className="vads-u-margin-top--0">Appointments</h3>
+      <div>
+        {isVAPatient && <h3 className="vads-u-margin-top--0">Appointments</h3>}
+        {hasAppointmentsError && (
+          <DashboardWidgetWrapper>
+            <AppointmentsError />
+          </DashboardWidgetWrapper>
+        )}
+        {hasUpcomingAppointment &&
+          !isLOA1 && (
+            <div className="vads-l-row">
+              {upcomingAppointments.map(appointment => (
+                <DashboardWidgetWrapper key={appointment.id}>
+                  <AppointmentsCard appointments={[appointment]} />
+                </DashboardWidgetWrapper>
+              ))}
+            </div>
           )}
-          {hasAppointmentsError && <AppointmentsError />}
-          {hasUpcomingAppointment &&
-            !isLOA1 &&
-            upcomingAppointments.map(appointment => (
-              <AppointmentsCard
-                key={appointment.id}
-                appointments={[appointment]}
-              />
-            ))}
-          {!isVAPatient && !isLOA1 && <NoHealthcareText />}
-          {isVAPatient &&
-            !hasUpcomingAppointment &&
-            !hasAppointmentsError &&
-            !isLOA1 &&
-            !isCernerPatient && <NoUpcomingAppointmentsText />}
-          <va-link
-            text="Manage all appointments"
-            href="/my-health/appointments"
-            data-testid="manage-appointments-all-link"
-          />
-        </DashboardWidgetWrapper>
+        {!isVAPatient &&
+          !isLOA1 && (
+            <DashboardWidgetWrapper>
+              <NoHealthcareText />
+            </DashboardWidgetWrapper>
+          )}
+        {isVAPatient &&
+          !hasUpcomingAppointment &&
+          !hasAppointmentsError &&
+          !isLOA1 &&
+          !isCernerPatient && (
+            <DashboardWidgetWrapper>
+              <NoUpcomingAppointmentsText />
+            </DashboardWidgetWrapper>
+          )}
+        <va-link
+          text="Manage all appointments"
+          href="/my-health/appointments"
+          data-testid="manage-appointments-all-link"
+        />
       </div>
       {isVAPatient && (
         <div className="vads-l-row">
