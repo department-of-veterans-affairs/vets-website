@@ -327,10 +327,19 @@ export const Alerts = {
     LOAD_API_ERROR: `We can’t load your contact list right now`,
   },
   CONTACT_LIST_MIGRATION: {
+    P1_TO_P5_MIGRATION: {
+      HEADLINE: "We're making changes to your contact list",
+      BODY_TOP:
+        'On [T-6], we’ll remove care teams from these facilities from your contact list:',
+      BODY_BOTTOM:
+        'Note: You can still send messages to care teams at these facilities after [T+2]. But the care team names will be different.',
+    },
     POST_MIGRATION: {
       HEADLINE: 'We updated your contact list',
-      BODY:
+      BODY_TOP:
         'We removed care teams from these facilities from your contact list:',
+      BODY_BOTTOM:
+        'You can still send messages to care teams at these facilities',
     },
   },
   ATTACHMENT: {
