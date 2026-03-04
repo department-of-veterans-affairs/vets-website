@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import {
   VaModal,
   VaSelect,
+  VaComboBox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '~/platform/utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
@@ -298,7 +299,7 @@ const SearchControls = props => {
           {organizationFilterEnabled &&
             representativeType === 'veteran_service_officer' && (
               <div className="organization-select">
-                <VaSelect
+                <VaComboBox
                   name="organization"
                   value={organizationFilter}
                   label="Veterans Service Organization (VSO)"
@@ -306,7 +307,7 @@ const SearchControls = props => {
                   uswds
                 >
                   {organizationSelectOptions}
-                </VaSelect>
+                </VaComboBox>
               </div>
             )}
           <div className="representative-name-input vads-u-margin-top--4">
