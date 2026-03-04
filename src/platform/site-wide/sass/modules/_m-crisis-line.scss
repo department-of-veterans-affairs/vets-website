@@ -1,0 +1,9 @@
+@media screen and (min-width: $small-desktop-screen) {
+  va-crisis-line-modal {
+    &::part(button) {
+      position: absolute;
+      right: 0;
+      bottom: -15px;
+    }
+  }
+}
