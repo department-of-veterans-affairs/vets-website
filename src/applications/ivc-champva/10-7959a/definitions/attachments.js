@@ -1,7 +1,10 @@
-import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import { FILE_TYPES_ACCEPTED } from '../utils/constants';
+import { descriptionUI } from 'platform/forms-system/src/js/web-component-patterns';
+import environment from 'platform/utilities/environment';
+import LlmResponseAlert from '../components/FormAlerts/LlmResponseAlert';
+import LlmUploadAlert from '../components/FormAlerts/LlmUploadAlert';
 import content from '../locales/en/content.json';
+import { FILE_TYPES_ACCEPTED } from '../utils/constants';
 
 const BUTTON_TEXT = content['attachments--button-text'];
 
@@ -51,4 +54,20 @@ export const attachmentSchema = Object.freeze({
       name: { type: 'string' },
     },
   },
+});
+
+export const llmResponseAlertUI = Object.freeze({
+  'view:llmResponseAlert': descriptionUI(LlmResponseAlert),
+});
+
+export const llmResponseAlertSchema = Object.freeze({
+  'view:llmResponseAlert': { type: 'object', properties: {} },
+});
+
+export const llmUploadAlertUI = Object.freeze({
+  'view:llmUploadAlert': descriptionUI(LlmUploadAlert),
+});
+
+export const llmUploadAlertSchema = Object.freeze({
+  'view:llmUploadAlert': { type: 'object', properties: {} },
 });

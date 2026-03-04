@@ -1,17 +1,22 @@
 import {
-  titleUI,
   descriptionUI,
-  radioUI,
   radioSchema,
-  yesNoUI,
+  radioUI,
+  titleUI,
   yesNoSchema,
+  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
-import { LLM_RESPONSE } from '../components/llmUploadResponse';
+import MedicalClaimsDescription from '../components/FormDescriptions/MedicalClaimsDescription';
 import MedicalEobDescription from '../components/FormDescriptions/MedicalEobDescription';
 import PharmacyClaimsDescription from '../components/FormDescriptions/PharmacyClaimsDescription';
-import MedicalClaimsDescription from '../components/FormDescriptions/MedicalClaimsDescription';
-import { attachmentSchema, attachmentUI, blankSchema } from '../definitions';
+import {
+  attachmentSchema,
+  attachmentUI,
+  llmResponseAlertSchema,
+  llmResponseAlertUI,
+  llmUploadAlertSchema,
+  llmUploadAlertUI,
+} from '../definitions';
 import content from '../locales/en/content.json';
 
 export const claimTypeSchema = {
@@ -72,20 +77,20 @@ export const medicalClaimUploadSchema = {
   uiSchema: {
     ...titleUI(content['claim--medical-title']),
     ...descriptionUI(MedicalClaimsDescription),
-    ...LLM_UPLOAD_WARNING,
+    ...llmUploadAlertUI,
     medicalUpload: attachmentUI({
       label: content['claim--medical-title'],
       attachmentId: 'medical invoice',
     }),
-    ...LLM_RESPONSE,
+    ...llmResponseAlertUI,
   },
   schema: {
     type: 'object',
     required: ['medicalUpload'],
     properties: {
-      'view:fileClaim': blankSchema,
+      ...llmUploadAlertSchema,
       medicalUpload: attachmentSchema,
-      'view:uploadAlert': blankSchema,
+      ...llmResponseAlertSchema,
     },
   },
 };
@@ -101,20 +106,20 @@ export const eobUploadSchema = isPrimary => {
         }`;
       }),
       ...descriptionUI(MedicalEobDescription),
-      ...LLM_UPLOAD_WARNING,
+      ...llmUploadAlertUI,
       [keyName]: attachmentUI({
         label: content['claim--eob-label'],
         attachmentId: 'EOB',
       }),
-      ...LLM_RESPONSE,
+      ...llmResponseAlertUI,
     },
     schema: {
       type: 'object',
       required: [keyName],
       properties: {
-        'view:fileClaim': blankSchema,
+        ...llmUploadAlertSchema,
         [keyName]: attachmentSchema,
-        'view:uploadAlert': blankSchema,
+        ...llmResponseAlertSchema,
       },
     },
   };
@@ -124,20 +129,20 @@ export const pharmacyClaimUploadSchema = {
   uiSchema: {
     ...titleUI(content['claim--prescription-title']),
     ...descriptionUI(PharmacyClaimsDescription),
-    ...LLM_UPLOAD_WARNING,
+    ...llmUploadAlertUI,
     pharmacyUpload: attachmentUI({
       label: content['claim--prescription-label'],
       attachmentId: 'pharmacy invoice',
     }),
-    ...LLM_RESPONSE,
+    ...llmResponseAlertUI,
   },
   schema: {
     type: 'object',
     required: ['pharmacyUpload'],
     properties: {
-      'view:fileClaim': blankSchema,
+      ...llmUploadAlertSchema,
       pharmacyUpload: attachmentSchema,
-      'view:uploadAlert': blankSchema,
+      ...llmResponseAlertSchema,
     },
   },
 };

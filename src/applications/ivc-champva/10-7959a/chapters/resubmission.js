@@ -1,24 +1,30 @@
 import {
-  titleUI,
   descriptionUI,
-  selectUI,
   selectSchema,
-  textUI,
+  selectUI,
   textSchema,
+  textUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validFieldCharsOnly } from '../../shared/validations';
-import { personalizeTitleByRole } from '../utils/helpers';
-import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
-import { LLM_RESPONSE } from '../components/llmUploadResponse';
+import ClaimIdentificationInfo from '../components/FormDescriptions/ClaimIdentificationInfo';
+import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
 import {
   ResubmissionDocsDescription,
-  ResubmissionLetterDescription,
   ResubmissionDocsUploadDescription,
+  ResubmissionLetterDescription,
 } from '../components/FormDescriptions/ResubmissionDescriptions';
-import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
-import ClaimIdentificationInfo from '../components/FormDescriptions/ClaimIdentificationInfo';
-import { attachmentSchema, attachmentUI, blankSchema } from '../definitions';
+import {
+  attachmentSchema,
+  attachmentUI,
+  blankSchema,
+  llmResponseAlertSchema,
+  llmResponseAlertUI,
+  llmUploadAlertSchema,
+  llmUploadAlertUI,
+} from '../definitions';
 import content from '../locales/en/content.json';
+import { personalizeTitleByRole } from '../utils/helpers';
 
 export const ID_NUMBER_OPTIONS = [
   content['resubmission-id-number--pdi-option'],
@@ -64,20 +70,20 @@ export const resubmissionLetterUpload = {
       ResubmissionLetterDescription,
     ),
     ...descriptionUI(FileUploadDescription),
-    ...LLM_UPLOAD_WARNING,
+    ...llmUploadAlertUI,
     resubmissionLetterUpload: attachmentUI({
       label: content['resubmission-letter-upload--input-label'],
       attachmentId: 'EOB',
     }),
-    ...LLM_RESPONSE,
+    ...llmResponseAlertUI,
   },
   schema: {
     type: 'object',
     required: ['resubmissionLetterUpload'],
     properties: {
-      'view:fileClaim': blankSchema,
+      ...llmUploadAlertSchema,
       resubmissionLetterUpload: attachmentSchema,
-      'view:uploadAlert': blankSchema,
+      ...llmResponseAlertSchema,
     },
   },
 };
@@ -89,20 +95,20 @@ export const resubmissionDocsUpload = {
       ResubmissionDocsDescription,
     ),
     ...descriptionUI(ResubmissionDocsUploadDescription),
-    ...LLM_UPLOAD_WARNING,
+    ...llmUploadAlertUI,
     resubmissionDocsUpload: attachmentUI({
       label: content['resubmission-docs-upload--input-label'],
       attachmentId: 'MEDDOC',
     }),
-    ...LLM_RESPONSE,
+    ...llmResponseAlertUI,
   },
   schema: {
     type: 'object',
     required: ['resubmissionDocsUpload'],
     properties: {
-      'view:fileClaim': blankSchema,
+      ...llmUploadAlertSchema,
       resubmissionDocsUpload: attachmentSchema,
-      'view:uploadAlert': blankSchema,
+      ...llmResponseAlertSchema,
     },
   },
 };
