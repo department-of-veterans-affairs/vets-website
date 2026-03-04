@@ -11,6 +11,9 @@ import {
   DELETE_DOCUMENT_FAILURE,
   DELETE_DOCUMENT_STARTED,
   DELETE_DOCUMENT_SUCCESS,
+  DELETE_EXPENSE_DELETE_DOCUMENT_FAILURE,
+  DELETE_EXPENSE_DELETE_DOCUMENT_STARTED,
+  DELETE_EXPENSE_DELETE_DOCUMENT_SUCCESS,
   DELETE_EXPENSE_FAILURE,
   DELETE_EXPENSE_STARTED,
   DELETE_EXPENSE_SUCCESS,
@@ -480,7 +483,8 @@ function travelPayReducer(state = initialState, action) {
         },
       };
 
-    case DELETE_EXPENSE_STARTED: {
+    case DELETE_EXPENSE_STARTED:
+    case DELETE_EXPENSE_DELETE_DOCUMENT_STARTED: {
       return {
         ...state,
         complexClaim: {
@@ -516,6 +520,7 @@ function travelPayReducer(state = initialState, action) {
       };
     }
     case DELETE_EXPENSE_FAILURE:
+    case DELETE_EXPENSE_DELETE_DOCUMENT_FAILURE:
       return {
         ...state,
         complexClaim: {
@@ -636,6 +641,32 @@ function travelPayReducer(state = initialState, action) {
           },
         },
       };
+
+    case DELETE_EXPENSE_DELETE_DOCUMENT_SUCCESS: {
+      const claimDocuments = action.payload?.documents || [];
+      const newExpenses = action.payload?.expenses || [];
+      const transposedExpenses = transposeExpenses(newExpenses, claimDocuments);
+
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+            data: action.payload,
+          },
+          expenses: {
+            ...state.complexClaim.expenses,
+            delete: {
+              id: '',
+              isLoading: false,
+              error: null,
+            },
+            data: transposedExpenses,
+          },
+        },
+      };
+    }
 
     case DELETE_DOCUMENT_STARTED:
       return {
