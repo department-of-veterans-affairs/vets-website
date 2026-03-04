@@ -99,12 +99,6 @@ const formConfig = {
           uiSchema: examinationDateUiSchema,
           schema: examinationDateSchema,
         },
-        diagnosis: {
-          path: 'diagnosis',
-          title: 'Diagnosis',
-          uiSchema: diagnosisUiSchema,
-          schema: diagnosisSchema,
-        },
       },
     },
     patiendVitals: {
@@ -227,6 +221,17 @@ const formConfig = {
           title: 'Examiner\u2019s information',
           uiSchema: examinersInformationUiSchema,
           schema: examinersInformationSchema,
+        },
+      },
+    },
+    diagnosisSummary: {
+      title: 'Diagnosis Summary',
+      pages: {
+        diagnosis: {
+          path: 'diagnosis',
+          title: 'Diagnosis',
+          uiSchema: diagnosisUiSchema,
+          schema: diagnosisSchema,
         },
       },
     },
