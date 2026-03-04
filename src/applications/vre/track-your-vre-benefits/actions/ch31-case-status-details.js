@@ -71,12 +71,12 @@ export function downloadCh31PdfLetter(resCaseId) {
       return Promise.resolve();
     }
 
-    const url = `${environment.API_URL}/vre/v0/ch31_discontinued_letter`;
+    const url = `${environment.API_URL}/vre/v0/case_get_document`;
 
     return apiRequest(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ resCaseId }),
+      body: JSON.stringify({ resCaseId, documentType: 626 }),
     })
       .then(response => response.blob())
       .then(blob => {
