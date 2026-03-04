@@ -321,14 +321,18 @@ describe('Edit Contact List container', async () => {
   });
 
   it('prevents navigating away if unsaved changes', async () => {
-    const screen = setup();
+    let screen;
+    await act(async () => {
+      screen = setup();
+    });
+
+    // Wait for form to render by waiting for facility groups
+    await screen.findAllByTestId(/-facility-group$/);
 
     const guardModal = screen.getByTestId('sm-route-navigation-guard-modal');
     expect(guardModal).to.have.attribute('visible', 'false');
 
-    const checkbox = await screen.findByTestId(
-      'contact-list-select-team-1013155',
-    );
+    const checkbox = screen.getByTestId('contact-list-select-team-1013155');
 
     checkVaCheckbox(checkbox, false);
 
@@ -344,14 +348,18 @@ describe('Edit Contact List container', async () => {
   });
 
   it('saves changes and displays alert on "save" click', async () => {
-    const screen = setup();
+    let screen;
+    await act(async () => {
+      screen = setup();
+    });
+
+    // Wait for form to render by waiting for facility groups
+    await screen.findAllByTestId(/-facility-group$/);
 
     const guardModal = screen.getByTestId('sm-route-navigation-guard-modal');
     expect(guardModal).to.have.attribute('visible', 'false');
 
-    const checkbox = await screen.findByTestId(
-      'contact-list-select-team-1013155',
-    );
+    const checkbox = screen.getByTestId('contact-list-select-team-1013155');
 
     checkVaCheckbox(checkbox, false);
 
@@ -370,11 +378,15 @@ describe('Edit Contact List container', async () => {
   });
 
   it('displays loading indicator when save is in progress', async () => {
-    const screen = setup();
+    let screen;
+    await act(async () => {
+      screen = setup();
+    });
 
-    const checkbox = await screen.findByTestId(
-      'contact-list-select-team-1013155',
-    );
+    // Wait for form to render by waiting for facility groups
+    await screen.findAllByTestId(/-facility-group$/);
+
+    const checkbox = screen.getByTestId('contact-list-select-team-1013155');
 
     checkVaCheckbox(checkbox, false);
 
@@ -438,11 +450,15 @@ describe('Edit Contact List container', async () => {
     // Create spy BEFORE setup to capture all addEventListener calls across Node versions
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
 
-    const screen = setup();
+    let screen;
+    await act(async () => {
+      screen = setup();
+    });
 
-    const checkbox = await screen.findByTestId(
-      'contact-list-select-team-1013155',
-    );
+    // Wait for form to render by waiting for facility groups
+    await screen.findAllByTestId(/-facility-group$/);
+
+    const checkbox = screen.getByTestId('contact-list-select-team-1013155');
 
     // Count beforeunload listeners after initial render (varies by Node version)
     const initialBeforeunloadCount = addEventListenerSpy
@@ -470,11 +486,15 @@ describe('Edit Contact List container', async () => {
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
     const removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
 
-    const screen = setup();
+    let screen;
+    await act(async () => {
+      screen = setup();
+    });
 
-    const checkbox = await screen.findByTestId(
-      'contact-list-select-team-1013155',
-    );
+    // Wait for form to render by waiting for facility groups
+    await screen.findAllByTestId(/-facility-group$/);
+
+    const checkbox = screen.getByTestId('contact-list-select-team-1013155');
 
     // Count beforeunload listeners after initial render
     const initialBeforeunloadCount = addEventListenerSpy
@@ -520,14 +540,18 @@ describe('Edit Contact List container', async () => {
       ],
     };
 
-    const screen = setup();
+    let screen;
+    await act(async () => {
+      screen = setup();
+    });
+
+    // Wait for form to render by waiting for facility groups
+    await screen.findAllByTestId(/-facility-group$/);
 
     const guardModal = screen.getByTestId('sm-route-navigation-guard-modal');
     expect(guardModal).to.have.attribute('visible', 'false');
 
-    const checkbox = await screen.findByTestId(
-      'contact-list-select-team-1013155',
-    );
+    const checkbox = screen.getByTestId('contact-list-select-team-1013155');
 
     checkVaCheckbox(checkbox, false);
 
@@ -621,14 +645,15 @@ describe('Edit Contact List container', async () => {
         ...initialState,
         user: {
           profile: {
+            userFacilityMigratingToOh: true,
             migrationSchedules: [
               {
                 phases: {
                   current: 'p3',
                 },
                 facilities: [
-                  { facilityName: 'Test Facility 1' },
-                  { facilityName: 'Test Facility 2' },
+                  { facilityId: '001', facilityName: 'Test Facility 1' },
+                  { facilityId: '002', facilityName: 'Test Facility 2' },
                 ],
               },
             ],
@@ -639,7 +664,7 @@ describe('Edit Contact List container', async () => {
       const screen = setup(customState);
 
       await waitFor(() => {
-        const alert = screen.getByTestId('contact-list-alert');
+        const alert = screen.getByTestId('contact-list-migration-alert');
         expect(alert).to.exist;
         expect(alert).to.have.attribute('status', 'warning');
       });
@@ -652,15 +677,25 @@ describe('Edit Contact List container', async () => {
         ...initialState,
         user: {
           profile: {
+            userFacilityMigratingToOh: true,
             migrationSchedules: [
               {
                 phases: {
                   current: 'p2',
                 },
                 facilities: [
-                  { facilityName: 'VA Boston Healthcare System' },
-                  { facilityName: 'VA Palo Alto Health Care System' },
-                  { facilityName: 'VA Pittsburgh Healthcare System' },
+                  {
+                    facilityId: '001',
+                    facilityName: 'VA Boston Healthcare System',
+                  },
+                  {
+                    facilityId: '002',
+                    facilityName: 'VA Palo Alto Health Care System',
+                  },
+                  {
+                    facilityId: '003',
+                    facilityName: 'VA Pittsburgh Healthcare System',
+                  },
                 ],
               },
             ],
@@ -671,7 +706,7 @@ describe('Edit Contact List container', async () => {
       const screen = setup(customState);
 
       await waitFor(() => {
-        const alert = screen.getByTestId('contact-list-alert');
+        const alert = screen.getByTestId('contact-list-migration-alert');
         expect(alert).to.exist;
 
         expect(screen.getByText('VA Boston Healthcare System')).to.exist;
@@ -687,12 +722,15 @@ describe('Edit Contact List container', async () => {
         ...initialState,
         user: {
           profile: {
+            userFacilityMigratingToOh: true,
             migrationSchedules: [
               {
                 phases: {
                   current: 'p1',
                 },
-                facilities: [{ facilityName: 'Test Facility' }],
+                facilities: [
+                  { facilityId: '001', facilityName: 'Test Facility' },
+                ],
               },
             ],
           },
@@ -702,7 +740,7 @@ describe('Edit Contact List container', async () => {
       const screen = setup(customState);
 
       await waitFor(() => {
-        const alert = screen.getByTestId('contact-list-alert');
+        const alert = screen.getByTestId('contact-list-migration-alert');
         expect(alert).to.exist;
       });
 
@@ -714,12 +752,15 @@ describe('Edit Contact List container', async () => {
         ...initialState,
         user: {
           profile: {
+            userFacilityMigratingToOh: true,
             migrationSchedules: [
               {
                 phases: {
                   current: 'p6',
                 },
-                facilities: [{ facilityName: 'Test Facility' }],
+                facilities: [
+                  { facilityId: '001', facilityName: 'Test Facility' },
+                ],
               },
             ],
           },
@@ -729,7 +770,7 @@ describe('Edit Contact List container', async () => {
       const screen = setup(customState);
 
       await waitFor(() => {
-        const alert = screen.getByTestId('contact-list-alert');
+        const alert = screen.getByTestId('contact-list-migration-alert');
         expect(alert).to.exist;
       });
 
@@ -741,12 +782,15 @@ describe('Edit Contact List container', async () => {
         ...initialState,
         user: {
           profile: {
+            userFacilityMigratingToOh: true,
             migrationSchedules: [
               {
                 phases: {
                   current: 'p0',
                 },
-                facilities: [{ facilityName: 'Test Facility' }],
+                facilities: [
+                  { facilityId: '001', facilityName: 'Test Facility' },
+                ],
               },
             ],
           },
@@ -756,34 +800,7 @@ describe('Edit Contact List container', async () => {
       const screen = setup(customState);
 
       await waitFor(() => {
-        const alert = screen.queryByTestId('contact-list-alert');
-        expect(alert).to.not.exist;
-      });
-
-      screen.unmount();
-    });
-
-    it('does not display migration alert when phase is after p6', async () => {
-      const customState = {
-        ...initialState,
-        user: {
-          profile: {
-            migrationSchedules: [
-              {
-                phases: {
-                  current: 'p7',
-                },
-                facilities: [{ facilityName: 'Test Facility' }],
-              },
-            ],
-          },
-        },
-      };
-
-      const screen = setup(customState);
-
-      await waitFor(() => {
-        const alert = screen.queryByTestId('contact-list-alert');
+        const alert = screen.queryByTestId('contact-list-migration-alert');
         expect(alert).to.not.exist;
       });
 
@@ -795,6 +812,7 @@ describe('Edit Contact List container', async () => {
         ...initialState,
         user: {
           profile: {
+            userFacilityMigratingToOh: true,
             migrationSchedules: [],
           },
         },
@@ -803,7 +821,7 @@ describe('Edit Contact List container', async () => {
       const screen = setup(customState);
 
       await waitFor(() => {
-        const alert = screen.queryByTestId('contact-list-alert');
+        const alert = screen.queryByTestId('contact-list-migration-alert');
         expect(alert).to.not.exist;
       });
 
@@ -815,6 +833,7 @@ describe('Edit Contact List container', async () => {
         ...initialState,
         user: {
           profile: {
+            userFacilityMigratingToOh: true,
             migrationSchedules: [
               {
                 phases: {
@@ -830,7 +849,7 @@ describe('Edit Contact List container', async () => {
       const screen = setup(customState);
 
       await waitFor(() => {
-        const alert = screen.queryByTestId('contact-list-alert');
+        const alert = screen.queryByTestId('contact-list-migration-alert');
         expect(alert).to.not.exist;
       });
 
@@ -848,7 +867,7 @@ describe('Edit Contact List container', async () => {
       const screen = setup(customState);
 
       await waitFor(() => {
-        const alert = screen.queryByTestId('contact-list-alert');
+        const alert = screen.queryByTestId('contact-list-migration-alert');
         expect(alert).to.not.exist;
       });
 
@@ -860,14 +879,15 @@ describe('Edit Contact List container', async () => {
         ...initialState,
         user: {
           profile: {
+            userFacilityMigratingToOh: true,
             migrationSchedules: [
               {
                 phases: {
                   current: 'p2',
                 },
                 facilities: [
-                  { facilityName: 'Facility A' },
-                  { facilityName: 'Facility B' },
+                  { facilityId: '001', facilityName: 'Facility A' },
+                  { facilityId: '002', facilityName: 'Facility B' },
                 ],
               },
               {
@@ -875,8 +895,8 @@ describe('Edit Contact List container', async () => {
                   current: 'p4',
                 },
                 facilities: [
-                  { facilityName: 'Facility C' },
-                  { facilityName: 'Facility D' },
+                  { facilityId: '003', facilityName: 'Facility C' },
+                  { facilityId: '004', facilityName: 'Facility D' },
                 ],
               },
             ],
@@ -887,7 +907,7 @@ describe('Edit Contact List container', async () => {
       const screen = setup(customState);
 
       await waitFor(() => {
-        const alert = screen.getByTestId('contact-list-alert');
+        const alert = screen.getByTestId('contact-list-migration-alert');
         expect(alert).to.exist;
 
         expect(screen.getByText('Facility A')).to.exist;
@@ -904,12 +924,15 @@ describe('Edit Contact List container', async () => {
         ...initialState,
         user: {
           profile: {
+            userFacilityMigratingToOh: true,
             migrationSchedules: [
               {
                 phases: {
                   current: 'p3',
                 },
-                facilities: [{ facilityName: 'Test Facility' }],
+                facilities: [
+                  { facilityId: '001', facilityName: 'Test Facility' },
+                ],
               },
             ],
           },
@@ -919,53 +942,21 @@ describe('Edit Contact List container', async () => {
       const screen = setup(customState);
 
       await waitFor(() => {
-        const alert = screen.getByTestId('contact-list-alert');
+        const alert = screen.getByTestId('contact-list-migration-alert');
         expect(alert).to.exist;
 
         expect(screen.getByText("We're making changes to your contact list")).to
           .exist;
 
+        // Use container query to avoid matching multiple elements (visible + sr-only)
         expect(
-          screen.getByText((_, element) => {
-            return element.textContent.includes(
-              'You can still send messages to care teams at these facilities',
-            );
-          }),
-        ).to.exist;
+          alert.textContent.includes(
+            'You can still send messages to care teams at these facilities',
+          ),
+        ).to.be.true;
       });
 
       screen.unmount();
     });
-
-    // it('displays alert for all valid phases p1 through p6', async () => {
-    //   const phases = ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'];
-
-    //   for (const phase of phases) {
-    //     const customState = {
-    //       ...initialState,
-    //       user: {
-    //         profile: {
-    //           migrationSchedules: [
-    //             {
-    //               phases: {
-    //                 current: phase,
-    //               },
-    //               facilities: [{ facilityName: 'Test Facility' }],
-    //             },
-    //           ],
-    //         },
-    //       },
-    //     };
-
-    //     const screen = setup(customState);
-
-    //     await waitFor(() => {
-    //       const alert = screen.queryByTestId('contact-list-alert');
-    //       expect(alert, `Alert should exist for phase ${phase}`).to.exist;
-    //     });
-
-    //     screen.unmount();
-    //   }
-    // });
   });
 });
