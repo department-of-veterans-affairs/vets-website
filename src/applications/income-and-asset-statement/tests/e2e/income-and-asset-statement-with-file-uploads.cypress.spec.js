@@ -19,7 +19,7 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     appName: '21P-0969 Income and Asset Statement Form',
     dataPrefix: 'data',
-    dataSets: ['test-data-post-mvp'],
+    dataSets: ['test-data-with-file-uploads'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -67,10 +67,6 @@ const testConfig = createTestConfig(
           features: [
             {
               name: 'income_and_assets_form_enabled',
-              value: true,
-            },
-            {
-              name: 'income_and_assets_content_updates',
               value: true,
             },
             {
