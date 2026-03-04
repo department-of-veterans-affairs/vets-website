@@ -5,6 +5,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import content from '../locales/en/content.json';
 
+export * from './attachments';
+
 export const blankSchema = { type: 'object', properties: {} };
 
 export const champvaMemberNumberSchema = {
@@ -23,6 +25,9 @@ export const fileUploadSchema = {
 export const fullNameMiddleInitialUI = merge({}, fullNameUI(), {
   middle: { 'ui:title': content['form-label--middle-initial'] },
 });
+
 export const fullNameMiddleInitialSchema = merge({}, fullNameSchema, {
   properties: { middle: { type: 'string', maxLength: 1 } },
 });
+
+export const textareaSchema = { type: 'string', maxLength: 300 };

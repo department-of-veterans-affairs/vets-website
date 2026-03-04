@@ -33,7 +33,6 @@ import {
   otherTransferMethodExplanationRequired,
   requireExpandedArrayField,
   sharedRecipientRelationshipBase,
-  showUpdatedContent,
   sharedYesNoOptionsBase,
 } from '../../../helpers';
 import {
@@ -65,12 +64,8 @@ export const options = {
     !isDefined(item.capitalGainValue), // include all required fields here
   text: {
     summaryTitle: 'Review asset transfers',
-    summaryTitleWithoutItems: showUpdatedContent()
-      ? 'Asset transfers and sales'
-      : null,
-    summaryDescriptionWithoutItems: showUpdatedContent()
-      ? AssetTransfersSummaryDescription
-      : null,
+    summaryTitleWithoutItems: 'Asset transfers and sales',
+    summaryDescriptionWithoutItems: AssetTransfersSummaryDescription,
     getItemName: item =>
       isDefined(item?.newOwnerName) &&
       `Asset ${
@@ -129,9 +124,9 @@ export const options = {
 // Important: only one summary page should ever be displayed at a time.
 
 // Shared summary page text
-const updatedTitleNoItems =
+const titleNoItems =
   'Did you or your dependents transfer any assets this year or in the past 3 years?';
-const updatedTitleWithItems = 'Do you have more asset transfers to report?';
+const titleWithItems = 'Do you have more asset transfers to report?';
 const summaryPageTitle = 'Asset transfers and other sales';
 const incomeRecipientPageTitle = 'Asset owner relationship information';
 const yesNoOptionLabels = {
@@ -145,24 +140,6 @@ const yesNoOptionLabels = {
  * @returns {PageSchema}
  */
 const summaryPage = {
-  uiSchema: {
-    'view:isAddingAssetTransfers': arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'In this year or in the past 3 tax years, did you or your dependents transfer any assets?',
-        hint: 'If yes, you’ll need to report at least one asset transfer',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-      },
-      {
-        title: 'Do you have more asset transfers to report?',
-        ...sharedYesNoOptionsBase,
-      },
-    ),
-  },
   schema: {
     type: 'object',
     properties: {
@@ -177,14 +154,14 @@ const veteranSummaryPage = {
     'view:isAddingAssetTransfers': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -196,13 +173,13 @@ const spouseSummaryPage = {
     'view:isAddingAssetTransfers': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint: 'Your dependents include children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -220,7 +197,7 @@ const childSummaryPage = {
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -232,14 +209,14 @@ const parentSummaryPage = {
     'view:isAddingAssetTransfers': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -251,14 +228,14 @@ const custodianSummaryPage = {
     'view:isAddingAssetTransfers': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -421,33 +398,6 @@ const parentIncomeRecipientPage = {
 };
 
 /** @returns {PageSchema} */
-const nonVeteranIncomeRecipientPage = {
-  uiSchema: {
-    ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Asset owner relationship information',
-      nounSingular: options.nounSingular,
-    }),
-    originalOwnerRelationship: radioUI({
-      title:
-        'What is the asset’s original owner’s relationship to the Veteran?',
-      labels: relationshipLabels,
-    }),
-    otherOriginalOwnerRelationshipType: otherRecipientRelationshipTypeUI,
-    'ui:options': {
-      ...requireExpandedArrayField('otherOriginalOwnerRelationshipType'),
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      originalOwnerRelationship: radioSchema(Object.keys(relationshipLabels)),
-      otherOriginalOwnerRelationshipType: textSchema,
-    },
-    required: ['originalOwnerRelationship'],
-  },
-};
-
-/** @returns {PageSchema} */
 const informationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Asset transfer information'),
@@ -476,7 +426,7 @@ const transferPage = {
     transferMethod: radioUI({
       title: 'How was this asset transferred?',
       labels: transferMethodLabels,
-      descriptions: showUpdatedContent() ? transferMethodDescriptions : null,
+      descriptions: transferMethodDescriptions,
       labelHeaderLevel: '2',
       labelHeaderLevelStyle: '3',
     }),
@@ -582,101 +532,69 @@ export const assetTransferPages = arrayBuilderPages(options, pageBuilder => ({
   assetTransferPagesVeteranSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'asset-transfers-summary-veteran',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'VETERAN',
+    depends: formData => formData.claimantType === 'VETERAN',
     uiSchema: veteranSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   assetTransferPagesSpouseSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'asset-transfers-summary-spouse',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'SPOUSE',
+    depends: formData => formData.claimantType === 'SPOUSE',
     uiSchema: spouseSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   assetTransferPagesChildSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'asset-transfers-summary-child',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'CHILD',
+    depends: formData => formData.claimantType === 'CHILD',
     uiSchema: childSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   assetTransferPagesCustodianSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'asset-transfers-summary-custodian',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+    depends: formData => formData.claimantType === 'CUSTODIAN',
     uiSchema: custodianSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   assetTransferPagesParentSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'asset-transfers-summary-parent',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'PARENT',
+    depends: formData => formData.claimantType === 'PARENT',
     uiSchema: parentSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
-  assetTransferPagesSummary: pageBuilder.summaryPage({
-    title: summaryPageTitle,
-    path: 'asset-transfers-summary',
-    depends: () => !showUpdatedContent(),
-    uiSchema: summaryPage.uiSchema,
-    schema: summaryPage.schema,
-  }),
   assetTransferVeteranRecipientPage: pageBuilder.itemPage({
-    ContentBeforeButtons: showUpdatedContent() ? (
-      <DependentDescription claimantType="VETERAN" />
-    ) : null,
+    ContentBeforeButtons: <DependentDescription claimantType="VETERAN" />,
     title: incomeRecipientPageTitle,
     path: 'asset-transfers/:index/veteran-income-recipient',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'VETERAN',
+    depends: formData => formData.claimantType === 'VETERAN',
     uiSchema: veteranIncomeRecipientPage.uiSchema,
     schema: veteranIncomeRecipientPage.schema,
   }),
   assetTransferSpouseRecipientPage: pageBuilder.itemPage({
-    ContentBeforeButtons: showUpdatedContent() ? (
-      <DependentDescription claimantType="SPOUSE" />
-    ) : null,
+    ContentBeforeButtons: <DependentDescription claimantType="SPOUSE" />,
     title: incomeRecipientPageTitle,
     path: 'asset-transfers/:index/spouse-income-recipient',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'SPOUSE',
+    depends: formData => formData.claimantType === 'SPOUSE',
     uiSchema: spouseIncomeRecipientPage.uiSchema,
     schema: spouseIncomeRecipientPage.schema,
   }),
   assetTransferCustodianRecipientPage: pageBuilder.itemPage({
-    ContentBeforeButtons: showUpdatedContent() ? (
-      <DependentDescription claimantType="CUSTODIAN" />
-    ) : null,
+    ContentBeforeButtons: <DependentDescription claimantType="CUSTODIAN" />,
     title: incomeRecipientPageTitle,
     path: 'asset-transfers/:index/custodian-income-recipient',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+    depends: formData => formData.claimantType === 'CUSTODIAN',
     uiSchema: custodianIncomeRecipientPage.uiSchema,
     schema: custodianIncomeRecipientPage.schema,
   }),
   assetTransferParentRecipientPage: pageBuilder.itemPage({
-    ContentBeforeButtons: showUpdatedContent() ? (
-      <DependentDescription claimantType="PARENT" />
-    ) : null,
+    ContentBeforeButtons: <DependentDescription claimantType="PARENT" />,
     title: incomeRecipientPageTitle,
     path: 'asset-transfers/:index/parent-income-recipient',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'PARENT',
+    depends: formData => formData.claimantType === 'PARENT',
     uiSchema: parentIncomeRecipientPage.uiSchema,
     schema: parentIncomeRecipientPage.schema,
-  }),
-  assetTransferNonVeteranRecipientPage: pageBuilder.itemPage({
-    title: incomeRecipientPageTitle,
-    path: 'asset-transfers/:index/income-recipient',
-    depends: () => !showUpdatedContent(),
-    uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
-    schema: nonVeteranIncomeRecipientPage.schema,
   }),
   // When claimantType is 'CHILD' we skip showing the recipient page entirely
   // To preserve required data, we auto-set originalOwnerRelationship to 'CHILD'
