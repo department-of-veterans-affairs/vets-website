@@ -20,8 +20,8 @@ const HealthCareContent = ({
   isLOA1,
   isCernerPatient,
 }) => {
-  const nextAppointment = appointments?.[0];
-  const hasUpcomingAppointment = !!nextAppointment;
+  const upcomingAppointments = appointments?.slice(0, 2) || [];
+  const hasUpcomingAppointment = upcomingAppointments.length > 0;
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
@@ -132,7 +132,13 @@ const HealthCareContent = ({
           )}
           {hasAppointmentsError && <AppointmentsError />}
           {hasUpcomingAppointment &&
-            !isLOA1 && <AppointmentsCard appointments={appointments} />}
+            !isLOA1 &&
+            upcomingAppointments.map(appointment => (
+              <AppointmentsCard
+                key={appointment.id}
+                appointments={[appointment]}
+              />
+            ))}
           {!isVAPatient && !isLOA1 && <NoHealthcareText />}
           {isVAPatient &&
             !hasUpcomingAppointment &&

@@ -44,7 +44,7 @@ describe('<UnconnectedHealthCareContent />', () => {
     tree.getByTestId('appointments-error');
   });
 
-  it('should render the Next appointments card', () => {
+  it('should render the Next appointments cards for the first two appointments', () => {
     const appointments = v2.createAppointmentSuccess().data;
     const appts = appointments.map(appointment => appointment.attributes);
 
@@ -53,7 +53,23 @@ describe('<UnconnectedHealthCareContent />', () => {
       { initialState },
     );
 
-    tree.getByTestId('health-care-appointments-card');
+    const cards = tree.getAllByTestId('health-care-appointments-card');
+    expect(cards).to.have.lengthOf(2);
+  });
+
+  it('should render one Next appointments card when there is one appointment', () => {
+    const appointments = v2.createAppointmentSuccess().data;
+    const appts = appointments
+      .map(appointment => appointment.attributes)
+      .slice(0, 1);
+
+    const tree = renderWithStoreAndRouter(
+      <UnconnectedHealthCareContent appointments={appts} />,
+      { initialState },
+    );
+
+    const cards = tree.getAllByTestId('health-care-appointments-card');
+    expect(cards).to.have.lengthOf(1);
   });
 
   it('should render the no upcoming appointments text', () => {
