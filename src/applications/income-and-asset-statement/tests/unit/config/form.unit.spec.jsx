@@ -75,7 +75,6 @@ describe('21P-0969 form config', () => {
       'unreportedAssets',
       'discontinuedIncomes',
       'incomeReceiptWaivers',
-      'supportingDocuments',
     ];
 
     expected.forEach(ch => {

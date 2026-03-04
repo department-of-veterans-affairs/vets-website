@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { PropTypes } from 'prop-types';
 import SubmissionCard from './SubmissionCard';
 
-const SubmissionsPageResults = ({ submissions }) => {
+const SubmissionsPageResults = ({ submissions, omitClaimantName }) => {
   if (!submissions || submissions.length === 0) {
     return (
       <p data-testid="submissions-table-fetcher-empty">
@@ -18,19 +18,30 @@ const SubmissionsPageResults = ({ submissions }) => {
       sort-column={1}
     >
       {submissions.map((submission, index) => {
-        return <SubmissionCard submission={submission} key={index} />;
+        return (
+          <SubmissionCard
+            submission={submission}
+            key={index}
+            omitClaimantName={omitClaimantName}
+          />
+        );
       })}
     </ul>
   );
 };
 
 SubmissionsPageResults.propTypes = {
+  omitClaimantName: PropTypes.bool,
   submissions: PropTypes.arrayOf(
     PropTypes.shape({
       length: PropTypes.number,
       map: PropTypes.func,
     }),
   ),
+};
+
+SubmissionsPageResults.defaultProps = {
+  omitClaimantName: false,
 };
 
 export default SubmissionsPageResults;
