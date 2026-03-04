@@ -6,7 +6,6 @@ import {
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { validFieldCharsOnly } from '../../shared/validations';
 import { personalizeTitleByRole } from '../utils/helpers';
 import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
@@ -18,7 +17,7 @@ import {
 } from '../components/FormDescriptions/ResubmissionDescriptions';
 import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
 import ClaimIdentificationInfo from '../components/FormDescriptions/ClaimIdentificationInfo';
-import { blankSchema, fileUploadSchema } from '../definitions';
+import { attachmentSchema, attachmentUI, blankSchema } from '../definitions';
 import content from '../locales/en/content.json';
 
 export const ID_NUMBER_OPTIONS = [
@@ -66,10 +65,9 @@ export const resubmissionLetterUpload = {
     ),
     ...descriptionUI(FileUploadDescription),
     ...LLM_UPLOAD_WARNING,
-    resubmissionLetterUpload: fileUploadUI({
+    resubmissionLetterUpload: attachmentUI({
       label: content['resubmission-letter-upload--input-label'],
-      attachmentName: true,
-      attachmentId: 'EOB', // hard-set for LLM verification
+      attachmentId: 'EOB',
     }),
     ...LLM_RESPONSE,
   },
@@ -78,7 +76,7 @@ export const resubmissionLetterUpload = {
     required: ['resubmissionLetterUpload'],
     properties: {
       'view:fileClaim': blankSchema,
-      resubmissionLetterUpload: fileUploadSchema,
+      resubmissionLetterUpload: attachmentSchema,
       'view:uploadAlert': blankSchema,
     },
   },
@@ -92,9 +90,8 @@ export const resubmissionDocsUpload = {
     ),
     ...descriptionUI(ResubmissionDocsUploadDescription),
     ...LLM_UPLOAD_WARNING,
-    resubmissionDocsUpload: fileUploadUI({
+    resubmissionDocsUpload: attachmentUI({
       label: content['resubmission-docs-upload--input-label'],
-      attachmentName: true,
       attachmentId: 'MEDDOC',
     }),
     ...LLM_RESPONSE,
@@ -104,7 +101,7 @@ export const resubmissionDocsUpload = {
     required: ['resubmissionDocsUpload'],
     properties: {
       'view:fileClaim': blankSchema,
-      resubmissionDocsUpload: fileUploadSchema,
+      resubmissionDocsUpload: attachmentSchema,
       'view:uploadAlert': blankSchema,
     },
   },
