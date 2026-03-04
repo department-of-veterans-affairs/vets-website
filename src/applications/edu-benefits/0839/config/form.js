@@ -30,6 +30,7 @@ import {
 import {
   additionalInstitutionDetailsArrayOptions,
   showAdditionalPointsOfContact,
+  getAdditionalContactRole,
   arrayBuilderOptions,
   CustomReviewTopContent,
   focusOnH3,
@@ -274,7 +275,7 @@ const formConfig = {
         },
         additionalPointsOfContact: {
           path: 'additional-points-of-contact',
-          title: 'additional points of contact',
+          title: formData => getAdditionalContactRole(formData),
           uiSchema: additionalPointsOfContact.uiSchema,
           schema: additionalPointsOfContact.schema,
           depends: formData =>
