@@ -7,7 +7,6 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { renderWithReduxAndRouter } from '../../utils';
 import { buildDateFormatter } from '../../../utils/helpers';
-import { evidenceDictionary } from '../../../utils/evidenceDictionary';
 
 import FirstPartyRequestPage from '../../../components/claim-document-request-pages/FirstPartyRequestPage';
 
@@ -114,9 +113,9 @@ describe('<FirstPartyRequestPage>', () => {
     expect($('.add-files-form', container)).to.exist;
     getByText('Authorization to Disclose Information');
     getByText(`Respond by ${formatDate(item.suspenseDate)}`);
-    getByText('What we need from you');
+    getByText('What we need from you', { selector: 'h2' });
     getByText('Learn about this request in your claim letter');
-    getByText('Next steps');
+    getByText('Next steps', { selector: 'h2' });
     expect($('va-link', container)).to.exist;
     expect($('.optional-upload', container)).to.not.exist;
     expect($('va-additional-info', container)).to.exist;
@@ -129,6 +128,7 @@ describe('<FirstPartyRequestPage>', () => {
       description: 'old description',
       friendlyName: 'Friendly sensitive item name',
       displayName: 'ASB - tell us where, when, how exposed',
+      isSensitive: true,
       overdue: true,
       requestedDate: '2024-03-25',
       suspenseDate: nineMonthsAgoSuspenseDate,
@@ -353,13 +353,10 @@ describe('<FirstPartyRequestPage>', () => {
     const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
     const pastSuspenseDate = nineMonthsAgoSuspenseDate;
 
-    // Helper to get dictionary entry for a displayName
-    const getDictEntry = displayName => evidenceDictionary[displayName];
-
     const firstPartyTestCases = [
       {
         id: 1,
-        name: 'Frontend override with longDescription + nextSteps',
+        name: 'Item with no longDescription or description (empty state)',
         item: {
           id: 1,
           displayName: '21-4142/21-4142a',
@@ -368,11 +365,10 @@ describe('<FirstPartyRequestPage>', () => {
           suspenseDate: futureSuspenseDate,
           canUploadFile: true,
         },
-        dictionaryEntry: getDictEntry('21-4142/21-4142a'),
         expectedHeader: 'Request for evidence',
         expectedSubheaderPattern: /Respond by .* for: 21-4142\/21-4142a/,
         expectedDescriptionText:
-          'we need your permission to request your personal information',
+          'We’re unable to provide more information about the request on this page.',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
       },
@@ -387,17 +383,16 @@ describe('<FirstPartyRequestPage>', () => {
           suspenseDate: pastSuspenseDate,
           canUploadFile: true,
         },
-        dictionaryEntry: getDictEntry('21-4142/21-4142a'),
         expectedHeader: 'Request for evidence',
         expectedSubheaderPattern: /Respond by .* for: 21-4142\/21-4142a/,
         expectedDescriptionText:
-          'we need your permission to request your personal information',
+          'We’re unable to provide more information about the request on this page.',
         showsAddFilesForm: true,
         showsPastDueAlert: true,
       },
       {
         id: 3,
-        name: 'Frontend override with isSensitive: true',
+        name: 'Item with isSensitive (no longDescription, empty state)',
         item: {
           id: 3,
           displayName: 'ASB - tell us where, when, how exposed',
@@ -405,19 +400,19 @@ describe('<FirstPartyRequestPage>', () => {
           requestedDate: '2025-12-01',
           suspenseDate: futureSuspenseDate,
           friendlyName: 'Asbestos exposure details',
+          isSensitive: true,
           canUploadFile: true,
         },
-        dictionaryEntry: getDictEntry('ASB - tell us where, when, how exposed'),
         expectedHeader: 'Request for evidence',
         expectedSubheaderPattern: /Respond by .* for: asbestos exposure details/i,
         expectedDescriptionText:
-          'To process your disability claim for asbestos exposure',
+          'We’re unable to provide more information about the request on this page.',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
       },
       {
         id: 15,
-        name: 'ASB - tell us specific disability (isSensitive: true)',
+        name: 'ASB - tell us specific disability (isSensitive, empty state)',
         item: {
           id: 15,
           displayName: 'ASB-tell us specific disability fm asbestos exposure',
@@ -425,21 +420,19 @@ describe('<FirstPartyRequestPage>', () => {
           requestedDate: '2025-10-23',
           suspenseDate: futureSuspenseDate,
           friendlyName: 'asbestos exposure information',
+          isSensitive: true,
           canUploadFile: true,
         },
-        dictionaryEntry: getDictEntry(
-          'ASB-tell us specific disability fm asbestos exposure',
-        ),
         expectedHeader: 'Request for evidence',
         expectedSubheaderPattern: /Respond by .* for: asbestos exposure information/i,
         expectedDescriptionText:
-          'To process your disability claim for asbestos exposure, we need information about your asbestos-related disease or disability:',
+          'We’re unable to provide more information about the request on this page.',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
       },
       {
         id: 4,
-        name: 'Frontend override with longDescription but NO nextSteps',
+        name: 'Item with no longDescription (empty state, generic next steps)',
         item: {
           id: 4,
           displayName: 'Employer (21-4192)',
@@ -448,12 +441,11 @@ describe('<FirstPartyRequestPage>', () => {
           suspenseDate: futureSuspenseDate,
           canUploadFile: true,
         },
-        dictionaryEntry: getDictEntry('Employer (21-4192)'),
         expectedHeader: 'Request for evidence',
         expectedSubheaderPattern: /Respond by .* for: Employer \(21-4192\)/,
         expectedDescriptionText:
-          'we sent a letter to your last employer to ask about your job and why you left',
-        expectedNextStepsTestId: 'next-steps-in-what-we-need-from-you',
+          'We’re unable to provide more information about the request on this page.',
+        expectedNextStepsTestId: 'next-steps-in-claim-letter',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
       },
@@ -469,12 +461,11 @@ describe('<FirstPartyRequestPage>', () => {
           friendlyName: 'Custom friendly name for testing',
           canUploadFile: true,
         },
-        dictionaryEntry: null,
         expectedHeader: 'Custom friendly name for testing',
         expectedSubheaderPattern: /Respond by/,
         expectedSubheaderExcludes: 'Unknown Request Type',
         expectedDescriptionText:
-          'we’re unable to provide more information about the request',
+          'we’re unable to provide more information about the request on this page.',
         expectedNextStepsTestId: 'next-steps-in-claim-letter',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
@@ -491,11 +482,10 @@ describe('<FirstPartyRequestPage>', () => {
           description: null,
           canUploadFile: true,
         },
-        dictionaryEntry: null,
         expectedHeader: 'Request for evidence',
         expectedSubheaderPattern: /Respond by .* for: Generic Request No Override/,
         expectedDescriptionText:
-          'we’re unable to provide more information about the request',
+          'we’re unable to provide more information about the request on this page.',
         expectedNextStepsTestId: 'next-steps-in-claim-letter',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
@@ -512,7 +502,6 @@ describe('<FirstPartyRequestPage>', () => {
           description: 'API-provided description for this request',
           canUploadFile: true,
         },
-        dictionaryEntry: null,
         expectedHeader: 'Request for evidence',
         expectedSubheaderPattern: /Respond by .* for: Another Generic Request/,
         expectedDescriptionText: 'API-provided description for this request',
@@ -531,11 +520,10 @@ describe('<FirstPartyRequestPage>', () => {
           suspenseDate: futureSuspenseDate,
           canUploadFile: false,
         },
-        dictionaryEntry: getDictEntry('21-4142/21-4142a'),
         expectedHeader: 'Request for evidence',
         expectedSubheaderPattern: /Respond by .* for: 21-4142\/21-4142a/,
         expectedDescriptionText:
-          'we need your permission to request your personal information',
+          'We’re unable to provide more information about the request on this page.',
         showsAddFilesForm: false,
         showsPastDueAlert: false,
       },
@@ -583,8 +571,8 @@ describe('<FirstPartyRequestPage>', () => {
         getByText('What we need from you', { selector: 'h2' });
 
         // Verify description content and "Learn about this request" section
-        if (testCase.dictionaryEntry?.longDescription) {
-          expect(getByTestId('frontend-description')).to.exist;
+        if (testCase.item.longDescription?.blocks) {
+          expect(getByTestId('api-long-description')).to.exist;
           getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
           expect(queryByTestId('learn-about-request-section')).to.exist;
         } else if (testCase.item.description) {
@@ -598,8 +586,8 @@ describe('<FirstPartyRequestPage>', () => {
         }
 
         // Verify next steps
-        if (testCase.dictionaryEntry?.nextSteps) {
-          expect(testCase.dictionaryEntry.nextSteps).to.exist;
+        if (testCase.item.nextSteps?.blocks) {
+          expect(getByTestId('api-next-steps')).to.exist;
           getByText('Next steps', { selector: 'h2' });
         } else if (testCase.expectedNextStepsTestId) {
           expect(getByTestId(testCase.expectedNextStepsTestId)).to.exist;
@@ -758,7 +746,7 @@ describe('<FirstPartyRequestPage>', () => {
           .exist;
       });
 
-      it('Renders API longDescription with frontend nextSteps (mixed API and dictionary)', () => {
+      it('Renders API longDescription when nextSteps not provided', () => {
         const item = {
           id: 214,
           displayName: '21-4142/21-4142a',
@@ -766,8 +754,7 @@ describe('<FirstPartyRequestPage>', () => {
           requestedDate: '2025-12-01',
           suspenseDate: futureSuspenseDate,
           canUploadFile: true,
-          longDescription: mockApiLongDescription, // API
-          // nextSteps will come from dictionary
+          longDescription: mockApiLongDescription,
         };
 
         const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
@@ -775,16 +762,13 @@ describe('<FirstPartyRequestPage>', () => {
           { initialState },
         );
 
-        // Should render API structured longDescription
         expect(getByTestId('api-long-description')).to.exist;
-        // Should render frontend nextSteps
-        expect(getByTestId('frontend-next-steps')).to.exist;
-        // Should NOT render frontend description
+        expect(queryByTestId('frontend-next-steps')).to.not.exist;
         expect(queryByTestId('frontend-description')).to.not.exist;
         expect(queryByTestId('api-next-steps')).to.not.exist;
       });
 
-      it('Renders frontend description with API nextSteps', () => {
+      it('Renders empty state description with API nextSteps', () => {
         const item = {
           id: 215,
           displayName: '21-4142/21-4142a',
@@ -792,8 +776,7 @@ describe('<FirstPartyRequestPage>', () => {
           requestedDate: '2025-12-01',
           suspenseDate: futureSuspenseDate,
           canUploadFile: true,
-          // longDescription will come from dictionary
-          nextSteps: mockApiNextSteps, // API
+          nextSteps: mockApiNextSteps,
         };
 
         const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
@@ -801,18 +784,15 @@ describe('<FirstPartyRequestPage>', () => {
           { initialState },
         );
 
-        // Should render frontend dictionary longDescription
-        expect(getByTestId('frontend-description')).to.exist;
-        // Should render API structured nextSteps
+        expect(getByTestId('empty-state-description')).to.exist;
         expect(getByTestId('api-next-steps')).to.exist;
-        // Should NOT render API longDescription
         expect(queryByTestId('api-long-description')).to.not.exist;
         expect(queryByTestId('frontend-next-steps')).to.not.exist;
       });
     });
 
-    context('backward compatibility', () => {
-      it('Maintains existing behavior when API fields are undefined', () => {
+    context('when API fields are undefined', () => {
+      it('Renders empty state for description and generic next steps', () => {
         const item = {
           id: 216,
           displayName: '21-4142/21-4142a',
@@ -827,77 +807,71 @@ describe('<FirstPartyRequestPage>', () => {
           { initialState },
         );
 
-        expect(getByTestId('frontend-description')).to.exist;
-        expect(getByTestId('frontend-next-steps')).to.exist;
+        expect(getByTestId('empty-state-description')).to.exist;
+        expect(queryByTestId('frontend-description')).to.not.exist;
+        expect(queryByTestId('frontend-next-steps')).to.not.exist;
         expect(queryByTestId('api-long-description')).to.not.exist;
         expect(queryByTestId('api-next-steps')).to.not.exist;
       });
     });
   });
 
-  // ============================================================
-  // BOOLEAN PROPERTY FALLBACK TESTS
-  // Tests for API → dictionary → false fallback hierarchy
-  // for isSensitive, isDBQ, and noActionNeeded properties
-  // ============================================================
-  describe('Boolean property fallback pattern (API -> dictionary -> false)', () => {
+  describe('isSensitive property (API only)', () => {
     const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
 
-    describe('isSensitive property', () => {
-      const isSensitiveTestCases = [
-        {
-          name: 'uses API value when present (API: true, dictionary: false)',
-          displayName: 'Employment info needed', // dictionary has no isSensitive value
-          friendlyName: 'Test sensitive item',
-          isSensitive: true,
-          expectedHeader: 'Request for evidence',
-          subheaderIncludesFor: true,
-        },
-        {
-          name: 'uses dictionary value when API absent (dictionary: true)',
-          displayName: 'ASB - tell us where, when, how exposed', // dictionary has isSensitive: true
-          friendlyName: 'Asbestos info',
-          isSensitive: undefined,
-          expectedHeader: 'Request for evidence',
-          subheaderIncludesFor: true,
-        },
-        {
-          name: 'defaults to false when both API and dictionary absent',
-          displayName: 'Unknown item type', // no dictionary entry
-          friendlyName: 'Custom friendly name',
-          isSensitive: undefined,
-          expectedHeader: 'Custom friendly name',
-          subheaderIncludesFor: false,
-        },
-      ];
+    const isSensitiveTestCases = [
+      {
+        name: 'uses API value when present',
+        displayName: 'Employment info needed',
+        friendlyName: 'Test sensitive item',
+        isSensitive: true,
+        expectedHeader: 'Request for evidence',
+        subheaderIncludesFor: true,
+      },
+      {
+        name: 'defaults to false when API does not provide isSensitive',
+        displayName: 'ASB - tell us where, when, how exposed',
+        friendlyName: 'Asbestos info',
+        isSensitive: undefined,
+        expectedHeader: 'Asbestos info',
+        subheaderIncludesFor: false,
+      },
+      {
+        name: 'defaults to false when API does not provide property',
+        displayName: 'Unknown item type',
+        friendlyName: 'Custom friendly name',
+        isSensitive: undefined,
+        expectedHeader: 'Custom friendly name',
+        subheaderIncludesFor: false,
+      },
+    ];
 
-      isSensitiveTestCases.forEach(testCase => {
-        it(testCase.name, () => {
-          const item = {
-            id: 300,
-            displayName: testCase.displayName,
-            status: 'NEEDED_FROM_YOU',
-            requestedDate: '2025-12-01',
-            suspenseDate: futureSuspenseDate,
-            friendlyName: testCase.friendlyName,
-            canUploadFile: true,
-            isSensitive: testCase.isSensitive,
-          };
+    isSensitiveTestCases.forEach(testCase => {
+      it(testCase.name, () => {
+        const item = {
+          id: 300,
+          displayName: testCase.displayName,
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          friendlyName: testCase.friendlyName,
+          canUploadFile: true,
+          isSensitive: testCase.isSensitive,
+        };
 
-          const { getByText, container } = renderWithReduxAndRouter(
-            <FirstPartyRequestPage {...defaultProps} item={item} />,
-            { initialState },
-          );
+        const { getByText, container } = renderWithReduxAndRouter(
+          <FirstPartyRequestPage {...defaultProps} item={item} />,
+          { initialState },
+        );
 
-          getByText(testCase.expectedHeader);
-          const h1 = container.querySelector('h1');
-          const subheaderSpan = h1.querySelector('span');
-          if (testCase.subheaderIncludesFor) {
-            expect(subheaderSpan.textContent).to.include('for:');
-          } else {
-            expect(subheaderSpan.textContent).to.not.include('for:');
-          }
-        });
+        getByText(testCase.expectedHeader);
+        const h1 = container.querySelector('h1');
+        const subheaderSpan = h1.querySelector('span');
+        if (testCase.subheaderIncludesFor) {
+          expect(subheaderSpan.textContent).to.include('for:');
+        } else {
+          expect(subheaderSpan.textContent).to.not.include('for:');
+        }
       });
     });
   });

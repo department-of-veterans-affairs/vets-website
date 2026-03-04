@@ -126,7 +126,7 @@
         "grossAnnualAmount": 12000,
         "incomeLastReceivedDate": "2025-02-12",
         "incomeFrequency": "RECURRING",
-        "incomeType": "interest",
+        "incomeType": "WAGES",
         "payer": "Some institution",
         "recipientRelationship": "VETERAN"
       }
