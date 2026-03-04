@@ -111,7 +111,7 @@ const MedicationHistory = () => {
       {/* TODO verify link destination */}
       <Link to="/in-progress">Go to your in-progress medications</Link>
       <span className="vads-u-margin-x--1">|</span>
-      <Link to="/refill">Refill medications</Link>
+      <Link to="/refill">Refill medications 2</Link>
       {renderContent()}
       <NeedHelp page={pageType.HISTORY} headingLevel={2} />
     </div>
