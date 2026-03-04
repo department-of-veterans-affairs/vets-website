@@ -167,7 +167,7 @@ export const validateServiceDates = (
   const fromDate = convertToDateField(lastEntryDate);
   const toDate = convertToDateField(lastDischargeDate);
   const dateOfBirthPlus15 = add(new Date(veteranDateOfBirth), { years: 15 });
-  const endDate = format(add(new Date(), { years: 1 }), 'MMMM d, yyyy');
+  const endDate = format(new Date(), 'MMMM d, yyyy');
   const messages = {
     entryDate: content['validation-error--service-entry-date'],
     dischargeDate: replaceStrValues(
