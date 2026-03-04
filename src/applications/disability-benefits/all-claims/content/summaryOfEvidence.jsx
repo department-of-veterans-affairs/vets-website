@@ -7,7 +7,9 @@ const SECTIONS_LIST_CONFIGURATIONS = {
   ENHANCED: [
     {
       key: 'bdd-sha',
-      getUploads: getBddShaUploads,
+      getEvidences: getBddShaUploads,
+      getEvidenceKey: e => e.confirmationCode,
+      getEvidenceName: e => e.name,
       headerText:
         'We’ll submit the Separation Health Assessment Part A (SHA A) you uploaded',
     },
@@ -15,7 +17,9 @@ const SECTIONS_LIST_CONFIGURATIONS = {
   UNENHANCED: [
     {
       key: 'bdd-sha',
-      getUploads: getBddShaUploads,
+      getEvidences: getBddShaUploads,
+      getEvidenceKey: e => e.confirmationCode,
+      getEvidenceName: e => e.name,
       headerText:
         'We’ll submit the Separation Health Assessment Part A document that you uploaded',
     },
@@ -29,28 +33,31 @@ const buildSectionsList = (formData, { shouldEnhance }) => {
     : SECTIONS_LIST_CONFIGURATIONS.UNENHANCED;
 
   for (const configuration of configurations) {
-    const { key } = configuration;
+    const sectionKey = configuration.key;
     const headerText = `${configuration.headerText}:`;
-    const uploads = configuration.getUploads(formData);
+    const evidences = configuration.getEvidences(formData);
 
-    if (uploads.length) {
-      const uploadsList = (
+    if (evidences.length) {
+      const evidencesList = (
         <ul>
-          {uploads.map(upload => (
-            <li key={upload.confirmationCode}>{upload.name}</li>
-          ))}
+          {evidences.map(evidence => {
+            const key = configuration.getEvidenceKey(evidence);
+            const name = configuration.getEvidenceName(evidence);
+
+            return <li key={key}>{name}</li>;
+          })}
         </ul>
       );
 
       const section = shouldEnhance ? (
-        <div key={key} className="vads-u-margin-top--2">
+        <div key={sectionKey} className="vads-u-margin-top--2">
           <strong>{headerText}</strong>
-          {uploadsList}
+          {evidencesList}
         </div>
       ) : (
-        <div key={key}>
+        <div key={sectionKey}>
           <p>{headerText}</p>
-          {uploadsList}
+          {evidencesList}
         </div>
       );
 
@@ -68,8 +75,8 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
    *   1. Migrate each evidence section to `SECTIONS_LIST_CONFIGURATIONS`, where
    *      `ENHANCED` vs. `UNENHANCED` allow for bringing about differing copy
    *      _and_ ordering declaratively!
-   *   2. Keep logic that understands which uploads are relevant _exclusively_
-   *      in each `getUploads` implementation as the singular source of truth
+   *   2. Keep logic that understands which evidences are relevant _exclusively_
+   *      in each `getEvidences` implementation as the singular source of truth
    *   3. Use `sectionsList.length` as the singular source of truth for
    *      answering the question "is there any evidence provided?"
    */
