@@ -155,9 +155,8 @@ describe('Create Folder Modal component', () => {
 
     expect(setIsCreateNewModalVisibleSpy.calledWith(false)).to.be.true;
     expect(datadogRum.addAction.calledOnce).to.be.true;
-    expect(
-      datadogRum.addAction.calledWith('Create New Folder Modal Closed'),
-    ).to.be.true;
+    expect(datadogRum.addAction.calledWith('Create New Folder Modal Closed')).to
+      .be.true;
   });
 
   it('should not be visible when isCreateNewModalVisible is false', () => {

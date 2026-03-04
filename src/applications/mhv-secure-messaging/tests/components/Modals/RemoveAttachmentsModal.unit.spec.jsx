@@ -20,11 +20,7 @@ describe('Remove Attachment Modal component', () => {
 
   it('should render without errors', () => {
     const screen = render(
-      <RemoveAttachmentsModal
-        visible
-        onClose={() => {}}
-        onDelete={() => {}}
-      />,
+      <RemoveAttachmentsModal visible onClose={() => {}} onDelete={() => {}} />,
     );
     const modal = screen.getByTestId('remove-attachment-modal');
 
@@ -100,9 +96,8 @@ describe('Remove Attachment Modal component', () => {
 
     expect(onCloseSpy.calledOnce).to.be.true;
     expect(datadogRum.addAction.calledOnce).to.be.true;
-    expect(
-      datadogRum.addAction.calledWith('Remove Attachment Modal Closed'),
-    ).to.be.true;
+    expect(datadogRum.addAction.calledWith('Remove Attachment Modal Closed')).to
+      .be.true;
   });
 
   it('should include draftSequence in datadogRum action on close event', () => {
@@ -120,9 +115,8 @@ describe('Remove Attachment Modal component', () => {
     modal.__events.closeEvent();
 
     expect(onCloseSpy.calledOnce).to.be.true;
-    expect(
-      datadogRum.addAction.calledWith('Remove Attachment Modal Closed-2'),
-    ).to.be.true;
+    expect(datadogRum.addAction.calledWith('Remove Attachment Modal Closed-2'))
+      .to.be.true;
   });
 
   it('should not be visible when visible prop is false', () => {

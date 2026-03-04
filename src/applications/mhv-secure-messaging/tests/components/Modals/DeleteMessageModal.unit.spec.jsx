@@ -46,9 +46,8 @@ describe('Delete Message Modal component', () => {
 
     expect(onCloseSpy.calledOnce).to.be.true;
     expect(datadogRum.addAction.calledOnce).to.be.true;
-    expect(
-      datadogRum.addAction.calledWith('Delete Message Modal Closed'),
-    ).to.be.true;
+    expect(datadogRum.addAction.calledWith('Delete Message Modal Closed')).to.be
+      .true;
   });
 
   it('should call onDelete on primary button click', () => {
