@@ -2,9 +2,11 @@
 import {
   titleUI,
   textUI,
-  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
+
+const { mothersMaidenName } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -14,10 +16,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      mothersMaidenName: {
-        ...textSchema,
-        maxLength: 35,
-      },
+      mothersMaidenName,
     },
   },
 };

@@ -3,12 +3,13 @@ import {
   titleUI,
   descriptionUI,
   selectUI,
-  selectSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { MaritalStatusDescription } from '../../../components/FormDescriptions';
 import CustomReviewField from '../../../components/FormReview/CustomReviewField';
-import { MARITAL_STATUS_VALUES } from '../../../utils/constants';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
+
+const { maritalStatus } = FULL_SCHEMA.definitions;
 
 export default {
   uiSchema: {
@@ -25,7 +26,7 @@ export default {
     type: 'object',
     required: ['maritalStatus'],
     properties: {
-      maritalStatus: selectSchema(MARITAL_STATUS_VALUES),
+      maritalStatus,
     },
   },
 };

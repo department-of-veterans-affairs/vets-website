@@ -3,7 +3,6 @@ import {
   titleUI,
   descriptionUI,
   textUI,
-  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import {
@@ -15,7 +14,10 @@ import CustomDateReviewField from '../../../components/FormReview/CustomDateRevi
 import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-const { medicarePartAEffectiveDate } = FULL_SCHEMA.properties;
+const {
+  medicarePartAEffectiveDate,
+  medicareClaimNumber,
+} = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -44,7 +46,7 @@ export default {
     required: ['medicareClaimNumber'],
     properties: {
       medicarePartAEffectiveDate,
-      medicareClaimNumber: textSchema,
+      medicareClaimNumber,
     },
   },
 };

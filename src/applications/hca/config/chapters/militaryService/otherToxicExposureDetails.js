@@ -3,10 +3,12 @@ import {
   titleUI,
   descriptionUI,
   textUI,
-  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { ExposureCategoriesLink } from '../../../components/FormDescriptions/OtherExposureDescriptions';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
+
+const { otherToxicExposure } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -25,11 +27,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      otherToxicExposure: {
-        ...textSchema,
-        maxLength: 100,
-        pattern: '^[a-zA-Z0-9,.?! ]*$',
-      },
+      otherToxicExposure,
     },
   },
 };
