@@ -126,6 +126,32 @@ describe('<PersonalizationDropdown>', () => {
     wrapper.unmount();
   });
 
+  it('My VA link has aria-disabled and suppresses click when isPostAuthLoading is true', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <PersonalizationDropdown isPostAuthLoading />
+      </Provider>,
+    );
+    const myVaLink = wrapper.find('a[href="/my-va/"]').at(0);
+    expect(myVaLink.prop('aria-disabled')).to.equal('true');
+    myVaLink.simulate('click');
+    expect(global.window.dataLayer).to.have.lengthOf(0);
+    wrapper.unmount();
+  });
+
+  it('My VA link behaves normally when isPostAuthLoading is false', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <PersonalizationDropdown isPostAuthLoading={false} />
+      </Provider>,
+    );
+    const myVaLink = wrapper.find('a[href="/my-va/"]').at(0);
+    expect(myVaLink.prop('aria-disabled')).to.be.undefined;
+    myVaLink.simulate('click');
+    expect(global.window.dataLayer[0]?.event).to.equal('nav-user');
+    wrapper.unmount();
+  });
+
   it('should use the logoutUrl if using SSOe', () => {
     const wrapper = mount(
       <Provider store={store}>

@@ -178,7 +178,12 @@ export default class MegaMenu extends React.Component {
                       className="vetnav-level1 medium-screen:vads-u-padding--2"
                       data-e2e-id={`${_.kebabCase(item.title)}-${i}`}
                       href={item.href}
-                      onClick={linkClicked.bind(null, item)}
+                      aria-disabled={item.loading ? 'true' : undefined}
+                      onClick={
+                        item.loading
+                          ? e => e.preventDefault()
+                          : linkClicked.bind(null, item)
+                      }
                     >
                       {item.title}
                     </a>

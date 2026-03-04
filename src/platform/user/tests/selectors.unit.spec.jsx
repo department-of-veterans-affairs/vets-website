@@ -414,6 +414,30 @@ describe('user selectors', () => {
     });
   });
 
+  describe('isPostAuthProfileLoading', () => {
+    const loadingState = { user: { profile: { loading: true } } };
+    const notLoadingState = { user: { profile: { loading: false } } };
+
+    it('returns false when profile is not loading', () => {
+      expect(
+        selectors.isPostAuthProfileLoading(notLoadingState, '?postLogin=true'),
+      ).to.be.false;
+    });
+    it('returns false when loading but no postLogin param', () => {
+      expect(selectors.isPostAuthProfileLoading(loadingState, '')).to.be.false;
+    });
+    it('returns true when loading and postLogin param is present', () => {
+      expect(
+        selectors.isPostAuthProfileLoading(loadingState, '?postLogin=true'),
+      ).to.be.true;
+    });
+    it('returns false after loading finishes even with postLogin param', () => {
+      expect(
+        selectors.isPostAuthProfileLoading(notLoadingState, '?postLogin=true'),
+      ).to.be.false;
+    });
+  });
+
   describe('isSchedulingPreferencesPilotEligible', () => {
     it('returns true if the user is eligible for the scheduling preferences pilot', () => {
       const state = {

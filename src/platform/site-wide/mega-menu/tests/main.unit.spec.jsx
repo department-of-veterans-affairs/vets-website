@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   flagCurrentPageInTopLevelLinks,
   getAuthorizedLinkData,
+  mapStateToProps,
 } from '../containers/Main';
 
 import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
@@ -54,6 +55,33 @@ describe('mega-menu', () => {
           });
         },
       );
+    });
+
+    describe('mapStateToProps — post-auth gating', () => {
+      const baseState = {
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: { loading: true },
+        },
+        featureToggles: {},
+        megaMenu: {},
+      };
+
+      it('adds loading:true to My VA and My HealtheVet when isPostAuthProfileLoading is true', () => {
+        const { data } = mapStateToProps(baseState, {}, '?postLogin=true');
+        const myVa = data.find(l => l.href === MY_VA_LINK.href);
+        const myHealth = data.find(l => l.href === MY_HEALTH_LINK.href);
+        expect(myVa.loading).to.be.true;
+        expect(myHealth.loading).to.be.true;
+      });
+
+      it('links are normal (no loading flag) when not in post-auth window', () => {
+        const { data } = mapStateToProps(baseState, {}, '');
+        const myVa = data.find(l => l.href === MY_VA_LINK.href);
+        const myHealth = data.find(l => l.href === MY_HEALTH_LINK.href);
+        expect(myVa.loading).to.be.undefined;
+        expect(myHealth.loading).to.be.undefined;
+      });
     });
 
     describe('maybeMergeAuthorizedLinkData', () => {

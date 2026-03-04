@@ -57,3 +57,8 @@ export function createIsServiceAvailableSelector(service) {
 
 export const mhvTransitionModalEnabled = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.mhvToLogingovAccountTransitionModal];
+
+export const isPostAuthProfileLoading = (
+  state,
+  search = window.location.search,
+) => isProfileLoading(state) && new URLSearchParams(search).has('postLogin');
