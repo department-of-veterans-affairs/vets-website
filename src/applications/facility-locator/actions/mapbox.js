@@ -3,9 +3,10 @@ import {
   isPostcode,
   MAPBOX_QUERY_TYPES,
   CountriesList,
-  mapboxClient,
+  createMapboxClient,
   toRadians,
 } from 'platform/utilities/facilities-and-mapbox';
+import { mapboxToken } from '../utils/mapboxToken';
 import {
   GEOCODE_CLEAR_ERROR,
   GEOCODE_COMPLETE,
@@ -27,7 +28,7 @@ import {
 import { distBetween, radiusFromBoundingBox } from '../utils/facilityDistance';
 import { updateSearchQuery } from './search';
 
-const mbxClient = mbxGeo(mapboxClient);
+const mbxClient = mapboxToken ? mbxGeo(createMapboxClient(mapboxToken)) : null;
 
 export const constructBounds = ({
   facilityType,
@@ -175,28 +176,33 @@ export const genBBoxFromAddress = (
       types = ['postcode'];
     }
 
-    mbxClient
-      .forwardGeocode({
-        countries: CountriesList,
-        types,
-        autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
-        query: query.searchString,
-        proximity: 'ip',
-      })
-      .send()
-      .then(({ body: { features } }) =>
-        processFeaturesBBox(
-          query,
-          features,
-          dispatch,
-          expandedRadius,
-          useProgressiveDisclosure,
-        ),
-      )
-      .catch(_e => {
-        dispatch({ type: GEOCODE_FAILED });
-        dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
-      });
+    try {
+      mbxClient
+        .forwardGeocode({
+          countries: CountriesList,
+          types,
+          autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
+          query: query.searchString,
+          proximity: 'ip',
+        })
+        .send()
+        .then(({ body: { features } }) =>
+          processFeaturesBBox(
+            query,
+            features,
+            dispatch,
+            expandedRadius,
+            useProgressiveDisclosure,
+          ),
+        )
+        .catch(_e => {
+          dispatch({ type: GEOCODE_FAILED });
+          dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+        });
+    } catch (_e) {
+      dispatch({ type: GEOCODE_FAILED });
+      dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+    }
   };
 };
 
@@ -262,20 +268,25 @@ export const genSearchAreaFromCenter = query => {
     } else {
       const types = MAPBOX_QUERY_TYPES;
 
-      mbxClient
-        .reverseGeocode({
-          countries: CountriesList,
-          types,
-          query: [lng, lat],
-        })
-        .send()
-        .then(({ body: { features } }) => {
-          sendUpdatedSearchQuery(dispatch, features, lat, lng, currentBounds);
-        })
-        .catch(_ => {
-          dispatch({ type: GEOCODE_FAILED });
-          dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
-        });
+      try {
+        mbxClient
+          .reverseGeocode({
+            countries: CountriesList,
+            types,
+            query: [lng, lat],
+          })
+          .send()
+          .then(({ body: { features } }) => {
+            sendUpdatedSearchQuery(dispatch, features, lat, lng, currentBounds);
+          })
+          .catch(_ => {
+            dispatch({ type: GEOCODE_FAILED });
+            dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+          });
+      } catch (_) {
+        dispatch({ type: GEOCODE_FAILED });
+        dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+      }
     }
   };
 };

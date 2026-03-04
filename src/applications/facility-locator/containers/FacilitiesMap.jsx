@@ -7,7 +7,7 @@ import mapboxgl from 'mapbox-gl';
 import { isEmpty } from 'lodash';
 import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
-import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
+import { mapboxToken } from '../utils/mapboxToken';
 
 // Components
 import Alert from '../components/Alert';
