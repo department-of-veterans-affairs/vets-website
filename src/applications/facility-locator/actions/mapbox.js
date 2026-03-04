@@ -28,7 +28,7 @@ import {
 import { distBetween, radiusFromBoundingBox } from '../utils/facilityDistance';
 import { updateSearchQuery } from './search';
 
-const mbxClient = mapboxToken ? mbxGeo(createMapboxClient(mapboxToken)) : null;
+const mbxClient = mbxGeo(createMapboxClient(mapboxToken));
 
 export const constructBounds = ({
   facilityType,

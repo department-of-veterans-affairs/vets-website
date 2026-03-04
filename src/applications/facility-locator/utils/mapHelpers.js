@@ -7,7 +7,7 @@ import {
 } from 'platform/utilities/facilities-and-mapbox';
 import { mapboxToken } from './mapboxToken';
 
-const mbxClient = mapboxToken ? mbxGeo(createMapboxClient(mapboxToken)) : null;
+const mbxClient = mbxGeo(createMapboxClient(mapboxToken));
 
 /** ****************************************************
  * Helper functions specifically requiring the
