@@ -265,7 +265,7 @@
       "directoryPath": "src/applications/edu-benefits/0989",
       "appName": "22-0989 Request education benefit entitlement restoration online",
       "entryName": "0989-edu-benefits",
-      "rootUrl": "/forms/22-0989/request-education-benefit-entitlement-restoration/"
+      "rootUrl": "/forms/22-0989/request-education-benefit-entitlement-restoration"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0994",
