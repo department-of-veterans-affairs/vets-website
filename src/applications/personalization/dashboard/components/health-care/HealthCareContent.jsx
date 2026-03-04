@@ -7,7 +7,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import AppointmentsCard from './AppointmentsCard';
+import AppointmentCard from './AppointmentCard';
 
 const HealthCareContent = ({
   appointments,
@@ -137,7 +137,7 @@ const HealthCareContent = ({
             <div className="vads-l-row">
               {upcomingAppointments.map(appointment => (
                 <DashboardWidgetWrapper key={appointment.id}>
-                  <AppointmentsCard appointments={[appointment]} />
+                  <AppointmentCard appointment={appointment} />
                 </DashboardWidgetWrapper>
               ))}
             </div>

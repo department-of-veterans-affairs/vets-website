@@ -4,24 +4,23 @@ import { formatInTimeZone } from 'date-fns-tz';
 import recordEvent from '~/platform/monitoring/record-event';
 import { getAppointmentTimezone } from '../../utils/date-formatting/timezone';
 
-export const AppointmentsCard = ({ appointments }) => {
-  const nextAppointment = appointments?.[0];
-  const localStartTime = nextAppointment?.localStartTime;
+export const AppointmentCard = ({ appointment }) => {
+  const { localStartTime } = appointment;
   let locationName;
 
-  const timeZone = getAppointmentTimezone(nextAppointment);
+  const timeZone = getAppointmentTimezone(appointment);
   const timeZoneId = timeZone.description;
 
-  if (nextAppointment?.isVideo) {
+  if (appointment.isVideo) {
     locationName = 'VA Video Connect';
 
-    if (nextAppointment?.additionalInfo) {
-      locationName += ` ${nextAppointment.additionalInfo}`;
+    if (appointment.additionalInfo) {
+      locationName += ` ${appointment.additionalInfo}`;
     }
   }
 
-  if (!nextAppointment?.isVideo) {
-    locationName = nextAppointment?.providerName;
+  if (!appointment.isVideo) {
+    locationName = appointment.providerName;
   }
 
   const content = (
@@ -69,21 +68,19 @@ export const AppointmentsCard = ({ appointments }) => {
   );
 };
 
-AppointmentsCard.propTypes = {
-  appointments: PropTypes.arrayOf(
-    PropTypes.shape({
-      additionalInfo: PropTypes.string,
-      facility: PropTypes.object,
-      id: PropTypes.string.isRequired,
-      isVideo: PropTypes.bool.isRequired,
-      providerName: PropTypes.string,
-      startsAt: PropTypes.string.isRequired,
-      timeZone: PropTypes.string,
-      type: PropTypes.string.isRequired,
-      location: PropTypes.object,
-    }),
-  ),
-  hasError: PropTypes.bool,
+AppointmentCard.propTypes = {
+  appointment: PropTypes.shape({
+    additionalInfo: PropTypes.string,
+    facility: PropTypes.object,
+    id: PropTypes.string.isRequired,
+    isVideo: PropTypes.bool.isRequired,
+    localStartTime: PropTypes.string.isRequired,
+    providerName: PropTypes.string,
+    startsAt: PropTypes.string,
+    timeZone: PropTypes.string,
+    type: PropTypes.string.isRequired,
+    location: PropTypes.object,
+  }).isRequired,
 };
 
-export default AppointmentsCard;
+export default AppointmentCard;
