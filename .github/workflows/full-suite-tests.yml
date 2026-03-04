@@ -134,8 +134,44 @@ jobs:
       - name: Get Mapbox Token
         uses: ./.github/workflows/inject-secrets
         with:
-          ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token
           env_variable_name: MAPBOX_TOKEN
+
+      - name: Get Mapbox Token (Facility Locator)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_facility_locator
+          env_variable_name: MAPBOX_TOKEN_FACILITY_LOCATOR
+
+      - name: Get Mapbox Token (Static Pages)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_static_pages
+          env_variable_name: MAPBOX_TOKEN_STATIC_PAGES
+
+      - name: Get Mapbox Token (GI)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_gi
+          env_variable_name: MAPBOX_TOKEN_GI
+
+      - name: Get Mapbox Token (Ask VA)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_ask_va
+          env_variable_name: MAPBOX_TOKEN_ASK_VA
+
+      - name: Get Mapbox Token (Caregivers)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_caregivers
+          env_variable_name: MAPBOX_TOKEN_CAREGIVERS
+
+      - name: Get Mapbox Token (Representative Search)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_representative_search
+          env_variable_name: MAPBOX_TOKEN_REPRESENTATIVE_SEARCH
 
       - name: Build
         run: yarn build --verbose --buildtype=vagovprod
