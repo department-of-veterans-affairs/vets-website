@@ -18,9 +18,9 @@
 //   the initial error query. We attach the screen reader label to its focus
 //   target inside its shadow DOM.
 //
-// CATEGORY 2 – NESTED COMPONENT ERROR
+// CATEGORY 2 – CHILD COMPONENT ERROR
 //   Components: va-statement-of-truth
-//   Wrapper components that delegate errors to internal VA children. These nested
+//   Wrapper components that delegate errors to internal VA children. These child
 //   error components require special discovery logic (searching within shadow roots)
 //   but are processed the same as Category 1 once found.
 //
@@ -30,11 +30,12 @@
 //   via an alternate attribute. We propagate labels to every option to avoid
 //   repeated announcements when focus moves within the group.
 //
-// CATEGORY 4 – DATE COMPONENT ERROR
-//   Components: va-date, va-memorable-date
-//   Date components delegate validation to their child inputs (va-select,
-//   va-text-input). We attach error labels to each invalid child using the
-//   parent's error message for context.
+// CATEGORY 4 – PARENT-DELEGATED COMPONENT ERROR
+//   Components: va-date, va-memorable-date, va-telephone-input
+//   Parent components that receive error attributes but delegate error labels
+//   to their child VA web components (va-select, va-text-input, va-combo-box).
+//   We attach error labels to each invalid child using the parent's error
+//   message for context.
 //
 // ============================================================================
 
@@ -64,7 +65,7 @@ const SUPPORTED_ELEMENTS = [
   'va-radio-option',
   'va-checkbox-group',
   'va-checkbox',
-  // Category 4: Date components
+  // Category 4: Parent-delegated components
   'va-date',
   'va-memorable-date',
   'va-telephone-input',
@@ -98,9 +99,14 @@ const GROUP_SELECTOR = GROUP_COMPONENT_TAGS.map(tag => tag.toLowerCase()).join(
   ', ',
 );
 
-// Category 4: Date Components
-const DATE_COMPONENT_TAGS = ['VA-DATE', 'VA-MEMORABLE-DATE'];
-const DATE_CHILD_SELECTOR = 'va-select, va-text-input';
+// Category 4: Parent-Delegated Components
+const PARENT_DELEGATED_COMPONENT_TAGS = [
+  'VA-DATE',
+  'VA-MEMORABLE-DATE',
+  'VA-TELEPHONE-INPUT',
+];
+const PARENT_DELEGATED_CHILD_SELECTOR =
+  'va-select, va-text-input, va-combo-box';
 
 // State Tracking
 const DATA_PREVIOUS_ERROR_MESSAGE = 'data-previous-error-message';
@@ -165,41 +171,55 @@ const normalizeText = text => {
 };
 
 // ============================================================================
-// CATEGORY 4: DATE COMPONENT HELPERS
-// Detection and child component utilities for va-date and va-memorable-date.
-// Defined early because getErrorPropText and getLabelText depend on them.
+// CATEGORY 4: PARENT-DELEGATED COMPONENT HELPERS
+// Detection and child component utilities for va-date, va-memorable-date,
+// and va-telephone-input. Defined early because getErrorPropText and
+// getLabelText depend on them.
 // ============================================================================
 
 /**
- * Determines if an element is a date component based on its tag name.
- * Date components include va-date and va-memorable-date.
+ * Determines if an element is a parent-delegated component based on its tag name.
+ * Parent-delegated components include va-date, va-memorable-date, and va-telephone-input.
+ *
+ * @param {Element|null|undefined} element - The DOM element to check
+ * @returns {boolean} True if the element is a parent-delegated component, false otherwise
+ */
+const isParentDelegatedComponent = element =>
+  isComponentOfType(element, PARENT_DELEGATED_COMPONENT_TAGS);
+
+/**
+ * Determines if an element is specifically a date component (va-date or va-memorable-date).
+ * Used for date-specific logic like error message reading, hint text, and field-level validation.
  *
  * @param {Element|null|undefined} element - The DOM element to check
  * @returns {boolean} True if the element is a date component, false otherwise
  */
 const isDateComponent = element =>
-  isComponentOfType(element, DATE_COMPONENT_TAGS);
+  isComponentOfType(element, ['VA-DATE', 'VA-MEMORABLE-DATE']);
 
 /**
- * Checks if an element is a child component inside a date component's shadow DOM.
- * These should be skipped for independent error processing since the parent
- * date component handles their error annotations.
+ * Checks if an element is a child component inside a parent-delegated component's shadow DOM.
+ * These should be skipped for independent error processing since the parent component
+ * handles their error annotations.
  *
  * @param {HTMLElement} el - The element to check
- * @returns {boolean} True if the element is inside a date component's shadow root
+ * @returns {boolean} True if the element is inside a parent-delegated component's shadow root
  */
-const hasDateComponentParent = el =>
-  isComponentOfType(el.getRootNode()?.host, DATE_COMPONENT_TAGS);
+const hasParentDelegatedComponentParent = el =>
+  isComponentOfType(el.getRootNode()?.host, PARENT_DELEGATED_COMPONENT_TAGS);
 
 /**
- * Retrieves all child input components (va-select, va-text-input) from a date component's shadow DOM.
+ * Retrieves all child input components from a parent-delegated component's shadow DOM.
+ * Includes va-select, va-text-input, and va-combo-box.
  *
- * @param {Element|null|undefined} element - The date component to query
+ * @param {Element|null|undefined} element - The parent-delegated component to query
  * @returns {HTMLElement[]} An array of child input components
  */
-const getDateChildComponents = element => {
+const getChildComponents = element => {
   if (!element?.shadowRoot) return [];
-  return Array.from(element.shadowRoot.querySelectorAll(DATE_CHILD_SELECTOR));
+  return Array.from(
+    element.shadowRoot.querySelectorAll(PARENT_DELEGATED_CHILD_SELECTOR),
+  );
 };
 
 /**
@@ -214,14 +234,14 @@ const getDateErrorMessageText = el => {
 };
 
 /**
- * Finds the first invalid child input within a date component.
+ * Finds the first invalid child input within a parent-delegated component.
  * Checks for the 'invalid' attribute or property on each child.
  *
- * @param {HTMLElement} dateComponent - The date component to search within
+ * @param {HTMLElement} parentComponent - The parent-delegated component to search within
  * @returns {HTMLElement|undefined} The first invalid child component, or undefined if none found
  */
-const findFirstInvalidDateChild = dateComponent => {
-  const children = getDateChildComponents(dateComponent);
+const findFirstInvalidChild = parentComponent => {
+  const children = getChildComponents(parentComponent);
   return children.find(
     child => child.hasAttribute('invalid') || child.invalid === true,
   );
@@ -386,7 +406,7 @@ const getLabelText = el => {
  * Resolves the element that should receive focus for a component displaying an error state.
  *
  * The lookup prioritizes:
- * 1. For date components: First invalid child input, or first child for cross-field validation errors
+ * 1. For parent-delegated components: First invalid child input, or first child for cross-field validation errors
  * 2. Group option inputs when invoked on a radio or checkbox group
  * 3. Child elements already carrying an error attribute
  * 4. The first native form control within the component's shadow root
@@ -398,16 +418,16 @@ const getLabelText = el => {
  * @returns {HTMLElement} The element that should receive focus
  */
 const findFocusTarget = el => {
-  // CATEGORY 4: Date component handling
+  // CATEGORY 4: Parent-delegated component handling
   // Find the first invalid child input, or fall back to first child
   // (for cross-field validation where all children are technically valid)
-  if (isDateComponent(el)) {
-    const invalidChild = findFirstInvalidDateChild(el);
+  if (isParentDelegatedComponent(el)) {
+    const invalidChild = findFirstInvalidChild(el);
     if (invalidChild) {
       return findFocusTarget(invalidChild);
     }
     // Fallback to first child component for cross-field validation errors
-    const children = getDateChildComponents(el);
+    const children = getChildComponents(el);
     if (children.length) {
       return findFocusTarget(children[0]);
     }
@@ -500,12 +520,12 @@ function hasErrorAnnotation(element) {
  * For most components (Categories 1-3):
  *   Order: {error}. {parent label}. {child label}. {hint}. {description}
  *
- * For date components (Category 4):
+ * For parent-delegated components (Category 4):
  *   Order: {error}. {child label}. {parent label}
  *
  * @param {string} errorMessage - Raw error message coming from the component
  * @param {HTMLElement} errorWebComponent - The component producing the error
- * @param {HTMLElement|null} [childOption=null] - Optional child element (group option or date child)
+ * @param {HTMLElement|null} [childOption=null] - Optional child element (group option or parent-delegated child)
  * @returns {string} Fully composed label text containing context, hints, and descriptions
  */
 const buildErrorLabelText = (
@@ -526,8 +546,8 @@ const buildErrorLabelText = (
 
   let fullText = `Error: ${errorText}.`;
 
-  // Date components: {error}. {child label}. {parent label}. {hint (va-date only)}
-  if (isDateComponent(errorWebComponent) && childOption) {
+  // Parent-delegated components: {error}. {child label}. {parent label}. {hint (va-date only)}
+  if (isParentDelegatedComponent(errorWebComponent) && childOption) {
     const childLabel = normalizeText(getLabelText(childOption));
     if (childLabel) {
       fullText += ` ${childLabel}.`;
@@ -630,10 +650,10 @@ const createAndAssociateErrorLabel = (input, fullText, hostComponent) => {
     hostComponent.setAttribute(DATA_GENERATED_ERROR_LABEL_ID, labelId);
   }
 
-  // Preserve aria-describedby for date component children - they use it for
+  // Preserve aria-describedby for parent-delegated component children - they may use it for
   // #input-message (format hints). For other components, remove it to avoid
   // potential conflicts with our comprehensive error label.
-  if (!hasDateComponentParent(hostComponent)) {
+  if (!hasParentDelegatedComponentParent(hostComponent)) {
     input.removeAttribute('aria-describedby');
   }
 };
@@ -703,21 +723,21 @@ function associateGroupErrorAnnotations(groupComponent, errorMessage) {
 }
 
 // ============================================================================
-// CATEGORY 4: DATE COMPONENT ANNOTATION
-// Validation and annotation for va-date and va-memorable-date.
+// CATEGORY 4: PARENT-DELEGATED COMPONENT ANNOTATION
+// Validation and annotation for va-date, va-memorable-date, and va-telephone-input.
 // ============================================================================
 
 /**
- * Checks if a date child component is invalid for accessibility scaffolding purposes.
+ * Checks if a child component is invalid for accessibility scaffolding purposes.
  * A child is considered invalid if:
  * 1. The child component has the 'invalid' attribute/property (set by component-library on blur), OR
  * 2. Its internal input/select has aria-invalid="true"
  *
- * @param {HTMLElement} childComponent - The va-select or va-text-input child
- * @param {boolean} parentRequired - Whether the parent date component is required
+ * @param {HTMLElement} childComponent - The child component (va-select, va-text-input, or va-combo-box)
+ * @param {boolean} parentRequired - Whether the parent component is required
  * @returns {boolean} True if the child is invalid
  */
-function isDateChildInvalid(childComponent, parentRequired) {
+function isChildInvalid(childComponent, parentRequired) {
   if (!childComponent?.shadowRoot) return false;
 
   const input = childComponent.shadowRoot.querySelector(INPUT_SELECTOR);
@@ -744,42 +764,56 @@ function isDateChildInvalid(childComponent, parentRequired) {
 }
 
 /**
- * Associates error annotations with date component child inputs.
- * Handles two distinct error scenarios:
+ * Associates error annotations with parent-delegated component child inputs.
+ * Handles different error scenarios based on component type:
  *
- * 1. Field-level errors: Individual child inputs are invalid (empty required fields,
- *    invalid formats). Only invalid children receive accessibility scaffolding.
+ * For date components (va-date, va-memorable-date):
+ *   Uses field-level validation to determine which children need scaffolding:
+ *   1. Field-level errors: Only invalid children receive scaffolding (empty/invalid fields)
+ *   2. Cross-field validation: ALL children receive scaffolding (e.g., "To date must be after from date")
  *
- * 2. Cross-field validation errors: Parent has an error but all children are technically
- *    valid (e.g., "To date must be after from date"). ALL children receive accessibility
- *    scaffolding for screen readers to announce the cross-field validation error.
+ * For other parent-delegated components (e.g., va-telephone-input):
+ *   Always scaffolds ALL children when parent has an error, since validation
+ *   errors are at the parent level and all children need the error context.
  *
- * @param {HTMLElement} dateComponent - The date component emitting an error
+ * @param {HTMLElement} parentComponent - The parent-delegated component emitting an error
  * @param {string|null} errorMessage - Message to associate with the child input
  * @returns {void}
  */
-function associateDateErrorAnnotations(dateComponent, errorMessage) {
+function associateParentDelegatedErrorAnnotations(
+  parentComponent,
+  errorMessage,
+) {
   if (!errorMessage) return;
 
-  const children = getDateChildComponents(dateComponent);
+  const children = getChildComponents(parentComponent);
   const parentRequired =
-    dateComponent.hasAttribute('required') || dateComponent.required === true;
+    parentComponent.hasAttribute('required') ||
+    parentComponent.required === true;
 
-  // Determine which children need screen reader scaffolding:
+  let childrenToScaffold;
+
+  // Date components: Use field-level validation to determine which children need scaffolding
   // - If ANY child is invalid: only scaffold invalid children (field-level errors)
   // - If NO children are invalid: scaffold ALL children (cross-field validation)
-  const invalidChildren = children.filter(child =>
-    isDateChildInvalid(child, parentRequired),
-  );
-  const childrenToScaffold =
-    invalidChildren.length > 0 ? invalidChildren : children;
+  if (isDateComponent(parentComponent)) {
+    const invalidChildren = children.filter(child =>
+      isChildInvalid(child, parentRequired),
+    );
+    childrenToScaffold =
+      invalidChildren.length > 0 ? invalidChildren : children;
+  } else {
+    // All other parent-delegated components (e.g., va-telephone-input):
+    // Always scaffold ALL children since errors are at parent level
+    childrenToScaffold = children;
+  }
 
   // Add screen reader scaffolding to target children
   childrenToScaffold.forEach(child => {
     const inputElement = findFocusTarget(child);
     if (!inputElement) return;
 
-    const fullText = buildErrorLabelText(errorMessage, dateComponent, child);
+    const fullText = buildErrorLabelText(errorMessage, parentComponent, child);
     createAndAssociateErrorLabel(inputElement, fullText, child);
   });
 }
@@ -822,16 +856,16 @@ const clearHostErrorAnnotations = hostComponent => {
   hostComponent.removeAttribute(DATA_GENERATED_ERROR_LABEL_ID);
 };
 
-// Category 4: Date cleanup
+// Category 4: Parent-delegated component cleanup
 
 /**
- * Clears error annotations from all child inputs within a date component.
+ * Clears error annotations from all child inputs within a parent-delegated component.
  *
- * @param {HTMLElement} dateComponent - The date component to clear
+ * @param {HTMLElement} parentComponent - The parent-delegated component to clear
  * @returns {void}
  */
-function clearDateErrorAnnotations(dateComponent) {
-  const children = getDateChildComponents(dateComponent);
+function clearChildComponentAnnotations(parentComponent) {
+  const children = getChildComponents(parentComponent);
   children.forEach(child => {
     clearHostErrorAnnotations(child);
     child.removeAttribute(DATA_PREVIOUS_ERROR_MESSAGE);
@@ -875,9 +909,9 @@ const associateErrorWithInput = (errorWebComponent, errorMessage) => {
     return;
   }
 
-  // CATEGORY 4: Date component handling
-  if (isDateComponent(errorWebComponent)) {
-    associateDateErrorAnnotations(errorWebComponent, errorMessage);
+  // CATEGORY 4: Parent-delegated component handling
+  if (isParentDelegatedComponent(errorWebComponent)) {
+    associateParentDelegatedErrorAnnotations(errorWebComponent, errorMessage);
     return;
   }
 
@@ -901,8 +935,8 @@ const addErrorAnnotations = errorWebComponent => {
   // Skip elements not in the SUPPORTED_ELEMENT list
   if (!isSupportedVaElement(errorWebComponent)) return;
 
-  // Skip child components inside date component shadow DOM - the parent handles them
-  if (hasDateComponentParent(errorWebComponent)) return;
+  // Skip child components inside parent-delegated component shadow DOM - the parent handles them
+  if (hasParentDelegatedComponentParent(errorWebComponent)) return;
 
   // Remove alert role from ALL error message elements to prevent duplicate announcements
   // Use querySelectorAll since date components may have multiple error message spans
@@ -934,9 +968,9 @@ function removeErrorAnnotations(el) {
     clearGroupOptionAnnotations(el);
   }
 
-  // CATEGORY 4: Date component cleanup
-  if (isDateComponent(el)) {
-    clearDateErrorAnnotations(el);
+  // CATEGORY 4: Parent-delegated component cleanup
+  if (isParentDelegatedComponent(el)) {
+    clearChildComponentAnnotations(el);
   }
 
   clearHostErrorAnnotations(el);
