@@ -29,7 +29,12 @@ const SmAlert = forwardRef(({ srMessage, children, ...rest }, ref) => {
   return (
     <VaAlert ref={ref} {...rest}>
       {children}
-      <span className="sr-only" aria-live="polite" aria-atomic="true">
+      <span
+        className="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+        data-testid="sr-only-alert-text"
+      >
         {srContent}
       </span>
     </VaAlert>
