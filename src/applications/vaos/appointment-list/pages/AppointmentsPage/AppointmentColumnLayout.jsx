@@ -18,7 +18,6 @@ import {
   selectStartDate,
   selectTimeZoneAbbr,
 } from '../../redux/selectors';
-import { selectFeatureUseBrowserTimezone } from '../../../redux/selectors';
 
 export default function AppointmentColumnLayout({
   data,
@@ -26,9 +25,6 @@ export default function AppointmentColumnLayout({
   grouped,
   link,
 }) {
-  const featureUseBrowserTimezone = useSelector(
-    selectFeatureUseBrowserTimezone,
-  );
   const appointmentLocality = useSelector(() =>
     selectAppointmentLocality(data),
   );
@@ -37,9 +33,7 @@ export default function AppointmentColumnLayout({
   const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
   const startDate = useSelector(() => selectStartDate(data));
-  const timezoneAbbr = useSelector(() =>
-    selectTimeZoneAbbr(data, featureUseBrowserTimezone),
-  );
+  const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
   const dateAriaLabel = useSelector(() => selectApptDateAriaText(data));
   const detailAriaLabel = useSelector(() =>
