@@ -2,12 +2,15 @@
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import * as PayeeNumber from '../pages/PayeeNumber';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+// import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -55,12 +58,26 @@ const formConfig = {
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        ...personalInformationPage({
+          personalInfoConfig: {
+            name: { show: true, required: true },
+            ssn: { show: true, required: true },
+            dateOfBirth: { show: true, required: false },
+          },
+          dataAdapter: {
+            ssnPath: 'ssn',
+          },
+        }),
+        payeeNumber: {
+          path: 'payee-number',
+          title: 'Payee Number',
+          uiSchema: PayeeNumber.uiSchema,
+          schema: PayeeNumber.schema,
+          depends: formData => formData?.vaBenefitProgram === 'chapter35',
         },
+        ...profileContactInfoPages({
+          contactInfoRequiredKeys: ['mailingAddress'],
+        }),
       },
     },
   },
