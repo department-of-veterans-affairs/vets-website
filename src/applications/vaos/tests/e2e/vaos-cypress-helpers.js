@@ -19,7 +19,6 @@ export function mockFeatureToggles(
     vaOnlineSchedulingCCDirectScheduling: false,
     vaOnlineSchedulingCCDirectSchedulingChiropractic: false,
     vaOnlineSchedulingCommunityCareCancellations: false,
-    vaOnlineSchedulingImmediateCareAlert: false,
   },
 ) {
   cy.intercept(
