@@ -4,10 +4,10 @@ import { Alerts } from '../../util/constants';
 
 const OHSyncStatusAlert = () => {
   const ohSyncStatus = useSelector(state => state.sm?.ohSyncStatus);
-  const { data, error } = ohSyncStatus || {};
+  const { data } = ohSyncStatus || {};
 
-  // Don't show alert if there's an error fetching status or no data
-  if (error || !data) {
+  // Don't show alert if there's no data
+  if (!data) {
     return null;
   }
 

@@ -22,7 +22,6 @@ describe('OHSyncStatusAlert', () => {
       data: {
         syncComplete: true,
       },
-      error: undefined,
     });
 
     const { container } = render(
@@ -40,7 +39,6 @@ describe('OHSyncStatusAlert', () => {
       data: {
         syncComplete: false,
       },
-      error: undefined,
     });
 
     const { container } = render(
@@ -58,26 +56,9 @@ describe('OHSyncStatusAlert', () => {
     );
   });
 
-  it('should not render when there is an error fetching status', () => {
-    const store = createStore({
-      data: null,
-      error: true,
-    });
-
-    const { container } = render(
-      <Provider store={store}>
-        <OHSyncStatusAlert />
-      </Provider>,
-    );
-
-    const alert = container.querySelector('va-alert');
-    expect(alert).to.not.exist;
-  });
-
   it('should not render when data is null', () => {
     const store = createStore({
       data: null,
-      error: undefined,
     });
 
     const { container } = render(
@@ -95,7 +76,6 @@ describe('OHSyncStatusAlert', () => {
       data: {
         syncComplete: false,
       },
-      error: undefined,
     });
 
     const { container } = render(
