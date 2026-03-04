@@ -15,6 +15,7 @@ import './testStatus';
 import 'cy-mobile-commands';
 import 'cypress-wait-until';
 import './injectAxe';
+import './fileInputHelpers';
 import './webComponents';
 import './textHelpers';
 import './urlAssertions';

@@ -1,5 +1,4 @@
 import get from 'platform/utilities/data/get';
-import { makeMinimalPNG } from '../form-tester/utilities';
 
 const FORCE_OPTION = { force: true };
 const DELAY_OPTION = { force: true, delay: 100 };
@@ -180,68 +179,6 @@ Cypress.Commands.add('fillVaTelephoneInput', (field, value) => {
     element.shadow().within(() => {
       cy.get('va-text-input').then($contact => {
         cy.fillVaTextInput($contact, value.contact);
-      });
-    });
-  }
-});
-
-// this function generates an object with file contents for upload to file input instance
-async function getFileContents(file) {
-  return {
-    contents: Cypress.Buffer.from(await file.arrayBuffer()),
-    fileName: file.name || 'placeholder.png',
-    mimeType: file.type || 'image/png',
-    lastModified: file.lastModified || Date.now(),
-  };
-}
-
-Cypress.Commands.add('fillVaFileInput', (field, value, file) => {
-  if (typeof value !== 'undefined') {
-    const element =
-      typeof field === 'string'
-        ? cy.get(`va-file-input[name="${field}"]`)
-        : cy.wrap(field);
-
-    element.then(async $el => {
-      const el = $el[0];
-
-      cy.then(() => file || makeMinimalPNG()).then(async mockFile => {
-        const selectFileArg = await getFileContents(mockFile);
-        cy.wrap(el)
-          .shadow()
-          .find('input[type="file"]')
-          .selectFile(selectFileArg, { force: true });
-      });
-    });
-  }
-});
-
-Cypress.Commands.add('fillVaFileInputMultiple', (field, value, files) => {
-  if (typeof value !== 'undefined') {
-    const element =
-      typeof field === 'string'
-        ? cy.get(`va-file-input-multiple[name="${field}"]`)
-        : cy.wrap(field);
-
-    element.then(async $el => {
-      const el = $el[0];
-      // get number of previously added files
-      const startingIndex =
-        el.shadowRoot.querySelectorAll('va-file-input').length - 1;
-      const filesPromise = Array.isArray(files)
-        ? Promise.resolve(files)
-        : makeMinimalPNG().then(file => [file]);
-
-      cy.wrap(filesPromise).then(_files => {
-        _files.forEach((file, index) => {
-          cy.wrap(el)
-            .shadow()
-            .find('va-file-input')
-            .eq(startingIndex + index)
-            .then($fileInput => {
-              cy.fillVaFileInput($fileInput, value, file);
-            });
-        });
       });
     });
   }

@@ -11,27 +11,7 @@ import manifest from '../../manifest.json';
 
 function addFile(option, elementName) {
   cy.fillVaFileInputMultiple(elementName, {});
-
-  cy.get('va-file-input-multiple')
-    .shadow()
-    .find('va-file-input')
-    .should('exist');
-
-  // add a wait to ensure additional input has fully rendered and updated before triggering validation
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(1000);
-
-  cy.get('va-file-input-multiple')
-    .shadow()
-    .find('va-file-input')
-    .first()
-    .then($fileInput => {
-      const $select = $fileInput.find('va-select');
-      if ($select.length > 0) {
-        cy.selectVaSelect($select[0], option);
-      }
-    });
-
+  cy.selectVaFileInputMultipleAdditionalInfo(option, elementName);
   cy.findByText(/continue/i, { selector: 'button' }).click();
 }
 
@@ -52,11 +32,7 @@ const testConfig = createTestConfig(
       'upload-file': ({ afterHook }) => {
         afterHook(() => {
           cy.fillVaFileInput('root_uploadedFile', {});
-          cy.get('va-file-input')
-            .find('va-select')
-            .then($el => {
-              cy.selectVaSelect($el, 'tax');
-            });
+          cy.selectVaFileInputAdditionalInfo('tax', 'root_uploadedFile');
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
