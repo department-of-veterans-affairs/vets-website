@@ -3,9 +3,7 @@
     "id": "",
     "type": "oh_sync_status",
     "attributes": {
-      "status": "IN_PROGRESS",
-      "syncComplete": false,
-      "error": null
+      "syncComplete": true
     }
   }
 }

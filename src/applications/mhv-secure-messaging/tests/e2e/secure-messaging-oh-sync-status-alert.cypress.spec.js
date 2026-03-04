@@ -4,11 +4,8 @@ import mockMessages from './fixtures/threads-response.json';
 import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 import mockSentThreads from './fixtures/sentResponse/sent-messages-response.json';
 import mockDrafts from './fixtures/drafts-response.json';
-import mockOHSyncStatusFinished from './fixtures/ohSyncStatus/oh-sync-status-finished.json';
-import mockOHSyncStatusInProgress from './fixtures/ohSyncStatus/oh-sync-status-in-progress.json';
-import mockOHSyncStatusStarted from './fixtures/ohSyncStatus/oh-sync-status-started.json';
-import mockOHSyncStatusNotStarted from './fixtures/ohSyncStatus/oh-sync-status-not-started.json';
-import mockOHSyncStatusError from './fixtures/ohSyncStatus/oh-sync-status-error.json';
+import mockOHSyncComplete from './fixtures/ohSyncStatus/oh-sync-complete.json';
+import mockOHSyncIncomplete from './fixtures/ohSyncStatus/oh-sync-incomplete.json';
 import { AXE_CONTEXT, Locators, Paths, Alerts } from './utils/constants';
 
 describe('Secure Messaging OH Sync Status Alert', () => {
@@ -16,11 +13,11 @@ describe('Secure Messaging OH Sync Status Alert', () => {
     SecureMessagingSite.login();
   });
 
-  it('displays alert when sync status is IN_PROGRESS', () => {
+  it('displays alert when syncComplete is false', () => {
     cy.intercept(
       'GET',
       Paths.INTERCEPT.OH_SYNC_STATUS,
-      mockOHSyncStatusInProgress,
+      mockOHSyncIncomplete,
     ).as('ohSyncStatus');
 
     PatientInboxPage.loadInboxMessages(mockMessages, undefined, mockRecipients);
@@ -56,52 +53,10 @@ describe('Secure Messaging OH Sync Status Alert', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('displays alert when sync status is STARTED', () => {
-    cy.intercept(
-      'GET',
-      Paths.INTERCEPT.OH_SYNC_STATUS,
-      mockOHSyncStatusStarted,
-    ).as('ohSyncStatus');
-
-    PatientInboxPage.loadInboxMessages(mockMessages, undefined, mockRecipients);
-
-    cy.wait('@ohSyncStatus');
-
-    cy.get(Locators.ALERTS.OH_SYNC_STATUS_ALERT).should('be.visible');
-    cy.get(Locators.ALERTS.OH_SYNC_STATUS_ALERT)
-      .find('h2[slot="headline"]')
-      .should('contain.text', Alerts.OH_SYNC_STATUS.HEADER);
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-
-  it('displays alert when sync status is NOT_STARTED', () => {
-    cy.intercept(
-      'GET',
-      Paths.INTERCEPT.OH_SYNC_STATUS,
-      mockOHSyncStatusNotStarted,
-    ).as('ohSyncStatus');
-
-    PatientInboxPage.loadInboxMessages(mockMessages, undefined, mockRecipients);
-
-    cy.wait('@ohSyncStatus');
-
-    cy.get(Locators.ALERTS.OH_SYNC_STATUS_ALERT).should('be.visible');
-    cy.get(Locators.ALERTS.OH_SYNC_STATUS_ALERT)
-      .find('h2[slot="headline"]')
-      .should('contain.text', Alerts.OH_SYNC_STATUS.HEADER);
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-
-  it('does not display alert when sync status is FINISHED', () => {
-    cy.intercept(
-      'GET',
-      Paths.INTERCEPT.OH_SYNC_STATUS,
-      mockOHSyncStatusFinished,
-    ).as('ohSyncStatus');
+  it('does not display alert when syncComplete is true', () => {
+    cy.intercept('GET', Paths.INTERCEPT.OH_SYNC_STATUS, mockOHSyncComplete).as(
+      'ohSyncStatus',
+    );
 
     PatientInboxPage.loadInboxMessages(mockMessages, undefined, mockRecipients);
 
@@ -113,55 +68,11 @@ describe('Secure Messaging OH Sync Status Alert', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('displays alert when sync status is ERROR', () => {
-    cy.intercept(
-      'GET',
-      Paths.INTERCEPT.OH_SYNC_STATUS,
-      mockOHSyncStatusError,
-    ).as('ohSyncStatus');
-
-    PatientInboxPage.loadInboxMessages(mockMessages, undefined, mockRecipients);
-
-    cy.wait('@ohSyncStatus');
-
-    cy.get(Locators.ALERTS.OH_SYNC_STATUS_ALERT).should('be.visible');
-    cy.get(Locators.ALERTS.OH_SYNC_STATUS_ALERT)
-      .find('h2[slot="headline"]')
-      .should('contain.text', Alerts.OH_SYNC_STATUS.HEADER);
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-
-  it('alert has closeable attribute', () => {
-    cy.intercept(
-      'GET',
-      Paths.INTERCEPT.OH_SYNC_STATUS,
-      mockOHSyncStatusInProgress,
-    ).as('ohSyncStatus');
-
-    PatientInboxPage.loadInboxMessages(mockMessages, undefined, mockRecipients);
-
-    cy.wait('@ohSyncStatus');
-
-    // Verify alert is displayed
-    cy.get(Locators.ALERTS.OH_SYNC_STATUS_ALERT).should('be.visible');
-
-    // Verify alert has closeable attribute
-    cy.get(Locators.ALERTS.OH_SYNC_STATUS_ALERT).should(
-      'have.attr',
-      'closeable',
-    );
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-
   it('alert only displays on inbox folder, not on sent folder', () => {
     cy.intercept(
       'GET',
       Paths.INTERCEPT.OH_SYNC_STATUS,
-      mockOHSyncStatusInProgress,
+      mockOHSyncIncomplete,
     ).as('ohSyncStatus');
 
     PatientInboxPage.loadInboxMessages(mockMessages, undefined, mockRecipients);
@@ -205,7 +116,7 @@ describe('Secure Messaging OH Sync Status Alert', () => {
     cy.intercept(
       'GET',
       Paths.INTERCEPT.OH_SYNC_STATUS,
-      mockOHSyncStatusInProgress,
+      mockOHSyncIncomplete,
     ).as('ohSyncStatus');
 
     PatientInboxPage.loadInboxMessages(mockMessages, undefined, mockRecipients);

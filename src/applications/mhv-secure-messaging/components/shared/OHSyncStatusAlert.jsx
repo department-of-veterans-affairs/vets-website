@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Alerts, OHSyncStatuses } from '../../util/constants';
+import { Alerts } from '../../util/constants';
 
 const OHSyncStatusAlert = () => {
   const ohSyncStatus = useSelector(state => state.sm?.ohSyncStatus);
@@ -11,17 +11,8 @@ const OHSyncStatusAlert = () => {
     return null;
   }
 
-  // Show alert for STARTED, NOT_STARTED, IN_PROGRESS, ERROR statuses
-  // Hide alert for FINISHED status
-  const showStatuses = [
-    OHSyncStatuses.STARTED,
-    OHSyncStatuses.NOT_STARTED,
-    OHSyncStatuses.IN_PROGRESS,
-    OHSyncStatuses.ERROR,
-  ];
-  const shouldShowAlert = showStatuses.includes(data.status);
-
-  if (!shouldShowAlert) {
+  // Show alert only when sync is not yet complete
+  if (data.syncComplete !== false) {
     return null;
   }
 
