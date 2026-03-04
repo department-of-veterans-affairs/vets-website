@@ -513,6 +513,24 @@ module.exports = async (env = {}) => {
         'process.env.MAPBOX_TOKEN': JSON.stringify(
           process.env.MAPBOX_TOKEN || '',
         ),
+        'process.env.MAPBOX_TOKEN_FACILITY_LOCATOR': JSON.stringify(
+          process.env.MAPBOX_TOKEN_FACILITY_LOCATOR || '',
+        ),
+        'process.env.MAPBOX_TOKEN_STATIC_PAGES': JSON.stringify(
+          process.env.MAPBOX_TOKEN_STATIC_PAGES || '',
+        ),
+        'process.env.MAPBOX_TOKEN_GI': JSON.stringify(
+          process.env.MAPBOX_TOKEN_GI || '',
+        ),
+        'process.env.MAPBOX_TOKEN_ASK_VA': JSON.stringify(
+          process.env.MAPBOX_TOKEN_ASK_VA || '',
+        ),
+        'process.env.MAPBOX_TOKEN_CAREGIVERS': JSON.stringify(
+          process.env.MAPBOX_TOKEN_CAREGIVERS || '',
+        ),
+        'process.env.MAPBOX_TOKEN_REPRESENTATIVE_SEARCH': JSON.stringify(
+          process.env.MAPBOX_TOKEN_REPRESENTATIVE_SEARCH || '',
+        ),
         'process.env.USE_LOCAL_DIRECTLINE':
           process.env.USE_LOCAL_DIRECTLINE || false,
         'process.env.USE_MOCKS': JSON.stringify(process.env.USE_MOCKS || ''),
