@@ -45,16 +45,13 @@ describe('CreateFolderInline component', () => {
       onConfirm: sandbox.stub(),
       onFolderCreated: sandbox.stub(),
     };
-    return {
-      ...renderWithStoreAndRouter(
-        <CreateFolderInline {...defaultProps} {...props} />,
-        {
-          initialState,
-          reducers: reducer,
-        },
-      ),
-      props: { ...defaultProps, ...props },
-    };
+    return renderWithStoreAndRouter(
+      <CreateFolderInline {...defaultProps} {...props} />,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
   };
 
   it('renders the "Create new folder" button when not expanded', () => {
