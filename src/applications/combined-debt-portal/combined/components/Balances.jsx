@@ -29,7 +29,7 @@ const Balances = () => {
   // Single out errors
   const billError = mcp.error;
   const debtError = debtLetters.errors?.length > 0;
-  const isEnrolledInHealthCare = billError?.code !== '403' ?? true;
+  const isEnrolledInHealthCare = billError?.code !== '403';
 
   // get Debt info
   const { debts } = debtLetters;

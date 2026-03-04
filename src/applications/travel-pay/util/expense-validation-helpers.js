@@ -18,6 +18,14 @@ export const DATE_VALIDATION_TYPE = Object.freeze({
 });
 
 /**
+ * Common validation error messages used across expense forms.
+ * Centralized to ensure consistency and ease of maintenance.
+ */
+export const VALIDATION_ERROR_MESSAGES = Object.freeze({
+  INCOMPLETE_DATE: 'Please enter a complete date',
+});
+
+/**
  * Helper to determine which fields to validate.
  *
  * If fieldName is provided, only that field is validated.
@@ -62,6 +70,19 @@ const isCompleteDate = date => {
     parsed.getDate() === day
   );
 };
+
+/**
+ * Normalizes a date string to ISO date-only format (YYYY-MM-DD).
+ *
+ * If the input is a full ISO datetime string (e.g. "2025-09-15T08:00:00Z"),
+ * this returns only the date portion ("2025-09-15").
+ *
+ * Returns null if the input is not a string.
+ *
+ * This ensures consistent format for validation and comparison.
+ */
+const normalizeDate = date =>
+  typeof date === 'string' ? date.split('T')[0] : null;
 
 /**
  * Determines which air travel fields should be validated,
@@ -199,9 +220,12 @@ export const validateReceiptDate = (dateInput, type) => {
   const parts = [month, day, year];
   const isAllEmpty = parts.every(p => !p);
   const isComplete = parts.every(p => Number.isInteger(p));
+  const hasAnyValue = parts.some(p => p);
 
   if (type === DATE_VALIDATION_TYPE.SUBMIT && isAllEmpty) {
     error = 'Enter the date on your receipt';
+  } else if (hasAnyValue && !isComplete) {
+    error = VALIDATION_ERROR_MESSAGES.INCOMPLETE_DATE;
   } else if (isComplete) {
     error = getFutureDateError({ year, month, day });
   }
@@ -243,12 +267,12 @@ export const validateDescription = (description, type) => {
  *  - Must be a number
  *  - Must have at most 2 decimal places
  *  - Must be greater than 0
- *  - On BLUR, auto-formats to 2 decimal places (e.g., 2.5 → 2.50)
+ *  - On BLUR/SUBMIT, requires exactly 2 decimal places in X.XX format (e.g., 3.50)
  *
  * @param {string|number} amount - The value of the costRequested field from the form.
  * @param {string} type - Validation type: CHANGE, BLUR, SUBMIT
  * @param {string} fieldName - (Optional) Name of the field in formState, defaults to 'costRequested'.
- * @returns {{errors: Object, formattedValue: string|null, isValid: boolean}} - Returns errors, formatted value for BLUR, and validity.
+ * @returns {{errors: Object, isValid: boolean}} - Returns errors and validity.
  */
 export const validateRequestedAmount = (
   amount,
@@ -256,7 +280,6 @@ export const validateRequestedAmount = (
   fieldName = 'costRequested',
 ) => {
   let error = null;
-  let formattedValue = null;
 
   const strAmount = (amount ?? '').toString().trim();
 
@@ -286,15 +309,17 @@ export const validateRequestedAmount = (
       error = 'Enter an amount greater than 0';
     }
 
-    // Return formatted value on BLUR if valid
+    // Require exactly 2 decimal places on BLUR
     if (!error && !Number.isNaN(parsed) && type === DATE_VALIDATION_TYPE.BLUR) {
-      formattedValue = parsed.toFixed(2);
+      const strictFormat = /^\d+\.\d{2}$/;
+      if (!strictFormat.test(strAmount)) {
+        error = 'Enter an amount using this format: x.xx';
+      }
     }
   }
 
   return {
     errors: { [fieldName]: error },
-    formattedValue,
     isValid: !error,
   };
 };
@@ -330,21 +355,24 @@ const validateAirTravelDepartureDate = (departureDate, returnDate) => {
     return 'Enter a departure date';
   }
 
-  const departureDateComplete = isCompleteDate(departureDate);
-  const returnDateComplete = isCompleteDate(returnDate);
+  const normalizedDepartureDate = normalizeDate(departureDate);
+  const normalizedReturnDate = normalizeDate(returnDate);
+
+  const departureDateComplete = isCompleteDate(normalizedDepartureDate);
+  const returnDateComplete = isCompleteDate(normalizedReturnDate);
 
   if (!departureDateComplete) {
     return null; // Partial date, no error
   }
 
-  const [year, month, day] = departureDate.split('-');
+  const [year, month, day] = normalizedDepartureDate.split('-');
   const futureDateError = getFutureDateError({ year, month, day });
 
   if (futureDateError) {
     return futureDateError;
   }
 
-  if (returnDateComplete && departureDate > returnDate) {
+  if (returnDateComplete && normalizedDepartureDate > normalizedReturnDate) {
     return 'Departure date must be before return date';
   }
 
@@ -360,8 +388,11 @@ const validateAirTravelReturnDate = (
   departureDate,
   fieldName,
 ) => {
-  const departureDateComplete = isCompleteDate(departureDate);
-  const returnDateComplete = isCompleteDate(returnDate);
+  const normalizedDepartureDate = normalizeDate(departureDate);
+  const normalizedReturnDate = normalizeDate(returnDate);
+
+  const departureDateComplete = isCompleteDate(normalizedDepartureDate);
+  const returnDateComplete = isCompleteDate(normalizedReturnDate);
   const shouldValidateReturnDate = tripType === TRIP_TYPES.ROUND_TRIP.value;
 
   // One-way trip with a return date
@@ -384,14 +415,17 @@ const validateAirTravelReturnDate = (
       return null; // Partial date from tripType change, no error
     }
 
-    const [year, month, day] = returnDate.split('-');
+    const [year, month, day] = normalizedReturnDate.split('-');
     const futureDateError = getFutureDateError({ year, month, day });
 
     if (futureDateError) {
       return futureDateError;
     }
 
-    if (departureDateComplete && returnDate < departureDate) {
+    if (
+      departureDateComplete &&
+      normalizedReturnDate < normalizedDepartureDate
+    ) {
       return 'Return date must be later than departure date';
     }
   }

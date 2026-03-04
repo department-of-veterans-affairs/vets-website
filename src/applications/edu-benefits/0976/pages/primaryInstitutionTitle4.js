@@ -6,16 +6,17 @@ import {
   textSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { validateWhiteSpace } from 'platform/forms/validations';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('Institution details'),
     institutionProfile: {
-      participatesInTitleIV: yesNoUI({
+      participatesInTitleIv: yesNoUI({
         yesNoReverse: true,
         title:
-          'Does the facility participate in a program under Title IV with the U.S. Department of Education?',
+          'Does the facility participate in a program under Title 4 with the U.S. Department of Education?',
         labels: {
           N: 'Yes',
           Y: 'No',
@@ -23,17 +24,25 @@ export default {
       }),
       opeidNumber: {
         ...textUI({
-          title: 'List your institution’s OPEID number below',
+          title: 'List your institution’s OPEID number',
           errorMessages: {
-            required: 'You must enter your institution’s OPEID number below',
+            required: 'You must enter your institution’s OPEID number',
           },
           required: formData =>
-            formData.institutionProfile?.participatesInTitleIV === true,
+            formData.institutionProfile?.participatesInTitleIv === true,
         }),
         'ui:options': {
-          expandUnder: 'participatesInTitleIV',
+          expandUnder: 'participatesInTitleIv',
           expandUnderCondition: true,
         },
+        'ui:validations': [
+          validateWhiteSpace,
+          (errors, fieldData, _formData) => {
+            if (fieldData && !/^[A-Za-z0-9]{8}$/.test(fieldData)) {
+              errors.addError('Enter a valid OPEID');
+            }
+          },
+        ],
       },
     },
   },
@@ -43,13 +52,14 @@ export default {
       institutionProfile: {
         type: 'object',
         properties: {
-          participatesInTitleIV: yesNoSchema,
+          participatesInTitleIv: yesNoSchema,
           opeidNumber: {
             ...textSchema,
-            maxLength: 500,
+            minLength: 8,
+            maxLength: 8,
           },
         },
-        required: ['participatesInTitleIV'],
+        required: ['participatesInTitleIv'],
       },
     },
   },

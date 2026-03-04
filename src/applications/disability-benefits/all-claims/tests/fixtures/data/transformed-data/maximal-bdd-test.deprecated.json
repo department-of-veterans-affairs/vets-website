@@ -1,6 +1,15 @@
 {
   "form526": {
+    "homelessOrAtRisk": "homeless",
+    "homelessHousingSituation": "other",
+    "otherHomelessHousing": "Under a bridge",
+    "needToLeaveHousing": true,
+    "homelessnessContact": {
+      "name": "Name Here and invalid chars with email elmer fud com",
+      "phoneNumber": "1231231234"
+    },
     "isVaEmployee": true,
+    "standardClaim": false,
     "bankAccountType": "Checking",
     "bankAccountNumber": "1233",
     "bankRoutingNumber": "123123123",
@@ -22,19 +31,8 @@
       "city": "Smallcity",
       "state": "NY",
       "zipCode": "54321",
-      "effectiveDate": {
-        "from": "2099-12-01",
-        "to": "2100-01-01"
-      }
+      "effectiveDate": { "from": "2099-12-01", "to": "2100-01-01" }
     },
-    "ratedDisabilities": [
-      {
-        "name": "Diabetes mellitus0",
-        "ratedDisabilityId": "0",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "INCREASE"
-      }
-    ],
     "serviceInformation": {
       "reservesNationalGuardService": {
         "title10Activation": {
@@ -49,11 +47,8 @@
       },
       "servicePeriods": [
         {
-          "serviceBranch": "Air Force Reserves",
-          "dateRange": {
-            "from": "2001-03-21",
-            "to": "2026-03-02"
-          }
+          "serviceBranch": "Overwritten in Submit Transformer Unit Test",
+          "dateRange": { "from": "2001-03-21", "to": "2014-07-21" }
         }
       ],
       "separationLocation": {
@@ -64,26 +59,34 @@
     "newPrimaryDisabilities": [
       {
         "cause": "NEW",
-        "condition": "asthma",
-        "primaryDescription": "This disability is related to my military service."
+        "primaryDescription": "This disability is related to my military service.",
+        "condition": "asthma"
       },
       {
         "cause": "WORSENED",
-        "condition": "ankylosis in knee, bilateral",
         "worsenedDescription": "This disability was worsened by military service.",
-        "worsenedEffects": "This pre-existing disability was worsened by military service."
+        "worsenedEffects": "This pre-existing disability was worsened by military service.",
+        "condition": "ankylosis in knee, bilateral"
       },
       {
         "cause": "VA",
+        "vaMistreatmentDescription": "This disability was caused by an injury or event that happened while I was receiving VA care.",
         "vaMistreatmentLocation": "Somewhereville",
         "vaMistreatmentDate": "A while ago",
-        "condition": "heart attack (myocardial infarction)",
-        "vaMistreatmentDescription": "This disability was caused by an injury or event that happened while I was receiving VA care."
+        "condition": "heart attack (myocardial infarction)"
       },
       {
-        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
         "cause": "NEW",
-        "primaryDescription": "Secondary to Asthma\nThis disability was caused by another condition."
+        "primaryDescription": "Secondary to Asthma\nThis disability was caused by another condition.",
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)"
+      }
+    ],
+    "ratedDisabilities": [
+      {
+        "name": "Diabetes mellitus0",
+        "ratedDisabilityId": "0",
+        "diagnosticCode": 5238,
+        "disabilityActionType": "INCREASE"
       }
     ],
     "attachments": [
@@ -117,7 +120,6 @@
         "confirmationCode": "de89492d-2d3f-4486-a73d-1fa4868aa49d",
         "attachmentId": "L023"
       }
-    ],
-    "standardClaim": false
+    ]
   }
 }

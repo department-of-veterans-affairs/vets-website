@@ -16,7 +16,6 @@ import {
   makePdf,
   formatUserDob,
   formatNameFirstLast,
-  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
@@ -24,7 +23,6 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { selectHoldTimeMessagingUpdate } from '../../util/selectors';
 import NeedHelpSection from './NeedHelpSection';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import {
   generateTextFile,
   focusOnErrorField,
@@ -58,7 +56,6 @@ const DownloadFileType = props => {
   const [fileTypeError, setFileTypeError] = useState('');
 
   const dispatch = useDispatch();
-  const { isAcceleratingVaccines } = useAcceleratedData();
 
   const fileTypeFilter = useSelector(
     state => state.mr.downloads?.fileTypeFilter,
@@ -94,7 +91,6 @@ const DownloadFileType = props => {
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
   const refreshStatus = useSelector(state => state.mr.refresh.status);
   const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
-  const [downloadStarted, setDownloadStarted] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
 
   const { fromDate, toDate, option: dateFilterOption } = dateFilter;
@@ -237,14 +233,13 @@ const DownloadFileType = props => {
         demographics: recordFilter?.includes('demographics'),
         militaryService: recordFilter?.includes('militaryService'),
         patient: true,
-        isAcceleratingVaccines,
       };
 
       if (!isDataFetched) {
         dispatch(getBlueButtonReportData(options, dateFilter));
       }
     },
-    [isDataFetched, recordFilter, dispatch, dateFilter, isAcceleratingVaccines],
+    [isDataFetched, recordFilter, dispatch, dateFilter],
   );
 
   const recordData = useMemo(
@@ -358,7 +353,6 @@ const DownloadFileType = props => {
       if (isGenerating) return; // Prevent double-clicks
       setIsGenerating(true);
       try {
-        setDownloadStarted(true);
         dispatch(clearAlerts());
 
         if (isDataFetched) {
@@ -426,7 +420,6 @@ const DownloadFileType = props => {
       if (isGenerating) return; // Prevent double-clicks
       setIsGenerating(true);
       try {
-        setDownloadStarted(true);
         dispatch(clearAlerts());
         if (isDataFetched) {
           const title = 'Blue Button report';
@@ -582,7 +575,13 @@ const DownloadFileType = props => {
                   checked={fileType === 'txt'}
                 />
               </VaRadio>
-              {downloadStarted && <DownloadSuccessAlert />}
+              {isGenerating && (
+                <va-loading-indicator
+                  message="Downloading report..."
+                  set-focus
+                  data-testid="downloading-indicator"
+                />
+              )}
               <div className="vads-u-margin-top--1">
                 <DownloadingRecordsInfo description="Blue Button Report" />
               </div>

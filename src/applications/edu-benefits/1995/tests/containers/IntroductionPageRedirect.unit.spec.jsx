@@ -72,8 +72,12 @@ describe('IntroductionPageRedirect', () => {
     );
 
     expect(container.querySelector('.schemaform-intro')).to.exist;
-    expect(container.textContent).to.include('Change your education benefits');
-    expect(container.textContent).to.include('Determine which form to use');
+    expect(container.textContent).to.include(
+      'VA Form 22-1995 is being phased out',
+    );
+    expect(container.textContent).to.include(
+      'Get updated information if you have the Post 9/11 GI Bill benefit',
+    );
   });
 
   it('should show start button and prefill alert for authenticated users', () => {
@@ -116,7 +120,9 @@ describe('IntroductionPageRedirect', () => {
       </Provider>,
     );
 
-    expect(container.textContent).to.include('Change your education benefits');
+    expect(container.textContent).to.include(
+      'VA Form 22-1995 is being phased out',
+    );
     // Should not show prefill alert for unauthenticated users
     expect(container.textContent).to.not.include(
       'We’ve prefilled some of your information',

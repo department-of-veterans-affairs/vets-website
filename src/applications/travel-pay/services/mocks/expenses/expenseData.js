@@ -28,7 +28,7 @@ const parking = {
   dateIncurred: '2025-09-16T08:30:00Z',
   description: 'Hospital parking',
   costRequested: 15.0,
-  costSubmitted: 15.0,
+  costSubmitted: 0.0,
 };
 
 const toll = {
@@ -38,7 +38,7 @@ const toll = {
   dateIncurred: '2025-09-16T08:30:00Z',
   description: 'Highway toll',
   costRequested: 5.5,
-  costSubmitted: 5.5,
+  costSubmitted: 0.0,
 };
 
 const commoncarrier = {
@@ -48,9 +48,9 @@ const commoncarrier = {
   dateIncurred: '2025-09-16T08:30:00Z',
   description: 'Taxi to appointment',
   costRequested: 45.0,
-  costSubmitted: 45.0,
+  costSubmitted: 0.0,
   carrierType: 'Taxi',
-  reasonNotUsingPOV: 'PrivatelyOwnedVehicleNotAvailable',
+  reasonNotUsingPOV: 'Privately Owned Vehicle Not Available',
 };
 
 const airtravel = {
@@ -60,7 +60,7 @@ const airtravel = {
   dateIncurred: '2025-09-16T08:30:00Z',
   description: 'Flight to medical appointment',
   costRequested: 350.0,
-  costSubmitted: 350.0,
+  costSubmitted: 0.0,
   tripType: 'RoundTrip',
   vendorName: 'United Airlines',
   departedFrom: 'San Francisco, CA',
@@ -76,7 +76,7 @@ const lodging = {
   dateIncurred: '2025-09-16T08:30:00Z',
   description: 'Hotel stay',
   costRequested: 125.0,
-  costSubmitted: 125.0,
+  costSubmitted: 0.0,
   vendor: 'Holiday Inn',
   checkInDate: '2025-09-15',
   checkOutDate: '2025-09-16',
@@ -89,7 +89,7 @@ const meal = {
   dateIncurred: '2025-09-16T08:30:00Z',
   description: 'Breakfast and lunch',
   costRequested: 35.0,
-  costSubmitted: 35.0,
+  costSubmitted: 0.0,
   vendorName: 'Restaurant Name',
 };
 
@@ -100,7 +100,7 @@ const other = {
   dateIncurred: '2025-09-16T08:30:00Z',
   description: 'Medical supplies',
   costRequested: 50.0,
-  costSubmitted: 50.0,
+  costSubmitted: 0.0,
 };
 
 const expenseByType = {

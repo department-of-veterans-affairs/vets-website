@@ -54,27 +54,9 @@ export const testOptionsTextGetItemNameRecurringIncome = options => {
     const recipientName = { first: 'Jane', middle: 'A', last: 'Doe' };
     const payer = 'Walmart';
 
-    it('should use veteranFullName when recipient is "VETERAN" and user is logged in', () => {
+    it('should use veteranFullName when recipient is "VETERAN"', () => {
       const formData = {
         isLoggedIn: true,
-        veteranFullName,
-        otherVeteranFullName,
-      };
-
-      const item = {
-        recipientRelationship: 'VETERAN',
-        payer,
-      };
-
-      const expectedName = resolveRecipientFullName(item, formData);
-      expect(options.text.getItemName(item, 0, formData)).to.equal(
-        `${expectedName}’s income from ${payer}`,
-      );
-    });
-
-    it('should use otherVeteranFullName when recipient is "VETERAN" and user is not logged in', () => {
-      const formData = {
-        isLoggedIn: false,
         veteranFullName,
         otherVeteranFullName,
       };
@@ -171,6 +153,8 @@ export const testOptionsTextCardDescription = (
         transferDate: formatDateLong,
         establishedDate: formatDateLong,
         incomeLastReceivedDate: formatDateLong,
+        uploadedDocuments: docs =>
+          Array.isArray(docs) ? docs.map(doc => doc?.name).filter(Boolean) : [],
       };
 
       Object.entries(baseItem).forEach(([key, value]) => {

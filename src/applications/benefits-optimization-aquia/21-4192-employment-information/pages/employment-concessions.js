@@ -28,7 +28,7 @@ export const employmentConcessionsUiSchema = {
   employmentConcessions: {
     concessions: textareaUI({
       title: 'Concessions', // Default title, will be updated by updateUiSchema
-      hint: 'Enter "None" if no concessions were made',
+      hint: 'Enter "None" if no concessions were made.',
       charcount: true,
       errorMessages: {
         required: 'Concessions information is required',

@@ -5,7 +5,10 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButton,
+  VaLoadingIndicator,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
@@ -47,10 +50,10 @@ export class DownloadLetterLink extends React.Component {
     let buttonText;
     let buttonDisabled; // false causes MS Voice Access to ignore buttons
     let message;
+    let showLoadingIndicator = false;
     switch (this.props.downloadStatus) {
       case DOWNLOAD_STATUSES.downloading:
-        buttonText = 'Downloading...';
-        buttonDisabled = true;
+        showLoadingIndicator = true;
         break;
       case DOWNLOAD_STATUSES.success:
         buttonText = `${this.props.letterTitle} (PDF)`;
@@ -107,12 +110,16 @@ export class DownloadLetterLink extends React.Component {
             </CSSTransition>
           ) : null}
         </TransitionGroup>
-        <VaButton
-          className="vads-u-margin-y--0"
-          disabled={buttonDisabled}
-          text={buttonText}
-          onClick={this.downloadLetter}
-        />
+        {showLoadingIndicator ? (
+          <VaLoadingIndicator message="Downloading your letter…" set-focus />
+        ) : (
+          <VaButton
+            className="vads-u-margin-y--0"
+            disabled={buttonDisabled}
+            text={buttonText}
+            onClick={this.downloadLetter}
+          />
+        )}
       </div>
     );
   }

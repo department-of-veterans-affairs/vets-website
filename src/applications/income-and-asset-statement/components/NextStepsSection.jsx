@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { getFormLink, inProgressApi } from 'platform/forms/helpers';
 
-const NextStepsSection = ({ loggedIn }) => {
+const NextStepsSection = () => {
   const [loading, setLoading] = useState(false);
   const [hasInProgress, setHasInProgress] = useState(false);
 
@@ -38,77 +37,62 @@ const NextStepsSection = ({ loggedIn }) => {
     </>
   );
 
-  useEffect(
-    () => {
-      let isMounted = true;
+  useEffect(() => {
+    let isMounted = true;
 
-      const checkInProgress = async () => {
-        if (!loggedIn) return;
-        setLoading(true);
-        try {
-          await apiRequest(inProgressApi('21P-527EZ'));
-          if (isMounted) {
-            setHasInProgress(true);
-          }
-        } catch (e) {
-          // Any failure → log and gracefully fall back to NextSteps content
-          /* eslint-disable no-console */
-          console.warn('Failed to check in-progress 21P-527EZ:', e);
-          /* eslint-enable no-console */
-          if (isMounted) {
-            setHasInProgress(false);
-          }
-        } finally {
-          if (isMounted) setLoading(false);
+    const checkInProgress = async () => {
+      setLoading(true);
+      try {
+        await apiRequest(inProgressApi('21P-527EZ'));
+        if (isMounted) {
+          setHasInProgress(true);
         }
-      };
+      } catch (e) {
+        // Any failure → log and gracefully fall back to NextSteps content
+        /* eslint-disable no-console */
+        console.warn('Failed to check in-progress 21P-527EZ:', e);
+        /* eslint-enable no-console */
+        if (isMounted) {
+          setHasInProgress(false);
+        }
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
 
-      checkInProgress();
-      return () => {
-        isMounted = false;
-      };
-    },
-    [loggedIn],
-  );
+    checkInProgress();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <section>
       <h2>What to do next</h2>
+      {loading && (
+        <va-loading-indicator message="Checking your in-progress applications…" />
+      )}
 
-      {!loggedIn && <NextSteps />}
-
-      {loggedIn && (
+      {!loading && (
         <>
-          {loading && (
-            <va-loading-indicator message="Checking your in-progress applications…" />
-          )}
-
-          {!loading && (
+          {hasInProgress ? (
             <>
-              {hasInProgress ? (
-                <>
-                  <p>
-                    You have an in-progress Pension benefits application. You
-                    can return to the online form to complete your application.
-                  </p>
-                  <va-link-action
-                    href={pensionLink}
-                    text="Continue Veterans Pension application"
-                  />
-                </>
-              ) : (
-                <NextSteps />
-              )}
+              <p>
+                You have an in-progress Pension benefits application. You can
+                return to the online form to complete your application.
+              </p>
+              <va-link-action
+                href={pensionLink}
+                text="Continue Veterans Pension application"
+              />
             </>
+          ) : (
+            <NextSteps />
           )}
         </>
       )}
     </section>
   );
-};
-
-NextStepsSection.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
 };
 
 export default NextStepsSection;

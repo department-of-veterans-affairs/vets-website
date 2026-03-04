@@ -1,17 +1,13 @@
 // yarn mock-api --responses ./src/applications/{application}/tests/e2e/fixtures/mocks/local-mock-responses.js
 const mockItf = require('./mock-itf');
 const mockUser = require('./user.json');
-const features = require('./feature-flags');
+const { generateFeatureFlags } = require('./feature-flags');
+const submit = require('./completed.json');
 const completedForm = require('./completed-form.json');
 
 const responses = {
   'GET /v0/user': mockUser,
-  'GET /v0/feature_toggles': {
-    data: {
-      type: 'feature_toggles',
-      features,
-    },
-  },
+  'GET /v0/feature_toggles': generateFeatureFlags(),
   'GET /v0/intent_to_file/pension': (req, res) => {
     return res.json({
       ...mockItf.getItf(),
@@ -71,16 +67,7 @@ const responses = {
       },
     });
   },
-  'POST /survivors_benefits/v0/form534ez': (req, res) => {
-    return res.json({
-      formSubmissionId: '123fake-submission-id-567',
-      confirmationNumber: '123fake-submission-id-567',
-      timestamp: '2020-11-12',
-      attributes: {
-        guid: '123fake-submission-id-567',
-      },
-    });
-  },
+  'POST /survivors_benefits/v0/form534ez': submit,
 };
 
 module.exports = responses;

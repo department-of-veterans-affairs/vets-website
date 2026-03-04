@@ -15,12 +15,10 @@ import {
   resetUploads,
   clearAdditionalEvidenceNotification,
 } from '../../actions';
-import {
-  getFilesNeeded,
-  getFilesOptional,
-  isClaimOpen,
-} from '../../utils/helpers';
+import { isClaimOpen } from '../../utils/helpers';
+import * as TrackedItem from '../../utils/trackedItemContent';
 import withRouter from '../../utils/withRouter';
+import { cstMultiClaimProvider } from '../../selectors';
 
 const filesPath = `../files`;
 
@@ -59,7 +57,10 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   goToFilesPage() {
-    this.props.getClaim(this.props.claim.id);
+    const provider = this.props.cstMultiClaimProviderEnabled
+      ? this.props.claim?.attributes?.provider
+      : null;
+    this.props.getClaim(this.props.claim.id, null, provider);
     this.props.navigate(filesPath);
   }
 
@@ -90,6 +91,7 @@ class AdditionalEvidencePage extends React.Component {
                 title={message.title}
                 body={message.body}
                 type={message.type}
+                maskTitle={message.type === 'error'}
                 onSetFocus={focusNotificationAlert}
               />
             </>
@@ -153,12 +155,13 @@ function mapStateToProps(state) {
     uploadError: claimsState.uploads.uploadError,
     uploadComplete: claimsState.uploads.uploadComplete,
     message: claimsState.notifications.additionalEvidenceMessage,
-    filesNeeded: getFilesNeeded(trackedItems),
-    filesOptional: getFilesOptional(trackedItems),
+    filesNeeded: TrackedItem.getFilesNeeded(trackedItems),
+    filesOptional: TrackedItem.getFilesOptional(trackedItems),
     showDocumentUploadStatus:
       state.featureToggles?.cst_show_document_upload_status || false,
     timezoneMitigationEnabled:
       state.featureToggles?.cst_timezone_discrepancy_mitigation || false,
+    cstMultiClaimProviderEnabled: cstMultiClaimProvider(state),
   };
 }
 
@@ -175,6 +178,7 @@ AdditionalEvidencePage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
+  cstMultiClaimProviderEnabled: PropTypes.bool,
   filesNeeded: PropTypes.array,
   filesOptional: PropTypes.array,
   getClaim: PropTypes.func,

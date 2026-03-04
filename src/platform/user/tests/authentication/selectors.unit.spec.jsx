@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import * as selectors from '../../authentication/selectors';
 
 describe('authentication selectors', () => {
@@ -114,15 +113,13 @@ describe('authentication selectors', () => {
   });
 
   describe('isAuthenticatedWithOAuth', () => {
-    let originalCookie;
-    before(() => {
-      originalCookie = document.cookie;
-    });
-    beforeEach(() => {
-      document.cookie = '';
-    });
-    after(() => {
-      document.cookie = originalCookie;
+    const clearInfoTokenCookie = () => {
+      document.cookie =
+        'vagov_info_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    };
+
+    afterEach(() => {
+      clearInfoTokenCookie();
     });
     it('returns true when the authBroker is sis', () => {
       const state = {
@@ -163,25 +160,6 @@ describe('authentication selectors', () => {
       };
 
       expect(selectors.isAuthenticatedWithOAuth(state)).to.be.false;
-    });
-  });
-
-  describe('signInServiceEnabled', () => {
-    it('pulls out featureToggles.signInServiceEnabled', () => {
-      const state = {
-        featureToggles: {
-          [FEATURE_FLAG_NAMES.signInServiceEnabled]: true,
-        },
-      };
-
-      expect(selectors.signInServiceEnabled(state)).to.be.true;
-    });
-    it('returns undefined when signInServiceEnabled is not present', () => {
-      const state = {
-        featureToggles: {},
-      };
-
-      expect(selectors.signInServiceEnabled(state)).to.be.undefined;
     });
   });
 });

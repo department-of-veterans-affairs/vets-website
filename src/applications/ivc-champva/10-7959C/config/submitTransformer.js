@@ -101,7 +101,6 @@ const extractMedicareFields = data => {
   // remap keys to match backend expectations
   const keyMappings = {
     medicarePartDStatus: 'hasMedicarePartD',
-    medicarePharmacyBenefits: 'hasPharmacyBenefits',
   };
 
   return Object.fromEntries(

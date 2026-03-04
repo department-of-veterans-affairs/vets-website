@@ -18,13 +18,17 @@ const GenerateRadiologyPdf = async (record, user, runningUnitTest) => {
     ...generateRadiologyContent(record),
   };
   const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-  makePdf(
-    pdfName,
-    pdfData,
-    'medicalRecords',
-    'Medical Records - Radiology details - PDF generation error',
-    runningUnitTest,
-  );
+  try {
+    await makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Radiology details - PDF generation error',
+      runningUnitTest,
+    );
+  } catch {
+    // makePdf handles error logging to Datadog/Sentry
+  }
 };
 
 export default GenerateRadiologyPdf;

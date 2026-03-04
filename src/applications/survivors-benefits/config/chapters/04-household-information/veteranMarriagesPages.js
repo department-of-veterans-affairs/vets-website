@@ -11,7 +11,6 @@ import {
   fullNameSchema,
   selectUI,
   textUI,
-  textSchema,
   checkboxUI,
   checkboxSchema,
   currentOrPastDateUI,
@@ -28,6 +27,8 @@ import {
   previousMarriageEndOptions,
 } from '../../../utils/labels';
 import { handleVeteranMaxMarriagesAlert } from '../../../components/FormAlerts';
+import { customAddressSchema, customTextSchema } from '../../definitions';
+import { validations } from '../../validations';
 
 /**
  * Pages for Veteran's previous marriages (array-builder)
@@ -162,7 +163,7 @@ const marriageDatePlacePage = {
         'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
       required: formData => !formData['view:marriageDate'],
     }),
-    marriedOutsideUS: checkboxUI({
+    marriedOutsideUs: checkboxUI({
       title: 'They got married outside the U.S.',
     }),
     locationOfMarriage: {
@@ -172,29 +173,29 @@ const marriageDatePlacePage = {
         'ui:required': (formData, index) => {
           const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
-          return !(item?.marriedOutsideUS || currentPageData?.marriedOutsideUS);
+          return !(item?.marriedOutsideUs || currentPageData?.marriedOutsideUs);
         },
         'ui:options': {
           hideIf: (formData, index) => {
             const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
-            return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
+            return item?.marriedOutsideUs || currentPageData?.marriedOutsideUs;
           },
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
           const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
-          return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
+          return item?.marriedOutsideUs || currentPageData?.marriedOutsideUs;
         },
         'ui:options': {
           hideIf: (formData, index) => {
             const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
             return !(
-              item?.marriedOutsideUS || currentPageData?.marriedOutsideUS
+              item?.marriedOutsideUs || currentPageData?.marriedOutsideUs
             );
           },
           labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
@@ -213,24 +214,8 @@ const marriageDatePlacePage = {
     required: ['locationOfMarriage', 'dateOfMarriage'],
     properties: {
       dateOfMarriage: currentOrPastDateSchema,
-      marriedOutsideUS: checkboxSchema,
-      locationOfMarriage: {
-        type: 'object',
-        required: ['city'],
-        properties: {
-          city: { type: 'string' },
-          state: {
-            type: 'string',
-            enum: STATE_VALUES,
-            enumNames: STATE_NAMES,
-          },
-          country: {
-            type: 'string',
-            enum: COUNTRY_VALUES,
-            enumNames: COUNTRY_NAMES,
-          },
-        },
-      },
+      marriedOutsideUs: checkboxSchema,
+      locationOfMarriage: customAddressSchema,
     },
   },
 };
@@ -261,7 +246,7 @@ const endedPage = {
     type: 'object',
     properties: {
       reasonForSeparation: radioSchema(Object.keys(previousMarriageEndOptions)),
-      separationExplanation: textSchema,
+      separationExplanation: customTextSchema,
     },
     required: ['reasonForSeparation'],
   },
@@ -272,13 +257,16 @@ const marriageEndDateLocationPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'When and where did their marriage end?',
     ),
-    dateOfSeparation: currentOrPastDateUI({
-      title: 'Date marriage ended',
-      monthSelect: false,
-      'ui:description':
-        'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
-      required: formData => !formData['view:dateOfSeparation'],
-    }),
+    dateOfSeparation: {
+      ...currentOrPastDateUI({
+        title: 'Date marriage ended',
+        monthSelect: false,
+        'ui:description':
+          'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
+        required: formData => !formData['view:dateOfSeparation'],
+      }),
+      'ui:validations': [validations.isAfterPreviousMarriageStartDate],
+    },
     marriageEndedOutsideUS: checkboxUI({
       title: 'Their marriage ended outside the U.S.',
     }),
@@ -305,7 +293,7 @@ const marriageEndDateLocationPage = {
           },
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
           const item = formData?.veteranMarriages?.[index];
@@ -341,23 +329,7 @@ const marriageEndDateLocationPage = {
     properties: {
       dateOfSeparation: currentOrPastDateSchema,
       marriageEndedOutsideUS: checkboxSchema,
-      locationOfSeparation: {
-        type: 'object',
-        required: ['city'],
-        properties: {
-          city: { type: 'string' },
-          state: {
-            type: 'string',
-            enum: STATE_VALUES,
-            enumNames: STATE_NAMES,
-          },
-          country: {
-            type: 'string',
-            enum: COUNTRY_VALUES,
-            enumNames: COUNTRY_NAMES,
-          },
-        },
-      },
+      locationOfSeparation: customAddressSchema,
     },
   },
 };

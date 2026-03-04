@@ -131,15 +131,15 @@ export const resolveParamsWithUrl = ({
   distance,
 }) => {
   const params = [
-    address ? `address=${address}` : null,
-    lat ? `lat=${lat}` : null,
-    long ? `long=${long}` : null,
-    name ? `name=${name}` : null,
-    `page=${page || 1}`,
-    `per_page=${perPage}`,
-    `sort=${sort}`,
-    `type=${type}`,
-    distance ? `distance=${distance}` : null,
+    address ? `address=${encodeURIComponent(address)}` : null,
+    lat ? `lat=${encodeURIComponent(lat)}` : null,
+    long ? `long=${encodeURIComponent(long)}` : null,
+    name ? `name=${encodeURIComponent(name)}` : null,
+    `page=${encodeURIComponent(page) || 1}`,
+    `per_page=${encodeURIComponent(perPage)}`,
+    `sort=${encodeURIComponent(sort)}`,
+    `type=${encodeURIComponent(type)}`,
+    distance ? `distance=${encodeURIComponent(distance)}` : null,
   ];
 
   return `?${compact([...params]).join('&')}`;

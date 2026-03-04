@@ -1,5 +1,4 @@
-// @ts-check
-import { addDays } from 'date-fns';
+import { addDays, addHours, startOfDay } from 'date-fns';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
@@ -17,6 +16,7 @@ import PlanAheadPageObject from '../../page-objects/PlanAheadPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import SecondDosePageObject from '../../page-objects/SecondDosePageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentCreateApi,
@@ -33,6 +33,8 @@ import {
 } from '../../vaos-cypress-helpers';
 
 describe('VAOS covid-19 vaccine flow', () => {
+  const noon = addHours(startOfDay(new Date()), 12);
+
   beforeEach(() => {
     vaosSetup();
 
@@ -42,7 +44,7 @@ describe('VAOS covid-19 vaccine flow', () => {
     mockVamcEhrApi();
   });
 
-  describe.skip('When more than one facility supports online scheduling', () => {
+  describe('When more than one facility supports online scheduling', () => {
     const setup = () => {
       const response = new MockAppointmentResponse({
         id: 'mock1',
@@ -78,12 +80,12 @@ describe('VAOS covid-19 vaccine flow', () => {
         clinicId: '1',
         // Add one day since same day appointments are not allowed.
         response: MockSlotResponse.createResponses({
-          startTimes: [addDays(new Date(), 1)],
+          startTimes: [addDays(noon, 1)],
         }),
       });
     };
 
-    describe.skip('And veteran does have a home address', () => {
+    describe('And veteran does have a home address', () => {
       beforeEach(setup);
 
       it('should submit form', () => {
@@ -102,6 +104,8 @@ describe('VAOS covid-19 vaccine flow', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
@@ -144,7 +148,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       });
     });
 
-    describe.skip('And veteran does not have a home address', () => {
+    describe('And veteran does not have a home address', () => {
       beforeEach(setup);
 
       it('should submit form', () => {
@@ -163,6 +167,8 @@ describe('VAOS covid-19 vaccine flow', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert()
@@ -206,7 +212,7 @@ describe('VAOS covid-19 vaccine flow', () => {
     });
   });
 
-  describe.skip('When one facility supports online scheduling', () => {
+  describe('When one facility supports online scheduling', () => {
     const setup = () => {
       const response = new MockAppointmentResponse({
         id: 'mock1',
@@ -237,12 +243,12 @@ describe('VAOS covid-19 vaccine flow', () => {
         clinicId: '1',
         // Add one day since same day appointments are not allowed.
         response: MockSlotResponse.createResponses({
-          startTimes: [addDays(new Date(), 1)],
+          startTimes: [addDays(noon, 1)],
         }),
       });
     };
 
-    describe.skip('And veteran does have a home address', () => {
+    describe('And veteran does have a home address', () => {
       beforeEach(setup);
 
       it('should submit form', () => {
@@ -265,6 +271,8 @@ describe('VAOS covid-19 vaccine flow', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
@@ -331,6 +339,8 @@ describe('VAOS covid-19 vaccine flow', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: true })
@@ -406,6 +416,8 @@ describe('VAOS covid-19 vaccine flow', () => {
 
       AppointmentListPageObject.visit().scheduleAppointment();
 
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/COVID-19 vaccine/i)
@@ -448,6 +460,8 @@ describe('VAOS covid-19 vaccine flow', () => {
       cy.login(mockUser);
 
       AppointmentListPageObject.visit().scheduleAppointment();
+
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
@@ -498,6 +512,8 @@ describe('VAOS covid-19 vaccine flow', () => {
 
       AppointmentListPageObject.visit().scheduleAppointment();
 
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/COVID-19 vaccine/i)
@@ -542,7 +558,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         clinicId: '1',
         response: MockSlotResponse.createResponses({
           // Add one day since same day appointments are not allowed.
-          startTimes: [addDays(new Date(), 1)],
+          startTimes: [addDays(noon, 1)],
         }),
       });
 
@@ -550,6 +566,8 @@ describe('VAOS covid-19 vaccine flow', () => {
       cy.login(mockUser);
 
       AppointmentListPageObject.visit().scheduleAppointment();
+
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })

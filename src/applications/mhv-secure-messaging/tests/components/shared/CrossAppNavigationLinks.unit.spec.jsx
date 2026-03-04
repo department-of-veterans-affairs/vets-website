@@ -4,16 +4,14 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { cleanup, waitFor } from '@testing-library/react';
 import reducer from '../../../reducers';
 import BlockedTriageGroupAlert from '../../../components/shared/BlockedTriageGroupAlert';
-import CannotReplyAlert from '../../../components/shared/CannotReplyAlert';
+import StaleMessageAlert from '../../../components/shared/StaleMessageAlert';
 import EditSignatureLink from '../../../components/ComposeForm/EditSignatureLink';
-import CernerTransitioningFacilityAlert from '../../../components/Alerts/CernerTransitioningFacilityAlert';
 import {
   BlockedTriageAlertStyles,
   ParentComponent,
   RecipientStatus,
   Recipients,
   Paths,
-  CernerTransitioningFacilities,
 } from '../../../util/constants';
 
 /**
@@ -78,10 +76,10 @@ describe('Cross-App Navigation Links', () => {
     });
   });
 
-  describe('CannotReplyAlert - mixed internal and cross-app links', () => {
+  describe('StaleMessageAlert - mixed internal and cross-app links', () => {
     it('renders /find-locations as VaLinkAction for OH messages', () => {
       const screen = renderWithStoreAndRouter(
-        <CannotReplyAlert visible isOhMessage />,
+        <StaleMessageAlert visible isOhMessage />,
         {
           initialState: { sm: {} },
           reducers: reducer,
@@ -90,7 +88,7 @@ describe('Cross-App Navigation Links', () => {
 
       // /find-locations should be VaLinkAction (cross-app)
       const findFacilityLink = screen.container.querySelector(
-        'va-link-action[href="/find-locations"]',
+        'va-link[href="/find-locations"]',
       );
       expect(findFacilityLink).to.exist;
       expect(findFacilityLink.getAttribute('text')).to.equal(
@@ -100,7 +98,7 @@ describe('Cross-App Navigation Links', () => {
 
     it('renders Paths.COMPOSE as RouterLinkAction (same SPA internal navigation)', () => {
       const screen = renderWithStoreAndRouter(
-        <CannotReplyAlert visible isOhMessage={false} />,
+        <StaleMessageAlert visible isOhMessage={false} />,
         {
           initialState: { sm: {} },
           reducers: reducer,
@@ -146,56 +144,6 @@ describe('Cross-App Navigation Links', () => {
       );
       expect(link.getAttribute('text')).to.equal(
         'Edit signature for all messages',
-      );
-    });
-  });
-
-  describe('CernerTransitioningFacilityAlert - /find-locations link', () => {
-    const initialState = {
-      drupalStaticData: {
-        vamcEhrData: {
-          data: {
-            ehrDataByVhaId: {
-              '556': {
-                vhaId: '556',
-                vamcFacilityName:
-                  'Captain James A. Lovell Federal Health Care Center',
-                vamcSystemName: 'Lovell Federal health care - VA',
-                ehr: 'vista',
-              },
-            },
-          },
-        },
-      },
-      user: {
-        profile: {
-          facilities: [
-            {
-              facilityId:
-                CernerTransitioningFacilities.NORTH_CHICAGO.facilityId,
-              isCerner: false,
-            },
-          ],
-        },
-      },
-    };
-
-    it('renders /find-locations as VaLinkAction for T5 alert', async () => {
-      const screen = renderWithStoreAndRouter(
-        <CernerTransitioningFacilityAlert t5 facilityId="556" />,
-        {
-          initialState,
-        },
-      );
-
-      const link = await screen.findByTestId('find-facility-action-link');
-      expect(link).to.exist;
-      // Should be va-link-action (VaLinkAction)
-      expect(link.tagName).to.equal('VA-LINK-ACTION');
-      // Cross-app destination
-      expect(link.getAttribute('href')).to.equal('/find-locations');
-      expect(link.getAttribute('text')).to.equal(
-        'Find your VA health facility',
       );
     });
   });

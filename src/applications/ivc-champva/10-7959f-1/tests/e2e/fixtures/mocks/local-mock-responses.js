@@ -1,7 +1,7 @@
 // use this file to mock api responses for local development
 // yarn mock-api --responses ./src/applications/ivc-champva/10-7959f-1/tests/e2e/fixtures/mocks/local-mock-responses.js
 const mockUser = require('./user.json');
-const mockFeatureToggles = require('./featureToggles.json');
+const mockFeatureToggles = require('./feature-toggles.json');
 const mockSipPut = require('./sip-put.json');
 const mockSipGet = require('./sip-get.json');
 const mockUpload = require('./upload.json');

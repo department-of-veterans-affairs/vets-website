@@ -3,30 +3,31 @@ import {
   yesNoUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { isYes } from '../../../utils/helpers';
-import { VaForm214138Alert } from '../../../components/FormAlerts';
+import { AdditionalDependentsAlert } from '../../../components/FormAlerts';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('Dependent’s residence'),
-    dependentsResidence: yesNoUI({
+    childrenLiveTogetherButNotWithSpouse: yesNoUI({
       title:
         'Do the children who don’t live with you reside at the same address?',
     }),
     residenceAlert: {
-      'ui:description': VaForm214138Alert,
+      'ui:description': AdditionalDependentsAlert,
       'ui:options': {
-        hideIf: formData => isYes(formData?.dependentsResidence),
+        // Should hide if undefined when first landing on page or true/yes.
+        hideIf: formData =>
+          formData?.childrenLiveTogetherButNotWithSpouse !== false,
         displayEmptyObjectOnReview: true,
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['dependentsResidence'],
+    required: ['childrenLiveTogetherButNotWithSpouse'],
     properties: {
-      dependentsResidence: yesNoSchema,
+      childrenLiveTogetherButNotWithSpouse: yesNoSchema,
       residenceAlert: {
         type: 'object',
         properties: {},

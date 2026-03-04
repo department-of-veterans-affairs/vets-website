@@ -244,15 +244,24 @@ describe('getRxStatus helper functions', () => {
       const cernerPilotFlag = true;
       const v2StatusMappingFlag = false;
 
-      it('returns V1 filter options', () => {
+      it('returns V1 filter options with V2-compatible renewal URL', () => {
         const result = getFilterOptions(cernerPilotFlag, v2StatusMappingFlag);
-        expect(result).to.deep.equal(filterOptions);
+        expect(result).to.have.property('RENEWAL');
+        expect(result.RENEWAL.label).to.equal(filterOptions.RENEWAL.label);
+        expect(result.RENEWAL.url).to.equal(filterOptionsV2.RENEWABLE.url);
       });
 
       it('includes V1-specific filter keys', () => {
         const result = getFilterOptions(cernerPilotFlag, v2StatusMappingFlag);
         expect(result).to.have.property('ACTIVE');
         expect(result).to.have.property('RECENTLY_REQUESTED');
+        expect(result).to.have.property('NON_ACTIVE');
+      });
+
+      it('preserves V1 labels and descriptions for non-renewal filters', () => {
+        const result = getFilterOptions(cernerPilotFlag, v2StatusMappingFlag);
+        expect(result.ACTIVE).to.deep.equal(filterOptions.ACTIVE);
+        expect(result.NON_ACTIVE).to.deep.equal(filterOptions.NON_ACTIVE);
       });
     });
 

@@ -2,9 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CardSection from './CardSection';
 import { VASS_PHONE_NUMBER } from '../utils/constants';
+/**
+ * @typedef {import('../utils/appointments').Appointment} Appointment
+ */
 
-const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
-  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+/**
+ * Renders a card for an appointment.
+ * @param {Object} props
+ * @param {Appointment} props.appointmentData - The appointment data
+ * @param {Function} props.handleCancelAppointment - The function to handle canceling the appointment
+ * @param {boolean} props.showAddToCalendarButton - Whether to show the add to calendar button
+ * @returns {JSX.Element}
+ */
+const AppointmentCard = ({
+  appointmentData,
+  handleCancelAppointment,
+  showAddToCalendarButton,
+}) => {
   return (
     <va-card
       data-testid="appointment-card"
@@ -32,16 +46,14 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
           </p>
         }
       />
-      <CardSection
-        data-testid="when-section"
-        heading="When"
-        dateContent={{
-          dateTime: appointmentData?.startUTC,
-          timezone: browserTimezone,
-          phoneNumber: VASS_PHONE_NUMBER,
-          showAddToCalendarButton: appointmentData?.showAddToCalendarButton,
-        }}
-      />
+      {appointmentData?.startUTC && (
+        <CardSection
+          data-testid="when-section"
+          heading="When"
+          appointmentData={appointmentData}
+          showAddToCalendarButton={showAddToCalendarButton}
+        />
+      )}
       <CardSection
         data-testid="what-section"
         heading="What"
@@ -58,7 +70,7 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
         appointmentData?.topics.length > 0 && (
           <CardSection
             data-testid="topics-section"
-            heading="Topics you'd like to learn more about"
+            heading="Topics you’d like to learn more about"
             textContent={appointmentData?.topics
               .map(topic => topic?.topicName || '')
               .join(', ')}
@@ -95,4 +107,5 @@ export default AppointmentCard;
 AppointmentCard.propTypes = {
   appointmentData: PropTypes.object.isRequired,
   handleCancelAppointment: PropTypes.func,
+  showAddToCalendarButton: PropTypes.bool,
 };

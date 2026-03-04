@@ -81,7 +81,7 @@ describe('SortForm', () => {
   });
 
   it('can access required utilities', () => {
-    const poaRequests = require('../../../utilities/poaRequests');
+    const poaRequests = require('../../../utilities/constants');
     expect(poaRequests.SEARCH_PARAMS).to.exist;
   });
 

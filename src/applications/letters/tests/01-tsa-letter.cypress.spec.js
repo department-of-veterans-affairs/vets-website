@@ -4,7 +4,7 @@ import {
   benefitSummaryOptions,
   mockUserData,
 } from './e2e/fixtures/mocks/lh_letters';
-import { tsaLetter } from './e2e/fixtures/mocks/tsa_letter';
+import { tsaLetter, tsaLetterNull } from './e2e/fixtures/mocks/tsa_letter';
 
 describe('TSA Safe Travel Letter', () => {
   const lettersPage = '/records/download-va-letters/letters/';
@@ -37,7 +37,7 @@ describe('TSA Safe Travel Letter', () => {
 
   it('allows downloading TSA letter', () => {
     cy.intercept('GET', '/v0/tsa_letter', tsaLetter);
-    cy.intercept('GET', '/v0/tsa_letter/*', '@tsaLetterPdf');
+    cy.intercept('GET', '/v0/tsa_letter/*/version/*/download', '@tsaLetterPdf');
     cy.visit(lettersPage);
     cy.injectAxeThenAxeCheck();
     cy.get('[data-testid="tsa-letter-accordion"]')
@@ -70,12 +70,12 @@ describe('TSA Safe Travel Letter', () => {
       .as('warningAlert');
     cy.get('@warningAlert')
       .find('h4')
-      .should('have.text', 'Some letters may not be available');
+      .should('contain', 'Some letters may not be available');
   });
 
   it('displays alert if downloading TSA letter fails', () => {
     cy.intercept('GET', '/v0/tsa_letter', tsaLetter);
-    cy.intercept('GET', '/v0/tsa_letter/*', {
+    cy.intercept('GET', '/v0/tsa_letter/*/version/*/download', {
       statusCode: 500,
     });
     cy.visit(lettersPage);
@@ -94,13 +94,19 @@ describe('TSA Safe Travel Letter', () => {
       .as('errorAlert');
     cy.get('@errorAlert')
       .find('h4')
-      .should('have.text', `Your ${tsaLetterTitle} is currently unavailable`);
+      .should('contain', `Your ${tsaLetterTitle} is currently unavailable`);
   });
 
-  it('does not display letter for ineligible users', () => {
-    cy.intercept('GET', '/v0/tsa_letter', { data: [] });
+  it('does not display letter or error if user does not have an available letter', () => {
+    cy.intercept('GET', '/v0/tsa_letter', tsaLetterNull);
     cy.visit(lettersPage);
     cy.injectAxeThenAxeCheck();
     cy.get('[data-testid="tsa-letter-accordion"]').should('not.exist');
+    cy.get('va-alert[status="error"]', {
+      timeout: Timeouts.slow,
+    }).should('not.exist');
+    cy.get('va-alert[status="warning"]', {
+      timeout: Timeouts.slow,
+    }).should('not.exist');
   });
 });

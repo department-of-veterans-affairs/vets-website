@@ -9,59 +9,70 @@ import { TITLE, SUBTITLE } from '../../../constants';
 import formConfig from '../../../config/form';
 import IntroductionPage from '../../../containers/IntroductionPage';
 
-sinon.stub(ui, 'scrollToTop').callsFake(() => {});
-sinon.stub(ui, 'focusElement').callsFake(() => {});
-sinon.stub(formTitleMod, 'default').callsFake(({ title, subTitle }) => (
-  <h1 data-testid="form-title">
-    {title} {subTitle}
-  </h1>
-));
-
-const props = {
-  route: {
-    path: 'introduction',
-    pageList: [
-      { pageKey: 'introduction', path: '/introduction' },
-      { pageKey: 'first', path: '/first' },
-      { pageKey: 'review', path: '/review-and-submit' },
-    ],
-    formConfig,
-  },
-};
-
-const makeStore = ({ loggedIn = false, loa = 3 } = {}) => ({
-  getState: () => ({
-    user: {
-      login: { currentlyLoggedIn: loggedIn },
-      profile: {
-        loa: { current: loa },
-        verified: loa === 3,
-        savedForms: [],
-        prefillsAvailable: [formConfig.formId],
-        dob: '2000-01-01',
-      },
-    },
-    form: {
-      formId: formConfig.formId,
-      loadedStatus: 'success',
-      savedStatus: '',
-      loadedData: { metadata: {} },
-      data: {},
-    },
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: { get() {} },
-      dismissedDowntimeWarnings: [],
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-});
-
 describe('28-1900 IntroductionPage', () => {
-  afterEach(() => cleanup());
+  let sandbox;
+
+  const props = {
+    route: {
+      path: 'introduction',
+      pageList: [
+        { pageKey: 'introduction', path: '/introduction' },
+        { pageKey: 'first', path: '/first' },
+        { pageKey: 'review', path: '/review-and-submit' },
+      ],
+      formConfig,
+    },
+  };
+
+  const makeStore = ({ loggedIn = false, loa = 3 } = {}) => ({
+    getState: () => ({
+      user: {
+        login: { currentlyLoggedIn: loggedIn },
+        profile: {
+          loa: { current: loa },
+          verified: loa === 3,
+          savedForms: [],
+          prefillsAvailable: [formConfig.formId],
+          dob: '2000-01-01',
+        },
+      },
+      form: {
+        formId: formConfig.formId,
+        loadedStatus: 'success',
+        savedStatus: '',
+        loadedData: { metadata: {} },
+        data: {},
+      },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  });
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+
+    sandbox.stub(ui, 'scrollToTop').callsFake(() => {});
+    sandbox.stub(ui, 'focusElement').callsFake(() => {});
+
+    sandbox.stub(formTitleMod, 'default').callsFake(({ title, subTitle }) => (
+      <div>
+        <h1 data-testid="form-title">{title}</h1>
+        {subTitle ? <div data-testid="form-subtitle">{subTitle}</div> : null}
+      </div>
+    ));
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+    cleanup();
+  });
 
   it('renders', () => {
     const store = makeStore();
@@ -80,11 +91,10 @@ describe('28-1900 IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-    const heading = getByTestId('form-title');
-    expect(heading.textContent).to.include(TITLE);
-    expect(heading.textContent).to.include(SUBTITLE);
-  });
 
+    expect(getByTestId('form-title').textContent).to.include(TITLE);
+    expect(getByTestId('form-subtitle').textContent).to.include(SUBTITLE);
+  });
   it('shows SaveInProgress when a user is LOA3', () => {
     const store = makeStore({ loggedIn: true, loa: 3 });
     const { getByText } = render(

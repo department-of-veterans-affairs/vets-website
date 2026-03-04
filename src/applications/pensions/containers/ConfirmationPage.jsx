@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { utcToZonedTime, format } from 'date-fns-tz';
 import { useSelector } from 'react-redux';
-import { isLoggedIn } from 'platform/user/selectors';
 
 import { focusElement } from 'platform/utilities/ui';
 import { scrollToTop } from 'platform/utilities/scroll';
@@ -14,7 +13,6 @@ const centralTz = 'America/Chicago';
 
 const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form);
-  const loggedIn = useSelector(isLoggedIn);
   const { formConfig } = route;
   const { submission, data } = form;
   const response = submission?.response ?? {};
@@ -89,69 +87,42 @@ const ConfirmationPage = ({ route }) => {
           within 30 days of our request. If you don’t respond within 30 days, we
           may decide your claim with the evidence thats available to us.
         </p>
-        {loggedIn ? (
-          <section>
-            <h2>If you need to submit supporting documents</h2>
-            <p>
-              If you didn’t already submit your supporting documents and
-              additional evidence, you can submit them in one of these 2 ways:
-            </p>
-            <h3>Option 1: Upload your documents using the Claim Status Tool</h3>
-            <p>
-              It may take 7-10 days for your pension claim to appear in the
-              Claim Status Tool. After your pension claim appears, you can
-              upload your documents in the Files tab.
-            </p>
-            <va-link
-              href="/track-claims"
-              text="Use the Claim Status Tool to upload your documents"
-            />
-            <h3>Option 2: Mail us copies of your documents</h3>
-            <p>
-              Don’t send us a printed copy of your pension claim. We already
-              have it. And don’t send us your original documents. We can’t
-              return them.
-            </p>
-            <p>Mail us copies of your documents to this address:</p>
-            <p className="va-address-block">
-              Department of Veterans Affairs
-              <br />
-              Pension Intake Center
-              <br />
-              PO Box 5365
-              <br />
-              Janesville, WI 53547-5365
-            </p>
-            <p>
-              <strong>Note:</strong> If we asked you to submit any supporting
-              documents, you should keep a copy of them for your records.
-            </p>
-          </section>
-        ) : (
-          <section>
-            <h2>If you need to submit supporting documents</h2>
-            <p>
-              If you didn’t already submit your supporting documents and
-              additional evidence, you can submit copies of your documents by
-              mail.
-            </p>
-            <p>Mail any supporting documents to this address:</p>
-            <p className="va-address-block">
-              Department of Veterans Affairs
-              <br />
-              Pension Intake Center
-              <br />
-              PO Box 5365
-              <br />
-              Janesville, WI 53547-5365
-            </p>
-            <p>
-              <strong>Note:</strong> Mail us copies of your documents only.
-              Don’t send us your original documents. We can’t return them.
-            </p>
-          </section>
-        )}
-
+        <section>
+          <h2>If you need to submit supporting documents</h2>
+          <p>
+            If you didn’t already submit your supporting documents and
+            additional evidence, you can submit them in one of these 2 ways:
+          </p>
+          <h3>Option 1: Upload your documents using the Claim Status Tool</h3>
+          <p>
+            It may take 7-10 days for your pension claim to appear in the Claim
+            Status Tool. After your pension claim appears, you can upload your
+            documents in the Files tab.
+          </p>
+          <va-link
+            href="/track-claims"
+            text="Use the Claim Status Tool to upload your documents"
+          />
+          <h3>Option 2: Mail us copies of your documents</h3>
+          <p>
+            Don’t send us a printed copy of your pension claim. We already have
+            it. And don’t send us your original documents. We can’t return them.
+          </p>
+          <p>Mail us copies of your documents to this address:</p>
+          <p className="va-address-block">
+            Department of Veterans Affairs
+            <br />
+            Pension Intake Center
+            <br />
+            PO Box 5365
+            <br />
+            Janesville, WI 53547-5365
+          </p>
+          <p>
+            <strong>Note:</strong> If we asked you to submit any supporting
+            documents, you should keep a copy of them for your records.
+          </p>
+        </section>
         {usingDirectDeposit && (
           <section>
             <h2>Direct deposit account information</h2>

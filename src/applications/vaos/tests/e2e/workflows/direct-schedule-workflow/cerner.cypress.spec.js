@@ -6,6 +6,7 @@ import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import ScheduleCernerPageObject from '../../page-objects/ScheduleCernerPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
@@ -21,6 +22,9 @@ import {
 } from '../../vaos-cypress-helpers';
 
 const { cceType } = getTypeOfCareById(TYPE_OF_CARE_IDS.PRIMARY_CARE);
+const { cceType: nutritionCceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID,
+);
 
 describe('VAOS direct schedule flow - Cerner', () => {
   describe('When vaOnlineSchedulingRemoveFacilityConfigCheck is false', () => {
@@ -41,7 +45,6 @@ describe('VAOS direct schedule flow - Cerner', () => {
           response: [new MockFacilityResponse()],
         });
         mockFeatureToggles({
-          vaOnlineSchedulingImmediateCareAlert: false,
           vaOnlineSchedulingRemoveFacilityConfigCheck: false,
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
@@ -56,6 +59,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
@@ -91,7 +96,6 @@ describe('VAOS direct schedule flow - Cerner', () => {
           }),
         });
         mockFeatureToggles({
-          vaOnlineSchedulingImmediateCareAlert: false,
           vaOnlineSchedulingRemoveFacilityConfigCheck: false,
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
@@ -106,6 +110,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
@@ -164,6 +170,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
 
           AppointmentListPageObject.visit().scheduleAppointment();
 
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
             .selectTypeOfCare(/Primary care/i)
@@ -188,7 +196,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
 
       describe('And type of care is pharmacy', () => {
         describe('And direct and request schedule is disabled', () => {
-          it('should display "how to schedule" appointment page', () => {
+          it('should display ineligibility alert when not eligible for direct or request scheduling', () => {
             // Arrange
             const mockUser = new MockUser({
               addressLine1: '123 Main St.',
@@ -201,7 +209,6 @@ describe('VAOS direct schedule flow - Cerner', () => {
               response: new MockEligibilityResponse({
                 typeOfCareId: 'clinicalPharmacyPrimaryCare',
                 type: 'direct',
-                // isEligible: false,
                 ineligibilityReason:
                   MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
               }),
@@ -227,6 +234,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
 
             AppointmentListPageObject.visit().scheduleAppointment();
 
+            UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
             TypeOfCarePageObject.assertUrl()
               .assertAddressAlert({ exist: false })
               .selectTypeOfCare(/Pharmacy/i)
@@ -234,18 +243,20 @@ describe('VAOS direct schedule flow - Cerner', () => {
 
             VAFacilityPageObject.assertUrl().clickNextButton();
 
-            ScheduleCernerPageObject.assertUrl()
-              .assertHeading({
-                level: 1,
-                name: /You can.t schedule this appointment online/i,
-              })
-              .assertText({
-                text: /You can also access tools to schedule appointments online in the My VA Health portal/,
-              })
-              .assertLink({
-                name:
-                  'Go to My VA Health (opens in a new tab) Link opens in a new tab.',
-              });
+            // Wait for eligibility APIs to complete
+            cy.wait([
+              '@v2:get:eligibility:direct',
+              '@v2:get:eligibility:request',
+            ]);
+
+            // Should stay on facility page and show ineligibility alert
+            cy.url().should('include', '/location');
+            cy.get('va-alert[status="warning"]')
+              .should('exist')
+              .and('be.visible');
+            cy.get('va-alert[status="warning"] h2')
+              .invoke('text')
+              .should('match', /You can.t schedule this appointment online/i);
 
             // Assert
             cy.axeCheckBestPractice();
@@ -255,7 +266,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
 
       describe('And type of care is food and nutrition', () => {
         describe('And direct and request schedule is disabled', () => {
-          it('should display "how to schedule" appointment page', () => {
+          it('should display ineligibility alert when not eligible for direct or request scheduling', () => {
             // Arrange
             const mockUser = new MockUser({
               addressLine1: '123 Main St.',
@@ -263,12 +274,14 @@ describe('VAOS direct schedule flow - Cerner', () => {
             mockFacilitiesApi({
               response: [new MockFacilityResponse()],
             });
-            mockEligibilityCCApi({ cceType, isEligible: false });
+            mockEligibilityCCApi({
+              cceType: nutritionCceType,
+              isEligible: false,
+            });
             mockEligibilityDirectApi({
               response: new MockEligibilityResponse({
                 typeOfCareId: 'foodAndNutrition',
                 type: 'direct',
-                // isEligible: false,
                 ineligibilityReason:
                   MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
               }),
@@ -294,25 +307,29 @@ describe('VAOS direct schedule flow - Cerner', () => {
 
             AppointmentListPageObject.visit().scheduleAppointment();
 
+            UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
             TypeOfCarePageObject.assertUrl()
               .assertAddressAlert({ exist: false })
-              .selectTypeOfCare(/Pharmacy/i)
+              .selectTypeOfCare(/Nutrition and food/i)
               .clickNextButton();
 
             VAFacilityPageObject.assertUrl().clickNextButton();
 
-            ScheduleCernerPageObject.assertUrl()
-              .assertHeading({
-                level: 1,
-                name: /You can.t schedule this appointment online/i,
-              })
-              .assertText({
-                text: /You can also access tools to schedule appointments online in the My VA Health portal/,
-              })
-              .assertLink({
-                name:
-                  'Go to My VA Health (opens in a new tab) Link opens in a new tab.',
-              });
+            // Wait for eligibility APIs to complete
+            cy.wait([
+              '@v2:get:eligibility:direct',
+              '@v2:get:eligibility:request',
+            ]);
+
+            // Should stay on facility page and show ineligibility alert
+            cy.url().should('include', '/location');
+            cy.get('va-alert[status="warning"]')
+              .should('exist')
+              .and('be.visible');
+            cy.get('va-alert[status="warning"] h2')
+              .invoke('text')
+              .should('match', /You can.t schedule this appointment online/i);
 
             // Assert
             cy.axeCheckBestPractice();

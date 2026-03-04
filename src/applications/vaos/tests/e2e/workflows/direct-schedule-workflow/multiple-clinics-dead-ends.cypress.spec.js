@@ -8,6 +8,7 @@ import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
@@ -87,6 +88,8 @@ describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
 
         AppointmentListPageObject.visit().scheduleAppointment();
 
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
@@ -102,7 +105,7 @@ describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
             selection: /I need a different clinic/i,
           })
           .assertWarningAlert({
-            text: /This facility does not allow online requests for this type of care/i,
+            text: /We need more information to schedule this appointment/i,
           })
           .assertNextButton({ isEnabled: false });
 

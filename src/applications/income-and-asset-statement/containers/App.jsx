@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -7,6 +7,7 @@ import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { openReviewChapter as openReviewChapterAction } from 'platform/forms-system/src/js/actions';
 
+import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { NoFormPage } from '../components/NoFormPage';
 import { getAssetTypes } from '../components/FormAlerts/SupplementaryFormsAlert';
@@ -29,15 +30,12 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
     TOGGLE_NAMES.incomeAndAssetsFormEnabled,
   );
 
-  const incomeAndAssetsContentUpdates = useToggleValue(
-    TOGGLE_NAMES.incomeAndAssetsContentUpdates,
-  );
-
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading ?? false,
   );
   const assets = useSelector(state => state?.form?.data?.ownedAssets || []);
   const trusts = useSelector(state => state?.form?.data?.trusts || []);
+  const [assetsChecked, setAssetsChecked] = useState(false);
 
   const content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -63,20 +61,10 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
 
   useEffect(
     () => {
-      if (!isLoadingFeatures) {
-        window.sessionStorage.setItem(
-          'showUpdatedContent',
-          !!incomeAndAssetsContentUpdates,
-        );
-      }
-    },
-    [isLoadingFeatures, incomeAndAssetsContentUpdates],
-  );
-
-  useEffect(
-    () => {
-      if (location.pathname === '/review-and-submit') {
+      // Use assetsChecked flag to prevent infinite loop
+      if (!assetsChecked && location.pathname === '/review-and-submit') {
         const assetTypes = getAssetTypes(assets);
+        setAssetsChecked(true);
         if (
           assets.length > 0 &&
           assetTypes.length > 0 &&
@@ -89,7 +77,7 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
         }
       }
     },
-    [location.pathname, assets, trusts, openReviewChapter],
+    [assetsChecked, location.pathname, assets, trusts, openReviewChapter],
   );
 
   if (isLoadingFeatures) {
@@ -98,6 +86,19 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
 
   if (!incomeAndAssetsFormEnabled) {
     return <NoFormPage />;
+  }
+
+  // If on intro page, return content
+  if (location.pathname === '/introduction') {
+    return content;
+  }
+
+  // If a user is not logged in redirect them to the introduction page
+  if (!isLoggedIn) {
+    document.location.replace(manifest.rootUrl);
+    return (
+      <va-loading-indicator message="Redirecting to introduction page..." />
+    );
   }
 
   return content;

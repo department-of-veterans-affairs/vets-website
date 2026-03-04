@@ -1,12 +1,10 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import formConfig from '../../../../config/form';
 import {
   associatedIncomePages,
   options,
 } from '../../../../config/chapters/03-associated-incomes/associatedIncomePages';
 import { incomeTypeEarnedLabels } from '../../../../labels';
-import * as helpers from '../../../../helpers';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
 
@@ -19,36 +17,23 @@ import {
 import {
   testNumberOfFieldsByType,
   testComponentFieldsMarkedAsRequired,
-  testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
 describe('associated income list and loop pages', () => {
-  let showUpdatedContentStub;
-
-  beforeEach(() => {
-    showUpdatedContentStub = sinon.stub(helpers, 'showUpdatedContent');
-  });
-
-  afterEach(() => {
-    if (showUpdatedContentStub && showUpdatedContentStub.restore) {
-      showUpdatedContentStub.restore();
-    }
-  });
   const {
-    associatedIncomePagesSummary,
     associatedIncomeVeteranRecipientPage,
     associatedIncomeSpouseRecipientPage,
     associatedIncomeCustodianRecipientPage,
     associatedIncomeParentRecipientPage,
-    associatedIncomeRecipientPage,
     associatedIncomeChildRecipientNamePage,
     associatedIncomeRecipientNamePage,
     associatedIncomeTypePage,
   } = associatedIncomePages;
 
   describe('isItemIncomplete function', () => {
-    const baseItem = testData.data.associatedIncomes[0];
+    // eslint-disable-next-line no-unused-vars
+    const { recipientName, ...baseItem } = testData.data.associatedIncomes[0];
     testOptionsIsItemIncomplete(options, baseItem);
   });
 
@@ -88,101 +73,11 @@ describe('associated income list and loop pages', () => {
     testOptionsTextCardDescription(options, baseItem, incomeTypeEarnedLabels);
   });
 
-  describe('MVP summary page', () => {
-    beforeEach(() => {
-      showUpdatedContentStub.returns(false);
-    });
-
-    const { schema, uiSchema } = associatedIncomePagesSummary;
-
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      { 'va-radio': 1 },
-      'summary page',
-    );
-
-    testComponentFieldsMarkedAsRequired(
-      formConfig,
-      schema,
-      uiSchema,
-      [
-        'va-radio[label="Are you or your dependents receiving or expecting to receive any income in the next 12 months that is related to financial accounts?"]',
-      ],
-      'summary page',
-    );
-
-    testSubmitsWithoutErrors(
-      formConfig,
-      schema,
-      uiSchema,
-      'summary page',
-      testData.data,
-      { loggedIn: true },
-    );
-  });
-
-  describe('MVP income recipient page', () => {
-    beforeEach(() => {
-      showUpdatedContentStub.returns(false);
-    });
-
-    const schema =
-      associatedIncomePages.associatedIncomeRecipientPage.schema.properties
-        .associatedIncomes.items;
-    const uiSchema =
-      associatedIncomePages.associatedIncomeRecipientPage.uiSchema
-        .associatedIncomes.items;
-
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      { 'va-radio': 1 },
-      'recipient',
-    );
-    testComponentFieldsMarkedAsRequired(
-      formConfig,
-      schema,
-      uiSchema,
-      ['va-radio[name="root_recipientRelationship"]'],
-      'recipient',
-    );
-    testSubmitsWithoutErrors(
-      formConfig,
-      schema,
-      uiSchema,
-      'recipient',
-      testData.data.associatedIncomes[0],
-      { loggedIn: true },
-    );
-    testSelectAndValidateField(
-      formConfig,
-      schema,
-      uiSchema,
-      'recipient',
-      'root_otherRecipientRelationshipType',
-    );
-
-    describe('Non-Veteran recipient page', () => {
-      it('should display when showUpdatedContent is false', () => {
-        const formData = { ...testData.data, claimantType: 'SPOUSE' };
-        const { depends } = associatedIncomeRecipientPage;
-        expect(depends(formData)).to.be.true;
-      });
-    });
-  });
-
-  describe('Updated recipient pages', () => {
-    beforeEach(() => {
-      showUpdatedContentStub.returns(true);
-    });
-
+  describe('recipient pages', () => {
     describe('Veteran recipient page', () => {
       const formData = { ...testData.data, claimantType: 'VETERAN' };
 
-      it('should display when showUpdatedContent is true and claimantType is VETERAN', () => {
+      it('should display when claimantType is VETERAN', () => {
         const { depends } = associatedIncomeVeteranRecipientPage;
         expect(depends(formData)).to.be.true;
       });
@@ -191,7 +86,7 @@ describe('associated income list and loop pages', () => {
     describe('Spouse recipient page', () => {
       const formData = { ...testData.data, claimantType: 'SPOUSE' };
 
-      it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
+      it('should display when claimantType is SPOUSE', () => {
         const { depends } = associatedIncomeSpouseRecipientPage;
         expect(depends(formData)).to.be.true;
       });
@@ -200,7 +95,7 @@ describe('associated income list and loop pages', () => {
     describe('Custodian recipient page', () => {
       const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
 
-      it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
+      it('should display when claimantType is CUSTODIAN', () => {
         const { depends } = associatedIncomeCustodianRecipientPage;
         expect(depends(formData)).to.be.true;
       });
@@ -209,7 +104,7 @@ describe('associated income list and loop pages', () => {
     describe('Parent recipient page', () => {
       const formData = { ...testData.data, claimantType: 'PARENT' };
 
-      it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
+      it('should display when claimantType is PARENT', () => {
         const { depends } = associatedIncomeParentRecipientPage;
         expect(depends(formData)).to.be.true;
       });
@@ -219,7 +114,6 @@ describe('associated income list and loop pages', () => {
       const formData = { ...testData.data, claimantType: 'CHILD' };
 
       it('should NOT display any recipient pages when claimantType is CHILD', () => {
-        expect(associatedIncomeRecipientPage.depends(formData)).to.be.false;
         expect(associatedIncomeVeteranRecipientPage.depends(formData)).to.be
           .false;
         expect(associatedIncomeSpouseRecipientPage.depends(formData)).to.be
@@ -233,10 +127,6 @@ describe('associated income list and loop pages', () => {
   });
 
   describe('recipient name page', () => {
-    beforeEach(() => {
-      showUpdatedContentStub.returns(false);
-    });
-
     const schema =
       associatedIncomeRecipientNamePage.schema.properties.associatedIncomes
         .items;
@@ -255,8 +145,8 @@ describe('associated income list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-text-input[label="Income recipient’s first or given name"]',
-        'va-text-input[label="Income recipient’s last or family name"]',
+        'va-text-input[label="First or given name"]',
+        'va-text-input[label="Last or family name"]',
       ],
       'recipient',
     );
@@ -269,23 +159,13 @@ describe('associated income list and loop pages', () => {
       { loggedIn: true },
     );
 
-    it('should show recipient name page when claimantType is not CHILD', () => {
-      const formData = { ...testData.data, claimantType: 'SPOUSE' };
-      expect(associatedIncomeRecipientNamePage.depends(formData)).to.be.true;
-    });
-
     it('should not show recipient name page when claimantType is CHILD', () => {
-      showUpdatedContentStub.returns(true);
       const formData = { ...testData.data, claimantType: 'CHILD' };
       expect(associatedIncomeRecipientNamePage.depends(formData)).to.be.false;
     });
   });
 
   describe('child recipient name page', () => {
-    beforeEach(() => {
-      showUpdatedContentStub.returns(true);
-    });
-
     const schema =
       associatedIncomeChildRecipientNamePage.schema.properties.associatedIncomes
         .items;
@@ -304,8 +184,8 @@ describe('associated income list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-text-input[label="Income recipient’s first or given name"]',
-        'va-text-input[label="Income recipient’s last or family name"]',
+        'va-text-input[label="First or given name"]',
+        'va-text-input[label="Last or family name"]',
       ],
       'child recipient',
     );
@@ -332,10 +212,6 @@ describe('associated income list and loop pages', () => {
   });
 
   describe('income type page', () => {
-    beforeEach(() => {
-      showUpdatedContentStub.returns(false);
-    });
-
     const schema =
       associatedIncomeTypePage.schema.properties.associatedIncomes.items;
     const uiSchema = associatedIncomeTypePage.uiSchema.associatedIncomes.items;
@@ -352,10 +228,10 @@ describe('associated income list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-radio[label="What is the type of income earned?"]',
-        'va-text-input[label="Gross monthly income"]',
-        'va-text-input[label="Value of account"]',
-        'va-text-input[label="Income payer name"]',
+        'va-radio[label="What type of income is generated by this financial account?"]',
+        'va-text-input[label="What’s the gross monthly income from this financial account?"]',
+        'va-text-input[label="What’s the current value of the account?"]',
+        'va-text-input[label="Who pays the income?"]',
       ],
       'income type',
     );

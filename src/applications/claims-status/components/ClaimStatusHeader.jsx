@@ -1,17 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  buildDateFormatter,
-  getTrackedItemDateFromStatus,
-  isClaimOpen,
-} from '../utils/helpers';
+import { buildDateFormatter, isClaimOpen } from '../utils/helpers';
+import * as TrackedItem from '../utils/trackedItemContent';
 
 export default function ClaimStatusHeader({ claim }) {
   const { closeDate, status, trackedItems, claimPhaseDates } = claim.attributes;
   const getTrackedItemDates = () => {
     return trackedItems
-      ? trackedItems.map(item => getTrackedItemDateFromStatus(item))
+      ? trackedItems.map(item => TrackedItem.getTrackedItemDateFromStatus(item))
       : [];
   };
   const getLastUpdatedDate = () => {

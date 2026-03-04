@@ -29,5 +29,24 @@ export const getCustomValidationErrors = formData => {
     }
   }
 
+  // Check if no claim type has been selected (both new and increase are explicitly false)
+  const claimType = formData?.['view:claimType'];
+  const claimingNewFlag = claimType?.['view:claimingNew'];
+  const claimingIncreaseFlag = claimType?.['view:claimingIncrease'];
+
+  if (
+    claimType &&
+    claimingNewFlag === false &&
+    claimingIncreaseFlag === false
+  ) {
+    customErrors.push({
+      property: 'instance.view:claimType',
+      message: 'Please select at least one type of condition',
+      name: 'required',
+      argument: undefined,
+      stack: 'instance.view:claimType is required',
+    });
+  }
+
   return customErrors;
 };

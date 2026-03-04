@@ -13,7 +13,7 @@ const yourRolePage = {
       labelHeaderLevel: '3',
       labels: yourRoleOptions,
       errorMessages: {
-        required: 'Please select your role',
+        required: 'Select your role',
       },
     }),
   },

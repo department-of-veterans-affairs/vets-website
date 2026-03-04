@@ -29,6 +29,7 @@ const fullName = require('./endpoints/full-name');
 const {
   baseUserTransitionAvailabilities,
 } = require('./endpoints/user-transition-availabilities');
+const connectedApps = require('./endpoints/connected-apps');
 
 const error500 = require('../tests/fixtures/500.json');
 const error401 = require('../tests/fixtures/401.json');
@@ -113,7 +114,7 @@ const responses = {
             profileShowNewHealthCareCopayBillNotificationSetting: false,
             profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
             profileShowMhvNotificationSettingsEmailRxShipment: true,
-            profileShowMhvNotificationSettingsNewSecureMessaging: true,
+            profileShowMhvNotificationSettingsNewSecureMessaging: false,
             profileShowMhvNotificationSettingsMedicalImages: true,
             profileShowQuickSubmitNotificationSetting: false,
             profileShowNoValidationKeyAddressAlert: false,
@@ -122,18 +123,108 @@ const responses = {
             profileShowPaperlessDelivery: false,
             profile2Enabled: true,
             profileHealthCareSettingsPage: true,
-            profileSchedulingPreferences: true,
             profileHideHealthCareContacts: true,
+            profileHideMissingClaimInformationNotificationSetting: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
             vreCutoverNotice: true,
             vrePrefillName: true,
             mhvEmailConfirmation: true,
+            cveVeteranStatusNewService: true,
           }),
         ),
       secondsOfDelay,
     );
+  },
+  // New veteran status card endpoint (shared service)
+  'GET /v0/veteran_status_card': (_req, res) => {
+    // Eligible response - shows the veteran status card
+    return res.json({
+      type: 'veteran_status_card',
+      veteranStatus: 'confirmed',
+      serviceSummaryCode: 'A1',
+      notConfirmedReason: null,
+      attributes: {
+        fullName: 'Jane Veteran',
+        disabilityRating: 50,
+        latestService: {
+          branch: 'Army',
+          beginDate: '2010-01-01',
+          endDate: '2020-12-31',
+        },
+        edipi: 1234567890,
+      },
+    });
+    // Uncomment below for ineligible/alert response scenarios:
+    // Warning alert - dishonorable discharge
+    // return res.json({
+    //   type: 'veteran_status_alert',
+    //   veteranStatus: 'not confirmed',
+    //   serviceSummaryCode: 'A5',
+    //   notConfirmedReason: 'DISHONORABLE_DISCHARGE',
+    //   attributes: {
+    //     header: "You're not eligible for a Veteran Status Card",
+    //     body: [
+    //       {
+    //         type: 'text',
+    //         value:
+    //           "Our records show you don't meet the service or discharge requirements for a Veteran Status Card.",
+    //       },
+    //       {
+    //         type: 'text',
+    //         value:
+    //           'If you think this information is wrong, you can request to correct your military records.',
+    //       },
+    //       {
+    //         type: 'link',
+    //         value: 'Learn how to correct your military records',
+    //         url:
+    //           'https://www.archives.gov/veterans/military-service-records/correct-service-records.html',
+    //       },
+    //     ],
+    //     alertType: 'warning',
+    //   },
+    // });
+
+    // Warning alert - person not found
+    // return res.json({
+    //   type: 'veteran_status_alert',
+    //   veteranStatus: 'not confirmed',
+    //   serviceSummaryCode: 'D',
+    //   notConfirmedReason: 'PERSON_NOT_FOUND',
+    //   attributes: {
+    //     header: "You're not eligible for a Veteran Status Card",
+    //     body: [
+    //       { type: 'text', value: "Our records don't show you're a Veteran." },
+    //       {
+    //         type: 'text',
+    //         value: 'If you have questions, call the VA.gov help desk.',
+    //       },
+    //       { type: 'phone', value: '800-698-2411', tty: true },
+    //     ],
+    //     alertType: 'warning',
+    //   },
+    // });
+
+    // Error alert - system error
+    // return res.json({
+    //   type: 'veteran_status_alert',
+    //   veteranStatus: 'not confirmed',
+    //   serviceSummaryCode: 'VNA',
+    //   notConfirmedReason: 'ERROR',
+    //   attributes: {
+    //     header: 'Something went wrong',
+    //     body: [
+    //       {
+    //         type: 'text',
+    //         value:
+    //           "We're sorry. We can't access your Veteran status information right now. Please try again later.",
+    //       },
+    //     ],
+    //     alertType: 'error',
+    //   },
+    // });
   },
   'GET /v0/user': (_req, res) => {
     const [shouldReturnUser, updatedUserResponse] = handleUserUpdate(
@@ -148,7 +239,7 @@ const responses = {
     // return res.json(user.loa3UserNeedsVapInit);
     // return res.json(user.loa3UserNoVaProfile); // LOA3 user without VA Profile service
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
-    return res.json(user.mvhUser); // user with mhv signIn.serviceName
+    return res.json(user.mhvUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
     // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
@@ -291,27 +382,35 @@ const responses = {
     return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
-    // Succcess
-    return res.status(200).json(serviceHistory.airForce);
-
-    // No service history
-    // return res.status(200).json(serviceHistory.none);
-
-    // 403 error (no service found)
-    // return res
-    //   .status(200)
-    //   .json(serviceHistory.generateServiceHistoryError('403'));
-
-    // Non-403 error
-    // return res
-    //   .status(200)
-    //   .json(serviceHistory.generateServiceHistoryError('500'));
-
-    // Dishonorable discharge
-    // return res.status(200).json(serviceHistory.dishonorableDischarge);
-
-    // Unknown discharge
-    // return res.status(200).json(serviceHistory.unknownDischarge);
+    const branch = 'army'; // change this value to get different responses
+    switch (branch) {
+      case 'airForce':
+        return res.status(200).json(serviceHistory.airForce);
+      case 'army':
+        return res.status(200).json(serviceHistory.army);
+      case 'coastGuard':
+        return res.status(200).json(serviceHistory.coastGuard);
+      case 'marineCorps':
+        return res.status(200).json(serviceHistory.marineCorps);
+      case 'navy':
+        return res.status(200).json(serviceHistory.navy);
+      case 'spaceForce':
+        return res.status(200).json(serviceHistory.spaceForce);
+      case 'error403':
+        return res
+          .status(200)
+          .json(serviceHistory.generateServiceHistoryError('403'));
+      case 'error500':
+        return res
+          .status(200)
+          .json(serviceHistory.generateServiceHistoryError('500'));
+      case 'dishonorableDischarge':
+        return res.status(200).json(serviceHistory.dishonorableDischarge);
+      case 'unknownDischarge':
+        return res.status(200).json(serviceHistory.unknownDischarge);
+      default:
+        return res.status(200).json(serviceHistory.none);
+    }
   },
   'GET /v0/profile/vet_verification_status': (_req, res) => {
     return res.status(200).json(vetVerificationStatus.confirmed);
@@ -514,6 +613,16 @@ const responses = {
     // return res.status(500).json(error500);
 
     delaySingleResponse(() => res.json(mockedRes), 1);
+  },
+
+  'GET /v0/profile/connected_applications': (req, res) => {
+    return delaySingleResponse(() => res.json(connectedApps.connectedApps), 1);
+  },
+  'DELETE /v0/profile/connected_applications/:appId': (req, res) => {
+    return delaySingleResponse(
+      () => connectedApps.deleteConnectedApp(req, res),
+      1,
+    );
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,

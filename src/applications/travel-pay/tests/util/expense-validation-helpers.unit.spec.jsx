@@ -87,14 +87,14 @@ describe('validateReceiptDate', () => {
     expect(result.purchaseDate).to.be.null;
   });
 
-  it('does not error on partial date', () => {
+  it('shows error for incomplete date', () => {
     const result = validateReceiptDate(
       { month: '1', day: null, year: null },
       DATE_VALIDATION_TYPE.SUBMIT,
     );
 
-    expect(result.isValid).to.be.true;
-    expect(result.purchaseDate).to.be.null;
+    expect(result.isValid).to.be.false;
+    expect(result.purchaseDate).to.equal('Please enter a complete date');
   });
 
   it('shows future date error when date is in the future', () => {
@@ -119,6 +119,26 @@ describe('validateReceiptDate', () => {
 
     expect(result.isValid).to.be.true;
     expect(result.purchaseDate).to.be.null;
+  });
+
+  it('shows incomplete date error on CHANGE validation type', () => {
+    const result = validateReceiptDate(
+      { month: '2', day: null, year: '2025' },
+      DATE_VALIDATION_TYPE.CHANGE,
+    );
+
+    expect(result.isValid).to.be.false;
+    expect(result.purchaseDate).to.equal('Please enter a complete date');
+  });
+
+  it('shows incomplete date error on BLUR validation type', () => {
+    const result = validateReceiptDate(
+      { month: '2', day: null, year: '2025' },
+      DATE_VALIDATION_TYPE.BLUR,
+    );
+
+    expect(result.isValid).to.be.false;
+    expect(result.purchaseDate).to.equal('Please enter a complete date');
   });
 });
 
@@ -190,22 +210,45 @@ describe('validateRequestedAmount', () => {
     );
   });
 
-  it('auto-formats amount to 2 decimals on BLUR', () => {
+  it('rejects amount with fewer than 2 decimal places on BLUR', () => {
     const result = validateRequestedAmount('2.5', DATE_VALIDATION_TYPE.BLUR);
 
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal(
+      'Enter an amount using this format: x.xx',
+    );
+  });
+
+  it('rejects integer amount (no decimal) on BLUR', () => {
+    const result = validateRequestedAmount('3', DATE_VALIDATION_TYPE.BLUR);
+
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal(
+      'Enter an amount using this format: x.xx',
+    );
+  });
+
+  it('accepts valid X.XX format on BLUR', () => {
+    const result = validateRequestedAmount('3.50', DATE_VALIDATION_TYPE.BLUR);
+
     expect(result.isValid).to.be.true;
-    expect(result.formattedValue).to.equal('2.50');
     expect(result.errors.costRequested).to.be.null;
   });
 
-  it('passes for valid amount without formatting on CHANGE', () => {
+  it('allows partial input (1 decimal place) on CHANGE', () => {
+    const result = validateRequestedAmount('3.5', DATE_VALIDATION_TYPE.CHANGE);
+
+    expect(result.isValid).to.be.true;
+    expect(result.errors.costRequested).to.be.null;
+  });
+
+  it('passes for valid amount on CHANGE', () => {
     const result = validateRequestedAmount(
       '10.25',
       DATE_VALIDATION_TYPE.CHANGE,
     );
 
     expect(result.isValid).to.be.true;
-    expect(result.formattedValue).to.be.null;
     expect(result.errors.costRequested).to.be.null;
   });
 });
@@ -470,6 +513,78 @@ describe('validateAirTravelFields', () => {
     expect(nextErrors.returnDate).to.equal(
       'You entered a return date for a one-way trip',
     );
+  });
+
+  describe('validateAirTravelFields - same-day ROUND_TRIP handling', () => {
+    beforeEach(() => {
+      formState = {
+        vendorName: 'Acme Airlines',
+        tripType: TRIP_TYPES.ROUND_TRIP.value,
+        departureDate: '',
+        returnDate: '',
+        departedFrom: 'JFK',
+        arrivedTo: 'LAX',
+      };
+    });
+
+    it('passes when dates are ISO datetimes and departureDate === returnDate for ROUND_TRIP', () => {
+      formState.departureDate = '2025-01-05T00:00:00.000Z';
+      formState.returnDate = '2025-01-05T23:59:59.000Z';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.departureDate).to.equal(null);
+      expect(nextErrors.returnDate).to.equal(null);
+    });
+
+    it('passes when departureDate === returnDate for ROUND_TRIP', () => {
+      formState.departureDate = '2025-01-05';
+      formState.returnDate = '2025-01-05';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.departureDate).to.equal(null);
+      expect(nextErrors.returnDate).to.equal(null);
+    });
+
+    it('fails when departureDate > returnDate', () => {
+      formState.departureDate = '2025-01-06';
+      formState.returnDate = '2025-01-05';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.departureDate).to.equal(
+        'Departure date must be before return date',
+      );
+      expect(nextErrors.returnDate).to.equal(
+        'Return date must be later than departure date',
+      );
+    });
+
+    it('still fails if departureDate === returnDate but tripType is ONE_WAY and returnDate exists', () => {
+      formState.tripType = TRIP_TYPES.ONE_WAY.value;
+      formState.departureDate = '2025-01-05';
+      formState.returnDate = '2025-01-05';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.returnDate).to.equal(
+        'You entered a return date for a one-way trip',
+      );
+      expect(nextErrors.tripType).to.equal(
+        'You entered a return date for a one-way trip',
+      );
+    });
+
+    it('passes when returnDate is empty for ONE_WAY', () => {
+      formState.tripType = TRIP_TYPES.ONE_WAY.value;
+      formState.departureDate = '2025-01-05';
+      formState.returnDate = '';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.returnDate).to.equal(null);
+    });
   });
 });
 

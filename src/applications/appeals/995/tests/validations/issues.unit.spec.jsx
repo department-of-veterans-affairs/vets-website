@@ -1,9 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import { checkIssues, maxNameLength } from '../../validations/issues';
-
-import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
+import { checkIssues } from '../../validations/issues';
+import { SELECTED } from '../../../shared/constants';
 
 describe('checkIssues', () => {
   const _ = null;
@@ -115,18 +113,5 @@ describe('checkIssues', () => {
     const errors = { addError: sinon.spy() };
     checkIssues(errors, _, _, _, _, _, getData({ aiDate: '2021-?-?' }));
     expect(errors.addError.called).to.be.true;
-  });
-});
-
-describe('maxNameLength', () => {
-  it('should show an error when a name is too long', () => {
-    const errors = { addError: sinon.spy() };
-    maxNameLength(errors, 'ab '.repeat(MAX_LENGTH.ISSUE_NAME / 2));
-    expect(errors.addError.called).to.be.true;
-  });
-  it('should show an error when a name is not too long', () => {
-    const errors = { addError: sinon.spy() };
-    maxNameLength(errors, 'test');
-    expect(errors.addError.called).to.be.false;
   });
 });

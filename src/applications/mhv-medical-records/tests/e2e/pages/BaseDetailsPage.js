@@ -4,12 +4,24 @@ class BaseDetailsPage {
   };
 
   clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-download-menu"]').click({ force: true });
+    // Wait for menu button to be visible and enabled, then click
+    cy.get('[data-testid="print-download-menu"]')
+      .should('be.visible')
+      .and('not.be.disabled')
+      .click();
+    // Wait for the menu to open before proceeding
+    cy.get('[data-testid="print-download-menu"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true',
+    );
   };
 
   verifyPrintButton = () => {
     // should display print button for a list "Print this list"
-    cy.get('[data-testid="printButton-0"]').should('be.visible');
+    cy.get('[data-testid="printButton-0"]', { timeout: 10000 }).should(
+      'be.visible',
+    );
   };
 
   verifyDownloadPDF = () => {

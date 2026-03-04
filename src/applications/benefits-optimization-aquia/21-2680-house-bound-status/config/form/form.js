@@ -16,9 +16,11 @@ import {
   GetHelp,
   preSubmitSignatureConfig,
 } from '@bio-aquia/21-2680-house-bound-status/components';
+import migrations from '@bio-aquia/21-2680-house-bound-status/config/migrations';
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
+import { customSubmit } from '@bio-aquia/shared/utils';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 
 // Import page configurations (uiSchema and schema)
@@ -86,6 +88,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: API_ENDPOINTS.submitForm,
   transformForSubmit: submitTransformer,
+  submit: customSubmit,
   trackingPrefix: '21-2680-house-bound-status-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
@@ -107,6 +110,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: false,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -235,7 +239,7 @@ const formConfig = {
 
     // Step 4 of 5: Hospitalization
     hospitalizationChapter: {
-      title: 'Hospitalization',
+      title: 'Hospital care',
       pages: {
         hospitalizationStatus: {
           path: 'hospitalization-status',
@@ -251,9 +255,9 @@ const formConfig = {
               const fullName = `${firstName} ${lastName}`.trim();
 
               if (fullName) {
-                return `Is ${fullName} hospitalized?`;
+                return `Is ${fullName} receiving hospital care?`;
               }
-              return 'Is the Veteran hospitalized?';
+              return 'Is the Veteran receiving hospital care?';
             }
 
             const firstName =
@@ -263,9 +267,9 @@ const formConfig = {
             const fullName = `${firstName} ${lastName}`.trim();
 
             if (fullName) {
-              return `Is ${fullName} hospitalized?`;
+              return `Is ${fullName} receiving hospital care?`;
             }
-            return 'Is the claimant hospitalized?';
+            return 'Is the claimant receiving hospital care?';
           },
           uiSchema: hospitalizationStatusUiSchema,
           schema: hospitalizationStatusSchema,

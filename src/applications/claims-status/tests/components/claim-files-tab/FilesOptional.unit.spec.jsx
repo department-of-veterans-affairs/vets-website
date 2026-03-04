@@ -80,4 +80,105 @@ describe('<FilesOptional>', () => {
       `We’ve requested an exam related to your claim. The examiner’s office will contact you to schedule this appointment.`,
     );
   });
+
+  context('isDBQ property', () => {
+    it('should use API value when provided (true)', () => {
+      const itemWithApiIsDBQ = {
+        displayName: 'Non-DBQ Request',
+        requestedDate: '2025-04-21',
+        isDBQ: true,
+      };
+      const { getByText } = renderWithRouter(
+        <FilesOptional item={itemWithApiIsDBQ} />,
+      );
+
+      // Should show exam text because API value is true
+      getByText('Request for an exam');
+      getByText('We made a request for an exam on April 21, 2025');
+    });
+
+    it('should use displayName when isDBQ is false but displayName contains dbq', () => {
+      const itemWithApiIsDBQFalse = {
+        displayName: 'DBQ AUDIO Hearing Loss',
+        requestedDate: '2025-04-21',
+        isDBQ: false,
+      };
+      const { getByText } = renderWithRouter(
+        <FilesOptional item={itemWithApiIsDBQFalse} />,
+      );
+
+      // Should show exam text because displayName contains 'dbq'
+      getByText('Request for an exam');
+      getByText('We made a request for an exam on April 21, 2025');
+    });
+
+    it('should use displayName check when isDBQ not provided', () => {
+      const itemWithoutIsDBQ = {
+        displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
+        requestedDate: '2025-04-21',
+      };
+      const { getByText } = renderWithRouter(
+        <FilesOptional item={itemWithoutIsDBQ} />,
+      );
+
+      getByText('Request for an exam');
+      getByText('We made a request for an exam on April 21, 2025');
+    });
+
+    it('should use displayName check when isDBQ not provided (displayName contains dbq)', () => {
+      const itemWithDbqInName = {
+        displayName: 'Some DBQ Related Request',
+        requestedDate: '2025-04-21',
+      };
+      const { getByText } = renderWithRouter(
+        <FilesOptional item={itemWithDbqInName} />,
+      );
+
+      // Should detect 'dbq' in displayName
+      getByText('Request for an exam');
+      getByText('We made a request for an exam on April 21, 2025');
+    });
+
+    it('should default to false when isDBQ not provided and displayName has no dbq', () => {
+      const itemWithNoDBQ = {
+        displayName: 'Medical Records Request',
+        requestedDate: '2025-04-21',
+      };
+      const { getByText } = renderWithRouter(
+        <FilesOptional item={itemWithNoDBQ} />,
+      );
+
+      // Should default to false (outside VA request)
+      getByText('Request for evidence outside VA');
+      getByText('We made a request outside VA on April 21, 2025');
+    });
+
+    it('should return false when isDBQ is false and displayName does not contain dbq', () => {
+      const itemWithApiFalseNoDbqName = {
+        displayName: 'Medical Records Request',
+        requestedDate: '2025-04-21',
+        isDBQ: false,
+      };
+      const { getByText } = renderWithRouter(
+        <FilesOptional item={itemWithApiFalseNoDbqName} />,
+      );
+
+      // Should show non-DBQ content (outside VA request)
+      getByText('Request for evidence outside VA');
+      getByText('We made a request outside VA on April 21, 2025');
+    });
+
+    it('should treat as DBQ when isDBQ not provided but displayName contains dbq', () => {
+      const itemWithDbqInDisplayName = {
+        displayName: 'DBQ PSYCH Mental Disorders',
+        requestedDate: '2025-04-21',
+      };
+      const { getByText } = renderWithRouter(
+        <FilesOptional item={itemWithDbqInDisplayName} />,
+      );
+
+      getByText('Request for an exam');
+      getByText('We made a request for an exam on April 21, 2025');
+    });
+  });
 });

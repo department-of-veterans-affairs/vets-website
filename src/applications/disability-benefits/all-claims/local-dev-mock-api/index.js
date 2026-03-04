@@ -82,7 +82,7 @@ const responses = {
     },
   },
   'GET /v0/disability_compensation_form/separation_locations': {
-    data: [
+    separationLocations: [
       {
         code: '98283',
         description: 'AAFES',

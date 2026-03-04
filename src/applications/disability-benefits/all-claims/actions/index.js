@@ -10,6 +10,8 @@ export const ITF_CREATION_INITIATED = 'ITF_CREATION_INITIATED';
 export const ITF_CREATION_SUCCEEDED = 'ITF_CREATION_SUCCEEDED';
 export const ITF_CREATION_FAILED = 'ITF_CREATION_FAILED';
 
+export const ITF_MESSAGE_DISMISSED = 'ITF_MESSAGE_DISMISSED';
+
 export function fetchITF() {
   return dispatch => {
     dispatch({ type: ITF_FETCH_INITIATED });
@@ -34,6 +36,10 @@ export function createITF() {
         dispatch({ type: ITF_CREATION_FAILED });
       });
   };
+}
+
+export function dismissITFMessage() {
+  return { type: ITF_MESSAGE_DISMISSED };
 }
 
 // "add-person" service means the user has a edipi and SSN in the system, but

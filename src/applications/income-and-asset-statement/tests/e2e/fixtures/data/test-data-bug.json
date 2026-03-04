@@ -1,0 +1,50 @@
+{
+  "data": {
+    "isLoggedIn": true,
+    "dateReceivedByVa": false,
+    "incomeNetWorthDateRange": {
+      "from": "2023-07-01",
+      "to": "2024-01-01"
+    },
+    "veteranFullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "otherVeteranFullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "otherVeteranSocialSecurityNumber": "987654321",
+    "claimantFullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "claimantSocialSecurityNumber": "321654987",
+    "claimantType": "CHILD",
+    "email": "test.user@example.com",
+    "unassociatedIncomes": [],
+    "associatedIncomes": [],
+    "ownedAssets": [
+      {
+        "recipientRelationship": "CHILD",
+        "recipientName": {
+          "first": "Jane",
+          "last": "Smith"
+        },
+        "grossMonthlyIncome": 2500,
+        "ownedPortionValue": 100000,
+        "assetType": "BUSINESS",
+        "view:addFormQuestion": false
+      }
+    ],
+    "royaltiesAndOtherProperties": [],
+    "assetTransfers": [],
+    "trusts": [],
+    "annuities": [],
+    "unreportedAssets": [],
+    "discontinuedIncomes": [],
+    "incomeReceiptWaivers": [],
+    "statementOfTruthSignature": "Jane Doe",
+    "statementOfTruthCertified": true
+  }
+}

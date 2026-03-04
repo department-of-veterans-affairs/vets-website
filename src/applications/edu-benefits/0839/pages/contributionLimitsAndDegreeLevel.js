@@ -88,9 +88,6 @@ const uiSchema = {
       title: 'College or professional school',
       description:
         'Do not list specific degree programs (such as Master of Business Administration, Juris Doctorate, Bachelor of Science in Nursing).',
-      errorMessages: {
-        required: 'Enter the college or professional school name',
-      },
       validations: [validateWhiteSpace],
     }),
     'ui:options': {
@@ -170,7 +167,6 @@ const schema = {
   required: [
     'degreeLevel',
     'maximumContributionAmount',
-    'collegeOrProfessionalSchool',
     'maximumStudentsOption',
   ],
 };

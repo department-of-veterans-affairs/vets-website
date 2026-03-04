@@ -28,7 +28,6 @@
       "country": "USA",
       "street": "123 Fake St.",
       "street2": "Street 2",
-      "street3": "Street 3",
       "city": "Fakesville",
       "state": "AL",
       "postalCode": "12345"
@@ -163,6 +162,7 @@
       },
       "biologicalParentSsn": "333445555",
       "biologicalParentDob": "1991-09-19",
+      "relationshipType": "STEPCHILD",
       "relationshipToChild": {
         "stepchild": true
       },
@@ -209,7 +209,7 @@
         "isEncrypted": false
       }
     ],
-  
+
   "view:additionalEvidenceDescription": {},
   "view:selectable686Options": {
     "addSpouse": true,

@@ -1,10 +1,24 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import * as recordEventModule from 'platform/monitoring/record-event';
 
 import { COVID19Alert, getChatHours } from '../covid-19';
 
 describe('COVID19Alert component', () => {
+  let sandbox;
+  let recordEventStub;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    recordEventStub = sandbox.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   it('renders', () => {
     const wrapper = shallow(<COVID19Alert />);
     expect(wrapper.html()).to.not.be.empty;
@@ -43,6 +57,22 @@ describe('COVID19Alert component', () => {
       'https://mobile.va.gov/app/va-health-chat',
     );
     expect(anchor.props().className.includes('usa-button-primary')).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('records analytics when the link is clicked', () => {
+    const wrapper = shallow(<COVID19Alert />);
+    const anchor = wrapper.find('a');
+
+    anchor.props().onClick();
+
+    expect(
+      recordEventStub.calledWith({
+        event: 'dashboard-navigation',
+        'dashboard-action': 'view-link',
+        'dashboard-product': 'learn-more-chat',
+      }),
+    ).to.equal(true);
     wrapper.unmount();
   });
 

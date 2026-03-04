@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import PropTypes from 'prop-types';
@@ -48,15 +49,19 @@ const ViewDependentsApp = ({
   hasMinimumRating,
   isLoggedIn,
 }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const dependentsModuleEnabled = useToggleValue(
+    TOGGLE_NAMES.dependentsModuleEnabled,
+  );
   useEffect(
     () => {
       if (isLoggedIn) {
-        fetchAllDependents();
+        fetchAllDependents(dependentsModuleEnabled);
         fetchRatingInfo();
       }
       document.title = `${titleCase(PAGE_TITLE)}${TITLE_SUFFIX}`;
     },
-    [fetchAllDependents, fetchRatingInfo, isLoggedIn],
+    [fetchAllDependents, fetchRatingInfo, isLoggedIn, dependentsModuleEnabled],
   );
 
   // Add Datadog monitoring to the application

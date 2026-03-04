@@ -1,7 +1,7 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import { formConfig } from '@bio-aquia/21-2680-house-bound-status';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 import { featureToggles, user } from '../fixtures/mocks';
 
@@ -24,6 +24,35 @@ const testConfig = createTestConfig(
           cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
             .last()
             .click();
+        });
+      },
+      'claimant-contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { claimantContact } = data;
+            if (claimantContact?.claimantPhoneNumber) {
+              const countryCode =
+                claimantContact.claimantPhoneNumber.countryCode || 'US';
+              cy.get('va-combo-box')
+                .shadow()
+                .find('button.usa-combo-box__toggle-list')
+                .click();
+
+              cy.get(`li[data-value="${countryCode}"]`).click({ force: true });
+
+              const phoneNumber =
+                claimantContact.claimantPhoneNumber.contact || '';
+              cy.get('input[type="tel"]').type(phoneNumber);
+
+              if (claimantContact.claimantEmail) {
+                cy.get('input[name="root_claimantContact_claimantEmail"]').type(
+                  claimantContact.claimantEmail,
+                );
+              }
+            }
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
         });
       },
       'review-and-submit': ({ afterHook }) => {

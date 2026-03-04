@@ -11,8 +11,8 @@ import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js
 function PresubmitInfo({
   formData,
   showError,
-  setPreSubmit,
   user,
+  setPreSubmit,
   onSectionComplete,
 }) {
   // local state
@@ -57,7 +57,7 @@ function PresubmitInfo({
         fullNameReducer(expectedFullName);
       setInputError(
         (showError || signatureBlurred) && !namesMatch
-          ? `Please enter your name exactly as it appears on your application: ${expectedFullName}`
+          ? `Enter your name exactly as it appears on your form: ${expectedFullName}`
           : null,
       );
 
@@ -112,7 +112,6 @@ function PresubmitInfo({
 
 PresubmitInfo.propTypes = {
   formData: PropTypes.object.isRequired,
-  setPreSubmit: PropTypes.func.isRequired,
   onSectionComplete: PropTypes.func.isRequired,
   preSubmitInfo: PropTypes.shape({
     error: PropTypes.string,
@@ -137,6 +136,8 @@ PresubmitInfo.propTypes = {
 const mapDispatchToProps = {
   setPreSubmit: setPreSubmitAction,
 };
+
+export { PresubmitInfo as BasePresubmitInfo };
 
 export default connect(
   null,

@@ -20,8 +20,6 @@ import {
 } from '../pageTests.spec';
 
 describe('annuity list and loop pages', () => {
-  const { annuityPagesSummary } = annuityPages;
-
   describe('isItemIncomplete function', () => {
     /* eslint-disable no-unused-vars */
     const {
@@ -89,32 +87,6 @@ describe('annuity list and loop pages', () => {
     } = testDataZeroes.data.annuities[0];
     /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem);
-  });
-
-  describe('summary page', () => {
-    const { schema, uiSchema } = annuityPagesSummary;
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      { 'va-radio': 1 },
-      'annuity summary page',
-    );
-    testComponentFieldsMarkedAsRequired(
-      formConfig,
-      schema,
-      uiSchema,
-      ['va-radio[label="Have you or your dependents established an annuity?"]'],
-      'annuity summary page',
-    );
-    testSubmitsWithoutErrors(
-      formConfig,
-      schema,
-      uiSchema,
-      'annuity summary page',
-      testData.data,
-      { loggedIn: true },
-    );
   });
 
   describe('information page', () => {

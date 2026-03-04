@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   DowntimeNotification,
   externalServices,
@@ -65,6 +66,7 @@ import {
 import SelectedRecipientTitle from './SelectedRecipientTitle';
 import AddYourMedicationInfoWarning from './AddYourMedicationInfoWarning';
 import useNavigationError from '../../hooks/useNavigationError';
+import AlertBackgroundBox from '../shared/AlertBackgroundBox';
 
 const ComposeForm = props => {
   const { pageTitle, draft, recipients, signature } = props;
@@ -168,6 +170,9 @@ const ComposeForm = props => {
         );
 
         recordEvent({ event: 'sm_editor_prefill_loaded' });
+        datadogRum.addAction('SM Editor Prefill Loaded', {
+          category: Categories.MEDICATIONS.value,
+        });
       }
     },
     [renewalPrescription, isRxRenewalDraft, rxError, dispatch],
@@ -494,6 +499,7 @@ const ComposeForm = props => {
         };
         messageData[`${'draft_id'}`] = draft?.messageId;
         messageData[`${'recipient_id'}`] = draftInProgress.recipientId;
+        messageData[`${'station_number'}`] = draftInProgress.stationNumber;
 
         let sendData;
         if (attachmentsRef.current.length > 0) {
@@ -543,6 +549,7 @@ const ComposeForm = props => {
       draftInProgress.category,
       draftInProgress.ohTriageGroup,
       draftInProgress.recipientId,
+      draftInProgress.stationNumber,
       draftInProgress.subject,
       electronicSignature,
       history,
@@ -709,6 +716,9 @@ const ComposeForm = props => {
         recordEvent({
           event: 'cta-button-click',
           'button-click-label': 'Save Draft',
+        });
+        datadogRum.addAction('Save Draft Button Click', {
+          buttonLabel: 'Save Draft',
         });
         const getErrorType = () => {
           const hasAttachments = attachmentsRef.current.length > 0;
@@ -915,6 +925,7 @@ const ComposeForm = props => {
       initialTextareaValueRef.current.length > 0
     ) {
       recordEvent({ event: 'sm_editor_prefill_deleted' });
+      datadogRum.addAction('SM Editor Prefill Deleted');
       prefillClearedReportedRef.current = true;
     }
     if (
@@ -924,6 +935,7 @@ const ComposeForm = props => {
       initialTextareaValueRef.current !== newValue
     ) {
       recordEvent({ event: 'sm_editor_prefill_edited' });
+      datadogRum.addAction('SM Editor Prefill Edited');
       prefillEditedReportedRef.current = true;
     }
     setMessageBody(newValue);
@@ -985,6 +997,8 @@ const ComposeForm = props => {
       <h1 className="page-title vads-u-margin-top--0" ref={headerRef}>
         {pageTitle}
       </h1>
+
+      <AlertBackgroundBox closeable className="vads-u-margin-y--1 va-alert" />
 
       <DowntimeNotification
         appTitle={downtimeNotificationParams.appTitle}

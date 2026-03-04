@@ -278,7 +278,7 @@ describe('Health conditions with accelerated data', () => {
       const loadingIndicator = screen.getByTestId(
         'accelerated-loading-indicator',
       );
-      expect(loadingIndicator).to.have.attribute('setfocus');
+      expect(loadingIndicator).to.have.attribute('set-focus');
     });
   });
 });
@@ -321,5 +321,80 @@ describe('Health conditions global isLoading states', () => {
       path: '/conditions',
     });
     expect(screen.queryByTestId('accelerated-loading-indicator')).to.exist;
+  });
+});
+
+describe('HealthConditions - DuplicateRecordsAlert integration', () => {
+  it('does not render DuplicateRecordsAlert when isCerner is false', () => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
+      user: {
+        ...user,
+        profile: {
+          ...user.profile,
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
+      },
+      mr: {
+        conditions: {
+          conditionsList: conditions.entry.map(condition =>
+            convertCondition(condition),
+          ),
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<HealthConditions />, {
+      initialState,
+      reducers: reducer,
+      path: '/conditions',
+    });
+
+    expect(screen.queryByTestId('duplicate-records-info-alert')).to.not.exist;
+  });
+
+  it('renders DuplicateRecordsAlert when isCerner is true', () => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+          data: {
+            cernerFacilities: [{ vhaId: '983' }],
+          },
+        },
+      },
+      user: {
+        ...user,
+        profile: {
+          ...user.profile,
+          facilities: [{ facilityId: '983', isCerner: true }],
+        },
+      },
+      mr: {
+        conditions: {
+          conditionsList: conditions.entry.map(condition =>
+            convertCondition(condition),
+          ),
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<HealthConditions />, {
+      initialState,
+      reducers: reducer,
+      path: '/conditions',
+    });
+
+    expect(screen.getByTestId('duplicate-records-info-alert')).to.exist;
   });
 });

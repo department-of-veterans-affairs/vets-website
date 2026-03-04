@@ -17,6 +17,7 @@ const mockRecord = {
   name: 'Lab Test',
   date: '2025-04-10',
   testCode: '12345',
+  testCodeDisplay: '12345',
   sampleTested: 'Blood',
   bodySite: 'Arm',
   orderedBy: 'Dr. Smith',

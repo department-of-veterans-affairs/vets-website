@@ -3,17 +3,19 @@
  * @module services/Patient
  */
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { recordEligibilityFailure, recordVaosError } from '../../utils/events';
-import { captureError } from '../../utils/error';
+import { subMonths } from 'date-fns';
 import {
+  CLINIC_HISTORY_MONTHS,
   ELIGIBILITY_REASONS,
-  TYPE_OF_CARE_IDS,
   INELIGIBILITY_CODES_VAOS,
+  TYPE_OF_CARE_IDS,
 } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
+import { captureError } from '../../utils/error';
+import { recordEligibilityFailure, recordVaosError } from '../../utils/events';
+import { getLongTermAppointmentHistoryV2 } from '../appointment';
 import { getAvailableHealthcareServices } from '../healthcare-service';
 import { getPatientEligibility, getPatientRelationships } from '../vaos';
-import { getLongTermAppointmentHistoryV2 } from '../appointment';
 import { transformPatientRelationships } from './transformers';
 
 /**
@@ -39,6 +41,23 @@ export function typeOfCareRequiresPastHistory(
   }
 
   return !exempted.has(typeOfCareId);
+}
+
+/**
+ * Filters past appointments to only include those within the history window for the type of care, if applicable
+ * @param {Object[]} pastAppointments The list of past appointments
+ * @param {string} typeOfCareId The type of care ID
+ * @returns {Object[]} The filtered list of past appointments
+ */
+export function filterPastAppointmentsByTypeOfCare(
+  pastAppointments,
+  typeOfCareId,
+) {
+  if (typeOfCareId in CLINIC_HISTORY_MONTHS) {
+    const cutoff = subMonths(new Date(), CLINIC_HISTORY_MONTHS[typeOfCareId]);
+    return pastAppointments.filter(appt => appt.start >= cutoff);
+  }
+  return pastAppointments;
 }
 
 function createErrorHandler(errorKey) {
@@ -333,36 +352,47 @@ export async function fetchFlowEligibilityAndClinics({
     featurePastVisitMHFilter,
   );
 
-  const apiCalls = {
-    patientEligibility: fetchPatientEligibility({
-      typeOfCare,
-      location,
-      type: !directSchedulingAvailable ? 'request' : null,
-    }),
-  };
-
   // When removeFacilityConfigCheck is removed, directTypeOfCareSettings should be removed and not used
   // location contains legacyVAR that contains patientHistoryRequired
   const directTypeOfCareSettings =
     location.legacyVAR.settings?.[typeOfCare.id]?.direct;
 
-  // We don't want to make unnecessary api calls if DS is turned off and we are using the configuration call
-  if (directSchedulingAvailable && !isCerner) {
-    apiCalls.clinics = getAvailableHealthcareServices({
+  // First, fetch patient eligibility to determine if we should make additional API calls
+  const patientEligibility = await fetchPatientEligibility({
+    typeOfCare,
+    location,
+    type: !directSchedulingAvailable ? 'request' : null,
+  });
+
+  // Only fetch clinics and past appointments if:
+  // 1. Direct scheduling is available based on configuration
+  // 2. Not a Cerner site
+  // 3. The API says the patient is eligible for direct scheduling (when removeFacilityConfigCheck is true)
+  const shouldFetchClinics =
+    directSchedulingAvailable &&
+    !isCerner &&
+    (!removeFacilityConfigCheck || patientEligibility.direct?.eligible);
+
+  const additionalApiCalls = {};
+
+  if (shouldFetchClinics) {
+    additionalApiCalls.clinics = getAvailableHealthcareServices({
       facilityId: location.id,
       typeOfCare,
     }).catch(createErrorHandler('direct-available-clinics-error'));
 
-    apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
+    additionalApiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
       featureUseBrowserTimezone,
     ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
   }
 
-  // This waits for all the api calls we're running in parallel to finish
-  // It does not have a try/catch because all errors in the calls are caught
-  // and resolved, so that we can still provide users a path forward if enough
-  // checks succeeded
-  const results = await promiseAllFromObject(apiCalls);
+  // Wait for additional API calls to finish
+  const additionalResults = await promiseAllFromObject(additionalApiCalls);
+
+  const results = {
+    patientEligibility,
+    ...additionalResults,
+  };
 
   const eligibility = {
     direct: directSchedulingEnabled,
@@ -389,6 +419,8 @@ export async function fetchFlowEligibilityAndClinics({
     eligibility.request = false;
     eligibility.requestReasons.push(ELIGIBILITY_REASONS.error);
   } else {
+    // When removeFacilityConfigCheck is true, use the API eligible field as the source of truth
+    // but still check for specific reasons to provide better error messages
     if (!results.patientEligibility.request.hasRequiredAppointmentHistory) {
       eligibility.request = false;
       eligibility.requestReasons.push(ELIGIBILITY_REASONS.noRecentVisit);
@@ -401,6 +433,13 @@ export async function fetchFlowEligibilityAndClinics({
       eligibility.request = false;
       eligibility.requestReasons.push(ELIGIBILITY_REASONS.overRequestLimit);
       recordEligibilityFailure('request-exceeded-outstanding-requests');
+    }
+
+    // If the API returned eligible: false but we didn't find a specific reason,
+    // still mark as ineligible with a generic reason
+    if (!results.patientEligibility.request?.eligible && eligibility.request) {
+      eligibility.request = false;
+      eligibility.requestReasons.push(ELIGIBILITY_REASONS.notSupported);
     }
   }
 
@@ -448,21 +487,37 @@ export async function fetchFlowEligibilityAndClinics({
         location?.id,
       );
     }
-    // When removeFacilityConfigCheck is removed, remove the entire condition inside the parens with
-    // keepFacilityConfigCheck because we no longer will no longer be doing determination on the client side.
+    // When removeFacilityConfigCheck is removed, replace the requiresMatchingClinics with
+    // typeOfCareRequiresCheck since that will be the only relevant condition.
+    const requiresMatchingClinics =
+      (removeFacilityConfigCheck && typeOfCareRequiresCheck) ||
+      (keepFacilityConfigCheck &&
+        directTypeOfCareSettings.patientHistoryRequired);
+    const filteredPastAppointments = typeOfCareRequiresCheck
+      ? filterPastAppointmentsByTypeOfCare(
+          results.pastAppointments,
+          typeOfCare.id,
+        )
+      : results.pastAppointments;
     if (
       !isCerner &&
-      (keepFacilityConfigCheck &&
-        directTypeOfCareSettings.patientHistoryRequired) &&
+      requiresMatchingClinics &&
       !hasMatchingClinics(
         results.clinics,
-        results.pastAppointments,
+        filteredPastAppointments,
         typeOfCareRequiresCheck,
       )
     ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
       recordEligibilityFailure('direct-no-matching-past-clinics');
+    }
+
+    // If the API returned eligible: false but we didn't find a specific reason,
+    // still mark as ineligible with a generic reason
+    if (!results.patientEligibility.direct?.eligible && eligibility.direct) {
+      eligibility.direct = false;
+      eligibility.directReasons.push(ELIGIBILITY_REASONS.notSupported);
     }
   }
 
@@ -472,5 +527,5 @@ export async function fetchFlowEligibilityAndClinics({
     eligibility,
     clinics: results.clinics,
     pastAppointments: results.pastAppointments,
-  }; // clinics and past appointments are returned in addition to eligibilty to be cached for later user
+  }; // clinics and past appointments are returned in addition to eligibility to be cached for later user
 }

@@ -27,7 +27,11 @@ const CALLSTATUS = {
 /**
  * @typedef ViewDependentsHeaderProps
  * @property {Boolean} showAlert true if dependent receives compensation and has dependents
+ * @property {Boolean} hasMinimumRating true if disability rating is 30 or higher
+ * @property {Boolean} hasAwardDependents true if Veteran has active dependents
  * @property {String} updateDiariesStatus status of update diaries call
+ * @property {Boolean} showDependentsContent true if API has successfully loaded, disability rating is >= 30, and no API error
+ * @returns {JSX.Element} page title, description, and alert if showAlert is true
  */
 /**
  * Renders page elements
@@ -35,8 +39,19 @@ const CALLSTATUS = {
  * @returns {JSX.Element} page title, description, and alert if showAlert is true
  */
 function ViewDependentsHeader(props) {
-  const { updateDiariesStatus, showAlert } = props;
+  const {
+    updateDiariesStatus,
+    hasAwardDependents,
+    hasMinimumRating,
+    showDependentsContent,
+  } = props;
 
+  const showAlert = showDependentsContent && hasAwardDependents;
+
+  // getIsDependentsWarningHidden checks localStorage to see if the user had
+  // previously closed the alert. If the date it was closed is > 6 months, it
+  // clears the storage value. The local storage value is then used as the
+  // initial state for warningHidden
   const [warningHidden, setWarningHidden] = useState(
     getIsDependentsWarningHidden(),
   );
@@ -48,14 +63,25 @@ function ViewDependentsHeader(props) {
 
   useEffect(
     () => {
-      const state = showAlert && !warningHidden ? 'visible' : 'hidden';
-      // Alert may start hidden if still in the same session
+      let state = showAlert && !warningHidden ? 'visible' : 'hidden';
+      let reason = '';
+      if (warningHidden) {
+        // Alert may start hidden
+        state = 'already hidden';
+        reason = 'user previously closed alert';
+      } else if (!hasAwardDependents) {
+        state = 'hidden because no active dependents';
+        reason = 'no active dependents';
+      } else if (!hasMinimumRating) {
+        state = 'hidden because disability rating below 30%';
+        reason = 'disability rating below 30%';
+      }
       dataDogLogger({
         message: `View dependents 0538 warning alert ${state}`,
-        attributes: { state },
+        attributes: { state, reason },
       });
     },
-    [showAlert, warningHidden],
+    [showAlert, warningHidden, hasAwardDependents, hasMinimumRating],
   );
 
   /**
@@ -66,8 +92,8 @@ function ViewDependentsHeader(props) {
     setWarningHidden(true);
     hideDependentsWarning();
     dataDogLogger({
-      message: 'View dependents 0538 warning alert hidden',
-      attributes: { state: 'hidden' },
+      message: 'View dependents 0538 warning alert hidden by user',
+      attributes: { state: 'hidden by user', reason: 'hidden by user' },
     });
     scrollToTop();
     focusElement('.view-deps-header');
@@ -185,7 +211,10 @@ function ViewDependentsHeader(props) {
 }
 
 ViewDependentsHeader.propTypes = {
+  hasAwardDependents: PropTypes.bool,
+  hasMinimumRating: PropTypes.bool,
   showAlert: PropTypes.bool,
+  showDependentsContent: PropTypes.bool,
   updateDiariesStatus: PropTypes.string,
 };
 

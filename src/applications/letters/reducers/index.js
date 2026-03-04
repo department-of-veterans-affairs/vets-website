@@ -102,7 +102,7 @@ function letters(state = initialState, action) {
           (optionsToAlwaysDisplay.includes(key) ||
             benefitInfo[key] !== false) &&
           // and the option is not yet in the possibleOptions array
-          !possibleOptions.includes[key] &&
+          !possibleOptions.includes(key) &&
           // and the option is a customization option that vets-api supports
           REQUEST_OPTIONS[key]
         ) {
@@ -112,11 +112,12 @@ function letters(state = initialState, action) {
 
       // Initialize the benefit summary letter request body by mapping each
       // option in possibleOptions to its corresponding request option key.
-      // Set all request body options to true so that on page load, all options
-      // are checked.
+      // Options shown in the UI default to true (checked on page load).
+      // Options not shown (e.g., API value is false) default to false.
       const requestOptions = { militaryService: true };
       possibleOptions.forEach(option => {
-        requestOptions[benefitOptionsMap[option]] = true;
+        requestOptions[benefitOptionsMap[option]] =
+          benefitInfo[option] !== false;
       });
 
       return {
@@ -211,6 +212,7 @@ function letters(state = initialState, action) {
         ...state,
         tsaLetterEligibility: {
           documentId: action.data?.attributes?.documentId,
+          documentVersion: action.data?.attributes?.documentVersion,
           error: false,
           loading: false,
         },

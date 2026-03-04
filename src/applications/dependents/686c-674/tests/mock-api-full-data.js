@@ -3,15 +3,24 @@
  * > yarn mock-api --responses ./src/applications/dependents/686c-674/tests/mock-api-full-data.js
  * Run this in browser console
  * > localStorage.setItem('hasSession', true)
+ *
+ * Customizing:
+ * 1) Update the mockData import to match the work you're doing
+ * 2) Update returnUrl to jump to the page you're working on
+ *
+ * Note: This file is not meant to be a comprehensive mock of all API responses, just the ones needed for testing with max data.
  */
 const dateFns = require('date-fns');
 const delay = require('mocker-api/lib/delay');
 
 const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
-const mockMaxData = require('./e2e/fixtures/removal-only-v3.json');
 
-const returnUrl = '/options-selection';
+// 1) Match data to your needs
+const mockData = require('./e2e/fixtures/maximal.json');
+// 2) Return to specific page. Include `?edit=true` to jump inside an array
+//    list loop page, e.g. '/686-report-add-child/0/place-of-birth?edit=true';
+const returnUrl = '/veteran-information';
 
 const createDate = (yearsAgo = 0, monthsAgo = 0, formatDate = 'MM/dd/yyyy') =>
   dateFns.format(
@@ -28,7 +37,7 @@ const submission = {
 };
 
 const mockSipGet = {
-  formData: mockMaxData,
+  formData: mockData,
   metadata: {
     version: 0,
     prefill: false,
@@ -100,7 +109,7 @@ const mockDependents = {
           awardIndicator: 'Y',
         },
         {
-          firstName: 'JOE', // Left school & no permanent disability
+          firstName: 'JOE', // Left school
           lastName: 'FOSTER',
           dateOfBirth: createDate(19),
           ssn: '3468',
@@ -109,16 +118,7 @@ const mockDependents = {
           awardIndicator: 'Y',
         },
         {
-          firstName: 'MIKE', // Left school & has permanent disability
-          lastName: 'FOSTER',
-          dateOfBirth: createDate(20),
-          ssn: '3499',
-          relationshipToVeteran: 'Child', // prefill
-          relationship: 'Child', // API
-          awardIndicator: 'Y',
-        },
-        {
-          firstName: 'STACY', // Left household & < 50% financial support
+          firstName: 'STACY', // Stepchild left household & < 50% financial support
           lastName: 'FOSTER',
           dateOfBirth: createDate(0, 4),
           ssn: '3233',
@@ -127,7 +127,7 @@ const mockDependents = {
           awardIndicator: 'Y',
         },
         {
-          firstName: 'JENNIFER', // Left household & >= 50% financial support
+          firstName: 'JENNIFER', // Stepchild left household & >= 50% financial support
           lastName: 'FOSTER',
           dateOfBirth: createDate(4),
           ssn: '3311',
@@ -246,6 +246,8 @@ const responses = {
         { name: 'va_dependents_verification', value: true },
         { name: 'vaDependentsBrowserMonitoringEnabled', value: true },
         { name: 'va_dependents_browser_monitoring_enabled', value: true },
+        { name: 'va_dependents_no_ssn', value: true },
+        { name: 'vaDependentsNoSsn', value: true },
       ],
     },
   },

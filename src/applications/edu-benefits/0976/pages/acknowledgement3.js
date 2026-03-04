@@ -17,7 +17,7 @@ export default {
       <div>
         <p>
           The institution understands the following important program
-          requirements and/or limitations
+          requirements and/or limitations.
         </p>
         <ul>
           <li>

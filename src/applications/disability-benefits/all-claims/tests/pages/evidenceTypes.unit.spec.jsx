@@ -10,6 +10,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
+import { updateFormData } from '../../pages/evidenceTypes';
 
 describe('evidenceTypes', () => {
   const {
@@ -117,5 +118,67 @@ describe('evidenceTypes', () => {
     expect(onSubmit.calledOnce).to.be.true;
     // Check for absence of an error message.
     expect($('va-radio').error).to.be.null;
+  });
+
+  describe('updateFormData', () => {
+    it('should map view:hasMedicalRecords to view:hasEvidence when legacy field missing', () => {
+      [true, false].forEach(value => {
+        const oldFormData = { 'view:hasMedicalRecords': value };
+        const formData = {};
+        const result = updateFormData(oldFormData, formData);
+        expect(result).to.deep.equal({
+          'view:hasEvidence': value,
+        });
+      });
+    });
+
+    it('should not map when both enhancement and legacy fields exist', () => {
+      const oldFormData = {
+        'view:hasMedicalRecords': true,
+      };
+      const formData = {
+        'view:hasEvidence': false,
+      };
+      const result = updateFormData(oldFormData, formData);
+      expect(result).to.deep.equal({
+        'view:hasEvidence': false,
+      });
+    });
+
+    it('should not map when enhancement field does not exist', () => {
+      const oldFormData = {};
+      const formData = {
+        'view:hasEvidence': true,
+      };
+      const result = updateFormData(oldFormData, formData);
+      expect(result).to.deep.equal({
+        'view:hasEvidence': true,
+      });
+    });
+
+    it('should return formData unchanged when no mapping is needed', () => {
+      const oldFormData = {};
+      const formData = {
+        someOtherField: 'value',
+      };
+      const result = updateFormData(oldFormData, formData);
+      expect(result).to.deep.equal({
+        someOtherField: 'value',
+      });
+    });
+
+    it('should preserve existing formData fields when mapping', () => {
+      const oldFormData = {
+        'view:hasMedicalRecords': true,
+      };
+      const formData = {
+        existingField: 'existingValue',
+      };
+      const result = updateFormData(oldFormData, formData);
+      expect(result).to.deep.equal({
+        existingField: 'existingValue',
+        'view:hasEvidence': true,
+      });
+    });
   });
 });

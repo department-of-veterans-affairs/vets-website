@@ -105,7 +105,7 @@ export default function VAFacilityPageV2() {
 
   const uiSchema = {
     vaFacility: {
-      'ui:title': `These facilities you're registered at offer ${lowerCase(
+      'ui:title': `These are the facilities you’re registered at that offer ${lowerCase(
         typeOfCare?.name,
       )}.`,
       'ui:widget': FacilitiesRadioWidget,
@@ -174,6 +174,7 @@ export default function VAFacilityPageV2() {
       <div>
         {pageHeader}
         <InfoAlert
+          addRole="alert"
           status="error"
           level={2}
           headline="We can’t schedule your appointment right now"
@@ -195,6 +196,7 @@ export default function VAFacilityPageV2() {
   if (isLoading) {
     return (
       <va-loading-indicator
+        role="alert"
         set-focus
         label="Finding available locations for your appointment"
         message="Finding available locations for your appointment..."
