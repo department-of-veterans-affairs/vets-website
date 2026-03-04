@@ -50,8 +50,7 @@ function ComplexClaimsEntryContent() {
       />
       <p>
         <strong>Note:</strong> You can continue saved or incomplete claims by
-        selecting{' '}
-        <strong>Travel reimbursement claim details.</strong>
+        selecting <strong>Travel reimbursement claim details.</strong>
       </p>
     </>
   );
