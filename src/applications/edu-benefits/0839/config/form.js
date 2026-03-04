@@ -10,6 +10,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import SubmissionInstructions from '../components/SubmissionInstructions';
+import AddEligibileStudents from '../components/AddEligibileStudents';
 import {
   authorizedOfficial,
   agreementType,
@@ -207,6 +208,7 @@ const formConfig = {
 
     yellowRibbonProgramRequestChapter: {
       title: 'Yellow Ribbon Program contributions',
+      reviewDescription: AddEligibileStudents,
       pages: {
         ...arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
           yellowRibbonProgramRequestIntro: pageBuilder.introPage({
