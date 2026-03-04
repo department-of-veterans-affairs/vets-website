@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
