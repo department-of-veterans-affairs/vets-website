@@ -1,5 +1,6 @@
 import React from 'react';
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import { addYears } from 'date-fns';
+import get from 'platform/utilities/data/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
   addressUI,
@@ -27,11 +28,7 @@ import { applicantWording, nameWording } from '../../shared/utilities';
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
 import { validateApplicant, validateApplicantSsn } from '../utils/validations';
-import {
-  getAgeInMonths,
-  isOfCollegeAge,
-  page15aDepends,
-} from '../utils/helpers';
+import { isOfCollegeAge, page15aDepends } from '../utils/helpers';
 import { attachmentSchema, attachmentUI } from '../definitions';
 import { APPLICANTS_MAX } from '../utils/constants';
 
@@ -437,7 +434,8 @@ export const applicantPages = arrayBuilderPages(
 
         const isChild = relationshipToSponsor === 'child';
         const isNotBiologicalChild = relationshipOrigin !== 'blood';
-        const isNewbornChild = getAgeInMonths(applicant?.applicantDob) <= 12;
+        const isNewbornChild =
+          new Date(applicant?.applicantDob) >= addYears(new Date(), -1);
         return isChild && (isNewbornChild || isNotBiologicalChild);
       },
       ...applicantBirthCertUploadPage,

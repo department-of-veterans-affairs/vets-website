@@ -1,11 +1,5 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import {
-  differenceInMonths,
-  differenceInYears,
-  format,
-  isMatch,
-  parse,
-} from 'date-fns';
+import { differenceInYears, format, isMatch, parse } from 'date-fns';
 import content from '../../locales/en/content.json';
 import { replaceStrValues } from './formatting';
 
@@ -90,37 +84,20 @@ export function populateFirstApplicant(formData, name, email, phone, address) {
 }
 
 /**
- * Returns the integer age in full months as of a given date.
- * @param {string} dateStr - Birthdate string in `yyyy-MM-dd` format.
- * @param {Date} [asOf=new Date()] - The date on which to calculate age.
- * @returns {number} Age in full months, or `NaN` if the input is invalid.
- */
-export const getAgeInMonths = (dateStr, asOf = new Date()) => {
-  if (typeof dateStr !== 'string' || dateStr.length < 10) return NaN;
-  const parsedDob = parse(dateStr, 'yyyy-MM-dd', new Date());
-
-  if (Number.isNaN(parsedDob.getTime())) return NaN;
-  if (format(parsedDob, 'yyyy-MM-dd') !== dateStr) return NaN;
-
-  // normalize both to UTC midnight to avoid TZ/DST edge cases
-  const dobUTC = new Date(
-    Date.UTC(
-      parsedDob.getFullYear(),
-      parsedDob.getMonth(),
-      parsedDob.getDate(),
-    ),
-  );
-  const asOfUTC = new Date(
-    Date.UTC(asOf.getUTCFullYear(), asOf.getUTCMonth(), asOf.getUTCDate()),
-  );
-  return differenceInMonths(asOfUTC, dobUTC);
-};
-
-/**
  * Returns the integer age in full years as of a given date.
+ *
+ * Accepts birthdates in either `yyyy-MM-dd` (ISO) or `MM-dd-yyyy` formats.
+ * Parsing is explicit via date-fns; both the DOB and the "as of" date are
+ * normalized to UTC midnight to avoid timezone/DST edge cases.
+ *
  * @param {string} dateStr - Birthdate string in `yyyy-MM-dd` or `MM-dd-yyyy` format.
  * @param {Date} [asOf=new Date()] - The date on which to calculate age.
  * @returns {number} Age in full years, or `NaN` if the input is invalid.
+ *
+ * @example
+ * getAgeInYears('1958-01-01');       // -> 67 (depending on today's date)
+ * getAgeInYears('01-01-1958');       // -> 67
+ * getAgeInYears('not-a-date');       // -> NaN
  */
 export const getAgeInYears = (dateStr, asOf = new Date()) => {
   if (typeof dateStr !== 'string' || dateStr.length < 10) return NaN;
