@@ -184,10 +184,10 @@ export default function AuthApp({ location }) {
       !skipToRedirect && (!isMyVAHealth || interstitial);
     if (needsProfileSetup) {
       setupProfileSession(userProfile);
-    }
-    if (interstitial) {
-      window.location.replace(interstitial.url);
-      return;
+      if (interstitial) {
+        window.location.replace(interstitial.url);
+        return;
+      }
     }
     redirect();
   };
