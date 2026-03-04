@@ -37,14 +37,22 @@ const RenderMap = forwardRef(
       const focusableFeedbackButton = document.querySelector(
         '#mdFormButton > .usa-button',
       );
-      // else focus on the footer
       if (focusableFeedbackButton) {
+        focusableFeedbackButton.scrollIntoView({ behavior: 'instant' });
         focusableFeedbackButton.focus();
-      } else {
-        const firstFooterLink = document.querySelector(
-          '#footerNav > div > div.footer-inner > div.usa-grid-full > div.va-footer-linkgroup:first-of-type > ul.va-footer-links > li:first-of-type > a ',
-        );
-        if (firstFooterLink) firstFooterLink.focus();
+        return;
+      }
+      // else focus on the footer: try specific desktop structure first, then any focusable in footer
+      const footer = document.getElementById('footerNav');
+      if (!footer) return;
+      const specificLink = footer.querySelector(
+        'div.footer-inner div.va-footer-linkgroup ul.va-footer-links li a',
+      );
+      const fallbackLink = footer.querySelector('a[href], button');
+      const firstFooterLink = specificLink || fallbackLink;
+      if (firstFooterLink) {
+        firstFooterLink.scrollIntoView({ behavior: 'instant' });
+        firstFooterLink.focus();
       }
     }
 

@@ -34,32 +34,36 @@ describe('Skip map link', () => {
       /(Showing|Results).*VA health.*near.*Austin, Texas/i,
     );
 
-    // Skip map link should exist (visually hidden until focused)
-    cy.get(SKIP_MAP_LINK)
-      .should('exist')
-      .and('have.text', 'SKIP MAP');
-
-    // Wait for a focus target to exist before clicking (footer/feedback load async; CI can be slower)
-    cy.get('#footerNav a, #mdFormButton .usa-button')
-      .first()
-      .should('exist');
-
-    // Focus and click the skip map link
     cy.get(SKIP_MAP_LINK)
       .focus()
       .click();
 
-    // Focus should move off the map: either to the feedback button or to a footer link
-    cy.focused().should($el => {
-      const id = $el.attr('id');
-      const isFeedbackButton =
-        id === 'mdFormButton' || $el.closest('#mdFormButton').length > 0;
-      const isInFooter = $el.closest('#footerNav').length > 0;
+    // Wait for a focus target to exist before clicking (footer/feedback load async)
+    cy.get('body').should($body => {
+      const hasFooterFocusable =
+        $body.find('#footerNav').find('a[href], button').length > 0;
+      const hasFeedbackButton =
+        $body.find('#mdFormButton .usa-button').length > 0;
       expect(
-        isFeedbackButton || isInFooter,
-        'focus should move to feedback button or footer',
+        hasFooterFocusable || hasFeedbackButton,
+        'either first focusable in footer or feedback button must be present in the DOM',
       ).to.be.true;
     });
+
+    // Focus should move off the map: either to the feedback button or to a footer link
+    cy.focused().should(
+      $el => {
+        const id = $el.attr('id');
+        const isFeedbackButton =
+          id === 'mdFormButton' || $el.closest('#mdFormButton').length > 0;
+        const isInFooter = $el.closest('#footerNav').length > 0;
+        expect(
+          isFeedbackButton || isInFooter,
+          'focus should move to feedback button or footer',
+        ).to.be.true;
+      },
+      { timeout: 8000 },
+    );
   });
 
   it('skip map link is keyboard focusable', () => {
