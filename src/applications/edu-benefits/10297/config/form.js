@@ -113,6 +113,7 @@ const formConfig = {
           title: 'Mailing address',
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
+          pageClass: 'page',
         },
         phoneAndEmail: {
           path: 'phone-and-email',
@@ -121,6 +122,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
+          pageClass: 'page',
           updateFormData: phoneAndEmail.updateFormData,
         },
         contactPreferences: {
@@ -128,31 +130,35 @@ const formConfig = {
           title: 'Contact preferences',
           uiSchema: contactPreferences.uiSchema,
           schema: contactPreferences.schema,
+          pageClass: 'page',
         },
         veteranStatus: {
           path: 'at-least-3-years',
           title: 'Your Veteran or service member status',
           uiSchema: atLeast3Years.uiSchema,
           schema: atLeast3Years.schema,
+          pageClass: 'page',
         },
         dateReleasedFromActiveDuty: {
           path: 'date-released-from-active-duty',
           title: 'Active duty status release date',
           uiSchema: dateReleasedFromActiveDuty.uiSchema,
           schema: dateReleasedFromActiveDuty.schema,
-          depends: formData => formData?.dutyRequirement !== 'veteranStatus',
+          pageClass: 'page',
         },
         activeDutyStatus: {
           path: 'active-duty-status',
           title: 'Active duty status during program',
           uiSchema: activeDutyStatus.uiSchema,
           schema: activeDutyStatus.schema,
+          pageClass: 'page',
         },
         directDeposit: {
           path: 'direct-deposit',
           title: 'Direct deposit',
           uiSchema: directDeposit.uiSchema,
           schema: directDeposit.schema,
+          pageClass: 'page',
         },
       },
     },
@@ -165,6 +171,7 @@ const formConfig = {
             path: 'training-provider',
             uiSchema: trainingProviderSummary.uiSchema,
             schema: trainingProviderSummary.schema,
+            pageClass: 'page training-provider-summary',
             scrollAndFocusTarget: focusOnH3,
           }),
           trainingProviderDetails: pageBuilder.itemPage({
@@ -172,6 +179,7 @@ const formConfig = {
             path: 'training-provider/:index/details',
             uiSchema: trainingProviderDetails.uiSchema,
             schema: trainingProviderDetails.schema,
+            pageClass: 'page',
           }),
         })),
         trainingProviderStartDate: {
@@ -180,6 +188,7 @@ const formConfig = {
             'Do you have a start date for the program you wish to enroll in?',
           uiSchema: trainingProviderStartDate.uiSchema,
           schema: trainingProviderStartDate.schema,
+          pageClass: 'page',
         },
       },
     },
@@ -191,6 +200,7 @@ const formConfig = {
           title: 'Your employment',
           uiSchema: employmentStatus.uiSchema,
           schema: employmentStatus.schema,
+          pageClass: 'page',
           onNavForward: ({ formData, goPath }) => {
             if (formData.isEmployed === false) {
               goPath('/education-details');
@@ -204,6 +214,7 @@ const formConfig = {
           title: 'Your technology industry involvement',
           uiSchema: employmentDetails.uiSchema,
           schema: employmentDetails.schema,
+          pageClass: 'page',
           onNavForward: ({ formData, goPath }) => {
             if (formData.isInTechnologyIndustry === false) {
               goPath('/salary-details');
@@ -217,12 +228,14 @@ const formConfig = {
           title: 'Your main area of focus',
           uiSchema: employmentFocus.uiSchema,
           schema: employmentFocus.schema,
+          pageClass: 'page',
         },
         salaryDetails: {
           path: 'salary-details',
           title: 'Your current annual salary',
           uiSchema: salaryDetails.uiSchema,
           schema: salaryDetails.schema,
+          pageClass: 'page',
           onNavBack: ({ formData, goPath, goPreviousPath }) => {
             if (formData.isInTechnologyIndustry === false) {
               goPath('/employment-details');
@@ -236,6 +249,7 @@ const formConfig = {
           title: 'Your education',
           uiSchema: educationDetails.uiSchema,
           schema: educationDetails.schema,
+          pageClass: 'page',
           onNavBack: ({ formData, goPath, goPreviousPath }) => {
             if (formData.isEmployed === false) {
               goPath('/employment-status');

@@ -16,15 +16,16 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsCcdExtendedFileTypes = true,
     mhvMedicalRecordsCcdOH = true,
     mhvMedicalRecordsHoldTimeMessagingUpdate = true,
-    mhvMedicalRecordsImagesDomain = true,
+    mhvMedicalRecordsImagesDomain = false,
     mhvMedicalRecordsMergeCvixIntoScdf = false,
-    mhvAcceleratedDeliveryEnabled = false,
+    mhvAcceleratedDeliveryEnabled = true,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryCareNotesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
     mhvAcceleratedDeliveryConditionsEnabled = false,
     mhvAcceleratedDeliveryVaccinesEnabled = false,
-    mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
+    mhvAcceleratedDeliveryLabsAndTestsEnabled = true,
+    mhvMedicalRecordsFetchScdfImagingStudies = true,
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
 
     // medications - Cerner pilot
@@ -80,6 +81,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_accelerated_delivery_labs_and_tests_enabled',
           value: mhvAcceleratedDeliveryLabsAndTestsEnabled,
+        },
+        {
+          name: 'mhv_medical_records_fetch_scdf_imaging_studies',
+          value: mhvMedicalRecordsFetchScdfImagingStudies,
         },
         {
           name: 'mhv_landing_page_personalization',

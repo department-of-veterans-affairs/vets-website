@@ -491,6 +491,10 @@ export const OH_ENABLED_TYPES_OF_CARE = [
   // 'socialWork',
 ];
 
+export const CLINIC_HISTORY_MONTHS = {
+  [TYPE_OF_CARE_IDS.MENTAL_HEALTH_PRIMARY_CARE_ID]: 12,
+};
+
 export const TRAVEL_CLAIM_MESSAGES = {
   noClaim: 'No claims found.',
   error: 'Travel Pay service unavailable.',

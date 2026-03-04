@@ -129,7 +129,7 @@ describe('<FilesNeeded>', () => {
     getByText('Description comes from API');
   });
 
-  context('boolean property fallback pattern', () => {
+  context('boolean properties (isSensitive, noProvidePrefix)', () => {
     context('isSensitive', () => {
       it('should use API value when provided', () => {
         const itemWithApiSensitive = {
@@ -137,38 +137,34 @@ describe('<FilesNeeded>', () => {
           displayName: 'ASB - tell us where, when, how exposed',
           description: 'Test description',
           suspenseDate: '2024-12-01',
-          isSensitive: false, // API value is false, dictionary would be true
+          isSensitive: false,
         };
         const { getByText } = renderWithRouter(
           <FilesNeeded claimId={claimId} item={itemWithApiSensitive} />,
         );
-        // Since API value is false, should not show "Request for evidence"
-        // (which only shows for sensitive items)
-        getByText('Request for evidence'); // Shows because there's no friendlyName
+        getByText('Request for evidence'); // No friendlyName so fallback headline is used
       });
 
-      it('should fallback to evidenceDictionary when API value not provided', () => {
-        const itemWithDictSensitive = {
+      it('should default isSensitive to false when not provided', () => {
+        const itemWithoutSensitive = {
           id: 1,
           displayName: 'ASB - tell us where, when, how exposed',
           description: 'Test description',
           suspenseDate: '2024-12-01',
-          // No isSensitive property, should use dictionary value (true)
         };
         const { getByText } = renderWithRouter(
-          <FilesNeeded claimId={claimId} item={itemWithDictSensitive} />,
+          <FilesNeeded claimId={claimId} item={itemWithoutSensitive} />,
         );
         getByText('Request for evidence');
       });
 
-      it('should default to false when neither API nor dictionary has value', () => {
+      it('should default to false when isSensitive not provided and item has friendlyName', () => {
         const itemWithNoSensitive = {
           id: 1,
           displayName: 'Unknown Item Type',
           friendlyName: 'Unknown Item',
           description: 'Test description',
           suspenseDate: '2024-12-01',
-          // No isSensitive property and not in dictionary
         };
         const { getByText } = renderWithRouter(
           <FilesNeeded claimId={claimId} item={itemWithNoSensitive} />,
@@ -186,7 +182,7 @@ describe('<FilesNeeded>', () => {
           friendlyName: 'Clarification of Claimed Issue',
           description: 'Test description',
           suspenseDate: '2024-12-01',
-          noProvidePrefix: false, // API value is false, dictionary would be true
+          noProvidePrefix: false,
         };
         const { getByText } = renderWithRouter(
           <FilesNeeded claimId={claimId} item={itemWithApiNoPrefix} />,
@@ -195,30 +191,27 @@ describe('<FilesNeeded>', () => {
         getByText('Provide clarification of Claimed Issue');
       });
 
-      it('should fallback to evidenceDictionary when API value not provided', () => {
-        const itemWithDictNoPrefix = {
+      it('should default noProvidePrefix to false when not provided', () => {
+        const itemWithoutNoPrefix = {
           id: 1,
           displayName: 'Clarification of Claimed Issue',
           friendlyName: 'Clarification of Claimed Issue',
           description: 'Test description',
           suspenseDate: '2024-12-01',
-          // No noProvidePrefix property, should use dictionary value (true)
         };
         const { getByText } = renderWithRouter(
-          <FilesNeeded claimId={claimId} item={itemWithDictNoPrefix} />,
+          <FilesNeeded claimId={claimId} item={itemWithoutNoPrefix} />,
         );
-        // Should show friendlyName without "Provide" prefix
-        getByText('Clarification of Claimed Issue');
+        getByText('Provide clarification of Claimed Issue');
       });
 
-      it('should default to false when neither API nor dictionary has value', () => {
+      it('should default to false when noProvidePrefix not provided', () => {
         const itemWithNoPrefix = {
           id: 1,
           displayName: 'Unknown Item Type',
           friendlyName: 'Unknown Item',
           description: 'Test description',
           suspenseDate: '2024-12-01',
-          // No noProvidePrefix property and not in dictionary
         };
         const { getByText } = renderWithRouter(
           <FilesNeeded claimId={claimId} item={itemWithNoPrefix} />,

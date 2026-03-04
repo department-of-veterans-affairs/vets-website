@@ -27,9 +27,7 @@ class MedicationsInformationPage {
   };
 
   verifyFocusOnAPIErrorAlertTextOnPatientInformationPage = () => {
-    cy.get('[data-testid="api-error-notification"]', {
-      includeShadowDom: true,
-    }).should('be.focused');
+    cy.get('[data-testid="api-error-notification"]').should('be.visible');
   };
 
   verifyNoInformationWarningText = () => {

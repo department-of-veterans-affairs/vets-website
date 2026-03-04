@@ -117,7 +117,12 @@ const ExtraDetails = ({
         // Both map to "Active" in V2
         if (noRefillRemaining) {
           if (isRenewalBlocked && rx.isRenewable) {
-            return <OracleHealthRenewalInCardAlert />;
+            return (
+              <OracleHealthRenewalInCardAlert
+                stationNumber={rx.stationNumber}
+                prescriptionId={rx.prescriptionId}
+              />
+            );
           }
           return (
             <div className="no-print">
@@ -142,7 +147,12 @@ const ExtraDetails = ({
       case dispStatusObjV2.inactive:
         // All map to "Inactive" in V2
         if (isRenewalBlocked && rx.isRenewable) {
-          return <OracleHealthRenewalInCardAlert />;
+          return (
+            <OracleHealthRenewalInCardAlert
+              stationNumber={rx.stationNumber}
+              prescriptionId={rx.prescriptionId}
+            />
+          );
         }
         return (
           <div>
@@ -163,6 +173,9 @@ const ExtraDetails = ({
         );
 
       case dispStatusObjV2.expired:
+        if (isRenewalBlocked && rx.isRenewable) {
+          return <OracleHealthRenewalInCardAlert isExpired />;
+        }
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="expired">
@@ -307,7 +320,13 @@ const ExtraDetails = ({
 
       case dispStatusObj.expired:
         if (isRenewalBlocked && rx.isRenewable) {
-          return <OracleHealthRenewalInCardAlert />;
+          return (
+            <OracleHealthRenewalInCardAlert
+              stationNumber={rx.stationNumber}
+              prescriptionId={rx.prescriptionId}
+              isExpired
+            />
+          );
         }
         return (
           <div>
@@ -385,7 +404,12 @@ const ExtraDetails = ({
       case dispStatusObj.active:
         if (noRefillRemaining) {
           if (isRenewalBlocked && rx.isRenewable) {
-            return <OracleHealthRenewalInCardAlert />;
+            return (
+              <OracleHealthRenewalInCardAlert
+                stationNumber={rx.stationNumber}
+                prescriptionId={rx.prescriptionId}
+              />
+            );
           }
           return (
             <div className="no-print">

@@ -8,7 +8,7 @@ import {
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-import { customLocationSchema } from '../../../helpers';
+import { customLocationSchema, asciiValidation } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -50,6 +50,7 @@ export const uiSchema = {
             required: 'Enter the city where this occurred',
           },
           'ui:webComponentField': VaTextInputField,
+          'ui:validations': [asciiValidation],
         },
         state: {
           'ui:title': 'State',
