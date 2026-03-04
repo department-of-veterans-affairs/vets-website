@@ -35,9 +35,6 @@ export const CREATE_COMPLEX_CLAIM_FAILURE = 'CREATE_COMPLEX_CLAIM_FAILURE';
 export const UPDATE_EXPENSE_STARTED = 'UPDATE_EXPENSE_STARTED';
 export const UPDATE_EXPENSE_SUCCESS = 'UPDATE_EXPENSE_SUCCESS';
 export const UPDATE_EXPENSE_FAILURE = 'UPDATE_EXPENSE_FAILURE';
-export const DELETE_EXPENSE_STARTED = 'DELETE_EXPENSE_STARTED';
-export const DELETE_EXPENSE_SUCCESS = 'DELETE_EXPENSE_SUCCESS';
-export const DELETE_EXPENSE_FAILURE = 'DELETE_EXPENSE_FAILURE';
 export const CREATE_EXPENSE_STARTED = 'CREATE_EXPENSE_STARTED';
 export const CREATE_EXPENSE_SUCCESS = 'CREATE_EXPENSE_SUCCESS';
 export const CREATE_EXPENSE_FAILURE = 'CREATE_EXPENSE_FAILURE';
@@ -480,77 +477,6 @@ export function updateExpense(claimId, expenseType, expenseId, expenseData) {
       });
 
       dispatch(updateExpenseFailure(error, expenseId));
-      throw error;
-    }
-  };
-}
-
-// Deleting an expense
-const deleteExpenseStart = expenseId => ({
-  type: DELETE_EXPENSE_STARTED,
-  expenseId,
-});
-const deleteExpenseSuccess = expenseId => ({
-  type: DELETE_EXPENSE_SUCCESS,
-  expenseId,
-});
-const deleteExpenseFailure = (error, expenseId) => ({
-  type: DELETE_EXPENSE_FAILURE,
-  error,
-  expenseId,
-});
-
-export function deleteExpense(claimId, expenseType, expenseId) {
-  return async dispatch => {
-    dispatch(deleteExpenseStart(expenseId));
-
-    try {
-      if (!expenseType) {
-        throw new Error('Missing expense type');
-      } else if (!expenseId) {
-        throw new Error('Missing expense id');
-      }
-
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'DELETE expense',
-        'api-status': 'started',
-      });
-
-      const options = {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-
-      const expenseUrl = `${
-        environment.API_URL
-      }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
-      await apiRequest(expenseUrl, options);
-
-      // Fetch the complete complex claim details and load expenses into store
-      await dispatch(getComplexClaimDetails(claimId));
-
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'DELETE expense',
-        'api-status': 'successful',
-        'expense-type': expenseType,
-      });
-
-      // Dispatch success only after claim details are fetched
-      dispatch(deleteExpenseSuccess(expenseId));
-      return { id: expenseId };
-    } catch (error) {
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'DELETE expense',
-        'api-status': 'failed',
-        'expense-type': expenseType,
-      });
-
-      dispatch(deleteExpenseFailure(error, expenseId));
       throw error;
     }
   };

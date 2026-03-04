@@ -12,7 +12,6 @@ import {
   submitComplexClaim,
   createExpense,
   updateExpense,
-  deleteExpense,
   deleteExpenseDeleteDocument,
   setExpenseBackDestination,
   SET_EXPENSE_BACK_DESTINATION,
@@ -838,124 +837,6 @@ describe('Redux - actions', () => {
     });
   });
 
-  describe('Delete Expense', () => {
-    it('should call correct actions for delete expense success', async () => {
-      const mockDispatch = sinon.spy();
-      apiStub.resolves(); // DELETE requests typically return empty response
-
-      await deleteExpense('claim123', 'mileage', 'exp123')(mockDispatch);
-
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
-        .to.be.true;
-      expect(
-        mockDispatch.calledWithMatch({
-          type: 'DELETE_EXPENSE_SUCCESS',
-          expenseId: 'exp123',
-        }),
-      ).to.be.true;
-    });
-
-    it('should call correct actions for delete expense failure', async () => {
-      const mockDispatch = sinon.spy();
-      apiStub.rejects(new Error('Failed to delete expense'));
-
-      try {
-        await deleteExpense('claim123', 'mileage', 'exp123')(mockDispatch);
-      } catch (error) {
-        // Expected to throw
-      }
-
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
-        .to.be.true;
-      expect(
-        mockDispatch.calledWithMatch({
-          type: 'DELETE_EXPENSE_FAILURE',
-          error: sinon.match.instanceOf(Error),
-        }),
-      ).to.be.true;
-    });
-
-    it('should throw error when expense type is missing', async () => {
-      const mockDispatch = sinon.spy();
-
-      try {
-        await deleteExpense('claim123', null, 'exp123')(mockDispatch);
-        expect.fail('Expected an error to be thrown');
-      } catch (error) {
-        expect(error.message).to.equal('Missing expense type');
-      }
-
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
-        .to.be.true;
-      expect(
-        mockDispatch.calledWithMatch({
-          type: 'DELETE_EXPENSE_FAILURE',
-          error: sinon.match.instanceOf(Error),
-        }),
-      ).to.be.true;
-    });
-
-    it('should throw error when expense id is missing', async () => {
-      const mockDispatch = sinon.spy();
-
-      try {
-        await deleteExpense('claim123', 'mileage', null)(mockDispatch);
-        expect.fail('Expected an error to be thrown');
-      } catch (error) {
-        expect(error.message).to.equal('Missing expense id');
-      }
-
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
-        .to.be.true;
-      expect(
-        mockDispatch.calledWithMatch({
-          type: 'DELETE_EXPENSE_FAILURE',
-          error: sinon.match.instanceOf(Error),
-        }),
-      ).to.be.true;
-    });
-
-    it('should throw error when expense type is undefined', async () => {
-      const mockDispatch = sinon.spy();
-
-      try {
-        await deleteExpense('claim123', undefined, 'exp123')(mockDispatch);
-        expect.fail('Expected an error to be thrown');
-      } catch (error) {
-        expect(error.message).to.equal('Missing expense type');
-      }
-
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
-        .to.be.true;
-      expect(
-        mockDispatch.calledWithMatch({
-          type: 'DELETE_EXPENSE_FAILURE',
-          error: sinon.match.instanceOf(Error),
-        }),
-      ).to.be.true;
-    });
-
-    it('should throw error when expense id is undefined', async () => {
-      const mockDispatch = sinon.spy();
-
-      try {
-        await deleteExpense('claim123', 'mileage', undefined)(mockDispatch);
-        expect.fail('Expected an error to be thrown');
-      } catch (error) {
-        expect(error.message).to.equal('Missing expense id');
-      }
-
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
-        .to.be.true;
-      expect(
-        mockDispatch.calledWithMatch({
-          type: 'DELETE_EXPENSE_FAILURE',
-          error: sinon.match.instanceOf(Error),
-        }),
-      ).to.be.true;
-    });
-  });
-
   describe('deleteExpenseDeleteDocument', () => {
     let mockDispatch;
     beforeEach(() => {
@@ -978,14 +859,16 @@ describe('Redux - actions', () => {
         expenseId,
       )(mockDispatch);
 
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
-        .to.be.true;
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_SUCCESS' }))
-        .to.be.true;
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_DOCUMENT_STARTED' }))
-        .to.be.true;
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_DOCUMENT_SUCCESS' }))
-        .to.be.true;
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'DELETE_EXPENSE_DELETE_DOCUMENT_STARTED',
+        }),
+      ).to.be.true;
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'DELETE_EXPENSE_DELETE_DOCUMENT_SUCCESS',
+        }),
+      ).to.be.true;
     });
 
     it('should skip document deletion for MILEAGE expense', async () => {
@@ -1000,14 +883,16 @@ describe('Redux - actions', () => {
         expenseId,
       )(mockDispatch);
 
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
-        .to.be.true;
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_SUCCESS' }))
-        .to.be.true;
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_DOCUMENT_STARTED' }))
-        .to.be.false; // document deletion should be skipped
-      expect(mockDispatch.calledWithMatch({ type: 'DELETE_DOCUMENT_SUCCESS' }))
-        .to.be.false;
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'DELETE_EXPENSE_DELETE_DOCUMENT_STARTED',
+        }),
+      ).to.be.true;
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'DELETE_EXPENSE_DELETE_DOCUMENT_SUCCESS',
+        }),
+      ).to.be.true;
     });
 
     it('should throw error if expenseType is missing', async () => {

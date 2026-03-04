@@ -14,9 +14,6 @@ import {
   DELETE_EXPENSE_DELETE_DOCUMENT_FAILURE,
   DELETE_EXPENSE_DELETE_DOCUMENT_STARTED,
   DELETE_EXPENSE_DELETE_DOCUMENT_SUCCESS,
-  DELETE_EXPENSE_FAILURE,
-  DELETE_EXPENSE_STARTED,
-  DELETE_EXPENSE_SUCCESS,
   FETCH_APPOINTMENT_FAILURE,
   FETCH_APPOINTMENT_STARTED,
   FETCH_APPOINTMENT_SUCCESS,
@@ -483,7 +480,6 @@ function travelPayReducer(state = initialState, action) {
         },
       };
 
-    case DELETE_EXPENSE_STARTED:
     case DELETE_EXPENSE_DELETE_DOCUMENT_STARTED: {
       return {
         ...state,
@@ -500,26 +496,6 @@ function travelPayReducer(state = initialState, action) {
         },
       };
     }
-    case DELETE_EXPENSE_SUCCESS: {
-      return {
-        ...state,
-        complexClaim: {
-          ...state.complexClaim,
-          expenses: {
-            ...state.complexClaim.expenses,
-            delete: {
-              id: '',
-              isLoading: false,
-              error: null,
-            },
-            data: state.complexClaim.expenses.data.filter(
-              expense => expense.id !== action.expenseId,
-            ),
-          },
-        },
-      };
-    }
-    case DELETE_EXPENSE_FAILURE:
     case DELETE_EXPENSE_DELETE_DOCUMENT_FAILURE:
       return {
         ...state,
