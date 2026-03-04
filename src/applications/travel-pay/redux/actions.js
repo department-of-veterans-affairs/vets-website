@@ -656,40 +656,6 @@ const deleteDocumentFailure = (error, documentId) => ({
   documentId,
 });
 
-export function deleteDocument(claimId, documentId) {
-  return async dispatch => {
-    dispatch(deleteDocumentStart(documentId));
-
-    try {
-      if (!documentId) {
-        throw new Error('Missing document id');
-      }
-
-      const options = {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-
-      const documentUrl = `${
-        environment.API_URL
-      }/travel_pay/v0/claims/${claimId}/documents/${documentId}`;
-      await apiRequest(documentUrl, options);
-
-      // Fetch the complete complex claim details and load expenses into store
-      await dispatch(getComplexClaimDetails(claimId));
-
-      // Dispatch success only after claim details are fetched
-      dispatch(deleteDocumentSuccess(documentId));
-      return { id: documentId };
-    } catch (error) {
-      dispatch(deleteDocumentFailure(error, documentId));
-      throw error;
-    }
-  };
-}
-
 export function updateExpenseDeleteDocument(
   claimId,
   documentId,
@@ -757,6 +723,22 @@ export function updateExpenseDeleteDocument(
   };
 }
 
+// Deleting an expense and its document as a single operation
+const deleteExpenseDeleteDocumentStart = expenseId => ({
+  type: DELETE_EXPENSE_DELETE_DOCUMENT_STARTED,
+  expenseId,
+});
+const deleteExpenseDeleteDocumentSuccess = (expenseId, claimDetails) => ({
+  type: DELETE_EXPENSE_DELETE_DOCUMENT_SUCCESS,
+  expenseId,
+  payload: claimDetails,
+});
+const deleteExpenseDeleteDocumentFailure = (error, expenseId) => ({
+  type: DELETE_EXPENSE_DELETE_DOCUMENT_FAILURE,
+  error,
+  expenseId,
+});
+
 /**
  * Deletes an expense and its associated document, in that order.
  * After deletion, fetches updated claim details.
@@ -772,8 +754,7 @@ export function deleteExpenseDeleteDocument(
   expenseId,
 ) {
   return async dispatch => {
-    // Delete the expense first
-    dispatch(deleteExpenseStart(expenseId));
+    dispatch(deleteExpenseDeleteDocumentStart(expenseId));
 
     try {
       if (!expenseType) {
@@ -782,6 +763,7 @@ export function deleteExpenseDeleteDocument(
         throw new Error('Missing expense id');
       }
 
+      // Delete the expense first
       const deleteExpenseOptions = {
         method: 'DELETE',
         headers: {
@@ -794,18 +776,10 @@ export function deleteExpenseDeleteDocument(
       }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
       await apiRequest(expenseUrl, deleteExpenseOptions);
 
-      dispatch(deleteExpenseSuccess(expenseId));
-    } catch (error) {
-      dispatch(deleteExpenseFailure(error, expenseId));
-      throw error;
-    }
-
-    // Only delete the associated document if this is NOT a mileage expense
-    if (expenseType.toUpperCase() !== EXPENSE_TYPE_KEYS.MILEAGE.toUpperCase()) {
-      // Delete the document for non-mileage expenses
-      try {
-        dispatch(deleteDocumentStart(documentId));
-
+      // Only delete the associated document if this is NOT a mileage expense
+      if (
+        expenseType.toUpperCase() !== EXPENSE_TYPE_KEYS.MILEAGE.toUpperCase()
+      ) {
         if (!documentId) {
           throw new Error('Missing document id');
         }
@@ -821,32 +795,18 @@ export function deleteExpenseDeleteDocument(
           environment.API_URL
         }/travel_pay/v0/claims/${claimId}/documents/${documentId}`;
         await apiRequest(documentUrl, deleteDocumentOptions);
-        dispatch(deleteDocumentSuccess(documentId));
-      } catch (error) {
-        /**
-         * We delete the expense first. If deleting the document fails afterward,
-         * we may end up with an orphaned (unlinked) document. This won’t break
-         * the claim and is acceptable.
-         *
-         * We do this because:
-         * - Once an expense is deleted, there’s no way to “undo” that deletion.
-         * - If we deleted the document first and the expense delete failed,
-         *   we’d still have no reliable way to re-associate the document back
-         *   to the original expense.
-         *
-         * In both failure orders, rolling back is impossible, so we choose the
-         * safer sequence: delete the expense first, then the document.
-         */
-        dispatch(deleteDocumentFailure(error, documentId));
-        throw error;
       }
+
+      // Fetch updated claim details after all deletions succeed
+      const response = await apiRequest(
+        `${environment.API_URL}/travel_pay/v0/claims/${claimId}`,
+      );
+
+      dispatch(deleteExpenseDeleteDocumentSuccess(expenseId, response));
+    } catch (error) {
+      dispatch(deleteExpenseDeleteDocumentFailure(error, expenseId));
+      throw error;
     }
-    /**
-     * After deleting the expense and for nonmileage expenses the document, fetch the
-     * updated claim details. If this fetch fails, we ignore the error because the deletions
-     * have already completed successfully.
-     */
-    await dispatch(getComplexClaimDetails(claimId));
   };
 }
 
