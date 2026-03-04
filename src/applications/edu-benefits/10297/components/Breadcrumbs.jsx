@@ -18,8 +18,8 @@ const Breadcrumbs = () => {
       label: 'Other VA education benefits',
     },
     {
-      href: 'education/other-va-education-benefits/vet-tec-2',
-      label: 'VET TEC 2.0 (high-tech program)',
+      href: '/education/other-va-education-benefits/vet-tec-2',
+      label: 'VET TEC 2.0',
     },
     {
       href: manifest.rootUrl,
