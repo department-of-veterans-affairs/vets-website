@@ -77,6 +77,6 @@ describe('Skip map link', () => {
 
     cy.get(SKIP_MAP_LINK)
       .focus()
-      .should('be.focused');
+      .should('have.focus');
   });
 });
