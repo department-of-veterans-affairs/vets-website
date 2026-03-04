@@ -300,7 +300,7 @@ const Prescriptions = () => {
           className={`landing-page-content vads-u-margin-top--${contentMarginTop} mobile-lg:vads-u-margin-top--${contentMarginTop}`}
         >
           <h2 className="vads-u-margin-y--3" data-testid="med-list">
-            Medications list
+            Medications list Min Test
           </h2>
           <MedicationsListFilter
             updateFilter={updateFilterAndSort}
