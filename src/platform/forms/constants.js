@@ -379,9 +379,9 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_10_10D,
-    benefit: 'application for champva benefits',
-    title: 'application for champva benefits (10-10D)',
-    description: 'application for champva benefits application (10-10D)',
+    benefit: 'CHAMPVA benefits',
+    title: 'application for CHAMPVA benefits (10-10D)',
+    description: 'application for CHAMPVA benefits (10-10D)',
     trackingPrefix: '10-10D-',
   },
   {

@@ -121,9 +121,6 @@ export const selectFeatureListViewClinicInfo = state =>
 export const selectFeatureAddOhAvs = state =>
   toggleValues(state).vaOnlineSchedulingAddOhAvs;
 
-export const selectFeatureImmediateCareAlert = state =>
-  toggleValues(state).vaOnlineSchedulingImmediateCareAlert;
-
 export const selectFeatureRemoveFacilityConfigCheck = state =>
   toggleValues(state).vaOnlineSchedulingRemoveFacilityConfigCheck;
 
