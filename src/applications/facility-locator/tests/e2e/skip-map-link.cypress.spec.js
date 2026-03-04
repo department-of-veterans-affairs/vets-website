@@ -34,10 +34,6 @@ describe('Skip map link', () => {
       /(Showing|Results).*VA health.*near.*Austin, Texas/i,
     );
 
-    cy.get(SKIP_MAP_LINK)
-      .focus()
-      .click();
-
     // Wait for a focus target to exist before clicking (footer/feedback load async)
     cy.get('body').should($body => {
       const hasFooterFocusable =
@@ -49,6 +45,10 @@ describe('Skip map link', () => {
         'either first focusable in footer or feedback button must be present in the DOM',
       ).to.be.true;
     });
+
+    cy.get(SKIP_MAP_LINK)
+      .focus()
+      .click();
 
     // Focus should move off the map: either to the feedback button or to a footer link
     cy.focused().should(
