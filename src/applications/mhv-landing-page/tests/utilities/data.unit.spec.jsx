@@ -150,7 +150,7 @@ describe(manifest.appName, () => {
           // Check the new appointments link is the last link
           const lastLink = paymentsLinks[paymentsLinks.length - 1];
           expect(lastLink.href).to.equal(
-            'https://www.va.gov/my-health/appointments/past',
+            '/my-health/appointments/past',
           );
           expect(lastLink.text).to.equal(
             'Go to past appointments to file for travel pay',
@@ -188,7 +188,7 @@ describe(manifest.appName, () => {
           // Check the new appointments link is the last link
           const lastLink = paymentsLinks[paymentsLinks.length - 1];
           expect(lastLink.href).to.equal(
-            'https://www.va.gov/my-health/appointments/past',
+            '/my-health/appointments/past',
           );
           expect(lastLink.text).to.equal(
             'Go to past appointments to file for travel pay',
@@ -217,7 +217,7 @@ describe(manifest.appName, () => {
           // Check the new appointments link is the last link
           const lastLink = paymentsLinks[paymentsLinks.length - 1];
           expect(lastLink.href).to.equal(
-            'https://www.va.gov/my-health/appointments/past',
+            '/my-health/appointments/past',
           );
           expect(lastLink.text).to.equal(
             'Go to past appointments to file for travel pay',
