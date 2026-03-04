@@ -31,14 +31,14 @@ export function NeedHelp({ item }) {
     <va-need-help class="vads-u-margin-top--4">
       <div slot="content">
         <p>
-          Call the VA benefits hotline at <va-telephone contact="8008271000" />.
-          We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you
-          have hearing loss, <va-telephone contact="711" tty="true" />.
+          Call us at <va-telephone contact="8008271000" />. We're here Monday
+          through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have hearing loss,{' '}
+          <va-telephone contact="711" tty="true" />.
         </p>
         {alias && (
           <p>
-            The VA benefits hotline may refer to the “
-            {TrackedItem.getDisplayFriendlyName(item)}” request as {alias}
+            We may refer to the “{TrackedItem.getDisplayFriendlyName(item)}”
+            request as {alias}
           </p>
         )}
       </div>
