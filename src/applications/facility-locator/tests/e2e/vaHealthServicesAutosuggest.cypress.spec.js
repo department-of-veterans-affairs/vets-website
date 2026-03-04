@@ -1,13 +1,9 @@
 import * as h from './helpers';
 import vaHealthServicesData from '../hooks/test-va-healthcare-services.json';
 import searchResultsData from './autosuggest-data/services-autosuggest.json';
-import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 describe('VA health services autosuggest', () => {
   beforeEach(() => {
-    // Match both proxied (/geocoding/) and direct Mapbox API (api.mapbox.com/geocoding/) requests
-    cy.intercept('GET', '**/geocoding/**', mockGeocodingData).as('geocoding');
-
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         features: [
@@ -29,7 +25,7 @@ describe('VA health services autosuggest', () => {
       vaHealthServicesData.data,
     ).as('vaHealthServices');
 
-    cy.intercept('POST', '**/facilities_api/v2/va*', searchResultsData).as(
+    cy.intercept('POST', '**/facilities_api/v2/va', searchResultsData).as(
       'searchResultsData',
     );
   });
@@ -47,28 +43,24 @@ describe('VA health services autosuggest', () => {
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
 
-      h.typeInCityStateInput('Austin, TX');
+      h.typeInCityStateInput('Atlanta, GA');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.HEALTH);
 
       cy.wait('@vaHealthServices');
 
       h.verifyElementExists(h.AUTOSUGGEST_INPUT);
 
-      // Open dropdown with no search, verify services are available inside, search
+      // Verify that the autosuggest dropdown does not open when its clicked into with no input
       h.clickElement(h.AUTOSUGGEST_ARROW);
-      verifyDropdownIsOpen();
-      h.verifyElementByText('All VA health services').click();
       verifyDropdownIsClosed();
 
       h.submitSearchForm();
 
-      // Wait for geocoding to complete so bounds are set, then facilities API is called
-      cy.wait('@geocoding');
       cy.wait('@searchResultsData');
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        'results for "VA health", "All VA health services" near "Austin, TX"',
+        'results for "VA health", "All VA health services" near "Atlanta, Georgia',
       );
 
       h.clickElement(h.AUTOSUGGEST_CLEAR);
@@ -85,7 +77,7 @@ describe('VA health services autosuggest', () => {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        'results for "VA health", "Polytrauma and traumatic brain injury (TBI and multiple traumas)" near "Austin, TX"',
+        'results for "VA health", "Polytrauma and traumatic brain injury (TBI and multiple traumas)" near "Atlanta, Georgia"',
       );
 
       h.clickElement(h.AUTOSUGGEST_ARROW);
