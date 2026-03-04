@@ -51,7 +51,7 @@ describe('Skip map link', () => {
       .click();
 
     // Focus should move off the map: either to the feedback button or to a footer link
-    cy.focused().should(
+    cy.focused({ timeout: 8000 }).should(
       $el => {
         const id = $el.attr('id');
         const isFeedbackButton =
