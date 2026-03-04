@@ -88,6 +88,18 @@ export const getCardDescription = item => {
   const countryCode = item?.providerAddress?.country;
   const countryObj = countries.find(country => country.value === countryCode);
   const countryName = countryObj?.label || countryCode;
+  const mappedState = country => {
+    switch (country) {
+      case 'CAN':
+      case 'MEX': {
+        return constants.states[countryCode].find(
+          state => state.value === item?.providerAddress?.state,
+        )?.label;
+      }
+      default:
+        return item?.providerAddress?.state;
+    }
+  };
 
   return item ? (
     <>
@@ -102,9 +114,7 @@ export const getCardDescription = item => {
               ? ','
               : ''
           }`}
-          {item?.providerAddress?.state
-            ? ` ${item?.providerAddress?.state}`
-            : ''}
+          {item?.providerAddress?.state ? ` ${mappedState(countryCode)}` : ''}
           {item?.providerAddress?.postalCode !== 'NA'
             ? ` ${item?.providerAddress?.postalCode}`
             : ''}
@@ -658,11 +668,11 @@ export const addressSpecifications = {
     MILITARY: {
       errorMessages: {
         required:
-          'Select an Abbreviation: AA (Armed Forces America), AE (Armed Forces Europe), or AP (Armed Forces Pacific)',
+          'Select a type of military post office: APO (Air or Army post office), DPO (Diplomatic post office), or FPO (Fleet post office)',
         enum:
-          'Select an Abbreviation: AA (Armed Forces America), AE (Armed Forces Europe), or AP (Armed Forces Pacific)',
+          'Select a type of military post office: APO (Air or Army post office), DPO (Diplomatic post office), or FPO (Fleet post office)',
       },
-      label: 'AA/AE/AP',
+      label: 'APO/DPO/FPO',
     },
   },
   state: {
@@ -689,18 +699,20 @@ export const addressSpecifications = {
     },
     MILITARY: {
       errorMessages: {
-        required: 'Select an abbreviation: AA, AE, or AP',
-        enum: 'Select an abbreviation: AA, AE, or AP',
+        required:
+          'Select an abbreviation: AA (Armed Forces America), AE (Armed Forces Europe), or AP (Armed Forces Pacific)',
+        enum:
+          'Select an abbreviation: AA (Armed Forces America), AE (Armed Forces Europe), or AP (Armed Forces Pacific)',
       },
       label: 'AA/AE/AP',
     },
     OTHER: {
       label: 'State, county, or province',
       minLength: 2,
-      maxLength: 40,
+      maxLength: 25,
       errorMessages: {
         minLength:
-          'Enter a minimum of 2 characters and maximum of 40 characters',
+          'Enter a minimum of 2 characters and maximum of 25 characters',
       },
     },
   },
@@ -719,42 +731,47 @@ export const addressSpecifications = {
     },
     MILITARY: {
       errorMessages: {
-        required: {
-          AA:
-            'Enter a valid zip code for AA. Must start with 360 and be a 5-digit or 9-digit zip code',
-          AE:
-            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
-          AP:
-            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+        DEFAULT: {
+          required: 'Enter a valid 5-digit or 9-digit zip code',
+          pattern: 'Enter a valid 5-digit or 9-digit zip code',
+          minLength: 'Enter a valid 5-digit or 9-digit zip code',
+          maxLength: 'Enter a valid 5-digit or 9-digit zip code',
         },
-        pattern: {
-          AA:
-            'Enter a valid zip code for AA. Must start with 360 and be a 5-digit or 9-digit zip code',
-          AE:
-            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
-          AP:
-            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+        AA: {
+          required:
+            'Enter a valid zip code for AA. Must start with 340 and be a 5-digit or 9-digit zip code',
+          pattern:
+            'Enter a valid zip code for AA. Must start with 340 and be a 5-digit or 9-digit zip code',
+          minLength:
+            'Enter a valid zip code for AA. Must start with 340 and be a 5-digit or 9-digit zip code',
+          maxLength:
+            'Enter a valid zip code for AA. Must start with 340 and be a 5-digit or 9-digit zip code',
         },
-        minLength: {
-          AA:
-            'Enter a valid zip code for AA. Must start with 360 and be a 5-digit or 9-digit zip code',
-          AE:
+        AE: {
+          required:
             'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
-          AP:
-            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+          pattern:
+            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
+          minLength:
+            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
+          maxLength:
+            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
         },
-        maxLength: {
-          AA:
-            'Enter a valid zip code for AA. Must start with 360 and be a 5-digit or 9-digit zip code',
-          AE:
-            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
-          AP:
+        AP: {
+          required:
+            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+          pattern:
+            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+          minLength:
+            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+          maxLength:
             'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
         },
       },
       label: 'Zip code',
       pattern: {
-        AA: '(^360\\d{2}$)|(^360\\d{2}[ -]{0,1}\\d{4}$)',
+        DEFAULT: '(^\\d{5}$)|(^\\d{5}[ -]{0,1}\\d{4})$',
+        AA: '(^340\\d{2}$)|(^340\\d{2}[ -]{0,1}\\d{4}$)',
         AE: '(^09\\d{3}$)|(^09\\d{3}[ -]{0,1}\\d{4}$)',
         AP: '(^96[2-6]\\d{2}$)|(^96[2-6]\\d{2}[ -]{0,1}\\d{4}$)',
       },
@@ -803,20 +820,86 @@ export const addressSpecifications = {
   },
 };
 
-export const addressUiSchema = ({ baseUiSchema }) => {
+export const addressUiSchema = ({
+  baseUiSchema,
+  allowMilitaryAddress = false,
+  militaryBaseKey = 'isMilitary',
+  addressKey = 'mailingAddress',
+}) => {
   return {
     ...baseUiSchema,
+    ...(allowMilitaryAddress && {
+      'view:militaryBaseDescription': {
+        'ui:description': (
+          <va-additional-info trigger="Learn more about military base addresses">
+            <span>
+              U.S. military bases are considered a domestic address and a part
+              of the United States.
+            </span>
+          </va-additional-info>
+        ),
+      },
+    }),
+    country: {
+      ...baseUiSchema.country,
+      ...(allowMilitaryAddress && { 'ui:webComponentField': undefined }),
+      'ui:options': {
+        ...baseUiSchema.country['ui:options'],
+        updateSchema: (formData, _schema, _uiSchema) => {
+          const countryUI = _uiSchema;
+          const addressFormData = formData?.[addressKey];
+          const livesOnMilitaryBase = formData?.[addressKey]?.[militaryBaseKey];
+          if (livesOnMilitaryBase) {
+            countryUI['ui:disabled'] = true;
+            const USA = {
+              value: 'USA',
+              label: 'United States',
+            };
+            addressFormData.country = USA.value;
+            return {
+              enum: [USA.value],
+              enumNames: [USA.label],
+              default: USA.value,
+            };
+          }
+          countryUI['ui:disabled'] = false;
+          return {
+            type: 'string',
+            enum: constants.countries.map(country => country.value),
+            enumNames: constants.countries.map(country => country.label),
+          };
+        },
+      },
+    },
     street: {
       ...baseUiSchema.street,
+      ...(allowMilitaryAddress && { 'ui:webComponentField': undefined }),
       'ui:errorMessages': addressSpecifications.street.errorMessages,
+    },
+    street2: {
+      ...baseUiSchema.street2,
+      ...(allowMilitaryAddress && { 'ui:webComponentField': undefined }),
     },
     city: {
       ...baseUiSchema.city,
+      ...(allowMilitaryAddress && { 'ui:webComponentField': undefined }),
       'ui:options': {
         ...baseUiSchema.city['ui:options'],
-        replaceSchema: (_formData, _schema, _uiSchema) => {
+        replaceSchema: (formData, _schema, _uiSchema) => {
           const cityUI = _uiSchema;
           cityUI['ui:errorMessages'] = addressSpecifications.city.errorMessages;
+
+          const livesOnMilitaryBase = formData?.[addressKey]?.[militaryBaseKey];
+          if (livesOnMilitaryBase) {
+            cityUI['ui:errorMessages'] =
+              addressSpecifications.city.MILITARY.errorMessages;
+            return {
+              type: 'string',
+              title: addressSpecifications.city.MILITARY.label,
+              enum: ['APO', 'DPO', 'FPO'],
+            };
+          }
+
           return {
             type: 'string',
             title: 'City',
@@ -833,13 +916,32 @@ export const addressUiSchema = ({ baseUiSchema }) => {
         replaceSchema: (formData, _schema, _uiSchema, index) => {
           const stateUI = _uiSchema;
           const country =
-            formData.trainingProviders?.[index]?.providerAddress?.country ||
-            formData.providerAddress?.country;
+            formData?.[addressKey]?.country ||
+            formData.trainingProviders?.[index]?.[addressKey]?.country;
+
+          const livesOnMilitaryBase = formData?.[addressKey]?.[militaryBaseKey];
+          if (livesOnMilitaryBase) {
+            stateUI['ui:errorMessages'] =
+              addressSpecifications.state.MILITARY.errorMessages;
+            stateUI['ui:webComponentField'] = undefined;
+            return {
+              type: 'string',
+              title: addressSpecifications.state.MILITARY.label,
+              enum: ['AA', 'AE', 'AP'],
+              enumNames: [
+                'AA (Armed Forces Americas)',
+                'AE (Armed Forces Europe)',
+                'AP (Armed Forces Pacific)',
+              ],
+            };
+          }
 
           if (['USA', 'CAN', 'MEX'].includes(country)) {
             stateUI['ui:errorMessages'] =
               addressSpecifications.state[country].errorMessages;
-            stateUI['ui:webComponentField'] = VaSelectField;
+            stateUI['ui:webComponentField'] = allowMilitaryAddress
+              ? undefined
+              : VaSelectField;
             return {
               type: 'string',
               title: addressSpecifications.state[country].label,
@@ -850,7 +952,9 @@ export const addressUiSchema = ({ baseUiSchema }) => {
 
           stateUI['ui:errorMessages'] =
             addressSpecifications.state.OTHER.errorMessages;
-          stateUI['ui:webComponentField'] = VaTextInputField;
+          stateUI['ui:webComponentField'] = allowMilitaryAddress
+            ? undefined
+            : VaTextInputField;
           return {
             type: 'string',
             title: addressSpecifications.state.OTHER.label,
@@ -863,13 +967,14 @@ export const addressUiSchema = ({ baseUiSchema }) => {
     postalCode: {
       ...baseUiSchema.postalCode,
       'ui:title': undefined,
+      ...(allowMilitaryAddress && { 'ui:webComponentField': undefined }),
       'ui:options': {
         ...baseUiSchema.postalCode['ui:options'],
         widgetClassNames: undefined,
         replaceSchema: (formData, _schema, _uiSchema, index) => {
           const country =
-            formData.trainingProviders?.[index]?.providerAddress?.country ||
-            formData.providerAddress?.country;
+            formData?.[addressKey]?.country ||
+            formData.trainingProviders?.[index]?.[addressKey]?.country;
 
           const newUiSchema = _uiSchema;
           const newSchema = {
@@ -883,7 +988,41 @@ export const addressUiSchema = ({ baseUiSchema }) => {
           newUiSchema['ui:errorMessages'] =
             addressSpecifications.postalCode.OTHER.errorMessages;
 
-          if (country === 'USA') {
+          const livesOnMilitaryBase = formData?.[addressKey]?.[militaryBaseKey];
+
+          if (livesOnMilitaryBase) {
+            newSchema.title = addressSpecifications.postalCode.MILITARY.label;
+            newSchema.minLength =
+              addressSpecifications.postalCode.MILITARY.minLength;
+            newSchema.maxLength =
+              addressSpecifications.postalCode.MILITARY.maxLength;
+
+            switch (formData?.[addressKey]?.state) {
+              case 'AA':
+                newSchema.pattern =
+                  addressSpecifications.postalCode.MILITARY.pattern.AA;
+                newUiSchema['ui:errorMessages'] =
+                  addressSpecifications.postalCode.MILITARY.errorMessages.AA;
+                break;
+              case 'AE':
+                newSchema.pattern =
+                  addressSpecifications.postalCode.MILITARY.pattern.AE;
+                newUiSchema['ui:errorMessages'] =
+                  addressSpecifications.postalCode.MILITARY.errorMessages.AE;
+                break;
+              case 'AP':
+                newSchema.pattern =
+                  addressSpecifications.postalCode.MILITARY.pattern.AP;
+                newUiSchema['ui:errorMessages'] =
+                  addressSpecifications.postalCode.MILITARY.errorMessages.AP;
+                break;
+              default:
+                newSchema.pattern =
+                  addressSpecifications.postalCode.MILITARY.pattern.DEFAULT;
+                newUiSchema['ui:errorMessages'] =
+                  addressSpecifications.postalCode.MILITARY.errorMessages.DEFAULT;
+            }
+          } else if (country === 'USA') {
             newSchema.pattern = addressSpecifications.postalCode.USA.pattern;
             newSchema.title = addressSpecifications.postalCode.USA.label;
             newSchema.minLength =
