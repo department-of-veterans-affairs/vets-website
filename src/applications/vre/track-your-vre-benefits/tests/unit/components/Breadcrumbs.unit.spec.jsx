@@ -40,41 +40,42 @@ const getCrumbs = links =>
   }));
 
 describe('<Breadcrumbs>', () => {
-  it('renders eligibility breadcrumbs on the public eligibility route', () => {
-    const { getByTestId, getAllByRole } = renderPage(
-      '/careers-employment/your-vre-eligibility',
-    );
-
-    expect(getByTestId('breadcrumbs')).to.exist;
-    expect(getCrumbs(getAllByRole('link'))).to.deep.equal([
-      { href: '/', label: 'VA.gov home' },
-      { href: '/careers-employment', label: 'Careers and employment' },
-      {
-        href: '/careers-employment/your-vre-eligibility',
-        label: 'Your VR&E eligibility and benefits',
-      },
-    ]);
-  });
-
-  it('renders eligibility breadcrumbs on the app root route', () => {
+  it('renders benefit-status breadcrumbs on the app root route', () => {
     const { getAllByRole } = renderPage('/');
 
     expect(getCrumbs(getAllByRole('link'))).to.deep.equal([
       { href: '/', label: 'VA.gov home' },
       { href: '/careers-employment', label: 'Careers and employment' },
       {
-        href: '/careers-employment/your-vre-eligibility',
-        label: 'Your VR&E eligibility and benefits',
+        href: '/careers-employment/track-your-vre-benefits',
+        label: 'Track your VR&E benefits',
+      },
+      {
+        href: '/careers-employment/track-your-vre-benefits/vre-benefit-status',
+        label: 'Your VR&E benefit status',
       },
     ]);
   });
 
-  it('falls back to base breadcrumbs when the route does not match', () => {
-    const { getAllByRole } = renderPage('/careers-employment/unknown');
+  it('renders career planning breadcrumbs for the nested route', () => {
+    const { getAllByRole } = renderPage('/career-planning');
 
     expect(getCrumbs(getAllByRole('link'))).to.deep.equal([
       { href: '/', label: 'VA.gov home' },
       { href: '/careers-employment', label: 'Careers and employment' },
+      {
+        href: '/careers-employment/track-your-vre-benefits',
+        label: 'Track your VR&E benefits',
+      },
+      {
+        href: '/careers-employment/track-your-vre-benefits/vre-benefit-status',
+        label: 'Your VR&E benefit status',
+      },
+      {
+        href:
+          '/careers-employment/track-your-vre-benefits/vre-benefit-status/career-planning',
+        label: 'Career Planning',
+      },
     ]);
   });
 });
