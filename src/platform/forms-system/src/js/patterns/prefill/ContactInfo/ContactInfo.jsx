@@ -11,6 +11,7 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
+import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
 import AddressView from 'platform/user/profile/vap-svc/components/AddressField/AddressView';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
@@ -274,8 +275,30 @@ export const ContactInfoBase = ({
     [missingInfo, hasInitialized, testContinueAlert],
   );
 
-  const MainHeader = onReviewPage ? 'h4' : 'h3';
-  const headerLevel = contactSectionHeadingLevel || (onReviewPage ? '5' : '4');
+  const isMinimalHeader = isMinimalHeaderPath();
+
+  let MainHeader = 'h3';
+  if (onReviewPage) {
+    MainHeader = 'h4';
+  } else if (isMinimalHeader) {
+    MainHeader = 'h1';
+  }
+
+  const mainHeaderClass =
+    isMinimalHeader && !onReviewPage
+      ? 'vads-u-margin-top--3 vads-u-margin-bottom--0 vads-u-font-size--h2'
+      : 'vads-u-margin-top--3 vads-u-margin-bottom--0';
+
+  let headerLevel = contactSectionHeadingLevel;
+  if (!headerLevel) {
+    if (isMinimalHeader) {
+      headerLevel = '3';
+    } else if (onReviewPage) {
+      headerLevel = '5';
+    } else {
+      headerLevel = '4';
+    }
+  }
 
   // Helper function to render email addresses consistently
   const renderEmail = emailData => {
@@ -632,7 +655,7 @@ export const ContactInfoBase = ({
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
           id={`${contactInfoPageKey}Header`}
-          className="vads-u-margin-top--3 vads-u-margin-bottom--0"
+          className={mainHeaderClass}
         >
           Confirm the contact information we have on file for you
         </MainHeader>
