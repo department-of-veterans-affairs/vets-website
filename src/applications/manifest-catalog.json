@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 151,
+  "totalApplications": 153,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -907,7 +907,13 @@
       "directoryPath": "src/applications/vre/ch31-eligibility-entitlement",
       "appName": "VRE CH31 Eligibility &amp; Entitlement",
       "entryName": "ch31-eligibility-entitlement",
-      "rootUrl": "/careers-employment"
+      "rootUrl": "/careers-employment/your-vre-eligibility"
+    },
+    {
+      "directoryPath": "src/applications/vre/track-your-vre-benefits",
+      "appName": "Track your VR&E benefits",
+      "entryName": "track-your-vre-benefits",
+      "rootUrl": "/careers-employment/track-your-vre-benefits/vre-benefit-status"
     },
     {
       "directoryPath": "src/applications/yellow-ribbon",
