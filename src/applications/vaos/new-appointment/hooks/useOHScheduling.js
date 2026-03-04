@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import environment from 'platform/utilities/environment';
 import { getFormData, getTypeOfCare } from '../redux/selectors';
 import { selectFeatureUseVpg } from '../../redux/selectors';
 import { OH_ENABLED_TYPES_OF_CARE } from '../../utils/constants';
@@ -13,7 +14,7 @@ export function useOHScheduling() {
     return false;
   }
 
-  if (process.env.NODE_ENV === 'staging') {
+  if (environment.isStaging()) {
     // env is staging, let's enable all types of care
     return true;
   }
