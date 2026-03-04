@@ -56,14 +56,10 @@ describe('<AppointmentsCard />', () => {
     );
 
     tree.getByTestId('health-care-appointments-card');
-    tree.getByText('Next appointment');
-    tree.getByText('Schedule and manage your appointments');
-    const link = tree.getByRole('link', {
-      name: /schedule and manage your appointments/i,
-      value: {
-        text: '/my-health/appointments',
-      },
-    });
+    tree.getByText('Upcoming appointment');
+    const link = tree.container.querySelector(
+      'va-link[href="/my-health/appointments"][text="Manage this appointment"]',
+    );
     tree.getByText('VA Video Connect yada yada yada');
     tree.getByText(startFormatted);
     tree.getByText(`Time: 7:30 a.m. MT`);
@@ -115,12 +111,9 @@ describe('<AppointmentsCard />', () => {
       tree.getByText('VA Video Connect testing');
 
       expect(
-        tree.getByRole('link', {
-          name: /schedule and manage your appointments/i,
-          value: {
-            text: '/my-health/appointments',
-          },
-        }),
+        tree.container.querySelector(
+          'va-link[href="/my-health/appointments"][text="Manage this appointment"]',
+        ),
       ).to.exist;
     });
 
@@ -144,12 +137,11 @@ describe('<AppointmentsCard />', () => {
       );
 
       tree.getByText(providerName);
-      tree.getByRole('link', {
-        name: /schedule and manage your appointments/i,
-        value: {
-          text: '/my-health/appointments',
-        },
-      });
+      expect(
+        tree.container.querySelector(
+          'va-link[href="/my-health/appointments"][text="Manage this appointment"]',
+        ),
+      ).to.exist;
     });
   });
 });

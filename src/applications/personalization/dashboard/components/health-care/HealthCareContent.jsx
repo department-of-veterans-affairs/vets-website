@@ -64,7 +64,7 @@ const HealthCareContent = ({
 
   const NoHealthcareText = () => (
     <div data-testid="no-health-care-notice">
-      <p>We can’t find any VA health care for you.</p>
+      <p>We can’t find any VA health care on file for you.</p>
       <va-link text="Go to My HealtheVet" href="/my-health" />
     </div>
   );
@@ -139,6 +139,11 @@ const HealthCareContent = ({
             !hasAppointmentsError &&
             !isLOA1 &&
             !isCernerPatient && <NoUpcomingAppointmentsText />}
+          <va-link
+            text="Manage all appointments"
+            href="/my-health/appointments"
+            data-testid="manage-appointments-all-link"
+          />
         </DashboardWidgetWrapper>
       </div>
       {isVAPatient && (
@@ -152,6 +157,9 @@ const HealthCareContent = ({
           </DashboardWidgetWrapper>
         </div>
       )}
+      <div className="vads-u-margin-top--2">
+        <va-link text="Go to My HealtheVet" href="/my-health" />
+      </div>
     </>
   );
 };

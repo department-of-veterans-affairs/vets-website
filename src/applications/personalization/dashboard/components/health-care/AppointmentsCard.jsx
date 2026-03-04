@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatInTimeZone } from 'date-fns-tz';
 import recordEvent from '~/platform/monitoring/record-event';
-import CTALink from '../CTALink';
 import { getAppointmentTimezone } from '../../utils/date-formatting/timezone';
 
 export const AppointmentsCard = ({ appointments }) => {
@@ -27,7 +26,7 @@ export const AppointmentsCard = ({ appointments }) => {
 
   const content = (
     <>
-      <h3 className="vads-u-margin-top--0">Next appointment</h3>
+      <h3 className="vads-u-margin-top--0">Upcoming appointment</h3>
       <p className="vads-u-margin-bottom--1 dd-privacy-mask">
         {formatInTimeZone(localStartTime, timeZoneId, 'eeee, MMMM d, yyyy')}
       </p>
@@ -39,19 +38,20 @@ export const AppointmentsCard = ({ appointments }) => {
       {locationName && (
         <p className="vads-u-margin-top--1 dd-privacy-mask">{locationName}</p>
       )}
-      <CTALink
-        text="Schedule and manage your appointments"
-        href="/my-health/appointments"
-        showArrow
-        className="vads-u-font-weight--bold"
-        onClick={() =>
-          recordEvent({
-            event: 'nav-linkslist',
-            'links-list-header': 'Schedule and manage your appointments',
-            'links-list-section-header': 'Health care',
-          })
-        }
-      />
+      <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
+        <va-link
+          active
+          text="Manage this appointment"
+          href="/my-health/appointments"
+          onClick={() =>
+            recordEvent({
+              event: 'nav-linkslist',
+              'links-list-header': 'Schedule and manage your appointments',
+              'links-list-section-header': 'Health care',
+            })
+          }
+        />
+      </p>
     </>
   );
 
