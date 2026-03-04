@@ -55,16 +55,17 @@ const MissingApplicationHelp = ({ displayDecisionReviewsForms }) => {
         {displayDecisionReviewsForms && (
           <>
             <li data-testid="dr-forms">
-              Application for supplemental claim (VA Form 20-0995)
+              File a Supplemental Claim (VA Form 20-0995)
             </li>
             <li data-testid="dr-forms">
-              VA Form 21-4142 submitted with VA Form 20-0995
+              Authorize the release of non-VA medical information to VA with a
+              Supplemental Claim (VA Form 21-4142 & 21-4142a with 20-0995)
             </li>
             <li data-testid="dr-forms">
-              Application for higher-level review (VA Form 20-0996)
+              Request a Higher-Level Review (VA Form 20-0996)
             </li>
             <li data-testid="dr-forms">
-              Application for board appeal (VA Form 10182)
+              Request a Board Appeal (VA Form 10182)
             </li>
           </>
         )}
