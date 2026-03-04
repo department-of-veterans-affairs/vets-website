@@ -33,13 +33,14 @@ const vetStatusConfirmed = {
 
 const veteranStatusCardConfirmed = {
   type: 'veteran_status_card',
-  veteranStatus: 'confirmed',
-  serviceSummaryCode: 'A1',
-  notConfirmedReason: null,
   attributes: {
     fullName: 'John Doe',
     disabilityRating: 40,
     edipi: 1234567890,
+    veteranStatus: 'confirmed',
+    notConfirmedReason: null,
+    confirmationStatus: 'CONFIRMED',
+    serviceSummaryCode: 'A1',
   },
 };
 

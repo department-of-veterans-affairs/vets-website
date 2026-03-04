@@ -29,21 +29,19 @@ const downtime = maintenanceWindows => {
 // Mock API responses for the new shared service endpoint
 const veteranStatusCardConfirmed = {
   type: 'veteran_status_card',
-  veteranStatus: 'confirmed',
-  serviceSummaryCode: 'A1',
-  notConfirmedReason: null,
   attributes: {
     fullName: 'John Doe',
     disabilityRating: 40,
     edipi: 1234567890,
+    veteranStatus: 'confirmed',
+    notConfirmedReason: null,
+    confirmationStatus: 'CONFIRMED',
+    serviceSummaryCode: 'A1',
   },
 };
 
 const veteranStatusAlertWarning = {
   type: 'veteran_status_alert',
-  veteranStatus: 'not confirmed',
-  serviceSummaryCode: 'D',
-  notConfirmedReason: 'PERSON_NOT_FOUND',
   attributes: {
     header: "You're not eligible for a Veteran Status Card",
     body: [
@@ -51,14 +49,15 @@ const veteranStatusAlertWarning = {
       { type: 'phone', value: '800-698-2411', tty: true },
     ],
     alertType: 'warning',
+    veteranStatus: 'not confirmed',
+    notConfirmedReason: 'PERSON_NOT_FOUND',
+    confirmationStatus: 'NOT_CONFIRMED',
+    serviceSummaryCode: 'D',
   },
 };
 
 const veteranStatusAlertError = {
   type: 'veteran_status_alert',
-  veteranStatus: 'not confirmed',
-  serviceSummaryCode: 'VNA',
-  notConfirmedReason: 'ERROR',
   attributes: {
     header: 'Something went wrong',
     body: [
@@ -69,6 +68,10 @@ const veteranStatusAlertError = {
       },
     ],
     alertType: 'error',
+    veteranStatus: 'not confirmed',
+    notConfirmedReason: 'ERROR',
+    confirmationStatus: 'NOT_CONFIRMED',
+    serviceSummaryCode: 'VNA',
   },
 };
 
