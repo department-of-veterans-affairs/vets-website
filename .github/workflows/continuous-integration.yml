@@ -36,6 +36,7 @@ jobs:
           filter: blob:none
 
       - name: Configure AWS credentials
+        if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/configure-aws-credentials
         with:
           aws_region: us-gov-west-1
@@ -69,36 +70,42 @@ jobs:
         run: echo "MAPBOX_TOKEN=pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==" >> "$GITHUB_ENV"
 
       - name: Get Mapbox Token (Facility Locator)
+        if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_facility_locator
           env_variable_name: MAPBOX_TOKEN_FACILITY_LOCATOR
 
       - name: Get Mapbox Token (Static Pages)
+        if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_static_pages
           env_variable_name: MAPBOX_TOKEN_STATIC_PAGES
 
       - name: Get Mapbox Token (GI)
+        if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_gi
           env_variable_name: MAPBOX_TOKEN_GI
 
       - name: Get Mapbox Token (Ask VA)
+        if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_ask_va
           env_variable_name: MAPBOX_TOKEN_ASK_VA
 
       - name: Get Mapbox Token (Caregivers)
+        if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_caregivers
           env_variable_name: MAPBOX_TOKEN_CAREGIVERS
 
       - name: Get Mapbox Token (Representative Search)
+        if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_representative_search

@@ -1,6 +1,7 @@
 import * as h from './helpers';
 import vaHealthServicesData from '../hooks/test-va-healthcare-services.json';
 import searchResultsData from './autosuggest-data/services-autosuggest.json';
+import mockGeocodingData from '../../constants/mock-geocoding-data-atlanta.json';
 
 describe('VA health services autosuggest', () => {
   beforeEach(() => {
@@ -18,6 +19,8 @@ describe('VA health services autosuggest', () => {
         ],
       },
     });
+
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
 
     cy.intercept(
       'GET',
