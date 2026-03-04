@@ -329,6 +329,11 @@ describe('profile helpers:', () => {
       const result = formatFormTitle('form 10-10ez');
       expect(result).to.equal('Form 10-10EZ');
     });
+
+    it('should uppercase CHAMPVA in titles', () => {
+      const result = formatFormTitle('application for champva benefits');
+      expect(result).to.equal('Application for CHAMPVA benefits');
+    });
   });
 
   describe('recordDashboardClick', () => {

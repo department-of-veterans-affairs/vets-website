@@ -1,29 +1,15 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ClaimantDetailsWrapper from '../components/ClaimantDetailsWrapper';
+import { submissionHistoryBC } from '../utilities/poaRequests';
 
 const SUBMISSION_HISTORY_BC_LABEL = 'submission history breadcrumb';
-
-const submissionHistoryBreadcrumbs = [
-  {
-    href: '/representative',
-    label: 'ARP Home',
-  },
-  {
-    href: '/representative/find-claimant',
-    label: 'Find claimant',
-  },
-  {
-    href: window.location.href,
-    label: 'Submission history',
-  },
-];
 
 const ClaimantSubmissionHistoryPage = () => {
   return (
     <section className="vads-u-width--full">
       <VaBreadcrumbs
-        breadcrumbList={submissionHistoryBreadcrumbs}
+        breadcrumbList={submissionHistoryBC}
         label={SUBMISSION_HISTORY_BC_LABEL}
         homeVeteransAffairs={false}
       />

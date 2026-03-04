@@ -18,6 +18,7 @@ import {
 import CallPharmacyPhone from './CallPharmacyPhone';
 import RefillButton from './RefillButton';
 import SendRxRenewalMessage from './SendRxRenewalMessage';
+import { OracleHealthRenewalInCardAlert } from './OracleHealthTransitionAlerts';
 import { pageType } from '../../util/dataDogConstants';
 import {
   selectCernerPilotFlag,
@@ -29,6 +30,7 @@ const ExtraDetails = ({
   renewalLinkShownAbove = false,
   page,
   isRefillBlocked = false,
+  isRenewalBlocked = false,
   ...rx
 }) => {
   const { dispStatus, refillRemaining } = rx;
@@ -114,6 +116,14 @@ const ExtraDetails = ({
       case dispStatusObjV2.active:
         // Both map to "Active" in V2
         if (noRefillRemaining) {
+          if (isRenewalBlocked && rx.isRenewable) {
+            return (
+              <OracleHealthRenewalInCardAlert
+                stationNumber={rx.stationNumber}
+                prescriptionId={rx.prescriptionId}
+              />
+            );
+          }
           return (
             <div className="no-print">
               <p
@@ -136,6 +146,14 @@ const ExtraDetails = ({
 
       case dispStatusObjV2.inactive:
         // All map to "Inactive" in V2
+        if (isRenewalBlocked && rx.isRenewable) {
+          return (
+            <OracleHealthRenewalInCardAlert
+              stationNumber={rx.stationNumber}
+              prescriptionId={rx.prescriptionId}
+            />
+          );
+        }
         return (
           <div>
             <SendRxRenewalMessage
@@ -155,6 +173,9 @@ const ExtraDetails = ({
         );
 
       case dispStatusObjV2.expired:
+        if (isRenewalBlocked && rx.isRenewable) {
+          return <OracleHealthRenewalInCardAlert isExpired />;
+        }
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="expired">
@@ -298,6 +319,15 @@ const ExtraDetails = ({
         );
 
       case dispStatusObj.expired:
+        if (isRenewalBlocked && rx.isRenewable) {
+          return (
+            <OracleHealthRenewalInCardAlert
+              stationNumber={rx.stationNumber}
+              prescriptionId={rx.prescriptionId}
+              isExpired
+            />
+          );
+        }
         return (
           <div>
             <SendRxRenewalMessage
@@ -373,6 +403,14 @@ const ExtraDetails = ({
 
       case dispStatusObj.active:
         if (noRefillRemaining) {
+          if (isRenewalBlocked && rx.isRenewable) {
+            return (
+              <OracleHealthRenewalInCardAlert
+                stationNumber={rx.stationNumber}
+                prescriptionId={rx.prescriptionId}
+              />
+            );
+          }
           return (
             <div className="no-print">
               <p
@@ -438,6 +476,7 @@ ExtraDetails.propTypes = {
   expirationDate: PropTypes.string,
   isRefillBlocked: PropTypes.bool,
   isRenewable: PropTypes.bool,
+  isRenewalBlocked: PropTypes.bool,
   page: PropTypes.string,
   pharmacyPhoneNumber: PropTypes.string,
   prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

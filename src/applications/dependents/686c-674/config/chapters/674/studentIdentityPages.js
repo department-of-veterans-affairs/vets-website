@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   arrayBuilderItemFirstPageTitleUI,
-  fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -16,6 +15,7 @@ import {
 import { relationshipToStudentLabels } from './helpers';
 import { addStudentsOptions } from './addStudentsSetup';
 import { NO_SSN_REASON_UI_MAPPINGS } from '../../dataMappings';
+import { fullNameNoSuffixWithAsciiUI } from '../../helpers';
 
 /** @returns {PageSchema} */
 export const studentInformationPage = {
@@ -27,7 +27,7 @@ export const studentInformationPage = {
     'view:studentNameTitle': {
       'ui:description': <h4>Student’s name</h4>,
     },
-    fullName: fullNameNoSuffixUI(title => `Student's ${title}`),
+    fullName: fullNameNoSuffixWithAsciiUI(title => `Student's ${title}`),
     birthDate: currentOrPastDateUI({
       title: 'Student\u2019s date of birth',
       labelHeaderLevel: '4',

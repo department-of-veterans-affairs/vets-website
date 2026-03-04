@@ -7,5 +7,17 @@ export function useOHScheduling() {
   const featureUseVpg = useSelector(selectFeatureUseVpg);
   const data = useSelector(getFormData);
   const typeOfCare = getTypeOfCare(data);
-  return featureUseVpg && OH_ENABLED_TYPES_OF_CARE.includes(typeOfCare?.idV2);
+
+  if (!featureUseVpg) {
+    // OH only works when VPG is used
+    return false;
+  }
+
+  if (process.env.NODE_ENV === 'staging') {
+    // env is staging, let's enable all types of care
+    return true;
+  }
+
+  // Otherwise check constant for enabled types of care
+  return OH_ENABLED_TYPES_OF_CARE.includes(typeOfCare?.idV2);
 }

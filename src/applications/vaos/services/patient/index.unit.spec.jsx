@@ -1,8 +1,9 @@
 import { expect } from 'chai';
-import { addDays } from 'date-fns';
+import { addDays, subMonths } from 'date-fns';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import {
   fetchPatientRelationships,
+  filterPastAppointmentsByTypeOfCare,
   hasEligibilityError,
   typeOfCareRequiresPastHistory,
 } from '.';
@@ -215,6 +216,54 @@ describe('VAOS Services: Patient ', () => {
         typeOfCareRequiresPastHistory(FOOD_AND_NUTRITION_ID, true) &&
         typeOfCareRequiresPastHistory(FOOD_AND_NUTRITION_ID, false);
       expect(result).to.be.true;
+    });
+  });
+  describe('filterPastAppointmentsByTypeOfCare', () => {
+    it('Should return only past appointments within the specified period if type of care has a history override', () => {
+      const pastAppointments = [
+        {
+          id: '1',
+          start: subMonths(new Date(), 6),
+        },
+        {
+          id: '2',
+          start: subMonths(new Date(), 13),
+        },
+        {
+          id: '3',
+          start: subMonths(new Date(), 2),
+        },
+      ];
+
+      const result = filterPastAppointmentsByTypeOfCare(
+        pastAppointments,
+        TYPE_OF_CARE_IDS.MENTAL_HEALTH_PRIMARY_CARE_ID,
+      );
+
+      expect(result.map(appt => appt.id)).to.deep.equal(['1', '3']);
+    });
+    it('Should return all past appointment if type of care does not have a history override', () => {
+      const pastAppointments = [
+        {
+          id: '1',
+          start: subMonths(new Date(), 6),
+        },
+        {
+          id: '2',
+          start: subMonths(new Date(), 13),
+        },
+        {
+          id: '3',
+          start: subMonths(new Date(), 2),
+        },
+      ];
+
+      const result = filterPastAppointmentsByTypeOfCare(
+        pastAppointments,
+        TYPE_OF_CARE_IDS.PRIMARY_CARE,
+      );
+
+      expect(result.map(appt => appt.id)).to.deep.equal(['1', '2', '3']);
     });
   });
 });

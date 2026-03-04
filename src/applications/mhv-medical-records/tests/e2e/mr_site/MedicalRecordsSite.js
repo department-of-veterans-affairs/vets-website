@@ -41,6 +41,7 @@ class MedicalRecordsSite {
     isCcdExtendedFileTypesEnabled = false,
     isCcdOHEnabled = false,
     isImagesDomainEnabled = false,
+    isAcceleratingImagingStudies = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -131,6 +132,14 @@ class MedicalRecordsSite {
           {
             name: 'mhvMedicalRecordsImagesDomain',
             value: isImagesDomainEnabled,
+          },
+          {
+            name: 'mhv_medical_records_fetch_scdf_imaging_studies',
+            value: isAcceleratingImagingStudies,
+          },
+          {
+            name: 'mhvMedicalRecordsFetchScdfImagingStudies',
+            value: isAcceleratingImagingStudies,
           },
         ],
       },
