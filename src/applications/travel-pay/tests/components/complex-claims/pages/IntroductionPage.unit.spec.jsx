@@ -281,11 +281,7 @@ describe('Travel Pay – IntroductionPage', () => {
       { initialState: state, reducers: reducer },
     );
 
-    expect(
-      getByText(
-        /caregiver,/i,
-      ),
-    ).to.exist;
+    expect(getByText(/caregiver,/i)).to.exist;
     expect(queryByText(/proof of attendance/i)).to.not.exist;
   });
 
@@ -316,11 +312,7 @@ describe('Travel Pay – IntroductionPage', () => {
       { initialState: state, reducers: reducer },
     );
 
-    expect(
-      getByText(
-        /caregiver,/i,
-      ),
-    ).to.exist;
+    expect(getByText(/caregiver,/i)).to.exist;
     expect(getByText(/proof of attendance/i)).to.exist;
   });
 
