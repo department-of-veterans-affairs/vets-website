@@ -545,7 +545,7 @@ export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
 export const ContactListMigrationAlertContent = {
   P1_TO_P5_MIGRATION: {
     phases: ['p1', 'p2', 'p3', 'p4', 'p5'],
-    headline: 'We’re making changes to your contact list',
+    headline: "We're making changes to your contact list",
     bodyTop: () => (
       <>
         On <b>[T-6]</b>, we’ll remove care teams from these facilities from your

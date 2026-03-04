@@ -64,14 +64,6 @@ const EditContactList = () => {
   const userProfile = useSelector(state => state.user?.profile);
   const { userFacilityMigratingToOh, migrationSchedules } = userProfile || {};
 
-  // const isInPhaseP1ToP6 = userProfile?.migrationSchedules?.some(schedule =>
-  //   ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'].includes(schedule?.phases?.current),
-  // );
-
-  // const migratingFacilities = userProfile?.migrationSchedules?.flatMap(
-  //   facility => facility.facilities?.map(f => f.facilityName),
-  // );
-
   const isContactListChanged = useMemo(
     () => !_.isEqual(vistaRecipients, allTriageTeams),
     [vistaRecipients, allTriageTeams],
