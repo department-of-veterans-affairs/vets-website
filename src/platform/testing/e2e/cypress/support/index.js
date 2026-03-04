@@ -84,16 +84,26 @@ beforeEach(() => {
   cy.intercept('GET', '/v0/maintenance_windows', {
     data: [],
   });
+  cy.intercept('GET', '/data/cms/vamc-ehr.json', {
+    data: {
+      nodeQuery: { count: 0, entities: [] },
+    },
+  });
 });
 
 // Global Mapbox API mocks — prevent real API calls in all E2E tests.
 // Individual tests can override with their own cy.intercept() calls.
 beforeEach(() => {
-  // Static map images
+  // Static map images — 1x1 PNG so naturalWidth > 0 in tests
   cy.intercept('GET', '**/styles/v1/mapbox/**', {
     statusCode: 200,
     headers: { 'content-type': 'image/png' },
-    body: '',
+    body: Uint8Array.from(
+      atob(
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+      ),
+      c => c.charCodeAt(0),
+    ).buffer,
   });
   // Tile JSON metadata
   cy.intercept('GET', '**/v4/mapbox.*', {});
@@ -104,31 +114,6 @@ beforeEach(() => {
   cy.intercept('GET', '**/fonts/v1/mapbox/**', { body: '' });
   // Map sprites
   cy.intercept('GET', '**/sprites/v1/mapbox/**', { body: '' });
-  // Geocoding (default fallback — tests needing specific results should override)
-  /* eslint-disable camelcase */
-  cy.intercept('GET', '**/geocoding/**', {
-    type: 'FeatureCollection',
-    query: ['austin'],
-    features: [
-      {
-        id: 'place.1183047979754850',
-        type: 'Feature',
-        place_type: ['place'],
-        relevance: 1,
-        properties: {},
-        text: 'Austin',
-        place_name: 'Austin, Texas, United States',
-        bbox: [-98.026, 30.068, -97.542, 30.519],
-        center: [-97.7437, 30.2711],
-        geometry: { type: 'Point', coordinates: [-97.7437, 30.2711] },
-        context: [
-          { id: 'region.123', short_code: 'US-TX', text: 'Texas' },
-          { id: 'country.456', short_code: 'us', text: 'United States' },
-        ],
-      },
-    ],
-  });
-  /* eslint-enable camelcase */
   // Mapbox telemetry
   cy.intercept('POST', '*events.mapbox.com/**', { statusCode: 204 });
 });
