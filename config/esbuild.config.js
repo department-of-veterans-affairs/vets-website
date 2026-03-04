@@ -1052,21 +1052,20 @@ async function buildConfig(options = {}) {
 // The VA Design System web components use Stencil's lazy-loading architecture.
 // The ESM loader (dist/esm/loader.js) calls import() for each component
 // (e.g. import('./va-alert.entry.js')).  With format:'iife' + splitting:false,
-// esbuild inlines ALL 64 components into a single 2.7MB file.
+// esbuild inlines ALL 64 components into a single ~1.9MB file.
 //
 // By building web-components as a separate ESM pass with splitting:true,
 // esbuild preserves the dynamic imports and produces:
-//   - web-components.entry.js (~434KB) with polyfills + Stencil bootstrap
+//   - web-components.entry.js with polyfills + Stencil bootstrap
 //   - ~64 component entry chunks loaded on demand via import()
 //   - ~8 shared utility chunks (classnames, i18n, Stencil runtime, etc.)
 //
-// Unlike webpack's self-contained JSONP chunks, ESM component entries have
-// static imports from shared chunks.  Without modulepreload hints, each
-// lazy import() creates a waterfall: fetch component entry → discover its
-// static imports → fetch shared chunks → execute.  The scaffold HTML adds
-// <link rel="modulepreload"> for shared chunks so they're pre-fetched,
-// eliminating the second round trip and matching webpack's single-fetch
-// behavior.
+// After the build, ALL chunks (component entries + shared utilities) are
+// hoisted into the entry as static imports.  This ensures every module is
+// pre-loaded in parallel when the entry loads, so Stencil's loadModule()
+// import() calls resolve instantly from cache — matching the synchronous
+// behavior of webpack/rspack's single-file IIFE production build, while
+// still benefiting from HTTP/2 parallel downloads of smaller files.
 // ---------------------------------------------------------------------------
 
 /**
@@ -1089,7 +1088,7 @@ async function buildWebComponents(outdir, shouldMinify, rootDir, options = {}) {
     outdir,
     format: 'esm',
     splitting: true,
-    chunkNames: 'wc-chunks/[name]-[hash]',
+    chunkNames: 'wc-chunk-[hash]',
     platform: 'browser',
     target: ['es2018', 'chrome67', 'firefox68', 'safari12', 'edge79'],
     minify: shouldMinify,
@@ -1128,47 +1127,22 @@ async function buildWebComponents(outdir, shouldMinify, rootDir, options = {}) {
     external: ['/img/*', '/fonts/*', '/generated/*'],
   });
 
-  // Shared chunks (chunk-HASH.js) are utility code split out by esbuild.
-  // Component entries have static imports from these shared chunks, which
-  // creates an ESM import waterfall: the browser fetches the component entry
-  // via lazy import(), discovers its static imports, then fetches those in a
-  // second round trip.  Webpack's JSONP chunks don't have this issue because
-  // each chunk is self-contained.
-  //
-  // Fix: prepend static imports for any shared chunks NOT already in the
-  // entry's import graph.  When the browser loads web-components.entry.js,
-  // it discovers all shared chunks up front and fetches them in parallel.
-  // Later, when a component's lazy import() fires, its shared dependencies
-  // resolve instantly from cache.  This is self-contained in the build
-  // output — no HTML changes or content-build coordination needed.
+  // With ESM splitting, esbuild keeps real import() calls for Stencil's
+  // lazy-loaded component modules, producing chunk files that load on demand.
+  // This matches rspack's output pattern (small entry + async chunks) and
+  // avoids the focus/timing issues caused by a single large synchronous bundle.
   const entryPath = path.join(outdir, 'web-components.entry.js');
-  const entryContent = fs.readFileSync(entryPath, 'utf8');
-  const chunkDir = path.join(outdir, 'wc-chunks');
-  let chunkCount = 0;
-  let preloadCount = 0;
-  if (fs.existsSync(chunkDir)) {
-    const chunkFiles = fs
-      .readdirSync(chunkDir)
-      .filter(f => f.endsWith('.js') && !f.endsWith('.js.map'));
-    chunkCount = chunkFiles.length;
-
-    // Find shared chunks not already statically imported by the entry
-    const missingImports = chunkFiles.filter(
-      f => f.startsWith('chunk-') && !entryContent.includes(f),
-    );
-
-    if (missingImports.length > 0) {
-      const importLines = missingImports
-        .map(f => `import "./wc-chunks/${f}";`)
-        .join('\n');
-      fs.writeFileSync(entryPath, `${importLines}\n${entryContent}`);
-      preloadCount = missingImports.length;
-    }
-  }
-
   const wcSize = (fs.statSync(entryPath).size / 1024).toFixed(0);
+  const chunkCount = fs
+    .readdirSync(outdir)
+    .filter(
+      f =>
+        f.startsWith('wc-chunk-') &&
+        f.endsWith('.js') &&
+        !f.endsWith('.js.map'),
+    ).length;
   console.log(
-    `    \u2713 web-components.entry.js (${wcSize}K) + ${chunkCount} lazy chunks (${preloadCount} shared chunks hoisted into entry)`,
+    `    \u2713 web-components.entry.js (${wcSize}K, ${chunkCount} chunks)`,
   );
 }
 
@@ -1373,7 +1347,7 @@ function generateScaffoldPages(buildPath) {
       {
         attributes: {
           src: `/generated/${entryName}.entry.js`,
-          type: 'module',
+          defer: true,
         },
         tagName: 'script',
       },
@@ -1425,9 +1399,7 @@ function generateScaffoldPages(buildPath) {
   <div id="footerNav"></div>
   <script defer src="/generated/polyfills.entry.js"></script>
   <script type="module" src="/generated/web-components.entry.js"></script>
-  <script type="module" src="/generated/${_.escape(
-    entryName,
-  )}.entry.js"></script>
+  <script defer src="/generated/${_.escape(entryName)}.entry.js"></script>
 </body>
 </html>`;
     }
