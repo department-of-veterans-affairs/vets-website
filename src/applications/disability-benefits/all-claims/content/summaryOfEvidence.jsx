@@ -1,61 +1,135 @@
 import React from 'react';
-import _ from 'platform/utilities/data';
-import { DATA_PATHS } from '../constants';
-import { getBddShaUploads } from '../utils';
 
-const SECTIONS_LIST_CONFIGURATIONS = {
-  ENHANCED: [
-    {
-      key: 'bdd-sha',
-      getEvidences: getBddShaUploads,
-      getEvidenceKey: e => e.confirmationCode,
-      getEvidenceName: e => e.name,
-      headerText:
-        'We’ll submit the Separation Health Assessment Part A (SHA A) you uploaded',
-    },
-  ],
+import {
+  getAdditionalDocuments,
+  getBddShaUploads,
+  getPrivateEvidenceUploads,
+  getPrivateFacilities,
+  getServiceTreatmentRecordsAttachments,
+  getVaEvidence,
+  hasOtherEvidence,
+  hasPrivateEvidence,
+  hasVAEvidence,
+  isNotUploadingPrivateMedical,
+  isUploadingBddSha,
+  isUploadingSTR,
+} from '../utils';
+
+const SECTION_CONFIGURATIONS = {
+  'bdd-sha-uploads': {
+    evidenceIdKey: 'confirmationCode',
+    evidenceNameKey: 'name',
+    isSelected: isUploadingBddSha,
+    getEvidences: getBddShaUploads,
+    getHeaderText: shouldEnhance =>
+      shouldEnhance
+        ? 'We’ll submit the Separation Health Assessment Part A (SHA A) you uploaded'
+        : 'We’ll submit the Separation Health Assessment Part A document that you uploaded',
+  },
+  'va-evidence': {
+    evidenceIdKey: 'treatmentCenterName',
+    evidenceNameKey: 'treatmentCenterName',
+    isSelected: hasVAEvidence,
+    getEvidences: getVaEvidence,
+    getHeaderText: shouldEnhance =>
+      shouldEnhance
+        ? 'We’ll request your VA medical records on your behalf from these VA medical centers'
+        : 'We’ll get your VA medical records from',
+  },
+  'private-evidence-uploads': {
+    evidenceIdKey: 'confirmationCode',
+    evidenceNameKey: 'name',
+    isSelected: formData =>
+      hasPrivateEvidence(formData) && !isNotUploadingPrivateMedical(formData),
+    getEvidences: getPrivateEvidenceUploads,
+    getHeaderText: shouldEnhance =>
+      shouldEnhance
+        ? 'We’ll submit these private medical records you uploaded'
+        : 'We’ll submit the below private medical records you uploaded',
+  },
+  'private-facilities': {
+    evidenceIdKey: 'providerFacilityName',
+    evidenceNameKey: 'providerFacilityName',
+    isSelected: formData =>
+      hasPrivateEvidence(formData) && isNotUploadingPrivateMedical(formData),
+    getEvidences: getPrivateFacilities,
+    getHeaderText: shouldEnhance =>
+      shouldEnhance
+        ? 'We’ll request your private medical records on your behalf from these medical centers'
+        : 'We’ll get your non-VA treatment records from',
+  },
+  'service-treatment-records-attachments': {
+    evidenceIdKey: 'confirmationCode',
+    evidenceNameKey: 'name',
+    isSelected: isUploadingSTR,
+    getEvidences: getServiceTreatmentRecordsAttachments,
+    getHeaderText: shouldEnhance =>
+      shouldEnhance
+        ? 'We’ll submit these service treatment records you uploaded'
+        : 'We’ll submit the below service treatment records you uploaded',
+  },
+  'additional-documents': {
+    evidenceIdKey: 'confirmationCode',
+    evidenceNameKey: 'name',
+    isSelected: hasOtherEvidence,
+    getEvidences: getAdditionalDocuments,
+    getHeaderText: shouldEnhance =>
+      shouldEnhance
+        ? 'We’ll submit these documents you uploaded as evidence supporting your claim'
+        : 'We’ll submit the below supporting evidence you uploaded',
+  },
+};
+
+const SECTION_ORDERS = {
   UNENHANCED: [
-    {
-      key: 'bdd-sha',
-      getEvidences: getBddShaUploads,
-      getEvidenceKey: e => e.confirmationCode,
-      getEvidenceName: e => e.name,
-      headerText:
-        'We’ll submit the Separation Health Assessment Part A document that you uploaded',
-    },
+    'bdd-sha-uploads',
+    'va-evidence',
+    'private-evidence-uploads',
+    'private-facilities',
+    'service-treatment-records-attachments',
+    'additional-documents',
+  ],
+  ENHANCED: [
+    'bdd-sha-uploads',
+    'service-treatment-records-attachments',
+    'va-evidence',
+    'private-evidence-uploads',
+    'private-facilities',
+    'additional-documents',
   ],
 };
 
 const buildSectionsList = (formData, { shouldEnhance }) => {
   const sectionsList = [];
-  const configurations = shouldEnhance
-    ? SECTIONS_LIST_CONFIGURATIONS.ENHANCED
-    : SECTIONS_LIST_CONFIGURATIONS.UNENHANCED;
+  const sectionOrder = shouldEnhance
+    ? SECTION_ORDERS.ENHANCED
+    : SECTION_ORDERS.UNENHANCED;
 
-  for (const configuration of configurations) {
-    const sectionKey = configuration.key;
-    const headerText = `${configuration.headerText}:`;
-    const evidences = configuration.getEvidences(formData);
+  for (const sectionId of sectionOrder) {
+    const configuration = SECTION_CONFIGURATIONS[sectionId];
+    const headerText = `${configuration.getHeaderText(shouldEnhance)}:`;
+    const evidences = configuration.isSelected(formData)
+      ? configuration.getEvidences(formData)
+      : [];
 
     if (evidences.length) {
       const evidencesList = (
         <ul>
           {evidences.map(evidence => {
-            const key = configuration.getEvidenceKey(evidence);
-            const name = configuration.getEvidenceName(evidence);
-
+            const key = evidence[configuration.evidenceIdKey];
+            const name = evidence[configuration.evidenceNameKey];
             return <li key={key}>{name}</li>;
           })}
         </ul>
       );
 
       const section = shouldEnhance ? (
-        <div key={sectionKey} className="vads-u-margin-top--2">
+        <div key={sectionId} className="vads-u-margin-top--2">
           <strong>{headerText}</strong>
           {evidencesList}
         </div>
       ) : (
-        <div key={sectionKey}>
+        <div key={sectionId}>
           <p>{headerText}</p>
           {evidencesList}
         </div>
@@ -69,54 +143,10 @@ const buildSectionsList = (formData, { shouldEnhance }) => {
 };
 
 export const summaryOfEvidenceDescription = ({ formData }) => {
-  /**
-   * Refactor plan - incremental per-section or all at once:
-   *
-   *   1. Migrate each evidence section to `SECTIONS_LIST_CONFIGURATIONS`, where
-   *      `ENHANCED` vs. `UNENHANCED` allow for bringing about differing copy
-   *      _and_ ordering declaratively!
-   *   2. Keep logic that understands which evidences are relevant _exclusively_
-   *      in each `getEvidences` implementation as the singular source of truth
-   *   3. Use `sectionsList.length` as the singular source of truth for
-   *      answering the question "is there any evidence provided?"
-   */
-  const sectionsList = buildSectionsList(formData, {
-    shouldEnhance: formData.disability526SupportingEvidenceEnhancement,
-  });
+  const shouldEnhance = formData.disability526SupportingEvidenceEnhancement;
+  const sectionsList = buildSectionsList(formData, { shouldEnhance });
 
-  const vaEvidence = _.get('vaTreatmentFacilities', formData, []);
-  const privateEvidence = _.get('providerFacility', formData, []);
-  const privateEvidenceUploads = _.get(
-    'privateMedicalRecordAttachments',
-    formData,
-    [],
-  );
-  const serviceTreatmentRecordsUploads = _.get(
-    'serviceTreatmentRecordsAttachments',
-    formData,
-    [],
-  );
-  const layEvidenceUploads = _.get('additionalDocuments', formData, []);
-  const evidenceLength = !!vaEvidence.concat(
-    privateEvidence,
-    privateEvidenceUploads,
-    serviceTreatmentRecordsUploads,
-    layEvidenceUploads,
-  ).length;
-  const selectedEvidence = _.get('view:hasEvidence', formData, false);
-  const serviceTreatmentRecordsSelected = _.get(
-    'view:uploadServiceTreatmentRecordsQualifier.view:hasServiceTreatmentRecordsToUpload',
-    formData,
-    false,
-  );
-  // Evidence isn't always properly cleared out from form data if removed so
-  // need to also check that 'no evidence' was explicitly selected
-  // TODO: refactor logic for this content when removing current flow
-  if (
-    !formData.disability526SupportingEvidenceEnhancement &&
-    !sectionsList.length &&
-    (!evidenceLength || (!selectedEvidence && !serviceTreatmentRecordsSelected))
-  ) {
+  if (!sectionsList.length) {
     return (
       <p>
         You haven’t uploaded any evidence. This may delay us processing your
@@ -126,154 +156,11 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     );
   }
 
-  let vaContent = null;
-  let privateContent = null;
-  let layContent = null;
-  let privateEvidenceContent = null;
-  let serviceTreatmentRecordsContent = null;
-
-  const vaEvidenceSelected = _.get(DATA_PATHS.hasVAEvidence, formData, false);
-  const privateEvidenceSelected = _.get(
-    DATA_PATHS.hasPrivateEvidence,
-    formData,
-    false,
-  );
-  const uploadPrivateEvidenceSelected = _.get(
-    DATA_PATHS.hasPrivateRecordsToUpload,
-    formData,
-    false,
-  );
-
-  const additionalEvidenceSelected = _.get(
-    DATA_PATHS.hasAdditionalDocuments,
-    formData,
-    false,
-  );
-
-  if (vaEvidence.length && vaEvidenceSelected) {
-    const facilitiesList = vaEvidence.map((facility, index) => (
-      <li key={index}>{facility.treatmentCenterName}</li>
-    ));
-    vaContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll request your VA medical records on your behalf from these VA
-          medical centers:
-        </strong>
-        <ul>{facilitiesList}</ul>
-      </div>
-    ) : (
-      <div>
-        <p>We’ll get your VA medical records from:</p>
-        <ul>{facilitiesList}</ul>
-      </div>
-    );
-  }
-
-  if (
-    privateEvidenceUploads.length &&
-    privateEvidenceSelected &&
-    uploadPrivateEvidenceSelected
-  ) {
-    const privateEvidenceUploadsList = privateEvidenceUploads.map(upload => (
-      <li key={upload.name}>{upload.name}</li>
-    ));
-    privateContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll submit these private medical records you uploaded:
-        </strong>
-        <ul>{privateEvidenceUploadsList}</ul>
-      </div>
-    ) : (
-      <div>
-        <p>We’ll submit the below private medical records you uploaded:</p>
-        <ul>{privateEvidenceUploadsList}</ul>
-      </div>
-    );
-  }
-
-  if (
-    privateEvidence.length &&
-    privateEvidenceSelected &&
-    !uploadPrivateEvidenceSelected
-  ) {
-    const privateEvidenceList = privateEvidence.map(facility => (
-      <li key={facility.providerFacilityName}>
-        {facility.providerFacilityName}
-      </li>
-    ));
-    privateEvidenceContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll request your private medical records on your behalf from these
-          medical centers:
-        </strong>
-        <ul>{privateEvidenceList}</ul>
-      </div>
-    ) : (
-      <div>
-        <p>We’ll get your non-VA treatment records from:</p>
-        <ul>{privateEvidenceList}</ul>
-      </div>
-    );
-  }
-
-  if (
-    serviceTreatmentRecordsUploads.length &&
-    serviceTreatmentRecordsSelected
-  ) {
-    const serviceTreatmentRecordsUploadsList = serviceTreatmentRecordsUploads.map(
-      upload => <li key={upload.name}>{upload.name}</li>,
-    );
-    serviceTreatmentRecordsContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll submit these service treatment records you uploaded:
-        </strong>
-        <ul>{serviceTreatmentRecordsUploadsList}</ul>
-      </div>
-    ) : (
-      <div>
-        <p>We’ll submit the below service treatment records you uploaded:</p>
-        <ul>{serviceTreatmentRecordsUploadsList}</ul>
-      </div>
-    );
-  }
-
-  if (layEvidenceUploads.length && additionalEvidenceSelected) {
-    const layEvidenceUploadsList = layEvidenceUploads.map(upload => (
-      <li key={upload.name}>{upload.name}</li>
-    ));
-    layContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll submit these documents you uploaded as evidence supporting your
-          claim:
-        </strong>
-        <ul>{layEvidenceUploadsList}</ul>
-      </div>
-    ) : (
-      <div>
-        <p>We’ll submit the below supporting evidence you uploaded:</p>
-        <ul>{layEvidenceUploadsList}</ul>
-      </div>
-    );
-  }
-
   return (
     <div className="vads-u-margin-top--3">
-      {(evidenceLength || selectedEvidence || sectionsList.length) &&
-        formData.disability526SupportingEvidenceEnhancement && (
-          <p>You provided documents to support your claim.</p>
-        )}
+      {shouldEnhance && <p>You provided documents to support your claim.</p>}
       {sectionsList}
-      {vaContent}
-      {privateContent}
-      {privateEvidenceContent}
-      {serviceTreatmentRecordsContent}
-      {layContent}
-      {formData.disability526SupportingEvidenceEnhancement && (
+      {shouldEnhance && (
         <p>
           Next, we’ll share some information about what to expect during a claim
           exam.

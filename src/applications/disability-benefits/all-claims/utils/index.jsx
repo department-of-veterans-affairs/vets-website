@@ -245,6 +245,59 @@ export function getSeparationLocations() {
     });
 }
 
+export const isBDD = formData => {
+  const isBddDataFlag = Boolean(formData?.['view:isBddData']);
+  const servicePeriods = formData?.serviceInformation?.servicePeriods || [];
+
+  // separation date entered in the wizard
+  const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
+
+  // this flag helps maintain the correct form title within a session
+  // Removed because of Cypress e2e tests don't have access to 'view:isBddData'
+  // window.sessionStorage.removeItem(FORM_STATUS_BDD);
+
+  // isActiveDuty is true when the user selects that option in the wizard & then
+  // enters a separation date - based on the session storage value; we then
+  // set this flag in the formData.
+  // If the user doesn't choose the active duty wizard option, but enters a
+  // future date in their service history, this may be associated with reserves
+  // and therefor should not open the BDD flow
+  const isActiveDuty = isBddDataFlag || separationDate;
+
+  if (
+    !isActiveDuty ||
+    // User hasn't started the form or the wizard
+    (servicePeriods.length === 0 && !separationDate)
+  ) {
+    return false;
+  }
+
+  const mostRecentDate = separationDate
+    ? parseDate(separationDate)
+    : servicePeriods
+        .filter(({ dateRange }) => dateRange?.to)
+        .map(({ dateRange }) => parseDate(dateRange?.to))
+        .sort((dateA, dateB) => dateB - dateA)[0];
+
+  if (!mostRecentDate) {
+    window.sessionStorage.setItem(FORM_STATUS_BDD, 'false');
+    return false;
+  }
+
+  const today = getToday();
+  const today89 = add(today, { days: 89 });
+  const today180 = add(today, { days: 180 });
+
+  const result =
+    isActiveDuty &&
+    isAfter(mostRecentDate, today89) &&
+    !isAfter(mostRecentDate, today180);
+
+  // this flag helps maintain the correct form title within a session
+  window.sessionStorage.setItem(FORM_STATUS_BDD, result ? 'true' : 'false');
+  return Boolean(result);
+};
+
 export const disabilityIsSelected = disability => disability['view:selected'];
 
 /**
@@ -260,6 +313,8 @@ export const sippableId = str =>
 // Helper to check if user is in evidence enhancement flow
 export const isEvidenceEnhancement = formData =>
   !!formData?.disability526SupportingEvidenceEnhancement;
+export const isBddShaWorkflowActive = formData =>
+  formData.disability526NewBddShaEnforcementWorkflowEnabled && isBDD(formData);
 
 export const hasVAEvidence = formData =>
   _.get(DATA_PATHS.hasVAEvidence, formData, false);
@@ -267,6 +322,12 @@ export const hasOtherEvidence = formData =>
   _.get(DATA_PATHS.hasAdditionalDocuments, formData, false);
 export const hasPrivateEvidence = formData =>
   _.get(DATA_PATHS.hasPrivateEvidence, formData, false);
+export const isUploadingSTR = formData =>
+  isBDD(formData) &&
+  _.get(DATA_PATHS.hasServiceTreatmentRecordsToUpload, formData, false);
+export const isUploadingBddSha = formData =>
+  _.get(DATA_PATHS.hasSeparationHealthAssessment, formData, false) &&
+  isBddShaWorkflowActive(formData);
 
 export const getVaEvidence = formData =>
   _.get('vaTreatmentFacilities', formData, []);
@@ -276,6 +337,10 @@ export const getPrivateEvidenceUploads = formData =>
   _.get('privateMedicalRecordAttachments', formData, []);
 export const getAdditionalDocuments = formData =>
   _.get('additionalDocuments', formData, []);
+export const getServiceTreatmentRecordsAttachments = formData =>
+  _.get('serviceTreatmentRecordsAttachments', formData, []);
+export const getBddShaUploads = formData =>
+  _.get('separationHealthAssessmentUploads', formData, []);
 
 export const hasMedicalRecords = formData => {
   if (isEvidenceEnhancement(formData)) {
@@ -374,59 +439,6 @@ export const isClaimingNew = formData =>
 
 export const isClaimingIncrease = formData =>
   _.get('view:claimType.view:claimingIncrease', formData, false);
-
-export const isBDD = formData => {
-  const isBddDataFlag = Boolean(formData?.['view:isBddData']);
-  const servicePeriods = formData?.serviceInformation?.servicePeriods || [];
-
-  // separation date entered in the wizard
-  const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
-
-  // this flag helps maintain the correct form title within a session
-  // Removed because of Cypress e2e tests don't have access to 'view:isBddData'
-  // window.sessionStorage.removeItem(FORM_STATUS_BDD);
-
-  // isActiveDuty is true when the user selects that option in the wizard & then
-  // enters a separation date - based on the session storage value; we then
-  // set this flag in the formData.
-  // If the user doesn't choose the active duty wizard option, but enters a
-  // future date in their service history, this may be associated with reserves
-  // and therefor should not open the BDD flow
-  const isActiveDuty = isBddDataFlag || separationDate;
-
-  if (
-    !isActiveDuty ||
-    // User hasn't started the form or the wizard
-    (servicePeriods.length === 0 && !separationDate)
-  ) {
-    return false;
-  }
-
-  const mostRecentDate = separationDate
-    ? parseDate(separationDate)
-    : servicePeriods
-        .filter(({ dateRange }) => dateRange?.to)
-        .map(({ dateRange }) => parseDate(dateRange?.to))
-        .sort((dateA, dateB) => dateB - dateA)[0];
-
-  if (!mostRecentDate) {
-    window.sessionStorage.setItem(FORM_STATUS_BDD, 'false');
-    return false;
-  }
-
-  const today = getToday();
-  const today89 = add(today, { days: 89 });
-  const today180 = add(today, { days: 180 });
-
-  const result =
-    isActiveDuty &&
-    isAfter(mostRecentDate, today89) &&
-    !isAfter(mostRecentDate, today180);
-
-  // this flag helps maintain the correct form title within a session
-  window.sessionStorage.setItem(FORM_STATUS_BDD, result ? 'true' : 'false');
-  return Boolean(result);
-};
 
 // TODO: Once vetted, drop the feature toggle _and_ drop this obsolete
 // conditionality.
@@ -660,26 +672,6 @@ export const activeServicePeriods = formData =>
   _.get('serviceInformation.servicePeriods', formData, []).filter(
     sp => !sp.dateRange.to || isAfter(parseDate(sp.dateRange.to), getToday()),
   );
-
-export const isUploadingSTR = formData =>
-  isBDD(formData) &&
-  _.get(
-    'view:uploadServiceTreatmentRecordsQualifier.view:hasServiceTreatmentRecordsToUpload',
-    formData,
-    false,
-  );
-
-export const isBddShaWorkflowActive = formData =>
-  formData.disability526NewBddShaEnforcementWorkflowEnabled && isBDD(formData);
-
-export const isUploadingBddSha = formData =>
-  _.get('view:hasSeparationHealthAssessment', formData, false) &&
-  isBddShaWorkflowActive(formData);
-
-export const getBddShaUploads = formData =>
-  isUploadingBddSha(formData)
-    ? _.get('separationHealthAssessmentUploads', formData, [])
-    : [];
 
 export const DISABILITY_SHARED_CONFIG = {
   orientation: {

@@ -127,6 +127,9 @@ export const DATA_PATHS = {
   hasPrivateRecordsToUpload:
     'view:uploadPrivateRecordsQualifier.view:hasPrivateRecordsToUpload',
   hasAdditionalDocuments: 'view:selectableEvidenceTypes.view:hasOtherEvidence',
+  hasServiceTreatmentRecordsToUpload:
+    'view:uploadServiceTreatmentRecordsQualifier.view:hasServiceTreatmentRecordsToUpload',
+  hasSeparationHealthAssessment: 'view:hasSeparationHealthAssessment',
 };
 
 export const DATA_DOG_APP_NAME = 'Benefits Disability';
