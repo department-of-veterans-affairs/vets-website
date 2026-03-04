@@ -153,6 +153,8 @@ export const testOptionsTextCardDescription = (
         transferDate: formatDateLong,
         establishedDate: formatDateLong,
         incomeLastReceivedDate: formatDateLong,
+        uploadedDocuments: docs =>
+          Array.isArray(docs) ? docs.map(doc => doc?.name).filter(Boolean) : [],
       };
 
       Object.entries(baseItem).forEach(([key, value]) => {

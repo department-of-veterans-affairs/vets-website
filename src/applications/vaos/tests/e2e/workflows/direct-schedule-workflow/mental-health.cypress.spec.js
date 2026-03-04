@@ -1,4 +1,3 @@
-// @ts-check
 import { addMonths, subDays } from 'date-fns';
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
@@ -21,6 +20,7 @@ import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointm
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import TypeOfMentalHealthPageObject from '../../page-objects/TypeOfMentalHealthPageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentCreateApi,
@@ -174,6 +174,8 @@ describe('VAOS direct schedule flow - Mental health', () => {
 
           AppointmentListPageObject.visit().scheduleAppointment();
 
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
             .selectTypeOfCare(typeOfCareRegex)
@@ -256,6 +258,8 @@ describe('VAOS direct schedule flow - Mental health', () => {
           cy.login(mockUser);
 
           AppointmentListPageObject.visit().scheduleAppointment();
+
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
@@ -347,6 +351,8 @@ describe('VAOS direct schedule flow - Mental health', () => {
 
           AppointmentListPageObject.visit().scheduleAppointment();
 
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
             .selectTypeOfCare(typeOfCareRegex)
@@ -436,6 +442,8 @@ describe('VAOS direct schedule flow - Mental health', () => {
           cy.login(mockUser);
 
           AppointmentListPageObject.visit().scheduleAppointment();
+
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })

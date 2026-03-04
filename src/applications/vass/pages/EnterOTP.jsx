@@ -22,6 +22,7 @@ import {
   isServerError,
   isAppointmentAlreadyBookedError,
   isNotWhithinCohortError,
+  isNoSlotsAvailableError,
 } from '../utils/errors';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
@@ -101,7 +102,8 @@ const EnterOTP = () => {
 
     if (
       isServerError(availabilityCheck.error) ||
-      isNotWhithinCohortError(availabilityCheck.error)
+      isNotWhithinCohortError(availabilityCheck.error) ||
+      isNoSlotsAvailableError(availabilityCheck.error)
     ) {
       return;
     }
@@ -142,7 +144,8 @@ const EnterOTP = () => {
       errorAlert={
         isServerError(postOTPVerificationError) ||
         isServerError(appointmentAvailabilityError) ||
-        isNotWhithinCohortError(appointmentAvailabilityError)
+        isNotWhithinCohortError(appointmentAvailabilityError) ||
+        isNoSlotsAvailableError(appointmentAvailabilityError)
       }
     >
       {!postOTPVerificationError?.code && (

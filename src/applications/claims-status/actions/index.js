@@ -269,11 +269,15 @@ export const getClaims = () => {
   };
 };
 
-export const getClaim = (id, navigate) => {
+export const getClaim = (id, navigate, provider) => {
   return dispatch => {
     dispatch({ type: GET_CLAIM_DETAIL });
 
-    return apiRequest(`/benefits_claims/${id}`)
+    const url = provider
+      ? `/benefits_claims/${id}?type=${provider}`
+      : `/benefits_claims/${id}`;
+
+    return apiRequest(url)
       .then(res => {
         dispatch({
           type: SET_CLAIM_DETAIL,
