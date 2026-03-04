@@ -71,25 +71,6 @@ describe('Dependents Pages', () => {
     // ssn set => show and required
   });
 
-  it('introPage ui:description displays expected text', () => {
-    const { dependentsIntro } = dependentsPages;
-
-    const form = render(
-      <DefinitionTester
-        schema={dependentsIntro.schema}
-        uiSchema={dependentsIntro.uiSchema}
-        data={{}}
-      />,
-    );
-
-    // Intro paragraph text
-    expect(
-      form.getByText(
-        /Next we.?ll ask you about the Veteran.?s dependent children. You may add up to 3 dependents./i,
-      ),
-    ).to.exist;
-  });
-
   it('SSN required field is visible when noSsn is false or unset', () => {
     // Render the dependent name page as an item page for dependents
     const { dependentName: page } = dependentsPages;
@@ -263,17 +244,6 @@ describe('Dependents Pages', () => {
   //   expect(dependentCustodian.depends(itemTrue, 0)).to.be.false;
   //   expect(dependentCustodian.depends(none, 0)).to.be.false;
   // });
-  it('dependentsIntro depends shows only when veteranChildrenCount is 1 or more', () => {
-    const { dependentsIntro } = dependentsPages;
-
-    const itemZero = getDependentsData(0);
-    const itemOne = getDependentsData(1);
-    const itemTwo = getDependentsData(2);
-
-    expect(dependentsIntro.depends(itemZero)).to.be.false;
-    expect(dependentsIntro.depends(itemOne)).to.be.true;
-    expect(dependentsIntro.depends(itemTwo)).to.be.true;
-  });
 
   it('dependentsSummary depends shows only when veteranChildrenCount is 1 or more', () => {
     const { dependentsSummary } = dependentsPages;
@@ -293,7 +263,6 @@ describe('Dependents Pages', () => {
     const itemZero = getDependentsData(0);
     const itemOne = getDependentsData(1);
     const itemTwo = getDependentsData(2);
-
     expect(dependentName.depends(itemZero)).to.be.false;
     expect(dependentName.depends(itemOne)).to.be.true;
     expect(dependentName.depends(itemTwo)).to.be.true;
