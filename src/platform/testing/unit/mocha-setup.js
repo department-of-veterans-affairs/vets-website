@@ -318,6 +318,30 @@ function setupJSDom() {
     enumerable: true,
     writable: true,
   });
+
+  // Stub HTMLCanvasElement.prototype.getContext for axe-core color contrast checks
+  // JSDOM 20 doesn't implement canvas, but axe-core needs it to detect icon ligatures
+  if (typeof window.HTMLCanvasElement !== 'undefined') {
+    window.HTMLCanvasElement.prototype.getContext = function() {
+      return null;
+    };
+  }
+
+  // Stub customElements for web component support (JSDOM 20 doesn't have it)
+  // This allows web components from @department-of-veterans-affairs/web-components
+  // to be defined and used in tests
+  if (!window.customElements) {
+    const customElementsRegistry = new Map();
+    window.customElements = {
+      define: (name, constructor) => {
+        customElementsRegistry.set(name, constructor);
+      },
+      get: name => customElementsRegistry.get(name),
+      whenDefined: name => {
+        return Promise.resolve(customElementsRegistry.get(name));
+      },
+    };
+  }
 }
 /* eslint-disable no-console */
 

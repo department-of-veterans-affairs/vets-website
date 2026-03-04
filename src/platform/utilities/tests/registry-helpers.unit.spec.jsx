@@ -3,6 +3,10 @@ import { expect } from 'chai';
 import { getAppUrl } from '../registry-helpers';
 
 describe('getAppUrl', () => {
+  afterEach(() => {
+    global.__REGISTRY__ = [];
+  });
+
   it('should return an empty string when the registry is empty', () => {
     global.__REGISTRY__ = [];
 

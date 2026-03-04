@@ -20,12 +20,10 @@ export class VerifyPageObject extends PageObject {
     });
 
     // Assert intro text is displayed with correct content
-    cy.findByTestId('verify-intro-text')
-      .should('exist')
-      .and(
-        'contain.text',
+    this.assertElement('verify-intro-text', {
+      containsText:
         'we’ll need your information so we can send you a one-time verification code',
-      );
+    });
 
     // Assert form inputs exist
     this.assertElement('last-name-input', { exist: true });
@@ -38,7 +36,8 @@ export class VerifyPageObject extends PageObject {
       .and('not.have.attr', 'disabled');
 
     // Assert no error states on initial load
-    this.assertVerifyErrorAlert({ exist: false });
+    this.assertInvalidCredentialsErrorAlert({ exist: false });
+    this.assertInvalidVerificationErrorAlert({ exist: false });
 
     // Assert need help footer
     this.assertNeedHelpFooter();
@@ -47,24 +46,37 @@ export class VerifyPageObject extends PageObject {
   }
 
   /**
-   * Assert the verification error page is displayed
+   * Assert the invalid credentials error alert is displayed
+   * @param {Object} options - Options
+   * @param {boolean} options.exist - Whether the alert should exist
    * @returns {VerifyPageObject}
    */
-  assertVerificationErrorPage() {
-    this.assertHeading({
-      name: /We couldn.t verify your information/i,
-      level: 1,
-      exist: true,
+  assertInvalidCredentialsErrorAlert({ exist = true } = {}) {
+    this.assertElement('verify-error-alert', {
+      exist,
+      containsText: exist
+        ? 'We’re sorry. We couldn’t find a record that matches that last name or date of birth. Please try again.'
+        : undefined,
     });
     return this;
   }
 
   /**
-   * Assert the error alert is displayed
+   * Assert the verification error alert is displayed
+   * @param {Object} options - Options
+   * @param {boolean} options.exist - Whether the alert should exist
    * @returns {VerifyPageObject}
    */
-  assertVerifyErrorAlert({ exist = true } = {}) {
-    this.assertElement('verify-error-alert', { exist });
+  assertInvalidVerificationErrorAlert({ exist = true } = {}) {
+    if (exist) {
+      this.assertVerificationErrorAlert({
+        headingText: 'We couldn’t verify your information',
+        containsText:
+          'We’re sorry. We couldn’t match your information to your records. Please call us for help.',
+      });
+    } else {
+      this.assertVerificationErrorAlert({ exist: false });
+    }
     return this;
   }
 
@@ -93,21 +105,13 @@ export class VerifyPageObject extends PageObject {
   }
 
   /**
-   * Enter a last name value
-   * @param {string} lastName - The last name to enter
+   * Enter a last name value. If no value is provided, the default value of 'Smith' will be used.
+   * @param {string} [lastName='Smith'] - The last name to enter
    * @returns {VerifyPageObject}
    */
-  enterLastName(lastName) {
+  enterLastName(lastName = 'Smith') {
     cy.fillVaTextInput('last-name', lastName);
     return this;
-  }
-
-  /**
-   * Enter a valid last name for testing
-   * @returns {VerifyPageObject}
-   */
-  enterValidLastName() {
-    return this.enterLastName('Smith');
   }
 
   /**
@@ -115,10 +119,10 @@ export class VerifyPageObject extends PageObject {
    * Uses standard Cypress .type() instead of cy.fillVaMemorableDate() because
    * the platform command uses cy.realType() (from cypress-real-events) in Chrome,
    * which hangs indefinitely in headless Chrome inside Docker CI containers.
-   * @param {string} dateString - Date in YYYY-MM-DD format (e.g., '1990-01-15')
+   * @param {string} [dateString='1935-04-07'] - Date in YYYY-MM-DD format (e.g., '1935-04-07')
    * @returns {VerifyPageObject}
    */
-  enterDateOfBirth(dateString) {
+  enterDateOfBirth(dateString = '1935-04-07') {
     const [year, month, day] = dateString
       .split('-')
       .map(
@@ -157,14 +161,6 @@ export class VerifyPageObject extends PageObject {
   }
 
   /**
-   * Enter a valid date of birth for testing
-   * @returns {VerifyPageObject}
-   */
-  enterValidDateOfBirth() {
-    return this.enterDateOfBirth('1990-01-15');
-  }
-
-  /**
    * Click the submit button
    * @returns {VerifyPageObject}
    */
@@ -176,24 +172,13 @@ export class VerifyPageObject extends PageObject {
   }
 
   /**
-   * Fill the form with valid data and submit
-   * @returns {VerifyPageObject}
-   */
-  fillAndSubmitValidForm() {
-    this.enterValidLastName();
-    this.enterValidDateOfBirth();
-    this.clickSubmit();
-    return this;
-  }
-
-  /**
    * Fill the form with custom data and submit
    * @param {Object} props - Form data
-   * @param {string} props.lastName - Last name to enter
-   * @param {string} props.dateOfBirth - Date of birth in YYYY-MM-DD format
+   * @param {string} props.lastName - Last name to enter. If no value is provided, the default value of 'Smith' will be used.
+   * @param {string} props.dateOfBirth - Date of birth in YYYY-MM-DD format. If no value is provided, the default value of '1935-04-07' will be used.
    * @returns {VerifyPageObject}
    */
-  fillAndSubmitForm({ lastName, dateOfBirth }) {
+  fillAndSubmitForm({ lastName = 'Smith', dateOfBirth = '1935-04-07' } = {}) {
     this.enterLastName(lastName);
     this.enterDateOfBirth(dateOfBirth);
     this.clickSubmit();

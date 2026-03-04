@@ -16,6 +16,7 @@ import PlanAheadPageObject from '../../page-objects/PlanAheadPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import SecondDosePageObject from '../../page-objects/SecondDosePageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentCreateApi,
@@ -104,6 +105,8 @@ describe('VAOS covid-19 vaccine flow', () => {
 
         AppointmentListPageObject.visit().scheduleAppointment();
 
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/COVID-19 vaccine/i)
@@ -164,6 +167,8 @@ describe('VAOS covid-19 vaccine flow', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert()
@@ -267,6 +272,8 @@ describe('VAOS covid-19 vaccine flow', () => {
 
         AppointmentListPageObject.visit().scheduleAppointment();
 
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/COVID-19 vaccine/i)
@@ -332,6 +339,8 @@ describe('VAOS covid-19 vaccine flow', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: true })
@@ -407,6 +416,8 @@ describe('VAOS covid-19 vaccine flow', () => {
 
       AppointmentListPageObject.visit().scheduleAppointment();
 
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/COVID-19 vaccine/i)
@@ -449,6 +460,8 @@ describe('VAOS covid-19 vaccine flow', () => {
       cy.login(mockUser);
 
       AppointmentListPageObject.visit().scheduleAppointment();
+
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
@@ -498,6 +511,8 @@ describe('VAOS covid-19 vaccine flow', () => {
       cy.login(mockUser);
 
       AppointmentListPageObject.visit().scheduleAppointment();
+
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
@@ -551,6 +566,8 @@ describe('VAOS covid-19 vaccine flow', () => {
       cy.login(mockUser);
 
       AppointmentListPageObject.visit().scheduleAppointment();
+
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })

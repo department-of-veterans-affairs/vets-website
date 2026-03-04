@@ -1,4 +1,5 @@
 import React from 'react';
+import { focusElement } from '~/platform/utilities/ui';
 import { CURRENCY_LABELS } from './constants';
 
 export const validateInitials = (inputValue, firstName, lastName) => {
@@ -259,24 +260,20 @@ const yellowRibbonCardTitleCase = str => {
   return result.join(' ');
 };
 
-export const yellowRibbonProgramCardDescription = item => {
+export const yellowRibbonProgramCardDescription = (item, formData) => {
   if (!item) return null;
+  const degreeLevel = yellowRibbonCardTitleCase(item.degreeLevel);
+  const school = yellowRibbonCardTitleCase(item.collegeOrProfessionalSchool);
+  const isUsaSchool = formData?.institutionDetails?.isUsaSchool;
   return (
     <div>
-      <p>
-        {`Max. number of students: ${
-          item?.maximumStudentsOption === 'specific'
-            ? item?.maximumStudents
-            : 'Unlimited'
-        }`}
-      </p>
-      <p>{yellowRibbonCardTitleCase(item.degreeLevel)}</p>
-      <p>{yellowRibbonCardTitleCase(item.collegeOrProfessionalSchool)}</p>
-      <p>{CURRENCY_LABELS[item.schoolCurrency]}</p>
+      <p>{degreeLevel}</p>
+      {school && <p>{school}</p>}
+      {item.schoolCurrency && <p>{CURRENCY_LABELS[item.schoolCurrency]}</p>}
       <p>
         {!item.specificContributionAmount
-          ? 'Pay remaining tuition that Post-9/11 GI Bill doesn’t cover (unlimited)'
-          : `${item.collegeOrProfessionalSchool ? '$' : ''}${Number(
+          ? 'Pay remaining mandatory tuition and fees not covered by Post-9/11 GI Bill (unlimited)'
+          : `${isUsaSchool ? '$' : ''}${Number(
               item.specificContributionAmount,
             ).toLocaleString()}`}
       </p>
@@ -297,9 +294,14 @@ export const arrayBuilderOptions = {
   },
   text: {
     getItemName: item => {
-      return item?.academicYear || item?.academicYearDisplay;
+      return `${`Max. number of students: ${
+        item?.maximumStudentsOption === 'specific'
+          ? item?.maximumStudents
+          : 'Unlimited'
+      }`}`;
     },
-    cardDescription: item => yellowRibbonProgramCardDescription(item),
+    cardDescription: (item, _index, formData) =>
+      yellowRibbonProgramCardDescription(item, formData),
     summaryTitle: props => {
       const institutionDetails = props?.formData?.institutionDetails;
       const { isUsaSchool } = institutionDetails || {};
@@ -349,7 +351,6 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
       return;
     }
 
-    // TODO: move below 'not found' check after new response code is configured
     if (hasXInThirdPosition) {
       errors.addError(
         'Codes with an "X" in the third position are not eligible',
@@ -388,6 +389,23 @@ export const showAdditionalPointsOfContact = formData => {
   return !hasBothRoles;
 };
 
+export const getAdditionalContactRole = formData => {
+  const isYellowRibbonProgramPointOfContact =
+    formData?.pointsOfContact?.roles?.isYellowRibbonProgramPointOfContact ===
+    true;
+  const isSchoolFinancialRepresentative =
+    formData?.pointsOfContact?.roles?.isSchoolFinancialRepresentative === true;
+
+  if (
+    !isSchoolFinancialRepresentative &&
+    !isYellowRibbonProgramPointOfContact
+  ) {
+    return 'Yellow Ribbon Program point of contact';
+  }
+
+  return 'School certifying official';
+};
+
 export const getAdditionalContactTitle = formData => {
   const isYellowRibbonProgramPointOfContact =
     formData?.pointsOfContact?.roles?.isYellowRibbonProgramPointOfContact ===
@@ -416,4 +434,8 @@ export const CustomReviewTopContent = () => {
       Review your form
     </h3>
   );
+};
+
+export const focusOnH3 = () => {
+  focusElement('#main h3');
 };

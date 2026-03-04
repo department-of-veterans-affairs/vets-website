@@ -250,6 +250,7 @@ export const Locators = {
     EL_SIGN_NAME: '#input-error-message .usa-error-message',
     EL_SIGN_CHECK: `#checkbox-error-message .usa-error-message`,
     ADD_MEDICATION_INFO_WARNING: 'add-medication-info-warning',
+    CONTACT_LIST_MIGRATION: 'contact-list-migration-alert',
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -324,6 +325,13 @@ export const Alerts = {
     EMPTY: `Select at least one team`,
     SAVE_API_ERROR: `We're sorry. We couldn't save your changes. Try saving again.`,
     LOAD_API_ERROR: `We can’t load your contact list right now`,
+  },
+  CONTACT_LIST_MIGRATION: {
+    POST_MIGRATION: {
+      HEADLINE: 'We updated your contact list',
+      BODY:
+        'We removed care teams from these facilities from your contact list:',
+    },
   },
   ATTACHMENT: {
     TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, JPEG, PDF, PNG, RTF, TXT, XLS, XLSX, JFIF, PJPEG, or PJP.`,
@@ -421,7 +429,8 @@ export const Data = {
   IS_ACTIVE: 'is-active',
   END_CONVERSATION_IN_FOLDER: 'End of conversations in this folder',
   SAVE_MEG_AS_DRAFT: 'If you save this message as a draft',
-  NO_MSG_IN_FOLDER: 'There are no messages in this folder.',
+  NO_MSG_IN_FOLDER:
+    'There are no messages in this folder. If this folder is no longer needed, you can remove it.',
   WHAT_SECURE_MSG_PILOT: 'What is Secure Messaging Pilot?',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
     "You can't send messages to your care teams right now",
@@ -646,7 +655,8 @@ export const Assertions = {
   EDITED: 'edited',
   ACTIVE: 'is-active',
   MESSAGE_PREFERENCES: 'Edit your message preferences',
-  NO_MESSAGE_FOLDER: 'There are no messages in this folder.',
+  NO_MESSAGE_FOLDER:
+    'There are no messages in this folder. If this folder is no longer needed, you can remove it.',
   CODE_STATUS: 'statusCode',
   SECURE_MESSAGE_PILOT: 'What is Secure Messaging Pilot?',
   NEW_MESSAGE: 'new-message',

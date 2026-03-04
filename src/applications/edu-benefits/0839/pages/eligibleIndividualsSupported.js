@@ -28,12 +28,12 @@ const uiSchema = {
         required: `Enter the academic year, such as ${getAcademicYearDisplay()}`,
       },
     }),
-    'ui:required': (formData, index, fullData) =>
+    'ui:required': (_formData, index, fullData) =>
       index === 0 && fullData?.agreementType !== 'startNewOpenEndedAgreement',
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 eligible-individuals-note container',
       useAllFormData: true,
-      hideIf: (formData, index, fullData) =>
+      hideIf: (_formData, index, fullData) =>
         index !== 0 || fullData?.agreementType === 'startNewOpenEndedAgreement',
     },
     'ui:validations': [

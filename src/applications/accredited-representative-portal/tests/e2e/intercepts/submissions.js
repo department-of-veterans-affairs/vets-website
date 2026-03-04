@@ -107,6 +107,10 @@ export const setSubmissions = () => {
         totalPages: 3,
       },
     },
+    claimant: {
+      firstName: 'Brooke',
+      lastName: 'Santiago',
+    },
   });
 };
 
@@ -120,6 +124,10 @@ export const setEmptySubmissions = () => {
         total: 0,
         totalPages: 1,
       },
+    },
+    claimant: {
+      firstName: 'Brooke',
+      lastName: 'Santiago',
     },
   });
 };

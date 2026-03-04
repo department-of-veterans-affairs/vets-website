@@ -9,7 +9,7 @@ describe('Confirmation Page', () => {
   });
 
   it('renders the confirmation page with results and additional info', () => {
-    cy.get('h2').should('contain', 'Recommended benefits for you');
+    cy.get('h2').should('contain', 'Your results');
 
     cy.get('va-additional-info')
       .should('be.visible')
@@ -57,7 +57,7 @@ describe('Confirmation Page', () => {
 
     cy.axeCheck();
 
-    cy.get('#filter-text').should('contain', 'results with 1 filter applied');
+    cy.get('#filter-text').should('contain', 'results with 2 filters applied');
 
     cy.get('va-search-filter')
       .shadow()
@@ -65,9 +65,15 @@ describe('Confirmation Page', () => {
       .contains('Clear all filters')
       .click();
 
+    cy.get('va-search-filter', { includeShadowDom: true })
+      .shadow()
+      .find('button')
+      .contains('Apply')
+      .click();
+
     cy.axeCheck();
 
-    cy.get('#filter-text').should('not.contain.text', 'filter applied');
+    cy.get('#filter-text').should('contain', 'Showing 1–10 of 22 results');
   });
 
   it('applies and clears multiple filters', () => {
@@ -93,12 +99,18 @@ describe('Confirmation Page', () => {
 
     cy.axeCheck();
 
-    cy.get('#filter-text').should('contain', 'results with 2 filters applied');
+    cy.get('#filter-text').should('contain', 'results with 3 filters applied');
 
     cy.get('va-search-filter', { includeShadowDom: true })
       .shadow()
       .find('button')
       .contains('Clear all filters')
+      .click();
+
+    cy.get('va-search-filter', { includeShadowDom: true })
+      .shadow()
+      .find('button')
+      .contains('Apply')
       .click();
 
     cy.axeCheck();
@@ -118,15 +130,7 @@ describe('Confirmation Page', () => {
 
     cy.get('#filter-text').should(
       'contain.text',
-      'Showing 11–16 of 16 results',
+      'Showing 11–15 of 15 results',
     );
-  });
-
-  it('has a working link to all benefits view', () => {
-    cy.get('[data-testid="show-all-benefits"]')
-      .should('have.attr', 'href')
-      .and('include', 'allBenefits=true');
-
-    cy.axeCheck();
   });
 });

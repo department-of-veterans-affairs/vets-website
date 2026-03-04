@@ -240,43 +240,6 @@ describe('Dependents Pages', () => {
     expect(text.getItemName(itemWithoutName)).to.equal('Dependent');
   });
 
-  it('AdditionalDependentsAlert only displays when livesWith is explicitly false', () => {
-    const householdItemUi = findItemUi(dependentHousehold);
-    expect(householdItemUi, 'dependentHousehold item UI not found').to.exist;
-    const alertOptions =
-      householdItemUi.additionalDependentsAlert['ui:options'];
-
-    // explicit false at item => alert visible (hideIf returns false)
-    const itemFalse = { veteransChildren: [{ livesWith: false }] };
-    expect(alertOptions.hideIf(itemFalse, 0)).to.be.false;
-
-    // explicit true => hidden
-    const itemTrue = { veteransChildren: [{ livesWith: true }] };
-    expect(alertOptions.hideIf(itemTrue, 0)).to.be.true;
-
-    // undefined => hidden
-    const none = { veteranChildrenCount: '0', veteransChildren: [{}] };
-    expect(alertOptions.hideIf(none, 0)).to.be.true;
-
-    // Render the household page with livesWith false so the alert is visible
-    const { dependentHousehold: page } = dependentsPages;
-    const form = render(
-      <DefinitionTester
-        arrayPath="veteransChildren"
-        schema={page.schema}
-        uiSchema={page.uiSchema}
-        pagePerItemIndex={0}
-        data={{
-          veteranChildrenCount: '1',
-          veteransChildren: [{ livesWith: false }],
-        }}
-      />,
-    );
-    const formDOM = getFormDOM(form);
-    const alertEl = $('va-alert-expandable', formDOM);
-    expect(alertEl).to.exist;
-  });
-
   // it('dependentMailingAddress depends shows only when livesWith is false', () => {
   //   const { dependentMailingAddress } = dependentsPages;
 

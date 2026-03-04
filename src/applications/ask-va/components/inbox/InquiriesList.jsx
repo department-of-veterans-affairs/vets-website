@@ -30,7 +30,7 @@ export default function InquiriesList({
   query,
 }) {
   const [currentPageNum, setCurrentPageNum] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 6;
 
   const pages = paginateInquiries(inquiries, itemsPerPage);
 

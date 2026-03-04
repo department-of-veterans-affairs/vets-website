@@ -1,15 +1,34 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom-v5-compat';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 const Breadcrumbs = () => {
-  const crumbs = [
+  const { pathname } = useLocation();
+  const baseUrl = '/careers-employment';
+  const eligibilityPath = '/careers-employment/your-vre-eligibility';
+  let normalizedPath = pathname;
+
+  if (pathname === '/') {
+    normalizedPath = eligibilityPath;
+  } else if (!pathname.startsWith(baseUrl)) {
+    normalizedPath = `${baseUrl}${pathname}`;
+  }
+
+  const baseCrumbs = [
     { href: '/', label: 'VA.gov home' },
     { href: '/careers-employment', label: 'Careers and employment' },
-    {
-      href: '/careers-employment/your-vre-eligibility/',
-      label: 'Your VR&E eligibility and benefits',
-    },
   ];
+
+  const routeCrumbs = normalizedPath.startsWith(eligibilityPath)
+    ? [
+        {
+          href: eligibilityPath,
+          label: 'Your VR&E eligibility and benefits',
+        },
+      ]
+    : [];
+
+  const crumbs = [...baseCrumbs, ...routeCrumbs];
 
   return (
     <div className="row">
