@@ -25,17 +25,21 @@ export const AppointmentCard = ({ appointment }) => {
 
   const content = (
     <>
-      <h3 className="vads-u-margin-top--0">Upcoming appointment</h3>
-      <p className="vads-u-margin-bottom--1 dd-privacy-mask">
+      <h4 className="vads-u-margin-y--0 vads-u-padding-bottom--1">
+        Upcoming appointment
+      </h4>
+      <p className="vads-u-margin-top--0p5 dd-privacy-mask">
         {formatInTimeZone(localStartTime, timeZoneId, 'eeee, MMMM d, yyyy')}
       </p>
-      <p className="vads-u-margin-bottom--1 vads-u-margin-top--1 dd-privacy-mask">
+      <p className="vads-u-margin-bottom--0 dd-privacy-mask">
         {`Time: ${formatInTimeZone(localStartTime, timeZoneId, 'h:mm aaaa')} ${
           timeZone.abbreviation
         }`}
       </p>
       {locationName && (
-        <p className="vads-u-margin-top--1 dd-privacy-mask">{locationName}</p>
+        <p className="vads-u-margin-bottom--0 dd-privacy-mask">
+          {locationName}
+        </p>
       )}
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
         <va-link
@@ -57,12 +61,7 @@ export const AppointmentCard = ({ appointment }) => {
   return (
     <div className="vads-u-margin-bottom--2p5">
       <va-card>
-        <div
-          className="vads-u-display--flex vads-u-flex-direction--column desktop-lg:vads-u-flex--1 vads-u-padding--1"
-          data-testid="health-care-appointments-card"
-        >
-          {content}
-        </div>
+        <div data-testid="health-care-appointments-card">{content}</div>
       </va-card>
     </div>
   );

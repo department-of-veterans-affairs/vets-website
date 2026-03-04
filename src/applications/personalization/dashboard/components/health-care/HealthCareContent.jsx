@@ -39,7 +39,7 @@ const HealthCareContent = ({
 
   const NoUnreadMessages = () => (
     <va-card data-testid="no-unread-messages-card">
-      <h4 className="vads-u-margin-top--1">No unread messages</h4>
+      <h4 className="vads-u-margin-top--0">No unread messages</h4>
       <va-link
         text="Go to inbox"
         href="/my-health/secure-messages/inbox"
@@ -50,7 +50,7 @@ const HealthCareContent = ({
 
   const UnreadMessages = () => (
     <va-card data-testid="upread-messages-card">
-      <h4 className="vads-u-margin-top--1">
+      <h4 className="vads-u-margin-top--0">
         {unreadMessagesCount} unread message
         {unreadMessagesCount !== 1 && 's'}
       </h4>
@@ -77,7 +77,7 @@ const HealthCareContent = ({
 
     return (
       <div className="vads-u-margin-bottom--2p5">
-        <va-alert status={status} show-icon data-testid="healthcare-error">
+        <va-alert status={status} data-testid="healthcare-error">
           <p>
             We can’t show your health care information right now. Refresh this
             page or try again later.
@@ -89,7 +89,7 @@ const HealthCareContent = ({
 
   const AppointmentsError = () => (
     <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="warning" show-icon data-testid="appointments-error">
+      <va-alert status="warning" data-testid="appointments-error">
         <div>
           We can’t show your appointments right now. Refresh this page or try
           again later.
@@ -100,7 +100,7 @@ const HealthCareContent = ({
 
   const MessagesError = () => (
     <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="warning" show-icon data-testid="messages-error">
+      <va-alert status="warning" data-testid="messages-error">
         <div>
           We can’t show your messages right now. Refresh this page or try again
           later.
@@ -157,6 +157,7 @@ const HealthCareContent = ({
               <NoUpcomingAppointmentsText />
             </DashboardWidgetWrapper>
           )}
+
         <va-link
           text="Manage all appointments"
           href="/my-health/appointments"
