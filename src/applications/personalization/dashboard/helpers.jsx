@@ -81,7 +81,8 @@ export const formatFormTitle = (title = '') =>
   capitalize(title)
     .replace(/\bform\b/gi, 'Form')
     .replace(/\bva\b/gi, 'VA')
-    .replace(/ez/gi, 'EZ');
+    .replace(/ez/gi, 'EZ')
+    .replace(/champva/gi, 'CHAMPVA');
 
 export const recordDashboardClick = (
   product,

@@ -54,8 +54,8 @@ describe('Claim document request', () => {
         claim: createBenefitsClaim({
           trackedItems: [
             createTrackedItem({
-              displayName: 'Unknown Request Type', // Not in evidenceDictionary
-              description: '', // No API description either
+              displayName: 'Unknown Request Type',
+              description: '',
             }),
           ],
         }),

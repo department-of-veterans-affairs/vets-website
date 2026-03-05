@@ -574,20 +574,8 @@ describe('Tracked Item Content helpers:', () => {
     });
 
     context('when the API does not provide the property', () => {
-      it('should fall back to the evidenceDictionary', () => {
-        const item = { displayName: 'ASB - tell us where, when, how exposed' };
-
-        expect(getTrackedItemProperty(item, 'isSensitive')).to.be.true;
-      });
-
-      it('should return false for entries not defined in the evidenceDictionary', () => {
-        const item = { displayName: 'Unknown item' };
-
-        expect(getTrackedItemProperty(item, 'isSensitive')).to.be.false;
-      });
-
-      it('should return false for item properties not defined in the evidenceDictionary', () => {
-        const item = { displayName: '21-4142/21-4142a' };
+      it('should return false', () => {
+        const item = { displayName: 'Test Item' };
 
         expect(getTrackedItemProperty(item, 'isSensitive')).to.be.false;
       });
@@ -607,7 +595,6 @@ describe('Tracked Item Content helpers:', () => {
       property: 'isSensitive',
       apiValue: true,
       displayName: 'ASB - tell us where, when, how exposed',
-      evidenceDictionaryValue: true,
     },
     {
       name: 'getNoActionNeeded',
@@ -615,7 +602,6 @@ describe('Tracked Item Content helpers:', () => {
       property: 'noActionNeeded',
       apiValue: false,
       displayName: 'DBQ PSYCH PTSD initial',
-      evidenceDictionaryValue: true,
     },
     {
       name: 'getIsProperNoun',
@@ -623,7 +609,6 @@ describe('Tracked Item Content helpers:', () => {
       property: 'isProperNoun',
       apiValue: true,
       displayName: 'Employment info needed',
-      evidenceDictionaryValue: false,
     },
     {
       name: 'getNoProvidePrefix',
@@ -631,19 +616,11 @@ describe('Tracked Item Content helpers:', () => {
       property: 'noProvidePrefix',
       apiValue: false,
       displayName: 'Clarification of Claimed Issue',
-      evidenceDictionaryValue: true,
     },
   ];
 
   booleanPropertyHelpers.forEach(
-    ({
-      name,
-      fn,
-      property,
-      apiValue,
-      displayName,
-      evidenceDictionaryValue,
-    }) => {
+    ({ name, fn, property, apiValue, displayName }) => {
       describe(name, () => {
         it(`should return a boolean value when API provides ${property}`, () => {
           const item = { displayName, [property]: apiValue };
@@ -651,10 +628,10 @@ describe('Tracked Item Content helpers:', () => {
           expect(fn(item)).to.equal(apiValue);
         });
 
-        it(`should fall back to the evidenceDictionary when API does not provide ${property}`, () => {
+        it(`should return false when API does not provide ${property}`, () => {
           const item = { displayName };
 
-          expect(fn(item)).to.equal(evidenceDictionaryValue);
+          expect(fn(item)).to.be.false;
         });
       });
     },
@@ -682,7 +659,7 @@ describe('Tracked Item Content helpers:', () => {
     });
 
     context('when API does not provide isDBQ', () => {
-      it('should return true for DBQ items in the evidenceDictionary', () => {
+      it('should return true when displayName contains "dbq" (case-insensitive)', () => {
         const item = { displayName: 'DBQ PSYCH PTSD initial' };
 
         expect(getIsDBQ(item)).to.be.true;
