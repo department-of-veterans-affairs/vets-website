@@ -339,7 +339,7 @@ export const Alerts = {
       BODY_TOP:
         'We removed care teams from these facilities from your contact list:',
       BODY_BOTTOM:
-        'You can still send messages to care teams at these facilities',
+        'You can still send messages to care teams at these facilities. But the care team names will be different.',
     },
   },
   ATTACHMENT: {
