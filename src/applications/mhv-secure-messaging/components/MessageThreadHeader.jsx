@@ -22,7 +22,7 @@ import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import StaleMessageAlert from './shared/StaleMessageAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
-import MigratedMessageAlert from './shared/MigratedMessageAlert.jsx';
+import MigratedMessageAlert from './shared/MigratedMessageAlert';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 import ReplyButton from './ReplyButton';
 import AlertBackgroundBox from './shared/AlertBackgroundBox';

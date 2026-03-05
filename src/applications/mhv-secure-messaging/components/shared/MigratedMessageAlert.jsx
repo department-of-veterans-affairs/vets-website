@@ -9,7 +9,9 @@ const DATADOG_FIND_VA_FACILITY_LINK =
 // MigratedMessageAlert displays an alert when a message has been migrated to Oracle Health.
 const MigratedMessageAlert = () => {
   const alertContentConfig = CernerAlertContent.SECURE_MESSAGING;
-  const messages = useSelector(state => state.sm.threadDetails.messages);
+  const messages = useSelector(
+    state => state.sm?.threadDetails?.messages || [],
+  );
   if (
     messages?.length > 0 &&
     messages.some(
@@ -54,7 +56,5 @@ const MigratedMessageAlert = () => {
   }
   return null;
 };
-
-MigratedMessageAlert.propTypes = {};
 
 export default MigratedMessageAlert;
