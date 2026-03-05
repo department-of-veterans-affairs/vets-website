@@ -9,6 +9,7 @@ const DocumentUpload = ({
   error,
   handleDocumentChange,
   onVaFileInputError,
+  label = 'Upload your proof of the expense',
 }) => {
   return (
     <>
@@ -18,7 +19,7 @@ const DocumentUpload = ({
           /, ([^,]*)$/,
           ', or $1',
         )} file. Your file should be no larger than 5MB.`}
-        label="Upload your proof of the expense"
+        label={label}
         maxFileSize={5200000}
         minFileSize={0}
         name="travel-pay-claim-document-upload"
@@ -43,6 +44,7 @@ DocumentUpload.propTypes = {
   currentDocument: PropTypes.object,
   error: PropTypes.string,
   handleDocumentChange: PropTypes.func,
+  label: PropTypes.string,
   onVaFileInputError: PropTypes.func,
 };
 

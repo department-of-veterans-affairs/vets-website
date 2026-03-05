@@ -67,3 +67,6 @@ export const selectReviewPageAlert = state => state.travelPay.reviewPageAlert;
 
 export const selectExpenseBackDestination = state =>
   state.travelPay.complexClaim.expenseBackDestination;
+
+export const selectProofOfAttendanceState = state =>
+  state.travelPay.complexClaim.proofOfAttendance;

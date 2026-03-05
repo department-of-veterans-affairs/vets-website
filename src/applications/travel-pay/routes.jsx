@@ -19,6 +19,7 @@ import ReviewPage from './components/complex-claims/pages/ReviewPage';
 import ExpensePage from './components/complex-claims/pages/ExpensePage';
 import ComplexClaimRedirect from './components/complex-claims/pages/ComplexClaimRedirect';
 import IntroductionPage from './components/complex-claims/pages/IntroductionPage';
+import ProofOfAttendancePage from './components/complex-claims/pages/ProofOfAttendancePage';
 import UnsupportedMileage from './components/complex-claims/pages/UnsupportedMileage';
 import ClaimErrorPage from './components/complex-claims/pages/ClaimErrorPage';
 import App from './containers/App';
@@ -30,6 +31,9 @@ const getRoutes = () => {
     const { useToggleValue } = useFeatureToggle();
     const isComplexClaimsEnabled = useToggleValue(
       TOGGLE_NAMES.travelPayEnableComplexClaims,
+    );
+    const isCommunityCareEnabled = useToggleValue(
+      TOGGLE_NAMES.travelPayEnableCommunityCare,
     );
 
     const fileNewClaimRoute = isComplexClaimsEnabled ? (
@@ -46,6 +50,12 @@ const getRoutes = () => {
 
         <Route path=":claimId">
           <Route index element={<ComplexClaimRedirect />} />
+          {isCommunityCareEnabled && (
+            <Route
+              path="proof-of-attendance"
+              element={<ProofOfAttendancePage />}
+            />
+          )}
           <Route path="choose-expense" element={<ChooseExpenseType />} />
           <Route path="mileage/:expenseId?" element={<Mileage />} />
           {Object.values(EXPENSE_TYPES)

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import {
   BTSSS_PORTAL_URL,
@@ -28,6 +29,11 @@ const IntroductionPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isCommunityCareEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableCommunityCare,
+  );
+
   const { data: appointment } = useSelector(selectAppointment);
   const complexClaim = useSelector(selectComplexClaim);
 
@@ -37,6 +43,8 @@ const IntroductionPage = () => {
   useSetFocus();
 
   const apptId = appointment?.id;
+  const isCCAppt = appointment?.isCC;
+  const isCommunityCareClaim = isCommunityCareEnabled && isCCAppt;
 
   // Only render redirect component if this is NOT from client-side navigation
   const shouldShowRedirect = !location.state?.skipRedirect;
@@ -52,13 +60,16 @@ const IntroductionPage = () => {
       return;
     }
 
-    // If claim already exists, navigate directly
+    // If claim already exists, navigate directly to the appropriate next step
     const existingClaimId =
       complexClaim?.data?.claimId || appointment?.travelPayClaim?.claim?.id;
 
     if (existingClaimId) {
       dispatch(setExpenseBackDestination('intro'));
-      navigate(`/file-new-claim/${apptId}/${existingClaimId}/choose-expense`);
+      const nextRoute = isCommunityCareClaim
+        ? `/file-new-claim/${apptId}/${existingClaimId}/proof-of-attendance`
+        : `/file-new-claim/${apptId}/${existingClaimId}/choose-expense`;
+      navigate(nextRoute);
       return;
     }
 
@@ -75,7 +86,10 @@ const IntroductionPage = () => {
       );
       if (result?.claimId) {
         dispatch(setExpenseBackDestination('intro'));
-        navigate(`/file-new-claim/${apptId}/${result.claimId}/choose-expense`);
+        const nextRoute = isCommunityCareClaim
+          ? `/file-new-claim/${apptId}/${result.claimId}/proof-of-attendance`
+          : `/file-new-claim/${apptId}/${result.claimId}/choose-expense`;
+        navigate(nextRoute);
       }
     } catch (error) {
       navigate(`/file-new-claim/${apptId}/create-claim-error`);
@@ -165,7 +179,7 @@ const IntroductionPage = () => {
                 </Link>
               </p>
               {appointment &&
-                !appointment.isCC && (
+                (!isCCAppt || isCommunityCareClaim) && (
                   <va-link-action
                     onClick={createClaim}
                     href="#"

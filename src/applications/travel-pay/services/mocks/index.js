@@ -170,6 +170,18 @@ const responses = {
     });
   },
 
+  // Upload proof of attendance document
+  // POST /travel_pay/v0/claims/:claimId/documents
+  'POST /travel_pay/v0/claims/:claimId/documents': (req, res) => {
+    return res.status(200).json({
+      documentId: 'mock-poa-document-id-001',
+      claimId: req.params.claimId,
+      filename: 'Proof of attendance',
+    });
+  },
+  // 'POST /travel_pay/v0/claims/:claimId/documents': (req, res) => {
+  //   return res.status(500).json({ errors: [{ title: 'Server error' }] });
+  // },
   // Deleting documents
   // DELETE /travel_pay/v0/claims/:claimId/documents/:documentId
   'DELETE /travel_pay/v0/claims/:claimId/documents/:documentId': (req, res) => {

@@ -2,6 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { useSelector } from 'react-redux';
 import { waitFor } from '@testing-library/react';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
@@ -10,6 +12,7 @@ import {
   Route,
   useLocation,
 } from 'react-router-dom-v5-compat';
+import { commonReducer } from 'platform/startup/store';
 import reducer from '../../../../redux/reducer';
 import IntroductionPage from '../../../../components/complex-claims/pages/IntroductionPage';
 import { BTSSS_PORTAL_URL } from '../../../../constants';
@@ -687,5 +690,170 @@ describe('Travel Pay – IntroductionPage', () => {
         name: /your appointment happened more than 30 days ago/i,
       }),
     ).to.not.exist;
+  });
+
+  describe('Community care appointment support', () => {
+    const ProofOfAttendancePage = () => (
+      <div data-testid="proof-of-attendance-page">Proof of Attendance</div>
+    );
+
+    const ccAppointmentData = {
+      id: '12345',
+      facilityName: 'Community Care Clinic',
+      isCC: true,
+      locationId: '534',
+      location: { id: '534', name: 'Community Care Clinic' },
+    };
+
+    const getCCState = () => ({
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: ccAppointmentData,
+        },
+      },
+    });
+
+    // Creates a store with the CC feature flag enabled via action dispatch
+    const createCCStore = (initialState, ccFlagEnabled = true) => {
+      const store = createStore(
+        combineReducers({ ...commonReducer, ...reducer }),
+        initialState,
+        applyMiddleware(thunk),
+      );
+      store.dispatch({
+        type: 'FETCH_TOGGLE_VALUES_SUCCEEDED',
+        // eslint-disable-next-line camelcase
+        payload: { travel_pay_enable_community_care: ccFlagEnabled },
+      });
+      return store;
+    };
+
+    it('shows the start button for a CC appointment when the feature flag is enabled', () => {
+      const store = createCCStore(getCCState(), true);
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={[initialRoute]}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<IntroductionPage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store, reducers: reducer },
+      );
+
+      expect(
+        $(
+          'va-link-action[text="Start your travel reimbursement claim"]',
+          container,
+        ),
+      ).to.exist;
+    });
+
+    it('hides the start button for a CC appointment when the feature flag is disabled', () => {
+      const store = createCCStore(getCCState(), false);
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={[initialRoute]}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<IntroductionPage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store, reducers: reducer },
+      );
+
+      expect(
+        $(
+          'va-link-action[text="Start your travel reimbursement claim"]',
+          container,
+        ),
+      ).to.not.exist;
+    });
+
+    it('navigates to proof-of-attendance when a CC claim already exists', async () => {
+      const stateWithCCClaim = {
+        ...getCCState(),
+        travelPay: {
+          ...getCCState().travelPay,
+          complexClaim: {
+            ...getCCState().travelPay.complexClaim,
+            claim: {
+              ...getCCState().travelPay.complexClaim.claim,
+              data: { claimId: 'cc-claim-999' },
+            },
+          },
+        },
+      };
+      const store = createCCStore(stateWithCCClaim, true);
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={[initialRoute]}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<IntroductionPage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/proof-of-attendance"
+              element={<ProofOfAttendancePage />}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { store, reducers: reducer },
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('location-display').textContent).to.equal(
+          '/file-new-claim/12345/cc-claim-999/proof-of-attendance',
+        );
+      });
+    });
+
+    it('navigates to choose-expense (not proof-of-attendance) for a non-CC appointment with an existing claim', async () => {
+      const stateWithNonCCClaim = {
+        ...getData(),
+        travelPay: {
+          ...getData().travelPay,
+          complexClaim: {
+            ...getData().travelPay.complexClaim,
+            claim: {
+              ...getData().travelPay.complexClaim.claim,
+              data: { claimId: 'non-cc-claim-456' },
+            },
+          },
+        },
+      };
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={[initialRoute]}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<IntroductionPage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpenseType />}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { initialState: stateWithNonCCClaim, reducers: reducer },
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('location-display').textContent).to.equal(
+          '/file-new-claim/12345/non-cc-claim-456/choose-expense',
+        );
+      });
+    });
   });
 });

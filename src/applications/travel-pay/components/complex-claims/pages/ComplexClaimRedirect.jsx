@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import {
   selectAllExpenses,
   selectAppointment,
@@ -13,6 +14,12 @@ const ComplexClaimRedirect = () => {
   const { data: appointment } = useSelector(selectAppointment);
   const complexClaim = useSelector(selectComplexClaim);
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isCommunityCareEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableCommunityCare,
+  );
+  const isCCAppt = appointment?.isCC;
+
   // Get apptId from params or fallback to appointment data from store
   const apptId = apptIdFromParams || appointment?.id;
 
@@ -22,6 +29,16 @@ const ComplexClaimRedirect = () => {
   // if no claim, navigate to intro
   if (!effectiveClaimId) {
     return <Navigate to={`/file-new-claim/${apptId}`} replace />;
+  }
+
+  // CC appointments must complete PoA upload before proceeding
+  if (isCommunityCareEnabled && isCCAppt) {
+    return (
+      <Navigate
+        to={`/file-new-claim/${apptId}/${effectiveClaimId}/proof-of-attendance`}
+        replace
+      />
+    );
   }
 
   // if claim and no expenses, navigate to choose-expense

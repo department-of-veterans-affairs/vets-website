@@ -1,14 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams, Navigate } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { focusElement } from 'platform/utilities/ui/focus';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
 import {
+  selectAppointment,
   selectComplexClaim,
   selectAllExpenses,
   selectAllDocuments,
@@ -27,12 +29,19 @@ const ReviewPage = () => {
   const { apptId, claimId } = useParams();
   const alertRef = useRef(null);
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isCommunityCareEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableCommunityCare,
+  );
+
+  const { data: appointment } = useSelector(selectAppointment);
   const { data: claimDetails = {} } = useSelector(selectComplexClaim);
   const expenses = useSelector(selectAllExpenses) ?? [];
   const documents = useSelector(selectAllDocuments) ?? [];
   const alertMessage = useSelector(selectReviewPageAlert);
 
   const title = 'Your unsubmitted expenses';
+  const isCCAppt = appointment?.isCC;
 
   useSetPageTitle(title);
 
@@ -61,6 +70,16 @@ const ReviewPage = () => {
     },
     [dispatch],
   );
+
+  // CC appointments must complete PoA upload before reaching review
+  if (isCommunityCareEnabled && isCCAppt) {
+    return (
+      <Navigate
+        to={`/file-new-claim/${apptId}/${claimId}/proof-of-attendance`}
+        replace
+      />
+    );
+  }
 
   // Get total by expense type and return expenses in EXPENSE_TYPES order
   const totalByExpenseType = Object.fromEntries(

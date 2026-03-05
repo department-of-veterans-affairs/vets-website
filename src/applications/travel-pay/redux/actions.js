@@ -70,6 +70,9 @@ export const CLEAR_UNSAVED_EXPENSE_CHANGES = 'CLEAR_UNSAVED_EXPENSE_CHANGES';
 export const SET_REVIEW_PAGE_ALERT = 'SET_REVIEW_PAGE_ALERT';
 export const CLEAR_REVIEW_PAGE_ALERT = 'CLEAR_REVIEW_PAGE_ALERT';
 export const SET_EXPENSE_BACK_DESTINATION = 'SET_EXPENSE_BACK_DESTINATION';
+export const UPLOAD_POA_STARTED = 'UPLOAD_POA_STARTED';
+export const UPLOAD_POA_SUCCESS = 'UPLOAD_POA_SUCCESS';
+export const UPLOAD_POA_FAILURE = 'UPLOAD_POA_FAILURE';
 
 // Helper function to add isOutOfBounds to claim details
 function addOutOfBoundsFlag(claimData) {
@@ -861,5 +864,31 @@ export function setReviewPageAlert({ title, description, type }) {
 export function clearReviewPageAlert() {
   return {
     type: CLEAR_REVIEW_PAGE_ALERT,
+  };
+}
+
+// Proof of attendance document upload
+export function uploadProofOfAttendance(claimId, fileData) {
+  return async dispatch => {
+    dispatch({ type: UPLOAD_POA_STARTED });
+
+    try {
+      const response = await apiRequest(
+        `${environment.API_URL}/travel_pay/v0/claims/${claimId}/documents`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            proofOfAttendance: true,
+            ...fileData,
+          }),
+        },
+      );
+      dispatch({ type: UPLOAD_POA_SUCCESS, payload: response });
+      return response;
+    } catch (error) {
+      dispatch({ type: UPLOAD_POA_FAILURE, error });
+      throw error;
+    }
   };
 }

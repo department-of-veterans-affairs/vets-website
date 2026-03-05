@@ -43,6 +43,9 @@ import {
   SET_REVIEW_PAGE_ALERT,
   CLEAR_REVIEW_PAGE_ALERT,
   SET_EXPENSE_BACK_DESTINATION,
+  UPLOAD_POA_STARTED,
+  UPLOAD_POA_SUCCESS,
+  UPLOAD_POA_FAILURE,
 } from './actions';
 
 // Helper function to merge expenses, avoiding duplicates
@@ -162,6 +165,11 @@ const initialState = {
       error: null,
     },
     expenseBackDestination: null,
+    proofOfAttendance: {
+      isLoading: false,
+      error: null,
+      data: null,
+    },
   },
 };
 
@@ -736,6 +744,45 @@ function travelPayReducer(state = initialState, action) {
         complexClaim: {
           ...state.complexClaim,
           expenseBackDestination: action.payload,
+        },
+      };
+
+    case UPLOAD_POA_STARTED:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          proofOfAttendance: {
+            isLoading: true,
+            error: null,
+            data: null,
+          },
+        },
+      };
+
+    case UPLOAD_POA_SUCCESS:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          proofOfAttendance: {
+            isLoading: false,
+            error: null,
+            data: action.payload,
+          },
+        },
+      };
+
+    case UPLOAD_POA_FAILURE:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          proofOfAttendance: {
+            isLoading: false,
+            error: action.error,
+            data: null,
+          },
         },
       };
 
