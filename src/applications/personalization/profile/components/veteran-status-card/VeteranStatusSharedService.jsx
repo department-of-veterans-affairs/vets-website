@@ -24,7 +24,7 @@ const VeteranStatusSharedService = ({
   mockUserAgent,
 }) => {
   const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pdfError, setPdfError] = useState(false);
 
@@ -183,7 +183,11 @@ const VeteranStatusSharedService = ({
             body={data.attributes?.body}
             header={data.attributes?.header}
           />
-          <FrequentlyAskedQuestions createPdf={null} pdfError={pdfError} />
+          <FrequentlyAskedQuestions
+            createPdf={null}
+            pdfError={pdfError}
+            cveVeteranStatusNewService
+          />
         </>
       );
     }
@@ -209,6 +213,7 @@ const VeteranStatusSharedService = ({
         <FrequentlyAskedQuestions
           createPdf={isCardEligible ? createPdf : null}
           pdfError={pdfError}
+          cveVeteranStatusNewService
         />
       </>
     );
