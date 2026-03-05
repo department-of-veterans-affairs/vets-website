@@ -66,6 +66,8 @@ jobs:
           echo "Continuous deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}"
           echo "Deployment concurrency group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}"
 
+      # This fallback token is not a real token, this portion of a token prevents Mapbox from crashing
+      # when app specific tokens are unavailable for any reason, instead it will provide errors.
       - name: Set Mapbox Token fallback
         run: echo "MAPBOX_TOKEN=pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==" >> "$GITHUB_ENV"
 
