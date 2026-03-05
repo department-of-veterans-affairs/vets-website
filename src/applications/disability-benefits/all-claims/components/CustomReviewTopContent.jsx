@@ -1,51 +1,49 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { TE_URL_PREFIX } from '../constants';
-import { isClaimingNew } from '../utils';
+import { ATTACHMENT_KEYS } from '../constants';
+import { isBDD } from '../utils';
+
+const SHA_ATTACHMENT_ID = 'L023';
+
+const hasShaDocumentUploaded = formData =>
+  ATTACHMENT_KEYS.some(key =>
+    (formData?.[key] || []).some(doc => doc.attachmentId === SHA_ATTACHMENT_ID),
+  );
 
 function CustomReviewTopContent({ formData }) {
-  const [isVisible, setIsVisible] = useState(true);
+  const showBddShaAlert =
+    isBDD(formData) &&
+    formData?.disability526NewBddShaEnforcementWorkflowEnabled &&
+    !hasShaDocumentUploaded(formData);
 
-  // TODO: this alert can be removed 1 year post-launch which is 11/18/2025
-  if (
-    formData?.startedFormVersion !== '2019' ||
-    !isClaimingNew(formData) ||
-    formData?.newDisabilities?.length < 1
-  ) {
+  if (!showBddShaAlert) {
     return null;
   }
 
   return (
-    <>
-      <VaAlert
-        closeable
-        onCloseEvent={() => {
-          setIsVisible(false);
-        }}
-        status="info"
-        visible={isVisible}
-      >
-        <h2 slot="headline">We updated our online form</h2>
-        <p>
-          You should know that we updated our online form. We have some new
-          questions for you to answer about toxic exposure.
-        </p>
-        <p>Your answers may support your claim for disability compensation.</p>
-        <p>
-          <Link
-            to={{
-              pathname: `${TE_URL_PREFIX}/conditions`,
-              search: '?redirect',
-            }}
-          >
-            Answer our new questions
-          </Link>
-        </p>
-      </VaAlert>
-    </>
+    <VaAlert status="info" visible>
+      <h2 slot="headline">
+        A Separation Health Assessment (SHA) Part A is required
+      </h2>
+      <p>
+        We want to ensure that we have all the information we need to process
+        your claim. If you do not include a SHA Part A as part of your claim, we
+        will not be able to deliver a decision within 30 days after separation.
+      </p>
+      <p>
+        <Link
+          to={{
+            pathname: 'supporting-evidence/additional-evidence',
+            search: '?redirect',
+          }}
+        >
+          Check if you've uploaded a SHA Part A document
+        </Link>
+      </p>
+    </VaAlert>
   );
 }
 
