@@ -9,6 +9,8 @@ export const disabilityPartOne = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         `${formData?.fullName?.first || 'Child'}'s disability status`,
+      null,
+      false,
     ),
 
     doesChildHaveDisability: yesNoUI({

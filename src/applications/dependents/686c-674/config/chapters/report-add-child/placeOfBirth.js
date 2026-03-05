@@ -12,6 +12,8 @@ export const placeOfBirth = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `${formData?.fullName?.first || 'Child'}'s birth place`,
+      null,
+      false,
     ),
     birthLocation: {
       outsideUsa: {

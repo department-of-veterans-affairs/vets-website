@@ -9,6 +9,8 @@ export const additionalInformationPartTwo = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `${formData?.fullName?.first || 'Child'}’s income`,
+      null,
+      false,
     ),
     incomeInLastYear: radioUI({
       title: 'Has this child received income in the last 365 days?',
