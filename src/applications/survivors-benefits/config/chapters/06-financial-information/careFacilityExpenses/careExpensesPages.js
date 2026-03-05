@@ -143,7 +143,8 @@ export const options = {
         />
       </div>
     ),
-    getItemName: item => item?.provider || 'Care provider',
+    getItemName: (item, index) =>
+      `Expense ${index + 1}: ${item?.provider || 'Care provider'}`,
     cardDescription: item => {
       const hasStartDate = !!item?.careDateRange?.from;
       const hasEndDate = !!item?.careDateRange?.to;
