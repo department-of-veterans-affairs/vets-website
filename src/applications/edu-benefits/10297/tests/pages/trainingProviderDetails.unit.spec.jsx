@@ -1,60 +1,39 @@
 import React from 'react';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
-// import { render, waitFor } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import userEvent from '@testing-library/user-event';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
-import formConfig from '../../config/form';
 import * as trainingProviderDetails from '../../pages/trainingProviderDetails';
-
-const middleware = [thunk];
-const mockStore = configureStore(middleware);
 
 describe('Training Provider Step 3 - Page 2 Details', () => {
   const { schema, uiSchema } = trainingProviderDetails;
 
-  const initialState = {
-    form: {
-      data: {
-        trainingProvider: [],
-      },
-    },
-  };
-  const store = mockStore(initialState);
-
   it('should render with all input and select fields', () => {
     const { container } = render(
-      <Provider store={store}>
-        <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          uiSchema={uiSchema}
-        />
-      </Provider>,
+      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
     );
 
-    expect($$('va-text-input', container).length).to.equal(7);
-    expect($$('va-select', container).length).to.equal(1);
+    expect(container.querySelectorAll('va-text-input')).to.have.lengthOf(7);
+    expect(container.querySelectorAll('va-select')).to.have.lengthOf(1);
   });
 
-  // it('should render errors on required inputs', async () => {
-  //   const { container, getByRole } = render(
-  //     <Provider store={store}>
-  //       <DefinitionTester
-  //         definitions={formConfig.defaultDefinitions}
-  //         schema={schema}
-  //         uiSchema={uiSchema}
-  //       />
-  //     </Provider>,
-  //   );
+  it('should render errors on required inputs', async () => {
+    const { container, getByRole } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          providerName: undefined,
+          providerAddress: { country: '' },
+        }}
+      />,
+    );
 
-  //   getByRole('button', { name: /submit/i }).click();
-  //   await waitFor(() => {
-  //     expect($$('va-text-input[error]', container).length).to.equal(4);
-  //     expect($$('va-select[error]', container).length).to.equal(1);
-  //   });
-  // });
+    await userEvent.click(getByRole('button'));
+
+    expect(container.querySelectorAll('va-text-input[error]')).to.have.lengthOf(
+      4,
+    );
+    expect(container.querySelectorAll('va-select[error]')).to.have.lengthOf(1);
+  });
 });

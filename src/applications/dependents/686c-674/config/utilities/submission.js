@@ -14,11 +14,13 @@ import {
   NO_SSN_REASON_PAYLOAD_MAPPINGS,
 } from '../dataMappings';
 
+import { isVetInReceiptOfPension } from './api';
 import { customFormReplacer, showV3Picklist } from './formHelpers';
 import {
   transformPicklistToV2,
   enrichDivorceWithSSN,
 } from './picklistTransform';
+import { PICKLIST_REMOVAL_FLAG } from '../constants';
 
 /**
  * Extract data fields with values from source data
@@ -41,6 +43,55 @@ function extractDataFields(sourceData, fields) {
   });
   return result;
 }
+
+/* eslint-disable no-param-reassign */
+/**
+ * Apply noSsnReason payload mappings for spouse, children, and students.
+ * Mutates cleanData in place by design — it is a local variable in the caller.
+ *
+ * @param {object} cleanData - submission data being built (mutated in place)
+ * @param {object} sourceData - original form data
+ * @param {object} addOptions - selected add-dependent options
+ * @param {object} noSsnReasonMappings - mapping of noSsnReason values to payload values
+ * @returns {void} - mutates cleanData in place (TO DO: fix this)
+ */
+function applyNoSsnReasonMappings(
+  cleanData,
+  sourceData,
+  addOptions,
+  noSsnReasonMappings,
+) {
+  if (
+    addOptions.addSpouse === true &&
+    sourceData?.spouseInformation?.noSsn === true
+  ) {
+    cleanData.spouseInformation.noSsnReason =
+      noSsnReasonMappings[(sourceData?.spouseInformation?.noSsnReason)];
+  }
+  if (
+    (addOptions.addChild === true || addOptions.addDisabledChild === true) &&
+    sourceData?.childrenToAdd?.length > 0
+  ) {
+    sourceData.childrenToAdd.forEach((child, index) => {
+      if (child.noSsn === true) {
+        cleanData.childrenToAdd[index].noSsnReason =
+          noSsnReasonMappings[child.noSsnReason];
+      }
+    });
+  }
+  if (
+    addOptions.report674 === true &&
+    sourceData?.studentInformation?.length > 0
+  ) {
+    sourceData.studentInformation.forEach((student, index) => {
+      if (student.noSsn === true) {
+        cleanData.studentInformation[index].noSsnReason =
+          noSsnReasonMappings[student.noSsnReason];
+      }
+    });
+  }
+}
+/* eslint-enable no-param-reassign */
 
 /**
  * Transform form data into submission data format
@@ -85,6 +136,7 @@ export function buildSubmissionData(payload) {
     'statementOfTruthSignature',
     'statementOfTruthCertified',
     'metadata',
+    PICKLIST_REMOVAL_FLAG,
   ];
 
   essentialFields.forEach(field => {
@@ -93,12 +145,30 @@ export function buildSubmissionData(payload) {
     }
   });
 
-  // Handle fields that can be undefined/false - vaDependentsNetWorthAndPension recently added to formData
-  ['householdIncome', 'vaDependentsNetWorthAndPension'].forEach(field => {
-    if (sourceData[field] !== undefined) {
-      cleanData[field] = sourceData[field];
-    }
-  });
+  // vaDependentsNetWorthAndPension can be false - check for undefined explicitly
+  if (sourceData.vaDependentsNetWorthAndPension !== undefined) {
+    cleanData.vaDependentsNetWorthAndPension =
+      sourceData.vaDependentsNetWorthAndPension;
+  }
+
+  // householdIncome is only valid to submit when:
+  // - The pension feature flag is off (legacy: all veterans answered this), OR
+  // - The flag is on AND the veteran is confirmed in receipt of pension
+  // This prevents stale answers collected before the flag was enabled from
+  // reaching the backend for veterans who are not in receipt of pension.
+  const flagOn = sourceData.vaDependentsNetWorthAndPension;
+  if (
+    sourceData.householdIncome !== undefined &&
+    (!flagOn || isVetInReceiptOfPension(sourceData))
+  ) {
+    cleanData.householdIncome = sourceData.householdIncome;
+  }
+
+  // Strip pension-gated student financial fields when flag is on and vet is not in receipt.
+  // These fields may be stale (answered before the flag was enabled) and must not reach
+  // the backend for veterans confirmed to be outside receipt of pension.
+  const shouldStripStudentFinancials =
+    flagOn && !isVetInReceiptOfPension(sourceData);
 
   // Use centralized workflow mappings from dataMappings.js
   const addDataMappings = ADD_WORKFLOW_MAPPINGS;
@@ -118,33 +188,31 @@ export function buildSubmissionData(payload) {
       }
     });
 
-    // Tranform No SSN Reason for the payload
-    if (
-      addOptions.addSpouse === true &&
-      sourceData?.spouseInformation?.noSsn === true
-    ) {
-      cleanData.spouseInformation.noSsnReason =
-        noSsnReasonMappings[(sourceData?.spouseInformation?.noSsnReason)];
-    }
-    if (addOptions.addChild === true && sourceData?.childrenToAdd?.length > 0) {
-      sourceData.childrenToAdd.forEach((child, index) => {
-        if (child.noSsn === true) {
-          cleanData.childrenToAdd[index].noSsnReason =
-            noSsnReasonMappings[child.noSsnReason];
-        }
-      });
-    }
-    if (
-      addOptions.report674 === true &&
-      sourceData?.studentInformation?.length > 0
-    ) {
-      sourceData.studentInformation.forEach((student, index) => {
-        if (student.noSsn === true) {
-          cleanData.studentInformation[index].noSsnReason =
-            noSsnReasonMappings[student.noSsnReason];
-        }
-      });
-    }
+    // Transform No SSN Reason for payload for pdf remarks section values
+    applyNoSsnReasonMappings(
+      cleanData,
+      sourceData,
+      addOptions,
+      noSsnReasonMappings,
+    );
+  }
+
+  // Remove pension-gated financial fields from each student when the veteran is not in
+  // receipt of pension. The add options loop above copies studentInformation wholesale
+  // (including stale earnings/net-worth sub-fields), so strip them here as a safety net.
+  if (
+    shouldStripStudentFinancials &&
+    Array.isArray(cleanData.studentInformation)
+  ) {
+    cleanData.studentInformation = cleanData.studentInformation.map(
+      ({
+        claimsOrReceivesPension: _cp,
+        studentEarningsFromSchoolYear: _se,
+        studentExpectedEarningsNextYear: _see,
+        studentNetworthInformation: _sn,
+        ...rest
+      }) => rest,
+    );
   }
 
   // Remove options
@@ -284,6 +352,89 @@ function extractDataFromPayload(payload) {
 }
 
 /**
+ * Transforms student typeOfProgramOrBenefit from radio string to
+ * checkbox object format expected by the backend.
+ *
+ * UI stores: 'ch35' (string)
+ * Backend expects: { ch35: true, fry: false, feca: false } (object)
+ *
+ * 'none' maps to all-false: { ch35: false, fry: false, feca: false }
+ *
+ * @param {Object} data - Form data object
+ * @returns {Object} Data with transformed typeOfProgramOrBenefit fields
+ */
+function transformStudentBenefitRadioToCheckbox(data) {
+  if (!data?.studentInformation?.length) return data;
+
+  const transformed = cloneDeep(data);
+  transformed.studentInformation.forEach(student => {
+    const value = student.typeOfProgramOrBenefit;
+    if (typeof value === 'string') {
+      // eslint-disable-next-line no-param-reassign
+      student.typeOfProgramOrBenefit = {
+        ch35: value === 'ch35',
+        fry: value === 'fry',
+        feca: value === 'feca',
+      };
+    }
+  });
+  return transformed;
+}
+
+/**
+ * Strips stale benefit-conditional fields from student items when their
+ * corresponding form pages are inactive.
+ *
+ * Handles two inactive-page cases:
+ *  - addStudentsPartTen (start date): only active when hasActiveBenefit || hasGovFunding
+ *    → strips benefitPaymentDate when neither condition is met
+ *  - addStudentsPartNine (program name): only active when tuitionIsPaidByGovAgency === true
+ *    → strips schoolInformation.name when gov funding is not active
+ *    (other schoolInformation fields come from always-active attendance pages, so only
+ *    the name key is removed rather than the whole object)
+ *
+ * @param {Object} data - Form data (typeOfProgramOrBenefit already converted to object)
+ * @returns {Object} Cleaned data with stale fields removed where applicable
+ */
+function stripStaleBenefitFields(data) {
+  if (!data?.studentInformation?.length) return data;
+
+  const cleaned = cloneDeep(data);
+  cleaned.studentInformation = cleaned.studentInformation.map(student => {
+    let result = student;
+    const benefit = student.typeOfProgramOrBenefit;
+
+    // After transformStudentBenefitRadioToCheckbox, benefit is always an object
+    // (new format) or was already an object (old cached data). Guard for edge cases.
+    const hasActiveBenefit =
+      benefit && typeof benefit === 'object'
+        ? Object.values(benefit).some(Boolean)
+        : ['ch35', 'fry', 'feca'].includes(benefit);
+
+    const hasGovFunding = student.tuitionIsPaidByGovAgency === true;
+
+    if (!hasActiveBenefit && !hasGovFunding) {
+      // Start date page (addStudentsPartTen) is inactive — strip benefitPaymentDate.
+      /* eslint-disable-next-line no-unused-vars */
+      const { benefitPaymentDate: _stripped, ...rest } = result;
+      result = rest;
+    }
+
+    if (!hasGovFunding && result.schoolInformation?.name !== undefined) {
+      // Program name page (addStudentsPartNine) only shows when tuitionIsPaidByGovAgency
+      // === true. Strip just the name key; leave other schoolInformation fields intact
+      // because they come from always-active attendance pages.
+      /* eslint-disable-next-line no-unused-vars */
+      const { name: _name, ...restSchoolInfo } = result.schoolInformation;
+      result = { ...result, schoolInformation: restSchoolInfo };
+    }
+
+    return result;
+  });
+  return cleaned;
+}
+
+/**
  * Transforms V3 picklist removal data to V2 format if V3 is enabled.
  *
  * @param {Object} data - Form data object
@@ -350,8 +501,21 @@ export function customTransformForSubmit(formConfig, form) {
   // Step 3: Extract data for transformation (type safety)
   const dataToTransform = extractDataFromPayload(payloadWithoutInactivePages);
 
+  // Step 3b: Transform student benefit radio string to checkbox object for backend
+  const dataWithStudentTransform = transformStudentBenefitRadioToCheckbox(
+    dataToTransform,
+  );
+
+  // Step 3c: Strip stale benefit-conditional fields from students where page depends
+  // evaluate to false. filterInactiveNestedPageData cannot handle this because its
+  // sibling-preservation heuristic always retains fields for student items (which
+  // have many active fields). See stripStaleBenefitFields for full explanation.
+  const dataWithBenefitCleanup = stripStaleBenefitFields(
+    dataWithStudentTransform,
+  );
+
   // Step 4: Transform V3 picklist data to V2 format if needed
-  const transformedData = applyPicklistTransformations(dataToTransform);
+  const transformedData = applyPicklistTransformations(dataWithBenefitCleanup);
 
   // Step 5: Enrich reportDivorce with SSN from awarded dependents
   const enrichedData = enrichDataWithSSN(transformedData);

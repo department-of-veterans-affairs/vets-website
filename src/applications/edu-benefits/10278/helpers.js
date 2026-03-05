@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { parseISODate } from '~/platform/forms-system/src/js/helpers';
 
 export const DISCLOSURE_KEYS = [
   'statusOfClaim',
@@ -38,6 +40,7 @@ export const organizationRepresentativesArrayOptions = {
   arrayPath: 'organizationRepresentatives',
   nounSingular: 'representative',
   nounPlural: 'representatives',
+  maxItems: 6,
   required: true,
   isItemIncomplete: item => !item?.fullName?.first || !item?.fullName?.last,
   text: {
@@ -94,6 +97,24 @@ export const validateOtherText = (errors, fieldData) => {
   }
 };
 
+export const validateTerminationDate = (errors, dateString) => {
+  const { day, month, year } = parseISODate(dateString);
+
+  const entered = new Date(year, month - 1, day);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const fiveYearsFromToday = new Date(
+    today.getFullYear() + 5,
+    today.getMonth(),
+    today.getDate(),
+  );
+
+  if (entered < today || entered > fiveYearsFromToday) {
+    errors.addError('You must enter a valid date that’s within 5 years');
+  }
+};
+
 export const ClaimInformationDescription = ({ formData }) => {
   const claimInformation = formData?.claimInformation;
   const claimInformationKeys = Object.keys(claimInformation);
@@ -122,6 +143,12 @@ export const ClaimInformationDescription = ({ formData }) => {
       </div>
     </va-card>
   );
+};
+
+ClaimInformationDescription.propTypes = {
+  formData: PropTypes.shape({
+    claimInformation: PropTypes.object,
+  }),
 };
 
 export const InformationToDiscloseReviewField = ({
@@ -176,4 +203,12 @@ export const InformationToDiscloseReviewField = ({
       })}
     </>
   );
+};
+
+InformationToDiscloseReviewField.propTypes = {
+  children: PropTypes.node,
+  dataKey: PropTypes.string,
+  disclosureKeys: PropTypes.arrayOf(PropTypes.string),
+  options: PropTypes.object,
+  otherTextKey: PropTypes.string,
 };

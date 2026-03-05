@@ -49,7 +49,6 @@ describe('<UpdatePageButton />', () => {
     expect(mockCloseSection.calledWith(mockKeys, mockTitle)).to.be.true;
 
     expect(mockScroll.calledOnce).to.be.true;
-    expect(mockScroll.calledWith(`chapter${mockTitle}ScrollElement`)).to.be
-      .true;
+    expect(mockScroll.calledWith(mockTitle)).to.be.true;
   });
 });

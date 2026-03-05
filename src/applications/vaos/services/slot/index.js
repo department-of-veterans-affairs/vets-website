@@ -32,7 +32,7 @@ import { transformV2Slots } from './transformers';
  * @export
  * @async
  * @param {Object} slotsRequest - An object containing the parameters necessary to retrieve appointment slots
- * @param {string} slotsRequest.siteId 3 digit facility ID
+ * @param {string} slotsRequest.siteId 3 digit facility ID for VistA and the full facility id for OH
  * @param {string} [slotsRequest.clinicId=null] optional clinic id
  * @param {string} [slotsRequest.typeOfCare=null] optional typeOfCare string
  * @param {string} [slotsRequest.provider=null] optional OH provider id

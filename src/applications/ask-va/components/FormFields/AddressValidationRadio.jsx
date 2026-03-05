@@ -5,7 +5,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { URL, envUrl } from '../../constants';
+import { URL, envApiUrl } from '../../constants';
 import { formatAddress } from '../../utils/helpers';
 
 const AddressValidationRadio = props => {
@@ -79,7 +79,7 @@ const AddressValidationRadio = props => {
   };
 
   useEffect(() => {
-    getApiData(`${envUrl}${URL.ADDRESS_VALIDATION}`);
+    getApiData(`${envApiUrl}${URL.ADDRESS_VALIDATION}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

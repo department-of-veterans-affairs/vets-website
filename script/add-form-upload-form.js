@@ -329,6 +329,68 @@ function validateFormId(id) {
   return Promise.resolve(true);
 }
 
+function updateConstantsGetAllFormLinks(formIdConstant) {
+  // Format the form ID - uppercase any letters
+  const formattedFormId = formatFormIdForConstants(formId);
+
+  logger.log(`Adding form ${formattedFormId} to getAllFormLinks...`);
+
+  let content = fs.readFileSync(CONSTANTS_FILE_PATH, 'utf8');
+
+  // Check if the form is already added to getAllFormLinks
+  if (content.includes(`[VA_FORM_IDS.${formIdConstant}]:`)) {
+    logger.log(`Form ${formattedFormId} already exists in getAllFormLinks`);
+    return;
+  }
+
+  // Find the last UPLOAD entry in getAllFormLinks and add after it
+  const formLinkRegex = /(\[VA_FORM_IDS\.FORM_[\w]+_UPLOAD\]: `\$\{tryGetAppUrl\(\s*'form-upload-flow',?\s*\)\}\/[\w-]+\/introduction\/`,\n)(\s+\[VA_FORM_IDS\.FORM_(?!.*_UPLOAD))/;
+  const match = content.match(formLinkRegex);
+
+  if (match) {
+    const lastUploadEntry = match[1];
+    const nextNonUploadEntry = match[2];
+
+    // Create new entry
+    const newEntry = `    [VA_FORM_IDS.${formIdConstant}]: \`\${tryGetAppUrl(
+      'form-upload-flow',
+    )}/${formattedFormId}/introduction/\`,\n`;
+
+    content = content.replace(
+      lastUploadEntry + nextNonUploadEntry,
+      lastUploadEntry + newEntry + nextNonUploadEntry,
+    );
+
+    fs.writeFileSync(CONSTANTS_FILE_PATH, content, 'utf8');
+    logger.log(`Successfully added ${formattedFormId} to getAllFormLinks`);
+  } else {
+    // Fallback: try to find any UPLOAD entry in getAllFormLinks
+    const fallbackRegex = /(\[VA_FORM_IDS\.FORM_[\w]+_UPLOAD\]: `\$\{tryGetAppUrl\(\s*'form-upload-flow',?\s*\)\}\/[\w-]+\/introduction\/`,\n)(\s+\};)/;
+    const fallbackMatch = content.match(fallbackRegex);
+
+    if (fallbackMatch) {
+      const lastEntry = fallbackMatch[1];
+      const closing = fallbackMatch[2];
+
+      const newEntry = `    [VA_FORM_IDS.${formIdConstant}]: \`\${tryGetAppUrl(
+      'form-upload-flow',
+    )}/${formattedFormId}/introduction/\`,\n`;
+
+      content = content.replace(
+        lastEntry + closing,
+        lastEntry + newEntry + closing,
+      );
+
+      fs.writeFileSync(CONSTANTS_FILE_PATH, content, 'utf8');
+      logger.log(`Successfully added ${formattedFormId} to getAllFormLinks`);
+    } else {
+      logger.error(
+        'Could not find a suitable location to add the form to getAllFormLinks',
+      );
+    }
+  }
+}
+
 /**
  * Validate the URL format
  */
@@ -398,6 +460,7 @@ async function main() {
     const formIdConstant = updateConstantsVAFormIds();
     if (formIdConstant) {
       updateConstantsFormsArray(formIdConstant);
+      updateConstantsGetAllFormLinks(formIdConstant);
     }
 
     logger.log('\n====================');

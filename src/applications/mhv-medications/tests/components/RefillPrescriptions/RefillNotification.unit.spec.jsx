@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import RefillNotification from '../../../components/RefillPrescriptions/RefillNotification';
 import refillableList from '../../fixtures/refillablePrescriptionsList.json';
 
@@ -14,6 +15,7 @@ describe('RefillNotification', () => {
     successfulMeds = initSuccessfulMeds,
     failedMeds = initFailedMeds,
     isFetching = false,
+    isMedicationsManagementImprovementsEnabled = false,
   ) => {
     return renderWithStoreAndRouterV6(
       <RefillNotification
@@ -23,7 +25,11 @@ describe('RefillNotification', () => {
         isFetching={isFetching}
       />,
       {
-        initialState: {},
+        initialState: {
+          featureToggles: {
+            [FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements]: isMedicationsManagementImprovementsEnabled,
+          },
+        },
         reducers: {},
         initialEntries: ['/refill'],
       },
@@ -115,5 +121,56 @@ describe('RefillNotification', () => {
     // Test when status not finished
     const screen2 = setup('not-started', initSuccessfulMeds, [], true);
     expect(screen2.queryByTestId('cache-refresh-loading')).to.not.exist;
+  });
+
+  describe('when mhvMedicationsManagementImprovements flag is disabled', () => {
+    it('should render SuccessNotification (V1) on success', () => {
+      const screen = setup(
+        initRefillStatus,
+        initSuccessfulMeds,
+        [],
+        false,
+        false,
+      );
+
+      expect(screen.getByTestId('success-refill-title')).to.exist;
+      expect(screen.getByTestId('success-refill-description')).to.exist;
+      const link = screen.getByTestId('back-to-medications-page-link');
+      expect(link).to.exist;
+      expect(link.textContent).to.include('Go to your medications list');
+    });
+  });
+
+  describe('when mhvMedicationsManagementImprovements flag is enabled', () => {
+    it('should render SuccessNotificationV2 on success', () => {
+      const screen = setup(
+        initRefillStatus,
+        initSuccessfulMeds,
+        [],
+        false,
+        true,
+      );
+
+      expect(screen.getByTestId('success-refill-title')).to.exist;
+      expect(screen.getByTestId('success-refill-description')).to.exist;
+      const link = screen.getByTestId('back-to-medications-page-link');
+      expect(link).to.exist;
+      expect(link.textContent).to.include('Go to your in-progress medications');
+    });
+
+    it('should link to the in-progress medications page', () => {
+      const screen = setup(
+        initRefillStatus,
+        initSuccessfulMeds,
+        [],
+        false,
+        true,
+      );
+
+      const link = screen.getByTestId('back-to-medications-page-link');
+      expect(link.getAttribute('href')).to.include(
+        '/my-health/medications/in-progress',
+      );
+    });
   });
 });

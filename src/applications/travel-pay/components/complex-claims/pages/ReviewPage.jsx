@@ -20,7 +20,6 @@ import {
   clearReviewPageAlert,
   setExpenseBackDestination,
 } from '../../../redux/actions';
-import { ComplexClaimsHelpSection } from '../../HelpText';
 
 const ReviewPage = () => {
   const navigate = useNavigate();
@@ -51,6 +50,16 @@ const ReviewPage = () => {
       }
     },
     [alertMessage],
+  );
+
+  // Clear alert when user navigates away from review page
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearReviewPageAlert());
+      };
+    },
+    [dispatch],
   );
 
   // Get total by expense type and return expenses in EXPENSE_TYPES order
@@ -133,7 +142,6 @@ const ReviewPage = () => {
             You haven’t added any expenses. Add at least 1 expense to submit
             your claim.
           </p>
-          <ComplexClaimsHelpSection />
         </>
       ) : (
         <>

@@ -283,6 +283,79 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     });
   });
 
+  it('should record GA tracking events on successful submission', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
+
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
+    });
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText('Primary care');
+
+    userEvent.click(screen.getByText(/Confirm appointment/i));
+    await waitFor(() => {
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/fake_id?confirmMsg=true',
+      );
+    });
+
+    expect(global.window.dataLayer[1]).to.deep.include({
+      event: 'vaos-direct-vista-submission-successful',
+      flow: 'direct',
+      'health-TypeOfCare': 'Primary care',
+    });
+  });
+
+  it('should record GA tracking events on failed submission', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
+
+    mockFacilityApi({
+      response: new MockFacilityResponse(),
+    });
+
+    setFetchJSONFailure(
+      global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
+      {
+        errors: [{ code: 'VAOS_500' }],
+      },
+    );
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText('Primary care');
+
+    userEvent.click(screen.getByText(/Confirm appointment/i));
+
+    await screen.findByText(/This tool isn.t working right now/i);
+
+    expect(global.window.dataLayer[1]).to.deep.include({
+      event: 'vaos-direct-vista-submission-failed',
+      flow: 'direct',
+      'health-TypeOfCare': 'Primary care',
+    });
+  });
+
   it('should show error message on failure', async () => {
     store.dispatch(
       onCalendarChange([

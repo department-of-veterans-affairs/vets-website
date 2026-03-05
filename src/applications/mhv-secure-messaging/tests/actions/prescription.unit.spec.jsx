@@ -64,6 +64,76 @@ describe('prescription actions', () => {
 
     it('should dispatch success action using v2 API when Cerner pilot is enabled', async () => {
       const prescriptionId = '456';
+      const stationNumber = '998';
+      const mockResponse = {
+        data: {
+          attributes: {
+            id: prescriptionId,
+            name: 'OH Prescription',
+            prescriptionName: 'OH Prescription',
+            prescriptionNumber: 'RX789',
+          },
+        },
+      };
+      mockApiRequest(mockResponse);
+
+      const store = mockStore({
+        featureToggles: {
+          loading: false,
+          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: true,
+        },
+      });
+      await store.dispatch(getPrescriptionById(prescriptionId, stationNumber));
+
+      // Verify the v2 endpoint was called with station_number
+      const fetchUrl = global.fetch.firstCall.args[0];
+      expect(fetchUrl).to.include('/my_health/v2/prescriptions/456');
+      expect(fetchUrl).to.include('station_number=998');
+
+      const actions = store.getActions();
+      expect(actions[0]).to.deep.equal({
+        type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
+      });
+      expect(actions[1]).to.deep.equal({
+        type: Actions.Prescriptions.IS_LOADING,
+      });
+      expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
+        payload: mockResponse.data.attributes,
+      });
+    });
+
+    it('should not include station_number in v1 API calls', async () => {
+      const prescriptionId = '123';
+      const stationNumber = '998';
+      const mockResponse = {
+        data: {
+          attributes: {
+            id: prescriptionId,
+            name: 'Test Prescription',
+            prescriptionName: 'Test Prescription',
+            prescriptionNumber: 'RX456',
+          },
+        },
+      };
+      mockApiRequest(mockResponse);
+
+      const store = mockStore({
+        featureToggles: {
+          loading: false,
+          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: false,
+        },
+      });
+      await store.dispatch(getPrescriptionById(prescriptionId, stationNumber));
+
+      // Verify v1 endpoint was called without station_number
+      const fetchUrl = global.fetch.firstCall.args[0];
+      expect(fetchUrl).to.include('/my_health/v1/prescriptions/123');
+      expect(fetchUrl).to.not.include('station_number');
+    });
+
+    it('should call v2 API without station_number when not provided', async () => {
+      const prescriptionId = '456';
       const mockResponse = {
         data: {
           attributes: {
@@ -84,21 +154,10 @@ describe('prescription actions', () => {
       });
       await store.dispatch(getPrescriptionById(prescriptionId));
 
-      // Verify the v2 endpoint was called
+      // Verify v2 endpoint without station_number query param
       const fetchUrl = global.fetch.firstCall.args[0];
       expect(fetchUrl).to.include('/my_health/v2/prescriptions/456');
-
-      const actions = store.getActions();
-      expect(actions[0]).to.deep.equal({
-        type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
-      });
-      expect(actions[1]).to.deep.equal({
-        type: Actions.Prescriptions.IS_LOADING,
-      });
-      expect(actions[2]).to.deep.equal({
-        type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
-        payload: mockResponse.data.attributes,
-      });
+      expect(fetchUrl).to.not.include('station_number');
     });
 
     it('should fall back to v1 API when feature toggles are still loading', async () => {
@@ -232,6 +291,77 @@ describe('prescription actions', () => {
       expect(loggerSpy.firstCall.args[0]).to.include('Record not found');
       expect(loggerSpy.firstCall.args[1].errorStatus).to.equal('404');
       expect(loggerSpy.firstCall.args[1].prescriptionId).to.equal('123');
+    });
+
+    it('should dispatch success when prescriptionNumber is null (Oracle Health)', async () => {
+      const prescriptionId = '456';
+      const mockResponse = {
+        data: {
+          attributes: {
+            prescriptionId: 456,
+            prescriptionName: 'METFORMIN HCL 500MG TAB',
+            prescriptionNumber: null,
+            prescriptionSource: 'VA',
+          },
+        },
+      };
+      mockApiRequest(mockResponse);
+
+      const store = mockStore();
+      await store.dispatch(getPrescriptionById(prescriptionId));
+
+      const actions = store.getActions();
+      expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
+        payload: mockResponse.data.attributes,
+      });
+    });
+
+    it('should dispatch error when prescriptionSource is NV (Non-VA medication)', async () => {
+      const prescriptionId = '789';
+      const mockResponse = {
+        data: {
+          attributes: {
+            prescriptionId: 789,
+            prescriptionName: 'Some Non-VA Med',
+            prescriptionNumber: null,
+            prescriptionSource: 'NV',
+          },
+        },
+      };
+      mockApiRequest(mockResponse);
+
+      const store = mockStore();
+      await store.dispatch(getPrescriptionById(prescriptionId));
+
+      const actions = store.getActions();
+      expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
+        payload: 'Non-VA medication',
+      });
+    });
+
+    it('should dispatch error when prescriptionName is null', async () => {
+      const prescriptionId = '999';
+      const mockResponse = {
+        data: {
+          attributes: {
+            prescriptionId: 999,
+            prescriptionName: null,
+            prescriptionSource: 'VA',
+          },
+        },
+      };
+      mockApiRequest(mockResponse);
+
+      const store = mockStore();
+      await store.dispatch(getPrescriptionById(prescriptionId));
+
+      const actions = store.getActions();
+      expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
+        payload: 'Non-VA medication',
+      });
     });
   });
 

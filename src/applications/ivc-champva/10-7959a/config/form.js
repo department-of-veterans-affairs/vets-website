@@ -20,7 +20,6 @@ import {
   isNewPharmacyClaim,
   isNotEnrolledInChampva,
   isResubmissionClaim,
-  isResubmissionEnabled,
   isRoleOther,
   isRoleSponsor,
 } from '../utils/helpers';
@@ -103,7 +102,7 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: content['form-messages--not-found'],
     noAuth: content['form-messages--no-auth'],
@@ -187,7 +186,6 @@ const formConfig = {
         page1e: {
           path: 'champva-claim-status',
           title: 'CHAMPVA claim status',
-          depends: isResubmissionEnabled,
           ...certifierClaimStatusSchema,
         },
       },
@@ -197,7 +195,7 @@ const formConfig = {
       pages: {
         page1e1: {
           path: 'resubmission-claim-number',
-          title: 'Claim ID number',
+          title: 'Claim identification number',
           depends: isResubmissionClaim,
           ...claimIdentificationNumber,
         },

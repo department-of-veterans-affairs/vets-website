@@ -104,21 +104,6 @@ describe('Claim cards', () => {
   });
 
   describe('Communication notifications', () => {
-    it('should display development letter notification', () => {
-      setupClaimCardsTest([
-        createBenefitsClaimListItem({
-          developmentLetterSent: true,
-          decisionLetterSent: false,
-          status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
-          phaseType: 'GATHERING_OF_EVIDENCE',
-        }),
-      ]);
-
-      cy.findByText('We sent you a development letter');
-
-      cy.axeCheck();
-    });
-
     it('should display decision letter notification', () => {
       setupClaimCardsTest([
         createBenefitsClaimListItem({

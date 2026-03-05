@@ -150,7 +150,15 @@ const testConfig = createTestConfig(
       },
 
       'supporting-evidence/additional-evidence-intro': () => {
-        cy.fillPage();
+        cy.get('@testData').then(data => {
+          const hasAdditionalEvidence =
+            data['view:selectableEvidenceTypes']['view:hasOtherEvidence'];
+
+          cy.get(
+            `va-radio-option[label="${hasAdditionalEvidence ? 'Yes' : 'No'}"]`,
+          ).click();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
       },
 
       'supporting-evidence/evidence-request': () => {
