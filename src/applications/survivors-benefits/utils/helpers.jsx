@@ -17,7 +17,32 @@ export const isSameOrAfter = (date1, date2) => {
   return isAfter(date1, date2) || isEqual(date1, date2);
 };
 
-export const formatCurrency = num => `$${num.toLocaleString()}`;
+/**
+ * Formats a numeric currency value for display.
+ *
+ * - Whole dollar amounts are displayed without cents (e.g. 1000 -> '$1,000')
+ * - Amounts with cents are displayed with exactly 2 decimal places (e.g. 10.5 -> '$10.50')
+ * - null or undefined values return a fallback string
+ *
+ * @param {number|null|undefined} amount - The numeric currency value to format
+ * @returns {string|null} The formatted currency string (e.g. '$1,000' or '$10.50'),
+ *   or null if amount is null or undefined. Use || to provide a fallback:
+ *   `formatCurrency(item?.paymentAmount) || 'Amount not provided'`
+ *
+ * @example
+ * formatCurrency(1000)      // '$1,000'
+ * formatCurrency(10.5)      // '$10.50'
+ * formatCurrency(1234567.89) // '$1,234,567.89'
+ * formatCurrency(null)      // null
+ * formatCurrency(undefined) // null
+ */
+export const formatCurrency = amount => {
+  if (amount == null) return null;
+  return `$${Number(amount).toLocaleString('en-US', {
+    minimumFractionDigits: Number.isInteger(amount) ? 0 : 2,
+    maximumFractionDigits: 2,
+  })}`;
+};
 
 const warDates = [
   ['1916-05-09', '1917-04-05'], // Mexican Border Period (May 9, 1916 - April 5, 1917)
