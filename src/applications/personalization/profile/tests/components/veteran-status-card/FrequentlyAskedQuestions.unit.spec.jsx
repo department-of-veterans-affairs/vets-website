@@ -105,6 +105,22 @@ describe('<FrequentlyAskedQuestions />', () => {
       ).to.exist;
       expect(getByText(/Defense Manpower Data Center/i)).to.exist;
     });
+
+    it('should render the PDF link with filetype attribute (no download icon)', () => {
+      render(
+        <FrequentlyAskedQuestions
+          createPdf={() => {}}
+          cveVeteranStatusNewService={false}
+        />,
+      );
+
+      const pdfLink = document.querySelector(
+        'va-link[text="Print your Veteran Status Card (PDF)"]',
+      );
+      expect(pdfLink).to.exist;
+      expect(pdfLink.hasAttribute('filetype')).to.be.true;
+      expect(pdfLink.hasAttribute('download')).to.be.false;
+    });
   });
 
   describe('when cveVeteranStatusNewService is true and Veteran Status Card is present (createPdf provided)', () => {
@@ -140,6 +156,22 @@ describe('<FrequentlyAskedQuestions />', () => {
 
       // Defense Manpower Data Center paragraph should not be present in new service
       expect(queryByText(/Defense Manpower Data Center/i)).to.not.exist;
+    });
+
+    it('should render the PDF link with download icon', () => {
+      render(
+        <FrequentlyAskedQuestions
+          createPdf={() => {}}
+          cveVeteranStatusNewService
+        />,
+      );
+
+      const pdfLink = document.querySelector(
+        'va-link[text="Print your Veteran Status Card (PDF)"]',
+      );
+      expect(pdfLink).to.exist;
+      expect(pdfLink.hasAttribute('download')).to.be.true;
+      expect(pdfLink.hasAttribute('filetype')).to.be.false;
     });
   });
 
