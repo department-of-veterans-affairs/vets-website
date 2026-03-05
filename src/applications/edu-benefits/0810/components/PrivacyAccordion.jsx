@@ -13,19 +13,19 @@ export default function PrivacyAccordion() {
           title 38, Code of Federal Regulations 1.576 for routine uses (i.e., VA
           sends educational forms or letters with a veteran’s identifying
           information to the veteran’s school or training establishment to (1)
-          assist the veteran in the completion of claims forms or (2) for VA
-          obtains further information as may be necessary from the school for VA
+          assist the veteran in the completion of claims forms, or (2) for VA to
+          obtain further information as may be necessary from the school for VA
           to properly process the veteran’s education claim or to monitor his or
-          her progress during training) as identified in the VA system or
+          her progress during training) as identified in the VA system of
           records, 58VA21/22/28, Compensation, Pension, Education, and Veteran
           Readiness and Employment Records - VA, published in the Federal
-          Register. Your obligation to respond is required to obtain or retain
-          benefits (licensing and certification test reimbursement). While you
-          do not have to respond, VA cannot reimburse you any licensing and
-          certification test fees until we receive this information (38 U.S.C.
-          3452(b) and 3501 (a)). Your responses are confidential (38 U.S.C.
-          5701). Information submitted is subject to verification through
-          computer matching programs with other agencies.
+          Register. Your obligation to respond is voluntary. While you do not
+          have to respond, VA cannot process your claim for reimbursement of
+          national exam fees unless the information is furnished as required by
+          existing law (38 U.S.C. 3471). The responses you submit are considered
+          confidential (38 U.S.C. 5701). Any information provided by applicants,
+          recipients, and others may be subject to verification through computer
+          matching programs with other agencies.
         </p>
       </va-accordion-item>
       <va-accordion-item
