@@ -81,7 +81,7 @@ export const DependentsInformation = ({
           Your child passed away, <strong>or</strong>
         </li>
         <li>
-          Your child over age 18 left full-time school, <strong>or</strong>
+          Your child over age 18 left school, <strong>or</strong>
         </li>
         <li>Your child (either a minor or a student) got married</li>
       </ul>
@@ -191,8 +191,7 @@ export const DependentsInformation = ({
           <strong>or</strong>
         </li>
         <li>
-          Your child over age 18 is enrolled in school full-time,{' '}
-          <strong>or</strong>
+          Your child over age 18 is enrolled in school, <strong>or</strong>
         </li>
         <li>You became the caregiver for a parent</li>
       </ul>
