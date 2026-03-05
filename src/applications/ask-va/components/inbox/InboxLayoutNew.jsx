@@ -1,6 +1,7 @@
 import {
   VaButtonPair,
   VaSelect,
+  VaSort,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -32,7 +33,9 @@ export default function InboxLayoutNew({
   const [pendingCategoryFilter, setPendingCategoryFilter] = useState('All');
   const [pendingStatusFilter, setPendingStatusFilter] = useState('All');
   const [pendingQuery, setPendingQuery] = useState('');
-  const [sortOrder] = useState(filterAndSort.sortOptions.lastUpdate.newest);
+  const [sortOrder, setSortOrder] = useState(
+    filterAndSort.sortOptions.lastUpdate.newest,
+  );
   const [filters, setFilters] = useState({
     status: 'All',
     category: 'All',
@@ -125,6 +128,22 @@ export default function InboxLayoutNew({
               />
             </div>
           </div>
+          <div className="sort-container">
+            <VaSort
+              width="xl"
+              value={sortOrder}
+              onVaSortSelect={e => {
+                setSortOrder(e.target.value);
+              }}
+            >
+              <option value={filterAndSort.sortOptions.lastUpdate.newest}>
+                Last Updated (newest to oldest)
+              </option>
+              <option value={filterAndSort.sortOptions.lastUpdate.oldest}>
+                Last Updated (oldest to newest)
+              </option>
+            </VaSort>
+          </div>
 
           {inquiries.business?.length ? (
             <div className="tabs">
@@ -162,18 +181,16 @@ export default function InboxLayoutNew({
               </Tabs>
             </div>
           ) : (
-            <>
-              <InquiriesList
-                inquiries={filterAndSort({
-                  inquiriesArray: inquiries.personal,
-                  filters,
-                  sortOrder,
-                })}
-                categoryFilter={filters.category}
-                statusFilter={filters.status}
-                query={filters.query}
-              />
-            </>
+            <InquiriesList
+              inquiries={filterAndSort({
+                inquiriesArray: inquiries.personal,
+                filters,
+                sortOrder,
+              })}
+              categoryFilter={filters.category}
+              statusFilter={filters.status}
+              query={filters.query}
+            />
           )}
         </>
       ) : (

@@ -159,17 +159,15 @@ export default function InboxLayoutOld({
               </Tabs>
             </div>
           ) : (
-            <>
-              <InquiriesList
-                inquiries={filterAndSort({
-                  inquiriesArray: inquiries.personal,
-                  filters,
-                })}
-                categoryFilter={filters.category}
-                statusFilter={filters.status}
-                query={filters.query}
-              />
-            </>
+            <InquiriesList
+              inquiries={filterAndSort({
+                inquiriesArray: inquiries.personal,
+                filters,
+              })}
+              categoryFilter={filters.category}
+              statusFilter={filters.status}
+              query={filters.query}
+            />
           )}
         </>
       ) : (

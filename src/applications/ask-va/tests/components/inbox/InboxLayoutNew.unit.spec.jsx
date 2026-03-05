@@ -1,7 +1,10 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-import { standardizeInquiries } from '~/applications/ask-va/utils/inbox';
+import {
+  filterAndSort,
+  standardizeInquiries,
+} from '~/applications/ask-va/utils/inbox';
 import { expect } from 'chai';
 import InboxLayoutNew from '~/applications/ask-va/components/inbox/InboxLayoutNew';
 import { mockInquiries as rawInquiries } from '../../utils/mock-inquiries';
@@ -117,6 +120,57 @@ describe('<InboxLayoutNew />', () => {
     expect(endTextContent)
       .to.eql(startTextContent)
       .but.not.eql(filteredTextContent);
+  });
+
+  it('updates sort order implicitly on selection', () => {
+    function getLastUpdatedDates(resultsArray) {
+      const q1 = 'Last updated: ';
+      const q2 = 'Reference number: ';
+      const firstResultText = resultsArray[0].textContent;
+      const lastResultText = resultsArray[resultsArray.length - 1].textContent;
+
+      // Get text between q1 and q2
+      const firstDate = firstResultText.split(q1)[1].split(q2)[0];
+      const lastDate = lastResultText.split(q1)[1].split(q2)[0];
+      return [firstDate, lastDate];
+    }
+
+    const view = render(
+      <InboxLayoutNew
+        categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
+        inquiries={{ personal: mockInquiries.personal, business: [] }}
+      />,
+    );
+
+    // Confirm newer values first
+    const sortSelect = view.container.querySelector('va-sort');
+    expect(sortSelect.getAttribute('value')).to.equal(
+      filterAndSort.sortOptions.lastUpdate.newest,
+    );
+
+    const initialResults = view.getAllByTestId('inquiry-card');
+    const [initialFirstDate, initialLastDate] = getLastUpdatedDates(
+      initialResults,
+    );
+    expect(new Date(initialFirstDate).getTime()).to.be.greaterThanOrEqual(
+      new Date(initialLastDate).getTime(),
+    );
+
+    // Change sort order
+    sortSelect.__events.vaSortSelect({
+      target: { value: filterAndSort.sortOptions.lastUpdate.oldest },
+    });
+
+    // Confirm older values first
+    expect(sortSelect.getAttribute('value')).to.equal(
+      filterAndSort.sortOptions.lastUpdate.oldest,
+    );
+    const finalResults = view.getAllByTestId('inquiry-card');
+    const [finalFirstDate, finalLastDate] = getLastUpdatedDates(finalResults);
+    expect(new Date(finalFirstDate).getTime()).to.be.lessThanOrEqual(
+      new Date(finalLastDate).getTime(),
+    );
   });
 
   it('shifts focus to search description after a button is clicked', () => {

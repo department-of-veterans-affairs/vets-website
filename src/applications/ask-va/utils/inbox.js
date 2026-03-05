@@ -51,7 +51,7 @@ export function standardizeInquiries(rawInquiries) {
       uniqueStatuses: new Set(),
     },
   );
-  // Convert the Set into an array
+  // Convert the Sets to arrays
   return {
     ...buckets,
     uniqueCategories: [...buckets.uniqueCategories],
