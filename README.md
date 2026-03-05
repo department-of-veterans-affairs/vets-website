@@ -364,12 +364,17 @@ Several applications on VA.gov use Mapbox for mapping functionality. For local d
 **Getting a dev token:**
 
 1. See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/working-with-vsp/policies-work-norms/sensitive-guidance.md) for details on handling non-public keys and tokens.
-2. Access the AWS Systems Manager Parameter Store and retrieve the dev Mapbox token from: `/dsva-vagov/vets-website/dev/mapbox_token`
-3. See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=external-request%2Coperations%2Cops-access-request&template=aws-access-request.yml&title=AWS+access+for+%5Bindividual%5D) for instructions on requesting AWS access.
+2. See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=external-request%2Coperations%2Cops-access-request&template=aws-access-request.yml&title=AWS+access+for+%5Bindividual%5D) for instructions on requesting AWS access.
 
 **Local development setup:**
 
-Create a `.env` file in the root of `vets-website` and add your token:
+Fetch the dev token from AWS and write it to your `.env` in one step:
+
+```sh
+echo "MAPBOX_TOKEN=$(aws ssm get-parameter --name /dsva-vagov/vets-website/dev/mapbox_token --with-decryption --query Parameter.Value --output text)" >> .env
+```
+
+Or manually create a `.env` file in the root of `vets-website` with:
 
 ```
 MAPBOX_TOKEN=<your-dev-token>
