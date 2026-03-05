@@ -230,18 +230,39 @@ describe('Care Expenses Pages', () => {
     const { text } = options;
     const completeItem = {
       careDateRange: { from: '2020-01-01', to: '2020-01-31' },
+      paymentFrequency: 'MONTHLY',
+      paymentAmount: 500,
     };
     const partialItem = {
       careDateRange: { from: '2020-01-01' },
+      paymentFrequency: 'ANNUALLY',
+      paymentAmount: 1200,
+    };
+    const noDateItem = {
+      paymentFrequency: 'MONTHLY',
+      paymentAmount: 250,
     };
     const incompleteItem = {};
 
-    expect(text.cardDescription(completeItem)).to.equal(
-      `01/01/2020 - 01/31/2020`,
+    const { getByText, queryByText, rerender, container } = render(
+      text.cardDescription(completeItem),
     );
-    expect(text.cardDescription(partialItem)).to.equal('01/01/2020');
-    expect(text.cardDescription(incompleteItem)).to.equal(
-      'Care dates not provided',
-    );
+    expect(getByText('01/01/2020 - 01/31/2020')).to.exist;
+    expect(getByText('Once a month')).to.exist;
+    expect(getByText('$500')).to.exist;
+
+    rerender(text.cardDescription(partialItem));
+    expect(getByText('01/01/2020')).to.exist;
+    expect(queryByText('01/01/2020 - 01/31/2020')).to.not.exist;
+    expect(getByText('Once a year')).to.exist;
+    expect(getByText('$1,200')).to.exist;
+
+    rerender(text.cardDescription(noDateItem));
+    expect(queryByText('01/01/2020')).to.not.exist;
+    expect(getByText('Once a month')).to.exist;
+    expect(getByText('$250')).to.exist;
+
+    rerender(text.cardDescription(incompleteItem));
+    expect(container.textContent.trim()).to.equal('');
   });
 });
