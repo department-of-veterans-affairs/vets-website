@@ -178,6 +178,9 @@ Cypress.Commands.add('fillVaTelephoneInput', (field, value) => {
         ? cy.get(`va-telephone-input[name="${field}"]`)
         : cy.wrap(field);
     element.shadow().within(() => {
+      cy.get('va-combo-box').then($countrySelect => {
+        cy.selectVaSelect($countrySelect, value.countryCode);
+      });
       cy.get('va-text-input').then($contact => {
         cy.fillVaTextInput($contact, value.contact);
       });
