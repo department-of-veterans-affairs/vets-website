@@ -669,6 +669,9 @@ export const isUploadingSTR = formData =>
     false,
   );
 
+export const getServiceTreatmentRecordsAttachments = formData =>
+  _.get('serviceTreatmentRecordsAttachments', formData, []);
+
 export const isBddShaWorkflowActive = formData =>
   formData.disability526NewBddShaEnforcementWorkflowEnabled && isBDD(formData);
 
