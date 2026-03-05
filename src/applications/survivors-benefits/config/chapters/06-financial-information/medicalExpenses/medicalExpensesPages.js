@@ -233,7 +233,7 @@ const purposeDatePage = {
 
 const frequencyCostPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Frequency and cost of care'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Frequency and cost of expense'),
     paymentFrequency: radioUI({
       title: 'How often are the payments?',
       labels: frequencyLabels,
