@@ -1,5 +1,10 @@
 import { expect } from 'chai';
-import { validateNameMatchesUser, fullNameToString } from '../helpers';
+import {
+  validateNameMatchesUser,
+  fullNameToString,
+  transformPhoneNumberObject,
+  transformContactInfoMailingAddress,
+} from '../helpers';
 
 describe('0989 Helpers', () => {
   describe('validateNameMatchesUser', () => {
@@ -49,6 +54,80 @@ describe('0989 Helpers', () => {
 
     it('gets converts empty arguments without error', () => {
       expect(fullNameToString({ first: null, last: null })).to.eq(' ');
+    });
+  });
+
+  describe('transformPhoneNumberObject', () => {
+    it('formats things properly with a full object', () => {
+      const input = {
+        isInternational: true,
+        areaCode: '989',
+        phoneNumber: '8981233',
+        countryCode: '22',
+      };
+      expect(transformPhoneNumberObject(input)).to.eq('+22 9898981233');
+    });
+
+    it('returns an empty string when not enough info available', () => {
+      const input = {
+        isInternational: true,
+        areaCode: '',
+        phoneNumber: '',
+        countryCode: '22',
+      };
+      expect(transformPhoneNumberObject(input)).to.eq('');
+    });
+  });
+
+  describe('transformContactInfoMailingAddress', () => {
+    it('transforms the object correctly for a US address', () => {
+      const input = {
+        addressLine1: '123 Mailing Address St.',
+        addressLine2: 'Apt 1',
+        addressLine3: '',
+        addressType: 'DOMESTIC',
+        city: 'Fulton',
+        countryName: 'United States',
+        countryCodeIso2: 'US',
+        countryCodeIso3: 'USA',
+        stateCode: 'NY',
+        zipCode: '97063',
+      };
+      expect(transformContactInfoMailingAddress(input)).to.deep.equal({
+        isMilitary: false,
+        country: 'USA',
+        street: '123 Mailing Address St.',
+        street2: 'Apt 1',
+        street3: '',
+        city: 'Fulton',
+        state: 'NY',
+        postalCode: '97063',
+      });
+    });
+
+    it('transforms the object correctly for a foreign address', () => {
+      const input = {
+        addressType: 'INTERNATIONAL',
+        addressLine1: '123 Mailing Address St.',
+        addressLine2: 'Apt 1',
+        addressLine3: '',
+        city: 'Fulton',
+        countryName: 'Mexico',
+        countryCodeIso2: 'MX',
+        countryCodeIso3: 'MEX',
+        province: 'JAL',
+        internationalPostalCode: '12345',
+      };
+      expect(transformContactInfoMailingAddress(input)).to.deep.equal({
+        isMilitary: false,
+        country: 'MEX',
+        street: '123 Mailing Address St.',
+        street2: 'Apt 1',
+        street3: '',
+        city: 'Fulton',
+        state: 'JAL',
+        postalCode: '12345',
+      });
     });
   });
 });

@@ -47,6 +47,10 @@ const isNotWhithinCohortError = error => {
   return error?.code === AVAILABILITY_ERROR_CODES.NOT_WITHIN_COHORT;
 };
 
+const isNoSlotsAvailableError = error => {
+  return error?.code === AVAILABILITY_ERROR_CODES.NO_SLOTS_AVAILABLE;
+};
+
 const isAppointmentFailedError = error => {
   return error?.code === APPOINTMENT_ERROR_CODES.APPOINTMENT_SAVE_FAILED;
 };
@@ -70,6 +74,7 @@ export {
   isAccountLockedError,
   isServerError,
   isNotWhithinCohortError,
+  isNoSlotsAvailableError,
   isAppointmentFailedError,
   isAppointmentNotFoundError,
   isAppointmentAlreadyBookedError,

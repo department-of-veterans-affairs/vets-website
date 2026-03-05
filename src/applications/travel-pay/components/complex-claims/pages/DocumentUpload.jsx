@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { ACCEPTED_FILE_TYPES } from '../../../constants';
 
 const DocumentUpload = ({
@@ -11,14 +12,32 @@ const DocumentUpload = ({
   onVaFileInputError,
   label = 'Upload your proof of the expense',
 }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const heicConversionEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableHeicConversion,
+  );
+
+  const acceptedFileTypes = useMemo(
+    () => {
+      const types = [...ACCEPTED_FILE_TYPES];
+      if (heicConversionEnabled) {
+        types.push('.heic', '.heif');
+      }
+      return types;
+    },
+    [heicConversionEnabled],
+  );
+
   return (
     <>
       <VaFileInput
-        accept={ACCEPTED_FILE_TYPES.join(',')}
-        hint={`You can upload a ${ACCEPTED_FILE_TYPES.join(', ').replace(
-          /, ([^,]*)$/,
-          ', or $1',
-        )} file. Your file should be no larger than 5MB.`}
+        accept={acceptedFileTypes.join(',')}
+        hint={`You can upload a ${acceptedFileTypes
+          .join(', ')
+          .replace(
+            /, ([^,]*)$/,
+            ', or $1',
+          )} file. Your file should be no larger than 5MB.`}
         label={label}
         maxFileSize={5200000}
         minFileSize={0}

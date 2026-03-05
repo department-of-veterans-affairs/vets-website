@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { format, fromUnixTime, getUnixTime } from 'date-fns';
 import PropTypes from 'prop-types';
 import { selectProfile } from '~/platform/user/selectors';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import {
   filterOutExpiredForms,
@@ -22,6 +23,8 @@ import DraftCard from './DraftCard';
 import MissingApplicationHelp from './MissingApplicationHelp';
 import SubmissionCard from './SubmissionCard';
 import Error from './Error';
+
+const CHAMPVA_FORM_IDS = ['10-10D', '10-10D-EXTENDED'];
 
 /**
  * formIdLabel is used to construct part of the card header
@@ -80,11 +83,18 @@ const getFormTitle = (
  * optional subheaders for status cards
  * To define custom headers, add an entry in getCustomCardHeaderConfigs
  */
-export const getCardHeaders = (formId, formMeta, hasBenefit) => {
+export const getCardHeaders = (
+  formId,
+  formMeta,
+  hasBenefit,
+  enableChampvaOverrides = false,
+) => {
   const customCardHeaderConfigs = getCustomCardHeaderConfigs(formMeta);
+  const isChampvaForm = CHAMPVA_FORM_IDS.includes(formId);
 
   const formHeaderConfig = customCardHeaderConfigs.find(
-    config => config.formId === formId,
+    config =>
+      config.formId === formId && (enableChampvaOverrides || !isChampvaForm),
   );
 
   const formArrays = ['22-10275', '22-10278', '22-10297'];
@@ -126,6 +136,15 @@ const ApplicationsInProgress = ({
   hideMissingApplicationHelp,
   emptyState,
 }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const enableChampvaOverrides = useToggleValue(
+    TOGGLE_NAMES.benefitsClaimsIvcChampVaProvider,
+  );
+
+  const displayDecisionReviewsForms = useToggleValue(
+    TOGGLE_NAMES.decisionReviewsMyVADisplay,
+  );
+
   // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
     () =>
@@ -203,7 +222,11 @@ const ApplicationsInProgress = ({
             <p data-testid="applications-in-progress-empty-state">
               {emptyStateText}
             </p>
-            {!hideMissingApplicationHelp && <MissingApplicationHelp />}
+            {!hideMissingApplicationHelp && (
+              <MissingApplicationHelp
+                displayDecisionReviewsForms={displayDecisionReviewsForms}
+              />
+            )}
           </>
         )}
         {hasForms && (
@@ -228,7 +251,12 @@ const ApplicationsInProgress = ({
                 hasCustomPresentableFormId,
                 isForm,
                 presentableFormId,
-              } = getCardHeaders(formId, formMeta, hasBenefit);
+              } = getCardHeaders(
+                formId,
+                formMeta,
+                hasBenefit,
+                enableChampvaOverrides,
+              );
 
               if (Object.hasOwn(form, 'savedAt')) {
                 // if form is draft, then render Draft Card
@@ -285,7 +313,11 @@ const ApplicationsInProgress = ({
 
               return null;
             })}
-            {!hideMissingApplicationHelp && <MissingApplicationHelp />}
+            {!hideMissingApplicationHelp && (
+              <MissingApplicationHelp
+                displayDecisionReviewsForms={displayDecisionReviewsForms}
+              />
+            )}
           </div>
         )}
       </DashboardWidgetWrapper>

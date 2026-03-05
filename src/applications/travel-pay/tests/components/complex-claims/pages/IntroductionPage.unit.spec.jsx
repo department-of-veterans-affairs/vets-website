@@ -13,6 +13,7 @@ import {
   useLocation,
 } from 'react-router-dom-v5-compat';
 import { commonReducer } from 'platform/startup/store';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 import reducer from '../../../../redux/reducer';
 import IntroductionPage from '../../../../components/complex-claims/pages/IntroductionPage';
 import { BTSSS_PORTAL_URL } from '../../../../constants';
@@ -254,6 +255,104 @@ describe('Travel Pay – IntroductionPage', () => {
     );
 
     expect(getByTestId('introduction-page')).to.exist;
+  });
+
+  it('shows updated caregiver BTSSS text and no POA text for non-CC appt when community care flag is on', () => {
+    const state = {
+      ...getData(),
+      featureToggles: {
+        loading: false,
+        [TOGGLE_NAMES.travelPayEnableCommunityCare]: true,
+      },
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isCC: false,
+          },
+        },
+      },
+    };
+
+    const { getByText, queryByText } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      { initialState: state, reducers: reducer },
+    );
+
+    expect(getByText(/caregiver,/i)).to.exist;
+    expect(queryByText(/proof of attendance/i)).to.not.exist;
+  });
+
+  it('shows updated caregiver text AND proof-of-attendance text for CC appt when community care flag is on', () => {
+    const state = {
+      ...getData(),
+      featureToggles: {
+        loading: false,
+        [TOGGLE_NAMES.travelPayEnableCommunityCare]: true,
+      },
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isCC: true,
+          },
+        },
+      },
+    };
+
+    const { getByText } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      { initialState: state, reducers: reducer },
+    );
+
+    expect(getByText(/caregiver,/i)).to.exist;
+    expect(getByText(/proof of attendance/i)).to.exist;
+  });
+
+  it('shows original BTSSS text and no POA text when community care flag is off', () => {
+    const state = {
+      ...getData(),
+      featureToggles: {
+        loading: false,
+        [TOGGLE_NAMES.travelPayEnableCommunityCare]: false,
+      },
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isCC: false,
+          },
+        },
+      },
+    };
+
+    const { getByText, queryByText } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      { initialState: state, reducers: reducer },
+    );
+
+    expect(
+      getByText(
+        /if your trip was one way, or if you started from somewhere other than your home address/i,
+      ),
+    ).to.exist;
+    expect(queryByText(/caregiver,/i)).to.not.exist;
+    expect(queryByText(/proof of attendance/i)).to.not.exist;
   });
 
   it('hides the start button when appointment is community care (isCC)', () => {
