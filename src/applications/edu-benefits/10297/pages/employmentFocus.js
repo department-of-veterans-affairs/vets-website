@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   radioUI,
   radioSchema,
@@ -15,18 +14,12 @@ const employmentFocusOptions = {
 };
 
 const uiSchema = {
-  ...titleUI({
-    title: 'Your main area of focus',
-    description: (
-      <p className="vads-u-margin-y--0">
-        If your area of focus does not appear below, please chose the closest
-        approximation
-      </p>
-    ),
-  }),
+  ...titleUI('Your main area of focus'),
   technologyAreaOfFocus: {
     ...radioUI({
       title: 'What’s your main area of focus in the technology industry?',
+      hint:
+        'If your area of focus does not appear below, please chose the closest approximation',
       required: formData => formData.isInTechnologyIndustry === true,
       labels: employmentFocusOptions,
     }),
