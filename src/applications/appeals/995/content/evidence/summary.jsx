@@ -60,7 +60,6 @@ export const content = {
     location: wrapError('Missing location name'),
     facility: wrapError('Missing provider name'),
     condition: wrapError('Missing condition'),
-    date: wrapError('Missing treatment date'),
     dates: wrapError('Missing treatment dates'),
     from: wrapError('Missing start date', true),
     to: wrapError('Missing end date', true),

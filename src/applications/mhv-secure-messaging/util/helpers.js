@@ -204,6 +204,21 @@ export const isMigrationPhaseBlockingReplies = ohMigrationPhase => {
   return OhMigrationPhasesBlockingReplies.includes(ohMigrationPhase);
 };
 
+/**
+ * Filter migration schedules to those whose current phase is in the given list.
+ * Reusable across components that need to check if a user is in a specific
+ * set of migration phases.
+ * @param {Array} migrationSchedules - Array of migration schedule objects
+ * @param {Array} targetPhases - Array of phase strings to match (e.g. ['p6', 'p7', 'p8'])
+ * @returns {Array} Schedules whose current phase matches
+ */
+export const filterSchedulesByPhase = (migrationSchedules, targetPhases) => {
+  if (!migrationSchedules?.length || !targetPhases?.length) return [];
+  return migrationSchedules.filter(schedule =>
+    targetPhases.includes(schedule.phases?.current),
+  );
+};
+
 export const getLastSentMessage = messages => {
   return messages.find(
     m =>

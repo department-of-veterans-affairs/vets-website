@@ -5,63 +5,28 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 const Breadcrumbs = () => {
   const { pathname } = useLocation();
   const baseUrl = '/careers-employment';
-  const normalizedPath = pathname.startsWith(baseUrl)
-    ? pathname
-    : `${baseUrl}${pathname}`;
+  const eligibilityPath = '/careers-employment/your-vre-eligibility';
+  let normalizedPath = pathname;
+
+  if (pathname === '/') {
+    normalizedPath = eligibilityPath;
+  } else if (!pathname.startsWith(baseUrl)) {
+    normalizedPath = `${baseUrl}${pathname}`;
+  }
 
   const baseCrumbs = [
     { href: '/', label: 'VA.gov home' },
     { href: '/careers-employment', label: 'Careers and employment' },
   ];
 
-  const routes = [
-    {
-      match:
-        '/careers-employment/track-your-vre-benefits/vre-benefit-status/career-planning',
-      crumbs: [
+  const routeCrumbs = normalizedPath.startsWith(eligibilityPath)
+    ? [
         {
-          href: '/careers-employment/track-your-vre-benefits',
-          label: 'Track your VR&E benefits',
-        },
-        {
-          href:
-            '/careers-employment/track-your-vre-benefits/vre-benefit-status',
-          label: 'Your VR&E benefit status',
-        },
-        {
-          href:
-            '/careers-employment/track-your-vre-benefits/vre-benefit-status/career-planning',
-          label: 'Career Planning',
-        },
-      ],
-    },
-    {
-      match: '/careers-employment/track-your-vre-benefits/vre-benefit-status',
-      crumbs: [
-        {
-          href: '/careers-employment/track-your-vre-benefits',
-          label: 'Track your VR&E benefits',
-        },
-        {
-          href:
-            '/careers-employment/track-your-vre-benefits/vre-benefit-status',
-          label: 'Your VR&E benefit status',
-        },
-      ],
-    },
-    {
-      match: '/careers-employment/your-vre-eligibility',
-      crumbs: [
-        {
-          href: '/careers-employment/your-vre-eligibility',
+          href: eligibilityPath,
           label: 'Your VR&E eligibility and benefits',
         },
-      ],
-    },
-  ];
-
-  const routeCrumbs =
-    routes.find(route => normalizedPath.startsWith(route.match))?.crumbs || [];
+      ]
+    : [];
 
   const crumbs = [...baseCrumbs, ...routeCrumbs];
 

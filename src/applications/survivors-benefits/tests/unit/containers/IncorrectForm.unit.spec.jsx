@@ -39,5 +39,6 @@ describe('Incorrect form page', () => {
     );
     expect(container.querySelectorAll('va-link')).to.have.lengthOf(3);
     expect(container.querySelectorAll('va-link-action')).to.have.lengthOf(1);
+    scrollToTop.restore();
   });
 });

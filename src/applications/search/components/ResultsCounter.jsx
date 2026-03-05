@@ -1,5 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 
@@ -13,6 +17,9 @@ const ResultsCounter = ({
   totalPages,
   totalEntries,
 }) => {
+  const searchResultsUiUpdateEnabled = useSelector(
+    state => toggleValues(state)[FEATURE_FLAG_NAMES.searchResultsUiUpdate],
+  );
   let resultRangeEnd = currentPage * perPage;
 
   if (currentPage === totalPages) {
@@ -42,7 +49,14 @@ const ResultsCounter = ({
           <span className="vads-u-font-weight--bold">{spellingCorrection}</span>
           "
         </h2>
-        <hr className="vads-u-margin-y--3" aria-hidden="true" />
+        <hr
+          className={
+            searchResultsUiUpdateEnabled
+              ? 'vads-u-margin-y--0'
+              : 'vads-u-margin-y--3'
+          }
+          aria-hidden="true"
+        />
       </>
     );
   }
@@ -61,7 +75,14 @@ const ResultsCounter = ({
           of {totalEntries} results for "
           <span className="vads-u-font-weight--bold">{query}</span>"
         </h2>
-        <hr className="vads-u-margin-y--3" aria-hidden="true" />
+        <hr
+          className={
+            searchResultsUiUpdateEnabled
+              ? 'vads-u-margin-y--0'
+              : 'vads-u-margin-y--3'
+          }
+          aria-hidden="true"
+        />
       </>
     );
   }

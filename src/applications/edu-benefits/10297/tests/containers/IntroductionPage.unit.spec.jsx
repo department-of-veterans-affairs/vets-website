@@ -104,7 +104,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     expect(queryByTestId('sign-in-alert')).to.not.exist;
-    expect(getByText('Start your Application for the High Technology Program'))
-      .to.exist;
+    expect(getByText('Start your application for VET TEC 2.0')).to.exist;
   });
 });

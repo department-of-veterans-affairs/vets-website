@@ -1,7 +1,6 @@
 import React from 'react';
 import { scrubDescription, setDocumentTitle } from './helpers';
 import { standard5103Item } from '../constants';
-import { evidenceDictionary } from './evidenceDictionary';
 
 /**
  * @param {Object} item
@@ -15,7 +14,7 @@ export const getTrackedItemProperty = (item, propertyName) => {
     return item[propertyName];
   }
 
-  return !!evidenceDictionary[item.displayName]?.[propertyName];
+  return false;
 };
 
 /**
