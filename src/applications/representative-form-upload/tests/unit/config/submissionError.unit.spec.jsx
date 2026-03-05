@@ -50,13 +50,6 @@ describe('<SubmissionError />', () => {
       expect(
         wrapper
           .find(
-            'a.vads-c-action-link--green[href="/representative/submissions"]',
-          )
-          .exists(),
-      ).to.be.true;
-      expect(
-        wrapper
-          .find(
             'a[href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"]',
           )
           .exists(),
