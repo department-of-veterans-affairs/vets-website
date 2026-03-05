@@ -1,22 +1,5 @@
-/**
- * AVS Unit Test Mocks
- *
- * MSW handlers for unit tests using the global mocha-setup server.
- * Uses shared data from ./data.js
- *
- * Usage:
- * import { server } from 'platform/testing/unit/mocha-setup';
- * import { avsHandlers, handlers } from '../../mocks/server';
- *
- * describe('My test', () => {
- *   beforeEach(() => server.use(...avsHandlers));
- *   afterEach(() => server.resetHandlers());
- *
- *   it('handles not found', () => {
- *     server.use(handlers.avsNotFound());
- *   });
- * });
- */
+// AVS Unit Test Mocks - MSW handlers for unit tests.
+// See README.md for usage examples.
 import {
   createGetHandler,
   jsonResponse,
