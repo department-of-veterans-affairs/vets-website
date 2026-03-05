@@ -86,7 +86,7 @@ export const Locators = {
   FOLDERS_LIST: '[data-testid ="my-folders-sidebar"]',
   MESS_LIST: '[data-testid="message-list-item"]',
   THREAD_LIST: '.thread-list-item',
-  THREADS: '[data-testid="thread-list-item"]',
+  THREADS: 'thread-list-item',
   MES_COUNT: '[data-testid="message-count"]',
   REPLY_FORM: '[data-testid="reply-form"]',
   REPLY_TO: '[data-testid="draft-reply-to"]',
