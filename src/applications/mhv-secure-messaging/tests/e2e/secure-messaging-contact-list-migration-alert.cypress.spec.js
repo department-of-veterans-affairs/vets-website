@@ -3,6 +3,24 @@ import ContactListPage from './pages/ContactListPage';
 import { AXE_CONTEXT, Alerts, Locators } from './utils/constants';
 import mockUser from './fixtures/userResponse/user.json';
 
+// Base migration date used in createMigratingUser fixture (ISO format for reliable parsing)
+const MIGRATION_DATE_STRING = '2026-02-13';
+
+/**
+ * Computes a date offset from the migration date, formatted for display.
+ * @param {number} days - Number of days to offset (negative for before, positive for after)
+ * @returns {string} Formatted date string (e.g., "February 7, 2026")
+ */
+const computeMigrationDate = days => {
+  const date = new Date(MIGRATION_DATE_STRING);
+  date.setDate(date.getDate() + days);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
 /**
  * Helper to create a migrating-user fixture from the base user fixture.
  * Adds OH migration schedule data with the specified phase, avoiding the
@@ -20,7 +38,7 @@ const createMigratingUser = (
   ],
 ) => {
   const migrationSchedule = {
-    migrationDate: 'February 13, 2026 at 12:00AM ET',
+    migrationDate: MIGRATION_DATE_STRING,
     facilities,
     migrationStatus: 'ACTIVE',
     phases: {
@@ -128,6 +146,8 @@ describe('SM Contact List Migration Alert', () => {
         it('displays the bodyTop text with T-6 date reference', () => {
           cy.findByTestId(ALERT_TESTID).within(() => {
             cy.contains(P1_TO_P5_BODY_TOP).should('exist');
+            // Assert the computed T-6 date is displayed
+            cy.contains(computeMigrationDate(-6)).should('exist');
           });
           cy.injectAxe();
           cy.axeCheck(AXE_CONTEXT);
@@ -136,6 +156,8 @@ describe('SM Contact List Migration Alert', () => {
         it('displays the bodyBottom text', () => {
           cy.findByTestId(ALERT_TESTID).within(() => {
             cy.contains(P1_TO_P5_BODY_BOTTOM).should('exist');
+            // Assert the computed T+2 date is displayed
+            cy.contains(computeMigrationDate(2)).should('exist');
           });
           cy.injectAxe();
           cy.axeCheck(AXE_CONTEXT);

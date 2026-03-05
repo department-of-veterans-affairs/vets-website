@@ -640,7 +640,7 @@ describe('Edit Contact List container', async () => {
   });
 
   describe('Migration Alert', () => {
-    it('displays migration alert when user is in phase p1-p6 with migrating facilities', async () => {
+    it('displays migration alert when user is in phase p1-p5 with migrating facilities', async () => {
       const customState = {
         ...initialState,
         user: {

@@ -329,10 +329,12 @@ export const Alerts = {
   CONTACT_LIST_MIGRATION: {
     P1_TO_P5_MIGRATION: {
       HEADLINE: "We're making changes to your contact list",
+      // Partial text for cy.contains() - excludes dynamic T-6 date
       BODY_TOP:
-        'On [T-6], we’ll remove care teams from these facilities from your contact list:',
+        'we’ll remove care teams from these facilities from your contact list:',
+      // Partial text for cy.contains() - excludes dynamic T+2 date
       BODY_BOTTOM:
-        'Note: You can still send messages to care teams at these facilities after [T+2]. But the care team names will be different.',
+        'Note: You can still send messages to care teams at these facilities after',
     },
     POST_MIGRATION: {
       HEADLINE: 'We updated your contact list',
