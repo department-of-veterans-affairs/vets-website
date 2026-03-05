@@ -9,12 +9,16 @@ import {
   combineTreatmentFacility,
   updateFullNames,
   combineUnitNameAddress,
+  buildUnitAddress,
   chapter4Transform,
   checkForHowMarriageEnded,
   transformClaim,
 } from '../utils/transformers';
 
 export const transform = (formConfig, form) => {
+  // Check if feature flag for combining unit name and address is enabled
+  const use2025Version = form?.data?.survivorsBenefitsForm2025VersionEnabled;
+
   let transformedData = transformForSubmit(formConfig, form);
   transformedData = calculateSeparationDuration(transformedData);
   transformedData = splitVaSsnField(transformedData);
@@ -23,7 +27,12 @@ export const transform = (formConfig, form) => {
   transformedData = transformCareExpenses(transformedData);
   transformedData = combineTreatmentFacility(transformedData);
   transformedData = updateFullNames(transformedData);
-  transformedData = combineUnitNameAddress(transformedData);
+
+  // Use feature flag to determine which transformer to apply
+  transformedData = use2025Version
+    ? buildUnitAddress(transformedData)
+    : combineUnitNameAddress(transformedData);
+
   transformedData = chapter4Transform(transformedData);
   transformedData = checkForHowMarriageEnded(transformedData);
   transformedData = transformClaim(transformedData);
