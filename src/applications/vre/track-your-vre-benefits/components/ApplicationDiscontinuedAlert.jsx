@@ -17,9 +17,15 @@ const ApplicationDiscontinuedAlert = ({ discontinuedReason, resCaseId }) => {
     dispatch(downloadCh31PdfLetter(resCaseId));
   };
 
-  const downloadErrorMessage = downloadError
-    ? "We can't download your letter right now. Please try again later."
-    : null;
+  let downloadErrorMessage = null;
+
+  if (downloadError?.status === 404) {
+    downloadErrorMessage =
+      'Letter not found. Contact your counselor for additional information.';
+  } else if (downloadError) {
+    downloadErrorMessage =
+      "We can't download your letter right now. Please try again later.";
+  }
 
   return (
     <div className="vads-u-margin-y--3">
