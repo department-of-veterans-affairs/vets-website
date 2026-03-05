@@ -17,7 +17,7 @@ export default function App({ params }) {
   const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
 
   function getSubmission(submissionId) {
-    return apiRequest(`/submissions/show/${submissionId}`, {
+    return apiRequest(`/submissions/${submissionId}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
