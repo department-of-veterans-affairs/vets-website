@@ -382,11 +382,11 @@ MAPBOX_TOKEN=<your-dev-token>
 
 This single token is used as the fallback for all Mapbox-consuming applications. Each app checks for an app-specific override first (e.g., `MAPBOX_TOKEN_FACILITY_LOCATOR`), then falls back to `MAPBOX_TOKEN`. For local development, the base token is all you need.
 
-The `.env` file is already configured to work with dotenv for webpack. **Ensure that the `.env` file is in `.gitignore` and take care not to expose any tokens in public commits.**
+The `.env` file is already configured to work with dotenv for webpack.
 
 **Deployed environments:**
 
-In CI and deployed environments (dev, staging, production), each application receives its own Mapbox token automatically from AWS Systems Manager. You don't need to manage these tokens locally — the CI/deployment pipeline handles token injection automatically.
+In CI and deployed environments (dev, staging, production), each application receives its own Mapbox token from AWS Systems Manager. These are injected via the CI workflow files in `.github/workflows/`.
 
 ## Additional Resources
 
