@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { LETTER_URL, FORM_TITLE } from '../../constants';
-import NeedHelp from '../NeedHelp';
 
 const ConfirmationApproved = ({
   confirmationDate,
@@ -150,12 +149,7 @@ const ConfirmationApproved = ({
       <p>
         If you have questions about this form or need help, you can submit a
         request with{' '}
-        <va-link
-          href="https://www.va.gov/contact-us"
-          external
-          text="Ask VA (opens in a new tab)"
-        />
-        .
+        <va-link href="https://www.va.gov/contact-us" external text="Ask VA" />.
       </p>
 
       <va-link-action
@@ -164,11 +158,6 @@ const ConfirmationApproved = ({
         type="primary"
         class="vads-u-margin-top--2"
       />
-
-      <div className="vads-u-margin-top--4">
-        <h2 className="vads-u-font-size--h3">Need help?</h2>
-        <NeedHelp />
-      </div>
     </div>
   );
 };

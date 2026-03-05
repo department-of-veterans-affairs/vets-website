@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { LETTER_URL, FORM_TITLE } from '../../constants';
-import NeedHelp from '../NeedHelp';
 
 const ConfirmationDenied = ({
   confirmationDate,
@@ -94,28 +92,15 @@ const ConfirmationDenied = ({
       <h3>If you believe this decision is incorrect</h3>
       <p>
         If you need help with your application or have questions about
-        enrollment or eligibility please contact{' '}
-        <va-link href="https://ask.va.gov/" external text="Ask VA" /> or call
-        our Education Call Center at <va-telephone contact="8884424551" /> (
-        <va-telephone contact={CONTACTS['711']} tty />
-        ).
-      </p>
-      <p>
-        We’re here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET. If you’re
-        outside the U.S., call us at{' '}
-        <va-telephone contact="9186815678" international />.
+        enrollment or eligibility, please contact{' '}
+        <va-link href="https://ask.va.gov/" external text="Ask VA" />.
       </p>
 
       <h2>How to contact us if you have questions</h2>
       <p>
         If you have questions about this form or need help, you can submit a
         request with{' '}
-        <va-link
-          href="https://www.va.gov/contact-us"
-          external
-          text="Ask VA (opens in a new tab)"
-        />
-        .
+        <va-link href="https://www.va.gov/contact-us" external text="Ask VA" />.
       </p>
 
       <va-link-action
@@ -124,11 +109,6 @@ const ConfirmationDenied = ({
         type="primary"
         class="vads-u-margin-top--2"
       />
-
-      <div className="vads-u-margin-top--4">
-        <h2 className="vads-u-font-size--h3">Need help?</h2>
-        <NeedHelp />
-      </div>
     </div>
   );
 };
