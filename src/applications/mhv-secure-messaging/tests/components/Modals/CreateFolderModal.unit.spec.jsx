@@ -197,7 +197,7 @@ describe('Create Folder Modal component', () => {
 
     expect(screen.getByTestId('folder-name')).to.have.attribute(
       'error',
-      'Folder name cannot be blank',
+      Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK,
     );
   });
 });
