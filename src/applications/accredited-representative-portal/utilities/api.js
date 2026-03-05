@@ -169,8 +169,9 @@ const api = {
     const sort = subParam
       ? `&sort[by]=${subParam.sortBy}&sort[order]=${subParam.order}`
       : sortDefaults;
+    const identifier = query.identifier ? `&id=${query.identifier}` : '';
 
-    return [`/claim_submissions?${pagination}${sort}`];
+    return [`/claim_submissions?${pagination}${sort}${identifier}`];
   }),
 
   claimantSearch: wrapApiRequest(data => {
