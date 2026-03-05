@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { LETTER_URL, FORM_TITLE } from '../../constants';
+import NeedHelp from '../NeedHelp';
 
 const ConfirmationDenied = ({
   confirmationDate,
@@ -96,12 +97,10 @@ const ConfirmationDenied = ({
         <va-link href="https://ask.va.gov/" external text="Ask VA" />.
       </p>
 
-      <h2>How to contact us if you have questions</h2>
-      <p>
-        If you have questions about this form or need help, you can submit a
-        request with{' '}
-        <va-link href="https://www.va.gov/contact-us" external text="Ask VA" />.
-      </p>
+      <div className="vads-u-margin-top--4">
+        <h2>Need help?</h2>
+        <NeedHelp />
+      </div>
 
       <va-link-action
         href="/"
