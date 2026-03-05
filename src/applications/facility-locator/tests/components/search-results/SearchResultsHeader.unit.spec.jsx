@@ -2,17 +2,19 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { SearchResultsHeader } from '../../../components/SearchResultsHeader';
-import { LocationType, isSpecialCategory } from '../../../constants';
-import { urgentCareServices } from '../../../config';
+import {
+  FacilitesServicesConstants,
+  createRegexString,
+} from '../../../constants';
+import {
+  urgentCareServices,
+  benefitsServices,
+  emergencyCareServices,
+  healthServices,
+} from '../../../config';
 
-const regexForCare = (careType, serviceType, facilityType) => {
-  const resultsPrefix = isSpecialCategory(facilityType)
-    ? 'Results for'
-    : `Showing 1 - 5 results for`;
-
-  const stringRaw = String.raw`${resultsPrefix} "${careType}".*"${serviceType}".*within \d{1,} miles of.*new york.*`;
-  return new RegExp(stringRaw, 'i');
-};
+const defaultLocation = 'new york';
+const defaultRadius = 50;
 
 describe('SearchResultsHeader', () => {
   it('should not render header if context is not provided', () => {
@@ -27,6 +29,7 @@ describe('SearchResultsHeader', () => {
       <SearchResultsHeader
         results={[]}
         context="11111"
+        radius={defaultRadius}
         pagination={{ totalEntries: 0 }}
       />,
     );
@@ -36,7 +39,7 @@ describe('SearchResultsHeader', () => {
         .find('h2')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
-    ).to.match(/No results found for.*near.*11111.*/i);
+    ).to.match(/No results found for.*within \d+ miles of.*11111.*/i);
 
     wrapper.unmount();
   });
@@ -52,419 +55,522 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.HEALTH}
-        context="new york"
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.HEALTH.id}
+        context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA health".*"All VA health services".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        serviceType: 'All VA health',
+        facilityType: FacilitesServicesConstants.HEALTH.id,
+        totalEntries: 5,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.HEALTH for VA health service autosuggest, totalEntries = 1', () => {
+  it('should render header with FacilitesServicesConstants.HEALTH.id for VA health service autosuggest, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        radius={50}
-        facilityType={LocationType.HEALTH}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.HEALTH.id}
         inProgress={false}
         pagination={{ totalEntries: 1 }}
         results={[{}]}
         serviceType={null}
-        context="new york"
-        vamcServiceDisplay="All VA health services"
+        context={defaultLocation}
+        vamcServiceDisplay="All VA health"
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "VA health".*"All VA health services".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        serviceType: 'All VA health',
+        facilityType: FacilitesServicesConstants.HEALTH.id,
+        totalEntries: 1,
+        location: defaultLocation,
+      }),
     );
 
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.HEALTH, totalEntries = 1', () => {
+  it('should render header with FacilitesServicesConstants.HEALTH.id, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.HEALTH}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.HEALTH.id}
         serviceType="PrimaryCare"
-        context="new york"
+        context={defaultLocation}
         pagination={{ totalEntries: 1 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "VA health".*"Primary care".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        serviceType: healthServices.PrimaryCare,
+        facilityType: FacilitesServicesConstants.HEALTH.string,
+        totalEntries: 1,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.HEALTH, totalEntries = 5', () => {
+  it('should render header with FacilitesServicesConstants.HEALTH.id, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.HEALTH}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.HEALTH.id}
         serviceType="PrimaryCare"
-        context="new york"
+        context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA health".*"Primary care".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        serviceType: healthServices.PrimaryCare,
+        facilityType: FacilitesServicesConstants.HEALTH.id,
+        totalEntries: 5,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.HEALTH, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+  it('should render header with FacilitesServicesConstants.HEALTH.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.HEALTH}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.HEALTH.id}
         serviceType="PrimaryCare"
-        context="new york"
+        context={defaultLocation}
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "VA health".*"Primary care".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        serviceType: healthServices.PrimaryCare,
+        facilityType: FacilitesServicesConstants.HEALTH.id,
+        totalEntries: 15,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('with LocationType.HEALTH, null serviceType', () => {
+  it('with FacilitesServicesConstants.HEALTH.id, null serviceType', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.HEALTH}
-        context="new york"
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.HEALTH.id}
+        context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA health".*"All VA health services".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        facilityType: FacilitesServicesConstants.HEALTH.id,
+        totalEntries: 5,
+        location: defaultLocation,
+        serviceType: 'All VA health',
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.URGENT_CARE', () => {
+  it('should render header with FacilitesServicesConstants.URGENT_CARE.id', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.URGENT_CARE}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.URGENT_CARE.id}
         serviceType="NonVAUrgentCare"
-        context="new york"
+        context={defaultLocation}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      regexForCare(
-        'Urgent care',
-        urgentCareServices.NonVAUrgentCare,
-        LocationType.URGENT_CARE,
-      ),
+      createRegexString({
+        totalEntries: 5,
+        location: defaultLocation,
+        serviceType: urgentCareServices.NonVAUrgentCare,
+        facilityType: FacilitesServicesConstants.URGENT_CARE.string,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('LocationType.URGENT_CARE, null serviceType', () => {
+  it('FacilitesServicesConstants.URGENT_CARE.id, null serviceType', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.URGENT_CARE}
-        context="new york"
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.URGENT_CARE.id}
+        context={defaultLocation}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      regexForCare(
-        'Urgent care',
-        'All in-network urgent care',
-        LocationType.URGENT_CARE,
-      ),
+      createRegexString({
+        totalEntries: 5,
+        location: defaultLocation,
+        serviceType: 'All in-network urgent care',
+        facilityType: FacilitesServicesConstants.URGENT_CARE.string,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.EMERGENCY_CARE', () => {
+  it('should render header with FacilitesServicesConstants.EMERGENCY_CARE.id', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.EMERGENCY_CARE}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.EMERGENCY_CARE.id}
         serviceType="NonVAEmergencyCare"
-        context="new york"
+        context={defaultLocation}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      regexForCare(
-        'Emergency Care',
-        'In-network community emergency care',
-        LocationType.EMERGENCY_CARE,
-      ),
+      createRegexString({
+        totalEntries: 0,
+        location: defaultLocation,
+        serviceType: emergencyCareServices.NonVAEmergencyCare,
+        facilityType: FacilitesServicesConstants.EMERGENCY_CARE.string,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('LocationType.EMERGENCY_CARE, null serviceType', () => {
+  it('FacilitesServicesConstants.EMERGENCY_CARE.id, null serviceType', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.EMERGENCY_CARE}
-        context="new york"
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.EMERGENCY_CARE.id}
+        context={defaultLocation}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      regexForCare(
-        'Emergency Care',
-        'All in-network emergency care',
-        LocationType.EMERGENCY_CARE,
-      ),
+      createRegexString({
+        serviceType: emergencyCareServices.AllEmergencyCare,
+        facilityType: FacilitesServicesConstants.EMERGENCY_CARE.string,
+        totalEntries: 0,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.URGENT_CARE_PHARMACIES, totalEntries = 1', () => {
+  it('should render header with FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.URGENT_CARE_PHARMACIES}
-        context="new york"
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id}
+        context={defaultLocation}
         pagination={{ totalEntries: 1 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "Community pharmacies \(in VA’s network\)".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        facilityType: FacilitesServicesConstants.PHARMACIES_IN_NETWORK.string,
+        serviceType: null,
+        totalEntries: 1,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.URGENT_CARE_PHARMACIES, totalEntries = 5', () => {
+  it('should render header with FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.URGENT_CARE_PHARMACIES}
-        context="new york"
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id}
+        context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "Community pharmacies \(in VA’s network\)".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        serviceType: null,
+        facilityType: FacilitesServicesConstants.PHARMACIES_IN_NETWORK.string,
+        totalEntries: 5,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.URGENT_CARE_PHARMACIES, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+  it('should render header with FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.URGENT_CARE_PHARMACIES}
-        context="new york"
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id}
+        context={defaultLocation}
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "Community pharmacies \(in VA’s network\)".*within \d{1,} miles of.*new york.*/,
+      createRegexString({
+        facilityType: FacilitesServicesConstants.PHARMACIES_IN_NETWORK.string,
+        serviceType: null,
+        totalEntries: 15,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.CC_PROVIDER, totalEntries = 1', () => {
+  it('should render header with FacilitesServicesConstants.CC_PROVIDER.id, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.CC_PROVIDER}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.CC_PROVIDER.id}
         serviceType="foo"
-        context="new york"
+        context={defaultLocation}
         specialtyMap={{ foo: 'test' }}
         pagination={{ totalEntries: 1 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "Community providers \(in VA’s network\)".*"test".*within \d{1,} miles of.*new york.*/,
+      createRegexString({
+        serviceType: 'test',
+        facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
+        totalEntries: 1,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.CC_PROVIDER, totalEntries = 5', () => {
+  it('should render header with FacilitesServicesConstants.CC_PROVIDER.id, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.CC_PROVIDER}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.CC_PROVIDER.id}
         serviceType="foo"
-        context="new york"
+        context={defaultLocation}
         specialtyMap={{ foo: 'test' }}
         pagination={{ totalEntries: 5 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "Community providers \(in VA’s network\)".*"test".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        serviceType: 'test',
+        facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
+        totalEntries: 5,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.CC_PROVIDER, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+  it('should render header with FacilitesServicesConstants.CC_PROVIDER.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.CC_PROVIDER}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.CC_PROVIDER.id}
         serviceType="foo"
-        context="new york"
+        context={defaultLocation}
         specialtyMap={{ foo: 'test' }}
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "Community providers \(in VA’s network\)".*"test".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        serviceType: 'test',
+        facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
+        totalEntries: 15,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.BENEFITS, totalEntries = 1', () => {
+  it('should render header with FacilitesServicesConstants.BENEFITS.id, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.BENEFITS}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.BENEFITS.id}
         serviceType="ApplyingForBenefits"
-        context="new york"
+        context={defaultLocation}
+        pagination={{ totalEntries: 1 }}
+      />,
+    );
+
+    // Benefits is in hasNoServices, so service type section is not rendered
+    expect(wrapper.find('h2').text()).to.match(
+      createRegexString({
+        facilityType: FacilitesServicesConstants.BENEFITS.string,
+        serviceType: 'test',
+        totalEntries: 1,
+        location: defaultLocation,
+      }),
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with FacilitesServicesConstants.BENEFITS.id, totalEntries = 5', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.BENEFITS.id}
+        serviceType="ApplyingForBenefits"
+        context={defaultLocation}
+        pagination={{ totalEntries: 5 }}
+      />,
+    );
+
+    // Benefits is in hasNoServices, so service type section is not rendered
+    expect(wrapper.find('h2').text()).to.match(
+      createRegexString({
+        facilityType: FacilitesServicesConstants.BENEFITS.string,
+        serviceType: 'test',
+        totalEntries: 5,
+        location: defaultLocation,
+      }),
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with FacilitesServicesConstants.BENEFITS.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.BENEFITS.id}
+        serviceType="ApplyingForBenefits"
+        context={defaultLocation}
+        pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
+      />,
+    );
+
+    // Benefits is in hasNoServices, so service type section is not rendered
+    expect(wrapper.find('h2').text()).to.match(
+      createRegexString({
+        facilityType: FacilitesServicesConstants.BENEFITS.string,
+        serviceType: benefitsServices.ApplyingForBenefits,
+        totalEntries: 15,
+        location: defaultLocation,
+      }),
+    );
+    wrapper.unmount();
+  });
+
+  it('FacilitesServicesConstants.BENEFITS.id, serviceType null', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.BENEFITS.id}
+        context={defaultLocation}
+        pagination={{ totalEntries: 5 }}
+      />,
+    );
+
+    // Benefits is in hasNoServices, so service type section is not rendered
+    expect(wrapper.find('h2').text()).to.match(
+      createRegexString({
+        facilityType: FacilitesServicesConstants.BENEFITS.string,
+        serviceType: null,
+        totalEntries: 5,
+        location: defaultLocation,
+      }),
+    );
+    wrapper.unmount();
+  });
+
+  it('FacilitesServicesConstants.CEMETERY.id, totalEntries = 1', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.CEMETERY.id}
+        context={defaultLocation}
         pagination={{ totalEntries: 1 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "VA benefits".*"Applying for benefits".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        facilityType: FacilitesServicesConstants.CEMETERY.string,
+        serviceType: null,
+        totalEntries: 1,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.BENEFITS, totalEntries = 5', () => {
+  it('FacilitesServicesConstants.CEMETERY.id, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.BENEFITS}
-        serviceType="ApplyingForBenefits"
-        context="new york"
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.CEMETERY.id}
+        context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA benefits".*"Applying for benefits".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        serviceType: null,
+        facilityType: FacilitesServicesConstants.CEMETERY.string,
+        totalEntries: 5,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.BENEFITS, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+  it('FacilitesServicesConstants.CEMETERY.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.BENEFITS}
-        serviceType="ApplyingForBenefits"
-        context="new york"
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.CEMETERY.id}
+        context={defaultLocation}
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "VA benefits".*"Applying for benefits".*within \d{1,} miles of.*new york.*/i,
-    );
-    wrapper.unmount();
-  });
-
-  it('LocationType.BENEFITS, serviceType null', () => {
-    const wrapper = shallow(
-      <SearchResultsHeader
-        results={[{}]}
-        radius={50}
-        facilityType={LocationType.BENEFITS}
-        context="new york"
-        pagination={{ totalEntries: 5 }}
-      />,
-    );
-
-    expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA benefits".*"All VA benefit services".*within \d{1,} miles of.*new york.*/i,
-    );
-    wrapper.unmount();
-  });
-
-  it('LocationType.CEMETERY, totalEntries = 1', () => {
-    const wrapper = shallow(
-      <SearchResultsHeader
-        results={[{}]}
-        radius={50}
-        facilityType={LocationType.CEMETERY}
-        context="new york"
-        pagination={{ totalEntries: 1 }}
-      />,
-    );
-
-    expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "VA cemeteries".*within \d{1,} miles of.*new york.*/i,
-    );
-    wrapper.unmount();
-  });
-
-  it('LocationType.CEMETERY, totalEntries = 5', () => {
-    const wrapper = shallow(
-      <SearchResultsHeader
-        results={[{}]}
-        radius={50}
-        facilityType={LocationType.CEMETERY}
-        context="new york"
-        pagination={{ totalEntries: 5 }}
-      />,
-    );
-
-    expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA cemeteries".*within \d{1,} miles of.*new york.*/i,
-    );
-    wrapper.unmount();
-  });
-
-  it('LocationType.CEMETERY, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
-    const wrapper = shallow(
-      <SearchResultsHeader
-        results={[{}]}
-        radius={50}
-        facilityType={LocationType.CEMETERY}
-        context="new york"
-        pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
-      />,
-    );
-
-    expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "VA cemeteries".*within \d{1,} miles of.*new york.*/i,
+      createRegexString({
+        serviceType: null,
+        facilityType: FacilitesServicesConstants.CEMETERY.string,
+        totalEntries: 15,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });
@@ -472,24 +578,29 @@ describe('SearchResultsHeader', () => {
     let wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.HEALTH}
-        context="new york"
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.HEALTH.id}
+        context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
     );
     wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        radius={50}
-        facilityType={LocationType.HEALTH}
-        context="new jersey"
+        radius={defaultRadius}
+        facilityType={FacilitesServicesConstants.HEALTH.id}
+        context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA health".*"All VA health services".*within \d{1,} miles of.*new jersey.*/i,
+      createRegexString({
+        serviceType: 'All VA health',
+        facilityType: FacilitesServicesConstants.HEALTH.string,
+        totalEntries: 5,
+        location: defaultLocation,
+      }),
     );
     wrapper.unmount();
   });

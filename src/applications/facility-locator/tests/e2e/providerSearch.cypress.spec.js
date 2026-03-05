@@ -8,6 +8,7 @@ import {
   enabledFeatures,
 } from './featureTogglesToTest';
 import * as h from './helpers';
+import { createRegexString, FacilitesServicesConstants } from '../../constants';
 
 const NON_VA_URGENT_CARE = 'In-network community urgent care';
 const featureSetsToTest = featureCombinationsTogglesToTest([
@@ -88,7 +89,13 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /(Showing|results).*Community providers.*Dentist - Orofacial Pain.*within (\d{1,}) miles of .*Austin, Texas/i,
+        createRegexString({
+          serviceType: `Dentist \\- Orofacial Pain`,
+          facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
+          radius: 50,
+          totalEntries: 14,
+          location: 'Austin, Texas',
+        }),
       );
 
       h.verifyElementShouldContainText('.facility-result h3', 'Kerr, Max Olen');
@@ -106,7 +113,13 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /(Showing|results).*Community providers.*in VA’s network.*(Clinic|Center).*Urgent Care.*within (\d{1,}) miles of.*Austin, Texas/i,
+        createRegexString({
+          serviceType: `Clinic\\/Center \\- Urgent Care`,
+          facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
+          radius: 50,
+          totalEntries: 14,
+          location: 'Austin, Texas',
+        }),
       );
 
       h.verifyElementShouldContainText('.facility-result h3', 'MinuteClinic');
@@ -130,7 +143,13 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /(Showing|results).*Urgent care.*In-network community urgent care.*within (\d{1,}) miles of .*Austin, Texas/i,
+        createRegexString({
+          serviceType: 'In-network community urgent care',
+          facilityType: FacilitesServicesConstants.URGENT_CARE.string,
+          radius: 50,
+          totalEntries: 14,
+          location: 'Austin, Texas',
+        }),
       );
 
       h.verifyElementShouldContainText('.facility-result h3', 'MinuteClinic');
@@ -154,8 +173,19 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /(Showing|results).*Emergency Care.*In-network community emergency care.*within (\d{1,}) miles of .*Austin, Texas/i,
+        createRegexString({
+          serviceType: 'In-network community emergency care',
+          facilityType: FacilitesServicesConstants.EMERGENCY_CARE.string,
+          radius: 50,
+          totalEntries: 14,
+          location: 'Austin, Texas',
+        }),
       );
+
+      // h.verifyElementShouldContainString(
+      //   h.SEARCH_RESULTS_SUMMARY,
+      //   /(Showing|results).*Emergency Care.*In-network community emergency care.*within (\d{1,}) miles of .*Austin, Texas/i,
+      // );
 
       h.verifyElementExists('#emergency-care-info-note');
       h.verifyElementShouldContainText(

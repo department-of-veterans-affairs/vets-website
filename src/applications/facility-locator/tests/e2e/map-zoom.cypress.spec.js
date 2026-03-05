@@ -1,6 +1,7 @@
 import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockServices from '../../constants/mock-provider-services.json';
+import { createRegexString } from '../../constants';
 
 Cypress.Commands.add('verifySearchArea', () => {
   // Zoom in
@@ -62,8 +63,17 @@ it('handles map zooming correctly', () => {
     .click({ force: true })
     .then(() => {
       cy.get('#search-results-subheader').contains(
-        /(Showing|Results).*VA health.*All VA health services.*within 69 miles of.*Austin, Texas.*/i,
+        createRegexString({
+          serviceType: 'All VA health services',
+          facilityType: 'VA health',
+          radius: 50,
+          totalEntries: 14,
+          location: 'Austin, Texas',
+        }),
       );
+      // cy.get('#search-results-subheader').contains(
+      //   /(Showing|Results).*VA health.*All VA health services.*within 69 miles of.*Austin, Texas.*/i,
+      // );
     });
   cy.injectAxe();
   cy.axeCheck();

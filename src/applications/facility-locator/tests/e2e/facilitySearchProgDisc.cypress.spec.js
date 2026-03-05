@@ -10,28 +10,8 @@ import {
   typeAndSelectInCCPServiceTypeInput,
   submitSearchForm,
 } from './helpers';
-
-const healthServices = {
-  All: 'All VA health services',
-  PrimaryCare: 'Primary care',
-  MentalHealth: 'Mental health care',
-  Dental: 'Dental services',
-  UrgentCare: 'Urgent care',
-  EmergencyCare: 'Emergency care',
-  Audiology: 'Audiology',
-  Cardiology: 'Cardiology',
-  Dermatology: 'Dermatology',
-  Gastroenterology: 'Gastroenterology',
-  Gynecology: 'Gynecology',
-  Ophthalmology: 'Ophthalmology',
-  Optometry: 'Optometry',
-  Orthopedics: 'Orthopedics',
-  Urology: 'Urology',
-  WomensHealth: "Women's health",
-  Podiatry: 'Podiatry',
-  Nutrition: 'Nutrition',
-  CaregiverSupport: 'Caregiver support',
-};
+import { createRegexString, FacilitesServicesConstants } from '../../constants';
+import { healthServices } from '../../config';
 
 Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
@@ -105,7 +85,12 @@ describe('Facility VA search', () => {
     cy.get('#facility-search').click();
 
     cy.get('#search-results-subheader').contains(
-      /(Showing|Results).*VA health.*Primary care.*within.*miles of.*Austin, Texas/i,
+      createRegexString({
+        serviceType: healthServices.PrimaryCare,
+        facilityType: FacilitesServicesConstants.HEALTH.string,
+        totalEntries: 14,
+        location: 'Austin, Texas',
+      }),
     );
     cy.get('.facility-result a').should('exist');
     cy.get('.i-pin-card-map').contains('1');
@@ -128,7 +113,13 @@ describe('Facility VA search', () => {
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').should('exist');
     cy.focused().contains(
-      'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" within 68 miles of "Raleigh, North Carolina 27606"',
+      createRegexString({
+        serviceType: 'General Acute Care Hospital',
+        facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
+        totalEntries: 14,
+        location: 'Raleigh, North Carolina 27606',
+      }),
+      // 'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" within 68 miles of "Raleigh, North Carolina 27606"',
     );
   });
 
@@ -144,7 +135,13 @@ describe('Facility VA search', () => {
       .select('VA benefits');
     submitSearchForm();
     cy.get('#search-results-subheader').contains(
-      /(Showing|Results).*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
+      createRegexString({
+        serviceType: null,
+        facilityType: FacilitesServicesConstants.BENEFITS.string,
+        totalEntries: 14,
+        location: 'Los Angeles, California',
+      }),
+      // /(Showing|Results).*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
     );
 
     cy.axeCheck();
@@ -198,7 +195,12 @@ describe('Facility VA search', () => {
     selectServiceTypeInVAHealthDropdown('VA emergency care');
     submitSearchForm();
     cy.get('#search-results-subheader').contains(
-      'Results for "Emergency Care", "VA emergency care" within 139 miles of "Austin, Texas"',
+      createRegexString({
+        serviceType: 'VA emergency care',
+        facilityType: FacilitesServicesConstants.EMERGENCY_CARE.string,
+        totalEntries: 14,
+        location: 'Austin, Texas',
+      }),
     );
     cy.get('#emergency-care-info-note').should('exist');
     cy.get('.facility-result h3 va-link')

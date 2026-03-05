@@ -1,6 +1,7 @@
 import * as h from './helpers';
 import vaHealthServicesData from '../hooks/test-va-healthcare-services.json';
 import searchResultsData from './autosuggest-data/services-autosuggest.json';
+import { createRegexString } from '../../constants';
 
 describe('VA health services autosuggest', () => {
   beforeEach(() => {
@@ -60,7 +61,13 @@ describe('VA health services autosuggest', () => {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /(Showing|results).*VA health.*All VA health services.*within (\d{1,}) miles of.*Atlanta, Georgia/i,
+        createRegexString({
+          serviceType: 'All VA health services',
+          facilityType: 'VA health',
+          radius: 50,
+          totalEntries: 14,
+          location: 'Atlanta, Georgia',
+        }),
       );
 
       h.clickElement(h.AUTOSUGGEST_CLEAR);
@@ -77,7 +84,13 @@ describe('VA health services autosuggest', () => {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /(Showing|results).*VA health.*Polytrauma and traumatic brain injury.*TBI and multiple traumas.*within (\d{1,}) miles of.*Atlanta, Georgia/i,
+        createRegexString({
+          serviceType:
+            'Polytrauma and traumatic brain injury.*TBI and multiple traumas',
+          facilityType: 'VA health',
+          totalEntries: 14,
+          location: 'Atlanta, Georgia',
+        }),
       );
 
       h.clickElement(h.AUTOSUGGEST_ARROW);
@@ -118,9 +131,14 @@ describe('VA health services autosuggest', () => {
 
       h.submitSearchForm();
 
-      h.verifyElementShouldContainText(
+      h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        'All VA health services',
+        createRegexString({
+          serviceType: 'All VA health services',
+          facilityType: 'VA health',
+          totalEntries: 14,
+          location: 'Atlanta, Georgia',
+        }),
       );
     });
   });

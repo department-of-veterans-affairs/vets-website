@@ -15,6 +15,30 @@ export const LocationType = {
   EMERGENCY_CARE: 'emergency_care',
 };
 
+export const FacilitesServicesConstants = {
+  NONE: '',
+  VA_FACILITIES: { id: 'va_facilities', string: 'VA facilities' },
+  CC_PROVIDER: {
+    id: 'provider',
+    string: 'Community providers \\(in VA’s network\\)',
+  },
+  // Subtypes of VA_FACILITIES
+  HEALTH: { id: 'health', string: 'VA health' },
+  BENEFITS: { id: 'benefits', string: 'VA benefits' },
+  CEMETERY: { id: 'cemetery', string: 'VA cemeteries' },
+  VET_CENTER: { id: 'vet_center', string: 'Vet centers' },
+  URGENT_CARE: { id: 'urgent_care', string: 'Urgent care' },
+  PHARMACIES_NON_VA: {
+    id: 'pharmacy',
+    string: 'Community pharmacies \\(in VA’s network\\)',
+  },
+  PHARMACIES_IN_NETWORK: {
+    id: 'pharmacy',
+    string: 'Community pharmacies \\(in VA’s network\\)',
+  },
+  EMERGENCY_CARE: { id: 'emergency_care', string: 'Emergency Care' },
+};
+
 /**
  * Enum for the various Facility Types (inside the `attributes` object of a result)
  */
@@ -212,7 +236,92 @@ export const Covid19Vaccine = 'Covid19Vaccine';
 
 export const MIN_SEARCH_CHARS = 3;
 
-export const isSpecialCategory = facilityType =>
-  [LocationType.URGENT_CARE, LocationType.EMERGENCY_CARE].includes(
-    facilityType,
+export const facilityHasPaginatedResults = facilityType =>
+  [
+    FacilitesServicesConstants.URGENT_CARE.id,
+    FacilitesServicesConstants.EMERGENCY_CARE.id,
+  ].includes(facilityType);
+
+export const hasNoServices = facilityType =>
+  [
+    FacilitesServicesConstants.CEMETERY.id,
+    FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id,
+    FacilitesServicesConstants.BENEFITS.id,
+    FacilitesServicesConstants.VET_CENTER.id,
+    FacilitesServicesConstants.CEMETERY.string,
+    FacilitesServicesConstants.PHARMACIES_IN_NETWORK.string,
+    FacilitesServicesConstants.BENEFITS.string,
+    FacilitesServicesConstants.VET_CENTER.string,
+  ].includes(facilityType);
+
+export const isPluralizedFacilityType = facilityType =>
+  [
+    FacilitesServicesConstants.CEMETERY.id,
+    FacilitesServicesConstants.CC_PROVIDER.id,
+    FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id,
+    FacilitesServicesConstants.VET_CENTER.id,
+  ].includes(facilityType);
+
+/**
+ * Builds a regex to match the rendered SearchResultsHeader text.
+ *
+ * The component renders:
+ *   {prefix}
+ *   <b>{serviceTypeText}</b> services at
+ *   <b>{facilityLabel}</b> facilities
+ *   within {N} miles of <b>{location}</b>
+ *
+ * Where serviceTypeText has the word "services" stripped if the original
+ * formatted name contained it.
+ *
+ * @param {Object} opts
+ * @param {string}  [opts.serviceType] - Formatted display name for the service (e.g. "Primary care").
+ *
+ * @param {string}  [opts.facilityType]- The facilityType id, used to detect unpaginated/noServices
+ * @param {Object}  [opts.pagination]  - { totalEntries, currentPage, totalPages }
+ * @param {string}  [opts.location]     - Location string
+ * @param {boolean} [opts.noResults]   - If true, generates a "No results found" pattern
+ */
+
+export const createRegexString = ({
+  serviceType,
+  facilityType,
+  totalEntries,
+  location,
+  noResults = false,
+} = {}) => {
+  const facilityTypeHasNoServices =
+    hasNoServices(facilityType) ||
+    serviceType === null ||
+    serviceType === 'test';
+
+  // --- No results case ---
+  if (noResults) {
+    return new RegExp(
+      `No results found for.*within \\d{1,} miles of.*${location}.*`,
+      'i',
+    );
+  }
+
+  // --- Results prefix ---
+  let resultsPrefix;
+  const resultsAreUnpaginated = facilityHasPaginatedResults(facilityType);
+
+  if (resultsAreUnpaginated) {
+    resultsPrefix = 'Results for ';
+  }
+
+  if (!resultsAreUnpaginated) {
+    if (totalEntries === 1) {
+      resultsPrefix = 'Showing 1 result for';
+    } else {
+      resultsPrefix = `(Showing|results)`;
+    }
+  }
+  return new RegExp(
+    `${resultsPrefix}.*${
+      facilityTypeHasNoServices ? '' : `${serviceType}.*`
+    }${facilityType}.*within \\d{1,} miles of.*${location}.*`,
+    'i',
   );
+};

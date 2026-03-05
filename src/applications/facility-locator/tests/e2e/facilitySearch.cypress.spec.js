@@ -4,29 +4,10 @@ import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
 import mockServices from '../../constants/mock-provider-services.json';
 import * as h from './helpers';
+import { createRegexString, FacilitesServicesConstants } from '../../constants';
+import { healthServices } from '../../config';
 
 const CC_PROVIDER = 'Community providers (in VA’s network)';
-const healthServices = {
-  All: 'All VA health services',
-  PrimaryCare: 'Primary care',
-  MentalHealth: 'Mental health care',
-  Dental: 'Dental services',
-  UrgentCare: 'Urgent care',
-  EmergencyCare: 'Emergency care',
-  Audiology: 'Audiology',
-  Cardiology: 'Cardiology',
-  Dermatology: 'Dermatology',
-  Gastroenterology: 'Gastroenterology',
-  Gynecology: 'Gynecology',
-  Ophthalmology: 'Ophthalmology',
-  Optometry: 'Optometry',
-  Orthopedics: 'Orthopedics',
-  Urology: 'Urology',
-  WomensHealth: "Women's health",
-  Podiatry: 'Podiatry',
-  Nutrition: 'Nutrition',
-  CaregiverSupport: 'Caregiver support',
-};
 
 Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
@@ -37,6 +18,7 @@ Cypress.Commands.add('verifyOptions', () => {
   cy.get('.service-type-dropdown-tablet')
     .find('select')
     .should('not.have.attr', 'disabled');
+
   const hServices = Object.keys(healthServices);
 
   for (let i = 0; i < hServices.length; i++) {
@@ -136,7 +118,12 @@ describe('Facility VA search', () => {
     cy.get('#service-type-dropdown').select('Primary care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
-      /(Showing|Results).*VA health.*Primary care.*within 69 miles of.*Austin, Texas.*/i,
+      createRegexString({
+        serviceType: healthServices.PrimaryCare,
+        facilityType: FacilitesServicesConstants.HEALTH.string,
+        totalEntries: 13,
+        location: 'Austin, Texas',
+      }),
     );
     cy.get('.facility-result a').should('exist');
     cy.get('.i-pin-card-map').contains('1');
@@ -167,7 +154,13 @@ describe('Facility VA search', () => {
 
     h.verifyElementShouldContainString(
       h.SEARCH_RESULTS_SUMMARY,
-      /No results found for.*Community providers.*in VA.*s network.*General Acute Care Hospital.*within.*\d{1,}.*miles of.*Raleigh.*North Carolina.*27606.*/i,
+      createRegexString({
+        serviceType: 'General Acute Care Hospital',
+        facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
+        totalEntries: 14,
+        location: 'Raleigh, North Carolina 27606',
+      }),
+      // /No results found for.*Community providers.*in VA.*s network.*General Acute Care Hospital.*within.*\d{1,}.*miles of.*Raleigh.*North Carolina.*27606.*/i,
       // /No results found for.*Community providers.*in VA.*s network.*General Acute Care Hospital.*within.*\d{1,}.*miles of.*Raleigh.*North Carolina.*27606.*/i,
     );
   });
@@ -187,7 +180,13 @@ describe('Facility VA search', () => {
       waitForAnimations: true,
     });
     cy.get('#search-results-subheader').contains(
-      /(Showing|Results).*VA benefits.*All VA benefit services.*within (\d{1,}) miles of.*Los Angeles.*California.*/i,
+      createRegexString({
+        serviceType: 'VA benefits',
+        facilityType: FacilitesServicesConstants.BENEFITS.string,
+        totalEntries: 14,
+        location: 'Los Angeles, California',
+      }),
+      // /(Showing|Results).*VA benefits.*All VA benefit services.*within (\d{1,}) miles of.*Los Angeles.*California.*/i,
     );
 
     cy.axeCheck();
@@ -248,7 +247,14 @@ describe('Facility VA search', () => {
     cy.get('#service-type-dropdown').select('VA emergency care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
-      /Results.*Emergency Care.*VA emergency care.*within (\d{1,}) miles of.*Alexandria.*Virginia.*/i,
+      createRegexString({
+        serviceType: 'Emergency Care',
+        facilityType: FacilitesServicesConstants.EMERGENCY_CARE.string,
+        totalEntries: 14,
+        location: 'Alexandria, Virginia',
+      }),
+
+      // /Results.*Emergency Care.*VA emergency care.*within (\d{1,}) miles of.*Alexandria.*Virginia.*/i,
     );
     cy.get('#emergency-care-info-note').should('exist');
     cy.get('.facility-result h3 va-link')
@@ -295,7 +301,12 @@ describe('Facility VA search', () => {
     cy.get('@searchFacilitiesVA.all').should('have.length', 2);
 
     cy.get('#search-results-subheader').contains(
-      /(Showing|Results).*VA health.*Primary care.*within (\d{1,}) miles of.*Austin, Texas.*/i,
+      createRegexString({
+        serviceType: healthServices.PrimaryCare,
+        facilityType: FacilitesServicesConstants.HEALTH.string,
+        totalEntries: 14,
+        location: 'Austin, Texas',
+      }),
     );
     cy.get('.facility-result a').should('exist');
     cy.get('.i-pin-card-map').contains('1');
