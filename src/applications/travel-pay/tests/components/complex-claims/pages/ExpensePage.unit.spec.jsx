@@ -601,7 +601,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
                   expect(checkOutDate.getAttribute('error')).to.exist;
                 }
 
-                if (key === 'Airtravel') {
+                if (key === 'AirTravel') {
                   const vendorNameInput = container.querySelector(
                     'va-text-input[name="vendorName"]',
                   );
@@ -625,7 +625,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
                   expect(departureDate.getAttribute('error')).to.exist;
                   expect(departedFromInput.getAttribute('error')).to.exist;
                   expect(arrivedToInput.getAttribute('error')).to.exist;
-                  expect(returnDate.getAttribute('error')).to.not.exist; // returnDate not required unless ROUND_TRIP
+                  expect(returnDate.getAttribute('error') || null).to.be.null; // returnDate not required unless ROUND_TRIP
                 }
 
                 if (key === 'Commoncarrier') {
