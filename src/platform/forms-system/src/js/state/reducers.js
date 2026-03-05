@@ -1,4 +1,4 @@
-import set from '../../../../utilities/data/set';
+import { set } from 'platform/forms-system/src/js/adapter';
 
 import {
   CLOSE_REVIEW_CHAPTER,

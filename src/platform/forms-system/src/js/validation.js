@@ -1,9 +1,6 @@
 import find from 'lodash/find';
 import { Validator } from 'jsonschema';
-import get from '../../../utilities/data/get';
-import omit from '../../../utilities/data/omit';
-import set from '../../../utilities/data/set';
-import unset from '../../../utilities/data/unset';
+import { get, omit, set, unset } from 'platform/forms-system/src/js/adapter';
 import navigationState from './utilities/navigation/navigationState';
 import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {

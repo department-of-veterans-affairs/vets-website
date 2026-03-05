@@ -1,10 +1,7 @@
 import React from 'react';
 import { dropRight, merge } from 'lodash';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import environment from 'platform/utilities/environment';
-import dataGet from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
-import unset from '../../../../utilities/data/unset';
+import { environment, get as dataGet, set, unset } from 'platform/forms-system/src/js/adapter';
 
 import { checkValidSchema, createFormPageList, isActivePage } from '../helpers';
 import { getActiveFormPageContext } from './activeFormPageContext';

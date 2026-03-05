@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { useSelector } from 'react-redux';
-import environment from 'platform/utilities/environment';
+import { environment } from 'platform/forms-system/src/js/adapter';
 import { ChapterSectionCollection } from './ChapterSectionCollection';
 import { ConfirmationProvider } from './Provider';
 import {

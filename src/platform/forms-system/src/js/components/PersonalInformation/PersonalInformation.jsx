@@ -5,9 +5,7 @@ import { format, isValid } from 'date-fns';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { genderLabels } from '~/platform/static-data/labels';
-import { selectProfile } from '~/platform/user/selectors';
-import { getAppUrl } from '~/platform/utilities/registry-helpers';
+import { genderLabels, selectProfile, getAppUrl } from 'platform/forms-system/src/js/adapter';
 import mask, {
   formatNumberForScreenReader,
 } from '~/platform/forms-system/src/js/utilities/ui/mask-string';

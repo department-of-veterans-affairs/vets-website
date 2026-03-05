@@ -1,4 +1,4 @@
-import get from 'platform/utilities/data/get';
+import { get } from 'platform/forms-system/src/js/adapter';
 import ArnField from '../web-component-fields/ArnField';
 import { vaFileNumberUI, vaFileNumberSchema } from './ssnPattern';
 import ARNReviewWidget from '../review/ARNWidget';

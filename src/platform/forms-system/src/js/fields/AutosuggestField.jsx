@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import classNames from 'classnames';
-import set from '../../../../utilities/data/set';
+import { set } from 'platform/forms-system/src/js/adapter';
 
 import debounce from '../utilities/data/debounce';
 import sortListByFuzzyMatch from '../utilities/fuzzy-matching';

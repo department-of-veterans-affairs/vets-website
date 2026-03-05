@@ -7,11 +7,13 @@ import {
   VaProcessList,
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from 'platform/monitoring/record-event';
-import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
+import {
+  recordEvent,
+  waitForRenderThenFocus,
+  scrollTo,
+} from 'platform/forms-system/src/js/adapter';
 import { format, isValid } from 'date-fns';
 import PropTypes from 'prop-types';
-import { scrollTo } from 'platform/utilities/scroll';
 import { useConfirmation } from './Provider';
 import { ChapterSectionCollection } from './ChapterSectionCollection';
 

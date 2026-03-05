@@ -5,10 +5,12 @@ import {
   toIdSchema,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { Element, scrollTo } from 'platform/utilities/scroll';
-
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
+import {
+  ScrollElement as Element,
+  scrollTo,
+  get,
+  set,
+} from 'platform/forms-system/src/js/adapter';
 
 import SchemaForm from '../components/SchemaForm';
 import { focusElement } from '../utilities/ui';

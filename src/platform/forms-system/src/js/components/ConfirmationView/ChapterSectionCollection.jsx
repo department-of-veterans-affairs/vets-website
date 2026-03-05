@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { isReactComponent } from '~/platform/utilities/ui';
+import { isReactComponent } from 'platform/forms-system/src/js/adapter';
 import constants from 'vets-json-schema/dist/constants.json';
 import {
   createPageListByChapter,

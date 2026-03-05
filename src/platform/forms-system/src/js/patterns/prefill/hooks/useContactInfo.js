@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
-import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import {
+  isLoggedIn,
+  generateMockUser,
+  environment,
+} from 'platform/forms-system/src/js/adapter';
 
 const useContactInfo = ({
   disableMockContactInfo = false,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { isEmpty, isPlainObject } from 'lodash';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { environment } from 'platform/forms-system/src/js/adapter';
 import { uploadFile as _uploadFile } from 'platform/forms-system/src/js/actions';
 import {
   standardFileChecks,

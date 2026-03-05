@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
-import { Element, watchErrorUpdates } from 'platform/utilities/scroll';
-import { isLoggedIn } from 'platform/user/selectors';
+import {
+  environment,
+  ScrollElement as Element,
+  isLoggedIn,
+  watchErrorUpdates,
+} from 'platform/forms-system/src/js/adapter';
 
 import BackLink from '../components/BackLink';
 import FormNav from '../components/FormNav';

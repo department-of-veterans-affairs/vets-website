@@ -6,7 +6,7 @@ import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 import ProgressButton from '../../components/ProgressButton';
 import Back from './Back';
-import { timeFromNow } from '../../../../../utilities/date';
+import { timeFromNow } from 'platform/forms-system/src/js/adapter';
 
 export default function ThrottledError(props) {
   const { buttonText, when, formConfig, onBack, onSubmit, testId } = props;

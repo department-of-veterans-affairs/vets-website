@@ -8,10 +8,12 @@ import {
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { Element } from 'platform/utilities/scroll';
-import set from '../../../../utilities/data/set';
-import get from '../../../../utilities/data/get';
-import { isReactComponent } from '../../../../utilities/ui';
+import {
+  ScrollElement as Element,
+  set,
+  get,
+  isReactComponent,
+} from 'platform/forms-system/src/js/adapter';
 
 class BasicArrayField extends React.Component {
   shouldComponentUpdate = (nextProps, nextState) =>

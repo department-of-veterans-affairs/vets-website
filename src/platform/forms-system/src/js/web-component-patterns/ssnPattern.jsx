@@ -1,5 +1,5 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import get from 'platform/utilities/data/get';
+import { get } from 'platform/forms-system/src/js/adapter';
 import SsnField, { maskSSN } from '../web-component-fields/SsnField';
 import { validateSSN } from '../validation';
 import SSNReviewWidget from '../review/SSNWidget';

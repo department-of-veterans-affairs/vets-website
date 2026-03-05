@@ -1,6 +1,6 @@
 import React from 'react';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
-import environment from 'platform/utilities/environment';
+import { environment } from 'platform/forms-system/src/js/adapter';
 import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,

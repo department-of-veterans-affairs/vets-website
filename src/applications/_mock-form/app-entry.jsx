@@ -1,4 +1,5 @@
 import 'platform/polyfills';
+import 'platform/forms-system/configure-forms-adapter';
 import './sass/mock-form.scss';
 
 import startApp from 'platform/startup';

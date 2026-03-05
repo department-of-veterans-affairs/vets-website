@@ -1,5 +1,5 @@
 import React from 'react';
-import get from '../../../../utilities/data/get';
+import { get } from 'platform/forms-system/src/js/adapter';
 
 import {
   getUiOptions,

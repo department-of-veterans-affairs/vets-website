@@ -1,4 +1,4 @@
-import get from '../../../../utilities/data/get';
+import { get } from 'platform/forms-system/src/js/adapter';
 
 import ssnUI from './ssn';
 

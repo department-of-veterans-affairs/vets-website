@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Element } from 'platform/utilities/scroll';
+import {
+  ScrollElement as Element,
+  get,
+  set,
+  ERROR_ELEMENTS,
+  SCROLL_ELEMENT_SUFFIX,
+} from 'platform/forms-system/src/js/adapter';
 import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import classNames from 'classnames';
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
-import {
-  ERROR_ELEMENTS,
-  SCROLL_ELEMENT_SUFFIX,
-} from '../../../../utilities/constants';
 import { focusReview } from '../utilities/ui/focus-review';
 
 import ProgressButton from '../components/ProgressButton';

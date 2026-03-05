@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollTo } from 'platform/utilities/scroll';
+import { scrollTo } from 'platform/forms-system/src/js/adapter';
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import {
   createPageListByChapter,

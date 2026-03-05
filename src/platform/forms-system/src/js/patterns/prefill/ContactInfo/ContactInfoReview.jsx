@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { Element } from 'platform/utilities/scroll';
+import { focusElement, ScrollElement as Element } from 'platform/forms-system/src/js/adapter';
 // import { ADDRESS_TYPES } from '@department-of-veterans-affairs/platform-forms/exports';
 import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
 import {

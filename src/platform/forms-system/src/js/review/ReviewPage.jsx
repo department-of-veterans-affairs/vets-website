@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { withRouter } from 'react-router';
 
-import DowntimeNotification, {
+import {
+  DowntimeNotification,
   externalServiceStatus,
-} from 'platform/monitoring/DowntimeNotification';
-import DowntimeMessage from 'platform/monitoring/DowntimeNotification/components/Down';
+  DowntimeMessage,
+} from 'platform/forms-system/src/js/adapter';
 
 import { REVIEW_AND_SUBMIT } from 'platform/forms-system/src/js/constants';
 import ReviewChapters from './ReviewChapters';

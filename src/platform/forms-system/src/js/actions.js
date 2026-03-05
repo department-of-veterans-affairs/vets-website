@@ -1,10 +1,13 @@
 import * as Sentry from '@sentry/browser';
-import recordEvent from 'platform/monitoring/record-event';
-import localStorage from 'platform/utilities/storage/localStorage';
-import { displayFileSize } from 'platform/utilities/ui/index';
+import {
+  recordEvent,
+  localStorage,
+  displayFileSize,
+  infoTokenExists,
+  refreshOAuth as refresh,
+} from 'platform/forms-system/src/js/adapter';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
-import { infoTokenExists, refresh } from 'platform/utilities/oauth/utilities';
-import { timeFromNow } from '../../../utilities/date';
+import { timeFromNow } from 'platform/forms-system/src/js/adapter';
 import { transformForSubmit, handleSessionRefresh } from './helpers';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';

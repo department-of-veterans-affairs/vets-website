@@ -1,8 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
-import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
+import { get, set, dataDogLogger } from 'platform/forms-system/src/js/adapter';
 import { formatPath } from './ArrayBuilderCancelButton';
 import * as helpers from './helpers';
 

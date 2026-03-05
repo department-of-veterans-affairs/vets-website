@@ -8,12 +8,11 @@ import {
   orderProperties,
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
+import { get, set } from 'platform/forms-system/src/js/adapter';
 
 import ExpandingGroup from '../components/ExpandingGroup';
 import { pureWithDeepEquals } from '../helpers';
-import { isReactComponent } from '../../../../utilities/ui';
+import { isReactComponent } from 'platform/forms-system/src/js/adapter';
 
 /*
  * This is largely copied from the react-jsonschema-form library,

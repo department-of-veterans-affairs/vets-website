@@ -1,15 +1,14 @@
-import { focusElement, focusByOrder } from '../../../../../utilities/ui/focus';
 import {
+  focusElement,
+  focusByOrder,
   scrollToFirstError,
   getScrollOptions,
   scrollTo,
-} from '../../../../../utilities/scroll';
-import { webComponentList } from '../../web-component-fields/webComponentList';
-import {
   SCROLL_ELEMENT_SUFFIX,
-  FOCUSABLE_ELEMENTS,
   ERROR_ELEMENTS,
-} from '../../../../../utilities/constants';
+  FOCUSABLE_ELEMENTS,
+} from 'platform/forms-system/src/js/adapter';
+import { webComponentList } from '../../web-component-fields/webComponentList';
 
 export const $ = (selectorOrElement, root) =>
   typeof selectorOrElement === 'string'

@@ -1,21 +1,22 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import InitializeVAPServiceID from 'platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
-import ProfileInformationFieldController from 'platform/user/profile/vap-svc/components/ProfileInformationFieldController';
-import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  InitializeVAPServiceID,
+  ProfileInformationFieldController,
+  FIELD_NAMES,
+  focusElement,
+  usePrevious,
+  refreshProfile,
+  sanitizeUrl,
+  ContactInfoFormAppConfigProvider,
+  useContactInfoFormAppConfig,
+} from 'platform/forms-system/src/js/adapter';
 import {
   REVIEW_CONTACT,
   setReturnState,
 } from 'platform/forms-system/src/js/utilities/data/profile';
-import { usePrevious } from 'platform/utilities/react-hooks';
 import { withRouter } from 'react-router';
-import { refreshProfile, sanitizeUrl } from 'platform/user/exportsFile';
-import {
-  ContactInfoFormAppConfigProvider,
-  useContactInfoFormAppConfig,
-} from '@@vap-svc/components/ContactInfoFormAppConfigContext';
 import { useRouteMetadata } from '../hooks/useRouteMetadata';
 
 export const BuildPageBase = ({

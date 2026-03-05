@@ -1,0 +1,46 @@
+{
+  "rules": {
+    "no-restricted-imports": ["warn", {
+      "patterns": [
+        {
+          "group": [
+            "platform/utilities/*",
+            "platform/monitoring/*",
+            "platform/user/*",
+            "platform/site-wide/*",
+            "platform/static-data/*",
+            "~/platform/utilities/*",
+            "~/platform/monitoring/*",
+            "~/platform/user/*",
+            "~/platform/site-wide/*",
+            "~/platform/static-data/*",
+            "@department-of-veterans-affairs/platform-utilities/*",
+            "@department-of-veterans-affairs/platform-user/*",
+            "@department-of-veterans-affairs/platform-monitoring/*",
+            "../../../../utilities/*",
+            "../../../../../utilities/*",
+            "../../../../monitoring/*",
+            "../../../../site-wide/*",
+            "../../../../user/*",
+            "@@vap-svc/*"
+          ],
+          "message": "Import from 'platform/forms-system/src/js/adapter' instead. Direct platform imports will break after package extraction."
+        }
+      ]
+    }]
+  },
+  "overrides": [
+    {
+      "files": ["adapter/**"],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    },
+    {
+      "files": ["**/tests/**", "**/*.test.*", "**/*.spec.*"],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ]
+}

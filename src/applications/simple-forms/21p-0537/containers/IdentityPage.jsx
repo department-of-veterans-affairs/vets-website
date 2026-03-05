@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { FormFooter } from '@department-of-veterans-affairs/va-forms-system-core';
+import { FormFooter } from '@department-of-veterans-affairs/va-forms-system';
 import IdentityForm from '../components/IdentityPage/IdentityForm';
 import IdentityPageDescription from '../components/IdentityPage/IdentityPageDescription';
 

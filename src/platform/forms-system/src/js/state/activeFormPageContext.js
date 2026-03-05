@@ -1,4 +1,4 @@
-import environment from 'platform/utilities/environment';
+import { environment } from 'platform/forms-system/src/js/adapter';
 import { convertUrlPathToPageConfigPath, getUrlPathIndex } from '../helpers';
 
 /**

@@ -1,16 +1,20 @@
 import { useMemo } from 'react';
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
+import {
+  get,
+  set,
+  focusByOrder,
+  focusElement,
+  scrollTo,
+  scrollToTop,
+  environment,
+} from 'platform/forms-system/src/js/adapter';
 import {
   getUrlPathIndex,
   stringifyUrlParams,
 } from 'platform/forms-system/src/js/helpers';
 import { getEligiblePages } from 'platform/forms-system/src/js/routing';
 import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
-import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
-import { scrollTo, scrollToTop } from 'platform/utilities/scroll';
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
-import environment from 'platform/utilities/environment';
 import {
   dispatchIncompleteItemError,
   dispatchDuplicateItemError,

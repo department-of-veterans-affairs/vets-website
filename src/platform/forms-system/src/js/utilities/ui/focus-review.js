@@ -1,7 +1,7 @@
 import {
   FOCUSABLE_ELEMENTS,
   SCROLL_ELEMENT_SUFFIX,
-} from '../../../../../utilities/constants';
+} from 'platform/forms-system/src/js/adapter';
 
 import {
   focusOnChange,

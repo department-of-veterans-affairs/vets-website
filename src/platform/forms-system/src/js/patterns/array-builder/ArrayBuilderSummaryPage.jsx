@@ -3,11 +3,9 @@
 import classNames from 'classnames';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui/focus';
-import { scrollAndFocus } from 'platform/utilities/scroll';
+import { focusElement, scrollAndFocus, get } from 'platform/forms-system/src/js/adapter';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import get from '~/platform/utilities/data/get';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';

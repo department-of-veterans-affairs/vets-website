@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import recordEvent from '../../../../monitoring/record-event';
+import { recordEvent } from 'platform/forms-system/src/js/adapter';
 
 export default function YesNoWidget({
   id,

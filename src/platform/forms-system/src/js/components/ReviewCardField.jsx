@@ -7,13 +7,14 @@ import {
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import recordEvent from 'platform/monitoring/record-event';
+import {
+  recordEvent,
+  set,
+  get,
+  omit,
+  isReactComponent,
+} from 'platform/forms-system/src/js/adapter';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
-
-import set from 'platform/utilities/data/set';
-import get from 'platform/utilities/data/get';
-import omit from 'platform/utilities/data/omit';
-import { isReactComponent } from 'platform/utilities/ui';
 
 /**
  * Displays a review card if the information inside is valid.

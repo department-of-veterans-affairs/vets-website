@@ -5,9 +5,7 @@ import {
   isValidUSZipCode,
   isValidCanPostalCode,
 } from 'platform/forms/address';
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
-import unset from '../../../../utilities/data/unset';
+import { get, set, unset } from 'platform/forms-system/src/js/adapter';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;

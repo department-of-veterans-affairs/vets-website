@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { formatSSN } from 'platform/utilities/ui';
+import { formatSSN } from 'platform/forms-system/src/js/adapter';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaTextInputFieldMapping from './vaTextInputFieldMapping';
 

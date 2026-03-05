@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import environment from 'platform/utilities/environment';
+import { environment } from 'platform/forms-system/src/js/adapter';
 
 // Event types
 export const ARRAY_BUILDER_EVENTS = {

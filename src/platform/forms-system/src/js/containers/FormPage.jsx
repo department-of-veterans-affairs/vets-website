@@ -3,17 +3,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import classNames from 'classnames';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
+  environment,
   isReactComponent,
   focusElement,
   defaultFocusSelector,
-} from 'platform/utilities/ui';
-import { scrollToTop, customScrollAndFocus } from 'platform/utilities/scroll';
-
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
+  scrollToTop,
+  customScrollAndFocus,
+  get,
+  set,
+} from 'platform/forms-system/src/js/adapter';
 
 import FormNavButtons, {
   FormNavButtonContinue,

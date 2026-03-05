@@ -10,8 +10,7 @@ import {
   getReturnState,
   clearReturnState,
 } from 'platform/forms-system/src/js/utilities/data/profile';
-import { focusElement } from 'platform/utilities/ui/focus';
-import { scrollTo } from 'platform/utilities/scroll';
+import { focusElement, scrollTo } from 'platform/forms-system/src/js/adapter';
 import {
   EditAddress,
   EditEmail,

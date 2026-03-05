@@ -11,9 +11,7 @@ import {
 import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import { showReviewField } from '../helpers';
-import { isReactComponent } from '../../../../utilities/ui';
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
+import { isReactComponent, get, set } from 'platform/forms-system/src/js/adapter';
 
 /*
  * This is largely copied from the react-jsonschema-form library,

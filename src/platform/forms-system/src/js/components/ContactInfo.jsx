@@ -3,21 +3,17 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { Element, scrollTo, scrollAndFocus } from 'platform/utilities/scroll';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import {
+  focusElement,
+  ScrollElement as Element,
+  scrollTo,
+  scrollAndFocus,
+  environment,
   selectProfile,
   isLoggedIn,
-} from '@department-of-veterans-affairs/platform-user/selectors';
-
-// import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
-import { generateMockUser } from '../../../../site-wide/user-nav/tests/mocks/user';
-
-// import { AddressView } from '@department-of-veterans-affairs/platform-user/exports';
-// import AddressView from '@@vap-svc/components/AddressField/AddressView';
-import AddressView from '../../../../user/profile/vap-svc/components/AddressField/AddressView';
+  generateMockUser,
+  AddressView,
+} from 'platform/forms-system/src/js/adapter';
 
 // import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 // import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';

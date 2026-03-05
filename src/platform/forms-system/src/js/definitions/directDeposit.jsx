@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'platform/utilities/data';
+import { dataUtils as _ } from 'platform/forms-system/src/js/adapter';
 
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import ReviewCardField from '../components/ReviewCardField';

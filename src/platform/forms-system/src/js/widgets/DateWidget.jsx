@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
+import { get, set } from 'platform/forms-system/src/js/adapter';
 
 import { months, days } from '../utilities/date';
 import {

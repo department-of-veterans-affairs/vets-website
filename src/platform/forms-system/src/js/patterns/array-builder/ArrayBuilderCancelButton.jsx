@@ -10,9 +10,7 @@ import {
   VaButton,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '~/platform/utilities/ui';
-import get from '~/platform/utilities/data/get';
-import set from '~/platform/utilities/data/set';
+import { focusElement, get, set } from 'platform/forms-system/src/js/adapter';
 import * as helpers from './helpers';
 
 export function formatPath(path) {

@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { format, isValid } from 'date-fns';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { genderLabels } from 'platform/static-data/labels';
-import { selectProfile } from 'platform/user/selectors';
-import environment from 'platform/utilities/environment';
+import {
+  genderLabels,
+  selectProfile,
+  environment,
+} from 'platform/forms-system/src/js/adapter';
 import mask, {
   formatNumberForScreenReader,
 } from 'platform/forms-system/src/js/utilities/ui/mask-string';

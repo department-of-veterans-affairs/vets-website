@@ -1,5 +1,5 @@
 import React from 'react';
-import { isReactComponent } from '../../../../utilities/ui';
+import { isReactComponent } from 'platform/forms-system/src/js/adapter';
 /*
  * This is the template for each field (which in the schema library means label + widget)
  */

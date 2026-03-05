@@ -1,4 +1,4 @@
-import environment from 'platform/utilities/environment';
+import { environment } from 'platform/forms-system/src/js/adapter';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';

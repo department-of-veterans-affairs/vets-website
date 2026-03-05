@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import recordEvent from '~/platform/monitoring/record-event';
+import { recordEvent } from 'platform/forms-system/src/js/adapter';
 import {
   fullNameReducer,
   statementOfTruthFullName,
 } from '~/platform/forms/components/review/PreSubmitSection';
 import { autoSaveForm } from '~/platform/forms/save-in-progress/actions';
-import { scrollToFirstError } from '~/platform/forms-system/src/js/utilities/ui';
+import { scrollToFirstError } from '../utilities/ui';
 
 import SubmitButtons from './SubmitButtons';
 import { isValidForm } from '../validation';

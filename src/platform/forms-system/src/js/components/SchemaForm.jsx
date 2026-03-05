@@ -3,7 +3,7 @@ import React from 'react';
 import { merge, once } from 'lodash';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import set from '../../../../utilities/data/set';
+import { set } from 'platform/forms-system/src/js/adapter';
 
 import { uiSchemaValidate, transformErrors } from '../validation';
 import FieldTemplate from './FieldTemplate';

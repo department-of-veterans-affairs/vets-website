@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useRef } from 'react';
-import { isReactComponent } from '~/platform/utilities/ui';
+import { isReactComponent } from 'platform/forms-system/src/js/adapter';
 import { isMinimalHeaderPath } from '../patterns/minimal-header';
 
 const useHeadingLevels = (userHeaderLevel, userHeaderStyleLevel) => {

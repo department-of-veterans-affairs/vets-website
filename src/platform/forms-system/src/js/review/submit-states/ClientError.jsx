@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
-import { focusElement } from 'platform/utilities/ui/focus';
+import {
+  focusElement,
+  ScrollElement as Element,
+  getScrollOptions,
+  scrollTo,
+} from 'platform/forms-system/src/js/adapter';
 import PropTypes from 'prop-types';
-
-import { Element, getScrollOptions, scrollTo } from 'platform/utilities/scroll';
 import { Column, Row } from 'platform/forms/components/common/grid';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';

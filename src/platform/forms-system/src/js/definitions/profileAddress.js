@@ -6,8 +6,7 @@
 import React from 'react';
 import constants from 'vets-json-schema/dist/constants.json';
 
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
+import { get, set } from 'platform/forms-system/src/js/adapter';
 
 /**
  * PATTERNS

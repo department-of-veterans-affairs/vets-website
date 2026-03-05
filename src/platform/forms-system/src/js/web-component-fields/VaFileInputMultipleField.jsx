@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import debounce from 'platform/utilities/data/debounce';
+import { debounce } from 'platform/forms-system/src/js/adapter';
 import { isEmpty } from 'lodash';
 import {
   MISSING_PASSWORD_ERROR,

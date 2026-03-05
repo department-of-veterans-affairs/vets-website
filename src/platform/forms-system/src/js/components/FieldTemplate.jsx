@@ -2,9 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import get from '../../../../utilities/data/get';
-import { isReactComponent } from '../../../../utilities/ui';
-// import environment from 'platform/utilities/environment';
+import { get, isReactComponent } from 'platform/forms-system/src/js/adapter';
 
 /*
  * This is the template for each field (which in the schema library means label + widget)

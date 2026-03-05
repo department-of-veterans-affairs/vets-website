@@ -10,10 +10,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
-import { focusElement, scrollTo } from 'platform/utilities/ui';
-import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
+import {
+  get,
+  set,
+  focusElement,
+  scrollTo,
+  dataDogLogger,
+} from 'platform/forms-system/src/js/adapter';
 import {
   arrayBuilderContextObject,
   createArrayBuilderItemEditPath,

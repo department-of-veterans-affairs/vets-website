@@ -3,11 +3,13 @@ import { add, getYear } from 'date-fns';
 import { cloneDeep, intersection, matches, merge, uniq } from 'lodash';
 import * as Sentry from '@sentry/browser';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import { handleSessionUpdates } from '../../../utilities/api';
-import get from '../../../utilities/data/get';
-import omit from '../../../utilities/data/omit';
-import set from '../../../utilities/data/set';
-import unset from '../../../utilities/data/unset';
+import {
+  handleSessionUpdates,
+  get,
+  omit,
+  set,
+  unset,
+} from 'platform/forms-system/src/js/adapter';
 import { createStringifyFormReplacer } from './utilities/createStringifyFormReplacer';
 
 export const minYear = 1900;

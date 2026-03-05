@@ -329,7 +329,7 @@ module.exports = async (env = {}) => {
       rules: [
         {
           test: /\.jsx?$/,
-          exclude: /node_modules/,
+          exclude: /node_modules\/(?!@department-of-veterans-affairs\/va-forms-system)/,
           use: {
             loader: 'babel-loader',
             options: {

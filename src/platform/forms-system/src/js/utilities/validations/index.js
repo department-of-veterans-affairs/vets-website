@@ -7,7 +7,7 @@ import {
   minYear,
   maxYear,
 } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-import { dateFieldToDate } from '../../../../../utilities/date';
+import { dateFieldToDate } from 'platform/forms-system/src/js/adapter';
 
 // Conditions for valid SSN from the original 1010ez pdf form:
 // '123456789' is not a valid SSN

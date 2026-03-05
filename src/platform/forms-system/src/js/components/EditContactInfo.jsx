@@ -2,24 +2,15 @@ import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-// import {
-//   ProfileInformationFieldController,
-//   InitializeVAPServiceID,
-//   FIELD_NAMES,
-// } from '@department-of-veterans-affairs/platform-user/exports';
-
-// import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-// import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
-// import { FIELD_NAMES } from '@@vap-svc/constants';
-
-import InitializeVAPServiceID from 'platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
-import ProfileInformationFieldController from 'platform/user/profile/vap-svc/components/ProfileInformationFieldController';
-import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
-
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  InitializeVAPServiceID,
+  ProfileInformationFieldController,
+  FIELD_NAMES,
+  focusElement,
+  usePrevious,
+} from 'platform/forms-system/src/js/adapter';
 
 import { REVIEW_CONTACT, setReturnState } from '../utilities/data/profile';
-import { usePrevious } from '../../../../utilities/react-hooks';
 
 export const BuildPage = ({
   title,

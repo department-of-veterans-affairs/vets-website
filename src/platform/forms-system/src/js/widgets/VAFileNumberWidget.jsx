@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { formatSSN } from 'platform/utilities/ui';
+import { formatSSN } from 'platform/forms-system/src/js/adapter';
 import TextWidget from './TextWidget';
 
 /**

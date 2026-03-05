@@ -1,5 +1,5 @@
 import { $, scrollToElement } from '../ui';
-import { SCROLL_ELEMENT_SUFFIX } from '../../../../../utilities/constants';
+import { SCROLL_ELEMENT_SUFFIX } from 'platform/forms-system/src/js/adapter';
 
 /**
  * Get page key and array index as applicable

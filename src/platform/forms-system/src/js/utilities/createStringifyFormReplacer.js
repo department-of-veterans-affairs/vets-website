@@ -1,4 +1,4 @@
-import omit from 'platform/utilities/data/omit';
+import { omit } from 'platform/forms-system/src/js/adapter';
 import { replaceEscapedCharacters } from 'platform/forms-system/src/js/utilities/replaceEscapedCharacters';
 
 /**

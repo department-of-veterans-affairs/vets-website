@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isReactComponent } from '../../../../utilities/ui';
-import recordEvent from '../../../../monitoring/record-event';
+import { isReactComponent, recordEvent } from 'platform/forms-system/src/js/adapter';
 
 import ExpandingGroup from '../components/ExpandingGroup';
 

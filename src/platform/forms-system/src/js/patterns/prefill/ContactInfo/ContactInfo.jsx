@@ -3,15 +3,17 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { Element, scrollTo, scrollAndFocus } from 'platform/utilities/scroll';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
+  focusElement,
+  ScrollElement as Element,
+  scrollTo,
+  scrollAndFocus,
+  environment,
   selectProfile,
   isLoggedIn,
-} from '@department-of-veterans-affairs/platform-user/selectors';
-import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
-import AddressView from 'platform/user/profile/vap-svc/components/AddressField/AddressView';
+  generateMockUser,
+  AddressView,
+} from 'platform/forms-system/src/js/adapter';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
   setReturnState,
@@ -25,8 +27,7 @@ import {
 } from 'platform/forms-system/src/js/utilities/data/profile';
 import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
 
-import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
-import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
+import { isFieldEmpty, FIELD_NAMES } from 'platform/forms-system/src/js/adapter';
 import ContactInfoCard from './ContactInfoCard';
 
 /**

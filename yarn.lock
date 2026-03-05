@@ -3732,9 +3732,9 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/va-forms-system-core@1.6.1":
+"@department-of-veterans-affairs/va-forms-system@1.6.1":
   version "1.6.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/va-forms-system-core/-/va-forms-system-core-1.6.1.tgz#461e143179fd0b3957bb7ddf35e481203c68b91a"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/va-forms-system/-/va-forms-system-1.6.1.tgz#461e143179fd0b3957bb7ddf35e481203c68b91a"
   integrity sha512-iBSv7SCu/8Hq7/8mVcrzxXog/0Mry4hpPaTXVj/QSOK/vqAQyjoz/qcomuxUd+VYAF8vrVrUCHMeT5SalpjRmA==
   dependencies:
     connect-history-api-fallback "^1.6.0"
