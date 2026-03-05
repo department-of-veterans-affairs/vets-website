@@ -32,6 +32,7 @@ export default function InboxLayoutNew({
   const [pendingCategoryFilter, setPendingCategoryFilter] = useState('All');
   const [pendingStatusFilter, setPendingStatusFilter] = useState('All');
   const [pendingQuery, setPendingQuery] = useState('');
+  const [sortOrder] = useState(filterAndSort.sortOptions.lastUpdate.newest);
   const [filters, setFilters] = useState({
     status: 'All',
     category: 'All',
@@ -137,6 +138,7 @@ export default function InboxLayoutNew({
                     inquiries={filterAndSort({
                       inquiriesArray: inquiries.business,
                       filters,
+                      sortOrder,
                     })}
                     tabName="Business"
                     categoryFilter={filters.category}
@@ -149,6 +151,7 @@ export default function InboxLayoutNew({
                     inquiries={filterAndSort({
                       inquiriesArray: inquiries.personal,
                       filters,
+                      sortOrder,
                     })}
                     tabName="Personal"
                     categoryFilter={filters.category}
@@ -164,6 +167,7 @@ export default function InboxLayoutNew({
                 inquiries={filterAndSort({
                   inquiriesArray: inquiries.personal,
                   filters,
+                  sortOrder,
                 })}
                 categoryFilter={filters.category}
                 statusFilter={filters.status}
