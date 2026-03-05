@@ -531,28 +531,34 @@ export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
  * Each variant defines:
  * - phases: which migration phases trigger this alert
  * - headline: the alert heading text
- * - bodyTop: text above the facility list
- * - bodyBottom: text below the facility list
+ * - bodyTop: dynamic text above the facility list
+ * - bodyBottom: dynamic text below the facility list
  *
  * Phase timeline reference:
- * - p1: T-45 to T-30 (pre-migration)
- * - p2: T-30 to T-6 (pre-migration)
- * - p3: T-6 to T-3
+ * - p0: T-60 to T-44 (pre-migration)
+ * - p1: T-45 to T-29 (pre-migration)
+ * - p2: T-30 to T-5 (pre-migration)
+ * - p3: T-6 to T-2
  * - p4: T-3 to T-1
  * - p5: T to T+2
- * - p6: T+2 to T+30 (post-migration)
+ * - p6: T+2 to T+6 (post-migration)
+ * - p7: T+7 to  (post-migration)
+ * - p8: T+30 (post-migration)
+ * - p9: T+45 (post-migration)
  */
 export const ContactListMigrationAlertContent = {
   P1_TO_P5_MIGRATION: {
     phases: ['p1', 'p2', 'p3', 'p4', 'p5'],
     headline: "We're making changes to your contact list",
-    bodyTop: () => (
+    bodyTop: migrationDate => (
       <>
-        On <b>[T-6]</b>, we’ll remove care teams from these facilities from your
-        contact list:
+        <p>
+          On <b>{migrationDate}</b>, we’ll remove care teams from these
+          facilities from your contact list:
+        </p>
       </>
     ),
-    bodyBottom: () => (
+    bodyBottom: migrationDate => (
       <>
         <p>
           If these are your only facilities, you’ll no longer have access to
@@ -560,8 +566,8 @@ export const ContactListMigrationAlertContent = {
         </p>
         <p>
           <b>Note:</b> You can still send messages to care teams at these
-          facilities after <b>[T+2]</b>. But the care team names will be
-          different.
+          facilities after <b>{migrationDate}</b>. But the care team names will
+          be different.
         </p>
       </>
     ),
@@ -570,7 +576,11 @@ export const ContactListMigrationAlertContent = {
     phases: ['p6', 'p7', 'p8'],
     headline: 'We updated your contact list',
     bodyTop: () => (
-      <>We removed care teams from these facilities from your contact list:</>
+      <>
+        <p>
+          We removed care teams from these facilities from your contact list:
+        </p>
+      </>
     ),
     bodyBottom: () => (
       <p>

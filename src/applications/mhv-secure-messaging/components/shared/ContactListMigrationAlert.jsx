@@ -27,7 +27,12 @@ const ContactListMigrationAlert = ({
 
   // Memoize phase matching and facility dedup so they only recompute when
   // migrationSchedules actually changes, avoiding unnecessary re-renders.
-  const { matchedPhaseContent, facilities } = useMemo(
+  const {
+    matchedPhaseContent,
+    facilities,
+    bodyTopNode,
+    bodyBottomNode,
+  } = useMemo(
     () => {
       // Find the first content variant that matches any schedule's current phase
       const contentOptions = Object.values(ContactListMigrationAlertContent);
@@ -39,7 +44,13 @@ const ContactListMigrationAlert = ({
         return matching.length > 0;
       });
 
-      if (!content) return { matchedPhaseContent: null, facilities: [] };
+      if (!content)
+        return {
+          matchedPhaseContent: null,
+          facilities: [],
+          bodyTopNode: null,
+          bodyBottomNode: null,
+        };
 
       // Get schedules matching the found content's phases
       const matchingSchedules = filterSchedulesByPhase(
@@ -57,9 +68,41 @@ const ContactListMigrationAlert = ({
         });
       });
 
+      const significantDates = {};
+
+      const alteredMigrationDate = (date, preOrPost, days) => {
+        const migrationDateObj = new Date(date);
+        if (preOrPost === 'pre') {
+          migrationDateObj.setDate(migrationDateObj.getDate() - days);
+        } else if (preOrPost === 'post') {
+          migrationDateObj.setDate(migrationDateObj.getDate() + days);
+        }
+        return migrationDateObj.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+      };
+
+      // Get migration date from the first matching schedule
+      const scheduleMigrationDate = matchingSchedules[0]?.migrationDate;
+
+      significantDates.tMinus6 = alteredMigrationDate(
+        scheduleMigrationDate,
+        'pre',
+        6,
+      );
+      significantDates.tPlus2 = alteredMigrationDate(
+        scheduleMigrationDate,
+        'post',
+        2,
+      );
+
       return {
         matchedPhaseContent: content,
         facilities: Array.from(facilitiesMap.values()),
+        bodyTopNode: content.bodyTop(significantDates.tMinus6),
+        bodyBottomNode: content.bodyBottom(significantDates.tPlus2),
       };
     },
     [migrationSchedules],
@@ -90,7 +133,7 @@ const ContactListMigrationAlert = ({
     >
       <h2 slot="headline">{matchedPhaseContent.headline}</h2>
       <div>
-        {matchedPhaseContent.bodyTop()}
+        {bodyTopNode}
         <ul>
           {facilities.map(facility => (
             <li key={facility.facilityId} data-dd-privacy="mask">
@@ -98,7 +141,7 @@ const ContactListMigrationAlert = ({
             </li>
           ))}
         </ul>
-        {matchedPhaseContent.bodyBottom()}
+        {bodyBottomNode}
       </div>
     </VaAlert>
   );
