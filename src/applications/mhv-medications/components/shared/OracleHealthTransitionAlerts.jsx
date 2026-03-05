@@ -248,6 +248,7 @@ OracleHealthInCardAlert.propTypes = {
 export const OracleHealthRenewalInCardAlert = ({
   stationNumber,
   prescriptionId,
+  isExpired = false,
 }) => {
   useTrackOracleHealthEvent(
     prescriptionId,
@@ -265,14 +266,16 @@ export const OracleHealthRenewalInCardAlert = ({
       data-testid="oracle-health-renewal-in-card-alert"
     >
       <p className="vads-u-margin-y--0">
-        You don’t have any refills left. If you need more medication, call your
-        provider to request a renewal.
+        {isExpired
+          ? 'Your prescription is too old to refill. If you need more medication, call your provider to request a renewal.'
+          : 'You don’t have any refills left. If you need more medication, call your provider to request a renewal.'}
       </p>
     </va-alert>
   );
 };
 
 OracleHealthRenewalInCardAlert.propTypes = {
+  isExpired: PropTypes.bool,
   prescriptionId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   stationNumber: PropTypes.string,
 };

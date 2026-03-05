@@ -17,29 +17,8 @@ class TypeOfCarePageObject extends PageObject {
   }
 
   assertUrl() {
-    cy.wait('@v0:get:feature_toggles').then((req, _resp) => {
-      const toggles = req.response.body.data.features;
-      const featureImmediateCareAlert = toggles.find(
-        toggle =>
-          (toggle.name === 'vaOnlineSchedulingImmediateCareAlert') === true,
-      );
-
-      if (
-        featureImmediateCareAlert &&
-        featureImmediateCareAlert.value === true
-      ) {
-        cy.url().should('include', '/type-of-care');
-        this.assertLink({ name: 'Back', useShadowDOM: true });
-      } else {
-        super.assertUrl(
-          {
-            url: '/type-of-care',
-            breadcrumb: 'What type of care do you need?',
-          },
-          { timeout: 10000 },
-        );
-      }
-    });
+    cy.url().should('include', '/type-of-care');
+    this.assertLink({ name: 'Back', useShadowDOM: true });
 
     return this;
   }

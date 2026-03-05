@@ -19,6 +19,8 @@ export default function ConfirmationPage() {
   const { userFullName } = useSelector(state => state?.user?.profile);
   const isLoggedIn = useSelector(isSignedIn);
   const name = isLoggedIn ? userFullName : fullName;
+  const submittedDate = new Date(response?.attributes?.submittedAt);
+  const hasValidSubmissionDate = !Number.isNaN(submittedDate.getTime());
 
   useEffect(() => {
     focusElement('#thank-you-message');
@@ -48,15 +50,16 @@ export default function ConfirmationPage() {
           </p>
         )}
 
-        {response && (
-          <ul className="claim-list">
-            <li>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(new Date(response.timestamp), 'MMM d, yyyy')}</span>
-            </li>
-          </ul>
-        )}
+        {response &&
+          hasValidSubmissionDate && (
+            <ul className="claim-list">
+              <li>
+                <strong>Date submitted</strong>
+                <br />
+                <span>{format(submittedDate, 'MMM d, yyyy')}</span>
+              </li>
+            </ul>
+          )}
         <button
           type="button"
           className="usa-button button screen-only"

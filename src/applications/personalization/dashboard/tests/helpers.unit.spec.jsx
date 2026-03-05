@@ -329,6 +329,11 @@ describe('profile helpers:', () => {
       const result = formatFormTitle('form 10-10ez');
       expect(result).to.equal('Form 10-10EZ');
     });
+
+    it('should uppercase CHAMPVA in titles', () => {
+      const result = formatFormTitle('application for champva benefits');
+      expect(result).to.equal('Application for CHAMPVA benefits');
+    });
   });
 
   describe('recordDashboardClick', () => {
@@ -613,9 +618,6 @@ describe('profile helpers:', () => {
       it('should format other forms by prefixing with "FORM"', () => {
         expect(presentableFormIDs[VA_FORM_IDS.FORM_21_526EZ]).to.equal(
           'FORM 21-526EZ',
-        );
-        expect(presentableFormIDs[VA_FORM_IDS.FORM_10_10D]).to.equal(
-          'FORM 10-10D',
         );
         expect(presentableFormIDs[VA_FORM_IDS.FORM_22_1990]).to.equal(
           'FORM 22-1990',

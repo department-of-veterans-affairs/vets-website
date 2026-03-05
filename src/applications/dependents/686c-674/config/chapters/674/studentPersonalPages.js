@@ -58,7 +58,9 @@ export const studentAddressPage = {
     address: {
       ...addressUI({
         title: '',
+        omit: ['street3'],
         labels: {
+          street2: 'Apartment or unit number',
           militaryCheckbox:
             'The student receives mail outside of the United States on a U.S. military base.',
         },
@@ -90,7 +92,7 @@ export const studentAddressPage = {
     type: 'object',
     required: ['address'],
     properties: {
-      address: addressSchema(),
+      address: addressSchema({ omit: ['street3'] }),
     },
   },
 };
