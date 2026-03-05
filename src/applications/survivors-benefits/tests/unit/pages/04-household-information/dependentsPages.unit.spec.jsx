@@ -221,6 +221,92 @@ describe('Dependents Pages', () => {
     expect(text.getItemName(itemWithoutName)).to.equal('Dependent');
   });
 
+  it('should have the correct summary descriptions', () => {
+    const { text } = options;
+    const { summaryDescription, summaryDescriptionWithoutItems } = text;
+    const testOneFormData = {
+      formData: {
+        veteranChildrenCount: '2',
+        veteransChildren: [{}, {}],
+      },
+    };
+    expect(summaryDescription(testOneFormData)).to.equal(
+      '2 of 2 dependents added',
+    );
+    expect(summaryDescriptionWithoutItems(testOneFormData)).to.equal(
+      '2 of 2 dependents added',
+    );
+    const testTwoFormData = {
+      formData: {
+        veteranChildrenCount: '3',
+      },
+    };
+    expect(summaryDescription(testTwoFormData)).to.equal(
+      '0 of 3 dependents added',
+    );
+    expect(summaryDescriptionWithoutItems(testTwoFormData)).to.equal(
+      '0 of 3 dependents added',
+    );
+    const testThreeFormData = {
+      formData: {
+        veteranChildrenCount: '12',
+        veteransChildren: [{}, {}, {}],
+      },
+    };
+    expect(summaryDescription(testThreeFormData)).to.equal(
+      '3 of 3 dependents added',
+    );
+    expect(summaryDescriptionWithoutItems(testThreeFormData)).to.equal(
+      '3 of 3 dependents added',
+    );
+    const testFourFormData = {
+      formData: {
+        veteranChildrenCount: '2',
+        veteransChildren: [{}],
+      },
+    };
+    expect(summaryDescription(testFourFormData)).to.equal(
+      '1 of 2 dependents added',
+    );
+    expect(summaryDescriptionWithoutItems(testFourFormData)).to.equal(
+      '1 of 2 dependents added',
+    );
+  });
+
+  it('should return the correct number of maxItems based on veteranChildrenCount', () => {
+    const { maxItems } = options;
+    expect(maxItems({ veteranChildrenCount: '0' })).to.equal(4);
+    expect(maxItems({ veteranChildrenCount: '1' })).to.equal(4);
+    expect(maxItems({ veteranChildrenCount: '2' })).to.equal(4);
+    expect(maxItems({ veteranChildrenCount: '3' })).to.equal(3);
+    expect(maxItems({ veteranChildrenCount: '5' })).to.equal(3);
+  });
+
+  it('should return canAddItem correctly based on veteranChildrenCount and current items', () => {
+    const { canAddItem } = options;
+    expect(
+      canAddItem({ arrayData: [], fullData: { veteranChildrenCount: '2' } }),
+    ).to.be.true;
+    expect(
+      canAddItem({ arrayData: [{}], fullData: { veteranChildrenCount: '1' } }),
+    ).to.be.false;
+    expect(
+      canAddItem({ arrayData: [{}], fullData: { veteranChildrenCount: '2' } }),
+    ).to.be.true;
+    expect(
+      canAddItem({
+        arrayData: [{}, {}],
+        fullData: { veteranChildrenCount: '2' },
+      }),
+    ).to.be.false;
+    expect(
+      canAddItem({
+        arrayData: [{}, {}, {}],
+        fullData: { veteranChildrenCount: '3' },
+      }),
+    ).to.be.false;
+  });
+
   // it('dependentMailingAddress depends shows only when livesWith is false', () => {
   //   const { dependentMailingAddress } = dependentsPages;
 
