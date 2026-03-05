@@ -223,8 +223,10 @@ describe('Care Expenses Pages', () => {
     };
     const itemWithoutName = {};
 
-    expect(text.getItemName(itemWithName)).to.equal('John Doe');
-    expect(text.getItemName(itemWithoutName)).to.equal('Care provider');
+    expect(text.getItemName(itemWithName, 0)).to.equal('Expense 1: John Doe');
+    expect(text.getItemName(itemWithoutName, 1)).to.equal(
+      'Expense 2: Care provider',
+    );
   });
   it('should show the correct cardDescription output', () => {
     const { text } = options;
