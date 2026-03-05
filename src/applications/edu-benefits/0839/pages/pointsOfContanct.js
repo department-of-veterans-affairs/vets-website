@@ -28,7 +28,7 @@ export const uiSchema = {
   pointsOfContact: {
     ...titleUI({
       title:
-        "Provide contact information for the school's financial representative or Yellow Ribbon Program point of contact and school certifying official",
+        'School financial representative or Yellow Ribbon Program point of contact',
       description: pageDescription,
     }),
     fullName: firstNameLastNameNoSuffixUI(),
