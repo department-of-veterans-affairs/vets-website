@@ -10,6 +10,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import SubmissionInstructions from '../components/SubmissionInstructions';
+import AddEligibileStudents from '../components/AddEligibileStudents';
 import {
   authorizedOfficial,
   agreementType,
@@ -30,6 +31,7 @@ import {
 import {
   additionalInstitutionDetailsArrayOptions,
   showAdditionalPointsOfContact,
+  getAdditionalContactRole,
   arrayBuilderOptions,
   CustomReviewTopContent,
   focusOnH3,
@@ -207,6 +209,7 @@ const formConfig = {
 
     yellowRibbonProgramRequestChapter: {
       title: 'Yellow Ribbon Program contributions',
+      reviewDescription: AddEligibileStudents,
       pages: {
         ...arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
           yellowRibbonProgramRequestIntro: pageBuilder.introPage({
@@ -282,7 +285,7 @@ const formConfig = {
         },
         additionalPointsOfContact: {
           path: 'additional-points-of-contact',
-          title: 'additional points of contact',
+          title: formData => getAdditionalContactRole(formData),
           uiSchema: additionalPointsOfContact.uiSchema,
           schema: additionalPointsOfContact.schema,
           depends: formData =>

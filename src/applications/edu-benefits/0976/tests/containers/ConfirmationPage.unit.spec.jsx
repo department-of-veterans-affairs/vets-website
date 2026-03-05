@@ -9,10 +9,6 @@ import { ConfirmationPage } from '../../containers/ConfirmationPage';
 
 const storeBase = {
   form: {
-    submission: {
-      timestamp: false,
-      status: false,
-    },
     data: {},
   },
 };

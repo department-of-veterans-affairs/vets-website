@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
-const MissingApplicationHelp = () => {
+const MissingApplicationHelp = ({ displayDecisionReviewsForms }) => {
   const content = (
     <>
       <p>
@@ -51,6 +52,23 @@ const MissingApplicationHelp = () => {
           21P-0847)
         </li>
         <li>Sign VA claim forms as an alternate signer (VA Form 21-0972)</li>
+        {displayDecisionReviewsForms && (
+          <>
+            <li data-testid="dr-forms">
+              File a Supplemental Claim (VA Form 20-0995)
+            </li>
+            <li data-testid="dr-forms">
+              Authorize the release of non-VA medical information to VA with a
+              Supplemental Claim (VA Form 21-4142 & 21-4142a with 20-0995)
+            </li>
+            <li data-testid="dr-forms">
+              Request a Higher-Level Review (VA Form 20-0996)
+            </li>
+            <li data-testid="dr-forms">
+              Request a Board Appeal (VA Form 10182)
+            </li>
+          </>
+        )}
       </ul>
       <p>
         If you have questions about your applications or forms, call us at{' '}
@@ -83,6 +101,10 @@ const MissingApplicationHelp = () => {
       </Toggler.Disabled>
     </Toggler>
   );
+};
+
+MissingApplicationHelp.propTypes = {
+  displayDecisionReviewsForms: PropTypes.bool,
 };
 
 export default MissingApplicationHelp;
