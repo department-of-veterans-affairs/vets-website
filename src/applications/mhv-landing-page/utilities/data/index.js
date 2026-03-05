@@ -6,7 +6,7 @@ const paymentsLinks = {
         },
     appointments: {
         text: 'Book an appointment', // New appointments link text
-        link: 'https://www.va.gov/health-care/schedule-view-appointments/
+        link: 'https://www.va.gov/health-care/schedule-view-appointments/'
     }
 };
 
