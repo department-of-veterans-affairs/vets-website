@@ -6,8 +6,7 @@ export default function ProcessList() {
       <va-process-list-item header="Check your eligibility">
         <p>
           You’ll need to apply and be found eligible for the VA education
-          benefit under which you want your reimbursement processed. You must
-          also have paid for the exam in full.
+          benefit under which you want your reimbursement processed.
         </p>
         <p>
           <a href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction">
