@@ -770,16 +770,23 @@ export function deleteExpenseDeleteDocument(
         }/travel_pay/v0/claims/${claimId}/documents/${documentId}`;
         await apiRequest(documentUrl, deleteDocumentOptions);
       }
-
-      // Fetch updated claim details after all deletions are attempted
-      const response = await apiRequest(
-        `${environment.API_URL}/travel_pay/v0/claims/${claimId}`,
-      );
-
-      dispatch(deleteExpenseDeleteDocumentSuccess(expenseId, response));
     } catch (error) {
       dispatch(deleteExpenseDeleteDocumentFailure(error, expenseId));
       throw error;
+    }
+
+    /**
+     * After deleting the expense and for non-mileage expenses the document,
+     * fetch the updated claim details. If this fetch fails, we ignore the
+     * error because the deletions have already completed successfully.
+     */
+    try {
+      const response = await apiRequest(
+        `${environment.API_URL}/travel_pay/v0/claims/${claimId}`,
+      );
+      dispatch(deleteExpenseDeleteDocumentSuccess(expenseId, response));
+    } catch (_) {
+      dispatch(deleteExpenseDeleteDocumentSuccess(expenseId, null));
     }
   };
 }
