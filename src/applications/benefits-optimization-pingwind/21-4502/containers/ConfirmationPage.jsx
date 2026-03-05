@@ -34,8 +34,7 @@ export const ConfirmationPage = props => {
   const confirmationNumber =
     submission.response?.attributes?.confirmationNumber ||
     submission.response?.data?.attributes?.confirmationNumber;
-  const downloadPdfBase =
-    props.route?.formConfig?.downloadPdfUrl || DEFAULT_DOWNLOAD_PDF_BASE;
+  const downloadPdfBase = /* props.route?.formConfig?.downloadPdfUrl || */ DEFAULT_DOWNLOAD_PDF_BASE;
   const pdfUrl = confirmationNumber
     ? `${downloadPdfBase}${confirmationNumber}/download_pdf`
     : submission.response?.attributes?.pdfUrl ||

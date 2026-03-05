@@ -46,9 +46,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/automobile_adaptive_equipment/v0/form4502`,
-  downloadPdfUrl: `${
-    environment.API_URL
-  }/automobile_adaptive_equipment/v0/form4502/`,
   trackingPrefix: 'ss-4502-',
   defaultDefinitions: {},
   dev: {
