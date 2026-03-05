@@ -1,5 +1,4 @@
 import '@department-of-veterans-affairs/platform-polyfills';
-import './sass/ch31-eligibility-entitlement.scss';
 
 import startApp from '@department-of-veterans-affairs/platform-startup/router';
 

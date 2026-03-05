@@ -1,6 +1,18 @@
 import React from 'react';
 import FileUploadDescription from './FileUploadDescription';
 
+const SupportingDocsLink = label => (
+  <p>
+    <a
+      target="_blank"
+      rel="noreferrer noopener"
+      href="/resources/how-to-file-a-champva-claim/#supporting-documents-to-send-w"
+    >
+      {label}
+    </a>
+  </p>
+);
+
 const ResubmissionLetterDescription = (
   <>
     <p>
@@ -39,15 +51,9 @@ const ResubmissionDocsDescription = (
 
 const ResubmissionDocsUploadDescription = (
   <>
-    <p>
-      <a
-        target="_blank"
-        rel="noreferrer noopener"
-        href="/resources/how-to-file-a-champva-claim/#supporting-documents-to-send-w"
-      >
-        Learn more about supporting medical claim documents (opens in a new tab)
-      </a>
-    </p>
+    {SupportingDocsLink(
+      'Learn more about supporting medical claim documents (opens in a new tab)',
+    )}
     <p className="vads-u-margin-bottom--4">
       <a
         target="_blank"
@@ -62,8 +68,48 @@ const ResubmissionDocsUploadDescription = (
   </>
 );
 
+const ResubmissionAddtlDocsDescription = (
+  <>
+    <p>
+      You can submit any documents that may help us gather information to
+      support your claim.
+    </p>
+    <p>This could include 1 of these documents:</p>
+    <ul>
+      <li>
+        Any billing statement with the provider’s contact information,{' '}
+        <strong>or</strong>
+      </li>
+      <li>
+        Any paperwork attached to your prescription, <strong>or</strong>
+      </li>
+      <li>
+        Any receipts or statements from your pharmacy with their contact
+        information, <strong>or</strong>
+      </li>
+      <li>An explanation of benefits from your insurance company</li>
+    </ul>
+  </>
+);
+
+const ResubmissionAddtlDocsUploadDescription = (
+  <>
+    <p>
+      <strong>Note:</strong> Don’t submit any medical records related to your
+      claim. And don’t upload previously submitted documents from your existing
+      claim.
+    </p>
+    {SupportingDocsLink(
+      'Learn more about supporting medical claim documents (opens in a new tab)',
+    )}
+    <FileUploadDescription />
+  </>
+);
+
 export {
   ResubmissionDocsDescription,
   ResubmissionLetterDescription,
   ResubmissionDocsUploadDescription,
+  ResubmissionAddtlDocsDescription,
+  ResubmissionAddtlDocsUploadDescription,
 };

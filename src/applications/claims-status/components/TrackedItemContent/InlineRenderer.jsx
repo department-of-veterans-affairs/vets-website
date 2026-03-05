@@ -54,7 +54,6 @@ export const InlineRenderer = ({ content }) => {
           <VaLink
             text={content.text}
             href={content.href}
-            data-testid={content.testId}
             {...content.style === 'active' && { active: true }}
             {...content.style === 'external' && { external: true }}
           />
