@@ -133,12 +133,13 @@ describe('ch31-case-status-details actions', () => {
       await downloadCh31PdfLetter('ABC123')(dispatch);
 
       const [url, options] = apiStub.firstCall.args;
-      expect(url).to.equal(
-        `${environment.API_URL}/vre/v0/ch31_discontinued_letter`,
-      );
+      expect(url).to.equal(`${environment.API_URL}/vre/v0/case_get_document`);
       expect(options.method).to.equal('POST');
       expect(options.headers['Content-Type']).to.equal('application/json');
-      expect(JSON.parse(options.body)).to.deep.equal({ resCaseId: 'ABC123' });
+      expect(JSON.parse(options.body)).to.deep.equal({
+        resCaseId: 'ABC123',
+        documentType: 626,
+      });
       expect(response.blob.calledOnce).to.be.true;
       expect(downloadPdfBlobStub.calledOnce).to.be.true;
       expect(downloadPdfBlobStub.firstCall.args).to.deep.equal([
