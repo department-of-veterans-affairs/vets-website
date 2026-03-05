@@ -751,13 +751,27 @@ export function deleteExpenseDeleteDocument(
           },
         };
 
+        /**
+         * We delete the expense first. If deleting the document fails afterward,
+         * we may end up with an orphaned (unlinked) document. This won’t break
+         * the claim and is acceptable.
+         *
+         * We do this because:
+         * - Once an expense is deleted, there’s no way to “undo” that deletion.
+         * - If we deleted the document first and the expense delete failed,
+         *   we’d still have no reliable way to re-associate the document back
+         *   to the original expense.
+         *
+         * In both failure orders, rolling back is impossible, so we choose the
+         * safer sequence: delete the expense first, then the document.
+         */
         const documentUrl = `${
           environment.API_URL
         }/travel_pay/v0/claims/${claimId}/documents/${documentId}`;
         await apiRequest(documentUrl, deleteDocumentOptions);
       }
 
-      // Fetch updated claim details after all deletions succeed
+      // Fetch updated claim details after all deletions are attempted
       const response = await apiRequest(
         `${environment.API_URL}/travel_pay/v0/claims/${claimId}`,
       );
