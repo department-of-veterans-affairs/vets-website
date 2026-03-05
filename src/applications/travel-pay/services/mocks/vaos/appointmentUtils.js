@@ -80,6 +80,8 @@ function buildVaosAppointmentFromClaim(claim, daysOffset) {
     type: 'appointments',
     attributes: {
       id: claim.appointment?.id || savedClaimAppointmentId,
+      past: true,
+      modality: 'vaInPerson',
       identifier: [
         {
           system: 'Appointment/',
@@ -129,6 +131,7 @@ function buildVaosAppointmentFromClaim(claim, daysOffset) {
       },
       localStartTime,
       station: claim.appointment?.facilityId || '534',
+      isPastAppointment: true,
       travelPayClaim: {
         metadata: {
           status: 200,
@@ -194,6 +197,11 @@ const buildAppointmentsFromClaims = (
       savedClaimAppointment.attributes.travelPayClaim = {
         claim: {
           ...savedClaim,
+        },
+        metadata: {
+          status: 200,
+          success: true,
+          message: 'Data retrieved successfully.',
         },
       };
     }
