@@ -7,7 +7,8 @@ import {
 export const childAddressPartOne = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `${formData?.fullName?.first || 'Child'}'s address`,
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'Child'}\u2019s address`,
       null,
       false,
     ),

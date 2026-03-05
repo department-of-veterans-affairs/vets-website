@@ -11,7 +11,8 @@ import {
 export const placeOfBirth = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `${formData?.fullName?.first || 'Child'}'s birth place`,
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'Child'}\u2019s birth place`,
       null,
       false,
     ),

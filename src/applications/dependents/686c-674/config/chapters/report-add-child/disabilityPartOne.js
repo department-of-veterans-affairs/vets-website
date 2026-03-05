@@ -8,7 +8,7 @@ export const disabilityPartOne = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.fullName?.first || 'Child'}'s disability status`,
+        `${formData?.fullName?.first || 'Child'}\u2019s disability status`,
       null,
       false,
     ),

@@ -23,7 +23,7 @@ export const stepchild = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.fullName?.first || 'Child'}'s biological parents`,
+        `${formData?.fullName?.first || 'Child'}\u2019s biological parents`,
       null,
       false,
     ),
