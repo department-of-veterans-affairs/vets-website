@@ -166,6 +166,55 @@ describe('BlockedTriageGroupAlert component', () => {
     expect(screen.queryAllByTestId('blocked-triage-group').length).to.equal(2);
   });
 
+  describe('post-migration to Oracle Health', () => {
+    it('does not render alert when user has a post-migration message and recipient is not associated', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            associatedTriageGroupsQty: 4,
+            associatedBlockedTriageGroupsQty: 2,
+            allRecipients: [{ id: 1, name: '***Jeasmitha-Cardio-Clinic***' }],
+            blockedRecipients: [
+              {
+                id: 1,
+                name: '***Jeasmitha-Cardio-Clinic***',
+                type: Recipients.CARE_TEAM,
+                stationNumber: '662',
+                status: RecipientStatus.BLOCKED,
+              },
+            ],
+          },
+          threadDetails: {
+            messages: [
+              {
+                messageId: 100,
+                migratedToOracleHealth: true,
+                ohMigrationPhase: 'p6',
+              },
+            ],
+          },
+        },
+        user: {
+          profile: {},
+        },
+      };
+      const screen = setup(customState, {
+        currentRecipient: {
+          recipientId: 999,
+          name: 'Missing Team',
+          type: Recipients.CARE_TEAM,
+        },
+        alertStyle: BlockedTriageAlertStyles.ALERT,
+        parentComponent: ParentComponent.COMPOSE_FORM,
+      });
+      await waitFor(() => {
+        expect(screen.queryByTestId('blocked-triage-group-alert')).to.not.exist;
+      });
+    });
+  });
+
   it('renders a va-alert if no associations at all & alertStyle = "info"', async () => {
     const customState = {
       ...initialState,

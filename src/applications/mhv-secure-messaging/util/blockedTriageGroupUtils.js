@@ -210,6 +210,7 @@ export const getBlockedTriageAlertConfig = ({
   ehrDataByVhaId,
   isOhMessage = false,
   facilityMigratingToOhInErrorPhase = false,
+  userMessagePostMigration = false,
 }) => {
   const {
     noAssociations,
@@ -269,6 +270,9 @@ export const getBlockedTriageAlertConfig = ({
 
       // If multiple items, use MULTIPLE_TEAMS_BLOCKED title (matching original behavior)
       if (blockedList.length > 1) {
+        if (userMessagePostMigration) {
+          return null;
+        }
         return {
           shouldShow: true,
           title: alertTitle.MULTIPLE_TEAMS_BLOCKED,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import reducer from '../../../reducers';
 import messageResponse from '../../fixtures/message-response.json';
@@ -315,6 +316,83 @@ describe('MessageThreadHeader component', () => {
       // Blocked triage group alert should not be rendered when in migration phase
       // The wrapper div with margin classes should not exist when isInMigrationPhase is true
       expect(screen.queryByText(/You can't send messages/i)).to.not.exist;
+    });
+
+    it('does not render BlockedTriageGroupAlert when a message has migratedToOracleHealth', async () => {
+      const migratedMessage = {
+        ...defaultMessage,
+        migratedToOracleHealth: true,
+        ohMigrationPhase: 'p6',
+      };
+      const state = {
+        ...defaultState,
+        sm: {
+          ...defaultState.sm,
+          recipients: {
+            associatedTriageGroupsQty: 4,
+            associatedBlockedTriageGroupsQty: 2,
+            allRecipients: [{ id: 1, name: '***Jeasmitha-Cardio-Clinic***' }],
+            blockedRecipients: [
+              {
+                id: 1,
+                name: '***Jeasmitha-Cardio-Clinic***',
+                type: 'Care Team',
+                stationNumber: '662',
+                status: 'Not Associated',
+              },
+            ],
+          },
+          threadDetails: {
+            ...defaultState.sm.threadDetails,
+            messages: [migratedMessage],
+          },
+        },
+      };
+      const screen = setup(state, defaultProps);
+      await waitFor(() => {
+        expect(screen.queryByTestId('migrated-message-alert')).to.exist;
+        expect(screen.queryByTestId('blocked-triage-group-alert')).to.not.exist;
+      });
+    });
+
+    it('renders BlockedTriageGroupAlert when migratedToOracleHealth is false', async () => {
+      const nonMigratedMessage = {
+        ...defaultMessage,
+        migratedToOracleHealth: false,
+      };
+      const state = {
+        ...defaultState,
+        sm: {
+          ...defaultState.sm,
+          recipients: {
+            associatedTriageGroupsQty: 4,
+            associatedBlockedTriageGroupsQty: 2,
+            allRecipients: [{ id: 1, name: '***Jeasmitha-Cardio-Clinic***' }],
+            blockedRecipients: [
+              {
+                id: 1,
+                name: '***Jeasmitha-Cardio-Clinic***',
+                type: 'Care Team',
+                stationNumber: '662',
+                status: 'Not Associated',
+              },
+            ],
+          },
+          threadDetails: {
+            ...defaultState.sm.threadDetails,
+            messages: [nonMigratedMessage],
+          },
+        },
+      };
+      const screen = setup(state, defaultProps);
+      await waitFor(() => {
+        expect(
+          screen.queryByTestId('blocked-triage-group-alert'),
+        ).to.have.attribute(
+          'trigger',
+          "You can't send messages to some of your care teams",
+        );
+      });
     });
   });
 });
