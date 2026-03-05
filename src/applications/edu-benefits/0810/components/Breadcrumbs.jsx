@@ -15,7 +15,7 @@ const Breadcrumbs = () => {
     },
     {
       href: '/education/about-gi-bill-benefits/',
-      label: 'About GI bill benefits',
+      label: 'About GI Bill benefits',
     },
     {
       href: '/education/about-gi-bill-benefits/how-to-use-benefits/',

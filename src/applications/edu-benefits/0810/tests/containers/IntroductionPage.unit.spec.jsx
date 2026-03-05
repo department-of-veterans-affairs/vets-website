@@ -113,12 +113,12 @@ describe('IntroductionPage', () => {
       loggedIn: false,
       showLoadingIndicator: false,
     };
-    const { getByTestId } = render(
+    const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...loggedInProps} />
       </Provider>,
     );
-    expect(getByTestId('sign-in-alert')).to.exist;
+    expect(container.querySelector('va-alert-sign-in')).to.exist;
   });
 
   it('should not render sign-in alert when user is logged in', () => {
@@ -138,12 +138,12 @@ describe('IntroductionPage', () => {
       ...props,
       loggedIn: true,
     };
-    const { queryByTestId, getByText } = render(
+    const { container, getByText } = render(
       <Provider store={mockStoreWithLoggedOutUser}>
         <IntroductionPage {...loggedInProps} />
       </Provider>,
     );
-    expect(queryByTestId('sign-in-alert')).to.not.exist;
+    expect(container.querySelector('va-alert-sign-in')).to.not.exist;
     expect(getByText('Get Started')).to.exist;
   });
 });
