@@ -48,8 +48,8 @@ describe('debts actions', () => {
     it('should dispatch DEBTS_FETCH_INITIATED and DEBTS_FETCH_SUCCESS on successful fetch', async () => {
       const fakeResponse = {
         debts: [
-          { deductionCode: '30', currentAr: 100 },
-          { deductionCode: '44', currentAr: 200 },
+          { deductionCode: '30', currentAr: 100, originalAr: 200 },
+          { deductionCode: '44', currentAr: 200, originalAr: 300 },
         ],
         hasDependentDebts: false,
       };
@@ -101,7 +101,7 @@ describe('debts actions', () => {
 
     it('should not fetch VBMS debt letters if hasDependentDebts is true', async () => {
       const fakeResponse = {
-        debts: [{ deductionCode: '30', currentAr: 100 }],
+        debts: [{ deductionCode: '30', currentAr: 100, originalAr: 200 }],
         hasDependentDebts: true,
       };
       apiRequestStub.resolves(fakeResponse);

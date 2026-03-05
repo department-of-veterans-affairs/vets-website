@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ITFSubmissionErrorLink = () => {
+const SubmissionErrorLink = () => {
   return (
     <va-link-action
       type="primary"
@@ -11,4 +11,4 @@ const ITFSubmissionErrorLink = () => {
   );
 };
 
-export default ITFSubmissionErrorLink;
+export default SubmissionErrorLink;

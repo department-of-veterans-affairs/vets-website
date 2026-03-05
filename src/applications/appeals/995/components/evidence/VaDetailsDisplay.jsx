@@ -23,16 +23,10 @@ export const getFormattedTreatmentDate = (noDate, treatmentDate) => {
   return null;
 };
 
-export const getLocationErrors = (
-  issues,
-  locationAndName,
-  noDate,
-  treatmentDate,
-) => {
+export const getLocationErrors = (issues, locationAndName) => {
   const errors = {
     name: locationAndName ? '' : content.missing.location,
     issues: issues.length ? '' : content.missing.condition,
-    treatmentDate: (noDate || treatmentDate ? '' : content.missing.date) || '',
   };
 
   const hasErrors = Object.values(errors).join('');
@@ -91,8 +85,6 @@ export const VaDetailsDisplay = ({
           const { errors, hasErrors } = getLocationErrors(
             issues,
             locationAndName,
-            noDate,
-            treatmentDate,
           );
 
           const treatmentDateError = !noDate && errors.treatmentDate;
