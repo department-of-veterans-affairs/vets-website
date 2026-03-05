@@ -29,13 +29,10 @@ const useOracleHealthAlertTracking = ({
   const config = CernerAlertContent.MEDICATIONS;
 
   // T45: Track when the OH EHR warning alert is displayed
+  // Not gated by the cutover flag — T45 warnings fire regardless
   useEffect(
     () => {
-      if (
-        warningActionName &&
-        isOracleHealthCutoverEnabled &&
-        migratingFacilities?.length
-      ) {
+      if (warningActionName && migratingFacilities?.length) {
         const warningMigrations = migratingFacilities.filter(migration =>
           config.warningPhases.includes(migration.phases?.current),
         );
@@ -51,12 +48,7 @@ const useOracleHealthAlertTracking = ({
         }
       }
     },
-    [
-      config.warningPhases,
-      isOracleHealthCutoverEnabled,
-      migratingFacilities,
-      warningActionName,
-    ],
+    [config.warningPhases, migratingFacilities, warningActionName],
   );
 
   // T3: Track when the OH EHR error alert is displayed

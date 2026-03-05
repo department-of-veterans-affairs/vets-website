@@ -56,6 +56,7 @@ export const Paths = {
     SENT_SEARCH: '/my_health/v1/messaging/folders/-1/search*',
     PRESCRIPTIONS: '/my_health/v1/prescriptions/',
     PRESCRIPTIONS_V2: '/my_health/v2/prescriptions/',
+    OH_SYNC_STATUS: '/my_health/v1/messaging/messages/oh_sync_status',
   },
 };
 
@@ -222,6 +223,7 @@ export const Locators = {
     BACK_TOP: 'va-back-to-top',
     CERNER_ALERT: '[data-testid="cerner-facilities-alert"]',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
+    OH_SYNC_STATUS_ALERT: '[data-testid="oh-sync-status-alert"]',
     RECIPIENTS_ERROR: 'recipients-error-alert',
     RECIP_SELECT: '[data-testid="compose-recipient-select"]',
     MESS_CATAGO: '[data-testid="compose-message-categories"]',
@@ -383,10 +385,12 @@ export const Alerts = {
   ERROR_LOADING_RECIPIENTS_HEADER:
     'We can’t load your care team list right now',
   SEND_MESSAGE_SUCCESS: `Message sent`,
-  MIGRATION_ALERT_H2:
-    'You can’t use messages to contact providers at some facilities right now',
-  MIGRATION_ALERT_BODY:
-    'You can’t send or receive new messages or reply to conversations with providers at',
+  MIGRATION_ALERT_H2: `You can’t use messages to contact providers at some facilities right now`,
+  MIGRATION_ALERT_BODY: `You can’t send or receive new messages or reply to conversations with providers at`,
+  OH_SYNC_STATUS: {
+    HEADER: `We're still adding some of your messages here`,
+    BODY: `We're working to add all of your messages to your inbox. They should be available soon.`,
+  },
 };
 
 export const Data = {

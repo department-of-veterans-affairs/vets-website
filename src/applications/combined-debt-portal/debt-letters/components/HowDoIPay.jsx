@@ -112,7 +112,8 @@ const HowDoIPay = ({ userData }) => {
               </strong>{' '}
               {userData.receivableId
                 ? `is a 9-15 digit debt-specific ID number unique to
-              your education debt, providing enhanced security.`
+              your education debt, providing enhanced security. You can
+              enter this number into the File Number field on pay.va.gov.`
                 : `is your
               VA claim number. This field must be 8 or 9 characters long.`}
             </li>

@@ -292,6 +292,15 @@ describe('0839 Helpers', () => {
       },
     };
 
+    const emptyResponse = {
+      id: '40737698',
+      type: 'institutions',
+      attributes: {
+        name: 'UNIVERSITY OF TEST',
+        facilityCode: '11900000',
+      },
+    };
+
     it('correctly converts the api response', () => {
       expect(institutionResponseToObject(exampleResponse)).to.deep.equal({
         name: 'UNIVERSITY OF TEST',
@@ -313,6 +322,31 @@ describe('0839 Helpers', () => {
           state: 'AZ',
           postalCode: '85721',
           country: 'USA',
+        },
+      });
+    });
+
+    it('does not break with missing fields', () => {
+      expect(institutionResponseToObject(emptyResponse)).to.deep.equal({
+        name: 'UNIVERSITY OF TEST',
+        type: 'PUBLIC',
+        mailingAddress: {
+          street: '',
+          street2: '',
+          street3: '',
+          city: '',
+          state: '',
+          postalCode: '',
+          country: '',
+        },
+        physicalAddress: {
+          street: '',
+          street2: '',
+          street3: '',
+          city: '',
+          state: '',
+          postalCode: '',
+          country: '',
         },
       });
     });

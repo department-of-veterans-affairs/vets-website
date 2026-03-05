@@ -473,5 +473,18 @@ describe('OracleHealthTransitionAlerts', () => {
         unmount();
       });
     });
+
+    it('displays expired message when isExpired prop is true', () => {
+      const { container } = render(
+        <OracleHealthRenewalInCardAlert isExpired />,
+      );
+
+      expect(container.textContent).to.include(
+        'Your prescription is too old to refill',
+      );
+      expect(container.textContent).to.include(
+        'call your provider to request a renewal',
+      );
+    });
   });
 });
