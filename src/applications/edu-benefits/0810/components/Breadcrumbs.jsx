@@ -19,7 +19,7 @@ const Breadcrumbs = () => {
     },
     {
       href: '/education/about-gi-bill-benefits/how-to-use-benefits/',
-      label: 'How to use your GI bill benefits',
+      label: 'How to use your GI Bill benefits',
     },
     {
       href:
