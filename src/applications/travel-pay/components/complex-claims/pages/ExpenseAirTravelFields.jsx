@@ -54,7 +54,7 @@ const ExpenseAirTravelFields = ({
         onDateChange={onChange}
         onDateBlur={onBlur}
         hint="Enter the date on your departure ticket."
-        {...errors.departureDate && { error: errors.departureDate }}
+        error={errors.departureDate || ''}
       />
     </div>
     <div className="vads-u-margin-top--2">
@@ -87,7 +87,7 @@ const ExpenseAirTravelFields = ({
       onDateChange={onChange}
       onDateBlur={onBlur}
       hint="Enter the date on your return ticket. For one-way trips, leave this blank."
-      {...errors.returnDate && { error: errors.returnDate }}
+      error={errors.returnDate || ''}
     />
   </>
 );
