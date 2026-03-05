@@ -39,6 +39,8 @@ export function transform(_formConfig, form) {
     providerName: provider?.providerName,
     providerAddress: {
       street: provider?.providerAddress?.street,
+      street2: provider?.providerAddress?.street2,
+      street3: provider?.providerAddress?.street3,
       city: provider?.providerAddress?.city,
       state: provider?.providerAddress?.state,
       postalCode: provider?.providerAddress?.postalCode,
@@ -76,6 +78,7 @@ export function transform(_formConfig, form) {
       ),
     },
     militaryInfo: {
+      completedAtLeast3YearsOfService: data?.veteranStatus,
       dateReleasedFromActiveDuty: data?.dateReleasedFromActiveDuty,
       activeDutyDuringHitechVets: data?.activeDutyDuringHitechVets,
     },
@@ -91,9 +94,9 @@ export function transform(_formConfig, form) {
     employmentInfo: {
       isEmployed: data?.isEmployed || false,
       isInTechnologyIndustry: data?.isInTechnologyIndustry || false,
-      currentOccupation: data?.currentOccupation,
-      currentAnnualSalary: data?.currentAnnualSalary,
-      highestEducationLevel: data?.highestEducationLevel,
+      technologyAreaOfFocus: data?.technologyAreaOfFocus,
+      currentAnnualSalary: data?.currentSalary,
+      highestEducationLevel: data?.highestLevelOfEducation,
     },
     attestationAgreementAccepted: data?.privacyAgreementAccepted || false,
     dateSigned: dateSigned(),

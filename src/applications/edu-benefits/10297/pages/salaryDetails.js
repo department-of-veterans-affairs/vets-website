@@ -18,6 +18,7 @@ const uiSchema = {
     ...radioUI({
       title: "What's your current annual salary?",
       labels: salaryRanges,
+      required: formData => formData.isEmployed === true,
     }),
   },
 };

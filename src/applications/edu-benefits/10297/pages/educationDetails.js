@@ -11,7 +11,6 @@ const educationLevels = {
   MD: "A master's degree",
   DD: 'A doctoral degree like a PhD',
   OTHER: 'Other',
-  // NA: 'Something else',
 };
 
 const uiSchema = {
@@ -22,29 +21,13 @@ const uiSchema = {
       labels: educationLevels,
     }),
   },
-  // otherLevel: {
-  //   ...textUI({
-  //     title: 'Enter the highest level of education you’ve completed.',
-  //   }),
-  //   'ui:options': {
-  //     hideIf: formData => formData.highestLevelOfEducation !== 'NA',
-  //     expandUnder: 'highestLevelOfEducation',
-  //     expandUnderCondition: 'NA',
-  //     expandedContentFocus: true,
-  //     preserveHiddenData: true,
-  //     classNames: 'vads-u-margin-top--neg1',
-  //   },
-  // },
 };
 
 const schema = {
   type: 'object',
+  required: ['highestLevelOfEducation'],
   properties: {
     highestLevelOfEducation: radioSchema(Object.keys(educationLevels)),
-    // otherLevel: {
-    //   type: 'string',
-    //   pattern: '^(?!\\s*$).+',
-    // },
   },
 };
 

@@ -196,12 +196,13 @@ const formConfig = {
           uiSchema: employmentStatus.uiSchema,
           schema: employmentStatus.schema,
           pageClass: 'page',
-          onNavForward: ({ formData, goPath }) => {
-            if (formData.isEmployed === false) {
-              goPath('/education-details');
-            } else {
-              goPath('/employment-details');
-            }
+          updateFormData: (_oldFormData, newFormData) => {
+            return {
+              ...newFormData,
+              isInTechnologyIndustry: undefined,
+              technologyAreaOfFocus: undefined,
+              currentSalary: undefined,
+            };
           },
         },
         employmentDetails: {
@@ -210,12 +211,12 @@ const formConfig = {
           uiSchema: employmentDetails.uiSchema,
           schema: employmentDetails.schema,
           pageClass: 'page',
-          onNavForward: ({ formData, goPath }) => {
-            if (formData.isInTechnologyIndustry === false) {
-              goPath('/salary-details');
-            } else {
-              goPath('/employment-focus');
-            }
+          depends: formData => formData.isEmployed === true,
+          updateFormData: (_oldFormData, newFormData) => {
+            return {
+              ...newFormData,
+              technologyAreaOfFocus: undefined,
+            };
           },
         },
         employmentFocus: {
@@ -224,6 +225,9 @@ const formConfig = {
           uiSchema: employmentFocus.uiSchema,
           schema: employmentFocus.schema,
           pageClass: 'page',
+          depends: formData =>
+            formData.isEmployed === true &&
+            formData.isInTechnologyIndustry === true,
         },
         salaryDetails: {
           path: 'salary-details',
@@ -231,13 +235,7 @@ const formConfig = {
           uiSchema: salaryDetails.uiSchema,
           schema: salaryDetails.schema,
           pageClass: 'page',
-          onNavBack: ({ formData, goPath, goPreviousPath }) => {
-            if (formData.isInTechnologyIndustry === false) {
-              goPath('/employment-details');
-            } else {
-              goPreviousPath();
-            }
-          },
+          depends: formData => formData.isEmployed === true,
         },
         educationDetails: {
           path: 'education-details',
@@ -245,13 +243,6 @@ const formConfig = {
           uiSchema: educationDetails.uiSchema,
           schema: educationDetails.schema,
           pageClass: 'page',
-          onNavBack: ({ formData, goPath, goPreviousPath }) => {
-            if (formData.isEmployed === false) {
-              goPath('/employment-status');
-            } else {
-              goPreviousPath();
-            }
-          },
         },
       },
     },

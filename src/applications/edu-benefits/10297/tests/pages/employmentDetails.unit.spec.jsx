@@ -2,7 +2,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import sinon from 'sinon';
 
 import * as employmentDetails from '../../pages/employmentDetails';
 
@@ -36,17 +35,5 @@ describe('Background Information Step 4 - Page 2, Employment Details', () => {
     utils.unmount();
     utils = renderPage({ isInTechnologyIndustry: false });
     expect(utils.container.querySelectorAll('[error]')).to.have.length(0);
-  });
-
-  it('navigates to the correct page based on technology industry involvement', () => {
-    const {
-      onNavForward,
-    } = require('../../config/form').default.chapters.backgroundInformationChapter.pages.employmentDetails;
-    const goPath = sinon.spy();
-    onNavForward({ formData: { isInTechnologyIndustry: false }, goPath });
-    expect(goPath.calledWith('/salary-details')).to.be.true;
-    goPath.reset();
-    onNavForward({ formData: { isInTechnologyIndustry: true }, goPath });
-    expect(goPath.calledWith('/employment-focus')).to.be.true;
   });
 });
