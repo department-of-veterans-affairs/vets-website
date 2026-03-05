@@ -6,11 +6,11 @@ import {
   rxListSortingOptions,
   defaultSelectedSortOption,
 } from '../../util/constants';
-import { getFilterOptions } from '../../util/helpers/getRxStatus';
 import {
   selectSortOption,
   selectFilterOption,
 } from '../../selectors/selectPreferences';
+import { getFilterUrl } from '../../components/MedicationHistory/MedicationHistoryFilter';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
@@ -20,15 +20,10 @@ export const useFetchMedicationHistory = (perPage = 10) => {
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
 
-  const isCernerPilot = useSelector(selectCernerPilotFlag);
-  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
-
-  const currentFilterOptions = getFilterOptions(
-    isCernerPilot,
-    isV2StatusMapping,
-  );
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
 
   const [queryParams, setQueryParams] = useState({
     page,
@@ -36,7 +31,11 @@ export const useFetchMedicationHistory = (perPage = 10) => {
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-    filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
+    filterOption: getFilterUrl(
+      selectedFilterOption,
+      isCernerPilot,
+      isV2StatusMapping,
+    ),
   });
 
   useEffect(

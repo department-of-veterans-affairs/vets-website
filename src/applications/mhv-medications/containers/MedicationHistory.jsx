@@ -10,6 +10,10 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import EmptyPrescriptionContent from '../components/MedicationsList/EmptyPrescriptionContent';
+import NoFilterMatches from '../components/MedicationsList/NoFilterMatches';
+import MedicationHistoryFilter, {
+  getFilterUrl,
+} from '../components/MedicationHistory/MedicationHistoryFilter';
 
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { getPrescriptionsExportList } from '../api/prescriptionsApi';
@@ -143,6 +147,22 @@ const MedicationHistory = () => {
     [shouldPrint, printRxList, clearPrintTrigger],
   );
 
+  const updateFilter = newFilterOption => {
+    if (newFilterOption !== selectedFilterOption) {
+      setLoadingMessage('Filtering your medications...');
+      setQueryParams(prev => ({
+        ...prev,
+        filterOption: getFilterUrl(
+          newFilterOption,
+          isCernerPilot,
+          isV2StatusMapping,
+        ),
+        page: 1,
+      }));
+      navigate('/history', { replace: true });
+    }
+  };
+
   const updateSort = (_filterOption, newSortOption) => {
     if (newSortOption && newSortOption !== selectedSortOption) {
       setLoadingMessage('Sorting your medications...');
@@ -167,8 +187,14 @@ const MedicationHistory = () => {
   // Medications exist and should be displayed
   const hasMedications = filteredList?.length > 0;
 
+  // Check if truly no medications exist (all filter counts are 0)
+  const noMedications =
+    filteredList?.length === 0 &&
+    filterCount &&
+    Object.values(filterCount).every(value => value === 0);
+
   const renderContent = () => {
-    if (isLoading) {
+    if (isLoading && !hasMedications) {
       return (
         <div className="vads-u-padding-y--9">
           <va-loading-indicator
@@ -182,16 +208,24 @@ const MedicationHistory = () => {
     if (prescriptionsApiError) {
       return <ApiErrorNotification errorType="access" content="medications" />;
     }
-    if (!hasMedications) {
+    if (noMedications) {
       return <EmptyPrescriptionContent />;
     }
     return (
       <>
+        <MedicationHistoryFilter
+          updateFilter={updateFilter}
+          isLoading={isLoading}
+        />
         <MedicationsListSort
           sortRxList={updateSort}
           shouldShowSelect={!isLoading}
         />
+        {isLoading && (
+          <va-loading-indicator message={loadingMessage} set-focus />
+        )}
         {!isLoading &&
+          hasMedications &&
           pagination && (
             <MedicationsList
               pagination={pagination}
@@ -207,6 +241,7 @@ const MedicationHistory = () => {
           isFiltered={filterApplied}
           list
         />
+        {!isLoading && noFilterMatches && <NoFilterMatches />}
       </>
     );
   };
