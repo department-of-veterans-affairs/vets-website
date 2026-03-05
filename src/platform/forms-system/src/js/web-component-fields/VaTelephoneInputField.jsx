@@ -39,6 +39,7 @@ export default function VaTelephoneInputField(props) {
   const [validationError, setValidationError] = useState(null);
   const abortControllerRef = useRef(null);
   const previousPayload = useRef(null);
+  const { externalValidation } = props.uiOptions;
 
   useEffect(() => {
     return () => {
@@ -133,7 +134,7 @@ export default function VaTelephoneInputField(props) {
       touched: payload.touched,
       required: mappedProps.required,
     });
-    if (payload.isValid) {
+    if (externalValidation && payload.isValid) {
       // fire and forget instead of awaiting
       validateContact(event);
     }

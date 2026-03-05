@@ -502,6 +502,12 @@ financialHardshipDocuments: fileInputMultipleUI({
   },
 }) + fileInputMultipleSchema(),
 
+// internationalPhoneUI with external telephone number validation
+phoneNumber: internationalPhoneUI({
+  externalValidation: true
+}) + internationalPhoneSchema(),
+
+
 // checkboxGroupUI with various configurations - CORRECTED
 services: checkboxGroupUI({
   title: 'Which services do you need?',

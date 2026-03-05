@@ -15,6 +15,9 @@ import { validateTelephoneInput } from '../validation';
  * examplePhone: {
  *  ...internationalPhoneUI('Main phone number')
  * }
+ * externallyValidatedPhone: internationalPhoneUI({
+ *  externalValidation: true // set to true if superficially valid phone numbers should be validated against more comprehensive external international telephone validation api
+ * })
  * ```
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
@@ -23,7 +26,7 @@ import { validateTelephoneInput } from '../validation';
  * @returns {UISchemaOptions}
  */
 const internationalPhoneUI = options => {
-  const { title, ...uiOptions } =
+  const { title, externalValidation = false, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   const _title = title ?? 'Home phone number';
@@ -44,6 +47,7 @@ const internationalPhoneUI = options => {
     },
     'ui:options': {
       hint: 'For international numbers, select or enter your country code.',
+      externalValidation,
       ...uiOptions,
     },
     'ui:validations': [validateTelephoneInput],
