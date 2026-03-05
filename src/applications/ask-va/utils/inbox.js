@@ -1,5 +1,5 @@
 import Fuse from 'fuse.js';
-import { compareDesc } from 'date-fns';
+import { compareAsc, compareDesc } from 'date-fns';
 import { getVAStatusFromCRM } from '../config/helpers';
 
 /**
@@ -86,6 +86,26 @@ export function paginateInquiries(inquiries, itemsPerPage) {
     : [{ pageStart: 0, pageEnd: 0, items: [] }];
 }
 
+const sortOptions = {
+  lastUpdate: {
+    newest: 'lastUpdate.newest',
+    oldest: 'lastUpdate.oldest',
+  },
+};
+
+/**
+ * Set the list of inquiries to be displayed in the UI.
+ *
+ * **IMPORTANT:** be sure to use `filterAndSort.sortOptions` to set `sortOrder`
+ * @param {object} _ destructured object
+ * @param {Inquiry[]} _.inquiriesArray
+ * @param {object} _.filters destructured object
+ * @param {string} _.filters.category
+ * @param {string} _.filters.status
+ * @param {string} _.filters.query
+ * @param {string} _.sortOrder use the `sortOptions` object to pick the right option
+ * @returns {Inquiry[]}
+ */
 export function filterAndSort({
   inquiriesArray,
   filters: { category = 'All', status = 'All', query = '' } = {
@@ -93,6 +113,7 @@ export function filterAndSort({
     status: 'All',
     query: '',
   },
+  sortOrder = sortOptions.lastUpdate.newest,
 }) {
   // Since Array.sort() sorts it in place, create a shallow copy first
   const inquiriesCopy = [...inquiriesArray];
@@ -103,9 +124,18 @@ export function filterAndSort({
         [inq.status, 'All'].includes(status)
       );
     })
-    .sort((a, b) =>
-      compareDesc(new Date(a.lastUpdate), new Date(b.lastUpdate)),
-    );
+    .sort((a, b) => {
+      switch (sortOrder) {
+        case sortOptions.lastUpdate.newest:
+          return compareDesc(new Date(a.lastUpdate), new Date(b.lastUpdate));
+
+        case sortOptions.lastUpdate.oldest:
+          return compareAsc(new Date(a.lastUpdate), new Date(b.lastUpdate));
+
+        default:
+          return 0;
+      }
+    });
 
   const searchable = new Fuse(filteredAndSorted, {
     keys: ['inquiryNumber', 'submitterQuestion', 'categoryName'],
@@ -118,3 +148,5 @@ export function filterAndSort({
   // An empty query returns no results, so use the full list as a backup
   return query ? results : filteredAndSorted;
 }
+
+filterAndSort.sortOptions = sortOptions;

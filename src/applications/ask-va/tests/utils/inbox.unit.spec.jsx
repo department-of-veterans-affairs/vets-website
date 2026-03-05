@@ -100,6 +100,8 @@ describe('paginateInquiries', () => {
 
 describe('filterAndSort', () => {
   const flatInquiries = mockInquiries.map(flattenInquiry);
+  const Dec18At420pmId = '1aed76e7-5bbd-ef11-b8e9-001dd830a0af';
+  const Dec18At530pmId = '46a76c10-5bbd-ef11-b8e9-001dd805523c';
 
   it('returns all results if unfiltered', () => {
     const results = filterAndSort({ inquiriesArray: flatInquiries });
@@ -133,7 +135,7 @@ describe('filterAndSort', () => {
     expect(results.length).to.equal(1);
   });
 
-  it('sorts by most recent lastUpdate', () => {
+  it('sorts by newest lastUpdate by default', () => {
     const firstDateBeforeSort = new Date(flatInquiries[0].lastUpdate);
     expect(firstDateBeforeSort.getDate()).to.equal(12);
 
@@ -145,23 +147,34 @@ describe('filterAndSort', () => {
     // Sorts by time (2 items updated on same day)
     const getIndex = (arr, id) => arr.findIndex(item => item.id === id);
 
-    const laterUpdateIndexBefore = getIndex(
-      flatInquiries,
-      '1aed76e7-5bbd-ef11-b8e9-001dd830a0af',
-    );
-    const earlierUpdateIndexBefore = getIndex(
-      flatInquiries,
-      '46a76c10-5bbd-ef11-b8e9-001dd805523c',
-    );
-    const laterUpdateIndexAfter = getIndex(
-      results,
-      '1aed76e7-5bbd-ef11-b8e9-001dd830a0af',
-    );
+    const laterUpdateIndexBefore = getIndex(flatInquiries, Dec18At420pmId);
+    const earlierUpdateIndexBefore = getIndex(flatInquiries, Dec18At530pmId);
+    const laterUpdateIndexAfter = getIndex(results, Dec18At420pmId);
+    const earlierUpdateIndexAfter = getIndex(results, Dec18At530pmId);
 
-    const earlierUpdateIndexAfter = getIndex(
-      results,
-      '46a76c10-5bbd-ef11-b8e9-001dd805523c',
-    );
+    expect(earlierUpdateIndexBefore < laterUpdateIndexBefore).to.be.true;
+    expect(laterUpdateIndexAfter < earlierUpdateIndexAfter).to.be.true;
+  });
+
+  it('sorts by oldest lastUpdate', () => {
+    const firstDateBeforeSort = new Date(flatInquiries[0].lastUpdate);
+    expect(firstDateBeforeSort.getDate()).to.equal(12);
+
+    // Sorts by date
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      sortOrder: filterAndSort.sortOptions.lastUpdate.oldest,
+    });
+    const firstDateAfterSort = new Date(results[0].lastUpdate);
+    expect(firstDateAfterSort.getDate()).to.equal(2);
+
+    // Sorts by time (2 items updated on same day)
+    const getIndex = (arr, id) => arr.findIndex(item => item.id === id);
+
+    const laterUpdateIndexBefore = getIndex(flatInquiries, Dec18At420pmId);
+    const earlierUpdateIndexBefore = getIndex(flatInquiries, Dec18At530pmId);
+    const earlierUpdateIndexAfter = getIndex(results, Dec18At420pmId);
+    const laterUpdateIndexAfter = getIndex(results, Dec18At530pmId);
 
     expect(earlierUpdateIndexBefore < laterUpdateIndexBefore).to.be.true;
     expect(laterUpdateIndexAfter < earlierUpdateIndexAfter).to.be.true;
