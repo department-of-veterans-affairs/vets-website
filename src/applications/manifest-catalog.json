@@ -263,9 +263,9 @@
     },
     {
       "directoryPath": "src/applications/edu-benefits/0989",
-      "appName": "22-0989 Entitlement restoration",
+      "appName": "22-0989 Request education benefit entitlement restoration online",
       "entryName": "0989-edu-benefits",
-      "rootUrl": "/forms/0989"
+      "rootUrl": "/forms/22-0989/request-education-benefit-entitlement-restoration"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0994",
@@ -416,12 +416,6 @@
       "appName": "Income Limits",
       "entryName": "income-limits",
       "rootUrl": "/health-care/income-limits"
-    },
-    {
-      "directoryPath": "src/applications/ivc-champva/10-10D",
-      "appName": "10-10d Application for CHAMPVA benefits",
-      "entryName": "10-10D",
-      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-10d-extended",
