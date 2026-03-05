@@ -30,7 +30,7 @@ import {
 import { useItemPageGuard } from './useItemPageGuard';
 import ArrayBuilderCancelButton from './ArrayBuilderCancelButton';
 import {
-  scrollAndFocusAlert,
+  scrollAndFocusPage,
   focusOnHeader,
   defaultSummaryPageScrollAndFocusTarget,
   getArrayUrlSearchParams,
@@ -46,17 +46,6 @@ import {
 export default function ArrayBuilderInternalLoopPage(itemPageProps) {
   /** @type {CustomPageType} */
   function CustomPage(props) {
-    const [pageSubmitted, setPageSubmitted] = useState(false);
-    const [editingIndex, setEditingIndex] = useState(props.data?.length === 0);
-    const [editingInitialData, setEditingInitialData] = useState(null);
-    const [removingIndex, setRemovingIndex] = useState(false);
-    const [isAddingNewItem, setIsAddingNewItem] = useState(false);
-    const [addAnotherValue, setAddAnotherValue] = useState(null);
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [showSuccessAlertText, setShowSuccessAlertText] = useState(false);
-
-    const editWrapperRef = useRef(null);
-
     const arrayBuilderProps = itemPageProps;
     const {
       arrayPath,
@@ -72,19 +61,31 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
     const { arrayPathKeys, required } = nestedArrayOptions;
 
     const dataKey = arrayPathKeys?.slice(-1)?.[0] || arrayPath;
-    const radioKey = `view:${dataKey}_add_another`;
-    const data = props.data?.[dataKey] || [];
+    const dataArray = props.data?.[dataKey] || [];
+
+    const [pageSubmitted, setPageSubmitted] = useState(false);
+    const [editingIndex, setEditingIndex] = useState(false);
+    const [editingInitialData, setEditingInitialData] = useState(null);
+    const [currentData, setCurrentData] = useState(null);
+    const [removingIndex, setRemovingIndex] = useState(false);
+    const [isAddingNewItem, setIsAddingNewItem] = useState(false);
+    const [addAnotherValue, setAddAnotherValue] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [showSuccessAlertText, setShowSuccessAlertText] = useState(false);
+
+    const editWrapperRef = useRef(null);
 
     useEffect(
       () => {
         // Show add flow when the array is empty
-        if (data.length === 0) {
+        if (dataArray.length === 0) {
           setEditingIndex(0);
+          setCurrentData({});
           setIsAddingNewItem(true);
         }
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [data.length],
+      [dataArray.length],
     );
 
     useEffect(
@@ -100,13 +101,14 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
       () => {
         // Focus on success alert - item removed or updated
         if (showSuccessAlertText) {
-          scrollAndFocusAlert();
+          scrollAndFocusPage();
         }
       },
       [showSuccessAlertText],
     );
 
     const { fullData, pagePerItemIndex } = props;
+    const radioKey = `view:${dataKey}_add_another`;
     const searchParams = getArrayUrlSearchParams();
     const isEdit = !!searchParams.get('edit');
     const isAdd = !!searchParams.get('add');
@@ -116,7 +118,7 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
     const uiSchema = (props.uiSchema || {})[dataKey] || {};
     const schema = (props.schema || {}).properties?.[dataKey] || {};
 
-    const isRequired = required?.(data);
+    const isRequired = required?.(dataArray);
     const uiOptions = uiSchema?.['ui:options'] || {};
 
     const nestedNounSingular = nestedArrayOptions?.nounSingular || 'item';
@@ -165,10 +167,10 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
       nestedArrayOptions.maxItems || schema.maxItems,
       props.data,
     );
-    const hasMaxItems = data.length >= (maxItemValue || Infinity);
+    const hasMaxItems = dataArray.length >= (maxItemValue || Infinity);
 
     const isIncomplete = indx =>
-      nestedArrayOptions.isItemIncomplete?.(data?.[indx]) || null;
+      nestedArrayOptions.isItemIncomplete?.(dataArray?.[indx]) || null;
 
     // Duplicate checks not included in this MVP
     // const { checkForDuplicates, renderDuplicateModal } = useDuplicateChecks({
@@ -181,6 +183,7 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
      * @param {array} changedData - array of all data from nested form page
      */
     const handleChange = changedData => {
+      setCurrentData(changedData);
       props.onChange(set([dataKey, editingIndex], changedData, props.data));
     };
 
@@ -192,7 +195,8 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
     const handleEdit = (event, index) => {
       event.preventDefault();
       setEditingIndex(index);
-      setEditingInitialData(data[index]);
+      setEditingInitialData(dataArray[index]);
+      setCurrentData(dataArray[index]);
       scrollToTop();
       setTimeout(() => {
         const focusableElement = getFocusableElements(
@@ -209,8 +213,12 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
      * Setting isAddingNewItem is a flag to
      */
     const handleAdd = () => {
-      setEditingIndex(data.length);
+      setEditingIndex(dataArray.length);
+      setCurrentData({});
       setIsAddingNewItem(true);
+      // Clear add another value to prevent accidentally adding another entry
+      // after return to the summary page
+      setAddAnotherValue('');
     };
 
     /**
@@ -223,14 +231,21 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
         setRemovingIndex(indexToRemove);
       } else {
         // Filter the local data array to remove the item
-        const newItems = data.filter((val, index) => index !== indexToRemove);
+        const newItems = dataArray.filter(
+          (val, index) => index !== indexToRemove,
+        );
         props.onChange({
           ...(get([arrayPath, pagePerItemIndex], props.fullData) || {}),
           [dataKey]: newItems,
         });
 
         setShowSuccessAlertText(
-          getInternalText('alertItemDeleted', data, props.data, indexToRemove),
+          getInternalText(
+            'alertItemDeleted',
+            dataArray,
+            props.data,
+            indexToRemove,
+          ),
         );
         setRemovingIndex(false);
       }
@@ -299,19 +314,25 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
         }, 100);
       } else {
         setShowSuccessAlertText(
-          getInternalText('alertItemUpdated', data, props.data, editingIndex),
+          getInternalText(
+            'alertItemUpdated',
+            dataArray,
+            props.data,
+            editingIndex,
+          ),
         );
       }
 
       setEditingIndex(false);
       setIsAddingNewItem(false);
+      setCurrentData(null);
       setPageSubmitted(false);
     };
 
     /**
      * Handle submission of the summary page, and internal form pages based on
      * the state flags within this component. We're not using URL search
-     * parameters
+     * parameters to hopefully simplify this nested array logic
      * @param {Event} event
      */
     const handleSubmit = event => {
@@ -319,19 +340,29 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
       setPageSubmitted(true);
       hideMessageAlert();
 
+      /* Checking full nested array data on summary page (not editing/adding),
+       * or check the current page data
+       */
+      const hasIncompleteItem =
+        editingIndex === false
+          ? dataArray.some((_item, index) => isIncomplete(index))
+          : nestedArrayOptions.isItemIncomplete?.(currentData);
+
+      const focusAlertOrReturnToSummary = () => {
+        if (hasIncompleteItem) {
+          scrollAndFocusPage();
+        } else {
+          submitPage();
+        }
+      };
+
       // handleSubmit is called while editing a page with errors, so prevent
       // submission and don't do these summary page submission tasks
-      if (editingIndex === false || isAddingNewItem) {
-        const hasIncompleteItem = data.some((_item, index) =>
-          isIncomplete(index),
-        );
-
+      if (isAddingNewItem) {
+        focusAlertOrReturnToSummary();
+      } else if (editingIndex === false) {
         if (hasMaxItems) {
-          if (hasIncompleteItem) {
-            scrollAndFocusAlert();
-          } else {
-            submitPage();
-          }
+          focusAlertOrReturnToSummary();
           return;
         }
 
@@ -345,13 +376,11 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
             break;
 
           case 'N':
-            if (hasIncompleteItem) {
-              scrollAndFocusAlert();
-            } else if (data.length === 0 && isRequired) {
+            if (dataArray.length === 0 && isRequired) {
               // Field is required, jump straight to editing index 0 entry
               setEditingIndex(0);
             } else {
-              submitPage();
+              focusAlertOrReturnToSummary();
             }
             break;
 
@@ -360,10 +389,11 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
               setPageSubmitted(false);
             } else if (isRequired) {
               setErrorMessage('Select yes or no');
-              scrollAndFocusAlert();
+              scrollAndFocusPage();
             }
             setEditingIndex(false);
             setIsAddingNewItem(false);
+            setCurrentData(null);
         }
       } else {
         scrollToFirstError();
@@ -381,7 +411,7 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
     const handleConfirmCancel = () => {
       if (isAddingNewItem) {
         // Remove last (added) item
-        const updatedData = data.filter(
+        const updatedData = dataArray.filter(
           (_val, index) => index !== editingIndex,
         );
         props.onChange(set([dataKey], updatedData, props.data));
@@ -393,7 +423,8 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
       // Let cancel continue if used on the nested array summary page, or
       // cancelling leaving the array empty, but not while adding or editing a
       // nested array item leaving the array with at least one item
-      const letCancelContinue = editingIndex === false || data.length === 0;
+      const letCancelContinue =
+        editingIndex === false || dataArray.length === 0;
 
       setIsAddingNewItem(false);
       setEditingIndex(false);
@@ -449,7 +480,13 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
             {props.contentBeforeButtons}
             <NavButtons
               goBack={handleGoBack}
-              goForward={handleSubmit}
+              // Only call handleSubmit on continue when adding a new item,
+              // otherwise the error messages won't display
+              goForward={
+                editingIndex === false && !isAddingNewItem
+                  ? handleSubmit
+                  : undefined
+              }
               submitToContinue
               useWebComponents={props.formOptions?.useWebComponentForNavigation}
             />
@@ -495,7 +532,7 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
         <SchemaForm
           name={props.name}
           title={props.title}
-          data={data[editingIndex]}
+          data={currentData}
           appStateData={props.appStateData}
           schema={schema?.additionalItems || schema?.properties || {}}
           uiSchema={uiSchema.items || {}}
@@ -556,10 +593,10 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
 
           {/* Nested summary page view */}
           <ul className="vads-u-margin-top--2 vads-u-padding--0">
-            {data.map((item, itemIndex) => {
+            {dataArray.map((item, itemIndex) => {
               const itemName = getInternalText(
                 'getItemName',
-                data[itemIndex],
+                dataArray[itemIndex],
                 props.fullData,
                 itemIndex,
               );
@@ -567,10 +604,9 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
                 <li key={itemIndex} style={{ listStyleType: 'none' }}>
                   <va-card
                     id={`${props.name}_${itemIndex}`}
-                    class={`vads-u-margin-bottom--2 vads-u-padding--2 ${
-                      isIncomplete(itemIndex) ? 'has-incomplete-item-error' : ''
-                    }`}
+                    class="vads-u-margin-bottom--2 vads-u-padding--2"
                     data-index={itemIndex}
+                    data-error={isIncomplete(itemIndex) ? 'true' : 'false'}
                   >
                     <Element name={`card_${itemIndex}`} />
                     {isIncomplete(itemIndex) && (
@@ -581,7 +617,7 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
                     <Heading className="vads-u-font-size--h5 vads-u-margin-top--2">
                       {getInternalText(
                         'getItemName',
-                        data[itemIndex],
+                        dataArray[itemIndex],
                         props.fullData,
                         itemIndex,
                       )}
@@ -589,7 +625,7 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
                     <div className="vads-u-flex--fill">
                       {getInternalText(
                         'cardDescription',
-                        data[itemIndex],
+                        dataArray[itemIndex],
                         props.fullData,
                         itemIndex,
                       )}
@@ -602,7 +638,7 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
                           >
                             {getText(
                               'cardItemMissingInformation',
-                              data[itemIndex],
+                              dataArray[itemIndex],
                               props.fullData,
                               itemIndex,
                             )}
@@ -645,20 +681,20 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
           data-dd-action-name="Delete Modal"
           modalTitle={getInternalText(
             'deleteTitle',
-            data[removingIndex],
-            data,
+            dataArray[removingIndex],
+            dataArray,
             removingIndex,
           )}
           primaryButtonText={getInternalText(
             'deleteYes',
-            data[removingIndex],
-            data,
+            dataArray[removingIndex],
+            dataArray,
             removingIndex,
           )}
           secondaryButtonText={getInternalText(
             'deleteNo',
-            data[removingIndex],
-            data,
+            dataArray[removingIndex],
+            dataArray,
             removingIndex,
           )}
           onCloseEvent={handleCloseRemoveModal}
@@ -670,9 +706,9 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
             <div>
               {getInternalText(
                 'deleteDescription',
-                data[removingIndex],
-                // data,
-                data,
+                dataArray[removingIndex],
+                // dataArray,
+                dataArray,
                 removingIndex,
               )}
             </div>
@@ -684,7 +720,7 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
             or interactable. */}
         {!hasMaxItems &&
           nestedArrayOptions.useLinkInsteadOfYesNo && (
-            <div className={data?.length ? 'vads-u-margin-y--2' : ''}>
+            <div className={dataArray?.length ? 'vads-u-margin-y--2' : ''}>
               <va-link-action
                 class="wc-pattern-array-builder wc-pattern-array-builder-summary-add-link vads-web-component-pattern"
                 text={
@@ -708,7 +744,7 @@ export default function ArrayBuilderInternalLoopPage(itemPageProps) {
               }
               hint={
                 schema.maxItems
-                  ? `You can add ${schema.maxItems - data.length} items.`
+                  ? `You can add ${schema.maxItems - dataArray.length} items.`
                   : ''
               }
               required={isRequired}

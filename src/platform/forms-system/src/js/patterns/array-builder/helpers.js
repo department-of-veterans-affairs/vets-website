@@ -16,6 +16,7 @@ import {
   dispatchDuplicateItemError,
 } from './ArrayBuilderEvents';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
+import { webComponentList } from '../../web-component-fields/webComponentList';
 
 // Previously set to '_metadata', but upon saving, the Ruby gem 'olivebranch'
 // converts this to 'Metadata', then upon returning to the form, this key is
@@ -445,13 +446,17 @@ export const focusOnHeader = (checkMinimalHeader = isMinimalHeaderPath) => {
   });
 };
 
+const webComponentWithError = webComponentList
+  .map(selector => `${selector}[error]`)
+  .join(', ');
 /**
- * Focus on incomplete or max items alert on submission
+ * Focus on incomplete fields, or max items alert on nested array page
+ * submission
  * @param {Object} options
  * @param {boolean} options.skipMaxItemsAlert - If true, will skip focusing on
  * the max items alert, and only focus on the incomplete item alert
  */
-export const scrollAndFocusAlert = ({
+export const scrollAndFocusPage = ({
   skipMaxItemsAlert = true,
   doc = document,
 } = {}) => {
@@ -459,8 +464,8 @@ export const scrollAndFocusAlert = ({
     const selectors = [
       'va-alert[closeable]', // success alert
       skipMaxItemsAlert ? '' : 'va-alert[status="warning"]', // max items warning
-      '.has-incomplete-item-error va-alert', // incomplete item error
-      'va-radio[error]', // radio button error
+      'va-card[data-error="true"] va-alert', // incomplete item error
+      webComponentWithError, // focusable web component with an error
     ]
       .filter(Boolean)
       .join(', ');
@@ -468,9 +473,17 @@ export const scrollAndFocusAlert = ({
     scrollTo(selectors);
 
     const el = doc.querySelector(selectors);
+    const tag = el?.tagName.toLowerCase() || '';
 
-    if (el?.tagName === 'VA-RADIO') {
-      focusElement('input', null, el);
+    // Focus on the first focusable element on the page, and then within the web
+    // component if it's not an alert
+    if (tag.startsWith('va-') && tag !== 'va-alert') {
+      focusElement(
+        // tabbale elements
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        null,
+        el,
+      );
     } else {
       focusElement(el);
     }
