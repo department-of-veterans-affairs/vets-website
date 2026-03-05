@@ -25,6 +25,10 @@ export {
 } from './assistance-with-activities';
 export { blindnessSchema, blindnessUiSchema } from './blindness';
 export {
+  blindnessDetailsSchema,
+  blindnessDetailsUiSchema,
+} from './blindness-details';
+export {
   nursingHomeCareSchema,
   nursingHomeCareUiSchema,
 } from './nursing-home-care';

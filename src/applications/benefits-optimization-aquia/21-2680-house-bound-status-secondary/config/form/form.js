@@ -22,6 +22,8 @@ import {
   assistanceWithActivitiesUiSchema,
   blindnessSchema,
   blindnessUiSchema,
+  blindnessDetailsSchema,
+  blindnessDetailsUiSchema,
   nursingHomeCareSchema,
   nursingHomeCareUiSchema,
   benefitPaymentsManagementSchema,
@@ -156,6 +158,13 @@ const formConfig = {
           title: 'Blindness',
           uiSchema: blindnessUiSchema,
           schema: blindnessSchema,
+        },
+        blindnessDetails: {
+          path: 'blindness-details',
+          title: 'Blindness',
+          uiSchema: blindnessDetailsUiSchema,
+          schema: blindnessDetailsSchema,
+          depends: formData => formData?.isLegallyBlind === true,
         },
         nursingHomeCare: {
           path: 'nursing-home-care',
