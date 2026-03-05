@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 151,
+  "totalApplications": 152,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -382,6 +382,12 @@
       "rootUrl": "/manage-va-debt/request-debt-help-form-5655"
     },
     {
+      "directoryPath": "src/applications/form-renderer",
+      "appName": "form-renderer",
+      "entryName": "form-renderer",
+      "rootUrl": "/my-va/submissions"
+    },
+    {
       "directoryPath": "src/applications/fry-dea",
       "appName": "Fry/DEA — VA Education Benefits For Survivors And Dependents",
       "entryName": "fry-dea",
@@ -572,12 +578,6 @@
       "appName": "Dashboard",
       "entryName": "dashboard",
       "rootUrl": "/my-va"
-    },
-    {
-      "directoryPath": "src/applications/personalization/form-renderer",
-      "appName": "form-renderer",
-      "entryName": "form-renderer",
-      "rootUrl": "/my-va/submissions"
     },
     {
       "directoryPath": "src/applications/personalization/profile",
