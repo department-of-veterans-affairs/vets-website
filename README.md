@@ -369,17 +369,13 @@ Several applications on VA.gov use Mapbox for mapping functionality. For local d
 
 **Local development setup:**
 
-Create a `.env` file in the root of `vets-website` and add the following environment variables. For local development, you can use the same dev token for all entries:
+Create a `.env` file in the root of `vets-website` and add your token:
 
 ```
 MAPBOX_TOKEN=<your-dev-token>
-MAPBOX_TOKEN_FACILITY_LOCATOR=<your-dev-token>
-MAPBOX_TOKEN_STATIC_PAGES=<your-dev-token>
-MAPBOX_TOKEN_GI=<your-dev-token>
-MAPBOX_TOKEN_ASK_VA=<your-dev-token>
-MAPBOX_TOKEN_CAREGIVERS=<your-dev-token>
-MAPBOX_TOKEN_REPRESENTATIVE_SEARCH=<your-dev-token>
 ```
+
+This single token is used as the fallback for all Mapbox-consuming applications. Each app checks for an app-specific override first (e.g., `MAPBOX_TOKEN_FACILITY_LOCATOR`), then falls back to `MAPBOX_TOKEN`. For local development, the base token is all you need.
 
 The `.env` file is already configured to work with dotenv for webpack. **Ensure that the `.env` file is in `.gitignore` and take care not to expose any tokens in public commits.**
 
