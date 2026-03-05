@@ -8,6 +8,7 @@
 | Watch  | yarn watch --env entry=survivors-benefits |
 | Mock API | yarn mock-api --responses src/applications/survivors-benefits/tests/fixtures/mocks/local-mock-responses.js | 
 | Unit tests | yarn test:unit --app-folder survivors-benefits --log-level all |
+| Coverage | yarn test:coverage-app survivors-benefits |
 
 ## Authentication
 To see the form as either an authenticated/unauthenticated user, paste one of the following in your browser's console.
