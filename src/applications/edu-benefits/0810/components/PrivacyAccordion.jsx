@@ -10,7 +10,7 @@ export default function PrivacyAccordion() {
         <p>
           VA will not disclose information collected on this form to any source
           other than what has been authorized under the Privacy Act of 1974 or
-          title 38, Code of Federal Regulations 1.576 for routine uses (i.e., VA
+          title 38, Code of Federal Regulations 1.576 for routine uses (e.g., VA
           sends educational forms or letters with a veteran’s identifying
           information to the veteran’s school or training establishment to (1)
           assist the veteran in the completion of claims forms, or (2) for VA to
