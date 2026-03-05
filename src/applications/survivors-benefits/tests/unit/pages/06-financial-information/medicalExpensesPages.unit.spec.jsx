@@ -113,11 +113,13 @@ describe('Medical Expenses Pages', () => {
 
   it('should show the correct getItemName output', () => {
     const { text } = options;
-    const itemWithName = { paymentRecipient: 'Dr. Smith' };
-    const itemWithoutName = {};
+    const itemWithName = { provider: 'Dr. Smith' };
+    const itemWithoutName = { provider: '' };
 
-    expect(text.getItemName(itemWithName)).to.equal('Dr. Smith');
-    expect(text.getItemName(itemWithoutName)).to.equal('Medical expense');
+    expect(text.getItemName(itemWithName, 0)).to.equal('Expense 1: Dr. Smith');
+    expect(text.getItemName(itemWithoutName, 0)).to.equal(
+      'Expense 1: No provider name',
+    );
   });
   it('should show the correct cardDescription output', () => {
     const { text } = options;
