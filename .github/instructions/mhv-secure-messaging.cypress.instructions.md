@@ -43,25 +43,26 @@ site.login(); // Mock user login, sets up session and feature flags
 
 ### Intercept Path Must Match FE Routing Logic
 
-When the FE conditionally routes to different API endpoints, the Cypress intercept path **must match what the FE actually calls**, not what seems logically correct from a business perspective.
+The FE always sends messages (including RX renewals) through the same `POST /messaging/messages` endpoint. The backend auto-routes to the upstream MHV renewal endpoint when `prescription_id` is present in the payload.
 
 ```javascript
-// ✅ CORRECT — FE routes based on isRxRenewalDraft, which is true when rxError is set
-// Even for the 404 error path, the renewal endpoint is used
-cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES_RENEWAL}`, {}).as('sentMessage');
+// ✅ CORRECT — All message sends (including renewals) use the same endpoint
+cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
 ```
 
+For renewal tests, assert that `prescription_id` is present in the request body:
 ```javascript
-// ❌ WRONG — The test logic says "no redirectPath" so you might think standard endpoint,
-// but isRxRenewalDraft is still true (derived from rxError), so FE calls renewal endpoint
-cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
+cy.wait('@sentMessage')
+  .its('request')
+  .then(req => {
+    expect(req.body.prescription_id).to.eq('24654491');
+  });
 ```
 
 **Key intercept paths:**
 | Path | Constant | When used |
 |---|---|---|
-| `/messaging/messages` | `Paths.INTERCEPT.MESSAGES` | Standard message send |
-| `/messaging/messages/renewal` | `Paths.INTERCEPT.MESSAGES_RENEWAL` | RX renewal send (ALL renewal paths, including 404/error) |
+| `/messaging/messages` | `Paths.INTERCEPT.MESSAGES` | All message sends (standard and renewal) |
 
 ## Web Component Selectors
 

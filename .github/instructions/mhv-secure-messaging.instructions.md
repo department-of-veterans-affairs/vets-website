@@ -152,9 +152,10 @@ applyTo: "src/applications/mhv-secure-messaging/**"
 - Detection: `renewalPrescription?.prescriptionId || rxError`
 - State: `prescription` reducer (`{ renewalPrescription, redirectPath, error, isLoading }`)
 - **Fetch API**: `api/RxApi.js` — `GET /my_health/v1/prescriptions/{prescriptionId}`
-- **Send API**: `api/SmApi.js` — `createRenewalMessage()` → `POST /my_health/v1/messaging/messages/renewal`
+- **Send API**: `api/SmApi.js` — `createMessage()` → `POST /my_health/v1/messaging/messages`
   - `prescription_id` sent as a **top-level field** in the message payload (not embedded in body)
-  - `sendMessage` action routes to `createRenewalMessage` when 4th arg `isRxRenewal` is `true`
+  - vets-api backend auto-routes to upstream MHV renewal endpoint when `prescription_id` is present
+  - `sendMessage` action always calls `createMessage()`; `isRxRenewal` (4th arg) is used only for Datadog logging and analytics
   - 5th arg `suppressSuccessAlert` controls whether the success alert is dispatched — `true` suppresses it, `false` shows it
   - ComposeForm passes `!!(isRxRenewalDraft && redirectPath)` as the 5th arg, so the alert is only suppressed when both a renewal AND a redirect path are present
   - vets-api Faraday camelcase middleware transforms `prescription_id` → `prescriptionId` for upstream MHV API

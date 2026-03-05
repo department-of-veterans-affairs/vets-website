@@ -516,7 +516,7 @@ describe('messages actions', () => {
       });
   });
 
-  it('should call renewal endpoint when isRxRenewal is true', async () => {
+  it('should call standard messages endpoint when isRxRenewal is true', async () => {
     const store = mockStore();
     mockApiRequest(messageResponse);
     const messageData = {
@@ -537,7 +537,8 @@ describe('messages actions', () => {
     );
 
     const fetchUrl = global.fetch.firstCall.args[0];
-    expect(fetchUrl).to.include('/messaging/messages/renewal');
+    expect(fetchUrl).to.include('/messaging/messages');
+    expect(fetchUrl).to.not.include('/messaging/messages/renewal');
   });
 
   it('should call standard endpoint when isRxRenewal is false', async () => {

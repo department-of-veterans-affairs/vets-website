@@ -7,7 +7,6 @@ import {
   deleteMessageThread as deleteMessageCall,
   moveMessageThread as moveThreadCall,
   createMessage,
-  createRenewalMessage,
   createReplyToMessage,
   getMessageThreadWithFullBody,
 } from '../api/SmApi';
@@ -187,9 +186,7 @@ export const sendMessage = (
     typeof message === 'string' ? JSON.parse(message) : message;
   const startTimeMs = Date.now();
   try {
-    const response = isRxRenewal
-      ? await createRenewalMessage(message, attachments, ohTriageGroup)
-      : await createMessage(message, attachments, ohTriageGroup);
+    const response = await createMessage(message, attachments, ohTriageGroup);
 
     if (!suppressSuccessAlert) {
       dispatch(
