@@ -199,7 +199,7 @@ describe('CreateFolderInline component', () => {
   });
 
   it('calls onConfirm with folder name when valid name is submitted', async () => {
-    const onConfirm = sandbox.stub().callsFake((name, callback) => callback());
+    const onConfirm = sandbox.stub().resolves();
     const onFolderCreated = sandbox.stub();
     const { getByTestId, container } = setup({ onConfirm, onFolderCreated });
 
@@ -216,7 +216,7 @@ describe('CreateFolderInline component', () => {
   });
 
   it('calls onFolderCreated callback after successful folder creation', async () => {
-    const onConfirm = sandbox.stub().callsFake((name, callback) => callback());
+    const onConfirm = sandbox.stub().resolves();
     const onFolderCreated = sandbox.stub();
     const { getByTestId, container } = setup({ onConfirm, onFolderCreated });
 
@@ -233,7 +233,7 @@ describe('CreateFolderInline component', () => {
   });
 
   it('does not call onFolderCreated if it is null', async () => {
-    const onConfirm = sandbox.stub().callsFake((name, callback) => callback());
+    const onConfirm = sandbox.stub().resolves();
     const { getByTestId, container } = setup({
       onConfirm,
       onFolderCreated: null,
@@ -252,7 +252,7 @@ describe('CreateFolderInline component', () => {
   });
 
   it('resets form state after successful folder creation', async () => {
-    const onConfirm = sandbox.stub().callsFake((name, callback) => callback());
+    const onConfirm = sandbox.stub().resolves();
     const { getByTestId, queryByTestId, container } = setup({ onConfirm });
 
     fireEvent.click(getByTestId('create-new-folder'));
