@@ -4,7 +4,7 @@ import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minim
 
 export const DefaultCardHeader = ({ level = '3' }) => {
   const isMinimalHeader = isMinimalHeaderPath();
-  const HeaderTag = isMinimalHeader ? 'h3' : `h4`;
+  const HeaderTag = isMinimalHeader ? 'h2' : `h4`;
   const cardHeaderLevel = isMinimalHeader ? '3' : level;
 
   return (

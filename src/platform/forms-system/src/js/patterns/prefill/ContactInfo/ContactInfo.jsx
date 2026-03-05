@@ -292,7 +292,7 @@ export const ContactInfoBase = ({
   let headerLevel = contactSectionHeadingLevel;
   if (!headerLevel) {
     if (isMinimalHeader) {
-      headerLevel = '3';
+      headerLevel = '2';
     } else if (onReviewPage) {
       headerLevel = '5';
     } else {
