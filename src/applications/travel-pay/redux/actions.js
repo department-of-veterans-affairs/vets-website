@@ -582,6 +582,40 @@ const deleteDocumentFailure = (error, documentId) => ({
   documentId,
 });
 
+export function deleteDocument(claimId, documentId) {
+  return async dispatch => {
+    dispatch(deleteDocumentStart(documentId));
+
+    try {
+      if (!documentId) {
+        throw new Error('Missing document id');
+      }
+
+      const options = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const documentUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/claims/${claimId}/documents/${documentId}`;
+      await apiRequest(documentUrl, options);
+
+      // Fetch the complete complex claim details and load expenses into store
+      await dispatch(getComplexClaimDetails(claimId));
+
+      // Dispatch success only after claim details are fetched
+      dispatch(deleteDocumentSuccess(documentId));
+      return { id: documentId };
+    } catch (error) {
+      dispatch(deleteDocumentFailure(error, documentId));
+      throw error;
+    }
+  };
+}
+
 export function updateExpenseDeleteDocument(
   claimId,
   documentId,
