@@ -239,6 +239,11 @@ export const Alerts = {
     CANNOT_SAVE:
       "We're sorry. We couldn't save your changes. Try saving again.",
   },
+  OHSyncStatus: {
+    HEADLINE: "We're still adding some of your messages here",
+    BODY:
+      "We're working to add all of your messages to your inbox. They should be available soon.",
+  },
   Headers: {
     HIDE_ALERT: 'HIDE_ALERT',
   },
