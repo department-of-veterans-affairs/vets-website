@@ -57,14 +57,23 @@ const FrequentlyAskedQuestions = ({
             You can print a copy of your Veteran Status Card and cut it out to
             keep in your wallet.
           </p>
-          <va-link
-            filetype="PDF"
-            // exception to eslint: the url is a dynamically generated blob url
-            // eslint-disable-next-line no-script-url
-            href="javascript:void(0)"
-            text="Print your Veteran Status Card (PDF)"
-            onClick={createPdf}
-          />
+          {cveVeteranStatusNewService ? (
+            <va-link
+              download
+              // eslint-disable-next-line no-script-url
+              href="javascript:void(0)"
+              text="Print your Veteran Status Card (PDF)"
+              onClick={createPdf}
+            />
+          ) : (
+            <va-link
+              filetype="PDF"
+              // eslint-disable-next-line no-script-url
+              href="javascript:void(0)"
+              text="Print your Veteran Status Card (PDF)"
+              onClick={createPdf}
+            />
+          )}
           {pdfError && (
             <div className="vads-u-margin-top--4">
               <PDFErrorAlert />
