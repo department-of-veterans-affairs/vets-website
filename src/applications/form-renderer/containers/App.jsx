@@ -48,10 +48,6 @@ export default function App({ params }) {
               ) : (
                 <div>Could not load submission.</div>
               )}
-              <FormRenderer
-                config={response.template}
-                data={response.submission}
-              />
             </Toggler.Enabled>
             <Toggler.Disabled>
               {/* If the feature flag is off, redirect user to /my-va */}
