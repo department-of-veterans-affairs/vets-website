@@ -1,7 +1,0 @@
-{
-  "appName": "form-renderer",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "form-renderer",
-  "rootUrl": "/my-va/submissions",
-  "productId": "faf1058b-c7f6-445d-9601-64c84c3e96a8"
-}
