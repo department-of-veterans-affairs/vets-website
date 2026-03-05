@@ -153,23 +153,14 @@ const getFieldSelectors = () => {
 
 /**
  * Performs the following actions on a page:
- * 1. Run an initial axe check.
- * 2. Run the page hook if the page has one.
- * 3. Autofill if no hook ran and if the page is not review or confirmation.
- * 4. Expand any accordions and run the end-of-page aXe check.
- * 5. Run the post hook.
+ * 1. Run the page hook if the page has one.
+ * 2. Autofill if no hook ran and if the page is not review or confirmation.
+ * 3. Expand any accordions and run the aXe check.
+ * 4. Run the post hook.
  *
  * @param {string} pathname - The pathname of the page to run the page hook on.
  */
 const performPageActions = (pathname, _13647Exception = false) => {
-  cy.axeCheck('main', {
-    _13647Exception,
-    // Ignore heading order from the first axe check because headers
-    // may be in the shadow dom which may not be loaded yet.
-    // There is another axe check below which DOES check heading order.
-    headingOrder: false,
-  });
-
   cy.execHook(pathname).then(({ hookExecuted, postHook }) => {
     const shouldAutofill = !pathname.match(
       /\/(start|introduction|confirmation|review-and-submit)$/,

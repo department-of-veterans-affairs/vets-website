@@ -8,7 +8,6 @@ import {
   currencyUI,
   currencySchema,
   currentOrPastDateSchema,
-  fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
@@ -27,14 +26,13 @@ import {
   fullNameUIHelper,
   generateDeleteDescription,
   isDefined,
-  updatedIsRecipientInfoIncomplete,
+  isRecipientInfoIncomplete,
   otherRecipientRelationshipTypeUI,
-  updatedRecipientNameRequired,
+  recipientNameRequired,
   requireExpandedArrayField,
-  updatedResolveRecipientFullName,
+  resolveRecipientFullName,
   sharedRecipientRelationshipBase,
   sharedYesNoOptionsBase,
-  showUpdatedContent,
 } from '../../../helpers';
 import {
   custodianRelationshipLabels,
@@ -53,20 +51,18 @@ export const options = {
   nounPlural: 'waived income',
   required: false,
   isItemIncomplete: item =>
-    updatedIsRecipientInfoIncomplete(item) ||
+    isRecipientInfoIncomplete(item) ||
     !isDefined(item.payer) ||
     !isDefined(item.waivedGrossMonthlyIncome), // include all required fields here
   text: {
     summaryTitle: 'Review  waived income',
-    summaryTitleWithoutItems: showUpdatedContent() ? 'Waived income' : null,
-    summaryDescriptionWithoutItems: showUpdatedContent()
-      ? WaivedIncomeSummaryDescription
-      : null,
+    summaryTitleWithoutItems: 'Waived income',
+    summaryDescriptionWithoutItems: WaivedIncomeSummaryDescription,
     getItemName: (item, index, formData) => {
       if (!isDefined(item?.recipientRelationship)) {
         return undefined;
       }
-      const fullName = updatedResolveRecipientFullName(item, formData);
+      const fullName = resolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} waived income from ${item.payer}`;
     },
@@ -120,9 +116,9 @@ export const options = {
 // Important: only one summary page should ever be displayed at a time.
 
 // Shared summary page text
-const updatedTitleNoItems =
+const titleNoItems =
   'Do you or your dependents plan to waive any income in the next 12 months?';
-const updatedTitleWithItems = 'Do you have more waived income to report?';
+const titleWithItems = 'Do you have more waived income to report?';
 const summaryPageTitle = 'Waived income';
 const incomeRecipientPageTitle = 'Waived income relationship';
 const yesNoOptionLabels = {
@@ -136,24 +132,6 @@ const yesNoOptionLabels = {
  * @returns {PageSchema}
  */
 const summaryPage = {
-  uiSchema: {
-    'view:isAddingIncomeReceiptWaivers': arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'Did you or your dependents waive or expect to waive any receipt of income in the next 12 months?',
-        hint: 'If yes, you’ll need to report at least one waived income',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-      },
-      {
-        title: 'Do you have more waived income to report?',
-        ...sharedYesNoOptionsBase,
-      },
-    ),
-  },
   schema: {
     type: 'object',
     properties: {
@@ -168,14 +146,14 @@ const veteranSummaryPage = {
     'view:isAddingIncomeReceiptWaivers': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -187,13 +165,13 @@ const spouseSummaryPage = {
     'view:isAddingIncomeReceiptWaivers': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint: 'Your dependents include children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -211,7 +189,7 @@ const childSummaryPage = {
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -223,14 +201,14 @@ const custodianSummaryPage = {
     'view:isAddingIncomeReceiptWaivers': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -242,23 +220,18 @@ const parentSummaryPage = {
     'view:isAddingIncomeReceiptWaivers': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
   },
-};
-
-const updatedSharedRecipientRelationshipBase = {
-  ...sharedRecipientRelationshipBase,
-  title: 'Who has waived income to report?',
 };
 
 /** @returns {PageSchema} */
@@ -269,7 +242,7 @@ const veteranIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      ...updatedSharedRecipientRelationshipBase,
+      ...sharedRecipientRelationshipBase,
       labels: Object.fromEntries(
         Object.entries(relationshipLabels).filter(
           ([key]) => key !== 'PARENT' && key !== 'CUSTODIAN',
@@ -306,7 +279,7 @@ const spouseIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      ...updatedSharedRecipientRelationshipBase,
+      ...sharedRecipientRelationshipBase,
       labels: spouseRelationshipLabels,
       descriptions: Object.fromEntries(
         Object.entries(relationshipLabelDescriptions).filter(
@@ -339,7 +312,7 @@ const custodianIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      ...updatedSharedRecipientRelationshipBase,
+      ...sharedRecipientRelationshipBase,
       labels: custodianRelationshipLabels,
       descriptions: Object.fromEntries(
         Object.entries(relationshipLabelDescriptions).filter(
@@ -374,7 +347,7 @@ const parentIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      ...updatedSharedRecipientRelationshipBase,
+      ...sharedRecipientRelationshipBase,
       labels: parentRelationshipLabels,
       descriptions: {
         SPOUSE: 'The Veteran’s other parent should file a separate claim',
@@ -398,41 +371,10 @@ const parentIncomeRecipientPage = {
 };
 
 /** @returns {PageSchema} */
-const nonVeteranIncomeRecipientPage = {
-  uiSchema: {
-    ...arrayBuilderItemFirstPageTitleUI({
-      title: incomeRecipientPageTitle,
-      nounSingular: options.nounSingular,
-    }),
-    recipientRelationship: radioUI({
-      title: 'Who has waived income to report?',
-      ...sharedYesNoOptionsBase,
-      labels: relationshipLabels,
-    }),
-    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
-      'incomeReceiptWaivers',
-    ),
-    'ui:options': {
-      ...requireExpandedArrayField('otherRecipientRelationshipType'),
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      recipientRelationship: radioSchema(Object.keys(relationshipLabels)),
-      otherRecipientRelationshipType: { type: 'string' },
-    },
-    required: ['recipientRelationship'],
-  },
-};
-
-/** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Name of waived income recipient'),
-    recipientName: showUpdatedContent()
-      ? fullNameUIHelper()
-      : fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
+    recipientName: fullNameUIHelper(),
   },
   schema: {
     type: 'object',
@@ -540,109 +482,76 @@ export const incomeReceiptWaiverPages = arrayBuilderPages(
     incomeReceiptWaiverPagesVeteranSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'waived-income-summary-veteran',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'VETERAN',
+      depends: formData => formData.claimantType === 'VETERAN',
       uiSchema: veteranSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     incomeReceiptWaiverPagesSpouseSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'waived-income-summary-spouse',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'SPOUSE',
+      depends: formData => formData.claimantType === 'SPOUSE',
       uiSchema: spouseSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     incomeReceiptWaiverPagesChildSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'waived-income-summary-child',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'CHILD',
+      depends: formData => formData.claimantType === 'CHILD',
       uiSchema: childSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     incomeReceiptWaiverPagesCustodianSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'waived-income-summary-custodian',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+      depends: formData => formData.claimantType === 'CUSTODIAN',
       uiSchema: custodianSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     incomeReceiptWaiverPagesParentSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'waived-income-summary-parent',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'PARENT',
+      depends: formData => formData.claimantType === 'PARENT',
       uiSchema: parentSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
-    incomeReceiptWaiverPagesSummary: pageBuilder.summaryPage({
-      title: 'Waived income',
-      path: 'waived-income-summary',
-      depends: () => !showUpdatedContent(),
-      uiSchema: summaryPage.uiSchema,
-      schema: summaryPage.schema,
-    }),
     incomeReceiptWaiverVeteranRecipientPage: pageBuilder.itemPage({
-      ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription claimantType="VETERAN" />
-      ) : null,
+      ContentBeforeButtons: <DependentDescription claimantType="VETERAN" />,
       title: incomeRecipientPageTitle,
       path: 'waived-income/:index/veteran-income-recipient',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'VETERAN',
+      depends: formData => formData.claimantType === 'VETERAN',
       uiSchema: veteranIncomeRecipientPage.uiSchema,
       schema: veteranIncomeRecipientPage.schema,
     }),
     incomeReceiptWaiverSpouseRecipientPage: pageBuilder.itemPage({
-      ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription claimantType="SPOUSE" />
-      ) : null,
+      ContentBeforeButtons: <DependentDescription claimantType="SPOUSE" />,
       title: incomeRecipientPageTitle,
       path: 'waived-income/:index/spouse-income-recipient',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'SPOUSE',
+      depends: formData => formData.claimantType === 'SPOUSE',
       uiSchema: spouseIncomeRecipientPage.uiSchema,
       schema: spouseIncomeRecipientPage.schema,
     }),
     incomeReceiptWaiverCustodianRecipientPage: pageBuilder.itemPage({
-      ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription claimantType="CUSTODIAN" />
-      ) : null,
+      ContentBeforeButtons: <DependentDescription claimantType="CUSTODIAN" />,
       title: incomeRecipientPageTitle,
       path: 'waived-income/:index/custodian-income-recipient',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+      depends: formData => formData.claimantType === 'CUSTODIAN',
       uiSchema: custodianIncomeRecipientPage.uiSchema,
       schema: custodianIncomeRecipientPage.schema,
     }),
     incomeReceiptWaiverParentRecipientPage: pageBuilder.itemPage({
-      ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription claimantType="PARENT" />
-      ) : null,
+      ContentBeforeButtons: <DependentDescription claimantType="PARENT" />,
       title: incomeRecipientPageTitle,
       path: 'waived-income/:index/parent-income-recipient',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'PARENT',
+      depends: formData => formData.claimantType === 'PARENT',
       uiSchema: parentIncomeRecipientPage.uiSchema,
       schema: parentIncomeRecipientPage.schema,
-    }),
-    incomeReceiptWaiverNonVeteranRecipientPage: pageBuilder.itemPage({
-      title: incomeRecipientPageTitle,
-      path: 'waived-income/:index/relationship',
-      depends: () => !showUpdatedContent(),
-      uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
-      schema: nonVeteranIncomeRecipientPage.schema,
     }),
     // When claimantType is 'CHILD' we skip showing the recipient page entirely
     // To preserve required data, we auto-set recipientRelationship to 'CHILD'
     waivedIncomeChildRecipientNamePage: pageBuilder.itemPage({
       title: 'Waived income recipient name',
       path: 'waived-income/:index/recipient-name-updated',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'CHILD',
+      depends: formData => formData.claimantType === 'CHILD',
       uiSchema: {
         ...recipientNamePage.uiSchema,
         'ui:options': {
@@ -664,8 +573,8 @@ export const incomeReceiptWaiverPages = arrayBuilderPages(
       title: 'Waived income recipient name',
       path: 'waived-income/:index/recipient-name',
       depends: (formData, index) =>
-        (!showUpdatedContent() || formData.claimantType !== 'CHILD') &&
-        updatedRecipientNameRequired(formData, index, 'incomeReceiptWaivers'),
+        formData.claimantType !== 'CHILD' &&
+        recipientNameRequired(formData, index, 'incomeReceiptWaivers'),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),

@@ -39,7 +39,6 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
 
     mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles({
-      vaOnlineSchedulingImmediateCareAlert: true,
       vaOnlineSchedulingUseVpg: true,
     });
     mockVamcEhrApi({ isCerner: true });
@@ -96,9 +95,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
 
             // Act
             cy.login(mockUser);
-            AppointmentListPageObject.visit().scheduleAppointment(
-              'Schedule a new appointment',
-            );
+            AppointmentListPageObject.visit().scheduleAppointment();
             UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
             TypeOfCarePageObject.assertUrl()
               .assertAddressAlert({ exist: false })
@@ -172,9 +169,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
 
             // Act
             cy.login(mockUser);
-            AppointmentListPageObject.visit().scheduleAppointment(
-              'Schedule a new appointment',
-            );
+            AppointmentListPageObject.visit().scheduleAppointment();
             UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
             TypeOfCarePageObject.assertUrl()
               .assertAddressAlert({ exist: false })
@@ -258,9 +253,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
 
             // Act
             cy.login(mockUser);
-            AppointmentListPageObject.visit().scheduleAppointment(
-              'Schedule a new appointment',
-            );
+            AppointmentListPageObject.visit().scheduleAppointment();
             UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
             TypeOfCarePageObject.assertUrl()
               .assertAddressAlert({ exist: false })
@@ -338,9 +331,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
 
             // Act
             cy.login(mockUser);
-            AppointmentListPageObject.visit().scheduleAppointment(
-              'Schedule a new appointment',
-            );
+            AppointmentListPageObject.visit().scheduleAppointment();
             UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
             TypeOfCarePageObject.assertUrl()
               .assertAddressAlert({ exist: false })
@@ -424,9 +415,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
 
             // Act
             cy.login(mockUser);
-            AppointmentListPageObject.visit().scheduleAppointment(
-              'Schedule a new appointment',
-            );
+            AppointmentListPageObject.visit().scheduleAppointment();
             UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
             TypeOfCarePageObject.assertUrl()
               .assertAddressAlert({ exist: false })
@@ -497,9 +486,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
 
             // Act
             cy.login(mockUser);
-            AppointmentListPageObject.visit().scheduleAppointment(
-              'Schedule a new appointment',
-            );
+            AppointmentListPageObject.visit().scheduleAppointment();
             UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
             TypeOfCarePageObject.assertUrl()
               .assertAddressAlert({ exist: false })

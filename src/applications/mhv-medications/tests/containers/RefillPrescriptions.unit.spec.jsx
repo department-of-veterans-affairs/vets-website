@@ -177,7 +177,7 @@ describe('Refill Prescriptions Component', () => {
     button.click();
   });
 
-  it('calls datadogRum.addAction with facilityIds when request refill button is clicked', async () => {
+  it('calls datadogRum.addAction with facilityId when request refill button is clicked', async () => {
     const addActionSpy = sandbox.spy(datadogRum, 'addAction');
     const screen = setup();
     const checkbox = await screen.findByTestId(
@@ -192,7 +192,7 @@ describe('Refill Prescriptions Component', () => {
     expect(
       addActionSpy.calledWith(
         dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON,
-        { facilityIds: ['989'] },
+        { facilityId: ['989'] },
       ),
     ).to.be.true;
   });

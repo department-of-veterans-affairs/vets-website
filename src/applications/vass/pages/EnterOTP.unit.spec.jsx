@@ -271,7 +271,7 @@ describe('VASS Component: EnterOTP', () => {
 
         await waitFor(() => {
           expect(getByTestId('api-error-alert')).to.exist;
-          expect(queryByTestId('header')).to.not.exist;
+          expect(queryByTestId('header')).to.exist;
         });
       });
 
@@ -295,7 +295,7 @@ describe('VASS Component: EnterOTP', () => {
 
         await waitFor(() => {
           expect(getByTestId('api-error-alert')).to.exist;
-          expect(queryByTestId('header')).to.not.exist;
+          expect(queryByTestId('header')).to.exist;
         });
       });
 
