@@ -927,7 +927,7 @@ describe('focusOnHeader', () => {
   });
 });
 
-describe('scrollAndFocusAlert', async () => {
+describe('scrollAndFocusPage', async () => {
   let focusStub;
   let scrollStub;
   beforeEach(() => {
@@ -957,10 +957,10 @@ describe('scrollAndFocusAlert', async () => {
           </va-alert>
         )}
         {incompleteAlert && (
-          <div className="has-incomplete-item-error">
+          <va-card data-error="true">
             <va-alert status="error">Incomplete item</va-alert>
             )}
-          </div>
+          </va-card>
         )}
         {radioError ? <va-radio error="test" /> : <va-radio />}
       </div>,
@@ -968,7 +968,7 @@ describe('scrollAndFocusAlert', async () => {
 
   it('should scroll to and focus on nothing, but also not throw an error', async () => {
     const { container } = renderEls({ radioError: false });
-    helpers.scrollAndFocusAlert({ doc: container });
+    helpers.scrollAndFocusPage({ doc: container });
 
     await waitFor(() => {
       expect(scrollStub.calledOnce).to.be.true;
@@ -979,7 +979,7 @@ describe('scrollAndFocusAlert', async () => {
 
   it('should scroll to and focus on the success alert', async () => {
     const { container } = renderEls({ successAlert: true });
-    helpers.scrollAndFocusAlert({ doc: container });
+    helpers.scrollAndFocusPage({ doc: container });
 
     await waitFor(() => {
       expect(scrollStub.calledOnce).to.be.true;
@@ -992,11 +992,12 @@ describe('scrollAndFocusAlert', async () => {
 
   it('should scroll to and focus on the incomplete alert', async () => {
     const { container } = renderEls({ incompleteAlert: true });
-    helpers.scrollAndFocusAlert({ doc: container });
+    helpers.scrollAndFocusPage({ doc: container });
 
     await waitFor(() => {
       expect(scrollStub.calledOnce).to.be.true;
       expect(focusStub.calledOnce).to.be.true;
+
       const el = focusStub.args[0][0];
       expect(el.tagName).to.equal('VA-ALERT');
       expect(el.getAttribute('status')).to.equal('error');
@@ -1005,7 +1006,7 @@ describe('scrollAndFocusAlert', async () => {
 
   it('should scroll to and focus on nothing if skipping max items alert', async () => {
     const { container } = renderEls({ maxAlert: true, radioError: false });
-    helpers.scrollAndFocusAlert({ doc: container, skipMaxItemsAlert: true });
+    helpers.scrollAndFocusPage({ doc: container, skipMaxItemsAlert: true });
 
     await waitFor(() => {
       expect(scrollStub.calledOnce).to.be.true;
@@ -1017,7 +1018,7 @@ describe('scrollAndFocusAlert', async () => {
 
   it('should scroll to and focus on the max items alert', async () => {
     const { container } = renderEls({ maxAlert: true });
-    helpers.scrollAndFocusAlert({ doc: container, skipMaxItemsAlert: false });
+    helpers.scrollAndFocusPage({ doc: container, skipMaxItemsAlert: false });
 
     await waitFor(() => {
       expect(scrollStub.calledOnce).to.be.true;
@@ -1030,12 +1031,12 @@ describe('scrollAndFocusAlert', async () => {
 
   it('should scroll to and focus on the va-radio error', async () => {
     const { container } = renderEls({ maxAlert: true });
-    helpers.scrollAndFocusAlert({ doc: container });
+    helpers.scrollAndFocusPage({ doc: container });
 
     await waitFor(() => {
       expect(scrollStub.calledOnce).to.be.true;
       expect(focusStub.calledOnce).to.be.true;
-      expect(focusStub.args[0][0]).to.equal('input');
+      expect(focusStub.args[0][0]).to.contain('input');
     });
   });
 });

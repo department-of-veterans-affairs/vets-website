@@ -271,7 +271,7 @@ describe('ArrayBuilderInternalLoopPage', () => {
     expect($('h3', container).textContent).to.eq('Edit conditions treated');
     const cards = $$('va-card', container);
     expect(cards).to.have.lengthOf(3);
-    expect($$('.has-incomplete-item-error', container)).to.have.lengthOf(2);
+    expect($$('va-card[data-error="true"]', container)).to.have.lengthOf(2);
     expect($('va-radio[required]', container)).to.exist;
     expect($('va-button[submit]', container)).to.exist;
   });
@@ -288,7 +288,7 @@ describe('ArrayBuilderInternalLoopPage', () => {
     expect($('h3', container).textContent).to.eq('Edit conditions treated');
     const cards = $$('va-card', container);
     expect(cards).to.have.lengthOf(3);
-    const errors = $$('.has-incomplete-item-error', container);
+    const errors = $$('va-card[data-error="true"]', container);
     expect(errors).to.have.lengthOf(2);
     expect(errors[0].textContent).to.contain('INCOMPLETE');
     expect($('va-radio', container)).to.exist;
