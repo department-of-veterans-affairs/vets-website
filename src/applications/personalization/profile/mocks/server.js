@@ -25,6 +25,7 @@ const powerOfAttorney = require('./endpoints/power-of-attorney');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const vetVerificationStatus = require('./endpoints/vet-verification-status');
+const veteranStatusCard = require('./endpoints/veteran-status-card');
 const fullName = require('./endpoints/full-name');
 const {
   baseUserTransitionAvailabilities,
@@ -131,10 +132,19 @@ const responses = {
             vreCutoverNotice: true,
             vrePrefillName: true,
             mhvEmailConfirmation: true,
+            cveVeteranStatusNewService: true,
           }),
         ),
       secondsOfDelay,
     );
+  },
+  // New veteran status card endpoint (shared service)
+  'GET /v0/veteran_status_card': (_req, res) => {
+    return res.json(veteranStatusCard.eligible);
+    // Uncomment below for ineligible/alert response scenarios:
+    // return res.json(veteranStatusCard.dishonorableDischarge);
+    // return res.json(veteranStatusCard.personNotFound);
+    // return res.json(veteranStatusCard.systemError);
   },
   'GET /v0/user': (_req, res) => {
     const [shouldReturnUser, updatedUserResponse] = handleUserUpdate(

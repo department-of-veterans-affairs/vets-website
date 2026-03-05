@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -56,6 +56,9 @@ function App({
 
   const loadingDependents = dependents?.loading;
   const isIntroPage = location?.pathname?.endsWith('/introduction');
+  const [wasResumed] = useState(
+    location?.pathname?.endsWith('/resume') || false,
+  );
 
   // Determine form flow for v3 release
   // toggle enabled, new form => v3 flow
@@ -195,9 +198,13 @@ function App({
   // If a user is not logged in OR
   // a user is logged in, but hasn't gone through va file number validation
   // redirect them to the introduction page.
+  // Checking `wasResumed` to fix a bug where using the My VA continue `/resume`
+  // link should jump straight into the form; instead the internal URL is
+  // causing this check to redirect back to the intro page
   if (
-    !isLoggedIn ||
-    (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
+    (!isLoggedIn ||
+      (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)) &&
+    !wasResumed
   ) {
     document.location.replace(manifest.rootUrl);
     return (

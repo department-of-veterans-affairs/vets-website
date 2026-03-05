@@ -1,14 +1,18 @@
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 import { GA_PREFIX } from '../../utils/constants';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getPageTitle } from '../newAppointmentFlow';
 import {
   routeToNextAppointmentPage,
   startNewAppointmentFlow,
 } from '../redux/actions';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import MigrationInProgressError from './MigrationInProgressError';
+import MigrationWarning from './MigrationWarning';
 
 const pageKey = 'urgentCareInformation';
 function handleClick(history, dispatch) {
@@ -24,10 +28,193 @@ function handleClick(history, dispatch) {
   };
 }
 
+/**
+ * Function to get the migration schedule for the current phase.
+ * @param {Array<Object>} schedules - Migration schedules.
+ * @param {Array<String>} disabledPhases - Phases to query migration array
+ * @returns {Object} A migration schedule or null if not found.
+ */
+function getMigrationSchedule(schedules, disabledPhases) {
+  return (
+    schedules?.find(s => {
+      return disabledPhases.includes(s.phases.current);
+    }) || null
+  );
+}
+
+/**
+ * Function to get array of facility ids from a given migration schedule.
+ * @param {Object} migrationSchedule -  Migration schedule
+ * @returns {Array<String>} An array of sorted facility ids or null.
+ */
+function getMigrationScheduleFacilityIds(migrationSchedule) {
+  if (migrationSchedule) {
+    return migrationSchedule.facilities
+      .map(facility => facility.id || facility.facilityId)
+      .sort();
+  }
+  return [];
+}
+
+/**
+ * Function to get patient facility ids.
+ * @param {Array} patientFacilities - Patient facility information array
+ * @returns {Array} Array of patient facility ids or null.
+ */
+function getPatientFacilityIds(patientFacilities) {
+  return (
+    patientFacilities
+      ?.map(facility => {
+        return facility.facilityId;
+      })
+      .sort() || null
+  );
+}
+
+/**
+ * Function to determine if user is registered at Oracle Health facilities. When exclusivity flag
+ * is set, exclusivity is determined by:
+ * - All patient registered facility ids are included in the migration schedule facility table
+ *
+ * @param {Object} arguments
+ * @param {Object} arguments.migrationSchedule - Migration schedule.
+ * @param {Array<Object>} arguments.patientFacilities - Patient registered facilities.
+ * @param {Boolean} arguments.isExclusive - Flag to check for exclusivity.
+ * @returns {Boolean} true or false
+ */
+function checkRegistration({
+  migrationSchedule,
+  patientFacilities,
+  isExclusive = false,
+}) {
+  if (!patientFacilities) return false;
+
+  const migratingFacilitiesIds = getMigrationScheduleFacilityIds(
+    migrationSchedule,
+  );
+
+  const patientFacilityIds = getPatientFacilityIds(patientFacilities);
+
+  if (isExclusive) {
+    // Check if all patient registered facility ids are included in the migration schedule facility table
+    return patientFacilityIds
+      ?.map(patientFacilityId =>
+        migratingFacilitiesIds?.some(
+          migratingFacilitiesId => migratingFacilitiesId === patientFacilityId,
+        ),
+      )
+      .every(Boolean);
+  }
+
+  const hasMigratingFacilities = patientFacilityIds
+    ?.map(patientFacilityId =>
+      migratingFacilitiesIds?.some(
+        migratingFacilitiesId => migratingFacilitiesId === patientFacilityId,
+      ),
+    )
+    .some(Boolean);
+  const hasNonMigratingFacilities = patientFacilityIds
+    ?.map(patientFacilityId =>
+      migratingFacilitiesIds?.every(
+        migratingFacilitiesId => migratingFacilitiesId !== patientFacilityId,
+      ),
+    )
+    .some(Boolean);
+
+  return hasMigratingFacilities && hasNonMigratingFacilities;
+}
+
+/**
+ * Function to determine is the 'Start scheduling' button should be displayed.
+ *
+ * @param {Boolean} isInWarningPhase
+ * @param {Boolean} isInErrorPhase
+ * @param {Boolean} isMixedRegistration
+ * @param {Boolean} isExclusiveRegistration
+ * @returns {Boolean}
+ */
+function shouldDisplay(
+  isInWarningPhase,
+  isInErrorPhase,
+  isMixedRegistration,
+  isErrorExclusiveRegistration,
+) {
+  let isDisplay = false;
+
+  // Display start scheduling button when...
+  if (!isInErrorPhase && !isInWarningPhase) {
+    isDisplay = true;
+  }
+
+  if (isInWarningPhase === true) {
+    isDisplay = true;
+  }
+
+  if (isInErrorPhase && isMixedRegistration && !isErrorExclusiveRegistration) {
+    isDisplay = true;
+  }
+
+  // This occurs when in the migration phase but user is not registered at any of the
+  // migration facilities.
+  if (isErrorExclusiveRegistration === false && isMixedRegistration === false) {
+    isDisplay = true;
+  }
+
+  return isDisplay;
+}
+
 export default function UrgentCareInformationPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+  const patientFacilities = useSelector(selectPatientFacilities);
+  const migrationSchedules = useSelector(
+    state => state.user.profile.migrationSchedules,
+  );
+
+  // Get warning migration schedule for the given phases.
+  const warningSchedule = getMigrationSchedule(migrationSchedules, [
+    'p0',
+    'p1',
+  ]);
+
+  // Get error migration schedule for the given phases.
+  const errorSchedule = getMigrationSchedule(migrationSchedules, [
+    'p2',
+    'p3',
+    'p4',
+    'p5',
+    'p6',
+  ]);
+
+  // Check for exclusive registration in the warning migration schedule
+  const isWarningExclusiveRegistration = checkRegistration({
+    migrationSchedule: warningSchedule,
+    patientFacilities,
+    isExclusive: true,
+  });
+
+  // Check for exclusive registration in the error migration schedule
+  const isErrorExclusiveRegistration = checkRegistration({
+    migrationSchedule: errorSchedule,
+    patientFacilities,
+    isExclusive: true,
+  });
+
+  // Warning phase is determined by the user being registered (exclusively or not) at a facility in
+  // the warning migration phase.
+  const isInWarningPhase =
+    isWarningExclusiveRegistration ||
+    checkRegistration({
+      migrationSchedule: warningSchedule,
+      patientFacilities,
+    });
+
+  const isMixedRegistration = checkRegistration({
+    migrationSchedule: errorSchedule,
+    patientFacilities,
+  });
+  const isInErrorPhase = isMixedRegistration || isErrorExclusiveRegistration;
 
   useEffect(
     () => {
@@ -43,17 +230,47 @@ export default function UrgentCareInformationPage() {
   return (
     <div>
       <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
-      <p>
-        You can schedule or request non-urgent appointments for future dates.
-      </p>
-      <a
-        className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--3"
-        href="/"
-        onClick={handleClick(history, dispatch)}
+      {isInWarningPhase && (
+        <MigrationWarning
+          facilities={warningSchedule.facilities}
+          startDate={warningSchedule.phases.p2}
+          endDate={warningSchedule.phases.p7}
+        />
+      )}
+      {isInErrorPhase && (
+        <MigrationInProgressError
+          classNames={classNames({ 'vads-u-margin-top--2': isInWarningPhase })}
+          endDate={errorSchedule.phases.p7}
+          facilities={errorSchedule.facilities}
+          isMixedRegistration={isMixedRegistration}
+        />
+      )}
+      {shouldDisplay(
+        isInWarningPhase,
+        isInErrorPhase,
+        isMixedRegistration,
+        isErrorExclusiveRegistration,
+      ) && (
+        <>
+          <p>
+            {' '}
+            You can schedule or request non-urgent appointments for future
+            dates.{' '}
+          </p>
+          <a
+            className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--3"
+            href="/"
+            onClick={handleClick(history, dispatch)}
+          >
+            Start scheduling an appointment
+          </a>
+        </>
+      )}
+      <h2
+        className={classNames('vads-u-font-size--h3', 'vads-u-margin--0', {
+          'vads-u-margin-top--4': isInErrorPhase,
+        })}
       >
-        Start scheduling an appointment
-      </a>
-      <h2 className="vads-u-font-size--h3 vads-u-margin--0">
         If you need help sooner, use one of these urgent communications options:
       </h2>
       <ul>

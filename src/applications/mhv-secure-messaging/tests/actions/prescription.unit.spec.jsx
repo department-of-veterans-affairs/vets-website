@@ -332,6 +332,77 @@ describe('prescription actions', () => {
       expect(loggerSpy.firstCall.args[1].errorStatus).to.equal('404');
       expect(loggerSpy.firstCall.args[1].prescriptionId).to.equal('123');
     });
+
+    it('should dispatch success when prescriptionNumber is null (Oracle Health)', async () => {
+      const prescriptionId = '456';
+      const mockResponse = {
+        data: {
+          attributes: {
+            prescriptionId: 456,
+            prescriptionName: 'METFORMIN HCL 500MG TAB',
+            prescriptionNumber: null,
+            prescriptionSource: 'VA',
+          },
+        },
+      };
+      mockApiRequest(mockResponse);
+
+      const store = mockStore();
+      await store.dispatch(getPrescriptionById(prescriptionId));
+
+      const actions = store.getActions();
+      expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
+        payload: mockResponse.data.attributes,
+      });
+    });
+
+    it('should dispatch error when prescriptionSource is NV (Non-VA medication)', async () => {
+      const prescriptionId = '789';
+      const mockResponse = {
+        data: {
+          attributes: {
+            prescriptionId: 789,
+            prescriptionName: 'Some Non-VA Med',
+            prescriptionNumber: null,
+            prescriptionSource: 'NV',
+          },
+        },
+      };
+      mockApiRequest(mockResponse);
+
+      const store = mockStore();
+      await store.dispatch(getPrescriptionById(prescriptionId));
+
+      const actions = store.getActions();
+      expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
+        payload: 'Non-VA medication',
+      });
+    });
+
+    it('should dispatch error when prescriptionName is null', async () => {
+      const prescriptionId = '999';
+      const mockResponse = {
+        data: {
+          attributes: {
+            prescriptionId: 999,
+            prescriptionName: null,
+            prescriptionSource: 'VA',
+          },
+        },
+      };
+      mockApiRequest(mockResponse);
+
+      const store = mockStore();
+      await store.dispatch(getPrescriptionById(prescriptionId));
+
+      const actions = store.getActions();
+      expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
+        payload: 'Non-VA medication',
+      });
+    });
   });
 
   describe('clearPrescription', () => {

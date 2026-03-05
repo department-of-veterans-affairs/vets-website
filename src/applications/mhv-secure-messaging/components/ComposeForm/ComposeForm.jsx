@@ -66,6 +66,7 @@ import {
 import SelectedRecipientTitle from './SelectedRecipientTitle';
 import AddYourMedicationInfoWarning from './AddYourMedicationInfoWarning';
 import useNavigationError from '../../hooks/useNavigationError';
+import AlertBackgroundBox from '../shared/AlertBackgroundBox';
 
 const ComposeForm = props => {
   const { pageTitle, draft, recipients, signature } = props;
@@ -1007,6 +1008,8 @@ const ComposeForm = props => {
       <h1 className="page-title vads-u-margin-top--0" ref={headerRef}>
         {pageTitle}
       </h1>
+
+      <AlertBackgroundBox closeable className="vads-u-margin-y--1 va-alert" />
 
       <DowntimeNotification
         appTitle={downtimeNotificationParams.appTitle}

@@ -52,7 +52,6 @@ describe('Submit transformer', () => {
 
     const submitForm = ({ overrides = {}, disableAnalytics = false } = {}) => {
       const baseData = {
-        'view:champvaEnableClaimResubmitQuestion': true,
         applicantAddress: { street: '' },
         certifierAddress: { street: '' },
       };

@@ -17,13 +17,11 @@ import hasMedicalExpenses from './hasMedicalExpenses';
 import { medicalExpensesPages } from './medicalExpensesPages';
 import medicalExpenses from './medicalExpenses';
 import homeAcreageValue from './homeAcreageValue';
-import additionalDocuments from './additionalDocuments';
 
 export default {
   title: 'Financial information',
   pages: {
     totalNetWorth,
-    additionalDocuments,
     netWorthEstimation,
     netWorthEstimationFormNeeded,
     transferredAssets,

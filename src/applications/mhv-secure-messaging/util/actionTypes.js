@@ -121,4 +121,8 @@ export const Actions = {
     GET_LIST: 'SM_TRIAGE_TEAM_GET_LIST',
     GET_LIST_ERROR: 'SM_TRIAGE_TEAM_GET_LIST_ERROR',
   },
+  OHSyncStatus: {
+    GET: 'SM_OH_SYNC_STATUS_GET',
+    GET_ERROR: 'SM_OH_SYNC_STATUS_GET_ERROR',
+  },
 };

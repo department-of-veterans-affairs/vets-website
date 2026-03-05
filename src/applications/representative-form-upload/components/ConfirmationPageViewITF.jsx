@@ -42,14 +42,7 @@ export const ConfirmationPageViewITF = ({
   );
 
   return (
-    <div>
-      <div className="print-only">
-        <img
-          src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-          alt="VA logo"
-          width="300"
-        />
-      </div>
+    <section className="itf-confirmation">
       {submitDate && (
         <va-alert status="success" ref={alertRef}>
           <h2 slot="headline">We recorded the intent to file</h2>
@@ -69,13 +62,22 @@ export const ConfirmationPageViewITF = ({
           {last}, {first}
         </h2>
         {formattedAddress && <div>{formattedAddress}</div>}
-        <p className="vads-u-margin-bottom--0">
-          <b>Benefit:</b> {benefitType && benefitCopy(benefitType)}
-          <br />
-          <b>ITF Date:</b> {formattedSubmitDate} (Expires in 365 days)
-        </p>
+        <ul className="itf-confirmation__list">
+          <li>
+            <p>
+              <strong>Benefit:</strong>
+            </p>
+            <p> {benefitType && benefitCopy(benefitType)}</p>
+          </li>
+          <li>
+            <p>
+              <strong>TF Date:</strong>
+            </p>
+            <p role="text">{formattedSubmitDate} (Expires in 365 days)</p>
+          </li>
+        </ul>
       </va-card>
-      <section>
+      <div>
         <h2 className="vads-u-margin-top--4">What to expect</h2>
         <va-process-list>
           <va-process-list-item header="We'll confirm the intent to file was recorded" />
@@ -90,7 +92,7 @@ export const ConfirmationPageViewITF = ({
             </p>
           </va-process-list-item>
         </va-process-list>
-      </section>
+      </div>
       <va-link-action
         href="/representative/submissions"
         label="Go back to submissions"
@@ -98,7 +100,7 @@ export const ConfirmationPageViewITF = ({
         text="Go back to submissions"
         type="primary"
       />
-    </div>
+    </section>
   );
 };
 
