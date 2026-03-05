@@ -36,6 +36,7 @@ import PrintDownload from '../components/shared/PrintDownload';
 
 import { useFetchPrescriptionsList } from '../hooks/MedicationsList/useFetchPrescriptionsList';
 import { useFocusManagement } from '../hooks/MedicationsList/useFocusManagement';
+import useOracleHealthAlertTracking from '../hooks/useOracleHealthAlertTracking';
 import { usePageTitle } from '../hooks/usePageTitle';
 import useRxListExport from '../hooks/useRxListExport';
 
@@ -88,6 +89,14 @@ const Prescriptions = () => {
   const [searchParams] = useSearchParams();
   const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');
   const deleteDraftSuccess = searchParams.get('draftDeleteSuccess');
+
+  // Track Oracle Health transition alerts at the page level
+  useOracleHealthAlertTracking({
+    warningActionName:
+      dataDogActionNames.oracleHealthTransition.T45_WARNING_ALERT_DISPLAYED,
+    errorActionName:
+      dataDogActionNames.oracleHealthTransition.T3_ERROR_ALERT_DISPLAYED,
+  });
 
   // Track when user returns from Rx Renewal SM flow
   useEffect(

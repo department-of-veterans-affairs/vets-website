@@ -13,9 +13,7 @@ describe('VAOS schedule flow', () => {
   beforeEach(() => {
     vaosSetup();
     mockAppointmentsGetApi({ response: [] });
-    mockFeatureToggles({
-      vaOnlineSchedulingImmediateCareAlert: true,
-    });
+    mockFeatureToggles();
     mockVamcEhrApi();
   });
 
@@ -26,9 +24,7 @@ describe('VAOS schedule flow', () => {
     // Act
     cy.login(mockUser);
 
-    AppointmentListPageObject.visit().scheduleAppointment(
-      'Schedule a new appointment',
-    );
+    AppointmentListPageObject.visit().scheduleAppointment();
 
     UrgentCareInformationPageObject.assertUrl()
       .clickButton({

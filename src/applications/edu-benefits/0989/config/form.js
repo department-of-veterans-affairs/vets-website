@@ -9,6 +9,10 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import PresubmitInfo from '../components/PresubmitInfo';
+import submitForm from './submitForm';
+import transform from './transform';
+
 import schoolWasClosed from '../pages/schoolWasClosed';
 import oldSchoolNameAndAddress from '../pages/oldSchoolNameAndAddress';
 import eligibilityWarning from '../pages/eligibilityWarning';
@@ -22,6 +26,9 @@ import enrolledAtNewSchool from '../pages/enrolledAtNewSchool';
 import newSchoolNameAndProgram from '../pages/newSchoolNameAndProgram';
 import isUsingTeachoutAgreement from '../pages/isUsingTeachoutAgreement';
 import newSchoolGrants12OrMoreCredits from '../pages/newSchoolGrants12OrMoreCredits';
+import schoolDidTransferCredits from '../pages/schoolDidTransferCredits';
+import lastDateOfAttendance from '../pages/lastDateOfAttendance';
+import attestation from '../pages/attestation';
 
 import remarks from '../pages/remarks';
 
@@ -36,8 +43,8 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: SUBMIT_URL,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: submitForm,
+  transformForSubmit: transform,
   trackingPrefix: '0989-edu-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -62,10 +69,21 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for entitlement restoration.',
   },
+  customText: {
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
+  },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
+  preSubmitInfo: {
+    CustomComponent: PresubmitInfo,
+    required: true,
+    statementOfTruth: {
+      fullNamePath: 'applicantName',
+    },
+  },
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
@@ -188,6 +206,27 @@ const formConfig = {
           schema: newSchoolGrants12OrMoreCredits.schema,
           depends: formData =>
             !!formData.schoolWasClosed && !!formData.enrolledAtNewSchool,
+        },
+        schoolDidTransferCredits: {
+          path: 'school-credits-transfer',
+          title: 'Transfer credits from NCD schools',
+          uiSchema: schoolDidTransferCredits.uiSchema,
+          schema: schoolDidTransferCredits.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        lastDateOfAttendance: {
+          path: 'last-date-of-attendance',
+          title: 'Last date of attendance',
+          uiSchema: lastDateOfAttendance.uiSchema,
+          schema: lastDateOfAttendance.schema,
+          depends: formData => !!formData.schoolWasClosed,
+        },
+        attestation: {
+          path: 'attestation',
+          title: 'Attestation of Hours Transferred',
+          uiSchema: attestation.uiSchema,
+          schema: attestation.schema,
+          depends: formData => !!formData.schoolWasClosed,
         },
       },
     },

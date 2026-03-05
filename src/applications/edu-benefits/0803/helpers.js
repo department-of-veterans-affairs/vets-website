@@ -16,7 +16,7 @@ export const transformPhoneNumberObject = (phone = {}) => {
   return base;
 };
 
-export const transformMailingAddress = (addr = {}) => {
+export const transformMailingAddress = addr => {
   const {
     addressType,
     addressLine1,

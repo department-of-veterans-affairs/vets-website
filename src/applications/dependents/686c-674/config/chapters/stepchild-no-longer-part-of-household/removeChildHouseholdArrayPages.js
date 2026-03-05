@@ -308,7 +308,9 @@ export const childAddressPage = {
     address: {
       ...addressUI({
         title: '',
+        omit: ['street3'],
         labels: {
+          street2: 'Apartment or unit number',
           militaryCheckbox:
             'This child lives on a United States military base outside of the U.S.',
         },
@@ -335,7 +337,7 @@ export const childAddressPage = {
   schema: {
     type: 'object',
     properties: {
-      address: addressSchema(),
+      address: addressSchema({ omit: ['street3'] }),
     },
     required: ['address'],
   },

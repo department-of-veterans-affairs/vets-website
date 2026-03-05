@@ -455,3 +455,12 @@ export const submitLaunchMessagingAal = () => {
     }),
   });
 };
+
+export const getOHSyncStatus = () => {
+  return apiRequest(`${apiBasePath}/messaging/messages/oh_sync_status`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+};

@@ -53,6 +53,28 @@ describe('ConfirmationNewDisabilities', () => {
       expect(getByText('Date')).to.exist;
       expect(getByText('January 15, 2020')).to.exist;
     });
+
+    it('should render NEW condition with optional sideOfBody', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            condition: 'test condition',
+            sideOfBody: 'bilateral',
+            cause: 'NEW',
+            primaryDescription: 'Description with date',
+            conditionDate: '2020-01-15',
+          },
+        ],
+      };
+
+      const { getByText } = render(
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
+      );
+
+      expect(getByText('Test Condition, Bilateral')).to.exist;
+      expect(getByText('Date')).to.exist;
+      expect(getByText('January 15, 2020')).to.exist;
+    });
   });
 
   describe('SECONDARY conditions', () => {
@@ -107,6 +129,29 @@ describe('ConfirmationNewDisabilities', () => {
       );
 
       expect(getByText('Secondary With Date')).to.exist;
+      expect(getByText('Date')).to.exist;
+      expect(getByText('March 20, 2021')).to.exist;
+    });
+
+    it('should render SECONDARY condition with optional sideOfBody', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            condition: 'hip sprain',
+            sideOfBody: 'right',
+            cause: 'SECONDARY',
+            conditionDate: '2021-03-20',
+            causedByDisability: 'Primary condition',
+            causedByDisabilityDescription: 'How it was caused',
+          },
+        ],
+      };
+
+      const { getByText } = render(
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
+      );
+
+      expect(getByText('Hip Sprain, Right')).to.exist;
       expect(getByText('Date')).to.exist;
       expect(getByText('March 20, 2021')).to.exist;
     });
@@ -168,6 +213,29 @@ describe('ConfirmationNewDisabilities', () => {
       expect(getByText('Date')).to.exist;
       expect(getByText('June 10, 2019')).to.exist;
     });
+
+    it('should render WORSENED condition with optional sideOfBody', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            condition: 'wrist sprain',
+            sideOfBody: 'left',
+            cause: 'WORSENED',
+            conditionDate: '2019-06-10',
+            worsenedDescription: 'Description in worsened field',
+            worsenedEffects: 'Effects description',
+          },
+        ],
+      };
+
+      const { getByText } = render(
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
+      );
+
+      expect(getByText('Wrist Sprain, Left')).to.exist;
+      expect(getByText('Date')).to.exist;
+      expect(getByText('June 10, 2019')).to.exist;
+    });
   });
 
   describe('VA mistreatment conditions', () => {
@@ -222,6 +290,29 @@ describe('ConfirmationNewDisabilities', () => {
       );
 
       expect(getByText('Va With Date')).to.exist;
+      expect(getByText('Date')).to.exist;
+      expect(getByText('March 15, 2019')).to.exist;
+    });
+
+    it('should render VA condition with optional sideOfBody', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            condition: 'hip fracture',
+            sideOfBody: 'bilateral',
+            cause: 'VA',
+            conditionDate: '2019-03-15',
+            vaMistreatmentDescription: 'Description of incident',
+            vaMistreatmentLocation: 'VA Medical Center',
+          },
+        ],
+      };
+
+      const { getByText } = render(
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
+      );
+
+      expect(getByText('Hip Fracture, Bilateral')).to.exist;
       expect(getByText('Date')).to.exist;
       expect(getByText('March 15, 2019')).to.exist;
     });
