@@ -356,7 +356,6 @@
   "vaOnlineSchedulingRemovePodiatry": "vaos_online_scheduling_remove_podiatry",
   "vaOnlineSchedulingMentalHealthHistoryFiltering": "va_online_scheduling_mental_health_history_filtering",
   "vaOnlineSchedulingAddSubstanceUseDisorder": "va_online_scheduling_add_substance_use_disorder",
-  "vaOnlineSchedulingListViewClinicInfo": "va_online_scheduling_list_view_clinic_info",
   "vaOnlineSchedulingAddOhAvs": "va_online_scheduling_add_OH_avs",
   "vaOnlineSchedulingRemoveFacilityConfigCheck": "va_online_scheduling_remove_facility_config_check",
   "vaOnlineSchedulingUseBrowserTimezone": "va_online_scheduling_use_browser_timezone",
