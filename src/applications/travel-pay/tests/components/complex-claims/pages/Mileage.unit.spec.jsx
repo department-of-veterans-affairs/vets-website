@@ -543,6 +543,70 @@ describe('Complex Claims Mileage - Add', () => {
       expect(modal).to.exist;
     });
   });
+
+  describe('Unsaved changes modal in add mode', () => {
+    let stub;
+
+    beforeEach(() => {
+      stub = sinon.stub(actions, 'setUnsavedChangesModalVisible').returns({
+        type: 'SET_UNSAVED_CHANGES_MODAL_VISIBLE',
+        payload: { visible: true, source: 'expense-back' },
+      });
+    });
+
+    afterEach(() => {
+      stub.restore();
+    });
+
+    it('dispatches setUnsavedChangesModalVisible(true, "expense-back") when back is clicked with unsaved changes', () => {
+      const stateWithUnsavedChanges = {
+        ...getAddState(),
+        travelPay: {
+          ...getAddState().travelPay,
+          complexClaim: {
+            ...getAddState().travelPay.complexClaim,
+            expenses: {
+              ...getAddState().travelPay.complexClaim.expenses,
+              hasUnsavedChanges: true,
+            },
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/`,
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/mileage"
+              element={<Mileage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { initialState: stateWithUnsavedChanges, reducers: reducer },
+      );
+
+      const buttonGroup = $('.travel-pay-button-group');
+      const backButton = buttonGroup.querySelectorAll('va-button')[0];
+      fireEvent.click(backButton);
+
+      expect(stub.calledOnce).to.be.true;
+      expect(stub.calledWith(true, 'expense-back')).to.be.true;
+    });
+
+    it('does not dispatch setUnsavedChangesModalVisible when there are no unsaved changes', () => {
+      renderComponent();
+
+      const buttonGroup = $('.travel-pay-button-group');
+      const backButton = buttonGroup.querySelectorAll('va-button')[0];
+      fireEvent.click(backButton);
+
+      expect(stub.called).to.be.false;
+    });
+  });
 });
 
 describe('Complex Claims Mileage - Edit', () => {
