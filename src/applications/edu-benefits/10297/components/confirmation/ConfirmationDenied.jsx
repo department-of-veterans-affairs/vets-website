@@ -97,11 +97,6 @@ const ConfirmationDenied = ({
         <va-link href="https://ask.va.gov/" external text="Ask VA" />.
       </p>
 
-      <div className="vads-u-margin-top--4">
-        <h2>Need help?</h2>
-        <NeedHelp />
-      </div>
-
       <h2>How to contact us if you have questions</h2>
       <p>
         If you have questions about this form or need help, you can submit a
@@ -115,6 +110,12 @@ const ConfirmationDenied = ({
         type="primary"
         class="vads-u-margin-top--2"
       />
+
+      <div className="vads-u-margin-top--4">
+        <h3>Need help?</h3>
+        <hr className="vads-u-border-color--primary vads-u-margin-y--1" />
+        <NeedHelp />
+      </div>
     </div>
   );
 };
