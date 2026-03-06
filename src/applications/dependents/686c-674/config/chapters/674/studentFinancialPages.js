@@ -19,7 +19,7 @@ export const claimsOrReceivesPensionPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.fullName?.first || 'this student'}\u2019s income`,
+        `${formData?.fullName?.first || 'this student'}’s income`,
       null,
       false,
     ),
@@ -28,7 +28,7 @@ export const claimsOrReceivesPensionPage = {
         'Are you claiming or do you already receive Veterans Pension or Survivors Pension benefits?',
       ),
       'ui:description': generateHelpText(
-        'If yes, we\u2019ll ask you questions about the student\u2019s income. If no, we\u2019ll skip questions about the student\u2019s income',
+        'If yes, we’ll ask you questions about the student’s income. If no, we’ll skip questions about the student’s income',
       ),
       'ui:required': () => true,
     },
@@ -47,7 +47,7 @@ export const studentEarningsPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         `${formData?.fullName?.first ||
-          'this student'}\u2019s income for this school term`,
+          'this student'}’s income for this school term`,
       null,
       false,
     ),
@@ -109,7 +109,7 @@ export const studentFutureEarningsPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         `${formData?.fullName?.first ||
-          'this student'}\u2019s expected income for next year`,
+          'this student'}’s expected income for next year`,
       null,
       false,
     ),
@@ -144,7 +144,7 @@ export const studentAssetsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Value of ${formData?.fullName?.first || 'this student'}\u2019s assets`,
+        `Value of ${formData?.fullName?.first || 'this student'}’s assets`,
     ),
     studentNetworthInformation: {
       savings: {
@@ -160,7 +160,7 @@ export const studentAssetsPage = {
       realEstate: {
         ...currencyUI('Real estate'),
         'ui:description': generateHelpText(
-          'Don\u2019t include your primary residence (the home where you live most of the time)',
+          'Don’t include your primary residence (the home where you live most of the time)',
         ),
       },
       otherAssets: currencyUI('All other assets'),
@@ -204,7 +204,7 @@ export const remarksPage = {
           'this student'}`,
     ),
     remarks: textareaUI(
-      'Is there any other information you\u2019d like to add about this student?',
+      'Is there any other information you’d like to add about this student?',
     ),
   },
   schema: {
