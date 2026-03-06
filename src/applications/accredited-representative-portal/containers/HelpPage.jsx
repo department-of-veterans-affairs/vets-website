@@ -17,15 +17,14 @@ const EmailHelpLink = () => (
     RepresentativePortalHelp@va.gov
   </Link>
 );
-const RepresentationLink = () => (
-  <>
-    <Link
-      to="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
-      className="content-link"
-    >
-      VA Form 21-22
-    </Link>
-  </>
+const RepresentationLink = (additionalText = '') => (
+  <Link
+    to="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
+    className="content-link"
+  >
+    VA Form 21-22
+    {additionalText}
+  </Link>
 );
 
 const HelpPage = title => {
@@ -370,173 +369,96 @@ const HelpPage = title => {
           </va-accordion>
           <h2 id="establishing-representation">Establishing representation</h2>
           <p>
-            You can quickly establish representation with a Veteran by using the
-            portal Representation Requests feature. The portal currently manages
-            requests from Veterans to appoint a Veteran Service Organization
-            (VSO) to represent them.
+            You can quickly establish representation (power of attorney) using
+            the Representation Requests feature in the portal. Within minutes of
+            accepting a request, you’ll have access to the claimant’s eFolder in
+            VBMS.
           </p>
           <va-accordion>
             <va-accordion-item
-              header="Receiving representation requests in the portal"
+              header="Gaining access to the Representation Requests feature"
               id="section-twelve"
               level="3"
             >
               <p>
-                For you to receive a request in the portal, the Veteran needs to
-                submit the online {RepresentationLink()} on VA.gov. They will
-                need to sign in to VA.gov to submit the form. Instruct the
-                Veteran to select you as the accredited representative, and to
-                appoint one of your organizations that accepts online
-                submissions when filling out the online form. Once the Veteran
-                submits the online form, a representation request will populate
-                in the portal and can be reviewed by any representative who is
-                accredited with the appointed VSO.
+                Veterans Service Organizations (VSOs) have to activate the
+                Representation Requests feature for their organization if they
+                want to receive requests in the portal. If you’d like your VSO
+                to activate this feature, ask the VSO manager or certifying
+                official to email us at {EmailHelpLink()}.
               </p>
               <p>
-                <strong>Note:</strong> We encourage you to test completing the
-                online {RepresentationLink()} to understand the Veteran
-                experience.
+                <strong>Note:</strong> This feature is currently not available
+                to claims agents or attorneys. It may become available to them
+                in the future.
               </p>
             </va-accordion-item>
             <va-accordion-item
-              header="Accepting and declining requests"
+              header="Receiving requests in the portal"
               id="section-thirteen"
               level="3"
             >
+              <p>Here’s how to receive requests in the portal:</p>
+
+              <ul>
+                <li>
+                  The Veterans Service Organization (VSO) has to activate the
+                  Representation Requests feature for their organization,{' '}
+                  <strong>and</strong>
+                </li>
+
+                <li>
+                  Claimants need to submit requests using the online{' '}
+                  {RepresentationLink(' (on VA.gov)')}
+                </li>
+              </ul>
+
               <p>
-                After signing in to the portal, you can review a list of
-                representation requests that appoint one of your VSOs. If the
-                Veteran specified an individual representative they would like
-                to work with, the request would include the name of this
-                individual in the preferred representative field.
+                Claimants have to be signed in to VA.gov to submit the online
+                form. They’ll need to select you as the accredited
+                representative, and appoint one of your organizations that has
+                activated the Representation Requests feature in the portal.
+                Once the claimant submits the online form, their representation
+                request will be received in the portal.
               </p>
               <p>
-                The request details show whether the Veteran authorized access
-                to protected medical records and address changes. After
-                reviewing this information, you (or any other representative
-                accredited with the appointed VSO) can accept or decline the
-                request. The portal will then send a notification of the
-                decision to the Veteran. Once you accept representation, you can
-                view the Veteran’s eFolder in VBMS within minutes.
+                Representation requests expire after 60 days. Expired requests
+                are removed from the portal for data security purposes.
               </p>
               <p>
-                To meet additional security standards, representation requests
-                expire after 60 days. Expired requests are removed from the
-                portal for data security purposes.
-              </p>
-              <p>
-                <strong>Note:</strong> The portal only shows requests that were
-                submitted using online {RepresentationLink()}. It will not show
-                requests made through mail, fax, QuickSubmit, or other tools.
-                Also, the portal is the only tool where you can view these
-                online requests.
+                <strong>Note:</strong> The portal doesn’t receive requests
+                submitted by mail, fax, QuickSubmit, or other tools. Also, the
+                portal is the only tool that receives requests that are
+                submitted using online {RepresentationLink(' (on VA.gov)')}.
               </p>
             </va-accordion-item>
             <va-accordion-item
-              header="Gaining access to the Representation Request feature"
+              header="Reviewing, accepting, and declining requests"
               id="section-fourteen"
               level="3"
             >
-              If you’d like access to this feature, ask the VSO manager or
-              certifying official at one or more of your organizations to email
-              us at {EmailHelpLink()}. Organizations must opt in to using this
-              feature for it to be available in the portal for their
-              representatives.
-            </va-accordion-item>
-          </va-accordion>
-          <h2 id="searching-for-claimants-you-represent">
-            Searching for claimants you represent
-          </h2>
-          <p>
-            You can find claimants who have recently requested representation or
-            who have existing representation with you or one of your VSOs.
-          </p>
-          <va-accordion>
-            <va-accordion-item
-              header="How to search using the tool"
-              id="section-fifteen"
-              level="3"
-            >
-              To search for a claimant, you’ll need to enter their first name,
-              last name, date of birth, and Social Security number. Even if you
-              enter the information correctly, you’ll receive a “No result
-              found” message if the individual doesn’t have a recent
-              representation request or existing representation with you or one
-              of your VSOs.
-            </va-accordion-item>
-            <va-accordion-item
-              header="Does the search function check for limited representation?"
-              id="section-sixteen"
-              level="3"
-            >
               <p>
-                The portal doesn’t currently check for limited representation.
-                By limited representation, we mean that the representation is
-                for a specific claim or claims. Check with the claimant or in
-                VBMS for any existing limited representation.
+                The portal shows a list of requests for your Veterans Service
+                Organization (VSO) that have been received in the portal over
+                the last 60 days. The VSO controls whether you can review
+                details for all of their requests, or only the requests where
+                you are the preferred representative.
+              </p>
+
+              <p>
+                Select a request from the list to review its details. The
+                request details will show additional claimant information, and
+                authorization information about protected medical records and
+                change of address. After reviewing the request details, there is
+                an option to accept or decline the request. Follow your
+                organization’s policy about which requests you can accept or
+                decline.
               </p>
               <p>
-                We are exploring search for limited representation as a future
-                enhancement.
-              </p>
-            </va-accordion-item>
-          </va-accordion>
-          <h2 id="submitting-va-forms">Submitting VA forms</h2>
-          <p>
-            There are two methods the portal uses for submissions. Some forms
-            require you to upload a completed PDF to submit. Other forms can be
-            submitted by filling out the required steps in the portal.
-          </p>
-          <p>
-            Prior to submission, the system will verify that you or your
-            Veterans Service Organization (VSO) currently represent the
-            claimant.
-          </p>
-          <va-accordion>
-            <va-accordion-item
-              header="VA Form 21-0966 (Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC)"
-              id="section-seventeen"
-              level="3"
-            >
-              <p>
-                Fill out the required steps in the portal for VA Form 21-0966,
-                and then submit.
-              </p>
-              <p>
-                The intent to file will be recorded immediately after
-                submission.
-              </p>
-            </va-accordion-item>
-            <va-accordion-item
-              header="VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits)"
-              id="section-eighteen"
-              level="3"
-            >
-              <p>Upload the completed VA Form 21-526EZ PDF, and then submit.</p>
-              <p>
-                The form will be processed by VA Centralized Mail after
-                submission. We’ll notify you of the status of receipt in VBMS.
-                The portal will track the submission for 60 days.
-              </p>
-            </va-accordion-item>
-            <va-accordion-item
-              header="VA Form 21-686c (Application Request to Add and/or Remove Dependents)"
-              id="section-nineteen"
-              level="3"
-            >
-              <p>
-                Upload the completed VA Form 21-686c PDF and any supporting
-                evidence, and then submit.
-              </p>
-              <p>
-                The form will be processed by VA Centralized Mail after
-                submission. We’ll notify you of the status of receipt in VBMS.
-                The portal will track the submission for 60 days.
-              </p>
-              <p>
-                <strong>Note:</strong> The portal isn’t able to establish
-                dependents within 24 hours at this time. We’re exploring ways to
-                speed up this process as a future enhancement.
+                Once a request is accepted and processed, you’ll have access to
+                the claimant’s eFolder in VBMS. The portal will also send an
+                email to the claimant letting them know your decision to accept
+                or decline the request.
               </p>
             </va-accordion-item>
           </va-accordion>
