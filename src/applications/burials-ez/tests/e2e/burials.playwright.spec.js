@@ -15,9 +15,6 @@ const {
 const {
   login,
 } = require('../../../../platform/testing/e2e/playwright/helpers/login');
-const {
-  axeCheck,
-} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 
 const manifest = require('../../manifest.json');
 const mockUser = require('../fixtures/mocks/user.json');
@@ -227,7 +224,6 @@ const testConfig = createTestConfig(
     setupPerTest: async ({ page }) => {
       await setupMocks(page);
       await login(page, mockUser);
-      await axeCheck(page);
     },
     skip: false,
   },

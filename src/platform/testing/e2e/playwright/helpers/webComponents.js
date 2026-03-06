@@ -124,9 +124,7 @@ async function fillVaMemorableDate(
   const dateLocator = page.locator(`va-memorable-date[name="${name}"]`);
 
   if (useMonthSelect) {
-    const monthSelect = dateLocator.locator(
-      'va-select.memorable-date-month select',
-    );
+    const monthSelect = dateLocator.locator('select').first();
     await monthSelect.selectOption(parseInt(month, 10).toString());
   } else {
     const monthInput = dateLocator.locator(
@@ -135,14 +133,10 @@ async function fillVaMemorableDate(
     await monthInput.fill(parseInt(month, 10).toString());
   }
 
-  const dayInput = dateLocator.locator(
-    'va-text-input.memorable-date-day input',
-  );
+  const dayInput = dateLocator.locator(`input[name="${name}Day"]`);
   await dayInput.fill(parseInt(day, 10).toString());
 
-  const yearInput = dateLocator.locator(
-    'va-text-input.memorable-date-year input',
-  );
+  const yearInput = dateLocator.locator(`input[name="${name}Year"]`);
   await yearInput.fill(year);
 }
 
