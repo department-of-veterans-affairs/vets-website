@@ -1,12 +1,16 @@
 const path = require('path');
-const { testForm } = require('platform/testing/e2e/playwright/form-tester');
+const {
+  testForm,
+} = require('../../../../../platform/testing/e2e/playwright/form-tester');
 const {
   createTestConfig,
-} = require('platform/testing/e2e/playwright/form-tester/utilities');
-const { login } = require('platform/testing/e2e/playwright/helpers/login');
+} = require('../../../../../platform/testing/e2e/playwright/form-tester/utilities');
+const {
+  login,
+} = require('../../../../../platform/testing/e2e/playwright/helpers/login');
 const {
   axeCheck,
-} = require('platform/testing/e2e/playwright/helpers/axeCheck');
+} = require('../../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 
 const featureToggles = require('../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json');
 const mockSubmit = require('../../../shared/tests/e2e/fixtures/mocks/application-submit.json');

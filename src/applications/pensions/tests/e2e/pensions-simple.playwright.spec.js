@@ -10,10 +10,12 @@
  */
 
 const { test, expect } = require('@playwright/test');
-const { login } = require('platform/testing/e2e/playwright/helpers/login');
+const {
+  login,
+} = require('../../../../platform/testing/e2e/playwright/helpers/login');
 const {
   axeCheck,
-} = require('platform/testing/e2e/playwright/helpers/axeCheck');
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 
 const mockUser = require('../fixtures/mocks/loggedInUser.json');
 const featuresEnabled = require('../fixtures/mocks/featuresEnabled.json');
