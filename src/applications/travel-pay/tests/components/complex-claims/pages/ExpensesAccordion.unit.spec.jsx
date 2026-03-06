@@ -353,5 +353,21 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
       expect(queryByText('Mileage')).to.not.exist;
       expect(queryByText('Parking')).to.not.exist;
     });
+
+    it('does not render ProofOfAttendanceCard when there is no properly named proof-of-attendance document', () => {
+      const documentsWithWrongName = [
+        {
+          documentId: 'doc-wrong',
+          filename: 'some-other-document.pdf',
+          mimetype: 'application/pdf',
+        },
+      ];
+      renderAccordion(
+        { expenses: [], documents: documentsWithWrongName },
+        getCommunityCareState(),
+      );
+
+      expect(document.querySelector('va-accordion')).to.not.exist;
+    });
   });
 });

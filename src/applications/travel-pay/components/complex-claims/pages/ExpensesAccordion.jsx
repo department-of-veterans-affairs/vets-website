@@ -29,8 +29,8 @@ const ExpensesAccordion = ({
 
   const proofOfAttendanceDocument = useMemo(
     () =>
-      documents.find(
-        d => d.filename?.split('.')?.[0] === PROOF_OF_ATTENDANCE_FILENAME,
+      documents.find(d =>
+        d.filename?.startsWith(`${PROOF_OF_ATTENDANCE_FILENAME}.`),
       ),
     [documents],
   );
