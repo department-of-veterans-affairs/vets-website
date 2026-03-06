@@ -216,12 +216,18 @@ const Mileage = () => {
   };
 
   const handleBack = () => {
-    if (hasUnsavedChanges) {
+    // On edit mode, "Cancel" takes the place of the normal back button
+    if (isEditMode && hasUnsavedChanges) {
+      setIsModalVisible(true);
+    } else if (!isEditMode && hasUnsavedChanges) {
+      // On add mode, the back button should trigger the "leave page" modal if there are unsaved changes
       dispatch(setUnsavedChangesModalVisible(true, 'expense-back'));
-    } else if (backDestination === 'review') {
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
-      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      navigate(
+        `/file-new-claim/${apptId}/${claimId}/${
+          backDestination === 'review' ? 'review' : 'choose-expense'
+        }`,
+      );
     }
   };
 
