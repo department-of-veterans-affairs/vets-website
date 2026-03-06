@@ -121,9 +121,8 @@ const ConfirmationUnderReview = ({
         class="vads-u-margin-top--2"
       />
 
-      <div className="vads-u-margin-top--4">
-        <h3>Need help?</h3>
-        <hr className="vads-u-border-color--primary vads-u-margin-y--1" />
+      <div className="help-footer-box vads-u-margin-top--4">
+        <h2 className="help-heading">Need help?</h2>
         <NeedHelp />
       </div>
     </div>
