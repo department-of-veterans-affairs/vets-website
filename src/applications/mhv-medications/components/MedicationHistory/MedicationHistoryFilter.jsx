@@ -71,6 +71,16 @@ const MedicationHistoryFilter = ({ updateFilter, isLoading }) => {
   );
   const radioGroupRef = useRef(null);
 
+  // Sync local state when Redux filter changes (e.g., default override)
+  useEffect(
+    () => {
+      if (filterOption) {
+        setSelectedFilterOption(filterOption);
+      }
+    },
+    [filterOption],
+  );
+
   const applyBoldToSelectedOption = useCallback(
     () => {
       if (radioGroupRef.current) {

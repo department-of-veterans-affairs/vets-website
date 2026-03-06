@@ -109,6 +109,8 @@ describe('MedicationHistory container', () => {
       mhv_medications_cerner_pilot: false,
       // eslint-disable-next-line camelcase
       mhv_medications_v2_status_mapping: false,
+      // eslint-disable-next-line camelcase
+      mhv_medications_management_improvements: false,
     },
   };
 

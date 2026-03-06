@@ -9,6 +9,20 @@ import PrintDownloadCard from '../components/shared/PrintDownloadCard';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
+import { useFetchMedicationHistory } from '../hooks/MedicationHistory/useFetchMedicationHistory';
+import { pageType } from '../util/dataDogConstants';
+import {
+  rxListSortingOptions,
+  rxListSortingOptionsV2,
+  ALL_MEDICATIONS_FILTER_KEY,
+  ACTIVE_FILTER_KEY,
+  SESSION_SELECTED_FILTER_OPTION,
+} from '../util/constants';
+import {
+  selectSortOption,
+  selectFilterOption,
+} from '../selectors/selectPreferences';
+import { setSortOption, setFilterOption } from '../redux/preferencesSlice';
 import EmptyPrescriptionContent from '../components/MedicationsList/EmptyPrescriptionContent';
 import NoFilterMatches from '../components/MedicationsList/NoFilterMatches';
 import MedicationHistoryFilter, {
@@ -39,6 +53,7 @@ import { getFilterOptions } from '../util/helpers/getRxStatus';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
+  selectMedicationsManagementImprovementsFlag,
 } from '../util/selectors';
 
 const MedicationHistory = () => {
@@ -62,6 +77,35 @@ const MedicationHistory = () => {
     isCerner,
     isLoading: isAcceleratedDataLoading,
   } = useAcceleratedData();
+  const isManagementImprovements = useSelector(
+    selectMedicationsManagementImprovementsFlag,
+  );
+
+  // Default to Active filter when management improvements is enabled
+  // and the user hasn't explicitly chosen a filter this session
+  useEffect(
+    () => {
+      if (
+        isManagementImprovements &&
+        selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY
+      ) {
+        try {
+          const stored = sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION);
+          if (!stored) {
+            dispatch(setFilterOption(ACTIVE_FILTER_KEY));
+          }
+        } catch {
+          // sessionStorage unavailable
+        }
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isManagementImprovements],
+  );
+
+  const activeSortingOptions = isManagementImprovements
+    ? rxListSortingOptionsV2
+    : rxListSortingOptions;
 
   const {
     prescriptionsData,
@@ -168,7 +212,7 @@ const MedicationHistory = () => {
       setLoadingMessage('Sorting your medications...');
       setQueryParams(prev => ({
         ...prev,
-        sortEndpoint: rxListSortingOptions[newSortOption].API_ENDPOINT,
+        sortEndpoint: activeSortingOptions[newSortOption].API_ENDPOINT,
         page: 1,
       }));
       dispatch(setSortOption(newSortOption));

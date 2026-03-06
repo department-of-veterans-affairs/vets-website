@@ -11,6 +11,7 @@ import * as prescriptionsApiModule from '../../../api/prescriptionsApi';
 import { useFetchMedicationHistory } from '../../../hooks/MedicationHistory/useFetchMedicationHistory';
 import {
   rxListSortingOptions,
+  rxListSortingOptionsV2,
   ALL_MEDICATIONS_FILTER_KEY,
   ACTIVE_FILTER_KEY,
 } from '../../../util/constants';
@@ -18,6 +19,8 @@ import { getFilterUrl } from '../../../components/MedicationHistory/MedicationHi
 
 const CERNER_PILOT_TOGGLE = 'mhv_medications_cerner_pilot';
 const V2_STATUS_MAPPING_TOGGLE = 'mhv_medications_v2_status_mapping';
+const MANAGEMENT_IMPROVEMENTS_TOGGLE =
+  'mhv_medications_management_improvements';
 
 /**
  * Creates a test wrapper with Redux Provider and MemoryRouter
@@ -52,6 +55,7 @@ const baseState = {
     loading: false,
     [CERNER_PILOT_TOGGLE]: false,
     [V2_STATUS_MAPPING_TOGGLE]: false,
+    [MANAGEMENT_IMPROVEMENTS_TOGGLE]: false,
   },
 };
 
@@ -462,6 +466,56 @@ describe('useFetchMedicationHistory', () => {
         // RENEWAL with cerner_pilot only should use V2 URL
         expect(queryParams.filterOption).to.equal(
           getFilterUrl('RENEWAL', true, false),
+        );
+      });
+    });
+
+    it('uses V2 sort options when management improvements flag is enabled', async () => {
+      useGetPrescriptionsListQueryStub = sandbox
+        .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
+        .returns(getMockQueryResponse());
+
+      const mockStore = createMockStore({
+        rx: {
+          preferences: { sortOption: 'mostRecentlyFilled' },
+        },
+        featureToggles: {
+          [MANAGEMENT_IMPROVEMENTS_TOGGLE]: true,
+        },
+      });
+      const wrapper = createTestWrapper(mockStore);
+
+      renderHook(() => useFetchMedicationHistory(), { wrapper });
+
+      await waitFor(() => {
+        const queryParams = useGetPrescriptionsListQueryStub.firstCall.args[0];
+        expect(queryParams.sortEndpoint).to.equal(
+          rxListSortingOptionsV2.mostRecentlyFilled.API_ENDPOINT,
+        );
+      });
+    });
+
+    it('falls back to first V2 sort option for unknown key when management improvements is enabled', async () => {
+      useGetPrescriptionsListQueryStub = sandbox
+        .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
+        .returns(getMockQueryResponse());
+
+      const mockStore = createMockStore({
+        rx: {
+          preferences: { sortOption: 'nonExistentKey' },
+        },
+        featureToggles: {
+          [MANAGEMENT_IMPROVEMENTS_TOGGLE]: true,
+        },
+      });
+      const wrapper = createTestWrapper(mockStore);
+
+      renderHook(() => useFetchMedicationHistory(), { wrapper });
+
+      await waitFor(() => {
+        const queryParams = useGetPrescriptionsListQueryStub.firstCall.args[0];
+        expect(queryParams.sortEndpoint).to.equal(
+          rxListSortingOptionsV2.mostRecentlyFilled.API_ENDPOINT,
         );
       });
     });
