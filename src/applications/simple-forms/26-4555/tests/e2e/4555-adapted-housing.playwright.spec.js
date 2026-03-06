@@ -14,7 +14,6 @@ const {
 
 const featureToggles = require('../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json');
 const mockSubmit = require('../../../shared/tests/e2e/fixtures/mocks/application-submit.json');
-const formConfig = require('../../config/form');
 const manifest = require('../../manifest.json');
 const user = require('./fixtures/mocks/user.json');
 const sipPut = require('./fixtures/mocks/sip-put.json');
@@ -128,14 +127,12 @@ const testConfig = createTestConfig(
           body: JSON.stringify(sipGet),
         });
       });
-      await page.route(
-        `**${formConfig.default.submitUrl || '/v0/forms/26-4555'}`,
-        route =>
-          route.fulfill({
-            status: 200,
-            contentType: 'application/json',
-            body: JSON.stringify(mockSubmit),
-          }),
+      await page.route('**/simple_forms_api/v1/simple_forms', route =>
+        route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify(mockSubmit),
+        }),
       );
 
       // Login
@@ -144,7 +141,6 @@ const testConfig = createTestConfig(
     skip: false,
   },
   manifest,
-  formConfig.default || formConfig,
 );
 
 testForm(testConfig);
