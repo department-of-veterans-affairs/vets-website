@@ -411,5 +411,6 @@
   "sobClaimantService": "sob_claimant_service",
   "form10203ClaimantService": "form_10203_claimant_service",
   "meb5490Under18Flow": "meb_5490_under_18_flow",
-  "discoverYourBenefitsResultsPageUpdate": "discover_your_benefits_results_page_update"
+  "discoverYourBenefitsResultsPageUpdate": "discover_your_benefits_results_page_update",
+  "mebBlockUnder18": "meb_block_under_18"
 }

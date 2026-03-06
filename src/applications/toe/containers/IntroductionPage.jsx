@@ -9,7 +9,7 @@ import IntroductionLogin from '../components/IntroductionLogin';
 
 import { getAppData } from '../selectors';
 
-export const IntroductionPageContent = ({ mebParentGuardianStep }) => {
+export const IntroductionPageContent = ({ mebBlockUnder18 }) => {
   return (
     <div>
       <h1 className="vads-u-margin-bottom--1">
@@ -49,23 +49,53 @@ export const IntroductionPageContent = ({ mebParentGuardianStep }) => {
         </strong>
       </p>
       <ul>
-        <li>
-          Update your current benefit and get an updated Certificate of
-          Eligibility (COE)
-        </li>
-        <li>Switch your existing education benefit and get a new COE</li>
-        <li>
-          Apply for transferred benefits from a different sponsor than you’ve
-          used in the past
-        </li>
+        {mebBlockUnder18 ? (
+          <>
+            <li>
+              Make updates to your current benefit and get an updated
+              Certificate of Eligibility (COE)
+            </li>
+            <li>
+              Apply to switch your existing education benefit and get a new COE
+            </li>
+            <li>
+              Apply for transferred benefits from a different Veteran or service
+              member than you’ve used in the past
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              Update your current benefit and get an updated Certificate of
+              Eligibility (COE)
+            </li>
+            <li>Switch your existing education benefit and get a new COE</li>
+            <li>
+              Apply for transferred benefits from a different sponsor than
+              you’ve used in the past
+            </li>
+          </>
+        )}
       </ul>
 
       <p className="vads-u-margin-bottom--0">
-        <strong>Note:</strong> If you use our online tool to apply, be sure
-        you’re signed in as a family member to your own Login.gov or ID.me
-        account to complete this application. We can’t process your application
-        if the Veteran or service member signs in to their account and submits
-        the application for you.
+        {mebBlockUnder18 ? (
+          <>
+            <strong>Note:</strong> If you are over the age of 18 and use our
+            online tool to apply, be sure you’re signed in as a family member to
+            your own Login.gov or ID.me account to complete this application. We
+            can’t process your application if the Veteran or service member
+            signs in to their account and submits the application for you.
+          </>
+        ) : (
+          <>
+            <strong>Note:</strong> If you use our online tool to apply, be sure
+            you’re signed in as a family member to your own Login.gov or ID.me
+            account to complete this application. We can’t process your
+            application if the Veteran or service member signs in to their
+            account and submits the application for you.
+          </>
+        )}
       </p>
 
       <div className="vads-u-margin-top--4 vads-u-margin-bottom--4">
@@ -102,6 +132,19 @@ export const IntroductionPageContent = ({ mebParentGuardianStep }) => {
               </strong>{' '}
               in order to receive this benefit.
             </p>
+            {mebBlockUnder18 && (
+              <p>
+                <b>Note:</b> If you are <b>under the age of 18</b> and applying
+                for benefits for yourself, you must complete and submit a signed
+                paper application through{' '}
+                <va-link
+                  href="https://www.va.gov/contact-us/ask-va/introduction"
+                  text="Ask VA"
+                />
+                . A parent, guardian, or custodian must complete the application
+                on your behalf and sign the application before submission.
+              </p>
+            )}
             <p>
               If this isn’t the right benefit for you,{' '}
               <a
@@ -133,12 +176,14 @@ export const IntroductionPageContent = ({ mebParentGuardianStep }) => {
                 .
               </li>
               <li>Your current address and contact information</li>
-              <li>Bank account direct deposit information</li>
+              <li>Your bank account direct deposit information</li>
             </ul>
-            <p>
-              <strong>Note:</strong> If you aren’t an adult (at least 18 years
-              old), your parent or guardian must sign your application.
-            </p>
+            {!mebBlockUnder18 && (
+              <p>
+                <strong>Note:</strong> If you aren’t an adult (at least 18 years
+                old), your parent or guardian must sign your application.
+              </p>
+            )}
           </va-process-list-item>
           <va-process-list-item header="Start your application">
             <p>
@@ -169,10 +214,10 @@ export const IntroductionPageContent = ({ mebParentGuardianStep }) => {
   );
 };
 
-export const IntroductionPage = ({ route, mebParentGuardianStep, user }) => {
+export const IntroductionPage = ({ route, mebBlockUnder18, user }) => {
   return (
     <div className="schemaform-intro">
-      <IntroductionPageContent mebParentGuardianStep={mebParentGuardianStep} />
+      <IntroductionPageContent mebBlockUnder18={mebBlockUnder18} />
 
       <IntroductionLogin route={route} />
 
@@ -195,10 +240,6 @@ const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
-  mebParentGuardianStep:
-    state?.featureToggles[featureFlagNames.mebParentGuardianStep],
-  showMeb1990EMaintenanceAlert:
-    state?.featureToggles[featureFlagNames.showMeb1990EZMaintenanceAlert],
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
@@ -211,10 +252,10 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.array,
   }).isRequired,
-  mebParentGuardianStep: PropTypes.bool,
+  mebBlockUnder18: PropTypes.bool,
   user: PropTypes.object,
 };
 
 IntroductionPageContent.propTypes = {
-  mebParentGuardianStep: PropTypes.bool,
+  mebBlockUnder18: PropTypes.bool,
 };

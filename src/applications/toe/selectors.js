@@ -13,7 +13,6 @@ export const getAppData = state => ({
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
-  mebParentGuardianStep: state?.featureToggles?.mebParentGuardianStep,
   openModal: state?.data?.openModal,
   savedForms: state?.user?.profile?.savedForms,
   showMeb1990EMaintenanceAlert:
@@ -21,4 +20,5 @@ export const getAppData = state => ({
   user: state.user || {},
   mebBankInfoConfirmationField:
     state?.featureToggles?.mebBankInfoConfirmationField,
+  mebBlockUnder18: state?.featureToggles?.mebBlockUnder18,
 });
