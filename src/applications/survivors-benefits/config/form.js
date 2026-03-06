@@ -70,7 +70,14 @@ import directDepositAccount from './chapters/07-additional-information/directDep
 import otherPaymentOptions from './chapters/07-additional-information/otherPaymentOptions';
 import supportingDocuments from './chapters/07-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
-import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
+import confirmVeteranInfo from './chapters/07-additional-information/confirmVeteranInfo';
+import confirmMilitaryHistory from './chapters/07-additional-information/confirmMilitaryHistory';
+// import ArtifactSummaryReview from '../components/ArtifactSummaryReview';
+import { hasConflicts } from '../cave/utils/conflictDetection';
+import {
+  VETERAN_INFO_FIELDS,
+  MILITARY_HISTORY_FIELDS,
+} from '../cave/fieldMapping';
 import IncorrectForm from '../containers/IncorrectForm';
 import { transform } from './submit-transformer';
 import { onFormLoaded } from '../utils/onFormLoaded';
@@ -569,15 +576,36 @@ const formConfig = {
           uiSchema: uploadDocuments.uiSchema,
           schema: uploadDocuments.schema,
         },
-        reviewDocuments: {
-          title: 'Review supporting documents',
-          path: 'additional-information/review-documents',
+        confirmVeteranInfo: {
+          title: 'Confirm Veteran information',
+          path: 'additional-information/confirm-veteran-info',
           depends: formData =>
             formData?.['view:idpEnabled'] === true &&
-            formData?.files?.some(f => f?.idpSections),
-          uiSchema: reviewDocuments.uiSchema,
-          schema: reviewDocuments.schema,
+            formData?.files?.some(f => f?.idpArtifacts) &&
+            hasConflicts(formData, VETERAN_INFO_FIELDS),
+          uiSchema: confirmVeteranInfo.uiSchema,
+          schema: confirmVeteranInfo.schema,
         },
+        confirmMilitaryHistory: {
+          title: 'Confirm military history',
+          path: 'additional-information/confirm-military-history',
+          depends: formData =>
+            formData?.['view:idpEnabled'] === true &&
+            formData?.files?.some(f => f?.idpArtifacts) &&
+            hasConflicts(formData, MILITARY_HISTORY_FIELDS),
+          uiSchema: confirmMilitaryHistory.uiSchema,
+          schema: confirmMilitaryHistory.schema,
+        },
+        // artifactReview: {
+        //   title: 'Supporting document details',
+        //   path: 'additional-information/artifact-review',
+        //   depends: formData =>
+        //     formData?.['view:idpEnabled'] === true &&
+        //     formData?.files?.some(f => f?.idpArtifacts),
+        //   CustomPageReview: ArtifactSummaryReview,
+        //   uiSchema: {},
+        //   schema: blankSchema,
+        // },
       },
     },
   },

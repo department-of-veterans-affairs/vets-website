@@ -5,7 +5,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const DEFAULT_OPTIONS = {
   intervalMs: 2000,
-  timeoutMs: 120000,
+  timeoutMs: 360000,
 };
 
 export const pollDocumentStatus = async (documentId, options = {}) => {

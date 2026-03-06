@@ -1,10 +1,10 @@
-import { sanitize, formatDate, maskSsn } from './helpers';
+import { sanitize, formatIsoDate, maskSsn } from './helpers';
 
 export const transformDd214Entry = data => {
   const entry = data || {};
   return [
     {
-      heading: 'Veteran information',
+      heading: "Veteran's information",
       rows: [
         { label: 'First name', value: sanitize(entry.FIRST_NAME) },
         { label: 'Middle name', value: sanitize(entry.MIDDLE_NAME) },
@@ -14,7 +14,7 @@ export const transformDd214Entry = data => {
           label: 'Social Security number',
           value: maskSsn(entry.SOCIAL_SECURITY_NUMBER),
         },
-        { label: 'Date of birth', value: formatDate(entry.DATE_OF_BIRTH) },
+        { label: 'Date of birth', value: formatIsoDate(entry.DATE_OF_BIRTH) },
       ],
     },
     {
@@ -29,14 +29,14 @@ export const transformDd214Entry = data => {
           value: sanitize(entry.GRADE_RATE_RANK),
         },
         { label: 'Pay grade', value: sanitize(entry.PAY_GRADE) },
-        { label: 'Date inducted', value: formatDate(entry.DATE_INDUCTED) },
+        { label: 'Date inducted', value: formatIsoDate(entry.DATE_INDUCTED) },
         {
           label: 'Date entered active service',
-          value: formatDate(entry.DATE_ENTERED_ACTIVE_SERVICE),
+          value: formatIsoDate(entry.DATE_ENTERED_ACTIVE_SERVICE),
         },
         {
           label: 'Date separated active service',
-          value: formatDate(entry.DATE_SEPARATED_ACTIVE_SERVICE),
+          value: formatIsoDate(entry.DATE_SEPARATED_ACTIVE_SERVICE),
         },
         {
           label: 'Cause of separation',

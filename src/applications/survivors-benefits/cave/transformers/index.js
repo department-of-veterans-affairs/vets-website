@@ -3,7 +3,13 @@ import { transformDeathCertificateEntry } from './deathCertificate';
 
 export { transformDd214Entry } from './dd214';
 export { transformDeathCertificateEntry } from './deathCertificate';
-export { sanitize, formatDate, maskSsn, EMPTY_VALUE } from './helpers';
+export {
+  sanitize,
+  formatDate,
+  formatIsoDate,
+  maskSsn,
+  EMPTY_VALUE,
+} from './helpers';
 
 export const transformArtifactsToSections = artifacts => {
   const results = {};

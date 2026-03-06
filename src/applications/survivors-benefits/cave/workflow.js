@@ -1,6 +1,10 @@
 import pollDocumentStatus from './status';
 import { fetchArtifactSummary, downloadArtifactData } from './artifacts';
-import { transformArtifactsToSections } from './transformers';
+import { normalizeSections } from './transformers/normalize';
+import { autoResolveArtifacts } from './utils/conflictDetection';
+import { VETERAN_INFO_FIELDS, MILITARY_HISTORY_FIELDS } from './fieldMapping';
+
+const ALL_FIELDS = [...VETERAN_INFO_FIELDS, ...MILITARY_HISTORY_FIELDS];
 
 const ARTIFACT_TYPES = {
   DD214: 'DD214',
@@ -51,8 +55,24 @@ export const processDocument = async (contract, options = {}) => {
     throw new Error('Document processing did not complete successfully.');
   }
 
-  const artifacts = await fetchRelevantArtifacts(contract.id);
-  return transformArtifactsToSections(artifacts);
+  const sections = await fetchRelevantArtifacts(contract.id);
+  return normalizeSections(sections);
+};
+
+// Processes a document and immediately auto-resolves any artifact fields that
+// are null/invalid against the current form data. Returns the resolved
+// idpArtifacts object for the new file only.
+export const processDocumentWithAutoResolve = async (
+  contract,
+  formData,
+  existingFiles,
+  options = {},
+) => {
+  const sections = await processDocument(contract, options);
+  const tempFile = { idpArtifacts: sections };
+  const allFiles = [...(existingFiles ?? []), tempFile];
+  const resolved = autoResolveArtifacts(formData, allFiles, ALL_FIELDS);
+  return resolved[resolved.length - 1].idpArtifacts;
 };
 
 export default processDocument;

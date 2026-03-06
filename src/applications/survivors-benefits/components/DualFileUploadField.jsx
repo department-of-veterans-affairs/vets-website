@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import environment from 'platform/utilities/environment';
@@ -21,7 +21,7 @@ import {
 import vaFileInputFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldMapping';
 import { errorManager } from 'platform/forms-system/src/js/utilities/file/passwordErrorState';
 
-import { uploadDocument, processDocument } from '../cave';
+import { uploadDocument, processDocumentWithAutoResolve } from '../cave';
 
 const createTrackingKey = file => {
   const stamp = Date.now();
@@ -42,34 +42,6 @@ const ensureTrackingKey = file => {
     });
   }
   return file.__sbTrackingKey;
-};
-
-const extractPrimarySections = sections => {
-  if (!sections) return null;
-  const primary = {};
-  Object.entries(sections).forEach(([docType, entries]) => {
-    if (Array.isArray(entries) && entries.length) {
-      const [firstEntry] = entries;
-      primary[docType] = firstEntry;
-    }
-  });
-  return Object.keys(primary).length ? primary : null;
-};
-
-const sectionsChanged = (currentSections, nextSections) => {
-  const currentKeys = new Set(Object.keys(currentSections || {}));
-  const nextKeys = new Set(Object.keys(nextSections || {}));
-  if (currentKeys.size !== nextKeys.size) {
-    return true;
-  }
-  for (const key of nextKeys) {
-    const currentValue = currentSections?.[key];
-    const nextValue = nextSections?.[key];
-    if (JSON.stringify(currentValue) !== JSON.stringify(nextValue)) {
-      return true;
-    }
-  }
-  return false;
 };
 
 const mergeSecondaryInfo = (fileEntry, info, defaultStatus = 'pending') => {
@@ -108,16 +80,10 @@ const mergeSecondaryInfo = (fileEntry, info, defaultStatus = 'pending') => {
   }
 
   if (info.sections) {
-    const primarySections = extractPrimarySections(info.sections);
-    if (primarySections) {
-      if (
-        !next.idpSections ||
-        sectionsChanged(next.idpSections, primarySections)
-      ) {
-        next.idpSections = primarySections;
-        changed = true;
-      }
-      next.idpArtifacts = info.sections;
+    const nextArtifacts = info.sections;
+    if (JSON.stringify(next.idpArtifacts) !== JSON.stringify(nextArtifacts)) {
+      next.idpArtifacts = nextArtifacts;
+      changed = true;
     }
   }
 
@@ -147,6 +113,7 @@ const DualFileUploadField = props => {
   const [secondaryUploads, setSecondaryUploads] = useState({});
 
   const dispatch = useDispatch();
+  const store = useStore();
   const primaryUploadsRef = useRef({});
   const secondaryStatusRef = useRef({});
   const componentRef = useRef(null);
@@ -488,7 +455,12 @@ const DualFileUploadField = props => {
           contract,
           ...metadata,
         });
-        return processDocument(contract);
+        const currentFormData = store.getState().form.data ?? {};
+        return processDocumentWithAutoResolve(
+          contract,
+          currentFormData,
+          currentFormData.files ?? [],
+        );
       })
       .then(sections => {
         secondaryStatusRef.current[trackingKey] = 'success';
