@@ -1,0 +1,80 @@
+name: Playwright POC Tests
+
+on:
+  push:
+    branches:
+      - poc/playwright-e2e
+  workflow_dispatch:
+    inputs:
+      app_entry:
+        description: 'Application entry name (from manifest.json entryName)'
+        required: false
+        type: string
+      spec_pattern:
+        description: 'Test file glob pattern (e.g., src/applications/**/tests/**/*.playwright.spec.js)'
+        required: false
+        type: string
+        default: 'src/**/tests/**/*.playwright.spec.js'
+
+jobs:
+  playwright-tests:
+    name: Playwright E2E Tests
+    runs-on: ubuntu-16-cores-latest
+    timeout-minutes: 60
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+          filter: blob:none
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Build application
+        run: |
+          if [ -n "${{ inputs.app_entry }}" ]; then
+            yarn build --entry=${{ inputs.app_entry }} --buildtype=localhost
+          else
+            yarn build --entry=4555-adapted-housing,burials-ez --buildtype=localhost
+          fi
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192 --openssl-legacy-provider'
+
+      - name: Run Playwright tests
+        run: |
+          SPEC_PATTERN="${{ inputs.spec_pattern || 'src/**/tests/**/*.playwright.spec.js' }}"
+          npx playwright test --config config/playwright.config.js ${SPEC_PATTERN}
+        env:
+          CI: true
+          NODE_OPTIONS: '--openssl-legacy-provider'
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-results
+          path: test-results/
+          retention-days: 7
