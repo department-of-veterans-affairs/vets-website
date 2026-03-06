@@ -242,7 +242,7 @@ const resolveLandingPageLinks = (
     },
     {
       href: '/health-care/eligibility/',
-      text: 'Find out if youre eligible for VA health care',
+      text: "Find out if you're eligible for VA health care",
     },
     {
       href: '/health-care/how-to-apply/',
