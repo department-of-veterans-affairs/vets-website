@@ -37,9 +37,7 @@ export const selectEnableKramesHtmlSanitizationFlag = state =>
   ];
 
 export const selectMedicationsManagementImprovementsFlag = state =>
-  !state.featureToggles[
-    FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements
-  ];
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements];
 
 export const selectMhvMedicationsOracleHealthCutoverFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsOracleHealthCutover];
