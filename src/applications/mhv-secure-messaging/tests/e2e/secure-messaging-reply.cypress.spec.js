@@ -18,17 +18,19 @@ describe('Secure Messaging Reply Axe Check', () => {
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
     PatientInterstitialPage.getContinueButton().click();
+    cy.wait('@signature');
 
     // Wait for reply form to be fully loaded before interacting
     PatientReplyPage.verifyReplyHeader();
 
     PatientReplyPage.getMessageBodyField()
       .should('be.visible')
-      .and('not.be.disabled')
-      .clear({ force: true })
-      .type('Test message body', {
-        force: true,
-      });
+      .and('not.be.disabled');
+    PatientReplyPage.getMessageBodyField().clear();
+    PatientReplyPage.getMessageBodyField().should('have.value', '');
+    PatientReplyPage.getMessageBodyField().type('Test message body', {
+      force: true,
+    });
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
