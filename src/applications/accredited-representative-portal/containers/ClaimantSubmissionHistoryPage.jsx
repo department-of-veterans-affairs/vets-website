@@ -121,7 +121,7 @@ ClaimantSubmissionHistoryPage.loader = async ({ request }) => {
     searchParams.set(SEARCH_PARAMS.SORT, SORT_BY.NEWEST);
     searchParams.set(SEARCH_PARAMS.SIZE, SUBMISSION_DEFAULTS.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, SUBMISSION_DEFAULTS.NUMBER);
-    redirect(`?${searchParams}`);
+    throw redirect(`?${searchParams}`);
   }
 
   // Wait for the Promise-based Response object
