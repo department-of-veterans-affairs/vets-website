@@ -5,7 +5,6 @@ import CaseProgressDescription from './CaseProgressDescription';
 const CaseProgressBar = ({
   current,
   stepLabels,
-  stateList = [],
   headingText = 'VA Benefits',
   label = 'Label is here',
   counters = 'small',
@@ -13,8 +12,6 @@ const CaseProgressBar = ({
   attributes = {},
 }) => {
   const total = stepLabels.length;
-
-  const currentStatus = stateList?.[current - 1]?.status || 'PENDING';
 
   return (
     <>
@@ -30,11 +27,7 @@ const CaseProgressBar = ({
         />
       </div>
 
-      <CaseProgressDescription
-        step={current}
-        status={currentStatus}
-        attributes={attributes}
-      />
+      <CaseProgressDescription step={current} attributes={attributes} />
     </>
   );
 };
@@ -42,7 +35,6 @@ const CaseProgressBar = ({
 CaseProgressBar.propTypes = {
   current: PropTypes.number.isRequired,
   stepLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
-  stateList: PropTypes.array,
   headingText: PropTypes.string,
   label: PropTypes.string,
   counters: PropTypes.oneOf(['small', 'large']),

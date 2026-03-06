@@ -85,7 +85,7 @@ const mapClaimantOverview = raw => ({
   phone: raw?.phone,
   email: raw?.email,
   address: raw?.address || null,
-  representativeInfo: raw?.representative_info || null,
+  representativeName: raw?.representative_name || null,
   intentToFile: normalizeItfArray(raw?.itf),
 });
 
@@ -293,26 +293,7 @@ const ClaimantOverviewPage = () => {
                 <dl className="vads-u-margin--0">
                   <ClaimantDetailRow
                     label="Representative"
-                    value={claimant?.representativeInfo?.representative || '—'}
-                  />
-                  <ClaimantDetailRow
-                    label="VBMS eFolder access"
-                    value={
-                      claimant?.representativeInfo?.vbmsEfolderAccess || '—'
-                    }
-                  />
-                  <ClaimantDetailRow
-                    label="Change of address authorization"
-                    value={
-                      claimant?.representativeInfo
-                        ?.changeOfAddressAuthorization || '—'
-                    }
-                  />
-                  <ClaimantDetailRow
-                    label="Type of representation"
-                    value={
-                      claimant?.representativeInfo?.typeOfRepresentation || '—'
-                    }
+                    value={claimant?.representativeName || '—'}
                   />
                 </dl>
               </div>
@@ -325,9 +306,9 @@ const ClaimantOverviewPage = () => {
             <section className="vads-u-margin-top--4">
               <h3 className="vads-u-margin-bottom--2">Intent to file status</h3>
 
-              <div className="vads-u-padding-left--3">
-                {claimant?.intentToFile?.length ? (
-                  claimant.intentToFile.map(itf => (
+              {claimant?.intentToFile?.length ? (
+                <div className="vads-u-padding-left--3">
+                  {claimant.intentToFile.map(itf => (
                     <div
                       key={`${itf.benefitType}-${itf.itfDate ||
                         'no-date'}-${itf.expirationDate || 'no-exp'}`}
@@ -351,7 +332,7 @@ const ClaimantOverviewPage = () => {
                                   <va-icon
                                     icon="warning"
                                     size="3"
-                                    style={{ color: '#fdb81e' }} // VA “gold” vibe
+                                    style={{ color: '#fdb81e' }}
                                     className="vads-u-margin-right--1 vads-u-vertical-align--middle"
                                   />
                                 )}
@@ -367,14 +348,26 @@ const ClaimantOverviewPage = () => {
                         </dl>
                       </div>
                     </div>
-                  ))
-                ) : (
-                  <dl className="vads-u-margin--0">
-                    <ClaimantDetailRow label="Benefit" value="—" />
-                    <ClaimantDetailRow label="ITF date" value="—" />
-                  </dl>
-                )}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+                    This claimant doesn’t have an intent to file. To establish
+                    an intent to file within minutes, submit online VA Form
+                    21-0966.
+                  </p>
+
+                  <a
+                    className="vads-c-action-link--blue"
+                    href="https://www.va.gov/find-forms/about-form-21-0966/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Submit online VA Form 21-0966
+                  </a>
+                </>
+              )}
             </section>
           </>
         )}

@@ -5,7 +5,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const uiSchema = {
-  ...titleUI('Enter any remarks you would like to share'),
+  ...titleUI("Enter any remarks you'd like to share"),
   remarks: {
     ...textareaUI({
       title:
