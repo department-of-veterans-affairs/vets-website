@@ -28,14 +28,15 @@ const uiSchema = {
     'ui:errorMessages': {
       required: 'Enter the date you took the test',
       futureDate: 'You must enter a past or present date',
+      pattern: 'Enter a valid date',
     },
   },
   'view:understandsUploadRequirement1': {
     'ui:description': (
       <div className="vads-u-margin-top--4">
         <strong>Note:</strong> When you submit this form on QuickSubmit or by
-        mail, you will need to attach a copy of your test results to your
-        submission. If you do not have any test results but have a copy of your
+        mail, you’ll need to attach a copy of your test results to your
+        submission. If you don’t have any test results but have a copy of your
         license or certification that clearly displays your name, you can attach
         that.
       </div>

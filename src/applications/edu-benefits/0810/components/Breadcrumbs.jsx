@@ -7,16 +7,24 @@ const Breadcrumbs = () => {
   const crumbs = [
     {
       href: '/',
-      label: 'Home',
+      label: 'Va.gov home',
     },
     {
-      href: '/forms',
-      label: 'VA Forms',
+      href: '/education',
+      label: 'Education and training',
     },
     {
-      href: '/forms/22-0803',
-      label:
-        'Licensing or certification test fee reimbursement (VA Form 22-0803)',
+      href: '/education/about-gi-bill-benefits/',
+      label: 'About GI Bill benefits',
+    },
+    {
+      href: '/education/about-gi-bill-benefits/how-to-use-benefits/',
+      label: 'How to use your GI Bill benefits',
+    },
+    {
+      href:
+        '/education/about-gi-bill-benefits/how-to-use-benefits/national-tests/',
+      label: 'National tests',
     },
     {
       href: manifest.rootUrl,
