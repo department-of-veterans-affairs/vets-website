@@ -14,7 +14,11 @@ import { generateHelpText } from '../../helpers';
 export const studentAttendancePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student\u2019s school attendance history',
+      ({ formData }) =>
+        `${formData?.fullName?.first ||
+          'this student'}\u2019s school attendance history`,
+      null,
+      false,
     ),
     schoolInformation: {
       studentIsEnrolledFullTime: yesNoUI({
@@ -44,7 +48,9 @@ export const studentAttendancePage = {
 export const studentStoppedAttendingDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Date student stopped attending school',
+      ({ formData }) =>
+        `Date ${formData?.fullName?.first ||
+          'student'} stopped attending school`,
     ),
     schoolInformation: {
       dateFullTimeEnded: {
@@ -81,12 +87,16 @@ export const studentStoppedAttendingDatePage = {
 export const schoolAccreditationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'School accreditation status',
+      ({ formData }) =>
+        `${formData?.fullName?.first ||
+          'this student'}\u2019s school accreditation status`,
+      null, // description
+      false, // lowercase
     ),
     schoolInformation: {
-      isSchoolAccredited: yesNoUI({
-        title: 'Is the student\u2019s school accredited?',
-      }),
+      isSchoolAccredited: yesNoUI(
+        'Is the school this student attends accredited?',
+      ),
       'view:accredited': {
         'ui:description': AccreditedSchool,
       },
@@ -112,7 +122,12 @@ export const schoolAccreditationPage = {
 
 export const studentTermDatesPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student\u2019s term dates'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'this student'}\u2019s term dates`,
+      null,
+      false,
+    ),
     schoolInformation: {
       currentTermDates: {
         officialSchoolStartDate: {
@@ -174,7 +189,11 @@ export const studentTermDatesPage = {
 export const previousTermQuestionPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student\u2019s last term attendance',
+      ({ formData }) =>
+        `${formData?.fullName?.first ||
+          'this student'}\u2019s last term attendance`,
+      null,
+      false,
     ),
     schoolInformation: {
       studentDidAttendSchoolLastTerm: yesNoUI({
@@ -203,7 +222,11 @@ export const previousTermQuestionPage = {
 export const previousTermDatesPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student\u2019s previous term dates',
+      ({ formData }) =>
+        `${formData?.fullName?.first ||
+          'this student'}\u2019s previous term dates`,
+      null,
+      false,
     ),
     schoolInformation: {
       lastTermSchoolInformation: {

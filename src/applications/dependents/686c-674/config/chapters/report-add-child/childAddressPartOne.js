@@ -1,18 +1,23 @@
 import {
+  arrayBuilderItemSubsequentPageTitleUI,
   addressUI,
   addressSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const childAddressPartOne = {
   uiSchema: {
-    ...titleUI({
-      title: 'Child’s address',
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'Child'}\u2019s address`,
+      null,
+      false,
+    ),
     address: {
       ...addressUI({
         title: '',
+        omit: ['street3'],
         labels: {
+          street2: 'Apartment or unit number',
           militaryCheckbox:
             'This child lives on a United States military base outside of the U.S.',
         },
@@ -50,7 +55,7 @@ export const childAddressPartOne = {
   schema: {
     type: 'object',
     properties: {
-      address: addressSchema(),
+      address: addressSchema({ omit: ['street3'] }),
     },
   },
 };

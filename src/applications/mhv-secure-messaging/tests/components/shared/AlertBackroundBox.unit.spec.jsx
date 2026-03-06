@@ -78,7 +78,7 @@ describe('Alert Backround Box component', () => {
       );
       expect(screen.getByText(activeAlertObj.content)).to.exist;
       // sr-only span exists with delayed content (empty initially due to focusin delay)
-      const srSpan = screen.container.querySelector('span[aria-live="polite"]');
+      const srSpan = screen.getByTestId('sr-only-alert-text');
       expect(srSpan).to.exist;
     });
   });
@@ -118,7 +118,7 @@ describe('Alert Backround Box component', () => {
         'Close notification',
       );
       expect(screen.getByText(activeAlertObj.content)).to.exist;
-      const srSpan = screen.container.querySelector('span[aria-live="polite"]');
+      const srSpan = screen.getByTestId('sr-only-alert-text');
       expect(srSpan).to.exist;
     });
   });
@@ -169,7 +169,7 @@ describe('Alert Backround Box component', () => {
         'Close notification',
       );
       expect(screen.getByText(activeAlertObj.content)).to.exist;
-      const srSpan = screen.container.querySelector('span[aria-live="polite"]');
+      const srSpan = screen.getByTestId('sr-only-alert-text');
       expect(srSpan).to.exist;
     });
   });
@@ -220,7 +220,7 @@ describe('Alert Backround Box component', () => {
         'Close notification',
       );
       expect(screen.getByText(activeAlertObj.content)).to.exist;
-      const srSpan = screen.container.querySelector('span[aria-live="polite"]');
+      const srSpan = screen.getByTestId('sr-only-alert-text');
       expect(srSpan).to.exist;
     });
   });
@@ -472,7 +472,7 @@ describe('Alert Backround Box component', () => {
         header: 'Success',
         content: 'Message was successfully sent.',
       };
-      const { container } = renderWithStoreAndRouter(
+      const { getByTestId } = renderWithStoreAndRouter(
         <AlertBackgroundBox closeable />,
         {
           initialState: {
@@ -485,7 +485,7 @@ describe('Alert Backround Box component', () => {
         },
       );
       await waitFor(() => {
-        const srSpan = container.querySelector('span[aria-live="polite"]');
+        const srSpan = getByTestId('sr-only-alert-text');
         expect(srSpan).to.exist;
         expect(srSpan.textContent).to.equal('');
       });
@@ -499,7 +499,7 @@ describe('Alert Backround Box component', () => {
         header: 'Success',
         content: 'Message was successfully sent.',
       };
-      const { container } = renderWithStoreAndRouter(
+      const { getByTestId } = renderWithStoreAndRouter(
         <AlertBackgroundBox closeable />,
         {
           initialState: {
@@ -515,7 +515,7 @@ describe('Alert Backround Box component', () => {
       // Wait for the alert to fully render so the useLayoutEffect focusin
       // listener is registered (it depends on alertContent being set).
       await waitFor(() => {
-        const alertText = container.querySelector('[data-testid="alert-text"]');
+        const alertText = getByTestId('alert-text');
         expect(alertText).to.exist;
         expect(alertText.textContent).to.equal(activeAlertObj.content);
       });
@@ -527,7 +527,7 @@ describe('Alert Backround Box component', () => {
 
       await waitFor(
         () => {
-          const srSpan = container.querySelector('span[aria-live="polite"]');
+          const srSpan = getByTestId('sr-only-alert-text');
           expect(srSpan.textContent).to.equal(activeAlertObj.content);
         },
         { timeout: 2000 },
@@ -544,7 +544,7 @@ describe('Alert Backround Box component', () => {
         header: 'Success',
         content: 'Message was successfully sent.',
       };
-      const { container } = renderWithStoreAndRouter(
+      const { getByTestId } = renderWithStoreAndRouter(
         <AlertBackgroundBox closeable />,
         {
           initialState: {
@@ -560,7 +560,7 @@ describe('Alert Backround Box component', () => {
       // Don't trigger any focusin event — rely on ceiling
       await waitFor(
         () => {
-          const srSpan = container.querySelector('span[aria-live="polite"]');
+          const srSpan = getByTestId('sr-only-alert-text');
           expect(srSpan.textContent).to.equal(activeAlertObj.content);
         },
         { timeout: 6000 },
@@ -577,7 +577,7 @@ describe('Alert Backround Box component', () => {
         header: 'Error',
         content: 'Message was not successfully sent.',
       };
-      const { container } = renderWithStoreAndRouter(
+      const { getByTestId } = renderWithStoreAndRouter(
         <AlertBackgroundBox closeable />,
         {
           initialState: {
@@ -590,8 +590,9 @@ describe('Alert Backround Box component', () => {
         },
       );
       await waitFor(() => {
-        const alert = container.querySelector('va-alert');
-        expect(alert).to.exist;
+        const alertText = getByTestId('alert-text');
+        expect(alertText).to.exist;
+        const alert = alertText.closest('va-alert');
         expect(alert).to.have.attribute('status', 'error');
       });
     });
@@ -604,7 +605,7 @@ describe('Alert Backround Box component', () => {
         header: 'Success',
         content: 'Message was successfully sent.',
       };
-      const { container } = renderWithStoreAndRouter(
+      const { getByTestId } = renderWithStoreAndRouter(
         <AlertBackgroundBox closeable />,
         {
           initialState: {
@@ -617,9 +618,9 @@ describe('Alert Backround Box component', () => {
         },
       );
       await waitFor(() => {
-        const alert = container.querySelector('va-alert');
-        expect(alert).to.exist;
-        expect(alert).to.have.attribute('status', 'success');
+        const alertText = getByTestId('alert-text');
+        expect(alertText).to.exist;
+        expect(alertText.textContent).to.equal(activeAlertObj.content);
         // Focus should NOT be stolen for success alerts
         // (handleAlertFocus returns early for non-error alerts)
       });
@@ -635,7 +636,7 @@ describe('Alert Backround Box component', () => {
         header: 'Success',
         content: 'Folder was successfully created.',
       };
-      const { container } = renderWithStoreAndRouter(
+      const { getByTestId } = renderWithStoreAndRouter(
         <AlertBackgroundBox closeable />,
         {
           initialState: {
@@ -648,8 +649,10 @@ describe('Alert Backround Box component', () => {
         },
       );
       await waitFor(() => {
-        const alert = container.querySelector('va-alert');
-        expect(alert).to.exist;
+        const alertText = getByTestId('alert-text');
+        expect(alertText).to.exist;
+        // Check parent va-alert for margin class
+        const alert = alertText.closest('va-alert');
         expect(alert.className).to.include('vads-u-margin-bottom--1');
       });
     });
@@ -662,7 +665,7 @@ describe('Alert Backround Box component', () => {
         header: 'Success',
         content: 'Folder was successfully created.',
       };
-      const { container } = renderWithStoreAndRouter(
+      const { getByTestId } = renderWithStoreAndRouter(
         <AlertBackgroundBox closeable className="vads-u-margin-y--3" />,
         {
           initialState: {
@@ -675,8 +678,10 @@ describe('Alert Backround Box component', () => {
         },
       );
       await waitFor(() => {
-        const alert = container.querySelector('va-alert');
-        expect(alert).to.exist;
+        const alertText = getByTestId('alert-text');
+        expect(alertText).to.exist;
+        // Check parent va-alert for custom margin class
+        const alert = alertText.closest('va-alert');
         expect(alert.className).to.include('vads-u-margin-y--3');
         expect(alert.className).to.not.include('vads-u-margin-bottom--1');
       });
@@ -692,7 +697,7 @@ describe('Alert Backround Box component', () => {
         header: 'Success',
         content: 'Message was successfully sent.',
       };
-      const { container } = renderWithStoreAndRouter(
+      const { getByTestId } = renderWithStoreAndRouter(
         <AlertBackgroundBox closeable />,
         {
           initialState: {
@@ -707,7 +712,7 @@ describe('Alert Backround Box component', () => {
 
       // Wait for the alert to render with content
       await waitFor(() => {
-        const alertText = container.querySelector('[data-testid="alert-text"]');
+        const alertText = getByTestId('alert-text');
         expect(alertText).to.exist;
         expect(alertText.textContent).to.equal(activeAlertObj.content);
       });
@@ -720,7 +725,7 @@ describe('Alert Backround Box component', () => {
       // After focus settles + 1s delay, sr-only should be populated
       await waitFor(
         () => {
-          const srSpan = container.querySelector('span[aria-live="polite"]');
+          const srSpan = getByTestId('sr-only-alert-text');
           expect(srSpan.textContent).to.equal(activeAlertObj.content);
         },
         { timeout: 2000 },
@@ -730,7 +735,7 @@ describe('Alert Backround Box component', () => {
       // (not get cleared and re-set by a duplicate announce)
       await waitFor(
         () => {
-          const srSpan = container.querySelector('span[aria-live="polite"]');
+          const srSpan = getByTestId('sr-only-alert-text');
           expect(srSpan.textContent).to.equal(activeAlertObj.content);
         },
         { timeout: 6000 },

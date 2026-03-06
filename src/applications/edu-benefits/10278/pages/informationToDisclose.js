@@ -31,9 +31,9 @@ const OTHER_TEXT_MAX = 30;
 const DisclosureIntro = ({ claimantName, thirdPartyName }) => (
   <>
     <p>
-      I, the claimant <strong>{claimantName || 'N/A'}</strong>, authorize VA to
-      speak with <strong>{thirdPartyName || 'N/A'}</strong> for the purpose of
-      providing the following information pertaining to my VA record.
+      I, the claimant {claimantName}, authorize VA to speak with{' '}
+      {thirdPartyName} for the purpose of providing the following information
+      pertaining to my VA record.
     </p>
   </>
 );
@@ -155,6 +155,7 @@ const InformationToDiscloseField = props => {
         error={groupError}
       >
         <VaCheckbox
+          class="vads-u-margin-top--4"
           label="Select all benefit and claim information"
           checked={allSelected}
           indeterminate={someSelected}

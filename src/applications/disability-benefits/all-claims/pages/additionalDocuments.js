@@ -11,7 +11,9 @@ export const uiSchema = {
   'view:selfAssessmentAlert': {
     'ui:title': selfAssessmentAlert,
     'ui:options': {
-      hideIf: formData => !isBDD(formData),
+      hideIf: formData =>
+        !isBDD(formData) ||
+        formData.disability526NewBddShaEnforcementWorkflowEnabled,
     },
   },
   additionalDocuments: {
