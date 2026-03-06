@@ -4,7 +4,7 @@ import BasicLink from './BasicLink';
 
 export default function BddShaAlert() {
   return (
-    <VaAlert status="info" visible>
+    <VaAlert status="warning" visible>
       <h2 slot="headline">
         A Separation Health Assessment (SHA) Part A is required
       </h2>
@@ -15,7 +15,7 @@ export default function BddShaAlert() {
       </p>
       <p>
         <BasicLink
-          path="supporting-evidence/additional-evidence"
+          path="supporting-evidence/separation-health-assessment"
           search="?redirect"
           text="Check if you've uploaded a SHA Part A document"
         />

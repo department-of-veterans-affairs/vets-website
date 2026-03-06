@@ -6,12 +6,12 @@ import BddShaAlert from '../../components/BddShaAlert';
 describe('BddShaAlert', () => {
   const renderComponent = () => render(<BddShaAlert />);
 
-  it('renders a va-alert with info status', () => {
+  it('renders a va-alert with warning status', () => {
     const { container } = renderComponent();
     const alert = container.querySelector('va-alert');
 
     expect(alert).to.exist;
-    expect(alert.getAttribute('status')).to.equal('info');
+    expect(alert.getAttribute('status')).to.equal('warning');
   });
 
   it('renders the correct headline', () => {
@@ -36,7 +36,7 @@ describe('BddShaAlert', () => {
       "Check if you've uploaded a SHA Part A document",
     );
     expect(link.getAttribute('href')).to.equal(
-      '/supporting-evidence/additional-evidence',
+      '/supporting-evidence/separation-health-assessment',
     );
   });
 });
