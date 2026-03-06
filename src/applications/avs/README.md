@@ -1,24 +1,104 @@
-# AVS application
+# After Visit Summary (AVS)
 
-## Quick start to get running locally
+The After Visit Summary app displays summaries of Veterans' healthcare appointments.
 
-Before you get started check [this page](https://depo-platform-documentation.scrollhelp.site/developer-docs/setting-up-your-local-frontend-environment) first to make sure you are setup to use the correct version of Node and Yarn.
+## Quick Start
 
-- clone vets-website repo `git clone git@github.com:department-of-veterans-affairs/vets-website.git`
-- navigate to the AVS application `cd src/applications/avs`
-- run `yarn install`
-- turn on local mocks `yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/avs/api/mocks/index.js`
-- start app `yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=avs`
-- Run this in your browser console to simulate being logged in `localStorage.setItem('hasSession', true);`
-- visit the app: `http://localhost:3001/my-health/medical-records/summaries-and-notes/visit-summary/9A7AF40B2BC2471EA116891839113252`
+### Run with mock API (no backend needed)
 
-## Running tests
+```bash
+USE_MOCKS=true yarn watch --env entry=avs --env api=http://mock-vets-api.local
+```
 
-Unit tests for can be run using this command: `yarn test:unit --app-folder avs`. To get detailed errors, run this command with `--log-level=error`. To get coverage reports run this command `yarn test:unit --app-folder avs --coverage --coverage-html`. View the report at `/coverage/index.html`
+Then open http://localhost:3001/my-health/medical-records/summaries-and-notes/visit-summary/9A7AF40B2BC2471EA116891839113252
 
-Cypress tests can be run with the GUI using this command: `yarn cy:open`. From there you can filter by `avs` to run just AVS end to end tests.
+### Run with real API
 
-Run Cypress from command line:
+```bash
+# Start vets-api locally first, then:
+yarn watch --env entry=avs
+```
 
-- Run all `yarn cy:run --spec "src/applications/avs/**/**/*"`
-- Specify browser `-b electron`
+## Development
+
+### Key Files
+
+| Path | Description |
+|------|-------------|
+| `app-entry.jsx` | App entry point |
+| `router.jsx` | Route configuration |
+| `containers/` | Redux-connected page containers |
+| `components/` | React components |
+| `reducers/` | Redux state management |
+| `mocks/` | MSW mock handlers |
+
+### Mock Data
+
+The `mocks/` directory contains MSW (Mock Service Worker) handlers:
+
+- `data.js` - Shared mock data and error responses
+- `browser.js` - MSW handlers for local development (browser)
+- `server.js` - MSW handlers for unit tests (Node)
+
+Test fixtures are in `tests/fixtures/`. The mock handlers use these fixtures by default.
+
+## Testing
+
+### Unit Tests
+
+```bash
+yarn test:unit --app-folder avs
+```
+
+With coverage:
+
+```bash
+yarn test:unit --app-folder avs --coverage --coverage-html
+```
+
+#### Using MSW in Unit Tests
+
+```javascript
+import { server } from 'platform/testing/unit/mocha-setup';
+import { avsHandlers, handlers } from '../../mocks/server';
+
+describe('My test', () => {
+  beforeEach(() => server.use(...avsHandlers));
+  afterEach(() => server.resetHandlers());
+
+  it('handles success', async () => {
+    // Uses default success handlers
+  });
+
+  it('handles not found', async () => {
+    // Override with error handler
+    server.use(handlers.avsNotFound());
+  });
+});
+```
+
+### E2E Tests
+
+```bash
+# Start the app first
+yarn watch --env entry=avs
+
+# Run Cypress tests (CLI)
+yarn cy:run --spec "src/applications/avs/**/*.cypress.spec.js"
+
+# Or use Cypress GUI
+yarn cy:open
+```
+
+## API Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /avs/v0/avs/:id` | Get AVS by ID |
+| `GET /v0/feature_toggles` | Feature flags |
+
+## Feature Flags
+
+| Flag | Description |
+|------|-------------|
+| `avs_enabled` | Enables the AVS feature |

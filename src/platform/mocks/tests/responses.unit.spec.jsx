@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-
-const {
+import {
   createUserResponse,
   mockUser,
   mockUserLOA1,
@@ -11,7 +10,7 @@ const {
   mockMaintenanceWindows,
   createVamcEhrResponse,
   mockVamcEhr,
-} = require('../responses');
+} from '../responses';
 
 describe('platform/mocks/responses', () => {
   describe('createUserResponse', () => {

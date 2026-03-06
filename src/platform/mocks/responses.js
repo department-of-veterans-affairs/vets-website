@@ -11,11 +11,7 @@ import { mergeWith } from 'lodash';
  * - Cypress tests (with cy.intercept)
  *
  * @example
- * // ES modules (webpack/browser)
  * import { mockUser, createFeatureTogglesResponse } from 'platform/mocks/responses';
- *
- * // CommonJS (Node/tests)
- * const { mockUser, createFeatureTogglesResponse } = require('platform/mocks/responses');
  */
 
 // ============================================================================
@@ -228,24 +224,21 @@ function createVamcEhrResponse(facilities = []) {
 const mockVamcEhr = createVamcEhrResponse([]);
 
 // ============================================================================
-// Exports (CommonJS - works in Node and webpack)
+// Exports
 // ============================================================================
 
-module.exports = {
+export {
   // User
   createUserResponse,
   mockUser,
   mockUserLOA1,
   mockUserUnauthenticated,
-
   // Feature Toggles
   createFeatureTogglesResponse,
   mockFeatureToggles,
-
   // Maintenance Windows
   createMaintenanceWindowsResponse,
   mockMaintenanceWindows,
-
   // VAMC EHR
   createVamcEhrResponse,
   mockVamcEhr,
