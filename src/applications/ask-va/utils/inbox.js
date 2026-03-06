@@ -24,20 +24,23 @@ export function flattenInquiry(rawInquiry) {
 /** Splits inquires into buckets by their Level of Authentication
  *  @param {Array} rawInquiries
  *  @returns {{
- *   business: Inquiry[],
- *   personal: Inquiry[],
+ *   inquiries: Inquiry[],
+ *   inquiryTypes: ('business' | 'personal')[]
  *   uniqueCategories: string[]
  *   uniqueStatuses: string[]
  * }}
  */
 export function standardizeInquiries(rawInquiries) {
-  const buckets = rawInquiries.reduce(
+  const output = rawInquiries.reduce(
     (accumulator, current) => {
       const loa = current.attributes.levelOfAuthentication.toLowerCase();
       const flattened = flattenInquiry(current);
 
-      // If business or personal, add to bucket
-      if (accumulator[loa]) accumulator[loa].push(flattened);
+      // If business or personal, add to output
+      if (['business', 'personal'].includes(loa)) {
+        accumulator.inquiries.push(flattened);
+        accumulator.inquiryTypes.add(loa);
+      }
 
       // Use Sets to track categories & statuses
       accumulator.uniqueCategories.add(flattened.categoryName);
@@ -45,17 +48,18 @@ export function standardizeInquiries(rawInquiries) {
       return accumulator;
     },
     {
-      business: [],
-      personal: [],
+      inquiries: [],
+      inquiryTypes: new Set(),
       uniqueCategories: new Set(),
       uniqueStatuses: new Set(),
     },
   );
   // Convert the Sets to arrays
   return {
-    ...buckets,
-    uniqueCategories: [...buckets.uniqueCategories],
-    uniqueStatuses: [...buckets.uniqueStatuses],
+    ...output,
+    inquiryTypes: [...output.inquiryTypes],
+    uniqueCategories: [...output.uniqueCategories],
+    uniqueStatuses: [...output.uniqueStatuses],
   };
 }
 

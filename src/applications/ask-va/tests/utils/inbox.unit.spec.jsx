@@ -22,21 +22,26 @@ describe('flattenInquiry', () => {
 describe('standardizeInquiries', () => {
   it('returns ONLY personal and business inquiries', () => {
     const output = standardizeInquiries(mockInquiries);
-    expect(output).to.have.property('personal');
-    expect(output).to.have.property('business');
-    expect(output).to.not.have.property('unauthenticated');
+    expect(output).to.have.property('inquiries');
+    expect(
+      output.inquiries?.every(inq =>
+        ['business', 'personal'].includes(
+          inq.levelOfAuthentication.toLowerCase(),
+        ),
+      ),
+    ).to.be.true;
   });
 
-  it('puts inquiries into the right buckets', () => {
+  it('returns indicators of what inquiry types are present', () => {
     const output = standardizeInquiries(mockInquiries);
-    expect(output.personal.length).to.equal(7);
-    expect(output.business.length).to.equal(2);
+    expect(output.inquiryTypes).to.include('personal');
+    expect(output.inquiryTypes).to.include('business');
   });
 
   it('flattens inquiries as they are categorized', () => {
     const output = standardizeInquiries(mockInquiries);
-    expect(output.personal[0]).to.have.property('status');
-    expect(output.personal[0].status).to.equal('In progress');
+    expect(output.inquiries[0]).to.have.property('status');
+    expect(output.inquiries[0].status).to.equal('In progress');
   });
 
   it('returns only the categories present in the inquiries list', () => {
