@@ -374,8 +374,11 @@ async function defaultPostHook(page, pathname) {
  * @param {import('@playwright/test').Page} page
  */
 async function clickFormContinue(page) {
+  // Scope to main content area to avoid matching header/footer buttons
+  const main = page.locator('main');
+
   // Try va-button-pair first, then fallback
-  const vaButtonPair = page.locator('va-button-pair');
+  const vaButtonPair = main.locator('va-button-pair');
   if ((await vaButtonPair.count()) > 0) {
     const primaryBtn = vaButtonPair
       .first()
@@ -388,7 +391,7 @@ async function clickFormContinue(page) {
   }
 
   // Try standard continue/submit buttons
-  const continueBtn = page
+  const continueBtn = main
     .locator(
       'button.usa-button-primary, button[type="submit"], .form-progress-buttons .usa-button-primary',
     )
@@ -399,7 +402,7 @@ async function clickFormContinue(page) {
   }
 
   // Fallback: any button with Continue or Submit text
-  const textBtn = page
+  const textBtn = main
     .locator('button:has-text("Continue"), button:has-text("Submit")')
     .first();
   if ((await textBtn.count()) > 0) {
