@@ -231,6 +231,7 @@ const RecentCareTeams = () => {
         onVaValueChange={handleRadioChange}
         data-testid="recent-care-teams-radio-group"
         data-dd-action-name="Recent Care Teams radio group"
+        data-dd-privacy="mask"
       >
         {Array.isArray(recentRecipients) &&
           recentRecipients.length > 0 &&
