@@ -241,13 +241,13 @@
       "directoryPath": "src/applications/edu-benefits/0803",
       "appName": "22-0803 Request for reimbursement of licensing or certification test fees",
       "entryName": "0803-edu-benefits",
-      "rootUrl": "/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees-online"
+      "rootUrl": "/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0810",
-      "appName": "Request for Reimbursement of National Exam Fee",
+      "appName": "Request National Exam Fee Reimbursement Online",
       "entryName": "0810-edu-benefits",
-      "rootUrl": "/education/0810"
+      "rootUrl": "/forms/22-0810/request-reimbursement-national-exam-fee"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0839",
@@ -293,9 +293,9 @@
     },
     {
       "directoryPath": "src/applications/edu-benefits/10272",
-      "appName": "22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test",
+      "appName": "Request Licensing or Certification Test Prep Course Fees Reimbursement Online",
       "entryName": "10272-edu-benefits",
-      "rootUrl": "/forms/22-10272/request-prep-course-reimbursement-online"
+      "rootUrl": "/forms/22-10272/request-prep-course-reimbursement"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10275",

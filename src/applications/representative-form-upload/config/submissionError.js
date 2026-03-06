@@ -92,14 +92,6 @@ const SubmissionError = () => {
         . If you’re sure that representation is already established, try
         submitting the form again later.
       </p>
-      <p>
-        <a
-          className="vads-c-action-link--green"
-          href="/representative/submissions"
-        >
-          Go back to submissions page
-        </a>
-      </p>
     </va-alert>
   );
 };
