@@ -1,17 +1,7 @@
 import { expect } from 'chai';
 
-import { hasSession, processDependents } from '../../helpers';
+import { processDependents } from '../../utils/dependents';
 
-describe('hasSession', () => {
-  it('should return true if hasSession is set to true in localStorage', () => {
-    localStorage.setItem('hasSession', 'true');
-    expect(hasSession()).to.be.true;
-  });
-  it('should return false if hasSession is not set in localStorage', () => {
-    localStorage.removeItem('hasSession');
-    expect(hasSession()).to.be.false;
-  });
-});
 describe('processDependents', () => {
   it('should return an empty array when no dependents are provided', () => {
     expect(processDependents()).to.deep.equal([]);
