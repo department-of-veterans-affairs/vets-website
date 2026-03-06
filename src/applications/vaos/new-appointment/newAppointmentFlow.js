@@ -1,4 +1,5 @@
 /* eslint-disable no-shadow */
+import environment from 'platform/utilities/environment';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   selectFeatureUseVpg,
@@ -89,8 +90,11 @@ async function vaFacilityNext(state, dispatch) {
   const isCerner = isCernerLocation(location?.id, cernerSiteIds);
   const featureUseVpg = selectFeatureUseVpg(state);
 
+  // This duplicates behavior used in the src/applications/vaos/new-appointment/hooks/useOHScheduling.js
+  // hook. When the hook is updated, this should be updated too. It's temporary, so speed was chosen
+  // over elegance
   const typeOfCareEnabled = OH_ENABLED_TYPES_OF_CARE.includes(
-    getTypeOfCare(state.newAppointment.data)?.idV2,
+    environment.isStaging() || getTypeOfCare(state.newAppointment.data)?.idV2,
   );
 
   const ehr = isCerner ? APPOINTMENT_SYSTEM.cerner : APPOINTMENT_SYSTEM.vista;
