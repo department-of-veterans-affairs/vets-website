@@ -1,4 +1,6 @@
 const delay = require('mocker-api/lib/delay');
+const fs = require('fs');
+const path = require('path');
 const user = require('./endpoints/user');
 const { delaySingleResponse } = require('./script/utils');
 // const error500 = require('../tests/fixtures/500.json');
@@ -38,12 +40,55 @@ const responses = {
     delaySingleResponse(() => {
       res.json({
         availableForms: [
-          { year: 2025, lastUpdated: '2025-02-03T18:50:40.548Z' },
           { year: 2024, lastUpdated: '2024-02-03T18:50:40.548Z' },
           { year: 2023, lastUpdated: '2023-02-03T18:50:40.548Z' },
+          { year: 2022, lastUpdated: '2022-02-03T18:50:40.548Z' },
+          { year: 2025, lastUpdated: '2025-02-03T18:50:40.548Z' },
         ],
       });
     }, secondsOfDelay);
+  },
+  'GET /v0/form1095_bs/download_pdf/:taxYear': (req, res) => {
+    const { taxYear } = req.params || {};
+    res.set('Content-Type', 'application/pdf');
+    res.set(
+      'Content-Disposition',
+      `inline; filename="1095B_${taxYear || 'unknown'}.pdf"`,
+    );
+    const pdfPath = path.resolve(
+      __dirname,
+      '../tests/e2e/fixtures/1095BTestFixture.pdf',
+    );
+    if (taxYear === '2023') {
+      return res.status(500).json({ errors: [{ title: 'Mock PDF error' }] });
+    }
+    try {
+      const pdfBuffer = fs.readFileSync(pdfPath);
+      return res.send(pdfBuffer);
+    } catch (_error) {
+      return res.send(Buffer.from('%PDF-1.4\n%%EOF', 'utf-8'));
+    }
+  },
+  'GET /v0/form1095_bs/download_txt/:taxYear': (req, res) => {
+    const { taxYear } = req.params || {};
+    res.set('Content-Type', 'text/plain');
+    res.set(
+      'Content-Disposition',
+      `inline; filename="1095B_${taxYear || 'unknown'}.txt"`,
+    );
+    const txtPath = path.resolve(
+      __dirname,
+      '../tests/e2e/fixtures/1095BTestFixture.txt',
+    );
+    if (taxYear === '2023') {
+      return res.status(500).json({ errors: [{ title: 'Mock TXT error' }] });
+    }
+    try {
+      const txtContent = fs.readFileSync(txtPath, 'utf-8');
+      return res.send(txtContent);
+    } catch (_error) {
+      return res.send(`Mock 1095-B text for tax year ${taxYear || 'unknown'}`);
+    }
   },
   // Uncomment this and import statement to mock a 500 error
   // 'GET /v0/form1095_bs/available_forms': (_req, res) => {
