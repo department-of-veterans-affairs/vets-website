@@ -260,7 +260,19 @@ function buildCCAppointment(daysOffset = -3) {
           zip: '12345',
         },
       },
-      // No travelPayClaim — lets you test creating a new claim and uploading PoA from scratch
+      past: true,
+      modality: 'vaInPerson',
+      isPastAppointment: true,
+      travelPayClaim: {
+        metadata: {
+          status: 200,
+          success: true,
+          message: 'Data retrieved successfully.',
+        },
+        claims: {
+          // No travelPayClaim — lets you test creating a new claim and uploading PoA from scratch
+        },
+      },
     },
   };
 }
