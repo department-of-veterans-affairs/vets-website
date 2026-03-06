@@ -27,7 +27,7 @@ describe('SM CARE TEAM HELP PAGE - Updated Content', () => {
       navigateToCareTeamHelp();
     });
 
-    it('displays name change reason, no provider name, and contact list link without h2', () => {
+    it('displays updated content for VistA-only users', () => {
       // New: name change bullet with R&S link
       cy.findByText(/Their name may appear different/).should('exist');
       cy.findByText(/Learn more about this name change/)
@@ -69,7 +69,7 @@ describe('SM CARE TEAM HELP PAGE - Updated Content', () => {
       navigateToCareTeamHelp();
     });
 
-    it('displays name change reason, no provider name, and no contact list section', () => {
+    it('displays updated content for Oracle Health-only (Cerner) users', () => {
       // New: name change bullet with R&S link
       cy.findByText(/Their name may appear different/).should('exist');
       cy.findByText(/Learn more about this name change/)
@@ -110,7 +110,7 @@ describe('SM CARE TEAM HELP PAGE - Updated Content', () => {
       navigateToCareTeamHelp();
     });
 
-    it('displays name change reason, no provider name, and contact list section with facility list', () => {
+    it('displays updated content for Hybrid users', () => {
       // New: name change bullet with R&S link
       cy.findByText(/Their name may appear different/).should('exist');
       cy.findByText(/Learn more about this name change/)
