@@ -102,7 +102,7 @@ const CreateFolderInline = ({ folders, onConfirm, onFolderCreated }) => {
           <p className="vads-u-margin-y--0">
             {Alerts.Folder.CREATE_FOLDER_SUCCESS}
           </p>
-        </SmAlert>{' '}
+        </SmAlert>
         <va-button
           ref={createFolderButtonRef}
           onClick={handleExpand}

@@ -9,29 +9,29 @@ class FolderManagementPage {
 
   createANewFolderButton = () => {
     return cy
-      .findByTestId('create-new-folder')
+      .findByTestId(Locators.BUTTONS.CREATE_NEW_FOLDER_DATA_TEST_ID)
       .shadow()
       .find('[type="button"]');
   };
 
   clickDeleteFolderButton = () => {
-    cy.findByTestId('remove-folder-button').click();
+    cy.findByTestId(Locators.BUTTONS.DELETE_FOLDER_DATA_TEST_ID).click();
   };
 
   editFolderNameButton = () => {
-    return cy.findByTestId('edit-folder-button');
+    return cy.findByTestId(Locators.BUTTONS.EDIT_FOLDER_DATA_TEST_ID);
   };
 
   createFolderTextBox = () => {
     return cy
-      .findByTestId('folder-name')
+      .findByTestId(Locators.FIELDS.FOLDER_NAME_DATA_TEST_ID)
       .shadow()
       .find('[name="folder-name"]');
   };
 
   createFolderModalButton = () => {
     return cy
-      .findByTestId('create-folder-button')
+      .findByTestId(Locators.BUTTONS.CREATE_FOLDER_DATA_TEST_ID)
       .shadow()
       .find('[type="button"]');
   };
@@ -63,7 +63,7 @@ class FolderManagementPage {
   };
 
   createFolderSuccessAlert = () => {
-    return cy.findByTestId('create-folder-success-alert');
+    return cy.findByTestId(Locators.ALERTS.CREATE_FOLDER_SUCCESS_DATA_TEST_ID);
   };
 
   verifyCreateFolderSuccessMessage = () => {
@@ -73,7 +73,9 @@ class FolderManagementPage {
   };
 
   verifyCreateFolderSuccessMessageHasFocus = () => {
-    cy.findByTestId('create-new-folder').should('have.focus');
+    cy.findByTestId(Locators.BUTTONS.CREATE_NEW_FOLDER_DATA_TEST_ID).should(
+      'have.focus',
+    );
   };
 
   verifyDeleteSuccessMessageText = () => {
@@ -166,10 +168,10 @@ class FolderManagementPage {
       cy.get(Locators.BUTTONS.TEXT_CONFIRM).click();
     });
     cy.fillVaTextInput(
-      'folder-name',
+      Locators.FIELDS.FOLDER_NAME_DATA_TEST_ID,
       createdFolderResponse.data.attributes.name,
     );
-    cy.findByTestId('create-folder-button').click();
+    cy.findByTestId(Locators.BUTTONS.CREATE_FOLDER_DATA_TEST_ID).click();
     cy.findByText('Folder was successfully created.').should('be.visible');
     // Per MHV accessibility decision records, focus goes to H1
     cy.findByRole('heading', { level: 1 }).should('have.focus');
