@@ -14,7 +14,7 @@ import Headline from '../ProfileSectionHeadline';
 import VeteranStatusCard from './VeteranStatusCard';
 import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
 import { DynamicVeteranStatusAlert } from './VeteranStatusAlerts';
-import LoadFail from '../alerts/LoadFail';
+import VeteranStatusPageLevelError from './VeteranStatusPageLevelError';
 import '../../sass/veteran-status-card.scss';
 import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
 
@@ -168,7 +168,7 @@ const VeteranStatusSharedService = ({
     }
 
     if (error) {
-      return <LoadFail />;
+      return <VeteranStatusPageLevelError />;
     }
 
     if (data?.type === 'veteran_status_alert') {

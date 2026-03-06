@@ -29,38 +29,31 @@ export default function ProcessList() {
       <va-process-list-item header="Gather your information">
         <h4>Here’s what you’ll need to fill out this form:</h4>
         <ul>
-          <li>
-            Your social security number or VA file number along with payee
-            number (if applicable)
-          </li>
           <li>Your current mailing address and contact information</li>
+          <li>The name of the national exam you took</li>
           <li>
-            The name of the licensing or certification test and date test was
-            taken
-          </li>
-          <li>
-            The name and address of organization issuing the license or
-            certification
+            The name and address of organization issuing the national exam (must
+            be a US-based organization)
           </li>
           <li>A receipt showing that you have paid in full</li>
-          <li>A copy of your test results</li>
+          <li>A copy of your exam results</li>
         </ul>
       </va-process-list-item>
       <va-process-list-item header="Fill out the online form">
         <p>
           We’ll take you through each step of the process. It should take about
           15 minutes. You’ll also be provided the opportunity to give additional
-          commentary regarding your licensing or certification test.
+          commentary regarding your exam.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Upload your form and attachments to QuickSubmit or mail them to your Regional Processing Office">
+      <va-process-list-item header="Complete the submission process">
         <p>
-          You'll need to take your completed form as well as your receipt and
-          test results to QuickSubmit to finish the submission process there.
+          You will need to take your completed form as well as your receipt and
+          exam results to QuickSubmit to finish the submission process there.
           This is the fastest way for us to process your form.
         </p>
         <p>
-          If you'd rather print and mail your form and attachments, the
+          If you would rather print and mail your form and attachments, the
           addresses for your region will be listed at the end of this form.
         </p>
       </va-process-list-item>
