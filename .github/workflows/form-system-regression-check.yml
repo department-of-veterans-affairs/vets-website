@@ -32,10 +32,13 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm install @babel/parser @babel/traverse
+        run: |
+          cd /tmp
+          npm install @babel/parser @babel/traverse
       - name: Get them exports
         id: testing-folders
         env:
+          NODE_PATH: /tmp/node_modules
           CHANGED_FILES: ${{ needs.get_changed_files.outputs.changed_files }}
         run: node script/github-actions/find-form-exports.js
       - name: Check check and check
