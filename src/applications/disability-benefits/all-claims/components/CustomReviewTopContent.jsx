@@ -1,17 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { ATTACHMENT_KEYS } from '../constants';
+import BasicLink from './BasicLink';
 import { isBDD } from '../utils';
 
-const SHA_ATTACHMENT_ID = 'L023';
-
 const hasShaDocumentUploaded = formData =>
-  ATTACHMENT_KEYS.some(key =>
-    (formData?.[key] || []).some(doc => doc.attachmentId === SHA_ATTACHMENT_ID),
-  );
+  (formData?.separationHealthAssessmentUploads || []).length > 0;
 
 function CustomReviewTopContent({ formData }) {
   const showBddShaAlert =
@@ -34,14 +29,11 @@ function CustomReviewTopContent({ formData }) {
         will not be able to deliver a decision within 30 days after separation.
       </p>
       <p>
-        <Link
-          to={{
-            pathname: 'supporting-evidence/additional-evidence',
-            search: '?redirect',
-          }}
-        >
-          Check if you've uploaded a SHA Part A document
-        </Link>
+        <BasicLink
+          path="supporting-evidence/additional-evidence"
+          search="?redirect"
+          text="Check if you've uploaded a SHA Part A document"
+        />
       </p>
     </VaAlert>
   );
