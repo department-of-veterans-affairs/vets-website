@@ -66,10 +66,6 @@ const ExpensesAccordion = ({
     return null;
   }
 
-  const expensesAccordionTitle = showProofOfAttendance
-    ? 'Submitted expenses and files'
-    : 'Submitted expenses';
-
   return (
     <va-accordion open-single={!groupAccordionItemsByType}>
       {showProofOfAttendance &&
@@ -106,7 +102,11 @@ const ExpensesAccordion = ({
         // Single accordion item with grouped sections inside
         // Expense cards are organized by type and each type has a header that is displayed
         <va-accordion-item
-          header={expensesAccordionTitle}
+          header={
+            showProofOfAttendance
+              ? 'Submitted expenses and files'
+              : 'Submitted expenses'
+          }
           bordered
           level={headerLevel}
         >
