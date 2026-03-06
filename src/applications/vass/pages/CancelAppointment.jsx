@@ -74,6 +74,7 @@ const CancelAppointment = () => {
         isCancellationFailedError(cancelAppointmentError) ||
         isMissingParameterError(cancelAppointmentError) ||
         isServerError(cancelAppointmentError) ||
+        isAppointmentNotFoundError(cancelAppointmentError) ||
         isServerError(appointmentError) ||
         isAppointmentNotFoundError(appointmentError)
       }

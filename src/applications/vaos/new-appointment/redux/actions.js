@@ -18,7 +18,6 @@ import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectFeatureMentalHealthHistoryFiltering,
-  selectFeatureRecentLocationsFilter,
   selectFeatureRemoveFacilityConfigCheck,
   selectFeatureUseBrowserTimezone,
   selectRegisteredCernerFacilityIds,
@@ -468,7 +467,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const { newAppointment } = state;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
-      const useRecentLocations = selectFeatureRecentLocationsFilter(state);
       const siteIds = selectSystemIds(state);
       const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
       let facilities = getTypeOfCareFacilities(state);
@@ -482,22 +480,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 
       // Fetch facilities that support this type of care
       if (!facilities) {
-        if (useRecentLocations) {
-          facilities = await fetchRecentLocations(
-            dispatch,
-            siteIds,
-            removeFacilityConfigCheck,
-            featureUseVpg,
-          );
-          recordItemsRetrieved('recent-locations', facilities?.length || 0);
-        } else {
-          facilities = await getLocationsByTypeOfCareAndSiteIds({
-            siteIds,
-            removeFacilityConfigCheck,
-            useVpg: featureUseVpg,
-          });
-          recordItemsRetrieved('available_facilities', facilities?.length);
-        }
+        facilities = await fetchRecentLocations(
+          dispatch,
+          siteIds,
+          removeFacilityConfigCheck,
+          featureUseVpg,
+        );
+        recordItemsRetrieved('recent-locations', facilities?.length || 0);
       }
 
       dispatch({
@@ -508,7 +497,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         uiSchema,
         cernerSiteIds,
         address: selectVAPResidentialAddress(state),
-        featureRecentLocationsFilter: useRecentLocations,
         removeFacilityConfigCheck,
       });
 
@@ -687,10 +675,23 @@ export function updateReasonForAppointmentData(page, uiSchema, data) {
 export function getAppointmentSlots(start, end, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
-    const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const typeOfCare = getTypeOfCare(getFormData(state))?.idV2;
+    const selectedEhr = selectAppointmentEhr(state);
     const { data } = newAppointment;
+
+    let siteId;
+
+    if (selectedEhr === APPOINTMENT_SYSTEM.cerner) {
+      // For OH slot searches we want to use the user selected facility id,
+      // NOT the parent site id, this means that if vaFacility: 653BY,
+      // uwe use the full 653BY string for the slots query
+      siteId = getFormData(state).vaFacility;
+    } else {
+      // VistA uses the parent site's id for slot searches, this means that
+      // if vaFacility: 653BY, we use 653 for the slots query
+      siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
+    }
 
     let startDate = start;
     let endDate = end;

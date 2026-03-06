@@ -19,7 +19,10 @@ import {
 /** @returns {PageSchema} */
 export const studentEducationBenefitsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Education benefits'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `Education benefits for ${formData?.fullName?.first || 'this student'}`,
+    ),
     typeOfProgramOrBenefit: radioUI({
       title:
         'Does the student currently receive education benefits from any of these programs?',
@@ -43,7 +46,9 @@ export const studentEducationBenefitsPage = {
 export const studentFederallyFundedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Federally-funded schools or programs',
+      ({ formData }) =>
+        `Federally-funded schools or programs for ${formData?.fullName?.first ||
+          'this student'}`,
     ),
     tuitionIsPaidByGovAgency: {
       ...yesNoUI({
@@ -76,7 +81,11 @@ export const studentFederallyFundedPage = {
 export const studentProgramInfoPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Education program or school',
+      ({ formData }) =>
+        `${formData?.fullName?.first ||
+          'this student'}\u2019s education program or school`,
+      null,
+      false,
     ),
     schoolInformation: {
       name: {
@@ -119,7 +128,11 @@ export const studentProgramInfoPage = {
 export const studentEducationBenefitsStartDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Education benefit or program start date',
+      ({ formData }) =>
+        `${formData?.fullName?.first ||
+          'this student'}\u2019s education benefit payments`,
+      null,
+      false,
     ),
     benefitPaymentDate: {
       ...currentOrPastDateUI({

@@ -151,9 +151,7 @@ const HelpPage = title => {
               id="section-three"
               level="3"
             >
-              <h3 className="vads-u-font-size--h4">
-                Step 1: Identify the email you have on file with OGC
-              </h3>
+              <h4>Step 1: Identify the email you have on file with OGC</h4>
               <p>
                 If you’re unsure which email you have on file with OGC, look
                 yourself up using the{' '}
@@ -179,9 +177,7 @@ const HelpPage = title => {
                 Representative tool, it likely means VA doesn’t have a valid
                 physical address on file for you.
               </p>
-              <h3 className="vads-u-font-size--h4">
-                Step 2: Create an ID.me or Login.gov account
-              </h3>
+              <h4>Step 2: Create an ID.me or Login.gov account</h4>
               <p>
                 ID.me and Login.gov are services that provide secure ways to
                 sign in to many government websites using just one account. When
@@ -202,9 +198,7 @@ const HelpPage = title => {
               >
                 Learn how to create your ID.me account
               </Link>
-              <h3 className="vads-u-font-size--h4">
-                Step 3: Associate your OGC email with your account
-              </h3>
+              <h4>Step 3: Associate your OGC email with your account</h4>
               <p>
                 If you created your ID.me or Login.gov account using your
                 personal email, you’ll need to add the email address you have on
@@ -224,9 +218,7 @@ const HelpPage = title => {
               >
                 Learn how to add an email to your ID.me account
               </Link>
-              <h3 className="vads-u-font-size--h4">
-                Step 4: Sign in to the portal
-              </h3>
+              <h4>Step 4: Sign in to the portal</h4>
               <p>
                 Sign in to the portal at va.gov/representative . If you receive
                 a message saying that we can’t verify you’re an accredited

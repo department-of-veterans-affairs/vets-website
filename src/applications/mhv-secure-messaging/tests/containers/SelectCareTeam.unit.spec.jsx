@@ -1800,4 +1800,111 @@ describe('SelectCareTeam', () => {
       expect(history.location.pathname).to.equal(initialPath);
     });
   });
+
+  describe('CernerFacilityAlert', () => {
+    const migrationPhases = {
+      p0: 'December 28, 2025 at 12:00AM ET',
+      p1: 'January 12, 2026 at 12:00AM ET',
+      p2: 'January 27, 2026 at 12:00AM ET',
+      p3: 'February 20, 2026 at 12:00AM ET',
+      p4: 'February 23, 2026 at 12:00AM ET',
+      p5: 'February 26, 2026 at 12:00AM ET',
+      p6: 'February 28, 2026 at 12:00AM ET',
+      p7: 'March 3, 2026 at 12:00AM ET',
+      p8: 'March 10, 2026 at 12:00AM ET',
+      p9: 'March 17, 2026 at 12:00AM ET',
+    };
+
+    const getMigratingState = currentPhase => ({
+      ...initialState,
+      user: {
+        profile: {
+          userAtPretransitionedOhFacility: false,
+          userFacilityMigratingToOh: true,
+          userFacilityReadyForInfoAlert: false,
+          migrationSchedules: [
+            {
+              facilities: [
+                {
+                  facilityId: '662',
+                  facilityName: 'Test Facility 1',
+                },
+              ],
+              phases: {
+                current: currentPhase,
+                ...migrationPhases,
+              },
+            },
+          ],
+        },
+      },
+    });
+
+    it('should render CernerFacilityAlert when user has pretransitioned facility', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            userAtPretransitionedOhFacility: true,
+            userFacilityMigratingToOh: false,
+            userFacilityReadyForInfoAlert: false,
+            facilities: [
+              {
+                facilityId: '692', // White City VA - pretransitioned facility
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        const alert = screen.container.querySelector(
+          '[data-testid="cerner-facilities-alert"]',
+        );
+        expect(alert).to.exist;
+        expect(alert.getAttribute('status')).to.equal('warning');
+      });
+    });
+
+    it('should render alert during T-6 to T+2 migration window (p3, p4, p5)', async () => {
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: getMigratingState('p4'),
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        const alert = screen.container.querySelector(
+          '[data-testid="cerner-facilities-transition-alert-error-phase"]',
+        );
+        expect(alert).to.exist;
+        expect(alert.getAttribute('status')).to.equal('error');
+      });
+    });
+
+    it('should NOT render alert outside of T-6 to T+2 migration window', async () => {
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: getMigratingState('p6'),
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        const cernerTransitionAlert = screen.container.querySelector(
+          '[data-testid="cerner-facilities-transition-alert"]',
+        );
+        const cernerErrorAlert = screen.container.querySelector(
+          '[data-testid="cerner-facilities-transition-alert-error-phase"]',
+        );
+        expect(cernerTransitionAlert).to.not.exist;
+        expect(cernerErrorAlert).to.not.exist;
+      });
+    });
+  });
 });

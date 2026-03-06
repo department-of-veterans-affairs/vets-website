@@ -342,7 +342,8 @@ describe('useOracleHealthAlertTracking', () => {
   });
 
   describe('when feature flag is disabled', () => {
-    it('does not fire any Datadog actions', async () => {
+    it('does not fire T3 error Datadog actions', async () => {
+      // Default mock phase is 'p4' (error phase) — T3 should be blocked
       const mockStore = createMockStore({
         featureToggles: { [ORACLE_HEALTH_CUTOVER_TOGGLE]: false },
       });
@@ -353,7 +354,54 @@ describe('useOracleHealthAlertTracking', () => {
       });
 
       await waitFor(() => {
-        expect(addActionSpy.callCount).to.equal(0);
+        const errorCalls = addActionSpy
+          .getCalls()
+          .filter(
+            call =>
+              call.args[0] ===
+              dataDogActionNames.oracleHealthTransition
+                .T3_ERROR_ALERT_DISPLAYED,
+          );
+        expect(errorCalls).to.have.length(0);
+      });
+    });
+
+    it('still fires T45 warning Datadog actions', async () => {
+      // Set migration to warning phase 'p1' — T45 should fire without cutover flag
+      const warningMigrations = [
+        {
+          ...mockMigrationSchedules[0],
+          phases: { ...mockMigrationSchedules[0].phases, current: 'p1' },
+        },
+      ];
+
+      const mockStore = createMockStore({
+        featureToggles: { [ORACLE_HEALTH_CUTOVER_TOGGLE]: false },
+        user: {
+          profile: {
+            vaProfile: {
+              ohMigrationInfo: { migrationSchedules: warningMigrations },
+            },
+          },
+        },
+      });
+      const wrapper = createTestWrapper(mockStore);
+
+      renderHook(() => useOracleHealthAlertTracking(defaultOptions), {
+        wrapper,
+      });
+
+      await waitFor(() => {
+        const warningCalls = addActionSpy
+          .getCalls()
+          .filter(
+            call =>
+              call.args[0] ===
+              dataDogActionNames.oracleHealthTransition
+                .T45_WARNING_ALERT_DISPLAYED,
+          );
+        expect(warningCalls).to.have.length(1);
+        expect(warningCalls[0].args[1]).to.have.property('phase', 'p1');
       });
     });
   });

@@ -194,6 +194,19 @@ describe('<AppealListItem>', () => {
     wrapper.unmount();
   });
 
+  it('should show "In Progress" label when the appeal is active', () => {
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
+    expect(wrapper.find('ClaimCard').prop('label')).to.equal('In Progress');
+    wrapper.unmount();
+  });
+
+  it('should not show a label when the appeal is closed', () => {
+    const props = set('appeal.attributes.active', false, defaultProps);
+    const wrapper = shallow(<AppealListItem {...props} />);
+    expect(wrapper.find('ClaimCard').prop('label')).to.be.null;
+    wrapper.unmount();
+  });
+
   context(
     'when the cst_show_document_upload_status feature toggle is disabled',
     () => {

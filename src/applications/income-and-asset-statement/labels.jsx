@@ -74,27 +74,12 @@ export const claimantTypeLabels = {
 };
 
 export const incomeFrequencyLabels = {
-  RECURRING: 'Recurring',
-  IRREGULAR: 'Irregular',
-  ONE_TIME: 'One time payment',
-};
-
-export const updatedIncomeFrequencyLabels = {
   RECURRING: 'Regularly (monthly or weekly)',
   IRREGULAR: 'Irregular (like every month or week)',
   ONE_TIME: 'Once',
 };
 
 export const incomeTypeLabels = {
-  SOCIAL_SECURITY: 'Social Security',
-  RETIREMENT_PENSION: 'Pension or retirement income',
-  WAGES: 'Wages',
-  UNEMPLOYMENT: 'Unemployment',
-  CIVIL_SERVICE: 'Civil Service',
-  OTHER: 'Other',
-};
-
-export const updatedIncomeTypeLabels = {
   WAGES: 'Wage from a job',
   RETIREMENT_PENSION: 'Pension or retirement',
   SOCIAL_SECURITY: 'Social Security',

@@ -12,7 +12,7 @@ const HistoryTable = ({ history }) => {
     >
       <va-table-row slot="headers">
         <span>Date</span>
-        <span>Letter</span>
+        <span>Description</span>
       </va-table-row>
       {history.map((debt, index) => (
         <va-table-row key={`${debt.date}-${index}`}>
