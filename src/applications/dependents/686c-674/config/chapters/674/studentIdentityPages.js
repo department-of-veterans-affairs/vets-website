@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   arrayBuilderItemFirstPageTitleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   fullNameNoSuffixSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -95,10 +96,13 @@ export const studentInformationPage = {
 /** @returns {PageSchema} */
 export const studentRelationshipPage = {
   uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `Your relationship to ${formData?.fullName?.first || 'this student'}`,
+    ),
     relationshipToStudent: radioUI({
       title: 'What\u2019s your relationship to this child?',
       labels: relationshipToStudentLabels,
-      labelHeaderLevel: 3,
     }),
   },
   schema: {
