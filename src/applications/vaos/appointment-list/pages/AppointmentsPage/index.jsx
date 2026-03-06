@@ -168,6 +168,7 @@ export default function AppointmentsPage() {
           <va-alert-expandable
             status="warning"
             trigger="You can’t access community care referrals online"
+            data-testid="cc-referrals-banner"
           >
             <p>
               Call your community care office for help scheduling an
