@@ -335,23 +335,13 @@ body.va-pos-fixed {
   }
 }
 
-#mega-menu #vetnav-va-benefits-and-health-care {
-
-  &,
-  & .vetnav-panel.vetnav-panel--submenu {
-    @media screen and (min-width: 768px) {
-      height: fit-content !important;
-    }
-  }
-}
-
 #vetnav-va-benefits-and-health-care.vetnav-panel {
-  width: 15.625rem;
+  width: 15.7rem;
   max-width: 100%;
 
   @include media($medium-screen) {
     &.vetnav-submenu--expanded {
-      width: 48rem;
+      width: 47.4rem;
       max-width: 100%;
     }
   }
