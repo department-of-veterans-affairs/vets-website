@@ -1,8 +1,7 @@
 # form-renderer
 
 ## URL
-http://localhost:3001/form-renderer
-https://staging.va.gov/form-renderer
+http://localhost:3001/my-va/submission/:id
 
 ## Common commands
 ```bash
@@ -14,8 +13,7 @@ yarn watch --env entry=form-renderer,auth,static-pages,login-page,verify,profile
 yarn mock-api --responses src/applications/form-renderer/mocks/mock-api-full-data.js
 
 # Unit tests
-yarn test:unit --app-folder form-renderer
-yarn test:unit --app-folder form-renderer --log-level all
+yarn test:unit src/applications/personalization/form-renderer/tests/App.unit.spec.jsx
 
 # E2E tests
 yarn cy:open

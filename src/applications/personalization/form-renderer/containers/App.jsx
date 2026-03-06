@@ -34,27 +34,26 @@ export default function App({ params }) {
 
   return (
     <div>
-      {response &&
-        !isAppToggleLoading && (
-          <Toggler
-            toggleName={Toggler.TOGGLE_NAMES.dependentsEnableFormViewerMFE}
-          >
-            <Toggler.Enabled>
-              {!isError ? (
-                <FormRenderer
-                  config={response.template}
-                  data={response.submission}
-                />
-              ) : (
-                <div>Could not load submission.</div>
-              )}
-            </Toggler.Enabled>
-            <Toggler.Disabled>
-              {/* If the feature flag is off, redirect user to /my-va */}
-              <RedirectHandler />
-            </Toggler.Disabled>
-          </Toggler>
-        )}
+      {!isAppToggleLoading && (
+        <Toggler
+          toggleName={Toggler.TOGGLE_NAMES.dependentsEnableFormViewerMFE}
+        >
+          <Toggler.Enabled>
+            {response && !isError ? (
+              <FormRenderer
+                config={response.template}
+                data={response.submission}
+              />
+            ) : (
+              <div>Could not load submission.</div>
+            )}
+          </Toggler.Enabled>
+          <Toggler.Disabled>
+            {/* If the feature flag is off, redirect user to /my-va */}
+            <RedirectHandler />
+          </Toggler.Disabled>
+        </Toggler>
+      )}
     </div>
   );
 }
