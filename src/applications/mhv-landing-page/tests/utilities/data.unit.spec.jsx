@@ -1,12 +1,12 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   countUnreadMessages,
   isLinkData,
   resolveLandingPageLinks,
 } from '../../utilities/data/index';
 import manifest from '../../manifest.json';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 describe(manifest.appName, () => {
   describe('utilities/data', () => {
@@ -149,9 +149,7 @@ describe(manifest.appName, () => {
 
           // Check the new appointments link is the last link
           const lastLink = paymentsLinks[paymentsLinks.length - 1];
-          expect(lastLink.href).to.equal(
-            '/my-health/appointments/past',
-          );
+          expect(lastLink.href).to.equal('/my-health/appointments/past');
           expect(lastLink.text).to.equal(
             'Go to past appointments to file for travel pay',
           );
@@ -187,9 +185,7 @@ describe(manifest.appName, () => {
 
           // Check the new appointments link is the last link
           const lastLink = paymentsLinks[paymentsLinks.length - 1];
-          expect(lastLink.href).to.equal(
-            '/my-health/appointments/past',
-          );
+          expect(lastLink.href).to.equal('/my-health/appointments/past');
           expect(lastLink.text).to.equal(
             'Go to past appointments to file for travel pay',
           );
@@ -216,9 +212,7 @@ describe(manifest.appName, () => {
 
           // Check the new appointments link is the last link
           const lastLink = paymentsLinks[paymentsLinks.length - 1];
-          expect(lastLink.href).to.equal(
-            '/my-health/appointments/past',
-          );
+          expect(lastLink.href).to.equal('/my-health/appointments/past');
           expect(lastLink.text).to.equal(
             'Go to past appointments to file for travel pay',
           );
