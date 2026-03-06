@@ -22,6 +22,7 @@ import { getCopayDetailStatement } from '../../combined/actions/copays';
 
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import CopayAlertContainer from '../components/CopayAlertContainer';
+import { splitAccountNumber } from '../components/HowToPay';
 
 const DetailCopayPage = ({ match }) => {
   const dispatch = useDispatch();
@@ -221,7 +222,11 @@ const DetailCopayPage = ({ match }) => {
           <h2 className="vads-u-margin-top--2 vads-u-font-size--h3">
             Account number
           </h2>
-          <p className="vads-u-margin--0">{copayAttributes.ACCOUNT_NUMBER}</p>
+          <p className="vads-u-margin--0">
+            {splitAccountNumber(copayAttributes.ACCOUNT_NUMBER)
+              .filter(Boolean)
+              .join(' ')}
+          </p>
         </div>
         <div className="vads-u-margin-y--4">
           {/* Show VHA Lighthouse data | or Current CDW Statement */}

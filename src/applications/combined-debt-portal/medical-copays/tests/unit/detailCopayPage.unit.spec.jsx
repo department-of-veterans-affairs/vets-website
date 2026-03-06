@@ -125,4 +125,67 @@ describe('DetailCopayPage', () => {
       'Copay bill for Tampa VA Medical Center',
     );
   });
+
+  it('renders VHA unspaced account number split into 5 parts', () => {
+    const mockStatement = {
+      id: '123',
+      attributes: {
+        facility: { name: 'James A. Haley' },
+        invoiceDate: '2024-01-15',
+        accountNumber: '5160000000024571JONES',
+        lineItems: [],
+        principalBalance: 100,
+        paymentDueDate: '2024-02-15',
+        principalPaid: 25,
+      },
+    };
+
+    const mockState = {
+      user: { profile: { userFullName: { first: 'John', last: 'Doe' } } },
+      combinedPortal: {
+        mcp: { selectedStatement: mockStatement, statements: [mockStatement] },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+        loading: false,
+      },
+    };
+
+    const { container } = renderWithStore(
+      <DetailCopayPage match={mockMatch} />,
+      mockState,
+    );
+
+    expect(container.textContent).to.include('516 00000 00024 571 JONES');
+  });
+
+  it('renders CDW spaced account number correctly', () => {
+    const mockStatement = {
+      id: '123',
+      station: { facilityName: 'Tampa VA Medical Center' },
+      pSStatementDateOutput: '01/15/2024',
+      accountNumber: '516 00000 00024 571 JONES',
+      details: [],
+      pHNewBalance: 100,
+      pHTotCharges: 25,
+    };
+
+    const mockState = {
+      user: { profile: { userFullName: { first: 'John', last: 'Doe' } } },
+      combinedPortal: {
+        mcp: { selectedStatement: mockStatement, statements: [mockStatement] },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
+        loading: false,
+      },
+    };
+
+    const { container } = renderWithStore(
+      <DetailCopayPage match={mockMatch} />,
+      mockState,
+    );
+
+    expect(container.textContent).to.include('516 00000 00024 571 JONES');
+  });
 });
