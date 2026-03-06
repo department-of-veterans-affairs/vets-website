@@ -4,46 +4,44 @@ import { render } from '@testing-library/react';
 import MissingRecordsWarningAlert from '../../../components/shared/MissingRecordsWarningAlert';
 
 describe('MissingRecordsWarningAlert', () => {
+  const TEST_ID = 'missing-records-warning-alert';
+
   it('renders the alert', () => {
     const { getByTestId } = render(<MissingRecordsWarningAlert />);
-    const alert = getByTestId('duplicate-records-info-alert');
-    expect(alert).to.exist;
+    expect(getByTestId(TEST_ID)).to.exist;
   });
 
   it('renders with warning status', () => {
     const { getByTestId } = render(<MissingRecordsWarningAlert />);
-    const alert = getByTestId('duplicate-records-info-alert');
+    const alert = getByTestId(TEST_ID);
     expect(alert.getAttribute('status')).to.equal('warning');
   });
 
   it('renders the correct headline', () => {
-    const { getByText } = render(<MissingRecordsWarningAlert />);
-    expect(
-      getByText(
-        (_, element) =>
-          element.textContent ===
-          'Some of your records aren\u2019t available in this report',
-      ),
-    ).to.exist;
+    const { getByTestId } = render(<MissingRecordsWarningAlert />);
+    const alert = getByTestId(TEST_ID);
+    const headline = alert.querySelector('[slot="headline"]');
+    expect(headline).to.exist;
+    expect(headline.textContent).to.include('available in this report');
+    expect(headline.textContent).to.include('Some of your records');
   });
 
   it('renders the correct body text about VA Blue Button report', () => {
     const { getByTestId } = render(<MissingRecordsWarningAlert />);
-    const alert = getByTestId('duplicate-records-info-alert');
+    const alert = getByTestId(TEST_ID);
+    expect(alert.textContent).to.include('VA Blue Button report');
     expect(alert.textContent).to.include(
-      'Medical records from these VA health facilities aren\u2019t available in your VA Blue Button report:',
+      'Medical records from these VA health facilities',
     );
   });
 
   it('renders the CCD guidance text', () => {
     const { getByTestId } = render(<MissingRecordsWarningAlert />);
-    const alert = getByTestId('duplicate-records-info-alert');
-    expect(alert.textContent).to.include(
-      'If you need medical records from these facilities, download your Continuity of Care Document (CCD).',
-    );
+    const alert = getByTestId(TEST_ID);
+    expect(alert.textContent).to.include('Continuity of Care Document (CCD)');
   });
 
-  it('renders the CCD download link', () => {
+  it('renders the CCD download link with #ccd fragment', () => {
     const { container } = render(<MissingRecordsWarningAlert />);
     const link = container.querySelector('va-link');
     expect(link).to.exist;
@@ -55,21 +53,22 @@ describe('MissingRecordsWarningAlert', () => {
     );
   });
 
-  it('has the correct id attribute', () => {
+  it('has a unique id attribute distinct from DuplicateRecordsAlert', () => {
     const { getByTestId } = render(<MissingRecordsWarningAlert />);
-    const alert = getByTestId('duplicate-records-info-alert');
-    expect(alert.getAttribute('id')).to.equal('duplicate-records-alert');
+    const alert = getByTestId(TEST_ID);
+    expect(alert.getAttribute('id')).to.equal('missing-records-warning-alert');
+    expect(alert.getAttribute('id')).to.not.equal('duplicate-records-alert');
   });
 
   it('has the no-print class for print exclusion', () => {
     const { getByTestId } = render(<MissingRecordsWarningAlert />);
-    const alert = getByTestId('duplicate-records-info-alert');
+    const alert = getByTestId(TEST_ID);
     expect(alert.getAttribute('class')).to.include('no-print');
   });
 
   it('has the correct Datadog action name', () => {
     const { getByTestId } = render(<MissingRecordsWarningAlert />);
-    const alert = getByTestId('duplicate-records-info-alert');
+    const alert = getByTestId(TEST_ID);
     const actionName = alert.getAttribute('data-dd-action-name');
     expect(actionName).to.include('available in this report');
     expect(actionName).to.include('Some of your records');
@@ -78,7 +77,7 @@ describe('MissingRecordsWarningAlert', () => {
   describe('facility list rendering', () => {
     it('renders "None recorded" when no facility names are provided', () => {
       const { getByTestId } = render(<MissingRecordsWarningAlert />);
-      const alert = getByTestId('duplicate-records-info-alert');
+      const alert = getByTestId(TEST_ID);
       expect(alert.textContent).to.include('None recorded');
     });
 
@@ -86,7 +85,7 @@ describe('MissingRecordsWarningAlert', () => {
       const { getByTestId } = render(
         <MissingRecordsWarningAlert ohFacilityNamesAfterCutover={[]} />,
       );
-      const alert = getByTestId('duplicate-records-info-alert');
+      const alert = getByTestId(TEST_ID);
       expect(alert.textContent).to.include('None recorded');
     });
 

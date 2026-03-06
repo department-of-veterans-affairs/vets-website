@@ -5,10 +5,10 @@ import { formatFacilityUnorderedList } from '../../util/facilityHelpers';
 const MissingRecordsWarningAlert = ({ ohFacilityNamesAfterCutover = [] }) => {
   return (
     <va-alert
-      id="duplicate-records-alert"
+      id="missing-records-warning-alert"
       status="warning"
       class="no-print vads-u-margin-y--1p5"
-      data-testid="duplicate-records-info-alert"
+      data-testid="missing-records-warning-alert"
       data-dd-action-name="Some of your records aren't available in this report"
     >
       <h2 slot="headline">
