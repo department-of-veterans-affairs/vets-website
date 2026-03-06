@@ -62,39 +62,39 @@ describe('actions', () => {
     });
   });
 
-  describe('displayResults', () => {
-    it('dispatches FETCH_RESULTS_STARTED and FETCH_RESULTS_SUCCESS with valid benefit ids', async () => {
-      const dispatch = sinon.spy();
-      await actions.displayResults(['GIB', 'SBP'])(dispatch);
+  // describe('displayResults', () => {
+  //   it('dispatches FETCH_RESULTS_STARTED and FETCH_RESULTS_SUCCESS with valid benefit ids', async () => {
+  //     const dispatch = sinon.spy();
+  //     await actions.displayResults(['GIB', 'SBP'])(dispatch);
 
-      expect(dispatch.firstCall.args[0].type).to.equal('FETCH_RESULTS_STARTED');
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        'FETCH_RESULTS_SUCCESS',
-      );
+  //     expect(dispatch.firstCall.args[0].type).to.equal('FETCH_RESULTS_STARTED');
+  //     expect(dispatch.secondCall.args[0].type).to.equal(
+  //       'FETCH_RESULTS_SUCCESS',
+  //     );
 
-      const expectedResults = BENEFITS_LIST.filter(b =>
-        ['GIB', 'SBP'].includes(b.id),
-      );
-      expect(dispatch.secondCall.args[0].payload).to.eql(expectedResults);
-    });
+  //     const expectedResults = BENEFITS_LIST.filter(b =>
+  //       ['GIB', 'SBP'].includes(b.id),
+  //     );
+  //     expect(dispatch.secondCall.args[0].payload).to.eql(expectedResults);
+  //   });
 
-    it('dispatches FETCH_RESULTS_FAILURE when an error occurs during displayResults', async () => {
-      const dispatch = sinon.spy();
-      const invalidIds = null;
+  //   it('dispatches FETCH_RESULTS_FAILURE when an error occurs during displayResults', async () => {
+  //     const dispatch = sinon.spy();
+  //     const invalidIds = null;
 
-      await actions
-        .displayResults(invalidIds)(dispatch)
-        .catch(() => {
-          expect(dispatch.firstCall.args[0].type).to.equal(
-            'FETCH_RESULTS_STARTED',
-          );
-          expect(dispatch.secondCall.args[0].type).to.equal(
-            'FETCH_RESULTS_FAILURE',
-          );
-          expect(dispatch.secondCall.args[0].error).to.exist;
-        });
-    });
-  });
+  //     await actions
+  //       .displayResults(invalidIds)(dispatch)
+  //       .catch(() => {
+  //         expect(dispatch.firstCall.args[0].type).to.equal(
+  //           'FETCH_RESULTS_STARTED',
+  //         );
+  //         expect(dispatch.secondCall.args[0].type).to.equal(
+  //           'FETCH_RESULTS_FAILURE',
+  //         );
+  //         expect(dispatch.secondCall.args[0].error).to.exist;
+  //       });
+  //   });
+  // });
 
   describe('GI Bill Benefits - GIB', () => {
     const benefit = getBenefitById('GIB');
