@@ -10,6 +10,7 @@ import {
 import { server } from 'platform/testing/unit/mocha-setup';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import App from './index';
+import { NotFoundComponent, PdfHelp } from './utils';
 
 const mockStore = configureStore([]);
 const toggleKeyForm1095bMultipleYears = 'form1095b_multiple_years';
@@ -245,36 +246,133 @@ describe('App component', () => {
 
     it('renders multiple-years copy when feature flag is on', async () => {
       setupAvailableFormsResponse(server, 200, emptyAvailableFormsResponse);
-      const { findByText } = renderWithProvider({
+      const { container } = renderWithProvider({
         ...authedAndVerifiedState,
         featureToggles: {
           loading: false,
           [toggleKeyForm1095bMultipleYears]: true,
         },
       });
-      const message = await findByText(
-        text =>
-          text.includes('You don’t have a 1095-B tax form available') &&
-          text.includes('the last three years'),
-      );
-      expect(message).to.exist;
+      await waitFor(() => {
+        const alertBody = container.querySelector('va-alert p');
+        expect(alertBody).to.exist;
+        expect(alertBody.textContent).to.include(
+          'You do not have any 1095-B tax forms available.',
+        );
+        expect(alertBody.textContent).to.include('the last three years');
+      });
     });
 
     it('renders the multi-year notFound copy when no links are available', async () => {
       setupAvailableFormsResponse(server, 200, emptyAvailableFormsResponse);
-      const { findByText } = renderWithProvider({
+      const { container } = renderWithProvider({
         ...authedAndVerifiedState,
         featureToggles: {
           loading: false,
           [toggleKeyForm1095bMultipleYears]: true,
         },
       });
-      const bodyCopy = await findByText(
-        text =>
-          text.includes('You don’t have a 1095-B tax form available.') &&
-          text.includes('the last three years'),
-      );
-      expect(bodyCopy).to.exist;
+      await waitFor(() => {
+        const alertBody = container.querySelector('va-alert p');
+        expect(alertBody).to.exist;
+        expect(alertBody.textContent).to.include(
+          'You do not have any 1095-B tax forms available.',
+        );
+        expect(alertBody.textContent).to.include('the last three years');
+      });
+    });
+  });
+
+  describe('utils', () => {
+    describe('NotFoundComponent', () => {
+      it('renders default copy when feature flag is off', async () => {
+        const toggleStore = mockStore({
+          featureToggles: {
+            loading: false,
+            [toggleKeyForm1095bMultipleYears]: false,
+          },
+        });
+
+        const { container } = render(
+          <Provider store={toggleStore}>
+            <NotFoundComponent />
+          </Provider>,
+        );
+
+        const headline = container.querySelector('va-alert h3');
+        const body = container.querySelector('va-alert p');
+        expect(headline.textContent).to.equal(
+          'You don’t have a 1095-B tax form available right now',
+        );
+        expect(body.textContent).to.include('CHAMPVA beneficiary');
+        expect(body.textContent).to.not.include('last three years');
+      });
+
+      it('renders multiple-years copy when feature flag is on', () => {
+        const toggleStore = mockStore({
+          featureToggles: {
+            loading: false,
+            [toggleKeyForm1095bMultipleYears]: true,
+          },
+        });
+
+        const { container } = render(
+          <Provider store={toggleStore}>
+            <NotFoundComponent />
+          </Provider>,
+        );
+
+        const headline = container.querySelector('va-alert h3');
+        expect(headline.textContent).to.include(
+          'have any 1095-B tax forms available',
+        );
+        const alertBody = container.querySelector('va-alert p');
+        expect(alertBody).to.exist;
+        expect(alertBody.textContent).to.include(
+          'You do not have any 1095-B tax forms available.',
+        );
+        expect(alertBody.textContent).to.include('the last three years');
+      });
+    });
+
+    describe('PdfHelp', () => {
+      it('does not render missing-year note when feature flag is off', () => {
+        const toggleStore = mockStore({
+          featureToggles: {
+            loading: false,
+            [toggleKeyForm1095bMultipleYears]: false,
+          },
+        });
+
+        const { queryByText } = render(
+          <Provider store={toggleStore}>
+            <PdfHelp />
+          </Provider>,
+        );
+
+        expect(queryByText(/missing a 1095-B/i)).to.not.exist;
+      });
+
+      it('renders missing-year note when feature flag is on', () => {
+        const toggleStore = mockStore({
+          featureToggles: {
+            loading: false,
+            [toggleKeyForm1095bMultipleYears]: true,
+          },
+        });
+
+        const { getByText } = render(
+          <Provider store={toggleStore}>
+            <PdfHelp />
+          </Provider>,
+        );
+
+        expect(
+          getByText(
+            /If this page is missing a 1095-B for a year you were enrolled in VA health care within the past 3 years/i,
+          ),
+        ).to.exist;
+      });
     });
   });
 });

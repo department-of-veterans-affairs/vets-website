@@ -31,27 +31,18 @@ const notFoundCopy = {
     ),
   },
   multipleYears: {
-    headline: 'You don’t have a 1095-B tax form available right now',
+    headline: "You don't have any 1095-B tax forms available",
     body: (
       <>
-        You don’t have a 1095-B tax form available. This could be because you
-        were a CHAMPVA beneficiary or you weren’t enrolled in VA healthcare in
-        the last three years. If you think you were enrolled, call us at{' '}
+        You do not have any 1095-B tax forms available. This could be because
+        you were a CHAMPVA beneficiary or you weren’t enrolled in VA healthcare
+        in the last three years. If you think you were enrolled, call us at{' '}
         {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through
         Friday, 8:00 a.m. to 8:00 p.m. ET.
       </>
     ),
   },
 };
-
-const missingYearNote = (
-  <p>
-    If this page is missing a 1095-B for a year you were enrolled in VA health
-    care within the past 3 years, call us at{' '}
-    {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through Friday,
-    8:00 a.m. to 8:00 p.m. ET.
-  </p>
-);
 
 export const NotFoundComponent = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -106,6 +97,30 @@ export const PdfHelp = () => {
   const isForm1095bMultipleYears = useToggleValue(
     TOGGLE_NAMES.form1095bMultipleYears,
   );
+  if (isForm1095bMultipleYears) {
+    return (
+      <div className="vads-u-margin-top--4">
+        <p>
+          If you’re having trouble accessing your 1095-B, you may need the
+          latest version of Adobe Acrobat Reader. It’s free to download.{' '}
+          <va-link
+            href="https://get.adobe.com/reader"
+            text="Get Acrobat Reader for free from Adobe."
+          />
+        </p>
+        <p>
+          If you’re still having trouble accessing your 1095-B, call our MyVA411
+          main information line at {phoneComponent(CONTACTS.VA_411)}.
+        </p>
+        <p>
+          If this page is missing a 1095-B for a year you were enrolled in VA
+          health care within the past 3 years, call us at{' '}
+          {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through
+          Friday, 8:00 a.m. to 8:00 p.m. ET.
+        </p>
+      </div>
+    );
+  }
   return (
     <div className="vads-u-margin-top--4">
       <p>
@@ -120,7 +135,6 @@ export const PdfHelp = () => {
         If you are still having trouble viewing your 1095-B, call our MyVA411
         main information line at {phoneComponent(CONTACTS.VA_411)}.
       </p>
-      {isForm1095bMultipleYears && missingYearNote}
     </div>
   );
 };
