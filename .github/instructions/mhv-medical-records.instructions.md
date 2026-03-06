@@ -103,7 +103,7 @@ Update this file when you:
 
 #### Paths & Navigation
 - **Paths**: Route paths defined in `Paths` object
-  ```javascript
+  ```text
   Paths.MYHEALTH: '/my-health'
   Paths.MR_LANDING_PAGE: '/'
   Paths.LABS_AND_TESTS: '/labs-and-tests/'
@@ -373,6 +373,10 @@ Used in CCD download sections to distinguish records before vs after VistA-to-OH
 - **ScrollToTop**: Scroll to top on route change
 - **FeatureFlagRoute**: Route wrapper for feature-flagged content
 - **AppRoute**: Custom route wrapper component
+- **MissingRecordsWarningAlert**: Warning alert shown on the Blue Button download date-range page for Cerner users, informing them that records from Oracle Health facilities are not included in the Blue Button report and linking to the CCD download page
+  - **Props**: `ohFacilityNamesAfterCutover` (array of strings or `{ id, content }` objects) — facility names with cutover-date suffixes, produced by `createAfterCutoverFacilityNames()` from `util/facilityHelpers.js`
+  - Renders the facility list via `formatFacilityUnorderedList()`
+  - Link href includes `#ccd` fragment; `DownloadReportPage` handles focus management for that hash
 
 ### Record List Pattern
 - Use `RecordList/` components for consistent list rendering
