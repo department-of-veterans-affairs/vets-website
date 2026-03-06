@@ -10,7 +10,12 @@ import {
 
 export const placeOfBirth = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Child’s birth place?'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'Child'}\u2019s birth place`,
+      null,
+      false,
+    ),
     birthLocation: {
       outsideUsa: {
         'ui:title': 'This occurred outside the U.S.',
@@ -85,7 +90,7 @@ export const placeOfBirth = {
     },
     'view:note': {
       'ui:description': generateHelpText(
-        'Based on your answers, you’ll need to submit a copy of this child’s birth certificate to add them as your dependent. We’ll ask you to submit this document at the end of this form.',
+        'Based on your answers, you\u2019ll need to submit a copy of this child\u2019s birth certificate to add them as your dependent. We\u2019ll ask you to submit this document at the end of this form.',
       ),
       'ui:options': {
         hideIf: (_formData, _index, fullFormData) =>

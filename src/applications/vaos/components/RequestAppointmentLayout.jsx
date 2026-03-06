@@ -10,10 +10,7 @@ import {
   selectModalityIcon,
   selectTypeOfCareName,
 } from '../appointment-list/redux/selectors';
-import {
-  selectFeatureCCDirectScheduling,
-  selectFeatureListViewClinicInfo,
-} from '../redux/selectors';
+import { selectFeatureCCDirectScheduling } from '../redux/selectors';
 import AppointmentColumn from './AppointmentColumn';
 import AppointmentFlexGrid from './AppointmentFlexGrid';
 import AppointmentRow from './AppointmentRow';
@@ -32,13 +29,8 @@ export default function RequestAppointmentLayout({ appointment, index }) {
     : appointment?.preferredModality;
   const modalityIcon = useSelector(() => selectModalityIcon(appointment));
   const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));
-
-  // If the clinic info feature flag is on, we want to show the clinic location info
-  const featureListViewClinicInfo = useSelector(state =>
-    selectFeatureListViewClinicInfo(state),
-  );
   const detailAriaLabel = useSelector(() =>
-    selectApptDetailAriaText(appointment, true, featureListViewClinicInfo),
+    selectApptDetailAriaText(appointment, true),
   );
 
   const featureCCDirectScheduling = useSelector(state =>
@@ -72,18 +64,14 @@ export default function RequestAppointmentLayout({ appointment, index }) {
                     canceled={isCanceled}
                     className="vads-u-font-weight--bold vaos-appts__display--table"
                   >
-                    {featureListViewClinicInfo ? (
-                      <a
-                        href={link}
-                        aria-label={detailAriaLabel}
-                        className="vaos-appts__focus--hide-outline"
-                        onClick={e => e.preventDefault()}
-                      >
-                        {typeOfCareHeading}
-                      </a>
-                    ) : (
-                      typeOfCareHeading
-                    )}
+                    <a
+                      href={link}
+                      aria-label={detailAriaLabel}
+                      className="vaos-appts__focus--hide-outline"
+                      onClick={e => e.preventDefault()}
+                    >
+                      {typeOfCareHeading}
+                    </a>
                   </AppointmentColumn>
                   <AppointmentColumn
                     padding="0"
@@ -121,7 +109,6 @@ export default function RequestAppointmentLayout({ appointment, index }) {
                     <span
                       className={classNames({
                         'vaos-appts__display--table-cell': true,
-                        'vaos-appts__text--truncate': !featureListViewClinicInfo,
                       })}
                     >
                       {appointmentLocality}
@@ -129,23 +116,6 @@ export default function RequestAppointmentLayout({ appointment, index }) {
                   </AppointmentColumn>
                 </AppointmentRow>
               </AppointmentColumn>
-
-              {featureListViewClinicInfo ? null : (
-                <AppointmentColumn
-                  id={`vaos-appts__detail-${appointment.id}`}
-                  padding="0"
-                  size="1"
-                >
-                  <a
-                    className="vaos-appts__focus--hide-outline"
-                    aria-label={detailAriaLabel}
-                    href={link}
-                    onClick={e => e.preventDefault()}
-                  >
-                    Details
-                  </a>
-                </AppointmentColumn>
-              )}
             </AppointmentRow>
           </AppointmentColumn>
         </AppointmentRow>

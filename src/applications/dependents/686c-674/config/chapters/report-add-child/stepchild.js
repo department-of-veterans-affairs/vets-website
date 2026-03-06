@@ -1,5 +1,5 @@
 import {
-  titleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   yesNoUI,
   yesNoSchema,
   currentOrPastDateUI,
@@ -21,9 +21,12 @@ function required() {
 
 export const stepchild = {
   uiSchema: {
-    ...titleUI({
-      title: 'Child’s biological parents',
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'Child'}\u2019s biological parents`,
+      null,
+      false,
+    ),
     isBiologicalChildOfSpouse: yesNoUI({
       title: 'Is this child the biological child of your current spouse?',
       required,
@@ -51,14 +54,14 @@ export const stepchild = {
       ),
     },
     biologicalParentName: firstNameLastNameNoSuffixUI(
-      title => `Child’s biological parent’s ${title}`,
+      title => `Child's biological parent's ${title}`,
     ),
     biologicalParentSsn: {
-      ...ssnUI('Child’s biological parent’s Social Security number'),
+      ...ssnUI('Child\u2019s biological parent\u2019s Social Security number'),
       'ui:required': required,
     },
     biologicalParentDob: currentOrPastDateUI({
-      title: 'Child’s biological parent’s date of birth',
+      title: 'Child\u2019s biological parent\u2019s date of birth',
       dataDogHidden: true,
       required,
       'ui:errorMessages': {

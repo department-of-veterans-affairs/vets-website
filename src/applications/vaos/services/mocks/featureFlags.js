@@ -19,7 +19,6 @@ module.exports = [
     name: 'vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative',
     value: true,
   },
-  { name: 'vaOnlineSchedulingListViewClinicInfo', value: true },
   { name: 'vaOnlineSchedulingAddOhAvs', value: true },
   { name: 'vaOnlineSchedulingRemoveFacilityConfigCheck', value: true },
   { name: 'vaOnlineSchedulingUseBrowserTimezone', value: true },
