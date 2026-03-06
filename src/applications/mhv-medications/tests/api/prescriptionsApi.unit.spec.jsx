@@ -446,24 +446,24 @@ describe('prescriptionsApi', () => {
   describe('buildExportListQuery', () => {
     it('should build path with default parameters', () => {
       const result = buildExportListQuery({
-        sortEndpoint: '&sort=name',
+        sortEndpoint: 'sort=name',
       });
 
-      expect(result.path).to.equal('/prescriptions?&sort=name');
+      expect(result.path).to.equal('/prescriptions?sort=name');
     });
 
     it('should build path with filter option', () => {
       const result = buildExportListQuery({
-        filterOption: '&filter=active',
-        sortEndpoint: '&sort=name',
+        filterOption: 'filter=active',
+        sortEndpoint: 'sort=name',
       });
 
-      expect(result.path).to.equal('/prescriptions?&filter=active&sort=name');
+      expect(result.path).to.equal('/prescriptions?filter=active&sort=name');
     });
 
     it('should build path with includeImage option', () => {
       const result = buildExportListQuery({
-        sortEndpoint: '&sort=name',
+        sortEndpoint: 'sort=name',
         includeImage: true,
       });
 
@@ -472,7 +472,7 @@ describe('prescriptionsApi', () => {
 
     it('should not include image endpoint when includeImage is false', () => {
       const result = buildExportListQuery({
-        sortEndpoint: '&sort=name',
+        sortEndpoint: 'sort=name',
         includeImage: false,
       });
 
@@ -484,8 +484,19 @@ describe('prescriptionsApi', () => {
     it('should build path with default parameters', () => {
       const result = buildPrescriptionsListQuery();
 
-      expect(result.path).to.include('page=1');
-      expect(result.path).to.include('per_page=10');
+      expect(result.path).to.include('?sort=alphabetical-status');
+    });
+
+    it('should handle empty parameters', () => {
+      const result = buildPrescriptionsListQuery({
+        page: null,
+        perPage: null,
+        sortEndpoint: null,
+        filterOption: null,
+        includeImage: false,
+      });
+
+      expect(result.path).to.equal('/prescriptions');
     });
 
     it('should build path with custom page and perPage', () => {
@@ -500,18 +511,18 @@ describe('prescriptionsApi', () => {
 
     it('should build path with filter option', () => {
       const result = buildPrescriptionsListQuery({
-        filterOption: '&filter=active',
+        filterOption: 'filter=active',
       });
 
-      expect(result.path).to.include('&filter=active');
+      expect(result.path).to.include('filter=active');
     });
 
     it('should build path with sort endpoint', () => {
       const result = buildPrescriptionsListQuery({
-        sortEndpoint: '&sort=name',
+        sortEndpoint: 'sort=name',
       });
 
-      expect(result.path).to.include('&sort=name');
+      expect(result.path).to.include('sort=name');
     });
 
     it('should build path with includeImage option', () => {

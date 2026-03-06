@@ -10,7 +10,6 @@ import {
 } from '../util/helpers';
 import {
   defaultSelectedSortOption,
-  INCLUDE_IMAGE_ENDPOINT,
   rxListSortingOptions,
   STATION_NUMBER_PARAM,
 } from '../util/constants';
@@ -53,11 +52,16 @@ export const buildExportListQuery = ({
   filterOption = '',
   sortEndpoint,
   includeImage = false,
-}) => ({
-  path: `/prescriptions?${filterOption}${sortEndpoint}${
-    includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
-  }`,
-});
+}) => {
+  const queryParams = [];
+  if (filterOption) queryParams.push(filterOption);
+  if (sortEndpoint) queryParams.push(sortEndpoint);
+  if (includeImage) queryParams.push('include_image=true');
+
+  return {
+    path: `/prescriptions?${queryParams.join('&')}`,
+  };
+};
 
 /**
  * Build query path for getPrescriptionsList endpoint
@@ -66,20 +70,24 @@ export const buildExportListQuery = ({
  */
 export const buildPrescriptionsListQuery = (params = {}) => {
   const {
-    page = 1,
-    perPage = 10,
+    page,
+    perPage,
     sortEndpoint = rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
     filterOption = '',
     includeImage = false,
   } = params;
 
-  let queryParams = `page=${page}&per_page=${perPage}`;
-  if (filterOption) queryParams += filterOption;
-  if (sortEndpoint) queryParams += sortEndpoint;
-  if (includeImage) queryParams += '&include_image=true';
+  const queryParams = [];
+  if (page) queryParams.push(`page=${page}`);
+  if (perPage) queryParams.push(`per_page=${perPage}`);
+  if (filterOption) queryParams.push(filterOption);
+  if (sortEndpoint) queryParams.push(sortEndpoint);
+  if (includeImage) queryParams.push('include_image=true');
 
   return {
-    path: `/prescriptions?${queryParams}`,
+    path: `/prescriptions${
+      queryParams.length ? `?${queryParams.join('&')}` : ''
+    }`,
   };
 };
 
