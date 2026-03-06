@@ -51,7 +51,7 @@ jobs:
           if [ -n "${{ inputs.app_entry }}" ]; then
             yarn build --entry=${{ inputs.app_entry }} --buildtype=localhost
           else
-            yarn build --entry=4555-adapted-housing,burials-ez --buildtype=localhost
+            yarn build --entry=4555-adapted-housing,burials-ez,pensions,income-and-asset-statement --buildtype=localhost
           fi
         env:
           NODE_OPTIONS: '--max-old-space-size=8192 --openssl-legacy-provider'

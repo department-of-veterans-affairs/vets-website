@@ -497,9 +497,9 @@ async function performPageActions(page, pathname, config) {
   );
 
   const continuePageProcessing = async () => {
-    // Expand accordions
+    // Expand accordions (scoped to main to avoid footer accordions)
     const accordions = page.locator(
-      'va-accordion-item:not([open]), .usa-accordion button[aria-expanded="false"]',
+      'main va-accordion-item:not([open]), main .usa-accordion button[aria-expanded="false"]',
     );
     const accordionCount = await accordions.count();
     for (let i = 0; i < accordionCount; i++) {
