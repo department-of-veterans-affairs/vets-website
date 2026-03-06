@@ -1,10 +1,21 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
-import { form } from './e2e/fixtures/mocks/mocks';
+import { form, multiYearForms } from './e2e/fixtures/mocks/mocks';
 import mockUsers from '../mocks/endpoints/user';
 
 describe('Authed 1095-B Form Download PDF', () => {
   beforeEach(() => {
     cy.intercept('GET', 'v0/form1095_bs/available_forms', form).as('form');
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'form1095b_multiple_years',
+            value: false,
+          },
+        ],
+      },
+    }).as('featureToggles');
     cy.intercept('GET', 'v0/form1095_bs/download_pdf/*', {
       fixture:
         'applications/static-pages/download-1095b/tests/e2e/fixtures/1095BTestFixture.pdf',
@@ -33,16 +44,16 @@ describe('Authed 1095-B Form Download PDF', () => {
 
     cy.axeCheck();
 
-    cy.get('#pdf-download-link').should('be.visible');
-    cy.get('#txt-download-link').should('be.visible');
+    cy.get('#pdf-download-link-2021').should('be.visible');
+    cy.get('#txt-download-link-2021').should('be.visible');
 
-    cy.get('#pdf-download-link')
+    cy.get('#pdf-download-link-2021')
       .click()
       .then(() => {
         cy.readFile(`${Cypress.config('downloadsFolder')}/1095B-2021.pdf`);
       });
 
-    cy.get('#txt-download-link')
+    cy.get('#txt-download-link-2021')
       .click()
       .then(() => {
         cy.readFile(`${Cypress.config('downloadsFolder')}/1095B-2021.txt`);
@@ -58,10 +69,44 @@ describe('Authed 1095-B Form Download PDF', () => {
     });
     cy.injectAxeThenAxeCheck();
 
-    cy.get('#pdf-download-link').click();
-    cy.focused().should(
+    cy.get('#pdf-download-link-2021').click();
+    cy.get('#downloadError').should(
       'contain',
       'We’re sorry. Something went wrong when we tried to download your form.',
     );
+  });
+
+  it('shows newest 3 years when feature flag enabled', () => {
+    cy.intercept('GET', 'v0/form1095_bs/available_forms', multiYearForms).as(
+      'form',
+    );
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'form1095b_multiple_years',
+            value: true,
+          },
+        ],
+      },
+    }).as('featureToggles');
+
+    cy.visit('/health-care/download-1095b/');
+
+    cy.get('body').should('be.visible');
+    cy.get('#pdf-download-link-2025').should('be.visible');
+    cy.get('#pdf-download-link-2024').should('be.visible');
+    cy.get('#pdf-download-link-2023').should('be.visible');
+    cy.get('#pdf-download-link-2022').should('not.exist');
+
+    cy.get('va-card').then(cards => {
+      const years = [...cards]
+        .map(card => card.textContent)
+        .map(text => text.match(/Tax year:\s*(\d{4})/)?.[1])
+        .filter(Boolean)
+        .map(Number);
+      expect(years).to.deep.equal([2025, 2024, 2023]);
+    });
   });
 });
