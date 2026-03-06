@@ -267,6 +267,62 @@ describe('profile utilities', () => {
         }),
       ).to.deep.equal([]);
     });
+    it('should handle email as an object with emailAddress property', () => {
+      const dataWithEmailObject = {
+        ...getData(),
+        e: { emailAddress: 'test@example.com' },
+      };
+      expect(
+        getMissingInfo({
+          data: dataWithEmailObject,
+          keys,
+          content: c,
+          requiredKeys: ['e'],
+        }),
+      ).to.deep.equal([]);
+    });
+    it('should return missing email when email object has empty emailAddress', () => {
+      const dataWithEmptyEmailAddress = {
+        ...getData({ e: false }),
+        e: { emailAddress: '' },
+      };
+      expect(
+        getMissingInfo({
+          data: dataWithEmptyEmailAddress,
+          keys,
+          content: c,
+          requiredKeys: ['e'],
+        }),
+      ).to.deep.equal(['email']);
+    });
+    it('should return missing email when email object has no emailAddress property', () => {
+      const dataWithNoEmailAddress = {
+        ...getData({ e: false }),
+        e: {},
+      };
+      expect(
+        getMissingInfo({
+          data: dataWithNoEmailAddress,
+          keys,
+          content: c,
+          requiredKeys: ['e'],
+        }),
+      ).to.deep.equal(['email']);
+    });
+    it('should handle email as string (backward compatibility)', () => {
+      const dataWithEmailString = {
+        ...getData(),
+        e: 'string@example.com',
+      };
+      expect(
+        getMissingInfo({
+          data: dataWithEmailString,
+          keys,
+          content: c,
+          requiredKeys: ['e'],
+        }),
+      ).to.deep.equal([]);
+    });
   });
 
   describe('validateEmail', () => {

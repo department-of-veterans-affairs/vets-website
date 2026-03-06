@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   arrayBuilderItemFirstPageTitleUI,
-  fullNameNoSuffixUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   fullNameNoSuffixSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -16,6 +16,7 @@ import {
 import { relationshipToStudentLabels } from './helpers';
 import { addStudentsOptions } from './addStudentsSetup';
 import { NO_SSN_REASON_UI_MAPPINGS } from '../../dataMappings';
+import { fullNameNoSuffixWithAsciiUI } from '../../helpers';
 
 /** @returns {PageSchema} */
 export const studentInformationPage = {
@@ -27,7 +28,7 @@ export const studentInformationPage = {
     'view:studentNameTitle': {
       'ui:description': <h4>Student’s name</h4>,
     },
-    fullName: fullNameNoSuffixUI(title => `Student's ${title}`),
+    fullName: fullNameNoSuffixWithAsciiUI(title => `Student's ${title}`),
     birthDate: currentOrPastDateUI({
       title: 'Student\u2019s date of birth',
       labelHeaderLevel: '4',
@@ -95,10 +96,13 @@ export const studentInformationPage = {
 /** @returns {PageSchema} */
 export const studentRelationshipPage = {
   uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `Your relationship to ${formData?.fullName?.first || 'this student'}`,
+    ),
     relationshipToStudent: radioUI({
       title: 'What\u2019s your relationship to this child?',
       labels: relationshipToStudentLabels,
-      labelHeaderLevel: 3,
     }),
   },
   schema: {

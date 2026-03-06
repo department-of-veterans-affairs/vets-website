@@ -20,6 +20,7 @@ import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicat
 import ITF403Error from '../components/ITF403Error';
 import ITF500Error from '../components/ITF500Error';
 import ITFExistingClaim from '../components/ITFExistingClaim';
+import SubmissionErrorLink from './submissionErrorLink';
 
 const form210966 = (pathname = null) => {
   const { subTitle, formNumber } = getFormContent(pathname);
@@ -52,6 +53,7 @@ const form210966 = (pathname = null) => {
     prefillEnabled: false,
     transformForSubmit: itfTransformForSubmit,
     submissionError: ITFSubmissionError,
+    submissionErrorLink: SubmissionErrorLink,
     defaultDefinitions: {},
     additionalRoutes: [
       {

@@ -48,7 +48,6 @@ export default function prefillTransformer(pages, formData, metadata) {
       country: address.country || address.countryName || 'USA',
       street: address.street || address.addressLine1 || '',
       street2: address.street2 || address.addressLine2 || '',
-      street3: address.street3 || address.addressLine3 || '',
       city: address.city || '',
       state: address.state || address.stateCode || '',
       postalCode: address.postalCode || address.zipCode || '',
