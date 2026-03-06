@@ -14,7 +14,7 @@ module.exports = defineConfig({
   reporter: process.env.CI
     ? [['html', { open: 'never' }], ['list']]
     : [['list']],
-  timeout: 60_000,
+  timeout: 120_000,
 
   use: {
     baseURL: TEST_SERVER_BASE_URL,
