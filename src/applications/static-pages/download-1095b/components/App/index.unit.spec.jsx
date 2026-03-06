@@ -228,6 +228,21 @@ describe('App component', () => {
       expect(message).to.exist;
     });
 
+    it('renders the default notFound copy when feature flag is off', async () => {
+      setupAvailableFormsResponse(server, 200, emptyAvailableFormsResponse);
+      const { findByText, queryByText } = renderWithProvider(
+        authedAndVerifiedState,
+      );
+      const bodyCopy = await findByText(
+        text =>
+          text.includes('You don’t have a 1095-B tax form available.') &&
+          text.includes('were a CHAMPVA beneficiary') &&
+          text.includes('weren’t enrolled in VA healthcare.'),
+      );
+      expect(bodyCopy).to.exist;
+      expect(queryByText(/last three years/i)).to.not.exist;
+    });
+
     it('renders multiple-years copy when feature flag is on', async () => {
       setupAvailableFormsResponse(server, 200, emptyAvailableFormsResponse);
       const { findByText } = renderWithProvider({
@@ -243,6 +258,23 @@ describe('App component', () => {
           text.includes('the last three years'),
       );
       expect(message).to.exist;
+    });
+
+    it('renders the multi-year notFound copy when no links are available', async () => {
+      setupAvailableFormsResponse(server, 200, emptyAvailableFormsResponse);
+      const { findByText } = renderWithProvider({
+        ...authedAndVerifiedState,
+        featureToggles: {
+          loading: false,
+          [toggleKeyForm1095bMultipleYears]: true,
+        },
+      });
+      const bodyCopy = await findByText(
+        text =>
+          text.includes('You don’t have a 1095-B tax form available.') &&
+          text.includes('the last three years'),
+      );
+      expect(bodyCopy).to.exist;
     });
   });
 });
