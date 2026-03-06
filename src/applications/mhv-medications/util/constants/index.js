@@ -30,6 +30,7 @@ export {
   STATUS_NOT_AVAILABLE_FILTER_KEY,
   filterOptions,
   filterOptionsV2,
+  getDefaultFilterOption,
 } from './filters';
 
 export {

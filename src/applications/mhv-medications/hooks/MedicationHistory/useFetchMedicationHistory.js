@@ -6,9 +6,7 @@ import {
   rxListSortingOptions,
   rxListSortingOptionsV2,
   defaultSelectedSortOption,
-  ALL_MEDICATIONS_FILTER_KEY,
-  ACTIVE_FILTER_KEY,
-  SESSION_SELECTED_FILTER_OPTION,
+  getDefaultFilterOption,
 } from '../../util/constants';
 import {
   selectSortOption,
@@ -50,24 +48,10 @@ export const useFetchMedicationHistory = (perPage = 10) => {
     selectMedicationsManagementImprovementsFlag,
   );
 
-  // Resolve the effective filter: default to Active when management
-  // improvements is on and no filter was explicitly stored in session
-  const resolveFilterOption = () => {
-    if (
-      isManagementImprovements &&
-      selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY
-    ) {
-      try {
-        const stored = sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION);
-        if (!stored) return ACTIVE_FILTER_KEY;
-      } catch {
-        // sessionStorage unavailable
-      }
-    }
-    return selectedFilterOption;
-  };
-
-  const effectiveFilter = resolveFilterOption();
+  const effectiveFilter = getDefaultFilterOption(
+    selectedFilterOption,
+    isManagementImprovements,
+  );
 
   const [queryParams, setQueryParams] = useState({
     page,

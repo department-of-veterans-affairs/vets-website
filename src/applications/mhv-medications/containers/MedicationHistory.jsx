@@ -14,9 +14,7 @@ import { pageType } from '../util/dataDogConstants';
 import {
   rxListSortingOptions,
   rxListSortingOptionsV2,
-  ALL_MEDICATIONS_FILTER_KEY,
-  ACTIVE_FILTER_KEY,
-  SESSION_SELECTED_FILTER_OPTION,
+  getDefaultFilterOption,
 } from '../util/constants';
 import {
   selectSortOption,
@@ -85,18 +83,12 @@ const MedicationHistory = () => {
   // and the user hasn't explicitly chosen a filter this session
   useEffect(
     () => {
-      if (
-        isManagementImprovements &&
-        selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY
-      ) {
-        try {
-          const stored = sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION);
-          if (!stored) {
-            dispatch(setFilterOption(ACTIVE_FILTER_KEY));
-          }
-        } catch {
-          // sessionStorage unavailable
-        }
+      const effectiveFilter = getDefaultFilterOption(
+        selectedFilterOption,
+        isManagementImprovements,
+      );
+      if (effectiveFilter !== selectedFilterOption) {
+        dispatch(setFilterOption(effectiveFilter));
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
