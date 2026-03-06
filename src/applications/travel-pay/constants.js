@@ -298,3 +298,6 @@ export const ACCEPTED_FILE_TYPES = Object.freeze([
   '.tif',
   '.tiff',
 ]);
+
+export const PROOF_OF_ATTENDANCE_FILENAME = 'proof-of-attendance';
+
