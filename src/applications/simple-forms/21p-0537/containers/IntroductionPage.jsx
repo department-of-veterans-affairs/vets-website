@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
 const content = {
-  formTitle: 'Verify your marital status for DIC benefits',
+  formTitle: 'Confirm your marital status to keep your DIC benefits',
   formSubTitle: 'Marital Status Questionnaire (VA Form 21P-0537)',
-  authStartFormText: 'Verify your marital status',
+  authStartFormText: 'Confirm your marital status',
   displayNonVeteranMessaging: true,
 };
 
@@ -23,33 +23,29 @@ const childContent = (
   <>
     <div className="va-introtext">
       <p>
-        Use this form to verify your marital status and maintain your
-        eligibility for Dependency and Indemnity Compensation (DIC) benefits.
+        Complete this form to confirm your current marital status so you can
+        continue receiving Dependency and Indemnity Compensation (DIC) benefits.
       </p>
     </div>
-    <h2>What to know before you fill out this form</h2>
+    <h2>Before you start</h2>
     <ul>
       <li>
-        It’s important to report any changes to your marital status if you
-        receive DIC benefits.
+        You must tell us if your marital status changes. This helps us make sure
+        you get the right benefits.
       </li>
       <li>
-        If we sent you a letter asking you to verify your marital status, you
-        must complete and submit this form within 60 days from the date on the
-        letter.
+        <strong>If we sent you a letter:</strong> You need to complete this form
+        within 60 days from the date on the letter.
       </li>
       <li>
-        If you are certifying that you are married for the purpose of VA
-        benefits, your marriage must be recognized by the place where you and/or
-        your spouse resided at the time of marriage, or where you and/or your
-        spouse resided when you filed your claim (or a later date when you
-        became eligible for benefits) (38 U.S.C. § 103(c)). Additional guidance
-        on when VA recognizes marriages is available at{' '}
+        <strong>About marriage and VA benefits:</strong> VA recognizes your
+        marriage if it was legal where you or your spouse lived when you got
+        married. We also recognize your marriage if it was legal where you or
+        your spouse lived when you applied for benefits.{' '}
         <va-link
-          href="http://www.va.gov/opa/marriage/"
-          text="http://www.va.gov/opa/marriage/"
+          href="https://www.va.gov/opa/marriage/"
+          text="Learn more about when VA recognizes marriages"
         />
-        .
       </li>
     </ul>
   </>

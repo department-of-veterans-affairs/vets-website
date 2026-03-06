@@ -111,7 +111,7 @@ describe('21P-0537 IntroductionPage', () => {
       </Provider>,
     );
 
-    getByText(/Verify your marital status for DIC benefits/i);
+    getByText(/Confirm your marital status to keep your DIC benefits/i);
   });
 
   it('renders the what to know section', () => {
@@ -121,7 +121,7 @@ describe('21P-0537 IntroductionPage', () => {
       </Provider>,
     );
 
-    getByText(/What to know before you fill out this form/i);
+    getByText(/Before you start/i);
   });
 
   it('renders DIC eligibility information', () => {
@@ -159,7 +159,7 @@ describe('21P-0537 IntroductionPage', () => {
     );
 
     // Check that the start button text is rendered
-    expect(container.textContent).to.include('Verify your marital status');
+    expect(container.textContent).to.include('Confirm your marital status');
   });
 
   it('calls focusElement on mount', () => {
