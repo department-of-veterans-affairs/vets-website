@@ -156,7 +156,7 @@ describe('DetailCopayPage', () => {
       mockState,
     );
 
-    expect(container.textContent).to.include('516 00000 00024 571 JONES');
+    expect(container.textContent).to.include('516 0000 0000 24571 JONES');
   });
 
   it('renders CDW spaced account number correctly', () => {
@@ -164,7 +164,7 @@ describe('DetailCopayPage', () => {
       id: '123',
       station: { facilityName: 'Tampa VA Medical Center' },
       pSStatementDateOutput: '01/15/2024',
-      accountNumber: '516 00000 00024 571 JONES',
+      accountNumber: '516 0000 0000 24571 JONES',
       details: [],
       pHNewBalance: 100,
       pHTotCharges: 25,
@@ -186,6 +186,6 @@ describe('DetailCopayPage', () => {
       mockState,
     );
 
-    expect(container.textContent).to.include('516 00000 00024 571 JONES');
+    expect(container.textContent).to.include('516 0000 0000 24571 JONES');
   });
 });

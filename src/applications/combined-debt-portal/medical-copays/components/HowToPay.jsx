@@ -12,8 +12,8 @@ export const splitAccountNumber = accountNumber => {
   }
 
   // VHA/Lighthouse format: unspaced (e.g. "5160000000024571JONES")
-  // Pattern: 3 digit facility + 5 digits + 5 digits + remaining digits + alpha name
-  const match = accountNumber.match(/^(\d{2,3})(\d{4,5})(\d{4,5})(\d+)(.+)$/);
+  // Pattern per Pay.gov spec: 3 (station) + 4 (DFN/EDIPI part 1) + 4 (part 2) + 5 (part 3) + last name
+  const match = accountNumber.match(/^(\d{3})(\d{4})(\d{4})(\d{5})(.+)$/);
   if (match) {
     return [match[1], match[2], match[3], match[4], match[5]];
   }
