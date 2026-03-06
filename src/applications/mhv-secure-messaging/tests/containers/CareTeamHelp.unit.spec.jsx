@@ -119,6 +119,13 @@ describe('CareTeamHelp', () => {
     expect(screen.getByText(/You removed them from your contact list/)).to
       .exist;
 
+    // Should show the new "names may appear different" bullet with R&S link
+    expect(screen.getByText(/Their name may appear different/)).to.exist;
+    expect(screen.getByText(/Learn more about this name change/)).to.exist;
+
+    // Provider's name should be removed
+    expect(screen.queryByText(/provider's name/)).to.not.exist;
+
     // Should have one "Update your contact list" link
     const updateLinks = screen.getAllByText(/Update your contact list/);
     expect(updateLinks).to.have.length(1);
@@ -137,6 +144,20 @@ describe('CareTeamHelp', () => {
     expect(screen.getByText(/Select a different VA health care system/)).to
       .exist;
     expect(screen.getByText(/Enter the first few letters/)).to.exist;
+
+    // Should show the new "names may appear different" bullet with R&S link
+    expect(screen.getByText(/Their name may appear different/)).to.exist;
+    expect(screen.getByText(/Learn more about this name change/)).to.exist;
+
+    // Should show the corrected intro text
+    expect(
+      screen.getByText(
+        /If you can't find your care team, try these other options/,
+      ),
+    ).to.exist;
+
+    // Provider's name should be removed
+    expect(screen.queryByText(/provider's name/)).to.not.exist;
 
     // Ensure VistA-only specific content is NOT present
     expect(screen.queryByText(/You removed them from your contact list/)).to.not
@@ -168,8 +189,15 @@ describe('CareTeamHelp', () => {
     });
     expect(updateLinks).to.have.length(1);
 
-    // Ensure VistA-only specific reason is NOT present
-    expect(screen.queryByText(/You removed them from your contact list/)).to.not
+    // Should show the new "names may appear different" bullet with R&S link
+    expect(screen.getByText(/Their name may appear different/)).to.exist;
+    expect(screen.getByText(/Learn more about this name change/)).to.exist;
+
+    // Provider's name should be removed
+    expect(screen.queryByText(/provider's name/)).to.not.exist;
+
+    // Hybrid should also show the 'removed from contact list' reason
+    expect(screen.getByText(/You removed them from your contact list/)).to
       .exist;
 
     // Hybrid still shows search guidance
