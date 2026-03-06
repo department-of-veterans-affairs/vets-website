@@ -11,8 +11,7 @@ export const marriageEndDetails = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `How and when ${formData?.fullName?.first ||
-          'child'}\u2019s marriage ended`,
+        `How and when ${formData?.fullName?.first || 'child'}’s marriage ended`,
     ),
     marriageEndDate: {
       ...currentOrPastDateUI({

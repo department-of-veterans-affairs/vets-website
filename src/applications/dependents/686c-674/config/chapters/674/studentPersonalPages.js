@@ -15,8 +15,7 @@ export const studentIncomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.fullName?.first ||
-          'this student'}\u2019s income information`,
+        `${formData?.fullName?.first || 'this student'}’s income information`,
       null,
       false,
     ),
@@ -27,7 +26,7 @@ export const studentIncomePage = {
       labels: {
         Y: 'Yes',
         N: 'No',
-        NA: 'This question doesn\u2019t apply to me',
+        NA: 'This question doesn’t apply to me',
       },
       required: (_chapterData, _index, formData) =>
         formData?.vaDependentsNetWorthAndPension,
@@ -62,7 +61,7 @@ export const studentAddressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.fullName?.first || 'this student'}\u2019s address`,
+        `${formData?.fullName?.first || 'this student'}’s address`,
       null,
       false,
     ),
@@ -113,7 +112,7 @@ export const studentMaritalStatusPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.fullName?.first || 'this student'}\u2019s marital status`,
+        `${formData?.fullName?.first || 'this student'}’s marital status`,
       null,
       false,
     ),
@@ -136,7 +135,7 @@ export const studentMarriageDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.fullName?.first || 'this student'}\u2019s marriage date`,
+        `${formData?.fullName?.first || 'this student'}’s marriage date`,
       null,
       false,
     ),

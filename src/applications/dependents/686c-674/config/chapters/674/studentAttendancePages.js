@@ -16,7 +16,7 @@ export const studentAttendancePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         `${formData?.fullName?.first ||
-          'this student'}\u2019s school attendance history`,
+          'this student'}’s school attendance history`,
       null,
       false,
     ),
@@ -26,7 +26,7 @@ export const studentAttendancePage = {
           'Has the student attended school continuously since they started school?',
         required: () => true,
         description: generateHelpText(
-          'Attending school continuously means they didn\u2019t stop attending school, except for normal breaks during the school year like winter break or summer break',
+          'Attending school continuously means they didn’t stop attending school, except for normal breaks during the school year like winter break or summer break',
         ),
       }),
     },
@@ -89,7 +89,7 @@ export const schoolAccreditationPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         `${formData?.fullName?.first ||
-          'this student'}\u2019s school accreditation status`,
+          'this student'}’s school accreditation status`,
       null, // description
       false, // lowercase
     ),
@@ -124,7 +124,7 @@ export const studentTermDatesPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.fullName?.first || 'this student'}\u2019s term dates`,
+        `${formData?.fullName?.first || 'this student'}’s term dates`,
       null,
       false,
     ),
@@ -133,7 +133,7 @@ export const studentTermDatesPage = {
         officialSchoolStartDate: {
           ...currentOrPastDateUI({
             title:
-              'When did the student\u2019s regular school term or course officially start?',
+              'When did the student’s regular school term or course officially start?',
             required: () => true,
           }),
           'ui:description': TermDateHint,
@@ -190,8 +190,7 @@ export const previousTermQuestionPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.fullName?.first ||
-          'this student'}\u2019s last term attendance`,
+        `${formData?.fullName?.first || 'this student'}’s last term attendance`,
       null,
       false,
     ),
@@ -223,8 +222,7 @@ export const previousTermDatesPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.fullName?.first ||
-          'this student'}\u2019s previous term dates`,
+        `${formData?.fullName?.first || 'this student'}’s previous term dates`,
       null,
       false,
     ),

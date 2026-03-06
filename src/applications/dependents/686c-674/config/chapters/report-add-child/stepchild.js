@@ -23,7 +23,7 @@ export const stepchild = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.fullName?.first || 'Child'}\u2019s biological parents`,
+        `${formData?.fullName?.first || 'Child'}’s biological parents`,
       null,
       false,
     ),
@@ -57,11 +57,11 @@ export const stepchild = {
       title => `Child's biological parent's ${title}`,
     ),
     biologicalParentSsn: {
-      ...ssnUI('Child\u2019s biological parent\u2019s Social Security number'),
+      ...ssnUI('Child’s biological parent’s Social Security number'),
       'ui:required': required,
     },
     biologicalParentDob: currentOrPastDateUI({
-      title: 'Child\u2019s biological parent\u2019s date of birth',
+      title: 'Child’s biological parent’s date of birth',
       dataDogHidden: true,
       required,
       'ui:errorMessages': {
