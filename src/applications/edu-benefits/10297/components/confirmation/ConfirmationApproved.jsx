@@ -149,6 +149,13 @@ const ConfirmationApproved = ({
         <NeedHelp />
       </div>
 
+      <h2>How to contact us if you have questions</h2>
+      <p>
+        If you have questions about this form or need help, you can submit a
+        request with{' '}
+        <va-link href="https://www.va.gov/contact-us" external text="Ask VA" />.
+      </p>
+
       <va-link-action
         href="/"
         text="Go back to VA.gov homepage"
