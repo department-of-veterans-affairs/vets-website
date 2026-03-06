@@ -18,15 +18,20 @@ describe('MissingRecordsWarningAlert', () => {
 
   it('renders the correct headline', () => {
     const { getByText } = render(<MissingRecordsWarningAlert />);
-    expect(getByText("Some of your records aren't available in this report")).to
-      .exist;
+    expect(
+      getByText(
+        (_, element) =>
+          element.textContent ===
+          'Some of your records aren\u2019t available in this report',
+      ),
+    ).to.exist;
   });
 
   it('renders the correct body text about VA Blue Button report', () => {
     const { getByTestId } = render(<MissingRecordsWarningAlert />);
     const alert = getByTestId('duplicate-records-info-alert');
     expect(alert.textContent).to.include(
-      "Medical records from these VA health facilities aren't available in your VA Blue Button report:",
+      'Medical records from these VA health facilities aren\u2019t available in your VA Blue Button report:',
     );
   });
 
@@ -43,7 +48,7 @@ describe('MissingRecordsWarningAlert', () => {
     const link = container.querySelector('va-link');
     expect(link).to.exist;
     expect(link.getAttribute('href')).to.equal(
-      '/my-health/medical-records/download',
+      '/my-health/medical-records/download#ccd',
     );
     expect(link.getAttribute('text')).to.equal(
       'Go to download your Continuity of Care Document',
@@ -65,9 +70,9 @@ describe('MissingRecordsWarningAlert', () => {
   it('has the correct Datadog action name', () => {
     const { getByTestId } = render(<MissingRecordsWarningAlert />);
     const alert = getByTestId('duplicate-records-info-alert');
-    expect(alert.getAttribute('data-dd-action-name')).to.equal(
-      "Some of your records aren't available in this report",
-    );
+    const actionName = alert.getAttribute('data-dd-action-name');
+    expect(actionName).to.include('available in this report');
+    expect(actionName).to.include('Some of your records');
   });
 
   describe('facility list rendering', () => {

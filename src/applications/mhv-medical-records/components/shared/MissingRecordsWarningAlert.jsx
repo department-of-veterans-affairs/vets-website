@@ -24,7 +24,7 @@ const MissingRecordsWarningAlert = ({ ohFacilityNamesAfterCutover = [] }) => {
         Continuity of Care Document (CCD).
       </p>
       <va-link
-        href="/my-health/medical-records/download"
+        href="/my-health/medical-records/download#ccd"
         text="Go to download your Continuity of Care Document"
       />
     </va-alert>
