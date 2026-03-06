@@ -406,5 +406,3 @@ const VaFileInputMultipleField = props => {
 };
 
 export default VaFileInputMultipleField;
-
-// test

@@ -31,12 +31,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      #- name: Install dependencies
-      #  run: npm install @babel/parser @babel/traverse
+      - name: Install dependencies
+        run: npm install @babel/parser @babel/traverse
       - name: Get them exports
+        id: testing-folders
         env:
           CHANGED_FILES: ${{ needs.get_changed_files.outputs.changed_files }}
         run: node script/github-actions/find-form-exports.js
+      - name: Check check and check
+        run: echo "${{ steps.testing-folders.outputs.folders }}"
+
 
       
 

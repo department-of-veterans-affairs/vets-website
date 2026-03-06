@@ -290,5 +290,3 @@ VaFileInputField.defaultProps = {
 };
 
 export default VaFileInputField;
-
-// test
