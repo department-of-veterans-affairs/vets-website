@@ -1119,6 +1119,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       folders: ${{ steps.testing-folders.outputs.folders }}
+      indices: ${{ steps.testing-folders.outputs.indices }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -1145,13 +1146,16 @@ jobs:
       fail-fast: false
       max-parallel: 5
       matrix:
-        folder: ${{ fromJson(needs.forms-system_regression_check_get_file_paths.outputs.folders) }}
+        index: ${{ fromJson(needs.forms-system_regression_check_get_file_paths.outputs.indices) }}
     steps:
       - uses: actions/checkout@v4
+      - name: Get folder for this index
+        id: get-folder
+        run: echo "folder=$(echo '${{ needs.forms-system_regression_check_get_file_paths.outputs.folders }}' | jq -r '.[${{ matrix.index }}]')" >> $GITHUB_OUTPUT
       - name: Install dependencies
         uses: ./.github/workflows/install
       - name: Run unit tests
-        run: yarn test:unit:gha "${{ matrix.folder }}/**/*.unit.spec.js?(x)"
+        run: yarn test:unit:gha "${{ steps.get-folder.outputs.folder }}/**/*.unit.spec.js?(x)"
 
   run_form-regression_cypress_tests:
     name: Forms System Regression - Cypress E2E Tests
@@ -1173,11 +1177,15 @@ jobs:
       fail-fast: false
       max-parallel: 5
       matrix:
-        folder: ${{ fromJson(needs.forms-system_regression_check_get_file_paths.outputs.folders) }}
+        index: ${{ fromJson(needs.forms-system_regression_check_get_file_paths.outputs.indices) }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Get folder for this index
+        id: get-folder
+        run: echo "folder=$(echo '${{ needs.forms-system_regression_check_get_file_paths.outputs.folders }}' | jq -r '.[${{ matrix.index }}]')" >> $GITHUB_OUTPUT
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -1239,7 +1247,7 @@ jobs:
             exit 1
           fi
 
-          yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options configFile=config/cypress-reporters.js --spec "${{ matrix.folder }}/**/*.cypress.spec.js?(x)"
+          yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options configFile=config/cypress-reporters.js --spec "${{ steps.get-folder.outputs.folder }}/**/*.cypress.spec.{js,jsx}"
         timeout-minutes: 60
         env:
           CYPRESS_CI: true
@@ -1248,14 +1256,14 @@ jobs:
         if: ${{ failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: forms-regression-cypress-videos-${{ strategy.job-index }}
+          name: forms-regression-cypress-videos-${{ matrix.index }}
           path: cypress/videos
 
       - name: Archive test screenshots
         if: ${{ failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: forms-regression-cypress-screenshots-${{ strategy.job-index }}
+          name: forms-regression-cypress-screenshots-${{ matrix.index }}
           path: cypress/screenshots
 
   testing-reports-unit-tests:

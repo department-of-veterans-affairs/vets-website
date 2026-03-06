@@ -110,9 +110,14 @@ function getFoldersForTests() {
     if (app) apps.add(app);
   });
 
-  const folders = JSON.stringify([...apps]);
+  const folderList = [...apps];
+  const folders = JSON.stringify(folderList);
+  const indices = JSON.stringify(folderList.map((_, i) => i));
 
-  fs.appendFileSync(process.env.GITHUB_OUTPUT, `folders=${folders}\n`);
+  fs.appendFileSync(
+    process.env.GITHUB_OUTPUT,
+    `folders=${folders}\nindices=${indices}\n`,
+  );
 }
 
 getFoldersForTests();
