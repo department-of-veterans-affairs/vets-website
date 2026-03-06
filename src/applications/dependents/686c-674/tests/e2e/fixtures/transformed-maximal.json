@@ -218,12 +218,7 @@
         "isSchoolAccredited": true,
         "name": "Test"
       },
-      "typeOfProgramOrBenefit": {
-        "ch35": true,
-        "fry": true,
-        "feca": true,
-        "other": true
-      },
+      "typeOfProgramOrBenefit": "ch35",
       "otherProgramOrBenefit": "Test",
       "tuitionIsPaidByGovAgency": false,
       "ssn": "333445555",
