@@ -8,7 +8,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingCCDirectScheduling', value: true },
   { name: 'vaOnlineSchedulingCCDirectSchedulingChiropractic', value: true },
   { name: 'vaOnlineSchedulingCommunityCareCancellations', value: true },
-  { name: 'vaOnlineSchedulingRecentLocationsFilter', value: true },
   { name: 'vaOnlineSchedulingRemovePodiatry', value: false },
   { name: 'edu_section_103', value: true },
   { name: 'gibctEybBottomSheet', value: true },

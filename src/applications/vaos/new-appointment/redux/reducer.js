@@ -343,17 +343,12 @@ export default function formReducer(state = initialState, action) {
       const { removeFacilityConfigCheck } = action;
       let newData = state.data;
       let { facilities } = action;
-      const {
-        typeOfCareId,
-        featureRecentLocationsFilter,
-        address,
-        cernerSiteIds,
-      } = action;
+      const { typeOfCareId, address, cernerSiteIds } = action;
       const hasResidentialCoordinates =
         !!address?.latitude && !!address?.longitude;
 
       let sortMethod = FACILITY_SORT_METHODS.alphabetical;
-      if (featureRecentLocationsFilter && facilities?.length) {
+      if (facilities?.length) {
         sortMethod = FACILITY_SORT_METHODS.recentLocations;
       } else if (hasResidentialCoordinates) {
         sortMethod = FACILITY_SORT_METHODS.distanceFromResidential;
