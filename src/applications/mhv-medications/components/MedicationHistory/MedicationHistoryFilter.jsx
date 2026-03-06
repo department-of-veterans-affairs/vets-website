@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -69,7 +69,6 @@ const MedicationHistoryFilter = ({ updateFilter, isLoading }) => {
   const [selectedFilterOption, setSelectedFilterOption] = useState(
     filterOption || DEFAULT_FILTER,
   );
-  const radioGroupRef = useRef(null);
 
   // Sync local state when Redux filter changes (e.g., default override)
   useEffect(
@@ -79,36 +78,6 @@ const MedicationHistoryFilter = ({ updateFilter, isLoading }) => {
       }
     },
     [filterOption],
-  );
-
-  const applyBoldToSelectedOption = useCallback(
-    () => {
-      if (radioGroupRef.current) {
-        const options = radioGroupRef.current.querySelectorAll(
-          'va-radio-option',
-        );
-        options.forEach(opt => {
-          const label = opt.querySelector('.usa-radio__label');
-          if (label) {
-            label.style.fontWeight =
-              opt.getAttribute('value') === selectedFilterOption
-                ? 'bold'
-                : 'normal';
-          }
-        });
-      }
-    },
-    [selectedFilterOption],
-  );
-
-  useEffect(
-    () => {
-      applyBoldToSelectedOption();
-      // Delay for initial mount to allow web component DOM to render
-      const timeout = setTimeout(applyBoldToSelectedOption, 100);
-      return () => clearTimeout(timeout);
-    },
-    [applyBoldToSelectedOption],
   );
 
   const handleFilterOptionChange = ({ detail }) => {
@@ -124,7 +93,6 @@ const MedicationHistoryFilter = ({ updateFilter, isLoading }) => {
   return (
     <div className="medication-history-filter vads-u-margin-top--3">
       <VaRadio
-        ref={radioGroupRef}
         label="Select medications to show in list"
         label-header-level={2}
         data-testid="medication-history-filter"
@@ -133,14 +101,20 @@ const MedicationHistoryFilter = ({ updateFilter, isLoading }) => {
         uswds
       >
         {FILTER_OPTIONS.map(({ key, label }) => (
-          <VaRadioOption
+          <span
             key={`filter-option-${key}`}
-            label={label}
-            name="medication-history-filter-group"
-            value={key}
-            checked={selectedFilterOption === key}
-            data-testid={`medication-history-filter-option-${key}`}
-          />
+            className={
+              selectedFilterOption === key ? 'filter-option--selected' : ''
+            }
+          >
+            <VaRadioOption
+              label={label}
+              name="medication-history-filter-group"
+              value={key}
+              checked={selectedFilterOption === key}
+              data-testid={`medication-history-filter-option-${key}`}
+            />
+          </span>
         ))}
       </VaRadio>
       <VaButton

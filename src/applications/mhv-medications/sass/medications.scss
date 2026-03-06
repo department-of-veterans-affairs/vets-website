@@ -10,6 +10,10 @@
       white-space: nowrap;
     }
   }
+
+  .filter-option--selected va-radio-option label {
+    font-weight: bold;
+  }
 }
 
 .link-button,
