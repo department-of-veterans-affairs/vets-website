@@ -25,6 +25,7 @@ import { downtimeNotificationParams } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
 import useTrackPreviousUrl from '../hooks/use-previous-url';
 import FetchRecipients from '../components/FetchRecipients';
+import FetchOHSyncStatus from '../components/FetchOHSyncStatus';
 import LaunchMessagingAal from '../components/util/LaunchMessagingAal';
 
 const App = () => {
@@ -140,6 +141,7 @@ const App = () => {
       >
         <LaunchMessagingAal />
         <FetchRecipients />
+        <FetchOHSyncStatus />
         <MhvSecondaryNav />
         <div className="vads-l-grid-container">
           {mhvSMDown === externalServiceStatus.down &&
