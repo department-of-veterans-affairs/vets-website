@@ -204,10 +204,6 @@ const ExpensePage = () => {
             );
           }
 
-          setFormState(initialState);
-          setPreviousFormState(initialState);
-          initialFormStateRef.current = initialState;
-
           // Step 3: Load document if it exists (use Redux state for document metadata)
           const documentId = expenseWithDocument?.documentId;
           const filename = expenseWithDocument?.receipt?.filename;
