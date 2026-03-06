@@ -35,9 +35,6 @@ export const CREATE_COMPLEX_CLAIM_FAILURE = 'CREATE_COMPLEX_CLAIM_FAILURE';
 export const UPDATE_EXPENSE_STARTED = 'UPDATE_EXPENSE_STARTED';
 export const UPDATE_EXPENSE_SUCCESS = 'UPDATE_EXPENSE_SUCCESS';
 export const UPDATE_EXPENSE_FAILURE = 'UPDATE_EXPENSE_FAILURE';
-export const DELETE_EXPENSE_STARTED = 'DELETE_EXPENSE_STARTED';
-export const DELETE_EXPENSE_SUCCESS = 'DELETE_EXPENSE_SUCCESS';
-export const DELETE_EXPENSE_FAILURE = 'DELETE_EXPENSE_FAILURE';
 export const CREATE_EXPENSE_STARTED = 'CREATE_EXPENSE_STARTED';
 export const CREATE_EXPENSE_SUCCESS = 'CREATE_EXPENSE_SUCCESS';
 export const CREATE_EXPENSE_FAILURE = 'CREATE_EXPENSE_FAILURE';
@@ -488,77 +485,6 @@ export function updateExpense(claimId, expenseType, expenseId, expenseData) {
   };
 }
 
-// Deleting an expense
-const deleteExpenseStart = expenseId => ({
-  type: DELETE_EXPENSE_STARTED,
-  expenseId,
-});
-const deleteExpenseSuccess = expenseId => ({
-  type: DELETE_EXPENSE_SUCCESS,
-  expenseId,
-});
-const deleteExpenseFailure = (error, expenseId) => ({
-  type: DELETE_EXPENSE_FAILURE,
-  error,
-  expenseId,
-});
-
-export function deleteExpense(claimId, expenseType, expenseId) {
-  return async dispatch => {
-    dispatch(deleteExpenseStart(expenseId));
-
-    try {
-      if (!expenseType) {
-        throw new Error('Missing expense type');
-      } else if (!expenseId) {
-        throw new Error('Missing expense id');
-      }
-
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'DELETE expense',
-        'api-status': 'started',
-      });
-
-      const options = {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-
-      const expenseUrl = `${
-        environment.API_URL
-      }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
-      await apiRequest(expenseUrl, options);
-
-      // Fetch the complete complex claim details and load expenses into store
-      await dispatch(getComplexClaimDetails(claimId));
-
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'DELETE expense',
-        'api-status': 'successful',
-        'expense-type': expenseType,
-      });
-
-      // Dispatch success only after claim details are fetched
-      dispatch(deleteExpenseSuccess(expenseId));
-      return { id: expenseId };
-    } catch (error) {
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'DELETE expense',
-        'api-status': 'failed',
-        'expense-type': expenseType,
-      });
-
-      dispatch(deleteExpenseFailure(error, expenseId));
-      throw error;
-    }
-  };
-}
-
 // New bifurcated expense operations
 
 // Creating a new expense
@@ -760,6 +686,22 @@ export function updateExpenseDeleteDocument(
   };
 }
 
+// Deleting an expense and its document as a single operation
+const deleteExpenseDeleteDocumentStart = expenseId => ({
+  type: DELETE_EXPENSE_DELETE_DOCUMENT_STARTED,
+  expenseId,
+});
+const deleteExpenseDeleteDocumentSuccess = (expenseId, claimDetails) => ({
+  type: DELETE_EXPENSE_DELETE_DOCUMENT_SUCCESS,
+  expenseId,
+  payload: claimDetails,
+});
+const deleteExpenseDeleteDocumentFailure = (error, expenseId) => ({
+  type: DELETE_EXPENSE_DELETE_DOCUMENT_FAILURE,
+  error,
+  expenseId,
+});
+
 /**
  * Deletes an expense and its associated document, in that order.
  * After deletion, fetches updated claim details.
@@ -775,8 +717,7 @@ export function deleteExpenseDeleteDocument(
   expenseId,
 ) {
   return async dispatch => {
-    // Delete the expense first
-    dispatch(deleteExpenseStart(expenseId));
+    dispatch(deleteExpenseDeleteDocumentStart(expenseId));
 
     try {
       if (!expenseType) {
@@ -785,6 +726,7 @@ export function deleteExpenseDeleteDocument(
         throw new Error('Missing expense id');
       }
 
+      // Delete the expense first
       const deleteExpenseOptions = {
         method: 'DELETE',
         headers: {
@@ -797,18 +739,10 @@ export function deleteExpenseDeleteDocument(
       }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
       await apiRequest(expenseUrl, deleteExpenseOptions);
 
-      dispatch(deleteExpenseSuccess(expenseId));
-    } catch (error) {
-      dispatch(deleteExpenseFailure(error, expenseId));
-      throw error;
-    }
-
-    // Only delete the associated document if this is NOT a mileage expense
-    if (expenseType.toUpperCase() !== EXPENSE_TYPE_KEYS.MILEAGE.toUpperCase()) {
-      // Delete the document for non-mileage expenses
-      try {
-        dispatch(deleteDocumentStart(documentId));
-
+      // Only delete the associated document if this is NOT a mileage expense
+      if (
+        expenseType.toUpperCase() !== EXPENSE_TYPE_KEYS.MILEAGE.toUpperCase()
+      ) {
         if (!documentId) {
           throw new Error('Missing document id');
         }
@@ -820,12 +754,6 @@ export function deleteExpenseDeleteDocument(
           },
         };
 
-        const documentUrl = `${
-          environment.API_URL
-        }/travel_pay/v0/claims/${claimId}/documents/${documentId}`;
-        await apiRequest(documentUrl, deleteDocumentOptions);
-        dispatch(deleteDocumentSuccess(documentId));
-      } catch (error) {
         /**
          * We delete the expense first. If deleting the document fails afterward,
          * we may end up with an orphaned (unlinked) document. This won’t break
@@ -840,16 +768,29 @@ export function deleteExpenseDeleteDocument(
          * In both failure orders, rolling back is impossible, so we choose the
          * safer sequence: delete the expense first, then the document.
          */
-        dispatch(deleteDocumentFailure(error, documentId));
-        throw error;
+        const documentUrl = `${
+          environment.API_URL
+        }/travel_pay/v0/claims/${claimId}/documents/${documentId}`;
+        await apiRequest(documentUrl, deleteDocumentOptions);
       }
+    } catch (error) {
+      dispatch(deleteExpenseDeleteDocumentFailure(error, expenseId));
+      throw error;
     }
+
     /**
-     * After deleting the expense and for nonmileage expenses the document, fetch the
-     * updated claim details. If this fetch fails, we ignore the error because the deletions
-     * have already completed successfully.
+     * After deleting the expense and for non-mileage expenses the document,
+     * fetch the updated claim details. If this fetch fails, we ignore the
+     * error because the deletions have already completed successfully.
      */
-    await dispatch(getComplexClaimDetails(claimId));
+    try {
+      const response = await apiRequest(
+        `${environment.API_URL}/travel_pay/v0/claims/${claimId}`,
+      );
+      dispatch(deleteExpenseDeleteDocumentSuccess(expenseId, response));
+    } catch (_) {
+      dispatch(deleteExpenseDeleteDocumentSuccess(expenseId, null));
+    }
   };
 }
 

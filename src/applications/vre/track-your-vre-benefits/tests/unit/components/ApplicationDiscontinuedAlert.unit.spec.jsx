@@ -55,27 +55,39 @@ describe('ApplicationDiscontinuedAlert', () => {
   });
 
   it('renders error message when download returns 404', () => {
-    const { getByText } = renderWithStore(<ApplicationDiscontinuedAlert />, {
-      ch31PdfLetterDownload: { loading: false, error: { status: 404 } },
-    });
+    const { getByText, container } = renderWithStore(
+      <ApplicationDiscontinuedAlert />,
+      {
+        ch31PdfLetterDownload: { loading: false, error: { status: 404 } },
+      },
+    );
 
     expect(
       getByText(
         'Letter not found. Contact your counselor for additional information.',
       ),
     ).to.exist;
+
+    const vaLink = container.querySelector('va-link-action');
+    expect(vaLink).to.not.exist;
   });
 
   it('renders generic error message when download fails with other error', () => {
-    const { getByText } = renderWithStore(<ApplicationDiscontinuedAlert />, {
-      ch31PdfLetterDownload: { loading: false, error: { status: 500 } },
-    });
+    const { getByText, container } = renderWithStore(
+      <ApplicationDiscontinuedAlert />,
+      {
+        ch31PdfLetterDownload: { loading: false, error: { status: 500 } },
+      },
+    );
 
     expect(
       getByText(
         "We can't download your letter right now. Please try again later.",
       ),
     ).to.exist;
+
+    const vaLink = container.querySelector('va-link-action');
+    expect(vaLink).to.not.exist;
   });
 
   it('dispatches download action when "View my letter" is clicked', () => {
