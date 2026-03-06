@@ -1129,12 +1129,16 @@ jobs:
         run: |
           cd /tmp
           npm install @babel/parser @babel/traverse
-      - name: Get them exports
+      - name: Get exports
         id: testing-folders
         env:
           NODE_PATH: /tmp/node_modules
           CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
         run: node script/github-actions/find-form-exports.js
+      - name: Log script outputs
+        run: |
+          echo "folders: ${{ steps.testing-folders.outputs.folders }}"
+          echo "cypress_specs: ${{ steps.testing-folders.outputs.cypress_specs }}"
   run_form-regression_unit_tests:
     name: Forms System Regression - Unit Tests
     needs: forms-system_regression_check_get_file_paths
@@ -1152,7 +1156,7 @@ jobs:
         run: yarn test:unit:gha "${{ steps.build-glob.outputs.pattern }}"
 
   run_form-regression_cypress_tests:
-    name: Forms System Regression - Cypress E2E Tests
+    name: Forms System Regression - Cypress E2E Tests (${{ matrix.index }})
     needs: [build, forms-system_regression_check_get_file_paths, fetch-ecr-credentials]
     if: needs.forms-system_regression_check_get_file_paths.outputs.folders != ''
     runs-on: ubuntu-16-cores-latest
@@ -1171,7 +1175,7 @@ jobs:
       fail-fast: false
       max-parallel: 12
       matrix:
-        spec: ${{ fromJson(needs.forms-system_regression_check_get_file_paths.outputs.cypress_specs) }}
+        include: ${{ fromJson(needs.forms-system_regression_check_get_file_paths.outputs.cypress_specs) }}
 
     steps:
       - name: Checkout

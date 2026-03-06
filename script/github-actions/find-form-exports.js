@@ -129,7 +129,9 @@ function getFoldersForTests() {
 
   const buckets = bucketFolders(apps);
   const folders = [...apps].join(',');
-  const cypressSpecs = JSON.stringify(buckets);
+  const cypressSpecs = JSON.stringify(
+    buckets.map((spec, i) => ({ index: i, spec })),
+  );
 
   fs.appendFileSync(
     process.env.GITHUB_OUTPUT,
