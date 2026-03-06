@@ -117,7 +117,6 @@ export const CernerAlertContent = {
     warningGetNote: facilityText =>
       `During this time, you can still call ${facilityText} to contact your provider.`,
     errorPhases: ['p3', 'p4', 'p5'],
-    postMigrationPhases: ['p6', 'p7', 'p8', 'p9'],
     errorHeadline: `You can’t use messages to contact providers at some facilities right now`,
     errorMessage: `You can’t send or receive new messages or reply to conversations with providers at`,
     errorNote:

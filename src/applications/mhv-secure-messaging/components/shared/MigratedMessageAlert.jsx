@@ -1,27 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
+import { hasMessageMigratedToOracleHealth } from '../../util/helpers';
 
 const DATADOG_FIND_VA_FACILITY_LINK =
   'Find your VA health facility link - in migrated message alert';
 
 // MigratedMessageAlert displays an alert when a message has been migrated to Oracle Health.
 const MigratedMessageAlert = () => {
-  const alertContentConfig = CernerAlertContent.SECURE_MESSAGING;
   const messages = useSelector(
     state => state.sm?.threadDetails?.messages || [],
   );
-  if (
-    messages?.length > 0 &&
-    messages.some(
-      message =>
-        message.migratedToOracleHealth &&
-        alertContentConfig.postMigrationPhases.includes(
-          message.ohMigrationPhase,
-        ),
-    )
-  ) {
+
+  const userMessagePostMigration = useMemo(
+    () => {
+      return hasMessageMigratedToOracleHealth(messages);
+    },
+    [messages],
+  );
+
+  if (userMessagePostMigration) {
     return (
       <va-alert-expandable
         status="warning"

@@ -191,7 +191,6 @@ describe('BlockedTriageGroupAlert component', () => {
               {
                 messageId: 100,
                 migratedToOracleHealth: true,
-                ohMigrationPhase: 'p6',
               },
             ],
           },

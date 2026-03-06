@@ -14,6 +14,7 @@ import {
   getBlockedTriageAlertConfig,
   getAnalyticsAlertType,
 } from '../../util/blockedTriageGroupUtils';
+import { hasMessageMigratedToOracleHealth } from '../../util/helpers';
 
 const DATADOG_FIND_VA_FACILITY_LINK =
   'Find your VA health facility link - in Blocked/Not Associated alert';
@@ -57,15 +58,12 @@ const BlockedTriageGroupAlert = ({
     );
   }
   const messages = useSelector(state => state.sm?.threadDetails?.messages);
-  const userMessagePostMigration =
-    messages?.length > 0 &&
-    messages.some(
-      message =>
-        message.migratedToOracleHealth &&
-        alertContentConfig.postMigrationPhases.includes(
-          message.ohMigrationPhase,
-        ),
-    );
+  const userMessagePostMigration = useMemo(
+    () => {
+      return hasMessageMigratedToOracleHealth(messages);
+    },
+    [messages],
+  );
 
   // Compute alert configuration using the centralized utility
   const alertConfig = useMemo(

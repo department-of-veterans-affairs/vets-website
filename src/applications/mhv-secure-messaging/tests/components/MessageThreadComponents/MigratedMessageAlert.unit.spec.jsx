@@ -43,7 +43,6 @@ describe('MigratedMessageAlert', () => {
     const migratedMessage = {
       ...defaultMessage,
       migratedToOracleHealth: true,
-      ohMigrationPhase: 'p6',
     };
     const state = {
       ...defaultState,
