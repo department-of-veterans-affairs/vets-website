@@ -25,7 +25,7 @@ const ExpensesAccordion = ({
   const ccEnabled = useToggleValue(TOGGLE_NAMES.travelPayEnableCommunityCare);
 
   const appointment = useSelector(selectAppointment);
-  const isAppointmentCC = appointment?.data?.isCC || true; // TODO: remove true
+  const isAppointmentCC = appointment?.data?.isCC;
 
   const proofOfAttendanceDocument = useMemo(
     () =>
@@ -33,7 +33,7 @@ const ExpensesAccordion = ({
         d => d.filename?.split('.')?.[0] === PROOF_OF_ATTENDANCE_FILENAME,
       ),
     [documents],
-  ) || { filename: 'proof-of-attendance.pdf' };
+  );
 
   // Group expenses by expenseType and attach their document
   const groupedExpenses = useMemo(

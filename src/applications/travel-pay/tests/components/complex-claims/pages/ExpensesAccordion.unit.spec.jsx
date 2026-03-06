@@ -275,4 +275,83 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
 
     expect(headerTexts).to.include.members(['Mileage', 'Parking']);
   });
+
+  describe('Community Care (CC) - Proof of Attendance', () => {
+    const getCommunityCareState = ({
+      ccEnabled = true,
+      isAppointmentCC = true,
+    } = {}) => ({
+      ...initialState,
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        travel_pay_enable_community_care: ccEnabled,
+      },
+      travelPay: {
+        ...initialState.travelPay,
+        appointment: {
+          ...initialState.travelPay.appointment,
+          data: {
+            ...initialState.travelPay.appointment.data,
+            isCC: isAppointmentCC,
+          },
+        },
+      },
+    });
+
+    const documentsWithPOA = [
+      ...documents,
+      {
+        documentId: 'doc-poa',
+        filename: 'proof-of-attendance.pdf',
+        mimetype: 'application/pdf',
+      },
+    ];
+
+    it('renders ProofOfAttendanceCard when CC is enabled, appointment is CC, and document exists', () => {
+      const { getByText } = renderAccordion(
+        { expenses: [], documents: documentsWithPOA },
+        getCommunityCareState(),
+      );
+
+      expect(document.querySelector('va-accordion')).to.exist;
+      expect(getByText('proof-of-attendance.pdf')).to.exist;
+    });
+
+    it('does not render ProofOfAttendanceCard when CC is disabled', () => {
+      renderAccordion(
+        { expenses: [], documents: documentsWithPOA },
+        getCommunityCareState({ ccEnabled: false }),
+      );
+
+      expect(document.querySelector('va-accordion')).to.not.exist;
+    });
+
+    it('does not render ProofOfAttendanceCard when appointment is not CC', () => {
+      renderAccordion(
+        { expenses: [], documents: documentsWithPOA },
+        getCommunityCareState({ isAppointmentCC: false }),
+      );
+
+      expect(document.querySelector('va-accordion')).to.not.exist;
+    });
+
+    it('does not render ProofOfAttendanceCard when proof of attendance document does not exist', () => {
+      renderAccordion({ expenses: [], documents }, getCommunityCareState());
+
+      expect(document.querySelector('va-accordion')).to.not.exist;
+    });
+
+    it('renders only ProofOfAttendanceCard accordion when no expenses but CC conditions are met', () => {
+      const { getByText, queryByText } = renderAccordion(
+        { expenses: [], documents: documentsWithPOA },
+        getCommunityCareState(),
+      );
+
+      expect(document.querySelector('va-accordion')).to.exist;
+      expect(getByText('proof-of-attendance.pdf')).to.exist;
+
+      expect(queryByText('Mileage')).to.not.exist;
+      expect(queryByText('Parking')).to.not.exist;
+    });
+  });
 });
