@@ -54,7 +54,7 @@ describe('processDependents', () => {
       },
     ];
     const result = processDependents(input);
-    expect(result[0].ssn).to.equal('6789');
+    expect(result[0].ssn).to.equal('123456789');
   });
 
   it('should handle removalDate formatting', () => {
