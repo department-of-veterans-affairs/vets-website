@@ -4,7 +4,10 @@ const parser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const { execSync } = require('child_process');
 
-const files = JSON.parse(process.env.CHANGED_FILES || '[]');
+const files = (process.env.CHANGED_FILES || '')
+  .split(' ')
+  .filter(f => f.includes('platform/forms-system/'));
+
 const repoRoot = execSync('git rev-parse --show-toplevel', {
   encoding: 'utf8',
   cwd: __dirname,
@@ -104,9 +107,11 @@ function getFoldersForTests() {
   const apps = new Set();
   _files.forEach(file => {
     const app = findTestingFolder(file);
-    apps.add(app);
+    if (app) apps.add(app);
   });
+
   const folders = JSON.stringify([...apps]);
+
   fs.appendFileSync(process.env.GITHUB_OUTPUT, `folders=${folders}\n`);
 }
 
