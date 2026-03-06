@@ -379,6 +379,36 @@ describe('Summary of Evidence', () => {
     expect(form.find('li').length).to.equal(1);
     form.unmount();
   });
+  it('should render no evidence warning when legacy summary has stale separation health assessment uploads', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          disability526SupportingEvidenceEnhancement: false,
+          disability526NewBddShaEnforcementWorkflowEnabled: true,
+          'view:isBddData': true,
+          serviceInformation: bddServiceInformation,
+          'view:hasSeparationHealthAssessment': false,
+          separationHealthAssessmentUploads,
+        }}
+      />,
+    );
+
+    expect(form.render().text()).to.contain('Summary of evidence');
+    expect(form.render().text()).to.contain(
+      'You haven’t uploaded any evidence.',
+    );
+    expect(form.render().text()).to.not.contain(
+      'We’ll submit the Separation Health Assessment Part A document that you uploaded',
+    );
+    expect(form.render().text()).to.not.contain(
+      separationHealthAssessmentUploads[0].name,
+    );
+    expect(form.find('li').length).to.equal(0);
+    form.unmount();
+  });
   it('should render with updated title when the enhancment feature is on', () => {
     const form = mount(
       <DefinitionTester
