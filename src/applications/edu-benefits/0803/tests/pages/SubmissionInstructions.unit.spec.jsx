@@ -20,7 +20,7 @@ describe('22-0803 submission instructions page', () => {
     expect(getByText('How to submit your form')).to.exist;
     expect(
       getByText(
-        'This form does not submit automatically. After you review your information, download your completed VA Form 22-0803. Then, gather the required additional attachments, and take all of your documents to QuickSubmit to complete the submission process. This is the fastest way for us to process your form.',
+        'This form doesn’t submit automatically. After you review your information, download your completed VA Form 22-0803. Then, gather the required additional attachments, and take all of your documents to QuickSubmit to complete the submission process. This is the fastest way for us to process your form.',
       ),
     ).to.exist;
   });
