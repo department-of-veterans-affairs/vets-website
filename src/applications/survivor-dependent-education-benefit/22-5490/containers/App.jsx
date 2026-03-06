@@ -28,6 +28,7 @@ function App({
   mebDpoAddressOptionEnabled,
   mebBankInfoConfirmationField,
   meb1995InstructionPageUpdateV3,
+  mebBlockUnder18,
   setFormData,
   user,
 }) {
@@ -112,10 +113,18 @@ function App({
           mebBankInfoConfirmationField,
         });
       }
+
+      if (mebBlockUnder18 !== formData.mebBlockUnder18) {
+        setFormData({
+          ...formData,
+          mebBlockUnder18,
+        });
+      }
     },
     [
       meb1995InstructionPageUpdateV3,
       mebBankInfoConfirmationField,
+      mebBlockUnder18,
       formData,
       setFormData,
     ],
@@ -210,6 +219,7 @@ App.propTypes = {
   location: PropTypes.object,
   meb1995InstructionPageUpdateV3: PropTypes.bool,
   mebBankInfoConfirmationField: PropTypes.bool,
+  mebBlockUnder18: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
   user: PropTypes.object,

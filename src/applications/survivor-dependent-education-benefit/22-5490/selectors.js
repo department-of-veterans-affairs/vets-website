@@ -24,5 +24,6 @@ export const getAppData = state => {
     user: state.user || {},
     meb1995InstructionPageUpdateV3:
       state?.featureToggles?.meb1995InstructionPageUpdateV3,
+    mebBlockUnder18: state?.featureToggles?.mebBlockUnder18,
   };
 };
