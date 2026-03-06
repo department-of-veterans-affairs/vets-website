@@ -76,9 +76,6 @@ export const selectFeatureCommunityCareCancellations = state =>
 
 export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
 
-export const selectFeatureRecentLocationsFilter = state =>
-  toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
-
 export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
 
@@ -114,9 +111,6 @@ export const selectFeatureSubstanceUseDisorder = state =>
 
 export const selectFeaturePCMHI = state =>
   toggleValues(state).vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative;
-
-export const selectFeatureListViewClinicInfo = state =>
-  toggleValues(state).vaOnlineSchedulingListViewClinicInfo;
 
 export const selectFeatureAddOhAvs = state =>
   toggleValues(state).vaOnlineSchedulingAddOhAvs;

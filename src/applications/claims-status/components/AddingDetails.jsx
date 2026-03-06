@@ -3,7 +3,7 @@ import React from 'react';
 function AddingDetails() {
   return (
     <va-alert
-      class="vads-u-margin-bottom--1"
+      class="vads-u-margin-y--2"
       close-btn-aria-label="Close notification"
       full-width="false"
       slim

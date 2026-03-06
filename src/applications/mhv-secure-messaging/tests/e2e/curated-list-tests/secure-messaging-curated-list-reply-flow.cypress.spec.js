@@ -123,6 +123,9 @@ describe('SM CURATED LIST REPLY FLOW WITH INTERSTITIAL', () => {
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
 
+    // Wait for interstitial page to render before tabbing
+    PatientInterstitialPage.getStartMessageLink().should('be.visible');
+
     // Tab to the start message link and press Enter
     cy.tabToElement(`[data-testid=${Locators.LINKS.START_NEW_MESSAGE}]`);
     cy.realPress(['Enter']);

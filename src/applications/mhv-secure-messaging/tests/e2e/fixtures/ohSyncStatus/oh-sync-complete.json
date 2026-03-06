@@ -1,0 +1,9 @@
+{
+  "data": {
+    "id": "",
+    "type": "oh_sync_status",
+    "attributes": {
+      "syncComplete": true
+    }
+  }
+}
