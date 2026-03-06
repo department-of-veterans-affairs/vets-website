@@ -85,7 +85,7 @@ const mapClaimantOverview = raw => ({
   phone: raw?.phone,
   email: raw?.email,
   address: raw?.address || null,
-  representativeInfo: raw?.representative_info || null,
+  representativeName: raw?.representative_name || null,
   intentToFile: normalizeItfArray(raw?.itf),
 });
 
@@ -293,26 +293,7 @@ const ClaimantOverviewPage = () => {
                 <dl className="vads-u-margin--0">
                   <ClaimantDetailRow
                     label="Representative"
-                    value={claimant?.representativeInfo?.representative || '—'}
-                  />
-                  <ClaimantDetailRow
-                    label="VBMS eFolder access"
-                    value={
-                      claimant?.representativeInfo?.vbmsEfolderAccess || '—'
-                    }
-                  />
-                  <ClaimantDetailRow
-                    label="Change of address authorization"
-                    value={
-                      claimant?.representativeInfo
-                        ?.changeOfAddressAuthorization || '—'
-                    }
-                  />
-                  <ClaimantDetailRow
-                    label="Type of representation"
-                    value={
-                      claimant?.representativeInfo?.typeOfRepresentation || '—'
-                    }
+                    value={claimant?.representativeName || '—'}
                   />
                 </dl>
               </div>
