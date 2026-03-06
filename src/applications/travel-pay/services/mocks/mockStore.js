@@ -4,7 +4,10 @@
 if (!global.__MOCK_STORE_INITIALIZED__) {
   const { baseClaimList } = require('./claims/baseClaimList');
   const { buildClaim } = require('./claims/baseClaim');
-  const { buildAppointmentsFromClaims } = require('./vaos/appointmentUtils');
+  const {
+    buildAppointmentsFromClaims,
+    buildCCAppointment,
+  } = require('./vaos/appointmentUtils');
   const { expenseByType } = require('./expenses/expenseData');
 
   const { STATUS_KEYS } = require('./constants');
@@ -23,6 +26,11 @@ if (!global.__MOCK_STORE_INITIALIZED__) {
   baseAppointments.forEach(appt => {
     appointmentsStore[appt.id] = { ...appt };
   });
+
+  // Dedicated community care appointment for testing the PoA upload flow.
+  // Navigate to: /my-health/travel-pay/file-new-claim/cc-appt-001
+  const ccAppointment = buildCCAppointment();
+  appointmentsStore[ccAppointment.id] = ccAppointment;
 
   // Build helper for getting the appointment associated with a claim ID
   // appointmentByClaimId[claimId] → appointment
