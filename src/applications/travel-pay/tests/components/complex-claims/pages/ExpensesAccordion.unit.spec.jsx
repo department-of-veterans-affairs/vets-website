@@ -307,9 +307,13 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
       },
     ];
 
-    it('renders ProofOfAttendanceCard when CC is enabled, appointment is CC, and document exists', () => {
+    it('renders ProofOfAttendanceCard when CC is enabled, appointment is CC, document exists, and groupAccordionItemsByType is true', () => {
       const { getByText } = renderAccordion(
-        { expenses: [], documents: documentsWithPOA },
+        {
+          expenses: [],
+          documents: documentsWithPOA,
+          groupAccordionItemsByType: true,
+        },
         getCommunityCareState(),
       );
 
@@ -319,7 +323,11 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
 
     it('does not render ProofOfAttendanceCard when CC is disabled', () => {
       renderAccordion(
-        { expenses: [], documents: documentsWithPOA },
+        {
+          expenses: [],
+          documents: documentsWithPOA,
+          groupAccordionItemsByType: true,
+        },
         getCommunityCareState({ ccEnabled: false }),
       );
 
@@ -328,7 +336,11 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
 
     it('does not render ProofOfAttendanceCard when appointment is not CC', () => {
       renderAccordion(
-        { expenses: [], documents: documentsWithPOA },
+        {
+          expenses: [],
+          documents: documentsWithPOA,
+          groupAccordionItemsByType: true,
+        },
         getCommunityCareState({ isAppointmentCC: false }),
       );
 
@@ -336,14 +348,34 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
     });
 
     it('does not render ProofOfAttendanceCard when proof of attendance document does not exist', () => {
-      renderAccordion({ expenses: [], documents }, getCommunityCareState());
+      renderAccordion(
+        { expenses: [], documents, groupAccordionItemsByType: true },
+        getCommunityCareState(),
+      );
+
+      expect(document.querySelector('va-accordion')).to.not.exist;
+    });
+
+    it('does not render ProofOfAttendanceCard when groupAccordionItemsByType is false', () => {
+      renderAccordion(
+        {
+          expenses: [],
+          documents: documentsWithPOA,
+          groupAccordionItemsByType: false,
+        },
+        getCommunityCareState(),
+      );
 
       expect(document.querySelector('va-accordion')).to.not.exist;
     });
 
     it('renders only ProofOfAttendanceCard accordion when no expenses but CC conditions are met', () => {
       const { getByText, queryByText } = renderAccordion(
-        { expenses: [], documents: documentsWithPOA },
+        {
+          expenses: [],
+          documents: documentsWithPOA,
+          groupAccordionItemsByType: true,
+        },
         getCommunityCareState(),
       );
 
@@ -363,7 +395,11 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
         },
       ];
       renderAccordion(
-        { expenses: [], documents: documentsWithWrongName },
+        {
+          expenses: [],
+          documents: documentsWithWrongName,
+          groupAccordionItemsByType: true,
+        },
         getCommunityCareState(),
       );
 

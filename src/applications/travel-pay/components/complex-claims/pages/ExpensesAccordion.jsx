@@ -58,10 +58,15 @@ const ExpensesAccordion = ({
     return expenseTypeOrder.indexOf(a) - expenseTypeOrder.indexOf(b);
   });
   const hasExpenses = expenseEntries.length > 0;
+  const showProofOfAttendance =
+    ccEnabled &&
+    isAppointmentCC &&
+    !!proofOfAttendanceDocument &&
+    groupAccordionItemsByType;
 
   // No expenses case
   if (!hasExpenses) {
-    return ccEnabled && isAppointmentCC && !!proofOfAttendanceDocument ? (
+    return showProofOfAttendance ? (
       <va-accordion open-single>
         <ProofOfAttendanceCard filename={proofOfAttendanceDocument.filename} />
       </va-accordion>
@@ -70,13 +75,9 @@ const ExpensesAccordion = ({
 
   return (
     <va-accordion open-single={!groupAccordionItemsByType}>
-      {ccEnabled &&
-        isAppointmentCC &&
-        !!proofOfAttendanceDocument && (
-          <ProofOfAttendanceCard
-            filename={proofOfAttendanceDocument.filename}
-          />
-        )}
+      {showProofOfAttendance && (
+        <ProofOfAttendanceCard filename={proofOfAttendanceDocument.filename} />
+      )}
       {groupAccordionItemsByType ? (
         // Multiple accordion items (one per type)
         // Edit and Delete expense buttons show on the expense card
