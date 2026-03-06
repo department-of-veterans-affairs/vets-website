@@ -531,7 +531,7 @@ export default function formReducer(state = initialState, action) {
       }
 
       if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
-        sortedFacilities = facilities.sort((a, b) =>
+        sortedFacilities = facilities.toSorted((a, b) =>
           a.name.localeCompare(b.name),
         );
       } else if (
@@ -539,7 +539,7 @@ export default function formReducer(state = initialState, action) {
         (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation &&
           location)
       ) {
-        sortedFacilities = facilities.sort(
+        sortedFacilities = facilities.toSorted(
           (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
         );
       } else {
