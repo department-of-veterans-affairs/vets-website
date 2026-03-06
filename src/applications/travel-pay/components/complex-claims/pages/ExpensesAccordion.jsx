@@ -1,25 +1,19 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import ExpenseCardList from './ExpenseCardList';
-import { getExpenseType } from '../../../util/complex-claims-helper';
-import { EXPENSE_TYPES, PROOF_OF_ATTENDANCE_FILENAME } from '../../../constants';
-import ProofOfAttendanceCard from './ProofOfAttendanceCard';
 import {
   useFeatureToggle,
   TOGGLE_NAMES,
 } from 'platform/utilities/feature-toggles';
-import { selectAppointment } from '../../../redux/selectors';
 import { useSelector } from 'react-redux';
-
-const findProofOfAttendanceDocument = documents =>
-  useMemo(
-    () =>
-      documents.find(
-        d => d.filename?.split('.')?.[0] === PROOF_OF_ATTENDANCE_FILENAME,
-      ),
-    [documents],
-  ) || { filename: 'proof-of-attendance.pdf' };
+import ExpenseCardList from './ExpenseCardList';
+import { getExpenseType } from '../../../util/complex-claims-helper';
+import {
+  EXPENSE_TYPES,
+  PROOF_OF_ATTENDANCE_FILENAME,
+} from '../../../constants';
+import ProofOfAttendanceCard from './ProofOfAttendanceCard';
+import { selectAppointment } from '../../../redux/selectors';
 
 const ExpensesAccordion = ({
   documents = [],
@@ -29,9 +23,17 @@ const ExpensesAccordion = ({
 }) => {
   const { useToggleValue } = useFeatureToggle();
   const ccEnabled = useToggleValue(TOGGLE_NAMES.travelPayEnableCommunityCare);
+
   const appointment = useSelector(selectAppointment);
   const isAppointmentCC = appointment?.data?.isCC || true; // TODO: remove true
-  const proofOfAttendanceDocument = findProofOfAttendanceDocument(documents);
+
+  const proofOfAttendanceDocument = useMemo(
+    () =>
+      documents.find(
+        d => d.filename?.split('.')?.[0] === PROOF_OF_ATTENDANCE_FILENAME,
+      ),
+    [documents],
+  ) || { filename: 'proof-of-attendance.pdf' };
 
   // Group expenses by expenseType and attach their document
   const groupedExpenses = useMemo(
@@ -68,9 +70,13 @@ const ExpensesAccordion = ({
 
   return (
     <va-accordion open-single={!groupAccordionItemsByType}>
-      { ccEnabled && isAppointmentCC && !!proofOfAttendanceDocument && (
-        <ProofOfAttendanceCard filename={proofOfAttendanceDocument.filename} />
-      )}
+      {ccEnabled &&
+        isAppointmentCC &&
+        !!proofOfAttendanceDocument && (
+          <ProofOfAttendanceCard
+            filename={proofOfAttendanceDocument.filename}
+          />
+        )}
       {groupAccordionItemsByType ? (
         // Multiple accordion items (one per type)
         // Edit and Delete expense buttons show on the expense card
