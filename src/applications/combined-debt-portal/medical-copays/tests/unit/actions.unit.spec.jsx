@@ -16,9 +16,7 @@ describe('getAllCopays', () => {
     mockApiRequest(copays);
 
     return getAllCopays(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        MCP_COPAYS_FETCH_INIT,
-      );
+      expect(dispatch.firstCall.args[0].type).to.equal(MCP_COPAYS_FETCH_INIT);
       expect(dispatch.secondCall.args[0].type).to.equal(
         MCP_COPAYS_FETCH_SUCCESS,
       );

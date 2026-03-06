@@ -10,7 +10,10 @@ import HowToPay from '../components/HowToPay';
 import DownloadStatement from '../components/DownloadStatement';
 import FinancialHelp from '../components/FinancialHelp';
 import NeedHelpCopay from '../components/NeedHelpCopay';
-import { DEFAULT_COPAY_ATTRIBUTES, RESOLVE_HEADER } from '../../combined/utils/constants';
+import {
+  DEFAULT_COPAY_ATTRIBUTES,
+  RESOLVE_HEADER,
+} from '../../combined/utils/constants';
 import {
   setPageFocus,
   formatFullName,
@@ -70,8 +73,9 @@ const ResolvePage = () => {
           };
       /* eslint-disable no-nested-ternary */
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentCopay?.id, shouldUseLighthouseCopays],
-  ); // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   useHeaderPageTitle(RESOLVE_HEADER);
 

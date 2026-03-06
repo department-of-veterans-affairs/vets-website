@@ -7,10 +7,10 @@ import recordEvent from 'platform/monitoring/record-event';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { head } from 'lodash';
 
-export const formatFullName = (userFullName) => userFullName?.middle
+export const formatFullName = userFullName =>
+  userFullName?.middle
     ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
     : `${userFullName?.first || ''} ${userFullName?.last || ''}`.trim();
-
 
 /* Helper function to consisently format date strings
  *
@@ -55,11 +55,10 @@ export const calcDueDate = (date, days) => {
   return formatDate(addDays(new Date(date), days));
 };
 
-export const getCopayCharge = (copay = {}) => (
+export const getCopayCharge = (copay = {}) =>
   copay.details?.filter(
-    charge => !charge.pDTransDescOutput.startsWith('&nbsp;')
-  )
-);
+    charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
+  );
 
 export const titleCase = str => {
   return str

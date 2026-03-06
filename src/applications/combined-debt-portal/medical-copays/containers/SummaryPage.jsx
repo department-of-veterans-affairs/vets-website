@@ -85,9 +85,9 @@ const OverviewPage = () => {
   } = debtLetters;
   const debtLoading = isDebtPending || isProfileUpdating;
   const { copays, error: mcpError, pending: mcpLoading } = mcp;
-  const copaysEmpty = (shouldUseLighthouseCopays
+  const copaysEmpty = shouldUseLighthouseCopays
     ? mcp.copays?.data
-    : copays)?.length === 0;
+    : copays?.length === 0;
   const sortedCopays = shouldUseLighthouseCopays
     ? mcp.copays?.data ?? []
     : sortCopaysByDate(copays || []);

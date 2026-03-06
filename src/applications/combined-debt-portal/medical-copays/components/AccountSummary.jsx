@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatCurrency } from '../../combined/utils/helpers';
 
-export const AccountSummary = ({ acctNum, paymentsReceived, currentBalance }) => {
+export const AccountSummary = ({
+  acctNum,
+  paymentsReceived,
+  currentBalance,
+}) => {
   return (
     <section>
       <h2
@@ -35,8 +39,8 @@ export const AccountSummary = ({ acctNum, paymentsReceived, currentBalance }) =>
 
 AccountSummary.propTypes = {
   acctNum: PropTypes.string,
+  currentBalance: PropTypes.number,
   paymentsReceived: PropTypes.number,
-  previousBalance: PropTypes.number,
 };
 
 export default AccountSummary;

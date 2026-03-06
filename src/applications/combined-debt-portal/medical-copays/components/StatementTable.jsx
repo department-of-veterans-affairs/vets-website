@@ -11,7 +11,7 @@ import {
 import { useLighthouseCopays } from '../../combined/utils/selectors';
 
 const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
-  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays)
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
   const columns = ['Date', 'Description', 'Billing Reference', 'Amount'];
 
   const MAX_ROWS = 10;
