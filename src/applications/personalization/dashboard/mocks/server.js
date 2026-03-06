@@ -17,7 +17,10 @@ const {
   createDebtsFailure,
 } = require('./debts');
 const { createClaimsSuccess, createClaimsFailure } = require('./claims');
-const { createHealthCareStatusSuccess } = require('./health-care');
+const {
+  createHealthCareStatusSuccess,
+  createHealthCareStatusFailure,
+} = require('./health-care');
 const {
   createApplications,
   createApplicationsEmpty,
@@ -148,7 +151,17 @@ const responses = {
         return '';
     }
   },
-  'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
+  'GET /v0/health_care_applications/enrollment_status': (_req, res) => {
+    const healthCareStatus = 'success'; // 'success' or 'failure'
+    switch (healthCareStatus) {
+      case 'success':
+        return res.status(200).json(createHealthCareStatusSuccess());
+      case 'failure':
+        return res.status(500).json(createHealthCareStatusFailure());
+      default:
+        return '';
+    }
+  },
   'GET /my_health/v1/messaging/folders': (_req, res) => {
     const messagesStatus = 'hasUnread'; // 'hasUnread', 'allRead', or 'failure'
     switch (messagesStatus) {
@@ -257,7 +270,7 @@ const responses = {
       case 'success':
         return res.status(200).json(v2.createAppointmentSuccess());
       case 'failure':
-        return res.status(400).json(v2.createVaosError());
+        return res.status(400).json(v2.createVaosError({}));
       case 'empty':
         return res.status(200).json({ data: [] });
       default:

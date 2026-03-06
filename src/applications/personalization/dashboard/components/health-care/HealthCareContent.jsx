@@ -25,9 +25,9 @@ const HealthCareContent = ({
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  const NoUpcomingAppointmentsText = () => (
+  const NoUpcomingAppointments = () => (
     <va-card data-testid="no-upcoming-appointments-card">
-      <h4 className="vads-u-margin-top--1">Upcoming appointments</h4>
+      <h4 className="vads-u-margin-top--0">Upcoming appointments</h4>
       <p>You don’t have any upcoming appointments.</p>
       <va-link
         text="Manage health appointments"
@@ -65,7 +65,6 @@ const HealthCareContent = ({
   const NoHealthcareText = () => (
     <div data-testid="no-health-care-notice">
       <p>We can’t find any VA health care on file for you.</p>
-      <va-link text="Go to My HealtheVet" href="/my-health" />
     </div>
   );
 
@@ -76,37 +75,43 @@ const HealthCareContent = ({
       : 'error';
 
     return (
-      <div className="vads-u-margin-bottom--2p5">
-        <va-alert status={status} data-testid="healthcare-error">
-          <p>
-            We can’t show your health care information right now. Refresh this
-            page or try again later.
-          </p>
-        </va-alert>
-      </div>
+      <va-alert status={status} data-testid="healthcare-error">
+        <p className="vads-u-margin-y--0" data-testid="healthcare-error-text">
+          We can’t show your health care information right now. Refresh this
+          page or try again later.
+        </p>
+      </va-alert>
     );
   };
 
   const AppointmentsError = () => (
-    <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="warning" data-testid="appointments-error">
-        <div>
-          We can’t show your appointments right now. Refresh this page or try
-          again later.
-        </div>
-      </va-alert>
-    </div>
+    <va-alert status="warning" data-testid="appointments-error">
+      <p className="vads-u-margin-y--0">
+        We can’t show your appointments right now. Refresh this page or try
+        again later.
+      </p>
+    </va-alert>
   );
 
   const MessagesError = () => (
-    <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="warning" data-testid="messages-error">
-        <div>
-          We can’t show your messages right now. Refresh this page or try again
-          later.
-        </div>
-      </va-alert>
-    </div>
+    <va-alert status="warning" data-testid="messages-error">
+      <p className="vads-u-margin-y--0">
+        We can’t show your messages right now. Refresh this page or try again
+        later.
+      </p>
+    </va-alert>
+  );
+
+  const ManageAllAppointmentsLink = () => (
+    <va-link
+      text="Manage all appointments"
+      href="/my-health/appointments"
+      data-testid="manage-all-appointments-link"
+    />
+  );
+
+  const MyHealtheVetLink = () => (
+    <va-link text="Go to My HealtheVet" href="/my-health" />
   );
 
   if (shouldShowLoadingIndicator) {
@@ -118,6 +123,9 @@ const HealthCareContent = ({
       <div className="vads-l-row">
         <DashboardWidgetWrapper>
           <HealthcareError />
+          <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+            <MyHealtheVetLink />
+          </p>
         </DashboardWidgetWrapper>
       </div>
     );
@@ -140,6 +148,7 @@ const HealthCareContent = ({
                   <AppointmentCard appointment={appointment} />
                 </DashboardWidgetWrapper>
               ))}
+              <ManageAllAppointmentsLink />
             </div>
           )}
         {!isVAPatient &&
@@ -154,15 +163,12 @@ const HealthCareContent = ({
           !isLOA1 &&
           !isCernerPatient && (
             <DashboardWidgetWrapper>
-              <NoUpcomingAppointmentsText />
+              <NoUpcomingAppointments />
+              <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+                <ManageAllAppointmentsLink />
+              </p>
             </DashboardWidgetWrapper>
           )}
-
-        <va-link
-          text="Manage all appointments"
-          href="/my-health/appointments"
-          data-testid="manage-appointments-all-link"
-        />
       </div>
       {isVAPatient && (
         <div className="vads-l-row">
@@ -175,9 +181,9 @@ const HealthCareContent = ({
           </DashboardWidgetWrapper>
         </div>
       )}
-      <div className="vads-u-margin-top--2">
-        <va-link text="Go to My HealtheVet" href="/my-health" />
-      </div>
+      <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+        <MyHealtheVetLink />
+      </p>
     </>
   );
 };

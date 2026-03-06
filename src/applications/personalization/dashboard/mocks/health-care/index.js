@@ -8,6 +8,11 @@ const createHealthCareStatusSuccess = () => {
   };
 };
 
+const createHealthCareStatusFailure = () => ({
+  errors: [{ code: '500', detail: 'Server error' }],
+});
+
 module.exports = {
   createHealthCareStatusSuccess,
+  createHealthCareStatusFailure,
 };
