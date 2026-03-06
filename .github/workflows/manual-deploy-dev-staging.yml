@@ -116,8 +116,10 @@ jobs:
             node_modules
 
       - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.environment }}
-        timeout-minutes: 30  
+        run: node script/esbuild.js --buildtype=${{ matrix.environment }}
+        timeout-minutes: 30
+        env:
+          NODE_ENV: production  
         
       - name: Generate build details
         run: |
