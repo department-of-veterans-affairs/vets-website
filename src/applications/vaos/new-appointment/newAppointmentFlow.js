@@ -93,9 +93,10 @@ async function vaFacilityNext(state, dispatch) {
   // This duplicates behavior used in the src/applications/vaos/new-appointment/hooks/useOHScheduling.js
   // hook. When the hook is updated, this should be updated too. It's temporary, so speed was chosen
   // over elegance
-  const typeOfCareEnabled = OH_ENABLED_TYPES_OF_CARE.includes(
-    environment.isStaging() || getTypeOfCare(state.newAppointment.data)?.idV2,
-  );
+
+  const typeOfCareId = getTypeOfCare(state.newAppointment.data)?.idV2;
+  const typeOfCareEnabled =
+    environment.isStaging() || OH_ENABLED_TYPES_OF_CARE.includes(typeOfCareId);
 
   const ehr = isCerner ? APPOINTMENT_SYSTEM.cerner : APPOINTMENT_SYSTEM.vista;
   dispatch(updateFacilityEhr(ehr));
