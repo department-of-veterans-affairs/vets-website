@@ -1,8 +1,11 @@
+const path = require('path');
 const { defineConfig, devices } = require('@playwright/test');
 const { TEST_SERVER_BASE_URL } = require('./test-server.config');
 
+const rootDir = path.resolve(__dirname, '..');
+
 module.exports = defineConfig({
-  testDir: '../src',
+  testDir: path.join(rootDir, 'src'),
   testMatch: '**/*.playwright.spec.js',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -31,6 +34,7 @@ module.exports = defineConfig({
   webServer: {
     command:
       'node src/platform/testing/e2e/test-server.js --buildtype=localhost --port=3001 --host=127.0.0.1',
+    cwd: rootDir,
     url: TEST_SERVER_BASE_URL,
     reuseExistingServer: true,
     timeout: 120_000,
