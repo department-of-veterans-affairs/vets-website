@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const parser = require('@babel/parser');
-const traverse = require('@babel/traverse');
+const traverse = require('@babel/traverse').default;
 const { execSync } = require('child_process');
 
 const files = JSON.parse(process.env.CHANGED_FILES || '[]');
