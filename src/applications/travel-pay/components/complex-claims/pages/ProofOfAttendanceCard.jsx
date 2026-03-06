@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom-v5-compat';
 import { PROOF_OF_ATTENDANCE_FILENAME } from '../../../constants';
 
 const ProofOfAttendanceCard = ({
+  apptId,
+  claimId,
   filename,
   decreaseHeaderLevel = false,
   showEdit = true,
@@ -26,7 +28,7 @@ const ProofOfAttendanceCard = ({
             <div className="review-edit-button">
               <Link
                 data-testid="proof-of-attendance-edit-link"
-                to="/" // TODO: Go to proof of attendance edit page
+                to={`/file-new-claim/${apptId}/${claimId}/proof-of-attendance`}
               >
                 Edit
                 <va-icon
@@ -46,6 +48,8 @@ const ProofOfAttendanceCard = ({
 
 ProofOfAttendanceCard.propTypes = {
   filename: PropTypes.string.isRequired,
+  apptId: PropTypes.string,
+  claimId: PropTypes.string,
   decreaseHeaderLevel: PropTypes.bool,
   showEdit: PropTypes.bool,
 };

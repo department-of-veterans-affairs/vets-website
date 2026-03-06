@@ -9,7 +9,12 @@ describe('ProofOfAttendanceCard', () => {
   const renderCard = (props = {}) => {
     return render(
       <MemoryRouter>
-        <ProofOfAttendanceCard filename="test-file.pdf" {...props} />
+        <ProofOfAttendanceCard
+          filename="test-file.pdf"
+          apptId="12345"
+          claimId="45678"
+          {...props}
+        />
       </MemoryRouter>,
     );
   };
@@ -45,12 +50,12 @@ describe('ProofOfAttendanceCard', () => {
     expect(getByText('Edit')).to.exist;
   });
 
-  // TODO: Update this test when the proof of attendance page is implemented.
-  // This currently points to '/' as a placeholder.
-  it('Edit link points to placeholder URL', () => {
+  it('Edit link points to the correct URL to edit the POA file', () => {
     const { getByTestId } = renderCard();
     const editLink = getByTestId('proof-of-attendance-edit-link');
-    expect(editLink.getAttribute('href')).to.eq('/');
+    expect(editLink.getAttribute('href')).to.eq(
+      '/file-new-claim/12345/45678/proof-of-attendance',
+    );
   });
 
   it('renders the va-card', () => {

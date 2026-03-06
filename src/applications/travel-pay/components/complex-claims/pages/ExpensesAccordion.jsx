@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 
 import {
   useFeatureToggle,
   TOGGLE_NAMES,
 } from 'platform/utilities/feature-toggles';
-import { useSelector } from 'react-redux';
 import ExpenseCardList from './ExpenseCardList';
 import { getExpenseType } from '../../../util/complex-claims-helper';
 import {
@@ -21,6 +22,7 @@ const ExpensesAccordion = ({
   groupAccordionItemsByType = false,
   headerLevel = 3,
 }) => {
+  const { apptId, claimId } = useParams();
   const { useToggleValue } = useFeatureToggle();
   const ccEnabled = useToggleValue(TOGGLE_NAMES.travelPayEnableCommunityCare);
 
@@ -71,11 +73,13 @@ const ExpensesAccordion = ({
       {showProofOfAttendance &&
         groupAccordionItemsByType && (
           <va-accordion-item
-            key="proof-of-attendance"
+            key="proof-of-attendance-item"
             header="Proof of attendance"
             level={headerLevel}
           >
             <ProofOfAttendanceCard
+              apptId={apptId}
+              claimId={claimId}
               filename={proofOfAttendanceDocument.filename}
             />
           </va-accordion-item>
@@ -116,6 +120,8 @@ const ExpensesAccordion = ({
                 Proof of attendance
               </h3>
               <ProofOfAttendanceCard
+                apptId={apptId}
+                claimId={claimId}
                 filename={proofOfAttendanceDocument.filename}
                 showEdit={false}
                 decreaseHeaderLevel
