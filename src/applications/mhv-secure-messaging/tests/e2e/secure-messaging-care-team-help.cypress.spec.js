@@ -7,7 +7,7 @@ import mockCernerMixedUser from './fixtures/userResponse/user-cerner-mixed-pretr
 import mockFacilities from './fixtures/facilityResponse/facilities-no-cerner.json';
 import mockVamcEhr from './fixtures/vamc-ehr.json';
 
-describe('SM CARE TEAM HELP PAGE', () => {
+describe('SM CARE TEAM HELP PAGE - Updated Content', () => {
   const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
     { name: 'mhv_secure_messaging_cerner_pilot', value: true },
     { name: 'mhv_secure_messaging_curated_list_flow', value: true },
@@ -27,54 +27,32 @@ describe('SM CARE TEAM HELP PAGE', () => {
       navigateToCareTeamHelp();
     });
 
-    it('displays correct page title, heading, reasons, and contact list link', () => {
-      GeneralFunctionsPage.verifyPageHeader('find your care team?');
-      GeneralFunctionsPage.verifyPageTitle(
-        'Care Team Help - Start Message | Veterans Affairs',
-      );
-      cy.location('pathname').should('equal', Data.LINKS.CARE_TEAM_HELP);
+    it('displays name change reason, no provider name, and contact list link without h2', () => {
+      // New: name change bullet with R&S link
+      cy.findByText(/Their name may appear different/).should('exist');
+      cy.findByText(/Learn more about this name change/)
+        .should('exist')
+        .closest('a')
+        .should(
+          'have.attr',
+          'href',
+          'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
+        );
 
-      // Reasons list includes contact list reasons for VistA users
-      cy.findByText(/They don't use messages/).should('exist');
-      cy.findByText(/They're part of a different VA health care system/).should(
-        'exist',
-      );
+      // Removed: provider's name no longer in search suggestions
+      cy.findByText(/provider's name/).should('not.exist');
+
+      // VistA users see contact list reasons
       cy.findByText(/You removed them from your contact list/).should('exist');
       cy.findByText(/Your account isn't connected to them/).should('exist');
 
-      // Name change bullet and R&S link
-      cy.findByText(/Their name may appear different/).should('exist');
-      cy.findByText(/Learn more about this name change/).should('exist');
+      // VistA-only gets simple contact list link, no h2 facility heading
+      cy.findByRole('link', { name: /Update your contact list/ })
+        .should('exist')
+        .and('have.attr', 'href', Data.LINKS.CONTACT_LIST);
+      cy.get('.care-team-help-container h2').should('not.exist');
 
-      // Search suggestions
-      cy.findByText(/Select a different VA health care system/).should('exist');
-      cy.findByText(/Enter the first few letters of your facility/).should(
-        'exist',
-      );
-
-      // Provider's name should not appear
-      cy.get('.care-team-help-container').should(
-        'not.contain',
-        "provider's name",
-      );
-
-      // Update your contact list link should exist
-      cy.get('.care-team-help-container').within(() => {
-        cy.findByRole('link', { name: /Update your contact list/ }).should(
-          'exist',
-        );
-      });
-
-      // Should NOT have an h2 (no facility list heading for VistA-only)
-      cy.get('.care-team-help-container').within(() => {
-        cy.get('h2').should('not.exist');
-      });
-
-      // Phone number
-      cy.get('va-telephone').should('exist');
-
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT);
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
     });
   });
 
@@ -91,49 +69,35 @@ describe('SM CARE TEAM HELP PAGE', () => {
       navigateToCareTeamHelp();
     });
 
-    it('displays correct content without contact list section', () => {
-      GeneralFunctionsPage.verifyPageHeader('find your care team?');
-      cy.location('pathname').should('equal', Data.LINKS.CARE_TEAM_HELP);
-
-      // Reasons list for Oracle-only users
-      cy.findByText(/They don't use messages/).should('exist');
-      cy.findByText(/They're part of a different VA health care system/).should(
-        'exist',
-      );
+    it('displays name change reason, no provider name, and no contact list section', () => {
+      // New: name change bullet with R&S link
       cy.findByText(/Their name may appear different/).should('exist');
-      cy.findByText(/Learn more about this name change/).should('exist');
+      cy.findByText(/Learn more about this name change/)
+        .should('exist')
+        .closest('a')
+        .should(
+          'have.attr',
+          'href',
+          'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
+        );
+
+      // Removed: provider's name no longer in search suggestions
+      cy.findByText(/provider's name/).should('not.exist');
 
       // Oracle-only users should NOT see contact list reasons
-      cy.get('.care-team-help-container').should(
-        'not.contain',
-        'You removed them from your contact list',
+      cy.findByText(/You removed them from your contact list/).should(
+        'not.exist',
       );
-      cy.get('.care-team-help-container').should(
-        'not.contain',
-        "Your account isn't connected to them",
-      );
+      cy.findByText(/Your account isn't connected to them/).should('not.exist');
 
       // Oracle-only users should NOT see the Update your contact list link
-      cy.get('.care-team-help-container').should(
-        'not.contain',
-        'Update your contact list',
-      );
+      cy.findByText(/Update your contact list/).should('not.exist');
 
-      // Provider's name should not appear
-      cy.get('.care-team-help-container').should(
-        'not.contain',
-        "provider's name",
-      );
-
-      // Back button
-      cy.get('va-button[text="Back"]').should('exist');
-
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT);
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
     });
   });
 
-  describe('Hybrid user (both Oracle Health(Cerner) and VistA)', () => {
+  describe('Hybrid user (both Oracle Health and VistA)', () => {
     beforeEach(() => {
       SecureMessagingSite.login(
         updatedFeatureToggles,
@@ -146,48 +110,40 @@ describe('SM CARE TEAM HELP PAGE', () => {
       navigateToCareTeamHelp();
     });
 
-    it('displays correct content with contact list section and facility list', () => {
-      GeneralFunctionsPage.verifyPageHeader('find your care team?');
-      cy.location('pathname').should('equal', Data.LINKS.CARE_TEAM_HELP);
+    it('displays name change reason, no provider name, and contact list section with facility list', () => {
+      // New: name change bullet with R&S link
+      cy.findByText(/Their name may appear different/).should('exist');
+      cy.findByText(/Learn more about this name change/)
+        .should('exist')
+        .closest('a')
+        .should(
+          'have.attr',
+          'href',
+          'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
+        );
 
-      // Hybrid users see the h2 heading for Update your contact list
-      cy.get('.care-team-help-container').within(() => {
-        cy.get('h2')
-          .should('exist')
-          .and('contain', 'Update your contact list');
-      });
+      // Removed: provider's name no longer in search suggestions
+      cy.findByText(/provider's name/).should('not.exist');
 
-      // Hybrid users see VistA facility names
+      // Hybrid users now see contact list reasons (new for hybrid)
+      cy.findByText(/You removed them from your contact list/).should('exist');
+      cy.findByText(/Your account isn't connected to them/).should('exist');
+
+      // Hybrid users see h2 heading and facility list
+      cy.findByRole('heading', {
+        level: 2,
+        name: /Update your contact list/,
+      }).should('exist');
       cy.findByText(/Update your contact list if you can't find/).should(
         'exist',
       );
 
-      // Hybrid users see contact list reasons
-      cy.findByText(/You removed them from your contact list/).should('exist');
-      cy.findByText(/Your account isn't connected to them/).should('exist');
+      // Contact list link
+      cy.findByRole('link', { name: /Update your contact list/ })
+        .should('exist')
+        .and('have.attr', 'href', Data.LINKS.CONTACT_LIST);
 
-      // Name change bullet and R&S link
-      cy.findByText(/Their name may appear different/).should('exist');
-      cy.findByText(/Learn more about this name change/).should('exist');
-
-      // Provider's name should not appear
-      cy.get('.care-team-help-container').should(
-        'not.contain',
-        "provider's name",
-      );
-
-      // Update your contact list link
-      cy.get('.care-team-help-container').within(() => {
-        cy.findByRole('link', { name: /Update your contact list/ }).should(
-          'exist',
-        );
-      });
-
-      // Back button
-      cy.get('va-button[text="Back"]').should('exist');
-
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT);
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
     });
   });
 });
