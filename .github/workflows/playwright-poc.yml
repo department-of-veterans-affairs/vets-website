@@ -57,9 +57,7 @@ jobs:
           NODE_OPTIONS: '--max-old-space-size=8192 --openssl-legacy-provider'
 
       - name: Run Playwright tests
-        run: |
-          SPEC_PATTERN="${{ inputs.spec_pattern || 'src/**/tests/**/*.playwright.spec.js' }}"
-          npx playwright test --config config/playwright.config.js ${SPEC_PATTERN}
+        run: npx playwright test --config config/playwright.config.js
         env:
           CI: true
           NODE_OPTIONS: '--openssl-legacy-provider'
