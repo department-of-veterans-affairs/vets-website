@@ -263,6 +263,17 @@ const responses = {
   'GET /v0/dependents_applications/show': mockDependents,
 
   'POST /v0/dependents_applications': submission,
+  'POST /v0/claim_attachments': {
+    data: {
+      id: '123fake-attachment-id-567',
+      type: 'claim_attachments',
+      attributes: {
+        name: 'test.pdf',
+        size: 12345,
+        confirmationCode: 'abc123def456',
+      },
+    },
+  },
 };
 
 module.exports = delay(responses, 200);
