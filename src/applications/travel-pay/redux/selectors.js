@@ -67,3 +67,15 @@ export const selectReviewPageAlert = state => state.travelPay.reviewPageAlert;
 
 export const selectExpenseBackDestination = state =>
   state.travelPay.complexClaim.expenseBackDestination;
+
+export const selectUnsavedChangesModal = state =>
+  state.travelPay.complexClaim.unsavedChangesModal || {
+    visible: false,
+    source: null,
+  };
+
+export const selectIsUnsavedChangesModalVisible = state =>
+  selectUnsavedChangesModal(state).visible;
+
+export const selectUnsavedChangesModalSource = state =>
+  selectUnsavedChangesModal(state).source;
