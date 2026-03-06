@@ -13,6 +13,8 @@ const repoRoot = execSync('git rev-parse --show-toplevel', {
   cwd: __dirname,
 }).trim();
 
+const MAX_WORKERS = 12;
+
 function getExports() {
   const exports = [];
   for (const file of files) {
@@ -102,6 +104,21 @@ function findTestingFolder(filePath) {
     : findPlatformFolder(filePath);
 }
 
+// distribute apps to be cypress tested evenly across max number of workers
+function bucketFolders(apps) {
+  const folderList = [...apps];
+  const buckets = Array.from(
+    { length: Math.min(folderList.length, MAX_WORKERS) },
+    () => [],
+  );
+  folderList.forEach((folder, i) => buckets[i % buckets.length].push(folder));
+  return buckets.map(b =>
+    b.map(f => `${f}/**/*.cypress.spec.{js,jsx}`).join(','),
+  );
+}
+
+// return a comma-separated-list of app/platform folders for unit tests (all run in 1 worker)
+// AND an array of comma-seperated-lists, one entry for each worker
 function getFoldersForTests() {
   const _files = getFilesUsingExports();
   const apps = new Set();
@@ -110,13 +127,13 @@ function getFoldersForTests() {
     if (app) apps.add(app);
   });
 
-  const folderList = [...apps];
-  const folders = JSON.stringify(folderList);
-  const indices = JSON.stringify(folderList.map((_, i) => i));
+  const buckets = bucketFolders(apps);
+  const folders = [...apps].join(',');
+  const cypressSpecs = JSON.stringify(buckets);
 
   fs.appendFileSync(
     process.env.GITHUB_OUTPUT,
-    `folders=${folders}\nindices=${indices}\n`,
+    `folders=${folders}\ncypress_specs=${cypressSpecs}\n`,
   );
 }
 
