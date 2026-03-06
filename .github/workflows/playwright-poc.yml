@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - poc/playwright-e2e
+      - poc/playwright-e2e-trigger
   workflow_dispatch:
     inputs:
       app_entry:
