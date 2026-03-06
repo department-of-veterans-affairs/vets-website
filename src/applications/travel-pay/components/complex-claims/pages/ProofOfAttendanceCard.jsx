@@ -3,26 +3,26 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 import { PROOF_OF_ATTENDANCE_FILENAME } from '../../../constants';
 
-const ProofOfAttendanceCard = ({ filename }) => {
+const ProofOfAttendanceCard = ({
+  filename,
+  decreaseHeaderLevel = false,
+  showEdit = true,
+}) => {
   return (
-    <va-accordion-item
-      key="proof-of-attendance"
-      header="Proof of attendance"
-      level={2}
-    >
-      <div className="vads-u-margin-top--2">
-        <va-card
-          className="expense-card"
-          data-testid="proof-of-attendance-card"
-        >
+    <div className="vads-u-margin-top--2">
+      <va-card className="expense-card" data-testid="proof-of-attendance-card">
+        {decreaseHeaderLevel ? (
+          <h4 className="vads-u-margin-top--1">File name</h4>
+        ) : (
           <h3 className="vads-u-margin-top--1">File name</h3>
-          <p>{filename}</p>
-          <p>
-            <span className="vads-u-font-weight--bold">Note:</span> We’ve
-            changed your file name to "{PROOF_OF_ATTENDANCE_FILENAME}
-            ."
-          </p>
-          <div className="review-button-row">
+        )}
+        <p>{filename}</p>
+        <p>
+          <span className="vads-u-font-weight--bold">Note:</span>
+          {` We’ve changed your file name to "${PROOF_OF_ATTENDANCE_FILENAME}."`}
+        </p>
+        <div className="review-button-row">
+          {showEdit && (
             <div className="review-edit-button">
               <Link
                 data-testid="proof-of-attendance-edit-link"
@@ -37,15 +37,17 @@ const ProofOfAttendanceCard = ({ filename }) => {
                 />
               </Link>
             </div>
-          </div>
-        </va-card>
-      </div>
-    </va-accordion-item>
+          )}
+        </div>
+      </va-card>
+    </div>
   );
 };
 
 ProofOfAttendanceCard.propTypes = {
   filename: PropTypes.string.isRequired,
+  decreaseHeaderLevel: PropTypes.bool,
+  showEdit: PropTypes.bool,
 };
 
 export default ProofOfAttendanceCard;

@@ -5,11 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 
 import {
-  useFeatureToggle,
-  TOGGLE_NAMES,
-} from 'platform/utilities/feature-toggles';
-
-import {
   setReviewPageAlert,
   deleteExpenseDeleteDocument,
   clearReviewPageAlert,
@@ -21,7 +16,14 @@ import { currency } from '../../../util/string-helpers';
 import ExpenseCardDetails from './ExpenseCardDetails';
 import DeleteExpenseModal from './DeleteExpenseModal';
 
-const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
+const ExpenseCard = ({
+  apptId,
+  claimId,
+  expense,
+  address,
+  showEditDelete,
+  decreaseHeaderLevel,
+}) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
 
@@ -34,9 +36,6 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
   const header = isMileage
     ? 'Mileage expense'
     : `${formatDate(expense.dateIncurred)}, ${currency(expense.costRequested)}`;
-
-  const { useToggleValue } = useFeatureToggle();
-  const ccEnabled = useToggleValue(TOGGLE_NAMES.travelPayEnableCommunityCare);
 
   const handleDeleteExpenseAndDocument = async () => {
     setShowDeleteModal(false);
@@ -72,7 +71,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
         className="expense-card"
         data-testid={`expense-card-${expense.id}`}
       >
-        {ccEnabled ? (
+        {decreaseHeaderLevel ? (
           <h3 className="vads-u-margin-top--1">{header}</h3>
         ) : (
           <h4 className="vads-u-margin-top--1">{header}</h4>
@@ -168,6 +167,7 @@ ExpenseCard.propTypes = {
   address: PropTypes.object,
   apptId: PropTypes.string,
   claimId: PropTypes.string,
+  decreaseHeaderLevel: PropTypes.bool,
   showEditDelete: PropTypes.bool,
 };
 

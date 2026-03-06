@@ -59,25 +59,31 @@ const ExpensesAccordion = ({
   });
   const hasExpenses = expenseEntries.length > 0;
   const showProofOfAttendance =
-    ccEnabled &&
-    isAppointmentCC &&
-    !!proofOfAttendanceDocument &&
-    groupAccordionItemsByType;
+    ccEnabled && isAppointmentCC && !!proofOfAttendanceDocument;
 
   // No expenses case
-  if (!hasExpenses) {
-    return showProofOfAttendance ? (
-      <va-accordion open-single>
-        <ProofOfAttendanceCard filename={proofOfAttendanceDocument.filename} />
-      </va-accordion>
-    ) : null;
+  if (!hasExpenses && !showProofOfAttendance) {
+    return null;
   }
+
+  const expensesAccordionTitle = showProofOfAttendance
+    ? 'Submitted expenses and files'
+    : 'Submitted expenses';
 
   return (
     <va-accordion open-single={!groupAccordionItemsByType}>
-      {showProofOfAttendance && (
-        <ProofOfAttendanceCard filename={proofOfAttendanceDocument.filename} />
-      )}
+      {showProofOfAttendance &&
+        groupAccordionItemsByType && (
+          <va-accordion-item
+            key="proof-of-attendance"
+            header="Proof of attendance"
+            level={headerLevel}
+          >
+            <ProofOfAttendanceCard
+              filename={proofOfAttendanceDocument.filename}
+            />
+          </va-accordion-item>
+        )}
       {groupAccordionItemsByType ? (
         // Multiple accordion items (one per type)
         // Edit and Delete expense buttons show on the expense card
@@ -100,10 +106,22 @@ const ExpensesAccordion = ({
         // Single accordion item with grouped sections inside
         // Expense cards are organized by type and each type has a header that is displayed
         <va-accordion-item
-          header="Submitted expenses"
+          header={expensesAccordionTitle}
           bordered
           level={headerLevel}
         >
+          {showProofOfAttendance && (
+            <>
+              <h3 data-testid="proof-of-attendance-header">
+                Proof of attendance
+              </h3>
+              <ProofOfAttendanceCard
+                filename={proofOfAttendanceDocument.filename}
+                showEdit={false}
+                decreaseHeaderLevel
+              />
+            </>
+          )}
           {expenseEntries.map(([type, expensesList]) => (
             <ExpenseCardList
               key={type}

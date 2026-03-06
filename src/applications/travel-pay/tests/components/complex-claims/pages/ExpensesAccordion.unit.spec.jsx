@@ -307,103 +307,149 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
       },
     ];
 
-    it('renders ProofOfAttendanceCard when CC is enabled, appointment is CC, document exists, and groupAccordionItemsByType is true', () => {
-      const { getByText } = renderAccordion(
-        {
-          expenses: [],
-          documents: documentsWithPOA,
-          groupAccordionItemsByType: true,
-        },
-        getCommunityCareState(),
-      );
+    describe('Proof of attendance card', () => {
+      it('does not render when CC is disabled', () => {
+        renderAccordion(
+          {
+            expenses: [],
+            documents: documentsWithPOA,
+            groupAccordionItemsByType: true,
+          },
+          getCommunityCareState({ ccEnabled: false }),
+        );
 
-      expect(document.querySelector('va-accordion')).to.exist;
-      expect(getByText('proof-of-attendance.pdf')).to.exist;
+        expect(document.querySelector('va-accordion')).to.not.exist;
+      });
+
+      it('does not render when appointment is not CC', () => {
+        renderAccordion(
+          {
+            expenses: [],
+            documents: documentsWithPOA,
+            groupAccordionItemsByType: true,
+          },
+          getCommunityCareState({ isAppointmentCC: false }),
+        );
+
+        expect(document.querySelector('va-accordion')).to.not.exist;
+      });
+
+      it('does not render when proof of attendance document does not exist', () => {
+        renderAccordion(
+          { expenses: [], documents, groupAccordionItemsByType: true },
+          getCommunityCareState(),
+        );
+
+        expect(document.querySelector('va-accordion')).to.not.exist;
+      });
+
+      it('does not render when document filename does not match POA constant', () => {
+        const documentsWithWrongName = [
+          {
+            documentId: 'doc-wrong',
+            filename: 'some-other-document.pdf',
+            mimetype: 'application/pdf',
+          },
+        ];
+        renderAccordion(
+          {
+            expenses: [],
+            documents: documentsWithWrongName,
+            groupAccordionItemsByType: true,
+          },
+          getCommunityCareState(),
+        );
+
+        expect(document.querySelector('va-accordion')).to.not.exist;
+      });
+
+      it('renders as separate accordion item when groupAccordionItemsByType is true', () => {
+        const { getByText } = renderAccordion(
+          {
+            expenses: [],
+            documents: documentsWithPOA,
+            groupAccordionItemsByType: true,
+          },
+          getCommunityCareState(),
+        );
+
+        const poaAccordionItem = document.querySelector(
+          'va-accordion-item[header="Proof of attendance"]',
+        );
+        expect(poaAccordionItem).to.exist;
+        expect(getByText('proof-of-attendance.pdf')).to.exist;
+      });
+
+      it('renders inside "Submitted expenses and files" accordion item when groupAccordionItemsByType is false', () => {
+        const { getByText, getAllByTestId } = renderAccordion(
+          {
+            expenses,
+            documents: documentsWithPOA,
+            groupAccordionItemsByType: false,
+          },
+          getCommunityCareState(),
+        );
+
+        const item = document.querySelector(
+          'va-accordion-item[header="Submitted expenses and files"]',
+        );
+        expect(item).to.exist;
+
+        const headers = getAllByTestId('proof-of-attendance-header');
+        expect(headers[0].textContent).to.equal('Proof of attendance');
+        expect(getByText('proof-of-attendance.pdf')).to.exist;
+      });
+
+      it('renders only when no expenses but CC conditions are met', () => {
+        const { getByText, queryByText } = renderAccordion(
+          {
+            expenses: [],
+            documents: documentsWithPOA,
+            groupAccordionItemsByType: true,
+          },
+          getCommunityCareState(),
+        );
+
+        expect(document.querySelector('va-accordion')).to.exist;
+        expect(getByText('proof-of-attendance.pdf')).to.exist;
+
+        expect(queryByText('Mileage')).to.not.exist;
+        expect(queryByText('Parking')).to.not.exist;
+      });
     });
 
-    it('does not render ProofOfAttendanceCard when CC is disabled', () => {
-      renderAccordion(
-        {
-          expenses: [],
-          documents: documentsWithPOA,
-          groupAccordionItemsByType: true,
-        },
-        getCommunityCareState({ ccEnabled: false }),
-      );
+    describe('accordion item title', () => {
+      it('is "Submitted expenses and files" when showing POA', () => {
+        renderAccordion(
+          {
+            expenses,
+            documents: documentsWithPOA,
+            groupAccordionItemsByType: false,
+          },
+          getCommunityCareState(),
+        );
 
-      expect(document.querySelector('va-accordion')).to.not.exist;
-    });
+        const item = document.querySelector(
+          'va-accordion-item[header="Submitted expenses and files"]',
+        );
+        expect(item).to.exist;
+      });
 
-    it('does not render ProofOfAttendanceCard when appointment is not CC', () => {
-      renderAccordion(
-        {
-          expenses: [],
-          documents: documentsWithPOA,
-          groupAccordionItemsByType: true,
-        },
-        getCommunityCareState({ isAppointmentCC: false }),
-      );
+      it('is "Submitted expenses" when not showing POA', () => {
+        renderAccordion(
+          {
+            expenses,
+            documents,
+            groupAccordionItemsByType: false,
+          },
+          getCommunityCareState({ ccEnabled: false }),
+        );
 
-      expect(document.querySelector('va-accordion')).to.not.exist;
-    });
-
-    it('does not render ProofOfAttendanceCard when proof of attendance document does not exist', () => {
-      renderAccordion(
-        { expenses: [], documents, groupAccordionItemsByType: true },
-        getCommunityCareState(),
-      );
-
-      expect(document.querySelector('va-accordion')).to.not.exist;
-    });
-
-    it('does not render ProofOfAttendanceCard when groupAccordionItemsByType is false', () => {
-      renderAccordion(
-        {
-          expenses: [],
-          documents: documentsWithPOA,
-          groupAccordionItemsByType: false,
-        },
-        getCommunityCareState(),
-      );
-
-      expect(document.querySelector('va-accordion')).to.not.exist;
-    });
-
-    it('renders only ProofOfAttendanceCard accordion when no expenses but CC conditions are met', () => {
-      const { getByText, queryByText } = renderAccordion(
-        {
-          expenses: [],
-          documents: documentsWithPOA,
-          groupAccordionItemsByType: true,
-        },
-        getCommunityCareState(),
-      );
-
-      expect(document.querySelector('va-accordion')).to.exist;
-      expect(getByText('proof-of-attendance.pdf')).to.exist;
-
-      expect(queryByText('Mileage')).to.not.exist;
-      expect(queryByText('Parking')).to.not.exist;
-    });
-
-    it('does not render ProofOfAttendanceCard when there is no properly named proof-of-attendance document', () => {
-      const documentsWithWrongName = [
-        {
-          documentId: 'doc-wrong',
-          filename: 'some-other-document.pdf',
-          mimetype: 'application/pdf',
-        },
-      ];
-      renderAccordion(
-        {
-          expenses: [],
-          documents: documentsWithWrongName,
-          groupAccordionItemsByType: true,
-        },
-        getCommunityCareState(),
-      );
-
-      expect(document.querySelector('va-accordion')).to.not.exist;
+        const item = document.querySelector(
+          'va-accordion-item[header="Submitted expenses"]',
+        );
+        expect(item).to.exist;
+      });
     });
   });
 });

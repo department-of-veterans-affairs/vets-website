@@ -6,23 +6,27 @@ import ProofOfAttendanceCard from '../../../../components/complex-claims/pages/P
 import { PROOF_OF_ATTENDANCE_FILENAME } from '../../../../constants';
 
 describe('ProofOfAttendanceCard', () => {
-  const renderCard = () => {
+  const renderCard = (props = {}) => {
     return render(
       <MemoryRouter>
-        <va-accordion>
-          <ProofOfAttendanceCard filename="test-file.pdf" />
-        </va-accordion>
+        <ProofOfAttendanceCard filename="test-file.pdf" {...props} />
       </MemoryRouter>,
     );
   };
 
-  it('renders the accordion item with correct header', () => {
+  it('renders h3 header by default', () => {
     const { container } = renderCard();
-    const accordionItem = container.querySelector('va-accordion-item');
-    expect(accordionItem).to.exist;
-    expect(accordionItem.getAttribute('header')).to.equal(
-      'Proof of attendance',
-    );
+    const h3 = container.querySelector('h3');
+    expect(h3).to.exist;
+    expect(h3.textContent).to.equal('File name');
+  });
+
+  it('renders h4 header when decreaseHeaderLevel is true', () => {
+    const { container } = renderCard({ decreaseHeaderLevel: true });
+    const h4 = container.querySelector('h4');
+    expect(h4).to.exist;
+    expect(h4.textContent).to.equal('File name');
+    expect(container.querySelector('h3')).to.not.exist;
   });
 
   it('renders the filename', () => {
@@ -31,13 +35,9 @@ describe('ProofOfAttendanceCard', () => {
   });
 
   it('renders the note about filename change', () => {
-    const { getByText } = renderCard();
-    expect(
-      getByText(
-        `We've changed your file name to "${PROOF_OF_ATTENDANCE_FILENAME}."`,
-        { exact: false },
-      ),
-    ).to.exist;
+    const { container } = renderCard();
+    expect(container.textContent).to.include('changed your file name to');
+    expect(container.textContent).to.include(PROOF_OF_ATTENDANCE_FILENAME);
   });
 
   it('renders the Edit link', () => {
@@ -56,5 +56,11 @@ describe('ProofOfAttendanceCard', () => {
   it('renders the va-card', () => {
     const { getByTestId } = renderCard();
     expect(getByTestId('proof-of-attendance-card')).to.exist;
+  });
+
+  it('does not render Edit link when showEdit is false', () => {
+    const { queryByText, queryByTestId } = renderCard({ showEdit: false });
+    expect(queryByText('Edit')).to.not.exist;
+    expect(queryByTestId('proof-of-attendance-edit-link')).to.not.exist;
   });
 });
