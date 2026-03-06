@@ -91,4 +91,122 @@ describe('<FrequentlyAskedQuestions />', () => {
       '/records/get-veteran-id-cards/',
     );
   });
+
+  describe('when cveVeteranStatusNewService is false (old service)', () => {
+    it('should render the "incorrect information" accordion item and Defense Manpower Data Center paragraph', () => {
+      const { getByText } = render(
+        <FrequentlyAskedQuestions cveVeteranStatusNewService={false} />,
+      );
+
+      expect(
+        document.querySelector(
+          'va-accordion-item[header="What if my Veteran Status Card displays incorrect information?"]',
+        ),
+      ).to.exist;
+      expect(getByText(/Defense Manpower Data Center/i)).to.exist;
+    });
+
+    it('should render the PDF link with filetype attribute (no download icon)', () => {
+      render(
+        <FrequentlyAskedQuestions
+          createPdf={() => {}}
+          cveVeteranStatusNewService={false}
+        />,
+      );
+
+      const pdfLink = document.querySelector(
+        'va-link[text="Print your Veteran Status Card (PDF)"]',
+      );
+      expect(pdfLink).to.exist;
+      expect(pdfLink.hasAttribute('filetype')).to.be.true;
+      expect(pdfLink.hasAttribute('download')).to.be.false;
+    });
+  });
+
+  describe('when cveVeteranStatusNewService is true and Veteran Status Card is present (createPdf provided)', () => {
+    it('should render all four accordion items without the Defense Manpower Data Center paragraph', () => {
+      const { queryByText } = render(
+        <FrequentlyAskedQuestions
+          createPdf={() => {}}
+          cveVeteranStatusNewService
+        />,
+      );
+
+      // All four accordion items should be present
+      expect(
+        document.querySelector(
+          'va-accordion-item[header="What if my Veteran Status Card displays incorrect information?"]',
+        ),
+      ).to.exist;
+      expect(
+        document.querySelector(
+          'va-accordion-item[header="How can I use the Veteran Status Card?"]',
+        ),
+      ).to.exist;
+      expect(
+        document.querySelector(
+          'va-accordion-item[header="How do I get a physical version of my Veteran Status Card?"]',
+        ),
+      ).to.exist;
+      expect(
+        document.querySelector(
+          'va-accordion-item[header="What other types of Veteran ID are available?"]',
+        ),
+      ).to.exist;
+
+      // Defense Manpower Data Center paragraph should not be present in new service
+      expect(queryByText(/Defense Manpower Data Center/i)).to.not.exist;
+    });
+
+    it('should render the PDF link with download icon', () => {
+      render(
+        <FrequentlyAskedQuestions
+          createPdf={() => {}}
+          cveVeteranStatusNewService
+        />,
+      );
+
+      const pdfLink = document.querySelector(
+        'va-link[text="Print your Veteran Status Card (PDF)"]',
+      );
+      expect(pdfLink).to.exist;
+      expect(pdfLink.hasAttribute('download')).to.be.true;
+      expect(pdfLink.hasAttribute('filetype')).to.be.false;
+    });
+  });
+
+  describe('when cveVeteranStatusNewService is true and Veteran Status Card is not present (createPdf is null)', () => {
+    it('should hide "incorrect information" and "physical version" accordion items, but show the other two', () => {
+      render(
+        <FrequentlyAskedQuestions
+          createPdf={null}
+          cveVeteranStatusNewService
+        />,
+      );
+
+      // These two should NOT be rendered when card is not present
+      expect(
+        document.querySelector(
+          'va-accordion-item[header="What if my Veteran Status Card displays incorrect information?"]',
+        ),
+      ).to.not.exist;
+      expect(
+        document.querySelector(
+          'va-accordion-item[header="How do I get a physical version of my Veteran Status Card?"]',
+        ),
+      ).to.not.exist;
+
+      // These two should still be rendered
+      expect(
+        document.querySelector(
+          'va-accordion-item[header="How can I use the Veteran Status Card?"]',
+        ),
+      ).to.exist;
+      expect(
+        document.querySelector(
+          'va-accordion-item[header="What other types of Veteran ID are available?"]',
+        ),
+      ).to.exist;
+    });
+  });
 });

@@ -1,20 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const formatApptDateTime = isoString => {
-  if (!isoString) return null;
+export function formatApptDateTime(dateString) {
+  if (!dateString) return null;
+  const date = new Date(dateString);
 
-  const date = new Date(isoString);
-  if (Number.isNaN(date.getTime())) return isoString;
-
-  return date.toLocaleString('en-US', {
+  // Convert to Central Time (America/Chicago)
+  const options = {
+    timeZone: 'America/Chicago',
+    year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-    year: 'numeric',
     hour: 'numeric',
     minute: '2-digit',
-  });
-};
+    hour12: true,
+  };
+
+  // Format: MM/DD/YYYY at hh:mm AM/PM ET
+  const parts = new Intl.DateTimeFormat('en-US', options).formatToParts(date);
+  const month = parts.find(p => p.type === 'month').value;
+  const day = parts.find(p => p.type === 'day').value;
+  const year = parts.find(p => p.type === 'year').value;
+  const hour = parts.find(p => p.type === 'hour').value;
+  const minute = parts.find(p => p.type === 'minute').value;
+  const dayPeriod = parts.find(p => p.type === 'dayPeriod').value;
+
+  return `${month}/${day}/${year} at ${hour}:${minute} ${dayPeriod} CT`;
+}
 
 const renderPlace = place => {
   if (!place) return null;
@@ -27,7 +39,7 @@ const renderPlace = place => {
   if (lines.length <= 1) return <p className="va-address-block">{place}</p>;
 
   return (
-    <p className="va-address-block">
+    <p className="va-address-block vads-u-margin-left--0">
       {lines.map((line, idx) => (
         <React.Fragment key={idx}>
           {line}
@@ -44,25 +56,34 @@ const AppointmentScheduledAlert = ({
 }) => {
   const formattedDateTime = formatApptDateTime(appointmentDateTime);
 
+  if (!formattedDateTime) return null;
+
   return (
     <div className="vads-u-margin-y--3">
       <va-alert-expandable
         status="info"
         trigger="You have an appointment scheduled"
       >
-        {formattedDateTime ? (
-          <p>
-            We would like to remind you that you have an appointment scheduled
-            with your counselor for <strong>{formattedDateTime}</strong>.
-          </p>
+        {appointmentPlace ? (
+          <>
+            <p>
+              You have an appointment scheduled with your counselor for{' '}
+              {formattedDateTime} at the following location:
+            </p>
+            {renderPlace(appointmentPlace)}
+          </>
         ) : (
-          <p>
-            We would like to remind you that you have an appointment scheduled
-            with your counselor.
-          </p>
+          <>
+            <p>
+              You have an appointment scheduled for {formattedDateTime} via
+              Microsoft Teams.
+            </p>
+            <p>
+              The Microsoft Teams meeting link will be included in the
+              appointment confirmation email sent to you.
+            </p>
+          </>
         )}
-
-        {appointmentPlace ? <>{renderPlace(appointmentPlace)}</> : null}
       </va-alert-expandable>
     </div>
   );

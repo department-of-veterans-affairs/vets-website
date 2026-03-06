@@ -150,7 +150,7 @@ export const mockUser = {
           lastUpdated: 1713799596,
         },
         {
-          form: '10-10D',
+          form: '10-10D-EXTENDED',
           metadata: {
             version: 0,
             returnUrl: '/signer-information',
