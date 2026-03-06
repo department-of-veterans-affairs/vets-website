@@ -11,6 +11,7 @@ const DocumentUpload = ({
   handleDocumentChange,
   onVaFileInputError,
   label = 'Upload your proof of the expense',
+  additionalHint,
 }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const heicConversionEnabled = useToggleValue(
@@ -28,16 +29,20 @@ const DocumentUpload = ({
     [heicConversionEnabled],
   );
 
+  const joinedTypes = acceptedFileTypes
+    .join(', ')
+    .replace(/, ([^,]*)$/, ', or $1');
+
+  const fileTypesHint = `Make sure your file is no larger than 5MB and is a ${joinedTypes} file.`;
+  const renameHint = `Note that we\u2019ll rename your file \u201cproof-of-attendance\u201d.`;
+
+  const defaultHint = `You can upload a ${joinedTypes} file. Your file should be no larger than 5MB.`;
+
   return (
     <>
       <VaFileInput
         accept={acceptedFileTypes.join(',')}
-        hint={`You can upload a ${acceptedFileTypes
-          .join(', ')
-          .replace(
-            /, ([^,]*)$/,
-            ', or $1',
-          )} file. Your file should be no larger than 5MB.`}
+        hint={additionalHint ? undefined : defaultHint}
         label={label}
         maxFileSize={5200000}
         minFileSize={0}
@@ -47,7 +52,14 @@ const DocumentUpload = ({
         required
         error={error}
         value={currentDocument}
-      />
+      >
+        {additionalHint && (
+          <ul slot="hint">
+            <li>{fileTypesHint}</li>
+            <li>{renameHint}</li>
+          </ul>
+        )}
+      </VaFileInput>
 
       <va-additional-info trigger="How to upload paper copies">
         <p>
@@ -60,6 +72,7 @@ const DocumentUpload = ({
 };
 
 DocumentUpload.propTypes = {
+  additionalHint: PropTypes.bool,
   currentDocument: PropTypes.object,
   error: PropTypes.string,
   handleDocumentChange: PropTypes.func,

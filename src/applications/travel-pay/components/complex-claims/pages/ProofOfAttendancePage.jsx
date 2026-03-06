@@ -127,6 +127,7 @@ const ProofOfAttendancePage = () => {
         handleDocumentChange={handleDocumentChange}
         onVaFileInputError={handleFileInputError}
         label="Upload your proof of attendance"
+        additionalHint
       />
       <TravelPayButtonPair
         continueText="Continue"
