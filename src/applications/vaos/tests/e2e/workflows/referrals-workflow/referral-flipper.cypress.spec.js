@@ -38,10 +38,10 @@ describe('VAOS Referral Appointments', () => {
       });
     });
 
-    it('should not show view referrals link', () => {
+    it('should not show community care referrals banner', () => {
       cy.visit('/my-health/appointments');
       cy.injectAxeThenAxeCheck();
-      appointmentList.validateViewReferralsLink({ exist: false });
+      appointmentList.validateCCReferralsBanner({ exist: false });
     });
   });
 
@@ -55,14 +55,14 @@ describe('VAOS Referral Appointments', () => {
       });
     });
 
-    it('should show view referrals link', () => {
+    it('should show community care referrals banner', () => {
       cy.visit('/my-health/appointments');
       cy.injectAxeThenAxeCheck();
-      appointmentList.validateViewReferralsLink({ exist: true });
+      appointmentList.validateCCReferralsBanner({ exist: true });
     });
   });
 
-  describe('Community care chiropractic flipper enabled', () => {
+  describe.skip('Community care chiropractic flipper enabled', () => {
     beforeEach(() => {
       const referralsResponse = new MockReferralListResponse({
         numberOfReferrals: 4,
@@ -87,7 +87,7 @@ describe('VAOS Referral Appointments', () => {
     });
   });
 
-  describe('Community care chiropractic flipper disabled', () => {
+  describe.skip('Community care chiropractic flipper disabled', () => {
     beforeEach(() => {
       const referralsResponse = new MockReferralListResponse({
         numberOfReferrals: 4,

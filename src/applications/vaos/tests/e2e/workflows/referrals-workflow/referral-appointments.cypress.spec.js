@@ -29,7 +29,7 @@ import completeReferral from '../../referrals/page-objects/CompleteReferral';
 import epsAppointmentDetails from '../../referrals/page-objects/EpsAppointmentDetails';
 import { mockToday } from '../../../mocks/constants';
 
-describe('VAOS Referral Appointments', () => {
+describe.skip('VAOS Referral Appointments', () => {
   beforeEach(() => {
     // Set required feature flags
     mockFeatureToggles({

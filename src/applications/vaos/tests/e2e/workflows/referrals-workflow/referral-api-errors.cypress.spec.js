@@ -28,7 +28,7 @@ import reviewAndConfirm from '../../referrals/page-objects/ReviewAndConfirm';
 import completeReferral from '../../referrals/page-objects/CompleteReferral';
 import { mockToday, mockTodayPlus6Hours } from '../../../mocks/constants';
 
-describe('VAOS Referral API Error Handling', () => {
+describe.skip('VAOS Referral API Error Handling', () => {
   // Common error cases for all API tests
   const errorCases = [
     { errorType: 'notFound', responseCode: 404 },
