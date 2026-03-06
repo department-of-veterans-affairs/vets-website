@@ -70,13 +70,13 @@ describe('AppointmentScheduledAlert', () => {
   });
 
   it('formats date as mm/dd/yyyy at hh:mm am|pm ET', () => {
-    // 2026-06-15T18:00:00.000Z is 2:00 PM ET (EDT)
+    // 2026-06-15T18:00:00.000Z is 1:00 PM CT (CDT)
     const formatted = formatApptDateTime('2026-06-15T18:00:00.000Z');
-    expect(formatted).to.match(/06\/15\/2026 at 2:00 PM ET/);
+    expect(formatted).to.match(/06\/15\/2026 at 1:00 PM CT/);
 
-    // 2026-01-15T13:30:00.000Z is 8:30 AM ET (EST)
+    // 2026-01-15T13:30:00.000Z is 7:30 AM CT (CST)
     const formatted2 = formatApptDateTime('2026-01-15T13:30:00.000Z');
-    expect(formatted2).to.match(/01\/15\/2026 at 8:30 AM ET/);
+    expect(formatted2).to.match(/01\/15\/2026 at 7:30 AM CT/);
   });
 
   it('returns empty string for invalid date', () => {

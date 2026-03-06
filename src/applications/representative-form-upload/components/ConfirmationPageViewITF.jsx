@@ -71,7 +71,7 @@ export const ConfirmationPageViewITF = ({
           </li>
           <li>
             <p>
-              <strong>TF Date:</strong>
+              <strong>ITF Date:</strong>
             </p>
             <p role="text">{formattedSubmitDate} (Expires in 365 days)</p>
           </li>

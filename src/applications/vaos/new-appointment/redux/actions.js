@@ -18,7 +18,6 @@ import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectFeatureMentalHealthHistoryFiltering,
-  selectFeatureRecentLocationsFilter,
   selectFeatureRemoveFacilityConfigCheck,
   selectFeatureUseBrowserTimezone,
   selectRegisteredCernerFacilityIds,
@@ -468,7 +467,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const { newAppointment } = state;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
-      const useRecentLocations = selectFeatureRecentLocationsFilter(state);
       const siteIds = selectSystemIds(state);
       const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
       let facilities = getTypeOfCareFacilities(state);
@@ -482,22 +480,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 
       // Fetch facilities that support this type of care
       if (!facilities) {
-        if (useRecentLocations) {
-          facilities = await fetchRecentLocations(
-            dispatch,
-            siteIds,
-            removeFacilityConfigCheck,
-            featureUseVpg,
-          );
-          recordItemsRetrieved('recent-locations', facilities?.length || 0);
-        } else {
-          facilities = await getLocationsByTypeOfCareAndSiteIds({
-            siteIds,
-            removeFacilityConfigCheck,
-            useVpg: featureUseVpg,
-          });
-          recordItemsRetrieved('available_facilities', facilities?.length);
-        }
+        facilities = await fetchRecentLocations(
+          dispatch,
+          siteIds,
+          removeFacilityConfigCheck,
+          featureUseVpg,
+        );
+        recordItemsRetrieved('recent-locations', facilities?.length || 0);
       }
 
       dispatch({
@@ -508,7 +497,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         uiSchema,
         cernerSiteIds,
         address: selectVAPResidentialAddress(state),
-        featureRecentLocationsFilter: useRecentLocations,
         removeFacilityConfigCheck,
       });
 

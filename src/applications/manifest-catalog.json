@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 153,
+  "totalApplications": 152,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -241,7 +241,7 @@
       "directoryPath": "src/applications/edu-benefits/0803",
       "appName": "22-0803 Request for reimbursement of licensing or certification test fees",
       "entryName": "0803-edu-benefits",
-      "rootUrl": "/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees-online"
+      "rootUrl": "/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0810",
