@@ -322,8 +322,10 @@ describe('CalendarUtils', () => {
 
   describe('getFirstDayOfMonth', () => {
     it('should get the first day of the month when show weekends is true', () => {
-      expect(getFirstDayOfMonth(new Date(), true)).to.equal(
-        startOfMonth(new Date()).getDay(),
+      const sunday = new Date('2026-03-08T00:00:00');
+
+      expect(getFirstDayOfMonth(sunday, true)).to.equal(
+        startOfMonth(sunday).getDay(),
       );
     });
 
@@ -341,6 +343,14 @@ describe('CalendarUtils', () => {
       const sunday = new Date('2026-03-08T00:00:00');
 
       expect(getFirstDayOfMonth(sunday, false)).to.equal(monday);
+    });
+
+    it('should get the first day of the month when show weekends is false', () => {
+      // Sunday - Saturday : 0 - 6
+      const monday = 1;
+      const tuesday = new Date('2026-03-31T00:00:00');
+
+      expect(getFirstDayOfMonth(tuesday, false)).to.equal(monday);
     });
   });
 });
