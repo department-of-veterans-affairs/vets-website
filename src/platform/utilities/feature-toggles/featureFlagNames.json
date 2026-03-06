@@ -109,6 +109,7 @@
   "financialStatusReportExpensesUpdate": "financial_status_report_expenses_update",
   "financialStatusReportReviewPageNavigation": "financial_status_report_review_page_navigation",
   "findARepresentativeEnableFrontend": "find_a_representative_enable_frontend",
+  "findARepresentativeEnabled": "find_a_representative_enabled",
   "findARepresentativeFlagResultsEnabled": "find_a_representative_flag_results_enabled",
   "findARepresentativeUseAccreditedModels": "find_a_representative_use_accredited_models",
   "form1010dBrowserMonitoringEnabled": "form1010d_browser_monitoring_enabled",

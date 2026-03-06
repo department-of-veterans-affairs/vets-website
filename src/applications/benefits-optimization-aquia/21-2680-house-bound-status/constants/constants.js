@@ -66,6 +66,6 @@ export const DISTANCE_OPTIONS = {
  * @constant {Object}
  */
 export const API_ENDPOINTS = {
-  downloadPdf: `${environment.API_URL}/v0/form212680/download_pdf/`,
+  downloadPdf: '/form212680/download_pdf',
   submitForm: `${environment.API_URL}/v0/form212680`,
 };

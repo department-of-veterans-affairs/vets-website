@@ -16,6 +16,7 @@ import {
   CH31_PDF_LETTER_DOWNLOAD_ERROR_403_FORBIDDEN,
   CH31_PDF_LETTER_DOWNLOAD_ERROR_500_SERVER,
   CH31_PDF_LETTER_DOWNLOAD_ERROR_503_UNAVAILABLE,
+  CH31_PDF_LETTER_DOWNLOAD_ERROR_404_NOT_FOUND,
 } from '../constants';
 
 export function fetchCh31CaseStatusDetails() {
@@ -71,12 +72,12 @@ export function downloadCh31PdfLetter(resCaseId) {
       return Promise.resolve();
     }
 
-    const url = `${environment.API_URL}/vre/v0/ch31_discontinued_letter`;
+    const url = `${environment.API_URL}/vre/v0/case_get_document`;
 
     return apiRequest(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ resCaseId }),
+      body: JSON.stringify({ resCaseId, documentType: 626 }),
     })
       .then(response => response.blob())
       .then(blob => {
@@ -94,6 +95,7 @@ export function downloadCh31PdfLetter(resCaseId) {
         const typeByStatus = {
           400: CH31_PDF_LETTER_DOWNLOAD_ERROR_400_BAD_REQUEST,
           403: CH31_PDF_LETTER_DOWNLOAD_ERROR_403_FORBIDDEN,
+          404: CH31_PDF_LETTER_DOWNLOAD_ERROR_404_NOT_FOUND,
           500: CH31_PDF_LETTER_DOWNLOAD_ERROR_500_SERVER,
           503: CH31_PDF_LETTER_DOWNLOAD_ERROR_503_UNAVAILABLE,
           504: CH31_PDF_LETTER_DOWNLOAD_ERROR_500_SERVER,

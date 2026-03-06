@@ -1,3 +1,4 @@
+export * from './buildUnitAddress';
 export * from './calculateSeparationDuration';
 export * from './chapter4Transform';
 export * from './checkForHowMarriageEnded';
