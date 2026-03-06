@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const dateFns = require('date-fns');
-const mockData = require('../../../dependents/686c-674/tests/e2e/fixtures/maximal.json');
-const mockUser = require('../../../dependents/686c-674/tests/e2e/user.json');
+const mockData = require('./maximal.json');
+const mockUser = require('./user.json');
 const mockSubmission = require('./testdata');
 
 const userData = () => {
