@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  titleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -14,19 +14,14 @@ const labels = {
 
 export const relationshipType = {
   uiSchema: {
-    ...titleUI({
-      title: ({ formData }) => (
-        <h3 className="vads-u-margin-top--0">
-          {`Your relationship to ${formData?.fullName?.first || 'this child'}`}
-        </h3>
-      ),
-      description: (
-        <>
-          <strong>Note:</strong> You can’t add a grandchild as a dependent, even
-          if you’re their legal guardian.
-        </>
-      ),
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `Your relationship to ${formData?.fullName?.first || 'this child'}`,
+      <>
+        <strong>Note:</strong> You can’t add a grandchild as a dependent, even
+        if you’re their legal guardian.
+      </>,
+    ),
     relationshipType: radioUI({
       title: 'What’s your relationship to this child?',
       labels,
