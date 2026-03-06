@@ -13,19 +13,20 @@ const ProofOfAttendanceCard = ({ filename }) => {
       <div className="vads-u-margin-top--2">
         <va-card
           className="expense-card"
-          data-testid={`proof-of-attendance-card`}
+          data-testid="proof-of-attendance-card"
         >
           <h3 className="vads-u-margin-top--1">File name</h3>
           <p>{filename}</p>
           <p>
-            <span className="vads-u-font-weight--bold">Note:</span> We've
-            changed your file name to "{PROOF_OF_ATTENDANCE_FILENAME}."
+            <span className="vads-u-font-weight--bold">Note:</span> We’ve
+            changed your file name to "{PROOF_OF_ATTENDANCE_FILENAME}
+            ."
           </p>
           <div className="review-button-row">
             <div className="review-edit-button">
               <Link
-                data-testid={`proof-of-attendance-edit-link`}
-                to={`/`} // TODO PoA: Go to proof of attendance page
+                data-testid="proof-of-attendance-edit-link"
+                to="/" // TODO: Go to proof of attendance edit page
               >
                 Edit
                 <va-icon

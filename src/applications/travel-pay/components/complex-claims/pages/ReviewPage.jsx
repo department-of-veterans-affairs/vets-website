@@ -4,7 +4,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { useFeatureToggle, TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  TOGGLE_NAMES,
+} from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui/focus';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import ReviewPageAlert from './ReviewPageAlert';
@@ -154,7 +157,7 @@ const ReviewPage = () => {
             accept the travel agreement and submit your claim. Make sure to file
             your claim within 30 days of your appointment.
           </p>
-          { !ccEnabled && <h2>Expense types</h2> }
+          {!ccEnabled && <h2>Expense types</h2>}
           <ExpensesAccordion
             expenses={expenses}
             documents={documents}

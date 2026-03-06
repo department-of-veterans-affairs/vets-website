@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 
-import { useFeatureToggle, TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  TOGGLE_NAMES,
+} from 'platform/utilities/feature-toggles';
 
 import {
   setReviewPageAlert,
@@ -69,10 +72,11 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
         className="expense-card"
         data-testid={`expense-card-${expense.id}`}
       >
-        { ccEnabled
-          ? <h3 className="vads-u-margin-top--1">{header}</h3>
-          : <h4 className="vads-u-margin-top--1">{header}</h4>
-        }
+        {ccEnabled ? (
+          <h3 className="vads-u-margin-top--1">{header}</h3>
+        ) : (
+          <h4 className="vads-u-margin-top--1">{header}</h4>
+        )}
         {isDeleting ? (
           <div className="vads-u-text-align--center vads-u-margin--5">
             <va-loading-indicator message="Deleting..." set-focus={false} />
