@@ -175,36 +175,6 @@ describe('<ConfirmationPage>', () => {
       );
     });
 
-    // it('creates URL search params', () => {
-    //   const location = () => {
-    //     return {
-    //     basename: '/discover-your-benefits',
-    //     pathname: '/confirmation',
-    //     search: '',
-    //   }
-    // };
-    //   const { mockStore, props } = getData([], form1, {}, location);
-    //   const { container } = subject({ mockStore, props });
-
-    //   const additionalInfo = container.querySelector('va-additional-info');
-    //   expect(additionalInfo).to.exist;
-    //   expect(additionalInfo).to.have.attribute(
-    //     'trigger',
-    //     'Benefits for transitioning service members',
-    //   );
-
-    //   const vaLink = additionalInfo.querySelector('va-link');
-    //   expect(vaLink).to.exist;
-    //   expect(vaLink).to.have.attribute(
-    //     'href',
-    //     'https://www.va.gov/service-member-benefits/',
-    //   );
-    //   expect(vaLink).to.have.attribute(
-    //     'label',
-    //     'Learn more about VA benefits for service members (opens in a new tab)',
-    //   );
-    // });
-
     it('renders results container when query string is provided', () => {
       const { mockStore, props } = getData();
       props.location.query.benefits = 'SVC,FHV';
