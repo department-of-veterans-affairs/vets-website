@@ -26,6 +26,8 @@ jobs:
     needs: get_changed_files
     if: needs.get_changed_files.outputs.changed == 'true'
     runs-on: ubuntu-latest
+    outputs:
+      folders: ${{ steps.testing-folders.outputs.folders }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -43,7 +45,16 @@ jobs:
         run: node script/github-actions/find-form-exports.js
       - name: Check check and check
         run: echo "${{ steps.testing-folders.outputs.folders }}"
-
-
-      
-
+  run_tests:
+    needs: get_exports
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        folder: ${{ fromJson(needs.get_exports.outputs.folders) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+      - name: Run unit tests
+        run: yarn test:unit:gha "${{ matrix.folder }}/**/*.unit.spec.js?(x)"
