@@ -731,17 +731,6 @@ describe('Complex Claims Mileage - Edit', () => {
     expect(addCancelButton).to.not.exist;
   });
 
-  it('the "Cancel" button navigates to choose-expense when no unsaved changes', () => {
-    renderEditPage();
-
-    const backButton = $('.travel-pay-button-group').querySelectorAll(
-      'va-button',
-    )[0];
-    fireEvent.click(backButton);
-
-    expect($('[data-testid="choose-expense-page"]')).to.exist;
-  });
-
   it('Cancel" button navigates to choose-expense when no unsaved changes', () => {
     renderEditPage();
 
