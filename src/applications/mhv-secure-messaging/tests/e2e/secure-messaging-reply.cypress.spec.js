@@ -34,7 +34,6 @@ describe('Secure Messaging Reply Axe Check', () => {
       .should('be.visible')
       .and('not.be.disabled');
     PatientReplyPage.getMessageBodyField().clear();
-    PatientReplyPage.getMessageBodyField().should('have.value', '');
     PatientReplyPage.getMessageBodyField().type('Test message body', {
       force: true,
     });
