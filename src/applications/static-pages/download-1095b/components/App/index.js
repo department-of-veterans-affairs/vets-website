@@ -24,8 +24,8 @@ import { selectAuthStatus } from '../../selectors/auth-status';
 import {
   downloadErrorComponent,
   errorTypes,
-  notFoundComponent,
-  pdfHelp,
+  NotFoundComponent,
+  PdfHelp,
   systemErrorComponent,
 } from './utils';
 
@@ -36,6 +36,7 @@ export const App = ({ toggleLoginModal }) => {
   const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
   const profile = useSelector(state => selectAuthStatus(state));
   const [hasLoadedMostRecentYear, setHasLoadedMostRecentYear] = useState(false);
+
   const isAppLoading = useMemo(
     () => {
       return (
@@ -202,7 +203,7 @@ export const App = ({ toggleLoginModal }) => {
           </div>
         </div>
       </va-card>
-      {pdfHelp}
+      <PdfHelp />
     </>
   );
 
@@ -222,7 +223,7 @@ export const App = ({ toggleLoginModal }) => {
       return systemErrorComponent;
     }
     if (formError.type === errorTypes.NOT_FOUND) {
-      return notFoundComponent();
+      return <NotFoundComponent />;
     }
     return downloadForm;
   };
