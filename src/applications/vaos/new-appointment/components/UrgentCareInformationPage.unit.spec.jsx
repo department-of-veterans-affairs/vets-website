@@ -130,7 +130,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       const screen = renderWithStoreAndRouter(<UrgentCareInformationPage />, {
         initialState,
       });
-      expect(screen.getByText(/From April 1, 2026 at 12:00AM ET/i)).to.be.ok;
+      expect(screen.getByText(/April 1, 2026 at 12:00AM ET/i)).to.be.ok;
       expect(
         screen.getByText(/During this time, you can still call this facility/),
       ).to.be.ok;
@@ -301,7 +301,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       });
 
       // Assert
-      expect(screen.getByText(/From April 1, 2026 at 12:00AM ET/i)).to.be.ok;
+      expect(screen.getByText(/April 1, 2026 at 12:00AM ET/i)).to.be.ok;
       expect(
         screen.getByText(
           /During this time, you can still call these facilities/,
@@ -496,7 +496,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
 
       // Assert
       // 1st alert
-      expect(screen.getByText(/From April 1, 2026 at 12:00AM ET/i)).to.be.ok;
+      expect(screen.getByText(/April 1, 2026 at 12:00AM ET/i)).to.be.ok;
       expect(
         screen.getByText(
           /During this time, you can still call these facilities to schedule your appointment/,
