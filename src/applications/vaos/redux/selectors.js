@@ -76,9 +76,6 @@ export const selectFeatureCommunityCareCancellations = state =>
 
 export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
 
-export const selectFeatureRecentLocationsFilter = state =>
-  toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
-
 export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
 
