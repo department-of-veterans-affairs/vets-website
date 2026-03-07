@@ -1,11 +1,16 @@
 /* eslint-disable camelcase */
 
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   VaModal,
   VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  cancelRepresentativeReport,
+  submitRepresentativeReport,
+} from '../../actions';
 
 const ReportModal = ({
   representativeName,
@@ -15,8 +20,6 @@ const ReportModal = ({
   email,
   existingReports,
   onCloseReportModal,
-  submitRepresentativeReport,
-  cancelRepresentativeReport,
   testReportObject,
 }) => {
   const [reportObject, setReportObject] = useState({
@@ -26,6 +29,8 @@ const ReportModal = ({
   });
 
   const [reportIsBlankError, setReportIsBlankError] = useState(false);
+
+  const dispatch = useDispatch();
 
   // render conditions
   const totalReportableItems =
@@ -82,7 +87,7 @@ const ReportModal = ({
     }
 
     try {
-      await submitRepresentativeReport(formattedReportObject);
+      await dispatch(submitRepresentativeReport(formattedReportObject));
     } catch {
       setReportObject({
         phone: null,
@@ -95,7 +100,7 @@ const ReportModal = ({
   };
 
   const onCancelOrClose = () => {
-    cancelRepresentativeReport();
+    dispatch(cancelRepresentativeReport);
     onCloseReportModal();
   };
   return (
@@ -187,7 +192,6 @@ export default ReportModal;
 
 ReportModal.propTypes = {
   address: PropTypes.string,
-  cancelRepresentativeReport: PropTypes.func,
   email: PropTypes.string,
   existingReports: PropTypes.shape({
     address: PropTypes.string,
@@ -197,7 +201,6 @@ ReportModal.propTypes = {
   phone: PropTypes.string,
   representativeId: PropTypes.string,
   representativeName: PropTypes.string,
-  submitRepresentativeReport: PropTypes.func,
   testReportObject: PropTypes.object,
   onCloseReportModal: PropTypes.func,
 };

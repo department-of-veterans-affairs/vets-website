@@ -1,10 +1,13 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { updateSearchQuery } from '../../actions';
 
-const RepTypeSelector = ({ onChange, representativeType }) => {
+const RepTypeSelector = ({ representativeType }) => {
+  const dispatch = useDispatch();
   const handleRadioButtonSelect = event => {
-    onChange({ representativeType: event.detail.value });
+    dispatch(updateSearchQuery({ representativeType: event.detail.value }));
   };
 
   return (
@@ -49,7 +52,6 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
 };
 
 RepTypeSelector.propTypes = {
-  onChange: PropTypes.func.isRequired,
   representativeType: PropTypes.string,
 };
 

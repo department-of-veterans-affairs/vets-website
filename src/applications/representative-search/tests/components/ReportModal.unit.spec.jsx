@@ -60,7 +60,6 @@ describe('ReportModal component', () => {
         phone="794-273-8433"
         email="rep@example.com"
         existingReports={existingReports}
-        submitRepresentativeReport={() => {}}
         onCloseModal={() => {}}
       />,
     );

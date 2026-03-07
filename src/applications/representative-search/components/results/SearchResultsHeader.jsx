@@ -1,23 +1,27 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { sortOptions } from '../../config';
+import { commitSearchQuery, updateSearchQuery } from '../../actions';
 
 /* eslint-disable camelcase */
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 
-export const SearchResultsHeader = props => {
-  const { searchResults, pagination, query } = props;
-  const { inProgress } = query;
+export const SearchResultsHeader = () => {
+  const searchResults = useSelector(state => state.searchResult.searchResults);
+  const pagination = useSelector(state => state.searchResult.pagination);
+  const currentQuery = useSelector(state => state.searchQuery);
+  const { inProgress } = currentQuery;
   const {
     context,
     representativeType,
     sortType,
     searchArea,
-  } = query.committedSearchQuery;
+  } = currentQuery.committedSearchQuery;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const dispatch = useDispatch();
 
   const reportFeatureEnabled = useToggleValue(
     TOGGLE_NAMES.findARepresentativeFlagResultsEnabled,
@@ -73,8 +77,8 @@ export const SearchResultsHeader = props => {
       sortType: selectedSortType,
     };
 
-    props.updateSearchQuery(queryUpdateCommitPayload);
-    props.commitSearchQuery(queryUpdateCommitPayload);
+    dispatch(updateSearchQuery(queryUpdateCommitPayload));
+    dispatch(commitSearchQuery(queryUpdateCommitPayload));
   };
 
   return (
@@ -167,22 +171,7 @@ export const SearchResultsHeader = props => {
   );
 };
 
-SearchResultsHeader.propTypes = {
-  pagination: PropTypes.object,
-  query: PropTypes.shape({
-    context: PropTypes.shape({
-      repOrgName: PropTypes.string,
-      location: PropTypes.string,
-    }),
-    inProgress: PropTypes.bool,
-    representativeType: PropTypes.string,
-    searchArea: PropTypes.any,
-    sortType: PropTypes.string,
-  }),
-  searchResults: PropTypes.array,
-  updateSearchQuery: PropTypes.func,
-  commitSearchQuery: PropTypes.func,
-};
+SearchResultsHeader.propTypes = {};
 
 // Only re-render if results or inProgress props have changed
 const areEqual = (prevProps, nextProps) => {
@@ -192,11 +181,4 @@ const areEqual = (prevProps, nextProps) => {
   );
 };
 
-const mapStateToProps = state => ({
-  ...state,
-});
-
-export default React.memo(
-  connect(mapStateToProps)(SearchResultsHeader),
-  areEqual,
-);
+export default React.memo(SearchResultsHeader, areEqual);
