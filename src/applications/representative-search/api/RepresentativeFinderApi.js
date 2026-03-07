@@ -12,7 +12,7 @@ class RepresentativeFinderApi {
     lat,
     long,
     name,
-    page,
+    page = 1,
     perPage = 10,
     sort,
     type = 'veteran_service_officer',
