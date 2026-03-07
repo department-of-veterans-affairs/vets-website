@@ -11,15 +11,6 @@ export default {
     'ui:title': '',
     veteranInfoConflictData: {
       'ui:field': ConfirmVeteranInfoField,
-      'ui:validations': [
-        (errors, fieldValue) => {
-          if ((fieldValue?.conflictCount ?? 0) > 0) {
-            errors.addError(
-              'You must resolve all conflicts before continuing.',
-            );
-          }
-        },
-      ],
     },
   },
   schema: {
@@ -27,9 +18,7 @@ export default {
     properties: {
       veteranInfoConflictData: {
         type: 'object',
-        properties: {
-          conflictCount: { type: 'integer' },
-        },
+        properties: {},
       },
     },
   },

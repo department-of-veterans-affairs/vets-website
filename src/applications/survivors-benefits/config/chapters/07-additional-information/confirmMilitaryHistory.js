@@ -11,15 +11,6 @@ export default {
     'ui:title': '',
     militaryHistoryConflictData: {
       'ui:field': ConfirmMilitaryHistoryField,
-      'ui:validations': [
-        (errors, fieldValue) => {
-          if ((fieldValue?.conflictCount ?? 0) > 0) {
-            errors.addError(
-              'You must resolve all conflicts before continuing.',
-            );
-          }
-        },
-      ],
     },
   },
   schema: {
@@ -27,9 +18,7 @@ export default {
     properties: {
       militaryHistoryConflictData: {
         type: 'object',
-        properties: {
-          conflictCount: { type: 'integer' },
-        },
+        properties: {},
       },
     },
   },

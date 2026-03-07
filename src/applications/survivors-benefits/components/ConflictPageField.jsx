@@ -28,17 +28,12 @@ const ConflictCard = ({ conflict, resolution, onResolutionChange }) => {
 
   return (
     <div className="vads-u-margin-bottom--4">
-      <va-radio
-        ref={radioRef}
-        label={conflict.label}
-        value={resolution || 'form'}
-        required
-        uswds
-      >
+      <va-radio ref={radioRef} label={conflict.label} required uswds>
         <va-radio-option
           name={`conflict-${conflict.label}`}
           label={`${conflict.formDisplayValue} (entered by you)`}
           value="form"
+          checked={!resolution || resolution === 'form'}
           tile
         />
         {conflict.artifactOptions.map((option, idx) => (
@@ -48,11 +43,10 @@ const ConflictCard = ({ conflict, resolution, onResolutionChange }) => {
             label={`${option.displayValue} (found in ${
               option.sourceFiles.length > 1
                 ? 'multiple documents'
-                : `${option.sourceFiles[0].docTypeLabel} — ${
-                    option.sourceFiles[0].fileName
-                  }`
+                : `${option.sourceFiles[0].docTypeLabel}`
             })`}
             value={String(idx)}
+            checked={resolution === String(idx)}
             tile
           />
         ))}
@@ -95,7 +89,7 @@ ConflictCard.propTypes = {
  * @param {string} emptyMessage - message when no conflicts are found
  */
 const createConflictPageField = (fieldGroup, emptyMessage) => {
-  return ({ onChange, formContext }) => {
+  return () => {
     const dispatch = useDispatch();
     const store = useStore();
     const formData = useSelector(getFormData) || {};
@@ -106,25 +100,22 @@ const createConflictPageField = (fieldGroup, emptyMessage) => {
       buildConflicts(formData, formData.files ?? [], fieldGroup),
     );
 
-    const [resolutions, setResolutions] = useState({});
-    // Mirror resolutions into a ref so the unmount cleanup can read the
-    // latest value without needing it as a useEffect dependency.
-    const resolutionsRef = useRef({});
-
-    // Initialize the unresolved count in formData so ui:validations can gate Continue.
-    useEffect(
-      () => {
-        onChange({ conflictCount: conflicts.length });
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [],
+    // Pre-select the form value for every conflict — 'form' is always the
+    // default so Continue works without requiring an explicit selection.
+    const initialResolutions = conflicts.reduce(
+      (acc, c) => ({ ...acc, [c.label]: 'form' }),
+      {},
     );
+    const [resolutions, setResolutions] = useState(initialResolutions);
 
-    // Commit the final resolution when the user navigates away.
-    // Reading store.getState() at unmount time guarantees we apply on top of
-    // whatever prior conflict pages already dispatched — avoiding the
-    // stale-snapshot bug where an old page's cleanup overwrote a newer page's
-    // resolutions.
+    // Seeded with initialResolutions so the unmount cleanup always runs,
+    // even if the user never touches the radios. User changes override the
+    // defaults field-by-field via handleResolutionChange.
+    const resolutionsRef = useRef(initialResolutions);
+
+    // Commit explicit resolutions when the user navigates away.
+    // Reading store.getState() at unmount time avoids stale-snapshot bugs
+    // when two conflict pages both dispatch on unmount.
     useEffect(() => {
       return () => {
         if (!Object.keys(resolutionsRef.current).length) return;
@@ -153,28 +144,19 @@ const createConflictPageField = (fieldGroup, emptyMessage) => {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleResolutionChange = (fieldLabel, choice) => {
-      const nextResolutions = { ...resolutions, [fieldLabel]: choice };
-      resolutionsRef.current = nextResolutions;
-      setResolutions(nextResolutions);
-      onChange({
-        conflictCount: conflicts.length - Object.keys(nextResolutions).length,
-      });
+      resolutionsRef.current = {
+        ...resolutionsRef.current,
+        [fieldLabel]: choice,
+      };
+      setResolutions(prev => ({ ...prev, [fieldLabel]: choice }));
     };
-
-    const unresolvedCount = conflicts.length - Object.keys(resolutions).length;
-    const showError = formContext?.submitted && unresolvedCount > 0;
 
     if (!conflicts.length) {
       return <p>{emptyMessage}</p>;
     }
 
     return (
-      <div className={showError ? 'usa-input-error' : undefined}>
-        {showError && (
-          <span className="usa-input-error-message" role="alert">
-            You must resolve all conflicts before continuing.
-          </span>
-        )}
+      <div>
         <p>
           The information below was automatically extracted from your uploaded
           documents. Review any differences and select the correct value.

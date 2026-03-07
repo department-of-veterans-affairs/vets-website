@@ -76,19 +76,15 @@ export const VETERAN_INFO_FIELDS = [
     label: 'Social Security number',
     editPath: 'veteran-identification',
     getFormValue: formData => formData.veteranSocialSecurityNumber?.ssn,
-    // Form stores NNN-NN-NNNN; artifacts store bare 9 digits after normalization.
-    // Strip non-digits for comparison so both formats compare equal.
-    normalize: val => (val || '').replace(/\D/g, ''),
+    // Both form and artifacts store bare 9 digits (schema: "^[0-9]{9}$").
+    normalize: val => val || '',
     formatValue: val => maskSsn(val),
-    // canonicalValue is the bare 9-digit artifact value; add dashes for form.
+    // canonicalValue is bare 9 digits; write it as-is to match the schema pattern.
     applyToForm: (formData, canonicalValue) => ({
       ...formData,
       veteranSocialSecurityNumber: {
         ...(formData.veteranSocialSecurityNumber || {}),
-        ssn: (canonicalValue || '').replace(
-          /(\d{3})(\d{2})(\d{4})/,
-          '$1-$2-$3',
-        ),
+        ssn: canonicalValue || '',
       },
     }),
     artifacts: [
