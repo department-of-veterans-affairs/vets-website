@@ -43,11 +43,15 @@ const ConflictCard = ({ conflict, resolution, onResolutionChange }) => {
         />
         {conflict.artifactOptions.map((option, idx) => (
           <va-radio-option
-            key={idx}
+            key={option.sourceFiles.map(f => f.trackingKey).join('-')}
             name={`conflict-${conflict.label}`}
-            label={`${
-              option.displayValue
-            } (found in ${option.docTypeLabels.join(' and ')})`}
+            label={`${option.displayValue} (found in ${
+              option.sourceFiles.length > 1
+                ? 'multiple documents'
+                : `${option.sourceFiles[0].docTypeLabel} — ${
+                    option.sourceFiles[0].fileName
+                  }`
+            })`}
             value={String(idx)}
             tile
           />
@@ -70,7 +74,13 @@ ConflictCard.propTypes = {
     artifactOptions: PropTypes.arrayOf(
       PropTypes.shape({
         displayValue: PropTypes.string,
-        docTypeLabels: PropTypes.arrayOf(PropTypes.string),
+        sourceFiles: PropTypes.arrayOf(
+          PropTypes.shape({
+            docTypeLabel: PropTypes.string,
+            fileName: PropTypes.string,
+            trackingKey: PropTypes.string,
+          }),
+        ),
         rawValue: PropTypes.any,
       }),
     ),

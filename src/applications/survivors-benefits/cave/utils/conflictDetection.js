@@ -1,17 +1,25 @@
 const isBlankValue = value =>
   !value || (typeof value === 'object' && !Object.values(value).some(Boolean));
 
-const addToGrouped = (grouped, norm, rawValue, docTypeLabel, formatValue) => {
+const addToGrouped = (
+  grouped,
+  norm,
+  rawValue,
+  docTypeLabel,
+  fileName,
+  trackingKey,
+  formatValue,
+) => {
   if (!grouped.has(norm)) {
     grouped.set(norm, {
       rawValue,
       displayValue: formatValue(rawValue),
-      docTypeLabels: [docTypeLabel],
+      sourceFiles: [{ docTypeLabel, fileName, trackingKey }],
     });
   } else {
     const existing = grouped.get(norm);
-    if (!existing.docTypeLabels.includes(docTypeLabel)) {
-      existing.docTypeLabels.push(docTypeLabel);
+    if (!existing.sourceFiles.some(f => f.trackingKey === trackingKey)) {
+      existing.sourceFiles.push({ docTypeLabel, fileName, trackingKey });
     }
   }
 };
@@ -28,6 +36,8 @@ const scanArtifact = (artifact, files, formNorm, fieldDef, grouped) => {
             norm,
             rawValue,
             artifact.docTypeLabel,
+            file.name,
+            file.idpTrackingKey,
             fieldDef.formatValue,
           );
         }
