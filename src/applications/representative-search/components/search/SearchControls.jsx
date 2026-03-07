@@ -206,7 +206,7 @@ const SearchControls = props => {
               <div className="organization-select">
                 <VaComboBox
                   name="organization"
-                  value={organizations.length > 0 ? organizationFilter : null}
+                  value={organizationFilter}
                   label="Veterans Service Organization (VSO)"
                   onVaSelect={handleChange('organizationFilter')}
                   data-testid="vso-org-filter"
