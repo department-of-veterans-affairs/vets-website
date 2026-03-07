@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import IconCTALink from '../IconCTALink';
 
 const HealthCareCTA = ({
@@ -11,28 +10,15 @@ const HealthCareCTA = ({
   isLOA1,
   unreadMessagesCount,
 }) => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-
-  const smocEnabled = useToggleValue(
-    TOGGLE_NAMES.travelPaySubmitMileageExpense,
-  );
-
-  let urls = {
+  const urls = {
     applyForVAHealthcare: '/health-care/apply-for-health-care-form-10-10ez/',
     myHealthEVet: '/my-health/',
     inbox: '/my-health/secure-messages/inbox/',
     appointments: '/my-health/appointments/',
     refillPrescriptions: '/my-health/medications/refill/',
-    travelReimbursement: 'https://dvagov-btsss.dynamics365portals.us/signin',
+    travelReimbursement: '/my-health/travel-pay/claims',
     medicalRecords: '/my-health/medical-records',
   };
-
-  if (smocEnabled) {
-    urls = {
-      ...urls,
-      travelReimbursement: '/my-health/travel-pay/claims',
-    };
-  }
 
   return (
     <>
@@ -124,18 +110,12 @@ const HealthCareCTA = ({
             <IconCTALink
               href={urls.travelReimbursement}
               icon="work"
-              text={
-                smocEnabled
-                  ? 'Review and file travel reimbursement claims'
-                  : 'Request travel reimbursement'
-              }
+              text="Review and file travel reimbursement claims"
               testId="request-travel-reimbursement-link-from-cta"
               onClick={() => {
                 recordEvent({
                   event: 'nav-linkslist',
-                  'links-list-header': smocEnabled
-                    ? 'Review and file travel claims'
-                    : 'Request travel reimbursement',
+                  'links-list-header': 'Review and file travel claims', // TODO: should I change this?
                   'links-list-section-header': 'Health care',
                 });
               }}

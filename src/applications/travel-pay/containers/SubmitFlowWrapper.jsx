@@ -34,16 +34,9 @@ const SubmitFlowWrapper = () => {
     state => state.travelPay.claimSubmission,
   );
 
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
+  const { useToggleLoadingValue } = useFeatureToggle();
 
   const toggleIsLoading = useToggleLoadingValue();
-  const canSubmitMileage = useToggleValue(
-    TOGGLE_NAMES.travelPaySubmitMileageExpense,
-  );
 
   useEffect(
     () => {
@@ -163,11 +156,6 @@ const SubmitFlowWrapper = () => {
         />
       </div>
     );
-  }
-
-  if (!canSubmitMileage) {
-    window.location.replace('/');
-    return null;
   }
 
   return (

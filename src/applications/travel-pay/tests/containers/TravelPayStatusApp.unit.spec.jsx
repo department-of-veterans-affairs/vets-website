@@ -19,7 +19,6 @@ describe('TravelPayStatusApp', () => {
     areFeatureTogglesLoading = true,
     hasFeatureFlag = true,
     hasClaimDetailsFeatureFlag = true,
-    hasSmocFeatureFlag = false,
     loadingClaims = false,
     claimsData = {},
   } = {}) => {
@@ -29,7 +28,6 @@ describe('TravelPayStatusApp', () => {
         /* eslint-disable camelcase */
         travel_pay_power_switch: hasFeatureFlag,
         travel_pay_view_claim_details: hasClaimDetailsFeatureFlag,
-        travel_pay_submit_mileage_expense: hasSmocFeatureFlag,
         /* eslint-enable camelcase */
       },
       scheduledDowntime: {
@@ -101,7 +99,6 @@ describe('TravelPayStatusApp', () => {
     const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
-        hasSmocFeatureFlag: true,
         hasFeatureFlag: true,
         loadingClaims: false,
         claimsData: {
@@ -165,7 +162,6 @@ describe('TravelPayStatusApp', () => {
     const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
-        hasSmocFeatureFlag: true,
         hasFeatureFlag: true,
       }),
       path: `/claims/`,
