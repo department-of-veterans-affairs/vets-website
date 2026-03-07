@@ -44,6 +44,12 @@ export default function InboxLayoutNew({
     query: '',
   });
 
+  const results = filterAndSort({
+    inquiriesArray: inquiries,
+    filters: { ...filters, inquiryTypes },
+    sortOrder,
+  });
+
   return (
     <div id="inbox">
       <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--0">
@@ -130,12 +136,13 @@ export default function InboxLayoutNew({
               />
             </div>
           </div>
-          <div className="sort-container">
+          {!!results.length && (
             <VaSort
               width="xl"
               value={sortOrder}
               onVaSortSelect={e => {
                 setSortOrder(e.target.value);
+                focusElement('#search-description');
               }}
             >
               <option value={filterAndSort.sortOptions.lastUpdate.newest}>
@@ -145,7 +152,7 @@ export default function InboxLayoutNew({
                 Last Updated (oldest to newest)
               </option>
             </VaSort>
-          </div>
+          )}
 
           {inquiryTypes.includes('business') ? (
             <div className="tabs">

@@ -204,6 +204,27 @@ describe('<InboxLayoutNew />', () => {
     expect(focusedElement).to.equal(searchDescription.parentElement);
   });
 
+  it('shifts focus to search description after selecting a sort order', () => {
+    const view = render(
+      <InboxLayoutNew
+        categoryOptions={mockData.uniqueCategories}
+        statusOptions={mockData.uniqueStatuses}
+        inquiryTypes={['personal']}
+        inquiries={personalInquiries}
+      />,
+    );
+    const sortSelect = view.container.querySelector('va-sort');
+
+    sortSelect.__events.vaSortSelect({
+      target: { value: filterAndSort.sortOptions.lastUpdate.oldest },
+    });
+
+    const focusedElement = view.container.ownerDocument.activeElement;
+    const searchDescription = view.getByText(/showing/i);
+
+    expect(focusedElement).to.equal(searchDescription.parentElement);
+  });
+
   it('searches results based on a query', () => {
     // Add an inquiry with a reference number guaranteed to be different
     const inquiriesCopy = [...personalInquiries];
