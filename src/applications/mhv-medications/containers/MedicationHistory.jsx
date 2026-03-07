@@ -15,6 +15,7 @@ import {
   rxListSortingOptions,
   rxListSortingOptionsV2,
   getDefaultFilterOption,
+  ALL_MEDICATIONS_FILTER_KEY,
 } from '../util/constants';
 import {
   selectSortOption,
@@ -30,23 +31,11 @@ import MedicationHistoryFilter, {
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { getPrescriptionsExportList } from '../api/prescriptionsApi';
 
-import { useFetchMedicationHistory } from '../hooks/MedicationHistory/useFetchMedicationHistory';
 import { useFocusManagement } from '../hooks/MedicationsList/useFocusManagement';
 import useRxListExport from '../hooks/useRxListExport';
 
-import { setSortOption } from '../redux/preferencesSlice';
-
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
-import {
-  selectSortOption,
-  selectFilterOption,
-} from '../selectors/selectPreferences';
 
-import {
-  rxListSortingOptions,
-  ALL_MEDICATIONS_FILTER_KEY,
-} from '../util/constants';
-import { pageType } from '../util/dataDogConstants';
 import { getFilterOptions } from '../util/helpers/getRxStatus';
 import {
   selectCernerPilotFlag,
