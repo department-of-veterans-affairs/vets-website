@@ -16,9 +16,9 @@ import FloatingBot from '../webchat/components/FloatingBot';
 import StickyBot from '../webchat/components/StickyBot';
 
 // v2 chatbot
+import MessagingInitializer from './features/messaging/MessagingInitializer';
 import { Shell } from './features/shell/Shell';
-
-const GENESYS_DEPLOYMENT_ID = 'b691fb78-8f63-4bb9-b691-8a75c8ce1e2f';
+import { GENESYS_CONFIG } from './features/messaging/constants';
 
 function Page() {
   const togglesLoading = useToggleLoadingValue();
@@ -45,6 +45,7 @@ function Page() {
   }
 
   if (virtualAgentUseV2Chatbot) {
+    // eslint-disable-next-line func-names
     (function(g, e, n, es, ys) {
       g._genesysJs = e;
       g[e] =
@@ -64,12 +65,20 @@ function Page() {
       'Genesys',
       'https://apps.use2.us-gov-pure.cloud/genesys-bootstrap/genesys.min.js',
       {
-        environment: 'fedramp-use2-core',
-        deploymentId: GENESYS_DEPLOYMENT_ID,
+        environment: GENESYS_CONFIG.region,
+        deploymentId: GENESYS_CONFIG.deploymentId,
       },
     );
-
-    return <Shell />;
+    return (
+      <MessagingInitializer>
+        {({ startConversation, sendMessage }) => (
+          <Shell
+            startConversation={startConversation}
+            sendMessage={sendMessage}
+          />
+        )}
+      </MessagingInitializer>
+    );
   }
 
   // for the legacy chatbot, decide which bot to show based on the floating bot toggle

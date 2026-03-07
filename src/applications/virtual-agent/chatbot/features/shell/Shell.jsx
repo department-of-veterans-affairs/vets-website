@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -8,14 +9,23 @@ import useSkipLinkFix from './hooks/useSkipLinkFix';
 
 /**
  * Chatbot shell component that houses the disclaimer and chatbot UI.
- * Used on the ChatbotEntry page to house all the static page content for /contact-us/virtual-agent, and then provide a container for feature-based chatbot modules.
+ * Used on the ChatbotEntry page to house all the static page content for
+ * /contact-us/virtual-agent and provides a container for feature-based modules.
  * @component
- * @returns jsx.Element
+ * @param {{ startConversation?: function, sendMessage?: function }} props
+ * @returns {JSX.Element}
  */
-export const Shell = () => {
+export const Shell = ({ startConversation, sendMessage }) => {
   useSkipLinkFix();
 
   const dispatch = useDispatch();
+
+  const handleAccept = () => {
+    dispatch(chatbotActions.acceptDisclaimer());
+    if (startConversation) {
+      startConversation();
+    }
+  };
 
   return (
     <div
@@ -31,10 +41,16 @@ export const Shell = () => {
           data-testid="sticky-chatbot"
         >
           <RightColumnContent
-            onAccept={() => dispatch(chatbotActions.acceptDisclaimer())}
+            onAccept={handleAccept}
+            sendMessage={sendMessage}
           />
         </div>
       </div>
     </div>
   );
+};
+
+Shell.propTypes = {
+  sendMessage: PropTypes.func,
+  startConversation: PropTypes.func,
 };

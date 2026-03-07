@@ -5,8 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ACCEPTED } from '../../../../../webchat/reducers';
 import { clearBotSessionStorage } from '../../../../../webchat/utils/sessionStorage';
 import ChatboxContainer from '../../../../components/chatbox/ChatboxContainer';
+import ChatInput from '../../../../components/chatbox/ChatInput';
 import ChatMessageList from '../../../../components/chatbox/ChatMessageList';
-import { selectChatbotHasAcceptedDisclaimer } from '../../../../store';
+import {
+  selectChatbotHasAcceptedDisclaimer,
+  selectErrorMessage,
+  selectMessages,
+} from '../../../../store';
 import AiDisclaimer from './AiDisclaimer';
 
 /**
@@ -38,6 +43,7 @@ function onClick(dispatch, onAccept) {
 /**
  * @typedef {Object} RightContentProps
  * @property {function(): void} onAccept - Click handler for accepting the disclaimer
+ * @property {function(string): void} [sendMessage] - Sends a message to the active conversation
  */
 
 /**
@@ -45,36 +51,14 @@ function onClick(dispatch, onAccept) {
  * Used on the Shell component to house all the static page content for the right column, including the disclaimer and chatbot container.
  * @component
  * @param {RightContentProps} props Component props
- * @returns jsx.Element
+ * @returns {JSX.Element}
  *
  */
-export default function RightColumnContent({ onAccept }) {
+export default function RightColumnContent({ onAccept, sendMessage }) {
   const dispatch = useDispatch();
   const hasAcceptedDisclaimer = useSelector(selectChatbotHasAcceptedDisclaimer);
-
-  // Sample messages for demonstration purposes. Remove these when integrating with backend.
-  const messages = [
-    {
-      id: 'welcome',
-      sender: 'va',
-      text:
-        "Welcome to the VA chatbot. I'm here to help you with your questions about VA benefits and services.",
-    },
-    {
-      id: 'user-question',
-      sender: 'user',
-      text: 'How do I check the status of my claim?',
-    },
-    {
-      id: 'va-response',
-      sender: 'va',
-      text: 'You can check your claim status on VA.gov after you sign in.',
-    },
-  ];
-
-  // Sample error message for demonstration purposes. Remove when integrating with backend.
-  const errorMessage =
-    "We can't load the chatbot right now. Please try again later.";
+  const messages = useSelector(selectMessages);
+  const errorMessage = useSelector(selectErrorMessage);
 
   return (
     <ChatboxContainer>
@@ -85,7 +69,7 @@ export default function RightColumnContent({ onAccept }) {
           <div data-testid="disclaimer" style={{ width: '100%' }}>
             <ul>
               <li>
-                Our chatbot can’t help you if you’re experiencing a personal,
+                Our chatbot can't help you if you're experiencing a personal,
                 medical, or mental health emergency. Go to the nearest emergency
                 room, dial 988 and press 1 for mental health support, or call
                 911 to get medical care right away.
@@ -97,7 +81,7 @@ export default function RightColumnContent({ onAccept }) {
                 />
               </li>
               <li>
-                Please don’t type any personal information such as your name,
+                Please don't type any personal information such as your name,
                 address, or anything else that can be used to identify you.
               </li>
               <AiDisclaimer />
@@ -111,7 +95,10 @@ export default function RightColumnContent({ onAccept }) {
           </div>
         </va-alert>
       ) : (
-        <ChatMessageList messages={messages} errorMessage={errorMessage} />
+        <>
+          <ChatMessageList messages={messages} errorMessage={errorMessage} />
+          {sendMessage && <ChatInput sendMessage={sendMessage} />}
+        </>
       )}
     </ChatboxContainer>
   );
@@ -119,4 +106,5 @@ export default function RightColumnContent({ onAccept }) {
 
 RightColumnContent.propTypes = {
   onAccept: PropTypes.func,
+  sendMessage: PropTypes.func,
 };
