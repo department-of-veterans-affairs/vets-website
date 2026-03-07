@@ -938,6 +938,20 @@ export const flattenAttachments = formData => {
   return clonedData;
 };
 
+const DISABILITY_BENEFITS_QUESTIONNAIRE_ATTACHMENT_ID = 'L702';
+export const setSeparationHealthAssessmentAttachmentId = formData => {
+  const uploads = formData.separationHealthAssessmentUploads;
+  if (!uploads) return formData;
+
+  const clonedData = _.cloneDeep(formData);
+  clonedData.separationHealthAssessmentUploads = uploads.map(upload => ({
+    ...upload,
+    attachmentId: DISABILITY_BENEFITS_QUESTIONNAIRE_ATTACHMENT_ID,
+  }));
+
+  return clonedData;
+};
+
 // Flatten all attachment pages into attachments ARRAY
 export const addFileAttachments = formData => {
   const clonedData = flattenAttachments(formData);
