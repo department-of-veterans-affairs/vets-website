@@ -1,10 +1,13 @@
 import { ancillaryFormUploadUi } from '../utils/schemas';
 
 export const uiSchema = {
-  separationHealthAssessmentUploads: ancillaryFormUploadUi(
-    'Upload your separation health assessment',
-    '',
-  ),
+  separationHealthAssessmentUploads: {
+    ...ancillaryFormUploadUi('Upload your separation health assessment', ''),
+    'ui:confirmationField': ({ formData }) => ({
+      data: formData?.map(item => item.name || item.fileName),
+      label: 'Uploaded file(s)',
+    }),
+  },
 };
 
 export const schema = {
