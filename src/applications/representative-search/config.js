@@ -1,5 +1,4 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import compact from 'lodash/compact';
 import { RepresentativeType } from './constants';
 import manifest from './manifest.json';
 
@@ -115,36 +114,6 @@ export const getApi = (endpoint, method = 'GET', requestBody) => {
   };
 
   return { requestUrl, apiSettings };
-};
-
-/**
- * Build parameters and URL for representative API calls
- *
- */
-export const resolveParamsWithUrl = ({
-  address,
-  lat,
-  long,
-  name,
-  page,
-  perPage = 10,
-  sort,
-  type = 'veteran_service_officer',
-  distance,
-}) => {
-  const params = [
-    address ? `address=${encodeURIComponent(address)}` : null,
-    lat ? `lat=${encodeURIComponent(lat)}` : null,
-    long ? `long=${encodeURIComponent(long)}` : null,
-    name ? `name=${encodeURIComponent(name)}` : null,
-    `page=${encodeURIComponent(page) || 1}`,
-    `per_page=${encodeURIComponent(perPage)}`,
-    `sort=${encodeURIComponent(sort)}`,
-    `type=${encodeURIComponent(type)}`,
-    distance ? `distance=${encodeURIComponent(distance)}` : null,
-  ];
-
-  return `?${compact([...params]).join('&')}`;
 };
 
 export const representativeTypes = {

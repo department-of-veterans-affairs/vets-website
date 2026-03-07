@@ -39,6 +39,7 @@ export const INITIAL_STATE = {
   isValid: true,
   searchCounter: 0,
   committedSearchQuery: {},
+  organization: null,
   organizations: [],
 };
 

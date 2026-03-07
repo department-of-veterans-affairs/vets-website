@@ -64,34 +64,17 @@ const SearchControls = props => {
     </option>
   ));
 
+  const handleChange = name => e => {
+    onChange({
+      [name]: onlySpaces(e.target.value)
+        ? e.target.value.trim()
+        : e.target.value,
+    });
+  };
+
   const handleLocationChange = e => {
-    onChange({
-      locationInputString: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
+    handleChange('locationInputString')(e);
     clearError(ErrorTypes.geocodeError);
-  };
-  const handleSearchAreaChange = e => {
-    onChange({
-      searchArea: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
-  };
-  const handleOrganizationChange = e => {
-    onChange({
-      organizationFilter: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
-  };
-  const handleRepresentativeChange = e => {
-    onChange({
-      representativeInputString: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
   };
 
   const handleGeolocationButtonClick = e => {
@@ -212,7 +195,7 @@ const SearchControls = props => {
               name="area"
               value={searchArea || '50'}
               label="Search area"
-              onVaSelect={handleSearchAreaChange}
+              onVaSelect={handleChange('searchArea')}
               uswds
             >
               {searchAreaSelectOptions}
@@ -223,9 +206,10 @@ const SearchControls = props => {
               <div className="organization-select">
                 <VaComboBox
                   name="organization"
-                  value={organizationFilter}
+                  value={organizations.length > 0 ? organizationFilter : null}
                   label="Veterans Service Organization (VSO)"
-                  onVaSelect={handleOrganizationChange}
+                  onVaSelect={handleChange('organizationFilter')}
+                  data-testid="vso-org-filter"
                 >
                   {organizationSelectOptions}
                 </VaComboBox>
@@ -236,8 +220,8 @@ const SearchControls = props => {
               hint={null}
               label="Name of accredited representative"
               name="Name of accredited representative"
-              onChange={handleRepresentativeChange}
-              onInput={handleRepresentativeChange}
+              onChange={handleChange('representativeInputString')}
+              onInput={handleChange('representativeInputString')}
               onKeyPress={e => {
                 if (e.key === 'Enter') onSubmit();
               }}
