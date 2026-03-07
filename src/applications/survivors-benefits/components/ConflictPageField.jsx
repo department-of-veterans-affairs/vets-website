@@ -95,7 +95,7 @@ ConflictCard.propTypes = {
  * @param {string} emptyMessage - message when no conflicts are found
  */
 const createConflictPageField = (fieldGroup, emptyMessage) => {
-  return () => {
+  return ({ onChange, formContext }) => {
     const dispatch = useDispatch();
     const store = useStore();
     const formData = useSelector(getFormData) || {};
@@ -110,6 +110,15 @@ const createConflictPageField = (fieldGroup, emptyMessage) => {
     // Mirror resolutions into a ref so the unmount cleanup can read the
     // latest value without needing it as a useEffect dependency.
     const resolutionsRef = useRef({});
+
+    // Initialize the unresolved count in formData so ui:validations can gate Continue.
+    useEffect(
+      () => {
+        onChange({ conflictCount: conflicts.length });
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [],
+    );
 
     // Commit the final resolution when the user navigates away.
     // Reading store.getState() at unmount time guarantees we apply on top of
@@ -147,14 +156,25 @@ const createConflictPageField = (fieldGroup, emptyMessage) => {
       const nextResolutions = { ...resolutions, [fieldLabel]: choice };
       resolutionsRef.current = nextResolutions;
       setResolutions(nextResolutions);
+      onChange({
+        conflictCount: conflicts.length - Object.keys(nextResolutions).length,
+      });
     };
+
+    const unresolvedCount = conflicts.length - Object.keys(resolutions).length;
+    const showError = formContext?.submitted && unresolvedCount > 0;
 
     if (!conflicts.length) {
       return <p>{emptyMessage}</p>;
     }
 
     return (
-      <div>
+      <div className={showError ? 'usa-input-error' : undefined}>
+        {showError && (
+          <span className="usa-input-error-message" role="alert">
+            You must resolve all conflicts before continuing.
+          </span>
+        )}
         <p>
           The information below was automatically extracted from your uploaded
           documents. Review any differences and select the correct value.
