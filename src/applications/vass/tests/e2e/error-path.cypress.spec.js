@@ -4,6 +4,7 @@ import DateTimeSelectionPageObject from './page-objects/DateTimeSelectionPageObj
 import TopicSelectionPageObject from './page-objects/TopicSelectionPageObject';
 import ReviewPageObject from './page-objects/ReviewPageObject';
 import CancelAppointmentPageObject from './page-objects/CancelAppointmentPageObject';
+import ConfirmationPageObject from './page-objects/ConfirmationPageObject';
 import AlreadyScheduledPageObject from './page-objects/AlreadyScheduledPageObject';
 import {
   mockRequestOtpApi,
@@ -290,7 +291,11 @@ describe('VASS Error Paths', () => {
 
           cy.wait('@vass:post:authenticate-otp');
 
-          EnterOTPPageObject.assertOTPErrorAlert({ exist: true });
+          EnterOTPPageObject.assertOTPErrorAlert({
+            exist: true,
+            containsText:
+              'The one-time verification code you entered has expired. Select the link in your email to get a new code and schedule a call.',
+          });
           saveScreenshot('vass_error_otp_expired');
         });
       });
@@ -920,6 +925,58 @@ describe('VASS Error Paths', () => {
 
         VerifyPageObject.assertWrapperErrorAlert({ exist: true });
         saveScreenshot('vass_error_navigation_noUuid');
+      });
+    });
+
+    describe('when the user decides not to cancel the appointment', () => {
+      const appointmentId = 'abcdef123456';
+      beforeEach(() => {
+        mockRequestOtpApi();
+        const authenticateOtpResponse = new MockAuthenticateOtpResponse({
+          token: createMockJwt(uuid, expiresIn),
+          expiresIn,
+        }).toJSON();
+        mockAuthenticateOtpApi({
+          response: authenticateOtpResponse,
+          responseCode: 200,
+        });
+        mockAppointmentAvailabilityApi({
+          response: new MockAppointmentAvailabilityResponse({
+            appointmentId,
+            availableSlots: MockAppointmentAvailabilityResponse.createSlots(),
+          }).toJSON(),
+          responseCode: 200,
+        });
+        mockAppointmentDetailsApi({
+          response: new MockAppointmentDetailsResponse({
+            appointmentId,
+          }).toJSON(),
+          responseCode: 200,
+        });
+
+        cy.visit(
+          `/service-member/benefits/solid-start/schedule?uuid=${uuid}&cancel=true`,
+        );
+        VerifyPageObject.fillAndSubmitForm();
+        cy.wait('@vass:post:request-otp');
+      });
+
+      it('should navigate to the appointment details page', () => {
+        EnterOTPPageObject.fillAndSubmitOTP();
+        cy.wait('@vass:post:authenticate-otp');
+        cy.wait('@vass:get:appointment-availability');
+        cy.wait('@vass:get:appointment-details');
+
+        CancelAppointmentPageObject.assertCancelAppointmentPage();
+        cy.injectAxeThenAxeCheck();
+
+        CancelAppointmentPageObject.clickNoDontCancel();
+
+        ConfirmationPageObject.assertDetailsOnlyPage({
+          agentName: 'Agent Smith',
+        });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_navigation_noCancelAppointment');
       });
     });
   });
