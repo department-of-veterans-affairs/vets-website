@@ -10,7 +10,8 @@ import { getAllInquiries } from '../utils/api';
 
 export default function Inbox() {
   const [hasError, setHasError] = useState(false);
-  const [inquiries, setInquiries] = useState({ business: [], personal: [] });
+  const [inquiries, setInquiries] = useState([]);
+  const [inquiryTypes, setInquiryTypes] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [statusOptions, setStatusOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -18,13 +19,14 @@ export default function Inbox() {
   useEffect(() => {
     function saveInState(rawInquiries) {
       const {
-        business,
-        personal,
+        standardInquiries,
+        types,
         uniqueCategories,
         uniqueStatuses,
       } = standardizeInquiries(rawInquiries);
 
-      setInquiries({ business, personal });
+      setInquiries(standardInquiries);
+      setInquiryTypes(types);
       setCategoryOptions(uniqueCategories);
       setStatusOptions(uniqueStatuses);
       setIsLoading(false);
@@ -68,10 +70,14 @@ export default function Inbox() {
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.askVaEnhancedInbox}>
       <Toggler.Enabled>
-        <InboxLayoutNew {...{ inquiries, categoryOptions, statusOptions }} />
+        <InboxLayoutNew
+          {...{ inquiries, inquiryTypes, categoryOptions, statusOptions }}
+        />
       </Toggler.Enabled>
       <Toggler.Disabled>
-        <InboxLayoutOld {...{ inquiries, categoryOptions, statusOptions }} />
+        <InboxLayoutOld
+          {...{ inquiries, inquiryTypes, categoryOptions, statusOptions }}
+        />
       </Toggler.Disabled>
     </Toggler>
   );

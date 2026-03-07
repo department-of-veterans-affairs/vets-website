@@ -24,8 +24,8 @@ export function flattenInquiry(rawInquiry) {
 /** Splits inquires into buckets by their Level of Authentication
  *  @param {Array} rawInquiries
  *  @returns {{
- *   inquiries: Inquiry[],
- *   inquiryTypes: ('business' | 'personal')[]
+ *   standardInquiries: Inquiry[],
+ *   types: ('business' | 'personal')[]
  *   uniqueCategories: string[]
  *   uniqueStatuses: string[]
  * }}
@@ -56,8 +56,8 @@ export function standardizeInquiries(rawInquiries) {
   );
   // Convert the Sets to arrays
   return {
-    ...output,
-    inquiryTypes: [...output.inquiryTypes],
+    standardInquiries: output.inquiries,
+    types: [...output.inquiryTypes],
     uniqueCategories: [...output.uniqueCategories],
     uniqueStatuses: [...output.uniqueStatuses],
   };
@@ -103,18 +103,26 @@ const sortOptions = {
  * **IMPORTANT:** be sure to use `filterAndSort.sortOptions` to set `sortOrder`
  * @param {object} _ destructured object
  * @param {Inquiry[]} _.inquiriesArray
- * @param {object} _.filters destructured object
- * @param {string} _.filters.category
- * @param {string} _.filters.status
- * @param {string} _.filters.query
- * @param {string} _.sortOrder use the `sortOptions` object to pick the right option
+ * @param {{
+ *   categories: string[]
+ *   statuses: string[]
+ *   inquiryTypes: ('business' | 'personal')[]
+ *   query: string
+ * }} _.filters destructured object
+ * @param {string} [_.sortOrder] use the `sortOptions` object to pick the right option
  * @returns {Inquiry[]}
  */
 export function filterAndSort({
   inquiriesArray,
-  filters: { category = 'All', status = 'All', query = '' } = {
-    category: 'All',
-    status: 'All',
+  filters: {
+    categories = ['All'],
+    statuses = ['All'],
+    inquiryTypes = ['business', 'personal'],
+    query = '',
+  } = {
+    categories: ['All'],
+    statuses: ['All'],
+    inquiryTypes: ['business', 'personal'],
     query: '',
   },
   sortOrder = sortOptions.lastUpdate.newest,
@@ -124,8 +132,9 @@ export function filterAndSort({
   const filteredAndSorted = inquiriesCopy
     .filter(inq => {
       return (
-        [inq.categoryName, 'All'].includes(category) &&
-        [inq.status, 'All'].includes(status)
+        (categories.includes('All') || categories.includes(inq.categoryName)) &&
+        (statuses.includes('All') || statuses.includes(inq.status)) &&
+        inquiryTypes.includes(inq.levelOfAuthentication.toLowerCase())
       );
     })
     .sort((a, b) => {

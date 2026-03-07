@@ -16,9 +16,10 @@ import { filterAndSort } from '../../utils/inbox';
 
 /**
  * @typedef {Object} Props
+ * @property {string[]} inquiryTypes
  * @property {string[]} categoryOptions
  * @property {string[]} statusOptions
- * @property {{ business: Inquiry[], personal: Inquiry[] }} inquiries
+ * @property {Inquiry[]} inquiries
  */
 
 /**
@@ -26,15 +27,16 @@ import { filterAndSort } from '../../utils/inbox';
  */
 export default function InboxLayoutOld({
   inquiries,
+  inquiryTypes,
   categoryOptions,
   statusOptions,
 }) {
-  const [pendingCategoryFilter, setPendingCategoryFilter] = useState('All');
-  const [pendingStatusFilter, setPendingStatusFilter] = useState('All');
+  const [pendingCategoriesFilter, setPendingCategoriesFilter] = useState('All');
+  const [pendingStatusesFilter, setPendingStatusesFilter] = useState('All');
   const [pendingQuery, setPendingQuery] = useState('');
   const [filters, setFilters] = useState({
-    status: 'All',
-    category: 'All',
+    statuses: ['All'],
+    categories: ['All'],
     query: '',
   });
 
@@ -43,7 +45,7 @@ export default function InboxLayoutOld({
       <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--0">
         Your questions
       </h2>
-      {inquiries.personal.length || inquiries.business.length ? (
+      {inquiryTypes.length ? (
         <>
           <div className="filter-container">
             <div className="search-container">
@@ -61,9 +63,9 @@ export default function InboxLayoutOld({
                 hint={null}
                 label="Filter by status"
                 name="status"
-                value={pendingStatusFilter}
+                value={pendingStatusesFilter}
                 onVaSelect={event => {
-                  setPendingStatusFilter(event.target.value || 'All');
+                  setPendingStatusesFilter(event.target.value || 'All');
                 }}
               >
                 <option value="All">All</option>
@@ -79,9 +81,9 @@ export default function InboxLayoutOld({
                 hint={null}
                 label="Filter by category"
                 name="category"
-                value={pendingCategoryFilter}
+                value={pendingCategoriesFilter}
                 onVaSelect={event => {
-                  setPendingCategoryFilter(event.target.value || 'All');
+                  setPendingCategoriesFilter(event.target.value || 'All');
                 }}
               >
                 <option value="All">All</option>
@@ -102,20 +104,20 @@ export default function InboxLayoutOld({
                 secondaryLabel="Clear all filters"
                 onPrimaryClick={() => {
                   setFilters(() => ({
-                    category: pendingCategoryFilter,
-                    status: pendingStatusFilter,
+                    categories: [pendingCategoriesFilter],
+                    statuses: [pendingStatusesFilter],
                     query: pendingQuery,
                   }));
                   focusElement('#search-description');
                 }}
                 onSecondaryClick={() => {
                   setFilters(() => ({
-                    status: 'All',
-                    category: 'All',
+                    statuses: ['All'],
+                    categories: ['All'],
                     query: '',
                   }));
-                  setPendingStatusFilter('All');
-                  setPendingCategoryFilter('All');
+                  setPendingStatusesFilter('All');
+                  setPendingCategoriesFilter('All');
                   setPendingQuery('');
                   focusElement('#search-description');
                 }}
@@ -125,7 +127,7 @@ export default function InboxLayoutOld({
             </div>
           </div>
 
-          {inquiries.business?.length ? (
+          {inquiryTypes.includes('business') ? (
             <div className="tabs">
               <Tabs className="inbox-tab-container">
                 <TabList className="inbox-tab-list">
@@ -135,24 +137,24 @@ export default function InboxLayoutOld({
                 <TabPanel>
                   <InquiriesList
                     inquiries={filterAndSort({
-                      inquiriesArray: inquiries.business,
-                      filters,
+                      inquiriesArray: inquiries,
+                      filters: { ...filters, inquiryTypes: ['business'] },
                     })}
                     tabName="Business"
-                    categoryFilter={filters.category}
-                    statusFilter={filters.status}
+                    categoryFilter={filters.categories[0]}
+                    statusFilter={filters.statuses[0]}
                     query={filters.query}
                   />
                 </TabPanel>
                 <TabPanel>
                   <InquiriesList
                     inquiries={filterAndSort({
-                      inquiriesArray: inquiries.personal,
-                      filters,
+                      inquiriesArray: inquiries,
+                      filters: { ...filters, inquiryTypes: ['personal'] },
                     })}
                     tabName="Personal"
-                    categoryFilter={filters.category}
-                    statusFilter={filters.status}
+                    categoryFilter={filters.categories[0]}
+                    statusFilter={filters.statuses[0]}
                     query={filters.query}
                   />
                 </TabPanel>
@@ -161,11 +163,11 @@ export default function InboxLayoutOld({
           ) : (
             <InquiriesList
               inquiries={filterAndSort({
-                inquiriesArray: inquiries.personal,
-                filters,
+                inquiriesArray: inquiries,
+                filters: { ...filters, inquiryTypes: ['personal'] },
               })}
-              categoryFilter={filters.category}
-              statusFilter={filters.status}
+              categoryFilter={filters.categories[0]}
+              statusFilter={filters.statuses[0]}
               query={filters.query}
             />
           )}
@@ -191,9 +193,7 @@ export default function InboxLayoutOld({
 
 InboxLayoutOld.propTypes = {
   categoryOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  inquiryTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   statusOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  inquiries: PropTypes.shape({
-    business: InquiriesList.propTypes.inquiries.isRequired,
-    personal: InquiriesList.propTypes.inquiries.isRequired,
-  }),
+  inquiries: InquiriesList.propTypes.inquiries,
 };
