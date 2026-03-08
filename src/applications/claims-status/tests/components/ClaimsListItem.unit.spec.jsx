@@ -9,7 +9,7 @@ import { renderWithRouter } from '../utils';
 const getStore = (
   cstClaimPhasesEnabled = true,
   cstShowDocumentUploadStatus = false,
-  cstMultiClaimProvider = false,
+  champvaProviderEnabled = false,
 ) =>
   createStore(() => ({
     featureToggles: {
@@ -18,7 +18,7 @@ const getStore = (
       // eslint-disable-next-line camelcase
       cst_show_document_upload_status: cstShowDocumentUploadStatus,
       // eslint-disable-next-line camelcase
-      cst_multi_claim_provider: cstMultiClaimProvider,
+      benefits_claims_ivc_champva_provider: champvaProviderEnabled,
     },
   }));
 
@@ -43,7 +43,7 @@ const compensationClaimTypeCode = '110LCMP7IDES'; // 5103 Notice
 
 describe('<ClaimsListItem>', () => {
   context(
-    'cstClaimPhases feature flag enabled and compensation claim type code',
+    'cstClaimPhases feature flag enabled and compenstaiton claim type code',
     () => {
       it('should not show any flags and render proper fields', () => {
         const claim = {
@@ -192,7 +192,31 @@ describe('<ClaimsListItem>', () => {
         );
         getByText('Step 7 of 8: Final review');
       });
-      it('should show decision letter and suppress items needed alert when decisionLetterSent is true', () => {
+      it('should show development letter flag', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'GATHERING_OF_EVIDENCE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: true,
+            documentsNeeded: false,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('We sent you a development letter');
+        getByText('Step 3 of 8: Evidence gathering');
+      });
+      it('should show decision letter flag decisionLetterSent is true, but not render the other flags', () => {
         const claim = {
           id: 1,
           attributes: {
@@ -202,6 +226,7 @@ describe('<ClaimsListItem>', () => {
             },
             claimTypeCode: compensationClaimTypeCode,
             decisionLetterSent: true,
+            developmentLetterSent: true,
             documentsNeeded: true,
             status: 'INITIAL_REVIEW',
           },
@@ -212,6 +237,7 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
+        expect(queryByText('We sent you a development letter')).to.be.null;
         expect(queryByText('We requested more information from you:')).to.be
           .null;
         expect(getByText('You have a decision letter ready')).to.exist;
@@ -448,7 +474,31 @@ describe('<ClaimsListItem>', () => {
         );
         getByText('Step 4 of 5: Preparation for notification');
       });
-      it('should show decision letter and suppress items needed alert when decisionLetterSent is true', () => {
+      it('should show development letter flag', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'GATHERING_OF_EVIDENCE',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: true,
+            documentsNeeded: false,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('We sent you a development letter');
+        getByText('Step 3 of 5: Evidence gathering, review, and decision');
+      });
+      it('should show decision letter flag decisionLetterSent is true, but not render the other flags', () => {
         const claim = {
           id: 1,
           attributes: {
@@ -458,6 +508,7 @@ describe('<ClaimsListItem>', () => {
             },
             claimTypeCode: dependencyClaimTypeCode,
             decisionLetterSent: true,
+            developmentLetterSent: true,
             documentsNeeded: true,
             status: 'INITIAL_REVIEW',
           },
@@ -468,6 +519,7 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
+        expect(queryByText('We sent you a development letter')).to.be.null;
         expect(queryByText('We requested more information from you:')).to.be
           .null;
         expect(getByText('You have a decision letter ready')).to.exist;
@@ -704,7 +756,31 @@ describe('<ClaimsListItem>', () => {
         );
         getByText('Step 4 of 5: Preparation for notification');
       });
-      it('should show decision letter and suppress items needed alert when decisionLetterSent is true', () => {
+      it('should show development letter flag', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'GATHERING_OF_EVIDENCE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: true,
+            documentsNeeded: false,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('We sent you a development letter');
+        getByText('Step 3 of 5: Evidence gathering, review, and decision');
+      });
+      it('should show decision letter flag decisionLetterSent is true, but not render the other flags', () => {
         const claim = {
           id: 1,
           attributes: {
@@ -714,6 +790,7 @@ describe('<ClaimsListItem>', () => {
             },
             claimTypeCode: compensationClaimTypeCode,
             decisionLetterSent: true,
+            developmentLetterSent: true,
             documentsNeeded: true,
             status: 'INITIAL_REVIEW',
           },
@@ -724,6 +801,7 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
+        expect(queryByText('We sent you a development letter')).to.be.null;
         expect(queryByText('We requested more information from you:')).to.be
           .null;
         expect(getByText('You have a decision letter ready')).to.exist;
@@ -809,6 +887,67 @@ describe('<ClaimsListItem>', () => {
       });
     },
   );
+
+  context('when a claim has no phase metadata', () => {
+    it('renders fallback status and last updated text for server-generated claims', () => {
+      const claim = {
+        id: 42,
+        attributes: {
+          claimDate: '2025-01-10',
+          closeDate: '2025-01-17',
+          displayTitle: 'Claim for CHAMPVA application',
+          claimTypeBase: 'champva application claim',
+          status: 'Processed',
+        },
+      };
+
+      const { container, getByText, queryByText } = renderWithRouter(
+        <Provider store={getStore(false, false, true)}>
+          <ClaimsListItem claim={claim} />
+        </Provider>,
+      );
+
+      getByText('Application for CHAMPVA benefits');
+      getByText('Received');
+      expect(container).to.contain.text('Submitted on: January 10, 2025');
+      expect(container).to.contain.text('Received on: January 17, 2025');
+      const reviewLink = container.querySelector(
+        'va-link[text="Review details"]',
+      );
+      expect(reviewLink).to.not.exist;
+      expect(queryByText('Processed')).to.be.null;
+    });
+
+    it('renders Submitted label for IVC CHAMPVA form IDs without champva text in title', () => {
+      const claim = {
+        id: 43,
+        attributes: {
+          claimDate: '2025-01-10',
+          closeDate: '2025-01-17',
+          displayTitle: 'Claim for 10-10d-extended',
+          claimTypeBase: '10-10d-extended claim',
+          status: 'Submission failed',
+        },
+      };
+
+      const { container, getByText, queryByText } = renderWithRouter(
+        <Provider store={getStore(false, false, true)}>
+          <ClaimsListItem claim={claim} />
+        </Provider>,
+      );
+
+      getByText('Application for CHAMPVA benefits');
+      getByText('Action Needed');
+      getByText('VA Form 10-10d');
+      expect(container).to.contain.text('Submitted on: January 10, 2025');
+      expect(container).to.not.contain.text('Received on: January 17, 2025');
+      const reviewLink = container.querySelector(
+        'va-link[text="Review details"]',
+      );
+      expect(reviewLink).to.not.exist;
+      expect(queryByText('Submission failed')).to.be.null;
+    });
+  });
 
   context(
     'when the cst_show_document_upload_status feature toggle is disabled',
@@ -927,90 +1066,4 @@ describe('<ClaimsListItem>', () => {
       );
     },
   );
-
-  context('multi-provider functionality', () => {
-    it('includes provider in href when flag enabled and provider exists', () => {
-      const claim = {
-        id: '123',
-        attributes: {
-          claimDate: '2024-06-08',
-          claimPhaseDates: {
-            phaseChangeDate: '2024-06-08',
-            phaseType: 'CLAIM_RECEIVED',
-          },
-          claimTypeCode: compensationClaimTypeCode,
-          status: 'CLAIM_RECEIVED',
-          provider: 'lighthouse',
-        },
-      };
-
-      const { container } = renderWithRouter(
-        <Provider store={getStore(true, false, true)}>
-          <ClaimsListItem claim={claim} />
-        </Provider>,
-      );
-
-      const link = container.querySelector('va-link');
-      expect(link).to.have.attribute(
-        'href',
-        '/track-claims/your-claims/123/status?type=lighthouse',
-      );
-    });
-
-    it('does not include provider in href when flag disabled', () => {
-      const claim = {
-        id: '123',
-        attributes: {
-          claimDate: '2024-06-08',
-          claimPhaseDates: {
-            phaseChangeDate: '2024-06-08',
-            phaseType: 'CLAIM_RECEIVED',
-          },
-          claimTypeCode: compensationClaimTypeCode,
-          status: 'CLAIM_RECEIVED',
-          provider: 'lighthouse',
-        },
-      };
-
-      const { container } = renderWithRouter(
-        <Provider store={getStore(true, false, false)}>
-          <ClaimsListItem claim={claim} />
-        </Provider>,
-      );
-
-      const link = container.querySelector('va-link');
-      expect(link).to.have.attribute(
-        'href',
-        '/track-claims/your-claims/123/status',
-      );
-    });
-
-    it('does not include provider in href when provider is undefined', () => {
-      const claim = {
-        id: '123',
-        attributes: {
-          claimDate: '2024-06-08',
-          claimPhaseDates: {
-            phaseChangeDate: '2024-06-08',
-            phaseType: 'CLAIM_RECEIVED',
-          },
-          claimTypeCode: compensationClaimTypeCode,
-          status: 'CLAIM_RECEIVED',
-          // no provider field
-        },
-      };
-
-      const { container } = renderWithRouter(
-        <Provider store={getStore(true, false, true)}>
-          <ClaimsListItem claim={claim} />
-        </Provider>,
-      );
-
-      const link = container.querySelector('va-link');
-      expect(link).to.have.attribute(
-        'href',
-        '/track-claims/your-claims/123/status',
-      );
-    });
-  });
 });

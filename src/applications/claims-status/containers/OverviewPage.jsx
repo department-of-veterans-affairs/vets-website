@@ -59,7 +59,7 @@ class OverviewPage extends React.Component {
   }
 
   getPageContent() {
-    const { claim } = this.props;
+    const { claim, champvaProviderEnabled } = this.props;
 
     // Return null if the claim/ claim.attributes dont exist
     if (!claimAvailable(claim)) {
@@ -67,16 +67,24 @@ class OverviewPage extends React.Component {
     }
 
     const { claimPhaseDates, claimDate, claimTypeCode } = claim.attributes;
-    const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
-    const { currentPhaseBack } = claimPhaseDates;
+    const latestPhaseType = champvaProviderEnabled
+      ? claimPhaseDates?.latestPhaseType
+      : claimPhaseDates.latestPhaseType;
+    const currentPhase = latestPhaseType
+      ? getPhaseFromStatus(latestPhaseType)
+      : 1;
+    const currentPhaseBack = champvaProviderEnabled
+      ? claimPhaseDates?.currentPhaseBack
+      : claimPhaseDates.currentPhaseBack;
 
     return (
       <div className="overview-container">
         <ClaimOverviewHeader claimTypeCode={claimTypeCode} />
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
           <Toggler.Enabled>
-            {isDisabilityCompensationClaim(claimTypeCode) ||
-            isPensionClaim(claimTypeCode) ? (
+            {(champvaProviderEnabled ? claimPhaseDates : true) &&
+            (isDisabilityCompensationClaim(claimTypeCode) ||
+              isPensionClaim(claimTypeCode)) ? (
               <>
                 <div className="claim-phase-diagram">
                   <MobileClaimPhaseDiagram currentPhase={currentPhase} />
@@ -94,7 +102,7 @@ class OverviewPage extends React.Component {
               <ClaimTimeline
                 id={claim.id}
                 phase={currentPhase}
-                currentPhaseBack={claimPhaseDates.currentPhaseBack}
+                currentPhaseBack={currentPhaseBack}
               />
             )}
           </Toggler.Enabled>
@@ -102,7 +110,7 @@ class OverviewPage extends React.Component {
             <ClaimTimeline
               id={claim.id}
               phase={currentPhase}
-              currentPhaseBack={claimPhaseDates.currentPhaseBack}
+              currentPhaseBack={currentPhaseBack}
             />
           </Toggler.Disabled>
         </Toggler>
@@ -138,6 +146,8 @@ function mapStateToProps(state) {
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
+    champvaProviderEnabled:
+      state.featureToggles?.benefits_claims_ivc_champva_provider,
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
   };
@@ -149,6 +159,7 @@ const mapDispatchToProps = {
 
 OverviewPage.propTypes = {
   claim: PropTypes.object,
+  champvaProviderEnabled: PropTypes.bool,
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
