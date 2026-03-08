@@ -78,6 +78,8 @@ const RECEIVED_STATUSES = new Set([
   'complete',
 ]);
 
+const COMPLETE_STATUSES = new Set(['application decided']);
+
 const ACTION_NEEDED_STATUSES = new Set([
   'error',
   'failed',
@@ -95,6 +97,7 @@ const getChampvaStatusLabel = rawStatus => {
     return CLAIM_STATUS_LABEL_MAP[statusValue];
 
   const normalized = statusValue.toLowerCase();
+  if (COMPLETE_STATUSES.has(normalized)) return null;
   if (RECEIVED_STATUSES.has(normalized)) return 'Received';
   if (ACTION_NEEDED_STATUSES.has(normalized)) return 'Action Needed';
 
