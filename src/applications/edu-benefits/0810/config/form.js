@@ -60,6 +60,7 @@ const formConfig = {
           title: 'Your VA education benefits',
           uiSchema: hasPreviouslyApplied.uiSchema,
           schema: hasPreviouslyApplied.schema,
+          updateFormData: hasPreviouslyApplied.updateFormData,
         },
         selectVABenefit: {
           path: 'select-va-benefit-program',
