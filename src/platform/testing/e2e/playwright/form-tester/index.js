@@ -351,7 +351,18 @@ async function defaultPostHook(page, pathname) {
     const privacyAgreement = page.locator('[name^="privacyAgreement"]');
     if ((await privacyAgreement.count()) > 0) {
       const tagName = await privacyAgreement.first().evaluate(el => el.tagName);
-      if (tagName.startsWith('VA-')) {
+      if (tagName === 'VA-PRIVACY-AGREEMENT' || tagName === 'VA-CHECKBOX') {
+        // Both va-privacy-agreement and va-checkbox use checked + vaChange
+        await privacyAgreement.first().evaluate(el => {
+          el.checked = true; // eslint-disable-line no-param-reassign
+          el.dispatchEvent(
+            new CustomEvent('vaChange', {
+              detail: { checked: true },
+              bubbles: true,
+            }),
+          );
+        });
+      } else if (tagName.startsWith('VA-')) {
         const name = await privacyAgreement.first().getAttribute('name');
         await selectVaCheckbox(page, name, true);
       } else {
