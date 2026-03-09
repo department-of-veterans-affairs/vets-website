@@ -364,3 +364,48 @@ describe('Country code transformation in submit transformer', () => {
     );
   });
 });
+
+describe('SHA upload attachment transformation', () => {
+  it('includes separationHealthAssessmentUploads in form526.attachments', () => {
+    const form = {
+      data: {
+        ...minimalBddData.data,
+        serviceInformation: {
+          ...minimalBddData.data.serviceInformation,
+          servicePeriods: [
+            {
+              serviceBranch: 'Air Force',
+              dateRange: {
+                from: '2001-03-21',
+                to: daysFromToday(90),
+              },
+            },
+          ],
+        },
+        disability526NewBddShaEnforcementWorkflowEnabled: true,
+        'view:hasSeparationHealthAssessment': true,
+        separationHealthAssessmentUploads: [
+          {
+            name: 'sha-part-a.pdf',
+            confirmationCode: 'sha-code-123',
+            size: 1024,
+            type: 'application/pdf',
+          },
+        ],
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+
+    expect(result.form526.attachments).to.be.an('array');
+    expect(result.form526.attachments).to.deep.include({
+      name: 'sha-part-a.pdf',
+      confirmationCode: 'sha-code-123',
+      size: 1024,
+      type: 'application/pdf',
+    });
+    expect(result.form526).to.not.have.property(
+      'separationHealthAssessmentUploads',
+    );
+  });
+});
