@@ -454,6 +454,7 @@ const testConfig = createTestConfig(
               data.veteran.fullName,
               'Submit veteran application',
             );
+            cy.injectAxeThenAxeCheck('main');
           });
         });
       },
