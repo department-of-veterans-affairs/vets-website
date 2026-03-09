@@ -150,9 +150,9 @@ export const ConfirmationPage = () => {
       <h2 className="vads-u-margin-top--4">Your Supplemental Claim request</h2>
       <ConfirmationPersonalInfo
         dob={profile.dob}
-        formData={data}
         hasHomeAndMobilePhone
         livingSituation={<LivingSituation data={data} />}
+        newContactPage={data?.newContactPage}
         userFullName={profile.userFullName}
         veteran={data.veteran}
       />

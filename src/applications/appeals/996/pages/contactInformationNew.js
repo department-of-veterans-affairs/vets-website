@@ -1,17 +1,22 @@
-import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill';
+import { standardEmailSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import set from 'platform/utilities/data/set';
-import { newContactPagesActive } from '../../shared/utils';
 import { CONTACT_INFO_PATH } from '../constants';
 import { contactInfoValidation } from '../../shared/validations/contactInfo';
+import { newContactPagesActive } from '../../shared/utils';
 
 const allContacts = ['address', 'email', 'phone'];
 
-export default profileContactInfo({
+export default profileContactInfoPages({
   contactPath: CONTACT_INFO_PATH,
   contactInfoRequiredKeys: [],
   included: allContacts,
   addressKey: 'address',
   mobilePhoneKey: 'phone',
+  // Use string email schema to avoid data collision with old contact info pages
+  // during createInitialState deep merge. The ContactInfo component's syncProfileData
+  // will set the correct object format at runtime.
+  emailSchema: standardEmailSchema,
   contactInfoUiSchema: {
     'ui:options': {
       updateSchema: (formData = {}, schema) =>
@@ -24,5 +29,6 @@ export default profileContactInfo({
     'ui:required': () => true,
     'ui:validations': [contactInfoValidation],
   },
-  depends: formData => !newContactPagesActive(formData),
+  disableMockContactInfo: false,
+  depends: newContactPagesActive,
 });

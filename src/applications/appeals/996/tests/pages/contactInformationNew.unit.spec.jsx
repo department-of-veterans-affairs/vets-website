@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 
-import contactInfo from '../../pages/contactInfo';
+import contactInfoNew from '../../pages/contactInformationNew';
 
-describe('contactInfo config', () => {
-  const page = contactInfo.confirmContactInfo;
+describe('contactInformationNew config', () => {
+  const page = contactInfoNew.confirmContactInfo;
   const { updateSchema } = page.uiSchema['ui:options'];
   const schema = { properties: { veteran: { required: [] } } };
 
   it('requires all contacts when no housing risk', () => {
-    const result = updateSchema({ homeless: false }, schema);
+    const result = updateSchema({}, schema);
 
     expect(result.properties.veteran.required).to.deep.equal([
       'address',
@@ -21,8 +21,8 @@ describe('contactInfo config', () => {
     const result = updateSchema({ homeless: true }, schema);
 
     expect(result.properties.veteran.required).to.deep.equal([
-      'phone',
       'email',
+      'phone',
     ]);
   });
 });

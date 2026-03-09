@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { ConfirmationVeteranContact } from '../../components/ConfirmationVeteranContact';
-import { veteran } from '../data/veteran';
+import { veteran, veteranNew } from '../data/veteran';
 
 describe('ConfirmationVeteranContact', () => {
   it('should render one phone field', () => {
@@ -88,5 +88,20 @@ describe('ConfirmationVeteranContact', () => {
     expect(telephoneElement).to.exist;
     expect(telephoneElement.getAttribute('country-code')).to.be.null;
     expect(telephoneElement.getAttribute('extension')).to.equal('123');
+  });
+
+  describe('when the feature toggle is on for newContactPage', () => {
+    it('should pull the email from the object instead', () => {
+      const { container } = render(
+        <ConfirmationVeteranContact newContactPage veteran={veteranNew()} />,
+      );
+
+      const emailElement = container.querySelector(
+        '[data-testid="veteran-email"]',
+      );
+
+      expect(emailElement).to.exist;
+      expect(emailElement.innerHTML).to.equal(veteranNew().email.emailAddress);
+    });
   });
 });

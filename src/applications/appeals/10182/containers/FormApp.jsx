@@ -34,10 +34,21 @@ export const FormApp = ({
   contestableIssues = {},
 }) => {
   const { pathname } = location || {};
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const {
+    TOGGLE_NAMES,
+    useFormFeatureToggleSync,
+    useToggleValue,
+  } = useFeatureToggle();
   const addUserAccountIdToRUM = useToggleValue(
     TOGGLE_NAMES.decisionReviewAddUserAccountIdToRUM,
   );
+
+  useFormFeatureToggleSync([
+    {
+      toggleName: 'decisionReviewsUseNewContactPage',
+      formKey: 'newContactPage',
+    },
+  ]);
 
   useEffect(
     () => {

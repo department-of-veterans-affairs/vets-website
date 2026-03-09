@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import contactInfo from '../../pages/contactInformation';
+import contactInfoNew from '../../pages/contactInformationNew';
 
-describe('contactInformation config', () => {
-  const pages = contactInfo;
+describe('contactInformationNew config', () => {
+  const pages = contactInfoNew;
   const page = Object.values(pages).find(p => p.path === 'contact-information');
 
   it('requires address when no housing risk', () => {

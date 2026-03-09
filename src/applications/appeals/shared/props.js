@@ -33,7 +33,7 @@ const evidence = {
   isEncrypted: bool,
 };
 
-const common = {
+export const common = {
   contestedIssues: arrayOf(
     shape({
       attributes: shape(contestedIssue),
@@ -48,6 +48,7 @@ const common = {
       addressLine1: string,
       addressLine2: string,
       addressLine3: string,
+      addressType: string,
       city: string,
       countryName: string,
       countryCodeIso2: string,
@@ -68,7 +69,24 @@ const common = {
       phoneNumber: string,
       phoneNumberExt: string,
     }),
-    email: string,
+    email: oneOfType([
+      string,
+      shape({
+        createdAt: string,
+        confirmationDate: string,
+        emailAddress: string,
+        effectiveEndDate: string,
+        effectiveStartDate: string,
+        id: number,
+        sourceDate: string,
+        sourceSystemUser: string,
+        transactionId: string,
+        updatedAt: string,
+        verificationDate: string,
+        vet360Id: string,
+        vaProfileId: string,
+      }),
+    ]),
   }),
 };
 

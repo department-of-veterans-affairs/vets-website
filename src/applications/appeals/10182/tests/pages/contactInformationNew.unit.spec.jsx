@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import contactInfo from '../../pages/contactInfo';
+import contactInfoNew from '../../pages/contactInformationNew';
 
-describe('contactInfo config', () => {
-  const page = contactInfo.confirmContactInfo;
+describe('contactInformationNew config', () => {
+  const page = contactInfoNew.confirmContactInfo;
   const { updateSchema } = page.uiSchema['ui:options'];
   const schema = { properties: { veteran: { required: [] } } };
 

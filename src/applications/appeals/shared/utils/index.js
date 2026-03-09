@@ -18,3 +18,7 @@ export const coerceStringValue = value => {
  * @returns {String}
  */
 export const addLeadingZero = part => `00${part || ''}`.slice(-2);
+
+export const newContactPagesActive = formData => {
+  return formData?.newContactPage;
+};

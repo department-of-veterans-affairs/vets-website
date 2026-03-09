@@ -5,6 +5,7 @@ import {
   removeEmptyEntries,
   getIso2Country,
 } from '../../../shared/utils/submit';
+import { newContactPagesActive } from '../../../shared/utils';
 
 /**
  * FormData
@@ -58,5 +59,10 @@ export const getAddress = formData => {
  */
 export const getEmail = formData => {
   const { veteran } = formData || {};
-  return (veteran?.email || '').substring(0, MAX_LENGTH.EMAIL);
+
+  if (!newContactPagesActive(formData)) {
+    return (veteran?.email || '').substring(0, MAX_LENGTH.EMAIL);
+  }
+
+  return veteran?.email?.emailAddress || ''?.substring(0, MAX_LENGTH.EMAIL);
 };

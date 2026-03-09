@@ -35,3 +35,22 @@ export const veteran = (US = true, phone = 'phone') => ({
   },
   email: 'user@example.com',
 });
+
+export const veteranNew = () => ({
+  ...veteran(),
+  email: {
+    createdAt: '2024-01-22T13:30:04.000-06:00',
+    confirmationDate: '2024-01-30T14:02:39.000-06:00',
+    emailAddress: 'vets.gov.user80@gmail.com',
+    effectiveEndDate: null,
+    effectiveStartDate: '2024-01-30T14:02:33.000-06:00',
+    id: 284099,
+    sourceDate: '2024-01-30T14:02:39.000-06:00',
+    sourceSystemUser: null,
+    transactionId: '1661becc-2de4-4003-a6a1-74d21e6291eb',
+    updatedAt: '2024-01-30T14:02:41.000-06:00',
+    verificationDate: null,
+    vet360Id: '1133854',
+    vaProfileId: '1133854',
+  },
+});

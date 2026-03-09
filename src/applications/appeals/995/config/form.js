@@ -29,6 +29,7 @@ import GetFormHelp from '../../shared/content/GetFormHelp';
 // Pages
 import addIssue from '../../shared/pages/addIssue';
 import contactInfo from '../pages/contactInformation';
+import contactInfoNew from '../pages/contactInformationNew';
 import contestableIssues from '../pages/contestableIssues';
 import facilityTypes from '../pages/facilityTypes';
 import housingRisk from '../pages/housingRisk';
@@ -188,6 +189,7 @@ const formConfig = {
           schema: pointOfContact.schema,
           depends: hasHousingRisk,
         },
+        ...contactInfoNew,
         ...contactInfo,
         choosePrimaryPhone: {
           title: 'Primary phone number',
