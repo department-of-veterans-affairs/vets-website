@@ -31,7 +31,6 @@
       "country": "AGO",
       "street": "123 Fake st",
       "street2": "Apt 1",
-      "street3": "Suite 100",
       "city": "Fakesville",
       "state": "Fakeland",
       "postalCode": "987654321"
@@ -219,12 +218,7 @@
         "isSchoolAccredited": true,
         "name": "Test"
       },
-      "typeOfProgramOrBenefit": {
-        "ch35": true,
-        "fry": true,
-        "feca": true,
-        "other": true
-      },
+      "typeOfProgramOrBenefit": "ch35",
       "otherProgramOrBenefit": "Test",
       "tuitionIsPaidByGovAgency": false,
       "ssn": "333445555",

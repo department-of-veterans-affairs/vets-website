@@ -18,7 +18,6 @@ const formConfigFnParams = {
 };
 
 const missingFromVetsJsonSchema = [
-  VA_FORM_IDS.FORM_10_10D,
   VA_FORM_IDS.FORM_10_3542,
   VA_FORM_IDS.FORM_10_7959A,
   VA_FORM_IDS.FORM_10_7959C,
@@ -120,6 +119,7 @@ const formConfigKeys = [
   'signInHelpList',
   'stepLabels',
   'submissionError',
+  'submissionErrorLink',
   'submit',
   'submitErrorText',
   'submitUrl',
@@ -219,11 +219,10 @@ const validateFormConfig = {
   migrations: formConfig => {
     const { migrations, version } = formConfig;
     if (migrations || version > 0) {
-      expect(migrations?.length).to.equal(
+      const migrationsCount = migrations?.length;
+      expect(migrationsCount).to.equal(
         version,
-        `Version ${version} requires ${version} migrations, found ${
-          migrations?.length
-        }`,
+        `Version ${version} requires ${version} migrations, found ${migrationsCount}`,
       );
       validators.array({ migrations }, 'migrations');
       expect(migrations.every(m => typeof m === 'function')).to.be.true;
@@ -322,6 +321,7 @@ const validateForm = async (formSlug, formConfigParam) => {
     formSavedPage: 'component',
     signInHelpList: 'function',
     submissionError: 'function',
+    submissionErrorLink: 'function',
     CustomTopContent: 'component',
     useTopBackLink: 'boolean',
   };
@@ -339,7 +339,7 @@ const validateForm = async (formSlug, formConfigParam) => {
 };
 
 // Main test suite section
-describe('Form Configuration Tests', function() {
+describe('Form Configuration Tests', function formConfigurationTests() {
   const tracker = trackMemoryUsage('Form Configuration Tests - BATCHED');
   this.timeout(30000);
 

@@ -11,6 +11,25 @@ export const FETCH_PERSONAL_INFORMATION_SUCCESS =
 export const FETCH_PERSONAL_INFORMATION_FAILED =
   'FETCH_PERSONAL_INFORMATION_FAILED';
 
+export const CLAIM_STATUS_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/claim_status`;
+export const FETCH_CLAIM_STATUS = 'FETCH_CLAIM_STATUS';
+export const FETCH_CLAIM_STATUS_SUCCESS = 'FETCH_CLAIM_STATUS_SUCCESS';
+export const FETCH_CLAIM_STATUS_FAILURE = 'FETCH_CLAIM_STATUS_FAILURE';
+
+export const CLAIM_STATUS_RESPONSE_ELIGIBLE = 'ELIGIBLE';
+export const CLAIM_STATUS_RESPONSE_DENIED = 'DENIED';
+export const CLAIM_STATUS_RESPONSE_IN_PROGRESS = 'INPROGRESS';
+export const CLAIM_STATUS_RESPONSE_ERROR = 'ERROR';
+
+const CONFIRMATION_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/send_confirmation_email`;
+export const SEND_CONFIRMATION = 'SEND_CONFIRMATION';
+export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
+export const SEND_CONFIRMATION_FAILURE = 'SEND_CONFIRMATION_FAILURE';
+
 export function fetchPersonalInformation() {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
@@ -53,5 +72,152 @@ export function fetchDirectDeposit() {
           errors,
         });
       });
+  };
+}
+
+export const DUPLICATE_CONTACT_INFO_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/duplicate_contact_info`;
+export const FETCH_DUPLICATE_CONTACT = 'FETCH_DUPLICATE_CONTACT';
+export const FETCH_DUPLICATE_CONTACT_INFO_SUCCESS =
+  'FETCH_DUPLICATE_CONTACT_INFO_SUCCESS';
+export const FETCH_DUPLICATE_CONTACT_INFO_FAILURE =
+  'FETCH_DUPLICATE_CONTACT_INFO_FAILURE';
+export const ACKNOWLEDGE_DUPLICATE = 'ACKNOWLEDGE_DUPLICATE';
+export const TOGGLE_MODAL = 'TOGGLE_MODAL';
+
+export function fetchDuplicateContactInfo(email, phoneNumber) {
+  return async dispatch => {
+    dispatch({ type: FETCH_DUPLICATE_CONTACT });
+    return apiRequest(DUPLICATE_CONTACT_INFO_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify({
+        emails: email,
+        phones: phoneNumber,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response =>
+        dispatch({
+          type: FETCH_DUPLICATE_CONTACT_INFO_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: FETCH_DUPLICATE_CONTACT_INFO_FAILURE,
+          errors,
+        }),
+      );
+  };
+}
+
+export function acknowledgeDuplicate(contactInfo) {
+  return {
+    type: ACKNOWLEDGE_DUPLICATE,
+    contactInfo,
+  };
+}
+
+export function toggleModal(toggle) {
+  return {
+    type: TOGGLE_MODAL,
+    toggle,
+  };
+}
+
+const FIVE_SECONDS = 5000;
+const ONE_MINUTE_IN_THE_FUTURE = () => {
+  return new Date(new Date().getTime() + 60000);
+};
+
+const poll = ({
+  endpoint,
+  validate = response => response && response.data,
+  interval = FIVE_SECONDS,
+  endTime = ONE_MINUTE_IN_THE_FUTURE(),
+  dispatch,
+  timeoutResponse,
+  successDispatchType,
+}) => {
+  const executePoll = async (resolve, reject) => {
+    try {
+      const response = await apiRequest(endpoint);
+      if (validate(response)) {
+        return resolve(response.data);
+      }
+      if (new Date() >= endTime) {
+        return resolve(timeoutResponse);
+      }
+      return setTimeout(executePoll, interval, resolve, reject);
+    } catch (error) {
+      if (new Date() >= endTime) {
+        return resolve(timeoutResponse);
+      }
+      return setTimeout(executePoll, interval, resolve, reject);
+    }
+  };
+  return new Promise(executePoll)
+    .then(response => {
+      return dispatch({
+        type: successDispatchType,
+        response,
+      });
+    })
+    .catch(() => {
+      dispatch({
+        type: successDispatchType,
+        response: timeoutResponse,
+      });
+    });
+};
+
+function getNowDate() {
+  const date = new Date();
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+}
+
+export function fetchClaimStatus() {
+  return async dispatch => {
+    dispatch({ type: FETCH_CLAIM_STATUS });
+    const timeoutResponse = {
+      attributes: {
+        claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
+        receivedDate: getNowDate(),
+      },
+    };
+    poll({
+      endpoint: CLAIM_STATUS_ENDPOINT,
+      validate: response =>
+        response?.data?.attributes?.claimStatus &&
+        response.data.attributes.claimStatus !==
+          CLAIM_STATUS_RESPONSE_IN_PROGRESS,
+      dispatch,
+      timeoutResponse,
+      successDispatchType: FETCH_CLAIM_STATUS_SUCCESS,
+    });
+  };
+}
+
+export function sendConfirmation(params) {
+  return async dispatch => {
+    dispatch({ type: SEND_CONFIRMATION });
+    return apiRequest(CONFIRMATION_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify(params),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response =>
+        dispatch({
+          type: SEND_CONFIRMATION_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: SEND_CONFIRMATION_FAILURE,
+          errors,
+        }),
+      );
   };
 }

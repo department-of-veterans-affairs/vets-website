@@ -1,18 +1,19 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import InboxLayout from '~/applications/ask-va/components/inbox/InboxLayout';
-import { categorizeByLOA } from '~/applications/ask-va/utils/inbox';
+import { standardizeInquiries } from '~/applications/ask-va/utils/inbox';
 import { expect } from 'chai';
 import { mockInquiries as rawInquiries } from '../../utils/mock-inquiries';
 
 describe('<InboxLayout />', () => {
-  const mockInquiries = categorizeByLOA(rawInquiries);
+  const mockInquiries = standardizeInquiries(rawInquiries);
   const selectedStatus = 'In progress';
 
   it('displays a message when there are no inquiries', () => {
     const view = render(
       <InboxLayout
         categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: [], business: [] }}
       />,
     );
@@ -29,6 +30,7 @@ describe('<InboxLayout />', () => {
     const view = render(
       <InboxLayout
         categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: mockInquiries.personal, business: [] }}
       />,
     );
@@ -37,10 +39,35 @@ describe('<InboxLayout />', () => {
     expect(inquiryResults.length).to.be.greaterThanOrEqual(1);
   });
 
+  it('only renders filter options available in the list', () => {
+    const view = render(
+      <InboxLayout
+        categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
+        inquiries={{ personal: mockInquiries.personal, business: [] }}
+      />,
+    );
+
+    const allOptions = view.getAllByRole('option');
+    const visibleCategories = allOptions
+      .filter(option => option.parentElement.name === 'category')
+      .map(option => option.textContent);
+    const visibleStatuses = allOptions
+      .filter(option => option.parentElement.name === 'status')
+      .map(option => option.textContent);
+
+    expect(visibleCategories).to.eql([
+      'All',
+      ...mockInquiries.uniqueCategories,
+    ]);
+    expect(visibleStatuses).to.eql(['All', ...mockInquiries.uniqueStatuses]);
+  });
+
   it('applies and clears a filter', () => {
     const view = render(
       <InboxLayout
         categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: mockInquiries.personal, business: [] }}
       />,
     );
@@ -95,6 +122,7 @@ describe('<InboxLayout />', () => {
     const view = render(
       <InboxLayout
         categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: mockInquiries.personal, business: [] }}
       />,
     );
@@ -127,13 +155,14 @@ describe('<InboxLayout />', () => {
     const view = render(
       <InboxLayout
         categoryOptions={mockInquiries.uniqueCategories}
+        statusOptions={mockInquiries.uniqueStatuses}
         inquiries={{ personal: inquiriesCopy, business: [] }}
       />,
     );
 
     // Confirm starting state
     const startingResults = view.getAllByTestId('inquiry-card');
-    expect(startingResults.length).to.equal(4);
+    expect(startingResults.length).to.equal(6);
     expect(startingResults[0].textContent).to.include('Reference number: A-2');
 
     const searchBox = view.container.querySelector('va-text-input');
@@ -156,6 +185,7 @@ describe('<InboxLayout />', () => {
       const view = render(
         <InboxLayout
           categoryOptions={mockInquiries.uniqueCategories}
+          statusOptions={mockInquiries.uniqueStatuses}
           inquiries={{ personal: mockInquiries.personal, business: [] }}
         />,
       );
@@ -167,6 +197,7 @@ describe('<InboxLayout />', () => {
       const view = render(
         <InboxLayout
           categoryOptions={mockInquiries.uniqueCategories}
+          statusOptions={mockInquiries.uniqueStatuses}
           inquiries={mockInquiries}
         />,
       );
@@ -188,6 +219,7 @@ describe('<InboxLayout />', () => {
       const view = render(
         <InboxLayout
           categoryOptions={mockInquiries.uniqueCategories}
+          statusOptions={mockInquiries.uniqueStatuses}
           inquiries={mockInquiries}
         />,
       );

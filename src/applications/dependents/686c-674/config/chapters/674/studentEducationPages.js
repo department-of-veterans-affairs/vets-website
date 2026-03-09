@@ -4,50 +4,56 @@ import {
   textSchema,
   yesNoUI,
   yesNoSchema,
-  checkboxGroupUI,
-  checkboxGroupSchema,
+  radioUI,
+  radioSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import {
   benefitSchemaLabels,
   benefitUiLabels,
   ProgramExamples,
 } from './helpers';
-import { generateHelpText } from '../../helpers';
 
 /** @returns {PageSchema} */
 export const studentEducationBenefitsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student\u2019s education benefits',
+      ({ formData }) =>
+        `Education benefits for ${formData?.fullName?.first || 'this student'}`,
     ),
-    typeOfProgramOrBenefit: {
-      ...checkboxGroupUI({
-        title:
-          'Does the student currently receive education benefits from any of these programs?',
-        labels: benefitUiLabels,
-        required: () => false, // must be set for checkboxGroupUI
-        description: generateHelpText('Check all that the student receives'),
-      }),
-    },
-    otherProgramOrBenefit: {
-      'ui:title':
-        'Briefly list any other programs the student receives education benefits from',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'typeOfProgramOrBenefit',
-        expandUnderCondition: formData => formData?.other,
-        expandedContentFocus: true,
-        preserveHiddenData: true,
+    typeOfProgramOrBenefit: radioUI({
+      title:
+        'Does the student currently receive education benefits from any of these programs?',
+      labels: benefitUiLabels,
+      required: () => true,
+      errorMessages: {
+        required: 'Select an education benefit program',
       },
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['typeOfProgramOrBenefit'],
+    properties: {
+      typeOfProgramOrBenefit: radioSchema(benefitSchemaLabels),
     },
+  },
+};
+
+/** @returns {PageSchema} */
+export const studentFederallyFundedPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `Federally-funded schools or programs for ${formData?.fullName?.first ||
+          'this student'}`,
+    ),
     tuitionIsPaidByGovAgency: {
       ...yesNoUI({
         title:
-          'Is the student enrolled in a program or school that\u2019s entirely funded by the federal government?',
+          'Is the student enrolled in a program or school that’s entirely funded by the federal government?',
         required: () => true,
       }),
     },
@@ -57,25 +63,11 @@ export const studentEducationBenefitsPage = {
         hideOnReview: true,
       },
     },
-    'ui:options': {
-      updateSchema: (formData, formSchema, _uiSchema, index) => {
-        const isOtherChecked =
-          !!formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
-            ?.other || !!formData?.typeOfProgramOrBenefit?.other;
-        const required = ['tuitionIsPaidByGovAgency'];
-        if (isOtherChecked) required.push('otherProgramOrBenefit');
-        return { ...formSchema, required };
-      },
-    },
   },
   schema: {
     type: 'object',
     required: ['tuitionIsPaidByGovAgency'],
     properties: {
-      typeOfProgramOrBenefit: checkboxGroupSchema(benefitSchemaLabels),
-      otherProgramOrBenefit: {
-        type: 'string',
-      },
       tuitionIsPaidByGovAgency: yesNoSchema,
       'view:programExamples': {
         type: 'object',
@@ -86,58 +78,22 @@ export const studentEducationBenefitsPage = {
 };
 
 /** @returns {PageSchema} */
-export const studentEducationBenefitsStartDatePage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student\u2019s education benefit payments',
-    ),
-    benefitPaymentDate: {
-      ...currentOrPastDateUI(
-        'When did the student start receiving education benefit payments?',
-      ),
-      'ui:required': () => true,
-      'ui:options': {
-        updateSchema: (formData, schema, _uiSchema, index) => {
-          const itemData = formData?.studentInformation?.[index];
-
-          const values = Object.values(itemData?.typeOfProgramOrBenefit || {});
-          const typeOfProgramOrBenefit =
-            values.includes(false) && !values.some(value => value === true);
-
-          if (typeOfProgramOrBenefit) {
-            itemData.benefitPaymentDate = undefined;
-            return schema;
-          }
-
-          return {
-            ...schema,
-            required: ['benefitPaymentDate'],
-          };
-        },
-      },
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      benefitPaymentDate: currentOrPastDateSchema,
-    },
-  },
-};
-
-/** @returns {PageSchema} */
 export const studentProgramInfoPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student\u2019s education program or school',
+      ({ formData }) =>
+        `${formData?.fullName?.first ||
+          'this student'}’s education program or school`,
+      null,
+      false,
     ),
     schoolInformation: {
       name: {
         ...textUI({
           title:
-            'What\u2019s the name of the school or trade program the student attends?',
+            'What’s the name of the program or school the student attends?',
           errorMessages: {
-            required: 'Enter the name of the school or trade program',
+            required: 'Enter the program name',
           },
         }),
         'ui:required': () => true,
@@ -164,6 +120,34 @@ export const studentProgramInfoPage = {
           name: textSchema,
         },
       },
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+export const studentEducationBenefitsStartDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${formData?.fullName?.first ||
+          'this student'}’s education benefit payments`,
+      null,
+      false,
+    ),
+    benefitPaymentDate: {
+      ...currentOrPastDateUI({
+        title:
+          'When did this child start receiving these benefits or attending this school or program?',
+        description:
+          'If they received a benefit and attended a program, provide the earliest start date.',
+      }),
+      'ui:required': () => true,
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      benefitPaymentDate: currentOrPastDateSchema,
     },
   },
 };

@@ -8,7 +8,7 @@ import {
 const Description = () => (
   <div>
     <p>
-      We need to know if you and your dependents have over $75,000 in assets.
+      We need to know if you and your dependents have over $25,000 in assets.
     </p>
   </div>
 );

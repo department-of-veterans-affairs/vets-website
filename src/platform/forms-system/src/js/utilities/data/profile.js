@@ -434,7 +434,10 @@ export const getMissingInfo = ({ data, keys, content, requiredKeys = [] }) => {
     }
   }
   if (keys.email && requiredKeys.includes(keys.email)) {
-    missingInfo.push(data[keys.email] ? '' : content.missingEmail);
+    const emailData = data[keys.email];
+    const emailValue =
+      typeof emailData === 'string' ? emailData : emailData?.emailAddress;
+    missingInfo.push(emailValue ? '' : content.missingEmail);
   }
   if (keys.address && requiredKeys.includes(keys.address)) {
     const addressObject = data[keys.address] || {};

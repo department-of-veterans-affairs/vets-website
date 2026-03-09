@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ServerErrorAlert } from '../config/helpers';
 import { mockTestingFlagForAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
-import { categorizeByLOA } from '../utils/inbox';
+import { standardizeInquiries } from '../utils/inbox';
 import InboxLayout from '../components/inbox/InboxLayout';
 import { getAllInquiries } from '../utils/api';
 
@@ -10,15 +10,21 @@ export default function Inbox() {
   const [hasError, setHasError] = useState(false);
   const [inquiries, setInquiries] = useState({ business: [], personal: [] });
   const [categoryOptions, setCategoryOptions] = useState([]);
+  const [statusOptions, setStatusOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     function saveInState(rawInquiries) {
-      const { business, personal, uniqueCategories } = categorizeByLOA(
-        rawInquiries,
-      );
+      const {
+        business,
+        personal,
+        uniqueCategories,
+        uniqueStatuses,
+      } = standardizeInquiries(rawInquiries);
+
       setInquiries({ business, personal });
       setCategoryOptions(uniqueCategories);
+      setStatusOptions(uniqueStatuses);
       setIsLoading(false);
     }
 
@@ -56,5 +62,5 @@ export default function Inbox() {
     );
   }
 
-  return <InboxLayout {...{ inquiries, categoryOptions }} />;
+  return <InboxLayout {...{ inquiries, categoryOptions, statusOptions }} />;
 }

@@ -38,7 +38,6 @@ import {
   monthlyMedicalReimbursementAmountRequired,
   requireExpandedArrayField,
   sharedYesNoOptionsBase,
-  showUpdatedContent,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -48,8 +47,7 @@ export const options = {
   nounPlural: 'trusts',
   required: false,
   isItemIncomplete: item => {
-    const needsDocs =
-      showUpdatedContent() && item?.['view:addFormQuestion'] === true;
+    const needsDocs = item?.['view:addFormQuestion'] === true;
 
     const hasDocs =
       Array.isArray(item?.uploadedDocuments) &&
@@ -108,30 +106,28 @@ export const options = {
               </span>
             </li>
           )}
-          {showUpdatedContent() && (
-            <li>
-              Supporting documents uploaded:{' '}
-              <span className="vads-u-font-weight--bold">
-                {item?.['view:addFormQuestion'] === true &&
-                Array.isArray(item?.uploadedDocuments) &&
-                item?.uploadedDocuments?.length > 0
-                  ? ''
-                  : 'No'}
-              </span>
-              {Array.isArray(item?.uploadedDocuments) &&
-                item?.uploadedDocuments?.length > 0 && (
-                  <ul className="vads-u-margin-top--1">
-                    {item.uploadedDocuments.map((doc, i) => (
-                      <li key={i}>
-                        <span className="vads-u-font-weight--bold">
-                          {doc?.name}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-            </li>
-          )}
+          <li>
+            Supporting documents uploaded:{' '}
+            <span className="vads-u-font-weight--bold">
+              {item?.['view:addFormQuestion'] === true &&
+              Array.isArray(item?.uploadedDocuments) &&
+              item?.uploadedDocuments?.length > 0
+                ? ''
+                : 'No'}
+            </span>
+            {Array.isArray(item?.uploadedDocuments) &&
+              item?.uploadedDocuments?.length > 0 && (
+                <ul className="vads-u-margin-top--1">
+                  {item.uploadedDocuments.map((doc, i) => (
+                    <li key={i}>
+                      <span className="vads-u-font-weight--bold">
+                        {doc?.name}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+          </li>
         </ul>
       ),
     reviewAddButtonText: props => `Add ${props.nounSingular}`,
@@ -172,8 +168,8 @@ const SeriouslyDisabledAdditionalInformation = () => (
 // Important: only one summary page should ever be displayed at a time.
 
 // Shared summary page text
-const updatedTitleNoItems = 'Do you or your dependents have access to a trust?';
-const updatedTitleWithItems = 'Do you have another trust to report?';
+const titleNoItems = 'Do you or your dependents have access to a trust?';
+const titleWithItems = 'Do you have another trust to report?';
 const summaryPageTitle = 'Trusts';
 const yesNoOptionLabels = {
   Y: 'Yes, I have a trust to report',
@@ -186,24 +182,6 @@ const yesNoOptionLabels = {
  * @returns {PageSchema}
  */
 const summaryPage = {
-  uiSchema: {
-    'view:isAddingTrusts': arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'Have you or your dependents established a trust or do you or your dependents have access to a trust?',
-        hint: 'If yes, you’ll need to report at least one trust',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-      },
-      {
-        title: 'Do you have more trusts to report?',
-        ...sharedYesNoOptionsBase,
-      },
-    ),
-  },
   schema: {
     type: 'object',
     properties: {
@@ -223,7 +201,7 @@ const veteranSummaryPage = {
     'view:isAddingTrusts': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
         labelHeaderLevel: '1',
@@ -231,7 +209,7 @@ const veteranSummaryPage = {
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -244,14 +222,14 @@ const spouseSummaryPage = {
     'view:isAddingTrusts': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint: 'Your dependents include children who you financially support. ',
         labelHeaderLevel: '1',
         labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -271,7 +249,7 @@ const childSummaryPage = {
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -283,7 +261,7 @@ const parentSummaryPage = {
     'view:isAddingTrusts': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner.',
         labelHeaderLevel: '1',
@@ -291,7 +269,7 @@ const parentSummaryPage = {
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -304,7 +282,7 @@ const custodianSummaryPage = {
     'view:isAddingTrusts': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
         labelHeaderLevel: '1',
@@ -312,7 +290,7 @@ const custodianSummaryPage = {
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -656,49 +634,36 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
   trustPagesVeteranSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'trusts-summary-veteran',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'VETERAN',
+    depends: formData => formData.claimantType === 'VETERAN',
     uiSchema: veteranSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   trustPagesSpouseSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'trusts-summary-spouse',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'SPOUSE',
+    depends: formData => formData.claimantType === 'SPOUSE',
     uiSchema: spouseSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   trustPagesChildSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'trusts-summary-child',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'CHILD',
+    depends: formData => formData.claimantType === 'CHILD',
     uiSchema: childSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   trustPagesCustodianSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'trusts-summary-custodian',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+    depends: formData => formData.claimantType === 'CUSTODIAN',
     uiSchema: custodianSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   trustPagesParentSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'trusts-summary-parent',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'PARENT',
+    depends: formData => formData.claimantType === 'PARENT',
     uiSchema: parentSummaryPage.uiSchema,
-    schema: summaryPage.schema,
-  }),
-  // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
-  trustPagesSummary: pageBuilder.summaryPage({
-    title: summaryPageTitle,
-    path: 'trusts-summary',
-    depends: () => !showUpdatedContent(),
-    uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   trustInformationPage: pageBuilder.itemPage({
@@ -754,7 +719,6 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
   trustSupportingDocumentsNeededNeededPage: pageBuilder.itemPage({
     title: 'Supporting documents needed',
     path: 'trusts/:index/supporting-documents-needed',
-    depends: () => showUpdatedContent(),
     uiSchema: supportingDocumentsNeeded.uiSchema,
     schema: supportingDocumentsNeeded.schema,
   }),
@@ -762,7 +726,6 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     title: 'Upload supporting documents',
     path: 'trusts/:index/document-upload',
     depends: (formData, index) =>
-      showUpdatedContent() &&
       formData?.[options.arrayPath]?.[index]?.['view:addFormQuestion'] === true,
     uiSchema: supportingDocumentUpload.uiSchema,
     schema: supportingDocumentUpload.schema,
@@ -771,9 +734,8 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     title: 'Supporting documents needed',
     path: 'trusts/:index/document-mailing-address',
     depends: (formData, index) =>
-      showUpdatedContent() &&
       formData?.[options.arrayPath]?.[index]?.['view:addFormQuestion'] ===
-        false,
+      false,
     uiSchema: documentMailingAddressPage.uiSchema,
     schema: documentMailingAddressPage.schema,
   }),

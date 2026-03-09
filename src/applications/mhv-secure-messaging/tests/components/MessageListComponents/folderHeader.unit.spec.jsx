@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -51,12 +51,14 @@ describe('Folder Header component', () => {
     path = initialPath,
     threadCount = initialThreadCount,
     folder = customFolder,
+    extraProps = {},
   ) => {
     return renderWithStoreAndRouter(
       <FolderHeader
         folder={folder}
         threadCount={threadCount}
         searchProps={{ ...searchProps }}
+        {...extraProps}
       />,
       {
         initialState: state,
@@ -65,6 +67,43 @@ describe('Folder Header component', () => {
       },
     );
   };
+
+  it('renders AlertBackgroundBox after H1', async () => {
+    const stateWithAlert = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        alerts: {
+          alertVisible: true,
+          alertList: [
+            {
+              datestamp: '2022-10-07T19:25:32.832Z',
+              isActive: true,
+              alertType: 'success',
+              header: 'Test',
+              content: 'Test alert content',
+            },
+          ],
+        },
+      },
+    };
+    const screen = setup(
+      stateWithAlert,
+      initialPath,
+      initialThreadCount,
+      customFolder,
+    );
+    await waitFor(() => {
+      const h1 = screen.getByRole('heading', { level: 1 });
+      const alertText = screen.getByTestId('alert-text');
+      expect(h1).to.exist;
+      expect(alertText).to.exist;
+      const html = screen.container.innerHTML;
+      expect(html.indexOf('<h1')).to.be.lessThan(
+        html.indexOf('data-testid="alert-text"'),
+      );
+    });
+  });
 
   describe('displays empty custom folder view', () => {
     const emptyFolder = {
@@ -235,6 +274,132 @@ describe('Folder Header component', () => {
       expect(blockedTriageGroupAlert.firstChild.textContent).to.equal(
         "You're not connected to any care teams in this messaging tool",
       );
+    });
+
+    describe('When no associations but user facility is migrating to OH', () => {
+      const getCustomState = phase => ({
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
+            blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
+            associatedTriageGroupsQty:
+              noAssociationsAtAll.associatedTriageGroupsQty,
+            associatedBlockedTriageGroupsQty:
+              noAssociationsAtAll.associatedBlockedTriageGroupsQty,
+            noAssociations: noAssociationsAtAll.noAssociations,
+            allTriageGroupsBlocked: noAssociationsAtAll.allTriageGroupsBlocked,
+          },
+        },
+        user: {
+          profile: {
+            facilities: [],
+            userAtPretransitionedOhFacility: true,
+            userFacilityMigratingToOh: true,
+            migrationSchedules: [
+              {
+                facilities: [
+                  {
+                    facilityId: '500',
+                    facilityName: '500TEST',
+                  },
+                ],
+                migrationStatus: 'ACTIVE',
+                phases: {
+                  current: phase,
+                },
+              },
+            ],
+          },
+        },
+        featureToggles: {},
+      });
+
+      it('renders MigratingFacilitiesAlerts instead of BlockedTriageGroupAlert if in phase 5', async () => {
+        const customState = getCustomState('p5');
+        const screen = setup(
+          customState,
+          Paths.INBOX,
+          initialThreadCount,
+          inbox,
+        );
+
+        const migratingFacilitiesAlert = await screen.findByTestId(
+          'cerner-facilities-transition-alert-error-phase',
+        );
+        expect(migratingFacilitiesAlert).to.exist;
+        expect(screen.queryByTestId('compose-message-link')).to.not.exist;
+        expect(screen.queryByTestId('blocked-triage-group-alert')).to.not.exist;
+      });
+
+      it('renders MigratingFacilitiesAlerts instead of BlockedTriageGroupAlert if in phase 4', async () => {
+        const customState = getCustomState('p4');
+        const screen = setup(
+          customState,
+          Paths.INBOX,
+          initialThreadCount,
+          inbox,
+        );
+
+        const migratingFacilitiesAlert = await screen.findByTestId(
+          'cerner-facilities-transition-alert-error-phase',
+        );
+        expect(migratingFacilitiesAlert).to.exist;
+        expect(screen.queryByTestId('compose-message-link')).to.not.exist;
+        expect(screen.queryByTestId('blocked-triage-group-alert')).to.not.exist;
+      });
+
+      it('renders MigratingFacilitiesAlerts instead of BlockedTriageGroupAlert if in phase 3', async () => {
+        const customState = getCustomState('p3');
+        const screen = setup(
+          customState,
+          Paths.INBOX,
+          initialThreadCount,
+          inbox,
+        );
+
+        const migratingFacilitiesAlert = await screen.findByTestId(
+          'cerner-facilities-transition-alert-error-phase',
+        );
+        expect(migratingFacilitiesAlert).to.exist;
+        expect(screen.queryByTestId('compose-message-link')).to.not.exist;
+        expect(screen.queryByTestId('blocked-triage-group-alert')).to.not.exist;
+      });
+
+      it('renders BlockedTriageGroupAlert if in phase 2', async () => {
+        const customState = getCustomState('p2');
+        const screen = setup(
+          customState,
+          Paths.INBOX,
+          initialThreadCount,
+          inbox,
+        );
+
+        const migratingFacilitiesAlert = await screen.queryByTestId(
+          'cerner-facilities-transition-alert-error-phase',
+        );
+        expect(migratingFacilitiesAlert).to.not.exist;
+        expect(screen.queryByTestId('compose-message-link')).to.not.exist;
+        expect(screen.queryByTestId('blocked-triage-group-alert')).to.exist;
+      });
+
+      it('renders BlockedTriageGroupAlert if in phase 1', async () => {
+        const customState = getCustomState('p1');
+        const screen = setup(
+          customState,
+          Paths.INBOX,
+          initialThreadCount,
+          inbox,
+        );
+
+        const migratingFacilitiesAlert = await screen.queryByTestId(
+          'cerner-facilities-transition-alert-error-phase',
+        );
+        expect(migratingFacilitiesAlert).to.not.exist;
+        expect(screen.queryByTestId('compose-message-link')).to.not.exist;
+        expect(screen.queryByTestId('blocked-triage-group-alert')).to.exist;
+      });
     });
 
     it('renders BlockedTriageGroupAlert if all associations blocked', async () => {

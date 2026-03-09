@@ -60,7 +60,9 @@ export function parseDurationFromSlotId(slotId) {
   }
 
   // Parse duration format like "1h30m0s", "30m0s", "2h0m0s", etc.
-  const match = durationString.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?/);
+  const match = durationString?.match(
+    /^(?:(\d{1,3})h)?(?:(\d{1,3})m)?(?:(\d{1,3})s)?$/,
+  );
   if (match) {
     const hours = match[1] ? parseInt(match[1], 10) : 0;
     const minutes = match[2] ? parseInt(match[2], 10) : 0;
@@ -161,8 +163,20 @@ export function pad(num, size) {
  * @param {Date} date A given date
  * @returns {number} A number of the first day of the month
  */
-export function getFirstDayOfMonth(date) {
-  return Number(format(startOfMonth(date), 'i'));
+export function getFirstDayOfMonth(date, showWeekends) {
+  // Sunday - Saturday : 0 - 6
+  const sun = 0;
+  const sat = 6;
+
+  let dayNumber = startOfMonth(date).getDay();
+
+  if (showWeekends) return dayNumber;
+
+  if (dayNumber === sat) dayNumber = addDays(startOfMonth(date), 2).getDay();
+
+  if (dayNumber === sun) dayNumber = addDays(startOfMonth(date), 1).getDay();
+
+  return dayNumber;
 }
 
 /**
@@ -189,7 +203,7 @@ export function getMaxMonth(maxDate, overrideMaxDays) {
  * @returns {Array} Array of blanks to push start day position
  */
 export function getInitialBlankCells(date, showWeekends) {
-  const firstDay = getFirstDayOfMonth(date);
+  const firstDay = getFirstDayOfMonth(date, showWeekends);
   const blanks = [];
 
   if (!showWeekends && isWeekend(date)) {

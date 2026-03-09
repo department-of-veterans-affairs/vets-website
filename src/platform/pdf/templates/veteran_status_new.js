@@ -60,7 +60,10 @@ const fetchImage = async url => {
 };
 
 const validate = data => {
-  const requiredFields = ['fullName', 'latestService']; // If there is no latestService, there is also no DoD ID
+  // When using the new shared service, latestService is not required
+  const requiredFields = data.useSharedService
+    ? ['fullName']
+    : ['fullName', 'latestService'];
 
   const missingFields = requiredFields.filter(field => !data[field]);
   if (missingFields.length) {
@@ -186,6 +189,8 @@ const generate = async data => {
     {
       heading: 'Latest period of service',
       content: `${data.details.latestService}`,
+      // Hide latestService when using the new shared service (behind feature flag)
+      condition: !data.details.useSharedService && !!data.details.latestService,
     },
     {
       heading: 'DoD ID Number',
@@ -195,6 +200,9 @@ const generate = async data => {
 
   let lastHeaderY;
   infoItems.forEach(item => {
+    // Skip items with a condition that evaluates to false
+    if (item.condition === false) return;
+
     lastHeaderY = doc.y;
     const header = doc.struct('H2', () => {
       doc

@@ -1,5 +1,4 @@
 // @ts-check
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -19,19 +18,6 @@ const formConfig = {
   trackingPrefix: '0810-edu-benefits',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/education',
-        label: 'Education',
-      },
-      {
-        href: '/education/0810',
-        label: '0810',
-      },
-    ],
-  }),
   formId: VA_FORM_IDS.FORM_22_0810,
   saveInProgress: {
     // messages: {

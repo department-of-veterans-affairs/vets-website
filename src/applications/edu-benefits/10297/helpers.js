@@ -1,79 +1,18 @@
 import React from 'react';
 
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import { countries } from 'platform/forms/address';
 import { focusElement } from '~/platform/utilities/ui';
 import { isValid, parseISO, parse } from 'date-fns';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { isValidRoutingNumber } from 'platform/forms/validations';
+import {
+  VaSelectField,
+  VaTextInputField,
+} from 'platform/forms-system/src/js/web-component-fields';
+import constants from 'vets-json-schema/dist/constants.json';
 
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
 export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
-
-export const ConfirmationSubmissionAlert = ({ confirmationNumber }) => (
-  <>
-    <p>Your submission is in progress.</p>
-    <p>
-      It can take up to 30 days for us to review your application and make a
-      decision.
-      {confirmationNumber &&
-        ` Your confirmation number is ${confirmationNumber}.`}
-    </p>
-  </>
-);
-
-ConfirmationSubmissionAlert.propTypes = {
-  confirmationNumber: PropTypes.string,
-};
-
-export const ConfirmationWhatsNextProcessList = () => (
-  <>
-    <h2>What to expect next</h2>
-    <va-process-list>
-      <va-process-list-item header="We'll review your application and determine your eligibility">
-        <p>
-          If you’re eligible and the yearly cap of 4,000 students hasn’t been
-          met, we’ll send you a Certificate of Eligibility. If not, we’ll send
-          you a letter explaining why you’re not eligible.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="We'll check the training provider(s) you listed">
-        <p>
-          If you reported a school you want to attend, we’ll review whether that
-          school has programs currently approved for the High Technology
-          Program. If it doesn’t, we’ll reach out to the school to explore if
-          approval can be set up.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="We'll keep you updated">
-        <p>
-          You’ll get an email with our decision. If you’re signed up for VA
-          Notify, we’ll also send updates there.
-        </p>
-      </va-process-list-item>
-    </va-process-list>
-  </>
-);
-
-export const ConfirmationHowToContact = () => (
-  <p>
-    If you have questions about this form or need help, you can submit a request
-    through <va-link external href="https://ask.va.gov/" text="Ask VA" />
-  </p>
-);
-
-export const ConfirmationGoBackLink = () => (
-  <div
-    className={classNames(
-      'confirmation-go-back-link-section',
-      'screen-only',
-      'vads-u-margin-top--2',
-    )}
-  >
-    <va-link-action href="/" text="Go back to VA.gov homepage" type="primary" />
-  </div>
-);
 
 // Expects a birthDate as a string in YYYY-MM-DD format
 export const getAgeInYears = birthDate =>
@@ -83,6 +22,18 @@ export const getCardDescription = item => {
   const countryCode = item?.providerAddress?.country;
   const countryObj = countries.find(country => country.value === countryCode);
   const countryName = countryObj?.label || countryCode;
+  const mappedState = country => {
+    switch (country) {
+      case 'CAN':
+      case 'MEX': {
+        return constants.states[countryCode].find(
+          state => state.value === item?.providerAddress?.state,
+        )?.label;
+      }
+      default:
+        return item?.providerAddress?.state;
+    }
+  };
 
   return item ? (
     <>
@@ -97,9 +48,7 @@ export const getCardDescription = item => {
               ? ','
               : ''
           }`}
-          {item?.providerAddress?.state
-            ? ` ${item?.providerAddress?.state}`
-            : ''}
+          {item?.providerAddress?.state ? ` ${mappedState(countryCode)}` : ''}
           {item?.providerAddress?.postalCode !== 'NA'
             ? ` ${item?.providerAddress?.postalCode}`
             : ''}
@@ -131,7 +80,7 @@ export const trainingProviderArrayOptions = {
   maxItems: 4,
   text: {
     getItemName: item =>
-      item?.providerName ? `${item?.providerName}`.trim() : 'training provider',
+      item?.providerName ? `${item?.providerName}`.trim() : 'Training provider',
     cardDescription: item => getCardDescription(item),
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',
@@ -140,12 +89,55 @@ export const trainingProviderArrayOptions = {
   },
 };
 
+export const lastDayOfMonth = (month, year = NaN) => {
+  const lastDay = new Date(year, month, 0).getDate();
+
+  // default values if provided year or month are invalid/blank
+  if (Number.isNaN(lastDay)) {
+    switch (month) {
+      case 4:
+      case 6:
+      case 9:
+      case 11:
+        return 30;
+      case 2:
+        return 29;
+      default:
+        return 31;
+    }
+  }
+
+  return lastDay;
+};
+
 export const validateTrainingProviderStartDate = (errors, dateString) => {
   if (!dateString) return;
-  const picked = new Date(`${dateString}T00:00:00`);
-  const startDate = new Date('2025-01-02T00:00:00');
 
-  if (picked < startDate) errors.addError('Enter a date after 1/2/2025');
+  const [year, month, day] = dateString.split('-').map(Number);
+
+  if (year && month && day) {
+    const picked = new Date(`${dateString}T00:00:00`);
+    const startDate = new Date('2026-07-01T00:00:00');
+
+    if (picked < startDate)
+      errors.addError('Enter a date on or after July 1, 2026');
+  }
+
+  const minYear = 2026;
+  const maxYear = new Date().getFullYear() + 100;
+  const maxDay = lastDayOfMonth(month, year);
+
+  if (!month || month < 1 || month > 12) {
+    errors.addError('Please enter a valid date');
+  }
+
+  if (!day || day < 1 || day > maxDay) {
+    errors.addError('Please enter a valid date');
+  }
+
+  if (!year || year < minYear || year > maxYear) {
+    errors.addError('Please enter a valid date');
+  }
 };
 
 export const dateSigned = () => {
@@ -172,8 +164,8 @@ export const focusOnH3 = () => {
 };
 
 export const getPrefillIntlPhoneNumber = (phone = {}) => {
-  const areaCode = (phone.areaCode || '').trim();
-  const phoneNumber = (phone.phoneNumber || '').trim();
+  const areaCode = (phone?.areaCode || '').trim();
+  const phoneNumber = (phone?.phoneNumber || '').trim();
 
   /**
    * All user profile numbers set to the *US* country code by default.
@@ -585,23 +577,410 @@ export function getLTSCountryCode(schemaCountryValue) {
   return country?.ltsValue ? country.ltsValue : 'ZZ';
 }
 
-export const lastDayOfMonth = (month, year = NaN) => {
-  const lastDay = new Date(year, month, 0).getDate();
+export const addressSpecifications = {
+  street: {
+    minLength: 3,
+    maxLength: 40,
+    errorMessages: {
+      required: 'Enter a street address',
+      minLength: 'Enter a minimum of 3 characters and maximum of 40 characters',
+    },
+  },
+  street2: {
+    maxLength: 40,
+  },
+  street3: {
+    maxLength: 40,
+  },
+  city: {
+    minLength: 2,
+    maxLength: 20,
+    errorMessages: {
+      required: 'Enter a city',
+      minLength: 'Enter a minimum of 2 characters and maximum of 20 characters',
+    },
+    MILITARY: {
+      errorMessages: {
+        required:
+          'Select a type of military post office: APO (Air or Army post office), DPO (Diplomatic post office), or FPO (Fleet post office)',
+        enum:
+          'Select a type of military post office: APO (Air or Army post office), DPO (Diplomatic post office), or FPO (Fleet post office)',
+      },
+      label: 'APO/DPO/FPO',
+    },
+  },
+  state: {
+    USA: {
+      errorMessages: {
+        required: 'Select a state or territory',
+        enum: 'Select a state or territory',
+      },
+      label: 'State or territory',
+    },
+    CAN: {
+      errorMessages: {
+        required: 'Select a province or territory',
+        enum: 'Select a province or territory',
+      },
+      label: 'Province or territory',
+    },
+    MEX: {
+      errorMessages: {
+        required: 'Select a state',
+        enum: 'Select a state',
+      },
+      label: 'State',
+    },
+    MILITARY: {
+      errorMessages: {
+        required:
+          'Select an abbreviation: AA (Armed Forces America), AE (Armed Forces Europe), or AP (Armed Forces Pacific)',
+        enum:
+          'Select an abbreviation: AA (Armed Forces America), AE (Armed Forces Europe), or AP (Armed Forces Pacific)',
+      },
+      label: 'AA/AE/AP',
+    },
+    OTHER: {
+      label: 'State, county, or province',
+      minLength: 2,
+      maxLength: 25,
+      errorMessages: {
+        minLength:
+          'Enter a minimum of 2 characters and maximum of 25 characters',
+      },
+    },
+  },
+  postalCode: {
+    USA: {
+      errorMessages: {
+        required: 'Enter a valid 5-digit or 9-digit zip code',
+        pattern: 'Enter a valid 5-digit or 9-digit zip code',
+        minLength: 'Enter a valid 5-digit or 9-digit zip code',
+        maxLength: 'Enter a valid 5-digit or 9-digit zip code',
+      },
+      label: 'Zip code',
+      pattern: '(^\\d{5}$)|(^\\d{5}[ -]{0,1}\\d{4})$',
+      minLength: 5,
+      maxLength: 10,
+    },
+    MILITARY: {
+      errorMessages: {
+        DEFAULT: {
+          required: 'Enter a valid 5-digit or 9-digit zip code',
+          pattern: 'Enter a valid 5-digit or 9-digit zip code',
+          minLength: 'Enter a valid 5-digit or 9-digit zip code',
+          maxLength: 'Enter a valid 5-digit or 9-digit zip code',
+        },
+        AA: {
+          required:
+            'Enter a valid zip code for AA. Must start with 340 and be a 5-digit or 9-digit zip code',
+          pattern:
+            'Enter a valid zip code for AA. Must start with 340 and be a 5-digit or 9-digit zip code',
+          minLength:
+            'Enter a valid zip code for AA. Must start with 340 and be a 5-digit or 9-digit zip code',
+          maxLength:
+            'Enter a valid zip code for AA. Must start with 340 and be a 5-digit or 9-digit zip code',
+        },
+        AE: {
+          required:
+            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
+          pattern:
+            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
+          minLength:
+            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
+          maxLength:
+            'Enter a valid zip code for AE. Must start with 09 and be a 5-digit or 9-digit zip code',
+        },
+        AP: {
+          required:
+            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+          pattern:
+            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+          minLength:
+            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+          maxLength:
+            'Enter a valid zip code for AP. Must start in the range 962 - 966 and be a 5-digit or 9-digit zip code',
+        },
+      },
+      label: 'Zip code',
+      pattern: {
+        DEFAULT: '(^\\d{5}$)|(^\\d{5}[ -]{0,1}\\d{4})$',
+        AA: '(^340\\d{2}$)|(^340\\d{2}[ -]{0,1}\\d{4}$)',
+        AE: '(^09\\d{3}$)|(^09\\d{3}[ -]{0,1}\\d{4}$)',
+        AP: '(^96[2-6]\\d{2}$)|(^96[2-6]\\d{2}[ -]{0,1}\\d{4}$)',
+      },
+      minLength: 5,
+      maxLength: 10,
+    },
+    CAN: {
+      errorMessages: {
+        required: 'Enter a valid 6-character postal code',
+        pattern: 'Enter a valid 6-character postal code',
+        minLength: 'Enter a valid 6-character postal code',
+        maxLength: 'Enter a valid 6-character postal code',
+      },
+      label: 'Postal code',
+      pattern:
+        '^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$',
+      minLength: 6,
+      maxLength: 7,
+    },
+    MEX: {
+      errorMessages: {
+        required: 'Enter a valid 5-digit postal code',
+        pattern: 'Enter a valid 5-digit postal code',
+        minLength: 'Enter a valid 5-digit postal code',
+        maxLength: 'Enter a valid 5-digit postal code',
+      },
+      label: 'Postal code',
+      pattern: '^\\d{5}$',
+      minLength: 5,
+      maxLength: 5,
+    },
+    OTHER: {
+      errorMessages: {
+        required:
+          'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
+        minLength:
+          'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
+        pattern:
+          'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
+      },
+      label: 'Postal code',
+      pattern: '^[A-Za-z0-9 -]+$',
+      minLength: 3,
+      maxLength: 10,
+    },
+  },
+};
 
-  // default values if provided year or month are invalid/blank
-  if (isNaN(lastDay)) {
-    switch (month) {
-      case 4:
-      case 6:
-      case 9:
-      case 11:
-        return 30;
-      case 2:
-        return 29;
-      default:
-        return 31;
-    }
-  }
+export const addressUiSchema = ({
+  baseUiSchema,
+  allowMilitaryAddress = false,
+  militaryBaseKey = 'isMilitary',
+  addressKey = 'mailingAddress',
+}) => {
+  return {
+    ...baseUiSchema,
+    ...(allowMilitaryAddress && {
+      'view:militaryBaseDescription': {
+        'ui:description': (
+          <va-additional-info trigger="Learn more about military base addresses">
+            <span>
+              U.S. military bases are considered a domestic address and a part
+              of the United States.
+            </span>
+          </va-additional-info>
+        ),
+      },
+    }),
+    country: {
+      ...baseUiSchema.country,
+      ...(allowMilitaryAddress && { 'ui:webComponentField': undefined }),
+      'ui:options': {
+        ...baseUiSchema.country['ui:options'],
+        updateSchema: (formData, _schema, _uiSchema) => {
+          const countryUI = _uiSchema;
+          const addressFormData = formData?.[addressKey];
+          const livesOnMilitaryBase = formData?.[addressKey]?.[militaryBaseKey];
+          if (livesOnMilitaryBase) {
+            countryUI['ui:disabled'] = true;
+            const USA = {
+              value: 'USA',
+              label: 'United States',
+            };
+            addressFormData.country = USA.value;
+            return {
+              enum: [USA.value],
+              enumNames: [USA.label],
+              default: USA.value,
+            };
+          }
+          countryUI['ui:disabled'] = false;
+          return {
+            type: 'string',
+            enum: constants.countries.map(country => country.value),
+            enumNames: constants.countries.map(country => country.label),
+          };
+        },
+      },
+    },
+    street: {
+      ...baseUiSchema.street,
+      ...(allowMilitaryAddress && { 'ui:webComponentField': undefined }),
+      'ui:errorMessages': addressSpecifications.street.errorMessages,
+    },
+    street2: {
+      ...baseUiSchema.street2,
+      ...(allowMilitaryAddress && { 'ui:webComponentField': undefined }),
+    },
+    city: {
+      ...baseUiSchema.city,
+      ...(allowMilitaryAddress && { 'ui:webComponentField': undefined }),
+      'ui:options': {
+        ...baseUiSchema.city['ui:options'],
+        replaceSchema: (formData, _schema, _uiSchema) => {
+          const cityUI = _uiSchema;
+          cityUI['ui:errorMessages'] = addressSpecifications.city.errorMessages;
 
-  return lastDay;
+          const livesOnMilitaryBase = formData?.[addressKey]?.[militaryBaseKey];
+          if (livesOnMilitaryBase) {
+            cityUI['ui:errorMessages'] =
+              addressSpecifications.city.MILITARY.errorMessages;
+            return {
+              type: 'string',
+              title: addressSpecifications.city.MILITARY.label,
+              enum: ['APO', 'DPO', 'FPO'],
+            };
+          }
+
+          return {
+            type: 'string',
+            title: 'City',
+            minLength: addressSpecifications.city.minLength,
+            maxLength: addressSpecifications.city.maxLength,
+          };
+        },
+      },
+    },
+    state: {
+      ...baseUiSchema.state,
+      'ui:options': {
+        ...baseUiSchema.state['ui:options'],
+        replaceSchema: (formData, _schema, _uiSchema, index) => {
+          const stateUI = _uiSchema;
+          const country =
+            formData?.[addressKey]?.country ||
+            formData.trainingProviders?.[index]?.[addressKey]?.country;
+
+          const livesOnMilitaryBase = formData?.[addressKey]?.[militaryBaseKey];
+          if (livesOnMilitaryBase) {
+            stateUI['ui:errorMessages'] =
+              addressSpecifications.state.MILITARY.errorMessages;
+            stateUI['ui:webComponentField'] = undefined;
+            return {
+              type: 'string',
+              title: addressSpecifications.state.MILITARY.label,
+              enum: ['AA', 'AE', 'AP'],
+              enumNames: [
+                'AA (Armed Forces Americas)',
+                'AE (Armed Forces Europe)',
+                'AP (Armed Forces Pacific)',
+              ],
+            };
+          }
+
+          if (['USA', 'CAN', 'MEX'].includes(country)) {
+            stateUI['ui:errorMessages'] =
+              addressSpecifications.state[country].errorMessages;
+            stateUI['ui:webComponentField'] = allowMilitaryAddress
+              ? undefined
+              : VaSelectField;
+            return {
+              type: 'string',
+              title: addressSpecifications.state[country].label,
+              enum: constants.states[country].map(state => state.value),
+              enumNames: constants.states[country].map(state => state.label),
+            };
+          }
+
+          stateUI['ui:errorMessages'] =
+            addressSpecifications.state.OTHER.errorMessages;
+          stateUI['ui:webComponentField'] = allowMilitaryAddress
+            ? undefined
+            : VaTextInputField;
+          return {
+            type: 'string',
+            title: addressSpecifications.state.OTHER.label,
+            minLength: addressSpecifications.state.OTHER.minLength,
+            maxLength: addressSpecifications.state.OTHER.maxLength,
+          };
+        },
+      },
+    },
+    postalCode: {
+      ...baseUiSchema.postalCode,
+      'ui:title': undefined,
+      ...(allowMilitaryAddress && { 'ui:webComponentField': undefined }),
+      'ui:options': {
+        ...baseUiSchema.postalCode['ui:options'],
+        widgetClassNames: undefined,
+        replaceSchema: (formData, _schema, _uiSchema, index) => {
+          const country =
+            formData?.[addressKey]?.country ||
+            formData.trainingProviders?.[index]?.[addressKey]?.country;
+
+          const newUiSchema = _uiSchema;
+          const newSchema = {
+            type: 'string',
+            title: addressSpecifications.postalCode.OTHER.label,
+            minLength: addressSpecifications.postalCode.OTHER.minLength,
+            maxLength: addressSpecifications.postalCode.OTHER.maxLength,
+            pattern: addressSpecifications.postalCode.OTHER.pattern,
+          };
+
+          newUiSchema['ui:errorMessages'] =
+            addressSpecifications.postalCode.OTHER.errorMessages;
+
+          const livesOnMilitaryBase = formData?.[addressKey]?.[militaryBaseKey];
+
+          if (livesOnMilitaryBase) {
+            newSchema.title = addressSpecifications.postalCode.MILITARY.label;
+            newSchema.minLength =
+              addressSpecifications.postalCode.MILITARY.minLength;
+            newSchema.maxLength =
+              addressSpecifications.postalCode.MILITARY.maxLength;
+
+            switch (formData?.[addressKey]?.state) {
+              case 'AA':
+                newSchema.pattern =
+                  addressSpecifications.postalCode.MILITARY.pattern.AA;
+                newUiSchema['ui:errorMessages'] =
+                  addressSpecifications.postalCode.MILITARY.errorMessages.AA;
+                break;
+              case 'AE':
+                newSchema.pattern =
+                  addressSpecifications.postalCode.MILITARY.pattern.AE;
+                newUiSchema['ui:errorMessages'] =
+                  addressSpecifications.postalCode.MILITARY.errorMessages.AE;
+                break;
+              case 'AP':
+                newSchema.pattern =
+                  addressSpecifications.postalCode.MILITARY.pattern.AP;
+                newUiSchema['ui:errorMessages'] =
+                  addressSpecifications.postalCode.MILITARY.errorMessages.AP;
+                break;
+              default:
+                newSchema.pattern =
+                  addressSpecifications.postalCode.MILITARY.pattern.DEFAULT;
+                newUiSchema['ui:errorMessages'] =
+                  addressSpecifications.postalCode.MILITARY.errorMessages.DEFAULT;
+            }
+          } else if (country === 'USA') {
+            newSchema.pattern = addressSpecifications.postalCode.USA.pattern;
+            newSchema.title = addressSpecifications.postalCode.USA.label;
+            newSchema.minLength =
+              addressSpecifications.postalCode.USA.minLength;
+            newSchema.maxLength =
+              addressSpecifications.postalCode.USA.maxLength;
+            newUiSchema['ui:errorMessages'] =
+              addressSpecifications.postalCode.USA.errorMessages;
+          } else if (['CAN', 'MEX'].includes(country)) {
+            newSchema.pattern =
+              addressSpecifications.postalCode[country].pattern;
+            newSchema.minLength =
+              addressSpecifications.postalCode[country].minLength;
+            newSchema.maxLength =
+              addressSpecifications.postalCode[country].maxLength;
+            newUiSchema['ui:errorMessages'] =
+              addressSpecifications.postalCode[country].errorMessages;
+          }
+
+          return {
+            ...newSchema,
+          };
+        },
+      },
+    },
+  };
 };

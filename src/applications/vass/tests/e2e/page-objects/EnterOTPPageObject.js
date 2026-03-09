@@ -1,4 +1,5 @@
 import PageObject from './PageObject';
+import { VASS_PHONE_NUMBER } from '../../../utils/constants';
 
 export class EnterOTPPageObject extends PageObject {
   /**
@@ -23,6 +24,7 @@ export class EnterOTPPageObject extends PageObject {
     this.assertElement('continue-button', { exist: true });
     this.assertElement('enter-otp-success-alert', { exist: true });
     this.assertSuccessAlert({ exist: true });
+    this.assertSuccessAlertContent();
 
     // Assert no error states on initial load
     this.assertOTPErrorAlert({ exist: false });
@@ -80,6 +82,25 @@ export class EnterOTPPageObject extends PageObject {
    */
   assertSuccessAlert({ exist = true } = {}) {
     this.assertElement('enter-otp-success-alert', { exist });
+    return this;
+  }
+
+  /**
+   * Assert the success alert displays the updated OTC content:
+   * headline, body copy with obfuscated email, and fallback note with phone number
+   * @returns {EnterOTPPageObject}
+   */
+  assertSuccessAlertContent() {
+    cy.findByTestId('enter-otp-success-alert').within(() => {
+      cy.findByRole('heading', {
+        level: 2,
+        name: /emailed you a one-time verification code/i,
+      }).should('exist');
+      cy.root().should('contain.text', 'If you don\u2019t receive the OTC');
+      cy.findByTestId('solid-start-telephone')
+        .should('exist')
+        .and('have.attr', 'contact', VASS_PHONE_NUMBER);
+    });
     return this;
   }
 
