@@ -73,7 +73,7 @@ function includeChapter(page) {
   return formData => formData?.chapterSelect?.[page];
 }
 
-/** @type {FormConfig} */
+/** @type {FormConfig}  */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
