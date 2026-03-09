@@ -53,7 +53,7 @@ export const studentFederallyFundedPage = {
     tuitionIsPaidByGovAgency: {
       ...yesNoUI({
         title:
-          'Is the student enrolled in a program or school that\u2019s entirely funded by the federal government?',
+          'Is the student enrolled in a program or school that’s entirely funded by the federal government?',
         required: () => true,
       }),
     },
@@ -83,7 +83,7 @@ export const studentProgramInfoPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         `${formData?.fullName?.first ||
-          'this student'}\u2019s education program or school`,
+          'this student'}’s education program or school`,
       null,
       false,
     ),
@@ -91,7 +91,7 @@ export const studentProgramInfoPage = {
       name: {
         ...textUI({
           title:
-            'What\u2019s the name of the program or school the student attends?',
+            'What’s the name of the program or school the student attends?',
           errorMessages: {
             required: 'Enter the program name',
           },
@@ -130,7 +130,7 @@ export const studentEducationBenefitsStartDatePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         `${formData?.fullName?.first ||
-          'this student'}\u2019s education benefit payments`,
+          'this student'}’s education benefit payments`,
       null,
       false,
     ),
