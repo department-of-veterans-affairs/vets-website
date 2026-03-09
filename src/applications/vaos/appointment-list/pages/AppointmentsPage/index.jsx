@@ -26,7 +26,7 @@ import FindCommunityCareOfficeLink from '../../../referral-appointments/componen
 
 function renderWarningNotification() {
   return (props, childContent) => {
-    const { status, description } = props;
+    const { status, description } = props || {};
     return (
       <WarningNotification description={description} status={status}>
         {childContent}
