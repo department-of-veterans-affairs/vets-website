@@ -122,63 +122,41 @@ const DebtDetails = () => {
             {whyContent}
           </va-accordion-item>
         </va-accordion>
-        {shouldShowPaymentHistory ? (
-          <div className="vads-u-margin-y--2">
-            <h2
-              id="debtDetailsHeader"
-              className="vads-u-margin-y--2 vads-u-margin-top--4"
-              data-testid="debt-details-header"
-            >
-              Overpayment details
-            </h2>
-            <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
-              <div>
-                <h3 className="vads-u-margin-y--0">
-                  <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                    Current balance as of{' '}
-                    {formatDate(
-                      getLatestPaymentDateFromCurrentDebt(currentDebt),
-                    )}
-                  </span>
-                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
-                    {formatCurrency(currentDebt.currentAr)}
-                  </span>
-                </h3>
-              </div>
-              <div className="debt-balance-details mobile-lg:vads-u-margin-top--0">
-                <h3 className="vads-u-margin-y--0">
-                  <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                    Original overpayment amount
-                  </span>
-                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
-                    {formatCurrency(currentDebt.originalAr)}
-                  </span>
-                </h3>
-              </div>
+        <div className="vads-u-margin-y--2">
+          <h2
+            id="debtDetailsHeader"
+            className="vads-u-margin-y--2 vads-u-margin-top--4"
+            data-testid="debt-details-header"
+          >
+            Overpayment details
+          </h2>
+          <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
+            <div>
+              <h3 className="vads-u-margin-y--0">
+                <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                  Current balance as of{' '}
+                  {formatDate(getLatestPaymentDateFromCurrentDebt(currentDebt))}
+                </span>
+                <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
+                  {formatCurrency(currentDebt.currentAr)}
+                </span>
+              </h3>
             </div>
-            <PaymentHistoryTable currentDebt={currentDebt} />
+            <div className="debt-balance-details mobile-lg:vads-u-margin-top--0">
+              <h3 className="vads-u-margin-y--0">
+                <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                  Original overpayment amount
+                </span>
+                <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
+                  {formatCurrency(currentDebt.originalAr)}
+                </span>
+              </h3>
+            </div>
           </div>
-        ) : (
-          <>
-            <h2
-              id="debtDetailsHeader"
-              className="vads-u-margin-y--2 vads-u-margin-top--4"
-              data-testid="otpp-details-header"
-            >
-              Overpayment details
-            </h2>
-            <p>
-              <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                Current balance:{' '}
-                <strong>{formatCurrency(currentDebt.currentAr)}</strong>
-              </span>
-              <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                Original amount:{' '}
-                <strong>{formatCurrency(currentDebt.originalAr)}</strong>
-              </span>
-            </p>
-          </>
-        )}
+          {shouldShowPaymentHistory && (
+            <PaymentHistoryTable currentDebt={currentDebt} />
+          )}
+        </div>
         {hasFilteredHistory && (
           <>
             <h2

@@ -1,71 +1,75 @@
 import React from 'react';
 import { expect } from 'chai';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 import { render, cleanup } from '@testing-library/react';
-import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 
 import formConfig from '../../config/form';
-import ConfirmationPage from '../../containers/ConfirmationPage';
+import { ConfirmationPage } from '../../containers/ConfirmationPage';
 import * as maximalJson from '../fixtures/data/maximal-test.json';
-
-const mockStore = state => createStore(() => state);
 
 before(() => {
   if (!global.scrollTo) global.scrollTo = () => {};
 });
 
-const getPage = submission =>
+const noop = () => {};
+
+const getPage = (claimStatus = null) =>
   render(
-    <Provider
-      store={mockStore({
-        form: {
-          ...createInitialState(formConfig),
-          submission,
-          data: { ...maximalJson.data },
-        },
-      })}
-    >
-      <ConfirmationPage route={{ formConfig }} />
-    </Provider>,
+    <ConfirmationPage
+      route={{ formConfig }}
+      claimStatus={claimStatus}
+      getClaimStatus={noop}
+      sendConfirmation={noop}
+      userEmail="test@va.gov"
+      userFirstName="John"
+      formData={maximalJson.data}
+    />,
   );
 
 describe('<ConfirmationPage />', () => {
   afterEach(cleanup);
 
-  it('shows success alert', () => {
+  it('shows loading indicator when claimStatus is not available', () => {
+    const { container } = getPage(null);
+    expect(container.querySelector('va-loading-indicator')).to.exist;
+  });
+
+  it('shows success alert for ELIGIBLE status', () => {
     const { container } = getPage({
-      response: {
-        attributes: { confirmationNumber: '1234567890' },
-      },
-      timestamp: new Date(2025, 7, 1),
+      claimStatus: 'ELIGIBLE',
+      receivedDate: '2025-08-01',
     });
     const successAlert = container.querySelector('va-alert');
 
     expect(successAlert).to.have.attribute('status', 'success');
-    // Submission Date
-    expect(successAlert.innerHTML).to.include('August 1, 2025');
-    // Confirmation Number
-    expect(successAlert.innerHTML).to.include('1234567890');
+    expect(successAlert.innerHTML).to.include('approved');
   });
 
-  it('shows save pdf section if response provides pdfUrl', () => {
+  it('shows info alert for DENIED status', () => {
     const { container } = getPage({
-      response: { confirmationNumber: '1234567890', pdfUrl: '10297-download' },
-      timestamp: new Date(2025, 7, 1),
+      claimStatus: 'DENIED',
+      receivedDate: '2025-08-01',
     });
-    const savePdfSection = container.querySelector(
-      'div[class^="confirmation-save-pdf-download-section"]',
-    );
+    const infoAlert = container.querySelector('va-alert');
 
-    expect(savePdfSection).to.exist;
-    expect(savePdfSection.querySelector('va-link[filetype="PDF"]')).to.exist;
+    expect(infoAlert).to.have.attribute('status', 'info');
+    expect(infoAlert.innerHTML).to.include('not eligible');
+  });
+
+  it('shows under review for INPROGRESS status', () => {
+    const { container } = getPage({
+      claimStatus: 'INPROGRESS',
+      receivedDate: '2025-08-01',
+    });
+    const successAlert = container.querySelector('va-alert');
+
+    expect(successAlert).to.have.attribute('status', 'success');
+    expect(successAlert.innerHTML).to.include('received your application');
   });
 
   it('shows the chapter section collection/summary accordion', () => {
     const { container } = getPage({
-      response: { confirmationNumber: '1234567890' },
-      timestamp: new Date().toISOString(),
+      claimStatus: 'ELIGIBLE',
+      receivedDate: '2025-08-01',
     });
     const accordion = container.querySelector('va-accordion');
 
@@ -75,24 +79,20 @@ describe('<ConfirmationPage />', () => {
 
   it('shows button to print page', () => {
     const { container } = getPage({
-      response: { confirmationNumber: '1234567890' },
-      timestamp: new Date().toISOString(),
+      claimStatus: 'ELIGIBLE',
+      receivedDate: '2025-08-01',
     });
-    const printSection = container.querySelector(
-      'div[class^="confirmation-print-this-page-section"]',
+    const printButton = container.querySelector(
+      'va-button[text="Print this page for your records"]',
     );
 
-    expect(printSection).to.exist;
-    expect(printSection.querySelector('va-button')).to.have.attribute(
-      'text',
-      'Print this page for your records',
-    );
+    expect(printButton).to.exist;
   });
 
   it('shows process list section', () => {
     const { container } = getPage({
-      response: { confirmationNumber: '1234567890' },
-      timestamp: new Date().toISOString(),
+      claimStatus: 'ELIGIBLE',
+      receivedDate: '2025-08-01',
     });
 
     expect(container.querySelector('va-process-list')).to.exist;
@@ -101,23 +101,10 @@ describe('<ConfirmationPage />', () => {
     );
   });
 
-  it('shows how to contact section with link', () => {
-    const { container } = getPage({
-      response: { confirmationNumber: '1234567890' },
-      timestamp: new Date().toISOString(),
-    });
-    const contactSection = container.querySelector(
-      'div[class="confirmation-how-to-contact-section"]',
-    );
-
-    expect(contactSection).to.exist;
-    expect(contactSection.querySelector('va-link[text="Ask VA"]')).to.exist;
-  });
-
   it('shows action link to return to VA.gov homepage', () => {
     const { container } = getPage({
-      response: { confirmationNumber: '1234567890' },
-      timestamp: new Date().toISOString(),
+      claimStatus: 'ELIGIBLE',
+      receivedDate: '2025-08-01',
     });
 
     expect(container.querySelector('va-link-action')).to.have.attribute(
@@ -126,14 +113,14 @@ describe('<ConfirmationPage />', () => {
     );
   });
 
-  it('renders safely when submission object is empty (defaults kick in)', () => {
-    const { container, queryByText } = getPage({});
+  it('defaults to under review when claimStatus is ERROR', () => {
+    const { container } = getPage({
+      claimStatus: 'ERROR',
+      receivedDate: '2025-08-01',
+    });
+    const successAlert = container.querySelector('va-alert');
 
-    expect(container.querySelector('va-alert')).to.have.attribute(
-      'status',
-      'success',
-    );
-
-    expect(queryByText('Your confirmation number is')).to.be.null;
+    expect(successAlert).to.have.attribute('status', 'success');
+    expect(successAlert.innerHTML).to.include('received your application');
   });
 });

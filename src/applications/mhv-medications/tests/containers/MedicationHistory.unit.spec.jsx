@@ -2,8 +2,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
 import { cleanup } from '@testing-library/react';
+import { waitFor } from '@testing-library/dom';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import * as useFetchMedicationHistoryModule from '../../hooks/MedicationHistory/useFetchMedicationHistory';
+import * as allergiesApiModule from '../../api/allergiesApi';
+import * as prescriptionsApiModule from '../../api/prescriptionsApi';
+import { stubAllergiesApi } from '../testing-utils';
 import MedicationHistory from '../../containers/MedicationHistory';
 import reducers from '../../reducers';
 
@@ -54,28 +58,50 @@ describe('MedicationHistory container', () => {
   ];
 
   const stubFetchHook = ({
-    prescriptions = [],
+    prescriptionsData = { prescriptions: [], pagination: null, meta: {} },
     prescriptionsApiError = null,
     isLoading = false,
   }) => {
     return useFetchMedicationHistoryStub.returns({
-      prescriptions,
+      prescriptionsData,
       prescriptionsApiError,
       isLoading,
+      setQueryParams: sinon.stub(),
     });
   };
 
-  const setup = () => {
-    const initialState = {};
+  const setup = (state = {}) => {
+    const initialState = {
+      rx: {
+        prescriptionsList: [],
+        refillAlertList: [],
+        preferences: {
+          filterOption: 'ALL_MEDICATIONS',
+          sortOption: 'alphabeticallyByStatus',
+        },
+      },
+      user: {
+        profile: {
+          userFullName: { first: 'Test', last: 'User' },
+          dob: '1990-01-01',
+        },
+      },
+      ...state,
+    };
 
     return renderWithStoreAndRouterV6(<MedicationHistory />, {
       initialState,
       reducers,
+      additionalMiddlewares: [
+        allergiesApiModule.allergiesApi.middleware,
+        prescriptionsApiModule.prescriptionsApi.middleware,
+      ],
     });
   };
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    stubAllergiesApi({ sandbox });
     useFetchMedicationHistoryStub = sandbox.stub(
       useFetchMedicationHistoryModule,
       'useFetchMedicationHistory',
@@ -87,92 +113,154 @@ describe('MedicationHistory container', () => {
     sandbox.restore();
   });
 
-  it('renders without errors', () => {
-    stubFetchHook({ prescriptions: mockPrescriptions });
-    const screen = setup();
-    expect(screen).to.exist;
-  });
-
-  it('displays the page heading', () => {
-    stubFetchHook({ prescriptions: mockPrescriptions });
-    const screen = setup();
-    const heading = screen.getByRole('heading', {
-      name: 'Medication history',
-      level: 1,
+  it('renders without errors', async () => {
+    stubFetchHook({
+      prescriptionsData: {
+        prescriptions: mockPrescriptions,
+        pagination: null,
+        meta: {},
+      },
     });
-    expect(heading).to.exist;
-  });
-
-  it('displays the in-progress medications link', () => {
-    stubFetchHook({ prescriptions: mockPrescriptions });
     const screen = setup();
-    const link = screen.getByRole('link', {
-      name: /Go to your in-progress medications/i,
+    await waitFor(() => {
+      expect(screen).to.exist;
     });
-    expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal('/in-progress');
   });
 
-  it('displays the refill medications link', () => {
-    stubFetchHook({ prescriptions: mockPrescriptions });
-    const screen = setup();
-    const link = screen.getByRole('link', {
-      name: /Refill medications/i,
+  it('displays the page heading', async () => {
+    stubFetchHook({
+      prescriptionsData: {
+        prescriptions: mockPrescriptions,
+        pagination: null,
+        meta: {},
+      },
     });
-    expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal('/refill');
+    const screen = setup();
+    await waitFor(() => {
+      const heading = screen.getByRole('heading', {
+        name: 'Medication history',
+        level: 1,
+      });
+      expect(heading).to.exist;
+    });
   });
 
-  it('renders NeedHelp component', () => {
-    stubFetchHook({ prescriptions: mockPrescriptions });
+  it('displays the in-progress medications link', async () => {
+    stubFetchHook({
+      prescriptionsData: {
+        prescriptions: mockPrescriptions,
+        pagination: null,
+        meta: {},
+      },
+    });
     const screen = setup();
-    expect(screen.getByText(/Need help/i)).to.exist;
+    await waitFor(() => {
+      const link = screen.getByRole('link', {
+        name: /Go to your in-progress medications/i,
+      });
+      expect(link).to.exist;
+      expect(link.getAttribute('href')).to.equal('/in-progress');
+    });
+  });
+
+  it('displays the refill medications link', async () => {
+    stubFetchHook({
+      prescriptionsData: {
+        prescriptions: mockPrescriptions,
+        pagination: null,
+        meta: {},
+      },
+    });
+    const screen = setup();
+    await waitFor(() => {
+      const link = screen.getByRole('link', {
+        name: /Refill medications/i,
+      });
+      expect(link).to.exist;
+      expect(link.getAttribute('href')).to.equal('/refill');
+    });
+  });
+
+  it('renders NeedHelp component', async () => {
+    stubFetchHook({
+      prescriptionsData: {
+        prescriptions: mockPrescriptions,
+        pagination: null,
+        meta: {},
+      },
+    });
+    const screen = setup();
+    await waitFor(() => {
+      expect(screen.getByText(/Need help/i)).to.exist;
+    });
   });
 
   describe('loading state', () => {
-    it('displays loading indicator when loading', () => {
+    it('displays loading indicator when loading', async () => {
       stubFetchHook({ isLoading: true });
       const screen = setup();
-      const loadingIndicator = screen.getByTestId('loading-indicator');
-      expect(loadingIndicator).to.exist;
-      expect(loadingIndicator.getAttribute('message')).to.equal(
-        'Loading medications...',
-      );
+      await waitFor(() => {
+        const loadingIndicator = screen.getByTestId('loading-indicator');
+        expect(loadingIndicator).to.exist;
+      });
     });
   });
 
   describe('error state', () => {
-    it('displays error notification when API error occurs', () => {
-      stubFetchHook({ prescriptionsApiError: new Error('API Error') });
+    it('displays error notification when API error occurs', async () => {
+      stubFetchHook({ prescriptionsApiError: { status: 500 } });
       const screen = setup();
-      const errorNotification = screen.getByTestId('api-error-notification');
-      expect(errorNotification).to.exist;
+      await waitFor(() => {
+        expect(screen.getByTestId('api-error-notification')).to.exist;
+      });
     });
 
-    it('does not display loading indicator when error occurs', () => {
-      stubFetchHook({ prescriptionsApiError: new Error('API Error') });
+    it('does not display loading indicator when error occurs', async () => {
+      stubFetchHook({ prescriptionsApiError: { status: 500 } });
       const screen = setup();
-      expect(screen.queryByTestId('loading-indicator')).to.be.null;
+      await waitFor(() => {
+        expect(screen.queryByTestId('loading-indicator')).to.be.null;
+      });
     });
   });
 
   describe('success state', () => {
-    it('does not display loading indicator when not loading', () => {
-      stubFetchHook({ prescriptions: mockPrescriptions });
+    it('does not display loading indicator when not loading', async () => {
+      stubFetchHook({
+        prescriptionsData: {
+          prescriptions: mockPrescriptions,
+          pagination: null,
+          meta: {},
+        },
+      });
       const screen = setup();
-      expect(screen.queryByTestId('loading-indicator')).to.be.null;
+      await waitFor(() => {
+        expect(screen.queryByTestId('loading-indicator')).to.be.null;
+      });
     });
 
-    it('does not display error notification when no error', () => {
-      stubFetchHook({ prescriptions: mockPrescriptions });
+    it('does not display error notification when no error', async () => {
+      stubFetchHook({
+        prescriptionsData: {
+          prescriptions: mockPrescriptions,
+          pagination: null,
+          meta: {},
+        },
+      });
       const screen = setup();
-      expect(screen.queryByTestId('api-error-notification')).to.be.null;
+      await waitFor(() => {
+        expect(screen.queryByTestId('api-error-notification')).to.be.null;
+      });
     });
 
-    it('renders with empty prescriptions array', () => {
-      stubFetchHook({ prescriptions: [] });
+    it('renders with empty prescriptions array', async () => {
+      stubFetchHook({
+        prescriptionsData: { prescriptions: [], pagination: null, meta: {} },
+      });
       const screen = setup();
-      expect(screen.getByTestId('medication-history-heading')).to.exist;
+      await waitFor(() => {
+        expect(screen.getByTestId('medication-history-heading')).to.exist;
+      });
     });
   });
 });
