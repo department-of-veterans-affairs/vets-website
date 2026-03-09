@@ -32,7 +32,9 @@ const ExpensesAccordion = ({
   const proofOfAttendanceDocument = useMemo(
     () =>
       documents.find(d =>
-        d.filename?.startsWith(`${PROOF_OF_ATTENDANCE_FILENAME}.`),
+        d.filename
+          ?.toLowerCase()
+          .startsWith(`${PROOF_OF_ATTENDANCE_FILENAME}.`),
       ),
     [documents],
   );
