@@ -109,3 +109,23 @@ va-textarea::part(input-type-textarea) {
 .vaos-form__button-container {
   row-gap: 16px;
 }
+
+// TEMPORARY WORKAROUND for character encoding bug in formation radio/checkbox
+// styles. The preferred long-term fix is migrating from native HTML radio/checkbox
+// inputs to the VADS va-radio and va-checkbox web components, which are not
+// affected by this encoding issue.
+//
+// The css-library's formation stylesheet uses content: '\a0' which Sass compiles
+// into raw UTF-8 bytes. Webpack strips the @charset "UTF-8" declaration during
+// production bundling, causing browsers to intermittently render "Â" in radio
+// buttons and checkboxes when interpreting the bytes as Latin-1 from cache.
+// Using unquote() forces Sass to output the ASCII CSS escape \00a0 literally,
+// rather than resolving it to raw UTF-8 bytes.
+//
+// Remove this override once all native radio/checkbox inputs have been replaced
+// with va-radio / va-checkbox web components.
+// See: https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/5350
+[type="radio"] + label::before,
+[type="checkbox"] + label::before {
+  content: unquote('"\\00a0"');
+}
