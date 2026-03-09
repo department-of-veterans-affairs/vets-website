@@ -296,11 +296,9 @@ describe('<ConfirmationPage>', () => {
           }),
         );
 
-        await waitFor(() => {
-          const items = getAllByRole('listitem');
-          expect(items.length).to.be.greaterThan(0);
-          items.forEach(item => seenBenefitNames.add(item.textContent.trim()));
-        });
+        const items = getAllByRole('listitem');
+        expect(items.length).to.be.greaterThan(0);
+        items.forEach(item => seenBenefitNames.add(item.textContent.trim()));
       }
 
       const allNamesSeen = sortedBenefits.every(b =>
