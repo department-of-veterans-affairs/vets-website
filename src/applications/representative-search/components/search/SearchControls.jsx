@@ -90,9 +90,12 @@ const SearchControls = props => {
     focusElement(`#street-city-state-zip`);
   };
 
-  useEffect(() => {
-    dispatch(fetchOrganizations);
-  }, []);
+  useEffect(
+    () => {
+      if (organizationFilterEnabled) dispatch(fetchOrganizations);
+    },
+    [organizationFilterEnabled],
+  );
 
   return (
     <div className="search-controls-container clearfix vads-u-margin-bottom--neg2">
