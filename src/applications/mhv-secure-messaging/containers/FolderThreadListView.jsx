@@ -78,6 +78,13 @@ const FolderThreadListView = () => {
     [location.pathname, params?.folderId],
   );
 
+  const loadingFolder = useMemo(
+    () => {
+      return `${folderId}` !== `${currentFolderId}`;
+    },
+    [folderId, currentFolderId],
+  );
+
   const retrieveListOfThreads = useCallback(
     ({
       sortFolderId = threadSort.folderId,
@@ -325,7 +332,9 @@ const FolderThreadListView = () => {
         ) : (
           folderId === undefined && <LoadingIndicator />
         )}
-        {folderId !== undefined && (
+        {loadingFolder ? (
+          <LoadingIndicator />
+        ) : (
           <>
             <FolderHeader
               folder={folder}
