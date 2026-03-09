@@ -37,7 +37,6 @@ const featureTogglesResponse = {
       // Travel Pay feature flags
       TOGGLE_NAMES.travelPayPowerSwitch,
       TOGGLE_NAMES.travelPayViewClaimDetails,
-      TOGGLE_NAMES.travelPaySubmitMileageExpense,
       TOGGLE_NAMES.travelPayClaimsManagement,
       TOGGLE_NAMES.travelPayClaimsManagementDecisionReason,
       TOGGLE_NAMES.travelPayEnableComplexClaims,
@@ -49,7 +48,6 @@ const featureTogglesResponse = {
         // VAOS camelCase flags
         { name: 'vaOnlineScheduling', value: true },
         { name: 'travelPayViewClaimDetails', value: true },
-        { name: 'travelPaySubmitMileageExpense', value: true },
       ]),
   },
 };

@@ -2,16 +2,9 @@ import React from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 const FileClaimExplainerPage = () => {
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
+  const { useToggleLoadingValue } = useFeatureToggle();
 
   const toggleIsLoading = useToggleLoadingValue();
-  const canSubmitMileage = useToggleValue(
-    TOGGLE_NAMES.travelPaySubmitMileageExpense,
-  );
 
   if (toggleIsLoading) {
     return (
@@ -23,11 +16,6 @@ const FileClaimExplainerPage = () => {
         />
       </div>
     );
-  }
-
-  if (!canSubmitMileage) {
-    window.location.replace('/');
-    return null;
   }
 
   return (

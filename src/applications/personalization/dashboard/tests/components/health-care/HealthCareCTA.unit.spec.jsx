@@ -13,7 +13,6 @@ describe('<HealthCareCTA />', () => {
   const initialState = {
     featureToggles: {
       [Toggler.TOGGLE_NAMES.myVaNotificationDotIndicator]: true,
-      [Toggler.TOGGLE_NAMES.travelPaySubmitMileageExpense]: false,
     },
   };
 
@@ -76,16 +75,10 @@ describe('<HealthCareCTA />', () => {
       tree.getByTestId('get-medical-records-link-from-cta');
     });
 
-    it('renders modified travel reimbursement link with Travel Pay SMOC feature flag', () => {
+    it('renders modified travel reimbursement link', () => {
       const tree = renderWithStoreAndRouter(
         <HealthCareCTA isVAPatient noCerner />,
-        {
-          initialState: {
-            featureToggles: {
-              [Toggler.TOGGLE_NAMES.travelPaySubmitMileageExpense]: true,
-            },
-          },
-        },
+        { initialState },
       );
 
       const travelReimbursementLink = tree.getByTestId(

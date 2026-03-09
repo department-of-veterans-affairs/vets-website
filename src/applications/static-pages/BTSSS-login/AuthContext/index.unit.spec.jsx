@@ -12,15 +12,12 @@ describe('AuthContext', () => {
   const getToggles = ({
     areFeatureTogglesLoading = true,
     hasFeatureFlag = true,
-    hasSmocFeatureFlag = false,
   } = {}) => {
     return {
       featureToggles: {
         loading: areFeatureTogglesLoading,
         /* eslint-disable camelcase */
         travel_pay_power_switch: hasFeatureFlag,
-        travel_pay_submit_mileage_expense: hasSmocFeatureFlag,
-        /* eslint-enable camelcase */
       },
     };
   };
@@ -82,7 +79,6 @@ describe('AuthContext', () => {
       initialState: getToggles({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        hasSmocFeatureFlag: true,
       }),
     });
     await waitFor(() => {

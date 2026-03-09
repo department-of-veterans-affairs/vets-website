@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
 import MockDate from 'mockdate';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -13,7 +12,6 @@ import TravelPayStatusContent from '../../components/TravelPayStatusContent';
 
 describe('TravelPayStatusContent', () => {
   const getState = ({
-    hasSmocFeatureFlag = false,
     hasComplexClaimsFeatureFlag = false,
     hasClaimDetailsFeatureFlag = false,
     hasClaimsMgmtFeatureFlag = false,
@@ -22,7 +20,6 @@ describe('TravelPayStatusContent', () => {
   } = {}) => ({
     featureToggles: {
       loading: false,
-      [TOGGLE_NAMES.travelPaySubmitMileageExpense]: hasSmocFeatureFlag,
       [TOGGLE_NAMES.travelPayEnableComplexClaims]: hasComplexClaimsFeatureFlag,
       [TOGGLE_NAMES.travelPayViewClaimDetails]: hasClaimDetailsFeatureFlag,
       [TOGGLE_NAMES.travelPayClaimsManagement]: hasClaimsMgmtFeatureFlag,
@@ -89,10 +86,9 @@ describe('TravelPayStatusContent', () => {
       ).to.exist;
     });
 
-    it('renders complex claims content even when SMOC is also enabled', () => {
+    it('renders complex claims content instead of SMOC content', () => {
       const screen = renderComponent({
         hasComplexClaimsFeatureFlag: true,
-        hasSmocFeatureFlag: true,
       });
 
       expect(screen.getByText('File a new claim for travel pay online')).to
@@ -103,9 +99,9 @@ describe('TravelPayStatusContent', () => {
     });
   });
 
-  describe('when only smocEnabled is true', () => {
+  describe('when complexClaimsEnabled is false', () => {
     it('renders SMOC heading', () => {
-      const screen = renderComponent({ hasSmocFeatureFlag: true });
+      const screen = renderComponent();
 
       expect(
         screen.getByText('File a new claim for travel reimbursement online'),
@@ -113,26 +109,26 @@ describe('TravelPayStatusContent', () => {
     });
 
     it('renders mileage-only guidance', () => {
-      const screen = renderComponent({ hasSmocFeatureFlag: true });
+      const screen = renderComponent();
 
       expect(screen.getByText(/claiming mileage only/i)).to.exist;
     });
 
     it('renders past appointments link', () => {
-      renderComponent({ hasSmocFeatureFlag: true });
+      renderComponent();
 
       expect($('va-link-action[text="Go to your past appointments"]')).to.exist;
     });
 
     it('renders BTSSS link for other expenses', () => {
-      renderComponent({ hasSmocFeatureFlag: true });
+      renderComponent();
 
       expect($('va-link[text="Beneficiary Travel Self-Service System"]')).to
         .exist;
     });
 
     it('renders the SMOC claims list description', () => {
-      const screen = renderComponent({ hasSmocFeatureFlag: true });
+      const screen = renderComponent();
 
       expect(
         screen.getByText(
@@ -142,42 +138,10 @@ describe('TravelPayStatusContent', () => {
     });
 
     it('does not render complex claims content', () => {
-      const screen = renderComponent({ hasSmocFeatureFlag: true });
-
-      expect(screen.queryByText('File a new claim for travel pay online')).to.be
-        .null;
-    });
-  });
-
-  describe('when neither flag is on', () => {
-    it('renders the generic fallback heading', async () => {
-      const screen = renderComponent();
-
-      await waitFor(() => {
-        expect(
-          screen.getByText(
-            /You can use this tool to check the status of your VA travel claims/i,
-          ),
-        ).to.exist;
-      });
-    });
-
-    it('renders the additional info trigger', async () => {
-      const screen = renderComponent();
-
-      await waitFor(() => {
-        expect(screen.getByTestId('status-explainer-link')).to.exist;
-      });
-    });
-
-    it('does not render SMOC or complex claims content', () => {
       const screen = renderComponent();
 
       expect(screen.queryByText('File a new claim for travel pay online')).to.be
         .null;
-      expect(
-        screen.queryByText('File a new claim for travel reimbursement online'),
-      ).to.be.null;
     });
   });
 });

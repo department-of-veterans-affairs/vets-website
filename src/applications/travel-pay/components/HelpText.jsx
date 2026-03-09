@@ -7,27 +7,6 @@ import {
   FIND_FACILITY_TP_CONTACT_LINK,
 } from '../constants';
 
-export const HelpTextManage = () => {
-  return (
-    <div>
-      <p>
-        To manage your travel claims or file a new claim, go to our{' '}
-        <va-link
-          external
-          href={BTSSS_PORTAL_URL}
-          text="Beneficiary Travel Self Service System (BTSSS) portal"
-        />
-        .
-      </p>
-      <p className="vads-u-margin-top--2">
-        Or call the BTSSS call center at <va-telephone contact="8555747292" /> (
-        <va-telephone tty contact="711" />) Monday through Friday, 8:00 a.m. to
-        8:00 p.m. ET. Have your claim number ready to share when you call.
-      </p>
-    </div>
-  );
-};
-
 export const HelpTextGeneral = () => {
   return (
     <div>
