@@ -13,7 +13,6 @@ export const getAppData = state => {
     duplicatePhone: state.data?.duplicatePhone,
     isLOA1: isLOA1Selector(state),
     isLOA3: isLOA3Selector(state),
-    mebDpoAddressOptionEnabled: state.featureToggles.mebDpoAddressOptionEnabled,
     mebBankInfoConfirmationField:
       state?.featureToggles?.mebBankInfoConfirmationField,
     savedForms: state?.user?.profile?.savedForms,
@@ -22,8 +21,6 @@ export const getAppData = state => {
     showMeb54901990eTextUpdate:
       state?.featureToggles.showMeb54901990eTextUpdate,
     user: state.user || {},
-    meb1995InstructionPageUpdateV3:
-      state?.featureToggles?.meb1995InstructionPageUpdateV3,
     mebBlockUnder18: state?.featureToggles?.mebBlockUnder18,
   };
 };

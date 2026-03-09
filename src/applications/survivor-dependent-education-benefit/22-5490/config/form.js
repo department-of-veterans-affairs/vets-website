@@ -783,20 +783,10 @@ const formConfig = {
                         formData?.mailingAddressInput?.livesOnMilitaryBase;
 
                       if (livesOnBase) {
-                        // Start with APO/FPO
-                        const baseEnum = ['APO', 'FPO'];
-
-                        // Conditionally add DPO if feature flag is on
-                        if (formData?.mebDpoAddressOptionEnabled) {
-                          baseEnum.push('DPO');
-                        }
-
                         return {
                           type: 'string',
-                          title: formData?.mebDpoAddressOptionEnabled
-                            ? 'APO/FPO/DPO'
-                            : 'APO/FPO',
-                          enum: baseEnum,
+                          title: 'APO/DPO/FPO',
+                          enum: ['APO', 'DPO', 'FPO'],
                         };
                       }
 

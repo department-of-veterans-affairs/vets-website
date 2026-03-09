@@ -13,8 +13,7 @@ export const IntroductionPage = ({
   isLOA3,
   isLoggedIn,
   isPersonalInfoFetchFailed,
-  showMeb5490EMaintenanceAlert,
-  meb1995InstructionPageUpdateV3,
+  showMeb5490MaintenanceAlert,
   mebBlockUnder18,
   route,
 }) => {
@@ -24,77 +23,58 @@ export const IntroductionPage = ({
         title="Apply for education benefits as an eligible dependent"
         subTitle="Form 22-5490 (Dependents' Application for VA Education Benefits)"
       />
-      {meb1995InstructionPageUpdateV3 ? (
-        <p>
-          Use VA Form 22-5490 if you are the spouse or dependent of a Veteran
-          and want to apply for education benefits for the first time or make
-          changes to an existing benefit.
-        </p>
-      ) : (
-        <p>
-          Use VA Form 22-5490 if you are a spouse or dependent applying for
-          educational benefits under
-          <strong>
-            {' '}
-            Chapter 35 Survivors' and Dependents' Education Assistance (DEA){' '}
-          </strong>{' '}
-          or <strong>Chapter 33 Fry Scholarship.</strong>
-        </p>
-      )}
-      {meb1995InstructionPageUpdateV3 && (
-        <div>
-          <p>
-            <b>
-              For first time applicants, use VA Form 22-5490 to apply for the
-              following programs:
-            </b>
-          </p>
-          <ul>
+      <p>
+        Use VA Form 22-5490 if you are the spouse or dependent of a Veteran and
+        want to apply for education benefits for the first time or make changes
+        to an existing benefit.
+      </p>
+      <p>
+        <b>
+          For first time applicants, use VA Form 22-5490 to apply for the
+          following programs:
+        </b>
+      </p>
+      <ul>
+        <li>
+          Chapter 35 Survivors' and Dependents' Educational Assistance (DEA)
+        </li>
+        <li>Chapter 33 Fry Scholarship</li>
+      </ul>
+      <p>
+        <b>
+          If you’ve applied for education benefits before, use VA Form 22-5490
+          to:
+        </b>
+      </p>
+      <ul>
+        {mebBlockUnder18 ? (
+          <>
             <li>
-              Chapter 35 Survivors' and Dependents' Educational Assistance (DEA)
+              Make updates to your current benefit and get an updated
+              Certificate of Eligibility (COE)
             </li>
-            <li>Chapter 33 Fry Scholarship</li>
-          </ul>
-          <p>
-            <b>
-              If you’ve applied for education benefits before, use VA Form
-              22-5490 to:
-            </b>
-          </p>
-          <ul>
-            {mebBlockUnder18 ? (
-              <>
-                <li>
-                  Make updates to your current benefit and get an updated
-                  Certificate of Eligibility (COE)
-                </li>
-                <li>
-                  Apply to switch your existing education benefit and get a new
-                  COE
-                </li>
-                <li>
-                  Apply as an eligible dependent for education benefits from a
-                  different Veteran than you’ve used in the past
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  Update your current benefit and get an updated Certificate of
-                  Eligibility (COE)
-                </li>
-                <li>
-                  Switch your existing education benefit and get a new COE
-                </li>
-                <li>
-                  Apply as an eligible dependent for education benefits from a
-                  different Veteran than you’ve used in the past
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
-      )}
+            <li>
+              Apply to switch your existing education benefit and get a new COE
+            </li>
+            <li>
+              Apply as an eligible dependent for education benefits from a
+              different Veteran than you’ve used in the past
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              Update your current benefit and get an updated Certificate of
+              Eligibility (COE)
+            </li>
+            <li>Switch your existing education benefit and get a new COE</li>
+            <li>
+              Apply as an eligible dependent for education benefits from a
+              different Veteran than you’ve used in the past
+            </li>
+          </>
+        )}
+      </ul>
       <va-alert
         close-btn-aria-label="Close notification"
         status="warning"
@@ -254,7 +234,7 @@ export const IntroductionPage = ({
       <IntroductionLogin route={route} />
       {isLoggedIn &&
       isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
-      showMeb5490EMaintenanceAlert === false && // Ensure the mainenance flag is not on.
+      showMeb5490MaintenanceAlert === false && // Ensure the mainenance flag is not on.
         isLOA3 && (
           <SaveInProgressIntro
             headingLevel={2}
@@ -283,19 +263,14 @@ IntroductionPage.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
-  meb1995InstructionPageUpdateV3: PropTypes.bool,
   mebBlockUnder18: PropTypes.bool,
-  showMeb5490EMaintenanceAlert: PropTypes.bool,
+  showMeb5490MaintenanceAlert: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data?.isPersonalInfoFetchFailed || false,
-  showMeb5490EMaintenanceAlert:
-    state.featureToggles?.showMeb5490EMaintenanceAlert,
-  meb1995InstructionPageUpdateV3:
-    state?.featureToggles?.meb1995InstructionPageUpdateV3,
 });
 
 export default connect(mapStateToProps)(IntroductionPage);

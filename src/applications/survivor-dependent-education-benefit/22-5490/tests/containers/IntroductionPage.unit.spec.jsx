@@ -21,7 +21,7 @@ describe('<IntroductionPage>', () => {
     isLoggedIn = false,
     isLOA3 = false,
     isPersonalInfoFetchFailed = false,
-    showMeb5490EMaintenanceAlert = false,
+    showMeb5490MaintenanceAlert = false,
   ) => ({
     props: {
       route: {
@@ -37,7 +37,7 @@ describe('<IntroductionPage>', () => {
       isLoggedIn,
       isLOA3,
       isPersonalInfoFetchFailed,
-      showMeb5490EMaintenanceAlert,
+      showMeb5490MaintenanceAlert,
     },
     mockStore: {
       getState: () => ({
@@ -74,7 +74,7 @@ describe('<IntroductionPage>', () => {
           isPersonalInfoFetchFailed,
         },
         featureToggles: {
-          showMeb5490EMaintenanceAlert,
+          showMeb5490MaintenanceAlert,
         },
       }),
       subscribe: () => {},
