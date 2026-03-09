@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
@@ -25,10 +25,7 @@ import {
   hideEligibilityModal,
 } from '../../redux/actions';
 import { getPageTitle } from '../../newAppointmentFlow';
-import {
-  selectFeatureRecentLocationsFilter,
-  selectFeatureRemoveFacilityConfigCheck,
-} from '../../../redux/selectors';
+import { selectFeatureRemoveFacilityConfigCheck } from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -45,9 +42,6 @@ const pageKey = 'vaFacilityV2';
 
 export default function VAFacilityPageV2() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
-  const featureRecentLocationsFilter = useSelector(state =>
-    selectFeatureRecentLocationsFilter(state),
-  );
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -75,33 +69,21 @@ export default function VAFacilityPageV2() {
     selectFeatureRemoveFacilityConfigCheck,
   );
 
-  const sortOptions = useMemo(
-    () => {
-      const options = [
-        {
-          value: 'distanceFromResidentialAddress',
-          label: 'Closest to your home',
-        },
-        {
-          value: 'distanceFromCurrentLocation',
-          label: 'Closest to your current location',
-        },
-        { value: 'alphabetical', label: 'Alphabetically' },
-      ];
-      if (featureRecentLocationsFilter) {
-        // Add recentLocations to the top of the list
-        return [
-          {
-            value: 'recentLocations',
-            label: 'By recent locations',
-          },
-          ...options,
-        ];
-      }
-      return options;
+  const sortOptions = [
+    {
+      value: 'recentLocations',
+      label: 'By recent locations',
     },
-    [featureRecentLocationsFilter],
-  );
+    {
+      value: 'distanceFromResidentialAddress',
+      label: 'Closest to your home',
+    },
+    {
+      value: 'distanceFromCurrentLocation',
+      label: 'Closest to your current location',
+    },
+    { value: 'alphabetical', label: 'Alphabetically' },
+  ];
 
   const uiSchema = {
     vaFacility: {
@@ -117,8 +99,7 @@ export default function VAFacilityPageV2() {
   const loadingFacilities =
     childFacilitiesStatus === FETCH_STATUS.loading ||
     childFacilitiesStatus === FETCH_STATUS.notStarted ||
-    (featureRecentLocationsFilter &&
-      fetchRecentLocationStatus === FETCH_STATUS.loading);
+    fetchRecentLocationStatus === FETCH_STATUS.loading;
 
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);

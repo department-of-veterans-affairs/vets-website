@@ -400,8 +400,11 @@ describe('useOracleHealthAlertTracking', () => {
               dataDogActionNames.oracleHealthTransition
                 .T45_WARNING_ALERT_DISPLAYED,
           );
-        expect(warningCalls).to.have.length(1);
-        expect(warningCalls[0].args[1]).to.have.property('phase', 'p1');
+        expect(warningCalls).to.have.length(4);
+        warningCalls.forEach(call => {
+          expect(call.args[1]).to.have.property('phase', 'p1');
+          expect(call.args[1].facilityId).to.be.a('string');
+        });
       });
     });
   });
@@ -430,7 +433,7 @@ describe('useOracleHealthAlertTracking', () => {
   });
 
   describe('facility ID extraction', () => {
-    it('includes all facility IDs from matching migrations as strings', async () => {
+    it('fires one action per facility ID as a string', async () => {
       const mockStore = createMockStore();
       const wrapper = createTestWrapper(mockStore);
 
@@ -439,21 +442,23 @@ describe('useOracleHealthAlertTracking', () => {
       });
 
       await waitFor(() => {
-        const errorCall = addActionSpy
+        const errorCalls = addActionSpy
           .getCalls()
-          .find(
+          .filter(
             call =>
               call.args[0] ===
               dataDogActionNames.oracleHealthTransition
                 .T3_ERROR_ALERT_DISPLAYED,
           );
-        expect(errorCall).to.exist;
-        const { facilityId } = errorCall.args[1];
-        expect(facilityId).to.be.an('array');
-        expect(facilityId).to.include('506');
-        expect(facilityId).to.include('515');
-        expect(facilityId).to.include('553');
-        expect(facilityId).to.include('585');
+        expect(errorCalls).to.have.length(4);
+        const facilityIds = errorCalls.map(call => call.args[1].facilityId);
+        expect(facilityIds).to.include('506');
+        expect(facilityIds).to.include('515');
+        expect(facilityIds).to.include('553');
+        expect(facilityIds).to.include('585');
+        errorCalls.forEach(call => {
+          expect(call.args[1].facilityId).to.be.a('string');
+        });
       });
     });
   });

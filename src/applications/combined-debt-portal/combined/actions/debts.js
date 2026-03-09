@@ -107,6 +107,26 @@ const validateHistory = debts => {
   });
 };
 
+const normalizeDebtData = (debts = []) => {
+  return debts.map(debt => {
+    const normalizedDebt = { ...debt };
+
+    // Normalize debtHistory
+    if (debt.debtHistory) {
+      normalizedDebt.debtHistory = debt.debtHistory.map(history => ({
+        ...history,
+        letterCode: history.letterCode?.toString() || '',
+      }));
+    }
+
+    // Normalize any other fields if needed
+    normalizedDebt.currentAr = parseFloat(debt.currentAr) || 0;
+    normalizedDebt.originalAr = parseFloat(debt.originalAr) || 0;
+
+    return normalizedDebt;
+  });
+};
+
 export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
   dispatch(fetchDebtsInitiated());
   try {
@@ -149,9 +169,10 @@ export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
     }
 
     validateHistory(filteredResponse);
+    const normalizedResponse = normalizeDebtData(filteredResponse);
 
     return dispatch(
-      fetchDebtLettersSuccess(filteredResponse, hasDependentDebts),
+      fetchDebtLettersSuccess(normalizedResponse, hasDependentDebts),
     );
   } catch (error) {
     recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });

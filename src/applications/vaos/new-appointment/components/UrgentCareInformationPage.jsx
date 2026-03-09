@@ -239,6 +239,7 @@ export default function UrgentCareInformationPage() {
       )}
       {isInErrorPhase && (
         <MigrationInProgressError
+          classNames={classNames({ 'vads-u-margin-top--2': isInWarningPhase })}
           endDate={errorSchedule.phases.p7}
           facilities={errorSchedule.facilities}
           isMixedRegistration={isMixedRegistration}

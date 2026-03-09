@@ -363,7 +363,7 @@ class PatientMessageDraftsPage {
   };
 
   verifyThreadRecipientName = (mockResponse, index) => {
-    cy.get(Locators.THREADS)
+    cy.findAllByTestId(Locators.THREADS)
       .find(`.vads-u-font-weight--bold`)
       .eq(index)
       .should(`be.visible`)
