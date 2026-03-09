@@ -7,13 +7,9 @@ const { delaySingleResponse } = require('./script/utils');
 
 const responses = {
   'GET /v0/feature_toggles': (req, res) => {
-    const queryValue = req?.query?.form1095bMultipleYears;
-    // Use FORM_1095B_MULTIPLE_YEARS to set a default for mocks; allow query to override.
+    // Use FORM_1095B_MULTIPLE_YEARS to set a default for mocks.
     const envValue = process?.env?.FORM_1095B_MULTIPLE_YEARS;
-    const hasQueryOverride = queryValue === 'true' || queryValue === 'false';
-    const isForm1095bMultipleYears = hasQueryOverride
-      ? queryValue === 'true'
-      : envValue === 'true';
+    const isForm1095bMultipleYears = envValue === 'true';
 
     return res.json({
       data: {
