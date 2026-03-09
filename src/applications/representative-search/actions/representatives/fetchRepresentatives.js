@@ -7,17 +7,7 @@ import {
 } from '../../utils/actionTypes';
 
 import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
-/**
- * Handles the API call to get the type of locations closest to `address`
- * and/or within the given `bounds`.
- *
- * @param {string=} address Address of the center-point of the search area
- * @param {number[]} bounds Geo-coords of the bounding box of the search area
- * @param {string} representativeType (see config.js for valid types)
- * @param {number} page What page of results to request
- * @param {Function} dispatch Redux's dispatch method
- * @param {number} api version number
- */
+
 export const fetchRepresentatives = async (
   address,
   lat,

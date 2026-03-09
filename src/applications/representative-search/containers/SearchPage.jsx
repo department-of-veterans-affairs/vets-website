@@ -3,21 +3,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useStore, useSelector } from 'react-redux';
-import {
-  VaBreadcrumbs,
-  VaModal,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import repStatusLoader from 'platform/user/widgets/representative-status';
 import { recordSearchResultsChange } from '../utils/analytics';
-import SearchControls from '../components/search/SearchControls';
-import SearchResultsHeader from '../components/results/SearchResultsHeader';
-import ResultsList from '../components/results/ResultsList';
-import PaginationWrapper from '../components/results/PaginationWrapper';
 import GetFormHelp from '../components/footer/GetFormHelp';
 import { ErrorTypes } from '../constants';
 
@@ -28,15 +20,15 @@ import {
   geocodeUserAddress,
   clearError,
 } from '../actions';
+import SearchSection from '../components/search/SearchSection';
+import ResultsSection from '../components/results/ResultsSection';
 
 const SearchPage = props => {
   const currentQuery = useSelector(state => state.searchQuery);
   const errors = useSelector(state => state.errors);
   const searchResults = useSelector(state => state.searchResult.searchResults);
-  const { isErrorReportSubmission, isErrorFetchRepresentatives } = errors;
   const { searchWithInputInProgress } = currentQuery;
 
-  const searchResultTitleRef = useRef(null);
   const previousLocationInputString = useRef(currentQuery.locationInputString);
   const previousSortType = useRef(currentQuery.sortType);
   const previousRepresentativeType = useRef(currentQuery.representativeType);
@@ -55,12 +47,6 @@ const SearchPage = props => {
 
   const store = useStore();
   const dispatch = useDispatch();
-
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-
-  const widgetEnabled = useToggleValue(
-    TOGGLE_NAMES.representativeStatusEnabled,
-  );
 
   const updateUrlParams = params => {
     const { location } = props;
@@ -90,7 +76,7 @@ const SearchPage = props => {
   };
 
   const handleSearch = async () => {
-    clearError(ErrorTypes.geocodeError);
+    dispatch(clearError(ErrorTypes.geocodeError));
     setIsSearching(true);
     dispatch(geocodeUserAddress(currentQuery));
     // search query committed in geocodeUserAddress function
@@ -325,91 +311,12 @@ const SearchPage = props => {
             <VaBreadcrumbs breadcrumbList={breadcrumbs} uswds />
           </nav>
           <article className="usa-content">
-            <div className="row search-section">
-              <div className="title-section">
-                <h1>Find a VA accredited representative or VSO</h1>
-                <p>
-                  An accredited attorney, claims agent, or Veterans Service
-                  Organization (VSO) representative can help you file a claim or
-                  request a decision review. Use our search tool to find one of
-                  these types of accredited representatives to help you.
-                </p>
-                <p>
-                  <strong>Note:</strong> You’ll need to contact the accredited
-                  representative you’d like to appoint to make sure they’re
-                  available to help you.
-                </p>
-              </div>
-
-              {widgetEnabled && (
-                <>
-                  <div tabIndex="-1">
-                    <div data-widget-type="representative-status" />
-                  </div>
-                </>
-              )}
-
-              <SearchControls onSubmit={handleSearch} />
-
-              {isErrorFetchRepresentatives && (
-                <div className="vads-u-margin-y--3">
-                  <va-alert
-                    close-btn-aria-label="Close notification"
-                    status="error"
-                    uswds
-                    visible
-                  >
-                    <h2 slot="headline">We’re sorry, something went wrong</h2>
-                    <React.Fragment key=".1">
-                      <p className="vads-u-margin-y--0">
-                        Please try again soon.
-                      </p>
-                    </React.Fragment>
-                  </va-alert>
-                </div>
-              )}
-            </div>
-            {isLoading &&
-            !isErrorFetchRepresentatives &&
-            currentQuery.searchCounter > 0 ? (
-              <div className="row results-section">
-                <div className="loading-indicator-container">
-                  <va-loading-indicator
-                    label="Searching"
-                    message="Searching for representatives..."
-                    set-focus
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className="row results-section">
-                <VaModal
-                  modalTitle="Were sorry, something went wrong"
-                  message="Please try again soon."
-                  onCloseEvent={() =>
-                    dispatch(clearError(ErrorTypes.reportSubmissionError))
-                  }
-                  visible={isErrorReportSubmission}
-                  status="error"
-                  uswds
-                >
-                  <p>Please try again soon.</p>
-                </VaModal>
-
-                <div id="search-results-title" ref={searchResultTitleRef}>
-                  {isDisplayingResults &&
-                    !isErrorFetchRepresentatives && (
-                      <>
-                        <SearchResultsHeader />
-                        <ResultsList />
-                        <PaginationWrapper
-                          handlePageSelect={handlePageSelect}
-                        />
-                      </>
-                    )}
-                </div>
-              </div>
-            )}
+            <SearchSection onSearch={handleSearch} />
+            <ResultsSection
+              isDisplayingResults={isDisplayingResults}
+              isLoading={isLoading}
+              onPageSelect={handlePageSelect}
+            />
             <GetFormHelp />
           </article>
         </div>
