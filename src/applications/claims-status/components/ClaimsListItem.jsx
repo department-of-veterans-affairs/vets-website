@@ -64,11 +64,9 @@ const CHAMPVA_FORM_DISPLAY_MAP = {
 };
 
 const CLAIM_STATUS_LABEL_MAP = {
-  CLAIM_RECEIVED: 'Received',
   INITIAL_REVIEW: 'In Progress',
   EVIDENCE_GATHERING_REVIEW_DECISION: 'In Progress',
   PREPARATION_FOR_NOTIFICATION: 'In Progress',
-  COMPLETE: 'Received',
 };
 
 const RECEIVED_STATUSES = new Set([
@@ -78,7 +76,7 @@ const RECEIVED_STATUSES = new Set([
   'complete',
 ]);
 
-const COMPLETE_STATUSES = new Set(['application decided']);
+const COMPLETE_STATUSES = new Set(['application decided', 'complete']);
 
 const ACTION_NEEDED_STATUSES = new Set([
   'error',
