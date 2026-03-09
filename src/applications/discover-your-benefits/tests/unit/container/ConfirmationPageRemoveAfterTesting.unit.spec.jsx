@@ -296,7 +296,6 @@ describe('<ConfirmationPage>', () => {
           }),
         );
 
-        // eslint-disable-next-line no-await-in-loop
         await waitFor(() => {
           const items = getAllByRole('listitem');
           expect(items.length).to.be.greaterThan(0);
