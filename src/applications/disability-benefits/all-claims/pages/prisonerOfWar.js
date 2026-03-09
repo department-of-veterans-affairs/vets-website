@@ -1,6 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns/yesNoPattern';
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
 import { claimingNew } from '../utils';
 import { formatDate } from '../utils/dates/formatting';
@@ -21,10 +22,7 @@ const itemAriaLabel = data =>
 
 export const uiSchema = {
   'ui:title': 'Prisoner of War (POW)',
-  'view:powStatus': {
-    'ui:title': 'Have you ever been a POW?',
-    'ui:widget': 'yesNo',
-  },
+  'view:powStatus': yesNoUI('Have you ever been a POW?'),
   'view:isPow': {
     'ui:options': {
       expandUnder: 'view:powStatus',

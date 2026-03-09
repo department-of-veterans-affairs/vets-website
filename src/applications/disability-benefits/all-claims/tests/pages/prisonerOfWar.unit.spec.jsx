@@ -1,15 +1,26 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { render, fireEvent, cleanup, waitFor } from '@testing-library/react';
 import {
   DefinitionTester,
-  fillDate,
-  selectRadio,
+  getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
-import { mount } from 'enzyme';
-import { waitFor } from '@testing-library/dom';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
+
+const selectPowStatus = (container, value = 'Y') => {
+  const powStatusRadio = $('va-radio', container);
+
+  powStatusRadio.dispatchEvent(
+    new CustomEvent('vaValueChange', {
+      detail: { value },
+      bubbles: true,
+      composed: true,
+    }),
+  );
+};
 
 describe('Prisoner of war info', () => {
   const {
@@ -23,8 +34,12 @@ describe('Prisoner of war info', () => {
     },
   };
 
+  afterEach(() => {
+    cleanup();
+  });
+
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -33,12 +48,12 @@ describe('Prisoner of war info', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(2);
   });
 
   it('should render confinement fields', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -47,16 +62,15 @@ describe('Prisoner of war info', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:powStatus', 'Y');
+    selectPowStatus(container, 'Y');
 
-    expect(form.find('input').length).to.equal(4);
-    expect(form.find('select').length).to.equal(4);
-    form.unmount();
+    expect($$('input', container).length).to.equal(2);
+    expect($$('select', container).length).to.equal(4);
   });
 
   it('should fail to submit when no data is filled out', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -66,15 +80,14 @@ describe('Prisoner of war info', () => {
       />,
     );
     await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+      fireEvent.submit($('form', container));
+      expect($('va-radio', container).error).to.not.be.null;
       expect(onSubmit.called).to.be.false;
     });
-    form.unmount();
   });
 
   it('should add another period', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -82,25 +95,22 @@ describe('Prisoner of war info', () => {
         data={formData}
       />,
     );
+    const formDOM = getFormDOM({ container });
 
-    selectRadio(form, 'root_view:powStatus', 'Y');
-    fillDate(form, 'root_view:isPow_confinements_0_from', '2010-05-05');
-    fillDate(form, 'root_view:isPow_confinements_0_to', '2011-05-05');
+    selectPowStatus(container, 'Y');
+    formDOM.fillDate('root_view:isPow_confinements_0_from', '2010-05-05');
+    formDOM.fillDate('root_view:isPow_confinements_0_to', '2011-05-05');
 
-    form.find('.va-growable-add-btn').simulate('click');
+    fireEvent.click($('.va-growable-add-btn', container));
 
-    expect(
-      form
-        .find('.va-growable-background')
-        .first()
-        .text(),
-    ).to.contain('May 5, 2010');
-    form.unmount();
+    expect($('.va-growable-background', container).textContent).to.contain(
+      'May 5, 2010',
+    );
   });
 
   it('should submit when data filled in', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -109,19 +119,19 @@ describe('Prisoner of war info', () => {
         onSubmit={onSubmit}
       />,
     );
+    const formDOM = getFormDOM({ container });
 
-    selectRadio(form, 'root_view:powStatus', 'Y');
-    fillDate(form, 'root_view:isPow_confinements_0_from', '2010-05-05');
-    fillDate(form, 'root_view:isPow_confinements_0_to', '2011-05-05');
+    selectPowStatus(container, 'Y');
+    formDOM.fillDate('root_view:isPow_confinements_0_from', '2010-05-05');
+    formDOM.fillDate('root_view:isPow_confinements_0_to', '2011-05-05');
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+    fireEvent.submit($('form', container));
+    expect($$(ERR_MSG_CSS_CLASS, container).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
 
   it('should show new disabilities', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -133,15 +143,14 @@ describe('Prisoner of war info', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:powStatus', 'Y');
-    expect(form.find('va-checkbox').length).to.equal(2);
-    expect(form.find('va-checkbox[label="ASHD"]')).to.exist;
-    expect(form.find('va-checkbox[label="Scars"]')).to.exist;
-    form.unmount();
+    selectPowStatus(container, 'Y');
+    expect($$('va-checkbox', container).length).to.equal(2);
+    expect($('va-checkbox[label="ASHD"]', container)).to.exist;
+    expect($('va-checkbox[label="Scars"]', container)).to.exist;
   });
 
   it('should not show new disabilities section when none entered', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -150,18 +159,16 @@ describe('Prisoner of war info', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:powStatus', 'Y');
-    expect(form.find('input[type="checkbox"]').length).to.equal(0);
-    const output = form.render().text();
-    expect(output).to.not.contain(
+    selectPowStatus(container, 'Y');
+    expect($$('input[type="checkbox"]', container).length).to.equal(0);
+    expect(container.textContent).to.not.contain(
       'Which of your conditions is connected to your POW experience? ',
     );
-    form.unmount();
   });
 
   it('should require confinement dates to be within a single service period', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -170,16 +177,16 @@ describe('Prisoner of war info', () => {
         onSubmit={onSubmit}
       />,
     );
+    const formDOM = getFormDOM({ container });
 
-    selectRadio(form, 'root_view:powStatus', 'Y');
-    fillDate(form, 'root_view:isPow_confinements_0_from', '2010-05-05');
-    fillDate(form, 'root_view:isPow_confinements_0_to', '2014-05-05'); // After service period
+    selectPowStatus(container, 'Y');
+    formDOM.fillDate('root_view:isPow_confinements_0_from', '2010-05-05');
+    formDOM.fillDate('root_view:isPow_confinements_0_to', '2014-05-05'); // After service period
 
     await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
+      fireEvent.submit($('form', container));
+      expect($$(ERR_MSG_CSS_CLASS, container).length).to.equal(2);
       expect(onSubmit.called).to.be.false;
     });
-    form.unmount();
   });
 });
