@@ -11,8 +11,12 @@ export const getCustomValidationErrors = formData => {
 
   const customErrors = [];
 
-  // Check if user is claiming new conditions but hasn't added any new disabilities
-  if (formData?.['view:claimType']?.['view:claimingNew']) {
+  const claimType = formData?.['view:claimType'];
+  const claimingNew = claimType?.['view:claimingNew'];
+  const claimingIncrease = claimType?.['view:claimingIncrease'];
+
+  // Check if user is claiming new conditions but hasn't added any new disabilities.
+  if (claimingNew) {
     const newDisabilities = formData?.newDisabilities;
     if (
       !newDisabilities ||
@@ -27,6 +31,38 @@ export const getCustomValidationErrors = formData => {
         stack: 'instance.newDisabilities does not meet minimum length of 1',
       });
     }
+  }
+
+  // Check if no claim type has been selected (both new and increase are explicitly false).
+  // Add this error when:
+  // - there are no usable condition rows at all (missing/empty/only empty objects), or
+  // - at least one condition has ratedDisability set but the claimType flags are still both false.
+  // When there ARE non-empty conditions but none has ratedDisability, don't show this error
+  const items = formData?.newDisabilities;
+  const hasItemsArray = Array.isArray(items);
+  const hasAnyRow = hasItemsArray && items.length > 0;
+  const hasNonEmptyCondition =
+    hasAnyRow && items.some(item => item && Object.keys(item).length > 0);
+  const someConditionHasRatedDisability =
+    hasNonEmptyCondition && items.some(item => item?.ratedDisability);
+
+  const shouldShowClaimTypeError =
+    claimType &&
+    claimingNew === false &&
+    claimingIncrease === false &&
+    (!hasItemsArray ||
+      !hasAnyRow ||
+      !hasNonEmptyCondition ||
+      someConditionHasRatedDisability);
+
+  if (shouldShowClaimTypeError) {
+    customErrors.push({
+      property: 'instance.view:claimType',
+      message: 'Please select at least one type of condition',
+      name: 'required',
+      argument: undefined,
+      stack: 'instance.view:claimType is required',
+    });
   }
 
   return customErrors;

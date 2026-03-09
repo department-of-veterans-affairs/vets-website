@@ -10,6 +10,7 @@ import {
   facilityCodeUIValidation,
   showAdditionalPointsOfContact,
   getAdditionalContactTitle,
+  getAdditionalContactRole,
   capitalizeFirstLetter,
   matchYearPattern,
   additionalInstitutionDetailsArrayOptions,
@@ -1111,6 +1112,53 @@ describe('0839 Helpers', () => {
     });
   });
 
+  describe('getAdditionalContactRole', () => {
+    it('returns Yellow Ribbon role when both Yellow Ribbon and Financial roles are false', () => {
+      const formData = {
+        pointsOfContact: {
+          roles: {
+            isYellowRibbonProgramPointOfContact: false,
+            isSchoolFinancialRepresentative: false,
+          },
+        },
+      };
+
+      expect(getAdditionalContactRole(formData)).to.equal(
+        'Yellow Ribbon Program point of contact',
+      );
+    });
+
+    it('returns school certifying official role when Yellow Ribbon role is true', () => {
+      const formData = {
+        pointsOfContact: {
+          roles: {
+            isYellowRibbonProgramPointOfContact: true,
+            isSchoolFinancialRepresentative: false,
+          },
+        },
+      };
+
+      expect(getAdditionalContactRole(formData)).to.equal(
+        'School certifying official',
+      );
+    });
+
+    it('returns school certifying official role when Financial Representative role is true', () => {
+      const formData = {
+        pointsOfContact: {
+          roles: {
+            isYellowRibbonProgramPointOfContact: false,
+            isSchoolFinancialRepresentative: true,
+          },
+        },
+      };
+
+      expect(getAdditionalContactRole(formData)).to.equal(
+        'School certifying official',
+      );
+    });
+  });
+
   describe('capitalizeFirstLetter', () => {
     it('returns empty string when str is null', () => {
       expect(capitalizeFirstLetter(null)).to.equal('');
@@ -1266,22 +1314,23 @@ describe('0839 Helpers', () => {
       });
     });
     describe('text.getItemName', () => {
-      it('returns expected ItemName starting new agreement', () => {
+      it('returns expected ItemName with unlimited students', () => {
         const props = {
-          academicYearDisplay: '2026-2027',
+          maximumStudentsOption: 'unlimited',
         };
 
         expect(arrayBuilderOptions.text.getItemName(props)).to.equal(
-          '2026-2027',
+          'Max. number of students: Unlimited',
         );
       });
-      it('returns expected ItemName modify existing agreement', () => {
+      it('returns expected ItemName with specific number of students', () => {
         const props = {
-          academicYear: '2026-2027',
+          maximumStudentsOption: 'specific',
+          maximumStudents: 25,
         };
 
         expect(arrayBuilderOptions.text.getItemName(props)).to.equal(
-          '2026-2027',
+          'Max. number of students: 25',
         );
       });
     });

@@ -36,22 +36,31 @@
     "discloseInformation": {
       "authorize": "person"
     },
-    "claimantContactInformation": {
-      "phoneNumber": {
-        "callingCode": 1,
-        "countryCode": "US",
-        "contact": "(555) 123-4567"
+    "veteran": {
+      "homePhone": {
+        "id": 2272982,
+        "areaCode": "415",
+        "countryCode": "1",
+        "extension": null,
+        "isInternational": false,
+        "phoneNumber": "5559876",
+        "phoneType": "HOME"
       },
-      "emailAddress": "john.doe@example.com"
-    },
-    "claimantAddress": {
-      "view:militaryBaseDescription": {},
-      "country": "USA",
-      "street": "123 Main St",
-      "street2": "Apt 48",
-      "city": "City",
-      "state": "CA",
-      "postalCode": "12345"
+      "email": {
+        "id": 20648,
+        "emailAddress": "john.doe@example.com"
+      },
+      "mailingAddress": {
+        "addressLine1": "123 Main St",
+        "addressLine2": null,
+        "addressPou": "CORRESPONDENCE",
+        "addressType": "DOMESTIC",
+        "city": "San Francisco",
+        "countryName": "United States",
+        "countryCodeIso2": "US",
+        "stateCode": "CA",
+        "zipCode": "94118"
+      }
     },
     "claimantPersonalInformation": {
       "fullName": {

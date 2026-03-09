@@ -6,7 +6,6 @@ import { cleanup, render } from '@testing-library/react';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import formConfig from '../../config/form';
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import maximalTestData from '../fixtures/data/maximal-test.json';
 
 const mockStore = state => createStore(() => state);
 
@@ -16,7 +15,10 @@ const initConfirmationPage = ({ formData } = {}) => {
       ...createInitialState(formConfig),
       submission: {
         response: {
-          confirmationNumber: '1234567890',
+          id: '123abc',
+          attributes: {
+            confirmationNumber: 'EBC-123',
+          },
         },
         timestamp: new Date(),
       },
@@ -43,13 +45,23 @@ describe('ConfirmationPage', () => {
     expect(alert.querySelector('h2')).to.contain.text(
       'Form submission started',
     );
-    expect(alert).to.contain.text('Your confirmation number is 1234567890');
+    expect(alert).to.contain.text('Your confirmation number is EBC-123');
   });
 
-  it('should render with form data', () => {
-    const { container } = initConfirmationPage({
-      formData: maximalTestData.data,
+  it('handles blank submissions', () => {
+    const store = mockStore({
+      form: {
+        ...createInitialState(formConfig),
+        submission: null,
+        data: {},
+      },
     });
+
+    const { container } = render(
+      <Provider store={store}>
+        <ConfirmationPage route={{ formConfig }} />
+      </Provider>,
+    );
     const alert = container.querySelector('va-alert');
     expect(alert).to.have.attribute('status', 'success');
   });

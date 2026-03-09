@@ -7,7 +7,6 @@ import SubmissionError from '../../shared/components/SubmissionError';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormFooter from '../components/FormFooter';
 import transformForSubmit from './submitTransformer';
-import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
 import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
 import { blankSchema } from '../definitions';
@@ -20,7 +19,6 @@ import {
   isNewPharmacyClaim,
   isNotEnrolledInChampva,
   isResubmissionClaim,
-  isResubmissionEnabled,
   isRoleOther,
   isRoleSponsor,
 } from '../utils/helpers';
@@ -187,7 +185,6 @@ const formConfig = {
         page1e: {
           path: 'champva-claim-status',
           title: 'CHAMPVA claim status',
-          depends: isResubmissionEnabled,
           ...certifierClaimStatusSchema,
         },
       },
@@ -197,7 +194,7 @@ const formConfig = {
       pages: {
         page1e1: {
           path: 'resubmission-claim-number',
-          title: 'Claim ID number',
+          title: 'Claim identification number',
           depends: isResubmissionClaim,
           ...claimIdentificationNumber,
         },
@@ -205,16 +202,12 @@ const formConfig = {
           path: 'resubmission-letter',
           title: 'CHAMPVA resubmission letter',
           depends: isResubmissionClaim,
-          CustomPage: FileFieldCustomSimple,
-          CustomPageReview: null,
           ...resubmissionLetterUpload,
         },
         page1e3: {
           path: 'resubmission-supporting-docs',
           title: 'Supporting documents for claim',
           depends: isResubmissionClaim,
-          CustomPage: FileFieldCustomSimple,
-          CustomPageReview: null,
           ...resubmissionDocsUpload,
         },
       },

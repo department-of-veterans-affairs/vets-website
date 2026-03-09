@@ -51,6 +51,7 @@ import JobCompleteAlert from '../components/shared/JobsCompleteAlert';
 import { useTrackAction } from '../hooks/useTrackAction';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
+import DuplicateRecordsAlert from '../components/shared/DuplicateRecordsAlert';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -130,6 +131,7 @@ const LabsAndTests = () => {
 
   const {
     isLoading,
+    isCerner,
     isAcceleratingLabsAndTests,
     isAcceleratingImagingStudies,
   } = useAcceleratedData();
@@ -239,6 +241,7 @@ const LabsAndTests = () => {
       <h1 className="page-title vads-u-margin-bottom--1">
         Lab and test results
       </h1>
+      {isCerner && <DuplicateRecordsAlert />}
 
       {holdTimeMessagingUpdate && <HoldTimeInfo locationPhrase="here" />}
       {!holdTimeMessagingUpdate && (
@@ -316,9 +319,9 @@ const LabsAndTests = () => {
                         Some records may be incomplete
                       </h3>
                       <p>
-                        We couldn\u2019t retrieve all attached documents for
-                        some of your lab and test results. The records below may
-                        be missing PDF reports or other files.
+                        We couldn’t retrieve all attached documents for some of
+                        your lab and test results. The records below may be
+                        missing PDF reports or other files.
                       </p>
                     </VaAlert>
                   )}

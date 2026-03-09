@@ -6,7 +6,7 @@ import SubmittingClaimsAddtlInfo from './SubmittingClaimsAddtlInfo';
 const MedicalEobDescription = () => (
   <>
     <p>
-      You’ll need to submit an Explanation of Benefits (EOB) from the
+      You’ll need to submit an explanation of benefits (EOB) from the
       beneficiary’s insurance provider. This is different than the summary of
       benefits for the health insurance policy. The EOB lists what the
       beneficiary’s insurance provider already paid for this specific claim.
@@ -17,7 +17,7 @@ const MedicalEobDescription = () => (
         rel="noopener noreferrer"
         href="/resources/how-to-file-a-champva-claim/?#supporting-documents-to-send-w"
       >
-        Learn more about an Explanation of Benefits (opens in a new tab)
+        Learn more about an explanation of benefits (opens in a new tab)
       </a>
     </p>
 

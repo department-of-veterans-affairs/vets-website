@@ -1,0 +1,24 @@
+[
+  {
+    "id": "imaging-study-abc-123",
+    "type": "ImagingStudy",
+    "attributes": {
+      "description": "CT HEAD W/O CONTRAST",
+      "date": "2025-01-22T14:30:00Z",
+      "imageCount": 3,
+      "identifier": "imaging-study-abc-123",
+      "status": "available",
+      "notes": ["Normal study. No acute findings."],
+      "series": [
+        {
+          "number": 1,
+          "instances": [
+            { "number": 1, "thumbnailUrl": null },
+            { "number": 2, "thumbnailUrl": null },
+            { "number": 3, "thumbnailUrl": null }
+          ]
+        }
+      ]
+    }
+  }
+]

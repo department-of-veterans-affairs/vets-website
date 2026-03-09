@@ -3,7 +3,6 @@ import {
   checkboxUI,
   checkboxSchema,
   fullNameNoSuffixSchema,
-  fullNameNoSuffixUI,
   titleUI,
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -13,7 +12,11 @@ import {
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { CancelButton, certificateNotice } from '../../../helpers';
+import {
+  CancelButton,
+  certificateNotice,
+  fullNameNoSuffixWithAsciiUI,
+} from '../../../helpers';
 import { getFullName, getFormatedDate } from '../../../../../shared/utils';
 import { NO_SSN_REASON_UI_MAPPINGS } from '../../../dataMappings';
 
@@ -43,7 +46,7 @@ export const uiSchema = {
     'view:spouseNameTitle': {
       'ui:description': <h4>Spouse’s name</h4>,
     },
-    fullName: fullNameNoSuffixUI(title => `Spouse’s ${title}`),
+    fullName: fullNameNoSuffixWithAsciiUI(title => `Spouse’s ${title}`),
     birthDate: dateOfBirthUI({
       title: 'Spouse’s date of birth',
       labelHeaderLevel: '4',

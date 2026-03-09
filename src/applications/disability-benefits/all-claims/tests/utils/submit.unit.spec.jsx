@@ -1937,4 +1937,192 @@ describe('flattenAttachments', () => {
       ],
     });
   });
+
+  it('should return cloned data when additionalDocuments is undefined', () => {
+    const formData = {
+      veteranFullName: { first: 'John', last: 'Doe' },
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result).to.deep.equal(formData);
+    expect(result).to.not.equal(formData);
+  });
+
+  it('should return cloned data when additionalDocuments is an empty array', () => {
+    const formData = {
+      additionalDocuments: [],
+      veteranFullName: { first: 'John', last: 'Doe' },
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result).to.deep.equal(formData);
+    expect(result.additionalDocuments).to.be.an('array').that.is.empty;
+  });
+
+  it('should return cloned data when additionalDocuments has no additionalData', () => {
+    const formData = {
+      additionalDocuments: [
+        {
+          name: 'document.pdf',
+          confirmationCode: 'abc123',
+          size: 1024,
+        },
+      ],
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result).to.deep.equal(formData);
+    expect(result.additionalDocuments[0]).to.not.have.property(
+      'additionalData',
+    );
+  });
+
+  it('should flatten additionalData properties into additionalDocuments attachment object', () => {
+    const formData = {
+      additionalDocuments: [
+        {
+          name: 'evidence.pdf',
+          confirmationCode: 'xyz789',
+          isEncrypted: false,
+          size: 2048,
+          type: 'application/pdf',
+          additionalData: {
+            attachmentId: 'L702',
+          },
+        },
+      ],
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result.additionalDocuments).to.have.lengthOf(1);
+    expect(result.additionalDocuments[0]).to.deep.equal({
+      name: 'evidence.pdf',
+      confirmationCode: 'xyz789',
+      isEncrypted: false,
+      size: 2048,
+      type: 'application/pdf',
+      attachmentId: 'L702',
+    });
+    expect(result.additionalDocuments[0]).to.not.have.property(
+      'additionalData',
+    );
+  });
+
+  it('should handle multiple additionalDocuments with additionalData', () => {
+    const formData = {
+      additionalDocuments: [
+        {
+          name: 'doc1.pdf',
+          confirmationCode: 'code1',
+          size: 1024,
+          additionalData: {
+            attachmentId: 'L015',
+          },
+        },
+        {
+          name: 'doc2.pdf',
+          confirmationCode: 'code2',
+          size: 2048,
+          additionalData: {
+            attachmentId: 'L702',
+          },
+        },
+        {
+          name: 'doc3.pdf',
+          confirmationCode: 'code3',
+          size: 3072,
+          additionalData: {
+            attachmentId: 'L107',
+          },
+        },
+      ],
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result.additionalDocuments).to.have.lengthOf(3);
+    expect(result.additionalDocuments[0].attachmentId).to.equal('L015');
+    expect(result.additionalDocuments[1].attachmentId).to.equal('L702');
+    expect(result.additionalDocuments[2].attachmentId).to.equal('L107');
+    result.additionalDocuments.forEach(doc => {
+      expect(doc).to.not.have.property('additionalData');
+    });
+  });
+
+  it('should handle both privateMedicalRecordAttachments and additionalDocuments with additionalData', () => {
+    const formData = {
+      privateMedicalRecordAttachments: [
+        {
+          name: 'medical-record.pdf',
+          confirmationCode: 'pmr123',
+          size: 5120,
+          additionalData: {
+            attachmentId: 'L049',
+          },
+        },
+      ],
+      additionalDocuments: [
+        {
+          name: 'evidence.pdf',
+          confirmationCode: 'doc456',
+          size: 2048,
+          additionalData: {
+            attachmentId: 'L702',
+          },
+        },
+      ],
+      veteranFullName: { first: 'Jane', last: 'Smith' },
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result.privateMedicalRecordAttachments).to.have.lengthOf(1);
+    expect(result.privateMedicalRecordAttachments[0].attachmentId).to.equal(
+      'L049',
+    );
+    expect(result.privateMedicalRecordAttachments[0]).to.not.have.property(
+      'additionalData',
+    );
+
+    expect(result.additionalDocuments).to.have.lengthOf(1);
+    expect(result.additionalDocuments[0].attachmentId).to.equal('L702');
+    expect(result.additionalDocuments[0]).to.not.have.property(
+      'additionalData',
+    );
+
+    expect(result.veteranFullName).to.deep.equal({
+      first: 'Jane',
+      last: 'Smith',
+    });
+  });
+
+  it('should preserve other formData properties when flattening additionalDocuments', () => {
+    const formData = {
+      additionalDocuments: [
+        {
+          name: 'document.pdf',
+          confirmationCode: 'abc123',
+          size: 1024,
+          additionalData: {
+            attachmentId: 'L023',
+          },
+        },
+      ],
+      veteranFullName: { first: 'Bob', last: 'Johnson' },
+      disabilities: ['Back pain', 'Knee injury'],
+    };
+
+    const result = flattenAttachments(formData);
+
+    expect(result.veteranFullName).to.deep.equal({
+      first: 'Bob',
+      last: 'Johnson',
+    });
+    expect(result.disabilities).to.deep.equal(['Back pain', 'Knee injury']);
+    expect(result.additionalDocuments[0].attachmentId).to.equal('L023');
+  });
 });
