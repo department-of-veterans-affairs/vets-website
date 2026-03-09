@@ -95,6 +95,7 @@ describe('Authed 1095-B Form Download PDF', () => {
     cy.visit('/health-care/download-1095b/');
 
     cy.get('body').should('be.visible');
+    cy.injectAxeThenAxeCheck();
     cy.get('#pdf-download-link-2025').should('be.visible');
     cy.get('#pdf-download-link-2024').should('be.visible');
     cy.get('#pdf-download-link-2023').should('be.visible');
