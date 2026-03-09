@@ -8,6 +8,7 @@ import {
   setReviewPageAlert,
   deleteExpenseDeleteDocument,
   clearReviewPageAlert,
+  setExpenseBackDestination,
 } from '../../../redux/actions';
 import { selectIsExpenseDeleting } from '../../../redux/selectors';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
@@ -114,6 +115,9 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                     to={`/file-new-claim/${apptId}/${claimId}/${
                       EXPENSE_TYPES[expenseType]?.route
                     }/${expenseId}`}
+                    onClick={() =>
+                      dispatch(setExpenseBackDestination('review'))
+                    }
                   >
                     Edit
                     <va-icon

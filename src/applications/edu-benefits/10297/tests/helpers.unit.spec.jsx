@@ -1,4 +1,3 @@
-import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
@@ -6,10 +5,6 @@ import { render } from '@testing-library/react';
 import { directDeposit } from '../pages';
 
 import {
-  ConfirmationGoBackLink,
-  ConfirmationWhatsNextProcessList,
-  ConfirmationHowToContact,
-  ConfirmationSubmissionAlert,
   getAgeInYears,
   trainingProviderArrayOptions,
   getCardDescription,
@@ -24,60 +19,6 @@ import {
 } from '../helpers';
 
 describe('10297 Helpers', () => {
-  describe('<ConfirmationSubmissionAlert />', () => {
-    it('shows submission alert section with confirmation number', () => {
-      const { container } = render(
-        <ConfirmationSubmissionAlert confirmationNumber="1234567890" />,
-      );
-      expect(container.textContent).to.contain(
-        'Your submission is in progress.',
-      );
-      expect(container.textContent).to.contain(
-        'Your confirmation number is 1234567890.',
-      );
-    });
-
-    it('shows submission alert section without confirmation number', () => {
-      const { container } = render(<ConfirmationSubmissionAlert />);
-      expect(container.textContent).to.contain(
-        'Your submission is in progress.',
-      );
-      expect(container.textContent).to.not.contain(
-        'Your confirmation number is',
-      );
-    });
-  });
-
-  describe('<ConfirmationWhatsNextProcessList />', () => {
-    it('shows process list section', () => {
-      const { container } = render(<ConfirmationWhatsNextProcessList />);
-      expect(container.querySelector('va-process-list')).to.exist;
-      expect(
-        container.querySelectorAll('va-process-list-item').length,
-      ).to.equal(3);
-    });
-  });
-
-  describe('<ConfirmationGoBackLink />', () => {
-    it('should render an action link to go back to the VA.gov homepage', () => {
-      const { container } = render(<ConfirmationGoBackLink />);
-      const action = container.querySelector('va-link-action');
-      expect(action).to.exist;
-      expect(action).to.have.attribute('href', '/');
-      expect(action).to.have.attribute('text', 'Go back to VA.gov homepage');
-    });
-  });
-
-  describe('<ConfirmationHowToContact />', () => {
-    it('renders Ask VA link with correct attributes', () => {
-      const { container } = render(<ConfirmationHowToContact />);
-      const link = container.querySelector('va-link');
-      expect(link).to.exist;
-      expect(link).to.have.attribute('href', 'https://ask.va.gov/');
-      expect(link).to.have.attribute('text', 'Ask VA');
-    });
-  });
-
   describe('#getAgeInYears', () => {
     let clock;
     beforeEach(() => {

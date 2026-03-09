@@ -31,8 +31,10 @@ function ComplexClaimsEntryContent() {
         class="vads-u-margin-y--1"
       />
       <p>
-        You'll need to use the Beneficiary Travel Self Service System (BTSSS) if
-        any of these things are true:
+        <strong>
+          You'll need to use the Beneficiary Travel Self Service System (BTSSS)
+          if any of these things are true:
+        </strong>
       </p>
       <ul>
         <li>You don't see your appointment in your appointments list</li>
@@ -48,7 +50,7 @@ function ComplexClaimsEntryContent() {
       />
       <p>
         <strong>Note:</strong> You can continue saved or incomplete claims by
-        selecting Travel reimbursement claim details.
+        selecting <strong>Travel reimbursement claim details.</strong>
       </p>
     </>
   );

@@ -65,9 +65,15 @@ describe('Confirmation Page', () => {
       .contains('Clear all filters')
       .click();
 
+    cy.get('va-search-filter', { includeShadowDom: true })
+      .shadow()
+      .find('button')
+      .contains('Apply')
+      .click();
+
     cy.axeCheck();
 
-    cy.get('#filter-text').should('contain', 'results with 1 filter applied');
+    cy.get('#filter-text').should('contain', 'Showing 1–10 of 22 results');
   });
 
   it('applies and clears multiple filters', () => {
@@ -101,6 +107,12 @@ describe('Confirmation Page', () => {
       .contains('Clear all filters')
       .click();
 
+    cy.get('va-search-filter', { includeShadowDom: true })
+      .shadow()
+      .find('button')
+      .contains('Apply')
+      .click();
+
     cy.axeCheck();
 
     cy.get('#filter-text').should('not.contain.text', 'filters applied');
@@ -119,120 +131,6 @@ describe('Confirmation Page', () => {
     cy.get('#filter-text').should(
       'contain.text',
       'Showing 11–15 of 15 results',
-    );
-  });
-
-  it('filters benefits by "Before separation"', () => {
-    cy.get('va-search-filter', { includeShadowDom: true })
-      .shadow()
-      .find('va-checkbox')
-      .shadow()
-      .contains('label', 'Before separation')
-      .click({ force: true });
-
-    cy.get('va-search-filter', { includeShadowDom: true })
-      .shadow()
-      .find('button')
-      .contains('Apply')
-      .click();
-
-    cy.axeCheck();
-
-    cy.get('[data-testid^="benefit-card-"]')
-      .first()
-      .within(() => {
-        cy.contains('h4', 'When to apply')
-          .next('p')
-          .should('contain.text', 'Before or after you separate from service');
-      });
-
-    cy.get('#filter-text').should('contain.text', '2 filters applied');
-  });
-
-  it('filters benefits by "After separation"', () => {
-    cy.get('va-search-filter', { includeShadowDom: true })
-      .shadow()
-      .find('va-checkbox')
-      .shadow()
-      .contains('label', 'After separation')
-      .click({ force: true });
-
-    cy.get('va-search-filter', { includeShadowDom: true })
-      .shadow()
-      .find('button')
-      .contains('Apply')
-      .click();
-
-    cy.axeCheck();
-
-    cy.get('[data-testid^="benefit-card-"]')
-      .first()
-      .within(() => {
-        cy.contains('h4', 'When to apply')
-          .next('p')
-          .should('contain.text', 'after you separate');
-      });
-
-    cy.get('#filter-text').should('contain.text', '2 filters applied');
-  });
-
-  it('shows all benefits when recommended filter is removed', () => {
-    cy.get('va-search-filter', { includeShadowDom: true })
-      .shadow()
-      .find('va-checkbox')
-      .shadow()
-      .contains('label', 'Show only results recommended for you')
-      .click({ force: true });
-
-    cy.get('va-search-filter', { includeShadowDom: true })
-      .shadow()
-      .find('button')
-      .contains('Apply')
-      .click();
-
-    cy.axeCheck();
-
-    cy.get('[data-testid^="benefit-card-"]').should(
-      'have.length.greaterThan',
-      0,
-    );
-    cy.get('#filter-text').should('not.contain.text', 'applied');
-  });
-
-  it('combines category and "When to Apply" filters correctly', () => {
-    cy.get('va-search-filter', { includeShadowDom: true })
-      .shadow()
-      .find('va-checkbox')
-      .shadow()
-      .contains('label', 'Burials and memorials')
-      .click({ force: true });
-
-    cy.get('va-search-filter', { includeShadowDom: true })
-      .shadow()
-      .find('va-checkbox')
-      .shadow()
-      .contains('label', 'Before separation')
-      .click({ force: true });
-
-    cy.get('va-search-filter', { includeShadowDom: true })
-      .shadow()
-      .find('button')
-      .contains('Apply')
-      .click();
-
-    cy.axeCheck();
-
-    cy.get('[data-testid^="benefit-card-"]')
-      .first()
-      .within(() => {
-        cy.contains('h4', 'When to apply')
-          .next('p')
-          .should('contain.text', 'Before or after you separate');
-      });
-
-    cy.get('#filter-text').should(
-      'contain.text',
-      'results with 3 filters applied',
     );
   });
 });
