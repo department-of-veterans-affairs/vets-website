@@ -481,6 +481,29 @@ describe('showExitLink', () => {
     expect(showExitLink({ data, index: 3 })).to.be.false;
   });
 
+  it('should return false when add dependent is also selected', () => {
+    const data = {
+      'view:addOrRemoveDependents': { add: true, remove: true },
+      [PICKLIST_DATA]: [{ selected: false }, { selected: true }],
+      [PICKLIST_PATHS]: [{ path: 'test1-exit', index: 1 }],
+    };
+    expect(showExitLink({ data, index: 0 })).to.be.false;
+    expect(showExitLink({ data, index: 1 })).to.be.false;
+  });
+
+  it('should return false when only add dependent is selected', () => {
+    const data = {
+      'view:addOrRemoveDependents': { add: true },
+      [PICKLIST_DATA]: [{ selected: true }, { selected: true }],
+      [PICKLIST_PATHS]: [
+        { path: 'test1-exit', index: 0 },
+        { path: 'test2-exit', index: 1 },
+      ],
+    };
+    expect(showExitLink({ data, index: 0 })).to.be.false;
+    expect(showExitLink({ data, index: 1 })).to.be.false;
+  });
+
   it('should return true for a single exit page', () => {
     const data = {
       [PICKLIST_DATA]: [{ selected: false }, { selected: true }],

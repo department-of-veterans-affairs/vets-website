@@ -41,9 +41,11 @@ const useOracleHealthAlertTracking = ({
             migration =>
               migration.facilities?.map(f => String(f.facilityId)) || [],
           );
-          datadogRum.addAction(warningActionName, {
-            facilityId: facilityIds,
-            phase: warningMigrations[0].phases.current,
+          facilityIds.forEach(id => {
+            datadogRum.addAction(warningActionName, {
+              facilityId: id,
+              phase: warningMigrations[0].phases.current,
+            });
           });
         }
       }
@@ -67,9 +69,11 @@ const useOracleHealthAlertTracking = ({
             migration =>
               migration.facilities?.map(f => String(f.facilityId)) || [],
           );
-          datadogRum.addAction(errorActionName, {
-            facilityId: facilityIds,
-            phase: errorMigrations[0].phases.current,
+          facilityIds.forEach(id => {
+            datadogRum.addAction(errorActionName, {
+              facilityId: id,
+              phase: errorMigrations[0].phases.current,
+            });
           });
         }
       }
