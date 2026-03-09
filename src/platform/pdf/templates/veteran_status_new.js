@@ -138,8 +138,8 @@ const generate = async data => {
 
   const cardYPosition = doc.y;
   const cardXPosition = doc.x;
-  const cardWidth = 291;
-  const cardHeight = 141;
+  const cardWidth = 265;
+  const cardHeight = 138;
   const cardPadding = 18;
 
   // Add a dotted line to indicate where the card should be cut out
@@ -172,7 +172,7 @@ const generate = async data => {
     const sealWidth = 47;
     const sealImage = doc.image(
       sealGraphic,
-      cardXPosition + 225,
+      cardXPosition + 205,
       cardYPosition + 14,
       { width: sealWidth, alt: data.details.image.title },
     );
