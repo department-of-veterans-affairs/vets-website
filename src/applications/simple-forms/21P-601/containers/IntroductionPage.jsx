@@ -87,8 +87,12 @@ const childContent = (
     <h3>Time limits to apply</h3>
     <ul className="vads-u-margin-bottom--4">
       <li>
-        You must apply for accrued benefits within <strong>1 year</strong> of
-        the beneficiary’s death
+        You must apply within <strong>1 year</strong> from the beneficiary’s
+        date of death. If you miss this deadline, you won’t be able to claim
+        these benefits. If you have questions about your eligibility, please
+        contact us at <va-telephone contact="8006982411" /> (
+        <va-telephone tty="true" contact="711" />
+        ).
       </li>
     </ul>
     <h3>What you’ll need to apply</h3>

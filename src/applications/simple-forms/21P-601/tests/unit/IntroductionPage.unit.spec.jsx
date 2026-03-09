@@ -167,7 +167,7 @@ describe('21P-601 IntroductionPage', () => {
     );
 
     getByText(/Time limits to apply/i);
-    getByText(/You must apply for accrued benefits within/i);
+    getByText(/You must apply within/i);
     getByText(/1 year/i);
   });
 
