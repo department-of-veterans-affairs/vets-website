@@ -308,21 +308,20 @@ const fillMemorableDateInput = (el, fieldType, value) => {
   const isChrome = navigator.userAgent.includes('Chrome');
   const selector = `va-text-input.input-${fieldType}, va-text-input.usa-form-group--${fieldType}-input`;
 
-  const findInput = () =>
-    cy
-      .wrap(el)
-      .find(selector)
-      .shadow()
-      .find('input');
+  cy.wrap(el)
+    .find(selector)
+    .shadow()
+    .find('input')
+    .then($input => {
+      cy.wrap($input).clear({ force: true, delay: 0 });
 
-  findInput().clear({ force: true, delay: 0 });
-
-  if (isChrome) {
-    findInput().focus();
-    cy.realType(value);
-  } else {
-    findInput().type(value, FORCE_OPTION);
-  }
+      if (isChrome) {
+        cy.wrap($input).focus();
+        cy.realType(value);
+      } else {
+        cy.wrap($input).type(value, FORCE_OPTION);
+      }
+    });
 };
 
 Cypress.Commands.add(
