@@ -9,6 +9,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import NeedHelp from '../components/NeedHelp';
 import ErrorAlert from '../components/ErrorAlert';
+import VerificationErrorAlert from '../components/VerificationErrorAlert';
 import { FLOW_TYPES } from '../utils/constants';
 
 // TODO: Maybe combine errorAlert and verificationError into a single prop
@@ -17,15 +18,7 @@ const getContent = (errorAlert, verificationError, children, flowType) => {
     return <ErrorAlert flowType={flowType} />;
   }
   if (verificationError) {
-    return (
-      <va-alert
-        data-testid="verification-error-alert"
-        class="vads-u-margin-top--4"
-        status="error"
-      >
-        {verificationError}
-      </va-alert>
-    );
+    return <VerificationErrorAlert message={verificationError} />;
   }
   return children;
 };

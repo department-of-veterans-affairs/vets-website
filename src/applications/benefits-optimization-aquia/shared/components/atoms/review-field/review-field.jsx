@@ -48,7 +48,9 @@ export const ReviewField = ({
   return (
     <div className="review-row">
       <dt>{label}</dt>
-      <dd>{displayValue}</dd>
+      <dd data-dd-privacy="mask" data-dd-action-name="review field value">
+        {displayValue}
+      </dd>
     </div>
   );
 };

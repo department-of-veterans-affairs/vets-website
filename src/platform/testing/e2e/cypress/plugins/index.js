@@ -94,6 +94,17 @@ module.exports = async (on, config) => {
       __REGISTRY__: JSON.stringify(appRegistry),
       'process.env.NODE_ENV': '"production"',
       'process.env.BUILDTYPE': '"production"',
+      // This is not a real token below. It is a format-valid placeholder that prevents @mapbox/mapbox-sdk
+      // from throwing errors at import time when no real token is available (local dev without .env).
+      'process.env.MAPBOX_TOKEN': JSON.stringify(
+        process.env.MAPBOX_TOKEN || 'pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==',
+      ),
+      'process.env.MAPBOX_TOKEN_FACILITY_LOCATOR': '""',
+      'process.env.MAPBOX_TOKEN_STATIC_PAGES': '""',
+      'process.env.MAPBOX_TOKEN_GI': '""',
+      'process.env.MAPBOX_TOKEN_ASK_VA': '""',
+      'process.env.MAPBOX_TOKEN_CAREGIVERS': '""',
+      'process.env.MAPBOX_TOKEN_REPRESENTATIVE_SEARCH': '""',
     },
     plugins: [cypressPlugin],
     platform: 'browser',

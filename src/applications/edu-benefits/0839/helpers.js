@@ -414,27 +414,14 @@ export const getAdditionalContactTitle = formData => {
     formData?.pointsOfContact?.roles?.isSchoolFinancialRepresentative === true;
   const isSchoolCertifyingOfficial =
     formData?.pointsOfContact?.roles?.isSchoolCertifyingOfficial === true;
+  const hasFinancialOrYellowRibbonRole =
+    isYellowRibbonProgramPointOfContact || isSchoolFinancialRepresentative;
 
-  const missingRoles = [];
-
-  if (
-    !isSchoolFinancialRepresentative &&
-    !isYellowRibbonProgramPointOfContact
-  ) {
-    missingRoles.push(
-      'School financial representative or Yellow Ribbon Program point of contact',
-    );
-  } else if (!isSchoolFinancialRepresentative) {
-    missingRoles.push('School financial representative');
-  } else if (!isYellowRibbonProgramPointOfContact) {
-    missingRoles.push('Yellow Ribbon Program point of contact');
+  if (isSchoolCertifyingOfficial && !hasFinancialOrYellowRibbonRole) {
+    return 'Yellow Ribbon Program point of contact or School financial representative';
   }
 
-  if (!isSchoolCertifyingOfficial) {
-    missingRoles.push('School certifying official');
-  }
-
-  return missingRoles.join(' and ') || 'School certifying official';
+  return 'School certifying official';
 };
 
 export const capitalizeFirstLetter = str => {
