@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
+import { daysFromToday } from '../../utils/dates/formatting';
 
 describe('Summary of Evidence', () => {
   const {
@@ -54,6 +55,21 @@ describe('Summary of Evidence', () => {
     { name: 'service record 1.pdf' },
     { name: 'service record 2.pdf' },
   ];
+
+  const separationHealthAssessmentUploads = [
+    { name: 'sha-a.pdf', confirmationCode: 'abc123' },
+  ];
+
+  const bddServiceInformation = {
+    servicePeriods: [
+      {
+        serviceBranch: 'Air Force',
+        dateRange: {
+          to: daysFromToday(120),
+        },
+      },
+    ],
+  };
 
   it('should render', () => {
     const form = mount(
@@ -295,6 +311,7 @@ describe('Summary of Evidence', () => {
     ).to.contain(additionalDocuments[1].name);
     form.unmount();
   });
+
   it('should render service treatment records list when service treatment records submitted', () => {
     const form = mount(
       <DefinitionTester
@@ -327,6 +344,75 @@ describe('Summary of Evidence', () => {
     ).to.contain(serviceTreatmentRecordsAttachments[1].name);
     form.unmount();
   });
+
+  it('should render uploaded separation health assessment content when enhancement feature is off', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          disability526SupportingEvidenceEnhancement: false,
+          disability526NewBddShaEnforcementWorkflowEnabled: true,
+          'view:isBddData': true,
+          serviceInformation: bddServiceInformation,
+          'view:hasSeparationHealthAssessment': true,
+          separationHealthAssessmentUploads,
+        }}
+      />,
+    );
+
+    expect(form.render().text()).to.contain('Summary of evidence');
+    expect(form.render().text()).to.contain(
+      'We’ll submit the Separation Health Assessment Part A document that you uploaded',
+    );
+    expect(form.render().text()).to.contain(
+      separationHealthAssessmentUploads[0].name,
+    );
+    expect(form.render().text()).to.not.contain(
+      'You haven’t uploaded any evidence.',
+    );
+    expect(form.render().text()).to.not.contain(
+      'You provided documents to support your claim.',
+    );
+    expect(form.render().text()).to.not.contain(
+      'Next, we’ll share some information about what to expect during a claim exam.',
+    );
+    expect(form.find('li').length).to.equal(1);
+    form.unmount();
+  });
+
+  it('should render no evidence warning when legacy summary has stale separation health assessment uploads', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          disability526SupportingEvidenceEnhancement: false,
+          disability526NewBddShaEnforcementWorkflowEnabled: true,
+          'view:isBddData': true,
+          serviceInformation: bddServiceInformation,
+          'view:hasSeparationHealthAssessment': false,
+          separationHealthAssessmentUploads,
+        }}
+      />,
+    );
+
+    expect(form.render().text()).to.contain('Summary of evidence');
+    expect(form.render().text()).to.contain(
+      'You haven’t uploaded any evidence.',
+    );
+    expect(form.render().text()).to.not.contain(
+      'We’ll submit the Separation Health Assessment Part A document that you uploaded',
+    );
+    expect(form.render().text()).to.not.contain(
+      separationHealthAssessmentUploads[0].name,
+    );
+    expect(form.find('li').length).to.equal(0);
+    form.unmount();
+  });
+
   it('should render with updated title when the enhancment feature is on', () => {
     const form = mount(
       <DefinitionTester
@@ -343,6 +429,7 @@ describe('Summary of Evidence', () => {
     expect(form.find('li').length).to.equal(0);
     form.unmount();
   });
+
   it('should render additional content when there is evidence submitted when enhancement feature is on', () => {
     const form = mount(
       <DefinitionTester
@@ -368,6 +455,190 @@ describe('Summary of Evidence', () => {
     );
     form.unmount();
   });
+
+  it('should render uploaded separation health assessment content when enhancement feature is on', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          disability526SupportingEvidenceEnhancement: true,
+          disability526NewBddShaEnforcementWorkflowEnabled: true,
+          'view:isBddData': true,
+          serviceInformation: bddServiceInformation,
+          'view:hasSeparationHealthAssessment': true,
+          separationHealthAssessmentUploads,
+        }}
+      />,
+    );
+
+    expect(form.render().text()).to.contain(
+      'Summary of supporting evidence for your disability claim',
+    );
+    expect(form.render().text()).to.contain(
+      'You provided documents to support your claim.',
+    );
+    expect(form.render().text()).to.contain(
+      'We’ll submit the Separation Health Assessment Part A (SHA A) you uploaded',
+    );
+    expect(form.render().text()).to.contain(
+      separationHealthAssessmentUploads[0].name,
+    );
+    expect(form.render().text()).to.not.contain(
+      'You haven’t uploaded any evidence.',
+    );
+    expect(form.render().text()).to.contain(
+      'Next, we’ll share some information about what to expect during a claim exam.',
+    );
+    expect(form.find('li').length).to.equal(1);
+    form.unmount();
+  });
+
+  it('should not render uploaded separation health assessment content when bdd sha toggle is off', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          disability526SupportingEvidenceEnhancement: true,
+          disability526NewBddShaEnforcementWorkflowEnabled: false,
+          'view:isBddData': true,
+          serviceInformation: bddServiceInformation,
+          'view:hasSeparationHealthAssessment': true,
+          separationHealthAssessmentUploads,
+        }}
+      />,
+    );
+
+    expect(form.render().text()).to.contain(
+      'Summary of supporting evidence for your disability claim',
+    );
+    expect(form.render().text()).to.not.contain(
+      'You provided documents to support your claim.',
+    );
+    expect(form.render().text()).to.not.contain(
+      'We’ll submit the Separation Health Assessment Part A (SHA A) you uploaded',
+    );
+    expect(form.render().text()).to.not.contain(
+      separationHealthAssessmentUploads[0].name,
+    );
+    expect(form.render().text()).to.contain(
+      'Next, we’ll share some information about what to expect during a claim exam.',
+    );
+    expect(form.find('li').length).to.equal(0);
+    form.unmount();
+  });
+
+  it('should not render uploaded separation health assessment content when sha selection is off', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          disability526SupportingEvidenceEnhancement: true,
+          disability526NewBddShaEnforcementWorkflowEnabled: true,
+          'view:isBddData': true,
+          serviceInformation: bddServiceInformation,
+          'view:hasSeparationHealthAssessment': false,
+          separationHealthAssessmentUploads,
+        }}
+      />,
+    );
+
+    expect(form.render().text()).to.contain(
+      'Summary of supporting evidence for your disability claim',
+    );
+    expect(form.render().text()).to.not.contain(
+      'You provided documents to support your claim.',
+    );
+    expect(form.render().text()).to.not.contain(
+      'We’ll submit the Separation Health Assessment Part A (SHA A) you uploaded',
+    );
+    expect(form.render().text()).to.not.contain(
+      separationHealthAssessmentUploads[0].name,
+    );
+    expect(form.render().text()).to.contain(
+      'Next, we’ll share some information about what to expect during a claim exam.',
+    );
+    expect(form.find('li').length).to.equal(0);
+    form.unmount();
+  });
+
+  it('should not render uploaded separation health assessment content when sha uploads is empty', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          disability526SupportingEvidenceEnhancement: true,
+          disability526NewBddShaEnforcementWorkflowEnabled: true,
+          'view:isBddData': true,
+          serviceInformation: bddServiceInformation,
+          'view:hasSeparationHealthAssessment': true,
+          separationHealthAssessmentUploads: [],
+        }}
+      />,
+    );
+
+    expect(form.render().text()).to.contain(
+      'Summary of supporting evidence for your disability claim',
+    );
+    expect(form.render().text()).to.not.contain(
+      'You provided documents to support your claim.',
+    );
+    expect(form.render().text()).to.not.contain(
+      'We’ll submit the Separation Health Assessment Part A (SHA A) you uploaded',
+    );
+    expect(form.render().text()).to.not.contain(
+      separationHealthAssessmentUploads[0].name,
+    );
+    expect(form.render().text()).to.contain(
+      'Next, we’ll share some information about what to expect during a claim exam.',
+    );
+    expect(form.find('li').length).to.equal(0);
+    form.unmount();
+  });
+
+  it('should not render uploaded separation health assessment content when bdd is off', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          disability526SupportingEvidenceEnhancement: true,
+          disability526NewBddShaEnforcementWorkflowEnabled: true,
+          'view:isBddData': false,
+          serviceInformation: bddServiceInformation,
+          'view:hasSeparationHealthAssessment': true,
+          separationHealthAssessmentUploads,
+        }}
+      />,
+    );
+
+    expect(form.render().text()).to.contain(
+      'Summary of supporting evidence for your disability claim',
+    );
+    expect(form.render().text()).to.not.contain(
+      'You provided documents to support your claim.',
+    );
+    expect(form.render().text()).to.not.contain(
+      'We’ll submit the Separation Health Assessment Part A (SHA A) you uploaded',
+    );
+    expect(form.render().text()).to.not.contain(
+      separationHealthAssessmentUploads[0].name,
+    );
+    expect(form.render().text()).to.contain(
+      'Next, we’ll share some information about what to expect during a claim exam.',
+    );
+    expect(form.find('li').length).to.equal(0);
+    form.unmount();
+  });
+
   it('should render VA evidence list when VA evidence submitted and updated headings when enhancement feature is on', () => {
     const form = mount(
       <DefinitionTester
@@ -391,6 +662,7 @@ describe('Summary of Evidence', () => {
     );
     form.unmount();
   });
+
   it('should render private medical facility list when private facilities selected with updated headings when enhancement feature is on', () => {
     const form = mount(
       <DefinitionTester
@@ -419,6 +691,7 @@ describe('Summary of Evidence', () => {
     );
     form.unmount();
   });
+
   it('should render private evidence list when private evidence submitted with updated heading when enhancement feature is on', () => {
     const form = mount(
       <DefinitionTester
@@ -458,6 +731,7 @@ describe('Summary of Evidence', () => {
     );
     form.unmount();
   });
+
   it('should not render private medical facilities even if entered, when upload selected when enhancement feature is on', () => {
     const form = mount(
       <DefinitionTester
@@ -481,6 +755,7 @@ describe('Summary of Evidence', () => {
     expect(form.find('li').length).to.equal(0);
     form.unmount();
   });
+
   it('should render lay evidence list when lay evidence submitted with updated heading when enhancement feature is on', () => {
     const form = mount(
       <DefinitionTester
@@ -517,6 +792,7 @@ describe('Summary of Evidence', () => {
     );
     form.unmount();
   });
+
   it('should render service treatment records list when service treatment records submitted with updated heading when enhancement feature is on', () => {
     const form = mount(
       <DefinitionTester

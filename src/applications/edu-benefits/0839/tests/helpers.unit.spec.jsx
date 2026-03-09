@@ -1082,11 +1082,11 @@ describe('0839 Helpers', () => {
       };
 
       expect(getAdditionalContactTitle(formData)).to.equal(
-        'School financial representative or Yellow Ribbon Program point of contact',
+        'Yellow Ribbon Program point of contact or School financial representative',
       );
     });
 
-    it('returns missing financial and certifying roles when only Yellow Ribbon role is true', () => {
+    it('returns school certifying official when only Yellow Ribbon role is true', () => {
       const yellowRibbonFormData = {
         pointsOfContact: {
           roles: {
@@ -1098,11 +1098,11 @@ describe('0839 Helpers', () => {
       };
 
       expect(getAdditionalContactTitle(yellowRibbonFormData)).to.equal(
-        'School financial representative and School certifying official',
+        'School certifying official',
       );
     });
 
-    it('returns missing Yellow Ribbon and certifying roles when only financial role is true', () => {
+    it('returns school certifying official when only financial role is true', () => {
       const financialRepFormData = {
         pointsOfContact: {
           roles: {
@@ -1114,7 +1114,7 @@ describe('0839 Helpers', () => {
       };
 
       expect(getAdditionalContactTitle(financialRepFormData)).to.equal(
-        'Yellow Ribbon Program point of contact and School certifying official',
+        'School certifying official',
       );
     });
 

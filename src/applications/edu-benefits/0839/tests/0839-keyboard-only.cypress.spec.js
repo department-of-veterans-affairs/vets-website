@@ -277,10 +277,7 @@ describe('22-0839 EDU Form', () => {
         .path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.focused().should(
-      'contain.text',
-      'School financial representative and School certifying official',
-    );
+    cy.focused().should('contain.text', 'School certifying official');
     cy.tabToElement(
       'input[name="root_additionalPointsOfContact_fullName_first"]',
     );
