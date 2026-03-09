@@ -4,13 +4,10 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import { mockReferralsGetApi } from './referrals-cypress-helpers';
 import MockUser from '../../../fixtures/MockUser';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import appointmentList from '../../page-objects/AppointmentList/AppointmentListPageObject';
-import referralsAndRequests from '../../referrals/page-objects/ReferralsAndRequests';
-import MockReferralListResponse from '../../../fixtures/MockReferralListResponse';
 
 describe('VAOS Referral Appointments', () => {
   beforeEach(() => {
@@ -38,10 +35,10 @@ describe('VAOS Referral Appointments', () => {
       });
     });
 
-    it('should not show view referrals link', () => {
+    it('should not show community care referrals banner', () => {
       cy.visit('/my-health/appointments');
       cy.injectAxeThenAxeCheck();
-      appointmentList.validateViewReferralsLink({ exist: false });
+      appointmentList.validateCCReferralsBanner({ exist: false });
     });
   });
 
@@ -55,60 +52,10 @@ describe('VAOS Referral Appointments', () => {
       });
     });
 
-    it('should show view referrals link', () => {
+    it('should show community care referrals banner', () => {
       cy.visit('/my-health/appointments');
       cy.injectAxeThenAxeCheck();
-      appointmentList.validateViewReferralsLink({ exist: true });
-    });
-  });
-
-  describe('Community care chiropractic flipper enabled', () => {
-    beforeEach(() => {
-      const referralsResponse = new MockReferralListResponse({
-        numberOfReferrals: 4,
-      });
-      mockReferralsGetApi({ response: referralsResponse });
-      // Set required feature flags
-      mockFeatureToggles({
-        vaOnlineSchedulingCCDirectScheduling: true,
-        vaOnlineSchedulingFlatFacilityPage: true,
-        vaOnlineSchedulingUseV2ApiRequests: true,
-        vaOnlineSchedulingCCDirectSchedulingChiropractic: true,
-      });
-    });
-
-    it('should show view referrals link for chiropractic', () => {
-      cy.visit('/my-health/appointments/referrals-requests');
-      cy.injectAxeThenAxeCheck();
-      referralsAndRequests.assertTypeOfCare({
-        exist: true,
-        typeOfCare: 'Chiropractic',
-      });
-    });
-  });
-
-  describe('Community care chiropractic flipper disabled', () => {
-    beforeEach(() => {
-      const referralsResponse = new MockReferralListResponse({
-        numberOfReferrals: 4,
-      });
-      mockReferralsGetApi({ response: referralsResponse });
-      // Set required feature flags
-      mockFeatureToggles({
-        vaOnlineSchedulingCCDirectScheduling: true,
-        vaOnlineSchedulingFlatFacilityPage: true,
-        vaOnlineSchedulingUseV2ApiRequests: true,
-        vaOnlineSchedulingCCDirectSchedulingChiropractic: false,
-      });
-    });
-
-    it('should not show view referrals link for chiropractic', () => {
-      cy.visit('/my-health/appointments/referrals-requests');
-      cy.injectAxeThenAxeCheck();
-      referralsAndRequests.assertTypeOfCare({
-        exist: false,
-        typeOfCare: 'Chiropractic',
-      });
+      appointmentList.validateCCReferralsBanner({ exist: true });
     });
   });
 });

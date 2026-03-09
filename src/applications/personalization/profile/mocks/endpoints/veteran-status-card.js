@@ -3,27 +3,20 @@
 // Eligible response - shows the veteran status card
 const eligible = {
   type: 'veteran_status_card',
-  veteranStatus: 'confirmed',
-  serviceSummaryCode: 'A1',
-  notConfirmedReason: null,
   attributes: {
     fullName: 'Jane Veteran',
     disabilityRating: 50,
-    latestService: {
-      branch: 'Army',
-      beginDate: '2010-01-01',
-      endDate: '2020-12-31',
-    },
     edipi: 1234567890,
+    veteranStatus: 'confirmed',
+    notConfirmedReason: null,
+    confirmationStatus: 'CONFIRMED',
+    serviceSummaryCode: 'A1',
   },
 };
 
 // Warning alert - dishonorable discharge
 const dishonorableDischarge = {
   type: 'veteran_status_alert',
-  veteranStatus: 'not confirmed',
-  serviceSummaryCode: 'A5',
-  notConfirmedReason: 'DISHONORABLE_DISCHARGE',
   attributes: {
     header: "You're not eligible for a Veteran Status Card",
     body: [
@@ -45,15 +38,16 @@ const dishonorableDischarge = {
       },
     ],
     alertType: 'warning',
+    veteranStatus: 'not confirmed',
+    notConfirmedReason: 'DISHONORABLE_DISCHARGE',
+    confirmationStatus: 'NOT_CONFIRMED',
+    serviceSummaryCode: 'A5',
   },
 };
 
 // Warning alert - person not found
 const personNotFound = {
   type: 'veteran_status_alert',
-  veteranStatus: 'not confirmed',
-  serviceSummaryCode: 'D',
-  notConfirmedReason: 'PERSON_NOT_FOUND',
   attributes: {
     header: "You're not eligible for a Veteran Status Card",
     body: [
@@ -65,15 +59,16 @@ const personNotFound = {
       { type: 'phone', value: '800-698-2411', tty: true },
     ],
     alertType: 'warning',
+    veteranStatus: 'not confirmed',
+    notConfirmedReason: 'PERSON_NOT_FOUND',
+    confirmationStatus: 'NOT_CONFIRMED',
+    serviceSummaryCode: 'D',
   },
 };
 
 // Error alert - system error
 const systemError = {
   type: 'veteran_status_alert',
-  veteranStatus: 'not confirmed',
-  serviceSummaryCode: 'VNA',
-  notConfirmedReason: 'ERROR',
   attributes: {
     header: 'Something went wrong',
     body: [
@@ -84,15 +79,16 @@ const systemError = {
       },
     ],
     alertType: 'error',
+    veteranStatus: 'not confirmed',
+    notConfirmedReason: 'ERROR',
+    confirmationStatus: 'NOT_CONFIRMED',
+    serviceSummaryCode: 'VNA',
   },
 };
 
 // Warning alert - ineligible service (service history doesn't meet requirements)
 const ineligibleService = {
   type: 'veteran_status_alert',
-  veteranStatus: 'not confirmed',
-  serviceSummaryCode: 'B',
-  notConfirmedReason: 'INELIGIBLE_SERVICE',
   attributes: {
     header: "You're not eligible for a Veteran Status Card",
     body: [
@@ -109,15 +105,16 @@ const ineligibleService = {
       { type: 'phone', value: '866-279-3677', tty: true },
     ],
     alertType: 'warning',
+    veteranStatus: 'not confirmed',
+    notConfirmedReason: 'INELIGIBLE_SERVICE',
+    confirmationStatus: 'NOT_CONFIRMED',
+    serviceSummaryCode: 'B',
   },
 };
 
 // Warning alert - currently serving
 const currentlyServing = {
   type: 'veteran_status_alert',
-  veteranStatus: 'not confirmed',
-  serviceSummaryCode: 'C',
-  notConfirmedReason: 'CURRENTLY_SERVING',
   attributes: {
     header: "You're not eligible for a Veteran Status Card",
     body: [
@@ -134,15 +131,16 @@ const currentlyServing = {
       { type: 'phone', value: '866-279-3677', tty: true },
     ],
     alertType: 'warning',
+    veteranStatus: 'not confirmed',
+    notConfirmedReason: 'CURRENTLY_SERVING',
+    confirmationStatus: 'NOT_CONFIRMED',
+    serviceSummaryCode: 'C',
   },
 };
 
 // Warning alert - eligibility unknown
 const eligibilityUnknown = {
   type: 'veteran_status_alert',
-  veteranStatus: 'not confirmed',
-  serviceSummaryCode: 'E',
-  notConfirmedReason: 'ELIGIBILITY_UNKNOWN',
   attributes: {
     header: "We don't know if you're eligible for this card",
     body: [
@@ -159,6 +157,10 @@ const eligibilityUnknown = {
       { type: 'phone', value: '866-279-3677', tty: true },
     ],
     alertType: 'warning',
+    veteranStatus: 'not confirmed',
+    notConfirmedReason: 'ELIGIBILITY_UNKNOWN',
+    confirmationStatus: 'NOT_CONFIRMED',
+    serviceSummaryCode: 'E',
   },
 };
 

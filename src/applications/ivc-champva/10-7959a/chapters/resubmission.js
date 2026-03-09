@@ -1,25 +1,30 @@
 import {
-  titleUI,
   descriptionUI,
-  selectUI,
   selectSchema,
-  textUI,
+  selectUI,
   textSchema,
+  textUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { validFieldCharsOnly } from '../../shared/validations';
-import { personalizeTitleByRole } from '../utils/helpers';
-import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
-import { LLM_RESPONSE } from '../components/llmUploadResponse';
+import ClaimIdentificationInfo from '../components/FormDescriptions/ClaimIdentificationInfo';
+import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
 import {
   ResubmissionDocsDescription,
-  ResubmissionLetterDescription,
   ResubmissionDocsUploadDescription,
+  ResubmissionLetterDescription,
 } from '../components/FormDescriptions/ResubmissionDescriptions';
-import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
-import ClaimIdentificationInfo from '../components/FormDescriptions/ClaimIdentificationInfo';
-import { blankSchema, fileUploadSchema } from '../definitions';
+import {
+  attachmentRequiredSchema,
+  attachmentUI,
+  blankSchema,
+  llmResponseAlertSchema,
+  llmResponseAlertUI,
+  llmUploadAlertSchema,
+  llmUploadAlertUI,
+} from '../definitions';
 import content from '../locales/en/content.json';
+import { personalizeTitleByRole } from '../utils/helpers';
 
 export const ID_NUMBER_OPTIONS = [
   content['resubmission-id-number--pdi-option'],
@@ -65,21 +70,20 @@ export const resubmissionLetterUpload = {
       ResubmissionLetterDescription,
     ),
     ...descriptionUI(FileUploadDescription),
-    ...LLM_UPLOAD_WARNING,
-    resubmissionLetterUpload: fileUploadUI({
+    ...llmUploadAlertUI,
+    resubmissionLetterUpload: attachmentUI({
       label: content['resubmission-letter-upload--input-label'],
-      attachmentName: true,
-      attachmentId: 'EOB', // hard-set for LLM verification
+      attachmentId: 'EOB',
     }),
-    ...LLM_RESPONSE,
+    ...llmResponseAlertUI,
   },
   schema: {
     type: 'object',
     required: ['resubmissionLetterUpload'],
     properties: {
-      'view:fileClaim': blankSchema,
-      resubmissionLetterUpload: fileUploadSchema,
-      'view:uploadAlert': blankSchema,
+      ...llmUploadAlertSchema,
+      resubmissionLetterUpload: attachmentRequiredSchema,
+      ...llmResponseAlertSchema,
     },
   },
 };
@@ -91,21 +95,20 @@ export const resubmissionDocsUpload = {
       ResubmissionDocsDescription,
     ),
     ...descriptionUI(ResubmissionDocsUploadDescription),
-    ...LLM_UPLOAD_WARNING,
-    resubmissionDocsUpload: fileUploadUI({
+    ...llmUploadAlertUI,
+    resubmissionDocsUpload: attachmentUI({
       label: content['resubmission-docs-upload--input-label'],
-      attachmentName: true,
       attachmentId: 'MEDDOC',
     }),
-    ...LLM_RESPONSE,
+    ...llmResponseAlertUI,
   },
   schema: {
     type: 'object',
     required: ['resubmissionDocsUpload'],
     properties: {
-      'view:fileClaim': blankSchema,
-      resubmissionDocsUpload: fileUploadSchema,
-      'view:uploadAlert': blankSchema,
+      ...llmUploadAlertSchema,
+      resubmissionDocsUpload: attachmentRequiredSchema,
+      ...llmResponseAlertSchema,
     },
   },
 };
