@@ -255,7 +255,7 @@ export const getBlockedTriageAlertConfig = ({
       }
 
       // Oracle Health messages don't show alert for NOT_ASSOCIATED
-      if (isOhMessage) {
+      if (isOhMessage || userMessagePostMigration) {
         return null;
       }
 
@@ -270,9 +270,6 @@ export const getBlockedTriageAlertConfig = ({
 
       // If multiple items, use MULTIPLE_TEAMS_BLOCKED title (matching original behavior)
       if (blockedList.length > 1) {
-        if (userMessagePostMigration) {
-          return null;
-        }
         return {
           shouldShow: true,
           title: alertTitle.MULTIPLE_TEAMS_BLOCKED,
