@@ -71,7 +71,7 @@ const {
   signature,
 } = FULL_SCHEMA.definitions;
 
-/* Chapters 
+/* Chapters
  * 1 - Vet/Service Member (required)
  * 2 - Primary Family Caregiver
  * 3 - Secondary & secondaryTwo Family Caregiver
