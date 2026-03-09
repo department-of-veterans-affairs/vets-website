@@ -15,6 +15,7 @@ import {
   hasOhi,
   hasOhiAndMedicalClaim,
   hasOhiMedicalAndMultiplePolicies,
+  needsDocHelp,
 } from '../../../utils/helpers/form-config';
 
 describe('10-7959a form-config helpers', () => {
@@ -57,6 +58,15 @@ describe('10-7959a form-config helpers', () => {
       expect(
         isDtaEnabled({
           'view:champvaEnableClaimResubmitQuestion': true,
+        }),
+      ).to.be.true;
+    });
+
+    it('needsDocHelp should return true when view field is set', () => {
+      expect(
+        needsDocHelp({
+          'view:champvaEnableClaimResubmitQuestion': true,
+          'view:resubmitDocsAvailable': true,
         }),
       ).to.be.true;
     });

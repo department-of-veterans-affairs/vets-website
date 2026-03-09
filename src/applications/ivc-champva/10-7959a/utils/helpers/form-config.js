@@ -13,6 +13,9 @@ export const isRoleOther = formData => formData.certifierRole === 'other';
 export const isDtaEnabled = formData =>
   formData['view:champvaEnableClaimResubmitQuestion'];
 
+export const needsDocHelp = formData =>
+  isDtaEnabled(formData) && formData['view:resubmitDocsAvailable'];
+
 export const isNewClaim = formData => formData.claimStatus === 'new';
 
 export const isResubmissionClaim = formData =>

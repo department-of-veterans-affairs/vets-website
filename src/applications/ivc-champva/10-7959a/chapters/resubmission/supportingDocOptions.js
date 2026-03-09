@@ -23,9 +23,7 @@ export default {
       title: INPUT_LABEL,
       labels: SCHEMA_LABELS,
     }),
-    'view:addtlInfo': {
-      ...descriptionUI(ResubmissionOptionsAddtlInfo),
-    },
+    'view:addtlInfo': descriptionUI(ResubmissionOptionsAddtlInfo),
   },
   schema: {
     type: 'object',
