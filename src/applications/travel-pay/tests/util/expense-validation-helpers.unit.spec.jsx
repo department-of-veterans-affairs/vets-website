@@ -235,6 +235,31 @@ describe('validateRequestedAmount', () => {
     expect(result.errors.costRequested).to.be.null;
   });
 
+  it('rejects integer amount (no decimal) on SUBMIT', () => {
+    const result = validateRequestedAmount('10', DATE_VALIDATION_TYPE.SUBMIT);
+
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal(
+      'Enter an amount using this format: x.xx',
+    );
+  });
+
+  it('rejects amount with fewer than 2 decimal places on SUBMIT', () => {
+    const result = validateRequestedAmount('2.5', DATE_VALIDATION_TYPE.SUBMIT);
+
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal(
+      'Enter an amount using this format: x.xx',
+    );
+  });
+
+  it('accepts valid X.XX format on SUBMIT', () => {
+    const result = validateRequestedAmount('10.00', DATE_VALIDATION_TYPE.SUBMIT);
+
+    expect(result.isValid).to.be.true;
+    expect(result.errors.costRequested).to.be.null;
+  });
+
   it('allows partial input (1 decimal place) on CHANGE', () => {
     const result = validateRequestedAmount('3.5', DATE_VALIDATION_TYPE.CHANGE);
 
