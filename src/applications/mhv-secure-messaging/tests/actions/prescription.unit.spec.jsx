@@ -351,7 +351,7 @@ describe('prescription actions', () => {
       await store.dispatch(getPrescriptionById(prescriptionId));
 
       const actions = store.getActions();
-      expect(actions[2]).to.deep.equal({
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
         payload: mockResponse.data.attributes,
       });
@@ -375,7 +375,7 @@ describe('prescription actions', () => {
       await store.dispatch(getPrescriptionById(prescriptionId));
 
       const actions = store.getActions();
-      expect(actions[2]).to.deep.equal({
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
         payload: 'Non-VA medication',
       });
@@ -398,7 +398,7 @@ describe('prescription actions', () => {
       await store.dispatch(getPrescriptionById(prescriptionId));
 
       const actions = store.getActions();
-      expect(actions[2]).to.deep.equal({
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
         payload: 'Non-VA medication',
       });

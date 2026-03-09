@@ -526,7 +526,7 @@ const ComposeForm = props => {
               sendData,
               attachmentsRef.current.length > 0,
               draftInProgress.ohTriageGroup,
-              !!isRxRenewalDraft, // isRxRenewal: routes to renewal endpoint
+              !!isRxRenewalDraft, // isRxRenewal: enables Datadog renewal logging
               !!(isRxRenewalDraft && redirectPath), // suppress success alert when redirecting to Medications
             ),
           );
