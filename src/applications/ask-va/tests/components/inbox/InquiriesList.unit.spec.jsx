@@ -6,14 +6,17 @@ import { standardizeInquiries } from '../../../utils/inbox';
 import { mockInquiries as rawInquiries } from '../../utils/mock-inquiries';
 
 describe('InquiriesList', () => {
-  const mockInquiries = standardizeInquiries(rawInquiries);
+  const mockData = standardizeInquiries(rawInquiries);
+  const personalInquiries = mockData.standardInquiries.filter(
+    inq => inq.levelOfAuthentication.toLowerCase() === 'personal',
+  );
 
   it('only renders 6 items per page', () => {
     const view = render(
       <InquiriesList
         categoryFilter="All"
         statusFilter="All"
-        inquiries={mockInquiries.personal}
+        inquiries={personalInquiries}
       />,
     );
 
@@ -26,18 +29,18 @@ describe('InquiriesList', () => {
       <InquiriesList
         categoryFilter="All"
         statusFilter="All"
-        inquiries={mockInquiries.personal}
+        inquiries={personalInquiries}
       />,
     );
     const pageText = view.container.textContent;
 
-    expect(pageText).to.contain(mockInquiries.personal[0].inquiryNumber);
-    expect(pageText).to.contain(mockInquiries.personal[1].inquiryNumber);
-    expect(pageText).to.contain(mockInquiries.personal[2].inquiryNumber);
-    expect(pageText).to.contain(mockInquiries.personal[3].inquiryNumber);
-    expect(pageText).to.contain(mockInquiries.personal[4].inquiryNumber);
-    expect(pageText).to.contain(mockInquiries.personal[5].inquiryNumber);
-    expect(pageText).to.not.contain(mockInquiries.personal[6].inquiryNumber);
+    expect(pageText).to.contain(personalInquiries[0].inquiryNumber);
+    expect(pageText).to.contain(personalInquiries[1].inquiryNumber);
+    expect(pageText).to.contain(personalInquiries[2].inquiryNumber);
+    expect(pageText).to.contain(personalInquiries[3].inquiryNumber);
+    expect(pageText).to.contain(personalInquiries[4].inquiryNumber);
+    expect(pageText).to.contain(personalInquiries[5].inquiryNumber);
+    expect(pageText).to.not.contain(personalInquiries[6].inquiryNumber);
   });
 
   it('renders an alert if inquiries array is empty', () => {
@@ -60,13 +63,13 @@ describe('InquiriesList', () => {
       <InquiriesList
         categoryFilter="All"
         statusFilter="All"
-        inquiries={mockInquiries.personal}
+        inquiries={personalInquiries}
       />,
     );
 
     // Confirm starting state
-    const firstPageFirstNumber = mockInquiries.personal[0].inquiryNumber;
-    const secondPageFirstNumber = mockInquiries.personal[6].inquiryNumber;
+    const firstPageFirstNumber = personalInquiries[0].inquiryNumber;
+    const secondPageFirstNumber = personalInquiries[6].inquiryNumber;
     const pagination = view.container.querySelector('va-pagination');
 
     expect(view.getByText(firstPageFirstNumber)).to.exist;
