@@ -27,7 +27,7 @@ const config = {
     },
     H2: {
       font: 'Bitter-Bold',
-      size: 13,
+      size: 14,
     },
   },
   paragraph: {
@@ -37,11 +37,11 @@ const config = {
   text: {
     boldFont: 'SourceSansPro-Bold',
     font: 'SourceSansPro-Regular',
-    size: 8,
+    size: 10,
   },
   disclaimer: {
     font: 'SourceSansPro-Regular',
-    size: 7,
+    size: 11,
   },
   instruction: {
     font: 'SourceSansPro-Regular',
@@ -138,15 +138,15 @@ const generate = async data => {
 
   const cardYPosition = doc.y;
   const cardXPosition = doc.x;
-  const cardWidth = 260; // roughly results in a 2 x 3.5 inch rectangle
-  const cardHeight = 125;
-  const cardPadding = 10;
+  const cardWidth = 291;
+  const cardHeight = 141;
+  const cardPadding = 18;
 
   // Add a dotted line to indicate where the card should be cut out
   const cardWrapper = doc.struct('Artifact', () => {
     doc
       .lineWidth(0.5)
-      .roundedRect(doc.page.margins.left, doc.y, cardWidth, cardHeight, 8)
+      .roundedRect(doc.page.margins.left, doc.y, cardWidth, cardHeight, 12)
       .dash(3.5, { space: 3.5 })
       .stroke();
   });
@@ -154,23 +154,26 @@ const generate = async data => {
   cardSection.add(cardWrapper);
 
   // Card title
-  doc.moveDown(0.4);
   const cardHeading = doc.struct('H2', () => {
     doc
       .font(config.headings.H2.font)
-      .fontSize(10)
-      .text('Veteran Status Card', doc.page.margins.left + cardPadding, doc.y);
+      .fontSize(config.headings.H2.size)
+      .text(
+        'Veteran Status Card',
+        doc.page.margins.left + cardPadding,
+        cardYPosition + 15,
+      );
   });
   cardSection.add(cardHeading);
 
   // VA seal
   if (data.details.seal) {
     const sealGraphic = await fetchImage(data.details.seal.url);
-    const sealWidth = 45;
+    const sealWidth = 47;
     const sealImage = doc.image(
       sealGraphic,
-      cardXPosition + cardWidth - cardPadding - sealWidth, // positioned relative to top-right corner
-      cardYPosition + cardPadding,
+      cardXPosition + 225,
+      cardYPosition + 14,
       { width: sealWidth, alt: data.details.image.title },
     );
     const seal = doc.struct('Figure', { alt: data.details.seal.title }, [
@@ -179,13 +182,16 @@ const generate = async data => {
     cardSection.add(seal);
   }
 
+  const contentStartY = cardYPosition + 36;
+
   // Name section
-  doc.moveDown(0.15);
   const nameHeader = doc.struct('H2', () => {
     doc
       .font(config.text.boldFont)
       .fontSize(config.text.size)
-      .text('Name', doc.page.margins.left + cardPadding, doc.y, { lineGap: 2 });
+      .text('Name', doc.page.margins.left + cardPadding, contentStartY, {
+        lineGap: 0,
+      });
   });
   cardSection.add(nameHeader);
 
@@ -193,18 +199,27 @@ const generate = async data => {
     doc
       .font(config.text.font)
       .fontSize(config.text.size)
-      .text(data.details.fullName, { lineGap: 2 });
+      .text(
+        data.details.fullName,
+        doc.page.margins.left + cardPadding,
+        contentStartY + 13,
+        { lineGap: 0 },
+      );
   });
   cardSection.add(nameContent);
 
   // Latest period of service (only shown when not using shared service)
   if (!data.details.useSharedService && data.details.latestService) {
-    doc.moveDown(0.2);
     const serviceHeader = doc.struct('H2', () => {
       doc
         .font(config.text.boldFont)
         .fontSize(config.text.size)
-        .text('Latest period of service', { lineGap: 2 });
+        .text(
+          'Latest period of service',
+          doc.page.margins.left + cardPadding,
+          contentStartY + 32,
+          { lineGap: 0 },
+        );
     });
     cardSection.add(serviceHeader);
 
@@ -212,31 +227,40 @@ const generate = async data => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(data.details.latestService, { lineGap: 2 });
+        .text(
+          data.details.latestService,
+          doc.page.margins.left + cardPadding,
+          contentStartY + 48,
+          { lineGap: 0 },
+        );
     });
     cardSection.add(serviceContent);
   }
 
   // DOD ID Number and VA disability rating - side by side
-  doc.moveDown(0.3);
-  const dodHeaderY = doc.y;
+  const dodRowY = contentStartY + 34;
 
   const dodHeader = doc.struct('H2', () => {
     doc
       .font(config.text.boldFont)
       .fontSize(config.text.size)
-      .text('DoD ID Number', doc.page.margins.left + cardPadding, doc.y, {
-        lineGap: 2,
+      .text('DoD ID Number', doc.page.margins.left + cardPadding, dodRowY, {
+        lineGap: 0,
       });
   });
   cardSection.add(dodHeader);
 
-  const dodValueY = doc.y;
+  const dodValueY = dodRowY + 16;
   const dodContent = doc.struct('P', () => {
     doc
       .font(config.text.font)
       .fontSize(config.text.size)
-      .text(data.details.edipi, { lineGap: 2 });
+      .text(
+        data.details.edipi,
+        doc.page.margins.left + cardPadding,
+        dodValueY,
+        { lineGap: 0 },
+      );
   });
   cardSection.add(dodContent);
 
@@ -251,9 +275,9 @@ const generate = async data => {
         .fontSize(config.text.size)
         .text(
           'VA disability rating',
-          doc.page.margins.left + cardPadding + 95,
-          dodHeaderY,
-          { lineGap: 2 },
+          doc.page.margins.left + cardPadding + 121,
+          dodRowY,
+          { lineGap: 0 },
         );
     });
     cardSection.add(ratingHeader);
@@ -264,16 +288,15 @@ const generate = async data => {
         .fontSize(config.text.size)
         .text(
           `${data.details.totalDisabilityRating}%`,
-          doc.page.margins.left + cardPadding + 95,
+          doc.page.margins.left + cardPadding + 121,
           dodValueY,
-          { lineGap: 2 },
+          { lineGap: 0 },
         );
     });
     cardSection.add(ratingContent);
   }
 
   // Disclaimer text
-  doc.moveDown(0.8);
   const disclaimerText = doc.struct('P', () => {
     doc
       .font(config.disclaimer.font)
@@ -281,6 +304,7 @@ const generate = async data => {
       .text(
         "This card doesn't entitle you to any VA benefits.",
         doc.page.margins.left + cardPadding,
+        cardYPosition + 113,
       );
   });
   cardSection.add(disclaimerText);
