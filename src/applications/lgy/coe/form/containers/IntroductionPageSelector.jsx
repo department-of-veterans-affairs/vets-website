@@ -5,8 +5,18 @@ import IntroductionPage from './IntroductionPage';
 import IntroductionPage2 from './IntroductionPage2';
 
 export const IntroductionPageSelector = props => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const {
+    TOGGLE_NAMES,
+    useToggleLoadingValue,
+    useToggleValue,
+  } = useFeatureToggle();
   const enableCveIntro = useToggleValue(TOGGLE_NAMES.coeEnableCveIntro);
+  const isLoading = useToggleLoadingValue(TOGGLE_NAMES.coeEnableCveIntro);
+
+  if (isLoading) {
+    return <va-loading-indicator message="Loading your application..." />;
+  }
+
   const IntroductionPageComponent = enableCveIntro
     ? IntroductionPage2
     : IntroductionPage;
