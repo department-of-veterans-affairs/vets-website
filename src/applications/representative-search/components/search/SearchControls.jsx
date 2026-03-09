@@ -21,8 +21,7 @@ import {
 
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 
-const SearchControls = props => {
-  const { onSubmit } = props;
+const SearchControls = ({ onSubmit }) => {
   const currentQuery = useSelector(state => state.searchQuery);
   const geocodeError = useSelector(state => state.errors.isErrorGeocode);
   const {

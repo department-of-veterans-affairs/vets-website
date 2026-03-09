@@ -1,14 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-
 import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useStore, useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { isEmpty } from 'lodash';
-import appendQuery from 'append-query';
-import { browserHistory } from 'react-router';
 import repStatusLoader from 'platform/user/widgets/representative-status';
+import { useLocation } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { recordSearchResultsChange } from '../utils/analytics';
 import GetFormHelp from '../components/footer/GetFormHelp';
 import { ErrorTypes } from '../constants';
@@ -23,7 +20,10 @@ import {
 import SearchSection from '../components/search/SearchSection';
 import ResultsSection from '../components/results/ResultsSection';
 
-const SearchPage = props => {
+const SearchPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const currentQuery = useSelector(state => state.searchQuery);
   const errors = useSelector(state => state.errors);
   const searchResults = useSelector(state => state.searchResult.searchResults);
@@ -39,19 +39,16 @@ const SearchPage = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisplayingResults, setIsDisplayingResults] = useState(false);
 
-  const isPostLogin = props.location?.search?.includes('postLogin=true');
+  const isPostLogin = location.search.includes('postLogin=true');
 
   const resultsArePresent =
-    (props.location?.search && searchResults?.length > 0) ||
-    isEmpty(props.location.query);
+    location.search.length <= 1 || searchResults?.length > 0;
 
   const store = useStore();
   const dispatch = useDispatch();
 
   const updateUrlParams = params => {
-    const { location } = props;
-
-    const queryParams = {
+    const newSearchParams = new URLSearchParams({
       address: currentQuery.locationInputString,
       lat: currentQuery.position?.latitude,
       long: currentQuery.position?.longitude,
@@ -59,20 +56,19 @@ const SearchPage = props => {
       perPage: 10,
       sort: currentQuery.sortType?.toLowerCase(),
       type: currentQuery.representativeType,
-      name: currentQuery.representativeInputString,
-      organizationFilter: currentQuery.organizationFilter,
+      name: currentQuery.representativeInputString ?? '',
+      organizationFilter: currentQuery.organizationFilter ?? '',
       ...params,
-    };
+    });
 
     if (currentQuery.committedSearchQuery.searchArea !== null) {
-      queryParams.distance = currentQuery.committedSearchQuery.searchArea;
+      newSearchParams.set(
+        'distance',
+        currentQuery.committedSearchQuery.searchArea,
+      );
     }
 
-    const queryStringObj = appendQuery(
-      `/get-help-from-accredited-representative/find-rep${location.pathname}`,
-      queryParams,
-    );
-    browserHistory.push(queryStringObj);
+    navigate({ search: `?${newSearchParams}` }, { replace: true });
   };
 
   const handleSearch = async () => {
@@ -83,8 +79,6 @@ const SearchPage = props => {
   };
 
   const handleSearchViaUrl = () => {
-    const { location } = props;
-
     if (resultsArePresent || isPostLogin) {
       return;
     }
@@ -94,22 +88,22 @@ const SearchPage = props => {
     const queryUpdateCommitPayload = {
       id: Date.now(),
       context: {
-        location: location.query.address,
-        repOrgName: location.query.name,
+        location: searchParams.get('address'),
+        repOrgName: searchParams.get('name'),
       },
-      locationQueryString: location.query.address,
-      locationInputString: location.query.address,
+      locationQueryString: searchParams.get('address'),
+      locationInputString: searchParams.get('address'),
       position: {
-        latitude: location.query.lat,
-        longitude: location.query.long,
+        latitude: searchParams.get('lat'),
+        longitude: searchParams.get('long'),
       },
-      representativeQueryString: location.query.name,
-      representativeInputString: location.query.name,
-      representativeType: location.query.type,
-      organizationFilter: location.query.organizationFilter,
-      page: location.query.page,
-      sortType: location.query.sort,
-      searchArea: location.query.distance,
+      representativeQueryString: searchParams.get('name'),
+      representativeInputString: searchParams.get('name'),
+      representativeType: searchParams.get('type'),
+      organizationFilter: searchParams.get('organizationFilter'),
+      page: searchParams.get('page'),
+      sortType: searchParams.get('sort'),
+      searchArea: searchParams.get('distance'),
     };
 
     dispatch(updateSearchQuery(queryUpdateCommitPayload));
@@ -136,14 +130,14 @@ const SearchPage = props => {
 
     updateUrlParams({
       address: context.location,
-      name: representativeInputString || null,
+      name: representativeInputString ?? '',
       lat: latitude,
       long: longitude,
       type: representativeType,
       page: page || 1,
       sort: sortType,
       distance,
-      organizationFilter,
+      organizationFilter: organizationFilter ?? '',
     });
 
     if (!searchWithInputInProgress) {
@@ -157,34 +151,27 @@ const SearchPage = props => {
         totalPages: searchResults?.meta?.totalPages,
         currentPage: searchResults?.meta?.currentPage,
       };
-
-      const locationUpdated =
-        context.location !== previousLocationInputString.current;
-
-      const sortTypeUpdated = sortType !== previousSortType.current;
-
-      const repTypeUpdated =
-        representativeType !== previousRepresentativeType.current;
-
-      const repNameUpdated =
-        representativeInputString !== previousRepresentativeInputString.current;
-
-      if (locationUpdated) {
+      if (
+        previousLocationInputString.current &&
+        context.location !== previousLocationInputString.current
+      ) {
         recordSearchResultsChange(dataLayerProps, 'location');
         previousLocationInputString.current = context.location;
         return;
       }
 
-      if (sortTypeUpdated) {
+      if (sortType !== previousSortType.current) {
         recordSearchResultsChange(dataLayerProps, 'sort', sortType);
         previousSortType.current = sortType;
       }
 
-      if (repTypeUpdated) {
+      if (representativeType !== previousRepresentativeType.current) {
         recordSearchResultsChange(dataLayerProps, 'filter', representativeType);
         previousRepresentativeType.current = representativeType;
       }
-      if (repNameUpdated) {
+      if (
+        representativeInputString !== previousRepresentativeInputString.current
+      ) {
         recordSearchResultsChange(
           dataLayerProps,
           'filter',
@@ -323,25 +310,6 @@ const SearchPage = props => {
       </div>
     </>
   );
-};
-
-SearchPage.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-    query: PropTypes.shape({
-      address: PropTypes.string,
-      distance: PropTypes.string,
-      name: PropTypes.string,
-      lat: PropTypes.string,
-      long: PropTypes.string,
-      page: PropTypes.string,
-      perPage: PropTypes.string,
-      sort: PropTypes.string,
-      type: PropTypes.string,
-      searchArea: PropTypes.string,
-    }),
-    search: PropTypes.string,
-  }),
 };
 
 export default SearchPage;

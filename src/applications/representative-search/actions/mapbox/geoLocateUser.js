@@ -6,7 +6,7 @@ import {
 import { searchCriteraFromCoords } from '../../utils/mapHelpers';
 import { updateSearchQuery } from '../search/updateSearchQuery';
 
-export const geolocateUser = () => async dispatch => {
+export const geolocateUser = async dispatch => {
   const GEOLOCATION_TIMEOUT = 10000;
   if (navigator?.geolocation?.getCurrentPosition) {
     dispatch({ type: GEOLOCATE_USER });
