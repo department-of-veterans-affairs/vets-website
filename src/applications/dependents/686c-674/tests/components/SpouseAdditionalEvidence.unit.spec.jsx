@@ -110,9 +110,9 @@ describe('SpouseAdditionalEvidence', () => {
 
   it('should render the submit your files section', () => {
     const { container } = renderWithStore({});
-    const submitFilesHeader = container.querySelector('h3');
+    const submitFilesHeader = container.querySelector('h4');
 
-    expect(submitFilesHeader).to.not.be.null;
+    expect(submitFilesHeader).to.exist;
     expect(submitFilesHeader.textContent).to.include(
       'Submit your files online',
     );
@@ -120,11 +120,8 @@ describe('SpouseAdditionalEvidence', () => {
 
   it('should render the document upload instructions', () => {
     const { container } = renderWithStore({});
-    const uploadInstructions = container.querySelector('va-additional-info');
+    const uploadInstructions = container.querySelector('.upload-details');
 
-    expect(uploadInstructions).to.not.be.null;
-    expect(uploadInstructions.getAttribute('trigger')).to.equal(
-      'Document upload instructions',
-    );
+    expect(uploadInstructions).to.exist;
   });
 });

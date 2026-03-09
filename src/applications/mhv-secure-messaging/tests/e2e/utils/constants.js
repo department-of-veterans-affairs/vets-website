@@ -138,7 +138,7 @@ export const Locators = {
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
     // check if below are duplicates
     REPLY_BTN: '#reply-button',
-    REPLY: '[data-testid="reply-button-body"]',
+    REPLY: 'reply-button-body',
     CONTINUE: 'continue-button',
     TEST2: '[data-testid=radiobutton-TEST2]',
     TESTAGAIN: '[data-testid=radiobutton-TESTAGAIN]',
@@ -329,10 +329,21 @@ export const Alerts = {
     LOAD_API_ERROR: `We can’t load your contact list right now`,
   },
   CONTACT_LIST_MIGRATION: {
+    P1_TO_P5_MIGRATION: {
+      HEADLINE: "We're making changes to your contact list",
+      // Partial text for cy.contains() - excludes dynamic T-6 date
+      BODY_TOP:
+        'we’ll remove care teams from these facilities from your contact list:',
+      // Partial text for cy.contains() - excludes dynamic T+2 date
+      BODY_BOTTOM:
+        'Note: You can still send messages to care teams at these facilities after',
+    },
     POST_MIGRATION: {
       HEADLINE: 'We updated your contact list',
-      BODY:
+      BODY_TOP:
         'We removed care teams from these facilities from your contact list:',
+      BODY_BOTTOM:
+        'You can still send messages to care teams at these facilities. But the care team names will be different.',
     },
   },
   ATTACHMENT: {

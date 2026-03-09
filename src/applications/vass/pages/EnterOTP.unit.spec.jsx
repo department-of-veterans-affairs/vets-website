@@ -19,6 +19,7 @@ import { FLOW_TYPES, URLS, VASS_PHONE_NUMBER } from '../utils/constants';
 import {
   createOTPInvalidError,
   createOTPAccountLockedError,
+  createOTPExpiredError,
   createAppointmentAlreadyBookedError,
   createVassApiError,
   createNotWithinCohortError,
@@ -237,6 +238,21 @@ describe('VASS Component: EnterOTP', () => {
         expect(errorAlert).to.exist;
         expect(errorAlert.textContent).to.match(
           /The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes./i,
+        );
+      });
+    });
+
+    it('should display expired OTP error message', async () => {
+      setFetchJSONFailure(global.fetch.onCall(0), createOTPExpiredError());
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
+      const continueButton = getByTestId('continue-button');
+      continueButton.click();
+      await waitFor(() => {
+        const errorAlert = getByTestId('enter-otp-error-alert');
+        expect(errorAlert).to.exist;
+        expect(errorAlert.textContent).to.match(
+          /The one-time verification code you entered has expired. Select the link in your email to get a new code and schedule a call./i,
         );
       });
     });

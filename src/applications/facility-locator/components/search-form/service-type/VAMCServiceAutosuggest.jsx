@@ -7,8 +7,6 @@ import useServiceType, {
 } from '../../../hooks/useServiceType';
 import Autosuggest from '../autosuggest';
 
-const MIN_SEARCH_CHARS = 3;
-
 const VAMCServiceAutosuggest = ({
   committedServiceDisplay,
   isMobile,
@@ -192,9 +190,6 @@ const VAMCServiceAutosuggest = ({
       options={options}
       showDownCaret
       showError={false}
-      showOptionsRestriction={
-        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
-      }
       shouldShowNoResults
     />
   );
