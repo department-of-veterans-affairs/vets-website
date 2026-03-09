@@ -18,7 +18,7 @@ export const fillDateWebComponentPattern = (fieldName, value) => {
         .find('select')
         .as('field');
 
-      cy.get('@field').select(parseInt(month, 10));
+      cy.get('@field').select(parseInt(month, 10), { force: true });
       cy.get('@field').realPress('Tab');
       cy.get('@field').realType(day);
       cy.get('@field').realPress('Tab');
@@ -30,7 +30,7 @@ export const fillDateWebComponentPattern = (fieldName, value) => {
         .shadow()
         .find('select')
         .as('month');
-      cy.get('@month').select(parseInt(month, 10));
+      cy.get('@month').select(parseInt(month, 10), { force: true });
       cy.get(`va-memorable-date[name="root_${fieldName}"]`)
         .shadow()
         .find('va-text-input.usa-form-group--day-input')
@@ -85,6 +85,20 @@ const testConfig = createTestConfig(
         },
       });
 
+      cy.intercept('PUT', '/v0/in_progress_forms/21P-530A', {
+        statusCode: 200,
+        body: {
+          data: {
+            attributes: {
+              metadata: {
+                version: 0,
+                returnUrl: '/introduction',
+              },
+            },
+          },
+        },
+      });
+
       // Login
       cy.login(user);
     },
@@ -92,16 +106,18 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          // VaLinkAction
-          cy.get('[data-testid="start-burial-allowance-link"]');
-          cy.get('[data-testid="start-burial-allowance-link"]').click();
+          cy.get('[data-testid="start-burial-allowance-link"]').click({
+            force: true,
+          });
         });
       },
       // Not sure why the date page wasn't playing nice.
-      'service-periods/:index/dates': ({ afterHook }) => {
+      'service-periods/:index/dates': ({ afterHook, params }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const { dateEnteredService, dateLeftService } = data.periods[0];
+            const periodIndex = params?.index ?? 0;
+            const period = data.periods?.[periodIndex];
+            const { dateEnteredService, dateLeftService } = period || {};
             if (dateEnteredService) {
               fillDateWebComponentPattern(
                 'dateEnteredService',
