@@ -4,7 +4,10 @@ import mockVaFileNumber from './fixtures/va-file-number.json';
 import mockDependents from './fixtures/mock-dependents.json';
 import mockUser from './user.json';
 
-export const setupCypress = (returnUrl = '') => {
+export const setupCypress = ({
+  returnUrl = '',
+  useTestDataInSip = false,
+} = {}) => {
   // DoB in prefill processes MM/dd/yyyy format from `/show` endpoint to
   // MM-dd-yyyy
   const processedDependents = mockDependents.data.attributes.persons.map(
@@ -84,19 +87,22 @@ export const setupCypress = (returnUrl = '') => {
   );
   cy.get('@testData').then(testData => {
     const mockSipGet = {
-      formData: {
-        veteranInformation: testData.veteranInformation,
-        veteranContactInformation: testData.veteranContactInformation,
-        nonPrefill: {
-          dependents: {
-            success: 'true',
-            dependents: processedDependents,
+      formData: useTestDataInSip
+        ? testData
+        : {
+            veteranInformation: testData.veteranInformation,
+            veteranContactInformation: testData.veteranContactInformation,
+            nonPrefill: {
+              dependents: {
+                success: 'true',
+                dependents: processedDependents,
+              },
+              isInReceiptOfPension:
+                testData.veteranInformation.isInReceiptOfPension || -1,
+              netWorthLimit:
+                testData.veteranInformation.netWorthLimit || 163699,
+            },
           },
-          isInReceiptOfPension:
-            testData.veteranInformation.isInReceiptOfPension || -1,
-          netWorthLimit: testData.veteranInformation.netWorthLimit || 163699,
-        },
-      },
       metadata: {
         version: 0,
         prefill: true,
