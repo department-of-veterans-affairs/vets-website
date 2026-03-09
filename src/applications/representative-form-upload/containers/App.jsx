@@ -48,7 +48,7 @@ const App = ({ children }) => {
         'va-text-input[name="root_veteranFullName_first"]',
         'va-text-input[name="root_claimantFullName_first"]',
       ],
-      '.usa-label{margin-top: 16px} #dateHint {display: none} .usa-form-group--month-select {width: 159px} .usa-accordion, .usa-accordion-bordered, .usa-accordion--bordered {margin: 24px 0 !important;} .usa-accordion__content.usa-prose {border:1px solid #f0f0f0;} .usa-hint {white-space: pre-line; margin-bottom: 16px} .input-wrap .usa-fieldset .usa-legend h3 {display:block}',
+      '.usa-label{margin-top: 16px} #dateHint {display: none} .usa-form-group--month-select {width: 159px} .usa-accordion, .usa-accordion-bordered, .usa-accordion--bordered {margin: 24px 0 !important;} .usa-accordion__content.usa-prose {border:1px solid #f0f0f0;} .usa-hint {white-space: pre-line; margin-bottom: 16px} .label-header {display:none} .label-header:has([for="fileInputField"]) {display:block}.input-wrap .usa-fieldset .usa-legend h3 {display:block}',
     );
   });
 
