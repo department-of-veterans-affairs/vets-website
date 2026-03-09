@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -38,11 +38,55 @@ const DocumentUpload = ({
 
   const defaultHint = `You can upload a ${joinedTypes} file. Your file should be no larger than 5MB.`;
 
+  const fileInputRef = useRef(null);
+
+  const injectHintBullets = useCallback(
+    () => {
+      const el = fileInputRef.current;
+      if (!el || !el.shadowRoot) return;
+      const hintDiv = el.shadowRoot.querySelector('#input-hint-message');
+      if (!hintDiv) return;
+      hintDiv.innerHTML = '';
+      const ul = document.createElement('ul');
+      ul.style.margin = '0';
+      ul.style.paddingLeft = '1.5rem';
+      const li1 = document.createElement('li');
+      li1.textContent = fileTypesHint;
+      const li2 = document.createElement('li');
+      li2.textContent = renameHint;
+      ul.appendChild(li1);
+      ul.appendChild(li2);
+      hintDiv.appendChild(ul);
+    },
+    [fileTypesHint, renameHint],
+  );
+
+  useEffect(
+    () => {
+      if (!additionalHint) return undefined;
+      const id = setTimeout(injectHintBullets, 0);
+      return () => clearTimeout(id);
+    },
+    [additionalHint, injectHintBullets],
+  );
+
+  // Re-inject when error changes because the component re-renders its shadow DOM
+  useEffect(
+    () => {
+      if (!additionalHint) return undefined;
+      const id = setTimeout(injectHintBullets, 0);
+      return () => clearTimeout(id);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [error],
+  );
+
   return (
     <>
       <VaFileInput
+        ref={fileInputRef}
         accept={acceptedFileTypes.join(',')}
-        hint={additionalHint ? undefined : defaultHint}
+        hint={additionalHint ? ' ' : defaultHint}
         label={label}
         maxFileSize={5200000}
         minFileSize={0}
@@ -52,14 +96,7 @@ const DocumentUpload = ({
         required
         error={error}
         value={currentDocument}
-      >
-        {additionalHint && (
-          <ul slot="hint">
-            <li>{fileTypesHint}</li>
-            <li>{renameHint}</li>
-          </ul>
-        )}
-      </VaFileInput>
+      />
 
       <va-additional-info trigger="How to upload paper copies">
         <p>
