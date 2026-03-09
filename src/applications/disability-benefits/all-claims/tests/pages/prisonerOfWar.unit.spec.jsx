@@ -13,10 +13,13 @@ import { ERR_MSG_CSS_CLASS } from '../../constants';
 const selectPowStatus = (form, value = 'Y') => {
   const powStatusRadio = form.getDOMNode().querySelector('va-radio');
 
-  // Keep compatibility with environments where querySelector is patched/mocked.
-  if (powStatusRadio?.__events?.vaValueChange) {
-    powStatusRadio.__events.vaValueChange({ detail: { value } });
-  }
+  powStatusRadio.dispatchEvent(
+    new CustomEvent('vaValueChange', {
+      detail: { value },
+      bubbles: true,
+      composed: true,
+    }),
+  );
 
   form.update();
 };
