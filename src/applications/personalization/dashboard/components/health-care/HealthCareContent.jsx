@@ -142,14 +142,18 @@ const HealthCareContent = ({
         )}
         {hasUpcomingAppointment &&
           !isLOA1 && (
-            <div className="vads-l-row">
-              {upcomingAppointments.map(appointment => (
-                <DashboardWidgetWrapper key={appointment.id}>
-                  <AppointmentCard appointment={appointment} />
-                </DashboardWidgetWrapper>
-              ))}
-              <ManageAllAppointmentsLink />
-            </div>
+            <>
+              <div className="vads-l-row">
+                {upcomingAppointments.map(appointment => (
+                  <DashboardWidgetWrapper key={appointment.id}>
+                    <AppointmentCard appointment={appointment} />
+                  </DashboardWidgetWrapper>
+                ))}
+              </div>
+              <p className="vads-u-margin-y--0">
+                <ManageAllAppointmentsLink />
+              </p>
+            </>
           )}
         {!isVAPatient &&
           !isLOA1 && (
