@@ -1,0 +1,77 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { downloadCh31PdfLetter } from '../actions/ch31-case-status-details';
+
+const ApplicationDiscontinuedAlert = ({ discontinuedReason, resCaseId }) => {
+  const dispatch = useDispatch();
+  const { loading: isDownloading, error: downloadError } = useSelector(
+    state => state?.ch31PdfLetterDownload || {},
+  );
+
+  const handleDownload = event => {
+    event.preventDefault();
+
+    if (isDownloading) return;
+
+    dispatch(downloadCh31PdfLetter(resCaseId));
+  };
+
+  let downloadErrorMessage = null;
+  const notFound = downloadError?.status === 404;
+
+  if (notFound) {
+    downloadErrorMessage =
+      'Letter not found. Contact your counselor for additional information.';
+  } else if (downloadError) {
+    downloadErrorMessage =
+      "We can't download your letter right now. Please try again later.";
+  }
+
+  return (
+    <div className="vads-u-margin-y--3">
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="error"
+        visible
+      >
+        <h3 slot="headline">Your Chapter 31 claim has been discontinued</h3>
+        <p>
+          Your VR&E Chapter 31 claim has been discontinued for the following
+          reasons:
+        </p>
+        <p>{discontinuedReason || 'No reason provided.'}</p>
+        {downloadErrorMessage ? (
+          <p>
+            <strong>Note:</strong> {downloadErrorMessage}
+          </p>
+        ) : (
+          <>
+            <p>View your detailed letter and next steps.</p>
+            <p>If you need more information, contact your counselor.</p>
+            {isDownloading ? (
+              <va-loading-indicator
+                label="Loading"
+                message="Downloading your letter..."
+              />
+            ) : (
+              <va-link-action
+                href="#"
+                text="View my letter"
+                type="primary"
+                onClick={handleDownload}
+              />
+            )}
+          </>
+        )}
+      </va-alert>
+    </div>
+  );
+};
+
+ApplicationDiscontinuedAlert.propTypes = {
+  discontinuedReason: PropTypes.string,
+  resCaseId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+};
+
+export default ApplicationDiscontinuedAlert;

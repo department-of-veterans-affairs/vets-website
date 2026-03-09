@@ -19,7 +19,10 @@ import {
 /** @returns {PageSchema} */
 export const studentEducationBenefitsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Education benefits'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `Education benefits for ${formData?.fullName?.first || 'this student'}`,
+    ),
     typeOfProgramOrBenefit: radioUI({
       title:
         'Does the student currently receive education benefits from any of these programs?',
@@ -43,12 +46,14 @@ export const studentEducationBenefitsPage = {
 export const studentFederallyFundedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Federally-funded schools or programs',
+      ({ formData }) =>
+        `Federally-funded schools or programs for ${formData?.fullName?.first ||
+          'this student'}`,
     ),
     tuitionIsPaidByGovAgency: {
       ...yesNoUI({
         title:
-          'Is the student enrolled in a program or school that\u2019s entirely funded by the federal government?',
+          'Is the student enrolled in a program or school that’s entirely funded by the federal government?',
         required: () => true,
       }),
     },
@@ -76,13 +81,17 @@ export const studentFederallyFundedPage = {
 export const studentProgramInfoPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Education program or school',
+      ({ formData }) =>
+        `${formData?.fullName?.first ||
+          'this student'}’s education program or school`,
+      null,
+      false,
     ),
     schoolInformation: {
       name: {
         ...textUI({
           title:
-            'What\u2019s the name of the program or school the student attends?',
+            'What’s the name of the program or school the student attends?',
           errorMessages: {
             required: 'Enter the program name',
           },
@@ -119,7 +128,11 @@ export const studentProgramInfoPage = {
 export const studentEducationBenefitsStartDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Education benefit or program start date',
+      ({ formData }) =>
+        `${formData?.fullName?.first ||
+          'this student'}’s education benefit payments`,
+      null,
+      false,
     ),
     benefitPaymentDate: {
       ...currentOrPastDateUI({

@@ -538,6 +538,68 @@
           "code": "NORMAL"
         }
       }
+    },
+    {
+      "id": "653BY",
+      "type": "facilities",
+      "attributes": {
+        "id": "653BY",
+        "vista_site": "653",
+        "vast_parent": "653",
+        "type": "va_health_facility",
+        "name": "Eugene VA Clinic",
+        "classification": "Health Care Center (HCC)",
+        "timezone": {
+          "time_zone_id": "America/Los_Angeles"
+        },
+        "lat": 44.088463,
+        "long": -123.05252,
+        "website": "https://www.va.gov/roseburg-health-care/locations/eugene-va-clinic/",
+        "phone": {
+          "main": "541-607-0897",
+          "fax": "541-607-7573",
+          "pharmacy": "541-440-1000 x41261",
+          "after_hours": "541-440-1000",
+          "patient_advocate": "541-440-1000 x44239",
+          "mental_health_clinic": "541-242-0440",
+          "enrollment_coordinator": "541-440-1000 x44575"
+        },
+        "mailing_address": null,
+        "physical_address": {
+          "type": "physical",
+          "line": ["3355 Chad Drive", null, null],
+          "city": "Eugene",
+          "state": "OR",
+          "postal_code": "97408-7426"
+        },
+        "mobile": false,
+        "health_service": [
+          "Audiology",
+          "Covid19Vaccine",
+          "Dental",
+          "Dermatology",
+          "DomesticAbuseSupport",
+          "Gastroenterology",
+          "Homeless",
+          "Laboratory",
+          "Lgbtq",
+          "Nutrition",
+          "Ophthalmology",
+          "Optometry",
+          "PatientAdvocates",
+          "Pharmacy",
+          "Podiatry",
+          "PrimaryCare",
+          "SocialWork",
+          "Surgery",
+          "ToxicExposureScreening",
+          "TransitionCounseling",
+          "Urology"
+        ],
+        "operating_status": {
+          "code": "NORMAL"
+        }
+      }
     }
   ],
   "meta": {
