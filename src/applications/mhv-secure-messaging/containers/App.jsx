@@ -92,7 +92,8 @@ const App = () => {
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
-    defaultPrivacyLevel: 'mask-user-input',
+    defaultPrivacyLevel: 'mask',
+    enablePrivacyForActionName: true,
   };
 
   useDatadogRum(datadogRumConfig);

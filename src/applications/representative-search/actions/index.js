@@ -12,6 +12,7 @@ import { initializeRepresentativeReport } from './reports/initializeRepresentati
 import { cancelRepresentativeReport } from './reports/cancelRepresentativeReport';
 import { updateFromLocalStorage } from './reports/updateFromLocalStorage';
 import { clearError } from './error/clearError';
+import { fetchOrganizations } from './organizations/fetchOrganizations';
 
 export { clearSearchResults };
 export { clearSearchText };
@@ -27,6 +28,7 @@ export { cancelRepresentativeReport };
 export { initializeRepresentativeReport };
 export { updateFromLocalStorage };
 export { clearError };
+export { fetchOrganizations };
 
 export const FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED =
   'FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED';

@@ -27,9 +27,17 @@ const ServiceHistorySummary = ({ formData = {} }) => {
 
   return (
     <va-card uswds="true" className="vads-u-margin-bottom--2">
-      <h3 className="vads-u-margin-top--0 dd-privacy-mask"> {branch} </h3>
-      {formatDate(formData.lastEntryDate)} &ndash;{' '}
-      {formatDate(formData.lastDischargeDate)}
+      <h3 className="vads-u-margin-top--0 dd-privacy-mask">
+        Last service period
+      </h3>
+      <ul className="no-bullets vads-u-margin-top--0">
+        <li>Branch of Service: {branch}</li>
+        <li>
+          Service Period: {formatDate(formData.lastEntryDate)}
+          {' — '}
+          {formatDate(formData.lastDischargeDate)}
+        </li>
+      </ul>
     </va-card>
   );
 };
