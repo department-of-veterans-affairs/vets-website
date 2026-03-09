@@ -16,12 +16,6 @@ export const champvaMemberNumberSchema = {
   minLength: 8,
 };
 
-export const fileUploadSchema = {
-  type: 'array',
-  minItems: 1,
-  items: { type: 'object', properties: { name: { type: 'string' } } },
-};
-
 export const fullNameMiddleInitialUI = merge({}, fullNameUI(), {
   middle: { 'ui:title': content['form-label--middle-initial'] },
 });

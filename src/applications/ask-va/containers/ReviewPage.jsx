@@ -1308,6 +1308,7 @@ const ReviewPage = props => {
                 {!editSection.includes(chapterTitles.yourQuestion) ? (
                   <ReviewSectionContent
                     editSection={editAll}
+                    title={chapterTitles.yourQuestion}
                     keys={chapter.pageKeys}
                     items={[
                       {

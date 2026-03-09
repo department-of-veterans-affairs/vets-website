@@ -1,0 +1,43 @@
+{
+  "type": "FeatureCollection",
+  "query": ["atlanta"],
+  "features": [
+    {
+      "id": "place.14783990733754850",
+      "type": "Feature",
+      "place_type": ["place"],
+      "relevance": 1,
+      "properties": {
+        "wikidata": "Q23556"
+      },
+      "text": "Atlanta",
+      "place_name": "Atlanta, Georgia, United States",
+      "bbox": [
+        -84.5509619997785,
+        33.6475589981498,
+        -84.2891349989498,
+        33.886925000423
+      ],
+      "center": [-84.388, 33.749],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.388, 33.749]
+      },
+      "context": [
+        {
+          "id": "region.10505920425498520",
+          "short_code": "US-GA",
+          "wikidata": "Q1428",
+          "text": "Georgia"
+        },
+        {
+          "id": "country.19678805456372290",
+          "wikidata": "Q30",
+          "short_code": "us",
+          "text": "United States"
+        }
+      ]
+    }
+  ],
+  "attribution": "NOTICE: (c) 2020 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service (https://www.mapbox.com/about/maps/). This response and the information it contains may not be retained. POI(s) provided by Foursquare."
+}

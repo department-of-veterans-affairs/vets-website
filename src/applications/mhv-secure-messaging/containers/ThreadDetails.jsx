@@ -237,6 +237,7 @@ const ThreadDetails = props => {
     <div
       className="message-detail-container"
       data-testid="message-detail-container"
+      data-dd-action-name="Message Detail Container"
     >
       {content()}
     </div>

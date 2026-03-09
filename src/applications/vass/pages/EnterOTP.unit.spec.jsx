@@ -19,6 +19,7 @@ import { FLOW_TYPES, URLS, VASS_PHONE_NUMBER } from '../utils/constants';
 import {
   createOTPInvalidError,
   createOTPAccountLockedError,
+  createOTPExpiredError,
   createAppointmentAlreadyBookedError,
   createVassApiError,
   createNotWithinCohortError,
@@ -241,6 +242,21 @@ describe('VASS Component: EnterOTP', () => {
       });
     });
 
+    it('should display expired OTP error message', async () => {
+      setFetchJSONFailure(global.fetch.onCall(0), createOTPExpiredError());
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
+      const continueButton = getByTestId('continue-button');
+      continueButton.click();
+      await waitFor(() => {
+        const errorAlert = getByTestId('enter-otp-error-alert');
+        expect(errorAlert).to.exist;
+        expect(errorAlert.textContent).to.match(
+          /The one-time verification code you entered has expired. Select the link in your email to get a new code and schedule a call./i,
+        );
+      });
+    });
+
     it('should hide success alert when error is displayed', async () => {
       setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
       const { container, getByTestId, queryByTestId } = renderComponent();
@@ -271,7 +287,7 @@ describe('VASS Component: EnterOTP', () => {
 
         await waitFor(() => {
           expect(getByTestId('api-error-alert')).to.exist;
-          expect(queryByTestId('header')).to.not.exist;
+          expect(queryByTestId('header')).to.exist;
         });
       });
 
@@ -295,7 +311,7 @@ describe('VASS Component: EnterOTP', () => {
 
         await waitFor(() => {
           expect(getByTestId('api-error-alert')).to.exist;
-          expect(queryByTestId('header')).to.not.exist;
+          expect(queryByTestId('header')).to.exist;
         });
       });
 

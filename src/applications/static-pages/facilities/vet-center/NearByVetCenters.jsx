@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import {
   calculateBoundingBox,
-  getFeaturesFromAddress,
+  createGeocodingService,
 } from 'platform/utilities/facilities-and-mapbox';
+import { mapboxToken } from '../mapboxToken';
 import VetCenterInfoSection from './components/VetCenterInfoSection';
 import VetCenterImageSection from './components/VetCenterImageSection';
 import { fetchFacilityStarted, fetchFacilitySuccess } from '../actions';
@@ -48,7 +49,9 @@ const NearByVetCenters = props => {
     const query = `${mainAddress.addressLine1}, ${mainAddress.locality} ${
       mainAddress.administrativeArea
     } ${mainAddress.postalCode}`;
-    const mapboxResponse = await getFeaturesFromAddress(query);
+    const mapboxResponse = await createGeocodingService(
+      mapboxToken,
+    ).getFeaturesFromAddress(query);
     const coordinates = mapboxResponse?.body.features[0].center; // [longitude,latitude]
 
     if (coordinates) {

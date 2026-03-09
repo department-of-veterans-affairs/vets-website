@@ -193,9 +193,9 @@ const CareSummariesAndNotes = () => {
                         Some records may be incomplete
                       </h3>
                       <p>
-                        We couldn\u2019t retrieve all attached documents for
-                        some of your care summaries and notes. The records below
-                        may be missing PDF reports or other files.
+                        We couldn’t retrieve all attached documents for some of
+                        your care summaries and notes. The records below may be
+                        missing PDF reports or other files.
                       </p>
                     </VaAlert>
                   )}

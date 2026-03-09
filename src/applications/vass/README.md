@@ -25,7 +25,82 @@ yarn test:unit --app-folder vass --log-level all
 
 # E2E tests
 yarn cy:open
-yarn cy:run --spec "src/applications/vass/tests/e2e/vass.cypress.spec.js"
+yarn cy:run --spec "src/applications/vass/tests/e2e/**/*.cypress.spec.js"
+```
+
+### Screenshots
+
+Screenshots are disabled by default during test runs to speed up regular e2e testing. To capture screenshots, pass the `--env screenshots=vass` flag:
+
+```bash
+yarn cy:run --env screenshots=vass --spec "src/applications/vass/tests/e2e/**/*.cypress.spec.js"
+```
+
+After the command completes, screenshots are saved to the `cypress/screenshots` folder at the root of the project. Each Cypress test file gets its own subfolder containing all screenshots from that file:
+
+```
+cypress/screenshots/
+├── happy-path.cypress.spec.js/
+│   ├── vass_schedule_verifyIdentity.png
+│   ├── vass_schedule_enterOTP.png
+│   ├── vass_schedule_dateTimeSelection.png
+│   ├── vass_schedule_topicSelection.png
+│   ├── vass_schedule_review.png
+│   ├── vass_schedule_confirmation.png
+│   ├── vass_schedule_dateTimeSelection_firstSlotSelected.png
+│   ├── vass_schedule_review_beforeDateTimeChange.png
+│   ├── vass_schedule_dateTimeSelection_secondSlotSelected.png
+│   ├── vass_schedule_review_afterDateTimeChange.png
+│   ├── vass_schedule_confirmation_changedDateTime.png
+│   ├── vass_schedule_review_beforeTopicChange.png
+│   ├── vass_schedule_topicSelection_changingTopic.png
+│   ├── vass_schedule_review_afterTopicChange.png
+│   ├── vass_schedule_confirmation_changedTopic.png
+│   ├── vass_cancel_cancelAppointmentPage.png
+│   ├── vass_cancel_cancelConfirmation.png
+│   ├── vass_cancel_verifyIdentity_cancellationLink.png
+│   ├── vass_cancel_enterOTP_cancellationLink.png
+│   ├── vass_cancel_cancelAppointmentPage_fromLink.png
+│   ├── vass_cancel_cancelConfirmation_fromLink.png
+│   ├── vass_alreadyScheduled_page.png
+│   ├── vass_alreadyScheduled_cancelAppointmentPage.png
+│   └── vass_alreadyScheduled_cancelConfirmation.png
+└── error-path.cypress.spec.js/
+    ├── vass_error_verify_invalidCredentials.png
+    ├── vass_error_verify_3FailedAttempts.png
+    ├── vass_error_verify_rateLimited.png
+    ├── vass_error_verify_serverError500.png
+    ├── vass_error_verify_serviceUnavailable503.png
+    ├── vass_error_verify_emptyLastName.png
+    ├── vass_error_verify_emptyDateOfBirth.png
+    ├── vass_error_otp_invalidCode.png
+    ├── vass_error_otp_lastAttempt.png
+    ├── vass_error_otp_accountLocked.png
+    ├── vass_error_otp_expired.png
+    ├── vass_error_otp_serverError500.png
+    ├── vass_error_otp_serviceUnavailable503.png
+    ├── vass_error_otp_emptyInput.png
+    ├── vass_error_otp_nonNumericInput.png
+    ├── vass_error_otp_tooShort.png
+    ├── vass_error_availability_notWithinCohort.png
+    ├── vass_error_availability_alreadyBooked.png
+    ├── vass_error_availability_noSlots.png
+    ├── vass_error_availability_serverError500.png
+    ├── vass_error_availability_serviceUnavailable503.png
+    ├── vass_error_topics_serverError500.png
+    ├── vass_error_topics_serviceUnavailable503.png
+    ├── vass_error_create_saveFailed.png
+    ├── vass_error_create_serverError500.png
+    ├── vass_error_create_serviceUnavailable503.png
+    ├── vass_error_details_notFound.png
+    ├── vass_error_details_serverError500.png
+    ├── vass_error_details_serviceUnavailable503.png
+    ├── vass_error_cancel_failed.png
+    ├── vass_error_cancel_appointmentNotFound.png
+    ├── vass_error_cancel_cancellationNotFound.png
+    ├── vass_error_cancel_serverError500.png
+    ├── vass_error_cancel_serviceUnavailable503.png
+    └── vass_error_navigation_noUuid.png
 ```
 
 ## Mock UUIDs

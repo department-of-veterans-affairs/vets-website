@@ -307,6 +307,7 @@ export const AutosuggestProps = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   shouldShowNoResults: PropTypes.bool,
   showDownCaret: PropTypes.bool,
+  showOptionsRestriction: PropTypes.bool,
   showError: PropTypes.bool,
   stateReducer: PropTypes.func,
   useProgressiveDisclosure: PropTypes.bool,

@@ -251,6 +251,11 @@ const datePage = {
       {
         title: 'Care end date',
         monthSelect: false,
+        hideIf: (formData, index, fullData) => {
+          const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+          const careExpense = careExpenses?.[index];
+          return careExpense?.noCareEndDate === true;
+        },
       },
     ),
     noCareEndDate: checkboxUI('No end date'),

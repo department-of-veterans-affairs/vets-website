@@ -51,3 +51,25 @@ export const buildChildStatus = child => {
   }
   return statusParts;
 };
+
+export const buildAddress = unitAddress => {
+  const { street, street2, city, state, postalCode } = unitAddress;
+  let address = street || '';
+  if (street2) {
+    address += `, ${street2}`;
+  }
+  if (city) {
+    address += `, ${city}`;
+  }
+  if (state) {
+    address += `, ${state}`;
+  }
+  if (postalCode) {
+    if (!state) {
+      address += `, ${postalCode}`;
+    } else {
+      address += ` ${postalCode}`;
+    }
+  }
+  return address;
+};
