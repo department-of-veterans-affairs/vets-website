@@ -18,8 +18,10 @@
  */
 async function fillVaTextInput(page, name, value) {
   if (value === undefined) return;
+  const vaInput = page.locator(`va-text-input[name="${name}"]`);
+  if ((await vaInput.count()) === 0) return;
   const strValue = value.toString();
-  const input = page.locator(`va-text-input[name="${name}"]`).locator('input');
+  const input = vaInput.locator('input');
   await input.click();
   await input.clear();
   if (strValue !== '') {
@@ -82,8 +84,10 @@ async function selectYesNoVaRadioOption(page, name, value) {
  */
 async function selectVaSelect(page, name, value) {
   if (value === undefined) return;
+  const vaSelect = page.locator(`va-select[name="${name}"]`);
+  if ((await vaSelect.count()) === 0) return;
   const strValue = value.toString();
-  const select = page.locator(`va-select[name="${name}"]`).locator('select');
+  const select = vaSelect.locator('select');
   await select.selectOption(strValue);
 }
 
@@ -97,7 +101,7 @@ async function selectVaSelect(page, name, value) {
 async function selectVaCheckbox(page, name, isChecked) {
   if (isChecked === undefined) return;
   const vaCheckbox = page.locator(`va-checkbox[name="${name}"]`);
-  // eslint-disable-next-line no-param-reassign
+  if ((await vaCheckbox.count()) === 0) return;
   await vaCheckbox.evaluate((el, checked) => {
     if (el.checked !== checked) {
       el.checked = checked; // eslint-disable-line no-param-reassign
@@ -292,7 +296,19 @@ async function fillAddressWebComponentPattern(page, fieldName, addressObject) {
     `root_${fieldName}_street3`,
     addressObject.street3,
   );
+
+  // State field may appear conditionally after country is selected;
+  // wait briefly for it to render before attempting to fill.
+  if (addressObject.state) {
+    const stateSelector = `va-select[name="root_${fieldName}_state"]`;
+    try {
+      await page.locator(stateSelector).waitFor({ timeout: 3000 });
+    } catch {
+      // State field may not exist for all countries
+    }
+  }
   await selectVaSelect(page, `root_${fieldName}_state`, addressObject.state);
+
   await fillVaTextInput(
     page,
     `root_${fieldName}_postalCode`,
@@ -344,6 +360,7 @@ async function enterWebComponentData(page, field) {
       break;
     }
     case 'VA-FILE-INPUT':
+    case 'VA-FILE-INPUT-MULTIPLE':
       // File inputs need special handling — use the example upload file
       await fillVaFileInput(
         page,

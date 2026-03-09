@@ -13,7 +13,6 @@ const {
 } = require('../../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const {
   fillAddressWebComponentPattern,
-  selectVaCheckbox,
 } = require('../../../../../platform/testing/e2e/playwright/helpers/webComponents');
 
 const featureToggles = require('../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json');
@@ -90,8 +89,15 @@ const testConfig = createTestConfig(
             'va-checkbox[name^="privacyAgreement"], va-checkbox#veteran-certify',
           );
           if ((await certifyCheckbox.count()) > 0) {
-            const name = await certifyCheckbox.first().getAttribute('name');
-            await selectVaCheckbox(p, name, true);
+            await certifyCheckbox.first().evaluate(el => {
+              el.checked = true; // eslint-disable-line no-param-reassign
+              el.dispatchEvent(
+                new CustomEvent('vaChange', {
+                  detail: { checked: true },
+                  bubbles: true,
+                }),
+              );
+            });
           }
           await p
             .locator('main')
