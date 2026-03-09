@@ -96,12 +96,19 @@ async function selectVaSelect(page, name, value) {
  */
 async function selectVaCheckbox(page, name, isChecked) {
   if (isChecked === undefined) return;
-  const checkbox = page.locator(`va-checkbox[name="${name}"]`).locator('input');
-  if (isChecked) {
-    await checkbox.check({ force: true });
-  } else {
-    await checkbox.uncheck({ force: true });
-  }
+  const vaCheckbox = page.locator(`va-checkbox[name="${name}"]`);
+  // eslint-disable-next-line no-param-reassign
+  await vaCheckbox.evaluate((el, checked) => {
+    if (el.checked !== checked) {
+      el.checked = checked; // eslint-disable-line no-param-reassign
+      el.dispatchEvent(
+        new CustomEvent('vaChange', {
+          detail: { checked },
+          bubbles: true,
+        }),
+      );
+    }
+  }, isChecked);
 }
 
 /**

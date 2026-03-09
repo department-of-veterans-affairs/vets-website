@@ -19,7 +19,10 @@ const path = require('path');
 const { test, expect } = require('@playwright/test');
 const get = require('lodash/get');
 
-const { enterWebComponentData } = require('../helpers/webComponents');
+const {
+  enterWebComponentData,
+  selectVaCheckbox,
+} = require('../helpers/webComponents');
 const { axeCheck, formatViolations } = require('../helpers/axeCheck');
 const { fillPatterns } = require('./patterns');
 const { resolvePageHooks, fieldKeyToDataPath } = require('./utilities');
@@ -349,8 +352,8 @@ async function defaultPostHook(page, pathname) {
     if ((await privacyAgreement.count()) > 0) {
       const tagName = await privacyAgreement.first().evaluate(el => el.tagName);
       if (tagName.startsWith('VA-')) {
-        const checkbox = privacyAgreement.first().locator('input');
-        await checkbox.check({ force: true });
+        const name = await privacyAgreement.first().getAttribute('name');
+        await selectVaCheckbox(page, name, true);
       } else {
         await privacyAgreement.first().check({ force: true });
       }
@@ -419,7 +422,7 @@ async function clickFormContinue(page) {
  * @param {Array} arrayPages - Array page configs
  * @returns {Promise<{hookExecuted: boolean, postHook: Function|null}>}
  */
-async function execHook(page, pathname, pageHooks, arrayPages) {
+async function execHook(page, pathname, pageHooks, arrayPages, testData) {
   const REGEXP_PATH_INDEX = /\/\d+(?:\/|$)/;
   const REGEXP_REMOVE_END_SLASH = /\/$/;
 
@@ -458,6 +461,7 @@ async function execHook(page, pathname, pageHooks, arrayPages) {
     pathname: pathnameKey,
     index,
     page, // Give hooks access to the page object
+    testData, // Give hooks access to the test data
   };
 
   await hook(context);
@@ -493,6 +497,7 @@ async function performPageActions(page, pathname, config) {
     pathname,
     pageHooks,
     arrayPages,
+    testData,
   );
 
   const shouldAutofill = !pathname.match(

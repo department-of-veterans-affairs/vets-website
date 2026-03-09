@@ -15,6 +15,9 @@ const {
 const {
   login,
 } = require('../../../../platform/testing/e2e/playwright/helpers/login');
+const {
+  selectVaCheckbox,
+} = require('../../../../platform/testing/e2e/playwright/helpers/webComponents');
 
 const manifest = require('../../manifest.json');
 const mockUser = require('../fixtures/mocks/user.json');
@@ -161,22 +164,14 @@ const pageHooks = {
     }
   },
   [pagePaths.benefitsSelection]: async ({ page }) => {
-    const checkbox = page.locator(
-      'va-checkbox[name="root_view:claimedBenefits_burialAllowance"]',
+    await selectVaCheckbox(
+      page,
+      'root_view:claimedBenefits_burialAllowance',
+      true,
     );
-    if ((await checkbox.count()) > 0) {
-      const input = checkbox.locator('input');
-      await input.check({ force: true });
-    }
   },
   [pagePaths.burialAllowancePartOne]: async ({ page }) => {
-    const checkbox = page.locator(
-      'va-checkbox[name="root_burialAllowanceRequested_service"]',
-    );
-    if ((await checkbox.count()) > 0) {
-      const input = checkbox.locator('input');
-      await input.check({ force: true });
-    }
+    await selectVaCheckbox(page, 'root_burialAllowanceRequested_service', true);
   },
   [pagePaths.burialAllowancePartTwo]: async ({ page }) => {
     const expenseRadio = page.locator(

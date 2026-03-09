@@ -11,6 +11,10 @@ const {
 const {
   axeCheck,
 } = require('../../../../../platform/testing/e2e/playwright/helpers/axeCheck');
+const {
+  fillAddressWebComponentPattern,
+  selectVaCheckbox,
+} = require('../../../../../platform/testing/e2e/playwright/helpers/webComponents');
 
 const featureToggles = require('../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json');
 const mockSubmit = require('../../../shared/tests/e2e/fixtures/mocks/application-submit.json');
@@ -53,43 +57,46 @@ const testConfig = createTestConfig(
           await startLink.last().click();
         });
       },
-      'contact-information-1': async ({ afterHook, page }) => {
+      'contact-information-1': async ({ afterHook, page, testData }) => {
         // Run axe check
         await axeCheck(page);
 
         afterHook(async p => {
-          // Read the test data from the page — we need the address
-          // The testData is passed through the config, access via closure
-          // For the Playwright port, hooks receive the page + can access data
-          const continueBtn = p.locator('button:has-text("Continue")');
+          // Fill the address from test data (matches Cypress behavior)
+          await fillAddressWebComponentPattern(
+            p,
+            'veteran_address',
+            testData.veteran.address,
+          );
+          await axeCheck(p);
+          const continueBtn = p
+            .locator('main')
+            .locator('button:has-text("Continue")');
           await continueBtn.click();
         });
       },
-      'review-and-submit': async ({ afterHook }) => {
+      'review-and-submit': async ({ afterHook, testData }) => {
         afterHook(async p => {
-          // We need the veteran's full name from the form data
-          // In the Playwright port, test data is managed by the framework
-          // For review-and-submit, sign and submit
+          // Fill signature from test data
+          const { fullName } = testData.veteran;
+          const sigText = `${fullName.first} ${fullName.last}`;
           const signatureInput = p
             .locator('#veteran-signature')
             .locator('input');
-          const sigValue = await signatureInput.inputValue();
-          // If already filled, just submit. Otherwise fill.
-          if (!sigValue) {
-            // Fill with a default signature since we don't have direct
-            // access to testData in hooks. The form-tester will have
-            // filled the name fields on prior pages.
-            await signatureInput.fill('Jane Doe');
-          }
-          const certifyCheckbox = p
-            .locator(
-              'va-checkbox[name^="privacyAgreement"], va-checkbox#veteran-certify',
-            )
-            .locator('input');
+          await signatureInput.fill(sigText);
+
+          // Check privacy/certify checkbox
+          const certifyCheckbox = p.locator(
+            'va-checkbox[name^="privacyAgreement"], va-checkbox#veteran-certify',
+          );
           if ((await certifyCheckbox.count()) > 0) {
-            await certifyCheckbox.first().check({ force: true });
+            const name = await certifyCheckbox.first().getAttribute('name');
+            await selectVaCheckbox(p, name, true);
           }
-          await p.locator('button:has-text("Submit")').click();
+          await p
+            .locator('main')
+            .locator('button:has-text("Submit")')
+            .click();
         });
       },
     },
