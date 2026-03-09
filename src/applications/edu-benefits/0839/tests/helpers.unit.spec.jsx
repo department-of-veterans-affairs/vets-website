@@ -1070,44 +1070,67 @@ describe('0839 Helpers', () => {
   });
 
   describe('getAdditionalContactTitle', () => {
-    it('returns Yellow Ribbon title when both Yellow Ribbon and Financial roles are false', () => {
+    it('returns financial/Yellow Ribbon title when both Yellow Ribbon and Financial roles are false', () => {
       const formData = {
         pointsOfContact: {
           roles: {
             isYellowRibbonProgramPointOfContact: false,
             isSchoolFinancialRepresentative: false,
+            isSchoolCertifyingOfficial: true,
           },
         },
       };
 
       expect(getAdditionalContactTitle(formData)).to.equal(
-        'Add Yellow Ribbon Program point of contact',
+        'School financial representative or Yellow Ribbon Program point of contact',
       );
     });
 
-    it('returns school certifying official title when either role is true', () => {
+    it('returns missing financial and certifying roles when only Yellow Ribbon role is true', () => {
       const yellowRibbonFormData = {
         pointsOfContact: {
           roles: {
             isYellowRibbonProgramPointOfContact: true,
             isSchoolFinancialRepresentative: false,
-          },
-        },
-      };
-      const financialRepFormData = {
-        pointsOfContact: {
-          roles: {
-            isYellowRibbonProgramPointOfContact: false,
-            isSchoolFinancialRepresentative: true,
+            isSchoolCertifyingOfficial: false,
           },
         },
       };
 
       expect(getAdditionalContactTitle(yellowRibbonFormData)).to.equal(
-        'Add school certifying official',
+        'School financial representative and School certifying official',
       );
+    });
+
+    it('returns missing Yellow Ribbon and certifying roles when only financial role is true', () => {
+      const financialRepFormData = {
+        pointsOfContact: {
+          roles: {
+            isYellowRibbonProgramPointOfContact: false,
+            isSchoolFinancialRepresentative: true,
+            isSchoolCertifyingOfficial: false,
+          },
+        },
+      };
+
       expect(getAdditionalContactTitle(financialRepFormData)).to.equal(
-        'Add school certifying official',
+        'Yellow Ribbon Program point of contact and School certifying official',
+      );
+    });
+
+    it('returns school certifying official when only certifying role is missing', () => {
+      const formData = {
+        pointsOfContact: {
+          roles: {
+            isYellowRibbonProgramPointOfContact: true,
+            isSchoolFinancialRepresentative: true,
+            isSchoolCertifyingOfficial: false,
+          },
+        },
+      };
+
+      expect(getAdditionalContactTitle(formData)).to.equal(
+        'School certifying official',
       );
     });
   });
