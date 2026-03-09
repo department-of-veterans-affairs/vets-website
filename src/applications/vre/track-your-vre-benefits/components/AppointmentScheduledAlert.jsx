@@ -5,9 +5,9 @@ export function formatApptDateTime(dateString) {
   if (!dateString) return null;
   const date = new Date(dateString);
 
-  // Convert to Eastern Time (America/New_York)
+  // Convert to Central Time (America/Chicago)
   const options = {
-    timeZone: 'America/New_York',
+    timeZone: 'America/Chicago',
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -25,7 +25,7 @@ export function formatApptDateTime(dateString) {
   const minute = parts.find(p => p.type === 'minute').value;
   const dayPeriod = parts.find(p => p.type === 'dayPeriod').value;
 
-  return `${month}/${day}/${year} at ${hour}:${minute} ${dayPeriod} ET`;
+  return `${month}/${day}/${year} at ${hour}:${minute} ${dayPeriod} CT`;
 }
 
 const renderPlace = place => {

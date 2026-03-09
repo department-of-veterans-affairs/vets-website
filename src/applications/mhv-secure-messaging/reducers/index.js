@@ -10,7 +10,6 @@ import { breadcrumbsReducer } from './breadcrumbs';
 import { threadsReducer } from './threads';
 import { preferencesReducer } from './preferences';
 import { threadDetailsReducer } from './threadDetails';
-import { facilitiesReducer } from './facilities';
 import { prescriptionReducer } from './prescription';
 import { ohSyncStatusReducer } from './ohSyncStatus';
 
@@ -20,7 +19,6 @@ const rootReducer = {
     recipients: recipientsReducer,
     breadcrumbs: breadcrumbsReducer,
     categories: categoriesReducer,
-    facilities: facilitiesReducer,
     folders: foldersReducer,
     search: searchReducer,
     threads: threadsReducer,
