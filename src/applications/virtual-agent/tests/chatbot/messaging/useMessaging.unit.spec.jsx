@@ -8,6 +8,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import * as GenesysServiceModule from '../../../chatbot/features/messaging/GenesysService';
 import { useMessaging } from '../../../chatbot/features/messaging/useMessaging';
 import chatbotReducer, {
+  selectChatbotHasAcceptedDisclaimer,
   selectConnectionStatus,
   selectMessages,
   selectErrorMessage,
@@ -29,6 +30,7 @@ function buildMockService() {
     init: sinon.stub().resolves(),
     startConversation: sinon.stub().resolves(),
     fetchHistory: sinon.stub().resolves(),
+    clearConversation: sinon.stub().resolves(),
     sendMessage: sinon.stub().resolves(),
     destroy: sinon.stub(),
     _storedCallbacks: null,
@@ -171,6 +173,41 @@ describe('useMessaging', () => {
     });
   });
 
+  describe('clearConversation', () => {
+    it('clears local state and keeps chat open when clearConversation succeeds', async () => {
+      const store = buildStore();
+
+      const { result } = renderHook(() => useMessaging(TEST_CONFIG), {
+        wrapper: buildWrapper(store),
+      });
+
+      await act(async () => {});
+
+      act(() => {
+        mockService._storedCallbacks.onRestored([
+          {
+            id: 'restored-1',
+            sender: 'va',
+            text: 'Existing history',
+            timestamp: Date.now(),
+          },
+        ]);
+      });
+
+      await act(async () => {
+        result.current.clearConversation();
+        await Promise.resolve();
+      });
+
+      expect(mockService.clearConversation.calledOnce).to.be.true;
+      expect(selectMessages(store.getState())).to.deep.equal([]);
+      expect(selectConnectionStatus(store.getState())).to.equal('connected');
+      expect(selectChatbotHasAcceptedDisclaimer(store.getState())).to.equal(
+        true,
+      );
+    });
+  });
+
   describe('service callbacks to Redux state', () => {
     it('adds incoming VA messages from onMessagesReceived', async () => {
       const store = buildStore();
@@ -195,6 +232,33 @@ describe('useMessaging', () => {
       const messages = selectMessages(store.getState());
       expect(messages).to.have.lengthOf(1);
       expect(messages[0]).to.deep.equal(inboundMessage);
+    });
+
+    it('auto-accepts disclaimer and adds messages when onRestored is called', async () => {
+      const store = buildStore();
+
+      renderHook(() => useMessaging(TEST_CONFIG), {
+        wrapper: buildWrapper(store),
+      });
+
+      await act(async () => {});
+
+      const restoredMessage = {
+        id: 'restored-1',
+        sender: 'va',
+        text: 'Restored message',
+        timestamp: Date.now(),
+      };
+
+      act(() => {
+        mockService._storedCallbacks.onRestored([restoredMessage]);
+      });
+
+      expect(selectChatbotHasAcceptedDisclaimer(store.getState())).to.equal(
+        true,
+      );
+      expect(selectConnectionStatus(store.getState())).to.equal('connected');
+      expect(selectMessages(store.getState())).to.deep.equal([restoredMessage]);
     });
 
     it('filters echoed outbound user message that matches a pending optimistic send', async () => {

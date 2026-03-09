@@ -233,6 +233,38 @@ describe('GenesysService', () => {
       });
     });
 
+    it('calls callbacks.onRestored with normalized restored messages', () => {
+      const { stub, subscriptions } = buildGenesysStub();
+      window.Genesys = stub;
+
+      const onRestored = sandbox.stub();
+      const config = { deploymentId: 'id', region: 'region' };
+      const service = GenesysService.getInstance(config);
+      const initPromise = service.init({ onRestored });
+
+      subscriptions['MessagingService.ready']();
+
+      return initPromise.then(() => {
+        subscriptions['MessagingService.restored']({
+          data: {
+            messages: [
+              {
+                id: 'restored-user-msg',
+                text: 'hello',
+                messageType: 'inbound',
+                timestamp: '2026-03-07T18:02:58.832Z',
+              },
+            ],
+          },
+        });
+
+        expect(onRestored.calledOnce).to.be.true;
+        const [messages] = onRestored.firstCall.args;
+        expect(messages).to.have.lengthOf(1);
+        expect(messages[0].sender).to.equal('user');
+      });
+    });
+
     it('marks outbound echoed messages with sender user', () => {
       const { stub, subscriptions } = buildGenesysStub();
       window.Genesys = stub;

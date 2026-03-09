@@ -12,10 +12,14 @@ import useSkipLinkFix from './hooks/useSkipLinkFix';
  * Used on the ChatbotEntry page to house all the static page content for
  * /contact-us/virtual-agent and provides a container for feature-based modules.
  * @component
- * @param {{ startConversation?: function, sendMessage?: function }} props
+ * @param {{ startConversation?: function, sendMessage?: function, clearConversation?: function }} props
  * @returns {JSX.Element}
  */
-export const Shell = ({ startConversation, sendMessage }) => {
+export const Shell = ({
+  startConversation,
+  sendMessage,
+  clearConversation,
+}) => {
   useSkipLinkFix();
 
   const dispatch = useDispatch();
@@ -43,6 +47,7 @@ export const Shell = ({ startConversation, sendMessage }) => {
           <RightColumnContent
             onAccept={handleAccept}
             sendMessage={sendMessage}
+            clearConversation={clearConversation}
           />
         </div>
       </div>
@@ -51,6 +56,7 @@ export const Shell = ({ startConversation, sendMessage }) => {
 };
 
 Shell.propTypes = {
+  clearConversation: PropTypes.func,
   sendMessage: PropTypes.func,
   startConversation: PropTypes.func,
 };

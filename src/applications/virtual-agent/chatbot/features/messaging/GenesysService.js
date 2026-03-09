@@ -154,6 +154,12 @@ export class GenesysService {
       GenesysService._log('event', 'MessagingService.restored', {
         payload: event,
       });
+      const restoredMessages = this._normalizeMessages(
+        GenesysService._extractEventData(event),
+      );
+      if (this._callbacks && this._callbacks.onRestored) {
+        this._callbacks.onRestored(restoredMessages);
+      }
       this._emitNormalizedMessages(event);
     });
 
@@ -286,27 +292,17 @@ export class GenesysService {
   _normalizeMessage(rawMessage) {
     if (!rawMessage || typeof rawMessage !== 'object') return null;
 
-    const body =
-      rawMessage.text ||
-      rawMessage.body ||
-      rawMessage.message ||
-      (rawMessage.content && rawMessage.content.text) ||
-      '';
+    const body = rawMessage.text ?? '';
 
-    if (!body || typeof body !== 'string') return null;
-
-    const messageType = (rawMessage.messageType || '').toLowerCase();
-    const direction = (rawMessage.direction || '').toLowerCase();
-    const isUserMessage =
-      messageType === 'inbound' ||
-      direction === 'outbound' ||
-      rawMessage.originatingEntity === 'Human';
+    const direction = (
+      rawMessage.direction ||
+      rawMessage.messageType ||
+      ''
+    ).toLowerCase();
+    const isUserMessage = direction === 'inbound';
 
     return {
-      id:
-        rawMessage.id ||
-        rawMessage.messageId ||
-        GenesysService._buildMessageId(),
+      id: rawMessage.id ?? GenesysService._buildMessageId(),
       sender: isUserMessage ? 'user' : 'va',
       text: body,
       timestamp: GenesysService._normalizeTimestamp(rawMessage),
@@ -320,9 +316,7 @@ export class GenesysService {
    */
   static _normalizeTimestamp(rawMessage) {
     const timestampValue =
-      rawMessage.timestamp ||
-      rawMessage.time ||
-      (rawMessage.channel && rawMessage.channel.time);
+      rawMessage.time || (rawMessage.channel && rawMessage.channel.time);
 
     if (!timestampValue) return Date.now();
 

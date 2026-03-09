@@ -11,7 +11,7 @@ import { useMessaging } from './useMessaging';
  * drilling becomes painful as the feature grows, refactor to a context.
  *
  * @component
- * @param {{ children: function({ startConversation: function, sendMessage: function }): JSX.Element }} props
+ * @param {{ children: function({ startConversation: function, sendMessage: function, clearConversation: function }): JSX.Element }} props
  * @returns {JSX.Element}
  */
 export default function MessagingInitializer({ children }) {

@@ -20,7 +20,7 @@ import { GenesysService } from './GenesysService';
  * So the empty array is intentional.
  *
  * @param {GenesysConfig} config - Genesys deployment configuration
- * @returns {{ startConversation: function(): void, sendMessage: function(string): void }}
+ * @returns {{ startConversation: function(): void, sendMessage: function(string): void, clearConversation: function(): void }}
  */
 export function useMessaging(config) {
   const dispatch = useDispatch();
@@ -57,6 +57,13 @@ export function useMessaging(config) {
 
           if (!filteredMessages.length) return;
           dispatch(chatbotActions.addMessages(filteredMessages));
+        },
+        onRestored: messages => {
+          dispatch(chatbotActions.acceptDisclaimer());
+          dispatch(chatbotActions.setConnectionStatus('connected'));
+          if (messages && messages.length) {
+            dispatch(chatbotActions.addMessages(messages));
+          }
         },
         onStarted: event => {
           const isReadOnly = !!(event && event.readOnly);
@@ -141,7 +148,26 @@ export function useMessaging(config) {
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { startConversation, sendMessage };
+  const clearConversation = useCallback(() => {
+    const service = GenesysService.getInstance(config);
+    service.clearConversation().then(
+      () => {
+        pendingOutgoingMessagesRef.current = [];
+        dispatch(chatbotActions.resetChat());
+        dispatch(chatbotActions.acceptDisclaimer());
+        dispatch(chatbotActions.setConnectionStatus('connected'));
+      },
+      err => {
+        dispatch(
+          chatbotActions.setError(
+            err.message || 'Failed to clear conversation',
+          ),
+        );
+      },
+    );
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return { startConversation, sendMessage, clearConversation };
 }
 
 export default useMessaging;

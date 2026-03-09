@@ -21,7 +21,16 @@ describe('RightColumnContent', () => {
 
   it('renders the disclaimer and calls onAccept when not accepted', () => {
     const onAccept = sandbox.stub();
-    sandbox.stub(ReactReduxModule, 'useSelector').returns(false);
+    sandbox.stub(ReactReduxModule, 'useSelector').callsFake(selector =>
+      selector({
+        chatbot: {
+          hasAcceptedDisclaimer: false,
+          connectionStatus: 'connected',
+          messages: [],
+          errorMessage: null,
+        },
+      }),
+    );
 
     const { getByTestId } = render(<RightColumnContent onAccept={onAccept} />);
 
@@ -33,16 +42,59 @@ describe('RightColumnContent', () => {
   });
 
   it('renders the message list when accepted', () => {
-    sandbox.stub(ReactReduxModule, 'useSelector').returns(true);
-
-    const { getByTestId, queryByTestId, getByText } = render(
-      <RightColumnContent />,
+    sandbox.stub(ReactReduxModule, 'useSelector').callsFake(selector =>
+      selector({
+        chatbot: {
+          hasAcceptedDisclaimer: true,
+          connectionStatus: 'connected',
+          messages: [],
+          errorMessage: null,
+        },
+      }),
     );
+
+    const { getByTestId, queryByTestId } = render(<RightColumnContent />);
 
     expect(getByTestId('chat-message-list')).to.exist;
     expect(queryByTestId('disclaimer')).to.equal(null);
-    expect(
-      getByText("We can't load the chatbot right now. Please try again later."),
-    ).to.exist;
+  });
+
+  it('shows delete button and calls clearConversation in chat mode', () => {
+    const clearConversation = sandbox.stub();
+    sandbox.stub(ReactReduxModule, 'useSelector').callsFake(selector =>
+      selector({
+        chatbot: {
+          hasAcceptedDisclaimer: true,
+          connectionStatus: 'connected',
+          messages: [],
+          errorMessage: null,
+        },
+      }),
+    );
+
+    const { getByTestId } = render(
+      <RightColumnContent clearConversation={clearConversation} />,
+    );
+
+    fireEvent.click(getByTestId('chat-delete-button'));
+    expect(clearConversation.calledOnce).to.be.true;
+  });
+
+  it('renders a loading state until connected', () => {
+    sandbox.stub(ReactReduxModule, 'useSelector').callsFake(selector =>
+      selector({
+        chatbot: {
+          hasAcceptedDisclaimer: true,
+          connectionStatus: 'connecting',
+          messages: [],
+          errorMessage: null,
+        },
+      }),
+    );
+
+    const { getByTestId, queryByTestId } = render(<RightColumnContent />);
+
+    expect(getByTestId('chatbot-loading-state')).to.exist;
+    expect(queryByTestId('disclaimer')).to.equal(null);
   });
 });

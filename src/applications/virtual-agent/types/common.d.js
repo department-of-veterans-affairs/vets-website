@@ -53,6 +53,7 @@
  * @typedef {Object} GenesysServiceCallbacks
  * @property {function(ChatMessage): void} [onMessageReceived]
  * @property {function(ChatMessage[]): void} [onMessagesReceived]
+ * @property {function(ChatMessage[]): void} [onRestored]
  * @property {function(Object): void} [onStarted]
  * @property {function(Object): void} [onReady]
  * @property {function(string): void} [onError]

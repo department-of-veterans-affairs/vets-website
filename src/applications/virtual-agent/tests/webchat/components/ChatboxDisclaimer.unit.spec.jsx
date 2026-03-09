@@ -15,6 +15,12 @@ import * as SessionStorageModule from '../../../webchat/utils/sessionStorage';
 const getMockStore = ({ virtualAgentShowAiDisclaimer = null } = {}) => {
   return {
     getState: () => ({
+      chatbot: {
+        hasAcceptedDisclaimer: false,
+        connectionStatus: 'connected',
+        messages: [],
+        errorMessage: null,
+      },
       featureToggles: {
         loading: false,
         [FeatureToggleModule.TOGGLE_NAMES

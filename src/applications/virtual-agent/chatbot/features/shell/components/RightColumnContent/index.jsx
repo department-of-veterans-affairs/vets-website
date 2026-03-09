@@ -9,6 +9,7 @@ import ChatInput from '../../../../components/chatbox/ChatInput';
 import ChatMessageList from '../../../../components/chatbox/ChatMessageList';
 import {
   selectChatbotHasAcceptedDisclaimer,
+  selectConnectionStatus,
   selectErrorMessage,
   selectMessages,
 } from '../../../../store';
@@ -44,6 +45,7 @@ function onClick(dispatch, onAccept) {
  * @typedef {Object} RightContentProps
  * @property {function(): void} onAccept - Click handler for accepting the disclaimer
  * @property {function(string): void} [sendMessage] - Sends a message to the active conversation
+ * @property {function(): void} [clearConversation] - Clears the current conversation transcript
  */
 
 /**
@@ -54,14 +56,39 @@ function onClick(dispatch, onAccept) {
  * @returns {JSX.Element}
  *
  */
-export default function RightColumnContent({ onAccept, sendMessage }) {
+export default function RightColumnContent({
+  onAccept,
+  sendMessage,
+  clearConversation,
+}) {
   const dispatch = useDispatch();
   const hasAcceptedDisclaimer = useSelector(selectChatbotHasAcceptedDisclaimer);
+  const connectionStatus = useSelector(selectConnectionStatus);
   const messages = useSelector(selectMessages);
   const errorMessage = useSelector(selectErrorMessage);
 
+  const shouldShowLoading =
+    hasAcceptedDisclaimer &&
+    (connectionStatus === 'idle' ||
+      connectionStatus === 'connecting' ||
+      connectionStatus === 'reconnecting');
+
+  if (shouldShowLoading) {
+    return (
+      <ChatboxContainer>
+        <div className="vads-u-padding--3" data-testid="chatbot-loading-state">
+          <va-loading-indicator message="Connecting to chatbot..." />
+        </div>
+      </ChatboxContainer>
+    );
+  }
+
   return (
-    <ChatboxContainer>
+    <ChatboxContainer
+      onDeleteConversation={
+        hasAcceptedDisclaimer ? clearConversation : undefined
+      }
+    >
       {!hasAcceptedDisclaimer ? (
         <va-alert status="info">
           <h3 slot="headline">About this chatbot</h3>
@@ -105,6 +132,7 @@ export default function RightColumnContent({ onAccept, sendMessage }) {
 }
 
 RightColumnContent.propTypes = {
-  onAccept: PropTypes.func,
+  clearConversation: PropTypes.func,
   sendMessage: PropTypes.func,
+  onAccept: PropTypes.func,
 };

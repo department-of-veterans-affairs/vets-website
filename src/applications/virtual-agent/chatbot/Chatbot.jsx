@@ -71,8 +71,9 @@ function Page() {
     );
     return (
       <MessagingInitializer>
-        {({ startConversation, sendMessage }) => (
+        {({ startConversation, sendMessage, clearConversation }) => (
           <Shell
+            clearConversation={clearConversation}
             startConversation={startConversation}
             sendMessage={sendMessage}
           />
