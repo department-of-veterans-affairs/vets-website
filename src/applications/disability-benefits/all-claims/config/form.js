@@ -663,7 +663,8 @@ const formConfig = {
         evidenceTypesBDD: {
           title: 'Types of supporting evidence for BDD',
           path: 'supporting-evidence/evidence-types-bdd',
-          depends: formData => isBDD(formData),
+          depends: formData =>
+            isBDD(formData) && !isEvidenceEnhancement(formData),
           uiSchema: evidenceTypesBDD.uiSchema,
           schema: evidenceTypesBDD.schema,
         },
@@ -739,7 +740,8 @@ const formConfig = {
           title:
             'Supporting documents and additional forms for your disability claim',
           depends: formData =>
-            formData.disability526SupportingEvidenceEnhancement,
+            formData.disability526SupportingEvidenceEnhancement &&
+            !isBDD(formData),
           // TODO: update this path to `'supporting-evidence/additional-evidence', once we can get rid of `additionalDocuments` page
           path: 'supporting-evidence/additional-evidence-intro',
           CustomPage: AdditionalEvidenceIntroPage,
@@ -751,8 +753,8 @@ const formConfig = {
           title: 'Upload supporting documents and additional forms',
           path: 'supporting-evidence/additional-evidence-enhancement',
           depends: formData =>
-            hasOtherEvidence(formData) &&
-            formData.disability526SupportingEvidenceEnhancement,
+            formData.disability526SupportingEvidenceEnhancement &&
+            (hasOtherEvidence(formData) || isUploadingBddSha(formData)),
           uiSchema: evidenceChoiceAdditionalDocuments.uiSchema,
           schema: evidenceChoiceAdditionalDocuments.schema,
         },
