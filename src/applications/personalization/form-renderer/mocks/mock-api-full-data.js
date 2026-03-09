@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const dateFns = require('date-fns');
 const mockData = require('./maximal.json');
 const mockUser = require('./user.json');
