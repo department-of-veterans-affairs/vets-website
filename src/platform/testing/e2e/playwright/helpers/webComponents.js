@@ -221,10 +221,13 @@ async function selectVaComboBox(page, name, value) {
  * @param {string} filePath - Path to the file to upload
  */
 async function fillVaFileInput(page, name, filePath) {
-  const fileInput = page
-    .locator(`va-file-input[name="${name}"]`)
-    .locator('input[type="file"]');
-  await fileInput.setInputFiles(filePath);
+  // Try va-file-input first; fall back to va-file-input-multiple
+  let container = page.locator(`va-file-input[name="${name}"]`);
+  if ((await container.count()) === 0) {
+    container = page.locator(`va-file-input-multiple[name="${name}"]`);
+  }
+  const fileInput = container.locator('input[type="file"]');
+  await fileInput.first().setInputFiles(filePath);
 }
 
 /**
@@ -300,14 +303,37 @@ async function fillAddressWebComponentPattern(page, fieldName, addressObject) {
   // State field may appear conditionally after country is selected;
   // wait briefly for it to render before attempting to fill.
   if (addressObject.state) {
-    const stateSelector = `va-select[name="root_${fieldName}_state"]`;
-    try {
-      await page.locator(stateSelector).waitFor({ timeout: 3000 });
-    } catch {
-      // State field may not exist for all countries
+    if (addressObject.isMilitary) {
+      // Military addresses render state as va-radio (AA, AE, AP)
+      const stateRadio = page.locator(
+        `va-radio[name="root_${fieldName}_state"]`,
+      );
+      try {
+        await stateRadio.waitFor({ timeout: 3000 });
+      } catch {
+        // State radio may not exist
+      }
+      if ((await stateRadio.count()) > 0) {
+        await selectVaRadioOption(
+          page,
+          `root_${fieldName}_state`,
+          addressObject.state,
+        );
+      }
+    } else {
+      const stateSelector = `va-select[name="root_${fieldName}_state"]`;
+      try {
+        await page.locator(stateSelector).waitFor({ timeout: 3000 });
+      } catch {
+        // State field may not exist for all countries
+      }
+      await selectVaSelect(
+        page,
+        `root_${fieldName}_state`,
+        addressObject.state,
+      );
     }
   }
-  await selectVaSelect(page, `root_${fieldName}_state`, addressObject.state);
 
   await fillVaTextInput(
     page,
