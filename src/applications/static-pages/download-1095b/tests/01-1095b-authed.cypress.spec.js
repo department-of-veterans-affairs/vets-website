@@ -47,17 +47,11 @@ describe('Authed 1095-B Form Download PDF', () => {
     cy.get('#pdf-download-link-2021').should('be.visible');
     cy.get('#txt-download-link-2021').should('be.visible');
 
-    cy.get('#pdf-download-link-2021')
-      .click()
-      .then(() => {
-        cy.readFile(`${Cypress.config('downloadsFolder')}/1095B-2021.pdf`);
-      });
+    cy.get('#pdf-download-link-2021').click();
+    cy.readFile(`${Cypress.config('downloadsFolder')}/1095B-2021.pdf`);
 
-    cy.get('#txt-download-link-2021')
-      .click()
-      .then(() => {
-        cy.readFile(`${Cypress.config('downloadsFolder')}/1095B-2021.txt`);
-      });
+    cy.get('#txt-download-link-2021').click();
+    cy.readFile(`${Cypress.config('downloadsFolder')}/1095B-2021.txt`);
 
     cy.axeCheck();
   });
