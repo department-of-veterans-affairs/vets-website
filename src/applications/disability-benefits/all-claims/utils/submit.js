@@ -938,7 +938,7 @@ export const flattenAttachments = formData => {
   return clonedData;
 };
 
-const DISABILITY_BENEFITS_QUESTIONNAIRE_ATTACHMENT_ID = 'L702';
+// TODO: Remove this when handled downstream.
 export const setSeparationHealthAssessmentAttachmentId = formData => {
   const uploads = formData.separationHealthAssessmentUploads;
   if (!uploads) return formData;
@@ -946,7 +946,7 @@ export const setSeparationHealthAssessmentAttachmentId = formData => {
   const clonedData = _.cloneDeep(formData);
   clonedData.separationHealthAssessmentUploads = uploads.map(upload => ({
     ...upload,
-    attachmentId: DISABILITY_BENEFITS_QUESTIONNAIRE_ATTACHMENT_ID,
+    attachmentId: 'L702',
   }));
 
   return clonedData;
