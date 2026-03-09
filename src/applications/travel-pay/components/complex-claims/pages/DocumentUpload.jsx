@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useRef, useCallback } from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -33,52 +33,56 @@ const DocumentUpload = ({
     .join(', ')
     .replace(/, ([^,]*)$/, ', or $1');
 
-  const fileTypesHint = `Make sure your file is no larger than 5MB and is a ${joinedTypes} file.`;
-  const renameHint = `Note that we\u2019ll rename your file \u201cproof-of-attendance\u201d.`;
+  const fileTypesHint = `Make sure your file is no larger than 5MB and is a ${joinedTypes} file`;
+  const renameHint = `Note that we'll rename your file "proof-of-attendance"`;
 
   const defaultHint = `You can upload a ${joinedTypes} file. Your file should be no larger than 5MB.`;
 
   const fileInputRef = useRef(null);
 
-  const injectHintBullets = useCallback(
+  useEffect(
     () => {
+      if (!additionalHint) return undefined;
+
       const el = fileInputRef.current;
-      if (!el || !el.shadowRoot) return;
-      const hintDiv = el.shadowRoot.querySelector('#input-hint-message');
-      if (!hintDiv) return;
-      hintDiv.innerHTML = '';
-      const ul = document.createElement('ul');
-      ul.style.margin = '0';
-      ul.style.paddingLeft = '1.5rem';
-      const li1 = document.createElement('li');
-      li1.textContent = fileTypesHint;
-      const li2 = document.createElement('li');
-      li2.textContent = renameHint;
-      ul.appendChild(li1);
-      ul.appendChild(li2);
-      hintDiv.appendChild(ul);
-    },
-    [fileTypesHint, renameHint],
-  );
+      if (!el) return undefined;
 
-  useEffect(
-    () => {
-      if (!additionalHint) return undefined;
-      const id = setTimeout(injectHintBullets, 0);
-      return () => clearTimeout(id);
-    },
-    [additionalHint, injectHintBullets],
-  );
+      const hintHTML = `<ul style="margin:0;padding-left:1.5rem"><li>${fileTypesHint}</li><li>${renameHint}</li></ul>`;
 
-  // Re-inject when error changes because the component re-renders its shadow DOM
-  useEffect(
-    () => {
-      if (!additionalHint) return undefined;
-      const id = setTimeout(injectHintBullets, 0);
-      return () => clearTimeout(id);
+      const inject = root => {
+        const hintDiv = root.querySelector('#input-hint-message');
+        if (!hintDiv) return false;
+        hintDiv.innerHTML = hintHTML;
+        return true;
+      };
+
+      const watchAndInject = root => {
+        if (inject(root)) return null;
+        const observer = new MutationObserver(() => {
+          if (inject(root)) observer.disconnect();
+        });
+        observer.observe(root, { childList: true, subtree: true });
+        return observer;
+      };
+
+      let observer;
+      if (el.shadowRoot) {
+        observer = watchAndInject(el.shadowRoot);
+      } else {
+        const hostObserver = new MutationObserver(() => {
+          if (el.shadowRoot) {
+            hostObserver.disconnect();
+            observer = watchAndInject(el.shadowRoot);
+          }
+        });
+        hostObserver.observe(el, { childList: true });
+        return () => hostObserver.disconnect();
+      }
+
+      return () => observer && observer.disconnect();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [error],
+    [additionalHint, fileTypesHint, renameHint, error],
   );
 
   return (
@@ -86,7 +90,7 @@ const DocumentUpload = ({
       <VaFileInput
         ref={fileInputRef}
         accept={acceptedFileTypes.join(',')}
-        hint={additionalHint ? ' ' : defaultHint}
+        hint={additionalHint ? fileTypesHint : defaultHint}
         label={label}
         maxFileSize={5200000}
         minFileSize={0}

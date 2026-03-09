@@ -52,7 +52,13 @@ const ProofOfAttendancePage = () => {
       setFile(null);
       return;
     }
-    setFile(selectedFile);
+    const extension = selectedFile.name.split('.').pop();
+    const renamedFile = new File(
+      [selectedFile],
+      `proof-of-attendance.${extension}`,
+      { type: selectedFile.type },
+    );
+    setFile(renamedFile);
     setFileError(null);
   };
 
