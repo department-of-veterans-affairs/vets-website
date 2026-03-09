@@ -541,7 +541,7 @@ describe('EvidenceRequestPage', () => {
     });
   });
 
-  it('should go forward with current data when Yes is selected and submit is clicked', () => {
+  it('should go forward with current data when Yes is selected and "Continue" is clicked', () => {
     const goForward = sinon.spy();
     const data = {
       'view:hasMedicalRecords': true,
