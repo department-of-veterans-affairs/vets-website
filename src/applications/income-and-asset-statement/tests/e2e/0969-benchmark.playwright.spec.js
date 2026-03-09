@@ -58,11 +58,23 @@ const ARRAY_URL_MAP = {
   'waived-income': 'incomeReceiptWaivers',
 };
 
-// SIP data: all scalar fields pre-filled, arrays kept from testData
+// SIP data: all scalar fields pre-filled, arrays emptied to match Cypress behavior.
+// Cypress empties these arrays so only the intro/scalar pages are visited,
+// making the benchmark a valid apples-to-apples comparison.
 const sipData = {
   metadata: mockPrefill,
   formData: {
     ...testData,
+    unassociatedIncomes: [],
+    associatedIncomes: [],
+    ownedAssets: [],
+    royaltiesAndOtherProperties: [],
+    assetTransfers: [],
+    trusts: [],
+    annuities: [],
+    unreportedAssets: [],
+    discontinuedIncomes: [],
+    incomeReceiptWaivers: [],
   },
 };
 
@@ -241,8 +253,10 @@ async function axeCheck(page) {
     const summary = results.violations
       .map(v => `[${v.impact}] ${v.id}: ${v.help} (${v.nodes.length} nodes)`)
       .join('\n');
-    console.log(
-      `[PW] axe violations on ${new URL(page.url()).pathname}:\n${summary}`,
+    throw new Error(
+      `Accessibility violations on ${
+        new URL(page.url()).pathname
+      }:\n${summary}`,
     );
   }
 }

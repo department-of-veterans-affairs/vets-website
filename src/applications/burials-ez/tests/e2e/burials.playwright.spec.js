@@ -23,6 +23,7 @@ const manifest = require('../../manifest.json');
 const mockUser = require('../fixtures/mocks/user.json');
 const featuresEnabled = require('../fixtures/mocks/featuresEnabled.json');
 const minimalFixture = require('../schema/minimal-test.json');
+const overflowFixture = require('../schema/overflow-test.json');
 
 const FORM_ID = '21P-530EZ';
 const IN_PROGRESS_URL = `/v0/in_progress_forms/${FORM_ID}`;
@@ -47,7 +48,7 @@ const pagePaths = {
 /**
  * Sets up mock API routes.
  */
-async function setupMocks(page) {
+async function setupMocks(page, fixture) {
   await page.route('**/v0/feature_toggles*', route =>
     route.fulfill({
       status: 200,
@@ -70,7 +71,7 @@ async function setupMocks(page) {
       return route.fulfill({
         status: 200,
         contentType: 'application/json',
-        body: JSON.stringify({ data: minimalFixture }),
+        body: JSON.stringify({ data: fixture }),
       });
     }
     return route.fulfill({
@@ -214,10 +215,13 @@ const testConfig = createTestConfig(
     appName: 'Burials EZ',
     dataPrefix: 'data',
     dataDir: null,
-    dataSets: [{ title: 'minimal', data: minimalFixture }],
+    dataSets: [
+      { title: 'overflow', data: overflowFixture },
+      { title: 'minimal', data: minimalFixture },
+    ],
     pageHooks,
-    setupPerTest: async ({ page }) => {
-      await setupMocks(page);
+    setupPerTest: async ({ page, testData }) => {
+      await setupMocks(page, testData);
       await login(page, mockUser);
     },
     skip: false,

@@ -525,15 +525,14 @@ async function performPageActions(page, pathname, config) {
       await accordions.nth(i).click();
     }
 
-    // Run accessibility check
+    // Run accessibility check — fail the test on violations
     const violations = await axeCheck(page, 'main', { _13647Exception });
-    if (violations.length > 0) {
-      console.warn(
-        `Accessibility violations on ${pathname}:\n${formatViolations(
-          violations,
-        )}`,
-      );
-    }
+    expect(
+      violations,
+      `Accessibility violations on ${pathname}:\n${formatViolations(
+        violations,
+      )}`,
+    ).toHaveLength(0);
 
     // Run post hook
     await postHook(page);
