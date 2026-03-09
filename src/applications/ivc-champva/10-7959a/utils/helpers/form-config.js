@@ -47,7 +47,7 @@ export const hasClaimDocs = formData => {
 export const needsDocHelp = whenAll(
   isDtaEnabled,
   isResubmissionClaim,
-  formData => !hasClaimDocs(formData),
+  formData => formData['view:hasClaimDocs'] === false,
 );
 
 // beneficiary section
