@@ -14,6 +14,7 @@ import { SearchFormTypes } from '../../types';
 
 // Hooks
 import useSearchFormState from '../../hooks/useSearchFormState';
+import useSearchFormSync from '../../hooks/useSearchFormSync';
 
 // Components
 import BottomRow from './BottomRow';
@@ -47,12 +48,19 @@ export const SearchForm = props => {
     selectedServiceType,
   } = useSearchFormState(currentQuery);
 
+  useSearchFormSync({
+    currentQuery,
+    draftFormState,
+    setDraftFormState,
+    updateDraftState,
+    location: props.location,
+    onChange,
+    vaHealthServicesData: props.vaHealthServicesData,
+  });
+
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
   const prevSearchStringRef = useRef(currentQuery.searchString);
-  const prevServiceTypeRef = useRef(currentQuery.serviceType);
-  const prevVamcServiceDisplayRef = useRef(currentQuery.vamcServiceDisplay);
-  const prevLocationSearchRef = useRef(props.location?.search);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -142,62 +150,6 @@ export const SearchForm = props => {
     onSubmit(draftFormState);
   };
 
-  // Sync draft state when Redux searchString updates from geolocation
-  useEffect(
-    () => {
-      if (currentQuery.searchString !== prevSearchStringRef.current) {
-        prevSearchStringRef.current = currentQuery.searchString;
-        updateDraftState({ searchString: currentQuery.searchString || '' });
-      }
-    },
-    [currentQuery.searchString, updateDraftState],
-  );
-
-  // Sync draft state when VAMC autosuggest updates Redux serviceType/vamcServiceDisplay
-  useEffect(
-    () => {
-      if (
-        currentQuery.serviceType !== prevServiceTypeRef.current ||
-        currentQuery.vamcServiceDisplay !== prevVamcServiceDisplayRef.current
-      ) {
-        prevServiceTypeRef.current = currentQuery.serviceType;
-        prevVamcServiceDisplayRef.current = currentQuery.vamcServiceDisplay;
-        setDraftFormState(prev => ({
-          ...prev,
-          serviceType: currentQuery.serviceType || null,
-          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
-        }));
-      }
-    },
-    [currentQuery.serviceType, currentQuery.vamcServiceDisplay],
-  );
-
-  // Sync all fields on URL parameter changes (browser back/forward)
-  useEffect(
-    () => {
-      if (
-        props.location?.search &&
-        props.location?.search !== prevLocationSearchRef.current
-      ) {
-        prevLocationSearchRef.current = props.location?.search;
-        setDraftFormState(prev => ({
-          ...prev,
-          facilityType: currentQuery.facilityType || null,
-          serviceType: currentQuery.serviceType || null,
-          searchString: currentQuery.searchString || '',
-          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
-        }));
-      }
-    },
-    [
-      props.location?.search,
-      currentQuery.facilityType,
-      currentQuery.serviceType,
-      currentQuery.searchString,
-      currentQuery.vamcServiceDisplay,
-    ],
-  );
-
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
     recordEvent({ event: 'fl-get-geolocation' });
@@ -271,7 +223,10 @@ export const SearchForm = props => {
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
         isTablet={isTablet}
-        committedVamcServiceDisplay={currentQuery.vamcServiceDisplay}
+        committedVamcServiceDisplay={
+          draftFormState.vamcServiceDisplay ||
+          (draftFormState.serviceType && currentQuery.vamcServiceDisplay)
+        }
         onVamcDraftChange={updateDraftState}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
