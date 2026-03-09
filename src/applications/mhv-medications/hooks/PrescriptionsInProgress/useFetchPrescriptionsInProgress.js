@@ -7,7 +7,7 @@ import { dispStatusObj } from '../../util/constants';
  * Filters prescriptions to only include those that are:
  * - Submitted (dispStatus === 'Active: Submitted')
  * - In progress (dispStatus === 'Active: Refill in Process')
- * - Shipped (dispStatus === 'Active' with tracking completeDateTime)
+ * - Shipped (dispStatus === 'Active' with recent tracking completeDateTime)
  *
  * @returns {Object} The prescription data, loading state, and error state
  */

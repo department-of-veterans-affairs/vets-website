@@ -10,6 +10,7 @@ import {
 } from '../util/helpers';
 import {
   defaultSelectedSortOption,
+  INCLUDE_IMAGE_ENDPOINT,
   rxListSortingOptions,
   STATION_NUMBER_PARAM,
 } from '../util/constants';
@@ -56,7 +57,7 @@ export const buildExportListQuery = ({
   const queryParams = [];
   if (filterOption) queryParams.push(filterOption);
   if (sortEndpoint) queryParams.push(sortEndpoint);
-  if (includeImage) queryParams.push('include_image=true');
+  if (includeImage) queryParams.push(INCLUDE_IMAGE_ENDPOINT);
 
   return {
     path: `/prescriptions?${queryParams.join('&')}`,
