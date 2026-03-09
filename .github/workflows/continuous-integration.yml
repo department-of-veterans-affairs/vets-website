@@ -1137,8 +1137,8 @@ jobs:
         run: node script/github-actions/find-form-exports.js
       - name: Log script outputs
         run: |
-          echo "folders: ${{ steps.testing-folders.outputs.folders }}"
-          echo "cypress_specs: ${{ steps.testing-folders.outputs.cypress_specs }}"
+          echo 'folders: ${{ steps.testing-folders.outputs.folders }}'
+          echo 'cypress_specs: ${{ steps.testing-folders.outputs.cypress_specs }}'
   run_form-regression_unit_tests:
     name: Forms System Regression - Unit Tests
     needs: forms-system_regression_check_get_file_paths
