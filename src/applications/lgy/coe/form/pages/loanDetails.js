@@ -25,6 +25,12 @@ export default {
     vaLoanNumber: numberUI({
       title: 'VA loan number',
       hint: 'Enter a 12-digit loan number',
+      min: 12,
+      max: 12,
+      errorMessages: {
+        max: 'Make sure you include 12 digits.',
+        min: 'Make sure you include 12 digits.',
+      },
     }),
   },
   schema: {
