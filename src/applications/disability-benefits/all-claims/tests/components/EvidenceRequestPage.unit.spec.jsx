@@ -572,7 +572,7 @@ describe('EvidenceRequestPage', () => {
     expect(additionalInfo).to.not.exist;
   });
 
-  it('should show a validation error when no selection is made and submit is clicked', async () => {
+  it('should show a validation error when no selection is made and "Continue" is clicked', async () => {
     const { container } = render(page({ data: {} }));
 
     fireEvent.click($('button[type="submit"]', container));
