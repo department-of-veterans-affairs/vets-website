@@ -62,7 +62,8 @@ const EditContactList = () => {
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
   const userProfile = useSelector(state => state.user?.profile);
-  const { userFacilityMigratingToOh, migrationSchedules } = userProfile || {};
+  const { userFacilityMigratingToOh, migrationSchedules, migrationDate } =
+    userProfile || {};
 
   const isContactListChanged = useMemo(
     () => !_.isEqual(vistaRecipients, allTriageTeams),
@@ -216,6 +217,7 @@ const EditContactList = () => {
       <ContactListMigrationAlert
         userFacilityMigratingToOh={userFacilityMigratingToOh}
         migrationSchedules={migrationSchedules}
+        migrationDate={migrationDate}
       />
       <AlertBackgroundBox
         closeable

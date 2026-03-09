@@ -43,6 +43,7 @@ import {
   SET_REVIEW_PAGE_ALERT,
   CLEAR_REVIEW_PAGE_ALERT,
   SET_EXPENSE_BACK_DESTINATION,
+  SET_UNSAVED_CHANGES_MODAL_VISIBLE,
 } from './actions';
 
 // Helper function to merge expenses, avoiding duplicates
@@ -162,6 +163,10 @@ const initialState = {
       error: null,
     },
     expenseBackDestination: null,
+    unsavedChangesModal: {
+      visible: false,
+      source: null,
+    },
   },
 };
 
@@ -743,6 +748,18 @@ function travelPayReducer(state = initialState, action) {
         complexClaim: {
           ...state.complexClaim,
           expenseBackDestination: action.payload,
+        },
+      };
+
+    case SET_UNSAVED_CHANGES_MODAL_VISIBLE:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          unsavedChangesModal: {
+            visible: action.payload.visible,
+            source: action.payload.source,
+          },
         },
       };
 
