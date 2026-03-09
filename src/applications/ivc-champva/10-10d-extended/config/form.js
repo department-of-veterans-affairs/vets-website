@@ -33,7 +33,7 @@ import { healthInsurancePages } from '../chapters/healthInsurance';
 
 // import mockData from '../tests/e2e/fixtures/data/representative.json';
 
-/** @type {FormConfig}  */
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
