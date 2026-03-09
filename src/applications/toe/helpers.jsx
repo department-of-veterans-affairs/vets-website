@@ -130,6 +130,13 @@ export function prefillTransformer(pages, formData, metadata, state) {
     contactInfo.emailAddress ||
     undefined;
 
+  // Only prefill confirmEmail if we have a prefilled email and the user
+  // hasn't started editing the email field yet
+  const formEmailValue = state.form?.data?.email?.email;
+  const shouldPrefillConfirmEmail =
+    emailAddress &&
+    (formEmailValue === undefined || formEmailValue === emailAddress);
+
   let mobilePhoneNumber;
   let mobilePhoneIsInternational;
   const vapMobilePhone = vapContactInfo.mobilePhone || {};
@@ -173,7 +180,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     dob: profile?.dob || claimant?.dateOfBirth,
     [formFields.email]: {
       email: emailAddress,
-      confirmEmail: emailAddress,
+      confirmEmail: shouldPrefillConfirmEmail ? emailAddress : undefined,
     },
     [formFields.viewPhoneNumbers]: {
       [formFields.mobilePhoneNumber]: {
