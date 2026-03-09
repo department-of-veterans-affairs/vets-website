@@ -3,17 +3,19 @@
  * @module services/Patient
  */
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { recordEligibilityFailure, recordVaosError } from '../../utils/events';
-import { captureError } from '../../utils/error';
+import { subMonths } from 'date-fns';
 import {
+  CLINIC_HISTORY_MONTHS,
   ELIGIBILITY_REASONS,
-  TYPE_OF_CARE_IDS,
   INELIGIBILITY_CODES_VAOS,
+  TYPE_OF_CARE_IDS,
 } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
+import { captureError } from '../../utils/error';
+import { recordEligibilityFailure, recordVaosError } from '../../utils/events';
+import { getLongTermAppointmentHistoryV2 } from '../appointment';
 import { getAvailableHealthcareServices } from '../healthcare-service';
 import { getPatientEligibility, getPatientRelationships } from '../vaos';
-import { getLongTermAppointmentHistoryV2 } from '../appointment';
 import { transformPatientRelationships } from './transformers';
 
 /**
@@ -39,6 +41,23 @@ export function typeOfCareRequiresPastHistory(
   }
 
   return !exempted.has(typeOfCareId);
+}
+
+/**
+ * Filters past appointments to only include those within the history window for the type of care, if applicable
+ * @param {Object[]} pastAppointments The list of past appointments
+ * @param {string} typeOfCareId The type of care ID
+ * @returns {Object[]} The filtered list of past appointments
+ */
+export function filterPastAppointmentsByTypeOfCare(
+  pastAppointments,
+  typeOfCareId,
+) {
+  if (typeOfCareId in CLINIC_HISTORY_MONTHS) {
+    const cutoff = subMonths(new Date(), CLINIC_HISTORY_MONTHS[typeOfCareId]);
+    return pastAppointments.filter(appt => appt.start >= cutoff);
+  }
+  return pastAppointments;
 }
 
 function createErrorHandler(errorKey) {
@@ -355,6 +374,7 @@ export async function fetchFlowEligibilityAndClinics({
     (!removeFacilityConfigCheck || patientEligibility.direct?.eligible);
 
   const additionalApiCalls = {};
+
   if (shouldFetchClinics) {
     additionalApiCalls.clinics = getAvailableHealthcareServices({
       facilityId: location.id,
@@ -473,12 +493,18 @@ export async function fetchFlowEligibilityAndClinics({
       (removeFacilityConfigCheck && typeOfCareRequiresCheck) ||
       (keepFacilityConfigCheck &&
         directTypeOfCareSettings.patientHistoryRequired);
+    const filteredPastAppointments = typeOfCareRequiresCheck
+      ? filterPastAppointmentsByTypeOfCare(
+          results.pastAppointments,
+          typeOfCare.id,
+        )
+      : results.pastAppointments;
     if (
       !isCerner &&
       requiresMatchingClinics &&
       !hasMatchingClinics(
         results.clinics,
-        results.pastAppointments,
+        filteredPastAppointments,
         typeOfCareRequiresCheck,
       )
     ) {
@@ -501,5 +527,5 @@ export async function fetchFlowEligibilityAndClinics({
     eligibility,
     clinics: results.clinics,
     pastAppointments: results.pastAppointments,
-  }; // clinics and past appointments are returned in addition to eligibilty to be cached for later user
+  }; // clinics and past appointments are returned in addition to eligibility to be cached for later user
 }

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import {
   useNavigate,
   useParams,
@@ -31,6 +31,7 @@ import {
   fetchExpenseSuccess,
   fetchExpenseFailure,
   fetchExpenseStart,
+  setUnsavedChangesModalVisible,
 } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
@@ -39,9 +40,13 @@ import {
   selectDocumentDeleteLoadingState,
   selectExpenseFetchLoadingState,
   selectExpenseBackDestination,
+  selectHasUnsavedExpenseChanges,
 } from '../../../redux/selectors';
 import {
   DATE_VALIDATION_TYPE,
+  VALIDATION_ERROR_MESSAGES,
+  isCompleteDate,
+  normalizeDate,
   validateRequestedAmount,
   validateReceiptDate,
   validateDescription,
@@ -90,11 +95,12 @@ const ExpensePage = () => {
     state => (isEditMode ? selectExpenseFetchLoadingState(state) : false),
   );
   const backDestination = useSelector(selectExpenseBackDestination);
+  const hasUnsavedChanges = useSelector(selectHasUnsavedExpenseChanges);
 
   // Refs
   const initialFormStateRef = useRef({});
   const previousHasChangesRef = useRef(false);
-  const hasLoadedExpenseRef = useRef(false);
+  const extraFieldErrorsRef = useRef({});
 
   // State
   const [formState, setFormState] = useState({});
@@ -133,10 +139,10 @@ const ExpensePage = () => {
   useSetFocus();
 
   // Effects
-  // Effect 1: Reset loaded flag when expenseId changes
+  // Effect 1: Reset initial form state when expenseId changes
   useEffect(
     () => {
-      hasLoadedExpenseRef.current = false;
+      initialFormStateRef.current = {};
     },
     [expenseId],
   );
@@ -145,7 +151,11 @@ const ExpensePage = () => {
   // This fetches the full expense with type-specific fields and then loads the document receipt
   useEffect(
     () => {
-      if (!isEditMode || !expenseId || hasLoadedExpenseRef.current) {
+      if (
+        !isEditMode ||
+        !expenseId ||
+        Object.keys(initialFormStateRef.current).length > 0
+      ) {
         return undefined;
       }
 
@@ -162,19 +172,37 @@ const ExpensePage = () => {
             expenseConfig.apiRoute
           }/${expenseId}`;
           const expenseResponse = await apiRequest(expenseUrl);
-          dispatch(fetchExpenseSuccess(expenseId));
           const fetchedExpense = expenseResponse.data || expenseResponse;
 
           if (!isMounted) return;
 
           // Step 2: Hydrate form with expense data
-          const initialState = {
+          // Build initial state with all dates normalized to YYYY-MM-DD
+          let initialState = {
             ...fetchedExpense,
-            purchaseDate: fetchedExpense.dateIncurred || '',
+            purchaseDate: normalizeDate(fetchedExpense.dateIncurred) || '',
           };
-          setFormState(initialState);
-          setPreviousFormState(initialState);
-          initialFormStateRef.current = initialState;
+
+          // Normalize date fields for expense types that use them
+          // Do this unconditionally to ensure proper override
+          if (fetchedExpense.departureDate) {
+            initialState.departureDate = normalizeDate(
+              fetchedExpense.departureDate,
+            );
+          }
+          if (fetchedExpense.returnDate) {
+            initialState.returnDate = normalizeDate(fetchedExpense.returnDate);
+          }
+          if (fetchedExpense.checkInDate) {
+            initialState.checkInDate = normalizeDate(
+              fetchedExpense.checkInDate,
+            );
+          }
+          if (fetchedExpense.checkOutDate) {
+            initialState.checkOutDate = normalizeDate(
+              fetchedExpense.checkOutDate,
+            );
+          }
 
           // Step 3: Load document if it exists (use Redux state for document metadata)
           const documentId = expenseWithDocument?.documentId;
@@ -201,9 +229,10 @@ const ExpensePage = () => {
               fileData: base64File,
             };
 
+            // Add receipt to initial state
+            initialState = { ...initialState, receipt };
+
             if (isMounted) {
-              setFormState(prev => ({ ...prev, receipt }));
-              setPreviousFormState(prev => ({ ...prev, receipt }));
               setExpenseDocument(
                 new File([blob], filename, {
                   type: contentType,
@@ -213,10 +242,13 @@ const ExpensePage = () => {
             }
           }
 
+          // Step 4: Hydrate form with complete initial state
           if (isMounted) {
-            hasLoadedExpenseRef.current = true;
-            dispatch(fetchExpenseSuccess(expenseId));
+            setFormState(initialState);
+            setPreviousFormState(initialState);
+            initialFormStateRef.current = initialState;
             setIsDocumentLoading(false);
+            dispatch(fetchExpenseSuccess(expenseId));
           }
         } catch (err) {
           // Failed to fetch expense or document
@@ -238,7 +270,6 @@ const ExpensePage = () => {
       claimId,
       expenseWithDocument?.documentId,
       expenseWithDocument?.receipt?.filename,
-      previousDocumentId,
       dispatch,
     ],
   );
@@ -246,6 +277,11 @@ const ExpensePage = () => {
   // Effect 3: Track unsaved changes by comparing current state to initial state
   useEffect(
     () => {
+      // Skip comparison if we're in edit mode and still loading (initialFormStateRef not yet populated)
+      if (isEditMode && Object.keys(initialFormStateRef.current).length === 0) {
+        return;
+      }
+
       const hasChanges =
         JSON.stringify(formState) !==
         JSON.stringify(initialFormStateRef.current);
@@ -255,10 +291,47 @@ const ExpensePage = () => {
         previousHasChangesRef.current = hasChanges;
       }
     },
-    [formState, dispatch],
+    [formState, dispatch, isEditMode],
   );
 
-  // Effect 4: Scroll to first error after validation and DOM update
+  // Sync ref with latest extraFieldErrors before focusout handler reads it
+  useLayoutEffect(() => {
+    extraFieldErrorsRef.current = extraFieldErrors;
+  });
+
+  // Effect 4: Override VaDate's internal validation error after blur.
+  //
+  // VaDate incorrectly shows 'date-error' in edit mode when pre-filled dates are changed.
+  // We listen for focusout on document and use queueMicrotask to replace VaDate's error
+  // with our React validation error before the browser paints.
+  useEffect(() => {
+    // focusout bubbles across shadow DOM; listening on document catches all va-date blurs
+    const handleFocusOut = event => {
+      const vaDateEl = event.target?.closest('va-date');
+      if (!vaDateEl) return;
+
+      const fieldName = vaDateEl.getAttribute('name');
+      const dateValue = vaDateEl.value;
+
+      // Override VaDate's internal error after its blur validation runs but before browser paint
+      const overrideVaDateError = () => {
+        const reactError = extraFieldErrorsRef.current[fieldName];
+        const dateIsComplete = isCompleteDate(normalizeDate(dateValue));
+
+        // Only override if we have a React error to show, or if the date is complete and valid
+        // (which means VaDate's error is incorrect). Otherwise, let VaDate's error display.
+        if (reactError || dateIsComplete) {
+          vaDateEl.error = reactError || null;
+        }
+      };
+      queueMicrotask(overrideVaDateError);
+    };
+
+    document.addEventListener('focusout', handleFocusOut);
+    return () => document.removeEventListener('focusout', handleFocusOut);
+  }, []);
+
+  // Effect 5: Scroll to first error after validation and DOM update
   // Using scrollToFirstError on its own fails to find the errors before they have rendered
   useEffect(
     () => {
@@ -277,11 +350,6 @@ const ExpensePage = () => {
     const value =
       event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
 
-    // Always update formState with the current value (including partial dates)
-    // This ensures the field doesn't get cleared on re-render
-    const newFormState = { ...formState, [name]: value };
-    setFormState(newFormState);
-
     // For date fields, only run validation if we have a complete date
     const dateFields = [
       'purchaseDate',
@@ -291,19 +359,36 @@ const ExpensePage = () => {
       'checkOutDate',
     ];
     const isDateField = dateFields.includes(name);
-    const isCompleteDate = /^\d{4}-\d{2}-\d{2}$/.test(value);
+
+    // Calculate new form state (but don't set it yet to avoid re-render before errors are updated)
+    const newFormState = { ...formState, [name]: value };
+
+    const isCompleteDateValue = isCompleteDate(value);
 
     // Skip validation for partial dates, but still save them to formState
-    if (isDateField && !isCompleteDate && value !== '') {
+    if (isDateField && !isCompleteDateValue && value !== '') {
+      // If there's an existing error, replace it with incomplete date error
+      // This provides immediate feedback when user breaks a valid date
+      setFormState(newFormState);
+      setExtraFieldErrors(prevErrors => {
+        const nextErrors = { ...prevErrors };
+        if (prevErrors[name]) {
+          nextErrors[name] = VALIDATION_ERROR_MESSAGES.INCOMPLETE_DATE;
+        } else {
+          delete nextErrors[name];
+        }
+        return nextErrors;
+      });
       return;
     }
+
+    setFormState(newFormState);
 
     // On change: clear errors if field becomes valid, OR update error if field has existing error
     setExtraFieldErrors(prevErrors => {
       const nextErrors = { ...prevErrors };
       const hasExistingError = prevErrors[name];
 
-      // Validate base fields
       if (name === 'purchaseDate') {
         const validationResult = validateReceiptDate(
           value,
@@ -311,12 +396,13 @@ const ExpensePage = () => {
         );
         if (validationResult.isValid) {
           delete nextErrors.purchaseDate;
-        } else if (hasExistingError && validationResult.purchaseDate) {
-          // Update error message if field already has an error
+        } else if (
+          validationResult.purchaseDate &&
+          (isCompleteDateValue || hasExistingError)
+        ) {
           nextErrors.purchaseDate = validationResult.purchaseDate;
         }
       }
-
       if (name === 'description') {
         const validationResult = validateDescription(
           value,
@@ -332,7 +418,7 @@ const ExpensePage = () => {
       if (name === 'costRequested') {
         const validationResult = validateRequestedAmount(
           value,
-          DATE_VALIDATION_TYPE.CHANGE,
+          DATE_VALIDATION_TYPE.BLUR,
         );
         if (validationResult.isValid) {
           delete nextErrors.costRequested;
@@ -341,7 +427,7 @@ const ExpensePage = () => {
         }
       }
 
-      // Run type-specific validations - clear errors if valid, update if has existing error
+      // Run type-specific validations
       let fieldErrors = {};
       if (isAirTravel) {
         fieldErrors = validateAirTravelFields(newFormState, name);
@@ -353,12 +439,11 @@ const ExpensePage = () => {
         fieldErrors = validateMealFields(newFormState, name);
       }
 
-      // Clear errors if valid, or update if field already has an error
+      // Clear errors if valid, or always show if invalid
       Object.keys(fieldErrors).forEach(field => {
         if (fieldErrors[field] === null) {
           delete nextErrors[field];
-        } else if (prevErrors[field] && fieldErrors[field]) {
-          // Update error message if field already has an error
+        } else if (fieldErrors[field]) {
           nextErrors[field] = fieldErrors[field];
         }
       });
@@ -370,7 +455,6 @@ const ExpensePage = () => {
   const handleFormBlur = (event, explicitName) => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name;
 
-    // For date fields, use value from formState instead of event
     const dateFields = [
       'purchaseDate',
       'departureDate',
@@ -378,11 +462,15 @@ const ExpensePage = () => {
       'checkInDate',
       'checkOutDate',
     ];
-    const value = dateFields.includes(name)
-      ? formState[name] || ''
-      : event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
 
-    // Only validate on blur if the field has a value
+    // Date field blur validation is handled by the focusout effect (Effect 4)
+    if (dateFields.includes(name)) {
+      return;
+    }
+
+    const value =
+      event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
+
     if (!value) {
       return;
     }
@@ -390,19 +478,6 @@ const ExpensePage = () => {
     // Run validation on blur - always update errors
     setExtraFieldErrors(prevErrors => {
       const nextErrors = { ...prevErrors };
-
-      // Validate base fields
-      if (name === 'purchaseDate') {
-        const validationResult = validateReceiptDate(
-          value,
-          DATE_VALIDATION_TYPE.BLUR,
-        );
-        if (validationResult.purchaseDate) {
-          nextErrors.purchaseDate = validationResult.purchaseDate;
-        } else {
-          delete nextErrors.purchaseDate;
-        }
-      }
 
       if (name === 'description') {
         const validationResult = validateDescription(
@@ -440,7 +515,6 @@ const ExpensePage = () => {
         fieldErrors = validateMealFields(formState, name);
       }
 
-      // Update errors from validators
       Object.keys(fieldErrors).forEach(field => {
         if (fieldErrors[field]) {
           nextErrors[field] = fieldErrors[field];
@@ -459,7 +533,7 @@ const ExpensePage = () => {
     handleCloseCancelModal();
     // Clear unsaved changes when canceling
     dispatch(setUnsavedExpenseChanges(false));
-    if (isEditMode || backDestination === 'review') {
+    if (backDestination === 'review') {
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
@@ -667,14 +741,18 @@ const ExpensePage = () => {
   };
 
   const handleBack = () => {
-    if (isEditMode) {
+    // On edit mode, "Cancel" takes the place of the normal back button
+    if (isEditMode && hasUnsavedChanges) {
       setIsCancelModalVisible(true);
-    } else if (backDestination === 'review') {
-      // User clicked "Add another [expense]" from review page accordion
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else if (!isEditMode && hasUnsavedChanges) {
+      // On add mode, the back button should trigger the "leave page" modal if there are unsaved changes
+      dispatch(setUnsavedChangesModalVisible(true, 'expense-back'));
     } else {
-      // User came from choose-expense page
-      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      navigate(
+        `/file-new-claim/${apptId}/${claimId}/${
+          backDestination === 'review' ? 'review' : 'choose-expense'
+        }`,
+      );
     }
   };
 
@@ -771,14 +849,6 @@ const ExpensePage = () => {
       ...prev,
       ...validationResult.errors,
     }));
-
-    // Update formatted value if provided
-    if (validationResult.formattedValue) {
-      setFormState(prev => ({
-        ...prev,
-        costRequested: validationResult.formattedValue,
-      }));
-    }
   };
 
   const pageTitle = expenseTypeFields?.expensePageText
@@ -804,7 +874,7 @@ const ExpensePage = () => {
       <p>{pageDescription}</p>
       {isFetchingDocument ||
       isFetchingExpense ||
-      (isEditMode && !hasLoadedExpenseRef.current) ? (
+      (isEditMode && Object.keys(initialFormStateRef.current).length === 0) ? (
         <va-loading-indicator message="Loading expense details..." set-focus />
       ) : (
         <>
@@ -853,9 +923,7 @@ const ExpensePage = () => {
             hint={dateHintText}
             onDateChange={handleFormChange}
             onDateBlur={handleFormBlur}
-            {...extraFieldErrors.purchaseDate && {
-              error: extraFieldErrors.purchaseDate,
-            }}
+            error={extraFieldErrors.purchaseDate || ''}
           />
 
           <div className="currency-input-wrapper vads-u-margin-top--2">

@@ -54,8 +54,8 @@ describe('Claim document request', () => {
         claim: createBenefitsClaim({
           trackedItems: [
             createTrackedItem({
-              displayName: 'Unknown Request Type', // Not in evidenceDictionary
-              description: '', // No API description either
+              displayName: 'Unknown Request Type',
+              description: '',
             }),
           ],
         }),
@@ -104,7 +104,7 @@ describe('Claim document request', () => {
 
       cy.get('va-need-help')
         .contains(
-          'The VA benefits hotline may refer to the “disability exam for hearing” request as “DBQ AUDIO Hearing Loss and Tinnitus”, “Hearing Exam” or “Audio Exam.”',
+          'We may refer to the “disability exam for hearing” request as “DBQ AUDIO Hearing Loss and Tinnitus”, “Hearing Exam” or “Audio Exam.”',
         )
         .should('be.visible');
 

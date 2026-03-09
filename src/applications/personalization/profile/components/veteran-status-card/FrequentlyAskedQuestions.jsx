@@ -3,27 +3,36 @@ import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { PDFErrorAlert } from './VeteranStatusAlerts';
 
-const FrequentlyAskedQuestions = ({ createPdf, pdfError = false }) => (
+const FrequentlyAskedQuestions = ({
+  createPdf,
+  pdfError = false,
+  cveVeteranStatusNewService = false,
+}) => (
   <>
     <h2 className="vads-u-margin-top--2">Frequently asked questions</h2>
     <va-accordion>
-      <va-accordion-item
-        level={3}
-        header="What if my Veteran Status Card displays incorrect information?"
-      >
-        <p>
-          To fix an error in your disability rating, call us at{' '}
-          <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
-          <va-telephone contact={CONTACTS[711]} tty />
-          ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
-        </p>
-        <p>
-          To correct your service history information, call the Defense Manpower
-          Data Center at <va-telephone contact={CONTACTS.DS_LOGON} /> (
-          <va-telephone contact={CONTACTS[711]} tty />
-          ).
-        </p>
-      </va-accordion-item>
+      {(!cveVeteranStatusNewService || createPdf) && (
+        <va-accordion-item
+          level={3}
+          header="What if my Veteran Status Card displays incorrect information?"
+        >
+          <p>
+            To fix an error in your disability rating, call us at{' '}
+            <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+            <va-telephone contact={CONTACTS[711]} tty />
+            ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+          </p>
+          {!cveVeteranStatusNewService && (
+            <p>
+              To correct your service history information, call the Defense
+              Manpower Data Center at{' '}
+              <va-telephone contact={CONTACTS.DS_LOGON} /> (
+              <va-telephone contact={CONTACTS[711]} tty />
+              ).
+            </p>
+          )}
+        </va-accordion-item>
+      )}
       <va-accordion-item
         level={3}
         header="How can I use the Veteran Status Card?"
@@ -48,14 +57,23 @@ const FrequentlyAskedQuestions = ({ createPdf, pdfError = false }) => (
             You can print a copy of your Veteran Status Card and cut it out to
             keep in your wallet.
           </p>
-          <va-link
-            filetype="PDF"
-            // exception to eslint: the url is a dynamically generated blob url
-            // eslint-disable-next-line no-script-url
-            href="javascript:void(0)"
-            text="Print your Veteran Status Card (PDF)"
-            onClick={createPdf}
-          />
+          {cveVeteranStatusNewService ? (
+            <va-link
+              download
+              // eslint-disable-next-line no-script-url
+              href="javascript:void(0)"
+              text="Print your Veteran Status Card (PDF)"
+              onClick={createPdf}
+            />
+          ) : (
+            <va-link
+              filetype="PDF"
+              // eslint-disable-next-line no-script-url
+              href="javascript:void(0)"
+              text="Print your Veteran Status Card (PDF)"
+              onClick={createPdf}
+            />
+          )}
           {pdfError && (
             <div className="vads-u-margin-top--4">
               <PDFErrorAlert />
@@ -90,6 +108,7 @@ const FrequentlyAskedQuestions = ({ createPdf, pdfError = false }) => (
 
 FrequentlyAskedQuestions.propTypes = {
   createPdf: PropTypes.func,
+  cveVeteranStatusNewService: PropTypes.bool,
   pdfError: PropTypes.bool,
 };
 

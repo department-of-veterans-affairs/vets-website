@@ -46,7 +46,7 @@ class PatientMessageTrashPage {
 
   // method below could not be used in filtered list due to different tag ([data-testid="message-list-item"])
   verifyResponseBodyLength = (responseData = mockTrashMessages) => {
-    cy.get(Locators.THREADS).should(
+    cy.findAllByTestId(Locators.THREADS).should(
       'have.length',
       `${responseData.data.length}`,
     );

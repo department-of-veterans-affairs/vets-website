@@ -332,7 +332,7 @@ for doing very specific things.
 | watch file changes without starting the server                                                              | `yarn watch:no-server`                                                                                                                                                                                                                    |
 | run all unit tests and watch                                                                                | `yarn test:watch`                                                                                                                                                                                                                         |
 | run only E2E tests (headless)                                                                               | Make sure the site is running locally (`yarn watch`) and run the tests with `yarn cy:run`                                                                                                                                                 |
-| run only E2E tests (headless) in Codespaces                                                                | Make sure the site is running locally (`yarn watch`) and set up virtual display: `export DISPLAY=:99 && Xvfb :99 -screen 0 1024x768x24 -ac +extension GLX +render -noreset &` then run `export DISPLAY=:99 && yarn cy:run`        |
+| run only E2E tests (headless) in Codespaces                                                                 | Make sure the site is running locally (`yarn watch`) and set up virtual display: `export DISPLAY=:99 && Xvfb :99 -screen 0 1024x768x24 -ac +extension GLX +render -noreset &` then run `export DISPLAY=:99 && yarn cy:run`                |
 | run E2E tests in the browser                                                                                | `yarn cy:open`                                                                                                                                                                                                                            |
 | count all Cypress E2E specs                                                                                 | `yarn cy:count`                                                                                                                                                                                                                           |
 | run all linters                                                                                             | `yarn lint`                                                                                                                                                                                                                               |
@@ -342,7 +342,7 @@ for doing very specific things.
 | add new npm modules                                                                                         | `yarn add my-module`. Use the `--dev` flag for modules that are build or test related.                                                                                                                                                    |
 | get the latest json schema                                                                                  | `yarn update:schema`. This updates our [`vets-json-schema`](https://github.com/department-of-veterans-affairs/vets-json-schema) to the most recent commit.                                                                                |
 | check test coverage                                                                                         | `yarn test:coverage`                                                                                                                                                                                                                      |
-| run [statoscope](https://github.com/statoscope/statoscope) on your app                                      | `yarn build-analyze-app static-pages`                                                                                                                                                                                                                       |
+| run [statoscope](https://github.com/statoscope/statoscope) on your app                                      | `yarn build-analyze-app static-pages`                                                                                                                                                                                                     |
 | add a new React app                                                                                         | `yarn new:app` (make sure you have [`vagov-content`](https://github.com/department-of-veterans-affairs/vagov-content/) and [`content-build`](https://github.com/department-of-veterans-affairs/content-build/) sibling to `vets-website`) |
 
 ## Supported Browsers
@@ -357,9 +357,36 @@ for doing very specific things.
 
 ## API Keys
 
-In order to work with the Facility Locator locally, you will need a Mapbox API key with dev access. see [this link](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/working-with-vsp/policies-work-norms/sensitive-guidance.md) for details on handling non public keys and tokens. You will need to access the paramater store within AWS Systems manager, and get the dev mapbox token from this location: /dsva-vagov/vets-website/dev/mapbox_token.
+### Mapbox Tokens
 
-Create a .env file in the root of vets-website, and assign the above token to a variable called MAPBOX_TOKEN. The .env file should already be configured to work with dotenv for webpack. Ensure that the .env file is in .gitigore and take care not to expose this token in any public commits. See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=external-request%2Coperations%2Cops-access-request&template=aws-access-request.yml&title=AWS+access+for+%5Bindividual%5D) for instructions on requesting AWS access.
+Several applications on VA.gov use Mapbox for mapping functionality. For local development, you'll need to set up Mapbox API tokens.
+
+**Getting a dev token:**
+
+1. See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/working-with-vsp/policies-work-norms/sensitive-guidance.md) for details on handling non-public keys and tokens.
+2. See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=external-request%2Coperations%2Cops-access-request&template=aws-access-request.yml&title=AWS+access+for+%5Bindividual%5D) for instructions on requesting AWS access.
+
+**Local development setup:**
+
+Fetch the dev token from AWS and write it to your `.env` in one step:
+
+```sh
+echo "MAPBOX_TOKEN=$(aws ssm get-parameter --name /dsva-vagov/vets-website/dev/mapbox_token --with-decryption --query Parameter.Value --output text)" >> .env
+```
+
+Or manually create a `.env` file in the root of `vets-website` with:
+
+```
+MAPBOX_TOKEN=<your-dev-token>
+```
+
+This single token is used as the fallback for all Mapbox-consuming applications. Each app checks for an app-specific override first (e.g., `MAPBOX_TOKEN_FACILITY_LOCATOR`), then falls back to `MAPBOX_TOKEN`. For local development, the base token is all you need.
+
+The `.env` file is already configured to work with dotenv for webpack.
+
+**Deployed environments:**
+
+In CI and deployed environments (dev, staging, production), each application receives its own Mapbox token from AWS Systems Manager. These are injected via the CI workflow files in `.github/workflows/`.
 
 ## Additional Resources
 

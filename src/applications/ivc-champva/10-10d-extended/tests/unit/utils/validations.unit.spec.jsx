@@ -10,6 +10,8 @@ import {
   validateApplicantSsn,
   validateSponsorSsn,
   validateFutureDate,
+  validateChars,
+  validateDateRange,
 } from '../../../utils/validations';
 
 describe('1010d `validateSponsorSsn` form validation', () => {
@@ -1398,5 +1400,152 @@ describe('1010d `validateFutureDate` form validation', () => {
       run(dateString);
       sinon.assert.calledOnce(errors.addError);
     });
+  });
+});
+
+describe('1010d `validateDateRange` form validation', () => {
+  let errors;
+  let startDateSpy;
+  let endDateSpy;
+
+  beforeEach(() => {
+    startDateSpy = sinon.spy();
+    endDateSpy = sinon.spy();
+    errors = {
+      medicarePartDEffectiveDate: { addError: startDateSpy },
+      medicarePartDTerminationDate: { addError: endDateSpy },
+    };
+  });
+
+  afterEach(() => {
+    startDateSpy.resetHistory();
+    endDateSpy.resetHistory();
+  });
+
+  it('should not add error when dates are valid and in correct order', () => {
+    const data = {
+      medicarePartDEffectiveDate: '2020-01-01',
+      medicarePartDTerminationDate: '2021-01-01',
+    };
+
+    validateDateRange(errors, data, {
+      startDateKey: 'medicarePartDEffectiveDate',
+      endDateKey: 'medicarePartDTerminationDate',
+    });
+
+    sinon.assert.notCalled(endDateSpy);
+  });
+
+  it('should not add error when termination date is omitted', () => {
+    const data = {
+      medicarePartDEffectiveDate: '2020-01-01',
+      medicarePartDTerminationDate: undefined,
+    };
+
+    validateDateRange(errors, data, {
+      startDateKey: 'medicarePartDEffectiveDate',
+      endDateKey: 'medicarePartDTerminationDate',
+    });
+
+    sinon.assert.notCalled(endDateSpy);
+  });
+
+  it('should add error when termination date is before effective date', () => {
+    const data = {
+      medicarePartDEffectiveDate: '2021-01-01',
+      medicarePartDTerminationDate: '2020-01-01',
+    };
+
+    validateDateRange(errors, data, {
+      startDateKey: 'medicarePartDEffectiveDate',
+      endDateKey: 'medicarePartDTerminationDate',
+    });
+
+    sinon.assert.calledOnce(endDateSpy);
+  });
+
+  it('should add error when termination date is invalid', () => {
+    const data = {
+      medicarePartDEffectiveDate: '2020-01-01',
+      medicarePartDTerminationDate: 'invalid-date',
+    };
+
+    validateDateRange(errors, data, {
+      startDateKey: 'medicarePartDEffectiveDate',
+      endDateKey: 'medicarePartDTerminationDate',
+    });
+
+    sinon.assert.calledOnce(endDateSpy);
+  });
+
+  it('should add error when termination date is same as effective date', () => {
+    const data = {
+      medicarePartDEffectiveDate: '2020-01-01',
+      medicarePartDTerminationDate: '2020-01-01',
+    };
+
+    validateDateRange(errors, data, {
+      startDateKey: 'medicarePartDEffectiveDate',
+      endDateKey: 'medicarePartDTerminationDate',
+    });
+
+    sinon.assert.calledOnce(endDateSpy);
+  });
+
+  it('should use custom error messages when provided', () => {
+    const data = {
+      medicarePartDEffectiveDate: '2021-01-01',
+      medicarePartDTerminationDate: '2020-01-01',
+    };
+    const customMessage = 'Custom error message';
+
+    validateDateRange(errors, data, {
+      startDateKey: 'medicarePartDEffectiveDate',
+      endDateKey: 'medicarePartDTerminationDate',
+      rangeErrorMessage: customMessage,
+    });
+
+    sinon.assert.calledWith(endDateSpy, customMessage);
+  });
+});
+
+describe('1010d `validateChars` form validation', () => {
+  let addErrorSpy;
+  let errors;
+
+  beforeEach(() => {
+    addErrorSpy = sinon.spy();
+    errors = { addError: addErrorSpy };
+  });
+
+  afterEach(() => {
+    addErrorSpy.resetHistory();
+  });
+
+  it('should not add error when text contains only valid characters', () => {
+    validateChars(errors, 'Valid text with letters and numbers 123');
+    sinon.assert.notCalled(addErrorSpy);
+  });
+
+  it('should add error when text contains a single invalid character', () => {
+    validateChars(errors, 'text with $ symbol');
+    sinon.assert.calledOnce(addErrorSpy);
+    sinon.assert.calledWith(addErrorSpy, sinon.match(/this character.*\$/));
+  });
+
+  it('should add error when text contains multiple invalid characters', () => {
+    validateChars(errors, 'text with $@# symbols');
+    sinon.assert.calledOnce(addErrorSpy);
+    sinon.assert.calledWith(addErrorSpy, sinon.match(/these characters/));
+  });
+
+  it('should not add error for empty string', () => {
+    validateChars(errors, '');
+    sinon.assert.notCalled(addErrorSpy);
+  });
+
+  it('should allow hyphens, periods, apostrophes, and commas', () => {
+    validateChars(errors, "Text with - . ' , allowed");
+    sinon.assert.notCalled(addErrorSpy);
   });
 });

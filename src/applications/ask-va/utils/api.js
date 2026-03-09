@@ -16,3 +16,8 @@ export async function getAllInquiries() {
 export async function getInquiry(inquiryId) {
   return apiRequest(`${ENDPOINTS.inquiries}/${inquiryId}`);
 }
+
+/** @param {string} inquiryId Also known as "reference number" or "inquiry number" */
+export async function getInquiryStatus(inquiryId) {
+  return apiRequest(`${ENDPOINTS.inquiries}/${inquiryId}/status`);
+}

@@ -65,9 +65,15 @@ describe('Confirmation Page', () => {
       .contains('Clear all filters')
       .click();
 
+    cy.get('va-search-filter', { includeShadowDom: true })
+      .shadow()
+      .find('button')
+      .contains('Apply')
+      .click();
+
     cy.axeCheck();
 
-    cy.get('#filter-text').should('contain', 'results with 1 filter applied');
+    cy.get('#filter-text').should('contain', 'Showing 1–10 of 22 results');
   });
 
   it('applies and clears multiple filters', () => {
@@ -101,6 +107,12 @@ describe('Confirmation Page', () => {
       .contains('Clear all filters')
       .click();
 
+    cy.get('va-search-filter', { includeShadowDom: true })
+      .shadow()
+      .find('button')
+      .contains('Apply')
+      .click();
+
     cy.axeCheck();
 
     cy.get('#filter-text').should('not.contain.text', 'filters applied');
@@ -118,7 +130,7 @@ describe('Confirmation Page', () => {
 
     cy.get('#filter-text').should(
       'contain.text',
-      'Showing 11–16 of 16 results',
+      'Showing 11–15 of 15 results',
     );
   });
 });

@@ -6,6 +6,7 @@ import {
   updatePageTitle,
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -32,6 +33,7 @@ import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import DateRangeSelector from '../components/shared/DateRangeSelector';
 import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
+import DuplicateRecordsAlert from '../components/shared/DuplicateRecordsAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
@@ -58,11 +60,14 @@ const CareSummariesAndNotes = () => {
     state => state.mr.careSummariesAndNotes.dateRange,
   );
 
+  const warnings = useSelector(
+    state => state.mr.careSummariesAndNotes.warnings,
+  );
   const refresh = useSelector(state => state.mr.refresh);
   const activeAlert = useAlerts(dispatch);
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_LIST);
 
-  const { isLoading, isAcceleratingCareNotes } = useAcceleratedData();
+  const { isLoading, isCerner, isAcceleratingCareNotes } = useAcceleratedData();
 
   const dispatchAction = useCallback(
     isCurrent =>
@@ -119,6 +124,7 @@ const CareSummariesAndNotes = () => {
       <h1 data-testid="care-summaries-and-notes" className="page-title">
         Care summaries and notes
       </h1>
+      {isCerner && <DuplicateRecordsAlert />}
 
       {isAcceleratingCareNotes && (
         <div>
@@ -172,16 +178,38 @@ const CareSummariesAndNotes = () => {
           careSummariesAndNotes !== undefined && (
             <>
               {careSummariesAndNotes?.length ? (
-                <RecordList
-                  records={careSummariesAndNotes}
-                  domainOptions={{
-                    isAccelerating: isAcceleratingCareNotes,
-                    timeFrame: getTimeFrame(dateRange),
-                    displayTimeFrame: getDisplayTimeFrame(dateRange),
-                  }}
-                  type="care summaries and notes"
-                  hideRecordsLabel
-                />
+                <>
+                  {warnings?.length > 0 && (
+                    <VaAlert
+                      status="warning"
+                      visible
+                      class="vads-u-margin-y--3 no-print"
+                      data-testid="alert-partial-records-warning"
+                    >
+                      <h3
+                        slot="headline"
+                        className="vads-u-font-size--lg no-print"
+                      >
+                        Some records may be incomplete
+                      </h3>
+                      <p>
+                        We couldn’t retrieve all attached documents for some of
+                        your care summaries and notes. The records below may be
+                        missing PDF reports or other files.
+                      </p>
+                    </VaAlert>
+                  )}
+                  <RecordList
+                    records={careSummariesAndNotes}
+                    domainOptions={{
+                      isAccelerating: isAcceleratingCareNotes,
+                      timeFrame: getTimeFrame(dateRange),
+                      displayTimeFrame: getDisplayTimeFrame(dateRange),
+                    }}
+                    type="care summaries and notes"
+                    hideRecordsLabel
+                  />
+                </>
               ) : (
                 <NoRecordsMessage
                   type={recordType.CARE_SUMMARIES_AND_NOTES}

@@ -22,7 +22,13 @@ const ConfirmationDisCondNewDisabilities = ({ formData }) => {
               : cause.charAt(0).toUpperCase() + cause.slice(1).toLowerCase();
           const causeLabel = getCauseLabel(cause);
           const conditionDate = formatDateString(dis?.conditionDate);
-          const condition = dis?.condition?.trim();
+          const baseCondition = dis?.condition?.trim() || '';
+          const sideOfBody = dis?.sideOfBody;
+          const condition = sideOfBody
+            ? `${baseCondition}, ${capitalizeEachWord(
+                sideOfBody.toLowerCase(),
+              )}`
+            : baseCondition;
           const key = condition
             ? `${cause}-${condition}`
             : `${cause}-unknown-${index}`;

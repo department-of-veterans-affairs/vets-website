@@ -12,6 +12,7 @@ import {
   mockAppointmentDetailsApi,
   mockCancelAppointmentApi,
   patchCookiesForCI,
+  saveScreenshot,
 } from './vass-e2e-helpers';
 import MockAppointmentAvailabilityResponse from '../fixtures/MockAppointmentAvailabilityResponse';
 import MockAppointmentDetailsResponse from '../fixtures/MockAppointmentDetailsResponse';
@@ -64,30 +65,34 @@ describe('VASS Schedule Appointment', () => {
 
     it('should schedule an appointment', () => {
       VerifyPageObject.assertVerifyPage();
-
       cy.injectAxeThenAxeCheck();
+      saveScreenshot('vass_schedule_verifyIdentity');
 
-      VerifyPageObject.fillAndSubmitValidForm();
+      VerifyPageObject.fillAndSubmitForm();
 
       cy.wait('@vass:post:request-otp');
       EnterOTPPageObject.assertEnterOTPPage();
-
       cy.injectAxeThenAxeCheck();
-      EnterOTPPageObject.fillAndSubmitValidOTP();
+      saveScreenshot('vass_schedule_enterOTP');
+
+      EnterOTPPageObject.fillAndSubmitOTP();
 
       cy.wait('@vass:get:appointment-availability');
       DateTimeSelectionPageObject.assertDateTimeSelectionPage();
       cy.injectAxeThenAxeCheck();
+      saveScreenshot('vass_schedule_dateTimeSelection');
       DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
 
       cy.wait('@vass:get:topics');
       cy.injectAxeThenAxeCheck();
       TopicSelectionPageObject.assertTopicSelectionPage();
+      saveScreenshot('vass_schedule_topicSelection');
       TopicSelectionPageObject.selectTopicAndContinue('General VA benefits');
 
       ReviewPageObject.assertReviewPage();
       cy.injectAxeThenAxeCheck();
       ReviewPageObject.assertTopicDescription('General VA benefits');
+      saveScreenshot('vass_schedule_review');
       ReviewPageObject.clickConfirmAppointment();
 
       cy.wait('@vass:post:appointment');
@@ -99,6 +104,7 @@ describe('VASS Schedule Appointment', () => {
         topics: ['General VA benefits'],
       });
       cy.injectAxeThenAxeCheck();
+      saveScreenshot('vass_schedule_confirmation');
       ConfirmationPageObject.assertAddToCalendarButton();
       ConfirmationPageObject.assertPrintFunctionality();
     });
@@ -121,6 +127,7 @@ describe('VASS Schedule Appointment', () => {
         response: new MockAppointmentAvailabilityResponse({
           availableSlots: [firstSlot, secondSlot],
         }).toJSON(),
+        responseCode: 200,
       });
 
       mockAppointmentDetailsApi({
@@ -129,6 +136,7 @@ describe('VASS Schedule Appointment', () => {
           startUTC: secondSlotStart,
           endUTC: '2025-06-03T14:00:00.000Z',
         }).toJSON(),
+        responseCode: 200,
       });
 
       // Format expected date/time in the same timezone as the app (works in UTC or any server TZ)
@@ -146,12 +154,12 @@ describe('VASS Schedule Appointment', () => {
 
       VerifyPageObject.assertVerifyPage();
       cy.injectAxeThenAxeCheck();
-      VerifyPageObject.fillAndSubmitValidForm();
+      VerifyPageObject.fillAndSubmitForm();
 
       cy.wait('@vass:post:request-otp');
       EnterOTPPageObject.assertEnterOTPPage();
       cy.injectAxeThenAxeCheck();
-      EnterOTPPageObject.fillAndSubmitValidOTP();
+      EnterOTPPageObject.fillAndSubmitOTP();
 
       cy.wait('@vass:get:appointment-availability');
       DateTimeSelectionPageObject.assertDateTimeSelectionPage();
@@ -159,6 +167,7 @@ describe('VASS Schedule Appointment', () => {
       // Select first slot (index 0) in a consistent manner
       DateTimeSelectionPageObject.selectFirstAvailableDate();
       DateTimeSelectionPageObject.selectTimeSlotByIndex(0);
+      saveScreenshot('vass_schedule_dateTimeSelection_firstSlotSelected');
       DateTimeSelectionPageObject.clickContinue();
 
       cy.wait('@vass:get:topics');
@@ -171,12 +180,14 @@ describe('VASS Schedule Appointment', () => {
       ReviewPageObject.assertTopicDescription(topic);
       ReviewPageObject.assertDateTimeDescriptionContains(expectedDate);
       ReviewPageObject.assertDateTimeDescriptionContains(expectedTime1);
+      saveScreenshot('vass_schedule_review_beforeDateTimeChange');
 
       // Change date/time: go back and select the second slot
       ReviewPageObject.clickEditDateTime();
       DateTimeSelectionPageObject.assertDateTimeSelectionPage();
       DateTimeSelectionPageObject.selectFirstAvailableDate();
       DateTimeSelectionPageObject.selectTimeSlotByIndex(1);
+      saveScreenshot('vass_schedule_dateTimeSelection_secondSlotSelected');
       DateTimeSelectionPageObject.clickContinue();
 
       TopicSelectionPageObject.assertTopicSelectionPage();
@@ -185,6 +196,7 @@ describe('VASS Schedule Appointment', () => {
       ReviewPageObject.assertReviewPage();
       ReviewPageObject.assertDateTimeDescriptionContains(expectedDate);
       ReviewPageObject.assertDateTimeDescriptionContains(expectedTime2);
+      saveScreenshot('vass_schedule_review_afterDateTimeChange');
       ReviewPageObject.clickConfirmAppointment();
 
       cy.wait('@vass:post:appointment');
@@ -198,6 +210,7 @@ describe('VASS Schedule Appointment', () => {
       ConfirmationPageObject.assertWhenSectionContainsDateTime(expectedDate);
       ConfirmationPageObject.assertWhenSectionContainsDateTime(expectedTime2);
       cy.injectAxeThenAxeCheck();
+      saveScreenshot('vass_schedule_confirmation_changedDateTime');
     });
 
     it('should allow the user to change the topic', () => {
@@ -206,12 +219,12 @@ describe('VASS Schedule Appointment', () => {
 
       VerifyPageObject.assertVerifyPage();
       cy.injectAxeThenAxeCheck();
-      VerifyPageObject.fillAndSubmitValidForm();
+      VerifyPageObject.fillAndSubmitForm();
 
       cy.wait('@vass:post:request-otp');
       EnterOTPPageObject.assertEnterOTPPage();
       cy.injectAxeThenAxeCheck();
-      EnterOTPPageObject.fillAndSubmitValidOTP();
+      EnterOTPPageObject.fillAndSubmitOTP();
 
       cy.wait('@vass:get:appointment-availability');
       DateTimeSelectionPageObject.assertDateTimeSelectionPage();
@@ -226,6 +239,7 @@ describe('VASS Schedule Appointment', () => {
       ReviewPageObject.assertReviewPage();
       cy.injectAxeThenAxeCheck();
       ReviewPageObject.assertTopicDescription(firstTopic);
+      saveScreenshot('vass_schedule_review_beforeTopicChange');
 
       // Change topic: go back, unselect first and select second
       ReviewPageObject.clickEditTopic();
@@ -233,10 +247,12 @@ describe('VASS Schedule Appointment', () => {
       TopicSelectionPageObject.unselectTopicByTestId(
         'topic-checkbox-general-va-benefits',
       );
+      saveScreenshot('vass_schedule_topicSelection_changingTopic');
       TopicSelectionPageObject.selectTopicAndContinue(secondTopic);
 
       ReviewPageObject.assertReviewPage();
       ReviewPageObject.assertTopicDescription(secondTopic);
+      saveScreenshot('vass_schedule_review_afterTopicChange');
       ReviewPageObject.clickConfirmAppointment();
 
       cy.wait('@vass:post:appointment');
@@ -248,6 +264,7 @@ describe('VASS Schedule Appointment', () => {
         topics: [secondTopic],
       });
       cy.injectAxeThenAxeCheck();
+      saveScreenshot('vass_schedule_confirmation_changedTopic');
     });
   });
 
@@ -282,16 +299,13 @@ describe('VASS Schedule Appointment', () => {
       VerifyPageObject.assertVerifyPage();
       cy.injectAxeThenAxeCheck();
 
-      VerifyPageObject.fillAndSubmitForm({
-        lastName: 'Smith',
-        dateOfBirth: '1935-04-07',
-      });
+      VerifyPageObject.fillAndSubmitForm();
 
       cy.wait('@vass:post:request-otp');
       EnterOTPPageObject.assertEnterOTPPage();
 
       cy.injectAxeThenAxeCheck();
-      EnterOTPPageObject.fillAndSubmitValidOTP();
+      EnterOTPPageObject.fillAndSubmitOTP();
 
       cy.wait('@vass:get:appointment-availability');
       DateTimeSelectionPageObject.assertDateTimeSelectionPage();
@@ -318,6 +332,7 @@ describe('VASS Schedule Appointment', () => {
         agentName: 'Agent Smith',
       });
       cy.injectAxeThenAxeCheck();
+      saveScreenshot('vass_cancel_cancelAppointmentPage');
 
       CancelAppointmentPageObject.clickYesCancelAppointment();
       cy.wait('@vass:post:cancel-appointment');
@@ -326,6 +341,7 @@ describe('VASS Schedule Appointment', () => {
         agentName: 'Agent Smith',
       });
       cy.injectAxeThenAxeCheck();
+      saveScreenshot('vass_cancel_cancelConfirmation');
     });
 
     it('should cancel an appointment from a cancelation link', () => {
@@ -335,13 +351,15 @@ describe('VASS Schedule Appointment', () => {
 
       VerifyPageObject.assertVerifyPage({ cancellationFlow: true });
       cy.injectAxeThenAxeCheck();
-      VerifyPageObject.fillAndSubmitValidForm();
+      saveScreenshot('vass_cancel_verifyIdentity_cancellationLink');
+      VerifyPageObject.fillAndSubmitForm();
 
       cy.wait('@vass:post:request-otp');
       cy.injectAxeThenAxeCheck();
       EnterOTPPageObject.assertEnterOTPPage({ cancellationFlow: true });
       EnterOTPPageObject.assertSuccessAlertContainsEmail('s****@email.com');
-      EnterOTPPageObject.fillAndSubmitValidOTP();
+      saveScreenshot('vass_cancel_enterOTP_cancellationLink');
+      EnterOTPPageObject.fillAndSubmitOTP();
 
       cy.wait('@vass:get:appointment-details');
 
@@ -349,6 +367,7 @@ describe('VASS Schedule Appointment', () => {
       CancelAppointmentPageObject.assertCancelAppointmentPage({
         agentName: 'Agent Smith',
       });
+      saveScreenshot('vass_cancel_cancelAppointmentPage_fromLink');
 
       CancelAppointmentPageObject.clickYesCancelAppointment();
       cy.wait('@vass:post:cancel-appointment');
@@ -357,6 +376,7 @@ describe('VASS Schedule Appointment', () => {
         agentName: 'Agent Smith',
       });
       cy.injectAxeThenAxeCheck();
+      saveScreenshot('vass_cancel_cancelConfirmation_fromLink');
     });
   });
 
@@ -398,17 +418,18 @@ describe('VASS Schedule Appointment', () => {
 
         VerifyPageObject.assertVerifyPage();
         cy.injectAxeThenAxeCheck();
-        VerifyPageObject.fillAndSubmitValidForm();
+        VerifyPageObject.fillAndSubmitForm();
 
         cy.wait('@vass:post:request-otp');
         cy.injectAxeThenAxeCheck();
-        EnterOTPPageObject.fillAndSubmitValidOTP();
+        EnterOTPPageObject.fillAndSubmitOTP();
 
         cy.wait('@vass:get:appointment-availability');
         cy.wait('@vass:get:appointment-details');
 
         AlreadyScheduledPageObject.assertAlreadyScheduledPage();
         cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_alreadyScheduled_page');
       });
 
       it('should allow the user to cancel', () => {
@@ -416,12 +437,12 @@ describe('VASS Schedule Appointment', () => {
 
         VerifyPageObject.assertVerifyPage();
         cy.injectAxeThenAxeCheck();
-        VerifyPageObject.fillAndSubmitValidForm();
+        VerifyPageObject.fillAndSubmitForm();
 
         cy.wait('@vass:post:request-otp');
         EnterOTPPageObject.assertEnterOTPPage();
         cy.injectAxeThenAxeCheck();
-        EnterOTPPageObject.fillAndSubmitValidOTP();
+        EnterOTPPageObject.fillAndSubmitOTP();
 
         cy.wait('@vass:get:appointment-availability');
         cy.wait('@vass:get:appointment-details');
@@ -434,6 +455,7 @@ describe('VASS Schedule Appointment', () => {
           agentName: 'Agent Smith',
         });
         cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_alreadyScheduled_cancelAppointmentPage');
 
         CancelAppointmentPageObject.clickYesCancelAppointment();
         cy.wait('@vass:post:cancel-appointment');
@@ -442,6 +464,7 @@ describe('VASS Schedule Appointment', () => {
           agentName: 'Agent Smith',
         });
         cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_alreadyScheduled_cancelConfirmation');
       });
     });
   });

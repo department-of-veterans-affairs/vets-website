@@ -269,11 +269,15 @@ export const getClaims = () => {
   };
 };
 
-export const getClaim = (id, navigate) => {
+export const getClaim = (id, navigate, provider) => {
   return dispatch => {
     dispatch({ type: GET_CLAIM_DETAIL });
 
-    return apiRequest(`/benefits_claims/${id}`)
+    const url = provider
+      ? `/benefits_claims/${id}?type=${provider}`
+      : `/benefits_claims/${id}`;
+
+    return apiRequest(url)
       .then(res => {
         dispatch({
           type: SET_CLAIM_DETAIL,
@@ -459,11 +463,10 @@ export function submitFiles(
       type: SET_PROGRESS,
       progress: 0,
     });
-    require.ensure(
-      [],
-      require => {
+    import(/* webpackChunkName: "claims-uploader" */ 'fine-uploader/lib/core').then(
+      module => {
+        const { FineUploaderBasic } = module.default;
         const csrfTokenStored = localStorage.getItem('csrfToken');
-        const { FineUploaderBasic } = require('fine-uploader/lib/core');
         const uploader = new FineUploaderBasic({
           request: {
             endpoint: `${
@@ -609,7 +612,6 @@ export function submitFiles(
         });
         /* eslint-enable camelcase */
       },
-      'claims-uploader',
     );
   };
 }

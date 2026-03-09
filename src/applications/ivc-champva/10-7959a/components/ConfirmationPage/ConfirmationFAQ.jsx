@@ -1,10 +1,13 @@
 import React from 'react';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import {
   CHAMPVA_CLAIMS_ADDRESS,
   CHAMPVA_PHONE_NUMBER,
   IVC_APPEALS_ADDRESS,
 } from '../../../shared/constants';
 import { CONTACTS } from '../../utils/imports';
+
+const TOGGLE_KEY = Toggler.TOGGLE_NAMES.champvaEnableClaimResubmitQuestion;
 
 const ConfirmationFAQ = () => (
   <>
@@ -15,6 +18,21 @@ const ConfirmationFAQ = () => (
         If we have any questions or need additional information, we’ll contact
         you.
       </p>
+
+      <Toggler toggleName={TOGGLE_KEY}>
+        <Toggler.Enabled>
+          <h3>If you requested our help getting supporting documents</h3>
+          <p>
+            We’ll contact your provider to get the documents to support your
+            claim. It may take us some time to get them. This means it could
+            take us longer to decide your claim.
+          </p>
+          <p>
+            If there are any issues or updates, we’ll mail you a letter and tell
+            you if there’s anything you need to do.
+          </p>
+        </Toggler.Enabled>
+      </Toggler>
 
       <h3>If we decide we can cover this claim under CHAMPVA</h3>
       <p>
@@ -44,7 +62,7 @@ const ConfirmationFAQ = () => (
 
       {CHAMPVA_CLAIMS_ADDRESS}
 
-      <p>You can also contact us online through Ask VA.</p>
+      <p>You can also contact us online through our Ask VA tool.</p>
     </section>
   </>
 );

@@ -1,0 +1,9 @@
+[
+  {
+    "id": "imaging-study-abc-123",
+    "type": "ImagingStudy",
+    "attributes": {
+      "dicomZipUrl": "https://s3.example.com/presigned/dicom-study-abc-123.zip?token=xyz"
+    }
+  }
+]

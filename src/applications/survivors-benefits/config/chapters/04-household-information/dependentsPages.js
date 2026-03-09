@@ -31,7 +31,6 @@ import {
 } from '../../../utils/labels';
 import { customAddressSchema } from '../../definitions';
 import { seriouslyDisabledDescription } from '../../../utils/helpers';
-import { AdditionalDependentsAlert } from '../../../components/FormAlerts';
 
 /**
  * Dependent children (array builder)
@@ -321,27 +320,12 @@ const householdPage = {
       title: 'Does the child live with you?',
       'ui:required': true,
     }),
-    additionalDependentsAlert: {
-      'ui:description': AdditionalDependentsAlert,
-      'ui:options': {
-        hideIf: (formData, index) => {
-          const item = formData?.veteransChildren?.[index];
-          const value = item?.livesWith ?? formData?.livesWith;
-          return value !== false;
-        },
-        displayEmptyObjectOnReview: true,
-      },
-    },
   },
   schema: {
     type: 'object',
     required: ['livesWith'],
     properties: {
       livesWith: yesNoSchema,
-      additionalDependentsAlert: {
-        type: 'object',
-        properties: {},
-      },
     },
   },
 };

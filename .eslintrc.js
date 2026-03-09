@@ -40,6 +40,15 @@ module.exports = {
   },
   rules: {
     /* || Eslint main rules || */
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector:
+          'CallExpression[callee.object.name="require"][callee.property.name="ensure"]',
+        message:
+          'require.ensure is deprecated. Use dynamic import() instead. See https://webpack.js.org/guides/code-splitting/#dynamic-imports',
+      },
+    ],
     camelcase: [2, { properties: 'always' }], // Override airbnb style.
     'react/jsx-wrap-multilines': 'off', // Conflicts with Prettier
     '@department-of-veterans-affairs/no-cross-app-imports': [

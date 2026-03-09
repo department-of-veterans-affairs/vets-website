@@ -41,7 +41,7 @@ describe('SM OH USER NO ASSOCIATION WITH PARTICULAR TG', () => {
     PatientInboxPage.loadSingleThread(threadWithNoAssociatedTG);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP).should('not.exist');
-    cy.get(Locators.BUTTONS.REPLY).should('be.visible');
+    cy.findByTestId(Locators.BUTTONS.REPLY).should('be.visible');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
@@ -103,7 +103,7 @@ describe('SM OH USER NO ASSOCIATION WITH PARTICULAR TG', () => {
       Alerts.OH_OLD_MSG.P_3,
     );
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
