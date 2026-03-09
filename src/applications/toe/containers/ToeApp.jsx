@@ -134,18 +134,21 @@ function ToeApp({
         );
       }
 
-      // Sync duplicate contact info from Redux state into formData
-      if (duplicateEmail?.length > 0 && duplicateEmail !== formDuplicateEmail) {
-        setFormData({
-          ...formDataRef.current,
-          duplicateEmail,
-        });
-      }
+      // Sync duplicate contact info from Redux state into formData.
+      // Use JSON comparison since these are arrays and reference equality
+      // would cause infinite re-renders.
+      const emailNeedsSync =
+        duplicateEmail?.length > 0 &&
+        JSON.stringify(duplicateEmail) !== JSON.stringify(formDuplicateEmail);
+      const phoneNeedsSync =
+        duplicatePhone?.length > 0 &&
+        JSON.stringify(duplicatePhone) !== JSON.stringify(formDuplicatePhone);
 
-      if (duplicatePhone?.length > 0 && duplicatePhone !== formDuplicatePhone) {
+      if (emailNeedsSync || phoneNeedsSync) {
         setFormData({
           ...formDataRef.current,
-          duplicatePhone,
+          ...(emailNeedsSync && { duplicateEmail }),
+          ...(phoneNeedsSync && { duplicatePhone }),
         });
       }
     },
