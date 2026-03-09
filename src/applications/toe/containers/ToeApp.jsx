@@ -41,45 +41,28 @@ function ToeApp({
   const formDataRef = useRef(formData);
   formDataRef.current = formData;
 
-  // Sync props into formData in a single effect to avoid race conditions
-  // where multiple effects spread stale formData and overwrite each other.
+  // Sync simple props into formData. Uses formDataRef to avoid infinite loops
+  // from having formData in the dependency array.
   useEffect(
     () => {
       const updates = {};
 
       if (
-        mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
+        mebBankInfoConfirmationField !==
+        formDataRef.current.mebBankInfoConfirmationField
       )
         updates.mebBankInfoConfirmationField = mebBankInfoConfirmationField;
-      if (isLOA3 !== formData.isLOA3) updates.isLOA3 = isLOA3;
-      if (dob !== formData?.dob) updates.dob = dob;
-      if (
-        duplicateEmail?.length > 0 &&
-        duplicateEmail !== formData?.duplicateEmail
-      )
-        updates.duplicateEmail = duplicateEmail;
-      if (
-        duplicatePhone?.length > 0 &&
-        duplicatePhone !== formData?.duplicatePhone
-      )
-        updates.duplicatePhone = duplicatePhone;
+      if (isLOA3 !== formDataRef.current.isLOA3) updates.isLOA3 = isLOA3;
+      if (dob !== formDataRef.current?.dob) updates.dob = dob;
 
       if (Object.keys(updates).length > 0) {
         setFormData({
-          ...formData,
+          ...formDataRef.current,
           ...updates,
         });
       }
     },
-    [
-      mebBankInfoConfirmationField,
-      isLOA3,
-      dob,
-      duplicateEmail,
-      duplicatePhone,
-      formData,
-      setFormData,
-    ],
+    [mebBankInfoConfirmationField, isLOA3, dob, setFormData],
   );
 
   // Fetch personal information (one-time on login)
@@ -135,7 +118,8 @@ function ToeApp({
   const formDuplicateEmail = formData?.duplicateEmail;
   const formDuplicatePhone = formData?.duplicatePhone;
 
-  // Check for duplicate contact info when phone/email are available
+  // Check for duplicate contact info when phone/email are available,
+  // and sync the results into formData.
   useEffect(
     () => {
       if (
@@ -149,6 +133,21 @@ function ToeApp({
           [{ value: mobilePhone, dupe: '' }],
         );
       }
+
+      // Sync duplicate contact info from Redux state into formData
+      if (duplicateEmail?.length > 0 && duplicateEmail !== formDuplicateEmail) {
+        setFormData({
+          ...formDataRef.current,
+          duplicateEmail,
+        });
+      }
+
+      if (duplicatePhone?.length > 0 && duplicatePhone !== formDuplicatePhone) {
+        setFormData({
+          ...formDataRef.current,
+          duplicatePhone,
+        });
+      }
     },
     [
       getDuplicateContactInfo,
@@ -156,6 +155,9 @@ function ToeApp({
       emailAddress,
       formDuplicateEmail,
       formDuplicatePhone,
+      duplicateEmail,
+      duplicatePhone,
+      setFormData,
     ],
   );
 

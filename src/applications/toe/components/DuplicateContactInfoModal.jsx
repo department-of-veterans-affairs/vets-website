@@ -6,40 +6,46 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { acknowledgeDuplicate, toggleModal } from '../actions';
 
 function DuplicateContactInfoModal(props) {
+  const {
+    duplicateEmail,
+    duplicatePhone,
+    acknowledgeDuplicate: onAcknowledgeDuplicate,
+    toggleModal: toggle,
+    openModal,
+  } = props;
+
   useEffect(
     () => {
-      const allPotentialDuplicates = props?.duplicateEmail?.concat(
-        props?.duplicatePhone,
-      );
+      const allPotentialDuplicates = duplicateEmail?.concat(duplicatePhone);
       const filteredPotentialDuplicates = allPotentialDuplicates?.filter(
         entry => entry?.dupe === true && entry.acknowledged === undefined,
       );
 
       if (filteredPotentialDuplicates?.length === 0) {
-        props.toggleModal(false);
+        toggle(false);
       } else if (filteredPotentialDuplicates?.length > 0) {
-        props.toggleModal(true);
+        toggle(true);
       }
     },
-    [props.duplicateEmail],
+    [duplicateEmail, duplicatePhone, toggle],
   );
 
   function primaryClick() {
-    props.toggleModal();
+    toggle(false);
   }
 
   function secondaryClick() {
-    const acknowledgedDuplicateEmail = props.duplicateEmail.map(email => ({
+    const acknowledgedDuplicateEmail = duplicateEmail.map(email => ({
       ...email,
       acknowledged: true,
     }));
 
-    const acknowledgedDuplicatePhone = props.duplicatePhone.map(phone => ({
+    const acknowledgedDuplicatePhone = duplicatePhone.map(phone => ({
       ...phone,
       acknowledged: true,
     }));
 
-    props.acknowledgeDuplicate({
+    onAcknowledgeDuplicate({
       email: acknowledgedDuplicateEmail,
       phone: acknowledgedDuplicatePhone,
     });
@@ -48,10 +54,10 @@ function DuplicateContactInfoModal(props) {
   function modalTitle() {
     let modalText;
 
-    const filteredPotentialDuplicateEmails = props?.duplicateEmail?.filter(
+    const filteredPotentialDuplicateEmails = duplicateEmail?.filter(
       entry => entry?.dupe === true && entry.acknowledged === undefined,
     );
-    const filteredPotentialDuplicatesMobile = props?.duplicatePhone?.filter(
+    const filteredPotentialDuplicatesMobile = duplicatePhone?.filter(
       entry => entry?.dupe === true && entry.acknowledged === undefined,
     );
 
@@ -73,37 +79,36 @@ function DuplicateContactInfoModal(props) {
   }
 
   return (
-    <div>
-      <VaModal
-        modalTitle={modalTitle()}
-        visible={props.openModal}
-        onCloseEvent={secondaryClick}
-        onPrimaryButtonClick={primaryClick}
-        onSecondaryButtonClick={secondaryClick}
-        primaryButtonText="Back"
-        secondaryButtonText="Continue"
-        status="warning"
-      >
-        <p>
-          <b>This will impact how we:</b>
-        </p>
+    <VaModal
+      modalTitle={modalTitle()}
+      visible={openModal}
+      onCloseEvent={secondaryClick}
+      onPrimaryButtonClick={primaryClick}
+      onSecondaryButtonClick={secondaryClick}
+      primaryButtonText="Back"
+      secondaryButtonText="Continue"
+      status="warning"
+    >
+      <p>
+        <b>This will impact how we:</b>
+      </p>
 
-        <ul>
-          <li>Contact you if we have questions about your application</li>
-          <li>Tell you important information about your benefits</li>
-          <li>Prompt you to verify your enrollment</li>
-        </ul>
-      </VaModal>
-    </div>
+      <ul>
+        <li>Contact you if we have questions about your application</li>
+        <li>Tell you important information about your benefits</li>
+        <li>Prompt you to verify your enrollment</li>
+      </ul>
+    </VaModal>
   );
 }
 
 DuplicateContactInfoModal.propTypes = {
+  acknowledgeDuplicate: PropTypes.func,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
-  toggleModal: PropTypes.func,
-  openModal: PropTypes.bool,
   email: PropTypes.string,
+  openModal: PropTypes.bool,
+  toggleModal: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
