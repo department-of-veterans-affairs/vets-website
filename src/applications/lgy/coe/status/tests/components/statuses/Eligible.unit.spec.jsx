@@ -1,15 +1,21 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-
 import Eligible from '../../../components/statuses/Eligible';
+
+const mockStore = state => createStore(() => state);
+const store = mockStore({});
 
 describe('Eligible', () => {
   it('should render', () => {
-    const { container } = render(<Eligible />);
-
+    const { container } = render(
+      <Provider store={store}>
+        <Eligible />
+      </Provider>,
+    );
     expect($('h2', container)).to.exist;
     expect($('a', container)).to.exist;
   });
