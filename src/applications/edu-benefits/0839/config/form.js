@@ -10,7 +10,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import SubmissionInstructions from '../components/SubmissionInstructions';
-import YellowRibbonProgramRequestSummaryReview from '../containers/YellowRibbonProgramRequestSummaryReview';
+import AddEligibileStudents from '../components/AddEligibileStudents';
 import {
   authorizedOfficial,
   agreementType,
@@ -31,8 +31,10 @@ import {
 import {
   additionalInstitutionDetailsArrayOptions,
   showAdditionalPointsOfContact,
+  getAdditionalContactRole,
   arrayBuilderOptions,
   CustomReviewTopContent,
+  focusOnH3,
 } from '../helpers';
 
 /** @type {FormConfig} */
@@ -157,6 +159,7 @@ const formConfig = {
               title: 'Additional institution details',
               uiSchema: additionalInstitutionDetailsSummary.uiSchema,
               schema: additionalInstitutionDetailsSummary.schema,
+              scrollAndFocusTarget: focusOnH3,
               depends: formData =>
                 formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
             }),
@@ -184,6 +187,7 @@ const formConfig = {
                 uiSchema:
                   additionalInstitutionDetailsSummaryWithdrawal.uiSchema,
                 schema: additionalInstitutionDetailsSummaryWithdrawal.schema,
+                scrollAndFocusTarget: focusOnH3,
                 depends: formData =>
                   formData?.agreementType === 'withdrawFromYellowRibbonProgram',
               },
@@ -205,6 +209,7 @@ const formConfig = {
 
     yellowRibbonProgramRequestChapter: {
       title: 'Yellow Ribbon Program contributions',
+      reviewDescription: AddEligibileStudents,
       pages: {
         ...arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
           yellowRibbonProgramRequestIntro: pageBuilder.introPage({
@@ -222,7 +227,6 @@ const formConfig = {
             schema: yellowRibbonProgramRequestSummary.schema,
             depends: formData =>
               formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
-            CustomPageReview: YellowRibbonProgramRequestSummaryReview,
           }),
           yellowRibbonProgramContribution: pageBuilder.itemPage({
             title: 'Add a Yellow Ribbon Program contribution',
@@ -273,7 +277,7 @@ const formConfig = {
         },
         additionalPointsOfContact: {
           path: 'additional-points-of-contact',
-          title: 'additional points of contact',
+          title: formData => getAdditionalContactRole(formData),
           uiSchema: additionalPointsOfContact.uiSchema,
           schema: additionalPointsOfContact.schema,
           depends: formData =>

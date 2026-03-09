@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import dateReleasedFromActiveDuty from '../../pages/dateReleasedFromActiveDuty';
@@ -32,25 +33,65 @@ describe('Date released from active duty page', () => {
   it('renders the title, label, and static note', () => {
     const { getByText, container } = renderPage();
 
-    expect(getByText('Your active duty release date')).to.exist;
+    expect(getByText('Active duty status release date')).to.exist;
 
     const dateField = container.querySelector(
       '[name="root_dateReleasedFromActiveDuty"]',
     );
     expect(dateField).to.exist;
 
-    expect(getByText(/when we review your application, we may ask/i)).to.exist;
+    expect(
+      getByText(/If you are a transitioning service member on terminal leave/i),
+    ).to.exist;
   });
 
-  // it('shows a validation error when the date is omitted', () => {
-  //   const { getByRole, container } = renderPage();
+  it('shows a validation error when the date is omitted', async () => {
+    const { getByRole, container } = renderPage();
 
-  //   fireEvent.click(getByRole('button', { name: /submit|continue/i }));
+    await userEvent.click(getByRole('button', { name: /submit|continue/i }));
 
-  //   const errNode = container.querySelector(
-  //     '[id="root_dateReleasedFromActiveDuty-error-message"]',
-  //   );
-  //   expect(errNode).to.exist;
-  //   expect(errNode.textContent).to.equal('Error Please enter a date');
-  // });
+    expect(container.querySelector('va-memorable-date')).to.have.attribute(
+      'error',
+      'You must provide an answer',
+    );
+  });
+
+  it('shows a validation error when the month is invalid', async () => {
+    const { getByRole, container } = renderPage({
+      dateReleasedFromActiveDuty: '2025-13-01',
+    });
+
+    await userEvent.click(getByRole('button', { name: /submit|continue/i }));
+
+    expect(container.querySelector('va-memorable-date')).to.have.attribute(
+      'error',
+      'Please enter a valid date',
+    );
+  });
+
+  it('shows a validation error when the day is invalid', async () => {
+    const { getByRole, container } = renderPage({
+      dateReleasedFromActiveDuty: '2025-12-32',
+    });
+
+    await userEvent.click(getByRole('button', { name: /submit|continue/i }));
+
+    expect(container.querySelector('va-memorable-date')).to.have.attribute(
+      'error',
+      'Please enter a valid date',
+    );
+  });
+
+  it('shows a validation error when the year is invalid', async () => {
+    const { getByRole, container } = renderPage({
+      dateReleasedFromActiveDuty: '1890-12-31',
+    });
+
+    await userEvent.click(getByRole('button', { name: /submit|continue/i }));
+
+    expect(container.querySelector('va-memorable-date')).to.have.attribute(
+      'error',
+      'Please enter a valid date',
+    );
+  });
 });

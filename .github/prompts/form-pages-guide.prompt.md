@@ -381,8 +381,16 @@ yourDocument: fileInputUI({
   hint: 'Upload a file that is less than 5MB',
   headerSize: '3',
   formNumber: '31-4159',
-  maxFileSize: 1024 * 1024 * 5,
-  minFileSize: 1,
+  fileSizesByFileType: { // specify file size limits by file type
+    pdf: {
+      maxFileSize: 1024 * 1024 * 50,
+      minFileSize: 1024
+    },
+    default: {
+      maxFileSize: 1024 * 3,
+      minFileSize: 1
+    }
+  },
   disallowEncryptedPdfs: true,
   errorMessages: {
     additionalInput: 'Choose a document status',
@@ -390,17 +398,22 @@ yourDocument: fileInputUI({
   createPayload: () => {}, // custom function to generate payload when uploading file
   parseResponse: () => {}, // custom function to handle response after uploading file
   additionalInputRequired: true,
-  additionalInput: (error, data) => {
+  additionalInputLabels: {
+    documentStatus: { public: 'Public', private: 'Private' },
+  },
+  additionalInputTitle: 'Document status', // Optional title for additional input
+  additionalInput: (error, data, { labels, title }) => {
     const { documentStatus } = data;
     return (
       <VaSelect
         required
         error={error}
         value={documentStatus}
-        label="Document status"
+        label={title}
       >
-        <option value="public">Public</option>
-        <option value="private">Private</option>
+        {Object.entries(labels.documentStatus).map(([value, label]) => (
+          <option key={value} value={value}>{label}</option>
+        ))}
       </VaSelect>
     );
   },
@@ -449,17 +462,30 @@ financialHardshipDocuments: fileInputMultipleUI({
   headerSize: '3',
   formNumber: '31-4159',
   // disallowEncryptedPdfs: true,
-  maxFileSize: 1024 * 1024 * 5,
-  minFileSize: 1,
+  fileSizesByFileType: { // specify file size limits by file type
+    pdf: {
+      maxFileSize: 1024 * 1024 * 50,
+      minFileSize: 1024
+    },
+    default: {
+      maxFileSize: 1024 * 3,
+      minFileSize: 1
+    }
+  },
   errorMessages: {
     additionalInput: 'Choose a document status',
   },
   additionalInputRequired: true,
-  additionalInput: () => {
+  additionalInputTitle: 'Document status', // Optional title for additional input
+  additionalInputLabels: {
+    documentStatus: { public: 'Public', private: 'Private' },
+  },
+  additionalInput: ({ labels, title }) => {
     return (
-      <VaSelect required label="Document status">
-        <option value="public">Public</option>
-        <option value="private">Private</option>
+      <VaSelect required label={title}>
+        {Object.entries(labels.documentStatus).map(([value, label]) => (
+          <option key={value} value={value}>{label}</option>
+        ))}
       </VaSelect>
     );
   },

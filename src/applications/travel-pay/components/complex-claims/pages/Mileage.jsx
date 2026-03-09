@@ -8,12 +8,13 @@ import {
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import useRecordPageview from '../../../hooks/useRecordPageview';
+import { recordRadioOptionClick } from '../../../util/events-helpers';
 import {
   createExpense,
   updateExpense,
   setUnsavedExpenseChanges,
   setReviewPageAlert,
+  setUnsavedChangesModalVisible,
 } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
@@ -22,6 +23,7 @@ import {
   selectExpenseBackDestination,
   selectComplexClaim,
   selectAppointment,
+  selectHasUnsavedExpenseChanges,
 } from '../../../redux/selectors';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import {
@@ -46,11 +48,11 @@ const Mileage = () => {
   const allExpenses = useSelector(selectAllExpenses);
   const address = useSelector(selectVAPResidentialAddress);
   const backDestination = useSelector(selectExpenseBackDestination);
+  const hasUnsavedChanges = useSelector(selectHasUnsavedExpenseChanges);
 
   const title = 'Mileage';
 
   useSetPageTitle(title);
-  useRecordPageview('complex-claims', title);
   const isLoadingExpense = useSelector(
     state =>
       isEditMode
@@ -58,10 +60,7 @@ const Mileage = () => {
         : selectExpenseCreationLoadingState(state),
   );
 
-  const initialFormStateRef = useRef({
-    departureAddress: '',
-    tripType: '',
-  });
+  const initialFormStateRef = useRef({});
   const previousHasChangesRef = useRef(false);
 
   const [formState, setFormState] = useState({});
@@ -76,7 +75,27 @@ const Mileage = () => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name; // rarely used, but safe to include
     const value =
       event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
+
+    // Only process when value actually changes (prevents duplicate events)
+    if (!value || formState[name] === value) return;
+
     setFormState(prev => ({ ...prev, [name]: value }));
+
+    // Track radio button selections
+    if (name === 'tripType') {
+      const optionLabel =
+        value === TRIP_TYPES.ROUND_TRIP.value
+          ? TRIP_TYPES.ROUND_TRIP.label
+          : TRIP_TYPES.ONE_WAY.label;
+      recordRadioOptionClick(
+        'Was your drive round trip or one way?',
+        optionLabel,
+      );
+    } else if (name === 'departureAddress') {
+      const optionLabel =
+        value === 'home-address' ? 'Home address' : 'Another address';
+      recordRadioOptionClick('Which address did you depart from?', optionLabel);
+    }
   };
 
   // Track unsaved changes
@@ -197,12 +216,18 @@ const Mileage = () => {
   };
 
   const handleBack = () => {
-    if (isEditMode) {
+    // On edit mode, "Cancel" takes the place of the normal back button
+    if (isEditMode && hasUnsavedChanges) {
       setIsModalVisible(true);
-    } else if (backDestination === 'review') {
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else if (!isEditMode && hasUnsavedChanges) {
+      // On add mode, the back button should trigger the "leave page" modal if there are unsaved changes
+      dispatch(setUnsavedChangesModalVisible(true, 'expense-back'));
     } else {
-      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      navigate(
+        `/file-new-claim/${apptId}/${claimId}/${
+          backDestination === 'review' ? 'review' : 'choose-expense'
+        }`,
+      );
     }
   };
 
@@ -212,7 +237,7 @@ const Mileage = () => {
     handleCloseModal();
     dispatch(setUnsavedExpenseChanges(false));
 
-    if (isEditMode || backDestination === 'review') {
+    if (backDestination === 'review') {
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
@@ -263,6 +288,7 @@ const Mileage = () => {
           value="home-address"
           checked={formState.departureAddress === 'home-address'}
           name="mileage-departure-address-radio"
+          data-dd-privacy="mask"
         />
         <va-radio-option
           label="Another address"

@@ -6,6 +6,7 @@ import {
 import {
   currentOrPastMonthYearDateSchema,
   currentOrPastMonthYearDateUI,
+  currentOrPastMonthYearDateRangeUI,
   titleUI,
   radioUI,
   radioSchema,
@@ -21,14 +22,81 @@ const doctorTypeLabels = {
   nonVa: 'Non-VA doctor',
 };
 
+const shouldUseDateRange = fullData => !!fullData?.form218940DateValidation;
+
+const hideOldDateFields = (_formData, _index, fullData) =>
+  shouldUseDateRange(fullData);
+
+const hideNewDateFields = (_formData, _index, fullData) =>
+  !shouldUseDateRange(fullData);
+
+const updateTreatmentDateSchema = (
+  _formData,
+  schema,
+  _uiSchema,
+  _index,
+  _path,
+  fullData,
+) => {
+  const requiredField = shouldUseDateRange(fullData) ? 'from' : 'startDate';
+
+  const updateItemSchema = item => {
+    if (!item?.properties) {
+      return item;
+    }
+
+    return {
+      ...item,
+      required: [requiredField],
+    };
+  };
+
+  if (Array.isArray(schema?.items)) {
+    const updatedItems = schema.items.map(
+      (item, index) => (index === 0 ? updateItemSchema(item) : item),
+    );
+    const result = { items: updatedItems };
+    if (schema.additionalItems && typeof schema.additionalItems === 'object') {
+      result.additionalItems = updateItemSchema(schema.additionalItems);
+    }
+    return result;
+  }
+
+  return {
+    items: updateItemSchema(schema?.items),
+  };
+};
+
 const treatmentDateSchema = {
   type: 'object',
   properties: {
     startDate: currentOrPastMonthYearDateSchema,
     endDate: currentOrPastMonthYearDateSchema,
+    from: currentOrPastMonthYearDateSchema,
+    to: currentOrPastMonthYearDateSchema,
   },
-  required: ['startDate'],
 };
+
+const treatmentDateRangeUi = currentOrPastMonthYearDateRangeUI(
+  {
+    title: 'Start date',
+    hint: 'For example: January 2022',
+  },
+  {
+    title: 'End date (if applicable)',
+    hint: 'For example: January 2022',
+  },
+);
+
+const treatmentStartDateUi = currentOrPastMonthYearDateUI({
+  title: 'Start date',
+  hint: 'For example: January 2022',
+});
+
+const treatmentEndDateUi = currentOrPastMonthYearDateUI({
+  title: 'End date (if applicable)',
+  hint: 'For example: January 2022',
+});
 
 const doctorItemSchema = {
   type: 'object',
@@ -245,19 +313,41 @@ export default {
             confirmRemoveDescription:
               'Are you sure you want to remove this date?',
             addAnotherText: 'Add another treatment date',
+            updateSchema: updateTreatmentDateSchema,
           },
           items: {
             'ui:options': {
               classNames: 'vads-u-margin-left--1p5',
             },
-            startDate: currentOrPastMonthYearDateUI({
-              title: 'Start date',
-              hint: 'For example: January 2022',
-            }),
-            endDate: currentOrPastMonthYearDateUI({
-              title: 'End date (if applicable)',
-              hint: 'For example: January 2022',
-            }),
+            ...treatmentDateRangeUi,
+            from: {
+              ...treatmentDateRangeUi.from,
+              'ui:options': {
+                ...treatmentDateRangeUi.from?.['ui:options'],
+                hideIf: hideNewDateFields,
+              },
+            },
+            to: {
+              ...treatmentDateRangeUi.to,
+              'ui:options': {
+                ...treatmentDateRangeUi.to?.['ui:options'],
+                hideIf: hideNewDateFields,
+              },
+            },
+            startDate: {
+              ...treatmentStartDateUi,
+              'ui:options': {
+                ...treatmentStartDateUi['ui:options'],
+                hideIf: hideOldDateFields,
+              },
+            },
+            endDate: {
+              ...treatmentEndDateUi,
+              'ui:options': {
+                ...treatmentEndDateUi['ui:options'],
+                hideIf: hideOldDateFields,
+              },
+            },
           },
         },
       },

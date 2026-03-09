@@ -26,6 +26,7 @@ import {
  *   hint?: string,
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
  *   dataDogHidden?: boolean,
+ *   monthSelect?: boolean,
  *   monthYearOnly?: boolean,
  *   removeDateHint?: boolean,
  *   validations?: UISchemaOptions['ui:validations'],

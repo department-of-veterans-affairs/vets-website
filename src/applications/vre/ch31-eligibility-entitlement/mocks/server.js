@@ -1,47 +1,42 @@
 /* eslint-disable camelcase */
 const responses = {
-  'GET /vre/v0/ch31_case_details': {
+  'GET /vre/v0/ch31_eligibility_status': {
     data: {
       id: '',
-      type: 'ch31_case_details',
+      type: 'ch31_eligibility_status',
       attributes: {
-        resCaseId: 123456,
-        isInterrupted: false,
-        isTransferredToCwnrs: false,
-        externalStatus: {
-          isDiscontinued: false,
-          discontinuedReason: null,
-          stateList: [
+        veteranProfile: {
+          servicePeriod: [
             {
-              stepCode: 'APPL',
-              status: 'COMPLETED',
+              serviceBeganDate: '2001-09-17',
+              serviceEndDate: '2005-09-16',
             },
+          ],
+          characterOfDischarge: 'Honorable',
+        },
+        disabilityRating: {
+          combinedScd: 50,
+          scdDetails: [
             {
-              stepCode: 'ELGLDET',
-              status: 'COMPLETED',
-            },
-            {
-              stepCode: 'ORICMPT',
-              status: 'ACTIVE',
-            },
-            {
-              stepCode: 'INTAKE',
-              status: 'PENDING',
-            },
-            {
-              stepCode: 'ENTLDET',
-              status: 'PENDING',
-            },
-            {
-              stepCode: 'PLANSELECT',
-              status: 'PENDING',
-            },
-            {
-              stepCode: 'BFSACT',
-              status: 'PENDING',
+              code: '7908',
+              name: 'Acromegaly',
+              percentage: 50,
             },
           ],
         },
+        irndDate: '2020-01-01',
+        eligibilityTerminationDate: '2030-01-01',
+        qualifyingMilitaryServiceStatus: 'Eligible',
+        characterOfDischargeStatus: 'Eligible',
+        disabilityRatingStatus: 'Eligible',
+        irndStatus: 'Eligible',
+        eligibilityTerminationDateStatus: 'Eligible',
+        entitlementDetails: {
+          maxCh31Entitlement: { month: 48, days: 0 },
+          entitlementUsed: { month: 0, days: 0 },
+          ch31EntitlementRemaining: { month: 48, days: 0 },
+        },
+        resEligibilityRecommendation: 'Eligible',
       },
     },
   },
@@ -108,9 +103,7 @@ const responses = {
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
-      features: [
-        { name: 'vre_eligibility_status_phase_2_updates', value: true },
-      ],
+      features: [{ name: 'vre_eligibility_status_updates', value: true }],
     },
   },
 };

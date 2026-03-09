@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { commonReducer } from 'platform/startup/store';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   mockApiRequest,
   inputVaTextInput,
@@ -155,8 +156,41 @@ describe('Compose form component', () => {
     expect(screen);
   });
 
+  it('renders AlertBackgroundBox after H1', async () => {
+    const stateWithAlert = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        alerts: {
+          alertVisible: true,
+          alertList: [
+            {
+              datestamp: '2022-10-07T19:25:32.832Z',
+              isActive: true,
+              alertType: 'success',
+              header: 'Test',
+              content: 'Test alert content',
+            },
+          ],
+        },
+      },
+    };
+    const screen = setup(stateWithAlert, Paths.COMPOSE);
+    await waitFor(() => {
+      const h1 = screen.getByRole('heading', { level: 1 });
+      const alertText = screen.getByTestId('alert-text');
+      expect(h1).to.exist;
+      expect(alertText).to.exist;
+      const html = screen.container.innerHTML;
+      expect(html.indexOf('<h1')).to.be.lessThan(
+        html.indexOf('data-testid="alert-text"'),
+      );
+    });
+  });
+
   it('records prefilling analytics when Rx renewal draft loads', async () => {
     window.dataLayer = [];
+    const addActionSpy = sinon.spy(datadogRum, 'addAction');
     const customState = {
       ...initialState,
       sm: {
@@ -177,10 +211,23 @@ describe('Compose form component', () => {
         window.dataLayer?.some(e => e?.event === 'sm_editor_prefill_loaded'),
       ).to.be.true;
     });
+
+    // Check that datadogRum.addAction was called
+    await waitFor(() => {
+      expect(addActionSpy.called).to.be.true;
+    });
+    expect(
+      addActionSpy.calledWith('SM Editor Prefill Loaded', {
+        category: sinon.match.string,
+      }),
+    ).to.be.true;
+
+    addActionSpy.restore();
   });
 
   it('records analytics when user clears prefilled textarea', async () => {
     window.dataLayer = [];
+    const addActionSpy = sinon.spy(datadogRum, 'addAction');
     const customState = {
       ...initialState,
       sm: {
@@ -212,10 +259,19 @@ describe('Compose form component', () => {
       );
       expect(hasClearedEvent).to.be.true;
     });
+
+    // Check that datadogRum.addAction was called
+    await waitFor(() => {
+      expect(addActionSpy.called).to.be.true;
+    });
+    expect(addActionSpy.calledWith('SM Editor Prefill Deleted')).to.be.true;
+
+    addActionSpy.restore();
   });
 
   it('records analytics when user edits prefilled textarea (non-empty)', async () => {
     window.dataLayer = [];
+    const addActionSpy = sinon.spy(datadogRum, 'addAction');
     const customState = {
       ...initialState,
       sm: {
@@ -246,6 +302,14 @@ describe('Compose form component', () => {
       );
       expect(hasEditedEvent).to.be.true;
     });
+
+    // Check that datadogRum.addAction was called
+    await waitFor(() => {
+      expect(addActionSpy.called).to.be.true;
+    });
+    expect(addActionSpy.calledWith('SM Editor Prefill Edited')).to.be.true;
+
+    addActionSpy.restore();
   });
 
   it('displays compose fields if path is /new-message', async () => {
@@ -975,14 +1039,16 @@ describe('Compose form component', () => {
       },
     );
 
-    const blockedTriageGroupAlert = await screen.findByTestId(
-      'blocked-triage-group-alert',
-    );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You're not connected to any care teams in this messaging tool",
-    );
+    await waitFor(() => {
+      const blockedTriageGroupAlert = screen.getByTestId(
+        'blocked-triage-group-alert',
+      );
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You're not connected to any care teams in this messaging tool",
+      );
+    });
     const viewOnlyDraftSections = screen.queryAllByTestId(
       'view-only-draft-section',
     );
@@ -1129,11 +1195,10 @@ describe('Compose form component', () => {
       },
     );
 
-    const blockedTriageGroupAlert = await screen.findByTestId(
-      'blocked-triage-group-alert',
-    );
     await waitFor(() => {
-      expect(blockedTriageGroupAlert).to.exist;
+      const blockedTriageGroupAlert = screen.getByTestId(
+        'blocked-triage-group-alert',
+      );
       expect(blockedTriageGroupAlert).to.have.attribute(
         'trigger',
         "You can't send messages to your care teams right now",

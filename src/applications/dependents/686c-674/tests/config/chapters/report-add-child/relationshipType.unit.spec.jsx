@@ -13,11 +13,16 @@ import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
 
-const formData = (child = {}) => ({
+const formData = (child = {}, country = 'USA') => ({
   'view:selectable686Options': {
     addChild: true,
   },
   childrenToAdd: [child],
+  veteranContactInformation: {
+    veteranAddress: {
+      country,
+    },
+  },
 });
 
 describe('686 add child relationship type', () => {
@@ -135,5 +140,61 @@ describe('686 add child relationship type', () => {
     expect(testData.childrenToAdd[0].biologicalParentDob).to.equal(
       '2000-01-01',
     );
+  });
+
+  context('biological child info visibility', () => {
+    const { hideIf } = uiSchema.childrenToAdd.items['view:biologicalChildInfo'][
+      'ui:options'
+    ];
+    it('should hide biological child info for US addresses & non-biological children', () => {
+      expect(hideIf({}, 0, formData({ relationshipType: 'BIOLOGICAL' }, 'USA')))
+        .to.be.true;
+      expect(hideIf({}, 0, formData({ relationshipType: 'ADOPTED' }, 'USA'))).to
+        .be.true;
+      expect(hideIf({}, 0, formData({ relationshipType: 'STEPCHILD' }, 'USA')))
+        .to.be.true;
+    });
+    it('should hide biological child info for non-US addresses & non-biological children', () => {
+      expect(hideIf({}, 0, formData({ relationshipType: 'ADOPTED' }, 'CAN'))).to
+        .be.true;
+      expect(hideIf({}, 0, formData({ relationshipType: 'STEPCHILD' }, 'CAN')))
+        .to.be.true;
+    });
+    it('should show biological child info for non-US addresses & biological children', () => {
+      expect(hideIf({}, 0, formData({ relationshipType: 'BIOLOGICAL' }, 'CAN')))
+        .to.be.false;
+    });
+  });
+
+  context('Stepchild info visibility', () => {
+    const { hideIf } = uiSchema.childrenToAdd.items['view:stepchildInfo'][
+      'ui:options'
+    ];
+    it('should hide stepchild info for non-stepchildren', () => {
+      expect(hideIf({}, 0, formData({ relationshipType: 'BIOLOGICAL' }))).to.be
+        .true;
+      expect(hideIf({}, 0, formData({ relationshipType: 'ADOPTED' }))).to.be
+        .true;
+    });
+    it('should show stepchild info for stepchildren', () => {
+      expect(hideIf({}, 0, formData({ relationshipType: 'STEPCHILD' }))).to.be
+        .false;
+    });
+  });
+
+  context('Adopted child info visibility', () => {
+    const { hideIf } = uiSchema.childrenToAdd.items['view:adoptedChildInfo'][
+      'ui:options'
+    ];
+    it('should hide adopted child info for non-adopted children', () => {
+      expect(hideIf({}, 0, formData({ relationshipType: 'BIOLOGICAL' }))).to.be
+        .true;
+      expect(hideIf({}, 0, formData({ relationshipType: 'STEPCHILD' }))).to.be
+        .true;
+    });
+    it('should show adopted child info for adopted children', () => {
+      expect(hideIf({}, 0, formData({ relationshipType: 'ADOPTED' }))).to.be
+        .false;
+    });
   });
 });

@@ -162,7 +162,9 @@ export const Alerts = {
   Message: {
     BLOCKED_MESSAGE_ERROR:
       'You are blocked from sending messages to this recipient.',
-    CANNOT_REPLY_BODY: {
+    CANNOT_REPLY_BODY:
+      'If you need to contact your care team, start a new message.',
+    STALE_REPLY_BODY: {
       MAIN: 'The last message in this conversation is more than 45 days old.',
       VISTA:
         "If you want to continue this conversation, you'll need to start a new message.",
@@ -171,7 +173,8 @@ export const Alerts = {
       OH_CONTACT:
         'Or you can send a message to other care teams in your contact list.',
     },
-    CANNOT_REPLY_INFO_HEADER: 'This conversation is too old for new replies',
+    CANNOT_REPLY_INFO_HEADER: "You can't reply to this message",
+    STALE_REPLY_INFO_HEADER: 'This conversation is too old for new replies',
     GET_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     DELETE_MESSAGE_SUCCESS:
       'Message conversation was successfully moved to Trash.',
@@ -186,7 +189,8 @@ export const Alerts = {
     MOVE_MESSAGE_THREAD_SUCCESS: 'Message conversation was successfully moved.',
     MOVE_MESSAGE_THREAD_ERROR:
       'Message conversation could not be moved. Try again later. If this problem persists, contact the help desk.',
-    NO_MESSAGES: 'There are no messages in this folder.',
+    NO_MESSAGES:
+      'There are no messages in this folder. If this folder is no longer needed, you can remove it.',
     DELETE_DRAFT_SUCCESS: 'Draft was successfully deleted.',
     DELETE_DRAFT_ERROR:
       'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',
@@ -234,6 +238,11 @@ export const Alerts = {
   ContactList: {
     CANNOT_SAVE:
       "We're sorry. We couldn't save your changes. Try saving again.",
+  },
+  OHSyncStatus: {
+    HEADLINE: "We're still adding some of your messages here",
+    BODY:
+      "We're working to add all of your messages to your inbox. They should be available soon.",
   },
   Headers: {
     HIDE_ALERT: 'HIDE_ALERT',
@@ -509,6 +518,43 @@ export const RecipientStatus = {
   BLOCKED: 'Blocked',
   ALLOWED: 'Allowed',
   NOT_ASSOCIATED: 'Not Associated',
+};
+
+/**
+ * OH (Oracle Health) migration phases that block message replies.
+ * During facility migration from VistA to Oracle Health, replies are blocked
+ * during certain phases (T-6 through T+2).
+ * - p3: T-6 to T-3
+ * - p4: T-3 to T-1
+ * - p5: T to T+2
+ */
+export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
+
+/**
+ * Config map for Contact List migration alert content.
+ * Each variant defines:
+ * - phases: which migration phases trigger this alert
+ * - headline: the alert heading text
+ * - bodyTop: text above the facility list
+ * - bodyBottom: text below the facility list
+ *
+ * Phase timeline reference:
+ * - p1: T-45 to T-30 (pre-migration)
+ * - p2: T-30 to T-6 (pre-migration)
+ * - p3: T-6 to T-3
+ * - p4: T-3 to T-1
+ * - p5: T to T+2
+ * - p6: T+2 to T+30 (post-migration)
+ */
+export const ContactListMigrationAlertContent = {
+  POST_MIGRATION: {
+    phases: ['p6', 'p7', 'p8'],
+    headline: 'We updated your contact list',
+    bodyTop:
+      'We removed care teams from these facilities from your contact list:',
+    bodyBottom:
+      'You can still send messages to care teams at these facilities. But the care team names will be different.',
+  },
 };
 
 export const BlockedTriageAlertStyles = {

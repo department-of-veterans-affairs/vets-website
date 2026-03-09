@@ -3,9 +3,7 @@ import { states } from '@department-of-veterans-affairs/platform-forms/address';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const StateSelect = props => {
-  const { id, onChange, value } = props;
-
+export default function StateSelect({ id, onChange, value }) {
   const handleChange = event => {
     const selectedValue = event.target.value;
     onChange(selectedValue);
@@ -20,12 +18,10 @@ const StateSelect = props => {
       ))}
     </VaSelect>
   );
-};
+}
 
 StateSelect.propTypes = {
   id: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };
-
-export default StateSelect;

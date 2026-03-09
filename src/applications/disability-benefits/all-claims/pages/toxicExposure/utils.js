@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { formatMonthYearDate } from '../../utils/dates';
 
 // va-date only updates formData on blur. ForceFieldBlur ensures fields blur
 // before submission so validation runs on current data.
@@ -12,6 +13,20 @@ const getCurrentYear = () => new Date().getFullYear();
 export const monthYearDateSchemaWithFullDateSupport = {
   type: 'string',
   pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)(-(0[1-9]|[12]\\d|3[01]))?$',
+};
+
+/**
+ * Returns a ui:confirmationField function that formats partial dates (year-only,
+ * month/year, full date) for the submission accordion so they don't show "Invalid Date".
+ * @param {string} label - Label for the confirmation row (e.g., startDateApproximate)
+ * @returns {Function} confirmationField(value) => { data, label }
+ */
+export const makeDateConfirmationField = label => value => {
+  const formatted = formatMonthYearDate(value?.formData);
+  return {
+    data: formatted || 'Unknown',
+    label,
+  };
 };
 
 /**

@@ -7,7 +7,7 @@ export const emailFormSchema = {
       type: 'string',
       format: 'email',
       maxLength: 255,
-      pattern: '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$',
+      pattern: '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$',
     },
   },
   required: ['emailAddress'],
@@ -15,7 +15,7 @@ export const emailFormSchema = {
 
 export const emailUiSchema = {
   emailAddress: {
-    'ui:title': 'Email Address',
+    'ui:title': 'Email address',
     'ui:autocomplete': 'email',
     'ui:webComponentField': VaTextInputField,
     'ui:errorMessages': {

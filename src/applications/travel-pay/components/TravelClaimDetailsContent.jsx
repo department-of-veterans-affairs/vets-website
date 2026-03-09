@@ -38,11 +38,17 @@ export default function TravelClaimDetailsContent() {
     [dispatch, data, error, id],
   );
 
+  const needsNewAppointment =
+    appointmentData?.travelPayClaim?.claim &&
+    appointmentData?.travelPayClaim?.claim?.id !== id;
+
+  const needsAppointment = !appointmentData || needsNewAppointment;
+
   useEffect(
     () => {
       if (
         complexClaimsEnabled &&
-        !appointmentData &&
+        needsAppointment &&
         appointmentDateTime &&
         !appointmentLoading &&
         !appointmentError
@@ -53,7 +59,7 @@ export default function TravelClaimDetailsContent() {
     [
       dispatch,
       complexClaimsEnabled,
-      appointmentData,
+      needsAppointment,
       appointmentDateTime,
       appointmentLoading,
       appointmentError,
@@ -102,7 +108,7 @@ export default function TravelClaimDetailsContent() {
           href={REIMBURSEMENT_URL}
           text="Learn how to set up direct deposit for travel pay"
         />
-        <ComplexClaimsHelpSection className="vads-u-margin-left--0" />
+        <ComplexClaimsHelpSection />
       </div>
     </>
   );

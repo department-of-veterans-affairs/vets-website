@@ -62,9 +62,19 @@ export function setAtPath(data, path, value) {
 export function institutionResponseToObject(responseData) {
   const attrs = responseData.attributes || {};
 
+  // attrs has a 'type' field, but per discussion with the business
+  // the more accurate way to determine an institution type is via
+  // the first digit of the facility code.
+  // 1 = public, 2 = for-profit, 3 = non-profit
+  const type = {
+    '1': 'PUBLIC',
+    '2': 'FOR PROFIT',
+    '3': 'PRIVATE',
+  }[attrs.facilityCode[0]];
+
   return {
     name: attrs.name,
-    type: attrs.type,
+    type,
     mailingAddress: {
       street: attrs.address1 || '',
       street2: attrs.address2 || '',
@@ -260,4 +270,11 @@ export const officialsArrayOptions = {
       );
     },
   },
+};
+
+export const todaysDate = () => {
+  const date = new Date();
+  const offset = date.getTimezoneOffset();
+  const today = new Date(date.getTime() - offset * 60 * 1000);
+  return today.toISOString().split('T')[0];
 };

@@ -233,7 +233,7 @@ describe('Scheduling preferences time selection', () => {
 
       cy.get('va-radio')
         .shadow()
-        .findByText(/Please choose an option to continue/i)
+        .findByText(/Select a scheduling preference/i)
         .should('exist');
 
       cy.injectAxeThenAxeCheck();
@@ -251,7 +251,7 @@ describe('Scheduling preferences time selection', () => {
 
       cy.get('va-checkbox-group')
         .shadow()
-        .findByText(/Please choose an option to continue/i)
+        .findByText(/Select a scheduling preference/i)
         .should('exist');
 
       cy.injectAxeThenAxeCheck();
@@ -336,7 +336,7 @@ describe('Scheduling preferences time selection', () => {
         .click();
 
       // Confirm that the preference has been removed
-      cy.findByText(/Update saved./i).should('exist');
+      cy.findByText(/Update saved/i).should('exist');
 
       cy.injectAxeThenAxeCheck();
     });

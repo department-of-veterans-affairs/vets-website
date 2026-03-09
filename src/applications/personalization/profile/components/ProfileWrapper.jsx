@@ -143,6 +143,7 @@ const ProfileWrapper = ({
                     isSchedulingPreferencesPilotEligible={
                       isSchedulingPreferencesPilotEligible
                     }
+                    className="vads-u-margin-bottom--5"
                   />
                 ) : (
                   <nav className="va-subnav" aria-labelledby="subnav-header">

@@ -48,8 +48,6 @@ export const selectRegisteredCernerFacilities = state => {
 
 export const selectFeatureApplication = state =>
   toggleValues(state).vaOnlineScheduling;
-export const selectFeatureCancel = state =>
-  toggleValues(state).vaOnlineSchedulingCancel;
 export const selectFeatureRequests = state =>
   toggleValues(state).vaOnlineSchedulingRequests;
 export const selectFeatureCommunityCare = state =>
@@ -77,9 +75,6 @@ export const selectFeatureCommunityCareCancellations = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCareCancellations;
 
 export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
-
-export const selectFeatureRecentLocationsFilter = state =>
-  toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
 
 export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
@@ -117,14 +112,8 @@ export const selectFeatureSubstanceUseDisorder = state =>
 export const selectFeaturePCMHI = state =>
   toggleValues(state).vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative;
 
-export const selectFeatureListViewClinicInfo = state =>
-  toggleValues(state).vaOnlineSchedulingListViewClinicInfo;
-
 export const selectFeatureAddOhAvs = state =>
   toggleValues(state).vaOnlineSchedulingAddOhAvs;
-
-export const selectFeatureImmediateCareAlert = state =>
-  toggleValues(state).vaOnlineSchedulingImmediateCareAlert;
 
 export const selectFeatureRemoveFacilityConfigCheck = state =>
   toggleValues(state).vaOnlineSchedulingRemoveFacilityConfigCheck;

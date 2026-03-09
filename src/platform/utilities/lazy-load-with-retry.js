@@ -25,10 +25,10 @@ const DEFAULT_CONFIG = {
  * @returns {boolean} - True if this is a chunk load error
  */
 function isChunkLoadError(error) {
-  return (
+  return Boolean(
     error?.name === 'ChunkLoadError' ||
-    error?.message?.includes('Loading chunk') ||
-    error?.message?.includes('Loading CSS chunk')
+      error?.message?.includes('Loading chunk') ||
+      error?.message?.includes('Loading CSS chunk'),
   );
 }
 
@@ -113,5 +113,8 @@ export function lazyWithRetry(importFn, config = {}) {
     loadWithRetry(importFn, maxRetries, baseDelayMs, maxDelayMs),
   );
 }
+
+// Export for testing - allows direct testing of retry logic without React rendering
+export { loadWithRetry, isChunkLoadError, calculateDelay };
 
 export default lazyWithRetry;

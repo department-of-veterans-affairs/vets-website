@@ -309,7 +309,7 @@ describe('Scheduling preferences contact method - remove preference', () => {
       .click({ waitForAnimations: true });
 
     // Confirm that the preference has been removed
-    cy.findByText(/Update saved./i).should('exist');
+    cy.findByText(/Update saved/i).should('exist');
 
     cy.injectAxeThenAxeCheck();
   });

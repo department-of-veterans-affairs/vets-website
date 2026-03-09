@@ -19,8 +19,13 @@ describe('Secure Messaging Reply Axe Check', () => {
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
     PatientInterstitialPage.getContinueButton().click();
 
+    // Wait for reply form to be fully loaded before interacting
+    PatientReplyPage.verifyReplyHeader();
+
     PatientReplyPage.getMessageBodyField()
-      .clear()
+      .should('be.visible')
+      .and('not.be.disabled')
+      .clear({ force: true })
       .type('Test message body', {
         force: true,
       });

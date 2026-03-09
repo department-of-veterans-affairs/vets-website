@@ -27,14 +27,15 @@ const IntroductionPage = ({ route, router }) => {
 
   const startBtn = useMemo(
     () => {
-      const startForm = () => {
+      const startForm = event => {
+        event.preventDefault();
         sessionStorage.setItem('formIncompleteARP', 'true');
         recordEvent({ event: `${formNumber}-start-form` });
         return router.push(route.pageList[1].path);
       };
       return (
         <VaLinkAction
-          href="#start"
+          href={route.pageList[1].path}
           label="Start form upload and submission"
           class=" representative-form__start"
           text="Start form upload and submission"

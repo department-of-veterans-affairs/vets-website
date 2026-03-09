@@ -20,7 +20,6 @@ const inlineContentShape = PropTypes.oneOfType([
     text: PropTypes.string,
     href: PropTypes.string,
     style: PropTypes.oneOf(['active', 'default', 'external']),
-    testId: PropTypes.string,
     // Telephone-specific properties
     contact: PropTypes.string,
     tty: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -41,11 +40,9 @@ export const BlockPropType = PropTypes.shape({
 });
 
 /**
- * Top-level content structure from API
+ * Top-level content structure - array of blocks
  */
-export const ContentPropType = PropTypes.shape({
-  blocks: PropTypes.arrayOf(BlockPropType),
-});
+export const ContentPropType = PropTypes.arrayOf(BlockPropType);
 
 /**
  * InlineRenderer content prop type
@@ -61,7 +58,6 @@ export const InlineContentPropType = PropTypes.oneOfType([
     text: PropTypes.string,
     href: PropTypes.string,
     style: PropTypes.oneOf(['active', 'default', 'external']),
-    testId: PropTypes.string,
     contact: PropTypes.string,
     tty: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }),

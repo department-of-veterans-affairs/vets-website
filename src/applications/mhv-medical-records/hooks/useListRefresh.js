@@ -17,6 +17,7 @@ import {
  * @param {string|array} extractType the relevant extract type(s) from the PHR refresh status call (e.g. ALLERGY)
  * @param {function} dispatchAction the action creator function that will fetch the list
  * @param {function} dispatch the React dispatch function
+ * @param {boolean} isLoading whether feature toggles are still loading (optional, defaults to false)
  */
 function useListRefresh({
   listState,
@@ -25,9 +26,7 @@ function useListRefresh({
   extractType,
   dispatchAction,
   dispatch,
-  page,
-  useBackendPagination,
-  checkUpdatesAction,
+  isLoading = false,
 }) {
   const refreshIsCurrent = useMemo(
     () => {
@@ -65,42 +64,21 @@ function useListRefresh({
   );
 
   useEffect(
-    () => {
-      // If useBackendPagination is enabled, dispatch the fetch on every page change.
-      if (page && useBackendPagination) {
-        dispatch(dispatchAction(refreshIsCurrent, page, useBackendPagination));
-      }
-    },
-    // We don't want to include refreshIsCurrent in the dependency array. It causes unwanted dispatches.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, useBackendPagination, dispatch, dispatchAction],
-  );
-
-  useEffect(
     /**
      * Dispatch the action to refresh list data if:
-     * 1. The list has not yet been fetched.
-     * 2. The list data is stale, the refresh is current, and list is not currently being fetched.
+     * 1. Feature toggles have finished loading (isLoading is false).
+     * 2. The list has not yet been fetched.
+     * 3. The list data is stale, the refresh is current, and list is not currently being fetched.
      */
     () => {
-      if (useBackendPagination) {
-        if (
-          listState !== loadStates.FETCHING &&
-          refreshIsCurrent &&
-          isDataStale
-        ) {
-          dispatch(checkUpdatesAction());
-        }
-      } else {
-        const shouldFetch =
-          listState === loadStates.PRE_FETCH ||
-          (listState !== loadStates.FETCHING &&
-            refreshIsCurrent &&
-            isDataStale);
+      if (isLoading) return;
 
-        if (shouldFetch) {
-          dispatch(dispatchAction(refreshIsCurrent));
-        }
+      const shouldFetch =
+        listState === loadStates.PRE_FETCH ||
+        (listState !== loadStates.FETCHING && refreshIsCurrent && isDataStale);
+
+      if (shouldFetch) {
+        dispatch(dispatchAction(refreshIsCurrent));
       }
     },
     [
@@ -109,8 +87,7 @@ function useListRefresh({
       isDataStale,
       dispatchAction,
       dispatch,
-      checkUpdatesAction,
-      useBackendPagination,
+      isLoading,
     ],
   );
 }

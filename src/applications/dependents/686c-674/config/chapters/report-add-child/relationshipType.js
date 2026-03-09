@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  titleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -14,19 +14,14 @@ const labels = {
 
 export const relationshipType = {
   uiSchema: {
-    ...titleUI({
-      title: ({ formData }) => (
-        <h3 className="vads-u-margin-top--0">
-          {`Your relationship to ${formData?.fullName?.first || 'this child'}`}
-        </h3>
-      ),
-      description: (
-        <>
-          <strong>Note:</strong> You can’t add a grandchild as a dependent, even
-          if you’re their legal guardian.
-        </>
-      ),
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `Your relationship to ${formData?.fullName?.first || 'this child'}`,
+      <>
+        <strong>Note:</strong> You can’t add a grandchild as a dependent, even
+        if you’re their legal guardian.
+      </>,
+    ),
     relationshipType: radioUI({
       title: 'What’s your relationship to this child?',
       labels,
@@ -62,6 +57,26 @@ export const relationshipType = {
         return schema;
       },
     }),
+    'view:biologicalChildInfo': {
+      'ui:description': (
+        <>
+          <p>
+            Based on your answers, you’ll need to submit additional evidence to
+            add this child as your dependent.
+          </p>
+          <p>We’ll ask you to submit this evidence at the end of this form.</p>
+          <p>You’ll need to submit a copy of this child’s birth certificate.</p>
+        </>
+      ),
+      'ui:options': {
+        hideIf: (_formData, index, fullData) =>
+          !(
+            fullData?.veteranContactInformation?.veteranAddress?.country !==
+              'USA' &&
+            fullData?.childrenToAdd?.[index]?.relationshipType === 'BIOLOGICAL'
+          ),
+      },
+    },
     'view:stepchildInfo': {
       'ui:description': (
         <>
@@ -78,7 +93,8 @@ export const relationshipType = {
         </>
       ),
       'ui:options': {
-        hideIf: formData => formData.relationshipType !== 'STEPCHILD',
+        hideIf: (_formData, index, fullData) =>
+          fullData?.childrenToAdd?.[index]?.relationshipType !== 'STEPCHILD',
       },
     },
     'view:adoptedChildInfo': {
@@ -108,7 +124,8 @@ export const relationshipType = {
         </>
       ),
       'ui:options': {
-        hideIf: formData => formData.relationshipType !== 'ADOPTED',
+        hideIf: (_formData, index, fullData) =>
+          fullData?.childrenToAdd?.[index]?.relationshipType !== 'ADOPTED',
       },
     },
   },
@@ -117,6 +134,7 @@ export const relationshipType = {
     required: ['relationshipType'],
     properties: {
       relationshipType: radioSchema(Object.keys(labels)),
+      'view:biologicalChildInfo': { type: 'object', properties: {} },
       'view:stepchildInfo': { type: 'object', properties: {} },
       'view:adoptedChildInfo': { type: 'object', properties: {} },
     },

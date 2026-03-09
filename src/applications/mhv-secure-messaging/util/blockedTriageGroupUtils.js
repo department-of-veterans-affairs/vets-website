@@ -200,6 +200,7 @@ const getAlertConfigForBlockedList = blockedList => {
  * @param {string} params.parentComponent - Which component is rendering the alert
  * @param {Object} params.ehrDataByVhaId - EHR data for facility name resolution
  * @param {boolean} params.isOhMessage - Whether this is an Oracle Health message
+ * @param {boolean} params.facilityMigratingToOhInErrorPhase - Whether the user's facility is in an error phase
  * @returns {Object|null} Alert configuration with { shouldShow, title, message, blockedList, status }
  */
 export const getBlockedTriageAlertConfig = ({
@@ -208,6 +209,7 @@ export const getBlockedTriageAlertConfig = ({
   parentComponent,
   ehrDataByVhaId,
   isOhMessage = false,
+  facilityMigratingToOhInErrorPhase = false,
 }) => {
   const {
     noAssociations,
@@ -239,6 +241,18 @@ export const getBlockedTriageAlertConfig = ({
 
     // SCENARIO: Current recipient is NOT_ASSOCIATED
     if (recipientStatus === RecipientStatus.NOT_ASSOCIATED) {
+      // If user has no associations at all and we're in compose form,
+      // show the global "no associations" message
+      if (noAssociations && parentComponent === ParentComponent.COMPOSE_FORM) {
+        return {
+          shouldShow: true,
+          title: alertTitle.NO_ASSOCIATIONS,
+          message: alertMessage.NO_ASSOCIATIONS,
+          blockedList: [],
+          status: null,
+        };
+      }
+
       // Oracle Health messages don't show alert for NOT_ASSOCIATED
       if (isOhMessage) {
         return null;
@@ -278,6 +292,17 @@ export const getBlockedTriageAlertConfig = ({
 
     // SCENARIO: Current recipient is BLOCKED
     if (recipientStatus === RecipientStatus.BLOCKED) {
+      // If ALL teams are blocked, show the all-blocked alert
+      if (allTriageGroupsBlocked) {
+        return {
+          shouldShow: true,
+          title: alertTitle.ALL_TEAMS_BLOCKED,
+          message: alertMessage.ALL_TEAMS_BLOCKED,
+          blockedList: [],
+          status: RecipientStatus.BLOCKED,
+        };
+      }
+
       // In ComposeForm, show all blocked teams; in other contexts, show just the current one
       if (parentComponent === ParentComponent.COMPOSE_FORM) {
         const blockedList = buildBlockedItemsList(
@@ -319,7 +344,7 @@ export const getBlockedTriageAlertConfig = ({
   // No current recipient - handle global states
 
   // SCENARIO: No associations at all
-  if (noAssociations) {
+  if (noAssociations && !facilityMigratingToOhInErrorPhase) {
     return {
       shouldShow: true,
       title: alertTitle.NO_ASSOCIATIONS,

@@ -120,6 +120,7 @@ export const IntroductionPage = props => {
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
         <SaveInProgressIntro
+          returnUrl="/veteran"
           headingLevel={2}
           hideUnauthedStartLink
           prefillEnabled={formConfig.prefillEnabled}

@@ -1,3 +1,7 @@
+// The following eslint rules are disabled in this file to allow for the Genesys script to be added to the page without issue.
+// These rules are not ideal to disable, but they are necessary for this implementation and do not cause any known issues in this file.
+/* eslint-disable prefer-rest-params */
+/* eslint-disable no-param-reassign */
 import React from 'react';
 
 import {
@@ -13,6 +17,8 @@ import StickyBot from '../webchat/components/StickyBot';
 
 // v2 chatbot
 import { Shell } from './features/shell/Shell';
+
+const GENESYS_DEPLOYMENT_ID = 'b691fb78-8f63-4bb9-b691-8a75c8ce1e2f';
 
 function Page() {
   const togglesLoading = useToggleLoadingValue();
@@ -39,6 +45,30 @@ function Page() {
   }
 
   if (virtualAgentUseV2Chatbot) {
+    (function(g, e, n, es, ys) {
+      g._genesysJs = e;
+      g[e] =
+        g[e] ||
+        function() {
+          (g[e].q = g[e].q || []).push(arguments);
+        };
+      g[e].t = 1 * new Date();
+      g[e].c = es;
+      ys = document.createElement('script');
+      ys.async = 1;
+      ys.src = n;
+      ys.charset = 'utf-8';
+      document.head.appendChild(ys);
+    })(
+      window,
+      'Genesys',
+      'https://apps.use2.us-gov-pure.cloud/genesys-bootstrap/genesys.min.js',
+      {
+        environment: 'fedramp-use2-core',
+        deploymentId: GENESYS_DEPLOYMENT_ID,
+      },
+    );
+
     return <Shell />;
   }
 

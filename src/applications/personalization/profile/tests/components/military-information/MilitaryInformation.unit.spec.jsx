@@ -2,7 +2,10 @@ import React from 'react';
 import { expect } from 'chai';
 import * as api from '~/platform/utilities/api';
 import sinon from 'sinon';
-import { renderWithProfileReducers } from '../../unit-test-helpers';
+import {
+  renderWithProfileReducers,
+  createFeatureTogglesState,
+} from '../../unit-test-helpers';
 import MilitaryInformation from '../../../components/military-information/MilitaryInformation';
 
 function createBasicInitialState(toggles = {}) {
@@ -320,6 +323,21 @@ describe('MilitaryInformation', () => {
       });
 
       expect(view.getByTestId('service-is-down-banner')).to.exist;
+    });
+  });
+
+  describe('when profile2Enabled is enabled', () => {
+    it('should render the correct heading', () => {
+      initialState = {
+        ...createBasicInitialState(),
+        ...createFeatureTogglesState({ profile2Enabled: true }),
+      };
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+
+      expect(view.getByRole('heading', { name: 'Service history information' }))
+        .to.exist;
     });
   });
 });

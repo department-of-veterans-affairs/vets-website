@@ -1,6 +1,6 @@
 import {
   AUTH_ERROR_CODES,
-  OTC_ERROR_CODES,
+  OTP_ERROR_CODES,
   SERVER_ERROR_CODES,
   AVAILABILITY_ERROR_CODES,
   APPOINTMENT_ERROR_CODES,
@@ -27,14 +27,13 @@ const isRateLimitExceededError = error => {
 const isMissingParameterError = error => {
   return (
     error?.code === AUTH_ERROR_CODES.MISSING_PARAMETER ||
-    error?.code === OTC_ERROR_CODES.MISSING_PARAMETER ||
-    error?.code === AVAILABILITY_ERROR_CODES.MISSING_PARAMETER ||
+    error?.code === OTP_ERROR_CODES.MISSING_PARAMETER ||
     error?.code === APPOINTMENT_ERROR_CODES.MISSING_PARAMETER
   );
 };
 
 const isAccountLockedError = error => {
-  return error?.code === OTC_ERROR_CODES.ACCOUNT_LOCKED;
+  return error?.code === OTP_ERROR_CODES.ACCOUNT_LOCKED;
 };
 
 const isServerError = error => {
@@ -48,12 +47,24 @@ const isNotWhithinCohortError = error => {
   return error?.code === AVAILABILITY_ERROR_CODES.NOT_WITHIN_COHORT;
 };
 
+const isNoSlotsAvailableError = error => {
+  return error?.code === AVAILABILITY_ERROR_CODES.NO_SLOTS_AVAILABLE;
+};
+
 const isAppointmentFailedError = error => {
   return error?.code === APPOINTMENT_ERROR_CODES.APPOINTMENT_SAVE_FAILED;
 };
 
 const isAppointmentNotFoundError = error => {
   return error?.code === APPOINTMENT_ERROR_CODES.APPOINTMENT_NOT_FOUND;
+};
+
+const isAppointmentAlreadyBookedError = error => {
+  return error?.code === AVAILABILITY_ERROR_CODES.APPOINTMENT_ALREADY_BOOKED;
+};
+
+const isCancellationFailedError = error => {
+  return error?.code === APPOINTMENT_ERROR_CODES.CANCELLATION_FAILED;
 };
 
 export {
@@ -63,6 +74,9 @@ export {
   isAccountLockedError,
   isServerError,
   isNotWhithinCohortError,
+  isNoSlotsAvailableError,
   isAppointmentFailedError,
   isAppointmentNotFoundError,
+  isAppointmentAlreadyBookedError,
+  isCancellationFailedError,
 };

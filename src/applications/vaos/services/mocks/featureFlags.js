@@ -1,7 +1,6 @@
 module.exports = [
   { name: 'profile_show_profile_2.0', value: false },
   { name: 'vaOnlineScheduling', value: true },
-  { name: 'vaOnlineSchedulingCancel', value: true },
   { name: 'vaOnlineSchedulingCommunityCare', value: true },
   { name: 'vaOnlineSchedulingDirect', value: true },
   { name: 'vaOnlineSchedulingRequests', value: true },
@@ -9,7 +8,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingCCDirectScheduling', value: true },
   { name: 'vaOnlineSchedulingCCDirectSchedulingChiropractic', value: true },
   { name: 'vaOnlineSchedulingCommunityCareCancellations', value: true },
-  { name: 'vaOnlineSchedulingRecentLocationsFilter', value: true },
   { name: 'vaOnlineSchedulingRemovePodiatry', value: false },
   { name: 'edu_section_103', value: true },
   { name: 'gibctEybBottomSheet', value: true },
@@ -21,10 +19,8 @@ module.exports = [
     name: 'vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative',
     value: true,
   },
-  { name: 'vaOnlineSchedulingListViewClinicInfo', value: true },
   { name: 'vaOnlineSchedulingAddOhAvs', value: true },
-  { name: 'vaOnlineSchedulingImmediateCareAlert', value: false },
   { name: 'vaOnlineSchedulingRemoveFacilityConfigCheck', value: true },
   { name: 'vaOnlineSchedulingUseBrowserTimezone', value: true },
-  { name: 'vaOnlineSchedulingUseVpg', value: false },
+  { name: 'vaOnlineSchedulingUseVpg', value: true },
 ];

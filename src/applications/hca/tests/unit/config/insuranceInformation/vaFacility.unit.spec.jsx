@@ -1,5 +1,8 @@
 // @ts-check
-import { testNumberOfFields } from 'platform/forms-system/test/pageTestHelpers.spec';
+import {
+  testNumberOfFields,
+  testNumberOfWebComponentFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
 import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
 import formConfig from '../../../../config/form';
 
@@ -11,12 +14,21 @@ describe('hca VaFacility config', () => {
   } = formConfig.chapters.insuranceInformation.pages.vaFacility;
 
   // run test for correct number of fields on the page
-  const expectedNumberOfFields = 2;
+  const expectedNumberOfFields = 0;
   testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
     expectedNumberOfFields,
+    pageTitle,
+  );
+
+  const expectedNumberOfWebComponentFields = 3;
+  testNumberOfWebComponentFields(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfWebComponentFields,
     pageTitle,
   );
 
@@ -50,13 +62,14 @@ describe('hca VaFacility config', () => {
     expectedUiSchema: {
       'ui:title': {},
       'view:preferredFacility': {
-        'ui:field': {},
+        'ui:field': {}, // Custom field - keep as-is
       },
       'view:locator': {
         'ui:description': {},
       },
       wantsInitialVaContact: {
         'ui:title': {},
+        'ui:webComponentField': {},
       },
     },
     expectedRequired: [],

@@ -127,7 +127,11 @@ const resolveLandingPageLinks = (
         HEALTH_TOOL_LINKS.PAYMENTS[0],
         {
           href: '/my-health/travel-pay/claims',
-          text: 'Review and file travel claims',
+          text: 'Check travel reimbursement claim status',
+        },
+        {
+          href: '/my-health/appointments/past',
+          text: 'Go to past appointments to file for travel pay',
         },
       ]
     : [
@@ -137,14 +141,28 @@ const resolveLandingPageLinks = (
           text: 'Check travel reimbursement claim status',
         },
         HEALTH_TOOL_LINKS.PAYMENTS[1],
+        {
+          href: '/my-health/appointments/past',
+          text: 'Go to past appointments to file for travel pay',
+        },
       ]
   ).filter(isLinkData);
 
+  const medicationsLinks = [
+    HEALTH_TOOL_LINKS.MEDICATIONS[0],
+    {
+      href: featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements
+      ]
+        ? '/my-health/medications/history'
+        : '/my-health/medications',
+      text: 'Review medications',
+    },
+  ].filter(isLinkData);
+
   const medicalRecordsLinks = [
     HEALTH_TOOL_LINKS.MEDICAL_RECORDS[0],
-    featureToggles[
-      FEATURE_FLAG_NAMES.mhvLandingPageShowShareMyHealthDataLink
-    ] && {
+    {
       href: resolveSHMDLink,
       text:
         'Share your personal health data on the Share My Health Data website',
@@ -167,17 +185,11 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICATIONS,
       icon: 'pill',
-      links: HEALTH_TOOL_LINKS.MEDICATIONS,
+      links: medicationsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
       icon: 'note_add',
-      ...(!featureToggles[
-        FEATURE_FLAG_NAMES.mhvLandingPageShowShareMyHealthDataLink
-      ] && {
-        introduction:
-          'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
-      }),
       links: medicalRecordsLinks,
     },
     {
@@ -230,7 +242,7 @@ const resolveLandingPageLinks = (
     },
     {
       href: '/health-care/eligibility/',
-      text: 'Find out if you’re eligible for VA health care',
+      text: "Find out if you're eligible for VA health care",
     },
     {
       href: '/health-care/how-to-apply/',

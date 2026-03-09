@@ -9,12 +9,12 @@ import { focusElement } from 'platform/utilities/ui';
 
 import NeedHelp from '../components/NeedHelp';
 import ErrorAlert from '../components/ErrorAlert';
+import { FLOW_TYPES } from '../utils/constants';
 
-// TODO: combine errorAlert and verificationError into a single prop
-
-const getContent = (errorAlert, verificationError, children) => {
+// TODO: Maybe combine errorAlert and verificationError into a single prop
+const getContent = (errorAlert, verificationError, children, flowType) => {
   if (errorAlert) {
-    return <ErrorAlert />;
+    return <ErrorAlert flowType={flowType} />;
   }
   if (verificationError) {
     return (
@@ -42,12 +42,40 @@ const Wrapper = props => {
     loading = false,
     loadingMessage = 'Loading...',
     errorAlert = false,
+    disableBeforeUnload = false,
+    flowType = FLOW_TYPES.SCHEDULE,
   } = props;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  // Warn on page refresh/close
+  useEffect(
+    () => {
+      if (disableBeforeUnload) {
+        return undefined;
+      }
+
+      const handleBeforeUnload = e => {
+        e.preventDefault();
+        e.returnValue = '';
+      };
+
+      window.addEventListener('beforeunload', handleBeforeUnload);
+
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    },
+    [disableBeforeUnload],
+  );
+
+  useEffect(
+    () => {
+      if (!loading) {
+        focusElement('h1');
+      }
+    },
+    [loading],
+  );
 
   useEffect(
     () => {
@@ -71,7 +99,7 @@ const Wrapper = props => {
     );
   }
 
-  const content = getContent(errorAlert, verificationError, children);
+  const content = getContent(errorAlert, verificationError, children, flowType);
 
   return (
     <div
@@ -85,13 +113,11 @@ const Wrapper = props => {
       {!errorAlert &&
         showBackLink && (
           <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--0">
-            <nav aria-label="backlink">
+            <nav aria-label="Back">
               <va-link
                 back
-                aria-label="Back link"
                 data-testid="back-link"
                 text="Back"
-                href="#"
                 onClick={e => {
                   e.preventDefault();
                   navigate(-1);
@@ -102,17 +128,16 @@ const Wrapper = props => {
         )}
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {!errorAlert &&
-            pageTitle && (
-              <h1 tabIndex="-1" data-testid="header">
-                {pageTitle}
-                {required && (
-                  <span className="vass-usa-label--required vads-u-font-family--sans">
-                    (*Required)
-                  </span>
-                )}
-              </h1>
-            )}
+          {pageTitle && (
+            <h1 tabIndex="-1" data-testid="header">
+              {pageTitle}
+              {required && (
+                <span className="vass-usa-label--required vads-u-font-family--sans">
+                  (*Required)
+                </span>
+              )}
+            </h1>
+          )}
           <DowntimeNotification
             appTitle="VA Solid Start"
             dependencies={[externalServices.vass]}
@@ -131,7 +156,9 @@ export default Wrapper;
 Wrapper.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  disableBeforeUnload: PropTypes.bool,
   errorAlert: PropTypes.bool,
+  flowType: PropTypes.oneOf(Object.values(FLOW_TYPES)),
   loading: PropTypes.bool,
   loadingMessage: PropTypes.string,
   pageTitle: PropTypes.string,

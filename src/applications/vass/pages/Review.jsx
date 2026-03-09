@@ -6,7 +6,7 @@ import DateTime from '../components/DateTime';
 import { usePostAppointmentMutation } from '../redux/api/vassApi';
 import {
   selectSelectedTopics,
-  selectSelectedDate,
+  selectSelectedSlot,
 } from '../redux/slices/formSlice';
 import { URLS } from '../utils/constants';
 import { isServerError, isAppointmentFailedError } from '../utils/errors';
@@ -18,12 +18,12 @@ const Review = () => {
     { isLoading, error: postAppointmentError },
   ] = usePostAppointmentMutation();
   const selectedTopics = useSelector(selectSelectedTopics);
-  const selectedDate = useSelector(selectSelectedDate);
+  const selectedSlot = useSelector(selectSelectedSlot);
   const handleConfirmCall = async () => {
     const res = await postAppointment({
       topics: selectedTopics.map(topic => topic.topicId),
-      dtStartUtc: selectedDate,
-      dtEndUtc: selectedDate,
+      dtStartUtc: selectedSlot.dtStartUtc,
+      dtEndUtc: selectedSlot.dtEndUtc,
     });
     if (res.error) {
       return;
@@ -42,12 +42,12 @@ const Review = () => {
       }
     >
       <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
-        <p
-          className="vads-u-font-weight--bold vads-u-margin--0"
+        <h2
+          className="vads-u-font-size--h4 vads-u-margin--0"
           data-testid="date-time-title"
         >
           Date and time
-        </p>
+        </h2>
         <Link
           to={URLS.DATE_TIME}
           data-testid="date-time-edit-link"
@@ -56,18 +56,20 @@ const Review = () => {
           Edit
         </Link>
       </div>
-      {selectedDate && <DateTime dateTime={selectedDate} />}
+      {selectedSlot.dtStartUtc && (
+        <DateTime dateTime={selectedSlot.dtStartUtc} />
+      )}
       <hr
         aria-hidden="true"
         className=" vads-u-margin-top--1 vads-u-margin-bottom--0p5"
       />
       <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
-        <p
-          className="vads-u-font-weight--bold vads-u-margin--0"
+        <h2
+          className="vads-u-font-size--h4 vads-u-margin--0"
           data-testid="topic-title"
         >
           Topic
-        </p>
+        </h2>
         <Link
           to={URLS.TOPIC_SELECTION}
           data-testid="topic-edit-link"
@@ -78,6 +80,7 @@ const Review = () => {
       </div>
       <p
         className="vads-u-margin-top--0p5 vads-u-margin-bottom--1"
+        data-dd-privacy="mask"
         data-testid="topic-description"
       >
         {(selectedTopics || []).map(topic => topic?.topicName || '').join(', ')}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -13,16 +14,21 @@ import {
 
 import EnterOTP from './EnterOTP';
 import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
-import { FLOW_TYPES, URLS } from '../utils/constants';
+import * as authUtils from '../utils/auth';
+import { FLOW_TYPES, URLS, VASS_PHONE_NUMBER } from '../utils/constants';
 import {
   createOTPInvalidError,
   createOTPAccountLockedError,
+  createAppointmentAlreadyBookedError,
+  createVassApiError,
+  createNotWithinCohortError,
 } from '../services/mocks/utils/errors';
+import { createAppointmentAvailabilityResponse } from '../services/mocks/utils/responses';
 
 const defaultRenderOptions = getDefaultRenderOptions({
   obfuscatedEmail: 't***@test.com',
   uuid: 'c0ffee-1234-beef-5678',
-  lastname: 'Smith',
+  lastName: 'Smith',
   dob: '1935-04-07',
   flowType: FLOW_TYPES.SCHEDULE, // default to schedule flow for testing
 });
@@ -30,7 +36,7 @@ const defaultRenderOptions = getDefaultRenderOptions({
 const defaultRenderOptionsWithCancelFlow = getDefaultRenderOptions({
   obfuscatedEmail: 't***@test.com',
   uuid: 'c0ffee-1234-beef-5678',
-  lastname: 'Smith',
+  lastName: 'Smith',
   dob: '1935-04-07',
   flowType: FLOW_TYPES.CANCEL,
 });
@@ -39,22 +45,45 @@ const renderComponent = () =>
   renderWithStoreAndRouterV6(<EnterOTP />, defaultRenderOptions);
 
 describe('VASS Component: EnterOTP', () => {
+  let getVassTokenStub;
+
   beforeEach(() => {
     mockFetch();
+    getVassTokenStub = sinon
+      .stub(authUtils, 'getVassToken')
+      .returns('mock-token');
   });
 
   afterEach(() => {
     resetFetch();
+    getVassTokenStub.restore();
   });
 
   it('should initialize correctly', () => {
     const screen = renderComponent();
 
     expect(screen.getByTestId('header')).to.exist;
-    expect(screen.getByTestId('enter-otp-success-alert')).to.exist;
-    expect(
-      screen.getByTestId('enter-otp-success-alert').textContent,
-    ).to.contain(defaultRenderOptions.initialState.vassForm.obfuscatedEmail);
+
+    const successAlert = screen.getByTestId('enter-otp-success-alert');
+    expect(successAlert).to.exist;
+    expect(successAlert.textContent).to.contain(
+      defaultRenderOptions.initialState.vassForm.obfuscatedEmail,
+    );
+    expect(successAlert.textContent).to.contain(
+      'We\u2019ve emailed you a one-time verification code',
+    );
+    expect(successAlert.textContent).to.contain(
+      'We emailed a one-time verification code (OTC) to',
+    );
+    expect(successAlert.textContent).to.contain(
+      'If you don\u2019t receive the OTC',
+    );
+    const telephone = successAlert.querySelector(
+      'va-telephone[data-testid="solid-start-telephone"]',
+    );
+    expect(telephone).to.exist;
+    expect(telephone.getAttribute('contact')).to.equal(VASS_PHONE_NUMBER);
+
     expect(screen.queryByTestId('enter-otp-error-alert')).to.not.exist;
     const otpInput = screen.getByTestId('otp-input');
     expect(otpInput).to.exist;
@@ -82,10 +111,91 @@ describe('VASS Component: EnterOTP', () => {
         );
       });
     });
+
+    it('should show error when code contains non-numeric characters', async () => {
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, 'abc123', 'va-text-input[name="otp"]');
+      const continueButton = getByTestId('continue-button');
+
+      continueButton.click();
+
+      await waitFor(() => {
+        const otpInput = getByTestId('otp-input');
+        expect(otpInput.getAttribute('error')).to.match(
+          /Your verification code should only contain numbers/i,
+        );
+      });
+    });
+
+    it('should show error when code is fewer than 6 digits', async () => {
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, '12345', 'va-text-input[name="otp"]');
+      const continueButton = getByTestId('continue-button');
+
+      continueButton.click();
+
+      await waitFor(() => {
+        const otpInput = getByTestId('otp-input');
+        expect(otpInput.getAttribute('error')).to.match(
+          /Your verification code should be 6 digits/i,
+        );
+      });
+    });
+
+    it('should show error when code is more than 6 digits', async () => {
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, '1234567', 'va-text-input[name="otp"]');
+      const continueButton = getByTestId('continue-button');
+
+      continueButton.click();
+
+      await waitFor(() => {
+        const otpInput = getByTestId('otp-input');
+        expect(otpInput.getAttribute('error')).to.match(
+          /Your verification code should be 6 digits/i,
+        );
+      });
+    });
+
+    it('should have correct input attributes for numeric entry', () => {
+      const { getByTestId } = renderComponent();
+      const otpInput = getByTestId('otp-input');
+
+      expect(otpInput.getAttribute('inputmode')).to.equal('numeric');
+      expect(otpInput.getAttribute('maxlength')).to.equal('6');
+    });
+
+    it('should not show validation error for valid 6-digit code', async () => {
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          token: 'jwt-token',
+          expiresIn: 3600,
+          tokenType: 'Bearer',
+        },
+      });
+      setFetchJSONResponse(
+        global.fetch.onCall(1),
+        createAppointmentAvailabilityResponse({
+          appointmentId: 'abcdef123456',
+        }),
+      );
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
+      const continueButton = getByTestId('continue-button');
+
+      continueButton.click();
+
+      await waitFor(() => {
+        const otpInput = getByTestId('otp-input');
+        // No validation error should be present - API call should proceed
+        // Error attribute will be empty string (not null) when no error
+        expect(otpInput.getAttribute('error')).to.equal('');
+      });
+    });
   });
 
   describe('API error handling', () => {
-    it('should display error alert for invalid_otc with multiple attempts remaining', async () => {
+    it('should display error alert for invalid_otp with multiple attempts remaining', async () => {
       setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
@@ -130,6 +240,7 @@ describe('VASS Component: EnterOTP', () => {
         );
       });
     });
+
     it('should hide success alert when error is displayed', async () => {
       setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
       const { container, getByTestId, queryByTestId } = renderComponent();
@@ -141,20 +252,95 @@ describe('VASS Component: EnterOTP', () => {
         expect(queryByTestId('enter-otp-success-alert')).to.not.exist;
       });
     });
-    it('should clear the OTC input after an error', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
-      const { container, getByTestId } = renderComponent();
-      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
-      const continueButton = getByTestId('continue-button');
-      continueButton.click();
-      await waitFor(() => {
-        const otpInput = getByTestId('otp-input');
-        expect(otpInput.getAttribute('value')).to.equal('');
+
+    describe('appointment availability', () => {
+      it('should display error alert when availability check returns a server error', async () => {
+        setFetchJSONResponse(global.fetch.onCall(0), {
+          data: {
+            token: 'jwt-token',
+            expiresIn: 3600,
+            tokenType: 'Bearer',
+          },
+        });
+        setFetchJSONFailure(global.fetch.onCall(1), createVassApiError());
+
+        const { container, getByTestId, queryByTestId } = renderComponent();
+        inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
+        const continueButton = getByTestId('continue-button');
+        continueButton.click();
+
+        await waitFor(() => {
+          expect(getByTestId('api-error-alert')).to.exist;
+          expect(queryByTestId('header')).to.exist;
+        });
+      });
+
+      it('should display error alert when availability check returns a not-within-cohort error', async () => {
+        setFetchJSONResponse(global.fetch.onCall(0), {
+          data: {
+            token: 'jwt-token',
+            expiresIn: 3600,
+            tokenType: 'Bearer',
+          },
+        });
+        setFetchJSONFailure(
+          global.fetch.onCall(1),
+          createNotWithinCohortError(),
+        );
+
+        const { container, getByTestId, queryByTestId } = renderComponent();
+        inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
+        const continueButton = getByTestId('continue-button');
+        continueButton.click();
+
+        await waitFor(() => {
+          expect(getByTestId('api-error-alert')).to.exist;
+          expect(queryByTestId('header')).to.exist;
+        });
+      });
+
+      it('should not navigate when availability check returns a server error', async () => {
+        setFetchJSONResponse(global.fetch.onCall(0), {
+          data: {
+            token: 'jwt-token',
+            expiresIn: 3600,
+            tokenType: 'Bearer',
+          },
+        });
+        setFetchJSONFailure(global.fetch.onCall(1), createVassApiError());
+
+        const { container, getByTestId } = renderWithStoreAndRouterV6(
+          <>
+            <Routes>
+              <Route path={URLS.ENTER_OTP} element={<EnterOTP />} />
+              <Route
+                path={URLS.DATE_TIME}
+                element={<div>Date Time Page</div>}
+              />
+            </Routes>
+            <LocationDisplay />
+          </>,
+          {
+            ...defaultRenderOptions,
+            initialEntries: [URLS.ENTER_OTP],
+          },
+        );
+
+        inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
+        const continueButton = getByTestId('continue-button');
+        continueButton.click();
+
+        await waitFor(() => {
+          expect(getByTestId('api-error-alert')).to.exist;
+          expect(getByTestId('location-display').textContent).to.equal(
+            URLS.ENTER_OTP,
+          );
+        });
       });
     });
   });
 
-  describe('successful OTC verification', () => {
+  describe('successful otp verification', () => {
     it('should navigate to date-time page on successful verification', async () => {
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
@@ -163,6 +349,12 @@ describe('VASS Component: EnterOTP', () => {
           tokenType: 'Bearer',
         },
       });
+      setFetchJSONResponse(
+        global.fetch.onCall(1),
+        createAppointmentAvailabilityResponse({
+          appointmentId: 'abcdef123456',
+        }),
+      );
 
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
@@ -178,7 +370,7 @@ describe('VASS Component: EnterOTP', () => {
         },
       );
 
-      // Verify we start on the enter-otc page
+      // Verify we start on the enter-otp page
       expect(getByTestId('location-display').textContent).to.equal(
         URLS.ENTER_OTP,
       );
@@ -190,6 +382,50 @@ describe('VASS Component: EnterOTP', () => {
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
           URLS.DATE_TIME,
+        );
+      });
+    });
+  });
+
+  describe('appointment already booked redirect', () => {
+    it('should navigate to already-scheduled page when user has existing appointment', async () => {
+      const appointmentId = 'appt-123';
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          token: 'jwt-token',
+          expiresIn: 3600,
+          tokenType: 'Bearer',
+        },
+      });
+      setFetchJSONFailure(
+        global.fetch.onCall(1),
+        createAppointmentAlreadyBookedError({ appointmentId }),
+      );
+
+      const { container, getByTestId } = renderWithStoreAndRouterV6(
+        <>
+          <Routes>
+            <Route path={URLS.ENTER_OTP} element={<EnterOTP />} />
+            <Route
+              path={`${URLS.ALREADY_SCHEDULED}/:appointmentId`}
+              element={<div>Already Scheduled Page</div>}
+            />
+          </Routes>
+          <LocationDisplay />
+        </>,
+        {
+          ...defaultRenderOptions,
+          initialEntries: [URLS.ENTER_OTP],
+        },
+      );
+
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
+      const continueButton = getByTestId('continue-button');
+      continueButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('location-display').textContent).to.equal(
+          `${URLS.ALREADY_SCHEDULED}/${appointmentId}`,
         );
       });
     });
@@ -215,6 +451,12 @@ describe('VASS Component: EnterOTP', () => {
           tokenType: 'Bearer',
         },
       });
+      setFetchJSONResponse(
+        global.fetch.onCall(1),
+        createAppointmentAvailabilityResponse({
+          appointmentId: 'abcdef123456',
+        }),
+      );
 
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>

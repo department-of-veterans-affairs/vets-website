@@ -13,6 +13,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import HorizontalRule from '../shared/HorizontalRule';
 import {
   decodeHtmlEntities,
+  getStationNumberFromRecipientId,
   messageSignatureFormatter,
   navigateToFolderByFolderId,
   setCaretToPos,
@@ -61,6 +62,10 @@ const ReplyDraftItem = props => {
 
   const draftInProgress = useSelector(
     state => state.sm.threadDetails?.draftInProgress,
+  );
+
+  const allRecipients = useSelector(
+    state => state.sm.recipients?.allRecipients,
   );
 
   const isOhTriageGroup = useMemo(
@@ -231,6 +236,8 @@ const ReplyDraftItem = props => {
       messageBody,
       fieldsString,
       attachments,
+      setNavigationError,
+      setSavedDraft,
       setLastFocusableElement,
       draftId,
       dispatch,
@@ -248,7 +255,7 @@ const ReplyDraftItem = props => {
         setLastFocusableElement(e.target);
       } else focusOnErrorField();
     },
-    [checkMessageValidity, setLastFocusableElement],
+    [checkMessageValidity, setLastFocusableElement, setNavigationError],
   );
 
   // Navigation error effect
@@ -285,7 +292,7 @@ const ReplyDraftItem = props => {
         });
       }
     },
-    [attachments.length, draft, messageBody],
+    [attachments.length, draft, messageBody, setNavigationError],
   );
 
   useEffect(
@@ -335,6 +342,10 @@ const ReplyDraftItem = props => {
           messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
         }
         messageData[`${'recipient_id'}`] = selectedRecipient;
+        messageData[`${'station_number'}`] = getStationNumberFromRecipientId(
+          selectedRecipient,
+          allRecipients,
+        );
         setIsAutosave(false);
 
         const decodedMessageData = {
@@ -401,8 +412,10 @@ const ReplyDraftItem = props => {
       dispatch,
       draftsCount,
       replyMessage.messageId,
+      allRecipients,
       folderId,
       history,
+      isOhTriageGroup,
     ],
   );
 

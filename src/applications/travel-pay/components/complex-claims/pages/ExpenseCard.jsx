@@ -8,6 +8,7 @@ import {
   setReviewPageAlert,
   deleteExpenseDeleteDocument,
   clearReviewPageAlert,
+  setExpenseBackDestination,
 } from '../../../redux/actions';
 import { selectIsExpenseDeleting } from '../../../redux/selectors';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
@@ -77,7 +78,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                   {
                     label: 'Which address did you depart from?',
                     value: (
-                      <>
+                      <span data-dd-privacy="mask">
                         {address.addressLine1}{' '}
                         {address.addressLine2 && (
                           <span>{address.addressLine2} </span>
@@ -86,7 +87,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                           <span>{address.addressLine3} </span>
                         )}
                         {address.city}, {address.stateCode} {address.zipCode}
-                      </>
+                      </span>
                     ),
                   },
                 ]}
@@ -114,6 +115,9 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                     to={`/file-new-claim/${apptId}/${claimId}/${
                       EXPENSE_TYPES[expenseType]?.route
                     }/${expenseId}`}
+                    onClick={() =>
+                      dispatch(setExpenseBackDestination('review'))
+                    }
                   >
                     Edit
                     <va-icon

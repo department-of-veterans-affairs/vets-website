@@ -41,6 +41,10 @@ describe('Claim document request', () => {
       cy.findByRole('heading', { name: 'What we need from you', level: 2 });
       cy.findByRole('heading', { name: 'Next steps', level: 2 });
       cy.findByRole('heading', { name: 'Upload documents', level: 2 });
+      cy.findByText(/We requested this evidence from you on/);
+      cy.findByText(
+        /You can still send the evidence after the “respond by” date, but it may delay your claim/,
+      );
 
       cy.axeCheck();
     });
@@ -50,8 +54,8 @@ describe('Claim document request', () => {
         claim: createBenefitsClaim({
           trackedItems: [
             createTrackedItem({
-              displayName: 'Unknown Request Type', // Not in evidenceDictionary
-              description: '', // No API description either
+              displayName: 'Unknown Request Type',
+              description: '',
             }),
           ],
         }),
@@ -100,7 +104,7 @@ describe('Claim document request', () => {
 
       cy.get('va-need-help')
         .contains(
-          'The VA benefits hotline may refer to the “disability exam for hearing” request as “DBQ AUDIO Hearing Loss and Tinnitus”, “Hearing Exam” or “Audio Exam.”',
+          'We may refer to the “disability exam for hearing” request as “DBQ AUDIO Hearing Loss and Tinnitus”, “Hearing Exam” or “Audio Exam.”',
         )
         .should('be.visible');
 

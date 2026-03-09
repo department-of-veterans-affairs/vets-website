@@ -7,8 +7,6 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-
 import { PROFILE_PATH_NAMES, PROFILE_PATHS } from '@@profile/constants';
 import {
   fetchCommunicationPreferenceGroups,
@@ -32,6 +30,7 @@ import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import { FIELD_NAMES, USA } from '@@vap-svc/constants';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { LOADING_STATES } from '../../../common/constants';
 
 import LoadFail from '../alerts/LoadFail';
@@ -140,7 +139,14 @@ const NotificationSettings = ({
 
   return (
     <>
-      <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profile2Enabled}>
+        <Toggler.Enabled>
+          <Headline>{PROFILE_PATH_NAMES.EMAIL_AND_TEXT_NOTIFICATIONS}</Headline>
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
+        </Toggler.Disabled>
+      </Toggler>
 
       <DowntimeNotification
         appTitle="notification settings page"
@@ -155,7 +161,7 @@ const NotificationSettings = ({
         {shouldShowAPIError && <LoadFail />}
         {!shouldShowLoadingIndicator &&
           !shouldShowAPIError && (
-            <InitializeVAPServiceID>
+            <>
               {showMissingContactInfoAlert && (
                 <MissingContactInfoAlert
                   missingMobilePhone={
@@ -229,7 +235,7 @@ const NotificationSettings = ({
                   ))}
                 </>
               )}
-            </InitializeVAPServiceID>
+            </>
           )}
       </DowntimeNotification>
     </>

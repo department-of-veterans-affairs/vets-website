@@ -50,8 +50,26 @@ describe('22-0976 institution title 4 page', () => {
       const textInput = container.querySelector('va-text-input');
 
       expect(textInput.getAttribute('error')).to.equal(
-        'You must enter your institution’s OPEID number below',
+        'You must enter your institution’s OPEID number',
       );
+    });
+  });
+  describe('validations', () => {
+    let errors;
+
+    beforeEach(() => {
+      errors = {
+        addError(message) {
+          this.message = message;
+        },
+      };
+    });
+
+    it('validates for special characters in the degree level input', () => {
+      const validator =
+        page.uiSchema.institutionProfile.opeidNumber['ui:validations'][1];
+      validator(errors, 'cr$A&y degree', {});
+      expect(errors.message).to.eq('Enter a valid OPEID');
     });
   });
 });

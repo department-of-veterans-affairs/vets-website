@@ -27,7 +27,7 @@ export default {
     type: 'object',
     properties: {
       fullName: firstNameLastNameNoSuffixSchema,
-      title: { ...textSchema, maxLength: 100 },
+      title: { ...textSchema, maxLength: 200 },
     },
     required: ['fullName', 'title'],
   },

@@ -125,12 +125,10 @@ describe('prefillTransformer', () => {
     const state = {
       user: { profile: {} },
       data: {
-        bankAccountInfo: {
-          bankAccount: {
-            accountType: 'CHECKING',
-            accountNumber: '000111222',
-            routingNumber: '121000358',
-          },
+        bankInformation: {
+          accountType: 'CHECKING',
+          accountNumber: '000111222',
+          routingNumber: '121000358',
         },
       },
     };
@@ -143,32 +141,29 @@ describe('prefillTransformer', () => {
     );
 
     expect(data.bankAccount).to.deep.equal({
-      accountType: 'checking',
+      accountType: 'CHECKING',
       accountNumber: '000111222',
+      accountNumberConfirmation: '000111222',
       routingNumber: '121000358',
-    });
-    expect(data['view:bankAccount']).to.deep.equal({
-      'view:hasPrefilledBank': true,
+      routingNumberConfirmation: '121000358',
     });
   });
 
-  it('should prefer formData.bankAccount over state bankAccountInfo', () => {
+  it('should prefer formData.bankAccount over state bankInformation', () => {
     const formData = {
       bankAccount: {
-        bankAccountType: 'SAVINGS',
-        bankAccountNumber: 'ABC12345',
-        bankRoutingNumber: '999000111',
+        accountType: 'SAVINGS',
+        accountNumber: 'ABC12345',
+        routingNumber: '999000111',
       },
     };
     const state = {
       user: { profile: {} },
       data: {
-        bankAccountInfo: {
-          bankAccount: {
-            accountType: 'CHECKING',
-            accountNumber: 'STATE-111',
-            routingNumber: 'STATE-222',
-          },
+        bankInformation: {
+          accountType: 'CHECKING',
+          accountNumber: 'STATE-111',
+          routingNumber: 'STATE-222',
         },
       },
     };
@@ -181,9 +176,11 @@ describe('prefillTransformer', () => {
     );
 
     expect(data.bankAccount).to.deep.equal({
-      accountType: 'savings',
+      accountType: 'SAVINGS',
       accountNumber: 'ABC12345',
+      accountNumberConfirmation: 'ABC12345',
       routingNumber: '999000111',
+      routingNumberConfirmation: '999000111',
     });
   });
 

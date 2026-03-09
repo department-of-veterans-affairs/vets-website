@@ -3,7 +3,6 @@ import {
   getConditions,
   getCondition,
   getAcceleratedConditions,
-  getAcceleratedCondition,
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
@@ -44,12 +43,12 @@ export const getConditionDetails = (
 ) => async dispatch => {
   try {
     const getDetailsFunc = isAccelerating
-      ? getAcceleratedCondition
+      ? async () => {
+          // Return a notfound response because the downstream API
+          // does not support fetching a single condition
+          return { data: { notFound: true } };
+        }
       : getCondition;
-
-    const detailsRequestActionType = isAccelerating
-      ? Actions.Conditions.GET_UNIFIED_ITEM
-      : Actions.Conditions.GET;
 
     await dispatchDetails(
       conditionId,
@@ -57,7 +56,7 @@ export const getConditionDetails = (
       dispatch,
       getDetailsFunc,
       Actions.Conditions.GET_FROM_LIST,
-      detailsRequestActionType,
+      Actions.Conditions.GET,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));

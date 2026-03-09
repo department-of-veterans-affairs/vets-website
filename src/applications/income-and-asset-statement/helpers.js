@@ -10,9 +10,6 @@ import { fullNameNoSuffixUI } from '~/platform/forms-system/src/js/web-component
 
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
-export const showUpdatedContent = () =>
-  window.sessionStorage.getItem('showUpdatedContent') === 'true';
-
 export const annualReceivedIncomeFromAnnuityRequired = (form, index) =>
   get(['annuities', index, 'receivingIncomeFromAnnuity'], form);
 
@@ -22,10 +19,6 @@ export const annualReceivedIncomeFromTrustRequired = (form, index) =>
 export const isReviewAndSubmitPage = () => {
   if (typeof window === 'undefined') return false;
   return window.location.pathname.includes('review-and-submit');
-};
-
-export const hasSession = () => {
-  return localStorage.getItem('hasSession') === 'true';
 };
 
 export const formatCurrency = num =>
@@ -73,9 +66,6 @@ export const isDefined = value => {
 export const monthlyMedicalReimbursementAmountRequired = (form, index) =>
   get(['trusts', index, 'monthlyMedicalReimbursementAmount'], form);
 
-export const otherAssetOwnerRelationshipExplanationRequired = (form, index) =>
-  get(['unreportedAssets', index, 'assetOwnerRelationship'], form) === 'OTHER';
-
 export const otherRecipientRelationshipExplanationRequired = (
   form,
   index,
@@ -94,13 +84,7 @@ export const otherGeneratedIncomeTypeExplanationRequired = (form, index) =>
 export const otherTransferMethodExplanationRequired = (form, index) =>
   get(['assetTransfers', index, 'transferMethod'], form) === 'OTHER';
 
-export const recipientNameRequired = (form, index, arrayKey) =>
-  get([arrayKey, index, 'recipientRelationship'], form) !== 'VETERAN';
-
-export const updatedRecipientNameRequired = (form, index, arrayKey) => {
-  if (!showUpdatedContent()) {
-    return recipientNameRequired(form, index, arrayKey);
-  }
+export const recipientNameRequired = (form, index, arrayKey) => {
   const recipientRelationship = get(
     [arrayKey, index, 'recipientRelationship'],
     form,
@@ -119,30 +103,17 @@ export const surrenderValueRequired = (form, index) =>
 export const isRecipientInfoIncomplete = item =>
   !isDefined(item?.recipientRelationship) ||
   (!isDefined(item?.recipientName) &&
-    item?.recipientRelationship !== 'VETERAN') ||
+    item?.recipientRelationship !== 'VETERAN' &&
+    item?.recipientRelationship !== 'SPOUSE') ||
   (!isDefined(item?.otherRecipientRelationshipType) &&
     item?.recipientRelationship === 'OTHER');
-
-export const updatedIsRecipientInfoIncomplete = item => {
-  if (!showUpdatedContent()) {
-    return isRecipientInfoIncomplete(item);
-  }
-  return (
-    !isDefined(item?.recipientRelationship) ||
-    (!isDefined(item?.recipientName) &&
-      item?.recipientRelationship !== 'VETERAN' &&
-      item?.recipientRelationship !== 'SPOUSE') ||
-    (!isDefined(item?.otherRecipientRelationshipType) &&
-      item?.recipientRelationship === 'OTHER')
-  );
-};
 
 export const isIncomeTypeInfoIncomplete = item =>
   !isDefined(item?.incomeType) ||
   (!isDefined(item?.otherIncomeType) && item?.incomeType === 'OTHER');
 
 export const sharedRecipientRelationshipBase = {
-  title: 'Who receives this income?',
+  title: 'Who received this income?',
   hint: 'You’ll be able to add individual incomes separately',
   labelHeaderLevel: '2',
   labelHeaderLevelStyle: '3',
@@ -224,74 +195,28 @@ export const generateDeleteDescription = (props, getItemName) => {
 /**
  * Resolve the recipient's full name to display on summary cards.
  *
- * - If the recipientRelationship is "VETERAN":
- *   - Use `veteranFullName` when the user is logged in
- *   - Use `otherVeteranFullName` when the user is not logged in
+ * - If the recipientRelationship is "VETERAN", use `veteranFullName`
+ * - If the recipientRelationship is "SPOUSE", use "Spouse"
  * - If the recipient is not the Veteran, use `recipientName`
  *
  * This helper is useful across multiple arrayBuilder pages where we conditionally display
  * either the Veteran's name or the name of another recipient.
  *
  * @param {object} item - The array item object containing recipient data.
- * @param {object} formData - The overall form data, which may include veteran names and logged in.
+ * @param {object} formData - The overall form data, which includes applicant names
  * @returns {string} The formatted full name string or undefined if no name is resolvable
  */
 export function resolveRecipientFullName(item, formData) {
   const { recipientRelationship, recipientName } = item;
-  const {
-    veteranFullName,
-    otherVeteranFullName,
-    isLoggedIn = false,
-  } = formData;
+  const { veteranFullName } = formData;
 
   const isVeteran = recipientRelationship === 'VETERAN';
 
   if (isVeteran) {
-    const veteranName = isLoggedIn ? veteranFullName : otherVeteranFullName;
-    return formatFullNameNoSuffix(veteranName);
-  }
-
-  return formatFullNameNoSuffix(recipientName);
-}
-
-// updated version of above function
-// needed a separate function and not just a showUpdatedContent check because
-// these functions are reused across the app and i'm unsure that the same
-// functionality is needed everywhere
-/**
- * Resolve the recipient's full name to display on summary cards.
- * Post-MVP updates
- *
- * - If the recipientRelationship is "VETERAN":
- *   - Use `veteranFullName` when the user is logged in
- *   - Use `otherVeteranFullName` when the user is not logged in
- * - If the recipientRelationship is "SPOUSE":
- *   - Use "Spouse"
- * - If the recipient is not the Veteran, use `recipientName`
- *
- * This helper is useful across multiple arrayBuilder pages where we conditionally display
- * either the Veteran's name or the name of another recipient.
- *
- * @param {object} item - The array item object containing recipient data.
- * @param {object} formData - The overall form data, which may include veteran names and logged in.
- * @returns {string} The formatted full name string or undefined if no name is resolvable
- */
-export function updatedResolveRecipientFullName(item, formData) {
-  const { recipientRelationship, recipientName } = item;
-  const {
-    veteranFullName,
-    otherVeteranFullName,
-    isLoggedIn = false,
-  } = formData;
-
-  const isVeteran = recipientRelationship === 'VETERAN';
-
-  if (isVeteran) {
-    const veteranName = isLoggedIn ? veteranFullName : otherVeteranFullName;
-    return formatFullNameNoSuffix(veteranName);
+    return formatFullNameNoSuffix(veteranFullName);
   }
   const isSpouse = recipientRelationship === 'SPOUSE';
-  if (showUpdatedContent() && isSpouse) {
+  if (isSpouse) {
     return 'Spouse';
   }
 

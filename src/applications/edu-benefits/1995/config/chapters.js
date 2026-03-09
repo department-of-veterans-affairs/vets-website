@@ -22,14 +22,7 @@ import {
   yourInformationPage,
   benefitSwitchPage,
   sameBenefitSelectionPage,
-  sameBenefitResultPage,
-  foreignSchoolResultPage,
-  mgibAdResultPage,
-  mgibSrResultPage,
-  toeResultPage,
-  deaResultPage,
-  fryResultPage,
-  pgibResultPage,
+  buildResultPage,
 } from '../pages/mebQuestionnaire';
 
 const isRerouteEnabledOnForm = formData => formData?.isMeb1995Reroute === true;
@@ -231,6 +224,7 @@ export const mebChapters = {
       },
       mebBenefitSelection: {
         path: 'questionnaire/benefit-selection',
+        title: 'Benefit you want to change to',
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit',
@@ -250,14 +244,14 @@ export const mebChapters = {
       sameBenefitResult: {
         path: 'results/same-benefit',
         title:
-          "Dependent's Application for VA Education Benefits (VA Form 22-5490)",
+          "Dependents' Application for VA Education Benefits (VA Form 22-5490)",
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'same-benefit' &&
           (formData.currentBenefitType || formData.mebSameBenefitSelection),
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...sameBenefitResultPage(),
+        ...buildResultPage(),
       },
       foreignSchoolResult: {
         path: 'results/foreign-school',
@@ -266,7 +260,7 @@ export const mebChapters = {
           formData.mebWhatDoYouWantToDo === 'foreign-school',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...foreignSchoolResultPage(),
+        ...buildResultPage(),
       },
       mgibAdResult: {
         path: 'results/mgib-ad',
@@ -277,7 +271,7 @@ export const mebChapters = {
           formData.mebBenefitSelection === 'mgib-ad',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...mgibAdResultPage(),
+        ...buildResultPage(),
       },
       mgibSrResult: {
         path: 'results/mgib-sr',
@@ -288,7 +282,7 @@ export const mebChapters = {
           formData.mebBenefitSelection === 'mgib-sr',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...mgibSrResultPage(),
+        ...buildResultPage(),
       },
       toeResult: {
         path: 'results/toe',
@@ -299,7 +293,7 @@ export const mebChapters = {
           formData.mebBenefitSelection === 'toe',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...toeResultPage(),
+        ...buildResultPage(),
       },
       deaResult: {
         path: 'results/dea',
@@ -310,7 +304,7 @@ export const mebChapters = {
           formData.mebBenefitSelection === 'dea',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...deaResultPage(),
+        ...buildResultPage(),
       },
       fryResult: {
         path: 'results/fry',
@@ -321,7 +315,7 @@ export const mebChapters = {
           formData.mebBenefitSelection === 'fry',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...fryResultPage(),
+        ...buildResultPage(),
       },
       pgibResult: {
         path: 'results/pgib',
@@ -332,7 +326,7 @@ export const mebChapters = {
           formData.mebBenefitSelection === 'pgib',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...pgibResultPage(),
+        ...buildResultPage(),
       },
     },
   },

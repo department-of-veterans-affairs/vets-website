@@ -1,10 +1,56 @@
+import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import MockDate from 'mockdate';
+import { render } from '@testing-library/react';
 
 import {
   getFullName,
   organizationRepresentativesArrayOptions,
   getThirdPartyName,
+  buildValidateAtLeastOne,
+  validateOtherText,
+  validateTerminationDate,
+  InformationToDiscloseReviewField,
+  ClaimInformationDescription,
 } from '../helpers';
+
+describe('10278 helpers - validateTerminationDate', () => {
+  // Pin "today" to a known date so relative date math is deterministic.
+  beforeEach(() => {
+    MockDate.set('2026-02-18T12:00:00Z');
+  });
+
+  afterEach(() => {
+    MockDate.reset();
+  });
+
+  it('adds an error when the date is more than 5 years in the future', () => {
+    const addError = sinon.spy();
+    validateTerminationDate({ addError }, '2032-06-01');
+    expect(
+      addError.calledWith('You must enter a valid date that’s within 5 years'),
+    ).to.equal(true);
+  });
+
+  it('does not add an error when the date is exactly 5 years from today', () => {
+    const addError = sinon.spy();
+    validateTerminationDate({ addError }, '2031-02-18');
+    expect(addError.called).to.equal(false);
+  });
+
+  it('does not add an error when the date is less than 5 years in the future', () => {
+    const addError = sinon.spy();
+    validateTerminationDate({ addError }, '2030-02-17');
+    expect(addError.called).to.equal(false);
+  });
+
+  it('adds an error when the date is in the past', () => {
+    const addError = sinon.spy();
+    validateTerminationDate({ addError }, '2024-01-01');
+    expect(addError.called).to.equal(true);
+  });
+});
 
 describe('10278 helpers - getThirdPartyName', () => {
   it('returns organization name when authorize is "organization"', () => {
@@ -28,6 +74,169 @@ describe('10278 helpers - getThirdPartyName', () => {
     };
 
     expect(getThirdPartyName(formData)).to.equal('Jane Doe');
+  });
+});
+
+describe('10278 helpers - buildValidateAtLeastOne', () => {
+  it('adds error on the anchor key when none are checked', () => {
+    const anchorAddError = sinon.spy();
+    const rootAddError = sinon.spy();
+    const errors = {
+      status: { addError: anchorAddError },
+      addError: rootAddError,
+    };
+
+    const validate = buildValidateAtLeastOne(['status', 'other']);
+    validate(errors, { status: false, other: false });
+
+    expect(anchorAddError.calledWith('You must provide an answer')).to.equal(
+      true,
+    );
+    expect(rootAddError.called).to.equal(false);
+  });
+
+  it('falls back to root addError when anchor path is missing', () => {
+    const rootAddError = sinon.spy();
+    const errors = { addError: rootAddError };
+
+    const validate = buildValidateAtLeastOne(['status', 'other']);
+    validate(errors, { status: false, other: false });
+
+    expect(rootAddError.calledWith('You must provide an answer')).to.equal(
+      true,
+    );
+  });
+
+  it('does nothing when at least one checkbox is checked', () => {
+    const anchorAddError = sinon.spy();
+    const rootAddError = sinon.spy();
+    const errors = {
+      status: { addError: anchorAddError },
+      addError: rootAddError,
+    };
+
+    const validate = buildValidateAtLeastOne(['status', 'other']);
+    validate(errors, { status: true, other: false });
+
+    expect(anchorAddError.called).to.equal(false);
+    expect(rootAddError.called).to.equal(false);
+  });
+});
+
+describe('10278 helpers - validateOtherText', () => {
+  it('adds error when other is checked and otherText is empty', () => {
+    const otherTextAddError = sinon.spy();
+    const rootAddError = sinon.spy();
+    const errors = {
+      otherText: { addError: otherTextAddError },
+      addError: rootAddError,
+    };
+
+    validateOtherText(errors, { other: true, otherText: '   ' });
+
+    expect(otherTextAddError.calledWith('Enter other information')).to.equal(
+      true,
+    );
+    expect(rootAddError.called).to.equal(false);
+  });
+
+  it('falls back to root addError when otherText path is missing', () => {
+    const rootAddError = sinon.spy();
+    const errors = { addError: rootAddError };
+
+    validateOtherText(errors, { other: true, otherText: '' });
+
+    expect(rootAddError.calledWith('Enter other information')).to.equal(true);
+  });
+
+  it('does nothing when other is not checked', () => {
+    const otherTextAddError = sinon.spy();
+    const rootAddError = sinon.spy();
+    const errors = {
+      otherText: { addError: otherTextAddError },
+      addError: rootAddError,
+    };
+
+    validateOtherText(errors, { other: false, otherText: '' });
+
+    expect(otherTextAddError.called).to.equal(false);
+    expect(rootAddError.called).to.equal(false);
+  });
+});
+
+const MockChild = () => null;
+
+describe('10278 helpers - InformationToDiscloseReviewField', () => {
+  it('renders selected values and other text', () => {
+    const disclosureKeys = ['status', 'other'];
+    const options = {
+      status: 'Status',
+      other: { title: 'Other' },
+    };
+    const formData = {
+      claimInformation: {
+        status: true,
+        other: true,
+        otherText: 'Custom details',
+      },
+    };
+
+    const { getByText } = render(
+      <InformationToDiscloseReviewField
+        disclosureKeys={disclosureKeys}
+        options={options}
+        dataKey="claimInformation"
+        otherTextKey="otherText"
+      >
+        <MockChild formData={formData} />
+      </InformationToDiscloseReviewField>,
+    );
+
+    expect(getByText('Status')).to.exist;
+    expect(getByText('Other')).to.exist;
+    expect(getByText('Selected')).to.exist;
+    expect(getByText('Custom details')).to.exist;
+  });
+});
+
+describe('10278 helpers - ClaimInformationDescription', () => {
+  it('renders minor key with special label', () => {
+    const formData = {
+      claimInformation: { minor: true },
+    };
+
+    const { getByText } = render(
+      <ClaimInformationDescription formData={formData} />,
+    );
+
+    expect(
+      getByText('Change of address or direct deposit (minor claimants only)'),
+    ).to.exist;
+  });
+
+  it('renders other key with otherText value', () => {
+    const formData = {
+      claimInformation: { other: true, otherText: 'Custom reason' },
+    };
+
+    const { getByText } = render(
+      <ClaimInformationDescription formData={formData} />,
+    );
+
+    expect(getByText('Other: Custom reason')).to.exist;
+  });
+
+  it('renders regular keys with DISCLOSURE_OPTIONS labels', () => {
+    const formData = {
+      claimInformation: { statusOfClaim: true, paymentHistory: true },
+    };
+
+    const { getByText } = render(
+      <ClaimInformationDescription formData={formData} />,
+    );
+
+    expect(getByText('Status of pending claim or appeal')).to.exist;
+    expect(getByText('Payment history')).to.exist;
   });
 });
 
@@ -62,7 +271,7 @@ describe('organizationRepresentativesArrayOptions helpers', () => {
   describe('organizationRepresentativesArrayOptions', () => {
     it('should define required array builder options correctly', () => {
       expect(organizationRepresentativesArrayOptions.arrayPath).to.equal(
-        'representatives',
+        'organizationRepresentatives',
       );
       expect(organizationRepresentativesArrayOptions.nounSingular).to.equal(
         'representative',

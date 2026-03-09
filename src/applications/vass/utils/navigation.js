@@ -69,7 +69,7 @@ export const routes = [
       requiresAuthorization: AUTH_LEVELS.TOKEN,
     },
     flowType: FLOW_TYPES.SCHEDULE,
-    setsData: ['selectedDate'],
+    setsData: ['selectedSlot'],
   },
   {
     path: URLS.TOPIC_SELECTION,
@@ -90,7 +90,7 @@ export const routes = [
         'lastName',
         'dob',
         'obfuscatedEmail',
-        'selectedDate',
+        'selectedSlot',
         'selectedTopics',
         'obfuscatedEmail',
       ],
@@ -147,11 +147,11 @@ const getFirstTokenRoute = () => {
 /**
  * Find the route that sets a specific field
  * @param {string} fieldName - The field name to find a route for
- * @returns {string} - The path of the route that sets this field, or '/' as fallback
+ * @returns {string} - The path of the route that sets this field, or URLS.VERIFY as fallback
  */
 const findRouteForField = fieldName => {
   const route = routes.find(r => r.setsData?.includes(fieldName));
-  return route?.path || '/';
+  return route?.path || URLS.VERIFY;
 };
 /**
  * Find the first missing required field
@@ -172,6 +172,11 @@ const hasValidFieldData = (fieldName, formState) => {
   // Special handling for selectedTopics - must have at least one selection
   if (fieldName === 'selectedTopics') {
     return Array.isArray(value) && value.length > 0;
+  }
+
+  // Special handling for selectedSlot - must have a valid slot
+  if (fieldName === 'selectedSlot') {
+    return value && value.dtStartUtc && value.dtEndUtc;
   }
 
   // For all other fields, check for truthy value

@@ -10,7 +10,7 @@ import {
   DEBTS_SET_ACTIVE_DEBT,
 } from '../../combined/actions/debts';
 import {
-  getStatements,
+  getAllCopayStatements,
   MCP_STATEMENTS_FETCH_INIT,
   MCP_STATEMENTS_FETCH_SUCCESS,
 } from '../../combined/actions/copays';
@@ -29,9 +29,11 @@ describe('Debt Portal Actions', () => {
           {
             deductionCode: '30',
             currentAr: 100,
+            originalAr: 200,
             debtHistory: [
               {
                 date: '2024-01-01',
+                letterCode: '',
               },
             ],
           },
@@ -108,7 +110,7 @@ describe('Copay Actions', () => {
       ],
     };
     mockApiRequest(mockResponse);
-    return getStatements(dispatch).then(() => {
+    return getAllCopayStatements(dispatch).then(() => {
       const allCalls = dispatch.getCalls().map(call => call.args[0]);
 
       // First call to MCP_STATEMENTS_FETCH_INIT

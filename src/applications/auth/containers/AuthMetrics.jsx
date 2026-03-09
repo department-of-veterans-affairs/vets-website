@@ -20,7 +20,8 @@ export default class AuthMetrics {
     this.authnContext = get('authnContext', this.userProfile, undefined);
     this.serviceName = get('signIn.serviceName', this.userProfile, null);
     this.isProduction =
-      environment.getRawBuildtype() === environments.PRODUCTION;
+      environment.getRawBuildtype() === environments.VAGOVPROD &&
+      !window.Cypress;
   }
 
   compareLoginPolicy = () => {

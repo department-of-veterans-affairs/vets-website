@@ -3,19 +3,33 @@ import { useNavigate } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import { useErrorFocus } from '../hooks/useErrorFocus';
 import Wrapper from '../layout/Wrapper';
-import { usePostOTPVerificationMutation } from '../redux/api/vassApi';
+import {
+  usePostOTPVerificationMutation,
+  useLazyGetAppointmentAvailabilityQuery,
+} from '../redux/api/vassApi';
 import {
   selectFlowType,
   selectObfuscatedEmail,
 } from '../redux/slices/formSlice';
-import { FLOW_TYPES, URLS, OTC_ERROR_CODES } from '../utils/constants';
-import { isAccountLockedError, isServerError } from '../utils/errors';
+import {
+  FLOW_TYPES,
+  URLS,
+  OTP_ERROR_CODES,
+  VASS_PHONE_NUMBER,
+} from '../utils/constants';
+import {
+  isAccountLockedError,
+  isServerError,
+  isAppointmentAlreadyBookedError,
+  isNotWhithinCohortError,
+  isNoSlotsAvailableError,
+} from '../utils/errors';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
-    case OTC_ERROR_CODES.ACCOUNT_LOCKED:
+    case OTP_ERROR_CODES.ACCOUNT_LOCKED:
       return 'The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes. Check your email and select the link to schedule a call.';
-    case OTC_ERROR_CODES.INVALID_OTP:
+    case OTP_ERROR_CODES.INVALID_OTP:
       if (attemptsRemaining === 1) {
         return 'The one-time verification code you entered doesn’t match the one we sent you. You have 1 try left. Then you’ll need to wait 15 minutes before trying again.';
       }
@@ -54,24 +68,57 @@ const EnterOTP = () => {
     postOTPVerification,
     { isLoading, error: postOTPVerificationError },
   ] = usePostOTPVerificationMutation();
+  const [
+    getAppointmentAvailability,
+    { isFetching: isCheckingAvailability, error: appointmentAvailabilityError },
+  ] = useLazyGetAppointmentAvailabilityQuery();
 
   const handleSubmit = async () => {
     if (code === '') {
       setOtpError('Please enter your one-time verification code');
       return;
     }
+
+    if (!/^\d+$/.test(code)) {
+      setOtpError('Your verification code should only contain numbers');
+      return;
+    }
+
+    if (code.length !== 6) {
+      setOtpError('Your verification code should be 6 digits');
+      return;
+    }
+
     const response = await postOTPVerification({
       otp: code,
     });
 
     if (response.error) {
       setApiError('API Error');
-      setCode('');
       return;
     }
+
+    const availabilityCheck = await getAppointmentAvailability();
+
+    if (
+      isServerError(availabilityCheck.error) ||
+      isNotWhithinCohortError(availabilityCheck.error) ||
+      isNoSlotsAvailableError(availabilityCheck.error)
+    ) {
+      return;
+    }
+
+    if (isAppointmentAlreadyBookedError(availabilityCheck.error)) {
+      const { appointmentId } = availabilityCheck.error.appointment;
+      navigate(`${URLS.ALREADY_SCHEDULED}/${appointmentId}`, { replace: true });
+      return;
+    }
+
     if (cancellationFlow) {
-      // TODO: handle cancellation flow
-      navigate(`${URLS.CANCEL_APPOINTMENT}/abcdef123456`, { replace: true });
+      const { appointmentId } = availabilityCheck.data;
+      navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`, {
+        replace: true,
+      });
     } else {
       navigate(URLS.DATE_TIME, { replace: true });
     }
@@ -94,7 +141,12 @@ const EnterOTP = () => {
           ? errorMessage
           : undefined
       }
-      errorAlert={isServerError(postOTPVerificationError)}
+      errorAlert={
+        isServerError(postOTPVerificationError) ||
+        isServerError(appointmentAvailabilityError) ||
+        isNotWhithinCohortError(appointmentAvailabilityError) ||
+        isNoSlotsAvailableError(appointmentAvailabilityError)
+      }
     >
       {!postOTPVerificationError?.code && (
         <va-alert
@@ -102,10 +154,24 @@ const EnterOTP = () => {
           visible
           data-testid="enter-otp-success-alert"
         >
+          <h2 slot="headline">
+            We’ve emailed you a one-time verification code
+          </h2>
+          <p
+            className="vads-u-margin-y--0 vads-u-margin-bottom--2"
+            data-dd-privacy="mask"
+          >
+            {`We emailed a one-time verification code (OTC) to ${obfuscatedEmail}. Enter the code here to complete your verification process and schedule your appointment.`}
+          </p>
           <p className="vads-u-margin-y--0">
-            {`We just emailed a one-time verification code to ${obfuscatedEmail}.
-          Please check your email and come back to enter the code to complete
-          your verification process and start scheduling your appointment.`}
+            <strong>Note:</strong> If you don’t receive the OTC, request a new
+            code using the link in your original email. Or call us at{' '}
+            <va-telephone
+              contact={VASS_PHONE_NUMBER}
+              data-testid="solid-start-telephone"
+            />{' '}
+            to schedule. We’re here Monday through Friday, 8:00 a.m. to 9:00
+            p.m. ET.
           </p>
         </va-alert>
       )}
@@ -116,10 +182,13 @@ const EnterOTP = () => {
         </va-alert>
       )}
       <va-text-input
+        data-dd-privacy="mask"
         class="vads-u-margin-top--4"
         label="Enter your one-time verification code"
         name="otp"
         value={code}
+        inputmode="numeric"
+        maxlength="6"
         onBlur={e => {
           if (e.target.value !== '') {
             setOtpError('');
@@ -131,6 +200,7 @@ const EnterOTP = () => {
         required
         error={otpError}
         data-testid="otp-input"
+        autocomplete="one-time-code"
         show-input-error
       />
       <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container vass-flex-direction--column">
@@ -140,7 +210,7 @@ const EnterOTP = () => {
           text="Continue"
           data-testid="continue-button"
           uswds
-          loading={isLoading}
+          loading={isLoading || isCheckingAvailability}
         />
       </div>
     </Wrapper>

@@ -3,7 +3,6 @@ import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/s
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
 import { createSelector } from 'reselect';
 import {
-  selectFeatureCancel,
   selectFeatureRequests,
   selectFeatureUseVpg,
 } from '../../redux/selectors';
@@ -285,7 +284,10 @@ export function selectBackendServiceFailuresInfo(state) {
 }
 export function selectStartDate(appointment) {
   if (appointment.vaos.isPendingAppointment) {
-    return new Date(appointment.requestedPeriod[0].start);
+    // Some Cerner/Oracle appointments have pending=true but no
+    // requestedPeriods data. Guard against empty or missing arrays.
+    const period = appointment.requestedPeriod?.[0];
+    return period ? new Date(period.start) : null;
   }
 
   return new Date(appointment.start);
@@ -491,14 +493,9 @@ export function selectModalityText(appointment, isPendingAppointment = false) {
  *
  * @param {*} appointment
  * @param {*} isRequest
- * @param {*} featureListViewClinicInfo
  * @returns
  */
-export function selectApptDetailAriaText(
-  appointment,
-  isRequest = false,
-  featureListViewClinicInfo = false,
-) {
+export function selectApptDetailAriaText(appointment, isRequest = false) {
   const appointmentDate = selectStartDate(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const isCommunityCare = selectIsCommunityCare(appointment);
@@ -514,11 +511,6 @@ export function selectApptDetailAriaText(
     typeOfCareName && typeof typeOfCareName !== 'undefined'
       ? `${typeOfCareName} appointment`
       : 'appointment';
-  const fillin3 = `${formatInTimeZone(
-    appointmentDate,
-    appointment.timezone,
-    'EEEE, MMMM d h:mm aaaa',
-  )}, ${timezoneName}`;
 
   // Override fillin2 text for canceled or pending appointments
   if (isRequest && isPendingOrCancelledRequest(appointment)) {
@@ -533,9 +525,17 @@ export function selectApptDetailAriaText(
     )} appointment`;
   }
 
-  const fillinWithOn = `${
-    featureListViewClinicInfo && practitioner ? `with ${practitioner} on` : 'on'
-  }`;
+  // Build fillin3 after the early return for pending/cancelled requests so
+  // that formatInTimeZone is never called with a null appointmentDate.
+  const fillin3 = appointmentDate
+    ? `${formatInTimeZone(
+        appointmentDate,
+        appointment.timezone,
+        'EEEE, MMMM d h:mm aaaa',
+      )}, ${timezoneName}`
+    : '';
+
+  const fillinWithOn = `${practitioner ? `with ${practitioner} on` : 'on'}`;
 
   let modality = 'in-person';
   if (isCommunityCare) modality = 'community care';
@@ -547,6 +547,7 @@ export function selectApptDetailAriaText(
 
 export function selectApptDateAriaText(appointment) {
   const appointmentDate = selectStartDate(appointment);
+  if (!appointmentDate) return '';
   const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
   return `${formatInTimeZone(
     appointmentDate,
@@ -676,7 +677,6 @@ export function selectConfirmedAppointmentData(state, appointment) {
     phone,
     practitionerName,
     providerAddress,
-    showCancelButton: selectFeatureCancel(state),
     startDate,
     status,
     timeZoneAbbr,

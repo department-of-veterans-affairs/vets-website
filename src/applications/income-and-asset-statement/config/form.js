@@ -5,6 +5,7 @@ import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/pat
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
+import migrations from '../migrations';
 import prefillTransformer from './prefill-transformer';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -21,7 +22,6 @@ import annuities from './chapters/08-annuities';
 import unreportedAssets from './chapters/09-unreported-assets';
 import discontinuedIncomes from './chapters/10-discontinued-incomes';
 import incomeReceiptWaivers from './chapters/11-income-receipt-waivers';
-import supportingDocuments from './chapters/12-supporting-documents';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -48,8 +48,8 @@ const formConfig = {
     //   saved: 'Your benefits application has been saved.',
     // },
   },
-  version: 0,
-  migrations: [],
+  version: 1,
+  migrations,
   prefillEnabled: true,
   prefillTransformer,
   dev: {
@@ -76,6 +76,7 @@ const formConfig = {
         label: 'Submit a pension or DIC income and asset statement',
       },
     ],
+    wrapping: true,
   }),
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
@@ -88,14 +89,10 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData => {
-        if (formData?.claimantType === 'VETERAN') {
-          return formData?.isLoggedIn
-            ? 'veteranFullName'
-            : 'otherVeteranFullName';
-        }
-        return 'claimantFullName';
-      },
+      fullNamePath: formData =>
+        formData?.claimantType === 'VETERAN'
+          ? 'veteranFullName'
+          : 'claimantFullName',
     },
   },
   title: 'Pension or DIC Income and Asset Statement',
@@ -113,7 +110,6 @@ const formConfig = {
     unreportedAssets,
     discontinuedIncomes,
     incomeReceiptWaivers,
-    supportingDocuments,
   },
 };
 

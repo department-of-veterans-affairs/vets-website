@@ -361,6 +361,12 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/pension/",
+    "dest": "/pension/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/pension/vetpen.asp",
     "dest": "/pension/eligibility/"
   },
@@ -2208,14 +2214,14 @@
 },
 {
   "domain": "www.benefits.va.gov",
-  "src": "/buffalo",
-  "dest": "/buffalo-va-regional-benefit-office/",
+  "src": "/stlouis",
+  "dest": "/st-louis-va-regional-benefit-office/",
   "catchAll": true
 },
 {
   "domain": "www.benefits.va.gov",
-  "src": "/robuffalo",
-  "dest": "/buffalo-va-regional-benefit-office/",
+  "src": "/rostlouis",
+  "dest": "/st-louis-va-regional-benefit-office/",
   "catchAll": true
 }
 ]

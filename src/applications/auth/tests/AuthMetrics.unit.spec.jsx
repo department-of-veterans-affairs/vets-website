@@ -38,7 +38,7 @@ describe('AuthMetrics', () => {
   const oldBuildType = __BUILDTYPE__;
 
   beforeEach(() => {
-    __BUILDTYPE__ = environments.PRODUCTION;
+    __BUILDTYPE__ = environments.VAGOVPROD;
     sandbox = sinon.createSandbox();
     global.window = global.window || {};
     global.window.dataLayer = [];

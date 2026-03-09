@@ -1,0 +1,90 @@
+{
+  "data": {
+    "securityAnswerText": "mypassword",
+    "securityQuestion": {
+      "question": "pin"
+    },
+    "lengthOfRelease": {
+      "duration": "ongoing"
+    },
+    "claimInformation": {
+      "statusOfClaim": false,
+      "currentBenefit": false,
+      "paymentHistory": true,
+      "amountOwed": false,
+      "minor": false,
+      "other": false,
+      "otherText": ""
+    },
+    "thirdPartyPersonAddress": {
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "1234 Test Ave",
+        "city": "Anaheim",
+        "state": "CA",
+        "postalCode": "24680"
+      }
+    },
+    "thirdPartyPersonName": {
+      "fullName": {
+        "first": "Third",
+        "middle": "Party",
+        "last": "Contact"
+      }
+    },
+    "discloseInformation": {
+      "authorize": "person"
+    },
+    "veteran": {
+      "homePhone": {
+        "id": 2272982,
+        "areaCode": "415",
+        "countryCode": "1",
+        "extension": null,
+        "isInternational": false,
+        "phoneNumber": "5559876",
+        "phoneType": "HOME"
+      },
+      "email": {
+        "id": 20648,
+        "emailAddress": "john.doe@example.com"
+      },
+      "mailingAddress": {
+        "addressLine1": "123 Main St",
+        "addressLine2": null,
+        "addressPou": "CORRESPONDENCE",
+        "addressType": "DOMESTIC",
+        "city": "San Francisco",
+        "countryName": "United States",
+        "countryCodeIso2": "US",
+        "stateCode": "CA",
+        "zipCode": "94118"
+      }
+    },
+    "claimantPersonalInformation": {
+      "fullName": {
+        "first": "John",
+        "middle": "",
+        "last": "Doe"
+      },
+      "dateOfBirth": "1985-01-01",
+      "veteranId": {}
+    },
+    "organizationAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA"
+    },
+    "securityAnswerCreate": {},
+    "securityAnswerLocation": {},
+    "userLoggedIn": true,
+    "applicantName": {
+      "first": "John",
+      "middle": "Michael",
+      "last": "Doe"
+    },
+    "dateOfBirth": "1985-01-01",
+    "ssn": "987654321",
+    "vaFileNumber": "987654321"
+  }
+}

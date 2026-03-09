@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -361,9 +361,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       {
         store,
       },
-    );
-    await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loading-container'),
     );
     await waitFor(() => {
       expect(screen.getByTestId('error')).to.exist;

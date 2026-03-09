@@ -23,7 +23,9 @@ describe('VA File Input Multiple', () => {
     cy.get(`va-button[text="${SUBMIT_TEXT}"]`)
       .shadow()
       .find('button')
-      .click();
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   const verifySubmissionBlocked = () => {
@@ -95,11 +97,8 @@ describe('VA File Input Multiple', () => {
       );
   };
 
-  const getAboveFileInputError = (fileIndex = 0) =>
-    getFileInput(fileIndex).find('span.usa-error-message');
-
-  const getFileError = (fileIndex = 0) =>
-    getFileInput(fileIndex).find('#input-error-message');
+  const getFileInputError = (fileIndex = 0) =>
+    getFileInput(fileIndex).find('#input-error-message', { timeout: 8000 });
 
   // Helper function for encrypted file workflow: upload + wait for password input
   const setupEncryptedFile = (fileName, fileIndex = 0) => {
@@ -203,7 +202,7 @@ describe('VA File Input Multiple', () => {
       // Verify error message appears in the file input shadow DOM
       // Note: Web component content may not be visible in Cypress UI but tests work correctly
       // To debug visually, add .then(() => cy.pause()) after this assertion
-      getAboveFileInputError()
+      getFileInputError()
         .should('be.visible')
         .and('contain.text', VALIDATION_ERROR);
 
@@ -217,13 +216,13 @@ describe('VA File Input Multiple', () => {
       clickSubmitButton();
 
       // Verify error appears
-      getAboveFileInputError().should('contain.text', VALIDATION_ERROR);
+      getFileInputError().should('contain.text', VALIDATION_ERROR);
 
       // Add a file
       uploadFile('test-file.pdf');
 
       // Verify error is cleared after adding file
-      getAboveFileInputError().should('not.contain.text', VALIDATION_ERROR);
+      getFileInputError().should('not.contain.text', VALIDATION_ERROR);
 
       cy.axeCheck();
     });
@@ -244,7 +243,7 @@ describe('VA File Input Multiple', () => {
         );
 
       // Verify error message appears
-      getAboveFileInputError(0)
+      getFileInputError(0)
         .should('be.visible')
         .and('contain', 'We do not accept .exe files. Choose a new file.');
 
@@ -266,7 +265,7 @@ describe('VA File Input Multiple', () => {
         });
 
       // Verify error message appears
-      getFileError(0)
+      getFileInputError(0)
         .should('be.visible')
         .and(
           'contain',
@@ -297,7 +296,7 @@ describe('VA File Input Multiple', () => {
         });
 
       // Verify error message appears
-      getFileError(0)
+      getFileInputError(0)
         .should('be.visible')
         .and(
           'contain',
@@ -318,8 +317,8 @@ describe('VA File Input Multiple', () => {
         );
 
       // The error should be cleared when file is replaced
-      getFileError(0).should('not.exist');
-      getAboveFileInputError(0).should('not.exist');
+      getFileInputError(0).should('not.exist');
+      getFileInputError(0).should('not.exist');
 
       // Verify the new file is shown
       getFileInput(0).should('contain.text', 'valid-document.txt');
@@ -340,7 +339,7 @@ describe('VA File Input Multiple', () => {
         });
 
       // Verify error message appears
-      getAboveFileInputError(0)
+      getFileInputError(0)
         .should('be.visible')
         .and(
           'contain',
@@ -396,7 +395,7 @@ describe('VA File Input Multiple', () => {
       clickSubmitButton();
 
       // Verify password error appears
-      getFileError(0)
+      getFileInputError(0)
         .should('be.visible')
         .and('contain.text', PASSWORD_ERROR);
 
@@ -414,7 +413,7 @@ describe('VA File Input Multiple', () => {
 
       // Submit without entering password to trigger error
       clickSubmitButton();
-      getFileError(0)
+      getFileInputError(0)
         .should('be.visible')
         .and('contain.text', PASSWORD_ERROR);
 
@@ -422,12 +421,12 @@ describe('VA File Input Multiple', () => {
       uploadFile('second-regular.pdf', 1);
 
       // Verify the original error still persists after adding another file
-      getFileError(0)
+      getFileInputError(0)
         .should('be.visible')
         .and('contain.text', PASSWORD_ERROR);
 
       // Verify the second file has no error
-      getFileError(1).should('not.exist');
+      getFileInputError(1).should('not.exist');
 
       cy.axeCheck();
     });
@@ -440,7 +439,7 @@ describe('VA File Input Multiple', () => {
 
       // Submit without entering password to trigger error
       clickSubmitButton();
-      getFileError(0)
+      getFileInputError(0)
         .should('be.visible')
         .and('contain.text', PASSWORD_ERROR);
 
@@ -466,7 +465,7 @@ describe('VA File Input Multiple', () => {
       clickSubmitButton();
 
       // Verify password error appears
-      getFileError(0)
+      getFileInputError(0)
         .should('be.visible')
         .and('contain.text', PASSWORD_ERROR);
 
@@ -483,7 +482,7 @@ describe('VA File Input Multiple', () => {
         );
 
       // Password error should be cleared since new file isn't encrypted
-      getFileError(0).should('not.exist');
+      getFileInputError(0).should('not.exist');
 
       // Verify the new file is shown and no password input appears
       getFileInput(0).should('contain.text', 'regular-document.txt');
@@ -639,8 +638,9 @@ describe('VA File Input Multiple', () => {
       clickSubmitButton();
 
       // Verify document type error appears in the file input's error message area
-      getFileError(0)
-        .should('be.visible')
+      getFileInputError(0)
+        .should('exist')
+        .and('be.visible')
         .and('contain.text', DOC_TYPE_ERROR);
 
       // Also verify submission was blocked
@@ -664,14 +664,15 @@ describe('VA File Input Multiple', () => {
       clickSubmitButton();
 
       // Verify error appears
-      getFileError(0)
-        .should('be.visible')
+      getFileInputError(0)
+        .should('exist')
+        .and('be.visible')
         .and('contain.text', DOC_TYPE_ERROR);
 
       // Select a document type
       selectDocumentType(0, 'L014'); // Birth Certificate
 
-      getFileError(0).should('not.exist');
+      getFileInputError(0).should('not.exist');
 
       cy.axeCheck();
     });
@@ -691,8 +692,9 @@ describe('VA File Input Multiple', () => {
       clickSubmitButton();
 
       // Verify document type error appears
-      getFileError(0)
-        .should('be.visible')
+      getFileInputError(0)
+        .should('exist')
+        .and('be.visible')
         .and('contain.text', DOC_TYPE_ERROR);
 
       // Replace with a different file
@@ -708,7 +710,7 @@ describe('VA File Input Multiple', () => {
         );
 
       // Document type error should be cleared for the new file
-      getFileError(0).should('not.exist');
+      getFileInputError(0).should('not.exist');
 
       // Verify the new file is shown
       getFileInput(0).should('contain.text', 'new-document.txt');
@@ -850,8 +852,14 @@ describe('VA File Input Multiple', () => {
       clickSubmitButton();
 
       // Verify both files have errors
-      getFileError(0).should('contain.text', PASSWORD_ERROR);
-      getFileError(1).should('contain.text', DOC_TYPE_ERROR);
+      getFileInputError(0)
+        .should('exist')
+        .and('be.visible')
+        .and('contain.text', PASSWORD_ERROR);
+      getFileInputError(1)
+        .should('exist')
+        .and('be.visible')
+        .and('contain.text', DOC_TYPE_ERROR);
 
       // Remove the first file (encrypted one)
       clickDeleteButton(0, 'encrypted-without-password.pdf');
@@ -860,11 +868,10 @@ describe('VA File Input Multiple', () => {
       clickModalDeleteButton();
 
       // Verify the remaining file still has its error
-      cy.get('va-file-input-multiple')
-        .find('va-file-input')
-        .first()
-        .find('span.usa-error-message')
-        .should('contain.text', DOC_TYPE_ERROR);
+      getFileInputError(0)
+        .should('exist')
+        .and('be.visible')
+        .and('contain.text', DOC_TYPE_ERROR);
 
       cy.axeCheck();
     });

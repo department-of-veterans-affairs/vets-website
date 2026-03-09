@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
@@ -22,6 +28,7 @@ const ThreadDetails = props => {
   const {
     customFoldersRedesignEnabled,
     largeAttachmentsEnabled,
+    useCanReplyField,
   } = useFeatureToggles();
   const { threadId: messageId } = useParams();
   const { testing } = props;
@@ -29,11 +36,22 @@ const ThreadDetails = props => {
   const location = useLocation();
   const history = useHistory();
 
-  const alertList = useSelector(state => state.sm.alerts?.alertList);
   const recipients = useSelector(state => state.sm.recipients);
-  const { cannotReply, drafts, messages, threadFolderId } = useSelector(
-    state => state.sm.threadDetails,
+  const {
+    cannotReply,
+    drafts,
+    messages,
+    threadFolderId,
+    replyDisabled,
+  } = useSelector(state => state.sm.threadDetails);
+
+  const threadCantReply = useMemo(
+    () => {
+      return useCanReplyField ? replyDisabled || cannotReply : cannotReply;
+    },
+    [useCanReplyField, cannotReply, replyDisabled],
   );
+
   const { folder } = useSelector(state => state.sm.folders);
 
   const message = messages?.length && messages[0];
@@ -98,33 +116,28 @@ const ThreadDetails = props => {
 
   useEffect(
     () => {
-      if (!isCreateNewModalVisible) {
-        const alertVisible = alertList[alertList?.length - 1];
-        const alertSelector =
-          folder !== undefined && !alertVisible?.isActive
-            ? 'h1'
-            : alertVisible?.isActive && 'va-alert';
+      // Always focus on H1 per MHV accessibility decision records.
+      // Alert content is announced via role="status" without stealing focus.
+      if (!isCreateNewModalVisible && isLoaded) {
         setTimeout(() => {
-          focusElement(document.querySelector(alertSelector));
+          focusElement(document.querySelector('h1'));
         }, 300);
       }
     },
-    [alertList, folder, isCreateNewModalVisible, header],
+    [isLoaded, isCreateNewModalVisible, header],
   );
-
-  useEffect(() => {
-    if (header.current) {
-      focusElement(header.current);
-    }
-  });
 
   const content = () => {
     if (!isLoaded) {
       return (
-        <va-loading-indicator
-          message="Loading your secure message..."
-          setFocus
-        />
+        <>
+          <AlertBackgroundBox closeable />
+          <va-loading-indicator
+            message="Loading your secure message..."
+            setFocus
+            data-testid="thread-loading-indicator"
+          />
+        </>
       );
     }
     if (drafts?.length > 0 && messages?.length > 0) {
@@ -144,7 +157,7 @@ const ThreadDetails = props => {
             style={{ display: isSending && 'none' }}
           >
             <ReplyForm
-              cannotReply={cannotReply}
+              cannotReply={threadCantReply}
               drafts={drafts || []}
               header={header}
               messages={messages}
@@ -166,7 +179,7 @@ const ThreadDetails = props => {
               <MessageActionButtons
                 threadId={threadId}
                 message={messages[0]}
-                cannotReply={cannotReply}
+                hideReplyButton={threadCantReply}
                 isCreateNewModalVisible={isCreateNewModalVisible}
                 setIsCreateNewModalVisible={setIsCreateNewModalVisible}
               />
@@ -192,7 +205,7 @@ const ThreadDetails = props => {
         <>
           <MessageThreadHeader
             message={messages[0]}
-            cannotReply={cannotReply}
+            cannotReply={threadCantReply}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             recipients={recipients}
@@ -206,7 +219,7 @@ const ThreadDetails = props => {
             <MessageActionButtons
               threadId={threadId}
               message={messages[0]}
-              cannotReply={cannotReply}
+              hideReplyButton={threadCantReply}
               isCreateNewModalVisible={isCreateNewModalVisible}
               setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             />
@@ -215,21 +228,16 @@ const ThreadDetails = props => {
       );
     }
     if (message !== undefined && message === null) {
-      <va-alert status="error" visible class="vads-u-margin-y--9">
-        <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
-        <p>
-          You can’t view your secure message because something went wrong on our
-          end. Please check back soon.
-        </p>
-      </va-alert>;
+      return <AlertBackgroundBox closeable />;
     }
     return null;
   };
 
   return (
-    <div className="message-detail-container">
-      {/* Only display alerts after acknowledging the Interstitial page or if this thread does not contain drafts */}
-      <AlertBackgroundBox closeable />
+    <div
+      className="message-detail-container"
+      data-testid="message-detail-container"
+    >
       {content()}
     </div>
   );

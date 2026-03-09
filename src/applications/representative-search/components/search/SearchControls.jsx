@@ -4,11 +4,100 @@ import classNames from 'classnames';
 import {
   VaModal,
   VaSelect,
+  VaComboBox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '~/platform/utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import RepTypeSelector from './RepTypeSelector';
 import { ErrorTypes } from '../../constants';
 import { searchAreaOptions } from '../../config';
+
+const ORGANIZATIONS = [
+  'African American PTSD Association',
+  'Alabama Department of Veterans Affairs',
+  'American Legion',
+  'American Veterans',
+  'Arizona Department of Veterans Services',
+  'Arkansas Department of Veterans Affairs',
+  'Armed Forces Services Corporation',
+  'Blinded Veterans Association',
+  'California Department of Veterans Affairs',
+  'Catholic War Veterans of the USA',
+  'Colorado Division of Veterans Affairs',
+  'Commonwealth of the Northern Mariana Islands Division',
+  'Connecticut Department of Veterans Affairs',
+  'Dale K. Graham Veterans Foundation',
+  'Delaware Commission of Veterans Affairs',
+  'Disabled American Veterans',
+  'Fleet Reserve Association',
+  'Florida Department of Veterans Affairs',
+  'Georgia Department of Veterans Service',
+  'Gila River Indian Community Vet.&Fam. Svcs Office',
+  'Green Beret Foundation',
+  'Guam Office of Veterans Affairs',
+  'Hawaii Office of Veterans Services',
+  'IAM Veterans Benefits Support (IAM VBS)',
+  'Idaho Division of Veterans Services',
+  'Illinois Department of Veterans Affairs',
+  'Indiana Department of Veterans Affairs',
+  'Iowa Department of Veterans Affairs',
+  'Jewish War Veterans of the USA',
+  'Kansas Office of Veterans Services',
+  'Kentucky Department of Veterans Affairs',
+  'Louisiana Department of Veterans Affairs',
+  "Maine Veterans' Services",
+  'Marine Corps League',
+  'Maryland Department of Veterans Affairs',
+  'Massachusetts Executive Office of Veterans Service',
+  'Michigan Veterans Affairs Agency',
+  'Minnesota Department of Veterans Affairs',
+  'Mississippi Veterans Affairs',
+  'Missouri Veterans Commission',
+  'Montana Veterans Affairs (MVAD)',
+  'National Association for Black Veterans, Inc.',
+  'National Association of County Veterans Service Officers',
+  'National Law School Veterans Clinic Consortium',
+  'National Montford Point Marine Association, Inc.',
+  'National Veterans Legal Services Program',
+  'Navajo Nation Veterans Administration',
+  'Navy Mutual Aid Association',
+  'Nebraska Department of Veterans Affairs',
+  'Nevada Department of Veterans Services',
+  'New Hampshire Division of Veteran Services',
+  'New Jersey Department of Military and Veterans Affairs',
+  'New Mexico Department of Veterans Services',
+  "New York State Department of Veterans' Services",
+  'North Carolina Dept Military and Veterans Affairs',
+  'North Dakota Department Veterans Affairs',
+  'Office of Veterans Affairs American Samoa Government',
+  'Ohio Department of Veterans Services',
+  'Oklahoma Department of Veterans Affairs',
+  'Oregon Department of Veterans Affairs',
+  'Paralyzed Veterans of America',
+  'Pennsylvania Department of Military and Veterans Affairs',
+  'Polish Legion of American Veterans',
+  'Puerto Rico Veterans Advocate Office',
+  'Rhode Island Office of Veterans Services (RIVETS)',
+  'South Dakota Department of Veterans Affairs',
+  'Swords to Plowshares',
+  'Tennessee Department of Veterans Services',
+  'Texas Veterans Commission',
+  'The Retired Enlisted Association',
+  'The South Carolina Department of Veterans Affairs',
+  'UDT-SEAL Association',
+  'Utah Department of Veterans and Military Affairs',
+  'Vermont Office of Veterans Affairs',
+  'Veterans of Foreign Wars',
+  "Veterans' Voice of America",
+  'Vietnam Veterans of America',
+  'Virgin Islands Office of Veterans Affairs',
+  'Virginia Department of Veterans Services',
+  'Washington Department of Veterans Affairs',
+  'West Virginia Dept of Veterans Assistance',
+  'Wisconsin Department of Veterans Affairs',
+  'Wounded Warrior Project',
+  'Wyoming Veterans Commission',
+];
 
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 
@@ -29,12 +118,19 @@ const SearchControls = props => {
     geolocationInProgress,
     isErrorEmptyInput,
     searchArea,
+    organizationFilter,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
 
   const showEmptyError = isErrorEmptyInput && !geolocationInProgress;
   const showGeolocationError = geocodeError && !geolocationInProgress;
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+
+  const organizationFilterEnabled = useToggleValue(
+    TOGGLE_NAMES.findARepresentativeEnabled,
+  );
 
   const searchAreaSelectOptions = Object.keys(searchAreaOptions).map(
     optionKey => (
@@ -43,6 +139,12 @@ const SearchControls = props => {
       </option>
     ),
   );
+
+  const organizationSelectOptions = ORGANIZATIONS.map(organization => (
+    <option key={organization} value={organization}>
+      {organization}
+    </option>
+  ));
 
   const handleLocationChange = e => {
     onChange({
@@ -55,6 +157,13 @@ const SearchControls = props => {
   const handleSearchAreaChange = e => {
     onChange({
       searchArea: onlySpaces(e.target.value)
+        ? e.target.value.trim()
+        : e.target.value,
+    });
+  };
+  const handleOrganizationChange = e => {
+    onChange({
+      organizationFilter: onlySpaces(e.target.value)
         ? e.target.value.trim()
         : e.target.value,
     });
@@ -101,89 +210,31 @@ const SearchControls = props => {
         Search for an accredited representative
       </h2>
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
-        <div className="additional-representative-info">
-          <div className="vads-u-margin-top--2p5">
-            <va-additional-info
-              trigger="What does an accredited VSO representative do?"
-              uswds
-              disable-border
-            >
-              <p>
-                <strong>
-                  An accredited Veterans Service Organization (VSO)
-                  representative
-                </strong>{' '}
-                can help you gather evidence, file a claim, or request a
-                decision review. They can also communicate with VA on your
-                behalf.
-              </p>
-              <br />
-              <p>
-                Accredited VSO representatives provide free services for
-                Veterans and their families. They have completed training and
-                passed tests about VA claims and decision reviews.
-              </p>
-              <br />
-              <p>
-                Accredited VSO representatives work for organizations like the
-                American Legion, Disabled American Veterans, and Veterans of
-                Foreign Wars.
-              </p>
-            </va-additional-info>
-          </div>
+        <RepTypeSelector
+          representativeType={representativeType}
+          onChange={onChange}
+        />
 
-          <div className="vads-u-margin-top--2p5">
-            <va-additional-info
-              trigger="What does an accredited attorney do?"
-              disable-border
-              uswds
-            >
-              <p>
-                <strong>An accredited attorney</strong> usually works on
-                decision reviews and cases that require legal knowledge. They
-                can charge fees for their services.
-              </p>
-              <br />
-              <p>
-                Accredited attorneys don’t have to take a test about VA claims
-                and decision reviews. But they have to be members in good
-                standing of the bar association.
-              </p>
-            </va-additional-info>
-          </div>
-
-          <div className="vads-u-margin-top--2p5">
-            <va-additional-info
-              trigger="What does an accredited claims agent do?"
-              disable-border
-              uswds
-            >
-              <p>
-                <strong>An accredited claims agent</strong> usually works on
-                decision reviews. They can charge fees for their services.
-              </p>
-              <br />
-              <p>
-                Accredited claims agents don’t work for Veterans Service
-                Organizations. But they have completed training and passed tests
-                about VA claims and decision reviews.
-              </p>
-            </va-additional-info>
-          </div>
-        </div>
-
-        <div className="vads-u-margin-top--4">
-          <RepTypeSelector
-            representativeType={representativeType}
-            onChange={onChange}
-          />
+        <div className="vads-u-margin-top--1">
+          <p>
+            <strong>Note:</strong> If you’re not sure what type of accredited
+            representative you’d like to appoint, you can learn about the
+            services they offer.
+          </p>
+          <p>
+            <va-link
+              id="accredited-representative-faqs-link"
+              href="/resources/va-accredited-representative-faqs/"
+              text="Learn about the types of accredited representatives"
+              external // Enables behavior of opening in a new tab
+            />
+          </p>
         </div>
 
         <div className="search-controls-text-inputs">
-          <div className="geolocation-container vads-u-margin-top--1">
+          <div className="geolocation-container">
             <div className="location-input">
               <va-text-input
-                style={{ order: 1 }}
                 error={(() => {
                   if (showEmptyError) {
                     return 'Please fill in a city, state, postal code or address.';
@@ -205,43 +256,35 @@ const SearchControls = props => {
                 value={locationInputString}
                 uswds
                 required
-              />
-            </div>
-
-            <div
-              className={classNames('use-my-location-button-container', {
-                'use-my-location-button-container-error':
-                  showEmptyError || showGeolocationError,
-              })}
-            >
-              {geolocationInProgress ? (
+              >
                 <div
-                  className="finding-your-location-loading"
-                  style={{ order: 2 }}
+                  className={classNames('use-my-location-button-container', {
+                    'use-my-location-button-container-error':
+                      showEmptyError || showGeolocationError,
+                  })}
                 >
-                  <va-icon
-                    size={4}
-                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                    className="use-my-location-icon"
-                    aria-hidden="true"
-                  />
-                  <span aria-live="assertive"> Finding your location...</span>
+                  {geolocationInProgress ? (
+                    <div className="finding-your-location-loading">
+                      <va-icon icon="autorenew" size={3} />
+                      <span aria-live="assertive">
+                        Finding your location...
+                      </span>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleGeolocationButtonClick}
+                      type="button"
+                      className="use-my-location-link"
+                      aria-label="Use my location"
+                    >
+                      <va-icon size={3} icon="near_me" aria-hidden="true" />
+                      Use my location
+                    </button>
+                  )}
                 </div>
-              ) : (
-                <button
-                  onClick={handleGeolocationButtonClick}
-                  type="button"
-                  className="use-my-location-link"
-                  aria-label="Use my location"
-                  style={{ order: 2 }}
-                >
-                  <va-icon size={4} icon="near_me" aria-hidden="true" />
-                  Use my location
-                </button>
-              )}
+              </va-text-input>
             </div>
           </div>
-
           <div className="search-area-dropdown">
             <VaSelect
               name="area"
@@ -253,7 +296,20 @@ const SearchControls = props => {
               {searchAreaSelectOptions}
             </VaSelect>
           </div>
-
+          {organizationFilterEnabled &&
+            representativeType === 'veteran_service_officer' && (
+              <div className="organization-select">
+                <VaComboBox
+                  name="organization"
+                  value={organizationFilter}
+                  label="Veterans Service Organization (VSO)"
+                  onVaSelect={handleOrganizationChange}
+                  uswds
+                >
+                  {organizationSelectOptions}
+                </VaComboBox>
+              </div>
+            )}
           <div className="representative-name-input vads-u-margin-top--4">
             <va-text-input
               hint={null}

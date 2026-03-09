@@ -6,7 +6,7 @@ import serviceHistory from '../../fixtures/service-history-success.json';
 import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 import {
   dsLogonUser,
-  mvhUser,
+  mhvUser,
   loa1User,
   loa1UserDSLogon,
   loa1UserMHV,
@@ -43,7 +43,7 @@ context('credential retirement alerts on account security', () => {
   });
 
   it('should show credential retirement alert content for MHV account', () => {
-    cy.login(mvhUser);
+    cy.login(mhvUser);
 
     cy.visit(PROFILE_PATHS.ACCOUNT_SECURITY);
 

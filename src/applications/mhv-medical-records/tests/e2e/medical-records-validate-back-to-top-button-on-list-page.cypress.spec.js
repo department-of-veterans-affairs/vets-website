@@ -1,16 +1,27 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
-import VaccinesListPage from './pages/VaccinesListPage';
+import Vaccines from './accelerated/pages/Vaccines';
+import oracleHealthUser from './accelerated/fixtures/user/oracle-health.json';
+import vaccinesData from './accelerated/fixtures/vaccines/sample-lighthouse.json';
 
 describe('Medical Records View Vaccines', () => {
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
+    site.login(oracleHealthUser, false);
+    site.mockFeatureToggles();
+  });
+
   it('Visits MR Vaccine List, Uses Back-To-Top Button', () => {
-    const site = new MedicalRecordsSite();
-    site.login();
+    Vaccines.setIntercepts({ vaccinesData });
+
     cy.viewport(550, 750);
-    cy.visit('my-health/medical-records/');
-    VaccinesListPage.goToVaccines();
+
+    site.loadPage();
+    Vaccines.goToVaccinesPage();
+
     cy.scrollTo(0, 1500);
-    VaccinesListPage.clickBackToTopButtonOnListPage();
-    VaccinesListPage.verifyVaccinesListPageTitleIsFocused();
+    Vaccines.clickBackToTopButtonOnListPage();
+    Vaccines.verifyVaccinesListPageTitleIsFocused();
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');
