@@ -49,7 +49,7 @@ export const AppointmentCard = ({ appointment }) => {
           onClick={() =>
             recordEvent({
               event: 'nav-linkslist',
-              'links-list-header': 'Schedule and manage your appointments',
+              'links-list-header': 'Manage this appointment',
               'links-list-section-header': 'Health care',
             })
           }
