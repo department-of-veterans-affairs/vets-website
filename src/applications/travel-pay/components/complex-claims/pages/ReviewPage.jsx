@@ -15,6 +15,7 @@ import {
   selectAllExpenses,
   selectAllDocuments,
   selectReviewPageAlert,
+  selectHasProofOfAttendance,
 } from '../../../redux/selectors';
 import { formatAmount } from '../../../util/complex-claims-helper';
 import { EXPENSE_TYPES } from '../../../constants';
@@ -39,6 +40,7 @@ const ReviewPage = () => {
   const expenses = useSelector(selectAllExpenses) ?? [];
   const documents = useSelector(selectAllDocuments) ?? [];
   const alertMessage = useSelector(selectReviewPageAlert);
+  const hasProofOfAttendance = useSelector(selectHasProofOfAttendance);
 
   const title = 'Your unsubmitted expenses';
   const isCCAppt = appointment?.isCC;
@@ -72,7 +74,7 @@ const ReviewPage = () => {
   );
 
   // CC appointments must complete PoA upload before reaching review
-  if (isCommunityCareEnabled && isCCAppt) {
+  if (isCommunityCareEnabled && isCCAppt && !hasProofOfAttendance) {
     return (
       <Navigate
         to={`/file-new-claim/${apptId}/${claimId}/proof-of-attendance`}

@@ -46,7 +46,7 @@ function getClaimByIdHandler({ expensesStore }) {
       .filter(Boolean);
 
     const documents = (storedClaim.documents || []).filter(
-      doc => expensesStore[doc.expenseId],
+      doc => doc.proofOfAttendance || expensesStore[doc.expenseId],
     );
 
     // Deep copy appointment too, if present

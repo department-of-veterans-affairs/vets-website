@@ -70,6 +70,12 @@ export const selectExpenseBackDestination = state =>
 
 export const selectProofOfAttendanceState = state =>
   state.travelPay.complexClaim.proofOfAttendance;
+
+export const selectHasProofOfAttendance = state => {
+  const documents = state.travelPay.complexClaim.claim.data?.documents || [];
+  return documents.some(doc => doc.proofOfAttendance === true);
+};
+
 export const selectUnsavedChangesModal = state =>
   state.travelPay.complexClaim.unsavedChangesModal || {
     visible: false,

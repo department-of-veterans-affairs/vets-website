@@ -174,11 +174,35 @@ const responses = {
   // Upload proof of attendance document
   // POST /travel_pay/v0/claims/:claimId/documents
   'POST /travel_pay/v0/claims/:claimId/documents': (req, res) => {
-    return res.status(200).json({
+    const { claimId } = req.params;
+    const { claimsStore } = require('./mockStore');
+
+    // Ensure the claim exists in the store
+    if (!claimsStore[claimId]) {
+      claimsStore[claimId] = {
+        id: claimId,
+        claimId,
+        claimNumber: `TC${Math.floor(Math.random() * 1_000_000_000)}`,
+        claimStatus: 'InProgress',
+        expenses: [],
+        documents: [],
+      };
+    }
+
+    // Add the document to the claim
+    const newDocument = {
       documentId: 'mock-poa-document-id-001',
-      claimId: req.params.claimId,
-      filename: 'Proof of attendance',
-    });
+      claimId,
+      filename: req.body.fileName || 'Proof of attendance',
+      proofOfAttendance: true,
+    };
+
+    if (!claimsStore[claimId].documents) {
+      claimsStore[claimId].documents = [];
+    }
+    claimsStore[claimId].documents.push(newDocument);
+
+    return res.status(200).json(newDocument);
   },
   // 'POST /travel_pay/v0/claims/:claimId/documents': (req, res) => {
   //   return res.status(500).json({ errors: [{ title: 'Server error' }] });

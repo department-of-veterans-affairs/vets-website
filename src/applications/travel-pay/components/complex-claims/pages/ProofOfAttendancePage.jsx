@@ -7,7 +7,10 @@ import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
 import DocumentUpload from './DocumentUpload';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
-import { uploadProofOfAttendance } from '../../../redux/actions';
+import {
+  uploadProofOfAttendance,
+  getComplexClaimDetails,
+} from '../../../redux/actions';
 import {
   selectAppointment,
   selectProofOfAttendanceState,
@@ -87,6 +90,8 @@ const ProofOfAttendancePage = () => {
           fileData,
         }),
       );
+      // Fetch updated claim details to get the POA document in state
+      await dispatch(getComplexClaimDetails(claimId));
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     } catch {
       setUploadError(true);

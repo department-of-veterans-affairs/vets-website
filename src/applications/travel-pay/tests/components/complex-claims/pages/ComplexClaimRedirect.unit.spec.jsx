@@ -427,6 +427,52 @@ describe('ComplexClaimRedirect', () => {
 
       expect(getByTestId('choose-expense-page')).to.exist;
     });
+
+    it('does not redirect to proof-of-attendance when POA is already uploaded', () => {
+      const initialState = getInitialState({
+        claimId: 'claim-123',
+        expenses: [],
+        isCCAppt: true,
+      });
+
+      // Add POA document to claim data
+      initialState.travelPay.complexClaim.claim.data = {
+        claimId: 'claim-123',
+        documents: [
+          {
+            documentId: 'poa-doc-001',
+            filename: 'proof-of-attendance.pdf',
+            proofOfAttendance: true,
+          },
+        ],
+      };
+
+      const store = createCCStore(initialState, true);
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={['/file-new-claim/12345/claim-123/redirect']}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/proof-of-attendance"
+              element={<ProofOfAttendancePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/redirect"
+              element={<ComplexClaimRedirect />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store, reducers: reducer },
+      );
+
+      expect(getByTestId('choose-expense-page')).to.exist;
+    });
   });
 
   describe('Edge cases', () => {

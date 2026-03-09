@@ -6,6 +6,7 @@ import {
   selectAllExpenses,
   selectAppointment,
   selectComplexClaim,
+  selectHasProofOfAttendance,
 } from '../../../redux/selectors';
 
 const ComplexClaimRedirect = () => {
@@ -13,6 +14,7 @@ const ComplexClaimRedirect = () => {
   const allExpenses = useSelector(selectAllExpenses);
   const { data: appointment } = useSelector(selectAppointment);
   const complexClaim = useSelector(selectComplexClaim);
+  const hasProofOfAttendance = useSelector(selectHasProofOfAttendance);
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const isCommunityCareEnabled = useToggleValue(
@@ -32,7 +34,7 @@ const ComplexClaimRedirect = () => {
   }
 
   // CC appointments must complete PoA upload before proceeding
-  if (isCommunityCareEnabled && isCCAppt) {
+  if (isCommunityCareEnabled && isCCAppt && !hasProofOfAttendance) {
     return (
       <Navigate
         to={`/file-new-claim/${apptId}/${effectiveClaimId}/proof-of-attendance`}

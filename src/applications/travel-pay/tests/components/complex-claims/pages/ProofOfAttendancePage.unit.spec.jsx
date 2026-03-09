@@ -234,6 +234,117 @@ describe('Travel Pay – ProofOfAttendancePage', () => {
     });
   });
 
+  describe('File renaming', () => {
+    let apiStub;
+    let restoreFileReader;
+
+    beforeEach(() => {
+      restoreFileReader = mockFileReader();
+      // Stub handles both POA upload and claim details fetch
+      apiStub = sinon.stub(api, 'apiRequest').callsFake(url => {
+        if (url.includes('/documents')) {
+          return Promise.resolve({
+            documentId: 'mock-doc-001',
+            claimId,
+            filename: 'Proof of attendance',
+          });
+        }
+        // Claim details fetch
+        return Promise.resolve({
+          claimId,
+          claimNumber: 'TC123456789',
+          claimStatus: 'InProgress',
+          documents: [
+            {
+              documentId: 'mock-doc-001',
+              filename: 'Proof of attendance',
+              proofOfAttendance: true,
+            },
+          ],
+        });
+      });
+    });
+
+    afterEach(() => {
+      restoreFileReader();
+      apiStub.restore();
+    });
+
+    it('renames the file to proof-of-attendance with the original extension', async () => {
+      const { container } = renderPage();
+
+      const testFile = new File(['dummy content'], 'my-document.pdf', {
+        type: 'application/pdf',
+      });
+      const fileInput = container.querySelector('va-file-input');
+
+      await act(async () => {
+        fileInput.dispatchEvent(
+          new CustomEvent('vaChange', {
+            detail: { files: [testFile] },
+            bubbles: true,
+          }),
+        );
+      });
+
+      const continueButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Continue');
+
+      await act(async () => {
+        fireEvent.click(continueButton);
+        await new Promise(resolve => setTimeout(resolve, 50));
+      });
+
+      await waitFor(() => {
+        expect(apiStub.called).to.be.true;
+        const uploadCall = apiStub
+          .getCalls()
+          .find(call => call.args[0].includes('/documents'));
+        expect(uploadCall).to.exist;
+        const requestBody = JSON.parse(uploadCall.args[1].body);
+        expect(requestBody.fileName).to.equal('proof-of-attendance.pdf');
+      });
+    });
+
+    it('preserves the file extension when renaming (jpg)', async () => {
+      const { container } = renderPage();
+
+      const testFile = new File(['dummy content'], 'receipt.jpg', {
+        type: 'image/jpeg',
+      });
+      const fileInput = container.querySelector('va-file-input');
+
+      await act(async () => {
+        fileInput.dispatchEvent(
+          new CustomEvent('vaChange', {
+            detail: { files: [testFile] },
+            bubbles: true,
+          }),
+        );
+      });
+
+      const continueButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Continue');
+
+      await act(async () => {
+        fireEvent.click(continueButton);
+        await new Promise(resolve => setTimeout(resolve, 50));
+      });
+
+      await waitFor(() => {
+        expect(apiStub.called).to.be.true;
+        const uploadCall = apiStub
+          .getCalls()
+          .find(call => call.args[0].includes('/documents'));
+        expect(uploadCall).to.exist;
+        const requestBody = JSON.parse(uploadCall.args[1].body);
+        expect(requestBody.fileName).to.equal('proof-of-attendance.jpg');
+      });
+    });
+  });
+
   describe('File upload – success', () => {
     let apiStub;
     let restoreFileReader;
