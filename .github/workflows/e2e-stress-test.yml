@@ -37,11 +37,10 @@ jobs:
           aws_region: us-gov-west-1
           role: ${{ vars.AWS_ASSUME_ROLE }}
 
-      - name: Get Mapbox Token
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
-          env_variable_name: MAPBOX_TOKEN
+      # This fallback token is not a real token, this portion of a token prevents Mapbox from crashing
+      # when app specific tokens are unavailable for any reason, instead it will provide errors.
+      - name: Set Mapbox Token fallback
+        run: echo "MAPBOX_TOKEN=pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==" >> "$GITHUB_ENV"
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ env.BUILDTYPE }}

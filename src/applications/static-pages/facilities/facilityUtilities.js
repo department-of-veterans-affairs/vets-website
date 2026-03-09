@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { forIn, upperFirst } from 'lodash';
-import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
+import { mapboxToken } from './mapboxToken';
 
 export function sortFacilitiesByName(facilities) {
   facilities.sort((a, b) => {
