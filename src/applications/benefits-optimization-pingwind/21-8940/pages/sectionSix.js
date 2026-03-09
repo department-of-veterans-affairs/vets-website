@@ -65,9 +65,9 @@ import {
       'ui:field': 'ViewField',
       'ui:description': (
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h3 slot="headline" className="vads-u-font-weight--bold">
+          <h2 slot="headline" className="vads-u-font-weight--bold">
             Privacy Act Notice
-          </h3>
+          </h2>
           <p className="vads-u-margin--0">
             VA will not disclose information collected on this form to any
             source other than what has been authorized under the Privacy Act of
@@ -94,9 +94,9 @@ import {
       'ui:field': 'ViewField',
       'ui:description': (
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h3 slot="headline" className="vads-u-font-weight--bold">
+          <h2 slot="headline" className="vads-u-font-weight--bold">
             Respondent Burden
-          </h3>
+          </h2>
           <p className="vads-u-margin--0">
             An agency may not conduct or sponsor, and a person is not required
             to respond to a collection of information unless it displays a
