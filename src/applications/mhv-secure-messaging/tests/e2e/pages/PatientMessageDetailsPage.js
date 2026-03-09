@@ -41,7 +41,7 @@ class PatientMessageDetailsPage {
       singleThreadResponse,
     ).as(`threadResponse`);
 
-    cy.get(Locators.BUTTONS.REPLY)
+    cy.findByTestId(Locators.BUTTONS.REPLY)
       .should('be.visible')
       .click({ force: true });
   };
@@ -377,7 +377,7 @@ class PatientMessageDetailsPage {
       singleThreadData,
     ).as('replyThread');
 
-    cy.get(Locators.BUTTONS.REPLY).click({ force: true });
+    cy.findByTestId(Locators.BUTTONS.REPLY).click({ force: true });
     PatientInterstitialPage.getContinueButton().click();
   };
 
@@ -388,7 +388,7 @@ class PatientMessageDetailsPage {
       singleThreadData,
     ).as('replyThread');
 
-    cy.get(Locators.BUTTONS.REPLY).click({ force: true });
+    cy.findByTestId(Locators.BUTTONS.REPLY).click({ force: true });
     PatientInterstitialPage.getStartMessageLink().click();
   };
 

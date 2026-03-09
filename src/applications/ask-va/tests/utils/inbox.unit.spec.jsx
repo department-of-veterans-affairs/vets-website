@@ -22,21 +22,26 @@ describe('flattenInquiry', () => {
 describe('standardizeInquiries', () => {
   it('returns ONLY personal and business inquiries', () => {
     const output = standardizeInquiries(mockInquiries);
-    expect(output).to.have.property('personal');
-    expect(output).to.have.property('business');
-    expect(output).to.not.have.property('unauthenticated');
+    expect(output).to.have.property('standardInquiries');
+    expect(
+      output.standardInquiries?.every(inq =>
+        ['business', 'personal'].includes(
+          inq.levelOfAuthentication.toLowerCase(),
+        ),
+      ),
+    ).to.be.true;
   });
 
-  it('puts inquiries into the right buckets', () => {
+  it('returns indicators of what inquiry types are present', () => {
     const output = standardizeInquiries(mockInquiries);
-    expect(output.personal.length).to.equal(7);
-    expect(output.business.length).to.equal(2);
+    expect(output.types).to.include('personal');
+    expect(output.types).to.include('business');
   });
 
   it('flattens inquiries as they are categorized', () => {
     const output = standardizeInquiries(mockInquiries);
-    expect(output.personal[0]).to.have.property('status');
-    expect(output.personal[0].status).to.equal('In progress');
+    expect(output.standardInquiries[0]).to.have.property('status');
+    expect(output.standardInquiries[0].status).to.equal('In progress');
   });
 
   it('returns only the categories present in the inquiries list', () => {
@@ -100,42 +105,58 @@ describe('paginateInquiries', () => {
 
 describe('filterAndSort', () => {
   const flatInquiries = mockInquiries.map(flattenInquiry);
+  const Dec18At420pmId = '1aed76e7-5bbd-ef11-b8e9-001dd830a0af';
+  const Dec18At530pmId = '46a76c10-5bbd-ef11-b8e9-001dd805523c';
 
   it('returns all results if unfiltered', () => {
     const results = filterAndSort({ inquiriesArray: flatInquiries });
-    expect(results.length).to.equal(flatInquiries.length);
+    expect(results.length).to.equal(flatInquiries.length - 1);
   });
 
   it('filters by category', () => {
     const results = filterAndSort({
       inquiriesArray: flatInquiries,
-      filters: { category: 'Veteran ID Card (VIC)' },
+      filters: { categories: ['Veteran ID Card (VIC)'] },
     });
-    expect(results.length).to.equal(3);
+    expect(results.length).to.equal(2);
   });
 
   it('filters by status', () => {
     const results = filterAndSort({
       inquiriesArray: flatInquiries,
-      filters: { status: 'In progress' },
+      filters: { statuses: ['In progress'] },
     });
     expect(results.length).to.equal(6);
   });
 
-  it('filters by both category and status', () => {
+  it('filters by inquiry type', () => {
+    const personal = filterAndSort({
+      inquiriesArray: flatInquiries,
+      filters: { inquiryTypes: ['personal'] },
+    });
+    const business = filterAndSort({
+      inquiriesArray: flatInquiries,
+      filters: { inquiryTypes: ['business'] },
+    });
+    expect(personal.length).to.equal(7);
+    expect(business.length).to.equal(2);
+  });
+
+  it('filters by category, status, and type', () => {
     const results = filterAndSort({
       inquiriesArray: flatInquiries,
       filters: {
-        category: 'Veteran ID Card (VIC)',
-        status: 'In progress',
+        categories: ['Veteran ID Card (VIC)'],
+        statuses: ['In progress'],
+        inquiryTypes: ['personal'],
       },
     });
     expect(results.length).to.equal(1);
   });
 
-  it('sorts by most recent lastUpdate', () => {
+  it('sorts by newest lastUpdate by default', () => {
     const firstDateBeforeSort = new Date(flatInquiries[0].lastUpdate);
-    expect(firstDateBeforeSort.getDate()).to.equal(12);
+    expect(firstDateBeforeSort.getDate()).to.equal(11);
 
     // Sorts by date
     const results = filterAndSort({ inquiriesArray: flatInquiries });
@@ -145,23 +166,34 @@ describe('filterAndSort', () => {
     // Sorts by time (2 items updated on same day)
     const getIndex = (arr, id) => arr.findIndex(item => item.id === id);
 
-    const laterUpdateIndexBefore = getIndex(
-      flatInquiries,
-      '1aed76e7-5bbd-ef11-b8e9-001dd830a0af',
-    );
-    const earlierUpdateIndexBefore = getIndex(
-      flatInquiries,
-      '46a76c10-5bbd-ef11-b8e9-001dd805523c',
-    );
-    const laterUpdateIndexAfter = getIndex(
-      results,
-      '1aed76e7-5bbd-ef11-b8e9-001dd830a0af',
-    );
+    const laterUpdateIndexBefore = getIndex(flatInquiries, Dec18At420pmId);
+    const earlierUpdateIndexBefore = getIndex(flatInquiries, Dec18At530pmId);
+    const laterUpdateIndexAfter = getIndex(results, Dec18At420pmId);
+    const earlierUpdateIndexAfter = getIndex(results, Dec18At530pmId);
 
-    const earlierUpdateIndexAfter = getIndex(
-      results,
-      '46a76c10-5bbd-ef11-b8e9-001dd805523c',
-    );
+    expect(earlierUpdateIndexBefore < laterUpdateIndexBefore).to.be.true;
+    expect(laterUpdateIndexAfter < earlierUpdateIndexAfter).to.be.true;
+  });
+
+  it('sorts by oldest lastUpdate', () => {
+    const firstDateBeforeSort = new Date(flatInquiries[0].lastUpdate);
+    expect(firstDateBeforeSort.getDate()).to.equal(11);
+
+    // Sorts by date
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      sortOrder: filterAndSort.sortOptions.lastUpdate.oldest,
+    });
+    const firstDateAfterSort = new Date(results[0].lastUpdate);
+    expect(firstDateAfterSort.getDate()).to.equal(11);
+
+    // Sorts by time (2 items updated on same day)
+    const getIndex = (arr, id) => arr.findIndex(item => item.id === id);
+
+    const laterUpdateIndexBefore = getIndex(flatInquiries, Dec18At420pmId);
+    const earlierUpdateIndexBefore = getIndex(flatInquiries, Dec18At530pmId);
+    const earlierUpdateIndexAfter = getIndex(results, Dec18At420pmId);
+    const laterUpdateIndexAfter = getIndex(results, Dec18At530pmId);
 
     expect(earlierUpdateIndexBefore < laterUpdateIndexBefore).to.be.true;
     expect(laterUpdateIndexAfter < earlierUpdateIndexAfter).to.be.true;
@@ -181,11 +213,11 @@ describe('filterAndSort', () => {
   it('sorts by query: inquiry number', () => {
     const results = filterAndSort({
       inquiriesArray: flatInquiries,
-      filters: { query: '617' },
+      filters: { query: '852' },
     });
 
     expect(results.length).to.equal(1);
-    expect(results[0].id).to.equal('678b6a15-d1b0-ef11-b8e9-001dd830a0af');
+    expect(results[0].id).to.equal('3ac11cee-2ebe-ef11-b8e9-001dd809b958');
   });
 
   it('sorts by query: category name', () => {
