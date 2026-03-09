@@ -1,7 +1,9 @@
 import {
+  hasClaimDocs,
   isDtaEnabled,
   isResubmissionClaim,
   needsDocHelp,
+  whenAll,
 } from '../../utils/helpers';
 import additionalComments from './addtlComments';
 import additionalDocs from './addtlDocsUpload';
@@ -29,7 +31,7 @@ export const resubmissionPages = {
   supportingDocOptions: {
     path: 'resubmission-document-options',
     title: 'Supporting document options',
-    depends: isDtaEnabled,
+    depends: whenAll(isResubmissionClaim, isDtaEnabled),
     ...supportingDocOptions,
   },
   providerOverview: {
@@ -65,7 +67,7 @@ export const resubmissionPages = {
   supportingDocs: {
     path: 'resubmission-supporting-docs',
     title: 'Supporting documents for claim',
-    depends: isResubmissionClaim,
+    depends: hasClaimDocs,
     ...supportingDocs,
   },
 };
