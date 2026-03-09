@@ -4,10 +4,9 @@ import {
   checkboxRequiredSchema,
   checkboxUI,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns'; //
 
-/** @type {PageSchema} */
-export default {
+/** @type {PageSchema} */ export default {
   uiSchema: {
     ...titleUI('Section VI: Authorization, Certification, and Signature'),
     'ui:description': (
