@@ -412,15 +412,29 @@ export const getAdditionalContactTitle = formData => {
     true;
   const isSchoolFinancialRepresentative =
     formData?.pointsOfContact?.roles?.isSchoolFinancialRepresentative === true;
+  const isSchoolCertifyingOfficial =
+    formData?.pointsOfContact?.roles?.isSchoolCertifyingOfficial === true;
+
+  const missingRoles = [];
 
   if (
     !isSchoolFinancialRepresentative &&
     !isYellowRibbonProgramPointOfContact
   ) {
-    return 'Add Yellow Ribbon Program point of contact';
+    missingRoles.push(
+      'School financial representative or Yellow Ribbon Program point of contact',
+    );
+  } else if (!isSchoolFinancialRepresentative) {
+    missingRoles.push('School financial representative');
+  } else if (!isYellowRibbonProgramPointOfContact) {
+    missingRoles.push('Yellow Ribbon Program point of contact');
   }
 
-  return 'Add school certifying official';
+  if (!isSchoolCertifyingOfficial) {
+    missingRoles.push('School certifying official');
+  }
+
+  return missingRoles.join(' and ') || 'School certifying official';
 };
 
 export const capitalizeFirstLetter = str => {

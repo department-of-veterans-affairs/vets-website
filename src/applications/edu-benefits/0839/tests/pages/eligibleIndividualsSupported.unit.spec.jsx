@@ -75,27 +75,27 @@ describe('Eligible Individuals Supported Page', () => {
       };
     });
 
-    it('should add error when fieldData does not match current academic year display and agreementType is startNewOpenEndedAgreement', () => {
+    it('should allow a previous year when agreementType is startNewOpenEndedAgreement', () => {
       const validationFn = page.uiSchema.academicYear['ui:validations'][0];
       const fieldData = '2022-2023';
       const formData = { agreementType: 'startNewOpenEndedAgreement' };
 
       validationFn(errors, fieldData, formData);
 
-      expect(errors.errorMessages).to.have.lengthOf(1);
-      expect(errors.errorMessages[0]).to.equal(
-        'Enter the upcoming academic year this agreement applies to',
-      );
+      expect(errors.errorMessages).to.have.lengthOf(0);
     });
 
-    it('should allow any year to be entered for when agreementType is not startNewOpenEndedAgreement', () => {
+    it('should add error for invalid year format', () => {
       const validationFn = page.uiSchema.academicYear['ui:validations'][0];
       const fieldData = 'invalid-year';
       const formData = { agreementType: 'startNewOpenEndedAgreement' };
 
       validationFn(errors, fieldData, formData);
 
-      expect(errors.errorMessages.length).to.be.greaterThan(0);
+      expect(errors.errorMessages).to.have.lengthOf(1);
+      expect(errors.errorMessages[0]).to.include(
+        'Enter the academic year, such as',
+      );
     });
   });
 });
