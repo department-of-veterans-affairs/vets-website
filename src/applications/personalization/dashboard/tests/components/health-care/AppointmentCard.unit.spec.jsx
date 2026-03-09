@@ -68,6 +68,7 @@ describe('<AppointmentCard />', () => {
   context('renders the location name', () => {
     it('when the appointment is a video appointment without additionalInfo', () => {
       const appointment = {
+        id: '123',
         localStartTime: '2023-12-04T10:00:00-05:00',
         isVideo: true,
       };
