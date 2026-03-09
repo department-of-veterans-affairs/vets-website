@@ -48,6 +48,10 @@ describe('Skip map link', () => {
 
     cy.get(SKIP_MAP_LINK)
       .focus()
+      .should('have.focus');
+
+    cy.get(SKIP_MAP_LINK)
+      .focus()
       .click();
 
     // Focus should move off the map: either to the feedback button or to a footer link
@@ -74,6 +78,11 @@ describe('Skip map link', () => {
       .select('VA health');
     cy.get(SEARCH_BUTTON).click({ waitForAnimations: true });
     cy.get('#search-results-subheader').should('be.visible');
+    cy;
+
+    cy.get(SKIP_MAP_LINK).focus;
+
+    cy.get(SKIP_MAP_LINK).should('be.visible');
 
     cy.get(SKIP_MAP_LINK)
       .focus()
