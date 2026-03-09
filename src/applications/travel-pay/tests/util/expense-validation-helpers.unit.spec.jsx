@@ -254,7 +254,10 @@ describe('validateRequestedAmount', () => {
   });
 
   it('accepts valid X.XX format on SUBMIT', () => {
-    const result = validateRequestedAmount('10.00', DATE_VALIDATION_TYPE.SUBMIT);
+    const result = validateRequestedAmount(
+      '10.00',
+      DATE_VALIDATION_TYPE.SUBMIT,
+    );
 
     expect(result.isValid).to.be.true;
     expect(result.errors.costRequested).to.be.null;
