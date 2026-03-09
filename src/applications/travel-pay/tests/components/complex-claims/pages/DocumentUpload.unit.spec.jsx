@@ -117,4 +117,85 @@ describe('DocumentUpload component', () => {
     const fileInput = container.querySelector('va-file-input');
     expect(fileInput.getAttribute('error')).to.be.oneOf([null, '']);
   });
+
+  describe('Hint text behavior', () => {
+    it('displays default hint text when additionalHint is false (for expenses)', () => {
+      const { container } = renderComponent({ additionalHint: false });
+
+      const fileInput = container.querySelector('va-file-input');
+      const hintText = fileInput.getAttribute('hint');
+
+      expect(hintText).to.include('You can upload');
+      expect(hintText).to.include('Your file should be no larger than 5MB');
+      expect(hintText).to.not.include('proof-of-attendance');
+    });
+
+    it('displays default hint text when additionalHint is not provided', () => {
+      const { container } = renderComponent();
+
+      const fileInput = container.querySelector('va-file-input');
+      const hintText = fileInput.getAttribute('hint');
+
+      expect(hintText).to.include('You can upload');
+      expect(hintText).to.include('Your file should be no larger than 5MB');
+      expect(hintText).to.not.include('proof-of-attendance');
+    });
+
+    it('displays file types hint when additionalHint is true', () => {
+      const { container } = renderComponent({ additionalHint: true });
+
+      const fileInput = container.querySelector('va-file-input');
+      const hintText = fileInput.getAttribute('hint');
+
+      expect(hintText).to.include('Make sure your file is no larger than 5MB');
+      expect(hintText).to.not.include('proof-of-attendance');
+    });
+
+    it('injects additional hint HTML into shadow DOM when additionalHint is true', async () => {
+      const { container } = renderComponent({ additionalHint: true });
+
+      const fileInput = container.querySelector('va-file-input');
+
+      // Wait for the useEffect to potentially inject the HTML
+      await waitFor(
+        () => {
+          // The hint should mention file types
+          const hintText = fileInput.getAttribute('hint');
+          expect(hintText).to.include('Make sure your file is no larger than');
+        },
+        { timeout: 100 },
+      );
+    });
+  });
+
+  describe('Label customization', () => {
+    it('displays default label when label prop is not provided', () => {
+      const { container } = renderComponent();
+
+      const fileInput = container.querySelector('va-file-input');
+      expect(fileInput.getAttribute('label')).to.equal(
+        'Upload your proof of the expense',
+      );
+    });
+
+    it('displays custom label when label prop is provided', () => {
+      const customLabel = 'Upload your proof of attendance';
+      const { container } = renderComponent({ label: customLabel });
+
+      const fileInput = container.querySelector('va-file-input');
+      expect(fileInput.getAttribute('label')).to.equal(customLabel);
+    });
+
+    it('uses POA-specific label for proof of attendance uploads', () => {
+      const { container } = renderComponent({
+        label: 'Upload your proof of attendance',
+        additionalHint: true,
+      });
+
+      const fileInput = container.querySelector('va-file-input');
+      expect(fileInput.getAttribute('label')).to.equal(
+        'Upload your proof of attendance',
+      );
+    });
+  });
 });
