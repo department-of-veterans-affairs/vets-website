@@ -3,7 +3,6 @@ import React from 'react';
 import { Route, Switch, Redirect, useLocation } from 'react-router-dom';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { useIsInPilotUserStations } from '../referral-appointments/hooks/useIsInPilotUserStations';
-import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
 import UpcomingAppointmentsDetailsPage from './pages/UpcomingAppointmentsDetailsPage';
 import EpsAppointmentDetailsPage from './pages/EpsAppointmentDetailsPage/EpsAppointmentDetailsPage';
 import AppointmentsPage from './pages/AppointmentsPage/index';
@@ -26,17 +25,7 @@ function AppointmentListSection() {
           path="/pending/:id"
           component={RequestedAppointmentDetailsPage}
         />
-
-        {isInPilotUserStations && (
-          <Redirect from="/pending" to="/referrals-requests" />
-        )}
-        {!isInPilotUserStations && (
-          <Redirect from="/referrals-requests" to="/pending" />
-        )}
-
-        {isInPilotUserStations && (
-          <Route path="/referrals-requests" component={ReferralsAndRequests} />
-        )}
+        <Redirect from="/referrals-requests" to="/pending" />
         <Route
           exact
           path={['/', '/pending', '/past']}
