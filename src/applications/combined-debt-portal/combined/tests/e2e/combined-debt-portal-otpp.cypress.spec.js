@@ -289,8 +289,7 @@ describe('CDP - One Thing Per Page', () => {
         cy.get('va-additional-info').should('not.exist');
 
         // show debt details section
-        cy.findByTestId('otpp-details-header').should('exist');
-        cy.findByTestId('debt-details-header').should('not.exist');
+        cy.findByTestId('debt-details-header').should('exist');
 
         // show 'debt letter history' section (if applicable)
         cy.get('#debtLetterHistory').should('exist');

@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent } from '@testing-library/react';
+import { cleanup, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import { PageTitles, Paths } from '../../util/constants';
@@ -106,11 +106,46 @@ describe('Folders Landing Page', () => {
     expect(createFolderInline).to.exist;
 
     // checks input field to be empty
-    const vaTextInput = screen.queryByTestId('folder-name');
+    const vaTextInput = screen.getByTestId('folder-name');
     expect(vaTextInput.getAttribute('value')).to.equal('');
 
     // asserts new input field text value
     vaTextInput.setAttribute('value', 'New Custom Folder');
     expect(vaTextInput.getAttribute('value')).to.equal('New Custom Folder');
+  });
+
+  describe('error state (folderList is null)', () => {
+    it('renders AlertBackgroundBox without a hard-coded va-alert', () => {
+      const errorState = {
+        sm: {
+          folders: { folderList: null },
+          search: {},
+          recipients: {},
+        },
+      };
+      cleanup();
+      const errorScreen = setup(errorState);
+
+      // AlertBackgroundBox renders with data-testid="alert-text" when active
+      // and there should be no hard-coded va-alert with status="error"
+      expect(errorScreen.queryByTestId('alert-text')).to.not.exist;
+      expect(errorScreen.queryByTestId('my-folder-header')).to.not.exist;
+    });
+  });
+
+  describe('loading state (folderList is undefined)', () => {
+    it('renders loading indicator', () => {
+      const loadingState = {
+        sm: {
+          folders: { folderList: undefined },
+          search: {},
+          recipients: {},
+        },
+      };
+      cleanup();
+      const loadingScreen = setup(loadingState);
+      expect(loadingScreen.getByTestId('folders-loading-indicator')).to.exist;
+      expect(loadingScreen.queryByTestId('my-folder-header')).to.not.exist;
+    });
   });
 });

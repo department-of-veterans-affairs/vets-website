@@ -17,13 +17,18 @@ import {
 
 export const claimsOrReceivesPensionPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student\u2019s income'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'this student'}’s income`,
+      null,
+      false,
+    ),
     claimsOrReceivesPension: {
       ...yesNoUI(
         'Are you claiming or do you already receive Veterans Pension or Survivors Pension benefits?',
       ),
       'ui:description': generateHelpText(
-        'If yes, we\u2019ll ask you questions about the student\u2019s income. If no, we\u2019ll skip questions about the student\u2019s income',
+        'If yes, we’ll ask you questions about the student’s income. If no, we’ll skip questions about the student’s income',
       ),
       'ui:required': () => true,
     },
@@ -40,7 +45,11 @@ export const claimsOrReceivesPensionPage = {
 export const studentEarningsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student\u2019s income for this school term',
+      ({ formData }) =>
+        `${formData?.fullName?.first ||
+          'this student'}’s income for this school term`,
+      null,
+      false,
     ),
     'ui:options': {
       updateSchema: (_formData, schema, _uiSchema, index, _path, fullData) => {
@@ -98,7 +107,11 @@ export const studentEarningsPage = {
 export const studentFutureEarningsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student\u2019s expected income for next year',
+      ({ formData }) =>
+        `${formData?.fullName?.first ||
+          'this student'}’s expected income for next year`,
+      null,
+      false,
     ),
     studentExpectedEarningsNextYear: {
       'ui:description': StudentExpectedIncomeContent,
@@ -129,7 +142,10 @@ export const studentFutureEarningsPage = {
 
 export const studentAssetsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Value of student assets'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `Value of ${formData?.fullName?.first || 'this student'}’s assets`,
+    ),
     studentNetworthInformation: {
       savings: {
         ...currencyUI('Savings'),
@@ -144,7 +160,7 @@ export const studentAssetsPage = {
       realEstate: {
         ...currencyUI('Real estate'),
         'ui:description': generateHelpText(
-          'Don\u2019t include your primary residence (the home where you live most of the time)',
+          'Don’t include your primary residence (the home where you live most of the time)',
         ),
       },
       otherAssets: currencyUI('All other assets'),
@@ -183,10 +199,12 @@ export const studentAssetsPage = {
 export const remarksPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Additional information about this student',
+      ({ formData }) =>
+        `Additional information about ${formData?.fullName?.first ||
+          'this student'}`,
     ),
     remarks: textareaUI(
-      'Is there any other information you\u2019d like to add about this student?',
+      'Is there any other information you’d like to add about this student?',
     ),
   },
   schema: {

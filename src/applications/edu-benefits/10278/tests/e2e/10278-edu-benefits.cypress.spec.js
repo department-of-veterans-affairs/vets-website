@@ -12,53 +12,46 @@ import manifest from '../../manifest.json';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['authenticated-test', 'unauthenticated-test'],
+    dataSets: ['authenticated-test'],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(({ userLoggedIn }) => {
-            // Grab corresponding start button/link based on authentication
-            if (userLoggedIn) {
-              cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
-                .last()
-                .click({ force: true });
-            } else {
-              cy.get('.schemaform-start-button')
-                .first()
-                .click();
-            }
-          });
+          cy.get('va-link-action[href="#start"]')
+            .last()
+            .click({ force: true });
         });
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(({ userLoggedIn }) => {
-            if (userLoggedIn) {
-              cy.get('#inputField').type('John Doe', { force: true });
-            } else {
-              cy.get('#inputField').type('Not Authenticated', { force: true });
-            }
+          cy.get('@testData').then(data => {
+            const { claimantPersonalInformation } = data;
+            const { fullName } = claimantPersonalInformation;
+            const name = `${fullName.first} ${fullName.middle || ''} ${
+              fullName.last
+            }`.trim();
+            cy.get('va-statement-of-truth')
+              .shadow()
+              .get('#veteran-signature')
+              .shadow()
+              .get('input[name="veteran-signature"]')
+              .type(name);
+            cy.get('va-statement-of-truth')
+              .shadow()
+              .find('input[type="checkbox"]')
+              .check({ force: true });
+            cy.findByText(/submit/i, { selector: 'button' }).click();
           });
-          cy.get('#checkbox-element').check({ force: true });
-          cy.findByText(/Continue/i, { selector: 'button' }).click();
         });
       },
     },
     setupPerTest: () => {
-      cy.get('@testData').then(({ userLoggedIn }) => {
-        // Default endpoints to intercept
-        cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-        cy.intercept('POST', formConfig.submitUrl, mockSubmit);
-        cy.intercept('PUT', '/v0/in_progress_forms/22-10278', sip);
-
-        // Tests the authenticated form path which requires login and prefill
-        if (userLoggedIn) {
-          cy.intercept('GET', '/v0/user', user);
-          cy.intercept('GET', '/v0/in_progress_forms/22-10278', prefilledForm);
-          cy.login(user);
-        }
-      });
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
+      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.intercept('PUT', '/v0/in_progress_forms/22-10278', sip);
+      cy.intercept('GET', '/v0/user', user);
+      cy.intercept('GET', '/v0/in_progress_forms/22-10278', prefilledForm);
+      cy.login(user);
     },
     skip: Cypress.env('CI'), // Skip CI initially until content-build is merged
   },

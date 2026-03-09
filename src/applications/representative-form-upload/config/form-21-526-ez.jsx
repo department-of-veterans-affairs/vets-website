@@ -9,6 +9,7 @@ import { transformForSubmit } from './submit-transformer';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
 import submissionError from './submissionError';
+import SubmissionErrorLink from './submissionErrorLink';
 
 const form21526Ez = (pathname = null) => {
   const { subTitle, formNumber } = getFormContent(pathname);
@@ -42,6 +43,7 @@ const form21526Ez = (pathname = null) => {
     prefillEnabled: false,
     transformForSubmit,
     submissionError,
+    submissionErrorLink: SubmissionErrorLink,
     defaultDefinitions: {},
     title: `Submit VA Form ${formNumber}`,
     subTitle,

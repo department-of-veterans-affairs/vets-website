@@ -4,6 +4,7 @@ import {
   enabledFeatures,
 } from './featureTogglesToTest';
 import * as h from './helpers';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 const featureSetsToTest = featureCombinationsTogglesToTest([
   'facilities_use_fl_progressive_disclosure',
@@ -28,6 +29,7 @@ for (const featureSet of featureSetsToTest) {
       });
 
       cy.intercept('GET', '/v0/maintenance_windows', []);
+      cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
       cy.intercept('GET', '/facilities_api/**', {
         statusCode: 500,
         body: {

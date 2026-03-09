@@ -182,4 +182,47 @@ describe('Balances', () => {
     const result = showVHAPaymentHistory(mockState);
     expect(result).to.be.false;
   });
+
+  it('renders no-health-care alert when billError code is 403', () => {
+    const mockState = {
+      user: {},
+      combinedPortal: {
+        debtLetters: {
+          isProfileUpdating: false,
+          isPending: false,
+          isPendingVBMS: false,
+          isError: false,
+          isVBMSError: false,
+          debts: [],
+          selectedDebt: {},
+          debtLinks: [],
+          errors: [],
+          hasDependentDebts: false,
+        },
+        mcp: {
+          pending: false,
+          error: { code: '403' },
+          statements: [],
+        },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
+        loading: false,
+      },
+    };
+
+    const { container } = renderWithStore(<Balances />, mockState);
+
+    expect(container).to.exist;
+
+    // Verify no-health-care alert is rendered
+    const noHealthCareAlert = container.querySelector(
+      '[data-testid="copay-no-health-care-alert"]',
+    );
+    expect(noHealthCareAlert).to.exist;
+
+    // Verify copay balance card is NOT rendered
+    const balanceCard = container.querySelector('[data-testid="card-amount"]');
+    expect(balanceCard).to.not.exist;
+  });
 });
