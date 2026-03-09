@@ -23,7 +23,7 @@ const parseShaResponse = (response, file) => ({
 });
 
 export const uiSchema = {
-  'ui:title': 'Upload your separation health assessment part a',
+  'ui:title': 'Upload your Separation Health Assessment Part A',
   'ui:description': (
     <>
       <p>
