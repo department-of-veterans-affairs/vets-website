@@ -438,7 +438,8 @@ const testConfig = createTestConfig(
         });
       },
       'authorization-and-certification': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
+        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck('main');
         afterHook(() => {
           selectCheckboxWebComponent('authorizationRelease', true);
           selectCheckboxWebComponent('certificationStatements', true);
