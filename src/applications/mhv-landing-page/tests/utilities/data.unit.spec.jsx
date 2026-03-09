@@ -119,7 +119,7 @@ describe(manifest.appName, () => {
 
     describe('resolveLandingPageLinks', () => {
       describe('spotlight links', () => {
-        it('returns different spotlight links for patients vs non-patients', () => {
+        it('patient spotlight links use eauth URLs and non-patient links use public myhealth.va.gov URLs', () => {
           const featureToggles = {};
           const { hubs, nonPatientHubs } = resolveLandingPageLinks(
             true,
@@ -149,6 +149,11 @@ describe(manifest.appName, () => {
           expect(patientSpotlight.links[2].text).to.equal(
             'VA mobile apps for a healthy new year',
           );
+
+          // Patient spotlight links should NOT use public myhealth.va.gov URLs
+          patientSpotlight.links.forEach(link => {
+            expect(link.href).to.not.include('www.myhealth.va.gov');
+          });
 
           // Non-patient spotlight should have the same new links with public URLs
           expect(nonPatientSpotlight.links).to.have.lengthOf(3);

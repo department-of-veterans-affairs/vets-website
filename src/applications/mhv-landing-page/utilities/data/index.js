@@ -129,17 +129,20 @@ const resolveLandingPageLinks = (
     },
   ];
 
-  const spotlightLinks = spotlightArticles.map(({ text, patientHref }) => ({
-    text,
-    href: patientHref,
-  }));
+  const spotlightLinks = spotlightArticles
+    .map(({ text, patientHref }) => ({
+      text,
+      href: patientHref,
+    }))
+    .filter(isLinkData);
 
   const nonPatientSpotlightLinks = spotlightArticles
     .filter(({ nonPatientHref }) => nonPatientHref)
     .map(({ text, nonPatientHref }) => ({
       text,
       href: nonPatientHref,
-    }));
+    }))
+    .filter(isLinkData);
 
   const paymentsLinks = (featureToggles[
     FEATURE_FLAG_NAMES.travelPaySubmitMileageExpense
