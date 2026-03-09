@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 import { differenceInDays } from 'date-fns';
 
@@ -149,6 +150,22 @@ const SubmissionCard = ({ submission, omitClaimantName }) => {
             </p>
           </>
         )}
+        <Toggler
+          toggleName={
+            Toggler.TOGGLE_NAMES.accreditedRepresentativePortalClaimantDetails
+          }
+        >
+          <Toggler.Enabled>
+            <va-link
+              active
+              class="vads-u-margin-top--2 vads-u-display--block "
+              href={`/representative/find-claimant/claimant-overview/${
+                submission.id
+              }`}
+              text="Go to the claimant overview"
+            />
+          </Toggler.Enabled>
+        </Toggler>
       </va-card>
     </li>
   );
