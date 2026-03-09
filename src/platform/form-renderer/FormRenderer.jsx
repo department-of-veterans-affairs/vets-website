@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getNestedProperty, renderStr, formatPhoneNumber } from './util';
 
 import './sass/FormRenderer.scss';
@@ -209,6 +210,11 @@ const FormRenderer = ({ config, data }) => {
       </div>
     </div>
   );
+};
+
+FormRenderer.propTypes = {
+  config: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 export default FormRenderer;
