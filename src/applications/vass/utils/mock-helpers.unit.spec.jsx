@@ -1,5 +1,14 @@
 import { expect } from 'chai';
+import { format } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { generateSlots } from './mock-helpers';
+
+const TZ_PT = 'America/Los_Angeles';
+
+const getExpectedPacific8amUtc = utcDateString => {
+  const dateStr = format(new Date(utcDateString), 'yyyy-MM-dd');
+  return zonedTimeToUtc(`${dateStr}T08:00:00`, TZ_PT);
+};
 
 describe('generateSlots', () => {
   it('should generate default 14 days of slots with 12 slots per day', () => {
@@ -30,11 +39,13 @@ describe('generateSlots', () => {
     expect(durationMinutes).to.equal(30);
   });
 
-  it('should start at 16:00 UTC or 8:00 PST', () => {
+  it('should start at 8:00 AM Pacific', () => {
     const slots = generateSlots(7, 1);
 
     const firstSlotStart = new Date(slots[0].dtStartUtc);
-    expect(firstSlotStart.getUTCHours()).to.equal(16); // 16:00 UTC
+    const expected8amUtc = getExpectedPacific8amUtc(slots[0].dtStartUtc);
+
+    expect(firstSlotStart.getUTCHours()).to.equal(expected8amUtc.getUTCHours());
     expect(firstSlotStart.getUTCMinutes()).to.equal(0);
   });
 
@@ -42,14 +53,18 @@ describe('generateSlots', () => {
     const slots = generateSlots(7, 3);
 
     const firstDay = slots.slice(0, 3);
+    const expected8amUtc = getExpectedPacific8amUtc(firstDay[0].dtStartUtc);
+    const startHour = expected8amUtc.getUTCHours();
 
-    expect(new Date(firstDay[0].dtStartUtc).getUTCHours()).to.equal(16);
+    expect(new Date(firstDay[0].dtStartUtc).getUTCHours()).to.equal(startHour);
     expect(new Date(firstDay[0].dtStartUtc).getUTCMinutes()).to.equal(0);
 
-    expect(new Date(firstDay[1].dtStartUtc).getUTCHours()).to.equal(16);
+    expect(new Date(firstDay[1].dtStartUtc).getUTCHours()).to.equal(startHour);
     expect(new Date(firstDay[1].dtStartUtc).getUTCMinutes()).to.equal(30);
 
-    expect(new Date(firstDay[2].dtStartUtc).getUTCHours()).to.equal(17);
+    expect(new Date(firstDay[2].dtStartUtc).getUTCHours()).to.equal(
+      startHour + 1,
+    );
     expect(new Date(firstDay[2].dtStartUtc).getUTCMinutes()).to.equal(0);
   });
 
