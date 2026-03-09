@@ -16,6 +16,8 @@ import {
   HINT_TEXT,
   UPLOAD_URL,
   FILE_UPLOAD_TITLE,
+  ADDITIONAL_INPUT_LABELS,
+  ADDITIONAL_ATTACHMENT_TITLE,
 } from '../../../components/fileInputComponent/constants';
 import {
   createPayload,
@@ -59,6 +61,8 @@ export const uiSchema = {
       createPayload,
       parseResponse,
       additionalInputRequired: true,
+      additionalInputTitle: ADDITIONAL_ATTACHMENT_TITLE,
+      additionalInputLabels: ADDITIONAL_INPUT_LABELS,
       additionalInput,
       handleAdditionalInput,
       additionalInputUpdate,

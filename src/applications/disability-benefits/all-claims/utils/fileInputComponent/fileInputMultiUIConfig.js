@@ -53,3 +53,5 @@ export const handleAdditionalInput = e => {
   if (value === '') return null;
   return { attachmentId: e.detail.value };
 };
+
+export const additionalInputTitle = 'What type of document is this?';

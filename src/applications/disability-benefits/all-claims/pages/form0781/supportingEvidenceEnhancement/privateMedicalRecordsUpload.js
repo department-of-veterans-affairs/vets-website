@@ -12,6 +12,8 @@ import {
   HINT_TEXT,
   UPLOAD_URL,
   FILE_UPLOAD_TITLE,
+  ADDITIONAL_ATTACHMENT_TITLE,
+  PMR_ADDITIONAL_INPUT_LABELS,
 } from '../../../components/fileInputComponent/constants';
 import {
   createPayload,
@@ -49,6 +51,8 @@ export const uiSchema = {
       createPayload,
       parseResponse,
       additionalInputRequired: true,
+      additionalInputTitle: ADDITIONAL_ATTACHMENT_TITLE,
+      additionalInputLabels: PMR_ADDITIONAL_INPUT_LABELS,
       additionalInput,
       handleAdditionalInput,
       additionalInputUpdate,
