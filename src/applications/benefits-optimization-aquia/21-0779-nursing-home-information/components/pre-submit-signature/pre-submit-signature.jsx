@@ -200,8 +200,13 @@ export const PreSubmitSignature = ({
           onVaCheckboxChange={handleCheckboxChange}
           hideLegalNote
         >
-          I, {officialsName}, confirm that the identifying information in this
-          form is accurate and has been represented correctly.
+          <span
+            data-dd-privacy="mask"
+            data-dd-action-name="certification statement"
+          >
+            I, {officialsName}, confirm that the identifying information in this
+            form is accurate and has been represented correctly.
+          </span>
         </VaStatementOfTruth>
       </div>
     </div>

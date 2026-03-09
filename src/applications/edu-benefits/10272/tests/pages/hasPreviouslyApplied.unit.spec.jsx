@@ -4,6 +4,7 @@ import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
+import { updateFormData } from '../../pages/hasPreviouslyApplied';
 
 describe('22-10272 Your education benefits information Step 1 - Page 1', () => {
   const {
@@ -41,5 +42,27 @@ describe('22-10272 Your education benefits information Step 1 - Page 1', () => {
     await waitFor(() => {
       expect($$('va-radio[error]', container).length).to.equal(1);
     });
+  });
+
+  it('should clear *vaBenefitProgram* if *no* is selected for radio button', () => {
+    const formData = {
+      hasPreviouslyApplied: false,
+      vaBenefitProgram: 'chapter35',
+    };
+
+    const updatedFormData = updateFormData({}, formData);
+
+    expect(updatedFormData.vaBenefitProgram).to.equal(null);
+  });
+
+  it('should keep *vaBenefitProgram* if *yes* is selected for radio button', () => {
+    const formData = {
+      hasPreviouslyApplied: true,
+      vaBenefitProgram: 'chapter35',
+    };
+
+    const updatedFormData = updateFormData({}, formData);
+
+    expect(updatedFormData.vaBenefitProgram).to.equal('chapter35');
   });
 });
