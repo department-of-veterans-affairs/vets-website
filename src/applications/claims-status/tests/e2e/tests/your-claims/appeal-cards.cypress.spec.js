@@ -33,7 +33,8 @@ describe('Appeal cards', () => {
       ]);
 
       cy.findByRole('heading', {
-        name: 'Disability compensation appeal Received on January 1, 2025',
+        name:
+          'In Progress Disability compensation appeal Received on January 1, 2025',
       });
 
       cy.findByText(/Issue on appeal/);
@@ -57,7 +58,7 @@ describe('Appeal cards', () => {
 
       cy.findByRole('heading', {
         name:
-          'Supplemental claim for disability compensation Received on January 1, 2025',
+          'In Progress Supplemental claim for disability compensation Received on January 1, 2025',
       });
 
       cy.findByText(/Issue on review/);
@@ -81,7 +82,7 @@ describe('Appeal cards', () => {
 
       cy.findByRole('heading', {
         name:
-          'Higher-level review for disability compensation Received on January 1, 2025',
+          'In Progress Higher-level review for disability compensation Received on January 1, 2025',
       });
 
       cy.findByText(/Issue on review/);
@@ -104,7 +105,8 @@ describe('Appeal cards', () => {
       ]);
 
       cy.findByRole('heading', {
-        name: 'Disability compensation appeal Received on January 1, 2025',
+        name:
+          'In Progress Disability compensation appeal Received on January 1, 2025',
       });
 
       cy.findByText(/Issue on appeal/);
@@ -169,37 +171,52 @@ describe('Appeal cards', () => {
       },
     ];
 
-    programAreas.forEach(({ programArea, appealTitle, reviewTitle }) => {
-      it(`should display ${appealTitle}`, () => {
-        setupAppealCardsTest([
-          createAppeal({
-            type: 'legacyAppeal',
-            eventType: 'nod',
-            programArea,
-          }),
-        ]);
+    const isActive = [true, false];
 
-        cy.findByRole('heading', {
-          name: `${appealTitle} Received on January 1, 2025`,
+    isActive.forEach(active => {
+      describe(`when appeal is ${active ? 'active' : 'closed'}`, () => {
+        programAreas.forEach(({ programArea, appealTitle, reviewTitle }) => {
+          it(`should display ${appealTitle}`, () => {
+            setupAppealCardsTest([
+              createAppeal({
+                type: 'legacyAppeal',
+                eventType: 'nod',
+                programArea,
+                active,
+              }),
+            ]);
+
+            const expectedHeading = active
+              ? `In Progress ${appealTitle} Received on January 1, 2025`
+              : `${appealTitle} Received on January 1, 2025`;
+            cy.findByRole('heading', {
+              name: expectedHeading,
+            });
+
+            cy.axeCheck();
+          });
+
+          it(`should display ${reviewTitle} appeal`, () => {
+            setupAppealCardsTest([
+              createAppeal({
+                type: 'supplementalClaim',
+                eventType: 'sc_request',
+                programArea,
+                active,
+              }),
+            ]);
+
+            const expectedHeading = active
+              ? `In Progress ${reviewTitle} Received on January 1, 2025`
+              : `${reviewTitle} Received on January 1, 2025`;
+
+            cy.findByRole('heading', {
+              name: expectedHeading,
+            });
+
+            cy.axeCheck();
+          });
         });
-
-        cy.axeCheck();
-      });
-
-      it(`should display ${reviewTitle}`, () => {
-        setupAppealCardsTest([
-          createAppeal({
-            type: 'supplementalClaim',
-            eventType: 'sc_request',
-            programArea,
-          }),
-        ]);
-
-        cy.findByRole('heading', {
-          name: `${reviewTitle} Received on January 1, 2025`,
-        });
-
-        cy.axeCheck();
       });
     });
   });

@@ -18,12 +18,16 @@ import {
   selectComplexClaimCreationLoadingState,
   selectComplexClaimFetchLoadingState,
   selectHasUnsavedExpenseChanges,
+  selectIsUnsavedChangesModalVisible,
+  selectUnsavedChangesModalSource,
+  selectExpenseBackDestination,
 } from '../redux/selectors';
 import DowntimeWindowAlert from './DownTimeWindowAlert';
 import {
   getAppointmentData,
   getComplexClaimDetails,
   clearUnsavedExpenseChanges,
+  setUnsavedChangesModalVisible,
 } from '../redux/actions';
 import UnsavedChangesModal from '../components/UnsavedChangesModal';
 import {
@@ -45,6 +49,9 @@ const getBackRoute = ({
     };
   }
 
+  // Exit complex claims based on local storage item set on
+  // 1. Past appointment details
+  // 2. Claim details
   return (
     {
       appointment: {
@@ -69,10 +76,6 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const location = useLocation();
   const isErrorRoute = location.pathname.endsWith('/get-claim-error');
   const [shouldRedirect, setShouldRedirect] = useState(false);
-  const [
-    isUnsavedChangesModalVisible,
-    setIsUnsavedChangesModalVisible,
-  ] = useState(false);
   const {
     useToggleValue,
     TOGGLE_NAMES,
@@ -95,6 +98,13 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const claimError = complexClaim.fetch?.error;
 
   const hasUnsavedChanges = useSelector(selectHasUnsavedExpenseChanges);
+  const isUnsavedChangesModalVisible = useSelector(
+    selectIsUnsavedChangesModalVisible,
+  );
+  const unsavedChangesModalSource = useSelector(
+    selectUnsavedChangesModalSource,
+  );
+  const backDestination = useSelector(selectExpenseBackDestination);
   const isComplexClaimCreationLoading = useSelector(
     selectComplexClaimCreationLoadingState,
   );
@@ -147,32 +157,41 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const handleBackLinkClick = e => {
     if (hasUnsavedChanges) {
       e.preventDefault();
-      setIsUnsavedChangesModalVisible(true);
+      dispatch(setUnsavedChangesModalVisible(true, 'breadcrumb'));
     }
     // If no unsaved changes, let the default link behavior happen
   };
 
   const handleLeaveWithoutSaving = () => {
     dispatch(clearUnsavedExpenseChanges());
-    setIsUnsavedChangesModalVisible(false);
+    dispatch(setUnsavedChangesModalVisible(false));
 
-    // Navigate to the appropriate back location
-    const backHref = getBackRoute({
-      isIntroductionPage,
-      apptId,
-      entryPoint,
-      effectiveClaimId,
-    });
-
-    if (backHref.interAppRoute) {
-      window.location.assign(backHref.href);
+    if (unsavedChangesModalSource === 'expense-back') {
+      // In-flow navigation (back button on expense/mileage page)
+      navigate(
+        `/file-new-claim/${apptId}/${effectiveClaimId}/${
+          backDestination === 'review' ? 'review' : 'choose-expense'
+        }`,
+      );
     } else {
-      navigate(backHref.href.replace('/my-health/travel-pay', ''));
+      // Breadcrumb navigation (exit the flow entirely)
+      const backHref = getBackRoute({
+        isIntroductionPage,
+        apptId,
+        entryPoint,
+        effectiveClaimId,
+      });
+
+      if (backHref.interAppRoute) {
+        window.location.assign(backHref.href);
+      } else {
+        navigate(backHref.href.replace('/my-health/travel-pay', ''));
+      }
     }
   };
 
   const handleContinueEditing = () => {
-    setIsUnsavedChangesModalVisible(false);
+    dispatch(setUnsavedChangesModalVisible(false));
   };
 
   if (isLoading) {
