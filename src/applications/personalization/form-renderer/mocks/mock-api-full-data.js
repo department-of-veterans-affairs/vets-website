@@ -1,5 +1,5 @@
 const dateFns = require('date-fns');
-const mockData = require('./maximal.json');
+const mockData = require('./mock-submission.json');
 const mockUser = require('./user.json');
 const mockSubmission = require('./testdata');
 
@@ -45,7 +45,7 @@ const mockSipGet = {
   metadata: {
     version: 0,
     prefill: false,
-    returnUrl: '/veteran-information',
+    returnUrl: '/net-worth',
   },
 };
 
