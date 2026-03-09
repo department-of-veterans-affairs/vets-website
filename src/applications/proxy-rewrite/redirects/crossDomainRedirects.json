@@ -361,8 +361,9 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/pension/index.asp",
-    "dest": "/pension/"
+    "src": "/pension/",
+    "dest": "/pension/",
+    "catchAll": true
   },
   {
     "domain": "www.benefits.va.gov",

@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
 
 import {
+  useFeatureToggle,
+  TOGGLE_NAMES,
+} from 'platform/utilities/feature-toggles';
+import {
   BTSSS_PORTAL_URL,
   COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
 } from '../../../constants';
@@ -30,6 +34,9 @@ const IntroductionPage = () => {
 
   const { data: appointment } = useSelector(selectAppointment);
   const complexClaim = useSelector(selectComplexClaim);
+
+  const { useToggleValue } = useFeatureToggle();
+  const ccEnabled = useToggleValue(TOGGLE_NAMES.travelPayEnableCommunityCare);
 
   const title = 'File a travel reimbursement claim';
 
@@ -145,11 +152,32 @@ const IntroductionPage = () => {
               </ul>
               <p>
                 You’ll be asked to submit receipts when you file your claim.
+                {ccEnabled &&
+                  appointment?.isCC && (
+                    <>
+                      {' '}
+                      You’ll also need to submit proof of attendance, like a
+                      work or school release note from the community care
+                      provider or a document on the community provider
+                      letterhead showing the appointment date.
+                    </>
+                  )}
               </p>
               <p>
-                If your trip was one way, or if you started from somewhere other
-                than your home address, you’ll need to file your claim through
-                the Beneficiary Travel Self Service System (BTSSS).{' '}
+                {ccEnabled ? (
+                  <>
+                    If your trip was one way, if you started from somewhere
+                    other than your home address, or if you’re a caregiver,
+                    you’ll need to file your claim through the Beneficiary
+                    Travel Self Service System (BTSSS).{' '}
+                  </>
+                ) : (
+                  <>
+                    If your trip was one way, or if you started from somewhere
+                    other than your home address, you’ll need to file your claim
+                    through the Beneficiary Travel Self Service System (BTSSS).{' '}
+                  </>
+                )}
               </p>
               <p>
                 <va-link href={BTSSS_PORTAL_URL} external text="Go to BTSSS" />

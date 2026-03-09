@@ -94,7 +94,7 @@ function ViewDependentsLists(props) {
           <strong> or</strong>
         </li>
         <li>
-          Your child over age 18 enrolled in or left full-time school,
+          Your child over age 18 enrolled in or left school,
           <strong> or</strong>
         </li>
         <li>

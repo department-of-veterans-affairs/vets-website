@@ -4,6 +4,11 @@ import {
   unreportedAssetPages,
   options,
 } from '../../../../config/chapters/09-unreported-assets/unreportedAssetPages';
+import {
+  spouseRelationshipLabels,
+  custodianRelationshipLabels,
+  parentRelationshipLabels,
+} from '../../../../labels';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
 
@@ -15,13 +20,10 @@ import {
 import {
   testNumberOfFieldsByType,
   testComponentFieldsMarkedAsRequired,
-  testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
 describe('unreported asset list and loop pages', () => {
-  const { unreportedAssetPagesSummary } = unreportedAssetPages;
-
   describe('isItemIncomplete function', () => {
     const baseItem = testData.data.unreportedAssets[0];
     testOptionsIsItemIncomplete(options, baseItem);
@@ -61,73 +63,316 @@ describe('unreported asset list and loop pages', () => {
     /* eslint-enable no-unused-vars */
   });
 
-  describe('summary page', () => {
-    const { schema, uiSchema } = unreportedAssetPagesSummary;
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      { 'va-radio': 1 },
-      'summary page',
-    );
-    testComponentFieldsMarkedAsRequired(
-      formConfig,
-      schema,
-      uiSchema,
-      [
-        'va-radio[label="Do you or your dependents have any assets not already reported?"]',
-      ],
-      'summary page',
-    );
-    testSubmitsWithoutErrors(
-      formConfig,
-      schema,
-      uiSchema,
-      'summary page',
-      testData.data,
-      { loggedIn: true },
-    );
+  describe('summary pages', () => {
+    describe('veteran summary page', () => {
+      const {
+        schema,
+        uiSchema,
+      } = unreportedAssetPages.unreportedAssetPagesVeteranSummary;
+      const formData = { ...testData.data, claimantType: 'VETERAN' };
+
+      it('should display when claimantType is not SPOUSE/CHILD/CUSTODIAN/PARENT', () => {
+        const {
+          depends,
+        } = unreportedAssetPages.unreportedAssetPagesVeteranSummary;
+        expect(depends(formData)).to.be.true;
+      });
+
+      testNumberOfFieldsByType(
+        formConfig,
+        schema,
+        uiSchema,
+        { 'va-radio': 1 },
+        'summary page',
+      );
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'summary page',
+        formData,
+        { loggedIn: true },
+      );
+    });
+
+    describe('spouse summary page', () => {
+      const {
+        schema,
+        uiSchema,
+      } = unreportedAssetPages.unreportedAssetPagesSpouseSummary;
+      const formData = { ...testData.data, claimantType: 'SPOUSE' };
+
+      it('should display when claimantType is SPOUSE', () => {
+        const {
+          depends,
+        } = unreportedAssetPages.unreportedAssetPagesSpouseSummary;
+        expect(depends(formData)).to.be.true;
+      });
+
+      it('should have modified hint text for spouse', () => {
+        expect(
+          uiSchema['view:isAddingUnreportedAssets'][
+            'ui:options'
+          ].updateUiSchema()['ui:options'].hint,
+        ).to.include(
+          'Your dependents include children who you financially support',
+        );
+      });
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'spouse summary page',
+        formData,
+        { loggedIn: true },
+      );
+    });
+
+    describe('child summary page', () => {
+      const {
+        schema,
+        uiSchema,
+      } = unreportedAssetPages.unreportedAssetPagesChildSummary;
+      const formData = { ...testData.data, claimantType: 'CHILD' };
+
+      it('should display when claimantType is CHILD', () => {
+        const {
+          depends,
+        } = unreportedAssetPages.unreportedAssetPagesChildSummary;
+        expect(depends(formData)).to.be.true;
+      });
+
+      it('should have modified title text for child', () => {
+        expect(uiSchema['view:isAddingUnreportedAssets']['ui:title']).to.equal(
+          'Do you have any assets you haven’t already reported?',
+        );
+      });
+
+      it('should have no hint text for child', () => {
+        expect(uiSchema['view:isAddingUnreportedAssets']['ui:options'].hint).to
+          .be.undefined;
+      });
+
+      it('should have correct option labels', () => {
+        const { labels } = uiSchema['view:isAddingUnreportedAssets'][
+          'ui:options'
+        ].updateUiSchema()['ui:options'];
+        expect(labels.Y).to.equal('Yes, I have an asset to report');
+        expect(labels.N).to.equal('No, I don’t have an asset to report');
+      });
+
+      it('should have correct labelHeaderLevel configuration', () => {
+        const { labelHeaderLevel } = uiSchema['view:isAddingUnreportedAssets'][
+          'ui:options'
+        ].updateUiSchema()['ui:options'];
+
+        expect(labelHeaderLevel).to.equal('2');
+      });
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'child summary page',
+        formData,
+        { loggedIn: true },
+      );
+    });
+
+    describe('custodian summary page', () => {
+      const {
+        schema,
+        uiSchema,
+      } = unreportedAssetPages.unreportedAssetPagesCustodianSummary;
+      const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
+
+      it('should display when claimantType is CUSTODIAN', () => {
+        const {
+          depends,
+        } = unreportedAssetPages.unreportedAssetPagesCustodianSummary;
+        expect(depends(formData)).to.be.true;
+      });
+
+      it('should have modified hint text for custodian', () => {
+        expect(
+          uiSchema['view:isAddingUnreportedAssets'][
+            'ui:options'
+          ].updateUiSchema()['ui:options'].hint,
+        ).to.include(
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        );
+      });
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'custodian summary page',
+        formData,
+        { loggedIn: true },
+      );
+    });
+
+    describe('parent summary page', () => {
+      const {
+        schema,
+        uiSchema,
+      } = unreportedAssetPages.unreportedAssetPagesParentSummary;
+      const formData = { ...testData.data, claimantType: 'PARENT' };
+
+      it('should display when claimantType is PARENT', () => {
+        const {
+          depends,
+        } = unreportedAssetPages.unreportedAssetPagesParentSummary;
+        expect(depends(formData)).to.be.true;
+      });
+
+      it('should have modified hint text for parent', () => {
+        expect(
+          uiSchema['view:isAddingUnreportedAssets'][
+            'ui:options'
+          ].updateUiSchema()['ui:options'].hint,
+        ).to.include(
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        );
+      });
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'parent summary page',
+        formData,
+        { loggedIn: true },
+      );
+    });
   });
 
-  describe('relationship page', () => {
-    const schema =
-      unreportedAssetPages.unreportedAssetNonVeteranRecipientPage.schema
-        .properties.unreportedAssets.items;
-    const uiSchema =
-      unreportedAssetPages.unreportedAssetNonVeteranRecipientPage.uiSchema
-        .unreportedAssets.items;
+  describe('recipient pages', () => {
+    describe('spouse recipient page', () => {
+      const schema =
+        unreportedAssetPages.unreportedAssetSpouseRecipientPage.schema
+          .properties.unreportedAssets.items;
+      const uiSchema =
+        unreportedAssetPages.unreportedAssetSpouseRecipientPage.uiSchema
+          .unreportedAssets.items;
+      const formData = {
+        ...testData.data.unreportedAssets[0],
+        claimantType: 'SPOUSE',
+      };
 
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      { 'va-radio': 1 },
-      'relationship',
-    );
-    testComponentFieldsMarkedAsRequired(
-      formConfig,
-      schema,
-      uiSchema,
-      [
-        'va-radio[label="What is the asset owner’s relationship to the Veteran?"]',
-      ],
-      'relationship',
-    );
-    testSubmitsWithoutErrors(
-      formConfig,
-      schema,
-      uiSchema,
-      'relationship',
-      testData.data.unreportedAssets[0],
-      { loggedIn: true },
-    );
-    testSelectAndValidateField(
-      formConfig,
-      schema,
-      uiSchema,
-      'relationship',
-      'root_otherAssetOwnerRelationshipType',
-    );
+      it('should display when claimantType is SPOUSE', () => {
+        const {
+          depends,
+        } = unreportedAssetPages.unreportedAssetSpouseRecipientPage;
+        expect(depends({ claimantType: 'SPOUSE' })).to.be.true;
+      });
+
+      it('should use spouse-specific relationship labels', () => {
+        const radioLabels =
+          uiSchema.assetOwnerRelationship['ui:options'].labels;
+        expect(radioLabels).to.equal(spouseRelationshipLabels);
+      });
+
+      it('should have correct schema properties for spouse relationships', () => {
+        const relationshipKeys = schema.properties.assetOwnerRelationship.enum;
+        const expectedKeys = Object.keys(spouseRelationshipLabels);
+        expect(relationshipKeys).to.deep.equal(expectedKeys);
+      });
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'spouse recipient',
+        formData,
+        { loggedIn: true },
+      );
+    });
+
+    describe('custodian recipient page', () => {
+      const schema =
+        unreportedAssetPages.unreportedAssetCustodianRecipientPage.schema
+          .properties.unreportedAssets.items;
+      const uiSchema =
+        unreportedAssetPages.unreportedAssetCustodianRecipientPage.uiSchema
+          .unreportedAssets.items;
+      const formData = {
+        ...testData.data.unreportedAssets[0],
+        claimantType: 'CUSTODIAN',
+      };
+
+      it('should display when claimantType is CUSTODIAN', () => {
+        const {
+          depends,
+        } = unreportedAssetPages.unreportedAssetCustodianRecipientPage;
+        expect(depends({ claimantType: 'CUSTODIAN' })).to.be.true;
+      });
+
+      it('should use custodian-specific relationship labels', () => {
+        const radioLabels =
+          uiSchema.assetOwnerRelationship['ui:options'].labels;
+        expect(radioLabels).to.equal(custodianRelationshipLabels);
+      });
+
+      it('should have correct schema properties for custodian relationships', () => {
+        const relationshipKeys = schema.properties.assetOwnerRelationship.enum;
+        const expectedKeys = Object.keys(custodianRelationshipLabels);
+        expect(relationshipKeys).to.deep.equal(expectedKeys);
+      });
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'custodian recipient',
+        formData,
+        { loggedIn: true },
+      );
+    });
+
+    describe('parent recipient page', () => {
+      const schema =
+        unreportedAssetPages.unreportedAssetParentRecipientPage.schema
+          .properties.unreportedAssets.items;
+      const uiSchema =
+        unreportedAssetPages.unreportedAssetParentRecipientPage.uiSchema
+          .unreportedAssets.items;
+      const formData = {
+        ...testData.data.unreportedAssets[0],
+        claimantType: 'PARENT',
+      };
+
+      it('should display when claimantType is PARENT', () => {
+        const {
+          depends,
+        } = unreportedAssetPages.unreportedAssetParentRecipientPage;
+        expect(depends({ claimantType: 'PARENT' })).to.be.true;
+      });
+
+      it('should use parent-specific relationship labels', () => {
+        const radioLabels =
+          uiSchema.assetOwnerRelationship['ui:options'].labels;
+        expect(radioLabels).to.equal(parentRelationshipLabels);
+      });
+
+      it('should have correct schema properties for parent relationships', () => {
+        const relationshipKeys = schema.properties.assetOwnerRelationship.enum;
+        const expectedKeys = Object.keys(parentRelationshipLabels);
+        expect(relationshipKeys).to.deep.equal(expectedKeys);
+      });
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'parent recipient',
+        formData,
+        { loggedIn: true },
+      );
+    });
   });
 
   describe('type page', () => {

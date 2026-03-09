@@ -229,21 +229,24 @@ describe('OracleHealthTransitionAlerts', () => {
             expect(addActionSpy.callCount).to.be.greaterThan(0);
           });
 
-          const call = addActionSpy
+          const calls = addActionSpy
             .getCalls()
-            .find(
+            .filter(
               c =>
                 c.args[0] ===
                 dataDogActionNames.oracleHealthTransition
                   .T3_REFILL_BLOCKED_ALERT_DISPLAYED,
             );
-          expect(call).to.exist;
-          expect(call.args[1]).to.have.property('facilityId');
-          expect(call.args[1]).to.have.property('phase', 'p4');
-          expect(call.args[1]).to.have.property(
-            'blockedPrescriptionCount',
-            blockedPrescriptions.length,
-          );
+          expect(calls.length).to.be.greaterThan(0);
+          calls.forEach(call => {
+            expect(call.args[1]).to.have.property('facilityId');
+            expect(call.args[1].facilityId).to.be.a('string');
+            expect(call.args[1]).to.have.property('phase', 'p4');
+            expect(call.args[1]).to.have.property(
+              'blockedPrescriptionCount',
+              blockedPrescriptions.length,
+            );
+          });
         });
 
         it('calls datadogRum.addAction with T3_BLOCKED_RX_LINK_CLICK when a blocked prescription link is clicked', () => {
@@ -472,6 +475,19 @@ describe('OracleHealthTransitionAlerts', () => {
         // Unmount clears tracked state so future navigations fire again
         unmount();
       });
+    });
+
+    it('displays expired message when isExpired prop is true', () => {
+      const { container } = render(
+        <OracleHealthRenewalInCardAlert isExpired />,
+      );
+
+      expect(container.textContent).to.include(
+        'Your prescription is too old to refill',
+      );
+      expect(container.textContent).to.include(
+        'call your provider to request a renewal',
+      );
     });
   });
 });

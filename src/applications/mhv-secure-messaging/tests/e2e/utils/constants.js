@@ -56,6 +56,7 @@ export const Paths = {
     SENT_SEARCH: '/my_health/v1/messaging/folders/-1/search*',
     PRESCRIPTIONS: '/my_health/v1/prescriptions/',
     PRESCRIPTIONS_V2: '/my_health/v2/prescriptions/',
+    OH_SYNC_STATUS: '/my_health/v1/messaging/messages/oh_sync_status',
   },
 };
 
@@ -85,7 +86,7 @@ export const Locators = {
   FOLDERS_LIST: '[data-testid ="my-folders-sidebar"]',
   MESS_LIST: '[data-testid="message-list-item"]',
   THREAD_LIST: '.thread-list-item',
-  THREADS: '[data-testid="thread-list-item"]',
+  THREADS: 'thread-list-item',
   MES_COUNT: '[data-testid="message-count"]',
   REPLY_FORM: '[data-testid="reply-form"]',
   REPLY_TO: '[data-testid="draft-reply-to"]',
@@ -137,7 +138,7 @@ export const Locators = {
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
     // check if below are duplicates
     REPLY_BTN: '#reply-button',
-    REPLY: '[data-testid="reply-button-body"]',
+    REPLY: 'reply-button-body',
     CONTINUE: 'continue-button',
     TEST2: '[data-testid=radiobutton-TEST2]',
     TESTAGAIN: '[data-testid=radiobutton-TESTAGAIN]',
@@ -222,6 +223,7 @@ export const Locators = {
     BACK_TOP: 'va-back-to-top',
     CERNER_ALERT: '[data-testid="cerner-facilities-alert"]',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
+    OH_SYNC_STATUS_ALERT: '[data-testid="oh-sync-status-alert"]',
     RECIPIENTS_ERROR: 'recipients-error-alert',
     RECIP_SELECT: '[data-testid="compose-recipient-select"]',
     MESS_CATAGO: '[data-testid="compose-message-categories"]',
@@ -327,10 +329,21 @@ export const Alerts = {
     LOAD_API_ERROR: `We can’t load your contact list right now`,
   },
   CONTACT_LIST_MIGRATION: {
+    P1_TO_P5_MIGRATION: {
+      HEADLINE: "We're making changes to your contact list",
+      // Partial text for cy.contains() - excludes dynamic T-6 date
+      BODY_TOP:
+        'we’ll remove care teams from these facilities from your contact list:',
+      // Partial text for cy.contains() - excludes dynamic T+2 date
+      BODY_BOTTOM:
+        'Note: You can still send messages to care teams at these facilities after',
+    },
     POST_MIGRATION: {
       HEADLINE: 'We updated your contact list',
-      BODY:
+      BODY_TOP:
         'We removed care teams from these facilities from your contact list:',
+      BODY_BOTTOM:
+        'You can still send messages to care teams at these facilities. But the care team names will be different.',
     },
   },
   ATTACHMENT: {
@@ -383,10 +396,12 @@ export const Alerts = {
   ERROR_LOADING_RECIPIENTS_HEADER:
     'We can’t load your care team list right now',
   SEND_MESSAGE_SUCCESS: `Message sent`,
-  MIGRATION_ALERT_H2:
-    'You can’t use messages to contact providers at some facilities right now',
-  MIGRATION_ALERT_BODY:
-    'You can’t send or receive new messages or reply to conversations with providers at',
+  MIGRATION_ALERT_H2: `You can’t use messages to contact providers at some facilities right now`,
+  MIGRATION_ALERT_BODY: `You can’t send or receive new messages or reply to conversations with providers at`,
+  OH_SYNC_STATUS: {
+    HEADER: `We're still adding some of your messages here`,
+    BODY: `We're working to add all of your messages to your inbox. They should be available soon.`,
+  },
 };
 
 export const Data = {

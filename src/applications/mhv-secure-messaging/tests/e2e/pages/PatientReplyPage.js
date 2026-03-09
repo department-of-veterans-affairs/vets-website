@@ -11,7 +11,9 @@ class PatientReplyPage {
       }/thread*`,
       mockResponse,
     ).as(`getMessageRequest`);
-    cy.get(Locators.BUTTONS.REPLY).click();
+    cy.findByTestId(Locators.BUTTONS.REPLY)
+      .should('be.visible')
+      .click();
   };
 
   clickSendReplyMessageButton = mockReplyMessage => {

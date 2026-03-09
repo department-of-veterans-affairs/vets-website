@@ -88,7 +88,7 @@ describe('VASS Component: CancelConfirmation', () => {
 
       await waitFor(() => {
         expect(getByTestId('api-error-alert')).to.exist;
-        expect(queryByTestId('header')).to.not.exist;
+        expect(queryByTestId('header')).to.exist;
         expect(queryByTestId('cancel-confirmation-message')).to.not.exist;
       });
     });
@@ -116,7 +116,7 @@ describe('VASS Component: CancelConfirmation', () => {
 
       await waitFor(() => {
         expect(getByTestId('api-error-alert')).to.exist;
-        expect(queryByTestId('header')).to.not.exist;
+        expect(queryByTestId('header')).to.exist;
         expect(queryByTestId('appointment-card')).to.not.exist;
       });
     });

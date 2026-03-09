@@ -10,7 +10,19 @@ import {
   getRootParentUrl,
   hideDependentsWarning,
   getIsDependentsWarningHidden,
+  hasSession,
 } from '../../utils';
+
+describe('hasSession', () => {
+  it('should return true if hasSession is set to true in localStorage', () => {
+    localStorage.setItem('hasSession', 'true');
+    expect(hasSession()).to.be.true;
+  });
+  it('should return false if hasSession is not set in localStorage', () => {
+    localStorage.removeItem('hasSession');
+    expect(hasSession()).to.be.false;
+  });
+});
 
 describe('getFullName', () => {
   it('should return empty string for undefined name object', () => {
