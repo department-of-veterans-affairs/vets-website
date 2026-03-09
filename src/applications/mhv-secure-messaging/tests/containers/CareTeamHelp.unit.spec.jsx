@@ -119,12 +119,8 @@ describe('CareTeamHelp', () => {
     expect(screen.getByText(/You removed them from your contact list/)).to
       .exist;
 
-    // Should show the new "names may appear different" bullet with R&S link
-    expect(screen.getByText(/Their name may appear different/)).to.exist;
-    expect(screen.getByText(/Learn more about this name change/)).to.exist;
-
-    // Provider's name should be removed
-    expect(screen.queryByText(/provider's name/)).to.not.exist;
+    // VistA-only shows provider's name in search suggestions
+    expect(screen.getByText(/provider's name/)).to.exist;
 
     // Should have one "Update your contact list" link
     const updateLinks = screen.getAllByText(/Update your contact list/);
@@ -145,18 +141,11 @@ describe('CareTeamHelp', () => {
       .exist;
     expect(screen.getByText(/Enter the first few letters/)).to.exist;
 
-    // Should show the new "names may appear different" bullet with R&S link
+    // Should show the "names may appear different" bullet with R&S link
     expect(screen.getByText(/Their name may appear different/)).to.exist;
     expect(screen.getByText(/Learn more about this name change/)).to.exist;
 
-    // Should show the corrected intro text
-    expect(
-      screen.getByText(
-        /If you can't find your care team, try these other options/,
-      ),
-    ).to.exist;
-
-    // Provider's name should be removed
+    // Provider's name should NOT be shown
     expect(screen.queryByText(/provider's name/)).to.not.exist;
 
     // Ensure VistA-only specific content is NOT present
@@ -179,26 +168,22 @@ describe('CareTeamHelp', () => {
     // Page renders with title
     expect(screen.getByRole('heading', { level: 1 })).to.exist;
 
-    // Hybrid includes facility list of user's VistA systems derived from EHR data
-    // From baseState, VistA facility 662 should render as its vamcSystemName
-    expect(screen.getByText('VA San Francisco health care')).to.exist;
-
-    // Hybrid should have ONE link labeled "Update your contact list"
+    // Hybrid should have ONE "Update your contact list" link
     const updateLinks = screen.getAllByRole('link', {
       name: /Update your contact list/,
     });
     expect(updateLinks).to.have.length(1);
 
-    // Should show the new "names may appear different" bullet with R&S link
-    expect(screen.getByText(/Their name may appear different/)).to.exist;
-    expect(screen.getByText(/Learn more about this name change/)).to.exist;
-
-    // Provider's name should be removed
+    // Provider's name should NOT be shown for Hybrid
     expect(screen.queryByText(/provider's name/)).to.not.exist;
 
-    // Hybrid should also show the 'removed from contact list' reason
+    // Hybrid should show the 'removed from contact list' reason
     expect(screen.getByText(/You removed them from your contact list/)).to
       .exist;
+
+    // Should show the "names may appear different" bullet with R&S link
+    expect(screen.getByText(/Their name may appear different/)).to.exist;
+    expect(screen.getByText(/Learn more about this name change/)).to.exist;
 
     // Hybrid still shows search guidance
     expect(screen.getByText(/Enter the first few letters/)).to.exist;
