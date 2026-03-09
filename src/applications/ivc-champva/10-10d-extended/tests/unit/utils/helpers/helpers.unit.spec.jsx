@@ -6,6 +6,7 @@ import {
   isOfCollegeAge,
   page15aDepends,
   populateFirstApplicant,
+  requireBirthCertificate,
 } from '../../../../utils/helpers';
 
 describe('page15a depends function', () => {
@@ -263,5 +264,81 @@ describe('1010d `createModalTitleOrDescription` util', () => {
       props.index,
       props.formData,
     );
+  });
+});
+
+describe('1010d `requireBirthCertificate` util', () => {
+  const createFormData = (dob, sponsorRelationship, origin) => ({
+    applicants: [
+      {
+        applicantDob: dob,
+        applicantRelationshipToSponsor: {
+          relationshipToVeteran: sponsorRelationship,
+        },
+        applicantRelationshipOrigin: {
+          relationshipToVeteran: origin,
+        },
+      },
+    ],
+  });
+
+  const getDateISO = (yearsAgo = 0, monthsAgo = 0) => {
+    const today = new Date();
+    const date = new Date(
+      today.getFullYear() - yearsAgo,
+      today.getMonth() - monthsAgo,
+      today.getDate(),
+    );
+    return date.toISOString().split('T')[0];
+  };
+
+  context('biological children', () => {
+    it('should return true for newborn child (less than 1 year old)', () => {
+      const formData = createFormData(getDateISO(0, 6), 'child', 'blood');
+      expect(requireBirthCertificate(formData, 0)).to.be.true;
+    });
+
+    it('should return true for child exactly 1 year old', () => {
+      const formData = createFormData(getDateISO(1), 'child', 'blood');
+      expect(requireBirthCertificate(formData, 0)).to.be.true;
+    });
+
+    it('should return false for child older than 1 year', () => {
+      const formData = createFormData(getDateISO(2), 'child', 'blood');
+      expect(requireBirthCertificate(formData, 0)).to.be.false;
+    });
+  });
+
+  context('non-biological children', () => {
+    ['adoption', 'step'].forEach(origin => {
+      it(`should return true for ${origin} child regardless of age`, () => {
+        const formData = createFormData('2020-01-01', 'child', origin);
+        expect(requireBirthCertificate(formData, 0)).to.be.true;
+      });
+    });
+  });
+
+  context('non-child relationships', () => {
+    it('should return false for spouse', () => {
+      const formData = createFormData('1990-01-01', 'spouse');
+      expect(requireBirthCertificate(formData, 0)).to.be.false;
+    });
+  });
+
+  context('missing data scenarios', () => {
+    it('should return false when applicant data is missing', () => {
+      const formData = { applicants: [] };
+      expect(requireBirthCertificate(formData, 0)).to.be.false;
+    });
+
+    it('should return false when relationship to sponsor is missing', () => {
+      const formData = createFormData('2024-01-01', undefined, 'blood');
+      expect(requireBirthCertificate(formData, 0)).to.be.false;
+    });
+
+    it('should return false when DOB is missing', () => {
+      const formData = createFormData(undefined, 'child', 'blood');
+      expect(requireBirthCertificate(formData, 0)).to.be.false;
+    });
   });
 });

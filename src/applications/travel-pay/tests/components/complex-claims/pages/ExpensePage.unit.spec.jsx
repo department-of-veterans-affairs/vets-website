@@ -11,6 +11,7 @@ import {
 import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import sinon from 'sinon';
 import * as scrollUtils from 'platform/utilities/scroll/scroll';
+import * as actions from '../../../../redux/actions';
 
 import ExpensePage, {
   toBase64,
@@ -1309,42 +1310,52 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
   //
   // Store containing an existing expense
   //
-  const getEditState = expenses => ({
-    travelPay: {
-      claimSubmission: { isSubmitting: false, error: null, data: null },
-      complexClaim: {
-        claim: {
-          creation: { isLoading: false, error: null },
-          submission: { id: '', isSubmitting: false, error: null, data: null },
-          fetch: { isLoading: false, error: null },
-          data: {
-            documents: [
-              {
-                filename: 'saved.pdf',
-                mimetype: 'application/pdf',
-                fileData: 'AA==',
-                documentId: TEST_DOCUMENT_ID,
-                createdon: '2025-11-17',
-              },
-            ],
+  const getEditState = (expenses, overrides = {}) => {
+    const { expenses: expenseOverrides, ...complexClaimOverrides } = overrides;
+    return {
+      travelPay: {
+        claimSubmission: { isSubmitting: false, error: null, data: null },
+        complexClaim: {
+          claim: {
+            creation: { isLoading: false, error: null },
+            submission: {
+              id: '',
+              isSubmitting: false,
+              error: null,
+              data: null,
+            },
+            fetch: { isLoading: false, error: null },
+            data: {
+              documents: [
+                {
+                  filename: 'saved.pdf',
+                  mimetype: 'application/pdf',
+                  fileData: 'AA==',
+                  documentId: TEST_DOCUMENT_ID,
+                  createdon: '2025-11-17',
+                },
+              ],
+            },
           },
-        },
-        expenses: {
-          creation: { isLoading: false, error: null },
-          update: { id: '', isLoading: false, error: null },
-          delete: { id: '', isLoading: false, error: null },
-          data: [...expenses],
-        },
-        documentDelete: {
-          id: '',
-          isLoading: false,
-          error: null,
+          expenses: {
+            creation: { isLoading: false, error: null },
+            update: { id: '', isLoading: false, error: null },
+            delete: { id: '', isLoading: false, error: null },
+            data: [...expenses],
+            ...expenseOverrides,
+          },
+          documentDelete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          ...complexClaimOverrides,
         },
       },
-    },
-  });
+    };
+  };
 
-  const renderEditPage = (expenses = [{ ...defaultExpense }]) =>
+  const renderEditPage = (expenses = [{ ...defaultExpense }], overrides) =>
     renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/12345/43555/meal/${TEST_EXPENSE_ID}`]}
@@ -1361,7 +1372,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
-      { initialState: getEditState(expenses), reducers: reducer },
+      { initialState: getEditState(expenses, overrides), reducers: reducer },
     );
 
   let apiStub;
@@ -1443,8 +1454,10 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     expect(addCancelButton).to.not.exist;
   });
 
-  it('"Back" button opens modal in edit mode', async () => {
-    const { container } = renderEditPage();
+  it('"Back" button opens modal in edit mode when there are unsaved changes', async () => {
+    const { container } = renderEditPage([{ ...defaultExpense }], {
+      expenses: { hasUnsavedChanges: true },
+    });
 
     // Wait for data to load and buttons to render
     let backButton;
@@ -2072,7 +2085,13 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     });
 
     it('navigates to review page when confirming cancel in edit mode', async () => {
-      const { container, getByTestId } = renderEditPage();
+      const { container, getByTestId } = renderEditPage(
+        [{ ...defaultExpense }],
+        {
+          expenses: { hasUnsavedChanges: true },
+          expenseBackDestination: 'review',
+        },
+      );
 
       // Wait for data to load
       await waitFor(() => {
@@ -2106,6 +2125,106 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
           '/file-new-claim/12345/43555/review',
         );
       });
+    });
+  });
+
+  describe('Unsaved changes modal in add mode', () => {
+    let setUnsavedChangesModalVisibleStub;
+
+    beforeEach(() => {
+      setUnsavedChangesModalVisibleStub = sinon
+        .stub(actions, 'setUnsavedChangesModalVisible')
+        .returns({
+          type: 'SET_UNSAVED_CHANGES_MODAL_VISIBLE',
+          payload: { visible: true, source: 'expense-back' },
+        });
+    });
+
+    afterEach(() => {
+      setUnsavedChangesModalVisibleStub.restore();
+    });
+
+    it('dispatches setUnsavedChangesModalVisible(true, "expense-back") when back is clicked with unsaved changes', async () => {
+      const baseState = getEditState([]);
+      const stateWithUnsavedChanges = {
+        ...baseState,
+        travelPay: {
+          ...baseState.travelPay,
+          complexClaim: {
+            ...baseState.travelPay.complexClaim,
+            expenses: {
+              ...baseState.travelPay.complexClaim.expenses,
+              hasUnsavedChanges: true,
+            },
+          },
+        },
+      };
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/43555/lodging']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+              element={<ExpensePage />}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { initialState: stateWithUnsavedChanges, reducers: reducer },
+      );
+
+      await waitFor(() => {
+        const vendorField = container.querySelector(
+          'va-text-input[name="vendor"]',
+        );
+        expect(vendorField).to.exist;
+      });
+
+      const buttonGroup = container.querySelector('.travel-pay-button-group');
+      const backButton = Array.from(
+        buttonGroup.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Back');
+      fireEvent.click(backButton);
+
+      expect(setUnsavedChangesModalVisibleStub.calledOnce).to.be.true;
+      expect(setUnsavedChangesModalVisibleStub.calledWith(true, 'expense-back'))
+        .to.be.true;
+    });
+
+    it('does not dispatch setUnsavedChangesModalVisible when there are no unsaved changes', async () => {
+      const baseState = getEditState([]);
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/43555/lodging']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+              element={<ExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<div data-testid="choose-expense-page" />}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { initialState: baseState, reducers: reducer },
+      );
+
+      await waitFor(() => {
+        const vendorField = container.querySelector(
+          'va-text-input[name="vendor"]',
+        );
+        expect(vendorField).to.exist;
+      });
+
+      const buttonGroup = container.querySelector('.travel-pay-button-group');
+      const backButton = Array.from(
+        buttonGroup.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Back');
+      fireEvent.click(backButton);
+
+      expect(setUnsavedChangesModalVisibleStub.called).to.be.false;
     });
   });
 });
