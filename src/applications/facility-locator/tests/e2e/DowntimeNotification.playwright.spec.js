@@ -19,25 +19,28 @@ const selectors = {
 
 test.describe('Downtime Notification Test', () => {
   test.beforeEach(async ({ page }) => {
+    await h.setupMapboxStubs(page);
     await page.route('**/v0/feature_toggles*', route =>
       route.fulfill(
         jsonResponse({ data: { type: 'feature_toggles', features: [] } }),
       ),
+    );
+    await page.route(/maintenance_windows/, route =>
+      route.fulfill(jsonResponse({ data: [] })),
     );
     await setupVAFacilityMocks(page);
     await page.goto(h.ROOT_URL);
   });
 
   test('Shows the facility locator as normal', async ({ page }) => {
-    await page.route('**/v0/maintenance_windows', route =>
-      route.fulfill(jsonResponse({ data: [] })),
-    );
     await page.reload();
-    await expect(page.locator(selectors.app)).toBeVisible({ timeout: 10000 });
+    await expect(page.locator(selectors.app).last()).toBeVisible({
+      timeout: 10000,
+    });
   });
 
   test('Correctly displays that downtime is approaching', async ({ page }) => {
-    await page.route('**/v0/maintenance_windows', route =>
+    await page.route(/maintenance_windows/, route =>
       route.fulfill(
         jsonResponse({
           data: [
@@ -64,7 +67,7 @@ test.describe('Downtime Notification Test', () => {
   test('Correctly shows that the tool is down for maintenance', async ({
     page,
   }) => {
-    await page.route('**/v0/maintenance_windows', route =>
+    await page.route(/maintenance_windows/, route =>
       route.fulfill(
         jsonResponse({
           data: [
@@ -88,7 +91,7 @@ test.describe('Downtime Notification Test', () => {
     await expect(el).toContainText('This tool is down for maintenance');
 
     // Clear the downtime
-    await page.route('**/v0/maintenance_windows', route =>
+    await page.route(/maintenance_windows/, route =>
       route.fulfill(jsonResponse({ data: [] })),
     );
   });

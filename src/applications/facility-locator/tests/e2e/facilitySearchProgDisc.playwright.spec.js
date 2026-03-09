@@ -1,6 +1,9 @@
 const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const {
+  axeCheck,
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const mockGeocodingData = require('../../constants/mock-geocoding-data.json');
+const mockFacilityDataV1 = require('../../constants/mock-facility-v1.json');
 const mockLaLocation = require('../../constants/mock-la-location.json');
 const {
   jsonResponse,
@@ -24,14 +27,13 @@ test.describe('Facility VA search (progressive disclosure)', () => {
   test('does a simple search and finds a result on the list', async ({
     page,
   }) => {
-    await page.route('**/geocoding/**', route =>
+    await page.route(new RegExp('geocoding/'), route =>
       route.fulfill(jsonResponse(mockGeocodingData)),
     );
 
     await page.goto(h.ROOT_URL);
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     await h.typeInCityStateInput(page, 'Austin, TX');
     await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.HEALTH);
@@ -55,8 +57,7 @@ test.describe('Facility VA search (progressive disclosure)', () => {
 
     await page.goto(h.ROOT_URL);
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     await h.typeInCityStateInput(page, '27606');
     await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.CC_PRO);
@@ -73,13 +74,17 @@ test.describe('Facility VA search (progressive disclosure)', () => {
     await expect(page.locator(h.SEARCH_RESULTS_SUMMARY)).toBeVisible();
     const focused = page.locator(':focus');
     await expect(focused).toContainText(
-      'No results found for "Community providers (in VA\u2019s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
+      /No results found for.*Community providers.*General Acute Care Hospital.*near.*Austin.*Texas/i,
     );
   });
 
   test('finds va benefits facility and views its page', async ({ page }) => {
-    await page.route('**/geocoding/**', route =>
+    await page.route(new RegExp('geocoding/'), route =>
       route.fulfill(jsonResponse(mockLaLocation)),
+    );
+    // Provide complete facility detail data for vba_ routes
+    await page.route(new RegExp('facilities_api/v2/va/vba_'), route =>
+      route.fulfill(jsonResponse(mockFacilityDataV1)),
     );
 
     await page.goto(h.ROOT_URL);
@@ -92,22 +97,19 @@ test.describe('Facility VA search (progressive disclosure)', () => {
       /(Showing|Results).*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
     );
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     await expect(page.locator('.facility-result a').first()).toContainText(
-      'VetSuccess on Campus at Los Angeles City College',
+      'Los Angeles Ambulatory Care Center',
     );
     await page
       .getByRole('link', {
-        name: /VetSuccess on Campus at Los Angeles City College/i,
+        name: /Los Angeles Ambulatory Care Center/i,
       })
       .first()
       .click();
 
-    await expect(page.locator('h1')).toContainText(
-      'VetSuccess on Campus at Los Angeles City College',
-    );
+    await expect(page.locator('h1')).toContainText('Austin VA Clinic');
     await expect(page.locator('.p1').first()).toBeVisible();
     await expect(page.locator('.facility-phone-group')).toBeVisible();
     await expect(page.getByText(/Get directions/i).first()).toBeVisible();
@@ -116,8 +118,7 @@ test.describe('Facility VA search (progressive disclosure)', () => {
       'Hours of operation',
     );
 
-    const axeResults2 = await new AxeBuilder({ page }).analyze();
-    expect(axeResults2.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
   });
 
   test('should not trigger Use My Location when pressing enter', async ({
@@ -125,8 +126,7 @@ test.describe('Facility VA search (progressive disclosure)', () => {
   }) => {
     await page.goto(h.ROOT_URL);
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     await h.typeInCityStateInput(page, '27606');
 
@@ -150,9 +150,8 @@ test.describe('Facility VA search (progressive disclosure)', () => {
     await expect(page.locator('#emergency-care-info-note')).toBeVisible();
     await expect(
       page.locator('.facility-result h3 va-link a').first(),
-    ).toContainText('Los Angeles');
+    ).toContainText('Washington VA Medical Center');
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
   });
 });

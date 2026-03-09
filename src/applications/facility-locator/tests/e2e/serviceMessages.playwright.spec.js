@@ -1,24 +1,26 @@
 const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const {
+  axeCheck,
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const closedData = require('./details-page/service-message/mocks/closed.message.json');
 const limitedData = require('./details-page/service-message/mocks/limited.message.json');
 const noticeData = require('./details-page/service-message/mocks/notice.message.json');
 const noMessageData = require('./details-page/service-message/mocks/no.message.json');
 const { jsonResponse } = require('./helpers/playwright-mocks');
+const { setupMapboxStubs } = require('./helpers/playwright-helpers');
 
 const detailUrl = '/find-locations/facility/vc_0304V';
 
 function setupServiceMessageMocks(page, facilityData) {
   return Promise.all([
+    setupMapboxStubs(page),
     page.route('**/v0/feature_toggles*', route =>
       route.fulfill(
         jsonResponse({ data: { type: 'feature_toggles', features: [] } }),
       ),
     ),
-    page.route('**/v0/maintenance_windows', route =>
-      route.fulfill(jsonResponse([])),
-    ),
-    page.route('**/facilities_api/**', route =>
+    page.route(/maintenance_windows/, route => route.fulfill(jsonResponse([]))),
+    page.route(new RegExp('facilities_api/'), route =>
       route.fulfill(jsonResponse(facilityData)),
     ),
   ]);
@@ -29,8 +31,7 @@ test.describe('Facility VA -- Details page service messages', () => {
     await setupServiceMessageMocks(page, closedData);
     await page.goto(detailUrl);
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     const heading = page.locator('.hydrated > h2');
     await expect(heading).toBeVisible();
@@ -45,8 +46,7 @@ test.describe('Facility VA -- Details page service messages', () => {
     await setupServiceMessageMocks(page, limitedData);
     await page.goto(detailUrl);
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     const heading = page.locator('.hydrated > h2');
     await expect(heading).toBeVisible();
@@ -63,8 +63,7 @@ test.describe('Facility VA -- Details page service messages', () => {
     await setupServiceMessageMocks(page, noticeData);
     await page.goto(detailUrl);
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     const heading = page.locator('.hydrated > h2');
     await expect(heading).toBeVisible();
@@ -79,8 +78,7 @@ test.describe('Facility VA -- Details page service messages', () => {
     await setupServiceMessageMocks(page, noMessageData);
     await page.goto(detailUrl);
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     await expect(page.locator('.hydrated > h2')).toHaveCount(0);
   });

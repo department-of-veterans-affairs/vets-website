@@ -5,6 +5,7 @@ const {
   featureCombinationsTogglesToTest,
   enabledFeatures,
 } = require('./helpers/playwright-mocks');
+const { setupMapboxStubs } = require('./helpers/playwright-helpers');
 
 const featureSetsToTest = featureCombinationsTogglesToTest([
   'facilities_use_fl_progressive_disclosure',
@@ -17,6 +18,7 @@ for (const featureSet of featureSetsToTest) {
       '.street-city-state-zip-autosuggest-label-container';
 
     test.beforeEach(async ({ page }) => {
+      await setupMapboxStubs(page);
       await page.route('**/v0/feature_toggles*', route =>
         route.fulfill(
           jsonResponse({
@@ -27,7 +29,7 @@ for (const featureSet of featureSetsToTest) {
     });
 
     test('geolocates the user', async ({ page }) => {
-      await page.route('**/geocoding/**', route =>
+      await page.route(new RegExp('geocoding/'), route =>
         route.fulfill(jsonResponse(mockLaLocation)),
       );
 

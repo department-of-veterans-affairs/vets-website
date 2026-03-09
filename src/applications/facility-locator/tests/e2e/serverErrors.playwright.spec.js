@@ -1,5 +1,7 @@
 const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const {
+  axeCheck,
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const {
   jsonResponse,
   featureCombinationsTogglesToTest,
@@ -23,6 +25,7 @@ for (const featureSet of featureSetsToTest) {
     `Facility Locator error handling ${enabledFeatures(featureSet)}`,
     () => {
       test.beforeEach(async ({ page }) => {
+        await h.setupMapboxStubs(page);
         await page.route('**/v0/feature_toggles*', route =>
           route.fulfill(
             jsonResponse({
@@ -30,10 +33,10 @@ for (const featureSet of featureSetsToTest) {
             }),
           ),
         );
-        await page.route('**/v0/maintenance_windows', route =>
+        await page.route(/maintenance_windows/, route =>
           route.fulfill(jsonResponse([])),
         );
-        await page.route('**/facilities_api/**', route =>
+        await page.route(new RegExp('facilities_api/'), route =>
           route.fulfill({
             status: 500,
             contentType: 'application/json',
@@ -45,8 +48,7 @@ for (const featureSet of featureSetsToTest) {
       test('shows error if API returns non-200 response', async ({ page }) => {
         await page.goto(h.ROOT_URL);
 
-        const axeResults = await new AxeBuilder({ page }).analyze();
-        expect(axeResults.violations).toHaveLength(0);
+        expect(await axeCheck(page)).toHaveLength(0);
 
         await h.typeInCityStateInput(page, 'Austin, TX');
         await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.HEALTH);
@@ -62,7 +64,7 @@ for (const featureSet of featureSetsToTest) {
         await h.verifyElementShouldContainString(
           page,
           'h2.usa-alert-heading',
-          "Find VA locations isn't working right now",
+          /Find VA locations isn.t working right now/,
         );
         await h.verifyElementDoesNotExist(page, '#emergency-care-info-note');
       });
@@ -72,8 +74,7 @@ for (const featureSet of featureSetsToTest) {
       }) => {
         await page.goto(h.ROOT_URL);
 
-        const axeResults = await new AxeBuilder({ page }).analyze();
-        expect(axeResults.violations).toHaveLength(0);
+        expect(await axeCheck(page)).toHaveLength(0);
 
         await h.typeInCityStateInput(page, 'Austin, TX');
         await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.EMERGENCY);
@@ -86,7 +87,7 @@ for (const featureSet of featureSetsToTest) {
         await h.verifyElementShouldContainString(
           page,
           'h2.usa-alert-heading',
-          "Find VA locations isn't working right now",
+          /Find VA locations isn.t working right now/,
         );
 
         const emergencyNote = page.locator('#emergency-care-info-note');

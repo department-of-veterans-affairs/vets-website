@@ -1,15 +1,18 @@
 const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const {
+  axeCheck,
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const mapboxMockData = require('./autosuggest-data/mapbox.json');
 const h = require('./helpers/playwright-helpers');
 const { jsonResponse } = require('./helpers/playwright-mocks');
 
 test.describe('Facility Locator Address Autosuggest', () => {
   test.beforeEach(async ({ page }) => {
-    await page.route('**/geocoding/**', route =>
+    await h.setupMapboxStubs(page);
+    await page.route(new RegExp('geocoding/'), route =>
       route.fulfill(jsonResponse(mapboxMockData)),
     );
-    await page.route('**/v0/maintenance_windows', route =>
+    await page.route(/maintenance_windows/, route =>
       route.fulfill(jsonResponse([])),
     );
     await page.route('**/v0/feature_toggles*', route =>
@@ -24,8 +27,7 @@ test.describe('Facility Locator Address Autosuggest', () => {
   }) => {
     await page.goto('/find-locations');
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     const input = page.locator(h.AUTOSUGGEST_ADDRESS_INPUT);
 
@@ -45,8 +47,7 @@ test.describe('Facility Locator Address Autosuggest', () => {
   }) => {
     await page.goto('/find-locations');
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     const input = page.locator('#street-city-state-zip');
     await input.fill('Port');
@@ -79,26 +80,22 @@ test.describe('Facility Locator Address Autosuggest', () => {
 
     await input.press('Enter');
 
-    const axeResults2 = await new AxeBuilder({ page }).analyze();
-    expect(axeResults2.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     await expect(input).toHaveValue('Port Hueneme, California, United States');
 
-    const axeResults3 = await new AxeBuilder({ page }).analyze();
-    expect(axeResults3.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     // Clear
     await page.locator('#clear-street-city-state-zip').click();
 
-    const axeResults4 = await new AxeBuilder({ page }).analyze();
-    expect(axeResults4.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     await expect(input).toHaveValue('');
     await expect(
       page.locator('#street-city-state-zip-autosuggest-container'),
     ).toHaveClass(/usa-input-error/);
 
-    const axeResults5 = await new AxeBuilder({ page }).analyze();
-    expect(axeResults5.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
   });
 });

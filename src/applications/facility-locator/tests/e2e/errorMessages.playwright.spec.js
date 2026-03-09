@@ -1,6 +1,8 @@
 /* eslint-disable no-await-in-loop */
 const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const {
+  axeCheck,
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const {
   jsonResponse,
   setupVAFacilityMocks,
@@ -21,10 +23,10 @@ for (const featureSet of featureSets) {
       const addrErrorMessage =
         'Enter a zip code or a city and state in the search box';
       const faciltyErrorMessage = 'Select a facility type';
-      const serviceErrorMessage = 'ErrorStart typing and select a service type';
 
       test.beforeEach(async ({ page }) => {
-        await page.route('**/v0/maintenance_windows', route =>
+        await h.setupMapboxStubs(page);
+        await page.route(/maintenance_windows/, route =>
           route.fulfill(jsonResponse([])),
         );
         await page.route('**/v0/feature_toggles*', route =>
@@ -35,8 +37,7 @@ for (const featureSet of featureSets) {
 
         await page.goto(h.ROOT_URL);
 
-        const axeResults = await new AxeBuilder({ page }).analyze();
-        expect(axeResults.violations).toHaveLength(0);
+        expect(await axeCheck(page)).toHaveLength(0);
       });
 
       test('shows error message in location field on invalid search', async ({
@@ -92,7 +93,9 @@ for (const featureSet of featureSets) {
 
         await h.verifyElementIsNotDisabled(page, h.CCP_SERVICE_TYPE_INPUT);
         await h.submitSearchForm(page);
-        await h.errorMessageContains(page, serviceErrorMessage);
+        await expect(page.locator('#error-message')).toContainText(
+          'Start typing and select a service type',
+        );
         await h.typeAndSelectInCCPServiceTypeInput(
           page,
           'Clinic/Center - Urgent Care',
@@ -105,7 +108,9 @@ for (const featureSet of featureSets) {
         await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.CC_PRO);
         await h.typeInCCPServiceTypeInput(page, 'back pain');
         await h.submitSearchForm(page);
-        await h.errorMessageContains(page, serviceErrorMessage);
+        await expect(page.locator('#error-message')).toContainText(
+          'Start typing and select a service type',
+        );
       });
 
       test('no error after selecting service then tabbing', async ({
@@ -149,7 +154,9 @@ for (const featureSet of featureSets) {
 
         await h.clearInput(page, h.CCP_SERVICE_TYPE_INPUT);
         await h.submitSearchForm(page);
-        await h.errorMessageContains(page, serviceErrorMessage);
+        await expect(page.locator('#error-message')).toContainText(
+          'Start typing and select a service type',
+        );
       });
     },
   );

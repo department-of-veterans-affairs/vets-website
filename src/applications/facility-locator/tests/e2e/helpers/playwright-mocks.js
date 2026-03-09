@@ -663,16 +663,18 @@ function jsonResponse(data) {
 }
 
 async function setupCommonMocks(page, featureSet = []) {
+  const { setupMapboxStubs } = require('./playwright-helpers');
+  await setupMapboxStubs(page);
   await page.route('**/v0/feature_toggles*', route =>
     route.fulfill(jsonResponse({ data: { features: featureSet } })),
   );
-  await page.route('**/v0/maintenance_windows', route =>
+  await page.route(/maintenance_windows/, route =>
     route.fulfill(jsonResponse([])),
   );
 }
 
 async function setupVAFacilityMocks(page) {
-  await page.route('**/facilities_api/v2/va', async route => {
+  await page.route(new RegExp('facilities_api/v2/va'), async route => {
     if (route.request().method() === 'POST') {
       await route.fulfill(jsonResponse(vaResultsData));
     } else {
@@ -682,18 +684,18 @@ async function setupVAFacilityMocks(page) {
 
   for (const item of vaResultsData.data) {
     // eslint-disable-next-line no-await-in-loop
-    await page.route(`**/facilities_api/v2/va/${item.id}`, route =>
+    await page.route(new RegExp(`facilities_api/v2/va/${item.id}`), route =>
       route.fulfill(jsonResponse({ data: item })),
     );
   }
 }
 
 async function setupCCPMocks(page, providerType = 'nodata') {
-  await page.route('**/facilities_api/v2/ccp/specialties*', route =>
+  await page.route(new RegExp('facilities_api/v2/ccp/specialties'), route =>
     route.fulfill(jsonResponse(specialtiesData)),
   );
 
-  await page.route('**/facilities_api/v2/ccp/pharmacy*', route =>
+  await page.route(new RegExp('facilities_api/v2/ccp/pharmacy'), route =>
     route.fulfill(
       jsonResponse({
         data: pharmacies,
@@ -721,7 +723,7 @@ async function setupCCPMocks(page, providerType = 'nodata') {
     ),
   );
 
-  await page.route('**/facilities_api/v2/ccp/urgent_care*', route =>
+  await page.route(new RegExp('facilities_api/v2/ccp/urgent_care'), route =>
     route.fulfill(
       jsonResponse({
         data: urgentCareData,

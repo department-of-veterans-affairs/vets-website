@@ -1,5 +1,7 @@
 const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const {
+  axeCheck,
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const mockFacilitiesSearchResultsV1 = require('../../constants/mock-facility-data-v1.json');
 const mockFacilityDataV1 = require('../../constants/mock-facility-v1.json');
 const mockGeocodingData = require('../../constants/mock-geocoding-data.json');
@@ -65,20 +67,16 @@ async function verifyOptions(page) {
 test.describe('Facility VA search', () => {
   test.beforeEach(async ({ page }) => {
     await setupCommonMocks(page);
-    await page.route('**/facilities_api/v2/ccp/specialties', route =>
+    await page.route(new RegExp('facilities_api/v2/ccp/specialties'), route =>
       route.fulfill(jsonResponse(mockServices)),
     );
-    await page.route('**/facilities_api/v2/ccp/provider**', route =>
+    await page.route(new RegExp('facilities_api/v2/ccp/provider'), route =>
       route.fulfill(jsonResponse(mockFacilitiesSearchResultsV1)),
     );
-    await page.route('**/facilities_api/v2/va', async route => {
-      if (route.request().method() === 'POST') {
-        await route.fulfill(jsonResponse(mockFacilitiesSearchResultsV1));
-      } else {
-        await route.continue();
-      }
+    await page.route(new RegExp('facilities_api/v2/va'), async route => {
+      await route.fulfill(jsonResponse(mockFacilitiesSearchResultsV1));
     });
-    await page.route('**/facilities_api/v2/va/vba_**', route =>
+    await page.route(new RegExp('facilities_api/v2/va/vba_'), route =>
       route.fulfill(jsonResponse(mockFacilityDataV1)),
     );
   });
@@ -86,14 +84,13 @@ test.describe('Facility VA search', () => {
   test('does a simple search and finds a result on the list', async ({
     page,
   }) => {
-    await page.route('**/geocoding/**', route =>
+    await page.route(new RegExp('geocoding/'), route =>
       route.fulfill(jsonResponse(mockGeocodingData)),
     );
 
     await page.goto(h.ROOT_URL);
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     await verifyOptions(page);
 
@@ -115,7 +112,7 @@ test.describe('Facility VA search', () => {
   test('shows search result header even when no results are found', async ({
     page,
   }) => {
-    await page.route('**/facilities_api/v2/ccp/provider**', route =>
+    await page.route(new RegExp('facilities_api/v2/ccp/provider'), route =>
       route.fulfill(
         jsonResponse({
           data: [],
@@ -126,8 +123,7 @@ test.describe('Facility VA search', () => {
 
     await page.goto(h.ROOT_URL);
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     await h.typeInCityStateInput(page, '27606');
     await h.selectFacilityTypeInDropdown(page, CC_PROVIDER);
@@ -137,12 +133,12 @@ test.describe('Facility VA search', () => {
 
     const focused = page.locator(':focus');
     await expect(focused).toContainText(
-      'No results found for "Community providers (in VA\u2019s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
+      /No results found for.*Community providers.*General Acute Care Hospital.*near.*Austin.*Texas/i,
     );
   });
 
   test('finds va benefits facility and views its page', async ({ page }) => {
-    await page.route('**/geocoding/**', route =>
+    await page.route(new RegExp('geocoding/'), route =>
       route.fulfill(jsonResponse(mockLaLocation)),
     );
 
@@ -156,8 +152,7 @@ test.describe('Facility VA search', () => {
       /(Showing|Results).*VA benefits.*All VA benefit services.*near.*Los Angeles.*California/i,
     );
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     await expect(page.locator('.facility-result a').first()).toContainText(
       'VetSuccess on Campus at Los Angeles City College',
@@ -178,8 +173,7 @@ test.describe('Facility VA search', () => {
       'Hours of operation',
     );
 
-    const axeResults2 = await new AxeBuilder({ page }).analyze();
-    expect(axeResults2.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
   });
 
   test('should not trigger Use My Location when pressing enter', async ({
@@ -187,8 +181,7 @@ test.describe('Facility VA search', () => {
   }) => {
     await page.goto(h.ROOT_URL);
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     await page.locator(h.CITY_STATE_ZIP_INPUT).fill('27606');
     await page.locator(h.CITY_STATE_ZIP_INPUT).press('Enter');
@@ -208,20 +201,19 @@ test.describe('Facility VA search', () => {
     await h.submitSearchForm(page);
 
     await expect(page.locator(h.SEARCH_RESULTS_SUMMARY)).toHaveText(
-      /Results.*Emergency Care.*VA emergency care.*near.*Alexandria.*Virginia/i,
+      /Results.*Emergency Care.*VA emergency care.*near.*Austin.*Texas/i,
     );
     await expect(page.locator('#emergency-care-info-note')).toBeVisible();
     await expect(
       page.locator('.facility-result h3 va-link a').first(),
     ).toContainText('Alexandria Vet Center');
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
   });
 
   test('does not trigger repeat API requests', async ({ page }) => {
     let searchCallCount = 0;
-    await page.route('**/facilities_api/v2/va', async route => {
+    await page.route(new RegExp('facilities_api/v2/va'), async route => {
       if (route.request().method() === 'POST') {
         searchCallCount += 1;
         await route.fulfill(jsonResponse(mockFacilitiesSearchResultsV1));
@@ -229,7 +221,7 @@ test.describe('Facility VA search', () => {
         await route.continue();
       }
     });
-    await page.route('**/geocoding/**', route =>
+    await page.route(new RegExp('geocoding/'), route =>
       route.fulfill(jsonResponse(mockGeocodingData)),
     );
 

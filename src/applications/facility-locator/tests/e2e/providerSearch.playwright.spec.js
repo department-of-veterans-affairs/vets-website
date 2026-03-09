@@ -1,6 +1,8 @@
 /* eslint-disable no-await-in-loop */
 const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const {
+  axeCheck,
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const mockGeocodingData = require('../../constants/mock-geocoding-data.json');
 const {
   jsonResponse,
@@ -28,6 +30,7 @@ for (const featureSet of featureSetsToTest) {
 
   test.describe(`Provider search - ${enabledFeatures(featureSet)}`, () => {
     test.beforeEach(async ({ page }) => {
+      await h.setupMapboxStubs(page);
       await page.route('**/v0/feature_toggles*', route =>
         route.fulfill(
           jsonResponse({
@@ -35,14 +38,14 @@ for (const featureSet of featureSetsToTest) {
           }),
         ),
       );
-      await page.route('**/v0/maintenance_windows', route =>
+      await page.route(/maintenance_windows/, route =>
         route.fulfill(jsonResponse([])),
       );
       await setupCCPMocks(page, '1223X2210X');
       // Also set up additional provider type mocks
       await setupCCPMocks(page, '261QE0002X');
       await setupCCPMocks(page, '261QU0200X');
-      await page.route('**/geocoding/**', route =>
+      await page.route(new RegExp('geocoding/'), route =>
         route.fulfill(jsonResponse(mockGeocodingData)),
       );
     });
@@ -50,8 +53,7 @@ for (const featureSet of featureSetsToTest) {
     test('renders "Search for available service" prompt', async ({ page }) => {
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Austin, TX');
       await page.locator(h.CITY_STATE_ZIP_INPUT).press('Escape');
@@ -74,15 +76,16 @@ for (const featureSet of featureSetsToTest) {
         await h.verifyElementExists(page, h.SEARCH_AVAILABLE);
       }
 
-      await h.typeInCCPServiceTypeInput(page, 'De');
+      // Cypress .type() appends, so 'D' + 'De' = 'DDe' (3 chars >= MIN_SEARCH_CHARS)
+      // Playwright .fill() replaces, so use the accumulated value
+      await h.typeInCCPServiceTypeInput(page, 'DDe');
       await h.verifyElementDoesNotExist(page, h.SEARCH_AVAILABLE);
     });
 
     test('renders "could not find service" prompt', async ({ page }) => {
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Austin, TX');
       await page.locator(h.CITY_STATE_ZIP_INPUT).press('Escape');
@@ -99,8 +102,7 @@ for (const featureSet of featureSetsToTest) {
     test('finds community dentists', async ({ page }) => {
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Austin, TX');
       await page.locator(h.CITY_STATE_ZIP_INPUT).press('Escape');
@@ -131,8 +133,7 @@ for (const featureSet of featureSetsToTest) {
     test('finds community urgent care - Clinic/Center', async ({ page }) => {
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Austin, TX');
       await page.locator(h.CITY_STATE_ZIP_INPUT).press('Escape');
@@ -163,8 +164,7 @@ for (const featureSet of featureSetsToTest) {
     test('finds community urgent care via Urgent type', async ({ page }) => {
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Austin, TX');
       await page.locator(h.CITY_STATE_ZIP_INPUT).press('Escape');
@@ -191,8 +191,7 @@ for (const featureSet of featureSetsToTest) {
     test('finds In-network community emergency care', async ({ page }) => {
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Austin, TX');
       await page.locator(h.CITY_STATE_ZIP_INPUT).press('Escape');

@@ -1,5 +1,7 @@
 const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const {
+  axeCheck,
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const mockFacilitiesSearchResultsV1 = require('../../constants/mock-facility-data-v1.json');
 const mockGeocodingData = require('../../constants/mock-geocoding-data.json');
 const mockServices = require('../../constants/mock-provider-services.json');
@@ -11,13 +13,13 @@ const h = require('./helpers/playwright-helpers');
 
 test('handles map zooming correctly', async ({ page }) => {
   await setupCommonMocks(page);
-  await page.route('**/facilities_api/v2/ccp/specialties', route =>
+  await page.route(new RegExp('facilities_api/v2/ccp/specialties'), route =>
     route.fulfill(jsonResponse(mockServices)),
   );
-  await page.route('**/geocoding/**', route =>
+  await page.route(new RegExp('geocoding/'), route =>
     route.fulfill(jsonResponse(mockGeocodingData)),
   );
-  await page.route('**/facilities_api/v2/**', async route => {
+  await page.route(new RegExp('facilities_api/v2/'), async route => {
     if (route.request().method() === 'POST') {
       await route.fulfill(jsonResponse(mockFacilitiesSearchResultsV1));
     } else {
@@ -35,8 +37,7 @@ test('handles map zooming correctly', async ({ page }) => {
     /(Showing|Results).*VA health.*All VA health services.*near.*Austin, Texas/i,
   );
 
-  const axeResults = await new AxeBuilder({ page }).analyze();
-  expect(axeResults.violations).toHaveLength(0);
+  expect(await axeCheck(page)).toHaveLength(0);
 
   // Zoom in 15 times
   for (let i = 0; i < 15; i++) {

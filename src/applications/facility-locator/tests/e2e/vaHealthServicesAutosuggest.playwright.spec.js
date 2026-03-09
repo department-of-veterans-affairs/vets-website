@@ -1,5 +1,7 @@
 const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const {
+  axeCheck,
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const vaHealthServicesData = require('../hooks/test-va-healthcare-services.json');
 const searchResultsData = require('./autosuggest-data/services-autosuggest.json');
 const h = require('./helpers/playwright-helpers');
@@ -7,6 +9,7 @@ const { jsonResponse } = require('./helpers/playwright-mocks');
 
 test.describe('VA health services autosuggest', () => {
   test.beforeEach(async ({ page }) => {
+    await h.setupMapboxStubs(page);
     await page.route('**/v0/feature_toggles*', route =>
       route.fulfill(
         jsonResponse({
@@ -26,11 +29,11 @@ test.describe('VA health services autosuggest', () => {
       ),
     );
 
-    await page.route('**/data/cms/va-healthcare-services.json', route =>
+    await page.route(/va-healthcare-services.json/, route =>
       route.fulfill(jsonResponse(vaHealthServicesData.data)),
     );
 
-    await page.route('**/facilities_api/v2/va', async route => {
+    await page.route(new RegExp('facilities_api/v2/va'), async route => {
       if (route.request().method() === 'POST') {
         await route.fulfill(jsonResponse(searchResultsData));
       } else {
@@ -38,7 +41,7 @@ test.describe('VA health services autosuggest', () => {
       }
     });
 
-    await page.route('**/v0/maintenance_windows', route =>
+    await page.route(/maintenance_windows/, route =>
       route.fulfill(jsonResponse([])),
     );
   });
@@ -48,8 +51,7 @@ test.describe('VA health services autosuggest', () => {
   }) => {
     await page.goto(h.ROOT_URL);
 
-    const axeResults = await new AxeBuilder({ page }).analyze();
-    expect(axeResults.violations).toHaveLength(0);
+    expect(await axeCheck(page)).toHaveLength(0);
 
     await h.typeInCityStateInput(page, 'Atlanta, GA');
     await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.HEALTH);

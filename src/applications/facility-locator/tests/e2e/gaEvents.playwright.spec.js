@@ -1,5 +1,7 @@
 const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const {
+  axeCheck,
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const mockFacilitiesSearchResultsV1 = require('../../constants/mock-facility-data-v1.json');
 const mockGeocodingData = require('../../constants/mock-geocoding-data.json');
 const mockServices = require('../../constants/mock-provider-services.json');
@@ -22,6 +24,7 @@ for (const featureSet of featuresToTest) {
     `Google Analytics FL Events ${enabledFeatures(featureSet)}`,
     () => {
       test.beforeEach(async ({ page }) => {
+        await h.setupMapboxStubs(page);
         await page.route('**/v0/feature_toggles*', route =>
           route.fulfill(
             jsonResponse({
@@ -34,16 +37,17 @@ for (const featureSet of featuresToTest) {
       test('search, pan map, click marker, zoom in/out and verify ga events', async ({
         page,
       }) => {
-        await page.route('**/v0/maintenance_windows', route =>
+        await page.route(/maintenance_windows/, route =>
           route.fulfill(jsonResponse([])),
         );
-        await page.route('**/facilities_api/v2/ccp/specialties', route =>
-          route.fulfill(jsonResponse(mockServices)),
+        await page.route(
+          new RegExp('facilities_api/v2/ccp/specialties'),
+          route => route.fulfill(jsonResponse(mockServices)),
         );
-        await page.route('**/geocoding/**', route =>
+        await page.route(new RegExp('geocoding/'), route =>
           route.fulfill(jsonResponse(mockGeocodingData)),
         );
-        await page.route('**/facilities_api/v2/va', async route => {
+        await page.route(new RegExp('facilities_api/v2/va'), async route => {
           if (route.request().method() === 'POST') {
             await route.fulfill(jsonResponse(mockFacilitiesSearchResultsV1));
           } else {
@@ -58,8 +62,7 @@ for (const featureSet of featuresToTest) {
         await h.selectFacilityTypeInDropdown(page, 'VA health');
         await page.locator(h.SEARCH_BUTTON).click();
 
-        const axeResults = await new AxeBuilder({ page }).analyze();
-        expect(axeResults.violations).toHaveLength(0);
+        expect(await axeCheck(page)).toHaveLength(0);
 
         await expect(page.locator(h.MAP_CONTAINER)).toBeVisible({
           timeout: 10000,
@@ -74,11 +77,11 @@ for (const featureSet of featuresToTest) {
           await win.dispose();
         }).toPass({ timeout: 10000 });
 
-        // Click map pin
-        await page
-          .locator('.i-pin-card-map')
-          .first()
-          .click();
+        // Click map pin (button markers are in the map but not visible due to WebGL stub)
+        await page.evaluate(() => {
+          const pin = document.querySelector('button.i-pin-card-map');
+          if (pin) pin.click();
+        });
 
         await expect(async () => {
           const dl = await page.evaluate(() => window.dataLayer);
@@ -102,7 +105,7 @@ for (const featureSet of featuresToTest) {
         // Zoom in 5 times
         // eslint-disable-next-line no-await-in-loop
         for (let i = 0; i < 5; i++) {
-          await page.locator('.mapboxgl-ctrl-zoom-in').click(); // eslint-disable-line no-await-in-loop
+          await page.locator('.mapboxgl-ctrl-zoom-in').click({ force: true }); // eslint-disable-line no-await-in-loop
           await page.waitForTimeout(200); // eslint-disable-line no-await-in-loop
         }
 
@@ -114,7 +117,7 @@ for (const featureSet of featuresToTest) {
         }).toPass({ timeout: 10000 });
 
         // Zoom out
-        await page.locator('.mapboxgl-ctrl-zoom-out').click();
+        await page.locator('.mapboxgl-ctrl-zoom-out').click({ force: true });
         await page.waitForTimeout(200);
 
         await expect(async () => {

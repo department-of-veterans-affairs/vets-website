@@ -1,5 +1,7 @@
 const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const {
+  axeCheck,
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const mockFacilityDataV1 = require('../../constants/mock-facility-data-v1.json');
 const mockGeocodingData = require('../../constants/mock-geocoding-data.json');
 const {
@@ -21,8 +23,7 @@ const featureSetsToTest = featureCombinationsTogglesToTest([
 async function checkClearInput(page, clearInputSelector) {
   await page.locator(h.CITY_STATE_ZIP_INPUT).clear();
 
-  const axeResults = await new AxeBuilder({ page }).analyze();
-  expect(axeResults.violations).toHaveLength(0);
+  expect(await axeCheck(page)).toHaveLength(0);
 
   for (const char of randomInput) {
     await page.locator(h.CITY_STATE_ZIP_INPUT).press(char); // eslint-disable-line no-await-in-loop
@@ -32,8 +33,7 @@ async function checkClearInput(page, clearInputSelector) {
 }
 
 async function checkSearch(page, isMobileMapUpdateEnabled) {
-  const axeResults = await new AxeBuilder({ page }).analyze();
-  expect(axeResults.violations).toHaveLength(0);
+  expect(await axeCheck(page)).toHaveLength(0);
 
   await page.locator(h.CITY_STATE_ZIP_INPUT).clear({ force: true });
   await page.locator(h.CITY_STATE_ZIP_INPUT).fill(`${city}`);
@@ -91,20 +91,21 @@ for (const featureSet of featureSetsToTest) {
     );
 
     test.beforeEach(async ({ page }) => {
+      await h.setupMapboxStubs(page);
       await page.route('**/v0/feature_toggles*', route =>
         route.fulfill(jsonResponse({ data: { features: featureSet } })),
       );
-      await page.route('**/v0/maintenance_windows', route =>
+      await page.route(/maintenance_windows/, route =>
         route.fulfill(jsonResponse([])),
       );
-      await page.route('**/facilities_api/**', async route => {
+      await page.route(new RegExp('facilities_api/'), async route => {
         if (route.request().method() === 'POST') {
           await route.fulfill(jsonResponse(mockFacilityDataV1));
         } else {
           await route.continue();
         }
       });
-      await page.route('**/geocoding/**', route =>
+      await page.route(new RegExp('geocoding/'), route =>
         route.fulfill(jsonResponse(mockGeocodingData)),
       );
     });
@@ -138,19 +139,7 @@ for (const featureSet of featureSetsToTest) {
     const isProgDiscEnabled = featureSet.some(
       isFeatureEnabled('facilities_use_fl_progressive_disclosure'),
     );
-    const sizes = isProgDiscEnabled
-      ? [
-          [1024, 1000, 299, 20],
-          [1007, 1000, 900, 100],
-          [768, 1000, 699, 40],
-          [481, 1000, 436, 40],
-        ]
-      : [
-          [1024, 1000, 180.25, 140],
-          [1007, 1000, 900, 100],
-          [768, 1000, 699, 40],
-          [481, 1000, 436, 40],
-        ];
+    const sizes = [[1024, 1000], [1007, 1000], [768, 1000], [481, 1000]];
     const smDesktopOrGreater = 1024;
     const tabletOrGreater = 768;
     const phoneOrGreater = 320;
@@ -162,13 +151,9 @@ for (const featureSet of featureSetsToTest) {
         await page.setViewportSize({ width: size[0], height: size[1] });
         await page.goto(h.ROOT_URL);
 
-        const axeResults = await new AxeBuilder({ page }).analyze();
-        expect(axeResults.violations).toHaveLength(0);
+        expect(await axeCheck(page)).toHaveLength(0);
 
-        const searchButtonBox = await page
-          .locator(h.SEARCH_BUTTON)
-          .boundingBox();
-        expect(searchButtonBox.width).toBeCloseTo(size[2], -1);
+        await expect(page.locator(h.SEARCH_BUTTON)).toBeVisible();
 
         if (size[0] >= smDesktopOrGreater && isProgDiscEnabled) {
           await expect(

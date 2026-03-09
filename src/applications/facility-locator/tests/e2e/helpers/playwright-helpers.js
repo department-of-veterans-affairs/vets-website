@@ -116,7 +116,7 @@ async function clickElement(page, selector) {
 }
 
 async function verifyMainNumber(page, number) {
-  const mainPhone = page.locator(MAIN_PHONE);
+  const mainPhone = page.locator(MAIN_PHONE).first();
   await expect(mainPhone).toBeVisible();
   await expect(mainPhone).toContainText('Main phone');
   const tel = mainPhone
@@ -127,7 +127,7 @@ async function verifyMainNumber(page, number) {
 }
 
 async function verifyHealthConnectNumber(page, number) {
-  const el = page.locator(VA_HEALTH_CONNECT_NUMBER);
+  const el = page.locator(VA_HEALTH_CONNECT_NUMBER).first();
   await expect(el).toBeVisible();
   await expect(el).toContainText('VA health connect');
   const tel = el
@@ -138,7 +138,7 @@ async function verifyHealthConnectNumber(page, number) {
 }
 
 async function verifyMentalHealthNumber(page, number) {
-  const el = page.locator(MENTAL_HEALTH_NUMBER);
+  const el = page.locator(MENTAL_HEALTH_NUMBER).first();
   await expect(el).toBeVisible();
   await expect(el).toContainText('Mental health');
   const tel = el
@@ -149,7 +149,7 @@ async function verifyMentalHealthNumber(page, number) {
 }
 
 async function verifyTTYNumber(page) {
-  await expect(page.locator(TTY_NUMBER)).toBeVisible();
+  await expect(page.locator(TTY_NUMBER).first()).toBeVisible();
 }
 
 async function verifyListingContents(page, container, details) {
@@ -266,7 +266,352 @@ async function focusElement(page, selector) {
 
 // --- Mock setup helpers ---
 
+/**
+ * Injects a WebGL stub so MapBox GL JS can initialize in headless Chromium.
+ * Also mocks the Mapbox token health check and tile/style endpoints.
+ */
+async function setupMapboxStubs(page) {
+  // WebGL context stub — prevents "Failed to initialize WebGL" from mapbox-gl
+  await page.addInitScript(() => {
+    const origGetContext = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function stubGetContext(
+      type,
+      attrs,
+    ) {
+      if (
+        type === 'webgl' ||
+        type === 'webgl2' ||
+        type === 'experimental-webgl'
+      ) {
+        const handler = {
+          get(target, prop) {
+            if (prop in target) return target[prop];
+            return function noOp() {
+              return null;
+            };
+          },
+        };
+        // eslint-disable-next-line fp/no-proxy
+        return new Proxy(
+          {
+            canvas: this,
+            drawingBufferWidth: this.width || 300,
+            drawingBufferHeight: this.height || 150,
+            getExtension: () => null,
+            getParameter: p => {
+              if (p === 7938) return 'WebGL 1.0';
+              return 0;
+            },
+            getShaderPrecisionFormat: () => ({
+              rangeMin: 127,
+              rangeMax: 127,
+              precision: 23,
+            }),
+            createShader: () => ({}),
+            shaderSource: () => {},
+            compileShader: () => {},
+            getShaderParameter: () => true,
+            getShaderInfoLog: () => '',
+            createProgram: () => ({}),
+            attachShader: () => {},
+            linkProgram: () => {},
+            getProgramParameter: () => true,
+            getProgramInfoLog: () => '',
+            validateProgram: () => {},
+            useProgram: () => {},
+            createBuffer: () => ({}),
+            bindBuffer: () => {},
+            bufferData: () => {},
+            bufferSubData: () => {},
+            enableVertexAttribArray: () => {},
+            disableVertexAttribArray: () => {},
+            vertexAttribPointer: () => {},
+            getAttribLocation: () => 0,
+            getUniformLocation: () => ({}),
+            getActiveAttrib: () => ({ name: 'a', size: 1, type: 5126 }),
+            getActiveUniform: () => ({ name: 'u', size: 1, type: 5126 }),
+            uniform1f: () => {},
+            uniform1i: () => {},
+            uniform2f: () => {},
+            uniform2fv: () => {},
+            uniform3f: () => {},
+            uniform3fv: () => {},
+            uniform4f: () => {},
+            uniform4fv: () => {},
+            uniformMatrix2fv: () => {},
+            uniformMatrix3fv: () => {},
+            uniformMatrix4fv: () => {},
+            createTexture: () => ({}),
+            bindTexture: () => {},
+            texParameteri: () => {},
+            texParameterf: () => {},
+            texImage2D: () => {},
+            texSubImage2D: () => {},
+            activeTexture: () => {},
+            createFramebuffer: () => ({}),
+            bindFramebuffer: () => {},
+            framebufferTexture2D: () => {},
+            checkFramebufferStatus: () => 36053,
+            createRenderbuffer: () => ({}),
+            bindRenderbuffer: () => {},
+            renderbufferStorage: () => {},
+            framebufferRenderbuffer: () => {},
+            viewport: () => {},
+            clear: () => {},
+            clearColor: () => {},
+            clearDepth: () => {},
+            clearStencil: () => {},
+            enable: () => {},
+            disable: () => {},
+            blendFunc: () => {},
+            blendFuncSeparate: () => {},
+            blendEquation: () => {},
+            blendEquationSeparate: () => {},
+            blendColor: () => {},
+            depthFunc: () => {},
+            depthMask: () => {},
+            depthRange: () => {},
+            stencilFunc: () => {},
+            stencilFuncSeparate: () => {},
+            stencilMask: () => {},
+            stencilMaskSeparate: () => {},
+            stencilOp: () => {},
+            stencilOpSeparate: () => {},
+            scissor: () => {},
+            colorMask: () => {},
+            pixelStorei: () => {},
+            generateMipmap: () => {},
+            drawArrays: () => {},
+            drawElements: () => {},
+            finish: () => {},
+            flush: () => {},
+            getError: () => 0,
+            isContextLost: () => false,
+            getSupportedExtensions: () => [],
+            lineWidth: () => {},
+            polygonOffset: () => {},
+            deleteTexture: () => {},
+            deleteBuffer: () => {},
+            deleteFramebuffer: () => {},
+            deleteRenderbuffer: () => {},
+            deleteShader: () => {},
+            deleteProgram: () => {},
+            readPixels: () => {},
+            isEnabled: () => false,
+            frontFace: () => {},
+            cullFace: () => {},
+            hint: () => {},
+            sampleCoverage: () => {},
+            // WebGL constants needed by mapbox-gl
+            ARRAY_BUFFER: 34962,
+            ELEMENT_ARRAY_BUFFER: 34963,
+            STATIC_DRAW: 35044,
+            DYNAMIC_DRAW: 35048,
+            FLOAT: 5126,
+            UNSIGNED_SHORT: 5123,
+            UNSIGNED_BYTE: 5121,
+            UNSIGNED_INT: 5125,
+            TRIANGLES: 4,
+            TRIANGLE_STRIP: 5,
+            LINES: 1,
+            LINE_STRIP: 3,
+            POINTS: 0,
+            TEXTURE_2D: 3553,
+            TEXTURE0: 33984,
+            RGBA: 6408,
+            RGB: 6407,
+            LUMINANCE: 6409,
+            NEAREST: 9728,
+            LINEAR: 9729,
+            LINEAR_MIPMAP_LINEAR: 9987,
+            NEAREST_MIPMAP_LINEAR: 9986,
+            LINEAR_MIPMAP_NEAREST: 9985,
+            NEAREST_MIPMAP_NEAREST: 9984,
+            TEXTURE_MAG_FILTER: 10240,
+            TEXTURE_MIN_FILTER: 10241,
+            TEXTURE_WRAP_S: 10242,
+            TEXTURE_WRAP_T: 10243,
+            REPEAT: 10497,
+            CLAMP_TO_EDGE: 33071,
+            MIRRORED_REPEAT: 33648,
+            FRAMEBUFFER: 36160,
+            RENDERBUFFER: 36161,
+            COLOR_ATTACHMENT0: 36064,
+            DEPTH_ATTACHMENT: 36096,
+            STENCIL_ATTACHMENT: 36128,
+            DEPTH_STENCIL_ATTACHMENT: 33306,
+            DEPTH_STENCIL: 34041,
+            FRAMEBUFFER_COMPLETE: 36053,
+            COLOR_BUFFER_BIT: 16384,
+            DEPTH_BUFFER_BIT: 256,
+            STENCIL_BUFFER_BIT: 1024,
+            BLEND: 3042,
+            DEPTH_TEST: 2929,
+            STENCIL_TEST: 2960,
+            SCISSOR_TEST: 3089,
+            CULL_FACE: 2884,
+            FRAGMENT_SHADER: 35632,
+            VERTEX_SHADER: 35633,
+            COMPILE_STATUS: 35713,
+            LINK_STATUS: 35714,
+            MAX_TEXTURE_SIZE: 3379,
+            MAX_RENDERBUFFER_SIZE: 34024,
+            UNPACK_FLIP_Y_WEBGL: 37440,
+            UNPACK_PREMULTIPLY_ALPHA_WEBGL: 37441,
+            SRC_ALPHA: 770,
+            ONE_MINUS_SRC_ALPHA: 771,
+            FUNC_ADD: 32774,
+            NO_ERROR: 0,
+          },
+          handler,
+        );
+      }
+      return origGetContext.call(this, type, attrs);
+    };
+  });
+
+  // Dynamic Mapbox geocoding mock — returns city-specific coordinates
+  // based on the search query in the URL, falling back to Austin, TX.
+  const geocodingCities = {
+    atlanta: {
+      lat: 33.7508,
+      lng: -84.389854,
+      name: 'Atlanta',
+      state: 'Georgia',
+      abbr: 'GA',
+    },
+    tampa: {
+      lat: 27.947973,
+      lng: -82.4571,
+      name: 'Tampa',
+      state: 'Florida',
+      abbr: 'FL',
+    },
+    norfolk: {
+      lat: 36.8488,
+      lng: -76.2929,
+      name: 'Norfolk',
+      state: 'Virginia',
+      abbr: 'VA',
+    },
+    seattle: {
+      lat: 47.6002,
+      lng: -122.3201,
+      name: 'Seattle',
+      state: 'Washington',
+      abbr: 'WA',
+    },
+    reno: {
+      lat: 39.52578,
+      lng: -119.81292,
+      name: 'Reno',
+      state: 'Nevada',
+      abbr: 'NV',
+    },
+    tulsa: {
+      lat: 36.15286,
+      lng: -95.989395,
+      name: 'Tulsa',
+      state: 'Oklahoma',
+      abbr: 'OK',
+    },
+    honolulu: {
+      lat: 21.308498,
+      lng: -157.86154,
+      name: 'Honolulu',
+      state: 'Hawaii',
+      abbr: 'HI',
+    },
+    chicago: {
+      lat: 41.881954,
+      lng: -87.63236,
+      name: 'Chicago',
+      state: 'Illinois',
+      abbr: 'IL',
+    },
+    juneau: {
+      lat: 58.30035,
+      lng: -134.40826,
+      name: 'Juneau',
+      state: 'Alaska',
+      abbr: 'AK',
+    },
+  };
+  const defaultGeocodingData = require('../../../constants/mock-geocoding-data.json');
+
+  const buildGeocodingResponse = city => ({
+    type: 'FeatureCollection',
+    query: [city.name.toLowerCase()],
+    features: [
+      {
+        id: `place.${city.name.toLowerCase()}`,
+        type: 'Feature',
+        place_type: ['place'], // eslint-disable-line camelcase
+        relevance: 1,
+        properties: {},
+        text: city.name,
+        place_name: `${city.name}, ${city.state}, United States`, // eslint-disable-line camelcase
+        bbox: [
+          city.lng - 0.75,
+          city.lat - 0.75,
+          city.lng + 0.75,
+          city.lat + 0.75,
+        ],
+        center: [city.lng, city.lat],
+        geometry: {
+          type: 'Point',
+          coordinates: [city.lng, city.lat],
+        },
+        context: [
+          {
+            id: `region.${city.abbr}`,
+            short_code: `US-${city.abbr}`, // eslint-disable-line camelcase
+            text: city.state,
+          },
+          {
+            id: 'country.us',
+            short_code: 'us', // eslint-disable-line camelcase
+            text: 'United States',
+          },
+        ],
+      },
+    ],
+    attribution: '',
+  });
+
+  await page.route(/api.mapbox.com/, route => {
+    if (
+      route
+        .request()
+        .url()
+        .includes('/geocoding/')
+    ) {
+      const url = route.request().url();
+      // Extract search query from URL: .../mapbox.places/{query}.json
+      const queryMatch = url.match(/mapbox\.places\/([^.]+)\.json/);
+      const searchQuery = queryMatch
+        ? decodeURIComponent(queryMatch[1]).toLowerCase()
+        : '';
+      const matchedCity = Object.keys(geocodingCities).find(key =>
+        searchQuery.includes(key),
+      );
+
+      const responseData = matchedCity
+        ? buildGeocodingResponse(geocodingCities[matchedCity])
+        : defaultGeocodingData;
+
+      return route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(responseData),
+      });
+    }
+    return route.fulfill({ status: 200, body: '' });
+  });
+}
+
 async function setupCommonMocks(page, featureSet = []) {
+  await setupMapboxStubs(page);
   await page.route('**/v0/feature_toggles*', route =>
     route.fulfill({
       status: 200,
@@ -274,7 +619,7 @@ async function setupCommonMocks(page, featureSet = []) {
       body: JSON.stringify({ data: { features: featureSet } }),
     }),
   );
-  await page.route('**/v0/maintenance_windows', route =>
+  await page.route(/maintenance_windows/, route =>
     route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -348,5 +693,6 @@ module.exports = {
   errorMessageContains2,
   elementIsFocused,
   focusElement,
+  setupMapboxStubs,
   setupCommonMocks,
 };

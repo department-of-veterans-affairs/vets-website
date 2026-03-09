@@ -1,5 +1,7 @@
 const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const {
+  axeCheck,
+} = require('../../../../platform/testing/e2e/playwright/helpers/axeCheck');
 const {
   communityPharmacySearchResults,
   communityCareProviderSearchResults,
@@ -34,11 +36,12 @@ const verifyStandardPhoneNumbers = async (page, mainNumber) => {
 for (const featureSet of featureSetsToTest) {
   test.describe(`mobile list behavior ${enabledFeatures(featureSet)}`, () => {
     test.beforeEach(async ({ page }) => {
+      await h.setupMapboxStubs(page);
       await page.setViewportSize({ width: 480, height: 1200 });
       await page.route('**/v0/feature_toggles*', route =>
         route.fulfill(jsonResponse({ data: { features: featureSet } })),
       );
-      await page.route('**/v0/maintenance_windows', route =>
+      await page.route(/maintenance_windows/, route =>
         route.fulfill(jsonResponse([])),
       );
     });
@@ -46,14 +49,13 @@ for (const featureSet of featureSetsToTest) {
     test('with no search parameters - shows search text', async ({ page }) => {
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.verifyElementByText(page, h.MOBILE_LIST_SEARCH_TEXT);
     });
 
     test('with no search results - shows no results', async ({ page }) => {
-      await page.route('**/facilities_api/v2/va', async route => {
+      await page.route(new RegExp('facilities_api/v2/va'), async route => {
         if (route.request().method() === 'POST') {
           await route.fulfill(jsonResponse(noResults));
         } else {
@@ -63,8 +65,7 @@ for (const featureSet of featureSetsToTest) {
 
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Juneau, AK');
       await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.HEALTH);
@@ -78,7 +79,7 @@ for (const featureSet of featureSetsToTest) {
     });
 
     test('VA health - renders list results', async ({ page }) => {
-      await page.route('**/facilities_api/v2/va', async route => {
+      await page.route(new RegExp('facilities_api/v2/va'), async route => {
         if (route.request().method() === 'POST') {
           await route.fulfill(jsonResponse(vaFacilitySearchResults));
         } else {
@@ -88,8 +89,7 @@ for (const featureSet of featureSetsToTest) {
 
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Atlanta, GA');
       await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.HEALTH);
@@ -117,10 +117,10 @@ for (const featureSet of featureSetsToTest) {
     });
 
     test('urgent care - renders list results', async ({ page }) => {
-      await page.route('**/facilities_api/v2/ccp/urgent_care*', route =>
+      await page.route(new RegExp('facilities_api/v2/ccp/urgent_care'), route =>
         route.fulfill(jsonResponse(urgentCareSearchResults[1])),
       );
-      await page.route('**/facilities_api/v2/va*', async route => {
+      await page.route(new RegExp('facilities_api/v2/va'), async route => {
         if (route.request().method() === 'POST') {
           await route.fulfill(jsonResponse(urgentCareSearchResults[0]));
         } else {
@@ -130,8 +130,7 @@ for (const featureSet of featureSetsToTest) {
 
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Tampa, FL');
       await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.URGENT);
@@ -159,7 +158,7 @@ for (const featureSet of featureSetsToTest) {
         /facilities_api\/v2\/ccp\/provider.*specialties/,
         route => route.fulfill(jsonResponse(emergencyCareSearchResults[1])),
       );
-      await page.route('**/facilities_api/v2/va*', async route => {
+      await page.route(new RegExp('facilities_api/v2/va'), async route => {
         if (route.request().method() === 'POST') {
           await route.fulfill(jsonResponse(emergencyCareSearchResults[0]));
         } else {
@@ -169,8 +168,7 @@ for (const featureSet of featureSetsToTest) {
 
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Norfolk, VA');
       await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.EMERGENCY);
@@ -199,14 +197,13 @@ for (const featureSet of featureSetsToTest) {
         route =>
           route.fulfill(jsonResponse(communityCareProviderSearchResults[1])),
       );
-      await page.route('**/facilities_api/v2/ccp/specialties*', route =>
+      await page.route(new RegExp('facilities_api/v2/ccp/specialties'), route =>
         route.fulfill(jsonResponse(communityCareProviderSearchResults[0])),
       );
 
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Seattle, WA');
       await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.CC_PRO);
@@ -231,14 +228,13 @@ for (const featureSet of featureSetsToTest) {
     });
 
     test('community pharmacies - renders list results', async ({ page }) => {
-      await page.route('**/facilities_api/v2/ccp/pharmacy*', route =>
+      await page.route(new RegExp('facilities_api/v2/ccp/pharmacy'), route =>
         route.fulfill(jsonResponse(communityPharmacySearchResults)),
       );
 
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Reno, NV');
       await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.CC_PHARM);
@@ -262,7 +258,7 @@ for (const featureSet of featureSetsToTest) {
     });
 
     test('VBAs - renders list results', async ({ page }) => {
-      await page.route('**/facilities_api/v2/va*', async route => {
+      await page.route(new RegExp('facilities_api/v2/va'), async route => {
         if (route.request().method() === 'POST') {
           await route.fulfill(jsonResponse(vbaSearchResults));
         } else {
@@ -272,8 +268,7 @@ for (const featureSet of featureSetsToTest) {
 
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Tulsa, OK');
       await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.VBA);
@@ -297,7 +292,7 @@ for (const featureSet of featureSetsToTest) {
     });
 
     test('cemeteries - renders list results', async ({ page }) => {
-      await page.route('**/facilities_api/v2/va*', async route => {
+      await page.route(new RegExp('facilities_api/v2/va'), async route => {
         if (route.request().method() === 'POST') {
           await route.fulfill(jsonResponse(cemeterySearchResults));
         } else {
@@ -307,8 +302,7 @@ for (const featureSet of featureSetsToTest) {
 
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Honolulu, HI');
       await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.CEM);
@@ -332,7 +326,7 @@ for (const featureSet of featureSetsToTest) {
     });
 
     test('vet centers - renders list results', async ({ page }) => {
-      await page.route('**/facilities_api/v2/va*', async route => {
+      await page.route(new RegExp('facilities_api/v2/va'), async route => {
         if (route.request().method() === 'POST') {
           await route.fulfill(jsonResponse(vetCenterSearchResults));
         } else {
@@ -342,8 +336,7 @@ for (const featureSet of featureSetsToTest) {
 
       await page.goto(h.ROOT_URL);
 
-      const axeResults = await new AxeBuilder({ page }).analyze();
-      expect(axeResults.violations).toHaveLength(0);
+      expect(await axeCheck(page)).toHaveLength(0);
 
       await h.typeInCityStateInput(page, 'Chicago, IL');
       await h.selectFacilityTypeInDropdown(page, h.FACILITY_TYPES.VET);
