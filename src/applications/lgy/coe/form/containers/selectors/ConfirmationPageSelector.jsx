@@ -1,20 +1,32 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getFormData } from 'platform/forms-system/src/js/state/selectors';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import ConfirmationPage from '../ConfirmationPage';
 import ConfirmationPage2 from '../ConfirmationPage2';
-import { TOGGLE_KEY } from '../../constants';
 
 // Changed this from Intro version for testing purposes including using Boolean instead of !!
-export const shouldUseNewConfirmation = formData =>
-  Boolean(formData?.[`view:${TOGGLE_KEY}`]);
+export const shouldUseNewConfirmation = enabled => Boolean(enabled);
 
 export const ConfirmationPageSelector = props => {
-  const formData = useSelector(getFormData) || {};
-  const ConfirmationPageComponent = shouldUseNewConfirmation(formData)
+  const {
+    TOGGLE_NAMES,
+    useToggleLoadingValue,
+    useToggleValue,
+  } = useFeatureToggle();
+  const enableNewConfirmation = useToggleValue(
+    TOGGLE_NAMES.coeFormRebuildCveteam,
+  );
+  const isLoading = useToggleLoadingValue(TOGGLE_NAMES.coeFormRebuildCveteam);
+  const ConfirmationPageComponent = shouldUseNewConfirmation(
+    enableNewConfirmation,
+  )
     ? ConfirmationPage2
     : ConfirmationPage;
+
+  if (isLoading) {
+    return <va-loading-indicator message="Loading your application..." />;
+  }
+
   return <ConfirmationPageComponent {...props} />;
 };
 

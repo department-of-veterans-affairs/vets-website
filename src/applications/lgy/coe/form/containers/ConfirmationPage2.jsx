@@ -15,8 +15,10 @@ const PrintThisConfirmationPage = () => {
     window.print();
   };
   return (
-    <div className="confirmation-print-this-page-section screen-only">
-      <h2 className="vads-u-font-size--h4">Print this confirmation page</h2>
+    <div className="confirmation-print-this-page-section screen-only vads-u-margin-bottom--8">
+      <h2 className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--2">
+        Print this confirmation page
+      </h2>
 
       <p>
         If you’d like to keep a copy of the information on this page, you can
@@ -32,8 +34,10 @@ const PrintThisConfirmationPage = () => {
 };
 
 const WhatToExpect = () => (
-  <div className="confirmation-whats-next-process-list-section">
-    <h2>What to expect</h2>
+  <div className="confirmation-whats-next-process-list-section vads-u-margin-top--0 vads-u-margin-bottom--3">
+    <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+      What to expect
+    </h2>
 
     <VaProcessList>
       <VaProcessListItem header="We’ll confirm when we are reviewing your request">
@@ -63,11 +67,13 @@ const WhatToExpect = () => (
 );
 
 const CheckStatus = ({ statusURL }) => (
-  <div className="vads-u-margin-top--4">
-    <h2>How can I check the status of my request?</h2>
+  <div>
+    <h2 className="vads-u-margin-top--0">
+      How can I check the status of my request?
+    </h2>
     <p>You can check the status of your request online.</p>
 
-    <p>
+    <p className="vads-u-margin-top--3 vads-u-margin-bottom--5">
       <strong>Note:</strong> If it’s been more than 5 days since you submitted
       your request and you haven’t received a response, you can call us at{' '}
       <va-telephone contact="8778273702" /> (TTY:
@@ -123,7 +129,10 @@ export const ConfirmationPage2 = ({ route }) => {
         }
       />
       <ConfirmationView.SavePdfDownload />
-      <ConfirmationView.ChapterSectionCollection collapsible />
+      <ConfirmationView.ChapterSectionCollection
+        collapsible
+        className="vads-u-margin-bottom--5"
+      />
       <PrintThisConfirmationPage />
       <WhatToExpect />
       <CheckStatus statusURL={statusURL} />
