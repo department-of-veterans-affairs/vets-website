@@ -182,7 +182,7 @@ const generate = async data => {
     cardSection.add(seal);
   }
 
-  const contentStartY = cardYPosition + 36;
+  const contentStartY = cardYPosition + 39;
 
   // Name section
   const nameHeader = doc.struct('H2', () => {
