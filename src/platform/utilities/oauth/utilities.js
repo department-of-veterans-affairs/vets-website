@@ -116,8 +116,11 @@ export async function createOAuthRequest({
 
   const usedAcr =
     passedOptions?.forceVerify === 'required'
-      ? FORCED_VERIFICATION_ACRS[type]
-      : acr ?? oAuthOptions.acr[type];
+      ? FORCED_VERIFICATION_ACRS[useType]
+      : acr ??
+        (passedOptions?.isSignup
+          ? oAuthOptions.acrSignup?.[type] // keys like idme_signup / logingov_signup
+          : oAuthOptions.acr?.[type]);
 
   /*
     Web - Generate state & codeVerifier if default oAuth
