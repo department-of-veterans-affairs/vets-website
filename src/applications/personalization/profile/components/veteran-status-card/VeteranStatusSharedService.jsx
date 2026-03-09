@@ -9,12 +9,11 @@ import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import { datadogRum } from '@datadog/browser-rum';
-import { getServiceBranchDisplayName } from '../../helpers';
 import Headline from '../ProfileSectionHeadline';
 import VeteranStatusCard from './VeteranStatusCard';
 import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
 import { DynamicVeteranStatusAlert } from './VeteranStatusAlerts';
-import LoadFail from '../alerts/LoadFail';
+import VeteranStatusPageLevelError from './VeteranStatusPageLevelError';
 import '../../sass/veteran-status-card.scss';
 import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
 
@@ -24,7 +23,7 @@ const VeteranStatusSharedService = ({
   mockUserAgent,
 }) => {
   const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pdfError, setPdfError] = useState(false);
 
@@ -79,28 +78,10 @@ const VeteranStatusSharedService = ({
   }, []);
 
   const isCardEligible =
-    data?.type === 'veteran_status_card' && data?.veteranStatus === 'confirmed';
+    data?.type === 'veteran_status_card' &&
+    data?.attributes?.veteranStatus === 'confirmed';
 
   const formattedFullName = data?.attributes?.fullName || '';
-
-  const getLatestService = () => {
-    const latestServiceData = data?.attributes?.latestService;
-    if (latestServiceData) {
-      const { branch, beginDate, endDate } = latestServiceData;
-      const serviceStartYear = beginDate ? beginDate.substring(0, 4) : '';
-      const serviceEndYear = endDate ? endDate.substring(0, 4) : '';
-      const latestServiceDateRange =
-        serviceStartYear.length || serviceEndYear.length
-          ? `${serviceStartYear}–${serviceEndYear}`
-          : '';
-      return `${getServiceBranchDisplayName(
-        branch,
-      )} • ${latestServiceDateRange}`;
-    }
-    return null;
-  };
-
-  const latestService = getLatestService();
 
   const disabilityRating =
     data?.attributes?.disabilityRating ?? totalDisabilityRating;
@@ -111,9 +92,9 @@ const VeteranStatusSharedService = ({
     title: `Veteran status card for ${formattedFullName}`,
     details: {
       fullName: formattedFullName,
-      latestService,
       totalDisabilityRating: disabilityRating,
       edipi: cardEdipi,
+      useSharedService: true,
       image: {
         title: 'VA logo',
         url: '/img/design/logo/logo-black-and-white.png',
@@ -168,7 +149,7 @@ const VeteranStatusSharedService = ({
     }
 
     if (error) {
-      return <LoadFail />;
+      return <VeteranStatusPageLevelError />;
     }
 
     if (data?.type === 'veteran_status_alert') {
@@ -183,7 +164,11 @@ const VeteranStatusSharedService = ({
             body={data.attributes?.body}
             header={data.attributes?.header}
           />
-          <FrequentlyAskedQuestions createPdf={null} pdfError={pdfError} />
+          <FrequentlyAskedQuestions
+            createPdf={null}
+            pdfError={pdfError}
+            cveVeteranStatusNewService
+          />
         </>
       );
     }
@@ -200,7 +185,6 @@ const VeteranStatusSharedService = ({
               <VeteranStatusCard
                 edipi={cardEdipi}
                 formattedFullName={formattedFullName}
-                latestService={latestService}
                 totalDisabilityRating={disabilityRating}
               />
             </div>
@@ -209,6 +193,7 @@ const VeteranStatusSharedService = ({
         <FrequentlyAskedQuestions
           createPdf={isCardEligible ? createPdf : null}
           pdfError={pdfError}
+          cveVeteranStatusNewService
         />
       </>
     );
@@ -228,7 +213,7 @@ const VeteranStatusSharedService = ({
 };
 
 VeteranStatusSharedService.propTypes = {
-  edipi: PropTypes.number,
+  edipi: PropTypes.string,
   mockUserAgent: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
 };

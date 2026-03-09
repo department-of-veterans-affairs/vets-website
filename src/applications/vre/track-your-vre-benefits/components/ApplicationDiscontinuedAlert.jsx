@@ -17,9 +17,16 @@ const ApplicationDiscontinuedAlert = ({ discontinuedReason, resCaseId }) => {
     dispatch(downloadCh31PdfLetter(resCaseId));
   };
 
-  const downloadErrorMessage = downloadError
-    ? "We can't download your letter right now. Please try again later."
-    : null;
+  let downloadErrorMessage = null;
+  const notFound = downloadError?.status === 404;
+
+  if (notFound) {
+    downloadErrorMessage =
+      'Letter not found. Contact your counselor for additional information.';
+  } else if (downloadError) {
+    downloadErrorMessage =
+      "We can't download your letter right now. Please try again later.";
+  }
 
   return (
     <div className="vads-u-margin-y--3">
@@ -34,22 +41,29 @@ const ApplicationDiscontinuedAlert = ({ discontinuedReason, resCaseId }) => {
           reasons:
         </p>
         <p>{discontinuedReason || 'No reason provided.'}</p>
-        <p>View your detailed letter and next steps.</p>
-        <p>If you need more information, contact your counselor.</p>
-        {isDownloading ? (
-          <va-loading-indicator
-            label="Loading"
-            message="Downloading your letter..."
-          />
+        {downloadErrorMessage ? (
+          <p>
+            <strong>Note:</strong> {downloadErrorMessage}
+          </p>
         ) : (
-          <va-link-action
-            href="#"
-            text="View my letter"
-            type="primary"
-            onClick={handleDownload}
-          />
+          <>
+            <p>View your detailed letter and next steps.</p>
+            <p>If you need more information, contact your counselor.</p>
+            {isDownloading ? (
+              <va-loading-indicator
+                label="Loading"
+                message="Downloading your letter..."
+              />
+            ) : (
+              <va-link-action
+                href="#"
+                text="View my letter"
+                type="primary"
+                onClick={handleDownload}
+              />
+            )}
+          </>
         )}
-        {downloadErrorMessage && <p>{downloadErrorMessage}</p>}
       </va-alert>
     </div>
   );

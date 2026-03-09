@@ -9,6 +9,7 @@ import {
   getTypeName,
   getStatusContents,
   programAreaMap,
+  isClosed,
 } from '../../utils/appeals-v2-helpers';
 import {
   buildDateFormatter,
@@ -81,10 +82,12 @@ export default function AppealListItem({ appeal, name }) {
 
   const ariaLabel = `Details for ${appealTitle}`;
   const href = `/appeals/${appeal.id}/status`;
+  const inProgress = !isClosed(appeal);
 
   return (
     <ClaimCard
       title={appealTitle}
+      label={inProgress ? 'In Progress' : null}
       subtitle={requestEvent && `Received on ${formatDate(requestEvent.date)}`}
     >
       <div className="card-status">

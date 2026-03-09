@@ -129,6 +129,7 @@ const LandingPage = () => {
         <section>
           <TrackedSpinner
             id="mr-landing-page-loading-indicator"
+            enableTimeout
             message="Loading your medical records..."
             set-focus
             data-testid="mr-landing-page-loading-indicator"
