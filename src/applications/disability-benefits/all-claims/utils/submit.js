@@ -916,12 +916,16 @@ export const addForm8940 = formData => {
  *                     formData if no attachments with additionalData are present
  */
 export const flattenAttachments = formData => {
-  const pmrAttachments = formData.privateMedicalRecordAttachments;
-  const addtnlDcs = formData.additionalDocuments;
+  const pmrAttachments = formData.privateMedicalRecordAttachmentsV3;
+  const addtnlDcs = formData.additionalDocumentsV3;
   const clonedData = _.cloneDeep(formData);
   // V3 file input always (until deprecated) includes additionalData on all attachments when the
   // enhancement toggle is on, so checking the first element is sufficient.
-  if (pmrAttachments && pmrAttachments[0]?.additionalData) {
+  if (
+    formData.disability526SupportingEvidenceFileInputV3 &&
+    pmrAttachments &&
+    pmrAttachments[0]?.additionalData
+  ) {
     clonedData.privateMedicalRecordAttachments = pmrAttachments.map(
       attachment => {
         const { additionalData, ...rest } = attachment;
@@ -929,7 +933,11 @@ export const flattenAttachments = formData => {
       },
     );
   }
-  if (addtnlDcs && addtnlDcs[0]?.additionalData) {
+  if (
+    formData.disability526SupportingEvidenceFileInputV3 &&
+    addtnlDcs &&
+    addtnlDcs[0]?.additionalData
+  ) {
     clonedData.additionalDocuments = addtnlDcs.map(attachment => {
       const { additionalData, ...rest } = attachment;
       return { ...rest, ...additionalData };

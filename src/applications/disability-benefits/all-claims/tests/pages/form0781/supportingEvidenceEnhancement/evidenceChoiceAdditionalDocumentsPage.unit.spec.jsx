@@ -16,8 +16,24 @@ describe('evidenceChoiceAdditionalDocumentsPage', () => {
     uiSchema,
   } = formConfig.chapters.supportingEvidence.pages.evidenceChoiceAdditionalDocuments;
 
-  it('should require additionalDocuments field in schema', () => {
-    expect(schema.required).to.deep.equal(['additionalDocuments']);
+  it('should have additionalDocumentsV3 and additionalDocumentsV1 in schema properties', () => {
+    expect(schema.properties).to.have.property('additionalDocumentsV3');
+    expect(schema.properties).to.have.property('additionalDocumentsV1');
+  });
+
+  it('should require additionalDocumentsV3 when feature flag is enabled', () => {
+    const formData = { disability526SupportingEvidenceFileInputV3: true };
+    const updatedSchema = uiSchema['ui:options'].updateSchema(formData, schema);
+    expect(updatedSchema.required).to.deep.equal(['additionalDocumentsV3']);
+  });
+
+  it('should require additionalDocumentsV1 when feature flag is disabled', () => {
+    const formData = { disability526SupportingEvidenceFileInputV3: false };
+    const updatedSchema = uiSchema['ui:options'].updateSchema(formData, schema);
+    expect(updatedSchema.required).to.deep.equal(['additionalDocumentsV1']);
+    expect(updatedSchema.properties).to.not.have.property(
+      'additionalDocumentsV3',
+    );
   });
 
   it('should display the accordion and mental health support alert', () => {
@@ -48,7 +64,7 @@ describe('evidenceChoiceAdditionalDocumentsPage', () => {
     unmount();
   });
 
-  it('should submit when supporting documents already exist', async () => {
+  it('should submit when supporting documents already exist (V3)', async () => {
     const onSubmit = sinon.spy();
     const { getByText, unmount } = render(
       <Provider store={uploadStore}>
@@ -57,16 +73,51 @@ describe('evidenceChoiceAdditionalDocumentsPage', () => {
           schema={schema}
           uiSchema={uiSchema}
           data={{
-            evidenceChoiceAdditionalDocuments: [
+            disability526SupportingEvidenceFileInputV3: true,
+            additionalDocumentsV3: [
               {
                 name: 'supportingDoc.pdf',
                 size: 1024,
                 confirmationCode: 'CONFIRM123',
-                additionalData: { docType: 'L015' },
+                additionalData: { attachmentId: 'L015' },
               },
             ],
           }}
-          formData={{}}
+          formData={{
+            disability526SupportingEvidenceFileInputV3: true,
+          }}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
+    );
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
+
+    unmount();
+  });
+
+  it('should submit when supporting documents already exist (V1)', async () => {
+    const onSubmit = sinon.spy();
+    const { getByText, unmount } = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            disability526SupportingEvidenceFileInputV3: false,
+            additionalDocumentsV1: [
+              {
+                name: 'supportingDoc.pdf',
+                size: 1024,
+                confirmationCode: 'CONFIRM123',
+              },
+            ],
+          }}
+          formData={{
+            disability526SupportingEvidenceFileInputV3: false,
+          }}
           onSubmit={onSubmit}
         />
       </Provider>,
