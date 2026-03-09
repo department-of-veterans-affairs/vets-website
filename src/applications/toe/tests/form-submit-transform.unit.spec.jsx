@@ -141,10 +141,10 @@ describe('form submit transform', () => {
       });
     });
     describe('Creates highSchoolDiplomaInfo', () => {
-      it('should create high school diploma info with change flag set to true', () => {
+      it('should create high school diploma info when diploma is Yes', () => {
         mockSubmissionForm.data = {
           ...mockSubmissionForm.data,
-          ...mockSubmissionForm.data.highSchoolDiplomaWithChangeFlagTrue,
+          ...mockSubmissionForm.data.highSchoolDiplomaYes,
         };
         submissionObject = JSON.parse(transformTOEForm({}, mockSubmissionForm));
         expect(
@@ -155,21 +155,7 @@ describe('form submit transform', () => {
             .highSchoolDiplomaOrCertificateDate,
         ).to.deep.equal('2000-01-02');
       });
-      it('should create high school diploma info with change flag set to false', () => {
-        mockSubmissionForm.data = {
-          ...mockSubmissionForm.data,
-          ...mockSubmissionForm.data.highSchoolDiplomaWithChangeFlagFalse,
-        };
-        submissionObject = JSON.parse(transformTOEForm({}, mockSubmissionForm));
-        expect(
-          submissionObject.highSchoolDiplomaInfo.highSchoolDiplomaOrCertificate,
-        ).to.deep.equal(true);
-        expect(
-          submissionObject.highSchoolDiplomaInfo
-            .highSchoolDiplomaOrCertificateDate,
-        ).to.deep.equal('2000-01-02');
-      });
-      it('should not set highSchoolDiplomaOrCertificate when not presented with the high school question', () => {
+      it('should omit highSchoolDiplomaOrCertificate when not presented with the high school question', () => {
         mockSubmissionForm.data = {
           ...mockSubmissionForm.data,
           ...mockSubmissionForm.data.noHighSchoolQuestions,
@@ -179,41 +165,20 @@ describe('form submit transform', () => {
           submissionObject.highSchoolDiplomaInfo.highSchoolDiplomaOrCertificate,
         ).to.be.undefined;
       });
-      it('should set high school diploma certificate to false if No selected and change flag is true', () => {
+      it('should set high school diploma certificate to false if No selected', () => {
         mockSubmissionForm.data = {
           ...mockSubmissionForm.data,
-          ...mockSubmissionForm.data.noHighSchoolDiplomaWithChangeFlagTrue,
+          ...mockSubmissionForm.data.highSchoolDiplomaNo,
         };
         submissionObject = JSON.parse(transformTOEForm({}, mockSubmissionForm));
         expect(
           submissionObject.highSchoolDiplomaInfo.highSchoolDiplomaOrCertificate,
         ).to.deep.equal(false);
       });
-      it('should set high school diploma certificate to false if No selected and change flag is false', () => {
+      it('should set high school diploma date to undefined if no date is provided', () => {
         mockSubmissionForm.data = {
           ...mockSubmissionForm.data,
-          ...mockSubmissionForm.data.noHighSchoolDiplomaWithChangeFlagFalse,
-        };
-        submissionObject = JSON.parse(transformTOEForm({}, mockSubmissionForm));
-        expect(
-          submissionObject.highSchoolDiplomaInfo.highSchoolDiplomaOrCertificate,
-        ).to.deep.equal(false);
-      });
-      it('should set high school diploma date to undefined if no date is provided and change flag is true', () => {
-        mockSubmissionForm.data = {
-          ...mockSubmissionForm.data,
-          ...mockSubmissionForm.data.noHighSchoolDiplomaDateWithChangeFlagTrue,
-        };
-        submissionObject = JSON.parse(transformTOEForm({}, mockSubmissionForm));
-        expect(
-          submissionObject.highSchoolDiplomaInfo
-            .highSchoolDiplomaOrCertificateDate,
-        ).to.be.undefined;
-      });
-      it('should set high school diploma date to undefined if no date is provided and change flag is false', () => {
-        mockSubmissionForm.data = {
-          ...mockSubmissionForm.data,
-          ...mockSubmissionForm.data.noHighSchoolDiplomaDateWithChangeFlagFalse,
+          ...mockSubmissionForm.data.noHighSchoolDiplomaDate,
         };
         submissionObject = JSON.parse(transformTOEForm({}, mockSubmissionForm));
         expect(

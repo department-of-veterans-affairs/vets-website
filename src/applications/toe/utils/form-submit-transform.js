@@ -333,6 +333,53 @@ const getSponsorInformation = form => {
   };
 };
 
+const getAddressType = (livesOnMilitaryBase, country) => {
+  if (livesOnMilitaryBase) {
+    return 'MILITARY_OVERSEAS';
+  }
+  return country === 'USA' ? 'DOMESTIC' : 'FOREIGN';
+};
+
+const getGuardianInformation = formData => {
+  if (!formData?.mebParentGuardianStep) return undefined;
+
+  const requiredAddressFields =
+    formData?.guardianMailingAddress?.address?.country === 'USA'
+      ? ['country', 'street', 'city', 'state', 'postalCode']
+      : ['country', 'street', 'city', 'postalCode'];
+
+  const isCompleteAddress = requiredAddressFields.every(
+    field => !!formData?.guardianMailingAddress?.address?.[field],
+  );
+
+  const guardianMailingAddress = isCompleteAddress
+    ? {
+        addressType: getAddressType(
+          formData?.guardianMailingAddress?.livesOnMilitaryBase,
+          formData?.guardianMailingAddress?.address?.country,
+        ),
+        addressLine1: formData?.guardianMailingAddress?.address?.street,
+        addressLine2: formData?.guardianMailingAddress?.address?.street2,
+        city: formData?.guardianMailingAddress?.address?.city,
+        stateCode: formData?.guardianMailingAddress?.address?.state,
+        zipcode: formData?.guardianMailingAddress?.address?.postalCode,
+        countryCode: getLTSCountryCode(
+          formData?.guardianMailingAddress?.address?.country,
+        ),
+      }
+    : undefined;
+
+  return {
+    guardianOptions: {
+      guardianFirstName: formData?.guardianFirstName,
+      guardianMiddleName: formData?.guardianMiddleName,
+      guardianLastName: formData?.guardianLastName,
+      guardianNameSuffix: formData?.guardianNameSuffix,
+      guardianMailingAddress,
+    },
+  };
+};
+
 export function transformTOEForm(_formConfig, form) {
   const formFieldUserFullName = form?.data['view:userFullName']?.userFullName;
   const viewComponentUserFullName =
@@ -351,14 +398,11 @@ export function transformTOEForm(_formConfig, form) {
       ? formFieldDateOfBirth
       : viewComponentDateOfBirth;
 
-  const highSchoolDiploma = form.data?.toeHighSchoolInfoChange
-    ? form.data.highSchoolDiploma === 'Yes'
-    : form?.data?.highSchoolDiplomaLegacy &&
-      form.data.highSchoolDiplomaLegacy === 'Yes';
-
-  const highSchoolDiplomaDate = form.data?.toeHighSchoolInfoChange
-    ? form?.data?.highSchoolDiplomaDate
-    : form?.data?.highSchoolDiplomaDateLegacy;
+  const highSchoolDiploma =
+    form.data.highSchoolDiploma != null
+      ? form.data.highSchoolDiploma === 'Yes'
+      : undefined;
+  const highSchoolDiplomaDate = form?.data?.highSchoolDiplomaDate;
 
   const payload = {
     formId: form?.formId,
@@ -378,9 +422,10 @@ export function transformTOEForm(_formConfig, form) {
         city: form?.data['view:mailingAddress']?.address?.city,
         zipcode: form?.data['view:mailingAddress']?.address?.postalCode,
         emailAddress: form?.data?.email?.email?.toLowerCase(),
-        addressType: form?.data['view:mailingAddress']?.livesOnMilitaryBase
-          ? 'MILITARY_OVERSEAS'
-          : 'DOMESTIC',
+        addressType: getAddressType(
+          form?.data['view:mailingAddress']?.livesOnMilitaryBase,
+          form?.data['view:mailingAddress']?.address?.country,
+        ),
         mobilePhoneNumber:
           form?.data['view:phoneNumbers']?.mobilePhoneNumber?.phone,
         homePhoneNumber: form?.data['view:phoneNumbers']?.phoneNumber?.phone,
@@ -402,6 +447,7 @@ export function transformTOEForm(_formConfig, form) {
       directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
       directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
     },
+    ...getGuardianInformation(form?.data),
   };
 
   return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
