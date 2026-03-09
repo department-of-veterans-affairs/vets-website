@@ -265,6 +265,7 @@ export const ATTACHMENT_KEYS = [
   'secondaryUploadSources0',
   'secondaryUploadSources1',
   'secondaryUploadSources2',
+  'separationHealthAssessmentUploads',
 ];
 
 export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
