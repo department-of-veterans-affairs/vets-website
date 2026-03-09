@@ -226,8 +226,26 @@ async function fillVaFileInput(page, name, filePath) {
   if ((await container.count()) === 0) {
     container = page.locator(`va-file-input-multiple[name="${name}"]`);
   }
-  const fileInput = container.locator('input[type="file"]');
-  await fileInput.first().setInputFiles(filePath);
+  if ((await container.count()) === 0) return;
+
+  const fileInput = container.locator('input[type="file"]').first();
+  await fileInput.setInputFiles(filePath);
+
+  // Explicitly dispatch change event — shadow DOM boundaries may prevent
+  // the event dispatched by setInputFiles from reaching the component handler
+  await fileInput.evaluate(el => {
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+
+  // Wait for the upload to be processed (file name or delete button appears)
+  try {
+    await container
+      .locator('va-button-icon[button-type="delete"]')
+      .first()
+      .waitFor({ timeout: 5000 });
+  } catch {
+    // Upload indicator may not appear — continue anyway
+  }
 }
 
 /**

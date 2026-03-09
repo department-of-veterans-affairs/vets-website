@@ -78,7 +78,9 @@ const testConfig = createTestConfig(
         afterHook(async p => {
           // Fill signature from test data
           const { fullName } = testData.veteran;
-          const sigText = `${fullName.first} ${fullName.last}`;
+          const sigText = fullName.middle
+            ? `${fullName.first} ${fullName.middle} ${fullName.last}`
+            : `${fullName.first} ${fullName.last}`;
           const signatureInput = p
             .locator('#veteran-signature')
             .locator('input');
