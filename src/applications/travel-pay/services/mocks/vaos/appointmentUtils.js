@@ -80,6 +80,7 @@ function buildVaosAppointmentFromClaim(claim, daysOffset) {
     type: 'appointments',
     attributes: {
       id: claim.appointment?.id || savedClaimAppointmentId,
+      type: 'VA',
       past: true,
       modality: 'vaInPerson',
       identifier: [
@@ -223,7 +224,7 @@ const buildAppointmentsFromClaims = (
  * @param {number} [daysOffset=-3] - Days in the past relative to today
  * @returns {Object} VAOS-formatted CC appointment
  */
-function buildCCAppointment(daysOffset = -3) {
+function buildCCAppointment(daysOffset = -1) {
   const id = 'cc-appt-001';
   const { start, end, localStartTime } = generateAppointmentDates(daysOffset);
 
@@ -232,6 +233,7 @@ function buildCCAppointment(daysOffset = -3) {
     type: 'appointments',
     attributes: {
       id,
+      type: 'COMMUNITY_CARE_APPOINTMENT',
       identifier: [
         {
           system: 'Appointment/',
@@ -263,6 +265,7 @@ function buildCCAppointment(daysOffset = -3) {
       past: true,
       modality: 'vaInPerson',
       isPastAppointment: true,
+      preferredProviderName: 'Test Preferred Provider',
       travelPayClaim: {
         metadata: {
           status: 200,
