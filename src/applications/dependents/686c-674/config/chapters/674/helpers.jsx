@@ -21,10 +21,9 @@ export const AddStudentsIntro = (
 export const benefitSchemaLabels = ['ch35', 'fry', 'feca', 'none'];
 
 export const benefitUiLabels = {
-  ch35:
-    'Chapter 35 (also known as Dependent\u2019s Educational Assistance program)',
+  ch35: 'Chapter 35 (also known as Dependent’s Educational Assistance program)',
   fry: 'Fry Scholarship',
-  feca: 'Federal Employees\u2019 Compensation Act (FECA)',
+  feca: 'Federal Employees’ Compensation Act (FECA)',
   none: 'None of these benefits',
 };
 

@@ -12,6 +12,29 @@ describe('Facility VA search', () => {
   });
 
   it('does a simple search and finds a result on the list', () => {
+    /* eslint-disable camelcase */
+    cy.intercept('GET', '/geocoding/**/*', {
+      type: 'FeatureCollection',
+      query: ['30310'],
+      features: [
+        {
+          id: 'place.mock',
+          type: 'Feature',
+          place_type: ['place'],
+          relevance: 1,
+          properties: {},
+          text: 'Atlanta',
+          place_name: 'Atlanta, Georgia 30310',
+          center: [-84.4227, 33.7235],
+          geometry: { type: 'Point', coordinates: [-84.4227, 33.7235] },
+          context: [
+            { id: 'region.mock', short_code: 'US-GA', text: 'Georgia' },
+            { id: 'country.mock', short_code: 'us', text: 'United States' },
+          ],
+        },
+      ],
+    });
+    /* eslint-enable camelcase */
     cy.visit('/find-locations');
 
     cy.injectAxeThenAxeCheck();

@@ -74,10 +74,11 @@ describe('22-10278 information to disclose page', () => {
       },
     };
 
-    const { getByText } = renderPage({ claimInformation: {} }, storeData);
+    const { container } = renderPage({ claimInformation: {} }, storeData);
+    const paragraphText = container.querySelector('p').textContent;
 
-    expect(getByText('Taras Kurilo')).to.exist;
-    expect(getByText('Jane Doe')).to.exist;
+    expect(paragraphText).to.include('Taras Kurilo');
+    expect(paragraphText).to.include('Jane Doe');
   });
 
   it('setAll(false) clears otherText when unchecking "Select all"', () => {

@@ -90,7 +90,7 @@ describe('Verify old messages - No association with particular Triage Group', ()
       .find('va-link-action')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
   });
 
   it('existing draft - older than 45 days', () => {
@@ -158,7 +158,7 @@ describe('Verify old messages - No association with particular Triage Group', ()
       .find('va-link-action')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');
   });
 });

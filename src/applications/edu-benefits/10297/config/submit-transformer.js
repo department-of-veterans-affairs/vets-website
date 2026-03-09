@@ -49,7 +49,7 @@ export function transform(_formConfig, form) {
   // Build the payload
   const payload = {
     formId: form?.formId,
-    '@type': 'vettec',
+    '@type': 'VetTecSubmission',
     claimant: {
       claimantId: data?.claimantId,
       firstName: applicantFullName?.first,

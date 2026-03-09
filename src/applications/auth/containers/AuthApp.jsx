@@ -166,29 +166,28 @@ export default function AuthApp({ location }) {
       userAttributes,
       provisioned,
     });
-    if (
-      !skipToRedirect &&
-      (!isMyVAHealth || needsPortalNotice || needsMyHealth)
-    ) {
+    const needsEmailConfirmation = emailNeedsConfirmation({
+      isEmailInterstitialEnabled,
+      loginType,
+      userAttributes,
+    });
+    const interstitialRedirects = [
+      { condition: needsPortalNotice, url: '/sign-in-health-portal/' },
+      { condition: needsMyHealth, url: '/my-health' },
+      {
+        condition: needsEmailConfirmation,
+        url: '/sign-in-confirm-contact-email',
+      },
+    ];
+    const interstitial = interstitialRedirects.find(r => r.condition);
+    const needsProfileSetup =
+      !skipToRedirect && (!isMyVAHealth || interstitial);
+    if (needsProfileSetup) {
       setupProfileSession(userProfile);
-    }
-    if (needsPortalNotice) {
-      window.location.replace('/sign-in-health-portal/');
-      return;
-    }
-    if (needsMyHealth) {
-      window.location.replace('/my-health');
-      return;
-    }
-    if (
-      emailNeedsConfirmation({
-        isEmailInterstitialEnabled,
-        loginType,
-        userAttributes,
-      })
-    ) {
-      window.location.replace('/sign-in-confirm-contact-email');
-      return;
+      if (interstitial) {
+        window.location.replace(interstitial.url);
+        return;
+      }
     }
     redirect();
   };

@@ -25,6 +25,7 @@ const powerOfAttorney = require('./endpoints/power-of-attorney');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const vetVerificationStatus = require('./endpoints/vet-verification-status');
+const veteranStatusCard = require('./endpoints/veteran-status-card');
 const fullName = require('./endpoints/full-name');
 const {
   baseUserTransitionAvailabilities,
@@ -131,10 +132,30 @@ const responses = {
             vreCutoverNotice: true,
             vrePrefillName: true,
             mhvEmailConfirmation: true,
+            cveVeteranStatusNewService: true,
           }),
         ),
       secondsOfDelay,
     );
+  },
+  // New veteran status card endpoint (shared service)
+  'GET /v0/veteran_status_card': (_req, res) => {
+    // Eligible - shows the veteran status card
+    return res.json(veteranStatusCard.eligible);
+    // Dishonorable discharge - "You're not eligible for a Veteran Status Card"
+    // return res.json(veteranStatusCard.dishonorableDischarge);
+    // Person not found - "You're not eligible for a Veteran Status Card"
+    // return res.json(veteranStatusCard.personNotFound);
+    // Ineligible service - "You're not eligible for a Veteran Status Card"
+    // return res.json(veteranStatusCard.ineligibleService);
+    // Currently serving - "You can't get a Veteran Status Card if you're currently serving"
+    // return res.json(veteranStatusCard.currentlyServing);
+    // Eligibility unknown - "We don't know if you're eligible for this card"
+    // return res.json(veteranStatusCard.eligibilityUnknown);
+    // System error (200 response) - "Something went wrong"
+    // return res.json(veteranStatusCard.systemError);
+    // 500 error - triggers page level error alert "This page isn't working right now"
+    // return res.status(500).json(error500);
   },
   'GET /v0/user': (_req, res) => {
     const [shouldReturnUser, updatedUserResponse] = handleUserUpdate(
@@ -324,6 +345,7 @@ const responses = {
   },
   'GET /v0/profile/vet_verification_status': (_req, res) => {
     return res.status(200).json(vetVerificationStatus.confirmed);
+    // return res.status(500).json(error500);
     // return res.status(200).json(vetVerificationStatus.notConfirmedProblem);
     // return res.status(200).json(vetVerificationStatus.notConfirmedIneligible);
     // return res.status(504).json(vetVerificationStatus.apiError);

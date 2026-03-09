@@ -1528,7 +1528,7 @@ describe('<RecentActivity>', () => {
     });
   });
 
-  context('isDBQ boolean property fallback pattern', () => {
+  context('isDBQ property', () => {
     it('should use API value when provided (true)', () => {
       const claimWithApiIsDBQTrue = {
         attributes: {
@@ -1548,9 +1548,9 @@ describe('<RecentActivity>', () => {
               id: 1,
               requestedDate: '2024-05-12',
               status: 'NEEDED_FROM_OTHERS',
-              displayName: 'Non-DBQ Request', // Doesn't include 'dbq'
+              displayName: 'Non-DBQ Request',
               friendlyName: 'Test Request',
-              isDBQ: true, // API value is true
+              isDBQ: true,
             },
           ],
         },
@@ -1562,11 +1562,10 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
 
-      // Should show DBQ message because API value is true
       getByText('We made a request: “test Request.”');
     });
 
-    it('should fall back to displayName check when API value is false', () => {
+    it('should use displayName when isDBQ is false but displayName contains dbq', () => {
       const claimWithApiIsDBQFalse = {
         attributes: {
           claimDate: '2024-05-02',
@@ -1585,9 +1584,9 @@ describe('<RecentActivity>', () => {
               id: 1,
               requestedDate: '2024-05-12',
               status: 'NEEDED_FROM_OTHERS',
-              displayName: 'DBQ AUDIO Hearing Loss', // Contains 'dbq'
+              displayName: 'DBQ AUDIO Hearing Loss',
               friendlyName: 'DBQ Test',
-              isDBQ: false, // API says false, but displayName contains 'dbq'
+              isDBQ: false,
             },
           ],
         },
@@ -1599,12 +1598,11 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
 
-      // Should show DBQ message because displayName contains 'dbq'
       getByText(`We made a request: “dBQ Test.”`);
     });
 
-    it('should fallback to evidenceDictionary when API value not provided', () => {
-      const claimWithDictIsDBQ = {
+    it('should use displayName check when isDBQ not provided', () => {
+      const claimWithoutIsDBQ = {
         attributes: {
           claimDate: '2024-05-02',
           claimPhaseDates: {
@@ -1622,9 +1620,8 @@ describe('<RecentActivity>', () => {
               id: 1,
               requestedDate: '2024-05-12',
               status: 'NEEDED_FROM_OTHERS',
-              displayName: 'DBQ AUDIO Hearing Loss and Tinnitus', // In dictionary with isDBQ: true
+              displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
               friendlyName: 'Hearing Test',
-              // No isDBQ property from API
             },
           ],
         },
@@ -1632,15 +1629,14 @@ describe('<RecentActivity>', () => {
 
       const { getByText } = renderWithRouter(
         <Provider store={getStore(false)}>
-          <RecentActivity claim={claimWithDictIsDBQ} />
+          <RecentActivity claim={claimWithoutIsDBQ} />
         </Provider>,
       );
 
-      // Should use dictionary value (true)
       getByText('We made a request: “hearing Test.”');
     });
 
-    it('should fallback to displayName check when neither API nor dictionary has value', () => {
+    it('should use displayName check when isDBQ not provided (displayName contains dbq)', () => {
       const claimWithDbqInName = {
         attributes: {
           claimDate: '2024-05-02',
@@ -1659,9 +1655,8 @@ describe('<RecentActivity>', () => {
               id: 1,
               requestedDate: '2024-05-12',
               status: 'NEEDED_FROM_OTHERS',
-              displayName: 'Some DBQ Related Request', // Contains 'dbq' but not in dictionary
+              displayName: 'Some DBQ Related Request',
               friendlyName: 'DBQ Request',
-              // No isDBQ property from API or dictionary
             },
           ],
         },
@@ -1673,11 +1668,10 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
 
-      // Should detect 'dbq' in displayName
       getByText('We made a request: “dBQ Request.”');
     });
 
-    it('should default to false when all fallbacks fail', () => {
+    it('should default to false when isDBQ not provided and displayName has no dbq', () => {
       const claimWithNoDBQ = {
         attributes: {
           claimDate: '2024-05-02',
@@ -1696,9 +1690,8 @@ describe('<RecentActivity>', () => {
               id: 1,
               requestedDate: '2024-05-12',
               status: 'NEEDED_FROM_OTHERS',
-              displayName: 'Medical Records Request', // Not in dictionary, no 'dbq'
+              displayName: 'Medical Records Request',
               friendlyName: 'Medical Records',
-              // No isDBQ property from API
             },
           ],
         },
@@ -1710,11 +1703,10 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
 
-      // Should default to false (outside VA request)
       getByText('We made a request outside the VA: “medical Records.”');
     });
 
-    it('should return false when API value is false and displayName does not contain dbq', () => {
+    it('should return false when isDBQ is false and displayName does not contain dbq', () => {
       const claimWithApiFalseNoDbqName = {
         attributes: {
           claimDate: '2024-05-02',
@@ -1733,9 +1725,9 @@ describe('<RecentActivity>', () => {
               id: 1,
               requestedDate: '2024-05-12',
               status: 'NEEDED_FROM_OTHERS',
-              displayName: 'Medical Records Request', // No 'dbq' in name
+              displayName: 'Medical Records Request',
               friendlyName: 'Medical Records',
-              isDBQ: false, // API explicitly says false
+              isDBQ: false,
             },
           ],
         },
@@ -1747,7 +1739,6 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
 
-      // Should show non-DBQ content (outside VA request)
       getByText('We made a request outside the VA: “medical Records.”');
     });
   });

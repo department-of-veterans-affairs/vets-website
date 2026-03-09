@@ -89,9 +89,11 @@ export class ConfirmationPageObject extends PageObject {
 
     // How to join section with phone number
     this.assertElement('how-to-join-section');
-    cy.findByTestId('solid-start-telephone')
-      .should('exist')
-      .and('have.attr', 'contact', VASS_PHONE_NUMBER);
+    cy.findByTestId('appointment-card').within(() => {
+      cy.findByTestId('solid-start-telephone')
+        .should('exist')
+        .and('have.attr', 'contact', VASS_PHONE_NUMBER);
+    });
 
     // When section
     this.assertElement('when-section');

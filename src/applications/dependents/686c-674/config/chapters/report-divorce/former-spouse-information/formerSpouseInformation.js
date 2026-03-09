@@ -1,12 +1,11 @@
 import React from 'react';
 import {
   titleUI,
-  fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { CancelButton } from '../../../helpers';
+import { CancelButton, fullNameNoSuffixWithAsciiUI } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -29,7 +28,7 @@ export const uiSchema = {
   reportDivorce: {
     ...titleUI('Divorced spouse’s information'),
     fullName: {
-      ...fullNameNoSuffixUI(title => `Former spouse’s ${title}`),
+      ...fullNameNoSuffixWithAsciiUI(title => `Former spouse’s ${title}`),
     },
     birthDate: currentOrPastDateUI({
       title: 'Former spouse’s date of birth',

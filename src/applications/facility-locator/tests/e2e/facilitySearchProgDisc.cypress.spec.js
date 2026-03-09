@@ -99,6 +99,29 @@ describe('Facility VA search', () => {
   });
 
   it('shows search result header even when no results are found', () => {
+    /* eslint-disable camelcase */
+    cy.intercept('GET', '/geocoding/**/*', {
+      type: 'FeatureCollection',
+      query: ['27606'],
+      features: [
+        {
+          id: 'place.mock',
+          type: 'Feature',
+          place_type: ['place'],
+          relevance: 1,
+          properties: {},
+          text: 'Raleigh',
+          place_name: 'Raleigh, North Carolina 27606',
+          center: [-78.6382, 35.7796],
+          geometry: { type: 'Point', coordinates: [-78.6382, 35.7796] },
+          context: [
+            { id: 'region.mock', short_code: 'US-NC', text: 'North Carolina' },
+            { id: 'country.mock', short_code: 'us', text: 'United States' },
+          ],
+        },
+      ],
+    });
+    /* eslint-enable camelcase */
     cy.visit('/find-locations');
     cy.injectAxe();
     cy.axeCheck();
@@ -189,6 +212,7 @@ describe('Facility VA search', () => {
   });
 
   it('finds VA emergency care', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
     cy.visit('/find-locations');
     typeInCityStateInput('Austin, TX');
     selectFacilityTypeInDropdown(FACILITY_TYPES.EMERGENCY);

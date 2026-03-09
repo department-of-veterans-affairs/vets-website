@@ -213,7 +213,7 @@ describe('Intent to file submission', () => {
         '/representative/representative-form-upload/submit-va-form-21-0966',
       );
 
-      cy.get('a[href="#start"]')
+      cy.get('a[href="/submit-va-form-21-0966/claimant-background"]')
         .contains('Start the submission')
         .click();
 
@@ -247,7 +247,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
+        cy.get('a[href="/submit-va-form-21-0966/claimant-background"]')
           .contains('Start the submission')
           .click();
 
@@ -308,7 +308,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
+        cy.get('a[href="/submit-va-form-21-0966/claimant-background"]')
           .contains('Start the submission')
           .click();
 
@@ -386,7 +386,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
+        cy.get('a[href="/submit-va-form-21-0966/claimant-background"]')
           .contains('Start the submission')
           .click();
 
@@ -454,7 +454,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
+        cy.get('a[href="/submit-va-form-21-0966/claimant-background"]')
           .contains('Start the submission')
           .click();
 
@@ -516,7 +516,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
+        cy.get('a[href="/submit-va-form-21-0966/claimant-background"]')
           .contains('Start the submission')
           .click();
 
@@ -577,7 +577,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
+        cy.get('a[href="/submit-va-form-21-0966/claimant-background"]')
           .contains('Start the submission')
           .click();
 
@@ -638,7 +638,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
+        cy.get('a[href="/submit-va-form-21-0966/claimant-background"]')
           .contains('Start the submission')
           .click();
 

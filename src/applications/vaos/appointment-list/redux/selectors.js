@@ -493,14 +493,9 @@ export function selectModalityText(appointment, isPendingAppointment = false) {
  *
  * @param {*} appointment
  * @param {*} isRequest
- * @param {*} featureListViewClinicInfo
  * @returns
  */
-export function selectApptDetailAriaText(
-  appointment,
-  isRequest = false,
-  featureListViewClinicInfo = false,
-) {
+export function selectApptDetailAriaText(appointment, isRequest = false) {
   const appointmentDate = selectStartDate(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const isCommunityCare = selectIsCommunityCare(appointment);
@@ -540,9 +535,7 @@ export function selectApptDetailAriaText(
       )}, ${timezoneName}`
     : '';
 
-  const fillinWithOn = `${
-    featureListViewClinicInfo && practitioner ? `with ${practitioner} on` : 'on'
-  }`;
+  const fillinWithOn = `${practitioner ? `with ${practitioner} on` : 'on'}`;
 
   let modality = 'in-person';
   if (isCommunityCare) modality = 'community care';

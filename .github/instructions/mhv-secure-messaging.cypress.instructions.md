@@ -85,3 +85,6 @@ VA.gov's sticky header can cover elements when Cypress tries to click them.
 
 - E2E tests: `secure-messaging-feature-name.cypress.spec.js`
 - Group related tests in sub-directories (e.g., `folder-tests/`, `compose-tests/`)
+
+📖 REQUIRED: VA Cypress Best Practices: Before writing or modifying Cypress tests, fetch and follow the guidance at: https://depo-platform-documentation.scrollhelp.site/developer-docs/best-practices-for-using-cypress#BestpracticesforusingCypress-CypressFormTester
+
