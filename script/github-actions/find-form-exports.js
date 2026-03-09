@@ -104,17 +104,15 @@ function findTestingFolder(filePath) {
     : findPlatformFolder(filePath);
 }
 
-// distribute apps to be cypress tested evenly across max number of workers
-function bucketFolders(apps) {
+// distribute apps evenly across max number of workers
+function bucketFolders(apps, globSuffix) {
   const folderList = [...apps];
   const buckets = Array.from(
     { length: Math.min(folderList.length, MAX_WORKERS) },
     () => [],
   );
   folderList.forEach((folder, i) => buckets[i % buckets.length].push(folder));
-  return buckets.map(b =>
-    b.map(f => `${f}/**/*.cypress.spec.{js,jsx}`).join(','),
-  );
+  return buckets.map(b => b.map(f => `${f}/${globSuffix}`).join(','));
 }
 
 // return a comma-separated-list of app/platform folders for unit tests (all run in 1 worker)
@@ -127,15 +125,19 @@ function getFoldersForTests() {
     if (app) apps.add(app);
   });
 
-  const buckets = bucketFolders(apps);
+  const cypressBuckets = bucketFolders(apps, '**/*.cypress.spec.{js,jsx}');
+  const unitBuckets = bucketFolders(apps, '**/*.unit.spec.js?(x)');
   const folders = [...apps].join(',');
   const cypressSpecs = JSON.stringify(
-    buckets.map((spec, i) => ({ index: i, spec })),
+    cypressBuckets.map((spec, i) => ({ index: i, spec })),
+  );
+  const unitTestSpecs = JSON.stringify(
+    unitBuckets.map((spec, i) => ({ index: i, spec })),
   );
 
   fs.appendFileSync(
     process.env.GITHUB_OUTPUT,
-    `folders=${folders}\ncypress_specs=${cypressSpecs}\n`,
+    `folders=${folders}\ncypress_specs=${cypressSpecs}\nunit_test_specs=${unitTestSpecs}\n`,
   );
 }
 

@@ -1095,12 +1095,14 @@ jobs:
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
   
   forms-system_regression_check_get_file_paths:
+    name: Form System Regression Check - Get Files for Testing
     needs: [tests-prep]
     if: contains(needs.tests-prep.outputs.changed_file_paths, 'src/platform/forms-system')
     runs-on: ubuntu-latest
     outputs:
       folders: ${{ steps.testing-folders.outputs.folders }}
       cypress_specs: ${{ steps.testing-folders.outputs.cypress_specs }}
+      unit_test_specs: ${{ steps.testing-folders.outputs.unit_test_specs }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -1120,21 +1122,23 @@ jobs:
         run: |
           echo 'folders: ${{ steps.testing-folders.outputs.folders }}'
           echo 'cypress_specs: ${{ steps.testing-folders.outputs.cypress_specs }}'
+          echo 'unit_test_specs: ${{ steps.testing-folders.outputs.unit_test_specs }}'
   run_form-regression_unit_tests:
-    name: Forms System Regression - Unit Tests
+    name: Forms System Regression - Unit Tests (${{ matrix.index }})
     needs: forms-system_regression_check_get_file_paths
     if: needs.forms-system_regression_check_get_file_paths.outputs.folders != ''
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        include: ${{ fromJson(needs.forms-system_regression_check_get_file_paths.outputs.unit_test_specs) }}
     steps:
       - uses: actions/checkout@v4
-      - name: Build glob pattern from folders
-        id: build-glob
-        run: |
-          echo "pattern={${{ needs.forms-system_regression_check_get_file_paths.outputs.folders }}}/**/*.unit.spec.js?(x)" >> $GITHUB_OUTPUT
       - name: Install dependencies
         uses: ./.github/workflows/install
       - name: Run unit tests
-        run: yarn test:unit:gha "${{ steps.build-glob.outputs.pattern }}"
+        run: yarn test:unit:gha "${{ matrix.spec }}"
 
   run_form-regression_cypress_tests:
     name: Forms System Regression - Cypress E2E Tests (${{ matrix.index }})
