@@ -45,7 +45,7 @@ export const AppointmentCard = ({ appointment }) => {
         <va-link
           active
           text="Manage this appointment"
-          href="/my-health/appointments"
+          href={`/my-health/appointments/${appointment.id}`}
           onClick={() =>
             recordEvent({
               event: 'nav-linkslist',

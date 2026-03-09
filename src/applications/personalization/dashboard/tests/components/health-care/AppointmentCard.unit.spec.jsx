@@ -56,7 +56,7 @@ describe('<AppointmentCard />', () => {
     tree.getByTestId('health-care-appointments-card');
     tree.getByText('Upcoming appointment');
     const link = tree.container.querySelector(
-      'va-link[href="/my-health/appointments"][text="Manage this appointment"]',
+      'va-link[href="/my-health/appointments/123"][text="Manage this appointment"]',
     );
     tree.getByText('VA Video Connect yada yada yada');
     tree.getByText(startFormatted);
@@ -87,6 +87,7 @@ describe('<AppointmentCard />', () => {
 
     it('when the appointment is a video appointment with additionalInfo', () => {
       const appointment = {
+        id: '123',
         localStartTime: '2023-12-04T10:00:00-05:00',
         isVideo: true,
         additionalInfo: 'testing',
@@ -106,7 +107,7 @@ describe('<AppointmentCard />', () => {
 
       expect(
         tree.container.querySelector(
-          'va-link[href="/my-health/appointments"][text="Manage this appointment"]',
+          'va-link[href="/my-health/appointments/123"][text="Manage this appointment"]',
         ),
       ).to.exist;
     });
@@ -114,6 +115,7 @@ describe('<AppointmentCard />', () => {
     it("when the appointment isn't a video appointment", () => {
       const providerName = 'test provider';
       const appointment = {
+        id: '123',
         localStartTime: '2023-12-04T10:00:00-05:00',
         isVideo: false,
         providerName,
@@ -131,7 +133,7 @@ describe('<AppointmentCard />', () => {
       tree.getByText(providerName);
       expect(
         tree.container.querySelector(
-          'va-link[href="/my-health/appointments"][text="Manage this appointment"]',
+          'va-link[href="/my-health/appointments/123"][text="Manage this appointment"]',
         ),
       ).to.exist;
     });
