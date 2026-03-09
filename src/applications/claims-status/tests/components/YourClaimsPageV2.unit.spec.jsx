@@ -328,9 +328,20 @@ describe('<YourClaimsPageV2>', () => {
   });
 
   describe('when cstClaimsListFilterEnabled is true', () => {
+    const closedClaimItem = {
+      type: 'claimSeries',
+      id: 'closed-claim-1',
+      attributes: {
+        dateField: '2023-06-01',
+        status: 'COMPLETE',
+        phase: null,
+      },
+    };
+
     const filterProps = {
       ...defaultProps,
       cstClaimsListFilterEnabled: true,
+      list: [...defaultProps.list, closedClaimItem],
     };
 
     it('should render ClaimsFilter instead of combined claims additional info', () => {
@@ -348,7 +359,7 @@ describe('<YourClaimsPageV2>', () => {
       const wrapper = shallow(<YourClaimsPageV2 {...props} />);
       const noClaims = wrapper.find('NoClaims');
       expect(noClaims.length).to.equal(1);
-      expect(noClaims.prop('recordType')).to.equal('records');
+      expect(noClaims.prop('recordType')).to.equal('in progress records');
       wrapper.unmount();
     });
 
@@ -362,7 +373,9 @@ describe('<YourClaimsPageV2>', () => {
           <YourClaimsPageV2 {...props} />
         </Provider>,
       );
-      expect(container.textContent).to.include('Showing 1-10 of 12 records');
+      expect(container.textContent).to.include(
+        'Showing 1-10 of 12 in progress records',
+      );
     });
 
     it('should use singular "record" when there is only one item', () => {
@@ -375,8 +388,19 @@ describe('<YourClaimsPageV2>', () => {
           <YourClaimsPageV2 {...props} />
         </Provider>,
       );
-      expect(container.textContent).to.include('Showing 1-1 of 1 record');
-      expect(container.textContent).to.not.include('records');
+      expect(container.textContent).to.include(
+        'Showing 1-1 of 1 in progress record',
+      );
+      expect(container.textContent).to.not.include('in progress records');
+    });
+
+    it('should filter out closed items by default', () => {
+      const wrapper = shallow(<YourClaimsPageV2 {...filterProps} />);
+      // defaultProps.list has 3 in-progress items, closedClaimItem is filtered out
+      expect(wrapper.find('ClaimsListItem').length).to.equal(1);
+      expect(wrapper.find('AppealListItem').length).to.equal(1);
+      expect(wrapper.find('StemClaimListItem').length).to.equal(1);
+      wrapper.unmount();
     });
   });
 

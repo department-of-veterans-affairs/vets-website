@@ -54,8 +54,8 @@ class YourClaimsPageV2 extends React.Component {
     this.state = {
       page: YourClaimsPageV2.getPageFromURL(props),
       claimsFilter: props.cstClaimsListFilterEnabled
-        ? sessionStorage.getItem('claimsFilter') || 'all'
-        : 'all',
+        ? sessionStorage.getItem('claimsFilter') || 'in progress'
+        : 'in progress',
     };
   }
 

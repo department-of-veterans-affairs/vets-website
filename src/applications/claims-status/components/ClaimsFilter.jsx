@@ -5,16 +5,16 @@ import { VaButtonSegmented } from '@department-of-veterans-affairs/component-lib
 
 const BUTTONS = [
   {
-    label: 'All',
-    value: 'all',
-  },
-  {
-    label: 'Active',
-    value: 'active',
+    label: 'In progress',
+    value: 'in progress',
   },
   {
     label: 'Closed',
     value: 'closed',
+  },
+  {
+    label: 'All',
+    value: 'all',
   },
 ];
 
@@ -36,6 +36,6 @@ export default function ClaimsFilter({ selected, onFilterChange }) {
 }
 
 ClaimsFilter.propTypes = {
-  selected: PropTypes.oneOf(['all', 'active', 'closed']),
+  selected: PropTypes.oneOf(['in progress', 'closed', 'all']),
   onFilterChange: PropTypes.func,
 };
