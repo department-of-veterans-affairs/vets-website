@@ -35,6 +35,7 @@ export const employmentLastPaymentUiSchema = {
   employmentLastPayment: {
     dateOfLastPayment: MemorableDateUI({
       title: 'Date of last payment',
+      dataDogHidden: true,
       errorMessages: {
         required: 'Date of last payment is required',
       },
@@ -71,6 +72,7 @@ export const employmentLastPaymentUiSchema = {
     }),
     datePaid: MemorableDateUI({
       title: 'Date of lump sum payment',
+      dataDogHidden: true,
       errorMessages: {
         required: 'Date lump sum was paid is required',
       },
