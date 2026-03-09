@@ -70,6 +70,8 @@ export const SET_EXPENSE_BACK_DESTINATION = 'SET_EXPENSE_BACK_DESTINATION';
 export const UPLOAD_POA_STARTED = 'UPLOAD_POA_STARTED';
 export const UPLOAD_POA_SUCCESS = 'UPLOAD_POA_SUCCESS';
 export const UPLOAD_POA_FAILURE = 'UPLOAD_POA_FAILURE';
+export const SET_UNSAVED_CHANGES_MODAL_VISIBLE =
+  'SET_UNSAVED_CHANGES_MODAL_VISIBLE';
 
 // Helper function to add isOutOfBounds to claim details
 function addOutOfBoundsFlag(claimData) {
@@ -831,5 +833,12 @@ export function uploadProofOfAttendance(claimId, fileData) {
       dispatch({ type: UPLOAD_POA_FAILURE, error });
       throw error;
     }
+  };
+}
+// Unsaved changes modal visibility action
+export function setUnsavedChangesModalVisible(isVisible, source = null) {
+  return {
+    type: SET_UNSAVED_CHANGES_MODAL_VISIBLE,
+    payload: { visible: isVisible, source },
   };
 }

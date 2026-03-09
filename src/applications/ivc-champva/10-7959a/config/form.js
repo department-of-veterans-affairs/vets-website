@@ -7,7 +7,6 @@ import SubmissionError from '../../shared/components/SubmissionError';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormFooter from '../components/FormFooter';
 import transformForSubmit from './submitTransformer';
-import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
 import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
 import { blankSchema } from '../definitions';
@@ -203,16 +202,12 @@ const formConfig = {
           path: 'resubmission-letter',
           title: 'CHAMPVA resubmission letter',
           depends: isResubmissionClaim,
-          CustomPage: FileFieldCustomSimple,
-          CustomPageReview: null,
           ...resubmissionLetterUpload,
         },
         page1e3: {
           path: 'resubmission-supporting-docs',
           title: 'Supporting documents for claim',
           depends: isResubmissionClaim,
-          CustomPage: FileFieldCustomSimple,
-          CustomPageReview: null,
           ...resubmissionDocsUpload,
         },
       },

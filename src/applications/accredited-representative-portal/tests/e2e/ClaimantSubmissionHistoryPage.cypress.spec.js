@@ -12,7 +12,7 @@ const vamcUser = {
 };
 
 const CLAIMANT_DETAILS_SUBMISSIONS_PAGE =
-  '/representative/find-claimant/submission-history/f87aaa2f-37da-4dc7-ae20-bf36aedbbc85';
+  '/representative/find-claimant/submission-history/f87aaa2f-37da-4dc7-ae20-bf36aedbbc85?sort=newest';
 
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {

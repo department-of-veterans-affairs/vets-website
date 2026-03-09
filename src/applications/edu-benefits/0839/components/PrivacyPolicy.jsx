@@ -65,13 +65,8 @@ const PrivacyPolicy = () => {
         </li>
       </ul>
       <p>
-        {' '}
-        The terms of this agreement are available for public viewing on the{' '}
-        <va-link
-          href="https://benefits.va.gov/gibill/yellow_ribbon/yellow_ribbon_info_schools.asp"
-          text="VA GI Bill website"
-          external
-        />
+        The terms of this agreement should be available on the GI Bill
+        Comparison Tool approximately mid-June.
       </p>
       <span data-testid="privacy-policy-text">
         I have read and accept the{' '}

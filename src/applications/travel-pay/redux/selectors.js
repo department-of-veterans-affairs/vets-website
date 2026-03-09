@@ -70,3 +70,14 @@ export const selectExpenseBackDestination = state =>
 
 export const selectProofOfAttendanceState = state =>
   state.travelPay.complexClaim.proofOfAttendance;
+export const selectUnsavedChangesModal = state =>
+  state.travelPay.complexClaim.unsavedChangesModal || {
+    visible: false,
+    source: null,
+  };
+
+export const selectIsUnsavedChangesModalVisible = state =>
+  selectUnsavedChangesModal(state).visible;
+
+export const selectUnsavedChangesModalSource = state =>
+  selectUnsavedChangesModal(state).source;

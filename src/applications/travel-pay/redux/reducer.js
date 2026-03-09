@@ -46,6 +46,7 @@ import {
   UPLOAD_POA_STARTED,
   UPLOAD_POA_SUCCESS,
   UPLOAD_POA_FAILURE,
+  SET_UNSAVED_CHANGES_MODAL_VISIBLE,
 } from './actions';
 
 // Helper function to merge expenses, avoiding duplicates
@@ -169,6 +170,10 @@ const initialState = {
       isLoading: false,
       error: null,
       data: null,
+    },
+    unsavedChangesModal: {
+      visible: false,
+      source: null,
     },
   },
 };
@@ -751,6 +756,18 @@ function travelPayReducer(state = initialState, action) {
         complexClaim: {
           ...state.complexClaim,
           expenseBackDestination: action.payload,
+        },
+      };
+
+    case SET_UNSAVED_CHANGES_MODAL_VISIBLE:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          unsavedChangesModal: {
+            visible: action.payload.visible,
+            source: action.payload.source,
+          },
         },
       };
 
