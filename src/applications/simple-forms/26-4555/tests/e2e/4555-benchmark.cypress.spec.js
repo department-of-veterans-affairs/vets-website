@@ -116,6 +116,7 @@ describe('26-4555 Adapted Housing — Cypress Benchmark', () => {
     cy.intercept('/v0/feature_toggles*', {
       data: { type: 'feature_toggles', features: [] },
     });
+    cy.intercept('/v0/maintenance_windows', { data: [] });
     cy.intercept('PUT', '/v0/in_progress_forms/26-4555', {
       data: { attributes: { metadata: {} } },
     });
