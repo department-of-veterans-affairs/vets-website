@@ -10,7 +10,7 @@ import { ErrorTypes } from '../../constants';
 
 const ResultsSection = ({ isLoading, isDisplayingResults, onPageSelect }) => {
   const dispatch = useDispatch();
-  const currentQuery = useSelector(state => state.currentQuery);
+  const currentQuery = useSelector(state => state.searchQuery);
   const errors = useSelector(state => state.errors);
   const { isErrorFetchRepresentatives, isErrorReportSubmission } = errors;
 

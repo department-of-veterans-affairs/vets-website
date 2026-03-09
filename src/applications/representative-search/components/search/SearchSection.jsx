@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import SearchControls from './SearchControls';
