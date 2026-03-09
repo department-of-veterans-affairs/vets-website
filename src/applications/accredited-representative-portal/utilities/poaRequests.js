@@ -181,7 +181,7 @@ export const claimantOverviewBC = [
   },
   {
     href: window.location.href,
-    label: 'Submission history',
+    label: 'Claimant overview',
   },
 ];
 

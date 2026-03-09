@@ -85,7 +85,7 @@ const mapClaimantOverview = raw => ({
   phone: raw?.phone,
   email: raw?.email,
   address: raw?.address || null,
-  representativeInfo: raw?.representative_info || null,
+  representativeName: raw?.representative_name || null,
   intentToFile: normalizeItfArray(raw?.itf),
 });
 
@@ -155,7 +155,7 @@ const ClaimantOverviewPage = () => {
   // This removes the claimant header + left rail and matches the target "Claimant not found" layout.
   if (unauthorized && notRepresented) {
     return (
-      <section className="vads-u-width--full">
+      <section>
         <VaBreadcrumbs
           breadcrumbList={claimantOverviewBC}
           label="claimant overview breadcrumb"
@@ -164,18 +164,22 @@ const ClaimantOverviewPage = () => {
 
         <h1>Claimant not found</h1>
 
-        <div className="vads-u-margin-y--2">
-          <va-alert status="info">
-            <h2 slot="headline">You don’t represent this claimant</h2>
-            <p>
-              This claimant may be in our system, but you can’t access their
-              information or act on their behalf until you establish
-              representation.
-            </p>
-            <a href="/representative/help">
-              Learn about establishing representation
-            </a>
-          </va-alert>
+        <div className="vads-l-grid-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <div className="vads-u-margin-y--2">
+              <va-alert status="info">
+                <h2 slot="headline">You don’t represent this claimant</h2>
+                <p>
+                  This claimant may be in our system, but you can’t access their
+                  information or act on their behalf until you establish
+                  representation.
+                </p>
+                <a href="/representative/help">
+                  Learn about establishing representation
+                </a>
+              </va-alert>
+            </div>
+          </div>
         </div>
 
         <a
@@ -293,26 +297,7 @@ const ClaimantOverviewPage = () => {
                 <dl className="vads-u-margin--0">
                   <ClaimantDetailRow
                     label="Representative"
-                    value={claimant?.representativeInfo?.representative || '—'}
-                  />
-                  <ClaimantDetailRow
-                    label="VBMS eFolder access"
-                    value={
-                      claimant?.representativeInfo?.vbmsEfolderAccess || '—'
-                    }
-                  />
-                  <ClaimantDetailRow
-                    label="Change of address authorization"
-                    value={
-                      claimant?.representativeInfo
-                        ?.changeOfAddressAuthorization || '—'
-                    }
-                  />
-                  <ClaimantDetailRow
-                    label="Type of representation"
-                    value={
-                      claimant?.representativeInfo?.typeOfRepresentation || '—'
-                    }
+                    value={claimant?.representativeName || '—'}
                   />
                 </dl>
               </div>
@@ -379,7 +364,7 @@ const ClaimantOverviewPage = () => {
 
                   <a
                     className="vads-c-action-link--blue"
-                    href="https://www.va.gov/find-forms/about-form-21-0966/"
+                    href="/representative/representative-form-upload/submit-va-form-21-0966/introduction"
                     target="_blank"
                     rel="noreferrer"
                   >
