@@ -1,7 +1,7 @@
 import data from './mock/search.limited.services.mocks.json';
 import {
   createRegexString,
-  FacilitesServicesConstants,
+  FacilitiesServicesConstants,
 } from '../../../constants';
 
 describe('Facility VA search', () => {
@@ -48,7 +48,7 @@ describe('Facility VA search', () => {
     cy.get('#search-results-subheader').contains(
       createRegexString({
         serviceType: null,
-        facilityType: FacilitesServicesConstants.VET_CENTER.string,
+        facilityType: FacilitiesServicesConstants.VET_CENTER.string,
         totalEntries: 1,
         location: 'Atlanta, Georgia 30310',
       }),

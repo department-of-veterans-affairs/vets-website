@@ -8,7 +8,10 @@ import {
   enabledFeatures,
 } from './featureTogglesToTest';
 import * as h from './helpers';
-import { createRegexString, FacilitesServicesConstants } from '../../constants';
+import {
+  createRegexString,
+  FacilitiesServicesConstants,
+} from '../../constants';
 
 const NON_VA_URGENT_CARE = 'In-network community urgent care';
 const featureSetsToTest = featureCombinationsTogglesToTest([
@@ -91,7 +94,7 @@ for (const featureSet of featureSetsToTest) {
         h.SEARCH_RESULTS_SUMMARY,
         createRegexString({
           serviceType: `Dentist \\- Orofacial Pain`,
-          facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
+          facilityType: FacilitiesServicesConstants.CC_PROVIDER.string,
           radius: 50,
           totalEntries: 14,
           location: 'Austin, Texas',
@@ -115,7 +118,7 @@ for (const featureSet of featureSetsToTest) {
         h.SEARCH_RESULTS_SUMMARY,
         createRegexString({
           serviceType: `Clinic\\/Center \\- Urgent Care`,
-          facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
+          facilityType: FacilitiesServicesConstants.CC_PROVIDER.string,
           radius: 50,
           totalEntries: 14,
           location: 'Austin, Texas',
@@ -145,7 +148,7 @@ for (const featureSet of featureSetsToTest) {
         h.SEARCH_RESULTS_SUMMARY,
         createRegexString({
           serviceType: 'In-network community urgent care',
-          facilityType: FacilitesServicesConstants.URGENT_CARE.string,
+          facilityType: FacilitiesServicesConstants.URGENT_CARE.string,
           radius: 50,
           totalEntries: 14,
           location: 'Austin, Texas',
@@ -175,7 +178,7 @@ for (const featureSet of featureSetsToTest) {
         h.SEARCH_RESULTS_SUMMARY,
         createRegexString({
           serviceType: 'In-network community emergency care',
-          facilityType: FacilitesServicesConstants.EMERGENCY_CARE.string,
+          facilityType: FacilitiesServicesConstants.EMERGENCY_CARE.string,
           radius: 50,
           totalEntries: 14,
           location: 'Austin, Texas',

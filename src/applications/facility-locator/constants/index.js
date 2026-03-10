@@ -15,7 +15,7 @@ export const LocationType = {
   EMERGENCY_CARE: 'emergency_care',
 };
 
-export const FacilitesServicesConstants = {
+export const FacilitiesServicesConstants = {
   NONE: '',
   VA_FACILITIES: { id: 'va_facilities', string: 'VA facilities' },
   CC_PROVIDER: {
@@ -236,30 +236,30 @@ export const Covid19Vaccine = 'Covid19Vaccine';
 
 export const MIN_SEARCH_CHARS = 3;
 
-export const facilityHasPaginatedResults = facilityType =>
+export const facilityHasUnpaginatedResults = facilityType =>
   [
-    FacilitesServicesConstants.URGENT_CARE.id,
-    FacilitesServicesConstants.EMERGENCY_CARE.id,
+    FacilitiesServicesConstants.URGENT_CARE.id,
+    FacilitiesServicesConstants.EMERGENCY_CARE.id,
   ].includes(facilityType);
 
 export const hasNoServices = facilityType =>
   [
-    FacilitesServicesConstants.CEMETERY.id,
-    FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id,
-    FacilitesServicesConstants.BENEFITS.id,
-    FacilitesServicesConstants.VET_CENTER.id,
-    FacilitesServicesConstants.CEMETERY.string,
-    FacilitesServicesConstants.PHARMACIES_IN_NETWORK.string,
-    FacilitesServicesConstants.BENEFITS.string,
-    FacilitesServicesConstants.VET_CENTER.string,
+    FacilitiesServicesConstants.CEMETERY.id,
+    FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.id,
+    FacilitiesServicesConstants.BENEFITS.id,
+    FacilitiesServicesConstants.VET_CENTER.id,
+    FacilitiesServicesConstants.CEMETERY.string,
+    FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.string,
+    FacilitiesServicesConstants.BENEFITS.string,
+    FacilitiesServicesConstants.VET_CENTER.string,
   ].includes(facilityType);
 
 export const isPluralizedFacilityType = facilityType =>
   [
-    FacilitesServicesConstants.CEMETERY.id,
-    FacilitesServicesConstants.CC_PROVIDER.id,
-    FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id,
-    FacilitesServicesConstants.VET_CENTER.id,
+    FacilitiesServicesConstants.CEMETERY.id,
+    FacilitiesServicesConstants.CC_PROVIDER.id,
+    FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.id,
+    FacilitiesServicesConstants.VET_CENTER.id,
   ].includes(facilityType);
 
 /**
@@ -305,7 +305,7 @@ export const createRegexString = ({
 
   // --- Results prefix ---
   let resultsPrefix;
-  const resultsAreUnpaginated = facilityHasPaginatedResults(facilityType);
+  const resultsAreUnpaginated = facilityHasUnpaginatedResults(facilityType);
 
   if (resultsAreUnpaginated) {
     resultsPrefix = 'Results for ';

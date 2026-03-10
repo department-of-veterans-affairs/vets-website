@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { SearchResultsHeader } from '../../../components/SearchResultsHeader';
 import {
-  FacilitesServicesConstants,
+  FacilitiesServicesConstants,
   createRegexString,
 } from '../../../constants';
 import {
@@ -56,7 +56,7 @@ describe('SearchResultsHeader', () => {
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.HEALTH.id}
+        facilityType={FacilitiesServicesConstants.HEALTH.id}
         context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
@@ -65,7 +65,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: 'All VA health',
-        facilityType: FacilitesServicesConstants.HEALTH.id,
+        facilityType: FacilitiesServicesConstants.HEALTH.id,
         totalEntries: 5,
         location: defaultLocation,
       }),
@@ -73,11 +73,11 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.HEALTH.id for VA health service autosuggest, totalEntries = 1', () => {
+  it('should render header with FacilitiesServicesConstants.HEALTH.id for VA health service autosuggest, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.HEALTH.id}
+        facilityType={FacilitiesServicesConstants.HEALTH.id}
         inProgress={false}
         pagination={{ totalEntries: 1 }}
         results={[{}]}
@@ -90,7 +90,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: 'All VA health',
-        facilityType: FacilitesServicesConstants.HEALTH.id,
+        facilityType: FacilitiesServicesConstants.HEALTH.id,
         totalEntries: 1,
         location: defaultLocation,
       }),
@@ -99,12 +99,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.HEALTH.id, totalEntries = 1', () => {
+  it('should render header with FacilitiesServicesConstants.HEALTH.id, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.HEALTH.id}
+        facilityType={FacilitiesServicesConstants.HEALTH.id}
         serviceType="PrimaryCare"
         context={defaultLocation}
         pagination={{ totalEntries: 1 }}
@@ -114,7 +114,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: healthServices.PrimaryCare,
-        facilityType: FacilitesServicesConstants.HEALTH.string,
+        facilityType: FacilitiesServicesConstants.HEALTH.string,
         totalEntries: 1,
         location: defaultLocation,
       }),
@@ -122,12 +122,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.HEALTH.id, totalEntries = 5', () => {
+  it('should render header with FacilitiesServicesConstants.HEALTH.id, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.HEALTH.id}
+        facilityType={FacilitiesServicesConstants.HEALTH.id}
         serviceType="PrimaryCare"
         context={defaultLocation}
         pagination={{ totalEntries: 5 }}
@@ -137,7 +137,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: healthServices.PrimaryCare,
-        facilityType: FacilitesServicesConstants.HEALTH.id,
+        facilityType: FacilitiesServicesConstants.HEALTH.id,
         totalEntries: 5,
         location: defaultLocation,
       }),
@@ -145,12 +145,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.HEALTH.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+  it('should render header with FacilitiesServicesConstants.HEALTH.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.HEALTH.id}
+        facilityType={FacilitiesServicesConstants.HEALTH.id}
         serviceType="PrimaryCare"
         context={defaultLocation}
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
@@ -160,7 +160,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: healthServices.PrimaryCare,
-        facilityType: FacilitesServicesConstants.HEALTH.id,
+        facilityType: FacilitiesServicesConstants.HEALTH.id,
         totalEntries: 15,
         location: defaultLocation,
       }),
@@ -168,12 +168,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('with FacilitesServicesConstants.HEALTH.id, null serviceType', () => {
+  it('with FacilitiesServicesConstants.HEALTH.id, null serviceType', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.HEALTH.id}
+        facilityType={FacilitiesServicesConstants.HEALTH.id}
         context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
@@ -181,7 +181,7 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
-        facilityType: FacilitesServicesConstants.HEALTH.id,
+        facilityType: FacilitiesServicesConstants.HEALTH.id,
         totalEntries: 5,
         location: defaultLocation,
         serviceType: 'All VA health',
@@ -190,12 +190,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.URGENT_CARE.id', () => {
+  it('should render header with FacilitiesServicesConstants.URGENT_CARE.id', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.URGENT_CARE.id}
+        facilityType={FacilitiesServicesConstants.URGENT_CARE.id}
         serviceType="NonVAUrgentCare"
         context={defaultLocation}
       />,
@@ -206,18 +206,18 @@ describe('SearchResultsHeader', () => {
         totalEntries: 5,
         location: defaultLocation,
         serviceType: urgentCareServices.NonVAUrgentCare,
-        facilityType: FacilitesServicesConstants.URGENT_CARE.string,
+        facilityType: FacilitiesServicesConstants.URGENT_CARE.string,
       }),
     );
     wrapper.unmount();
   });
 
-  it('FacilitesServicesConstants.URGENT_CARE.id, null serviceType', () => {
+  it('FacilitiesServicesConstants.URGENT_CARE.id, null serviceType', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.URGENT_CARE.id}
+        facilityType={FacilitiesServicesConstants.URGENT_CARE.id}
         context={defaultLocation}
       />,
     );
@@ -227,18 +227,18 @@ describe('SearchResultsHeader', () => {
         totalEntries: 5,
         location: defaultLocation,
         serviceType: 'All in-network urgent care',
-        facilityType: FacilitesServicesConstants.URGENT_CARE.string,
+        facilityType: FacilitiesServicesConstants.URGENT_CARE.string,
       }),
     );
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.EMERGENCY_CARE.id', () => {
+  it('should render header with FacilitiesServicesConstants.EMERGENCY_CARE.id', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.EMERGENCY_CARE.id}
+        facilityType={FacilitiesServicesConstants.EMERGENCY_CARE.id}
         serviceType="NonVAEmergencyCare"
         context={defaultLocation}
       />,
@@ -249,18 +249,18 @@ describe('SearchResultsHeader', () => {
         totalEntries: 0,
         location: defaultLocation,
         serviceType: emergencyCareServices.NonVAEmergencyCare,
-        facilityType: FacilitesServicesConstants.EMERGENCY_CARE.string,
+        facilityType: FacilitiesServicesConstants.EMERGENCY_CARE.string,
       }),
     );
     wrapper.unmount();
   });
 
-  it('FacilitesServicesConstants.EMERGENCY_CARE.id, null serviceType', () => {
+  it('FacilitiesServicesConstants.EMERGENCY_CARE.id, null serviceType', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.EMERGENCY_CARE.id}
+        facilityType={FacilitiesServicesConstants.EMERGENCY_CARE.id}
         context={defaultLocation}
       />,
     );
@@ -268,7 +268,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: emergencyCareServices.AllEmergencyCare,
-        facilityType: FacilitesServicesConstants.EMERGENCY_CARE.string,
+        facilityType: FacilitiesServicesConstants.EMERGENCY_CARE.string,
         totalEntries: 0,
         location: defaultLocation,
       }),
@@ -276,12 +276,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id, totalEntries = 1', () => {
+  it('should render header with FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.id, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id}
+        facilityType={FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.id}
         context={defaultLocation}
         pagination={{ totalEntries: 1 }}
       />,
@@ -289,7 +289,7 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
-        facilityType: FacilitesServicesConstants.PHARMACIES_IN_NETWORK.string,
+        facilityType: FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.string,
         serviceType: null,
         totalEntries: 1,
         location: defaultLocation,
@@ -298,12 +298,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id, totalEntries = 5', () => {
+  it('should render header with FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.id, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id}
+        facilityType={FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.id}
         context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
@@ -312,7 +312,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: null,
-        facilityType: FacilitesServicesConstants.PHARMACIES_IN_NETWORK.string,
+        facilityType: FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.string,
         totalEntries: 5,
         location: defaultLocation,
       }),
@@ -320,12 +320,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+  it('should render header with FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.PHARMACIES_IN_NETWORK.id}
+        facilityType={FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.id}
         context={defaultLocation}
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
       />,
@@ -333,7 +333,7 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
-        facilityType: FacilitesServicesConstants.PHARMACIES_IN_NETWORK.string,
+        facilityType: FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.string,
         serviceType: null,
         totalEntries: 15,
         location: defaultLocation,
@@ -342,12 +342,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.CC_PROVIDER.id, totalEntries = 1', () => {
+  it('should render header with FacilitiesServicesConstants.CC_PROVIDER.id, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.CC_PROVIDER.id}
+        facilityType={FacilitiesServicesConstants.CC_PROVIDER.id}
         serviceType="foo"
         context={defaultLocation}
         specialtyMap={{ foo: 'test' }}
@@ -358,7 +358,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: 'test',
-        facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
+        facilityType: FacilitiesServicesConstants.CC_PROVIDER.string,
         totalEntries: 1,
         location: defaultLocation,
       }),
@@ -366,12 +366,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.CC_PROVIDER.id, totalEntries = 5', () => {
+  it('should render header with FacilitiesServicesConstants.CC_PROVIDER.id, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.CC_PROVIDER.id}
+        facilityType={FacilitiesServicesConstants.CC_PROVIDER.id}
         serviceType="foo"
         context={defaultLocation}
         specialtyMap={{ foo: 'test' }}
@@ -382,7 +382,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: 'test',
-        facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
+        facilityType: FacilitiesServicesConstants.CC_PROVIDER.string,
         totalEntries: 5,
         location: defaultLocation,
       }),
@@ -390,12 +390,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.CC_PROVIDER.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+  it('should render header with FacilitiesServicesConstants.CC_PROVIDER.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.CC_PROVIDER.id}
+        facilityType={FacilitiesServicesConstants.CC_PROVIDER.id}
         serviceType="foo"
         context={defaultLocation}
         specialtyMap={{ foo: 'test' }}
@@ -406,7 +406,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: 'test',
-        facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
+        facilityType: FacilitiesServicesConstants.CC_PROVIDER.string,
         totalEntries: 15,
         location: defaultLocation,
       }),
@@ -414,12 +414,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.BENEFITS.id, totalEntries = 1', () => {
+  it('should render header with FacilitiesServicesConstants.BENEFITS.id, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.BENEFITS.id}
+        facilityType={FacilitiesServicesConstants.BENEFITS.id}
         serviceType="ApplyingForBenefits"
         context={defaultLocation}
         pagination={{ totalEntries: 1 }}
@@ -429,7 +429,7 @@ describe('SearchResultsHeader', () => {
     // Benefits is in hasNoServices, so service type section is not rendered
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
-        facilityType: FacilitesServicesConstants.BENEFITS.string,
+        facilityType: FacilitiesServicesConstants.BENEFITS.string,
         serviceType: 'test',
         totalEntries: 1,
         location: defaultLocation,
@@ -438,12 +438,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.BENEFITS.id, totalEntries = 5', () => {
+  it('should render header with FacilitiesServicesConstants.BENEFITS.id, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.BENEFITS.id}
+        facilityType={FacilitiesServicesConstants.BENEFITS.id}
         serviceType="ApplyingForBenefits"
         context={defaultLocation}
         pagination={{ totalEntries: 5 }}
@@ -453,7 +453,7 @@ describe('SearchResultsHeader', () => {
     // Benefits is in hasNoServices, so service type section is not rendered
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
-        facilityType: FacilitesServicesConstants.BENEFITS.string,
+        facilityType: FacilitiesServicesConstants.BENEFITS.string,
         serviceType: 'test',
         totalEntries: 5,
         location: defaultLocation,
@@ -462,12 +462,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with FacilitesServicesConstants.BENEFITS.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+  it('should render header with FacilitiesServicesConstants.BENEFITS.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.BENEFITS.id}
+        facilityType={FacilitiesServicesConstants.BENEFITS.id}
         serviceType="ApplyingForBenefits"
         context={defaultLocation}
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
@@ -477,7 +477,7 @@ describe('SearchResultsHeader', () => {
     // Benefits is in hasNoServices, so service type section is not rendered
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
-        facilityType: FacilitesServicesConstants.BENEFITS.string,
+        facilityType: FacilitiesServicesConstants.BENEFITS.string,
         serviceType: benefitsServices.ApplyingForBenefits,
         totalEntries: 15,
         location: defaultLocation,
@@ -486,12 +486,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('FacilitesServicesConstants.BENEFITS.id, serviceType null', () => {
+  it('FacilitiesServicesConstants.BENEFITS.id, serviceType null', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.BENEFITS.id}
+        facilityType={FacilitiesServicesConstants.BENEFITS.id}
         context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
@@ -500,7 +500,7 @@ describe('SearchResultsHeader', () => {
     // Benefits is in hasNoServices, so service type section is not rendered
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
-        facilityType: FacilitesServicesConstants.BENEFITS.string,
+        facilityType: FacilitiesServicesConstants.BENEFITS.string,
         serviceType: null,
         totalEntries: 5,
         location: defaultLocation,
@@ -509,12 +509,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('FacilitesServicesConstants.CEMETERY.id, totalEntries = 1', () => {
+  it('FacilitiesServicesConstants.CEMETERY.id, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.CEMETERY.id}
+        facilityType={FacilitiesServicesConstants.CEMETERY.id}
         context={defaultLocation}
         pagination={{ totalEntries: 1 }}
       />,
@@ -522,7 +522,7 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
-        facilityType: FacilitesServicesConstants.CEMETERY.string,
+        facilityType: FacilitiesServicesConstants.CEMETERY.string,
         serviceType: null,
         totalEntries: 1,
         location: defaultLocation,
@@ -531,12 +531,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('FacilitesServicesConstants.CEMETERY.id, totalEntries = 5', () => {
+  it('FacilitiesServicesConstants.CEMETERY.id, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.CEMETERY.id}
+        facilityType={FacilitiesServicesConstants.CEMETERY.id}
         context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
@@ -545,7 +545,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: null,
-        facilityType: FacilitesServicesConstants.CEMETERY.string,
+        facilityType: FacilitiesServicesConstants.CEMETERY.string,
         totalEntries: 5,
         location: defaultLocation,
       }),
@@ -553,12 +553,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('FacilitesServicesConstants.CEMETERY.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+  it('FacilitiesServicesConstants.CEMETERY.id, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.CEMETERY.id}
+        facilityType={FacilitiesServicesConstants.CEMETERY.id}
         context={defaultLocation}
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
       />,
@@ -567,7 +567,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: null,
-        facilityType: FacilitesServicesConstants.CEMETERY.string,
+        facilityType: FacilitiesServicesConstants.CEMETERY.string,
         totalEntries: 15,
         location: defaultLocation,
       }),
@@ -579,7 +579,7 @@ describe('SearchResultsHeader', () => {
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.HEALTH.id}
+        facilityType={FacilitiesServicesConstants.HEALTH.id}
         context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
@@ -588,7 +588,7 @@ describe('SearchResultsHeader', () => {
       <SearchResultsHeader
         results={[{}]}
         radius={defaultRadius}
-        facilityType={FacilitesServicesConstants.HEALTH.id}
+        facilityType={FacilitiesServicesConstants.HEALTH.id}
         context={defaultLocation}
         pagination={{ totalEntries: 5 }}
       />,
@@ -597,7 +597,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         serviceType: 'All VA health',
-        facilityType: FacilitesServicesConstants.HEALTH.string,
+        facilityType: FacilitiesServicesConstants.HEALTH.string,
         totalEntries: 5,
         location: defaultLocation,
       }),

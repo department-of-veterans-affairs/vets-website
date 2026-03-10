@@ -10,7 +10,7 @@ import {
 } from '../config';
 import {
   LocationType,
-  facilityHasPaginatedResults as determineIfResultsPaginated,
+  facilityHasUnpaginatedResults as determineIfResultsPaginated,
   hasNoServices as determineFacilityTypeHasNoServices,
   isPluralizedFacilityType,
 } from '../constants';
@@ -154,7 +154,9 @@ export const SearchResultsHeader = ({
         )}
         {location && (
           <>
-            {` within ${Math.round(radius)} miles of `}
+            {radius != null
+              ? ` within ${Math.round(radius)} miles of `
+              : ` near `}
             <b>{`${location}`}</b>
           </>
         )}

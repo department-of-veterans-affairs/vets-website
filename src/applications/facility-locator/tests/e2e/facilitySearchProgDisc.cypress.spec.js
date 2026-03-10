@@ -10,7 +10,10 @@ import {
   typeAndSelectInCCPServiceTypeInput,
   submitSearchForm,
 } from './helpers';
-import { createRegexString, FacilitesServicesConstants } from '../../constants';
+import {
+  createRegexString,
+  FacilitiesServicesConstants,
+} from '../../constants';
 import { healthServices } from '../../config';
 
 Cypress.Commands.add('verifyOptions', () => {
@@ -77,8 +80,6 @@ describe('Facility VA search', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    // cy.verifyOptions();
-
     typeInCityStateInput('Austin, TX');
     selectFacilityTypeInDropdown(FACILITY_TYPES.HEALTH);
     cy.get('#service-type-dropdown').select('Primary care');
@@ -87,7 +88,7 @@ describe('Facility VA search', () => {
     cy.get('#search-results-subheader').contains(
       createRegexString({
         serviceType: healthServices.PrimaryCare,
-        facilityType: FacilitesServicesConstants.HEALTH.string,
+        facilityType: FacilitiesServicesConstants.HEALTH.string,
         totalEntries: 14,
         location: 'Austin, Texas',
       }),
@@ -138,11 +139,10 @@ describe('Facility VA search', () => {
     cy.focused().contains(
       createRegexString({
         serviceType: 'General Acute Care Hospital',
-        facilityType: FacilitesServicesConstants.CC_PROVIDER.string,
-        totalEntries: 14,
+        facilityType: FacilitiesServicesConstants.CC_PROVIDER.string,
+        totalEntries: 0,
         location: 'Raleigh, North Carolina 27606',
       }),
-      // 'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" within 68 miles of "Raleigh, North Carolina 27606"',
     );
   });
 
@@ -160,11 +160,10 @@ describe('Facility VA search', () => {
     cy.get('#search-results-subheader').contains(
       createRegexString({
         serviceType: null,
-        facilityType: FacilitesServicesConstants.BENEFITS.string,
+        facilityType: FacilitiesServicesConstants.BENEFITS.string,
         totalEntries: 14,
         location: 'Los Angeles, California',
       }),
-      // /(Showing|Results).*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
     );
 
     cy.axeCheck();
@@ -221,7 +220,7 @@ describe('Facility VA search', () => {
     cy.get('#search-results-subheader').contains(
       createRegexString({
         serviceType: 'VA emergency care',
-        facilityType: FacilitesServicesConstants.EMERGENCY_CARE.string,
+        facilityType: FacilitiesServicesConstants.EMERGENCY_CARE.string,
         totalEntries: 14,
         location: 'Austin, Texas',
       }),
