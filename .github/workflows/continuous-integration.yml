@@ -919,6 +919,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
       - name: Restore durations cache
         uses: actions/cache/restore@v4
         with:
@@ -937,6 +947,37 @@ jobs:
           name: playwright-shards
           path: playwright-shards.json
           retention-days: 1
+
+      - name: Get Playwright version
+        id: playwright-version
+        run: echo "version=$(node -e "console.log(require('./node_modules/@playwright/test/package.json').version)")" >> $GITHUB_OUTPUT
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ steps.playwright-version.outputs.version }}
+          save-always: true
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install chromium --with-deps
+
+      - name: Install Playwright system deps
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      - name: Package browsers for shard runners
+        run: tar -cf playwright-browsers.tar -C ~/.cache ms-playwright
+
+      - name: Upload Playwright browsers
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-browsers
+          path: playwright-browsers.tar
+          retention-days: 1
+          compression-level: 0
 
   playwright-tests:
     name: Playwright E2E Tests (${{ matrix.shard_index }})
@@ -965,25 +1006,17 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Get Playwright version
-        id: playwright-version
-        run: echo "version=$(node -e "console.log(require('@playwright/test/package.json').version)")" >> $GITHUB_OUTPUT
-
-      - name: Cache Playwright browsers
-        id: playwright-cache
-        uses: actions/cache@v4
+      - name: Download Playwright browsers
+        uses: actions/download-artifact@v4
         with:
-          path: ~/.cache/ms-playwright
-          key: playwright-browsers-${{ steps.playwright-version.outputs.version }}
-          save-always: true
+          name: playwright-browsers
 
-      - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install chromium --with-deps
-
-      - name: Install Playwright system deps
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
+      - name: Unpack Playwright browsers
+        run: |
+          mkdir -p ~/.cache
+          tar -xf playwright-browsers.tar -C ~/.cache
+          rm playwright-browsers.tar
+          npx playwright install-deps chromium
 
       - name: Download production build artifact
         uses: ./.github/workflows/download-artifact
