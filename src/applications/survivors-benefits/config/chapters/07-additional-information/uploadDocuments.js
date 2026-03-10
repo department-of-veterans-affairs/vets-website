@@ -7,6 +7,8 @@ import {
 import { VaFileInputMultiple } from 'platform/forms-system/src/js/web-component-fields';
 import environment from 'platform/utilities/environment';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useSelector } from 'react-redux';
+import { getFormData } from 'platform/forms-system/src/js/state/selectors';
 import DualFileUploadField from '../../../components/DualFileUploadField';
 
 const UploadMessage = (
@@ -38,6 +40,36 @@ const FileUploadField = props => {
   );
 };
 
+/**
+ * Blocks the Continue button while CAVE is still processing uploaded documents.
+ * Rendered as a hidden `view:caveProcessing` field so ui:validations can gate
+ * form navigation without displaying anything when processing is complete.
+ */
+const CaveProcessingField = ({ formContext }) => {
+  const formData = useSelector(getFormData) || {};
+  const isProcessing = (formData.files ?? []).some(
+    f => f.idpUploadStatus === 'pending' || f.idpUploadStatus === 'processing',
+  );
+
+  if (!isProcessing) return null;
+
+  const showError = formContext?.submitted;
+  return (
+    <>
+      {showError && (
+        <span className="usa-input-error usa-input-error-message" role="alert">
+          Please wait while we finish processing your documents.
+        </span>
+      )}
+      <va-loading-indicator
+        label="Processing your documents"
+        message="Please wait while we process your uploaded documents."
+        set-focus
+      />
+    </>
+  );
+};
+
 export default {
   uiSchema: {
     ...titleUI(
@@ -51,12 +83,33 @@ export default {
     'view:uploadMessage': {
       'ui:description': UploadMessage,
     },
+    'view:caveProcessing': {
+      'ui:field': CaveProcessingField,
+      'ui:validations': [
+        (errors, _fieldValue, formData) => {
+          const processing = (formData?.files ?? []).some(
+            f =>
+              f.idpUploadStatus === 'pending' ||
+              f.idpUploadStatus === 'processing',
+          );
+          if (processing) {
+            errors.addError(
+              'Please wait while we finish processing your documents.',
+            );
+          }
+        },
+      ],
+    },
   },
   schema: {
     type: 'object',
     properties: {
       files: fileInputMultipleSchema(),
       'view:uploadMessage': {
+        type: 'object',
+        properties: {},
+      },
+      'view:caveProcessing': {
         type: 'object',
         properties: {},
       },

@@ -8,6 +8,7 @@ import manifest from '../manifest.json';
 
 const ConflictCard = ({ conflict, resolution, onResolutionChange }) => {
   const radioRef = useRef(null);
+  // Ref keeps the handler current without re-registering the listener.
   const onResolutionChangeRef = useRef(onResolutionChange);
   onResolutionChangeRef.current = onResolutionChange;
 
@@ -20,7 +21,6 @@ const ConflictCard = ({ conflict, resolution, onResolutionChange }) => {
       };
       el.addEventListener('vaValueChange', handler);
       return () => el.removeEventListener('vaValueChange', handler);
-      // onResolutionChangeRef keeps the handler current without re-registration
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [conflict.label],
@@ -94,35 +94,51 @@ const createConflictPageField = (fieldGroup, emptyMessage) => {
     const store = useStore();
     const formData = useSelector(getFormData) || {};
 
-    // Snapshot conflicts on mount. Data is already auto-resolved at download
-    // time so we build conflicts directly from current Redux state.
-    const [conflicts] = useState(() =>
-      buildConflicts(formData, formData.files ?? [], fieldGroup),
+    const conflicts = buildConflicts(
+      formData,
+      formData.files ?? [],
+      fieldGroup,
     );
 
-    // Pre-select the form value for every conflict — 'form' is always the
-    // default so Continue works without requiring an explicit selection.
-    const initialResolutions = conflicts.reduce(
-      (acc, c) => ({ ...acc, [c.label]: 'form' }),
-      {},
+    // Ref ensures the unmount cleanup always dispatches the latest conflicts,
+    // not a stale closure captured at mount time.
+    const conflictsRef = useRef(conflicts);
+    conflictsRef.current = conflicts;
+
+    const [resolutions, setResolutions] = useState({});
+    const resolutionsRef = useRef({});
+
+    // Seed defaults synchronously during render, not in useEffect — useEffect
+    // runs after paint, creating a race if the user clicks Continue immediately.
+    conflicts.forEach(c => {
+      if (!(c.label in resolutionsRef.current)) {
+        resolutionsRef.current[c.label] = 'form';
+      }
+    });
+
+    // Sync resolutions state for rendering only (doesn't affect unmount dispatch).
+    useEffect(
+      () => {
+        if (!conflicts.length) return;
+        const initial = conflicts.reduce(
+          (acc, c) => ({ ...acc, [c.label]: 'form' }),
+          {},
+        );
+        setResolutions(prev => (Object.keys(prev).length ? prev : initial));
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [conflicts.length],
     );
-    const [resolutions, setResolutions] = useState(initialResolutions);
 
-    // Seeded with initialResolutions so the unmount cleanup always runs,
-    // even if the user never touches the radios. User changes override the
-    // defaults field-by-field via handleResolutionChange.
-    const resolutionsRef = useRef(initialResolutions);
-
-    // Commit explicit resolutions when the user navigates away.
-    // Reading store.getState() at unmount time avoids stale-snapshot bugs
-    // when two conflict pages both dispatch on unmount.
+    // Apply resolutions to Redux on navigate-away. Reading store.getState() at
+    // unmount avoids stale snapshots when two conflict pages both dispatch.
     useEffect(() => {
       return () => {
         if (!Object.keys(resolutionsRef.current).length) return;
         const currentFormData = store.getState().form.data ?? {};
         let resolvedFormData = currentFormData;
         let resolvedFiles = currentFormData.files ?? [];
-        for (const conflict of conflicts) {
+        for (const conflict of conflictsRef.current) {
           const c = resolutionsRef.current[conflict.label];
           if (c) {
             const option =

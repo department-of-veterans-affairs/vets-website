@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector, useStore } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import environment from 'platform/utilities/environment';
@@ -464,6 +465,21 @@ const DualFileUploadField = props => {
       })
       .then(sections => {
         secondaryStatusRef.current[trackingKey] = 'success';
+        // IDP polling can outlive this component (e.g. user navigates back).
+        // setSecondaryUpload is a no-op when unmounted, so we fall back to a
+        // direct Redux dispatch. Ideally this async work would be decoupled
+        // from the component lifecycle so this workaround isn't needed.
+        if (!isMountedRef.current) {
+          const state = store.getState().form.data ?? {};
+          const nextFiles = (state.files ?? []).map(
+            f =>
+              f.idpTrackingKey === trackingKey
+                ? { ...f, idpUploadStatus: 'success', idpArtifacts: sections }
+                : f,
+          );
+          store.dispatch(setData({ ...state, files: nextFiles }));
+          return;
+        }
         setSecondaryUpload(trackingKey, {
           status: 'success',
           sections,
@@ -472,6 +488,23 @@ const DualFileUploadField = props => {
       })
       .catch(error => {
         secondaryStatusRef.current[trackingKey] = 'error';
+        // Same fallback as above for the error case.
+        if (!isMountedRef.current) {
+          const state = store.getState().form.data ?? {};
+          const nextFiles = (state.files ?? []).map(
+            f =>
+              f.idpTrackingKey === trackingKey
+                ? {
+                    ...f,
+                    idpUploadStatus: 'error',
+                    idpUploadError:
+                      error?.message || 'Automated processing upload failed.',
+                  }
+                : f,
+          );
+          store.dispatch(setData({ ...state, files: nextFiles }));
+          return;
+        }
         setSecondaryUpload(trackingKey, {
           status: 'error',
           error: error?.message || 'Automated processing upload failed.',
