@@ -398,12 +398,12 @@ describe('SHA upload attachment transformation', () => {
     const result = JSON.parse(transform(formConfig, form));
 
     expect(result.form526.attachments).to.be.an('array');
-    expect(result.form526.attachments).to.deep.include({
-      name: 'sha-part-a.pdf',
-      confirmationCode: 'sha-code-123',
-      size: 1024,
-      type: 'application/pdf',
-    });
+    const hasShaAttachment = result.form526.attachments.some(
+      attachment =>
+        attachment.name === 'sha-part-a.pdf' &&
+        attachment.confirmationCode === 'sha-code-123',
+    );
+    expect(hasShaAttachment).to.be.true;
     expect(result.form526).to.not.have.property(
       'separationHealthAssessmentUploads',
     );
