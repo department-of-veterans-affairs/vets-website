@@ -444,7 +444,10 @@ function generateMockPrescriptions(
     );
   }
 
-  const sortKey = String(req.query.sort || ''); // e.g., "sort=alphabetical-status"
+  // Support both `sort` (V1) and `sort[]` (V2) query params
+  const sortParam = req.query['sort[]'] || req.query.sort || '';
+  const sortKey = Array.isArray(sortParam) ? sortParam[0] : String(sortParam);
+
   if (sortKey === 'alphabetical-status') {
     filteredPrescriptions = filteredPrescriptions.slice().sort((a, b) => {
       const aStatus = (a?.attributes?.dispStatus ?? '').toString();
@@ -455,7 +458,21 @@ function generateMockPrescriptions(
       const bName = (b?.attributes?.prescriptionName ?? '').toString();
       return aName.localeCompare(bName);
     });
-  } // In order to support other sorts, add more if-blocks here
+  } else if (sortKey === '-dispensed_date') {
+    // Most recently filled — sort by dispensedDate descending
+    filteredPrescriptions = filteredPrescriptions.slice().sort((a, b) => {
+      const aDate = a?.attributes?.dispensedDate || '';
+      const bDate = b?.attributes?.dispensedDate || '';
+      return bDate.localeCompare(aDate);
+    });
+  } else if (sortKey === 'alphabetical-rx-name') {
+    // Alphabetical by medication name
+    filteredPrescriptions = filteredPrescriptions.slice().sort((a, b) => {
+      const aName = (a?.attributes?.prescriptionName ?? '').toString();
+      const bName = (b?.attributes?.prescriptionName ?? '').toString();
+      return aName.localeCompare(bName);
+    });
+  }
 
   // Determine whether this request is for the on-screen medications list (paged)
   // or for an export (Print/PDF/TXT) where we want the full filtered list.

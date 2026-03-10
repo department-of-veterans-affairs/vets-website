@@ -11,6 +11,7 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
+import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
 import AddressView from 'platform/user/profile/vap-svc/components/AddressField/AddressView';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
@@ -274,8 +275,30 @@ export const ContactInfoBase = ({
     [missingInfo, hasInitialized, testContinueAlert],
   );
 
-  const MainHeader = onReviewPage ? 'h4' : 'h3';
-  const headerLevel = contactSectionHeadingLevel || (onReviewPage ? '5' : '4');
+  const isMinimalHeader = isMinimalHeaderPath();
+
+  let MainHeader = 'h3';
+  if (onReviewPage) {
+    MainHeader = 'h4';
+  } else if (isMinimalHeader) {
+    MainHeader = 'h1';
+  }
+
+  const mainHeaderClass =
+    isMinimalHeader && !onReviewPage
+      ? 'vads-u-margin-top--3 vads-u-margin-bottom--0 vads-u-font-size--h2'
+      : 'vads-u-margin-top--3 vads-u-margin-bottom--0';
+
+  let headerLevel = contactSectionHeadingLevel;
+  if (!headerLevel) {
+    if (isMinimalHeader) {
+      headerLevel = '2';
+    } else if (onReviewPage) {
+      headerLevel = '5';
+    } else {
+      headerLevel = '4';
+    }
+  }
 
   // Helper function to render email addresses consistently
   const renderEmail = emailData => {
@@ -287,6 +310,11 @@ export const ContactInfoBase = ({
 
   // Render alerts above contact sections
   const renderContactAlerts = () => {
+    // Don't show success alerts if there are errors
+    if (submitted && (missingInfo.length > 0 || validationErrors.length > 0)) {
+      return null;
+    }
+
     const alerts = [];
 
     Object.entries(fieldConfig).forEach(([id, { text, key }]) => {
@@ -395,7 +423,9 @@ export const ContactInfoBase = ({
     return (
       <ContactInfoCard
         key={FIELD_NAMES.MAILING_ADDRESS}
-        error={missingRequiredAddress ? 'You must add your address' : ''}
+        error={
+          submitted && missingRequiredAddress ? 'You must add your address' : ''
+        }
         contactPath={contactPath}
         required={requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS)}
         formKey={keys.address}
@@ -434,7 +464,9 @@ export const ContactInfoBase = ({
       <ContactInfoCard
         key={FIELD_NAMES.HOME_PHONE}
         error={
-          missingRequiredHomePhone ? 'You must add your home phone number' : ''
+          submitted && missingRequiredHomePhone
+            ? 'You must add your home phone number'
+            : ''
         }
         contactPath={contactPath}
         required={requiredKeys.includes(FIELD_NAMES.HOME_PHONE)}
@@ -475,7 +507,7 @@ export const ContactInfoBase = ({
       <ContactInfoCard
         key={FIELD_NAMES.MOBILE_PHONE}
         error={
-          missingRequiredMobilePhone
+          submitted && missingRequiredMobilePhone
             ? 'You must add your mobile phone number'
             : ''
         }
@@ -515,7 +547,11 @@ export const ContactInfoBase = ({
     return (
       <ContactInfoCard
         key={FIELD_NAMES.EMAIL}
-        error={missingRequiredEmail ? 'You must add your email address' : ''}
+        error={
+          submitted && missingRequiredEmail
+            ? 'You must add your email address'
+            : ''
+        }
         contactPath={contactPath}
         required={requiredKeys.includes(FIELD_NAMES.EMAIL)}
         formKey={keys.email}
@@ -606,7 +642,7 @@ export const ContactInfoBase = ({
     <>
       {contentBeforeButtons}
       <FormNavButtons
-        goBack={handlers.onGoBack}
+        goBack={!isMinimalHeader && handlers.onGoBack}
         goForward={handlers.onGoForward}
       />
       {contentAfterButtons}
@@ -619,11 +655,10 @@ export const ContactInfoBase = ({
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
           id={`${contactInfoPageKey}Header`}
-          className="vads-u-margin-top--3 vads-u-margin-bottom--0"
+          className={mainHeaderClass}
         >
-          {content.title}
+          Confirm the contact information we have on file for you
         </MainHeader>
-        {content.description}
         {!loggedIn && (
           <strong className="usa-input-error-message">
             You must be logged in to enable view and edit this page.
