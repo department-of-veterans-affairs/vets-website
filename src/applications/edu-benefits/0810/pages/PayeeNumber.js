@@ -4,6 +4,9 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+// Allows any letter (case-insensitive), number, or whitespace character.
+const letterOrNumberRegex = /^[[a-zA-Z0-9\s]{0,2}$/;
+
 const uiSchema = {
   ...titleUI(
     'Your VA payee number',
@@ -16,7 +19,7 @@ const uiSchema = {
       charcount: true,
       validations: [
         (errors, field) => {
-          if (!/^[\w\s]{0,2}$/.test(field)) {
+          if (!letterOrNumberRegex.test(field)) {
             errors.addError('Enter your response in a valid format');
           }
         },
