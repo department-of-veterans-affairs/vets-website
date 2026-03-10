@@ -31,7 +31,7 @@ describe('MissingRecordsWarningAlert', () => {
     const { getByTestId } = render(<MissingRecordsWarningAlert />);
     const alert = getByTestId(TEST_ID);
     expect(alert.textContent).to.include(
-      "Medical records from these VA health facilities aren't available in your VA Blue Button report:",
+      "Some of your records aren't available in this report",
     );
   });
 
@@ -71,7 +71,7 @@ describe('MissingRecordsWarningAlert', () => {
     const alert = getByTestId(TEST_ID);
     const actionName = alert.getAttribute('data-dd-action-name');
     expect(actionName).to.equal(
-      "Some of your records aren't available in this report",
+      'Some of your records aren’t available in this report',
     );
   });
 
