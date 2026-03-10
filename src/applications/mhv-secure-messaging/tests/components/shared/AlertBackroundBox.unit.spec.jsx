@@ -76,7 +76,9 @@ describe('Alert Backround Box component', () => {
         'close-btn-aria-label',
         'Close notification',
       );
-      expect(screen.getByText(activeAlertObj.content)).to.exist;
+      expect(screen.getByTestId('alert-text').textContent).to.equal(
+        activeAlertObj.content,
+      );
       // sr-only span exists with delayed content (empty initially due to focusin delay)
       const srSpan = screen.getByTestId('sr-only-alert-text');
       expect(srSpan).to.exist;
@@ -117,7 +119,9 @@ describe('Alert Backround Box component', () => {
         'close-btn-aria-label',
         'Close notification',
       );
-      expect(screen.getByText(activeAlertObj.content)).to.exist;
+      expect(screen.getByTestId('alert-text').textContent).to.equal(
+        activeAlertObj.content,
+      );
       const srSpan = screen.getByTestId('sr-only-alert-text');
       expect(srSpan).to.exist;
     });
@@ -168,7 +172,9 @@ describe('Alert Backround Box component', () => {
         'close-btn-aria-label',
         'Close notification',
       );
-      expect(screen.getByText(activeAlertObj.content)).to.exist;
+      expect(screen.getByTestId('alert-text').textContent).to.equal(
+        activeAlertObj.content,
+      );
       const srSpan = screen.getByTestId('sr-only-alert-text');
       expect(srSpan).to.exist;
     });
@@ -219,7 +225,9 @@ describe('Alert Backround Box component', () => {
         'close-btn-aria-label',
         'Close notification',
       );
-      expect(screen.getByText(activeAlertObj.content)).to.exist;
+      expect(screen.getByTestId('alert-text').textContent).to.equal(
+        activeAlertObj.content,
+      );
       const srSpan = screen.getByTestId('sr-only-alert-text');
       expect(srSpan).to.exist;
     });
@@ -253,7 +261,9 @@ describe('Alert Backround Box component', () => {
 
       await waitFor(() => {
         // Verify the alert content is displayed
-        expect(screen.getByText(Alerts.Message.SEND_MESSAGE_SUCCESS)).to.exist;
+        expect(screen.getByTestId('alert-text').textContent).to.equal(
+          Alerts.Message.SEND_MESSAGE_SUCCESS,
+        );
 
         // Verify the RouterLink is rendered with correct attributes
         const sentLink = screen.container.querySelector(
@@ -296,7 +306,9 @@ describe('Alert Backround Box component', () => {
 
       await waitFor(() => {
         // Verify the alert content is displayed
-        expect(screen.getByText(activeAlertObj.content)).to.exist;
+        expect(screen.getByTestId('alert-text').textContent).to.equal(
+          activeAlertObj.content,
+        );
 
         // Verify NO link to sent folder is rendered
         const sentLink = screen.container.querySelector(
@@ -409,7 +421,9 @@ describe('Alert Backround Box component', () => {
 
       await waitFor(() => {
         // Verify the alert content is displayed
-        expect(screen.getByText(Alerts.Message.SEND_MESSAGE_SUCCESS)).to.exist;
+        expect(screen.getByTestId('alert-text').textContent).to.equal(
+          Alerts.Message.SEND_MESSAGE_SUCCESS,
+        );
 
         // Verify NO link to sent folder is rendered since user came from sent
         const sentLink = screen.container.querySelector(
@@ -452,7 +466,9 @@ describe('Alert Backround Box component', () => {
 
       await waitFor(() => {
         // Verify the alert content is displayed
-        expect(screen.getByText(Alerts.Message.SEND_MESSAGE_SUCCESS)).to.exist;
+        expect(screen.getByTestId('alert-text').textContent).to.equal(
+          Alerts.Message.SEND_MESSAGE_SUCCESS,
+        );
 
         // Verify NO link to sent folder is rendered since user came from sent folder thread
         const sentLink = screen.container.querySelector(

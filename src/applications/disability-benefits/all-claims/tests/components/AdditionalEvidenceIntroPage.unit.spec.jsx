@@ -46,27 +46,64 @@ describe('AdditionalEvidenceIntroPage', () => {
     expect(container.querySelector('va-radio-option[label="No"]')).to.exist;
     expect(container.querySelector('va-alert-expandable')).to.exist;
   });
-  it('should display additional documents in modal when the user choose No but provided additional documents and clicks continue', async () => {
+
+  it('should set form data when selecting Yes on the radio input', async () => {
+    const setFormData = sinon.spy();
     const data = {
       'view:selectableEvidenceTypes': {
         'view:hasOtherEvidence': false,
       },
-      additionalDocuments: [
-        {
-          name: 'supportingDoc.pdf',
-        },
-      ],
     };
+    const { container } = render(page({ data, setFormData }));
 
-    const { container } = render(page({ data }));
+    const radio = container.querySelector('va-radio');
+    fireEvent(
+      radio,
+      new CustomEvent('vaValueChange', {
+        detail: { value: 'true' },
+      }),
+    );
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.lastCall.args[0];
+      expect(
+        updatedData['view:selectableEvidenceTypes']['view:hasOtherEvidence'],
+      ).to.be.true;
+    });
+  });
+
+  it('should show validation error when user submits without selecting an option', async () => {
+    const goForward = sinon.spy();
+
+    const initialData = {
+      'view:selectableEvidenceTypes': {},
+    };
+    const { container } = render(page({ data: initialData, goForward }));
+
+    const button = container.querySelector('button[type="submit"]');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      const radio = container.querySelector('va-radio');
+      expect(radio.error).to.contain('You must provide a response');
+      expect(goForward.called).to.be.false;
+    });
+  });
+
+  it('should call goForward when user selects Yes and clicks continue', () => {
+    const goForward = sinon.spy();
+    const data = {
+      'view:selectableEvidenceTypes': {
+        'view:hasOtherEvidence': true,
+      },
+    };
+    const { container } = render(page({ data, goForward }));
 
     fireEvent.click($('button[type="submit"]', container));
 
-    await waitFor(() => {
-      const modal = container.querySelector('va-modal');
-      expect(modal).to.have.attribute('visible', 'true');
-      expect(modal.textContent).to.include('supportingDoc.pdf');
-    });
+    expect(goForward.calledOnce).to.be.true;
+    expect(goForward.firstCall.args[0]).to.deep.equal({ formData: data });
   });
 
   it('should limit displayed files to maxDisplayedItems', async () => {
@@ -256,6 +293,115 @@ describe('AdditionalEvidenceIntroPage', () => {
     const updateButton = container.querySelector('button.usa-button-primary');
     expect(updateButton).to.exist;
     expect(updateButton.textContent).to.equal('Update page');
+  });
+
+  it('should call updatePage when clicking update button on review page', () => {
+    const updatePageSpy = sinon.spy();
+    const data = {
+      'view:selectableEvidenceTypes': {
+        'view:hasOtherEvidence': true,
+      },
+      additionalDocuments: [
+        {
+          name: 'supportingDoc.pdf',
+        },
+      ],
+    };
+    const { container } = render(
+      page({ onReviewPage: true, updatePage: updatePageSpy, data }),
+    );
+
+    fireEvent.click(container.querySelector('button.usa-button-primary'));
+
+    expect(updatePageSpy.called).to.be.true;
+  });
+
+  it('should show validation error and not call updatePage on review page when no selection is made', async () => {
+    const updatePageSpy = sinon.spy();
+    const initialData = {
+      'view:selectableEvidenceTypes': {},
+    };
+    const { container } = render(
+      page({
+        onReviewPage: true,
+        updatePage: updatePageSpy,
+        data: initialData,
+      }),
+    );
+
+    fireEvent.click(container.querySelector('button.usa-button-primary'));
+
+    await waitFor(() => {
+      const question = container.querySelector('va-radio');
+      expect(question).to.have.attribute(
+        'error',
+        'You must provide a response',
+      );
+      expect(updatePageSpy.called).to.be.false;
+    });
+  });
+
+  it('should open modal and not call updatePage on review page when selecting No with uploaded files', async () => {
+    const updatePageSpy = sinon.spy();
+    const data = {
+      'view:selectableEvidenceTypes': {
+        'view:hasOtherEvidence': false,
+      },
+      additionalDocuments: [
+        {
+          name: 'supportingDoc.pdf',
+        },
+      ],
+    };
+    const { container } = render(
+      page({ onReviewPage: true, updatePage: updatePageSpy, data }),
+    );
+
+    fireEvent.click(container.querySelector('button.usa-button-primary'));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+      expect(updatePageSpy.called).to.be.false;
+    });
+  });
+
+  it('should close success alert when close event is fired', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:selectableEvidenceTypes': {
+        'view:hasOtherEvidence': false,
+      },
+      additionalDocuments: [
+        {
+          name: 'supportingDoc1.pdf',
+        },
+      ],
+    };
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    fireEvent(
+      container.querySelector('va-modal'),
+      new CustomEvent('primaryButtonClick'),
+    );
+
+    await waitFor(() => {
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.have.attribute('visible', 'true');
+    });
+
+    const alert = container.querySelector('va-alert');
+    fireEvent(alert, new CustomEvent('closeEvent'));
+
+    await waitFor(() => {
+      expect(alert).to.have.attribute('visible', 'false');
+    });
   });
 
   it('should not render mental health alert on review page', () => {

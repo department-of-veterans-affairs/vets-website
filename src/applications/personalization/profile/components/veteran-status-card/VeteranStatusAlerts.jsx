@@ -145,12 +145,20 @@ const renderBodyItem = (item, index) => {
       );
     case 'phone':
       return (
-        <p key={index} className="vads-u-margin-y--1">
+        <p
+          key={index}
+          className="vads-u-margin-y--1 vads-u-display--flex vads-u-align-items--center vads-u-font-weight--bold"
+        >
+          <va-icon
+            icon="phone"
+            size={3}
+            class="vads-u-margin-right--1 vads-u-color--link-default"
+          />
           <va-telephone contact={item.value} />
           {item.tty && (
             <>
-              {' '}
-              (<va-telephone contact="711" tty />)
+              &nbsp;&nbsp;(
+              <va-telephone contact="711" tty />)
             </>
           )}
         </p>

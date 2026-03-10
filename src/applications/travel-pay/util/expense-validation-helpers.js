@@ -313,8 +313,13 @@ export const validateRequestedAmount = (
       error = 'Enter an amount greater than 0';
     }
 
-    // Require exactly 2 decimal places on BLUR
-    if (!error && !Number.isNaN(parsed) && type === DATE_VALIDATION_TYPE.BLUR) {
+    // Require exactly 2 decimal places on BLUR or SUBMIT
+    if (
+      !error &&
+      !Number.isNaN(parsed) &&
+      (type === DATE_VALIDATION_TYPE.BLUR ||
+        type === DATE_VALIDATION_TYPE.SUBMIT)
+    ) {
       const strictFormat = /^\d+\.\d{2}$/;
       if (!strictFormat.test(strAmount)) {
         error = 'Enter an amount using this format: x.xx';

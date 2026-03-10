@@ -4,6 +4,7 @@
  * VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
  */
 
+import React from 'react';
 import {
   ssnUI,
   ssnSchema,
@@ -23,9 +24,13 @@ export const veteranSsnUiSchema = {
       const firstName = data?.veteranInformation?.veteranFullName?.first || '';
       const lastName = data?.veteranInformation?.veteranFullName?.last || '';
       const fullName = `${firstName} ${lastName}`.trim();
-      const title = fullName
-        ? `${fullName}'s Social Security number`
-        : "Veteran's Social Security number";
+      const title = fullName ? (
+        <span data-dd-privacy="mask" data-dd-action-name="veteran ssn page">
+          {`${fullName}'s Social Security number`}
+        </span>
+      ) : (
+        "Veteran's Social Security number"
+      );
 
       return {
         'ui:title': title,

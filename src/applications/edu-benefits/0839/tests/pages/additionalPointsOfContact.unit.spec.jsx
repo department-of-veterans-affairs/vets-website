@@ -46,13 +46,13 @@ describe('additionalPointsOfContact page', () => {
 
     expect(() =>
       getByText(
-        'School financial representative or Yellow Ribbon Program point of contact',
+        'Yellow Ribbon Program point of contact or School financial representative',
       ),
     ).to.not.throw();
     unmount();
   });
 
-  it('shows missing financial and certifying roles when base contact is only a Yellow Ribbon representative', () => {
+  it('shows school certifying official title when base contact is only a Yellow Ribbon representative', () => {
     const formData = {
       pointsOfContact: {
         roles: {
@@ -64,11 +64,7 @@ describe('additionalPointsOfContact page', () => {
 
     const { getByText, unmount } = renderForm(formData);
 
-    expect(() =>
-      getByText(
-        'School financial representative and School certifying official',
-      ),
-    ).to.not.throw();
+    expect(() => getByText('School certifying official')).to.not.throw();
     unmount();
   });
 });
