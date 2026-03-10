@@ -5,6 +5,7 @@ import chatbotReducer, {
   selectChatbotHasAcceptedDisclaimer,
   selectConnectionStatus,
   selectErrorMessage,
+  selectGenesysConfig,
   selectIsAgentTyping,
   selectIsConnected,
   selectMessages,
@@ -16,6 +17,7 @@ const initialState = {
   messages: [],
   errorMessage: null,
   isAgentTyping: false,
+  genesysConfig: null,
 };
 
 describe('chatbotSlice', () => {
@@ -204,6 +206,21 @@ describe('chatbotSlice', () => {
     });
   });
 
+  describe('setGenesysConfig', () => {
+    it('stores the Genesys deployment configuration', () => {
+      const configData = {
+        deploymentId: 'abc-123',
+        environment: 'fedramp-use2-core',
+      };
+      const state = chatbotReducer(
+        undefined,
+        chatbotActions.setGenesysConfig(configData),
+      );
+
+      expect(state.genesysConfig).to.deep.equal(configData);
+    });
+  });
+
   describe('resetChat', () => {
     it('resets messaging state to initial values', () => {
       const withData = {
@@ -240,6 +257,7 @@ describe('chatbotSlice', () => {
         messages: [sampleMessage],
         errorMessage: 'oops',
         isAgentTyping: true,
+        genesysConfig: { deploymentId: 'abc-123' },
       },
     };
 
@@ -265,6 +283,12 @@ describe('chatbotSlice', () => {
 
     it('selectIsConnected returns true when status is connected', () => {
       expect(selectIsConnected(mockState)).to.equal(true);
+    });
+
+    it('selectGenesysConfig returns stored Genesys configuration', () => {
+      expect(selectGenesysConfig(mockState)).to.deep.equal({
+        deploymentId: 'abc-123',
+      });
     });
 
     it('selectIsConnected returns false for non-connected statuses', () => {
@@ -297,6 +321,10 @@ describe('chatbotSlice', () => {
 
       it('selectIsConnected returns false', () => {
         expect(selectIsConnected({})).to.equal(false);
+      });
+
+      it('selectGenesysConfig returns null', () => {
+        expect(selectGenesysConfig({})).to.equal(null);
       });
     });
   });

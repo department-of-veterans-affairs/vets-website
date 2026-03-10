@@ -13,6 +13,7 @@ import { createSlice } from '@reduxjs/toolkit';
  * @property {ChatMessage[]} messages
  * @property {string|null} errorMessage
  * @property {boolean} isAgentTyping
+ * @property {Object|null} genesysConfig
  */
 
 /** @type {ChatbotState} */
@@ -22,6 +23,7 @@ const initialState = {
   messages: [],
   errorMessage: null,
   isAgentTyping: false,
+  genesysConfig: null,
 };
 
 /**
@@ -72,6 +74,9 @@ const chatbotSlice = createSlice({
     setAgentTyping: (state, action) => {
       state.isAgentTyping = action.payload;
     },
+    setGenesysConfig: (state, action) => {
+      state.genesysConfig = action.payload;
+    },
     resetChat: state => {
       state.connectionStatus = initialState.connectionStatus;
       state.messages = initialState.messages;
@@ -97,6 +102,9 @@ export const selectErrorMessage = state =>
 
 export const selectIsAgentTyping = state =>
   selectChatbotState(state).isAgentTyping;
+
+export const selectGenesysConfig = state =>
+  selectChatbotState(state).genesysConfig;
 
 export const selectIsConnected = state =>
   selectChatbotState(state).connectionStatus === 'connected';

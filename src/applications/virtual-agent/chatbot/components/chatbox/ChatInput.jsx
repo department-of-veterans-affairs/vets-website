@@ -1,3 +1,4 @@
+import { VaTextarea } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 
@@ -15,12 +16,17 @@ import React, { useRef, useState } from 'react';
  */
 export default function ChatInput({ sendMessage }) {
   const [value, setValue] = useState('');
+  const [error, setError] = useState(null);
   const inputRef = useRef(null);
 
   const handleSubmit = e => {
     e.preventDefault();
     const text = value.trim();
-    if (!text) return;
+    if (!text) {
+      setError('Please enter a message');
+      return;
+    }
+    setError(null);
     sendMessage(text);
     setValue('');
     if (inputRef.current) {
@@ -35,18 +41,27 @@ export default function ChatInput({ sendMessage }) {
       onSubmit={handleSubmit}
     >
       <div className="vads-u-flex--1 vads-u-margin-right--1">
-        <va-text-input
+        <VaTextarea
+          error={error}
           ref={inputRef}
           data-testid="chat-input"
-          label="Type a message"
           name="chat-message"
           value={value}
-          onInput={e => setValue(e.target.value)}
+          placeholder="Type your message"
+          maxlength={500}
+          charcount
+          onInput={e => {
+            setValue(e.target.value);
+          }}
+          onKeyDown={e => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              handleSubmit(e);
+            }
+          }}
         />
       </div>
       <va-button
         data-testid="chat-send-button"
-        disabled={!value.trim()}
         text="Send"
         onClick={handleSubmit}
       />

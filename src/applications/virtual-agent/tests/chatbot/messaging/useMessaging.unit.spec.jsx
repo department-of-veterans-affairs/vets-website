@@ -12,6 +12,7 @@ import chatbotReducer, {
   selectConnectionStatus,
   selectMessages,
   selectErrorMessage,
+  selectGenesysConfig,
   selectIsAgentTyping,
 } from '../../../chatbot/store/chatbotSlice';
 
@@ -259,6 +260,29 @@ describe('useMessaging', () => {
       );
       expect(selectConnectionStatus(store.getState())).to.equal('connected');
       expect(selectMessages(store.getState())).to.deep.equal([restoredMessage]);
+    });
+
+    it('stores Genesys deployment configuration on onConfiguration callback', async () => {
+      const store = buildStore();
+
+      renderHook(() => useMessaging(TEST_CONFIG), {
+        wrapper: buildWrapper(store),
+      });
+
+      await act(async () => {});
+
+      const configPayload = {
+        deploymentId: 'dep-123',
+        environment: 'fedramp-use2-core',
+      };
+
+      act(() => {
+        mockService._storedCallbacks.onConfiguration(configPayload);
+      });
+
+      expect(selectGenesysConfig(store.getState())).to.deep.equal(
+        configPayload,
+      );
     });
 
     it('filters echoed outbound user message that matches a pending optimistic send', async () => {

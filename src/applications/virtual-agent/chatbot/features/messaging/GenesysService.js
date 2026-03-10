@@ -8,6 +8,8 @@
  * This is the ONLY file that touches window.Genesys(). All other layers
  * communicate with Genesys through the callbacks provided to init().
  *
+ * Message object structure: https://developer.genesys.cloud/commdigital/digital/webmessaging/websocketapi#outbound-messages
+ *
  * Usage:
  *   const service = GenesysService.getInstance(config);
  *   await service.init(callbacks);
@@ -124,8 +126,37 @@ export class GenesysService {
         }
 
         this._subscribeToEvents();
+        this._loadDeploymentConfiguration();
         resolve();
       });
+    });
+  }
+
+  /**
+   * Loads Genesys deployment configuration via plugin command.
+   * @private
+   */
+  _loadDeploymentConfiguration() {
+    window.Genesys('registerPlugin', 'Plugin', Plugin => {
+      if (!Plugin || typeof Plugin.command !== 'function') return;
+
+      Plugin.command('GenesysJS.configuration')
+        .then(config => {
+          GenesysService._log('command', 'GenesysJS.configuration', {
+            status: 'resolved',
+            response: config,
+          });
+
+          if (this._callbacks && this._callbacks.onConfiguration) {
+            this._callbacks.onConfiguration(config);
+          }
+        })
+        .catch(error => {
+          GenesysService._log('command', 'GenesysJS.configuration', {
+            status: 'rejected',
+            error,
+          });
+        });
     });
   }
 
@@ -154,7 +185,7 @@ export class GenesysService {
       GenesysService._log('event', 'MessagingService.restored', {
         payload: event,
       });
-      const restoredMessages = this._normalizeMessages(
+      const restoredMessages = GenesysService._normalizeMessages(
         GenesysService._extractEventData(event),
       );
       if (this._callbacks && this._callbacks.onRestored) {
@@ -248,7 +279,7 @@ export class GenesysService {
    * @private
    */
   _emitNormalizedMessages(event) {
-    const normalizedMessages = this._normalizeMessages(
+    const normalizedMessages = GenesysService._normalizeMessages(
       GenesysService._extractEventData(event),
     );
     if (!normalizedMessages.length || !this._callbacks) return;
@@ -271,7 +302,7 @@ export class GenesysService {
    * @returns {ChatMessage[]}
    * @private
    */
-  _normalizeMessages(event) {
+  static _normalizeMessages(event) {
     let rawMessages = [];
     if (Array.isArray(event && event.messages)) {
       rawMessages = event.messages;
@@ -280,8 +311,25 @@ export class GenesysService {
     }
 
     return rawMessages
-      .map(rawMessage => this._normalizeMessage(rawMessage))
+      .filter(rawMessage => !GenesysService._isPresenceMessage(rawMessage))
+      .map(rawMessage => GenesysService._normalizeMessage(rawMessage))
       .filter(Boolean);
+  }
+
+  /**
+   * The Genesys SDK sends presence messages as events.
+   * These are not actual messages and should be ignored in the UI
+   * @param {Object} rawMessage
+   * @returns boolean
+   * @private
+   */
+  static _isPresenceMessage(rawMessage) {
+    const isEvent =
+      rawMessage?.type && rawMessage.type.toLowerCase() === 'event';
+    const isPresence =
+      rawMessage?.events &&
+      rawMessage.events.some(event => event.eventType === 'Presence');
+    return isEvent && (isPresence || rawMessage?.eventType === 'Presence');
   }
 
   /**
@@ -289,24 +337,80 @@ export class GenesysService {
    * @returns {ChatMessage|null}
    * @private
    */
-  _normalizeMessage(rawMessage) {
+  static _normalizeMessage(rawMessage) {
     if (!rawMessage || typeof rawMessage !== 'object') return null;
 
-    const body = rawMessage.text ?? '';
+    const body =
+      rawMessage.text ||
+      rawMessage.body ||
+      rawMessage.message ||
+      (rawMessage.content && rawMessage.content.text) ||
+      '';
 
-    const direction = (
-      rawMessage.direction ||
-      rawMessage.messageType ||
-      ''
+    if (!body || typeof body !== 'string') return null;
+
+    const originatingEntity = (
+      rawMessage.originatingEntity || ''
     ).toLowerCase();
-    const isUserMessage = direction === 'inbound';
+
+    const sender = originatingEntity === 'bot' ? 'va' : 'user';
+
+    const quickReplies = GenesysService._extractQuickReplies(rawMessage);
 
     return {
-      id: rawMessage.id ?? GenesysService._buildMessageId(),
-      sender: isUserMessage ? 'user' : 'va',
+      id:
+        rawMessage.id ||
+        rawMessage.messageId ||
+        GenesysService._buildMessageId(),
+      sender,
       text: body,
       timestamp: GenesysService._normalizeTimestamp(rawMessage),
+      quickReplies,
     };
+  }
+
+  /**
+   * Extract quick reply options from supported payload locations.
+   * @param {Object} rawMessage
+   * @returns {{ text: string, payload: string }[]}
+   * @private
+   */
+  static _extractQuickReplies(rawMessage) {
+    const fromTopLevel = Array.isArray(rawMessage.quickReplies)
+      ? rawMessage.quickReplies
+      : [];
+
+    const fromContent = Array.isArray(rawMessage.content)
+      ? rawMessage.content
+          .filter(item => {
+            return (
+              item &&
+              typeof item === 'object' &&
+              (item.contentType || '').toLowerCase() === 'quickreply' &&
+              item.quickReply
+            );
+          })
+          .map(item => item.quickReply)
+      : [];
+
+    const normalizedReplies = [...fromTopLevel, ...fromContent]
+      .map(item => ({
+        text: (item && item.text) || (item && item.payload) || '',
+        payload: (item && item.payload) || (item && item.text) || '',
+      }))
+      .filter(item => item.text && item.payload);
+
+    const uniqueReplies = [];
+    const seen = new Set();
+
+    normalizedReplies.forEach(item => {
+      const key = `${item.text}::${item.payload}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+      uniqueReplies.push(item);
+    });
+
+    return uniqueReplies;
   }
 
   /**
@@ -316,7 +420,9 @@ export class GenesysService {
    */
   static _normalizeTimestamp(rawMessage) {
     const timestampValue =
-      rawMessage.time || (rawMessage.channel && rawMessage.channel.time);
+      rawMessage.timestamp ||
+      rawMessage.time ||
+      (rawMessage.channel && rawMessage.channel.time);
 
     if (!timestampValue) return Date.now();
 
@@ -339,6 +445,9 @@ export class GenesysService {
   }
 
   /**
+   * Builds a unique message id for a Genesys message,
+   * used if the message id is not provided by Genesys.
+   *
    * @returns {string}
    * @private
    */
@@ -354,8 +463,8 @@ export class GenesysService {
    * @returns {Promise<any>}
    * @private
    */
-  static _runCommand(commandName, payload = {}) {
-    GenesysService._log('command', `MessagingService.${commandName}`, {
+  _runCommand(commandName, payload = {}) {
+    this.constructor._log('command', `MessagingService.${commandName}`, {
       status: 'requested',
       payload,
     });
@@ -366,7 +475,7 @@ export class GenesysService {
         `MessagingService.${commandName}`,
         payload,
         response => {
-          GenesysService._log('command', `MessagingService.${commandName}`, {
+          this.constructor._log('command', `MessagingService.${commandName}`, {
             status: 'resolved',
             payload,
             response,
@@ -374,7 +483,7 @@ export class GenesysService {
           resolve(response);
         },
         error => {
-          GenesysService._log('command', `MessagingService.${commandName}`, {
+          this.constructor._log('command', `MessagingService.${commandName}`, {
             status: 'rejected',
             payload,
             error,
@@ -390,7 +499,7 @@ export class GenesysService {
    * @returns {Promise<void>}
    */
   startConversation() {
-    return GenesysService._runCommand('startConversation');
+    return this._runCommand('startConversation');
   }
 
   /**
@@ -399,7 +508,7 @@ export class GenesysService {
    * @returns {Promise<void>}
    */
   sendMessage(text) {
-    return GenesysService._runCommand('sendMessage', { message: text });
+    return this._runCommand('sendMessage', { message: text });
   }
 
   /**
@@ -407,7 +516,7 @@ export class GenesysService {
    * @returns {Promise<void>}
    */
   fetchHistory() {
-    return GenesysService._runCommand('fetchHistory');
+    return this._runCommand('fetchHistory');
   }
 
   /**
@@ -415,7 +524,7 @@ export class GenesysService {
    * @returns {Promise<void>}
    */
   clearSession() {
-    return GenesysService._runCommand('clearSession');
+    return this._runCommand('clearSession');
   }
 
   /**
@@ -423,7 +532,7 @@ export class GenesysService {
    * @returns {Promise<void>}
    */
   resetConversation() {
-    return GenesysService._runCommand('resetConversation');
+    return this._runCommand('resetConversation');
   }
 
   /**
@@ -431,7 +540,7 @@ export class GenesysService {
    * @returns {Promise<void>}
    */
   clearConversation() {
-    return GenesysService._runCommand('clearConversation');
+    return this._runCommand('clearConversation');
   }
 
   /**
@@ -439,7 +548,7 @@ export class GenesysService {
    * @returns {Promise<void>}
    */
   sendTyping() {
-    return GenesysService._runCommand('sendTyping');
+    return this._runCommand('sendTyping');
   }
 
   /**
@@ -447,7 +556,7 @@ export class GenesysService {
    * @returns {Promise<void>}
    */
   clearTypingTimeout() {
-    return GenesysService._runCommand('clearTypingTimeout');
+    return this._runCommand('clearTypingTimeout');
   }
 
   /**

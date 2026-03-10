@@ -123,7 +123,11 @@ export default function RightColumnContent({
         </va-alert>
       ) : (
         <>
-          <ChatMessageList messages={messages} errorMessage={errorMessage} />
+          <ChatMessageList
+            messages={messages}
+            errorMessage={errorMessage}
+            onQuickReply={sendMessage}
+          />
           {sendMessage && <ChatInput sendMessage={sendMessage} />}
         </>
       )}

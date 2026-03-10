@@ -6,6 +6,10 @@ import { GenesysService } from '../../../chatbot/features/messaging/GenesysServi
 function buildGenesysStub() {
   const subscriptions = {};
   const commandCallbacks = {};
+  const pluginCommand = sinon.stub().resolves({
+    deploymentId: 'dep-123',
+    environment: 'fedramp-use2-core',
+  });
 
   const stub = sinon
     .stub()
@@ -18,9 +22,13 @@ function buildGenesysStub() {
         commandCallbacks[event] = { successCb, errorCb, data };
         if (successCb) successCb();
       }
+
+      if (action === 'registerPlugin') {
+        data({ command: pluginCommand });
+      }
     });
 
-  return { stub, subscriptions, commandCallbacks };
+  return { stub, subscriptions, commandCallbacks, pluginCommand };
 }
 
 describe('GenesysService', () => {
@@ -108,6 +116,29 @@ describe('GenesysService', () => {
       return initPromise.then(() => {
         expect(onReady.calledOnce).to.be.true;
         expect(onReady.firstCall.args[0]).to.deep.equal(readyEvent);
+      });
+    });
+
+    it('loads deployment configuration and calls callbacks.onConfiguration', () => {
+      const { stub, subscriptions, pluginCommand } = buildGenesysStub();
+      window.Genesys = stub;
+
+      const onConfiguration = sandbox.stub();
+      const config = { deploymentId: 'id', region: 'region' };
+      const service = GenesysService.getInstance(config);
+      const initPromise = service.init({ onConfiguration });
+
+      subscriptions['MessagingService.ready']();
+
+      return initPromise.then(() => Promise.resolve()).then(() => {
+        expect(pluginCommand.calledOnce).to.be.true;
+        expect(pluginCommand.firstCall.args[0] === 'GenesysJS.configuration').to
+          .be.true;
+        expect(onConfiguration.calledOnce).to.be.true;
+        expect(onConfiguration.firstCall.args[0]).to.deep.equal({
+          deploymentId: 'dep-123',
+          environment: 'fedramp-use2-core',
+        });
       });
     });
 
@@ -285,6 +316,56 @@ describe('GenesysService', () => {
 
         const [msg] = onMessagesReceived.firstCall.args[0];
         expect(msg.sender).to.equal('user');
+      });
+    });
+
+    it('extracts quick replies from content array when present', () => {
+      const { stub, subscriptions } = buildGenesysStub();
+      window.Genesys = stub;
+
+      const onMessagesReceived = sandbox.stub();
+      const config = { deploymentId: 'id', region: 'region' };
+      const service = GenesysService.getInstance(config);
+      const initPromise = service.init({ onMessagesReceived });
+
+      subscriptions['MessagingService.ready']();
+
+      return initPromise.then(() => {
+        subscriptions['MessagingService.messagesReceived']({
+          data: {
+            messages: [
+              {
+                id: 'with-quick-replies',
+                text: 'Pick one',
+                direction: 'Inbound',
+                content: [
+                  {
+                    contentType: 'QuickReply',
+                    quickReply: {
+                      text: 'Continue',
+                      payload: 'Continue',
+                      action: 'Message',
+                    },
+                  },
+                  {
+                    contentType: 'QuickReply',
+                    quickReply: {
+                      text: 'View Full Article',
+                      payload: 'View Full Article',
+                      action: 'Message',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        });
+
+        const [msg] = onMessagesReceived.firstCall.args[0];
+        expect(msg.quickReplies).to.deep.equal([
+          { text: 'Continue', payload: 'Continue' },
+          { text: 'View Full Article', payload: 'View Full Article' },
+        ]);
       });
     });
 

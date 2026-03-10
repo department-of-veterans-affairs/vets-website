@@ -6,5 +6,6 @@ export {
   selectMessages,
   selectErrorMessage,
   selectIsAgentTyping,
+  selectGenesysConfig,
   selectIsConnected,
 } from './chatbotSlice';

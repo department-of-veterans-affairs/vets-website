@@ -65,6 +65,9 @@ export function useMessaging(config) {
             dispatch(chatbotActions.addMessages(messages));
           }
         },
+        onConfiguration: configData => {
+          dispatch(chatbotActions.setGenesysConfig(configData));
+        },
         onStarted: event => {
           const isReadOnly = !!(event && event.readOnly);
           dispatch(

@@ -1,6 +1,7 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
+import sinon from 'sinon';
 
 import ChatMessageList from '../../../chatbot/components/chatbox/ChatMessageList';
 
@@ -37,5 +38,35 @@ describe('ChatMessageList', () => {
 
     expect(getByText('All good')).to.exist;
     expect(queryByTestId('chat-message-error')).to.be.null;
+  });
+
+  it('renders quick reply buttons for the last message and sends payload on click', () => {
+    const onQuickReply = payload => payload;
+    const onQuickReplySpy = sinon.spy(onQuickReply);
+    const messages = [
+      { id: '1', sender: 'user', text: 'Question' },
+      {
+        id: '2',
+        sender: 'va',
+        text: 'Choose an option',
+        quickReplies: [
+          { text: 'Continue', payload: 'Continue' },
+          { text: 'View Full Article', payload: 'View Full Article' },
+        ],
+      },
+    ];
+
+    const { getByTestId, getAllByTestId } = render(
+      <ChatMessageList messages={messages} onQuickReply={onQuickReplySpy} />,
+    );
+
+    expect(getByTestId('chat-quick-replies')).to.exist;
+
+    const buttons = getAllByTestId('chat-quick-reply-button');
+    expect(buttons).to.have.lengthOf(2);
+
+    fireEvent.click(buttons[0]);
+    expect(onQuickReplySpy.calledOnce).to.be.true;
+    expect(onQuickReplySpy.firstCall.args[0]).to.equal('Continue');
   });
 });
