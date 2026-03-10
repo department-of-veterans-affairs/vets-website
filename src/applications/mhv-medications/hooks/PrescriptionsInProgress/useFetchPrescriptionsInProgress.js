@@ -1,81 +1,57 @@
-import { useState, useEffect } from 'react';
-
-const mockData = [
-  {
-    prescriptionId: 1,
-    prescriptionName: 'Pepcid 30mg tab',
-    status: 'submitted',
-    lastUpdated: '2026-01-26T04:00:00.000Z',
-  },
-  {
-    prescriptionId: 2,
-    prescriptionName: 'Zoloft 25mg',
-    status: 'submitted',
-    lastUpdated: '2026-01-26T04:00:00.000Z',
-  },
-  {
-    prescriptionId: 3,
-    prescriptionName: 'Lipitor 20mg',
-    status: 'too-early',
-    lastUpdated: '2026-02-01T04:00:00.000Z',
-  },
-  {
-    prescriptionId: 4,
-    prescriptionName: 'Tamiflu 75mg',
-    status: 'in-progress',
-    lastUpdated: '2026-01-29T04:00:00.000Z',
-  },
-  {
-    prescriptionId: 5,
-    prescriptionName: 'Benadryl 50mg',
-    status: 'shipped',
-    lastUpdated: '2026-01-21T04:00:00.000Z',
-    carrier: 'UPS',
-    trackingNumber: '1Z2345678901234567',
-  },
-  {
-    prescriptionId: 6,
-    prescriptionName: 'Zantac 150mg',
-    status: 'shipped',
-    lastUpdated: '2026-01-13T04:00:00.000Z',
-    carrier: 'USPS',
-    trackingNumber: '9400111899223100001234',
-  },
-];
+import { useMemo } from 'react';
+import { useGetPrescriptionsListQuery } from '../../api/prescriptionsApi';
+import { dispStatusObj } from '../../util/constants';
 
 /**
  * Custom hook to fetch in-progress prescription data.
- * TODO - this currently uses mock data; replace with real API call
+ * Filters prescriptions to only include those that are:
+ * - Submitted (dispStatus === 'Active: Submitted')
+ * - In progress (dispStatus === 'Active: Refill in Process')
+ * - Shipped (dispStatus === 'Active' with tracking completeDateTime within 15 days)
  *
  * @returns {Object} The prescription data, loading state, and error state
  */
 export const useFetchPrescriptionsInProgress = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [prescriptions, setPrescriptions] = useState([]);
-  const [prescriptionsApiError, setPrescriptionsApiError] = useState(null);
+  const { data, error, isLoading, isFetching } = useGetPrescriptionsListQuery();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      setPrescriptionsApiError(null);
-      try {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        // throw new Error('Test error'); // Uncomment to simulate an error
-        setPrescriptions(mockData);
-      } catch (error) {
-        setPrescriptionsApiError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const getInProgressPrescriptions = prescriptions => {
+    const fifteenDaysAgo = new Date().setDate(new Date().getDate() - 15);
 
-    fetchData();
-  }, []);
+    // TODO tooEarly logic not implemented yet, always returns []
+    return prescriptions.reduce(
+      (inProgressMedications, prescription) => {
+        if (prescription.dispStatus === dispStatusObj.submitted) {
+          inProgressMedications.submitted.push(prescription);
+        } else if (prescription.dispStatus === dispStatusObj.refillinprocess) {
+          inProgressMedications.inProgress.push(prescription);
+        } else if (prescription.dispStatus === dispStatusObj.active) {
+          const latestTracking = prescription.trackingList?.[0];
+          if (
+            latestTracking?.completeDateTime &&
+            Date.parse(latestTracking.completeDateTime) >= fifteenDaysAgo
+          ) {
+            inProgressMedications.shipped.push(prescription);
+          }
+        }
+
+        return inProgressMedications;
+      },
+      { inProgress: [], shipped: [], submitted: [], tooEarly: [] },
+    );
+  };
+
+  const { inProgress, shipped, submitted, tooEarly } = useMemo(
+    () => getInProgressPrescriptions(data?.prescriptions || []),
+    [data?.prescriptions],
+  );
 
   return {
-    prescriptions,
-    prescriptionsApiError,
-    isLoading,
+    inProgress,
+    shipped,
+    submitted,
+    tooEarly,
+    prescriptionsApiError: error,
+    isLoading: isLoading || isFetching,
   };
 };
 
