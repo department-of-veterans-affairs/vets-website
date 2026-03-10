@@ -70,7 +70,10 @@ describe('ITFBanner', () => {
         status="error"
       />,
     );
-    tree.find('button').simulate('click');
+    tree
+      .find('va-button-pair')
+      .getDOMNode()
+      .__events.primaryClick();
     expect(dismissSpy.calledOnce).to.be.true;
     tree.unmount();
   });

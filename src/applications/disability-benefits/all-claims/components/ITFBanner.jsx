@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { focusElement } from 'platform/utilities/ui';
 import { dismissITFMessage as dismissITFMessageAction } from '../actions';
@@ -87,19 +87,14 @@ export class ITFBanner extends React.Component {
         <div className="usa-content">
           <h1>{this.props.title}</h1>
           {message}
-          <Link
-            className="vads-u-margin-right--2"
-            to={DISABILITY_526_V2_ROOT_URL}
-          >
-            Back
-          </Link>
-          <button
-            type="button"
-            className="usa-button-primary"
-            onClick={this.dismissMessage}
-          >
-            Continue
-          </button>
+          <VaButtonPair
+            class="vads-u-margin-top--2"
+            continue
+            onPrimaryClick={this.dismissMessage}
+            onSecondaryClick={() => {
+              window.location.assign(DISABILITY_526_V2_ROOT_URL);
+            }}
+          />
         </div>
       </div>
     );
