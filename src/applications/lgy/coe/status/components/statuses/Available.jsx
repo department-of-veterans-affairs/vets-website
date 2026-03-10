@@ -11,8 +11,17 @@ const coeUrl = getAppUrl('coe');
 const introUrl = `${coeUrl}/introduction`;
 
 export const Available = ({ referenceNumber, requestDate }) => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const {
+    TOGGLE_NAMES,
+    useToggleLoadingValue,
+    useToggleValue,
+  } = useFeatureToggle();
   const enableCveStatus = useToggleValue(TOGGLE_NAMES.coeEnableCveStatus);
+  const isLoading = useToggleLoadingValue(TOGGLE_NAMES.coeEnableCveStatus);
+
+  if (isLoading) {
+    return <va-loading-indicator message="Loading your application..." />;
+  }
 
   return (
     <div className="row vads-u-margin-bottom--7">

@@ -6,8 +6,13 @@ import List from './List';
 
 const DocumentList = ({ notOnUploadPage }) => {
   const [documents, setDocuments] = useState([]);
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const {
+    TOGGLE_NAMES,
+    useToggleLoadingValue,
+    useToggleValue,
+  } = useFeatureToggle();
   const enableCveStatus = useToggleValue(TOGGLE_NAMES.coeEnableCveStatus);
+  const isLoading = useToggleLoadingValue(TOGGLE_NAMES.coeEnableCveStatus);
 
   useEffect(() => {
     const getData = async () => {
@@ -21,6 +26,10 @@ const DocumentList = ({ notOnUploadPage }) => {
 
     getData();
   }, []);
+
+  if (isLoading) {
+    return <va-loading-indicator message="Loading your application..." />;
+  }
 
   if (documents.length > 0) {
     return (
