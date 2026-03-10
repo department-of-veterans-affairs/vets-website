@@ -36,7 +36,7 @@ export default function ChatInput({ sendMessage }) {
 
   return (
     <form
-      className="vads-u-display--flex vads-u-align-items--flex-end vads-u-padding--1p5"
+      className="vads-u-display--flex vads-u-align-items--flex-end vads-u-padding--1p5 vads-u-border-top--1px vads-u-border-color--gray-light"
       data-testid="chat-input-form"
       onSubmit={handleSubmit}
     >

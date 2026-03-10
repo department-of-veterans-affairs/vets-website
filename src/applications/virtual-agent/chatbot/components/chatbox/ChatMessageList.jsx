@@ -39,7 +39,7 @@ export default function ChatMessageList({
   return (
     <ul
       aria-live="polite"
-      className="vads-u-margin--0 vads-u-padding--1p5"
+      className="vads-u-margin--0 vads-u-padding--1p5 va-chatbot-message-list"
       data-testid="chat-message-list"
       style={{ listStyle: 'none' }}
     >

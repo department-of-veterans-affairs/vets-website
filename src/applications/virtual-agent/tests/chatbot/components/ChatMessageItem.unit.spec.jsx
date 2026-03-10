@@ -38,4 +38,21 @@ describe('ChatMessageItem', () => {
     expect(getByText('Hello from me')).to.exist;
     expect(getByTestId('chat-icon-user')).to.exist;
   });
+
+  it('renders markdown links in the message body', () => {
+    const message = {
+      id: 'va-md-1',
+      sender: 'va',
+      text: '[Read more](https://va.gov)',
+    };
+
+    const { getByRole } = render(
+      <ul>
+        <ChatMessageItem message={message} />
+      </ul>,
+    );
+
+    const link = getByRole('link', { name: 'Read more' });
+    expect(link.getAttribute('href')).to.equal('https://va.gov');
+  });
 });

@@ -349,11 +349,9 @@ export class GenesysService {
 
     if (!body || typeof body !== 'string') return null;
 
-    const originatingEntity = (
-      rawMessage.originatingEntity || ''
-    ).toLowerCase();
-
-    const sender = originatingEntity === 'bot' ? 'va' : 'user';
+    const isBotMessage =
+      rawMessage?.originatingEntity &&
+      rawMessage.originatingEntity.toLowerCase() === 'bot';
 
     const quickReplies = GenesysService._extractQuickReplies(rawMessage);
 
@@ -362,7 +360,7 @@ export class GenesysService {
         rawMessage.id ||
         rawMessage.messageId ||
         GenesysService._buildMessageId(),
-      sender,
+      sender: isBotMessage ? 'va' : 'user',
       text: body,
       timestamp: GenesysService._normalizeTimestamp(rawMessage),
       quickReplies,

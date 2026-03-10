@@ -216,3 +216,23 @@ button.webchat__send-button[disabled] {
   position: relative;
   width: 100%;
 }
+
+.va-chatbot-message-list {
+  max-height: 465px;
+  overflow-y: scroll
+}
+
+.va-chatbot-message-text_content {
+  p {
+    margin: .5em 0;
+  }
+  ul {
+    margin: .5em 0;
+  }
+  ol {
+    margin: .5em 0;
+  }
+  li {
+    margin: 0;
+  }
+}

@@ -1,8 +1,11 @@
+/* eslint-disable react/no-danger */
 import classNames from 'classnames';
+import DOMPurify from 'dompurify';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import ChatMessageIcon from './ChatMessageIcon';
+import markdownRenderer from '../../../webchat/utils/markdownRenderer';
 
 const SENDER_TYPES = {
   USER: 'user',
@@ -46,6 +49,8 @@ const buildNubClassNames = isUser => {
  */
 export default function ChatMessageItem({ message }) {
   const isUser = message.sender === SENDER_TYPES.USER;
+  const renderedMarkdown = markdownRenderer.render(message.text || '');
+  const sanitizedMarkdown = DOMPurify.sanitize(renderedMarkdown);
 
   return (
     <li
@@ -70,7 +75,13 @@ export default function ChatMessageItem({ message }) {
             d="M10 0 L0 0 L10 10"
           />
         </svg>
-        <p className="vads-u-margin--0">{message.text}</p>
+        {/* eslint-disable-next-line react/no-danger */}
+        <div
+          className="vads-u-margin--0 va-chatbot-message-text_content"
+          dangerouslySetInnerHTML={{
+            __html: sanitizedMarkdown,
+          }}
+        />
       </div>
 
       {isUser && (
