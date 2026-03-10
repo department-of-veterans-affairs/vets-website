@@ -230,6 +230,11 @@ class PilotEnvPage {
   selectTriageGroup = (index = 0) => {
     cy.get('va-combo-box')
       .shadow()
+      .find('input')
+      .clear();
+
+    cy.get('va-combo-box')
+      .shadow()
       .find('#options')
       .should('be.visible')
       .click({ force: true });
