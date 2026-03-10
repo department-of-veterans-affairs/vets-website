@@ -41,6 +41,8 @@ export {
   DISPENSE_STATUS,
 } from './status';
 
+export { IN_PROGRESS_MEDS_DISPLAY_TYPES } from './in-progress';
+
 export {
   pdfStatusDefinitions,
   pdfStatusDefinitionsV2,
