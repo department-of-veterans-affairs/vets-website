@@ -54,41 +54,9 @@ const CHAMPVA_FORM_DISPLAY_MAP = {
   '10-7959f-2': '10-7959f-2',
 };
 
-const CLAIM_STATUS_LABEL_MAP = {
-  CLAIM_RECEIVED: 'RECEIVED',
-  INITIAL_REVIEW: 'SUBMISSION IN PROGRESS',
-  EVIDENCE_GATHERING_REVIEW_DECISION: 'SUBMISSION IN PROGRESS',
-  PREPARATION_FOR_NOTIFICATION: 'SUBMISSION IN PROGRESS',
-  COMPLETE: 'RECEIVED',
-};
-
-const RECEIVED_STATUSES = new Set([
-  'processed',
-  'manually processed',
-  'vbms',
-  'complete',
-]);
-
-const ACTION_NEEDED_STATUSES = new Set([
-  'error',
-  'failed',
-  'rejected',
-  'submission failed',
-  'action needed',
-  'expired',
-]);
-
 const getChampvaStatusLabel = rawStatus => {
-  const status = rawStatus?.toString()?.trim();
-  if (!status) return 'SUBMISSION IN PROGRESS';
-
-  if (CLAIM_STATUS_LABEL_MAP[status]) return CLAIM_STATUS_LABEL_MAP[status];
-
-  const normalized = status.toLowerCase();
-  if (RECEIVED_STATUSES.has(normalized)) return 'RECEIVED';
-  if (ACTION_NEEDED_STATUSES.has(normalized)) return 'ACTION NEEDED';
-
-  return 'SUBMISSION IN PROGRESS';
+  if (rawStatus === 'COMPLETE') return null;
+  return 'In Progress';
 };
 
 const extractFormId = claim => {
@@ -142,11 +110,13 @@ const ClaimLegacy = ({ claim }) => {
     new Date(replace(claim.attributes.closeDate || claimDate)),
     'MMMM d, yyyy',
   );
-  const showReceivedDate = champvaStatusLabel === 'RECEIVED';
+  const showReceivedDate = champvaStatusLabel === 'Received';
 
   const content = showChampvaCard ? (
     <>
-      <span className="usa-label">{champvaStatusLabel}</span>
+      {champvaStatusLabel && (
+        <span className="usa-label">{champvaStatusLabel}</span>
+      )}
       <h3 className="vads-u-margin-top--1 vads-u-margin-bottom--0 dd-privacy-mask">
         {champvaTitle || capitalizeFirstLetter(getClaimType(claim))}
       </h3>

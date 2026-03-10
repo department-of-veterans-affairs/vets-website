@@ -96,7 +96,35 @@ describe('<Claim />', () => {
     expect(tree.getByText(/Items need attention/)).to.exist;
   });
 
-  it('should render CHAMPVA card with matched pattern in legacy path', () => {
+  it('should render CHAMPVA card with In Progress pill in legacy path', () => {
+    const claim = makeClaimObject({
+      updateDate: daysAgo(15),
+      claimType: '10-10d-extended',
+      displayTitle: 'Application for CHAMPVA benefits',
+      status: 'CLAIM_RECEIVED',
+      claimDate: '2026-02-05',
+    });
+
+    const tree = renderWithStoreAndRouter(<ClaimLegacy claim={claim} />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          benefits_claims_ivc_champva_provider: true,
+        },
+      },
+    });
+
+    expect(tree.getByText('In Progress')).to.exist;
+    expect(tree.getByText(/Application for CHAMPVA benefits/)).to.exist;
+    expect(tree.getByText(/VA Form 10-10d/)).to.exist;
+    expect(tree.getByText(/Submitted on:/)).to.exist;
+    expect(tree.queryByText(/Received on:/)).to.not.exist;
+    expect(tree.getByText(/Next step: We’ll review your form/)).to.exist;
+    const reviewLink = tree.container.querySelector('a[href*="/your-claims/"]');
+    expect(reviewLink).to.not.exist;
+  });
+
+  it('should not render a pill for COMPLETE CHAMPVA status in legacy path', () => {
     const claim = makeClaimObject({
       updateDate: daysAgo(15),
       claimType: '10-10d-extended',
@@ -114,17 +142,41 @@ describe('<Claim />', () => {
       },
     });
 
-    expect(tree.getByText('RECEIVED')).to.exist;
+    expect(tree.queryByText('In Progress')).to.not.exist;
+    expect(tree.queryByText('RECEIVED')).to.not.exist;
+  });
+
+  it('should render CHAMPVA card with In Progress pill in redesign path', () => {
+    const claim = makeClaimObject({
+      updateDate: daysAgo(15),
+      claimType: '10-10d-extended',
+      displayTitle: 'Application for CHAMPVA benefits',
+      status: 'CLAIM_RECEIVED',
+      claimDate: '2026-02-05',
+    });
+
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          benefits_claims_ivc_champva_provider: true,
+        },
+      },
+    });
+
+    expect(tree.getByText('In Progress')).to.exist;
     expect(tree.getByText(/Application for CHAMPVA benefits/)).to.exist;
     expect(tree.getByText(/VA Form 10-10d/)).to.exist;
     expect(tree.getByText(/Submitted on:/)).to.exist;
-    expect(tree.getByText(/Received on:/)).to.exist;
+    expect(tree.queryByText(/Received on:/)).to.not.exist;
     expect(tree.getByText(/Next step: We’ll review your form/)).to.exist;
-    const reviewLink = tree.container.querySelector('a[href*="/your-claims/"]');
+    const reviewLink = tree.container.querySelector(
+      'va-link[text="Review details"]',
+    );
     expect(reviewLink).to.not.exist;
   });
 
-  it('should render CHAMPVA card with matched pattern in redesign path', () => {
+  it('should not render a pill for COMPLETE CHAMPVA status in redesign path', () => {
     const claim = makeClaimObject({
       updateDate: daysAgo(15),
       claimType: '10-10d-extended',
@@ -142,19 +194,11 @@ describe('<Claim />', () => {
       },
     });
 
-    expect(tree.getByText('RECEIVED')).to.exist;
-    expect(tree.getByText(/Application for CHAMPVA benefits/)).to.exist;
-    expect(tree.getByText(/VA Form 10-10d/)).to.exist;
-    expect(tree.getByText(/Submitted on:/)).to.exist;
-    expect(tree.getByText(/Received on:/)).to.exist;
-    expect(tree.getByText(/Next step: We’ll review your form/)).to.exist;
-    const reviewLink = tree.container.querySelector(
-      'va-link[text="Review details"]',
-    );
-    expect(reviewLink).to.not.exist;
+    expect(tree.queryByText('In Progress')).to.not.exist;
+    expect(tree.queryByText('RECEIVED')).to.not.exist;
   });
 
-  it('should render CHAMPVA action needed pill for failed statuses in redesign path', () => {
+  it('should render In Progress pill for non-complete CHAMPVA statuses in redesign path', () => {
     const claim = makeClaimObject({
       updateDate: daysAgo(15),
       claimType: '10-10d-extended',
@@ -172,6 +216,6 @@ describe('<Claim />', () => {
       },
     });
 
-    expect(tree.getByText('ACTION NEEDED')).to.exist;
+    expect(tree.getByText('In Progress')).to.exist;
   });
 });
