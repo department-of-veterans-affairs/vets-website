@@ -133,7 +133,8 @@
         },
         "uniqueId": "674BY",
         "visn": "17",
-        "website": "https://www.centraltexas.va.gov/locations/Austin.asp"
+        "website": "https://www.centraltexas.va.gov/locations/Austin.asp",
+        "distance": 1.5
       }
     },
     {
@@ -219,7 +220,8 @@
         },
         "uniqueId": "674GD",
         "visn": "17",
-        "website": "https://www.centraltexas.va.gov/locations/CedarPark.asp"
+        "website": "https://www.centraltexas.va.gov/locations/CedarPark.asp",
+        "distance": 3.8
       }
     },
     {
@@ -291,7 +293,8 @@
         },
         "uniqueId": "671GL",
         "visn": "17",
-        "website": "https://www.southtexas.va.gov/locations/NewBraunfelsCBOC.asp"
+        "website": "https://www.southtexas.va.gov/locations/NewBraunfelsCBOC.asp",
+        "distance": 6.1
       }
     },
     {
@@ -362,7 +365,8 @@
         },
         "uniqueId": "671GN",
         "visn": "17",
-        "website": "https://www.southtexas.va.gov/locations/Seguin_CBOC.asp"
+        "website": "https://www.southtexas.va.gov/locations/Seguin_CBOC.asp",
+        "distance": 8.4
       }
     },
     {
@@ -437,7 +441,8 @@
         },
         "uniqueId": "671GR",
         "visn": "17",
-        "website": null
+        "website": null,
+        "distance": 10.7
       }
     },
     {
@@ -526,7 +531,8 @@
         },
         "uniqueId": "671GO",
         "visn": "17",
-        "website": "https://www.southtexas.va.gov/locations/NCFC.asp"
+        "website": "https://www.southtexas.va.gov/locations/NCFC.asp",
+        "distance": 13.0
       }
     },
     {
@@ -575,7 +581,8 @@
           }
         },
         "feedback": {},
-        "access": {}
+        "access": {},
+        "distance": 15.3
       }
     },
     {
@@ -624,7 +631,8 @@
           }
         },
         "feedback": {},
-        "access": {}
+        "access": {},
+        "distance": 17.6
       }
     },
     {
@@ -663,7 +671,8 @@
         },
         "services": {},
         "feedback": {},
-        "access": {}
+        "access": {},
+        "distance": 19.9
       }
     },
     {
@@ -687,7 +696,8 @@
         "phone": null,
         "posCodes": null,
         "prefContact": null,
-        "uniqueId": "1700017886"
+        "uniqueId": "1700017886",
+        "distance": 22.2
       },
       "relationships": {
         "specialties": {
@@ -721,7 +731,8 @@
         "phone": "512-291-4500",
         "posCodes": null,
         "prefContact": null,
-        "uniqueId": "1326340985"
+        "uniqueId": "1326340985",
+        "distance": 24.5
       },
       "relationships": {
         "specialties": {
@@ -755,7 +766,8 @@
         "phone": null,
         "posCodes": null,
         "prefContact": null,
-        "uniqueId": "1740385830"
+        "uniqueId": "1740385830",
+        "distance": 26.8
       },
       "relationships": {
         "specialties": {
@@ -789,7 +801,8 @@
         "phone": null,
         "posCodes": "20",
         "prefContact": null,
-        "uniqueId": "1144710864"
+        "uniqueId": "1144710864",
+        "distance": 29.1
       },
       "relationships": {
         "specialties": {
