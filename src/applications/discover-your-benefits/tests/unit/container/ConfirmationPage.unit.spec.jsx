@@ -90,6 +90,13 @@ const form1 = {
   },
 };
 
+const defaultLocation = {
+  basename: '/discover-your-benefits',
+  pathname: '/confirmation',
+  query: {},
+  search: '',
+};
+
 const form2 = {
   formId: 'T-QSTNR',
   data: {
@@ -97,7 +104,11 @@ const form2 = {
   },
 };
 
-const getData = (resultsData = [], formObject = form1, queryObject = {}) => ({
+const getData = (
+  resultsData = [],
+  formObject = form1,
+  locationObject = defaultLocation,
+) => ({
   props: {
     formConfig,
     route: {
@@ -110,12 +121,7 @@ const getData = (resultsData = [], formObject = form1, queryObject = {}) => ({
     },
     displayResults: sinon.mock(),
     setSubmission: sinon.mock(),
-    location: {
-      basename: '/discover-your-benefits',
-      pathname: '/confirmation',
-      query: queryObject,
-      search: '',
-    },
+    location: locationObject,
   },
   mockStore: {
     getState: () => ({
@@ -142,7 +148,12 @@ const subject = ({ mockStore, props }) =>
 describe('<ConfirmationPage>', () => {
   describe('initial render and state', () => {
     it('renders additional info for transitioning service members', () => {
-      const { mockStore, props } = getData([], form2);
+      const location = {
+        basename: '/discover-your-benefits',
+        pathname: '/confirmation',
+        search: '',
+      };
+      const { mockStore, props } = getData([], form2, location);
       const { container } = subject({ mockStore, props });
 
       const additionalInfo = container.querySelector('va-additional-info');
