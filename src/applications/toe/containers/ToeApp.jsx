@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { isArray, isPlainObject } from 'lodash';
-import mergeWith from 'lodash/mergeWith';
+import { isArray } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -13,7 +12,7 @@ import {
   fetchDirectDeposit,
   fetchDuplicateContactInfo,
 } from '../actions';
-import { mapFormSponsors, prefillTransformer } from '../helpers';
+import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 import { getAppData } from '../selectors';
 
@@ -31,7 +30,6 @@ function ToeApp({
   isPersonalInfoFetchComplete,
   location,
   mebBankInfoConfirmationField,
-  rawFormDataEmail, // Raw email from state.form.data (not merged)
   setFormData,
   sponsors,
   sponsorsInitial,
@@ -133,25 +131,7 @@ function ToeApp({
   const formDuplicateEmail = formData?.duplicateEmail;
   const formDuplicatePhone = formData?.duplicatePhone;
 
-  // Form fields read from state.form.data, not our merged formData prop.
-  // Sync prefilled email to Redux when it's missing from form state.
-  useEffect(
-    () => {
-      if (emailAddress && !rawFormDataEmail) {
-        setFormData({
-          ...formDataRef.current,
-          email: {
-            ...formDataRef.current?.email,
-            email: emailAddress,
-            confirmEmail: emailAddress,
-          },
-        });
-      }
-    },
-    [emailAddress, rawFormDataEmail, setFormData],
-  );
-
-  // Check for duplicate contact info when phone/email are available,
+  // Check for duplicate contact info
   // and sync the results into formData.
   useEffect(
     () => {
@@ -268,7 +248,6 @@ ToeApp.propTypes = {
   location: PropTypes.object,
   mebBankInfoConfirmationField: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
-  rawFormDataEmail: PropTypes.string,
   setFormData: PropTypes.func,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
@@ -277,51 +256,19 @@ ToeApp.propTypes = {
   user: PropTypes.object,
 };
 
-// Custom merge that preserves prefill values when form state has undefined.
-//
-// Problem: The form system initializes fields from the schema before prefill
-// arrives, creating structures like {email: undefined, confirmEmail: undefined}.
-// Standard lodash merge() doesn't overwrite these because the keys already
-// exist—it only fills in missing keys.
-//
-// Solution: This custom merge uses prefill values whenever form state has
-// undefined, allowing prefilled data to appear in the merged formData prop.
-// The sync effect below then writes this to Redux where form fields read it.
-const mergePreservingPrefill = (prefill, formState) => {
-  return mergeWith({}, prefill, formState, (prefillVal, formStateVal) => {
-    if (formStateVal === undefined && prefillVal !== undefined) {
-      return prefillVal;
-    }
-    if (isPlainObject(prefillVal) && isPlainObject(formStateVal)) {
-      return undefined; // Let mergeWith recurse
-    }
-    return undefined; // Default merge behavior
-  });
-};
-
-const mapStateToProps = state => {
-  const prefillData =
-    prefillTransformer(null, null, null, state)?.formData || {};
-  const formStateData = state.form?.data || {};
-
-  // Merge form state over prefill, but preserve prefill when form state has undefined
-  const formData = mergePreservingPrefill(prefillData, formStateData);
-
-  return {
-    ...getAppData(state),
-    claimant: state?.data?.formData?.data?.attributes?.claimant,
-    dob:
-      state?.user?.profile?.dob ||
-      state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
-    formData,
-    fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-    rawFormDataEmail: state.form?.data?.email?.email, // Raw, not merged
-    sponsors: state.form?.data?.sponsors,
-    sponsorsInitial: state?.data?.sponsors,
-    sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
-    user: state.user,
-  };
-};
+const mapStateToProps = state => ({
+  ...getAppData(state),
+  claimant: state?.data?.formData?.data?.attributes?.claimant,
+  dob:
+    state?.user?.profile?.dob ||
+    state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
+  formData: state.form?.data,
+  fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
+  sponsors: state.form?.data?.sponsors,
+  sponsorsInitial: state?.data?.sponsors,
+  sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
+  user: state.user,
+});
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,
