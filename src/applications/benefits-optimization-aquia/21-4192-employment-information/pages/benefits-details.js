@@ -67,18 +67,21 @@ export const benefitsDetailsUiSchema = {
     }),
     startReceivingDate: currentOrPastDateUI({
       title: 'Start receiving date', // Default title, will be updated by updateUiSchema
+      dataDogHidden: true,
       errorMessages: {
         required: 'Start date is required',
       },
     }),
     firstPaymentDate: currentOrPastDateUI({
       title: 'First payment date', // Default title, will be updated by updateUiSchema
+      dataDogHidden: true,
       errorMessages: {
         required: 'First payment date is required',
       },
     }),
     stopReceivingDate: MemorableDateUI({
       title: 'Stop receiving date', // Default title, will be updated by updateUiSchema
+      dataDogHidden: true,
       hint: 'Enter an approximate date if the exact date is unknown.',
       required: false,
     }),
@@ -98,6 +101,9 @@ export const benefitsDetailsUiSchema = {
 
       return {
         benefitsDetails: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           startReceivingDate: {
             'ui:title': startReceivingDateTitle,
           },

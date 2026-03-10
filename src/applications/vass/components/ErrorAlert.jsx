@@ -10,6 +10,7 @@ const ErrorAlert = ({ flowType = FLOW_TYPES.SCHEDULE }) => {
   return (
     <va-alert
       status="error"
+      visible
       class="vads-u-margin-top--4"
       data-testid="api-error-alert"
     >

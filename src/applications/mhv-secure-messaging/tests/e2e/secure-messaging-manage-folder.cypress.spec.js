@@ -22,10 +22,8 @@ describe('manage custom folders', () => {
   it('verify folder created', () => {
     PatientMessageCustomFolderPage.createCustomFolder(updatedFolders);
 
-    FolderManagementPage.verifyFolderActionMessage(
-      Data.FOLDER_CREATED_SUCCESSFULLY,
-    );
-    FolderManagementPage.verifyFolderActionMessageHasFocus();
+    FolderManagementPage.verifyCreateFolderSuccessMessage();
+    FolderManagementPage.verifyCreateFolderSuccessMessageHasFocus();
     FolderManagementPage.verifyFolderInList(`eq`);
 
     cy.injectAxe();

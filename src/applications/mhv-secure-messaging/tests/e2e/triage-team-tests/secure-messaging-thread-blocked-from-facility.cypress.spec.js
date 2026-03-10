@@ -93,6 +93,6 @@ describe('Verify Thread - Blocked from Facility', () => {
       .should('have.attr', 'href', Paths.FIND_LOCATIONS)
       .and('have.attr', 'text', Alerts.BLOCKED.LINK);
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
   });
 });
