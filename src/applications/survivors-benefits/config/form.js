@@ -65,6 +65,8 @@ import homeOwnership from './chapters/06-financial-information/incomeAndAssets/h
 import landLotSize from './chapters/06-financial-information/incomeAndAssets/landLotSize';
 import additionalLandValue from './chapters/06-financial-information/incomeAndAssets/additionalLandValue';
 import marketableLand from './chapters/06-financial-information/incomeAndAssets/marketableLand';
+import requiredDocuments from './chapters/00-required-documents/requiredDocuments';
+import uploadRequiredDocuments from './chapters/00-required-documents/uploadRequiredDocuments';
 import directDeposit from './chapters/07-additional-information/directDeposit';
 import directDepositAccount from './chapters/07-additional-information/directDepositAccount';
 import otherPaymentOptions from './chapters/07-additional-information/otherPaymentOptions';
@@ -136,6 +138,27 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
+    // TODO: Update chapter numbers
+    // Chapter 0 - Required Documents
+    requiredDocumentUpload: {
+      title: "Veteran's DD214 and death certificate",
+      pages: {
+        requiredDocuments: {
+          title: "Veteran's DD214 and death certificate",
+          path: 'required-documents/overview',
+          depends: formData => formData?.['view:idpEnabled'] === true,
+          uiSchema: requiredDocuments.uiSchema,
+          schema: requiredDocuments.schema,
+        },
+        uploadRequiredDocuments: {
+          title: 'Upload DD214 and death certificate',
+          path: 'required-documents/upload',
+          depends: formData => formData?.['view:idpEnabled'] === true,
+          uiSchema: uploadRequiredDocuments.uiSchema,
+          schema: uploadRequiredDocuments.schema,
+        },
+      },
+    },
     // Chapter 1 - Veteran Information
     veteranInformation: {
       title: 'Veteran’s information',
