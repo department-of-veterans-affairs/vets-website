@@ -5,43 +5,52 @@ import { MemoryRouter } from 'react-router-dom-v5-compat';
 import InProgressMedicationsProcessList from '../../../components/PrescriptionsInProgress/InProgressMedicationsProcessList';
 
 describe('InProgressMedicationsProcessList Component', () => {
-  const mockPrescriptions = [
-    {
-      prescriptionId: 1,
-      prescriptionName: 'Medication A',
-      status: 'submitted',
-      lastUpdated: '2025-01-10T10:00:00Z',
-    },
-    {
-      prescriptionId: 2,
-      prescriptionName: 'Medication B',
-      status: 'submitted',
-      lastUpdated: '2025-01-11T10:00:00Z',
-    },
-    {
-      prescriptionId: 3,
-      prescriptionName: 'Medication C',
-      status: 'in-progress',
-      lastUpdated: '2025-01-12T10:00:00Z',
-    },
-    {
-      prescriptionId: 4,
-      prescriptionName: 'Medication D',
-      status: 'shipped',
-      lastUpdated: '2025-01-13T10:00:00Z',
-    },
-    {
-      prescriptionId: 5,
-      prescriptionName: 'Medication E',
-      status: 'shipped',
-      lastUpdated: '2025-01-14T10:00:00Z',
-    },
-  ];
+  const recentDate = new Date().toISOString();
 
-  const setup = (prescriptions = mockPrescriptions) =>
+  const defaultProps = {
+    submitted: [
+      {
+        prescriptionId: 1,
+        prescriptionName: 'Medication A',
+        dispStatus: 'Active: Submitted',
+        refillSubmitDate: '2025-01-10T10:00:00Z',
+      },
+      {
+        prescriptionId: 2,
+        prescriptionName: 'Medication B',
+        dispStatus: 'Active: Submitted',
+        refillSubmitDate: '2025-01-11T10:00:00Z',
+      },
+    ],
+    inProgress: [
+      {
+        prescriptionId: 3,
+        prescriptionName: 'Medication C',
+        dispStatus: 'Active: Refill in Process',
+        refillDate: '2025-01-20T10:00:00Z',
+      },
+    ],
+    shipped: [
+      {
+        prescriptionId: 4,
+        prescriptionName: 'Medication D',
+        dispStatus: 'Active',
+        trackingList: [{ completeDateTime: recentDate }],
+      },
+      {
+        prescriptionId: 5,
+        prescriptionName: 'Medication E',
+        dispStatus: 'Active',
+        trackingList: [{ completeDateTime: recentDate }],
+      },
+    ],
+    tooEarly: [],
+  };
+
+  const setup = (props = defaultProps) =>
     render(
       <MemoryRouter>
-        <InProgressMedicationsProcessList prescriptions={prescriptions} />
+        <InProgressMedicationsProcessList {...props} />
       </MemoryRouter>,
     );
 
@@ -56,6 +65,35 @@ describe('InProgressMedicationsProcessList Component', () => {
     expect(processListItems.length).to.equal(3);
   });
 
+  it('renders prescriptions in their correct sections when all categories have data', () => {
+    const screen = setup();
+
+    const submittedSection = within(
+      screen.getByTestId('submitted-prescriptions'),
+    );
+    expect(submittedSection.getByRole('link', { name: 'Medication A' })).to
+      .exist;
+    expect(submittedSection.getByRole('link', { name: 'Medication B' })).to
+      .exist;
+
+    const inProgressSection = within(
+      screen.getByTestId('in-progress-prescriptions'),
+    );
+    expect(inProgressSection.getByRole('link', { name: 'Medication C' })).to
+      .exist;
+
+    const shippedSection = within(screen.getByTestId('shipped-prescriptions'));
+    expect(shippedSection.getByRole('link', { name: 'Medication D' })).to.exist;
+    expect(shippedSection.getByRole('link', { name: 'Medication E' })).to.exist;
+  });
+
+  const emptyProps = {
+    submitted: [],
+    inProgress: [],
+    shipped: [],
+    tooEarly: [],
+  };
+
   describe('SubmittedStep', () => {
     it('renders the submitted step with correct header', () => {
       const { container } = setup();
@@ -69,62 +107,68 @@ describe('InProgressMedicationsProcessList Component', () => {
     });
 
     it('displays singular text when one prescription is submitted', () => {
-      const singleSubmittedPrescription = [
-        {
-          prescriptionId: 1,
-          prescriptionName: 'Medication A',
-          status: 'submitted',
-          lastUpdated: '2025-01-10T10:00:00Z',
-        },
-      ];
-      const screen = setup(singleSubmittedPrescription);
+      const props = {
+        ...emptyProps,
+        submitted: [
+          {
+            prescriptionId: 1,
+            prescriptionName: 'Medication A',
+            dispStatus: 'Active: Submitted',
+            refillSubmitDate: '2025-01-10T10:00:00Z',
+          },
+        ],
+      };
+      const screen = setup(props);
       expect(screen.getByText(/this medication/)).to.exist;
     });
 
     it('displays plural text when multiple prescriptions are submitted', () => {
-      const multipleSubmittedPrescriptions = [
-        {
-          prescriptionId: 1,
-          prescriptionName: 'Medication A',
-          status: 'submitted',
-          lastUpdated: '2025-01-10T10:00:00Z',
-        },
-        {
-          prescriptionId: 2,
-          prescriptionName: 'Medication B',
-          status: 'submitted',
-          lastUpdated: '2025-01-11T10:00:00Z',
-        },
-      ];
-      const screen = setup(multipleSubmittedPrescriptions);
+      const props = {
+        ...emptyProps,
+        submitted: [
+          {
+            prescriptionId: 1,
+            prescriptionName: 'Medication A',
+            dispStatus: 'Active: Submitted',
+            refillSubmitDate: '2025-01-10T10:00:00Z',
+          },
+          {
+            prescriptionId: 2,
+            prescriptionName: 'Medication B',
+            dispStatus: 'Active: Submitted',
+            refillSubmitDate: '2025-01-11T10:00:00Z',
+          },
+        ],
+      };
+      const screen = setup(props);
       expect(screen.getByText(/these medications/)).to.exist;
     });
 
     it('displays the note about medications prescribed in the last 24 hours', () => {
       const screen = setup();
-      expect(
-        screen.getByText(
-          /Medications prescribed in the last 24 hours may not be here yet/,
-        ),
-      ).to.exist;
+      expect(screen.getByText(/in the last 24 hours may not be here yet/)).to
+        .exist;
     });
 
     it('renders Prescription components for each submitted prescription', () => {
-      const submittedPrescriptions = [
-        {
-          prescriptionId: 1,
-          prescriptionName: 'Medication A',
-          status: 'submitted',
-          lastUpdated: '2025-01-10T10:00:00Z',
-        },
-        {
-          prescriptionId: 2,
-          prescriptionName: 'Medication B',
-          status: 'submitted',
-          lastUpdated: '2025-01-11T10:00:00Z',
-        },
-      ];
-      const screen = setup(submittedPrescriptions);
+      const props = {
+        ...emptyProps,
+        submitted: [
+          {
+            prescriptionId: 1,
+            prescriptionName: 'Medication A',
+            dispStatus: 'Active: Submitted',
+            refillSubmitDate: '2025-01-10T10:00:00Z',
+          },
+          {
+            prescriptionId: 2,
+            prescriptionName: 'Medication B',
+            dispStatus: 'Active: Submitted',
+            refillSubmitDate: null,
+          },
+        ],
+      };
+      const screen = setup(props);
       const submittedSection = within(
         screen.getByTestId('submitted-prescriptions'),
       );
@@ -132,65 +176,39 @@ describe('InProgressMedicationsProcessList Component', () => {
       const linkA = submittedSection.getByRole('link', {
         name: 'Medication A',
       });
-      expect(linkA).to.have.attribute('href', '/my-health/medications/1');
+      expect(linkA).to.have.attribute('href', '/prescription/1');
 
       const linkB = submittedSection.getByRole('link', {
         name: 'Medication B',
       });
-      expect(linkB).to.have.attribute('href', '/my-health/medications/2');
+      expect(linkB).to.have.attribute('href', '/prescription/2');
     });
 
     it('displays empty state text when no prescriptions are submitted', () => {
-      const screen = setup([]);
+      const screen = setup(emptyProps);
       expect(screen.getByText(/You haven’t requested any medication refills/))
         .to.exist;
     });
 
     it('does not display the too early section when no tooEarly prescriptions exist', () => {
-      const screen = setup(mockPrescriptions);
+      const screen = setup();
       expect(screen.queryByText(/Too early to refill/)).to.be.null;
     });
 
-    it('renders submitted and too-early prescriptions in their parent containers', () => {
-      const mixedPrescriptions = [
-        {
-          prescriptionId: 1,
-          prescriptionName: 'Submitted Med',
-          status: 'submitted',
-          lastUpdated: '2025-01-10T10:00:00Z',
-        },
-        {
-          prescriptionId: 2,
-          prescriptionName: 'Too Early Med',
-          status: 'too-early',
-          lastUpdated: '2025-01-12T10:00:00Z',
-        },
-      ];
-      const screen = setup(mixedPrescriptions);
-
-      const submittedSection = within(
-        screen.getByTestId('submitted-prescriptions'),
-      );
-      const submittedLink = submittedSection.getByRole('link', {
-        name: 'Submitted Med',
-      });
-      expect(submittedLink).to.have.attribute(
-        'href',
-        '/my-health/medications/1',
-      );
-      expect(submittedSection.queryByRole('link', { name: 'Too Early Med' })).to
-        .to.be.null;
-
-      const tooEarlySection = within(screen.getByTestId('too-early-section'));
-      const tooEarlyLink = tooEarlySection.getByRole('link', {
-        name: 'Too Early Med',
-      });
-      expect(tooEarlyLink).to.have.attribute(
-        'href',
-        '/my-health/medications/2',
-      );
-      expect(tooEarlySection.queryByRole('link', { name: 'Submitted Med' })).to
-        .be.null;
+    it('renders TooEarlyToRefillCard when tooEarly has prescriptions', () => {
+      const props = {
+        ...emptyProps,
+        tooEarly: [
+          {
+            prescriptionId: 1,
+            prescriptionName: 'Too Early Med',
+            dispStatus: 'Active',
+            refillSubmitDate: '2025-01-10T10:00:00Z',
+          },
+        ],
+      };
+      const screen = setup(props);
+      expect(screen.getByTestId('too-early-section')).to.exist;
     });
   });
 
@@ -207,58 +225,67 @@ describe('InProgressMedicationsProcessList Component', () => {
     });
 
     it('displays singular text when one prescription is in progress', () => {
-      const singleInProgressPrescription = [
-        {
-          prescriptionId: 1,
-          prescriptionName: 'Medication A',
-          status: 'in-progress',
-          lastUpdated: '2025-01-10T10:00:00Z',
-        },
-      ];
-      const screen = setup(singleInProgressPrescription);
+      const props = {
+        ...emptyProps,
+        inProgress: [
+          {
+            prescriptionId: 1,
+            prescriptionName: 'Medication A',
+            dispStatus: 'Active: Refill in Process',
+            refillDate: '2025-01-20T10:00:00Z',
+          },
+        ],
+      };
+      const screen = setup(props);
       expect(screen.getByText(/this medication request/)).to.exist;
     });
 
     it('displays plural text when multiple prescriptions are in progress', () => {
-      const multipleInProgressPrescriptions = [
-        {
-          prescriptionId: 1,
-          prescriptionName: 'Medication A',
-          status: 'in-progress',
-          lastUpdated: '2025-01-10T10:00:00Z',
-        },
-        {
-          prescriptionId: 2,
-          prescriptionName: 'Medication B',
-          status: 'in-progress',
-          lastUpdated: '2025-01-11T10:00:00Z',
-        },
-      ];
-      const screen = setup(multipleInProgressPrescriptions);
+      const props = {
+        ...emptyProps,
+        inProgress: [
+          {
+            prescriptionId: 1,
+            prescriptionName: 'Medication A',
+            dispStatus: 'Active: Refill in Process',
+            refillDate: '2025-01-20T10:00:00Z',
+          },
+          {
+            prescriptionId: 2,
+            prescriptionName: 'Medication B',
+            dispStatus: 'Active: Refill in Process',
+            refillDate: '2025-01-21T10:00:00Z',
+          },
+        ],
+      };
+      const screen = setup(props);
       expect(screen.getByText(/these medication requests/)).to.exist;
     });
 
     it('displays empty state text when no prescriptions are in progress', () => {
-      const screen = setup([]);
+      const screen = setup(emptyProps);
       expect(screen.getByText(/No fills are currently in progress/)).to.exist;
     });
 
     it('renders Prescription components for each in-progress prescription', () => {
-      const inProgressPrescriptions = [
-        {
-          prescriptionId: 1,
-          prescriptionName: 'Medication A',
-          status: 'in-progress',
-          lastUpdated: '2025-01-10T10:00:00Z',
-        },
-        {
-          prescriptionId: 2,
-          prescriptionName: 'Medication B',
-          status: 'in-progress',
-          lastUpdated: '2025-01-11T10:00:00Z',
-        },
-      ];
-      const screen = setup(inProgressPrescriptions);
+      const props = {
+        ...emptyProps,
+        inProgress: [
+          {
+            prescriptionId: 1,
+            prescriptionName: 'Medication A',
+            dispStatus: 'Active: Refill in Process',
+            refillDate: '2025-01-20T10:00:00Z',
+          },
+          {
+            prescriptionId: 2,
+            prescriptionName: 'Medication B',
+            dispStatus: 'Active: Refill in Process',
+            refillDate: null,
+          },
+        ],
+      };
+      const screen = setup(props);
       const inProgressSection = within(
         screen.getByTestId('in-progress-prescriptions'),
       );
@@ -266,12 +293,12 @@ describe('InProgressMedicationsProcessList Component', () => {
       const linkA = inProgressSection.getByRole('link', {
         name: 'Medication A',
       });
-      expect(linkA).to.have.attribute('href', '/my-health/medications/1');
+      expect(linkA).to.have.attribute('href', '/prescription/1');
 
       const linkB = inProgressSection.getByRole('link', {
         name: 'Medication B',
       });
-      expect(linkB).to.have.attribute('href', '/my-health/medications/2');
+      expect(linkB).to.have.attribute('href', '/prescription/2');
     });
   });
 
@@ -286,15 +313,18 @@ describe('InProgressMedicationsProcessList Component', () => {
     });
 
     it('displays singular text when one prescription is shipped', () => {
-      const singleShippedPrescription = [
-        {
-          prescriptionId: 1,
-          prescriptionName: 'Medication A',
-          status: 'shipped',
-          lastUpdated: '2025-01-10T10:00:00Z',
-        },
-      ];
-      const screen = setup(singleShippedPrescription);
+      const props = {
+        ...emptyProps,
+        shipped: [
+          {
+            prescriptionId: 1,
+            prescriptionName: 'Medication A',
+            dispStatus: 'Active',
+            trackingList: [{ completeDateTime: new Date().toISOString() }],
+          },
+        ],
+      };
+      const screen = setup(props);
       expect(
         screen.getByText(
           /This medication is on its way to you or has already arrived/,
@@ -303,21 +333,25 @@ describe('InProgressMedicationsProcessList Component', () => {
     });
 
     it('displays plural text when multiple prescriptions are shipped', () => {
-      const multipleShippedPrescriptions = [
-        {
-          prescriptionId: 1,
-          prescriptionName: 'Medication A',
-          status: 'shipped',
-          lastUpdated: '2025-01-10T10:00:00Z',
-        },
-        {
-          prescriptionId: 2,
-          prescriptionName: 'Medication B',
-          status: 'shipped',
-          lastUpdated: '2025-01-11T10:00:00Z',
-        },
-      ];
-      const screen = setup(multipleShippedPrescriptions);
+      const recentDateTime = new Date().toISOString();
+      const props = {
+        ...emptyProps,
+        shipped: [
+          {
+            prescriptionId: 1,
+            prescriptionName: 'Medication A',
+            dispStatus: 'Active',
+            trackingList: [{ completeDateTime: recentDateTime }],
+          },
+          {
+            prescriptionId: 2,
+            prescriptionName: 'Medication B',
+            dispStatus: 'Active',
+            trackingList: [{ completeDateTime: recentDateTime }],
+          },
+        ],
+      };
+      const screen = setup(props);
       expect(
         screen.getByText(
           /These medications are on their way to you or have already arrived/,
@@ -326,26 +360,30 @@ describe('InProgressMedicationsProcessList Component', () => {
     });
 
     it('displays empty state text when no prescriptions are shipped', () => {
-      const screen = setup([]);
+      const screen = setup(emptyProps);
       expect(screen.getByText(/No medications have recently shipped/)).to.exist;
     });
 
     it('renders Prescription components for each shipped prescription', () => {
-      const shippedPrescriptions = [
-        {
-          prescriptionId: 1,
-          prescriptionName: 'Medication A',
-          status: 'shipped',
-          lastUpdated: '2025-01-10T10:00:00Z',
-        },
-        {
-          prescriptionId: 2,
-          prescriptionName: 'Medication B',
-          status: 'shipped',
-          lastUpdated: '2025-01-11T10:00:00Z',
-        },
-      ];
-      const screen = setup(shippedPrescriptions);
+      const recentDateTime = new Date().toISOString();
+      const props = {
+        ...emptyProps,
+        shipped: [
+          {
+            prescriptionId: 1,
+            prescriptionName: 'Medication A',
+            dispStatus: 'Active',
+            trackingList: [{ completeDateTime: recentDateTime }],
+          },
+          {
+            prescriptionId: 2,
+            prescriptionName: 'Medication B',
+            dispStatus: 'Active',
+            trackingList: [{ completeDateTime: recentDateTime }],
+          },
+        ],
+      };
+      const screen = setup(props);
       const shippedSection = within(
         screen.getByTestId('shipped-prescriptions'),
       );
@@ -353,100 +391,12 @@ describe('InProgressMedicationsProcessList Component', () => {
       const linkA = shippedSection.getByRole('link', {
         name: 'Medication A',
       });
-      expect(linkA).to.have.attribute('href', '/my-health/medications/1');
+      expect(linkA).to.have.attribute('href', '/prescription/1');
 
       const linkB = shippedSection.getByRole('link', {
         name: 'Medication B',
       });
-      expect(linkB).to.have.attribute('href', '/my-health/medications/2');
-    });
-  });
-
-  describe('Data parsing', () => {
-    it('correctly categorizes prescriptions by status', () => {
-      const { container } = setup();
-      // All three steps should be rendered regardless of prescription count
-      const processListItems = container.querySelectorAll(
-        'va-process-list-item',
-      );
-      expect(processListItems.length).to.equal(3);
-    });
-
-    it('handles empty prescriptions array', () => {
-      const screen = setup([]);
-      const { container } = screen;
-      const processList = container.querySelector('va-process-list');
-      expect(processList).to.exist;
-    });
-
-    it('handles prescriptions with only one status type', () => {
-      const onlySubmitted = [
-        {
-          prescriptionId: 1,
-          prescriptionName: 'Medication A',
-          status: 'submitted',
-          lastUpdated: '2025-01-10T10:00:00Z',
-        },
-      ];
-      const { container } = setup(onlySubmitted);
-      const processListItems = container.querySelectorAll(
-        'va-process-list-item',
-      );
-      expect(processListItems.length).to.equal(3);
-    });
-
-    it('renders one prescription in each status correctly', () => {
-      const mixedPrescriptions = [
-        {
-          prescriptionId: 1,
-          prescriptionName: 'Submitted Med',
-          status: 'submitted',
-          lastUpdated: '2025-01-10T10:00:00Z',
-        },
-        {
-          prescriptionId: 2,
-          prescriptionName: 'In Progress Med',
-          status: 'in-progress',
-          lastUpdated: '2025-01-11T10:00:00Z',
-        },
-        {
-          prescriptionId: 3,
-          prescriptionName: 'Shipped Med',
-          status: 'shipped',
-          lastUpdated: '2025-01-12T10:00:00Z',
-        },
-      ];
-      const screen = setup(mixedPrescriptions);
-
-      const submittedSection = within(
-        screen.getByTestId('submitted-prescriptions'),
-      );
-      expect(submittedSection.getByRole('link', { name: 'Submitted Med' })).to
-        .exist;
-      expect(submittedSection.queryByRole('link', { name: 'In Progress Med' }))
-        .to.be.null;
-      expect(submittedSection.queryByRole('link', { name: 'Shipped Med' })).to
-        .be.null;
-
-      const inProgressSection = within(
-        screen.getByTestId('in-progress-prescriptions'),
-      );
-      expect(inProgressSection.getByRole('link', { name: 'In Progress Med' }))
-        .to.exist;
-      expect(inProgressSection.queryByRole('link', { name: 'Submitted Med' }))
-        .to.be.null;
-      expect(inProgressSection.queryByRole('link', { name: 'Shipped Med' })).to
-        .be.null;
-
-      const shippedSection = within(
-        screen.getByTestId('shipped-prescriptions'),
-      );
-      expect(shippedSection.getByRole('link', { name: 'Shipped Med' })).to
-        .exist;
-      expect(shippedSection.queryByRole('link', { name: 'Submitted Med' })).to
-        .be.null;
-      expect(shippedSection.queryByRole('link', { name: 'In Progress Med' })).to
-        .be.null;
+      expect(linkB).to.have.attribute('href', '/prescription/2');
     });
   });
 });

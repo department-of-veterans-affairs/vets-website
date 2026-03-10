@@ -33,6 +33,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Configure AWS credentials
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -65,12 +66,52 @@ jobs:
           echo "Continuous deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}"
           echo "Deployment concurrency group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}"
 
-      - name: Get Mapbox Token
+      # This fallback token is not a real token, this portion of a token prevents Mapbox from crashing
+      # when app specific tokens are unavailable for any reason, instead it will provide errors.
+      - name: Set Mapbox Token fallback
+        run: echo "MAPBOX_TOKEN=pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==" >> "$GITHUB_ENV"
+
+      - name: Get Mapbox Token (Facility Locator)
         if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/inject-secrets
         with:
-          ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
-          env_variable_name: MAPBOX_TOKEN
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_facility_locator
+          env_variable_name: MAPBOX_TOKEN_FACILITY_LOCATOR
+
+      - name: Get Mapbox Token (Static Pages)
+        if: ${{ matrix.buildtype == 'vagovprod' }}
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_static_pages
+          env_variable_name: MAPBOX_TOKEN_STATIC_PAGES
+
+      - name: Get Mapbox Token (GI)
+        if: ${{ matrix.buildtype == 'vagovprod' }}
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_gi
+          env_variable_name: MAPBOX_TOKEN_GI
+
+      - name: Get Mapbox Token (Ask VA)
+        if: ${{ matrix.buildtype == 'vagovprod' }}
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_ask_va
+          env_variable_name: MAPBOX_TOKEN_ASK_VA
+
+      - name: Get Mapbox Token (Caregivers)
+        if: ${{ matrix.buildtype == 'vagovprod' }}
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_caregivers
+          env_variable_name: MAPBOX_TOKEN_CAREGIVERS
+
+      - name: Get Mapbox Token (Representative Search)
+        if: ${{ matrix.buildtype == 'vagovprod' }}
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_representative_search
+          env_variable_name: MAPBOX_TOKEN_REPRESENTATIVE_SEARCH
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
@@ -111,8 +152,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -134,15 +173,51 @@ jobs:
         if: ${{ always() }}
         id: deploy-to-prod
         run: echo "can_deploy=$CAN_DEPLOY_TO_PROD" >> $GITHUB_OUTPUT
-  fetch-allow-lists:
-    name: Fetch Test Stability Allow Lists
+  tests-prep:
+    name: Tests Prep
     runs-on: ubuntu-22.04
     permissions:
       id-token: write
       contents: read
+    outputs:
+      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
+      apps-to-stress-test: ${{ steps.apps-to-stress-test.outputs.apps_to_test }}
+      unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
+      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
+      disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
+      cypress-tests: ${{ steps.cypress-tests.outputs.selected }}
+      cypress-tests-to-stress-test: ${{ steps.cypress-tests-to-stress-test.outputs.tests }}
+      app_urls: ${{ steps.get-changed-apps.outputs.urls }}
+      num_containers: ${{ steps.containers.outputs.num }}
+      ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
+      changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
+      tests_ran: ${{ steps.tests-ran.outputs.tests_ran }}
+      e2e_count: ${{ steps.e2e-count.outputs.count }}
+      changed_unit_tests: ${{ steps.unit-tests-changed.outputs.changed_unit_tests }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+          filter: blob:none
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url, folder'
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -174,74 +249,10 @@ jobs:
         env:
           TEST_TYPE: unit_test
 
-      - name: Archive E2E Test Stability Allow List
-        if: ${{ always() }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: e2e-allow-list
-          path: qa-standards-dashboard-data/e2e_allow_list.json
-
-      - name: Archive Unit Test Stability Allow List
-        if: ${{ always() }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: unit-test-allow-list
-          path: qa-standards-dashboard-data/unit_test_allow_list.json
-
-  tests-prep:
-    name: Tests Prep
-    needs: [fetch-allow-lists]
-    runs-on: ubuntu-22.04
-    outputs:
-      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
-      apps-to-stress-test: ${{ steps.apps-to-stress-test.outputs.apps_to_test }}
-      unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
-      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
-      disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
-      cypress-tests: ${{ steps.cypress-tests.outputs.selected }}
-      cypress-tests-to-stress-test: ${{ steps.cypress-tests-to-stress-test.outputs.tests }}
-      app_urls: ${{ steps.get-changed-apps.outputs.urls }}
-      num_containers: ${{ steps.containers.outputs.num }}
-      ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
-      changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
-      tests_ran: ${{ steps.tests-ran.outputs.tests_ran }}
-      e2e_count: ${{ steps.e2e-count.outputs.count }}
-      changed_unit_tests: ${{ steps.unit-tests-changed.outputs.changed_unit_tests }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          delimiter: ','
-          output-type: 'entry_name, url, folder'
-
-      - name: Download Unit Test Stability Allow List
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: unit-test-allow-list
-          path: .
-
-      - name: Download E2E Test Stability Allow List
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: e2e-allow-list
-          path: .
+      - name: Copy allow lists to workspace root
+        run: |
+          cp qa-standards-dashboard-data/e2e_allow_list.json .
+          cp qa-standards-dashboard-data/unit_test_allow_list.json .
 
       - name: Select E2E Tests
         run: node script/github-actions/select-e2e-tests.js
@@ -332,10 +343,24 @@ jobs:
         id: matrix
         run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
 
+      - name: Archive E2E Test Stability Allow List
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data/e2e_allow_list.json
+
+      - name: Archive Unit Test Stability Allow List
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-allow-list
+          path: qa-standards-dashboard-data/unit_test_allow_list.json
+
   unit-tests:
     name: Unit Tests
     # if: ${{ needs.tests-prep.outputs.tests_ran == 'true' }}
-    needs: [fetch-allow-lists, tests-prep]
+    needs: [tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
     permissions:
@@ -350,8 +375,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -430,8 +453,8 @@ jobs:
     name: Unit Test Stability Review
     runs-on: ubuntu-22.04
     timeout-minutes: 30
-    needs: [fetch-allow-lists, tests-prep]
-    if: ${{ always() && !cancelled() && needs.tests-prep.outputs.unit-tests-to-stress-test == 'true' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep.result == 'success' }}
+    needs: [tests-prep]
+    if: ${{ always() && !cancelled() && needs.tests-prep.outputs.unit-tests-to-stress-test == 'true' && github.ref != 'refs/heads/main' && needs.tests-prep.result == 'success' }}
 
     env:
       APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
@@ -446,8 +469,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -496,7 +517,7 @@ jobs:
   update-unit-test-allow-list:
     name: Update Unit Test Stability Allow List
     runs-on: ubuntu-22.04
-    needs: [unit-tests-stress-test, fetch-allow-lists]
+    needs: [unit-tests-stress-test]
     permissions:
       id-token: write
       contents: read
@@ -561,6 +582,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -591,6 +613,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -686,7 +709,6 @@ jobs:
     name: Fetch ECR Credentials
     runs-on: ubuntu-22.04
     timeout-minutes: 10
-    needs: [build]
     permissions:
       id-token: write
       contents: read
@@ -720,10 +742,10 @@ jobs:
     permissions:
       id-token: write
       contents: read
-#   if: |
-#     needs.build.result == 'success' &&
-#     needs.tests-prep.result == 'success' &&
-#     needs.tests-prep.outputs.e2e_count != '0'
+    #   if: |
+    #     needs.build.result == 'success' &&
+    #     needs.tests-prep.result == 'success' &&
+    #     needs.tests-prep.outputs.e2e_count != '0'
 
     container:
       image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
@@ -804,6 +826,7 @@ jobs:
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
+          install-cypress: 'true'
           path: |
             .cache/yarn
             /github/home/.cache/Cypress
@@ -940,6 +963,7 @@ jobs:
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
+          install-cypress: 'true'
           path: |
             .cache/yarn
             /github/home/.cache/Cypress
@@ -1010,13 +1034,7 @@ jobs:
   update-e2e-allow-list:
     name: Update E2E Test Stability Allow List
     runs-on: ubuntu-22.04
-    needs:
-      [
-        testing-reports-prep,
-        tests-prep,
-        stress-test-cypress-tests,
-        fetch-allow-lists,
-      ]
+    needs: [testing-reports-prep, tests-prep, stress-test-cypress-tests]
     permissions:
       checks: write
       id-token: write
@@ -1551,7 +1569,7 @@ jobs:
       checks: write
       id-token: write
       contents: read
-    if: ${{ always() && (needs.stress-test-cypress-tests.result == 'success' || needs.stresss-test-cypress-tests.result == 'failure') }}
+    if: ${{ always() && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true
@@ -1674,6 +1692,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -1900,6 +1919,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -2020,6 +2040,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         if: env.ALERT_TEAMS == 'true'

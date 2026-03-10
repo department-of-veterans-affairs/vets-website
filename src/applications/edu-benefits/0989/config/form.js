@@ -2,12 +2,16 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '~/platform/utilities/environment';
-import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { profilePersonalInfoPage } from 'platform/forms-system/src/js/patterns/prefill/PersonalInformation';
 import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+
+import PresubmitInfo from '../components/PresubmitInfo';
+import submitForm from './submitForm';
+import transform from './transform';
 
 import schoolWasClosed from '../pages/schoolWasClosed';
 import oldSchoolNameAndAddress from '../pages/oldSchoolNameAndAddress';
@@ -39,8 +43,8 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: SUBMIT_URL,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: submitForm,
+  transformForSubmit: transform,
   trackingPrefix: '0989-edu-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -65,15 +69,26 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for entitlement restoration.',
   },
+  customText: {
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
+  },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
+  preSubmitInfo: {
+    CustomComponent: PresubmitInfo,
+    required: true,
+    statementOfTruth: {
+      fullNamePath: 'applicantName',
+    },
+  },
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {
-        ...personalInformationPage({
+        ...profilePersonalInfoPage({
           personalInfoConfig: {
             name: { show: true, required: true },
             ssn: { show: true, required: true },

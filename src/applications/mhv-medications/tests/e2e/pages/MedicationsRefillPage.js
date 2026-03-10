@@ -111,7 +111,7 @@ class MedicationsRefillPage {
       'GET',
       `${
         this.basePath
-      }/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true`,
+      }/prescriptions?sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true`,
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
@@ -126,7 +126,7 @@ class MedicationsRefillPage {
     cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      '/my_health/v1/prescriptions?sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
@@ -481,7 +481,7 @@ class MedicationsRefillPage {
       'GET',
       `${
         this.basePath
-      }/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true`,
+      }/prescriptions?sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true`,
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);

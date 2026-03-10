@@ -44,10 +44,9 @@
     }
     ],
     "applicantFullName": { "first": "John", "last": "Doe" },
-    "dutyRequirement": "atLeast3Years",
     "dateOfBirth": "1930-10-03",
     "otherThanDishonorableDischarge": true,
-    "veteranStatus": true
+    "dutyRequirementMet": true
   }
 }
  

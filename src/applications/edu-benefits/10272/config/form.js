@@ -25,7 +25,7 @@ import PrivacyPolicy from '../components/PrivacyPolicy';
 
 // Pages
 import {
-  educationBenefitsElibility,
+  educationBenefitsEligibility,
   educationBenefitsHistory,
   hasPreviouslyApplied,
   payeeNumber,
@@ -114,8 +114,8 @@ const formConfig = {
         educationBenefitsEligibility: {
           path: 'education-benefits-eligibility',
           title: 'Your VA education benefits history',
-          uiSchema: educationBenefitsElibility.uiSchema,
-          schema: educationBenefitsElibility.schema,
+          uiSchema: educationBenefitsEligibility.uiSchema,
+          schema: educationBenefitsEligibility.schema,
           depends: formData => formData?.hasPreviouslyApplied === false,
         },
       },

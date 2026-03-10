@@ -7,7 +7,6 @@ import SubmissionError from '../../shared/components/SubmissionError';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormFooter from '../components/FormFooter';
 import transformForSubmit from './submitTransformer';
-import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
 import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
 import { blankSchema } from '../definitions';
@@ -19,7 +18,6 @@ import {
   isNewMedicalClaim,
   isNewPharmacyClaim,
   isNotEnrolledInChampva,
-  isResubmissionClaim,
   isRoleOther,
   isRoleSponsor,
 } from '../utils/helpers';
@@ -56,11 +54,7 @@ import {
   sponsorNameSchema,
   sponsorContactSchema,
 } from '../chapters/sponsorInformation';
-import {
-  claimIdentificationNumber,
-  resubmissionLetterUpload,
-  resubmissionDocsUpload,
-} from '../chapters/resubmission';
+import { resubmissionPages } from '../chapters/resubmission';
 
 import content from '../locales/en/content.json';
 
@@ -192,30 +186,7 @@ const formConfig = {
     },
     resubmissionInformation: {
       title: 'Resubmission information',
-      pages: {
-        page1e1: {
-          path: 'resubmission-claim-number',
-          title: 'Claim ID number',
-          depends: isResubmissionClaim,
-          ...claimIdentificationNumber,
-        },
-        page1e2: {
-          path: 'resubmission-letter',
-          title: 'CHAMPVA resubmission letter',
-          depends: isResubmissionClaim,
-          CustomPage: FileFieldCustomSimple,
-          CustomPageReview: null,
-          ...resubmissionLetterUpload,
-        },
-        page1e3: {
-          path: 'resubmission-supporting-docs',
-          title: 'Supporting documents for claim',
-          depends: isResubmissionClaim,
-          CustomPage: FileFieldCustomSimple,
-          CustomPageReview: null,
-          ...resubmissionDocsUpload,
-        },
-      },
+      pages: resubmissionPages,
     },
     sponsorInformation: {
       title: 'Veteran information',

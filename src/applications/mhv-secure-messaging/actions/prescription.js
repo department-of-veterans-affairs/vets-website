@@ -31,7 +31,7 @@ export const getPrescriptionById = (prescriptionId, stationNumber) => async (
     }
     if (
       !response.data?.attributes?.prescriptionName ||
-      !response.data?.attributes?.prescriptionNumber
+      response.data?.attributes?.prescriptionSource === 'NV'
     ) {
       throw new Error('Non-VA medication');
     }

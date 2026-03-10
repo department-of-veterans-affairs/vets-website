@@ -20,10 +20,10 @@ import {
 } from '../../util/constants';
 import { handleHeader, getPageTitle } from '../../util/helpers';
 import { submitLaunchMyVaHealthAal } from '../../api/SmApi';
-import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
+import OHSyncStatusAlert from '../shared/OHSyncStatusAlert';
 import InnerNavigation from '../InnerNavigation';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 import OracleHealthMessagingIssuesAlert from '../shared/OracleHealthMessagingIssuesAlert';
@@ -164,6 +164,8 @@ const FolderHeader = props => {
 
       <OracleHealthMessagingAlert />
 
+      {folder.folderId === Folders.INBOX.id && <OHSyncStatusAlert />}
+
       <>
         {folder.folderId === Folders.INBOX.id &&
           (noAssociations || allTriageGroupsBlocked) && (
@@ -210,7 +212,6 @@ const FolderHeader = props => {
             threadCount={threadCount}
           />
         )}
-        <ManageFolderButtons folder={folder} />
       </>
     </>
   );

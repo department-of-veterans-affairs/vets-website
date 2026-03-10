@@ -9,7 +9,10 @@ import { pageType } from '../util/dataDogConstants';
 
 const PrescriptionsInProgress = () => {
   const {
-    prescriptions,
+    inProgress,
+    shipped,
+    submitted,
+    tooEarly,
     prescriptionsApiError,
     isLoading,
   } = useFetchPrescriptionsInProgress();
@@ -32,7 +35,14 @@ const PrescriptionsInProgress = () => {
     }
 
     // TODO: Implement empty state design for when there are no in-progress medications
-    return <InProgressMedicationsProcessList prescriptions={prescriptions} />;
+    return (
+      <InProgressMedicationsProcessList
+        inProgress={inProgress}
+        shipped={shipped}
+        submitted={submitted}
+        tooEarly={tooEarly}
+      />
+    );
   };
 
   useEffect(() => {

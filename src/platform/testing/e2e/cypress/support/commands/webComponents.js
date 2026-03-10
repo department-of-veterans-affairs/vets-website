@@ -253,21 +253,21 @@ function fillVaDateFields(year, month, day, monthYearOnly) {
     .then(el => {
       cy.wrap(el)
         .find('va-select.select-month')
-        .shadow()
-        .find('select')
-        .select(month);
+        .then($monthSelect => {
+          cy.selectVaSelect($monthSelect, month);
+        });
       if (!monthYearOnly) {
         cy.wrap(el)
           .find('va-select.select-day')
-          .shadow()
-          .find('select')
-          .select(day);
+          .then($daySelect => {
+            cy.selectVaSelect($daySelect, day);
+          });
       }
       cy.wrap(el)
         .find('va-text-input.input-year')
-        .shadow()
-        .find('input')
-        .type(year);
+        .then($yearInput => {
+          cy.fillVaTextInput($yearInput, year);
+        });
     });
 }
 
@@ -297,6 +297,33 @@ Cypress.Commands.add('fillVaDate', (field, dateString, isMonthYearOnly) => {
   }
 });
 
+const fillMemorableDateInput = (el, fieldType, value) => {
+  // There is a bug only on Chromium based browsers where
+  // VaMemorableDate text input fields will think they are
+  // disabled if you blur focus of the window while the test
+  // is running. realPress and realType solve this issue,
+  // but these are only available for Chromium based browsers.
+  // See cypress-real-events npmjs for more info.
+  // ** see applications/simple-forms/shared/tests/e2e/helpers.js **
+  const isChrome = navigator.userAgent.includes('Chrome');
+  const selector = `va-text-input.input-${fieldType}, va-text-input.usa-form-group--${fieldType}-input`;
+
+  cy.wrap(el)
+    .find(selector)
+    .shadow()
+    .find('input')
+    .then($input => {
+      cy.wrap($input).clear({ force: true, delay: 0 });
+
+      if (isChrome) {
+        cy.wrap($input).focus();
+        cy.realType(value);
+      } else {
+        cy.wrap($input).type(value, FORCE_OPTION);
+      }
+    });
+};
+
 Cypress.Commands.add(
   'fillVaMemorableDate',
   (field, dateString, useMonthSelect = true) => {
@@ -315,71 +342,18 @@ Cypress.Commands.add(
       );
 
       element.shadow().then(el => {
-        // There is a bug only on Chromium based browsers where
-        // VaMemorableDate text input fields will think they are
-        // disabled if you blur focus of the window while the test
-        // is running. realPress and realType solve this issue,
-        // but these are only available for Chromium based browsers.
-        // See cypress-real-events npmjs for more info.
-        // ** see applications/simple-forms/shared/tests/e2e/helpers.js **
-        const isChrome = navigator.userAgent.includes('Chrome');
-        const getSelectors = type =>
-          `va-text-input.input-${type}, va-text-input.usa-form-group--${type}-input`;
-
-        // month
         if (useMonthSelect) {
           cy.wrap(el)
             .find('va-select.usa-form-group--month-select')
-            .shadow()
-            .find('select')
-            .select(month);
-        } else if (isChrome) {
-          cy.wrap(el)
-            .find(getSelectors('month'))
-            .shadow()
-            .find('input')
-            .clear({ force: true, delay: 0 })
-            .focus();
-          cy.realType(month);
+            .then($monthSelect => {
+              cy.selectVaSelect($monthSelect, month);
+            });
         } else {
-          cy.wrap(el)
-            .find(getSelectors('month'))
-            .shadow()
-            .find('input')
-            .clear({ force: true, delay: 0 })
-            .type(month);
+          fillMemorableDateInput(el, 'month', month);
         }
 
-        // day and year
-        if (isChrome) {
-          cy.wrap(el)
-            .find(getSelectors('day'))
-            .shadow()
-            .find('input')
-            .clear({ force: true, delay: 0 })
-            .focus();
-          cy.realType(day);
-          cy.wrap(el)
-            .find(getSelectors('year'))
-            .shadow()
-            .find('input')
-            .clear({ force: true, delay: 0 })
-            .focus();
-          cy.realType(year);
-        } else {
-          cy.wrap(el)
-            .find(getSelectors('day'))
-            .shadow()
-            .find('input')
-            .clear({ force: true, delay: 0 })
-            .type(day);
-          cy.wrap(el)
-            .find(getSelectors('year'))
-            .shadow()
-            .find('input')
-            .clear({ force: true, delay: 0 })
-            .type(year);
-        }
+        fillMemorableDateInput(el, 'day', day);
+        fillMemorableDateInput(el, 'year', year);
       });
     }
   },

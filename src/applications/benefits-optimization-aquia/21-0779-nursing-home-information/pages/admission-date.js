@@ -17,6 +17,7 @@ export const admissionDateUiSchema = {
   admissionDate: {
     admissionDate: currentOrPastDateUI({
       title: 'When was the patient admitted to the nursing home?',
+      dataDogHidden: true,
     }),
   },
 };
