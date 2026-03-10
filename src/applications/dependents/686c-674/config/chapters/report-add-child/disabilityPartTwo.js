@@ -1,5 +1,5 @@
 import {
-  titleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -7,7 +7,12 @@ import React from 'react';
 
 export const disabilityPartTwo = {
   uiSchema: {
-    ...titleUI('Child’s disability details'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'Child'}’s disability details`,
+      null,
+      false,
+    ),
 
     doesChildHavePermanentDisability: yesNoUI({
       title:

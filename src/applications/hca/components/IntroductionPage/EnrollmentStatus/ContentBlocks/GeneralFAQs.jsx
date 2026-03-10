@@ -5,8 +5,9 @@ import { CONTACTS } from '../../../../utils/imports';
 // Declare reusable content blocks
 const callOurTeam = (
   <>
-    call our enrollment case management team at{' '}
-    <va-telephone contact={CONTACTS['222_VETS']} />
+    call our Health Eligibility Center at{' '}
+    <va-telephone contact={CONTACTS['222_VETS']} /> (
+    <va-telephone contact={CONTACTS['711']} tty />)
   </>
 );
 
@@ -119,23 +120,67 @@ const faqBlock5 = (
 
 const faqBlock6 = (
   <section className="hca-enrollment-faq" data-testid="hca-enrollment-faq-6">
-    <h3>How do I submit this information to VA?</h3>
+    <h3>How do I submit my household financial information?</h3>
+    <p>You have 4 options to submit this information to us.</p>
+
+    <h4>Option 1: Online</h4>
+    <p>You can submit it online right now.</p>
     <p>
-      Please {callOurTeam} for directions on how to submit your information.{' '}
-      {ourHours}.
+      <va-link-action
+        href={APP_URLS.ezr}
+        text="Submit your household financial information online"
+      />
+    </p>
+
+    <h4>Option 2: By phone</h4>
+    <p>
+      Talk with an enrollment specialist. Call our Health Eligibility Center at{' '}
+      <va-telephone contact={CONTACTS['222_VETS']} /> and select 1 (
+      <va-telephone contact={CONTACTS['711']} tty />
+      ). {ourHours}.
+    </p>
+
+    <h4>Option 3: By mail</h4>
+    <p>Fill out a Health Benefits Update Form (VA Form 10-10EZR).</p>
+    <p>
+      <va-link
+        href="/forms/10-10ezr/"
+        text="Get VA Form 10-10EZR to download"
+      />
+    </p>
+    <p>Mail the completed form and any supporting documents to this address:</p>
+    <address className="va-address-block">
+      Health Eligibility Center
+      <br role="presentation" />
+      PO Box 5207
+      <br role="presentation" />
+      Janesville, WI 53547-5207
+    </address>
+
+    <h4>Option 4: In person</h4>
+    <p>
+      Visit a VA health facility and tell them you need to update your VA health
+      benefits information. Bring any supporting documents with you.
+    </p>
+    <p>
+      <va-link
+        href={APP_URLS.facilities}
+        text="Find your nearest VA health facility"
+      />
     </p>
   </section>
 );
 
 const faqBlock7 = (
   <section className="hca-enrollment-faq" data-testid="hca-enrollment-faq-7">
-    <h3>
-      How will I know if VA needs more information from me to verify my military
-      service?
-    </h3>
+    <h3>How will I know if VA needs more information from me?</h3>
     <p>
-      If we need more information, we’ll send you a letter in the mail. If you
-      have any questions, please {callOurTeam}. {ourHours}.
+      If we need more information, we’ll send you a letter in the mail and ask
+      you to update your information.
+    </p>
+    <p>
+      If you have any questions about your application, {callOurTeam}.{' '}
+      {ourHours}.
     </p>
   </section>
 );

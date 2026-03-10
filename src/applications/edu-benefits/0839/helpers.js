@@ -412,15 +412,16 @@ export const getAdditionalContactTitle = formData => {
     true;
   const isSchoolFinancialRepresentative =
     formData?.pointsOfContact?.roles?.isSchoolFinancialRepresentative === true;
+  const isSchoolCertifyingOfficial =
+    formData?.pointsOfContact?.roles?.isSchoolCertifyingOfficial === true;
+  const hasFinancialOrYellowRibbonRole =
+    isYellowRibbonProgramPointOfContact || isSchoolFinancialRepresentative;
 
-  if (
-    !isSchoolFinancialRepresentative &&
-    !isYellowRibbonProgramPointOfContact
-  ) {
-    return 'Add Yellow Ribbon Program point of contact';
+  if (isSchoolCertifyingOfficial && !hasFinancialOrYellowRibbonRole) {
+    return 'Yellow Ribbon Program point of contact or School financial representative';
   }
 
-  return 'Add school certifying official';
+  return 'School certifying official';
 };
 
 export const capitalizeFirstLetter = str => {

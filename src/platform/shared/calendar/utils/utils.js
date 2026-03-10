@@ -163,8 +163,20 @@ export function pad(num, size) {
  * @param {Date} date A given date
  * @returns {number} A number of the first day of the month
  */
-export function getFirstDayOfMonth(date) {
-  return Number(format(startOfMonth(date), 'i'));
+export function getFirstDayOfMonth(date, showWeekends) {
+  // Sunday - Saturday : 0 - 6
+  const sun = 0;
+  const sat = 6;
+
+  let dayNumber = startOfMonth(date).getDay();
+
+  if (showWeekends) return dayNumber;
+
+  if (dayNumber === sat) dayNumber = addDays(startOfMonth(date), 2).getDay();
+
+  if (dayNumber === sun) dayNumber = addDays(startOfMonth(date), 1).getDay();
+
+  return dayNumber;
 }
 
 /**
@@ -191,7 +203,7 @@ export function getMaxMonth(maxDate, overrideMaxDays) {
  * @returns {Array} Array of blanks to push start day position
  */
 export function getInitialBlankCells(date, showWeekends) {
-  const firstDay = getFirstDayOfMonth(date);
+  const firstDay = getFirstDayOfMonth(date, showWeekends);
   const blanks = [];
 
   if (!showWeekends && isWeekend(date)) {

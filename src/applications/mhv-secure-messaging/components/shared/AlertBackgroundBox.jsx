@@ -18,7 +18,6 @@
 
 import React, {
   useEffect,
-  useLayoutEffect,
   useState,
   useRef,
   useCallback,
@@ -27,13 +26,13 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import useInterval from '../../hooks/use-interval';
 import { Alerts, DefaultFolders, Errors, Paths } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
 import { retrieveFolder } from '../../actions/folders';
 import RouterLink from './RouterLink';
+import SmAlert from './SmAlert';
 
 const AlertBackgroundBox = props => {
   const { setShowAlertBackgroundBox = () => {} } = props;
@@ -41,9 +40,7 @@ const AlertBackgroundBox = props => {
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
   const [alertContent, setAlertContent] = useState('');
-  const [srAlertContent, setSrAlertContent] = useState('');
   const alertRef = useRef();
-  const timerSourceRef = useRef(null);
   const [activeAlert, setActiveAlert] = useState(null);
 
   // Check if user entered compose flow from sent folder (via sessionStorage)
@@ -177,65 +174,6 @@ const AlertBackgroundBox = props => {
     ],
   );
 
-  // Wait for page focus to settle, then populate the sr-only span.
-  // Each focusin event resets a 1s debounce timer so VoiceOver finishes
-  // reading whatever element received focus before the polite announcement
-  // queues.  A 5s hard ceiling guarantees the announcement fires even if
-  // focus keeps moving.  Force a real text mutation (clear → RAF set) so
-  // the live region fires reliably.  timerSourceRef prevents duplicates.
-  useLayoutEffect(
-    () => {
-      if (!alertContent) {
-        setSrAlertContent('');
-        timerSourceRef.current = null;
-        return undefined;
-      }
-
-      let debounceTimer;
-      let rafId;
-      timerSourceRef.current = null;
-
-      const scheduleAnnounce = source => {
-        timerSourceRef.current = source;
-        // Force a real DOM text mutation: clear, then set on next frame
-        setSrAlertContent('');
-        rafId = requestAnimationFrame(() => {
-          setSrAlertContent(alertContent);
-        });
-      };
-
-      const onFocusIn = () => {
-        if (timerSourceRef.current) return;
-        // Reset the 1s debounce on every focus change
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(
-          () => scheduleAnnounce('focus-settle'),
-          1000,
-        );
-      };
-
-      document.addEventListener('focusin', onFocusIn);
-
-      // Kick off the initial debounce in case focus already settled
-      onFocusIn();
-
-      // Hard ceiling: announce after 5s no matter what
-      const ceilingTimer = setTimeout(() => {
-        if (!timerSourceRef.current) {
-          scheduleAnnounce('ceiling');
-        }
-      }, 5000);
-
-      return () => {
-        clearTimeout(debounceTimer);
-        clearTimeout(ceilingTimer);
-        cancelAnimationFrame(rafId);
-        document.removeEventListener('focusin', onFocusIn);
-      };
-    },
-    [alertContent],
-  );
-
   useInterval(() => {
     const shouldRetrieveFolders =
       activeAlert?.response?.code === SERVICE_OUTAGE ||
@@ -267,7 +205,7 @@ const AlertBackgroundBox = props => {
   return (
     activeAlert &&
     activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
-      <VaAlert
+      <SmAlert
         uswds
         ref={alertRef}
         background-only
@@ -282,6 +220,7 @@ const AlertBackgroundBox = props => {
           closeAlertBox // success, error, warning, info, continue
         }
         onVa-component-did-load={handleAlertFocus}
+        srMessage={alertContent}
       >
         <p
           className={
@@ -293,14 +232,6 @@ const AlertBackgroundBox = props => {
         >
           {alertContent}
         </p>
-        <span
-          className="sr-only"
-          aria-live="polite"
-          aria-atomic="true"
-          data-testid="sr-only-alert-text"
-        >
-          {srAlertContent}
-        </span>
         {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS &&
           !enteredFromSent && (
             <RouterLink
@@ -310,7 +241,7 @@ const AlertBackgroundBox = props => {
               data-dd-action-name="Sent messages link in success alert"
             />
           )}
-      </VaAlert>
+      </SmAlert>
     )
   );
 };

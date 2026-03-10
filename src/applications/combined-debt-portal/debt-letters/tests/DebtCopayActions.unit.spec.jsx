@@ -29,9 +29,11 @@ describe('Debt Portal Actions', () => {
           {
             deductionCode: '30',
             currentAr: 100,
+            originalAr: 200,
             debtHistory: [
               {
                 date: '2024-01-01',
+                letterCode: '',
               },
             ],
           },

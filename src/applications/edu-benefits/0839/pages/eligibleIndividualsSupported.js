@@ -23,52 +23,26 @@ const uiSchema = {
   academicYear: {
     ...textUI({
       title: 'What academic year does this agreement apply to?',
-      description: `Enter the academic year, such as ${getAcademicYearDisplay()}`,
+      description: `Enter the academic year, such as ${getAcademicYearDisplay()}. You can enter a previous academic year.`,
       errorMessages: {
-        required: `Enter the academic year, such as ${getAcademicYearDisplay()}`,
+        required: `Enter the academic year, such as ${getAcademicYearDisplay()}. You can enter a previous academic year.`,
       },
     }),
-    'ui:required': (_formData, index, fullData) =>
-      index === 0 && fullData?.agreementType !== 'startNewOpenEndedAgreement',
+    'ui:required': (_formData, index) => index === 0,
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 eligible-individuals-note container',
       useAllFormData: true,
-      hideIf: (_formData, index, fullData) =>
-        index !== 0 || fullData?.agreementType === 'startNewOpenEndedAgreement',
+      hideIf: (_formData, index) => index !== 0,
     },
     'ui:validations': [
-      (errors, fieldData, formData) => {
-        if (
-          fieldData &&
-          fieldData !== getAcademicYearDisplay() &&
-          formData?.agreementType === 'startNewOpenEndedAgreement'
-        ) {
+      (errors, fieldData) => {
+        if (fieldData && !matchYearPattern(fieldData)) {
           errors.addError(
-            `Enter the upcoming academic year this agreement applies to`,
-          );
-        }
-
-        if (
-          fieldData &&
-          !matchYearPattern(fieldData) &&
-          formData?.agreementType !== 'startNewOpenEndedAgreement'
-        ) {
-          errors.addError(
-            `Enter the academic year, such as ${getAcademicYearDisplay()}`,
+            `Enter the academic year, such as ${getAcademicYearDisplay()}. You can enter a previous academic year.`,
           );
         }
       },
     ],
-  },
-  academicYearDisplay: {
-    'ui:title': 'What academic year does this agreement apply to?',
-    'ui:widget': 'text',
-    'ui:readonly': true,
-    'ui:options': {
-      hideIf: (formData, index, fullData) =>
-        index !== 0 || fullData?.agreementType !== 'startNewOpenEndedAgreement',
-      classNames: 'eligible-individuals-note',
-    },
   },
 };
 
@@ -77,10 +51,6 @@ const schema = {
   properties: {
     academicYear: {
       type: 'string',
-    },
-    academicYearDisplay: {
-      type: 'string',
-      default: getAcademicYearDisplay(),
     },
   },
   definitions: {},

@@ -61,7 +61,6 @@ describe('CaseProgressBar', () => {
     expect(progressBar.getAttribute('total')).to.equal('3');
     expect(descriptionProps).to.deep.equal({
       step: 2,
-      status: 'ACTIVE',
       attributes,
     });
   });
@@ -71,7 +70,6 @@ describe('CaseProgressBar', () => {
 
     expect(descriptionProps).to.deep.equal({
       step: 1,
-      status: 'PENDING',
       attributes: {},
     });
   });

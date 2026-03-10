@@ -37,6 +37,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingRecipientCombobox = false,
     mhvSecureMessagingCernerPilot = true,
     mhvSecureMessagingLargeAttachments = true,
+    mhvSecureMessagingCustomFoldersRedesign = true,
     mhvSecureMessagingCuratedListFlow = true,
     mhvSecureMessagingRecentRecipients = true,
     mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag = false,
@@ -175,6 +176,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_large_attachments',
           value: mhvSecureMessagingLargeAttachments,
+        },
+        {
+          name: 'mhv_secure_messaging_custom_folders_redesign',
+          value: mhvSecureMessagingCustomFoldersRedesign,
         },
         {
           name: 'mhv_secure_messaging_curated_list_flow',
