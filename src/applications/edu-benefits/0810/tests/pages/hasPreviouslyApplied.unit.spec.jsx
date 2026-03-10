@@ -6,7 +6,7 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 import { updateFormData } from '../../pages/hasPreviouslyApplied';
 
-describe('22-10272 Your education benefits information Step 1 - Page 1', () => {
+describe('22-0810 Your education benefits information Step 1 - Page 1', () => {
   const {
     schema,
     uiSchema,
@@ -21,7 +21,7 @@ describe('22-10272 Your education benefits information Step 1 - Page 1', () => {
       />,
     );
     const previouslyAppliedRadio = container.querySelector(
-      'va-radio[label="Have you applied for VA education benefits before?"',
+      'va-radio[label^="Have you previously applied"',
     );
 
     expect(previouslyAppliedRadio).to.exist;
