@@ -192,6 +192,16 @@ const isDateComponent = element =>
   isComponentOfType(element, ['VA-DATE', 'VA-MEMORABLE-DATE']);
 
 /**
+ * Determines if an element is specifically a telephone input component (va-telephone-input).
+ * Used for telephone-specific logic like preferring va-text-input for focus.
+ *
+ * @param {Element|null|undefined} element - The DOM element to check
+ * @returns {boolean} True if the element is a telephone input component, false otherwise
+ */
+const isTelephoneInput = element =>
+  isComponentOfType(element, ['VA-TELEPHONE-INPUT']);
+
+/**
  * Checks if an element is a child component inside a parent-delegated component's shadow DOM.
  * These should be skipped for independent error processing since the parent component
  * handles their error annotations.
@@ -413,16 +423,34 @@ const getLabelText = el => {
  */
 const findFocusTarget = el => {
   // CATEGORY 4: Parent-delegated component handling
-  // Find the first invalid child input, or fall back to first child
+  // Find the first invalid child input, or fall back to appropriate child
   // (for cross-field validation where all children are technically valid)
+  //
+  // For va-telephone-input, move focus to the text input.
+  // We assume that if the combo box has a recognized value, it is correct.
   if (isParentDelegatedComponent(el)) {
     const invalidChild = findFirstInvalidChild(el);
     if (invalidChild) {
       return findFocusTarget(invalidChild);
     }
-    // Fallback to first child component for cross-field validation errors
+    // Fallback to appropriate child component for cross-field validation errors
     const children = getChildComponents(el);
     if (children.length) {
+      if (isTelephoneInput(el)) {
+        const comboBox = children.find(
+          child => child.tagName === 'VA-COMBO-BOX',
+        );
+        if (comboBox && getErrorPropText(comboBox)) {
+          return findFocusTarget(comboBox);
+        }
+
+        const textInput = children.find(
+          child => child.tagName === 'VA-TEXT-INPUT',
+        );
+        if (textInput) {
+          return findFocusTarget(textInput);
+        }
+      }
       return findFocusTarget(children[0]);
     }
   }
@@ -766,9 +794,10 @@ function isChildInvalid(childComponent, parentRequired) {
  *   1. Field-level errors: Only invalid children receive scaffolding (empty/invalid fields)
  *   2. Cross-field validation: ALL children receive scaffolding (e.g., "To date must be after from date")
  *
- * For other parent-delegated components (e.g., va-telephone-input):
- *   Always scaffolds ALL children when parent has an error, since validation
- *   errors are at the parent level and all children need the error context.
+ * For va-telephone-input:
+ *   1. If any child has an error prop: scaffold only children with error props
+ *   2. If no children have error props: scaffold only va-text-input (primary phone number field)
+ *   This works on the assumption that if the combo box has a recognized value, it is correct
  *
  * @param {HTMLElement} parentComponent - The parent-delegated component emitting an error
  * @param {string|null} errorMessage - Message to associate with the child input
@@ -787,18 +816,24 @@ function associateParentDelegatedErrorAnnotations(
 
   let childrenToScaffold;
 
-  // Date components: Use field-level validation to determine which children need scaffolding
-  // - If ANY child is invalid: only scaffold invalid children (field-level errors)
-  // - If NO children are invalid: scaffold ALL children (cross-field validation)
   if (isDateComponent(parentComponent)) {
     const invalidChildren = children.filter(child =>
       isChildInvalid(child, parentRequired),
     );
     childrenToScaffold =
       invalidChildren.length > 0 ? invalidChildren : children;
+  } else if (isTelephoneInput(parentComponent)) {
+    const childrenWithErrors = children.filter(child =>
+      getErrorPropText(child),
+    );
+    if (childrenWithErrors.length > 0) {
+      childrenToScaffold = childrenWithErrors;
+    } else {
+      childrenToScaffold = children.filter(
+        child => child.tagName === 'VA-TEXT-INPUT',
+      );
+    }
   } else {
-    // All other parent-delegated components (e.g., va-telephone-input):
-    // Always scaffold ALL children since errors are at parent level
     childrenToScaffold = children;
   }
 
