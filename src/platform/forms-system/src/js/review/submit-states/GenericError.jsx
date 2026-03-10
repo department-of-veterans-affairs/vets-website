@@ -12,6 +12,7 @@ export default function GenericError(props) {
   const { appType, formConfig, onSubmit, testId } = props;
   let submitButton;
   let submitMessage;
+  let submitMessageLink;
 
   if (!formConfig.disableSave) {
     submitMessage = <FormSaveErrorMessage formConfig={formConfig} />;
@@ -29,7 +30,11 @@ export default function GenericError(props) {
       />
     );
   }
+  if (formConfig.submissionErrorLink) {
+    const SubmissionErrorLink = formConfig.submissionErrorLink;
 
+    submitMessageLink = <SubmissionErrorLink form={formConfig} />;
+  }
   if (process.env.NODE_ENV !== 'production') {
     submitButton = (
       <va-button
@@ -50,12 +55,14 @@ export default function GenericError(props) {
       </Row>
       <PreSubmitSection formConfig={formConfig} />
       <div className="vads-u-display--flex vads-u-margin-y--4">
-        <va-link-action
-          type="primary"
-          href="/"
-          class="vads-u-margin-right--2"
-          text="Go Back to VA.gov"
-        />
+        {submitMessageLink ?? (
+          <va-link-action
+            type="primary"
+            href="/"
+            class="vads-u-margin-right--2"
+            text="Go Back to VA.gov"
+          />
+        )}
         {submitButton}
       </div>
     </>

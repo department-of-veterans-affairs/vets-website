@@ -1,4 +1,5 @@
 const VASS_PHONE_NUMBER = '8008270611';
+const SOLID_START_URL = 'https://benefits.va.gov/benefits/solid-start.asp';
 
 const URLS = Object.freeze({
   VERIFY: '/',
@@ -88,6 +89,7 @@ const SERVER_ERROR_CODES = Object.freeze({
 
 module.exports = {
   VASS_PHONE_NUMBER,
+  SOLID_START_URL,
   URLS,
   FLOW_TYPES,
   AUTH_LEVELS,

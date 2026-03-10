@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   arrayBuilderItemFirstPageTitleUI,
-  fullNameNoSuffixUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   fullNameNoSuffixSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -16,6 +16,7 @@ import {
 import { relationshipToStudentLabels } from './helpers';
 import { addStudentsOptions } from './addStudentsSetup';
 import { NO_SSN_REASON_UI_MAPPINGS } from '../../dataMappings';
+import { fullNameNoSuffixWithAsciiUI } from '../../helpers';
 
 /** @returns {PageSchema} */
 export const studentInformationPage = {
@@ -27,9 +28,9 @@ export const studentInformationPage = {
     'view:studentNameTitle': {
       'ui:description': <h4>Student’s name</h4>,
     },
-    fullName: fullNameNoSuffixUI(title => `Student's ${title}`),
+    fullName: fullNameNoSuffixWithAsciiUI(title => `Student's ${title}`),
     birthDate: currentOrPastDateUI({
-      title: 'Student\u2019s date of birth',
+      title: 'Student’s date of birth',
       labelHeaderLevel: '4',
       dataDogHidden: true,
       required: () => true,
@@ -39,7 +40,7 @@ export const studentInformationPage = {
     },
     noSsn: {
       ...checkboxUI({
-        title: 'Student doesn\u2019t have a Social Security number',
+        title: 'Student doesn’t have a Social Security number',
         required: () => false,
       }),
       'ui:options': {
@@ -47,7 +48,7 @@ export const studentInformationPage = {
       },
     },
     noSsnReason: radioUI({
-      title: 'Why doesn\u2019t your child have a Social Security number?',
+      title: 'Why doesn’t your child have a Social Security number?',
       labels: {
         NONRESIDENT_ALIEN: NO_SSN_REASON_UI_MAPPINGS.NONRESIDENT_ALIEN,
         NONE_ASSIGNED: NO_SSN_REASON_UI_MAPPINGS.NONE_ASSIGNED,
@@ -60,12 +61,11 @@ export const studentInformationPage = {
         return !(addMode || editMode);
       },
       errorMessages: {
-        required:
-          'Tell us why the child doesn\u2019t have a Social Security number',
+        required: 'Tell us why the child doesn’t have a Social Security number',
       },
     }),
     ssn: {
-      ...ssnUI('Child\u2019s Social Security number'),
+      ...ssnUI('Child’s Social Security number'),
       'ui:required': (_chapterData, index, formData) =>
         !formData?.studentInformation?.[index]?.noSsn,
       'ui:options': {
@@ -95,10 +95,13 @@ export const studentInformationPage = {
 /** @returns {PageSchema} */
 export const studentRelationshipPage = {
   uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `Your relationship to ${formData?.fullName?.first || 'this student'}`,
+    ),
     relationshipToStudent: radioUI({
-      title: 'What\u2019s your relationship to this child?',
+      title: 'What’s your relationship to this child?',
       labels: relationshipToStudentLabels,
-      labelHeaderLevel: 3,
     }),
   },
   schema: {

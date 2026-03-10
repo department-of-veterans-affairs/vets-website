@@ -59,8 +59,12 @@ export const txtPrinter = ({ record, user }) => {
     record.location
       ? `${LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}: ${record.location}`
       : `${LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}: None Noted`,
-    record.comments
-      ? `${LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}: ${record.comments}`
+    record.comments?.length
+      ? `${LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}: ${
+          Array.isArray(record.comments)
+            ? record.comments.join('\n')
+            : record.comments
+        }`
       : `${LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}: None Noted`,
     `${txtLine}\n`,
   ];
@@ -83,7 +87,11 @@ export const txtPrinter = ({ record, user }) => {
           `${OBSERVATION_DISPLAY_LABELS.REFERENCE_RANGE}: ${
             entry.referenceRange
           }`,
-          `${OBSERVATION_DISPLAY_LABELS.STATUS}: ${entry.status}`,
+          `${OBSERVATION_DISPLAY_LABELS.STATUS}: ${
+            entry.status
+              ? entry.status.charAt(0).toUpperCase() + entry.status.slice(1)
+              : 'None Noted'
+          }`,
           entry.bodySite
             ? `${OBSERVATION_DISPLAY_LABELS.BODY_SITE}: ${entry.bodySite}`
             : `${OBSERVATION_DISPLAY_LABELS.BODY_SITE}: None Noted`,
@@ -92,8 +100,12 @@ export const txtPrinter = ({ record, user }) => {
                 entry.sampleTested
               }`
             : `${OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED}: None Noted`,
-          entry.comments
-            ? `${OBSERVATION_DISPLAY_LABELS.COMMENTS}: ${entry.comments}`
+          entry.comments?.length
+            ? `${OBSERVATION_DISPLAY_LABELS.COMMENTS}: ${
+                Array.isArray(entry.comments)
+                  ? entry.comments.join('\n')
+                  : entry.comments
+              }`
             : `${OBSERVATION_DISPLAY_LABELS.COMMENTS}: None Noted`,
         ]
           .filter(line => line)

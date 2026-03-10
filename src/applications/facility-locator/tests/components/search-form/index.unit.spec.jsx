@@ -112,7 +112,7 @@ describe('SearchForm', () => {
       vamcAutoSuggestEnabled: false,
     });
 
-    it('should call onChange immediately when facility type changes', () => {
+    it('should NOT call onChange when facility type changes (draft state pattern)', () => {
       const props = getDefaultProps();
       const wrapper = shallow(<SearchForm {...props} />);
 
@@ -121,16 +121,12 @@ describe('SearchForm', () => {
         target: { value: 'health' },
       });
 
-      expect(props.onChange.calledOnce).to.be.true;
-      expect(props.onChange.firstCall.args[0]).to.deep.include({
-        facilityType: 'health',
-        serviceType: null,
-        vamcServiceDisplay: null,
-      });
+      // In draft state pattern, onChange is only called on submit
+      expect(props.onChange.called).to.be.false;
       wrapper.unmount();
     });
 
-    it('should call onChange when service type changes to clear errors', () => {
+    it('should NOT call onChange when service type changes (draft state pattern)', () => {
       const props = {
         ...getDefaultProps(),
         currentQuery: {
@@ -147,10 +143,8 @@ describe('SearchForm', () => {
         selectedItem: { name: 'Applying for Benefits' },
       });
 
-      expect(props.onChange.calledOnce).to.be.true;
-      expect(props.onChange.firstCall.args[0]).to.deep.equal({
-        serviceType: 'ApplyingForBenefits',
-      });
+      // In draft state pattern, onChange is only called on submit
+      expect(props.onChange.called).to.be.false;
       wrapper.unmount();
     });
 
@@ -204,6 +198,87 @@ describe('SearchForm', () => {
       // Second submit with same values should be prevented
       form.simulate('submit', { preventDefault: () => {} });
       expect(props.onSubmit.calledOnce).to.be.true; // Still only once
+      wrapper.unmount();
+    });
+  });
+
+  describe('Callback props for draft state pattern', () => {
+    const getDefaultProps = () => ({
+      currentQuery: {
+        facilityType: null,
+        serviceType: null,
+        searchString: '',
+        vamcServiceDisplay: null,
+        zoomLevel: 4,
+        geocodeError: 0,
+      },
+      onChange: sinon.spy(),
+      onSubmit: sinon.spy(),
+      setSearchInitiated: sinon.spy(),
+      searchInitiated: false,
+      isMobile: false,
+      isSmallDesktop: false,
+      isTablet: false,
+      useProgressiveDisclosure: false,
+      vamcAutoSuggestEnabled: false,
+    });
+
+    it('should update draft state when onLocationSelection is called', () => {
+      const props = {
+        ...getDefaultProps(),
+        currentQuery: {
+          ...getDefaultProps().currentQuery,
+          facilityType: 'health',
+        },
+      };
+      const wrapper = shallow(<SearchForm {...props} />);
+
+      const addressAutosuggest = wrapper.find('AddressAutosuggest');
+      const onLocationSelection = addressAutosuggest.prop(
+        'onLocationSelection',
+      );
+
+      onLocationSelection({ searchString: 'New York, NY' });
+
+      const form = wrapper.find('form#facility-search-controls');
+      form.simulate('submit', { preventDefault: () => {} });
+
+      expect(props.onChange.called).to.be.true;
+      expect(props.onChange.lastCall.args[0]).to.deep.include({
+        searchString: 'New York, NY',
+        facilityType: 'health',
+      });
+      wrapper.unmount();
+    });
+
+    it('should update draft state when onVamcDraftChange is called', () => {
+      const props = {
+        ...getDefaultProps(),
+        currentQuery: {
+          ...getDefaultProps().currentQuery,
+          facilityType: 'health',
+          searchString: '10001',
+        },
+        vamcAutoSuggestEnabled: true,
+      };
+      const wrapper = shallow(<SearchForm {...props} />);
+
+      const serviceType = wrapper.find('ServiceType');
+      const onVamcDraftChange = serviceType.prop('onVamcDraftChange');
+
+      onVamcDraftChange({
+        serviceType: 'PrimaryCare',
+        vamcServiceDisplay: 'Primary care',
+      });
+
+      const form = wrapper.find('form#facility-search-controls');
+      form.simulate('submit', { preventDefault: () => {} });
+
+      expect(props.onChange.called).to.be.true;
+      expect(props.onChange.lastCall.args[0]).to.deep.include({
+        serviceType: 'PrimaryCare',
+        vamcServiceDisplay: 'Primary care',
+      });
       wrapper.unmount();
     });
   });

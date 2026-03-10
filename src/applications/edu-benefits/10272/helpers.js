@@ -34,7 +34,7 @@ export const transformPhoneNumberObject = (phone = {}) => {
   const { isInternational, areaCode, phoneNumber, countryCode } = phone;
 
   if (!phoneNumber || !areaCode) {
-    return '';
+    return null;
   }
 
   let base = `${areaCode}${phoneNumber}`;

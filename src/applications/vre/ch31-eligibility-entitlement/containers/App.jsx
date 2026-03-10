@@ -6,6 +6,7 @@ import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 const App = () => {
   const user = useSelector(selectUser);
@@ -13,6 +14,7 @@ const App = () => {
   return (
     <RequiredLoginView user={user}>
       <div className="row">
+        <Breadcrumbs />
         <DowntimeNotification
           appTitle="Veteran Readiness and Employment - Eligibility and Entitlement"
           dependencies={[externalServices.vreCh31Eligibility]}

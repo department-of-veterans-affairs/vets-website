@@ -66,7 +66,7 @@ describe('Accredited Representative Portal', () => {
 
     it('Shows errors on empty fields on searching when incomplete', () => {
       cy.injectAxeThenAxeCheck();
-      cy.get('.poa-request-search__form-submit').click();
+      cy.get('.claimant__form-submit').click();
       cy.contains('Enter a first name');
       cy.contains('Enter a last name');
       cy.contains('Enter a date of birth');
@@ -89,7 +89,7 @@ describe('Accredited Representative Portal', () => {
       cy.get('va-text-input.input-year').should('have.value', '2024');
       cy.get('va-text-input.masked-ssn').should('have.value', '666-66-6666');
 
-      cy.get('.poa-request-search__form-reset').click();
+      cy.get('.claimant__form-reset').click();
       cy.get("va-text-input[name='first_name']").should('be.empty');
       cy.get("va-text-input[name='first_name']").should('be.empty');
       cy.get('va-select.select-month').should('have.value', '');
@@ -107,7 +107,7 @@ describe('Accredited Representative Portal', () => {
       );
 
       setClaimantSearch();
-      cy.get('.poa-request-search__form-submit').click();
+      cy.get('.claimant__form-submit').click();
       cy.get('.poa-request__list').should('contain', 'Johnson, Karol');
       cy.get('.poa-request__list').should('contain', 'Declined');
       cy.get('.poa-request__list').should('contain', 'January 30, 2025');
@@ -123,12 +123,12 @@ describe('Accredited Representative Portal', () => {
       );
 
       setEmptyClaimantSearch();
-      cy.get('.poa-request-search__form-submit').click();
+      cy.get('.claimant__form-submit').click();
       cy.get(
         "[data-testid='representation-requests-table-fetcher-no-poa-requests']",
       ).should(
         'have.text',
-        'No result found for "asdf", "ghjkl", "2024-01-01", "***-**-6666"',
+        'No result found for "asdf", "ghjkl", "January 1, 2024", "***-**-6666". Check the entered information and try the search again.',
       );
     });
   });

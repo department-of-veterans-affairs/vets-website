@@ -115,7 +115,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     // Assert
     await screen.findByText(new RegExp(format(pastDate, 'MMMM yyyy'), 'i'));
-    await screen.findByText(/VA appointment/);
+    await screen.findAllByText(/VA appointment/);
   });
 
   it('should show information without facility name', async () => {
@@ -348,7 +348,6 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
 
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).to.contain.text('Details');
   });
 
   it('should display past cancel appt', async () => {
@@ -388,6 +387,5 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
 
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).to.contain.text('Details');
   });
 });

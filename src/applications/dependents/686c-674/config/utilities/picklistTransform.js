@@ -1,6 +1,6 @@
 import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
 
-import { PICKLIST_DATA } from '../constants';
+import { PICKLIST_DATA, PICKLIST_REMOVAL_FLAG } from '../constants';
 import { getV2Destination } from '../dataMappings';
 
 /**
@@ -322,27 +322,30 @@ export function transformPicklistToV2(data) {
     }
   });
 
+  /* eslint-disable no-param-reassign */
   // Copy to data object (only if arrays/object exist)
   if (v2Data.deaths.length > 0) {
-    // eslint-disable-next-line no-param-reassign
     data.deaths = v2Data.deaths;
+    // Set removal flag so backend can track submissions
+    data[PICKLIST_REMOVAL_FLAG] = true;
   }
   if (v2Data.childMarriage.length > 0) {
-    // eslint-disable-next-line no-param-reassign
     data.childMarriage = v2Data.childMarriage;
+    data[PICKLIST_REMOVAL_FLAG] = true;
   }
   if (v2Data.childStoppedAttendingSchool.length > 0) {
-    // eslint-disable-next-line no-param-reassign
     data.childStoppedAttendingSchool = v2Data.childStoppedAttendingSchool;
+    data[PICKLIST_REMOVAL_FLAG] = true;
   }
   if (v2Data.stepChildren.length > 0) {
-    // eslint-disable-next-line no-param-reassign
     data.stepChildren = v2Data.stepChildren;
+    data[PICKLIST_REMOVAL_FLAG] = true;
   }
   if (v2Data.reportDivorce) {
-    // eslint-disable-next-line no-param-reassign
     data.reportDivorce = v2Data.reportDivorce;
+    data[PICKLIST_REMOVAL_FLAG] = true;
   }
+  /* eslint-enable no-param-reassign */
 
   /**
    * NOTE: We intentionally do NOT set view:removeDependentOptions or
@@ -350,7 +353,8 @@ export function transformPicklistToV2(data) {
    * which is the single source of truth for submission flags.
    *
    * This function's responsibility is ONLY to transform V3 picklist data
-   * into V2 data arrays. Flag validation happens later in the pipeline.
+   * into V2 data arrays and set the V3 removal flow flag. The aforementioned
+   * flag validations happens later in the pipeline.
    */
 
   return data;

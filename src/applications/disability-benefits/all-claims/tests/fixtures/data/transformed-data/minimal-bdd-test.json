@@ -1,6 +1,14 @@
 {
     "form526": {
+      "attachments": [
+        {
+          "attachmentId": "L702",
+          "confirmationCode": "sha-minimal-code",
+          "name": "sha-minimal.pdf"
+        }
+      ],
       "disability526ExtraBDDPagesEnabled": true,
+      "disability526NewBddShaEnforcementWorkflowEnabled": true,
       "homelessOrAtRisk": "homeless",
       "homelessHousingSituation": "shelter",
       "needToLeaveHousing": true,
@@ -50,7 +58,7 @@
       "newPrimaryDisabilities": [
         {
           "cause": "NEW",
-          "primaryDescription": "This disability is related to my military service.",
+          "primaryDescription": "I developed asthma during military service.",
           "condition": "asthma"
         }
       ],

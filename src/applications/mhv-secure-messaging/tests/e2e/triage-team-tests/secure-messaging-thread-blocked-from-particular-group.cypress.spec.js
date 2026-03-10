@@ -89,7 +89,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
 
-      cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+      cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
     });
   });
 

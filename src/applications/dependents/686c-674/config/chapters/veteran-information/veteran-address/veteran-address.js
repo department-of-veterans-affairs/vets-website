@@ -10,7 +10,9 @@ export const uiSchema = {
     veteranAddress: {
       ...addressUI({
         title: '',
+        omit: ['street3'],
         labels: {
+          street2: 'Apartment or unit number',
           militaryCheckbox:
             'I live on a United States military base outside of the U.S.',
         },
@@ -42,7 +44,7 @@ export const schema = {
     veteranContactInformation: {
       type: 'object',
       properties: {
-        veteranAddress: addressSchema(),
+        veteranAddress: addressSchema({ omit: ['street3'] }),
       },
     },
   },

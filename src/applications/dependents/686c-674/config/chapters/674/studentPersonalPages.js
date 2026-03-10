@@ -13,7 +13,12 @@ import {
 /** @returns {PageSchema} */
 export const studentIncomePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student\u2019s income'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'this student'}’s income information`,
+      null,
+      false,
+    ),
     studentIncome: radioUI({
       title: 'Did this student have an income in the last 365 days?',
       hint:
@@ -21,7 +26,7 @@ export const studentIncomePage = {
       labels: {
         Y: 'Yes',
         N: 'No',
-        NA: 'This question doesn\u2019t apply to me',
+        NA: 'This question doesn’t apply to me',
       },
       required: (_chapterData, _index, formData) =>
         formData?.vaDependentsNetWorthAndPension,
@@ -54,11 +59,18 @@ export const studentIncomePage = {
 /** @returns {PageSchema} */
 export const studentAddressPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student\u2019s address'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'this student'}’s address`,
+      null,
+      false,
+    ),
     address: {
       ...addressUI({
         title: '',
+        omit: ['street3'],
         labels: {
+          street2: 'Apartment or unit number',
           militaryCheckbox:
             'The student receives mail outside of the United States on a U.S. military base.',
         },
@@ -90,7 +102,7 @@ export const studentAddressPage = {
     type: 'object',
     required: ['address'],
     properties: {
-      address: addressSchema(),
+      address: addressSchema({ omit: ['street3'] }),
     },
   },
 };
@@ -99,7 +111,10 @@ export const studentAddressPage = {
 export const studentMaritalStatusPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student\u2019s marital status',
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'this student'}’s marital status`,
+      null,
+      false,
     ),
     wasMarried: {
       ...yesNoUI('Has this student ever been married?'),
@@ -119,7 +134,10 @@ export const studentMaritalStatusPage = {
 export const studentMarriageDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student\u2019s marriage date',
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'this student'}’s marriage date`,
+      null,
+      false,
     ),
     marriageDate: currentOrPastDateUI({
       title: 'Date of marriage',

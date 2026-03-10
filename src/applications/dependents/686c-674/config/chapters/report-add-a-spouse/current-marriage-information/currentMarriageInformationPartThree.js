@@ -2,7 +2,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-import { customLocationSchema } from '../../../helpers';
+import { customLocationSchema, asciiValidation } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -33,6 +33,7 @@ export const uiSchema = {
               errors.addError('City must be 30 characters or less');
             }
           },
+          asciiValidation,
         ],
       },
       state: {

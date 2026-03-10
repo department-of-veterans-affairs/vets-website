@@ -79,6 +79,7 @@ export const veteranInformationUiSchema = {
     veteranFullName: customVeteranNameUISchema(formatVeteranNameTitle),
     dateOfBirth: dateOfBirthUI({
       title: "Veteran's date of birth",
+      dataDogHidden: true,
       errorMessages: {
         required: 'Date of birth is required',
       },

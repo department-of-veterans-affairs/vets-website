@@ -88,8 +88,8 @@ describe('PaginationMeta', () => {
       initialIndex: 0,
     });
 
-    const { getByRole } = render(<RouterProvider router={router} />);
-    const text = getByRole('text');
+    const { container } = render(<RouterProvider router={router} />);
+    const text = container.querySelector('p');
     expect(text.textContent).to.include(
       'Showing 1-20 of 23 processed requests for "You (test user)" sorted by “Processed date (oldest)”',
     );
@@ -128,8 +128,8 @@ describe('PaginationMeta', () => {
       ],
       initialIndex: 0,
     });
-    const { getByRole } = render(<RouterProvider router={router} />);
-    const text = getByRole('text');
+    const { container } = render(<RouterProvider router={router} />);
+    const text = container.querySelector('p');
     expect(text.textContent).to.include(
       'Showing 1-12 of 12 processed requests for "You (test user)" sorted by “Processed date (oldest)”',
     );
@@ -169,8 +169,8 @@ describe('PaginationMeta', () => {
       ],
       initialIndex: 0,
     });
-    const { getByRole } = render(<RouterProvider router={router} />);
-    const text = getByRole('text');
+    const { container } = render(<RouterProvider router={router} />);
+    const text = container.querySelector('p');
     expect(text.textContent).to.include(
       'Showing 0 processed requests for "You (test user)" sorted by “Processed date (oldest)”',
     );
@@ -210,8 +210,8 @@ describe('PaginationMeta', () => {
       ],
       initialIndex: 0,
     });
-    const { getByRole } = render(<RouterProvider router={router} />);
-    const text = getByRole('text');
+    const { container } = render(<RouterProvider router={router} />);
+    const text = container.querySelector('p');
     expect(text.textContent).to.include(
       'Showing 1-10 of 10 processed requests for "You (test user)" sorted by “Processed date (oldest)”',
     );

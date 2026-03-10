@@ -22,6 +22,7 @@ import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import DuplicateRecordsAlert from '../components/shared/DuplicateRecordsAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
@@ -43,7 +44,11 @@ const HealthConditions = () => {
   );
   useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_LIST);
 
-  const { isLoading, isAcceleratingConditions } = useAcceleratedData();
+  const {
+    isLoading,
+    isCerner,
+    isAcceleratingConditions,
+  } = useAcceleratedData();
 
   const dispatchAction = useCallback(
     isCurrent => getConditionsList(isCurrent, isAcceleratingConditions),
@@ -88,6 +93,7 @@ const HealthConditions = () => {
       <h1 className="vads-u-margin--0" data-testid="health-conditions">
         Health conditions
       </h1>
+      {isCerner && <DuplicateRecordsAlert />}
 
       <p className="page-description">
         This list includes the same information as your "VA problem list" in the

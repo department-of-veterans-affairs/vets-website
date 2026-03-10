@@ -2,40 +2,45 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import InquiriesList from '../../../components/inbox/InquiriesList';
-import { categorizeByLOA } from '../../../utils/inbox';
+import { standardizeInquiries } from '../../../utils/inbox';
 import { mockInquiries as rawInquiries } from '../../utils/mock-inquiries';
 
 describe('InquiriesList', () => {
-  const mockInquiries = categorizeByLOA(rawInquiries);
+  const mockData = standardizeInquiries(rawInquiries);
+  const personalInquiries = mockData.standardInquiries.filter(
+    inq => inq.levelOfAuthentication.toLowerCase() === 'personal',
+  );
 
-  it('only renders 4 items per page', () => {
+  it('only renders 6 items per page', () => {
     const view = render(
       <InquiriesList
         categoryFilter="All"
         statusFilter="All"
-        inquiries={mockInquiries.personal}
+        inquiries={personalInquiries}
       />,
     );
 
     const cards = view.getAllByTestId('inquiry-card');
-    expect(cards.length).to.equal(4);
+    expect(cards.length).to.equal(6);
   });
 
-  it('renders first 4 inquiries on first page', () => {
+  it('renders first 6 inquiries on first page', () => {
     const view = render(
       <InquiriesList
         categoryFilter="All"
         statusFilter="All"
-        inquiries={mockInquiries.personal}
+        inquiries={personalInquiries}
       />,
     );
     const pageText = view.container.textContent;
 
-    expect(pageText).to.contain(mockInquiries.personal[0].inquiryNumber);
-    expect(pageText).to.contain(mockInquiries.personal[1].inquiryNumber);
-    expect(pageText).to.contain(mockInquiries.personal[2].inquiryNumber);
-    expect(pageText).to.contain(mockInquiries.personal[3].inquiryNumber);
-    expect(pageText).to.not.contain(mockInquiries.personal[4].inquiryNumber);
+    expect(pageText).to.contain(personalInquiries[0].inquiryNumber);
+    expect(pageText).to.contain(personalInquiries[1].inquiryNumber);
+    expect(pageText).to.contain(personalInquiries[2].inquiryNumber);
+    expect(pageText).to.contain(personalInquiries[3].inquiryNumber);
+    expect(pageText).to.contain(personalInquiries[4].inquiryNumber);
+    expect(pageText).to.contain(personalInquiries[5].inquiryNumber);
+    expect(pageText).to.not.contain(personalInquiries[6].inquiryNumber);
   });
 
   it('renders an alert if inquiries array is empty', () => {
@@ -58,13 +63,13 @@ describe('InquiriesList', () => {
       <InquiriesList
         categoryFilter="All"
         statusFilter="All"
-        inquiries={mockInquiries.personal}
+        inquiries={personalInquiries}
       />,
     );
 
     // Confirm starting state
-    const firstPageFirstNumber = mockInquiries.personal[0].inquiryNumber;
-    const secondPageFirstNumber = mockInquiries.personal[4].inquiryNumber;
+    const firstPageFirstNumber = personalInquiries[0].inquiryNumber;
+    const secondPageFirstNumber = personalInquiries[6].inquiryNumber;
     const pagination = view.container.querySelector('va-pagination');
 
     expect(view.getByText(firstPageFirstNumber)).to.exist;

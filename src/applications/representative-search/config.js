@@ -36,6 +36,8 @@ const baseUrl =
 let endpoints = {
   fetchVSOReps: '/services/veteran/v0/vso_accredited_representatives',
   fetchOtherReps: '/services/veteran/v0/other_accredited_representatives',
+  fetchOrganizationsEndpoint:
+    '/representation_management/v0/accredited_organizations',
   flagReps: '/representation_management/v0/flag_accredited_representatives',
 };
 

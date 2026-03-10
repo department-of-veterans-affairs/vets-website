@@ -319,14 +319,14 @@ export default function RenderErrorContainer({
     // 113 - Personal Information Mismatch
     case AUTH_ERRORS.SSN_ATTRIBUTE_MISMATCH.errorCode:
       alertContent = (
-        <p>
+        <p className="vads-u-margin-top--0">
           There’s a temporary issue in our system. We’re working to fix it as
           soon as possible.
         </p>
       );
       troubleshootingContent = (
         <>
-          <h2>Access you VA benefits in other ways</h2>
+          <h2>Access your VA benefits in other ways</h2>
           <p>
             Until we fix this issue, you can manage your VA benefits over the
             phone, by mail, or in person. We understand this isn’t as

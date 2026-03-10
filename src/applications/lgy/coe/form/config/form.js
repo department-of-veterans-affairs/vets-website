@@ -4,18 +4,16 @@ import environment from 'platform/utilities/environment';
 import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import { IntroductionPageSelector } from '../containers/selectors/IntroductionPageSelector';
+import { ConfirmationPageSelector } from '../containers/selectors/ConfirmationPageSelector';
 import { GetFormHelp } from '../components/GetFormHelp';
 import manifest from '../manifest.json';
 import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
 
 // chapter schema imports
-import {
-  applicantInformation,
-  personalInformation,
-} from './chapters/applicant';
+import { applicantInformation } from './chapters/applicant';
+import personalInformation from '../pages/personalInformation';
 
 import {
   additionalInformation,
@@ -35,9 +33,6 @@ import { servicePeriodsPages } from '../pages/servicePeriodsPages';
 import serviceStatus2 from '../pages/serviceStatus2';
 import { uploadDocumentsSchema, getUiSchema } from '../pages/uploadDocuments';
 
-// TODO: When schema is migrated to vets-json-schema, remove common
-// definitions from form schema and get them from common definitions instead
-
 import {
   certificateUseOptions,
   serviceStatuses,
@@ -46,6 +41,7 @@ import {
 import certificateUse from '../pages/certificateUse';
 import hadPriorLoans from '../pages/hadPriorLoans';
 import currentOwnership from '../pages/currentOwnership';
+import { propertiesHomeLoansPages } from '../pages/propertiesHomeLoansPages';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -62,8 +58,8 @@ const formConfig = {
     startNewAppButtonText: 'Start a new request',
     reviewPageTitle: 'Review your request',
   },
-  introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  introduction: IntroductionPageSelector,
+  confirmation: ConfirmationPageSelector,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -274,6 +270,7 @@ const formConfig = {
           uiSchema: currentOwnership.uiSchema,
           schema: currentOwnership.schema,
         },
+        ...propertiesHomeLoansPages,
       },
     },
     documentsChapter: {
