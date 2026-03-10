@@ -232,9 +232,7 @@ function AddressAutosuggest({
       isLoading={isGeocoding}
       loadingMessage="Searching..."
       useProgressiveDisclosure={useProgressiveDisclosure || false}
-      showOptionsRestriction={
-        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
-      }
+      showOptionsRestriction
     />
   );
 }

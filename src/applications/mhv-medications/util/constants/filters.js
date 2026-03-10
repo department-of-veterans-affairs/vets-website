@@ -1,3 +1,5 @@
+import { SESSION_SELECTED_FILTER_OPTION } from './session';
+
 // Filter keys
 export const ALL_MEDICATIONS_FILTER_KEY = 'ALL_MEDICATIONS';
 export const ACTIVE_FILTER_KEY = 'ACTIVE';
@@ -10,6 +12,32 @@ export const IN_PROGRESS_FILTER_KEY = 'IN_PROGRESS';
 export const SHIPPED_FILTER_KEY = 'SHIPPED';
 export const TRANSFERRED_FILTER_KEY = 'TRANSFERRED';
 export const STATUS_NOT_AVAILABLE_FILTER_KEY = 'STATUS_NOT_AVAILABLE';
+
+/**
+ * Resolve the effective filter option, defaulting to Active when
+ * management-improvements is on and no filter was explicitly chosen.
+ *
+ * @param {string} selectedFilterOption - The currently stored filter key
+ * @param {boolean} isManagementImprovements - Feature flag value
+ * @returns {string} The filter key to use
+ */
+export const getDefaultFilterOption = (
+  selectedFilterOption,
+  isManagementImprovements,
+) => {
+  if (
+    isManagementImprovements &&
+    selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY
+  ) {
+    try {
+      const stored = sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION);
+      if (!stored) return ACTIVE_FILTER_KEY;
+    } catch {
+      // sessionStorage unavailable
+    }
+  }
+  return selectedFilterOption;
+};
 
 // Legacy filter options (VistA/MHV statuses)
 export const filterOptions = {
