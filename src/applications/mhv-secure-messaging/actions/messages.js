@@ -182,8 +182,14 @@ export const sendMessage = (
   isRxRenewal = false,
   suppressSuccessAlert = false,
 ) => async dispatch => {
-  const messageData =
-    typeof message === 'string' ? JSON.parse(message) : message;
+  let messageData;
+  if (typeof message === 'string') {
+    messageData = JSON.parse(message);
+  } else if (message instanceof FormData) {
+    messageData = JSON.parse(message.get('message'));
+  } else {
+    messageData = message;
+  }
   const startTimeMs = Date.now();
   try {
     const response = await createMessage(

@@ -183,8 +183,8 @@ const rxPrescriptionId =
 | Action | Purpose |
 |---|---|
 | `retrieveMessageThread(messageId)` | Fetch thread with full details |
-| `sendMessage(message, attachments, ohTriageGroup, isRxRenewal, suppressSuccessAlert)` | Send new message (when `isRxRenewal` is true, always uses `createMessage` API; `isRxRenewal` enables Datadog logging for renewals; `suppressSuccessAlert` skips the success alert dispatch) |
-| `sendReply({ replyToId, message, attachments })` | Send reply |
+| `sendMessage(message, hasAttachments, ohTriageGroup, isRxRenewal, suppressSuccessAlert)` | Send new message (`hasAttachments` is boolean controlling JSON vs FormData in `createMessage`; `isRxRenewal` enables Datadog logging for renewals; `suppressSuccessAlert` skips the success alert dispatch) |
+| `sendReply({ replyToId, message, hasAttachments })` | Send reply (`hasAttachments` is boolean controlling JSON vs FormData) |
 | `saveDraft(messageData, type, id)` | Save/update draft (type: 'manual' or 'auto') |
 | `deleteDraft(messageId)` | Delete draft permanently |
 | `moveMessageThread(threadId, folderId)` | Move thread to folder |
