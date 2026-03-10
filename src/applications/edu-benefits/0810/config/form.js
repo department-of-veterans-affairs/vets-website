@@ -53,11 +53,6 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   customText: {
-    appType: 'request',
-    continueAppButtonText: 'Continue your request',
-    startNewAppButtonText: 'Start a new request',
-    finishAppLaterMessage: 'Finish this request later',
-    appSavedSuccessfullyMessage: 'We’ve saved your request.',
     reviewPageTitle: 'Review',
     submitButtonText: 'Continue',
   },
