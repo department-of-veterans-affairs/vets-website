@@ -279,3 +279,38 @@ describe('when accelerated conditions is enabled', () => {
     }
   });
 });
+
+describe('when accelerated condition details has notFound', () => {
+  it('redirects to the conditions list page', async () => {
+    const initialState = {
+      user,
+      mr: {
+        conditions: {
+          conditionDetails: { notFound: true },
+          conditionsList: [],
+        },
+        alerts: { alertList: [] },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_accelerated_delivery_enabled: true,
+        // eslint-disable-next-line camelcase
+        mhv_accelerated_delivery_conditions_enabled: true,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ConditionDetails runningUnitTest />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/conditions/missing-id',
+      },
+    );
+
+    // The redirect happens inside a useEffect, so wait for it to fire
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal('/conditions');
+    });
+  });
+});

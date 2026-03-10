@@ -255,10 +255,32 @@ describe('formConfig', () => {
           context('when statementType is NEW_EVIDENCE', () => {
             beforeEach(() => {
               formData.statementType = STATEMENT_TYPES.NEW_EVIDENCE;
+              formData['view:userIsVeteran'] = true;
             });
 
             it('should display the page', () => {
               expect(claimStatusToolPage.depends(formData)).to.be.true;
+            });
+          });
+        });
+
+        describe('claimStatusToolPageNonVeteran', () => {
+          const {
+            claimStatusToolPageNonVeteran,
+          } = formConfig.chapters.statementTypeChapter.pages;
+
+          context('when statementType is NEW_EVIDENCE', () => {
+            beforeEach(() => {
+              formData.statementType = STATEMENT_TYPES.NEW_EVIDENCE;
+              formData['view:userIsVeteran'] = false;
+            });
+
+            it('should display the page', () => {
+              const shouldDisplay = claimStatusToolPageNonVeteran.depends(
+                formData,
+              );
+
+              expect(shouldDisplay).to.be.true;
             });
           });
         });

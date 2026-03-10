@@ -1,5 +1,39 @@
-import { differenceInYears, format, isMatch, parse } from 'date-fns';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import { differenceInYears, format, isMatch, parse, addYears } from 'date-fns';
+import content from '../../locales/en/content.json';
+import { replaceStrValues } from './formatting';
+
+/**
+ * Normalizes a Date object to UTC midnight (00:00:00.000).
+ * @param {Date} d - The date to normalize
+ * @returns {Date} A new Date object set to midnight UTC
+ */
+const toUtcMidnight = d =>
+  new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+
+/**
+ * Creates a function that generates modal titles or descriptions based on item/noun context.
+ * @param {string} itemKey - Content key to use when item name exists
+ * @param {string} nounKey - Content key to use when item name does not exist
+ * @returns {Function} Function that accepts props and returns formatted content string
+ *
+ * @example
+ * const cancelEditTitle = createModalTitleOrDescription(
+ *   'health-insurance--cancel-edit-item-title',
+ *   'health-insurance--cancel-edit-noun-title',
+ * );
+ * // Later called with props: cancelEditTitle(props) -> 'Cancel editing Blue Cross?'
+ */
+export const createModalTitleOrDescription = (itemKey, nounKey) => props => {
+  const itemName = props.getItemName(
+    props.itemData,
+    props.index,
+    props.formData,
+  );
+  const contentKey = itemName ? itemKey : nounKey;
+  const replacementValue = itemName || props.nounSingular;
+  return replaceStrValues(content[contentKey], replacementValue);
+};
 
 // Only show address dropdown if we're not the certifier
 // AND there's another address present to choose from:
@@ -11,6 +45,39 @@ export function page15aDepends(formData, index) {
     (index && index > 0) || (certAddress && !(certifierIsApp && index === 0))
   );
 }
+
+/**
+ * Determines if a birth certificate is required for an applicant.
+ * Birth certificates are required for:
+ * - Non-biological children (adopted or stepchildren) of any age
+ * - Biological children who are 1 year old or younger (newborns)
+ *
+ * @param {object} formData - Standard formData object
+ * @param {number} index - Index of the applicant in the applicants array
+ * @returns {boolean} True if birth certificate is required, false otherwise
+ */
+export const requireBirthCertificate = (formData, index) => {
+  const applicant = formData?.applicants?.[index];
+  const relationshipToSponsor =
+    applicant?.applicantRelationshipToSponsor?.relationshipToVeteran;
+  const relationshipOrigin =
+    applicant?.applicantRelationshipOrigin?.relationshipToVeteran;
+
+  const isChild = relationshipToSponsor === 'child';
+  const isNotBiologicalChild = relationshipOrigin !== 'blood';
+
+  if (!isChild) return false;
+  if (isNotBiologicalChild) return true;
+  if (!applicant?.applicantDob) return false;
+
+  const dobDate = new Date(applicant.applicantDob);
+  if (Number.isNaN(dobDate.getTime())) return false;
+
+  // For biological child, check if newborn (1 year or less)
+  const dobUTC = toUtcMidnight(dobDate);
+  const oneYearAgo = toUtcMidnight(addYears(new Date(), -1));
+  return dobUTC >= oneYearAgo;
+};
 
 /**
  * Adds a new `applicant` object to the start of the `formData.applicants`
@@ -89,12 +156,19 @@ export const getAgeInYears = (dateStr, asOf = new Date()) => {
   }
 
   // normalize both to UTC midnight to avoid TZ/DST edge cases
-  const dobUTC = new Date(
-    Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate()),
-  );
-  const asOfUTC = new Date(
-    Date.UTC(asOf.getUTCFullYear(), asOf.getUTCMonth(), asOf.getUTCDate()),
-  );
+  const dobUTC = toUtcMidnight(parsed);
+  const asOfUTC = toUtcMidnight(asOf);
 
   return differenceInYears(asOfUTC, dobUTC);
+};
+
+/**
+ * Helper that determines if a birthdate is between the age of 18-23
+ * @param {String|Date} birthdate - the birthdate to evaluate
+ * @param {String|Date} testdate - an optional date to pass for testing purposes
+ * @returns {Boolean} - true if the provided date is between 18 and 23 years from the test date
+ */
+export const isOfCollegeAge = (birthdate, testdate = new Date()) => {
+  const age = getAgeInYears(birthdate, testdate);
+  return age >= 18 && age <= 23;
 };

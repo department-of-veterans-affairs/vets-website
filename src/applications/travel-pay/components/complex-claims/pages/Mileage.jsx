@@ -14,6 +14,7 @@ import {
   updateExpense,
   setUnsavedExpenseChanges,
   setReviewPageAlert,
+  setUnsavedChangesModalVisible,
 } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
@@ -22,6 +23,7 @@ import {
   selectExpenseBackDestination,
   selectComplexClaim,
   selectAppointment,
+  selectHasUnsavedExpenseChanges,
 } from '../../../redux/selectors';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import {
@@ -46,6 +48,7 @@ const Mileage = () => {
   const allExpenses = useSelector(selectAllExpenses);
   const address = useSelector(selectVAPResidentialAddress);
   const backDestination = useSelector(selectExpenseBackDestination);
+  const hasUnsavedChanges = useSelector(selectHasUnsavedExpenseChanges);
 
   const title = 'Mileage';
 
@@ -57,10 +60,7 @@ const Mileage = () => {
         : selectExpenseCreationLoadingState(state),
   );
 
-  const initialFormStateRef = useRef({
-    departureAddress: '',
-    tripType: '',
-  });
+  const initialFormStateRef = useRef({});
   const previousHasChangesRef = useRef(false);
 
   const [formState, setFormState] = useState({});
@@ -216,12 +216,18 @@ const Mileage = () => {
   };
 
   const handleBack = () => {
-    if (isEditMode) {
+    // On edit mode, "Cancel" takes the place of the normal back button
+    if (isEditMode && hasUnsavedChanges) {
       setIsModalVisible(true);
-    } else if (backDestination === 'review') {
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else if (!isEditMode && hasUnsavedChanges) {
+      // On add mode, the back button should trigger the "leave page" modal if there are unsaved changes
+      dispatch(setUnsavedChangesModalVisible(true, 'expense-back'));
     } else {
-      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      navigate(
+        `/file-new-claim/${apptId}/${claimId}/${
+          backDestination === 'review' ? 'review' : 'choose-expense'
+        }`,
+      );
     }
   };
 
@@ -231,7 +237,7 @@ const Mileage = () => {
     handleCloseModal();
     dispatch(setUnsavedExpenseChanges(false));
 
-    if (isEditMode || backDestination === 'review') {
+    if (backDestination === 'review') {
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);

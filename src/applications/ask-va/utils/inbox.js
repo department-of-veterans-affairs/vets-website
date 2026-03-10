@@ -1,9 +1,18 @@
 import Fuse from 'fuse.js';
-import { compareDesc } from 'date-fns';
+import { compareAsc, compareDesc } from 'date-fns';
 import { getVAStatusFromCRM } from '../config/helpers';
 
-export function flattenInquiry(inquiry) {
-  const { id, type, attributes } = inquiry;
+/**
+ * @typedef {import('../components/inbox/InquiryCard').Inquiry} Inquiry
+ */
+
+/**
+ *
+ * @param {object} rawInquiry
+ * @returns {Inquiry}
+ */
+export function flattenInquiry(rawInquiry) {
+  const { id, type, attributes } = rawInquiry;
   return {
     id,
     type,
@@ -14,29 +23,45 @@ export function flattenInquiry(inquiry) {
 
 /** Splits inquires into buckets by their Level of Authentication
  *  @param {Array} rawInquiries
+ *  @returns {{
+ *   standardInquiries: Inquiry[],
+ *   types: ('business' | 'personal')[]
+ *   uniqueCategories: string[]
+ *   uniqueStatuses: string[]
+ * }}
  */
-export function categorizeByLOA(rawInquiries) {
-  const buckets = rawInquiries.reduce(
+export function standardizeInquiries(rawInquiries) {
+  const output = rawInquiries.reduce(
     (accumulator, current) => {
       const loa = current.attributes.levelOfAuthentication.toLowerCase();
       const flattened = flattenInquiry(current);
 
-      // If business or personal, add to bucket
-      if (accumulator[loa]) accumulator[loa].push(flattened);
+      // If business or personal, add to output
+      if (['business', 'personal'].includes(loa)) {
+        accumulator.inquiries.push(flattened);
+        accumulator.inquiryTypes.add(loa);
+      }
 
-      // Use a Set to track categories
+      // Use Sets to track categories & statuses
       accumulator.uniqueCategories.add(flattened.categoryName);
+      accumulator.uniqueStatuses.add(flattened.status);
       return accumulator;
     },
-    { business: [], personal: [], uniqueCategories: new Set() },
+    {
+      inquiries: [],
+      inquiryTypes: new Set(),
+      uniqueCategories: new Set(),
+      uniqueStatuses: new Set(),
+    },
   );
-  // Convert the Set into an array
-  return { ...buckets, uniqueCategories: [...buckets.uniqueCategories] };
+  // Convert the Sets to arrays
+  return {
+    standardInquiries: output.inquiries,
+    types: [...output.inquiryTypes],
+    uniqueCategories: [...output.uniqueCategories],
+    uniqueStatuses: [...output.uniqueStatuses],
+  };
 }
-
-/**
- * @typedef {import('../components/inbox/InquiryCard').Inquiry} Inquiry
- */
 
 /** Splits an array into buckets of limited size
  * @param {Inquiry[]} inquiries The list of items
@@ -65,24 +90,65 @@ export function paginateInquiries(inquiries, itemsPerPage) {
     : [{ pageStart: 0, pageEnd: 0, items: [] }];
 }
 
+const sortOptions = {
+  lastUpdate: {
+    newest: 'lastUpdate.newest',
+    oldest: 'lastUpdate.oldest',
+  },
+};
+
+/**
+ * Set the list of inquiries to be displayed in the UI.
+ *
+ * **IMPORTANT:** be sure to use `filterAndSort.sortOptions` to set `sortOrder`
+ * @param {object} _ destructured object
+ * @param {Inquiry[]} _.inquiriesArray
+ * @param {{
+ *   categories: string[]
+ *   statuses: string[]
+ *   inquiryTypes: ('business' | 'personal')[]
+ *   query: string
+ * }} _.filters destructured object
+ * @param {string} [_.sortOrder] use the `sortOptions` object to pick the right option
+ * @returns {Inquiry[]}
+ */
 export function filterAndSort({
   inquiriesArray,
-  query = '',
-  categoryFilter = 'All',
-  statusFilter = 'All',
+  filters: {
+    categories = ['All'],
+    statuses = ['All'],
+    inquiryTypes = ['business', 'personal'],
+    query = '',
+  } = {
+    categories: ['All'],
+    statuses: ['All'],
+    inquiryTypes: ['business', 'personal'],
+    query: '',
+  },
+  sortOrder = sortOptions.lastUpdate.newest,
 }) {
   // Since Array.sort() sorts it in place, create a shallow copy first
   const inquiriesCopy = [...inquiriesArray];
   const filteredAndSorted = inquiriesCopy
     .filter(inq => {
       return (
-        [inq.categoryName, 'All'].includes(categoryFilter) &&
-        [inq.status, 'All'].includes(statusFilter)
+        (categories.includes('All') || categories.includes(inq.categoryName)) &&
+        (statuses.includes('All') || statuses.includes(inq.status)) &&
+        inquiryTypes.includes(inq.levelOfAuthentication.toLowerCase())
       );
     })
-    .sort((a, b) =>
-      compareDesc(new Date(a.lastUpdate), new Date(b.lastUpdate)),
-    );
+    .sort((a, b) => {
+      switch (sortOrder) {
+        case sortOptions.lastUpdate.newest:
+          return compareDesc(new Date(a.lastUpdate), new Date(b.lastUpdate));
+
+        case sortOptions.lastUpdate.oldest:
+          return compareAsc(new Date(a.lastUpdate), new Date(b.lastUpdate));
+
+        default:
+          return 0;
+      }
+    });
 
   const searchable = new Fuse(filteredAndSorted, {
     keys: ['inquiryNumber', 'submitterQuestion', 'categoryName'],
@@ -95,3 +161,5 @@ export function filterAndSort({
   // An empty query returns no results, so use the full list as a backup
   return query ? results : filteredAndSorted;
 }
+
+filterAndSort.sortOptions = sortOptions;

@@ -20,14 +20,14 @@ const TechnologyProgramAccordion = () => {
           needed, and completing and reviewing the collection of information.
           Send comments regarding this burden estimate and any other aspect of
           this collection of information, including suggestions for reducing the
-          burden, to VA Reports Clearance Officer at
+          burden, to VA Reports Clearance Officer at{' '}
           <a
             href="mailto:VACOPaperworkReduAct@va.gov"
             target="_blank"
             rel="noreferrer"
           >
             VACOPaperworkReduAct@va.gov.
-          </a>
+          </a>{' '}
           Please refer to OMB Control No. 2900-0892 in any correspondence. Do
           not send your completed VA Form 22-10272 to this email address.
         </p>

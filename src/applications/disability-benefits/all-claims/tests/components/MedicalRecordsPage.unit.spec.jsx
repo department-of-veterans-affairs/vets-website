@@ -68,6 +68,12 @@ describe('MedicalRecordsPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and remove');
+      expect(modal.textContent).to.include(
+        'You can change the type of medical records you’d like us to access. If you do so, we’ll remove information you entered about these medical centers:',
+      );
       expect(modal.textContent).to.include('VA Hospital 1');
       expect(modal.textContent).to.include('VA Hospital 2');
     });
@@ -91,6 +97,12 @@ describe('MedicalRecordsPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and delete');
+      expect(modal.textContent).to.include(
+        'You can change the type of medical records you’d like us to access. If you do so, we’ll delete these medical records you uploaded:',
+      );
       expect(modal.textContent).to.include('record1.pdf');
       expect(modal.textContent).to.include('record2.pdf');
     });
@@ -114,6 +126,12 @@ describe('MedicalRecordsPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and remove');
+      expect(modal.textContent).to.include(
+        'You can change the type of medical records you’d like us to access. If you do so, we’ll remove the information you shared about these private medical centers:',
+      );
       expect(modal.textContent).to.include('Private Clinic 1');
       expect(modal.textContent).to.include('Private Clinic 2');
     });
@@ -141,8 +159,17 @@ describe('MedicalRecordsPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and delete');
+      expect(modal.textContent).to.include(
+        'You can change the type of medical records you’d like us to access. If you do so, we’ll remove the information you shared about these private medical centers:',
+      );
       expect(modal.textContent).to.include('Private Clinic 1');
       expect(modal.textContent).to.include('Private Clinic 2');
+      expect(modal.textContent).to.include(
+        'We’ll also delete these medical records you uploaded:',
+      );
       expect(modal.textContent).to.include('record1.pdf');
       expect(modal.textContent).to.include('record2.pdf');
     });
@@ -439,11 +466,184 @@ describe('MedicalRecordsPage', () => {
     });
   });
 
+  it('should update selection to true when a checkbox is checked', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:selectableEvidenceTypes': {
+        'view:hasVaMedicalRecords': false,
+        'view:hasPrivateMedicalRecords': false,
+      },
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    const checkboxGroup = container.querySelector('va-checkbox-group');
+
+    const customEvent = new CustomEvent('vaChange', { bubbles: true });
+    Object.defineProperty(customEvent, 'target', {
+      value: {
+        checked: true,
+        getAttribute: () => 'view:hasVaMedicalRecords',
+      },
+      writable: false,
+    });
+
+    fireEvent(checkboxGroup, customEvent);
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.lastCall.args[0];
+      expect(
+        updatedData['view:selectableEvidenceTypes']['view:hasVaMedicalRecords'],
+      ).to.be.true;
+    });
+  });
+
+  it('should go forward with current data when no modal or validation errors exist', () => {
+    const goForward = sinon.spy();
+    const data = {
+      'view:selectableEvidenceTypes': {
+        'view:hasVaMedicalRecords': true,
+        'view:hasPrivateMedicalRecords': true,
+      },
+    };
+
+    const { container } = render(page({ data, goForward }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    expect(goForward.calledOnce).to.be.true;
+    expect(goForward.firstCall.args[0]).to.deep.equal(data);
+  });
+
+  it('should focus success alert when evidence is removed', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:selectableEvidenceTypes': {
+        'view:hasVaMedicalRecords': false,
+        'view:hasPrivateMedicalRecords': true,
+      },
+      vaTreatmentFacilities: [{ treatmentCenterName: 'VA Hospital 1' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    const alert = container.querySelector('va-alert');
+    const focusSpy = sinon.spy(alert, 'focus');
+
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const modal = container.querySelector('va-modal');
+    fireEvent(modal, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      expect(alert).to.have.attribute('visible', 'true');
+      expect(focusSpy.called).to.be.true;
+    });
+  });
+
+  it('should open modal on review page when update is clicked and evidence should be removed', async () => {
+    const updatePage = sinon.spy();
+    const data = {
+      'view:selectableEvidenceTypes': {
+        'view:hasVaMedicalRecords': false,
+        'view:hasPrivateMedicalRecords': true,
+      },
+      vaTreatmentFacilities: [{ treatmentCenterName: 'VA Hospital 1' }],
+    };
+
+    const { container } = render(
+      page({ data, onReviewPage: true, updatePage }),
+    );
+
+    fireEvent.click(container.querySelector('button.usa-button-primary'));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+      expect(updatePage.called).to.be.false;
+    });
+  });
+
+  it('should call updatePage on review page when there are no errors and no modal conditions', async () => {
+    const updatePage = sinon.spy();
+    const data = {
+      'view:selectableEvidenceTypes': {
+        'view:hasVaMedicalRecords': true,
+        'view:hasPrivateMedicalRecords': true,
+      },
+    };
+
+    const { container } = render(
+      page({ data, onReviewPage: true, updatePage }),
+    );
+
+    fireEvent.click(container.querySelector('button.usa-button-primary'));
+
+    await waitFor(() => {
+      expect(updatePage.calledOnce).to.be.true;
+    });
+  });
+
+  it('should not call updatePage and show a validation error on review page when no checkbox is selected', async () => {
+    const updatePage = sinon.spy();
+    const { container } = render(
+      page({ data: {}, onReviewPage: true, updatePage }),
+    );
+
+    fireEvent.click(container.querySelector('button.usa-button-primary'));
+
+    await waitFor(() => {
+      const checkboxGroup = container.querySelector('va-checkbox-group');
+      expect(checkboxGroup).to.have.attribute(
+        'error',
+        'Select at least one type of medical record',
+      );
+      expect(updatePage.called).to.be.false;
+    });
+  });
+
   it('should render update button on review page', () => {
     const { container } = render(page({ onReviewPage: true }));
 
     const updateButton = container.querySelector('button.usa-button-primary');
     expect(updateButton).to.exist;
     expect(updateButton.textContent).to.equal('Update page');
+  });
+
+  it('should close success alert when dismiss event fires', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:selectableEvidenceTypes': {
+        'view:hasVaMedicalRecords': false,
+        'view:hasPrivateMedicalRecords': true,
+      },
+      vaTreatmentFacilities: [{ treatmentCenterName: 'VA Hospital 1' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const modal = container.querySelector('va-modal');
+    fireEvent(modal, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.have.attribute('visible', 'true');
+    });
+
+    const alert = container.querySelector('va-alert');
+    fireEvent(alert, new CustomEvent('closeEvent'));
+
+    await waitFor(() => {
+      expect(alert).to.have.attribute('visible', 'false');
+    });
   });
 });

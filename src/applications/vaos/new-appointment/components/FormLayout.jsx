@@ -14,7 +14,6 @@ import WarningNotification from '../../components/WarningNotification';
 import { getFlowType, getFormData } from '../redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 import { routeToPreviousAppointmentPage } from '../redux/actions';
-import { selectFeatureImmediateCareAlert } from '../../redux/selectors';
 
 function Title() {
   const flowType = useSelector(getFlowType);
@@ -56,25 +55,13 @@ function BackLink() {
 
 function Nav({ pageTitle }) {
   const location = useLocation();
-  const featureImmediateCareAlert = useSelector(
-    selectFeatureImmediateCareAlert,
-  );
 
-  if (featureImmediateCareAlert && location.pathname === '/schedule')
+  if (location.pathname === '/schedule')
     return (
       <Breadcrumbs>
         <a href="/my-health/appointments/schedule">{pageTitle}</a>
       </Breadcrumbs>
     );
-
-  if (location.pathname === '/schedule/type-of-care') {
-    if (featureImmediateCareAlert) return <BackLink />;
-    return (
-      <Breadcrumbs>
-        <a href="/my-health/appointments/schedule/type-of-care">{pageTitle}</a>
-      </Breadcrumbs>
-    );
-  }
 
   return <BackLink />;
 }
@@ -84,9 +71,6 @@ Nav.propTypes = {
 
 export default function FormLayout({ children, pageTitle }) {
   const location = useLocation();
-  const featureImmediateCareAlert = useSelector(
-    selectFeatureImmediateCareAlert,
-  );
 
   return (
     <>
@@ -106,13 +90,7 @@ export default function FormLayout({ children, pageTitle }) {
         )}
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-            {featureImmediateCareAlert &&
-              !location.pathname.endsWith('schedule') && (
-                <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
-                  <Title />
-                </span>
-              )}
-            {!featureImmediateCareAlert && (
+            {!location.pathname.endsWith('schedule') && (
               <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
                 <Title />
               </span>

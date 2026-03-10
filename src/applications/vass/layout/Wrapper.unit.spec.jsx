@@ -239,6 +239,7 @@ describe('VASS Component: Wrapper', () => {
       expect(beforeunloadHandler).to.be.undefined;
     });
   });
+
   describe('when loading prop is true', () => {
     it('should render loading indicator', () => {
       const { getByTestId } = renderWithStoreAndRouter(
@@ -276,6 +277,87 @@ describe('VASS Component: Wrapper', () => {
         defaultRenderOptions,
       );
       expect(queryByTestId('loading-indicator')).to.not.exist;
+    });
+  });
+
+  describe('when errorAlert is true', () => {
+    it('should render ErrorAlert component', () => {
+      const { getByTestId } = renderWithStoreAndRouter(
+        <Wrapper errorAlert>
+          <div data-testid="child-content">Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(getByTestId('api-error-alert')).to.exist;
+    });
+
+    it('should not render children content', () => {
+      const { queryByTestId } = renderWithStoreAndRouter(
+        <Wrapper errorAlert>
+          <div data-testid="child-content">Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(queryByTestId('child-content')).to.not.exist;
+    });
+
+    it('should not render back link even when showBackLink is true', () => {
+      const { queryByTestId } = renderWithStoreAndRouter(
+        <Wrapper errorAlert showBackLink>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(queryByTestId('back-link')).to.not.exist;
+    });
+
+    it('should render schedule error header by default', () => {
+      const screen = renderWithStoreAndRouter(
+        <Wrapper errorAlert>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(
+        screen.getByText(/We can\u2019t schedule your appointment right now/),
+      ).to.exist;
+    });
+
+    it('should render cancel error header when flowType is CANCEL', () => {
+      const screen = renderWithStoreAndRouter(
+        <Wrapper errorAlert flowType="cancel">
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      const errorAlert = screen.getByTestId('api-error-alert');
+      expect(errorAlert).to.exist;
+      expect(errorAlert.textContent).to.include(
+        'We can’t cancel your appointment right now',
+      );
+    });
+
+    it('should still render page title when provided', () => {
+      const screen = renderWithStoreAndRouter(
+        <Wrapper errorAlert pageTitle="Test Page Title">
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(screen.getByTestId('header')).to.exist;
+      expect(
+        screen.getByRole('heading', { level: 1, name: /test page title/i }),
+      ).to.exist;
+    });
+
+    it('should still render NeedHelp component', () => {
+      const screen = renderWithStoreAndRouter(
+        <Wrapper errorAlert>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(screen.getByTestId('help-footer')).to.exist;
     });
   });
 

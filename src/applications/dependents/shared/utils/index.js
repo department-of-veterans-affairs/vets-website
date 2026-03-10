@@ -8,6 +8,8 @@ export { getFormatedDate, calculateAge };
 
 export const VIEW_DEPENDENTS_WARNING_KEY = 'viewDependentsWarningClosedAt';
 
+export const hasSession = () => localStorage.getItem('hasSession') === 'true';
+
 /**
  * Return formatted full name from name object
  * @param {Object} name - An object containing first, middle, and last names

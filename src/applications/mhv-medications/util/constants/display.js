@@ -1,6 +1,6 @@
 export const imageRootUri = 'https://www.myhealth.va.gov/static/MILDrugImages/';
 
-export const INCLUDE_IMAGE_ENDPOINT = '&include_image=true';
+export const INCLUDE_IMAGE_ENDPOINT = 'include_image=true';
 
 export const allergyTypes = {
   OBSERVED:

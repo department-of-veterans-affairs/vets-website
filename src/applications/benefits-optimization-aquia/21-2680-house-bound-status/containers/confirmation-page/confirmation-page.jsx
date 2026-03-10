@@ -7,7 +7,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import { API_ENDPOINTS } from '@bio-aquia/21-2680-house-bound-status/constants';
+import DownloadFormPDF from '../../components/confirmation-page/download-form-pdf';
+
 /**
  * Custom submission alert component that shows warning for additional steps needed
  * @returns {React.ReactElement} Warning alert component
@@ -30,39 +31,18 @@ const CustomSubmissionAlert = () => {
   );
 };
 
-const DownloadFormPDF = ({ confirmationNumber }) => {
-  // Render download link
-  return (
-    confirmationNumber && (
-      <p>
-        <va-link
-          text="Download a copy of your VA Form 21-2680"
-          download
-          filetype="PDF"
-          href={`${API_ENDPOINTS.downloadPdf}${confirmationNumber}`}
-        />
-      </p>
-    )
-  );
-};
-
-DownloadFormPDF.propTypes = {
-  confirmationNumber: PropTypes.string,
-};
-
 /**
  * Custom what's next section with step-by-step instructions
  * @returns {React.ReactElement} What's next section
  */
-const WhatsNextSection = ({ confirmationNumber }) => {
-  // Extract veteran name for PDF filename
+const WhatsNextSection = ({ guid, veteranName }) => {
   return (
     <div className="confirmation-whats-next-section">
       <h2>What you need to do next</h2>
       <p>Follow these steps to complete your application:</p>
       <va-process-list uswds>
         <va-process-list-item header="Download a PDF version of the Form you filled out.">
-          <DownloadFormPDF confirmationNumber={confirmationNumber} />
+          {guid && <DownloadFormPDF guid={guid} veteranName={veteranName} />}
         </va-process-list-item>
         <va-process-list-item header="Have an examiner complete the remaining sections.">
           <p>
@@ -88,7 +68,8 @@ const WhatsNextSection = ({ confirmationNumber }) => {
 };
 
 WhatsNextSection.propTypes = {
-  confirmationNumber: PropTypes.string,
+  guid: PropTypes.string,
+  veteranName: PropTypes.object,
 };
 
 /**
@@ -112,9 +93,18 @@ export const ConfirmationPage = ({ route }) => {
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
 
-  // Extract GUID/confirmation number (same string) from submission response
+  // Extract GUID/confirmation number from submission response
+  const guid =
+    submission?.response?.attributes?.guid ||
+    submission?.response?.attributes?.confirmationNumber ||
+    '';
+
   const confirmationNumber =
     submission?.response?.attributes?.confirmationNumber || '';
+
+  // Extract veteran name for PDF filename
+  const veteranName = form?.data?.claimantInformation?.claimantFullName || {};
+
   return (
     <ConfirmationView
       formConfig={route?.formConfig}
@@ -125,9 +115,11 @@ export const ConfirmationPage = ({ route }) => {
       }}
     >
       <CustomSubmissionAlert />
-      <ConfirmationView.ChapterSectionCollection />
+      <div data-dd-privacy="mask" data-dd-action-name="confirmation summary">
+        <ConfirmationView.ChapterSectionCollection />
+      </div>
       <ConfirmationView.PrintThisPage />
-      <WhatsNextSection confirmationNumber={confirmationNumber} />
+      <WhatsNextSection guid={guid} veteranName={veteranName} />
       <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink />
       <ConfirmationView.NeedHelp />

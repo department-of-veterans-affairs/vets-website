@@ -53,8 +53,8 @@ describe('Your claims', () => {
           name: "What if I can't find my claim, decision review, or appeal?",
         }).should('have.attr', 'href', '#what-if-i-dont-see-my-appeal');
         cy.findByRole('link', {
-          name: 'Your travel claims',
-        }).should('have.attr', 'href', '#your-travel-claims');
+          name: 'Your travel reimbursement claims',
+        }).should('have.attr', 'href', '#your-travel-reimbursement-claims');
         cy.findByRole('link', {
           name: 'Additional services',
         }).should('have.attr', 'href', '#additional-services');
@@ -140,15 +140,15 @@ describe('Your claims', () => {
 
   it('should display the travel claims section', () => {
     cy.findByRole('heading', {
-      name: 'Your travel claims',
+      name: 'Your travel reimbursement claims',
     });
 
     cy.findByRole('link', {
-      name: 'Review and file travel claims',
+      name: 'Review and file travel reimbursement claims',
     }).should('have.attr', 'href', '/my-health/travel-pay/claims');
 
     cy.findByText(
-      'File new claims for travel reimbursement and review the status of all your travel claims.',
+      'File new claims for travel pay and review the status of all your travel reimbursement claims.',
     );
 
     cy.axeCheck();

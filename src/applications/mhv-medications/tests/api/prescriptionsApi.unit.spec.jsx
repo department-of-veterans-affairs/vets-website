@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { configureStore } from '@reduxjs/toolkit';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
@@ -331,24 +333,6 @@ describe('prescriptionsApi', () => {
           prescriptionsApi.endpoints.getRefillablePrescriptions.select,
         ).to.be.a('function');
       });
-
-      it('should have refetchOnFocus enabled for cross-tab synchronization', () => {
-        const endpoint = prescriptionsApi.endpoints.getRefillablePrescriptions;
-        // The refetchOnFocus option should be configured for this endpoint
-        // This ensures medication lists sync when switching between tabs
-        expect(endpoint).to.exist;
-        // RTK Query endpoints with refetchOnFocus: true will automatically
-        // refetch data when the browser tab regains focus
-      });
-
-      it('should have refetchOnReconnect enabled for network reliability', () => {
-        const endpoint = prescriptionsApi.endpoints.getRefillablePrescriptions;
-        // The refetchOnReconnect option should be configured for this endpoint
-        // This ensures medication lists refresh after network reconnection
-        expect(endpoint).to.exist;
-        // RTK Query endpoints with refetchOnReconnect: true will automatically
-        // refetch data when network connection is restored
-      });
     });
 
     describe('getPrescriptionDocumentation', () => {
@@ -462,24 +446,24 @@ describe('prescriptionsApi', () => {
   describe('buildExportListQuery', () => {
     it('should build path with default parameters', () => {
       const result = buildExportListQuery({
-        sortEndpoint: '&sort=name',
+        sortEndpoint: 'sort=name',
       });
 
-      expect(result.path).to.equal('/prescriptions?&sort=name');
+      expect(result.path).to.equal('/prescriptions?sort=name');
     });
 
     it('should build path with filter option', () => {
       const result = buildExportListQuery({
-        filterOption: '&filter=active',
-        sortEndpoint: '&sort=name',
+        filterOption: 'filter=active',
+        sortEndpoint: 'sort=name',
       });
 
-      expect(result.path).to.equal('/prescriptions?&filter=active&sort=name');
+      expect(result.path).to.equal('/prescriptions?filter=active&sort=name');
     });
 
     it('should build path with includeImage option', () => {
       const result = buildExportListQuery({
-        sortEndpoint: '&sort=name',
+        sortEndpoint: 'sort=name',
         includeImage: true,
       });
 
@@ -488,7 +472,7 @@ describe('prescriptionsApi', () => {
 
     it('should not include image endpoint when includeImage is false', () => {
       const result = buildExportListQuery({
-        sortEndpoint: '&sort=name',
+        sortEndpoint: 'sort=name',
         includeImage: false,
       });
 
@@ -500,8 +484,19 @@ describe('prescriptionsApi', () => {
     it('should build path with default parameters', () => {
       const result = buildPrescriptionsListQuery();
 
-      expect(result.path).to.include('page=1');
-      expect(result.path).to.include('per_page=10');
+      expect(result.path).to.include('?sort=alphabetical-status');
+    });
+
+    it('should handle empty parameters', () => {
+      const result = buildPrescriptionsListQuery({
+        page: null,
+        perPage: null,
+        sortEndpoint: null,
+        filterOption: null,
+        includeImage: false,
+      });
+
+      expect(result.path).to.equal('/prescriptions');
     });
 
     it('should build path with custom page and perPage', () => {
@@ -516,18 +511,18 @@ describe('prescriptionsApi', () => {
 
     it('should build path with filter option', () => {
       const result = buildPrescriptionsListQuery({
-        filterOption: '&filter=active',
+        filterOption: 'filter=active',
       });
 
-      expect(result.path).to.include('&filter=active');
+      expect(result.path).to.include('filter=active');
     });
 
     it('should build path with sort endpoint', () => {
       const result = buildPrescriptionsListQuery({
-        sortEndpoint: '&sort=name',
+        sortEndpoint: 'sort=name',
       });
 
-      expect(result.path).to.include('&sort=name');
+      expect(result.path).to.include('sort=name');
     });
 
     it('should build path with includeImage option', () => {
@@ -1033,6 +1028,92 @@ describe('prescriptionsApi', () => {
       );
 
       expect(result).to.be.null;
+    });
+  });
+
+  describe('refillPrescription mutation', () => {
+    let sandbox;
+    let fetchStub;
+
+    const createTestStore = (isCernerPilot = false) =>
+      configureStore({
+        reducer: {
+          featureToggles: () => ({
+            [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+            loading: false,
+          }),
+          [prescriptionsApi.reducerPath]: prescriptionsApi.reducer,
+        },
+        middleware: getDefault =>
+          getDefault().concat(prescriptionsApi.middleware),
+      });
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+      fetchStub = sandbox.stub(global, 'fetch');
+      fetchStub.resolves(
+        new Response(JSON.stringify({ data: 'ok' }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        }),
+      );
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should call v1 endpoint with PATCH and prescription ID in the URL path', async () => {
+      const store = createTestStore(false);
+
+      await store.dispatch(
+        prescriptionsApi.endpoints.refillPrescription.initiate({
+          id: '12345',
+          stationNumber: '688',
+        }),
+      );
+
+      const [url, options] = fetchStub.firstCall.args;
+      expect(url).to.equal(
+        `${environment.API_URL}/my_health/v1/prescriptions/12345/refill`,
+      );
+      expect(options.method).to.equal('PATCH');
+      expect(options.body).to.be.undefined;
+    });
+
+    it('should call v2 endpoint with POST and order objects in the request body', async () => {
+      const store = createTestStore(true);
+
+      await store.dispatch(
+        prescriptionsApi.endpoints.refillPrescription.initiate({
+          id: '12345',
+          stationNumber: '688',
+        }),
+      );
+
+      const [url, options] = fetchStub.firstCall.args;
+      expect(url).to.equal(
+        `${environment.API_URL}/my_health/v2/prescriptions/refill`,
+      );
+      expect(options.method).to.equal('POST');
+      expect(options.body).to.equal(
+        JSON.stringify([{ id: '12345', stationNumber: '688' }]),
+      );
+    });
+
+    it('should handle plain ID argument for backwards compatibility (v1)', async () => {
+      const store = createTestStore(false);
+
+      await store.dispatch(
+        prescriptionsApi.endpoints.refillPrescription.initiate('12345'),
+      );
+
+      const [url, options] = fetchStub.firstCall.args;
+      expect(url).to.equal(
+        `${environment.API_URL}/my_health/v1/prescriptions/12345/refill`,
+      );
+      expect(options.method).to.equal('PATCH');
+      expect(options.body).to.be.undefined;
     });
   });
 });

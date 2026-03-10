@@ -265,6 +265,7 @@ export const ATTACHMENT_KEYS = [
   'secondaryUploadSources0',
   'secondaryUploadSources1',
   'secondaryUploadSources2',
+  'separationHealthAssessmentUploads',
 ];
 
 export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
@@ -351,6 +352,7 @@ export const TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS =
   '21-526EZ_backButtonClickCount';
 export const TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS =
   '21-526EZ_continueButtonClickCount';
+export const TRACKING_526EZ_SIDENAV_CLICKS = '21-526EZ_sideNavClickCount';
 export const TRACKING_526EZ_SIDENAV_FORM_START = '21-526EZ_formStartTracked';
 export const TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE = '21-526EZ_sidenavEnabled';
 
