@@ -9,18 +9,22 @@ import { fetchDuplicateContactInfo, updateGlobalEmail } from '../actions';
 import { prefillTransformer } from '../helpers';
 
 function CustomEmailField(props) {
+  const [localValue, setLocalValue] = useState(undefined);
   const hasSyncedRef = useRef(false);
-  const [localValue, setLocalValue] = useState(null);
 
-  // Sync prefilled email (including confirmEmail) to form state on mount
+  // Sync prefilled email (including confirmEmail) to form state on mount.
+  // Only sync if form email fields have never been touched.
   useEffect(
     () => {
-      if (
+      // If confirmEmail exists in form state, user has interacted - don't re-prefill
+      const formHasBeenTouched = props.formConfirmEmail !== undefined;
+      const shouldSync =
         props.prefillEmail &&
-        !props.formEmail &&
-        !hasSyncedRef.current &&
-        localValue === null
-      ) {
+        props.formEmail === undefined &&
+        !formHasBeenTouched &&
+        !hasSyncedRef.current;
+
+      if (shouldSync) {
         hasSyncedRef.current = true;
         props.setFormData({
           ...props.formData,
@@ -35,42 +39,37 @@ function CustomEmailField(props) {
     [
       props.prefillEmail,
       props.formEmail,
+      props.formConfirmEmail,
       props.formData,
       props.setFormData,
-      localValue,
     ],
   );
 
+  // Use local value if user has edited, otherwise use form state only
   const displayValue =
-    localValue !== null ? localValue : props.formEmail ?? props.prefillEmail;
+    localValue !== undefined ? localValue : props.formEmail ?? '';
 
   function handleChange(event) {
     setLocalValue(event);
 
-    if (props.email !== event) {
-      props.setFormData({
-        ...props?.formData,
-        email: {
-          ...props?.formData?.email,
-          email: event,
-        },
-      });
-    }
+    const mobilePhone = props?.mobilePhone ?? '';
+    const emailIsValid = event && isValidEmail(event);
 
-    const mobilePhone = props?.mobilePhone ? props?.mobilePhone : '';
-    if (event && isValidEmail(event)) {
+    // Update form data with the new email, and auto-fill confirmEmail if valid
+    props.setFormData({
+      ...props?.formData,
+      email: {
+        ...props?.formData?.email,
+        email: event,
+        ...(emailIsValid && { confirmEmail: event }),
+      },
+    });
+
+    if (emailIsValid) {
       props.fetchDuplicateContactInfo(
         [{ value: event, dupe: '' }],
         [{ value: mobilePhone, dupe: '' }],
       );
-    } else {
-      props.setFormData({
-        ...props?.formData,
-        email: {
-          ...props?.formData?.email,
-          email: event,
-        },
-      });
     }
   }
 
@@ -87,11 +86,13 @@ CustomEmailField.propTypes = {
 
 const mapStateToProps = state => {
   const formEmail = state?.form?.data?.email?.email;
+  const formConfirmEmail = state?.form?.data?.email?.confirmEmail;
   const prefillEmail = prefillTransformer(null, null, null, state)?.formData
     ?.email?.email;
 
   return {
     formEmail,
+    formConfirmEmail,
     prefillEmail,
     duplicateEmail: state?.data?.duplicateEmail,
     mobilePhone:
