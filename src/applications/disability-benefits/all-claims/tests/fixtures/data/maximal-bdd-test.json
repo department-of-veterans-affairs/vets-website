@@ -1,6 +1,7 @@
 {
   "data": {
     "disability526ExtraBDDPagesEnabled": true,
+    "disability526NewBddShaEnforcementWorkflowEnabled": true,
     "view:isBddData": true,
     "view:claimType": {
       "view:claimingIncrease": true,
@@ -98,6 +99,13 @@
         "name": "STR.pdf",
         "confirmationCode": "abcdef00-a42f-4bbc-88f3-873c5bea6c00",
         "attachmentId": "L451"
+      }
+    ],
+    "view:hasSeparationHealthAssessment": true,
+    "separationHealthAssessmentUploads": [
+      {
+        "name": "sha-maximal.pdf",
+        "confirmationCode": "sha-maximal-code"
       }
     ],
     "view:unemployable": false,

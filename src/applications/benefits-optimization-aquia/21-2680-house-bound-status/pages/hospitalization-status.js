@@ -23,8 +23,12 @@ export const hospitalizationStatusUiSchema = {
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const fieldLabel = getHospitalizationStatusTitle(fullData || formData);
+
       return {
         hospitalizationStatus: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           isCurrentlyHospitalized: {
             'ui:title': fieldLabel,
           },
