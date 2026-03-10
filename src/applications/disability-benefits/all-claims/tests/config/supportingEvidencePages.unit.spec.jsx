@@ -33,11 +33,8 @@ const createLegacyFlowFormData = (overrides = {}) => ({
 describe('Supporting Evidence Pages - Conditional Rendering', () => {
   const {
     evidenceTypes,
-    evidenceTypesBDD,
     evidenceRequest,
     medicalRecords,
-    evidenceChoiceIntro,
-    evidenceChoiceAdditionalDocuments,
   } = formConfig.chapters.supportingEvidence.pages;
 
   describe('evidenceTypes depends', () => {
@@ -101,46 +98,6 @@ describe('Supporting Evidence Pages - Conditional Rendering', () => {
         'view:hasEvidence': true,
       });
       expect(medicalRecords.depends(formData)).to.be.false;
-    });
-  });
-
-  describe('BDD old/new pathways routing', () => {
-    const createBddShaData = (overrides = {}) =>
-      createBDDFormData({
-        disability526NewBddShaEnforcementWorkflowEnabled: true,
-        'view:hasSeparationHealthAssessment': true,
-        ...overrides,
-      });
-
-    it('shows BDD evidence question in legacy workflow', () => {
-      const formData = createBddShaData(createLegacyFlowFormData());
-      expect(evidenceTypesBDD.depends(formData)).to.be.true;
-    });
-
-    it('hides BDD evidence question in enhancement workflow', () => {
-      const formData = createBddShaData(createEnhancementFlowFormData());
-      expect(evidenceTypesBDD.depends(formData)).to.be.false;
-    });
-
-    it('skips enhancement intro question for BDD users', () => {
-      const formData = createBddShaData(createEnhancementFlowFormData());
-      expect(evidenceChoiceIntro.depends(formData)).to.be.false;
-    });
-
-    it('does not show enhancement upload page for BDD SHA-only users', () => {
-      const formData = createBddShaData(createEnhancementFlowFormData());
-      expect(evidenceChoiceAdditionalDocuments.depends(formData)).to.be.false;
-    });
-
-    it('shows enhancement upload page for BDD SHA users when other evidence is selected', () => {
-      const formData = createBddShaData(
-        createEnhancementFlowFormData({
-          'view:selectableEvidenceTypes': {
-            'view:hasOtherEvidence': true,
-          },
-        }),
-      );
-      expect(evidenceChoiceAdditionalDocuments.depends(formData)).to.be.true;
     });
   });
 });
