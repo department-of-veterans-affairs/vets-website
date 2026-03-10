@@ -196,8 +196,8 @@ const CaseProgressDescription = ({
 
 CaseProgressDescription.propTypes = {
   step: PropTypes.number.isRequired,
-  attributes: PropTypes.object,
   showHubCards: PropTypes.bool,
+  attributes: PropTypes.object,
 };
 
 export default CaseProgressDescription;
