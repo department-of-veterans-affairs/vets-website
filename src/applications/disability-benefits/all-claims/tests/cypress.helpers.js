@@ -1093,11 +1093,15 @@ export const pageHooks = (cy, testOptions) => ({
               'Authorize the release of non-VA medical records to VA',
             );
           });
-        cy.get('input[name="privacy-agreement"]').focus();
-        cy.get('input[name="privacy-agreement"]').click({ force: true });
+        cy.get('input[name="privacy-agreement"]').check({ force: true });
+        cy.get('input[name="privacy-agreement"]').should('be.checked');
       }
     });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    cy.get('button[id$="continueButton"], button.usa-button-primary')
+      .first()
+      .should('be.visible')
+      .and('not.be.disabled')
+      .click({ force: true });
   },
 
   'supporting-evidence/private-medical-records-release': () => {
