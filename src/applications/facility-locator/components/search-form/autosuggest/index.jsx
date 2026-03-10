@@ -65,7 +65,6 @@ function Autosuggest({
     isItemDisabled,
     stateReducer: keepDataOnBlur ? srKeepOnBlur : stateReducer,
   });
-
   const inputClearClick = () => {
     onClearClick();
     selectItem(null);
