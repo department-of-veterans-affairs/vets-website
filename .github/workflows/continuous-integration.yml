@@ -984,6 +984,14 @@ jobs:
           path: test-results/
           retention-days: 30
 
+      - name: Archive Mochawesome test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-mochawesome-test-results
+          path: cypress/results/
+          retention-days: 1
+
   stress-test-cypress-tests:
     name: E2E Test Stability Review
     runs-on: ubuntu-22.04
@@ -1635,6 +1643,96 @@ jobs:
           conclusion: ${{ needs.cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+  testing-reports-playwright:
+    name: Testing Reports - Playwright E2E Tests
+    runs-on: ubuntu-22.04
+    needs: [testing-reports-prep, playwright-tests]
+    permissions:
+      checks: write
+      id-token: write
+      contents: read
+    if: ${{ always() && (needs.playwright-tests.result == 'success' || needs.playwright-tests.result == 'failure') }}
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Notify Slack about Playwright test failures
+        if: ${{ github.ref == 'refs/heads/main' && needs.playwright-tests.result == 'failure' }}
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        env:
+          SSL_CERT_DIR: /etc/ssl/certs
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Playwright E2E tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+          channel_id: C026PD47Z19 #gha-test-status
+          role: ${{ vars.AWS_ASSUME_ROLE }}
+
+        # ------------------------
+        # | Upload BigQuery Data |
+        # ------------------------
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+        # ----------------------------------------
+        # | Publish Playwright E2E Testing Report |
+        # ----------------------------------------
+      - name: Download Playwright Mochawesome test results
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: playwright-mochawesome-test-results
+          path: qa-standards-dashboard-data/src/testing-reports/data
+
+      - name: Generate Playwright report summary
+        id: playwright-summary
+        run: |
+          SUMMARY=$(node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const dir = 'qa-standards-dashboard-data/src/testing-reports/data';
+            const files = fs.readdirSync(dir).filter(f => f.endsWith('.json'));
+            let totalTests = 0, totalPasses = 0, totalFailures = 0, totalPending = 0;
+            for (const file of files) {
+              const report = JSON.parse(fs.readFileSync(path.join(dir, file)));
+              totalTests += report.stats.tests || 0;
+              totalPasses += report.stats.passes || 0;
+              totalFailures += report.stats.failures || 0;
+              totalPending += report.stats.pending || 0;
+            }
+            console.log('\"Total: ' + totalTests + ' | Passes: ' + totalPasses + ' | Failures: ' + totalFailures + ' | Pending: ' + totalPending + '\"');
+          ")
+          echo "PLAYWRIGHT_REPORT_RESULTS=$SUMMARY" >> $GITHUB_ENV
+
+        # ----------------------------
+        # | Playwright Tests Summary |
+        # ----------------------------
+      - name: Publish Playwright test results
+        if: ${{ always() }}
+        uses: ./.github/workflows/checks-action
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Playwright Tests Summary
+          conclusion: ${{ needs.playwright-tests.result }}
+          output: |
+            {"summary":${{ env.PLAYWRIGHT_REPORT_RESULTS }}}
 
   testing-reports-cypress-stress-test:
     name: Testing Reports - E2E Test Stability Review

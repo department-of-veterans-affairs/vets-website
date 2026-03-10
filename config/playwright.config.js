@@ -5,6 +5,16 @@ const { TEST_SERVER_BASE_URL } = require('./test-server.config');
 const rootDir = path.resolve(__dirname, '..');
 const buildtype = process.env.BUILDTYPE || 'localhost';
 
+const mochawesomeReporter = [
+  path.join(
+    rootDir,
+    'src/platform/testing/e2e/playwright/mochawesome-reporter.js',
+  ),
+  {
+    outputDir: path.join(rootDir, 'cypress/results'),
+  },
+];
+
 module.exports = defineConfig({
   testDir: path.join(rootDir, 'src'),
   testMatch: '**/*.playwright.spec.js',
@@ -13,7 +23,7 @@ module.exports = defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 4 : undefined,
   reporter: process.env.CI
-    ? [['html', { open: 'never' }], ['list']]
+    ? [['html', { open: 'never' }], ['list'], mochawesomeReporter]
     : [['list']],
   timeout: 120_000,
 

@@ -76,6 +76,7 @@ export function transform(_formConfig, form) {
       ),
     },
     militaryInfo: {
+      dutyRequirementMet: data?.dutyRequirementMet,
       dateReleasedFromActiveDuty: data?.dateReleasedFromActiveDuty,
       activeDutyDuringHitechVets: data?.activeDutyDuringHitechVets,
     },
