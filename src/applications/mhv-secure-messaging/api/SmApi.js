@@ -464,3 +464,49 @@ export const getOHSyncStatus = () => {
     },
   });
 };
+
+const tooltipHeaders = {
+  'Content-Type': 'application/json',
+  'X-Key-Inflection': 'camel',
+};
+
+export const getTooltipsList = () => {
+  return apiRequest(`${apiBasePath}/tooltips`, {
+    headers: tooltipHeaders,
+  });
+};
+
+export const createTooltip = tooltipName => {
+  return apiRequest(`${apiBasePath}/tooltips`, {
+    method: 'POST',
+    headers: tooltipHeaders,
+    body: JSON.stringify({
+      tooltip: {
+        tooltipName,
+        hidden: false,
+      },
+    }),
+  });
+};
+
+export const incrementTooltipCounter = tooltipId => {
+  return apiRequest(
+    `${apiBasePath}/tooltips/${tooltipId}?increment_counter=true`,
+    {
+      method: 'PATCH',
+      headers: tooltipHeaders,
+    },
+  );
+};
+
+export const hideTooltip = tooltipId => {
+  return apiRequest(`${apiBasePath}/tooltips/${tooltipId}`, {
+    method: 'PATCH',
+    headers: tooltipHeaders,
+    body: JSON.stringify({
+      tooltip: {
+        hidden: true,
+      },
+    }),
+  });
+};

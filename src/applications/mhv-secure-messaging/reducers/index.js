@@ -12,6 +12,7 @@ import { preferencesReducer } from './preferences';
 import { threadDetailsReducer } from './threadDetails';
 import { prescriptionReducer } from './prescription';
 import { ohSyncStatusReducer } from './ohSyncStatus';
+import { tooltipReducer } from './tooltip';
 
 const rootReducer = {
   sm: combineReducers({
@@ -27,6 +28,7 @@ const rootReducer = {
     preferences: preferencesReducer,
     prescription: prescriptionReducer,
     ohSyncStatus: ohSyncStatusReducer,
+    tooltip: tooltipReducer,
   }),
 };
 
