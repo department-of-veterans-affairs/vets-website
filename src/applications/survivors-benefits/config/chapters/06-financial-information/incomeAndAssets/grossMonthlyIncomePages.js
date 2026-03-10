@@ -15,6 +15,7 @@ import {
   typeOfIncomeLabels,
   incomeRecipientTypeLabels,
 } from '../../../../utils/labels';
+import { apply2025MonthlyIncomeDetailsRecipient } from '../../../ui-2025-migration-updates';
 
 const grossDescription = () => (
   <div>
@@ -138,67 +139,73 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
         },
       },
     }),
-    monthlyIncomeDetails: pageBuilder.itemPage({
-      title: 'Gross monthly income details',
-      path: 'financial-information/:index/monthly-income-details',
-      depends: formData => formData?.claims?.survivorsPension === true,
-      uiSchema: {
-        ...titleUI('Gross monthly income details'),
-        recipient: radioUI({
-          title: 'Who receives this income?',
-          labels: incomeRecipientTypeLabels,
-        }),
-        recipientName: textUI({
-          title: 'Full name of the person who receives this income',
-          expandUnder: 'recipient',
-          expandUnderCondition: field => field === 'CHILD',
-          required: (formData, index, fullData) => {
-            const items = formData?.incomeEntries ?? fullData?.incomeEntries;
-            const item = items?.[index];
-            return item?.recipient === 'CHILD';
+    monthlyIncomeDetails: (() => {
+      const { uiSchema, schema } = apply2025MonthlyIncomeDetailsRecipient(
+        {
+          ...titleUI('Gross monthly income details'),
+          recipient: radioUI({
+            title: 'Who receives this income?',
+            labels: incomeRecipientTypeLabels,
+          }),
+          recipientName: textUI({
+            title: 'Full name of the person who receives this income',
+            expandUnder: 'recipient',
+            expandUnderCondition: field => field === 'CHILD',
+            required: (formData, index, fullData) => {
+              const items = formData?.incomeEntries ?? fullData?.incomeEntries;
+              const item = items?.[index];
+              return item?.recipient === 'CHILD';
+            },
+          }),
+          incomeType: radioUI({
+            title: 'What type of income?',
+            labels: typeOfIncomeLabels,
+          }),
+          incomeTypeOther: textUI({
+            title: 'Tell us the type of income',
+            expandUnder: 'incomeType',
+            expandUnderCondition: field => field === 'OTHER',
+            required: (formData, index, fullData) => {
+              const items = formData?.incomeEntries ?? fullData?.incomeEntries;
+              const item = items?.[index];
+              return item?.incomeType === 'OTHER';
+            },
+          }),
+          incomePayer: {
+            'ui:title': 'Who pays this income?',
+            'ui:webComponentField': VaTextInputField,
+            'ui:options': {
+              hint:
+                'Enter the name of a government agency, a company, or another organization.',
+              classNames: 'vads-u-margin-bottom--2',
+            },
           },
-        }),
-        incomeType: radioUI({
-          title: 'What type of income?',
-          labels: typeOfIncomeLabels,
-        }),
-        incomeTypeOther: textUI({
-          title: 'Tell us the type of income',
-          expandUnder: 'incomeType',
-          expandUnderCondition: field => field === 'OTHER',
-          required: (formData, index, fullData) => {
-            const items = formData?.incomeEntries ?? fullData?.incomeEntries;
-            const item = items?.[index];
-            return item?.incomeType === 'OTHER';
-          },
-        }),
-        incomePayer: {
-          'ui:title': 'Who pays this income?',
-          'ui:webComponentField': VaTextInputField,
-          'ui:options': {
-            hint:
-              'Enter the name of a government agency, a company, or another organization.',
-            classNames: 'vads-u-margin-bottom--2',
+          monthlyIncome: currencyUI({
+            title: 'How much is the monthly income?',
+            max: 999999999,
+          }),
+        },
+        {
+          type: 'object',
+          required: ['recipient', 'incomeType', 'incomePayer', 'monthlyIncome'],
+          properties: {
+            recipient: radioSchema(Object.keys(incomeRecipientTypeLabels)),
+            recipientName: { type: 'string' },
+            incomeType: radioSchema(Object.keys(typeOfIncomeLabels)),
+            incomePayer: { type: 'string' },
+            incomeTypeOther: { type: 'string' },
+            monthlyIncome: currencySchema,
           },
         },
-        monthlyIncome: currencyUI({
-          title: 'How much is the monthly income?',
-          max: 999999999,
-        }),
-      },
-      schema: {
-        type: 'object',
-        required: ['recipient', 'incomeType', 'incomePayer', 'monthlyIncome'],
-        properties: {
-          recipient: radioSchema(Object.keys(incomeRecipientTypeLabels)),
-          recipientName: { type: 'string' },
-          incomeType: radioSchema(Object.keys(typeOfIncomeLabels)),
-          incomePayer: { type: 'string' },
-          incomeTypeOther: { type: 'string' },
-          monthlyIncome: currencySchema,
-        },
-      },
-    }),
+      );
+      return pageBuilder.itemPage({
+        title: 'Gross monthly income details',
+        path: 'financial-information/:index/monthly-income-details',
+        depends: formData => formData?.claims?.survivorsPension === true,
+        uiSchema,
+        schema,
+      });
+    })(),
   }),
 );
 
