@@ -1712,7 +1712,7 @@ jobs:
       - name: Generate Playwright report summary
         id: playwright-summary
         run: |
-          node -e "
+          SUMMARY=$(node -e "
             const fs = require('fs');
             const path = require('path');
             const dir = 'qa-standards-dashboard-data/src/testing-reports/data';
@@ -1725,10 +1725,9 @@ jobs:
               totalFailures += report.stats.failures || 0;
               totalPending += report.stats.pending || 0;
             }
-            const summary = '\"Total: ' + totalTests + ' | Passes: ' + totalPasses + ' | Failures: ' + totalFailures + ' | Pending: ' + totalPending + '\"';
-            const core = require('@actions/core');
-            core.exportVariable('PLAYWRIGHT_REPORT_RESULTS', summary);
-          "
+            console.log('\"Total: ' + totalTests + ' | Passes: ' + totalPasses + ' | Failures: ' + totalFailures + ' | Pending: ' + totalPending + '\"');
+          ")
+          echo "PLAYWRIGHT_REPORT_RESULTS=$SUMMARY" >> $GITHUB_ENV
 
         # ----------------------------
         # | Playwright Tests Summary |
