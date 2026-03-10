@@ -1,8 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { selectProfile } from 'platform/user/selectors';
 import { formatDateParsedZoneLong } from 'platform/utilities/date';
 
 import { maskID } from '../../shared/utils';
@@ -10,17 +8,15 @@ import { maskID } from '../../shared/utils';
 /**
  * Veteran information Review Component
  * @typedef {object} VeteranInformationReviewProps
- * @property {object} formData - form data
+ * @property {object} data - form data
  *
  * @param {VeteranInformationReviewProps} props - Component props
  * @returns {React.Component} - Veteran information review page
  */
-const VeteranInformationReviewPage = ({ formData }) => {
-  const { ssnLastFour } = formData?.veteranInformation || {};
-  const { dob, userFullName = {} } = useSelector(selectProfile);
-  const { first, middle, last, suffix } = userFullName;
-
-  const dobDateObj = dob ? formatDateParsedZoneLong(dob) : null;
+const VeteranInformationReviewPage = ({ data }) => {
+  const { ssnLastFour, fullName, birthDate } = data?.veteranInformation || {};
+  const { first, middle, last, suffix } = fullName || {};
+  const dobDateObj = birthDate ? formatDateParsedZoneLong(birthDate) : null;
 
   const showError = message => (
     <span className="usa-input-error-message">{message}</span>
@@ -104,7 +100,7 @@ const VeteranInformationReviewPage = ({ formData }) => {
 };
 
 VeteranInformationReviewPage.propTypes = {
-  formData: PropTypes.shape({
+  data: PropTypes.shape({
     veteranInformation: PropTypes.shape({
       ssnLastFour: PropTypes.string,
     }),
