@@ -196,6 +196,7 @@
   "mhvMedicalRecordsHoldTimeMessagingUpdate": "mhv_medical_records_hold_time_messaging_update",
   "mhvMedicalRecordsImagesDomain": "mhv_medical_records_images_domain",
   "mhvMedicalRecordsMergeCvixIntoScdf": "mhv_medical_records_merge_cvix_into_scdf",
+  "mhvMedicalRecordsShowMissingAlert": "mhv_medical_records_show_missing_alert",
   "mhvMedicationsCernerPilot": "mhv_medications_cerner_pilot",
   "mhvMedicationsV2StatusMapping": "mhv_medications_v2_status_mapping",
   "mhvMedicationsDisplayAllergies": "mhv_medications_display_allergies",

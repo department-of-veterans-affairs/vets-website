@@ -605,6 +605,7 @@ Used in CCD download sections to distinguish records before vs after VistA-to-OH
 - **Selectors** (`util/selectors.js`):
   - `selectBypassDowntime`: Bypass downtime notification
   - `selectFilterAndSortFlag`: Enable filter and sort functionality
+  - `selectShowMissingAlertFlag`: Controls visibility of `MissingRecordsWarningAlert` on the Blue Button download date-range page (requires `mhv_medical_records_show_missing_alert` flag)
 - **Access Pattern**:
   ```javascript
   const filterAndSortEnabled = useSelector(selectFilterAndSortFlag);

@@ -27,12 +27,14 @@ import { sendDataDogAction } from '../../util/helpers';
 import { createAfterCutoverFacilityNames } from '../../util/facilityHelpers';
 import useFocusOutline from '../../hooks/useFocusOutline';
 import MissingRecordsWarningAlert from '../shared/MissingRecordsWarningAlert';
+import { selectShowMissingAlertFlag } from '../../util/selectors';
 
 const DownloadDateRange = () => {
   const history = useHistory();
 
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
   const { isCerner } = useAcceleratedData();
+  const showMissingRecordsAlert = useSelector(selectShowMissingAlertFlag);
 
   const facilities = useSelector(state => selectPatientFacilities(state) || []);
   const ehrDataByVhaId = useSelector(
@@ -199,11 +201,12 @@ const DownloadDateRange = () => {
       </div>
 
       <form>
-        {isCerner && (
-          <MissingRecordsWarningAlert
-            ohFacilityNamesAfterCutover={ohFacilityNamesAfterCutover}
-          />
-        )}
+        {isCerner &&
+          showMissingRecordsAlert && (
+            <MissingRecordsWarningAlert
+              ohFacilityNamesAfterCutover={ohFacilityNamesAfterCutover}
+            />
+          )}
         <div className="vads-u-margin-bottom--3">
           <VaSelect
             label="Date range"
