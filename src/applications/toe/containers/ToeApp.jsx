@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { isArray } from 'lodash';
+import { isArray, isPlainObject } from 'lodash';
+import mergeWith from 'lodash/mergeWith';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -12,7 +13,7 @@ import {
   fetchDirectDeposit,
   fetchDuplicateContactInfo,
 } from '../actions';
-import { mapFormSponsors } from '../helpers';
+import { mapFormSponsors, prefillTransformer } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 import { getAppData } from '../selectors';
 
@@ -256,19 +257,39 @@ ToeApp.propTypes = {
   user: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  ...getAppData(state),
-  claimant: state?.data?.formData?.data?.attributes?.claimant,
-  dob:
-    state?.user?.profile?.dob ||
-    state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
-  formData: state.form?.data,
-  fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-  sponsors: state.form?.data?.sponsors,
-  sponsorsInitial: state?.data?.sponsors,
-  sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
-  user: state.user,
-});
+// Merge prefill values when form state has undefined (needed for direct deposit, etc.)
+const mergePreservingPrefill = (prefill, formState) => {
+  return mergeWith({}, prefill, formState, (prefillVal, formStateVal) => {
+    if (formStateVal === undefined && prefillVal !== undefined) {
+      return prefillVal;
+    }
+    if (isPlainObject(prefillVal) && isPlainObject(formStateVal)) {
+      return undefined; // Let mergeWith recurse
+    }
+    return undefined; // Default merge behavior
+  });
+};
+
+const mapStateToProps = state => {
+  const prefillData =
+    prefillTransformer(null, null, null, state)?.formData || {};
+  const formStateData = state.form?.data || {};
+  const formData = mergePreservingPrefill(prefillData, formStateData);
+
+  return {
+    ...getAppData(state),
+    claimant: state?.data?.formData?.data?.attributes?.claimant,
+    dob:
+      state?.user?.profile?.dob ||
+      state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
+    formData,
+    fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
+    sponsors: state.form?.data?.sponsors,
+    sponsorsInitial: state?.data?.sponsors,
+    sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
+    user: state.user,
+  };
+};
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,
