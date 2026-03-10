@@ -45,10 +45,9 @@ describe('SM CARE TEAM HELP PAGE - Cerner and Hybrid User Updates', () => {
 
       // Should show the "names may appear different" bullet with R&S link
       cy.findByText(/Their name may appear different/).should('exist');
-      cy.findByText(/Learn more about this name change/)
+      cy.findByRole('link', { name: /Learn more about this name change/ })
         .should('exist')
-        .closest('a')
-        .should(
+        .and(
           'have.attr',
           'href',
           'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
@@ -90,10 +89,9 @@ describe('SM CARE TEAM HELP PAGE - Cerner and Hybrid User Updates', () => {
 
       // Should show the "names may appear different" bullet with R&S link
       cy.findByText(/Their name may appear different/).should('exist');
-      cy.findByText(/Learn more about this name change/)
+      cy.findByRole('link', { name: /Learn more about this name change/ })
         .should('exist')
-        .closest('a')
-        .should(
+        .and(
           'have.attr',
           'href',
           'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
