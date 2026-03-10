@@ -85,7 +85,6 @@ const RenderMap = forwardRef(
         <button
           className="skip-map-link"
           id="skip-map-link"
-          tabIndex="0"
           type="button"
           onClick={clickSkipMap}
         >

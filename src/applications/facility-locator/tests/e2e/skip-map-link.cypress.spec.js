@@ -48,10 +48,7 @@ describe('Skip map link', () => {
 
     cy.get(SKIP_MAP_LINK)
       .focus()
-      .should('have.focus');
-
-    cy.get(SKIP_MAP_LINK)
-      .focus()
+      .should('have.focus')
       .click();
 
     cy.get('body').then($body => {
@@ -77,11 +74,12 @@ describe('Skip map link', () => {
       .select('VA health');
     cy.get(SEARCH_BUTTON).click({ waitForAnimations: true });
     cy.get('#search-results-subheader').should('be.visible');
-    cy;
 
-    cy.get(SKIP_MAP_LINK).focus;
-
-    cy.get(SKIP_MAP_LINK).should('be.visible');
+    // make sure that the link is visible and has focus
+    // resolved issues with loading/timing in production
+    cy.get(SKIP_MAP_LINK)
+      .focus()
+      .should('be.visible');
 
     cy.get(SKIP_MAP_LINK)
       .focus()
