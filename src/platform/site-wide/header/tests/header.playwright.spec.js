@@ -74,13 +74,15 @@ test.describe('global header', () => {
       await expect(menuButton).toContainText('Close');
 
       await expect(
-        page.locator('[for="search-header-dropdown-input-field"]'),
+        header.locator('[for="search-header-dropdown-input-field"]').first(),
       ).toContainText('Search');
 
-      const searchContainer = page.locator('#search-header-dropdown-component');
+      const searchContainer = header
+        .locator('#search-header-dropdown-component')
+        .first();
       await expect(searchContainer).toBeVisible();
-      await expect(searchContainer.locator('input')).toBeVisible();
-      await expect(searchContainer.locator('button')).toBeVisible();
+      await expect(searchContainer.locator('input').first()).toBeVisible();
+      await expect(searchContainer.locator('button').first()).toBeVisible();
 
       await menuButton.click();
       await expect(menuButton).toContainText('Menu');
