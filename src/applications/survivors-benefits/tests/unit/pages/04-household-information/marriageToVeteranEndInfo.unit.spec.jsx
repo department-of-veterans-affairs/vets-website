@@ -5,7 +5,7 @@ import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import marriageToVeteranEndInfo from '../../../../config/chapters/04-household-information/marriageToVeteranEndInfo';
 
 describe('Marriage to Veteran End Info Page', () => {
@@ -14,12 +14,14 @@ describe('Marriage to Veteran End Info Page', () => {
   describe('when married to veteran at time of death', () => {
     const data = { marriedToVeteranAtTimeOfDeath: true };
 
-    it('renders a heading', () => {
+    it('renders the correct heading', () => {
       const form = render(
         <DefinitionTester schema={schema} uiSchema={uiSchema} data={data} />,
       );
 
-      expect(form.getByRole('heading')).to.exist;
+      expect(form.getByRole('heading')).to.have.text(
+        'Where did your marriage end?',
+      );
     });
 
     it('hides the date marriage ended field', () => {

@@ -21,11 +21,11 @@ import { validations } from '../../validations';
 export default {
   uiSchema: {
     ...titleUI(
-      formData =>
+      ({ formData }) =>
         formData.marriedToVeteranAtTimeOfDeath
           ? 'Where did your marriage end?'
           : 'When and where did your marriage end?',
-      formData =>
+      ({ formData }) =>
         formData.marriedToVeteranAtTimeOfDeath
           ? 'If you were married at the time of their death, this will be their place of death.'
           : 'If you were married at the time of their death, this will be their date and place of death.',
