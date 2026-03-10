@@ -20,8 +20,10 @@ const SRC_DIR = path.join(ROOT_DIR, 'src');
 const DURATIONS_FILE = path.join(ROOT_DIR, 'playwright-durations.json');
 const OUTPUT_FILE = path.join(ROOT_DIR, 'playwright-shards.json');
 
-// Default estimate for tests with no historical data
-const DEFAULT_DURATION_MS = 30_000;
+// Default estimate for tests with no historical data.
+// Actual sitewide tests run in ~2s; 10s is generous for app tests
+// with multiple page navigations. Overestimating wastes runners.
+const DEFAULT_DURATION_MS = 10_000;
 
 // Target execution time per shard (excluding CI overhead).
 // With ~1.5min CI overhead and a 3min wall-clock target, each shard
