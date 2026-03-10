@@ -28,7 +28,6 @@ function ToeApp({
   getPersonalInformation,
   isLOA3,
   isLoggedIn,
-  isPersonalInfoFetchComplete,
   location,
   mebBankInfoConfirmationField,
   setFormData,
@@ -42,41 +41,26 @@ function ToeApp({
   const formDataRef = useRef(formData);
   formDataRef.current = formData;
 
-  // Sync simple props into formData. Uses formDataRef to avoid infinite loops
-  // from having formData in the dependency array.
-  // Wait for personal info fetch to complete before syncing to avoid
-  // overwriting prefilled data with incomplete formData.
+  // Sync props into formData
   useEffect(
     () => {
-      // Don't sync until prefill data is available
-      if (!isPersonalInfoFetchComplete) {
-        return;
-      }
-
       const updates = {};
 
       if (
-        mebBankInfoConfirmationField !==
-        formDataRef.current.mebBankInfoConfirmationField
+        mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
       )
         updates.mebBankInfoConfirmationField = mebBankInfoConfirmationField;
-      if (isLOA3 !== formDataRef.current.isLOA3) updates.isLOA3 = isLOA3;
-      if (dob !== formDataRef.current?.dob) updates.dob = dob;
+      if (isLOA3 !== formData.isLOA3) updates.isLOA3 = isLOA3;
+      if (dob !== formData?.dob) updates.dob = dob;
 
       if (Object.keys(updates).length > 0) {
         setFormData({
-          ...formDataRef.current,
+          ...formData,
           ...updates,
         });
       }
     },
-    [
-      isPersonalInfoFetchComplete,
-      mebBankInfoConfirmationField,
-      isLOA3,
-      dob,
-      setFormData,
-    ],
+    [mebBankInfoConfirmationField, isLOA3, dob, formData, setFormData],
   );
 
   // Fetch personal information (one-time on login)
@@ -245,7 +229,6 @@ ToeApp.propTypes = {
   getPersonalInformation: PropTypes.func,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
-  isPersonalInfoFetchComplete: PropTypes.bool,
   location: PropTypes.object,
   mebBankInfoConfirmationField: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
