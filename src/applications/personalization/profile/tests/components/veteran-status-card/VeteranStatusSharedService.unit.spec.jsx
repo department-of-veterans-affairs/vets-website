@@ -302,7 +302,7 @@ describe('VeteranStatusSharedService', () => {
       await waitFor(() => {
         expect(
           view.getByText(
-            'We’re sorry. Try to print your Veteran Status Card later.',
+            "We're sorry. Something went wrong on our end. Refresh this page or try again later.",
           ),
         ).to.exist;
       });
