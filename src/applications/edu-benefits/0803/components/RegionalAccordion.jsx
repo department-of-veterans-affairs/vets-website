@@ -3,7 +3,7 @@ import React from 'react';
 export default function RegionalAccordion() {
   return (
     <va-accordion>
-      <va-accordion-item header="Eastern region" id="easter_region">
+      <va-accordion-item header="Eastern region" id="easter_region" level="3">
         <p className="va-address-block">
           VA Regional Office
           <br />
@@ -26,7 +26,7 @@ export default function RegionalAccordion() {
           AA, Foreign Schools, and the U.S. Virgin Islands.
         </p>
       </va-accordion-item>
-      <va-accordion-item header="Western region" id="western_region">
+      <va-accordion-item header="Western region" id="western_region" level="3">
         <p className="va-address-block">
           VA Regional Office
           <br />

@@ -193,7 +193,11 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
         U.S.C. 1001).
       </p>
 
-      <div aria-describedby="interment-allowance-declaration">
+      <div
+        data-dd-privacy="mask"
+        data-dd-action-name="certification label"
+        aria-describedby="interment-allowance-declaration"
+      >
         <VaStatementOfTruth
           name="stateOrTribalOfficial"
           heading="Certification and signature"

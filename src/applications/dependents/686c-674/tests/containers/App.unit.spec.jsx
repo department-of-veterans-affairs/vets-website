@@ -28,7 +28,7 @@ const awardedDependent = {
     suffix: undefined,
   },
   relationshipToVeteran: 'Child',
-  ssn: '1234',
+  ssn: '123451234',
   dateOfBirth: createDoB(4),
   age: 4,
   labeledAge: '4 years old',

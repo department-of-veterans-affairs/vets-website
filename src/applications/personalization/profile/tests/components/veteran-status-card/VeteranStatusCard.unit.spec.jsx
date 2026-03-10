@@ -31,10 +31,19 @@ describe('VeteranStatusCard', () => {
     expect(view.queryByText(/Name/)).to.exist;
     expect(view.queryByText(/First Last/)).to.exist;
   });
-  it('should render the latest service', () => {
+  it('should render the latest service when cveVeteranStatusNewService feature flag is disabled', () => {
+    // When the feature flag is disabled, the old VeteranStatus component passes latestService
     const view = renderWithTestData(testData);
     expect(view.queryByText(/Latest period of service/)).to.exist;
     expect(view.queryByText(/United States Army • 2009-2013/)).to.exist;
+  });
+  it('should not render the latest service when cveVeteranStatusNewService feature flag is enabled', () => {
+    // When the new shared service feature flag is enabled, latestService is not passed
+    const view = renderWithTestData({
+      ...testData,
+      latestService: null,
+    });
+    expect(view.queryByText(/Latest period of service/)).not.to.exist;
   });
   it('should render the DoD ID Number', () => {
     const view = renderWithTestData(testData);

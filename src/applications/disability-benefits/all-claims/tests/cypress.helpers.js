@@ -779,6 +779,27 @@ export const pageHooks = (cy, testOptions) => ({
     });
   },
 
+  'supporting-evidence/summary': () => {
+    cy.get('@testData').then(data => {
+      if (
+        !data?.disability526NewBddShaEnforcementWorkflowEnabled ||
+        !data?.['view:isBddData'] ||
+        !data?.['view:hasSeparationHealthAssessment']
+      ) {
+        return;
+      }
+
+      cy.contains(/summary of evidence/i).should('exist');
+      cy.contains(/Separation Health Assessment Part A/i)
+        .should('exist')
+        .parent()
+        .within(() => {
+          cy.contains('example-upload.png').should('exist');
+        });
+      cy.contains(/you haven’t uploaded any evidence/i).should('not.exist');
+    });
+  },
+
   'review-veteran-details/separation-location': () => {
     cy.get('@testData').then(data => {
       cy.get('input[name="root_serviceInformation_separationLocation"]').type(

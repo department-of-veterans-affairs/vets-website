@@ -285,7 +285,12 @@ export const PreSubmitSignature = ({
           onVaCheckboxChange={handleCheckboxChange}
           hideLegalNote
         >
-          {statementBody}
+          <span
+            data-dd-privacy="mask"
+            data-dd-action-name="certification statement"
+          >
+            {statementBody}
+          </span>
         </VaStatementOfTruth>
       </div>
     </div>
