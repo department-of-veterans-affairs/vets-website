@@ -9,11 +9,16 @@ import {
 } from '../components/fileInputComponent/constants';
 import { createPayload } from '../utils/fileInputComponent/fileInputMultiUIConfig';
 import { additionalInfo } from '../components/fileInputComponent/AdditionalUploadInfo';
+import {
+  MAX_FILE_SIZE_BYTES,
+  MAX_FILE_SIZE_MB,
+  MAX_PDF_FILE_SIZE_BYTES,
+  MAX_PDF_FILE_SIZE_MB,
+} from '../constants';
 
 const SHA_ACCEPTED_FILE_TYPES = '.pdf,.jpg,.jpeg,.png';
 const SHA_ATTACHMENT_ID = 'L702';
-const SHA_HINT_TEXT =
-  'You can upload .pdf, .jpg, .jpeg, or .png files. Each file should be no larger than 50 MB for non-PDF files or 99 MB for PDF files. Larger files may take longer to upload, depending on the internet connection.';
+const SHA_HINT_TEXT = `You can upload .pdf, .jpg, .jpeg, or .png files. Each file should be no larger than ${MAX_FILE_SIZE_MB} MB for non-PDF files or ${MAX_PDF_FILE_SIZE_MB} MB for PDF files. Larger files may take longer to upload, depending on the internet connection.`;
 
 const parseShaResponse = (response, file) => ({
   name: file?.name,
@@ -41,11 +46,11 @@ export const uiSchema = {
       formNumber: '21-526EZ',
       fileSizesByFileType: {
         pdf: {
-          maxFileSize: 1024 * 1024 * 100,
+          maxFileSize: MAX_PDF_FILE_SIZE_BYTES,
           minFileSize: 1024,
         },
         default: {
-          maxFileSize: 1024 * 1024 * 50,
+          maxFileSize: MAX_FILE_SIZE_BYTES,
           minFileSize: 1,
         },
       },
