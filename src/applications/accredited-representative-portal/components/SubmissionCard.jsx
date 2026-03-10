@@ -160,7 +160,7 @@ const SubmissionCard = ({ submission, omitClaimantName }) => {
               active
               class="vads-u-margin-top--2 vads-u-display--block "
               href={`/representative/find-claimant/claimant-overview/${
-                submission.id
+                submission.claimantId
               }`}
               text="Go to the claimant overview"
             />
