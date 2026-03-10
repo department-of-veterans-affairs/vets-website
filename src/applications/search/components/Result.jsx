@@ -134,6 +134,11 @@ const Result = ({
             })}
           />
         </h4>
+        {!searchResultsUiUpdateEnabled && (
+          <p className="result-url vads-u-font-size--base vads-u-color--green">
+            {replaceWithStagingDomain(result.url)}
+          </p>
+        )}
         <p
           className="result-desc"
           /* eslint-disable react/no-danger */
@@ -147,15 +152,11 @@ const Result = ({
           }}
           /* eslint-enable react/no-danger */
         />
-        <p
-          className={`result-url vads-u-font-size--base ${
-            searchResultsUiUpdateEnabled
-              ? 'vads-u-color--gray'
-              : 'vads-u-color--green'
-          }`}
-        >
-          {replaceWithStagingDomain(result.url)}
-        </p>
+        {searchResultsUiUpdateEnabled && (
+          <p className="result-url vads-u-font-size--base vads-u-color--gray">
+            {replaceWithStagingDomain(result.url)}
+          </p>
+        )}
       </li>
     );
   }
