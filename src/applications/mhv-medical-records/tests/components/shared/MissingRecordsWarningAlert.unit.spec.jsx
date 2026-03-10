@@ -23,7 +23,6 @@ describe('MissingRecordsWarningAlert', () => {
     const headline = alert.querySelector('[slot="headline"]');
     expect(headline).to.exist;
     expect(headline.textContent.trim()).to.equal(
-      // Straight apostrophe in source; lint auto-fixes to curly for production
       "Some of your records aren't available in this report",
     );
   });
