@@ -370,16 +370,16 @@
       "rootUrl": "/find-locations"
     },
     {
+      "directoryPath": "src/applications/financial-management/financial-status-report",
+      "appName": "Financial Status Report",
+      "entryName": "request-debt-help-form-5655",
+      "rootUrl": "/manage-va-debt/request-debt-help-form-5655"
+    },
+    {
       "directoryPath": "src/applications/financial-management/view-payments",
       "appName": "View Payments",
       "entryName": "view-payments",
       "rootUrl": "/va-payment-history/payments"
-    },
-    {
-      "directoryPath": "src/applications/financial-status-report",
-      "appName": "Financial Status Report",
-      "entryName": "request-debt-help-form-5655",
-      "rootUrl": "/manage-va-debt/request-debt-help-form-5655"
     },
     {
       "directoryPath": "src/applications/fry-dea",
