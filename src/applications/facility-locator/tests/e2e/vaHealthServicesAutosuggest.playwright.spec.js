@@ -63,9 +63,11 @@ test.describe('VA health services autosuggest', () => {
 
     await h.verifyElementExists(page, h.AUTOSUGGEST_INPUT);
 
-    // Clicking the arrow should NOT open the dropdown when empty
+    // Click the arrow button — Downshift opens the dropdown when services
+    // data is loaded (Cypress also asserts aria-expanded="true" here).
+    // Press Escape to close it before submitting the form.
     await h.clickElement(page, h.AUTOSUGGEST_ARROW);
-
+    await page.locator(h.AUTOSUGGEST_INPUT).press('Escape');
     await expect(page.locator(h.AUTOSUGGEST_INPUT)).toHaveAttribute(
       'aria-expanded',
       'false',
