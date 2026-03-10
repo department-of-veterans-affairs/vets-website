@@ -241,8 +241,13 @@ ToeApp.propTypes = {
 };
 
 // Merge prefill values when form state has undefined (needed for direct deposit, etc.)
+// Skip email field - it's handled by CustomEmailField to avoid conflicts.
 const mergePreservingPrefill = (prefill, formState) => {
-  return mergeWith({}, prefill, formState, (prefillVal, formStateVal) => {
+  return mergeWith({}, prefill, formState, (prefillVal, formStateVal, key) => {
+    // Don't merge prefill email - CustomEmailField handles this
+    if (key === 'email' && formStateVal !== undefined) {
+      return formStateVal;
+    }
     if (formStateVal === undefined && prefillVal !== undefined) {
       return prefillVal;
     }
