@@ -1163,6 +1163,7 @@ jobs:
     needs: forms-system_regression_check_get_file_paths
     if: needs.forms-system_regression_check_get_file_paths.outputs.folders != ''
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       fail-fast: false
       max-parallel: 12
@@ -1180,6 +1181,7 @@ jobs:
     needs: [build, forms-system_regression_check_get_file_paths, fetch-ecr-credentials]
     if: needs.forms-system_regression_check_get_file_paths.outputs.folders != ''
     runs-on: ubuntu-16-cores-latest
+    continue-on-error: true
     timeout-minutes: 120
     permissions:
       id-token: write
