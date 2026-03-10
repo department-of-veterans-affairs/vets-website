@@ -177,7 +177,7 @@ export const moveMessageThread = (threadId, folderId) => async dispatch => {
 
 export const sendMessage = (
   message,
-  attachments,
+  hasAttachments,
   ohTriageGroup = false,
   isRxRenewal = false,
   suppressSuccessAlert = false,
@@ -186,7 +186,11 @@ export const sendMessage = (
     typeof message === 'string' ? JSON.parse(message) : message;
   const startTimeMs = Date.now();
   try {
-    const response = await createMessage(message, attachments, ohTriageGroup);
+    const response = await createMessage(
+      message,
+      hasAttachments,
+      ohTriageGroup,
+    );
 
     if (!suppressSuccessAlert) {
       dispatch(
@@ -205,7 +209,7 @@ export const sendMessage = (
           messageId: response.data?.attributes?.messageId,
           recipientId: messageData?.recipient_id,
           category: messageData?.category,
-          hasAttachments: attachments && attachments.length > 0,
+          hasAttachments,
         },
         status: 'info',
       });
@@ -232,7 +236,7 @@ export const sendMessage = (
           category: messageData?.category,
           errorCode,
           errorDetail,
-          hasAttachments: attachments && attachments.length > 0,
+          hasAttachments,
         },
         status: 'error',
         error: e,

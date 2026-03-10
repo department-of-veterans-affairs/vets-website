@@ -504,7 +504,11 @@ const ComposeForm = props => {
 
         const rxPrescriptionId =
           renewalPrescription?.prescriptionId ?? rawPrescriptionId;
-        if (isRxRenewalDraft && rxPrescriptionId) {
+        if (
+          isRxRenewalDraft &&
+          rxPrescriptionId &&
+          rxPrescriptionId !== 'undefined'
+        ) {
           messageData[`${'prescription_id'}`] = rxPrescriptionId.toString();
         }
 
