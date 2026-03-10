@@ -109,9 +109,15 @@ function collectAllTests(suite) {
 class MochawesomeReporter {
   constructor(options = {}) {
     this.outputDir = options.outputDir || 'cypress/results';
+    const shardSuffix =
+      process.env.PLAYWRIGHT_SHARD_INDEX != null
+        ? `_shard${process.env.PLAYWRIGHT_SHARD_INDEX}`
+        : '';
     this.outputFileName =
       options.outputFileName ||
-      `playwright_${new Date().toISOString().replace(/[.:]/g, '')}`;
+      `playwright_${new Date()
+        .toISOString()
+        .replace(/[.:]/g, '')}${shardSuffix}`;
     this.rootSuite = null;
   }
 
