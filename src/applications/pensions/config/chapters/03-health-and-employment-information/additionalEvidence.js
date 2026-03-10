@@ -8,7 +8,8 @@ export default {
   title: 'Medical records needed',
   path: 'medical/evidence',
   initialData: {},
-  depends: formData => requiresAdditionalEvidence(formData),
+  depends: formData =>
+    !formData.isOver65 && requiresAdditionalEvidence(formData),
   uiSchema: {
     ...titleUI('Medical records needed', MedicalEvidenceNotice),
   },
