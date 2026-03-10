@@ -18,11 +18,11 @@ export const rxListSortingOptions = {
 // Sort options used when the management improvements flag is enabled
 export const rxListSortingOptionsV2 = {
   mostRecentlyFilled: {
-    API_ENDPOINT: '&sort[]=-dispensed_date',
+    API_ENDPOINT: 'sort[]=-dispensed_date',
     LABEL: 'Most recently filled',
   },
   alphabeticalByName: {
-    API_ENDPOINT: '&sort[]=alphabetical-rx-name',
+    API_ENDPOINT: 'sort[]=alphabetical-rx-name',
     LABEL: 'Alphabetical by medication name',
   },
 };
