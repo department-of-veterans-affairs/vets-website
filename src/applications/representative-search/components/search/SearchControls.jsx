@@ -33,7 +33,7 @@ const SearchControls = props => {
     geolocationInProgress,
     isErrorEmptyInput,
     searchArea,
-    organizationFilter,
+    organization,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
@@ -58,9 +58,9 @@ const SearchControls = props => {
     ),
   );
 
-  const organizationSelectOptions = organizations.map(organization => (
-    <option key={organization} value={organization}>
-      {organization}
+  const organizationSelectOptions = organizations.map(org => (
+    <option key={org} value={org}>
+      {org}
     </option>
   ));
 
@@ -209,9 +209,9 @@ const SearchControls = props => {
               <div className="organization-select">
                 <VaComboBox
                   name="organization"
-                  value={organizationFilter}
+                  value={organization}
                   label="Veterans Service Organization (VSO)"
-                  onVaSelect={handleChange('organizationFilter')}
+                  onVaSelect={handleChange('organization')}
                   data-testid="vso-org-filter"
                 >
                   {organizationSelectOptions}

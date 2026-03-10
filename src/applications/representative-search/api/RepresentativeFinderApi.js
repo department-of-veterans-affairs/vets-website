@@ -17,7 +17,7 @@ class RepresentativeFinderApi {
     sort,
     type = 'veteran_service_officer',
     distance,
-    organizationFilter,
+    organization,
   ) {
     this.address = address;
     this.lat = lat;
@@ -28,7 +28,7 @@ class RepresentativeFinderApi {
     this.sort = sort;
     this.type = type;
     this.distance = distance;
-    this.organizationFilter = organizationFilter;
+    this.organization = organization;
   }
 
   /**
@@ -81,8 +81,7 @@ class RepresentativeFinderApi {
     searchParams.set('sort', this.sort);
     searchParams.set('type', this.type);
     if (this.distance) searchParams.set('distance', this.distance);
-    if (this.organizationFilter)
-      searchParams.set('org_name', this.organizationFilter);
+    if (this.organization) searchParams.set('org_name', this.organization);
 
     const { fetchVSOReps, fetchOtherReps } = getEndpointOptions();
     const endpoint =

@@ -79,7 +79,7 @@ const SearchPage = props => {
       sort: currentQuery.sortType?.toLowerCase(),
       type: currentQuery.representativeType,
       name: currentQuery.representativeInputString,
-      organizationFilter: currentQuery.organizationFilter,
+      organization: currentQuery.organization,
       ...params,
     };
 
@@ -125,7 +125,7 @@ const SearchPage = props => {
       representativeQueryString: location.query.name,
       representativeInputString: location.query.name,
       representativeType: location.query.type,
-      organizationFilter: location.query.organizationFilter,
+      organization: location.query.organization,
       page: location.query.page,
       sortType: location.query.sort,
       searchArea: location.query.distance,
@@ -145,7 +145,7 @@ const SearchPage = props => {
       sortType,
       page,
       searchArea,
-      organizationFilter,
+      organization,
     } = currentQuery.committedSearchQuery;
 
     const { latitude, longitude } = position;
@@ -163,7 +163,7 @@ const SearchPage = props => {
       page: page || 1,
       sort: sortType,
       distance,
-      organizationFilter,
+      organization,
     });
 
     const conditionalDataLayerPush = () => {
@@ -246,7 +246,7 @@ const SearchPage = props => {
         sort: sortType,
         type: representativeType,
         distance,
-        organizationFilter,
+        organization,
       });
 
       setIsSearching(false);

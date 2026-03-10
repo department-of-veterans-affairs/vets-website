@@ -28,7 +28,7 @@ export const fetchRepresentatives = async (
   sort,
   type,
   distance,
-  organizationFilter,
+  organization,
   dispatch,
 ) => {
   try {
@@ -42,7 +42,7 @@ export const fetchRepresentatives = async (
       sort,
       type,
       distance,
-      organizationFilter,
+      organization,
     ).searchByCoordinates();
     if (dataList.data) {
       dispatch({ type: SEARCH_COMPLETE, payload: dataList });

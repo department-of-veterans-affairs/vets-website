@@ -16,7 +16,7 @@ export const searchWithInput = ({
   sort,
   type,
   distance,
-  organizationFilter,
+  organization,
 }) => {
   return dispatch => {
     dispatch({
@@ -48,7 +48,7 @@ export const searchWithInput = ({
       sort,
       type,
       distance,
-      organizationFilter,
+      organization,
       dispatch,
     );
   };
