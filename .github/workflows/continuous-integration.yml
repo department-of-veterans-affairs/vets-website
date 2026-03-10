@@ -909,14 +909,47 @@ jobs:
           path: cypress/results
           retention-days: 1
 
+  playwright-shard-prep:
+    name: Playwright Shard Prep
+    runs-on: ubuntu-22.04
+    outputs:
+      shard_indices: ${{ steps.shard.outputs.shard_indices }}
+      shard_count: ${{ steps.shard.outputs.shard_count }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Restore durations cache
+        uses: actions/cache/restore@v4
+        with:
+          path: playwright-durations.json
+          key: playwright-durations-${{ github.run_id }}
+          restore-keys: |
+            playwright-durations-
+
+      - name: Compute shards
+        id: shard
+        run: node script/github-actions/playwright-shard-tests.js
+
+      - name: Upload shard assignments
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-shards
+          path: playwright-shards.json
+          retention-days: 1
+
   playwright-tests:
-    name: Playwright E2E Tests
+    name: Playwright E2E Tests (${{ matrix.shard_index }})
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 30
-    needs: [build]
+    needs: [build, playwright-shard-prep]
     permissions:
       id-token: write
       contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        shard_index: ${{ fromJson(needs.playwright-shard-prep.outputs.shard_indices) }}
 
     steps:
       - name: Checkout
@@ -962,18 +995,36 @@ jobs:
           mkdir -p build/vagovprod
           tar -C build/vagovprod --zstd -xf vagovprod.tar.zst
 
+      - name: Download shard assignments
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-shards
+
+      - name: Get shard test files
+        id: shard-files
+        run: |
+          FILES=$(node -e "
+            const shards = require('./playwright-shards.json');
+            const files = shards.shards['${{ matrix.shard_index }}'] || [];
+            console.log(files.join(' '));
+          ")
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+          echo "Shard ${{ matrix.shard_index }} files: $FILES"
+
       - name: Run Playwright tests
-        run: npx playwright test --config config/playwright.config.js
+        if: steps.shard-files.outputs.files != ''
+        run: npx playwright test --config config/playwright.config.js ${{ steps.shard-files.outputs.files }}
         env:
           CI: true
           BUILDTYPE: vagovprod
           NODE_OPTIONS: '--openssl-legacy-provider'
+          PLAYWRIGHT_SHARD_INDEX: ${{ matrix.shard_index }}
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.shard_index }}
           path: playwright-report/
           retention-days: 30
 
@@ -981,7 +1032,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-test-results
+          name: playwright-test-results-${{ matrix.shard_index }}
           path: test-results/
           retention-days: 30
 
@@ -989,8 +1040,41 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-mochawesome-test-results
+          name: playwright-mochawesome-test-results-${{ matrix.shard_index }}
           path: cypress/results/
+          retention-days: 1
+
+  playwright-merge-reports:
+    name: Merge Playwright Reports
+    runs-on: ubuntu-22.04
+    needs: [playwright-tests]
+    if: ${{ always() && (needs.playwright-tests.result == 'success' || needs.playwright-tests.result == 'failure') }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Download all Mochawesome results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: playwright-mochawesome-test-results-*
+          path: merged-mochawesome
+          merge-multiple: true
+
+      - name: Save test durations
+        run: node script/github-actions/save-playwright-durations.js merged-mochawesome playwright-durations.json
+
+      - name: Cache durations for future runs
+        uses: actions/cache/save@v4
+        with:
+          path: playwright-durations.json
+          key: playwright-durations-${{ github.run_id }}
+
+      - name: Upload merged Mochawesome results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-mochawesome-test-results
+          path: merged-mochawesome/
           retention-days: 1
 
   stress-test-cypress-tests:
@@ -1648,7 +1732,7 @@ jobs:
   testing-reports-playwright:
     name: Testing Reports - Playwright E2E Tests
     runs-on: ubuntu-22.04
-    needs: [testing-reports-prep, playwright-tests]
+    needs: [testing-reports-prep, playwright-tests, playwright-merge-reports]
     permissions:
       checks: write
       id-token: write

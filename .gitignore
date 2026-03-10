@@ -27,6 +27,9 @@ typings/
 coverage
 /cypress
 /playwright-report
+/blob-report
+playwright-durations.json
+playwright-shards.json
 .nyc_output
 .yalc
 yalc.lock
