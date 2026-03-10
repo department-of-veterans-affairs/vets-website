@@ -7,7 +7,7 @@ import { dispStatusObj } from '../../util/constants';
  * Filters prescriptions to only include those that are:
  * - Submitted (dispStatus === 'Active: Submitted')
  * - In progress (dispStatus === 'Active: Refill in Process')
- * - Shipped (dispStatus === 'Active' with recent tracking completeDateTime)
+ * - Shipped (dispStatus === 'Active' with tracking completeDateTime within 15 days)
  *
  * @returns {Object} The prescription data, loading state, and error state
  */
@@ -15,7 +15,7 @@ export const useFetchPrescriptionsInProgress = () => {
   const { data, error, isLoading, isFetching } = useGetPrescriptionsListQuery();
 
   const getInProgressPrescriptions = prescriptions => {
-    const fourteenDaysAgo = new Date().setDate(new Date().getDate() - 14);
+    const fifteenDaysAgo = new Date().setDate(new Date().getDate() - 15);
 
     // TODO tooEarly logic not implemented yet, always returns []
     return prescriptions.reduce(
@@ -28,7 +28,7 @@ export const useFetchPrescriptionsInProgress = () => {
           const latestTracking = prescription.trackingList?.[0];
           if (
             latestTracking?.completeDateTime &&
-            Date.parse(latestTracking.completeDateTime) > fourteenDaysAgo
+            Date.parse(latestTracking.completeDateTime) >= fifteenDaysAgo
           ) {
             inProgressMedications.shipped.push(prescription);
           }

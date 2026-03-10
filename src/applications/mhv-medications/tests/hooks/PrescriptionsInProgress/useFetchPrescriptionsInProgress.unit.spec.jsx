@@ -271,7 +271,7 @@ describe('useFetchPrescriptionsInProgress', () => {
         dispStatus: dispStatusObj.active,
         trackingList: [
           {
-            completeDateTime: getRelativeDate(13),
+            completeDateTime: getRelativeDate(14),
             trackingNumber: '123456789',
           },
         ],
@@ -298,7 +298,7 @@ describe('useFetchPrescriptionsInProgress', () => {
         dispStatus: dispStatusObj.active,
         trackingList: [
           {
-            completeDateTime: getRelativeDate(20),
+            completeDateTime: getRelativeDate(16),
             trackingNumber: '123456789',
           },
         ],
@@ -417,7 +417,7 @@ describe('useFetchPrescriptionsInProgress', () => {
       const { result } = renderHook(() => useFetchPrescriptionsInProgress());
 
       await waitFor(() => {
-        // Should NOT be in shipped because the first tracking entry is older than 14 days
+        // Should NOT be in shipped because the first tracking entry is older than 15 days
         expect(result.current.shipped).to.deep.equal([]);
       });
     });

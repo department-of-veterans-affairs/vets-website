@@ -1,19 +1,17 @@
 import { medicationsUrls } from '../../../util/constants';
 
 class MedicationsInProgressPage {
-  visitPage = (apiVersion, fixture) => {
-    cy.intercept('GET', `/my_health/${apiVersion}/prescriptions*`, fixture).as(
+  visitPage = fixture => {
+    cy.intercept('GET', '/my_health/v1/prescriptions*', fixture).as(
       'prescriptions',
     );
     cy.visit(medicationsUrls.MEDICATIONS_IN_PROGRESS);
   };
 
-  visitPageWithError = (apiVersion, errorResponse) => {
-    cy.intercept(
-      'GET',
-      `/my_health/${apiVersion}/prescriptions*`,
-      errorResponse,
-    ).as('prescriptionsError');
+  visitPageWithError = errorResponse => {
+    cy.intercept('GET', '/my_health/v1/prescriptions*', errorResponse).as(
+      'prescriptionsError',
+    );
     cy.visit(medicationsUrls.MEDICATIONS_IN_PROGRESS);
   };
 
