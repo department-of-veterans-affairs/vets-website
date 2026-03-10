@@ -154,6 +154,7 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
             .shadow()
             .find('select')
             .first()
+            .should('not.be.disabled')
             .select('L049');
         },
 
@@ -178,6 +179,7 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
             .shadow()
             .find('select')
             .first()
+            .should('not.be.disabled')
             .select('L023');
         },
 
