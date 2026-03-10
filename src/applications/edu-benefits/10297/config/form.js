@@ -1,11 +1,9 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import environment from 'platform/utilities/environment';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 
 import manifest from '../manifest.json';
-import testData from '../tests/fixtures/data/maximal-test.json';
 import submitForm from './submitForm';
 import { transform } from './submit-transformer';
 
@@ -42,9 +40,6 @@ import applicantFullnameReviewPage from '../components/ApplicantFullnameReviewPa
 import NeedHelp from '../components/NeedHelp';
 
 export const submitFormLogic = (form, formConfig) => {
-  if (environment.isDev() || environment.isLocalhost()) {
-    return Promise.resolve(testData);
-  }
   return submitForm(form, formConfig);
 };
 
@@ -132,7 +127,7 @@ const formConfig = {
           schema: contactPreferences.schema,
           pageClass: 'page',
         },
-        veteranStatus: {
+        dutyRequirementMet: {
           path: 'at-least-3-years',
           title: 'Your Veteran or service member status',
           uiSchema: atLeast3Years.uiSchema,

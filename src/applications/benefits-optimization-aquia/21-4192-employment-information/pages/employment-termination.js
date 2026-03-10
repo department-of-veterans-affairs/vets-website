@@ -29,6 +29,7 @@ export const employmentTerminationUiSchema = {
     }),
     dateLastWorked: MemorableDateUI({
       title: 'Date last worked',
+      dataDogHidden: true,
       required: false,
     }),
   },

@@ -1,14 +1,16 @@
 import {
+  arrayBuilderItemSubsequentPageTitleUI,
   addressUI,
   addressSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const childAddressPartOne = {
   uiSchema: {
-    ...titleUI({
-      title: 'Child’s address',
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => `${formData?.fullName?.first || 'Child'}’s address`,
+      null,
+      false,
+    ),
     address: {
       ...addressUI({
         title: '',

@@ -669,6 +669,16 @@ export const isUploadingSTR = formData =>
     false,
   );
 
+export const isBddShaWorkflowActive = formData =>
+  formData.disability526NewBddShaEnforcementWorkflowEnabled && isBDD(formData);
+
+export const isUploadingBddSha = formData =>
+  _.get('view:hasSeparationHealthAssessment', formData, false) &&
+  isBddShaWorkflowActive(formData);
+
+export const getBddShaUploads = formData =>
+  _.get('separationHealthAssessmentUploads', formData, []);
+
 export const DISABILITY_SHARED_CONFIG = {
   orientation: {
     path: 'disabilities/orientation',

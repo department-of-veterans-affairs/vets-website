@@ -112,7 +112,7 @@ class PilotEnvPage {
   };
 
   verifyButtons = () => {
-    cy.get(Locators.BUTTONS.REPLY)
+    cy.findByTestId(Locators.BUTTONS.REPLY)
       .should('be.visible')
       .and(`contain`, `Reply`);
     cy.get(Locators.BUTTONS.PRINT)
@@ -127,7 +127,7 @@ class PilotEnvPage {
   };
 
   verifyThreadLength = thread => {
-    cy.get(Locators.THREADS).then(el => {
+    cy.findAllByTestId(Locators.THREADS).then(el => {
       expect(el.length).to.eq(thread.data.length);
     });
   };

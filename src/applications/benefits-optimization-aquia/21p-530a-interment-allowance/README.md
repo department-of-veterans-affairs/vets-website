@@ -26,7 +26,7 @@ Benefits Intake Optimization - Aquia Team
 
 - **Form Number**: VA Form 21P-530A
 - **Entry Name**: `21p-530a-interment-allowance`
-- **Root URL**: `/submit-state-interment-allowance-form-21p-530a`
+- **Root URL**: `/forms/21p-530a/submit-state-interment-allowance-request`
 - **API Endpoint**: `POST /v0/form21p530a`
 - **Product ID**: TBD
 
@@ -160,7 +160,7 @@ yarn watch --env entry=auth,static-pages,login-page,21p-530a-interment-allowance
 
 ### Local Development URL
 
-- Development: `http://localhost:3001/submit-state-interment-allowance-form-21p-530a`
+- Development: `http://localhost:3001/forms/21p-530a/submit-state-interment-allowance-request`
 - Introduction page: Starts at the root URL above
 
 ## Conditional Form Logic

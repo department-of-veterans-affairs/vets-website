@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Prescription from './Prescription';
+import { IN_PROGRESS_MEDS_DISPLAY_TYPES } from '../../util/constants';
 
 const TooEarlyToRefillCard = ({ tooEarly = [] }) => (
   <va-card background data-testid="too-early-section">
@@ -20,7 +21,11 @@ const TooEarlyToRefillCard = ({ tooEarly = [] }) => (
         ship these medications to you.
       </p>
       {tooEarly.map(prescription => (
-        <Prescription key={prescription.prescriptionId} {...prescription} />
+        <Prescription
+          key={prescription.prescriptionId}
+          displayType={IN_PROGRESS_MEDS_DISPLAY_TYPES.SUBMITTED}
+          prescription={prescription}
+        />
       ))}
     </div>
   </va-card>

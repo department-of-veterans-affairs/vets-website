@@ -203,7 +203,7 @@ const api = {
   }),
 
   getClaimantOverview: wrapApiRequest(id => {
-    return [`/claimant/${id}`];
+    return [`/claimant/${id}`, { skip403Redirect: true }];
   }),
 };
 

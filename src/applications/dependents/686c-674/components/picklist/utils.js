@@ -335,6 +335,9 @@ export const pageDetails = {
  * @returns {boolean} - whether to show the exit link or continue button
  */
 export const showExitLink = ({ data = {}, index = 0 } = {}) => {
+  const isAddingDependents = data['view:addOrRemoveDependents']?.add === true;
+  if (isAddingDependents) return false;
+
   const selected = data[PICKLIST_DATA]?.filter(item => item.selected) || [];
   const list = data[PICKLIST_PATHS] || [];
   const exitPaths = list.filter(item => item.path.endsWith('-exit'));

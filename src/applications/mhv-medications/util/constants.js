@@ -5,6 +5,7 @@ export * from './constants/urls';
 export * from './constants/session';
 export * from './constants/sorting';
 export * from './constants/filters';
+export * from './constants/in-progress';
 export * from './constants/status';
 export * from './constants/pdf';
 export * from './constants/refill';
