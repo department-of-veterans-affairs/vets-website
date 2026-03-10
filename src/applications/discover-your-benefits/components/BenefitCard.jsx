@@ -43,7 +43,7 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
           </span>
         )}
         <p
-          className={`category-eyebrow vads-u-margin-bottom--neg1 ${
+          className={`category-eyebrow vads-u-margin-bottom--neg1 vads-u-margin-top--1 ${
             !isBenefitRecommended(benefit.id) ? 'vads-u-margin-top--neg0p5' : ''
           }`}
         >
