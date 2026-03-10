@@ -13,13 +13,15 @@ import { navigateToFoldersPage } from '../util/helpers';
 import { delFolder, getFolders, renameFolder } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
 import * as Constants from '../util/constants';
+import SmAlert from './shared/SmAlert';
 
 const ManageFolderButtons = props => {
   const { ErrorMessages, Alerts } = Constants;
   const dispatch = useDispatch();
   const history = useHistory();
   const { folder } = props;
-  const folders = useSelector(state => state.sm.folders.folderList);
+  const folderList = useSelector(state => state.sm.folders.folderList);
+  const folders = folderList || [];
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const threads = useSelector(state => state.sm.threads);
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);
@@ -27,17 +29,41 @@ const ManageFolderButtons = props => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [isEditExpanded, setIsEditExpanded] = useState(false);
   const [folderName, setFolderName] = useState('');
+  const [showRenameSuccess, setShowRenameSuccess] = useState(false);
   const folderNameInput = useRef();
   const editFolderButtonRef = useRef(null);
   const removeButton = useRef(null);
   const emptyFolderConfirmBtn = useRef(null);
   const removeFolderRef = useRef(null);
+  const prevFolderIdRef = useRef(folder?.folderId);
 
-  useEffect(() => {
-    if (!folders) {
-      dispatch(getFolders());
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (!folderList) {
+        dispatch(getFolders());
+      }
+    },
+    [folderList, dispatch],
+  );
+
+  // Reset local state when navigating to a different folder (not on initial mount)
+  useEffect(
+    () => {
+      if (
+        prevFolderIdRef.current !== undefined &&
+        prevFolderIdRef.current !== folder?.folderId
+      ) {
+        setShowRenameSuccess(false);
+        setIsEditExpanded(false);
+        setFolderName('');
+        setNameWarning('');
+        setIsEmptyWarning(false);
+        setDeleteModal(false);
+      }
+      prevFolderIdRef.current = folder?.folderId;
+    },
+    [folder?.folderId],
+  );
 
   useEffect(
     () => {
@@ -131,11 +157,20 @@ const ManageFolderButtons = props => {
       } else if (folderMatch.length > 0) {
         setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
       } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-        await dispatch(renameFolder(folder.folderId, folderName));
-        setIsEditExpanded(false);
-        setFolderName('');
-        setNameWarning('');
-        focusElement(editFolderButtonRef.current);
+        try {
+          // Pass suppressSuccessAlert=true to prevent global alert, we show inline alert instead
+          await dispatch(renameFolder(folder.folderId, folderName, true));
+          setIsEditExpanded(false);
+          setFolderName('');
+          setNameWarning('');
+          setShowRenameSuccess(true);
+          // Per accessibility guidance: leave focus on triggering control (Edit button)
+          // The slim alert with role="status" will announce the success message
+          focusElement(editFolderButtonRef.current);
+        } catch (error) {
+          // If rename fails, keep form open - global error alert will be shown by action
+          // Error already logged to Datadog via sendDatadogError in renameFolder action
+        }
       } else {
         setNameWarning(
           ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
@@ -152,6 +187,23 @@ const ManageFolderButtons = props => {
           <h2 className="vads-u-margin-top--3 vads-u-margin-bottom--2">
             Edit folder
           </h2>
+          <SmAlert
+            status="success"
+            slim
+            closeable
+            visible={showRenameSuccess}
+            closeBtnAriaLabel="Close notification"
+            onCloseEvent={() => setShowRenameSuccess(false)}
+            className="vads-u-margin-bottom--2"
+            data-testid="rename-success-alert"
+            srMessage={
+              showRenameSuccess ? Alerts.Folder.RENAME_FOLDER_SUCCESS : ''
+            }
+          >
+            <p className="vads-u-margin-y--0">
+              {Alerts.Folder.RENAME_FOLDER_SUCCESS}
+            </p>
+          </SmAlert>
           <va-additional-info
             trigger="How can I use a custom folder?"
             class="custom-folder-info vads-u-margin-bottom--3"
@@ -160,21 +212,24 @@ const ManageFolderButtons = props => {
             This is a folder you created. You can add conversations to this
             folder by moving them from your inbox or other folders.
           </va-additional-info>
-          <div className="vads-u-display--flex vads-u-flex-direction--column">
+          <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-flex-wrap--wrap">
             {/* Edit folder name button */}
-            <va-button
-              ref={editFolderButtonRef}
-              secondary
-              full-width
-              text="Edit folder name"
-              onClick={openEditForm}
-              data-dd-action-name="Edit Folder Name Button"
-              data-testid="edit-folder-button"
-            />
+            <div className="vads-u-width--full medium-screen:vads-u-width--auto vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--0">
+              <va-button
+                ref={editFolderButtonRef}
+                secondary
+                full-width
+                text="Edit folder name"
+                onClick={openEditForm}
+                data-dd-action-name="Edit Folder Name Button"
+                data-testid="edit-folder-button"
+              />
+            </div>
+
             {/* Inline edit form - shown when expanded */}
             {isEditExpanded && (
               <div
-                className="vads-u-margin-top--2 vads-u-margin-left--0p5 vads-u-border-left--5px vads-u-border-color--primary vads-u-padding-left--2"
+                className="vads-u-margin-top--2 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-margin-left--0p5 vads-u-border-left--5px vads-u-border-color--primary vads-u-padding-left--2 vads-u-width--full medium-screen:vads-u-order--last"
                 data-testid="edit-folder-form"
               >
                 <VaTextInput
@@ -218,16 +273,18 @@ const ManageFolderButtons = props => {
             )}
 
             {/* Remove folder button - red destructive style */}
-            <va-button
-              ref={removeFolderRef}
-              secondary
-              full-width
-              text="Remove folder"
-              onClick={openDelModal}
-              data-dd-action-name="Remove Folder Button"
-              data-testid="remove-folder-button"
-              class="vads-u-margin-top--1 sm-button-destructive"
-            />
+            <div className="vads-u-width--full medium-screen:vads-u-width--auto medium-screen:vads-u-margin-left--1">
+              <va-button
+                ref={removeFolderRef}
+                secondary
+                full-width
+                text="Remove folder"
+                onClick={openDelModal}
+                data-dd-action-name="Remove Folder Button"
+                data-testid="remove-folder-button"
+                class="sm-button-destructive"
+              />
+            </div>
           </div>
         </>
       )}
