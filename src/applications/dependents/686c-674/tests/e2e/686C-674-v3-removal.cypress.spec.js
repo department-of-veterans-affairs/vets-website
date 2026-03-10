@@ -5,10 +5,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import { PICKLIST_DATA } from '../../config/constants';
 import manifest from '../../manifest.json';
-import mockVaFileNumber from './fixtures/va-file-number.json';
-import mockDependents from './fixtures/mock-dependents.json';
-import user from './user.json';
-import { signAndSubmit } from './cypress.helpers';
+import { signAndSubmit, setupCypress } from './cypress.helpers';
 
 Cypress.config('waitForAnimations', true);
 
@@ -101,7 +98,7 @@ const testConfig = createTestConfig(
     dataSets: ['removal-only-v3'],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
-      cy.login(user);
+      setupCypress();
 
       // Enable V3 feature toggle along with existing V2 toggles
       cy.intercept('GET', '/v0/feature_toggles?*', {
@@ -115,72 +112,6 @@ const testConfig = createTestConfig(
           ],
         },
       });
-
-      cy.intercept(
-        'GET',
-        '/v0/profile/valid_va_file_number',
-        mockVaFileNumber,
-      ).as('mockVaFileNumber');
-
-      cy.intercept('POST', '/v0/claim_attachments', {
-        data: {
-          attributes: {
-            confirmationCode: '5',
-          },
-        },
-      });
-
-      cy.get('@testData').then(testData => {
-        // Mock dependents API endpoints for picklist data
-        cy.intercept('GET', '/v0/dependents', {
-          data: testData.dependents,
-        }).as('mockDependents');
-
-        // Mock dependents_applications/show endpoint to prevent "Unknown error"
-        cy.intercept(
-          'GET',
-          '/v0/dependents_applications/show',
-          mockDependents,
-        ).as('mockDependentsShow');
-
-        // In-progress form GET must return formData and metadata structure
-        cy.intercept('GET', '/v0/in_progress_forms/686C-674-V2', {
-          formData: testData,
-          metadata: {
-            version: 0,
-            prefill: false,
-            returnUrl: '/review-and-submit',
-          },
-        });
-
-        // In-progress form PUT response
-        cy.intercept('PUT', 'v0/in_progress_forms/686C-674-V2', {
-          data: {
-            id: '1234',
-            type: 'in_progress_forms',
-            attributes: {
-              formId: '686C-674-V2',
-              createdAt: '2021-06-03T00:00:00.000Z',
-              updatedAt: '2021-06-03T00:00:00.000Z',
-              metadata: {
-                version: 1,
-                returnUrl: '/review-and-submit',
-                savedAt: 1763655532017,
-                lastUpdated: 1763655532017,
-                expiresAt: 99999999999,
-              },
-            },
-          },
-        });
-      });
-
-      cy.intercept('POST', '/v0/dependents_applications', {
-        formSubmissionId: '123fake-submission-id-567',
-        timestamp: '2020-11-12',
-        attributes: {
-          guid: '123fake-submission-id-567',
-        },
-      }).as('submitApplication');
     },
 
     pageHooks: {
