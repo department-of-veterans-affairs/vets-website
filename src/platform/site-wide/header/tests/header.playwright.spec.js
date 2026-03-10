@@ -40,9 +40,8 @@ test.describe('global header', () => {
         header.locator('.sitewide-search-drop-down-panel-button'),
       ).toBeVisible();
 
-      const contactLink = page.locator('a').nth(1);
+      const contactLink = header.locator('a', { hasText: 'Contact us' });
       await expect(contactLink).toBeVisible();
-      await expect(contactLink).toContainText('Contact us');
       await expect(contactLink).toHaveAttribute('href', /\/contact-us/);
 
       await expect(header.locator('.sign-in-links')).toBeVisible();
@@ -62,7 +61,9 @@ test.describe('global header', () => {
       await expect(header).toBeVisible();
 
       await expect(header.locator('#header-crisis-line')).toBeVisible();
-      await expect(header.locator('.header-logo-row svg')).toBeVisible();
+      await expect(
+        header.locator('.header-logo-row svg').first(),
+      ).toBeVisible();
       await expect(header.locator('.sign-in-links')).toBeVisible();
 
       const menuButton = header.locator('.header-menu-button');
