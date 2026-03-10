@@ -12,13 +12,8 @@ const MedicationsListHeader = ({
   showRxRenewalMessageSuccessAlert,
 }) => {
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
-  let titleNotesMessage =
+  const titleNotesMessage =
     'Bring your medications list to each appointment. And tell your provider about any new allergies or reactions.';
-
-  if (!hasMedsByMailFacility) {
-    titleNotesMessage +=
-      ' If you use Meds by Mail, you can also call your servicing center and ask them to update your records.';
-  }
 
   const titleNotesBottomMarginUnit = hasMedsByMailFacility ? 3 : 2;
 
