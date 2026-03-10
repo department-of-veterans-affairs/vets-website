@@ -29,6 +29,9 @@ const PrescriptionDetailsDocumentation = lazyWithRetry(() =>
 const RefillPrescriptionsV2 = lazyWithRetry(() =>
   import('./containers/RefillPrescriptionsV2'),
 );
+const RefillPrescriptions = lazyWithRetry(() =>
+  import('./containers/RefillPrescriptions'),
+);
 const PrescriptionsInProgress = lazyWithRetry(() =>
   import('./containers/PrescriptionsInProgress'),
 );
@@ -97,10 +100,20 @@ FeatureFlaggedRoute.propTypes = {
   ComponentIfFalse: PropTypes.elementType,
 };
 
+const RefillRedirect = () => {
+  const isEnabled = useSelector(selectMedicationsManagementImprovementsFlag);
+
+  if (isEnabled) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <RouteWrapper Component={RefillPrescriptions} />;
+};
+
 const routes = [
   {
     path: 'refill',
-    element: <Navigate to="/" replace />,
+    element: <RefillRedirect />,
   },
   {
     path: '/',
