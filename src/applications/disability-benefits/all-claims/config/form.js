@@ -73,6 +73,7 @@ import {
   evidenceTypesBDD,
   evidenceChoiceIntro,
   evidenceChoiceAdditionalDocuments,
+  evidenceChoiceAdditionalDocumentsV1,
   federalOrders,
   finalIncident,
   fullyDevelopedClaim,
@@ -87,6 +88,7 @@ import {
   prisonerOfWar,
   privateMedicalRecords,
   privateMedicalRecordsUpload,
+  privateMedicalRecordsUploadV1,
   privateMedicalRecordsAttachments,
   privateMedicalAuthorizeRelease,
   privateMedicalRecordsRelease,
@@ -671,10 +673,23 @@ const formConfig = {
           // TODO: Remove the `disability526SupportingEvidenceEnhancement` check once the feature is live to all users
           depends: formData =>
             formData.disability526SupportingEvidenceEnhancement &&
+            formData.disability526SupportingEvidenceFileInputV3 &&
             hasPrivateEvidence(formData) &&
             !isNotUploadingPrivateMedical(formData),
           uiSchema: privateMedicalRecordsUpload.uiSchema,
           schema: privateMedicalRecordsUpload.schema,
+        },
+        privateMedicalRecordsUploadV1: {
+          title: 'Upload non-VA treatment records',
+          path:
+            'supporting-evidence/private-medical-records-upload-enhancement-v1',
+          depends: formData =>
+            formData.disability526SupportingEvidenceEnhancement &&
+            !formData.disability526SupportingEvidenceFileInputV3 &&
+            hasPrivateEvidence(formData) &&
+            !isNotUploadingPrivateMedical(formData),
+          uiSchema: privateMedicalRecordsUploadV1.uiSchema,
+          schema: privateMedicalRecordsUploadV1.schema,
         },
         privateMedicalRecordsAttachments: {
           title: 'Non-VA treatment records',
@@ -734,9 +749,20 @@ const formConfig = {
           path: 'supporting-evidence/additional-evidence-enhancement',
           depends: formData =>
             hasOtherEvidence(formData) &&
-            formData.disability526SupportingEvidenceEnhancement,
+            formData.disability526SupportingEvidenceEnhancement &&
+            formData.disability526SupportingEvidenceFileInputV3,
           uiSchema: evidenceChoiceAdditionalDocuments.uiSchema,
           schema: evidenceChoiceAdditionalDocuments.schema,
+        },
+        evidenceChoiceAdditionalDocumentsV1: {
+          title: 'Upload supporting documents and additional forms',
+          path: 'supporting-evidence/additional-evidence-enhancement-v1',
+          depends: formData =>
+            hasOtherEvidence(formData) &&
+            formData.disability526SupportingEvidenceEnhancement &&
+            !formData.disability526SupportingEvidenceFileInputV3,
+          uiSchema: evidenceChoiceAdditionalDocumentsV1.uiSchema,
+          schema: evidenceChoiceAdditionalDocumentsV1.schema,
         },
         additionalDocuments: {
           title: 'Non-VA treatment records you uploaded',

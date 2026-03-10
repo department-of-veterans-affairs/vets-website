@@ -22,6 +22,7 @@ const createBDDFormData = (overrides = {}) => ({
 
 const createEnhancementFlowFormData = (overrides = {}) => ({
   disability526SupportingEvidenceEnhancement: true,
+  disability526SupportingEvidenceFileInputV3: true,
   ...overrides,
 });
 
@@ -36,9 +37,11 @@ describe('Supporting Evidence Pages - Conditional Rendering', () => {
     evidenceRequest,
     medicalRecords,
     privateMedicalRecordsUpload,
+    privateMedicalRecordsUploadV1,
     privateMedicalRecordsAttachments,
     evidenceChoiceIntro,
     evidenceChoiceAdditionalDocuments,
+    evidenceChoiceAdditionalDocumentsV1,
     additionalDocuments,
     summaryOfEvidence,
   } = formConfig.chapters.supportingEvidence.pages;
@@ -154,6 +157,45 @@ describe('Supporting Evidence Pages - Conditional Rendering', () => {
     });
   });
 
+  describe('privateMedicalRecordsUploadV1 depends', () => {
+    it('should return true for enhancement flow with v3 OFF and private evidence uploading', () => {
+      const formData = createEnhancementFlowFormData({
+        disability526SupportingEvidenceFileInputV3: false,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      });
+      expect(privateMedicalRecordsUploadV1.depends(formData)).to.be.true;
+    });
+
+    it('should return false when v3 is ON', () => {
+      const formData = createEnhancementFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      });
+      expect(privateMedicalRecordsUploadV1.depends(formData)).to.be.false;
+    });
+
+    it('should return false for legacy flow', () => {
+      const formData = createLegacyFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      });
+      expect(privateMedicalRecordsUploadV1.depends(formData)).to.be.false;
+    });
+  });
+
   describe('privateMedicalRecordsAttachments depends', () => {
     it('should return true for legacy flow with private evidence and uploading', () => {
       const formData = createLegacyFlowFormData({
@@ -239,6 +281,36 @@ describe('Supporting Evidence Pages - Conditional Rendering', () => {
         },
       });
       expect(evidenceChoiceAdditionalDocuments.depends(formData)).to.be.false;
+    });
+  });
+
+  describe('evidenceChoiceAdditionalDocumentsV1 depends', () => {
+    it('should return true for enhancement flow with v3 OFF and other evidence', () => {
+      const formData = createEnhancementFlowFormData({
+        disability526SupportingEvidenceFileInputV3: false,
+        'view:selectableEvidenceTypes': {
+          'view:hasOtherEvidence': true,
+        },
+      });
+      expect(evidenceChoiceAdditionalDocumentsV1.depends(formData)).to.be.true;
+    });
+
+    it('should return false when v3 is ON', () => {
+      const formData = createEnhancementFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasOtherEvidence': true,
+        },
+      });
+      expect(evidenceChoiceAdditionalDocumentsV1.depends(formData)).to.be.false;
+    });
+
+    it('should return false for legacy flow', () => {
+      const formData = createLegacyFlowFormData({
+        'view:selectableEvidenceTypes': {
+          'view:hasOtherEvidence': true,
+        },
+      });
+      expect(evidenceChoiceAdditionalDocumentsV1.depends(formData)).to.be.false;
     });
   });
 
