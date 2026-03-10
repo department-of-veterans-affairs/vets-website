@@ -75,6 +75,9 @@ import IncorrectForm from '../containers/IncorrectForm';
 // import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 import { transform } from './submit-transformer';
 // import prefillTransformer from './prefill-transformer';
+import apply2025IncomeAndAssetsTitle, {
+  apply2025IncomeSourcesTitle,
+} from './ui-2025-migration-updates';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -458,7 +461,7 @@ const formConfig = {
           title: 'Income and assets',
           path: 'financial-information/income-and-assets',
           depends: formData => formData?.claims?.survivorsPension === true,
-          uiSchema: incomeAndAssets.uiSchema,
+          uiSchema: apply2025IncomeAndAssetsTitle(incomeAndAssets.uiSchema),
           schema: incomeAndAssets.schema,
         },
         submitSupportingDocs: {
@@ -524,8 +527,10 @@ const formConfig = {
           title: 'Income sources',
           path: 'financial-information/income-sources',
           depends: formData => formData?.claims?.survivorsPension === true,
-          uiSchema: incomeSources.uiSchema,
-          schema: incomeSources.schema,
+          ...apply2025IncomeSourcesTitle(
+            incomeSources.uiSchema,
+            incomeSources.schema,
+          ),
         },
         ...grossMonthlyIncomePages,
         ...careExpensesPages,
