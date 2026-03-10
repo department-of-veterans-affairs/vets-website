@@ -96,6 +96,7 @@ describe('Private Medical Records Upload page', () => {
     it('should return false when hasPrivateEvidence returns false', () => {
       const formData = {
         disability526SupportingEvidenceEnhancement: true,
+        disability526SupportingEvidenceFileInputV3: true,
         'view:selectableEvidenceTypes': {
           'view:hasPrivateMedicalRecords': false,
         },
@@ -108,6 +109,7 @@ describe('Private Medical Records Upload page', () => {
     it('should return false when user chooses not to upload private medical records', () => {
       const formData = {
         disability526SupportingEvidenceEnhancement: true,
+        disability526SupportingEvidenceFileInputV3: true,
         'view:selectableEvidenceTypes': {
           'view:hasPrivateMedicalRecords': true,
         },
@@ -123,6 +125,7 @@ describe('Private Medical Records Upload page', () => {
     it('should return true when all conditions are met', () => {
       const formData = {
         disability526SupportingEvidenceEnhancement: true,
+        disability526SupportingEvidenceFileInputV3: true,
         'view:selectableEvidenceTypes': {
           'view:hasPrivateMedicalRecords': true,
         },
