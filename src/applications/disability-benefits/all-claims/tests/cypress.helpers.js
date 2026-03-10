@@ -1076,12 +1076,21 @@ export const pageHooks = (cy, testOptions) => ({
           .shadow()
           .find('input')
           .click({ force: true });
+        cy.get('va-checkbox[name="privacy-agreement"]').then($checkbox => {
+          const checkboxEl = $checkbox[0];
+          checkboxEl.dispatchEvent(
+            new CustomEvent('vaChange', {
+              bubbles: true,
+              composed: true,
+            }),
+          );
+        });
         cy.get('va-checkbox[name="privacy-agreement"]').should($checkbox => {
           expect($checkbox[0].checked).to.equal(true);
         });
       }
     });
-    cy.get('button[id$="continueButton"]:visible')
+    cy.get('.vads-u-margin-top--5 button[id$="continueButton"]:visible')
       .first()
       .should('be.visible')
       .and('not.be.disabled')
