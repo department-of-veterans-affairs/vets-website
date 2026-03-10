@@ -59,7 +59,9 @@ export const claimantInformationUiSchema = {
         },
       },
     },
-    claimantDob: dateOfBirthUI(),
+    claimantDob: dateOfBirthUI({
+      dataDogHidden: true,
+    }),
   },
   'ui:options': {
     updateUiSchema: (formData, fullData) => {

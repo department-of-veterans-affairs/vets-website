@@ -8,7 +8,6 @@ import SelectPreferenceView from './SelectPreferenceView';
 const CaseProgressDescription = ({
   step,
   showHubCards = false,
-  status,
   attributes = {},
 }) => {
   const ch31CaseMilestonesState = useSelector(
@@ -131,11 +130,7 @@ const CaseProgressDescription = ({
     }
 
     case 4: {
-      if (
-        status === 'PENDING' ||
-        !attributes?.orientationAppointmentDetails?.appointmentDateTime ||
-        !attributes?.orientationAppointmentDetails?.appointmentPlace
-      ) {
+      if (!attributes?.orientationAppointmentDetails?.appointmentDateTime) {
         return (
           <p>
             We’ve received and processed your application for Chapter 31
@@ -201,9 +196,8 @@ const CaseProgressDescription = ({
 
 CaseProgressDescription.propTypes = {
   step: PropTypes.number.isRequired,
-  showHubCards: PropTypes.bool,
-  status: PropTypes.string,
   attributes: PropTypes.object,
+  showHubCards: PropTypes.bool,
 };
 
 export default CaseProgressDescription;

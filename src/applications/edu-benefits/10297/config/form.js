@@ -127,7 +127,7 @@ const formConfig = {
           schema: contactPreferences.schema,
           pageClass: 'page',
         },
-        veteranStatus: {
+        dutyRequirementMet: {
           path: 'at-least-3-years',
           title: 'Your Veteran or service member status',
           uiSchema: atLeast3Years.uiSchema,

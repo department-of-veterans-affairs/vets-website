@@ -82,7 +82,6 @@ const MyCaseManagementHub = () => {
 
   const showAppointmentAlert =
     attrs?.orientationAppointmentDetails?.appointmentDateTime &&
-    attrs?.orientationAppointmentDetails?.appointmentPlace &&
     stateList.some(s => s?.stepCode === 'INTAKE' && s?.status === 'ACTIVE');
 
   const appointment = attrs?.orientationAppointmentDetails;
@@ -216,7 +215,6 @@ const MyCaseManagementHub = () => {
             <CaseProgressBar
               current={current}
               stepLabels={stepLabels}
-              stateList={stateList}
               attributes={attrs}
             />
 

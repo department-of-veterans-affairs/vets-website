@@ -265,7 +265,15 @@ const formConfig = {
       },
     },
     pointsOfContactChapter: {
-      title: 'Points of contact',
+      title: () => {
+        const isAdditionalPointsOfContactPath =
+          typeof window !== 'undefined' &&
+          window.location?.pathname?.includes('/additional-points-of-contact');
+
+        return isAdditionalPointsOfContactPath
+          ? 'Point of contact'
+          : 'Points of contact';
+      },
       pages: {
         pointsOfContanct: {
           path: 'points-of-contact',

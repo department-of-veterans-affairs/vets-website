@@ -51,7 +51,7 @@ export function transform(_formConfig, form) {
   // Build the payload
   const payload = {
     formId: form?.formId,
-    '@type': 'vettec',
+    '@type': 'VetTecSubmission',
     claimant: {
       claimantId: data?.claimantId,
       firstName: applicantFullName?.first,
@@ -78,7 +78,7 @@ export function transform(_formConfig, form) {
       ),
     },
     militaryInfo: {
-      completedAtLeast3YearsOfService: data?.veteranStatus,
+      dutyRequirementMet: data?.dutyRequirementMet,
       dateReleasedFromActiveDuty: data?.dateReleasedFromActiveDuty,
       activeDutyDuringHitechVets: data?.activeDutyDuringHitechVets,
     },
@@ -95,8 +95,8 @@ export function transform(_formConfig, form) {
       isEmployed: data?.isEmployed || false,
       isInTechnologyIndustry: data?.isInTechnologyIndustry || false,
       technologyAreaOfFocus: data?.technologyAreaOfFocus,
-      currentAnnualSalary: data?.currentSalary,
-      highestEducationLevel: data?.highestLevelOfEducation,
+      currentSalary: data?.currentSalary,
+      highestLevelOfEducation: data?.highestLevelOfEducation,
     },
     attestationAgreementAccepted: data?.privacyAgreementAccepted || false,
     dateSigned: dateSigned(),

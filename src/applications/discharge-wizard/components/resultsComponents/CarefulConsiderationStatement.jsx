@@ -13,71 +13,81 @@ const CarefulConsiderationStatement = ({ formResponses, router }) => {
       case RESPONSES.REASON_PTSD:
         return (
           <p>
-            Because you answered that your discharge was related to
-            posttraumatic stress disorder (PTSD) or other mental health
-            conditions, the DOD will apply “liberal consideration” to your case.
-            In 2014, the DOD recognized that many Veterans had received
-            discharges due to behavior connected to their previously undiagnosed
-            or undocumented PTSD or mental health condition.
+            You answered that your discharge is due to posttraumatic stress
+            disorder (PTSD) or other mental health conditions. In 2014, the
+            Defense Department (DOD) recognized that it discharged many Veterans
+            due to behavior from undiagnosed or undocumented PTSD or mental
+            health conditions. If you apply for a discharge upgrade, DOD will
+            apply "liberal consideration" to your case. That means you’ll be
+            able to explain any extenuating circumstances around your discharge.
           </p>
         );
       case RESPONSES.REASON_TBI:
         return (
           <p>
-            Because you answered that your discharge was related to a traumatic
-            brain injury (TBI), the DOD will apply “liberal consideration” to
-            your case. In 2014, the DOD recognized that many Veterans had
-            received discharges due to behavior connected to their previously
-            undiagnosed or undocumented TBI.
+            You answered that your discharge is due to a traumatic brain injury
+            (TBI). In 2014, the Defense Department (DOD) recognized that it
+            discharged many Veterans due to behavior from their previously
+            undiagnosed or undocumented TBI. If you apply for a discharge
+            upgrade, DOD will apply "liberal consideration" to your case.
           </p>
         );
       case RESPONSES.REASON_SEXUAL_ORIENTATION:
         if (dischargeType === RESPONSES.DISCHARGE_DISHONORABLE) {
           return (
             <p>
-              Because you answered that your discharge was due to your sexual
-              orientation, the DOD encourages you to apply for an upgrade. In
-              2011, the DOD recognized that many Veterans received discharges
-              only because of their sexual orientation. <br />{' '}
-              <strong>Note:</strong> You must prove that your discharge was
-              solely due to your sexual orientation and events specifically
-              related to it. If the events leading to your discharge were
-              unrelated, you may still receive an upgrade, but you’ll have to
-              argue that your discharge was unjust punishment for those events.
+              You answered that your discharge is due to your sexual
+              orientation. In 2011, DOD recognized that it discharged many
+              Veterans only because of their sexual orientation.
             </p>
           );
         }
         if (dischargeType === RESPONSES.DISCHARGE_HONORABLE) {
           return (
-            <p>
-              Many Veterans have received general or honorable discharges due to
-              their sexual orientation, and simply want references to sexual
-              orientation removed from their DD214s, or want the ability to
-              re-enlist. This is a relatively straightforward application.
-            </p>
+            <>
+              <p>
+                You answered that your discharge is due to your sexual
+                orientation. In 2011, DOD recognized that many Veterans received
+                discharges only because of their sexual orientation.
+              </p>
+              <p>
+                <strong>Note:</strong> You’ll need to show that your discharge
+                was solely due to your sexual orientation and related events. If
+                the events weren’t related, you may still receive an upgrade.
+                But you’ll have to prove your discharge was unjust punishment
+                for those events.
+              </p>
+            </>
           );
         }
         return null;
       case RESPONSES.REASON_SEXUAL_ASSAULT:
         return (
-          <p>
-            Because you answered that your discharge was related to sexual
-            assault or harassment, the DOD will apply “liberal consideration” to
-            your case. In 2017, the DOD recognized that many Veterans had
-            received discharges due to sexual assault or harassment, and had
-            unfairly received less than honorable discharges.{' '}
-            <strong>Note:</strong> You must prove that your discharge was solely
-            the result of sexual assault or harassment and events specifically
-            related to it. If the events leading to your discharge were
-            unrelated, you may still receive an upgrade, but you’ll have to
-            argue that your discharge was unjust punishment for those events.
-          </p>
+          <>
+            <p>
+              You answered that your discharge is related to sexual assault or
+              harassment. In 2017, the Defense Department (DOD) recognized that
+              it discharged many Veterans due to sexual assault or harassment.
+              And that many Veterans unfairly received discharges that weren’t
+              honorable. If you apply for a discharge upgrade, DOD will apply
+              "liberal consideration" to your case. That means you’ll be able to
+              explain any extenuating circumstances around your discharge.
+            </p>
+            <p>
+              <strong>Note:</strong> You’ll need to show that your discharge was
+              solely the result of sexual assault or harassment and events
+              specifically related to it. If the events leading to your
+              discharge weren’t related to sexual assault or harassment, you may
+              still receive an upgrade. But you’ll have to prove your discharge
+              was unjust punishment for those events.
+            </p>
+          </>
         );
       case RESPONSES.REASON_TRANSGENDER:
         return (
           <p>
-            This is a common request for transgender Veterans whose DD214 name
-            does not match the name they currently use.
+            This is a common request when your name on your DD214 doesn’t match
+            the one you currently use.
           </p>
         );
       default:

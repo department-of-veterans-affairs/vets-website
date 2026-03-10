@@ -10,21 +10,13 @@ const Breadcrumbs = () => {
       label: 'Home',
     },
     {
-      href: '/education',
-      label: 'Education and training',
+      href: '/forms',
+      label: 'VA Forms',
     },
     {
-      href: '/education/about-gi-bill-benefits/',
-      label: 'About GI bill benefits',
-    },
-    {
-      href: '/education/about-gi-bill-benefits/how-to-use-benefits/',
-      label: 'How to use your GI bill benefits',
-    },
-    {
-      href:
-        '/education/about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/',
-      label: 'Licensing and certification test prep courses',
+      href: '/forms/22-0803',
+      label:
+        'Licensing or certification test fee reimbursement (VA Form 22-0803)',
     },
     {
       href: manifest.rootUrl,
