@@ -10,7 +10,7 @@ import {
 } from '../config';
 import {
   LocationType,
-  facilityHasUnpaginatedResults as determineIfResultsPaginated,
+  facilityHasUnpaginatedResults as areFacilityTypeResultsUnpaginated,
   hasNoServices as determineFacilityTypeHasNoServices,
   isPluralizedFacilityType,
 } from '../constants';
@@ -33,7 +33,7 @@ export const SearchResultsHeader = ({
 
   const noResultsFound = !results || !results.length;
   const location = context ? context.replace(', United States', '') : null;
-  const resultsAreUnpaginated = determineIfResultsPaginated(facilityType);
+  const resultsAreUnpaginated = areFacilityTypeResultsUnpaginated(facilityType);
 
   const facilityTypeHasNoServices = determineFacilityTypeHasNoServices(
     facilityType,
