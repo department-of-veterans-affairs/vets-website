@@ -43,20 +43,23 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
           </span>
         )}
         <p
-          className={`category-eyebrow ${
+          className={`category-eyebrow vads-u-margin-bottom--neg1 ${
             !isBenefitRecommended(benefit.id) ? 'vads-u-margin-top--neg0p5' : ''
           }`}
         >
           {category}
         </p>
-        <h3 aria-label={name} className="vads-u-margin-top--0">
+        <h3
+          aria-label={name}
+          className="vads-u-margin-top--0p5 vads-u-margin-bottom--0p5"
+        >
           {name}
         </h3>
-        <p className="vads-u-margin-y--0 vads-u-margin-bottom--neg0p5">
+        <p className="vads-u-margin-y--0 vads-u-margin-bottom--neg2p5">
           {description}
         </p>
-        <h4 className="vads-u-margin-bottom--neg1">When to apply</h4>
-        <p className="vads-u-margin-bottom--neg0p5">
+        <h4 className="vads-u-margin-bottom--neg2p5">When to apply</h4>
+        <p className="vads-u-margin-bottom--neg1p5">
           {benefit.whenToApplyDescription}
         </p>
         {benefit.whenToApplyNote !== undefined && (
@@ -65,7 +68,7 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
           </p>
         )}
         <div className="link-container">
-          <div className="vads-u-margin-right--2 vads-u-margin-bottom--1">
+          <div className="vads-u-margin-right--2 vads-u-margin-bottom--neg0p5">
             {renderLink(learnMoreURL, 'Learn more', `Learn more about ${name}`)}
           </div>
         </div>
