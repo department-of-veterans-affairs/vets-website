@@ -525,6 +525,7 @@ SearchPage.propTypes = {
   clearError: PropTypes.func,
   clearSearchResults: PropTypes.func,
   clearSearchText: PropTypes.func,
+  commitSearchQuery: PropTypes.func,
   currentQuery: PropTypes.object,
   errors: PropTypes.shape({
     isErrorGeocode: PropTypes.oneOfType([
@@ -583,7 +584,6 @@ SearchPage.propTypes = {
   sortType: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
   updateSearchQuery: PropTypes.func,
-  commitSearchQuery: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 
