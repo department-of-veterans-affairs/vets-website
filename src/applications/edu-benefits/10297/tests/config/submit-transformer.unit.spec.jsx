@@ -27,7 +27,7 @@ describe('22-10297 Submit Transformer Function', () => {
     );
 
     // Verify TOE-style payload structure
-    expect(submitData['@type']).to.equal('vettec');
+    expect(submitData['@type']).to.equal('VetTecSubmission');
     expect(submitData.formId).to.equal('22-10297');
     expect(submitData.claimant).to.exist;
     expect(submitData.claimant.firstName).to.equal('John');

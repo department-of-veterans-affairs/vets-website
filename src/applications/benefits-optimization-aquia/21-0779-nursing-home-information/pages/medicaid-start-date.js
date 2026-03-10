@@ -17,6 +17,7 @@ export const medicaidStartDateUiSchema = {
   medicaidStartDate: {
     medicaidStartDate: currentOrPastDateUI({
       title: "When did the patient's Medicaid plan begin?",
+      dataDogHidden: true,
     }),
   },
 };

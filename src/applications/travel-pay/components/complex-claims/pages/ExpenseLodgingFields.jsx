@@ -26,7 +26,7 @@ const ExpenseLodgingFields = ({ errors = {}, formState, onChange, onBlur }) => (
       required
       onDateChange={onChange}
       onDateBlur={onBlur}
-      {...errors.checkInDate && { error: errors.checkInDate }}
+      error={errors.checkInDate || ''}
     />
     <VaDate
       label="Check out date"
@@ -35,7 +35,7 @@ const ExpenseLodgingFields = ({ errors = {}, formState, onChange, onBlur }) => (
       required
       onDateChange={onChange}
       onDateBlur={onBlur}
-      {...errors.checkOutDate && { error: errors.checkOutDate }}
+      error={errors.checkOutDate || ''}
     />
   </>
 );

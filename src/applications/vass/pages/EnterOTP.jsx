@@ -29,6 +29,8 @@ const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
     case OTP_ERROR_CODES.ACCOUNT_LOCKED:
       return 'The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes. Check your email and select the link to schedule a call.';
+    case OTP_ERROR_CODES.OTP_EXPIRED:
+      return 'The one-time verification code you entered has expired. Select the link in your email to get a new code and schedule a call.';
     case OTP_ERROR_CODES.INVALID_OTP:
       if (attemptsRemaining === 1) {
         return 'The one-time verification code you entered doesn’t match the one we sent you. You have 1 try left. Then you’ll need to wait 15 minutes before trying again.';
