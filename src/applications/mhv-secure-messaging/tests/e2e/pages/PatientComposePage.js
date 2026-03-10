@@ -698,6 +698,16 @@ class PatientComposePage {
       .find('.usa-hint')
       .should('contain', expectedHint);
   };
+
+  selectDifferentCareTeamLink = () => {
+    return cy
+      .findByText(Data.CURATED_LIST.SELECT_CARE_TEAM)
+      .should('be.visible');
+  };
+
+  clickSelectDifferentCareTeamLink = () => {
+    this.selectDifferentCareTeamLink().click();
+  };
 }
 
 export default new PatientComposePage();
