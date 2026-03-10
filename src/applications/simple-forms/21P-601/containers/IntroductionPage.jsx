@@ -104,9 +104,9 @@ const childContent = (
       <li>Your personal and contact information</li>
       <li>Information about dependent surviving relatives</li>
       <li>
-        Any certified, signed legal documents showing the assignment of the
-        executor or administrator of the beneficiary’s estate (if someone has
-        been assigned)
+        Legal documents showing you’re the executor or administrator of the
+        estate (such as letters testamentary or letters of administration).
+        Requirements vary by state.
       </li>
       <li>
         Bills or other documentation of expenses if you’re claiming
