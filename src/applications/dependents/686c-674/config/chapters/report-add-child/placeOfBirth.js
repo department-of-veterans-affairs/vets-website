@@ -10,7 +10,11 @@ import {
 
 export const placeOfBirth = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Child’s birth place?'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => `${formData?.fullName?.first || 'Child'}’s birth place`,
+      null,
+      false,
+    ),
     birthLocation: {
       outsideUsa: {
         'ui:title': 'This occurred outside the U.S.',

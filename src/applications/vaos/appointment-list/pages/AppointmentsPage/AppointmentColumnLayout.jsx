@@ -18,10 +18,7 @@ import {
   selectStartDate,
   selectTimeZoneAbbr,
 } from '../../redux/selectors';
-import {
-  selectFeatureListViewClinicInfo,
-  selectFeatureUseBrowserTimezone,
-} from '../../../redux/selectors';
+import { selectFeatureUseBrowserTimezone } from '../../../redux/selectors';
 
 export default function AppointmentColumnLayout({
   data,
@@ -45,13 +42,8 @@ export default function AppointmentColumnLayout({
   );
 
   const dateAriaLabel = useSelector(() => selectApptDateAriaText(data));
-
-  // If the clinic info feature flag is on, we want to show the clinic location info
-  const featureListViewClinicInfo = useSelector(state =>
-    selectFeatureListViewClinicInfo(state),
-  );
   const detailAriaLabel = useSelector(() =>
-    selectApptDetailAriaText(data, false, featureListViewClinicInfo),
+    selectApptDetailAriaText(data, false),
   );
   const clinicLocationInfo = useSelector(() => selectClinicLocationInfo(data));
   const showClinicLocationInfo = useMemo(
@@ -182,23 +174,19 @@ export default function AppointmentColumnLayout({
                   className={classNames('vaos-appts__display--table-cell')}
                   data-dd-privacy="mask"
                 >
-                  {featureListViewClinicInfo ? (
-                    <>
-                      <a
-                        href={link}
-                        aria-label={detailAriaLabel}
-                        className="vaos-appts__focus--hide-outline vaos-hide-for-print"
-                        onClick={e => e.preventDefault()}
-                      >
-                        {appointmentLocality}
-                      </a>
-                      <span className="vaos-print-only">
-                        {appointmentLocality}
-                      </span>
-                    </>
-                  ) : (
-                    appointmentLocality
-                  )}
+                  <>
+                    <a
+                      href={link}
+                      aria-label={detailAriaLabel}
+                      className="vaos-appts__focus--hide-outline vaos-hide-for-print"
+                      onClick={e => e.preventDefault()}
+                    >
+                      {appointmentLocality}
+                    </a>
+                    <span className="vaos-print-only">
+                      {appointmentLocality}
+                    </span>
+                  </>
                 </span>
               </AppointmentColumn>
 
@@ -226,48 +214,25 @@ export default function AppointmentColumnLayout({
                       />
                     </span>
                   )}
-                  <span
-                    className={classNames({
-                      'vaos-appts__text--truncate': !featureListViewClinicInfo,
-                    })}
-                  >
-                    {modalityText}
-                  </span>
+                  <span>{modalityText}</span>
                 </span>
               </AppointmentColumn>
             </AppointmentRow>
           </AppointmentColumn>
 
           <AppointmentColumn
-            id={
-              featureListViewClinicInfo
-                ? `vaos-appts__namelocation-${data.id}`
-                : `vaos-appts__detail-${data.id}`
-            }
+            id={`vaos-appts__namelocation-${data.id}`}
             className={classNames({
-              'vaos-hide-for-print': !featureListViewClinicInfo,
-              'vads-u-display--none':
-                featureListViewClinicInfo && !showClinicLocationInfo,
+              'vads-u-display--none': !showClinicLocationInfo,
             })}
             padding="0"
-            size={featureListViewClinicInfo ? '3' : '1'}
+            size="3"
           >
-            {featureListViewClinicInfo ? (
-              <AppointmentClinicInfo
-                clinicLocationInfo={clinicLocationInfo}
-                apptId={data.id}
-                isCanceled={isCanceled}
-              />
-            ) : (
-              <a
-                className="vaos-appts__focus--hide-outline"
-                aria-label={detailAriaLabel}
-                href={link}
-                onClick={e => e.preventDefault()}
-              >
-                Details
-              </a>
-            )}
+            <AppointmentClinicInfo
+              clinicLocationInfo={clinicLocationInfo}
+              apptId={data.id}
+              isCanceled={isCanceled}
+            />
           </AppointmentColumn>
         </AppointmentRow>
       </AppointmentColumn>

@@ -196,9 +196,12 @@ export const IntroductionPage = props => {
         <h3 slot="headline">Submission guidelines</h3>
         <ul>
           <li>
-            This form must be completed and signed by a school official who is
-            authorized to enter into financial agreements on behalf of the
-            school. This applies to both U.S. and foreign schools.
+            This form must be completed by an official who is legally authorized
+            to bind the institution to this agreement with VA. When accessing
+            the digital form, ID.me or LOGIN.GOV authentication serves as the
+            official signature. Schools must establish their own internal
+            processes for concurrence if a School Certifying Official (SCO) is
+            submitting as the Authorizing Official.
           </li>
           <li>
             The authorized official will be required to review and acknowledge a

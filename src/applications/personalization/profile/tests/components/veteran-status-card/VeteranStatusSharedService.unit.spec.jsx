@@ -29,26 +29,19 @@ const downtime = maintenanceWindows => {
 // Mock API responses for the new shared service endpoint
 const veteranStatusCardConfirmed = {
   type: 'veteran_status_card',
-  veteranStatus: 'confirmed',
-  serviceSummaryCode: 'A1',
-  notConfirmedReason: null,
   attributes: {
     fullName: 'John Doe',
     disabilityRating: 40,
-    latestService: {
-      branch: 'Army',
-      beginDate: '2009-04-12',
-      endDate: '2013-04-11',
-    },
     edipi: 1234567890,
+    veteranStatus: 'confirmed',
+    notConfirmedReason: null,
+    confirmationStatus: 'CONFIRMED',
+    serviceSummaryCode: 'A1',
   },
 };
 
 const veteranStatusAlertWarning = {
   type: 'veteran_status_alert',
-  veteranStatus: 'not confirmed',
-  serviceSummaryCode: 'D',
-  notConfirmedReason: 'PERSON_NOT_FOUND',
   attributes: {
     header: "You're not eligible for a Veteran Status Card",
     body: [
@@ -56,14 +49,15 @@ const veteranStatusAlertWarning = {
       { type: 'phone', value: '800-698-2411', tty: true },
     ],
     alertType: 'warning',
+    veteranStatus: 'not confirmed',
+    notConfirmedReason: 'PERSON_NOT_FOUND',
+    confirmationStatus: 'NOT_CONFIRMED',
+    serviceSummaryCode: 'D',
   },
 };
 
 const veteranStatusAlertError = {
   type: 'veteran_status_alert',
-  veteranStatus: 'not confirmed',
-  serviceSummaryCode: 'VNA',
-  notConfirmedReason: 'ERROR',
   attributes: {
     header: 'Something went wrong',
     body: [
@@ -74,6 +68,10 @@ const veteranStatusAlertError = {
       },
     ],
     alertType: 'error',
+    veteranStatus: 'not confirmed',
+    notConfirmedReason: 'ERROR',
+    confirmationStatus: 'NOT_CONFIRMED',
+    serviceSummaryCode: 'VNA',
   },
 };
 
@@ -159,9 +157,6 @@ describe('VeteranStatusSharedService', () => {
         // Check that the user's full name from API is rendered on the card
         expect(view.getByText('John Doe')).to.exist;
 
-        // Check that service history is rendered
-        expect(view.getByText('United States Army • 2009–2013')).to.exist;
-
         // Check that the FAQ section is rendered
         expect(view.getByText('Frequently asked questions')).to.exist;
       });
@@ -242,7 +237,7 @@ describe('VeteranStatusSharedService', () => {
   });
 
   describe('when an API error occurs', () => {
-    it('should render the LoadFail alert when an API error occurs', async () => {
+    it('should render the page level error alert when an API error occurs', async () => {
       apiRequestStub.rejects(new Error('API Error'));
       const initialState = createBasicInitialState();
       const view = renderWithProfileReducers(<VeteranStatusSharedService />, {
@@ -251,7 +246,7 @@ describe('VeteranStatusSharedService', () => {
 
       await waitFor(() => {
         sinon.assert.calledWith(apiRequestStub, '/veteran_status_card');
-        expect(view.getByText("This page isn't available right now.")).to.exist;
+        expect(view.getByText('This page isn’t working right now')).to.exist;
 
         // Check that the description is not rendered
         expect(

@@ -45,14 +45,18 @@ export function useIdentityVerificationURL({ policy, useOAuth }) {
 /**
  *
  * @param {Object} queryParams - Used for unit testing ONLY
+ * @param {Boolean} generateHref - Determines if href should be generated
  * @returns {String} URL for VA OCC Mobile test accounts
  */
 export function useInternalTestingAuth({
   queryParams = { operation: 'myhealthevet_test_account' },
+  generateHref = true,
 } = {}) {
   const [href, setHref] = useState('');
 
   useEffect(() => {
+    if (!generateHref) return;
+
     async function generateURL() {
       const url = await sessionTypeUrl({
         type: 'mhv',

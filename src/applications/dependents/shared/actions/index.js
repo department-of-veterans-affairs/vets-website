@@ -18,7 +18,8 @@ export const DEPENDENTS_URL = `${
 /**
  * Fetch Intent to File from given API
  * @param {String} apiUrl - API endpoint
- * @returns {FetchDependentsReturn}
+ * @returns {FetchDependentsReturn} - Fetch status, data, or error message
+ * @throws Will throw an error if the API request fails
  */
 export const fetchDependents = () => async dispatch => {
   try {

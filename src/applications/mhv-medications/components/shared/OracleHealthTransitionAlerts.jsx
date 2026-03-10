@@ -53,15 +53,17 @@ export const OracleHealthT3Alert = ({
         blockedFacilityIds.length &&
         relevantMigration?.phases
       ) {
-        datadogRum.addAction(
-          dataDogActionNames.oracleHealthTransition
-            .T3_REFILL_BLOCKED_ALERT_DISPLAYED,
-          {
-            facilityId: blockedFacilityIds,
-            phase: relevantMigration?.phases?.current,
-            blockedPrescriptionCount: blockedPrescriptions.length,
-          },
-        );
+        blockedFacilityIds.forEach(id => {
+          datadogRum.addAction(
+            dataDogActionNames.oracleHealthTransition
+              .T3_REFILL_BLOCKED_ALERT_DISPLAYED,
+            {
+              facilityId: id,
+              phase: relevantMigration?.phases?.current,
+              blockedPrescriptionCount: blockedPrescriptions.length,
+            },
+          );
+        });
       }
     },
     [

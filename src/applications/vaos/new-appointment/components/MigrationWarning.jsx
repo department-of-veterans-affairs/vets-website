@@ -7,16 +7,16 @@ export default function MigrationWarning({ facilities, startDate, endDate }) {
     <va-alert-expandable status="warning" trigger={trigger}>
       {facilities.length === 1 && (
         <p>
-          From {startDate}, to {endDate}, you won’t be able to schedule
-          appointments online at{' '}
+          From <strong>{startDate}</strong>, to <strong>{endDate}</strong>, you
+          won’t be able to schedule appointments online at{' '}
           {facilities[0].name || facilities[0].facilityName}
         </p>
       )}
       {facilities.length > 1 && (
         <>
           <p>
-            From {startDate}, to {endDate}, you won’t be able to schedule
-            appointments online at:
+            From <strong>{startDate}</strong>, to <strong>{endDate}</strong>,
+            you won’t be able to schedule appointments online at:
           </p>
           <ul>
             {facilities.map((facility, index) => (

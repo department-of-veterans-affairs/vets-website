@@ -69,10 +69,12 @@ You can learn more about this service <https://github.com/department-of-veterans
 ### How to use the Find a Representative Search on localhost
 
 1. Use the above steps from `How to login into localhost with mocked-auth and view Find a Representative with a staging user` or `How to login into localhost with mocked-auth and view Find a Representative` to log in
-2. Create a map box account by going to this url: <https://www.mapbox.com/>. Use your work email as the email.
-3. Within Mapbox, go to the `Tokens` tab
-4. Copy the default public token.
-5. Within `vets-website` go to `src/applications/representative-search/utils/mapboxToken.js` and paste in the the token
-6. Refresh the page
-7. Type in a City or State within the Find a Representative Search and select the `Search` button.
+2. Retrieve the dev Mapbox token from AWS Systems Manager Parameter Store: `/dsva-vagov/vets-website/dev/mapbox_token`
+3. Add the token to your `.env` file in the root of `vets-website`:
+   ```
+   MAPBOX_TOKEN_REPRESENTATIVE_SEARCH=<your-mapbox-token>
+   ```
+   See the [API Keys section in the main README](../../README.md#api-keys) for full setup instructions.
+4. Refresh the page
+5. Type in a City or State within the Find a Representative Search and select the `Search` button.
    > Note: This information is coming from Staging.
