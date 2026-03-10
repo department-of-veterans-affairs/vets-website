@@ -14,6 +14,7 @@ import {
   VaAdditionalInfo,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import api from '../utilities/api';
 import { SEARCH_BC_LABEL, poaSearchBC } from '../utilities/poaRequests';
 import {
@@ -110,6 +111,23 @@ const RepresentationRequestsAdditionalInfo = () => (
 
 const POARequestSearchPage = title => {
   const [searchParams] = useSearchParams();
+  const loaderData = useLoaderData() || {};
+  const navigation = useNavigation();
+
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
+
+  const isIndividualAcceptEnabled = useToggleValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalIndividualAccept,
+  );
+
+  const isIndividualAcceptLoading = useToggleLoadingValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalIndividualAccept,
+  );
+
   useEffect(
     () => {
       focusElement('h1');
@@ -117,7 +135,11 @@ const POARequestSearchPage = title => {
     },
     [title],
   );
-  const loaderData = useLoaderData() || {};
+
+  if (isIndividualAcceptLoading) {
+    return <VaLoadingIndicator message="Loading..." />;
+  }
+
   const poaRequests = loaderData.data || [];
   const meta =
     loaderData.meta && loaderData.meta.page
@@ -126,7 +148,6 @@ const POARequestSearchPage = title => {
   const { showPOA403Alert } = loaderData;
   const searchStatus = searchParams.get('status');
   const selectedIndividual = searchParams.get('show');
-  const navigation = useNavigation();
 
   return (
     <section className="poa-request">
@@ -141,36 +162,96 @@ const POARequestSearchPage = title => {
       >
         Representation requests
       </h1>
-      <p className="poa-request__copy">
-        This list shows representation requests that have been received in the
-        portal over the last 60 days.
-      </p>
 
-      <RepresentationRequestsAdditionalInfo />
+      {isIndividualAcceptEnabled ? (
+        <>
+          <p className="poa-request__copy">
+            This list shows representation requests that have been received in
+            the portal over the last 60 days.
+          </p>
+          <RepresentationRequestsAdditionalInfo />
+        </>
+      ) : (
+        <>
+          <p className="poa-request__copy">
+            You can accept or decline representation requests (power of
+            attorney) in the Accredited Representative Portal. Requests will
+            expire after 60 days. Expired requests will be removed from the
+            portal.
+          </p>
+          <p className="poa-request__copy vads-u-margin--0">
+            <strong>Note:</strong> Claimants need to submit requests using the
+            online{' '}
+            <va-link
+              href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
+              text="VA Form 21-22 (on VA.gov)"
+            />
+            .
+          </p>
+        </>
+      )}
 
       {showPOA403Alert && (
         <>
           <br />
           <VaAlert status="info" uswds visible data-testid="poa-403-info-alert">
-            <h2 slot="headline">This feature hasn’t been activated</h2>
-            <div className="vads-u-margin-y--0">
-              <p className="vads-u-margin-bottom--2">
-                Veterans Service Organizations (VSOs) have to activate the
-                Representation Requests feature for their organization if they
-                want to receive requests in the portal. If you’d like your VSO
-                to activate this feature, ask the VSO manager or certifying
-                official to email us at{' '}
-                <a href="mailto:RepresentativePortalHelp@va.gov">
-                  RepresentativePortalHelp@va.gov
-                </a>
-                .
-              </p>
-              <p className="vads-u-margin-bottom--0">
-                <strong>Note:</strong> This feature is currently not available
-                to claims agents or attorneys. It may become available to them
-                in the future.
-              </p>
-            </div>
+            {isIndividualAcceptEnabled ? (
+              <>
+                <h2 slot="headline">This feature hasn’t been activated</h2>
+                <div className="vads-u-margin-y--0">
+                  <p className="vads-u-margin-bottom--2">
+                    Veterans Service Organizations (VSOs) have to activate the
+                    Representation Requests feature for their organization if
+                    they want to receive requests in the portal. If you’d like
+                    your VSO to activate this feature, ask the VSO manager or
+                    certifying official to email us at{' '}
+                    <a href="mailto:RepresentativePortalHelp@va.gov">
+                      RepresentativePortalHelp@va.gov
+                    </a>
+                    .
+                  </p>
+                  <p className="vads-u-margin-bottom--0">
+                    <strong>Note:</strong> This feature is currently not
+                    available to claims agents or attorneys. It may become
+                    available to them in the future.
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 slot="headline">
+                  You currently can’t receive requests in the portal
+                </h2>
+                <div className="vads-u-margin-y--0">
+                  <p className="vads-u-margin-bottom--1">
+                    <strong>
+                      Veteran Service Organization representatives:
+                    </strong>{' '}
+                    None of your organizations have activated the Representation
+                    Request feature. If you’d like one of your organizations to
+                    activate this feature, ask the VSO manager or certifying us
+                    at{' '}
+                    <a href="mailto:RepresentativePortalHelp@va.gov">
+                      RepresentativePortalHelp@va.gov
+                    </a>
+                    .
+                  </p>
+                  <p className="vads-u-margin-y--0">
+                    <strong>Claims agents and attorneys:</strong> This feature
+                    is not yet available for establishing representation with
+                    claims agents or attorneys. We are exploring it as a future
+                    enhancement. Visit our{' '}
+                    <a
+                      href="/representative/get-help"
+                      rel="noopener noreferrer"
+                    >
+                      help resources
+                    </a>{' '}
+                    to learn more about current and upcoming features.
+                  </p>
+                </div>
+              </>
+            )}
           </VaAlert>
         </>
       )}
