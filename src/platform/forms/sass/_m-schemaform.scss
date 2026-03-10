@@ -776,3 +776,11 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
 .additional-input-container:has(> [error]) {
   margin-top: 24px;
 }
+
+/* Hide cancel button in contact info edit pages */
+.hide-cancel-button {
+  button[data-testid="cancel-edit-button"],
+  va-button[data-testid="cancel-edit-button"] {
+    display: none !important;
+  }
+}

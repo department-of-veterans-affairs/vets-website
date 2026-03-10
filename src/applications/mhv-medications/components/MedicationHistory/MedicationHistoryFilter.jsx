@@ -15,21 +15,20 @@ export const FILTER_OPTIONS = [
     key: 'ACTIVE',
     label: 'Active medications',
     urlV1:
-      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On Hold,Active: Parked,Active: Submitted',
-    urlV2: '&filter[[disp_status][eq]]=Active',
+      'filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On Hold,Active: Parked,Active: Submitted',
+    urlV2: 'filter[[disp_status][eq]]=Active',
   },
   {
     key: 'RENEWAL',
     label: 'Renewal needed before refill',
-    urlV1: '&filter[[is_renewable][eq]]=true',
-    urlV2: '&filter[[is_renewable][eq]]=true',
+    urlV1: 'filter[[is_renewable][eq]]=true',
+    urlV2: 'filter[[is_renewable][eq]]=true',
   },
   {
     key: 'INACTIVE',
     label: 'Inactive medications',
-    urlV1:
-      '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
-    urlV2: '&filter[[disp_status][eq]]=Inactive',
+    urlV1: 'filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
+    urlV2: 'filter[[disp_status][eq]]=Inactive',
   },
   {
     key: 'ALL_MEDICATIONS',
