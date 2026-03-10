@@ -57,7 +57,7 @@ describe('<FrequentlyAskedQuestions />', () => {
     );
 
     expect(
-      getByText("We're sorry. Try to print your Veteran Status Card later."),
+      getByText('We’re sorry. Try to print your Veteran Status Card later.'),
     ).to.exist;
   });
 
