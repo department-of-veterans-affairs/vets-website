@@ -56,8 +56,8 @@ const SearchPage = () => {
       perPage: 10,
       sort: currentQuery.sortType?.toLowerCase(),
       type: currentQuery.representativeType,
-      name: currentQuery.representativeInputString ?? '',
-      organizationFilter: currentQuery.organizationFilter ?? '',
+      name: currentQuery.representativeInputString,
+      organization: currentQuery.organization,
       ...params,
     });
 
@@ -97,13 +97,13 @@ const SearchPage = () => {
         latitude: searchParams.get('lat'),
         longitude: searchParams.get('long'),
       },
-      representativeQueryString: searchParams.get('name'),
-      representativeInputString: searchParams.get('name'),
-      representativeType: searchParams.get('type'),
-      organizationFilter: searchParams.get('organizationFilter'),
-      page: searchParams.get('page'),
-      sortType: searchParams.get('sort'),
-      searchArea: searchParams.get('distance'),
+      representativeQueryString: location.query.name,
+      representativeInputString: location.query.name,
+      representativeType: location.query.type,
+      organization: location.query.organization,
+      page: location.query.page,
+      sortType: location.query.sort,
+      searchArea: location.query.distance,
     };
 
     dispatch(updateSearchQuery(queryUpdateCommitPayload));
@@ -119,7 +119,7 @@ const SearchPage = () => {
       sortType,
       page,
       searchArea,
-      organizationFilter,
+      organization,
     } = currentQuery.committedSearchQuery;
 
     const { latitude, longitude } = position;
@@ -137,7 +137,7 @@ const SearchPage = () => {
       page: page || 1,
       sort: sortType,
       distance,
-      organizationFilter: organizationFilter ?? '',
+      organization: organization ?? '',
     });
 
     if (!searchWithInputInProgress) {
@@ -191,7 +191,7 @@ const SearchPage = () => {
           sort: sortType,
           type: representativeType,
           distance,
-          organizationFilter,
+          organization,
         }),
       );
 
