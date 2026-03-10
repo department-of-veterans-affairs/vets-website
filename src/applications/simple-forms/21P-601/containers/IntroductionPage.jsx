@@ -95,6 +95,17 @@ const childContent = (
         ).
       </li>
     </ul>
+    <h3>If you’re filing with other family members</h3>
+    <ul className="vads-u-margin-bottom--4">
+      <li>Each person must submit their own form</li>
+      <li>
+        You can file for different expenses (for example, one person files for
+        funeral costs, another for medical bills)
+      </li>
+      <li>
+        More than one person can’t receive reimbursement for the same expense
+      </li>
+    </ul>
     <h3>What you’ll need to apply</h3>
     <ul className="vads-u-margin-bottom--4">
       <li>The beneficiary’s name, Social Security number, and date of death</li>
