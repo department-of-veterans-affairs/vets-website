@@ -52,20 +52,16 @@ function CustomEmailField(props) {
   function handleChange(event) {
     setLocalValue(event);
 
-    const mobilePhone = props?.mobilePhone ?? '';
-    const emailIsValid = event && isValidEmail(event);
-
-    // Update form data with the new email, and auto-fill confirmEmail if valid
     props.setFormData({
       ...props?.formData,
       email: {
         ...props?.formData?.email,
         email: event,
-        ...(emailIsValid && { confirmEmail: event }),
       },
     });
 
-    if (emailIsValid) {
+    const mobilePhone = props?.mobilePhone ?? '';
+    if (event && isValidEmail(event)) {
       props.fetchDuplicateContactInfo(
         [{ value: event, dupe: '' }],
         [{ value: mobilePhone, dupe: '' }],
