@@ -1072,11 +1072,16 @@ export const pageHooks = (cy, testOptions) => ({
               'Authorize the release of non-VA medical records to VA',
             );
           });
-        cy.get('input[name="privacy-agreement"]').check({ force: true });
-        cy.get('input[name="privacy-agreement"]').should('be.checked');
+        cy.get('va-checkbox[name="privacy-agreement"]')
+          .shadow()
+          .find('input')
+          .click({ force: true });
+        cy.get('va-checkbox[name="privacy-agreement"]').should($checkbox => {
+          expect($checkbox[0].checked).to.equal(true);
+        });
       }
     });
-    cy.get('button[id$="continueButton"], button.usa-button-primary')
+    cy.get('button[id$="continueButton"]:visible')
       .first()
       .should('be.visible')
       .and('not.be.disabled')
