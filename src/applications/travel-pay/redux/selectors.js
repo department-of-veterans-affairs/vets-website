@@ -73,7 +73,11 @@ export const selectProofOfAttendanceState = state =>
 
 export const selectHasProofOfAttendance = state => {
   const documents = state.travelPay.complexClaim.claim.data?.documents || [];
-  return documents.some(doc => doc.proofOfAttendance === true);
+  return documents.some(
+    doc =>
+      doc.filename?.toLowerCase().startsWith('proof-of-attendance.') &&
+      !doc.expenseId,
+  );
 };
 
 export const selectUnsavedChangesModal = state =>

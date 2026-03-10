@@ -257,8 +257,8 @@ describe('Travel Pay – ProofOfAttendancePage', () => {
           documents: [
             {
               documentId: 'mock-doc-001',
-              filename: 'Proof of attendance',
-              proofOfAttendance: true,
+              filename: 'proof-of-attendance.pdf',
+              mimetype: 'application/pdf',
             },
           ],
         });

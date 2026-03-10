@@ -442,7 +442,7 @@ describe('ComplexClaimRedirect', () => {
           {
             documentId: 'poa-doc-001',
             filename: 'proof-of-attendance.pdf',
-            proofOfAttendance: true,
+            mimetype: 'application/pdf',
           },
         ],
       };

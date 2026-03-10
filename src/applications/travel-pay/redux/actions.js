@@ -821,10 +821,7 @@ export function uploadProofOfAttendance(claimId, fileData) {
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            proofOfAttendance: true,
-            ...fileData,
-          }),
+          body: JSON.stringify(fileData),
         },
       );
       dispatch({ type: UPLOAD_POA_SUCCESS, payload: response });

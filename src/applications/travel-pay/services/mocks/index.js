@@ -193,8 +193,8 @@ const responses = {
     const newDocument = {
       documentId: 'mock-poa-document-id-001',
       claimId,
-      filename: req.body.fileName || 'Proof of attendance',
-      proofOfAttendance: true,
+      filename: req.body.fileName || 'proof-of-attendance.pdf',
+      mimetype: req.body.contentType || 'application/pdf',
     };
 
     if (!claimsStore[claimId].documents) {
