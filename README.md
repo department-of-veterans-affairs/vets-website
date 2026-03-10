@@ -14,6 +14,8 @@
   - [Running tests](#running-tests)
     - [Unit tests](#unit-tests)
     - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
+      - [Cypress](#cypress)
+      - [Playwright](#playwright)
     - [Debugging Node 22 CI failures](#debugging-node-22-ci-failures)
   - [Running a mock API for local development](#running-a-mock-api-for-local-development)
     - [Option 1: MSW browser mocking (recommended for new work)](#option-1-msw-browser-mocking-recommended-for-new-work)
@@ -162,7 +164,7 @@ yarn test:unit --help
 
 ### End-to-end (E2E) / Browser tests
 
-- E2E or browser tests run in Cypress.
+#### Cypress
 
 **Before running Cypress tests**, first make sure that:
 
@@ -183,7 +185,7 @@ To **open the Cypress test runner UI in Codespaces and run any tests within it**
 yarn cy:open-codespaces
 ```
 
-Then visit http://localhost:6080/ and log in with the password `vscode`.
+Then visit http://localhost:6080/
 
 To **run Cypress tests from the command line**:
 
@@ -229,6 +231,36 @@ Examples:
 Afterward, check `/mochawesome-report` contents.
 
 **For other options with `yarn cy:run`,** [the same options for `cypress run` are applicable](https://docs.cypress.io/guides/guides/command-line.html#Commands).
+
+#### Playwright
+
+Playwright tests use the `*.playwright.spec.js` file extension and are configured in `config/playwright.config.js`.
+
+To **run Playwright tests from the command line**:
+
+```sh
+yarn pw:run
+```
+
+To **open the Playwright UI test runner locally**:
+
+```sh
+yarn pw:open
+```
+
+To **open the Playwright UI test runner in Codespaces**:
+
+```sh
+yarn pw:open-codespaces
+```
+
+Then visit http://localhost:6080/
+
+To **run a specific test file**:
+
+```sh
+yarn pw:run path/to/test.playwright.spec.js
+```
 
 ### Debugging Node 22 CI failures
 
