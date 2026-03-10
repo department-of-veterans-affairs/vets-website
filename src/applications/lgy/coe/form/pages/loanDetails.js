@@ -3,8 +3,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   currentOrPastMonthYearDateSchema,
   currentOrPastMonthYearDateUI,
-  numberUI,
   numberSchema,
+  numberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { PropertyAddress } from '../components/PropertyAddress';
 
@@ -22,16 +22,28 @@ export default {
     loanDate: currentOrPastMonthYearDateUI({
       title: 'Loan date',
     }),
-    vaLoanNumber: numberUI({
-      title: 'VA loan number',
-      hint: 'Enter a 12-digit loan number',
-      min: 12,
-      max: 12,
-      errorMessages: {
-        max: 'Make sure you include 12 digits.',
-        min: 'Make sure you include 12 digits.',
-      },
-    }),
+    vaLoanNumber: {
+      ...numberUI({
+        title: 'VA loan number',
+        hint: 'Enter a 12-digit loan number',
+        errorMessages: {
+          max: 'Make sure you include 12 digits.',
+          pattern: 'Enter numbers only',
+        },
+      }),
+      'ui:validations': [
+        (errors, formData, uiSchema, schema, errorMessages) => {
+          if (!formData) return;
+          if (!/^[0-9]*$/.test(formData)) {
+            errors.addError(errorMessages?.pattern);
+            return;
+          }
+          if (formData.length !== 12) {
+            errors.addError(errorMessages?.max);
+          }
+        },
+      ],
+    },
   },
   schema: {
     type: 'object',
