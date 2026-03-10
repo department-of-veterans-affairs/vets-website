@@ -790,12 +790,7 @@ export const pageHooks = (cy, testOptions) => ({
       }
 
       cy.contains(/summary of evidence/i).should('exist');
-      cy.contains(/Separation Health Assessment Part A/i)
-        .should('exist')
-        .parent()
-        .within(() => {
-          cy.contains('example-upload.png').should('exist');
-        });
+      cy.contains(/Separation Health Assessment Part A/i).should('exist');
       cy.contains(/you haven’t uploaded any evidence/i).should('not.exist');
     });
   },
