@@ -44,7 +44,7 @@ test.describe('global header', () => {
       await expect(contactLink).toBeVisible();
       await expect(contactLink).toHaveAttribute('href', /\/contact-us/);
 
-      await expect(header.locator('.sign-in-links')).toBeVisible();
+      await expect(header.locator('.sign-in-links').first()).toBeVisible();
     });
   });
 
@@ -64,7 +64,7 @@ test.describe('global header', () => {
       await expect(
         header.locator('.header-logo-row svg').first(),
       ).toBeVisible();
-      await expect(header.locator('.sign-in-links')).toBeVisible();
+      await expect(header.locator('.sign-in-links').first()).toBeVisible();
 
       const menuButton = header.locator('.header-menu-button');
       await expect(menuButton).toBeVisible();
