@@ -678,6 +678,7 @@ export const isUploadingBddSha = formData =>
 
 export const getBddShaUploads = formData =>
   _.get('separationHealthAssessmentUploads', formData, []);
+
 export const DISABILITY_SHARED_CONFIG = {
   orientation: {
     path: 'disabilities/orientation',

@@ -663,6 +663,8 @@ const formConfig = {
         evidenceTypesBDD: {
           title: 'Types of supporting evidence for BDD',
           path: 'supporting-evidence/evidence-types-bdd',
+          // Keep this page in the legacy BDD path only. In enhancement flow,
+          // BDD users continue through the newer evidence routing (including SHA upload pathing).
           depends: formData =>
             isBDD(formData) && !isEvidenceEnhancement(formData),
           uiSchema: evidenceTypesBDD.uiSchema,
@@ -739,6 +741,7 @@ const formConfig = {
         evidenceChoiceIntro: {
           title:
             'Supporting documents and additional forms for your disability claim',
+          // Enhancement intro is for non-BDD users only.
           depends: formData =>
             formData.disability526SupportingEvidenceEnhancement &&
             !isBDD(formData),
@@ -752,6 +755,7 @@ const formConfig = {
         evidenceChoiceAdditionalDocuments: {
           title: 'Upload supporting documents and additional forms',
           path: 'supporting-evidence/additional-evidence-enhancement',
+          // In enhancement flow, allow direct upload page routing for BDD SHA users.
           depends: formData =>
             formData.disability526SupportingEvidenceEnhancement &&
             (hasOtherEvidence(formData) || isUploadingBddSha(formData)),
