@@ -13,15 +13,12 @@ function CustomEmailField(props) {
   const hasSyncedRef = useRef(false);
 
   // Sync prefilled email (including confirmEmail) to form state on mount.
-  // Only sync if form email fields have never been touched.
+  // Only sync once - tracked by emailPrefillComplete flag in form state.
   useEffect(
     () => {
-      // If confirmEmail exists in form state, user has interacted - don't re-prefill
-      const formHasBeenTouched = props.formConfirmEmail !== undefined;
       const shouldSync =
         props.prefillEmail &&
-        props.formEmail === undefined &&
-        !formHasBeenTouched &&
+        !props.emailPrefillComplete &&
         !hasSyncedRef.current;
 
       if (shouldSync) {
@@ -33,13 +30,13 @@ function CustomEmailField(props) {
             email: props.prefillEmail,
             confirmEmail: props.prefillEmail,
           },
+          emailPrefillComplete: true,
         });
       }
     },
     [
       props.prefillEmail,
-      props.formEmail,
-      props.formConfirmEmail,
+      props.emailPrefillComplete,
       props.formData,
       props.setFormData,
     ],
@@ -82,13 +79,13 @@ CustomEmailField.propTypes = {
 
 const mapStateToProps = state => {
   const formEmail = state?.form?.data?.email?.email;
-  const formConfirmEmail = state?.form?.data?.email?.confirmEmail;
+  const emailPrefillComplete = state?.form?.data?.emailPrefillComplete;
   const prefillEmail = prefillTransformer(null, null, null, state)?.formData
     ?.email?.email;
 
   return {
     formEmail,
-    formConfirmEmail,
+    emailPrefillComplete,
     prefillEmail,
     duplicateEmail: state?.data?.duplicateEmail,
     mobilePhone:
