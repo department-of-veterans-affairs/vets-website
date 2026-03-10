@@ -1,8 +1,8 @@
 import React from 'react';
 
 const MoreVASearchTools = () => (
-  <ul>
-    <li>
+  <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+    <li className="more-va-search-tools-item">
       <va-link
         href="https://www.va.gov/find-locations/"
         text="Find a VA location"

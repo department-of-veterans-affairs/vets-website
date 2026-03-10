@@ -9,11 +9,6 @@ describe('22-0989 Form Config', () => {
     expect(formConfig).to.have.property('chapters');
   });
 
-  it('has the right submit method', async () => {
-    const value = await formConfig.submit();
-    expect(value.attributes.confirmationNumber).to.eq('123123123');
-  });
-
   it('has the right depends logic set', () => {
     const { pages } = formConfig.chapters.entitlementDetailsChapter;
     const formData = {

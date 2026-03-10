@@ -4,9 +4,7 @@
   },
   "metadata": {
     "version": 0,
-    "prefill": false,
+    "prefill": true,
     "returnUrl": "/statement-type"
   }
 }
-
-

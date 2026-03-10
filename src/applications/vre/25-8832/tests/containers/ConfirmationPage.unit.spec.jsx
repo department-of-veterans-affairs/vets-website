@@ -5,12 +5,15 @@ import { render } from '@testing-library/react';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
 describe('Chapter 36 (25-8832) - ConfirmationPage', () => {
-  const generateStore = ({ currentlyLoggedIn = false } = {}) => ({
+  const generateStore = ({
+    currentlyLoggedIn = false,
+    submittedAt = '2026-02-27T16:34:53.295Z',
+  } = {}) => ({
     getState: () => ({
       form: {
         submission: {
           response: {
-            timestamp: '11-03-2023',
+            attributes: { submittedAt },
           },
         },
         data: {
@@ -44,5 +47,17 @@ describe('Chapter 36 (25-8832) - ConfirmationPage', () => {
       </Provider>,
     );
     expect(queryByText('FOR: Alex Evans')).to.not.be.null;
+  });
+
+  it('should not render submitted date for invalid timestamp', () => {
+    const store = generateStore({ submittedAt: 'not-a-date' });
+    const { queryByText } = render(
+      <Provider store={store}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+    expect(queryByText('Thank you for submitting your application')).to.not.be
+      .null;
+    expect(queryByText('Date submitted')).to.be.null;
   });
 });

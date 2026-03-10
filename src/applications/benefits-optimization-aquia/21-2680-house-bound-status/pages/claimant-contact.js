@@ -56,6 +56,9 @@ export const claimantContactUiSchema = {
       return {
         'ui:title': title,
         'ui:description': description,
+        'ui:options': {
+          classNames: 'dd-privacy-mask',
+        },
         claimantContact: {
           claimantPhoneNumber: {
             'ui:title': homePhoneLabel,

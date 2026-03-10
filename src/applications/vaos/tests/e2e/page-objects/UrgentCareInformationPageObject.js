@@ -10,6 +10,13 @@ class UrgentCareInformationPageObject extends PageObject {
       { timeout: 10000 },
     );
   }
+
+  scheduleAppointment() {
+    cy.findByText('Start scheduling an appointment').click({
+      waitForAnimations: true,
+    });
+    return this;
+  }
 }
 
 export default new UrgentCareInformationPageObject();

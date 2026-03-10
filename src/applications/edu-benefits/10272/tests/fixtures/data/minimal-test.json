@@ -1,9 +1,69 @@
 {
   "data": {
-    "fullName": {
-      "first": "John",
-      "last": "Doe"
+    "organizationName": "Org Name",
+    "organizationAddress": {
+      "view:militaryBaseDescription": {},
+      "street": "Org Street",
+      "city": "Org City",
+      "state": "NE",
+      "postalCode": "12345"
     },
-    "dateOfBirth": "1980-01-01"
+    "payeeNumber": "",
+    "prepCourseCost": "250.75",
+    "prepCourseStartDate": "2025-08-01",
+    "prepCourseEndDate": "2026-01-01",
+    "prepCourseTakenOnline": true,
+    "prepCourseOrganizationName": "Prep Org",
+    "prepCourseOrganizationAddress": {
+      "view:militaryBaseDescription": {},
+      "street": "Prep Street",
+      "city": "Prep City",
+      "state": "MI",
+      "postalCode": "23456"
+    },
+    "prepCourseName": "Prep Course",
+    "testName": "Test Name",
+    "hasPreviouslyApplied": false,
+    "veteran": {
+      "mailingAddress": {
+        "badAddress": false,
+        "addressLine1": "10856 Patowmack Dr",
+        "addressPou": "CORRESPONDENCE",
+        "addressType": "DOMESTIC",
+        "city": "Great Falls",
+        "countryName": "United States",
+        "countryCodeIso2": "US",
+        "countryCodeIso3": "USA",
+        "countyCode": "51059",
+        "countyName": "Fairfax County",
+        "stateCode": "VA",
+        "zipCode": "22066",
+        "zipCodeSuffix": "3032"
+      },
+      "homePhone": {
+        "areaCode": "478",
+        "countryCode": "1",
+        "extension": "",
+        "isInternational": false,
+        "phoneNumber": "3884567",
+        "phoneType": "HOME"
+      },
+      "mobilePhone": {
+        "areaCode": "514",
+        "countryCode": "1",
+        "extension": "",
+        "isInternational": false,
+        "phoneNumber": "3211232",
+        "phoneType": "MOBILE"
+      },
+      "email": {
+        "emailAddress": "Test@gmail.com"
+      }
+    },
+    "applicantName": { "first": "Rita", "middle": "Ann", "last": "Jackson" },
+    "ssn": "111111111",
+    "vaFileNumber": "111111111",
+    "statementOfTruthSignature": "Rita Ann Jackson",
+    "statementOfTruthCertified": true
   }
 }

@@ -97,6 +97,6 @@ describe('Verify thread - No association at all', () => {
       .find('va-link-action')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
   });
 });

@@ -13,6 +13,7 @@ import { getConversationLink } from '../../utils/links';
  * @property {string} inquiryNumber
  * @property {string} categoryName
  * @property {string} submitterQuestion
+ * @property {string} levelOfAuthentication
  */
 
 export {};
@@ -23,23 +24,19 @@ export {};
 export default function InquiryCard({ inquiry }) {
   return (
     <va-card class="inquiry-card" data-testid="inquiry-card">
+      <h3>
+        <span className="sr-only">Status </span>
+        <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
+          {inquiry.status}
+        </span>
+        <span className="vads-u-font-size--h4">
+          Submitted on{' '}
+          <span className="created-date">{formatDate(inquiry.createdOn)}</span>
+        </span>
+      </h3>
       <div>
-        <h3>
-          <span className="sr-only">Status </span>
-          <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
-            {inquiry.status}
-          </span>
-          <span className="vads-u-font-size--h4">
-            Submitted on{' '}
-            <span className="created-date">
-              {formatDate(inquiry.createdOn)}
-            </span>
-          </span>
-        </h3>
-        <div>
-          <span className="vads-u-font-weight--bold">Last updated: </span>
-          <span>{formatDate(inquiry.lastUpdate)}</span>
-        </div>
+        <span className="vads-u-font-weight--bold">Last updated: </span>
+        <span>{formatDate(inquiry.lastUpdate)}</span>
       </div>
       <div className="reference-number">
         <span className="vads-u-font-weight--bold">Reference number: </span>
@@ -49,14 +46,13 @@ export default function InquiryCard({ inquiry }) {
         <span className="vads-u-font-weight--bold">Category: </span>
         <span>{inquiry.categoryName}</span>
       </div>
-      <div className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter" />
       <p className="submitter-question">{inquiry.submitterQuestion}</p>
       <Link
         to={getConversationLink(inquiry.inquiryNumber)}
         className="conversation-link"
       >
-        <va-link
-          active
+        <va-link-action
+          type="secondary"
           text="Review conversation"
           label={`Review conversation for question submitted on ${formatDate(
             inquiry.createdOn,

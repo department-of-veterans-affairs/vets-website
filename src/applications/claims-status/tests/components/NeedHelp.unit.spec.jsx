@@ -7,7 +7,6 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { NeedHelp } from '../../components/NeedHelp';
-import * as dictionary from '../../utils/evidenceDictionary';
 
 describe('<NeedHelp>', () => {
   it('should render', () => {
@@ -59,21 +58,20 @@ describe('<NeedHelp>', () => {
       displayName: 'displayKey',
       supportAliases: ['Alias1'],
       friendlyName: 'Friendly Name',
+      isProperNoun: true,
     };
-
-    dictionary.evidenceDictionary.displayKey = { isProperNoun: true };
 
     const { container } = render(<NeedHelp item={item} />);
     expect(container.textContent).to.include('Friendly Name');
   });
+
   it('should lowercase friendlyName if not a proper noun', () => {
     const item = {
       displayName: 'displayKey',
       supportAliases: ['Alias1'],
       friendlyName: 'Friendly Name',
+      isProperNoun: false,
     };
-
-    dictionary.evidenceDictionary.displayKey = { isProperNoun: false };
 
     const { container } = render(<NeedHelp item={item} />);
     expect(container.textContent).to.include('friendly Name');

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import {
   testComponentFieldsMarkedAsRequired,
   testNumberOfWebComponentFields,
@@ -41,4 +42,21 @@ describe('pension social security disability page', () => {
     },
     pageTitle,
   );
+
+  describe('depends logic', () => {
+    it('shows page when applicant is under 65', () => {
+      const formData = {
+        isOver65: false,
+      };
+      expect(socialSecurityDisability.depends(formData)).to.be.true;
+    });
+
+    it('does not show page when applicant is 65 or older', () => {
+      const formData = {
+        isOver65: true,
+      };
+
+      expect(socialSecurityDisability.depends(formData)).to.be.false;
+    });
+  });
 });

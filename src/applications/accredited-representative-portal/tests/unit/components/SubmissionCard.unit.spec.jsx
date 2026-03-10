@@ -1,6 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { expect } from 'chai';
 import SubmissionCard from '../../../components/SubmissionCard';
 
@@ -27,7 +29,13 @@ describe('SubmissionCard', () => {
     defineStub('va-card');
     defineStub('va-icon');
   });
-
+  const getStore = () =>
+    createStore(() => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        accredited_representative_portal_claimant_details: true,
+      },
+    }));
   const baseSubmission = {
     id: '1234',
     lastName: 'Doe',
@@ -42,9 +50,11 @@ describe('SubmissionCard', () => {
 
   it('renders name, confirmation number, and form type', () => {
     const { container } = render(
-      <MemoryRouter>
-        <SubmissionCard submission={baseSubmission} />
-      </MemoryRouter>,
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <SubmissionCard submission={baseSubmission} />
+        </MemoryRouter>
+      </Provider>,
     );
 
     const nameHeading = container.querySelector('h3');
@@ -70,9 +80,11 @@ describe('SubmissionCard', () => {
     };
 
     const { container } = render(
-      <MemoryRouter>
-        <SubmissionCard submission={erroredSubmission} />
-      </MemoryRouter>,
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <SubmissionCard submission={erroredSubmission} />
+        </MemoryRouter>
+      </Provider>,
     );
 
     const status = container.querySelector('.submission__card-status--row');
@@ -86,9 +98,11 @@ describe('SubmissionCard', () => {
     };
 
     const { container } = render(
-      <MemoryRouter>
-        <SubmissionCard submission={awaitingSubmission} />
-      </MemoryRouter>,
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <SubmissionCard submission={awaitingSubmission} />
+        </MemoryRouter>
+      </Provider>,
     );
 
     const status = container.querySelector('.submission__card-status--row');

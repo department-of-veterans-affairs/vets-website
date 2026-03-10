@@ -90,6 +90,13 @@ const form1 = {
   },
 };
 
+const defaultLocation = {
+  basename: '/discover-your-benefits',
+  pathname: '/confirmation',
+  query: {},
+  search: '',
+};
+
 const form2 = {
   formId: 'T-QSTNR',
   data: {
@@ -97,7 +104,11 @@ const form2 = {
   },
 };
 
-const getData = (resultsData = [], formObject = form1, queryObject = {}) => ({
+const getData = (
+  resultsData = [],
+  formObject = form1,
+  locationObject = defaultLocation,
+) => ({
   props: {
     formConfig,
     route: {
@@ -110,12 +121,7 @@ const getData = (resultsData = [], formObject = form1, queryObject = {}) => ({
     },
     displayResults: sinon.mock(),
     setSubmission: sinon.mock(),
-    location: {
-      basename: '/discover-your-benefits',
-      pathname: '/confirmation',
-      query: queryObject,
-      search: '',
-    },
+    location: locationObject,
   },
   mockStore: {
     getState: () => ({
@@ -142,7 +148,12 @@ const subject = ({ mockStore, props }) =>
 describe('<ConfirmationPage>', () => {
   describe('initial render and state', () => {
     it('renders additional info for transitioning service members', () => {
-      const { mockStore, props } = getData([], form2);
+      const location = {
+        basename: '/discover-your-benefits',
+        pathname: '/confirmation',
+        search: '',
+      };
+      const { mockStore, props } = getData([], form2, location);
       const { container } = subject({ mockStore, props });
 
       const additionalInfo = container.querySelector('va-additional-info');
@@ -367,6 +378,18 @@ describe('filterBenefits', () => {
     filterComponent.dispatchEvent(customEvent);
   };
 
+  it('shows only recommended benefits by default', async () => {
+    const recommendedOnly = mockBenefits.slice(0, 2);
+
+    const { mockStore, props } = getData(recommendedOnly, form2);
+    const wrapper = subject({ mockStore, props });
+
+    await waitFor(() => {
+      const items = wrapper.getAllByRole('listitem');
+      expect(items.length).to.equal(recommendedOnly.length);
+    });
+  });
+
   it('filters benefits by selected category', async () => {
     const { mockStore, props } = getData(mockBenefits, form2);
     const wrapper = subject({ mockStore, props });
@@ -436,6 +459,37 @@ describe('filterBenefits', () => {
     );
 
     expect(listItems.length).to.equal(BENEFITS_LIST.length);
+  });
+
+  it('updates filter text when multiple filters applied', async () => {
+    const { mockStore, props } = getData(mockBenefits, form2);
+    const wrapper = subject({ mockStore, props });
+    const { container } = wrapper;
+
+    const filterComponent = container.querySelector('va-search-filter');
+
+    filterComponent.dispatchEvent(
+      new CustomEvent('vaFilterApply', {
+        detail: [
+          {
+            id: 1,
+            label: 'When to apply',
+            category: [{ id: 'beforeSeparation', active: true }],
+          },
+          {
+            id: 2,
+            label: 'Benefit type',
+            category: [{ id: categories.EDUCATION, active: true }],
+          },
+        ],
+        bubbles: true,
+      }),
+    );
+
+    await waitFor(() => {
+      const filterText = container.querySelector('#filter-text');
+      expect(filterText.textContent).to.include('2 filters applied');
+    });
   });
 
   it('clears filters when "Clear all filters" is clicked', async () => {

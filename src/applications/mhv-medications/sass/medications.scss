@@ -2,6 +2,20 @@
 @import "./prescription-details";
 @import "./print-download";
 
+.medication-history-filter {
+  va-radio {
+    width: max-content;
+
+    &::part(legend) {
+      white-space: nowrap;
+    }
+  }
+
+  .filter-option--selected va-radio-option label {
+    font-weight: bold;
+  }
+}
+
 .link-button,
 .link-button:hover,
 .link-button:active {

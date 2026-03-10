@@ -101,6 +101,10 @@
       {
         "name": "disability_526_supporting_evidence_enhancement",
         "value": false
+      },
+      {
+        "name": "disability_526_supporting_evidence_file_input_v3",
+        "value": false
       }
     ]
   }

@@ -49,7 +49,7 @@ export function transform(_formConfig, form) {
   // Build the payload
   const payload = {
     formId: form?.formId,
-    '@type': 'vettec',
+    '@type': 'VetTecSubmission',
     claimant: {
       claimantId: data?.claimantId,
       firstName: applicantFullName?.first,
@@ -76,6 +76,7 @@ export function transform(_formConfig, form) {
       ),
     },
     militaryInfo: {
+      dutyRequirementMet: data?.dutyRequirementMet,
       dateReleasedFromActiveDuty: data?.dateReleasedFromActiveDuty,
       activeDutyDuringHitechVets: data?.activeDutyDuringHitechVets,
     },

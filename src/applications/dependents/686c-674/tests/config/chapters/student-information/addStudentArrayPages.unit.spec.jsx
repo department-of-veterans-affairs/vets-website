@@ -504,7 +504,7 @@ describe('674 Add students: Student address ', () => {
 
     expect($$('va-checkbox', container).length).to.equal(1);
     expect($$('va-select', container).length).to.equal(1);
-    expect($$('va-text-input', container).length).to.equal(6);
+    expect($$('va-text-input', container).length).to.equal(5);
   });
 
   it('should render custom city error', async () => {
