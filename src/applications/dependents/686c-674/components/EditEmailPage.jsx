@@ -61,6 +61,7 @@ const EditEmailPage = ({
     onCancel: event => {
       event.preventDefault();
       setFormData({
+        ...data,
         veteranContactInformation: {
           ...data.veteranContactInformation,
           emailAddress: originalEmail.current,
