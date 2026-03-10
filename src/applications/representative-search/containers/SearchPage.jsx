@@ -561,6 +561,7 @@ SearchPage.propTypes = {
       name: PropTypes.string,
       lat: PropTypes.string,
       long: PropTypes.string,
+      organization: PropTypes.string,
       page: PropTypes.string,
       perPage: PropTypes.string,
       sort: PropTypes.string,
