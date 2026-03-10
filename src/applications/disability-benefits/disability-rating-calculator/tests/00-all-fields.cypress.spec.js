@@ -32,8 +32,8 @@ Cypress.Commands.add('fillRatings', input => {
       .should('be.visible')
       .then(ratingInput => {
         cy.wrap(ratingInput)
-          .type('{selectall}{backspace}', { force: true })
-          .type(`${currRating}`, { force: true });
+          .clear()
+          .type(currRating);
       });
   }
 });
@@ -44,7 +44,7 @@ Cypress.Commands.add('addRatingRow', () => {
   cy.get(addRowBtnSelector)
     .should('be.visible')
     .then(btn => {
-      cy.wrap(btn).click({ force: true });
+      cy.wrap(btn).click();
     });
 });
 
@@ -67,13 +67,13 @@ describe('Disability Rating Calculator', () => {
     cy.get(`.row-3 ${deleteRowBtnSelector}`)
       .should('be.visible')
       .then(btn => {
-        cy.wrap(btn).click({ force: true });
+        cy.wrap(btn).click();
       });
     cy.get(inputSelector).should('have.length', 2);
     cy.get(clearBtnSelector)
       .should('be.visible')
       .then(btn => {
-        cy.wrap(btn).click({ force: true });
+        cy.wrap(btn).click();
       });
 
     for (const input of inputs) {
@@ -82,7 +82,7 @@ describe('Disability Rating Calculator', () => {
       cy.get(calculateBtnSelector)
         .should('be.visible')
         .then(btn => {
-          cy.wrap(btn).click({ force: true });
+          cy.wrap(btn).click();
         });
       cy.ratingsAreAllRounded(input.ratings).then(result => {
         if (result) {
@@ -98,7 +98,7 @@ describe('Disability Rating Calculator', () => {
       cy.get(clearBtnSelector)
         .should('be.visible')
         .then(btn => {
-          cy.wrap(btn).click({ force: true });
+          cy.wrap(btn).click();
         });
       if (inputs.indexOf(input) === 0) {
         cy.get(`.rating.row-1 ${inputSelector}`).should('have.value', '');
