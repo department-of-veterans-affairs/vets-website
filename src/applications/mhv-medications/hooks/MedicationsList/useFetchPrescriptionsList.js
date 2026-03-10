@@ -47,7 +47,8 @@ export const useFetchPrescriptionsList = () => {
     perPage: 10,
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
-      rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+      rxListSortingOptions[defaultSelectedSortOption]?.API_ENDPOINT ||
+      Object.values(rxListSortingOptions)[0].API_ENDPOINT,
     filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
   });
 

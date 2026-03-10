@@ -15,6 +15,9 @@ describe('Medications History Page Print Download Card', () => {
         ],
       },
     }).as('featureToggles');
+    cy.intercept('GET', '/my_health/v1/prescriptions?*filter*', rxList).as(
+      'filteredPrescriptions',
+    );
     listPage.visitMedicationsListPageURL(rxList);
     cy.visit('/my-health/medications/history');
     cy.injectAxe();
