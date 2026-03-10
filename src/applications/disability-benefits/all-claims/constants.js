@@ -258,7 +258,6 @@ export const ATTACHMENT_KEYS = [
   'form781aUpload',
   'form8940Upload',
   'form4192Upload',
-  'separationHealthAssessmentUploads',
   'serviceTreatmentRecordsAttachments',
   'privateMedicalRecordAttachments',
   'additionalDocuments',
