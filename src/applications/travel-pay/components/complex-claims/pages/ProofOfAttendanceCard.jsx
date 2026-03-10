@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
-import { PROOF_OF_ATTENDANCE_FILENAME } from '../../../constants';
 
 const ProofOfAttendanceCard = ({
   apptId,
@@ -11,6 +10,7 @@ const ProofOfAttendanceCard = ({
   showEdit = true,
 }) => {
   const HeadingTag = decreaseHeaderLevel ? 'h4' : 'h3';
+  const filenameWithoutExtension = filename?.replace(/\.[^.]+$/, '');
 
   return (
     <div className="vads-u-margin-top--2">
@@ -19,7 +19,7 @@ const ProofOfAttendanceCard = ({
         <p>{filename}</p>
         <p>
           <span className="vads-u-font-weight--bold">Note:</span>
-          {` We’ve changed your file name to "${PROOF_OF_ATTENDANCE_FILENAME}."`}
+          {` We’ve changed your file name to "${filenameWithoutExtension}."`}
         </p>
         <div className="review-button-row">
           {showEdit && (
