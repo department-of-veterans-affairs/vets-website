@@ -942,6 +942,7 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: playwright-browsers-${{ steps.playwright-version.outputs.version }}
+          save-always: true
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
