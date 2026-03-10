@@ -130,9 +130,11 @@ const AddressSelectionPage = props => {
   const pageTitle = useMemo(
     () => {
       const titleValue = titleWithNameUI(PAGE_TITLE)['ui:title'];
-      return typeof titleValue === 'function'
-        ? titleValue({ formData: data })
-        : titleValue;
+      return typeof titleValue === 'function' ? (
+        titleValue({ formData: data })
+      ) : (
+        <legend className="schemaform-block-title">{titleValue}</legend>
+      );
     },
     [data],
   );
@@ -140,7 +142,7 @@ const AddressSelectionPage = props => {
   return (
     <form className="rjsf" onSubmit={handleSubmit}>
       <fieldset className="vads-u-margin-y--2 rjsf-object-field">
-        <legend className="schemaform-block-title">{pageTitle}</legend>
+        {pageTitle}
 
         <VaRadio
           id={`root_${FIELD_NAME}`}

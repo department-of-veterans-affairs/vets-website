@@ -272,7 +272,7 @@ export const titleWithNameUI = makeDynamicTitleUI(subjectLabel, {
  * @param {string} title - Title template with placeholder for the form data value
  * @param {string|React.Component} [description=null] - Optional description element
  * @param {Object} [options] - Configuration options
- * @param {string|Function} [options.dataKey='provider'] - Form data key or resolver function that returns the value to display
+ * @param {string|Function} [options.dataKey='name'] - Form data key or resolver function that returns the value to display
  * @param {string} [options.fallback=''] - Fallback value when the resolved value is missing
  * @param {boolean} [options.capitalize=true] - Whether to capitalize the inserted value
  * @param {string} [options.placeholder='%s'] - Placeholder token to replace
@@ -284,7 +284,7 @@ export const titleWithNameUI = makeDynamicTitleUI(subjectLabel, {
  * @example
  * // "Cigna prescription coverage"
  * titleWithFormDataUI('%s prescription coverage', null, {
- *   dataKey: 'provider',
+ *   dataKey: 'name',
  *   capitalize: false,
  * })
  *
