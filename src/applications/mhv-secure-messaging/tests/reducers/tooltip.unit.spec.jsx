@@ -78,6 +78,24 @@ describe('tooltipReducer', () => {
     expect(state.error).to.deep.equal(error);
   });
 
+  it('handles GET_TOOLTIPS_ERROR', () => {
+    const error = { message: 'get tooltips failed' };
+    const state = tooltipReducer(initialState, {
+      type: Actions.Tooltip.GET_TOOLTIPS_ERROR,
+      error,
+    });
+    expect(state.error).to.deep.equal(error);
+  });
+
+  it('handles CREATE_TOOLTIP_ERROR', () => {
+    const error = { message: 'create tooltip failed' };
+    const state = tooltipReducer(initialState, {
+      type: Actions.Tooltip.CREATE_TOOLTIP_ERROR,
+      error,
+    });
+    expect(state.error).to.deep.equal(error);
+  });
+
   it('preserves other state fields on error', () => {
     const prevState = {
       tooltipVisible: true,

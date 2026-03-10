@@ -28,14 +28,14 @@ const DismissibleAlert = ({
       const fetchOrCreateTooltip = async () => {
         const existing = await dispatch(getTooltipByName(tooltipName));
 
-        if (existing) {
+        if (existing?.id) {
           dispatch(setTooltip(existing.id, !existing.hidden));
           if (!existing.hidden) {
             dispatch(incrementTooltip(existing.id));
           }
-        } else {
+        } else if (!existing) {
           const created = await dispatch(createNewTooltip(tooltipName));
-          if (created) {
+          if (created?.id) {
             dispatch(setTooltip(created.id, !created.hidden));
           }
         }
@@ -49,7 +49,7 @@ const DismissibleAlert = ({
   const handleClose = useCallback(
     () => {
       if (tooltipId) {
-        dispatch(updateTooltipVisibility(tooltipId, false));
+        dispatch(updateTooltipVisibility(tooltipId));
       }
     },
     [dispatch, tooltipId],
@@ -61,10 +61,12 @@ const DismissibleAlert = ({
     <VaAlert
       status={status}
       closeable
+      closeBtnAriaLabel="Close notification"
       onCloseEvent={handleClose}
       className={className}
       data-testid="dismissible-tooltip-alert"
       data-dd-privacy="mask"
+      data-dd-action-name={`Dismissible tooltip alert - ${tooltipId}`}
     >
       {headline && <h2 slot="headline">{headline}</h2>}
       {children}

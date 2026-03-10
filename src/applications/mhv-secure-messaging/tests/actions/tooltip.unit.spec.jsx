@@ -53,11 +53,12 @@ describe('tooltip actions', () => {
 
       const result = await getTooltips()(dispatch);
 
-      expect(result).to.be.an.instanceOf(Error);
+      expect(result).to.be.undefined;
       expect(dispatchedActions).to.have.lengthOf(1);
       expect(dispatchedActions[0].type).to.equal(
         Actions.Tooltip.GET_TOOLTIPS_ERROR,
       );
+      expect(dispatchedActions[0].error).to.equal(error);
     });
   });
 
@@ -82,15 +83,17 @@ describe('tooltip actions', () => {
     });
 
     it('dispatches CREATE_TOOLTIP_ERROR on failure', async () => {
-      sandbox.stub(SmApi, 'createTooltip').rejects(new Error('create failed'));
+      const error = new Error('create failed');
+      sandbox.stub(SmApi, 'createTooltip').rejects(error);
 
       const result = await createNewTooltip('sm_test')(dispatch);
 
-      expect(result).to.be.an.instanceOf(Error);
+      expect(result).to.be.undefined;
       expect(dispatchedActions).to.have.lengthOf(1);
       expect(dispatchedActions[0].type).to.equal(
         Actions.Tooltip.CREATE_TOOLTIP_ERROR,
       );
+      expect(dispatchedActions[0].error).to.equal(error);
     });
   });
 
@@ -121,7 +124,7 @@ describe('tooltip actions', () => {
     it('hides tooltip and dispatches SET_TOOLTIP_VISIBILITY', async () => {
       sandbox.stub(SmApi, 'hideTooltip').resolves({});
 
-      await updateTooltipVisibility('tooltip-123', false)(dispatch);
+      await updateTooltipVisibility('tooltip-123')(dispatch);
 
       expect(dispatchedActions).to.have.lengthOf(1);
       expect(dispatchedActions[0].type).to.equal(
@@ -134,7 +137,7 @@ describe('tooltip actions', () => {
       const error = new Error('hide failed');
       sandbox.stub(SmApi, 'hideTooltip').rejects(error);
 
-      await updateTooltipVisibility('tooltip-123', false)(dispatch);
+      await updateTooltipVisibility('tooltip-123')(dispatch);
 
       expect(dispatchedActions).to.have.lengthOf(1);
       expect(dispatchedActions[0].type).to.equal(

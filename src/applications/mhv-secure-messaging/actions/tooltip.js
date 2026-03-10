@@ -15,8 +15,8 @@ export const getTooltips = () => async dispatch => {
     });
     return response;
   } catch (error) {
-    dispatch({ type: Actions.Tooltip.GET_TOOLTIPS_ERROR });
-    return error;
+    dispatch({ type: Actions.Tooltip.GET_TOOLTIPS_ERROR, error });
+    return undefined;
   }
 };
 
@@ -29,8 +29,8 @@ export const createNewTooltip = tooltipName => async dispatch => {
     });
     return response;
   } catch (error) {
-    dispatch({ type: Actions.Tooltip.CREATE_TOOLTIP_ERROR });
-    return error;
+    dispatch({ type: Actions.Tooltip.CREATE_TOOLTIP_ERROR, error });
+    return undefined;
   }
 };
 
@@ -45,15 +45,12 @@ export const incrementTooltip = tooltipId => async dispatch => {
   }
 };
 
-export const updateTooltipVisibility = (
-  tooltipId,
-  tooltipVisibility,
-) => async dispatch => {
+export const updateTooltipVisibility = tooltipId => async dispatch => {
   try {
     await hideTooltip(tooltipId);
     dispatch({
       type: Actions.Tooltip.SET_TOOLTIP_VISIBILITY,
-      payload: tooltipVisibility,
+      payload: false,
     });
   } catch (error) {
     dispatch({

@@ -62,6 +62,16 @@ describe('DismissibleAlert', () => {
     await waitFor(() => {
       expect(getByTestId('dismissible-tooltip-alert')).to.exist;
     });
+
+    const alert = getByTestId('dismissible-tooltip-alert');
+    expect(alert).to.have.attribute(
+      'close-btn-aria-label',
+      'Close notification',
+    );
+    expect(alert).to.have.attribute(
+      'data-dd-action-name',
+      'Dismissible tooltip alert - mock-tooltip-id',
+    );
   });
 
   it('does not render the alert when tooltipVisible is false', () => {
