@@ -1,4 +1,3 @@
-// @ts-check
 import { addMonths } from 'date-fns';
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
@@ -22,6 +21,7 @@ import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointm
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentCreateApi,
@@ -106,6 +106,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           AppointmentListPageObject.visit().scheduleAppointment();
 
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
             .selectTypeOfCare(/Primary care/i)
@@ -180,6 +182,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           AppointmentListPageObject.visit().scheduleAppointment();
 
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: true })
             .selectTypeOfCare(/Primary care/i)
@@ -247,6 +251,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
           cy.login(mockUser);
 
           AppointmentListPageObject.visit().scheduleAppointment();
+
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
@@ -328,6 +334,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           AppointmentListPageObject.visit().scheduleAppointment();
 
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
             .selectTypeOfCare(/Primary care/i)
@@ -366,6 +374,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
           cy.login(mockUser);
 
           AppointmentListPageObject.visit().scheduleAppointment();
+
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
@@ -444,6 +454,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           AppointmentListPageObject.visit().scheduleAppointment();
 
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
             .selectTypeOfCare(/Primary care/i)
@@ -506,6 +518,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
           cy.login(mockUser);
 
           AppointmentListPageObject.visit().scheduleAppointment();
+
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: true })
@@ -576,6 +590,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
           cy.login(mockUser);
 
           AppointmentListPageObject.visit().scheduleAppointment();
+
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
@@ -661,6 +677,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })

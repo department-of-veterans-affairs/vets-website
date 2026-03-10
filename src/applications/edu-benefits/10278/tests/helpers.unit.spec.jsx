@@ -44,6 +44,12 @@ describe('10278 helpers - validateTerminationDate', () => {
     validateTerminationDate({ addError }, '2030-02-17');
     expect(addError.called).to.equal(false);
   });
+
+  it('adds an error when the date is in the past', () => {
+    const addError = sinon.spy();
+    validateTerminationDate({ addError }, '2024-01-01');
+    expect(addError.called).to.equal(true);
+  });
 });
 
 describe('10278 helpers - getThirdPartyName', () => {

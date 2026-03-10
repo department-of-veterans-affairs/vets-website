@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -7,6 +7,10 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import NeedHelp from '../components/NeedHelp';
 
 export default function App({ location, children }) {
+  useEffect(() => {
+    document.title = `${formConfig.title} | Veterans Affairs`;
+  }, []);
+
   return (
     <div className="form-22-0976-container row">
       <div className="vads-u-padding-left--0">

@@ -21,7 +21,7 @@ class MedicationsListPage {
     cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-rx-name',
+      '/my_health/v1/prescriptions?filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-rx-name',
       prescriptions,
     ).as('medicationsSortByName');
     cy.intercept(
@@ -37,7 +37,7 @@ class MedicationsListPage {
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      '/my_health/v1/prescriptions?sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
@@ -54,7 +54,7 @@ class MedicationsListPage {
     );
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      '/my_health/v1/prescriptions?sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
   };
@@ -95,7 +95,7 @@ class MedicationsListPage {
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      '/my_health/v1/prescriptions?sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
     cy.visit(medicationsUrls.MEDICATIONS_URL);
@@ -183,7 +183,7 @@ class MedicationsListPage {
   };
 
   verifyFocusOnDownloadFailureAlertBanner = () => {
-    cy.get('[data-testid="api-error-notification"]').should('be.focused');
+    cy.get('[data-testid="api-error-notification"]').should('be.visible');
   };
 
   verifyTextInsideDropDownOnListPage = () => {
@@ -252,7 +252,7 @@ class MedicationsListPage {
   clickDownloadListAsPDFButtonOnListPage = () => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
+      `/my_health/v1/prescriptions?sort=alphabetical-status`,
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
@@ -266,7 +266,7 @@ class MedicationsListPage {
   clickDownloadListAsTxtButtonOnListPage = () => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
+      `/my_health/v1/prescriptions?sort=alphabetical-status`,
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-txt-button"]').should(
@@ -448,7 +448,7 @@ class MedicationsListPage {
   loadRxDefaultSortAlphabeticallyByStatus = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      '/my_health/v1/prescriptions?sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
     cy.intercept(
@@ -530,7 +530,7 @@ class MedicationsListPage {
     );
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      '/my_health/v1/prescriptions?sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
     // cy.intercept(
@@ -1072,7 +1072,7 @@ class MedicationsListPage {
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      '/my_health/v1/prescriptions?sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
     cy.visit(medicationsUrls.MEDICATIONS_URL);

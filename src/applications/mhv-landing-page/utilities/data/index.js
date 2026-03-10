@@ -102,23 +102,47 @@ const resolveLandingPageLinks = (
     },
   ].filter(isLinkData);
 
-  const spotlightLinks = [
+  // Spotlight articles for the "In the spotlight" section.
+  // patientHref uses eauth deep-linking; nonPatientHref uses public URLs.
+  // Omit nonPatientHref to show a link only for patients.
+  const spotlightArticles = [
     {
-      text: 'Medical record hold periods are changing',
-      href: mhvUrl(
+      text: "Don't miss a message from VA",
+      patientHref: mhvUrl(authdWithSSOe, 'ss20260116-dont-miss-va-messages'),
+      nonPatientHref:
+        'https://www.myhealth.va.gov/mhv-portal-web/ss20260116-dont-miss-va-messages',
+    },
+    {
+      text: 'Travel pay: apply now on your phone',
+      patientHref: mhvUrl(authdWithSSOe, 'ss20251031-travel-pay-apply-phone'),
+      nonPatientHref:
+        'https://www.myhealth.va.gov/mhv-portal-web/ss20251031-travel-pay-apply-phone',
+    },
+    {
+      text: 'VA mobile apps for a healthy new year',
+      patientHref: mhvUrl(
         authdWithSSOe,
-        'ss20250414-medical-record-hold-periods-changing',
+        'ss20260116-va-mobile-apps-healthy-new-year',
       ),
-    },
-    {
-      text: 'Treat your pain at VA',
-      href: mhvUrl(authdWithSSOe, 'ss20220915-treat-your-pain-at-va'),
-    },
-    {
-      text: 'Managing PTSD while you age',
-      href: mhvUrl(authdWithSSOe, 'ss20210525-managing-ptsd-while-you-age'),
+      nonPatientHref:
+        'https://www.myhealth.va.gov/mhv-portal-web/ss20260116-va-mobile-apps-healthy-new-year',
     },
   ];
+
+  const spotlightLinks = spotlightArticles
+    .map(({ text, patientHref }) => ({
+      text,
+      href: patientHref,
+    }))
+    .filter(isLinkData);
+
+  const nonPatientSpotlightLinks = spotlightArticles
+    .filter(({ nonPatientHref }) => nonPatientHref)
+    .map(({ text, nonPatientHref }) => ({
+      text,
+      href: nonPatientHref,
+    }))
+    .filter(isLinkData);
 
   const paymentsLinks = (featureToggles[
     FEATURE_FLAG_NAMES.travelPaySubmitMileageExpense
@@ -127,7 +151,11 @@ const resolveLandingPageLinks = (
         HEALTH_TOOL_LINKS.PAYMENTS[0],
         {
           href: '/my-health/travel-pay/claims',
-          text: 'Review and file travel claims',
+          text: 'Check travel reimbursement claim status',
+        },
+        {
+          href: '/my-health/appointments/past',
+          text: 'Go to past appointments to file for travel pay',
         },
       ]
     : [
@@ -137,8 +165,24 @@ const resolveLandingPageLinks = (
           text: 'Check travel reimbursement claim status',
         },
         HEALTH_TOOL_LINKS.PAYMENTS[1],
+        {
+          href: '/my-health/appointments/past',
+          text: 'Go to past appointments to file for travel pay',
+        },
       ]
   ).filter(isLinkData);
+
+  const medicationsLinks = [
+    HEALTH_TOOL_LINKS.MEDICATIONS[0],
+    {
+      href: featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements
+      ]
+        ? '/my-health/medications/history'
+        : '/my-health/medications',
+      text: 'Review medications',
+    },
+  ].filter(isLinkData);
 
   const medicalRecordsLinks = [
     HEALTH_TOOL_LINKS.MEDICAL_RECORDS[0],
@@ -165,7 +209,7 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICATIONS,
       icon: 'pill',
-      links: HEALTH_TOOL_LINKS.MEDICATIONS,
+      links: medicationsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
@@ -222,7 +266,7 @@ const resolveLandingPageLinks = (
     },
     {
       href: '/health-care/eligibility/',
-      text: 'Find out if you’re eligible for VA health care',
+      text: "Find out if you're eligible for VA health care",
     },
     {
       href: '/health-care/how-to-apply/',
@@ -256,7 +300,7 @@ const resolveLandingPageLinks = (
     },
     {
       title: 'In the spotlight',
-      links: spotlightLinks,
+      links: nonPatientSpotlightLinks,
     },
   ];
 

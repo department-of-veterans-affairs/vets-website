@@ -20,34 +20,51 @@ import {
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import '../../sass/download-1095b.scss';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { selectAuthStatus } from '../../selectors/auth-status';
 import {
   downloadErrorComponent,
   errorTypes,
-  notFoundComponent,
-  pdfHelp,
+  NotFoundComponent,
+  PdfHelp,
   systemErrorComponent,
 } from './utils';
 
 export const App = ({ toggleLoginModal }) => {
   const [year, updateYear] = useState(0);
-  const [formError, updateFormError] = useState({ error: false, type: '' });
+  const [availableForms, setAvailableForms] = useState([]);
+  const [formError, updateFormError] = useState({
+    error: false,
+    type: '',
+    year: null,
+  });
   const cspId = useSelector(signInServiceName);
   const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
   const profile = useSelector(state => selectAuthStatus(state));
   const [hasLoadedMostRecentYear, setHasLoadedMostRecentYear] = useState(false);
+  const {
+    TOGGLE_NAMES,
+    useToggleLoadingValue,
+    useToggleValue,
+  } = useFeatureToggle();
+  const togglesLoading = useToggleLoadingValue();
+  const isForm1095bMultipleYears = useToggleValue(
+    TOGGLE_NAMES.form1095bMultipleYears,
+  );
+
   const isAppLoading = useMemo(
     () => {
       return (
         profile.isLoadingProfile ||
+        togglesLoading ||
         (profile.isUserLOA3 && hasLoadedMostRecentYear === false)
       );
     },
-    [hasLoadedMostRecentYear, profile],
+    [hasLoadedMostRecentYear, profile, togglesLoading],
   );
   useEffect(
     () => {
-      if (profile.isUserLOA3 !== true) {
+      if (profile.isUserLOA3 !== true || togglesLoading) {
         return;
       }
 
@@ -55,24 +72,36 @@ export const App = ({ toggleLoginModal }) => {
         .then(response => {
           if (response.availableForms.length === 0) {
             recordEvent({ event: '1095b-available-forms-not-found' });
-            updateFormError({ error: true, type: errorTypes.NOT_FOUND });
+            updateFormError({
+              error: true,
+              type: errorTypes.NOT_FOUND,
+              year: null,
+            });
           } else {
             recordEvent({ event: '1095b-available-forms-found' });
-            const mostRecentYearData = response.availableForms[0];
-            if (mostRecentYearData.year) {
-              updateYear(mostRecentYearData.year);
+            if (isForm1095bMultipleYears) {
+              setAvailableForms(response.availableForms);
+            } else {
+              const mostRecentYearData = response.availableForms[0];
+              if (mostRecentYearData.year) {
+                updateYear(mostRecentYearData.year);
+              }
             }
           }
         })
         .catch(() => {
           recordEvent({ event: '1095b-available-forms-system-error' });
-          updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
+          updateFormError({
+            error: true,
+            type: errorTypes.SYSTEM_ERROR,
+            year: null,
+          });
         })
         .finally(() => {
           setHasLoadedMostRecentYear(true);
         });
     },
-    [profile.isUserLOA3],
+    [profile.isUserLOA3, isForm1095bMultipleYears, togglesLoading],
   );
 
   useEffect(
@@ -84,15 +113,19 @@ export const App = ({ toggleLoginModal }) => {
     [formError],
   );
 
-  const getFile = format => {
-    return apiRequest(`/form1095_bs/download_${format}/${year}`)
+  const getFile = (format, taxYear) => {
+    return apiRequest(`/form1095_bs/download_${format}/${taxYear}`)
       .then(response => response.blob())
       .then(blob => {
         return window.URL.createObjectURL(blob);
       })
       .catch(() => {
         recordEvent({ event: `1095b-${format}-download-error` });
-        updateFormError({ error: true, type: errorTypes.DOWNLOAD_ERROR });
+        updateFormError({
+          error: true,
+          type: errorTypes.DOWNLOAD_ERROR,
+          year: taxYear,
+        });
         return false;
       });
   };
@@ -138,49 +171,56 @@ export const App = ({ toggleLoginModal }) => {
     toggleLoginModal(true, 'ask-va', true);
   };
 
-  const downloadFileToUser = format => {
-    getFile(format).then(result => {
+  const downloadFileToUser = (format, taxYear) => {
+    getFile(format, taxYear).then(result => {
       if (result) {
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
-        a.download = `1095B-${year}.${format}`;
+        a.download = `1095B-${taxYear}.${format}`;
 
         document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
         a.click();
         a.remove(); // removes element from the DOM
-        updateFormError({ error: false, type: '' });
+        updateFormError({ error: false, type: '', year: null });
       }
     });
   };
 
-  const downloadForm = (
-    <>
-      <va-card>
+  const renderDownloadCard = taxYear => {
+    // The space in "10 95-B" helps screen readers pronounce "ten ninety-five".
+    const pdfLabel = `Download ${taxYear} 10 95-B PDF (best for printing)`;
+    const txtLabel = `Download ${taxYear} 10 95-B Text file (best for screen readers, enlargers, and refreshable Braille displays)`;
+
+    return (
+      <va-card key={taxYear}>
         <div>
-          <h3 className="vads-u-margin-bottom--0 vads-u-margin-top--0 vads-u-font-size--h4">
-            1095-B Proof of VA health coverage
-          </h3>
+          {!isForm1095bMultipleYears && (
+            <h3 className="vads-u-margin-bottom--0 vads-u-margin-top--0 vads-u-font-size--h4">
+              1095-B Proof of VA health coverage
+            </h3>
+          )}
           <span>
-            <b>Tax year:</b> {year}
+            <b>Tax year:</b> {taxYear}
           </span>
         </div>
         <div className="download-links vads-u-margin-y--1p5 vads-u-padding-top--3">
           {formError.type === errorTypes.DOWNLOAD_ERROR &&
+            formError.year === taxYear &&
             downloadErrorComponent}
           <div className="vads-u-padding-bottom--1">
             <va-link
               download
               href={encodeURI(
-                `${environment.API_URL}/v0/form1095_bs/download_pdf/${year}`,
+                `${environment.API_URL}/v0/form1095_bs/download_pdf/${taxYear}`,
               )}
-              id="pdf-download-link"
-              label={`Download ${year} 10 95-B PDF (best for printing)`}
+              id={`pdf-download-link-${taxYear}`}
+              label={pdfLabel}
               text="Download PDF (best for printing)"
               onClick={e => {
                 e.preventDefault();
                 recordEvent({ event: '1095b-pdf-download' });
-                downloadFileToUser('pdf');
+                downloadFileToUser('pdf', taxYear);
               }}
             />
           </div>
@@ -188,21 +228,32 @@ export const App = ({ toggleLoginModal }) => {
             <va-link
               download
               href={encodeURI(
-                `${environment.API_URL}/v0/form1095_bs/download_txt/${year}`,
+                `${environment.API_URL}/v0/form1095_bs/download_txt/${taxYear}`,
               )}
-              id="txt-download-link"
-              label={`Download ${year} 10 95-B Text file (best for screen readers, enlargers, and refreshable Braille displays)`}
+              id={`txt-download-link-${taxYear}`}
+              label={txtLabel}
               text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
               onClick={e => {
                 e.preventDefault();
                 recordEvent({ event: '1095b-txt-download' });
-                downloadFileToUser('txt');
+                downloadFileToUser('txt', taxYear);
               }}
             />
           </div>
         </div>
       </va-card>
-      {pdfHelp}
+    );
+  };
+
+  const downloadForm = (
+    <>
+      {isForm1095bMultipleYears
+        ? [...availableForms]
+            .sort((a, b) => b.year - a.year)
+            .slice(0, 3)
+            .map(form => renderDownloadCard(form.year))
+        : renderDownloadCard(year)}
+      <PdfHelp />
     </>
   );
 
@@ -222,7 +273,7 @@ export const App = ({ toggleLoginModal }) => {
       return systemErrorComponent;
     }
     if (formError.type === errorTypes.NOT_FOUND) {
-      return notFoundComponent();
+      return <NotFoundComponent />;
     }
     return downloadForm;
   };
