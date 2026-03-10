@@ -29,13 +29,10 @@ const useOracleHealthAlertTracking = ({
   const config = CernerAlertContent.MEDICATIONS;
 
   // T45: Track when the OH EHR warning alert is displayed
+  // Not gated by the cutover flag — T45 warnings fire regardless
   useEffect(
     () => {
-      if (
-        warningActionName &&
-        isOracleHealthCutoverEnabled &&
-        migratingFacilities?.length
-      ) {
+      if (warningActionName && migratingFacilities?.length) {
         const warningMigrations = migratingFacilities.filter(migration =>
           config.warningPhases.includes(migration.phases?.current),
         );
@@ -44,19 +41,16 @@ const useOracleHealthAlertTracking = ({
             migration =>
               migration.facilities?.map(f => String(f.facilityId)) || [],
           );
-          datadogRum.addAction(warningActionName, {
-            facilityId: facilityIds,
-            phase: warningMigrations[0].phases.current,
+          facilityIds.forEach(id => {
+            datadogRum.addAction(warningActionName, {
+              facilityId: id,
+              phase: warningMigrations[0].phases.current,
+            });
           });
         }
       }
     },
-    [
-      config.warningPhases,
-      isOracleHealthCutoverEnabled,
-      migratingFacilities,
-      warningActionName,
-    ],
+    [config.warningPhases, migratingFacilities, warningActionName],
   );
 
   // T3: Track when the OH EHR error alert is displayed
@@ -75,9 +69,11 @@ const useOracleHealthAlertTracking = ({
             migration =>
               migration.facilities?.map(f => String(f.facilityId)) || [],
           );
-          datadogRum.addAction(errorActionName, {
-            facilityId: facilityIds,
-            phase: errorMigrations[0].phases.current,
+          facilityIds.forEach(id => {
+            datadogRum.addAction(errorActionName, {
+              facilityId: id,
+              phase: errorMigrations[0].phases.current,
+            });
           });
         }
       }

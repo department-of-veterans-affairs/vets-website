@@ -87,7 +87,6 @@ function PresubmitInfo({
 
   return (
     <VaStatementOfTruth
-      hideLegalNote
       heading="Certification statement"
       inputLabel="Your full name"
       inputValue={formData.statementOfTruthSignature}

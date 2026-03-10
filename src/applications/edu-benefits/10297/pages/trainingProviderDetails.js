@@ -26,7 +26,10 @@ const uiSchema = {
         'You must provide a response with minimum 3 characters and maximum of 75 characters. Accepted values are alphanumeric characters, apostrophes, commas, periods, spaces, colons, semicolons, and parentheses.',
     },
   }),
-  providerAddress: addressUiSchema({ baseUiSchema: addressNoMilitaryUI({}) }),
+  providerAddress: addressUiSchema({
+    baseUiSchema: addressNoMilitaryUI({}),
+    addressKey: 'providerAddress',
+  }),
 };
 
 const schema = {

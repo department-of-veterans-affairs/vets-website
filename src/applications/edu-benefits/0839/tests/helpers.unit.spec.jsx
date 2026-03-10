@@ -10,6 +10,7 @@ import {
   facilityCodeUIValidation,
   showAdditionalPointsOfContact,
   getAdditionalContactTitle,
+  getAdditionalContactRole,
   capitalizeFirstLetter,
   matchYearPattern,
   additionalInstitutionDetailsArrayOptions,
@@ -1069,7 +1070,73 @@ describe('0839 Helpers', () => {
   });
 
   describe('getAdditionalContactTitle', () => {
-    it('returns Yellow Ribbon title when both Yellow Ribbon and Financial roles are false', () => {
+    it('returns financial/Yellow Ribbon title when both Yellow Ribbon and Financial roles are false', () => {
+      const formData = {
+        pointsOfContact: {
+          roles: {
+            isYellowRibbonProgramPointOfContact: false,
+            isSchoolFinancialRepresentative: false,
+            isSchoolCertifyingOfficial: true,
+          },
+        },
+      };
+
+      expect(getAdditionalContactTitle(formData)).to.equal(
+        'Yellow Ribbon Program point of contact or School financial representative',
+      );
+    });
+
+    it('returns school certifying official when only Yellow Ribbon role is true', () => {
+      const yellowRibbonFormData = {
+        pointsOfContact: {
+          roles: {
+            isYellowRibbonProgramPointOfContact: true,
+            isSchoolFinancialRepresentative: false,
+            isSchoolCertifyingOfficial: false,
+          },
+        },
+      };
+
+      expect(getAdditionalContactTitle(yellowRibbonFormData)).to.equal(
+        'School certifying official',
+      );
+    });
+
+    it('returns school certifying official when only financial role is true', () => {
+      const financialRepFormData = {
+        pointsOfContact: {
+          roles: {
+            isYellowRibbonProgramPointOfContact: false,
+            isSchoolFinancialRepresentative: true,
+            isSchoolCertifyingOfficial: false,
+          },
+        },
+      };
+
+      expect(getAdditionalContactTitle(financialRepFormData)).to.equal(
+        'School certifying official',
+      );
+    });
+
+    it('returns school certifying official when only certifying role is missing', () => {
+      const formData = {
+        pointsOfContact: {
+          roles: {
+            isYellowRibbonProgramPointOfContact: true,
+            isSchoolFinancialRepresentative: true,
+            isSchoolCertifyingOfficial: false,
+          },
+        },
+      };
+
+      expect(getAdditionalContactTitle(formData)).to.equal(
+        'School certifying official',
+      );
+    });
+  });
+
+  describe('getAdditionalContactRole', () => {
+    it('returns Yellow Ribbon role when both Yellow Ribbon and Financial roles are false', () => {
       const formData = {
         pointsOfContact: {
           roles: {
@@ -1079,13 +1146,13 @@ describe('0839 Helpers', () => {
         },
       };
 
-      expect(getAdditionalContactTitle(formData)).to.equal(
-        'Add Yellow Ribbon Program point of contact',
+      expect(getAdditionalContactRole(formData)).to.equal(
+        'Yellow Ribbon Program point of contact',
       );
     });
 
-    it('returns school certifying official title when either role is true', () => {
-      const yellowRibbonFormData = {
+    it('returns school certifying official role when Yellow Ribbon role is true', () => {
+      const formData = {
         pointsOfContact: {
           roles: {
             isYellowRibbonProgramPointOfContact: true,
@@ -1093,7 +1160,14 @@ describe('0839 Helpers', () => {
           },
         },
       };
-      const financialRepFormData = {
+
+      expect(getAdditionalContactRole(formData)).to.equal(
+        'School certifying official',
+      );
+    });
+
+    it('returns school certifying official role when Financial Representative role is true', () => {
+      const formData = {
         pointsOfContact: {
           roles: {
             isYellowRibbonProgramPointOfContact: false,
@@ -1102,11 +1176,8 @@ describe('0839 Helpers', () => {
         },
       };
 
-      expect(getAdditionalContactTitle(yellowRibbonFormData)).to.equal(
-        'Add school certifying official',
-      );
-      expect(getAdditionalContactTitle(financialRepFormData)).to.equal(
-        'Add school certifying official',
+      expect(getAdditionalContactRole(formData)).to.equal(
+        'School certifying official',
       );
     });
   });
@@ -1266,22 +1337,23 @@ describe('0839 Helpers', () => {
       });
     });
     describe('text.getItemName', () => {
-      it('returns expected ItemName starting new agreement', () => {
+      it('returns expected ItemName with unlimited students', () => {
         const props = {
-          academicYearDisplay: '2026-2027',
+          maximumStudentsOption: 'unlimited',
         };
 
         expect(arrayBuilderOptions.text.getItemName(props)).to.equal(
-          '2026-2027',
+          'Max. number of students: Unlimited',
         );
       });
-      it('returns expected ItemName modify existing agreement', () => {
+      it('returns expected ItemName with specific number of students', () => {
         const props = {
-          academicYear: '2026-2027',
+          maximumStudentsOption: 'specific',
+          maximumStudents: 25,
         };
 
         expect(arrayBuilderOptions.text.getItemName(props)).to.equal(
-          '2026-2027',
+          'Max. number of students: 25',
         );
       });
     });

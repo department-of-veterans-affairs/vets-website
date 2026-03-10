@@ -4,6 +4,7 @@ import {
   truncateName,
   combineCityState,
   combineMarriageDates,
+  buildAddress,
 } from '../../../utils/transformers/helpers';
 
 describe('truncateMiddleName', () => {
@@ -115,5 +116,64 @@ describe('combineMarriageDates', () => {
   it('should return an  empty string if neither start date nor end date is provided', () => {
     const result = combineMarriageDates();
     expect(result).to.equal('');
+  });
+});
+
+describe('buildAddress', () => {
+  it('should build a complete address from all fields', () => {
+    const unitAddress = {
+      street: '123 Main St',
+      street2: 'Apt 456',
+      city: 'Springfield',
+      state: 'IL',
+      postalCode: '62701',
+    };
+    const result = buildAddress(unitAddress);
+    expect(result).to.equal('123 Main St, Apt 456, Springfield, IL 62701');
+  });
+
+  it('should build address without street2 when not provided', () => {
+    const unitAddress = {
+      street: '789 Oak Ave',
+      city: 'Portland',
+      state: 'OR',
+      postalCode: '97201',
+    };
+    const result = buildAddress(unitAddress);
+    expect(result).to.equal('789 Oak Ave, Portland, OR 97201');
+  });
+
+  it('should build address with only street when other fields are missing', () => {
+    const unitAddress = {
+      street: '456 Elm St',
+    };
+    const result = buildAddress(unitAddress);
+    expect(result).to.equal('456 Elm St');
+  });
+
+  it('should handle missing street field', () => {
+    const unitAddress = {
+      city: 'Denver',
+      state: 'CO',
+      postalCode: '80202',
+    };
+    const result = buildAddress(unitAddress);
+    expect(result).to.equal(', Denver, CO 80202');
+  });
+
+  it('should return empty string when all fields are missing', () => {
+    const unitAddress = {};
+    const result = buildAddress(unitAddress);
+    expect(result).to.equal('');
+  });
+
+  it('should build address with partial fields', () => {
+    const unitAddress = {
+      street: '321 Pine Rd',
+      city: 'Austin',
+      postalCode: '78701',
+    };
+    const result = buildAddress(unitAddress);
+    expect(result).to.equal('321 Pine Rd, Austin, 78701');
   });
 });

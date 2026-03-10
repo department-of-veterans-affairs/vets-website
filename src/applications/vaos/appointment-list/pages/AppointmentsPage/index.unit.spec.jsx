@@ -6,12 +6,11 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { waitFor, within } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-import { addDays, format, subDays, subMonths } from 'date-fns';
+import { addDays, subDays, subMonths } from 'date-fns';
 import MockDate from 'mockdate';
 import React from 'react';
 import sinon from 'sinon';
 import AppointmentsPage from '.';
-import { createReferralById } from '../../../referral-appointments/utils/referrals';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { mockAppointmentsApi } from '../../../tests/mocks/mockApis';
 import {
@@ -19,7 +18,7 @@ import {
   getTestDate,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -327,68 +326,66 @@ describe('VAOS Page: AppointmentsPage', () => {
     expect(screen.getByTestId('print-list')).to.be.ok;
   });
 
-  describe('when CC direct scheduling flag is on', () => {
-    const defaultState = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingCCDirectScheduling: true,
-      },
-      user: userState,
-    };
+  describe('community care referrals banner', () => {
+    it('should display warning banner when user is in a pilot station', async () => {
+      const pilotState = {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingCCDirectScheduling: true,
+        },
+        user: userState,
+      };
 
-    it('should display reivew request and referrals link', async () => {
-      // Given the veteran lands on the VAOS homepage
-      // When the page displays
       const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-        initialState: defaultState,
+        initialState: pilotState,
       });
 
-      // Then it should display the upcoming appointments
       await screen.findByRole('heading', { name: 'Appointments' });
-      expect(await screen.findByTestId('review-requests-and-referrals')).to
-        .exist;
 
-      expect(screen.queryByRole('link', { name: /Pending \(1\)/ })).not.to
-        .exist;
+      expect(screen.findByTestId('cc-referrals-banner')).to.exist;
+      expect(screen.getByTestId('referral-community-care-office')).to.exist;
 
-      // Then it should not display the referral task card
-      expect(await screen.queryByTestId('referral-task-card')).not.to.exist;
+      expect(screen.getByRole('link', { name: /Pending \(\d\)/ })).to.exist;
     });
 
-    describe('when a referral ID is passed', () => {
-      it('should display the referral task card', async () => {
-        // Given the veteran lands on the VAOS homepage with with a ID passed
-        // When the page displays
-        const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-          initialState: {
-            ...defaultState,
-            referral: {
-              facility: null,
-              referralDetails: [
-                createReferralById(
-                  format(new Date(), 'yyyy-MM-dd'),
-                  'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-                ),
-              ],
-              referralFetchStatus: FETCH_STATUS.succeeded,
-            },
+    it('should not display banner when user is not in a pilot station', async () => {
+      const nonPilotState = {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingCCDirectScheduling: true,
+        },
+        user: {
+          profile: {
+            facilities: [{ facilityId: '999', isCerner: false }],
           },
-          path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-        });
+        },
+      };
 
-        await screen.findByRole('heading', { name: 'Appointments' });
-
-        waitFor(async () => {
-          expect(await screen.findByTestId('review-requests-and-referrals')).to
-            .exist;
-
-          expect(screen.queryByRole('link', { name: /Pending \(1\)/ })).not.to
-            .exist;
-
-          // Then it should display the referral task card
-          expect(await screen.findByTestId('referral-task-card')).to.exist;
-        });
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+        initialState: nonPilotState,
       });
+
+      await screen.findByRole('heading', { name: 'Appointments' });
+
+      expect(screen.queryByTestId('cc-referrals-banner')).to.not.exist;
+    });
+
+    it('should not display banner when CC direct scheduling flag is off', async () => {
+      const toggleOffState = {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingCCDirectScheduling: false,
+        },
+        user: userState,
+      };
+
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+        initialState: toggleOffState,
+      });
+
+      await screen.findByRole('heading', { name: 'Appointments' });
+
+      expect(screen.queryByTestId('cc-referrals-banner')).to.not.exist;
     });
   });
 });

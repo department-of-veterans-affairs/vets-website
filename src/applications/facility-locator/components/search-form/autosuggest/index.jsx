@@ -44,8 +44,7 @@ function Autosuggest({
   loadingMessage = '',
   useProgressiveDisclosure,
   AutosuggestOptionComponent = AutosuggestOption,
-  showOptionsRestriction = !!inputValue &&
-    inputValue?.length >= MIN_SEARCH_CHARS,
+  showOptionsRestriction = false,
 }) {
   const {
     isOpen,
@@ -74,8 +73,10 @@ function Autosuggest({
 
   let shouldBeShown = isOpen;
 
-  if (showOptionsRestriction !== undefined) {
-    shouldBeShown = isOpen && showOptionsRestriction;
+  if (showOptionsRestriction) {
+    const hasMinimumChars =
+      !!inputValue && inputValue.length >= MIN_SEARCH_CHARS;
+    shouldBeShown = isOpen && hasMinimumChars;
   }
 
   const { id } = getMenuProps();

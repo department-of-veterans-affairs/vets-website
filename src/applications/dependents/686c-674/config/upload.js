@@ -4,10 +4,19 @@ import { scrollAndFocus } from 'platform/utilities/scroll';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
+import { MAX_FILE_SIZE_BYTES, SUPPORTED_UPLOAD_TYPES } from './constants';
+
 // Modified version of the file upload from applications/appeals/995
 
 export const uploadUrl = `${environment.API_URL}/v0/claim_attachments`;
 
+/**
+ * Create a payload for uploading attachments.
+ * @param {File} file - File to upload.
+ * @param {string} _formId - Form identifier.
+ * @param {string} [password] - Optional password for encrypted PDFs.
+ * @returns {FormData} Payload for the upload request.
+ */
 export function createPayload(file, _formId, password) {
   const payload = new FormData();
   payload.append('file', file);
@@ -36,8 +45,8 @@ export const dependentsUploadUI = (content, options = {}) => {
     fileUploadUrl: uploadUrl,
     addAnotherLabel,
     buttonText: content.buttonText || 'Upload file',
-    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-    maxSize: 20971520,
+    fileTypes: SUPPORTED_UPLOAD_TYPES,
+    maxSize: MAX_FILE_SIZE_BYTES,
     minSize: 1024,
     formNumber: '686C-674-V2',
     confirmRemove: true,

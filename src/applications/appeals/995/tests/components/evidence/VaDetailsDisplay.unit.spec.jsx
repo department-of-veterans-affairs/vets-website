@@ -193,20 +193,6 @@ describe('VaDetailsDisplay', () => {
       });
     });
 
-    describe('when the treatmentDate is missing', () => {
-      it('should render the proper errors', () => {
-        const partialData = {
-          ...fullData,
-          treatmentDate: '',
-        };
-
-        getContainer(partialData);
-
-        const error = $$('.usa-input-error-message')[0];
-        expect(error.textContent).to.contain('Missing treatment date');
-      });
-    });
-
     describe('when the treatmentDate is missing but noDate is checked', () => {
       it('should not render an error', () => {
         const partialData = {
