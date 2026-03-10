@@ -87,7 +87,7 @@ const FrequentlyAskedQuestions = ({
                     {
                       type: 'text',
                       value:
-                        'We’re sorry. Something went wrong on our end. Refresh this page or try again later.',
+                        "We're sorry. Something went wrong on our end. Refresh this page or try again later.",
                     },
                   ]}
                 />
