@@ -755,10 +755,9 @@ const formConfig = {
         evidenceChoiceAdditionalDocuments: {
           title: 'Upload supporting documents and additional forms',
           path: 'supporting-evidence/additional-evidence-enhancement',
-          // In enhancement flow, allow direct upload page routing for BDD SHA users.
           depends: formData =>
-            formData.disability526SupportingEvidenceEnhancement &&
-            (hasOtherEvidence(formData) || isUploadingBddSha(formData)),
+            hasOtherEvidence(formData) &&
+            formData.disability526SupportingEvidenceEnhancement,
           uiSchema: evidenceChoiceAdditionalDocuments.uiSchema,
           schema: evidenceChoiceAdditionalDocuments.schema,
         },

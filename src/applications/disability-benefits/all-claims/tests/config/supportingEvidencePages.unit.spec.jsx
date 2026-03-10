@@ -127,8 +127,19 @@ describe('Supporting Evidence Pages - Conditional Rendering', () => {
       expect(evidenceChoiceIntro.depends(formData)).to.be.false;
     });
 
-    it('shows enhancement upload page directly for BDD SHA in enhancement workflow', () => {
+    it('does not show enhancement upload page for BDD SHA-only users', () => {
       const formData = createBddShaData(createEnhancementFlowFormData());
+      expect(evidenceChoiceAdditionalDocuments.depends(formData)).to.be.false;
+    });
+
+    it('shows enhancement upload page for BDD SHA users when other evidence is selected', () => {
+      const formData = createBddShaData(
+        createEnhancementFlowFormData({
+          'view:selectableEvidenceTypes': {
+            'view:hasOtherEvidence': true,
+          },
+        }),
+      );
       expect(evidenceChoiceAdditionalDocuments.depends(formData)).to.be.true;
     });
   });
