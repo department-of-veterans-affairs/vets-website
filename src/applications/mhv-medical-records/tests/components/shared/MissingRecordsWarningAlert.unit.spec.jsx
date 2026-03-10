@@ -23,7 +23,7 @@ describe('MissingRecordsWarningAlert', () => {
     const headline = alert.querySelector('[slot="headline"]');
     expect(headline).to.exist;
     expect(headline.textContent.trim()).to.equal(
-      "Some of your records aren't available in this report",
+      'Some of your records aren’t available in this report',
     );
   });
 
@@ -31,7 +31,7 @@ describe('MissingRecordsWarningAlert', () => {
     const { getByTestId } = render(<MissingRecordsWarningAlert />);
     const alert = getByTestId(TEST_ID);
     expect(alert.textContent).to.include(
-      "Some of your records aren't available in this report",
+      'Some of your records aren’t available in this report',
     );
   });
 
@@ -64,15 +64,6 @@ describe('MissingRecordsWarningAlert', () => {
     const { getByTestId } = render(<MissingRecordsWarningAlert />);
     const alert = getByTestId(TEST_ID);
     expect(alert.getAttribute('class')).to.include('no-print');
-  });
-
-  it('has the correct Datadog action name', () => {
-    const { getByTestId } = render(<MissingRecordsWarningAlert />);
-    const alert = getByTestId(TEST_ID);
-    const actionName = alert.getAttribute('data-dd-action-name');
-    expect(actionName).to.equal(
-      'Some of your records aren’t available in this report',
-    );
   });
 
   describe('facility list rendering', () => {

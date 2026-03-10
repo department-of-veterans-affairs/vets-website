@@ -9,7 +9,6 @@ const MissingRecordsWarningAlert = ({ ohFacilityNamesAfterCutover = [] }) => {
       status="warning"
       class="no-print vads-u-margin-y--1p5"
       data-testid="missing-records-warning-alert"
-      data-dd-action-name="Some of your records aren't available in this report"
     >
       <h2 slot="headline">
         Some of your records aren’t available in this report
