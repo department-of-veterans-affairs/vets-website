@@ -11,6 +11,8 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import SortForm from '../components/SortForm';
+import Pagination from '../components/Pagination';
+import PaginationMeta from '../components/PaginationMeta';
 import SubmissionsPageResults from '../components/SubmissionsPageResults';
 import ClaimantDetailsWrapper from '../components/ClaimantDetailsWrapper';
 import { submissionHistoryBC } from '../utilities/poaRequests';
@@ -33,6 +35,7 @@ const ClaimantSubmissionHistoryPage = title => {
     [title],
   );
   const submissions = useLoaderData().data || [];
+  const meta = useLoaderData().meta || {};
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
   const { firstName, lastName } = useLoaderData().claimant;
@@ -73,6 +76,16 @@ const ClaimantSubmissionHistoryPage = title => {
           ]}
           defaults={SORT_DEFAULTS}
         />
+        {meta && submissions ? (
+          <PaginationMeta
+            meta={meta}
+            results={submissions}
+            resultType="submissions"
+            defaults={SORT_DEFAULTS}
+          />
+        ) : (
+          ''
+        )}
         <div className="submissions-page-table-container">
           {navigation.state === 'loading' ? (
             <VaLoadingIndicator message="Loading..." />
@@ -87,6 +100,7 @@ const ClaimantSubmissionHistoryPage = title => {
                 submissions={submissions}
                 omitClaimantName
               />
+              <Pagination meta={meta} defaults={SUBMISSION_DEFAULTS} />
             </div>
           )}
         </div>
@@ -107,7 +121,7 @@ ClaimantSubmissionHistoryPage.loader = async ({ request }) => {
     searchParams.set(SEARCH_PARAMS.SORT, SORT_BY.NEWEST);
     searchParams.set(SEARCH_PARAMS.SIZE, SUBMISSION_DEFAULTS.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, SUBMISSION_DEFAULTS.NUMBER);
-    redirect(`?${searchParams}`);
+    throw redirect(`?${searchParams}`);
   }
 
   // Wait for the Promise-based Response object
@@ -118,7 +132,7 @@ ClaimantSubmissionHistoryPage.loader = async ({ request }) => {
     },
   );
 
-  // Returns the actual response so we can grab the `.data` and `.claimant` with the `useLoaderData()` hook
+  // Returns the actual response so we can grab `.meta`, `.data` and `.claimant` with the `useLoaderData()` hook
   return response?.json();
 };
 

@@ -51,7 +51,7 @@ const recordITFHelpEvent = () =>
 
 const expander = (
   <VaAdditionalInfo
-    trigger="What is an Intent to File?"
+    trigger="What's an Intent to File?"
     disableAnalytics
     disable-border
     onClick={recordITFHelpEvent}

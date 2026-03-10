@@ -343,17 +343,12 @@ export default function formReducer(state = initialState, action) {
       const { removeFacilityConfigCheck } = action;
       let newData = state.data;
       let { facilities } = action;
-      const {
-        typeOfCareId,
-        featureRecentLocationsFilter,
-        address,
-        cernerSiteIds,
-      } = action;
+      const { typeOfCareId, address, cernerSiteIds } = action;
       const hasResidentialCoordinates =
         !!address?.latitude && !!address?.longitude;
 
       let sortMethod = FACILITY_SORT_METHODS.alphabetical;
-      if (featureRecentLocationsFilter && facilities?.length) {
+      if (facilities?.length) {
         sortMethod = FACILITY_SORT_METHODS.recentLocations;
       } else if (hasResidentialCoordinates) {
         sortMethod = FACILITY_SORT_METHODS.distanceFromResidential;
@@ -495,13 +490,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
       const formData = state.data;
       const typeOfCareId = getTypeOfCare(formData).id;
-      const {
-        location,
-        cernerSiteIds,
-        sortMethod,
-        calculatedDistance,
-        uiSchema,
-      } = action;
+      const { location, sortMethod, calculatedDistance, uiSchema } = action;
       let facilities = state.facilities[typeOfCareId];
       let sortedFacilities;
       let newSchema = state.pages.vaFacilityV2;
@@ -536,12 +525,8 @@ export default function formReducer(state = initialState, action) {
         requestLocationStatus = FETCH_STATUS.succeeded;
       }
 
-      const typeOfCareFacilities = facilities.filter(facility =>
-        isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
-      );
-
       if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
-        sortedFacilities = typeOfCareFacilities.sort((a, b) =>
+        sortedFacilities = facilities.toSorted((a, b) =>
           a.name.localeCompare(b.name),
         );
       } else if (
@@ -549,11 +534,11 @@ export default function formReducer(state = initialState, action) {
         (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation &&
           location)
       ) {
-        sortedFacilities = typeOfCareFacilities.sort(
+        sortedFacilities = facilities.toSorted(
           (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
         );
       } else {
-        sortedFacilities = typeOfCareFacilities;
+        sortedFacilities = facilities;
       }
 
       newSchema = set(

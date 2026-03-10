@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import {
   VaModal,
   VaSelect,
+  VaComboBox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '~/platform/utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import RepTypeSelector from './RepTypeSelector';
 import { ErrorTypes } from '../../constants';
 import { searchAreaOptions } from '../../config';
+import { fetchOrganizations } from '../../actions';
 
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 
@@ -29,12 +33,22 @@ const SearchControls = props => {
     geolocationInProgress,
     isErrorEmptyInput,
     searchArea,
+    organizationFilter,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
 
   const showEmptyError = isErrorEmptyInput && !geolocationInProgress;
   const showGeolocationError = geocodeError && !geolocationInProgress;
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+
+  const dispatch = useDispatch();
+  const organizations = useSelector(state => state.searchQuery.organizations);
+
+  const organizationFilterEnabled = useToggleValue(
+    TOGGLE_NAMES.findARepresentativeEnabled,
+  );
 
   const searchAreaSelectOptions = Object.keys(searchAreaOptions).map(
     optionKey => (
@@ -43,6 +57,12 @@ const SearchControls = props => {
       </option>
     ),
   );
+
+  const organizationSelectOptions = organizations.map(organization => (
+    <option key={organization} value={organization}>
+      {organization}
+    </option>
+  ));
 
   const handleLocationChange = e => {
     onChange({
@@ -55,6 +75,13 @@ const SearchControls = props => {
   const handleSearchAreaChange = e => {
     onChange({
       searchArea: onlySpaces(e.target.value)
+        ? e.target.value.trim()
+        : e.target.value,
+    });
+  };
+  const handleOrganizationChange = e => {
+    onChange({
+      organizationFilter: onlySpaces(e.target.value)
         ? e.target.value.trim()
         : e.target.value,
     });
@@ -79,6 +106,10 @@ const SearchControls = props => {
     clearError(ErrorTypes.geocodeError);
     focusElement(`#street-city-state-zip`);
   };
+
+  useEffect(() => {
+    dispatch(fetchOrganizations);
+  }, []);
 
   return (
     <div className="search-controls-container clearfix vads-u-margin-bottom--neg2">
@@ -176,7 +207,6 @@ const SearchControls = props => {
               </va-text-input>
             </div>
           </div>
-
           <div className="search-area-dropdown">
             <VaSelect
               name="area"
@@ -188,7 +218,19 @@ const SearchControls = props => {
               {searchAreaSelectOptions}
             </VaSelect>
           </div>
-
+          {organizationFilterEnabled &&
+            representativeType === 'veteran_service_officer' && (
+              <div className="organization-select">
+                <VaComboBox
+                  name="organization"
+                  value={organizationFilter}
+                  label="Veterans Service Organization (VSO)"
+                  onVaSelect={handleOrganizationChange}
+                >
+                  {organizationSelectOptions}
+                </VaComboBox>
+              </div>
+            )}
           <div className="representative-name-input vads-u-margin-top--4">
             <va-text-input
               hint={null}
