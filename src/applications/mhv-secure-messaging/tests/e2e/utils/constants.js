@@ -138,7 +138,7 @@ export const Locators = {
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
     // check if below are duplicates
     REPLY_BTN: '#reply-button',
-    REPLY: '[data-testid="reply-button-body"]',
+    REPLY: 'reply-button-body',
     CONTINUE: 'continue-button',
     TEST2: '[data-testid=radiobutton-TEST2]',
     TESTAGAIN: '[data-testid=radiobutton-TESTAGAIN]',

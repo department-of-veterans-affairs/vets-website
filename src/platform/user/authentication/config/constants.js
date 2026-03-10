@@ -15,8 +15,14 @@ export const defaultMobileQueryParams = {
 
 export const defaultMobileOAuthOptions = {
   clientId: CLIENT_IDS.VAMOBILE,
-  acr: { idme: 'loa3', logingov: 'ial2' },
-  acrSignup: { idme_signup: 'loa3', logingov_signup: 'ial2' },
+  acr: {
+    idme: 'loa3',
+    logingov: 'urn:acr.va.gov:verified-facial-match-required',
+  },
+  acrSignup: {
+    idme_signup: 'loa3',
+    logingov_signup: 'urn:acr.va.gov:verified-facial-match-required',
+  },
 };
 
 export const defaultWebOAuthOptions = {

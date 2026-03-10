@@ -27,7 +27,7 @@ const getRadioTitle = formData => {
 
   // If we have a name, use it; otherwise fallback to "you are"
   if (fullName) {
-    return `Select which benefit ${fullName} is applying for `;
+    return `Select which benefit ${fullName} is applying for`;
   }
   return 'Select which benefit you are applying for ';
 };
@@ -103,8 +103,12 @@ export const benefitTypeUiSchema = {
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const radioTitle = getRadioTitle(formData || fullData);
+
       return {
         benefitType: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           benefitType: {
             'ui:title': radioTitle,
           },

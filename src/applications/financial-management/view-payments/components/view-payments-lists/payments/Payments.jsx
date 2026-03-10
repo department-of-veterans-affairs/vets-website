@@ -61,6 +61,10 @@ const Payments = ({
 
   const tablePaginationRef = useResizeObserver(onPaginationResize);
 
+  const getTableHeaderText = () => {
+    return `Displaying ${from} - ${to} of ${data.length} payments`;
+  };
+
   useEffect(
     () => {
       const paginatedData = paginateData(data);
@@ -80,10 +84,10 @@ const Payments = ({
           ref={tableHeadingRef}
           tabIndex={-1}
         >
-          Displaying {from} - {to} of {data.length} payments
+          {getTableHeaderText()}
         </h3>
 
-        <va-table scrollable>
+        <va-table scrollable table-title-summary={getTableHeaderText()}>
           <va-table-row slot="headers">
             {fields.map(field => (
               <span key={field.value}>{field.label}</span>
@@ -121,6 +125,7 @@ const Payments = ({
 
 Payments.propTypes = {
   tableVersion: PropTypes.oneOf(['received', 'returned']).isRequired,
+  alertMessage: PropTypes.string,
   data: PropTypes.array,
   fields: PropTypes.array,
   textContent: PropTypes.element,

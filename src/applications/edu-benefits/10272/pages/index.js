@@ -1,6 +1,6 @@
 import * as hasPreviouslyApplied from './hasPreviouslyApplied';
 import * as educationBenefitsHistory from './educationBenefitsHistory';
-import * as educationBenefitsElibility from './educationBenefitsEligibility';
+import * as educationBenefitsEligibility from './educationBenefitsEligibility';
 import * as payeeNumber from './payeeNumber';
 import * as testName from './testName';
 import * as organizationInfo from './organizationInfo';
@@ -14,7 +14,7 @@ import * as remarks from './remarks';
 export {
   hasPreviouslyApplied,
   educationBenefitsHistory,
-  educationBenefitsElibility,
+  educationBenefitsEligibility,
   payeeNumber,
   testName,
   organizationInfo,
