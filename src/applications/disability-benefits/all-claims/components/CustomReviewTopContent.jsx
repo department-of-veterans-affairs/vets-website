@@ -2,16 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import BddShaAlert from './BddShaAlert';
-import { isBDD } from '../utils';
-
-const hasShaDocumentUploaded = formData =>
-  (formData?.separationHealthAssessmentUploads || []).length > 0;
 
 function CustomReviewTopContent({ formData }) {
   const showBddShaAlert =
-    isBDD(formData) &&
-    formData?.disability526NewBddShaEnforcementWorkflowEnabled &&
-    !hasShaDocumentUploaded(formData);
+    formData?.disability526NewBddShaEnforcementWorkflowEnabled;
 
   return <>{showBddShaAlert && <BddShaAlert />}</>;
 }

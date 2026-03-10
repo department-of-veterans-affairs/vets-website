@@ -1,26 +1,16 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import CustomReviewTopContent from '../../components/CustomReviewTopContent';
-import * as utils from '../../utils';
-
-const shaDocument = {
-  name: 'SHA-PartA.pdf',
-  confirmationCode: 'abc-123',
-  attachmentId: 'L023',
-};
 
 const buildState = ({
   disability526NewBddShaEnforcementWorkflowEnabled = true,
-  separationHealthAssessmentUploads = [],
 } = {}) => ({
   form: {
     data: {
       disability526NewBddShaEnforcementWorkflowEnabled,
-      separationHealthAssessmentUploads,
     },
   },
 });
@@ -52,18 +42,7 @@ function assertShaAlertNotExists({ container, queryByText }) {
 }
 
 describe('CustomReviewTopContent', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
-  it('renders the SHA alert when isBDD, disability526NewBddShaEnforcementWorkflowEnabled is true, and no SHA document uploaded', () => {
-    sandbox.stub(utils, 'isBDD').returns(true);
+  it('renders the SHA alert when feature flag is enabled', () => {
     const state = buildState();
 
     const result = renderComponent(state);
@@ -72,42 +51,9 @@ describe('CustomReviewTopContent', () => {
     assertShaAlertExists(result);
   });
 
-  it('does not render when SHA document has been uploaded', () => {
-    sandbox.stub(utils, 'isBDD').returns(true);
-    const state = buildState({
-      separationHealthAssessmentUploads: [shaDocument],
-    });
-
-    const result = renderComponent(state);
-
-    assertShaAlertNotExists(result);
-  });
-
-  it('does not render when isBDD is false', () => {
-    sandbox.stub(utils, 'isBDD').returns(false);
-    const state = buildState();
-
-    const result = renderComponent(state);
-
-    assertShaAlertNotExists(result);
-  });
-
-  it('does not render when disability526NewBddShaEnforcementWorkflowEnabled is false', () => {
-    sandbox.stub(utils, 'isBDD').returns(true);
+  it('does not render the SHA alert when feature flag is disabled', () => {
     const state = buildState({
       disability526NewBddShaEnforcementWorkflowEnabled: false,
-    });
-
-    const result = renderComponent(state);
-
-    assertShaAlertNotExists(result);
-  });
-
-  it('does not render when all conditions are false', () => {
-    sandbox.stub(utils, 'isBDD').returns(false);
-    const state = buildState({
-      disability526NewBddShaEnforcementWorkflowEnabled: false,
-      separationHealthAssessmentUploads: [shaDocument],
     });
 
     const result = renderComponent(state);
