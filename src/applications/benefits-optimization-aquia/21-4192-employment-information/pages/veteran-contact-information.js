@@ -4,6 +4,7 @@
  * VA Form 21-4192 - Request for Employment Information
  */
 
+import React from 'react';
 import {
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
@@ -15,12 +16,22 @@ import { getVeteranName } from './helpers';
  * Generate page title
  * @param {Object} props - Props object with formData and formContext
  * @param {Object} props.formData - The form data
- * @returns {string} The page title
+ * @returns {JSX.Element|string} The page title
  */
 const getPageTitle = ({ formData }) => {
   // Defensive: getVeteranName handles formData validation
   const veteranName = getVeteranName(formData);
-  return `${veteranName}'s Social Security number and VA file number`;
+  const title = `${veteranName}'s Social Security number and VA file number`;
+
+  // Mask if not using fallback text
+  if (veteranName !== 'Veteran') {
+    return (
+      <span data-dd-privacy="mask" data-dd-action-name="veteran contact page">
+        {title}
+      </span>
+    );
+  }
+  return title;
 };
 
 /**

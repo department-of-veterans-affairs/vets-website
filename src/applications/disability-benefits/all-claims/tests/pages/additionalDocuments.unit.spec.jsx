@@ -8,7 +8,6 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import { render } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
-import { selfAssessmentHeadline } from '../../content/selfAssessmentAlert';
 import * as utils from '../../utils';
 
 const invalidDocumentData = {
@@ -29,6 +28,11 @@ const validDocumentData = {
     },
   ],
 };
+
+const SHA_ALERT_BODY_TEXT =
+  'When you upload your Separation Health Assessment, select this for file type:';
+const ADDITIONAL_DOCUMENTS_HEADING =
+  'Upload supporting statements or other evidence';
 
 const getDocumentDataWithDisability526NewBddShaEnforcementWorkflowEnabledFlagSet = featureFlagValue => ({
   ...validDocumentData,
@@ -86,6 +90,42 @@ describe('526EZ document upload', () => {
 
     expect(form.find('input').length).to.equal(1);
     form.unmount();
+  });
+
+  describe('the page header', () => {
+    const configureMocksAndGetData = ({
+      isBddReturn,
+      bddShaEnforcementWorkflowFlagReturn,
+    }) => {
+      sandbox.stub(utils, 'isBDD').returns(isBddReturn);
+      return getDocumentDataWithDisability526NewBddShaEnforcementWorkflowEnabledFlagSet(
+        bddShaEnforcementWorkflowFlagReturn,
+      );
+    };
+
+    it('should render if submission does not qualify for BDD', async () => {
+      const data = configureMocksAndGetData({
+        isBddReturn: false,
+      });
+
+      const { getByRole } = render(<DefaultDefinitionTester data={data} />);
+
+      expect(
+        getByRole('heading', { name: ADDITIONAL_DOCUMENTS_HEADING, level: 3 }),
+      ).to.exist;
+    });
+
+    it('should render if submission qualifies for BDD', async () => {
+      const data = configureMocksAndGetData({
+        isBddReturn: true,
+      });
+
+      const { getByRole } = render(<DefaultDefinitionTester data={data} />);
+
+      expect(
+        getByRole('heading', { name: ADDITIONAL_DOCUMENTS_HEADING, level: 3 }),
+      ).to.exist;
+    });
   });
 
   it('should not submit without an upload', async () => {
@@ -181,7 +221,7 @@ describe('526EZ document upload', () => {
 
       const { queryByText } = render(<DefaultDefinitionTester data={data} />);
 
-      expect(queryByText(selfAssessmentHeadline)).to.not.exist;
+      expect(queryByText(SHA_ALERT_BODY_TEXT)).to.not.exist;
     });
 
     it('should not display if submission is not considered BDD but new BDD SHA enforcement workflow is enabled', () => {
@@ -192,7 +232,7 @@ describe('526EZ document upload', () => {
 
       const { queryByText } = render(<DefaultDefinitionTester data={data} />);
 
-      expect(queryByText(selfAssessmentHeadline)).to.not.exist;
+      expect(queryByText(SHA_ALERT_BODY_TEXT)).to.not.exist;
     });
 
     it('should display when submission is considered BDD and new BDD SHA enforcement workflow is not enabled', () => {
@@ -203,7 +243,7 @@ describe('526EZ document upload', () => {
 
       const { queryByText } = render(<DefaultDefinitionTester data={data} />);
 
-      expect(queryByText(selfAssessmentHeadline)).to.exist;
+      expect(queryByText(SHA_ALERT_BODY_TEXT)).to.exist;
     });
 
     it('should not display alert when submission is considered BDD but new BDD SHA enforcement workflow is enabled', () => {
@@ -214,7 +254,7 @@ describe('526EZ document upload', () => {
 
       const { queryByText } = render(<DefaultDefinitionTester data={data} />);
 
-      expect(queryByText(selfAssessmentHeadline)).to.not.exist;
+      expect(queryByText(SHA_ALERT_BODY_TEXT)).to.not.exist;
     });
   });
 

@@ -59,7 +59,13 @@ testForm(deprecratedTestConfig);
 
 const testConfig = createTestConfig({
   dataSets: ['minimal-bdd-test', 'maximal-bdd-test'],
-  features: [{ name: 'disability_526_extra_bdd_pages_enabled', value: true }],
+  features: [
+    { name: 'disability_526_extra_bdd_pages_enabled', value: true },
+    {
+      name: 'disability_526_new_bdd_sha_enforcement_workflow_enabled',
+      value: true,
+    },
+  ],
 });
 
 testForm(testConfig);

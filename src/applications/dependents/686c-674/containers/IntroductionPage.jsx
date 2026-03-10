@@ -14,6 +14,8 @@ import {
   ServerErrorAlert,
 } from '../config/helpers';
 
+import { hasSession } from '../../shared/utils';
+
 /**
  * @typedef {object} FormConfigProps
  * @property {boolean} prefillEnabled Prefill enabled flag
@@ -34,7 +36,6 @@ const IntroductionPage = props => {
   const { hasVaFileNumber, isLoading } = useSelector(
     state => state?.vaFileNumber,
   );
-  const hasSession = () => JSON.parse(localStorage.getItem('hasSession'));
 
   useEffect(() => {
     if (hasSession()) {

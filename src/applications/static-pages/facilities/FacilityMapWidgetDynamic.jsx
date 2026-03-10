@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   buildAddressArray,
-  mapboxToken,
   staticMapURL,
 } from 'platform/utilities/facilities-and-mapbox';
+import { mapboxToken } from './mapboxToken';
 import { fetchMultiFacility } from './actions';
 
 export class FacilityMapWidgetDynamic extends React.Component {

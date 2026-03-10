@@ -74,7 +74,7 @@ const confirmPersonalInformationPages = profilePersonalInfoPage({
   dataAdapter: {
     ssnPath: 'idNumber.ssn',
   },
-  hideOnReview: true,
+  hideOnReview: false,
   depends: formData =>
     isEligibleToSubmitStatement(formData) && isClaimantVeteran(formData),
 });
