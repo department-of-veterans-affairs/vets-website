@@ -9,7 +9,10 @@ import {
   isVAPatient,
 } from '~/platform/user/selectors';
 
-import { personalizationEnabled } from './featureToggles';
+import {
+  accountActivityEnabled,
+  personalizationEnabled,
+} from './featureToggles';
 import { hasEdipi } from './hasEdipi';
 import { hasMhvAccount } from './hasMhvAccount';
 import { selectGreetingName } from './personalInformation';
@@ -40,6 +43,7 @@ import {
 } from './accountInformation';
 
 export {
+  accountActivityEnabled,
   hasEdipi,
   hasMhvAccount,
   hasMessagingAccess,

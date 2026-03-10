@@ -9,3 +9,12 @@ import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlag
 export const personalizationEnabled = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.mhvLandingPagePersonalization];
 };
+
+/**
+ * Determines if the Account Activity Log page is enabled.
+ * @param {Object} state Current redux state.
+ * @returns {Boolean} true if the account activity log is enabled
+ */
+export const accountActivityEnabled = state => {
+  return toggleValues(state)[FEATURE_FLAG_NAMES.mhvAccountActivityLogEnabled];
+};
