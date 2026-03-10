@@ -128,11 +128,13 @@ export function focusByOrder(selectors, root) {
         return false;
       }
 
-      // Check if element exists, then let focusElement handle all parsing
-      const shadowInfo = parseShadowSelector(trimmedSelector, root);
-      if (shadowInfo) {
-        focusElement(trimmedSelector, {}, root);
-        return true;
+      if (trimmedSelector.includes(SHADOW_DELIMITER)) {
+        const shadowInfo = parseShadowSelector(trimmedSelector, root);
+        if (shadowInfo) {
+          focusElement(trimmedSelector, {}, root);
+          return true;
+        }
+        return false;
       }
 
       // Check if regular element exists before focusing
