@@ -69,9 +69,7 @@ const explainBlock8 = (
 
 const explainBlock9 = (
   <p data-testid="hca-enrollment-text-9">
-    We’re in the process of verifying your military service. We’ll contact you
-    by mail if we need you to submit supporting documents (like your DD214 or
-    other discharge papers or separation documents).
+    You don’t need to do anything unless we ask you for more information.
   </p>
 );
 
