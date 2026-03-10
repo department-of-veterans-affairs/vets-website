@@ -18,8 +18,8 @@ export default {
     maritalStatus: {
       ...selectUI({
         title: content['household-info--marital-status-label'],
+        reviewField: CustomReviewField,
       }),
-      'ui:reviewField': CustomReviewField,
     },
   },
   schema: {
