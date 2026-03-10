@@ -938,6 +938,20 @@ export const flattenAttachments = formData => {
   return clonedData;
 };
 
+// TODO: Remove this when handled downstream.
+export const setSeparationHealthAssessmentAttachmentId = formData => {
+  const uploads = formData.separationHealthAssessmentUploads;
+  if (!uploads) return formData;
+
+  const clonedData = _.cloneDeep(formData);
+  clonedData.separationHealthAssessmentUploads = uploads.map(upload => ({
+    ...upload,
+    attachmentId: 'L702',
+  }));
+
+  return clonedData;
+};
+
 // Flatten all attachment pages into attachments ARRAY
 export const addFileAttachments = formData => {
   const clonedData = flattenAttachments(formData);

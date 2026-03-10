@@ -9,10 +9,7 @@ import ServiceHistorySummary from '../../../components/FormDescriptions/ServiceH
 
 export default {
   uiSchema: {
-    ...titleUI(
-      content['military-service-review-title'],
-      content['military-service-review-description'],
-    ),
+    ...titleUI(content['military-service-review-title']),
     ...descriptionUI(ServiceHistorySummary),
     isServiceHistoryCorrect: yesNoUI(
       content['military-service-review-question'],

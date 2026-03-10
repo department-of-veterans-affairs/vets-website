@@ -1,6 +1,14 @@
 {
     "form526": {
+      "attachments": [
+        {
+          "attachmentId": "L702",
+          "confirmationCode": "sha-minimal-code",
+          "name": "sha-minimal.pdf"
+        }
+      ],
       "disability526ExtraBDDPagesEnabled": true,
+      "disability526NewBddShaEnforcementWorkflowEnabled": true,
       "homelessOrAtRisk": "homeless",
       "homelessHousingSituation": "shelter",
       "needToLeaveHousing": true,

@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   titleUI,
   selectUI,
@@ -18,9 +19,21 @@ const {
   lastServiceBranch,
 } = FULL_SCHEMA.properties;
 
+const savedChangesAlert = (
+  <va-alert status="warning" uswds visible>
+    <p className="usa-alert-body">
+      We’ll save any changes you make here to this form only. We won’t update
+      the information in your profile.
+    </p>
+  </va-alert>
+);
+
 export default {
   uiSchema: {
-    ...titleUI(content['military-service-info-last-period-title']),
+    ...titleUI(
+      content['military-service-info-last-period-title'],
+      savedChangesAlert,
+    ),
     lastServiceBranch: selectUI({
       title: content['military-service-info-last-period-branch-label'],
       labels: SERVICE_BRANCH_LABELS,

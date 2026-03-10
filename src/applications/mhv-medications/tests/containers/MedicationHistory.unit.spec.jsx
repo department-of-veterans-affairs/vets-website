@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
-import { cleanup } from '@testing-library/react';
+import { cleanup, fireEvent } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import * as useFetchMedicationHistoryModule from '../../hooks/MedicationHistory/useFetchMedicationHistory';
@@ -14,6 +14,7 @@ import reducers from '../../reducers';
 describe('MedicationHistory container', () => {
   let sandbox;
   let useFetchMedicationHistoryStub;
+  let setQueryParamsStub;
 
   const mockPrescriptions = [
     {
@@ -57,38 +58,63 @@ describe('MedicationHistory container', () => {
     },
   ];
 
+  const mockPagination = {
+    currentPage: 1,
+    totalPages: 1,
+    totalEntries: 3,
+    perPage: 10,
+  };
+
   const stubFetchHook = ({
-    prescriptionsData = { prescriptions: [], pagination: null, meta: {} },
+    prescriptions = [],
+    prescriptionsData = null,
     prescriptionsApiError = null,
     isLoading = false,
-  }) => {
+    pagination = null,
+    meta = {},
+  } = {}) => {
+    const resolvedData = prescriptionsData || {
+      prescriptions,
+      pagination,
+      meta,
+    };
     return useFetchMedicationHistoryStub.returns({
-      prescriptionsData,
+      prescriptions,
+      prescriptionsData: resolvedData,
       prescriptionsApiError,
       isLoading,
-      setQueryParams: sinon.stub(),
+      currentPage: 1,
+      setQueryParams: setQueryParamsStub,
     });
   };
 
-  const setup = (state = {}) => {
-    const initialState = {
-      rx: {
-        prescriptionsList: [],
-        refillAlertList: [],
-        preferences: {
-          filterOption: 'ALL_MEDICATIONS',
-          sortOption: 'alphabeticallyByStatus',
-        },
+  const defaultInitialState = {
+    rx: {
+      prescriptionsList: [],
+      refillAlertList: [],
+      preferences: {
+        filterOption: 'ALL_MEDICATIONS',
+        sortOption: 'alphabeticallyByStatus',
       },
-      user: {
-        profile: {
-          userFullName: { first: 'Test', last: 'User' },
-          dob: '1990-01-01',
-        },
+    },
+    user: {
+      profile: {
+        userFullName: { first: 'Test', last: 'User' },
+        dob: '1990-01-01',
       },
-      ...state,
-    };
+    },
+    featureToggles: {
+      loading: false,
+      // eslint-disable-next-line camelcase
+      mhv_medications_cerner_pilot: false,
+      // eslint-disable-next-line camelcase
+      mhv_medications_v2_status_mapping: false,
+      // eslint-disable-next-line camelcase
+      mhv_medications_management_improvements: false,
+    },
+  };
 
+  const setup = (initialState = defaultInitialState) => {
     return renderWithStoreAndRouterV6(<MedicationHistory />, {
       initialState,
       reducers,
@@ -102,6 +128,7 @@ describe('MedicationHistory container', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
+    setQueryParamsStub = sandbox.stub();
     useFetchMedicationHistoryStub = sandbox.stub(
       useFetchMedicationHistoryModule,
       'useFetchMedicationHistory',
@@ -222,6 +249,12 @@ describe('MedicationHistory container', () => {
         expect(screen.queryByTestId('loading-indicator')).to.be.null;
       });
     });
+
+    it('does not display filter when error occurs', () => {
+      stubFetchHook({ prescriptionsApiError: new Error('API Error') });
+      const screen = setup();
+      expect(screen.queryByTestId('medication-history-filter')).to.be.null;
+    });
   });
 
   describe('success state', () => {
@@ -261,6 +294,108 @@ describe('MedicationHistory container', () => {
       await waitFor(() => {
         expect(screen.getByTestId('medication-history-heading')).to.exist;
       });
+    });
+
+    it('does not display filter when no medications exist', () => {
+      stubFetchHook({
+        prescriptions: [],
+        meta: {
+          filterCount: {
+            allMedications: 0,
+            active: 0,
+            recentlyRequested: 0,
+            renewal: 0,
+            nonActive: 0,
+          },
+        },
+      });
+      const screen = setup();
+      expect(screen.queryByTestId('medication-history-filter')).to.be.null;
+    });
+
+    it('shows NoFilterMatches when filter returns 0 results but other filters have results', () => {
+      stubFetchHook({
+        prescriptions: [],
+        pagination: mockPagination,
+        meta: {
+          filterCount: {
+            allMedications: 5,
+            active: 0,
+            recentlyRequested: 0,
+            renewal: 0,
+            nonActive: 5,
+          },
+        },
+      });
+      const screen = setup();
+      expect(screen.getByTestId('zero-filter-results')).to.exist;
+      expect(screen.getByTestId('medication-history-filter')).to.exist;
+    });
+  });
+
+  describe('filter integration', () => {
+    it('renders the MedicationHistoryFilter when medications exist', () => {
+      stubFetchHook({
+        prescriptions: mockPrescriptions,
+        pagination: mockPagination,
+      });
+      const screen = setup();
+      expect(screen.getByTestId('medication-history-filter')).to.exist;
+    });
+
+    it('renders filter radio options for hardcoded filter options', () => {
+      stubFetchHook({
+        prescriptions: mockPrescriptions,
+        pagination: mockPagination,
+      });
+      const screen = setup();
+      expect(
+        screen.getByTestId('medication-history-filter-option-ALL_MEDICATIONS'),
+      ).to.exist;
+      expect(screen.getByTestId('medication-history-filter-option-ACTIVE')).to
+        .exist;
+      expect(screen.getByTestId('medication-history-filter-option-RENEWAL')).to
+        .exist;
+      expect(screen.getByTestId('medication-history-filter-option-INACTIVE')).to
+        .exist;
+    });
+
+    it('renders the Update list button', () => {
+      stubFetchHook({
+        prescriptions: mockPrescriptions,
+        pagination: mockPagination,
+      });
+      const screen = setup();
+      expect(screen.getByTestId('update-list-button')).to.exist;
+    });
+
+    it('calls setQueryParams when a filter is selected and submitted', () => {
+      stubFetchHook({
+        prescriptions: mockPrescriptions,
+        pagination: mockPagination,
+      });
+      const screen = setup();
+
+      // Select the ACTIVE filter option via the parent radio group
+      const radioGroup = screen.getByTestId('medication-history-filter');
+      radioGroup.__events.vaValueChange({ detail: { value: 'ACTIVE' } });
+
+      // Click the Update list button
+      const updateButton = screen.getByTestId('update-list-button');
+      fireEvent.click(updateButton);
+
+      expect(setQueryParamsStub.called).to.be.true;
+    });
+
+    it('passes isLoading prop to the filter Update list button', () => {
+      stubFetchHook({
+        prescriptions: mockPrescriptions,
+        pagination: mockPagination,
+        isLoading: true,
+      });
+      const screen = setup();
+      const updateButton = screen.getByTestId('update-list-button');
+      expect(updateButton.getAttribute('loading')).to.equal('true');
     });
   });
 });

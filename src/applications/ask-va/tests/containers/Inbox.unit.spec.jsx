@@ -6,11 +6,33 @@ import {
 } from 'platform/testing/unit/msw-adapter';
 import { server } from 'platform/testing/unit/mocha-setup';
 import React from 'react';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 
 import Inbox from '../../containers/Inbox';
 import { ENDPOINTS } from '../../utils/api';
 
 describe('<Inbox />', () => {
+  function setupStore(initialState) {
+    return configureStore({
+      reducer: state => state,
+      preloadedState: { ...initialState, askVA: {} },
+    });
+  }
+
+  // TODO remove once feature toggle is no longer needed
+  function renderWithStore(extraState = {}) {
+    const store = setupStore(extraState);
+    return {
+      store,
+      view: render(
+        <Provider store={store}>
+          <Inbox />
+        </Provider>,
+      ),
+    };
+  }
+
   beforeEach(() => {
     server.use(
       createGetHandler(ENDPOINTS.inquiries, () => {
@@ -38,7 +60,7 @@ describe('<Inbox />', () => {
   });
 
   it('renders InboxLayout when API succeeds', async () => {
-    const view = render(<Inbox />);
+    const { view } = renderWithStore();
 
     await waitFor(() => {
       // Check for heading and filters
@@ -53,7 +75,7 @@ describe('<Inbox />', () => {
   });
 
   it('shows a loading indicator before content', async () => {
-    const view = render(<Inbox />);
+    const { view } = renderWithStore();
 
     // Initially should show loading indicator
     const loadingIndicator = view.getByTestId('loading-indicator');
@@ -76,7 +98,7 @@ describe('<Inbox />', () => {
         return jsonResponse({}, { status: 500 });
       }),
     );
-    const view = render(<Inbox />);
+    const { view } = renderWithStore();
 
     await waitFor(() => {
       const errorAlert = view.container.querySelector('va-alert');

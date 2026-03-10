@@ -43,7 +43,9 @@ export const ReviewAddressField = ({
     return (
       <div className="review-row">
         <dt>{label}</dt>
-        <dd>{emptyText}</dd>
+        <dd data-dd-privacy="mask" data-dd-action-name="review address field">
+          {emptyText}
+        </dd>
       </div>
     );
   }
@@ -62,7 +64,7 @@ export const ReviewAddressField = ({
   return (
     <div className="review-row">
       <dt>{label}</dt>
-      <dd>
+      <dd data-dd-privacy="mask" data-dd-action-name="review address field">
         <p className="va-address-block">
           {street && (
             <>
