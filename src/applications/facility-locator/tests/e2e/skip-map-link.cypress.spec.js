@@ -54,20 +54,19 @@ describe('Skip map link', () => {
       .focus()
       .click();
 
-    // Focus should move off the map: either to the feedback button or to a footer link
-    cy.focused({ timeout: 12000 }).should(
-      $el => {
-        const id = $el.attr('id');
-        const isFeedbackButton =
-          id === 'mdFormButton' || $el.closest('#mdFormButton').length > 0;
-        const isInFooter = $el.closest('#footerNav').length > 0;
-        expect(
-          isFeedbackButton || isInFooter,
-          'focus should move to feedback button or footer',
-        ).to.be.true;
-      },
-      { timeout: 8000 },
-    );
+    cy.get('body').then($body => {
+      const hasFeedbackButton =
+        $body.find('#mdFormButton .usa-button').length > 0;
+
+      if (hasFeedbackButton) {
+        cy.get('#mdFormButton .usa-button').should('have.focus');
+      } else {
+        cy.get('#footerNav')
+          .find('a[href], button')
+          .first()
+          .should('have.focus');
+      }
+    });
   });
 
   it('skip map link is keyboard focusable', () => {
