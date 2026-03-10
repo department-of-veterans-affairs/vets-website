@@ -27,7 +27,9 @@ export const veteranPersonalInfoUiSchema = {
         'ui:title': 'Middle initial',
       },
     },
-    dateOfBirth: dateOfBirthUI(),
+    dateOfBirth: dateOfBirthUI({
+      dataDogHidden: true,
+    }),
   },
   'ui:options': {
     updateUiSchema: (formData, fullData) => {

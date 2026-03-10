@@ -87,6 +87,8 @@ class ReviewChapters extends React.Component {
         onAccordionExpandCollapseAll={this.handleToggleAllChapters}
         onAccordionItemToggled={this.handleToggleChapter}
         uswds
+        data-dd-privacy="mask"
+        data-dd-action-name="review chapters"
       >
         {chapters.map(chapter => (
           <ReviewCollapsibleChapter
