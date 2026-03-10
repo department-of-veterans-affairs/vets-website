@@ -20,8 +20,6 @@ import { getAppData } from '../selectors';
 function ToeApp({
   children,
   dob,
-  duplicateEmail,
-  duplicatePhone,
   formData,
   getDirectDeposit,
   getDuplicateContactInfo,
@@ -116,8 +114,7 @@ function ToeApp({
   const formDuplicateEmail = formData?.duplicateEmail;
   const formDuplicatePhone = formData?.duplicatePhone;
 
-  // Check for duplicate contact info
-  // and sync the results into formData.
+  // Check for duplicate contact info when phone/email are available
   useEffect(
     () => {
       if (
@@ -131,24 +128,6 @@ function ToeApp({
           [{ value: mobilePhone, dupe: '' }],
         );
       }
-
-      // Sync duplicate contact info from Redux state into formData.
-      // Use JSON comparison since these are arrays and reference equality
-      // would cause infinite re-renders.
-      const emailNeedsSync =
-        duplicateEmail?.length > 0 &&
-        JSON.stringify(duplicateEmail) !== JSON.stringify(formDuplicateEmail);
-      const phoneNeedsSync =
-        duplicatePhone?.length > 0 &&
-        JSON.stringify(duplicatePhone) !== JSON.stringify(formDuplicatePhone);
-
-      if (emailNeedsSync || phoneNeedsSync) {
-        setFormData({
-          ...formDataRef.current,
-          ...(emailNeedsSync && { duplicateEmail }),
-          ...(phoneNeedsSync && { duplicatePhone }),
-        });
-      }
     },
     [
       getDuplicateContactInfo,
@@ -156,9 +135,6 @@ function ToeApp({
       emailAddress,
       formDuplicateEmail,
       formDuplicatePhone,
-      duplicateEmail,
-      duplicatePhone,
-      setFormData,
     ],
   );
 
@@ -221,8 +197,6 @@ function ToeApp({
 ToeApp.propTypes = {
   children: PropTypes.object,
   dob: PropTypes.string,
-  duplicateEmail: PropTypes.array,
-  duplicatePhone: PropTypes.array,
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
   getDuplicateContactInfo: PropTypes.func,
