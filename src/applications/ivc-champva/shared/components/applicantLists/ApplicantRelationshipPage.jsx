@@ -190,8 +190,15 @@ export default function ApplicantRelationshipPage(props) {
 
   const navButtons = CustomPageNavButtons(props);
 
-  // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
-  const updateButton = <button type="submit">Update page</button>;
+  const updateButton = (
+    // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
+    <button
+      type="submit"
+      aria-label={props.updatePageAriaLabel || 'Update page'}
+    >
+      Update page
+    </button>
+  );
   const genOps = genOp || generateOptions;
   const {
     options,
@@ -397,5 +404,6 @@ ApplicantRelationshipPage.propTypes = {
   secondary: PropTypes.string,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  updatePageAriaLabel: PropTypes.string,
   onReviewPage: PropTypes.bool,
 };

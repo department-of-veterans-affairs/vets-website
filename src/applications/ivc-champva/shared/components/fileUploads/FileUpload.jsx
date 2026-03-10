@@ -7,7 +7,11 @@ import MissingFileOverview, { hasReq } from './MissingFileOverview';
 export function FileFieldCustom(props) {
   const updateButton = (
     // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
-    <button type="submit" onClick={props.updatePage}>
+    <button
+      type="submit"
+      onClick={props.updatePage}
+      aria-label={props.updatePageAriaLabel || 'Update page'}
+    >
       Update page
     </button>
   );
@@ -118,7 +122,11 @@ export function FileFieldCustom(props) {
 export function FileFieldCustomSimple(props) {
   const updateButton = (
     // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
-    <button type="submit" onClick={props.updatePage}>
+    <button
+      type="submit"
+      onClick={props.updatePage}
+      aria-label={props.updatePageAriaLabel || 'Update page'}
+    >
       Update page
     </button>
   );
@@ -167,6 +175,7 @@ FileFieldCustom.propTypes = {
   trackingPrefix: PropTypes.string,
   uiSchema: PropTypes.object,
   updatePage: PropTypes.func,
+  updatePageAriaLabel: PropTypes.string,
   uploadsCompletePath: PropTypes.string,
   onChange: PropTypes.func,
   onReviewPage: PropTypes.bool,

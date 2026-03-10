@@ -103,6 +103,7 @@ const AddressSelectionPage = props => {
     pagePerItemIndex,
     setFormData,
     updatePage,
+    updatePageAriaLabel,
     onChange,
     onReviewPage,
   } = props;
@@ -251,7 +252,7 @@ const AddressSelectionPage = props => {
         <va-button
           onClick={updatePage}
           text={UPDATE_BTN_TEXT}
-          label={UPDATE_BTN_ARIA_LABEL}
+          label={updatePageAriaLabel || UPDATE_BTN_ARIA_LABEL}
           class="vads-u-margin-bottom--4"
         />
       )}
@@ -270,6 +271,7 @@ AddressSelectionPage.propTypes = {
   pagePerItemIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  updatePageAriaLabel: PropTypes.string,
   onChange: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
