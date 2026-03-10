@@ -10,11 +10,9 @@ import { prefillTransformer } from '../helpers';
 
 function CustomEmailField(props) {
   const hasSyncedRef = useRef(false);
-  // Track the user's local input value separately from form state
   const [localValue, setLocalValue] = useState(null);
 
-  // Sync prefilled email to form state on mount so confirmEmail also gets populated.
-  // Only sync once, and only before user has interacted.
+  // Sync prefilled email (including confirmEmail) to form state on mount
   useEffect(
     () => {
       if (
@@ -43,12 +41,10 @@ function CustomEmailField(props) {
     ],
   );
 
-  // Determine display value: use local value if user has edited, otherwise form/prefill
   const displayValue =
     localValue !== null ? localValue : props.formEmail ?? props.prefillEmail;
 
   function handleChange(event) {
-    // Track locally so we don't lose the value if form state resets
     setLocalValue(event);
 
     if (props.email !== event) {
