@@ -10,14 +10,12 @@ const ProofOfAttendanceCard = ({
   decreaseHeaderLevel = false,
   showEdit = true,
 }) => {
+  const HeadingTag = decreaseHeaderLevel ? 'h4' : 'h3';
+
   return (
     <div className="vads-u-margin-top--2">
       <va-card className="expense-card" data-testid="proof-of-attendance-card">
-        {decreaseHeaderLevel ? (
-          <h4 className="vads-u-margin-top--1">File name</h4>
-        ) : (
-          <h3 className="vads-u-margin-top--1">File name</h3>
-        )}
+        <HeadingTag className="vads-u-margin-top--1">File name</HeadingTag>
         <p>{filename}</p>
         <p>
           <span className="vads-u-font-weight--bold">Note:</span>
