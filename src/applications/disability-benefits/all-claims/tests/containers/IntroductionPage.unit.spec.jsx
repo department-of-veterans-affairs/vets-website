@@ -118,7 +118,7 @@ describe('<IntroductionPage/>', () => {
 
   it('should render reset wizard link to info page', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
-    expect(wrapper.find('#restart-wizard a').props().href).to.contain(
+    expect(wrapper.find('#restart-wizard va-link').props().href).to.contain(
       'how-to-file-claim',
     );
     wrapper.unmount();
@@ -126,7 +126,7 @@ describe('<IntroductionPage/>', () => {
 
   it('should render reset wizard link to intro page', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} showWizard />);
-    expect(wrapper.find('#restart-wizard a').props().href).to.equal(
+    expect(wrapper.find('#restart-wizard va-link').props().href).to.equal(
       `${DISABILITY_526_V2_ROOT_URL}/start`,
     );
     wrapper.unmount();
