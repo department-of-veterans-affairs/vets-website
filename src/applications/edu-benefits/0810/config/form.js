@@ -1,7 +1,8 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { profilePersonalInfoPage } from 'platform/forms-system/src/js/patterns/prefill/PersonalInformation';
 import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import prefillTransform from './prefillTransform';
@@ -88,8 +89,11 @@ const formConfig = {
           depends: formData => formData?.hasPreviouslyApplied === false,
         },
       },
-      personalInformationChapter: {
-        ...personalInformationPage({
+    },
+    personalInformationChapter: {
+      title: 'Your personal information',
+      pages: {
+        ...profilePersonalInfoPage({
           personalInfoConfig: {
             name: { show: true, required: true },
             ssn: { show: true, required: true },
@@ -108,6 +112,11 @@ const formConfig = {
         },
         ...profileContactInfoPages({
           contactInfoRequiredKeys: ['mailingAddress'],
+          content: {
+            ...getContent('request'),
+            title: 'Confirm the contact information we have on file for you',
+            description: null,
+          },
         }),
       },
     },
