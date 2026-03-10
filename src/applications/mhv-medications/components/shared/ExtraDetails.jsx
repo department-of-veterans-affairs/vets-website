@@ -173,6 +173,9 @@ const ExtraDetails = ({
         );
 
       case dispStatusObjV2.expired:
+        if (isRenewalBlocked && rx.isRenewable) {
+          return <OracleHealthRenewalInCardAlert isExpired />;
+        }
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="expired">
@@ -321,6 +324,7 @@ const ExtraDetails = ({
             <OracleHealthRenewalInCardAlert
               stationNumber={rx.stationNumber}
               prescriptionId={rx.prescriptionId}
+              isExpired
             />
           );
         }

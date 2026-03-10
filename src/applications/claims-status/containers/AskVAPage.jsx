@@ -13,6 +13,7 @@ import NeedHelp from '../components/NeedHelp';
 import { setDocumentTitle } from '../utils/helpers';
 import { setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
+import { cstMultiClaimProvider } from '../selectors';
 
 function AskVAPage({
   loadingDecisionRequest,
@@ -22,6 +23,8 @@ function AskVAPage({
   submit5103,
   navigate,
   params = {},
+  searchParams,
+  cstMultiClaimProviderEnabled,
 }) {
   const [submittedDocs, setSubmittedDocs] = useState(false);
   const prevDecisionRequested = useRef(decisionRequested);
@@ -39,7 +42,27 @@ function AskVAPage({
   useEffect(
     () => {
       if (decisionRequested && !prevDecisionRequested.current) {
-        getClaim(params.id);
+        // TODO: Investigate replacing searchParams?.get('type') with
+        // claim?.attributes?.provider sourced from Redux state, consistent
+        // with how DocumentRequestPage resolves provider.
+        //
+        // Current approach (URL query param):
+        //   Pros: Simple, no additional Redux wiring needed.
+        //   Cons: URL is user-controlled and not validated. A manually crafted
+        //         or incorrect type value gets passed directly to the backend,
+        //         mismatching the claim's actual provider
+        //
+        // Alternative approach (Redux claim state):
+        //   Pros: Provider value comes from the backend's own response, making
+        //         it a verified truth. This is consistent with DocumentRequestPage and AdditionalEvidencePage.
+        //   Cons: Requires mapping claim from claimDetail.detail in
+        //         mapStateToProps and adding claim to props/propTypes; claim
+        //         should already be in Redux by the time this page renders
+        //         (loaded by ClaimPage), but that assumption should be validated
+        const provider = cstMultiClaimProviderEnabled
+          ? searchParams?.get('type')
+          : null;
+        getClaim(params.id, null, provider);
         goToStatusPage();
       }
       prevDecisionRequested.current = decisionRequested;
@@ -140,6 +163,7 @@ function mapStateToProps(state) {
     loadingDecisionRequest: claimsState.claimAsk.loadingDecisionRequest,
     decisionRequested: claimsState.claimAsk.decisionRequested,
     decisionRequestError: claimsState.claimAsk.decisionRequestError,
+    cstMultiClaimProviderEnabled: cstMultiClaimProvider(state),
   };
 }
 
@@ -156,12 +180,14 @@ export default withRouter(
 );
 
 AskVAPage.propTypes = {
+  cstMultiClaimProviderEnabled: PropTypes.bool,
   decisionRequestError: PropTypes.string,
   decisionRequested: PropTypes.bool,
   getClaim: PropTypes.func,
   loadingDecisionRequest: PropTypes.bool,
   navigate: PropTypes.func,
   params: PropTypes.object,
+  searchParams: PropTypes.object,
   submit5103: PropTypes.func,
 };
 

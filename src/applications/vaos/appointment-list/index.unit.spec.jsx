@@ -107,6 +107,31 @@ describe('VAOS Page: Appointment list routes', () => {
     });
   });
 
+  describe('When route is /referrals-requests', () => {
+    const initialState = {};
+
+    beforeEach(() => {
+      AppointmentsPageStub.resetHistory();
+    });
+
+    it('should redirect to /pending', async () => {
+      // Arrange
+      const path = '/referrals-requests';
+
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path,
+      });
+      await screen.findByText('Mock Page');
+
+      // Assert
+      expect(
+        AppointmentsPageStub.firstCall?.args[0].location.pathname,
+      ).to.equal('/pending');
+    });
+  });
+
   describe('When route is /past', () => {
     const initialState = {};
 

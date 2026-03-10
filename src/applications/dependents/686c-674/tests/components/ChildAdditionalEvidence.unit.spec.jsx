@@ -118,26 +118,17 @@ describe('ChildAdditionalEvidence', () => {
   it('should render the submit your files section with online submission details', () => {
     const { container } = renderComponent();
     const submitFilesHeader = container.querySelector('h4');
-    expect(submitFilesHeader).to.not.be.null;
+    expect(submitFilesHeader).to.exist;
     expect(submitFilesHeader.textContent).to.include(
       'Submit your files online',
-    );
-  });
-
-  it('should render the additional info component with upload instructions', () => {
-    const { container } = renderComponent();
-    const uploadInstructions = container.querySelector('va-additional-info');
-    expect(uploadInstructions).to.not.be.null;
-    expect(uploadInstructions.getAttribute('trigger')).to.equal(
-      'Document upload instructions',
     );
   });
 
   it('should have a correct structure for supporting evidence and upload sections', () => {
     const { container } = renderComponent();
     const accordion = container.querySelector('va-accordion');
-    const uploadSection = container.querySelector('va-additional-info');
-    expect(accordion).to.not.be.null;
+    const uploadSection = container.querySelector('.upload-details');
+    expect(accordion).to.exist;
     expect(uploadSection).to.not.be.null;
   });
 });

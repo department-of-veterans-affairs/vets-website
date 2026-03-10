@@ -19,7 +19,39 @@ describe('HowDoIPay', () => {
 
       expect(content).to.include('Receivable ID');
       expect(content).to.include('987654321012');
-      expect(content).to.not.include('File Number');
+    });
+
+    it('should include temporary language about File Number field on pay.va.gov for education debts', () => {
+      const userData = {
+        fileNumber: '123456789',
+        receivableId: '987654321012',
+        payeeNumber: '00',
+        personEntitled: 'JDOE',
+        deductionCode: '71',
+      };
+
+      const { container } = render(<HowDoIPay userData={userData} />);
+      const content = container.textContent;
+
+      expect(content).to.include(
+        'enter this number into the File Number field on pay.va.gov',
+      );
+    });
+
+    it('should not include pay.va.gov File Number language for non-education debts', () => {
+      const userData = {
+        fileNumber: '123456789',
+        payeeNumber: '00',
+        personEntitled: 'JDOE',
+        deductionCode: '30',
+      };
+
+      const { container } = render(<HowDoIPay userData={userData} />);
+      const content = container.textContent;
+
+      expect(content).to.not.include(
+        'enter this number into the File Number field on pay.va.gov',
+      );
     });
 
     it('should display File Number when receivableId is not present', () => {

@@ -12,7 +12,10 @@ export const veteranBirthInformationPage = {
   uiSchema: {
     ...titleUI('Veteran’s birth information'),
     veteranInformation: {
-      dateOfBirth: currentOrPastDateUI('Date of birth'),
+      dateOfBirth: currentOrPastDateUI({
+        title: 'Date of birth',
+        dataDogHidden: true,
+      }),
       placeOfBirth: {
         city: textUI('City of birth'),
         state: selectUI('State of birth'),

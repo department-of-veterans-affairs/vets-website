@@ -499,4 +499,32 @@ describe('App', () => {
       sandbox.restore();
     }
   });
+
+  it('renders FetchOHSyncStatus component', async () => {
+    const sandbox = sinon.createSandbox();
+    const getOHSyncStatusStub = sandbox
+      .stub(SmApi, 'getOHSyncStatus')
+      .resolves({
+        data: {
+          attributes: {
+            status: 'FINISHED',
+            syncComplete: true,
+            error: null,
+          },
+        },
+      });
+
+    try {
+      renderWithStoreAndRouter(<App />, {
+        initialState,
+        reducers: reducer,
+      });
+
+      await waitFor(() => {
+        expect(getOHSyncStatusStub.calledOnce).to.be.true;
+      });
+    } finally {
+      sandbox.restore();
+    }
+  });
 });
