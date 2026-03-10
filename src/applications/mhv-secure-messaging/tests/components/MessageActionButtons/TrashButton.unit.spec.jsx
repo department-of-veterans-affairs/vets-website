@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { mockMultipleApiRequests } from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducers from '../../../reducers';
 import TrashButton from '../../../components/MessageActionButtons/TrashButton';
 
@@ -102,7 +102,10 @@ describe('TrashButton component', () => {
   });
 
   it('calls handleDeleteMessageConfirm when delete is confirmed', async () => {
-    mockApiRequest({ method: 'DELETE', status: 204 });
+    mockMultipleApiRequests([
+      { response: {}, shouldResolve: true },
+      { response: { data: [] }, shouldResolve: true },
+    ]);
     const { container } = setup();
     const trashBtn = container.querySelector('#trash-button');
     fireEvent.click(trashBtn);
@@ -135,8 +138,11 @@ describe('TrashButton component', () => {
   });
 
   it('uses DefaultFolders.INBOX.id when activeFolder is null', async () => {
-    mockApiRequest({ method: 'DELETE', status: 204 });
-    const { container } = setup({ activeFolder: null });
+    mockMultipleApiRequests([
+      { response: {}, shouldResolve: true },
+      { response: { data: [] }, shouldResolve: true },
+    ]);
+    const { container, history } = setup({ activeFolder: null });
     const trashBtn = container.querySelector('#trash-button');
     expect(trashBtn).to.exist;
     fireEvent.click(trashBtn);
@@ -147,7 +153,7 @@ describe('TrashButton component', () => {
     modal.__events.primaryButtonClick();
 
     await waitFor(() => {
-      expect(container.querySelector('#delete-message-modal')).to.not.exist;
+      expect(history.location.pathname).to.equal('/inbox/');
     });
   });
 });

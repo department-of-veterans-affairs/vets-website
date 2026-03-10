@@ -1,7 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/react';
+import { commonReducer } from 'platform/startup/store';
 import reducers from '../../../reducers';
 import ComposeMessageButton from '../../../components/MessageActionButtons/ComposeMessageButton';
 import { Paths } from '../../../util/constants';
@@ -10,17 +13,30 @@ describe('ComposeMessageButton component', () => {
   const initialState = {
     sm: {
       threadDetails: {
-        draftInProgress: {},
+        draftInProgress: {
+          messageId: 12345,
+          body: 'draft body',
+          subject: 'draft subject',
+          recipientId: 67890,
+        },
       },
     },
   };
 
-  const setup = () => {
-    return renderWithStoreAndRouter(<ComposeMessageButton />, {
-      initialState,
-      reducers,
-      path: '/',
-    });
+  const setup = (state = initialState) => {
+    const store = createStore(
+      combineReducers({ ...commonReducer, ...reducers }),
+      state,
+      applyMiddleware(thunk),
+    );
+    return {
+      ...renderWithStoreAndRouter(<ComposeMessageButton />, {
+        store,
+        reducers,
+        path: '/',
+      }),
+      store,
+    };
   };
 
   it('renders without errors', () => {
@@ -46,6 +62,17 @@ describe('ComposeMessageButton component', () => {
   });
 
   it('dispatches clearDraftInProgress when clicked', () => {
+    const { getByTestId, store } = setup();
+    const link = getByTestId('compose-message-link');
+    fireEvent.click(link);
+    const { draftInProgress } = store.getState().sm.threadDetails;
+    expect(draftInProgress.messageId).to.be.null;
+    expect(draftInProgress.body).to.be.null;
+    expect(draftInProgress.subject).to.be.null;
+    expect(draftInProgress.recipientId).to.be.null;
+  });
+
+  it('navigates to the compose path when clicked', () => {
     const screen = setup();
     const link = screen.getByTestId('compose-message-link');
     fireEvent.click(link);
