@@ -740,7 +740,7 @@ export const convertAllergy = allergy => {
 - ❌ **Never** assume an array has elements; always check existence
 - ❌ **Never** use moment.js for new code; prefer date-fns
 - ❌ **Never** skip Datadog error tracking in catch blocks in Redux action creators
-- ❌ **Never** use Unicode escape sequences (e.g., `\u2019`) to represent curly apostrophes or other special characters. If you need a curly apostrophe in a string (such as a test assertion matching rendered text), paste the literal character (’) directly.
+- ❌ **Never** use Unicode escape sequences (e.g., `\u2019`) to represent curly apostrophes or other special characters. Always write straight apostrophes (`'`) in source code and test assertions — ESLint will auto-fix them to curly apostrophes at lint time, but unit tests run against the raw source, so assertions must match straight apostrophes.
 
 ### Performance Considerations
 - ✅ Use lazy loading for page containers
