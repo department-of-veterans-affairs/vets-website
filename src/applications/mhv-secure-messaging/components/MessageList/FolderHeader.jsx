@@ -179,7 +179,7 @@ const FolderHeader = props => {
             />
           )}
 
-        <>{handleFolderDescription()}</>
+        <>{!showNoMessages && handleFolderDescription()}</>
         {threadCount === 0 &&
           showNoMessages &&
           isCustomFolder(folder.folderId) && (
