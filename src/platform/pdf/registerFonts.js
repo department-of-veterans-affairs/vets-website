@@ -35,12 +35,13 @@ const downloadAndRegisterFont = async (doc, font) => {
     fs.writeFileSync(knownFonts[font], encodedFont);
     doc.registerFont(font, knownFonts[font]);
   } catch (error) {
-    throw new Error(
+    const wrappedError = new Error(
       `Failed to download or register font ${font} from ${url}: ${
         error.message
       }`,
-      { cause: error },
     );
+    wrappedError.cause = error;
+    throw wrappedError;
   }
 };
 
