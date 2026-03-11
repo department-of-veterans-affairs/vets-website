@@ -171,8 +171,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
     },
     dateOfBirth: profile?.dob || claimant?.dateOfBirth,
     dob: profile?.dob || claimant?.dateOfBirth,
-    // Only create email object if we have an email to prefill. Returning undefined
-    // (instead of {email: undefined}) prevents blocking the merge in ToeApp.
     [formFields.email]: {
       email: emailAddress,
       confirmEmail: emailAddress,
