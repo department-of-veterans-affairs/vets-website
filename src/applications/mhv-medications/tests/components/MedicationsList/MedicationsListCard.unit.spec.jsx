@@ -185,6 +185,59 @@ describe('Medication card component', () => {
       const { queryByTestId } = setup(rx, managementImprovementsState);
       expect(queryByTestId('rxStatus')).to.be.null;
     });
+
+    it('shows refill-in-progress alert for "Active: Refill in Process" status', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+      };
+      const { getByTestId } = setup(rx, managementImprovementsState);
+      expect(getByTestId('refill-in-progress-alert')).to.exist;
+    });
+
+    it('shows refill-in-progress alert for "Active: Submitted" status', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Submitted',
+        isRefillable: false,
+      };
+      const { getByTestId } = setup(rx, managementImprovementsState);
+      expect(getByTestId('refill-in-progress-alert')).to.exist;
+    });
+
+    it('shows "Refills left" for refill-in-progress even when isRefillable is false', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+        refillRemaining: 3,
+      };
+      const { getByTestId } = setup(rx, managementImprovementsState);
+      expect(getByTestId('rx-refill-remaining')).to.have.text(
+        'Refills left: 3',
+      );
+    });
+
+    it('hides ExtraDetails for refill-in-progress prescriptions', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+      };
+      const { container } = setup(rx, managementImprovementsState);
+      expect(container.querySelector('.shipping-info')).to.be.null;
+    });
+
+    it('does not show refill-in-progress alert for Active status', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        isRefillable: true,
+        dispStatus: 'Active',
+      };
+      const { queryByTestId } = setup(rx, managementImprovementsState);
+      expect(queryByTestId('refill-in-progress-alert')).to.be.null;
+    });
   });
 
   it('Does not show number of refills when it is not refillable', () => {
