@@ -130,13 +130,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
     contactInfo.emailAddress ||
     undefined;
 
-  // Only prefill confirmEmail if we have a prefilled email and the user
-  // hasn't started editing the email field yet
-  const formEmailValue = state.form?.data?.email?.email;
-  const shouldPrefillConfirmEmail =
-    emailAddress &&
-    (formEmailValue === undefined || formEmailValue === emailAddress);
-
   let mobilePhoneNumber;
   let mobilePhoneIsInternational;
   const vapMobilePhone = vapContactInfo.mobilePhone || {};
@@ -180,12 +173,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
     dob: profile?.dob || claimant?.dateOfBirth,
     // Only create email object if we have an email to prefill. Returning undefined
     // (instead of {email: undefined}) prevents blocking the merge in ToeApp.
-    [formFields.email]: emailAddress
-      ? {
-          email: emailAddress,
-          ...(shouldPrefillConfirmEmail && { confirmEmail: emailAddress }),
-        }
-      : undefined,
+    [formFields.email]: {
+      email: emailAddress,
+      confirmEmail: emailAddress,
+    },
     [formFields.viewPhoneNumbers]: {
       [formFields.mobilePhoneNumber]: {
         phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
