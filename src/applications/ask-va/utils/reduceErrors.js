@@ -159,7 +159,6 @@ export const getPropertyInfo = (pageList = [], name, instance = '') => {
     }
     return -1;
   };
-  console.log('Page list is', pageList, name);
   return pageList.filter(page => findPageIndex(page) > -1) || {};
 };
 
@@ -256,7 +255,6 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
   errors.reduce((processedErrors, error) => {
     let errorIndex = null; // save key (index) of array items with __error
     const findErrors = (name, err) => {
-      console.log('Finding errors for', name, err);
       if (err && typeof err === 'object') {
         // process the last type of error message which provides an `__errors`
         // message array. If there are multiple errors, we'll join them into
@@ -268,7 +266,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
           const overrideResult =
             reviewErrors._override?.(name || err.stack || err.argument, err) ||
             getPropertyInfo(pageList, name);
-          const { chapterKey = '', pageKey = '', navigationType = 'edit' } =
+          const { chapterKey = '', navigationType = 'edit' } =
             overrideResult || {};
           const pageKeys = overrideResult.map(obj => obj.pageKey);
           // `message` can be null if a reviewErrors function explicitly returns null
@@ -317,20 +315,17 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
            * anyone and show both
           */
           if (!errorExists(processedErrors, propertyName, index)) {
-            console.log('ARGY ARGY:', argument, property);
             const overrideResult =
               reviewErrors._override?.(property || err?.stack || argument) ||
               getPropertyInfo(
                 // List of all form pages; includes chapterKey, pageKey and
                 // uiSchema
                 pageList,
-                argument,
                 // full path to the error
                 property,
               );
-            const { chapterKey = '', pageKey = '', navigationType = 'edit' } =
+            const { chapterKey = '', navigationType = 'edit' } =
               overrideResult || {};
-              console.log('Override result is', overrideResult);
             const pageKeys = overrideResult.map(obj => obj.pageKey);
             processedErrors.push({
               // property name
@@ -348,7 +343,6 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
               chapterKey,
               // page within the chapter that contains the error; will be used
               // in future work to highlight the specific page for the user
-              pageKey,
               pageKeys,
               navigationType,
             });
