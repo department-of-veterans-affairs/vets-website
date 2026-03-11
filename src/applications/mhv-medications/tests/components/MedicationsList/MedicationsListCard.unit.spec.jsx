@@ -6,6 +6,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import MedicationsListCard from '../../../components/MedicationsList/MedicationsListCard';
 import reducers from '../../../reducers';
+import { medicationsUrls } from '../../../util/constants';
 
 describe('Medication card component', () => {
   const FLAG_COMBINATIONS = [
@@ -192,8 +193,13 @@ describe('Medication card component', () => {
         dispStatus: 'Active: Refill in Process',
         isRefillable: false,
       };
-      const { getByTestId } = setup(rx, managementImprovementsState);
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
       expect(getByTestId('refill-in-progress-alert')).to.exist;
+      const link = getByText('Go to in-progress medications');
+      expect(link).to.have.attribute(
+        'href',
+        medicationsUrls.MEDICATIONS_IN_PROGRESS,
+      );
     });
 
     it('shows refill-in-progress alert for "Active: Submitted" status', () => {
@@ -202,8 +208,13 @@ describe('Medication card component', () => {
         dispStatus: 'Active: Submitted',
         isRefillable: false,
       };
-      const { getByTestId } = setup(rx, managementImprovementsState);
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
       expect(getByTestId('refill-in-progress-alert')).to.exist;
+      const link = getByText('Go to in-progress medications');
+      expect(link).to.have.attribute(
+        'href',
+        medicationsUrls.MEDICATIONS_IN_PROGRESS,
+      );
     });
 
     it('shows "Refills left" for refill-in-progress even when isRefillable is false', () => {

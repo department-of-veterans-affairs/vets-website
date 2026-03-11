@@ -109,11 +109,12 @@ const MedicationsListCard = ({ rx }) => {
             <div
               className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--green-lightest vads-u-padding--1 vads-u-margin-top--1"
               data-testid="refill-in-progress-alert"
+              role="status"
             >
               <va-icon icon="schedule" size={3} aria-hidden="true" />
               <p className="vads-u-margin-y--0 vads-u-margin-left--1">
                 Refill in progress.{' '}
-                <Link to={medicationsUrls.subdirectories.IN_PROGRESS}>
+                <Link to={medicationsUrls.MEDICATIONS_IN_PROGRESS}>
                   Go to in-progress medications
                 </Link>
               </p>
