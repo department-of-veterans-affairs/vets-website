@@ -216,7 +216,7 @@ export const App = ({ toggleLoginModal }) => {
               )}
               id={`pdf-download-link-${taxYear}`}
               label={pdfLabel}
-              text="Download PDF (best for printing)"
+              text={`Download ${taxYear} PDF (best for printing)`}
               onClick={e => {
                 e.preventDefault();
                 recordEvent({ event: '1095b-pdf-download' });
@@ -232,7 +232,7 @@ export const App = ({ toggleLoginModal }) => {
               )}
               id={`txt-download-link-${taxYear}`}
               label={txtLabel}
-              text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
+              text={`Download ${taxYear} Text file (best for screen readers, enlargers, and refreshable Braille displays)`}
               onClick={e => {
                 e.preventDefault();
                 recordEvent({ event: '1095b-txt-download' });
