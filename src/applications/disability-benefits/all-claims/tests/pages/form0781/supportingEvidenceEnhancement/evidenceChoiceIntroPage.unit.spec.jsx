@@ -99,6 +99,7 @@ describe('evidenceChoiceIntroPage', () => {
       }, // Veteran selected YES
       //   TODO remove feature toggle when enhancement is fully launched
       disability526SupportingEvidenceEnhancement: true, // feature toggle ON
+      disability526SupportingEvidenceFileInputV3: true,
     };
     expect(tempEvidenceChoiceAdditionalDocuments(formData)).to.be.true;
   });
