@@ -64,6 +64,14 @@ const initialState = {
    */
   labsAndTestsDetails: undefined,
   /**
+   * The list of thumbnails for the currently displayed radiology record
+   */
+  scdfImageThumbnails: undefined,
+  /**
+   * The path to the DICOM file for the currently displayed radiology record
+   */
+  scdfDicom: undefined,
+  /**
    * The selected date range for displaying labs and tests
    * */
   dateRange: buildInitialDateRange(DEFAULT_DATE_RANGE),
@@ -74,11 +82,15 @@ const initialState = {
   warnings: [],
 };
 
+const VISTA_HOSTNAME_PATTERN = /\.MED\.VA\.GOV$/i;
+
 export const extractLabLocation = (performer, record) => {
   if (!isArrayAndHasItems(performer)) return null;
   const locationRef = performer.find(item => item.reference);
   const labLocation = extractContainedResource(record, locationRef?.reference);
-  return labLocation?.name || null;
+  const name = labLocation?.name || null;
+  if (name && VISTA_HOSTNAME_PATTERN.test(name)) return null;
+  return name;
 };
 
 export const distillChemHemNotes = (notes, valueProp) => {
@@ -222,7 +234,9 @@ export const extractPerformingLabLocation = record => {
     fhirResourceTypes.ORGANIZATION,
     record.performer,
   );
-  return performingLab?.name || null;
+  const name = performingLab?.name || null;
+  if (name && VISTA_HOSTNAME_PATTERN.test(name)) return null;
+  return name;
 };
 
 export const extractOrderedBy = record => {
@@ -582,6 +596,8 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         labsAndTestsDetails: undefined,
+        scdfImageThumbnails: undefined,
+        scdfDicom: undefined,
       };
     }
     case Actions.LabsAndTests.SET_WARNINGS: {
@@ -621,6 +637,41 @@ export const labsAndTestsReducer = (state = initialState, action) => {
           scdfImagingStudies,
         ),
         scdfImagingStudiesMerged: true,
+      };
+    }
+    case Actions.LabsAndTests.GET_IMAGING_STUDY_THUMBNAILS: {
+      // Response is an array of JSONAPI imaging study resources.
+      // Extract thumbnail URLs from all series/instances, ordered by
+      // series number then instance number.
+      const studies = Array.isArray(action.response) ? action.response : [];
+      const thumbnails = [
+        ...studies.flatMap(study => study.attributes?.series || []),
+      ]
+        .sort((a, b) => (a.number || 0) - (b.number || 0))
+        .flatMap(series =>
+          [...(series.instances || [])]
+            .sort((a, b) => (a.number || 0) - (b.number || 0))
+            .map(instance => instance.thumbnailUrl)
+            .filter(Boolean),
+        );
+      return {
+        ...state,
+        scdfImageThumbnails: thumbnails,
+      };
+    }
+    case Actions.LabsAndTests.GET_IMAGING_STUDY_DICOM: {
+      // Response is an array of JSONAPI imaging study resources.
+      // Extract the first non-null dicomZipUrl.
+      const dicomStudies = Array.isArray(action.response)
+        ? action.response
+        : [];
+      const dicomUrl =
+        dicomStudies
+          .map(study => study.attributes?.dicomZipUrl)
+          .find(Boolean) || null;
+      return {
+        ...state,
+        scdfDicom: dicomUrl,
       };
     }
     default:

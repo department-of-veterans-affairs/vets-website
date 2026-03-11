@@ -81,7 +81,7 @@ describe('verify drafts - blocked from facility', () => {
       .find('va-link-action')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
   });
 
   it('existing single draft', () => {
@@ -144,6 +144,6 @@ describe('verify drafts - blocked from facility', () => {
       .find('va-link-action')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
   });
 });

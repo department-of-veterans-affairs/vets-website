@@ -1,7 +1,7 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { profilePersonalInfoPage } from 'platform/forms-system/src/js/patterns/prefill/PersonalInformation';
 import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
@@ -21,8 +21,6 @@ import thirdPartyOrganizationRepresentativesSummary from '../pages/thirdPartyOrg
 import thirdPartyOrganizationInformation from '../pages/thirdPartyOrganizationInformation';
 import thirdPartyOrganizationRepresentativesIntro from '../pages/thirdPartyOrganizationRepresentativesIntro';
 import thirdPartyOrganizationRepresentativeName from '../pages/thirdPartyOrganizationRepresentativesName';
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import identificationInformation from '../pages/identificationInformation';
 import informationToDisclose from '../pages/informationToDisclose';
 import prefillTransform from './prefillTransform';
 
@@ -102,7 +100,7 @@ const formConfig = {
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {
-        ...personalInformationPage({
+        ...profilePersonalInfoPage({
           personalInfoConfig: {
             name: { show: true, required: true },
             ssn: { show: true, required: true },
@@ -113,27 +111,12 @@ const formConfig = {
           },
           depends: formData => formData?.userLoggedIn === true,
         }),
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-          depends: formData => formData?.userLoggedIn !== true,
-        },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
-          depends: formData => formData?.userLoggedIn !== true,
-        },
         ...profileContactInfoPages({
           content: {
             ...getContent('request'),
             title: 'Confirm the contact information we have on file for you',
             description: null,
           },
-          contactInfoRequiredKeys: ['mailingAddress'],
         }),
       },
     },

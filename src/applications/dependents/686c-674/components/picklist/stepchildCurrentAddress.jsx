@@ -17,7 +17,12 @@ import { makeNamePossessive } from '../../../shared/utils';
 const usZipRegex = /^\d{5}$/;
 const postalRegex = /^.*\S.*/;
 
-const initialAddressUI = addressUI();
+const initialAddressUI = addressUI({
+  omit: ['street3'],
+  labels: {
+    street2: 'Apartment or unit number',
+  },
+});
 initialAddressUI.street['ui:errorMessages'].minLength =
   'Enter a valid street address';
 
@@ -69,9 +74,8 @@ const stepchildCurrentAddress = {
       state: itemData.address?.state || '',
       street: itemData.address?.street || '',
       street2: itemData.address?.street2 || '',
-      street3: itemData.address?.street3 || '',
     });
-    const [schema, setSchema] = useState(addressSchema());
+    const [schema, setSchema] = useState(addressSchema({ omit: ['street3'] }));
     const [uiSchema, setUiSchema] = useState(initialAddressUI);
 
     const onChange = data => {
@@ -98,7 +102,6 @@ const stepchildCurrentAddress = {
           state: (result.data.state || '').trim(),
           street: (result.data.street || '').trim(),
           street2: (result.data.street2 || '').trim(),
-          street3: (result.data.street3 || '').trim(),
           postalCode: (result.data.postalCode || '').trim(),
         },
       });

@@ -14,7 +14,7 @@ export default function App({ location, children }) {
   const profileLoading = useSelector(state => isProfileLoading(state));
 
   useEffect(() => {
-    document.title = `${formConfig.title} | Veterans Affairs`;
+    document.title = `Request Licensing or Certification Test Fees Reimbursement Online | Veterans Affairs`;
   }, []);
 
   useEffect(

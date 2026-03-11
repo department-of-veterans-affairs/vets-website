@@ -64,6 +64,9 @@ export const dutyStatusDetailsUiSchema = {
 
       return {
         dutyStatusDetails: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           currentDutyStatus: {
             'ui:title': currentDutyStatusTitle,
           },

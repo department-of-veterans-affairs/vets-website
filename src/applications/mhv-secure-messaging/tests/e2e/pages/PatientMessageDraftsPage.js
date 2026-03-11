@@ -282,8 +282,12 @@ class PatientMessageDraftsPage {
     });
   };
 
-  verifyDraftMessageBannerTextHasFocus = () => {
-    cy.focused().should('contain.text', 'Draft was successfully deleted.');
+  verifyDraftDeletedAlertAndH1Focus = () => {
+    cy.get('h1').should('have.focus');
+    cy.findByTestId('alert-text').should(
+      'contain.text',
+      'Draft was successfully deleted.',
+    );
   };
 
   verifySavedMessageAlertText = (text = Data.MESSAGE_WAS_SAVED) => {
@@ -359,7 +363,7 @@ class PatientMessageDraftsPage {
   };
 
   verifyThreadRecipientName = (mockResponse, index) => {
-    cy.get(Locators.THREADS)
+    cy.findAllByTestId(Locators.THREADS)
       .find(`.vads-u-font-weight--bold`)
       .eq(index)
       .should(`be.visible`)

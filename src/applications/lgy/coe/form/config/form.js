@@ -4,8 +4,8 @@ import environment from 'platform/utilities/environment';
 import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
-import { IntroductionPageSelector } from '../containers/IntroductionPageSelector';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import { IntroductionPageSelector } from '../containers/selectors/IntroductionPageSelector';
+import { ConfirmationPageSelector } from '../containers/selectors/ConfirmationPageSelector';
 import { GetFormHelp } from '../components/GetFormHelp';
 import manifest from '../manifest.json';
 import { customCOEsubmit } from './helpers';
@@ -33,9 +33,6 @@ import { servicePeriodsPages } from '../pages/servicePeriodsPages';
 import serviceStatus2 from '../pages/serviceStatus2';
 import { uploadDocumentsSchema, getUiSchema } from '../pages/uploadDocuments';
 
-// TODO: When schema is migrated to vets-json-schema, remove common
-// definitions from form schema and get them from common definitions instead
-
 import {
   certificateUseOptions,
   serviceStatuses,
@@ -44,6 +41,7 @@ import {
 import certificateUse from '../pages/certificateUse';
 import hadPriorLoans from '../pages/hadPriorLoans';
 import currentOwnership from '../pages/currentOwnership';
+import { propertiesHomeLoansPages } from '../pages/propertiesHomeLoansPages';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -61,7 +59,7 @@ const formConfig = {
     reviewPageTitle: 'Review your request',
   },
   introduction: IntroductionPageSelector,
-  confirmation: ConfirmationPage,
+  confirmation: ConfirmationPageSelector,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -272,6 +270,7 @@ const formConfig = {
           uiSchema: currentOwnership.uiSchema,
           schema: currentOwnership.schema,
         },
+        ...propertiesHomeLoansPages,
       },
     },
     documentsChapter: {

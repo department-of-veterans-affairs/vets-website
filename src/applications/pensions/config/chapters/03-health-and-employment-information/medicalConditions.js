@@ -13,7 +13,7 @@ const { medicalCondition } = fullSchemaPensions.properties;
 export default {
   title: 'Medical condition',
   path: 'medical/history/condition',
-  depends: form => hasNoSocialSecurityDisability(form),
+  depends: form => !form.isOver65 && hasNoSocialSecurityDisability(form),
   uiSchema: {
     ...titleUI(
       'Tell us if you have a medical condition that prevents you from working',

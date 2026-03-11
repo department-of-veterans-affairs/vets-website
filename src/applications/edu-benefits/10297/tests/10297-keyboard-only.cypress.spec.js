@@ -83,10 +83,10 @@ describe('10297 Keyboard Only Tests', () => {
     cy.tabToContinueForm();
     cy.url().should(
       'include',
-      formConfig.chapters.identificationChapter.pages.veteranStatus.path,
+      formConfig.chapters.identificationChapter.pages.dutyRequirementMet.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.selectVaRadioOption('root_veteranStatus', 'Y');
+    cy.selectVaRadioOption('root_dutyRequirementMet', 'Y');
     cy.tabToContinueForm();
     cy.url().should(
       'include',

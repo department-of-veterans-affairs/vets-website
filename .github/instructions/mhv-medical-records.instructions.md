@@ -103,7 +103,7 @@ Update this file when you:
 
 #### Paths & Navigation
 - **Paths**: Route paths defined in `Paths` object
-  ```javascript
+  ```text
   Paths.MYHEALTH: '/my-health'
   Paths.MR_LANDING_PAGE: '/'
   Paths.LABS_AND_TESTS: '/labs-and-tests/'
@@ -135,6 +135,7 @@ Update this file when you:
 - **VALID_REFRESH_DURATION**: `3600000` (1 hour in milliseconds)
 - **STATUS_POLL_INTERVAL**: `2000` (2 seconds)
 - **INITIAL_FHIR_LOAD_DURATION**: `120000` (2 minutes)
+- **TRACKED_SPINNER_DURATION**: `180000` (3 minutes) — default timeout for `TrackedSpinner` before showing an error alert
 - **refreshPhases**: Refresh status phases
   - `STALE`, `IN_PROGRESS`, `CURRENT`, `FAILED`, `CALL_FAILED`
 - **loadStates**: Data loading states
@@ -358,7 +359,8 @@ Used in CCD download sections to distinguish records before vs after VistA-to-OH
   - `RadiologyImagesList`, `RadiologySingleImage`: Radiology images
 
 ### Shared Components (`components/shared/`)
-- **TrackedSpinner**: Loading spinner with Datadog tracking
+- **TrackedSpinner**: Loading spinner with Datadog tracking and optional timeout safety net
+- **TimeoutAlertBox**: Reusable error alert for loading timeout (follows `AccessTroubleAlertBox` pattern)
 - **PrintDownload**: Print and download action buttons
 - **PrintHeader**: Header content for printed pages
 - **PhrRefresh**: PHR refresh status indicator
@@ -373,6 +375,10 @@ Used in CCD download sections to distinguish records before vs after VistA-to-OH
 - **ScrollToTop**: Scroll to top on route change
 - **FeatureFlagRoute**: Route wrapper for feature-flagged content
 - **AppRoute**: Custom route wrapper component
+- **MissingRecordsWarningAlert**: Warning alert shown on the Blue Button download date-range page for Cerner users, informing them that records from Oracle Health facilities are not included in the Blue Button report and linking to the CCD download page
+  - **Props**: `ohFacilityNamesAfterCutover` (array of strings or `{ id, content }` objects) — facility names with cutover-date suffixes, produced by `createAfterCutoverFacilityNames()` from `util/facilityHelpers.js`
+  - Renders the facility list via `formatFacilityUnorderedList()`
+  - Link href includes `#ccd` fragment; `DownloadReportPage` handles focus management for that hash
 
 ### Record List Pattern
 - Use `RecordList/` components for consistent list rendering
@@ -580,7 +586,7 @@ Used in CCD download sections to distinguish records before vs after VistA-to-OH
 
 ### RUM Constants (`util/rumConstants.js`)
 - `INITIAL_FHIR_LOAD_DURATION`: Metric for initial FHIR polling duration
-- `SPINNER_DURATION`: Metric for spinner display duration
+- `SPINNER_DURATION`: Metric for spinner display duration (includes `id`, `duration` in seconds, and `reason`: `unmount` | `unload` | `timeout`)
 - `RADIOLOGY_DETAILS_MY_VA_HEALTH_LINK`: Action name for My VA Health links
 
 ### StatsD Frontend Actions (`statsdFrontEndActions`)
@@ -599,6 +605,7 @@ Used in CCD download sections to distinguish records before vs after VistA-to-OH
 - **Selectors** (`util/selectors.js`):
   - `selectBypassDowntime`: Bypass downtime notification
   - `selectFilterAndSortFlag`: Enable filter and sort functionality
+  - `selectShowMissingAlertFlag`: Controls visibility of `MissingRecordsWarningAlert` on the Blue Button download date-range page (requires `mhv_medical_records_show_missing_alert` flag)
 - **Access Pattern**:
   ```javascript
   const filterAndSortEnabled = useSelector(selectFilterAndSortFlag);
@@ -733,6 +740,7 @@ export const convertAllergy = allergy => {
 - ❌ **Never** assume an array has elements; always check existence
 - ❌ **Never** use moment.js for new code; prefer date-fns
 - ❌ **Never** skip Datadog error tracking in catch blocks in Redux action creators
+- ❌ **Never** use Unicode escape sequences (e.g., `\u2019`) to represent curly apostrophes or other special characters. Always write straight apostrophes (`'`) in source code and test assertions — ESLint will auto-fix them to curly apostrophes at lint time, but unit tests run against the raw source, so assertions must match straight apostrophes.
 
 ### Performance Considerations
 - ✅ Use lazy loading for page containers

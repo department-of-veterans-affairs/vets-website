@@ -49,7 +49,7 @@ const getFieldsToValidate = (allFields, fieldName) => {
  * Used to ensure date comparisons only run when both dates are real
  * and comparable.
  */
-const isCompleteDate = date => {
+export const isCompleteDate = date => {
   if (typeof date !== 'string') return false;
 
   // Must strictly match YYYY-MM-DD
@@ -81,7 +81,7 @@ const isCompleteDate = date => {
  *
  * This ensures consistent format for validation and comparison.
  */
-const normalizeDate = date =>
+export const normalizeDate = date =>
   typeof date === 'string' ? date.split('T')[0] : null;
 
 /**
@@ -94,8 +94,12 @@ export const getAirTravelFieldsToValidate = (
   formState,
 ) => {
   const fieldsToValidate = getFieldsToValidate(allFields, fieldName);
-  const departureDateComplete = isCompleteDate(formState.departureDate);
-  const returnDateComplete = isCompleteDate(formState.returnDate);
+  const departureDateComplete = isCompleteDate(
+    normalizeDate(formState.departureDate),
+  );
+  const returnDateComplete = isCompleteDate(
+    normalizeDate(formState.returnDate),
+  );
 
   // If departureDate changes and both dates are complete,
   // also validate returnDate for ordering checks
@@ -267,12 +271,12 @@ export const validateDescription = (description, type) => {
  *  - Must be a number
  *  - Must have at most 2 decimal places
  *  - Must be greater than 0
- *  - On BLUR, auto-formats to 2 decimal places (e.g., 2.5 → 2.50)
+ *  - On BLUR/SUBMIT, requires exactly 2 decimal places in X.XX format (e.g., 3.50)
  *
  * @param {string|number} amount - The value of the costRequested field from the form.
  * @param {string} type - Validation type: CHANGE, BLUR, SUBMIT
  * @param {string} fieldName - (Optional) Name of the field in formState, defaults to 'costRequested'.
- * @returns {{errors: Object, formattedValue: string|null, isValid: boolean}} - Returns errors, formatted value for BLUR, and validity.
+ * @returns {{errors: Object, isValid: boolean}} - Returns errors and validity.
  */
 export const validateRequestedAmount = (
   amount,
@@ -280,7 +284,6 @@ export const validateRequestedAmount = (
   fieldName = 'costRequested',
 ) => {
   let error = null;
-  let formattedValue = null;
 
   const strAmount = (amount ?? '').toString().trim();
 
@@ -310,15 +313,22 @@ export const validateRequestedAmount = (
       error = 'Enter an amount greater than 0';
     }
 
-    // Return formatted value on BLUR if valid
-    if (!error && !Number.isNaN(parsed) && type === DATE_VALIDATION_TYPE.BLUR) {
-      formattedValue = parsed.toFixed(2);
+    // Require exactly 2 decimal places on BLUR or SUBMIT
+    if (
+      !error &&
+      !Number.isNaN(parsed) &&
+      (type === DATE_VALIDATION_TYPE.BLUR ||
+        type === DATE_VALIDATION_TYPE.SUBMIT)
+    ) {
+      const strictFormat = /^\d+\.\d{2}$/;
+      if (!strictFormat.test(strAmount)) {
+        error = 'Enter an amount using this format: x.xx';
+      }
     }
   }
 
   return {
     errors: { [fieldName]: error },
-    formattedValue,
     isValid: !error,
   };
 };
@@ -361,7 +371,7 @@ const validateAirTravelDepartureDate = (departureDate, returnDate) => {
   const returnDateComplete = isCompleteDate(normalizedReturnDate);
 
   if (!departureDateComplete) {
-    return null; // Partial date, no error
+    return VALIDATION_ERROR_MESSAGES.INCOMPLETE_DATE;
   }
 
   const [year, month, day] = normalizedDepartureDate.split('-');
@@ -401,7 +411,7 @@ const validateAirTravelReturnDate = (
 
   // Round-trip validations
   if (shouldValidateReturnDate) {
-    if (!returnDateComplete) {
+    if (!returnDate) {
       // Only show required error if returnDate field itself is being validated,
       // not as a side-effect of tripType changing
       if (
@@ -411,7 +421,11 @@ const validateAirTravelReturnDate = (
       ) {
         return 'Enter a return date';
       }
-      return null; // Partial date from tripType change, no error
+      return null;
+    }
+
+    if (!returnDateComplete) {
+      return VALIDATION_ERROR_MESSAGES.INCOMPLETE_DATE;
     }
 
     const [year, month, day] = normalizedReturnDate.split('-');
@@ -588,8 +602,12 @@ export const validateLodgingFields = (formState, fieldName) => {
 
   // Use helper to determine which fields to validate
   const fieldsToValidate = getFieldsToValidate(allFields, fieldName);
-  const checkInDateComplete = isCompleteDate(formState.checkInDate);
-  const checkOutDateComplete = isCompleteDate(formState.checkOutDate);
+  const checkInDateComplete = isCompleteDate(
+    normalizeDate(formState.checkInDate),
+  );
+  const checkOutDateComplete = isCompleteDate(
+    normalizeDate(formState.checkOutDate),
+  );
 
   // If one of the date fields is being updated, also validate the other
   if (
@@ -620,14 +638,19 @@ export const validateLodgingFields = (formState, fieldName) => {
     if (!checkInDate) {
       errors.checkInDate = 'Enter the date you checked in';
     } else if (!checkInDateComplete) {
-      errors.checkInDate = null; // Partial date, no error
+      errors.checkInDate = VALIDATION_ERROR_MESSAGES.INCOMPLETE_DATE;
     } else {
-      const [year, month, day] = checkInDate.split('-');
+      const normalizedCheckInDate = normalizeDate(checkInDate);
+      const normalizedCheckOutDate = normalizeDate(checkOutDate);
+      const [year, month, day] = normalizedCheckInDate.split('-');
       const futureDateError = getFutureDateError({ year, month, day });
 
       if (futureDateError) {
         errors.checkInDate = futureDateError;
-      } else if (checkOutDateComplete && checkInDate >= checkOutDate) {
+      } else if (
+        checkOutDateComplete &&
+        normalizedCheckInDate >= normalizedCheckOutDate
+      ) {
         errors.checkInDate =
           'Check-in date must be earlier than check-out date';
       } else {
@@ -643,14 +666,19 @@ export const validateLodgingFields = (formState, fieldName) => {
     if (!checkOutDate) {
       errors.checkOutDate = 'Enter the date you checked out';
     } else if (!checkOutDateComplete) {
-      errors.checkOutDate = null; // Partial date, no error
+      errors.checkOutDate = VALIDATION_ERROR_MESSAGES.INCOMPLETE_DATE;
     } else {
-      const [year, month, day] = checkOutDate.split('-');
+      const normalizedCheckInDate = normalizeDate(checkInDate);
+      const normalizedCheckOutDate = normalizeDate(checkOutDate);
+      const [year, month, day] = normalizedCheckOutDate.split('-');
       const futureDateError = getFutureDateError({ year, month, day });
 
       if (futureDateError) {
         errors.checkOutDate = futureDateError;
-      } else if (checkInDateComplete && checkOutDate <= checkInDate) {
+      } else if (
+        checkInDateComplete &&
+        normalizedCheckOutDate <= normalizedCheckInDate
+      ) {
         errors.checkOutDate = 'Check-out date must be later than check-in date';
       } else {
         errors.checkOutDate = null;

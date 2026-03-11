@@ -259,7 +259,7 @@ const formConfig = {
       pages: {
         reviewServiceInformation: {
           path: 'military-service/review-service-information',
-          title: 'Review your last military service',
+          title: 'Confirm the last service period we have on file for you',
           uiSchema: reviewServiceInformation.uiSchema,
           schema: reviewServiceInformation.schema,
           depends: formData =>

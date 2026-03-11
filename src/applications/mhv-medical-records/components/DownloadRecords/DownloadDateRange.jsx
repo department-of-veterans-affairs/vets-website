@@ -1,4 +1,10 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react';
+import React, {
+  useCallback,
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+} from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { subMonths, format } from 'date-fns';
@@ -8,17 +14,47 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  useAcceleratedData,
+} from '@department-of-veterans-affairs/mhv/exports';
+import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import NeedHelpSection from './NeedHelpSection';
 import { updateReportDateRange } from '../../actions/downloads';
-import { pageTitles } from '../../util/constants';
+import { pageTitles, ohFacilityTransitionTable } from '../../util/constants';
 import { sendDataDogAction } from '../../util/helpers';
+import { createAfterCutoverFacilityNames } from '../../util/facilityHelpers';
 import useFocusOutline from '../../hooks/useFocusOutline';
+import MissingRecordsWarningAlert from '../shared/MissingRecordsWarningAlert';
+import { selectShowMissingAlertFlag } from '../../util/selectors';
 
 const DownloadDateRange = () => {
   const history = useHistory();
 
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
+  const { isCerner } = useAcceleratedData();
+  const showMissingRecordsAlert = useSelector(selectShowMissingAlertFlag);
+
+  const facilities = useSelector(state => selectPatientFacilities(state) || []);
+  const ehrDataByVhaId = useSelector(
+    state => state.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
+  );
+
+  const ohFacilities = useMemo(() => facilities.filter(f => f.isCerner), [
+    facilities,
+  ]);
+
+  const ohFacilityNamesAfterCutover = useMemo(
+    () =>
+      createAfterCutoverFacilityNames(
+        ohFacilities,
+        ehrDataByVhaId,
+        ohFacilityTransitionTable,
+        getVamcSystemNameFromVhaId,
+      ),
+    [ohFacilities, ehrDataByVhaId],
+  );
 
   const [selectedDate, setSelectedDate] = useState('');
   const [selectionError, setSelectionError] = useState(null);
@@ -165,6 +201,12 @@ const DownloadDateRange = () => {
       </div>
 
       <form>
+        {isCerner &&
+          showMissingRecordsAlert && (
+            <MissingRecordsWarningAlert
+              ohFacilityNamesAfterCutover={ohFacilityNamesAfterCutover}
+            />
+          )}
         <div className="vads-u-margin-bottom--3">
           <VaSelect
             label="Date range"

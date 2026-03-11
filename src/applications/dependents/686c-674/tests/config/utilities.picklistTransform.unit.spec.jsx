@@ -50,7 +50,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'MORTY', last: 'SMITH' },
           dateOfBirth: '2007-11-15',
-          ssn: '6791',
+          ssn: '123456791',
           selected: true,
           removalReason: 'childMarried',
           endDate: '2000-01-01',
@@ -63,7 +63,7 @@ describe('transformPicklistToV2', () => {
     expect(result.childMarriage).to.have.lengthOf(1);
     expect(result.childMarriage[0]).to.deep.equal({
       fullName: { first: 'MORTY', last: 'SMITH' },
-      ssn: '6791',
+      ssn: '123456791',
       birthDate: '2007-11-15',
       dateMarried: '2000-01-01',
       dependentIncome: 'N',
@@ -76,7 +76,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'CHILD', last: 'SMITH' },
           dateOfBirth: '2005-06-15',
-          ssn: '1234',
+          ssn: '123456792',
           selected: true,
           removalReason: 'childNotInSchool',
           endDate: '2024-05-01',
@@ -89,7 +89,7 @@ describe('transformPicklistToV2', () => {
     expect(result.childStoppedAttendingSchool).to.have.lengthOf(1);
     expect(result.childStoppedAttendingSchool[0]).to.deep.equal({
       fullName: { first: 'CHILD', last: 'SMITH' },
-      ssn: '1234',
+      ssn: '123456792',
       birthDate: '2005-06-15',
       dateChildLeftSchool: '2024-05-01',
       dependentIncome: 'N',
@@ -102,7 +102,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'CHILD', last: 'DOE' },
           dateOfBirth: '2000-01-01',
-          ssn: '5678',
+          ssn: '123456793',
           selected: true,
           age: 25,
           isStepchild: 'Y',
@@ -120,7 +120,7 @@ describe('transformPicklistToV2', () => {
     expect(result.deaths).to.have.lengthOf(1);
     expect(result.deaths[0]).to.deep.equal({
       fullName: { first: 'CHILD', last: 'DOE' },
-      ssn: '5678',
+      ssn: '123456793',
       birthDate: '2000-01-01',
       dependentType: 'CHILD',
       dependentDeathDate: '2023-12-01',
@@ -184,7 +184,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'SPOUSE', last: 'DOE' },
           dateOfBirth: '1985-01-01',
-          ssn: '9999',
+          ssn: '123456794',
           selected: true,
           removalReason: 'marriageEnded',
           endType: 'annulmentOrVoid',
@@ -293,7 +293,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'SPOUSE', last: 'DOE' },
           dateOfBirth: '1980-05-15',
-          ssn: '4444',
+          ssn: '123454444',
           selected: true,
           removalReason: 'spouseDied',
           endDate: '2024-01-15',
@@ -309,7 +309,7 @@ describe('transformPicklistToV2', () => {
     expect(result.deaths).to.have.lengthOf(1);
     expect(result.deaths[0]).to.deep.equal({
       fullName: { first: 'SPOUSE', last: 'DOE' },
-      ssn: '4444',
+      ssn: '123454444',
       birthDate: '1980-05-15',
       dependentType: 'SPOUSE',
       dependentDeathDate: '2024-01-15',
@@ -331,7 +331,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'SAM', last: 'PETER' },
           dateOfBirth: '1936-05-16',
-          ssn: '6767',
+          ssn: '123456767',
           selected: true,
           removalReason: 'parentDied',
           endDate: '2000-02-02',
@@ -347,7 +347,7 @@ describe('transformPicklistToV2', () => {
     expect(result.deaths).to.have.lengthOf(1);
     expect(result.deaths[0]).to.deep.equal({
       fullName: { first: 'SAM', last: 'PETER' },
-      ssn: '6767',
+      ssn: '123456767',
       birthDate: '1936-05-16',
       dependentType: 'DEPENDENT_PARENT',
       dependentDeathDate: '2000-02-02',
@@ -368,7 +368,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'CHILD1', last: 'SMITH' },
           dateOfBirth: '2007-11-15',
-          ssn: '6791',
+          ssn: '123456791',
           selected: true,
           removalReason: 'childMarried',
           endDate: '2000-01-01',
@@ -376,7 +376,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'CHILD2', last: 'SMITH' },
           dateOfBirth: '2010-01-01',
-          ssn: '5678',
+          ssn: '123455678',
           selected: true,
           removalReason: 'childDied',
           endDate: '2023-12-01',
@@ -387,7 +387,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'PARENT', last: 'PETER' },
           dateOfBirth: '1936-05-16',
-          ssn: '6767',
+          ssn: '123456767',
           selected: true,
           removalReason: 'parentDied',
           endDate: '2000-02-02',
@@ -628,7 +628,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'CHILD', last: 'DOE' },
           dateOfBirth: '2010-01-01',
-          ssn: '5678',
+          ssn: '123455678',
           selected: true,
           removalReason: 'childDied',
           endDate: '2023-12-01',
@@ -653,7 +653,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'PARENT', last: 'DOE' },
           dateOfBirth: '1940-01-01',
-          ssn: '9999',
+          ssn: '123459999',
           selected: true,
           removalReason: 'parentOther',
           endDate: '2024-01-01',
@@ -675,7 +675,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'SPOUSE1', last: 'SMITH' },
           dateOfBirth: '1990-08-01',
-          ssn: '6790',
+          ssn: '123456790',
           selected: true,
           removalReason: 'marriageEnded',
           endType: 'divorce',
@@ -685,7 +685,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'SPOUSE2', last: 'DOE' },
           dateOfBirth: '1985-01-01',
-          ssn: '9999',
+          ssn: '123459999',
           selected: true,
           removalReason: 'marriageEnded',
           endType: 'divorce',

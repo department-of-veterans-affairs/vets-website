@@ -17,7 +17,6 @@ import mockUser from './fixtures/mocks/user.json';
 import {
   capitalizeEachWord,
   showSeparationLocation,
-  isBDD,
   hasRatedDisabilities,
 } from '../utils';
 
@@ -340,11 +339,7 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       cy.contains(address.zipCode).should('exist');
     }
 
-    if (
-      data.homelessOrAtRisk &&
-      (data.disability526ExtraBDDPagesEnabled ||
-        data['view:isBddData'] !== true)
-    ) {
+    if (data.homelessOrAtRisk) {
       cy.contains(/are you homeless or at risk of becoming homeless/i).should(
         'exist',
       );
@@ -371,11 +366,7 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       );
     }
 
-    if (
-      !hasRatedDisabilities(data) &&
-      (data.disability526ExtraBDDPagesEnabled ||
-        (!isBDD(data) && data['view:isBddData'] !== true))
-    ) {
+    if (!hasRatedDisabilities(data)) {
       cy.contains(/have you ever received military retirement pay/i).should(
         'exist',
       );
@@ -785,6 +776,48 @@ export const pageHooks = (cy, testOptions) => ({
       } else {
         cy.contains(/you can submit these types of evidence/i).should('exist');
       }
+    });
+  },
+
+  'supporting-evidence/separation-health-assessment-upload': () => {
+    cy.get('@testData').then(data => {
+      if (
+        !data?.disability526NewBddShaEnforcementWorkflowEnabled ||
+        !data?.['view:isBddData'] ||
+        !data?.['view:hasSeparationHealthAssessment']
+      ) {
+        cy.findByText(/continue/i, { selector: 'button' }).click();
+        return;
+      }
+
+      cy.get('input[type="file"]').selectFile(
+        'src/platform/testing/example-upload.png',
+        { force: true },
+      );
+
+      cy.get('.schemaform-file-uploading').should('not.exist');
+
+      cy.wait('@uploadFile').then(({ _request, response }) => {
+        expect(response.statusCode).to.eq(200);
+      });
+
+      cy.findByText(/continue/i, { selector: 'button' }).click();
+    });
+  },
+
+  'supporting-evidence/summary': () => {
+    cy.get('@testData').then(data => {
+      if (
+        !data?.disability526NewBddShaEnforcementWorkflowEnabled ||
+        !data?.['view:isBddData'] ||
+        !data?.['view:hasSeparationHealthAssessment']
+      ) {
+        return;
+      }
+
+      cy.contains(/summary of evidence/i).should('exist');
+      cy.contains(/Separation Health Assessment Part A/i).should('exist');
+      cy.contains(/you haven’t uploaded any evidence/i).should('not.exist');
     });
   },
 

@@ -12,6 +12,7 @@ import {
 import { usePrevious } from 'platform/utilities/react-hooks';
 import { withRouter } from 'react-router';
 import { refreshProfile, sanitizeUrl } from 'platform/user/exportsFile';
+import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
 import {
   ContactInfoFormAppConfigProvider,
   useContactInfoFormAppConfig,
@@ -33,6 +34,7 @@ export const BuildPageBase = ({
   const Heading = editContactInfoHeadingLevel || 'h3';
   const headerRef = useRef(null);
   const contactInfoFormAppConfig = useContactInfoFormAppConfig();
+  const isMinimalHeader = isMinimalHeaderPath();
 
   const modalState = useSelector(state => state?.vapService.modal);
   const prevModalState = usePrevious(modalState);
@@ -101,13 +103,17 @@ export const BuildPageBase = ({
         keys: router?.location?.state?.keys || { wrapper: 'contactInfo' },
       }}
     >
-      <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
+      <div
+        className={`va-profile-wrapper${
+          isMinimalHeader ? ' hide-cancel-button' : ''
+        }`}
+        onSubmit={handlers.onSubmit}
+      >
         <InitializeVAPServiceID>
           {field !== 'MAILING_ADDRESS' && (
             <va-alert status="info" visible slim>
               <p className="vads-u-margin--0">
-                Any changes you make will also be reflected on your VA.gov
-                profile.
+                Any changes you make will also be reflected on your profile.
               </p>
             </va-alert>
           )}

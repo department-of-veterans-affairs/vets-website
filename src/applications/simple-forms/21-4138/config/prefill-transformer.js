@@ -24,6 +24,9 @@ export default function prefillTransformer(pages, formData, metadata, state) {
       dateOfBirth: isUserVeteran
         ? dateOfBirth || formData?.dateOfBirth
         : formData?.dateOfBirth,
+      idNumber: {
+        ssn: formData?.veteran?.ssn,
+      },
     },
     metadata,
   };

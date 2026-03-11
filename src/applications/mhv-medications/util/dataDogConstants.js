@@ -97,12 +97,58 @@ export const dataDogActionNames = {
     GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
       pageType.REFILL
     }`,
+    GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK: `Go To Your In-Progress Medications Link - ${
+      pageType.REFILL
+    }`,
+    GO_TO_REVIEW_AND_PRINT_MEDICATION_HISTORY_LINK: `Go To Review And Print Medication History Link - ${
+      pageType.REFILL
+    }`,
+  },
+  inProgressPage: {
+    GO_TO_REVIEW_AND_PRINT_MEDICATION_HISTORY_LINK: `Go To Review And Print Medication History Link - ${
+      pageType.IN_PROGRESS
+    }`,
+    REFILL_MEDICATIONS_LINK: `Refill Medications Link - ${
+      pageType.IN_PROGRESS
+    }`,
+  },
+  medicationsHistoryPage: {
+    GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK: `Go To Your In-Progress Medications Link - ${
+      pageType.HISTORY
+    }`,
+    REFILL_MEDICATIONS_LINK: `Refill Medications Link - ${pageType.HISTORY}`,
   },
   renewalModal: {
     MODAL_OPEN: 'Rx Renewal Modal Open',
     MODAL_CONTINUE: 'Rx Renewal Modal Continue',
     MODAL_BACK: 'Rx Renewal Modal Back',
     MODAL_CLOSE: 'Rx Renewal Modal Close',
+  },
+  oracleHealthTransition: {
+    T45_WARNING_ALERT_DISPLAYED: `OH EHR T45 Warning Alert Displayed - ${
+      pageType.LIST
+    }`,
+    T45_WARNING_ALERT_DISPLAYED_REFILL: `OH EHR T45 Warning Alert Displayed - ${
+      pageType.REFILL
+    }`,
+    T6_IN_CARD_RENEWAL_BLOCKED_ALERT_DISPLAYED: `OH EHR T6 In-Card Renewal Blocked Alert Displayed - ${
+      pageType.LIST
+    }`,
+    T3_REFILL_BLOCKED_ALERT_DISPLAYED: `OH EHR T3 Refill Blocked Alert Displayed - ${
+      pageType.REFILL
+    }`,
+    T3_IN_CARD_REFILL_BLOCKED_ALERT_DISPLAYED: `OH EHR T3 In-Card Refill Blocked Alert Displayed - ${
+      pageType.LIST
+    }`,
+    T3_BLOCKED_RX_LINK_CLICK: `OH EHR T3 Blocked Rx Link Click - ${
+      pageType.REFILL
+    }`,
+    T3_ERROR_ALERT_DISPLAYED: `OH EHR T3 Error Alert Displayed - ${
+      pageType.LIST
+    }`,
+    T3_ERROR_ALERT_DISPLAYED_REFILL: `OH EHR T3 Error Alert Displayed - ${
+      pageType.REFILL
+    }`,
   },
   shared: {
     DOWNLOAD_A_PDF_OF_THIS: 'Download A PDF Of This ',

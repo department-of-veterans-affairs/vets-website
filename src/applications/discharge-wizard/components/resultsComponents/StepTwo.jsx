@@ -127,7 +127,7 @@ const StepTwo = ({ formResponses }) => {
   };
 
   return (
-    <va-process-list-item header="Gather supporting information" level="2">
+    <va-process-list-item header="Gather supporting documents" level="2">
       <p>
         You’ll help your case by providing as much supporting documentation as
         you can.
