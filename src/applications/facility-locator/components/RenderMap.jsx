@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import SearchAreaControl from './SearchAreaControl';
 
 // renderMap does not consider progressive disclosure flipper internally
@@ -22,6 +22,8 @@ const RenderMap = forwardRef(
     },
     ref,
   ) => {
+    const [skipLinkHref, setSkipLinkHref] = useState('#footerNav');
+
     useEffect(
       () => {
         if (map) {
@@ -31,30 +33,13 @@ const RenderMap = forwardRef(
       [map],
     );
 
-    function clickSkipMap(e) {
-      e.preventDefault();
-      // if feedback button is present, focus on that
-      const focusableFeedbackButton = document.querySelector(
-        '#mdFormButton > .usa-button',
-      );
-      if (focusableFeedbackButton) {
-        focusableFeedbackButton.scrollIntoView({ behavior: 'instant' });
-        focusableFeedbackButton.focus();
-        return;
+    useEffect(() => {
+      // set the link location to the feedback button if it's there
+      const feedbackButtonPresent = !!document.getElementById('mdFormButton');
+      if (feedbackButtonPresent) {
+        setSkipLinkHref('#mdFormButton');
       }
-      // else focus on the footer: try specific desktop structure first, then any focusable in footer
-      const footer = document.getElementById('footerNav');
-      if (!footer) return;
-      const specificLink = footer.querySelector(
-        'div.footer-inner div.va-footer-linkgroup ul.va-footer-links li a',
-      );
-      const fallbackLink = footer.querySelector('a[href], button');
-      const firstFooterLink = specificLink || fallbackLink;
-      if (firstFooterLink) {
-        firstFooterLink.scrollIntoView({ behavior: 'instant' });
-        firstFooterLink.focus();
-      }
-    }
+    }, []);
 
     const speakMapInstructions = () => {
       const mapInstructionsElement = document.getElementById(
@@ -82,14 +67,14 @@ const RenderMap = forwardRef(
           data-testid="map-instructions"
           aria-live="assertive"
         />
-        <button
-          className="skip-map-link"
+
+        <va-link
           id="skip-map-link"
-          type="button"
-          onClick={clickSkipMap}
-        >
-          SKIP MAP
-        </button>
+          className="skip-map-link"
+          href={skipLinkHref}
+          text="Skip map"
+        />
+
         <div
           id={mapboxGlContainer}
           data-testid={mapboxGlContainer}

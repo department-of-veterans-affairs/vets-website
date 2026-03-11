@@ -41,13 +41,14 @@ $text-color: rgba(27, 27, 27, 1);
     border-bottom: solid thin var(--vads-color-base-lightest);
   }
 
-  .skip-map-link {
-    position: absolute;
+  #skip-map-link {
+    position: absolute!important ;
     // right: -9999px;
-    // top: auto;
-    // width: 1px;
-    // height: 1px;
-    // overflow: hidden;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    border-radius: 0.25rem;
 
     // &:focus {
       right: .5rem;
@@ -55,8 +56,7 @@ $text-color: rgba(27, 27, 27, 1);
       width: auto;
       height: auto;
       padding: 0.5em 1em;
-      background-color: var(--vads-color-primary);
-      color: var(--vads-color-white);
+      background-color: var(--vads-color-white);
       z-index: 1000;
     // }
   }
