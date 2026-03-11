@@ -26,46 +26,18 @@ const SELECTOR = 'root_wcv3FileInput';
 function testFileUpload(func) {
   cy.wrap(func()).then(file => {
     cy.fillVaFileInput(SELECTOR, {}, file);
-
-    cy.get('va-file-input')
-      .shadow()
-      .find('va-card')
-      .find('span.file-label')
-      .should('exist')
-      .and('contain', file.name);
-
-    cy.get('va-file-input')
-      .find('va-select')
-      .should('exist')
-      .and('be.visible');
+    cy.expectVaFileInputUploadSuccess(file.name);
   });
 }
 
 function deleteFile() {
-  cy.get('va-file-input')
-    .find('va-button-icon')
-    .then($el => {
-      if ($el.length > 1) {
-        $el[1].click();
-        cy.get('va-modal')
-          .shadow()
-          .find('va-button')
-          .then($el2 => {
-            if ($el2.length > 0) {
-              $el2[0].click();
-            }
-          });
-      }
-    });
+  cy.deleteVaFileInput();
 }
 
 // test that an error is thrown if attempt made to continue without having added a file
 function testContinueWithoutFile() {
   cy.findByText(/continue/i, { selector: 'button' }).click();
-  cy.get('va-file-input')
-    .shadow()
-    .find('span.usa-error-message')
-    .should('contain', 'File is required.');
+  cy.expectVaFileInputRequired();
 }
 
 // test adding a variety of file types
@@ -88,13 +60,7 @@ function testRejectInvalidMimeType() {
     // simulate mime type mismatch
     const moddedFile = new File([file], 'placeholder.zip', { type: file.type });
     cy.fillVaFileInput(SELECTOR, {}, moddedFile);
-
-    cy.get('va-file-input')
-      .invoke('attr', 'error')
-      .should(
-        'match',
-        /The file extension doesn.*t match the file format. Please choose a different file./i,
-      );
+    cy.expectVaFileInputErrorMimeTypeMismatch();
   });
   deleteFile();
 }
@@ -103,9 +69,7 @@ function testRejectInvalidMimeType() {
 function testInvalidUTF8Encoding() {
   const invalidFile = makeInvalidUtf8File();
   cy.fillVaFileInput(SELECTOR, {}, invalidFile);
-  cy.get('va-file-input')
-    .invoke('attr', 'error')
-    .should('match', /The file.*s encoding is not valid/i);
+  cy.expectVaFileInputErrorInvalidEncoding();
   deleteFile();
 }
 
@@ -113,28 +77,12 @@ function testInvalidUTF8Encoding() {
 function testAdditionalInfo() {
   testFileUpload(makeMinimalPNG);
 
-  // add a wait to ensure additional input has fully rendered and updated before triggering validation
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(1000);
-
+  // assert error appears when required field is empty
+  cy.waitForVaFileInputAdditionalInfo();
   cy.findByText(/continue/i, { selector: 'button' }).click();
-
-  // we should get an error because additional info not set
-  cy.get('va-file-input')
-    .find('va-select')
-    .should('have.attr', 'error', 'Choose a document status');
-
-  // set the additional info
-  cy.get('va-file-input')
-    .find('va-select')
-    .then($el => {
-      cy.selectVaSelect($el, 'public');
-    });
-
-  // error should be gone
-  cy.get('va-file-input')
-    .find('va-select')
-    .should('not.have.attr', 'error');
+  cy.expectVaFileInputAdditionalInfoError('Choose a document status');
+  // set value so we can proceed (error clears on next form validation, not on value change)
+  cy.selectVaFileInputAdditionalInfo('public');
 
   deleteFile();
 }
@@ -143,9 +91,7 @@ function testAdditionalInfo() {
 function testTooBig() {
   const tooBigFile = makeMinimalTxtFile(100);
   cy.fillVaFileInput(SELECTOR, {}, tooBigFile);
-  cy.get('va-file-input')
-    .find('span.usa-error-message')
-    .should('contain', "We can't upload your file because it's too big.");
+  cy.expectVaFileInputErrorTooBig();
   deleteFile();
 }
 
@@ -153,9 +99,7 @@ function testTooBig() {
 function testTooSmall() {
   const tooSmallFile = makeMinimalTxtFile(1);
   cy.fillVaFileInput(SELECTOR, {}, tooSmallFile);
-  cy.get('va-file-input')
-    .find('span.usa-error-message')
-    .should('contain', "We can't upload your file because it's too small.");
+  cy.expectVaFileInputErrorTooSmall();
   deleteFile();
 }
 
@@ -163,12 +107,7 @@ function testTooSmall() {
 function testZeroBytes() {
   const zeroFile = makeMinimalTxtFile(0);
   cy.fillVaFileInput(SELECTOR, {}, zeroFile);
-  cy.get('va-file-input')
-    .find('span.usa-error-message')
-    .should(
-      'contain',
-      'The file you selected is empty. Files must be larger than 0B.',
-    );
+  cy.expectVaFileInputErrorEmpty();
   deleteFile();
 }
 
@@ -182,35 +121,7 @@ function testFileSizeLimits() {
 // test that encrypted pdfs require passwords
 function testEncryptedPdf() {
   cy.wrap(makeEncryptedPDF()).then(file => {
-    cy.fillVaFileInput(SELECTOR, {}, file);
-    cy.get('va-file-input')
-      .find('label')
-      .should('contain', 'File password');
-
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
-    cy.get('va-file-input')
-      .find('span.usa-error-message')
-      .should('contain', 'Encrypted file requires a password.');
-
-    cy.get('va-file-input')
-      .find('va-text-input')
-      .then($el => {
-        cy.fillVaTextInput($el, 'testpassword');
-      });
-
-    cy.get('va-file-input').then($el => {
-      const event = new CustomEvent('vaPasswordChange', {
-        detail: { password: 'testpassword' },
-        bubbles: true,
-        composed: true,
-      });
-      $el[0].dispatchEvent(event);
-    });
-
-    cy.get('va-file-input')
-      .find('va-text-input')
-      .should('not.exist');
+    cy.fillAndUnlockEncryptedPdfVaFileInput(SELECTOR, file, 'testpassword');
   });
   deleteFile();
 }
@@ -219,20 +130,14 @@ function testEncryptedPdf() {
 function testRejectFileNotAccepted() {
   const file = makeNotAcceptedFile();
   cy.fillVaFileInput(SELECTOR, {}, file);
-  cy.get('va-file-input')
-    .find('span.usa-error-message')
-    .should('contain', 'We do not accept .fake files. Choose a new file.');
+  cy.expectVaFileInputErrorFileNotAccepted();
   deleteFile();
 }
 
 // test happy path
 function uploadValidFileAndNavigateToReviewPage() {
   testFileUpload(makeMinimalPNG);
-  cy.get('va-file-input')
-    .find('va-select')
-    .then($el => {
-      cy.selectVaSelect($el, 'public');
-    });
+  cy.selectVaFileInputAdditionalInfo('public');
   cy.findByText(/continue/i, { selector: 'button' }).click();
   cy.url().should('include', '/review-and-submit');
 }
@@ -297,11 +202,7 @@ const testConfig = createTestConfig(
 
             deleteFile();
             testFileUpload(makeMinimalJPG);
-            cy.get('va-file-input')
-              .find('va-select')
-              .then($el => {
-                cy.selectVaSelect($el, 'public');
-              });
+            cy.selectVaFileInputAdditionalInfo('public');
 
             cy.get('@fileInputSection')
               .contains('button', 'Update page')

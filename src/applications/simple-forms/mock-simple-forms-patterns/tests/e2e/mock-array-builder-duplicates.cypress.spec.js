@@ -94,12 +94,12 @@ const testConfig = createTestConfig(
               // in place. This needs to be fixed.
               cy.get('va-modal[status="warning"]')
                 .shadow()
-                .find('.va-modal-alert-body')
+                .find('.va-modal-alert')
                 .should('contain', text || 'Potential duplicate');
 
               cy.get('va-modal[status="warning"]')
                 .shadow()
-                .find('.va-modal-alert-body va-button')
+                .find('.va-modal-alert va-button')
                 [button]()
                 .click();
             };

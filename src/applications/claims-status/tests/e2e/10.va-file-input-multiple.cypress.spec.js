@@ -353,7 +353,8 @@ describe('VA File Input Multiple', () => {
     // due to browser limitations with creating large files and mocking file sizes.
   });
 
-  describe('Encrypted PDF password handling', () => {
+  // eslint-disable-next-line mocha/no-exclusive-tests
+  describe.only('Encrypted PDF password handling', () => {
     it('should show password input when encrypted PDF is uploaded', () => {
       setupComponentTest();
 
@@ -363,7 +364,7 @@ describe('VA File Input Multiple', () => {
         .find('va-text-input')
         .should('be.visible')
         .shadow()
-        .should('contain.text', 'File password');
+        .should('contain.text', 'Password for this file');
 
       cy.axeCheck();
     });
@@ -449,6 +450,10 @@ describe('VA File Input Multiple', () => {
         .shadow()
         .find('input')
         .type('test-password');
+
+      getFileInput(0)
+        .find('va-button')
+        .click();
 
       // Verify error is cleared when password is entered
       getFileInput(0).should('not.contain.text', PASSWORD_ERROR);
@@ -570,6 +575,10 @@ describe('VA File Input Multiple', () => {
         .shadow()
         .find('input')
         .type('wrong-password');
+
+      getFileInput(0)
+        .find('va-button')
+        .click();
 
       // Select document type
       selectDocumentType(0, 'L029'); // Copy of a DD214

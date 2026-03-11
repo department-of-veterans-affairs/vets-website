@@ -1,14 +1,13 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import debounce from 'platform/utilities/data/debounce';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import {
   useFileUpload,
   getFileError,
-  DEBOUNCE_WAIT,
   simulateUploadSingle,
+  getMockFileData,
   VaProgressUploadAnnounce,
 } from './vaFileInputFieldHelpers';
 import passwordErrorState from '../utilities/file/passwordErrorState';
@@ -87,6 +86,9 @@ const VaFileInputField = props => {
   const [encrypted, setEncrypted] = useState(false);
   const [passwordErrorManager, setPasswordErrorManager] = useState(null);
   const [percent, setPercent] = useState(null);
+  const [passwordSubmissionSuccess, setPasswordSubmissionSuccess] = useState(
+    null,
+  );
   const _id = childrenProps.idSchema.$id;
 
   // only needed because sometimes we skip upload and simulate percent progress
@@ -136,34 +138,29 @@ const VaFileInputField = props => {
     });
   };
 
+  // set errors and related statuses based on upload result
+  const handleSubmissionErrors = ({ errorMessage, isEncrypted }) => {
+    setError(errorMessage);
+    // file was encrypted
+    if (isEncrypted) {
+      setPasswordSubmissionSuccess(!errorMessage);
+      // file was successfully decrypted
+      if (!errorMessage) {
+        passwordErrorManager.setHasPassword(true);
+        passwordError = null;
+      }
+    }
+  };
+
   const handleFileProcessing = uploadedFile => {
     if (!uploadedFile || !uploadedFile.file) return;
-    setError(uploadedFile.errorMessage);
+    handleSubmissionErrors(uploadedFile);
     assignFileUploadToStore(uploadedFile);
   };
 
-  // upload after debounce
-  const debouncePassword = useMemo(
-    () =>
-      debounce(DEBOUNCE_WAIT, password => {
-        if (fileWithPassword) {
-          passwordErrorManager.setHasPassword(password.length > 0);
-          passwordError = null;
-          setEncrypted(null);
-          // eslint-disable-next-line no-unused-expressions
-          uiOptions.skipUpload
-            ? simulateUploadSingle(
-                setPercent,
-                childrenProps.onChange,
-                fileWithPassword,
-              )
-            : handleUpload(fileWithPassword, handleFileProcessing, password);
-        }
-      }),
-    [handleUpload],
-  );
-
   const handleVaChange = async e => {
+    // reset in case user is replacing one encrypted file with another
+    setPasswordSubmissionSuccess(null);
     const fileFromEvent = e.detail.files[0];
 
     if (!fileFromEvent) {
@@ -205,9 +202,24 @@ const VaFileInputField = props => {
     }
   };
 
-  const handleVaPasswordChange = e => {
+  const handleVaPasswordSubmit = e => {
+    if (!fileWithPassword) {
+      setError("We couldn't upload your file. Try again.");
+      return;
+    }
     const { password } = e.detail;
-    debouncePassword(password);
+
+    if (uiOptions.skipUpload) {
+      // simulate upload
+      setTimeout(() => {
+        childrenProps.onChange({
+          ...getMockFileData(fileWithPassword),
+        });
+        handleSubmissionErrors({ errorMessage: null, isEncrypted: true });
+      }, 500);
+    } else {
+      handleUpload(fileWithPassword, handleFileProcessing, password);
+    }
   };
 
   const handleAdditionalInput = e => {
@@ -230,9 +242,7 @@ const VaFileInputField = props => {
 
   const _error = error || mappedProps.error;
   const fileHasBeenAdded =
-    (childrenProps.formData.name &&
-      childrenProps.formData.name !== 'uploading') ||
-    fileWithPassword;
+    childrenProps.formData.name && childrenProps.formData.name !== 'uploading';
 
   return (
     <>
@@ -242,12 +252,12 @@ const VaFileInputField = props => {
         {...mappedProps}
         error={_error}
         encrypted={encrypted}
-        resetVisualState={!!_error}
         uploadedFile={mappedProps.uploadedFile}
         onVaFileInputError={handleInternalError}
         onVaChange={handleVaChange}
-        onVaPasswordChange={handleVaPasswordChange}
-        percentUploaded={percent || null}
+        onVaPasswordSubmit={handleVaPasswordSubmit}
+        passwordSubmissionSuccess={passwordSubmissionSuccess}
+        percentUploaded={encrypted ? null : percent}
         passwordError={passwordError}
       >
         <div className="additional-input-container">

@@ -167,5 +167,265 @@ declare namespace Cypress {
       fillFieldsInVaCard: (fields: any, index: number) => void,
       numItems: number,
     ): Chainable<Subject>;
+
+    // ----- va-file-input helpers -----
+
+    /**
+     * Fill a va-file-input web component with a file.
+     * @param field - The `name` of a va-file-input, or the element itself.
+     * @param value - Any defined value triggers the fill (pass `{}` for default).
+     * @param file - Optional File object. Defaults to a minimal PNG.
+     */
+    fillVaFileInput(
+      field: string | Element,
+      value: any,
+      file?: File,
+    ): Chainable<Subject>;
+
+    /**
+     * Fill a va-file-input-multiple web component with one or more files.
+     * @param field - The `name` of a va-file-input-multiple, or the element itself.
+     * @param value - Any defined value triggers the fill (pass `{}` for default).
+     * @param files - Optional array of File objects. Defaults to a single minimal PNG.
+     */
+    fillVaFileInputMultiple(
+      field: string | Element,
+      value: any,
+      files?: File[],
+    ): Chainable<Subject>;
+
+    /**
+     * Delete the uploaded file from a va-file-input and confirm the modal.
+     * @param field - Optional `name` attribute selector.
+     */
+    deleteVaFileInput(field?: string): Chainable<Subject>;
+
+    /**
+     * Assert that a va-file-input shows an error matching the given pattern.
+     * Checks both the `error` attribute and shadow-DOM `.usa-error-message`.
+     * @param errorPattern - A string (partial match) or RegExp.
+     * @param field - Optional `name` attribute selector.
+     */
+    expectVaFileInputError(
+      errorPattern: string | RegExp,
+      field?: string,
+    ): Chainable<Subject>;
+
+    /**
+     * Assert "File is required." on a va-file-input.
+     * Caller must trigger validation first (e.g. click "Continue").
+     * @param field - Optional `name` attribute selector.
+     */
+    expectVaFileInputRequired(field?: string): Chainable<Subject>;
+
+    /** Assert the "too big" error on a va-file-input. */
+    expectVaFileInputErrorTooBig(field?: string): Chainable<Subject>;
+
+    /** Assert the "too small" error on a va-file-input. */
+    expectVaFileInputErrorTooSmall(field?: string): Chainable<Subject>;
+
+    /** Assert the "empty file" error on a va-file-input. */
+    expectVaFileInputErrorEmpty(field?: string): Chainable<Subject>;
+
+    /** Assert the MIME-type mismatch error on a va-file-input. */
+    expectVaFileInputErrorMimeTypeMismatch(field?: string): Chainable<Subject>;
+
+    /** Assert the invalid encoding error on a va-file-input. */
+    expectVaFileInputErrorInvalidEncoding(field?: string): Chainable<Subject>;
+
+    /** Assert the "not accepted" file type error on a va-file-input. */
+    expectVaFileInputErrorFileNotAccepted(field?: string): Chainable<Subject>;
+
+    /**
+     * Assert a file card is showing the expected filename after upload.
+     * @param fileName - Expected file name.
+     * @param field - Optional `name` attribute selector.
+     */
+    expectVaFileInputUploadSuccess(
+      fileName: string,
+      field?: string,
+    ): Chainable<Subject>;
+
+    /**
+     * Handle the encrypted-PDF unlock flow on a va-file-input.
+     * @param password - Password to enter.
+     * @param field - Optional `name` attribute selector.
+     */
+    unlockVaFileInputEncryptedPdf(
+      password: string,
+      field?: string,
+    ): Chainable<Subject>;
+
+    /**
+     * Upload an encrypted PDF to a va-file-input, enter the password,
+     * and confirm it is unlocked.
+     * @param field - The `name` attribute selector (or element).
+     * @param file - The encrypted PDF File object.
+     * @param password - The password to unlock the PDF.
+     */
+    fillAndUnlockEncryptedPdfVaFileInput(
+      field: string,
+      file: File,
+      password: string,
+    ): Chainable<Subject>;
+
+    /**
+     * Set the additional-info va-select inside a va-file-input.
+     * @param selectValue - The option value to select.
+     * @param field - Optional `name` attribute selector.
+     */
+    selectVaFileInputAdditionalInfo(
+      selectValue: string,
+      field?: string,
+    ): Chainable<Subject>;
+
+    /**
+     * Assert additional-info va-select error.
+     * @param expectedError - Expected error text.
+     * @param field - Optional `name` attribute selector.
+     */
+    expectVaFileInputAdditionalInfoError(
+      expectedError: string,
+      field?: string,
+    ): Chainable<Subject>;
+
+    /**
+     * Wait for the additional-info va-select to render inside a
+     * va-file-input.  Call before triggering form validation so RJSF
+     * registers the va-select.
+     * @param field - Optional `name` attribute selector.
+     */
+    waitForVaFileInputAdditionalInfo(field?: string): Chainable<Subject>;
+
+    // ----- va-file-input-multiple helpers -----
+
+    /**
+     * Delete a file from a va-file-input-multiple and confirm the modal.
+     * @param field - Optional `name` attribute of the parent.
+     * @param index - Which child file-input to target (default 0).
+     */
+    deleteVaFileInputMultiple(
+      field?: string,
+      index?: number,
+    ): Chainable<Subject>;
+
+    /**
+     * Assert that a child va-file-input inside va-file-input-multiple
+     * shows an error matching the given pattern.
+     * @param errorPattern - A string (partial match) or RegExp.
+     * @param field - Optional `name` attribute of the parent.
+     * @param index - Which child file-input to check (default 0).
+     */
+    expectVaFileInputMultipleError(
+      errorPattern: string | RegExp,
+      field?: string,
+      index?: number,
+    ): Chainable<Subject>;
+
+    /**
+     * Assert "File is required." on a va-file-input-multiple.
+     * Caller must trigger validation first (e.g. click "Continue").
+     * @param field - Optional `name` attribute of the parent.
+     */
+    expectVaFileInputMultipleRequired(field?: string): Chainable<Subject>;
+
+    /** Assert the "too big" error on a va-file-input-multiple child. */
+    expectVaFileInputMultipleErrorTooBig(
+      field?: string,
+      index?: number,
+    ): Chainable<Subject>;
+
+    /** Assert the "too small" error on a va-file-input-multiple child. */
+    expectVaFileInputMultipleErrorTooSmall(
+      field?: string,
+      index?: number,
+    ): Chainable<Subject>;
+
+    /** Assert the "empty file" error on a va-file-input-multiple child. */
+    expectVaFileInputMultipleErrorEmpty(
+      field?: string,
+      index?: number,
+    ): Chainable<Subject>;
+
+    /** Assert the MIME-type mismatch error on a va-file-input-multiple child. */
+    expectVaFileInputMultipleErrorMimeTypeMismatch(
+      field?: string,
+      index?: number,
+    ): Chainable<Subject>;
+
+    /** Assert the invalid encoding error on a va-file-input-multiple child. */
+    expectVaFileInputMultipleErrorInvalidEncoding(
+      field?: string,
+      index?: number,
+    ): Chainable<Subject>;
+
+    /** Assert the "not accepted" file type error on a va-file-input-multiple child. */
+    expectVaFileInputMultipleErrorFileNotAccepted(
+      field?: string,
+      index?: number,
+    ): Chainable<Subject>;
+
+    /**
+     * Handle the encrypted-PDF unlock flow inside a va-file-input-multiple.
+     * @param password - Password to enter.
+     * @param field - Optional `name` attribute of the parent.
+     * @param index - Which child file-input to target (default 0).
+     */
+    unlockVaFileInputMultipleEncryptedPdf(
+      password: string,
+      field?: string,
+      index?: number,
+    ): Chainable<Subject>;
+
+    /**
+     * Upload an encrypted PDF to a va-file-input-multiple, enter the password,
+     * and confirm it is unlocked.
+     * @param field - The `name` attribute of the parent (or element).
+     * @param file - The encrypted PDF File object.
+     * @param password - The password to unlock the PDF.
+     * @param index - Which child file-input to target (default 0).
+     */
+    fillAndUnlockEncryptedPdfVaFileInputMultiple(
+      field: string,
+      file: File,
+      password: string,
+      index?: number,
+    ): Chainable<Subject>;
+
+    /**
+     * Set the additional-info va-select inside a child of va-file-input-multiple.
+     * @param selectValue - The option value to select.
+     * @param field - Optional `name` attribute of the parent.
+     * @param index - Which child file-input to target (default 0).
+     */
+    selectVaFileInputMultipleAdditionalInfo(
+      selectValue: string,
+      field?: string,
+      index?: number,
+    ): Chainable<Subject>;
+
+    /**
+     * Assert additional-info va-select error on a child of va-file-input-multiple.
+     * @param expectedError - Expected error text.
+     * @param field - Optional `name` attribute of the parent.
+     * @param index - Which child file-input to check (default 0).
+     */
+    expectVaFileInputMultipleAdditionalInfoError(
+      expectedError: string,
+      field?: string,
+      index?: number,
+    ): Chainable<Subject>;
+
+    /**
+     * Wait for the additional-info va-select to render inside a
+     * va-file-input-multiple child.  Call before triggering form validation
+     * so RJSF registers the va-select.
+     * @param field - Optional `name` attribute of the parent.
+     * @param index - Which child file-input to target (default 0).
+     */
+    waitForVaFileInputMultipleAdditionalInfo(
+      field?: string,
+      index?: number,
+    ): Chainable<Subject>;
   }
 }
