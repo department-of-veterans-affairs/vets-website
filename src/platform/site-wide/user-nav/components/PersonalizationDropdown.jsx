@@ -6,7 +6,7 @@ import {
   isAuthenticatedWithSSOe,
   signInServiceName,
 } from 'platform/user/authentication/selectors';
-import { isPostAuthProfileLoading } from 'platform/user/selectors';
+import { isProfileLoading } from 'platform/user/selectors';
 import { logoutUrl } from 'platform/user/authentication/utilities';
 import { logoutUrlSiS, logoutEvent } from 'platform/utilities/oauth/utilities';
 import recordEvent from 'platform/monitoring/record-event';
@@ -23,7 +23,7 @@ const recordDependentsEvent = recordNavUserEvent('dependents');
 const recordLettersEvent = recordNavUserEvent('letters');
 
 export function PersonalizationDropdown(props) {
-  const { isSSOe, csp, isPostAuthLoading } = props;
+  const { isSSOe, csp, isProfileLoading: profileLoading } = props;
 
   const createSignout = useCallback(
     () => (
@@ -39,24 +39,17 @@ export function PersonalizationDropdown(props) {
 
   return (
     <ul>
-      <li>
-        <a
-          href="/my-va/"
-          aria-disabled={isPostAuthLoading ? 'true' : undefined}
-          aria-label={
-            isPostAuthLoading ? 'Loading your profile information' : undefined
-          }
-          onClick={
-            isPostAuthLoading ? e => e.preventDefault() : recordMyVaEvent
-          }
-        >
-          My VA
-        </a>
-      </li>
+      {!profileLoading && (
+        <li>
+          <a href="/my-va/" onClick={recordMyVaEvent}>
+            My VA
+          </a>
+        </li>
+      )}
       <MyHealthLink
         recordNavUserEvent={recordNavUserEvent}
         isSSOe={isSSOe}
-        isPostAuthLoading={isPostAuthLoading}
+        isProfileLoading={profileLoading}
       />
       <li>
         <a href="/profile" onClick={recordProfileEvent}>
@@ -83,14 +76,14 @@ export function PersonalizationDropdown(props) {
 
 PersonalizationDropdown.propTypes = {
   csp: PropTypes.oneOf(['idme', 'logingov', 'mhv']),
-  isPostAuthLoading: PropTypes.bool,
+  isProfileLoading: PropTypes.bool,
   isSSOe: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   isSSOe: isAuthenticatedWithSSOe(state),
   csp: signInServiceName(state),
-  isPostAuthLoading: isPostAuthProfileLoading(state),
+  isProfileLoading: isProfileLoading(state),
 });
 
 export default connect(mapStateToProps)(PersonalizationDropdown);

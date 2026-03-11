@@ -9,7 +9,7 @@ import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users';
 import recordEvent from '../../../monitoring/record-event';
-import { isLoggedIn, isPostAuthProfileLoading } from '../../../user/selectors';
+import { isLoggedIn, isProfileLoading } from '../../../user/selectors';
 import {
   toggleMobileDisplayHidden,
   togglePanelOpen,
@@ -177,10 +177,9 @@ Main.propTypes = {
   ),
 };
 
-export const mapStateToProps = (state, ownProps, search) => {
+export const mapStateToProps = (state, ownProps) => {
   const loggedIn = isLoggedIn(state);
-  const gated = isPostAuthProfileLoading(state, search);
-  const gateLink = link => (gated ? { ...link, loading: true } : link);
+  const profileLoading = isProfileLoading(state);
 
   // Derive the default mega menu links (both auth + unauth).
   const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
@@ -189,12 +188,12 @@ export const mapStateToProps = (state, ownProps, search) => {
   const featureToggles = toggleValues(state);
   const featureToggleMhvHeaderLinks = featureToggles.mhvHeaderLinks;
 
-  if (loggedIn && !featureToggleMhvHeaderLinks) {
-    defaultLinks.push(gateLink(MY_VA_LINK), gateLink(MY_HEALTH_LINK));
+  if (loggedIn && !profileLoading && !featureToggleMhvHeaderLinks) {
+    defaultLinks.push(MY_VA_LINK, MY_HEALTH_LINK);
   }
 
-  if (featureToggleMhvHeaderLinks) {
-    defaultLinks.push(gateLink(MY_VA_LINK), gateLink(MY_HEALTH_LINK));
+  if (featureToggleMhvHeaderLinks && !profileLoading) {
+    defaultLinks.push(MY_VA_LINK, MY_HEALTH_LINK);
   }
 
   const authenticatedLinks = [];
