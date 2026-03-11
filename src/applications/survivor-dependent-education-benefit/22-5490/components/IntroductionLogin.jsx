@@ -15,6 +15,7 @@ import LoadingIndicator from './LoadingIndicator';
 function IntroductionLogin({
   isLoggedIn,
   isLOA3,
+  isMinor,
   isPersonalInfoFetchComplete,
   isPersonalInfoFetchFailed,
   route,
@@ -80,7 +81,45 @@ function IntroductionLogin({
             </span>
           </va-alert-sign-in>
         )}
+
       {isLoggedIn &&
+        isMinor && (
+          <va-alert status="warning">
+            <h2 slot="headline">
+              You don’t meet the age requirement to access this form online
+            </h2>
+            <p>
+              Our records indicate you are under 18 years old. You must be at
+              least 18 years of age or older to complete this application
+              online.
+            </p>
+            <p>
+              <b>Need to apply now?</b> Complete a{' '}
+              <va-link
+                href="https://www.vba.va.gov/pubs/forms/vba-22-1990e-are.pdf"
+                text="paper application"
+              />{' '}
+              and submit through{' '}
+              <va-link
+                href="https://www.va.gov/contact-us/ask-va/introduction"
+                text="Ask VA"
+              />
+              . A parent, guardian, or custodian must complete and submit the
+              application on your behalf.
+            </p>
+            <p>
+              If you believe our records are incorrect,{' '}
+              <va-link
+                href="https://www.va.gov/contact-us/ask-va/introduction"
+                text="you can submit a request to update your personal information through Ask VA"
+              />
+              .
+            </p>
+          </va-alert>
+        )}
+
+      {isLoggedIn &&
+        !isMinor &&
         apiCallsComplete &&
         !shouldShowMaintenanceAlert &&
         isLOA3 && (
@@ -107,6 +146,7 @@ IntroductionLogin.propTypes = {
   eligibility: PropTypes.arrayOf(PropTypes.string),
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  isMinor: PropTypes.bool,
   isPersonalInfoFetchComplete: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
   showHideLoginModal: PropTypes.func,

@@ -24,9 +24,11 @@ function App({
   getDuplicateContactInfo,
   getPersonalInformation,
   isLOA3,
+  isMinor,
   location,
   mebBankInfoConfirmationField,
   mebBlockUnder18,
+  router,
   setFormData,
   user,
 }) {
@@ -141,6 +143,17 @@ function App({
     [getDuplicateContactInfo, formData?.email, formData?.mobilePhone?.phone],
   );
 
+  // Block minors from entering the form
+  useEffect(
+    () => {
+      const { pathname } = location;
+      if (isMinor && pathname !== '/introduction') {
+        router.push('/introduction');
+      }
+    },
+    [location, isMinor, router],
+  );
+
   return (
     <>
       <div className="row">
@@ -186,9 +199,13 @@ App.propTypes = {
   getDuplicateContactInfo: PropTypes.func,
   getPersonalInformation: PropTypes.func,
   isLOA3: PropTypes.bool,
+  isMinor: PropTypes.bool,
   location: PropTypes.object,
   mebBankInfoConfirmationField: PropTypes.bool,
   mebBlockUnder18: PropTypes.bool,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   setFormData: PropTypes.func,
   user: PropTypes.object,
 };
