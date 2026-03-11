@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
-import { isLoggedIn } from 'platform/user/selectors';
-// import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -115,7 +116,7 @@ const PrivacyActAccordion = () => {
 export const IntroductionPage = props => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
 
-  const { route } = props;
+  const { route, toggleLoginModal } = props;
   const { formConfig, pageList } = route;
 
   const removePrivacyActButton = async () => {
@@ -130,6 +131,13 @@ export const IntroductionPage = props => {
       }
     }
   };
+
+  const showSignInModal = useCallback(
+    () => {
+      toggleLoginModal(true, 'ask-va', true);
+    },
+    [toggleLoginModal],
+  );
 
   useEffect(() => {
     scrollToTop();
@@ -217,24 +225,53 @@ export const IntroductionPage = props => {
       </h2>
       <ProcessList />
       <div className="vads-u-border-top--4 vads-u-margin-bottom--4">
-        {userLoggedIn && (
-          <h2 className="vads-u-margin-top--1p5">Start the form</h2>
+        {!userLoggedIn ? (
+          <va-alert-sign-in
+            data-testid="sign-in-alert"
+            disable-analytics
+            heading-level={3}
+            no-sign-in-link={null}
+            time-limit={null}
+            variant="signInRequired"
+            visible
+          >
+            <span slot="SignInButton">
+              <VaButton
+                text="Sign in or create an account"
+                onClick={showSignInModal}
+              />
+            </span>
+          </va-alert-sign-in>
+        ) : (
+          <SaveInProgressIntro
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            startText="Start your Yellow Ribbon Program Agreement"
+            pageList={pageList}
+            devOnly={{
+              forceShowFormControls: true,
+            }}
+          />
         )}
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start your Yellow Ribbon Program Agreement"
-          formConfig={formConfig}
-          unauthStartText="Sign in to start your form"
-        />
       </div>
       <OmbInfo />
       <PrivacyActAccordion />
     </article>
   );
 };
+
+function mapStateToProps(state) {
+  return {
+    formData: state.form?.data || {},
+    loggedIn: isLoggedIn(state),
+    profile: selectProfile(state),
+  };
+}
+
+const mapDispatchToProps = dispatch => ({
+  toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
+});
 
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
@@ -249,4 +286,7 @@ IntroductionPage.propTypes = {
   }),
 };
 
-export default IntroductionPage;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPage);
