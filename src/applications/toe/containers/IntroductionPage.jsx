@@ -44,8 +44,8 @@ export const IntroductionPageContent = ({ mebBlockUnder18 }) => {
 
       <p>
         <strong>
-          If you have applied for education benefits before, use VA Form
-          22-1990e to:
+          If you’ve applied for education benefits before, use VA Form 22-1990e
+          to:
         </strong>
       </p>
       <ul>
