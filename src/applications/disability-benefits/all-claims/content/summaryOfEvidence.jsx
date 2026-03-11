@@ -53,8 +53,11 @@ const buildSectionsList = (formData, { shouldEnhance }) => {
       if (evidences.length) {
         const evidencesList = (
           <ul>
-            {evidences.map(evidence => {
-              const key = evidence[configuration.evidenceIdKey];
+            {evidences.map((evidence, index) => {
+              const key =
+                evidence[configuration.evidenceIdKey] ||
+                evidence[configuration.evidenceNameKey] ||
+                index;
               const name = evidence[configuration.evidenceNameKey];
               return <li key={key}>{name}</li>;
             })}
