@@ -45,7 +45,7 @@ describe('SM CARE TEAM HELP PAGE - Cerner and Hybrid User Updates', () => {
 
       // Should show the "names may appear different" bullet with R&S link
       cy.findByText(/Their name may appear different/).should('exist');
-      cy.findByRole('link', { name: /Learn more about this name change/ })
+      cy.findByTestId('name-change-link')
         .should('exist')
         .and(
           'have.attr',
@@ -54,7 +54,7 @@ describe('SM CARE TEAM HELP PAGE - Cerner and Hybrid User Updates', () => {
         );
 
       // Contact list link
-      cy.findByRole('link', { name: /Update your contact list/ })
+      cy.findByTestId('update-contact-list-link')
         .should('exist')
         .and('have.attr', 'href', Data.LINKS.CONTACT_LIST);
 
@@ -89,7 +89,7 @@ describe('SM CARE TEAM HELP PAGE - Cerner and Hybrid User Updates', () => {
 
       // Should show the "names may appear different" bullet with R&S link
       cy.findByText(/Their name may appear different/).should('exist');
-      cy.findByRole('link', { name: /Learn more about this name change/ })
+      cy.findByTestId('name-change-link')
         .should('exist')
         .and(
           'have.attr',

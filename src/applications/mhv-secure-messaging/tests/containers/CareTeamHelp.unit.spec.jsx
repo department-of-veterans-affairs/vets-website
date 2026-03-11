@@ -122,9 +122,13 @@ describe('CareTeamHelp', () => {
     // VistA-only shows provider's name in search suggestions
     expect(screen.getByText(/provider\u2019s name/)).to.exist;
 
+    // VistA-only should NOT show the "name may appear different" bullet
+    expect(screen.queryByText(/Their name may appear different/)).to.not.exist;
+    expect(screen.queryByTestId('name-change-link')).to.not.exist;
+
     // Should have one "Update your contact list" link
-    const updateLinks = screen.getAllByText(/Update your contact list/);
-    expect(updateLinks).to.have.length(1);
+    const updateLink = screen.getByTestId('update-contact-list-link');
+    expect(updateLink).to.exist;
 
     // Back navigation works
     const historySpy = sinon.spy(screen.history, 'goBack');
@@ -143,7 +147,12 @@ describe('CareTeamHelp', () => {
 
     // Should show the "names may appear different" bullet with R&S link
     expect(screen.getByText(/Their name may appear different/)).to.exist;
-    expect(screen.getByText(/Learn more about this name change/)).to.exist;
+    const nameChangeLink = screen.getByTestId('name-change-link');
+    expect(nameChangeLink).to.exist;
+    expect(nameChangeLink).to.have.attribute(
+      'href',
+      'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
+    );
 
     // Provider's name should NOT be shown
     expect(screen.queryByText(/provider\u2019s name/)).to.not.exist;
@@ -153,7 +162,7 @@ describe('CareTeamHelp', () => {
       .exist;
 
     // Oracle-only has no "Update your contact list" link in current UI
-    expect(screen.queryByText(/Update your contact list/)).to.be.null;
+    expect(screen.queryByTestId('update-contact-list-link')).to.not.exist;
 
     // Back navigation works
     const historySpy = sinon.spy(screen.history, 'goBack');
@@ -169,10 +178,8 @@ describe('CareTeamHelp', () => {
     expect(screen.getByRole('heading', { level: 1 })).to.exist;
 
     // Hybrid should have ONE "Update your contact list" link
-    const updateLinks = screen.getAllByRole('link', {
-      name: /Update your contact list/,
-    });
-    expect(updateLinks).to.have.length(1);
+    const updateLink = screen.getByTestId('update-contact-list-link');
+    expect(updateLink).to.exist;
 
     // Provider's name should NOT be shown for Hybrid
     expect(screen.queryByText(/provider\u2019s name/)).to.not.exist;
@@ -183,7 +190,12 @@ describe('CareTeamHelp', () => {
 
     // Should show the "names may appear different" bullet with R&S link
     expect(screen.getByText(/Their name may appear different/)).to.exist;
-    expect(screen.getByText(/Learn more about this name change/)).to.exist;
+    const nameChangeLink = screen.getByTestId('name-change-link');
+    expect(nameChangeLink).to.exist;
+    expect(nameChangeLink).to.have.attribute(
+      'href',
+      'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
+    );
 
     // Hybrid still shows search guidance
     expect(screen.getByText(/Enter the first few letters/)).to.exist;
@@ -251,8 +263,8 @@ describe('CareTeamHelp', () => {
     expect(screen.getByRole('heading', { level: 1 })).to.exist;
 
     // Should have at least one "Update your contact list" link
-    const updateLinks = screen.getAllByText(/Update your contact list/);
-    expect(updateLinks.length).to.be.greaterThan(0);
+    const updateLink = screen.getByTestId('update-contact-list-link');
+    expect(updateLink).to.exist;
   });
 
   it('redirects users to interstitial page if interstitial not accepted', async () => {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
   selectIsCernerPatient,
   selectIsCernerOnlyPatient,
@@ -8,6 +8,7 @@ import {
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import EmergencyNote from '../components/EmergencyNote';
+import RouterLink from '../components/shared/RouterLink';
 import { Paths, PageTitles } from '../util/constants';
 import { populatedDraft } from '../selectors';
 
@@ -63,10 +64,12 @@ const CareTeamHelp = () => {
       {(isCerner || isHybrid) && (
         <li>
           Their name may appear different.
-          <div style={{ marginTop: '5px' }}>
-            <a href="https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/">
-              Learn more about this name change
-            </a>
+          <div className="vads-u-margin-top--0p5">
+            <va-link
+              href="https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/"
+              text="Learn more about this name change"
+              data-testid="name-change-link"
+            />
           </div>
         </li>
       )}
@@ -83,9 +86,11 @@ const CareTeamHelp = () => {
             adding them to your contact list.
           </p>
 
-          <Link to={Paths.CONTACT_LIST}>
-            <strong>Update your contact list</strong>
-          </Link>
+          <RouterLink
+            href={Paths.CONTACT_LIST}
+            text="Update your contact list"
+            data-testid="update-contact-list-link"
+          />
         </>
       );
     }
