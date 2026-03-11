@@ -121,7 +121,6 @@ import {
   workBehaviorChanges,
 } from '../pages';
 
-import { onNavForwardToReturnPath } from '../components/Basic526Link';
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 import { form0781PagesConfig } from './form0781/index';
 import { disabilityBenefitsWorkflow } from '../pages/disabilityBenefits';
@@ -605,7 +604,6 @@ const formConfig = {
           title: 'Separation health assessment',
           path: 'supporting-evidence/separation-health-assessment',
           depends: isBddShaWorkflowActive,
-          onNavForward: onNavForwardToReturnPath(),
           uiSchema: separationHealthAssessment.uiSchema,
           schema: separationHealthAssessment.schema,
         },

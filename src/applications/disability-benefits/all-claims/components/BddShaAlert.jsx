@@ -1,6 +1,8 @@
 import React from 'react';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Basic526Link from './Basic526Link';
+import {
+  VaAlert,
+  VaLink,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function BddShaAlert() {
   return (
@@ -14,8 +16,8 @@ export default function BddShaAlert() {
         will not be able to deliver a decision within 30 days after separation.
       </p>
       <p>
-        <Basic526Link
-          path="supporting-evidence/separation-health-assessment"
+        <VaLink
+          href="/supporting-evidence/separation-health-assessment"
           text="Check if you've uploaded a SHA Part A document"
         />
       </p>
