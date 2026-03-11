@@ -194,6 +194,8 @@ jobs:
     outputs:
       disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
       cypress-tests: ${{ steps.cypress-tests.outputs.selected }}
+      playwright_tests: ${{ steps.playwright-tests.outputs.selected }}
+      playwright_count: ${{ steps.playwright-count.outputs.count }}
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       e2e_count: ${{ steps.e2e-count.outputs.count }}
@@ -290,6 +292,29 @@ jobs:
         run: |
           if [[ -f "e2e_tests_to_test.json" ]]; then
             COUNT=$(node -e "console.log(require('./e2e_tests_to_test.json').length)")
+          else
+            COUNT=0
+          fi
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
+
+      - name: Set output of PLAYWRIGHT_TESTS
+        if: ${{ inputs.run_full_e2e_suite }}
+        id: playwright-tests
+        run: echo selected=$PLAYWRIGHT_TESTS >> $GITHUB_OUTPUT
+
+      - name: Upload artifact of Playwright Tests to Test
+        if: ${{ inputs.run_full_e2e_suite }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: playwright-tests-to-test
+          path: playwright_tests_to_test.json
+
+      - name: Count Playwright specs
+        if: ${{ inputs.run_full_e2e_suite }}
+        id: playwright-count
+        run: |
+          if [[ -f "playwright_tests_to_test.json" ]]; then
+            COUNT=$(node -e "console.log(require('./playwright_tests_to_test.json').length)")
           else
             COUNT=0
           fi
@@ -504,56 +529,56 @@ jobs:
 
     steps:
       - name: Checkout vets-website
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Configure AWS credentials
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/configure-aws-credentials
         with:
           aws_region: us-gov-west-1
           role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/configure-bigquery
 
       - name: Fetch E2E Test Stability Allow List
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: e2e
 
       - name: Download production build artifact
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.bz2
 
       - name: Install missing dependencies
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y bzip2 curl
 
       - name: Unpack build
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         run: |
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
       - name: Install dependencies
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/install
         timeout-minutes: 20
         with:
@@ -566,21 +591,21 @@ jobs:
             node_modules
 
       - name: Download Tests to run
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/download-artifact
         with:
           name: e2e-tests-to-test
           path: .
 
       - name: Check for newly added disallowed tests
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         run: node script/github-actions/double-check-allow-list.js
         env:
           TEST_TYPE: e2e
           TEST_PROPERTY: 'TESTS'
 
       - name: Run Cypress tests
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -621,25 +646,261 @@ jobs:
           APP_URLS: 'http://localhost:3001'
 
       - name: Archive test videos
-        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
+        if: ${{ needs.tests-prep.outputs.cypress-tests == 'true' && failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-video-artifacts-${{ matrix.ci_node_index }}
           path: cypress/videos
 
       - name: Archive test screenshots
-        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
+        if: ${{ needs.tests-prep.outputs.cypress-tests == 'true' && failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-screenshot-artifacts-${{ matrix.ci_node_index }}
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
-        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && always() }}
+        if: ${{ needs.tests-prep.outputs.cypress-tests == 'true' && always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-mochawesome-test-results-${{ matrix.ci_node_index }}
           path: cypress/results
+          retention-days: 1
+
+  playwright-shard-prep:
+    name: Playwright Shard Prep
+    runs-on: ubuntu-22.04
+    needs: [tests-prep]
+    if: ${{ inputs.run_full_e2e_suite }}
+    permissions:
+      contents: read
+    outputs:
+      shard_indices: ${{ steps.shard.outputs.shard_indices }}
+      shard_count: ${{ steps.shard.outputs.shard_count }}
+      has_tests: ${{ steps.shard.outputs.has_tests }}
+      playwright_version: ${{ steps.playwright-version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Restore durations cache
+        uses: actions/cache/restore@v4
+        with:
+          path: playwright-durations.json
+          key: playwright-durations-${{ github.run_id }}
+          restore-keys: |
+            playwright-durations-
+
+      - name: Download Playwright test list
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: playwright-tests-to-test
+          path: .
+
+      - name: Compute shards
+        id: shard
+        run: node script/github-actions/playwright-shard-tests.js
+
+      - name: Upload shard assignments
+        if: steps.shard.outputs.has_tests == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-shards
+          path: playwright-shards.json
+          retention-days: 1
+
+      - name: Get Playwright version
+        if: steps.shard.outputs.has_tests == 'true'
+        id: playwright-version
+        run: echo "version=$(node -e "console.log(require('./node_modules/@playwright/test/package.json').version)")" >> $GITHUB_OUTPUT
+
+      - name: Cache Playwright browsers
+        if: steps.shard.outputs.has_tests == 'true'
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ steps.playwright-version.outputs.version }}
+          save-always: true
+
+      - name: Install Playwright browsers
+        if: steps.shard.outputs.has_tests == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install chromium --with-deps
+
+      - name: Install Playwright system deps
+        if: steps.shard.outputs.has_tests == 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+  playwright-tests:
+    name: Playwright E2E Tests (${{ matrix.shard_index }})
+    runs-on: ubuntu-16-cores-latest
+    timeout-minutes: 30
+    needs: [build, reuse-build, playwright-shard-prep]
+    if: |
+      always() &&
+      inputs.run_full_e2e_suite &&
+      (needs.build.result == 'success' || needs.reuse-build.result == 'success') &&
+      needs.playwright-shard-prep.outputs.has_tests == 'true'
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        shard_index: ${{ fromJson(needs.playwright-shard-prep.outputs.shard_indices) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Restore Playwright browsers from cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ needs.playwright-shard-prep.outputs.playwright_version }}
+
+      - name: Install Playwright system deps
+        run: npx playwright install-deps chromium
+
+      - name: Download production build artifact
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: vagovprod.tar.bz2
+
+      - name: Unpack build
+        run: |
+          mkdir -p build/vagovprod
+          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+      - name: Download shard assignments
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-shards
+
+      - name: Get shard test files
+        id: shard-files
+        run: |
+          FILES=$(node -e "
+            const shards = require('./playwright-shards.json');
+            const files = shards.shards['${{ matrix.shard_index }}'] || [];
+            console.log(files.join(' '));
+          ")
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+          echo "Shard ${{ matrix.shard_index }} files: $FILES"
+
+      - name: Run Playwright tests
+        if: steps.shard-files.outputs.files != ''
+        run: npx playwright test --config config/playwright.config.js ${{ steps.shard-files.outputs.files }}
+        env:
+          CI: true
+          BUILDTYPE: vagovprod
+          NODE_OPTIONS: '--openssl-legacy-provider'
+          PLAYWRIGHT_SHARD_INDEX: ${{ matrix.shard_index }}
+
+      - name: Upload blob report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-blob-report-${{ matrix.shard_index }}
+          path: blob-report/
+          retention-days: 1
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-test-results-${{ matrix.shard_index }}
+          path: test-results/
+          retention-days: 30
+
+      - name: Archive Mochawesome test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-mochawesome-test-results-${{ matrix.shard_index }}
+          path: cypress/results/
+          retention-days: 1
+
+  playwright-merge-reports:
+    name: Merge Playwright Reports
+    runs-on: ubuntu-22.04
+    needs: [playwright-tests]
+    permissions:
+      contents: read
+    if: ${{ always() && (needs.playwright-tests.result == 'success' || needs.playwright-tests.result == 'failure') }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Download all blob reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: playwright-blob-report-*
+          path: all-blob-reports
+          merge-multiple: true
+
+      - name: Merge HTML report
+        run: npx playwright merge-reports --reporter=html all-blob-reports
+
+      - name: Upload merged HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Download all Mochawesome results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: playwright-mochawesome-test-results-*
+          path: merged-mochawesome
+          merge-multiple: true
+
+      - name: Save test durations
+        run: node script/github-actions/save-playwright-durations.js merged-mochawesome playwright-durations.json
+
+      - name: Cache durations for future runs
+        uses: actions/cache/save@v4
+        with:
+          path: playwright-durations.json
+          key: playwright-durations-${{ github.run_id }}
+
+      - name: Upload merged Mochawesome results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-mochawesome-test-results
+          path: merged-mochawesome/
           retention-days: 1
 
   testing-reports-prep:
@@ -873,3 +1134,73 @@ jobs:
           conclusion: ${{ needs.cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+  testing-reports-playwright:
+    name: Testing Reports - Playwright E2E Tests (Full Suite)
+    runs-on: ubuntu-22.04
+    needs: [testing-reports-prep, playwright-tests, playwright-merge-reports]
+    permissions:
+      checks: write
+      id-token: write
+      contents: read
+    if: ${{ always() && inputs.run_full_e2e_suite && (needs.playwright-tests.result == 'success' || needs.playwright-tests.result == 'failure') }}
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Download Playwright Mochawesome test results
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: playwright-mochawesome-test-results
+          path: qa-standards-dashboard-data/src/testing-reports/data
+
+      - name: Generate Playwright report summary
+        id: playwright-summary
+        run: |
+          SUMMARY=$(node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const dir = 'qa-standards-dashboard-data/src/testing-reports/data';
+            const files = fs.readdirSync(dir).filter(f => f.endsWith('.json'));
+            let totalTests = 0, totalPasses = 0, totalFailures = 0, totalPending = 0;
+            for (const file of files) {
+              const report = JSON.parse(fs.readFileSync(path.join(dir, file)));
+              totalTests += report.stats.tests || 0;
+              totalPasses += report.stats.passes || 0;
+              totalFailures += report.stats.failures || 0;
+              totalPending += report.stats.pending || 0;
+            }
+            console.log('\"Total: ' + totalTests + ' | Passes: ' + totalPasses + ' | Failures: ' + totalFailures + ' | Pending: ' + totalPending + '\"');
+          ")
+          echo "PLAYWRIGHT_REPORT_RESULTS=$SUMMARY" >> $GITHUB_ENV
+
+      - name: Publish Playwright test results
+        if: ${{ always() }}
+        uses: ./.github/workflows/checks-action
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Playwright Tests Summary (Full Suite)
+          conclusion: ${{ needs.playwright-tests.result }}
+          output: |
+            {"summary":${{ env.PLAYWRIGHT_REPORT_RESULTS }}}
