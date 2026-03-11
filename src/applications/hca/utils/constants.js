@@ -31,16 +31,6 @@ export const DISCHARGE_TYPE_LABELS = Object.freeze({
   undesirable: 'Undesirable',
 });
 
-// declare enum values for discharge type select box
-export const DISCHARGE_TYPE_VALUES = Object.freeze([
-  'honorable',
-  'general',
-  'other',
-  'bad-conduct',
-  'dishonorable',
-  'undesirable',
-]);
-
 // declare action statuses for fetching enrollment status
 export const ENROLLMENT_STATUS_ACTIONS = {
   FETCH_ENROLLMENT_STATUS_STARTED: 'FETCH_ENROLLMENT_STATUS_STARTED',
@@ -112,15 +102,6 @@ export const HCA_NULL_STATUSES = new Set([
 // declare the minimum percentage value to be considered high disability
 export const HIGH_DISABILITY_MINIMUM = 50;
 
-// declare marital status values for marital status select box
-export const MARITAL_STATUS_VALUES = Object.freeze([
-  'Married',
-  'Never Married',
-  'Separated',
-  'Widowed',
-  'Divorced',
-]);
-
 // declare a valid response for the enrollment status endpoint
 export const MOCK_ENROLLMENT_RESPONSE = {
   applicationDate: '2019-04-24T00:00:00.000-06:00',
@@ -147,21 +128,3 @@ export const SERVICE_BRANCH_LABELS = Object.freeze({
   'f.scouts old': 'Filipino Old Scout',
   other: 'Other',
 });
-
-// declare enum values for last service branch select box
-export const SERVICE_BRANCH_VALUES = Object.freeze([
-  'air force',
-  'army',
-  'coast guard',
-  'marine corps',
-  'merchant seaman',
-  'navy',
-  'noaa',
-  'space force',
-  'usphs',
-  'f.commonwealth',
-  'f.guerilla',
-  'f.scouts new',
-  'f.scouts old',
-  'other',
-]);
