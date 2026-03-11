@@ -43,14 +43,14 @@ $text-color: rgba(27, 27, 27, 1);
 
   #skip-map-link {
     position: absolute!important ;
-    // right: -9999px;
+    right: -9999px;
     top: auto;
     width: 1px;
     height: 1px;
     overflow: hidden;
     border-radius: 0.25rem;
 
-    // &:focus {
+    &:focus {
       right: .5rem;
       top: .5rem;
       width: auto;
@@ -58,7 +58,7 @@ $text-color: rgba(27, 27, 27, 1);
       padding: 0.5em 1em;
       background-color: var(--vads-color-white);
       z-index: 1000;
-    // }
+    }
   }
 
   #vertical-oriented-left-controls {
