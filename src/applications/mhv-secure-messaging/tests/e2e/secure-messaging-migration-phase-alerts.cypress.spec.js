@@ -65,8 +65,41 @@ const updateMigrationPhase = (threadData, inboxData, phase) => {
   return { updatedThread, updatedInbox };
 };
 
+/**
+ * Helper function to update user fixture with specific migration phase
+ * @param {Object} userFixture - The user fixture to update
+ * @param {string} phase - The migration phase ('p3', 'p4', 'p5')
+ * @returns {Object} - Updated user fixture
+ */
+const updateUserMigrationPhase = (userFixture, phase) => {
+  return {
+    ...userFixture,
+    data: {
+      ...userFixture.data,
+      attributes: {
+        ...userFixture.data.attributes,
+        vaProfile: {
+          ...userFixture.data.attributes.vaProfile,
+          ohMigrationInfo: {
+            ...userFixture.data.attributes.vaProfile.ohMigrationInfo,
+            migrationSchedules: userFixture.data.attributes.vaProfile.ohMigrationInfo.migrationSchedules.map(
+              schedule => ({
+                ...schedule,
+                phases: {
+                  ...schedule.phases,
+                  current: phase,
+                },
+              }),
+            ),
+          },
+        },
+      },
+    },
+  };
+};
+
 const validateMigrationAlert = shouldExist => {
-  cy.findByText(Alerts.MIGRATION_ALERT_H2).should(
+  cy.contains(Alerts.MIGRATION_ALERT_H2).should(
     shouldExist ? 'exist' : 'not.exist',
   );
   cy.contains(Alerts.MIGRATION_ALERT_BODY).should(
@@ -92,7 +125,7 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
         .should('not.exist');
 
       // Verify Reply button is visible (normal thread)
-      cy.get(Locators.BUTTONS.REPLY).should('exist');
+      cy.findByTestId(Locators.BUTTONS.REPLY).should('exist');
       validateMigrationAlert(false);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -106,19 +139,15 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
         migrationInboxMessages,
         'p3',
       );
+      const updatedUser = updateUserMigrationPhase(migratingUserFixture, 'p3');
 
       // Login with user that has migrationSchedules in profile
-      SecureMessagingSite.login(
-        undefined,
-        undefined,
-        true,
-        migratingUserFixture,
-      );
+      SecureMessagingSite.login(undefined, undefined, true, updatedUser);
       PatientInboxPage.loadInboxMessages(updatedInbox);
       PatientMessageDetailsPage.loadSingleThread(updatedThread, updatedInbox);
 
       // Verify Reply button is hidden during migration phase p3
-      cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+      cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
 
       // Verify CannotReplyAlert is NOT displayed (migration alert takes precedence)
       cy.get('[data-testid="cannot-reply-alert"]').should('not.exist');
@@ -135,19 +164,15 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
         migrationInboxMessages,
         'p4',
       );
+      const updatedUser = updateUserMigrationPhase(migratingUserFixture, 'p4');
 
       // Login with user that has migrationSchedules in profile
-      SecureMessagingSite.login(
-        undefined,
-        undefined,
-        true,
-        migratingUserFixture,
-      );
+      SecureMessagingSite.login(undefined, undefined, true, updatedUser);
       PatientInboxPage.loadInboxMessages(updatedInbox);
       PatientMessageDetailsPage.loadSingleThread(updatedThread, updatedInbox);
 
       // Verify Reply button is hidden during migration phase p4
-      cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+      cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
       validateMigrationAlert(true);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -161,19 +186,15 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
         migrationInboxMessages,
         'p5',
       );
+      const updatedUser = updateUserMigrationPhase(migratingUserFixture, 'p5');
 
       // Login with user that has migrationSchedules in profile
-      SecureMessagingSite.login(
-        undefined,
-        undefined,
-        true,
-        migratingUserFixture,
-      );
+      SecureMessagingSite.login(undefined, undefined, true, updatedUser);
       PatientInboxPage.loadInboxMessages(updatedInbox);
       PatientMessageDetailsPage.loadSingleThread(updatedThread, updatedInbox);
 
       // Verify Reply button is hidden during migration phase p5
-      cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+      cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
       validateMigrationAlert(true);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -187,18 +208,14 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
         migrationInboxMessages,
         'p2',
       );
+      const updatedUser = updateUserMigrationPhase(migratingUserFixture, 'p2');
 
-      SecureMessagingSite.login(
-        undefined,
-        undefined,
-        true,
-        migratingUserFixture,
-      );
+      SecureMessagingSite.login(undefined, undefined, true, updatedUser);
       PatientInboxPage.loadInboxMessages(updatedInbox);
       PatientMessageDetailsPage.loadSingleThread(updatedThread, updatedInbox);
 
       // Verify Reply button is visible (p2 does not block replies)
-      cy.get(Locators.BUTTONS.REPLY).should('exist');
+      cy.findByTestId(Locators.BUTTONS.REPLY).should('exist');
       validateMigrationAlert(false);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);

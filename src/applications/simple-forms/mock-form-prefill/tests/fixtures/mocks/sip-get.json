@@ -1,8 +1,10 @@
 {
-  "formData": {
-    "data": {
-      "attributes": {
-        "veteran": {
+  "statusCode": 200,
+  "body": {
+    "formData": {
+      "data": {
+        "attributes": {
+          "veteran": {
           "firstName": "Mitchell",
           "middleName": "George",
           "lastName": "Jenkins",
@@ -36,5 +38,6 @@
     "version": 0,
     "prefill": true,
     "returnUrl": "/veteran-details"
+  }
   }
 }

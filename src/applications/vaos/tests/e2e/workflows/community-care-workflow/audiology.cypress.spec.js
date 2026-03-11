@@ -1,4 +1,3 @@
-// @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
@@ -19,6 +18,7 @@ import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointm
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentCreateApi,
@@ -100,6 +100,8 @@ describe('VAOS community care flow - Audiology', () => {
 
       AppointmentListPageObject.visit().scheduleAppointment();
 
+      UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/Audiology and speech/)
@@ -155,6 +157,8 @@ describe('VAOS community care flow - Audiology', () => {
           cy.login(mockUser);
 
           AppointmentListPageObject.visit().scheduleAppointment();
+
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
@@ -212,6 +216,8 @@ describe('VAOS community care flow - Audiology', () => {
           cy.login(mockUser);
 
           AppointmentListPageObject.visit().scheduleAppointment();
+
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert()
@@ -290,6 +296,8 @@ describe('VAOS community care flow - Audiology', () => {
 
           AppointmentListPageObject.visit().scheduleAppointment();
 
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
             .selectTypeOfCare(/Audiology and speech/)
@@ -349,6 +357,8 @@ describe('VAOS community care flow - Audiology', () => {
           cy.login(mockUser);
 
           AppointmentListPageObject.visit().scheduleAppointment();
+
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert()

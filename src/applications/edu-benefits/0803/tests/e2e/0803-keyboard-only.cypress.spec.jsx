@@ -122,7 +122,7 @@ describe('22-0803 keyboard only specs', () => {
       formConfig.chapters.remarksChapter.pages.remarksPage.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.contains('Enter any remarks you would like to share');
+    cy.contains("Enter any remarks you'd like to share");
     cy.tabToContinueForm();
 
     // Submission instructions page
@@ -131,7 +131,7 @@ describe('22-0803 keyboard only specs', () => {
       formConfig.chapters.submissionInstructionsChapter.pages
         .submissionInstructions.path,
     );
-    cy.contains('This form does not submit automatically');
+    cy.contains('This form doesn’t submit automatically');
     cy.contains('download your completed VA Form 22-0803');
     cy.tabToContinueForm();
 

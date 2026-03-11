@@ -5,9 +5,9 @@ import UseMyLocation from './UseMyLocation';
 import AddressInputError from './AddressInputError';
 import { searchAddresses } from '../../../utils/mapHelpers';
 import Autosuggest from '../autosuggest';
+import { MIN_SEARCH_CHARS } from '../../../constants';
 
 const onlySpaces = str => /^\s+$/.test(str);
-const MIN_SEARCH_CHARS = 3;
 
 function AddressAutosuggest({
   currentQuery,
@@ -18,6 +18,7 @@ function AddressAutosuggest({
   isTablet,
   onClearClick,
   onChange,
+  onLocationSelection,
   useProgressiveDisclosure,
 }) {
   const [inputValue, setInputValue] = useState(null);
@@ -50,7 +51,8 @@ function AddressAutosuggest({
       return;
     }
     setSelectedItem(item);
-    onChange({
+
+    onLocationSelection?.({
       searchString: onlySpaces(item.toDisplay)
         ? item.toDisplay.trim()
         : item.toDisplay,
@@ -101,6 +103,7 @@ function AddressAutosuggest({
 
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
+    onLocationSelection?.({ searchString: value });
 
     // not expected to search when user leaves the field
     if (value !== '') {
@@ -226,12 +229,10 @@ function AddressAutosuggest({
       keepDataOnBlur
       showDownCaret={false}
       shouldShowNoResults
-      showOptionsRestriction={
-        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
-      }
       isLoading={isGeocoding}
       loadingMessage="Searching..."
       useProgressiveDisclosure={useProgressiveDisclosure || false}
+      showOptionsRestriction
     />
   );
 }
@@ -250,6 +251,7 @@ AddressAutosuggest.propTypes = {
   isTablet: PropTypes.bool,
   useProgressiveDisclosure: PropTypes.bool,
   onClearClick: PropTypes.func,
+  onLocationSelection: PropTypes.func,
 };
 
 export default AddressAutosuggest;

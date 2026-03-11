@@ -82,7 +82,6 @@ import {
 } from '../cave/fieldMapping';
 import IncorrectForm from '../containers/IncorrectForm';
 import { transform } from './submit-transformer';
-import { onFormLoaded } from '../utils/onFormLoaded';
 // import prefillTransformer from './prefill-transformer';
 
 /** @type {FormConfig} */
@@ -113,7 +112,6 @@ const formConfig = {
     },
   },
   version: 0,
-  onFormLoaded,
   formSavedPage: FormSavedPage,
   defaultDefinitions,
   savedFormMessages: {
@@ -370,8 +368,8 @@ const formConfig = {
           title: 'Separation details',
           depends: formData =>
             formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            formData.separationDueToAssignedReasons &&
-            formData.separationDueToAssignedReasons !== 'OTHER',
+            formData.livedContinuouslyWithVeteran === false &&
+            formData.separationDueToAssignedReasons,
           uiSchema: separationDetails.uiSchema,
           schema: separationDetails.schema,
         },

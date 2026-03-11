@@ -1,16 +1,16 @@
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
-  addressUI,
   addressSchema,
-  titleUI,
-  radioUI,
-  radioSchema,
-  phoneUI,
-  phoneSchema,
-  emailUI,
+  addressUI,
   emailSchema,
-  yesNoUI,
+  emailUI,
+  phoneSchema,
+  phoneUI,
+  radioSchema,
+  radioUI,
+  titleUI,
   yesNoSchema,
+  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   validAddressCharsOnly,
@@ -22,8 +22,8 @@ import {
   fullNameMiddleInitialSchema,
   fullNameMiddleInitialUI,
 } from '../definitions';
-import { personalizeTitleByRole } from '../utils/helpers';
 import content from '../locales/en/content.json';
+import { titleWithRoleUI } from '../utils/titles';
 
 export const certifierRoleSchema = {
   uiSchema: {
@@ -51,27 +51,10 @@ export const certifierRoleSchema = {
 
 export const certifierBenefitStatusSchema = {
   uiSchema: {
-    ...titleUI(({ formData }) =>
-      personalizeTitleByRole(
-        formData,
-        content['certifier--benefit-status-title'],
-      ),
+    ...titleWithRoleUI(content['certifier--benefit-status-title']),
+    certifierReceivedPacket: yesNoUI(
+      content['certifier--benefit-status-label'],
     ),
-    certifierReceivedPacket: {
-      ...yesNoUI({
-        type: 'radio',
-        updateUiSchema: formData => ({
-          'ui:title': personalizeTitleByRole(
-            formData,
-            content['certifier--benefit-status-label'],
-            {
-              self: content['form-label--your'],
-              other: content['form-label--beneficiary'],
-            },
-          ),
-        }),
-      }),
-    },
   },
   schema: {
     type: 'object',
@@ -212,12 +195,7 @@ export const certifierRelationshipSchema = {
 
 export const certifierClaimStatusSchema = {
   uiSchema: {
-    ...titleUI(({ formData }) =>
-      personalizeTitleByRole(
-        formData,
-        content['certifier--claim-status-title'],
-      ),
-    ),
+    ...titleWithRoleUI(content['certifier--claim-status-title']),
     claimStatus: radioUI({
       type: 'radio',
       title: content['certifier--claim-status-label'],

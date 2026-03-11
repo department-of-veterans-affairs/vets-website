@@ -11,6 +11,17 @@ const trimObjectValuesWhiteSpace = (key, value) => {
   return value;
 };
 
+const getNotificationMethod = notificationMethod => {
+  switch (notificationMethod) {
+    case 'Yes, send me text message notifications':
+      return 'TEXT';
+    case 'No, just send me email notifications':
+      return 'EMAIL';
+    default:
+      return 'NONE';
+  }
+};
+
 export function transform(_formConfig, form) {
   const { data } = form;
 
@@ -38,7 +49,7 @@ export function transform(_formConfig, form) {
   // Build the payload
   const payload = {
     formId: form?.formId,
-    '@type': 'vettec',
+    '@type': 'VetTecSubmission',
     claimant: {
       claimantId: data?.claimantId,
       firstName: applicantFullName?.first,
@@ -53,14 +64,19 @@ export function transform(_formConfig, form) {
         stateCode: mailingAddress?.state,
         zipcode: mailingAddress?.postalCode,
         countryCode: getLTSCountryCode(mailingAddress?.country),
-        emailAddress: contactInfo?.email?.toLowerCase(),
+        emailAddress: contactInfo?.emailAddress?.toLowerCase(),
         mobilePhoneNumber: getTransformIntlPhoneNumber(
           contactInfo?.mobilePhone,
         ),
         homePhoneNumber: getTransformIntlPhoneNumber(contactInfo?.homePhone),
       },
+      preferredContact: form?.data?.contactMethod,
+      notificationMethod: getNotificationMethod(
+        form?.data['view:receiveTextMessages']?.receiveTextMessages,
+      ),
     },
     militaryInfo: {
+      dutyRequirementMet: data?.dutyRequirementMet,
       dateReleasedFromActiveDuty: data?.dateReleasedFromActiveDuty,
       activeDutyDuringHitechVets: data?.activeDutyDuringHitechVets,
     },

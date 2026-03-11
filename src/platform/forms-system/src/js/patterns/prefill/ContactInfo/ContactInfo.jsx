@@ -11,6 +11,7 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
+import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
 import AddressView from 'platform/user/profile/vap-svc/components/AddressField/AddressView';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
@@ -274,8 +275,30 @@ export const ContactInfoBase = ({
     [missingInfo, hasInitialized, testContinueAlert],
   );
 
-  const MainHeader = onReviewPage ? 'h4' : 'h3';
-  const headerLevel = contactSectionHeadingLevel || (onReviewPage ? '5' : '4');
+  const isMinimalHeader = isMinimalHeaderPath();
+
+  let MainHeader = 'h3';
+  if (onReviewPage) {
+    MainHeader = 'h4';
+  } else if (isMinimalHeader) {
+    MainHeader = 'h1';
+  }
+
+  const mainHeaderClass =
+    isMinimalHeader && !onReviewPage
+      ? 'vads-u-margin-top--3 vads-u-margin-bottom--0 vads-u-font-size--h2'
+      : 'vads-u-margin-top--3 vads-u-margin-bottom--0';
+
+  let headerLevel = contactSectionHeadingLevel;
+  if (!headerLevel) {
+    if (isMinimalHeader) {
+      headerLevel = '2';
+    } else if (onReviewPage) {
+      headerLevel = '5';
+    } else {
+      headerLevel = '4';
+    }
+  }
 
   // Helper function to render email addresses consistently
   const renderEmail = emailData => {
@@ -287,6 +310,11 @@ export const ContactInfoBase = ({
 
   // Render alerts above contact sections
   const renderContactAlerts = () => {
+    // Don't show success alerts if there are errors
+    if (submitted && (missingInfo.length > 0 || validationErrors.length > 0)) {
+      return null;
+    }
+
     const alerts = [];
 
     Object.entries(fieldConfig).forEach(([id, { text, key }]) => {
@@ -319,21 +347,74 @@ export const ContactInfoBase = ({
     ) : null;
   };
 
-  // return boolean flag if a required field is among the missing info fields
-  function hasMissingInfo(key) {
+  // Return boolean flag if a required field is among the missing info fields
+  const hasMissingRequiredInfo = key => {
     // get config for a field
     const config = Object.values(fieldConfig).find(field => field.key === key);
     // check if a field in missing info matches a field's config
     return missingInfo.some(field =>
       config.text.toLowerCase().startsWith(field),
     );
-  }
+  };
+
+  // Return true if a field object is missing relevant properties
+  const isContactFieldEmpty = (contactField, contactFieldName) => {
+    // If no data object exists, it's empty
+    if (!contactField || typeof contactField !== 'object') {
+      return true;
+    }
+
+    if (contactFieldName === FIELD_NAMES.MAILING_ADDRESS) {
+      const {
+        addressLine1,
+        city,
+        countryName,
+        stateCode,
+        zipCode,
+      } = contactField;
+      // Return true if ALL required address fields are falsy
+      return (
+        isFieldEmpty(addressLine1, contactFieldName) &&
+        isFieldEmpty(city, contactFieldName) &&
+        isFieldEmpty(countryName, contactFieldName) &&
+        isFieldEmpty(stateCode, contactFieldName) &&
+        isFieldEmpty(zipCode, contactFieldName)
+      );
+    }
+
+    if (contactFieldName === FIELD_NAMES.EMAIL) {
+      return isFieldEmpty(contactField.emailAddress, contactFieldName);
+    }
+
+    if (
+      contactFieldName === FIELD_NAMES.HOME_PHONE ||
+      contactFieldName === FIELD_NAMES.MOBILE_PHONE
+    ) {
+      const { areaCode, phoneNumber } = contactField;
+      // Return true if ALL phone fields are falsy
+      return (
+        isFieldEmpty(areaCode, contactFieldName) &&
+        isFieldEmpty(phoneNumber, contactFieldName)
+      );
+    }
+
+    // Default: if we don't recognize the field, consider it empty
+    return true;
+  };
 
   // Extract contact section rendering
   const renderAddressSection = () => {
     if (!keys.address) return null;
-    const missingAddress = hasMissingInfo(FIELD_NAMES.MAILING_ADDRESS);
-    const cardContent = missingAddress ? (
+    const missingRequiredAddress = hasMissingRequiredInfo(
+      FIELD_NAMES.MAILING_ADDRESS,
+    );
+    const linkText = isContactFieldEmpty(
+      dataWrap[keys.address],
+      FIELD_NAMES.MAILING_ADDRESS,
+    )
+      ? `${content.add} mailing address`
+      : `${content.edit} mailing address`;
+    const cardContent = missingRequiredAddress ? (
       'None provided'
     ) : (
       <AddressView data={dataWrap[keys.address]} />
@@ -342,7 +423,9 @@ export const ContactInfoBase = ({
     return (
       <ContactInfoCard
         key={FIELD_NAMES.MAILING_ADDRESS}
-        error={missingAddress ? 'You must add your adress' : ''}
+        error={
+          submitted && missingRequiredAddress ? 'You must add your address' : ''
+        }
         contactPath={contactPath}
         required={requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS)}
         formKey={keys.address}
@@ -350,13 +433,9 @@ export const ContactInfoBase = ({
         editPath={`${baseEditPath}/edit-mailing-address`}
         headerLevel={headerLevel}
         headerText={content.mailingAddress}
-        tagText={missingAddress ? MISSING_ALERT_TEXT : ''}
-        tagStatus={missingAddress ? 'error' : 'info'}
-        linkText={
-          isFieldEmpty(dataWrap[keys.address], FIELD_NAMES.MAILING_ADDRESS)
-            ? `${content.add} mailing address`
-            : `${content.edit} mailing address`
-        }
+        tagText={missingRequiredAddress ? MISSING_ALERT_TEXT : ''}
+        tagStatus={missingRequiredAddress ? 'error' : 'info'}
+        linkText={linkText}
       >
         {cardContent}
       </ContactInfoCard>
@@ -365,8 +444,16 @@ export const ContactInfoBase = ({
 
   const renderHomePhoneSection = () => {
     if (!keys.homePhone) return null;
-    const missingHomePhone = hasMissingInfo(FIELD_NAMES.HOME_PHONE);
-    const cardContent = missingHomePhone ? (
+    const missingRequiredHomePhone = hasMissingRequiredInfo(
+      FIELD_NAMES.HOME_PHONE,
+    );
+    const linkText = isContactFieldEmpty(
+      dataWrap[keys.homePhone],
+      FIELD_NAMES.HOME_PHONE,
+    )
+      ? `${content.add} home phone number`
+      : `${content.edit} home phone number`;
+    const cardContent = missingRequiredHomePhone ? (
       'None provided'
     ) : (
       <div className="dd-privacy-hidden" data-dd-action-name="home phone">
@@ -376,7 +463,11 @@ export const ContactInfoBase = ({
     return (
       <ContactInfoCard
         key={FIELD_NAMES.HOME_PHONE}
-        error={missingHomePhone ? 'You must add your home phone number' : ''}
+        error={
+          submitted && missingRequiredHomePhone
+            ? 'You must add your home phone number'
+            : ''
+        }
         contactPath={contactPath}
         required={requiredKeys.includes(FIELD_NAMES.HOME_PHONE)}
         formKey={keys.homePhone}
@@ -384,13 +475,9 @@ export const ContactInfoBase = ({
         editPath={`${baseEditPath}/edit-home-phone`}
         headerLevel={headerLevel}
         headerText={content.homePhone}
-        tagText={missingHomePhone ? MISSING_ALERT_TEXT : ''}
-        tagStatus={missingHomePhone ? 'error' : 'info'}
-        linkText={
-          isFieldEmpty(dataWrap[keys.homePhone], FIELD_NAMES.HOME_PHONE)
-            ? `${content.add} home phone number`
-            : `${content.edit} home phone number`
-        }
+        tagText={missingRequiredHomePhone ? MISSING_ALERT_TEXT : ''}
+        tagStatus={missingRequiredHomePhone ? 'error' : 'info'}
+        linkText={linkText}
       >
         {cardContent}
       </ContactInfoCard>
@@ -399,8 +486,16 @@ export const ContactInfoBase = ({
 
   const renderMobilePhoneSection = () => {
     if (!keys.mobilePhone) return null;
-    const missingMobilePhone = hasMissingInfo(FIELD_NAMES.MOBILE_PHONE);
-    const cardContent = missingMobilePhone ? (
+    const missingRequiredMobilePhone = hasMissingRequiredInfo(
+      FIELD_NAMES.MOBILE_PHONE,
+    );
+    const linkText = isContactFieldEmpty(
+      dataWrap[keys.mobilePhone],
+      FIELD_NAMES.MOBILE_PHONE,
+    )
+      ? `${content.add} mobile phone number`
+      : `${content.edit} mobile phone number`;
+    const cardContent = missingRequiredMobilePhone ? (
       'None provided'
     ) : (
       <div className="dd-privacy-hidden" data-dd-action-name="mobile phone">
@@ -412,7 +507,9 @@ export const ContactInfoBase = ({
       <ContactInfoCard
         key={FIELD_NAMES.MOBILE_PHONE}
         error={
-          missingMobilePhone ? 'You must add your mobile phone number' : ''
+          submitted && missingRequiredMobilePhone
+            ? 'You must add your mobile phone number'
+            : ''
         }
         contactPath={contactPath}
         required={requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE)}
@@ -420,14 +517,10 @@ export const ContactInfoBase = ({
         wrapper={keys.wrapper}
         editPath={`${baseEditPath}/edit-mobile-phone`}
         headerLevel={headerLevel}
-        headerText={content.editMobilePhone}
-        tagText={missingMobilePhone ? MISSING_ALERT_TEXT : ''}
-        tagStatus={missingMobilePhone ? 'error' : 'info'}
-        linkText={
-          isFieldEmpty(dataWrap[keys.mobilePhone], FIELD_NAMES.MOBILE_PHONE)
-            ? `${content.add} mobile phone number`
-            : `${content.edit} mobile phone number`
-        }
+        headerText={content.mobilePhone}
+        tagText={missingRequiredMobilePhone ? MISSING_ALERT_TEXT : ''}
+        tagStatus={missingRequiredMobilePhone ? 'error' : 'info'}
+        linkText={linkText}
       >
         {cardContent}
       </ContactInfoCard>
@@ -436,8 +529,14 @@ export const ContactInfoBase = ({
 
   const renderEmailSection = () => {
     if (!keys.email) return null;
-    const missingEmail = hasMissingInfo(FIELD_NAMES.EMAIL);
-    const cardContent = missingEmail ? (
+    const missingRequiredEmail = hasMissingRequiredInfo(FIELD_NAMES.EMAIL);
+    const linkText = isContactFieldEmpty(
+      dataWrap[keys.email],
+      FIELD_NAMES.EMAIL,
+    )
+      ? `${content.add} email address`
+      : `${content.edit} email address`;
+    const cardContent = missingRequiredEmail ? (
       'None provided'
     ) : (
       <div className="dd-privacy-hidden" data-dd-action-name="email">
@@ -448,21 +547,21 @@ export const ContactInfoBase = ({
     return (
       <ContactInfoCard
         key={FIELD_NAMES.EMAIL}
-        error={missingEmail ? 'You must add your email address' : ''}
+        error={
+          submitted && missingRequiredEmail
+            ? 'You must add your email address'
+            : ''
+        }
         contactPath={contactPath}
         required={requiredKeys.includes(FIELD_NAMES.EMAIL)}
         formKey={keys.email}
         wrapper={keys.wrapper}
         editPath={`${baseEditPath}/edit-email-address`}
         headerLevel={headerLevel}
-        headerText={content.editEmail}
-        tagText={missingEmail ? MISSING_ALERT_TEXT : ''}
-        tagStatus={missingEmail ? 'error' : 'info'}
-        linkText={
-          isFieldEmpty(dataWrap[keys.email], FIELD_NAMES.EMAIL)
-            ? `${content.add} email address`
-            : `${content.edit} email address`
-        }
+        headerText={content.email}
+        tagText={missingRequiredEmail ? MISSING_ALERT_TEXT : ''}
+        tagStatus={missingRequiredEmail ? 'error' : 'info'}
+        linkText={linkText}
       >
         {cardContent}
       </ContactInfoCard>
@@ -543,7 +642,7 @@ export const ContactInfoBase = ({
     <>
       {contentBeforeButtons}
       <FormNavButtons
-        goBack={handlers.onGoBack}
+        goBack={!isMinimalHeader && handlers.onGoBack}
         goForward={handlers.onGoForward}
       />
       {contentAfterButtons}
@@ -556,11 +655,10 @@ export const ContactInfoBase = ({
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
           id={`${contactInfoPageKey}Header`}
-          className="vads-u-margin-top--3 vads-u-margin-bottom--0"
+          className={mainHeaderClass}
         >
-          {content.title}
+          Confirm the contact information we have on file for you
         </MainHeader>
-        {content.description}
         {!loggedIn && (
           <strong className="usa-input-error-message">
             You must be logged in to enable view and edit this page.

@@ -4,18 +4,16 @@ import environment from 'platform/utilities/environment';
 import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import { IntroductionPageSelector } from '../containers/selectors/IntroductionPageSelector';
+import { ConfirmationPageSelector } from '../containers/selectors/ConfirmationPageSelector';
 import { GetFormHelp } from '../components/GetFormHelp';
 import manifest from '../manifest.json';
 import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
 
 // chapter schema imports
-import {
-  applicantInformation,
-  personalInformation,
-} from './chapters/applicant';
+import { applicantInformation } from './chapters/applicant';
+import personalInformation from '../pages/personalInformation';
 
 import {
   additionalInformation,
@@ -35,13 +33,15 @@ import { servicePeriodsPages } from '../pages/servicePeriodsPages';
 import serviceStatus2 from '../pages/serviceStatus2';
 import { uploadDocumentsSchema, getUiSchema } from '../pages/uploadDocuments';
 
-// TODO: When schema is migrated to vets-json-schema, remove common
-// definitions from form schema and get them from common definitions instead
-
-import { certificateUseOptions } from '../constants';
+import {
+  certificateUseOptions,
+  serviceStatuses,
+  TOGGLE_KEY,
+} from '../constants';
 import certificateUse from '../pages/certificateUse';
 import hadPriorLoans from '../pages/hadPriorLoans';
 import currentOwnership from '../pages/currentOwnership';
+import { propertiesHomeLoansPages } from '../pages/propertiesHomeLoansPages';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -58,8 +58,8 @@ const formConfig = {
     startNewAppButtonText: 'Start a new request',
     reviewPageTitle: 'Review your request',
   },
-  introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  introduction: IntroductionPageSelector,
+  confirmation: ConfirmationPageSelector,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -90,14 +90,14 @@ const formConfig = {
   chapters: {
     applicantInformationChapter: {
       title: data => {
-        return data.formData['view:coeFormRebuildCveteam']
+        return data.formData[`view:${TOGGLE_KEY}`]
           ? 'Your information'
           : 'Your personal information on file';
       },
       pages: {
         yourInformation: personalInformation,
         ...profileContactInfoPages({
-          depends: formData => formData['view:coeFormRebuildCveteam'],
+          depends: formData => formData[`view:${TOGGLE_KEY}`],
           included: ['mailingAddress', 'email', 'homePhone'],
           contactInfoRequiredKeys: ['mailingAddress', 'email', 'homePhone'],
           content: {
@@ -109,7 +109,7 @@ const formConfig = {
         applicantInformationSummary: {
           path: 'applicant-information',
           depends: formData => {
-            return !formData['view:coeFormRebuildCveteam'];
+            return !formData[`view:${TOGGLE_KEY}`];
           },
           title: 'Your personal information on file',
           uiSchema: applicantInformation.uiSchema,
@@ -123,7 +123,7 @@ const formConfig = {
         mailingAddress: {
           path: 'mailing-address',
           depends: formData => {
-            return !formData['view:coeFormRebuildCveteam'];
+            return !formData[`view:${TOGGLE_KEY}`];
           },
           title: mailingAddress.title,
           uiSchema: mailingAddress.uiSchema,
@@ -133,7 +133,7 @@ const formConfig = {
         additionalInformation: {
           path: 'additional-contact-information',
           depends: formData => {
-            return !formData['view:coeFormRebuildCveteam'];
+            return !formData[`view:${TOGGLE_KEY}`];
           },
           title: additionalInformation.title,
           uiSchema: additionalInformation.uiSchema,
@@ -143,7 +143,7 @@ const formConfig = {
     },
     serviceHistoryChapter: {
       title: data => {
-        return data.formData['view:coeFormRebuildCveteam']
+        return data.formData[`view:${TOGGLE_KEY}`]
           ? 'Military history'
           : 'Your service history';
       },
@@ -152,7 +152,7 @@ const formConfig = {
           path: 'service-status',
           title: 'Service status',
           depends: formData => {
-            return !formData['view:coeFormRebuildCveteam'];
+            return !formData[`view:${TOGGLE_KEY}`];
           },
           uiSchema: serviceStatus.uiSchema,
           schema: serviceStatus.schema,
@@ -161,7 +161,7 @@ const formConfig = {
           path: 'service-status-2',
           title: 'Service status',
           depends: formData => {
-            return formData['view:coeFormRebuildCveteam'];
+            return formData[`view:${TOGGLE_KEY}`];
           },
           uiSchema: serviceStatus2.uiSchema,
           schema: serviceStatus2.schema,
@@ -170,7 +170,7 @@ const formConfig = {
           path: 'disability-separation',
           title: 'Separation',
           depends: formData => {
-            return formData['view:coeFormRebuildCveteam'];
+            return formData[`view:${TOGGLE_KEY}`];
           },
           uiSchema: disabilitySeparation.uiSchema,
           schema: disabilitySeparation.schema,
@@ -179,7 +179,10 @@ const formConfig = {
           path: 'pending-pre-discharge-claim',
           title: 'Pending pre-discharge claim',
           depends: formData => {
-            return formData['view:coeFormRebuildCveteam'];
+            return (
+              formData[`view:${TOGGLE_KEY}`] &&
+              formData?.identity === serviceStatuses.ADSM
+            );
           },
           uiSchema: preDischargeClaim.uiSchema,
           schema: preDischargeClaim.schema,
@@ -188,7 +191,10 @@ const formConfig = {
           path: 'purple-heart-recipient',
           title: 'Purple Heart recipient',
           depends: formData => {
-            return formData['view:coeFormRebuildCveteam'];
+            return (
+              formData[`view:${TOGGLE_KEY}`] &&
+              formData?.identity === serviceStatuses.ADSM
+            );
           },
           uiSchema: purpleHeartRecipient.uiSchema,
           schema: purpleHeartRecipient.schema,
@@ -205,7 +211,7 @@ const formConfig = {
     },
     loansChapter: {
       title: data => {
-        return data.formData['view:coeFormRebuildCveteam']
+        return data.formData[`view:${TOGGLE_KEY}`]
           ? 'Loan history'
           : 'Your VA loan history';
       },
@@ -214,7 +220,7 @@ const formConfig = {
           path: 'existing-loan-screener',
           title: 'Existing loans',
           depends: formData => {
-            return !formData['view:coeFormRebuildCveteam'];
+            return !formData[`view:${TOGGLE_KEY}`];
           },
           uiSchema: loanScreener.uiSchema,
           schema: loanScreener.schema,
@@ -225,14 +231,13 @@ const formConfig = {
           uiSchema: loanHistory.uiSchema,
           schema: loanHistory.schema,
           depends: formData =>
-            !formData['view:coeFormRebuildCveteam'] &&
-            formData?.vaLoanIndicator,
+            !formData[`view:${TOGGLE_KEY}`] && formData?.vaLoanIndicator,
         },
         certificateUse: {
           path: 'certificate-use',
           title: 'Certificate use',
           depends: formData => {
-            return formData['view:coeFormRebuildCveteam'];
+            return formData[`view:${TOGGLE_KEY}`];
           },
           uiSchema: certificateUse.uiSchema,
           schema: certificateUse.schema,
@@ -242,7 +247,7 @@ const formConfig = {
           title: 'Previous VA home loans',
           depends: formData => {
             return (
-              formData['view:coeFormRebuildCveteam'] &&
+              formData[`view:${TOGGLE_KEY}`] &&
               [
                 certificateUseOptions.ENTITLEMENT_INQUIRY_ONLY,
                 certificateUseOptions.HOME_PURCHASE,
@@ -258,18 +263,19 @@ const formConfig = {
           title: 'Ownership of properties with VA home loans',
           depends: formData => {
             return (
-              formData['view:coeFormRebuildCveteam'] &&
+              formData[`view:${TOGGLE_KEY}`] &&
               formData?.loanHistory?.hadPriorLoans
             );
           },
           uiSchema: currentOwnership.uiSchema,
           schema: currentOwnership.schema,
         },
+        ...propertiesHomeLoansPages,
       },
     },
     documentsChapter: {
       title: data => {
-        return data.formData['view:coeFormRebuildCveteam']
+        return data.formData[`view:${TOGGLE_KEY}`]
           ? 'Upload documents'
           : 'Your supporting documents';
       },
@@ -278,7 +284,7 @@ const formConfig = {
           path: 'upload-your-documents',
           title: 'Upload your documents',
           depends: formData => {
-            return formData['view:coeFormRebuildCveteam'];
+            return formData[`view:${TOGGLE_KEY}`];
           },
           uiSchema: getUiSchema(),
           schema: uploadDocumentsSchema.schema,
@@ -287,7 +293,7 @@ const formConfig = {
           path: 'upload-supporting-documents',
           title: 'Upload your documents',
           depends: formData => {
-            return !formData['view:coeFormRebuildCveteam'];
+            return !formData[`view:${TOGGLE_KEY}`];
           },
           uiSchema: fileUpload.uiSchema,
           schema: fileUpload.schema,

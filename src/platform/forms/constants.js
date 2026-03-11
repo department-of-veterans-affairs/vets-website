@@ -4,7 +4,6 @@ export const VA_FORM_IDS = Object.freeze({
   FEEDBACK_TOOL: 'FEEDBACK-TOOL',
   FORM_0873: '0873',
   FORM_10_10CG: '10-10CG',
-  FORM_10_10D: '10-10D',
   FORM_10_10EZ: '1010ez',
   FORM_10_10EZR: '10-10EZR',
   FORM_10_3542: '10-3542',
@@ -128,6 +127,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_8924_UPLOAD: '21P-8924-UPLOAD',
   FORM_22_0810: '22-0810',
   FORM_20_10208_UPLOAD: '20-10208-UPLOAD',
+  FORM_22_0989: '22-0989',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -164,7 +164,6 @@ export const getAllFormLinks = getAppUrlImpl => {
   // the string passed to tryGetAppUrl() must match the app's entryName from the manifest catalog
   return {
     [VA_FORM_IDS.FEEDBACK_TOOL]: `${tryGetAppUrl('feedback-tool')}/`,
-    [VA_FORM_IDS.FORM_10_10D]: `${tryGetAppUrl('10-10D')}/`,
     [VA_FORM_IDS.FORM_10_10EZ]: `${tryGetAppUrl('hca')}/`,
     [VA_FORM_IDS.FORM_10_7959A]: `${tryGetAppUrl('10-7959a')}/`,
     [VA_FORM_IDS.FORM_10_7959C]: `${tryGetAppUrl('10-7959C')}/`,
@@ -343,6 +342,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_0803]: `${tryGetAppUrl('0803-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_MOCK_PREFILL]: `${tryGetAppUrl('mock-form-prefill')}/`,
     [VA_FORM_IDS.FORM_22_10272]: `${tryGetAppUrl('22-10272')}/`,
+    [VA_FORM_IDS.FORM_22_0989]: `${tryGetAppUrl('0989-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_0810]: `${tryGetAppUrl('0810-edu-benefits')}/`,
   };
 };
@@ -374,13 +374,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'feedback (GI Bill School Feedback Tool)',
     description: 'feedback application (FEEDBACK-TOOL)',
     trackingPrefix: 'gi_bill_feedback',
-  },
-  {
-    id: VA_FORM_IDS.FORM_10_10D,
-    benefit: 'application for champva benefits',
-    title: 'application for champva benefits (10-10D)',
-    description: 'application for champva benefits application (10-10D)',
-    trackingPrefix: '10-10D-',
   },
   {
     id: VA_FORM_IDS.FORM_10_10EZ,
@@ -1081,6 +1074,13 @@ export const MY_VA_SIP_FORMS = [
     description:
       '22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees',
     trackingPrefix: '10272-edu-benefits',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0989,
+    benefit: 'Entitlement restoration',
+    title: '22-0989 Entitlement restoration',
+    description: 'Entitlement restoration',
+    trackingPrefix: '0989-edu-benefits-',
   },
   {
     id: VA_FORM_IDS.FORM_22_0810,

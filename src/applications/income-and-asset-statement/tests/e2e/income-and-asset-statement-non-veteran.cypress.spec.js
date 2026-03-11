@@ -73,10 +73,6 @@ const testConfig = createTestConfig(
               name: 'income_and_assets_browser_monitoring_enabled',
               value: true,
             },
-            {
-              name: 'income_and_assets_content_updates',
-              value: false,
-            },
           ],
         },
       });

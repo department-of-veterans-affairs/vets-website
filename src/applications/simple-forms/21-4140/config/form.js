@@ -1,7 +1,9 @@
 // @ts-check
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -110,6 +112,11 @@ const formConfig = {
           title: 'Your phone and email address',
           uiSchema: phoneAndEmailAddress.uiSchema,
           schema: phoneAndEmailAddress.schema,
+          appStateSelector: state => ({
+            isEmailPresenceRequired: toggleValues(state)[
+              FEATURE_FLAG_NAMES.form214140ValidateEmailPresence
+            ],
+          }),
         },
       },
     },

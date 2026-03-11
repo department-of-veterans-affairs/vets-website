@@ -210,22 +210,73 @@ describe('validateRequestedAmount', () => {
     );
   });
 
-  it('auto-formats amount to 2 decimals on BLUR', () => {
+  it('rejects amount with fewer than 2 decimal places on BLUR', () => {
     const result = validateRequestedAmount('2.5', DATE_VALIDATION_TYPE.BLUR);
 
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal(
+      'Enter an amount using this format: x.xx',
+    );
+  });
+
+  it('rejects integer amount (no decimal) on BLUR', () => {
+    const result = validateRequestedAmount('3', DATE_VALIDATION_TYPE.BLUR);
+
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal(
+      'Enter an amount using this format: x.xx',
+    );
+  });
+
+  it('accepts valid X.XX format on BLUR', () => {
+    const result = validateRequestedAmount('3.50', DATE_VALIDATION_TYPE.BLUR);
+
     expect(result.isValid).to.be.true;
-    expect(result.formattedValue).to.equal('2.50');
     expect(result.errors.costRequested).to.be.null;
   });
 
-  it('passes for valid amount without formatting on CHANGE', () => {
+  it('rejects integer amount (no decimal) on SUBMIT', () => {
+    const result = validateRequestedAmount('10', DATE_VALIDATION_TYPE.SUBMIT);
+
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal(
+      'Enter an amount using this format: x.xx',
+    );
+  });
+
+  it('rejects amount with fewer than 2 decimal places on SUBMIT', () => {
+    const result = validateRequestedAmount('2.5', DATE_VALIDATION_TYPE.SUBMIT);
+
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal(
+      'Enter an amount using this format: x.xx',
+    );
+  });
+
+  it('accepts valid X.XX format on SUBMIT', () => {
+    const result = validateRequestedAmount(
+      '10.00',
+      DATE_VALIDATION_TYPE.SUBMIT,
+    );
+
+    expect(result.isValid).to.be.true;
+    expect(result.errors.costRequested).to.be.null;
+  });
+
+  it('allows partial input (1 decimal place) on CHANGE', () => {
+    const result = validateRequestedAmount('3.5', DATE_VALIDATION_TYPE.CHANGE);
+
+    expect(result.isValid).to.be.true;
+    expect(result.errors.costRequested).to.be.null;
+  });
+
+  it('passes for valid amount on CHANGE', () => {
     const result = validateRequestedAmount(
       '10.25',
       DATE_VALIDATION_TYPE.CHANGE,
     );
 
     expect(result.isValid).to.be.true;
-    expect(result.formattedValue).to.be.null;
     expect(result.errors.costRequested).to.be.null;
   });
 });
@@ -410,6 +461,26 @@ describe('validateAirTravelFields', () => {
     const nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.returnDate).to.equal("Don't enter a future date");
+  });
+
+  it('throws incomplete date error when departureDate is partial', () => {
+    formState.departureDate = '2025-01';
+    formState.returnDate = '2025-01-10';
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+
+    const nextErrors = validateAirTravelFields(formState, 'departureDate');
+
+    expect(nextErrors.departureDate).to.equal('Please enter a complete date');
+  });
+
+  it('throws incomplete date error when returnDate is partial for ROUND_TRIP', () => {
+    formState.departureDate = '2025-01-05';
+    formState.returnDate = '2025-01';
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+
+    const nextErrors = validateAirTravelFields(formState, 'returnDate');
+
+    expect(nextErrors.returnDate).to.equal('Please enter a complete date');
   });
 
   it('clears returnDate error when switching from ROUND_TRIP to ONE_WAY', () => {
@@ -634,7 +705,7 @@ describe('validateLodgingFields', () => {
     expect(nextErrors.checkOutDate).to.be.undefined;
   });
 
-  it('does not throw ordering error when checkInDate is incomplete', () => {
+  it('throws incomplete date error when checkInDate is incomplete', () => {
     const nextErrors = validateLodgingFields(
       {
         checkInDate: '2025-01',
@@ -643,10 +714,10 @@ describe('validateLodgingFields', () => {
       'checkInDate',
     );
 
-    expect(nextErrors.checkInDate).to.equal(null);
+    expect(nextErrors.checkInDate).to.equal('Please enter a complete date');
   });
 
-  it('does not throw ordering error when checkOutDate is incomplete', () => {
+  it('throws incomplete date error when checkOutDate is incomplete', () => {
     const nextErrors = validateLodgingFields(
       {
         checkInDate: '2025-01-10',
@@ -655,7 +726,7 @@ describe('validateLodgingFields', () => {
       'checkOutDate',
     );
 
-    expect(nextErrors.checkOutDate).to.equal(null);
+    expect(nextErrors.checkOutDate).to.equal('Please enter a complete date');
   });
 
   it('requires checkInDate if empty', () => {

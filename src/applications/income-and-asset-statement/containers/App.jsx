@@ -30,10 +30,6 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
     TOGGLE_NAMES.incomeAndAssetsFormEnabled,
   );
 
-  const incomeAndAssetsContentUpdates = useToggleValue(
-    TOGGLE_NAMES.incomeAndAssetsContentUpdates,
-  );
-
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading ?? false,
   );
@@ -62,18 +58,6 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
     sessionSampleRate: 100,
     sessionReplaySampleRate: 100,
   });
-
-  useEffect(
-    () => {
-      if (!isLoadingFeatures) {
-        window.sessionStorage.setItem(
-          'showUpdatedContent',
-          !!incomeAndAssetsContentUpdates,
-        );
-      }
-    },
-    [isLoadingFeatures, incomeAndAssetsContentUpdates],
-  );
 
   useEffect(
     () => {

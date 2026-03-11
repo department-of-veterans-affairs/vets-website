@@ -512,4 +512,51 @@ describe('21P-601 submit transformer', () => {
       expect(result.expenses.expensesList[1].amount).to.equal('100');
     });
   });
+
+  describe('forbidden character sanitization', () => {
+    it('should strip double quotes from text fields', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataSpouse)) };
+      testData.data.remarks = 'Filing for "accrued" benefits';
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.remarks).to.equal('Filing for accrued benefits');
+    });
+
+    it('should strip backslashes from text fields', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataSpouse)) };
+      testData.data.expenses = [
+        {
+          provider: 'Test\\Hospital',
+          expenseType: 'Medical',
+          amount: '1000',
+          paidBy: 'Self',
+        },
+      ];
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.expenses.expensesList[0].provider).to.equal('TestHospital');
+    });
+
+    it('should strip forbidden characters from nested name fields', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataSpouse)) };
+      testData.data.veteranFullName.first = 'John"';
+      testData.data.veteranFullName.last = 'Smi\\th';
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.veteran.fullName.first).to.equal('John');
+      expect(result.veteran.fullName.last).to.equal('Smith');
+    });
+
+    it('should strip forbidden characters from address fields', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataSpouse)) };
+      testData.data.claimantAddress.street = '123 "Main" Street';
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.claimant.address.street).to.equal('123 Main Street');
+    });
+  });
 });

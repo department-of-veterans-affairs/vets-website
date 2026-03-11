@@ -34,22 +34,22 @@ export const parseResponse = (response, file) => {
  * Updates the additional input instance with error and data
  * @param {HTMLElement} instance - The input element instance
  * @param {string} error - Error message to display
- * @param {Object} data - Data object containing docType
+ * @param {Object} data - Data object containing attachmentId
  */
 export const additionalInputUpdate = (instance, error, data) => {
   instance.setAttribute('error', error);
   if (data) {
-    instance.setAttribute('value', data.docType);
+    instance.setAttribute('value', data.attachmentId);
   }
 };
 
 /**
  * Handles additional input change event
  * @param {CustomEvent} e - The change event
- * @returns {Object|null} Object with docType or null if empty
+ * @returns {Object|null} Object with attachmentId or null if empty
  */
 export const handleAdditionalInput = e => {
   const { value } = e.detail;
   if (value === '') return null;
-  return { docType: e.detail.value };
+  return { attachmentId: e.detail.value };
 };

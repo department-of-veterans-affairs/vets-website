@@ -224,12 +224,15 @@ describe('Folder Thread List View container', () => {
 
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
-      const ariaLabel = document.querySelector('span');
       expect(alert)
         .to.have.attribute('status')
         .to.equal('error');
-      expect(screen.getByText(Alerts.Message.SERVER_ERROR_503)).to.exist;
-      expect(ariaLabel.textContent).to.contain(`You are in Inbox.`);
+      expect(screen.getByTestId('alert-text').textContent).to.equal(
+        Alerts.Message.SERVER_ERROR_503,
+      );
+      // sr-only span exists with delayed content (populated after H1 focusin + 1s or 3s fallback)
+      const srSpan = screen.getByTestId('sr-only-alert-text');
+      expect(srSpan).to.exist;
       expect(alert).to.have.attribute(
         'close-btn-aria-label',
         'Close notification',
@@ -402,7 +405,7 @@ describe('Folder Thread List View container', () => {
       const getListOfThreadsSpy = sandbox
         .stub(threadsActions, 'getListOfThreads')
         .callThrough();
-      const sortComponent = screen.queryByTestId('thread-list-sort');
+      const sortComponent = screen.getByTestId('thread-list-sort');
       const sortButton = screen.getByTestId('sort-button');
       selectVaSelect(sortComponent, 'SENT_DATE_ASCENDING');
       fireEvent.click(sortButton);

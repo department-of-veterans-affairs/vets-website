@@ -120,23 +120,6 @@ describe('getAppointmentTimezone util', () => {
     expect(getTimezoneByFacilityIdStub.calledWith('999')).to.be.true;
   });
 
-  it('should pass featureUseBrowserTimezone to getTimezoneByFacilityId', () => {
-    const appointment = {
-      locationId: '555',
-      location: {
-        attributes: {
-          timezone: {
-            timeZoneId: 'UTC',
-          },
-        },
-      },
-    };
-
-    const result = getAppointmentTimezone(appointment, true);
-    expect(result).to.equal('America/Chicago');
-    expect(getTimezoneByFacilityIdStub.calledWith('555', true)).to.be.true;
-  });
-
   it('should handle missing location attribute gracefully', () => {
     const appointment = {
       locationId: '111',

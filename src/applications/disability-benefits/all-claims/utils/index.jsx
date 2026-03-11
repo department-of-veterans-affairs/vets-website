@@ -275,7 +275,7 @@ export const getPrivateFacilities = formData =>
 export const getPrivateEvidenceUploads = formData =>
   _.get('privateMedicalRecordAttachments', formData, []);
 export const getAdditionalDocuments = formData =>
-  _.get('evidenceChoiceAdditionalDocuments', formData, []);
+  _.get('additionalDocuments', formData, []);
 
 export const hasMedicalRecords = formData => {
   if (isEvidenceEnhancement(formData)) {
@@ -668,6 +668,16 @@ export const isUploadingSTR = formData =>
     formData,
     false,
   );
+
+export const isBddShaWorkflowActive = formData =>
+  formData.disability526NewBddShaEnforcementWorkflowEnabled && isBDD(formData);
+
+export const isUploadingBddSha = formData =>
+  _.get('view:hasSeparationHealthAssessment', formData, false) &&
+  isBddShaWorkflowActive(formData);
+
+export const getBddShaUploads = formData =>
+  _.get('separationHealthAssessmentUploads', formData, []);
 
 export const DISABILITY_SHARED_CONFIG = {
   orientation: {
@@ -1113,12 +1123,3 @@ export const onFormLoaded = props => {
     router.push(returnUrl);
   }
 };
-
-/**
- * Checks if
- * Veteran has additional evidence to upload within the 0781 flow
- * @param {object} formData
- * @returns {boolean} true if hasEvidenceChoice is present, false otherwise
- */
-export const hasEvidenceChoice = formData =>
-  formData?.['view:hasEvidenceChoice'] === true;

@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import { differenceInDays, parseISO } from 'date-fns';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
+import { datadogRum } from '@datadog/browser-rum';
+import { useSelector } from 'react-redux';
 import { useRefillPrescriptionMutation } from '../../api/prescriptionsApi';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+import { selectMedicationsManagementImprovementsFlag } from '../../util/selectors';
 
 const REFILL_SUPPRESSION_DAYS = 15;
 
@@ -31,10 +34,20 @@ const RefillButton = rx => {
     refillPrescription,
     { isLoading, isSuccess, isError },
   ] = useRefillPrescriptionMutation();
+  const isManagementImprovements = useSelector(
+    selectMedicationsManagementImprovementsFlag,
+  );
 
-  const { prescriptionId, isRefillable, refillSubmitDate } = rx;
+  const { prescriptionId, isRefillable, refillSubmitDate, stationNumber } = rx;
 
   const pharmacyPhone = pharmacyPhoneNumber(rx);
+
+  const onRequestRefill = () => {
+    datadogRum.addAction(dataDogActionNames.medicationsListPage.REFILL_BUTTON, {
+      facilityId: stationNumber,
+    });
+    refillPrescription({ id: prescriptionId, stationNumber });
+  };
 
   if (!isRefillable || wasRecentlySubmitted(refillSubmitDate)) {
     return null;
@@ -86,15 +99,10 @@ const RefillButton = rx => {
         className="va-button vads-u-padding-y--0p5"
         id={`refill-button-${prescriptionId}`}
         aria-describedby={`card-header-${prescriptionId}`}
-        data-dd-action-name={
-          dataDogActionNames.medicationsListPage.REFILL_BUTTON
-        }
         data-testid="refill-request-button"
         hidden={isSuccess || isLoading}
-        onClick={() => {
-          refillPrescription(prescriptionId);
-        }}
-        text="Request a refill"
+        onClick={onRequestRefill}
+        text={isManagementImprovements ? 'Request refill' : 'Request a refill'}
       />
     </div>
   );
@@ -105,6 +113,7 @@ RefillButton.propTypes = {
   isRefillable: PropTypes.bool,
   prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   refillSubmitDate: PropTypes.string,
+  stationNumber: PropTypes.string,
 };
 
 export default RefillButton;

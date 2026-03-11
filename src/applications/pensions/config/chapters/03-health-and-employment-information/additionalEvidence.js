@@ -5,12 +5,13 @@ export const requiresAdditionalEvidence = formData =>
   formData.socialSecurityDisability || formData.medicalCondition;
 
 export default {
-  title: 'Other payment options',
+  title: 'Medical records needed',
   path: 'medical/evidence',
   initialData: {},
-  depends: formData => requiresAdditionalEvidence(formData),
+  depends: formData =>
+    !formData.isOver65 && requiresAdditionalEvidence(formData),
   uiSchema: {
-    ...titleUI('Submit additional evidence', MedicalEvidenceNotice),
+    ...titleUI('Medical records needed', MedicalEvidenceNotice),
   },
   schema: {
     type: 'object',
