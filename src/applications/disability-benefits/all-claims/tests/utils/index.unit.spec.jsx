@@ -165,6 +165,21 @@ describe('utils', () => {
       ).to.equal('/mental-health-form-0781/events-summary');
     });
 
+    it('rewrites conditions item pages to conditions/summary', () => {
+      expect(normalizeReturnUrlForResume('/conditions/0/condition')).to.equal(
+        '/conditions/summary',
+      );
+      expect(
+        normalizeReturnUrlForResume('/conditions/1/new-condition-date'),
+      ).to.equal('/conditions/summary');
+      expect(normalizeReturnUrlForResume('/conditions/1/cause-new')).to.equal(
+        '/conditions/summary',
+      );
+      expect(
+        normalizeReturnUrlForResume('/conditions/1/cause-secondary'),
+      ).to.equal('/conditions/summary');
+    });
+
     it('returns unchanged URL for non-item pages', () => {
       const url = '/mental-health-form-0781/events-summary';
       expect(normalizeReturnUrlForResume(url)).to.equal(url);
