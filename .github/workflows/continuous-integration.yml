@@ -920,9 +920,11 @@ jobs:
   playwright-shard-prep:
     name: Playwright Shard Prep
     runs-on: ubuntu-22.04
+    needs: [tests-prep]
     outputs:
       shard_indices: ${{ steps.shard.outputs.shard_indices }}
       shard_count: ${{ steps.shard.outputs.shard_count }}
+      has_tests: ${{ steps.shard.outputs.has_tests }}
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -948,8 +950,13 @@ jobs:
       - name: Compute shards
         id: shard
         run: node script/github-actions/playwright-shard-tests.js
+        env:
+          CHANGED_FILE_PATHS: ${{ needs.tests-prep.outputs.changed_file_paths }}
+          RUN_FULL_SUITE: ${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}
+          IS_MAIN_BUILD: ${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}
 
       - name: Upload shard assignments
+        if: steps.shard.outputs.has_tests == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: playwright-shards
@@ -957,10 +964,12 @@ jobs:
           retention-days: 1
 
       - name: Get Playwright version
+        if: steps.shard.outputs.has_tests == 'true'
         id: playwright-version
         run: echo "version=$(node -e "console.log(require('./node_modules/@playwright/test/package.json').version)")" >> $GITHUB_OUTPUT
 
       - name: Cache Playwright browsers
+        if: steps.shard.outputs.has_tests == 'true'
         id: playwright-cache
         uses: actions/cache@v4
         with:
@@ -969,17 +978,19 @@ jobs:
           save-always: true
 
       - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        if: steps.shard.outputs.has_tests == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install chromium --with-deps
 
       - name: Install Playwright system deps
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        if: steps.shard.outputs.has_tests == 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
 
       - name: Package browsers for shard runners
+        if: steps.shard.outputs.has_tests == 'true'
         run: tar -cf playwright-browsers.tar -C ~/.cache ms-playwright
 
       - name: Upload Playwright browsers
+        if: steps.shard.outputs.has_tests == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: playwright-browsers
@@ -992,6 +1003,7 @@ jobs:
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 30
     needs: [build, playwright-shard-prep]
+    if: needs.playwright-shard-prep.outputs.has_tests == 'true'
     permissions:
       id-token: write
       contents: read
