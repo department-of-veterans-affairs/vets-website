@@ -5,18 +5,10 @@ import { connect } from 'react-redux';
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { getAppData } from '../selectors';
 import IntroductionLogin from '../components/IntroductionLogin';
 
-export const IntroductionPage = ({
-  isLOA3,
-  isLoggedIn,
-  isPersonalInfoFetchFailed,
-  showMeb5490MaintenanceAlert,
-  mebBlockUnder18,
-  route,
-}) => {
+export const IntroductionPage = ({ mebBlockUnder18, route, user }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle
@@ -84,13 +76,10 @@ export const IntroductionPage = ({
           If you’re a Veteran or service member claiming a benefit based on your
           own service, this may not be the right benefit for you.
         </h2>
-        <a
-          target="_blank"
+        <va-link
           href="https://www.va.gov/education/other-va-education-benefits"
-          rel="noreferrer"
-        >
-          Learn more about other education benefits
-        </a>
+          text="Learn more about other education benefits"
+        />
       </va-alert>
       <h2 className="vads-u-margin-top--0">
         Follow these steps to get started:
@@ -103,15 +92,18 @@ export const IntroductionPage = ({
           </p>
           {mebBlockUnder18 && (
             <p>
-              <b>Note:</b> If you are <b>under the age of 18</b> and applying
-              for benefits for yourself, you must complete and submit a signed
-              paper application through{' '}
+              <b>Note:</b> If you are under the age of 18 and applying for
+              benefits for yourself, you must complete a{' '}
+              <va-link
+                href="https://www.vba.va.gov/pubs/forms/vba-22-1990e-are.pdf"
+                text="paper application"
+              />{' '}
+              with your parent, guardian, or custodian and submit through{' '}
               <va-link
                 href="https://www.va.gov/contact-us/ask-va/introduction"
                 text="Ask VA"
               />
-              . A parent, guardian, or custodian must complete the application
-              on your behalf and sign the application before submission.
+              .
             </p>
           )}
           <va-additional-info
@@ -232,22 +224,17 @@ export const IntroductionPage = ({
         </va-process-list-item>
       </va-process-list>
       <IntroductionLogin route={route} />
-      {isLoggedIn &&
-      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
-      showMeb5490MaintenanceAlert === false && // Ensure the mainenance flag is not on.
-        isLOA3 && (
-          <SaveInProgressIntro
-            headingLevel={2}
-            prefillEnabled={route.formConfig.prefillEnabled}
-            messages={route.formConfig.savedFormMessages}
-            pageList={route.pageList}
-            startText="Start your benefits application"
-          >
-            Please complete the 22-5490 form to apply for DEPENDENTS&#39;
-            APPLICATION FOR VA EDUCATION BENEFITS .
-          </SaveInProgressIntro>
-        )}
-      <p />
+      <div
+        className={`omb-info--container vads-u-padding--0 vads-u-margin-top--${
+          user?.login?.currentlyLoggedIn ? '4' : '2p5'
+        }`}
+      >
+        <va-omb-info
+          res-burden="25"
+          omb-number="2900-0098"
+          exp-date="01/31/2028"
+        />
+      </div>
     </article>
   );
 };
@@ -260,11 +247,9 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
-  isLOA3: PropTypes.bool,
-  isLoggedIn: PropTypes.bool,
-  isPersonalInfoFetchFailed: PropTypes.bool,
   mebBlockUnder18: PropTypes.bool,
   showMeb5490MaintenanceAlert: PropTypes.bool,
+  user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

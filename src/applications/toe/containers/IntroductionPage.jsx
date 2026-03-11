@@ -108,13 +108,10 @@ export const IntroductionPageContent = ({ mebBlockUnder18 }) => {
             your own service, this may not be the right benefit for you.
           </h2>
           <div className="vads-u-margin-top--1">
-            <a
+            <va-link
               href="https://www.va.gov/education/other-va-education-benefits"
-              rel="noreferrer"
-              target="_blank"
-            >
-              Learn more about other education benefits
-            </a>
+              text="Learn more about other education benefits"
+            />
           </div>
         </va-alert>
       </div>
@@ -134,26 +131,26 @@ export const IntroductionPageContent = ({ mebBlockUnder18 }) => {
             </p>
             {mebBlockUnder18 && (
               <p>
-                <b>Note:</b> If you are <b>under the age of 18</b> and applying
-                for benefits for yourself, you must complete and submit a signed
-                paper application through{' '}
+                <b>Note:</b> If you are under the age of 18 and applying for
+                benefits for yourself, you must complete a{' '}
+                <va-link
+                  href="https://www.vba.va.gov/pubs/forms/vba-22-1990e-are.pdf"
+                  text="paper application"
+                />{' '}
+                with your parent, guardian, or custodian and submit through{' '}
                 <va-link
                   href="https://www.va.gov/contact-us/ask-va/introduction"
                   text="Ask VA"
                 />
-                . A parent, guardian, or custodian must complete the application
-                on your behalf and sign the application before submission.
+                .
               </p>
             )}
             <p>
               If this isn’t the right benefit for you,{' '}
-              <a
+              <va-link
                 href="https://www.va.gov/education/other-va-education-benefits/"
-                rel="noreferrer"
-                target="_blank"
-              >
-                learn more about other education benefits
-              </a>
+                text="learn more about other education benefits"
+              />
               .
             </p>
           </va-process-list-item>
@@ -166,13 +163,10 @@ export const IntroductionPageContent = ({ mebBlockUnder18 }) => {
                 <strong>Your sponsor’s transferred GI Bill benefits.</strong>{' '}
                 Make sure your sponsor has transferred GI Bill benefits before
                 starting this application. Your sponsor can{' '}
-                <a
+                <va-link
                   href="https://milconnect.dmdc.osd.mil/milconnect/"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  update this information on the DoD milConnect website
-                </a>
+                  text="update this information on the DoD milConnect website"
+                />
                 .
               </li>
               <li>Your current address and contact information</li>
