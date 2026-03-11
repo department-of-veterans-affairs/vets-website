@@ -6,9 +6,49 @@ yarn install --ignore-scripts --production=false
 yarn postinstall
 npm run build -- --buildtype=localhost --api="${API_URL}" --host="${WEB_HOST}" --port="${WEB_PORT}"
 
-# Build content-build and serve site
-cd ../content-build
-cp .env.example .env && yarn install-safe --production=false
-npm run fetch-drupal-cache
-npm run build -- --buildtype=localhost --api="${API_URL}" --host="${WEB_HOST}" --port="${WEB_PORT}" --apps-directory-name=application
-npm run heroku-serve -- build/localhost -p 3002
+# Start serving vets-website immediately so React apps are available.
+# Content-build will run in the background and merge its output when done.
+SERVE_DIR="$(pwd)/build/localhost"
+
+# Inject status banner script into served directory so users see content-build progress
+cp "$(pwd)/script/review-status-banner.js" "$SERVE_DIR/review-status-banner.js"
+# Add script tag to the root index.html (before </body>)
+if [ -f "$SERVE_DIR/index.html" ]; then
+  sed -i 's|</body>|<script src="/review-status-banner.js"></script></body>|' "$SERVE_DIR/index.html"
+fi
+
+# Start http-server in the background on the target port
+npx http-server "$SERVE_DIR" -p 3002 --proxy "${API_URL}" -c-1 &
+SERVER_PID=$!
+
+echo "========================================="
+echo "vets-website apps now available on :3002"
+echo "Content-build starting in background..."
+echo "========================================="
+
+# Build content-build in the background
+(
+  cd ../content-build
+  cp .env.example .env && yarn install-safe --production=false
+  npm run fetch-drupal-cache
+  npm run build -- --buildtype=localhost --api="${API_URL}" --host="${WEB_HOST}" --port="${WEB_PORT}" --apps-directory-name=application
+
+  # Merge content-build output into the served directory.
+  # --no-links: dereference the generated/ symlink instead of copying it
+  #   (content-build symlinks generated/ back to vets-website; skip the
+  #   redundant copy since those bundles are already in SERVE_DIR).
+  # --exclude=generated: avoid overwriting vets-website bundles with themselves.
+  # --checksum: only overwrite files that actually changed.
+  rsync -a --no-links --exclude=generated --checksum build/localhost/ "$SERVE_DIR/"
+
+  # Remove the banner script — content-build is done, no need for it
+  rm -f "$SERVE_DIR/review-status-banner.js"
+
+  echo "========================================="
+  echo "Content-build complete. Static pages now available."
+  echo "========================================="
+) &
+CONTENT_PID=$!
+
+# Wait for both processes - if the server dies, exit
+wait $SERVER_PID $CONTENT_PID
