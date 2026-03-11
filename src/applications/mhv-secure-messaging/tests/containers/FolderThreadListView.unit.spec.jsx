@@ -591,13 +591,12 @@ describe('Folder Thread List View container', () => {
           },
         },
       };
-      const screen = setup(loadingState, Paths.INBOX);
+      const { findByTestId, queryByRole } = setup(loadingState, Paths.INBOX);
 
-      await waitFor(() => {
-        expect(screen.queryByTestId('loading-indicator')).to.exist;
-      });
+      expect(findByTestId('loading-indicator')).to.exist;
+
       // FolderHeader should NOT render when loadingFolder is true
-      expect(screen.queryByRole('heading', { level: 1 })).to.not.exist;
+      expect(queryByRole('heading', { level: 1 })).to.not.exist;
     });
 
     it('does not render LoadingIndicator when loadingFolder is false (folderId matches currentFolderId)', async () => {
@@ -630,12 +629,8 @@ describe('Folder Thread List View container', () => {
           },
         },
       };
-      const screen = setup(loadedState, Paths.INBOX);
-
-      await waitFor(() => {
-        // FolderHeader should render when loadingFolder is false
-        expect(screen.queryByRole('heading', { level: 1 })).to.exist;
-      });
+      const { findByRole } = setup(loadedState, Paths.INBOX);
+      expect(findByRole('heading', { level: 1 })).to.exist;
     });
   });
 });
