@@ -658,19 +658,123 @@ Cypress.Commands.add('verifyAdditionalInformation', data => {
   }
 });
 
+function clickElementWithText(cy, textPattern) {
+  cy.get('body', { timeout: 10000 }).then($body => {
+    // Try to find any clickable element (legacy and web components) containing the text
+    const buttons = $body.find(
+      'button, a, input[type="submit"], va-button, va-button-pair, va-link-action, va-link',
+    );
+    let found = false;
+
+    // Check if any element's text content matches the pattern
+    for (let i = 0; i < buttons.length; i++) {
+      const $btn = buttons.eq(i);
+      const textContent = $btn.text() || '';
+      const textAttr = $btn.attr('text') || '';
+      const labelAttr = $btn.attr('label') || '';
+      const valueAttr = $btn.attr('value') || '';
+      const continueTextAttr = $btn.attr('continue-text') || '';
+
+      if (
+        textPattern.test(textContent) ||
+        textPattern.test(textAttr) ||
+        textPattern.test(labelAttr) ||
+        textPattern.test(valueAttr) ||
+        textPattern.test(continueTextAttr)
+      ) {
+        const tagName = ($btn.prop('tagName') || '').toLowerCase();
+
+        if (tagName === 'va-button') {
+          cy.wrap($btn)
+            .first()
+            .shadow()
+            .find('button')
+            .click({ force: true });
+        } else if (tagName === 'va-button-pair') {
+          cy.wrap($btn)
+            .first()
+            .shadow()
+            .find('button:not(.usa-button-secondary)')
+            .first()
+            .click({ force: true });
+        } else {
+          cy.wrap($btn)
+            .first()
+            .click({ force: true });
+        }
+        found = true;
+        return;
+      }
+    }
+
+    // Fallback to findByText if no match found
+    if (!found) {
+      const submitSelector =
+        'button[type="submit"], input[type="submit"], va-button[continue], va-button-pair';
+
+      if ($body.find(submitSelector).length > 0) {
+        cy.get(submitSelector)
+          .filter(':visible')
+          .first()
+          .then($el => {
+            const tagName = ($el.prop('tagName') || '').toLowerCase();
+            if (tagName === 'va-button-pair') {
+              cy.wrap($el)
+                .shadow()
+                .find('button:not(.usa-button-secondary)')
+                .first()
+                .click({ force: true });
+            } else if (tagName === 'va-button') {
+              cy.wrap($el)
+                .shadow()
+                .find('button')
+                .first()
+                .click({ force: true });
+            } else {
+              cy.wrap($el).click({ force: true });
+            }
+          });
+        return;
+      }
+
+      cy.findByText(textPattern, {
+        selector:
+          'button, a, input[type="submit"], va-button, va-button-pair, va-link-action, va-link',
+      }).click({ force: true });
+    }
+  });
+}
+
 export const clickContinueButton = (cy, textPattern = /continue|next/i) => {
   cy.get('body', { timeout: 10000 }).then($body => {
     const vadsContinueSelector =
-      'va-button[continue], va-button[text*="Continue"], va-button[text*="Next"]';
+      'va-button[continue], va-button[text*="Continue"], va-button[text*="Next"], va-button-pair, va-link-action[label*="Continue"], va-link-action[label*="Next"], va-link[text*="Continue"], va-link[text*="Next"], input[type="submit"][value*="Continue"], input[type="submit"][value*="Next"]';
     const legacyContinueSelector =
       'button[id$="continueButton"], a#continueButton';
 
     if ($body.find(vadsContinueSelector).length > 0) {
-      // Click the va-button web component directly
       cy.get(vadsContinueSelector)
+        .filter(':visible')
         .first()
-        .should('be.visible')
-        .click({ force: true });
+        .then($el => {
+          const tagName = ($el.prop('tagName') || '').toLowerCase();
+
+          if (tagName === 'va-button') {
+            cy.wrap($el)
+              .shadow()
+              .find('button')
+              .first()
+              .click({ force: true });
+          } else if (tagName === 'va-button-pair') {
+            cy.wrap($el)
+              .shadow()
+              .find('button:not(.usa-button-secondary)')
+              .first()
+              .click({ force: true });
+          } else {
+            cy.wrap($el).click({ force: true });
+          }
+        });
     } else if ($body.find(`${legacyContinueSelector}:visible`).length > 0) {
       cy.get(`${legacyContinueSelector}:visible`)
         .first()
@@ -680,41 +784,7 @@ export const clickContinueButton = (cy, textPattern = /continue|next/i) => {
         .first()
         .click({ force: true });
     } else {
-      // Try with va-button selector first
-      cy.findByText(textPattern, { selector: 'va-button, button, a' }).click({
-        force: true,
-      });
-    }
-  });
-};
-
-// Helper to click elements by text pattern, handling web components with shadow DOM
-const clickElementWithText = (cy, textPattern) => {
-  cy.get('body', { timeout: 10000 }).then($body => {
-    // Try to find any clickable element (button, a, or va-button) containing the text
-    const buttons = $body.find('button, a, va-button');
-    let found = false;
-
-    // Check if any element's text content matches the pattern
-    for (let i = 0; i < buttons.length; i++) {
-      const $btn = buttons.eq(i);
-      const textContent = $btn.text() || '';
-      const textAttr = $btn.attr('text') || '';
-
-      if (textPattern.test(textContent) || textPattern.test(textAttr)) {
-        cy.wrap($btn)
-          .first()
-          .click({ force: true });
-        found = true;
-        return;
-      }
-    }
-
-    // Fallback to findByText if no match found
-    if (!found) {
-      cy.findByText(textPattern, { selector: 'button, a, va-button' }).click({
-        force: true,
-      });
+      clickElementWithText(cy, textPattern);
     }
   });
 };
@@ -862,7 +932,7 @@ export const pageHooks = (cy, testOptions) => ({
         !data?.['view:isBddData'] ||
         !data?.['view:hasSeparationHealthAssessment']
       ) {
-        cy.findByText(/continue/i, { selector: 'button' }).click();
+        clickContinueButton(cy, /continue/i);
         return;
       }
 
@@ -877,7 +947,7 @@ export const pageHooks = (cy, testOptions) => ({
         expect(response.statusCode).to.eq(200);
       });
 
-      cy.findByText(/continue/i, { selector: 'button' }).click();
+      clickContinueButton(cy, /continue/i);
     });
   },
 
