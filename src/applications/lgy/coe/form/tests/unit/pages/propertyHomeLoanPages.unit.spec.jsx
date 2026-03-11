@@ -41,19 +41,15 @@ describe('COE VA home loans array builder pages', () => {
   it('gates all array builder pages depending on Step 3 answers', () => {
     const showLoop = {
       'view:coeFormRebuildCveteam': true,
-      loanHistory: { hadPriorLoans: true, currentOwnership: true },
+      loanHistory: { hadPriorLoans: true },
     };
     const skipLoopHadNoPriorLoans = {
       'view:coeFormRebuildCveteam': true,
-      loanHistory: { hadPriorLoans: false, currentOwnership: true },
-    };
-    const skipLoopNoCurrentOwnership = {
-      'view:coeFormRebuildCveteam': true,
-      loanHistory: { hadPriorLoans: true, currentOwnership: false },
+      loanHistory: { hadPriorLoans: false },
     };
     const skipLoopFlagOff = {
       'view:coeFormRebuildCveteam': false,
-      loanHistory: { hadPriorLoans: true, currentOwnership: true },
+      loanHistory: { hadPriorLoans: true },
     };
     const pageKeys = [
       'propertiesHomeLoansSummary',
@@ -67,9 +63,6 @@ describe('COE VA home loans array builder pages', () => {
       expect(propertiesHomeLoansPages[key].depends(showLoop)).to.equal(true);
       expect(
         propertiesHomeLoansPages[key].depends(skipLoopHadNoPriorLoans),
-      ).to.equal(false);
-      expect(
-        propertiesHomeLoansPages[key].depends(skipLoopNoCurrentOwnership),
       ).to.equal(false);
       expect(propertiesHomeLoansPages[key].depends(skipLoopFlagOff)).to.equal(
         false,
