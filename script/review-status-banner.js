@@ -244,8 +244,10 @@
   }
 
   function contentBuildDone(data) {
-    if (data.status === 'ready' && data.percent >= 100) return true;
-    if (!data.steps) return false;
+    if (!data.steps || !data.steps.length) {
+      // No step data — fall back to overall status
+      return data.status === 'ready' && data.percent >= 100;
+    }
     for (let i = 0; i < data.steps.length; i++) {
       if (
         data.steps[i].id >= CONTENT_BUILD_START_STEP &&
@@ -282,19 +284,36 @@
         renderSteps(data.steps);
       })
       .catch(function handleError() {
-        // Status endpoint unavailable (maybe sidecar down) - remove banner
-        removeBanner();
-        clearInterval(polling);
+        // Status endpoint unavailable — fall back to checking if our own
+        // JS file still exists (the entrypoint removes it when content-build
+        // finishes). Don't kill the banner; keep showing it.
+        fetch('/review-status-banner.js', { method: 'HEAD' })
+          .then(function checkFile(r) {
+            if (r.ok) {
+              // File still exists → content-build still running, show banner
+              if (!dismissed) createBanner();
+            } else {
+              // File removed → content-build finished
+              removeBanner();
+              clearInterval(polling);
+            }
+          })
+          .catch(function fallbackError() {
+            // Can't reach anything — keep banner visible as a safe default
+            if (!dismissed) createBanner();
+          });
       });
   }
 
   // Start polling after page load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function onReady() {
+      if (!dismissed) createBanner();
       poll();
       polling = setInterval(poll, POLL_INTERVAL);
     });
   } else {
+    if (!dismissed) createBanner();
     poll();
     polling = setInterval(poll, POLL_INTERVAL);
   }
