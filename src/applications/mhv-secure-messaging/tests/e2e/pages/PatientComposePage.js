@@ -160,7 +160,8 @@ class PatientComposePage {
     return cy
       .findByTestId(Locators.FIELDS.MESSAGE_BODY)
       .shadow()
-      .find(`#input-type-textarea`);
+      .find(`#input-type-textarea`)
+      .should('not.be.disabled');
   };
 
   typeMessageBody = (text = '') => {
