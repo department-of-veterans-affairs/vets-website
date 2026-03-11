@@ -210,7 +210,7 @@ describe('Mega Menu', () => {
       }
     });
 
-    it.skip('looks as expected authenticated - C12294', () => {
+    it('looks as expected authenticated - C12294', () => {
       // Login as the mock user.
       cy.login(mockUser);
 
@@ -223,9 +223,24 @@ describe('Mega Menu', () => {
       // Test the menu sections.
       testDesktopMenuSections();
 
-      // Authenticated links should appear.
-      cy.get('[data-e2e-id="my-va-3"]');
-      cy.get('[data-e2e-id="my-health-4"]');
+      // Authenticated links appear only once profile has loaded.
+      cy.get('[data-e2e-id="my-va-3"]').should('exist');
+      cy.get('[data-e2e-id="my-health-4"]').should('exist');
+    });
+
+    it('does not show My VA or My HealtheVet while the profile is loading - post-auth gate', () => {
+      // Hold v0/user so profile stays in loading state for the duration of the check
+      cy.intercept('GET', '/v0/user', req => {
+        // eslint-disable-next-line no-param-reassign
+        req.reply(new Promise(() => {}));
+      }).as('pendingProfile');
+
+      cy.login(mockUser);
+      cy.visit(testUrl);
+      cy.injectAxeThenAxeCheck();
+
+      cy.get('[data-e2e-id="my-va-3"]').should('not.exist');
+      cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
     });
   });
 

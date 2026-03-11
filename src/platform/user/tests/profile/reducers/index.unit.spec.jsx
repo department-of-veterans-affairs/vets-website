@@ -25,9 +25,26 @@ describe('Profile reducer', () => {
     expect(state.loading).to.be.false;
   });
 
-  it('should set loading to false when logged in status changes', () => {
-    const state = reducer({}, { type: UPDATE_LOGGEDIN_STATUS });
+  it('should set loading to false on logout (UPDATE_LOGGEDIN_STATUS value:false)', () => {
+    const state = reducer(
+      { loading: true },
+      {
+        type: UPDATE_LOGGEDIN_STATUS,
+        value: false,
+      },
+    );
     expect(state.loading).to.be.false;
+  });
+
+  it('should NOT clear loading on login (UPDATE_LOGGEDIN_STATUS value:true) — profileLoadingFinished handles that', () => {
+    const state = reducer(
+      { loading: true },
+      {
+        type: UPDATE_LOGGEDIN_STATUS,
+        value: true,
+      },
+    );
+    expect(state.loading).to.be.true;
   });
 
   it('should be loading when fetching MHV account', () => {
