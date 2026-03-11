@@ -237,6 +237,50 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
         },
 
         /**
+         * Private Medical Records Upload (V1) page hook - uploads a test file
+         * via legacy FileField `<input type="file">` and selects a document type.
+         */
+        'supporting-evidence/private-medical-records-upload-enhancement-v1': () => {
+          cy.get('input[type="file"]').selectFile(
+            {
+              contents: Cypress.Buffer.from('test content'),
+              fileName: 'test-document.txt',
+              mimeType: 'text/plain',
+            },
+            { force: true },
+          );
+
+          cy.get('.schemaform-file-uploading').should('not.exist');
+          cy.wait('@uploadFile');
+
+          cy.get('.schemaform-file-attachment select')
+            .should('not.be.disabled')
+            .select('L049');
+        },
+
+        /**
+         * Additional Evidence Upload (V1) page hook - uploads a test file
+         * via legacy FileField `<input type="file">` and selects a document type.
+         */
+        'supporting-evidence/additional-evidence-enhancement-v1': () => {
+          cy.get('input[type="file"]').selectFile(
+            {
+              contents: Cypress.Buffer.from('test content'),
+              fileName: 'test-evidence.txt',
+              mimeType: 'text/plain',
+            },
+            { force: true },
+          );
+
+          cy.get('.schemaform-file-uploading').should('not.exist');
+          cy.wait('@uploadFile');
+
+          cy.get('.schemaform-file-attachment select')
+            .should('not.be.disabled')
+            .select('L023');
+        },
+
+        /**
          * Additional Evidence Intro page hook - selects Yes/No on the
          * VaRadio based on whether test data has other evidence.
          */

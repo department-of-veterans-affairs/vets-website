@@ -162,6 +162,25 @@ describe('evidenceChoiceAdditionalDocumentsPageV1', () => {
       );
     });
 
+    it('should not submit when additionalDocuments is empty', () => {
+      const onSubmit = sinon.spy();
+      const { getByText } = render(
+        <Provider store={uploadStore}>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            uiSchema={uiSchema}
+            data={{}}
+            formData={{}}
+            onSubmit={onSubmit}
+          />
+        </Provider>,
+      );
+
+      userEvent.click(getByText('Submit'));
+      expect(onSubmit.called).to.be.false;
+    });
+
     it('should submit when supporting documents already exist', () => {
       const onSubmit = sinon.spy();
       const { getByText } = render(

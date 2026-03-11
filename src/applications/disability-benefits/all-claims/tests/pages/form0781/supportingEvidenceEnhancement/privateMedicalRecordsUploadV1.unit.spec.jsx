@@ -135,23 +135,7 @@ describe('Private Medical Records Upload V1 page', () => {
   });
 
   describe('page rendering', () => {
-    it('should render the page with a form', () => {
-      const { container } = render(
-        <Provider store={uploadStore}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            uiSchema={uiSchema}
-            data={{}}
-            formData={{}}
-          />
-        </Provider>,
-      );
-
-      expect(container.querySelector('form')).to.exist;
-    });
-
-    it('should render with content', () => {
+    it('should render the page with content', () => {
       const { container } = render(
         <Provider store={uploadStore}>
           <DefinitionTester

@@ -41,7 +41,7 @@ describe('Private Medical Records Upload page', () => {
   });
 
   describe('page rendering', () => {
-    it('should render the page', () => {
+    it('should render the page with content', () => {
       const { container } = render(
         <Provider store={uploadStore}>
           <DefinitionTester
@@ -54,23 +54,6 @@ describe('Private Medical Records Upload page', () => {
         </Provider>,
       );
 
-      expect(container.querySelector('form')).to.exist;
-    });
-
-    it('should render with title', () => {
-      const { container } = render(
-        <Provider store={uploadStore}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            uiSchema={uiSchema}
-            data={{}}
-            formData={{}}
-          />
-        </Provider>,
-      );
-
-      // Check that the page renders content
       const form = container.querySelector('form');
       expect(form).to.exist;
       expect(form.children.length).to.be.greaterThan(0);

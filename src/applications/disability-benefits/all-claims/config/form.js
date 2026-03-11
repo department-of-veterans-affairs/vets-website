@@ -588,6 +588,27 @@ const formConfig = {
         ...form0781PagesConfig,
       },
     },
+    /**
+     * Supporting Evidence Upload Page Versioning
+     * ============================================
+     *
+     * Three tiers of upload pages coexist during rollout:
+     *
+     * | Label  | Toggle state                    | Upload component             | Path suffix    |
+     * |--------|---------------------------------|------------------------------|----------------|
+     * | Legacy | Enhancement OFF                 | FileField (platform)         | (original)     |
+     * | V1     | Enhancement ON, FileInputV3 OFF | FileField (platform)         | `-v1`          |
+     * | V0     | Enhancement ON, FileInputV3 ON  | va-file-input-multiple (WC)  | `-enhancement` |
+     *
+     * "V0" uses the newest web component and is the target end-state.
+     * "V1" is the interim fallback pairing the enhancement UX with legacy
+     * FileField while va-file-input-multiple is behind its own toggle.
+     * Once FileInputV3 is fully enabled, V1 pages and -v1 routes can be removed.
+     *
+     * Toggle keys in formData:
+     *   - disability526SupportingEvidenceEnhancement  — gates the entire enhancement
+     *   - disability526SupportingEvidenceFileInputV3   — gates V0 vs V1 upload component
+     */
     supportingEvidence: {
       title: 'Supporting evidence',
       pages: {
