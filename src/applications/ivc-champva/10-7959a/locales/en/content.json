@@ -100,7 +100,7 @@
   "resubmission--dta-docs-option--yes": "Yes, I’ll upload them myself",
   "resubmission--dta-docs-option--no": "No, I need help getting them",
   "resubmission--provider-overview-title": "%s supporting documents",
-  "resubmission--provider-contact-title": "%s contact information",
+  "resubmission--provider-contact-title": "Provider contact information",
   "resubmission--provider-contact-description": "We’ll contact the provider to get the documents to support your claim.",
   "resubmission--provider-phone-label": "Provider phone number",
   "resubmission--provider-email-label": "Provider email",
