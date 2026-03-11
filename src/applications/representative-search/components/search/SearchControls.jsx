@@ -204,20 +204,6 @@ const SearchControls = props => {
               {searchAreaSelectOptions}
             </VaSelect>
           </div>
-          {organizationFilterEnabled &&
-            representativeType === 'veteran_service_officer' && (
-              <div className="organization-select">
-                <VaComboBox
-                  name="organization"
-                  value={organization}
-                  label="Veterans Service Organization (VSO)"
-                  onVaSelect={handleChange('organization')}
-                  data-testid="vso-org-filter"
-                >
-                  {organizationSelectOptions}
-                </VaComboBox>
-              </div>
-            )}
           <div className="representative-name-input vads-u-margin-top--4">
             <va-text-input
               hint={null}
@@ -232,6 +218,20 @@ const SearchControls = props => {
               uswds
             />
           </div>
+          {organizationFilterEnabled &&
+            representativeType === 'veteran_service_officer' && (
+              <div className="organization-select">
+                <VaComboBox
+                  name="organization"
+                  value={organization}
+                  label="Veterans Service Organization (VSO)"
+                  onVaSelect={handleChange('organization')}
+                  data-testid="vso-org-filter"
+                >
+                  {organizationSelectOptions}
+                </VaComboBox>
+              </div>
+            )}
         </div>
 
         <div className="vads-u-margin-top--5 vads-u-margin-bottom--4">
