@@ -83,15 +83,6 @@ class YourClaimsPageV2 extends React.Component {
     focusElement('h1');
   }
 
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.location.pathname !== this.props.location.pathname ||
-      prevProps.location.search !== this.props.location.search
-    ) {
-      window.scrollTo(0, 0);
-    }
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     const newPage = YourClaimsPageV2.getPageFromURL(nextProps);
 

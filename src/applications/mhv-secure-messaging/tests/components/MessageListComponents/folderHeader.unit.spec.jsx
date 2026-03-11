@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -139,17 +139,8 @@ describe('Folder Header component', () => {
         .to.not.exist;
     });
 
-    it('must display `Edit Folder Name` and `Remove Folder` buttons', () => {
-      expect(screen.getByTestId('edit-folder-button')).to.exist;
-      expect(screen.getByTestId('remove-folder-button')).to.exist;
-    });
-
-    it('displays `Remove this folder?` modal if threadCount is zero.', async () => {
-      fireEvent.click(screen.getByTestId('remove-folder-button'));
-      expect(screen.getByTestId('remove-this-folder')).to.exist;
-      expect(screen.getByText(`If you remove a folder, you can't get it back.`))
-        .to.exist;
-    });
+    // Note: ManageFolderButtons (Edit/Remove folder) moved to FolderThreadListView
+    // Those buttons are tested in ManageFolderButtons.unit.spec.jsx
   });
 
   describe('Folder Header component displays CUSTOM folder and children components', () => {

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import * as recordEventModule from 'platform/monitoring/record-event';
-import { ID_NUMBER_OPTIONS } from '../../../chapters/resubmission';
+import { ID_NUMBER_OPTIONS } from '../../../chapters/resubmission/claimIdNumber';
 import formConfig from '../../../config/form';
 import mockData from '../../e2e/fixtures/data/medical-claim.json';
 import transformForSubmit from '../../../config/submitTransformer';
