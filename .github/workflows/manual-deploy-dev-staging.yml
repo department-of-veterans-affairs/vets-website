@@ -97,6 +97,9 @@ jobs:
     name: Build
     runs-on: ubuntu-16-cores-latest
     needs: set-environment
+    permissions:
+      id-token: write
+      contents: read
     strategy:
       matrix: ${{ fromJson(needs.set-environment.outputs.environment) }}
 

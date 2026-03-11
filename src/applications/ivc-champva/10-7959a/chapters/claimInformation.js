@@ -18,6 +18,7 @@ import {
   llmUploadAlertUI,
 } from '../definitions';
 import content from '../locales/en/content.json';
+import { titleWithFormDataUI } from '../utils/titles';
 
 export const claimTypeSchema = {
   uiSchema: {
@@ -99,11 +100,9 @@ export const eobUploadSchema = isPrimary => {
   const keyName = isPrimary ? 'primaryEob' : 'secondaryEob';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) => {
-        // If `isPrimary`, show first health insurance co. name. Else, show 2nd.
-        return `${content['claim--eob-title']} ${
-          formData?.policies?.[isPrimary ? 0 : 1]?.name
-        }`;
+      ...titleWithFormDataUI(content['claim--eob-title'], null, {
+        dataKey: formData => formData?.policies?.[isPrimary ? 0 : 1]?.name,
+        capitalize: false,
       }),
       ...descriptionUI(MedicalEobDescription),
       ...llmUploadAlertUI,

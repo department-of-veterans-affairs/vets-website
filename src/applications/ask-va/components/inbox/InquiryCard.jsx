@@ -13,6 +13,7 @@ import { getConversationLink } from '../../utils/links';
  * @property {string} inquiryNumber
  * @property {string} categoryName
  * @property {string} submitterQuestion
+ * @property {string} levelOfAuthentication
  */
 
 export {};

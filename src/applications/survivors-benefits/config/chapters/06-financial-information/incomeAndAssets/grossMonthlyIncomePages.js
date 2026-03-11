@@ -188,6 +188,16 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
               hint:
                 'Enter the name of a government agency, a company, or another organization.',
               classNames: 'vads-u-margin-bottom--2',
+              updateSchema: (formData, _schema, _uiSchema, index) => {
+                const items = formData?.incomeEntries;
+                const item = items?.[index];
+                if (item?.incomeType === 'SOCIAL_SECURITY') {
+                  item.incomePayer = 'Social Security Administration';
+                } else if (item?.incomePayer) {
+                  item.incomePayer = '';
+                }
+                return { type: 'string' };
+              },
             },
           },
           monthlyIncome: currencyUI({

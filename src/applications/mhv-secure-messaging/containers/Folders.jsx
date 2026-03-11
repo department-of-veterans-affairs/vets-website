@@ -63,15 +63,9 @@ const Folders = () => {
     [folders, location.pathname],
   );
 
-  const confirmFolderCreate = (folderName, onSuccess) => {
-    dispatch(newFolder(folderName)).then(() => {
-      onSuccess();
-      dispatch(getFolders());
-      // Focus H1 after React re-renders so AlertBackgroundBox's focus-settle announce path fires
-      setTimeout(() => {
-        focusElement(document.querySelector('h1'));
-      }, 100);
-    });
+  const confirmFolderCreate = async folderName => {
+    // Pass suppressSuccessAlert=true - inline alert shown in CreateFolderInline
+    await dispatch(newFolder(folderName, true));
   };
 
   const handleFolderCreated = folderName => {
