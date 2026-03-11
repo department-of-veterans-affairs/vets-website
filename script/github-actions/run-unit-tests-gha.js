@@ -174,14 +174,14 @@ async function main() {
 
     if (!hasMatchingTests(testPatterns)) {
       console.log('No tests to run');
-      core.exportVariable('tests_ran', 'false');
+      core.setOutput('tests_ran', 'false');
       return;
     }
 
     console.log(`Running tests matching patterns: ${getPatternSource()}`);
     const command = buildTestCommand(testPatterns);
     await runCommand(command);
-    core.exportVariable('tests_ran', 'true');
+    core.setOutput('tests_ran', 'true');
   } catch (error) {
     console.error('Error running tests:', error);
     process.exit(1);
