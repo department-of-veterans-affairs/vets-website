@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import App from '../../containers/App';
+import { TOGGLE_KEY } from '../../constants';
 
 const getData = ({
   loggedIn = true,
@@ -128,5 +129,67 @@ describe('App', () => {
     expect(getCoeMock.called).to.be.true;
     // we are skippingt generateCoe action
     expect(getCoeMock.args[0][0]).to.be.true;
+  });
+});
+
+describe('feature toggle useEffect logic', () => {
+  const viewToggleKey = `view:${TOGGLE_KEY}`;
+
+  it('should set the toggle value on formData using the view: prefix key', () => {
+    const formData = {};
+    const coeRebuildEnabled = true;
+    const isLoadingFeatureFlags = false;
+    const setFormData = sinon.spy();
+
+    if (
+      !isLoadingFeatureFlags &&
+      formData[viewToggleKey] !== coeRebuildEnabled
+    ) {
+      setFormData({
+        ...formData,
+        [viewToggleKey]: coeRebuildEnabled,
+      });
+    }
+
+    expect(setFormData.calledOnce).to.be.true;
+    expect(setFormData.firstCall.args[0][viewToggleKey]).to.equal(true);
+  });
+
+  it('should not call setFormData when toggle is already set correctly', () => {
+    const formData = { [viewToggleKey]: true };
+    const coeRebuildEnabled = true;
+    const isLoadingFeatureFlags = false;
+    const setFormData = sinon.spy();
+
+    if (
+      !isLoadingFeatureFlags &&
+      formData[viewToggleKey] !== coeRebuildEnabled
+    ) {
+      setFormData({
+        ...formData,
+        [viewToggleKey]: coeRebuildEnabled,
+      });
+    }
+
+    expect(setFormData.called).to.be.false;
+  });
+
+  it('should not call setFormData while feature flags are loading', () => {
+    const formData = {};
+    const coeRebuildEnabled = true;
+    const isLoadingFeatureFlags = true;
+    const setFormData = sinon.spy();
+
+    if (
+      !isLoadingFeatureFlags &&
+      formData[viewToggleKey] !== coeRebuildEnabled
+    ) {
+      setFormData({
+        ...formData,
+        [viewToggleKey]: coeRebuildEnabled,
+      });
+    }
+
+    expect(setFormData.called).to.be.false;
   });
 });

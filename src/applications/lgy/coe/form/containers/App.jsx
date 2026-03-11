@@ -41,7 +41,7 @@ function App({
     () => {
       if (
         !isLoadingFeatureFlags &&
-        formData[TOGGLE_KEY] !== coeRebuildEnabled
+        formData[`view:${TOGGLE_KEY}`] !== coeRebuildEnabled
       ) {
         setFormData({
           ...formData,
