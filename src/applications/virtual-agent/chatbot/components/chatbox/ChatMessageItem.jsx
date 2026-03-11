@@ -60,6 +60,13 @@ const buildNubClassNames = isUser => {
   });
 };
 
+const buildTimestampClassNames = isUser => {
+  return classNames('va-chatbot-message-timestamp', {
+    'vads-u-text-align--right': isUser,
+    'vads-u-text-align--left': !isUser,
+  });
+};
+
 /**
  * Chat message entry item.
  * @component
@@ -82,27 +89,29 @@ export default function ChatMessageItem({ message }) {
         </div>
       )}
 
-      <div className={buildBubbleClassNames(isUser)}>
-        <svg
-          aria-hidden="true"
-          className={buildNubClassNames(isUser)}
-          focusable="false"
-          viewBox="0 0 10 10"
-        >
-          <path
-            className="va-chatbot-message-nub__path"
-            d="M10 0 L0 0 L10 10"
+      <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-flex--1">
+        <div className={buildBubbleClassNames(isUser)}>
+          <svg
+            aria-hidden="true"
+            className={buildNubClassNames(isUser)}
+            focusable="false"
+            viewBox="0 0 10 10"
+          >
+            <path
+              className="va-chatbot-message-nub__path"
+              d="M10 0 L0 0 L10 10"
+            />
+          </svg>
+          {/* eslint-disable-next-line react/no-danger */}
+          <div
+            className="vads-u-margin--0 va-chatbot-message-text_content"
+            dangerouslySetInnerHTML={{
+              __html: sanitizedMarkdown,
+            }}
           />
-        </svg>
-        {/* eslint-disable-next-line react/no-danger */}
-        <div
-          className="vads-u-margin--0 va-chatbot-message-text_content"
-          dangerouslySetInnerHTML={{
-            __html: sanitizedMarkdown,
-          }}
-        />
+        </div>
         {message.timestamp && (
-          <div className="va-chatbot-message-timestamp">
+          <div className={buildTimestampClassNames(isUser)}>
             {formatTimestamp(message.timestamp)}
           </div>
         )}

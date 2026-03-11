@@ -1,7 +1,3 @@
-Here's the stripped-down technical reference document you can feed into a coding LLM:
-
----
-
 # Genesys Cloud Messenger SDK — MessagingService Plugin Reference
 
 > **Important:** Subscribe to `MessagingService.ready` before calling any commands. If already published, it will republish to trigger your callback.
