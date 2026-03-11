@@ -159,7 +159,7 @@
   "household-dependent-dob-label": "Dependent’s date of birth",
   "household-dependent-earned-income-label": "Did your dependent earn income in %s?",
   "household-dependent-edit-button-aria-label": "Edit your dependents",
-  "household-dependent-education-expenses-label": "Enter the total amount of money your dependent paid for college, vocational rehabilitation, or training (like tuition, books, or supplies)",
+  "household-dependent-education-expenses-label": "If your dependent reported any gross income on their %s taxes, enter the amount of money they paid for college, vocational rehabilitation, or training. Include the total of payments for expenses like tuition, books, and supplies.",
   "household-dependent-generic-label": "Dependent",
   "household-dependent-generic-label-plural": "Dependents",
   "household-dependent-income-gross-label": "Enter your dependent’s gross annual income from %s",
