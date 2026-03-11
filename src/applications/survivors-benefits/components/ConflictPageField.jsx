@@ -6,7 +6,49 @@ import { getFormData } from 'platform/forms-system/src/js/state/selectors';
 import { buildConflicts, resolveField } from '../cave/utils/conflictDetection';
 import manifest from '../manifest.json';
 
-const ConflictCard = ({ conflict, resolution, onResolutionChange }) => {
+// Build a map of trackingKey → enumerated label (e.g. "DD-214 (2)") for doc
+// types that appear more than once across all files.
+const buildDocIndexMap = files => {
+  const counters = {};
+  const map = {};
+  (files ?? []).forEach(file => {
+    const key = file.idpTrackingKey;
+    if (!key) return;
+    const types = [];
+    if (file.idpArtifacts?.dd214?.length) types.push('DD-214');
+    if (file.idpArtifacts?.deathCertificates?.length)
+      types.push('death certificate');
+    types.forEach(t => {
+      counters[t] = (counters[t] || 0) + 1;
+      map[`${t}::${key}`] = counters[t];
+    });
+  });
+  // Only enumerate if there are multiple of a given type
+  const totals = counters;
+  return { map, totals };
+};
+
+const formatSourceLabel = (sf, map, totals) => {
+  const total = totals[sf.docTypeLabel] || 1;
+  if (total > 1) {
+    const idx = map[`${sf.docTypeLabel}::${sf.trackingKey}`];
+    return idx !== undefined ? `${sf.docTypeLabel} (${idx})` : sf.docTypeLabel;
+  }
+  return sf.docTypeLabel;
+};
+
+const joinSourceLabels = labels => {
+  if (labels.length === 1) return labels[0];
+  if (labels.length === 2) return `${labels[0]} and ${labels[1]}`;
+  return `${labels.slice(0, -1).join(', ')}, and ${labels[labels.length - 1]}`;
+};
+
+const ConflictCard = ({
+  conflict,
+  resolution,
+  onResolutionChange,
+  docIndexMap,
+}) => {
   const radioRef = useRef(null);
   // Ref keeps the handler current without re-registering the listener.
   const onResolutionChangeRef = useRef(onResolutionChange);
@@ -36,20 +78,23 @@ const ConflictCard = ({ conflict, resolution, onResolutionChange }) => {
           checked={!resolution || resolution === 'form'}
           tile
         />
-        {conflict.artifactOptions.map((option, idx) => (
-          <va-radio-option
-            key={option.sourceFiles.map(f => f.trackingKey).join('-')}
-            name={`conflict-${conflict.label}`}
-            label={`${option.displayValue} (found in ${
-              option.sourceFiles.length > 1
-                ? 'multiple documents'
-                : `${option.sourceFiles[0].docTypeLabel}`
-            })`}
-            value={String(idx)}
-            checked={resolution === String(idx)}
-            tile
-          />
-        ))}
+        {conflict.artifactOptions.map((option, idx) => {
+          const sourceLabels = option.sourceFiles.map(sf =>
+            formatSourceLabel(sf, docIndexMap.map, docIndexMap.totals),
+          );
+          return (
+            <va-radio-option
+              key={option.sourceFiles.map(f => f.trackingKey).join('-')}
+              name={`conflict-${conflict.label}`}
+              label={`${option.displayValue} (found in ${joinSourceLabels(
+                sourceLabels,
+              )})`}
+              value={String(idx)}
+              checked={resolution === String(idx)}
+              tile
+            />
+          );
+        })}
       </va-radio>
       <p className="vads-u-margin-top--1">
         <a href={`${manifest.rootUrl}/${conflict.editPath}`}>
@@ -167,6 +212,8 @@ const createConflictPageField = (fieldGroup, emptyMessage) => {
       setResolutions(prev => ({ ...prev, [fieldLabel]: choice }));
     };
 
+    const docIndexMap = buildDocIndexMap(formData.files);
+
     if (!conflicts.length) {
       return <p>{emptyMessage}</p>;
     }
@@ -183,6 +230,7 @@ const createConflictPageField = (fieldGroup, emptyMessage) => {
             conflict={conflict}
             resolution={resolutions[conflict.label]}
             onResolutionChange={handleResolutionChange}
+            docIndexMap={docIndexMap}
           />
         ))}
       </div>

@@ -1,3 +1,4 @@
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import createConflictPageField from '../../../components/ConflictPageField';
 import { VETERAN_INFO_FIELDS } from '../../../cave/fieldMapping';
 
@@ -8,7 +9,10 @@ const ConfirmVeteranInfoField = createConflictPageField(
 
 export default {
   uiSchema: {
-    'ui:title': '',
+    ...titleUI(
+      'Confirm Veteran information',
+      'The information you entered is different than what we detected in your documents. Review and confirm which information is correct.',
+    ),
     veteranInfoConflictData: {
       'ui:field': ConfirmVeteranInfoField,
     },

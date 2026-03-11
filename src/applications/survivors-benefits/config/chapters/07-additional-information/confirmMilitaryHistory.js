@@ -1,3 +1,4 @@
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import createConflictPageField from '../../../components/ConflictPageField';
 import { MILITARY_HISTORY_FIELDS } from '../../../cave/fieldMapping';
 
@@ -8,7 +9,10 @@ const ConfirmMilitaryHistoryField = createConflictPageField(
 
 export default {
   uiSchema: {
-    'ui:title': '',
+    ...titleUI(
+      'Confirm Veteran military history',
+      'The information you entered is different than what we detected in your documents. Review and confirm which information is correct.',
+    ),
     militaryHistoryConflictData: {
       'ui:field': ConfirmMilitaryHistoryField,
     },

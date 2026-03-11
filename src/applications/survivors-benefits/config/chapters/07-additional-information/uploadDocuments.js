@@ -45,7 +45,7 @@ const FileUploadField = props => {
  * Rendered as a hidden `view:caveProcessing` field so ui:validations can gate
  * form navigation without displaying anything when processing is complete.
  */
-const CaveProcessingField = ({ formContext }) => {
+const CaveProcessingField = () => {
   const formData = useSelector(getFormData) || {};
   const isProcessing = (formData.files ?? []).some(
     f => f.idpUploadStatus === 'pending' || f.idpUploadStatus === 'processing',
@@ -53,17 +53,11 @@ const CaveProcessingField = ({ formContext }) => {
 
   if (!isProcessing) return null;
 
-  const showError = formContext?.submitted;
   return (
     <>
-      {showError && (
-        <span className="usa-input-error usa-input-error-message" role="alert">
-          Please wait while we finish processing your documents.
-        </span>
-      )}
       <va-loading-indicator
         label="Processing your documents"
-        message="Please wait while we process your uploaded documents."
+        message="We're extracting information from your documents. This may take a few minutes. Once processing is complete, you'll be able to continue."
         set-focus
       />
     </>
@@ -86,17 +80,13 @@ export default {
     'view:caveProcessing': {
       'ui:field': CaveProcessingField,
       'ui:validations': [
-        (errors, _fieldValue, formData) => {
+        (_errors, _fieldValue, formData) => {
           const processing = (formData?.files ?? []).some(
             f =>
               f.idpUploadStatus === 'pending' ||
               f.idpUploadStatus === 'processing',
           );
-          if (processing) {
-            errors.addError(
-              'Please wait while we finish processing your documents.',
-            );
-          }
+          if (processing) _errors.addError('Documents are still processing.');
         },
       ],
     },

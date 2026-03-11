@@ -65,34 +65,6 @@ const NoUploadWarningField = ({ formContext, formData, onChange }) => {
   );
 };
 
-/**
- * Blocks the Continue button while CAVE is still processing uploaded documents.
- */
-const CaveProcessingField = ({ formContext }) => {
-  const formData = useSelector(getFormData) || {};
-  const isProcessing = (formData.files ?? []).some(
-    f => f.idpUploadStatus === 'pending' || f.idpUploadStatus === 'processing',
-  );
-
-  if (!isProcessing) return null;
-
-  const showError = formContext?.submitted;
-  return (
-    <>
-      {showError && (
-        <span className="usa-input-error usa-input-error-message" role="alert">
-          Please wait while we finish processing your documents.
-        </span>
-      )}
-      <va-loading-indicator
-        label="Processing your documents"
-        message="Please wait while we process your uploaded documents."
-        set-focus
-      />
-    </>
-  );
-};
-
 export default {
   uiSchema: {
     ...titleUI(
@@ -115,23 +87,6 @@ export default {
     files: {
       ...filesUi,
       'ui:webComponentField': FileUploadField,
-    },
-    'view:caveProcessing': {
-      'ui:field': CaveProcessingField,
-      'ui:validations': [
-        (errors, _fieldValue, formData) => {
-          const processing = (formData?.files ?? []).some(
-            f =>
-              f.idpUploadStatus === 'pending' ||
-              f.idpUploadStatus === 'processing',
-          );
-          if (processing) {
-            errors.addError(
-              'Please wait while we finish processing your documents.',
-            );
-          }
-        },
-      ],
     },
   },
   schema: {
