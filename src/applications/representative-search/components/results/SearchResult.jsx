@@ -7,8 +7,10 @@ import { scrollTo } from 'platform/utilities/scroll';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { useDispatch, useSelector } from 'react-redux';
 import ReportModal from './ReportModal';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
+import { initializeRepresentativeReport } from '../../actions';
 
 const SearchResult = ({
   officer,
@@ -23,16 +25,15 @@ const SearchResult = ({
   distance,
   email,
   associatedOrgs,
-  submitRepresentativeReport,
-  initializeRepresentativeReport,
-  cancelRepresentativeReport,
-  reportSubmissionStatus,
   reports,
   representativeId,
-  searchResults,
-  query,
   setReportModalTester,
 }) => {
+  const dispatch = useDispatch();
+  const searchQuery = useSelector(state => state.searchQuery);
+  const searchResult = useSelector(state => state.searchResult);
+  const { reportSubmissionStatus, searchResults } = searchResult;
+
   const [reportModalIsShowing, setReportModalIsShowing] = useState(false);
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -105,7 +106,7 @@ const SearchResult = ({
 
   // Reusable map href for both full + partial address cases
   const mapHref = `https://maps.google.com?saddr=${
-    query?.context?.location
+    searchQuery?.context?.location
   }&daddr=${encodeURIComponent(destinationAddress)}`;
 
   const onCloseReportModal = () => {
@@ -116,11 +117,11 @@ const SearchResult = ({
     recordEvent({
       // prettier-ignore
       'event': 'far-search-results-click',
-      'search-query': query?.locationQueryString,
+      'search-query': searchQuery?.locationQueryString,
       'search-filters-list': {
-        'representative-type': query?.representativeType,
-        'search-radius': query?.searchArea,
-        'representative-name': query?.representativeQueryString,
+        'representative-type': searchQuery?.representativeType,
+        'search-radius': searchQuery?.searchArea,
+        'representative-name': searchQuery?.representativeQueryString,
       },
       'search-selection': 'Find VA Accredited Rep',
       'search-results-id': representativeId,
@@ -136,11 +137,11 @@ const SearchResult = ({
     recordEvent({
       // prettier-ignore
       'event': 'far-search-results-outdated',
-      'search-query': query?.locationQueryString,
+      'search-query': searchQuery?.locationQueryString,
       'search-filters-list': {
-        'representative-type': query?.representativeType,
-        'search-radius': query?.searchArea,
-        'representative-name': query?.representativeQueryString,
+        'representative-type': searchQuery?.representativeType,
+        'search-radius': searchQuery?.searchArea,
+        'representative-name': searchQuery?.representativeQueryString,
       },
       'search-selection': 'Find VA Accredited Rep',
       'search-results-id': representativeId,
@@ -171,7 +172,7 @@ const SearchResult = ({
         scrollTo(`#report-button-${representativeId}`);
         focusElement(`#report-button-${representativeId}`);
       }
-      initializeRepresentativeReport();
+      dispatch(initializeRepresentativeReport);
     },
     [reportModalIsShowing],
   );
@@ -199,8 +200,6 @@ const SearchResult = ({
           email={email}
           existingReports={reports}
           onCloseReportModal={onCloseReportModal}
-          submitRepresentativeReport={submitRepresentativeReport}
-          cancelRepresentativeReport={cancelRepresentativeReport}
         />
       )}
       <va-card
@@ -324,20 +323,9 @@ SearchResult.propTypes = {
   city: PropTypes.string,
   distance: PropTypes.number,
   email: PropTypes.string,
-  initializeRepresentativeReport: PropTypes.func,
   key: PropTypes.number,
   officer: PropTypes.string,
   phone: PropTypes.string,
-  query: PropTypes.shape({
-    context: PropTypes.shape({
-      location: PropTypes.string,
-    }),
-    locationQueryString: PropTypes.string,
-    representativeType: PropTypes.string,
-    searchArea: PropTypes.string,
-    representativeQueryString: PropTypes.string,
-  }),
-  reportSubmissionStatus: PropTypes.string,
   reports: PropTypes.shape({
     phone: PropTypes.string,
     email: PropTypes.string,
@@ -345,20 +333,8 @@ SearchResult.propTypes = {
     other: PropTypes.string,
   }),
   representativeId: PropTypes.string,
-  searchResults: PropTypes.arrayOf(
-    PropTypes.shape({
-      meta: PropTypes.shape({
-        pagination: PropTypes.shape({
-          totalEntries: PropTypes.number,
-          totalPages: PropTypes.number,
-          currentPage: PropTypes.number,
-        }),
-      }),
-    }),
-  ),
   setReportModalTester: PropTypes.func,
   stateCode: PropTypes.string,
-  submitRepresentativeReport: PropTypes.func,
   type: PropTypes.string,
   zipCode: PropTypes.string,
 };

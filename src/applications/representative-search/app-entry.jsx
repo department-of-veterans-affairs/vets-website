@@ -1,5 +1,5 @@
-import '@department-of-veterans-affairs/platform-polyfills';
-import startApp from '@department-of-veterans-affairs/platform-startup/index';
+import 'platform/polyfills';
+import startApp from 'platform/startup/router';
 
 import './sass/find-a-representative.scss';
 import routes from './routes';

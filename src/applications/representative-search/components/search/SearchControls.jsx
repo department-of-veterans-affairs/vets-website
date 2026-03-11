@@ -12,20 +12,18 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import RepTypeSelector from './RepTypeSelector';
 import { ErrorTypes } from '../../constants';
 import { searchAreaOptions } from '../../config';
-import { fetchOrganizations } from '../../actions';
+import {
+  clearError,
+  fetchOrganizations,
+  geolocateUser,
+  updateSearchQuery,
+} from '../../actions';
 
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 
-const SearchControls = props => {
-  const {
-    currentQuery,
-    onChange,
-    geolocateUser,
-    onSubmit,
-    clearError,
-    // clearSearchText
-    geocodeError,
-  } = props;
+const SearchControls = ({ onSubmit }) => {
+  const searchQuery = useSelector(state => state.searchQuery);
+  const geocodeError = useSelector(state => state.errors.isErrorGeocode);
   const {
     locationInputString,
     representativeInputString,
@@ -34,7 +32,7 @@ const SearchControls = props => {
     isErrorEmptyInput,
     searchArea,
     organization,
-  } = currentQuery;
+  } = searchQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
 
@@ -65,16 +63,18 @@ const SearchControls = props => {
   ));
 
   const handleChange = name => e => {
-    onChange({
-      [name]: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
+    dispatch(
+      updateSearchQuery({
+        [name]: onlySpaces(e.target.value)
+          ? e.target.value.trim()
+          : e.target.value,
+      }),
+    );
   };
 
   const handleLocationChange = e => {
     handleChange('locationInputString')(e);
-    clearError(ErrorTypes.geocodeError);
+    dispatch(clearError(ErrorTypes.geocodeError));
   };
 
   const handleGeolocationButtonClick = e => {
@@ -82,11 +82,11 @@ const SearchControls = props => {
     // recordEvent({
     //   event: 'fl-get-geolocation',
     // });
-    geolocateUser();
+    dispatch(geolocateUser);
   };
 
   const handleCloseLocationModal = () => {
-    clearError(ErrorTypes.geocodeError);
+    dispatch(clearError(ErrorTypes.geocodeError));
     focusElement(`#street-city-state-zip`);
   };
 
@@ -117,11 +117,8 @@ const SearchControls = props => {
       <h2 className="vads-u-margin-bottom--0">
         Search for an accredited representative
       </h2>
-      <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
-        <RepTypeSelector
-          representativeType={representativeType}
-          onChange={onChange}
-        />
+      <form id="representative-search-controls" onSubmit={onSubmit}>
+        <RepTypeSelector representativeType={representativeType} />
 
         <div className="vads-u-margin-top--1">
           <p>
@@ -251,14 +248,9 @@ const SearchControls = props => {
 };
 
 SearchControls.propTypes = {
-  clearError: PropTypes.func,
-  currentQuery: PropTypes.object,
-  geocodeError: PropTypes.object,
-  geolocateUser: PropTypes.func,
   locationChanged: PropTypes.bool,
   locationInputString: PropTypes.string,
   representativeInputString: PropTypes.string,
-  onChange: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 

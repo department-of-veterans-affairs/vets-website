@@ -72,6 +72,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...action.payload,
+        searchWithInputInProgress: false,
         inProgress: false,
         searchCounter: state.searchCounter + 1,
       };

@@ -30,7 +30,6 @@ function RepresentativeDirectionsLink({ representative, query }) {
 }
 
 RepresentativeDirectionsLink.propTypes = {
-  location: PropTypes.object,
   query: PropTypes.shape({
     context: PropTypes.shape({ location: PropTypes.string }),
   }),
