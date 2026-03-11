@@ -219,7 +219,15 @@ button.webchat__send-button[disabled] {
 
 .va-chatbot-message-list {
   max-height: 465px;
-  overflow-y: scroll
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+.va-chatbot-message-timestamp {
+  font-size: 0.75rem;
+  color: $color-gray;
+  margin-top: 0.25rem;
+  text-align: right;
 }
 
 .va-chatbot-message-text_content {

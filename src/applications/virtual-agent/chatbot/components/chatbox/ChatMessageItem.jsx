@@ -1,15 +1,33 @@
 /* eslint-disable react/no-danger */
 import classNames from 'classnames';
+import { differenceInHours, format, formatDistanceToNow } from 'date-fns';
 import DOMPurify from 'dompurify';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ChatMessageIcon from './ChatMessageIcon';
 import markdownRenderer from '../../../webchat/utils/markdownRenderer';
+import ChatMessageIcon from './ChatMessageIcon';
 
 const SENDER_TYPES = {
   USER: 'user',
   VA: 'va',
+};
+
+// Format timestamp
+const formatTimestamp = timestamp => {
+  if (!timestamp) return '';
+
+  const date = new Date(timestamp);
+  const now = new Date();
+  const hoursDifference = differenceInHours(now, date);
+
+  // Show relative time for messages less than 24 hours old
+  if (hoursDifference < 24) {
+    return formatDistanceToNow(date, { addSuffix: true });
+  }
+
+  // Show full date/time for older messages
+  return format(date, 'MMM d, yyyy h:mm a');
 };
 
 /**
@@ -17,6 +35,7 @@ const SENDER_TYPES = {
  * @property {string} id
  * @property {string} sender
  * @property {string} text
+ * @property {number} [timestamp]
  */
 
 /**
@@ -82,6 +101,11 @@ export default function ChatMessageItem({ message }) {
             __html: sanitizedMarkdown,
           }}
         />
+        {message.timestamp && (
+          <div className="va-chatbot-message-timestamp">
+            {formatTimestamp(message.timestamp)}
+          </div>
+        )}
       </div>
 
       {isUser && (
@@ -98,5 +122,6 @@ ChatMessageItem.propTypes = {
     id: PropTypes.string.isRequired,
     sender: PropTypes.oneOf([SENDER_TYPES.USER, SENDER_TYPES.VA]).isRequired,
     text: PropTypes.string.isRequired,
+    timestamp: PropTypes.number,
   }).isRequired,
 };

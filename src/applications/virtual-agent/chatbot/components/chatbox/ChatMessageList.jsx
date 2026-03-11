@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import ChatMessageError from './ChatMessageError';
 import ChatMessageItem from './ChatMessageItem';
@@ -9,6 +9,7 @@ import ChatMessageItem from './ChatMessageItem';
  * @property {string} id
  * @property {'user'|'va'} sender
  * @property {string} text
+ * @property {number} [timestamp]
  * @property {{ text: string, payload: string }[]} [quickReplies]
  */
 
@@ -30,21 +31,52 @@ export default function ChatMessageList({
   errorMessage,
   onQuickReply,
 }) {
+  const listRef = useRef(null);
+
   const lastMessage = messages[messages.length - 1];
   const quickReplies =
     lastMessage && Array.isArray(lastMessage.quickReplies)
       ? lastMessage.quickReplies
       : [];
 
+  // Scroll to bottom when new messages arrive
+  useEffect(
+    () => {
+      if (listRef.current) {
+        // Scroll the ul container to the bottom
+        listRef.current.scrollTop = listRef.current.scrollHeight;
+
+        // Find and focus the last VA message for accessibility
+        const lastVaMessage = listRef.current.querySelector(
+          '[data-sender="va"]:last-of-type',
+        );
+        if (lastVaMessage && lastMessage?.sender === 'va') {
+          // Small delay to ensure scroll completes before focus
+          setTimeout(() => {
+            lastVaMessage.focus();
+          }, 100);
+        }
+      }
+    },
+    [messages, lastMessage?.sender],
+  );
+
   return (
     <ul
+      ref={listRef}
       aria-live="polite"
       className="vads-u-margin--0 vads-u-padding--1p5 va-chatbot-message-list"
       data-testid="chat-message-list"
       style={{ listStyle: 'none' }}
     >
       {messages.map(message => (
-        <ChatMessageItem key={message.id} message={message} />
+        <li
+          key={message.id}
+          data-sender={message.sender}
+          tabIndex={message.sender === 'va' ? -1 : undefined}
+        >
+          <ChatMessageItem message={message} />
+        </li>
       ))}
       {quickReplies.length > 0 && onQuickReply ? (
         <li
