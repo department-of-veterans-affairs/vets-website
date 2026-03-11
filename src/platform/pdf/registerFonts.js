@@ -27,12 +27,18 @@ const downloadAndRegisterFont = async (doc, font) => {
   const bucket = environment.isLocalhost()
     ? ''
     : BUCKETS[environment.BUILDTYPE];
-  const request = await fetch(`${bucket}/generated/${knownFonts[font]}`);
-  const binaryFont = await request.arrayBuffer();
-  const encodedFont = Buffer.from(binaryFont).toString('base64');
-  fs.writeFileSync(knownFonts[font], encodedFont);
-
-  doc.registerFont(font, knownFonts[font]);
+  const url = `${bucket}/generated/${knownFonts[font]}`;
+  try {
+    const request = await fetch(url);
+    const binaryFont = await request.arrayBuffer();
+    const encodedFont = Buffer.from(binaryFont).toString('base64');
+    fs.writeFileSync(knownFonts[font], encodedFont);
+    doc.registerFont(font, knownFonts[font]);
+  } catch (error) {
+    throw new Error(
+      `Failed to fetch font ${font} from ${url}: ${error.message}`,
+    );
+  }
 };
 
 export const registerFonts = async function(doc, fonts) {
