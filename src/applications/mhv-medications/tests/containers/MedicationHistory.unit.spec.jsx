@@ -369,7 +369,7 @@ describe('MedicationHistory container', () => {
       expect(screen.getByTestId('update-list-button')).to.exist;
     });
 
-    it('calls setQueryParams when a filter is selected and submitted', () => {
+    it('calls setQueryParams when a filter is selected and submitted', async () => {
       stubFetchHook({
         prescriptions: mockPrescriptions,
         pagination: mockPagination,
@@ -384,7 +384,9 @@ describe('MedicationHistory container', () => {
       const updateButton = screen.getByTestId('update-list-button');
       fireEvent.click(updateButton);
 
-      expect(setQueryParamsStub.called).to.be.true;
+      await waitFor(() => {
+        expect(setQueryParamsStub.called).to.be.true;
+      });
     });
 
     it('passes isLoading prop to the filter Update list button', () => {
