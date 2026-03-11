@@ -17,8 +17,7 @@ describe('Secure Messaging Empty Folder Alert', () => {
       PatientInboxPage.loadInboxMessages(mockEmptyMessages);
 
       cy.get(Locators.NO_MESS).should('not.exist');
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -31,20 +30,25 @@ describe('Secure Messaging Empty Folder Alert', () => {
       SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       PatientMessageSentPage.loadMessages(mockEmptyMessages);
+      cy.wait('@sentFolder');
+      cy.wait('@sentFolderMessages');
 
       cy.get(Locators.NO_MESS).should('not.exist');
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT);
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
     });
 
     it('drafts folder - no remove folder alert', () => {
       SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       PatientMessageDraftsPage.loadDrafts(mockEmptyMessages);
+      cy.wait('@draftsFolderMetaResponse');
+      cy.wait('@draftsResponse');
+
+      // Ensure the drafts folder view has fully loaded before checking for absence
+      cy.findByRole('heading', { name: /drafts/i }).should('be.visible');
 
       cy.get(Locators.NO_MESS).should('not.exist');
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT);
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
     });
 
     it('trash folder - no remove folder alert', () => {
@@ -53,8 +57,7 @@ describe('Secure Messaging Empty Folder Alert', () => {
       PatientMessageTrashPage.loadMessages(mockEmptyMessages);
 
       cy.get(Locators.NO_MESS).should('not.exist');
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT);
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
     });
   });
 
@@ -69,11 +72,14 @@ describe('Secure Messaging Empty Folder Alert', () => {
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
       PatientMessageCustomFolderPage.createCustomFolder(updatedFolders);
+      cy.wait('@createdFolderResponse');
+      cy.wait('@updatedFoldersList');
       PatientMessageCustomFolderPage.loadCustomFolderWithNoMessages();
+      cy.wait('@loadedFolderResponse');
+      cy.wait('@emptyFolderThread');
 
       cy.findByText(Data.NO_MSG_IN_FOLDER).should('be.visible');
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT);
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
     });
   });
 });
