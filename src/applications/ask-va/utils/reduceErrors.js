@@ -1,4 +1,4 @@
-import numberToWords from './numberToWords';
+import numberToWords from '~/platform/forms-system/src/js/utilities/data/numberToWords';
 
 // Process JSON-schema error messages for viewing
 
@@ -159,7 +159,8 @@ export const getPropertyInfo = (pageList = [], name, instance = '') => {
     }
     return -1;
   };
-  return pageList.find(page => findPageIndex(page) > -1) || {};
+  console.log('Page list is', pageList, name);
+  return pageList.filter(page => findPageIndex(page) > -1) || {};
 };
 
 /**
@@ -255,6 +256,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
   errors.reduce((processedErrors, error) => {
     let errorIndex = null; // save key (index) of array items with __error
     const findErrors = (name, err) => {
+      console.log('Finding errors for', name, err);
       if (err && typeof err === 'object') {
         // process the last type of error message which provides an `__errors`
         // message array. If there are multiple errors, we'll join them into
@@ -268,6 +270,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
             getPropertyInfo(pageList, name);
           const { chapterKey = '', pageKey = '', navigationType = 'edit' } =
             overrideResult || {};
+          const pageKeys = overrideResult.map(obj => obj.pageKey);
           // `message` can be null if a reviewErrors function explicitly returns null
           // to suppress the error link. This is useful when multiple related errors
           // exist and only one link should be displayed.
@@ -279,7 +282,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
               message:
                 message || err.__errors.map(e => formatErrors(e)).join('. '),
               chapterKey,
-              pageKey,
+              pageKeys,
               navigationType,
             });
           }
@@ -314,6 +317,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
            * anyone and show both
           */
           if (!errorExists(processedErrors, propertyName, index)) {
+            console.log('ARGY ARGY:', argument, property);
             const overrideResult =
               reviewErrors._override?.(property || err?.stack || argument) ||
               getPropertyInfo(
@@ -326,6 +330,8 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
               );
             const { chapterKey = '', pageKey = '', navigationType = 'edit' } =
               overrideResult || {};
+              console.log('Override result is', overrideResult);
+            const pageKeys = overrideResult.map(obj => obj.pageKey);
             processedErrors.push({
               // property name
               name: propertyName,
@@ -343,6 +349,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
               // page within the chapter that contains the error; will be used
               // in future work to highlight the specific page for the user
               pageKey,
+              pageKeys,
               navigationType,
             });
           }

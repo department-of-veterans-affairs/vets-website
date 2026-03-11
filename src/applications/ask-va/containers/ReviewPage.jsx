@@ -19,7 +19,6 @@ import {
   getActiveExpandedPages,
   getPageKeys,
 } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-import { reduceErrors } from '~/platform/forms-system/src/js/utilities/data/reduceErrors';
 import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
 import { isValidForm } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
@@ -43,6 +42,7 @@ import UpdatePageButton from '../components/reviewPage/UpdatePageButton';
 import formConfig from '../config/form';
 import { DownloadLink } from '../config/helpers';
 import { relationshipOptionsSomeoneElse } from '../constants';
+import { reduceErrors } from '../utils/reduceErrors';
 import {
   chapterTitles,
   createPageListByChapterAskVa,
@@ -65,6 +65,7 @@ import {
 } from '../utils/reviewPageUtils';
 
 export const getErrorPageKeys = err => {
+  console.log('Err is:', err);
   return err.pageKeys.map(pageKey => `${pageKey}${err.index ?? ''}`);
 };
 
