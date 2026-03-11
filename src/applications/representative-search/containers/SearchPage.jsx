@@ -151,33 +151,34 @@ const SearchPage = () => {
         totalPages: searchResults?.meta?.totalPages,
         currentPage: searchResults?.meta?.currentPage,
       };
-      if (
-        previousLocationInputString.current &&
-        context.location !== previousLocationInputString.current
-      ) {
+      if (context.location !== previousLocationInputString.current) {
         recordSearchResultsChange(dataLayerProps, 'location');
         previousLocationInputString.current = context.location;
-        return;
-      }
+      } else {
+        if (sortType !== previousSortType.current) {
+          recordSearchResultsChange(dataLayerProps, 'sort', sortType);
+          previousSortType.current = sortType;
+        }
 
-      if (sortType !== previousSortType.current) {
-        recordSearchResultsChange(dataLayerProps, 'sort', sortType);
-        previousSortType.current = sortType;
-      }
-
-      if (representativeType !== previousRepresentativeType.current) {
-        recordSearchResultsChange(dataLayerProps, 'filter', representativeType);
-        previousRepresentativeType.current = representativeType;
-      }
-      if (
-        representativeInputString !== previousRepresentativeInputString.current
-      ) {
-        recordSearchResultsChange(
-          dataLayerProps,
-          'filter',
-          representativeInputString,
-        );
-        previousRepresentativeInputString.current = representativeInputString;
+        if (representativeType !== previousRepresentativeType.current) {
+          recordSearchResultsChange(
+            dataLayerProps,
+            'filter',
+            representativeType,
+          );
+          previousRepresentativeType.current = representativeType;
+        }
+        if (
+          representativeInputString !==
+          previousRepresentativeInputString.current
+        ) {
+          recordSearchResultsChange(
+            dataLayerProps,
+            'filter',
+            representativeInputString,
+          );
+          previousRepresentativeInputString.current = representativeInputString;
+        }
       }
 
       dispatch(
