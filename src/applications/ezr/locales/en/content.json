@@ -169,7 +169,7 @@
   "household-dependent-info-basic-title": "%s’s information",
   "household-dependent-info-education-title": "Dependent’s education expenses",
   "household-dependent-info-income-title": "Dependent’s annual income from %d",
-  "household-dependent-info-support-title": "Your dependent’s financial support",
+  "household-dependent-info-support-title": "Financial support for your dependent",
   "household-dependent-modal-cancel-title": "Cancel %s this dependent?",
   "household-dependent-modal-cancel-description": "If you cancel %s this dependent, we won’t save their information. You’ll return to a screen where you can add or remove dependents.",
   "household-dependent-modal-remove-title": "Remove this dependent?",
