@@ -42,7 +42,7 @@ describe('ProofOfAttendanceCard', () => {
   it('renders the note about filename change', () => {
     const { container } = renderCard();
     expect(container.textContent).to.include('changed your file name to');
-    expect(container.textContent).to.include(PROOF_OF_ATTENDANCE_FILENAME);
+    expect(container.textContent).to.include('test-file');
   });
 
   it('renders the Edit link', () => {
