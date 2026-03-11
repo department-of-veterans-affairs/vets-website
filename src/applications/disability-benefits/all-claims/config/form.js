@@ -39,6 +39,7 @@ import {
   isNotUploadingPrivateMedical,
   isUploading781aForm,
   isUploading781Form,
+  isUploadingBddSha,
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
@@ -49,6 +50,7 @@ import {
   isCompletingModern4142,
   onFormLoaded,
   normalizeReturnUrlForResume,
+  isBddShaWorkflowActive,
 } from '../utils';
 
 import { gatePages } from '../utils/gatePages';
@@ -73,6 +75,7 @@ import {
   evidenceTypesBDD,
   evidenceChoiceIntro,
   evidenceChoiceAdditionalDocuments,
+  evidenceChoiceAdditionalDocumentsV1,
   federalOrders,
   finalIncident,
   fullyDevelopedClaim,
@@ -87,6 +90,7 @@ import {
   prisonerOfWar,
   privateMedicalRecords,
   privateMedicalRecordsUpload,
+  privateMedicalRecordsUploadV1,
   privateMedicalRecordsAttachments,
   privateMedicalAuthorizeRelease,
   privateMedicalRecordsRelease,
@@ -99,6 +103,8 @@ import {
   retirementPay,
   retirementPayWaiver,
   secondaryFinalIncident,
+  separationHealthAssessment,
+  separationHealthAssessmentUpload,
   separationLocation,
   separationPay,
   serviceTreatmentRecords,
@@ -582,6 +588,27 @@ const formConfig = {
         ...form0781PagesConfig,
       },
     },
+    /**
+     * Supporting Evidence Upload Page Versioning
+     * ============================================
+     *
+     * Three tiers of upload pages coexist during rollout:
+     *
+     * | Label  | Toggle state                    | Upload component             | Path suffix    |
+     * |--------|---------------------------------|------------------------------|----------------|
+     * | Legacy | Enhancement OFF                 | FileField (platform)         | (original)     |
+     * | V1     | Enhancement ON, FileInputV3 OFF | FileField (platform)         | `-v1`          |
+     * | V0     | Enhancement ON, FileInputV3 ON  | va-file-input-multiple (WC)  | `-enhancement` |
+     *
+     * "V0" uses the newest web component and is the target end-state.
+     * "V1" is the interim fallback pairing the enhancement UX with legacy
+     * FileField while va-file-input-multiple is behind its own toggle.
+     * Once FileInputV3 is fully enabled, V1 pages and -v1 routes can be removed.
+     *
+     * Toggle keys in formData:
+     *   - disability526SupportingEvidenceEnhancement  — gates the entire enhancement
+     *   - disability526SupportingEvidenceFileInputV3   — gates V0 vs V1 upload component
+     */
     supportingEvidence: {
       title: 'Supporting evidence',
       pages: {
@@ -595,6 +622,20 @@ const formConfig = {
             'ui:description': supportingEvidenceOrientation,
           },
           schema: { type: 'object', properties: {} },
+        },
+        separationHealthAssessment: {
+          title: 'Separation health assessment',
+          path: 'supporting-evidence/separation-health-assessment',
+          depends: isBddShaWorkflowActive,
+          uiSchema: separationHealthAssessment.uiSchema,
+          schema: separationHealthAssessment.schema,
+        },
+        separationHealthAssessmentUpload: {
+          title: 'Separation health assessment upload',
+          path: 'supporting-evidence/separation-health-assessment-upload',
+          depends: isUploadingBddSha,
+          uiSchema: separationHealthAssessmentUpload.uiSchema,
+          schema: separationHealthAssessmentUpload.schema,
         },
         serviceTreatmentRecords: {
           title: 'Service treatment records',
@@ -610,6 +651,7 @@ const formConfig = {
           uiSchema: serviceTreatmentRecordsAttachments.uiSchema,
           schema: serviceTreatmentRecordsAttachments.schema,
         },
+        /** @see Legacy evidence type selection (hidden when enhancement is active) */
         evidenceTypes: {
           title: 'Types of supporting evidence',
           path: 'supporting-evidence/evidence-types',
@@ -619,6 +661,7 @@ const formConfig = {
           uiSchema: evidenceTypes.uiSchema,
           schema: evidenceTypes.schema,
         },
+        /** @see Enhancement: replaces evidenceTypes when enhancement toggle is ON */
         evidenceRequest: {
           title: 'Medical records that support your disability claim',
           path: 'supporting-evidence/evidence-request',
@@ -629,6 +672,7 @@ const formConfig = {
           uiSchema: evidenceRequest.uiSchema,
           schema: evidenceRequest.schema,
         },
+        /** @see Enhancement: medical record type selection (VA/Private) */
         medicalRecords: {
           title: 'Types of medical records',
           path: 'supporting-evidence/medical-records',
@@ -663,23 +707,47 @@ const formConfig = {
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
         },
+        /**
+         * Enhancement: private medical records upload using `va-file-input-multiple`.
+         * Shown when both enhancement AND FileInputV3 toggles are ON.
+         * @todo Replace path with 'supporting-evidence/private-medical-records-upload' once the old upload page is deprecated
+         * @todo Remove the `disability526SupportingEvidenceEnhancement` guard once the feature is live to all users
+         */
         privateMedicalRecordsUpload: {
           title: 'Upload non-VA treatment records',
-          // TODO: REPLACE this path with 'supporting-evidence/private-medical-records-upload' once we deprecate the old upload page
           path:
             'supporting-evidence/private-medical-records-upload-enhancement',
-          // TODO: Remove the `disability526SupportingEvidenceEnhancement` check once the feature is live to all users
           depends: formData =>
             formData.disability526SupportingEvidenceEnhancement &&
+            formData.disability526SupportingEvidenceFileInputV3 &&
             hasPrivateEvidence(formData) &&
             !isNotUploadingPrivateMedical(formData),
           uiSchema: privateMedicalRecordsUpload.uiSchema,
           schema: privateMedicalRecordsUpload.schema,
         },
+        /**
+         * Enhancement: private medical records upload using legacy FileField.
+         * Shown when enhancement is ON but FileInputV3 is OFF (V1 fallback).
+         */
+        privateMedicalRecordsUploadV1: {
+          title: 'Upload non-VA treatment records',
+          path:
+            'supporting-evidence/private-medical-records-upload-enhancement-v1',
+          depends: formData =>
+            formData.disability526SupportingEvidenceEnhancement &&
+            !formData.disability526SupportingEvidenceFileInputV3 &&
+            hasPrivateEvidence(formData) &&
+            !isNotUploadingPrivateMedical(formData),
+          uiSchema: privateMedicalRecordsUploadV1.uiSchema,
+          schema: privateMedicalRecordsUploadV1.schema,
+        },
+        /**
+         * Legacy private medical records upload page.
+         * @todo Remove page once the enhancement is approved for production
+         */
         privateMedicalRecordsAttachments: {
           title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-upload',
-          // TODO: Remove page once enhanced page is approved to be merged prod flow
           depends: formData =>
             !formData.disability526SupportingEvidenceEnhancement &&
             hasPrivateEvidence(formData) &&
@@ -717,27 +785,53 @@ const formConfig = {
           },
           schema: privateMedicalRecordsRelease.schema,
         },
+        /**
+         * Enhancement: intro page asking if Veteran has additional evidence.
+         * @todo Update path to 'supporting-evidence/additional-evidence' once the legacy `additionalDocuments` page is removed
+         */
         evidenceChoiceIntro: {
           title:
             'Supporting documents and additional forms for your disability claim',
           depends: formData =>
             formData.disability526SupportingEvidenceEnhancement,
-          // TODO: update this path to `'supporting-evidence/additional-evidence', once we can get rid of `additionalDocuments` page
           path: 'supporting-evidence/additional-evidence-intro',
           CustomPage: AdditionalEvidenceIntroPage,
           CustomPageReview: null,
           uiSchema: evidenceChoiceIntro.uiSchema,
           schema: evidenceChoiceIntro.schema,
         },
+        /**
+         * Enhancement: additional documents upload using `va-file-input-multiple`.
+         * Shown when both enhancement AND FileInputV3 toggles are ON.
+         */
         evidenceChoiceAdditionalDocuments: {
           title: 'Upload supporting documents and additional forms',
           path: 'supporting-evidence/additional-evidence-enhancement',
           depends: formData =>
             hasOtherEvidence(formData) &&
-            formData.disability526SupportingEvidenceEnhancement,
+            formData.disability526SupportingEvidenceEnhancement &&
+            formData.disability526SupportingEvidenceFileInputV3,
           uiSchema: evidenceChoiceAdditionalDocuments.uiSchema,
           schema: evidenceChoiceAdditionalDocuments.schema,
         },
+        /**
+         * Enhancement: additional documents upload using legacy FileField.
+         * Shown when enhancement is ON but FileInputV3 is OFF (V1 fallback).
+         */
+        evidenceChoiceAdditionalDocumentsV1: {
+          title: 'Upload supporting documents and additional forms',
+          path: 'supporting-evidence/additional-evidence-enhancement-v1',
+          depends: formData =>
+            hasOtherEvidence(formData) &&
+            formData.disability526SupportingEvidenceEnhancement &&
+            !formData.disability526SupportingEvidenceFileInputV3,
+          uiSchema: evidenceChoiceAdditionalDocumentsV1.uiSchema,
+          schema: evidenceChoiceAdditionalDocumentsV1.schema,
+        },
+        /**
+         * Legacy additional documents upload page.
+         * Hidden when the enhancement toggle is ON.
+         */
         additionalDocuments: {
           title: 'Non-VA treatment records you uploaded',
           path: 'supporting-evidence/additional-evidence',
