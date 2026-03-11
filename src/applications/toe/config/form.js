@@ -46,7 +46,7 @@ import {
   addWhitespaceOnlyError,
   isOnlyWhitespace,
   prefillTransformer,
-  applicantIsaMinor,
+  applicantIsAMinor,
 } from '../helpers';
 
 import { transformTOEForm } from '../utils/form-submit-transform';
@@ -170,8 +170,8 @@ const formConfig = {
                     return true;
                   }
 
-                  // Use applicantIsaMinor to determine if the alert should be hidden
-                  return !applicantIsaMinor(formData);
+                  // Use applicantIsAMinor to determine if the alert should be hidden
+                  return !applicantIsAMinor(formData.dob);
                 },
               },
             },
@@ -184,7 +184,7 @@ const formConfig = {
                     return true;
                   }
 
-                  return !applicantIsaMinor(formData);
+                  return !applicantIsAMinor(formData.dob);
                 },
               },
               'ui:required': formData => {
@@ -193,7 +193,7 @@ const formConfig = {
                   return false;
                 }
 
-                return applicantIsaMinor(formData);
+                return applicantIsAMinor(formData.dob);
               },
               'ui:validations': [
                 (errors, field) => {
@@ -218,11 +218,11 @@ const formConfig = {
                     return true;
                   }
 
-                  return !applicantIsaMinor(formData);
+                  return !applicantIsAMinor(formData.dob);
                 },
               },
               'ui:required': formData => {
-                return applicantIsaMinor(formData);
+                return applicantIsAMinor(formData.dob);
               },
               'ui:title':
                 'Did you earn a high school diploma or equivalency certificate?',
@@ -236,14 +236,14 @@ const formConfig = {
                   }
 
                   return !(
-                    applicantIsaMinor(formData) &&
+                    applicantIsAMinor(formData.dob) &&
                     formData[formFields.highSchoolDiploma] === 'Yes'
                   );
                 },
               },
               'ui:required': formData => {
                 return (
-                  applicantIsaMinor(formData) &&
+                  applicantIsAMinor(formData.dob) &&
                   formData[formFields.highSchoolDiploma] === 'Yes'
                 );
               },

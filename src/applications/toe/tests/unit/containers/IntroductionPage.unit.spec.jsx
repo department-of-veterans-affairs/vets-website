@@ -15,6 +15,7 @@ const defaultState = {
     loadedData: {
       metadata: {},
     },
+    data: {},
   },
   user: {
     login: {
@@ -76,5 +77,29 @@ describe('<IntroductionPage />', () => {
 
     const ombInfoContainer = container.querySelector('.omb-info--container');
     expect(ombInfoContainer.className).to.include('vads-u-margin-top--4');
+  });
+
+  it('should show warning alert instead of start link when user is a minor', () => {
+    const store = createMockStore({
+      ...defaultState,
+      user: {
+        login: { currentlyLoggedIn: true },
+        profile: { loa: { current: 3 } },
+      },
+      featureToggles: { mebBlockUnder18: true },
+      form: {
+        ...defaultState.form,
+        data: {
+          dob: '2010-01-01',
+        },
+      },
+    });
+
+    const screen = renderIntroductionPage(store);
+    expect(
+      screen.getByText(
+        'You don’t meet the age requirement to access this form online',
+      ),
+    ).to.exist;
   });
 });

@@ -312,14 +312,14 @@ export const toSnakeCase = obj => {
   return result;
 };
 
-export const applicantIsaMinor = formData => {
-  if (!formData || !formData?.dob) {
-    return true;
+export const applicantIsAMinor = dob => {
+  if (!dob) {
+    return false;
   }
 
-  const dateParts = formData.dob.split('-');
+  const dateParts = dob.split('-');
   if (!dateParts || dateParts.length !== 3) {
-    return true;
+    return false;
   }
 
   const birthday = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);

@@ -208,12 +208,12 @@ export const IntroductionPageContent = ({ mebBlockUnder18 }) => {
   );
 };
 
-export const IntroductionPage = ({ route, mebBlockUnder18, user }) => {
+export const IntroductionPage = ({ route, mebBlockUnder18, user, isMinor }) => {
   return (
     <div className="schemaform-intro">
       <IntroductionPageContent mebBlockUnder18={mebBlockUnder18} />
 
-      <IntroductionLogin route={route} />
+      <IntroductionLogin route={route} isMinor={isMinor} />
 
       <div
         className={`omb-info--container vads-u-padding--0 vads-u-margin-top--${
@@ -246,6 +246,8 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.array,
   }).isRequired,
+  formData: PropTypes.object,
+  isMinor: PropTypes.bool,
   mebBlockUnder18: PropTypes.bool,
   user: PropTypes.object,
 };

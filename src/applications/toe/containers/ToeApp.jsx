@@ -28,8 +28,10 @@ function ToeApp({
   getPersonalInformation,
   isLOA3,
   isLoggedIn,
+  isMinor,
   location,
   mebBankInfoConfirmationField,
+  router,
   setFormData,
   sponsors,
   sponsorsInitial,
@@ -153,6 +155,18 @@ function ToeApp({
       user?.login?.currentlyLoggedIn,
     ],
   );
+
+  // Block minors from entering the form
+  useEffect(
+    () => {
+      const { pathname } = location;
+      if (isMinor && pathname !== '/introduction') {
+        router.push('/introduction');
+      }
+    },
+    [location, isMinor, router],
+  );
+
   return (
     <>
       <div className="row">
@@ -200,11 +214,13 @@ ToeApp.propTypes = {
   getPersonalInformation: PropTypes.func,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  isMinor: PropTypes.bool,
   location: PropTypes.object,
   mebBankInfoConfirmationField: PropTypes.bool,
-  mebDpoAddressOptionEnabled: PropTypes.bool,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   setFormData: PropTypes.func,
-  showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
