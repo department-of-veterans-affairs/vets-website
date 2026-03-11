@@ -208,6 +208,7 @@ export function sessionTypeUrl({
   allowVerification = false,
   useOauth = false,
   acr = null,
+  clientId: clientIdProp,
 }) {
   if (!type) {
     return null;
@@ -219,10 +220,12 @@ export function sessionTypeUrl({
     OAuth,
     codeChallenge,
     codeChallengeMethod,
-    clientId,
+    clientId: clientIdFromQuery,
     scope,
     verification: forceVerify,
   } = getQueryParams();
+
+  const clientId = clientIdProp || clientIdFromQuery;
 
   const externalRedirect = isExternalRedirect();
   const isSignup = Object.values(SIGNUP_TYPES).includes(type);
@@ -422,11 +425,13 @@ export async function signupOrVerify({
   useOAuth = false,
   allowVerification = true,
   config = 'default',
+  clientId,
 }) {
   const type = SIGNUP_TYPES[policy];
   const url = await sessionTypeUrl({
     type,
     version,
+    ...(clientId && { clientId }),
     ...(useOAuth && {
       // acr determined by signup or verify
       acr: isSignup
