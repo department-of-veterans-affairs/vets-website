@@ -148,7 +148,8 @@ class PatientComposePage {
     return cy
       .findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .shadow()
-      .find(`#inPutField`);
+      .find(`#inputField`)
+      .should('not.be.disabled');
   };
 
   validateMessageSubjectField = expectedText => {
