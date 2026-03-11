@@ -12,7 +12,7 @@ describe('Benefits Details Page', () => {
   describe('updateUiSchema dynamic titles', () => {
     const { updateUiSchema } = benefitsDetailsUiSchema['ui:options'];
 
-    it('should include veteran name in field titles', () => {
+    it('should include veteran name in field titles with masking', () => {
       const formData = {
         veteranInformation: {
           veteranFullName: { first: 'John', last: 'Doe' },
@@ -21,17 +21,24 @@ describe('Benefits Details Page', () => {
 
       const result = updateUiSchema(formData, formData);
 
-      expect(result.benefitsDetails.stopReceivingDate['ui:title']).to.include(
-        'John Doe',
+      // Should apply dd-privacy-mask class at field group level
+      expect(result.benefitsDetails['ui:options'].classNames).to.equal(
+        'dd-privacy-mask',
       );
+
+      // Title should be a plain string with veteran name
+      const title = result.benefitsDetails.stopReceivingDate['ui:title'];
+      expect(title).to.be.a('string');
+      expect(title).to.include('John Doe');
     });
 
     it('should fall back to Veteran when name is missing', () => {
       const result = updateUiSchema({}, {});
+      const title = result.benefitsDetails.stopReceivingDate['ui:title'];
 
-      expect(result.benefitsDetails.stopReceivingDate['ui:title']).to.include(
-        'Veteran',
-      );
+      // Should be a plain string when using fallback
+      expect(title).to.be.a('string');
+      expect(title).to.include('Veteran');
     });
   });
 });

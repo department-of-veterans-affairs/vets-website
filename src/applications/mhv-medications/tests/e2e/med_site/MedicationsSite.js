@@ -31,7 +31,7 @@ class MedicationsSite {
       ).as('prescriptions');
       cy.intercept(
         'GET',
-        '/my_health/v1/prescriptions?&sort=alphabetical-status',
+        '/my_health/v1/prescriptions?sort=alphabetical-status',
         exportList,
       ).as('exportList');
 
@@ -112,7 +112,7 @@ class MedicationsSite {
     ).as('prescriptions');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort=alphabetical-status',
+      '/my_health/v1/prescriptions?sort=alphabetical-status',
       exportList,
     ).as('exportList');
     cy.intercept('GET', '/health-care/refill-track-prescriptions');
@@ -132,7 +132,7 @@ class MedicationsSite {
     ).as(`Prescriptions${interceptedPage}`);
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      '/my_health/v1/prescriptions?sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
       mockRx,
     ).as('prescriptions');
     cy.get('[id="pagination"]')
@@ -148,7 +148,7 @@ class MedicationsSite {
     );
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      '/my_health/v1/prescriptions?sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
       mockRx,
     );
     cy.get('[id="pagination"]')

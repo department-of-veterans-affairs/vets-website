@@ -337,7 +337,6 @@ export async function fetchFlowEligibilityAndClinics({
   featurePastVisitMHFilter = false,
   isCerner = false,
   removeFacilityConfigCheck = false,
-  featureUseBrowserTimezone,
 }) {
   // Helper to avoid confusion
   const keepFacilityConfigCheck = !removeFacilityConfigCheck;
@@ -381,9 +380,9 @@ export async function fetchFlowEligibilityAndClinics({
       typeOfCare,
     }).catch(createErrorHandler('direct-available-clinics-error'));
 
-    additionalApiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
-      featureUseBrowserTimezone,
-    ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
+    additionalApiCalls.pastAppointments = getLongTermAppointmentHistoryV2().catch(
+      createErrorHandler('direct-no-matching-past-clinics-error'),
+    );
   }
 
   // Wait for additional API calls to finish

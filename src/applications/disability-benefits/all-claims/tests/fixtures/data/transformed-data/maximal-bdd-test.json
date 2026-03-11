@@ -1,6 +1,7 @@
 {
   "form526": {
     "disability526ExtraBDDPagesEnabled": true,
+    "disability526NewBddShaEnforcementWorkflowEnabled": true,
     "homelessOrAtRisk": "homeless",
     "homelessHousingSituation": "other",
     "otherHomelessHousing": "Under a bridge",
@@ -126,6 +127,11 @@
         "name": "Success.jpg",
         "confirmationCode": "de89492d-2d3f-4486-a73d-1fa4868aa49d",
         "attachmentId": "L023"
+      },
+      {
+        "attachmentId": "L702",
+        "confirmationCode": "sha-maximal-code",
+        "name": "sha-maximal.pdf"
       }
     ]
   }

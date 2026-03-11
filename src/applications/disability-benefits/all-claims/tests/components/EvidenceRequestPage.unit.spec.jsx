@@ -541,6 +541,22 @@ describe('EvidenceRequestPage', () => {
     });
   });
 
+  it('should go forward with current data when Yes is selected and "Continue" is clicked', () => {
+    const goForward = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': true,
+      'view:selectableEvidenceTypes': {
+        'view:hasVaMedicalRecords': true,
+      },
+    };
+
+    const { container } = render(page({ data, goForward }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    expect(goForward.calledOnce).to.be.true;
+    expect(goForward.firstCall.args[0]).to.deep.equal(data);
+  });
+
   it('should render update button on review page', () => {
     const { container } = render(page({ onReviewPage: true }));
 
@@ -554,5 +570,150 @@ describe('EvidenceRequestPage', () => {
 
     const additionalInfo = container.querySelector('va-additional-info');
     expect(additionalInfo).to.not.exist;
+  });
+
+  it('should show a validation error when no selection is made and "Continue" is clicked', async () => {
+    const { container } = render(page({ data: {} }));
+
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const question = container.querySelector('va-radio');
+      expect(question).to.have.attribute('aria-invalid', 'true');
+      expect(question).to.have.attribute(
+        'error',
+        'You must provide a response',
+      );
+    });
+  });
+
+  it('should set hasMedicalRecords to true when selecting Yes', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': null,
+    };
+    const { container } = render(page({ data, setFormData }));
+
+    const question = container.querySelector('va-radio');
+    fireEvent(
+      question,
+      new CustomEvent('vaValueChange', {
+        detail: { value: 'true' },
+      }),
+    );
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      expect(setFormData.lastCall.args[0]['view:hasMedicalRecords']).to.be.true;
+    });
+  });
+
+  it('should open modal when updating review page with No selected and existing evidence', async () => {
+    const updatePage = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      vaTreatmentFacilities: [{ treatmentCenterName: 'VA Hospital 1' }],
+    };
+    const { container } = render(
+      page({ data, onReviewPage: true, updatePage }),
+    );
+
+    fireEvent.click(container.querySelector('button.usa-button-primary'));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+      expect(updatePage.called).to.be.false;
+    });
+  });
+
+  it('should call updatePage when updating review page with Yes selected', async () => {
+    const updatePage = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': true,
+    };
+    const { container } = render(
+      page({ data, onReviewPage: true, updatePage }),
+    );
+
+    fireEvent.click(container.querySelector('button.usa-button-primary'));
+
+    await waitFor(() => {
+      expect(updatePage.calledOnce).to.be.true;
+    });
+  });
+
+  it('should keep updatePage from firing when review page selection is missing', async () => {
+    const updatePage = sinon.spy();
+    const { container } = render(
+      page({ data: {}, onReviewPage: true, updatePage }),
+    );
+
+    fireEvent.click(container.querySelector('button.usa-button-primary'));
+
+    await waitFor(() => {
+      const question = container.querySelector('va-radio');
+      expect(question.error).to.contain('You must provide a response');
+      expect(question).to.have.attribute('aria-invalid', 'true');
+      expect(updatePage.called).to.be.false;
+    });
+  });
+
+  it('should render combined VA, private facility, and uploaded records content in modal', async () => {
+    const data = {
+      'view:hasMedicalRecords': false,
+      vaTreatmentFacilities: [{ treatmentCenterName: 'VA Hospital 1' }],
+      providerFacility: [{ providerFacilityName: 'Private Clinic 1' }],
+      privateMedicalRecordAttachments: [{ name: 'record1.pdf' }],
+    };
+
+    const { container } = render(page({ data }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+      expect(modal.textContent).to.include('VA Hospital 1');
+      expect(modal.textContent).to.include('Private Clinic 1');
+      expect(modal.textContent).to.include('record1.pdf');
+      expect(modal.textContent).to.include(
+        'We’ll also remove the information you shared about these private medical centers:',
+      );
+      expect(modal.textContent).to.include(
+        'We’ll also delete these medical records you uploaded:',
+      );
+      expect(modal.querySelectorAll('ul').length).to.equal(3);
+    });
+  });
+
+  it('should close success alert when dismiss event fires', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      vaTreatmentFacilities: [{ treatmentCenterName: 'VA Hospital 1' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const modal = container.querySelector('va-modal');
+    fireEvent(modal, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.have.attribute('visible', 'true');
+    });
+
+    const alert = container.querySelector('va-alert');
+    fireEvent(alert, new CustomEvent('closeEvent'));
+
+    await waitFor(() => {
+      expect(alert).to.have.attribute('visible', 'false');
+    });
   });
 });
