@@ -84,7 +84,12 @@ const useBrowserMonitoring = ({ location, toggleName }) => {
 
   useEffect(
     () => {
-      datadogRum.startView({ name: location.basename + location.pathname });
+      // location.basename is v3-only; fall back to pathname which already
+      // includes the base path in v5 (history is created with basename option)
+      const viewName = location.basename
+        ? location.basename + location.pathname
+        : location.pathname;
+      datadogRum.startView({ name: viewName });
     },
     [location],
   );

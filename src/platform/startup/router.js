@@ -4,8 +4,10 @@
  */
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import { createBrowserHistory } from 'history-v4';
 import { CompatRouter } from 'react-router-dom-v5-compat';
+import { updateRoute } from 'platform/site-wide/user-nav/actions';
 import startReactApp from './react';
 import setUpCommonFunctionality from './setup';
 
@@ -50,20 +52,44 @@ export default function startApp({
     additionalMiddlewares,
   });
 
+  // Create a history instance we control, rather than relying on
+  // BrowserRouter's internal history. This lets us dispatch updateRoute
+  // to Redux synchronously on every navigation — matching the v3 startup
+  // behavior in platform/startup/index.js. Without this, Redux route state
+  // lags one render frame behind the actual URL.
+  const history = createBrowserHistory({
+    basename: url || '',
+  });
+
+  try {
+    store.dispatch(updateRoute(history.location));
+
+    history.listen(location => {
+      if (location) {
+        store.dispatch(updateRoute(location));
+      }
+    });
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Error dispatching route change', e);
+  }
+
   let content = component;
   if (createRoutesWithStore) {
     content = (
-      <BrowserRouter basename={url}>
+      <Router history={history}>
         <CompatRouter>{createRoutesWithStore(store)}</CompatRouter>
-      </BrowserRouter>
+      </Router>
     );
   } else if (routes) {
     content = (
-      <BrowserRouter basename={url}>
+      <Router history={history}>
         <CompatRouter>{routes}</CompatRouter>
-      </BrowserRouter>
+      </Router>
     );
   }
 
   startReactApp(<Provider store={store}>{content}</Provider>);
+
+  return store;
 }
