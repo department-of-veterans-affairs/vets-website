@@ -1,5 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const path = require('path');
+const fs = require('fs');
+const os = require('os');
 
 const {
   fillVaTextInput,
@@ -13,6 +15,8 @@ const {
   selectVaComboBox,
   checkWebComponent,
   enterWebComponentData,
+  fillVaFileInput,
+  fillAddressWebComponentPattern,
 } = require('../webComponents');
 const { expandAccordions } = require('../expandAccordions');
 const { setViewportPreset } = require('../viewportPreset');
@@ -443,6 +447,93 @@ test.describe('Playwright helpers integration tests', () => {
 
     test('throws for unknown preset', async ({ page }) => {
       await expect(setViewportPreset(page, 'unknown-preset')).rejects.toThrow();
+    });
+  });
+
+  test.describe('fillVaFileInput', () => {
+    test('uploads a file to va-file-input', async ({ page }) => {
+      // Create a temp file to upload
+      const tmpFile = path.join(os.tmpdir(), 'test-upload.txt');
+      fs.writeFileSync(tmpFile, 'test file content');
+
+      await fillVaFileInput(page, 'document', tmpFile);
+
+      // The file input should have received the file
+      const files = await page
+        .locator('va-file-input[name="document"]')
+        .locator('input[type="file"]')
+        .evaluate(el => el.files.length);
+      expect(files).toBe(1);
+
+      // Cleanup
+      fs.unlinkSync(tmpFile);
+    });
+
+    test('does nothing for missing element', async ({ page }) => {
+      const tmpFile = path.join(os.tmpdir(), 'test-upload.txt');
+      fs.writeFileSync(tmpFile, 'content');
+
+      // Should not throw for nonexistent element
+      await fillVaFileInput(page, 'nonexistent', tmpFile);
+
+      fs.unlinkSync(tmpFile);
+    });
+  });
+
+  test.describe('fillAddressWebComponentPattern', () => {
+    test('fills all address fields for domestic address', async ({ page }) => {
+      const address = {
+        country: 'USA',
+        street: '123 Main St',
+        street2: 'Apt 4',
+        street3: '',
+        city: 'Springfield',
+        state: 'CA',
+        postalCode: '90210',
+        isMilitary: false,
+      };
+
+      await fillAddressWebComponentPattern(page, 'veteranAddress', address);
+
+      // Verify country
+      const country = await page
+        .locator('va-select[name="root_veteranAddress_country"]')
+        .locator('select')
+        .inputValue();
+      expect(country).toBe('USA');
+
+      // Verify street
+      const street = await page
+        .locator('va-text-input[name="root_veteranAddress_street"]')
+        .locator('input')
+        .inputValue();
+      expect(street).toBe('123 Main St');
+
+      // Verify city
+      const city = await page
+        .locator('va-text-input[name="root_veteranAddress_city"]')
+        .locator('input')
+        .inputValue();
+      expect(city).toBe('Springfield');
+
+      // Verify state
+      const state = await page
+        .locator('va-select[name="root_veteranAddress_state"]')
+        .locator('select')
+        .inputValue();
+      expect(state).toBe('CA');
+
+      // Verify postal code
+      const zip = await page
+        .locator('va-text-input[name="root_veteranAddress_postalCode"]')
+        .locator('input')
+        .inputValue();
+      expect(zip).toBe('90210');
+    });
+
+    test('does nothing for null address object', async ({ page }) => {
+      // Should not throw
+      await fillAddressWebComponentPattern(page, 'veteranAddress', null);
     });
   });
 });

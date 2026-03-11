@@ -65,6 +65,28 @@
     </div>
 
     <div class="form-section">
+      <va-file-input name="document" label="Upload document"></va-file-input>
+      <va-file-input-multiple name="attachments" label="Upload attachments"></va-file-input-multiple>
+    </div>
+
+    <div class="form-section" id="address-section">
+      <va-checkbox name="root_veteranAddress_isMilitary" label="Military address"></va-checkbox>
+      <va-select name="root_veteranAddress_country" label="Country">
+        <option value="USA">United States</option>
+        <option value="CAN">Canada</option>
+      </va-select>
+      <va-text-input name="root_veteranAddress_street" label="Street"></va-text-input>
+      <va-text-input name="root_veteranAddress_street2" label="Street 2"></va-text-input>
+      <va-text-input name="root_veteranAddress_street3" label="Street 3"></va-text-input>
+      <va-text-input name="root_veteranAddress_city" label="City"></va-text-input>
+      <va-select name="root_veteranAddress_state" label="State">
+        <option value="CA">California</option>
+        <option value="NY">New York</option>
+      </va-select>
+      <va-text-input name="root_veteranAddress_postalCode" label="Postal code"></va-text-input>
+    </div>
+
+    <div class="form-section">
       <va-accordion>
         <va-accordion-item header="Section 1">Content 1</va-accordion-item>
         <va-accordion-item header="Section 2">Content 2</va-accordion-item>
@@ -374,6 +396,19 @@
       }
     }
     customElements.define('va-file-input', VaFileInput);
+
+    class VaFileInputMultiple extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      connectedCallback() {
+        // Mimics the real component: one va-file-input slot for uploading.
+        // After a file is uploaded, a delete icon appears and a new slot is added.
+        this.shadowRoot.innerHTML = `<va-file-input><input type="file" /></va-file-input>`;
+      }
+    }
+    customElements.define('va-file-input-multiple', VaFileInputMultiple);
   </script>
 </body>
 </html>

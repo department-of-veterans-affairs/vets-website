@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Keyboard Navigation Test Fixture</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .form-section { margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Keyboard Navigation Test Fixture</h1>
+
+    <div class="form-section">
+      <label for="name-input">Your name</label>
+      <input type="text" id="name-input" name="name" />
+    </div>
+
+    <div class="form-section">
+      <label for="email-input">Email</label>
+      <input type="email" id="email-input" name="email" />
+    </div>
+
+    <div class="form-section">
+      <fieldset>
+        <legend>Color preference</legend>
+        <label><input type="radio" name="color" value="red" /> Red</label>
+        <label><input type="radio" name="color" value="blue" /> Blue</label>
+        <label><input type="radio" name="color" value="green" /> Green</label>
+      </fieldset>
+    </div>
+
+    <div class="form-section">
+      <button type="submit" class="usa-button-primary">Continue</button>
+    </div>
+  </main>
+</body>
+</html>
