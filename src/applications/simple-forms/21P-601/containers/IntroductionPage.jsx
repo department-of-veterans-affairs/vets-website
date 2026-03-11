@@ -87,8 +87,23 @@ const childContent = (
     <h3>Time limits to apply</h3>
     <ul className="vads-u-margin-bottom--4">
       <li>
-        You must apply for accrued benefits within <strong>1 year</strong> of
-        the beneficiary’s death
+        You must apply within <strong>1 year</strong> from the beneficiary’s
+        date of death. If you miss this deadline, you won’t be able to claim
+        these benefits. If you have questions about your eligibility, please
+        contact us at <va-telephone contact="8006982411" /> (
+        <va-telephone tty="true" contact="711" />
+        ).
+      </li>
+    </ul>
+    <h3>If you’re filing with other family members</h3>
+    <ul className="vads-u-margin-bottom--4">
+      <li>Each person must submit their own form</li>
+      <li>
+        You can file for different expenses (for example, one person files for
+        funeral costs, another for medical bills)
+      </li>
+      <li>
+        More than one person can’t receive reimbursement for the same expense
       </li>
     </ul>
     <h3>What you’ll need to apply</h3>
@@ -100,9 +115,9 @@ const childContent = (
       <li>Your personal and contact information</li>
       <li>Information about dependent surviving relatives</li>
       <li>
-        Any certified, signed legal documents showing the assignment of the
-        executor or administrator of the beneficiary’s estate (if someone has
-        been assigned)
+        Legal documents showing you’re the executor or administrator of the
+        estate (such as letters testamentary or letters of administration).
+        Requirements vary by state.
       </li>
       <li>
         Bills or other documentation of expenses if you’re claiming
