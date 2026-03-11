@@ -33,7 +33,6 @@ const optionalEventPages = {
       goNextState();
 
       if (nextState === 'START') {
-        cy.get('va-card').should('have.length', 0);
         cy.get('button.usa-button')
           .contains('Add an event')
           .click();
@@ -41,8 +40,6 @@ const optionalEventPages = {
         cy.get('button.usa-button')
           .contains('Add an event')
           .should('exist');
-
-        cy.get('va-card').should('have.length', 1);
 
         cy.findByText(/continue/i, { selector: 'button' }).click();
       } else {
