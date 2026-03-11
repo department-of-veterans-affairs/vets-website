@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { isArray, isPlainObject } from 'lodash';
-import mergeWith from 'lodash/mergeWith';
+import { isArray } from 'lodash';
+import merge from 'lodash/merge';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -20,6 +20,8 @@ import { getAppData } from '../selectors';
 function ToeApp({
   children,
   dob,
+  duplicateEmail,
+  duplicatePhone,
   formData,
   getDirectDeposit,
   getDuplicateContactInfo,
@@ -111,18 +113,11 @@ function ToeApp({
   // and ESLint can statically verify exhaustive-deps.
   const mobilePhone = formData?.['view:phoneNumbers']?.mobilePhoneNumber?.phone;
   const emailAddress = formData?.email?.email;
-  const formDuplicateEmail = formData?.duplicateEmail;
-  const formDuplicatePhone = formData?.duplicatePhone;
 
   // Check for duplicate contact info when phone/email are available
   useEffect(
     () => {
-      if (
-        mobilePhone &&
-        emailAddress &&
-        !formDuplicateEmail &&
-        !formDuplicatePhone
-      ) {
+      if (mobilePhone && emailAddress && (!duplicateEmail || !duplicatePhone)) {
         getDuplicateContactInfo(
           [{ value: emailAddress, dupe: '' }],
           [{ value: mobilePhone, dupe: '' }],
@@ -133,8 +128,8 @@ function ToeApp({
       getDuplicateContactInfo,
       mobilePhone,
       emailAddress,
-      formDuplicateEmail,
-      formDuplicatePhone,
+      duplicateEmail,
+      duplicatePhone,
     ],
   );
 
@@ -197,6 +192,8 @@ function ToeApp({
 ToeApp.propTypes = {
   children: PropTypes.object,
   dob: PropTypes.string,
+  duplicateEmail: PropTypes.array,
+  duplicatePhone: PropTypes.array,
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
   getDuplicateContactInfo: PropTypes.func,
@@ -214,29 +211,11 @@ ToeApp.propTypes = {
   user: PropTypes.object,
 };
 
-// Merge prefill values when form state has undefined (needed for direct deposit, etc.)
-// Skip email field - it's handled by CustomEmailField to avoid conflicts.
-const mergePreservingPrefill = (prefill, formState) => {
-  return mergeWith({}, prefill, formState, (prefillVal, formStateVal, key) => {
-    // Don't merge prefill email - CustomEmailField handles this
-    if (key === 'email' && formStateVal !== undefined) {
-      return formStateVal;
-    }
-    if (formStateVal === undefined && prefillVal !== undefined) {
-      return prefillVal;
-    }
-    if (isPlainObject(prefillVal) && isPlainObject(formStateVal)) {
-      return undefined; // Let mergeWith recurse
-    }
-    return undefined; // Default merge behavior
-  });
-};
-
 const mapStateToProps = state => {
   const prefillData =
     prefillTransformer(null, null, null, state)?.formData || {};
   const formStateData = state.form?.data || {};
-  const formData = mergePreservingPrefill(prefillData, formStateData);
+  const formData = merge({}, prefillData, formStateData);
 
   return {
     ...getAppData(state),
