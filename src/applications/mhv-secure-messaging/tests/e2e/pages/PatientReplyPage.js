@@ -11,8 +11,9 @@ class PatientReplyPage {
       }/thread*`,
       mockResponse,
     ).as(`getMessageRequest`);
-    cy.get(Locators.BUTTONS.REPLY).click();
-    cy.wait(`@getMessageRequest`);
+    cy.findByTestId(Locators.BUTTONS.REPLY)
+      .should('be.visible')
+      .click();
   };
 
   clickSendReplyMessageButton = mockReplyMessage => {
@@ -112,7 +113,8 @@ class PatientReplyPage {
   };
 
   verifySendMessageConfirmationHasFocus = () => {
-    cy.get('va-alert').should('have.focus');
+    // Per MHV accessibility decision records, focus goes to H1
+    cy.get('h1').should('have.focus');
   };
 
   verifyModalMessageDisplayAndButtonsCantSaveDraft = () => {

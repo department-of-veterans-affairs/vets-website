@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { datadogRum } from '@datadog/browser-rum';
 import * as api from '~/platform/utilities/api';
 import * as pdf from '~/platform/pdf';
 import { fireEvent, waitFor } from '@testing-library/react';
@@ -7,6 +8,7 @@ import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { externalServices } from '~/platform/monitoring/DowntimeNotification';
+import { TOGGLE_NAMES } from '~/platform/utilities/feature-toggles';
 import { renderWithProfileReducers } from '../../unit-test-helpers';
 import VeteranStatus from '../../../components/veteran-status-card/VeteranStatus';
 
@@ -141,6 +143,7 @@ function createBasicInitialState(serviceHistory) {
   return {
     featureToggles: {
       loading: false,
+      [TOGGLE_NAMES.vetStatusPdfLogging]: true,
     },
     scheduledDowntime: {
       globalDowntime: null,
@@ -188,15 +191,18 @@ function pdfLink(view) {
 describe('VeteranStatus', () => {
   let apiRequestStub;
   let generatePdfStub;
+  let datadogRumStub;
 
   beforeEach(() => {
     apiRequestStub = sinon.stub(api, 'apiRequest');
     generatePdfStub = sinon.stub(pdf, 'generatePdf');
+    datadogRumStub = sinon.stub(datadogRum, 'addError').callsFake(() => {});
   });
 
   afterEach(() => {
     apiRequestStub.restore();
     generatePdfStub.restore();
+    datadogRumStub.restore();
   });
 
   // Test case for when the user is eligible for a Veteran Status Card
@@ -263,6 +269,7 @@ describe('VeteranStatus', () => {
             'We’re sorry. Try to print your Veteran Status Card later.',
           ),
         ).to.exist;
+        expect(datadogRumStub.called).to.be.true;
       });
     });
   });
@@ -493,6 +500,54 @@ describe('VeteranStatus', () => {
 
         // Check that the PDF download link is not rendered
         expect(pdfLink(view)).to.not.exist;
+      });
+    });
+  });
+
+  describe('when latestServiceItem is missing specific data points', () => {
+    it('should not break and should render the card with fallback values', async () => {
+      const initialState = createBasicInitialState(serviceHistoryConfirmed);
+      initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory[0].beginDate =
+        '';
+      initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory[0].endDate =
+        '';
+      initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory[0].branchOfService =
+        '';
+      apiRequestStub.resolves(vetStatusConfirmed);
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+        expect(view.getByText('Unknown branch of service •')).to.exist;
+      });
+    });
+  });
+
+  describe('vaProfile has no hero.userFullName', () => {
+    it('should not break and should render the card with fallback values', async () => {
+      const initialState = createBasicInitialState(serviceHistoryConfirmed);
+      delete initialState.vaProfile.hero.userFullName;
+      apiRequestStub.resolves(vetStatusConfirmed);
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+        expect(
+          view.getByRole('heading', {
+            name: 'Something went wrong',
+            level: 2,
+          }),
+        ).to.exist;
       });
     });
   });

@@ -17,6 +17,10 @@ class NotesListPage extends BaseListPage {
       '@maintenanceWindow',
       '@status',
     ]);
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   verifyCareSummariesAndNotesPageTitle = () => {
@@ -26,9 +30,15 @@ class NotesListPage extends BaseListPage {
 
   clickNotesDetailsLink = (_NotesIndex = 0) => {
     cy.findAllByTestId('record-list-item')
+      .should('be.visible')
       .find('a')
       .eq(_NotesIndex)
+      .should('be.visible')
       .click();
+    // Wait for detail page to load - check for print menu as indicator
+    cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
+      'be.visible',
+    );
   };
 }
 

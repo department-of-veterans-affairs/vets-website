@@ -2,24 +2,40 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, getPrescriptionDetailUrl } from '../../util/helpers';
+import {
+  IN_PROGRESS_MEDS_DISPLAY_TYPES,
+  trackingConfig,
+} from '../../util/constants';
 
-const Prescription = ({
-  prescriptionId,
-  prescriptionName,
-  lastUpdated,
-  status,
-}) => {
+const Prescription = ({ prescription, displayType }) => {
+  const { prescriptionName, trackingList } = prescription;
+
+  const carrier = trackingList?.[0]?.carrier;
+  const trackingNumber = trackingList?.[0]?.trackingNumber;
+
+  const carrierConfig = trackingConfig[carrier?.toLowerCase()];
+  const trackingUrl = carrierConfig
+    ? carrierConfig.url + trackingNumber
+    : trackingNumber;
+
   const getSubtext = () => {
-    switch (status) {
-      case 'in-progress':
-        return `Expected fill date: ${dateFormat(lastUpdated)}`;
-      case 'shipped':
-        // TODO: Add in tracking link
-        return `Date shipped: ${dateFormat(lastUpdated)}`;
-      case 'submitted':
+    switch (displayType) {
+      case IN_PROGRESS_MEDS_DISPLAY_TYPES.IN_PROGRESS:
+        return `Expected fill date: ${dateFormat(prescription.refillDate)}`;
+      case IN_PROGRESS_MEDS_DISPLAY_TYPES.SHIPPED:
+        return (
+          <>
+            Date shipped: {dateFormat(trackingList?.[0]?.completeDateTime)} |{' '}
+            <a href={trackingUrl} rel="noreferrer">
+              Get tracking info
+            </a>
+          </>
+        );
       default:
-        return `Request submitted: ${dateFormat(lastUpdated)}`;
+        return `Request submitted: ${dateFormat(
+          prescription.refillSubmitDate,
+        )}`;
     }
   };
 
@@ -27,7 +43,7 @@ const Prescription = ({
     <div>
       <Link
         className="vads-u-font-weight--bold"
-        to={`/my-health/medications/${prescriptionId}`}
+        to={getPrescriptionDetailUrl(prescription)}
         data-testid="prescription-link"
       >
         {prescriptionName}
@@ -38,10 +54,19 @@ const Prescription = ({
 };
 
 Prescription.propTypes = {
-  lastUpdated: PropTypes.string.isRequired,
-  prescriptionId: PropTypes.number.isRequired,
-  prescriptionName: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
+  displayType: PropTypes.string.isRequired,
+  prescription: PropTypes.shape({
+    prescriptionName: PropTypes.string.isRequired,
+    trackingList: PropTypes.arrayOf(
+      PropTypes.shape({
+        carrier: PropTypes.string,
+        completeDateTime: PropTypes.string,
+        trackingNumber: PropTypes.string,
+      }),
+    ),
+    refillDate: PropTypes.string,
+    refillSubmitDate: PropTypes.string,
+  }).isRequired,
 };
 
 export default Prescription;

@@ -61,7 +61,7 @@ export default function AppointmentTasksSection({ appointment }) {
         }
       />
       <p
-        className="vads-u-margin-top--0 vads-u-margin-bottom--1 vads-u-margin-left--4"
+        className="vads-u-margin-top--0 vads-u-margin-bottom--1"
         data-testid="days-left-to-file"
       >
         Days left to file: {daysRemainingToFileClaim}

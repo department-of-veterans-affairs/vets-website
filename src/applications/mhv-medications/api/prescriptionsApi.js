@@ -53,11 +53,16 @@ export const buildExportListQuery = ({
   filterOption = '',
   sortEndpoint,
   includeImage = false,
-}) => ({
-  path: `/prescriptions?${filterOption}${sortEndpoint}${
-    includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
-  }`,
-});
+}) => {
+  const queryParams = [];
+  if (filterOption) queryParams.push(filterOption);
+  if (sortEndpoint) queryParams.push(sortEndpoint);
+  if (includeImage) queryParams.push(INCLUDE_IMAGE_ENDPOINT);
+
+  return {
+    path: `/prescriptions?${queryParams.join('&')}`,
+  };
+};
 
 /**
  * Build query path for getPrescriptionsList endpoint
@@ -66,20 +71,24 @@ export const buildExportListQuery = ({
  */
 export const buildPrescriptionsListQuery = (params = {}) => {
   const {
-    page = 1,
-    perPage = 10,
+    page,
+    perPage,
     sortEndpoint = rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
     filterOption = '',
     includeImage = false,
   } = params;
 
-  let queryParams = `page=${page}&per_page=${perPage}`;
-  if (filterOption) queryParams += filterOption;
-  if (sortEndpoint) queryParams += sortEndpoint;
-  if (includeImage) queryParams += '&include_image=true';
+  const queryParams = [];
+  if (page) queryParams.push(`page=${page}`);
+  if (perPage) queryParams.push(`per_page=${perPage}`);
+  if (filterOption) queryParams.push(filterOption);
+  if (sortEndpoint) queryParams.push(sortEndpoint);
+  if (includeImage) queryParams.push('include_image=true');
 
   return {
-    path: `/prescriptions?${queryParams}`,
+    path: `/prescriptions${
+      queryParams.length ? `?${queryParams.join('&')}` : ''
+    }`,
   };
 };
 
@@ -270,9 +279,6 @@ export const prescriptionsApi = createApi({
     getRefillablePrescriptions: builder.query({
       query: buildRefillablePrescriptionsQuery,
       providesTags: ['Prescription'],
-      // Refetch when tab regains focus to sync state across multiple tabs
-      refetchOnFocus: true,
-      refetchOnReconnect: true,
       transformResponse: transformRefillablePrescriptionsResponse,
     }),
     getPrescriptionDocumentation: builder.query({
@@ -305,21 +311,38 @@ export const prescriptionsApi = createApi({
       },
     }),
     refillPrescription: builder.mutation({
-      queryFn: async (id, { getState }) => {
+      queryFn: async (prescription, { getState }) => {
         const state = getState();
         const apiBasePath = getApiBasePath(state);
         const method = getRefillMethod(state);
+        const isOracleHealthPilot = selectCernerPilotFlag(state);
+
+        // Support both plain ID (legacy) and {id, stationNumber} object
+        const id =
+          typeof prescription === 'object' ? prescription.id : prescription;
+        const stationNumber =
+          typeof prescription === 'object'
+            ? prescription.stationNumber
+            : undefined;
+
+        // v2: POST /prescriptions/refill with order objects in body
+        // v1: PATCH /prescriptions/{id}/refill
+        const url = isOracleHealthPilot
+          ? `${apiBasePath}/prescriptions/refill`
+          : `${apiBasePath}/prescriptions/${id}/refill`;
+
+        const options = {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          ...(isOracleHealthPilot && {
+            body: JSON.stringify([{ id, stationNumber }]),
+          }),
+        };
 
         try {
-          const result = await apiRequest(
-            `${apiBasePath}/prescriptions/${id}/refill`,
-            {
-              method,
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          );
+          const result = await apiRequest(url, options);
           return { data: result };
         } catch ({ errors }) {
           return {
@@ -354,7 +377,7 @@ export const prescriptionsApi = createApi({
               data: {
                 ...result,
                 successfulIds: result.data.attributes.prescriptionList || [],
-                failedIds: result.data.attributes.failedPrescriptionList || [],
+                failedIds: result.data.attributes.failedPrescriptionIds || [],
               },
             };
           } catch ({ errors }) {

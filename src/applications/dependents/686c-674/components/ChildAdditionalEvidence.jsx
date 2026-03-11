@@ -1,7 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+
 import { childEvidence } from '../config/utilities';
+import {
+  MAX_FILE_SIZE_MB,
+  MAX_TOTAL_FILE_SIZE_GB,
+  SUPPORTED_UPLOAD_TYPES,
+} from '../config/constants';
 
 /**
  * Renders child additional evidence component
@@ -18,6 +25,7 @@ export const ChildAdditionalEvidence = () => {
     hasDisabledChild,
   } = childEvidence(formData);
 
+  const fileTypes = SUPPORTED_UPLOAD_TYPES.map(type => `.${type}`);
   return (
     <div>
       <p>
@@ -75,18 +83,12 @@ export const ChildAdditionalEvidence = () => {
         </va-accordion>
       ) : null}
       <h4>Submit your files online</h4>
-      <p>You can upload your files now.</p>
-      <va-additional-info trigger="Document upload instructions" disable-border>
-        <div>
-          <ul>
-            <li>File types you can upload: JPEG, JPG, PNG or PDF</li>
-            <li>
-              You can upload multiple files, but they have to add up to 10 MB or
-              less
-            </li>
-          </ul>
-        </div>
-      </va-additional-info>
+      <p className="upload-details">
+        {`You can upload a ${readableList(fileTypes, 'or')} format. Files can’t
+        be larger than ${MAX_FILE_SIZE_MB} MB, and the total size of all uploads
+        can’t be more than ${MAX_TOTAL_FILE_SIZE_GB} GB`}
+        .
+      </p>
     </div>
   );
 };

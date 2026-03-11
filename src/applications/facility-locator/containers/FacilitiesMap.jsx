@@ -7,7 +7,7 @@ import mapboxgl from 'mapbox-gl';
 import { isEmpty } from 'lodash';
 import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
-import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
+import { mapboxToken } from '../utils/mapboxToken';
 
 // Components
 import Alert from '../components/Alert';
@@ -58,7 +58,6 @@ import {
 } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
-import { otherToolsLink } from '../utils/mapLinks';
 
 const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
@@ -216,6 +215,8 @@ const FacilitiesMap = props => {
 
     updateUrlParams({
       address: searchString,
+      facilityType,
+      serviceType,
     });
     props.genBBoxFromAddress(
       {
@@ -514,6 +515,7 @@ const FacilitiesMap = props => {
               isMobile={isMobile}
               isSmallDesktop={isSmallDesktop}
               isTablet={isTablet}
+              location={props.location}
               mobileMapUpdateEnabled={mobileMapUpdateEnabled}
               onChange={props.updateSearchQuery}
               onSubmit={handleSearch}
@@ -522,6 +524,7 @@ const FacilitiesMap = props => {
               setSearchInitiated={setSearchInitiated}
               suppressPPMS={props.suppressPPMS}
               useProgressiveDisclosure={useProgressiveDisclosure}
+              vaHealthServicesData={props.vaHealthServicesData}
               vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
             />
             <EmergencyCareAlert
@@ -931,7 +934,7 @@ const FacilitiesMap = props => {
       )}
       <CommunityCareWarningBanner shouldShow={props.showCommunityCareBanner} />
       {renderView()}
-      {mapboxTokenValid && otherToolsLink()}
+      {mapboxTokenValid && <p>&nbsp;</p>}
     </>
   );
 };
@@ -949,6 +952,7 @@ const mapStateToProps = state => ({
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
+  vaHealthServicesData: state.drupalStaticData?.vaHealthServicesData,
   vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 

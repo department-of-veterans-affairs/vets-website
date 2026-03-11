@@ -9,15 +9,17 @@ import {
 import {
   evidenceChoiceIntroTitle,
   evidenceChoiceIntroDescriptionContent,
+  evidenceChoiceIntroQuestion,
 } from '../../../content/form0781/supportingEvidenceEnhancement/evidenceChoiceIntroPage';
 
 export const uiSchema = {
   'ui:title': standardTitle(evidenceChoiceIntroTitle),
   'ui:description': evidenceChoiceIntroDescriptionContent,
-  'view:hasEvidenceChoice': yesNoUI({
-    title:
-      'Are there any supporting documents or additional forms that you want us to review with your claim?',
-  }),
+  'view:selectableEvidenceTypes': {
+    'view:hasOtherEvidence': yesNoUI({
+      title: evidenceChoiceIntroQuestion,
+    }),
+  },
   'view:mentalHealthSupportAlert': {
     'ui:description': mentalHealthSupportAlert,
   },
@@ -25,9 +27,15 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['view:hasEvidenceChoice'],
+  required: ['view:selectableEvidenceTypes'],
   properties: {
-    'view:hasEvidenceChoice': yesNoSchema,
+    'view:selectableEvidenceTypes': {
+      type: 'object',
+      required: ['view:hasOtherEvidence'],
+      properties: {
+        'view:hasOtherEvidence': yesNoSchema,
+      },
+    },
     'view:mentalHealthSupportAlert': {
       type: 'object',
       properties: {},

@@ -8,17 +8,27 @@ import {
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { datadogRum } from '@datadog/browser-rum';
 import { useSelector } from 'react-redux';
-import { rxListSortingOptions } from '../../util/constants';
+import {
+  rxListSortingOptions,
+  rxListSortingOptionsV2,
+} from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import { selectSortOption } from '../../selectors/selectPreferences';
+import { selectMedicationsManagementImprovementsFlag } from '../../util/selectors';
 
 const MedicationsListSort = props => {
   const { shouldShowSelect, sortRxList } = props;
   const navigate = useNavigate();
-
+  const isManagementImprovementsEnabled = useSelector(
+    selectMedicationsManagementImprovementsFlag,
+  );
+  const route = isManagementImprovementsEnabled ? `/history` : `/`;
   const selectedSortOption = useSelector(selectSortOption);
 
-  const rxSortingOptions = Object.keys(rxListSortingOptions);
+  const activeSortingOptions = isManagementImprovementsEnabled
+    ? rxListSortingOptionsV2
+    : rxListSortingOptions;
+  const rxSortingOptions = Object.keys(activeSortingOptions);
 
   return (
     <div className="medications-list-sort">
@@ -49,12 +59,12 @@ const MedicationsListSort = props => {
                 "[data-testid='sort-action-sr-text']",
               );
               sortActionSrText.textContent = `Sorting: ${
-                rxListSortingOptions[newSortOption].LABEL
+                activeSortingOptions[newSortOption].LABEL
               }`;
               focusElement(sortActionSrText);
 
               sortRxList(null, newSortOption);
-              navigate(`/?page=1`, {
+              navigate(`${route}?page=1`, {
                 replace: true,
               });
               waitForRenderThenFocus(
@@ -76,7 +86,7 @@ const MedicationsListSort = props => {
             {rxSortingOptions.map(option => {
               return (
                 <option key={option} value={option} data-testid="sort-option">
-                  {rxListSortingOptions[option].LABEL}
+                  {activeSortingOptions[option].LABEL}
                 </option>
               );
             })}

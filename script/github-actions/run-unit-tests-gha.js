@@ -106,6 +106,13 @@ function getTestPatterns() {
   // Always include static pages pattern
   const patterns = [...appPatterns, ...platformPatterns, STATIC_PAGES_PATTERN];
 
+  // If any config/form.js files changed, include the forms config validator
+  if (changedFiles.some(file => /config\/form\.js.?$/.test(file))) {
+    patterns.push(
+      'src/platform/forms/tests/forms-config-validator.unit.spec.jsx',
+    );
+  }
+
   // Remove duplicates (static pages may already be in platform patterns)
   return [...new Set(patterns)];
 }
@@ -133,7 +140,7 @@ function buildTestCommand(testPatterns) {
     : '';
   const coverageReporter = options['coverage-html']
     ? '--reporter=html mocha --retries 5'
-    : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
+    : '--reporter=json-summary mocha --reporter mochawesome --reporter-options reportDir=mocha/results,reportFilename=unit-tests,overwrite=true,html=false,json=true,consoleReporter=min --no-color --retries 5';
 
   const testRunner = options.coverage
     ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`
@@ -167,14 +174,14 @@ async function main() {
 
     if (!hasMatchingTests(testPatterns)) {
       console.log('No tests to run');
-      core.exportVariable('tests_ran', 'false');
+      core.setOutput('tests_ran', 'false');
       return;
     }
 
     console.log(`Running tests matching patterns: ${getPatternSource()}`);
     const command = buildTestCommand(testPatterns);
     await runCommand(command);
-    core.exportVariable('tests_ran', 'true');
+    core.setOutput('tests_ran', 'true');
   } catch (error) {
     console.error('Error running tests:', error);
     process.exit(1);

@@ -1,3 +1,4 @@
+// 7 personal, 2 business, 1 unauthenticated
 export const mockInquiries = [
   {
     id: '251a31bd-24b7-ef11-b8e9-001dd8053a71',
@@ -11,7 +12,7 @@ export const mockInquiries = [
       hasBeenSplit: false,
       inquiryTopic: 'Audiology and hearing aids',
       levelOfAuthentication: 'Personal',
-      lastUpdate: '12/12/2024 12:00:00 AM',
+      lastUpdate: '12/11/2024 12:30:00 AM',
       queueId: 'f9d63862-d81f-ed11-b83c-001dd8069009',
       queueName: 'VHA Audiology',
       status: 'inprogress',

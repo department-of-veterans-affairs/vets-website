@@ -6,6 +6,7 @@ import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import ScheduleCernerPageObject from '../../page-objects/ScheduleCernerPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
@@ -44,7 +45,6 @@ describe('VAOS direct schedule flow - Cerner', () => {
           response: [new MockFacilityResponse()],
         });
         mockFeatureToggles({
-          vaOnlineSchedulingImmediateCareAlert: false,
           vaOnlineSchedulingRemoveFacilityConfigCheck: false,
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
@@ -59,6 +59,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
@@ -94,7 +96,6 @@ describe('VAOS direct schedule flow - Cerner', () => {
           }),
         });
         mockFeatureToggles({
-          vaOnlineSchedulingImmediateCareAlert: false,
           vaOnlineSchedulingRemoveFacilityConfigCheck: false,
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
@@ -109,6 +110,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
@@ -167,6 +170,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
 
           AppointmentListPageObject.visit().scheduleAppointment();
 
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
             .selectTypeOfCare(/Primary care/i)
@@ -189,9 +194,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
         });
       });
 
-      // Disabled because we are temporarily disabling pharmacy as an OH type of care for dark deploy
-      // See: https://dsva.slack.com/archives/C098ZSW3C1L/p1770748394811109
-      describe.skip('And type of care is pharmacy', () => {
+      describe('And type of care is pharmacy', () => {
         describe('And direct and request schedule is disabled', () => {
           it('should display ineligibility alert when not eligible for direct or request scheduling', () => {
             // Arrange
@@ -230,6 +233,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
             cy.login(mockUser);
 
             AppointmentListPageObject.visit().scheduleAppointment();
+
+            UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
             TypeOfCarePageObject.assertUrl()
               .assertAddressAlert({ exist: false })
@@ -301,6 +306,8 @@ describe('VAOS direct schedule flow - Cerner', () => {
             cy.login(mockUser);
 
             AppointmentListPageObject.visit().scheduleAppointment();
+
+            UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
             TypeOfCarePageObject.assertUrl()
               .assertAddressAlert({ exist: false })

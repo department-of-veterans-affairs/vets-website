@@ -36,10 +36,7 @@ import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import ScheduleCernerPage from './components/ScheduleCernerPage';
 import UrgentCareInformationPage from './components/UrgentCareInformationPage';
-import {
-  selectFeatureImmediateCareAlert,
-  selectFeatureRemoveFacilityConfigCheck,
-} from '../redux/selectors';
+import { selectFeatureRemoveFacilityConfigCheck } from '../redux/selectors';
 import ScheduleCernerPageV2 from './components/ScheduleCernerPageV2';
 
 export function NewAppointment() {
@@ -48,9 +45,6 @@ export function NewAppointment() {
   const match = useRouteMatch();
   const location = useLocation();
   const pageTitle = 'Schedule an appointment';
-  const featureImmediateCareAlert = useSelector(
-    selectFeatureImmediateCareAlert,
-  );
   const featureRemoveFacilityConfigCheck = useSelector(
     selectFeatureRemoveFacilityConfigCheck,
   );
@@ -68,17 +62,12 @@ export function NewAppointment() {
     shouldRedirect: () =>
       !isNewAppointmentStarted &&
       !location.pathname.endsWith('confirmation') &&
-      (featureImmediateCareAlert
-        ? !location.pathname.endsWith('schedule')
-        : !location.pathname.endsWith('type-of-care')),
+      (!location.pathname.endsWith('schedule') ||
+        location.pathname.endsWith('how-to-schedule')),
   });
 
   if (shouldRedirectToStart) {
-    return (
-      <Redirect
-        to={featureImmediateCareAlert ? '/schedule' : '/schedule/type-of-care'}
-      />
-    );
+    return <Redirect to="/schedule" />;
   }
 
   return (
@@ -183,21 +172,12 @@ export function NewAppointment() {
         >
           <ReviewPage />
         </Route>
-        {featureImmediateCareAlert && (
-          <>
-            <Route path={`${match.url}/type-of-care`}>
-              <TypeOfCarePage />
-            </Route>
-            <Route exact path={match.url}>
-              <UrgentCareInformationPage />
-            </Route>
-          </>
-        )}
-        {!featureImmediateCareAlert && (
-          <Route path={match.url}>
-            <TypeOfCarePage />
-          </Route>
-        )}
+        <Route path={`${match.url}/type-of-care`}>
+          <TypeOfCarePage />
+        </Route>
+        <Route exact path={match.url}>
+          <UrgentCareInformationPage />
+        </Route>
       </Switch>
     </FormLayout>
   );

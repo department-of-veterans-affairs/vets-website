@@ -13,7 +13,7 @@ import {
 import { certificateUseOptions } from '../constants';
 
 const OptionsAccordion = () => (
-  <VaAccordion className="vads-u-margin-top--2">
+  <VaAccordion className="vads-u-margin-top--2" openSingle>
     <VaAccordionItem header="Understanding your COE options">
       <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
         Check your eligibility

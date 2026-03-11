@@ -1,13 +1,16 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { profilePersonalInfoPage } from 'platform/forms-system/src/js/patterns/prefill/PersonalInformation';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
+import { organizationRepresentativesArrayOptions } from '../helpers';
+
 import manifest from '../manifest.json';
 import transform from './transform';
 import submitForm from './submitForm';
-import { organizationRepresentativesArrayOptions } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -18,10 +21,6 @@ import thirdPartyOrganizationRepresentativesSummary from '../pages/thirdPartyOrg
 import thirdPartyOrganizationInformation from '../pages/thirdPartyOrganizationInformation';
 import thirdPartyOrganizationRepresentativesIntro from '../pages/thirdPartyOrganizationRepresentativesIntro';
 import thirdPartyOrganizationRepresentativeName from '../pages/thirdPartyOrganizationRepresentativesName';
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import identificationInformation from '../pages/identificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import informationToDisclose from '../pages/informationToDisclose';
 import prefillTransform from './prefillTransform';
 
@@ -87,7 +86,7 @@ const formConfig = {
     finishAppLaterMessage: 'Finish this form later',
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
     reviewPageTitle: 'Review',
-    submitButtonText: 'Continue',
+    submitButtonText: 'Submit',
   },
   defaultDefinitions: {
     fullName,
@@ -101,7 +100,7 @@ const formConfig = {
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {
-        ...personalInformationPage({
+        ...profilePersonalInfoPage({
           personalInfoConfig: {
             name: { show: true, required: true },
             ssn: { show: true, required: true },
@@ -112,32 +111,13 @@ const formConfig = {
           },
           depends: formData => formData?.userLoggedIn === true,
         }),
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-          depends: formData => formData?.userLoggedIn !== true,
-        },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
-          depends: formData => formData?.userLoggedIn !== true,
-        },
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-        },
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
-        },
+        ...profileContactInfoPages({
+          content: {
+            ...getContent('request'),
+            title: 'Confirm the contact information we have on file for you',
+            description: null,
+          },
+        }),
       },
     },
     disclosureChapter: {

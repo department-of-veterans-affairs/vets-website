@@ -53,7 +53,9 @@
             "isEncrypted": false
           }
         ],
-        "applicantDependentStatus": "over18HelplessChild"
+        "applicantDependentStatus": {
+          "status": "over18HelplessChild"
+        }
       }
     ],
     "view:hasMedicare": false,

@@ -1,4 +1,5 @@
 import stub from '../../constants/stub.json';
+import stubNoBestBets from '../../constants/stub-no-best-bets.json';
 import stubPage2 from '../../constants/stub-page-2.json';
 import stubNewTerm from '../../constants/stub-new-term.json';
 import zeroResultsStub from '../../constants/stubZeroResults.json';
@@ -81,7 +82,7 @@ describe('Global search', () => {
 
   it('successfully searches and renders results when searching on the results page', () => {
     cy.intercept('GET', '/v0/search?query=*', {
-      body: stub,
+      body: stubNoBestBets,
       statusCode: 200,
     });
 

@@ -481,7 +481,7 @@ export const OH_ENABLED_TYPES_OF_CARE = [
   // 'audiology',
   // 'audiology-hearing aid support',
   // 'audiology-routine exam',
-  // 'clinicalPharmacyPrimaryCare',
+  'clinicalPharmacyPrimaryCare',
   // 'cpap',
   'foodAndNutrition',
   // 'homeSleepTesting',
@@ -490,6 +490,10 @@ export const OH_ENABLED_TYPES_OF_CARE = [
   // 'optometry',
   // 'socialWork',
 ];
+
+export const CLINIC_HISTORY_MONTHS = {
+  [TYPE_OF_CARE_IDS.MENTAL_HEALTH_PRIMARY_CARE_ID]: 12,
+};
 
 export const TRAVEL_CLAIM_MESSAGES = {
   noClaim: 'No claims found.',

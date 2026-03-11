@@ -85,7 +85,7 @@ const PdfDownload = ({ pdfUrl, trackingPrefix }) => {
 };
 
 export const ConfirmationPage = ({ router, route }) => {
-  const form = useSelector(state => state.form || {});
+  const form = useSelector(state => state.form);
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
   const dispatch = useDispatch();
@@ -128,8 +128,9 @@ export const ConfirmationPage = ({ router, route }) => {
       />
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
+      <h2>What to expect next</h2>
       <ProcessList />
-      <p>
+      <p className="vads-u-margin-y--2p5">
         <va-link
           onClick={goBack}
           class="screen-only vads-u-margin-top--1 vads-u-font-weight--bold"
@@ -138,7 +139,6 @@ export const ConfirmationPage = ({ router, route }) => {
           href="#"
         />
       </p>
-      <ConfirmationView.NeedHelp />
     </ConfirmationView>
   );
 };

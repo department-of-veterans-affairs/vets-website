@@ -38,3 +38,9 @@ export const PICKLIST_DATA = 'view:removeDependentPickList';
 export const PICKLIST_PATHS = 'view:removeDependentPaths';
 
 export const PICKLIST_EDIT_REVIEW_FLAG = 'editFromReviewPage';
+export const PICKLIST_REMOVAL_FLAG = 'isV3RemovalFlow';
+
+export const SUPPORTED_UPLOAD_TYPES = ['pdf', 'jpg', 'jpeg', 'png'];
+export const MAX_FILE_SIZE_MB = 99;
+export const MAX_TOTAL_FILE_SIZE_GB = 5;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // 99 MB

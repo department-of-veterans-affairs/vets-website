@@ -5,12 +5,11 @@ import recordEvent from 'platform/monitoring/record-event';
 export default function ProcessList({ pdfUrl, trackingPrefix }) {
   return (
     <va-process-list uswds>
-      <va-process-list-item>
+      <va-process-list-item header="Download and save your form">
         <div
           itemProp="itemListElement"
           className="confirmation-save-pdf-download-section screen-only"
         >
-          <h2 className="vads-u-margin-top--0">Download and save your form</h2>
           <p>
             Make sure that your completed form is saved as a PDF on your device.{' '}
             <span className="vads-u-display--inline-block">
@@ -57,11 +56,11 @@ export default function ProcessList({ pdfUrl, trackingPrefix }) {
               href="https://www.my.va.gov/EducationFileUploads/s/"
             />{' '}
             and upload your saved VA Form 22-0803 as well as your receipt and
-            test results.
+            exam results. This is the fastest way for us to process your form.
           </p>
           <p>
             If you would rather print and mail your form and attachments, the
-            addresses for your region are listed below.
+            addresses for your region are listed on this page.
           </p>
         </div>
       </va-process-list-item>

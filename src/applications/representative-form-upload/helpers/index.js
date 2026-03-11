@@ -8,6 +8,7 @@ import { timeFromNow } from 'platform/utilities/date/index';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import testData from '../tests/e2e/fixtures/data/veteran.json';
 import claimantTestData from '../tests/e2e/fixtures/data/itf-claimant.json';
+import testITFData from '../tests/e2e/fixtures/data/itf-veteran.json';
 import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
@@ -32,6 +33,7 @@ const formMappings = {
 
 export const mockData = testData.data;
 export const claimantMockData = claimantTestData.data;
+export const mockITFData = testITFData.data;
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
@@ -105,6 +107,15 @@ export const getMockData = (dependent = false) => {
     return undefined;
   }
   return dependent ? mockData : claimantMockData;
+};
+
+// TODO: Consolidate into single getMockData when all ARP
+// forms share new subpage/fieldset structure
+export const getITFMockData = () => {
+  if (!environment.isLocalhost() || window.Cypress) {
+    return undefined;
+  }
+  return mockITFData;
 };
 
 export const formattedPhoneNumber = phoneNumber => {
@@ -217,16 +228,11 @@ export const expiresSoonIcon = expDate => {
 export const benefitCopy = ITFType => {
   switch (ITFType) {
     case 'compensation':
-      return <span>Disability compensation (VA Form 21-526EZ)</span>;
+      return 'Disability compensation (VA Form 21-526EZ)';
     case 'pension':
-      return <span>Pension (VA Form 21P-527EZ)</span>;
+      return 'Pension (VA Form 21P-527EZ)';
     case 'survivor':
-      return (
-        <span>
-          Survivors pension and/or dependency and indemnity compensation (DIC)
-          (VA Form 21P-534 or VA Form 21P-534EZ)
-        </span>
-      );
+      return 'Survivors pension and/or dependency and indemnity compensation (DIC) (VA Form 21P-534 or VA Form 21P-534EZ)';
     default:
       return null;
   }

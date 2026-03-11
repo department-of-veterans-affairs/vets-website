@@ -398,17 +398,22 @@ yourDocument: fileInputUI({
   createPayload: () => {}, // custom function to generate payload when uploading file
   parseResponse: () => {}, // custom function to handle response after uploading file
   additionalInputRequired: true,
-  additionalInput: (error, data) => {
+  additionalInputLabels: {
+    documentStatus: { public: 'Public', private: 'Private' },
+  },
+  additionalInputTitle: 'Document status', // Optional title for additional input
+  additionalInput: (error, data, { labels, title }) => {
     const { documentStatus } = data;
     return (
       <VaSelect
         required
         error={error}
         value={documentStatus}
-        label="Document status"
+        label={title}
       >
-        <option value="public">Public</option>
-        <option value="private">Private</option>
+        {Object.entries(labels.documentStatus).map(([value, label]) => (
+          <option key={value} value={value}>{label}</option>
+        ))}
       </VaSelect>
     );
   },
@@ -471,11 +476,16 @@ financialHardshipDocuments: fileInputMultipleUI({
     additionalInput: 'Choose a document status',
   },
   additionalInputRequired: true,
-  additionalInput: () => {
+  additionalInputTitle: 'Document status', // Optional title for additional input
+  additionalInputLabels: {
+    documentStatus: { public: 'Public', private: 'Private' },
+  },
+  additionalInput: ({ labels, title }) => {
     return (
-      <VaSelect required label="Document status">
-        <option value="public">Public</option>
-        <option value="private">Private</option>
+      <VaSelect required label={title}>
+        {Object.entries(labels.documentStatus).map(([value, label]) => (
+          <option key={value} value={value}>{label}</option>
+        ))}
       </VaSelect>
     );
   },

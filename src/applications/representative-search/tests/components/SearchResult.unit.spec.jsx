@@ -243,9 +243,7 @@ describe('SearchResults', () => {
         </Provider>,
       );
 
-      const distanceElement = container.querySelector(
-        '.vads-u-font-weight--bold.vads-u-font-family--serif',
-      );
+      const distanceElement = container.querySelector('h3 span.distance');
       expect(distanceElement).to.exist;
       expect(distanceElement.textContent).to.contain('miles');
       expect(distanceElement.textContent).to.not.contain('(estimated)');
@@ -258,9 +256,7 @@ describe('SearchResults', () => {
         </Provider>,
       );
 
-      const distanceElement = container.querySelector(
-        '.vads-u-font-weight--bold.vads-u-font-family--serif',
-      );
+      const distanceElement = container.querySelector('h3 span.distance');
 
       expect(distanceElement).to.exist;
       expect(distanceElement.textContent).to.contain('0 miles');
@@ -281,9 +277,7 @@ describe('SearchResults', () => {
         </Provider>,
       );
 
-      const distanceElement = container.querySelector(
-        '.vads-u-font-weight--bold.vads-u-font-family--serif',
-      );
+      const distanceElement = container.querySelector('h3 span.distance');
       expect(distanceElement).to.exist;
       expect(distanceElement.textContent).to.contain('(estimated)');
     });
@@ -303,9 +297,7 @@ describe('SearchResults', () => {
         </Provider>,
       );
 
-      const distanceElement = container.querySelector(
-        '.vads-u-font-weight--bold.vads-u-font-family--serif',
-      );
+      const distanceElement = container.querySelector('h3 span.distance');
       expect(distanceElement).to.exist;
       expect(distanceElement.textContent).to.contain('(estimated)');
     });
@@ -397,15 +389,11 @@ describe('SearchResults', () => {
       </Provider>,
     );
 
-    const distanceElement = container.querySelector(
-      '.vads-u-font-weight--bold.vads-u-font-family--serif',
-    );
-    expect(distanceElement).to.exist;
-
-    const officerElement = container.querySelector(
-      '.vads-u-font-family--serif.vads-u-margin-top--2p5 h3',
-    );
+    const officerElement = container.querySelector('h3 span.officer');
     expect(officerElement).to.exist;
+
+    const distanceElement = container.querySelector('h3 span.distance');
+    expect(distanceElement).to.exist;
   });
 
   it('renders modal when appropriate', () => {

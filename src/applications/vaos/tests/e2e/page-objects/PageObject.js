@@ -252,8 +252,10 @@ export default class PageObject {
     return this.clickButton({ label });
   }
 
-  scheduleAppointment(text = 'Start scheduling an appointment') {
-    cy.findByText(text).click({ waitForAnimations: true });
+  scheduleAppointment() {
+    cy.findByText('Schedule a new appointment').click({
+      waitForAnimations: true,
+    });
     return this;
   }
 

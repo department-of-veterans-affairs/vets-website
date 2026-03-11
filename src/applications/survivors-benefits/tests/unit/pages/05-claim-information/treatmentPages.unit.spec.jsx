@@ -136,14 +136,14 @@ describe('Treatment Pages', () => {
     // Test data with dic set to true
     const formDataTrue = {
       claims: {
-        DIC: true,
+        dic: true,
       },
     };
 
     // Test data with dic set to false
     const formDataFalse = {
       claims: {
-        DIC: false,
+        dic: false,
       },
     };
 
