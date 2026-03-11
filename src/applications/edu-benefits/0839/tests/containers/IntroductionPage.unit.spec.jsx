@@ -107,7 +107,7 @@ describe('22-0839 <IntroductionPage>', () => {
     );
   });
 
-  it('should render Start the form header when logged in', () => {
+  it('should render Start link when logged in', () => {
     const loggedInStore = {
       ...mockStore,
       getState: () => ({
@@ -121,15 +121,13 @@ describe('22-0839 <IntroductionPage>', () => {
       }),
     };
 
-    const { container } = render(
+    const { getByText, queryByTestId } = render(
       <Provider store={loggedInStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-    const headers = Array.from(container.querySelectorAll('h2')).map(h =>
-      h.textContent?.trim(),
-    );
-    expect(headers.join(' | ')).to.contain('Start the form');
+    expect(queryByTestId('sign-in-alert')).to.not.exist;
+    expect(getByText('Start your Yellow Ribbon Program Agreement')).to.exist;
   });
 
   it('should render privacy accordions', () => {
