@@ -10,24 +10,25 @@ const INPUT_LABEL = content['medicare--plan-type-label'];
 
 const SCHEMA_LABELS = {
   ab: content['medicare--plan-type-option--ab'],
-  advantage: content['medicare--plan-type-option--advantage'],
-  other: content['medicare--plan-type-option--other'],
+  c: content['medicare--plan-type-option--c'],
+  a: content['medicare--plan-type-option--a'],
+  b: content['medicare--plan-type-option--b'],
 };
 const SCHEMA_ENUM = Object.keys(SCHEMA_LABELS);
 
 export default {
   uiSchema: {
     ...titleWithNameUI(TITLE_TEXT),
-    applicantMedicareClass: radioUI({
+    medicarePlanType: radioUI({
       title: INPUT_LABEL,
       labels: SCHEMA_LABELS,
     }),
   },
   schema: {
     type: 'object',
-    required: ['applicantMedicareClass'],
+    required: ['medicarePlanType'],
     properties: {
-      applicantMedicareClass: radioSchema(SCHEMA_ENUM),
+      medicarePlanType: radioSchema(SCHEMA_ENUM),
     },
   },
 };

@@ -11,13 +11,13 @@ const INPUT_LABEL = content['medicare--report-plan-label'];
 export default {
   uiSchema: {
     ...titleUI(TITLE_TEXT),
-    applicantMedicareStatus: yesNoUI(INPUT_LABEL),
+    'view:hasMedicare': yesNoUI(INPUT_LABEL),
   },
   schema: {
     type: 'object',
-    required: ['applicantMedicareStatus'],
+    required: ['view:hasMedicare'],
     properties: {
-      applicantMedicareStatus: yesNoSchema,
+      'view:hasMedicare': yesNoSchema,
     },
   },
 };

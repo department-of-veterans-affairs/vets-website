@@ -1,4 +1,3 @@
-import { FEATURE_TOGGLES } from '../../hooks/useDefaultFormData';
 import {
   hasMedicare,
   hasPartA,
@@ -23,117 +22,109 @@ import partCCardUpload from './partCCardUpload';
 import partCEffectiveDate from './partCEffectiveDate';
 import partDCardUpload from './partDCardUpload';
 import partDEffectiveDate from './partDEffectiveDate';
-import partDStatus from './partDStatus.rev2025';
-import planTypes from './planTypes.rev2025';
-import reportPlans from './reportPlans.rev2025';
+import partDStatus from './partDStatus';
+import planTypes from './planTypes';
+import reportPlans from './reportPlans';
 
-const REV2025_TOGGLE_KEY = `view:${FEATURE_TOGGLES[0]}`;
-
-export const medicarePagesRev2025 = {
+export const medicarePages = {
   medicareOverview: {
     path: 'medicare-overview',
     title: 'Report Medicare',
-    depends: formData => formData[REV2025_TOGGLE_KEY],
     ...overview,
   },
   reportMedicare: {
     path: 'report-medicare-plan',
     title: 'Report Medicare plan',
-    depends: formData => formData[REV2025_TOGGLE_KEY],
     ...reportPlans,
   },
   medicarePlanType: {
     path: 'medicare-plan-type',
     title: 'Medicare plan type',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
+    depends: hasMedicare,
     ...planTypes,
   },
   medicareBeneficiaryIdentifier: {
     path: 'medicare-beneficiary-identifier',
     title: 'Medicare beneficiary identifier',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
+    depends: hasMedicare,
     ...mbiNumber,
   },
   medicarePartAEffectiveDate: {
     path: 'medicare-part-a-effective-date',
     title: 'Medicare Part A effective date',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartA(formData),
+    depends: hasPartA,
     ...partAEffectiveDates,
   },
   medicarePartACardUpload: {
     path: 'medicare-part-a-card',
     title: 'Medicare Part A card',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartA(formData),
+    depends: hasPartA,
     ...partACardUpload,
   },
   medicarePartBEffectiveDate: {
     path: 'medicare-part-b-effective-date',
     title: 'Medicare Part B effective date',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartB(formData),
+    depends: hasPartB,
     ...partBEffectiveDates,
   },
   medicarePartBCardUpload: {
     path: 'medicare-part-b-card',
     title: 'Medicare Part B card',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartB(formData),
+    depends: hasPartB,
     ...partBCardUpload,
   },
   medicarePartADenial: {
     path: 'medicare-part-a-denial-notice',
     title: 'Medicare Part A denial notice',
-    depends: formData =>
-      formData[REV2025_TOGGLE_KEY] && needsPartADenialNotice(formData),
+    depends: needsPartADenialNotice,
     ...partADenialNotice,
   },
   medicarePartADenialProofUpload: {
     path: 'medicare-proof-of-part-a-denial',
     title: 'Proof of Medicare ineligibility',
-    depends: formData =>
-      formData[REV2025_TOGGLE_KEY] && hasPartADenialNotice(formData),
+    depends: hasPartADenialNotice,
     ...partADenialProofUpload,
   },
   medicarePartAPartBEffectiveDates: {
     path: 'medicare-parts-a-and-b-effective-dates',
     title: 'Medicare Parts A & B effective dates',
-    depends: formData =>
-      formData[REV2025_TOGGLE_KEY] && hasPartsABorC(formData),
+    depends: hasPartsABorC,
     ...partAPartBEffectiveDates,
   },
   medicareABCardUpload: {
     path: 'medicare-parts-a-and-b-card',
     title: 'Medicare Parts A & B card',
-    depends: formData =>
-      formData[REV2025_TOGGLE_KEY] && hasPartsABorC(formData),
+    depends: hasPartsABorC,
     ...partAPartBCardUpload,
   },
   medicarePartCCarrierEffectiveDate: {
     path: 'medicare-part-c-carrier-and-effective-date',
     title: 'Medicare Part C carrier and effective date',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartC(formData),
+    depends: hasPartC,
     ...partCEffectiveDate,
   },
   medicarePartCCardUpload: {
     path: 'medicare-part-c-card',
     title: 'Medicare Part C card',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartC(formData),
+    depends: hasPartC,
     ...partCCardUpload,
   },
   medicarePartDStatus: {
     path: 'medicare-part-d-status',
     title: 'Medicare Part D status',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
+    depends: hasMedicare,
     ...partDStatus,
   },
   medicarePartDCarrierEffectiveDate: {
     path: 'medicare-part-d-carrier-and-effective-date',
     title: 'Medicare Part D carrier and effective date',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartD(formData),
+    depends: hasPartD,
     ...partDEffectiveDate,
   },
   medicarePartDCardUpload: {
     path: 'medicare-part-d-card',
     title: 'Medicare Part D card',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartD(formData),
+    depends: hasPartD,
     ...partDCardUpload,
   },
 };

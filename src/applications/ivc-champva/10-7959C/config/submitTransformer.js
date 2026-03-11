@@ -3,7 +3,6 @@ import {
   concatStreets,
   getObjectsWithAttachmentId,
 } from '../../shared/utilities';
-import { FEATURE_TOGGLES } from '../hooks/useDefaultFormData';
 
 /**
  * Builds primary contact information object from form data
@@ -171,44 +170,28 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
   const copyOfData = JSON.parse(JSON.stringify(transformedData));
-  const isRev2025Enabled = form.data[`view:${FEATURE_TOGGLES[0]}`];
 
-  if (isRev2025Enabled) {
-    const applicantFields = extractApplicantFields(copyOfData);
-    const applicantWithInsurance = nestInsuranceInApplicant(
-      applicantFields,
-      copyOfData,
-    );
+  const applicantFields = extractApplicantFields(copyOfData);
+  const applicantWithInsurance = nestInsuranceInApplicant(
+    applicantFields,
+    copyOfData,
+  );
 
-    const supportingDocs = collectSupportingDocuments(applicantWithInsurance);
-    const cleanedApplicant = cleanSupportingDocs(applicantWithInsurance);
-    const primaryContactInfo = buildPrimaryContact(copyOfData);
+  const supportingDocs = collectSupportingDocuments(applicantWithInsurance);
+  const cleanedApplicant = cleanSupportingDocs(applicantWithInsurance);
+  const primaryContactInfo = buildPrimaryContact(copyOfData);
 
-    // remove fields mapped to the applicants array
-    const prefixesToRemove = ['applicant', 'medicare', 'healthInsurance'];
-    Object.keys(copyOfData).forEach(key => {
-      if (prefixesToRemove.some(prefix => key.startsWith(prefix))) {
-        delete copyOfData[key];
-      }
-    });
-
-    copyOfData.applicants = [cleanedApplicant];
-    copyOfData.supportingDocs = supportingDocs;
-    copyOfData.primaryContactInfo = primaryContactInfo;
-  } else {
-    copyOfData.applicantMedicareAdvantage =
-      copyOfData.applicantMedicareClass === 'advantage';
-
-    copyOfData.hasOtherHealthInsurance =
-      copyOfData.applicantHasPrimary || copyOfData.applicantHasSecondary;
-
-    if (copyOfData.applicantAddress) {
-      copyOfData.applicantAddress = concatStreets(copyOfData.applicantAddress);
+  // remove fields mapped to the applicants array
+  const prefixesToRemove = ['applicant', 'medicare', 'healthInsurance'];
+  Object.keys(copyOfData).forEach(key => {
+    if (prefixesToRemove.some(prefix => key.startsWith(prefix))) {
+      delete copyOfData[key];
     }
+  });
 
-    copyOfData.supportingDocs = getObjectsWithAttachmentId(copyOfData);
-    copyOfData.primaryContactInfo = buildPrimaryContact(copyOfData);
-  }
+  copyOfData.applicants = [cleanedApplicant];
+  copyOfData.supportingDocs = supportingDocs;
+  copyOfData.primaryContactInfo = primaryContactInfo;
 
   const today = new Date().toISOString().split('T')[0];
   Object.assign(copyOfData, transformDates(copyOfData));
