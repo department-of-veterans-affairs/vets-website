@@ -94,7 +94,7 @@ const SearchControls = props => {
     () => {
       if (organizationFilterEnabled) dispatch(fetchOrganizations);
     },
-    [organizationFilterEnabled],
+    [dispatch, organizationFilterEnabled],
   );
 
   return (
