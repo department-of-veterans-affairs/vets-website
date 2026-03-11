@@ -779,6 +779,48 @@ export const pageHooks = (cy, testOptions) => ({
     });
   },
 
+  'supporting-evidence/separation-health-assessment-upload': () => {
+    cy.get('@testData').then(data => {
+      if (
+        !data?.disability526NewBddShaEnforcementWorkflowEnabled ||
+        !data?.['view:isBddData'] ||
+        !data?.['view:hasSeparationHealthAssessment']
+      ) {
+        cy.findByText(/continue/i, { selector: 'button' }).click();
+        return;
+      }
+
+      cy.get('input[type="file"]').selectFile(
+        'src/platform/testing/example-upload.png',
+        { force: true },
+      );
+
+      cy.get('.schemaform-file-uploading').should('not.exist');
+
+      cy.wait('@uploadFile').then(({ _request, response }) => {
+        expect(response.statusCode).to.eq(200);
+      });
+
+      cy.findByText(/continue/i, { selector: 'button' }).click();
+    });
+  },
+
+  'supporting-evidence/summary': () => {
+    cy.get('@testData').then(data => {
+      if (
+        !data?.disability526NewBddShaEnforcementWorkflowEnabled ||
+        !data?.['view:isBddData'] ||
+        !data?.['view:hasSeparationHealthAssessment']
+      ) {
+        return;
+      }
+
+      cy.contains(/summary of evidence/i).should('exist');
+      cy.contains(/Separation Health Assessment Part A/i).should('exist');
+      cy.contains(/you haven’t uploaded any evidence/i).should('not.exist');
+    });
+  },
+
   'review-veteran-details/separation-location': () => {
     cy.get('@testData').then(data => {
       cy.get('input[name="root_serviceInformation_separationLocation"]').type(

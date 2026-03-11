@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import {
   calculateBoundingBox,
-  getFeaturesFromAddress,
+  createGeocodingService,
 } from 'platform/utilities/facilities-and-mapbox';
+import { mapboxToken } from '../mapboxToken';
 import { multiTypeQuery } from '../actions';
 import {
   convertMetersToMiles,
@@ -54,7 +55,9 @@ const NearbyLocations = props => {
       const addressQuery = `${mainAddress.addressLine1}, ${
         mainAddress.locality
       } ${mainAddress.administrativeArea} ${mainAddress.postalCode}`;
-      const mapboxResponse = await getFeaturesFromAddress(addressQuery);
+      const mapboxResponse = await createGeocodingService(
+        mapboxToken,
+      ).getFeaturesFromAddress(addressQuery);
       const coordinates = mapboxResponse?.body.features[0].center; // [longitude,latitude]
 
       if (!coordinates) {

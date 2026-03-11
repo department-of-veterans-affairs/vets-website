@@ -1,0 +1,53 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
+export default function MigrationInProgressError({
+  classNames,
+  endDate,
+  facilities,
+  isMixedRegistration = false,
+}) {
+  return (
+    <va-alert
+      class={classNames}
+      status={isMixedRegistration ? 'warning' : 'error'}
+    >
+      <h2>
+        You can’t schedule at{' '}
+        {`${
+          facilities.length === 1
+            ? facilities[0].name || facilities[0].facilityName
+            : 'some facilities'
+        }`}{' '}
+        right now
+      </h2>
+      {facilities.length === 1 && (
+        <p>
+          Scheduling online is unavailable until <strong>{endDate}</strong> at{' '}
+          {facilities[0].name || facilities[0].facilityName}
+        </p>
+      )}
+      {facilities.length > 1 && (
+        <>
+          <p>
+            Scheduling online is unavailable until <strong>{endDate}</strong>{' '}
+            at:
+          </p>
+          <ul>
+            {facilities.map((facility, index) => (
+              <li key={index}>{facility.name || facility.facilityName}</li>
+            ))}
+          </ul>
+        </>
+      )}
+      <p className="vads-u-margin--0">You'll need to call to schedule.</p>
+      <a href="/find-locations">Find a VA health facility</a>
+    </va-alert>
+  );
+}
+MigrationInProgressError.propTypes = {
+  classNames: PropTypes.string,
+  endDate: PropTypes.string,
+  facilities: PropTypes.array,
+  isMixedRegistration: PropTypes.bool,
+};

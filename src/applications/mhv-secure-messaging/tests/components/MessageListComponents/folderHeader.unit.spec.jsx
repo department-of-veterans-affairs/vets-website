@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -51,12 +51,14 @@ describe('Folder Header component', () => {
     path = initialPath,
     threadCount = initialThreadCount,
     folder = customFolder,
+    extraProps = {},
   ) => {
     return renderWithStoreAndRouter(
       <FolderHeader
         folder={folder}
         threadCount={threadCount}
         searchProps={{ ...searchProps }}
+        {...extraProps}
       />,
       {
         initialState: state,
@@ -65,6 +67,43 @@ describe('Folder Header component', () => {
       },
     );
   };
+
+  it('renders AlertBackgroundBox after H1', async () => {
+    const stateWithAlert = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        alerts: {
+          alertVisible: true,
+          alertList: [
+            {
+              datestamp: '2022-10-07T19:25:32.832Z',
+              isActive: true,
+              alertType: 'success',
+              header: 'Test',
+              content: 'Test alert content',
+            },
+          ],
+        },
+      },
+    };
+    const screen = setup(
+      stateWithAlert,
+      initialPath,
+      initialThreadCount,
+      customFolder,
+    );
+    await waitFor(() => {
+      const h1 = screen.getByRole('heading', { level: 1 });
+      const alertText = screen.getByTestId('alert-text');
+      expect(h1).to.exist;
+      expect(alertText).to.exist;
+      const html = screen.container.innerHTML;
+      expect(html.indexOf('<h1')).to.be.lessThan(
+        html.indexOf('data-testid="alert-text"'),
+      );
+    });
+  });
 
   describe('displays empty custom folder view', () => {
     const emptyFolder = {
@@ -100,17 +139,8 @@ describe('Folder Header component', () => {
         .to.not.exist;
     });
 
-    it('must display `Edit Folder Name` and `Remove Folder` buttons', () => {
-      expect(screen.getByTestId('edit-folder-button')).to.exist;
-      expect(screen.getByTestId('remove-folder-button')).to.exist;
-    });
-
-    it('displays `Remove this folder?` modal if threadCount is zero.', async () => {
-      fireEvent.click(screen.getByTestId('remove-folder-button'));
-      expect(screen.getByTestId('remove-this-folder')).to.exist;
-      expect(screen.getByText(`If you remove a folder, you can't get it back.`))
-        .to.exist;
-    });
+    // Note: ManageFolderButtons (Edit/Remove folder) moved to FolderThreadListView
+    // Those buttons are tested in ManageFolderButtons.unit.spec.jsx
   });
 
   describe('Folder Header component displays CUSTOM folder and children components', () => {

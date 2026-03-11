@@ -10,7 +10,11 @@ export {
   SESSION_SELECTED_PAGE_NUMBER,
 } from './session';
 
-export { rxListSortingOptions, defaultSelectedSortOption } from './sorting';
+export {
+  rxListSortingOptions,
+  rxListSortingOptionsV2,
+  defaultSelectedSortOption,
+} from './sorting';
 
 export {
   ALL_MEDICATIONS_FILTER_KEY,
@@ -26,6 +30,7 @@ export {
   STATUS_NOT_AVAILABLE_FILTER_KEY,
   filterOptions,
   filterOptionsV2,
+  getDefaultFilterOption,
 } from './filters';
 
 export {
@@ -35,6 +40,8 @@ export {
   dispStatusForRefillsLeft,
   DISPENSE_STATUS,
 } from './status';
+
+export { IN_PROGRESS_MEDS_DISPLAY_TYPES } from './in-progress';
 
 export {
   pdfStatusDefinitions,

@@ -375,14 +375,18 @@ export function mockFacilitiesApi({
   }/vaos/v2/facilities?children=${children}&${idList
     .map(id => `ids[]=${id}`)
     .join('&')}`;
+  const url = `${baseUrl}&sort_by=recentLocations`;
 
+  // mock both the baseURL and the url with recent locations for testing
   if (responseCode === 200) {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
+    setFetchJSONResponse(global.fetch.withArgs(url), { data });
   } else {
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+    setFetchJSONFailure(global.fetch.withArgs(url), { errors: [] });
   }
 
-  return baseUrl;
+  return url;
 }
 
 /**
