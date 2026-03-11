@@ -17,6 +17,16 @@
  * @param {import('@playwright/test').Page} page
  */
 async function expandAccordions(page) {
+  // Wait for accordion shadow DOM hydration before expanding
+  const accordionItems = page.locator('va-accordion-item');
+  if ((await accordionItems.count()) > 0) {
+    await accordionItems
+      .first()
+      .locator('button')
+      .waitFor({ timeout: 5000 })
+      .catch(() => {});
+  }
+
   await page.evaluate(() => {
     const main = document.querySelector('main');
     if (!main) return;

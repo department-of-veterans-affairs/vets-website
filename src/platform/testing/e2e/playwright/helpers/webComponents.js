@@ -9,6 +9,8 @@
  * no need for the .shadow().find() pattern used in Cypress.
  */
 
+const get = require('lodash/get');
+
 /**
  * Fills a va-text-input web component.
  *
@@ -130,24 +132,36 @@ async function fillVaMemorableDate(
   useMonthSelect = true,
 ) {
   if (dateString === undefined) return;
-  const [year, month, day] = dateString.split('-');
+  const [year, month, day] = dateString
+    .split('-')
+    .map(c => (/^\d+$/.test(c) ? parseInt(c, 10).toString() : c));
 
   const dateLocator = page.locator(`va-memorable-date[name="${name}"]`);
 
   if (useMonthSelect) {
-    const monthSelect = dateLocator.locator('select').first();
-    await monthSelect.selectOption(parseInt(month, 10).toString());
-  } else {
-    const monthInput = dateLocator.locator(
-      'va-text-input.memorable-date-month input',
+    // Month dropdown: va-select.usa-form-group--month-select > select
+    const monthSelect = dateLocator.locator(
+      'va-select.usa-form-group--month-select select',
     );
-    await monthInput.fill(parseInt(month, 10).toString());
+    await monthSelect.selectOption(month);
+  } else {
+    // Month text input: va-text-input.usa-form-group--month-input > input
+    const monthInput = dateLocator.locator(
+      'va-text-input.usa-form-group--month-input input',
+    );
+    await monthInput.fill(month);
   }
 
-  const dayInput = dateLocator.locator(`input[name="${name}Day"]`);
-  await dayInput.fill(parseInt(day, 10).toString());
+  // Day text input
+  const dayInput = dateLocator.locator(
+    'va-text-input.usa-form-group--day-input input',
+  );
+  await dayInput.fill(day);
 
-  const yearInput = dateLocator.locator(`input[name="${name}Year"]`);
+  // Year text input
+  const yearInput = dateLocator.locator(
+    'va-text-input.usa-form-group--year-input input',
+  );
   await yearInput.fill(year);
 }
 
@@ -158,19 +172,32 @@ async function fillVaMemorableDate(
  * @param {string} name - The name attribute
  * @param {string} dateString - Date in YYYY-MM-DD format
  */
-async function fillVaDate(page, name, dateString) {
+async function fillVaDate(page, name, dateString, isMonthYearOnly) {
   if (dateString === undefined) return;
-  const [year, month, day] = dateString.split('-');
+  const [year, month, day] = dateString
+    .split('-')
+    .map(c => (/^\d+$/.test(c) ? parseInt(c, 10).toString() : c));
 
   const dateLocator = page.locator(`va-date[name="${name}"]`);
-  const monthSelect = dateLocator.locator('select.date-month');
-  const daySelect = dateLocator.locator('select.date-day');
-  const yearInput = dateLocator.locator('input.date-year');
 
-  await monthSelect.selectOption(parseInt(month, 10).toString());
-  if (day && day !== 'XX') {
-    await daySelect.selectOption(parseInt(day, 10).toString());
+  // Month — target the va-select.select-month sub-component's native select
+  const monthSelect = dateLocator.locator('va-select.select-month select');
+  await monthSelect.selectOption(month);
+
+  // Determine monthYearOnly
+  let monthYearOnly = isMonthYearOnly;
+  if (monthYearOnly == null) {
+    monthYearOnly =
+      (await dateLocator.getAttribute('month-year-only')) === 'true';
   }
+
+  if (!monthYearOnly && day && day !== 'XX') {
+    const daySelect = dateLocator.locator('va-select.select-day select');
+    await daySelect.selectOption(day);
+  }
+
+  // Year — target the va-text-input.input-year sub-component's native input
+  const yearInput = dateLocator.locator('va-text-input.input-year input');
   await yearInput.fill(year);
 }
 
@@ -246,6 +273,49 @@ async function fillVaFileInput(page, name, filePath) {
   } catch {
     // Upload indicator may not appear — continue anyway
   }
+}
+
+/**
+ * Fills a va-file-input-multiple web component by uploading multiple files.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {string} name - The name attribute
+ * @param {string|string[]} filePaths - Path(s) to the file(s) to upload
+ */
+async function fillVaFileInputMultiple(page, name, filePaths) {
+  const container = page.locator(`va-file-input-multiple[name="${name}"]`);
+  if ((await container.count()) === 0) return;
+
+  const paths = Array.isArray(filePaths) ? filePaths : [filePaths];
+
+  const uploadFile = async index => {
+    if (index >= paths.length) return;
+
+    // Each iteration targets the last va-file-input (the empty "add" slot)
+    const fileInputs = container.locator('va-file-input');
+    const count = await fileInputs.count();
+    const targetSlot = fileInputs.nth(count - 1);
+    const nativeInput = targetSlot.locator('input[type="file"]').first();
+
+    await nativeInput.setInputFiles(paths[index]);
+    await nativeInput.evaluate(el => {
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+
+    // Wait for upload processing before adding next file
+    try {
+      await targetSlot
+        .locator('va-button-icon[button-type="delete"]')
+        .first()
+        .waitFor({ timeout: 5000 });
+    } catch {
+      // Continue anyway
+    }
+
+    await uploadFile(index + 1);
+  };
+
+  await uploadFile(0);
 }
 
 /**
@@ -389,7 +459,7 @@ async function shouldAddArrayItem(page, selector, overrideValue, testData) {
   const arrayPath = await element.getAttribute('data-array-path');
   if (!arrayPath || !testData) return false;
 
-  const arrayData = testData[arrayPath] || [];
+  const arrayData = get(testData, arrayPath, []);
   const arrayLength = Array.isArray(arrayData) ? arrayData.length : 0;
   const cardCount = await page.locator('va-card').count();
   return arrayLength > cardCount;
@@ -561,35 +631,41 @@ async function fillAddressWebComponentPattern(page, fieldName, addressObject) {
   // State field may appear conditionally after country is selected;
   // wait briefly for it to render before attempting to fill.
   if (addressObject.state) {
+    const stateField = `root_${fieldName}_state`;
+
     if (addressObject.isMilitary) {
       // Military addresses render state as va-radio (AA, AE, AP)
-      const stateRadio = page.locator(
-        `va-radio[name="root_${fieldName}_state"]`,
-      );
+      const stateRadio = page.locator(`va-radio[name="${stateField}"]`);
       try {
         await stateRadio.waitFor({ timeout: 3000 });
       } catch {
         // State radio may not exist
       }
       if ((await stateRadio.count()) > 0) {
-        await selectVaRadioOption(
-          page,
-          `root_${fieldName}_state`,
-          addressObject.state,
-        );
+        await selectVaRadioOption(page, stateField, addressObject.state);
       }
     } else {
-      const stateSelector = `va-select[name="root_${fieldName}_state"]`;
+      // Wait for a state field to appear (select or text-input)
+      const stateSelect = page.locator(`va-select[name="${stateField}"]`);
+      const stateTextInput = page.locator(
+        `va-text-input[name="${stateField}"]`,
+      );
       try {
-        await page.locator(stateSelector).waitFor({ timeout: 3000 });
+        await page
+          .locator(
+            `va-select[name="${stateField}"], va-text-input[name="${stateField}"]`,
+          )
+          .first()
+          .waitFor({ timeout: 3000 });
       } catch {
         // State field may not exist for all countries
       }
-      await selectVaSelect(
-        page,
-        `root_${fieldName}_state`,
-        addressObject.state,
-      );
+
+      if ((await stateSelect.count()) > 0) {
+        await selectVaSelect(page, stateField, addressObject.state);
+      } else if ((await stateTextInput.count()) > 0) {
+        await fillVaTextInput(page, stateField, addressObject.state);
+      }
     }
   }
 
@@ -640,7 +716,15 @@ async function enterWebComponentData(page, field) {
       await fillVaTelephoneInput(page, field.key, field.data);
       break;
     case 'VA-MEMORABLE-DATE': {
-      await fillVaMemorableDate(page, field.key, field.data);
+      // Read the month-select attribute from the element to match Cypress
+      const memorableDateEl = page.locator(
+        `va-memorable-date[name="${field.key}"]`,
+      );
+      const monthSelectAttr = await memorableDateEl.getAttribute(
+        'month-select',
+      );
+      const useMonthSelect = monthSelectAttr !== 'false';
+      await fillVaMemorableDate(page, field.key, field.data, useMonthSelect);
       break;
     }
     case 'VA-FILE-INPUT':
@@ -671,6 +755,7 @@ module.exports = {
   fillVaTelephoneInput,
   selectVaComboBox,
   fillVaFileInput,
+  fillVaFileInputMultiple,
   clickVaButtonPairPrimary,
   fillAddressWebComponentPattern,
   enterWebComponentData,

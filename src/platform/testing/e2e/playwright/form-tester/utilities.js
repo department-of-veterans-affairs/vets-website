@@ -26,9 +26,9 @@ const createArrayPageObjects = formConfig => {
     [],
   );
 
-  return (arrayPages || []).map(({ arrayPath, pathStr }) => ({
+  return (arrayPages || []).map(({ arrayPath, path: pagePath }) => ({
     arrayPath,
-    regex: new RegExp(pathStr.replace(':index', '(\\d+)')),
+    regex: new RegExp(pagePath.replace(':index', '(\\d+)')),
   }));
 };
 
@@ -110,7 +110,7 @@ function fieldKeyToDataPath(key) {
   return key
     .replace(/^root_/, '')
     .replace(/_/g, '.')
-    .replace(/\._(\d+)\./g, (_, number) => `[${number}]`);
+    .replace(/\.(\d+)\./g, (_, number) => `[${number}].`);
 }
 
 /**
@@ -147,6 +147,11 @@ async function setupInProgressReturnUrl(
       lastUpdated: Math.floor(Date.now() / 1000),
     },
   ];
+
+  // Mock the user endpoint with in-progress form data
+  await page.route('**/v0/user', route =>
+    route.fulfill({ status: 200, json: userData }),
+  );
 
   // Mock the in-progress form GET endpoint
   await page.route(`**/v0/in_progress_forms/${formId}`, route =>

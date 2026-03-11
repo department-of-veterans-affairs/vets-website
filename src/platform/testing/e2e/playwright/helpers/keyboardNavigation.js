@@ -141,8 +141,39 @@ async function tabToContinueForm(page) {
  * @param {boolean} [forward=true]
  */
 async function tabToGoBack(page, forward = true) {
-  await tabToElement(page, '#1-continueButton, va-button[back]', forward);
+  await tabToElement(
+    page,
+    '#1-continueButton, va-button[back], button.va-backlink',
+    forward,
+  );
   await page.keyboard.press('Enter');
+}
+
+/**
+ * Tabs to the Submit form button on the review & submit page and presses Space.
+ *
+ * @param {import('@playwright/test').Page} page
+ */
+async function tabToSubmitForm(page) {
+  await tabToElement(
+    page,
+    'button[id$="continueButton"].usa-button-primary, va-button:not([secondary])',
+  );
+  await page.keyboard.press('Space');
+}
+
+/**
+ * Tabs to the input associated with the given label text.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {string} text - The label text to search for
+ */
+async function tabToInputWithLabel(page, text) {
+  const label = page.locator('label', { hasText: text });
+  const forAttr = await label.getAttribute('for');
+  if (forAttr) {
+    await tabToElement(page, `#${forAttr}`);
+  }
 }
 
 module.exports = {
@@ -153,4 +184,6 @@ module.exports = {
   tabToStartForm,
   tabToContinueForm,
   tabToGoBack,
+  tabToSubmitForm,
+  tabToInputWithLabel,
 };
