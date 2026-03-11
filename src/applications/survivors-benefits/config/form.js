@@ -74,7 +74,7 @@ import supportingDocuments from './chapters/07-additional-information/supporting
 import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
 import confirmVeteranInfo from './chapters/07-additional-information/confirmVeteranInfo';
 import confirmMilitaryHistory from './chapters/07-additional-information/confirmMilitaryHistory';
-// import ArtifactSummaryReview from '../components/ArtifactSummaryReview';
+import ArtifactSummaryReview from '../components/ArtifactSummaryReview';
 import { hasConflicts } from '../cave/utils/conflictDetection';
 import {
   VETERAN_INFO_FIELDS,
@@ -619,16 +619,17 @@ const formConfig = {
           uiSchema: confirmMilitaryHistory.uiSchema,
           schema: confirmMilitaryHistory.schema,
         },
-        // artifactReview: {
-        //   title: 'Supporting document details',
-        //   path: 'additional-information/artifact-review',
-        //   depends: formData =>
-        //     formData?.['view:idpEnabled'] === true &&
-        //     formData?.files?.some(f => f?.idpArtifacts),
-        //   CustomPageReview: ArtifactSummaryReview,
-        //   uiSchema: {},
-        //   schema: blankSchema,
-        // },
+        artifactReview: {
+          title: 'Review uploaded documents',
+          path: 'additional-information/document-review',
+          depends: formData =>
+            formData?.['view:idpEnabled'] === true &&
+            formData?.files?.some(f => f?.idpArtifacts),
+          CustomPage: ArtifactSummaryReview,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
       },
     },
   },

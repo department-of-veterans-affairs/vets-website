@@ -2,19 +2,20 @@ import { sanitize, formatIsoDate, maskSsn } from './helpers';
 
 export const transformDd214Entry = data => {
   const entry = data || {};
+  const name = entry.VETERAN_NAME || {};
   return [
     {
       heading: "Veteran's information",
       rows: [
-        { label: 'First name', value: sanitize(entry.FIRST_NAME) },
-        { label: 'Middle name', value: sanitize(entry.MIDDLE_NAME) },
-        { label: 'Last name', value: sanitize(entry.LAST_NAME) },
-        { label: 'Suffix', value: sanitize(entry.SUFFIX) },
+        { label: 'First name', value: sanitize(name.first) },
+        { label: 'Middle name', value: sanitize(name.middle) },
+        { label: 'Last name', value: sanitize(name.last) },
+        { label: 'Suffix', value: sanitize(name.suffix) },
         {
           label: 'Social Security number',
-          value: maskSsn(entry.SOCIAL_SECURITY_NUMBER),
+          value: maskSsn(entry.VETERAN_SSN),
         },
-        { label: 'Date of birth', value: formatIsoDate(entry.DATE_OF_BIRTH) },
+        { label: 'Date of birth', value: formatIsoDate(entry.VETERAN_DOB) },
       ],
     },
     {
@@ -36,7 +37,7 @@ export const transformDd214Entry = data => {
         },
         {
           label: 'Date separated active service',
-          value: formatIsoDate(entry.DATE_SEPARATED_ACTIVE_SERVICE),
+          value: formatIsoDate(entry.DATE_SEPARATED_FROM_SERVICE),
         },
         {
           label: 'Cause of separation',

@@ -1,3 +1,13 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+/* Highlight artifact review accordion items that have missing required fields */
+va-accordion-item[data-has-errors="true"] {
+  &::part(accordion-header) {
+    background-color: #{var(--vads-color-error-lighter)};
+  }
+  &::part(accordion-content) {
+    border-color: #{var(--vads-color-error-lighter)};
+  }
+}

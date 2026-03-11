@@ -32,42 +32,26 @@ export const VETERAN_INFO_FIELDS = [
         artifactKey: 'dd214',
         docTypeLabel: 'DD-214',
         getArtifactValue: entry =>
-          entry.FIRST_NAME || entry.LAST_NAME
-            ? {
-                first: entry.FIRST_NAME || '',
-                middle: entry.MIDDLE_NAME || '',
-                last: entry.LAST_NAME || '',
-                suffix: entry.SUFFIX || '',
-              }
+          entry.VETERAN_NAME?.first || entry.VETERAN_NAME?.last
+            ? entry.VETERAN_NAME
             : null,
         formatArtifactValue: val => formatFullName(val || {}),
         setArtifactValue: (entry, canonicalValue) => ({
           ...entry,
-          FIRST_NAME: canonicalValue.first || '',
-          MIDDLE_NAME: canonicalValue.middle || '',
-          LAST_NAME: canonicalValue.last || '',
-          SUFFIX: canonicalValue.suffix || '',
+          VETERAN_NAME: canonicalValue,
         }),
       },
       {
         artifactKey: 'deathCertificates',
         docTypeLabel: 'death certificate',
         getArtifactValue: entry =>
-          entry.FIRST_NAME || entry.LAST_NAME
-            ? {
-                first: entry.FIRST_NAME || '',
-                middle: entry.MIDDLE_NAME || '',
-                last: entry.LAST_NAME || '',
-                suffix: entry.SUFFIX || '',
-              }
+          entry.DECENDENT_FULL_NAME?.first || entry.DECENDENT_FULL_NAME?.last
+            ? entry.DECENDENT_FULL_NAME
             : null,
         formatArtifactValue: val => formatFullName(val || {}),
         setArtifactValue: (entry, canonicalValue) => ({
           ...entry,
-          FIRST_NAME: canonicalValue.first || '',
-          MIDDLE_NAME: canonicalValue.middle || '',
-          LAST_NAME: canonicalValue.last || '',
-          SUFFIX: canonicalValue.suffix || '',
+          DECENDENT_FULL_NAME: canonicalValue,
         }),
       },
     ],
@@ -91,26 +75,23 @@ export const VETERAN_INFO_FIELDS = [
       {
         artifactKey: 'dd214',
         docTypeLabel: 'DD-214',
-        // normalizeSections already produced a bare 9-digit string or null
-        getArtifactValue: entry => entry.SOCIAL_SECURITY_NUMBER || null,
-        // Format bare digits with dashes for display consistency with form
+        getArtifactValue: entry => entry.VETERAN_SSN || null,
         formatArtifactValue: val =>
           maskSsn((val || '').replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3')),
-        // Strip dashes when writing form value (NNN-NN-NNNN) back to artifact
         setArtifactValue: (entry, canonicalValue) => ({
           ...entry,
-          SOCIAL_SECURITY_NUMBER: (canonicalValue || '').replace(/\D/g, ''),
+          VETERAN_SSN: (canonicalValue || '').replace(/\D/g, ''),
         }),
       },
       {
         artifactKey: 'deathCertificates',
         docTypeLabel: 'death certificate',
-        getArtifactValue: entry => entry.SOCIAL_SECURITY_NUMBER || null,
+        getArtifactValue: entry => entry.DECENDENT_SSN || null,
         formatArtifactValue: val =>
           maskSsn((val || '').replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3')),
         setArtifactValue: (entry, canonicalValue) => ({
           ...entry,
-          SOCIAL_SECURITY_NUMBER: (canonicalValue || '').replace(/\D/g, ''),
+          DECENDENT_SSN: (canonicalValue || '').replace(/\D/g, ''),
         }),
       },
     ],
@@ -130,12 +111,11 @@ export const VETERAN_INFO_FIELDS = [
       {
         artifactKey: 'dd214',
         docTypeLabel: 'DD-214',
-        // normalizeSections already converted MM-DD-YYYY → ISO
-        getArtifactValue: entry => entry.DATE_OF_BIRTH || null,
+        getArtifactValue: entry => entry.VETERAN_DOB || null,
         formatArtifactValue: val => formatIsoDate(val),
         setArtifactValue: (entry, canonicalValue) => ({
           ...entry,
-          DATE_OF_BIRTH: canonicalValue,
+          VETERAN_DOB: canonicalValue,
         }),
       },
     ],
@@ -154,11 +134,11 @@ export const VETERAN_INFO_FIELDS = [
       {
         artifactKey: 'deathCertificates',
         docTypeLabel: 'death certificate',
-        getArtifactValue: entry => entry.DATE_OF_DEATH || null,
+        getArtifactValue: entry => entry.DECENDENT_DATE_OF_DEATH || null,
         formatArtifactValue: val => formatIsoDate(val),
         setArtifactValue: (entry, canonicalValue) => ({
           ...entry,
-          DATE_OF_DEATH: canonicalValue,
+          DECENDENT_DATE_OF_DEATH: canonicalValue,
         }),
       },
     ],
@@ -235,11 +215,11 @@ export const MILITARY_HISTORY_FIELDS = [
       {
         artifactKey: 'dd214',
         docTypeLabel: 'DD-214',
-        getArtifactValue: entry => entry.DATE_SEPARATED_ACTIVE_SERVICE || null,
+        getArtifactValue: entry => entry.DATE_SEPARATED_FROM_SERVICE || null,
         formatArtifactValue: val => formatIsoDate(val),
         setArtifactValue: (entry, canonicalValue) => ({
           ...entry,
-          DATE_SEPARATED_ACTIVE_SERVICE: canonicalValue,
+          DATE_SEPARATED_FROM_SERVICE: canonicalValue,
         }),
       },
     ],
