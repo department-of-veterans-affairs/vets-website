@@ -12,6 +12,8 @@ const ERR_FUTURE_DATE = content['validation--date-range--future'];
 const ERR_SSN_UNIQUE = content['validation--ssn-unique'];
 const ERR_SSN_INVALID = content['validation--ssn-invalid'];
 
+const STATE_REQUIRED_COUNTRIES = new Set(['USA', 'CAN', 'MEX']);
+
 const normalizeSSN = val => String(val ?? '').replace(/\D/g, '');
 
 const getCurrentItemIndex = () => {
@@ -396,16 +398,20 @@ const validateApplicantBasicFields = item => {
     applicantSsn,
     applicantGender: { gender } = {},
     applicantPhone,
-    applicantAddress: { street, city, state } = {},
+    applicantAddress: { country, street, city, state } = {},
     applicantRelationshipToSponsor,
   } = item ?? {};
+
+  const normalizedCountry = String(country ?? '').toUpperCase();
+  const isStateRequired =
+    !normalizedCountry || STATE_REQUIRED_COUNTRIES.has(normalizedCountry);
 
   if (!applicantName?.first || !applicantName?.last) return true;
   if (!applicantDob) return true;
   if (!applicantSsn) return true;
   if (!gender) return true;
   if (!applicantPhone) return true;
-  if (!street || !city || !state) return true;
+  if (!street || !city || (isStateRequired && !state)) return true;
   return !applicantRelationshipToSponsor?.relationshipToVeteran;
 };
 
