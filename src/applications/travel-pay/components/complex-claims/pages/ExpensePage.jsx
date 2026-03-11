@@ -62,6 +62,7 @@ import ExpenseAirTravelFields from './ExpenseAirTravelFields';
 import ExpenseLodgingFields from './ExpenseLodgingFields';
 import ExpenseCommonCarrierFields from './ExpenseCommonCarrierFields';
 import CancelExpenseModal from './CancelExpenseModal';
+import { formatAmount } from '../../../util/complex-claims-helper';
 
 export const toBase64 = file =>
   new Promise((resolve, reject) => {
@@ -74,17 +75,6 @@ export const toBase64 = file =>
     };
     reader.onerror = reject;
   });
-
-const formatCostRequestedForInput = amount => {
-  if (amount === null || amount === undefined || amount === '') {
-    return '';
-  }
-
-  const strAmount = amount.toString().trim();
-  const parsedAmount = Number(strAmount);
-
-  return Number.isNaN(parsedAmount) ? strAmount : parsedAmount.toFixed(2);
-};
 
 const ExpensePage = () => {
   // Router hooks
@@ -192,9 +182,10 @@ const ExpensePage = () => {
           let initialState = {
             ...fetchedExpense,
             purchaseDate: normalizeDate(fetchedExpense.dateIncurred) || '',
-            costRequested: formatCostRequestedForInput(
-              fetchedExpense.costRequested,
-            ),
+            costRequested:
+              fetchedExpense.costRequested != null
+                ? formatAmount(fetchedExpense.costRequested)
+                : '',
           };
 
           // Normalize date fields for expense types that use them
