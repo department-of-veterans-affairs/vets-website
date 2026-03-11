@@ -209,6 +209,8 @@ jobs:
       changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
       tests_ran: ${{ steps.tests-ran.outputs.tests_ran }}
       e2e_count: ${{ steps.e2e-count.outputs.count }}
+      playwright_tests: ${{ steps.playwright-tests.outputs.selected }}
+      playwright_count: ${{ steps.playwright-count.outputs.count }}
       changed_unit_tests: ${{ steps.unit-tests-changed.outputs.changed_unit_tests }}
 
     steps:
@@ -338,6 +340,22 @@ jobs:
         id: e2e-count
         run: |
           COUNT=$(node -e "console.log(require('./e2e_tests_to_test.json').length)")
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
+
+      - name: Set output of PLAYWRIGHT_TESTS
+        id: playwright-tests
+        run: echo selected=$PLAYWRIGHT_TESTS >> $GITHUB_OUTPUT
+
+      - name: Upload artifact of Playwright Tests to Test
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: playwright-tests-to-test
+          path: playwright_tests_to_test.json
+
+      - name: Count Playwright specs
+        id: playwright-count
+        run: |
+          COUNT=$(node -e "console.log(require('./playwright_tests_to_test.json').length)")
           echo "count=$COUNT" >> $GITHUB_OUTPUT
 
       - name: Set output of CYPRESS_TESTS_TO_STRESS_TEST
@@ -775,7 +793,7 @@ jobs:
       # The following statement is included in each step because of a bug in
       # GitHub's branch protection:
       #
-      # if: needs.tests-prep.outputs.cypress-tests != '[]'
+      # if: needs.tests-prep.outputs.cypress-tests == 'true'
       #
       # Previously, if no tests were selected, the branch protection check that
       # requires the cypress-tests job to run was not satisfied. This update forces
@@ -783,52 +801,52 @@ jobs:
       # Previously, the above conditional was included in the job's if statement.
 
       - name: Checkout vets-website
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Configure AWS credentials
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/configure-aws-credentials
         with:
           aws_region: us-gov-west-1
           role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/configure-bigquery
 
       - name: Fetch E2E Test Stability Allow List
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: e2e
 
       - name: Download production build artifact
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.zst
 
       - name: Unpack build
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         run: |
           mkdir -p build/vagovprod
           tar -C build/vagovprod --zstd -xf vagovprod.tar.zst
 
       - name: Install dependencies
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/install
         timeout-minutes: 20
         with:
@@ -841,21 +859,21 @@ jobs:
             node_modules
 
       - name: Download Tests to run
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         uses: ./.github/workflows/download-artifact
         with:
           name: e2e-tests-to-test
           path: .
 
       - name: Check for newly added disallowed tests
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         run: node script/github-actions/double-check-allow-list.js
         env:
           TEST_TYPE: e2e
           TEST_PROPERTY: 'TESTS'
 
       - name: Run Cypress tests
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -896,21 +914,21 @@ jobs:
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
 
       - name: Archive test videos
-        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
+        if: ${{ needs.tests-prep.outputs.cypress-tests == 'true' && failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-video-artifacts-${{ matrix.ci_node_index }}
           path: cypress/videos
 
       - name: Archive test screenshots
-        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
+        if: ${{ needs.tests-prep.outputs.cypress-tests == 'true' && failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-screenshot-artifacts-${{ matrix.ci_node_index }}
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
-        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && always() }}
+        if: ${{ needs.tests-prep.outputs.cypress-tests == 'true' && always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-mochawesome-test-results-${{ matrix.ci_node_index }}
@@ -950,13 +968,15 @@ jobs:
           restore-keys: |
             playwright-durations-
 
+      - name: Download Playwright test list
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: playwright-tests-to-test
+          path: .
+
       - name: Compute shards
         id: shard
         run: node script/github-actions/playwright-shard-tests.js
-        env:
-          CHANGED_FILE_PATHS: ${{ needs.tests-prep.outputs.changed_file_paths }}
-          RUN_FULL_SUITE: ${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}
-          IS_MAIN_BUILD: ${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}
 
       - name: Upload shard assignments
         if: steps.shard.outputs.has_tests == 'true'
@@ -1697,7 +1717,7 @@ jobs:
       checks: write
       id-token: write
       contents: read
-    if: ${{ always() && needs.tests-prep.outputs.tests != '[]' && needs.tests-prep.outputs.cypress-tests != '' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    if: ${{ always() && needs.tests-prep.outputs.cypress-tests == 'true' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true

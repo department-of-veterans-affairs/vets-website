@@ -26,17 +26,22 @@ const ALLOW_LIST =
       )
     : [];
 
-function allTests() {
-  const pattern = path.join(__dirname, '../..', specPattern);
+const ROOT_DIR = path.resolve(__dirname, '../..');
+const SRC_DIR = path.join(ROOT_DIR, 'src');
+
+// --- Cypress test discovery ---
+
+function allCypressTests() {
+  const pattern = path.join(ROOT_DIR, specPattern);
   return glob.sync(pattern);
 }
 
-function selectTests(pathsOfChangedFiles) {
+function selectCypressTests(pathsOfChangedFiles) {
   const tests = [];
 
   // When RUN_FULL_SUITE is true, select all tests regardless of changed files
   if (RUN_FULL_SUITE) {
-    tests.push(...allTests());
+    tests.push(...allCypressTests());
     return tests;
   }
 
@@ -50,8 +55,7 @@ function selectTests(pathsOfChangedFiles) {
     );
     [...new Set(applicationNames)].forEach(app => {
       const selectedTestsPattern = path.join(
-        __dirname,
-        '../..',
+        ROOT_DIR,
         'src/applications',
         `${app}/**/tests/**/*.cypress.spec.js?(x)`,
       );
@@ -66,8 +70,7 @@ function selectTests(pathsOfChangedFiles) {
       'src/platform/forms-system/src/js/patterns/array-builder';
     if (filteredChangedFiles.some(p => p.includes(ARRAY_BUILDER))) {
       const neededSimpleFormsPattern = path.join(
-        __dirname,
-        '../..',
+        ROOT_DIR,
         'src/applications/simple-forms/mock-simple-forms-patterns',
         '**/tests/**/*.cypress.spec.js?(x)',
       );
@@ -76,8 +79,7 @@ function selectTests(pathsOfChangedFiles) {
 
     if (IS_CHANGED_APPS_BUILD) {
       const megaMenuTestPath = path.join(
-        __dirname,
-        '../..',
+        ROOT_DIR,
         'src/platform/site-wide/mega-menu/tests/megaMenu.cypress.spec.js',
       );
 
@@ -86,8 +88,7 @@ function selectTests(pathsOfChangedFiles) {
         tests.push(megaMenuTestPath);
     } else {
       const defaultTestsPattern = path.join(
-        __dirname,
-        '../..',
+        ROOT_DIR,
         'src/platform',
         '**/tests/**/*.cypress.spec.js?(x)',
       );
@@ -98,7 +99,106 @@ function selectTests(pathsOfChangedFiles) {
   return tests;
 }
 
-function exportVariables(tests) {
+// --- Playwright test discovery ---
+
+function findPlaywrightFiles(dir) {
+  const results = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === 'node_modules') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      results.push(...findPlaywrightFiles(full));
+    } else if (entry.name.endsWith('.playwright.spec.js')) {
+      results.push(path.relative(ROOT_DIR, full));
+    }
+  }
+  return results;
+}
+
+function selectPlaywrightTests(pathsOfChangedFiles) {
+  const allFiles = findPlaywrightFiles(SRC_DIR);
+
+  if (RUN_FULL_SUITE) {
+    return allFiles;
+  }
+
+  if (pathsOfChangedFiles.length === 0) {
+    return [];
+  }
+
+  const filteredChangedFiles = pathsOfChangedFiles.filter(
+    filePath =>
+      !filePath.endsWith('.md') && !filePath.startsWith('.github/workflows'),
+  );
+
+  if (filteredChangedFiles.length === 0) {
+    return [];
+  }
+
+  // Playwright infrastructure or config changes → run all PW specs
+  if (
+    filteredChangedFiles.some(
+      f =>
+        f.startsWith('src/platform/testing/e2e/playwright') ||
+        f.includes('playwright.config'),
+    )
+  ) {
+    console.log(
+      'Playwright infrastructure/config changed, running all Playwright tests.',
+    );
+    return allFiles;
+  }
+
+  const selected = new Set();
+
+  // App-specific specs
+  const changedApps = new Set();
+  for (const filePath of filteredChangedFiles) {
+    if (filePath.startsWith('src/applications/')) {
+      changedApps.add(filePath.split('/')[2]);
+    }
+  }
+
+  for (const app of changedApps) {
+    const appDir = path.join(SRC_DIR, 'applications', app);
+    if (fs.existsSync(appDir)) {
+      for (const f of findPlaywrightFiles(appDir)) {
+        selected.add(f);
+      }
+    }
+  }
+
+  // Platform changes → run platform PW specs
+  const platformChanged = filteredChangedFiles.some(
+    f =>
+      f.startsWith('src/platform/') &&
+      !f.startsWith('src/platform/testing/e2e/playwright'),
+  );
+  if (platformChanged) {
+    for (const testFile of allFiles) {
+      if (testFile.startsWith('src/platform/')) {
+        selected.add(testFile);
+      }
+    }
+  }
+
+  console.log(
+    `Playwright: Changed apps: ${[...changedApps].join(', ') || '(none)'}`,
+  );
+  console.log(`Playwright: Platform changed: ${platformChanged}`);
+  console.log(
+    `Playwright: Selected ${selected.size} of ${allFiles.length} specs.`,
+  );
+
+  return [...selected];
+}
+
+// --- Export functions ---
+
+function exportCypressVariables(tests) {
   const numTests = tests.length;
 
   if (numTests <= 30) {
@@ -108,80 +208,101 @@ function exportVariables(tests) {
     core.exportVariable('NUM_CONTAINERS', 7);
     core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6]);
   }
-  core.exportVariable('TESTS', 'true');
-  fs.writeFileSync(`e2e_tests_to_test.json`, JSON.stringify(tests));
+  core.exportVariable('TESTS', numTests > 0 ? 'true' : 'false');
+  fs.writeFileSync('e2e_tests_to_test.json', JSON.stringify(tests));
 }
 
-function main() {
-  const allAllowListSpecs = ALLOW_LIST.map(spec => spec.spec_path);
+function exportPlaywrightVariables(tests) {
+  core.exportVariable('PLAYWRIGHT_TESTS', tests.length > 0 ? 'true' : 'false');
+  fs.writeFileSync('playwright_tests_to_test.json', JSON.stringify(tests));
+  console.log(`Playwright tests selected: ${tests.length}`);
+}
 
-  const allDisallowedTestPaths = ALLOW_LIST.filter(
-    spec => spec.allowed === false,
-  ).map(spec => spec.spec_path);
+// --- Main ---
 
-  const testsSelectedByTestSelection = selectTests(CHANGED_FILE_PATHS);
+function main(selectedCypressTests) {
+  let testsToRunNormally = selectedCypressTests;
 
-  const disallowedTests = testsSelectedByTestSelection.filter(test =>
-    allDisallowedTestPaths.includes(test.substring(test.indexOf('src/'))),
-  );
+  if (ALLOW_LIST.length > 0) {
+    const allAllowListSpecs = ALLOW_LIST.map(spec => spec.spec_path);
 
-  const testsToRunNormally = testsSelectedByTestSelection.filter(
-    test => !disallowedTests.includes(test),
-  );
+    const allDisallowedTestPaths = ALLOW_LIST.filter(
+      spec => spec.allowed === false,
+    ).map(spec => spec.spec_path);
 
-  const changedAppsForStressTest = CHANGED_FILE_PATHS
-    ? CHANGED_FILE_PATHS.map(
+    const disallowedTests = selectedCypressTests.filter(test =>
+      allDisallowedTestPaths.includes(test.substring(test.indexOf('src/'))),
+    );
+
+    testsToRunNormally = selectedCypressTests.filter(
+      test => !disallowedTests.includes(test),
+    );
+
+    const changedAppsForStressTest = CHANGED_FILE_PATHS
+      ? CHANGED_FILE_PATHS.map(
+          filePath =>
+            filePath.startsWith('src/applications')
+              ? filePath
+                  .split('/')
+                  .slice(0, 3)
+                  .join('/')
+              : `${filePath
+                  .split('/')
+                  .slice(0, 3)
+                  .join('/')}/`,
+        )
+      : [];
+
+    console.log('Changed Apps For Stress Test: ', changedAppsForStressTest);
+    const existingTestsToStressTest = allAllowListSpecs.filter(specPath =>
+      changedAppsForStressTest.some(
         filePath =>
-          filePath.startsWith('src/applications')
-            ? filePath
-                .split('/')
-                .slice(0, 3)
-                .join('/')
-            : `${filePath
-                .split('/')
-                .slice(0, 3)
-                .join('/')}/`,
-      )
-    : [];
+          (!filePath.startsWith('src/applications') &&
+            specPath.includes(filePath)) ||
+          specPath.includes(`${filePath}/`),
+      ),
+    );
 
-  console.log('Changed Apps For Stress Test: ', changedAppsForStressTest);
-  const existingTestsToStressTest = allAllowListSpecs.filter(specPath =>
-    changedAppsForStressTest.some(
+    const newTestsToStressTest = CHANGED_FILE_PATHS.filter(
       filePath =>
-        (!filePath.startsWith('src/applications') &&
-          specPath.includes(filePath)) ||
-        specPath.includes(`${filePath}/`),
-    ),
-  );
-
-  const newTestsToStressTest = CHANGED_FILE_PATHS.filter(
-    filePath =>
-      filePath.includes('.cypress.spec.js') &&
-      allAllowListSpecs.indexOf(path) === -1,
-  );
-
-  const testsToStressTest = existingTestsToStressTest
-    .concat(newTestsToStressTest)
-    .filter(testSpec => fs.existsSync(testSpec));
-
-  exportVariables(testsToRunNormally);
-
-  if (RUN_FULL_SUITE) {
-    core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'true');
-    fs.writeFileSync(
-      `e2e_tests_to_stress_test.json`,
-      JSON.stringify(allAllowListSpecs),
+        filePath.includes('.cypress.spec.js') &&
+        allAllowListSpecs.indexOf(path) === -1,
     );
-  } else if (testsToStressTest.length > 0) {
-    core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'true');
-    fs.writeFileSync(
-      `e2e_tests_to_stress_test.json`,
-      JSON.stringify(testsToStressTest),
-    );
-  } else {
-    core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'false');
+
+    const testsToStressTest = existingTestsToStressTest
+      .concat(newTestsToStressTest)
+      .filter(testSpec => fs.existsSync(testSpec));
+
+    if (RUN_FULL_SUITE) {
+      core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'true');
+      fs.writeFileSync(
+        'e2e_tests_to_stress_test.json',
+        JSON.stringify(allAllowListSpecs),
+      );
+    } else if (testsToStressTest.length > 0) {
+      core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'true');
+      fs.writeFileSync(
+        'e2e_tests_to_stress_test.json',
+        JSON.stringify(testsToStressTest),
+      );
+    } else {
+      core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'false');
+    }
   }
+
+  exportCypressVariables(testsToRunNormally);
 }
+
+// Always select tests for both technologies
+const selectedCypressTests = selectCypressTests(CHANGED_FILE_PATHS);
+const selectedPlaywrightTests = selectPlaywrightTests(CHANGED_FILE_PATHS);
+
+// Always export Playwright variables
+exportPlaywrightVariables(selectedPlaywrightTests);
+
+// Apply allow list filtering (Cypress only) when available
 if (RUN_FULL_SUITE || ALLOW_LIST.length > 0) {
-  main();
+  main(selectedCypressTests);
+} else {
+  exportCypressVariables(selectedCypressTests);
 }
