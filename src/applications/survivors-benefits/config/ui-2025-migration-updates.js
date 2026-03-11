@@ -128,21 +128,22 @@ const MonthlyIncomeRecipientField = props => {
   );
   const show2025 = !isLoading && !!is2025Enabled;
 
-  if (show2025) {
-    return VaRadioField({
-      ...props,
-      uiOptions: {
-        ...props.uiOptions,
-        labels: incomeRecipientTypeLabels2025,
-      },
-    });
-  }
+  const labels = show2025
+    ? incomeRecipientTypeLabels2025
+    : incomeRecipientTypeLabels;
 
   return VaRadioField({
     ...props,
+    childrenProps: {
+      ...props.childrenProps,
+      schema: {
+        ...props.childrenProps.schema,
+        enum: Object.keys(labels),
+      },
+    },
     uiOptions: {
       ...props.uiOptions,
-      labels: incomeRecipientTypeLabels,
+      labels,
     },
   });
 };
