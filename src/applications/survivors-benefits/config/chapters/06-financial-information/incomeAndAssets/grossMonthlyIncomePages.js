@@ -96,13 +96,21 @@ export const options = {
   },
 };
 
+const SKIP_INCOME_VALUES = ['NO_INCOME', 'MORE_THAN_FIVE_SOURCES'];
+
+const isGrossMonthlyIncomeSkipped = formData =>
+  !!formData?.survivorsBenefitsForm2025VersionEnabled &&
+  SKIP_INCOME_VALUES.includes(formData?.moreThanFourIncomeSources);
+
 export const grossMonthlyIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
     grossMonthlyIncome: pageBuilder.introPage({
       title: 'Gross monthly income',
       path: 'financial-information/gross-monthly-income',
-      depends: formData => formData?.claims?.survivorsPension === true,
+      depends: formData =>
+        formData?.claims?.survivorsPension === true &&
+        !isGrossMonthlyIncomeSkipped(formData),
       uiSchema: {
         ...titleUI('Gross monthly income', grossDescription),
         'ui:description': whatWeConsiderIncome,
@@ -115,7 +123,9 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
     addIncomeSource: pageBuilder.summaryPage({
       title: 'Add income source',
       path: 'financial-information/add-income-source',
-      depends: formData => formData?.claims?.survivorsPension === true,
+      depends: formData =>
+        formData?.claims?.survivorsPension === true &&
+        !isGrossMonthlyIncomeSkipped(formData),
       uiSchema: {
         ...titleUI('Add an income source'),
         'view:hasMonthlyIncomeSource': arrayBuilderYesNoUI(
@@ -201,7 +211,9 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
       return pageBuilder.itemPage({
         title: 'Gross monthly income details',
         path: 'financial-information/:index/monthly-income-details',
-        depends: formData => formData?.claims?.survivorsPension === true,
+        depends: formData =>
+          formData?.claims?.survivorsPension === true &&
+          !isGrossMonthlyIncomeSkipped(formData),
         uiSchema,
         schema,
       });
