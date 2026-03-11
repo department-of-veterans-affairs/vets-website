@@ -56,7 +56,7 @@ describe('Medication card component', () => {
 
   const setup = (rx = prescriptionsListItem, initialState = {}) => {
     return renderWithStoreAndRouterV6(<MedicationsListCard rx={rx} />, {
-      state: initialState,
+      initialState,
       reducers,
     });
   };
@@ -143,6 +143,48 @@ describe('Medication card component', () => {
     expect(getByTestId('rx-refill-remaining')).to.have.text(
       'Refills remaining: 3',
     );
+  });
+
+  describe('when mhvMedicationsManagementImprovements flag is enabled', () => {
+    const managementImprovementsState = {
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements]: true,
+      },
+    };
+
+    it('shows "Refills left" instead of "Refills remaining"', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        isRefillable: true,
+        dispStatus: 'Active',
+        refillRemaining: 3,
+      };
+      const { getByTestId } = setup(rx, managementImprovementsState);
+      expect(getByTestId('rx-refill-remaining')).to.have.text(
+        'Refills left: 3',
+      );
+    });
+
+    it('hides prescription number', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        isRefillable: true,
+        dispStatus: 'Active',
+        prescriptionNumber: '12345',
+      };
+      const { queryByTestId } = setup(rx, managementImprovementsState);
+      expect(queryByTestId('rx-number')).to.be.null;
+    });
+
+    it('hides status label', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        isRefillable: true,
+        dispStatus: 'Active',
+      };
+      const { queryByTestId } = setup(rx, managementImprovementsState);
+      expect(queryByTestId('rxStatus')).to.be.null;
+    });
   });
 
   it('Does not show number of refills when it is not refillable', () => {

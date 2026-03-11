@@ -10,7 +10,7 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import { useFetchMedicationHistory } from '../hooks/MedicationHistory/useFetchMedicationHistory';
-import { pageType } from '../util/dataDogConstants';
+import { pageType, dataDogActionNames } from '../util/dataDogConstants';
 import {
   rxListSortingOptions,
   rxListSortingOptionsV2,
@@ -278,9 +278,26 @@ const MedicationHistory = () => {
   return (
     <div>
       <h1 data-testid="medication-history-heading">Medication history</h1>
-      <Link to="/in-progress">Go to your in-progress medications</Link>
+      <Link
+        data-testid="in-progress-link"
+        to="/in-progress"
+        data-dd-action-name={
+          dataDogActionNames.medicationsHistoryPage
+            .GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK
+        }
+      >
+        Go to your in-progress medications
+      </Link>
       <span className="vads-u-margin-x--1">|</span>
-      <Link to="/refill">Refill medications</Link>
+      <Link
+        data-testid="refill-link"
+        to="/"
+        data-dd-action-name={
+          dataDogActionNames.medicationsHistoryPage.REFILL_MEDICATIONS_LINK
+        }
+      >
+        Refill medications
+      </Link>
       {renderContent()}
       <NeedHelp page={pageType.HISTORY} headingLevel={2} />
     </div>

@@ -8,6 +8,7 @@ import {
   resetFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { datadogRum } from '@datadog/browser-rum';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { prescriptionsApi } from '../../../api/prescriptionsApi';
 import reducer from '../../../reducers';
 import RefillButton from '../../../components/shared/RefillButton';
@@ -153,6 +154,23 @@ describe('Refill Button component', () => {
       const screen = setup({ refillSubmitDate: 'invalid-date' });
       const button = screen.getByTestId('refill-request-button');
       expect(button).to.exist;
+    });
+  });
+
+  describe('when mhvMedicationsManagementImprovements flag is enabled', () => {
+    it('renders "Request refill"', () => {
+      const screen = renderWithStoreAndRouterV6(<RefillButton {...rx} />, {
+        initialState: {
+          featureToggles: {
+            [FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements]: true,
+          },
+        },
+        reducers: reducer,
+        initialEntries: ['/1234567890'],
+        additionalMiddlewares: [prescriptionsApi.middleware],
+      });
+      const button = screen.getByTestId('refill-request-button');
+      expect(button).to.have.property('text', 'Request refill');
     });
   });
 });

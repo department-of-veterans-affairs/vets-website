@@ -204,7 +204,7 @@ describe('MedicationHistory container', () => {
         name: /Refill medications/i,
       });
       expect(link).to.exist;
-      expect(link.getAttribute('href')).to.equal('/refill');
+      expect(link.getAttribute('href')).to.equal('/');
     });
   });
 

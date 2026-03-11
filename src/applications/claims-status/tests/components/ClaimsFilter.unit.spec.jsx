@@ -19,9 +19,9 @@ describe('<ClaimsFilter>', () => {
   });
 
   [
-    { selected: 'all', expectedIndex: '0' },
-    { selected: 'active', expectedIndex: '1' },
-    { selected: 'closed', expectedIndex: '2' },
+    { selected: 'in progress', expectedIndex: '0' },
+    { selected: 'closed', expectedIndex: '1' },
+    { selected: 'all', expectedIndex: '2' },
   ].forEach(({ selected, expectedIndex }) => {
     it(`should set selected index to ${expectedIndex} when "${selected}" is selected`, () => {
       const { container } = render(
@@ -59,7 +59,7 @@ describe('<ClaimsFilter>', () => {
 
     // This should not throw an error
     const event = new CustomEvent('vaButtonClick', {
-      detail: { value: 'active' },
+      detail: { value: 'in progress' },
       bubbles: true,
     });
 
