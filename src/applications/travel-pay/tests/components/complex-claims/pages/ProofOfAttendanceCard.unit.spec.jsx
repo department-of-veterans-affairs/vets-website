@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import ProofOfAttendanceCard from '../../../../components/complex-claims/pages/ProofOfAttendanceCard';
-import { PROOF_OF_ATTENDANCE_FILENAME } from '../../../../constants';
 
 describe('ProofOfAttendanceCard', () => {
   const renderCard = (props = {}) => {
