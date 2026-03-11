@@ -113,10 +113,167 @@ function fieldKeyToDataPath(key) {
     .replace(/\._(\d+)\./g, (_, number) => `[${number}]`);
 }
 
+/**
+ * Sets up an in-progress form return URL by mocking user and SIP endpoints.
+ * Playwright equivalent of the Cypress setupInProgressReturnUrl.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {Object} options
+ * @param {Object} options.formConfig - Form config with formId and version
+ * @param {string} [options.returnUrl=''] - URL to return to
+ * @param {Object} [options.prefill={}] - Prefilled form data
+ * @param {Object} [options.user] - User data to merge inProgressForms into
+ * @param {Function} [options.loginFn] - Login function (defaults to helpers/login.login)
+ */
+async function setupInProgressReturnUrl(
+  page,
+  { formConfig = {}, returnUrl = '', prefill = {}, user = {}, loginFn } = {},
+) {
+  const { formId, version } = formConfig;
+  if (!formId) {
+    throw new Error('formId is required to set up in-progress return URL');
+  }
+
+  const sipResponse = inProgressMock({ prefill, returnUrl, version });
+
+  // Add in-progress form to user data
+  const userData = JSON.parse(JSON.stringify(user));
+  if (!userData.data) userData.data = {};
+  if (!userData.data.attributes) userData.data.attributes = {};
+  userData.data.attributes.inProgressForms = [
+    {
+      form: formId,
+      metadata: sipResponse.metadata,
+      lastUpdated: Math.floor(Date.now() / 1000),
+    },
+  ];
+
+  // Mock the in-progress form GET endpoint
+  await page.route(`**/v0/in_progress_forms/${formId}`, route =>
+    route.fulfill({ status: 200, json: sipResponse }),
+  );
+
+  // Login with the modified user data
+  if (loginFn) {
+    await loginFn(page, userData);
+  } else {
+    // eslint-disable-next-line global-require
+    const { login } = require('../helpers/login');
+    await login(page, userData);
+  }
+}
+
+/**
+ * Create a minimal 1x1 PNG file buffer for testing file inputs.
+ * @returns {Buffer}
+ */
+function makeMinimalPNG() {
+  return Buffer.from(
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB' +
+      '/PMh2bQAAAAASUVORK5CYII=',
+    'base64',
+  );
+}
+
+/**
+ * Create a minimal 1x1 JPG file buffer for testing file inputs.
+ * @returns {Buffer}
+ */
+function makeMinimalJPG() {
+  return Buffer.from(
+    '/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8U' +
+      'HRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgN' +
+      'DRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy' +
+      'MjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAA/8QALRABAA' +
+      'IBAQEAAAAAAAAAAAAAAAERITH/2gAMAwEAAhEDEQA/AKgA/9k=',
+    'base64',
+  );
+}
+
+/**
+ * Create a minimal PDF file buffer for testing file inputs.
+ * @returns {Buffer}
+ */
+function makeMinimalPDF() {
+  return Buffer.from(
+    'JVBERi0xLjAKMSAwIG9iajw8L1R5cGUvQ2F0YWxvZy9QYWdlcyAyIDAgUj4+ZW5kb2Jq' +
+      'IDIgMCBvYmo8PC9UeXBlL1BhZ2VzL0tpZHNbMyAwIFJdL0NvdW50IDE+PmVuZG9iaiAz' +
+      'IDAgb2JqPDwvVHlwZS9QYWdlL01lZGlhQm94WzAgMCAzIDNdL1BhcmVudCAyIDAgUj4+' +
+      'ZW5kb2JqCnhyZWYKMCA0CjAwMDAwMDAwMDAgNjU1MzUgZgowMDAwMDAwMDA5IDAwMDAw' +
+      'IG4KMDAwMDAwMDA1MiAwMDAwMCBuCjAwMDAwMDAxMDEgMDAwMDAgbgp0cmFpbGVyPDwv' +
+      'U2l6ZSA0L1Jvb3QgMSAwIFI+PgpzdGFydHhyZWYKMTUwCiUlRU9G',
+    'base64',
+  );
+}
+
+/**
+ * Create a minimal encrypted PDF buffer for testing encrypted PDF rejection.
+ * @returns {Buffer}
+ */
+function makeEncryptedPDF() {
+  return Buffer.from(
+    'JVBERi0xLjQKMSAwIG9iajw8L1R5cGUvQ2F0YWxvZy9QYWdlcyAyIDAgUj4+ZW5kb2Jq' +
+      'IDIgMCBvYmo8PC9UeXBlL1BhZ2VzL0tpZHNbMyAwIFJdL0NvdW50IDE+PmVuZG9iaiAz' +
+      'IDAgb2JqPDwvVHlwZS9QYWdlL01lZGlhQm94WzAgMCAzIDNdL1BhcmVudCAyIDAgUj4+' +
+      'ZW5kb2JqIDQgMCBvYmo8PC9FbmNyeXB0PDwvRmlsdGVyL1N0YW5kYXJkL1YgMS9SPDE+' +
+      'Pj4+ZW5kb2JqCnhyZWYKMCA1CjAwMDAwMDAwMDAgNjU1MzUgZgowMDAwMDAwMDA5IDAw' +
+      'MDAwIG4KMDAwMDAwMDA1MiAwMDAwMCBuCjAwMDAwMDAxMDEgMDAwMDAgbgowMDAwMDAw' +
+      'MTU4IDAwMDAwIG4KdHJhaWxlcjw8L1NpemUgNS9Sb290IDEgMCBSL0VuY3J5cHQgNCAw' +
+      'IFI+PgpzdGFydHhyZWYKMjI4CiUlRU9G',
+    'base64',
+  );
+}
+
+/**
+ * Create a minimal text file buffer for testing file inputs.
+ * @param {number} [bytes=10] - Number of bytes
+ * @returns {Buffer}
+ */
+function makeMinimalTxtFile(bytes = 10) {
+  return Buffer.from('a'.repeat(bytes));
+}
+
+/**
+ * Create a file buffer with invalid UTF-8 encoding for testing.
+ * @returns {Buffer}
+ */
+function makeInvalidUtf8File() {
+  return Buffer.from([
+    0xff,
+    0xfe,
+    0xfd,
+    0x80,
+    0x81,
+    0x82,
+    0xc0,
+    0x80,
+    0xf5,
+    0x80,
+    0x80,
+    0x80,
+  ]);
+}
+
+/**
+ * Create a file with an unacceptable mimetype for testing.
+ * @returns {Buffer}
+ */
+function makeNotAcceptedFile() {
+  return Buffer.from('test');
+}
+
 module.exports = {
   createArrayPageObjects,
   createTestConfig,
   inProgressMock,
   resolvePageHooks,
   fieldKeyToDataPath,
+  setupInProgressReturnUrl,
+  makeMinimalPNG,
+  makeMinimalJPG,
+  makeMinimalPDF,
+  makeEncryptedPDF,
+  makeMinimalTxtFile,
+  makeInvalidUtf8File,
+  makeNotAcceptedFile,
 };

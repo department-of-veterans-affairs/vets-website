@@ -264,6 +264,246 @@ async function clickVaButtonPairPrimary(page, name) {
 }
 
 /**
+ * Clicks the secondary (back) button in a va-button-pair.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {string} [name] - Optional name attribute to scope the selector
+ */
+async function clickVaButtonPairSecondary(page, name) {
+  const selector = `va-button-pair${name ? `[name="${name}"]` : ''}`;
+  const secondaryButton = page
+    .locator(selector)
+    .locator('va-button[secondary], va-button[back]')
+    .first();
+  await secondaryButton.click();
+}
+
+/**
+ * Fills a va-statement-of-truth web component.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {Object} options
+ * @param {string} [options.field] - Optional name attribute to scope the selector
+ * @param {string} [options.fullName] - Name to enter in the text input
+ * @param {boolean} [options.checked] - Whether to check the certification checkbox
+ */
+async function fillVaStatementOfTruth(page, { field, fullName, checked } = {}) {
+  let locator;
+  if (!field) {
+    locator = page.locator('va-statement-of-truth');
+  } else {
+    locator = page.locator(`va-statement-of-truth[name="${field}"]`);
+  }
+
+  if (fullName) {
+    const input = locator.locator('va-text-input input');
+    await input.click();
+    await input.clear();
+    await input.fill(fullName);
+  }
+  if (typeof checked === 'boolean') {
+    await locator.locator('va-checkbox').evaluate((el, isChecked) => {
+      if (el.checked !== isChecked) {
+        el.checked = isChecked; // eslint-disable-line no-param-reassign
+        el.dispatchEvent(
+          new CustomEvent('vaChange', {
+            detail: { checked: isChecked },
+            bubbles: true,
+          }),
+        );
+      }
+    }, checked);
+  }
+}
+
+/**
+ * Checks whether the current page uses VA web components.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @returns {Promise<boolean>}
+ */
+async function checkWebComponent(page) {
+  return page.evaluate(() => {
+    const selectors = [
+      'va-text-input',
+      'va-textarea',
+      'va-select',
+      'va-checkbox',
+      'va-radio-option',
+      'va-date',
+      'va-memorable-date',
+      'va-button',
+      'va-card',
+    ];
+    return selectors.some(sel => document.querySelector(sel) !== null);
+  });
+}
+
+/**
+ * Fills fields inside a va-card container for single-page array items.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {Object} fields - Field data to fill
+ * @param {number} index - The current item index
+ * @param {Function} fillFieldsInVaCard - Callback that fills the fields
+ * @param {number} numItems - Total number of items
+ */
+async function fillFieldsInVaCardIfNeeded(
+  page,
+  fields,
+  index,
+  fillFieldsInVaCard,
+  numItems,
+) {
+  const isFirstItem = index === 0;
+  const isLastItem = index === numItems - 1;
+
+  if (isFirstItem) {
+    await fillFieldsInVaCard(fields, index);
+  } else {
+    const vaCard = page.locator('va-card');
+    if ((await vaCard.count()) > 0) {
+      await fillFieldsInVaCard(fields, index);
+    }
+  }
+
+  if (!isLastItem) {
+    await page.locator('button.va-growable-add-btn').click();
+  }
+}
+
+/**
+ * Helper to determine whether to add another array item based on test data
+ * vs existing cards on the page.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {string} selector - CSS selector for the element with data-array-path
+ * @param {boolean} [overrideValue] - Optional override
+ * @param {Object} testData - The test data object
+ * @returns {Promise<boolean>} Whether to add another item
+ */
+async function shouldAddArrayItem(page, selector, overrideValue, testData) {
+  if (typeof overrideValue === 'boolean') return overrideValue;
+
+  const element = page.locator(selector).first();
+  const arrayPath = await element.getAttribute('data-array-path');
+  if (!arrayPath || !testData) return false;
+
+  const arrayData = testData[arrayPath] || [];
+  const arrayLength = Array.isArray(arrayData) ? arrayData.length : 0;
+  const cardCount = await page.locator('va-card').count();
+  return arrayLength > cardCount;
+}
+
+/**
+ * Selects Yes/No for array builder summary page conditionally.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {Object} testData - The test data object
+ * @param {boolean} [overrideValue] - Optional override
+ */
+async function selectArrayBuilderSummaryYesNo(page, testData, overrideValue) {
+  const shouldSelect = await shouldAddArrayItem(
+    page,
+    '.wc-pattern-array-builder-yes-no',
+    overrideValue,
+    testData,
+  );
+  const element = page.locator('.wc-pattern-array-builder-yes-no').first();
+  const fieldName = await element.getAttribute('name');
+  await selectYesNoVaRadioOption(page, fieldName, shouldSelect);
+}
+
+/**
+ * Clicks array builder summary add button conditionally.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {Object} testData - The test data object
+ * @param {boolean} [overrideValue] - Optional override
+ * @returns {Promise<{abortProcessing: boolean}>}
+ */
+async function clickArrayBuilderSummaryAddButton(
+  page,
+  testData,
+  overrideValue,
+) {
+  const shouldClick = await shouldAddArrayItem(
+    page,
+    '.wc-pattern-array-builder-summary-add-button',
+    overrideValue,
+    testData,
+  );
+  if (shouldClick) {
+    await page
+      .locator('.wc-pattern-array-builder-summary-add-button')
+      .first()
+      .click();
+    return { abortProcessing: true };
+  }
+  return { abortProcessing: false };
+}
+
+/**
+ * Clicks array builder summary add link conditionally.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {Object} testData - The test data object
+ * @param {boolean} [overrideValue] - Optional override
+ * @returns {Promise<{abortProcessing: boolean}>}
+ */
+async function clickArrayBuilderSummaryAddLink(page, testData, overrideValue) {
+  const shouldClick = await shouldAddArrayItem(
+    page,
+    '.wc-pattern-array-builder-summary-add-link',
+    overrideValue,
+    testData,
+  );
+  if (shouldClick) {
+    await page
+      .locator('.wc-pattern-array-builder-summary-add-link')
+      .first()
+      .click();
+    return { abortProcessing: true };
+  }
+  return { abortProcessing: false };
+}
+
+/**
+ * General-purpose array builder summary continue that auto-detects pattern type
+ * (yes/no radio, button, or link) and applies the appropriate interaction.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {Object} testData - The test data object
+ * @param {boolean} [overrideValue] - Optional override
+ * @returns {Promise<{abortProcessing: boolean}>}
+ */
+async function arrayBuilderSummaryContinue(page, testData, overrideValue) {
+  const hasYesNoRadio =
+    (await page.locator('.wc-pattern-array-builder-yes-no').count()) > 0;
+  if (hasYesNoRadio) {
+    await selectArrayBuilderSummaryYesNo(page, testData, overrideValue);
+    return { abortProcessing: false };
+  }
+
+  const hasButton =
+    (await page
+      .locator('.wc-pattern-array-builder-summary-add-button')
+      .count()) > 0;
+  if (hasButton) {
+    return clickArrayBuilderSummaryAddButton(page, testData, overrideValue);
+  }
+
+  const hasLink =
+    (await page.locator('.wc-pattern-array-builder-summary-add-link').count()) >
+    0;
+  if (hasLink) {
+    return clickArrayBuilderSummaryAddLink(page, testData, overrideValue);
+  }
+
+  return { abortProcessing: false };
+}
+
+/**
  * Fills an address pattern using web components.
  *
  * @param {import('@playwright/test').Page} page
@@ -434,4 +674,13 @@ module.exports = {
   clickVaButtonPairPrimary,
   fillAddressWebComponentPattern,
   enterWebComponentData,
+  clickVaButtonPairSecondary,
+  fillVaStatementOfTruth,
+  checkWebComponent,
+  fillFieldsInVaCardIfNeeded,
+  shouldAddArrayItem,
+  selectArrayBuilderSummaryYesNo,
+  clickArrayBuilderSummaryAddButton,
+  clickArrayBuilderSummaryAddLink,
+  arrayBuilderSummaryContinue,
 };
