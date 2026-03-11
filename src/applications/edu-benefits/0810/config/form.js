@@ -1,6 +1,8 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-
+import { profilePersonalInfoPage } from 'platform/forms-system/src/js/patterns/prefill/PersonalInformation';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import prefillTransform from './prefillTransform';
@@ -8,6 +10,7 @@ import prefillTransform from './prefillTransform';
 // Components
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import * as PayeeNumber from '../pages/PayeeNumber';
 
 // Pages
 import {
@@ -50,11 +53,6 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   customText: {
-    appType: 'request',
-    continueAppButtonText: 'Continue your request',
-    startNewAppButtonText: 'Start a new request',
-    finishAppLaterMessage: 'Finish this request later',
-    appSavedSuccessfullyMessage: 'We’ve saved your request.',
     reviewPageTitle: 'Review',
     submitButtonText: 'Continue',
   },
@@ -85,6 +83,38 @@ const formConfig = {
           schema: educationBenefitsEligibility.schema,
           depends: formData => formData?.hasPreviouslyApplied === false,
         },
+      },
+    },
+    personalInformationChapter: {
+      title: 'Your personal information',
+      pages: {
+        ...profilePersonalInfoPage({
+          personalInfoConfig: {
+            name: { show: true, required: true },
+            ssn: { show: true, required: true },
+            dateOfBirth: { show: true, required: false },
+          },
+          dataAdapter: {
+            ssnPath: 'ssn',
+          },
+        }),
+        payeeNumber: {
+          path: 'payee-number',
+          title: 'Payee Number',
+          uiSchema: PayeeNumber.uiSchema,
+          schema: PayeeNumber.schema,
+          depends: formData =>
+            formData?.vaBenefitProgram === 'chapter35' &&
+            !!formData.vaFileNumber,
+        },
+        ...profileContactInfoPages({
+          contactInfoRequiredKeys: ['mailingAddress'],
+          content: {
+            ...getContent('request'),
+            title: 'Confirm the contact information we have on file for you',
+            description: null,
+          },
+        }),
       },
     },
   },
