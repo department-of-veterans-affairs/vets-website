@@ -103,7 +103,9 @@ const formConfig = {
           title: 'Payee Number',
           uiSchema: PayeeNumber.uiSchema,
           schema: PayeeNumber.schema,
-          depends: formData => formData?.vaBenefitProgram === 'chapter35',
+          depends: formData =>
+            formData?.vaBenefitProgram === 'chapter35' &&
+            !!formData.vaFileNumber,
         },
         ...profileContactInfoPages({
           contactInfoRequiredKeys: ['mailingAddress'],
