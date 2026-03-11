@@ -427,53 +427,47 @@ export default class ArrayField extends React.Component {
                       <div className="row small-collapse">
                         <div className="small-6 left columns">
                           {!isLast && (
-                            <button
-                              type="button"
+                            <va-button
                               className="float-left"
-                              aria-label={`Update ${itemName}`}
+                              label={`Update ${itemName}`}
+                              text="Update"
                               onClick={() => this.handleUpdate(index)}
-                            >
-                              Update
-                            </button>
+                            />
                           )}
                           {isLast && (
-                            <button
-                              type="button"
+                            <va-button
                               className="float-left"
-                              aria-label={`Save ${itemName}`}
+                              label={`Save ${itemName}`}
+                              text="Save"
                               disabled={!this.props.formData}
                               onClick={this.handleSave}
-                            >
-                              Save
-                            </button>
+                            />
                           )}
                           <div className="float-left row columns">
                             {!isLast && (
-                              <button
-                                type="button"
-                                className="usa-button-secondary float-left"
-                                aria-label={`Cancel editing ${itemName}`}
+                              <va-button
+                                className="float-left"
+                                label={`Cancel editing ${itemName}`}
+                                text="Cancel"
+                                secondary
                                 onClick={() => this.handleCancelEdit(index)}
-                              >
-                                Cancel
-                              </button>
+                              />
                             )}
                           </div>
                         </div>
                         <div className="small-6 right columns">
                           {!isOnlyItem && (
-                            <button
-                              type="button"
-                              className="usa-button-secondary float-right"
-                              aria-label={`Remove ${
+                            <va-button
+                              className="float-right"
+                              label={`Remove ${
                                 itemName === uiOptions.itemName
                                   ? 'incomplete '
                                   : ''
                               }${itemName}`}
+                              text="Remove"
+                              secondary
                               onClick={() => this.handleRemove(index)}
-                            >
-                              Remove
-                            </button>
+                            />
                           )}
                         </div>
                       </div>
@@ -489,32 +483,26 @@ export default class ArrayField extends React.Component {
                     formData={item}
                     onEdit={() => this.handleEdit(index)}
                   />
-                  <button
-                    type="button"
-                    className="edit usa-button-secondary vads-u-flex--auto"
-                    aria-label={`Edit ${itemName}`}
+                  <va-button
+                    className="edit vads-u-flex--auto"
+                    label={`Edit ${itemName}`}
+                    text="Edit"
+                    secondary
                     onClick={() => this.handleEdit(index)}
-                  >
-                    Edit
-                  </button>
+                  />
                 </div>
               </div>
             );
           })}
-          <button
-            type="button"
-            className={classNames(
-              'usa-button-secondary',
-              'va-growable-add-btn',
-              {
-                'usa-button-disabled': !this.props.formData,
-              },
-            )}
+          <va-button
+            className={classNames('va-growable-add-btn', {
+              'usa-button-disabled': !this.props.formData,
+            })}
             disabled={!this.props.formData}
+            secondary
+            text={`Add another ${uiOptions.itemName.toLowerCase()}`}
             onClick={this.handleAdd}
-          >
-            Add another {uiOptions.itemName.toLowerCase()}
-          </button>
+          />
         </div>
       </Wrapper>
     );
