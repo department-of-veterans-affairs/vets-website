@@ -371,9 +371,6 @@ jobs:
           TESTS: ${{ env.DISALLOWED_TESTS }}
           TESTS_PROPERTY: 'DISALLOWED_TESTS'
 
-      - name: Create test results folder
-        run: mkdir -p test-results
-
       - name: Check for tests
         id: check-tests
         run: |
@@ -411,7 +408,6 @@ jobs:
             yarn test:unit:gha --app-folder ${{ matrix.app.folder }} --coverage --log-level verbose
           fi
         env:
-          MOCHA_FILE: test-results/unit-tests.xml
           IS_STRESS_TEST: false
 
       - name: Set tests ran output
