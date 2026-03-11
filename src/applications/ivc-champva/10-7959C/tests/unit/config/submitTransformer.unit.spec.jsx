@@ -37,7 +37,9 @@ describe('10-7959C submit transformer', () => {
       const testData = {
         ...mockData.data,
         applicantName: { first: 'John', last: 'Doe' },
-        medicarePartAEffectiveDate: '2023-12-01',
+        'view:medicarePartAEffectiveDate': {
+          medicarePartAEffectiveDate: '2023-12-01',
+        },
       };
       const form = createForm(testData);
       const result = parseTransformed(form);
