@@ -251,6 +251,21 @@ describe('Medication card component', () => {
     });
   });
 
+  describe('when mhvMedicationsManagementImprovements flag is disabled', () => {
+    it('does not show refill-in-progress alert and shows original layout', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+        prescriptionNumber: '12345',
+      };
+      const { queryByTestId, getByTestId } = setup(rx);
+      expect(queryByTestId('refill-in-progress-alert')).to.be.null;
+      expect(getByTestId('rx-number')).to.exist;
+      expect(getByTestId('rxStatus')).to.exist;
+    });
+  });
+
   it('Does not show number of refills when it is not refillable', () => {
     const rx = {
       ...prescriptionsListItem,
