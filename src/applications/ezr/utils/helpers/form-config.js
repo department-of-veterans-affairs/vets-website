@@ -204,17 +204,11 @@ export function includeHouseholdInformation(formData) {
 }
 
 export function includeHouseholdInformationV1(formData) {
-  return (
-    includeHouseholdInformation(formData) &&
-    !formData['view:isSpouseConfirmationFlowEnabled']
-  );
+  return includeHouseholdInformation(formData);
 }
 
 export function includeHouseholdInformationV2(formData) {
-  return (
-    includeHouseholdInformation(formData) &&
-    formData['view:isSpouseConfirmationFlowEnabled']
-  );
+  return includeHouseholdInformation(formData);
 }
 
 /**
@@ -329,7 +323,6 @@ export function includeSpousalInformationWithV1Prefill(formData) {
  * Veteran has a marital status of 'married' or 'separated'.
  */
 export function includeSpousalInformationV1(formData) {
-  if (formData['view:isSpouseConfirmationFlowEnabled']) return false;
   return includeSpousalInformation(formData);
 }
 
@@ -341,7 +334,6 @@ export function includeSpousalInformationV1(formData) {
  * Veteran has a marital status of 'married' or 'separated'.
  */
 export function includeSpousalInformationV2(formData) {
-  if (!formData['view:isSpouseConfirmationFlowEnabled']) return false;
   return includeSpousalInformation(formData);
 }
 

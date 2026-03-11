@@ -97,7 +97,7 @@ describe('EZR TERA flow', () => {
     [...Array(7)].forEach(_ => goToPreviousPage());
     cy.selectYesNoVaRadioOption('root_hasTeraResponse', false);
     // Expect the tera section to be skipped. Instead, the user will move to the household section
-    goToNextPage('/household-information/marital-status');
+    goToNextPage('/household-information/marital-status-information');
   });
 });
 
@@ -137,7 +137,7 @@ describe("EZR branching logic based on the user's DOB", () => {
 
       goToNextPage('/military-service/other-toxic-exposure');
       goToNextPage('/military-service/upload-supporting-documents');
-      goToNextPage('/household-information/marital-status');
+      goToNextPage('/household-information/marital-status-information');
     });
   });
 
@@ -165,7 +165,7 @@ describe("EZR branching logic based on the user's DOB", () => {
 
       goToNextPage('/military-service/other-toxic-exposure');
       goToNextPage('/military-service/upload-supporting-documents');
-      goToNextPage('/household-information/marital-status');
+      goToNextPage('/household-information/marital-status-information');
     });
   });
 

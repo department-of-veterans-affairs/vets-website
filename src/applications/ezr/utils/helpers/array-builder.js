@@ -12,13 +12,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 export const ARRAY_BUILDER_CONFIG = {
   spouseInformation: {
     arrayPath: 'spouseInformation',
-    enabled: data => {
-      const confirmationFlowFeatureEnabled =
-        data?.ezrSpouseConfirmationFlowEnabled;
-      const confirmationFlowFormEnabled =
-        data?.['view:isSpouseConfirmationFlowEnabled'];
-      return confirmationFlowFeatureEnabled || confirmationFlowFormEnabled;
-    },
+    enabled: () => true,
     fields: [
       'spouseFullName',
       'spouseSocialSecurityNumber',

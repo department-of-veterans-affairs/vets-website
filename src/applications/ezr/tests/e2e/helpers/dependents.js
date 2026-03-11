@@ -35,7 +35,7 @@ export const advanceToDependents = testData => {
     hasServiceHistoryInfo: testData['view:hasPrefillServiceHistory'],
   });
 
-  goToNextPage('/household-information/marital-status');
+  goToNextPage('/household-information/marital-status-information');
   selectDropdownWebComponent(
     'view:maritalStatus_maritalStatus',
     'Never Married',

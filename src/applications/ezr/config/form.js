@@ -10,7 +10,6 @@ import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
   includeSpousalInformationV1,
   includeHouseholdInformation,
-  includeHouseholdInformationV1,
   includeHouseholdInformationV2,
   isMissingVeteranDob,
   isMissingVeteranGender,
@@ -376,14 +375,6 @@ const formConfig = {
     householdInformation: {
       title: 'Household financial information',
       pages: {
-        maritalStatus: {
-          path: 'household-information/marital-status',
-          title: 'Marital status',
-          initialData: {},
-          depends: includeHouseholdInformationV1,
-          uiSchema: maritalStatus.uiSchema,
-          schema: maritalStatus.schema,
-        },
         maritalStatusInformation: {
           path: 'household-information/marital-status-information',
           title: 'Marital status',
