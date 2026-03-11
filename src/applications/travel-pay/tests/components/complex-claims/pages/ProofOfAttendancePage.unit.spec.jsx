@@ -53,7 +53,7 @@ const mockFileReader = () => {
 const getInitialState = ({ isCCAppt = true, isUploading = false } = {}) => ({
   travelPay: {
     appointment: {
-      data: { id: apptId, isCC: isCCAppt },
+      data: { id: apptId, kind: isCCAppt ? 'cc' : 'clinic', isCC: isCCAppt },
       error: null,
       isLoading: false,
     },

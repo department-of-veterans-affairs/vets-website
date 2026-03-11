@@ -59,16 +59,13 @@ const IntroductionPage = () => {
       return;
     }
 
-    // If claim already exists, navigate directly to the appropriate next step
+    // If claim already exists, the wrapper will handle redirecting
     const existingClaimId =
       complexClaim?.data?.claimId || appointment?.travelPayClaim?.claim?.id;
 
     if (existingClaimId) {
       dispatch(setExpenseBackDestination('intro'));
-      const nextRoute = isCommunityCareClaim
-        ? `/file-new-claim/${apptId}/${existingClaimId}/proof-of-attendance`
-        : `/file-new-claim/${apptId}/${existingClaimId}/choose-expense`;
-      navigate(nextRoute);
+      navigate(`/file-new-claim/${apptId}/${existingClaimId}`);
       return;
     }
 
@@ -85,10 +82,11 @@ const IntroductionPage = () => {
       );
       if (result?.claimId) {
         dispatch(setExpenseBackDestination('intro'));
-        const nextRoute = isCommunityCareClaim
+        // Navigate directly to the right first step for this claim type
+        const nextPath = isCommunityCareClaim
           ? `/file-new-claim/${apptId}/${result.claimId}/proof-of-attendance`
           : `/file-new-claim/${apptId}/${result.claimId}/choose-expense`;
-        navigate(nextRoute);
+        navigate(nextPath);
       }
     } catch (error) {
       navigate(`/file-new-claim/${apptId}/create-claim-error`);

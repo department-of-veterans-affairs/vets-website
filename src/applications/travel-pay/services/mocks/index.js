@@ -157,17 +157,49 @@ const responses = {
 
   // Create a new complex claim
   // POST /travel_pay/v0/complex_claims
-  'POST /travel_pay/v0/complex_claims': (req, res) => {
-    return res.json({
-      claimId: 'bd427107-91ac-4a4a-94ae-177df5aa32dc',
-    });
-  },
+  'POST /travel_pay/v0/complex_claims': createClaimHandler(),
 
   // Submitting a complex claim
   // PATCH /travel_pay/v0/complex_claims/:claimId/submit
   'PATCH /travel_pay/v0/complex_claims/:claimId/submit': (req, res) => {
+    const { claimId } = req.params;
+    const { claimsStore, appointmentsStore } = require('./mockStore');
+
+    const claim = claimsStore[claimId];
+    if (!claim) {
+      return res.status(404).json({
+        errors: [{ detail: 'Claim not found' }],
+      });
+    }
+
+    // Keep claim status as Saved after submission
+    claimsStore[claimId] = {
+      ...claim,
+      modifiedOn: new Date().toISOString(),
+    };
+
+    // Update the appointment's travelPayClaim to reflect the submission
+    Object.entries(appointmentsStore).forEach(([apptId, appt]) => {
+      const apptClaimId = appt.attributes?.travelPayClaim?.claim?.id;
+      if (apptClaimId === claimId) {
+        appointmentsStore[apptId] = {
+          ...appt,
+          attributes: {
+            ...appt.attributes,
+            travelPayClaim: {
+              ...appt.attributes.travelPayClaim,
+              claim: {
+                ...appt.attributes.travelPayClaim.claim,
+                claimStatus: claim.claimStatus,
+              },
+            },
+          },
+        };
+      }
+    });
+
     return res.json({
-      id: req.params.claimId,
+      id: claimId,
     });
   },
 

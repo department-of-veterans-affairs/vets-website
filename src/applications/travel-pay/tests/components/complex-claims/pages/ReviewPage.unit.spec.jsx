@@ -568,7 +568,11 @@ describe('Travel Pay – ReviewPage', () => {
       travelPay: {
         ...getData().travelPay,
         appointment: {
-          data: { id: apptId, isCC: isCCAppt },
+          data: {
+            id: apptId,
+            kind: isCCAppt ? 'cc' : 'clinic',
+            isCC: isCCAppt,
+          },
           error: null,
           isLoading: false,
         },

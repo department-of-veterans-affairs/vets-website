@@ -16,6 +16,7 @@ import { commonReducer } from 'platform/startup/store';
 import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 import reducer from '../../../../redux/reducer';
 import IntroductionPage from '../../../../components/complex-claims/pages/IntroductionPage';
+import ComplexClaimRedirect from '../../../../components/complex-claims/pages/ComplexClaimRedirect';
 import { BTSSS_PORTAL_URL } from '../../../../constants';
 
 // Mock component for navigation testing
@@ -459,6 +460,10 @@ describe('Travel Pay – IntroductionPage', () => {
             element={<IntroductionPage />}
           />
           <Route
+            path="/file-new-claim/:apptId/:claimId"
+            element={<ComplexClaimRedirect />}
+          />
+          <Route
             path="/file-new-claim/:apptId/:claimId/choose-expense"
             element={<ChooseExpenseType />}
           />
@@ -799,6 +804,7 @@ describe('Travel Pay – IntroductionPage', () => {
     const ccAppointmentData = {
       id: '12345',
       facilityName: 'Community Care Clinic',
+      kind: 'cc',
       isCC: true,
       locationId: '534',
       location: { id: '534', name: 'Community Care Clinic' },

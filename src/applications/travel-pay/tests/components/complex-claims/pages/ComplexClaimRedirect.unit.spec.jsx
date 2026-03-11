@@ -47,6 +47,7 @@ describe('ComplexClaimRedirect', () => {
       appointment: {
         data: {
           id: appointmentId,
+          kind: isCCAppt ? 'cc' : 'clinic',
           isCC: isCCAppt,
         },
         error: null,

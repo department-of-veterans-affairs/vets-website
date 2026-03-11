@@ -2,6 +2,8 @@ import React from 'react';
 import { act, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import {
   MemoryRouter,
   Route,
@@ -11,6 +13,7 @@ import {
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
+import { commonReducer } from 'platform/startup/store';
 
 import reducer from '../../redux/reducer';
 import ComplexClaimSubmitFlowWrapper from '../../containers/ComplexClaimSubmitFlowWrapper';
@@ -1578,6 +1581,409 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       // Modal should close (visible attribute should be false)
       // Note: In the actual implementation, the modal visibility is controlled by state
       // This test verifies the event handler is wired up correctly
+    });
+  });
+
+  describe('Intro page redirect logic for existing claims', () => {
+    const ChooseExpensePage = () => <div>Choose Expense</div>;
+    const ProofOfAttendancePage = () => <div>Proof of Attendance</div>;
+    const ReviewPageMock = () => <div>Review</div>;
+
+    // Helper to create a store with CC flag enabled via action dispatch
+    const createStoreWithCCFlag = (initialState, ccFlagEnabled = true) => {
+      const store = createStore(
+        combineReducers({ ...commonReducer, ...reducer }),
+        initialState,
+        applyMiddleware(thunk),
+      );
+
+      if (ccFlagEnabled) {
+        store.dispatch({
+          type: 'FETCH_TOGGLE_VALUES_SUCCEEDED',
+          // eslint-disable-next-line camelcase
+          payload: { travel_pay_enable_community_care: true },
+        });
+      }
+
+      return store;
+    };
+
+    it('redirects from intro to choose-expense when claim exists with no expenses (non-CC)', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        appointmentId: '12345',
+        claimData: {
+          claimId: 'claim-123',
+          claimStatus: 'Incomplete',
+          claimSource: 'VaGov',
+          documents: [],
+        },
+        travelPayClaim: {
+          claim: {
+            id: 'claim-123',
+            claimStatus: 'Incomplete',
+          },
+        },
+        expenses: [],
+      });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpensePage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      expect(getByText('Choose Expense')).to.exist;
+    });
+
+    it('redirects from intro to review when claim exists with expenses (non-CC)', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        appointmentId: '12345',
+        claimData: {
+          claimId: 'claim-123',
+          claimStatus: 'Incomplete',
+          claimSource: 'VaGov',
+          documents: [],
+        },
+        travelPayClaim: {
+          claim: {
+            id: 'claim-123',
+            claimStatus: 'Incomplete',
+          },
+        },
+        expenses: [{ expenseId: 'exp-1' }],
+      });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<ReviewPageMock />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      expect(getByText('Review')).to.exist;
+    });
+
+    it('does NOT redirect when skipRedirect state is present', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        appointmentId: '12345',
+        claimData: {
+          claimId: 'claim-123',
+          claimStatus: 'Incomplete',
+          claimSource: 'VaGov',
+          documents: [],
+        },
+        travelPayClaim: {
+          claim: {
+            id: 'claim-123',
+            claimStatus: 'Incomplete',
+          },
+        },
+        expenses: [],
+      });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            {
+              pathname: '/file-new-claim/12345',
+              state: { skipRedirect: true },
+            },
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpensePage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      expect(getByText('Intro')).to.exist;
+    });
+
+    it('redirects to POA page when claim data is already loaded (e.g. via browser back to intro URL) and CC claim has no POA', () => {
+      // This logic is a safety net for the edge case where claimData is already in Redux
+      // (e.g. user hits browser back to the intro URL after having visited the claim page).
+      // In that scenario claimSource === 'VaGov' passes the first check, and this block
+      // redirects them directly into the flow rather than showing the intro page.
+      const base = getData({
+        complexClaimsEnabled: true,
+        appointmentId: '12345',
+        claimData: {
+          claimId: 'claim-123',
+          claimStatus: 'Saved',
+          claimSource: 'VaGov',
+          documents: [],
+        },
+        travelPayClaim: {
+          claim: { id: 'claim-123', claimStatus: 'Saved' },
+        },
+        expenses: [],
+      });
+      const ccInitialState = {
+        ...base,
+        travelPay: {
+          ...base.travelPay,
+          appointment: {
+            ...base.travelPay.appointment,
+            data: {
+              ...base.travelPay.appointment.data,
+              isCC: true,
+              kind: 'cc',
+            },
+          },
+        },
+      };
+
+      const store = createStoreWithCCFlag(ccInitialState);
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/proof-of-attendance"
+              element={<ProofOfAttendancePage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store },
+      );
+
+      expect(getByText('Proof of Attendance')).to.exist;
+    });
+
+    it('redirects to choose-expense when claim data is already loaded and CC claim has POA but no expenses', () => {
+      const base = getData({
+        complexClaimsEnabled: true,
+        appointmentId: '12345',
+        claimData: {
+          claimId: 'claim-123',
+          claimStatus: 'Saved',
+          claimSource: 'VaGov',
+          documents: [
+            {
+              documentId: 'doc-poa-001',
+              filename: 'proof-of-attendance.pdf',
+              mimetype: 'application/pdf',
+            },
+          ],
+        },
+        travelPayClaim: {
+          claim: { id: 'claim-123', claimStatus: 'Saved' },
+        },
+        expenses: [],
+      });
+      const ccInitialState = {
+        ...base,
+        travelPay: {
+          ...base.travelPay,
+          appointment: {
+            ...base.travelPay.appointment,
+            data: {
+              ...base.travelPay.appointment.data,
+              isCC: true,
+              kind: 'cc',
+            },
+          },
+        },
+      };
+
+      const store = createStoreWithCCFlag(ccInitialState);
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpensePage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store },
+      );
+
+      expect(getByText('Choose Expense')).to.exist;
+    });
+
+    it('redirects to review when claim data is already loaded and CC claim has POA and expenses', () => {
+      const base = getData({
+        complexClaimsEnabled: true,
+        appointmentId: '12345',
+        claimData: {
+          claimId: 'claim-123',
+          claimStatus: 'Saved',
+          claimSource: 'VaGov',
+          documents: [
+            {
+              documentId: 'doc-poa-001',
+              filename: 'proof-of-attendance.pdf',
+              mimetype: 'application/pdf',
+            },
+          ],
+        },
+        travelPayClaim: {
+          claim: { id: 'claim-123', claimStatus: 'Saved' },
+        },
+        expenses: [{ expenseId: 'exp-1', expenseType: 'Mileage' }],
+      });
+      const ccInitialState = {
+        ...base,
+        travelPay: {
+          ...base.travelPay,
+          appointment: {
+            ...base.travelPay.appointment,
+            data: {
+              ...base.travelPay.appointment.data,
+              isCC: true,
+              kind: 'cc',
+            },
+          },
+        },
+      };
+
+      const store = createStoreWithCCFlag(ccInitialState);
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<ReviewPageMock />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store },
+      );
+
+      expect(getByText('Review')).to.exist;
+    });
+
+    it('does NOT redirect to claim details when the only unassociated document is a POA', () => {
+      // A CC claim with a POA document (no expenseId) should NOT be treated as
+      // having "unassociated expense documents" by hasUnassociatedDocuments.
+      // Without the fix, the wrapper would redirect to /claims/:id.
+      // With the fix, it correctly routes into the claim flow (choose-expense).
+      const base = getData({
+        complexClaimsEnabled: true,
+        appointmentId: '12345',
+        claimData: {
+          claimId: 'claim-123',
+          claimStatus: 'Saved',
+          claimSource: 'VaGov',
+          documents: [
+            {
+              documentId: 'doc-poa-001',
+              filename: 'proof-of-attendance.pdf',
+              mimetype: 'application/pdf',
+              // intentionally no expenseId — POA docs are not tied to an expense
+            },
+          ],
+        },
+        travelPayClaim: {
+          claim: { id: 'claim-123', claimStatus: 'Saved' },
+        },
+        expenses: [],
+      });
+      const ccInitialState = {
+        ...base,
+        travelPay: {
+          ...base.travelPay,
+          appointment: {
+            ...base.travelPay.appointment,
+            data: {
+              ...base.travelPay.appointment.data,
+              isCC: true,
+              kind: 'cc',
+            },
+          },
+        },
+      };
+
+      const store = createStoreWithCCFlag(ccInitialState);
+      const ClaimDetailsPageMock = () => <div>Claim Details</div>;
+
+      const { getByText, queryByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpensePage />}
+            />
+            <Route path="/claims/:claimId" element={<ClaimDetailsPageMock />} />
+          </Routes>
+        </MemoryRouter>,
+        { store },
+      );
+
+      expect(getByText('Choose Expense')).to.exist;
+      expect(queryByText('Claim Details')).to.be.null;
     });
   });
 });
