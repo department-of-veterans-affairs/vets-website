@@ -3,12 +3,13 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import mockVaFileNumber from './fixtures/va-file-number.json';
+import user from './user.json';
 import {
   fillDateWebComponentPattern,
   fillSelectWebComponent,
   fillStandardTextInput,
   signAndSubmit,
-  setupCypress,
 } from './cypress.helpers';
 
 Cypress.config('waitForAnimations', true);
@@ -26,7 +27,7 @@ const testConfig = createTestConfig(
     ],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
-      setupCypress();
+      cy.login(user);
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
           type: 'feature_toggles',
@@ -38,6 +39,29 @@ const testConfig = createTestConfig(
           ],
         },
       });
+      cy.intercept('POST', '/v0/claim_attachments', {
+        data: {
+          attributes: {
+            confirmationCode: '5',
+          },
+        },
+      });
+      cy.intercept(
+        'GET',
+        '/v0/profile/valid_va_file_number',
+        mockVaFileNumber,
+      ).as('mockVaFileNumber');
+      cy.get('@testData').then(testData => {
+        cy.intercept('GET', '/v0/in_progress_forms/686C-674-V2', testData);
+        cy.intercept('PUT', 'v0/in_progress_forms/686C-674-V2', testData);
+      });
+      cy.intercept('POST', '/v0/dependents_applications', {
+        formSubmissionId: '123fake-submission-id-567',
+        timestamp: '2020-11-12',
+        attributes: {
+          guid: '123fake-submission-id-567',
+        },
+      }).as('submitApplication');
     },
     pageHooks: {
       introduction: ({ afterHook }) => {

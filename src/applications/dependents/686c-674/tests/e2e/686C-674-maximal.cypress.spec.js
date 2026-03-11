@@ -25,9 +25,7 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
       // Pass form start page path
-      setupCypress({
-        returnUrl: '/add-remove-form-21-686c-674/veteran-information',
-      });
+      setupCypress('/add-remove-form-21-686c-674/veteran-information');
     },
 
     pageHooks: {
