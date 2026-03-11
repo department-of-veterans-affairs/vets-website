@@ -144,18 +144,6 @@ export const dataDogActionNames = {
       pageType.HISTORY
     }`,
     REFILL_MEDICATIONS_LINK: `Refill medications link - ${pageType.HISTORY}`,
-    MEDICATION_NAME_LINK_IN_CARD: `Medication Name Link In Card - ${
-      pageType.HISTORY
-    }`,
-    SHOW_MEDICATIONS_IN_ORDER_SELECT: `Show Medications In This Order - ${
-      pageType.HISTORY
-    }`,
-    SORT_MEDICATIONS_BUTTON: `Sort Medications Button - ${pageType.HISTORY}`,
-    PAGINATION: `Pagination - ${pageType.HISTORY}`,
-    PRINT_OR_DOWNLOAD_BUTTON: `Print Or Download Button - ${pageType.HISTORY}`,
-    DOWNLOAD_A_PDF: `Download A PDF - ${pageType.HISTORY}`,
-    DOWNLOAD_A_TEXT_FILE: `Download A Text File - ${pageType.HISTORY}`,
-    PRINT: `Print - ${pageType.HISTORY}`,
     GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
       pageType.HISTORY
     }`,
@@ -168,6 +156,29 @@ export const dataDogActionNames = {
     START_A_NEW_MESSAGE_LINK: `Start a new message link - ${pageType.HISTORY}`,
     GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
       pageType.HISTORY
+    }`,
+  },
+  inProgressPage: {
+    GO_TO_MEDICATION_HISTORY_LINK: `Go to medication history link - ${
+      pageType.IN_PROGRESS
+    }`,
+    REFILL_MEDICATIONS_LINK: `Refill medications link - ${
+      pageType.IN_PROGRESS
+    }`,
+    GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
+      pageType.IN_PROGRESS
+    }`,
+    GO_TO_ALLERGIES_AND_REACTIONS_LINK: `Go to allergies and reactions link - ${
+      pageType.IN_PROGRESS
+    }`,
+    LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK: `Learn more about managing medications online link - ${
+      pageType.IN_PROGRESS
+    }`,
+    START_A_NEW_MESSAGE_LINK: `Start a new message link - ${
+      pageType.IN_PROGRESS
+    }`,
+    GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
+      pageType.IN_PROGRESS
     }`,
   },
 };
