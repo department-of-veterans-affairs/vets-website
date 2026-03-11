@@ -164,7 +164,12 @@
   },
   {
     "appName": "Apply for Individual Unemployability disability benefits",
-    "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-unemployability-compensation-form-21-8940 ", 
+    "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-unemployability-compensation-form-21-8940 ",
     "widgetType": "unemployability-compensation"
+  },
+  {
+    "appName": "MHV Demo Mode",
+    "entryName": "mhv-demo-mode",
+    "rootUrl": "/mhv-demo-mode"
   }
 ]

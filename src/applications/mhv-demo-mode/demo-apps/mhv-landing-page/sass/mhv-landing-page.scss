@@ -1,0 +1,147 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
+$anchor-font-size: 1.25rem; // == 20px
+
+// Font smoothing adjustment for macOS users
+// https://github.com/department-of-veterans-affairs/va.gov-team/issues/54087
+@media screen and (-webkit-min-device-pixel-ratio: 2),
+  screen and (min-resolution: 2dppx) {
+  h1,
+  h2,
+  h3 {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+.mhv-c-indicator::after {
+  background-color: var(--vads-color-secondary);
+  content: "";
+  height: 0.625rem;
+  width: 0.625rem;
+  border-radius: 0.625rem;
+  display: inline-block;
+  margin-left: 0.625rem;
+}
+
+.mhv-u-list-style--none {
+  list-style: none;
+}
+
+.mhv-c-navlistitem {
+  margin: 0;
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid var(--vads-color-base-light);
+  }
+
+  .mhv-c-indicator::after {
+    background-color: var(--vads-color-secondary);
+    border-radius: 0.625rem;
+    content: "";
+    display: inline-block;
+    height: 0.625rem;
+    margin-right: 0.3125rem;
+    width: 0.625rem;
+  }
+
+  > a {
+    padding-bottom: units(2);
+    padding-top: units(2);
+  }
+}
+
+.mhv-u-grid-gap {
+  &:not(:last-of-type) {
+    margin-right: units(2);
+  }
+}
+
+.mhv-logo {
+  max-width: 262px;
+}
+
+.mhv-c-link-list {
+  list-style-type: none;
+  padding: 0;
+
+  > li {
+    margin: 0 0 units(2);
+  }
+}
+
+.mhv-c-link {
+  display: inline-block;
+  font-size: $anchor-font-size;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+// Copied and adapted from va-link
+.mhv-c-navlink {
+  font-size: $anchor-font-size;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  text-decoration: none;
+
+  &:active,
+  &:hover,
+  &:visited {
+    text-decoration: none;
+  }
+
+  > {
+    span,
+    va-icon {
+      vertical-align: middle;
+    }
+  }
+}
+
+.mhv-c-navlink-external {
+  font-size: $anchor-font-size;
+  display: inline-block;
+  align-items: center;
+}
+
+.visibility\:hidden {
+  visibility: hidden;
+}
+
+// Match the va-alert styling.
+.mhv-c-reg-alert {
+  border-left: 0.5rem solid;
+  padding: 1rem 1.25rem 0.875rem 1.875rem;
+  position: relative;
+
+  &.mhv-u-reg-alert-warning {
+    background-color: var(--vads-color-warning-lighter);
+    border-left-color: var(--vads-color-warning);
+  }
+
+  va-icon {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+  }
+
+  h2  {
+    font-size: 21.28px;
+  }
+
+  .mhv-u-reg-alert-body {
+    font-size: 1.06rem;
+  }
+
+  @media (min-width: 64em) {
+    .mhv-u-reg-alert-col {
+      padding-left: 1rem;
+      padding-right: 4rem;
+    }
+
+    va-icon {
+      padding-left: 0.75rem;
+    }
+  }
+}

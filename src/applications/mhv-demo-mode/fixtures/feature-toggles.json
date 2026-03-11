@@ -1,0 +1,19 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      { "name": "mhvVaHealthChatEnabled", "value": true },
+      { "name": "mhvLandingPagePersonalization", "value": true },
+      { "name": "mhvLandingPageShowShareMyHealthDataLink", "value": true },
+      { "name": "mhvMilestone2ChangesEnabled", "value": true },
+      { "name": "mhvEmailConfirmation", "value": true },
+      { "name": "travelPayPowerSwitch", "value": true },
+      { "name": "mhv_va_health_chat_enabled", "value": true },
+      { "name": "mhv_landing_page_personalization", "value": true },
+      { "name": "mhv_landing_page_show_share_my_health_data_link", "value": true },
+      { "name": "mhv_milestone_2_changes_enabled", "value": true },
+      { "name": "mhv_email_confirmation", "value": true },
+      { "name": "travel_pay_power_switch", "value": true }
+    ]
+  }
+}
