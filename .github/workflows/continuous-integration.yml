@@ -1061,13 +1061,13 @@ jobs:
           NODE_OPTIONS: '--openssl-legacy-provider'
           PLAYWRIGHT_SHARD_INDEX: ${{ matrix.shard_index }}
 
-      - name: Upload Playwright report
+      - name: Upload blob report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-${{ matrix.shard_index }}
-          path: playwright-report/
-          retention-days: 30
+          name: playwright-blob-report-${{ matrix.shard_index }}
+          path: blob-report/
+          retention-days: 1
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -1093,6 +1093,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Download all blob reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: playwright-blob-report-*
+          path: all-blob-reports
+          merge-multiple: true
+
+      - name: Merge HTML report
+        run: npx playwright merge-reports --reporter=html all-blob-reports
+
+      - name: Upload merged HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 
       - name: Download all Mochawesome results
         uses: actions/download-artifact@v4

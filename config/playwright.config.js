@@ -23,8 +23,12 @@ module.exports = defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 4 : undefined,
   reporter: process.env.CI
-    ? [['html', { open: 'never' }], ['list'], mochawesomeReporter]
-    : [['list']],
+    ? [
+        ['blob', { outputDir: path.join(rootDir, 'blob-report') }],
+        ['list'],
+        mochawesomeReporter,
+      ]
+    : [['html', { open: 'never' }], ['list']],
   timeout: 120_000,
 
   use: {
