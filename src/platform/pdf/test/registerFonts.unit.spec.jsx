@@ -40,21 +40,26 @@ describe('registerFonts', () => {
 
   describe('downloadAndRegisterFont error context', () => {
     it('includes font name and URL when fetch rejects', async () => {
-      fetchStub.rejects(new Error('Failed to fetch'));
+      const originalError = new Error('Failed to fetch');
+      fetchStub.rejects(originalError);
 
       try {
         await registerFonts(doc, ['Bitter-Bold']);
         expect.fail('should have thrown');
       } catch (error) {
-        expect(error.message).to.include('Failed to fetch font Bitter-Bold');
+        expect(error.message).to.include(
+          'Failed to download or register font Bitter-Bold',
+        );
         expect(error.message).to.include('/generated/bitter-bold.ttf');
         expect(error.message).to.include('Failed to fetch');
+        expect(error.cause).to.equal(originalError);
       }
     });
 
     it('includes font name and URL when arrayBuffer fails', async () => {
+      const originalError = new Error('body stream error');
       fetchStub.resolves({
-        arrayBuffer: sinon.stub().rejects(new Error('body stream error')),
+        arrayBuffer: sinon.stub().rejects(originalError),
       });
 
       try {
@@ -62,12 +67,13 @@ describe('registerFonts', () => {
         expect.fail('should have thrown');
       } catch (error) {
         expect(error.message).to.include(
-          'Failed to fetch font SourceSansPro-Regular',
+          'Failed to download or register font SourceSansPro-Regular',
         );
         expect(error.message).to.include(
           '/generated/sourcesanspro-regular-webfont.ttf',
         );
         expect(error.message).to.include('body stream error');
+        expect(error.cause).to.equal(originalError);
       }
     });
 

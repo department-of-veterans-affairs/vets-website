@@ -36,7 +36,10 @@ const downloadAndRegisterFont = async (doc, font) => {
     doc.registerFont(font, knownFonts[font]);
   } catch (error) {
     throw new Error(
-      `Failed to fetch font ${font} from ${url}: ${error.message}`,
+      `Failed to download or register font ${font} from ${url}: ${
+        error.message
+      }`,
+      { cause: error },
     );
   }
 };
