@@ -58,11 +58,7 @@ Cypress.Commands.add('fillVaTextarea', (field, value) => {
     const strValue = value.toString();
     const element =
       typeof field === 'string'
-        ? cy.get(`va-textarea[name="${field}"]`, {
-            includeShadowDom: true,
-            waitForAnimations: true,
-            timeout: 2000,
-          })
+        ? cy.get(`va-textarea[name="${field}"]`)
         : cy.wrap(field);
 
     element

@@ -19,7 +19,7 @@ function addFile(option, elementName) {
 
   // add a wait to ensure additional input has fully rendered and updated before triggering validation
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(2000);
+  cy.wait(1000);
 
   cy.get('va-file-input-multiple')
     .shadow()
