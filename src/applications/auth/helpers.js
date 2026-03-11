@@ -132,12 +132,12 @@ export const checkPortalRequirements = ({
   const redirectElligible =
     isPortalNoticeInterstitialEnabled && provisioned && vaPatient;
 
-  const activeFacilities = ['757'];
+  const activeFacilities = ['692'];
   const approvedFacilities = [
     ...activeFacilities,
     '653',
     '687',
-    '692',
+    '757',
     '668',
     '556',
   ];
