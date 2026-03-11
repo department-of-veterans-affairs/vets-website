@@ -20,10 +20,9 @@ find "$SERVE_DIR" -name "*.html" -exec \
 
 # Inject status banner script into served directory so users see content-build progress
 cp "$(pwd)/script/review-status-banner.js" "$SERVE_DIR/review-status-banner.js"
-# Add script tag to the root index.html (before </body>)
-if [ -f "$SERVE_DIR/index.html" ]; then
-  sed -i 's|</body>|<script nonce="**CSP_NONCE**" src="/review-status-banner.js"></script></body>|' "$SERVE_DIR/index.html"
-fi
+# Add banner script tag to every HTML file — each app route has its own index.html
+find "$SERVE_DIR" -name "*.html" -exec \
+  sed -i 's|</body>|<script nonce="**CSP_NONCE**" src="/review-status-banner.js"></script></body>|' {} +
 
 # Start http-server in the background on the target port
 npx http-server "$SERVE_DIR" -p 3002 --proxy "${API_URL}" -c-1 &
