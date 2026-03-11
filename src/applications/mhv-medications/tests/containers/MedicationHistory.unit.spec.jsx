@@ -10,6 +10,7 @@ import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi } from '../testing-utils';
 import MedicationHistory from '../../containers/MedicationHistory';
 import reducers from '../../reducers';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 describe('MedicationHistory container', () => {
   let sandbox;
@@ -160,6 +161,10 @@ describe('MedicationHistory container', () => {
       });
       expect(link).to.exist;
       expect(link.getAttribute('href')).to.equal('/in-progress');
+      expect(link.getAttribute('data-dd-action-name')).to.equal(
+        dataDogActionNames.medicationsHistoryPage
+          .GO_TO_IN_PROGRESS_MEDICATIONS_LINK,
+      );
     });
   });
 
@@ -178,6 +183,9 @@ describe('MedicationHistory container', () => {
       });
       expect(link).to.exist;
       expect(link.getAttribute('href')).to.equal('/refill');
+      expect(link.getAttribute('data-dd-action-name')).to.equal(
+        dataDogActionNames.medicationsHistoryPage.REFILL_MEDICATIONS_LINK,
+      );
     });
   });
 

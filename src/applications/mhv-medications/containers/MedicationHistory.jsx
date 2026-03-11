@@ -30,7 +30,7 @@ import {
   rxListSortingOptions,
   ALL_MEDICATIONS_FILTER_KEY,
 } from '../util/constants';
-import { pageType } from '../util/dataDogConstants';
+import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import { getFilterOptions } from '../util/helpers/getRxStatus';
 import {
   selectCernerPilotFlag,
@@ -218,9 +218,24 @@ const MedicationHistory = () => {
   return (
     <div>
       <h1 data-testid="medication-history-heading">Medication history</h1>
-      <Link to="/in-progress">Go to your in-progress medications</Link>
+      <Link
+        to="/in-progress"
+        data-dd-action-name={
+          dataDogActionNames.medicationsHistoryPage
+            .GO_TO_IN_PROGRESS_MEDICATIONS_LINK
+        }
+      >
+        Go to your in-progress medications
+      </Link>
       <span className="vads-u-margin-x--1">|</span>
-      <Link to="/refill">Refill medications</Link>
+      <Link
+        to="/refill"
+        data-dd-action-name={
+          dataDogActionNames.medicationsHistoryPage.REFILL_MEDICATIONS_LINK
+        }
+      >
+        Refill medications
+      </Link>
       {renderContent()}
       <NeedHelp page={pageType.HISTORY} headingLevel={2} />
     </div>
