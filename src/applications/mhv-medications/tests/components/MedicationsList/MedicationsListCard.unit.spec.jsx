@@ -56,7 +56,7 @@ describe('Medication card component', () => {
 
   const setup = (rx = prescriptionsListItem, initialState = {}) => {
     return renderWithStoreAndRouterV6(<MedicationsListCard rx={rx} />, {
-      state: initialState,
+      initialState,
       reducers,
     });
   };
