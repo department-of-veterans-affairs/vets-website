@@ -7,7 +7,7 @@ import {
 
 const uiSchema = {
   ...titleUI('Your Veteran or service member status'),
-  veteranStatus: yesNoUI({
+  dutyRequirementMet: yesNoUI({
     title:
       'Are you a Veteran or service member who has completed 3 years (36 months) of active duty service upon application?',
     errorMessages: {
@@ -26,21 +26,21 @@ const uiSchema = {
     ),
     'ui:options': {
       hideIf: formData =>
-        formData?.veteranStatus === true ||
-        formData?.veteranStatus === undefined,
+        formData?.dutyRequirementMet === true ||
+        formData?.dutyRequirementMet === undefined,
     },
   },
 };
 const schema = {
   type: 'object',
   properties: {
-    veteranStatus: yesNoSchema,
+    dutyRequirementMet: yesNoSchema,
     'view:veteranStatusInfoAlert': {
       type: 'object',
       properties: {},
     },
   },
-  required: ['veteranStatus'],
+  required: ['dutyRequirementMet'],
 };
 
 export { uiSchema, schema };

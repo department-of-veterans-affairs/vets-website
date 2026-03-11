@@ -87,4 +87,45 @@ describe('<Payments />', () => {
     const page = getPageFromURL(location);
     expect(page).to.equal(1);
   });
+
+  it('should move focus to the table heading when a page is changed', async () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={[{ pathname: '/', search: '?page=1' }]}>
+        <Payments
+          fields={paymentsReceivedFields}
+          data={payments.payments}
+          tableVersion="received"
+          textContent={paymentsReceivedContent}
+        />
+      </MemoryRouter>,
+    );
+
+    const tableHeading = container.querySelector('h3[tabindex="-1"]');
+    expect(tableHeading).to.exist;
+
+    // Simulate pagination event
+    const paginationEl = container.querySelector('va-pagination');
+    paginationEl.dispatchEvent(
+      new CustomEvent('pageSelect', { detail: { page: 2 }, bubbles: true }),
+    );
+
+    expect(document.activeElement).to.equal(tableHeading);
+  });
+
+  it('should have a table heading with tabIndex -1 to allow programmatic focus', async () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={[{ pathname: '/', search: '?page=1' }]}>
+        <Payments
+          fields={paymentsReceivedFields}
+          data={payments.payments}
+          tableVersion="received"
+          textContent={paymentsReceivedContent}
+        />
+      </MemoryRouter>,
+    );
+
+    const tableHeading = container.querySelector('h3[tabindex="-1"]');
+    expect(tableHeading).to.exist;
+    expect(tableHeading.getAttribute('tabindex')).to.equal('-1');
+  });
 });

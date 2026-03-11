@@ -19,7 +19,6 @@ import {
   selectFeatureDirectScheduling,
   selectFeatureMentalHealthHistoryFiltering,
   selectFeatureRemoveFacilityConfigCheck,
-  selectFeatureUseBrowserTimezone,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
   selectFeatureUseVpg,
@@ -342,7 +341,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const featurePastVisitMHFilter = selectFeatureMentalHealthHistoryFiltering(
       state,
     );
-    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
     const removeFacilityConfigCheck = selectFeatureRemoveFacilityConfigCheck(
       state,
@@ -365,7 +363,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
             directSchedulingEnabled,
             isCerner: true,
             removeFacilityConfigCheck,
-            featureUseBrowserTimezone,
           });
 
           dispatch({
@@ -400,7 +397,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
           directSchedulingEnabled,
           featurePastVisitMHFilter,
           removeFacilityConfigCheck,
-          featureUseBrowserTimezone,
         });
         if (showModal) {
           recordEvent({
@@ -868,7 +864,6 @@ export function submitAppointmentOrRequest(history) {
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
-    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
     const useVpg = selectFeatureUseVpg(state);
     const selectedEhr = selectAppointmentEhr(state);
 
@@ -893,7 +888,6 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState(), useVpg),
-          featureUseBrowserTimezone,
         });
 
         dispatch({
@@ -981,7 +975,6 @@ export function submitAppointmentOrRequest(history) {
 
         const requestData = await createAppointment({
           appointment: requestBody,
-          featureUseBrowserTimezone,
         });
 
         dispatch({

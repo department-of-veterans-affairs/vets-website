@@ -12,7 +12,7 @@ export const mockInquiries = [
       hasBeenSplit: false,
       inquiryTopic: 'Audiology and hearing aids',
       levelOfAuthentication: 'Personal',
-      lastUpdate: '12/12/2024 12:00:00 AM',
+      lastUpdate: '12/11/2024 12:30:00 AM',
       queueId: 'f9d63862-d81f-ed11-b83c-001dd8069009',
       queueName: 'VHA Audiology',
       status: 'inprogress',

@@ -80,7 +80,7 @@ We currently maintain **4 applications** covering various benefits claim types:
 - **Purpose**: State/tribal organizations request burial benefits for deceased Veterans
 - **Users**: State organizations, tribal organizations
 - **Entry**: `21p-530a-interment-allowance`
-- **URL**: `/submit-state-interment-allowance-form-21p-530a`
+- **URL**: `/forms/21p-530a/submit-state-interment-allowance-request`
 - **API**: `POST /v0/form21p530a`
 - **Documentation**: [README](./21p-530a-interment-allowance/README.md)
 

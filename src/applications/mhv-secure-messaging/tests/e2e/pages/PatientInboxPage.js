@@ -331,7 +331,7 @@ class PatientInboxPage {
       data: mockThread.data[0],
     }).as('messageAgain');
 
-    cy.get(Locators.BUTTONS.REPLY).click({
+    cy.findByTestId(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
     PatientInterstitialPage.getContinueButton().click();
@@ -347,7 +347,7 @@ class PatientInboxPage {
       data: mockThread.data[0],
     }).as('messageAgain');
 
-    cy.get(Locators.BUTTONS.REPLY).click({
+    cy.findByTestId(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
     PatientInterstitialPage.getStartMessageLink().click();
