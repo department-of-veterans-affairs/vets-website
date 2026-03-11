@@ -3,6 +3,7 @@ import {
   titleUI,
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import set from 'platform/utilities/data/set';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
@@ -16,7 +17,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      mothersMaidenName,
+      mothersMaidenName: set('maxLength', 35, mothersMaidenName),
     },
   },
 };
