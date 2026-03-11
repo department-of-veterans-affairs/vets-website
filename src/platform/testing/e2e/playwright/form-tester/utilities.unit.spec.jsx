@@ -7,6 +7,7 @@ const {
   inProgressMock,
   resolvePageHooks,
   fieldKeyToDataPath,
+  setupInProgressReturnUrl,
   makeMinimalPNG,
   makeMinimalJPG,
   makeMinimalPDF,
@@ -287,6 +288,102 @@ describe('Playwright form-tester utilities', () => {
         expect(Buffer.isBuffer(result)).to.be.true;
         expect(result.toString()).to.equal('test');
       });
+    });
+  });
+
+  describe('setupInProgressReturnUrl', () => {
+    it('throws when formId is missing', async () => {
+      const page = { route: sinon.stub() };
+      try {
+        await setupInProgressReturnUrl(page, { formConfig: {} });
+        expect.fail('Should have thrown');
+      } catch (err) {
+        expect(err.message).to.include('formId is required');
+      }
+    });
+
+    it('registers /v0/user and /v0/in_progress_forms routes', async () => {
+      const routeArgs = [];
+      const page = {
+        route: sinon.stub().callsFake((pattern, _handler) => {
+          routeArgs.push(pattern);
+          return Promise.resolve();
+        }),
+      };
+      const loginFn = sinon.stub().resolves();
+
+      await setupInProgressReturnUrl(page, {
+        formConfig: { formId: '21-0781', version: 2 },
+        returnUrl: '/step-2',
+        prefill: { name: 'Test' },
+        loginFn,
+      });
+
+      expect(routeArgs).to.include('**/v0/user');
+      expect(routeArgs).to.include('**/v0/in_progress_forms/21-0781');
+    });
+
+    it('calls loginFn with page and merged userData', async () => {
+      const page = { route: sinon.stub().resolves() };
+      const loginFn = sinon.stub().resolves();
+
+      await setupInProgressReturnUrl(page, {
+        formConfig: { formId: '10-10EZ' },
+        user: { data: { attributes: { firstName: 'Jane' } } },
+        loginFn,
+      });
+
+      expect(loginFn.calledOnce).to.be.true;
+      const [, userData] = loginFn.firstCall.args;
+      expect(userData.data.attributes.firstName).to.equal('Jane');
+      expect(userData.data.attributes.inProgressForms).to.be.an('array');
+      expect(userData.data.attributes.inProgressForms[0].form).to.equal(
+        '10-10EZ',
+      );
+    });
+
+    it('builds userData structure when user is empty', async () => {
+      const page = { route: sinon.stub().resolves() };
+      const loginFn = sinon.stub().resolves();
+
+      await setupInProgressReturnUrl(page, {
+        formConfig: { formId: '21-686c' },
+        loginFn,
+      });
+
+      const [, userData] = loginFn.firstCall.args;
+      expect(userData.data.attributes.inProgressForms).to.have.lengthOf(1);
+    });
+
+    it('includes returnUrl and prefill in SIP mock', async () => {
+      const page = { route: sinon.stub().resolves() };
+      const loginFn = sinon.stub().resolves();
+
+      await setupInProgressReturnUrl(page, {
+        formConfig: { formId: '10-10EZ', version: 1 },
+        returnUrl: '/personal-info',
+        prefill: { ssn: '123456789' },
+        loginFn,
+      });
+
+      // The SIP route handler was registered — verify via route call
+      expect(page.route.calledTwice).to.be.true;
+
+      // Verify the /v0/in_progress_forms route handler fulfills correctly
+      const sipCall = page.route
+        .getCalls()
+        .find(c => c.args[0] === '**/v0/in_progress_forms/10-10EZ');
+      expect(sipCall).to.exist;
+
+      // Simulate calling the route handler to verify response shape
+      const mockRoute = {
+        fulfill: sinon.stub(),
+      };
+      await sipCall.args[1](mockRoute);
+      const { json } = mockRoute.fulfill.firstCall.args[0];
+      expect(json.formData).to.deep.equal({ ssn: '123456789' });
+      expect(json.metadata.returnUrl).to.equal('/personal-info');
+      expect(json.metadata.version).to.equal(1);
     });
   });
 });
