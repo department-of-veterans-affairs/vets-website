@@ -21,14 +21,8 @@ import {
   isDefined,
   surrenderValueRequired,
   sharedYesNoOptionsBase,
-  showUpdatedContent,
   requireExpandedArrayField,
 } from '../../../helpers';
-import { DependentDescription } from '../../../components/DependentDescription';
-
-const customDependentDescription = props => {
-  return props.formData.annuities ? <></> : <DependentDescription />; // render the dependent description component if no annuities are present
-};
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -106,8 +100,8 @@ export const options = {
 // Important: only one summary page should ever be displayed at a time.
 
 // Shared summary page text
-const updatedTitleNoItems = 'Do you or your dependents have an annuity?';
-const updatedTitleWithItems = 'Do you have another annuity to report?';
+const titleNoItems = 'Do you or your dependents have an annuity?';
+const titleWithItems = 'Do you have another annuity to report?';
 const summaryPageTitle = 'Annuities summary';
 const yesNoOptionLabels = {
   Y: 'Yes, I have an annuity to report',
@@ -120,23 +114,6 @@ const yesNoOptionLabels = {
  * @returns {PageSchema}
  */
 const summaryPage = {
-  uiSchema: {
-    'view:isAddingAnnuities': arrayBuilderYesNoUI(
-      options,
-      {
-        title: 'Have you or your dependents established an annuity?',
-        hint: 'If yes, you’ll need to report at least one annuity',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-      },
-      {
-        title: updatedTitleWithItems,
-        ...sharedYesNoOptionsBase,
-      },
-    ),
-  },
   schema: {
     type: 'object',
     properties: {
@@ -152,7 +129,7 @@ const veteranSummaryPage = {
     'view:isAddingAnnuities': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
         labelHeaderLevel: '1',
@@ -160,7 +137,7 @@ const veteranSummaryPage = {
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -173,14 +150,14 @@ const spouseSummaryPage = {
     'view:isAddingAnnuities': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint: 'Your dependents include children who you financially support. ',
         labelHeaderLevel: '1',
         labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -200,7 +177,7 @@ const childSummaryPage = {
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -212,7 +189,7 @@ const parentSummaryPage = {
     'view:isAddingAnnuities': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner.',
         labelHeaderLevel: '1',
@@ -220,7 +197,7 @@ const parentSummaryPage = {
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -233,7 +210,7 @@ const custodianSummaryPage = {
     'view:isAddingAnnuities': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: titleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
         labelHeaderLevel: '1',
@@ -241,7 +218,7 @@ const custodianSummaryPage = {
         labels: yesNoOptionLabels,
       },
       {
-        title: updatedTitleWithItems,
+        title: titleWithItems,
         ...sharedYesNoOptionsBase,
       },
     ),
@@ -392,52 +369,36 @@ export const annuityPages = arrayBuilderPages(options, pageBuilder => ({
   annuityPagesVeteranSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'annuities-summary-veteran',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'VETERAN',
+    depends: formData => formData.claimantType === 'VETERAN',
     uiSchema: veteranSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   annuityPagesSpouseSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'annuities-summary-spouse',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'SPOUSE',
+    depends: formData => formData.claimantType === 'SPOUSE',
     uiSchema: spouseSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   annuityPagesChildSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'annuities-summary-child',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'CHILD',
+    depends: formData => formData.claimantType === 'CHILD',
     uiSchema: childSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   annuityPagesCustodianSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'annuities-summary-custodian',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+    depends: formData => formData.claimantType === 'CUSTODIAN',
     uiSchema: custodianSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   annuityPagesParentSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'annuities-summary-parent',
-    depends: formData =>
-      showUpdatedContent() && formData.claimantType === 'PARENT',
+    depends: formData => formData.claimantType === 'PARENT',
     uiSchema: parentSummaryPage.uiSchema,
-    schema: summaryPage.schema,
-  }),
-  // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
-  annuityPagesSummary: pageBuilder.summaryPage({
-    ContentBeforeButtons: showUpdatedContent()
-      ? customDependentDescription
-      : null,
-    title: 'Annuities summary',
-    path: 'annuities-summary',
-    depends: () => !showUpdatedContent(),
-    uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   annuityInformationPage: pageBuilder.itemPage({

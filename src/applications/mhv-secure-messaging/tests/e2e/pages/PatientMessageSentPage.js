@@ -62,13 +62,13 @@ class PatientMessageSentPage {
       mockSingleMessageResponse,
     ).as('detailedMessage');
 
-    cy.get(Locators.THREADS)
+    cy.findAllByTestId(Locators.THREADS)
       .first()
       .click();
   };
 
   verifyResponseBodyLength = (responseData = mockSentMessages) => {
-    cy.get(Locators.THREADS).should(
+    cy.findAllByTestId(Locators.THREADS).should(
       'have.length',
       `${responseData.data.length}`,
     );

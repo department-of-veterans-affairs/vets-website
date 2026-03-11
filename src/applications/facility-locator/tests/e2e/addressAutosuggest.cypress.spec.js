@@ -30,10 +30,10 @@ describe('Facility Locator Address Autosuggest provides correct results from map
     // Type 1 character — dropdown should NOT open
     cy.get(h.AUTOSUGGEST_ADDRESS_INPUT).type('Po');
     verifyDropdownIsClosed();
+    cy.get(h.AUTOSUGGEST_ADDRESS_INPUT).clear(); // clear input
 
     // Type a 3rd character (total: 3) — should now trigger
-    cy.get(h.AUTOSUGGEST_ADDRESS_INPUT).type('r');
-    cy.wait('@mapbox');
+    cy.get(h.AUTOSUGGEST_ADDRESS_INPUT).type('Por', { delay: 2000 });
     verifyDropdownIsOpen();
   });
 
@@ -41,9 +41,7 @@ describe('Facility Locator Address Autosuggest provides correct results from map
     cy.visit('/find-locations');
     cy.injectAxe();
 
-    cy.get('#street-city-state-zip').type('Port');
-
-    cy.wait('@mapbox');
+    cy.get('#street-city-state-zip').type('Port', { delay: 2000 });
 
     cy.get(h.AUTOSUGGEST_ADDRESS_CONTAINER)
       .find(h.AUTOSUGGEST_ADDRESS_OPTIONS)

@@ -360,7 +360,6 @@ describe('pageDetails', () => {
         address: {
           street: '123 Test St',
           street2: 'Suite 100',
-          street3: 'Station 3',
           city: 'Test City',
           state: 'AK',
           postalCode: '99501',
@@ -380,7 +379,7 @@ describe('pageDetails', () => {
 
       expect(details[3].label).to.equal('Child’s current address');
       expect(details[3].value).to.equal(
-        '123 Test St, Suite 100, Station 3, Test City, AK 99501',
+        '123 Test St, Suite 100, Test City, AK 99501',
       );
       expect(details[4].label).to.equal('Child lives with');
       expect(details[4].value).to.equal('John A Doe');
@@ -480,6 +479,29 @@ describe('showExitLink', () => {
     expect(showExitLink({ data, index: 1 })).to.be.false;
     expect(showExitLink({ data, index: 2 })).to.be.false;
     expect(showExitLink({ data, index: 3 })).to.be.false;
+  });
+
+  it('should return false when add dependent is also selected', () => {
+    const data = {
+      'view:addOrRemoveDependents': { add: true, remove: true },
+      [PICKLIST_DATA]: [{ selected: false }, { selected: true }],
+      [PICKLIST_PATHS]: [{ path: 'test1-exit', index: 1 }],
+    };
+    expect(showExitLink({ data, index: 0 })).to.be.false;
+    expect(showExitLink({ data, index: 1 })).to.be.false;
+  });
+
+  it('should return false when only add dependent is selected', () => {
+    const data = {
+      'view:addOrRemoveDependents': { add: true },
+      [PICKLIST_DATA]: [{ selected: true }, { selected: true }],
+      [PICKLIST_PATHS]: [
+        { path: 'test1-exit', index: 0 },
+        { path: 'test2-exit', index: 1 },
+      ],
+    };
+    expect(showExitLink({ data, index: 0 })).to.be.false;
+    expect(showExitLink({ data, index: 1 })).to.be.false;
   });
 
   it('should return true for a single exit page', () => {

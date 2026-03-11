@@ -30,4 +30,20 @@ describe('22-0839 Form Config', () => {
     });
     expect(goPathSecond.calledWith('institution-details-facility')).to.be.true;
   });
+
+  it('pointsOfContactChapter title only switches on additional-points-of-contact page', () => {
+    const chapterTitle = formConfig.chapters.pointsOfContactChapter.title;
+
+    expect(chapterTitle).to.be.a('function');
+
+    const originalPath = window.location.pathname;
+
+    window.history.pushState({}, '', '/points-of-contact');
+    expect(chapterTitle()).to.equal('Points of contact');
+
+    window.history.pushState({}, '', '/additional-points-of-contact');
+    expect(chapterTitle()).to.equal('Point of contact');
+
+    window.history.pushState({}, '', originalPath || '/');
+  });
 });

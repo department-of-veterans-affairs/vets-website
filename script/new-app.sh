@@ -27,13 +27,12 @@
 #   --addToMyVaSip=[true/false] \
 #   --templateType="WITH_1_PAGE"
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+# Install yo@6 and the generator into a temporary directory to isolate
+# them from the main node_modules. npx -p does not reliably expose binaries
+# in npm 10 (Node 22), so we install explicitly and invoke the binary directly.
+TMPDIR=$(mktemp -d)
+trap "rm -rf $TMPDIR" EXIT
 
-YO_BIN="$PROJECT_ROOT/node_modules/.bin/yo"
+npm install --prefix "$TMPDIR" --loglevel=error yo@6 @department-of-veterans-affairs/generator-vets-website@4 > /dev/null 2>&1
 
-if [ $# -eq 0 ]; then
-  "$YO_BIN" @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix > /dev/null 2>&1
-else
-  "$YO_BIN" @department-of-veterans-affairs/vets-website "$@" && npm run lint:js:untracked:fix > /dev/null 2>&1
-fi
+"$TMPDIR/node_modules/.bin/yo" @department-of-veterans-affairs/vets-website "$@" && npm run lint:js:untracked:fix > /dev/null 2>&1

@@ -5,8 +5,14 @@ import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/plat
 import { waitFor } from '@testing-library/dom';
 import * as datadogRumModule from '@datadog/browser-rum';
 import reducer from '../../../reducers';
-import { rxListSortingOptions } from '../../../util/constants';
+import {
+  rxListSortingOptions,
+  rxListSortingOptionsV2,
+} from '../../../util/constants';
 import MedicationsListSort from '../../../components/MedicationsList/MedicationsListSort';
+
+const MANAGEMENT_IMPROVEMENTS_TOGGLE =
+  'mhv_medications_management_improvements';
 
 describe('Medications List Sort component', () => {
   let sandbox;
@@ -24,6 +30,10 @@ describe('Medications List Sort component', () => {
       preferences: {
         sortOption: 'alphabeticallyByStatus',
       },
+    },
+    featureToggles: {
+      loading: false,
+      [MANAGEMENT_IMPROVEMENTS_TOGGLE]: false,
     },
   };
 
@@ -128,6 +138,50 @@ describe('Medications List Sort component', () => {
       expect(addActionStub.firstCall.args[0]).to.equal(
         'Alphabetical Order Option - List Page',
       );
+    });
+  });
+
+  describe('when management improvements flag is enabled', () => {
+    const managementImprovementsState = {
+      rx: {
+        preferences: {
+          sortOption: 'mostRecentlyFilled',
+        },
+      },
+      featureToggles: {
+        loading: false,
+        [MANAGEMENT_IMPROVEMENTS_TOGGLE]: true,
+      },
+    };
+
+    it('renders V2 sort options', () => {
+      const screen = setup(true, () => {}, managementImprovementsState);
+      const sortOptions = screen.getAllByTestId('sort-option');
+      expect(sortOptions.length).to.equal(
+        Object.keys(rxListSortingOptionsV2).length,
+      );
+    });
+
+    it('displays the selected V2 sort option from Redux state', () => {
+      const screen = setup(true, () => {}, managementImprovementsState);
+      const dropdown = screen.getByTestId('sort-dropdown');
+      expect(dropdown.getAttribute('value')).to.equal('mostRecentlyFilled');
+    });
+
+    it('updates screen reader text with V2 sort label', async () => {
+      const screen = setup(true, () => {}, managementImprovementsState);
+      const dropdown = screen.getByTestId('sort-dropdown');
+      const srText = screen.getByTestId('sort-action-sr-text');
+
+      dropdown.__events.vaSelect({
+        detail: { value: 'alphabeticalByName' },
+      });
+
+      await waitFor(() => {
+        expect(srText.textContent).to.equal(
+          `Sorting: ${rxListSortingOptionsV2.alphabeticalByName.LABEL}`,
+        );
+      });
     });
   });
 });

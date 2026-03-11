@@ -324,7 +324,7 @@ describe('686 Remove child no longer in household: Stepchild’s address', () =>
     );
 
     expect($$('va-checkbox', container).length).to.equal(1);
-    expect($$('va-text-input', container).length).to.equal(6);
+    expect($$('va-text-input', container).length).to.equal(5);
     expect($$('va-select', container).length).to.equal(1);
   });
 

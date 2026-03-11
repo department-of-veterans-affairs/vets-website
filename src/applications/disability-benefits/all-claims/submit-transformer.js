@@ -28,6 +28,7 @@ import {
   addForm0781,
   addForm0781V2,
   addForm8940,
+  setSeparationHealthAssessmentAttachmentId,
   addFileAttachments,
   normalizeIncreases,
   sanitizeNewDisabilities,
@@ -176,7 +177,7 @@ export function transform(formConfig, form) {
           default:
         }
 
-        return { ...disability, ...disabilityDescription };
+        return { ...disabilityDescription, ...disability };
       },
     );
 
@@ -362,6 +363,7 @@ export function transform(formConfig, form) {
     addForm0781,
     addForm0781V2,
     addForm8940,
+    setSeparationHealthAssessmentAttachmentId, // TODO: Remove this when handled downstream.
     addFileAttachments,
     transformCountryCodeToName,
     fullyDevelopedClaim,

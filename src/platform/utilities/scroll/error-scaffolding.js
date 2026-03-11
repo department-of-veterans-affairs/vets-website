@@ -82,12 +82,6 @@ const ERROR_ATTRIBUTE_SELECTOR_STRING = ERROR_ATTR_SELECTORS.map(
 const HIDDEN_FILTER = ':not([aria-hidden="true"]):not([hidden])';
 const INPUT_SELECTOR = `input${HIDDEN_FILTER}, textarea${HIDDEN_FILTER}, select${HIDDEN_FILTER}`;
 const ERROR_SPAN_SELECTOR = 'span.usa-sr-only[id^="error-label-"]';
-const ERROR_MESSAGE_SELECTORS = [
-  '#error-message',
-  '#input-error-message',
-  '#radio-error-message',
-  '#checkbox-error-message',
-];
 
 // Category 3: Group Components
 const GROUP_COMPONENT_TAGS = ['VA-RADIO', 'VA-CHECKBOX-GROUP'];
@@ -902,16 +896,6 @@ const addErrorAnnotations = errorWebComponent => {
 
   // Skip child components inside date component shadow DOM - the parent handles them
   if (hasDateComponentParent(errorWebComponent)) return;
-
-  // Remove alert role from ALL error message elements to prevent duplicate announcements
-  // Use querySelectorAll since date components may have multiple error message spans
-  const errorElements = errorWebComponent?.shadowRoot?.querySelectorAll(
-    ERROR_MESSAGE_SELECTORS.join(', '),
-  );
-  errorElements?.forEach(el => {
-    el.removeAttribute('role');
-    el.removeAttribute('aria-live');
-  });
 
   const errorMessage = getErrorPropText(errorWebComponent);
   if (!errorMessage) return;

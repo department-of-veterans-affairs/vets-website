@@ -1,8 +1,90 @@
 import React from 'react';
 import _ from 'platform/utilities/data';
 import { DATA_PATHS } from '../constants';
+import { getBddShaUploads, isUploadingBddSha } from '../utils';
+
+const SECTION_CONFIGURATIONS = {
+  'bdd-sha-uploads': {
+    evidenceIdKey: 'confirmationCode',
+    evidenceNameKey: 'name',
+    isSelected: isUploadingBddSha,
+    getEvidences: getBddShaUploads,
+    getHeaderText: shouldEnhance =>
+      shouldEnhance
+        ? 'We’ll submit the Separation Health Assessment Part A (SHA A) you uploaded'
+        : 'We’ll submit the Separation Health Assessment Part A document that you uploaded',
+  },
+};
+
+const SECTION_ORDERS = {
+  UNENHANCED: [
+    'bdd-sha-uploads',
+    'va-evidence',
+    'private-evidence-uploads',
+    'private-facilities',
+    'service-treatment-records-attachments',
+    'additional-documents',
+  ],
+  ENHANCED: [
+    'bdd-sha-uploads',
+    'service-treatment-records-attachments',
+    'va-evidence',
+    'private-evidence-uploads',
+    'private-facilities',
+    'additional-documents',
+  ],
+};
+
+const buildSectionsList = (formData, { shouldEnhance }) => {
+  const sectionsList = [];
+  const sectionOrder = shouldEnhance
+    ? SECTION_ORDERS.ENHANCED
+    : SECTION_ORDERS.UNENHANCED;
+
+  for (const sectionId of sectionOrder) {
+    const configuration = SECTION_CONFIGURATIONS[sectionId];
+
+    if (configuration) {
+      const headerText = `${configuration.getHeaderText(shouldEnhance)}:`;
+      const evidences = configuration.isSelected(formData)
+        ? configuration.getEvidences(formData)
+        : [];
+
+      if (evidences.length) {
+        const evidencesList = (
+          <ul>
+            {evidences.map(evidence => {
+              const key = evidence[configuration.evidenceIdKey];
+              const name = evidence[configuration.evidenceNameKey];
+              return <li key={key}>{name}</li>;
+            })}
+          </ul>
+        );
+
+        const section = shouldEnhance ? (
+          <div key={sectionId} className="vads-u-margin-top--2">
+            <strong>{headerText}</strong>
+            {evidencesList}
+          </div>
+        ) : (
+          <div key={sectionId}>
+            <p>{headerText}</p>
+            {evidencesList}
+          </div>
+        );
+
+        sectionsList.push(section);
+      }
+    }
+  }
+
+  return sectionsList;
+};
 
 export const summaryOfEvidenceDescription = ({ formData }) => {
+  const sectionsList = buildSectionsList(formData, {
+    shouldEnhance: formData.disability526SupportingEvidenceEnhancement,
+  });
   const vaEvidence = _.get('vaTreatmentFacilities', formData, []);
   const privateEvidence = _.get('providerFacility', formData, []);
   const privateEvidenceUploads = _.get(
@@ -33,6 +115,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   // TODO: refactor logic for this content when removing current flow
   if (
     !formData.disability526SupportingEvidenceEnhancement &&
+    !sectionsList.length &&
     (!evidenceLength || (!selectedEvidence && !serviceTreatmentRecordsSelected))
   ) {
     return (
@@ -181,10 +264,11 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
 
   return (
     <div className="vads-u-margin-top--3">
-      {(evidenceLength || selectedEvidence) &&
+      {(evidenceLength || selectedEvidence || sectionsList.length) &&
         formData.disability526SupportingEvidenceEnhancement && (
           <p>You provided documents to support your claim.</p>
         )}
+      {sectionsList}
       {vaContent}
       {privateContent}
       {privateEvidenceContent}

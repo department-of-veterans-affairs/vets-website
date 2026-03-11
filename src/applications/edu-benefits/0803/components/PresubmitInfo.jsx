@@ -1,17 +1,18 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { setPreSubmit } from 'platform/forms-system/src/js/actions';
+import { connect } from 'react-redux';
 import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   fullNameReducer,
   statementOfTruthFullName,
 } from '~/platform/forms/components/review/PreSubmitSection';
+import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
-export default function PresubmitInfo({
+function PresubmitInfo({
   formData,
   showError,
   user,
+  setPreSubmit,
   onSectionComplete,
 }) {
   // local state
@@ -19,7 +20,6 @@ export default function PresubmitInfo({
   const [inputError, setInputError] = useState(null);
   const [checkboxError, setCheckboxError] = useState(null);
   const [sectionComplete, setSectionComplete] = useState(false);
-  const dispatch = useDispatch();
   const expectedFullName = statementOfTruthFullName(
     formData,
     {
@@ -31,16 +31,16 @@ export default function PresubmitInfo({
   // event handlers
   const handleCheckboxChange = useCallback(
     event => {
-      dispatch(setPreSubmit('statementOfTruthCertified', event.detail.checked));
+      setPreSubmit('statementOfTruthCertified', event.detail.checked);
     },
-    [dispatch],
+    [setPreSubmit],
   );
 
   const handleInputChange = useCallback(
     event => {
-      dispatch(setPreSubmit('statementOfTruthSignature', event.detail.value));
+      setPreSubmit('statementOfTruthSignature', event.detail.value);
     },
-    [dispatch],
+    [setPreSubmit],
   );
 
   const handleInputBlur = useCallback(() => setSignatureBlurred(true), [
@@ -87,7 +87,6 @@ export default function PresubmitInfo({
 
   return (
     <VaStatementOfTruth
-      hideLegalNote
       heading="Certification statement"
       inputLabel="Your full name"
       inputValue={formData.statementOfTruthSignature}
@@ -132,3 +131,14 @@ PresubmitInfo.propTypes = {
     }),
   }),
 };
+
+const mapDispatchToProps = {
+  setPreSubmit: setPreSubmitAction,
+};
+
+export { PresubmitInfo as BasePresubmitInfo };
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(PresubmitInfo);

@@ -32,6 +32,10 @@ export default class DirectDepositField extends ReviewCardField {
   }
 
   async componentDidUpdate() {
+    const sButton = document.querySelector('.save-button');
+    const cButton = document.querySelector('.cancel-button');
+    if (!sButton || !cButton) return;
+
     const saveButton = await querySelectorWithShadowRoot(
       'button',
       '.save-button',

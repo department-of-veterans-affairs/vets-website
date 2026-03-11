@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { ServerErrorAlert } from '../config/helpers';
 import { mockTestingFlagForAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
 import { standardizeInquiries } from '../utils/inbox';
-import InboxLayout from '../components/inbox/InboxLayout';
+import InboxLayoutOld from '../components/inbox/InboxLayoutOld';
+import InboxLayoutNew from '../components/inbox/InboxLayoutNew';
 import { getAllInquiries } from '../utils/api';
 
 export default function Inbox() {
   const [hasError, setHasError] = useState(false);
-  const [inquiries, setInquiries] = useState({ business: [], personal: [] });
+  const [inquiries, setInquiries] = useState([]);
+  const [inquiryTypes, setInquiryTypes] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [statusOptions, setStatusOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -16,13 +19,14 @@ export default function Inbox() {
   useEffect(() => {
     function saveInState(rawInquiries) {
       const {
-        business,
-        personal,
+        standardInquiries,
+        types,
         uniqueCategories,
         uniqueStatuses,
       } = standardizeInquiries(rawInquiries);
 
-      setInquiries({ business, personal });
+      setInquiries(standardInquiries);
+      setInquiryTypes(types);
       setCategoryOptions(uniqueCategories);
       setStatusOptions(uniqueStatuses);
       setIsLoading(false);
@@ -62,5 +66,19 @@ export default function Inbox() {
     );
   }
 
-  return <InboxLayout {...{ inquiries, categoryOptions, statusOptions }} />;
+  // TODO feature toggle uses redux state - remember to remove from unit tests as well
+  return (
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.askVaEnhancedInbox}>
+      <Toggler.Enabled>
+        <InboxLayoutNew
+          {...{ inquiries, inquiryTypes, categoryOptions, statusOptions }}
+        />
+      </Toggler.Enabled>
+      <Toggler.Disabled>
+        <InboxLayoutOld
+          {...{ inquiries, inquiryTypes, categoryOptions, statusOptions }}
+        />
+      </Toggler.Disabled>
+    </Toggler>
+  );
 }

@@ -14,7 +14,10 @@ export const veteranBurialInformationPage = {
     ...titleUI('Veteran’s interment information'),
     veteranInformation: {
       dateOfDeath: {
-        ...currentOrPastDateUI('Date of death'),
+        ...currentOrPastDateUI({
+          title: 'Date of death',
+          dataDogHidden: true,
+        }),
         'ui:validations': [
           (errors, fieldData, formData) => {
             validateEndDateAfterStartDate(
@@ -30,7 +33,10 @@ export const veteranBurialInformationPage = {
     },
     burialInformation: {
       dateOfBurial: {
-        ...currentOrPastDateUI('Date of burial'),
+        ...currentOrPastDateUI({
+          title: 'Date of burial',
+          dataDogHidden: true,
+        }),
         'ui:validations': [
           (errors, fieldData, formData) => {
             validateEndDateAfterStartDate(

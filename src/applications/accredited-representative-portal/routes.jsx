@@ -130,6 +130,7 @@ const routes = [
                 element: (
                   <ClaimantSubmissionHistoryPage title="Submission history | Accredited Representative Portal | Veterans Affairs" />
                 ),
+                loader: ClaimantSubmissionHistoryPage.loader,
               },
               {
                 path: 'representation-requests/:id',

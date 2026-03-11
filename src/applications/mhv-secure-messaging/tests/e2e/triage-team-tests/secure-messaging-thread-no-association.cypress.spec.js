@@ -101,6 +101,6 @@ describe('SM NO ASSOCIATION WITH PARTICULAR TG', () => {
       .should('have.attr', 'href', Paths.FIND_LOCATIONS)
       .and('have.attr', 'text', Alerts.NO_ASSOCIATION.LINK);
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
   });
 });

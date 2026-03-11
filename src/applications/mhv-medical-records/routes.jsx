@@ -1,10 +1,11 @@
 import React, { Suspense } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useParams } from 'react-router-dom';
 import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
 import { lazyWithRetry } from '~/platform/utilities/lazy-load-with-retry';
 import AppRoute from './components/shared/AppRoute';
 import FeatureFlagRoute from './components/shared/FeatureFlagRoute';
+import { isRadiologyId } from './util/helpers';
 
 // Lazy-loaded components with retry logic for Safari/iOS bfcache issues.
 const HealthConditions = lazyWithRetry(() =>
@@ -37,6 +38,9 @@ const CareSummariesDetails = lazyWithRetry(() =>
 const SettingsPage = lazyWithRetry(() => import('./containers/SettingsPage'));
 const RadiologyImagesList = lazyWithRetry(() =>
   import('./containers/RadiologyImagesList'),
+);
+const ScdfRadiologyImagesList = lazyWithRetry(() =>
+  import('./containers/ScdfRadiologyImagesList'),
 );
 const RadiologySingleImage = lazyWithRetry(() =>
   import('./containers/RadiologySingleImage'),
@@ -74,6 +78,19 @@ const AccessGuardWrapper = ({ children }) => {
     return redirectToMyHealth;
   }
   return children;
+};
+
+/**
+ * Thin wrapper that decides whether to render the CVIX or SCDF images page
+ * based on the format of the labId route param. CVIX IDs start with 'r',
+ * while SCDF FHIR IDs do not.
+ */
+const RadiologyImagesPage = () => {
+  const { labId } = useParams();
+  if (isRadiologyId(labId)) {
+    return <RadiologyImagesList />;
+  }
+  return <ScdfRadiologyImagesList />;
 };
 
 const routes = (
@@ -129,7 +146,7 @@ const routes = (
           path="/labs-and-tests/:labId/images"
           key="RadiologyImagesList"
         >
-          <RadiologyImagesList />
+          <RadiologyImagesPage />
         </AppRoute>
         <AppRoute
           exact
