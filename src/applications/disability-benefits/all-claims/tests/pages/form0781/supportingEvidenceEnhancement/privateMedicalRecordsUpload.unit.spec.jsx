@@ -16,7 +16,7 @@ describe('Private Medical Records Upload page', () => {
     formConfig.chapters.supportingEvidence.pages.privateMedicalRecordsUpload;
 
   describe('page configuration', () => {
-    // TODO: Potentially Update this title -> will check with Design
+    // TODO: Potentially Update this title => will check with Design
     it('should have correct title', () => {
       expect(page.title).to.equal('Upload non-VA treatment records');
     });

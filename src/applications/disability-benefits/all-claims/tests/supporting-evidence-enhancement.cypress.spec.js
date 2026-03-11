@@ -12,12 +12,21 @@ import { MOCK_SIPS_API } from '../constants';
 
 Cypress.config('waitForAnimations', true);
 
+/** @constant {string} RETURN_URL - Save-in-progress returnUrl that navigates to the evidence request page on form load */
 const RETURN_URL = '/supporting-evidence/evidence-request';
 
-// Build feature toggles with the enhancement flag ON and the V3 file input
-// flag set to the given value. When v3Enabled is true the form renders
-// va-file-input-multiple (V0 pages); when false it falls back to the legacy
-// FileField upload component (V1 pages).
+/**
+ * Builds feature toggle payload with the enhancement flag ON and the
+ * FileInputV3 flag set to the given value.
+ *
+ * When `v3Enabled` is `true` the form renders `va-file-input-multiple`
+ * (V0 pages); when `false` it falls back to the legacy FileField upload
+ * component (V1 pages).
+ *
+ * @param {Object} options
+ * @param {boolean} [options.v3Enabled=false] - Whether the FileInputV3 toggle is enabled
+ * @returns {Object} Feature toggle response payload
+ */
 const createToggles = ({ v3Enabled = false } = {}) => ({
   data: {
     type: 'feature_toggles',
@@ -25,7 +34,8 @@ const createToggles = ({ v3Enabled = false } = {}) => ({
       ...mockFeatureToggles.data.features.filter(
         f =>
           f.name !== 'disability_526_supporting_evidence_enhancement' &&
-          f.name !== 'disability_526_supporting_evidence_file_input_v3',
+          f.name !== 'disability_526_supporting_evidence_file_input_v3' &&
+          f.name !== 'disability_526_form4142_use_2024_version',
       ),
       {
         name: 'disability_526_supporting_evidence_enhancement',
@@ -35,30 +45,57 @@ const createToggles = ({ v3Enabled = false } = {}) => ({
         name: 'disability_526_supporting_evidence_file_input_v3',
         value: v3Enabled,
       },
+      {
+        name: 'disability_526_form4142_use_2024_version',
+        value: true,
+      },
     ],
   },
 });
 
-// Routing scenarios covered by data sets:
-//
-// evidence-enhancement-no-evidence:
-//   Orientation -> Evidence Request (No) -> Additional Evidence Intro (No)
-//   -> Summary (no evidence warning)
-//
-// evidence-enhancement-va-only:
-//   Orientation -> Evidence Request (Yes) -> Medical Records (VA checked)
-//   -> VA Medical Records -> Additional Evidence Intro (No) -> Summary
-//
-// evidence-enhancement-full-path:
-//   Orientation -> Evidence Request (Yes)
-//   -> Medical Records (VA + Private checked) -> VA Medical Records
-//   -> Private Medical Records (upload) -> Private Records Upload Enhancement
-//   -> Additional Evidence Intro (Yes) -> Additional Evidence Upload -> Summary
-//
-// Each scenario runs twice: once with FileInputV3 ON (V0 pages using
-// va-file-input-multiple) and once with FileInputV3 OFF (V1 pages using
-// legacy FileField).
+/**
+ * Routing scenarios covered by data sets:
+ *
+ * - **no-evidence** -
+ *   Orientation => Evidence Request (No) => Additional Evidence Intro (No)
+ *   => Summary (no evidence warning)
+ *
+ * - **va-only** -
+ *   Orientation => Evidence Request (Yes) => Medical Records (VA checked)
+ *   => VA Medical Records => Additional Evidence Intro (No) => Summary
+ *
+ * - **full-path** -
+ *   Orientation => Evidence Request (Yes)
+ *   => Medical Records (VA + Private checked) => VA Medical Records
+ *   => Private Medical Records (upload) => Private Records Upload Enhancement
+ *   => Additional Evidence Intro (Yes) => Additional Evidence Upload => Summary
+ *
+ * - **private-upload** -
+ *   Orientation => Evidence Request (Yes) => Medical Records (Private only)
+ *   => Private Medical Records (upload) => Private Records Upload Enhancement
+ *   => Additional Evidence Intro (No) => Summary
+ *
+ * - **additional-docs-only** -
+ *   Orientation => Evidence Request (No) => Additional Evidence Intro (Yes)
+ *   => Additional Evidence Upload => Summary
+ *
+ * - **4142-provider** -
+ *   Orientation => Evidence Request (Yes) => Medical Records (Private only)
+ *   => Private Medical Records (VA to retrieve) => Auth Page
+ *   => Provider Release => Additional Evidence Intro (No) => Summary
+ *
+ * Each scenario runs twice: once with FileInputV3 ON (V0 pages using
+ * `va-file-input-multiple`) and once with FileInputV3 OFF (V1 pages using
+ * legacy FileField).
+ */
 
+/**
+ * Creates a form-tester config for the supporting evidence enhancement flow.
+ *
+ * @param {Object} options
+ * @param {boolean} options.v3Enabled - Whether the FileInputV3 toggle is enabled
+ * @returns {Object} Form tester configuration object
+ */
 const createEnhancementTestConfig = ({ v3Enabled }) => {
   const toggles = createToggles({ v3Enabled });
   const v3Label = v3Enabled ? 'FileInputV3 ON' : 'FileInputV3 OFF';
@@ -71,21 +108,30 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
       useWebComponentFields: true,
 
       dataSets: [
-        'evidence-enhancement-no-evidence',
-        'evidence-enhancement-va-only',
-        'evidence-enhancement-full-path',
+        'no-evidence',
+        'va-only',
+        'full-path',
+        'private-upload',
+        'additional-docs-only',
+        '4142-provider',
       ],
 
       fixtures: {
-        data: path.join(__dirname, 'fixtures', 'data'),
+        data: path.join(
+          __dirname,
+          'fixtures',
+          'data',
+          '0781-evidence-enhancement',
+        ),
       },
 
       pageHooks: {
         ...pageHooks(cy),
 
-        // Override the shared introduction hook so that after clicking
-        // "Start the application" we wait for the SIPS returnUrl redirect
-        // to land on the evidence-request page before processPage continues.
+        /**
+         * Introduction page hook - clicks "Start the application" and waits
+         * for the SIPS returnUrl redirect to the evidence-request page.
+         */
         introduction: () => {
           cy.findAllByText(/start the/i, { selector: 'a' })
             .first()
@@ -93,9 +139,10 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
           cy.url().should('include', 'supporting-evidence/evidence-request');
         },
 
-        // Evidence Request — dismiss ITF interstitial then fill custom
-        // VaRadio Yes/No. The form-tester's default post hook handles
-        // page navigation via clickFormContinue().
+        /**
+         * Evidence Request page hook - dismisses the ITF interstitial, then
+         * fills the custom VaRadio Yes/No based on test data.
+         */
         'supporting-evidence/evidence-request': () => {
           cy.get('.itf-wrapper')
             .should('be.visible')
@@ -111,7 +158,10 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
           });
         },
 
-        // Medical Records — custom page with VaCheckboxGroup
+        /**
+         * Medical Records page hook - checks VA and/or Private medical
+         * records checkboxes based on test data.
+         */
         'supporting-evidence/medical-records': () => {
           cy.get('@testData').then(data => {
             const types = data['view:selectableEvidenceTypes'] || {};
@@ -132,8 +182,10 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
           });
         },
 
-        // Private Medical Records Upload (V0) — va-file-input-multiple
-        // requires uploading a file and selecting a document type.
+        /**
+         * Private Medical Records Upload (V0) page hook - uploads a test file
+         * via `va-file-input-multiple` and selects a document type.
+         */
         'supporting-evidence/private-medical-records-upload-enhancement': () => {
           cy.get('va-file-input-multiple')
             .shadow()
@@ -149,7 +201,6 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
 
           cy.wait('@uploadFile');
 
-          // Select document type from PMR dropdown
           cy.get('va-select[name="attachmentId"]')
             .shadow()
             .find('select')
@@ -158,7 +209,10 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
             .select('L049');
         },
 
-        // Additional Evidence Upload (V0) — va-file-input-multiple
+        /**
+         * Additional Evidence Upload (V0) page hook - uploads a test file
+         * via `va-file-input-multiple` and selects a document type.
+         */
         'supporting-evidence/additional-evidence-enhancement': () => {
           cy.get('va-file-input-multiple')
             .shadow()
@@ -174,7 +228,6 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
 
           cy.wait('@uploadFile');
 
-          // Select document type from additional evidence dropdown
           cy.get('va-select[name="docType"]')
             .shadow()
             .find('select')
@@ -183,7 +236,10 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
             .select('L023');
         },
 
-        // Additional Evidence Intro — custom page with VaRadio Yes/No
+        /**
+         * Additional Evidence Intro page hook - selects Yes/No on the
+         * VaRadio based on whether test data has other evidence.
+         */
         'supporting-evidence/additional-evidence-intro': () => {
           cy.get('@testData').then(data => {
             const hasAdditionalEvidence =
@@ -202,20 +258,15 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
         cy.login(mockUser);
         setup(cy, { toggles });
 
-        // Override the broken ITF mock from setup (which passes the function
-        // reference instead of calling it) with a proper static response
         cy.intercept('GET', '/v0/intent_to_file', mockItf());
         cy.intercept('POST', '/v0/intent_to_file/compensation', mockItf());
 
-        // Override the SIPS GET response (after setup) to:
-        // 1. Set returnUrl so onFormLoaded navigates to supporting evidence
-        // 2. Include enhancement toggle flags in formData for depends functions
+        /**
+         * Override the SIPS GET response to set `returnUrl` so
+         * `onFormLoaded` navigates to supporting evidence, and include
+         * enhancement toggle flags in `formData` for `depends` functions.
+         */
         cy.get('@testData').then(data => {
-          // Pass ratedDisabilities as disabilities WITH view:selected so the
-          // prefillTransformer preserves the selection flag into
-          // ratedDisabilities. This is needed for makeSchemaForAllDisabilities
-          // to generate treatedDisabilityNames checkboxes on the
-          // va-medical-records page.
           cy.intercept('GET', `${MOCK_SIPS_API}*`, {
             formData: {
               ...mockPrefill.formData,
@@ -233,6 +284,15 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
               ...(data.vaTreatmentFacilities && {
                 vaTreatmentFacilities: data.vaTreatmentFacilities,
               }),
+              ...(data.providerFacility && {
+                providerFacility: data.providerFacility,
+              }),
+              ...(data.newDisabilities?.length && {
+                newDisabilities: data.newDisabilities,
+              }),
+              ...(data.disability526Enable2024Form4142 && {
+                disability526Enable2024Form4142: true,
+              }),
             },
             metadata: {
               ...mockPrefill.metadata,
@@ -243,7 +303,6 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
         });
       },
 
-      // Stop after summary — only test supporting evidence chapter
       stopTestAfterPath: 'supporting-evidence/summary',
 
       // Bypass known nested definition list a11y issue in ChapterSectionCollection
@@ -254,8 +313,8 @@ const createEnhancementTestConfig = ({ v3Enabled }) => {
   );
 };
 
-// V1 path — legacy FileField upload pages (FileInputV3 OFF)
+/** V1 path - legacy FileField upload pages (FileInputV3 OFF) */
 testForm(createEnhancementTestConfig({ v3Enabled: false }));
 
-// V0 path — va-file-input-multiple upload pages (FileInputV3 ON)
+/** V0 path - va-file-input-multiple upload pages (FileInputV3 ON) */
 testForm(createEnhancementTestConfig({ v3Enabled: true }));

@@ -34,7 +34,6 @@ describe('transform', () => {
 
   fs.readdirSync(dataDir)
     .filter(fileName => fileName.endsWith('.json'))
-    .filter(fileName => !fileName.startsWith('evidence-enhancement-'))
     .forEach(fileName => {
       // Loop through them
       it(`should transform ${fileName} correctly`, () => {

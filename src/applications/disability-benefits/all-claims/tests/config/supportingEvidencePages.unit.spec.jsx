@@ -6,6 +6,13 @@ import formConfig from '../../config/form';
 const formatDate = date => format(date, DATE_TEMPLATE);
 const daysFromToday = days => formatDate(add(new Date(), { days }));
 
+/**
+ * Creates form data representing a BDD (Benefits Delivery at Discharge) user
+ * with a service period ending 90 days from today.
+ *
+ * @param {Object} [overrides] - Additional form data properties
+ * @returns {Object} BDD form data
+ */
 const createBDDFormData = (overrides = {}) => ({
   'view:isBddData': true,
   serviceInformation: {
@@ -20,12 +27,26 @@ const createBDDFormData = (overrides = {}) => ({
   ...overrides,
 });
 
+/**
+ * Creates form data with the supporting evidence enhancement toggle ON
+ * and FileInputV3 ON (V0 pages using `va-file-input-multiple`).
+ *
+ * @param {Object} [overrides] - Additional form data properties
+ * @returns {Object} Enhancement flow form data
+ */
 const createEnhancementFlowFormData = (overrides = {}) => ({
   disability526SupportingEvidenceEnhancement: true,
   disability526SupportingEvidenceFileInputV3: true,
   ...overrides,
 });
 
+/**
+ * Creates form data with the supporting evidence enhancement toggle OFF
+ * (legacy flow).
+ *
+ * @param {Object} [overrides] - Additional form data properties
+ * @returns {Object} Legacy flow form data
+ */
 const createLegacyFlowFormData = (overrides = {}) => ({
   disability526SupportingEvidenceEnhancement: false,
   ...overrides,
