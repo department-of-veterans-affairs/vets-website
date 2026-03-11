@@ -925,6 +925,7 @@ jobs:
       shard_indices: ${{ steps.shard.outputs.shard_indices }}
       shard_count: ${{ steps.shard.outputs.shard_count }}
       has_tests: ${{ steps.shard.outputs.has_tests }}
+      playwright_version: ${{ steps.playwright-version.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -985,19 +986,6 @@ jobs:
         if: steps.shard.outputs.has_tests == 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
 
-      - name: Package browsers for shard runners
-        if: steps.shard.outputs.has_tests == 'true'
-        run: tar -cf playwright-browsers.tar -C ~/.cache ms-playwright
-
-      - name: Upload Playwright browsers
-        if: steps.shard.outputs.has_tests == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-browsers
-          path: playwright-browsers.tar
-          retention-days: 1
-          compression-level: 0
-
   playwright-tests:
     name: Playwright E2E Tests (${{ matrix.shard_index }})
     runs-on: ubuntu-16-cores-latest
@@ -1026,17 +1014,14 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Download Playwright browsers
-        uses: actions/download-artifact@v4
+      - name: Restore Playwright browsers from cache
+        uses: actions/cache/restore@v4
         with:
-          name: playwright-browsers
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ needs.playwright-shard-prep.outputs.playwright_version }}
 
-      - name: Unpack Playwright browsers
-        run: |
-          mkdir -p ~/.cache
-          tar -xf playwright-browsers.tar -C ~/.cache
-          rm playwright-browsers.tar
-          npx playwright install-deps chromium
+      - name: Install Playwright system deps
+        run: npx playwright install-deps chromium
 
       - name: Download production build artifact
         uses: ./.github/workflows/download-artifact
