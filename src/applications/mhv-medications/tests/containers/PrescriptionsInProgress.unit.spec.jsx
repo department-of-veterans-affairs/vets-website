@@ -123,7 +123,7 @@ describe('PrescriptionsInProgress container', () => {
     stubFetchHook(mockCategorizedPrescriptions);
     const screen = setup();
     const link = screen.getByRole('link', {
-      name: /Go to your medication history/i,
+      name: /Review and print list of medications/i,
     });
     expect(link).to.exist;
     expect(link.getAttribute('href')).to.equal('/history');
@@ -136,7 +136,7 @@ describe('PrescriptionsInProgress container', () => {
       name: /Refill medications/i,
     });
     expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal('/refill');
+    expect(link.getAttribute('href')).to.equal('/');
   });
 
   it('renders NeedHelp component', () => {

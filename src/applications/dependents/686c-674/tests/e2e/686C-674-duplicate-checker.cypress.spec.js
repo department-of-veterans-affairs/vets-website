@@ -14,10 +14,7 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
       // Pass form start page path
-      setupCypress({
-        returnUrl: '/686-report-add-child/summary',
-        useTestDataInSip: true,
-      });
+      setupCypress('/686-report-add-child/summary');
     },
 
     stopTestAfterPath: '/review-and-submit',
