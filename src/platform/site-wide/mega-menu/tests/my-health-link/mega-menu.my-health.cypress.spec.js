@@ -18,7 +18,6 @@ describe('My HealtheVet on VA.gov', () => {
 
   it('hides My VA and My HealtheVet links in the mega menu while the profile is loading', () => {
     cy.intercept('/v0/feature_toggles*', features).as('features');
-    // Hold v0/user so profile stays in loading state
     cy.intercept('GET', '/v0/user', req => {
       // eslint-disable-next-line no-param-reassign
       req.reply(new Promise(() => {}));
@@ -28,7 +27,6 @@ describe('My HealtheVet on VA.gov', () => {
     cy.visit('/');
     cy.injectAxeThenAxeCheck();
 
-    // While profile is loading neither link should be in the nav
     cy.get('[data-e2e-id^="my-va-"]').should('not.exist');
     cy.get('[data-e2e-id^="my-healthe-vet-"]').should('not.exist');
   });

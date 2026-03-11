@@ -12,7 +12,6 @@ describe('My HealtheVet on VA.gov', () => {
 
   it('hides the My HealtheVet link while the profile is loading', () => {
     cy.intercept('/v0/feature_toggles*', features).as('features');
-    // Intercept v0/user and hold the response so profile stays in loading state
     cy.intercept('GET', '/v0/user', req => {
       // eslint-disable-next-line no-param-reassign
       req.reply(new Promise(() => {}));
@@ -22,8 +21,6 @@ describe('My HealtheVet on VA.gov', () => {
     cy.visit('/');
     cy.injectAxeThenAxeCheck();
     cy.viewportPreset('va-top-mobile-1');
-
-    // Profile is still loading — link must not be in the DOM
     cy.get('.my-health-link').should('not.exist');
   });
 });

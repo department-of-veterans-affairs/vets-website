@@ -229,7 +229,6 @@ describe('Mega Menu', () => {
     });
 
     it('does not show My VA or My HealtheVet while the profile is loading - post-auth gate', () => {
-      // Hold v0/user so profile stays in loading state for the duration of the check
       cy.intercept('GET', '/v0/user', req => {
         // eslint-disable-next-line no-param-reassign
         req.reply(new Promise(() => {}));
