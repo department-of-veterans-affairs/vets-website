@@ -231,6 +231,7 @@ class PilotEnvPage {
     cy.get('va-combo-box')
       .shadow()
       .find('input')
+      .should('not.be.disabled')
       .clear();
 
     cy.get('va-combo-box')
