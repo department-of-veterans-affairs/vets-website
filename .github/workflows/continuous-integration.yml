@@ -921,6 +921,8 @@ jobs:
     name: Playwright Shard Prep
     runs-on: ubuntu-22.04
     needs: [tests-prep]
+    permissions:
+      contents: read
     outputs:
       shard_indices: ${{ steps.shard.outputs.shard_indices }}
       shard_count: ${{ steps.shard.outputs.shard_count }}
@@ -1086,6 +1088,8 @@ jobs:
     name: Merge Playwright Reports
     runs-on: ubuntu-22.04
     needs: [playwright-tests]
+    permissions:
+      contents: read
     if: ${{ always() && (needs.playwright-tests.result == 'success' || needs.playwright-tests.result == 'failure') }}
     steps:
       - name: Checkout

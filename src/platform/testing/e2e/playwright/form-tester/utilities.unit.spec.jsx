@@ -120,7 +120,10 @@ describe('Playwright form-tester utilities', () => {
     let clock;
 
     beforeEach(() => {
-      clock = sinon.useFakeTimers(new Date('2025-01-15T12:00:00Z'));
+      clock = sinon.useFakeTimers({
+        now: new Date('2025-01-15T12:00:00Z'),
+        toFake: ['Date'],
+      });
     });
 
     afterEach(() => {

@@ -104,6 +104,13 @@
     // Stub custom elements that mirror VA web component shadow DOM structure.
     // These are lightweight versions for testing helper interaction code.
 
+    // Escape HTML to prevent CodeQL DOM-text-reinterpreted-as-HTML warnings.
+    function esc(str) {
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+
     class VaTextInput extends HTMLElement {
       connectedCallback() {
         // Skip if already has an <input> (e.g., pre-built inside va-date shadow)
@@ -112,8 +119,8 @@
         const name = this.getAttribute('name') || '';
         // No shadow DOM to avoid double-element issues with Playwright piercing
         this.innerHTML = `
-          <label>${label}</label>
-          <input type="text" name="${name}" />
+          <label>${esc(label)}</label>
+          <input type="text" name="${esc(name)}" />
         `;
       }
     }
@@ -124,8 +131,8 @@
         const name = this.getAttribute('name') || '';
         // No shadow DOM for consistency with other non-shadow stubs
         this.innerHTML = `
-          <label>${this.getAttribute('label') || ''}</label>
-          <textarea name="${name}"></textarea>
+          <label>${esc(this.getAttribute('label') || '')}</label>
+          <textarea name="${esc(name)}"></textarea>
         `;
       }
     }
@@ -140,9 +147,9 @@
         this.shadowRoot.innerHTML = `
           <label>
             <input type="radio"
-              name="${this.getAttribute('name') || ''}"
-              value="${this.getAttribute('value') || ''}" />
-            ${this.getAttribute('label') || ''}
+              name="${esc(this.getAttribute('name') || '')}"
+              value="${esc(this.getAttribute('value') || '')}" />
+            ${esc(this.getAttribute('label') || '')}
           </label>
         `;
       }
@@ -155,13 +162,13 @@
         if (this.querySelector('select')) return;
         const name = this.getAttribute('name') || '';
         const options = Array.from(this.querySelectorAll('option'))
-          .map(o => `<option value="${o.value}">${o.textContent}</option>`)
+          .map(o => `<option value="${esc(o.value)}">${esc(o.textContent)}</option>`)
           .join('');
         // No shadow DOM — render <select> as a direct child so Playwright
         // shadow-piercing locators resolve to exactly one <select> per instance.
         this.innerHTML = `
-          <label>${this.getAttribute('label') || ''}</label>
-          <select name="${name}">${options}</select>
+          <label>${esc(this.getAttribute('label') || '')}</label>
+          <select name="${esc(name)}">${options}</select>
         `;
       }
     }
@@ -182,8 +189,8 @@
       connectedCallback() {
         this.shadowRoot.innerHTML = `
           <label>
-            <input type="checkbox" name="${this.getAttribute('name') || ''}" />
-            ${this.getAttribute('label') || ''}
+            <input type="checkbox" name="${esc(this.getAttribute('name') || '')}" />
+            ${esc(this.getAttribute('label') || '')}
           </label>
         `;
       }
@@ -258,7 +265,7 @@
     class VaComboBox extends HTMLElement {
       connectedCallback() {
         const options = Array.from(this.querySelectorAll('option'))
-          .map(o => `<option value="${o.value}">${o.textContent}</option>`)
+          .map(o => `<option value="${esc(o.value)}">${esc(o.textContent)}</option>`)
           .join('');
         // Clear light DOM options to avoid Playwright finding duplicates
         this.innerHTML = `
@@ -276,7 +283,7 @@
       }
       connectedCallback() {
         const text = this.getAttribute('text') || 'Button';
-        this.shadowRoot.innerHTML = `<button>${text}</button>`;
+        this.shadowRoot.innerHTML = `<button>${esc(text)}</button>`;
       }
     }
     customElements.define('va-button', VaButton);
