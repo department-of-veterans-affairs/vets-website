@@ -43,6 +43,9 @@ export function PersonalizationDropdown(props) {
         <a
           href="/my-va/"
           aria-disabled={isPostAuthLoading ? 'true' : undefined}
+          aria-label={
+            isPostAuthLoading ? 'Loading your profile information' : undefined
+          }
           onClick={
             isPostAuthLoading ? e => e.preventDefault() : recordMyVaEvent
           }

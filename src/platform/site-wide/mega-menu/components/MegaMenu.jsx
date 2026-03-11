@@ -179,6 +179,11 @@ export default class MegaMenu extends React.Component {
                       data-e2e-id={`${_.kebabCase(item.title)}-${i}`}
                       href={item.href}
                       aria-disabled={item.loading ? 'true' : undefined}
+                      aria-label={
+                        item.loading
+                          ? 'Loading your profile information'
+                          : undefined
+                      }
                       onClick={
                         item.loading
                           ? e => e.preventDefault()

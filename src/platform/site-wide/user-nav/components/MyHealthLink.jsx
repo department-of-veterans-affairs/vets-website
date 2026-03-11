@@ -12,6 +12,9 @@ const MyHealthLink = ({ recordNavUserEvent, isPostAuthLoading }) => {
         className="my-health-link"
         href={href}
         aria-disabled={isPostAuthLoading ? 'true' : undefined}
+        aria-label={
+          isPostAuthLoading ? 'Loading your profile information' : undefined
+        }
         onClick={
           isPostAuthLoading ? e => e.preventDefault() : recordMyHealthEvent
         }
