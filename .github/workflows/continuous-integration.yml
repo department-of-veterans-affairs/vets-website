@@ -36,7 +36,6 @@ jobs:
           filter: blob:none
 
       - name: Configure AWS credentials
-        if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/configure-aws-credentials
         with:
           aws_region: us-gov-west-1
@@ -66,12 +65,46 @@ jobs:
           echo "Continuous deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}"
           echo "Deployment concurrency group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}"
 
-      - name: Get Mapbox Token
-        if: ${{ matrix.buildtype == 'vagovprod' }}
+      # This fallback token is not a real token, this portion of a token prevents Mapbox from crashing
+      # when app specific tokens are unavailable for any reason, instead it will provide errors.
+      - name: Set Mapbox Token fallback
+        run: echo "MAPBOX_TOKEN=pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==" >> "$GITHUB_ENV"
+
+      - name: Get Mapbox Token (Facility Locator)
         uses: ./.github/workflows/inject-secrets
         with:
-          ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
-          env_variable_name: MAPBOX_TOKEN
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_facility_locator
+          env_variable_name: MAPBOX_TOKEN_FACILITY_LOCATOR
+
+      - name: Get Mapbox Token (Static Pages)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_static_pages
+          env_variable_name: MAPBOX_TOKEN_STATIC_PAGES
+
+      - name: Get Mapbox Token (GI)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_gi
+          env_variable_name: MAPBOX_TOKEN_GI
+
+      - name: Get Mapbox Token (Ask VA)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_ask_va
+          env_variable_name: MAPBOX_TOKEN_ASK_VA
+
+      - name: Get Mapbox Token (Caregivers)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_caregivers
+          env_variable_name: MAPBOX_TOKEN_CAREGIVERS
+
+      - name: Get Mapbox Token (Representative Search)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_representative_search
+          env_variable_name: MAPBOX_TOKEN_REPRESENTATIVE_SEARCH
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
@@ -702,10 +735,10 @@ jobs:
     permissions:
       id-token: write
       contents: read
-#   if: |
-#     needs.build.result == 'success' &&
-#     needs.tests-prep.result == 'success' &&
-#     needs.tests-prep.outputs.e2e_count != '0'
+    #   if: |
+    #     needs.build.result == 'success' &&
+    #     needs.tests-prep.result == 'success' &&
+    #     needs.tests-prep.outputs.e2e_count != '0'
 
     container:
       image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
@@ -994,12 +1027,7 @@ jobs:
   update-e2e-allow-list:
     name: Update E2E Test Stability Allow List
     runs-on: ubuntu-22.04
-    needs:
-      [
-        testing-reports-prep,
-        tests-prep,
-        stress-test-cypress-tests,
-      ]
+    needs: [testing-reports-prep, tests-prep, stress-test-cypress-tests]
     permissions:
       checks: write
       id-token: write

@@ -101,6 +101,15 @@ describe('hca <EnrollmentStatus>', () => {
     expect(vaAlert).to.have.attr('status', 'warning');
   });
 
+  it('should render `va-alert` with status of `info` when enrollment status is in review', () => {
+    const { selectors } = subject({
+      statusCode: HCA_ENROLLMENT_STATUSES.pendingOther,
+    });
+    const { vaAlert } = selectors();
+    expect(vaAlert).to.exist;
+    expect(vaAlert).to.have.attr('status', 'info');
+  });
+
   it('should not render `Start` button when enrollment status is not in the allow list', () => {
     const { selectors } = subject({
       statusCode: HCA_ENROLLMENT_STATUSES.enrolled,

@@ -19,19 +19,17 @@ const SCHEMA_LABELS = {
 export default {
   uiSchema: {
     ...titleUI(TITLE_TEXT),
-    'view:resubmitDocsAvailable': yesNoUI({
+    'view:hasClaimDocs': yesNoUI({
       title: INPUT_LABEL,
       labels: SCHEMA_LABELS,
     }),
-    'view:addtlInfo': {
-      ...descriptionUI(ResubmissionOptionsAddtlInfo),
-    },
+    'view:addtlInfo': descriptionUI(ResubmissionOptionsAddtlInfo),
   },
   schema: {
     type: 'object',
-    required: ['view:resubmitDocsAvailable'],
+    required: ['view:hasClaimDocs'],
     properties: {
-      'view:resubmitDocsAvailable': yesNoSchema,
+      'view:hasClaimDocs': yesNoSchema,
       'view:addtlInfo': blankSchema,
     },
   },

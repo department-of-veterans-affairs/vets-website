@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Prescription from './Prescription';
 import TooEarlyToRefillCard from './TooEarlyToRefillCard';
 import pluralize from '../../util/helpers/pluralize';
+import { IN_PROGRESS_MEDS_DISPLAY_TYPES } from '../../util/constants';
 
 const SubmittedStep = ({ submitted = [], tooEarly = [] }) => {
   const descriptionText = submitted.length
@@ -26,7 +27,11 @@ const SubmittedStep = ({ submitted = [], tooEarly = [] }) => {
       </p>
       <div data-testid="submitted-prescriptions">
         {submitted.map(prescription => (
-          <Prescription key={prescription.prescriptionId} {...prescription} />
+          <Prescription
+            key={prescription.prescriptionId}
+            displayType={IN_PROGRESS_MEDS_DISPLAY_TYPES.SUBMITTED}
+            prescription={prescription}
+          />
         ))}
       </div>
       {tooEarly.length > 0 && <TooEarlyToRefillCard tooEarly={tooEarly} />}
@@ -56,7 +61,11 @@ const InProgressStep = ({ prescriptions }) => {
       <p>{descriptionText}</p>
       <div data-testid="in-progress-prescriptions">
         {prescriptions.map(prescription => (
-          <Prescription key={prescription.prescriptionId} {...prescription} />
+          <Prescription
+            key={prescription.prescriptionId}
+            displayType={IN_PROGRESS_MEDS_DISPLAY_TYPES.IN_PROGRESS}
+            prescription={prescription}
+          />
         ))}
       </div>
     </va-process-list-item>
@@ -80,7 +89,11 @@ const ShippedStep = ({ prescriptions }) => {
       <p>{descriptionText}</p>
       <div data-testid="shipped-prescriptions">
         {prescriptions.map(prescription => (
-          <Prescription key={prescription.prescriptionId} {...prescription} />
+          <Prescription
+            key={prescription.prescriptionId}
+            displayType={IN_PROGRESS_MEDS_DISPLAY_TYPES.SHIPPED}
+            prescription={prescription}
+          />
         ))}
       </div>
     </va-process-list-item>
@@ -91,29 +104,44 @@ ShippedStep.propTypes = {
   prescriptions: PropTypes.array.isRequired,
 };
 
-const InProgressMedicationsProcessList = ({ prescriptions }) => {
-  const parseData = (data = []) => {
-    const inProgress = data.filter(item => item.status === 'in-progress');
-    const shipped = data.filter(item => item.status === 'shipped');
-    const submitted = data.filter(item => item.status === 'submitted');
-    const tooEarly = data.filter(item => item.status === 'too-early');
-
-    return { inProgress, shipped, submitted, tooEarly };
-  };
-
-  const { inProgress, shipped, submitted, tooEarly } = parseData(prescriptions);
-
-  return (
-    <va-process-list>
-      <SubmittedStep submitted={submitted} tooEarly={tooEarly} />
-      <InProgressStep prescriptions={inProgress} />
-      <ShippedStep prescriptions={shipped} />
-    </va-process-list>
-  );
-};
+const InProgressMedicationsProcessList = ({
+  inProgress = [],
+  shipped = [],
+  submitted = [],
+  tooEarly = [],
+}) => (
+  <va-process-list>
+    <SubmittedStep submitted={submitted} tooEarly={tooEarly} />
+    <InProgressStep prescriptions={inProgress} />
+    <ShippedStep prescriptions={shipped} />
+  </va-process-list>
+);
 
 InProgressMedicationsProcessList.propTypes = {
-  prescriptions: PropTypes.array.isRequired,
+  inProgress: PropTypes.arrayOf(
+    PropTypes.shape({
+      prescriptionId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
+    }),
+  ),
+  shipped: PropTypes.arrayOf(
+    PropTypes.shape({
+      prescriptionId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
+    }),
+  ),
+  submitted: PropTypes.arrayOf(
+    PropTypes.shape({
+      prescriptionId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
+    }),
+  ),
+  tooEarly: PropTypes.arrayOf(
+    PropTypes.shape({
+      prescriptionId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
+    }),
+  ),
 };
 
 export default InProgressMedicationsProcessList;

@@ -109,9 +109,9 @@ export const Paths = {
   MED_LIST:
     '/my_health/v1/prescriptions?page=1&per_page=10&sort=alphabetical-status',
   EMPTY_MED_LIST:
-    '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort[]=prescription_name&sort[]=dispensed_date',
+    '/my_health/v1/prescriptions?filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort[]=prescription_name&sort[]=dispensed_date',
   DELAY_ALERT:
-    '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-rx-name',
+    '/my_health/v1/prescriptions?filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-rx-name',
   SORT_BY_NAME:
     'my_health/v1/prescriptions?page=1&per_page=10&sort=alphabetical-rx-name',
   SORT_BY_LAST_FILLED:
