@@ -10,13 +10,13 @@ const NeedHelp = ({ page, headingLevel = 3 }) => {
   );
 
   // Memoize DataDog action names based on page type to prevent recalculation on every render
-  // TODO add handling for in-progress page datadog actions
   const actionNames = useMemo(
     () => {
       const pageActionMap = {
         [pageType.LIST]: dataDogActionNames.medicationsListPage,
         [pageType.REFILL]: dataDogActionNames.refillPage,
         [pageType.HISTORY]: dataDogActionNames.medicationsHistoryPage,
+        [pageType.IN_PROGRESS]: dataDogActionNames.inProgressPage,
       };
 
       const pageActions = pageActionMap[page] || dataDogActionNames.refillPage;

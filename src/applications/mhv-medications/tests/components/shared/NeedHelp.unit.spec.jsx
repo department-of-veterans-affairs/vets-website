@@ -273,6 +273,56 @@ describe('Need Help shared component', () => {
       );
     });
 
+    it('has all enhanced links with correct DD action names for IN_PROGRESS page', () => {
+      const screen = setup(true, pageType.IN_PROGRESS);
+
+      // Allergies link
+      const allergiesLink = screen.getByTestId(
+        'go-to-allergies-and-reactions-link',
+      );
+      expect(allergiesLink).to.have.attribute(
+        'data-dd-action-name',
+        dataDogActionNames.inProgressPage.GO_TO_ALLERGIES_AND_REACTIONS_LINK,
+      );
+
+      // Self-entered health information link
+      const seiLink = screen.getByTestId(
+        'go-to-self-entered-health-information-link',
+      );
+      expect(seiLink).to.have.attribute(
+        'data-dd-action-name',
+        dataDogActionNames.inProgressPage
+          .GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK,
+      );
+
+      // Managing medications online link
+      const managingMedsLink = screen.getByTestId(
+        'learn-more-about-managing-medications-online-link',
+      );
+      expect(managingMedsLink).to.have.attribute(
+        'data-dd-action-name',
+        dataDogActionNames.inProgressPage
+          .LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK,
+      );
+
+      // Start new message link
+      const messageLink = screen.getByTestId('start-a-new-message-link');
+      expect(messageLink).to.have.attribute(
+        'data-dd-action-name',
+        dataDogActionNames.inProgressPage.START_A_NEW_MESSAGE_LINK,
+      );
+
+      // Notification settings link
+      const notificationLink = screen.getByTestId(
+        'go-to-update-notification-settings-link',
+      );
+      expect(notificationLink).to.have.attribute(
+        'data-dd-action-name',
+        dataDogActionNames.inProgressPage
+          .GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK,
+      );
+    });
+
     it('does NOT display original-only content', () => {
       const screen = setup(true);
 
