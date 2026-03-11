@@ -228,11 +228,16 @@ class PilotEnvPage {
   };
 
   selectTriageGroup = (index = 0) => {
+    // Wait for combo box input to be enabled, then clear any existing value
+    // using direct DOM manipulation to avoid cy.type() actionability race conditions
     cy.get('va-combo-box')
       .shadow()
       .find('input')
       .should('not.be.disabled')
-      .clear();
+      .then($input => {
+        $input.val('');
+        $input[0].dispatchEvent(new Event('input', { bubbles: true }));
+      });
 
     cy.get('va-combo-box')
       .shadow()
