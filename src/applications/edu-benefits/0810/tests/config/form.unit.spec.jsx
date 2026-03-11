@@ -23,8 +23,16 @@ describe('22-0810 formConfig', () => {
       expect(page.depends).to.be.a('function');
     });
 
-    it('depends on vaBenefitProgram === "chapter35"', () => {
-      expect(page.depends({ vaBenefitProgram: 'chapter35' })).to.be.true;
+    it('depends on vaBenefitProgram === "chapter35" and vaFileNumber being populated', () => {
+      expect(
+        page.depends({
+          vaBenefitProgram: 'chapter35',
+          vaFileNumber: '12345',
+        }),
+      ).to.be.true;
+      expect(page.depends({ vaBenefitProgram: 'chapter35', vaFileNumber: '' }))
+        .to.be.false;
+      expect(page.depends({ vaBenefitProgram: 'chapter35' })).to.be.false;
       expect(page.depends({ vaBenefitProgram: 'ch33' })).to.be.false;
       expect(page.depends({})).to.be.false;
       expect(page.depends(undefined)).to.be.false;
