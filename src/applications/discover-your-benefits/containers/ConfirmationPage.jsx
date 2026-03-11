@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
@@ -24,6 +25,7 @@ import {
 } from '../constants/benefits';
 import GetFormHelp from '../components/GetFormHelp';
 import Benefits from './components/Benefits';
+import useMediaQuery from '../hooks/useMediaQuery';
 
 const ConfirmationPage = ({ formConfig, location, router }) => {
   const dispatch = useDispatch();
@@ -44,7 +46,11 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
    * https://design.va.gov/foundation/breakpoints
    */
   const TABLET_BREAKPOINT = 640;
-  const isMobile = () => window.innerWidth < TABLET_BREAKPOINT;
+
+  const isMobile = environment.isTest()
+    ? window.innerWidth < TABLET_BREAKPOINT
+    : // eslint-disable-next-line react-hooks/rules-of-hooks
+      useMediaQuery('(max-width: 640px)');
 
   const query = useMemo(
     () => {
@@ -424,7 +430,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
 
   useEffect(
     () => {
-      if (!isMobile()) return null;
+      if (!isMobile) return null;
       const timer = setTimeout(() => {
         const searchFilter = document.querySelector('va-search-filter');
         const items = searchFilter?.shadowRoot?.querySelectorAll(
