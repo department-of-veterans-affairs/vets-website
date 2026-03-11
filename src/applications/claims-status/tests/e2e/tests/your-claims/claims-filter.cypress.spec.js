@@ -13,8 +13,9 @@ describe('Feature flag: cstClaimsListFilter', () => {
     mockStemEndpoint();
   });
 
-  // Asymmetric test data: 3 active + 1 closed
-  // This ensures filter assertions use distinguishable counts
+  // Asymmetric test data: 3 active + 2 closed = 5 total
+  // All filter counts are distinguishable: In progress=3, Closed=2, All=5
+  // Includes both claim and appeal types in each category
   const activeClaim1 = createBenefitsClaimListItem({
     id: 'claim-active-001',
     status: 'CLAIM_RECEIVED',
@@ -43,11 +44,18 @@ describe('Feature flag: cstClaimsListFilter', () => {
     phaseChangeDate: '2024-12-01',
   });
 
+  const closedAppeal = createAppeal({
+    id: 'appeal-closed-001',
+    active: false,
+    statusType: 'complete',
+    eventDate: '2024-03-01',
+  });
+
   context('when disabled', () => {
     beforeEach(() => {
       mockFeatureToggles({ cstClaimsListFilter: false });
       mockClaimsEndpoint([activeClaim1, activeClaim2, closedClaim]);
-      mockAppealsEndpoint([activeAppeal]);
+      mockAppealsEndpoint([activeAppeal, closedAppeal]);
       cy.login(userWithAppeals);
       cy.visit('/track-claims');
       cy.injectAxe();
@@ -69,8 +77,8 @@ describe('Feature flag: cstClaimsListFilter', () => {
     });
 
     it('should show all claims without filtering capability', () => {
-      // All 4 items visible (no filtering available)
-      cy.get('[data-testid="claim-card"]').should('have.length', 4);
+      // All 5 items visible (no filtering available)
+      cy.get('[data-testid="claim-card"]').should('have.length', 5);
 
       cy.axeCheck();
     });
@@ -106,7 +114,7 @@ describe('Feature flag: cstClaimsListFilter', () => {
     describe('filter rendering and behavior', () => {
       beforeEach(() => {
         mockClaimsEndpoint([activeClaim1, activeClaim2, closedClaim]);
-        mockAppealsEndpoint([activeAppeal]);
+        mockAppealsEndpoint([activeAppeal, closedAppeal]);
         cy.login(userWithAppeals);
         cy.visit('/track-claims');
         cy.injectAxe();
@@ -132,6 +140,9 @@ describe('Feature flag: cstClaimsListFilter', () => {
       it('should have In progress selected by default', () => {
         // Only in progress items visible by default (2 claims + 1 appeal)
         cy.get('[data-testid="claim-card"]').should('have.length', 3);
+        cy.get('[data-testid="claim-card"]').each(card => {
+          cy.wrap(card).should('contain.text', 'In Progress');
+        });
 
         cy.axeCheck();
       });
@@ -143,8 +154,11 @@ describe('Feature flag: cstClaimsListFilter', () => {
           .contains('Closed')
           .click();
 
-        // Only closed items should be visible (1 claim)
-        cy.get('[data-testid="claim-card"]').should('have.length', 1);
+        // Only closed items should be visible (1 claim + 1 appeal)
+        cy.get('[data-testid="claim-card"]').should('have.length', 2);
+        cy.get('[data-testid="claim-card"]').each(card => {
+          cy.wrap(card).should('not.contain.text', 'In Progress');
+        });
 
         cy.axeCheck();
       });
@@ -160,7 +174,7 @@ describe('Feature flag: cstClaimsListFilter', () => {
           .contains('All')
           .click();
 
-        cy.get('[data-testid="claim-card"]').should('have.length', 4);
+        cy.get('[data-testid="claim-card"]').should('have.length', 5);
 
         cy.axeCheck();
       });
@@ -176,8 +190,8 @@ describe('Feature flag: cstClaimsListFilter', () => {
           .contains('Closed')
           .click();
 
-        // Verify filter is applied - only 1 closed item visible
-        cy.get('[data-testid="claim-card"]').should('have.length', 1);
+        // Verify filter is applied - only 2 closed items visible
+        cy.get('[data-testid="claim-card"]').should('have.length', 2);
 
         // Verify sessionStorage was updated
         cy.window().then(win => {
@@ -196,7 +210,7 @@ describe('Feature flag: cstClaimsListFilter', () => {
           .contains('Closed')
           .click();
 
-        cy.findByText('Showing 1-1 of 1 closed record');
+        cy.findByText('Showing 1-2 of 2 closed records');
 
         cy.get('va-button-segmented')
           .shadow()
@@ -204,7 +218,7 @@ describe('Feature flag: cstClaimsListFilter', () => {
           .contains('All')
           .click();
 
-        cy.findByText('Showing 1-4 of 4 records');
+        cy.findByText('Showing 1-5 of 5 records');
 
         cy.axeCheck();
       });
@@ -230,15 +244,15 @@ describe('Feature flag: cstClaimsListFilter', () => {
           .contains('Closed')
           .click();
 
-        // 1 closed item (not 3 in progress)
-        cy.get('[data-testid="claim-card"]').should('have.length', 1);
+        // 2 closed items (not 3 in progress)
+        cy.get('[data-testid="claim-card"]').should('have.length', 2);
 
         // Revisit the page
         cy.visit('/track-claims');
         cy.injectAxe();
 
-        // Filter should still be on Closed (1 item, not 3 in progress)
-        cy.get('[data-testid="claim-card"]').should('have.length', 1);
+        // Filter should still be on Closed (2 items, not 3 in progress)
+        cy.get('[data-testid="claim-card"]').should('have.length', 2);
 
         cy.axeCheck();
       });

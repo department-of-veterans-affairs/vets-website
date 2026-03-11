@@ -16,7 +16,7 @@ import { renderWithRouter } from '../utils';
 const mockStore = createStore(() => ({}));
 
 const localStorageMock = (() => {
-  let store = createStore(() => ({}));
+  let store = {};
 
   return {
     getItem(key) {

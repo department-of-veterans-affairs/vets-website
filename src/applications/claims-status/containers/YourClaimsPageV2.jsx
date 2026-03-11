@@ -26,7 +26,7 @@ import NoClaims from '../components/NoClaims';
 import StemClaimListItem from '../components/StemClaimListItem';
 import TravelClaimsSection from '../components/TravelClaimsSection';
 
-import { ITEMS_PER_PAGE } from '../constants';
+import { FILTER_VALUES, ITEMS_PER_PAGE } from '../constants';
 
 import { getBackendServices } from '../selectors';
 
@@ -54,8 +54,8 @@ class YourClaimsPageV2 extends React.Component {
     this.state = {
       page: YourClaimsPageV2.getPageFromURL(props),
       claimsFilter: props.cstClaimsListFilterEnabled
-        ? sessionStorage.getItem('claimsFilter') || 'in progress'
-        : 'in progress',
+        ? sessionStorage.getItem('claimsFilter') || FILTER_VALUES.IN_PROGRESS
+        : FILTER_VALUES.IN_PROGRESS,
     };
   }
 
@@ -118,10 +118,14 @@ class YourClaimsPageV2 extends React.Component {
     const { list, cstClaimsListFilterEnabled } = this.props;
     const { claimsFilter } = this.state;
 
-    if (!cstClaimsListFilterEnabled || claimsFilter === 'all') return list;
+    if (!cstClaimsListFilterEnabled || claimsFilter === FILTER_VALUES.ALL)
+      return list;
 
     return list.filter(
-      item => (claimsFilter === 'closed' ? isClosed(item) : !isClosed(item)),
+      item =>
+        claimsFilter === FILTER_VALUES.CLOSED
+          ? isClosed(item)
+          : !isClosed(item),
     );
   }
 
@@ -198,8 +202,6 @@ class YourClaimsPageV2 extends React.Component {
       !claimsLoading && !appealsLoading && !stemClaimsLoading;
     const emptyFilteredList = !(filteredList && filteredList.length);
     const { claimsFilter } = this.state;
-    let filterLabel =
-      claimsFilter === 'all' ? 'records' : `${claimsFilter} records`;
 
     // Wait for all requests to complete before rendering results
     // This prevents multiple re-renders as each request completes
@@ -211,8 +213,10 @@ class YourClaimsPageV2 extends React.Component {
       const shouldPaginate = numPages > 1;
 
       const recordText = listLen === 1 ? 'record' : 'records';
-      filterLabel =
-        claimsFilter === 'all' ? recordText : `${claimsFilter} ${recordText}`;
+      const filterLabel =
+        claimsFilter === FILTER_VALUES.ALL
+          ? recordText
+          : `${claimsFilter} ${recordText}`;
 
       const pageItems = getVisibleRows(filteredList, this.state.page);
 
@@ -244,8 +248,12 @@ class YourClaimsPageV2 extends React.Component {
         </Type2FailureAnalyticsProvider>
       );
     } else {
+      const noClaimsLabel =
+        claimsFilter === FILTER_VALUES.ALL
+          ? 'records'
+          : `${claimsFilter} records`;
       content = cstClaimsListFilterEnabled ? (
-        <NoClaims recordType={filterLabel} />
+        <NoClaims recordType={noClaimsLabel} />
       ) : (
         <NoClaims />
       );
