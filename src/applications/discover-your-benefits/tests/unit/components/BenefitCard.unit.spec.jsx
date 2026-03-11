@@ -140,12 +140,20 @@ describe('<BenefitCard>', () => {
     const heading = container.querySelector('h3');
     expect(heading.getAttribute('aria-label')).to.equal(benefit.name);
   });
+});
+
+describe('Analytics tests', () => {
+  let recordEventStub;
+  beforeEach(function() {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(function() {
+    recordEventStub.restore();
+  });
 
   it('calls recordEvent when learn more link is clicked', () => {
     const benefit = BENEFITS_LIST[0];
-
-    const recordEventStub = sinon.stub(recordEventModule, 'default');
-
     const { container } = render(
       <BenefitCard benefit={benefit} isBenefitRecommended={() => false} />,
     );
@@ -161,7 +169,5 @@ describe('<BenefitCard>', () => {
       'link-destination': benefit.learnMoreURL,
       'link-origin': `Learn more about ${benefit.name}`,
     });
-
-    recordEventStub.restore();
   });
 });

@@ -1,10 +1,9 @@
 import { cloneDeep } from 'lodash';
-import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { personalizeTitleByName } from '../../utils/helpers';
-import { VaRadio, VaRadioOption } from '../../utils/imports';
+import React, { useCallback, useMemo, useState } from 'react';
 import content from '../../locales/en/content.json';
+import { VaRadio, VaRadioOption } from '../../utils/imports';
+import { titleWithNameUI } from '../../utils/titles';
 
 // declare reusable constants
 export const FIELD_NAME = 'view:sharesAddressWith';
@@ -130,20 +129,20 @@ const AddressSelectionPage = props => {
 
   const pageTitle = useMemo(
     () => {
-      const titleStr = personalizeTitleByName(data, PAGE_TITLE);
-      return titleUI(
-        <>
-          <span data-dd-privacy="hidden">{titleStr}</span>
-        </>,
-      )['ui:title'];
+      const titleValue = titleWithNameUI(PAGE_TITLE)['ui:title'];
+      return typeof titleValue === 'function' ? (
+        titleValue({ formData: data })
+      ) : (
+        <legend className="schemaform-block-title">{titleValue}</legend>
+      );
     },
     [data],
   );
 
   return (
     <form className="rjsf" onSubmit={handleSubmit}>
-      <fieldset className="vads-u-margin-bottom--2">
-        <legend className="schemaform-block-title">{pageTitle}</legend>
+      <fieldset className="vads-u-margin-y--2 rjsf-object-field">
+        {pageTitle}
 
         <VaRadio
           id={`root_${FIELD_NAME}`}

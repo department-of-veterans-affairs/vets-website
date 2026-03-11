@@ -46,7 +46,7 @@
     "applicantFullName": { "first": "John", "last": "Doe" },
     "dateOfBirth": "1930-10-03",
     "otherThanDishonorableDischarge": true,
-    "veteranStatus": true
+    "dutyRequirementMet": true
   }
 }
  

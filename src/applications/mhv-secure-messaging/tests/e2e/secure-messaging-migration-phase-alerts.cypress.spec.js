@@ -125,7 +125,7 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
         .should('not.exist');
 
       // Verify Reply button is visible (normal thread)
-      cy.get(Locators.BUTTONS.REPLY).should('exist');
+      cy.findByTestId(Locators.BUTTONS.REPLY).should('exist');
       validateMigrationAlert(false);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -147,7 +147,7 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
       PatientMessageDetailsPage.loadSingleThread(updatedThread, updatedInbox);
 
       // Verify Reply button is hidden during migration phase p3
-      cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+      cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
 
       // Verify CannotReplyAlert is NOT displayed (migration alert takes precedence)
       cy.get('[data-testid="cannot-reply-alert"]').should('not.exist');
@@ -172,7 +172,7 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
       PatientMessageDetailsPage.loadSingleThread(updatedThread, updatedInbox);
 
       // Verify Reply button is hidden during migration phase p4
-      cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+      cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
       validateMigrationAlert(true);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -194,7 +194,7 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
       PatientMessageDetailsPage.loadSingleThread(updatedThread, updatedInbox);
 
       // Verify Reply button is hidden during migration phase p5
-      cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+      cy.findByTestId(Locators.BUTTONS.REPLY).should('not.exist');
       validateMigrationAlert(true);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -215,7 +215,7 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
       PatientMessageDetailsPage.loadSingleThread(updatedThread, updatedInbox);
 
       // Verify Reply button is visible (p2 does not block replies)
-      cy.get(Locators.BUTTONS.REPLY).should('exist');
+      cy.findByTestId(Locators.BUTTONS.REPLY).should('exist');
       validateMigrationAlert(false);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);

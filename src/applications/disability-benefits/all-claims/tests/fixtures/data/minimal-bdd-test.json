@@ -1,6 +1,7 @@
 {
     "data": {
       "disability526ExtraBDDPagesEnabled": true,
+      "disability526NewBddShaEnforcementWorkflowEnabled": true,
       "view:isBddData": true,
       "homelessOrAtRisk": "homeless",
       "view:isHomeless": {
@@ -42,6 +43,13 @@
       "view:uploadServiceTreatmentRecordsQualifier": {
         "view:hasServiceTreatmentRecordsToUpload": false
       },
+      "view:hasSeparationHealthAssessment": true,
+      "separationHealthAssessmentUploads": [
+        {
+          "name": "sha-minimal.pdf",
+          "confirmationCode": "sha-minimal-code"
+        }
+      ],
       "view:powStatus": false,
       "view:disabilitiesClarification": {},
       "serviceInformation": {

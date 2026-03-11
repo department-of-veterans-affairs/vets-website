@@ -39,6 +39,7 @@ import {
   isNotUploadingPrivateMedical,
   isUploading781aForm,
   isUploading781Form,
+  isUploadingBddSha,
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
@@ -49,6 +50,7 @@ import {
   isCompletingModern4142,
   onFormLoaded,
   normalizeReturnUrlForResume,
+  isBddShaWorkflowActive,
 } from '../utils';
 
 import { gatePages } from '../utils/gatePages';
@@ -101,6 +103,8 @@ import {
   retirementPay,
   retirementPayWaiver,
   secondaryFinalIncident,
+  separationHealthAssessment,
+  separationHealthAssessmentUpload,
   separationLocation,
   separationPay,
   serviceTreatmentRecords,
@@ -597,6 +601,20 @@ const formConfig = {
             'ui:description': supportingEvidenceOrientation,
           },
           schema: { type: 'object', properties: {} },
+        },
+        separationHealthAssessment: {
+          title: 'Separation health assessment',
+          path: 'supporting-evidence/separation-health-assessment',
+          depends: isBddShaWorkflowActive,
+          uiSchema: separationHealthAssessment.uiSchema,
+          schema: separationHealthAssessment.schema,
+        },
+        separationHealthAssessmentUpload: {
+          title: 'Separation health assessment upload',
+          path: 'supporting-evidence/separation-health-assessment-upload',
+          depends: isUploadingBddSha,
+          uiSchema: separationHealthAssessmentUpload.uiSchema,
+          schema: separationHealthAssessmentUpload.schema,
         },
         serviceTreatmentRecords: {
           title: 'Service treatment records',

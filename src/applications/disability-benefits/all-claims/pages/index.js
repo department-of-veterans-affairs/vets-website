@@ -82,6 +82,8 @@ import * as reservesNationalGuardService from './reservesNationalGuardService';
 import * as retirementPay from './retirementPay';
 import * as retirementPayWaiver from './retirementPayWaiver';
 import * as secondaryFinalIncident from './secondaryFinalIncident';
+import * as separationHealthAssessment from './separationHealthAssessment';
+import * as separationHealthAssessmentUpload from './separationHealthAssessmentUpload';
 import * as secondaryIncidentAuthorities from './secondaryIncidentAuthorities';
 import * as secondaryIncidentDate from './secondaryIncidentDate';
 import * as secondaryIncidentDescription from './secondaryIncidentDescription';
@@ -208,6 +210,8 @@ export {
   retirementPay,
   retirementPayWaiver,
   secondaryFinalIncident,
+  separationHealthAssessment,
+  separationHealthAssessmentUpload,
   secondaryIncidentAuthorities,
   secondaryIncidentDate,
   secondaryIncidentDescription,

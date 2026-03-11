@@ -38,21 +38,23 @@ describe('TooEarlyToRefillCard Component', () => {
       {
         prescriptionId: 1,
         prescriptionName: 'Medication A',
-        lastUpdated: '2025-01-10T10:00:00Z',
+        dispStatus: 'Active',
+        refillSubmitDate: '2025-01-10T10:00:00Z',
       },
       {
         prescriptionId: 2,
         prescriptionName: 'Medication B',
-        lastUpdated: '2025-01-11T10:00:00Z',
+        dispStatus: 'Active',
+        refillSubmitDate: '2025-01-11T10:00:00Z',
       },
     ];
     const screen = setup(tooEarlyPrescriptions);
     const card = within(screen.getByTestId('too-early-section'));
 
     const medALink = card.getByRole('link', { name: 'Medication A' });
-    expect(medALink).to.have.attribute('href', '/my-health/medications/1');
+    expect(medALink).to.have.attribute('href', '/prescription/1');
 
     const medBCard = card.getByRole('link', { name: 'Medication B' });
-    expect(medBCard).to.have.attribute('href', '/my-health/medications/2');
+    expect(medBCard).to.have.attribute('href', '/prescription/2');
   });
 });
