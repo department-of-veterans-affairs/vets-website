@@ -24,16 +24,15 @@ const SearchPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const currentQuery = useSelector(state => state.searchQuery);
-  const errors = useSelector(state => state.errors);
+  const searchQuery = useSelector(state => state.searchQuery);
+  const isErrorGeocode = useSelector(state => state.errors.isErrorGeocode);
   const searchResults = useSelector(state => state.searchResult.searchResults);
-  const { searchWithInputInProgress } = currentQuery;
 
-  const previousLocationInputString = useRef(currentQuery.locationInputString);
-  const previousSortType = useRef(currentQuery.sortType);
-  const previousRepresentativeType = useRef(currentQuery.representativeType);
+  const previousLocationInputString = useRef(searchQuery.locationInputString);
+  const previousSortType = useRef(searchQuery.sortType);
+  const previousRepresentativeType = useRef(searchQuery.representativeType);
   const previousRepresentativeInputString = useRef(
-    currentQuery.representativeInputString,
+    searchQuery.representativeInputString,
   );
   const [isSearching, setIsSearching] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,22 +48,22 @@ const SearchPage = () => {
 
   const updateUrlParams = params => {
     const newSearchParams = new URLSearchParams({
-      address: currentQuery.locationInputString,
-      lat: currentQuery.position?.latitude,
-      long: currentQuery.position?.longitude,
-      page: currentQuery.page || 1,
+      address: searchQuery.locationInputString,
+      lat: searchQuery.position?.latitude,
+      long: searchQuery.position?.longitude,
+      page: searchQuery.page || 1,
       perPage: 10,
-      sort: currentQuery.sortType?.toLowerCase(),
-      type: currentQuery.representativeType,
-      name: currentQuery.representativeInputString,
-      organization: currentQuery.organization,
+      sort: searchQuery.sortType?.toLowerCase(),
+      type: searchQuery.representativeType,
+      name: searchQuery.representativeInputString,
+      organization: searchQuery.organization,
       ...params,
     });
 
-    if (currentQuery.committedSearchQuery.searchArea !== null) {
+    if (searchQuery.committedSearchQuery.searchArea !== null) {
       newSearchParams.set(
         'distance',
-        currentQuery.committedSearchQuery.searchArea,
+        searchQuery.committedSearchQuery.searchArea,
       );
     }
 
@@ -74,7 +73,7 @@ const SearchPage = () => {
   const handleSearch = async () => {
     dispatch(clearError(ErrorTypes.geocodeError));
     setIsSearching(true);
-    dispatch(geocodeUserAddress(currentQuery));
+    dispatch(geocodeUserAddress(searchQuery));
     // search query committed in geocodeUserAddress function
   };
 
@@ -120,7 +119,7 @@ const SearchPage = () => {
       page,
       searchArea,
       organization,
-    } = currentQuery.committedSearchQuery;
+    } = searchQuery.committedSearchQuery;
 
     const { latitude, longitude } = position;
 
@@ -140,7 +139,7 @@ const SearchPage = () => {
       organization: organization ?? '',
     });
 
-    if (!searchWithInputInProgress) {
+    if (!searchQuery.searchWithInputInProgress) {
       const dataLayerProps = {
         locationInputString: context.location,
         representativeType,
@@ -218,45 +217,45 @@ const SearchPage = () => {
   // Trigger request on query update following search
   useEffect(
     () => {
-      if (isSearching && !errors.isErrorGeocode) {
+      if (isSearching && !isErrorGeocode) {
         handleSearchOnQueryChange();
       }
     },
-    [currentQuery.committedSearchQuery.id],
+    [searchQuery.committedSearchQuery.id],
   );
 
   // Trigger request on sort update
   useEffect(
     () => {
-      if (currentQuery.searchCounter > 0) {
+      if (searchQuery.searchCounter > 0) {
         handleSearchOnQueryChange();
       }
     },
     [
-      currentQuery.committedSearchQuery.sortType,
-      currentQuery.committedSearchQuery.page,
+      searchQuery.committedSearchQuery.sortType,
+      searchQuery.committedSearchQuery.page,
     ],
   );
 
   useEffect(
     () => {
-      if (isSearching && errors.isErrorGeocode) {
+      if (isSearching && isErrorGeocode) {
         setIsSearching(false);
       }
     },
-    [errors.isErrorGeocode],
+    [isErrorGeocode],
   );
 
   // search complete
   useEffect(
     () => {
-      if (currentQuery.searchCounter > 0) {
+      if (searchQuery.searchCounter > 0) {
         setIsSearching(false);
         setIsLoading(false);
         setIsDisplayingResults(true);
       }
     },
-    [currentQuery.searchCounter],
+    [searchQuery.searchCounter],
   );
 
   // jump to results

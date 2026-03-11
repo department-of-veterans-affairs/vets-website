@@ -22,7 +22,7 @@ import {
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 
 const SearchControls = ({ onSubmit }) => {
-  const currentQuery = useSelector(state => state.searchQuery);
+  const searchQuery = useSelector(state => state.searchQuery);
   const geocodeError = useSelector(state => state.errors.isErrorGeocode);
   const {
     locationInputString,
@@ -32,7 +32,7 @@ const SearchControls = ({ onSubmit }) => {
     isErrorEmptyInput,
     searchArea,
     organization,
-  } = currentQuery;
+  } = searchQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
 

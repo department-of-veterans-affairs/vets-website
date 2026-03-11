@@ -11,14 +11,14 @@ import { commitSearchQuery, updateSearchQuery } from '../../actions';
 export const SearchResultsHeader = () => {
   const searchResults = useSelector(state => state.searchResult.searchResults);
   const pagination = useSelector(state => state.searchResult.pagination);
-  const currentQuery = useSelector(state => state.searchQuery);
-  const { inProgress } = currentQuery;
+  const searchQuery = useSelector(state => state.searchQuery);
+  const { inProgress } = searchQuery;
   const {
     context,
     representativeType,
     sortType,
     searchArea,
-  } = currentQuery.committedSearchQuery;
+  } = searchQuery.committedSearchQuery;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
   const dispatch = useDispatch();

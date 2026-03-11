@@ -23,8 +23,8 @@ describe('SearchResults', () => {
         },
         searchQuery: {
           organizations: [],
+          representativeType: 'veteran_service_officer',
         },
-        currentQuery: { representativeType: 'veteran_service_officer' },
         errors: {
           isErrorGeocode: false,
         },
@@ -46,8 +46,8 @@ describe('SearchResults', () => {
         },
         searchQuery: {
           organizations: [],
+          representativeType: 'attorney',
         },
-        currentQuery: { representativeType: 'attorney' },
         errors: {
           isErrorGeocode: false,
         },
@@ -70,8 +70,8 @@ describe('SearchResults', () => {
         },
         searchQuery: {
           organizations: [],
+          representativeType: 'veteran_service_officer',
         },
-        currentQuery: { representativeType: 'veteran_service_officer' },
         errors: {
           isErrorGeocode: false,
         },
@@ -91,8 +91,8 @@ describe('SearchResults', () => {
         },
         searchQuery: {
           organizations: [],
+          representativeType: 'attorney',
         },
-        currentQuery: { representativeType: 'attorney' },
         errors: {
           isErrorGeocode: false,
         },

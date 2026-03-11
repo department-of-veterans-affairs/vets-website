@@ -30,7 +30,7 @@ const SearchResult = ({
   setReportModalTester,
 }) => {
   const dispatch = useDispatch();
-  const currentQuery = useSelector(state => state.currentQuery);
+  const searchQuery = useSelector(state => state.searchQuery);
   const searchResult = useSelector(state => state.searchResult);
   const { reportSubmissionStatus, searchResults } = searchResult;
 
@@ -106,7 +106,7 @@ const SearchResult = ({
 
   // Reusable map href for both full + partial address cases
   const mapHref = `https://maps.google.com?saddr=${
-    currentQuery?.context?.location
+    searchQuery?.context?.location
   }&daddr=${encodeURIComponent(destinationAddress)}`;
 
   const onCloseReportModal = () => {
@@ -117,11 +117,11 @@ const SearchResult = ({
     recordEvent({
       // prettier-ignore
       'event': 'far-search-results-click',
-      'search-query': currentQuery?.locationQueryString,
+      'search-query': searchQuery?.locationQueryString,
       'search-filters-list': {
-        'representative-type': currentQuery?.representativeType,
-        'search-radius': currentQuery?.searchArea,
-        'representative-name': currentQuery?.representativeQueryString,
+        'representative-type': searchQuery?.representativeType,
+        'search-radius': searchQuery?.searchArea,
+        'representative-name': searchQuery?.representativeQueryString,
       },
       'search-selection': 'Find VA Accredited Rep',
       'search-results-id': representativeId,
@@ -137,11 +137,11 @@ const SearchResult = ({
     recordEvent({
       // prettier-ignore
       'event': 'far-search-results-outdated',
-      'search-query': currentQuery?.locationQueryString,
+      'search-query': searchQuery?.locationQueryString,
       'search-filters-list': {
-        'representative-type': currentQuery?.representativeType,
-        'search-radius': currentQuery?.searchArea,
-        'representative-name': currentQuery?.representativeQueryString,
+        'representative-type': searchQuery?.representativeType,
+        'search-radius': searchQuery?.searchArea,
+        'representative-name': searchQuery?.representativeQueryString,
       },
       'search-selection': 'Find VA Accredited Rep',
       'search-results-id': representativeId,

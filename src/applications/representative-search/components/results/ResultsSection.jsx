@@ -10,7 +10,7 @@ import { ErrorTypes } from '../../constants';
 
 const ResultsSection = ({ isLoading, isDisplayingResults, onPageSelect }) => {
   const dispatch = useDispatch();
-  const currentQuery = useSelector(state => state.searchQuery);
+  const searchQuery = useSelector(state => state.searchQuery);
   const errors = useSelector(state => state.errors);
   const { isErrorFetchRepresentatives, isErrorReportSubmission } = errors;
 
@@ -19,7 +19,7 @@ const ResultsSection = ({ isLoading, isDisplayingResults, onPageSelect }) => {
   if (
     isLoading &&
     !isErrorFetchRepresentatives &&
-    currentQuery.searchCounter > 0
+    searchQuery.searchCounter > 0
   )
     return (
       <div className="row results-section">
