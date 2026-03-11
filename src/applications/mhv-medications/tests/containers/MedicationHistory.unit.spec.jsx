@@ -190,7 +190,7 @@ describe('MedicationHistory container', () => {
       expect(link.getAttribute('href')).to.equal('/in-progress');
       expect(link.getAttribute('data-dd-action-name')).to.equal(
         dataDogActionNames.medicationsHistoryPage
-          .GO_TO_IN_PROGRESS_MEDICATIONS_LINK,
+          .GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK,
       );
     });
   });
