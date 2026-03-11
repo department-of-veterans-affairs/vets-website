@@ -103,7 +103,7 @@ Update this file when you:
 
 #### Paths & Navigation
 - **Paths**: Route paths defined in `Paths` object
-  ```javascript
+  ```text
   Paths.MYHEALTH: '/my-health'
   Paths.MR_LANDING_PAGE: '/'
   Paths.LABS_AND_TESTS: '/labs-and-tests/'
@@ -135,6 +135,7 @@ Update this file when you:
 - **VALID_REFRESH_DURATION**: `3600000` (1 hour in milliseconds)
 - **STATUS_POLL_INTERVAL**: `2000` (2 seconds)
 - **INITIAL_FHIR_LOAD_DURATION**: `120000` (2 minutes)
+- **TRACKED_SPINNER_DURATION**: `180000` (3 minutes) — default timeout for `TrackedSpinner` before showing an error alert
 - **refreshPhases**: Refresh status phases
   - `STALE`, `IN_PROGRESS`, `CURRENT`, `FAILED`, `CALL_FAILED`
 - **loadStates**: Data loading states
@@ -152,6 +153,11 @@ Update this file when you:
   - `OH_ONLY`: User has only Oracle Health (Cerner) facilities
   - `VISTA_AND_OH`: User has both VistA and Oracle Health facilities
 - **studyJobStatus**: Image study request statuses (`NEW`, `QUEUED`, `PROCESSING`, `COMPLETE`, `ERROR`)
+- **ohFacilityTransitionTable**: Maps Oracle Health facility IDs to their VistA-to-OH cutover dates
+  - Used to display date-qualified facility names in CCD download sections
+  - Keys are facility IDs (e.g., `'668'`, `'757'`)
+  - Values contain `cutoverDate` in `YYYY-MM-DD` format
+  - Example: `{ '757': { cutoverDate: '2022-04-30' } }`
 
 ### Helper Functions (`util/helpers.js`)
 
@@ -220,6 +226,31 @@ Update this file when you:
 - **focusOnErrorField()**: Focus on first error field in form
 - **decodeBase64Report(data)**: Decode base64 report data to UTF-8 string
 - **getFailedDomainList(failed, displayMap)**: Format failed domain list with display names
+
+### Facility Helpers (`util/facilityHelpers.js`)
+Utility functions for formatting and displaying facility names, particularly for CCD download sections.
+
+#### Facility List Formatting
+- **formatFacilityUnorderedList(facilities)**: Formats facilities as `<ul>` with `<li>` items
+  - Accepts strings or objects with `{ id, content }` structure
+  - Returns `NONE_RECORDED` for empty/null input
+
+#### Cutover Date Helpers
+These helpers create facility name arrays with date suffixes for transitioned OH facilities.
+Used in CCD download sections to distinguish records before vs after VistA-to-OH transition.
+
+- **formatCutoverDate(dateString)**: Formats `YYYY-MM-DD` to readable format (e.g., `"April 30, 2022"`)
+- **createBeforeCutoverFacilityNames(ohFacilities, ehrDataByVhaId, transitionTable, getNameFn)**:
+  - Returns `Array<{ id: string, content: JSX.Element|string }>`
+  - Appends `"<strong>(before date)</strong>"` suffix for facilities in transition table
+  - Only appends suffix if cutover date is current date or older (future dates show plain name)
+  - Plain facility name for facilities not in transition table
+- **createAfterCutoverFacilityNames(ohFacilities, ehrDataByVhaId, transitionTable, getNameFn)**:
+  - Returns `Array<{ id: string, content: JSX.Element|string }>`
+  - Appends `"<strong>(date-present)</strong>"` suffix for facilities in transition table
+  - Only appends suffix if cutover date is current date or older (future dates show plain name)
+  - Plain facility name for facilities not in transition table
+
 
 ## Business Logic & Requirements
 
@@ -328,7 +359,8 @@ Update this file when you:
   - `RadiologyImagesList`, `RadiologySingleImage`: Radiology images
 
 ### Shared Components (`components/shared/`)
-- **TrackedSpinner**: Loading spinner with Datadog tracking
+- **TrackedSpinner**: Loading spinner with Datadog tracking and optional timeout safety net
+- **TimeoutAlertBox**: Reusable error alert for loading timeout (follows `AccessTroubleAlertBox` pattern)
 - **PrintDownload**: Print and download action buttons
 - **PrintHeader**: Header content for printed pages
 - **PhrRefresh**: PHR refresh status indicator
@@ -343,6 +375,10 @@ Update this file when you:
 - **ScrollToTop**: Scroll to top on route change
 - **FeatureFlagRoute**: Route wrapper for feature-flagged content
 - **AppRoute**: Custom route wrapper component
+- **MissingRecordsWarningAlert**: Warning alert shown on the Blue Button download date-range page for Cerner users, informing them that records from Oracle Health facilities are not included in the Blue Button report and linking to the CCD download page
+  - **Props**: `ohFacilityNamesAfterCutover` (array of strings or `{ id, content }` objects) — facility names with cutover-date suffixes, produced by `createAfterCutoverFacilityNames()` from `util/facilityHelpers.js`
+  - Renders the facility list via `formatFacilityUnorderedList()`
+  - Link href includes `#ccd` fragment; `DownloadReportPage` handles focus management for that hash
 
 ### Record List Pattern
 - Use `RecordList/` components for consistent list rendering
@@ -398,6 +434,10 @@ Update this file when you:
 ### useAlerts
 - **Location**: `hooks/use-alerts.js`
 - **Purpose**: Manage alert state and display
+
+### useFocusAfterLoading
+- **Location**: `hooks/useFocusAfterLoading.js`
+- **Purpose**: Focus on the h1 element when loading completes, improving accessibility for screen reader users.
 
 ### useFocusOutline
 - **Purpose**: Manage focus outline visibility for accessibility
@@ -546,7 +586,7 @@ Update this file when you:
 
 ### RUM Constants (`util/rumConstants.js`)
 - `INITIAL_FHIR_LOAD_DURATION`: Metric for initial FHIR polling duration
-- `SPINNER_DURATION`: Metric for spinner display duration
+- `SPINNER_DURATION`: Metric for spinner display duration (includes `id`, `duration` in seconds, and `reason`: `unmount` | `unload` | `timeout`)
 - `RADIOLOGY_DETAILS_MY_VA_HEALTH_LINK`: Action name for My VA Health links
 
 ### StatsD Frontend Actions (`statsdFrontEndActions`)
@@ -565,6 +605,7 @@ Update this file when you:
 - **Selectors** (`util/selectors.js`):
   - `selectBypassDowntime`: Bypass downtime notification
   - `selectFilterAndSortFlag`: Enable filter and sort functionality
+  - `selectShowMissingAlertFlag`: Controls visibility of `MissingRecordsWarningAlert` on the Blue Button download date-range page (requires `mhv_medical_records_show_missing_alert` flag)
 - **Access Pattern**:
   ```javascript
   const filterAndSortEnabled = useSelector(selectFilterAndSortFlag);
@@ -699,6 +740,7 @@ export const convertAllergy = allergy => {
 - ❌ **Never** assume an array has elements; always check existence
 - ❌ **Never** use moment.js for new code; prefer date-fns
 - ❌ **Never** skip Datadog error tracking in catch blocks in Redux action creators
+- ❌ **Never** use Unicode escape sequences (e.g., `\u2019`) to represent curly apostrophes or other special characters. Always write straight apostrophes (`'`) in source code and test assertions — ESLint will auto-fix them to curly apostrophes at lint time, but unit tests run against the raw source, so assertions must match straight apostrophes.
 
 ### Performance Considerations
 - ✅ Use lazy loading for page containers

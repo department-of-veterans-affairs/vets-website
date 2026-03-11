@@ -1,7 +1,7 @@
 // @ts-check
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
 import formConfig from '../../../../config/form';
@@ -14,8 +14,8 @@ describe('hca SpouseAdditionalInformation config', () => {
   } = formConfig.chapters.householdInformation.pages.SpouseAdditionalInformation;
 
   // run test for correct number of fields on the page
-  const expectedNumberOfFields = 4;
-  testNumberOfFields(
+  const expectedNumberOfFields = 2;
+  testNumberOfWebComponentFields(
     formConfig,
     schema,
     uiSchema,
@@ -25,7 +25,7 @@ describe('hca SpouseAdditionalInformation config', () => {
 
   // run test for correct number of error messages on submit
   const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmit(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
@@ -53,9 +53,11 @@ describe('hca SpouseAdditionalInformation config', () => {
       'ui:description': {},
       cohabitedLastYear: {
         'ui:title': {},
+        'ui:webComponentField': {},
       },
       sameAddress: {
         'ui:title': {},
+        'ui:webComponentField': {},
       },
     },
     expectedRequired: ['sameAddress'],

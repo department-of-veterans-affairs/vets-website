@@ -79,7 +79,7 @@ describe('Representative Form Upload', () => {
         '/representative/representative-form-upload/submit-va-form-21-686c',
       );
 
-      cy.get('a[href="#start"]')
+      cy.get('a[href="/submit-va-form-21-686c/is-veteran"]')
         .contains('Start form upload and submission')
         .click();
 
@@ -117,7 +117,7 @@ describe('Representative Form Upload', () => {
           cy.injectAxe();
           cy.axeCheck();
 
-          cy.get('a[href="#start"]')
+          cy.get('a[href="/submit-va-form-21-686c/is-veteran"]')
             .contains('Start form upload and submission')
             .click();
 
@@ -190,7 +190,7 @@ describe('Representative Form Upload', () => {
             `/representative/representative-form-upload/submit-va-form-${formId}/introduction`,
           );
 
-          cy.get('a[href="#start"]')
+          cy.get('a[href="/submit-va-form-21-686c/is-veteran"]')
             .contains('Start form upload and submission')
             .click();
 
@@ -270,7 +270,7 @@ describe('Representative Form Upload', () => {
         '/representative/representative-form-upload/submit-va-form-21-686c/introduction',
       );
 
-      cy.get('a[href="#start"]')
+      cy.get('a[href="/submit-va-form-21-686c/is-veteran"]')
         .contains('Start form upload and submission')
         .click();
 
@@ -367,7 +367,7 @@ describe('Representative Form Upload', () => {
       cy.injectAxe();
       cy.axeCheck();
 
-      cy.get('a[href="#start"]')
+      cy.get('a[href="/submit-va-form-21-686c/is-veteran"]')
         .contains('Start form upload and submission')
         .click();
 

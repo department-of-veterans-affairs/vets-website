@@ -18,6 +18,7 @@ export const hospitalizationDateUiSchema = {
   hospitalizationDate: {
     admissionDate: currentOrPastDateUI({
       title: 'When was the claimant admitted to the hospital?',
+      dataDogHidden: true,
     }),
   },
   'ui:options': {
@@ -28,6 +29,9 @@ export const hospitalizationDateUiSchema = {
 
       return {
         hospitalizationDate: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           admissionDate: {
             'ui:title': admissionDateLabel,
           },

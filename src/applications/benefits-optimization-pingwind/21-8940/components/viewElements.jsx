@@ -54,14 +54,17 @@ const renderTreatmentDates = dates => {
     return null;
   }
 
+  const getRangeValue = (range, primaryKey, fallbackKey) =>
+    range?.[primaryKey] || range?.[fallbackKey] || 'Not provided';
+
   return (
     <div>
       <p className="vads-u-margin-bottom--0">Treatment dates:</p>
       <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0">
         {dates.map((range, index) => (
           <li key={`treatment-${index}`}>
-            {range?.startDate || 'Not provided'} &mdash;{' '}
-            {range?.endDate || 'Not provided'}
+            {getRangeValue(range, 'from', 'startDate')} &mdash;{' '}
+            {getRangeValue(range, 'to', 'endDate')}
           </li>
         ))}
       </ul>
@@ -81,11 +84,13 @@ export const DisabilityView = ({ formData }) => {
 };
 
 export const DateRangeView = ({ formData }) => {
+  const from = formData?.from || formData?.startDate || 'Not provided';
+  const to = formData?.to || formData?.endDate || 'Not provided';
+
   return (
     <div className="vads-u-padding--2">
       <p>
-        Duration: {formData.startDate || 'Not provided'} &mdash;{' '}
-        {formData.endDate || 'Not provided'}
+        Duration: {from} &mdash; {to}
       </p>
     </div>
   );

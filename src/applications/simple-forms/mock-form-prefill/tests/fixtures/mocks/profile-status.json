@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "id": "",
+      "type": "async_transaction_va_profile_email_transactions",
+      "attributes": {
+        "transactionId": "34e84fb8-86ed-4cd0-9c6d-73179c83fcef",
+        "transactionStatus": "COMPLETED_NO_CHANGES_DETECTED",
+        "type": "AsyncTransaction::VAProfile::EmailTransaction",
+        "metadata": []
+      }
+    },
+    {
+      "id": "",
+      "type": "async_transaction_va_profile_telephone_transactions",
+      "attributes": {
+        "transactionId": "4b0918f9-97b2-43d4-9b8e-ae0dc999d9c4",
+        "transactionStatus": "COMPLETED_NO_CHANGES_DETECTED",
+        "type": "AsyncTransaction::VAProfile::TelephoneTransaction",
+        "metadata": []
+      }
+    }
+  ]
+}

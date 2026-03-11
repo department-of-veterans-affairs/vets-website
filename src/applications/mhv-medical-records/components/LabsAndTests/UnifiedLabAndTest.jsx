@@ -15,11 +15,7 @@ import ItemList from '../shared/ItemList';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import {
-  generateTextFile,
-  itemListWrapper,
-  sendDataDogAction,
-} from '../../util/helpers';
+import { generateTextFile, sendDataDogAction } from '../../util/helpers';
 import { RADIOLOGY_DETAILS_MY_VA_HEALTH_LINK } from '../../util/rumConstants';
 import {
   pageTitles,
@@ -33,6 +29,8 @@ import { pdfPrinter, txtPrinter } from '../../util/printHelper';
 
 const UnifiedLabsAndTests = props => {
   const { record, user, runningUnitTest = false } = props;
+
+  const emptyField = 'None noted';
 
   useEffect(
     () => {
@@ -95,35 +93,40 @@ const UnifiedLabsAndTests = props => {
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
             <LabelValue
-              ifEmpty="None Noted"
+              ifEmpty={emptyField}
               label={LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE}
-              value={record.testCode}
+              value={record.testCodeDisplay}
               testId="lab-and-test-code"
               data-dd-action-name="[lab and tests - test code]"
             />
+            {record.bodySite && (
+              <LabelValue
+                label={LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE}
+                value={record.bodySite}
+                testId="lab-and-test-body-site"
+                data-dd-action-name="[lab and tests - body site]"
+              />
+            )}
             <LabelValue
-              ifEmpty="None Noted"
-              label={LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED}
+              ifEmpty={emptyField}
+              label={
+                record.bodySite
+                  ? LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED
+                  : LABS_AND_TESTS_DISPLAY_LABELS.SITE_OR_SAMPLE_TESTED
+              }
               value={record.sampleTested}
               testId="lab-and-test-sample-tested"
               data-dd-action-name="[lab and tests - sample tested]"
             />
             <LabelValue
-              ifEmpty="None Noted"
-              label={LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE}
-              value={record.bodySite}
-              testId="lab-and-test-body-site"
-              data-dd-action-name="[lab and tests - body site]"
-            />
-            <LabelValue
-              ifEmpty="None Noted"
+              ifEmpty={emptyField}
               label={LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY}
               value={record.orderedBy}
               testId="lab-and-test-ordered-by"
               data-dd-action-name="[lab and tests - ordered by]"
             />
             <LabelValue
-              ifEmpty="None Noted"
+              ifEmpty={emptyField}
               label={LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}
               value={record.location}
               testId="lab-and-test-collecting-location"
@@ -131,17 +134,20 @@ const UnifiedLabsAndTests = props => {
             />
             <LabelValue
               label={LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}
-              element={itemListWrapper(record?.comments)}
+              element="div"
               testId="lab-and-test-comments"
             >
               <ItemList list={record.comments} />
             </LabelValue>
-            <LabelValue
-              ifEmpty="None Noted"
-              label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}
-              value={record.result}
-              testId="lab-and-test-results"
-            />
+            {!Array.isArray(record.observations) ||
+            record.observations.length === 0 ? (
+              <LabelValue
+                ifEmpty={emptyField}
+                label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}
+                value={record.result}
+                testId="lab-and-test-results"
+              />
+            ) : null}
           </HeaderSection>
         </div>
 
@@ -228,6 +234,7 @@ UnifiedLabsAndTests.propTypes = {
     name: PropTypes.string,
     date: PropTypes.string,
     testCode: PropTypes.string,
+    testCodeDisplay: PropTypes.string,
     sampleTested: PropTypes.string,
     bodySite: PropTypes.string,
     orderedBy: PropTypes.string,

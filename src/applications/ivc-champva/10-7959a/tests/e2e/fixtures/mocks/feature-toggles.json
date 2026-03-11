@@ -3,7 +3,7 @@
     "type": "feature_toggles",
     "features": [
       { "name": "loading", "value": false },
-      { "name": "champvaEnableClaimResubmitQuestion", "value": true }
+      { "name": "champvaEnableClaimResubmitQuestion", "value": false }
     ]
   }
 }

@@ -1,12 +1,16 @@
 import {
-  titleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const additionalInformationPartOne = {
   uiSchema: {
-    ...titleUI('Additional information about this child'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `Additional information about ${formData?.fullName?.first ||
+          'this child'}`,
+    ),
 
     doesChildLiveWithYou: yesNoUI({
       title: 'Does this child live with you?',

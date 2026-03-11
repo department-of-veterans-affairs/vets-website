@@ -16,7 +16,7 @@ const deathDatePage = {
       ...dateOfDeathUI(CHAPTER_3.DEATH_DATE.TITLE),
       'ui:validations': [validateCurrentOrPastMemorableDate],
       'ui:errorMessages': {
-        required: 'Please enter the date of death',
+        required: 'Enter the date of death',
       },
       /* eslint-disable react/prop-types */
       'ui:reviewField': ({ children }) => (

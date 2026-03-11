@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
@@ -8,9 +8,13 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { clearSearchText } from '../../actions/search';
 import { clearGeocodeError, geolocateUser } from '../../actions/mapbox';
 import { getProviderSpecialties } from '../../actions/locations';
-import { LocationType } from '../../constants';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
+
+// Hooks
+import useSearchFormState from '../../hooks/useSearchFormState';
+import useSearchFormSync from '../../hooks/useSearchFormSync';
+import useSearchSubmit from '../../hooks/useSearchSubmit';
 
 // Components
 import BottomRow from './BottomRow';
@@ -35,212 +39,82 @@ export const SearchForm = props => {
     vamcAutoSuggestEnabled,
   } = props;
 
-  const [selectedServiceType, setSelectedServiceType] = useState(null);
-  const locationInputFieldRef = useRef(null);
-  const lastQueryRef = useRef(null);
+  const {
+    draftFormState,
+    setDraftFormState,
+    updateDraftState,
+    handleFacilityTypeChange,
+    handleServiceTypeChange,
+    selectedServiceType,
+  } = useSearchFormState(currentQuery);
 
-  // Track previous Redux values for sync effects
-  const prevSearchStringRef = useRef(currentQuery.searchString);
-  const prevServiceTypeRef = useRef(currentQuery.serviceType);
-  const prevVamcServiceDisplayRef = useRef(currentQuery.vamcServiceDisplay);
-  const prevLocationSearchRef = useRef(props.location?.search);
-
-  // Draft state holds form values locally until submit
-  const [draftFormState, setDraftFormState] = useState({
-    facilityType: currentQuery.facilityType || null,
-    serviceType: currentQuery.serviceType || null,
-    searchString: currentQuery.searchString || '',
-    vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
+  useSearchFormSync({
+    currentQuery,
+    draftFormState,
+    setDraftFormState,
+    updateDraftState,
+    location: props.location,
+    onChange,
+    vaHealthServicesData: props.vaHealthServicesData,
   });
 
-  const handleFacilityTypeChange = e => {
-    const newFacilityType = e.target.value;
-    setDraftFormState(prev => ({
-      ...prev,
-      facilityType: newFacilityType,
-      serviceType: null,
-      vamcServiceDisplay: null,
-    }));
-    onChange({
-      facilityType: newFacilityType,
-      serviceType: null,
-      vamcServiceDisplay: null,
-      fetchSvcsError: null,
-      error: null,
-    });
-  };
-
-  const handleServiceTypeChange = ({ target, selectedItem }) => {
-    setSelectedServiceType(selectedItem);
-    const option = target.value.trim();
-    const serviceType = option === 'All' ? null : option;
-    setDraftFormState(prev => ({
-      ...prev,
-      serviceType,
-    }));
-    onChange({ serviceType });
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    // Check for duplicate search using draft state values
-    const isSameQuery =
-      lastQueryRef.current &&
-      draftFormState.facilityType === lastQueryRef.current.facilityType &&
-      draftFormState.serviceType === lastQueryRef.current.serviceType &&
-      draftFormState.searchString === lastQueryRef.current.searchString &&
-      currentQuery.zoomLevel === lastQueryRef.current.zoomLevel;
-
-    if (isSameQuery) {
-      return;
-    }
-
-    // Update last query ref with draft values
-    lastQueryRef.current = {
-      facilityType: draftFormState.facilityType,
-      serviceType: draftFormState.serviceType,
-      searchString: draftFormState.searchString,
-      zoomLevel: currentQuery.zoomLevel,
-    };
-
-    const updateReduxState = propName => {
-      onChange({ [propName]: ' ' });
-      onChange({ [propName]: '' });
-    };
-
-    if (
-      draftFormState.facilityType === LocationType.CC_PROVIDER &&
-      (!draftFormState.serviceType || !selectedServiceType)
-    ) {
-      updateReduxState('serviceType');
-      focusElement('#service-type-ahead-input');
-      return;
-    }
-
-    if (!draftFormState.searchString) {
-      updateReduxState('searchString');
-      focusElement('#street-city-state-zip');
-      return;
-    }
-
-    if (!draftFormState.facilityType) {
-      updateReduxState('facilityType');
-      focusElement('#facility-type-dropdown');
-      return;
-    }
-
-    // Commit draft state to Redux
-    onChange({
-      facilityType: draftFormState.facilityType,
-      serviceType: draftFormState.serviceType,
-      searchString: draftFormState.searchString,
-      vamcServiceDisplay: draftFormState.vamcServiceDisplay,
-    });
-
-    // Analytics
-    let analyticsServiceType = draftFormState.serviceType;
-    if (
-      draftFormState.facilityType === LocationType.CC_PROVIDER &&
-      currentQuery.specialties &&
-      Object.keys(currentQuery.specialties).includes(draftFormState.serviceType)
-    ) {
-      analyticsServiceType =
-        currentQuery.specialties[draftFormState.serviceType];
-    }
-
-    recordEvent({
-      event: 'fl-search',
-      'fl-search-fac-type': draftFormState.facilityType,
-      'fl-search-svc-type': analyticsServiceType,
-      'fl-current-zoom-depth': currentQuery.zoomLevel,
-    });
-
-    if (isMobile && mobileMapUpdateEnabled) {
-      selectMobileMapPin(null);
-    }
-
-    setSearchInitiated(true);
-    onSubmit(draftFormState);
-  };
-
-  // Sync draft state when Redux searchString updates from geolocation
   useEffect(
     () => {
-      if (currentQuery.searchString !== prevSearchStringRef.current) {
-        prevSearchStringRef.current = currentQuery.searchString;
-        setDraftFormState(prev => ({
-          ...prev,
-          searchString: currentQuery.searchString || '',
-        }));
+      if (currentQuery?.geocodeError) {
+        if (currentQuery.geocodeError === 1) {
+          recordEvent({
+            event: 'fl-get-geolocation-permission-error',
+            'error-key': '1_PERMISSION_DENIED',
+          });
+        } else {
+          recordEvent({
+            event: 'fl-get-geolocation-other-error',
+            'error-key':
+              currentQuery.geocodeError === 2
+                ? '2_POSITION_UNAVAILABLE'
+                : '3_TIMEOUT',
+          });
+        }
       }
     },
-    [currentQuery.searchString],
+    [currentQuery.geocodeError],
   );
 
-  // Sync draft state when VAMC autosuggest updates Redux serviceType/vamcServiceDisplay
-  useEffect(
-    () => {
-      if (
-        currentQuery.serviceType !== prevServiceTypeRef.current ||
-        currentQuery.vamcServiceDisplay !== prevVamcServiceDisplayRef.current
-      ) {
-        prevServiceTypeRef.current = currentQuery.serviceType;
-        prevVamcServiceDisplayRef.current = currentQuery.vamcServiceDisplay;
-        setDraftFormState(prev => ({
-          ...prev,
-          serviceType: currentQuery.serviceType || null,
-          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
-        }));
-      }
-    },
-    [currentQuery.serviceType, currentQuery.vamcServiceDisplay],
-  );
+  const { handleSubmit } = useSearchSubmit({
+    draftFormState,
+    setDraftFormState,
+    selectedServiceType,
+    currentQuery,
+    onChange,
+    onSubmit,
+    isMobile,
+    mobileMapUpdateEnabled,
+    selectMobileMapPin,
+    setSearchInitiated,
+  });
 
-  // Sync all fields on URL parameter changes (browser back/forward)
-  useEffect(
-    () => {
-      if (
-        props.location?.search &&
-        props.location?.search !== prevLocationSearchRef.current
-      ) {
-        prevLocationSearchRef.current = props.location?.search;
-        setDraftFormState({
-          facilityType: currentQuery.facilityType || null,
-          serviceType: currentQuery.serviceType || null,
-          searchString: currentQuery.searchString || '',
-          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
-        });
-      }
-    },
-    [
-      props.location?.search,
-      currentQuery.facilityType,
-      currentQuery.serviceType,
-      currentQuery.searchString,
-      currentQuery.vamcServiceDisplay,
-    ],
-  );
+  const locationInputFieldRef = useRef(null);
 
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
-    recordEvent({
-      event: 'fl-get-geolocation',
-    });
-
+    recordEvent({ event: 'fl-get-geolocation' });
     props.geolocateUser();
   };
 
   const handleClearInput = () => {
     props.clearSearchText();
-    // optional chaining not allowed
+    setDraftFormState(prev => ({
+      ...prev,
+      searchString: '',
+      locationChanged: true,
+      isValid: false,
+    }));
     if (locationInputFieldRef.current) {
       locationInputFieldRef.current.value = '';
     }
     focusElement('#street-city-state-zip');
   };
 
-  // Set focus in the location field when manual geocoding completes
   useEffect(
     () => {
       if (
@@ -253,40 +127,10 @@ export const SearchForm = props => {
     [currentQuery.geolocationInProgress],
   );
 
-  // Track geocode errors
-  useEffect(
-    () => {
-      if (currentQuery?.geocodeError) {
-        switch (currentQuery.geocodeError) {
-          case 0:
-            break;
-          case 1:
-            recordEvent({
-              event: 'fl-get-geolocation-permission-error',
-              'error-key': '1_PERMISSION_DENIED',
-            });
-            break;
-          case 2:
-            recordEvent({
-              event: 'fl-get-geolocation-other-error',
-              'error-key': '2_POSITION_UNAVAILABLE',
-            });
-            break;
-          default:
-            recordEvent({
-              event: 'fl-get-geolocation-other-error',
-              'error-key': '3_TIMEOUT',
-            });
-        }
-      }
-    },
-    [currentQuery.geocodeError],
-  );
-
   const facilityAndServiceTypeInputs = (
     <>
       <FacilityType
-        currentQuery={currentQuery}
+        currentQuery={draftFormState}
         handleFacilityTypeChange={handleFacilityTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
@@ -295,13 +139,17 @@ export const SearchForm = props => {
         useProgressiveDisclosure={useProgressiveDisclosure}
       />
       <ServiceType
-        currentQuery={currentQuery}
+        currentQuery={draftFormState}
         getProviderSpecialties={props.getProviderSpecialties}
         handleServiceTypeChange={handleServiceTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
         isTablet={isTablet}
-        onChange={onChange}
+        committedVamcServiceDisplay={
+          draftFormState.vamcServiceDisplay ||
+          (draftFormState.serviceType && currentQuery.vamcServiceDisplay)
+        }
+        onVamcDraftChange={updateDraftState}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
         useProgressiveDisclosure={useProgressiveDisclosure}
@@ -335,9 +183,13 @@ export const SearchForm = props => {
             : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
         </p>
       </VaModal>
+
       <form id="facility-search-controls" onSubmit={handleSubmit}>
         <AddressAutosuggest
-          currentQuery={currentQuery}
+          currentQuery={{
+            ...draftFormState,
+            geolocationInProgress: currentQuery.geolocationInProgress,
+          }}
           geolocateUser={handleGeolocationButtonClick}
           inputRef={locationInputFieldRef}
           isMobile={isMobile}
@@ -345,6 +197,7 @@ export const SearchForm = props => {
           isTablet={isTablet}
           onClearClick={handleClearInput}
           onChange={onChange}
+          onLocationSelection={updateDraftState}
           useProgressiveDisclosure={useProgressiveDisclosure}
         />
         {useProgressiveDisclosure ? (
@@ -352,7 +205,7 @@ export const SearchForm = props => {
             {facilityAndServiceTypeInputs}
             <va-button
               id="facility-search"
-              submit="prevent"
+              onClick={handleSubmit}
               text="Search"
               full-width
             />

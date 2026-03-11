@@ -95,7 +95,7 @@ jobs:
             name: dist-without-markdown
 
         - name: Install missing dependencies
-          run: apt-get update && apt-get install -y bzip2 curl
+          run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y bzip2 curl
 
         - name: Unpack artifact
           run: |
@@ -107,8 +107,10 @@ jobs:
           with:
             key: ${{ hashFiles('yarn.lock') }}
             yarn_cache_folder: .cache/yarn
+            install-cypress: 'true'
             path: |
               .cache/yarn
+              /github/home/.cache/Cypress
               node_modules
 
         - name: Install server dependencies

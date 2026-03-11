@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import environment from 'platform/utilities/environment';
-import { isProfileLoading } from 'platform/user/selectors';
 import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
@@ -29,11 +28,8 @@ const BROWSER_MONITORING_PROPS = {
 };
 
 const App = ({ location, children }) => {
-  const isAppLoading = useSelector(
-    state =>
-      state?.featureToggles?.loading === true ||
-      isProfileLoading(state) === true,
-    shallowEqual,
+  const isAppLoading = useSelector(state =>
+    Boolean(state.featureToggles?.loading || state.user?.profile?.loading),
   );
 
   useBrowserMonitoring(BROWSER_MONITORING_PROPS);

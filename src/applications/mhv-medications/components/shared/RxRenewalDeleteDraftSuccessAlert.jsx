@@ -20,6 +20,7 @@ const RxRenewalDeleteDraftSuccessAlert = () => {
       role="status"
       status="success"
       visible={visible}
+      tabindex="-1"
       className="vads-u-margin-bottom--3"
       data-testid="rx-renewal-delete-draft-success-alert"
       onCloseEvent={() => {

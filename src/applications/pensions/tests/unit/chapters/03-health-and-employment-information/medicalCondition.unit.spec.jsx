@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import {
   testComponentFieldsMarkedAsRequired,
   testNumberOfWebComponentFields,
@@ -41,4 +42,30 @@ describe('pension medical condition page', () => {
     },
     pageTitle,
   );
+
+  describe('depends logic', () => {
+    it('shows page when applicant is under 65 and has no Social Security disability', () => {
+      const formData = {
+        isOver65: false,
+        socialSecurityDisability: false,
+      };
+      expect(medicalConditions.depends(formData)).to.be.true;
+    });
+
+    it('does not show page when applicant is 65 or older and has no Social Security disability', () => {
+      const formData = {
+        isOver65: true,
+        socialSecurityDisability: false,
+      };
+      expect(medicalConditions.depends(formData)).to.be.false;
+    });
+
+    it('does not show page when applicant is 65 or older', () => {
+      const formData = {
+        isOver65: true,
+      };
+
+      expect(medicalConditions.depends(formData)).to.be.false;
+    });
+  });
 });

@@ -216,11 +216,15 @@ describe('findMatchingPhrAndCvixStudies', () => {
   });
 
   it('should return the PHR response by hash', async () => {
-    const phrResponse = [{ id: '12345', eventDate: '2022-01-01' }];
+    const phrRecord = { id: '12345', eventDate: '2022-01-01' };
+    const phrResponse = [phrRecord];
     const cvixResponse = [{ id: 'YYYYY', performedDatePrecise: 1700000000000 }];
 
+    // Compute the hash for the PHR record
+    const expectedHash = radiologyRecordHash(phrRecord);
+
     const record = await findMatchingPhrAndCvixStudies(
-      'rXXXXX-e4fae142',
+      `rXXXXX-${expectedHash}`,
       phrResponse,
       cvixResponse,
     );
@@ -252,10 +256,14 @@ describe('findMatchingPhrAndCvixStudies', () => {
   });
 
   it('should return the CVIX response by hash', async () => {
-    const cvixResponse = [{ id: '12345', performedDatePrecise: 1712264604902 }];
+    const cvixRecord = { id: '12345', performedDatePrecise: 1712264604902 };
+    const cvixResponse = [cvixRecord];
+
+    // Compute the hash for the CVIX record
+    const expectedHash = radiologyRecordHash(cvixRecord);
 
     const record = await findMatchingPhrAndCvixStudies(
-      'rXXXXX-4ec8b4e4',
+      `rXXXXX-${expectedHash}`,
       null,
       cvixResponse,
     );

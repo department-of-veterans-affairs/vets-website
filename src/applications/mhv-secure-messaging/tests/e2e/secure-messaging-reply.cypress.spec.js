@@ -3,9 +3,10 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import singleThreadResponse from './fixtures/thread-response-new-api.json';
+import mockSignature from './fixtures/signature-response.json';
 
 describe('Secure Messaging Reply Axe Check', () => {
   it('Axe Check Message Reply', () => {
@@ -19,11 +20,23 @@ describe('Secure Messaging Reply Axe Check', () => {
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
     PatientInterstitialPage.getContinueButton().click();
 
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
+      mockSignature,
+    ).as('signature');
+    cy.wait('@signature');
+
+    // Wait for reply form to be fully loaded before interacting
+    PatientReplyPage.verifyReplyHeader();
+
     PatientReplyPage.getMessageBodyField()
-      .clear()
-      .type('Test message body', {
-        force: true,
-      });
+      .should('be.visible')
+      .and('not.be.disabled');
+    PatientReplyPage.getMessageBodyField().clear();
+    PatientReplyPage.getMessageBodyField().type('Test message body', {
+      force: true,
+    });
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

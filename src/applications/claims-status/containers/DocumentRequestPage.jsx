@@ -7,7 +7,8 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import Notification from '../components/Notification';
-import DefaultPage from '../components/claim-document-request-pages/DefaultPage';
+import FirstPartyRequestPage from '../components/claim-document-request-pages/FirstPartyRequestPage';
+import ThirdPartyRequestPage from '../components/claim-document-request-pages/ThirdPartyRequestPage';
 import {
   cancelUpload,
   clearNotification,
@@ -20,6 +21,7 @@ import * as TrackedItem from '../utils/trackedItemContent';
 import { setUpPage, setPageFocus, focusNotificationAlert } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
+import { cstMultiClaimProvider } from '../selectors';
 
 const filesPath = '../files';
 const statusPath = '../status';
@@ -55,43 +57,46 @@ class DocumentRequestPage extends React.Component {
   }
 
   handleUploadComplete() {
-    this.props.getClaim(this.props.claim.id);
+    const provider = this.props.cstMultiClaimProviderEnabled
+      ? this.props.claim?.attributes?.provider
+      : null;
+    this.props.getClaim(this.props.claim.id, null, provider);
     const redirectPath = this.props.showDocumentUploadStatus
       ? statusPath
       : filesPath;
     this.props.navigate(redirectPath);
   }
 
-  getDefaultPage() {
+  getRequestPage() {
     const {
       message,
       type1UnknownErrors,
       timezoneMitigationEnabled,
       showDocumentUploadStatus,
     } = this.props;
-    return (
-      <>
-        <DefaultPage
-          item={this.props.trackedItem}
-          message={showDocumentUploadStatus ? message : null}
-          onCancel={this.props.cancelUpload}
-          onSubmit={files =>
-            this.props.submitFiles(
-              this.props.claim.id,
-              this.props.trackedItem,
-              files,
-              showDocumentUploadStatus,
-              timezoneMitigationEnabled,
-            )
-          }
-          progress={this.props.progress}
-          type1UnknownErrors={
-            showDocumentUploadStatus ? type1UnknownErrors : null
-          }
-          uploading={this.props.uploading}
-        />
-      </>
-    );
+
+    const pageProps = {
+      item: this.props.trackedItem,
+      message: showDocumentUploadStatus ? message : null,
+      onCancel: this.props.cancelUpload,
+      onSubmit: files =>
+        this.props.submitFiles(
+          this.props.claim.id,
+          this.props.trackedItem,
+          files,
+          showDocumentUploadStatus,
+          timezoneMitigationEnabled,
+        ),
+      progress: this.props.progress,
+      type1UnknownErrors: showDocumentUploadStatus ? type1UnknownErrors : null,
+      uploading: this.props.uploading,
+    };
+
+    if (this.props.trackedItem?.status === 'NEEDED_FROM_YOU') {
+      return <FirstPartyRequestPage {...pageProps} />;
+    }
+
+    return <ThirdPartyRequestPage {...pageProps} />;
   }
 
   render() {
@@ -155,6 +160,7 @@ class DocumentRequestPage extends React.Component {
                   title={message.title}
                   body={message.body}
                   type={message.type}
+                  maskTitle={message.type === 'error'}
                   onSetFocus={focusNotificationAlert}
                 />
               </div>
@@ -162,7 +168,7 @@ class DocumentRequestPage extends React.Component {
           {TrackedItem.isAutomated5103Notice(trackedItem.displayName) ? (
             <Default5103EvidenceNotice item={trackedItem} />
           ) : (
-            <>{this.getDefaultPage()}</>
+            <>{this.getRequestPage()}</>
           )}
         </>
       );
@@ -209,6 +215,7 @@ function mapStateToProps(state, ownProps) {
     uploading: uploads.uploading,
     timezoneMitigationEnabled:
       state.featureToggles?.cst_timezone_discrepancy_mitigation || false,
+    cstMultiClaimProviderEnabled: cstMultiClaimProvider(state),
   };
 }
 
@@ -231,6 +238,7 @@ DocumentRequestPage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
+  cstMultiClaimProviderEnabled: PropTypes.bool,
   getClaim: PropTypes.func,
   loading: PropTypes.bool,
   message: PropTypes.object,

@@ -3,14 +3,15 @@ import AlertSection from './AlertSection';
 import CCDDownloadSection from './CCDDownloadSection';
 import TrackedSpinner from '../shared/TrackedSpinner';
 import useSelfEnteredPdf from '../../hooks/useSelfEnteredPdf';
-import { formatFacilityList } from '../../util/facilityHelpers';
+import { formatFacilityUnorderedList } from '../../util/facilityHelpers';
 import { useDownloadReport } from '../../context/DownloadReportContext';
 import CCDDescription from './CCDDescription';
 
 const VistaAndOHContent = () => {
   const {
     ccdExtendedFileTypeFlag,
-    ohFacilityNames,
+    ohFacilityNamesAfterCutover,
+    ohFacilityNamesBeforeCutover,
     generatingCCD,
     handleDownloadCCD,
     handleDownloadCCDV2,
@@ -27,7 +28,9 @@ const VistaAndOHContent = () => {
 
   return (
     <div className="vads-u-margin-y--2">
-      <h2>Download your Continuity of Care Document</h2>
+      <h2 id="ccd" tabIndex="-1">
+        Download your Continuity of Care Document
+      </h2>
       <AlertSection
         showSeiAlerts={false}
         failedSeiDomains={failedSeiDomains}
@@ -39,9 +42,12 @@ const VistaAndOHContent = () => {
         {ccdExtendedFileTypeFlag ? (
           <>
             <p className="vads-u-font-weight--bold">
-              CCD: medical records from {formatFacilityList(vistaFacilityNames)}
+              Download your CCD for these facilities:
             </p>
-
+            {formatFacilityUnorderedList([
+              ...vistaFacilityNames,
+              ...ohFacilityNamesBeforeCutover,
+            ])}
             <div className="vads-u-margin-bottom--4">
               <CCDDownloadSection
                 isExtendedFileType={ccdExtendedFileTypeFlag}
@@ -53,9 +59,9 @@ const VistaAndOHContent = () => {
             </div>
 
             <p className="vads-u-font-weight--bold">
-              CCD: medical records from {formatFacilityList(ohFacilityNames)}
+              Download your CCD for these facilities:
             </p>
-
+            {formatFacilityUnorderedList(ohFacilityNamesAfterCutover)}
             <CCDDownloadSection
               isExtendedFileType={ccdExtendedFileTypeFlag}
               isLoading={generatingCCD}

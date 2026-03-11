@@ -66,6 +66,28 @@ describe('<Hub />', () => {
     expect(queryByTestId('bad-address-profile-alert')).to.not.exist;
   });
 
+  it('should render accredited rep when representativeStatusEnableV2Features is true', () => {
+    const { getByText } = setup({
+      toggles: { [FEATURE_FLAGS.representativeStatusEnableV2Features]: true },
+    });
+    expect(getByText('Check your accredited representative or VSO')).to.exist;
+  });
+
+  it('should hide health care contacts when profileHideHealthCareContacts is true', () => {
+    const { queryByText } = setup({
+      toggles: { [FEATURE_FLAGS.profileHideHealthCareContacts]: true },
+    });
+    expect(queryByText('Review your personal health care contacts')).to.not
+      .exist;
+  });
+
+  it('should render health care contacts when profileHideHealthCareContacts is false', () => {
+    const { getByText } = setup({
+      toggles: { [FEATURE_FLAGS.profileHideHealthCareContacts]: false },
+    });
+    expect(getByText('Review your personal health care contacts')).to.exist;
+  });
+
   it('should render Paperless Delivery link when profileShowPaperlessDelivery is true', () => {
     const { getByRole } = setup({
       toggles: { [FEATURE_FLAGS.profileShowPaperlessDelivery]: true },

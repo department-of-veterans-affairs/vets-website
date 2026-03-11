@@ -19,7 +19,7 @@ const aboutYourselfRelationshipFamilyMemberPage = {
         'ui:webComponentField': VaTextInputField,
         'ui:autocomplete': 'given-name',
         'ui:required': () => true,
-        'ui:errorMessages': { required: 'Please provide your first name' },
+        'ui:errorMessages': { required: 'Provide your first name' },
       },
       middle: {
         'ui:title': 'Middle name',
@@ -31,7 +31,7 @@ const aboutYourselfRelationshipFamilyMemberPage = {
         'ui:webComponentField': VaTextInputField,
         'ui:autocomplete': 'family-name',
         'ui:required': () => true,
-        'ui:errorMessages': { required: 'Please provide your last name' },
+        'ui:errorMessages': { required: 'Provide your last name' },
       },
       suffix: {
         'ui:title': 'Suffix',
@@ -46,14 +46,14 @@ const aboutYourselfRelationshipFamilyMemberPage = {
         ssn: {
           ...ssnUI(),
           'ui:errorMessages': {
-            required: 'Please enter your Social Security Number',
+            required: 'Enter your Social Security Number',
           },
         },
       },
       dateOfBirth: {
         ...dateOfBirthUI(),
         'ui:errorMessages': {
-          required: 'Please provide your date of birth',
+          required: 'Provide your date of birth',
         },
       },
     },

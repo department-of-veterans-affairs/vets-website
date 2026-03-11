@@ -29,6 +29,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
   const defaultState = {
     newAppointment: {
+      ehr: 'vista',
       pages: {},
       data: {
         facilityType: FACILITY_TYPES.VAMC.id,
@@ -189,7 +190,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     });
 
     expect(window.dataLayer[1]).to.deep.equal({
-      event: 'vaos-request-submission-successful',
+      event: 'vaos-request-vista-submission-successful',
       flow: 'va-request',
       'health-TypeOfCare': 'Primary care',
       'vaos-preferred-combination': 'afternoon-evening-morning',
@@ -237,7 +238,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
       expect(document.activeElement).to.be(alert);
     });
     expect(window.dataLayer[1]).to.deep.include({
-      event: 'vaos-request-submission-failed',
+      event: 'vaos-request-vista-submission-failed',
       flow: 'va-request',
       'health-TypeOfCare': 'Primary care',
       'vaos-preferred-combination': 'afternoon-evening-morning',

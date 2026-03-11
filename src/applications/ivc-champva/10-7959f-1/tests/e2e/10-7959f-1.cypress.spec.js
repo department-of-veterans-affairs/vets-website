@@ -3,7 +3,7 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import { fillStatementOfTruthAndSubmit, setupForGuest } from './utils';
+import { fillStatementOfTruthAndSubmit, setupBasicTest } from './utils';
 
 const testConfig = createTestConfig(
   {
@@ -19,7 +19,7 @@ const testConfig = createTestConfig(
       },
     },
 
-    setupPerTest: () => setupForGuest(),
+    setupPerTest: () => setupBasicTest(),
   },
   manifest,
   formConfig,

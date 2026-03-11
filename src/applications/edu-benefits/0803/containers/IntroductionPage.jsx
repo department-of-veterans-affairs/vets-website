@@ -17,7 +17,7 @@ const customLink = ({ children, ...props }) => {
   return (
     <va-link-action
       type="primary-entry"
-      text="Start your Request reimbursement for licensing or certification test fees"
+      text="Start your request for reimbursement of licensing or certification test fees"
       {...props}
     >
       {children}
@@ -50,7 +50,7 @@ export const IntroductionPage = props => {
         test fees and use your VA education benefits.
       </p>
       <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
-        Follow the steps to get started:
+        Follow these steps to get started:
       </h2>
       <ProcessList />
       <va-additional-info
@@ -58,9 +58,8 @@ export const IntroductionPage = props => {
         class="vads-u-margin-bottom--3"
       >
         <p>
-          After you successfully submit your form, we will review your
-          documents. You should hear back within 30 days about your
-          reimbursement.
+          After you successfully submit your form, we’ll review your documents.
+          You should hear back within 30 days about your reimbursement.
         </p>
       </va-additional-info>
       {!userLoggedIn ? (

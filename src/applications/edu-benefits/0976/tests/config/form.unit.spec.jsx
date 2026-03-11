@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
-describe('22-0976Form Config', () => {
+describe('22-0976 Form Config', () => {
   it('should load form config basics', () => {
     expect(formConfig).to.be.an('object');
     expect(formConfig.rootUrl).to.contain(manifest.rootUrl);
@@ -75,6 +75,23 @@ describe('22-0976Form Config', () => {
       .to.be.true;
     expect(
       programInformation.pages.medicalGraduatingClassDetails.depends(formData),
+    ).to.be.true;
+  });
+
+  it('handles the depends branch correctly', () => {
+    const formData = {
+      hasVaFacilityCode: false,
+      primaryInstitutionDetails: {
+        differentPhysicalAddress: true,
+      },
+    };
+
+    const { chapters } = formConfig;
+    const { institutionDetails } = chapters;
+    expect(
+      institutionDetails.pages.primaryInstitutionPhysicalAddress.depends(
+        formData,
+      ),
     ).to.be.true;
   });
 });

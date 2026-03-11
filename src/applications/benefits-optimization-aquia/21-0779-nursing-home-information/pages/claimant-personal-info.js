@@ -26,7 +26,9 @@ export const claimantPersonalInfoUiSchema = {
         'ui:title': 'Middle initial',
       },
     },
-    claimantDateOfBirth: dateOfBirthUI(),
+    claimantDateOfBirth: dateOfBirthUI({
+      dataDogHidden: true,
+    }),
   },
 };
 

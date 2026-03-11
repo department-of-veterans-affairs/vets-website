@@ -48,7 +48,7 @@ describe('aboutTheFamilyMemberPage', () => {
       'They/them/theirs',
       'Ze/zir/zirs',
       'Use my preferred name',
-      'If not listed, please provide your preferred pronouns',
+      'If not listed, provide your preferred pronouns',
     ];
 
     expect($('h3', container).textContent).to.eq(

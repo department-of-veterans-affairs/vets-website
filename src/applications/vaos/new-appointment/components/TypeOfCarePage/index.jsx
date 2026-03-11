@@ -24,7 +24,6 @@ import useFormState from '../../../hooks/useFormState';
 import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
 import { getPageTitle } from '../../newAppointmentFlow';
 import AppointmentsRadioWidget from '../AppointmentsRadioWidget';
-import { selectFeatureUseBrowserTimezone } from '../../../redux/selectors';
 
 const pageKey = 'typeOfCare';
 
@@ -42,9 +41,6 @@ export default function TypeOfCarePage() {
     removePodiatry,
     showPodiatryApptUnavailableModal,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
-  const featureUseBrowserTimezone = useSelector(
-    selectFeatureUseBrowserTimezone,
-  );
 
   const history = useHistory();
   const showUpdateAddressAlert = useMemo(
@@ -144,7 +140,7 @@ export default function TypeOfCarePage() {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              getLongTermAppointmentHistoryV2(featureUseBrowserTimezone);
+              getLongTermAppointmentHistoryV2();
             }
 
             setData(newData);

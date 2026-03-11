@@ -12,6 +12,16 @@ import { TITLE, SUBTITLE } from '../constants';
 import OmbInfo from '../components/OmbInfo';
 import TechnologyProgramAccordion from '../components/TechnologyProgramAccordion';
 
+const customLink = ({ children, ...props }) => (
+  <va-link-action
+    type="primary-entry"
+    text="Start your Authorization to disclose personal information"
+    {...props}
+  >
+    {children}
+  </va-link-action>
+);
+
 export const IntroductionPage = props => {
   const dispatch = useDispatch();
   const userLoggedIn = useSelector(state => isLoggedIn(state));
@@ -72,7 +82,8 @@ export const IntroductionPage = props => {
             formConfig={formConfig}
             pageList={pageList}
             startText="Start your Authorization to disclose personal information"
-            unauthStartText="Sign in or create an account"
+            unauthStartText="Sign in to start your form"
+            hideUnauthedStartLink={!userLoggedIn}
           />
         ) : (
           <SaveInProgressIntro
@@ -81,6 +92,7 @@ export const IntroductionPage = props => {
             formConfig={formConfig}
             pageList={pageList}
             startText="Start your Authorization to disclose personal information"
+            customLink={customLink}
           />
         )}
       </div>

@@ -2,21 +2,71 @@ const { v4: uuidv4 } = require('uuid');
 const { randomInt } = require('crypto');
 const { expenseByType } = require('../expenses/expenseData');
 const { STATUS_KEYS, EXPENSE_TYPE_OPTIONS } = require('../constants');
+const { generateAppointmentDates } = require('../vaos/appointmentUtils');
 
 /**
- * Factory to build a claim
+ * Mock Claim Factory
  *
- * @param {Object} options - Options to customize the claim
- * @param {string} options.claimStatus - One of STATUS_KEYS (default: STATUS_KEYS.SAVED)
- * @param {string} options.expenseTypeOptions - Which expenses to include (default: EXPENSE_TYPE_OPTIONS.ALL)
- * @returns {Object} - A mock claim object
+ * Builds a realistic Travel Pay claim payload for local mocks and UI testing.
+ * This factory is intentionally flexible so list views and detail views can
+ * share consistent claim data while varying status, expenses, and appointment info.
+ *
+ * Key behaviors:
+ * - Supports overriding `claimId` and `claimNumber` so list → detail navigation
+ *   returns the same claim the user clicked.
+ * - Dynamically includes expenses based on `expenseTypeOptions`
+ *   (ALL or MILEAGE_ONLY).
+ * - Automatically generates documents for non-mileage expenses.
+ * - Applies status-specific behavior:
+ *   - DENIED: adds rejection reasons and decision letter documents
+ *   - PARTIAL_PAYMENT: reimburses half the requested amount
+ *   - CLAIM_PAID: reimburses the full requested amount
+ * - Generates appointment dates aligned to VAOS 30-minute increments.
+ * - Uses `daysOffset` to deterministically space appointments in time
+ *   (e.g. list views showing multiple claims on different days).
+ * - Derives `createdOn` and `modifiedOn` relative to the appointment date
+ *   unless explicitly overridden.
+ * - Allows appointment fields to be overridden to align with VAOS appointment mocks.
+ *
+ * This is a mock helper only and does not attempt to perfectly mirror backend
+ * persistence rules — it focuses on front-end behavior fidelity and predictability.
+ *
+ * @param {Object} options
+ * @param {string} [options.claimId]
+ *   Existing claim ID (used when fetching claim details)
+ * @param {string} [options.claimNumber]
+ *   Existing claim number to keep list/detail consistent
+ * @param {string} [options.claimStatus=STATUS_KEYS.SAVED]
+ *   One of STATUS_KEYS
+ * @param {string} [options.expenseTypeOptions=EXPENSE_TYPE_OPTIONS.ALL]
+ *   Determines which expense types are included in the claim
+ *   (e.g. ALL, MILEAGE_ONLY)
+ * @param {number} [options.daysOffset=1]
+ *   Day offset applied when generating the appointment date.
+ *   Negative values create past appointments; positive values create future ones.
+ *   Used to space multiple mock claims across different days.
+ * @param {Object} [options.appointmentOverride]
+ *   Optional overrides to force appointment data to match VAOS mocks
+ * @param {string} [options.appointmentOverride.id]
+ * @param {string} [options.appointmentOverride.appointmentDateTime]
+ * @param {string} [options.appointmentOverride.facilityId]
+ * @param {string} [options.appointmentOverride.facilityName]
+ *
+ * @returns {Object} Mock Travel Pay claim response
  */
+
 function buildClaim({
+  claimId: providedClaimId,
+  claimNumber: providedClaimNumber,
   claimStatus = STATUS_KEYS.SAVED,
   expenseTypeOptions = EXPENSE_TYPE_OPTIONS.ALL,
+  daysOffset = 1,
+  appointmentOverride = {},
 } = {}) {
-  const claimId = uuidv4();
-  const claimNumber = `TC${randomInt(1_000_000_000_000, 10_000_000_000_000)}`; // Mock claim number
+  const claimId = providedClaimId ?? uuidv4();
+  const claimNumber =
+    providedClaimNumber ??
+    `TC${randomInt(1_000_000_000_000, 10_000_000_000_000)}`;
   const isMileageExpense = exp => exp.expenseType?.toLowerCase() === 'mileage';
 
   // Decide which expenses to include
@@ -25,7 +75,6 @@ function buildClaim({
     selectedExpenses = Object.values(expenseByType).map(exp => ({
       ...exp,
       ...(isMileageExpense(exp) ? {} : { documentId: uuidv4() }),
-      costSubmitted: claimStatus === 'Saved' ? exp.costRequested : 0,
     }));
   } else if (expenseTypeOptions === EXPENSE_TYPE_OPTIONS.MILEAGE_ONLY) {
     const exp = expenseByType.mileage;
@@ -33,7 +82,6 @@ function buildClaim({
       {
         ...exp,
         documentId: uuidv4(),
-        costSubmitted: claimStatus === 'Saved' ? exp.costRequested : 0,
       },
     ];
   }
@@ -93,20 +141,28 @@ function buildClaim({
     );
   }
 
-  const now = new Date();
+  // Generate the appointmentDateTime aligned with VAOS 30-min increments
+  // If overridden, the provided value is trusted as the source of truth.
+  const appointmentDateTime =
+    appointmentOverride.appointmentDateTime ??
+    generateAppointmentDates(daysOffset).appointmentDateTime;
 
-  const appointmentDate = new Date(
-    Date.UTC(
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate(),
-      9,
-      30,
-      0,
-    ),
-  )
-    .toISOString()
-    .replace('.000Z', 'Z');
+  // Helper to shift an ISO timestamp by N days.
+  // Used to keep createdOn / modifiedOn consistent relative to appointment time.
+  const addDays = (isoString, days) =>
+    new Date(
+      new Date(isoString).getTime() + days * 24 * 60 * 60 * 1000,
+    ).toISOString();
+
+  // Default lifecycle dates are derived from the appointment date:
+  // - createdOn: 1 day before
+  // - modifiedOn: 1 day after
+  // These may be overridden to match list or detail mocks exactly.
+  const createdOn =
+    appointmentOverride.createdOn ?? addDays(appointmentDateTime, -1);
+  const modifiedOn =
+    appointmentOverride.modifiedOn ?? addDays(appointmentDateTime, 1);
+
   // Build the claim
   return {
     claimId,
@@ -117,22 +173,24 @@ function buildClaim({
     claimantLastName: 'Doe',
     claimSource: 'VaGov',
     claimStatus,
-    appointmentDate,
-    facilityName: 'Cheyenne VA Medical Center',
+    appointmentDate: appointmentDateTime,
+    facilityName:
+      appointmentOverride.facilityName || 'Cheyenne VA Medical Center',
     totalCostRequested: selectedExpenses.reduce(
       (sum, e) => sum + e.costRequested,
       0,
     ),
     reimbursementAmount,
-    createdOn: appointmentDate,
-    modifiedOn: appointmentDate,
+    createdOn,
+    modifiedOn,
     appointment: {
-      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      id: appointmentOverride.id,
       appointmentSource: 'API',
-      appointmentDateTime: appointmentDate,
+      appointmentDateTime,
       appointmentType: 'EnvironmentalHealth',
-      facilityId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-      facilityName: 'Cheyenne VA Medical Center',
+      facilityId: appointmentOverride.facilityId || '983GC',
+      facilityName:
+        appointmentOverride.facilityName || 'Cheyenne VA Medical Center',
       serviceConnectedDisability: 30,
       appointmentStatus: 'Complete',
       externalAppointmentId: `${randomInt(10000, 100000)}`,

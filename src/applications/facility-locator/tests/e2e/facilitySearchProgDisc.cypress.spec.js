@@ -111,11 +111,32 @@ describe('Facility VA search', () => {
     cy.get('.i-pin-card-map').contains('1');
     cy.get('.i-pin-card-map').contains('2');
     cy.get('.i-pin-card-map').contains('3');
-
-    cy.get('#other-tools').should('exist');
   });
 
   it('shows search result header even when no results are found', () => {
+    /* eslint-disable camelcase */
+    cy.intercept('GET', '/geocoding/**/*', {
+      type: 'FeatureCollection',
+      query: ['27606'],
+      features: [
+        {
+          id: 'place.mock',
+          type: 'Feature',
+          place_type: ['place'],
+          relevance: 1,
+          properties: {},
+          text: 'Raleigh',
+          place_name: 'Raleigh, North Carolina 27606',
+          center: [-78.6382, 35.7796],
+          geometry: { type: 'Point', coordinates: [-78.6382, 35.7796] },
+          context: [
+            { id: 'region.mock', short_code: 'US-NC', text: 'North Carolina' },
+            { id: 'country.mock', short_code: 'us', text: 'United States' },
+          ],
+        },
+      ],
+    });
+    /* eslint-enable camelcase */
     cy.visit('/find-locations');
     cy.injectAxe();
     cy.axeCheck();
@@ -132,7 +153,6 @@ describe('Facility VA search', () => {
     cy.focused().contains(
       'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
     );
-    cy.get('#other-tools').should('exist');
   });
 
   it('finds va benefits facility and views its page', () => {
@@ -149,7 +169,6 @@ describe('Facility VA search', () => {
     cy.get('#search-results-subheader').contains(
       /(Showing|Results).*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
     );
-    cy.get('#other-tools').should('exist');
 
     cy.axeCheck();
 
@@ -177,8 +196,6 @@ describe('Facility VA search', () => {
       .contains(/Get directions/i);
     cy.get('[alt="Static map"]').should('exist');
     cy.get('#hours-op h3').contains('Hours of operation');
-    cy.get('#other-tools').should('not.exist');
-
     cy.axeCheck();
   });
 
@@ -198,6 +215,7 @@ describe('Facility VA search', () => {
   });
 
   it('finds VA emergency care', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
     cy.visit('/find-locations');
     typeInCityStateInput('Austin, TX');
     selectFacilityTypeInDropdown(FACILITY_TYPES.EMERGENCY);

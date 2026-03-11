@@ -9,6 +9,7 @@ import {
   studentAddressPage,
   studentMaritalStatusPage,
   studentEducationBenefitsPage,
+  studentFederallyFundedPage,
   studentProgramInfoPage,
   studentEducationBenefitsStartDatePage,
   studentStoppedAttendingDatePage,
@@ -120,7 +121,27 @@ export default {
           isChapterFieldRequired(formData, TASK_KEYS.report674) &&
           isAddingDependents(formData),
       }),
+      addStudentsPartEightB: pageBuilder.itemPage({
+        title: 'Add one or more students between ages 18 and 23',
+        path: 'report-674/add-students/:index/student-federally-funded',
+        uiSchema: studentFederallyFundedPage.uiSchema,
+        schema: studentFederallyFundedPage.schema,
+        depends: formData =>
+          isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+          isAddingDependents(formData),
+      }),
       addStudentsPartNine: pageBuilder.itemPage({
+        title: 'Add one or more students between ages 18 and 23',
+        path: 'report-674/add-students/:index/student-federally-funded-program',
+        uiSchema: studentProgramInfoPage.uiSchema,
+        schema: studentProgramInfoPage.schema,
+        depends: (formData, index) =>
+          isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+          isAddingDependents(formData) &&
+          formData?.studentInformation?.[index]?.tuitionIsPaidByGovAgency ===
+            true,
+      }),
+      addStudentsPartTen: pageBuilder.itemPage({
         title: 'Add one or more students between ages 18 and 23',
         path:
           'report-674/add-students/:index/student-education-benefits/start-date',
@@ -129,21 +150,11 @@ export default {
         depends: (formData, index) =>
           isChapterFieldRequired(formData, TASK_KEYS.report674) &&
           isAddingDependents(formData) &&
-          ['ch35', 'fry', 'feca'].some(
-            key =>
-              formData?.studentInformation?.[index]?.typeOfProgramOrBenefit?.[
-                key
-              ] === true,
-          ),
-      }),
-      addStudentsPartTen: pageBuilder.itemPage({
-        title: 'Add one or more students between ages 18 and 23',
-        path: 'report-674/add-students/:index/student-program-information',
-        uiSchema: studentProgramInfoPage.uiSchema,
-        schema: studentProgramInfoPage.schema,
-        depends: formData =>
-          isChapterFieldRequired(formData, TASK_KEYS.report674) &&
-          isAddingDependents(formData),
+          (['ch35', 'fry', 'feca'].includes(
+            formData?.studentInformation?.[index]?.typeOfProgramOrBenefit,
+          ) ||
+            formData?.studentInformation?.[index]?.tuitionIsPaidByGovAgency ===
+              true),
       }),
       addStudentsPartEleven: pageBuilder.itemPage({
         title: 'Add one or more students between ages 18 and 23',

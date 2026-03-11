@@ -9,6 +9,7 @@ import reducer from '../../reducers';
 import { Paths } from '../../util/constants';
 import ManageFolderButtons from '../../components/ManageFolderButtons';
 import * as foldersActions from '../../actions/folders';
+import { inputVaTextInput } from '../../util/testUtils';
 
 describe('Manage Folder Buttons component', () => {
   let sandbox;
@@ -145,12 +146,13 @@ describe('Manage Folder Buttons component', () => {
       expect(screen.getByTestId('edit-folder-form')).to.exist;
     });
 
-    const input = screen.getByTestId('edit-folder-name-input');
+    inputVaTextInput(
+      screen.container,
+      '',
+      '[data-testid="edit-folder-name-input"]',
+    );
 
-    // Clear the input to simulate blank folder name
-    // Set value on target for web component compatibility
-    input.value = '';
-    fireEvent(input, new CustomEvent('input', { bubbles: true }));
+    const input = screen.getByTestId('edit-folder-name-input');
 
     const saveButton = screen.getByTestId('save-edit-folder-button');
     fireEvent.click(saveButton);
@@ -180,11 +182,13 @@ describe('Manage Folder Buttons component', () => {
       expect(screen.getByTestId('edit-folder-form')).to.exist;
     });
 
-    const input = screen.getByTestId('edit-folder-name-input');
+    inputVaTextInput(
+      screen.container,
+      existingFolderName,
+      '[data-testid="edit-folder-name-input"]',
+    );
 
-    // Set to existing folder name - use direct value assignment for web component compatibility
-    input.value = existingFolderName;
-    fireEvent(input, new CustomEvent('input', { bubbles: true }));
+    const input = screen.getByTestId('edit-folder-name-input');
 
     const saveButton = screen.getByTestId('save-edit-folder-button');
     fireEvent.click(saveButton);
@@ -196,7 +200,7 @@ describe('Manage Folder Buttons component', () => {
     });
   });
 
-  it('Edit folder name button renders with full-width attribute', () => {
+  it('Edit folder name button renders with secondary attribute', () => {
     const screen = renderWithStoreAndRouter(
       <ManageFolderButtons folder={folder} />,
       {
@@ -205,11 +209,10 @@ describe('Manage Folder Buttons component', () => {
       },
     );
     const editButton = screen.getByTestId('edit-folder-button');
-    expect(editButton).to.have.attribute('full-width');
     expect(editButton).to.have.attribute('secondary');
   });
 
-  it('Remove folder button renders with full-width attribute and destructive styling class', () => {
+  it('Remove folder button renders with secondary attribute and destructive styling class', () => {
     const screen = renderWithStoreAndRouter(
       <ManageFolderButtons folder={folder} />,
       {
@@ -218,7 +221,6 @@ describe('Manage Folder Buttons component', () => {
       },
     );
     const removeButton = screen.getByTestId('remove-folder-button');
-    expect(removeButton).to.have.attribute('full-width');
     expect(removeButton).to.have.attribute('secondary');
     expect(removeButton.getAttribute('class')).to.include(
       'sm-button-destructive',
@@ -243,11 +245,11 @@ describe('Manage Folder Buttons component', () => {
       expect(screen.getByTestId('edit-folder-form')).to.exist;
     });
 
-    const input = screen.getByTestId('edit-folder-name-input');
-
-    // Set a new valid folder name
-    input.value = 'New Folder Name';
-    fireEvent(input, new CustomEvent('input', { bubbles: true }));
+    inputVaTextInput(
+      screen.container,
+      'New Folder Name',
+      '[data-testid="edit-folder-name-input"]',
+    );
 
     const saveButton = screen.getByTestId('save-edit-folder-button');
     fireEvent.click(saveButton);

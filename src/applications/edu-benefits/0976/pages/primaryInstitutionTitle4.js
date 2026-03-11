@@ -16,7 +16,7 @@ export default {
       participatesInTitleIv: yesNoUI({
         yesNoReverse: true,
         title:
-          'Does the facility participate in a program under Title IV with the U.S. Department of Education?',
+          'Does the facility participate in a program under Title 4 with the U.S. Department of Education?',
         labels: {
           N: 'Yes',
           Y: 'No',
