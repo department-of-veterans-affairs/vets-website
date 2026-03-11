@@ -146,7 +146,7 @@ export const dataDogActionNames = {
       'What To Know Before You Print Or Download Button - ',
   },
   medicationsHistoryPage: {
-    GO_TO_IN_PROGRESS_MEDICATIONS_LINK: `Go to in-progress medications link - ${
+    GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK: `Go to your in-progress medications link - ${
       pageType.HISTORY
     }`,
     REFILL_MEDICATIONS_LINK: `Refill medications link - ${pageType.HISTORY}`,
@@ -165,7 +165,7 @@ export const dataDogActionNames = {
     }`,
   },
   inProgressPage: {
-    GO_TO_MEDICATION_HISTORY_LINK: `Go to medication history link - ${
+    GO_TO_REVIEW_AND_PRINT_MEDICATION_HISTORY_LINK: `Review and print list of medications link - ${
       pageType.IN_PROGRESS
     }`,
     REFILL_MEDICATIONS_LINK: `Refill medications link - ${
