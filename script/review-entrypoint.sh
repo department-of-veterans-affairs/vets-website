@@ -10,11 +10,19 @@ npm run build -- --buildtype=localhost --api="${API_URL}" --host="${WEB_HOST}" -
 # Content-build will run in the background and merge its output when done.
 SERVE_DIR="$(pwd)/build/localhost"
 
+# Add CSP nonce placeholder to script tags in webpack-generated HTML.
+# The nginx reverse proxy replaces **CSP_NONCE** with a real nonce and sets
+# a strict-dynamic CSP header requiring every <script> to carry a valid nonce.
+# Webpack's dev-template.ejs only puts nonce on inline scripts, not on the
+# injected bundle <script> tags (vendor.js, <app>.entry.js, etc.).
+find "$SERVE_DIR" -name "*.html" -exec \
+  perl -pi -e 's/<script(?![^>]*\bnonce\b)/<script nonce="**CSP_NONCE**"/g' {} +
+
 # Inject status banner script into served directory so users see content-build progress
 cp "$(pwd)/script/review-status-banner.js" "$SERVE_DIR/review-status-banner.js"
 # Add script tag to the root index.html (before </body>)
 if [ -f "$SERVE_DIR/index.html" ]; then
-  sed -i 's|</body>|<script src="/review-status-banner.js"></script></body>|' "$SERVE_DIR/index.html"
+  sed -i 's|</body>|<script nonce="**CSP_NONCE**" src="/review-status-banner.js"></script></body>|' "$SERVE_DIR/index.html"
 fi
 
 # Start http-server in the background on the target port
