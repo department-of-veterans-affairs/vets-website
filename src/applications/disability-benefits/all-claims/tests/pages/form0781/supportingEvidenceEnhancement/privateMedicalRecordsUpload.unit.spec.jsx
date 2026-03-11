@@ -16,7 +16,7 @@ describe('Private Medical Records Upload page', () => {
     formConfig.chapters.supportingEvidence.pages.privateMedicalRecordsUpload;
 
   describe('page configuration', () => {
-    // TODO: Potentially Update this title -> will check with Design
+    // TODO: Potentially Update this title => will check with Design
     it('should have correct title', () => {
       expect(page.title).to.equal('Upload non-VA treatment records');
     });
@@ -41,7 +41,7 @@ describe('Private Medical Records Upload page', () => {
   });
 
   describe('page rendering', () => {
-    it('should render the page', () => {
+    it('should render the page with content', () => {
       const { container } = render(
         <Provider store={uploadStore}>
           <DefinitionTester
@@ -54,23 +54,6 @@ describe('Private Medical Records Upload page', () => {
         </Provider>,
       );
 
-      expect(container.querySelector('form')).to.exist;
-    });
-
-    it('should render with title', () => {
-      const { container } = render(
-        <Provider store={uploadStore}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            uiSchema={uiSchema}
-            data={{}}
-            formData={{}}
-          />
-        </Provider>,
-      );
-
-      // Check that the page renders content
       const form = container.querySelector('form');
       expect(form).to.exist;
       expect(form.children.length).to.be.greaterThan(0);
@@ -96,6 +79,7 @@ describe('Private Medical Records Upload page', () => {
     it('should return false when hasPrivateEvidence returns false', () => {
       const formData = {
         disability526SupportingEvidenceEnhancement: true,
+        disability526SupportingEvidenceFileInputV3: true,
         'view:selectableEvidenceTypes': {
           'view:hasPrivateMedicalRecords': false,
         },
@@ -108,6 +92,7 @@ describe('Private Medical Records Upload page', () => {
     it('should return false when user chooses not to upload private medical records', () => {
       const formData = {
         disability526SupportingEvidenceEnhancement: true,
+        disability526SupportingEvidenceFileInputV3: true,
         'view:selectableEvidenceTypes': {
           'view:hasPrivateMedicalRecords': true,
         },
@@ -123,6 +108,7 @@ describe('Private Medical Records Upload page', () => {
     it('should return true when all conditions are met', () => {
       const formData = {
         disability526SupportingEvidenceEnhancement: true,
+        disability526SupportingEvidenceFileInputV3: true,
         'view:selectableEvidenceTypes': {
           'view:hasPrivateMedicalRecords': true,
         },
