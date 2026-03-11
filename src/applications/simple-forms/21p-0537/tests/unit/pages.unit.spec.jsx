@@ -7,6 +7,7 @@ import spouseVeteranId from '../../pages/spouseVeteranId';
 import spouseVeteranStatus from '../../pages/spouseVeteranStatus';
 import terminationDetails from '../../pages/terminationDetails';
 import terminationStatus from '../../pages/terminationStatus';
+import { validateSpouseSsnNotMatchVeteranSsn } from '../../utils/validations';
 
 describe('21P-0537 page configurations', () => {
   describe('marriageInfo', () => {
@@ -109,6 +110,14 @@ describe('21P-0537 page configurations', () => {
         'spouseVeteranId',
       );
     });
+
+    it('includes spouse SSN cross-field validation', () => {
+      const validations =
+        spouseVeteranId.uiSchema.remarriage.spouseVeteranId.ssn[
+          'ui:validations'
+        ];
+      expect(validations).to.include(validateSpouseSsnNotMatchVeteranSsn);
+    });
   });
 
   describe('spouseVeteranStatus', () => {
@@ -167,6 +176,53 @@ describe('21P-0537 page configurations', () => {
       expect(
         terminationStatus.schema.properties.remarriage.required,
       ).to.include('hasTerminated');
+    });
+  });
+
+  describe('validateSpouseSsnNotMatchVeteranSsn', () => {
+    const buildErrors = () => {
+      const messages = [];
+      return {
+        errors: { addError: message => messages.push(message) },
+        messages,
+      };
+    };
+
+    it('adds an error when spouse and veteran SSN match', () => {
+      const { errors, messages } = buildErrors();
+
+      validateSpouseSsnNotMatchVeteranSsn(errors, '123-45-6789', {
+        veteranIdentification: { ssn: '123456789' },
+      });
+
+      expect(messages).to.have.lengthOf(1);
+    });
+
+    it('does not add an error when spouse and veteran SSN are different', () => {
+      const { errors, messages } = buildErrors();
+
+      validateSpouseSsnNotMatchVeteranSsn(errors, '123-45-6789', {
+        veteranIdentification: { ssn: '987-65-4321' },
+      });
+
+      expect(messages).to.be.empty;
+    });
+
+    it('does not add an error when either SSN is missing', () => {
+      const missingSpouse = buildErrors();
+      validateSpouseSsnNotMatchVeteranSsn(missingSpouse.errors, '', {
+        veteranIdentification: { ssn: '123456789' },
+      });
+
+      const missingVeteran = buildErrors();
+      validateSpouseSsnNotMatchVeteranSsn(
+        missingVeteran.errors,
+        '123456789',
+        {},
+      );
+
+      expect(missingSpouse.messages).to.be.empty;
+      expect(missingVeteran.messages).to.be.empty;
     });
   });
 });
