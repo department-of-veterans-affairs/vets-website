@@ -327,40 +327,63 @@ const costPage = {
   },
 };
 
+const SKIP_NO_INCOME_VALUE = ['NO_INCOME'];
+export const isCareExpensesSkipped = formData =>
+  !!formData.survivorsBenefitsForm2025VersionEnabled &&
+  SKIP_NO_INCOME_VALUE.includes(formData?.moreThanFourIncomeSources);
+
 export const careExpensesPages = arrayBuilderPages(options, pageBuilder => ({
   careExpensesIntro: pageBuilder.introPage({
     title: 'Care expenses',
     path: 'financial-information/care-expenses',
+    depends: formData =>
+      formData?.survivorsBenefitsForm2025VersionEnabled &&
+      !isCareExpensesSkipped(formData),
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
   }),
   careExpensesSummary: pageBuilder.summaryPage({
     title: 'Care expenses',
     path: 'financial-information/care-expenses/add',
+    depends: formData =>
+      formData?.survivorsBenefitsForm2025VersionEnabled &&
+      !isCareExpensesSkipped(formData),
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   careTypePage: pageBuilder.itemPage({
     title: 'Type of care',
     path: 'financial-information/care-expenses/:index/type-of-care',
+    depends: formData =>
+      formData?.survivorsBenefitsForm2025VersionEnabled &&
+      !isCareExpensesSkipped(formData),
     uiSchema: typeOfCarePage.uiSchema,
     schema: typeOfCarePage.schema,
   }),
   careRecipientPage: pageBuilder.itemPage({
     title: 'Care recipient and provider name',
     path: 'financial-information/care-expenses/:index/recipient-provider',
+    depends: formData =>
+      formData?.survivorsBenefitsForm2025VersionEnabled &&
+      !isCareExpensesSkipped(formData),
     uiSchema: recipientPage.uiSchema,
     schema: recipientPage.schema,
   }),
   careDatesPage: pageBuilder.itemPage({
     title: 'Dates of care',
     path: 'financial-information/care-expenses/:index/dates',
+    depends: formData =>
+      formData?.survivorsBenefitsForm2025VersionEnabled &&
+      !isCareExpensesSkipped(formData),
     uiSchema: datePage.uiSchema,
     schema: datePage.schema,
   }),
   careCostPage: pageBuilder.itemPage({
     title: 'Cost of care',
     path: 'financial-information/care-expenses/:index/cost',
+    depends: formData =>
+      formData?.survivorsBenefitsForm2025VersionEnabled &&
+      !isCareExpensesSkipped(formData),
     uiSchema: costPage.uiSchema,
     schema: costPage.schema,
   }),

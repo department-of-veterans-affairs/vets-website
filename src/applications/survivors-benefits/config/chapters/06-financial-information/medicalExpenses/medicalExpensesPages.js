@@ -248,34 +248,55 @@ const frequencyCostPage = {
   },
 };
 
+const SKIP_NO_INCOME_VALUE = ['NO_INCOME'];
+
+const isMedicalExpensesSkipped = formData =>
+  !!formData.survivorsBenefitsForm2025VersionEnabled &&
+  SKIP_NO_INCOME_VALUE.includes(formData?.moreThanFourIncomeSources);
+
 export const medicalExpensesPages = arrayBuilderPages(options, pageBuilder => ({
   medicalExpensesIntro: pageBuilder.introPage({
     title: 'Medical, last, burial, and other expenses',
     path: 'financial-information/medical-expenses',
+    depends: formData =>
+      formData?.survivorsBenefitsForm2025VersionEnabled &&
+      !isMedicalExpensesSkipped(formData),
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
   }),
   medicalExpensesSummary: pageBuilder.summaryPage({
     title: 'Medical, last, burial, and other expenses',
     path: 'financial-information/medical-expenses/add',
+    depends: formData =>
+      formData?.survivorsBenefitsForm2025VersionEnabled &&
+      !isMedicalExpensesSkipped(formData),
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   medicalRecipientPage: pageBuilder.itemPage({
     title: 'Medical recipient and provider name',
     path: 'financial-information/medical-expenses/:index/recipient-provider',
+    depends: formData =>
+      formData?.survivorsBenefitsForm2025VersionEnabled &&
+      !isMedicalExpensesSkipped(formData),
     uiSchema: recipientPage.uiSchema,
     schema: recipientPage.schema,
   }),
   medicalPurposeDatePage: pageBuilder.itemPage({
     title: 'Expense purpose and date',
     path: 'financial-information/medical-expenses/:index/purpose-date',
+    depends: formData =>
+      formData?.survivorsBenefitsForm2025VersionEnabled &&
+      !isMedicalExpensesSkipped(formData),
     uiSchema: purposeDatePage.uiSchema,
     schema: purposeDatePage.schema,
   }),
   medicalFrequencyCostPage: pageBuilder.itemPage({
     title: 'Frequency and cost of care',
     path: 'financial-information/medical-expenses/:index/frequency-cost',
+    depends: formData =>
+      formData?.survivorsBenefitsForm2025VersionEnabled &&
+      !isMedicalExpensesSkipped(formData),
     uiSchema: frequencyCostPage.uiSchema,
     schema: frequencyCostPage.schema,
   }),
