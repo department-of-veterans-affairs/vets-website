@@ -28,7 +28,9 @@ const VistaAndOHContent = () => {
 
   return (
     <div className="vads-u-margin-y--2">
-      <h2>Download your Continuity of Care Document</h2>
+      <h2 id="ccd" tabIndex="-1">
+        Download your Continuity of Care Document
+      </h2>
       <AlertSection
         showSeiAlerts={false}
         failedSeiDomains={failedSeiDomains}

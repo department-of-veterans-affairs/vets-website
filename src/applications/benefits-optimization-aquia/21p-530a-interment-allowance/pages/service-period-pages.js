@@ -86,9 +86,15 @@ const serviceDatesPage = {
       undefined,
       false,
     ),
-    dateEnteredService: currentOrPastDateUI('Service start date'),
+    dateEnteredService: currentOrPastDateUI({
+      title: 'Service start date',
+      dataDogHidden: true,
+    }),
     dateLeftService: {
-      ...currentOrPastDateUI('Service end date'),
+      ...currentOrPastDateUI({
+        title: 'Service end date',
+        dataDogHidden: true,
+      }),
       'ui:validations': [
         (errors, fieldData, formData) => {
           validateEndDateAfterStartDate(

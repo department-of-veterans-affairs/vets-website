@@ -22,7 +22,9 @@ const createFakeStore = state => {
 };
 
 const fakeMapboxResponse = { body: { features: [{ center: [0, 0] }] } };
-sinon.stub(mapboxUtils, 'getFeaturesFromAddress').returns(fakeMapboxResponse);
+sinon.stub(mapboxUtils, 'createGeocodingService').returns({
+  getFeaturesFromAddress: sinon.stub().returns(fakeMapboxResponse),
+});
 
 const fetchedVetCenters = {
   data: [

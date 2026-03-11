@@ -97,6 +97,26 @@ export const dataDogActionNames = {
     GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
       pageType.REFILL
     }`,
+    GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK: `Go To Your In-Progress Medications Link - ${
+      pageType.REFILL
+    }`,
+    GO_TO_REVIEW_AND_PRINT_MEDICATION_HISTORY_LINK: `Go To Review And Print Medication History Link - ${
+      pageType.REFILL
+    }`,
+  },
+  inProgressPage: {
+    GO_TO_REVIEW_AND_PRINT_MEDICATION_HISTORY_LINK: `Go To Review And Print Medication History Link - ${
+      pageType.IN_PROGRESS
+    }`,
+    REFILL_MEDICATIONS_LINK: `Refill Medications Link - ${
+      pageType.IN_PROGRESS
+    }`,
+  },
+  medicationsHistoryPage: {
+    GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK: `Go To Your In-Progress Medications Link - ${
+      pageType.HISTORY
+    }`,
+    REFILL_MEDICATIONS_LINK: `Refill Medications Link - ${pageType.HISTORY}`,
   },
   renewalModal: {
     MODAL_OPEN: 'Rx Renewal Modal Open',

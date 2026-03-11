@@ -9,32 +9,38 @@ import PrintDownloadCard from '../components/shared/PrintDownloadCard';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
-import EmptyPrescriptionContent from '../components/MedicationsList/EmptyPrescriptionContent';
-
-import { useGetAllergiesQuery } from '../api/allergiesApi';
-import { getPrescriptionsExportList } from '../api/prescriptionsApi';
-
 import { useFetchMedicationHistory } from '../hooks/MedicationHistory/useFetchMedicationHistory';
-import { useFocusManagement } from '../hooks/MedicationsList/useFocusManagement';
-import useRxListExport from '../hooks/useRxListExport';
-
-import { setSortOption } from '../redux/preferencesSlice';
-
-import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
+import { pageType, dataDogActionNames } from '../util/dataDogConstants';
+import {
+  rxListSortingOptions,
+  rxListSortingOptionsV2,
+  getDefaultFilterOption,
+  ALL_MEDICATIONS_FILTER_KEY,
+} from '../util/constants';
 import {
   selectSortOption,
   selectFilterOption,
 } from '../selectors/selectPreferences';
+import { setSortOption, setFilterOption } from '../redux/preferencesSlice';
+import EmptyPrescriptionContent from '../components/MedicationsList/EmptyPrescriptionContent';
+import NoFilterMatches from '../components/MedicationsList/NoFilterMatches';
+import MedicationHistoryFilter, {
+  getFilterUrl,
+} from '../components/MedicationHistory/MedicationHistoryFilter';
 
-import {
-  rxListSortingOptions,
-  ALL_MEDICATIONS_FILTER_KEY,
-} from '../util/constants';
-import { dataDogActionNames, pageType } from '../util/dataDogConstants';
+import { useGetAllergiesQuery } from '../api/allergiesApi';
+import { getPrescriptionsExportList } from '../api/prescriptionsApi';
+
+import { useFocusManagement } from '../hooks/MedicationsList/useFocusManagement';
+import useRxListExport from '../hooks/useRxListExport';
+
+import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
+
 import { getFilterOptions } from '../util/helpers/getRxStatus';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
+  selectMedicationsManagementImprovementsFlag,
 } from '../util/selectors';
 
 const MedicationHistory = () => {
@@ -58,6 +64,29 @@ const MedicationHistory = () => {
     isCerner,
     isLoading: isAcceleratedDataLoading,
   } = useAcceleratedData();
+  const isManagementImprovements = useSelector(
+    selectMedicationsManagementImprovementsFlag,
+  );
+
+  // Default to Active filter when management improvements is enabled
+  // and the user hasn't explicitly chosen a filter this session
+  useEffect(
+    () => {
+      const effectiveFilter = getDefaultFilterOption(
+        selectedFilterOption,
+        isManagementImprovements,
+      );
+      if (effectiveFilter !== selectedFilterOption) {
+        dispatch(setFilterOption(effectiveFilter));
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isManagementImprovements],
+  );
+
+  const activeSortingOptions = isManagementImprovements
+    ? rxListSortingOptionsV2
+    : rxListSortingOptions;
 
   const {
     prescriptionsData,
@@ -143,12 +172,28 @@ const MedicationHistory = () => {
     [shouldPrint, printRxList, clearPrintTrigger],
   );
 
+  const updateFilter = newFilterOption => {
+    if (newFilterOption !== selectedFilterOption) {
+      setLoadingMessage('Filtering your medications...');
+      setQueryParams(prev => ({
+        ...prev,
+        filterOption: getFilterUrl(
+          newFilterOption,
+          isCernerPilot,
+          isV2StatusMapping,
+        ),
+        page: 1,
+      }));
+      navigate('/history', { replace: true });
+    }
+  };
+
   const updateSort = (_filterOption, newSortOption) => {
     if (newSortOption && newSortOption !== selectedSortOption) {
       setLoadingMessage('Sorting your medications...');
       setQueryParams(prev => ({
         ...prev,
-        sortEndpoint: rxListSortingOptions[newSortOption].API_ENDPOINT,
+        sortEndpoint: activeSortingOptions[newSortOption].API_ENDPOINT,
         page: 1,
       }));
       dispatch(setSortOption(newSortOption));
@@ -167,8 +212,14 @@ const MedicationHistory = () => {
   // Medications exist and should be displayed
   const hasMedications = filteredList?.length > 0;
 
+  // Check if truly no medications exist (all filter counts are 0)
+  const noMedications =
+    filteredList?.length === 0 &&
+    filterCount &&
+    Object.values(filterCount).every(value => value === 0);
+
   const renderContent = () => {
-    if (isLoading) {
+    if (isLoading && !hasMedications) {
       return (
         <div className="vads-u-padding-y--9">
           <va-loading-indicator
@@ -182,16 +233,24 @@ const MedicationHistory = () => {
     if (prescriptionsApiError) {
       return <ApiErrorNotification errorType="access" content="medications" />;
     }
-    if (!hasMedications) {
+    if (noMedications) {
       return <EmptyPrescriptionContent />;
     }
     return (
       <>
+        <MedicationHistoryFilter
+          updateFilter={updateFilter}
+          isLoading={isLoading}
+        />
         <MedicationsListSort
           sortRxList={updateSort}
           shouldShowSelect={!isLoading}
         />
+        {isLoading && (
+          <va-loading-indicator message={loadingMessage} set-focus />
+        )}
         {!isLoading &&
+          hasMedications &&
           pagination && (
             <MedicationsList
               pagination={pagination}
@@ -207,6 +266,7 @@ const MedicationHistory = () => {
           isFiltered={filterApplied}
           list
         />
+        {!isLoading && noFilterMatches && <NoFilterMatches />}
       </>
     );
   };
@@ -219,17 +279,19 @@ const MedicationHistory = () => {
     <div>
       <h1 data-testid="medication-history-heading">Medication history</h1>
       <Link
+        data-testid="in-progress-link"
         to="/in-progress"
         data-dd-action-name={
           dataDogActionNames.medicationsHistoryPage
-            .GO_TO_IN_PROGRESS_MEDICATIONS_LINK
+            .GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK
         }
       >
         Go to your in-progress medications
       </Link>
       <span className="vads-u-margin-x--1">|</span>
       <Link
-        to="/refill"
+        data-testid="refill-link"
+        to="/"
         data-dd-action-name={
           dataDogActionNames.medicationsHistoryPage.REFILL_MEDICATIONS_LINK
         }

@@ -71,7 +71,7 @@ class MedicationsHistoryPage {
   };
 
   verifyRefillLink = () => {
-    cy.get('a[href$="/refill"]').should('contain', 'Refill medications');
+    cy.findByTestId('refill-link').should('contain', 'Refill medications');
   };
 
   verifyLoadingIndicator = () => {
