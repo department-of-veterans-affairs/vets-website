@@ -65,7 +65,7 @@ describe('checkPortalRequirements', () => {
       expect(result.needsPortalNotice).to.be.false;
     });
 
-    it('does not depend on isPortalNoticeInterstitialEnabled (backend checks flipper)', () => {
+    it('returns false when isPortalNoticeInterstitialEnabled is false', () => {
       const result = checkPortalRequirements({
         isPortalNoticeInterstitialEnabled: false,
         provisioned: true,
@@ -74,7 +74,7 @@ describe('checkPortalRequirements', () => {
           userFacilityReadyForInfoAlert: true,
         }),
       });
-      expect(result.needsPortalNotice).to.be.true;
+      expect(result.needsPortalNotice).to.be.false;
     });
   });
 

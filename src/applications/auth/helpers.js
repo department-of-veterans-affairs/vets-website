@@ -133,14 +133,12 @@ export const checkPortalRequirements = ({
     userAtPretransitionedOhFacility = false,
   } = userAttributes?.vaProfile?.ohMigrationInfo || {};
 
+  const redirectElligible =
+    isPortalNoticeInterstitialEnabled && provisioned && vaPatient;
+
   return {
-    needsPortalNotice:
-      provisioned && vaPatient && userFacilityReadyForInfoAlert,
-    needsMyHealth:
-      isPortalNoticeInterstitialEnabled &&
-      provisioned &&
-      vaPatient &&
-      !userAtPretransitionedOhFacility,
+    needsPortalNotice: redirectElligible && userFacilityReadyForInfoAlert,
+    needsMyHealth: redirectElligible && !userAtPretransitionedOhFacility,
   };
 };
 
