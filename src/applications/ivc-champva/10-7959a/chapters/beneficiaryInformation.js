@@ -1,18 +1,17 @@
 import {
-  addressUI,
   addressSchema,
-  dateOfBirthUI,
+  addressUI,
   dateOfBirthSchema,
-  titleUI,
-  radioUI,
-  radioSchema,
-  phoneUI,
-  phoneSchema,
-  textUI,
-  emailUI,
+  dateOfBirthUI,
   emailSchema,
+  emailUI,
+  phoneSchema,
+  phoneUI,
+  radioSchema,
+  radioUI,
+  textUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { privWrapper } from '../../shared/utilities';
 import {
   validAddressCharsOnly,
   validObjectCharsOnly,
@@ -22,8 +21,8 @@ import {
   fullNameMiddleInitialSchema,
   fullNameMiddleInitialUI,
 } from '../definitions';
-import { personalizeTitleByName } from '../utils/helpers';
 import content from '../locales/en/content.json';
+import { titleWithNameUI } from '../utils/titles';
 
 export const applicantNameDobSchema = {
   uiSchema: {
@@ -50,11 +49,7 @@ export const applicantNameDobSchema = {
 
 export const applicantMemberNumberSchema = {
   uiSchema: {
-    ...titleUI(({ formData }) =>
-      privWrapper(
-        personalizeTitleByName(formData, content['page-title--id-info']),
-      ),
-    ),
+    ...titleWithNameUI(content['page-title--id-info']),
     applicantMemberNumber: textUI({
       title: content['beneficiary--member-number-label'],
       hint: content['beneficiary--member-number-hint'],
@@ -76,14 +71,8 @@ export const applicantMemberNumberSchema = {
 
 export const applicantAddressSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
-        privWrapper(
-          personalizeTitleByName(
-            formData,
-            content['page-title--mailing-address'],
-          ),
-        ),
+    ...titleWithNameUI(
+      content['page-title--mailing-address'],
       content['beneficiary--mailing-address-desc'],
     ),
     applicantAddress: addressUI({
@@ -119,11 +108,8 @@ export const applicantAddressSchema = {
 
 export const applicantContactSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
-        privWrapper(
-          personalizeTitleByName(formData, content['page-title--contact-info']),
-        ),
+    ...titleWithNameUI(
+      content['page-title--contact-info'],
       content['beneficiary--contact-info-desc'],
     ),
     applicantPhone: phoneUI(),

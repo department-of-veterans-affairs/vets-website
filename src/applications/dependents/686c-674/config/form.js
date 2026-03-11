@@ -17,17 +17,10 @@ import prefillTransformer from './prefill-transformer';
 // Chapter imports
 import {
   veteranInformation,
+  veteranAddress,
+  veteranContactInformation,
   checkVeteranPension,
 } from './chapters/veteran-information';
-
-import editAddressPage from './chapters/veteran-contact-information/editAddressPage';
-import editPhonePage from './chapters/veteran-contact-information/editPhonePage';
-import editInternationalPhonePage from './chapters/veteran-contact-information/editInternationalPhonePage';
-import editEmailPage from './chapters/veteran-contact-information/editEmailPage';
-
-import VeteranContactInformationPage from '../components/VeteranContactInformationPage';
-import VeteranContactInformationReviewPage from '../components/VeteranContactInformationReviewPage';
-import VeteranInformationReviewPage from '../components/VeteranInformationReviewPage';
 import {
   addDependentOptions,
   removeDependentOptions,
@@ -138,28 +131,22 @@ export const formConfig = {
             // submissions without it
             useV2: true,
           },
-          CustomPageReview: VeteranInformationReviewPage,
         },
-      },
-    },
-    veteranContactInformation: {
-      title: 'Veteran’s contact information',
-      pages: {
+        veteranAddress: {
+          path: 'veteran-address',
+          title: 'Veteran address',
+          uiSchema: veteranAddress.uiSchema,
+          schema: veteranAddress.schema,
+        },
         veteranContactInformation: {
           path: 'veteran-contact-information',
           title: 'Veteran contact information',
-          initialData: {},
-          CustomPage: VeteranContactInformationPage,
-          CustomPageReview: VeteranContactInformationReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: veteranContactInformation.uiSchema,
+          schema: veteranContactInformation.schema,
         },
-        editAddressPage,
-        editEmailPage,
-        editPhonePage,
-        editInternationalPhonePage,
       },
     },
+
     optionSelection: {
       title: ({ formData }) =>
         showV3Picklist(formData)

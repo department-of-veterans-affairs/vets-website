@@ -4,13 +4,21 @@ import {
   selectUI,
   textSchema,
   textUI,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { validFieldCharsOnly } from '../../../shared/validations';
 import ClaimIdentificationInfo from '../../components/FormDescriptions/ClaimIdentificationInfo';
 import { blankSchema } from '../../definitions';
 import content from '../../locales/en/content.json';
-import { personalizeTitleByRole } from '../../utils/helpers';
+import { titleWithRoleUI } from '../../utils/titles';
+import { validateChars } from '../../utils/validation';
+
+const TITLE_TEXT = content['resubmission-id-number--page-title'];
+const DESC_TEXT = content['resubmission-id-number--page-desc'];
+
+const INPUT_LABELS = {
+  select: content['resubmission-id-number--select-label'],
+  text: content['resubmission-id-number--input-label'],
+};
+const INPUT_HINT_TEXT = content['resubmission-id-number--input-hint'];
 
 export const ID_NUMBER_OPTIONS = [
   content['resubmission-id-number--pdi-option'],
@@ -19,23 +27,13 @@ export const ID_NUMBER_OPTIONS = [
 
 export default {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
-        personalizeTitleByRole(
-          formData,
-          content['resubmission-id-number--page-title'],
-        ),
-      content['resubmission-id-number--page-desc'],
-    ),
-    pdiOrClaimNumber: selectUI(content['resubmission-id-number--select-label']),
+    ...titleWithRoleUI(TITLE_TEXT, DESC_TEXT),
+    pdiOrClaimNumber: selectUI(INPUT_LABELS.select),
     identifyingNumber: textUI({
-      title: content['resubmission-id-number--input-label'],
-      hint: content['resubmission-id-number--input-hint'],
+      title: INPUT_LABELS.text,
+      hint: INPUT_HINT_TEXT,
+      validations: [validateChars],
     }),
-    'ui:validations': [
-      (errors, formData) =>
-        validFieldCharsOnly(errors, null, formData, 'identifyingNumber'),
-    ],
     'view:addtlInfo': descriptionUI(ClaimIdentificationInfo),
   },
   schema: {

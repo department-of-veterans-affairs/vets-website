@@ -1,11 +1,11 @@
 import {
-  phoneUI,
-  phoneSchema,
-  emailUI,
   emailSchema,
-  titleUI,
+  emailUI,
+  phoneSchema,
+  phoneUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import content from '../../locales/en/content.json';
+import { titleWithFormDataUI } from '../../utils/titles';
 
 const TITLE_TEXT = content['resubmission--provider-contact-title'];
 const DESC_TEXT = content['resubmission--provider-contact-description'];
@@ -18,7 +18,9 @@ const INPUT_LABELS = {
 
 export default {
   uiSchema: {
-    ...titleUI(TITLE_TEXT, DESC_TEXT),
+    ...titleWithFormDataUI(TITLE_TEXT, DESC_TEXT, {
+      dataKey: 'serviceProvider',
+    }),
     providerPhone: phoneUI(INPUT_LABELS.phone),
     providerFax: phoneUI(INPUT_LABELS.fax),
     providerEmail: emailUI(INPUT_LABELS.email),
