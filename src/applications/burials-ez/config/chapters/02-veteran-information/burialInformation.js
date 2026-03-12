@@ -4,13 +4,14 @@ import {
   currentOrPastDateSchema,
   dateOfDeathUI,
   dateOfDeathSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import differenceInCalendarMonths from 'date-fns/differenceInCalendarMonths';
-import { generateTitle, DateReviewField } from '../../../utils/helpers';
+import { DateReviewField } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Burial information'),
+    ...titleUI('Burial information'),
     deathDate: {
       ...dateOfDeathUI('Date of death'),
       'ui:reviewField': props => (

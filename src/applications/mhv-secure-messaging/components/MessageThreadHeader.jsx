@@ -22,6 +22,7 @@ import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import StaleMessageAlert from './shared/StaleMessageAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
+import MigratedMessageAlert from './shared/MigratedMessageAlert';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 import ReplyButton from './ReplyButton';
 import AlertBackgroundBox from './shared/AlertBackgroundBox';
@@ -170,18 +171,22 @@ const MessageThreadHeader = props => {
         )}
       </header>
 
-      {currentRecipient &&
-        !isInMigrationPhase && (
-          <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
-            <BlockedTriageGroupAlert
-              alertStyle={BlockedTriageAlertStyles.ALERT}
-              parentComponent={ParentComponent.MESSAGE_THREAD}
-              currentRecipient={currentRecipient}
-              setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
-              isOhMessage={isOhMessage}
-            />
-          </div>
-        )}
+      {currentRecipient && (
+        <>
+          <MigratedMessageAlert />
+          {!isInMigrationPhase && (
+            <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
+              <BlockedTriageGroupAlert
+                alertStyle={BlockedTriageAlertStyles.ALERT}
+                parentComponent={ParentComponent.MESSAGE_THREAD}
+                currentRecipient={currentRecipient}
+                setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+                isOhMessage={isOhMessage}
+              />
+            </div>
+          )}
+        </>
+      )}
 
       {customFoldersRedesignEnabled ? (
         <ReplyButton

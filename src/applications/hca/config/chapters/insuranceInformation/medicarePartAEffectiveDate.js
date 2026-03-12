@@ -1,6 +1,8 @@
+// @ts-check
 import {
   titleUI,
   descriptionUI,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import {
@@ -13,8 +15,8 @@ import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
 const {
-  medicareClaimNumber,
   medicarePartAEffectiveDate,
+  medicareClaimNumber,
 } = FULL_SCHEMA.properties;
 
 export default {
@@ -29,17 +31,19 @@ export default {
       'ui:required': () => true,
     },
     medicareClaimNumber: {
-      'ui:title': content['insurance-info--medicare-details-number-label'],
+      ...textUI({
+        title: content['insurance-info--medicare-details-number-label'],
+        errorMessages: {
+          required: content['validation-error--medicare-number'],
+        },
+        reviewField: CustomReviewField,
+      }),
       ...descriptionUI(MedicareClaimNumberDescription),
-      'ui:reviewField': CustomReviewField,
-      'ui:required': () => true,
-      'ui:errorMessages': {
-        required: content['validation-error--medicare-number'],
-      },
     },
   },
   schema: {
     type: 'object',
+    required: ['medicareClaimNumber'],
     properties: {
       medicarePartAEffectiveDate,
       medicareClaimNumber,

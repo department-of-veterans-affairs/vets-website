@@ -11,7 +11,7 @@ export default {
   path: 'household/dependents',
   depends: () => !showMultiplePageResponse(),
   uiSchema: {
-    ...titleUI('Dependent children'),
+    ...titleUI('Your dependent children'),
     'view:hasDependents': yesNoUI({
       title: 'Do you have any dependent children?',
     }),

@@ -169,11 +169,11 @@ describe('App component', () => {
       const { container } = renderWithProvider(authedAndVerifiedState);
       await waitFor(() => {
         const pdfLink = container.querySelector(
-          'va-link[text="Download PDF (best for printing)"]',
+          'va-link[text="Download 2024 PDF (best for printing)"]',
         );
         expect(pdfLink).to.exist;
         const textLink = container.querySelector(
-          'va-link[text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"]',
+          'va-link[text="Download 2024 Text file (best for screen readers, enlargers, and refreshable Braille displays)"]',
         );
         expect(textLink).to.exist;
       });

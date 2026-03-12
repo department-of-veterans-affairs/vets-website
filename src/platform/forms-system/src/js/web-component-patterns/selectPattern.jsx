@@ -80,14 +80,21 @@ import VaSelectField from '../web-component-fields/VaSelectField';
  * @returns {UISchemaOptions}
  */
 export const selectUI = options => {
-  const { title, description, errorMessages, required, ...uiOptions } =
-    typeof options === 'object' ? options : { title: options };
+  const {
+    title,
+    description,
+    errorMessages,
+    required,
+    reviewField,
+    ...uiOptions
+  } = typeof options === 'object' ? options : { title: options };
 
   return {
     'ui:title': title,
     'ui:description': description,
     'ui:webComponentField': VaSelectField,
     'ui:required': required,
+    'ui:reviewField': reviewField,
     'ui:options': {
       ...uiOptions,
     },
