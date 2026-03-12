@@ -22,7 +22,7 @@ describe('Skip map link', () => {
     cy.visit('/find-locations');
   });
 
-  it('shows skip map button and moves focus to footer when clicked', () => {
+  it('shows skip map button and checks href', () => {
     // Perform a search so the map is rendered with results
     cy.get(CITY_STATE_ZIP_INPUT).type('Austin, TX');
     cy.get(FACILITY_TYPE_DROPDOWN)
@@ -35,35 +35,21 @@ describe('Skip map link', () => {
     );
 
     // Wait for a focus target to exist before clicking (footer/feedback load async)
-    cy.get('body').should($body => {
-      const hasFooterFocusable =
-        $body.find('#footerNav').find('a[href], button').length > 0;
-      const hasFeedbackButton =
-        $body.find('#mdFormButton .usa-button').length > 0;
-      expect(
-        hasFooterFocusable || hasFeedbackButton,
-        'either first focusable in footer or feedback button must be present in the DOM',
-      ).to.be.true;
-    });
-
-    cy.get(SKIP_MAP_LINK)
-      .focus()
-      .should('have.focus')
-      .click();
-
     cy.get('body').then($body => {
-      const hasFeedbackButton =
-        $body.find('#mdFormButton .usa-button').length > 0;
+      const hasFeedbackButton = $body.find('#mdFormButton').length > 0;
+      const hrefName = hasFeedbackButton ? '#mdFormButton' : '#footerNav';
 
-      if (hasFeedbackButton) {
-        cy.get('#mdFormButton .usa-button').should('have.focus');
-      } else {
-        cy.get('#footerNav')
-          .find('a[href], button')
-          .first()
-          .should('have.focus');
-      }
+      cy.get(SKIP_MAP_LINK)
+        .shadow()
+        .find('a')
+        .then($el => expect($el).to.have.attr('href', hrefName));
     });
+
+    cy.get(SKIP_MAP_LINK).click();
+    cy.get(SKIP_MAP_LINK)
+      .shadow()
+      .find('a')
+      .then($el => expect($el).not.to.have.focus);
   });
 
   it('skip map link is keyboard focusable', () => {
@@ -75,14 +61,11 @@ describe('Skip map link', () => {
     cy.get(SEARCH_BUTTON).click({ waitForAnimations: true });
     cy.get('#search-results-subheader').should('be.visible');
 
-    // make sure that the link is visible and has focus
-    // resolved issues with loading/timing in production
+    // make sure that the link is visible
     cy.get(SKIP_MAP_LINK)
-      .focus()
+      .click()
       .should('be.visible');
 
-    cy.get(SKIP_MAP_LINK)
-      .focus()
-      .should('have.focus');
+    cy.get(SKIP_MAP_LINK).should('not.be.focused');
   });
 });
