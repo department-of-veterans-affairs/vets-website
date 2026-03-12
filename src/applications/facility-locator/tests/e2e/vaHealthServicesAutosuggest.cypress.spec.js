@@ -1,6 +1,7 @@
 import * as h from './helpers';
 import vaHealthServicesData from '../hooks/test-va-healthcare-services.json';
 import searchResultsData from './autosuggest-data/services-autosuggest.json';
+import mockGeocodingData from '../../constants/mock-geocoding-data-atlanta.json';
 
 describe('VA health services autosuggest', () => {
   beforeEach(() => {
@@ -18,6 +19,8 @@ describe('VA health services autosuggest', () => {
         ],
       },
     });
+
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
 
     cy.intercept(
       'GET',
@@ -50,11 +53,10 @@ describe('VA health services autosuggest', () => {
 
       h.verifyElementExists(h.AUTOSUGGEST_INPUT);
 
-      // Open dropdown with no search, verify services are available inside, search
+      // Verify that the autosuggest dropdown does not open when its clicked into with no input
       h.clickElement(h.AUTOSUGGEST_ARROW);
       verifyDropdownIsOpen();
-      h.verifyElementByText('All VA health services').click();
-      verifyDropdownIsClosed();
+      cy.get(h.AUTOSUGGEST_INPUT).type('{esc}');
 
       h.submitSearchForm();
 

@@ -17,9 +17,9 @@ const ConfirmationPageITF = () => {
 
   const { first, last } =
     form.data.isVeteran === 'no'
-      ? form.data.claimantFullName
-      : form.data.veteranFullName;
-  const { city, state, postalCode } = form.data.address;
+      ? form.data.claimantSubPage.claimantFullName
+      : form.data.veteranSubPage.veteranFullName;
+  const { city, state, postalCode } = form.data.veteranSubPage.address;
 
   const address = { city, state, postalCode };
   const name = { first, last };

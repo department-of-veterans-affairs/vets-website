@@ -8,7 +8,6 @@ import {
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DefaultFolders as Folders,
-  Alerts,
   Paths,
   threadSortingOptions,
   THREADS_PER_PAGE_DEFAULT,
@@ -20,6 +19,7 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
 import Footer from '../components/Footer';
+import ManageFolderButtons from '../components/ManageFolderButtons';
 import { getListOfThreads, setThreadSortOrder } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
@@ -37,7 +37,6 @@ const FolderThreadListView = () => {
     state => state.sm.threads,
   );
   const threadSort = useSelector(state => state.sm.threads.threadSort);
-  const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
   const folderId = folder?.folderId;
   const {
@@ -217,14 +216,13 @@ const FolderThreadListView = () => {
 
   useEffect(
     () => {
-      const alertVisible = alertList[alertList?.length - 1];
-      const alertSelector =
-        folder !== undefined && !alertVisible?.isActive
-          ? 'h1'
-          : alertVisible?.isActive && 'va-alert';
-      focusElement(document.querySelector(alertSelector));
+      // Always focus on H1 per MHV accessibility decision records.
+      // Alert content is announced via role="status" without stealing focus.
+      if (folder !== undefined) {
+        focusElement(document.querySelector('h1'));
+      }
     },
-    [alertList, folder],
+    [folder],
   );
 
   useInterval(() => {
@@ -264,19 +262,6 @@ const FolderThreadListView = () => {
                   Showing 0 of 0 conversations
                 </div>
               )}
-
-            <div className="vads-u-margin-y--3">
-              <va-alert
-                background-only="true"
-                status="info"
-                className="vads-u-margin-bottom--1 va-alert"
-                data-testid="alert-no-messages"
-              >
-                <p className="vads-u-margin-y--0">
-                  {Alerts.Message.NO_MESSAGES}
-                </p>
-              </va-alert>
-            </div>
           </>
         );
       }
@@ -335,9 +320,9 @@ const FolderThreadListView = () => {
   return (
     <div className="vads-u-padding--0">
       <div className="main-content vads-u-display--flex vads-u-flex-direction--column">
-        <AlertBackgroundBox closeable />
         {folder === null ? (
-          <></>
+          /* Error state: show alert at top since there's no H1/content */
+          <AlertBackgroundBox closeable />
         ) : (
           folderId === undefined && <LoadingIndicator />
         )}
@@ -347,9 +332,16 @@ const FolderThreadListView = () => {
               folder={folder}
               threadCount={threadList?.length}
               searchProps={{ searchResults, awaitingResults, keyword, query }}
+              showNoMessages={
+                !isLoading &&
+                !awaitingResults &&
+                threadList?.length === 0 &&
+                threadSort?.page === 1
+              }
             />
 
             {content}
+            <ManageFolderButtons folder={folder} />
             <Footer />
           </>
         )}

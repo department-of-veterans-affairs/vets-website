@@ -5,13 +5,16 @@ import { getSiteIdFromFacilityId } from '../../../services/location';
 
 import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
 import {
+  filterPastAppointmentsByTypeOfCare,
+  typeOfCareRequiresPastHistory,
+} from '../../../services/patient';
+import {
   getClinicsForChosenFacility,
   getFormData,
   getTypeOfCare,
   selectPastAppointments,
 } from '../../redux/selectors';
 import AppointmentsRadioWidget from '../AppointmentsRadioWidget';
-import { typeOfCareRequiresPastHistory } from '../../../services/patient';
 
 const initialSchema = {
   type: 'object',
@@ -50,11 +53,18 @@ export default function useClinicFormState(pageTitle, singleClinicTitlePrefix) {
     featurePastVisitMHFilter,
   );
 
+  const filteredPastAppointments = isCheckTypeOfCare
+    ? filterPastAppointmentsByTypeOfCare(
+        pastAppointments,
+        selectedTypeOfCare.id,
+      )
+    : pastAppointments;
+
   if (isCheckTypeOfCare) {
     const pastAppointmentDateMap = new Map();
     const siteId = getSiteIdFromFacilityId(initialData.vaFacility);
 
-    pastAppointments.forEach(appt => {
+    filteredPastAppointments.forEach(appt => {
       const apptTime = appt.version === 2 ? appt.start : appt.startDate;
       const clinicId =
         appt.version === 2 ? appt.location.clinicId : appt.clinicId;

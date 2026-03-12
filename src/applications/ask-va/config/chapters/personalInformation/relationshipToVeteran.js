@@ -18,7 +18,7 @@ const relationshipToVeteranPage = {
       labels: relationshipOptionsSomeoneElse,
       required: () => true,
       errorMessages: {
-        required: 'Please select your relationship to the Veteran.',
+        required: 'Select your relationship to the Veteran.',
       },
     }),
     'ui:options': {

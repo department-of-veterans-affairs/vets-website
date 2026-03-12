@@ -31,9 +31,9 @@ const OTHER_TEXT_MAX = 30;
 const DisclosureIntro = ({ claimantName, thirdPartyName }) => (
   <>
     <p>
-      I, the claimant <strong>{claimantName || 'N/A'}</strong>, authorize VA to
-      speak with <strong>{thirdPartyName || 'N/A'}</strong> for the purpose of
-      providing the following information pertaining to my VA record.
+      I, the claimant {claimantName}, authorize VA to speak with{' '}
+      {thirdPartyName} for the purpose of providing the following information
+      pertaining to my VA record.
     </p>
   </>
 );
@@ -150,17 +150,18 @@ const InformationToDiscloseField = props => {
 
       <VaCheckboxGroup
         id={`${wrapperId}-checkbox-group`}
-        label="Here is a list of all benefit and claim information you can allow [display full name of person or name of organization] to see. Select the information that you want to share."
+        label={`Here is a list of all benefit and claim information you can allow ${thirdPartyName} to see. Select the information that you want to share.`}
         required
         error={groupError}
       >
         <VaCheckbox
+          class="vads-u-margin-top--4"
           label="Select all benefit and claim information"
           checked={allSelected}
           indeterminate={someSelected}
           onVaChange={e => setAll(getChecked(e))}
         />
-
+        <hr className="vads-u-margin-y--2" />
         {keys.map(key => {
           const opt = DISCLOSURE_OPTIONS[key];
           const label = typeof opt === 'string' ? opt : opt.title;

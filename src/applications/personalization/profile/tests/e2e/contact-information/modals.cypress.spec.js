@@ -387,7 +387,7 @@ describe('Modals on the contact information and content page when they error', (
     });
 
     // expect an error to be shown
-    cy.findByTestId('edit-error-alert').should('exist');
+    cy.findByTestId('vap-service-error-alert').should('exist');
 
     cy.axeCheck();
   });

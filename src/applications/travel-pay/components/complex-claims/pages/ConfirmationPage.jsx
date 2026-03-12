@@ -12,7 +12,6 @@ import {
   selectAllDocuments,
   selectComplexClaimSubmissionState,
 } from '../../../redux/selectors';
-import { ComplexClaimsHelpSection } from '../../HelpText';
 import ExpensesAccordion from './ExpensesAccordion';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 import WhatHappensNextSection from './WhatHappensNextSection';
@@ -124,7 +123,7 @@ const ConfirmationPage = () => {
               <ExpensesAccordion
                 expenses={expenses}
                 documents={documents}
-                headerLevel={2}
+                headerLevel={3}
               />
             </>
           )}
@@ -137,7 +136,6 @@ const ConfirmationPage = () => {
               />
             </div>
           )}
-          <ComplexClaimsHelpSection />
         </>
       )}
     </>

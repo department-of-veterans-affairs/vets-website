@@ -69,6 +69,16 @@ describe('Representative Form Upload', () => {
       });
       cy.intercept(
         'POST',
+        '/accredited_representative_portal/v0/representative_form_upload',
+        mockScannedFormUpload,
+      );
+      cy.intercept(
+        'POST',
+        '/accredited_representative_portal/v0/upload_supporting_documents',
+        mockScannedFormUpload,
+      );
+      cy.intercept(
+        'POST',
         '/accredited_representative_portal/v0/submit_representative_form',
         mockSubmit,
       );
@@ -79,7 +89,7 @@ describe('Representative Form Upload', () => {
         '/representative/representative-form-upload/submit-va-form-21-526ez',
       );
 
-      cy.get('a[href="#start"]')
+      cy.get('a[href="/submit-va-form-21-526ez/veteran-information"]')
         .contains('Start form upload and submission')
         .click();
 
@@ -116,7 +126,7 @@ describe('Representative Form Upload', () => {
         cy.injectAxe();
         cy.axeCheck();
 
-        cy.get('a[href="#start"]')
+        cy.get('a[href="/submit-va-form-21-526ez/veteran-information"]')
           .contains('Start form upload and submission')
           .click();
 
@@ -138,6 +148,8 @@ describe('Representative Form Upload', () => {
         );
 
         cy.fillVaFileInput('root_uploadedFile', uploadFileDetails);
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(1000); // wait for file to be processed
         cy.axeCheck();
 
         cy.findByRole('button', { name: /^Continue$/ }).click();
@@ -167,7 +179,7 @@ describe('Representative Form Upload', () => {
           `/representative/representative-form-upload/submit-va-form-${formId}/introduction`,
         );
 
-        cy.get('a[href="#start"]')
+        cy.get('a[href="/submit-va-form-21-526ez/veteran-information"]')
           .contains('Start form upload and submission')
           .click();
 
@@ -241,7 +253,7 @@ describe('Representative Form Upload', () => {
       cy.injectAxe();
       cy.axeCheck();
 
-      cy.get('a[href="#start"]')
+      cy.get('a[href="/submit-va-form-21-526ez/veteran-information"]')
         .contains('Start form upload and submission')
         .click();
 
@@ -263,6 +275,8 @@ describe('Representative Form Upload', () => {
       );
 
       cy.fillVaFileInput('root_uploadedFile', uploadFileDetails);
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(1000); // wait for file to be processed
       cy.axeCheck();
 
       cy.findByRole('button', { name: /^Continue$/ }).click();

@@ -32,11 +32,11 @@ function mergeAvsPdfData(avsPdfArray) {
 
 /**
  * Fetch AVS PDF binaries for a given appointment and merge with existing AVS PDF metadata.
- * @param {string} appointmentId
  * @param {AvsObj[]} avsPdfArray
  * @returns {Promise<AvsObj[]>} Merged AVS PDFs with binaries and errors if they exist
  */
-export async function fetchAvsPdfBinaries(appointmentId, avsPdfArray) {
+export async function fetchAvsPdfBinaries(avsPdfArray) {
+  const appointmentId = avsPdfArray[0]?.apptId;
   const ids = avsPdfArray.map(avsPdfObj => avsPdfObj.id).join(',');
   return apiRequestWithUrl(
     `/vaos/v2/appointments/avs_binaries/${appointmentId}?doc_ids=${ids}`,

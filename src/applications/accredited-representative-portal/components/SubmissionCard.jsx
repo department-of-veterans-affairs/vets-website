@@ -1,5 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { PropTypes } from 'prop-types';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 import { differenceInDays } from 'date-fns';
 
@@ -74,7 +75,12 @@ const getBenefitName = benefitType => {
   }
 };
 
-const SubmissionCard = ({ submission }) => {
+const formNameText = submission => [
+  getFormName(submission.formType),
+  submission.packet ? ' packet' : '',
+];
+
+const SubmissionCard = ({ submission, omitClaimantName }) => {
   const formattedSubmittedDate = formatDateParsedZoneLong(
     submission.submittedDate,
   );
@@ -92,15 +98,20 @@ const SubmissionCard = ({ submission }) => {
         <p className="submission__card-date">
           Submitted {formattedSubmittedDate}
         </p>
-        <h3 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
-          {submission.lastName}, {submission.firstName}
-        </h3>
-        <p className="submission__card-form-name vads-u-font-size--h5 vads-u-font-family--serif">
-          <strong>
-            {getFormName(submission.formType)}
-            {submission.packet ? ' packet' : ''}
-          </strong>
-        </p>
+        {omitClaimantName ? (
+          <h3 className="submission__card-form-name vads-u-font-size--h3 vads-u-font-family--serif">
+            {formNameText(submission)}
+          </h3>
+        ) : (
+          <>
+            <h3 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
+              {`${submission.lastName}, ${submission.firstName}`}
+            </h3>
+            <p className="submission__card-form-name vads-u-font-size--h5 vads-u-font-family--serif">
+              <strong>{formNameText(submission)}</strong>
+            </p>
+          </>
+        )}
         {submission.benefitType && (
           <p className="submission__card-status">
             <strong>Benefit: </strong> {getBenefitName(submission.benefitType)}
@@ -139,6 +150,22 @@ const SubmissionCard = ({ submission }) => {
             </p>
           </>
         )}
+        <Toggler
+          toggleName={
+            Toggler.TOGGLE_NAMES.accreditedRepresentativePortalClaimantDetails
+          }
+        >
+          <Toggler.Enabled>
+            <va-link
+              active
+              class="vads-u-margin-top--2 vads-u-display--block "
+              href={`/representative/find-claimant/claimant-overview/${
+                submission.claimantId
+              }`}
+              text="Go to the claimant overview"
+            />
+          </Toggler.Enabled>
+        </Toggler>
       </va-card>
     </li>
   );
@@ -147,7 +174,12 @@ const SubmissionCard = ({ submission }) => {
 SubmissionCard.propTypes = {
   cssClass: PropTypes.string,
   id: PropTypes.string,
+  omitClaimantName: PropTypes.bool,
   submission: PropTypes.object,
+};
+
+SubmissionCard.defaultProps = {
+  omitClaimantName: false,
 };
 
 export default SubmissionCard;

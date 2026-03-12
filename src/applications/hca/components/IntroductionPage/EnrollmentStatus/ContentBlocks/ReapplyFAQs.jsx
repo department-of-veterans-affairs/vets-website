@@ -10,6 +10,15 @@ const callOurTeam = (
   </>
 );
 
+const updateInfoLink = (
+  <p>
+    <va-link
+      href="/health-care/update-health-information/"
+      text="Learn how to update your VA health benefit information"
+    />
+  </p>
+);
+
 // Declare content blocks for export
 const reapplyBlock1 = (
   <section className="hca-enrollment-faq" data-testid="hca-reapply-faq-1">
@@ -62,24 +71,35 @@ const reapplyBlock4 = (
 
 const reapplyBlock5 = (
   <section className="hca-enrollment-faq" data-testid="hca-reapply-faq-5">
-    <h3>Should I just submit a new application with all my information?</h3>
+    <h3>Should I reapply for VA health care?</h3>
     <p>
-      No. We’re in the process of reviewing your current application, and
-      submitting a new application won’t affect our decision. To get help
-      providing the information we need to complete our review, please{' '}
-      {callOurTeam}.
+      No. We’re reviewing your current application, so you don’t need to
+      reapply.
+    </p>
+    <p>
+      If you need to update your health benefits information, use the Health
+      Benefits Update Form (VA Form 10-10EZR).
+    </p>
+    {updateInfoLink}
+    <p>
+      We only recommend submitting a new application if we asked you to reapply
+      for VA health care.
     </p>
   </section>
 );
 
 const reapplyBlock6 = (
   <section className="hca-enrollment-faq" data-testid="hca-reapply-faq-6">
-    <h3>Should I apply again?</h3>
+    <h3>Should I update my current application?</h3>
     <p>
-      No. We’re in the process of reviewing your current application, and
-      submitting a new application won’t affect our decision. If you’d like to
-      talk about your current application, please {callOurTeam}.
+      No. We’re reviewing your application. Updating your application won’t
+      affect our decision.
     </p>
+    <p>
+      We only recommend updating your application if we asked you for more
+      information.
+    </p>
+    {updateInfoLink}
   </section>
 );
 

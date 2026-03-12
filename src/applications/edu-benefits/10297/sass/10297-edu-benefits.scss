@@ -89,7 +89,7 @@
 }
 .data-card {
   width: 416px;
-   @media (max-width: $small-screen) {
+  @media (max-width: $small-screen) {
     width: 100%;
   }
 }
@@ -107,4 +107,92 @@
 .hide-save-in-progress-title,
 .hide-alert-box {
   display: none;
+}
+
+.meb-definition-list {
+  margin: 0;
+}
+.meb-definition-list:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.meb-definition-list_term,
+.meb-definition-list_definition {
+  float: left;
+}
+.meb-definition-list_term {
+  clear: left;
+  font-weight: bold;
+  margin-top: 0;
+}
+.meb-definition-list_term--normal {
+  font-weight: normal;
+}
+.meb-definition-list_definition {
+  margin-left: 1em;
+}
+
+select,
+input {
+  font-size: 1.06rem;
+  max-width: 30rem;
+}
+
+legend {
+  color: var(--vads-color-base) !important;
+}
+
+.update-phone-button {
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+.page {
+  h3 {
+    color: var(--vads-color-base) !important;
+    margin-top: 0 !important;
+  }
+}
+
+.training-provider-summary {
+  margin-top: 0 !important;
+
+  #root__title {
+    padding: 0 !important;
+  }
+
+  fieldset {
+    // targets the deleted alert on training provider summary page only when there are no training providers present
+    &:not(:has(va-modal)) {
+      div:has(va-alert[name="training-provider_0"]) {
+        margin-top: 0 !important;
+        margin-bottom: $vads-spacing-2;
+      }
+    }
+
+    // targets the updated/deleted alert on training provider summary page when there are training providers present
+    &:has(va-modal) {
+      div:has(va-alert[name^="training-provider_"]) {
+        margin-top: $vads-spacing-1 !important;
+        margin-bottom: $vads-spacing-1;
+      }
+    }
+
+    &:has(va-card) ul {
+      margin-top: 0 !important;
+
+      li:first-of-type > div {
+        margin-top: $vads-spacing-1 !important;
+      }
+    }
+  }
+}
+
+.form-review-panel-page {
+  h3,
+  h4 {
+    color: var(--vads-color-base) !important;
+  }
 }

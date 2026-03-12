@@ -12,9 +12,9 @@ const ALL_VA_HEALTH_SERVICES = 'All VA health services';
 const VAMCServiceAutosuggest = ({
   committedServiceDisplay,
   isMobile,
+  onDraftChange,
   searchInitiated,
   setSearchInitiated,
-  onDraftChange,
 }) => {
   const { selector, serviceTypeFilter } = useServiceType();
   const [inputValue, setInputValue] = useState(null);
@@ -212,13 +212,13 @@ const VAMCServiceAutosuggest = ({
         spellCheck: 'false',
       }}
       handleOnSelect={handleDropdownSelection}
-      hintText="Begin typing to search for a service, like vision or dental"
+      hintText="Type a medical condition, treatment, or specialty to find services"
       initialSelectedItem={options?.[0]}
       inputId="vamc-services"
       inputRef={inputRef}
       inputValue={inputValue || ''}
       keepDataOnBlur
-      label={<span>Service type</span>}
+      label="Select a health service"
       noItemsMessage="No results found."
       onClearClick={handleClearClick}
       onInputValueChange={handleInputValueChange}
@@ -233,9 +233,9 @@ const VAMCServiceAutosuggest = ({
 VAMCServiceAutosuggest.propTypes = {
   committedServiceDisplay: PropTypes.string,
   isMobile: PropTypes.bool,
+  onDraftChange: PropTypes.func,
   searchInitiated: PropTypes.bool,
   setSearchInitiated: PropTypes.func,
-  onDraftChange: PropTypes.func,
 };
 
 export default VAMCServiceAutosuggest;

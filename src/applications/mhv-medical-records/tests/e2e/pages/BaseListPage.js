@@ -4,7 +4,11 @@ class BaseListPage {
   };
 
   clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-download-menu"]').click({ force: true });
+    // Wait for menu button to be visible and enabled, then click
+    cy.get('[data-testid="print-download-menu"]')
+      .should('be.visible')
+      .and('not.be.disabled')
+      .click({ force: true });
   };
 
   verifyPrintButton = () => {
@@ -25,11 +29,15 @@ class BaseListPage {
 
   clickDownloadPDFFile = () => {
     // should display a download pdf file button "Download list as a pdf file"
-    cy.get('[data-testid="printButton-1"]').click();
+    cy.get('[data-testid="printButton-1"]')
+      .should('be.visible')
+      .click();
   };
 
   clickDownloadTxtFile = () => {
-    cy.get('[data-testid="printButton-2"]').click();
+    cy.get('[data-testid="printButton-2"]')
+      .should('be.visible')
+      .click();
   };
 }
 export default BaseListPage;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import RefillAlert from '../../../components/RefillPrescriptions/RefillAlert';
 
 describe('RefillAlert component', () => {
@@ -12,18 +12,32 @@ describe('RefillAlert component', () => {
     title: 'Refill Alert',
   };
 
-  const setup = (config = defaultConfig, children = null) => {
-    return shallow(<RefillAlert config={config}>{children}</RefillAlert>);
-  };
-
   it('renders without errors', () => {
-    const wrapper = setup();
-    expect(wrapper.exists()).to.be.true;
+    const { getByTestId } = render(
+      <RefillAlert config={defaultConfig}>
+        <p>content</p>
+      </RefillAlert>,
+    );
+    expect(getByTestId('refill-alert')).to.exist;
+  });
+
+  it('renders the title', () => {
+    const { getByTestId } = render(
+      <RefillAlert config={defaultConfig}>
+        <p>content</p>
+      </RefillAlert>,
+    );
+    expect(getByTestId('refill-alert-title').textContent).to.equal(
+      'Refill Alert',
+    );
   });
 
   it('renders children correctly', () => {
-    const defaultChildren = <div>Test Child</div>;
-    const wrapper = setup(defaultConfig, defaultChildren);
-    expect(wrapper.find('div').text()).to.equal('Test Child');
+    const { getByText } = render(
+      <RefillAlert config={defaultConfig}>
+        <div>Test Child</div>
+      </RefillAlert>,
+    );
+    expect(getByText('Test Child')).to.exist;
   });
 });

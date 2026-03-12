@@ -1,6 +1,8 @@
+// @ts-check
 import {
   titleUI,
   descriptionUI,
+  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { FacilityLocatorDescription } from '../../../components/FormDescriptions';
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
@@ -22,10 +24,9 @@ export default {
     'view:locator': {
       ...descriptionUI(FacilityLocatorDescription),
     },
-    wantsInitialVaContact: {
-      'ui:title': content['insurance-info--appointment-label'],
-      'ui:widget': 'yesNo',
-    },
+    wantsInitialVaContact: yesNoUI({
+      title: content['insurance-info--appointment-label'],
+    }),
   },
   schema: {
     type: 'object',

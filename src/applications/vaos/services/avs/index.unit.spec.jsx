@@ -9,7 +9,6 @@ describe('VAOS Services: AVS', () => {
     });
 
     it('should fetch AVS PDF binaries and merge with metadata', async () => {
-      const appointmentId = 'AVS_PDF_Test_1';
       const avsPdfArray = [
         {
           id: '208750417891',
@@ -50,11 +49,11 @@ describe('VAOS Services: AVS', () => {
 
       setFetchJSONResponse(global.fetch, mockResponse);
 
-      const result = await fetchAvsPdfBinaries(appointmentId, avsPdfArray);
+      const result = await fetchAvsPdfBinaries(avsPdfArray);
 
       // Verify the API call was made correctly
       expect(global.fetch.firstCall.args[0]).to.contain(
-        `/vaos/v2/appointments/avs_binaries/${appointmentId}`,
+        `/vaos/v2/appointments/avs_binaries/AVS_PDF_Test_1`,
       );
       expect(global.fetch.firstCall.args[0]).to.contain(
         'doc_ids=208750417891,208750417892',
@@ -80,7 +79,6 @@ describe('VAOS Services: AVS', () => {
     });
 
     it('should handle single AVS PDF', async () => {
-      const appointmentId = 'AVS_PDF_Test_2';
       const avsPdfArray = [
         {
           id: '208750417893',
@@ -106,7 +104,7 @@ describe('VAOS Services: AVS', () => {
 
       setFetchJSONResponse(global.fetch, mockResponse);
 
-      const result = await fetchAvsPdfBinaries(appointmentId, avsPdfArray);
+      const result = await fetchAvsPdfBinaries(avsPdfArray);
 
       expect(global.fetch.firstCall.args[0]).to.contain('doc_ids=208750417893');
       expect(result).to.have.lengthOf(1);
@@ -118,7 +116,6 @@ describe('VAOS Services: AVS', () => {
     });
 
     it('should handle mixed success and error responses', async () => {
-      const appointmentId = 'AVS_PDF_Test_5';
       const avsPdfArray = [
         {
           id: '208750417896',
@@ -159,7 +156,7 @@ describe('VAOS Services: AVS', () => {
 
       setFetchJSONResponse(global.fetch, mockResponse);
 
-      const result = await fetchAvsPdfBinaries(appointmentId, avsPdfArray);
+      const result = await fetchAvsPdfBinaries(avsPdfArray);
 
       expect(result).to.have.lengthOf(2);
       expect(result[0].binary).to.equal(
@@ -173,7 +170,6 @@ describe('VAOS Services: AVS', () => {
     });
 
     it('should handle retrieval errors', async () => {
-      const appointmentId = 'AVS_PDF_Test_6';
       const avsPdfArray = [
         {
           id: '208750417898',
@@ -199,7 +195,7 @@ describe('VAOS Services: AVS', () => {
 
       setFetchJSONResponse(global.fetch, mockResponse);
 
-      const result = await fetchAvsPdfBinaries(appointmentId, avsPdfArray);
+      const result = await fetchAvsPdfBinaries(avsPdfArray);
 
       expect(result).to.have.lengthOf(1);
       expect(result[0]).to.deep.include({
@@ -210,7 +206,6 @@ describe('VAOS Services: AVS', () => {
     });
 
     it('should preserve all metadata fields when merging', async () => {
-      const appointmentId = 'AVS_PDF_Test_7';
       const avsPdfArray = [
         {
           id: '208750417899',
@@ -253,7 +248,7 @@ describe('VAOS Services: AVS', () => {
 
       setFetchJSONResponse(global.fetch, mockResponse);
 
-      const result = await fetchAvsPdfBinaries(appointmentId, avsPdfArray);
+      const result = await fetchAvsPdfBinaries(avsPdfArray);
 
       expect(result).to.have.lengthOf(2);
 
@@ -275,7 +270,6 @@ describe('VAOS Services: AVS', () => {
     });
 
     it('should handle empty avsPdfArray', async () => {
-      const appointmentId = 'AVS_PDF_Test_Empty';
       const avsPdfArray = [];
 
       const mockResponse = {
@@ -284,18 +278,17 @@ describe('VAOS Services: AVS', () => {
 
       setFetchJSONResponse(global.fetch, mockResponse);
 
-      const result = await fetchAvsPdfBinaries(appointmentId, avsPdfArray);
+      const result = await fetchAvsPdfBinaries(avsPdfArray);
 
       expect(global.fetch.firstCall.args[0]).to.contain('doc_ids=');
       expect(result).to.have.lengthOf(0);
     });
 
     it('should construct correct URL with query parameters', async () => {
-      const appointmentId = 'TEST_APPT_123';
       const avsPdfArray = [
-        { id: 'DOC_001' },
-        { id: 'DOC_002' },
-        { id: 'DOC_003' },
+        { id: 'DOC_001', apptId: 'TEST_APPT_123' },
+        { id: 'DOC_002', apptId: 'TEST_APPT_123' },
+        { id: 'DOC_003', apptId: 'TEST_APPT_123' },
       ];
 
       const mockResponse = {
@@ -317,7 +310,7 @@ describe('VAOS Services: AVS', () => {
 
       setFetchJSONResponse(global.fetch, mockResponse);
 
-      await fetchAvsPdfBinaries(appointmentId, avsPdfArray);
+      await fetchAvsPdfBinaries(avsPdfArray);
 
       const fetchUrl = global.fetch.firstCall.args[0];
       expect(fetchUrl).to.contain(
@@ -327,7 +320,6 @@ describe('VAOS Services: AVS', () => {
     });
 
     it('should set binary and error to null when not present in response', async () => {
-      const appointmentId = 'AVS_PDF_Test_Null';
       const avsPdfArray = [
         {
           id: '208750417999',
@@ -349,7 +341,7 @@ describe('VAOS Services: AVS', () => {
 
       setFetchJSONResponse(global.fetch, mockResponse);
 
-      const result = await fetchAvsPdfBinaries(appointmentId, avsPdfArray);
+      const result = await fetchAvsPdfBinaries(avsPdfArray);
 
       expect(result).to.have.lengthOf(1);
       expect(result[0]).to.deep.include({
@@ -361,7 +353,6 @@ describe('VAOS Services: AVS', () => {
     });
 
     it('should handle API errors', async () => {
-      const appointmentId = 'AVS_PDF_Test_Error';
       const avsPdfArray = [
         {
           id: '208750417999',
@@ -372,7 +363,7 @@ describe('VAOS Services: AVS', () => {
       global.fetch.rejects(new Error('Network error'));
 
       try {
-        await fetchAvsPdfBinaries(appointmentId, avsPdfArray);
+        await fetchAvsPdfBinaries(avsPdfArray);
         expect.fail('Should have thrown an error');
       } catch (error) {
         expect(error.message).to.equal('Network error');

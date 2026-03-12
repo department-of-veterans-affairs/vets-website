@@ -1,5 +1,5 @@
+import mockAttachment from '../fixtures/mocks/attachment.json';
 import mockFeatures from '../fixtures/mocks/feature-toggles.json';
-import mockFileUpload from '../fixtures/mocks/file-upload.json';
 import mockMaintenanceWindows from '../fixtures/mocks/maintenance-windows.json';
 import mockSaveInProgress from '../fixtures/mocks/sip-put.json';
 import mockSubmission from '../fixtures/mocks/submission.json';
@@ -20,11 +20,11 @@ export const setupBasicTest = (props = {}) => {
 
   const { features = mockFeatures } = props;
 
-  cy.intercept('GET', APIs.features, features).as('mockFeatures');
+  cy.intercept('GET', APIs.features, features);
   cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
   cy.intercept('GET', APIs.vamc, mockVamc);
   cy.intercept('POST', APIs.submit, mockSubmission);
-  cy.intercept('POST', APIs.upload, mockFileUpload);
+  cy.intercept('POST', APIs.upload, mockAttachment);
 };
 
 export const setupForAuth = (props = {}) => {

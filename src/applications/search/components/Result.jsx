@@ -1,9 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { apiRequest } from 'platform/utilities/api';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import redactPii from 'platform/utilities/data/redactPii';
 import {
   formatResponseString,
@@ -91,6 +94,9 @@ const Result = ({
   snippetKey = 'snippet',
   typeaheadUsed,
 }) => {
+  const searchResultsUiUpdateEnabled = useSelector(
+    state => toggleValues(state)[FEATURE_FLAG_NAMES.searchResultsUiUpdate],
+  );
   const strippedTitle = removeDoubleBars(
     formatResponseString(result?.title, true),
   );
@@ -99,10 +105,18 @@ const Result = ({
     return (
       <li
         key={result.url}
-        className="result-item vads-u-margin-top--1p5 vads-u-margin-bottom--4"
+        className={
+          searchResultsUiUpdateEnabled
+            ? 'result-item vads-u-margin-bottom--4'
+            : 'result-item vads-u-margin-top--1p5 vads-u-margin-bottom--4'
+        }
       >
         <h4
-          className="vads-u-display--inline  vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
+          className={
+            searchResultsUiUpdateEnabled
+              ? 'vads-u-display--block vads-u-width--full vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline'
+              : 'vads-u-display--inline  vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline'
+          }
           data-e2e-id="result-title"
         >
           <va-link
@@ -120,9 +134,11 @@ const Result = ({
             })}
           />
         </h4>
-        <p className="result-url vads-u-color--green vads-u-font-size--base">
-          {replaceWithStagingDomain(result.url)}
-        </p>
+        {!searchResultsUiUpdateEnabled && (
+          <p className="result-url vads-u-font-size--base vads-u-color--green">
+            {replaceWithStagingDomain(result.url)}
+          </p>
+        )}
         <p
           className="result-desc"
           /* eslint-disable react/no-danger */
@@ -136,6 +152,11 @@ const Result = ({
           }}
           /* eslint-enable react/no-danger */
         />
+        {searchResultsUiUpdateEnabled && (
+          <p className="result-url vads-u-font-size--base vads-u-color--gray">
+            {replaceWithStagingDomain(result.url)}
+          </p>
+        )}
       </li>
     );
   }

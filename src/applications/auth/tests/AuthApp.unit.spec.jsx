@@ -425,6 +425,9 @@ describe('AuthApp', () => {
                       isCerner: true,
                     },
                   ],
+                  ohMigrationInfo: {
+                    userFacilityReadyForInfoAlert: true,
+                  },
                 },
               },
             },
@@ -448,7 +451,7 @@ describe('AuthApp', () => {
       </Provider>,
     );
     await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
-    expect(window.location.replace.calledWith('/sign-in-health-portal')).to.be
+    expect(window.location.replace.calledWith('/sign-in-health-portal/')).to.be
       .true;
     window.location = originalLocation;
     sessionStorage.clear();

@@ -1,0 +1,11 @@
+{
+  "data": {
+    "id": "abcd1234",
+    "type": "education_benefits_claim",
+    "attributes": {
+      "confirmationNumber": "V-EBC-11867",
+      "form": "",
+      "regionalOffice": "VA Regional Office\nP.O. Box 4616\nBuffalo, NY 14240-4616"
+    }
+  }
+}

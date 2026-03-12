@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -13,6 +12,8 @@ import {
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderOptions } from './config';
+import { NO_SSN_REASON_UI_MAPPINGS } from '../../dataMappings';
+import { fullNameNoSuffixWithAsciiUI } from '../../helpers';
 
 export const information = {
   uiSchema: {
@@ -23,7 +24,7 @@ export const information = {
     'view:childNameTitle': {
       'ui:description': <h4>Child’s name</h4>,
     },
-    fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
+    fullName: fullNameNoSuffixWithAsciiUI(title => `Child’s ${title}`),
     birthDate: currentOrPastDateUI({
       title: 'Child’s date of birth',
       labelHeaderLevel: '4',
@@ -45,8 +46,8 @@ export const information = {
     noSsnReason: radioUI({
       title: 'Why doesn’t your child have a Social Security number?',
       labels: {
-        NONRESIDENT_ALIEN: 'Nonresident alien',
-        NONE_ASSIGNED: 'No SSN has been assigned or requested',
+        NONRESIDENT_ALIEN: NO_SSN_REASON_UI_MAPPINGS.NONRESIDENT_ALIEN,
+        NONE_ASSIGNED: NO_SSN_REASON_UI_MAPPINGS.NONE_ASSIGNED,
       },
       required: (_chapterData, index, formData) =>
         formData?.childrenToAdd?.[index]?.noSsn === true,

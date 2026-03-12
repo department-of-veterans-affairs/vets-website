@@ -12,7 +12,7 @@ const GenericDebtCard = () => {
   const linkDestination = '/manage-va-debt/summary/debt-balances';
 
   return (
-    <va-card>
+    <va-card data-testid="generic-debt-card">
       <div
         className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-padding--1"
         data-testid="debt-card"

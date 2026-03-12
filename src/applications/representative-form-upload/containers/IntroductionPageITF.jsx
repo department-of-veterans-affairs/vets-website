@@ -19,15 +19,15 @@ const IntroductionPageITF = ({ route, router }) => {
   const { subTitle } = getFormContent();
   const startBtn = useMemo(
     () => {
-      const startForm = () => {
+      const startForm = event => {
+        event.preventDefault();
         sessionStorage.setItem('formIncompleteARP', 'true');
         recordEvent({ event: `${formNumber}-start-form` });
         return router.push(`${ITF_PATH}/claimant-background`);
       };
       return (
         <VaLinkAction
-          href="#start"
-          label="Start form upload and submission"
+          href={`${ITF_PATH}/claimant-background`}
           class=" representative-form__start"
           text="Start the submission"
           onClick={startForm}

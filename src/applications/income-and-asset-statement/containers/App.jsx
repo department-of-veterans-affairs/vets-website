@@ -7,6 +7,7 @@ import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { openReviewChapter as openReviewChapterAction } from 'platform/forms-system/src/js/actions';
 
+import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { NoFormPage } from '../components/NoFormPage';
 import { getAssetTypes } from '../components/FormAlerts/SupplementaryFormsAlert';
@@ -27,10 +28,6 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const incomeAndAssetsFormEnabled = useToggleValue(
     TOGGLE_NAMES.incomeAndAssetsFormEnabled,
-  );
-
-  const incomeAndAssetsContentUpdates = useToggleValue(
-    TOGGLE_NAMES.incomeAndAssetsContentUpdates,
   );
 
   const isLoadingFeatures = useSelector(
@@ -64,18 +61,6 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
 
   useEffect(
     () => {
-      if (!isLoadingFeatures) {
-        window.sessionStorage.setItem(
-          'showUpdatedContent',
-          !!incomeAndAssetsContentUpdates,
-        );
-      }
-    },
-    [isLoadingFeatures, incomeAndAssetsContentUpdates],
-  );
-
-  useEffect(
-    () => {
       // Use assetsChecked flag to prevent infinite loop
       if (!assetsChecked && location.pathname === '/review-and-submit') {
         const assetTypes = getAssetTypes(assets);
@@ -101,6 +86,19 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
 
   if (!incomeAndAssetsFormEnabled) {
     return <NoFormPage />;
+  }
+
+  // If on intro page, return content
+  if (location.pathname === '/introduction') {
+    return content;
+  }
+
+  // If a user is not logged in redirect them to the introduction page
+  if (!isLoggedIn) {
+    document.location.replace(manifest.rootUrl);
+    return (
+      <va-loading-indicator message="Redirecting to introduction page..." />
+    );
   }
 
   return content;

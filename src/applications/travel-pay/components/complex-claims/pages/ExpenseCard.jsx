@@ -8,6 +8,7 @@ import {
   setReviewPageAlert,
   deleteExpenseDeleteDocument,
   clearReviewPageAlert,
+  setExpenseBackDestination,
 } from '../../../redux/actions';
 import { selectIsExpenseDeleting } from '../../../redux/selectors';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
@@ -16,7 +17,14 @@ import { currency } from '../../../util/string-helpers';
 import ExpenseCardDetails from './ExpenseCardDetails';
 import DeleteExpenseModal from './DeleteExpenseModal';
 
-const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
+const ExpenseCard = ({
+  apptId,
+  claimId,
+  expense,
+  address,
+  showEditDelete,
+  decreaseHeaderLevel,
+}) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
 
@@ -64,7 +72,11 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
         className="expense-card"
         data-testid={`expense-card-${expense.id}`}
       >
-        <h4 className="vads-u-margin-top--1">{header}</h4>
+        {decreaseHeaderLevel ? (
+          <h3 className="vads-u-margin-top--1">{header}</h3>
+        ) : (
+          <h4 className="vads-u-margin-top--1">{header}</h4>
+        )}
         {isDeleting ? (
           <div className="vads-u-text-align--center vads-u-margin--5">
             <va-loading-indicator message="Deleting..." set-focus={false} />
@@ -77,7 +89,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                   {
                     label: 'Which address did you depart from?',
                     value: (
-                      <>
+                      <span data-dd-privacy="mask">
                         {address.addressLine1}{' '}
                         {address.addressLine2 && (
                           <span>{address.addressLine2} </span>
@@ -86,7 +98,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                           <span>{address.addressLine3} </span>
                         )}
                         {address.city}, {address.stateCode} {address.zipCode}
-                      </>
+                      </span>
                     ),
                   },
                 ]}
@@ -114,6 +126,9 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                     to={`/file-new-claim/${apptId}/${claimId}/${
                       EXPENSE_TYPES[expenseType]?.route
                     }/${expenseId}`}
+                    onClick={() =>
+                      dispatch(setExpenseBackDestination('review'))
+                    }
                   >
                     Edit
                     <va-icon
@@ -156,6 +171,7 @@ ExpenseCard.propTypes = {
   address: PropTypes.object,
   apptId: PropTypes.string,
   claimId: PropTypes.string,
+  decreaseHeaderLevel: PropTypes.bool,
   showEditDelete: PropTypes.bool,
 };
 

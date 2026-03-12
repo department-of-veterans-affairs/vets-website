@@ -1,3 +1,4 @@
+export * from './buildUnitAddress';
 export * from './calculateSeparationDuration';
 export * from './chapter4Transform';
 export * from './checkForHowMarriageEnded';
@@ -6,5 +7,6 @@ export * from './combineUnitNameAddress';
 export * from './splitSsn';
 export * from './switchToInternationalPhone';
 export * from './transformCareExpenses';
+export * from './transformClaim';
 export * from './updateFullNames';
 export * from './updateBankValues';

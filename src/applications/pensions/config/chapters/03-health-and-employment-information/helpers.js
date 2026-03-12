@@ -328,38 +328,31 @@ export const generateEmployersSchemas = ({
 };
 
 /**
- * Medical condition description component
- * @returns {React.Element} Medical condition description
+ * Medical condition description additional information component
+ * @returns {React.Element} Medical condition additional information
  */
-export function MedicalConditionDescription() {
+export function MedicalConditionAdditionalInfo() {
   return (
-    <div>
-      <p>
-        A medical condition is an illness or injury that affects your mind or
-        body. It doesn't have to be service connected.
-      </p>
-      <va-additional-info
-        trigger="How we define a medical condition that prevents you from working"
-        uswds
-      >
-        <div>
-          <p>
-            If your medical condition prevents you from working, both of these
-            must be true:
-          </p>
-          <ul>
-            <li>
-              Your medical condition is reasonably certain to continue
-              throughout your lifetime, <strong>and</strong>
-            </li>
-            <li>
-              Your medical condition makes it impossible to be gainfully
-              employed
-            </li>
-          </ul>
-        </div>
-      </va-additional-info>
-    </div>
+    <va-additional-info
+      trigger="How we define a medical condition that prevents you from working"
+      uswds
+    >
+      <div>
+        <p>
+          If your medical condition prevents you from working, both of these
+          must be true:
+        </p>
+        <ul>
+          <li>
+            Your medical condition is reasonably certain to continue throughout
+            your lifetime, <strong>and</strong>
+          </li>
+          <li>
+            Your medical condition makes it impossible to be gainfully employed
+          </li>
+        </ul>
+      </div>
+    </va-additional-info>
   );
 }
 
@@ -369,15 +362,40 @@ export function MedicalConditionDescription() {
  */
 export function MedicalEvidenceNotice() {
   return (
-    <div>
+    <>
       <p>
-        Based on your answer, you’ll need to submit additional evidence about
-        your medical condition or disability.
+        Because you're under 65 and have a medical condition that prevents you
+        from working, you’ll need to submit medical evidence of your disability.
       </p>
+      <p>Your records should show:</p>
+      <ul>
+        <li>Your diagnosis or diagnoses</li>
+        <li>
+          How your condition affects your ability to work or perform daily
+          activities
+        </li>
+        <li>That your condition is permanent or unlikely to improve</li>
+      </ul>
+      <p>
+        <strong>What to gather</strong>
+      </p>
+      <p>
+        Records from your doctor, specialist, or treatment facility that include
+        things like:
+      </p>
+      <ul>
+        <li>Doctor’s notes, treatment records, or clinical summaries</li>
+        <li>Test results, lab work, or imaging (like X-rays or MRIs)</li>
+        <li>
+          A letter or statement from your doctor describing your condition and
+          limitations
+        </li>
+        <li>Visits to a nursing home or rehabilitation facility</li>
+      </ul>
       <p>
         We’ll give you instructions for submitting your additional evidence at
         the end of this application.
       </p>
-    </div>
+    </>
   );
 }

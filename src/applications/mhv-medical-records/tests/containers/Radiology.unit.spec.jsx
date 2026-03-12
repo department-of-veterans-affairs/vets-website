@@ -19,6 +19,7 @@ describe('Radiology list container', () => {
     mr: {
       radiology: {
         radiologyList: radiologyRecords,
+        listState: 'fetched',
         dateRange: {
           option: '3',
           fromDate: '2025-08-13',
@@ -128,6 +129,8 @@ describe('Radiology list container with no data', () => {
       mr: {
         radiology: {
           radiologyList: [],
+          listState: 'fetched',
+          listCurrentAsOf: new Date(),
           dateRange: {
             option: '3',
             fromDate: '2025-08-13',
@@ -136,6 +139,10 @@ describe('Radiology list container with no data', () => {
         },
         alerts: {
           alertList: [],
+        },
+        refresh: {
+          status: null,
+          initialFhirLoad: false,
         },
       },
     };
@@ -146,8 +153,8 @@ describe('Radiology list container with no data', () => {
       path: '/imaging-results',
     });
 
-    // The text is inside a va-alert web component
-    const alert = screen.container.querySelector('va-alert');
+    // The text is inside a va-alert web component with status="info"
+    const alert = screen.container.querySelector('va-alert[status="info"]');
     expect(alert).to.exist;
     expect(alert.textContent).to.include(
       'any radiology records in your VA medical records',
@@ -240,6 +247,7 @@ describe('Radiology list container with images ready', () => {
       mr: {
         radiology: {
           radiologyList: radiologyRecords,
+          listState: 'fetched',
           dateRange: {
             option: '3',
             fromDate: '2025-08-13',
@@ -299,6 +307,7 @@ describe('Radiology list container with holdTimeMessagingUpdate feature flag', (
       mr: {
         radiology: {
           radiologyList: radiologyRecords,
+          listState: 'fetched',
           dateRange: {
             option: '3',
             fromDate: '2025-08-13',

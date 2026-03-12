@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockInboxNoMessages from './fixtures/empty-thread-response.json';
-import { AXE_CONTEXT, Data, Locators, Paths } from './utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import { smFooter } from '../../util/constants';
 
 describe('SM INBOX FOOTER', () => {
@@ -34,8 +34,6 @@ describe('SM INBOX FOOTER', () => {
 
   it('inbox without messages footer', () => {
     PatientInboxPage.loadInboxMessages(mockInboxNoMessages);
-
-    cy.get(Locators.NO_MESS).should('have.text', Data.NO_MSG_IN_FOLDER);
 
     cy.get(Locators.INBOX_FOOTER).should(`be.visible`);
     cy.contains(smFooter.NEED_HELP).should(`be.visible`);

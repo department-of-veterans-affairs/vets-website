@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import {
   BlockedTriageAlertStyles,
   ParentComponent,
@@ -13,6 +14,7 @@ import {
   getBlockedTriageAlertConfig,
   getAnalyticsAlertType,
 } from '../../util/blockedTriageGroupUtils';
+import { hasMessageMigratedToOracleHealth } from '../../util/helpers';
 
 const DATADOG_FIND_VA_FACILITY_LINK =
   'Find your VA health facility link - in Blocked/Not Associated alert';
@@ -37,6 +39,32 @@ const BlockedTriageGroupAlert = ({
   const recipients = useSelector(state => state.sm?.recipients);
   const analyticsRef = useRef(false);
 
+  let userFacilityMigratingToOh = false;
+  let migratingFacilities = [];
+  let isInErrorPhase = false;
+  const userProfile = useSelector(state => state.user.profile);
+  const alertContentConfig = CernerAlertContent.SECURE_MESSAGING;
+  if (
+    userProfile.userAtPretransitionedOhFacility ||
+    userProfile.userFacilityMigratingToOh
+  ) {
+    userFacilityMigratingToOh = userProfile?.userFacilityMigratingToOh;
+    migratingFacilities =
+      userProfile?.migrationSchedules?.length > 0
+        ? userProfile?.migrationSchedules
+        : [];
+    isInErrorPhase = migratingFacilities.some(migration =>
+      alertContentConfig.errorPhases?.includes(migration.phases.current),
+    );
+  }
+  const messages = useSelector(state => state.sm?.threadDetails?.messages);
+  const userMessagePostMigration = useMemo(
+    () => {
+      return hasMessageMigratedToOracleHealth(messages);
+    },
+    [messages],
+  );
+
   // Compute alert configuration using the centralized utility
   const alertConfig = useMemo(
     () =>
@@ -46,6 +74,9 @@ const BlockedTriageGroupAlert = ({
         parentComponent,
         ehrDataByVhaId,
         isOhMessage,
+        facilityMigratingToOhInErrorPhase:
+          userFacilityMigratingToOh && isInErrorPhase,
+        userMessagePostMigration,
       }),
     [
       recipients,
@@ -53,6 +84,9 @@ const BlockedTriageGroupAlert = ({
       parentComponent,
       ehrDataByVhaId,
       isOhMessage,
+      userFacilityMigratingToOh,
+      isInErrorPhase,
+      messages,
     ],
   );
 

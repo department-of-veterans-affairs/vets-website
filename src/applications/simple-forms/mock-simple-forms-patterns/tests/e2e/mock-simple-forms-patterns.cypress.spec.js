@@ -3,6 +3,7 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
+import mockFileUpload from '../../../shared/tests/e2e/fixtures/mocks/file-input.json';
 import { introductionPageFlow } from '../../../shared/tests/e2e/helpers';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
@@ -31,6 +32,36 @@ const testConfig = createTestConfig(
           });
         });
       },
+      [pagePaths.fileInput]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            cy.fillVaFileInput('root_wcv3FileInput', {});
+            // set the additional info
+            cy.get('va-file-input')
+              .find('va-select')
+              .then($el => {
+                cy.selectVaSelect($el, 'public');
+              });
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.fileInputMultiple]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            cy.fillVaFileInputMultiple('root_wcv3FileInputMultiple', {});
+            cy.get('va-file-input-multiple')
+              .shadow()
+              .find('va-file-input')
+              .first()
+              .find('va-select')
+              .then($el => {
+                cy.selectVaSelect($el, 'public');
+              });
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(() => {
@@ -43,6 +74,19 @@ const testConfig = createTestConfig(
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
+      cy.intercept(
+        'POST',
+        formConfig.chapters.fileInput.pages.fileInput.uiSchema.wcv3FileInput[
+          'ui:options'
+        ].fileUploadUrl,
+        mockFileUpload,
+      );
+      cy.intercept(
+        'POST',
+        formConfig.chapters.fileInputMultiple.pages.fileInputMultiple.uiSchema
+          .wcv3FileInputMultiple['ui:options'].fileUploadUrl,
+        mockFileUpload,
+      );
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
     skip: false,

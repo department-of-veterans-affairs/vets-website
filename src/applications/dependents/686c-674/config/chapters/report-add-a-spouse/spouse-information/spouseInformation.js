@@ -3,7 +3,6 @@ import {
   checkboxUI,
   checkboxSchema,
   fullNameNoSuffixSchema,
-  fullNameNoSuffixUI,
   titleUI,
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -13,8 +12,13 @@ import {
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { CancelButton, certificateNotice } from '../../../helpers';
+import {
+  CancelButton,
+  certificateNotice,
+  fullNameNoSuffixWithAsciiUI,
+} from '../../../helpers';
 import { getFullName, getFormatedDate } from '../../../../../shared/utils';
+import { NO_SSN_REASON_UI_MAPPINGS } from '../../../dataMappings';
 
 export const schema = {
   type: 'object',
@@ -42,7 +46,7 @@ export const uiSchema = {
     'view:spouseNameTitle': {
       'ui:description': <h4>Spouse’s name</h4>,
     },
-    fullName: fullNameNoSuffixUI(title => `Spouse’s ${title}`),
+    fullName: fullNameNoSuffixWithAsciiUI(title => `Spouse’s ${title}`),
     birthDate: dateOfBirthUI({
       title: 'Spouse’s date of birth',
       labelHeaderLevel: '4',
@@ -64,8 +68,8 @@ export const uiSchema = {
     noSsnReason: radioUI({
       title: 'Why doesn’t your spouse have a Social Security number?',
       labels: {
-        NONRESIDENT_ALIEN: 'Nonresident alien',
-        NONE_ASSIGNED: 'No SSN has been assigned or requested',
+        NONRESIDENT_ALIEN: NO_SSN_REASON_UI_MAPPINGS.NONRESIDENT_ALIEN,
+        NONE_ASSIGNED: NO_SSN_REASON_UI_MAPPINGS.NONE_ASSIGNED,
       },
       required: (_chapterData, _index, formData) =>
         formData?.spouseInformation?.noSsn === true,

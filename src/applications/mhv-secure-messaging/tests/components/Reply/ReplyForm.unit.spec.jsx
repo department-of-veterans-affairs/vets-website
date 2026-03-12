@@ -81,6 +81,38 @@ describe('Reply form component', () => {
     expect(screen).to.exist;
   });
 
+  it('renders AlertBackgroundBox after H1', async () => {
+    const stateWithAlert = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        alerts: {
+          alertVisible: true,
+          alertList: [
+            {
+              datestamp: '2022-10-07T19:25:32.832Z',
+              isActive: true,
+              alertType: 'success',
+              header: 'Test',
+              content: 'Test alert content',
+            },
+          ],
+        },
+      },
+    };
+    const screen = render(stateWithAlert);
+    await waitFor(() => {
+      const h1 = screen.getByRole('heading', { level: 1 });
+      const alertText = screen.getByTestId('alert-text');
+      expect(h1).to.exist;
+      expect(alertText).to.exist;
+      const html = screen.container.innerHTML;
+      expect(html.indexOf('<h1')).to.be.lessThan(
+        html.indexOf('data-testid="alert-text"'),
+      );
+    });
+  });
+
   // Note: This test is skipped because the ReplyForm component does not directly
   // add a beforeunload event listener. The beforeunload behavior is handled by
   // SmRouteNavigationGuard or RouteLeavingGuard at the parent component level.
@@ -408,5 +440,157 @@ describe('Reply form component', () => {
     expect(screen.getByTestId('draft-reply-header').textContent).to.contain(
       'Draft reply',
     );
+  });
+
+  describe('OH Migration Phase tests', () => {
+    const migrationSchedules = [
+      {
+        migrationDate: 'February 13, 2026',
+        facilities: [
+          { facilityId: '979', facilityName: 'Test VA Medical Center' },
+        ],
+        migrationStatus: 'ACTIVE',
+        phases: {
+          current: 'p3',
+          p0: 'December 15, 2025 at 12:00AM ET',
+          p1: 'December 30, 2025 at 12:00AM ET',
+          p2: 'January 14, 2026 at 12:00AM ET',
+          p3: 'February 7, 2026 at 12:00AM ET',
+          p4: 'February 10, 2026 at 12:00AM ET',
+          p5: 'February 13, 2026 at 12:00AM ET',
+          p6: 'February 15, 2026 at 12:00AM ET',
+          p7: 'February 20, 2026 at 12:00AM ET',
+        },
+      },
+    ];
+
+    const createMigrationState = ohMigrationPhase => ({
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          ...threadDetailsReducer.threadDetails,
+          ohMigrationPhase,
+        },
+      },
+      user: {
+        profile: {
+          migrationSchedules: migrationSchedules.map(schedule => ({
+            ...schedule,
+            phases: {
+              ...schedule.phases,
+              current: ohMigrationPhase,
+            },
+          })),
+        },
+      },
+    });
+
+    const MIGRATION_ALERT_H2 = /You can.t use messages to contact providers at some facilities right now/i;
+
+    it('renders MigratingFacilitiesAlerts component when ohMigrationPhase is p3', async () => {
+      const customState = createMigrationState('p3');
+      const screen = render(customState);
+
+      await waitFor(() => {
+        const h2 = screen.getByText(MIGRATION_ALERT_H2);
+        expect(h2.tagName).to.equal('H2');
+      });
+    });
+
+    it('renders MigratingFacilitiesAlerts component when ohMigrationPhase is p4', async () => {
+      const customState = createMigrationState('p4');
+      const screen = render(customState);
+
+      await waitFor(() => {
+        const h2 = screen.getByText(MIGRATION_ALERT_H2);
+        expect(h2.tagName).to.equal('H2');
+      });
+    });
+
+    it('renders MigratingFacilitiesAlerts component when ohMigrationPhase is p5', async () => {
+      const customState = createMigrationState('p5');
+      const screen = render(customState);
+
+      await waitFor(() => {
+        const h2 = screen.getByText(MIGRATION_ALERT_H2);
+        expect(h2.tagName).to.equal('H2');
+      });
+    });
+
+    it('does not render MigratingFacilitiesAlerts when ohMigrationPhase is null', async () => {
+      const customState = createMigrationState(null);
+      const screen = render(customState);
+
+      await waitFor(() => {
+        expect(screen.queryByText(MIGRATION_ALERT_H2)).to.not.exist;
+      });
+    });
+
+    it('does not render MigratingFacilitiesAlerts when ohMigrationPhase is p0', async () => {
+      const customState = createMigrationState('p0');
+      const screen = render(customState);
+
+      await waitFor(() => {
+        expect(screen.queryByText(MIGRATION_ALERT_H2)).to.not.exist;
+      });
+    });
+
+    it('does not render MigratingFacilitiesAlerts when ohMigrationPhase is p2', async () => {
+      const customState = createMigrationState('p2');
+      const screen = render(customState);
+
+      await waitFor(() => {
+        expect(screen.queryByText(MIGRATION_ALERT_H2)).to.not.exist;
+      });
+    });
+
+    it('hides CannotReplyAlert when in migration phase p3 even if cannotReply is true', async () => {
+      const customState = createMigrationState('p3');
+      const screen = render(customState, { cannotReply: true });
+
+      await waitFor(() => {
+        expect(screen.queryByTestId('expired-alert-message')).to.not.exist;
+      });
+    });
+
+    it('shows CannotReplyAlert when not in migration phase and cannotReply is true', async () => {
+      const customState = createMigrationState(null);
+      const screen = render(customState, { cannotReply: true });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('expired-alert-message')).to.exist;
+      });
+    });
+
+    it('hides BlockedTriageGroupAlert when in migration phase p4', async () => {
+      const customState = {
+        ...createMigrationState('p4'),
+        sm: {
+          ...createMigrationState('p4').sm,
+          recipients: {
+            allRecipients: oneBlockedRecipient.mockAllRecipients,
+            allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
+            blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
+            associatedTriageGroupsQty:
+              oneBlockedRecipient.associatedTriageGroupsQty,
+            associatedBlockedTriageGroupsQty:
+              oneBlockedRecipient.associatedBlockedTriageGroupsQty,
+            noAssociations: oneBlockedRecipient.noAssociations,
+            allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
+          },
+        },
+      };
+
+      const screen = render(customState, {
+        drafts: threadDetails.drafts,
+        recipients: customState.sm.recipients,
+        messages: threadDetails.messages,
+      });
+
+      await waitFor(() => {
+        expect(screen.queryByTestId('blocked-triage-group-alert')).to.not.exist;
+      });
+    });
   });
 });

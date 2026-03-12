@@ -1,80 +1,24 @@
-import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
 
+import { directDeposit } from '../pages';
+
 import {
-  ConfirmationGoBackLink,
-  ConfirmationWhatsNextProcessList,
-  ConfirmationHowToContact,
-  ConfirmationSubmissionAlert,
   getAgeInYears,
   trainingProviderArrayOptions,
   getCardDescription,
   validateTrainingProviderStartDate,
   dateSigned,
   viewifyFields,
-  maskBankInformation,
+  obfuscate,
   getPrefillIntlPhoneNumber,
   getTransformIntlPhoneNumber,
   parseDateToDateObj,
+  lastDayOfMonth,
 } from '../helpers';
 
 describe('10297 Helpers', () => {
-  describe('<ConfirmationSubmissionAlert />', () => {
-    it('shows submission alert section with confirmation number', () => {
-      const { container } = render(
-        <ConfirmationSubmissionAlert confirmationNumber="1234567890" />,
-      );
-      expect(container.textContent).to.contain(
-        'Your submission is in progress.',
-      );
-      expect(container.textContent).to.contain(
-        'Your confirmation number is 1234567890.',
-      );
-    });
-
-    it('shows submission alert section without confirmation number', () => {
-      const { container } = render(<ConfirmationSubmissionAlert />);
-      expect(container.textContent).to.contain(
-        'Your submission is in progress.',
-      );
-      expect(container.textContent).to.not.contain(
-        'Your confirmation number is',
-      );
-    });
-  });
-
-  describe('<ConfirmationWhatsNextProcessList />', () => {
-    it('shows process list section', () => {
-      const { container } = render(<ConfirmationWhatsNextProcessList />);
-      expect(container.querySelector('va-process-list')).to.exist;
-      expect(
-        container.querySelectorAll('va-process-list-item').length,
-      ).to.equal(3);
-    });
-  });
-
-  describe('<ConfirmationGoBackLink />', () => {
-    it('should render an action link to go back to the VA.gov homepage', () => {
-      const { container } = render(<ConfirmationGoBackLink />);
-      const action = container.querySelector('va-link-action');
-      expect(action).to.exist;
-      expect(action).to.have.attribute('href', '/');
-      expect(action).to.have.attribute('text', 'Go back to VA.gov homepage');
-    });
-  });
-
-  describe('<ConfirmationHowToContact />', () => {
-    it('renders Ask VA link with correct attributes', () => {
-      const { container } = render(<ConfirmationHowToContact />);
-      const link = container.querySelector('va-link');
-      expect(link).to.exist;
-      expect(link).to.have.attribute('href', 'https://ask.va.gov/');
-      expect(link).to.have.attribute('text', 'Ask VA');
-    });
-  });
-
   describe('#getAgeInYears', () => {
     let clock;
     beforeEach(() => {
@@ -134,7 +78,7 @@ describe('trainingProviderArrayOptions', () => {
       trainingProviderArrayOptions.text.getItemName({ providerName: 'X' }),
     ).to.equal('X');
     expect(trainingProviderArrayOptions.text.getItemName({})).to.equal(
-      'training provider',
+      'Training provider',
     );
   });
 
@@ -204,14 +148,15 @@ describe('getCardDescription', () => {
 describe('validateTrainingProviderStartDate', () => {
   it('allows valid dates', () => {
     const errors = { addError: sinon.spy() };
-    validateTrainingProviderStartDate(errors, '2025-01-03');
+    validateTrainingProviderStartDate(errors, '2026-07-01');
     expect(errors.addError.called).to.be.false;
   });
 
   it('rejects invalid dates', () => {
     const errors = { addError: sinon.spy() };
     validateTrainingProviderStartDate(errors, '2025-01-01');
-    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.calledWith('Enter a date on or after July 1, 2026'))
+      .to.be.true;
   });
 
   it('does nothing on undefined date', () => {
@@ -227,21 +172,6 @@ describe('#viewifyFields', () => {
     const result = viewifyFields(data);
     expect(result).to.have.property('view:a', 1);
     expect(result['view:b']).to.have.property('view:c', 2);
-  });
-});
-
-describe('#maskBankInformation', () => {
-  it('masks correctly', () => {
-    expect(maskBankInformation('123456789', 4)).to.equal('●●●●●6789');
-  });
-
-  it('returns empty string for falsy input', () => {
-    expect(maskBankInformation('', 4)).to.equal('');
-    expect(maskBankInformation(null, 4)).to.equal('');
-  });
-
-  it('returns unmasked if shorter than unmaskedLength', () => {
-    expect(maskBankInformation('123', 4)).to.equal('123');
   });
 });
 
@@ -305,5 +235,296 @@ describe('#getTransformIntlPhoneNumber', () => {
       const result = parseDateToDateObj(inputDate);
       expect(result).to.be.instanceOf(Date);
     });
+  });
+});
+
+describe('#obfuscate', () => {
+  it('masks correctly', () => {
+    expect(obfuscate('123456789', 4)).to.equal('●●●●●6789');
+  });
+
+  it('returns empty string for falsy input', () => {
+    expect(obfuscate('', 4)).to.equal('');
+    expect(obfuscate(null, 4)).to.equal('');
+  });
+
+  it('returns unmasked if shorter than unmaskedLength', () => {
+    expect(obfuscate('123', 4)).to.equal('123');
+  });
+});
+
+describe('Account Number Confirmation Validation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+  });
+
+  it('should show error when confirmation does not match account number', () => {
+    const formData = {
+      bankAccount: {
+        accountNumber: '12345678',
+        accountNumberConfirmation: '87654321',
+      },
+    };
+
+    const validationFn =
+      directDeposit.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '87654321', formData);
+
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.equal(
+      'Your bank account number must match',
+    );
+  });
+
+  it('should not show error when confirmation matches account number', () => {
+    const formData = {
+      bankAccount: {
+        accountNumber: '12345678',
+        accountNumberConfirmation: '12345678',
+      },
+    };
+
+    const validationFn =
+      directDeposit.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '12345678', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not show error when confirmation field is empty', () => {
+    const formData = {
+      bankAccount: {
+        accountNumber: '12345678',
+      },
+    };
+
+    const validationFn =
+      directDeposit.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not show error when account number is missing', () => {
+    const formData = {
+      bankAccount: {
+        accountNumberConfirmation: '12345678',
+      },
+    };
+
+    const validationFn =
+      directDeposit.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '12345678', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('Routing Number Confirmation Validation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+  });
+
+  it('should show error when confirmation does not match routing number', () => {
+    const formData = {
+      bankAccount: {
+        routingNumber: '123456789',
+        routingNumberConfirmation: '987654321',
+      },
+    };
+
+    const validationFn =
+      directDeposit.uiSchema.bankAccount.routingNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '987654321', formData);
+
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.equal(
+      'Your bank routing number must match',
+    );
+  });
+
+  it('should not show error when confirmation matches routing number', () => {
+    const formData = {
+      bankAccount: {
+        routingNumber: '123456789',
+        routingNumberConfirmation: '123456789',
+      },
+    };
+
+    const validationFn =
+      directDeposit.uiSchema.bankAccount.routingNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '123456789', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not show error when confirmation field is empty', () => {
+    const formData = {
+      bankAccount: {
+        routingNumber: '123456789',
+      },
+    };
+
+    const validationFn =
+      directDeposit.uiSchema.bankAccount.routingNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not show error when routing number is missing', () => {
+    const formData = {
+      bankAccount: {
+        routingNumberConfirmation: '123456789',
+      },
+    };
+
+    const validationFn =
+      directDeposit.uiSchema.bankAccount.routingNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '123456789', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('Routing Number and Account Number Cannot Match Validation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+  });
+
+  it('should show error on routing number field when routing number matches account number', () => {
+    const formData = {
+      bankAccount: {
+        routingNumber: '123456789',
+        accountNumber: '123456789',
+      },
+    };
+
+    const validationFn =
+      directDeposit.uiSchema.bankAccount.routingNumber['ui:validations'][1];
+    validationFn(errors, '123456789', formData);
+
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.equal(
+      'Your bank routing number and bank account number cannot match',
+    );
+  });
+
+  it('should show error on account number field when account number matches routing number', () => {
+    const formData = {
+      bankAccount: {
+        routingNumber: '123456789',
+        accountNumber: '123456789',
+      },
+    };
+
+    const validationFn =
+      directDeposit.uiSchema.bankAccount.accountNumber['ui:validations'][1];
+    validationFn(errors, '123456789', formData);
+
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.equal(
+      'Your bank routing number and bank account number cannot match',
+    );
+  });
+
+  it('should not show error when routing number and account number are different', () => {
+    const formData = {
+      bankAccount: {
+        routingNumber: '123456789',
+        accountNumber: '987654321',
+      },
+    };
+
+    const routingValidationFn =
+      directDeposit.uiSchema.bankAccount.routingNumber['ui:validations'][1];
+    routingValidationFn(errors, '123456789', formData);
+
+    expect(errors.addError.called).to.be.false;
+
+    const accountValidationFn =
+      directDeposit.uiSchema.bankAccount.accountNumber['ui:validations'][1];
+    accountValidationFn(errors, '987654321', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not show error when either field is empty', () => {
+    const formDataEmptyRouting = {
+      bankAccount: {
+        routingNumber: '',
+        accountNumber: '123456789',
+      },
+    };
+
+    const routingValidationFn =
+      directDeposit.uiSchema.bankAccount.routingNumber['ui:validations'][1];
+    routingValidationFn(errors, '', formDataEmptyRouting);
+
+    expect(errors.addError.called).to.be.false;
+
+    const formDataEmptyAccount = {
+      bankAccount: {
+        routingNumber: '123456789',
+        accountNumber: '',
+      },
+    };
+
+    const accountValidationFn =
+      directDeposit.uiSchema.bankAccount.accountNumber['ui:validations'][1];
+    accountValidationFn(errors, '', formDataEmptyAccount);
+
+    expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('lastDayOfMonth', () => {
+  it('should return correct last day when month and year are valid', () => {
+    expect(lastDayOfMonth(1, 2025)).to.equal(31);
+    expect(lastDayOfMonth(2, 2025)).to.equal(28);
+    expect(lastDayOfMonth(2, 2024)).to.equal(29);
+    expect(lastDayOfMonth(4, 2025)).to.equal(30);
+  });
+
+  it('should return default last day when only month is provided', () => {
+    expect(lastDayOfMonth(1)).to.equal(31);
+    expect(lastDayOfMonth(2)).to.equal(29);
+    expect(lastDayOfMonth(4)).to.equal(30);
+  });
+
+  it('should return 31 when only year is provided', () => {
+    expect(lastDayOfMonth(undefined, 2026)).to.equal(31);
+  });
+
+  it('should return default last day when both month and year are invalid', () => {
+    expect(lastDayOfMonth()).to.equal(31);
+    expect(lastDayOfMonth('', '')).to.equal(31);
+    expect(lastDayOfMonth(null, null)).to.equal(31);
+    expect(lastDayOfMonth('XX', 'XXXX')).to.equal(31);
+    expect(lastDayOfMonth(NaN, NaN)).to.equal(31);
+    expect(lastDayOfMonth(NaN, 'XXXX')).to.equal(31);
+    expect(lastDayOfMonth('XX')).to.equal(31);
   });
 });

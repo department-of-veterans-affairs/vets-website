@@ -8,8 +8,11 @@ import {
 } from 'platform/forms-system/src/js/patterns/prefill';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
+import prefillTransform from './prefillTransform';
+import submitForm from './submitForm';
+import transform from './transform';
 
 // Components
 import IntroductionPage from '../containers/IntroductionPage';
@@ -22,7 +25,7 @@ import PrivacyPolicy from '../components/PrivacyPolicy';
 
 // Pages
 import {
-  educationBenefitsElibility,
+  educationBenefitsEligibility,
   educationBenefitsHistory,
   hasPreviouslyApplied,
   payeeNumber,
@@ -36,15 +39,12 @@ import {
   remarks,
 } from '../pages';
 
-import prefillTransform from './prefillTransform';
-
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: '10272-edu-benefits',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -91,6 +91,7 @@ const formConfig = {
     submitButtonText: 'Continue',
   },
   defaultDefinitions: {},
+  transformForSubmit: transform,
   useCustomScrollAndFocus: true,
   chapters: {
     educationBenefitsChapter: {
@@ -101,6 +102,7 @@ const formConfig = {
           title: 'Your VA education benefits',
           uiSchema: hasPreviouslyApplied.uiSchema,
           schema: hasPreviouslyApplied.schema,
+          updateFormData: hasPreviouslyApplied.updateFormData,
         },
         educationBenefitsHistory: {
           path: 'education-benefits-history',
@@ -112,8 +114,8 @@ const formConfig = {
         educationBenefitsEligibility: {
           path: 'education-benefits-eligibility',
           title: 'Your VA education benefits history',
-          uiSchema: educationBenefitsElibility.uiSchema,
-          schema: educationBenefitsElibility.schema,
+          uiSchema: educationBenefitsEligibility.uiSchema,
+          schema: educationBenefitsEligibility.schema,
           depends: formData => formData?.hasPreviouslyApplied === false,
         },
       },
@@ -167,6 +169,9 @@ const formConfig = {
             'The name and mailing address of organization awarding license or certification',
           uiSchema: organizationInfo.uiSchema,
           schema: organizationInfo.schema,
+          initialData: {
+            organizationAddress: { country: 'USA' },
+          },
         },
       },
     },
@@ -185,6 +190,9 @@ const formConfig = {
             'The name and mailing address of the organization giving the prep course',
           uiSchema: prepCourseAddress.uiSchema,
           schema: prepCourseAddress.schema,
+          initialData: {
+            prepCourseOrganizationAddress: { country: 'USA' },
+          },
         },
         prepCourseOnline: {
           path: 'prep-course-details-2',

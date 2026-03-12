@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import ErrorAlert from './ErrorAlert';
-import { VASS_PHONE_NUMBER } from '../utils/constants';
+import { FLOW_TYPES, VASS_PHONE_NUMBER } from '../utils/constants';
 
 describe('VASS Component: ErrorAlert', () => {
-  it('should render component with correct structure', () => {
+  it('should render the error alert with correct structure', () => {
     const { container, getByTestId, getByRole } = render(<ErrorAlert />);
 
     const alert = getByTestId('api-error-alert');
@@ -15,16 +15,32 @@ describe('VASS Component: ErrorAlert', () => {
 
     const heading = getByRole('heading', { level: 2 });
     expect(heading).to.exist;
-    expect(heading.textContent).to.equal(
-      'We can’t schedule your appointment right now',
-    );
 
-    expect(alert.textContent).to.contain(
-      'There’s a problem with our system. Refresh this page to start over or try again later.',
-    );
+    expect(alert.textContent).to.contain('problem with our system');
 
     const telephone = container.querySelector('va-telephone');
     expect(telephone).to.exist;
     expect(telephone.getAttribute('contact')).to.equal(VASS_PHONE_NUMBER);
+  });
+
+  it('should display the schedule heading by default', () => {
+    const { getByRole } = render(<ErrorAlert />);
+
+    const heading = getByRole('heading', { level: 2 });
+    expect(heading.textContent).to.contain('schedule your appointment');
+  });
+
+  it('should display the schedule heading when flowType is SCHEDULE', () => {
+    const { getByRole } = render(<ErrorAlert flowType={FLOW_TYPES.SCHEDULE} />);
+
+    const heading = getByRole('heading', { level: 2 });
+    expect(heading.textContent).to.contain('schedule your appointment');
+  });
+
+  it('should display the cancel heading when flowType is CANCEL', () => {
+    const { getByRole } = render(<ErrorAlert flowType={FLOW_TYPES.CANCEL} />);
+
+    const heading = getByRole('heading', { level: 2 });
+    expect(heading.textContent).to.contain('cancel your appointment');
   });
 });

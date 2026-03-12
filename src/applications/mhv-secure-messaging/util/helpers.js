@@ -1,11 +1,17 @@
 import moment from 'moment-timezone';
 import DOMPurify from 'dompurify';
 import {
+  scrollToElement,
+  scrollToTop as scrollToTopUtil,
+} from 'platform/utilities/scroll';
+import { datadogRum } from '@datadog/browser-rum';
+import {
   DefaultFolders as Folders,
   Paths,
   RecipientStatus,
   Recipients,
   PageTitles,
+  OhMigrationPhasesBlockingReplies,
 } from './constants';
 
 /**
@@ -23,6 +29,18 @@ export const handleRemoveAttachmentModalId = file => {
   return file.id === undefined
     ? `remove-attachment-modal-${file.lastModified}`
     : `remove-attachment-modal-${file.id}`;
+};
+
+/**
+ * Checks if any message in the thread has been migrated to Oracle Health
+ * @param {Array} messages - Array of messages from thread details
+ * @returns {boolean} True if at least one message is migrated
+ */
+export const hasMessageMigratedToOracleHealth = messages => {
+  return (
+    messages?.length > 0 &&
+    messages.some(message => message.migratedToOracleHealth)
+  );
 };
 ///
 
@@ -185,6 +203,32 @@ export const isOlderThan = (timestamp, days) => {
   const now = moment();
   const then = moment(timestamp);
   return now.diff(then, 'days') > days;
+};
+
+/**
+ * Check if the OH migration phase blocks replies.
+ * During facility migration from VistA to Oracle Health, replies are blocked
+ * during phases p3, p4, p5 (T-6 through T+2).
+ * @param {string} ohMigrationPhase - The migration phase from the message
+ * @returns {Boolean} true if the phase blocks replies
+ */
+export const isMigrationPhaseBlockingReplies = ohMigrationPhase => {
+  return OhMigrationPhasesBlockingReplies.includes(ohMigrationPhase);
+};
+
+/**
+ * Filter migration schedules to those whose current phase is in the given list.
+ * Reusable across components that need to check if a user is in a specific
+ * set of migration phases.
+ * @param {Array} migrationSchedules - Array of migration schedule objects
+ * @param {Array} targetPhases - Array of phase strings to match (e.g. ['p6', 'p7', 'p8'])
+ * @returns {Array} Schedules whose current phase matches
+ */
+export const filterSchedulesByPhase = (migrationSchedules, targetPhases) => {
+  if (!migrationSchedules?.length || !targetPhases?.length) return [];
+  return migrationSchedules.filter(schedule =>
+    targetPhases.includes(schedule.phases?.current),
+  );
 };
 
 export const getLastSentMessage = messages => {
@@ -464,12 +508,6 @@ export const findActiveDraftFacility = (facilityId, facilitiesArray) => {
 export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
 };
-
-import {
-  scrollToElement,
-  scrollToTop as scrollToTopUtil,
-} from 'platform/utilities/scroll';
-import { datadogRum } from '@datadog/browser-rum';
 
 export const scrollTo = (element, behavior = 'smooth') => {
   if (element) {

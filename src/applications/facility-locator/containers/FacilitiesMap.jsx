@@ -7,7 +7,7 @@ import mapboxgl from 'mapbox-gl';
 import { isEmpty } from 'lodash';
 import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
-import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
+import { mapboxToken } from '../utils/mapboxToken';
 import { getServiceDisplayName } from '../reducers/searchQuery';
 
 // Components
@@ -59,7 +59,6 @@ import {
 } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
-import { otherToolsLink } from '../utils/mapLinks';
 
 const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
@@ -983,7 +982,7 @@ const FacilitiesMap = props => {
       )}
       <CommunityCareWarningBanner shouldShow={props.showCommunityCareBanner} />
       {renderView()}
-      {mapboxTokenValid && otherToolsLink()}
+      {mapboxTokenValid && <p>&nbsp;</p>}
     </>
   );
 };
