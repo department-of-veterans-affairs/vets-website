@@ -1,12 +1,14 @@
-import { fileInputMultipleSchema } from '~/platform/forms-system/src/js/web-component-patterns';
+import {
+  fileInputMultipleSchema,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { burialUploadUI } from '../../../utils/upload';
 import { validateFileUploads } from '../../../utils/validation';
 import DeathCertificateUploadMessage from '../../../components/DeathCertificateUploadMessage';
-import { generateTitle } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Death certificate'),
+    ...titleUI('Death certificate'),
     'ui:description': DeathCertificateUploadMessage,
     deathCertificate: {
       ...burialUploadUI({

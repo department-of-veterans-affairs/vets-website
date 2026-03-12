@@ -1,9 +1,9 @@
 import {
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { relationshipLabels } from '../../../utils/labels';
-import { generateTitle } from '../../../utils/helpers';
 
 export const relationshipToVeteranUI = options => {
   const { personTitle } =
@@ -42,8 +42,8 @@ const relationshipToVeteranSchema = {
 
 export default {
   uiSchema: {
+    ...titleUI('Relationship to Veteran'),
     ...relationshipToVeteranUI(),
-    'ui:title': generateTitle('Relationship to Veteran'),
   },
   schema: relationshipToVeteranSchema,
 };

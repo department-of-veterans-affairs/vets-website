@@ -41,7 +41,7 @@ const testConfig = createTestConfig(
       },
       'household-information/marital-status': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[name="root_maritalStatus"]').select('Never Married');
+          cy.selectVaSelect('root_maritalStatus', 'Never Married');
           goToNextPage();
         });
       },

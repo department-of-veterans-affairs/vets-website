@@ -3,11 +3,13 @@ import {
   titleUI,
   descriptionUI,
   radioUI,
-  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 import { PensionDescription } from '../../../components/FormDescriptions';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
+
+const { vaPensionType } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -31,7 +33,7 @@ export default {
     type: 'object',
     required: ['vaPensionType'],
     properties: {
-      vaPensionType: radioSchema(['Yes', 'No']),
+      vaPensionType,
     },
   },
 };

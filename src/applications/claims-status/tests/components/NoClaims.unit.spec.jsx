@@ -20,11 +20,11 @@ describe('<NoClaims>', () => {
     expect(queryByText('You do not have any submitted claims')).to.be.null;
   });
 
-  it('should render correct message for active records filter', () => {
+  it('should render correct message for in progress records filter', () => {
     const { getByText } = renderWithRouter(
-      <NoClaims recordType="active records" />,
+      <NoClaims recordType="in progress records" />,
     );
 
-    getByText("We don't have any active records for you in our system");
+    getByText("We don't have any in progress records for you in our system");
   });
 });
