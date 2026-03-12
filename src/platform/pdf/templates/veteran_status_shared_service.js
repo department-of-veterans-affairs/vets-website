@@ -1,5 +1,7 @@
 /**
- * Proof of Veteran Status PDF template.
+ * Proof of Veteran Status PDF template for the shared service.
+ * Used when the cveVeteranStatusNewService feature flag is enabled.
+ * This template does not require latestService since the new API doesn't provide it.
  *
  * NB: The order in which items are added to the document is important,
  * and thus PDFKit requires performing operations synchronously.
@@ -60,7 +62,8 @@ const fetchImage = async url => {
 };
 
 const validate = data => {
-  const requiredFields = ['fullName', 'latestService']; // If there is no latestService, there is also no DoD ID
+  // latestService is not required for the shared service
+  const requiredFields = ['fullName'];
 
   const missingFields = requiredFields.filter(field => !data[field]);
   if (missingFields.length) {
@@ -176,16 +179,12 @@ const generate = async data => {
     cardSection.add(seal);
   }
 
-  // First column of info items
+  // Info items - no "Latest period of service" for shared service
   doc.moveDown(0.25);
   const infoItems = [
     {
       heading: 'Name',
       content: data.details.fullName,
-    },
-    {
-      heading: 'Latest period of service',
-      content: `${data.details.latestService}`,
     },
     {
       heading: 'DoD ID Number',
