@@ -18,12 +18,12 @@ describe('My HealtheVet on VA.gov', () => {
 
   it('hides My VA and My HealtheVet links in the mega menu while the profile is loading', () => {
     cy.intercept('/v0/feature_toggles*', features).as('features');
-    cy.intercept('GET', '/v0/user', req => {
-      // eslint-disable-next-line no-param-reassign
-      req.reply(new Promise(() => {}));
-    }).as('pendingProfile');
+    window.localStorage.setItem('hasSession', 'true');
 
-    cy.login();
+    cy.intercept('GET', '/v0/user', () => new Promise(() => {})).as(
+      'pendingProfile',
+    );
+
     cy.visit('/');
     cy.injectAxeThenAxeCheck();
 
