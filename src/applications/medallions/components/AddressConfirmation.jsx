@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { countries } from 'platform/forms/address';
 import { addressConfirmationRenderLine } from '../utils/helpers';
 
-function AddressConfirmation({ subHeader, userAddress }) {
+function AddressConfirmation({ subHeader, userAddress, isExactMatch }) {
   // For city/state/postalCode line, we build it conditionally:
   const cityStatePostal = [
     userAddress?.city,
@@ -24,19 +25,35 @@ function AddressConfirmation({ subHeader, userAddress }) {
   return (
     <>
       <h3>{subHeader}</h3>
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="warning"
-        visible
-      >
-        <h3 slot="headline">Check the address you entered</h3>
-        <React.Fragment key=".1">
-          <p className="vads-u-margin-y--0">
-            We can't confirm the address you entered with the U.S. Postal
-            Service. Check the address before continuing.
-          </p>
-        </React.Fragment>
-      </va-alert>
+      {isExactMatch ? (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="success"
+          visible
+        >
+          <h3 slot="headline">Your address was an exact match</h3>
+          <React.Fragment key=".1">
+            <p className="vads-u-margin-y--0">
+              We found an exact match to the address you entered with the U.S.
+              Postal Service.
+            </p>
+          </React.Fragment>
+        </va-alert>
+      ) : (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="warning"
+          visible
+        >
+          <h3 slot="headline">Check the address you entered</h3>
+          <React.Fragment key=".1">
+            <p className="vads-u-margin-y--0">
+              We can't confirm the address you entered with the U.S. Postal
+              Service. Check the address before continuing.
+            </p>
+          </React.Fragment>
+        </va-alert>
+      )}
       <p style={{ marginTop: '1em' }}>You entered:</p>
       <div className="blue-bar-block">
         <p>
@@ -51,16 +68,23 @@ function AddressConfirmation({ subHeader, userAddress }) {
         If the address is correct, you can continue. If you need to edit the
         address, you can go back.
       </p>
-      <va-additional-info trigger="Why we can't confirm the address you entered">
-        <p>
-          The address you entered may not be in the U.S. Postal Service's
-          system. Or, you may have entered an error or other incorrect
-          information.
-        </p>
-      </va-additional-info>
+      {!isExactMatch && (
+        <va-additional-info trigger="Why we can't confirm the address you entered">
+          <p>
+            The address you entered may not be in the U.S. Postal Service's
+            records. Or, you may have entered an error or the wrong information.
+          </p>
+        </va-additional-info>
+      )}
     </>
   );
 }
+
+AddressConfirmation.propTypes = {
+  isExactMatch: PropTypes.bool,
+  subHeader: PropTypes.string,
+  userAddress: PropTypes.object,
+};
 
 const mapStateToProps = state => {
   return {
