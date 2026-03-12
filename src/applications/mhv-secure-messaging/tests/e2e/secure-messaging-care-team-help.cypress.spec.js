@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PilotEnvPage from './pages/PilotEnvPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
+import { ExternalLinks } from '../../util/constants';
 import mockCernerMixedUser from './fixtures/userResponse/user-cerner-mixed-pretransitioned.json';
 import mockCernerAllUser from './fixtures/userResponse/user-cerner-all.json';
 import mockFacilities from './fixtures/facilityResponse/facilities-no-cerner.json';
@@ -47,11 +48,7 @@ describe('SM CARE TEAM HELP PAGE - Cerner and Hybrid User Updates', () => {
       cy.findByText(/Their name may appear different/).should('exist');
       cy.findByTestId('name-change-link')
         .should('exist')
-        .and(
-          'have.attr',
-          'href',
-          'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
-        );
+        .and('have.attr', 'href', ExternalLinks.MHV_ON_VAGOV_WHAT_TO_KNOW);
 
       // Contact list link
       cy.findByTestId('update-contact-list-link')
@@ -91,14 +88,10 @@ describe('SM CARE TEAM HELP PAGE - Cerner and Hybrid User Updates', () => {
       cy.findByText(/Their name may appear different/).should('exist');
       cy.findByTestId('name-change-link')
         .should('exist')
-        .and(
-          'have.attr',
-          'href',
-          'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
-        );
+        .and('have.attr', 'href', ExternalLinks.MHV_ON_VAGOV_WHAT_TO_KNOW);
 
       // Oracle-only should NOT see the Update your contact list link
-      cy.findByText(/Update your contact list/).should('not.exist');
+      cy.findByTestId('update-contact-list-link').should('not.exist');
 
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
     });

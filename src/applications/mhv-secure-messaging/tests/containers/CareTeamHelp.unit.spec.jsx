@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import reducer from '../../reducers';
-import { Paths } from '../../util/constants';
+import { Paths, ExternalLinks } from '../../util/constants';
 import CareTeamHelp from '../../containers/CareTeamHelp';
 
 describe('CareTeamHelp', () => {
@@ -151,7 +151,7 @@ describe('CareTeamHelp', () => {
     expect(nameChangeLink).to.exist;
     expect(nameChangeLink).to.have.attribute(
       'href',
-      'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
+      ExternalLinks.MHV_ON_VAGOV_WHAT_TO_KNOW,
     );
 
     // Provider's name should NOT be shown
@@ -194,7 +194,7 @@ describe('CareTeamHelp', () => {
     expect(nameChangeLink).to.exist;
     expect(nameChangeLink).to.have.attribute(
       'href',
-      'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
+      ExternalLinks.MHV_ON_VAGOV_WHAT_TO_KNOW,
     );
 
     // Hybrid still shows search guidance

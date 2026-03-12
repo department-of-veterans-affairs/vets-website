@@ -9,7 +9,7 @@ import { VaTelephone } from '@department-of-veterans-affairs/component-library/d
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import EmergencyNote from '../components/EmergencyNote';
 import RouterLink from '../components/shared/RouterLink';
-import { Paths, PageTitles } from '../util/constants';
+import { Paths, PageTitles, ExternalLinks } from '../util/constants';
 import { populatedDraft } from '../selectors';
 
 const CareTeamHelp = () => {
@@ -31,8 +31,6 @@ const CareTeamHelp = () => {
     document.title = PageTitles.CARE_TEAM_HELP_TITLE_TAG;
   }, []);
 
-  const isHybrid = isCerner && !isCernerOnly;
-
   const renderReasons = () => (
     <ul>
       <li>
@@ -53,7 +51,7 @@ const CareTeamHelp = () => {
           </li>
           <li>
             Your account isn’t connected to them
-            {(isCerner || isHybrid) && (
+            {isCerner && (
               <>
                 , <strong>or</strong>
               </>
@@ -61,12 +59,12 @@ const CareTeamHelp = () => {
           </li>
         </>
       )}
-      {(isCerner || isHybrid) && (
+      {isCerner && (
         <li>
           Their name may appear different.
           <div className="vads-u-margin-top--0p5">
             <va-link
-              href="https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/"
+              href={ExternalLinks.MHV_ON_VAGOV_WHAT_TO_KNOW}
               text="Learn more about this name change"
               data-testid="name-change-link"
             />
