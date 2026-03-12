@@ -22,7 +22,13 @@ export const uiSchema = {
         from: dateUI('Obligation start date'),
         to: dateUI('Obligation end date'),
       },
-      unitName: { 'ui:title': 'Unit name' },
+      unitName: {
+        'ui:title': 'Unit name',
+        'ui:errorMessages': {
+          pattern:
+            "Unit name may only contain letters, numbers, spaces, and these special characters: - ' . #",
+        },
+      },
     },
   },
 };

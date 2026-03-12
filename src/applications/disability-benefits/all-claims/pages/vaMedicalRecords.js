@@ -51,6 +51,10 @@ export const uiSchema = {
       },
       treatmentCenterName: {
         'ui:title': 'Name of VA medical facility',
+        'ui:errorMessages': {
+          pattern:
+            'Facility name may only contain letters, numbers, spaces, and these special characters: - " / & ( ) \' . #',
+        },
       },
       treatedDisabilityNames: {
         'ui:title':
@@ -159,6 +163,9 @@ export const uiSchema = {
           'ui:title': 'City',
           'ui:autocomplete': 'off',
           'ui:validations': [validateMilitaryTreatmentCity],
+          'ui:errorMessages': {
+            pattern: 'Please enter a valid city',
+          },
         },
       },
     },
