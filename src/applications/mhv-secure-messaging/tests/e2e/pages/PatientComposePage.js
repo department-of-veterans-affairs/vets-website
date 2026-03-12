@@ -708,7 +708,9 @@ class PatientComposePage {
   };
 
   clickSelectDifferentCareTeamLink = () => {
-    this.selectDifferentCareTeamLink().click();
+    this.selectDifferentCareTeamLink().click({ force: true });
+    // Verify navigation to the select care team page succeeded
+    cy.url().should('include', Data.LINKS.SELECT_CARE_TEAM);
   };
 }
 
