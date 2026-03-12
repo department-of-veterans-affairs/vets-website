@@ -18,7 +18,6 @@ import {
   isNewMedicalClaim,
   isNewPharmacyClaim,
   isNotEnrolledInChampva,
-  isResubmissionClaim,
   isRoleOther,
   isRoleSponsor,
 } from '../utils/helpers';
@@ -55,11 +54,7 @@ import {
   sponsorNameSchema,
   sponsorContactSchema,
 } from '../chapters/sponsorInformation';
-import {
-  claimIdentificationNumber,
-  resubmissionLetterUpload,
-  resubmissionDocsUpload,
-} from '../chapters/resubmission';
+import { resubmissionPages } from '../chapters/resubmission';
 
 import content from '../locales/en/content.json';
 
@@ -191,26 +186,7 @@ const formConfig = {
     },
     resubmissionInformation: {
       title: 'Resubmission information',
-      pages: {
-        page1e1: {
-          path: 'resubmission-claim-number',
-          title: 'Claim identification number',
-          depends: isResubmissionClaim,
-          ...claimIdentificationNumber,
-        },
-        page1e2: {
-          path: 'resubmission-letter',
-          title: 'CHAMPVA resubmission letter',
-          depends: isResubmissionClaim,
-          ...resubmissionLetterUpload,
-        },
-        page1e3: {
-          path: 'resubmission-supporting-docs',
-          title: 'Supporting documents for claim',
-          depends: isResubmissionClaim,
-          ...resubmissionDocsUpload,
-        },
-      },
+      pages: resubmissionPages,
     },
     sponsorInformation: {
       title: 'Veteran information',

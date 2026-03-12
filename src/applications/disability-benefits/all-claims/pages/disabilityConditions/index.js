@@ -75,35 +75,65 @@ export const disabilityConditionsWorkflow = arrayBuilderPages(
 
     Summary: pageBuilder.summaryPage({
       title: 'Review your conditions',
-      path: `conditions/summary`,
+      path: 'conditions/summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
       onNavForward: props => {
         const { formData, setFormData } = props;
+        const { arrayPath } = arrayOptions;
+
+        const items = formData?.[arrayPath] || [];
+        const hasAnyItems = items.length > 0;
+
         const hasConditions = formData?.['view:hasConditions'];
 
+        // GUARD: You can't leave this page with zero conditions.
+        // If the user got here with an empty array (e.g., via "Finish this application later"),
+        // force them into the add flow regardless of answering "No".
+        if (!hasAnyItems) {
+          const nextIndex = 0;
+
+          // Determine whether we should start with rated pick page or new-condition page
+          const hasUnaddedRated = hasRatedDisabilities(formData, nextIndex);
+
+          // If no rated disabilities left to pick from, pre-seed so NewCondition can render safely
+          if (!hasUnaddedRated) {
+            const newItem = { condition: '' };
+            setFormData({
+              ...formData,
+              [arrayPath]: [newItem],
+            });
+          }
+
+          const basePath = hasUnaddedRated
+            ? 'conditions/:index/condition'
+            : 'conditions/:index/new-condition';
+
+          const path = createArrayBuilderItemAddPath({
+            path: basePath,
+            index: nextIndex,
+            isReview: !!props.urlParams?.review,
+            removedAllWarn: false,
+          });
+
+          return props.goPath(path);
+        }
+
+        // If they answered "No" AND we already have at least one condition,
+        // allow them to move on.
         if (!hasConditions) {
           return helpers.navForwardSummary(props);
         }
 
-        const { arrayPath } = arrayOptions;
-        const items = formData?.[arrayPath] || [];
+        // If they answered "Yes", then go add another condition
         const nextIndex = items.length;
         const hasUnaddedRated = hasRatedDisabilities(formData, nextIndex);
 
-        // If there are NO rated disabilities left, we're starting a brand new condition.
-        // Pre-seed the array item so NewCondition has something to work with
-        // and the progress bar won't show NaN.
         if (!hasUnaddedRated) {
-          const newItem = {
-            condition: '', // will be filled on the NewCondition page
-          };
-
-          const updatedItems = [...items, newItem];
-
+          const newItem = { condition: '' };
           setFormData({
             ...formData,
-            [arrayPath]: updatedItems,
+            [arrayPath]: [...items, newItem],
           });
         }
 

@@ -9,8 +9,8 @@ import { useDefaultFormData } from '../hooks/useDefaultFormData';
 import formConfig from '../config/form';
 
 const App = ({ location, children }) => {
-  const isAppLoading = useSelector(
-    state => state.featureToggles?.loading || state.user?.profile?.loading,
+  const isAppLoading = useSelector(state =>
+    Boolean(state.featureToggles?.loading || state.user?.profile?.loading),
   );
 
   useDefaultFormData();

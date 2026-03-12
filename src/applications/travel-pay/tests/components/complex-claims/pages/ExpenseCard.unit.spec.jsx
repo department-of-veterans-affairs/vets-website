@@ -76,7 +76,7 @@ describe('ExpenseCard', () => {
   // Helper to render the component with router + store
   const renderExpenseCard = (
     expense = defaultMileageExpense,
-    showEditDelete = true,
+    { showEditDelete = true, decreaseHeaderLevel = false } = {},
   ) =>
     renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/review']}>
@@ -84,6 +84,7 @@ describe('ExpenseCard', () => {
           expense={expense}
           address={expense.address}
           showEditDelete={showEditDelete}
+          decreaseHeaderLevel={decreaseHeaderLevel}
         />
       </MemoryRouter>,
       { initialState: getData(), reducers: reducer },
@@ -225,7 +226,7 @@ describe('ExpenseCard', () => {
   it('renders mileage component with no edit button, delete button or delete modal', () => {
     const { getByText, container, queryByTestId } = renderExpenseCard(
       defaultMileageExpense,
-      false,
+      { showEditDelete: false },
     );
 
     expect(getByText('Mileage expense')).to.exist;
@@ -244,6 +245,22 @@ describe('ExpenseCard', () => {
 
     // Delete modal does not exist
     expect(queryByTestId('delete-expense-modal')).to.not.exist;
+  });
+
+  it('renders h4 header by default', () => {
+    const { container } = renderExpenseCard();
+    const h4 = container.querySelector('h4');
+    expect(h4).to.exist;
+    expect(h4.textContent).to.equal('Mileage expense');
+  });
+
+  it('renders h3 header when decreaseHeaderLevel is true', () => {
+    const { container } = renderExpenseCard(defaultMileageExpense, {
+      decreaseHeaderLevel: true,
+    });
+    const h3 = container.querySelector('h3');
+    expect(h3).to.exist;
+    expect(h3.textContent).to.equal('Mileage expense');
   });
 
   it('dispatches setReviewPageAlert when deleting expense fails', async () => {
