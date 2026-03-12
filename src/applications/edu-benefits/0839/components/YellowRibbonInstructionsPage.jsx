@@ -23,6 +23,23 @@ const YellowRibbonInstructionsPage = () => {
           any inquiries.
         </p>
 
+        <p>
+          In support of VA’s modernization and paperless initiatives, the Yellow
+          Ribbon Agreement (VA Form 22-0839) is now fully digital. VA no longer
+          accepts email submissions to the Yellow Ribbon Mailbox; instead,
+          institutions must submit agreements through the official online tool.
+          Historically, School Certifying Officials completed the form, obtained
+          an authorized electronic or wet signature, and submitted it to the
+          Yellow Ribbon mailbox. The digital form no longer allows for joint
+          processing by both the SCO and an authorizing official. Consequently,
+          schools must establish internal concurrence procedures if a SCO acts
+          as the Authorizing Official. Please note that the person completing
+          this form will now sign and submit it digitally as the Authorizing
+          Official. This agreement must be signed by an official with the legal
+          authority to bind the institution to the VA. Authenticating with ID.me
+          or LOGIN.GOV serves as your official electronic signature.
+        </p>
+
         <h2 className="vads-u-margin-top--3">General eligibility</h2>
         <p>
           The institution must be an Institution of Higher Learning (IHL) that
@@ -31,33 +48,41 @@ const YellowRibbonInstructionsPage = () => {
           campus of such institution located outside of the United States.
           Foreign schools are eligible to participate as of August 1, 2021.
         </p>
+        <p className="vads-u-color--secondary-dark">
+          <strong>Note:</strong> Foreign schools may apply for or modify VA
+          Yellow Ribbon Program agreements annually from June 1st to July 31st.
+          VA will provide official guidance and application instructions on June
+          1st. Please check our announcement page for updates.
+        </p>
 
         <h2 className="vads-u-margin-top--3">Name, title, and facility code</h2>
         <p>
           Enter your first and last name, official title at your institution,
           and your school’s facility code. You can also select any branch
-          campuses or extension schools you want to include in this Yellow
-          Ribbon Program agreement.
+          campuses you want to include in this Yellow Ribbon Program agreement.
         </p>
         <p>
-          <strong>Note:</strong> Any location with an "X" as the third character
-          in its facility code will not be included in this agreement.
+          <strong>Note:</strong> Locations with an ‘X’ as the third character of
+          their facility code are excluded from this agreement, as extension
+          campuses mirror the main institution’s contributions.
         </p>
 
         <h2 className="vads-u-margin-top--3">Select your agreement type</h2>
         <p className="vads-u-margin-bottom--0">
           Choose one of the following options:
         </p>
-        <ul className="vads-u-margin-y--1">
-          <li>Start a new open-ended agreement</li>
-          <li>Modify an existing agreement</li>
-        </ul>
+        <p className="vads-u-margin-y--1">
+          • Start a new open-ended agreement
+          <br />• Modify an existing agreement
+          <br />
+          <strong>Note:</strong> Both require completion of the entire form.
+        </p>
         <p className="vads-u-margin-top--0">
-          Both of these options will require you to complete the entire form.
-          <br /> If you are withdrawing from the Yellow Ribbon Program
-          agreement, you will only need to provide your first and last name,
-          official title, your school’s facility code, and any additional
-          locations you want to withdraw.
+          • Withdraw from Yellow Ribbon agreement
+          <br />
+          <strong>Note:</strong> Requires your first and last name, official
+          title, facility code and any additional locations you want to
+          withdraw.
         </p>
 
         <h2 className="vads-u-margin-top--3">
@@ -81,7 +106,7 @@ const YellowRibbonInstructionsPage = () => {
         </p>
         <p className="vads-u-margin-top--0">
           Enter the academic year for which this agreement applies (e.g.,
-          2020-2021).
+          2020–2021).
           <br />
           <strong>Note:</strong> For VA purposes, an academic year runs from
           August 1 to July 31.
@@ -99,77 +124,73 @@ const YellowRibbonInstructionsPage = () => {
           For each specific Yellow Ribbon Program contribution, provide the
           following details:
         </p>
-        <div className="vads-u-border--1 vads-u-border-color--primary ">
-          <ul>
-            <li>
-              Maximum number of students: Enter the maximum number or unlimited
-              number of students your school will support.
-            </li>
-            <li>
-              Degree level: Indicate the applicable degree level (undergraduate,
-              graduate, doctoral, or all) for the specific contribution.
-            </li>
-            <li>
-              College or professional school: You may leave this blank, or
-              specify the sub-element of your institution (such as a college or
-              professional school) in which students must be enrolled to receive
-              the contribution.
-              <br />
-              Note: Do not list specific degree programs (e.g., Master of
-              Business Administration, Juris Doctorate, Bachelor of Science in
-              Nursing).
-            </li>
-            <li>
-              Maximum contribution amount: Enter the maximum annual contribution
-              amount per student, or the amount to pay toward remaining tuition
-              that the Post-9/11 GI Bill doesn’t cover (unlimited). Enter the
-              total amount your school plans to contribute each year, not by
-              term or credit hour. If the amount entered is over $99,999, the
-              system will treat it as an unlimited contribution.
-            </li>
-          </ul>
-        </div>
+        <ul>
+          <li>
+            Maximum number of students: Enter the maximum number or unlimited
+            number of students your school will support.
+          </li>
+          <li>
+            Degree level: Indicate the applicable degree level (undergraduate,
+            graduate, doctoral, or all) for the specific contribution.
+          </li>
+          <li>
+            College or professional school: You may leave this blank, or specify
+            the sub-element of your institution (such as a college or
+            professional school) in which students must be enrolled to receive
+            the contribution.
+            <br />
+            <strong>Note:</strong> Do not list specific degree programs (e.g.,
+            Master of Business Administration, Juris Doctorate, Bachelor of
+            Science in Nursing).
+          </li>
+          <li>
+            Maximum contribution amount: Enter the maximum annual contribution
+            amount per student, or the amount to pay toward remaining tuition
+            that the Post-9/11 GI Bill doesn’t cover (unlimited). Enter the
+            total amount your school plans to contribute each year, not by term
+            or credit hour. If the amount entered is over $99,999, the system
+            will treat it as an unlimited contribution.
+          </li>
+        </ul>
 
         <h2 className="vads-u-margin-top--3">
-          Foreign schools only - Provide contribution details
+          Foreign schools only – Provide contribution details
         </h2>
         <p>
           For each Yellow Ribbon Program contribution, provide the following
           information:
         </p>
-        <div className="vads-u-border--1 vads-u-border-color--primary">
-          <ul>
-            <li>
-              Maximum number of students: Enter the maximum number of eligible
-              students. If your institution will offer contributions to an
-              unlimited number of qualifying students, enter "unlimited."
-            </li>
-            <li>
-              Degree level: Indicate the applicable degree level (undergraduate,
-              graduate, doctoral, or all).
-              <br />
-              Note: You may not list specific degree programs (e.g., Master of
-              Business Administration, Juris Doctorate, Bachelor of Science in
-              Nursing).
-            </li>
-            <li>
-              Currency used by school’s billing system: Specify the currency
-              used for student billing. You may use the currency’s official name
-              or its ISO 4217 code.
-              <br />
-              Example: European Euro or EUR
-            </li>
-            <li>
-              Maximum contribution amount: Enter the maximum annual contribution
-              amount per student, or the amount to pay toward remaining tuition
-              that the Post-9/11 GI Bill doesn’t cover (unlimited). Enter the
-              total amount your school plans to contribute each year in your
-              institution’s official billing currency, not by term or credit
-              hour. If the amount entered is over $99,999 USD, the system will
-              treat it as an unlimited contribution.
-            </li>
-          </ul>
-        </div>
+        <ul>
+          <li>
+            Maximum number of students: Enter the maximum number of eligible
+            students. If your institution will offer contributions to an
+            unlimited number of qualifying students, enter "unlimited."
+          </li>
+          <li>
+            Degree level: Indicate the applicable degree level (undergraduate,
+            graduate, doctoral, or all).
+            <br />
+            <strong>Note:</strong> You may not list specific degree programs
+            (e.g., Master of Business Administration, Juris Doctorate, Bachelor
+            of Science in Nursing).
+          </li>
+          <li>
+            Currency used by school’s billing system: Specify the currency used
+            for student billing. You may use the currency’s official name or its
+            ISO 4217 code.
+            <br />
+            Example: European Euro or EUR
+          </li>
+          <li>
+            Maximum contribution amount: Enter the maximum annual contribution
+            amount per student, or the amount to pay toward remaining tuition
+            that the Post-9/11 GI Bill doesn’t cover (unlimited). Enter the
+            total amount your school plans to contribute each year in your
+            institution’s official billing currency, not by term or credit hour.
+            If the amount entered is over $99,999 USD, the system will treat it
+            as an unlimited contribution.
+          </li>
+        </ul>
         <p className="vads-u-margin-top--2">
           You must report your contributions in the official currency of record
           for your institution—not in U.S. dollars. The VA will convert this
@@ -185,13 +206,13 @@ const YellowRibbonInstructionsPage = () => {
           Include contact information for the following individuals at your
           institution (first name, last name, phone number, and email address):
         </p>
-        <div className="vads-u-border--1 vads-u-border-color--primary">
-          <ul>
-            <li>Yellow Ribbon Program Point of Contact</li>
-            <li>School’s financial representative</li>
-            <li>School Certifying Official (SCO)</li>
-          </ul>
-        </div>
+        <ul>
+          <li>
+            Yellow Ribbon Program Point of Contact/School’s Financial
+            Representative
+          </li>
+          <li>School Certifying Official (SCO)</li>
+        </ul>
         <p>
           This information ensures VA can reach the appropriate contacts
           regarding your institution’s Yellow Ribbon Program participation.
@@ -201,17 +222,11 @@ const YellowRibbonInstructionsPage = () => {
           Signature of authorizing official
         </h2>
         <p>
-          The individual signing this agreement must be legally authorized to
-          bind your institution to the terms of this agreement with the VA. You
-          must also provide their title, phone number, and the date of
-          signature. Agreements will not be processed without a valid
-          authorizing signature.
-        </p>
-        <p>
-          By signing this agreement, your institution certifies that, as of the
-          date signed, at least one VA-approved program at your institution
-          charges tuition and/or fees that exceed the maximum amounts payable in
-          your state or territory under the Post-9/11 GI Bill.
+          This form must be completed by an official who is legally authorized
+          to bind the institution to this agreement with VA. The authentication
+          of the submitter is documented through ID.me or LOGIN.GOV Schools must
+          establish their own internal processes for concurrence if a School
+          Certifying Official (SCO) is submitting as the Authorizing Official.
         </p>
 
         <h2 className="vads-u-margin-top--3">Submitting your completed form</h2>
