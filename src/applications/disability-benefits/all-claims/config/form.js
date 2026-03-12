@@ -43,7 +43,6 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
-  showNewlyBDDPages,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
@@ -504,9 +503,7 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',
-          depends: formData =>
-            showNewlyBDDPages(formData) &&
-            hasRealNewOrSecondaryConditions(formData),
+          depends: formData => hasRealNewOrSecondaryConditions(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
           appStateSelector: state => ({

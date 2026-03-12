@@ -46,21 +46,9 @@ const createTestConfig = ({ dataSets, features }) =>
     formConfig,
   );
 
-const deprecratedTestConfig = createTestConfig({
-  dataSets: [
-    'minimal-bdd-test.deprecated.json',
-    'maximal-bdd-test.deprecated.json',
-  ],
-  features: [],
-});
-
-// TODO: Cleanup once feature flagging is finished. Including `_createTestConfig`.
-testForm(deprecratedTestConfig);
-
 const testConfig = createTestConfig({
   dataSets: ['minimal-bdd-test', 'maximal-bdd-test'],
   features: [
-    { name: 'disability_526_extra_bdd_pages_enabled', value: true },
     {
       name: 'disability_526_new_bdd_sha_enforcement_workflow_enabled',
       value: true,

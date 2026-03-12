@@ -230,7 +230,6 @@ export const Form526Entry = ({
     'disability526ToxicExposureOptOutDataPurge',
     'disability526SupportingEvidenceEnhancement',
     'disability526SupportingEvidenceFileInputV3',
-    'disability526ExtraBDDPagesEnabled',
     'disability526NewBddShaEnforcementWorkflowEnabled',
   ]);
 

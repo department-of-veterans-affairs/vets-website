@@ -428,12 +428,6 @@ export const isBDD = formData => {
   return Boolean(result);
 };
 
-// TODO: Once vetted, drop the feature toggle _and_ drop this obsolete
-// conditionality.
-export const showNewlyBDDPages = formData => {
-  return formData.disability526ExtraBDDPagesEnabled || !isBDD(formData);
-};
-
 export const hasNewPtsdDisability = formData =>
   !isBDD(formData) &&
   isClaimingNew(formData) &&
