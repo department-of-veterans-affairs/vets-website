@@ -117,11 +117,14 @@ describe('<Claim />', () => {
     expect(tree.getByText('In Progress')).to.exist;
     expect(tree.getByText(/Application for CHAMPVA benefits/)).to.exist;
     expect(tree.getByText(/VA Form 10-10d/)).to.exist;
-    expect(tree.getByText(/Submitted on:/)).to.exist;
-    expect(tree.queryByText(/Received on:/)).to.not.exist;
-    expect(tree.getByText(/Next step: We’ll review your form/)).to.exist;
-    const reviewLink = tree.container.querySelector('a[href*="/your-claims/"]');
-    expect(reviewLink).to.not.exist;
+    expect(tree.getByText(/Received on/)).to.exist;
+    expect(tree.queryByText(/Submitted on:/)).to.not.exist;
+    expect(tree.getByText(/Step 1 of 2: Application received/)).to.exist;
+    expect(tree.getByText(/Moved to this step on/)).to.exist;
+    const detailsLink = tree.container.querySelector(
+      'a[href*="/your-claims/"]',
+    );
+    expect(detailsLink).to.exist;
   });
 
   it('should not render a pill for COMPLETE CHAMPVA status in legacy path', () => {
@@ -144,6 +147,7 @@ describe('<Claim />', () => {
 
     expect(tree.queryByText('In Progress')).to.not.exist;
     expect(tree.queryByText('RECEIVED')).to.not.exist;
+    expect(tree.getByText(/Step 2 of 2: Application decided/)).to.exist;
   });
 
   it('should render CHAMPVA card with In Progress pill in redesign path', () => {
@@ -167,13 +171,14 @@ describe('<Claim />', () => {
     expect(tree.getByText('In Progress')).to.exist;
     expect(tree.getByText(/Application for CHAMPVA benefits/)).to.exist;
     expect(tree.getByText(/VA Form 10-10d/)).to.exist;
-    expect(tree.getByText(/Submitted on:/)).to.exist;
-    expect(tree.queryByText(/Received on:/)).to.not.exist;
-    expect(tree.getByText(/Next step: We’ll review your form/)).to.exist;
-    const reviewLink = tree.container.querySelector(
-      'va-link[text="Review details"]',
+    expect(tree.getByText(/Received on/)).to.exist;
+    expect(tree.queryByText(/Submitted on:/)).to.not.exist;
+    expect(tree.getByText(/Step 1 of 2: Application received/)).to.exist;
+    expect(tree.getByText(/Moved to this step on/)).to.exist;
+    const detailsLink = tree.container.querySelector(
+      'va-link[href*="/your-claims/"]',
     );
-    expect(reviewLink).to.not.exist;
+    expect(detailsLink).to.exist;
   });
 
   it('should not render a pill for COMPLETE CHAMPVA status in redesign path', () => {
@@ -196,6 +201,7 @@ describe('<Claim />', () => {
 
     expect(tree.queryByText('In Progress')).to.not.exist;
     expect(tree.queryByText('RECEIVED')).to.not.exist;
+    expect(tree.getByText(/Step 2 of 2: Application decided/)).to.exist;
   });
 
   it('should render In Progress pill for non-complete CHAMPVA statuses in redesign path', () => {
@@ -217,5 +223,6 @@ describe('<Claim />', () => {
     });
 
     expect(tree.getByText('In Progress')).to.exist;
+    expect(tree.getByText(/Step 1 of 2: Application received/)).to.exist;
   });
 });

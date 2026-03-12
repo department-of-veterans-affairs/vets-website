@@ -102,11 +102,16 @@ const Claim = ({ claim }) => {
   const champvaTitle = CHAMPVA_FORM_TITLE_MAP[champvaFormId];
   const champvaDisplayFormId = CHAMPVA_FORM_DISPLAY_MAP[champvaFormId];
   const champvaStatusLabel = getChampvaStatusLabel(claim.attributes.status);
-  const receivedDate = format(
-    new Date(replace(claim.attributes.closeDate || claimDate)),
+  const champvaStepText =
+    claim.attributes.status === 'COMPLETE'
+      ? 'Step 2 of 2: Application decided'
+      : 'Step 1 of 2: Application received';
+  const stepDate = format(
+    new Date(
+      replace(claim.attributes.claimPhaseDates?.phaseChangeDate || claimDate),
+    ),
     'MMMM d, yyyy',
   );
-  const showReceivedDate = champvaStatusLabel === 'Received';
 
   const content = showChampvaCard ? (
     <>
@@ -122,23 +127,22 @@ const Claim = ({ claim }) => {
         </p>
       )}
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
-        Submitted on: {dateRecd}
-        {showReceivedDate && (
-          <>
-            <br />
-            Received on: {receivedDate}
-          </>
-        )}
+        Received on {dateRecd}
       </p>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
-        Next step: We’ll review your form. If we need more information, we’ll
-        contact you.
+        {champvaStepText}
+        <br />
+        Moved to this step on {stepDate}
       </p>
-      <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
-        If you have questions, call us at <va-telephone contact="8008271000" />{' '}
-        (<va-telephone contact="711" tty />
-        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
-      </p>
+      <div className="vads-u-margin-top--0p5 vads-u-padding-y--1">
+        <va-link
+          active
+          text="Details"
+          label={`View details for ${champvaTitle || 'CHAMPVA application'}`}
+          href={`/track-claims/your-claims/${claim.id}/status`}
+          onClick={handleViewClaim}
+        />
+      </div>
     </>
   ) : (
     <>
