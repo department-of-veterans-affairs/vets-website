@@ -62,17 +62,16 @@ export const setRepSearchEndpointsFromFlag = enabled => {
 /**
  * Build requestUrl and settings for api calls
  *  * @param endpoint {String} eg '/vso_accredited_representatives'
- *  * @param method {String} 'GET'
  * @returns {requestUrl, apiSettings}
  */
-export const getApi = (endpoint, method = 'GET') => {
+export const getApi = endpoint => {
   const requestUrl = `${baseUrl}${endpoint}`;
 
   const csrfToken = localStorage.getItem('csrfToken');
 
   const apiSettings = {
     mode: 'cors',
-    method,
+    method: 'GET',
 
     headers: {
       'X-Key-Inflection': 'camel',
