@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import contactInfo from '../../pages/contactInfo';
 
 describe('contactInfo config', () => {
-  const page = contactInfo.confirmContactInfo;
+  const page = contactInfo.confirmContactInfoV0;
   const { updateSchema } = page.uiSchema['ui:options'];
   const schema = { properties: { veteran: { required: [] } } };
 

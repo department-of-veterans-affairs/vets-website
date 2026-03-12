@@ -7,7 +7,8 @@ import { contactInfoValidation } from '../../shared/validations/contactInfo';
 const allContacts = ['address', 'email', 'phone'];
 
 export default profileContactInfo({
-  contactPath: CONTACT_INFO_PATH,
+  contactPath: `${CONTACT_INFO_PATH}-v0`,
+  contactInfoPageKey: 'confirmContactInfoV0',
   contactInfoRequiredKeys: [],
   included: allContacts,
   addressKey: 'address',

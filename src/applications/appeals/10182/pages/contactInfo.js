@@ -8,6 +8,8 @@ const allContacts = ['address', 'email', 'phone'];
 
 export default profileContactInfo({
   content: getContent('appeal'),
+  contactInfoPageKey: 'confirmContactInfoV0',
+  contactPath: 'contact-information-v0',
   contactInfoRequiredKeys: [],
   included: allContacts,
   addressKey: 'address',

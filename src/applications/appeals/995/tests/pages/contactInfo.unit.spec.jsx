@@ -3,7 +3,9 @@ import contactInfo from '../../pages/contactInformation';
 
 describe('contactInformation config', () => {
   const pages = contactInfo;
-  const page = Object.values(pages).find(p => p.path === 'contact-information');
+  const page = Object.values(pages).find(
+    p => p.path === 'contact-information-v0',
+  );
 
   it('requires address when no housing risk', () => {
     const { updateSchema } = page.uiSchema['ui:options'];

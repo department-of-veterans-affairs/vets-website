@@ -13,6 +13,8 @@ export default profileContactInfo({
   // Override defaults because of addressKey change
   included: allContacts,
   contactInfoRequiredKeys: [],
+  contactInfoPageKey: 'confirmContactInfoV0',
+  contactPath: 'contact-information-v0',
   contactInfoUiSchema: {
     'ui:options': {
       updateSchema: (formData = {}, schema) =>
