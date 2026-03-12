@@ -2,11 +2,9 @@ import { expect } from 'chai';
 import React from 'react';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
-import MockSchedulingConfigurationResponse, {
-  MockServiceConfiguration,
-} from '../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockSchedulingConfigurationResponse from '../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockServiceConfiguration from '../../tests/fixtures/MockServiceConfiguration';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
@@ -15,6 +13,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 import ContactFacilitiesPage from './ContactFacilitiesPage';
 
 describe('VAOS vaccine flow: ContactFacilitiesPage', () => {

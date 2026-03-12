@@ -9,13 +9,11 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import VAFacilityPage from '.';
 import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
-import MockSchedulingConfigurationResponse, {
-  MockServiceConfiguration,
-} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockSchedulingConfigurationResponse from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockServiceConfiguration from '../../../tests/fixtures/MockServiceConfiguration';
 import {
   mockClinicsApi,
   mockEligibilityFetches,
@@ -27,6 +25,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
+import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 
 const facilityIds = ['983', '983GB', '983GC', '983HK', '983QA', '984'];
 
