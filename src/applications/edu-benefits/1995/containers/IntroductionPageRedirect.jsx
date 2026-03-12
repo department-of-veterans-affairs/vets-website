@@ -8,11 +8,9 @@ import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import { fetchClaimantInfo } from '../actions';
-import { selectMeb1995Reroute } from '../selectors/featureToggles';
 
 export const IntroductionPageRedirect = ({ route, router }) => {
   const dispatch = useDispatch();
-  const rerouteFlag = useSelector(selectMeb1995Reroute);
   const { user, formData } = useSelector(state => getIntroState(state));
 
   useEffect(() => {
@@ -90,16 +88,10 @@ export const IntroductionPageRedirect = ({ route, router }) => {
 
   useEffect(
     () => {
-      if (rerouteFlag) {
-        dispatch(fetchClaimantInfo());
-      }
+      dispatch(fetchClaimantInfo());
     },
-    [dispatch, rerouteFlag],
+    [dispatch],
   );
-
-  if (!rerouteFlag) {
-    return null;
-  }
 
   return (
     <div

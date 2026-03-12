@@ -38,7 +38,7 @@ describe('HowToApplyPost911GiBill – SaveInProgressIntro visibility', () => {
   });
 });
 
-describe('HowToApplyPost911GiBill – Content display based on feature flags', () => {
+describe('HowToApplyPost911GiBill', () => {
   const defaultProps = {
     route: { pageList: [], formConfig: { prefillEnabled: true } },
     formId: '22-1990',
@@ -52,8 +52,8 @@ describe('HowToApplyPost911GiBill – Content display based on feature flags', (
   const render = overrides =>
     shallow(<HowToApplyPost911GiBill {...defaultProps} {...overrides} />);
 
-  it('displays the new content when meb1995Reroute is true', () => {
-    const wrapper = render({ meb1995Reroute: true, showTextUpdate: false });
+  it('displays the content', () => {
+    const wrapper = render();
     const text = wrapper.text();
 
     expect(text).to.include(
@@ -70,43 +70,6 @@ describe('HowToApplyPost911GiBill – Content display based on feature flags', (
     );
     expect(text).to.include(
       'Switch your existing education benefit and get a new COE',
-    );
-  });
-
-  it('displays the original showTextUpdate content when meb1995Reroute is false and showTextUpdate is true', () => {
-    const wrapper = render({ meb1995Reroute: false, showTextUpdate: true });
-    const text = wrapper.text();
-
-    expect(text).to.include(
-      'Use VA Form 22-1990 if you want to apply for education benefits under any of the following programs:',
-    );
-    expect(text).to.include('Post-9/11 GI Bill®');
-    expect(text).to.include('Montgomery GI Bill® Active Duty');
-    expect(text).to.include('Montgomery GI Bill® Selected Reserve');
-
-    // Should not display the meb1995Reroute content
-    expect(text).to.not.include('For first time applicants');
-    expect(text).to.not.include(
-      'Update your current benefit and get an updated Certificate of Eligibility (COE)',
-    );
-  });
-
-  it('displays the original !showTextUpdate content when meb1995Reroute is false and showTextUpdate is false', () => {
-    const wrapper = render({ meb1995Reroute: false, showTextUpdate: false });
-    const text = wrapper.text();
-
-    expect(text).to.include('Note');
-    expect(text).to.include(
-      'This application is only for these 3 education benefits:',
-    );
-    expect(text).to.include('Post-9/11 GI Bill®');
-    expect(text).to.include('Montgomery GI Bill® Active Duty');
-    expect(text).to.include('Montgomery GI Bill® Selected Reserve');
-
-    // Should not display the meb1995Reroute or showTextUpdate content
-    expect(text).to.not.include('For first time applicants');
-    expect(text).to.not.include(
-      'Use VA Form 22-1990 if you want to apply for education benefits under any of the following programs',
     );
   });
 });

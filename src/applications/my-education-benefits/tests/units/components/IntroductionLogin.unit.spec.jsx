@@ -34,7 +34,6 @@ describe('IntroductionLogin', () => {
     showMeb1990EZMaintenanceAlert: false,
     showMeb1990EZR6MaintenanceMessage: false,
     showMebEnhancements09: false,
-    meb1995Reroute: false,
   };
 
   it("renders 'signInRequired' va-alert-sign-in variant", () => {

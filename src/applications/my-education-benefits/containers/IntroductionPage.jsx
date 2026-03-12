@@ -8,23 +8,15 @@ import IntroductionLogin from '../components/IntroductionLogin';
 import LoadingIndicator from '../components/LoadingIndicator';
 import IntroductionProcessList from '../components/IntroductionProcessList';
 
-export const IntroductionPage = ({
-  featureTogglesLoaded,
-  meb1995Reroute,
-  route,
-}) => {
+export const IntroductionPage = ({ featureTogglesLoaded, route }) => {
   return (
     <div className="schemaform-intro">
       <>
         <h1 className="vads-u-margin-bottom--1p5">
-          {meb1995Reroute
-            ? 'Apply for VA education benefits'
-            : 'Apply for VA education benefits Form 22-1990'}
+          Apply for VA education benefits
         </h1>
         <h2 className="vads-u-font-size--h3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
-          {meb1995Reroute
-            ? 'Application for VA Education Benefits (VA Form 22-1990)'
-            : 'Equal to VA Form 22-1990 (Application for VA Education Benefits)'}
+          Application for VA Education Benefits (VA Form 22-1990)
         </h2>
       </>
       <HowToApplyPost911GiBill route={route} />
@@ -47,7 +39,6 @@ IntroductionPage.propTypes = {
     pageList: PropTypes.array,
   }).isRequired,
   featureTogglesLoaded: PropTypes.bool,
-  meb1995Reroute: PropTypes.bool,
 };
 
 const mapStateToProps = state => getAppData(state);

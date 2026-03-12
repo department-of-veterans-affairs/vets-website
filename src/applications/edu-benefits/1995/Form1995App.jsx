@@ -4,10 +4,7 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { setData } from 'platform/forms-system/src/js/actions';
-import {
-  selectShowEduBenefits1995Wizard,
-  selectMeb1995Reroute,
-} from './selectors/featureToggles';
+import { selectShowEduBenefits1995Wizard } from './selectors/featureToggles';
 import formConfig from './config/form';
 
 /**
@@ -38,7 +35,6 @@ function Form1995Entry({
   claimantCurrentBenefit,
   formData,
   location,
-  rerouteFlag,
   rudisillFlag,
   setFormData,
 }) {
@@ -57,36 +53,22 @@ function Form1995Entry({
 
   useEffect(
     () => {
-      if (rerouteFlag === undefined || !formData) {
-        return;
-      }
-
-      if (!rerouteFlag) {
-        if (formData.isMeb1995Reroute) {
-          const nextFormData = { ...formData };
-          delete nextFormData.isMeb1995Reroute;
-          delete nextFormData.currentBenefitType;
-          setFormData(nextFormData);
-        }
+      if (!formData) {
         return;
       }
 
       // Only update if the values have actually changed
-      if (
-        formData.isMeb1995Reroute !== rerouteFlag ||
-        formData.currentBenefitType !== claimantCurrentBenefit
-      ) {
+      if (formData.currentBenefitType !== claimantCurrentBenefit) {
         setFormData({
           ...formData,
-          isMeb1995Reroute: rerouteFlag,
           currentBenefitType: claimantCurrentBenefit,
         });
       }
     },
-    [claimantCurrentBenefit, formData, rerouteFlag, setFormData],
+    [claimantCurrentBenefit, formData, setFormData],
   );
 
-  if (isLoadingToggles || rerouteFlag === undefined) {
+  if (isLoadingToggles) {
     return (
       <va-loading-indicator
         label="Loading"
@@ -95,23 +77,10 @@ function Form1995Entry({
     );
   }
 
-  const formKey = rerouteFlag ? 'reroute' : 'legacy';
-
-  const modifiedConfig = {
-    ...formConfig,
-    chapters: {
-      ...formConfig.chapters,
-      questionnaire: {
-        ...formConfig.chapters.questionnaire,
-        hideFormNavProgress: rerouteFlag === true,
-      },
-    },
-  };
-
   return (
     <RoutedSavableApp
-      key={formKey}
-      formConfig={modifiedConfig}
+      key="reroute"
+      formConfig={formConfig}
       currentLocation={location}
     >
       {children}
@@ -136,7 +105,6 @@ const mapStateToProps = state => ({
   claimantCurrentBenefit:
     state.data?.claimantInfo?.data?.attributes?.claimant?.currentBenefitType,
   formData: state.form?.data || {},
-  rerouteFlag: selectMeb1995Reroute(state),
   rudisillFlag: selectShowEduBenefits1995Wizard(state),
 });
 

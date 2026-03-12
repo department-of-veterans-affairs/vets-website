@@ -8,7 +8,6 @@ import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
-import formConfig1995 from '../../1995/config/form';
 import formConfig10203 from '../../10203/config/form';
 
 const pageTests = (page, formConfig, addressType = 'veteran') => {
@@ -174,11 +173,6 @@ const pageTests = (page, formConfig, addressType = 'veteran') => {
 };
 
 describe('Edu contactInformationPage', () => {
-  describe('1995', () =>
-    pageTests(
-      formConfig1995.chapters.personalInformation.pages.contactInformation,
-      formConfig1995,
-    ));
   describe('10203', () =>
     pageTests(
       formConfig10203.chapters.personalInformation.pages.contactInformation,

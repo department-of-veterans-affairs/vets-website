@@ -103,7 +103,7 @@ describe('<IntroductionLogin />', () => {
     ).to.exist;
   });
 
-  it('should render va-alert-sign-in with signInOptional variant as default', () => {
+  it('should render va-alert-sign-in with signInRequired variant', () => {
     const state = {
       ...defaultState,
       user: {
@@ -111,30 +111,6 @@ describe('<IntroductionLogin />', () => {
         login: {
           hasCheckedKeepAlive: true,
         },
-      },
-    };
-
-    const store = createMockStore(state);
-
-    const { container } = renderIntroductionLogin(store);
-
-    expect(
-      container.querySelector('va-alert-sign-in[variant="signInOptional"]'),
-    ).to.exist;
-  });
-
-  it('should render va-alert-sign-in with signInRequired variant when meb1995Reroute is true', () => {
-    const state = {
-      ...defaultState,
-      user: {
-        ...defaultState.user,
-        login: {
-          hasCheckedKeepAlive: true,
-        },
-      },
-      featureToggles: {
-        ...defaultState.featureToggles,
-        [FEATURE_FLAGS.meb1995Reroute]: true,
       },
     };
 
@@ -155,10 +131,6 @@ describe('<IntroductionLogin />', () => {
         login: {
           hasCheckedKeepAlive: true,
         },
-      },
-      featureToggles: {
-        ...defaultState.featureToggles,
-        [FEATURE_FLAGS.meb1995Reroute]: true,
       },
     };
 

@@ -6,7 +6,6 @@ import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
-import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { getAppData } from '../selectors';
@@ -18,7 +17,6 @@ function IntroductionLogin({
   isLOA3,
   isPersonalInfoFetchComplete,
   isPersonalInfoFetchFailed,
-  meb1995Reroute,
   route,
   showHideLoginModal,
   showMeb1990EMaintenanceAlert,
@@ -76,7 +74,7 @@ function IntroductionLogin({
         user?.login?.hasCheckedKeepAlive && (
           <>
             <va-alert-sign-in
-              variant={meb1995Reroute ? 'signInRequired' : 'signInOptional'}
+              variant="signInRequired"
               time-limit="60 days"
               heading-level={2}
               visible
@@ -84,11 +82,7 @@ function IntroductionLogin({
               <span slot="SignInButton">
                 <va-button
                   onClick={openLoginModal}
-                  text={
-                    meb1995Reroute
-                      ? 'Sign in or create an account'
-                      : UNAUTH_SIGN_IN_DEFAULT_MESSAGE
-                  }
+                  text="Sign in or create an account"
                 />
               </span>
             </va-alert-sign-in>
@@ -131,7 +125,6 @@ IntroductionLogin.propTypes = {
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchComplete: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
-  meb1995Reroute: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb1990EMaintenanceAlert: PropTypes.bool,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
@@ -142,7 +135,6 @@ const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
-  meb1995Reroute: state.featureToggles[featureFlagNames.meb1995Reroute],
   showMeb1990EMaintenanceAlert:
     state.featureToggles[featureFlagNames.showMeb1990EMaintenanceAlert],
   showMeb1990ER6MaintenanceMessage:
