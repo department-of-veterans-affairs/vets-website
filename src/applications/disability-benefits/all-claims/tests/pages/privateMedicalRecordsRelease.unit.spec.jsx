@@ -157,7 +157,7 @@ describe('Disability benefits 4142 provider medical records facility information
 
     // Check that there are no validation errors
     expect(container.querySelectorAll('.usa-input-error').length).to.equal(0);
-    // Check that there are 2 va-select elements -> the new elements that is used in this pr
+    // Check that there are 2 va-select elements -> country and state
     expect(container.querySelectorAll('va-select').length).to.equal(2);
 
     // the following commented lines originate from the Enzyme style unit tests, which is also still referenced in the other , prior to the introduction of VADS components. they've been included here as a point of reference for how Enzyme tests confirmed the absence of errors countrySelector and stateSelector are
