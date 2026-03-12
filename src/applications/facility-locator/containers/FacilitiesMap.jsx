@@ -885,6 +885,9 @@ const FacilitiesMap = props => {
         }
       }
     },
+    // Only re-run when vaHealthServicesData loads; location.query and
+    // currentQuery.vamcServiceDisplay are intentionally omitted because other
+    // effects handle those changes. updateSearchQuery is a stable dispatch ref.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.vaHealthServicesData],
   );
@@ -893,6 +896,9 @@ const FacilitiesMap = props => {
     () => {
       handleSearchOnQueryChange();
     },
+    // handleSearchOnQueryChange reads props/state but is not memoized;
+    // currentQuery.id is the reducer's unique search token — only changes
+    // when a new search is initiated, which is the sole intended trigger.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.currentQuery.id],
   );
