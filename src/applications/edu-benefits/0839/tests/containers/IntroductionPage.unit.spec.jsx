@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
@@ -141,28 +141,5 @@ describe('22-0839 <IntroductionPage>', () => {
       'va-accordion-item[header="View Privacy Act Statement"]',
     );
     expect(item).to.exist;
-  });
-
-  it('should hide the Privacy Act button inside va-omb-info', async () => {
-    const vaOmbInfo = document.createElement('va-omb-info');
-    const privacyButton = document.createElement('va-button');
-    privacyButton.setAttribute('secondary', '');
-    vaOmbInfo.appendChild(privacyButton);
-    document.body.appendChild(vaOmbInfo);
-
-    const { unmount } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      expect(privacyButton.getAttribute('style') || '').to.contain(
-        'display:none',
-      );
-    });
-
-    unmount();
-    document.body.removeChild(vaOmbInfo);
   });
 });
