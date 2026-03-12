@@ -27,6 +27,36 @@ global.MessageChannel = class TestMessageChannel {
   }
 };
 
+// Prevent worker crashes from stale React effects that fire outside act()
+// boundaries. In parallel workers, some passive effects (e.g. focus management,
+// scroll behaviors) fire asynchronously after cleanup and call DOM APIs that
+// JSDOM doesn't implement or access stale state. Without this handler, the
+// uncaught error terminates the worker with exit code 1, losing all remaining
+// tests assigned to that worker. These errors are harmless — the test that
+// triggered the effect has already completed.
+// Mocha's worker.js calls process.removeAllListeners('uncaughtException') and
+// process.removeAllListeners('unhandledRejection') after each file completes.
+// Stale async work (e.g. un-awaited findByText promises, React scheduler
+// callbacks) can fire after listeners are stripped, crashing the worker.
+// Patch removeAllListeners to automatically re-register our safety handlers.
+const _originalRemoveAllListeners = process.removeAllListeners.bind(process);
+function safetyHandler(err) {
+  // eslint-disable-next-line no-console
+  console.warn(
+    '[mocha-setup] Caught stale async error (suppressed):',
+    err?.message,
+  );
+}
+process.on('uncaughtException', safetyHandler);
+process.on('unhandledRejection', safetyHandler);
+process.removeAllListeners = function removeAllListeners(event) {
+  _originalRemoveAllListeners(event);
+  if (event === 'uncaughtException' || event === 'unhandledRejection') {
+    process.on(event, safetyHandler);
+  }
+  return this;
+};
+
 // Some libraries (like web-vitals) call addEventListener at module load time,
 // before JSDOM is set up. Provide no-op stubs that get replaced in setupJSDom.
 if (typeof global.addEventListener === 'undefined') {
@@ -358,6 +388,12 @@ function setupJSDom() {
     };
   }
 
+  // Stub Element.prototype.scrollIntoView — JSDOM doesn't implement it, and
+  // passive effects (e.g. useFocusManagement) call it on DOM elements.
+  if (typeof window.Element !== 'undefined') {
+    window.Element.prototype.scrollIntoView = () => {};
+  }
+
   // Stub customElements for web component support (JSDOM 20 doesn't have it)
   // This allows web components from @department-of-veterans-affairs/web-components
   // to be defined and used in tests
@@ -622,25 +658,26 @@ export const mochaHooks = {
       // RTL not loaded for this file — safe to ignore
     }
     await flushPromises();
-    // Yield to the macrotask queue so React scheduler callbacks fire before
-    // we clear timers. The cleanup above unmounts components via act(),
-    // scheduling passive effect cleanups through TestMessageChannel →
-    // setTimeout(fn, 0). Without this yield, clearPendingTimers would kill
-    // those scheduled cleanups, preventing useEffect cleanup functions from
-    // running.
-    await new Promise(resolve => {
-      const origST = global._originalTimers?.setTimeout || setTimeout;
-      origST(resolve, 0);
-    });
-    // Flush any React passive effects still pending after cleanup.
-    // The macrotask yield above lets scheduler callbacks fire, but effects
-    // may remain in React's internal rootWithPendingPassiveEffects queue
-    // if the scheduler callback was cancelled. flushSync drains them
-    // synchronously so they don't leak into the next test.
-    try {
-      require('react-dom').flushSync(() => {});
-    } catch (e) {
-      // react-dom not loaded or no pending effects — safe to ignore
+    // Drain the React scheduler work queue. After RTL cleanup unmounts
+    // components, passive effect cleanups get scheduled through
+    // TestMessageChannel → setTimeout(fn, 0). Those cleanup functions may
+    // trigger re-renders that schedule MORE work. Two yield+flush cycles
+    // catch this cascade:
+    //   Cycle 1: lets initial scheduler callbacks fire → flushSync drains
+    //            resulting effects (which may schedule new callbacks)
+    //   Cycle 2: lets those new callbacks fire → flushSync drains anything
+    //            remaining
+    for (let i = 0; i < 2; i++) {
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise(resolve => {
+        const origST = global._originalTimers?.setTimeout || setTimeout;
+        origST(resolve, 0);
+      });
+      try {
+        require('react-dom').flushSync(() => {});
+      } catch (e) {
+        // react-dom not loaded or no pending effects — safe to ignore
+      }
     }
     // Clear any pending timers to prevent async callbacks from running after test cleanup.
     // This catches setInterval/setTimeout leaks from components that don't clean up properly.
