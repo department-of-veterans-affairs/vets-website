@@ -1093,18 +1093,10 @@ export const pageHooks = (cy, testOptions) => ({
               'Authorize the release of non-VA medical records to VA',
             );
           });
-        cy.get('va-checkbox[name="privacy-agreement"]').then($checkbox => {
-          const checkboxEl = $checkbox[0];
-          checkboxEl.checked = true;
-          checkboxEl.setAttribute('checked', 'true');
-          checkboxEl.dispatchEvent(
-            new CustomEvent('vaChange', {
-              bubbles: true,
-              composed: true,
-              detail: { checked: true },
-            }),
-          );
-        });
+        cy.get('va-checkbox[name="privacy-agreement"]')
+          .shadow()
+          .find('input')
+          .check({ force: true });
       }
       cy.findByText(/continue/i, { selector: 'button' })
         .should('be.visible')
