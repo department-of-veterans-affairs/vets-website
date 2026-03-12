@@ -120,7 +120,9 @@ describe('IntroductionPage', () => {
     );
 
     expect(
-      container.querySelector('va-link-action[text="Start the submission"]'),
+      container.querySelector(
+        'va-link-action[text="Start form upload and submission"]',
+      ),
     ).to.not.be.null;
   });
 
