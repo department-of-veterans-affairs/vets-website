@@ -141,6 +141,7 @@ import {
   NULL_CONDITION_STRING,
   PTSD_INCIDENT_ITERATION,
   SEPARATION_PAY_SECTION_TITLE,
+  VETERAN_DETAILS_CHAPTER_TITLE,
   WIZARD_STATUS,
 } from '../constants';
 
@@ -227,7 +228,7 @@ const formConfig = {
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
-        `${onReviewPage ? 'Review ' : ''}Veteran details`,
+        `${onReviewPage ? 'Review ' : ''}${VETERAN_DETAILS_CHAPTER_TITLE}`,
       pages: {
         veteranInformation: {
           title: 'Veteran information',
