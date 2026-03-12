@@ -128,11 +128,13 @@ describe('getEmail', () => {
     expect(getEmail({})).to.eq('');
     expect(getEmail({ veteran: {} })).to.eq('');
   });
+
   it('should return the defined email', () => {
     expect(getEmail({ veteran: { email: 'test@test.com' } })).to.eq(
       'test@test.com',
     );
   });
+
   it('should return the defined email truncated to 255 characters', () => {
     const email = `${'abcde12345'.repeat(25)}@test.com`;
     const result = getEmail({ veteran: { email } });
@@ -140,5 +142,16 @@ describe('getEmail', () => {
     // results in an invalid email, but we use profile, and they won't accept
     // emails > 255 characters in length
     expect(result.slice(-10)).to.eq('12345@test');
+  });
+
+  describe('when the feature toggle for newContactPage is on', () => {
+    it('should return the correct part of the email object', () => {
+      const data = {
+        newContactPage: true,
+        veteran: { email: { emailAddress: 'test@test.com' } },
+      };
+
+      expect(getEmail(data)).to.eql('test@test.com');
+    });
   });
 });
