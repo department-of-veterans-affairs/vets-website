@@ -5,12 +5,10 @@
  */
 
 // Replace MessageChannel with a clearable implementation for test cleanup.
-// React's scheduler uses MessageChannel to schedule async work. In parallel
-// mocha, stale scheduler callbacks from a previous test file persist within
-// the worker process and cause "Should not already be working" errors.
-// This replacement routes postMessage through setTimeout, which is tracked
-// by our timer wrapper and clearable via clearPendingTimers().
-// Must run before React/scheduler is first imported.
+// React's scheduler uses MessageChannel to schedule async work (passive
+// effects, continuations). This replacement routes postMessage through
+// setTimeout, which lets pending scheduler callbacks fire in the event loop
+// between tests. Must run before React/scheduler is first imported.
 const _OriginalMessageChannel = global.MessageChannel;
 global.MessageChannel = class TestMessageChannel {
   constructor() {
@@ -19,7 +17,9 @@ global.MessageChannel = class TestMessageChannel {
       postMessage: msg => {
         if (this.port1.onmessage) {
           const handler = this.port1.onmessage;
-          // Use setTimeout so it's trackable/clearable by our timer wrapper
+          // Use setTimeout so scheduler work fires asynchronously (avoiding
+          // reentrancy/"Should not already be working" errors) and is
+          // processable via event loop yields in afterEach.
           setTimeout(() => handler({ data: msg }), 0);
         }
       },
@@ -404,6 +404,35 @@ setupJSDom();
   delete _doc.createEvent; // remove shadow, restoring prototype access
 }
 
+// Patch act() to always flush passive effects after returning.
+//
+// React's act() only calls flushWork() when actingUpdatesScopeDepth === 1.
+// In parallel workers, un-awaited async act() calls from earlier files can
+// leave the depth permanently > 0 (onDone never fires when the thenable is
+// never .then'd). This causes subsequent act() calls to skip flushWork(),
+// leaving useEffect callbacks unprocessed.
+//
+// By calling flushSync() after every act() call, we ensure passive effects
+// are drained regardless of depth. When depth is correct (=== 1), act()
+// already flushed and flushSync is a harmless no-op.
+//
+// This must run BEFORE any test file imports @testing-library/react, since
+// RTL captures `testUtils.act` at module-load time (line 20 of react.cjs.js).
+{
+  const _testUtils = require('react-dom/test-utils');
+  const _ReactDOM = require('react-dom');
+  const _origAct = _testUtils.act;
+  _testUtils.act = function patchedAct(callback) {
+    const result = _origAct(callback);
+    try {
+      _ReactDOM.flushSync(() => {});
+    } catch (e) {
+      // No pending effects or react-dom not ready — safe to ignore
+    }
+    return result;
+  };
+}
+
 // Patch VA component library's isCoveredByReact to return false for click events.
 // This forces the React bindings to use syncEvent() for click handlers on web components,
 // which is needed because React's synthetic event delegation doesn't work properly
@@ -555,6 +584,16 @@ export const mochaHooks = {
   },
 
   beforeEach() {
+    // Flush any pending React passive effects left over from previous tests
+    // (or previous files in the same parallel worker). rootWithPendingPassiveEffects
+    // is module-scoped in react-dom and persists across files in one worker.
+    // Flushing here ensures leaked effects fire BEFORE the test's sandbox/spy
+    // is created, so they call the real (un-stubbed) functions.
+    try {
+      require('react-dom').flushSync(() => {});
+    } catch (e) {
+      // react-dom not loaded or no pending effects — safe to ignore
+    }
     setupJSDom();
     resetFetch();
     cleanupStorage();
@@ -572,7 +611,37 @@ export const mochaHooks = {
 
   async afterEach() {
     cleanupStorage();
+    // Explicitly call RTL cleanup to unmount all rendered components.
+    // RTL registers afterEach(cleanup) only during its first module evaluation.
+    // In parallel workers, subsequent files in the same worker don't get
+    // RTL's auto-cleanup because the module is cached. Without this, components
+    // stay mounted and module-scoped state (e.g. tracking Sets) leaks.
+    try {
+      require('@testing-library/react').cleanup();
+    } catch (e) {
+      // RTL not loaded for this file — safe to ignore
+    }
     await flushPromises();
+    // Yield to the macrotask queue so React scheduler callbacks fire before
+    // we clear timers. The cleanup above unmounts components via act(),
+    // scheduling passive effect cleanups through TestMessageChannel →
+    // setTimeout(fn, 0). Without this yield, clearPendingTimers would kill
+    // those scheduled cleanups, preventing useEffect cleanup functions from
+    // running.
+    await new Promise(resolve => {
+      const origST = global._originalTimers?.setTimeout || setTimeout;
+      origST(resolve, 0);
+    });
+    // Flush any React passive effects still pending after cleanup.
+    // The macrotask yield above lets scheduler callbacks fire, but effects
+    // may remain in React's internal rootWithPendingPassiveEffects queue
+    // if the scheduler callback was cancelled. flushSync drains them
+    // synchronously so they don't leak into the next test.
+    try {
+      require('react-dom').flushSync(() => {});
+    } catch (e) {
+      // react-dom not loaded or no pending effects — safe to ignore
+    }
     // Clear any pending timers to prevent async callbacks from running after test cleanup.
     // This catches setInterval/setTimeout leaks from components that don't clean up properly.
     clearPendingTimers();
@@ -586,10 +655,35 @@ export const mochaHooks = {
     // HTTP interceptors. The server persists for the worker process lifetime.
     // Reset handlers to clean state for next file instead.
     server.resetHandlers();
-    // Clear timers again here — afterEach root hooks run before RTL's
-    // afterEach cleanup, so RTL unmounting components may schedule new
-    // React scheduler callbacks that our afterEach didn't catch.
+    // Clear any stale timers from the previous file's tests.
+    // The afterEach macrotask yield handles per-test scheduler cleanup,
+    // but test code may still leak setTimeout/setInterval calls across files.
     clearPendingTimers();
+    // Reset actingUpdatesScopeDepth for the next file.
+    //
+    // react-dom/test-utils has a module-scoped `actingUpdatesScopeDepth`
+    // counter that tracks nested act() calls. Un-awaited async act() calls
+    // leave this counter permanently > 0, causing subsequent act() calls to
+    // skip flushWork() (effects never fire). The patched act() above works
+    // around this with flushSync, but resetting the depth for each new file
+    // avoids cascading "overlapping act() calls" warnings.
+    //
+    // We also clear @testing-library/react so it re-evaluates and:
+    // (a) captures the fresh act() reference (with depth 0)
+    // (b) re-registers afterEach(cleanup) for the next file's suite
+    try {
+      const testUtilsKey = require.resolve('react-dom/test-utils');
+      delete require.cache[testUtilsKey];
+      // Also clear the CJS dev bundle if resolved differently
+      Object.keys(require.cache)
+        .filter(k => k.includes('react-dom-test-utils'))
+        .forEach(k => { delete require.cache[k]; });
+      Object.keys(require.cache)
+        .filter(k => k.includes('@testing-library/react'))
+        .forEach(k => { delete require.cache[k]; });
+    } catch (e) {
+      // Module resolution failed — safe to ignore
+    }
     // Note: Do NOT call dom.window.close() here. Closing the JSDOM window
     // makes its document undefined, which breaks libraries like Downshift
     // that capture `window` at module-load time via defaultProps. In parallel
