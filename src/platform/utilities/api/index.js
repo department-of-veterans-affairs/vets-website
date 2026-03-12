@@ -6,6 +6,7 @@ import environment from '../environment';
 import localStorage from '../storage/localStorage';
 import {
   checkOrSetSessionExpiration,
+  getInfoToken,
   infoTokenExists,
   refresh,
   refreshIfAccessTokenExpiringSoon,
@@ -17,8 +18,40 @@ const isJson = response => {
   return contentType && contentType.includes('application/json');
 };
 
+/**
+ * Checks if the access token is close to expiring (within 30 seconds)
+ *
+ * @returns {boolean} true if token is about to expire
+ */
+const isTokenAboutToExpire = () => {
+  if (!infoTokenExists()) return false;
+
+  const infoToken = getInfoToken();
+  if (!infoToken?.access_token_expiration) return false;
+
+  const expirationTime = new Date(infoToken.access_token_expiration).getTime();
+
+  // Handle invalid dates
+  if (Number.isNaN(expirationTime)) return false;
+
+  const currentTime = Date.now();
+  const thirtySeconds = 30 * 1000; // 30 seconds in milliseconds
+
+  return expirationTime - currentTime <= thirtySeconds;
+};
+
 const retryOn = async (attempt, error, response) => {
   if (error) return false;
+
+  // Proactively refresh token if it's about to expire (within 30 seconds)
+  if (attempt === 0 && isTokenAboutToExpire()) {
+    const serviceName = sessionStorage.getItem('serviceName');
+    // Only attempt refresh if we have a service name
+    if (serviceName) {
+      await refresh({ type: serviceName });
+      return true;
+    }
+  }
 
   if (response.status === 403) {
     const errorResponse = await response.clone().json();
