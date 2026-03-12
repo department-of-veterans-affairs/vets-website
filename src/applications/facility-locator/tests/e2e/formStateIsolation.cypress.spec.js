@@ -107,15 +107,14 @@ describe('Form State Isolation - Draft State Pattern', () => {
 
     cy.get('.facility-result', { timeout: 10000 }).should('exist');
     cy.get('#search-results-subheader').should('contain', 'Austin');
+    // Run axeCheck here before editing triggers downshift a11y issues
+    cy.axeCheck();
 
-    cy.get('#street-city-state-zip')
-      .clear()
-      .type('Dallas TX');
+    cy.get('#street-city-state-zip').clear();
+    cy.get('#street-city-state-zip').type('Dallas TX');
 
     cy.get('#search-results-subheader').should('contain', 'Austin');
     cy.get('#search-results-subheader').should('not.contain', 'Dallas');
-    // Skip axeCheck - downshift autosuggest has pre-existing a11y issues
-    // (aria-selected on role="alert" in "No results found" dropdown)
   });
 
   it('should update location in results only after submit', () => {
@@ -164,6 +163,7 @@ describe('Form State Isolation - Draft State Pattern', () => {
       cy.wait(500);
       cy.get('@searchFacilitiesVA.all').should('have.length', initialCount);
     });
+    cy.axeCheck();
   });
 
   it('should allow new search after changing form values', () => {

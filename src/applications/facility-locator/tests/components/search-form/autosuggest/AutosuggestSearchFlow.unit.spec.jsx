@@ -30,6 +30,7 @@ const mockOptions = [
 // Stateful wrapper that provides geocoding results synchronously when the
 // input meets the minimum character threshold. Mirrors AddressAutosuggest's
 // option-providing and error-state behavior without the async Mapbox search.
+// eslint-disable-next-line react/prop-types
 function SearchFlowWrapper({ onSelectSpy, onClearSpy }) {
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
