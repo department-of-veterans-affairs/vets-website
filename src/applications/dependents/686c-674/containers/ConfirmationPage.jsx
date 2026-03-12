@@ -38,25 +38,37 @@ export default function ConfirmationPage() {
 
   const submissionBox = () => {
     return (
-      <va-summary-box class="vads-u-margin-top--4">
-        <h3 slot="headline">Your submission information</h3>
-        <p>
+      <div className="vads-u-margin-top--4">
+        <h2 slot="headline" className="save-a-copy">
+          Your submission information
+        </h2>
+        <div>
           <strong>Your name</strong>
-        </p>
-        <p className="dd-privacy-hidden" data-dd-action-name="Veteran's name">
-          {veteranFirstName} {veteranLastName}
-        </p>
-        <p>
-          <strong>Date submitted</strong>
-        </p>
-        <p data-testid="dateSubmitted">{dateSubmitted}</p>
+          <p
+            className="dd-privacy-hidden vads-u-margin-top--0"
+            data-dd-action-name="Veteran's name"
+          >
+            {veteranFirstName} {veteranLastName}
+          </p>
+        </div>
+        <div>
+          <div className="dd-privacy-hidden">
+            <strong>Date submitted</strong>
+          </div>
+          <p
+            data-testid="dateSubmitted"
+            className="dd-privacy-hidden vads-u-margin-top--0"
+          >
+            {dateSubmitted}
+          </p>
+        </div>
         <va-button
           text="Print this page for your records"
           onClick={() => {
             window.print();
           }}
         />
-      </va-summary-box>
+      </div>
     );
   };
 
@@ -80,7 +92,7 @@ export default function ConfirmationPage() {
         <Toggler.Enabled>
           {submissionId ? (
             <section>
-              <h2 className="vads-u-margin-top--3 vads-u-margin-bottom--2">
+              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2 save-a-copy">
                 Save a copy of your form
               </h2>
               <span>
@@ -96,6 +108,10 @@ export default function ConfirmationPage() {
                     submissionId ? `/my-va/submissions/${submissionId}` : ''
                   }
                 />
+              </div>
+              <div className="vads-u-margin-top--1p5">
+                <strong>Note:</strong> You won't be able to access a copy of the
+                information you submitted once you leave this page.
               </div>
             </section>
           ) : (
