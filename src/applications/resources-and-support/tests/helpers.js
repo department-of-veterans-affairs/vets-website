@@ -70,15 +70,17 @@ export const closeSearchMenu = () => cy.get('va-icon[icon="remove"]').click();
 export const verifyElementNotVisible = selector =>
   cy.get(selector).should('not.be.visible');
 
-export const typeInInput = (selector, value) =>
-  cy
-    .get(selector)
+export const typeInInput = (selector, value) => {
+  cy.get(selector)
     .shadow()
     .get('input')
     .first()
-    .click()
-    .type(value, { force: true });
+    .as('selectorInput');
 
+  cy.get('@selectorInput').click();
+
+  cy.get('@selectorInput').type(value, { force: true });
+};
 export const goToNextPage = () => {
   cy.get('va-pagination')
     .should('exist')
