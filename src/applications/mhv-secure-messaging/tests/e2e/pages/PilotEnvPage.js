@@ -228,22 +228,32 @@ class PilotEnvPage {
   };
 
   selectTriageGroup = (index = 0) => {
-    // Wait for combo box input to be enabled, then clear any existing value
-    // using direct DOM manipulation to avoid cy.type() actionability race conditions
+    // Clear existing value and open the dropdown by clicking the toggle button.
+    // Use force:true on interactions to avoid shadow DOM actionability race conditions.
     cy.get('va-combo-box')
       .shadow()
       .find('input')
       .should('not.be.disabled')
-      .then($input => {
-        $input.val('');
-        $input[0].dispatchEvent(new Event('input', { bubbles: true }));
-      });
+      .as('comboInput');
 
+    cy.get('@comboInput').clear({ force: true });
+
+    // Click the toggle button to open the dropdown, then verify it opened.
+    // If the list is still hidden, click the input to force it open.
     cy.get('va-combo-box')
       .shadow()
       .find('#options')
       .should('be.visible')
       .click({ force: true });
+
+    cy.get('va-combo-box')
+      .shadow()
+      .find('.usa-combo-box__list')
+      .then($list => {
+        if ($list.css('display') === 'none') {
+          cy.get('@comboInput').click({ force: true });
+        }
+      });
 
     cy.get(`.usa-combo-box__list > li`)
       .eq(index)
