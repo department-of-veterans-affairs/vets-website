@@ -36,13 +36,11 @@ describe('SM CARE TEAM HELP PAGE - Cerner and Hybrid User Updates', () => {
 
     it('removes provider name from search suggestions and shows contact list reasons', () => {
       // Hybrid no longer shows "provider's name" in search suggestions
-      cy.findByText(/provider\u2019s name/).should('not.exist');
+      cy.findByText(/provider's name/).should('not.exist');
 
       // Hybrid users now see contact list reasons (previously only VistA)
       cy.findByText(/You removed them from your contact list/).should('exist');
-      cy.findByText(/Your account isn\u2019t connected to them/).should(
-        'exist',
-      );
+      cy.findByText(/Your account isn't connected to them/).should('exist');
 
       // Should show the "names may appear different" bullet with R&S link
       cy.findByText(/Their name may appear different/).should('exist');
@@ -74,15 +72,13 @@ describe('SM CARE TEAM HELP PAGE - Cerner and Hybrid User Updates', () => {
 
     it('shows name change bullet and hides contact list reasons', () => {
       // Oracle-only should NOT show provider's name
-      cy.findByText(/provider\u2019s name/).should('not.exist');
+      cy.findByText(/provider's name/).should('not.exist');
 
       // Oracle-only should NOT show contact list reasons
       cy.findByText(/You removed them from your contact list/).should(
         'not.exist',
       );
-      cy.findByText(/Your account isn\u2019t connected to them/).should(
-        'not.exist',
-      );
+      cy.findByText(/Your account isn't connected to them/).should('not.exist');
 
       // Should show the "names may appear different" bullet with R&S link
       cy.findByText(/Their name may appear different/).should('exist');

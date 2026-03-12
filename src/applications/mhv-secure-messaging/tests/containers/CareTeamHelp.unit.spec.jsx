@@ -120,7 +120,7 @@ describe('CareTeamHelp', () => {
       .exist;
 
     // VistA-only shows provider's name in search suggestions
-    expect(screen.getByText(/provider\u2019s name/)).to.exist;
+    expect(screen.getByText(/provider's name/)).to.exist;
 
     // VistA-only should NOT show the "name may appear different" bullet
     expect(screen.queryByText(/Their name may appear different/)).to.not.exist;
@@ -155,7 +155,7 @@ describe('CareTeamHelp', () => {
     );
 
     // Provider's name should NOT be shown
-    expect(screen.queryByText(/provider\u2019s name/)).to.not.exist;
+    expect(screen.queryByText(/provider's name/)).to.not.exist;
 
     // Ensure VistA-only specific content is NOT present
     expect(screen.queryByText(/You removed them from your contact list/)).to.not
@@ -182,7 +182,7 @@ describe('CareTeamHelp', () => {
     expect(updateLink).to.exist;
 
     // Provider's name should NOT be shown for Hybrid
-    expect(screen.queryByText(/provider\u2019s name/)).to.not.exist;
+    expect(screen.queryByText(/provider's name/)).to.not.exist;
 
     // Hybrid should show the 'removed from contact list' reason
     expect(screen.getByText(/You removed them from your contact list/)).to
