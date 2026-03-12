@@ -11,7 +11,9 @@ import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 const selectPowStatus = (form, value = 'Y') => {
-  const powStatusRadio = form.getDOMNode().querySelector('va-radio');
+  const powStatusRadio = form
+    .getDOMNode()
+    .querySelector('va-radio[name="root_view:powStatus"]');
 
   powStatusRadio.dispatchEvent(
     new CustomEvent('vaValueChange', {
