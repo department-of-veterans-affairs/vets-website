@@ -231,6 +231,8 @@ describe('URL Parameter Handling', () => {
         .shadow()
         .find('select')
         .should('have.value', 'health');
+
+      cy.axeCheck();
     });
 
     it('should handle browser refresh with URL parameters', () => {

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { isEmpty, compact } from 'lodash';
-import moment from 'moment';
+import { format, parseISO } from 'date-fns';
 
 import StatsBar from './StatsBar';
 
@@ -57,8 +57,9 @@ export default function AccessToCare({ location }) {
         <p>
           Current as of{' '}
           <strong>
-            {moment(effectiveDate || healthFeedbackAttrs.effectiveDate).format(
-              'LL',
+            {format(
+              parseISO(effectiveDate || healthFeedbackAttrs.effectiveDate),
+              'MMMM d, yyyy',
             )}
           </strong>
         </p>

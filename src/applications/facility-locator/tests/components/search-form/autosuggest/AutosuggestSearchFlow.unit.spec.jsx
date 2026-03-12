@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -70,6 +71,11 @@ function SearchFlowWrapper({ onSelectSpy, onClearSpy }) {
     />
   );
 }
+
+SearchFlowWrapper.propTypes = {
+  onClearSpy: PropTypes.func,
+  onSelectSpy: PropTypes.func,
+};
 
 describe('Autosuggest address search results flow', () => {
   it('displays 5 geocoding results when a search term is typed', () => {
