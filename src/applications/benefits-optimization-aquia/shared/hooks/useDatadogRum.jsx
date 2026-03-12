@@ -80,11 +80,7 @@ const SUPPORTED_FORMS = ['21-0779', '21-2680', '21-4192', '21p-530a'];
 // Helper functions
 const shouldRumBeEnabled = () => {
   // Prevent RUM from running on local/CI/test environments
-  return (
-    !environment.isTest() &&
-    environment.BASE_URL.indexOf('localhost') < 0 &&
-    !window.Mocha
-  );
+  return !environment.isTest() && environment.BASE_URL.indexOf('localhost') < 0;
 };
 
 const isRumConfigured = () => {
