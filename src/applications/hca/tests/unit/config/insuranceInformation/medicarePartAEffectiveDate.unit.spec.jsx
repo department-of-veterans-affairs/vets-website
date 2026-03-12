@@ -1,7 +1,9 @@
 // @ts-check
 import {
   testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFields,
+  testNumberOfWebComponentFields,
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
 import formConfig from '../../../../config/form';
@@ -13,23 +15,43 @@ describe('hca MedicarePartAEffectiveDate config', () => {
     uiSchema,
   } = formConfig.chapters.insuranceInformation.pages.medicarePartAEffectiveDate;
 
-  // run test for correct number of fields on the page
-  const expectedNumberOfFields = 4;
+  // run test for correct number of web component fields (medicareClaimNumber textUI)
+  const expectedNumberOfWebComponentFields = 1;
+  testNumberOfWebComponentFields(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfWebComponentFields,
+    pageTitle,
+  );
+
+  // run test for correct number of old fields (date field)
+  const expectedNumberOfOldFields = 3;
   testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
-    expectedNumberOfFields,
+    expectedNumberOfOldFields,
     pageTitle,
   );
 
-  // run test for correct number of error messages on submit
-  const expectedNumberOfErrors = 2;
+  // run test for correct number of web component errors
+  const expectedNumberOfWebComponentErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfWebComponentErrors,
+    pageTitle,
+  );
+
+  // run test for correct number of old errors (date field errors)
+  const expectedNumberOfOldErrors = 1;
   testNumberOfErrorsOnSubmit(
     formConfig,
     schema,
     uiSchema,
-    expectedNumberOfErrors,
+    expectedNumberOfOldErrors,
     pageTitle,
   );
 
@@ -67,10 +89,9 @@ describe('hca MedicarePartAEffectiveDate config', () => {
         'ui:title': {},
         'ui:errorMessages': {},
         'ui:reviewField': {},
-        'ui:required': {},
       },
     },
-    expectedRequired: [],
+    expectedRequired: ['medicareClaimNumber'],
     pageName: pageTitle,
   });
 });
