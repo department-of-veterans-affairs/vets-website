@@ -466,7 +466,7 @@ test.describe('Playwright helpers integration tests', () => {
       expect(files).toBe(1);
 
       // Cleanup
-      fs.unlinkSync(tmpFile);
+      if (fs.existsSync(tmpFile)) fs.unlinkSync(tmpFile);
     });
 
     test('does nothing for missing element', async ({ page }) => {
@@ -476,7 +476,7 @@ test.describe('Playwright helpers integration tests', () => {
       // Should not throw for nonexistent element
       await fillVaFileInput(page, 'nonexistent', tmpFile);
 
-      fs.unlinkSync(tmpFile);
+      if (fs.existsSync(tmpFile)) fs.unlinkSync(tmpFile);
     });
   });
 
