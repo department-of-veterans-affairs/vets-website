@@ -23,6 +23,7 @@ describe('Skip map link', () => {
   });
 
   it('shows skip map button and checks href', () => {
+    cy.injectAxeThenAxeCheck();
     // Perform a search so the map is rendered with results
     cy.get(CITY_STATE_ZIP_INPUT).type('Austin, TX');
     cy.get(FACILITY_TYPE_DROPDOWN)
@@ -53,6 +54,8 @@ describe('Skip map link', () => {
   });
 
   it('skip map link is keyboard focusable', () => {
+    cy.injectAxeThenAxeCheck();
+
     cy.get(CITY_STATE_ZIP_INPUT).type('Austin, TX');
     cy.get(FACILITY_TYPE_DROPDOWN)
       .shadow()
