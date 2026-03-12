@@ -696,31 +696,18 @@ export const mochaHooks = {
     // The afterEach macrotask yield handles per-test scheduler cleanup,
     // but test code may still leak setTimeout/setInterval calls across files.
     clearPendingTimers();
-    // Reset actingUpdatesScopeDepth for the next file.
+    // Note: Do NOT clear react-dom/test-utils or @testing-library/react from
+    // require.cache here. Clearing RTL's cache creates a stale-reference bug:
+    // modules that imported RTL's render at load time (e.g. platform helpers,
+    // app setup.js) keep the OLD RTL instance with its mountedContainers set.
+    // After cache clearing, our afterEach's require('@testing-library/react')
+    // gets a FRESH RTL with an empty mountedContainers, so cleanup() becomes
+    // a no-op and rendered components leak between tests.
     //
-    // react-dom/test-utils has a module-scoped `actingUpdatesScopeDepth`
-    // counter that tracks nested act() calls. Un-awaited async act() calls
-    // leave this counter permanently > 0, causing subsequent act() calls to
-    // skip flushWork() (effects never fire). The patched act() above works
-    // around this with flushSync, but resetting the depth for each new file
-    // avoids cascading "overlapping act() calls" warnings.
+    // Our patched act() + flushSync already handles actingUpdatesScopeDepth
+    // issues without needing a cache reset. The explicit afterEach cleanup()
+    // uses the same RTL instance that render() used, so it correctly unmounts.
     //
-    // We also clear @testing-library/react so it re-evaluates and:
-    // (a) captures the fresh act() reference (with depth 0)
-    // (b) re-registers afterEach(cleanup) for the next file's suite
-    try {
-      const testUtilsKey = require.resolve('react-dom/test-utils');
-      delete require.cache[testUtilsKey];
-      // Also clear the CJS dev bundle if resolved differently
-      Object.keys(require.cache)
-        .filter(k => k.includes('react-dom-test-utils'))
-        .forEach(k => { delete require.cache[k]; });
-      Object.keys(require.cache)
-        .filter(k => k.includes('@testing-library/react'))
-        .forEach(k => { delete require.cache[k]; });
-    } catch (e) {
-      // Module resolution failed — safe to ignore
-    }
     // Note: Do NOT call dom.window.close() here. Closing the JSDOM window
     // makes its document undefined, which breaks libraries like Downshift
     // that capture `window` at module-load time via defaultProps. In parallel
