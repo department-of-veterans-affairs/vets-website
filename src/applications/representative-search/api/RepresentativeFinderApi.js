@@ -1,9 +1,6 @@
 /* eslint-disable camelcase */
 
-import {
-  fetchAndUpdateSessionExpiration as fetch,
-  apiRequest,
-} from '@department-of-veterans-affairs/platform-utilities/api';
+import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
 import { getApi, getEndpointOptions } from '../config';
 
 class RepresentativeFinderApi {
