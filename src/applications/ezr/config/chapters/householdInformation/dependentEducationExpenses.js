@@ -23,13 +23,16 @@ export default {
       ),
     ),
     dependentEducationExpenses: currencyUI({
-      title: content['household-dependent-education-expenses-label'],
+      title: replaceStrValues(
+        content['household-dependent-education-expenses-label'],
+        LAST_YEAR,
+      ),
       description: DependentExpensesDescription,
     }),
   },
   schema: {
     type: 'object',
-    required: ['dependentEducationExpenses'],
+    required: ['attendedSchoolLastYear', 'dependentEducationExpenses'],
     properties: {
       attendedSchoolLastYear: yesNoSchema,
       dependentEducationExpenses,

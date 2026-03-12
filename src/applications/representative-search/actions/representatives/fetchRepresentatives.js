@@ -28,10 +28,11 @@ export const fetchRepresentatives = async (
   sort,
   type,
   distance,
+  organization,
   dispatch,
 ) => {
   try {
-    const dataList = await RepresentativeFinderApi.searchByCoordinates(
+    const dataList = await new RepresentativeFinderApi(
       address,
       lat,
       long,
@@ -41,7 +42,8 @@ export const fetchRepresentatives = async (
       sort,
       type,
       distance,
-    );
+      organization,
+    ).searchByCoordinates();
     if (dataList.data) {
       dispatch({ type: SEARCH_COMPLETE, payload: dataList });
 

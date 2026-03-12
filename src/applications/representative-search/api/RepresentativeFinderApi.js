@@ -1,61 +1,78 @@
 /* eslint-disable camelcase */
 
-import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
-import { getApi, resolveParamsWithUrl, getEndpointOptions } from '../config';
+import {
+  fetchAndUpdateSessionExpiration as fetch,
+  apiRequest,
+} from '@department-of-veterans-affairs/platform-utilities/api';
+import { getApi, getEndpointOptions } from '../config';
 
 class RepresentativeFinderApi {
-  /**
-   * @returns {Promise} Promise object
-   */
-  static searchByCoordinates(
+  constructor(
     address = null,
     lat,
     long,
     name,
-    page,
-    perPage,
+    page = 1,
+    perPage = 10,
     sort,
-    type,
+    type = 'veteran_service_officer',
     distance,
+    organization,
   ) {
-    const params = resolveParamsWithUrl({
-      address,
-      lat,
-      long,
-      name,
-      page,
-      perPage,
-      sort,
-      type,
-      distance,
-    });
+    this.address = address;
+    this.lat = lat;
+    this.long = long;
+    this.name = name;
+    this.page = page;
+    this.perPage = perPage;
+    this.sort = sort;
+    this.type = type;
+    this.distance = distance;
+    this.organization = organization;
+  }
+
+  /**
+   * @returns {Promise} Promise object
+   */
+  async searchByCoordinates() {
+    const startTime = new Date().getTime();
+    const { requestUrl, apiSettings } = this.buildUrl();
+    const res = await fetch(requestUrl, apiSettings);
+    if (!res.ok) {
+      throw Error(res.statusText);
+    }
+    const asJson = await res.json();
+    return {
+      ...asJson,
+      meta: {
+        ...asJson.meta,
+        resultTime: new Date().getTime() - startTime,
+      },
+    };
+  }
+
+  buildUrl() {
+    const searchParams = new URLSearchParams();
+    if (this.address) searchParams.set('address', this.address);
+    if (this.lat) searchParams.set('lat', this.lat);
+    if (this.long) searchParams.set('long', this.long);
+    if (this.name) searchParams.set('name', this.name);
+    searchParams.set('page', this.page);
+    searchParams.set('per_page', this.perPage);
+    searchParams.set('sort', this.sort);
+    searchParams.set('type', this.type);
+    if (this.distance) searchParams.set('distance', this.distance);
+    if (this.organization) searchParams.set('org_name', this.organization);
 
     const { fetchVSOReps, fetchOtherReps } = getEndpointOptions();
     const endpoint =
-      type === 'veteran_service_officer' ? fetchVSOReps : fetchOtherReps;
-
+      this.type === 'veteran_service_officer' ? fetchVSOReps : fetchOtherReps;
     const { requestUrl, apiSettings } = getApi(endpoint);
-    const startTime = new Date().getTime();
-    return new Promise((resolve, reject) => {
-      fetch(`${requestUrl}${params}`, apiSettings)
-        .then(response => {
-          if (!response.ok) {
-            throw Error(response.statusText);
-          }
 
-          return response.json();
-        })
-        .then(res => {
-          const endTime = new Date().getTime();
-          const resultTime = endTime - startTime;
-          res.meta = {
-            ...res.meta,
-            resultTime,
-          };
-          return res;
-        })
-        .then(data => resolve(data), error => reject(error));
-    });
+    return {
+      requestUrl: `${requestUrl}?${searchParams}`,
+      apiSettings,
+    };
   }
 }
 

@@ -72,6 +72,7 @@ const SearchPage = props => {
       sort: currentQuery.sortType?.toLowerCase(),
       type: currentQuery.representativeType,
       name: currentQuery.representativeInputString,
+      organization: currentQuery.organization,
       ...params,
     };
 
@@ -117,6 +118,7 @@ const SearchPage = props => {
       representativeQueryString: location.query.name,
       representativeInputString: location.query.name,
       representativeType: location.query.type,
+      organization: location.query.organization,
       page: location.query.page,
       sortType: location.query.sort,
       searchArea: location.query.distance,
@@ -136,6 +138,7 @@ const SearchPage = props => {
       sortType,
       page,
       searchArea,
+      organization,
     } = currentQuery.committedSearchQuery;
 
     const { latitude, longitude } = position;
@@ -153,6 +156,7 @@ const SearchPage = props => {
       page: page || 1,
       sort: sortType,
       distance,
+      organization,
     });
 
     const conditionalDataLayerPush = () => {
@@ -235,6 +239,7 @@ const SearchPage = props => {
         sort: sortType,
         type: representativeType,
         distance,
+        organization,
       });
 
       setIsSearching(false);
@@ -495,6 +500,7 @@ SearchPage.propTypes = {
   clearError: PropTypes.func,
   clearSearchResults: PropTypes.func,
   clearSearchText: PropTypes.func,
+  commitSearchQuery: PropTypes.func,
   currentQuery: PropTypes.object,
   errors: PropTypes.shape({
     isErrorGeocode: PropTypes.oneOfType([
@@ -524,6 +530,7 @@ SearchPage.propTypes = {
       name: PropTypes.string,
       lat: PropTypes.string,
       long: PropTypes.string,
+      organization: PropTypes.string,
       page: PropTypes.string,
       perPage: PropTypes.string,
       sort: PropTypes.string,
@@ -544,7 +551,6 @@ SearchPage.propTypes = {
   searchWithInputInProgress: PropTypes.bool,
   sortType: PropTypes.string,
   updateSearchQuery: PropTypes.func,
-  commitSearchQuery: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 
