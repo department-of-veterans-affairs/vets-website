@@ -14,7 +14,11 @@ import {
 export const cleanupErrorAnnotations = cleanupErrorAnnotationsInternal;
 
 // Let the form system control scroll behavior
-window.history.scrollRestoration = 'manual';
+try {
+  window.history.scrollRestoration = 'manual';
+} catch (e) {
+  // Ignore in test environments where JSDOM may not be fully initialized
+}
 
 // Error message selectors used for alert role removal before focus
 const ERROR_MESSAGE_SELECTORS = [

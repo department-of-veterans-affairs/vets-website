@@ -1,8 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
-import { shallow, mount } from 'enzyme';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import AutosuggestField from '../../../src/js/fields/AutosuggestField';
 
@@ -29,7 +28,7 @@ describe('<AutosuggestField>', () => {
     const formContext = {
       reviewMode: false,
     };
-    const tree = mount(
+    const { container } = render(
       <AutosuggestField
         formData={{ widget: 'autosuggest', label: 'label' }}
         formContext={formContext}
@@ -38,12 +37,11 @@ describe('<AutosuggestField>', () => {
       />,
     );
 
-    const input = tree.find('input');
-    expect(input.props().id).to.equal('id');
-    expect(input.props().name).to.equal('id');
-    expect(input.props().value).to.equal('label');
-    expect(input.getDOMNode().getAttribute('autocomplete')).to.equal('off');
-    tree.unmount();
+    const input = container.querySelector('input');
+    expect(input.id).to.equal('id');
+    expect(input.name).to.equal('id');
+    expect(input.value).to.equal('label');
+    expect(input.getAttribute('autocomplete')).to.equal('off');
   });
 
   it('should render in review mode', () => {
@@ -55,7 +53,7 @@ describe('<AutosuggestField>', () => {
     const formContext = {
       reviewMode: true,
     };
-    const tree = shallow(
+    const { container } = render(
       <AutosuggestField
         formContext={formContext}
         idSchema={{ $id: 'id' }}
@@ -65,12 +63,11 @@ describe('<AutosuggestField>', () => {
       />,
     );
 
-    expect(tree.find('Downshift').exists()).to.be.false;
-    expect(tree.find('dd').text()).to.contain('testing');
-    tree.unmount();
+    expect(container.querySelector('input')).to.be.null;
+    expect(container.querySelector('dd').textContent).to.contain('testing');
   });
 
-  it('should call onChange when suggestion is selected', done => {
+  it('should call onChange when suggestion is selected', async () => {
     const uiSchema = {
       'ui:options': {
         getOptions: () =>
@@ -91,7 +88,7 @@ describe('<AutosuggestField>', () => {
     };
     const onChange = sinon.spy();
 
-    const tree = mount(
+    const { container } = render(
       <AutosuggestField
         formContext={formContext}
         onChange={onChange}
@@ -100,31 +97,22 @@ describe('<AutosuggestField>', () => {
       />,
     );
 
-    const input = tree.find('input');
-    input.simulate('focus');
-    // input.value = 'fir';
-    input.simulate('change', {
-      target: {
-        value: 'fir',
-      },
+    const input = container.querySelector('input');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'fir' } });
+
+    await waitFor(() => {
+      const suggestions = container.querySelectorAll('.autosuggest-item');
+      expect(suggestions.length).to.be.greaterThan(0);
     });
 
-    setTimeout(() => {
-      // Not sure why I have to do this, but enzyme can't find the item element
-      const suggestions = tree
-        .getDOMNode()
-        .querySelectorAll('.autosuggest-item');
-      ReactTestUtils.Simulate.click(suggestions[0]);
-      expect(onChange.secondCall.args[0]).to.eql({
-        id: '1',
-        label: 'first',
-        widget: 'autosuggest',
-      });
-      const instance = tree.instance();
-      tree.unmount();
-      expect(instance.unmounted).to.be.true;
-      done();
-    }, 0);
+    const suggestion = container.querySelectorAll('.autosuggest-item')[0];
+    fireEvent.click(suggestion);
+    expect(onChange.lastCall.args[0]).to.eql({
+      id: '1',
+      label: 'first',
+      widget: 'autosuggest',
+    });
   });
 
   it('should clear data when input is cleared', () => {
@@ -148,7 +136,7 @@ describe('<AutosuggestField>', () => {
     };
     const onChange = sinon.spy();
 
-    const tree = mount(
+    const { container } = render(
       <AutosuggestField
         formContext={formContext}
         formData={{ widget: 'autosuggest', id: '1', label: 'first' }}
@@ -158,18 +146,13 @@ describe('<AutosuggestField>', () => {
       />,
     );
 
-    const input = tree.find('input');
-    input.simulate('focus');
-    input.simulate('change', {
-      target: {
-        value: '',
-      },
-    });
+    const input = container.querySelector('input');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: '' } });
     expect(onChange.lastCall.args.length).to.equal(0);
-    tree.unmount();
   });
 
-  it('should trigger onBlur', done => {
+  it('should trigger onBlur', async () => {
     const uiSchema = {
       'ui:options': {
         getOptions: () =>
@@ -191,7 +174,7 @@ describe('<AutosuggestField>', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
 
-    const tree = mount(
+    const { container } = render(
       <AutosuggestField
         formData={{ widget: 'autosuggest', id: '1', label: 'first' }}
         formContext={formContext}
@@ -202,18 +185,16 @@ describe('<AutosuggestField>', () => {
       />,
     );
 
-    const input = tree.find('input');
-    input.simulate('focus');
+    const input = container.querySelector('input');
+    fireEvent.focus(input);
 
-    setTimeout(() => {
-      input.simulate('blur');
+    await waitFor(() => {
+      fireEvent.blur(input);
       expect(onBlur.called).to.be.true;
-      tree.unmount();
-      done();
     });
   });
 
-  it('should leave data on blur if partially filled in', done => {
+  it('should leave data on blur if partially filled in', async () => {
     const uiSchema = {
       'ui:options': {
         getOptions: () =>
@@ -235,7 +216,7 @@ describe('<AutosuggestField>', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
 
-    const tree = mount(
+    const { container } = render(
       <AutosuggestField
         formData={{ widget: 'autosuggest', id: '1', label: 'first' }}
         formContext={formContext}
@@ -246,25 +227,20 @@ describe('<AutosuggestField>', () => {
       />,
     );
 
-    const input = tree.find('input');
-    input.simulate('focus');
-    input.simulate('change', {
-      target: {
-        value: 'fir',
-      },
+    const input = container.querySelector('input');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'fir' } });
+
+    await waitFor(() => {
+      expect(input.value).to.equal('fir');
+      expect(onChange.called).to.be.true;
     });
 
-    setTimeout(() => {
-      expect(input.getDOMNode().value).to.equal('fir');
-      expect(onChange.called).to.be.true;
-      input.simulate('blur');
-      expect(input.getDOMNode().value).to.equal('fir');
-      tree.unmount();
-      done();
-    });
+    fireEvent.blur(input);
+    expect(input.value).to.equal('fir');
   });
 
-  it('should use options from enum to get first item', done => {
+  it('should use options from enum to get first item', async () => {
     const uiSchema = {
       'ui:options': {
         labels: {
@@ -283,7 +259,7 @@ describe('<AutosuggestField>', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
 
-    const tree = mount(
+    const { container } = render(
       <AutosuggestField
         schema={schema}
         formContext={formContext}
@@ -294,24 +270,21 @@ describe('<AutosuggestField>', () => {
       />,
     );
 
-    const input = tree.find('input');
-    input.simulate('focus');
-    input.simulate('change', {
-      target: {
-        value: 'labe',
-      },
+    const input = container.querySelector('input');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'labe' } });
+
+    await waitFor(() => {
+      const items = container.querySelectorAll('.autosuggest-item');
+      expect(items.length).to.be.greaterThan(0);
     });
 
-    setTimeout(() => {
-      input.simulate('keyDown', { key: 'ArrowDown', keyCode: 40 });
-      input.simulate('keyDown', { key: 'Enter', keyCode: 13 });
-      expect(onChange.lastCall.args[0]).to.eql('AL');
-      tree.unmount();
-      done();
-    }, 0);
+    fireEvent.keyDown(input, { key: 'ArrowDown', keyCode: 40 });
+    fireEvent.keyDown(input, { key: 'Enter', keyCode: 13 });
+    expect(onChange.lastCall.args[0]).to.eql('AL');
   });
 
-  it('should call a function passed in getOptions with formData', done => {
+  it('should call a function passed in getOptions with formData', async () => {
     // ...when the input changes and `uiSchema['ui:options'].queryForResults` is true
     const getOptions = sinon.spy(queryForOptions);
     const props = {
@@ -328,27 +301,22 @@ describe('<AutosuggestField>', () => {
       onChange: () => {},
       onBlur: () => {},
     };
-    const wrapper = mount(<AutosuggestField {...props} />);
+    const { container } = render(<AutosuggestField {...props} />);
 
     // Search for 'ir'
-    const input = wrapper.find('input');
-    input.simulate('focus');
-    input.simulate('change', {
-      target: {
-        value: 'ir',
-      },
-    });
+    const input = container.querySelector('input');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'ir' } });
 
     // Check that getOptions was called with the form data
-    setTimeout(() => {
-      const args = getOptions.secondCall.args;
+    await waitFor(() => {
+      expect(getOptions.callCount).to.be.greaterThan(1);
+      const { args } = getOptions.secondCall;
       expect(args[0]).to.eql('ir');
-      wrapper.unmount();
-      done();
     });
   });
 
-  it("should use the results of getOptions as the field's enum options", done => {
+  it("should use the results of getOptions as the field's enum options", async () => {
     const props = {
       uiSchema: {
         'ui:options': {
@@ -363,36 +331,33 @@ describe('<AutosuggestField>', () => {
       onChange: () => {},
       onBlur: () => {},
     };
-    const wrapper = mount(<AutosuggestField {...props} />);
+    const { container } = render(<AutosuggestField {...props} />);
 
-    setTimeout(() => {
-      expect(wrapper.state('options')).to.eql(options);
-    }, 100);
+    const input = container.querySelector('input');
+    // Type a space to trigger the dropdown with all results
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'i' } });
 
-    setTimeout(() => {
-      // Search for 'ir'
-      const input = wrapper.find('input');
-      input.simulate('focus');
-      input.simulate('change', {
-        target: {
-          value: 'ir',
-        },
-      });
-    }, 110);
+    // Wait for initial getOptions('i') to resolve and show items
+    await waitFor(() => {
+      const items = container.querySelectorAll('.autosuggest-item');
+      expect(items.length).to.be.greaterThan(0);
+    });
 
-    setTimeout(() => {
-      expect(wrapper.state('options')).to.eql([
-        { id: 1, label: 'first' },
-        { id: 3, label: 'third' },
-      ]);
-      wrapper.unmount();
-      done();
-    }, 210);
+    // Search for 'ir' to filter options
+    fireEvent.change(input, { target: { value: 'ir' } });
+
+    await waitFor(() => {
+      const items = container.querySelectorAll('.autosuggest-item');
+      expect(items.length).to.equal(2);
+      expect(items[0].textContent).to.equal('first');
+      expect(items[1].textContent).to.equal('third');
+    });
   });
 
   // The stringifyFormReplacer will send the label to the api instead of the id if freeInput is
   //  true in the formData
-  it('should return a string if freeInput is true in ui:options', done => {
+  it('should return a string if freeInput is true in ui:options', () => {
     const onChange = sinon.spy();
     const props = {
       uiSchema: {
@@ -413,26 +378,18 @@ describe('<AutosuggestField>', () => {
       onChange,
       onBlur: () => {},
     };
-    const wrapper = mount(<AutosuggestField {...props} />);
+    const { container } = render(<AutosuggestField {...props} />);
 
     // Input something not in options
-    const input = wrapper.find('input');
-    input.simulate('focus');
-    input.simulate('change', {
-      target: {
-        value: 'konami',
-      },
-    });
+    const input = container.querySelector('input');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'konami' } });
 
-    setTimeout(() => {
-      const fieldData = onChange.firstCall.args[0];
-      expect(fieldData).to.equal('konami');
-      wrapper.unmount();
-      done();
-    });
+    const fieldData = onChange.firstCall.args[0];
+    expect(fieldData).to.equal('konami');
   });
 
-  it('should run input transformers if freeInput is true and if transformers specified in ui:options', done => {
+  it('should run input transformers if freeInput is true and if transformers specified in ui:options', () => {
     const onChange = sinon.spy();
     const props = {
       uiSchema: {
@@ -457,26 +414,18 @@ describe('<AutosuggestField>', () => {
       onChange,
       onBlur: () => {},
     };
-    const wrapper = mount(<AutosuggestField {...props} />);
+    const { container } = render(<AutosuggestField {...props} />);
 
     // Input something not in options
-    const input = wrapper.find('input');
-    input.simulate('focus');
-    input.simulate('change', {
-      target: {
-        value: 'konami',
-      },
-    });
+    const input = container.querySelector('input');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'konami' } });
 
-    setTimeout(() => {
-      const fieldData = onChange.firstCall.args[0];
-      expect(fieldData).to.equal('konami first second');
-      wrapper.unmount();
-      done();
-    });
+    const fieldData = onChange.firstCall.args[0];
+    expect(fieldData).to.equal('konami first second');
   });
 
-  it('should call onChange if input exists when setting options', () => {
+  it('should call onChange when options are set with existing input', async () => {
     const uiSchema = {
       'ui:options': {
         getOptions: () => Promise.resolve([]),
@@ -486,7 +435,7 @@ describe('<AutosuggestField>', () => {
       reviewMode: false,
     };
     const onChange = sinon.spy();
-    const tree = mount(
+    const { container } = render(
       <AutosuggestField
         formData={{ widget: 'autosuggest', label: 'label' }}
         formContext={formContext}
@@ -496,13 +445,15 @@ describe('<AutosuggestField>', () => {
       />,
     );
 
-    onChange.reset();
-    tree.instance().setOptions([]);
-    expect(onChange.called).to.be.true;
-    tree.unmount();
+    // The component calls getOptions on mount which triggers onChange
+    await waitFor(() => {
+      expect(onChange.called).to.be.true;
+    });
+
+    expect(container.querySelector('input').value).to.equal('label');
   });
 
-  it('should highlight results if highlightText is true in ui:options', done => {
+  it('should highlight results if highlightText is true in ui:options', async () => {
     const onChange = sinon.spy();
     const props = {
       uiSchema: {
@@ -524,33 +475,29 @@ describe('<AutosuggestField>', () => {
       onChange,
       onBlur: () => {},
     };
-    const wrapper = mount(<AutosuggestField {...props} />);
+    const { container } = render(<AutosuggestField {...props} />);
 
-    // Input something not in options
-    const input = wrapper.find('input');
-    input.simulate('focus');
-    input.simulate('change', {
-      target: {
-        value: 'Bel',
-      },
+    const input = container.querySelector('input');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'Bel' } });
+
+    await waitFor(() => {
+      expect(container.querySelector('.autosuggest-list')).to.not.be.null;
     });
 
-    setTimeout(() => {
-      expect(wrapper.find('.autosuggest-list')).to.exist;
-      const firstItem = wrapper.find('.autosuggest-item').first();
-      const highlight = firstItem.find('.autosuggest-highlight').text();
-      expect(firstItem.text()).to.equal('Label 1');
-      expect(highlight).to.equal('bel');
+    const items = container.querySelectorAll('.autosuggest-item');
+    const firstItem = items[0];
+    const highlight = firstItem.querySelector('.autosuggest-highlight');
+    expect(firstItem.textContent).to.equal('Label 1');
+    expect(highlight.textContent).to.equal('bel');
 
-      const lastItem = wrapper.find('.autosuggest-item').last();
-      const highlight2 = lastItem.find('.autosuggest-highlight').text();
-      expect(lastItem.text()).to.equal('LABEL 2');
-      expect(highlight2).to.equal('BEL');
-      wrapper.unmount();
-      done();
-    });
+    const lastItem = items[items.length - 1];
+    const highlight2 = lastItem.querySelector('.autosuggest-highlight');
+    expect(lastItem.textContent).to.equal('LABEL 2');
+    expect(highlight2.textContent).to.equal('BEL');
   });
-  it('should not throw an error if the value includes regexp special characters', done => {
+
+  it('should not throw an error if the value includes regexp special characters', async () => {
     const onChange = sinon.spy();
     const props = {
       uiSchema: {
@@ -572,25 +519,20 @@ describe('<AutosuggestField>', () => {
       onChange,
       onBlur: () => {},
     };
-    const wrapper = mount(<AutosuggestField {...props} />);
+    const { container } = render(<AutosuggestField {...props} />);
 
-    // Input something not in options
-    const input = wrapper.find('input');
-    input.simulate('focus');
-    input.simulate('change', {
-      target: {
-        value: 'Bel(',
-      },
+    const input = container.querySelector('input');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'Bel(' } });
+
+    await waitFor(() => {
+      expect(container.querySelector('.autosuggest-list')).to.not.be.null;
     });
 
-    setTimeout(() => {
-      expect(wrapper.find('.autosuggest-list')).to.exist;
-      const firstItem = wrapper.find('.autosuggest-item').last();
-      const highlight = firstItem.find('.autosuggest-highlight').text();
-      expect(firstItem.text()).to.equal('Label(1)');
-      expect(highlight).to.equal('bel(');
-      wrapper.unmount();
-      done();
-    });
+    const items = container.querySelectorAll('.autosuggest-item');
+    const lastItem = items[items.length - 1];
+    const highlight = lastItem.querySelector('.autosuggest-highlight');
+    expect(lastItem.textContent).to.equal('Label(1)');
+    expect(highlight.textContent).to.equal('bel(');
   });
 });

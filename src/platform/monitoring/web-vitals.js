@@ -30,7 +30,10 @@ const trackWebVitals = ({ sampleEvents = false }) => {
   return environment.BASE_URL.indexOf('localhost') < 0;
 };
 
-if (trackWebVitals({ sampleEvents: environment.isProduction() })) {
+if (
+  typeof document !== 'undefined' &&
+  trackWebVitals({ sampleEvents: environment.isProduction() })
+) {
   onCLS(recordWebVitalsEvent);
   onINP(recordWebVitalsEvent);
   onLCP(recordWebVitalsEvent);

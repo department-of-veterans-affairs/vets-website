@@ -22,6 +22,8 @@ const COMMAND_LINE_OPTIONS = [
   { name: 'help', alias: 'h', type: Boolean, defaultValue: false },
   { name: 'config', type: String, defaultValue: 'config/mocha.json' },
   { name: 'full-suite', type: Boolean, defaultValue: false },
+  { name: 'parallel', type: Boolean, defaultValue: false },
+  { name: 'jobs', type: Number, defaultValue: 8 },
   {
     name: 'path',
     type: String,
@@ -138,13 +140,16 @@ function buildTestCommand(testPatterns) {
   const reporterOption = options.reporter
     ? `--reporter ${options.reporter}`
     : '';
+  const parallelArgs = options.parallel
+    ? `--parallel --jobs ${options.jobs}`
+    : '';
   const coverageReporter = options['coverage-html']
-    ? '--reporter=html mocha --retries 5'
-    : '--reporter=json-summary mocha --reporter mochawesome --reporter-options reportDir=mocha/results,reportFilename=unit-tests,overwrite=true,html=false,json=true,consoleReporter=min --no-color --retries 5';
+    ? `--reporter=html mocha ${parallelArgs} --retries 5`
+    : `--reporter=json-summary mocha ${parallelArgs} --reporter mochawesome --reporter-options reportDir=mocha/results,reportFilename=unit-tests,overwrite=true,html=false,json=true,consoleReporter=min --no-color --retries 5`;
 
   const testRunner = options.coverage
     ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`
-    : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
+    : `BABEL_ENV=test NODE_ENV=test mocha ${parallelArgs} ${reporterOption}`;
 
   // Quote each pattern to prevent shell expansion issues and allow mocha to expand them
   const quotedPatterns = testPatterns.map(p => `'${p}'`).join(' ');

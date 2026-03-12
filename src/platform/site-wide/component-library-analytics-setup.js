@@ -384,7 +384,9 @@ export function subscribeComponentAnalyticsEvents(
   }
 }
 
-document.body.addEventListener(
-  'component-library-analytics',
-  subscribeComponentAnalyticsEvents,
-);
+if (typeof document !== 'undefined' && document.body) {
+  document.body.addEventListener(
+    'component-library-analytics',
+    subscribeComponentAnalyticsEvents,
+  );
+}

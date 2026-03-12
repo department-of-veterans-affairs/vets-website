@@ -17,4 +17,6 @@ export function addPopupEventListeners() {
   for (const link of popupLinks) link.addEventListener('click', openPopup);
 }
 
-document.addEventListener('DOMContentLoaded', addPopupEventListeners);
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', addPopupEventListeners);
+}

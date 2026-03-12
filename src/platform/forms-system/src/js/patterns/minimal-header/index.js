@@ -13,6 +13,7 @@ import { createBreadcrumbListFromPath } from '../../routing';
 export function isMinimalHeaderApp() {
   // The header DOM is rendered before app-entry.js is executed,
   // so it is safe to use for initialization conditions for the app
+  if (typeof document === 'undefined') return false;
   return document.getElementById('header-minimal') !== null;
 }
 
@@ -24,6 +25,7 @@ export function isMinimalHeaderApp() {
  * @returns {boolean}
  */
 export function isMinimalHeaderPath(pathname = window?.location?.pathname) {
+  if (typeof document === 'undefined') return false;
   const minimalHeader = document.getElementById('header-minimal');
 
   if (!minimalHeader) {

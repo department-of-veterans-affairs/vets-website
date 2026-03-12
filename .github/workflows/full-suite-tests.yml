@@ -403,9 +403,9 @@ jobs:
         if: steps.check-tests.outputs.has_tests == 'true'
         run: |
           if [[ "${{ matrix.app.type }}" == "platform" ]]; then
-            yarn test:unit:gha --coverage --log-level verbose "src/platform/**/*.unit.spec.js?(x)"
+            yarn test:unit:gha --parallel --coverage --log-level verbose "src/platform/**/*.unit.spec.js?(x)"
           else
-            yarn test:unit:gha --app-folder ${{ matrix.app.folder }} --coverage --log-level verbose
+            yarn test:unit:gha --parallel --app-folder ${{ matrix.app.folder }} --coverage --log-level verbose
           fi
         env:
           IS_STRESS_TEST: false

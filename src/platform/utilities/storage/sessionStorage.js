@@ -1,6 +1,15 @@
+const mockStore = {};
 const mockSessionStorage = {
-  setItem: () => {},
-  removeItem: () => {},
+  getItem: key => (key in mockStore ? mockStore[key] : null),
+  setItem: (key, value) => {
+    mockStore[key] = String(value);
+  },
+  removeItem: key => {
+    delete mockStore[key];
+  },
+  clear: () => {
+    Object.keys(mockStore).forEach(key => delete mockStore[key]);
+  },
 };
 
 function getSessionStorage() {

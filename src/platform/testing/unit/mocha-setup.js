@@ -4,6 +4,29 @@
  * If you're looking to add polyfills for all unit tests, this is the place.
  */
 
+// Replace MessageChannel with a clearable implementation for test cleanup.
+// React's scheduler uses MessageChannel to schedule async work. In parallel
+// mocha, stale scheduler callbacks from a previous test file persist within
+// the worker process and cause "Should not already be working" errors.
+// This replacement routes postMessage through setTimeout, which is tracked
+// by our timer wrapper and clearable via clearPendingTimers().
+// Must run before React/scheduler is first imported.
+const _OriginalMessageChannel = global.MessageChannel;
+global.MessageChannel = class TestMessageChannel {
+  constructor() {
+    this.port1 = { onmessage: null };
+    this.port2 = {
+      postMessage: msg => {
+        if (this.port1.onmessage) {
+          const handler = this.port1.onmessage;
+          // Use setTimeout so it's trackable/clearable by our timer wrapper
+          setTimeout(() => handler({ data: msg }), 0);
+        }
+      },
+    };
+  }
+};
+
 // Some libraries (like web-vitals) call addEventListener at module load time,
 // before JSDOM is set up. Provide no-op stubs that get replaced in setupJSDom.
 if (typeof global.addEventListener === 'undefined') {
@@ -160,7 +183,7 @@ function setupJSDom() {
 
   // Use defineProperty for navigator since it's read-only in Node 22+
   Object.defineProperty(global, 'navigator', {
-    value: { userAgent: 'node.js' },
+    value: { userAgent: 'node.js', platform: 'Linux' },
     configurable: true,
     enumerable: true,
     writable: true,
@@ -487,12 +510,22 @@ const server = setupServer(
   }),
 );
 
+// Start MSW server at module load time so it persists across all files
+// in a parallel worker process. Root hooks' beforeAll/afterAll run per file
+// in parallel mode, so listen/close there would tear down interceptors
+// between files, causing handler misses.
+server.listen({ onUnhandledRequest: 'bypass' });
+
 // Export server and rest for tests that need to add custom handlers
 export { server, rest };
 
 export const mochaHooks = {
   beforeAll() {
-    server.listen({ onUnhandledRequest: 'bypass' });
+    // server.listen() called at module load time above
+    // Set up JSDOM in beforeAll so that test files using before() hooks
+    // (which run before beforeEach) have access to browser globals like
+    // document.cookie. beforeEach still creates a fresh JSDOM per test.
+    setupJSDom();
   },
 
   beforeEach() {
@@ -522,10 +555,20 @@ export const mochaHooks = {
   },
 
   afterAll() {
-    server.close();
-    // Clean up jsdom to prevent hanging in Node 22
-    if (global.dom && global.dom.window) {
-      global.dom.window.close();
-    }
+    // Don't call server.close() here — in parallel mode, root hooks run per
+    // file, and closing/re-listening the MSW server between files breaks
+    // HTTP interceptors. The server persists for the worker process lifetime.
+    // Reset handlers to clean state for next file instead.
+    server.resetHandlers();
+    // Clear timers again here — afterEach root hooks run before RTL's
+    // afterEach cleanup, so RTL unmounting components may schedule new
+    // React scheduler callbacks that our afterEach didn't catch.
+    clearPendingTimers();
+    // Note: Do NOT call dom.window.close() here. Closing the JSDOM window
+    // makes its document undefined, which breaks libraries like Downshift
+    // that capture `window` at module-load time via defaultProps. In parallel
+    // mode, the captured window reference persists across files in the same
+    // worker, and a closed window causes "Cannot read properties of undefined
+    // (reading 'getElementById')" errors. Let GC handle old JSDOM instances.
   },
 };
