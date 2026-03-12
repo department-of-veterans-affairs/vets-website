@@ -31,7 +31,7 @@ describe('Medical Records View Labs And Tests', () => {
         record.contained[1].name[0].given[1]
       } ${record.contained[1].name[0].family}`,
     );
-    ChemHemDetailsPage.verifyLabCollectingLocation(record.contained[3].name);
+    ChemHemDetailsPage.verifyLabCollectingLocation('None recorded');
     // There might be a new line in this provider notes example.  we need to check later
     ChemHemDetailsPage.verifyProviderNotesSingle(
       record.extension[0].valueString,

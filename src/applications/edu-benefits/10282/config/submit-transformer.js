@@ -28,6 +28,7 @@ export function transform(formConfig, form) {
       };
     }
     if (homePhone) {
+      delete clonedData.contactInfo.mobilePhone;
       return {
         ...clonedData,
         contactInfo: {
@@ -37,6 +38,7 @@ export function transform(formConfig, form) {
       };
     }
     if (mobilePhone) {
+      delete clonedData.contactInfo.homePhone;
       return {
         ...clonedData,
         contactInfo: {
@@ -45,6 +47,9 @@ export function transform(formConfig, form) {
         },
       };
     }
+
+    delete clonedData.contactInfo.homePhone;
+    delete clonedData.contactInfo.mobilePhone;
 
     return {
       ...clonedData,

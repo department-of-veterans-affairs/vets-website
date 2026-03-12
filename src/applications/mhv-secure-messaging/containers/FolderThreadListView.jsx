@@ -19,6 +19,7 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
 import Footer from '../components/Footer';
+import ManageFolderButtons from '../components/ManageFolderButtons';
 import { getListOfThreads, setThreadSortOrder } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
@@ -340,6 +341,7 @@ const FolderThreadListView = () => {
             />
 
             {content}
+            <ManageFolderButtons folder={folder} />
             <Footer />
           </>
         )}

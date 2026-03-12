@@ -2,7 +2,7 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import { adjustYearString, concatStreets } from '../../shared/utilities';
-import { ID_NUMBER_OPTIONS } from '../chapters/resubmission';
+import { ID_NUMBER_OPTIONS } from '../chapters/resubmission/claimIdNumber';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be
