@@ -8,9 +8,29 @@ import {
   asciiValidation,
 } from '../../helpers';
 
+export const validateBirthPostalCode = (
+  errors,
+  postalCode,
+  formData,
+  _schema,
+  _errorMessages,
+  currentIndex,
+) => {
+  const isOutsideUsa =
+    formData?.childrenToAdd?.[currentIndex]?.birthLocation?.outsideUsa ||
+    formData?.birthLocation?.outsideUsa;
+  if (!isOutsideUsa && postalCode && !/^\d{5}$/.test(postalCode)) {
+    errors.addError('Enter a valid 5-digit postal code');
+  }
+};
+
 export const placeOfBirth = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Child’s birth place?'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => `${formData?.fullName?.first || 'Child'}’s birth place`,
+      null,
+      false,
+    ),
     birthLocation: {
       outsideUsa: {
         'ui:title': 'This occurred outside the U.S.',
@@ -73,8 +93,8 @@ export const placeOfBirth = {
           'ui:webComponentField': VaTextInputField,
           'ui:errorMessages': {
             required: 'Enter a postal code',
-            pattern: 'Enter a valid 5-digit postal code',
           },
+          'ui:validations': [validateBirthPostalCode],
           'ui:required': (formData, index) =>
             !(
               formData?.childrenToAdd?.[index]?.birthLocation?.outsideUsa ||

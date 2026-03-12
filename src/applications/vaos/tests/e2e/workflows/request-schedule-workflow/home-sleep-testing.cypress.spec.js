@@ -18,6 +18,7 @@ import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObj
 import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentCreateApi,
@@ -115,6 +116,8 @@ describe('VAOS request schedule flow - sleep care', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })

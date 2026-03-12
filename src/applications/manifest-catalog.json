@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 151,
+  "totalApplications": 152,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -121,7 +121,7 @@
       "directoryPath": "src/applications/benefits-optimization-aquia/21p-530a-interment-allowance",
       "appName": "21P-530a Interment Allowance",
       "entryName": "21p-530a-interment-allowance",
-      "rootUrl": "/submit-state-interment-allowance-form-21p-530a"
+      "rootUrl": "/forms/21p-530a/submit-state-interment-allowance-request"
     },
     {
       "directoryPath": "src/applications/benefits-optimization-pingwind/21-8940",
@@ -241,13 +241,13 @@
       "directoryPath": "src/applications/edu-benefits/0803",
       "appName": "22-0803 Request for reimbursement of licensing or certification test fees",
       "entryName": "0803-edu-benefits",
-      "rootUrl": "/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees-online"
+      "rootUrl": "/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0810",
-      "appName": "Request for Reimbursement of National Exam Fee",
+      "appName": "Request National Exam Fee Reimbursement Online",
       "entryName": "0810-edu-benefits",
-      "rootUrl": "/education/0810"
+      "rootUrl": "/forms/22-0810/request-reimbursement-national-exam-fee"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0839",
@@ -263,9 +263,9 @@
     },
     {
       "directoryPath": "src/applications/edu-benefits/0989",
-      "appName": "22-0989 Entitlement restoration",
+      "appName": "22-0989 Request education benefit entitlement restoration online",
       "entryName": "0989-edu-benefits",
-      "rootUrl": "/forms/0989"
+      "rootUrl": "/forms/22-0989/request-education-benefit-entitlement-restoration"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0994",
@@ -293,9 +293,9 @@
     },
     {
       "directoryPath": "src/applications/edu-benefits/10272",
-      "appName": "22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test",
+      "appName": "Request Licensing or Certification Test Prep Course Fees Reimbursement Online",
       "entryName": "10272-edu-benefits",
-      "rootUrl": "/forms/22-10272/request-prep-course-reimbursement-online"
+      "rootUrl": "/forms/22-10272/request-prep-course-reimbursement"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10275",
@@ -416,12 +416,6 @@
       "appName": "Income Limits",
       "entryName": "income-limits",
       "rootUrl": "/health-care/income-limits"
-    },
-    {
-      "directoryPath": "src/applications/ivc-champva/10-10D",
-      "appName": "10-10d Application for CHAMPVA benefits",
-      "entryName": "10-10D",
-      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-10d-extended",
@@ -907,7 +901,13 @@
       "directoryPath": "src/applications/vre/ch31-eligibility-entitlement",
       "appName": "VRE CH31 Eligibility &amp; Entitlement",
       "entryName": "ch31-eligibility-entitlement",
-      "rootUrl": "/careers-employment"
+      "rootUrl": "/careers-employment/your-vre-eligibility"
+    },
+    {
+      "directoryPath": "src/applications/vre/track-your-vre-benefits",
+      "appName": "Track your VR&E benefits",
+      "entryName": "track-your-vre-benefits",
+      "rootUrl": "/careers-employment/track-your-vre-benefits/vre-benefit-status"
     },
     {
       "directoryPath": "src/applications/yellow-ribbon",

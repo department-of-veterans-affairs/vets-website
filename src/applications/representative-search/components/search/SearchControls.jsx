@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import {
   VaModal,
   VaSelect,
+  VaComboBox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '~/platform/utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import RepTypeSelector from './RepTypeSelector';
 import { ErrorTypes } from '../../constants';
 import { searchAreaOptions } from '../../config';
+import { fetchOrganizations } from '../../actions';
 
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 
@@ -29,12 +33,22 @@ const SearchControls = props => {
     geolocationInProgress,
     isErrorEmptyInput,
     searchArea,
+    organization,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
 
   const showEmptyError = isErrorEmptyInput && !geolocationInProgress;
   const showGeolocationError = geocodeError && !geolocationInProgress;
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+
+  const dispatch = useDispatch();
+  const organizations = useSelector(state => state.searchQuery.organizations);
+
+  const organizationFilterEnabled = useToggleValue(
+    TOGGLE_NAMES.findARepresentativeEnabled,
+  );
 
   const searchAreaSelectOptions = Object.keys(searchAreaOptions).map(
     optionKey => (
@@ -44,27 +58,23 @@ const SearchControls = props => {
     ),
   );
 
+  const organizationSelectOptions = organizations.map(org => (
+    <option key={org} value={org}>
+      {org}
+    </option>
+  ));
+
+  const handleChange = name => e => {
+    onChange({
+      [name]: onlySpaces(e.target.value)
+        ? e.target.value.trim()
+        : e.target.value,
+    });
+  };
+
   const handleLocationChange = e => {
-    onChange({
-      locationInputString: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
+    handleChange('locationInputString')(e);
     clearError(ErrorTypes.geocodeError);
-  };
-  const handleSearchAreaChange = e => {
-    onChange({
-      searchArea: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
-  };
-  const handleRepresentativeChange = e => {
-    onChange({
-      representativeInputString: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
   };
 
   const handleGeolocationButtonClick = e => {
@@ -79,6 +89,13 @@ const SearchControls = props => {
     clearError(ErrorTypes.geocodeError);
     focusElement(`#street-city-state-zip`);
   };
+
+  useEffect(
+    () => {
+      if (organizationFilterEnabled) dispatch(fetchOrganizations);
+    },
+    [dispatch, organizationFilterEnabled],
+  );
 
   return (
     <div className="search-controls-container clearfix vads-u-margin-bottom--neg2">
@@ -176,26 +193,24 @@ const SearchControls = props => {
               </va-text-input>
             </div>
           </div>
-
           <div className="search-area-dropdown">
             <VaSelect
               name="area"
               value={searchArea || '50'}
               label="Search area"
-              onVaSelect={handleSearchAreaChange}
+              onVaSelect={handleChange('searchArea')}
               uswds
             >
               {searchAreaSelectOptions}
             </VaSelect>
           </div>
-
           <div className="representative-name-input vads-u-margin-top--4">
             <va-text-input
               hint={null}
               label="Name of accredited representative"
               name="Name of accredited representative"
-              onChange={handleRepresentativeChange}
-              onInput={handleRepresentativeChange}
+              onChange={handleChange('representativeInputString')}
+              onInput={handleChange('representativeInputString')}
               onKeyPress={e => {
                 if (e.key === 'Enter') onSubmit();
               }}
@@ -203,6 +218,20 @@ const SearchControls = props => {
               uswds
             />
           </div>
+          {organizationFilterEnabled &&
+            representativeType === 'veteran_service_officer' && (
+              <div className="organization-select">
+                <VaComboBox
+                  name="organization"
+                  value={organization}
+                  label="Veterans Service Organization (VSO)"
+                  onVaSelect={handleChange('organization')}
+                  data-testid="vso-org-filter"
+                >
+                  {organizationSelectOptions}
+                </VaComboBox>
+              </div>
+            )}
         </div>
 
         <div className="vads-u-margin-top--5 vads-u-margin-bottom--4">

@@ -14,6 +14,7 @@ import {
   getBlockedTriageAlertConfig,
   getAnalyticsAlertType,
 } from '../../util/blockedTriageGroupUtils';
+import { hasMessageMigratedToOracleHealth } from '../../util/helpers';
 
 const DATADOG_FIND_VA_FACILITY_LINK =
   'Find your VA health facility link - in Blocked/Not Associated alert';
@@ -42,6 +43,7 @@ const BlockedTriageGroupAlert = ({
   let migratingFacilities = [];
   let isInErrorPhase = false;
   const userProfile = useSelector(state => state.user.profile);
+  const alertContentConfig = CernerAlertContent.SECURE_MESSAGING;
   if (
     userProfile.userAtPretransitionedOhFacility ||
     userProfile.userFacilityMigratingToOh
@@ -51,11 +53,17 @@ const BlockedTriageGroupAlert = ({
       userProfile?.migrationSchedules?.length > 0
         ? userProfile?.migrationSchedules
         : [];
-    const config = CernerAlertContent.SECURE_MESSAGING;
     isInErrorPhase = migratingFacilities.some(migration =>
-      config.errorPhases?.includes(migration.phases.current),
+      alertContentConfig.errorPhases?.includes(migration.phases.current),
     );
   }
+  const messages = useSelector(state => state.sm?.threadDetails?.messages);
+  const userMessagePostMigration = useMemo(
+    () => {
+      return hasMessageMigratedToOracleHealth(messages);
+    },
+    [messages],
+  );
 
   // Compute alert configuration using the centralized utility
   const alertConfig = useMemo(
@@ -68,6 +76,7 @@ const BlockedTriageGroupAlert = ({
         isOhMessage,
         facilityMigratingToOhInErrorPhase:
           userFacilityMigratingToOh && isInErrorPhase,
+        userMessagePostMigration,
       }),
     [
       recipients,
@@ -77,6 +86,7 @@ const BlockedTriageGroupAlert = ({
       isOhMessage,
       userFacilityMigratingToOh,
       isInErrorPhase,
+      messages,
     ],
   );
 

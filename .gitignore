@@ -29,7 +29,6 @@ coverage
 .nyc_output
 .yalc
 yalc.lock
-/test-results.xml
 package-lock.json
 temp
 dump.rdb
@@ -47,6 +46,7 @@ all-links.csv
 .ignore
 .tool-versions
 .cursorrules
+.claude/settings.local.json
 
 # Generated files from OpenAPI specs
 src/applications/benefits-optimization-aquia/**/generated/

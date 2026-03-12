@@ -12,6 +12,16 @@
  */
 export const getCustomCardHeaderConfigs = formMeta => [
   {
+    formId: '10-10D',
+    formTitle: 'Application for CHAMPVA benefits',
+    presentableFormId: 'Form 10-10d',
+  },
+  {
+    formId: '10-10D-EXTENDED',
+    formTitle: 'Application for CHAMPVA benefits',
+    presentableFormId: 'Form 10-10d',
+  },
+  {
     formId: 'form0995_form4142',
     formTitle: 'Authorization to release medical information',
     presentableFormId:

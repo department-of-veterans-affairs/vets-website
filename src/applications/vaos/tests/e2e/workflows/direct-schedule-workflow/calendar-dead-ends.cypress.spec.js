@@ -1,4 +1,3 @@
-// @ts-check
 import { addDays } from 'date-fns';
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
@@ -12,6 +11,7 @@ import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
 import PreferredDatePageObject from '../../page-objects/PreferredDatePageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
@@ -88,6 +88,8 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
         AppointmentListPageObject.visit().scheduleAppointment();
 
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
@@ -138,6 +140,8 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
         AppointmentListPageObject.visit().scheduleAppointment();
 
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
@@ -185,6 +189,8 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
@@ -272,6 +278,8 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
         AppointmentListPageObject.visit().scheduleAppointment();
 
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
@@ -322,6 +330,8 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
         AppointmentListPageObject.visit().scheduleAppointment();
 
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
@@ -369,6 +379,8 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })

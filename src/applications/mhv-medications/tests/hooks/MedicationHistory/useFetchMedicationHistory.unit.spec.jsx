@@ -11,14 +11,16 @@ import * as prescriptionsApiModule from '../../../api/prescriptionsApi';
 import { useFetchMedicationHistory } from '../../../hooks/MedicationHistory/useFetchMedicationHistory';
 import {
   rxListSortingOptions,
-  filterOptions,
-  filterOptionsV2,
+  rxListSortingOptionsV2,
   ALL_MEDICATIONS_FILTER_KEY,
   ACTIVE_FILTER_KEY,
 } from '../../../util/constants';
+import { getFilterUrl } from '../../../components/MedicationHistory/MedicationHistoryFilter';
 
 const CERNER_PILOT_TOGGLE = 'mhv_medications_cerner_pilot';
 const V2_STATUS_MAPPING_TOGGLE = 'mhv_medications_v2_status_mapping';
+const MANAGEMENT_IMPROVEMENTS_TOGGLE =
+  'mhv_medications_management_improvements';
 
 /**
  * Creates a test wrapper with Redux Provider and MemoryRouter
@@ -53,6 +55,7 @@ const baseState = {
     loading: false,
     [CERNER_PILOT_TOGGLE]: false,
     [V2_STATUS_MAPPING_TOGGLE]: false,
+    [MANAGEMENT_IMPROVEMENTS_TOGGLE]: false,
   },
 };
 
@@ -316,7 +319,7 @@ describe('useFetchMedicationHistory', () => {
       await waitFor(() => {
         const queryParams = useGetPrescriptionsListQueryStub.firstCall.args[0];
         expect(queryParams.filterOption).to.equal(
-          filterOptions[ACTIVE_FILTER_KEY].url,
+          getFilterUrl(ACTIVE_FILTER_KEY, false, false),
         );
       });
     });
@@ -399,7 +402,27 @@ describe('useFetchMedicationHistory', () => {
   });
 
   describe('feature flag handling', () => {
-    it('uses V2 filter options when both Cerner pilot and V2 status mapping flags are true', async () => {
+    it('uses V1 filter URLs when no feature flags are enabled', async () => {
+      useGetPrescriptionsListQueryStub = sandbox
+        .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
+        .returns(getMockQueryResponse());
+
+      const mockStore = createMockStore({
+        rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } },
+      });
+      const wrapper = createTestWrapper(mockStore);
+
+      renderHook(() => useFetchMedicationHistory(), { wrapper });
+
+      await waitFor(() => {
+        const queryParams = useGetPrescriptionsListQueryStub.firstCall.args[0];
+        expect(queryParams.filterOption).to.equal(
+          getFilterUrl(ACTIVE_FILTER_KEY, false, false),
+        );
+      });
+    });
+
+    it('uses V2 filter URLs when both Cerner pilot and V2 status mapping flags are true', async () => {
       useGetPrescriptionsListQueryStub = sandbox
         .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
         .returns(getMockQueryResponse());
@@ -418,18 +441,18 @@ describe('useFetchMedicationHistory', () => {
       await waitFor(() => {
         const queryParams = useGetPrescriptionsListQueryStub.firstCall.args[0];
         expect(queryParams.filterOption).to.equal(
-          filterOptionsV2[ACTIVE_FILTER_KEY].url,
+          getFilterUrl(ACTIVE_FILTER_KEY, true, true),
         );
       });
     });
 
-    it('uses V1 filter options when only Cerner pilot flag is true', async () => {
+    it('uses V1 filter URLs with V2 RENEWAL URL when only Cerner pilot flag is true', async () => {
       useGetPrescriptionsListQueryStub = sandbox
         .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
         .returns(getMockQueryResponse());
 
       const mockStore = createMockStore({
-        rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } },
+        rx: { preferences: { filterOption: 'RENEWAL' } },
         featureToggles: {
           [CERNER_PILOT_TOGGLE]: true,
         },
@@ -440,21 +463,24 @@ describe('useFetchMedicationHistory', () => {
 
       await waitFor(() => {
         const queryParams = useGetPrescriptionsListQueryStub.firstCall.args[0];
+        // RENEWAL with cerner_pilot only should use V2 URL
         expect(queryParams.filterOption).to.equal(
-          filterOptions[ACTIVE_FILTER_KEY].url,
+          getFilterUrl('RENEWAL', true, false),
         );
       });
     });
 
-    it('uses V1 filter options when only V2 status mapping flag is true', async () => {
+    it('uses V2 sort options when management improvements flag is enabled', async () => {
       useGetPrescriptionsListQueryStub = sandbox
         .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
         .returns(getMockQueryResponse());
 
       const mockStore = createMockStore({
-        rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } },
+        rx: {
+          preferences: { sortOption: 'mostRecentlyFilled' },
+        },
         featureToggles: {
-          [V2_STATUS_MAPPING_TOGGLE]: true,
+          [MANAGEMENT_IMPROVEMENTS_TOGGLE]: true,
         },
       });
       const wrapper = createTestWrapper(mockStore);
@@ -463,8 +489,33 @@ describe('useFetchMedicationHistory', () => {
 
       await waitFor(() => {
         const queryParams = useGetPrescriptionsListQueryStub.firstCall.args[0];
-        expect(queryParams.filterOption).to.equal(
-          filterOptions[ACTIVE_FILTER_KEY].url,
+        expect(queryParams.sortEndpoint).to.equal(
+          rxListSortingOptionsV2.mostRecentlyFilled.API_ENDPOINT,
+        );
+      });
+    });
+
+    it('falls back to first V2 sort option for unknown key when management improvements is enabled', async () => {
+      useGetPrescriptionsListQueryStub = sandbox
+        .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
+        .returns(getMockQueryResponse());
+
+      const mockStore = createMockStore({
+        rx: {
+          preferences: { sortOption: 'nonExistentKey' },
+        },
+        featureToggles: {
+          [MANAGEMENT_IMPROVEMENTS_TOGGLE]: true,
+        },
+      });
+      const wrapper = createTestWrapper(mockStore);
+
+      renderHook(() => useFetchMedicationHistory(), { wrapper });
+
+      await waitFor(() => {
+        const queryParams = useGetPrescriptionsListQueryStub.firstCall.args[0];
+        expect(queryParams.sortEndpoint).to.equal(
+          rxListSortingOptionsV2.mostRecentlyFilled.API_ENDPOINT,
         );
       });
     });

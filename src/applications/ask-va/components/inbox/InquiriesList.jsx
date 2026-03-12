@@ -12,10 +12,10 @@ import SearchDescription from './SearchDescription';
 
 /**
  * @typedef {Object} InquiriesListProps
- * @property {string} categoryFilter
  * @property {Inquiry[]} inquiries
- * @property {string} query
+ * @property {string} categoryFilter
  * @property {string} statusFilter
+ * @property {string} query
  * @property {string} [tabName]
  */
 
@@ -26,11 +26,11 @@ export default function InquiriesList({
   inquiries,
   categoryFilter,
   statusFilter,
-  tabName,
   query,
+  tabName,
 }) {
   const [currentPageNum, setCurrentPageNum] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 6;
 
   const pages = paginateInquiries(inquiries, itemsPerPage);
 

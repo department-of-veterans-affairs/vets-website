@@ -44,7 +44,7 @@ describe('Discharge Wizard CarefulConsiderationStatement', () => {
       />,
     );
     expect(wrapper.html()).to.include(
-      'Because you answered that your discharge was due to your',
+      'You answered that your discharge is due to your sexual orientation',
     );
     wrapper.unmount();
   });
@@ -59,7 +59,7 @@ describe('Discharge Wizard CarefulConsiderationStatement', () => {
       />,
     );
     expect(wrapper.html()).to.include(
-      'Many Veterans have received general or honorable discharges due to their sexual orientation',
+      'In 2011, DOD recognized that many Veterans received discharges only because of their sexual orientation',
     );
     wrapper.unmount();
   });
@@ -74,7 +74,7 @@ describe('Discharge Wizard CarefulConsiderationStatement', () => {
       />,
     );
     expect(wrapper.html()).to.include(
-      'Because you answered that your discharge was related to posttraumatic stress disorder (PTSD)',
+      'You answered that your discharge is due to posttraumatic stress disorder (PTSD)',
     );
     wrapper.unmount();
   });
@@ -89,7 +89,7 @@ describe('Discharge Wizard CarefulConsiderationStatement', () => {
       />,
     );
     expect(wrapper.html()).to.include(
-      'Because you answered that your discharge was related to a traumatic brain injury (TBI)',
+      'You answered that your discharge is due to a traumatic brain injury (TBI)',
     );
     wrapper.unmount();
   });
@@ -104,7 +104,7 @@ describe('Discharge Wizard CarefulConsiderationStatement', () => {
       />,
     );
     expect(wrapper.html()).to.include(
-      'Because you answered that your discharge was due to your sexual orientation',
+      'You answered that your discharge is due to your sexual orientation',
     );
     wrapper.unmount();
   });
@@ -118,7 +118,7 @@ describe('Discharge Wizard CarefulConsiderationStatement', () => {
       />,
     );
     expect(wrapper.html()).to.include(
-      `This is a common request for transgender Veterans whose DD214 name does not match the name they currently use.`,
+      'This is a common request when your name on your DD214',
     );
     wrapper.unmount();
   });
@@ -132,7 +132,7 @@ describe('Discharge Wizard CarefulConsiderationStatement', () => {
       />,
     );
     expect(wrapper.html()).to.include(
-      'Because you answered that your discharge was related to sexual assault or harassment',
+      'You answered that your discharge is related to sexual assault or harassment',
     );
     wrapper.unmount();
   });
