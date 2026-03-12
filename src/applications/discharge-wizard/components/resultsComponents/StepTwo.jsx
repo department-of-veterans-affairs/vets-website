@@ -75,7 +75,7 @@ const StepTwo = ({ formResponses }) => {
 
   const renderBuddyStatements = () => {
     return (
-      <li>
+      <>
         <h3>
           Buddy statements (also called a Statement in Support of Claim or VA
           Form 21-4138)
@@ -107,13 +107,13 @@ const StepTwo = ({ formResponses }) => {
         >
           Get VA Form 21-4138 to download (opens in a new tab)
         </a>
-      </li>
+      </>
     );
   };
 
   const renderTestaments = () => {
     return (
-      <li>
+      <>
         <h3>Testaments of achievements since your service</h3>
         <p>
           You may want to include this type of evidence with your application,
@@ -125,7 +125,7 @@ const StepTwo = ({ formResponses }) => {
           <li>Evidence of successful drug or alcohol treatment</li>
           <li>Copies of degrees or certificates</li>
         </ul>
-      </li>
+      </>
     );
   };
 
@@ -135,8 +135,8 @@ const StepTwo = ({ formResponses }) => {
         To improve your chances of success, also include as many of these
         documents as you can.
       </p>
-      <ul>
-        <li>
+      <>
+        <>
           <h3>Military Record</h3> In most cases, your records will be important
           to the Board’s decision. The Board may not have easy access to your
           military records, especially if you served many years ago, so we
@@ -156,11 +156,11 @@ const StepTwo = ({ formResponses }) => {
               for a discharge upgrade.
             </p>
           )}
-        </li>
+        </>
         {renderMedicalRecordInfo(formResponses)}
         {renderBuddyStatements()}
         {renderTestaments()}
-      </ul>
+      </>
     </va-process-list-item>
   );
 };
