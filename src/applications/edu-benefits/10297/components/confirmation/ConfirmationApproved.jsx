@@ -82,7 +82,7 @@ const ConfirmationApproved = ({
       <va-process-list>
         <va-process-list-item header="Download your Certificate of Eligibility">
           <p>
-            Once you’ve selected a school or program, you may bring your
+            Once you’ve confirmed a school or program, you may bring your
             Certificate of Eligibility to your School Certifying Official to
             provide proof of eligibility. Please be aware that VET TEC 2.0 has
             an annual student participation limit (October 1 to September 30).

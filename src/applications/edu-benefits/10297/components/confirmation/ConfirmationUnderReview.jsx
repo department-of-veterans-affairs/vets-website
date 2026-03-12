@@ -69,7 +69,7 @@ const ConfirmationUnderReview = ({
         <va-process-list-item header="We'll review your application and determine your eligibility">
           <p>
             Please be aware that VET TEC 2.0 has an annual student participation
-            limit (October 1 to September 30). You are eligible, but if the
+            limit (October 1 to September 30). If you are eligible but the
             participation limit has been met, we may not be able to award you
             benefits in this fiscal year. If you are found ineligible, a denial
             letter will be provided which explains why you are ineligible for
