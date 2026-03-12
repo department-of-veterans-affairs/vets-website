@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VA Web Component Test Fixture</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .form-section { margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>VA Web Component Test Fixture</h1>
+
+    <div class="form-section">
+      <va-text-input name="firstName" label="First name"></va-text-input>
+      <va-text-input name="lastName" label="Last name"></va-text-input>
+      <va-text-input name="age" label="Age"></va-text-input>
+    </div>
+
+    <div class="form-section">
+      <va-textarea name="description" label="Description"></va-textarea>
+    </div>
+
+    <div class="form-section">
+      <va-radio-option name="gender" value="male" label="Male"></va-radio-option>
+      <va-radio-option name="gender" value="female" label="Female"></va-radio-option>
+      <va-radio-option name="hasDependents" value="Y" label="Yes"></va-radio-option>
+      <va-radio-option name="hasDependents" value="N" label="No"></va-radio-option>
+    </div>
+
+    <div class="form-section">
+      <va-select name="country" label="Country">
+        <option value="USA">United States</option>
+        <option value="CAN">Canada</option>
+        <option value="MEX">Mexico</option>
+      </va-select>
+    </div>
+
+    <div class="form-section">
+      <va-checkbox name="agree" label="I agree" required></va-checkbox>
+      <va-checkbox name="terms" label="Accept terms"></va-checkbox>
+    </div>
+
+    <div class="form-section">
+      <va-date name="birthDate" label="Date of birth"></va-date>
+      <va-date name="expiryDate" label="Expiry" month-year-only="true"></va-date>
+    </div>
+
+    <div class="form-section">
+      <va-memorable-date name="dob" label="DOB" month-select="true"></va-memorable-date>
+      <va-memorable-date name="anniversary" label="Anniversary" month-select="false"></va-memorable-date>
+    </div>
+
+    <div class="form-section">
+      <va-combo-box name="state" label="State">
+        <option value="CA">California</option>
+        <option value="NY">New York</option>
+        <option value="TX">Texas</option>
+      </va-combo-box>
+    </div>
+
+    <div class="form-section">
+      <va-button-pair></va-button-pair>
+    </div>
+
+    <div class="form-section">
+      <va-file-input name="document" label="Upload document"></va-file-input>
+      <va-file-input-multiple name="attachments" label="Upload attachments"></va-file-input-multiple>
+    </div>
+
+    <div class="form-section" id="address-section">
+      <va-checkbox name="root_veteranAddress_isMilitary" label="Military address"></va-checkbox>
+      <va-select name="root_veteranAddress_country" label="Country">
+        <option value="USA">United States</option>
+        <option value="CAN">Canada</option>
+      </va-select>
+      <va-text-input name="root_veteranAddress_street" label="Street"></va-text-input>
+      <va-text-input name="root_veteranAddress_street2" label="Street 2"></va-text-input>
+      <va-text-input name="root_veteranAddress_street3" label="Street 3"></va-text-input>
+      <va-text-input name="root_veteranAddress_city" label="City"></va-text-input>
+      <va-select name="root_veteranAddress_state" label="State">
+        <option value="CA">California</option>
+        <option value="NY">New York</option>
+      </va-select>
+      <va-text-input name="root_veteranAddress_postalCode" label="Postal code"></va-text-input>
+    </div>
+
+    <div class="form-section">
+      <va-accordion>
+        <va-accordion-item header="Section 1">Content 1</va-accordion-item>
+        <va-accordion-item header="Section 2">Content 2</va-accordion-item>
+      </va-accordion>
+    </div>
+
+    <div class="form-section">
+      <va-additional-info trigger="More info">
+        <p>Additional details here</p>
+      </va-additional-info>
+    </div>
+  </main>
+
+  <script>
+    // Stub custom elements that mirror VA web component shadow DOM structure.
+    // These are lightweight versions for testing helper interaction code.
+
+    // Escape HTML to prevent CodeQL DOM-text-reinterpreted-as-HTML warnings.
+    function esc(str) {
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+
+    class VaTextInput extends HTMLElement {
+      connectedCallback() {
+        // Skip if already has an <input> (e.g., pre-built inside va-date shadow)
+        if (this.querySelector('input')) return;
+        const label = this.getAttribute('label') || '';
+        const name = this.getAttribute('name') || '';
+        // No shadow DOM to avoid double-element issues with Playwright piercing
+        this.innerHTML = `
+          <label>${esc(label)}</label>
+          <input type="text" name="${esc(name)}" />
+        `;
+      }
+    }
+    customElements.define('va-text-input', VaTextInput);
+
+    class VaTextarea extends HTMLElement {
+      connectedCallback() {
+        const name = this.getAttribute('name') || '';
+        // No shadow DOM for consistency with other non-shadow stubs
+        this.innerHTML = `
+          <label>${esc(this.getAttribute('label') || '')}</label>
+          <textarea name="${esc(name)}"></textarea>
+        `;
+      }
+    }
+    customElements.define('va-textarea', VaTextarea);
+
+    class VaRadioOption extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      connectedCallback() {
+        this.shadowRoot.innerHTML = `
+          <label>
+            <input type="radio"
+              name="${esc(this.getAttribute('name') || '')}"
+              value="${esc(this.getAttribute('value') || '')}" />
+            ${esc(this.getAttribute('label') || '')}
+          </label>
+        `;
+      }
+    }
+    customElements.define('va-radio-option', VaRadioOption);
+
+    class VaSelect extends HTMLElement {
+      connectedCallback() {
+        // Skip if already has a <select> (e.g., pre-built inside va-date shadow)
+        if (this.querySelector('select')) return;
+        const name = this.getAttribute('name') || '';
+        const options = Array.from(this.querySelectorAll('option'))
+          .map(o => `<option value="${esc(o.value)}">${esc(o.textContent)}</option>`)
+          .join('');
+        // No shadow DOM — render <select> as a direct child so Playwright
+        // shadow-piercing locators resolve to exactly one <select> per instance.
+        this.innerHTML = `
+          <label>${esc(this.getAttribute('label') || '')}</label>
+          <select name="${esc(name)}">${options}</select>
+        `;
+      }
+    }
+    customElements.define('va-select', VaSelect);
+
+    class VaCheckbox extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+        this._checked = false;
+      }
+      get checked() { return this._checked; }
+      set checked(val) {
+        this._checked = val;
+        const input = this.shadowRoot.querySelector('input');
+        if (input) input.checked = val;
+      }
+      connectedCallback() {
+        this.shadowRoot.innerHTML = `
+          <label>
+            <input type="checkbox" name="${esc(this.getAttribute('name') || '')}" />
+            ${esc(this.getAttribute('label') || '')}
+          </label>
+        `;
+      }
+    }
+    customElements.define('va-checkbox', VaCheckbox);
+
+    class VaDate extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      connectedCallback() {
+        const monthYearOnly = this.getAttribute('month-year-only') === 'true';
+        const dayHtml = monthYearOnly ? '' : `
+          <va-select class="select-day">
+            <select>
+              ${Array.from({length: 31}, (_, i) =>
+                `<option value="${i+1}">${i+1}</option>`
+              ).join('')}
+            </select>
+          </va-select>
+        `;
+        this.shadowRoot.innerHTML = `
+          <va-select class="select-month">
+            <select>
+              ${Array.from({length: 12}, (_, i) =>
+                `<option value="${i+1}">${i+1}</option>`
+              ).join('')}
+            </select>
+          </va-select>
+          ${dayHtml}
+          <va-text-input class="input-year">
+            <input type="text" />
+          </va-text-input>
+        `;
+      }
+    }
+    customElements.define('va-date', VaDate);
+
+    class VaMemorableDate extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      connectedCallback() {
+        const useMonthSelect = this.getAttribute('month-select') !== 'false';
+        const monthHtml = useMonthSelect
+          ? `<va-select class="usa-form-group--month-select">
+               <select>
+                 ${Array.from({length: 12}, (_, i) =>
+                   `<option value="${i+1}">${i+1}</option>`
+                 ).join('')}
+               </select>
+             </va-select>`
+          : `<va-text-input class="usa-form-group--month-input">
+               <input type="text" />
+             </va-text-input>`;
+
+        this.shadowRoot.innerHTML = `
+          ${monthHtml}
+          <va-text-input class="usa-form-group--day-input">
+            <input type="text" />
+          </va-text-input>
+          <va-text-input class="usa-form-group--year-input">
+            <input type="text" />
+          </va-text-input>
+        `;
+      }
+    }
+    customElements.define('va-memorable-date', VaMemorableDate);
+
+    class VaComboBox extends HTMLElement {
+      connectedCallback() {
+        const options = Array.from(this.querySelectorAll('option'))
+          .map(o => `<option value="${esc(o.value)}">${esc(o.textContent)}</option>`)
+          .join('');
+        // Clear light DOM options to avoid Playwright finding duplicates
+        this.innerHTML = `
+          <input type="text" />
+          <select style="display:none">${options}</select>
+        `;
+      }
+    }
+    customElements.define('va-combo-box', VaComboBox);
+
+    class VaButton extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      connectedCallback() {
+        const text = this.getAttribute('text') || 'Button';
+        this.shadowRoot.innerHTML = `<button>${esc(text)}</button>`;
+      }
+    }
+    customElements.define('va-button', VaButton);
+
+    class VaButtonPair extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      connectedCallback() {
+        this.shadowRoot.innerHTML = `
+          <va-button back text="Back"></va-button>
+          <va-button text="Continue"></va-button>
+        `;
+      }
+    }
+    customElements.define('va-button-pair', VaButtonPair);
+
+    class VaAccordionItem extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      connectedCallback() {
+        this.shadowRoot.innerHTML = `
+          <button aria-expanded="false">
+            ${this.getAttribute('header') || 'Expand'}
+          </button>
+          <div class="content" hidden>
+            <slot></slot>
+          </div>
+        `;
+        this.shadowRoot.querySelector('button').addEventListener('click', () => {
+          const btn = this.shadowRoot.querySelector('button');
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', (!expanded).toString());
+          this.shadowRoot.querySelector('.content').hidden = expanded;
+        });
+      }
+    }
+    customElements.define('va-accordion-item', VaAccordionItem);
+
+    class VaAccordion extends HTMLElement {
+      constructor() { super(); }
+    }
+    customElements.define('va-accordion', VaAccordion);
+
+    class VaAdditionalInfo extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      connectedCallback() {
+        const trigger = this.getAttribute('trigger') || 'More';
+        this.shadowRoot.innerHTML = `
+          <a role="button" aria-expanded="false">${trigger}</a>
+          <div hidden><slot></slot></div>
+        `;
+        this.shadowRoot.querySelector('a').addEventListener('click', () => {
+          const a = this.shadowRoot.querySelector('a');
+          const expanded = a.getAttribute('aria-expanded') === 'true';
+          a.setAttribute('aria-expanded', (!expanded).toString());
+          this.shadowRoot.querySelector('div').hidden = expanded;
+        });
+      }
+    }
+    customElements.define('va-additional-info', VaAdditionalInfo);
+
+    class VaCard extends HTMLElement {
+      constructor() { super(); }
+    }
+    customElements.define('va-card', VaCard);
+
+    class VaStatementOfTruth extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      connectedCallback() {
+        this.shadowRoot.innerHTML = `
+          <va-text-input>
+            <input type="text" />
+          </va-text-input>
+          <va-checkbox name="certify" label="I certify"></va-checkbox>
+        `;
+      }
+    }
+    customElements.define('va-statement-of-truth', VaStatementOfTruth);
+
+    class VaTelephoneInput extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      connectedCallback() {
+        this.shadowRoot.innerHTML = `
+          <va-text-input>
+            <input type="text" />
+          </va-text-input>
+        `;
+      }
+    }
+    customElements.define('va-telephone-input', VaTelephoneInput);
+
+    class VaRadio extends HTMLElement {
+      constructor() { super(); }
+    }
+    customElements.define('va-radio', VaRadio);
+
+    class VaFileInput extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      connectedCallback() {
+        this.shadowRoot.innerHTML = `<input type="file" />`;
+      }
+    }
+    customElements.define('va-file-input', VaFileInput);
+
+    class VaFileInputMultiple extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      connectedCallback() {
+        // Mimics the real component: one va-file-input slot for uploading.
+        // After a file is uploaded, a delete icon appears and a new slot is added.
+        this.shadowRoot.innerHTML = `<va-file-input><input type="file" /></va-file-input>`;
+      }
+    }
+    customElements.define('va-file-input-multiple', VaFileInputMultiple);
+  </script>
+</body>
+</html>

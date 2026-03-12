@@ -26,6 +26,10 @@ typings.json
 typings/
 coverage
 /cypress
+/playwright-report
+/blob-report
+playwright-durations.json
+playwright-shards.json
 .nyc_output
 .yalc
 yalc.lock
@@ -62,3 +66,4 @@ script/cypress-testrail-helper/my-config.json
 
 # Ignore mochawesome report directory
 mochawesome-report/
+test-results/

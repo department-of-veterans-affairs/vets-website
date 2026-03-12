@@ -31,7 +31,8 @@
 				"redhat.vscode-yaml",
 				"tyriar.sort-lines",
 				"visualstudioexptteam.vscodeintellicode",
-				"wayou.vscode-todo-highlight"
+				"wayou.vscode-todo-highlight",
+				"ms-playwright.playwright"
 			],
 			"settings": {
 				"editor.formatOnSave": true,
