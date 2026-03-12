@@ -52,7 +52,7 @@ export default function InboxLayoutNew({
 
   return (
     <div id="inbox">
-      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--0">
+      <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
         Your questions
       </h2>
       {inquiryTypes.length ? (
@@ -136,23 +136,29 @@ export default function InboxLayoutNew({
               />
             </div>
           </div>
-          {!!results.length && (
-            <VaSort
-              width="xl"
-              value={sortOrder}
-              onVaSortSelect={e => {
-                setSortOrder(e.target.value);
-                focusElement('#search-description');
-              }}
-            >
-              <option value={filterAndSort.sortOptions.lastUpdate.newest}>
-                Last Updated (newest to oldest)
-              </option>
-              <option value={filterAndSort.sortOptions.lastUpdate.oldest}>
-                Last Updated (oldest to newest)
-              </option>
-            </VaSort>
-          )}
+          <div
+            className={`sort-container ${
+              results.length ? 'vads-u-padding-top--2' : ''
+            }`}
+          >
+            {!!results.length && (
+              <VaSort
+                width="xl"
+                value={sortOrder}
+                onVaSortSelect={e => {
+                  setSortOrder(e.target.value);
+                  focusElement('#search-description');
+                }}
+              >
+                <option value={filterAndSort.sortOptions.lastUpdate.newest}>
+                  Last Updated (newest to oldest)
+                </option>
+                <option value={filterAndSort.sortOptions.lastUpdate.oldest}>
+                  Last Updated (oldest to newest)
+                </option>
+              </VaSort>
+            )}
+          </div>
 
           {inquiryTypes.includes('business') ? (
             <div className="tabs">

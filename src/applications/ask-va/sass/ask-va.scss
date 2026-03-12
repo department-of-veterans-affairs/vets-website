@@ -356,6 +356,14 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 // ---- Inbox ----- //
 
 #inbox {
+  margin: 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+// TODO delete after new inbox goes live
+#inbox-old {
   margin-bottom: 40px;
 }
 
@@ -364,7 +372,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   flex-direction: row;
   gap: 0.5rem;
   align-items: flex-end;
-  margin-bottom: 1rem;
 
   > div {
     flex: 1;
@@ -374,6 +381,10 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     flex-direction: column;
     align-items: stretch;
   }
+}
+
+.sort-container {
+  border-top: solid 1px var(--vads-color-base-light);
 }
 
 .inbox-tab-container {
@@ -437,6 +448,14 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .inquiries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 0 0;
+}
+
+// TODO delete after new inbox goes live
+.inquiries-list-old {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;

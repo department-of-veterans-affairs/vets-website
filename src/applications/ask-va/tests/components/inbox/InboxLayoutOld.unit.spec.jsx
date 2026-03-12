@@ -3,6 +3,8 @@ import { fireEvent, render } from '@testing-library/react';
 import InboxLayoutOld from '~/applications/ask-va/components/inbox/InboxLayoutOld';
 import { standardizeInquiries } from '~/applications/ask-va/utils/inbox';
 import { expect } from 'chai';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
 import { mockInquiries as rawInquiries } from '../../utils/mock-inquiries';
 
 describe('<InboxLayoutOld />', () => {
@@ -12,8 +14,24 @@ describe('<InboxLayoutOld />', () => {
   );
   const selectedStatus = 'In progress';
 
+  function setupStore(initialState) {
+    return configureStore({
+      reducer: state => state,
+      preloadedState: { ...initialState, askVA: {} },
+    });
+  }
+
+  // TODO delete after new inbox goes live
+  function renderWithStore(children) {
+    const store = setupStore({});
+    return {
+      store,
+      view: render(<Provider store={store}>{children}</Provider>),
+    };
+  }
+
   it('displays a message when there are no inquiries', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutOld
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -31,7 +49,7 @@ describe('<InboxLayoutOld />', () => {
   });
 
   it('renders a list of inquiries', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutOld
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -45,7 +63,7 @@ describe('<InboxLayoutOld />', () => {
   });
 
   it('only renders filter options available in the list', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutOld
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -67,7 +85,7 @@ describe('<InboxLayoutOld />', () => {
   });
 
   it('applies and clears a filter', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutOld
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -123,7 +141,7 @@ describe('<InboxLayoutOld />', () => {
   });
 
   it('shifts focus to search description after a button is clicked', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutOld
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -157,7 +175,7 @@ describe('<InboxLayoutOld />', () => {
     };
     inquiriesCopy.push(newItem);
 
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutOld
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -188,7 +206,7 @@ describe('<InboxLayoutOld />', () => {
 
   describe('business and personal tabs', () => {
     it('hides tabs when there are no business inquiries', () => {
-      const view = render(
+      const { view } = renderWithStore(
         <InboxLayoutOld
           categoryOptions={mockData.uniqueCategories}
           statusOptions={mockData.uniqueStatuses}
@@ -201,7 +219,7 @@ describe('<InboxLayoutOld />', () => {
     });
 
     it('shows tabs when there are business inquiries', () => {
-      const view = render(
+      const { view } = renderWithStore(
         <InboxLayoutOld
           categoryOptions={mockData.uniqueCategories}
           statusOptions={mockData.uniqueStatuses}
@@ -224,7 +242,7 @@ describe('<InboxLayoutOld />', () => {
     });
 
     it('switches list content based on the selected tab', () => {
-      const view = render(
+      const { view } = renderWithStore(
         <InboxLayoutOld
           categoryOptions={mockData.uniqueCategories}
           statusOptions={mockData.uniqueStatuses}

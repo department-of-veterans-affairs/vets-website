@@ -20,7 +20,7 @@ describe('<Inbox />', () => {
     });
   }
 
-  // TODO remove once feature toggle is no longer needed
+  // TODO delete after new inbox goes live
   function renderWithStore(extraState = {}) {
     const store = setupStore(extraState);
     return {
