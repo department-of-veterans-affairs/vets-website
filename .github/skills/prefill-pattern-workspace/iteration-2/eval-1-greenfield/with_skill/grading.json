@@ -1,0 +1,38 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-greenfield",
+  "variant": "with_skill",
+  "assertions": {
+    "Creates a prefillTransformer function that returns ssn, vaFileNumber, and fullName": {
+      "pass": true,
+      "notes": "Creates prefillTransformer extracting ssn, vaFileNumber, fullName from data.attributes.veteran. Returns all at root level."
+    },
+    "Imports and adds profilePersonalInfoPage() to formConfig chapters": {
+      "pass": true,
+      "notes": "Imports from platform/forms-system/src/js/patterns/prefill and spreads ...profilePersonalInfoPage() into new veteranInfo chapter."
+    },
+    "Imports and adds profileContactInfoPages() to formConfig chapters": {
+      "pass": true,
+      "notes": "Adds ...profileContactInfoPages() in the same chapter after personal info page."
+    },
+    "Adds route protection logic in App.jsx that checks for login and save-in-progress data": {
+      "pass": true,
+      "notes": "Adds Redux connect, checks isLoggedIn and formData?.ssn, skips localhost and intro page, redirects to manifest.rootUrl."
+    },
+    "Creates or updates mock test fixtures (sip-get.json or similar) for local testing": {
+      "pass": true,
+      "notes": "Updates sip-get.json with data.attributes.veteran structure including ssn, vaFileNumber. Updates returnUrl to /personal-information."
+    },
+    "Does not remove or break any existing form functionality": {
+      "pass": true,
+      "notes": "Keeps claimantAddressPage and veteranAddressPage. Removes veteranServiceMemberInfoPage (replaced by prefill). Retains all unrelated functionality."
+    },
+    "Registers prefillTransformer in formConfig": {
+      "pass": true,
+      "notes": "Adds prefillTransformer property to formConfig after prefillEnabled: true."
+    }
+  },
+  "score": 7,
+  "total": 7,
+  "percentage": 100
+}

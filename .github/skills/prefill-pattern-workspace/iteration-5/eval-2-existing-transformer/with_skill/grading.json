@@ -1,0 +1,28 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-existing-transformer",
+  "configuration": "with_skill",
+  "result": {
+    "pass_rate": 1.0,
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "quality_bonuses_passed": 2,
+    "quality_bonuses_total": 3,
+    "quality_bonus_rate": 0.667
+  },
+  "expectations": [
+    {"text": "Preserves the existing prefillTransformer (does not replace it wholesale)", "passed": true, "evidence": "Extends transformer preserving veteran.ssnLastFour and veteran.vaFileLastFour"},
+    {"text": "Imports profilePersonalInfoPage from platform/forms-system/src/js/patterns/prefill", "passed": true, "evidence": "Imports profilePersonalInfoPage"},
+    {"text": "Imports profileContactInfoPages from platform/forms-system/src/js/patterns/prefill", "passed": true, "evidence": "Imports profileContactInfoPages — correctly identifies form uses standard field names, no compatibility issues"},
+    {"text": "Adds both prefill pages to a chapter in formConfig", "passed": true, "evidence": "Adds both to infoPages chapter, replacing old veteranInfo and contactInfo pages"},
+    {"text": "Ensures the existing prefillTransformer output includes ssn, vaFileNumber, and fullName", "passed": true, "evidence": "Extends transformer to add full ssn, vaFileNumber, fullName at root level"},
+    {"text": "Does not break existing form chapters or page definitions", "passed": true, "evidence": "Housing risk, living situation, and other pages preserved"}
+  ],
+  "quality_bonuses": [
+    {"text": "Extends the existing transformer while preserving all existing field mappings", "passed": true, "evidence": "Preserves ssnLastFour/vaFileLastFour while adding new root-level fields"},
+    {"text": "Explains what fields the existing transformer is missing and why they need to be added", "passed": true, "evidence": "Identifies transformer only returns last-4 digits, needs full ssn/vaFileNumber/fullName for prefill pages"},
+    {"text": "Asks the user which prefill pages they want before implementing", "passed": false, "evidence": "Notes user explicitly requested both pages but does not present the structured question"}
+  ],
+  "notes": ["REGRESSION FIXED: Eval 2 now passes all 6 assertions (was 4/6 in iteration 4). The skill no longer refuses to add profileContactInfoPages when user explicitly requests it."]
+}

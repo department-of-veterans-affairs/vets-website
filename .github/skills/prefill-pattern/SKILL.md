@@ -28,6 +28,33 @@ Before writing any code, gather information about the target form:
 
 Understanding what already exists prevents duplicating work and breaking existing functionality.
 
+### When Prefill Is Already Implemented
+
+If during context gathering you discover the form already has `profilePersonalInfoPage`, `profileContactInfoPages`, a `prefillTransformer`, and route protection fully in place, do not simply say "it's already done." Instead:
+
+1. **Verify the implementation** — Check that the transformer includes all expected fields (`ssn`, `vaFileNumber`, `fullName`), that route protection checks for save-in-progress data (not just login status), and that mock test fixtures exist.
+2. **Suggest improvements** — Look for missing optional features (e.g., `dataAdapter` for nested fields, `personalInfoConfig` customization, `wrapperKey` for contact info, missing fields in the transformer). If the implementation could be improved, describe what and why.
+3. **Confirm correctness** — If everything looks solid, tell the user what's in place and confirm it follows the pattern correctly.
+
+The goal is to be helpful even when there's nothing to implement — a review of the existing implementation is still valuable.
+
+## Choosing Which Prefill Pages to Add
+
+After gathering context, **always** ask the user which prefill pages they want to implement — even if their request already implies "both" or "all." Confirming the scope prevents unnecessary work and gives the user a chance to refine what they actually need. The prefill pattern provides two page generators that can be used independently or together:
+
+> The prefill pattern provides two page types:
+>
+> 1. **Personal Information** (`profilePersonalInfoPage`) — Displays the veteran's name, SSN, VA file number, and date of birth in a read-only card. Users can review their info but cannot edit it here — if something is wrong, the page directs them to call VA to update it.
+>
+> 2. **Contact Information** (`profileContactInfoPages`) — A set of pages for email, phone numbers, and mailing address. Users can review and edit each field directly on the form, and changes are saved back to their VA profile.
+>
+> Which would you like to add?
+> - **Personal Information only**
+> - **Contact Information only**
+> - **Both**
+
+Wait for the user to answer before proceeding. Their choice determines which pages, transformer fields, and mock data you set up in the steps below.
+
 ## Phase 1: vets-website (Frontend)
 
 Work through each step below. Many forms will already have some of these pieces in place — skip or adapt as needed based on what you found during context gathering.
@@ -68,9 +95,15 @@ If the component already renders `SaveInProgressIntro` but is missing `prefillEn
 
 The `prefillTransformer` restructures raw backend data into the shape the form expects. It must return `ssn`, `vaFileNumber`, and `fullName` — either at the root of `formData` (preferred) or nested (requires a `dataAdapter` on the Personal Information component).
 
-If the form already has a `prefillTransformer`, update it to include `ssn`, `vaFileNumber`, and `fullName` in its output. Preserve any other fields it already transforms.
+**Check the existing transformer first.** Before creating or modifying anything:
 
-If no transformer exists, create one. Here is a straightforward example:
+1. **If a `prefillTransformer` already exists AND its return value already includes `ssn`, `vaFileNumber`, and `fullName` at the root (or nested anywhere in the returned `formData`):** Do nothing to the transformer — it is already sufficient. If the values are nested (e.g., `formData.veteran.ssn`), configure a `dataAdapter` in Step 4 to point `profilePersonalInfoPage` to the correct path. Move on to Step 4.
+
+2. **If a `prefillTransformer` already exists but is MISSING `ssn`, `vaFileNumber`, or `fullName`:** EXTEND the existing transformer. Add the missing fields to its return value while preserving ALL existing transformations. Do NOT replace the transformer wholesale — the existing logic may handle form-specific data that must be retained.
+
+3. **If no `prefillTransformer` exists:** Create one from scratch.
+
+Here is a straightforward example for creating a new transformer:
 
 ```js
 export const prefillTransformer = (pages, formData, metadata) => {
@@ -142,6 +175,28 @@ const formConfig = {
 ```
 
 If the form already has a chapter for veteran/personal information, add the prefill pages there. If the form had manual fields for name, SSN, DOB, or contact info, the prefill pages replace them — remove the old manual page definitions.
+
+#### profilePersonalInfoPage Works With Custom Field Names
+
+Custom field names in the form's existing pages (e.g., `claimantFullName` instead of `fullName`, or `claimantSsn` instead of `ssn`) do NOT prevent adding `profilePersonalInfoPage`. The `prefillTransformer` creates the data shape for prefill pages independently — it maps backend data to `fullName`, `ssn`, and `vaFileNumber` in `formData`, and `profilePersonalInfoPage` reads those specific keys. The form's existing pages can continue using their own custom field names alongside the standard prefill fields.
+
+If the form already stores the name under a custom key like `claimantFullName`, you have two options:
+1. **Add `fullName` at root** (recommended) — The transformer adds `fullName` to `formData` for the prefill page. The form's existing pages keep using `claimantFullName` separately.
+2. **Use `dataAdapter` with `fullNamePath`** — If you want to reuse the existing custom key, configure `dataAdapter: { fullNamePath: 'claimantFullName', ssnPath: 'claimantSsn' }` to point `profilePersonalInfoPage` to the custom locations.
+
+Do not skip `profilePersonalInfoPage` just because the form uses non-standard field names. The pattern is designed to coexist with custom data models.
+
+#### When profileContactInfoPages Uses Different Field Names
+
+`profileContactInfoPages` stores contact data under standard field names (`mailingAddress`, `email`, `homePhone`, `mobilePhone`). If the form currently uses different field names (e.g., `claimantAddress`, `claimantEmail`), **still add `profileContactInfoPages`** — the pattern works correctly regardless of existing field names. The old fields simply become unused once the new pages are in place.
+
+After adding the pages, note what follow-up may be needed:
+
+> **Note:** This form previously used custom field names for contact info (e.g., `claimantAddress` instead of `mailingAddress`). The new `profileContactInfoPages` stores data under the standard names. The submit transformer or backend may need a minor update to read from the new field names instead of the old ones. I've added the pages — here's what to update next: [list the field name mappings].
+
+**Always add `profileContactInfoPages` when the user asks for it.** Custom field names are not a blocker — they just mean the submission pipeline needs to be updated to use the new standard names. Do not skip or refuse to add the pages due to field name differences.
+
+**Always explain when pages are skipped.** If `profileContactInfoPages` is ultimately not added — whether due to your recommendation or the user's explicit choice — you must explicitly state in your response that it was skipped and why. Never silently omit it. The user should always understand what was implemented and what was not.
 
 #### Customizing Personal Information
 
@@ -318,6 +373,8 @@ Before starting backend work, ask the user again about their working state:
 Wait for confirmation before proceeding.
 
 The backend steps configure vets-api to provide prefill data for the form. For a working example, see [PR #5391 (Pre-fill CH31)](https://github.com/department-of-veterans-affairs/vets-api/pull/5391/files).
+
+**If vets-api is available in the workspace** (e.g., as a second folder in a multi-root workspace), execute these steps directly — create the files and make the edits. **If vets-api is not in the workspace**, describe all the steps clearly so the user can implement them when they switch to the vets-api repository.
 
 ### Step 1: Add Form to form_profile.rb
 

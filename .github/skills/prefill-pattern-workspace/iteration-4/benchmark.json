@@ -1,0 +1,185 @@
+{
+  "metadata": {
+    "skill_name": "prefill-pattern",
+    "iteration": 4,
+    "timestamp": "2026-03-12T12:00:00Z",
+    "evals_run": [1, 2, 3, 4],
+    "runs_per_configuration": 1
+  },
+  "skill_changes": [
+    "Updated eval 1 assertion: profileContactInfoPages now allows justified skipping (OR explains why not added)",
+    "Fixed eval 2 quality bonuses: now reward extending transformer while preserving existing field mappings and explaining missing fields",
+    "Added eval 4: tests Case 1 (existing transformer already has all fields at nested paths) targeting 21-4192 form with personalInfo.ssn, personalInfo.vaFileNumber"
+  ],
+  "runs": [
+    {
+      "eval_id": 1,
+      "eval_name": "eval-1-greenfield",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "quality_bonuses_passed": 2,
+        "quality_bonuses_total": 2,
+        "quality_bonus_rate": 1.0
+      }
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "eval-1-greenfield",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "quality_bonuses_passed": 2,
+        "quality_bonuses_total": 2,
+        "quality_bonus_rate": 1.0
+      }
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "eval-2-existing-transformer",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.667,
+        "passed": 4,
+        "failed": 2,
+        "total": 6,
+        "quality_bonuses_passed": 2,
+        "quality_bonuses_total": 2,
+        "quality_bonus_rate": 1.0
+      }
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "eval-2-existing-transformer",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "quality_bonuses_passed": 2,
+        "quality_bonuses_total": 2,
+        "quality_bonus_rate": 1.0
+      }
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "eval-3-full-implementation",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "quality_bonuses_passed": 2,
+        "quality_bonuses_total": 2,
+        "quality_bonus_rate": 1.0
+      }
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "eval-3-full-implementation",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "quality_bonuses_passed": 2,
+        "quality_bonuses_total": 2,
+        "quality_bonus_rate": 1.0
+      }
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "eval-4-nested-transformer",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "quality_bonuses_passed": 2,
+        "quality_bonuses_total": 2,
+        "quality_bonus_rate": 1.0
+      }
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "eval-4-nested-transformer",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "quality_bonuses_passed": 2,
+        "quality_bonuses_total": 2,
+        "quality_bonus_rate": 1.0
+      }
+    }
+  ],
+  "aggregated": {
+    "with_skill": {
+      "avg_pass_rate": 0.917,
+      "total_passed": 25,
+      "total_failed": 2,
+      "total_assertions": 27,
+      "avg_quality_bonus_rate": 1.0,
+      "total_quality_bonuses_passed": 8,
+      "total_quality_bonuses": 8,
+      "per_eval": {
+        "eval-1": {"pass_rate": 1.0, "quality_bonus_rate": 1.0},
+        "eval-2": {"pass_rate": 0.667, "quality_bonus_rate": 1.0},
+        "eval-3": {"pass_rate": 1.0, "quality_bonus_rate": 1.0},
+        "eval-4": {"pass_rate": 1.0, "quality_bonus_rate": 1.0}
+      }
+    },
+    "without_skill": {
+      "avg_pass_rate": 1.0,
+      "total_passed": 27,
+      "total_failed": 0,
+      "total_assertions": 27,
+      "avg_quality_bonus_rate": 1.0,
+      "total_quality_bonuses_passed": 8,
+      "total_quality_bonuses": 8,
+      "per_eval": {
+        "eval-1": {"pass_rate": 1.0, "quality_bonus_rate": 1.0},
+        "eval-2": {"pass_rate": 1.0, "quality_bonus_rate": 1.0},
+        "eval-3": {"pass_rate": 1.0, "quality_bonus_rate": 1.0},
+        "eval-4": {"pass_rate": 1.0, "quality_bonus_rate": 1.0}
+      }
+    },
+    "delta": {
+      "pass_rate_delta": -0.083,
+      "quality_bonus_delta": 0.0
+    }
+  },
+  "regression_analysis": {
+    "eval_2_failure": {
+      "description": "Skill's 'When NOT to add profileContactInfoPages' guidance causes with-skill to skip profileContactInfoPages on the 995 form, even though user explicitly requests it. The 995 form already uses profileContactInfo (from platform), so the skill incorrectly treats it as having custom/incompatible contact fields.",
+      "root_cause": "The skill guidance is too broad — it warns about custom field names but doesn't distinguish between forms with genuinely custom fields (burials-ez: claimantAddress) vs forms that already use platform contact patterns (995: profileContactInfo wrapper).",
+      "recommendation": "Narrow the 'When NOT to add profileContactInfoPages' guidance to only apply when the form has genuinely custom field names (e.g., claimant*, veteran*Address). Add guidance: 'If the user explicitly requests adding profileContactInfoPages, add them and note any potential compatibility concerns rather than refusing.' This preserves user intent while still providing warnings."
+    }
+  },
+  "iteration_comparison": {
+    "iteration_1": {"with_skill": 0.952, "without_skill": 0.944, "delta": 0.008},
+    "iteration_2": {"with_skill": 0.958, "without_skill": 1.0, "delta": -0.042},
+    "iteration_3": {"with_skill_base": 0.952, "without_skill_base": 1.0, "with_skill_quality": 0.6, "without_skill_quality": 0.333, "quality_delta": 0.267},
+    "iteration_4": {"with_skill_base": 0.917, "without_skill_base": 1.0, "with_skill_quality": 1.0, "without_skill_quality": 1.0, "quality_delta": 0.0, "base_delta": -0.083}
+  }
+}

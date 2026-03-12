@@ -1,0 +1,84 @@
+{
+  "iteration": 1,
+  "timestamp": "2025-07-17T00:00:00Z",
+  "summary": {
+    "total_evals": 3,
+    "total_runs": 6,
+    "with_skill_avg_score": 95.2,
+    "without_skill_avg_score": 94.4,
+    "skill_delta": 0.8
+  },
+  "evals": [
+    {
+      "eval_id": 1,
+      "eval_name": "eval-1-greenfield",
+      "description": "Greenfield prefill implementation on new-chapter-36-form",
+      "with_skill": {
+        "score": 7,
+        "total": 7,
+        "percentage": 100,
+        "failed_assertions": []
+      },
+      "without_skill": {
+        "score": 7,
+        "total": 7,
+        "percentage": 100,
+        "failed_assertions": []
+      },
+      "delta": 0
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "eval-2-existing-transformer",
+      "description": "Adding prefill pages to 995 form with existing prefillTransformer",
+      "with_skill": {
+        "score": 5,
+        "total": 6,
+        "percentage": 83,
+        "failed_assertions": [
+          "Preserves the existing prefillTransformer (does not replace it wholesale)"
+        ]
+      },
+      "without_skill": {
+        "score": 5,
+        "total": 6,
+        "percentage": 83,
+        "failed_assertions": [
+          "Preserves the existing prefillTransformer (does not replace it wholesale)"
+        ]
+      },
+      "delta": 0
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "eval-3-full-implementation",
+      "description": "Full FE+BE implementation on burials-ez form",
+      "with_skill": {
+        "score": 8,
+        "total": 8,
+        "percentage": 100,
+        "failed_assertions": []
+      },
+      "without_skill": {
+        "score": 8,
+        "total": 8,
+        "percentage": 100,
+        "failed_assertions": []
+      },
+      "delta": 0
+    }
+  ],
+  "observations": [
+    "Both with-skill and without-skill performed nearly identically across all 3 evals.",
+    "Eval 2 (existing transformer): Both variants replaced the existing transformer wholesale instead of extending it. This is a skill gap — the skill should explicitly instruct to EXTEND existing transformers, not replace them.",
+    "Eval 1 (greenfield): Both variants produced correct, comprehensive implementations with all 7 assertions passing.",
+    "Eval 3 (full implementation): Both variants correctly described backend steps without attempting to modify vets-api files.",
+    "The skill does not currently provide a measurable advantage over baseline. The model already knows the prefill pattern well from codebase context alone.",
+    "Key improvement area: Add explicit guidance in the skill about preserving existing prefillTransformer logic when one already exists."
+  ],
+  "recommended_skill_changes": [
+    "Add a step in Phase 1 Step 3 (Create Prefill Transformer) that says: 'If a prefillTransformer already exists, EXTEND it rather than replacing it. Add the required fields (ssn, vaFileNumber, fullName) to the existing return structure while preserving all existing transformations.'",
+    "Add a clean-state check before creating the transformer: 'Does a prefillTransformer already exist? If yes, modify it to include the required fields.'",
+    "Consider adding more complex eval scenarios (e.g., forms with deeply nested data, forms with custom dataAdapter needs) where the skill's guidance would provide more differentiation."
+  ]
+}

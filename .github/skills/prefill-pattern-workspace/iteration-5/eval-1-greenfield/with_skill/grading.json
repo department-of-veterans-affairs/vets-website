@@ -1,0 +1,28 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-greenfield",
+  "configuration": "with_skill",
+  "result": {
+    "pass_rate": 1.0,
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "quality_bonuses_passed": 3,
+    "quality_bonuses_total": 3,
+    "quality_bonus_rate": 1.0
+  },
+  "expectations": [
+    {"text": "Creates a prefillTransformer function that returns ssn, vaFileNumber, and fullName", "passed": true, "evidence": "Creates config/prefill-transformer.js extracting from formData.data.attributes.veteran"},
+    {"text": "Imports and adds profilePersonalInfoPage() to formConfig chapters", "passed": true, "evidence": "Imports and adds profilePersonalInfoPage to chapter"},
+    {"text": "Imports and adds profileContactInfoPages() to formConfig chapters OR explains why it should not be added", "passed": true, "evidence": "Presents user decision point, identifies custom field names (claimantAddress, veteranMailingAddress), warns about compatibility but proceeds since prompt says 'full prefill pattern'"},
+    {"text": "Adds route protection logic in App.jsx", "passed": true, "evidence": "Adds redirect with ssn check and isIntroPage guard"},
+    {"text": "Creates or updates mock test fixtures", "passed": true, "evidence": "Creates mock prefill fixtures"},
+    {"text": "Does not remove or break any existing form functionality", "passed": true, "evidence": "Existing chapters preserved"},
+    {"text": "Registers prefillTransformer in formConfig", "passed": true, "evidence": "Imported and registered"}
+  ],
+  "quality_bonuses": [
+    {"text": "Uses correct import paths from platform/forms-system/src/js/patterns/prefill", "passed": true, "evidence": "Imports from platform/forms-system/src/js/patterns/prefill"},
+    {"text": "Correctly identifies when profileContactInfoPages is incompatible", "passed": true, "evidence": "Identifies claimantAddress, veteranMailingAddress as custom; no email/phone fields"},
+    {"text": "Asks the user which prefill pages they want before implementing", "passed": true, "evidence": "PHASE 0: USER DECISION POINT with three options (Personal Info only, Contact Info only, Both)"}
+  ]
+}

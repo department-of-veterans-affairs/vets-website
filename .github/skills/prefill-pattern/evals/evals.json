@@ -1,0 +1,207 @@
+{
+  "skill_name": "prefill-pattern",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I need to add the prefill pattern to the new-chapter-36-form app at src/applications/new-chapter-36-form. It already has prefillEnabled: true but nothing else. Can you implement the full prefill pattern?",
+      "expected_output": "Creates a prefillTransformer, adds profilePersonalInfoPage and profileContactInfoPages to formConfig chapters, adds route protection in App.jsx, and creates mock test fixtures for local testing.",
+      "files": [],
+      "expectations": [
+        "Creates a prefillTransformer function that returns ssn, vaFileNumber, and fullName",
+        "Imports and adds profilePersonalInfoPage() to formConfig chapters",
+        "Imports and adds profileContactInfoPages() to formConfig chapters OR explains why it should not be added (e.g., incompatible data model, custom field names)",
+        "Adds route protection logic in App.jsx that checks for login and save-in-progress data",
+        "Creates or updates mock test fixtures (sip-get.json or similar) for local testing",
+        "Does not remove or break any existing form functionality",
+        "Registers prefillTransformer in formConfig"
+      ],
+      "quality_bonuses": [
+        "Uses correct import paths from platform/forms-system/src/js/patterns/prefill",
+        "Correctly identifies when profileContactInfoPages is incompatible with the form's data model and explains the reasoning",
+        "Asks the user which prefill pages they want (Personal Information, Contact Information, or Both) before implementing"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The Supplemental Claim form at src/applications/appeals/995 already has a prefillTransformer but I want to add the profilePersonalInfoPage and profileContactInfoPages from the prefill pattern. Can you set it up?",
+      "expected_output": "Preserves existing prefillTransformer, adds profilePersonalInfoPage and profileContactInfoPages to the form's chapters, ensures the transformer output is compatible with the pattern's expectations (ssn, vaFileNumber, fullName at root or with dataAdapter).",
+      "files": [],
+      "expectations": [
+        "Preserves the existing prefillTransformer (does not replace it wholesale)",
+        "Imports profilePersonalInfoPage from platform/forms-system/src/js/patterns/prefill",
+        "Imports profileContactInfoPages from platform/forms-system/src/js/patterns/prefill",
+        "Adds both prefill pages to a chapter in formConfig",
+        "Ensures the existing prefillTransformer output includes ssn, vaFileNumber, and fullName (or configures dataAdapter if nested)",
+        "Does not break existing form chapters or page definitions"
+      ],
+      "quality_bonuses": [
+        "Extends the existing transformer while preserving all existing field mappings (e.g., veteran.ssnLastFour, veteran.vaFileLastFour)",
+        "Explains what fields the existing transformer is missing and why they need to be added",
+        "Asks the user which prefill pages they want (Personal Information, Contact Information, or Both) before implementing"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I need to implement prefill for the burials-ez form at src/applications/burials-ez (form ID 21P-530EZ). Please implement the frontend prefill pattern and then show me what backend vets-api changes are needed.",
+      "expected_output": "Implements all frontend prefill steps (transformer, pages, route protection, mock data) and then describes the vets-api backend steps (form_profile.rb, FormProfile class, YAML mapping, settings, tests) without trying to execute them.",
+      "files": [],
+      "expectations": [
+        "Creates a prefillTransformer for the burials-ez form",
+        "Adds profilePersonalInfoPage to formConfig",
+        "Adds profileContactInfoPages to formConfig OR explains why it should not be added (e.g., incompatible data model, custom field names)",
+        "Adds route protection in the form's container/App component",
+        "Describes vets-api backend steps including form_profile.rb changes",
+        "Describes creating a FormProfile class for the form",
+        "Describes the form profile mapping YAML",
+        "Describes adding prefill settings to settings.yml, development.yml, and test.yml",
+        "Does not attempt to create or modify files outside the vets-website workspace"
+      ],
+      "quality_bonuses": [
+        "Correctly identifies when profileContactInfoPages is incompatible with the form's data model and explains the reasoning",
+        "Preserves existing form field names and data model rather than blindly replacing them",
+        "Asks the user which prefill pages they want (Personal Information, Contact Information, or Both) before implementing"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "The 21-4192 Employment Information form at src/applications/benefits-optimization-aquia/21-4192-employment-information already has a prefillTransformer that returns ssn, vaFileNumber, and fullName nested under personalInfo (e.g., personalInfo.ssn, personalInfo.fullName). I want to add the profilePersonalInfoPage from the prefill pattern. Can you set it up?",
+      "expected_output": "Does NOT modify the existing prefillTransformer. Adds profilePersonalInfoPage with a dataAdapter that points to the nested paths (personalInfo.ssn, personalInfo.vaFileNumber). Preserves the transformer as-is since it already provides all required fields.",
+      "files": [],
+      "expectations": [
+        "Does NOT modify the existing prefillTransformer (it already provides ssn, vaFileNumber, and fullName)",
+        "Imports profilePersonalInfoPage from platform/forms-system/src/js/patterns/prefill",
+        "Adds profilePersonalInfoPage to a chapter in formConfig",
+        "Configures a dataAdapter with ssnPath and vaFileNumberPath pointing to the nested locations under personalInfo",
+        "Does not break existing form chapters or page definitions"
+      ],
+      "quality_bonuses": [
+        "Explains that the existing transformer already provides all required fields so no modification is needed",
+        "Uses the correct nested paths in dataAdapter (personalInfo.ssn, personalInfo.vaFileNumber)"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I want to add just the contact information prefill pages to the new-chapter-36-form at src/applications/new-chapter-36-form. I only need profileContactInfoPages — not the personal info page.",
+      "expected_output": "Adds only profileContactInfoPages (not profilePersonalInfoPage). Still creates or updates the prefillTransformer as needed. Analyzes the form's contact field names for compatibility and warns about any issues.",
+      "files": [],
+      "expectations": [
+        "Adds profileContactInfoPages to formConfig chapters",
+        "Does NOT add profilePersonalInfoPage (user explicitly said not to)",
+        "Creates or updates the prefillTransformer if needed",
+        "Registers prefillTransformer in formConfig",
+        "Analyzes the form's contact field names for compatibility with profileContactInfoPages",
+        "Does not break existing form chapters or page definitions"
+      ],
+      "quality_bonuses": [
+        "Warns about incompatible field names (claimantAddress, veteranMailingAddress) before proceeding",
+        "Respects the user's choice to add only contact pages without trying to also add personal info"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "I want to add the prefill pattern to the mock-sip-form at src/applications/mock-sip-form. It has a very basic formConfig with minimal chapters. Can you implement it?",
+      "expected_output": "Creates the full prefill implementation including transformer, prefill pages, and route protection on a minimal form that has very few existing pages/chapters.",
+      "files": [],
+      "expectations": [
+        "Creates a prefillTransformer function",
+        "Adds prefill pages to the formConfig chapters",
+        "Creates or adds to the chapter structure (does not assume chapters already exist in a specific shape)",
+        "Adds route protection in the App component",
+        "Registers prefillTransformer in formConfig",
+        "Does not break existing form functionality"
+      ],
+      "quality_bonuses": [
+        "Asks the user which prefill pages they want before implementing",
+        "Correctly handles the minimal form structure without over-engineering"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "The mock-form-prefill app at src/applications/simple-forms/mock-form-prefill already has the prefill pattern implemented. Can you add prefill to it?",
+      "expected_output": "Detects that the form already has profilePersonalInfoPage and profileContactInfoPages and informs the user that prefill is already implemented rather than duplicating everything.",
+      "files": [],
+      "expectations": [
+        "Reads the existing formConfig and identifies that profilePersonalInfoPage is already present",
+        "Reads the existing formConfig and identifies that profileContactInfoPages is already present",
+        "Identifies that a prefillTransformer already exists",
+        "Does NOT duplicate the existing prefill pages or transformer",
+        "Informs the user that the prefill pattern is already implemented"
+      ],
+      "quality_bonuses": [
+        "Lists what is already in place (transformer, personal info page, contact info pages, route protection)",
+        "Suggests potential improvements or missing pieces rather than re-implementing everything"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "I need to set up the vets-api backend side for prefill on the burials-ez form (form ID 21P-530EZ). I don't need any frontend changes — just tell me what backend changes are needed in vets-api.",
+      "expected_output": "Describes only the vets-api backend steps (form_profile.rb, FormProfile class, YAML mapping, settings, tests) without doing any frontend work.",
+      "files": [],
+      "expectations": [
+        "Describes adding the form to form_profile.rb (ALL_FORMS and FORM_ID_TO_CLASS)",
+        "Describes creating a FormProfile class with metadata",
+        "Describes creating the form profile mapping YAML",
+        "Describes adding prefill settings to settings.yml, development.yml, and test.yml",
+        "Describes adding tests to form_profile_spec.rb",
+        "Does NOT attempt frontend changes (no transformer, no prefill pages, no route protection)",
+        "Does not attempt to create or modify files outside the vets-website workspace"
+      ],
+      "quality_bonuses": [
+        "Skips frontend steps entirely without being asked twice",
+        "Provides the correct FormProfile class naming convention for the form ID"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "The Supplemental Claim form at src/applications/appeals/995 already has contact info pages using the older profileContactInfo pattern from platform/forms-system/src/js/definitions/profileContactInfo. These pages have custom validation (contactInfo995Validation) and conditional required fields based on housingRisk. I want to add profileContactInfoPages from the new prefill pattern. What should I be aware of?",
+      "expected_output": "Warns that replacing the existing contact info pages will lose the custom validation logic and conditional required fields. Explains the differences between the old and new patterns and advises on how to preserve the custom behavior.",
+      "files": [],
+      "expectations": [
+        "Identifies the existing custom validation (contactInfo995Validation) on the current contact pages",
+        "Identifies the conditional required fields based on housingRisk",
+        "Warns that replacing with profileContactInfoPages may lose this custom logic",
+        "Explains the difference between old profileContactInfo and new profileContactInfoPages",
+        "Does not blindly replace the existing contact pages without warning"
+      ],
+      "quality_bonuses": [
+        "Suggests a migration path that preserves the custom validation",
+        "Explains which profileContactInfoPages options could replicate the existing behavior"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "I'm thinking about adding prefill to one of our forms but I'm not sure if it makes sense. The form is at src/applications/burials-ez. Can you look at the form and tell me what prefill would involve and whether it's a good fit?",
+      "expected_output": "Provides an advisory analysis of the form's prefill readiness — what's already in place, what would need to change, and any compatibility concerns — without making changes.",
+      "files": [],
+      "expectations": [
+        "Reads and analyzes the form's current state (prefillEnabled, existing pages, field names)",
+        "Identifies what is already in place for prefill",
+        "Identifies what would need to be added",
+        "Flags any compatibility concerns (e.g., custom field names for contact info)",
+        "Does NOT make any file changes — this is an advisory/exploratory request",
+        "Provides a clear recommendation on whether prefill is a good fit"
+      ],
+      "quality_bonuses": [
+        "Asks clarifying questions about what the user's goals are before giving advice",
+        "Distinguishes between personal info pages (likely compatible) and contact info pages (likely incompatible due to custom field names)"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "The 21-4192 form at src/applications/benefits-optimization-aquia/21-4192-employment-information has its prefill data nested under personalInfo and contactInfo namespaces. I want to add both profilePersonalInfoPage and profileContactInfoPages. Can you set it up?",
+      "expected_output": "Adds profilePersonalInfoPage with dataAdapter for nested personalInfo paths. Analyzes the contactInfo namespace for compatibility with profileContactInfoPages and either adds it with appropriate configuration or warns about incompatibility.",
+      "files": [],
+      "expectations": [
+        "Does NOT modify the existing prefillTransformer (it already provides all required fields)",
+        "Adds profilePersonalInfoPage with dataAdapter pointing to personalInfo.ssn and personalInfo.vaFileNumber",
+        "Analyzes the contactInfo namespace structure for profileContactInfoPages compatibility",
+        "Adds profileContactInfoPages with appropriate wrapperKey or configuration OR warns about incompatibility",
+        "Does not break existing form chapters or page definitions"
+      ],
+      "quality_bonuses": [
+        "Correctly identifies the contactInfo structure (phone, email, mailingAddress) and maps it to profileContactInfoPages configuration",
+        "Explains that the transformer is already sufficient and uses dataAdapter instead of modifying it"
+      ]
+    }
+  ]
+}

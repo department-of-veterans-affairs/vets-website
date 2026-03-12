@@ -1,0 +1,43 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-full-implementation",
+  "variant": "with_skill",
+  "assertions": {
+    "Creates a prefillTransformer for the burials-ez form": {
+      "pass": true,
+      "notes": "Creates prefillTransformer mapping data.attributes.veteran to root-level fullName, ssn, vaFileNumber, plus claimant-specific fields (claimantFullName, claimantSocialSecurityNumber, claimantAddress, etc.) for the submission pipeline."
+    },
+    "Adds profilePersonalInfoPage and profileContactInfoPages to formConfig": {
+      "pass": false,
+      "notes": "Adds profilePersonalInfoPage but explicitly decides NOT to add profileContactInfoPages. Reason: 'Contact info pages are NOT replaced with profileContactInfoPages because the form uses custom field names (claimantAddress, claimantEmail, claimantPhone, claimantIntPhone) and includes an international phone field not supported by the profile pattern.' This is arguably BETTER engineering (avoids breaking the data model) but fails the strict assertion."
+    },
+    "Adds route protection in the form's container/App component": {
+      "pass": true,
+      "notes": "Enhances BurialsApp.jsx to check formData?.ssn in addition to isLoggedIn. Uses useSelector (consistent with existing hooks pattern)."
+    },
+    "Describes vets-api backend steps including form_profile.rb changes": {
+      "pass": true,
+      "notes": "Describes adding 21P-530EZ to ALL_FORMS and FORM_ID_TO_CLASS hashes."
+    },
+    "Describes creating a FormProfile class for the form": {
+      "pass": true,
+      "notes": "Describes creating FormProfiles::VA21P530EZ with metadata including version, prefill, returnUrl."
+    },
+    "Describes the form profile mapping YAML": {
+      "pass": true,
+      "notes": "Describes creating 21P-530EZ.yml mapping veteran fields and contact info from identity_information and contact_information."
+    },
+    "Describes adding prefill settings to settings.yml, development.yml, and test.yml": {
+      "pass": true,
+      "notes": "Describes adding burial: prefill: true to all three settings files."
+    },
+    "Does not attempt to create or modify files outside the vets-website workspace": {
+      "pass": true,
+      "notes": "All backend changes are DESCRIBED only. Frontend changes are within vets-website."
+    }
+  },
+  "score": 7,
+  "total": 8,
+  "percentage": 87.5,
+  "quality_notes": "The failed assertion (profileContactInfoPages) is actually a BETTER engineering decision — the form has custom claimant-specific field names and an international phone field not supported by profileContactInfoPages. Adding it would break the data model and submission pipeline. The with-skill variant showed deeper architectural analysis."
+}

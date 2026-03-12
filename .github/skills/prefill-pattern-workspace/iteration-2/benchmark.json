@@ -1,0 +1,91 @@
+{
+  "iteration": 2,
+  "timestamp": "2026-03-11T00:00:00Z",
+  "skill_change": "Added explicit 3-step decision tree for existing transformers: (a) already sufficient → do nothing, (b) missing fields → EXTEND, (c) no transformer → create from scratch",
+  "summary": {
+    "total_evals": 3,
+    "total_runs": 6,
+    "with_skill_avg_score": 95.8,
+    "without_skill_avg_score": 100,
+    "skill_delta": -4.2
+  },
+  "evals": [
+    {
+      "eval_id": 1,
+      "eval_name": "eval-1-greenfield",
+      "description": "Greenfield prefill implementation on new-chapter-36-form",
+      "with_skill": {
+        "score": 7,
+        "total": 7,
+        "percentage": 100,
+        "failed_assertions": []
+      },
+      "without_skill": {
+        "score": 7,
+        "total": 7,
+        "percentage": 100,
+        "failed_assertions": []
+      },
+      "delta": 0
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "eval-2-existing-transformer",
+      "description": "Adding prefill pages to 995 form with existing prefillTransformer",
+      "with_skill": {
+        "score": 6,
+        "total": 6,
+        "percentage": 100,
+        "failed_assertions": []
+      },
+      "without_skill": {
+        "score": 6,
+        "total": 6,
+        "percentage": 100,
+        "failed_assertions": []
+      },
+      "delta": 0
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "eval-3-full-implementation",
+      "description": "Full FE+BE implementation on burials-ez form",
+      "with_skill": {
+        "score": 7,
+        "total": 8,
+        "percentage": 87.5,
+        "failed_assertions": [
+          "Adds profilePersonalInfoPage and profileContactInfoPages to formConfig"
+        ],
+        "quality_note": "Failed assertion is actually BETTER engineering — the with-skill variant correctly identified that profileContactInfoPages would break burials-ez's custom data model (claimant-specific field names, international phone). Chose to pre-populate existing manual fields via transformer instead."
+      },
+      "without_skill": {
+        "score": 8,
+        "total": 8,
+        "percentage": 100,
+        "failed_assertions": [],
+        "quality_note": "Passes all assertions but the profileContactInfoPages addition would change the form's data model and break the submission pipeline. Notes the risk but proceeds anyway."
+      },
+      "delta": -12.5
+    }
+  ],
+  "comparison_with_iteration_1": {
+    "iteration_1_with_skill_avg": 95.2,
+    "iteration_2_with_skill_avg": 95.8,
+    "iteration_1_without_skill_avg": 94.4,
+    "iteration_2_without_skill_avg": 100,
+    "eval_2_improvement": "FIXED — Both variants now preserve the existing transformer (iter 1: both failed, iter 2: both pass). The without-skill variant also improved, likely due to model variance or better contextual analysis."
+  },
+  "observations": [
+    "Eval 2 (existing transformer): FIXED! Both variants now preserve the existing transformer. The skill's decision tree guided the with-skill variant explicitly, but the without-skill also found the dataAdapter approach independently.",
+    "Eval 3 (burials-ez): The with-skill variant showed DEEPER architectural analysis — correctly identified that profileContactInfoPages would break the form's claimant-specific data model. This is a higher-quality engineering decision but fails a strict assertion check.",
+    "The with-skill variant's eval 3 'failure' is a false negative — the assertion is too rigid. The skill teaches the agent to analyze the form's data model first, which led to a BETTER decision.",
+    "The without-skill variant's eval 3 'pass' is arguably a false positive — it adds profileContactInfoPages without accounting for the data model change, which would require submission pipeline updates.",
+    "Overall: The skill produces more architecturally-sound decisions but may score lower on rigid assertion-based grading."
+  ],
+  "recommended_next_steps": [
+    "Update eval 3 assertion to allow skipping profileContactInfoPages when the form's data model is incompatible (e.g., 'Adds profilePersonalInfoPage to formConfig, and either adds profileContactInfoPages or explains why it should not be added')",
+    "Add a new eval specifically targeting forms with incompatible data models to test the skill's architectural judgment",
+    "Consider adding a 'quality score' metric that rewards correct architectural decisions beyond strict assertion matching"
+  ]
+}

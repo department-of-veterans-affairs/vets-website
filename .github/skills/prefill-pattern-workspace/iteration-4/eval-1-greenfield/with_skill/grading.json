@@ -1,0 +1,28 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-greenfield",
+  "configuration": "with_skill",
+  "result": {
+    "pass_rate": 1.0,
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "quality_bonuses_passed": 2,
+    "quality_bonuses_total": 2,
+    "quality_bonus_rate": 1.0
+  },
+  "expectations": [
+    {"text": "Creates a prefillTransformer function that returns ssn, vaFileNumber, and fullName", "passed": true, "evidence": "Creates transformer extracting from formData.data.attributes.veteran with ssn, vaFileNumber, and fullName object"},
+    {"text": "Imports and adds profilePersonalInfoPage() to formConfig chapters", "passed": true, "evidence": "Imports profilePersonalInfoPage and adds it to veteranServiceMemberInfoChapter"},
+    {"text": "Imports and adds profileContactInfoPages() to formConfig chapters OR explains why it should not be added", "passed": true, "evidence": "Explains profileContactInfoPages should NOT be added — form uses custom field names (claimantAddress, veteranMailingAddress) and has no email/phone fields"},
+    {"text": "Adds route protection logic in App.jsx that checks for login and save-in-progress data", "passed": true, "evidence": "Adds useEffect redirect with ssn check and isIntroPage guard"},
+    {"text": "Creates or updates mock test fixtures (sip-get.json or similar) for local testing", "passed": true, "evidence": "Creates mock prefill fixtures with veteran data"},
+    {"text": "Does not remove or break any existing form functionality", "passed": true, "evidence": "All existing chapters and pages preserved unchanged"},
+    {"text": "Registers prefillTransformer in formConfig", "passed": true, "evidence": "Imports and registers prefillTransformer in formConfig object"}
+  ],
+  "quality_bonuses": [
+    {"text": "Uses correct import paths from platform/forms-system/src/js/patterns/prefill", "passed": true, "evidence": "Imports from platform/forms-system/src/js/patterns/prefill"},
+    {"text": "Correctly identifies when profileContactInfoPages is incompatible with the form's data model and explains the reasoning", "passed": true, "evidence": "Identifies claimantAddress, veteranMailingAddress as custom names incompatible with pattern; notes no email or phone fields exist"}
+  ],
+  "notes": ["Skill guidance correctly triggered 'When NOT to add profileContactInfoPages' — form has custom field names and missing standard fields"]
+}

@@ -1,0 +1,18 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-greenfield",
+  "prompt": "I need to add the prefill pattern to the new-chapter-36-form app at src/applications/new-chapter-36-form. It already has prefillEnabled: true but nothing else. Can you implement the full prefill pattern?",
+  "assertions": [
+    "Creates a prefillTransformer function that returns ssn, vaFileNumber, and fullName",
+    "Imports and adds profilePersonalInfoPage() to formConfig chapters",
+    "Imports and adds profileContactInfoPages() to formConfig chapters OR explains why it should not be added (e.g., incompatible data model, custom field names)",
+    "Adds route protection logic in App.jsx that checks for login and save-in-progress data",
+    "Creates or updates mock test fixtures (sip-get.json or similar) for local testing",
+    "Does not remove or break any existing form functionality",
+    "Registers prefillTransformer in formConfig"
+  ],
+  "quality_bonuses": [
+    "Uses correct import paths from platform/forms-system/src/js/patterns/prefill",
+    "Correctly identifies when profileContactInfoPages is incompatible with the form's data model and explains the reasoning"
+  ]
+}

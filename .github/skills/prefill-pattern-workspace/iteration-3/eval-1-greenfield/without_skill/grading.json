@@ -1,0 +1,59 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-greenfield",
+  "variant": "without_skill",
+  "expectations": [
+    {
+      "text": "Creates a prefillTransformer function that returns ssn, vaFileNumber, and fullName",
+      "passed": true,
+      "evidence": "Creates prefill-transformer.js extracting ssn, vaFileNumber, firstName/middleName/lastName/suffix from formData.data.attributes.veteran, returning ssn, vaFileNumber, fullName at root."
+    },
+    {
+      "text": "Imports and adds profilePersonalInfoPage() to formConfig chapters",
+      "passed": true,
+      "evidence": "Imports profilePersonalInfoPage from platform/forms-system/src/js/patterns/prefill and adds ...profilePersonalInfoPage() to new veteranInformation chapter."
+    },
+    {
+      "text": "Imports and adds profileContactInfoPages() to formConfig chapters",
+      "passed": true,
+      "evidence": "Imports profileContactInfoPages and adds ...profileContactInfoPages() to the same veteranInformation chapter alongside profilePersonalInfoPage."
+    },
+    {
+      "text": "Adds route protection logic in App.jsx that checks for login and save-in-progress data",
+      "passed": true,
+      "evidence": "Replaces App.jsx with connect(mapStateToProps) pattern, checking isLoggedIn and formData?.ssn, redirecting via document.location.replace."
+    },
+    {
+      "text": "Creates or updates mock test fixtures (sip-get.json or similar) for local testing",
+      "passed": true,
+      "evidence": "Result mentions updating mock data with prefill structure for local testing."
+    },
+    {
+      "text": "Does not remove or break any existing form functionality",
+      "passed": true,
+      "evidence": "Existing chapters remain unchanged. New veteranInformation chapter added before existing chapters."
+    },
+    {
+      "text": "Registers prefillTransformer in formConfig",
+      "passed": true,
+      "evidence": "Imports prefillTransformer and registers it in formConfig: prefillTransformer,"
+    }
+  ],
+  "quality_bonuses": [
+    {
+      "text": "Uses correct import paths from platform/forms-system/src/js/patterns/prefill",
+      "passed": true,
+      "evidence": "Imports from 'platform/forms-system/src/js/patterns/prefill'."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0,
+    "quality_bonuses_passed": 1,
+    "quality_bonuses_total": 1,
+    "quality_bonus_rate": 1.0
+  },
+  "quality_notes": "Passes all assertions. Adds profileContactInfoPages without checking data model compatibility — this may introduce issues with the form's claimantAddress/veteranAddress field names but passes the strict assertion."
+}

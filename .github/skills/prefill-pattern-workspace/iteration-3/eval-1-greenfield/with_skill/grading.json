@@ -1,0 +1,59 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-greenfield",
+  "variant": "with_skill",
+  "expectations": [
+    {
+      "text": "Creates a prefillTransformer function that returns ssn, vaFileNumber, and fullName",
+      "passed": true,
+      "evidence": "Creates prefill-transformer.js extracting ssn, vaFileNumber, fullName from formData.data.attributes.veteran."
+    },
+    {
+      "text": "Imports and adds profilePersonalInfoPage() to formConfig chapters",
+      "passed": true,
+      "evidence": "Imports from platform/forms-system/src/js/patterns/prefill and adds ...profilePersonalInfoPage() with personalInfoConfig to veteranPersonalInfoChapter."
+    },
+    {
+      "text": "Imports and adds profileContactInfoPages() to formConfig chapters",
+      "passed": false,
+      "evidence": "Explicitly skipped. Notes: 'This form uses custom field names for contact info (claimantAddress, veteranAddress, veteranServiceMemberInfo). These do NOT match the standard schema expected by profileContactInfoPages.' This follows the skill's 'When NOT to add profileContactInfoPages' guidance."
+    },
+    {
+      "text": "Adds route protection logic in App.jsx that checks for login and save-in-progress data",
+      "passed": true,
+      "evidence": "Replaces App.jsx with route protection checking isLoggedIn and formData?.ssn, redirecting to manifest.rootUrl when appropriate."
+    },
+    {
+      "text": "Creates or updates mock test fixtures (sip-get.json or similar) for local testing",
+      "passed": true,
+      "evidence": "Notes existing mock data and proposes updating it to include SSN, vaFileNumber, and full name fields for prefill testing."
+    },
+    {
+      "text": "Does not remove or break any existing form functionality",
+      "passed": true,
+      "evidence": "All existing chapters and pages preserved. Existing veteranServiceMemberInfoChapter kept intact."
+    },
+    {
+      "text": "Registers prefillTransformer in formConfig",
+      "passed": true,
+      "evidence": "Adds prefillTransformer import and registers it in formConfig object after prefillEnabled."
+    }
+  ],
+  "quality_bonuses": [
+    {
+      "text": "Uses correct import paths from platform/forms-system/src/js/patterns/prefill",
+      "passed": true,
+      "evidence": "Imports from 'platform/forms-system/src/js/patterns/prefill'."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 1,
+    "total": 7,
+    "pass_rate": 0.857,
+    "quality_bonuses_passed": 1,
+    "quality_bonuses_total": 1,
+    "quality_bonus_rate": 1.0
+  },
+  "quality_notes": "The with-skill variant correctly analyzed the form's data model and followed the 'When NOT to add profileContactInfoPages' guidance. The new-chapter-36-form uses claimantAddress and veteranAddress — custom field names that don't match profileContactInfoPages expectations. This is the same pattern as burials-ez (eval 3). The skill's guidance is working as intended but the eval 1 assertion is too strict for this form."
+}

@@ -1,0 +1,27 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-existing-transformer",
+  "configuration": "without_skill",
+  "result": {
+    "pass_rate": 1.0,
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "quality_bonuses_passed": 2,
+    "quality_bonuses_total": 3,
+    "quality_bonus_rate": 0.667
+  },
+  "expectations": [
+    {"text": "Preserves the existing prefillTransformer (does not replace it wholesale)", "passed": true, "evidence": "Extends transformer with additional fields while preserving existing structure"},
+    {"text": "Imports profilePersonalInfoPage from platform/forms-system/src/js/patterns/prefill", "passed": true, "evidence": "Imports profilePersonalInfoPage"},
+    {"text": "Imports profileContactInfoPages from platform/forms-system/src/js/patterns/prefill", "passed": true, "evidence": "Imports profileContactInfoPages"},
+    {"text": "Adds both prefill pages to a chapter in formConfig", "passed": true, "evidence": "Adds both to infoPages chapter"},
+    {"text": "Ensures the existing prefillTransformer output includes ssn, vaFileNumber, and fullName", "passed": true, "evidence": "Extends transformer to include required fields at root"},
+    {"text": "Does not break existing form chapters or page definitions", "passed": true, "evidence": "Existing pages preserved"}
+  ],
+  "quality_bonuses": [
+    {"text": "Extends the existing transformer while preserving all existing field mappings", "passed": true, "evidence": "Preserves existing field mappings while adding new fields"},
+    {"text": "Explains what fields the existing transformer is missing and why they need to be added", "passed": true, "evidence": "Identifies only last-4 digits present, needs full fields for prefill pattern"},
+    {"text": "Asks the user which prefill pages they want before implementing", "passed": false, "evidence": "No skill — does not present page selection question"}
+  ]
+}
