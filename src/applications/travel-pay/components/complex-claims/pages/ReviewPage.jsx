@@ -4,9 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import {
+  useFeatureToggle,
+  TOGGLE_NAMES,
+} from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui/focus';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import useRecordPageview from '../../../hooks/useRecordPageview';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
 import {
@@ -21,7 +24,6 @@ import {
   clearReviewPageAlert,
   setExpenseBackDestination,
 } from '../../../redux/actions';
-import { ComplexClaimsHelpSection } from '../../HelpText';
 
 const ReviewPage = () => {
   const navigate = useNavigate();
@@ -34,10 +36,12 @@ const ReviewPage = () => {
   const documents = useSelector(selectAllDocuments) ?? [];
   const alertMessage = useSelector(selectReviewPageAlert);
 
+  const { useToggleValue } = useFeatureToggle();
+  const ccEnabled = useToggleValue(TOGGLE_NAMES.travelPayEnableCommunityCare);
+
   const title = 'Your unsubmitted expenses';
 
   useSetPageTitle(title);
-  useRecordPageview('complex-claims', title);
 
   useEffect(
     () => {
@@ -55,7 +59,17 @@ const ReviewPage = () => {
     [alertMessage],
   );
 
-  // Get total by expense type and return expenses alphabetically
+  // Clear alert when user navigates away from review page
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearReviewPageAlert());
+      };
+    },
+    [dispatch],
+  );
+
+  // Get total by expense type and return expenses in EXPENSE_TYPES order
   const totalByExpenseType = Object.fromEntries(
     Object.entries(
       expenses.reduce((acc, expense) => {
@@ -64,7 +78,10 @@ const ReviewPage = () => {
           (acc[expenseType] || 0) + (expense.costRequested || 0);
         return acc;
       }, {}),
-    ).sort(([a], [b]) => a.localeCompare(b)),
+    ).sort(([a], [b]) => {
+      const order = Object.keys(EXPENSE_TYPES);
+      return order.indexOf(a) - order.indexOf(b);
+    }),
   );
 
   // Create a grouped version of expenses by expenseType
@@ -132,7 +149,6 @@ const ReviewPage = () => {
             You haven’t added any expenses. Add at least 1 expense to submit
             your claim.
           </p>
-          <ComplexClaimsHelpSection />
         </>
       ) : (
         <>
@@ -141,14 +157,14 @@ const ReviewPage = () => {
             accept the travel agreement and submit your claim. Make sure to file
             your claim within 30 days of your appointment.
           </p>
-          <h2>Expense types</h2>
+          {!ccEnabled && <h2>Expense types</h2>}
           <ExpensesAccordion
             expenses={expenses}
             documents={documents}
             groupAccordionItemsByType
-            headerLevel={3}
+            headerLevel={ccEnabled ? 2 : 3}
           />
-          <div className="vads-u-margin-top--1">
+          <div className="vads-u-margin-top--3">
             <va-card data-testid="summary-box" background>
               <h2 className="vads-u-margin-top--1">Estimated reimbursement</h2>
               <ul>

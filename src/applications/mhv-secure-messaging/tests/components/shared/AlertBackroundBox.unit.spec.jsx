@@ -33,7 +33,7 @@ describe('Alert Backround Box component', () => {
     expect(findByText(Alerts.Message.DELETE_MESSAGE_ERROR));
   });
 
-  it('should announce current folder if path is folders/:folderId', async () => {
+  it('should display alert content when path is folders/:folderId', async () => {
     const activeAlertObj = {
       datestamp: '2022-10-07T19:25:32.832Z',
       isActive: true,
@@ -76,12 +76,16 @@ describe('Alert Backround Box component', () => {
         'close-btn-aria-label',
         'Close notification',
       );
-      expect(screen.getByText(activeAlertObj.content)).to.exist;
-      expect(screen.getByText('You are in Test Mock Folder.')).to.exist;
+      expect(screen.getByTestId('alert-text').textContent).to.equal(
+        activeAlertObj.content,
+      );
+      // sr-only span exists with delayed content (empty initially due to focusin delay)
+      const srSpan = screen.getByTestId('sr-only-alert-text');
+      expect(srSpan).to.exist;
     });
   });
 
-  it('should announce "my folders page" if path is folders/', async () => {
+  it('should display alert content when path is folders/', async () => {
     const activeAlertObj = {
       datestamp: '2022-10-07T19:25:32.832Z',
       isActive: true,
@@ -115,12 +119,15 @@ describe('Alert Backround Box component', () => {
         'close-btn-aria-label',
         'Close notification',
       );
-      expect(screen.getByText(activeAlertObj.content)).to.exist;
-      expect(screen.getByText('You are in the my folders page.')).to.exist;
+      expect(screen.getByTestId('alert-text').textContent).to.equal(
+        activeAlertObj.content,
+      );
+      const srSpan = screen.getByTestId('sr-only-alert-text');
+      expect(srSpan).to.exist;
     });
   });
 
-  it('should announce current message header if path is thread/:messageId', async () => {
+  it('should display alert content when path is thread/:messageId', async () => {
     const activeAlertObj = {
       datestamp: '2022-10-07T19:25:32.832Z',
       isActive: true,
@@ -165,16 +172,15 @@ describe('Alert Backround Box component', () => {
         'close-btn-aria-label',
         'Close notification',
       );
-      expect(screen.getByText(activeAlertObj.content)).to.exist;
-      expect(
-        screen.getByText(
-          'You are in Medication: Prescription Inquiry message thread.',
-        ),
-      ).to.exist;
+      expect(screen.getByTestId('alert-text').textContent).to.equal(
+        activeAlertObj.content,
+      );
+      const srSpan = screen.getByTestId('sr-only-alert-text');
+      expect(srSpan).to.exist;
     });
   });
 
-  it('should announce current message header if path is reply/:messageId', async () => {
+  it('should display alert content when path is reply/:messageId', async () => {
     const activeAlertObj = {
       datestamp: '2022-10-07T19:25:32.832Z',
       isActive: true,
@@ -219,10 +225,11 @@ describe('Alert Backround Box component', () => {
         'close-btn-aria-label',
         'Close notification',
       );
-      expect(screen.getByText(activeAlertObj.content)).to.exist;
-      expect(
-        screen.getByText('You are in General: Help Inquiry message reply.'),
-      ).to.exist;
+      expect(screen.getByTestId('alert-text').textContent).to.equal(
+        activeAlertObj.content,
+      );
+      const srSpan = screen.getByTestId('sr-only-alert-text');
+      expect(srSpan).to.exist;
     });
   });
 
@@ -254,7 +261,9 @@ describe('Alert Backround Box component', () => {
 
       await waitFor(() => {
         // Verify the alert content is displayed
-        expect(screen.getByText(Alerts.Message.SEND_MESSAGE_SUCCESS)).to.exist;
+        expect(screen.getByTestId('alert-text').textContent).to.equal(
+          Alerts.Message.SEND_MESSAGE_SUCCESS,
+        );
 
         // Verify the RouterLink is rendered with correct attributes
         const sentLink = screen.container.querySelector(
@@ -297,7 +306,9 @@ describe('Alert Backround Box component', () => {
 
       await waitFor(() => {
         // Verify the alert content is displayed
-        expect(screen.getByText(activeAlertObj.content)).to.exist;
+        expect(screen.getByTestId('alert-text').textContent).to.equal(
+          activeAlertObj.content,
+        );
 
         // Verify NO link to sent folder is rendered
         const sentLink = screen.container.querySelector(
@@ -410,7 +421,9 @@ describe('Alert Backround Box component', () => {
 
       await waitFor(() => {
         // Verify the alert content is displayed
-        expect(screen.getByText(Alerts.Message.SEND_MESSAGE_SUCCESS)).to.exist;
+        expect(screen.getByTestId('alert-text').textContent).to.equal(
+          Alerts.Message.SEND_MESSAGE_SUCCESS,
+        );
 
         // Verify NO link to sent folder is rendered since user came from sent
         const sentLink = screen.container.querySelector(
@@ -453,7 +466,9 @@ describe('Alert Backround Box component', () => {
 
       await waitFor(() => {
         // Verify the alert content is displayed
-        expect(screen.getByText(Alerts.Message.SEND_MESSAGE_SUCCESS)).to.exist;
+        expect(screen.getByTestId('alert-text').textContent).to.equal(
+          Alerts.Message.SEND_MESSAGE_SUCCESS,
+        );
 
         // Verify NO link to sent folder is rendered since user came from sent folder thread
         const sentLink = screen.container.querySelector(
@@ -461,6 +476,288 @@ describe('Alert Backround Box component', () => {
         );
         expect(sentLink).to.not.exist;
       });
+    });
+  });
+
+  describe('Delayed sr-only announcement', () => {
+    it('sr-only span is empty before focus settles or ceiling timer', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: 'Success',
+        content: 'Message was successfully sent.',
+      };
+      const { getByTestId } = renderWithStoreAndRouter(
+        <AlertBackgroundBox closeable />,
+        {
+          initialState: {
+            sm: {
+              alerts: { alertVisible: true, alertList: [activeAlertObj] },
+            },
+          },
+          reducers: reducer,
+          path: Paths.INBOX,
+        },
+      );
+      await waitFor(() => {
+        const srSpan = getByTestId('sr-only-alert-text');
+        expect(srSpan).to.exist;
+        expect(srSpan.textContent).to.equal('');
+      });
+    });
+
+    it('sr-only span populates after H1 receives focus + 1s delay', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: 'Success',
+        content: 'Message was successfully sent.',
+      };
+      const { getByTestId } = renderWithStoreAndRouter(
+        <AlertBackgroundBox closeable />,
+        {
+          initialState: {
+            sm: {
+              alerts: { alertVisible: true, alertList: [activeAlertObj] },
+            },
+          },
+          reducers: reducer,
+          path: Paths.INBOX,
+        },
+      );
+
+      // Wait for the alert to fully render so the useLayoutEffect focusin
+      // listener is registered (it depends on alertContent being set).
+      await waitFor(() => {
+        const alertText = getByTestId('alert-text');
+        expect(alertText).to.exist;
+        expect(alertText.textContent).to.equal(activeAlertObj.content);
+      });
+
+      // Simulate H1 receiving focus
+      const h1 = document.createElement('h1');
+      document.body.appendChild(h1);
+      h1.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+
+      await waitFor(
+        () => {
+          const srSpan = getByTestId('sr-only-alert-text');
+          expect(srSpan.textContent).to.equal(activeAlertObj.content);
+        },
+        { timeout: 2000 },
+      );
+
+      document.body.removeChild(h1);
+    });
+
+    it('sr-only span populates via 5s ceiling when focus keeps moving', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: 'Success',
+        content: 'Message was successfully sent.',
+      };
+      const { getByTestId } = renderWithStoreAndRouter(
+        <AlertBackgroundBox closeable />,
+        {
+          initialState: {
+            sm: {
+              alerts: { alertVisible: true, alertList: [activeAlertObj] },
+            },
+          },
+          reducers: reducer,
+          path: Paths.INBOX,
+        },
+      );
+
+      // Don't trigger any focusin event — rely on ceiling
+      await waitFor(
+        () => {
+          const srSpan = getByTestId('sr-only-alert-text');
+          expect(srSpan.textContent).to.equal(activeAlertObj.content);
+        },
+        { timeout: 6000 },
+      );
+    });
+  });
+
+  describe('handleAlertFocus restriction', () => {
+    it('error alert still receives focus via onVa-component-did-load', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'error',
+        header: 'Error',
+        content: 'Message was not successfully sent.',
+      };
+      const { getByTestId } = renderWithStoreAndRouter(
+        <AlertBackgroundBox closeable />,
+        {
+          initialState: {
+            sm: {
+              alerts: { alertVisible: true, alertList: [activeAlertObj] },
+            },
+          },
+          reducers: reducer,
+          path: Paths.INBOX,
+        },
+      );
+      await waitFor(() => {
+        const alertText = getByTestId('alert-text');
+        expect(alertText).to.exist;
+        const alert = alertText.closest('va-alert');
+        expect(alert).to.have.attribute('status', 'error');
+      });
+    });
+
+    it('success alert renders without stealing focus', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: 'Success',
+        content: 'Message was successfully sent.',
+      };
+      const { getByTestId } = renderWithStoreAndRouter(
+        <AlertBackgroundBox closeable />,
+        {
+          initialState: {
+            sm: {
+              alerts: { alertVisible: true, alertList: [activeAlertObj] },
+            },
+          },
+          reducers: reducer,
+          path: Paths.INBOX,
+        },
+      );
+      await waitFor(() => {
+        const alertText = getByTestId('alert-text');
+        expect(alertText).to.exist;
+        expect(alertText.textContent).to.equal(activeAlertObj.content);
+        // Focus should NOT be stolen for success alerts
+        // (handleAlertFocus returns early for non-error alerts)
+      });
+    });
+  });
+
+  describe('Margin class', () => {
+    it('renders with default vads-u-margin-bottom--1 when no className prop', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: 'Success',
+        content: 'Folder was successfully created.',
+      };
+      const { getByTestId } = renderWithStoreAndRouter(
+        <AlertBackgroundBox closeable />,
+        {
+          initialState: {
+            sm: {
+              alerts: { alertVisible: true, alertList: [activeAlertObj] },
+            },
+          },
+          reducers: reducer,
+          path: Paths.INBOX,
+        },
+      );
+      await waitFor(() => {
+        const alertText = getByTestId('alert-text');
+        expect(alertText).to.exist;
+        // Check parent va-alert for margin class
+        const alert = alertText.closest('va-alert');
+        expect(alert.className).to.include('vads-u-margin-bottom--1');
+      });
+    });
+
+    it('renders with custom className when provided', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: 'Success',
+        content: 'Folder was successfully created.',
+      };
+      const { getByTestId } = renderWithStoreAndRouter(
+        <AlertBackgroundBox closeable className="vads-u-margin-y--3" />,
+        {
+          initialState: {
+            sm: {
+              alerts: { alertVisible: true, alertList: [activeAlertObj] },
+            },
+          },
+          reducers: reducer,
+          path: Paths.INBOX,
+        },
+      );
+      await waitFor(() => {
+        const alertText = getByTestId('alert-text');
+        expect(alertText).to.exist;
+        // Check parent va-alert for custom margin class
+        const alert = alertText.closest('va-alert');
+        expect(alert.className).to.include('vads-u-margin-y--3');
+        expect(alert.className).to.not.include('vads-u-margin-bottom--1');
+      });
+    });
+  });
+
+  describe('Duplicate announce prevention', () => {
+    it('focus-settle path prevents ceiling from announcing a second time', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: 'Success',
+        content: 'Message was successfully sent.',
+      };
+      const { getByTestId } = renderWithStoreAndRouter(
+        <AlertBackgroundBox closeable />,
+        {
+          initialState: {
+            sm: {
+              alerts: { alertVisible: true, alertList: [activeAlertObj] },
+            },
+          },
+          reducers: reducer,
+          path: Paths.INBOX,
+        },
+      );
+
+      // Wait for the alert to render with content
+      await waitFor(() => {
+        const alertText = getByTestId('alert-text');
+        expect(alertText).to.exist;
+        expect(alertText.textContent).to.equal(activeAlertObj.content);
+      });
+
+      // Simulate focus event to trigger the debounce path
+      const btn = document.createElement('button');
+      document.body.appendChild(btn);
+      btn.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+
+      // After focus settles + 1s delay, sr-only should be populated
+      await waitFor(
+        () => {
+          const srSpan = getByTestId('sr-only-alert-text');
+          expect(srSpan.textContent).to.equal(activeAlertObj.content);
+        },
+        { timeout: 2000 },
+      );
+
+      // Wait past the 5s ceiling window — content should remain the same
+      // (not get cleared and re-set by a duplicate announce)
+      await waitFor(
+        () => {
+          const srSpan = getByTestId('sr-only-alert-text');
+          expect(srSpan.textContent).to.equal(activeAlertObj.content);
+        },
+        { timeout: 6000 },
+      );
+
+      document.body.removeChild(btn);
     });
   });
 });

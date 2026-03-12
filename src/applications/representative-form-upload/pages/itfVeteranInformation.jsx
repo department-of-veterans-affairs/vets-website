@@ -14,41 +14,63 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  emptyObjectSchema,
-  ITFClaimantTitleAndDescription,
-  CustomAlertPage,
-  ITFBenefitTypes,
-} from './helpers';
 import ITFClaimantInfoViewField from '../components/ITFClaimantInfoViewField';
+import { CustomAlertPage, ITFBenefitTypes } from './helpers';
+
+const veteranSubPageUI = {
+  veteranFullName: firstNameLastNameNoSuffixUI(),
+  veteranSsn: ssnUI(),
+  veteranDateOfBirth: dateOfBirthUI(),
+  address: addressUI({
+    labels: {
+      postalCode: 'Postal code',
+    },
+    omit: [
+      'country',
+      'city',
+      'isMilitary',
+      'state',
+      'street',
+      'street2',
+      'street3',
+    ],
+    required: true,
+  }),
+  vaFileNumber: {
+    ...vaFileNumberUI,
+    'ui:title': 'VA file number',
+    'ui:errorMessages': {
+      pattern: 'Your VA file number must be 8 or 9 digits',
+    },
+  },
+};
+
+const veteranSubPageSchema = {
+  veteranFullName: firstNameLastNameNoSuffixSchema,
+  veteranSsn: ssnSchema,
+  veteranDateOfBirth: dateOfBirthSchema,
+  address: addressSchema({
+    omit: [
+      'country',
+      'city',
+      'isMilitary',
+      'state',
+      'street',
+      'street2',
+      'street3',
+      'postalCode',
+    ],
+  }),
+  vaFileNumber: vaFileNumberSchema,
+};
 
 /** @type {PageSchema} */
 export const itfVeteranInformationPage = {
   uiSchema: {
-    ...ITFClaimantTitleAndDescription,
     'ui:objectViewField': ITFClaimantInfoViewField,
-    veteranFullName: firstNameLastNameNoSuffixUI(),
-    address: addressUI({
-      omit: [
-        'country',
-        'city',
-        'isMilitary',
-        'state',
-        'street',
-        'street2',
-        'street3',
-        'postalCode',
-      ],
-      required: true,
-    }),
-    veteranSsn: ssnUI(),
-    veteranDateOfBirth: dateOfBirthUI(),
-    vaFileNumber: {
-      ...vaFileNumberUI,
-      'ui:title': 'VA file number',
-      'ui:errorMessages': {
-        pattern: 'Your VA file number must be 8 or 9 digits',
-      },
+    veteranSubPage: {
+      'ui:title': 'Veteran identification information',
+      ...veteranSubPageUI,
     },
     benefitType: radioUI({
       title: 'Select the benefit you intend to file a claim for',
@@ -62,35 +84,23 @@ export const itfVeteranInformationPage = {
   schema: {
     type: 'object',
     properties: {
-      'view:claimantTitle': emptyObjectSchema,
-      'view:claimantDescription': emptyObjectSchema,
-      veteranFullName: firstNameLastNameNoSuffixSchema,
-      veteranSsn: ssnSchema,
-      veteranDateOfBirth: dateOfBirthSchema,
-      address: addressSchema({
-        omit: [
-          'country',
-          'city',
-          'isMilitary',
-          'state',
-          'street',
-          'street2',
-          'street3',
-          'postalCode',
+      veteranSubPage: {
+        type: 'object',
+        properties: {
+          ...veteranSubPageSchema,
+        },
+        required: [
+          'veteranSsn',
+          'veteranDateOfBirth',
+          'address',
+          'veteranFullName',
         ],
-      }),
-      vaFileNumber: vaFileNumberSchema,
+      },
       benefitType: radioSchema(Object.keys(ITFBenefitTypes.labels)),
     },
-    required: [
-      'veteranSsn',
-      'veteranDateOfBirth',
-      'address',
-      'veteranFullName',
-      'benefitType',
-    ],
   },
 };
+
 /** @type {CustomPageType} */
 export function VeteranInformationPage(props) {
   return <CustomAlertPage {...props} />;

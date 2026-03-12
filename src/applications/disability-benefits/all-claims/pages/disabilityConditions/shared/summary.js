@@ -3,6 +3,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayOptions, createNewConditionName } from './utils';
+import { updateClaimTypeFromArray } from './claimType';
 import ConfirmationNewAndRatedConditions from '../../../components/confirmationFields/ConfirmationNewAndRatedConditions';
 
 const isOrphanSecondary = (item, fullData = {}) => {
@@ -34,10 +35,17 @@ const summaryPage = {
       ...arrayBuilderYesNoUI(arrayOptions, {}, { hint: null }),
       'ui:validations': [
         (errors, fieldData, formData) => {
+          const items = formData?.newDisabilities || [];
+
+          if (items.length === 0 && fieldData === false) {
+            errors.addError(
+              "You can't continue without adding a condition. Select Yes to add a condition.",
+            );
+          }
+
           const orphans =
-            (formData?.newDisabilities || []).filter(d =>
-              isOrphanSecondary(d, formData),
-            ) || [];
+            items.filter(d => isOrphanSecondary(d, formData)) || [];
+
           if (orphans.length > 0) {
             errors.addError(
               'A secondary condition is no longer linked to an existing condition. Please delete it, relink it to a current condition, or update its cause.',
@@ -55,6 +63,7 @@ const summaryPage = {
     },
     required: ['view:hasConditions'],
   },
+  updateFormData: updateClaimTypeFromArray,
 };
 
 export default summaryPage;

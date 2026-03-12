@@ -10,7 +10,6 @@ export const RepresentativeType = {
 
 export const ErrorTypes = {
   representativeFetchError: 'isErrorFetchRepresentatives',
-  reportSubmissionError: 'isErrorReportSubmission',
   geocodeError: 'isErrorGeocode',
 };
 

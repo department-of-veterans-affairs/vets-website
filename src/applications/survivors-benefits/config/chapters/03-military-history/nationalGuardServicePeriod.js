@@ -3,10 +3,10 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
   textUI,
-  textSchema,
-  internationalPhoneUI,
-  internationalPhoneSchema,
+  phoneUI,
+  phoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -19,7 +19,7 @@ export default {
     unitName: textUI({
       title: 'Reserve or National Guard Unit name',
     }),
-    unitPhone: internationalPhoneUI({
+    unitPhone: phoneUI({
       title: 'Reserve or National Guard Unit primary phone number',
     }),
   },
@@ -28,8 +28,8 @@ export default {
     required: ['nationalGuardActivationDate', 'unitPhone', 'unitName'],
     properties: {
       nationalGuardActivationDate: currentOrPastDateSchema,
-      unitName: textSchema,
-      unitPhone: internationalPhoneSchema({ required: true }),
+      unitName: customTextSchema,
+      unitPhone: phoneSchema,
     },
   },
 };

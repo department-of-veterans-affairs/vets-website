@@ -1,5 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { PropTypes } from 'prop-types';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 import { differenceInDays } from 'date-fns';
 
@@ -13,7 +14,7 @@ const formatStatus = submission => {
             icon="check_circle"
             size="3"
           />
-          {` Received ${submission.vbmsReceivedDate &&
+          {`Received ${submission.vbmsReceivedDate &&
             formatDateParsedZoneLong(submission.vbmsReceivedDate)}`}
         </span>
       );
@@ -29,7 +30,9 @@ const formatStatus = submission => {
             />
             {' Processing error'}
           </span>
-          <span>Contact 855-225-0709 for assistance</span>
+          <span className="vads-u-margin-top--0p5">
+            Contact 855-225-0709 for assistance
+          </span>
         </>
       );
     case 'awaiting_receipt':
@@ -72,7 +75,12 @@ const getBenefitName = benefitType => {
   }
 };
 
-const SubmissionCard = ({ submission }) => {
+const formNameText = submission => [
+  getFormName(submission.formType),
+  submission.packet ? ' packet' : '',
+];
+
+const SubmissionCard = ({ submission, omitClaimantName }) => {
   const formattedSubmittedDate = formatDateParsedZoneLong(
     submission.submittedDate,
   );
@@ -90,69 +98,74 @@ const SubmissionCard = ({ submission }) => {
         <p className="submission__card-date">
           Submitted {formattedSubmittedDate}
         </p>
-        <h3 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
-          {submission.lastName}, {submission.firstName}
-        </h3>
-        <p className="submission__card-form-name vads-u-font-size--h5 vads-u-font-family--serif">
-          <strong>
-            {getFormName(submission.formType)}
-            {submission.packet ? ' packet' : ''}
-          </strong>
-        </p>
-        <p className="submission__card-status">
-          {submission.benefitType ? (
-            <>
-              <span className="submission__card-attribute-text">
-                {'Benefit: '}
-              </span>
-              {getBenefitName(submission.benefitType)}
-              <br />
-            </>
-          ) : (
-            ''
-          )}
-          {isITF && (
-            <>
-              <span className="submission__card-attribute-text">
-                ITF Date:{' '}
-              </span>
-              {showWarningIcon && (
-                <va-icon
-                  icon="warning"
-                  class="submissions__inline-status-icon submissions__card-error"
-                  size="3"
-                />
-              )}
-              {formattedSubmittedDate} (Expires in {daysTilExpiration} days)
-              <br />
-            </>
-          )}
-          {!isITF && (
-            <>
-              {submission.confirmationNumber ? (
+        {omitClaimantName ? (
+          <h3 className="submission__card-form-name vads-u-font-size--h3 vads-u-font-family--serif">
+            {formNameText(submission)}
+          </h3>
+        ) : (
+          <>
+            <h3 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
+              {`${submission.lastName}, ${submission.firstName}`}
+            </h3>
+            <p className="submission__card-form-name vads-u-font-size--h5 vads-u-font-family--serif">
+              <strong>{formNameText(submission)}</strong>
+            </p>
+          </>
+        )}
+        {submission.benefitType && (
+          <p className="submission__card-status">
+            <strong>Benefit: </strong> {getBenefitName(submission.benefitType)}
+          </p>
+        )}
+        {isITF && (
+          <p className="submission__card-status">
+            <strong>ITF Date: </strong>
+            {showWarningIcon && (
+              <va-icon
+                icon="warning"
+                class="submissions__inline-status-icon submissions__card-error"
+                size="3"
+              />
+            )}
+            {formattedSubmittedDate} (Expires in {daysTilExpiration} days)
+          </p>
+        )}
+        {!isITF && (
+          <>
+            <p className="submission__card-status">
+              {submission.confirmationNumber && (
                 <>
-                  <span className="submission__card-attribute-text">
-                    {'Confirmation: '}
-                  </span>
+                  <strong>Confirmation: </strong>
                   {submission.confirmationNumber}
-                  <br />
                 </>
-              ) : (
-                ''
               )}
-              <span
-                className={`submission__card-status--row ${
-                  submission.vbmsStatus
-                }`}
-              >
-                <span className="submission__card-attribute-text">
-                  {'VBMS eFolder status: '}
-                </span>
-                {formatStatus(submission)}
-              </span>
-            </>
-          )}
-        </p>
+            </p>
+            <p
+              className={`submission__card-status submission__card-status--row ${
+                submission.vbmsStatus
+              }`}
+            >
+              <strong>VBMS eFolder status:</strong>
+              {formatStatus(submission)}
+            </p>
+          </>
+        )}
+        <Toggler
+          toggleName={
+            Toggler.TOGGLE_NAMES.accreditedRepresentativePortalClaimantDetails
+          }
+        >
+          <Toggler.Enabled>
+            <va-link
+              active
+              class="vads-u-margin-top--2 vads-u-display--block "
+              href={`/representative/find-claimant/claimant-overview/${
+                submission.claimantId
+              }`}
+              text="Go to the claimant overview"
+            />
+          </Toggler.Enabled>
+        </Toggler>
       </va-card>
     </li>
   );
@@ -161,7 +174,12 @@ const SubmissionCard = ({ submission }) => {
 SubmissionCard.propTypes = {
   cssClass: PropTypes.string,
   id: PropTypes.string,
+  omitClaimantName: PropTypes.bool,
   submission: PropTypes.object,
+};
+
+SubmissionCard.defaultProps = {
+  omitClaimantName: false,
 };
 
 export default SubmissionCard;

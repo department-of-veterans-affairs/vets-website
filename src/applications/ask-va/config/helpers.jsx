@@ -25,7 +25,6 @@ import {
   TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
-import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
 
 export const ServerErrorAlert = () => (
   <>
@@ -36,8 +35,8 @@ export const ServerErrorAlert = () => (
       We’re sorry. Something went wrong on our end
     </h2>
     <p className="vads-u-font-size--base">
-      Please refresh this page or check back later. You can also sign out of
-      VA.gov and try signing back into this page.
+      Refresh this page or check back later. You can also sign out of VA.gov and
+      try signing back into this page.
     </p>
   </>
 );
@@ -668,35 +667,6 @@ export const getVAStatusFromCRM = status => {
   }
 };
 
-export const getVAStatusIconAndMessage = {
-  New: {
-    icon: starIcon,
-    message: "We received your question. We'll review it soon.",
-    color: 'vads-u-border-color--primary',
-  },
-  'In progress': {
-    icon: clockIcon,
-    message: "We're reviewing your question.",
-    color: 'vads-u-border-color--grey',
-  },
-  Replied: {
-    icon: successIcon,
-    message:
-      "We either answered your question or didn't have enough information to answer your question. If you need more help, ask a new question.",
-    color: 'vads-u-border-color--green',
-  },
-  Reopened: {
-    icon: clockIcon,
-    message: "We received your reply. We'll respond soon.",
-    color: 'vads-u-border-color--grey',
-  },
-  Closed: {
-    icon: folderIcon,
-    message: 'We closed this question after 60 days without any updates.',
-    color: 'vads-u-border-color--grey',
-  },
-};
-
 export const getDescriptiveTextFromCRM = status => {
   switch ((status ?? '').toLowerCase()) {
     case 'new':
@@ -704,13 +674,13 @@ export const getDescriptiveTextFromCRM = status => {
     case 'in progress':
       return 'Your inquiry is currently being reviewed by an agent.';
     case 'solved':
-      return 'Your inquiry has been closed. If you have additional questions please open a new inquiry.';
+      return 'Your inquiry has been closed. If you have additional questions, open a new inquiry.';
     case 'reopened':
       return 'Your reply to this inquiry has been received, and the inquiry is currently being reviewed by an agent.';
     case 'closed':
       return 'Closed.';
     case 'reference number not found':
-      return "No Results found. We could not locate an inquiry that matches your ID. Please check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.";
+      return "No Results found. We could not locate an inquiry that matches your ID. Check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.";
     default:
       return 'error';
   }

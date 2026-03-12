@@ -2,9 +2,9 @@ import {
   radioUI,
   radioSchema,
   textUI,
-  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { marriageEndOptions } from '../../../utils/labels';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -33,7 +33,7 @@ export default {
     required: [],
     properties: {
       howMarriageEnded: radioSchema(Object.keys(marriageEndOptions)),
-      marriageEndedExplanation: textSchema,
+      marriageEndedExplanation: customTextSchema,
     },
   },
 };

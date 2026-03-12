@@ -33,3 +33,14 @@ export { useFormValidation } from './use-form-validation';
  * @see {@link module:use-field-validation~useFieldValidation}
  */
 export { useFieldValidation } from './use-field-validation';
+
+/**
+ * Monitoring and analytics hooks
+ */
+
+/**
+ * Hook for initializing Datadog RUM (Real User Monitoring).
+ * Provides session replay, error tracking, and performance monitoring.
+ * @see {@link module:use-datadog-rum~useDatadogRum}
+ */
+export { useDatadogRum } from './useDatadogRum';

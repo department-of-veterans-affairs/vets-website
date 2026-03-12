@@ -1,11 +1,11 @@
 import {
-  titleUI,
-  addressUI,
   addressSchema,
-  phoneUI,
-  phoneSchema,
-  emailUI,
+  addressUI,
   emailSchema,
+  emailUI,
+  phoneSchema,
+  phoneUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   validAddressCharsOnly,
@@ -16,19 +16,15 @@ import {
   fullNameMiddleInitialSchema,
   fullNameMiddleInitialUI,
 } from '../definitions';
-import { personalizeTitleByRole } from '../utils/helpers';
 import content from '../locales/en/content.json';
+import { titleWithRoleUI } from '../utils/titles';
 
 export const sponsorNameSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
-        personalizeTitleByRole(formData, content['page-title--name'], {
-          matchRole: 'sponsor',
-          other: content['noun--veteran-possessive'],
-        }),
-      VeteranNameDescription,
-    ),
+    ...titleWithRoleUI(content['page-title--name'], VeteranNameDescription, {
+      matchRole: 'sponsor',
+      other: content['noun--veteran'],
+    }),
     sponsorName: fullNameMiddleInitialUI,
     'ui:validations': [
       (errors, formData) =>

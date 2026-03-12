@@ -57,7 +57,9 @@ export const ConfirmationPage = ({ route }) => {
         </p>
         <DownloadFormPDF formData={transformedData} veteranName={veteranName} />
       </div>
-      <ConfirmationView.ChapterSectionCollection />
+      <div data-dd-privacy="mask" data-dd-action-name="confirmation summary">
+        <ConfirmationView.ChapterSectionCollection />
+      </div>
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
         item1Header="We’ll review your form"
@@ -79,10 +81,10 @@ export const ConfirmationPage = ({ route }) => {
         </p>
         <p>Mail any supporting documents to this address: </p>
         <p className="va-address-block">
-          Department of Veterans Affairs <br />
-          Pension Claims Intake Center <br />
-          PO Box 5365 <br />
-          Janesville, WI 53547-5365 <br />
+          Department of Veterans Affairs <br role="presentation" />
+          Pension Claims Intake Center <br role="presentation" />
+          PO Box 5365 <br role="presentation" />
+          Janesville, WI 53547-5365 <br role="presentation" />
         </p>
         <p>
           <strong>Note:</strong> Mail us copies of your documents only. Don’t

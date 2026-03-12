@@ -36,17 +36,7 @@ export const isSIPEnabledForm = savedForm => {
   const formNumber = savedForm.form;
   const foundForm = MY_VA_SIP_FORMS.find(form => form.id === formNumber);
 
-  if (!foundForm?.title || !getFormLink(formNumber)) {
-    return false;
-  }
-
-  if (!foundForm) {
-    throw new Error(
-      `Could not find form ${formNumber} in list of sipEnabledForms`,
-    );
-  }
-
-  return true;
+  return !(!foundForm?.title || !getFormLink(formNumber));
 };
 
 // This function is intended to be used as an Array.filter callback
@@ -91,7 +81,8 @@ export const formatFormTitle = (title = '') =>
   capitalize(title)
     .replace(/\bform\b/gi, 'Form')
     .replace(/\bva\b/gi, 'VA')
-    .replace(/ez/gi, 'EZ');
+    .replace(/ez/gi, 'EZ')
+    .replace(/champva/gi, 'CHAMPVA');
 
 export const recordDashboardClick = (
   product,

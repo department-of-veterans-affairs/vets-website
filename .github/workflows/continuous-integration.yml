@@ -12,100 +12,31 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  # TEMPORARY: This check will be removed once Shai Hulud 2.0 is no longer a moving target
-  # Fails and cancels the workflow if package.json or yarn.lock are modified
-  check-dependency-files:
-    name: Check for Dependency File Changes
+  dependency-review:
+    name: Dependency Review
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
 
-      - name: Check for package.json or yarn.lock changes
-        run: |
-          # Fetch main branch for comparison
-          git fetch origin main
-
-          # Check if package.json or yarn.lock have been modified
-          if git diff --name-only origin/main...HEAD | grep -qE '^(package\.json|yarn\.lock)$'; then
-            echo "⚠️  Dependency files modified. Checking if only approved packages were updated..."
-
-            # Get the diff and check if any non-approved package changes exist
-            PACKAGE_JSON_DIFF=$(git diff origin/main...HEAD package.json 2>/dev/null || echo "")
-            YARN_LOCK_DIFF=$(git diff origin/main...HEAD yarn.lock 2>/dev/null || echo "")
-
-            # Check if there are any changes to package.json that don't involve approved packages or scripts
-            if [ -n "$PACKAGE_JSON_DIFF" ]; then
-              # Get changed lines (excluding context lines and approved packages)
-              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'node-sass' | grep -v '"sass"' | grep -v 'patch-package' | grep -v 'jsdom' | grep -v 'husky' | grep -v '"msw"'  || echo "")
-
-              if [ -n "$CHANGED_LINES" ]; then
-                # Check if changes contain dependency version bumps (lines with version patterns like ^, ~, >=, etc.)
-                # or dependency section headers, excluding approved packages
-                DEPENDENCY_CHANGES=$(echo "$CHANGED_LINES" | grep -E '": "[\^~>=<]|"(dev|peer|optional)?[Dd]ependencies"' || echo "")
-
-                if [ -n "$DEPENDENCY_CHANGES" ]; then
-                  echo "❌ ERROR: package.json has dependency changes other than approved packages."
-                  echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, node-sass, sass, patch-package, husky, msw, and the scripts section are allowed."
-                  echo ""
-                  echo "Dependency changes detected:"
-                  echo "$DEPENDENCY_CHANGES"
-                  exit 1
-                fi
-
-                echo "✓ Changes detected in scripts section or other non-dependency fields. Allowing changes."
-              fi
-            fi
-
-            # Check if there are any changes to yarn.lock that don't involve approved packages
-            if [ -n "$YARN_LOCK_DIFF" ]; then
-              # For yarn.lock, we need to check if changes are only in approved package sections
-              # Get all added/removed lines that don't contain approved packages
-              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'node-sass' | grep -v 'sass' | grep -v 'patch-package' | grep -v 'jsdom' | grep -v 'husky' | grep -v 'msw' || echo "")
-
-              # Also check for package entry headers that might not contain the name on the same line
-              # In yarn.lock, package entries start with "package-name@version:"
-              # We need to be more lenient here as yarn.lock structure can have dependencies listed
-              # We'll check if there are substantial non-approved package changes
-              if [ -n "$NON_APPROVED_LOCK_CHANGES" ]; then
-                # Count lines to determine if changes are substantial
-                CHANGE_COUNT=$(echo "$NON_APPROVED_LOCK_CHANGES" | wc -l)
-
-                # If there are more than 700 lines of non-approved package changes, it's likely other packages
-                # This is a heuristic - yarn.lock changes for a single package typically affect surrounding context
-                if [ "$CHANGE_COUNT" -gt 700 ]; then
-                  echo "❌ ERROR: yarn.lock has been modified with substantial changes beyond approved packages."
-                  echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, node-sass, sass, patch-package, jsdom, and husky are allowed."
-                  echo ""
-                  echo "Detected $CHANGE_COUNT lines of non-approved package changes in yarn.lock"
-                  exit 1
-                fi
-              fi
-            fi
-
-            echo "✓ Only approved package updates detected. Allowing changes."
-          else
-            echo "✓ No dependency file changes detected."
-          fi
-
-      - name: Cancel workflow on failure
-        if: failure()
-        uses: actions/github-script@v7
+      - name: Dependency Review
+        uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48
         with:
-          script: |
-            await github.rest.actions.cancelWorkflowRun({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: context.runId
-            });
+          base-ref: main
+          head-ref: ${{ github.sha }}
+          fail-on-severity: moderate
+          fail-on-scopes: runtime, development
+          comment-summary-in-pr: on-failure
+          license-check: false
 
   build:
     name: Build
-    needs: [check-dependency-files]
+    needs: [dependency-review]
     runs-on: ubuntu-16-cores-latest
     permissions:
       id-token: write
@@ -113,6 +44,7 @@ jobs:
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
+      deployment_concurrency_group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}
 
     strategy:
       fail-fast: false
@@ -124,9 +56,9 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Configure AWS credentials
-        if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/configure-aws-credentials
         with:
           aws_region: us-gov-west-1
@@ -147,14 +79,55 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name, continuous_deployment'
+          output-type: 'entry_name, continuous_deployment, deployment_concurrency_group'
 
-      - name: Get Mapbox Token
+      - name: Log changed apps info
         if: ${{ matrix.buildtype == 'vagovprod' }}
+        run: |
+          echo "Entry names: ${{ steps.get-changed-apps.outputs.entry_names }}"
+          echo "Continuous deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}"
+          echo "Deployment concurrency group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}"
+
+      # This fallback token is not a real token, this portion of a token prevents Mapbox from crashing
+      # when app specific tokens are unavailable for any reason, instead it will provide errors.
+      - name: Set Mapbox Token fallback
+        run: echo "MAPBOX_TOKEN=pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==" >> "$GITHUB_ENV"
+
+      - name: Get Mapbox Token (Facility Locator)
         uses: ./.github/workflows/inject-secrets
         with:
-          ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
-          env_variable_name: MAPBOX_TOKEN
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_facility_locator
+          env_variable_name: MAPBOX_TOKEN_FACILITY_LOCATOR
+
+      - name: Get Mapbox Token (Static Pages)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_static_pages
+          env_variable_name: MAPBOX_TOKEN_STATIC_PAGES
+
+      - name: Get Mapbox Token (GI)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_gi
+          env_variable_name: MAPBOX_TOKEN_GI
+
+      - name: Get Mapbox Token (Ask VA)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_ask_va
+          env_variable_name: MAPBOX_TOKEN_ASK_VA
+
+      - name: Get Mapbox Token (Caregivers)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_caregivers
+          env_variable_name: MAPBOX_TOKEN_CAREGIVERS
+
+      - name: Get Mapbox Token (Representative Search)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_representative_search
+          env_variable_name: MAPBOX_TOKEN_REPRESENTATIVE_SEARCH
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
@@ -176,13 +149,13 @@ jobs:
           EOF
 
       - name: Compress and archive build
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+        run: tar -C build/${{ matrix.buildtype }} --zstd -cf ${{ matrix.buildtype }}.tar.zst .
 
       - name: Upload build artifact
         uses: ./.github/workflows/upload-artifact
         with:
-          name: ${{ matrix.buildtype }}.tar.bz2
-          path: ${{ matrix.buildtype }}.tar.bz2
+          name: ${{ matrix.buildtype }}.tar.zst
+          path: ${{ matrix.buildtype }}.tar.zst
           retention-days: 1
 
   determine-cd-eligibility:
@@ -195,8 +168,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -218,15 +189,51 @@ jobs:
         if: ${{ always() }}
         id: deploy-to-prod
         run: echo "can_deploy=$CAN_DEPLOY_TO_PROD" >> $GITHUB_OUTPUT
-  fetch-allow-lists:
-    name: Fetch Test Stability Allow Lists
+  tests-prep:
+    name: Tests Prep
     runs-on: ubuntu-22.04
     permissions:
       id-token: write
       contents: read
+    outputs:
+      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
+      apps-to-stress-test: ${{ steps.apps-to-stress-test.outputs.apps_to_test }}
+      unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
+      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
+      disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
+      cypress-tests: ${{ steps.cypress-tests.outputs.selected }}
+      cypress-tests-to-stress-test: ${{ steps.cypress-tests-to-stress-test.outputs.tests }}
+      app_urls: ${{ steps.get-changed-apps.outputs.urls }}
+      num_containers: ${{ steps.containers.outputs.num }}
+      ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
+      changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
+      tests_ran: ${{ steps.tests-ran.outputs.tests_ran }}
+      e2e_count: ${{ steps.e2e-count.outputs.count }}
+      changed_unit_tests: ${{ steps.unit-tests-changed.outputs.changed_unit_tests }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+          filter: blob:none
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url, folder'
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -258,74 +265,10 @@ jobs:
         env:
           TEST_TYPE: unit_test
 
-      - name: Archive E2E Test Stability Allow List
-        if: ${{ always() }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: e2e-allow-list
-          path: qa-standards-dashboard-data/e2e_allow_list.json
-
-      - name: Archive Unit Test Stability Allow List
-        if: ${{ always() }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: unit-test-allow-list
-          path: qa-standards-dashboard-data/unit_test_allow_list.json
-
-  tests-prep:
-    name: Tests Prep
-    needs: [fetch-allow-lists]
-    runs-on: ubuntu-22.04
-    outputs:
-      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
-      apps-to-stress-test: ${{ steps.apps-to-stress-test.outputs.apps_to_test }}
-      unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
-      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
-      disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
-      cypress-tests: ${{ steps.cypress-tests.outputs.selected }}
-      cypress-tests-to-stress-test: ${{ steps.cypress-tests-to-stress-test.outputs.tests }}
-      app_urls: ${{ steps.get-changed-apps.outputs.urls }}
-      num_containers: ${{ steps.containers.outputs.num }}
-      ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
-      changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
-      tests_ran: ${{ steps.tests-ran.outputs.tests_ran }}
-      e2e_count: ${{ steps.e2e-count.outputs.count }}
-      changed_unit_tests: ${{ steps.unit-tests-changed.outputs.changed_unit_tests }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          delimiter: ','
-          output-type: 'entry_name, url, folder'
-
-      - name: Download Unit Test Stability Allow List
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: unit-test-allow-list
-          path: .
-
-      - name: Download E2E Test Stability Allow List
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: e2e-allow-list
-          path: .
+      - name: Copy allow lists to workspace root
+        run: |
+          cp qa-standards-dashboard-data/e2e_allow_list.json .
+          cp qa-standards-dashboard-data/unit_test_allow_list.json .
 
       - name: Select E2E Tests
         run: node script/github-actions/select-e2e-tests.js
@@ -416,10 +359,24 @@ jobs:
         id: matrix
         run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
 
+      - name: Archive E2E Test Stability Allow List
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data/e2e_allow_list.json
+
+      - name: Archive Unit Test Stability Allow List
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-allow-list
+          path: qa-standards-dashboard-data/unit_test_allow_list.json
+
   unit-tests:
     name: Unit Tests
     # if: ${{ needs.tests-prep.outputs.tests_ran == 'true' }}
-    needs: [fetch-allow-lists, tests-prep]
+    needs: [tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
     permissions:
@@ -434,8 +391,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -478,9 +433,6 @@ jobs:
           TESTS: ${{ env.DISALLOWED_TESTS }}
           TESTS_PROPERTY: 'DISALLOWED_TESTS'
 
-      - name: Create test results folder
-        run: mkdir -p test-results
-
       - name: Run unit tests
         id: run-tests
         run: |
@@ -491,7 +443,6 @@ jobs:
           fi
 
         env:
-          MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
           APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: false
@@ -514,8 +465,8 @@ jobs:
     name: Unit Test Stability Review
     runs-on: ubuntu-22.04
     timeout-minutes: 30
-    needs: [fetch-allow-lists, tests-prep]
-    if: ${{ always() && !cancelled() && needs.tests-prep.outputs.unit-tests-to-stress-test == 'true' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep.result == 'success' }}
+    needs: [tests-prep]
+    if: ${{ always() && !cancelled() && needs.tests-prep.outputs.unit-tests-to-stress-test == 'true' && github.ref != 'refs/heads/main' && needs.tests-prep.result == 'success' }}
 
     env:
       APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
@@ -530,8 +481,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -542,9 +491,6 @@ jobs:
           path: |
             .cache/yarn
             node_modules
-
-      - name: Create test results folder
-        run: mkdir -p test-results
 
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
@@ -561,7 +507,6 @@ jobs:
       - name: Run unit tests
         run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
         env:
-          MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
@@ -580,7 +525,7 @@ jobs:
   update-unit-test-allow-list:
     name: Update Unit Test Stability Allow List
     runs-on: ubuntu-22.04
-    needs: [unit-tests-stress-test, fetch-allow-lists]
+    needs: [unit-tests-stress-test]
     permissions:
       id-token: write
       contents: read
@@ -645,6 +590,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -668,13 +614,14 @@ jobs:
 
   linting:
     name: Linting (All)
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/revert/yeoman-update' }}
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -770,7 +717,6 @@ jobs:
     name: Fetch ECR Credentials
     runs-on: ubuntu-22.04
     timeout-minutes: 10
-    needs: [build]
     permissions:
       id-token: write
       contents: read
@@ -784,6 +730,7 @@ jobs:
         with:
           aws_region: us-gov-west-1
           role: ${{ vars.AWS_ASSUME_ROLE }}
+          role_duration: 7200
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -803,13 +750,13 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    if: |
-      needs.build.result == 'success' &&
-      needs.tests-prep.result == 'success' &&
-      needs.tests-prep.outputs.e2e_count != '0'
+    #   if: |
+    #     needs.build.result == 'success' &&
+    #     needs.tests-prep.result == 'success' &&
+    #     needs.tests-prep.outputs.e2e_count != '0'
 
     container:
-      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
       credentials:
         username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
         password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
@@ -872,13 +819,13 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/download-artifact
         with:
-          name: vagovprod.tar.bz2
+          name: vagovprod.tar.zst
 
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: |
           mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+          tar -C build/vagovprod --zstd -xf vagovprod.tar.zst
 
       - name: Install dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -887,6 +834,7 @@ jobs:
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
+          install-cypress: 'true'
           path: |
             .cache/yarn
             /github/home/.cache/Cypress
@@ -906,13 +854,40 @@ jobs:
           TEST_TYPE: e2e
           TEST_PROPERTY: 'TESTS'
 
-      - name: Start server
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
-
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node script/github-actions/run-cypress-tests.js
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Starting test server..."
+          node src/platform/testing/e2e/test-server.js \
+            --buildtype=vagovprod \
+            --port=3001 \
+            --host=127.0.0.1 \
+            > test-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+
+          echo "Waiting for server to be ready..."
+          ready=false
+          for i in $(seq 1 30); do
+            if wget -q --spider http://127.0.0.1:3001 2>/dev/null; then
+              echo "Server is ready!"
+              ready=true
+              break
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+
+          if [ "$ready" = false ]; then
+            echo "Server failed to start. Last 200 log lines:"
+            tail -n 200 test-server.log || cat test-server.log
+            exit 1
+          fi
+
+          node script/github-actions/run-cypress-tests.js
         timeout-minutes: 120
         env:
           CYPRESS_CI: true
@@ -956,7 +931,7 @@ jobs:
       needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true' &&
       github.ref != 'refs/heads/main'
     container:
-      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
       credentials:
         username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
         password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
@@ -983,12 +958,12 @@ jobs:
       - name: Download production build artifact
         uses: ./.github/workflows/download-artifact
         with:
-          name: vagovprod.tar.bz2
+          name: vagovprod.tar.zst
 
       - name: Unpack build
         run: |
           mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+          tar -C build/vagovprod --zstd -xf vagovprod.tar.zst
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -996,13 +971,11 @@ jobs:
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
+          install-cypress: 'true'
           path: |
             .cache/yarn
             /github/home/.cache/Cypress
             node_modules
-
-      - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
@@ -1011,7 +984,38 @@ jobs:
           path: .
 
       - name: Run Cypress tests
-        run: node script/github-actions/run-cypress-stress-tests.js
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Starting test server..."
+          node src/platform/testing/e2e/test-server.js \
+            --buildtype=vagovprod \
+            --port=3001 \
+            --host=127.0.0.1 \
+            > test-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+
+          echo "Waiting for server to be ready..."
+          ready=false
+          for i in $(seq 1 30); do
+            if wget -q --spider http://127.0.0.1:3001 2>/dev/null; then
+              echo "Server is ready!"
+              ready=true
+              break
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+
+          if [ "$ready" = false ]; then
+            echo "Server failed to start. Last 200 log lines:"
+            tail -n 200 test-server.log || cat test-server.log
+            exit 1
+          fi
+
+          node script/github-actions/run-cypress-stress-tests.js
         timeout-minutes: 180
         env:
           CYPRESS_CI: true
@@ -1038,14 +1042,9 @@ jobs:
   update-e2e-allow-list:
     name: Update E2E Test Stability Allow List
     runs-on: ubuntu-22.04
-    needs:
-      [
-        testing-reports-prep,
-        tests-prep,
-        stress-test-cypress-tests,
-        fetch-allow-lists,
-      ]
+    needs: [testing-reports-prep, tests-prep, stress-test-cypress-tests]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: ${{ always() && github.ref != 'refs/heads/main' && needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
@@ -1420,7 +1419,7 @@ jobs:
       - name: Copy coverage file to data directory
         run: |
           mkdir -p qa-standards-dashboard-data/src/testing-reports/data
-          cp qa-standards-dashboard-data/coverage/coverage-summary.json qa-standards-dashboard-data/src/testing-reports/data
+          cp qa-standards-dashboard-data/coverage/test-coverage-report.json qa-standards-dashboard-data/src/testing-reports/data/coverage-summary.json
 
       - name: Archive coverage txt
         if: ${{ always() }}
@@ -1578,7 +1577,7 @@ jobs:
       checks: write
       id-token: write
       contents: read
-    if: ${{ always() && (needs.stress-test-cypress-tests.result == 'success' || needs.stresss-test-cypress-tests.result == 'failure') }}
+    if: ${{ always() && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true
@@ -1701,6 +1700,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -1833,14 +1833,17 @@ jobs:
       - name: Download build artifact
         uses: ./.github/workflows/download-artifact
         with:
-          name: ${{ matrix.buildtype }}.tar.bz2
+          name: ${{ matrix.buildtype }}.tar.zst
+
+      - name: Install pbzip2
+        run: sudo apt-get update && sudo apt-get install -y pbzip2
 
       - name: Extract build artifact
         if: env.IS_SINGLE_APP_BUILD == 'true'
         run: |
           mkdir -p build/${{ matrix.buildtype }}
-          tar -C build/${{ matrix.buildtype }} -xjvf ${{ matrix.buildtype }}.tar.bz2
-          rm ${{ matrix.buildtype }}.tar.bz2
+          tar -C build/${{ matrix.buildtype }} --zstd -xvf ${{ matrix.buildtype }}.tar.zst
+          rm ${{ matrix.buildtype }}.tar.zst
 
       - name: Remove global assets from build
         if: env.IS_SINGLE_APP_BUILD == 'true'
@@ -1858,9 +1861,17 @@ jobs:
           REF=${{ github.sha }}
           EOF
 
-      - name: Compress and archive single/grouped app build
+      - name: Recompress single/grouped app build as bzip2
         if: env.IS_SINGLE_APP_BUILD == 'true'
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+        run: tar -C build/${{ matrix.buildtype }} -I pbzip2 -cf ${{ matrix.buildtype }}.tar.bz2 .
+
+      - name: Recompress full build as bzip2
+        if: env.IS_SINGLE_APP_BUILD != 'true'
+        run: |
+          mkdir -p build/${{ matrix.buildtype }}
+          tar -C build/${{ matrix.buildtype }} --zstd -xf ${{ matrix.buildtype }}.tar.zst
+          tar -C build/${{ matrix.buildtype }} -I pbzip2 -cf ${{ matrix.buildtype }}.tar.bz2 .
+          rm ${{ matrix.buildtype }}.tar.zst
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -1916,6 +1927,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -1954,64 +1966,69 @@ jobs:
           DEST: s3://${{ matrix.bucket }}
           ASSET_DEST: s3://${{ matrix.asset_bucket }}
 
-  cd-prod-deploy:
-    name: CD Production Deploy
-    runs-on: ubuntu-22.04
-    needs: [build, set-deploy-environments, determine-cd-eligibility]
-    if: always() && ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success' }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: Get Slack channel
-        id: get-slack-channel
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          output-type: 'slack_channel'
-
-      - name: Determine Slack channel
-        id: determine-channel
-        shell: bash
-        run: |
-          entries="${{ needs.build.outputs.entry_names }}"
-          channel="${{ steps.get-slack-channel.outputs.slack_channels }}"
-          if [[ "$entries" == *","* ]]; then
-            echo "channel=" >> $GITHUB_OUTPUT
-          else
-            echo "channel=$channel" >> $GITHUB_OUTPUT
-          fi
-      - name: Check if today is a holiday
-        id: holiday-check
-        uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
-
-      - name: Dispatch Event to Next Workflow
-        if: steps.holiday-check.outputs.is_holiday == 'false'
-        run: |
-          curl -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          https://api.github.com/repos/${{ github.repository }}/dispatches \
-          -d "$(jq -n --arg sha "${{ github.sha }}" \
-          --arg ref "${{ github.ref }}" \
-          --arg entry "${{ needs.build.outputs.entry_names }}" \
-          --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
-
-      - name: Cancel CD dispatch due to holiday
-        if: steps.holiday-check.outputs.is_holiday == 'true'
-        run: echo "Skipping CD dispatch; holiday freeze is active."
+  # NOTE: cd-prod-deploy has been intentionally disabled. The CD production
+  # deploy pipeline is currently not in use. If re-enabling, also uncomment
+  # continuous-deploy-production.yml.
+  #
+  # cd-prod-deploy:
+  #   name: CD Production Deploy
+  #   runs-on: ubuntu-22.04
+  #   needs: [build, set-deploy-environments, determine-cd-eligibility]
+  #   if: always() && startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+  #       with:
+  #         fetch-depth: 0
+  #
+  #     - name: Install dependencies
+  #       uses: ./.github/workflows/install
+  #       timeout-minutes: 30
+  #       with:
+  #         key: ${{ hashFiles('yarn.lock') }}
+  #         yarn_cache_folder: .cache/yarn
+  #         path: |
+  #           .cache/yarn
+  #           node_modules
+  #
+  #     - name: Get Slack channel
+  #       id: get-slack-channel
+  #       uses: ./.github/workflows/get-changed-apps
+  #       with:
+  #         output-type: 'slack_channel'
+  #
+  #     - name: Determine Slack channel
+  #       id: determine-channel
+  #       shell: bash
+  #       run: |
+  #         entries="${{ needs.build.outputs.entry_names }}"
+  #         channel="${{ steps.get-slack-channel.outputs.slack_channels }}"
+  #         if [[ "$entries" == *","* ]]; then
+  #           echo "channel=" >> $GITHUB_OUTPUT
+  #         else
+  #           echo "channel=$channel" >> $GITHUB_OUTPUT
+  #         fi
+  #     - name: Check if today is a holiday
+  #       id: holiday-check
+  #       uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
+  #
+  #     - name: Dispatch Event to Next Workflow
+  #       if: steps.holiday-check.outputs.is_holiday == 'false'
+  #       run: |
+  #         curl -X POST \
+  #         -H "Accept: application/vnd.github.v3+json" \
+  #         -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+  #         https://api.github.com/repos/${{ github.repository }}/dispatches \
+  #         -d "$(jq -n --arg sha "${{ github.sha }}" \
+  #         --arg ref "${{ github.ref }}" \
+  #         --arg entry "${{ needs.build.outputs.entry_names }}" \
+  #         --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
+  #         --arg concurrency_group "${{ needs.build.outputs.deployment_concurrency_group }}" \
+  #         '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel, concurrency_group: $concurrency_group}}')"
+  #
+  #     - name: Cancel CD dispatch due to holiday
+  #       if: steps.holiday-check.outputs.is_holiday == 'true'
+  #       run: echo "Skipping CD dispatch; holiday freeze is active."
 
   notify-failure:
     name: Notify Failure
@@ -2031,6 +2048,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install dependencies
         if: env.ALERT_TEAMS == 'true'

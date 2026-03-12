@@ -16,11 +16,15 @@ const VeteranStatusCard = ({
         src="/img/design/seal/seal.png"
         alt="Seal of the U.S. Department of Veterans Affairs"
       />
-      <div className="vads-u-padding-left--2p5 vads-u-padding-right--2p5 vads-u-padding-bottom--2p5">
+      <div className="vads-u-padding-left--2p5 vads-u-padding-right--2p5 vads-u-padding-bottom--2p5 dd-privacy-mask">
         <h3>Name</h3>
         <p>{formattedFullName}</p>
-        <h3>Latest period of service</h3>
-        <p>{latestService}</p>
+        {latestService && (
+          <>
+            <h3>Latest period of service</h3>
+            <p>{latestService}</p>
+          </>
+        )}
         <div className="veteran-status-card-row">
           <h3>DoD ID Number</h3>
           <p>{edipi}</p>
@@ -41,7 +45,7 @@ const VeteranStatusCard = ({
 };
 
 VeteranStatusCard.propTypes = {
-  edipi: PropTypes.number,
+  edipi: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   formattedFullName: PropTypes.string,
   latestService: PropTypes.string,
   totalDisabilityRating: PropTypes.number,

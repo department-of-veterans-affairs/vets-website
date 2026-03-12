@@ -221,7 +221,17 @@ export const FacilitiesMapTypes = {
   suppressPPMS: PropTypes.bool,
   updateSearchQuery: PropTypes.func,
   usePredictiveGeolocation: PropTypes.bool,
+  vaHealthServicesData: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.array),
+  }),
 };
+
+export const FormValuesTypes = PropTypes.shape({
+  facilityType: PropTypes.string,
+  serviceType: PropTypes.string,
+  searchString: PropTypes.string,
+  vamcServiceDisplay: PropTypes.string,
+});
 
 export const SearchFormTypes = {
   clearGeocodeError: PropTypes.func,
@@ -234,23 +244,27 @@ export const SearchFormTypes = {
   selectMobileMapPin: PropTypes.func,
   setSearchInitiated: PropTypes.func,
   suppressPPMS: PropTypes.bool,
+  vaHealthServicesData: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.array),
+  }),
   vamcServiceDisplay: PropTypes.string,
 };
 
 export const ServiceTypeInputTypes = {
+  committedVamcServiceDisplay: PropTypes.string,
   currentQuery: CurrentQueryTypes,
   getProviderSpecialties: PropTypes.func,
   handleServiceTypeChange: PropTypes.func,
   isMobile: PropTypes.bool,
   isSmallDesktop: PropTypes.bool,
   isTablet: PropTypes.bool,
+  onVamcDraftChange: PropTypes.func,
   results: ResultsTypes,
   searchInitiated: PropTypes.bool,
   selectedServiceType: PropTypes.string,
   setSearchInitiated: PropTypes.func,
   useProgressiveDisclosure: PropTypes.bool,
   vamcAutoSuggestEnabled: PropTypes.bool,
-  onChange: PropTypes.func,
 };
 
 /**
@@ -293,6 +307,7 @@ export const AutosuggestProps = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   shouldShowNoResults: PropTypes.bool,
   showDownCaret: PropTypes.bool,
+  showOptionsRestriction: PropTypes.bool,
   showError: PropTypes.bool,
   stateReducer: PropTypes.func,
   useProgressiveDisclosure: PropTypes.bool,

@@ -195,7 +195,7 @@ describe('<TopicSelect /> component', () => {
 
       await waitFor(() => {
         const radio = container.querySelector('va-radio');
-        expect(radio.getAttribute('error')).to.equal('Please select a topic');
+        expect(radio.getAttribute('error')).to.equal('Select a topic');
       });
     });
 

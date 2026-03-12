@@ -1,20 +1,24 @@
 import {
-  titleUI,
   descriptionUI,
-  radioUI,
   radioSchema,
-  yesNoUI,
+  radioUI,
+  titleUI,
   yesNoSchema,
+  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
-import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
-import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
-import { LLM_RESPONSE } from '../components/llmUploadResponse';
+import MedicalClaimsDescription from '../components/FormDescriptions/MedicalClaimsDescription';
 import MedicalEobDescription from '../components/FormDescriptions/MedicalEobDescription';
 import PharmacyClaimsDescription from '../components/FormDescriptions/PharmacyClaimsDescription';
-import MedicalClaimsDescription from '../components/FormDescriptions/MedicalClaimsDescription';
-import { blankSchema, fileUploadSchema } from '../definitions';
+import {
+  attachmentRequiredSchema,
+  attachmentUI,
+  llmResponseAlertSchema,
+  llmResponseAlertUI,
+  llmUploadAlertSchema,
+  llmUploadAlertUI,
+} from '../definitions';
 import content from '../locales/en/content.json';
+import { titleWithFormDataUI } from '../utils/titles';
 
 export const claimTypeSchema = {
   uiSchema: {
@@ -71,26 +75,23 @@ export const claimAutoSchema = {
 };
 
 export const medicalClaimUploadSchema = {
-  CustomPage: FileFieldCustomSimple,
-  CustomPageReview: null,
   uiSchema: {
     ...titleUI(content['claim--medical-title']),
     ...descriptionUI(MedicalClaimsDescription),
-    ...LLM_UPLOAD_WARNING,
-    medicalUpload: fileUploadUI({
+    ...llmUploadAlertUI,
+    medicalUpload: attachmentUI({
       label: content['claim--medical-title'],
-      attachmentName: true,
-      attachmentId: 'medical invoice', // hard-set for LLM verification
+      attachmentId: 'medical invoice',
     }),
-    ...LLM_RESPONSE,
+    ...llmResponseAlertUI,
   },
   schema: {
     type: 'object',
     required: ['medicalUpload'],
     properties: {
-      'view:fileClaim': blankSchema,
-      medicalUpload: fileUploadSchema,
-      'view:uploadAlert': blankSchema,
+      ...llmUploadAlertSchema,
+      medicalUpload: attachmentRequiredSchema,
+      ...llmResponseAlertSchema,
     },
   },
 };
@@ -98,57 +99,49 @@ export const medicalClaimUploadSchema = {
 export const eobUploadSchema = isPrimary => {
   const keyName = isPrimary ? 'primaryEob' : 'secondaryEob';
   return {
-    CustomPage: FileFieldCustomSimple,
-    CustomPageReview: null,
     uiSchema: {
-      ...titleUI(({ formData }) => {
-        // If `isPrimary`, show first health insurance co. name. Else, show 2nd.
-        return `${content['claim--eob-title']} ${
-          formData?.policies?.[isPrimary ? 0 : 1]?.name
-        }`;
+      ...titleWithFormDataUI(content['claim--eob-title'], null, {
+        dataKey: formData => formData?.policies?.[isPrimary ? 0 : 1]?.name,
+        capitalize: false,
       }),
       ...descriptionUI(MedicalEobDescription),
-      ...LLM_UPLOAD_WARNING,
-      [keyName]: fileUploadUI({
+      ...llmUploadAlertUI,
+      [keyName]: attachmentUI({
         label: content['claim--eob-label'],
-        attachmentName: true,
-        attachmentId: 'EOB', // hard-set for LLM verification
+        attachmentId: 'EOB',
       }),
-      ...LLM_RESPONSE,
+      ...llmResponseAlertUI,
     },
     schema: {
       type: 'object',
       required: [keyName],
       properties: {
-        'view:fileClaim': blankSchema,
-        [keyName]: fileUploadSchema,
-        'view:uploadAlert': blankSchema,
+        ...llmUploadAlertSchema,
+        [keyName]: attachmentRequiredSchema,
+        ...llmResponseAlertSchema,
       },
     },
   };
 };
 
 export const pharmacyClaimUploadSchema = {
-  CustomPage: FileFieldCustomSimple,
-  CustomPageReview: null,
   uiSchema: {
     ...titleUI(content['claim--prescription-title']),
     ...descriptionUI(PharmacyClaimsDescription),
-    ...LLM_UPLOAD_WARNING,
-    pharmacyUpload: fileUploadUI({
+    ...llmUploadAlertUI,
+    pharmacyUpload: attachmentUI({
       label: content['claim--prescription-label'],
-      attachmentName: true,
-      attachmentId: 'pharmacy invoice', // hard-set for LLM verification
+      attachmentId: 'pharmacy invoice',
     }),
-    ...LLM_RESPONSE,
+    ...llmResponseAlertUI,
   },
   schema: {
     type: 'object',
     required: ['pharmacyUpload'],
     properties: {
-      'view:fileClaim': blankSchema,
-      pharmacyUpload: fileUploadSchema,
-      'view:uploadAlert': blankSchema,
+      ...llmUploadAlertSchema,
+      pharmacyUpload: attachmentRequiredSchema,
+      ...llmResponseAlertSchema,
     },
   },
 };

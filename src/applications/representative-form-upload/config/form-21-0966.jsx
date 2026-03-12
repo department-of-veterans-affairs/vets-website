@@ -8,7 +8,11 @@ import { itfClaimantInformationPage } from '../pages/itfClaimantInformation';
 import { itfVeteranInformationPage } from '../pages/itfVeteranInformation';
 import { IsVeteranPage, isVeteranPage } from '../pages/isVeteranPage';
 import { itfTransformForSubmit } from './submit-transformer';
-import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
+import {
+  getITFMockData,
+  scrollAndFocusTarget,
+  getFormContent,
+} from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
 import { getIntentsToFile } from '../helpers/intent-to-file-helper';
 import ITFSubmissionError from './ITFSubmissionError';
@@ -16,6 +20,7 @@ import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicat
 import ITF403Error from '../components/ITF403Error';
 import ITF500Error from '../components/ITF500Error';
 import ITFExistingClaim from '../components/ITFExistingClaim';
+import SubmissionErrorLink from './submissionErrorLink';
 
 const form210966 = (pathname = null) => {
   const { subTitle, formNumber } = getFormContent(pathname);
@@ -48,6 +53,7 @@ const form210966 = (pathname = null) => {
     prefillEnabled: false,
     transformForSubmit: itfTransformForSubmit,
     submissionError: ITFSubmissionError,
+    submissionErrorLink: SubmissionErrorLink,
     defaultDefinitions: {},
     additionalRoutes: [
       {
@@ -117,16 +123,16 @@ const form210966 = (pathname = null) => {
             scrollAndFocusTarget,
             // we want req'd fields prefilled for LOCAL testing/previewing
             // one single initialData prop here will suffice for entire form
-            initialData: getMockData(),
+            initialData: getITFMockData(),
           },
         },
       },
       claimantInformationChapter: {
         title: 'Claimant and Veteran information',
         reviewDescription: () => (
-          <div className="itf-review-heading">
+          <h4 className="itf-review-heading">
             Claimant and Veteran information
-          </div>
+          </h4>
         ),
         pages: {
           claimantInformation: {
@@ -153,9 +159,6 @@ const form210966 = (pathname = null) => {
             },
             schema: itfClaimantInformationPage.schema,
             scrollAndFocusTarget,
-            // we want req'd fields prefilled for LOCAL testing/previewing
-            // one single initialData prop here will suffice for entire form
-            initialData: getMockData(true),
           },
         },
       },

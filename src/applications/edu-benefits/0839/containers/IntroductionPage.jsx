@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import { isLoggedIn } from 'platform/user/selectors';
-// import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { useSelector } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -118,29 +116,9 @@ export const IntroductionPage = props => {
   const { route } = props;
   const { formConfig, pageList } = route;
 
-  const removePrivacyActButton = async () => {
-    const vaOmbInfo = document.querySelector('va-omb-info');
-    if (vaOmbInfo) {
-      const privacyActButton = await querySelectorWithShadowRoot(
-        'va-button[secondary]',
-        vaOmbInfo,
-      );
-      if (privacyActButton) {
-        privacyActButton.setAttribute('style', 'display:none;');
-      }
-    }
-  };
-
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
-
-    // Remove the Privacy Act Statement button from va-omb-info component
-    const removeButton = async () => {
-      await removePrivacyActButton();
-    };
-
-    removeButton();
   }, []);
 
   return (
@@ -169,8 +147,8 @@ export const IntroductionPage = props => {
           Program, you don’t need to submit this form.
         </li>
         <li>
-          Schools must submit a new agreement each academic year to stay in the
-          program, even if nothing is changing.
+          Schools that already have a Yellow Ribbon Agreement in place need to
+          send another agreement only if they are modifying or withdrawing.
         </li>
         <li>
           U.S. schools can submit this form from March 15 through May 15 (or the
@@ -179,6 +157,10 @@ export const IntroductionPage = props => {
         <li>
           Foreign schools can submit this form from June 1 through July 31 (or
           the following Monday if July 31 falls on a weekend).
+        </li>
+        <li>
+          Foreign schools must submit a new agreement each academic year to stay
+          in the program, even if nothing is changing.
         </li>
       </ul>
       <p>
@@ -192,9 +174,12 @@ export const IntroductionPage = props => {
         <h3 slot="headline">Submission guidelines</h3>
         <ul>
           <li>
-            This form must be completed and signed by a school official who is
-            authorized to enter into financial agreements on behalf of the
-            school. This applies to both U.S. and foreign schools.
+            This form must be completed by an official who is legally authorized
+            to bind the institution to this agreement with VA. When accessing
+            the digital form, ID.me or LOGIN.GOV authentication serves as the
+            official signature. Schools must establish their own internal
+            processes for concurrence if a School Certifying Official (SCO) is
+            submitting as the Authorizing Official.
           </li>
           <li>
             The authorized official will be required to review and acknowledge a
@@ -210,17 +195,15 @@ export const IntroductionPage = props => {
       </h2>
       <ProcessList />
       <div className="vads-u-border-top--4 vads-u-margin-bottom--4">
-        {userLoggedIn && (
-          <h2 className="vads-u-margin-top--1p5">Start the form</h2>
-        )}
         <SaveInProgressIntro
+          hideUnauthedStartLink={!userLoggedIn}
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start your Yellow Ribbon Program Agreement"
           formConfig={formConfig}
-          unauthStartText="Sign in to start your form"
+          pageList={pageList}
+          unauthStartText="Sign in or create an account"
+          startText="Start your Yellow Ribbon Program Agreement"
         />
       </div>
       <OmbInfo />

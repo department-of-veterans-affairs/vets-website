@@ -1,10 +1,27 @@
 import React, { useEffect } from 'react';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import classNames from 'classnames';
 import { focusElement } from 'platform/utilities/ui';
 
 import NeedHelp from '../components/NeedHelp';
+import ErrorAlert from '../components/ErrorAlert';
+import VerificationErrorAlert from '../components/VerificationErrorAlert';
+import { FLOW_TYPES } from '../utils/constants';
+
+// TODO: Maybe combine errorAlert and verificationError into a single prop
+const getContent = (errorAlert, verificationError, children, flowType) => {
+  if (errorAlert) {
+    return <ErrorAlert flowType={flowType} />;
+  }
+  if (verificationError) {
+    return <VerificationErrorAlert message={verificationError} />;
+  }
+  return children;
+};
 
 const Wrapper = props => {
   const {
@@ -17,12 +34,41 @@ const Wrapper = props => {
     verificationError,
     loading = false,
     loadingMessage = 'Loading...',
+    errorAlert = false,
+    disableBeforeUnload = false,
+    flowType = FLOW_TYPES.SCHEDULE,
   } = props;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  // Warn on page refresh/close
+  useEffect(
+    () => {
+      if (disableBeforeUnload) {
+        return undefined;
+      }
+
+      const handleBeforeUnload = e => {
+        e.preventDefault();
+        e.returnValue = '';
+      };
+
+      window.addEventListener('beforeunload', handleBeforeUnload);
+
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    },
+    [disableBeforeUnload],
+  );
+
+  useEffect(
+    () => {
+      if (!loading) {
+        focusElement('h1');
+      }
+    },
+    [loading],
+  );
 
   useEffect(
     () => {
@@ -46,6 +92,8 @@ const Wrapper = props => {
     );
   }
 
+  const content = getContent(errorAlert, verificationError, children, flowType);
+
   return (
     <div
       className={classNames(`vads-l-grid-container vads-u-padding-x--2p5`, {
@@ -55,23 +103,22 @@ const Wrapper = props => {
       })}
       data-testid={testID}
     >
-      {showBackLink && (
-        <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--0">
-          <nav aria-label="backlink">
-            <va-link
-              back
-              aria-label="Back link"
-              data-testid="back-link"
-              text="Back"
-              href="#"
-              onClick={e => {
-                e.preventDefault();
-                navigate(-1);
-              }}
-            />
-          </nav>
-        </div>
-      )}
+      {!errorAlert &&
+        showBackLink && (
+          <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--0">
+            <nav aria-label="Back">
+              <va-link
+                back
+                data-testid="back-link"
+                text="Back"
+                onClick={e => {
+                  e.preventDefault();
+                  navigate(-1);
+                }}
+              />
+            </nav>
+          </div>
+        )}
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {pageTitle && (
@@ -84,16 +131,12 @@ const Wrapper = props => {
               )}
             </h1>
           )}
-          {!verificationError && children}
-          {verificationError && (
-            <va-alert
-              data-testid="verification-error-alert"
-              class="vads-u-margin-top--4"
-              status="error"
-            >
-              {verificationError}
-            </va-alert>
-          )}
+          <DowntimeNotification
+            appTitle="VA Solid Start"
+            dependencies={[externalServices.vass]}
+          >
+            {content}
+          </DowntimeNotification>
           <NeedHelp />
         </div>
       </div>
@@ -104,8 +147,11 @@ const Wrapper = props => {
 export default Wrapper;
 
 Wrapper.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   className: PropTypes.string,
+  disableBeforeUnload: PropTypes.bool,
+  errorAlert: PropTypes.bool,
+  flowType: PropTypes.oneOf(Object.values(FLOW_TYPES)),
   loading: PropTypes.bool,
   loadingMessage: PropTypes.string,
   pageTitle: PropTypes.string,

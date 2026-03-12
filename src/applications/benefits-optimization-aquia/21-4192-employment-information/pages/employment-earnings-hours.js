@@ -4,6 +4,7 @@
  * VA Form 21-4192 - Request for Employment Information
  */
 
+import React from 'react';
 import {
   textareaUI,
   textUI,
@@ -35,11 +36,8 @@ const getTypeOfWorkTitle = formData => {
 const getAmountEarnedTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Amount earned';
   const veteranName = getVeteranName(formData);
-  const tense = getEmploymentTense(formData);
   const timeframe = getEmploymentTimeframe(formData);
-  return `How much ${
-    tense.does
-  } ${veteranName} earn in the ${timeframe} (before deductions)?`;
+  return `How much did ${veteranName} earn in the ${timeframe} (before deductions)?`;
 };
 
 /**
@@ -49,11 +47,8 @@ const getTimeLostTitle = formData => {
   if (!formData || typeof formData !== 'object')
     return 'Time lost to disability';
   const veteranName = getVeteranName(formData);
-  const tense = getEmploymentTense(formData);
   const timeframe = getEmploymentTimeframe(formData);
-  return `How many hours ${
-    tense.does
-  } ${veteranName} lose to disability in the ${timeframe}?`;
+  return `How many hours did ${veteranName} lose to disability in the ${timeframe}?`;
 };
 
 /**
@@ -80,12 +75,25 @@ const getWeeklyHoursTitle = formData => {
  * Generate page title
  * @param {Object} props - Props object with formData and formContext
  * @param {Object} props.formData - The form data
- * @returns {string} The page title
+ * @returns {JSX.Element|string} The page title
  */
 const getPageTitle = ({ formData }) => {
   // Defensive: getVeteranName handles formData validation
   const veteranName = getVeteranName(formData);
-  return `Details about ${veteranName}'s employment`;
+  const title = `Details about ${veteranName}'s employment`;
+
+  // Mask if not using fallback text
+  if (veteranName !== 'Veteran') {
+    return (
+      <span
+        data-dd-privacy="mask"
+        data-dd-action-name="employment earnings page"
+      >
+        {title}
+      </span>
+    );
+  }
+  return title;
 };
 
 /**
@@ -149,6 +157,9 @@ export const employmentEarningsHoursUiSchema = {
 
       return {
         employmentEarningsHours: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           typeOfWork: {
             'ui:title': typeOfWorkTitle,
           },

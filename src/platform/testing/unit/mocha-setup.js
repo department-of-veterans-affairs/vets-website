@@ -85,6 +85,11 @@ global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 global.__API__ = null;
 global.__MEGAMENU_CONFIG__ = null;
 global.__REGISTRY__ = [];
+// Format-valid Mapbox placeholder so @mapbox/mapbox-sdk won't throw at
+// import time during unit tests. Real tokens from .env or CI override this.
+if (!process.env.MAPBOX_TOKEN) {
+  process.env.MAPBOX_TOKEN = 'pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==';
+}
 
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
@@ -152,7 +157,15 @@ function setupJSDom() {
   // Note: global.document is defined as a getter below to ensure modules
   // like axe-core always use the current window's document after beforeEach
   // creates a new JSDOM. See the Object.defineProperty for 'document' below.
-  global.navigator = { userAgent: 'node.js' };
+
+  // Use defineProperty for navigator since it's read-only in Node 22+
+  Object.defineProperty(global, 'navigator', {
+    value: { userAgent: 'node.js' },
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
@@ -160,6 +173,27 @@ function setupJSDom() {
     clearTimeout(id);
   };
   global.Blob = window.Blob;
+
+  // Polyfill URL.createObjectURL and revokeObjectURL for tests that stub them
+  if (!URL.createObjectURL) {
+    URL.createObjectURL = () => '';
+  }
+  if (!URL.revokeObjectURL) {
+    URL.revokeObjectURL = () => {};
+  }
+  if (window.URL && !window.URL.createObjectURL) {
+    window.URL.createObjectURL = () => '';
+  }
+  if (window.URL && !window.URL.revokeObjectURL) {
+    window.URL.revokeObjectURL = () => {};
+  }
+
+  // Override global Event constructors to use jsdom's implementations
+  // In Node 22, native Event constructors create objects incompatible with jsdom
+  global.Event = window.Event;
+  global.CustomEvent = window.CustomEvent;
+  global.MouseEvent = window.MouseEvent;
+  global.KeyboardEvent = window.KeyboardEvent;
 
   /* Overwrites JSDOM global defaults from read-only to configurable */
   // Define the window getter/setter only once (first call).
@@ -183,7 +217,10 @@ function setupJSDom() {
               )
             ) {
               try {
-                const descriptor = Object.getOwnPropertyDescriptor(newWindow, prop);
+                const descriptor = Object.getOwnPropertyDescriptor(
+                  newWindow,
+                  prop,
+                );
                 if (descriptor) {
                   Object.defineProperty(currentRealWindow, prop, descriptor);
                 }
@@ -219,7 +256,9 @@ function setupJSDom() {
   window.dataLayer = [];
   window.matchMedia = () => ({
     matches: false,
+    addEventListener: f => f,
     addListener: f => f,
+    removeEventListener: f => f,
     removeListener: f => f,
   });
   window.scroll = () => {};
@@ -289,6 +328,30 @@ function setupJSDom() {
     enumerable: true,
     writable: true,
   });
+
+  // Stub HTMLCanvasElement.prototype.getContext for axe-core color contrast checks
+  // JSDOM 20 doesn't implement canvas, but axe-core needs it to detect icon ligatures
+  if (typeof window.HTMLCanvasElement !== 'undefined') {
+    window.HTMLCanvasElement.prototype.getContext = function() {
+      return null;
+    };
+  }
+
+  // Stub customElements for web component support (JSDOM 20 doesn't have it)
+  // This allows web components from @department-of-veterans-affairs/web-components
+  // to be defined and used in tests
+  if (!window.customElements) {
+    const customElementsRegistry = new Map();
+    window.customElements = {
+      define: (name, constructor) => {
+        customElementsRegistry.set(name, constructor);
+      },
+      get: name => customElementsRegistry.get(name),
+      whenDefined: name => {
+        return Promise.resolve(customElementsRegistry.get(name));
+      },
+    };
+  }
 }
 /* eslint-disable no-console */
 
@@ -328,6 +391,73 @@ try {
   // Component library not installed or path changed - silently ignore
 }
 
+// Track pending timers for cleanup
+const pendingTimers = {
+  timeouts: new Set(),
+  intervals: new Set(),
+};
+
+// Wrap native timer functions to track pending timers
+function wrapTimers() {
+  const originalSetTimeout = global.setTimeout;
+  const originalSetInterval = global.setInterval;
+  const originalClearTimeout = global.clearTimeout;
+  const originalClearInterval = global.clearInterval;
+
+  global.setTimeout = function wrappedSetTimeout(fn, delay, ...args) {
+    const id = originalSetTimeout(
+      (...callArgs) => {
+        pendingTimers.timeouts.delete(id);
+        fn(...callArgs);
+      },
+      delay,
+      ...args,
+    );
+    pendingTimers.timeouts.add(id);
+    return id;
+  };
+
+  global.setInterval = function wrappedSetInterval(fn, delay, ...args) {
+    const id = originalSetInterval(fn, delay, ...args);
+    pendingTimers.intervals.add(id);
+    return id;
+  };
+
+  global.clearTimeout = function wrappedClearTimeout(id) {
+    pendingTimers.timeouts.delete(id);
+    return originalClearTimeout(id);
+  };
+
+  global.clearInterval = function wrappedClearInterval(id) {
+    pendingTimers.intervals.delete(id);
+    return originalClearInterval(id);
+  };
+
+  // Store originals for cleanup
+  global._originalTimers = {
+    setTimeout: originalSetTimeout,
+    setInterval: originalSetInterval,
+    clearTimeout: originalClearTimeout,
+    clearInterval: originalClearInterval,
+  };
+}
+
+function clearPendingTimers() {
+  const {
+    clearTimeout: origClearTimeout,
+    clearInterval: origClearInterval,
+  } = global._originalTimers || {
+    clearTimeout: global.clearTimeout,
+    clearInterval: global.clearInterval,
+  };
+  pendingTimers.timeouts.forEach(id => origClearTimeout(id));
+  pendingTimers.intervals.forEach(id => origClearInterval(id));
+  pendingTimers.timeouts.clear();
+  pendingTimers.intervals.clear();
+}
+
+wrapTimers();
+
 const checkAllowList = testContext => {
   const file = testContext.currentTest.file.slice(
     testContext.currentTest.file.indexOf('src'),
@@ -348,7 +478,9 @@ const cleanupStorage = () => {
 };
 
 function flushPromises() {
-  return new Promise(resolve => setImmediate(resolve));
+  // Use Promise.resolve() to push work to the microtask queue.
+  // This is synchronous and not affected by sinon's fake timers.
+  return Promise.resolve();
 }
 
 const server = setupServer(
@@ -381,13 +513,21 @@ export const mochaHooks = {
     server.resetHandlers();
   },
 
-  afterEach() {
+  async afterEach() {
     cleanupStorage();
-    flushPromises();
+    await flushPromises();
+    // Clear any pending timers to prevent async callbacks from running after test cleanup.
+    // This catches setInterval/setTimeout leaks from components that don't clean up properly.
+    clearPendingTimers();
+    // Reset fetch stub to prevent state pollution between tests
+    resetFetch();
   },
 
   afterAll() {
     server.close();
-  }
-
+    // Clean up jsdom to prevent hanging in Node 22
+    if (global.dom && global.dom.window) {
+      global.dom.window.close();
+    }
+  },
 };

@@ -27,7 +27,10 @@ const testConfig = createTestConfig(
       },
       'household-information/share-financial-information': ({ afterHook }) => {
         afterHook(() => {
-          cy.selectRadio('root_discloseFinancialInformation', 'N');
+          cy.selectYesNoVaRadioOption(
+            'root_discloseFinancialInformation',
+            false,
+          );
           goToNextPage();
         });
       },
@@ -38,7 +41,7 @@ const testConfig = createTestConfig(
       },
       'household-information/marital-status': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[name="root_maritalStatus"]').select('Never Married');
+          cy.selectVaSelect('root_maritalStatus', 'Never Married');
           goToNextPage();
         });
       },

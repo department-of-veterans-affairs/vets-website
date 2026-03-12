@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { Prompt, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,6 +11,7 @@ import Headline from '../ProfileSectionHeadline';
 import SchedulingPreferencesContent from './SchedulingPreferencesContent';
 
 const SchedulingPreferences = () => {
+  const hasMountedRef = useRef(false);
   const location = useLocation();
   const hasSchedulingPreferencesError =
     useSelector(state => state.vaProfile?.schedulingPreferences?.error) ??
@@ -33,6 +34,8 @@ const SchedulingPreferences = () => {
   useEffect(
     () => {
       document.title = `Scheduling Preferences | Veterans Affairs`;
+      // Mark component as mounted after first render so Prompt doesn't show on initial load
+      hasMountedRef.current = true;
 
       return () => {
         clearSuccessAlert();
@@ -81,8 +84,8 @@ const SchedulingPreferences = () => {
   return (
     <>
       <Prompt
-        when={hasUnsavedEdits}
-        message="You have unsaved changes. Are you sure you want to leave?"
+        when={hasUnsavedEdits && hasMountedRef.current}
+        message="Are you sure you want to leave? If you leave, your in-progress work won't be saved."
       />
 
       <Headline

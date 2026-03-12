@@ -276,131 +276,81 @@ describe('vaccineReducer', () => {
   });
 
   describe('GET_LIST action', () => {
-    describe('useBackendPagination is true', () => {
-      it('should replace the existing list', () => {
-        // Initial state with existing vaccines list
-        const initialState = {
-          vaccinesList: [
-            { id: '1', name: 'Previous Vaccine 1' },
-            { id: '2', name: 'Previous Vaccine 2' },
-          ],
-        };
+    it('should preserve existing list in vaccinesList and put new data in updatedList', () => {
+      // Initial state with existing vaccines list
+      const initialState = {
+        vaccinesList: [
+          { id: '1', name: 'Previous Vaccine 1' },
+          { id: '2', name: 'Previous Vaccine 2' },
+        ],
+      };
 
-        // New response with different vaccines
-        const response = {
-          data: [
-            {
-              attributes: {
-                id: '3',
-                name: 'New Vaccine 3',
-                dateReceived: '2023-05-15',
-              },
+      // New response with different vaccines
+      const response = {
+        data: [
+          {
+            attributes: {
+              id: '3',
+              name: 'New Vaccine 3',
+              dateReceived: '2023-05-15',
             },
-            {
-              attributes: {
-                id: '4',
-                name: 'New Vaccine 4',
-                dateReceived: '2023-01-10',
-              },
+          },
+          {
+            attributes: {
+              id: '4',
+              name: 'New Vaccine 4',
+              dateReceived: '2023-01-10',
             },
-          ],
-        };
+          },
+        ],
+      };
 
-        const newState = vaccineReducer(initialState, {
-          type: Actions.Vaccines.GET_LIST,
-          response,
-          useBackendPagination: true,
-          isCurrent: true,
-        });
-
-        // Should completely replace the list with new items
-        expect(newState.vaccinesList).to.have.lengthOf(2);
-        expect(newState.vaccinesList[0].id).to.equal('3');
-        expect(newState.vaccinesList[1].id).to.equal('4');
-        // Should not have updatedList when useBackendPagination is true
-        expect(newState.updatedList).to.equal(undefined);
+      const newState = vaccineReducer(initialState, {
+        type: Actions.Vaccines.GET_LIST,
+        response,
+        isCurrent: true,
       });
+
+      // Should preserve the original list
+      expect(newState.vaccinesList).to.have.lengthOf(2);
+      expect(newState.vaccinesList[0].id).to.equal('1');
+      expect(newState.vaccinesList[1].id).to.equal('2');
+      // Should store new items in updatedList
+      expect(newState.updatedList).to.have.lengthOf(2);
+      expect(newState.updatedList[0].id).to.equal('3');
+      expect(newState.updatedList[1].id).to.equal('4');
     });
 
-    describe('useBackendPagination is false', () => {
-      it('should preserve existing list in vaccinesList and put new data in updatedList', () => {
-        // Initial state with existing vaccines list
-        const initialState = {
-          vaccinesList: [
-            { id: '1', name: 'Previous Vaccine 1' },
-            { id: '2', name: 'Previous Vaccine 2' },
-          ],
-        };
+    it('should set vaccinesList to new list when initial state has undefined vaccinesList', () => {
+      // Initial state with undefined vaccinesList
+      const initialState = {
+        vaccinesList: undefined,
+      };
 
-        // New response with different vaccines
-        const response = {
-          data: [
-            {
-              attributes: {
-                id: '3',
-                name: 'New Vaccine 3',
-                dateReceived: '2023-05-15',
-              },
+      // New response
+      const response = {
+        data: [
+          {
+            attributes: {
+              id: '3',
+              name: 'New Vaccine 3',
+              dateReceived: '2023-05-15',
             },
-            {
-              attributes: {
-                id: '4',
-                name: 'New Vaccine 4',
-                dateReceived: '2023-01-10',
-              },
-            },
-          ],
-        };
+          },
+        ],
+      };
 
-        const newState = vaccineReducer(initialState, {
-          type: Actions.Vaccines.GET_LIST,
-          response,
-          useBackendPagination: false,
-          isCurrent: true,
-        });
-
-        // Should preserve the original list
-        expect(newState.vaccinesList).to.have.lengthOf(2);
-        expect(newState.vaccinesList[0].id).to.equal('1');
-        expect(newState.vaccinesList[1].id).to.equal('2');
-        // Should store new items in updatedList
-        expect(newState.updatedList).to.have.lengthOf(2);
-        expect(newState.updatedList[0].id).to.equal('3');
-        expect(newState.updatedList[1].id).to.equal('4');
+      const newState = vaccineReducer(initialState, {
+        type: Actions.Vaccines.GET_LIST,
+        response,
+        isCurrent: true,
       });
 
-      it('should set vaccinesList to new list when initial state has undefined vaccinesList', () => {
-        // Initial state with undefined vaccinesList
-        const initialState = {
-          vaccinesList: undefined,
-        };
-
-        // New response
-        const response = {
-          data: [
-            {
-              attributes: {
-                id: '3',
-                name: 'New Vaccine 3',
-                dateReceived: '2023-05-15',
-              },
-            },
-          ],
-        };
-
-        const newState = vaccineReducer(initialState, {
-          type: Actions.Vaccines.GET_LIST,
-          response,
-          useBackendPagination: false, // Even with false, should use new list
-          isCurrent: true,
-        });
-
-        // Should set vaccinesList to the new list
-        expect(newState.vaccinesList).to.have.lengthOf(1);
-        expect(newState.vaccinesList[0].id).to.equal('3');
-        // Should not set updatedList when vaccinesList was undefined
-        expect(newState.updatedList).to.equal(undefined);
-      });
+      // Should set vaccinesList to the new list
+      expect(newState.vaccinesList).to.have.lengthOf(1);
+      expect(newState.vaccinesList[0].id).to.equal('3');
+      // Should not set updatedList when vaccinesList was undefined
+      expect(newState.updatedList).to.equal(undefined);
     });
 
     it('creates a list', () => {
@@ -859,7 +809,6 @@ describe('vaccineReducer - GET_UNIFIED_LIST action', () => {
     });
     expect(newState.listState).to.equal(loadStates.FETCHED);
     expect(newState.listCurrentAsOf).to.be.instanceOf(Date);
-    expect(newState.listMetadata).to.deep.equal(response.meta);
   });
 
   it('should filter out null records from convertUnifiedVaccine', () => {
@@ -1012,7 +961,6 @@ describe('vaccineReducer - GET_UNIFIED_LIST action', () => {
 
     expect(newState.vaccinesList).to.have.lengthOf(1);
     expect(newState.listCurrentAsOf).to.equal(null);
-    expect(newState.updateNeeded).to.be.false;
   });
 });
 

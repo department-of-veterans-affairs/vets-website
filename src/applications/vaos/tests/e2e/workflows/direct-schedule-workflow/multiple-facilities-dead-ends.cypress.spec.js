@@ -1,4 +1,3 @@
-// @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
@@ -8,11 +7,11 @@ import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import UrgentCareInformationPageObject from '../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
   mockClinicsApi,
-  mockEligibilityApi,
   mockEligibilityCCApi,
   mockEligibilityDirectApi,
   mockEligibilityRequestApi,
@@ -32,7 +31,10 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
     vaosSetup();
 
     mockAppointmentsGetApi({ response: [] });
-    mockFeatureToggles();
+    mockFeatureToggles({
+      vaOnlineSchedulingRemoveFacilityConfigCheck: false,
+      vaOnlineSchedulingUseVpg: false,
+    });
     mockVamcEhrApi();
   });
 
@@ -50,6 +52,8 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
@@ -80,7 +84,8 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           isDirect: true,
           isRequest: false,
         });
-        mockEligibilityApi({ responseCode: 502 });
+        mockEligibilityDirectApi({ responseCode: 502 });
+        mockEligibilityRequestApi({ responseCode: 502 });
         mockClinicsApi({
           locationId: '983',
           response: [],
@@ -90,6 +95,8 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
 
         AppointmentListPageObject.visit().scheduleAppointment();
 
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
@@ -97,11 +104,10 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .selectLocation(/Facility 983/i)
-          .clickNextButton();
-
-        cy.get('[data-testid="eligibilityModal"]')
-          .contains('We’re sorry. There’s a problem with our system')
-          .should('exist');
+          .clickNextButton()
+          .assertErrorModal({
+            text: /You can.t schedule an appointment online right now/,
+          });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -151,6 +157,8 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
@@ -218,6 +226,8 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
 
         AppointmentListPageObject.visit().scheduleAppointment();
 
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
@@ -279,6 +289,8 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
         cy.login(mockUser);
 
         AppointmentListPageObject.visit().scheduleAppointment();
+
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
@@ -346,6 +358,8 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
 
         AppointmentListPageObject.visit().scheduleAppointment();
 
+        UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
@@ -355,7 +369,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /You haven’t had a recent appointment at this facility/i,
+            text: /You can.t schedule an appointment online/i,
           });
 
         // Assert

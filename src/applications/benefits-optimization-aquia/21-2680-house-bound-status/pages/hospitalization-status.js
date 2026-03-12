@@ -17,14 +17,18 @@ import { getHospitalizationStatusTitle } from '../utils';
 export const hospitalizationStatusUiSchema = {
   hospitalizationStatus: {
     isCurrentlyHospitalized: yesNoUI({
-      title: 'Is the claimant hospitalized?',
+      title: 'Is the claimant receiving hospital care?',
     }),
   },
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const fieldLabel = getHospitalizationStatusTitle(fullData || formData);
+
       return {
         hospitalizationStatus: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           isCurrentlyHospitalized: {
             'ui:title': fieldLabel,
           },

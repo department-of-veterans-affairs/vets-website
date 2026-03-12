@@ -7,7 +7,7 @@ import mapboxgl from 'mapbox-gl';
 import { isEmpty } from 'lodash';
 import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
-import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
+import { mapboxToken } from '../utils/mapboxToken';
 
 // Components
 import Alert from '../components/Alert';
@@ -58,9 +58,6 @@ import {
 } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
-import { otherToolsLink } from '../utils/mapLinks';
-
-let lastZoom = 3;
 
 const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
@@ -91,6 +88,7 @@ const FacilitiesMap = props => {
   const mapboxGlContainerRef = useRef(null);
   const searchResultTitleRef = useRef(null);
   const searchResultMessageRef = useRef();
+  const lastZoomRef = useRef(3);
 
   /**
    * Search when the component renders with a sharable url
@@ -206,19 +204,23 @@ const FacilitiesMap = props => {
     [addMapMarker, map, props.currentQuery],
   );
 
-  const handleSearch = async () => {
+  const handleSearch = async (formValues = null) => {
     resetMapElements();
-    const { currentQuery } = props;
-    const { facilityType, serviceType, searchString } = currentQuery;
+    const queryToUse = formValues
+      ? { ...props.currentQuery, ...formValues }
+      : props.currentQuery;
+    const { facilityType, serviceType, searchString } = queryToUse;
     const expandedRadius = facilityType === 'benefits' && !serviceType;
-    lastZoom = null;
+    lastZoomRef.current = null;
 
     updateUrlParams({
       address: searchString,
+      facilityType,
+      serviceType,
     });
     props.genBBoxFromAddress(
       {
-        ...currentQuery,
+        ...queryToUse,
       },
       expandedRadius,
       props.useProgressiveDisclosure,
@@ -241,7 +243,7 @@ const FacilitiesMap = props => {
     if (!map) return;
 
     resetMapElements();
-    lastZoom = null;
+    lastZoomRef.current = null;
 
     const { currentQuery } = props;
     const center = map.getCenter().wrap();
@@ -319,14 +321,14 @@ const FacilitiesMap = props => {
 
       props.mapMoved(searchRadius);
 
-      if (lastZoom && parseInt(lastZoom, 10) > 3) {
-        recordZoomEvent(lastZoom, currentZoom);
+      if (lastZoomRef.current && parseInt(lastZoomRef.current, 10) > 3) {
+        recordZoomEvent(lastZoomRef.current, currentZoom);
       }
 
-      if (lastZoom !== currentZoom) {
-        const zoomDirection = currentZoom > lastZoom ? 'in' : 'out';
+      if (lastZoomRef.current !== currentZoom) {
+        const zoomDirection = currentZoom > lastZoomRef.current ? 'in' : 'out';
         speakZoom(searchRadius, zoomDirection);
-        lastZoom = currentZoom;
+        lastZoomRef.current = currentZoom;
       }
     });
   };
@@ -513,6 +515,7 @@ const FacilitiesMap = props => {
               isMobile={isMobile}
               isSmallDesktop={isSmallDesktop}
               isTablet={isTablet}
+              location={props.location}
               mobileMapUpdateEnabled={mobileMapUpdateEnabled}
               onChange={props.updateSearchQuery}
               onSubmit={handleSearch}
@@ -521,6 +524,7 @@ const FacilitiesMap = props => {
               setSearchInitiated={setSearchInitiated}
               suppressPPMS={props.suppressPPMS}
               useProgressiveDisclosure={useProgressiveDisclosure}
+              vaHealthServicesData={props.vaHealthServicesData}
               vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
             />
             <EmergencyCareAlert
@@ -930,7 +934,7 @@ const FacilitiesMap = props => {
       )}
       <CommunityCareWarningBanner shouldShow={props.showCommunityCareBanner} />
       {renderView()}
-      {mapboxTokenValid && otherToolsLink()}
+      {mapboxTokenValid && <p>&nbsp;</p>}
     </>
   );
 };
@@ -948,6 +952,7 @@ const mapStateToProps = state => ({
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
+  vaHealthServicesData: state.drupalStaticData?.vaHealthServicesData,
   vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 

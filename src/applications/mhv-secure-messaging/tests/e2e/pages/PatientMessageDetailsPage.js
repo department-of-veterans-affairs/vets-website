@@ -41,7 +41,7 @@ class PatientMessageDetailsPage {
       singleThreadResponse,
     ).as(`threadResponse`);
 
-    cy.get(Locators.BUTTONS.REPLY)
+    cy.findByTestId(Locators.BUTTONS.REPLY)
       .should('be.visible')
       .click({ force: true });
   };
@@ -50,7 +50,9 @@ class PatientMessageDetailsPage {
     cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
       .should('be.visible')
       .shadow()
-      .findByText('Expand all')
+      .find('va-button-icon[data-testid="expand-all-accordions"]')
+      .shadow()
+      .find('button')
       .click({ force: true });
   };
 
@@ -58,7 +60,9 @@ class PatientMessageDetailsPage {
     cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
       .should('be.visible')
       .shadow()
-      .findByText('Collapse all')
+      .find('va-button-icon[data-testid="collapse-all-accordions"]')
+      .shadow()
+      .find('button')
       .click({ force: true });
   };
 
@@ -373,7 +377,7 @@ class PatientMessageDetailsPage {
       singleThreadData,
     ).as('replyThread');
 
-    cy.get(Locators.BUTTONS.REPLY).click({ force: true });
+    cy.findByTestId(Locators.BUTTONS.REPLY).click({ force: true });
     PatientInterstitialPage.getContinueButton().click();
   };
 
@@ -384,7 +388,7 @@ class PatientMessageDetailsPage {
       singleThreadData,
     ).as('replyThread');
 
-    cy.get(Locators.BUTTONS.REPLY).click({ force: true });
+    cy.findByTestId(Locators.BUTTONS.REPLY).click({ force: true });
     PatientInterstitialPage.getStartMessageLink().click();
   };
 

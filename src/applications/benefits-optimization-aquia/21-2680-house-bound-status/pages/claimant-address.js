@@ -4,6 +4,7 @@
  * VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
  */
 
+import React from 'react';
 import {
   addressUI,
   addressSchema,
@@ -30,7 +31,16 @@ export const claimantAddressUiSchema = {
         data?.claimantInformation?.claimantFullName?.first || '';
       const lastName = data?.claimantInformation?.claimantFullName?.last || '';
       const fullName = `${firstName} ${lastName}`.trim();
-      const title = fullName ? `${fullName}'s address` : "Claimant's address";
+      const title = fullName ? (
+        <span
+          data-dd-privacy="mask"
+          data-dd-action-name="claimant address page"
+        >
+          {`${fullName}'s address`}
+        </span>
+      ) : (
+        "Claimant's address"
+      );
 
       return {
         'ui:title': title,
@@ -57,6 +67,10 @@ const customAddressSchema = {
     street2: {
       type: 'string',
       maxLength: 5,
+    },
+    city: {
+      type: 'string',
+      maxLength: 18,
     },
     country: {
       ...addressSchema().properties.country,

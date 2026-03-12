@@ -35,9 +35,7 @@ describe('Direct Deposit connection error state', () => {
     directDeposit.confirmDirectDepositInSubnav();
 
     // loading error alert should be present
-    cy.findByText(/This page isn't available right now./i).should('exist');
-
-    directDeposit.confirmPaymentHistoryCard();
+    cy.findByText(/This page isn't working right now./i).should('exist');
 
     cy.injectAxeThenAxeCheck();
   });

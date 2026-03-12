@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators, Data } from './utils/constants';
+import { AXE_CONTEXT, Data } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 import FolderLoadPage from './pages/FolderLoadPage';
 
@@ -17,31 +17,40 @@ describe('edit custom folder name validation', () => {
 
   it('verify edit folder name buttons', () => {
     PatientMessageCustomFolderPage.loadMessages();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {});
     PatientMessageCustomFolderPage.editFolderButton()
       .should('be.visible')
       .click({ waitForAnimations: true });
     PatientMessageCustomFolderPage.submitEditFolderName('updatedName');
 
-    cy.get('[data-testid="alert-text"]')
+    cy.findByTestId('rename-success-alert')
       .should('be.visible')
       .and('contain.text', Data.FOLDER_RENAMED_SUCCESSFULLY);
 
-    cy.get(Locators.FOLDERS.FOLDER_HEADER).should('be.visible');
+    cy.findByTestId('folder-header').should('be.visible');
   });
 
   it('verify edit folder name error', () => {
     PatientMessageCustomFolderPage.loadMessages();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {});
     PatientMessageCustomFolderPage.editFolderButton()
       .should('be.visible')
       .click({ waitForAnimations: true });
 
-    cy.get('[text="Save"]')
+    // Wait for the edit form to be visible
+    cy.findByTestId('edit-folder-form').should('be.visible');
+
+    // Clear the pre-filled folder name to trigger blank validation
+    cy.fillVaTextInput('new-folder-name', '');
+
+    cy.findByTestId('save-edit-folder-button')
       .should('be.visible')
       .click({ waitForAnimations: true });
 
-    cy.get(Locators.FOLDERS.FOLDER_NAME, { timeout: 10000 })
-      .shadow()
-      .find('#input-error-message')
-      .and('include.text', Data.FOLDER_NAME_CANNOT_BLANK);
+    cy.findByTestId('edit-folder-name-input')
+      .should('have.attr', 'error')
+      .and('include', Data.FOLDER_NAME_CANNOT_BLANK);
   });
 });

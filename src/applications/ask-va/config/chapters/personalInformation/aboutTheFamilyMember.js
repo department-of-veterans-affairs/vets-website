@@ -19,7 +19,7 @@ const aboutTheFamilyMemberPage = {
         'ui:webComponentField': VaTextInputField,
         'ui:autocomplete': 'given-name',
         'ui:required': () => true,
-        'ui:errorMessages': { required: 'Please enter a first name' },
+        'ui:errorMessages': { required: 'Enter a first name' },
       },
       middle: {
         'ui:title': 'Middle name',
@@ -31,7 +31,7 @@ const aboutTheFamilyMemberPage = {
         'ui:webComponentField': VaTextInputField,
         'ui:autocomplete': 'family-name',
         'ui:required': () => true,
-        'ui:errorMessages': { required: 'Please enter a last name' },
+        'ui:errorMessages': { required: 'Enter a last name' },
       },
       suffix: {
         'ui:title': 'Suffix',

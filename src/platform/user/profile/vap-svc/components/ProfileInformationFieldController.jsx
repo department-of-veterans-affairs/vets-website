@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 // platform level imports
+import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import recordEvent from '../../../../monitoring/record-event';
 import { isVAPatient } from '../../../selectors';
 import { waitForRenderThenFocus } from '../../../../utilities/ui';
@@ -60,7 +61,6 @@ import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
 import ConfirmRemoveModal from './ContactInformationFieldInfo/ConfirmRemoveModal';
 import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
-import GenericErrorAlert from './GenericErrorAlert';
 
 import ProfileInformationView from './ProfileInformationView';
 import ProfileInformationEditView from './ProfileInformationEditView';
@@ -255,6 +255,7 @@ class ProfileInformationFieldController extends React.Component {
         analyticsSectionName,
         value: payload,
       });
+      this.closeModal();
       return;
     }
     if (fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
@@ -276,6 +277,7 @@ class ProfileInformationFieldController extends React.Component {
         analyticsSectionName,
       );
     }
+    this.closeModal();
   };
 
   confirmDeleteAction = e => {
@@ -292,8 +294,17 @@ class ProfileInformationFieldController extends React.Component {
     this.props.clearTransactionRequest(this.props.fieldName);
   };
 
-  onEdit = (event = 'edit-link') => {
-    this.captureEvent(event);
+  onEdit = (event, isEmpty = 'edit-link') => {
+    const eventText = isEmpty ? 'add-link' : 'edit-link';
+    this.captureEvent(eventText);
+    if (isSchedulingPreference(this.props.fieldName)) {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': event.target.text,
+        'button-label': event.target.label.replace('Edit ', ''),
+      });
+    }
+
     // Check if this field should use subtask editing
     if (
       isSubtaskSchedulingPreference(this.props.fieldName) &&
@@ -492,13 +503,13 @@ class ProfileInformationFieldController extends React.Component {
       showValidationView,
       title,
       transaction,
+      transactionError,
       transactionRequest,
       data,
       isEnrolledInVAHealthCare,
       ariaDescribedBy,
       CustomConfirmCancelModal,
       showUpdateSuccessAlert,
-      showErrorAlert,
       showCopyAddressModal,
     } = this.props;
 
@@ -533,12 +544,6 @@ class ProfileInformationFieldController extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        {showErrorAlert && (
-          <div className="vads-u-width--full">
-            <GenericErrorAlert fieldName={fieldName} />
-          </div>
-        )}
-
         {showUpdateSuccessAlert && (
           <div className="vads-u-width--full">
             <UpdateSuccessAlert fieldName={fieldName} />
@@ -563,12 +568,13 @@ class ProfileInformationFieldController extends React.Component {
                 text="Edit"
                 label={`Edit ${title}`}
                 message-aria-describedby={ariaDescribedBy}
-                onClick={() => {
-                  this.onEdit(isEmpty ? 'add-link' : 'edit-link');
+                onClick={event => {
+                  this.onEdit(event, isEmpty);
                 }}
                 id={getEditButtonId(fieldName)}
                 class={`vads-u-margin-top--1p5 ${classes.buttons}`}
                 primary
+                // disable-analytics={isSchedulingPreference(fieldName)}
               />
             )}
             {data &&
@@ -605,20 +611,19 @@ class ProfileInformationFieldController extends React.Component {
         <AddressValidationView
           refreshTransaction={this.refreshTransactionNotProps}
           transaction={transaction}
-          transactionRequest={transactionRequest}
+          transactionError={transactionError}
           title={title}
-          clearErrors={this.clearErrors}
           successCallback={this.props.successCallback}
         />
       );
     }
 
-    const error =
-      transactionRequest?.error ||
-      (isFailedTransaction(transaction) ? {} : null);
-
     return (
       <div data-field-name={fieldName} data-testid={fieldName}>
+        {transactionError && (
+          <VAPServiceEditModalErrorMessage error={transactionError} />
+        )}
+
         {CustomConfirmCancelModal ? (
           <CustomConfirmCancelModal
             activeSection={activeSection}
@@ -658,7 +663,7 @@ class ProfileInformationFieldController extends React.Component {
           isEnrolledInVAHealthCare={isEnrolledInVAHealthCare}
           isVisible={showRemoveModal}
           onHide={this.closeModal}
-          error={error}
+          error={transactionError}
         />
 
         {content}
@@ -738,6 +743,14 @@ ProfileInformationFieldController.propTypes = {
   successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
+  transactionError: PropTypes.shape({
+    errors: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.string,
+        message: PropTypes.string,
+      }),
+    ),
+  }),
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
   workPhone: PropTypes.object,
@@ -756,6 +769,8 @@ export const mapStateToProps = (state, ownProps) => {
     state,
     fieldName,
   );
+  const transactionError =
+    transactionRequest?.error || (isFailedTransaction(transaction) ? {} : null);
   const data =
     selectVAPContactInfoField(state, fieldName) ||
     selectVAProfilePersonalInformation(state, fieldName) ||
@@ -832,6 +847,7 @@ export const mapStateToProps = (state, ownProps) => {
     showValidationView: !!showValidationView,
     isEmpty,
     transaction,
+    transactionError,
     transactionRequest,
     editViewData: selectEditViewData(state),
     title: ownProps.title || title, // Use custom title if provided, otherwise use default

@@ -13,6 +13,10 @@ export default function App({ location, children }) {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const profileLoading = useSelector(state => isProfileLoading(state));
 
+  useEffect(() => {
+    document.title = `Request Licensing or Certification Test Fees Reimbursement Online | Veterans Affairs`;
+  }, []);
+
   useEffect(
     () => {
       if (

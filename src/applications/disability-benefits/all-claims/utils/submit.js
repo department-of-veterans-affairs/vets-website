@@ -15,6 +15,8 @@ import {
   sippableId,
 } from './index';
 
+import { normalizeAddressLine } from './contactInformationHelpers';
+
 import { migrateBranches } from './serviceBranches';
 
 import { ptsdBypassDescription } from '../content/ptsdBypassContent';
@@ -93,7 +95,16 @@ export function getDisabilities(
 
 export function getDisabilityName(disability) {
   const name = disability.name ? disability.name : disability.condition;
-  return name && name.trim();
+  const baseName = name && name.trim();
+
+  // Include sideOfBody if present to match the checkbox schema format
+  // used in makeSchemaForNewDisabilities (e.g., "tinnitus, left")
+  if (baseName && disability.sideOfBody) {
+    const side = disability.sideOfBody.trim().toLowerCase();
+    return `${baseName}, ${side}`;
+  }
+
+  return baseName;
 }
 
 export function getClaimedConditionNames(
@@ -452,12 +463,25 @@ export const cleanUpMailingAddress = formData => {
     'state',
     'zipCode',
   ];
+
+  const fieldsToNormalize = [
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'city',
+  ];
+
   const mailingAddress = Object.entries(formData.mailingAddress).reduce(
     (address, [key, value]) => {
-      if (value && validKeys.includes(key)) {
+      // Normalize address lines and city before submission
+      const normalizedValue = fieldsToNormalize.includes(key)
+        ? normalizeAddressLine(value)
+        : value;
+
+      if (normalizedValue && validKeys.includes(key)) {
         return {
           ...address,
-          [key]: value,
+          [key]: normalizedValue,
         };
       }
       return address;
@@ -882,11 +906,56 @@ export const addForm8940 = formData => {
   return clonedData;
 };
 
+/**
+ * Flattens nested additionalData properties from V3 web component file attachments.
+ * Extracts properties from the additionalData object and moves them to the top level
+ * of each attachment object, making them directly accessible (e.g., attachmentId).
+ *
+ * @param {object} formData - The form data containing attachment arrays
+ * @returns {object} - Form data with flattened attachment structures, or original
+ *                     formData if no attachments with additionalData are present
+ */
+export const flattenAttachments = formData => {
+  const pmrAttachments = formData.privateMedicalRecordAttachments;
+  const addtnlDcs = formData.additionalDocuments;
+  const clonedData = _.cloneDeep(formData);
+  // V3 file input always (until deprecated) includes additionalData on all attachments when the
+  // enhancement toggle is on, so checking the first element is sufficient.
+  if (pmrAttachments && pmrAttachments[0]?.additionalData) {
+    clonedData.privateMedicalRecordAttachments = pmrAttachments.map(
+      attachment => {
+        const { additionalData, ...rest } = attachment;
+        return { ...rest, ...additionalData };
+      },
+    );
+  }
+  if (addtnlDcs && addtnlDcs[0]?.additionalData) {
+    clonedData.additionalDocuments = addtnlDcs.map(attachment => {
+      const { additionalData, ...rest } = attachment;
+      return { ...rest, ...additionalData };
+    });
+  }
+  return clonedData;
+};
+
+// TODO: Remove this when handled downstream.
+export const setSeparationHealthAssessmentAttachmentId = formData => {
+  const uploads = formData.separationHealthAssessmentUploads;
+  if (!uploads) return formData;
+
+  const clonedData = _.cloneDeep(formData);
+  clonedData.separationHealthAssessmentUploads = uploads.map(upload => ({
+    ...upload,
+    attachmentId: 'L702',
+  }));
+
+  return clonedData;
+};
+
 // Flatten all attachment pages into attachments ARRAY
 export const addFileAttachments = formData => {
-  const clonedData = _.cloneDeep(formData);
+  const clonedData = flattenAttachments(formData);
   let attachments = [];
-
   ATTACHMENT_KEYS.forEach(key => {
     const documentArr = _.get(key, clonedData, []);
     attachments = [...attachments, ...documentArr];

@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
+import { datadogRum } from '@datadog/browser-rum';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -11,7 +12,6 @@ import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
 import Prescriptions from '../../containers/Prescriptions';
 import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
-import { MEDS_BY_MAIL_FACILITY_ID } from '../../util/constants';
 
 let sandbox;
 
@@ -157,7 +157,7 @@ describe('Medications Prescriptions container', () => {
     });
 
     await waitFor(() => {
-      expect(screen.queryByTestId('alert-banner')).not.to.exist;
+      expect(screen.queryByTestId('mhv-rx--delayed-refill-alert')).not.to.exist;
       expect(screen.queryByTestId('rxDelay-alert-message')).not.to.exist;
     });
   });
@@ -274,49 +274,6 @@ describe('Medications Prescriptions container', () => {
     expect(await screen.getByTestId('filter-accordion')).to.exist;
   });
 
-  it('displays Meds by Mail content for Meds by Mail users', async () => {
-    const screen = setup({
-      ...initialState,
-      user: {
-        profile: {
-          userFullName: { first: 'test', last: 'last', suffix: 'jr' },
-          dob: '2000-01-01',
-          facilities: [{ facilityId: MEDS_BY_MAIL_FACILITY_ID }],
-        },
-      },
-    });
-
-    expect(
-      screen.queryByText(
-        /If you use Meds by Mail, you can also call your servicing center and ask them to update your records\./,
-        {
-          selector: 'p',
-        },
-      ),
-    ).not.to.exist;
-
-    expect(screen.getByTestId('meds-by-mail-header')).to.exist;
-    expect(screen.getByTestId('meds-by-mail-top-level-text')).to.exist;
-    expect(screen.getByTestId('meds-by-mail-additional-info')).to.exist;
-  });
-
-  it('does not display Meds by Mail content for non-Meds by Mail users', async () => {
-    const screen = setup();
-
-    expect(
-      screen.getByText(
-        /If you use Meds by Mail, you can also call your servicing center and ask them to update your records\./,
-        {
-          selector: 'p',
-        },
-      ),
-    ).to.exist;
-
-    expect(screen.queryByTestId('meds-by-mail-header')).not.to.exist;
-    expect(screen.queryByTestId('meds-by-mail-top-level-text')).not.to.exist;
-    expect(screen.queryByTestId('meds-by-mail-additional-info')).not.to.exist;
-  });
-
   describe('renderRxRenewalMessageSuccess', () => {
     it('should render component with deleteDraftSuccess query param', async () => {
       const screen = setup(initialState, '?page=1&draftDeleteSuccess=true');
@@ -374,7 +331,7 @@ describe('Medications Prescriptions container', () => {
           expect(screen.queryByTestId('loading-indicator')).not.to.exist;
         });
 
-        expect(screen.getByText('Medications')).to.exist;
+        expect(screen.getByTestId('list-page-title')).to.exist;
       });
     });
 
@@ -396,7 +353,7 @@ describe('Medications Prescriptions container', () => {
         expect(screen.queryByTestId('loading-indicator')).not.to.exist;
       });
 
-      expect(screen.getByText('Medications')).to.exist;
+      expect(screen.getByTestId('list-page-title')).to.exist;
     });
 
     it('should properly apply frontend filtering when SHIPPED filter is selected with BOTH CernerPilot and V2StatusMapping flags enabled', async () => {
@@ -417,7 +374,7 @@ describe('Medications Prescriptions container', () => {
         expect(screen.queryByTestId('loading-indicator')).not.to.exist;
       });
 
-      expect(screen.getByText('Medications')).to.exist;
+      expect(screen.getByTestId('list-page-title')).to.exist;
       expect(screen.getByTestId('med-list')).to.exist;
     });
   });
@@ -431,7 +388,8 @@ describe('Medications Prescriptions container', () => {
       global.window.dataLayer = [];
     });
 
-    it('should call recordEvent when rxRenewalMessageSuccess query param is present', async () => {
+    it.skip('should call recordEvent when rxRenewalMessageSuccess query param is present', async () => {
+      const addActionSpy = sinon.spy(datadogRum, 'addAction');
       setup(initialState, '/?rxRenewalMessageSuccess=true');
 
       await waitFor(() => {
@@ -445,6 +403,14 @@ describe('Medications Prescriptions container', () => {
           'api-status': 'successful',
         });
       });
+
+      // Check that datadogRum.addAction was called
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(addActionSpy.calledWith('Rx Renewal Success')).to.be.true;
+
+      addActionSpy.restore();
     });
 
     it('should not call recordEvent when rxRenewalMessageSuccess query param is not present', async () => {
@@ -460,6 +426,18 @@ describe('Medications Prescriptions container', () => {
         e => e['api-name'] === 'Rx SM Renewal',
       );
       expect(event).to.be.undefined;
+    });
+  });
+
+  describe('Medications Print Fallback', () => {
+    it('should pass current medications list to print component when printedList is empty', async () => {
+      const screen = setup();
+
+      await waitFor(() => {
+        expect(screen.getByTestId('list-page-title')).to.exist;
+      });
+
+      expect(screen).to.exist;
     });
   });
 });

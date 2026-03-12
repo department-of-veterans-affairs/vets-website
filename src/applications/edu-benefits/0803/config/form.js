@@ -2,7 +2,7 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '~/platform/utilities/environment';
-import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { profilePersonalInfoPage } from 'platform/forms-system/src/js/patterns/prefill/PersonalInformation';
 import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
@@ -69,6 +69,10 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
+  customText: {
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
+  },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
@@ -102,7 +106,7 @@ const formConfig = {
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {
-        ...personalInformationPage({
+        ...profilePersonalInfoPage({
           personalInfoConfig: {
             name: { show: true, required: true },
             ssn: { show: true, required: true },
@@ -142,6 +146,9 @@ const formConfig = {
           title: 'Organization information',
           uiSchema: OrganizationInfo.uiSchema,
           schema: OrganizationInfo.schema,
+          initialData: {
+            organizationAddress: { country: 'USA' },
+          },
         },
         testCost: {
           path: 'test-cost',

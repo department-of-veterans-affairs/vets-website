@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom-v5-compat';
 import {
   getPrescriptionsList,
   getPrescriptionById,
 } from '../api/prescriptionsApi';
+import { STATION_NUMBER_PARAM } from '../util/constants';
+import { selectCernerPilotFlag } from '../util/selectors';
 
 /**
  * Custom hook to fetch prescription data
@@ -11,6 +15,10 @@ import {
  * @returns {object} - The prescription data, loading state, and error state
  */
 export const usePrescriptionData = (prescriptionId, queryParams) => {
+  const [searchParams] = useSearchParams();
+  const stationNumber = searchParams.get(STATION_NUMBER_PARAM);
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+
   const [
     cachedPrescriptionAvailable,
     setCachedPrescriptionAvailable,
@@ -28,10 +36,35 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
     },
   });
 
+  // Build query params for getPrescriptionById
+  // Use stationNumber from URL if available (required for v2 API when Cerner pilot is enabled)
+  // Only fall back to cached prescription's stationNumber when Cerner pilot is enabled
+  const getStationNumber = () => {
+    if (stationNumber) return stationNumber;
+    if (isCernerPilot && cachedPrescription?.stationNumber) {
+      return cachedPrescription.stationNumber;
+    }
+    return undefined;
+  };
+
+  const resolvedStationNumber = getStationNumber();
+
+  // Skip API call if Cerner pilot is enabled but no station number is available from any source
+  // This prevents failed API calls while waiting for redirect or cached data
+  const shouldSkipDueToMissingStationNumber =
+    isCernerPilot && !resolvedStationNumber && !cachedPrescriptionAvailable;
+
+  const prescriptionByIdParams = {
+    id: prescriptionId,
+    stationNumber: resolvedStationNumber,
+  };
+
   // Fetch individual prescription when needed
   const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
-    prescriptionId,
-    { skip: cachedPrescriptionAvailable },
+    prescriptionByIdParams,
+    {
+      skip: cachedPrescriptionAvailable || shouldSkipDueToMissingStationNumber,
+    },
   );
 
   // Handle prescription data from either source

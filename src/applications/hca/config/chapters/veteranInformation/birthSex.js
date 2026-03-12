@@ -1,4 +1,8 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+// @ts-check
+import {
+  titleUI,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { genderLabels } from 'platform/static-data/labels';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
@@ -8,17 +12,16 @@ const { gender } = FULL_SCHEMA.properties;
 export default {
   uiSchema: {
     ...titleUI(content['vet-info--birth-sex-title']),
-    gender: {
-      'ui:title': content['vet-info--birth-sex-label'],
-      'ui:widget': 'radio',
-      'ui:options': {
-        labels: genderLabels,
-      },
-    },
+    gender: radioUI({
+      title: content['vet-info--birth-sex-label'],
+      labels: genderLabels,
+    }),
   },
   schema: {
     type: 'object',
     required: ['gender'],
-    properties: { gender },
+    properties: {
+      gender,
+    },
   },
 };

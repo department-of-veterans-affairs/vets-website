@@ -1,28 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch, useSelector } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { isLoggedIn } from 'platform/user/selectors';
+import { useSelector } from 'react-redux';
 import { capitalizeFirstLetter } from '../helpers';
 
 import PrivacyActStatement from './PrivacyActStatement';
 
 const PrivacyPolicy = () => {
-  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const formData = useSelector(state => state?.form?.data ?? {});
-  const isAuthenticated = useSelector(state => isLoggedIn(state));
 
   const title = formData?.authorizedOfficial?.title;
-
-  useEffect(
-    () => {
-      // add authentication field to *formData* before transform
-      dispatch(setData({ ...formData, isAuthenticated }));
-    },
-    [isAuthenticated],
-  );
 
   const removeNoteText = async () => {
     const noteText = await querySelectorWithShadowRoot(
@@ -77,13 +65,8 @@ const PrivacyPolicy = () => {
         </li>
       </ul>
       <p>
-        {' '}
-        The terms of this agreement are available for public viewing on the{' '}
-        <va-link
-          href="https://benefits.va.gov/gibill/yellow_ribbon/yellow_ribbon_info_schools.asp"
-          text="VA GI Bill website"
-          external
-        />
+        The terms of this agreement should be available on the GI Bill
+        Comparison Tool approximately mid-June.
       </p>
       <span data-testid="privacy-policy-text">
         I have read and accept the{' '}

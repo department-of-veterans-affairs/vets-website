@@ -4,10 +4,7 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import {
-  IncomeAssetStatementFormAlert,
-  LandMarketableAlert,
-} from '../../../components/FormAlerts';
+import { LandMarketableAlert } from '../../../components/FormAlerts';
 import { isHomeAcreageMoreThanTwo } from '../../../helpers';
 
 const { landMarketable } = fullSchemaPensions.properties;
@@ -25,26 +22,16 @@ export default {
   path: 'financial/land-marketable',
   depends: isHomeAcreageMoreThanTwo,
   uiSchema: {
-    ...titleUI('Income and assets'),
+    ...titleUI('Additional land'),
     'ui:description': LandMarketableDescription,
     landMarketable: yesNoUI({
       title: 'Is the additional land marketable?',
     }),
-    'view:warningAlert': {
-      'ui:description': IncomeAssetStatementFormAlert,
-      'ui:options': {
-        hideIf: formData => formData.landMarketable !== true,
-      },
-    },
   },
   schema: {
     type: 'object',
     properties: {
       landMarketable,
-      'view:warningAlert': {
-        type: 'object',
-        properties: {},
-      },
     },
   },
 };

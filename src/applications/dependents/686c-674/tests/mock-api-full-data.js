@@ -3,15 +3,24 @@
  * > yarn mock-api --responses ./src/applications/dependents/686c-674/tests/mock-api-full-data.js
  * Run this in browser console
  * > localStorage.setItem('hasSession', true)
+ *
+ * Customizing:
+ * 1) Update the mockData import to match the work you're doing
+ * 2) Update returnUrl to jump to the page you're working on
+ *
+ * Note: This file is not meant to be a comprehensive mock of all API responses, just the ones needed for testing with max data.
  */
 const dateFns = require('date-fns');
 const delay = require('mocker-api/lib/delay');
 
 const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
-const mockMaxData = require('./e2e/fixtures/removal-only-v3.json');
 
-const returnUrl = '/options-selection';
+// 1) Match data to your needs
+const mockData = require('./e2e/fixtures/maximal.json');
+// 2) Return to specific page. Include `?edit=true` to jump inside an array
+//    list loop page, e.g. '/686-report-add-child/0/place-of-birth?edit=true';
+const returnUrl = '/veteran-information';
 
 const createDate = (yearsAgo = 0, monthsAgo = 0, formatDate = 'MM/dd/yyyy') =>
   dateFns.format(
@@ -28,7 +37,7 @@ const submission = {
 };
 
 const mockSipGet = {
-  formData: mockMaxData,
+  formData: mockData,
   metadata: {
     version: 0,
     prefill: false,
@@ -66,7 +75,7 @@ const mockDependents = {
           firstName: 'SPOUSY', // Divorced
           lastName: 'FOSTER',
           dateOfBirth: createDate(45),
-          ssn: '3332',
+          ssn: '123453332',
           relationshipToVeteran: 'Spouse', // prefill
           relationship: 'Spouse', // API
           awardIndicator: 'Y',
@@ -75,7 +84,7 @@ const mockDependents = {
           firstName: 'SUMMER', // Deceased
           lastName: 'FOSTER',
           dateOfBirth: createDate(46),
-          ssn: '3331',
+          ssn: '123453331',
           relationshipToVeteran: 'Spouse', // prefill
           relationship: 'Spouse', // API
           awardIndicator: 'Y',
@@ -85,7 +94,7 @@ const mockDependents = {
           firstName: 'PENNY', // Married
           lastName: 'FOSTER',
           dateOfBirth: createDate(17),
-          ssn: '3479',
+          ssn: '123453479',
           relationshipToVeteran: 'Child', // prefill
           relationship: 'Child', // API
           awardIndicator: 'Y',
@@ -94,43 +103,34 @@ const mockDependents = {
           firstName: 'FRANK', // Death
           lastName: 'FOSTER',
           dateOfBirth: createDate(33),
-          ssn: '3236',
+          ssn: '123453236',
           relationshipToVeteran: 'Child', // prefill
           relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
-          firstName: 'JOE', // Left school & no permanent disability
+          firstName: 'JOE', // Left school
           lastName: 'FOSTER',
           dateOfBirth: createDate(19),
-          ssn: '3468',
+          ssn: '123453468',
           relationshipToVeteran: 'Child', // prefill
           relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
-          firstName: 'MIKE', // Left school & has permanent disability
-          lastName: 'FOSTER',
-          dateOfBirth: createDate(20),
-          ssn: '3499',
-          relationshipToVeteran: 'Child', // prefill
-          relationship: 'Child', // API
-          awardIndicator: 'Y',
-        },
-        {
-          firstName: 'STACY', // Left household & < 50% financial support
+          firstName: 'STACY', // Stepchild left household & < 50% financial support
           lastName: 'FOSTER',
           dateOfBirth: createDate(0, 4),
-          ssn: '3233',
+          ssn: '123453233',
           relationshipToVeteran: 'Child', // prefill (Stepchild)
           relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
-          firstName: 'JENNIFER', // Left household & >= 50% financial support
+          firstName: 'JENNIFER', // Stepchild left household & >= 50% financial support
           lastName: 'FOSTER',
           dateOfBirth: createDate(4),
-          ssn: '3311',
+          ssn: '123453311',
           relationshipToVeteran: 'Child', // prefill (Stepchild)
           relationship: 'Child', // API
           awardIndicator: 'Y',
@@ -139,7 +139,7 @@ const mockDependents = {
           firstName: 'FORMER', // Adopted
           lastName: 'FOSTER',
           dateOfBirth: createDate(11),
-          ssn: '3145',
+          ssn: '123453145',
           relationshipToVeteran: 'Child', // prefill
           relationship: 'Child', // API
           awardIndicator: 'Y',
@@ -149,7 +149,7 @@ const mockDependents = {
           firstName: 'PETER', // Deceased
           lastName: 'FOSTER',
           dateOfBirth: createDate(89),
-          ssn: '0104',
+          ssn: '123450104',
           relationshipToVeteran: 'Parent', // prefill
           relationship: 'Parent', // API
           awardIndicator: 'Y',
@@ -158,7 +158,7 @@ const mockDependents = {
           firstName: 'MARY', // Other
           lastName: 'FOSTER',
           dateOfBirth: createDate(85),
-          ssn: '0155',
+          ssn: '123450155',
           relationshipToVeteran: 'Parent', // prefill
           relationship: 'Parent', // API
           awardIndicator: 'Y',
@@ -167,7 +167,7 @@ const mockDependents = {
           firstName: 'EXTRA', // No award
           lastName: 'FOSTER',
           dateOfBirth: createDate(10),
-          ssn: '3189',
+          ssn: '123453189',
           relationshipToVeteran: 'Child', // prefill
           relationship: 'Child', // API
           awardIndicator: 'N',
@@ -246,6 +246,8 @@ const responses = {
         { name: 'va_dependents_verification', value: true },
         { name: 'vaDependentsBrowserMonitoringEnabled', value: true },
         { name: 'va_dependents_browser_monitoring_enabled', value: true },
+        { name: 'va_dependents_no_ssn', value: true },
+        { name: 'vaDependentsNoSsn', value: true },
       ],
     },
   },
@@ -261,6 +263,17 @@ const responses = {
   'GET /v0/dependents_applications/show': mockDependents,
 
   'POST /v0/dependents_applications': submission,
+  'POST /v0/claim_attachments': {
+    data: {
+      id: '123fake-attachment-id-567',
+      type: 'claim_attachments',
+      attributes: {
+        name: 'test.pdf',
+        size: 12345,
+        confirmationCode: 'abc123def456',
+      },
+    },
+  },
 };
 
 module.exports = delay(responses, 200);

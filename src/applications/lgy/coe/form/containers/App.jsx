@@ -16,6 +16,7 @@ import { generateCoe } from '../../shared/actions';
 import formConfig from '../config/form';
 import { isLoadingFeatures, showCoeFeature } from '../../shared/utils/helpers';
 import { WIP } from '../../shared/components/WIP';
+import { TOGGLE_KEY } from '../constants';
 
 function App({
   children,
@@ -28,7 +29,6 @@ function App({
   formData,
   setFormData,
 }) {
-  const TOGGLE_KEY = 'coeFormRebuildCveteam';
   const {
     TOGGLE_NAMES,
     useToggleValue,
@@ -36,21 +36,26 @@ function App({
   } = useFeatureToggle();
   const coeRebuildEnabled = useToggleValue(TOGGLE_NAMES[TOGGLE_KEY]);
   const isLoadingFeatureFlags = useToggleLoadingValue();
+  const viewToggleKey = `view:${TOGGLE_KEY}`;
+  const currentToggleValue = formData[viewToggleKey];
 
   useEffect(
     () => {
-      if (
-        !isLoadingFeatureFlags &&
-        formData[TOGGLE_KEY] !== coeRebuildEnabled
-      ) {
+      if (!isLoadingFeatureFlags && currentToggleValue !== coeRebuildEnabled) {
         setFormData({
           ...formData,
-          [`view:${TOGGLE_KEY}`]: coeRebuildEnabled,
+          [viewToggleKey]: coeRebuildEnabled,
         });
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLoadingFeatureFlags, coeRebuildEnabled, formData[TOGGLE_KEY]],
+    [
+      isLoadingFeatureFlags,
+      coeRebuildEnabled,
+      currentToggleValue,
+      setFormData,
+      formData,
+      viewToggleKey,
+    ],
   );
 
   useEffect(
@@ -70,7 +75,7 @@ function App({
     return <va-loading-indicator message="Loading application..." />;
   }
 
-  // Show WIP alert if the feature flag isn't set
+  // Show WIP alert if the feature flag isn't setshow
   return showCoe ? (
     <article
       id="form-26-1880"

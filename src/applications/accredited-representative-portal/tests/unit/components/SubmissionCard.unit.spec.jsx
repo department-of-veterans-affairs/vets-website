@@ -1,6 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { expect } from 'chai';
 import SubmissionCard from '../../../components/SubmissionCard';
 
@@ -27,7 +29,13 @@ describe('SubmissionCard', () => {
     defineStub('va-card');
     defineStub('va-icon');
   });
-
+  const getStore = () =>
+    createStore(() => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        accredited_representative_portal_claimant_details: true,
+      },
+    }));
   const baseSubmission = {
     id: '1234',
     lastName: 'Doe',
@@ -42,9 +50,11 @@ describe('SubmissionCard', () => {
 
   it('renders name, confirmation number, and form type', () => {
     const { container } = render(
-      <MemoryRouter>
-        <SubmissionCard submission={baseSubmission} />
-      </MemoryRouter>,
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <SubmissionCard submission={baseSubmission} />
+        </MemoryRouter>
+      </Provider>,
     );
 
     const nameHeading = container.querySelector('h3');
@@ -58,8 +68,9 @@ describe('SubmissionCard', () => {
     const statusText = container.querySelector('.submission__card-status');
     expect(statusText.textContent).to.include('Confirmation:');
     expect(statusText.textContent).to.include('ABC123456');
-    expect(statusText.textContent).to.include('VBMS eFolder status:');
-    expect(statusText.textContent).to.include('Received');
+    const statusRow = container.querySelector('.submission__card-status--row');
+    expect(statusRow.textContent).to.include('VBMS eFolder status:');
+    expect(statusRow.textContent).to.include('Received');
   });
 
   it('renders status message for "processing_error"', () => {
@@ -69,12 +80,14 @@ describe('SubmissionCard', () => {
     };
 
     const { container } = render(
-      <MemoryRouter>
-        <SubmissionCard submission={erroredSubmission} />
-      </MemoryRouter>,
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <SubmissionCard submission={erroredSubmission} />
+        </MemoryRouter>
+      </Provider>,
     );
 
-    const status = container.querySelector('.submission__card-status');
+    const status = container.querySelector('.submission__card-status--row');
     expect(status.textContent).to.include('Processing error');
   });
 
@@ -85,12 +98,14 @@ describe('SubmissionCard', () => {
     };
 
     const { container } = render(
-      <MemoryRouter>
-        <SubmissionCard submission={awaitingSubmission} />
-      </MemoryRouter>,
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <SubmissionCard submission={awaitingSubmission} />
+        </MemoryRouter>
+      </Provider>,
     );
 
-    const status = container.querySelector('.submission__card-status');
+    const status = container.querySelector('.submission__card-status--row');
     expect(status.textContent).to.include('Awaiting receipt');
   });
 });

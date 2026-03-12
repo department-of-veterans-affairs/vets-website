@@ -11,18 +11,19 @@ import {
   VaLoadingIndicator,
   VaBreadcrumbs,
   VaAlert,
+  VaAdditionalInfo,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import api from '../utilities/api';
+import { SEARCH_BC_LABEL, poaSearchBC } from '../utilities/poaRequests';
 import {
-  SEARCH_BC_LABEL,
-  poaSearchBC,
   SEARCH_PARAMS,
   SORT_BY,
   STATUSES,
   PENDING_SORT_DEFAULTS,
   PROCESSED_SORT_DEFAULTS,
-} from '../utilities/poaRequests';
+} from '../utilities/constants';
 import { recordDatalayerEvent } from '../utilities/analytics';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
@@ -49,9 +50,7 @@ const StatusTabLink = ({
   if (active) classNames.push('active');
   return (
     <Link
-      to={`?status=${tabStatus}&sortBy=${
-        tabStatus === 'pending' ? 'created_at' : 'resolved_at'
-      }&sortOrder=${tabSort}&pageSize=20&pageNumber=1&as_selected_individual=${selectedIndividual}`}
+      to={`?status=${tabStatus}&sort=${tabSort}&perPage=20&page=1&show=${selectedIndividual}`}
       className={classNames.join(' ')}
       role="tab"
       id={`tab-${tabStatus}`}
@@ -73,8 +72,62 @@ StatusTabLink.propTypes = {
   tabStatus: PropTypes.string,
 };
 
+const RepresentationRequestsAdditionalInfo = () => (
+  <VaAdditionalInfo
+    trigger="Receiving and reviewing requests in the portal"
+    uswds
+    data-testid="representation-requests-additional-info"
+  >
+    <div className="poa-request__additional-info">
+      <p>Here’s how to receive requests in the portal:</p>
+      <ul>
+        <li>
+          The Veterans Service Organization (VSO) has to activate the
+          Representation Request feature for their organization,{' '}
+          <strong>and</strong>
+        </li>
+        <li>
+          Claimants need to submit requests using the online{' '}
+          <va-link
+            href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
+            text="VA Form 21-22 (on VA.gov)"
+          />
+        </li>
+      </ul>
+      <p>
+        The VSO controls whether you can review details for all of their
+        requests, or only the requests where you are the preferred
+        representative. Follow your organization’s policy about which requests
+        you can accept or decline.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        <a href="https://www.va.gov/representative/help#establishing-representation">
+          Learn more about establishing representation
+        </a>
+      </p>
+    </div>
+  </VaAdditionalInfo>
+);
+
 const POARequestSearchPage = title => {
   const [searchParams] = useSearchParams();
+  const loaderData = useLoaderData() || {};
+  const navigation = useNavigation();
+
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
+
+  const isIndividualAcceptEnabled = useToggleValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalIndividualAccept,
+  );
+
+  const isIndividualAcceptLoading = useToggleLoadingValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalIndividualAccept,
+  );
+
   useEffect(
     () => {
       focusElement('h1');
@@ -82,7 +135,11 @@ const POARequestSearchPage = title => {
     },
     [title],
   );
-  const loaderData = useLoaderData() || {};
+
+  if (isIndividualAcceptLoading) {
+    return <VaLoadingIndicator message="Loading..." />;
+  }
+
   const poaRequests = loaderData.data || [];
   const meta =
     loaderData.meta && loaderData.meta.page
@@ -90,8 +147,7 @@ const POARequestSearchPage = title => {
       : { page: { total: 0, number: 1, totalPages: 1 } };
   const { showPOA403Alert } = loaderData;
   const searchStatus = searchParams.get('status');
-  const selectedIndividual = searchParams.get('as_selected_individual');
-  const navigation = useNavigation();
+  const selectedIndividual = searchParams.get('show');
 
   return (
     <section className="poa-request">
@@ -106,49 +162,96 @@ const POARequestSearchPage = title => {
       >
         Representation requests
       </h1>
-      <p className="poa-request__copy">
-        You can accept or decline representation requests (power of attorney) in
-        the Accredited Representative Portal. Requests will expire after 60
-        days. Expired requests will be removed from the portal.
-      </p>
-      <p className="poa-request__copy vads-u-margin--0">
-        <strong>Note:</strong> Claimants need to submit requests using the
-        online{' '}
-        <va-link
-          href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
-          text="VA Form 21-22 (on VA.gov)"
-        />
-        .
-      </p>
+
+      {isIndividualAcceptEnabled ? (
+        <>
+          <p className="poa-request__copy">
+            This list shows representation requests that have been received in
+            the portal over the last 60 days.
+          </p>
+          <RepresentationRequestsAdditionalInfo />
+        </>
+      ) : (
+        <>
+          <p className="poa-request__copy">
+            You can accept or decline representation requests (power of
+            attorney) in the Accredited Representative Portal. Requests will
+            expire after 60 days. Expired requests will be removed from the
+            portal.
+          </p>
+          <p className="poa-request__copy vads-u-margin--0">
+            <strong>Note:</strong> Claimants need to submit requests using the
+            online{' '}
+            <va-link
+              href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
+              text="VA Form 21-22 (on VA.gov)"
+            />
+            .
+          </p>
+        </>
+      )}
+
       {showPOA403Alert && (
         <>
           <br />
           <VaAlert status="info" uswds visible data-testid="poa-403-info-alert">
-            <h2 slot="headline">
-              You currently can’t receive requests in the portal
-            </h2>
-            <div className="vads-u-margin-y--0">
-              <p className="vads-u-margin-bottom--1">
-                <strong>Veteran Service Organization representatives:</strong>{' '}
-                None of your organizations have activated the Representation
-                Request feature. If you’d like one of your organizations to
-                activate this feature, ask the VSO manager or certifying us at{' '}
-                <a href="mailto:RepresentativePortalHelp@va.gov">
-                  RepresentativePortalHelp@va.gov
-                </a>
-                .
-              </p>
-              <p className="vads-u-margin-y--0">
-                <strong>Claims agents and attorneys:</strong> This feature is
-                not yet available for establishing representation with claims
-                agents or attorneys. We are exploring it as a future
-                enhancement. Visit our{' '}
-                <a href="/representative/get-help" rel="noopener noreferrer">
-                  help resources
-                </a>{' '}
-                to learn more about current and upcoming features.
-              </p>
-            </div>
+            {isIndividualAcceptEnabled ? (
+              <>
+                <h2 slot="headline">This feature hasn’t been activated</h2>
+                <div className="vads-u-margin-y--0">
+                  <p className="vads-u-margin-bottom--2">
+                    Veterans Service Organizations (VSOs) have to activate the
+                    Representation Requests feature for their organization if
+                    they want to receive requests in the portal. If you’d like
+                    your VSO to activate this feature, ask the VSO manager or
+                    certifying official to email us at{' '}
+                    <a href="mailto:RepresentativePortalHelp@va.gov">
+                      RepresentativePortalHelp@va.gov
+                    </a>
+                    .
+                  </p>
+                  <p className="vads-u-margin-bottom--0">
+                    <strong>Note:</strong> This feature is currently not
+                    available to claims agents or attorneys. It may become
+                    available to them in the future.
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 slot="headline">
+                  You currently can’t receive requests in the portal
+                </h2>
+                <div className="vads-u-margin-y--0">
+                  <p className="vads-u-margin-bottom--1">
+                    <strong>
+                      Veteran Service Organization representatives:
+                    </strong>{' '}
+                    None of your organizations have activated the Representation
+                    Request feature. If you’d like one of your organizations to
+                    activate this feature, ask the VSO manager or certifying us
+                    at{' '}
+                    <a href="mailto:RepresentativePortalHelp@va.gov">
+                      RepresentativePortalHelp@va.gov
+                    </a>
+                    .
+                  </p>
+                  <p className="vads-u-margin-y--0">
+                    <strong>Claims agents and attorneys:</strong> This feature
+                    is not yet available for establishing representation with
+                    claims agents or attorneys. We are exploring it as a future
+                    enhancement. Visit our{' '}
+                    <a
+                      href="/representative/get-help"
+                      rel="noopener noreferrer"
+                    >
+                      help resources
+                    </a>{' '}
+                    to learn more about current and upcoming features.
+                  </p>
+                </div>
+              </>
+            )}
           </VaAlert>
         </>
       )}
@@ -158,7 +261,7 @@ const POARequestSearchPage = title => {
           <StatusTabLink
             tabStatus={STATUSES.PENDING}
             searchStatus={searchStatus}
-            tabSort={SORT_BY.DESC}
+            tabSort={SORT_BY.NEWEST}
             selectedIndividual={selectedIndividual}
           >
             Pending
@@ -166,7 +269,7 @@ const POARequestSearchPage = title => {
           <StatusTabLink
             tabStatus={STATUSES.PROCESSED}
             searchStatus={searchStatus}
-            tabSort={SORT_BY.DESC}
+            tabSort={SORT_BY.NEWEST}
             selectedIndividual={selectedIndividual}
           >
             Processed
@@ -195,13 +298,11 @@ const POARequestSearchPage = title => {
                       <SortForm
                         options={[
                           {
-                            sortBy: 'created_at',
-                            sortOrder: 'desc',
+                            sort: 'newest',
                             label: 'Submitted date (newest)',
                           },
                           {
-                            sortBy: 'created_at',
-                            sortOrder: 'asc',
+                            sort: 'oldest',
                             label: 'Submitted date (oldest)',
                           },
                         ]}
@@ -231,13 +332,11 @@ const POARequestSearchPage = title => {
                       <SortForm
                         options={[
                           {
-                            sortBy: 'resolved_at',
-                            sortOrder: 'desc',
+                            sort: 'newest',
                             label: 'Processed date (newest)',
                           },
                           {
-                            sortBy: 'resolved_at',
-                            sortOrder: 'asc',
+                            sort: 'oldest',
                             label: 'Processed date (oldest)',
                           },
                         ]}
@@ -284,8 +383,7 @@ POARequestSearchPage.propTypes = {
 POARequestSearchPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get(SEARCH_PARAMS.STATUS);
-  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
-  const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
+  const sort = searchParams.get(SEARCH_PARAMS.SORT);
   const size = searchParams.get(SEARCH_PARAMS.SIZE);
   const number = searchParams.get(SEARCH_PARAMS.NUMBER);
   const selectedIndividual = searchParams.get(
@@ -296,8 +394,7 @@ POARequestSearchPage.loader = async ({ request }) => {
     !Object.values(STATUSES).includes(sort)
   ) {
     searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
-    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
-    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
+    searchParams.set(SEARCH_PARAMS.SORT, SORT_BY.NEWEST);
     searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
     searchParams.set(
@@ -309,7 +406,7 @@ POARequestSearchPage.loader = async ({ request }) => {
 
   try {
     return await api.getPOARequests(
-      { status, sort, size, number, sortBy, selectedIndividual },
+      { status, sort, size, number, selectedIndividual },
       {
         signal: request.signal,
         skip403Redirect: true,

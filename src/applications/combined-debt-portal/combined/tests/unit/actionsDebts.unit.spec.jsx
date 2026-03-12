@@ -23,7 +23,9 @@ describe('debts actions', () => {
   let apiRequestStub;
   let recordEventStub;
   let sentryCaptureMessageStub;
-
+  const errors = {
+    notFoundErrors: [{ status: '404', detail: 'Not found' }],
+  };
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     dispatch = sandbox.spy();
@@ -46,8 +48,8 @@ describe('debts actions', () => {
     it('should dispatch DEBTS_FETCH_INITIATED and DEBTS_FETCH_SUCCESS on successful fetch', async () => {
       const fakeResponse = {
         debts: [
-          { deductionCode: '30', currentAr: 100 },
-          { deductionCode: '44', currentAr: 200 },
+          { deductionCode: '30', currentAr: 100, originalAr: 200 },
+          { deductionCode: '44', currentAr: 200, originalAr: 300 },
         ],
         hasDependentDebts: false,
       };
@@ -78,8 +80,7 @@ describe('debts actions', () => {
     });
 
     it('should dispatch DEBTS_FETCH_FAILURE on fetch error', async () => {
-      const error = new Error('API Error');
-      apiRequestStub.rejects(error);
+      apiRequestStub.rejects({ errors: errors.notFoundErrors });
 
       await fetchDebtLetters(dispatch, true);
 
@@ -88,7 +89,7 @@ describe('debts actions', () => {
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: DEBTS_FETCH_FAILURE,
-        errors: undefined,
+        errors: errors.notFoundErrors,
       });
       expect(
         recordEventStub.calledWith({
@@ -100,7 +101,7 @@ describe('debts actions', () => {
 
     it('should not fetch VBMS debt letters if hasDependentDebts is true', async () => {
       const fakeResponse = {
-        debts: [{ deductionCode: '30', currentAr: 100 }],
+        debts: [{ deductionCode: '30', currentAr: 100, originalAr: 200 }],
         hasDependentDebts: true,
       };
       apiRequestStub.resolves(fakeResponse);

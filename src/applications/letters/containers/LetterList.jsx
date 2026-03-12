@@ -32,19 +32,33 @@ export class LetterList extends React.Component {
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options: LH_MIGRATION__getOptions(),
     });
-    if (this.props.tsaSafeTravelLetter) {
+    if (
+      this.props.tsaSafeTravelLetter &&
+      this.props.profile?.loa?.current === 3
+    ) {
       this.props.getTsaLetterEligibility();
     }
   }
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
-    const hasTsaLetter = Boolean(this.props.tsaLetterEligibility?.documentId);
+    const hasTsaLetter = Boolean(
+      this.props.tsaLetterEligibility?.documentId &&
+        this.props.tsaLetterEligibility?.documentVersion,
+    );
     const isDeterminingTsaEligibility =
       this.props.tsaSafeTravelLetter &&
       this.props.tsaLetterEligibility?.loading;
 
-    const letterItems = (this.props.letters || []).map((letter, index) => {
+    // Filter out foreign medical program letter if feature flag is disabled
+    const filteredLetters = (this.props.letters || []).filter(letter => {
+      return (
+        letter.letterType !== LETTER_TYPES.foreignMedicalProgram ||
+        this.props.fmpBenefitsAuthorizationLetter
+      );
+    });
+
+    const letterItems = filteredLetters.map((letter, index) => {
       if (!this.accordionRefs[index]) {
         this.accordionRefs[index] = React.createRef();
       }
@@ -59,6 +73,9 @@ export class LetterList extends React.Component {
         content = newLetterContent[letter.letterType];
       } else if (letter.letterType === LETTER_TYPES.benefitSummaryDependent) {
         letterTitle = 'Benefit Summary Letter';
+        content = newLetterContent[letter.letterType];
+      } else if (letter.letterType === LETTER_TYPES.foreignMedicalProgram) {
+        letterTitle = 'Foreign Medical Program Enrollment Letter';
         content = newLetterContent[letter.letterType];
       } else {
         letterTitle = letter.name;
@@ -127,6 +144,9 @@ export class LetterList extends React.Component {
             {hasTsaLetter && (
               <DownloadTsaLetter
                 documentId={this.props.tsaLetterEligibility?.documentId}
+                documentVersion={
+                  this.props.tsaLetterEligibility?.documentVersion
+                }
               />
             )}
           </va-accordion>
@@ -177,6 +197,8 @@ const mapDispatchToProps = {
 };
 
 function mapStateToProps(state) {
+  const { profile } = state.user;
+
   const letterState = state.letters;
 
   return {
@@ -184,13 +206,17 @@ function mapStateToProps(state) {
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
+    profile,
     tsaLetterEligibility: letterState.tsaLetterEligibility,
     tsaSafeTravelLetter:
       state.featureToggles[FEATURE_FLAG_NAMES.tsaSafeTravelLetter],
+    fmpBenefitsAuthorizationLetter:
+      state.featureToggles[FEATURE_FLAG_NAMES.fmpBenefitsAuthorizationLetter],
   };
 }
 
 LetterList.propTypes = {
+  fmpBenefitsAuthorizationLetter: PropTypes.bool,
   getTsaLetterEligibility: PropTypes.func,
   letterDownloadStatus: PropTypes.shape({}),
   letters: PropTypes.arrayOf(
@@ -201,8 +227,14 @@ LetterList.propTypes = {
   ),
   lettersAvailability: PropTypes.string,
   optionsAvailable: PropTypes.bool,
+  profile: PropTypes.shape({
+    loa: PropTypes.shape({
+      current: PropTypes.number,
+    }),
+  }),
   tsaLetterEligibility: PropTypes.shape({
     documentId: PropTypes.string,
+    documentVersion: PropTypes.string,
     error: PropTypes.bool,
     loading: PropTypes.bool,
   }),

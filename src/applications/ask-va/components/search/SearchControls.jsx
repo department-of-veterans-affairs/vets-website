@@ -102,7 +102,7 @@ const SearchControls = props => {
         {(geoCodeError || hasSearchInput || inputError) && (
           <span className="usa-input-error-message" role="alert">
             <span className="sr-only">Error</span>
-            Please fill in a city or facility name.
+            Fill in a city or facility name.
           </span>
         )}
         {searchHint && <p className="search-hint-text">{searchHint}</p>}

@@ -1,16 +1,16 @@
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import * as recordEventModule from 'platform/monitoring/record-event';
-import { ID_NUMBER_OPTIONS } from '../../../chapters/resubmission';
+import { ID_NUMBER_OPTIONS } from '../../../chapters/resubmission/claimIdNumber';
 import formConfig from '../../../config/form';
-import mockData from '../../e2e/fixtures/data/test-data.json';
+import mockData from '../../e2e/fixtures/data/medical-claim.json';
 import transformForSubmit from '../../../config/submitTransformer';
 
 describe('Submit transformer', () => {
   it('should add the file type to submitted files', () => {
     const result = JSON.parse(transformForSubmit(formConfig, mockData));
     const attachmentIds = result.supportingDocs.map(o => o.attachmentId);
-    expect(attachmentIds.length).to.eq(3); // 'EOB', 'EOB', and 'MEDDOCS'
+    expect(attachmentIds.length).to.eq(2);
     expect(attachmentIds.includes('MEDDOCS')).to.be.true;
     expect(attachmentIds.includes('EOB')).to.be.true;
   });
@@ -52,7 +52,6 @@ describe('Submit transformer', () => {
 
     const submitForm = ({ overrides = {}, disableAnalytics = false } = {}) => {
       const baseData = {
-        'view:champvaEnableClaimResubmitQuestion': true,
         applicantAddress: { street: '' },
         certifierAddress: { street: '' },
       };
@@ -91,6 +90,20 @@ describe('Submit transformer', () => {
       });
       sinon.assert.calledOnceWithExactly(recordEventStub, {
         event: '10-7959a_resubmission_pdi_number',
+      });
+    });
+
+    it('should fire duty to assist event when claim is resubmission and no claim docs are available', () => {
+      submitForm({
+        overrides: {
+          claimStatus: 'resubmission',
+          pdiOrClaimNumber: ID_NUMBER_OPTIONS[0],
+          'view:champvaEnableClaimResubmitQuestion': true,
+          'view:hasClaimDocs': false,
+        },
+      });
+      sinon.assert.calledWithExactly(recordEventStub.firstCall, {
+        event: '10-7959a_duty_to_assist',
       });
     });
 

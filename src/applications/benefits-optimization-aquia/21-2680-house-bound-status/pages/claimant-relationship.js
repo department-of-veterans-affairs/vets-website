@@ -16,7 +16,7 @@ import {
 export const claimantRelationshipUiSchema = {
   claimantRelationship: {
     relationship: radioUI({
-      title: 'What is your relationship to the Veteran?',
+      title: "What is the claimant's relationship to the Veteran?",
       labels: {
         veteran: 'Veteran',
         spouse: "Veteran's spouse",

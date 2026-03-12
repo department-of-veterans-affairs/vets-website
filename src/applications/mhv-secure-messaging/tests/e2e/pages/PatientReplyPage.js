@@ -11,7 +11,9 @@ class PatientReplyPage {
       }/thread*`,
       mockResponse,
     ).as(`getMessageRequest`);
-    cy.get(Locators.BUTTONS.REPLY).click();
+    cy.findByTestId(Locators.BUTTONS.REPLY)
+      .should('be.visible')
+      .click();
   };
 
   clickSendReplyMessageButton = mockReplyMessage => {
@@ -59,6 +61,7 @@ class PatientReplyPage {
     testCategory,
     testSubject,
     testBody,
+    testStationNumber,
   ) => {
     mockMessage.data.attributes.recipientId = testRecipientId;
     mockMessage.data.attributes.category = testCategory;
@@ -89,6 +92,9 @@ class PatientReplyPage {
         expect(message.category).to.eq(testCategory);
         expect(message.subject).to.eq(testSubject);
         expect(message.body).to.eq(`${testBody}`);
+        if (testStationNumber) {
+          expect(message.station_number).to.eq(testStationNumber);
+        }
       });
   };
 
@@ -107,7 +113,8 @@ class PatientReplyPage {
   };
 
   verifySendMessageConfirmationHasFocus = () => {
-    cy.get('va-alert').should('have.focus');
+    // Per MHV accessibility decision records, focus goes to H1
+    cy.get('h1').should('have.focus');
   };
 
   verifyModalMessageDisplayAndButtonsCantSaveDraft = () => {

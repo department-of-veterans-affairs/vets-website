@@ -17,6 +17,9 @@ export const IntroductionPageRedirect = ({ route, router }) => {
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
+    const signInAlert = document.querySelector('va-alert-sign-in');
+    if (!signInAlert) return;
+
     const updateSignInAlertCopy = async () => {
       const alertContent = await querySelectorWithShadowRoot(
         '.va-alert-sign-in__body',
@@ -106,21 +109,63 @@ export const IntroductionPageRedirect = ({ route, router }) => {
     >
       <FormTitle title="Change your education benefits" />
       <va-alert status="info" visible uswds>
-        <h3 slot="headline">Update your benefits without VA Form 22-1995</h3>
+        <h3 slot="headline">VA Form 22-1995 is being phased out</h3>
         <p className="vads-u-margin-y--0">
-          If you need to change or update your benefit for a new Certificate of
-          Eligibility (COE), you’re in the right place. We’ll help you find the
-          right form.
+          If you need to make updates to your benefit or program or get an
+          updated Certificate of Eligibility (COE), you’re still in the right
+          place. We’ll help you find the right information.
         </p>
       </va-alert>
 
       <h2 className="vads-u-font-size--h2 vads-u-margin-top--4">
-        Determine which form to use
+        Get updated information if you have the Post 9/11 GI Bill benefit
       </h2>
-      <p>Answer a few questions to determine which form you need.</p>
+      <p>
+        If your current benefit is the Post 9/11 GI Bill (Chapter 33), you can
+        use your Statement of Benefits to:
+      </p>
+      <ul>
+        <li>Get an updated Certificate of Eligibility (COE)</li>
+        <li>Get more information about your updated entitlement</li>
+      </ul>
+      <va-link
+        href="https://www.va.gov/education/check-remaining-post-9-11-gi-bill-benefits/"
+        text="Access your Statement of Benefits online"
+      />
+
+      <h2 className="vads-u-font-size--h2 vads-u-margin-top--4">
+        Change or update your personal information
+      </h2>
+      <p>
+        You can update your personal information online. This includes your bank
+        account for direct deposit, mailing address, and contact information.{' '}
+        <va-link
+          external
+          href="https://ask.va.gov/"
+          text="Submit your request with Ask VA."
+        />
+      </p>
+
+      <h2 className="vads-u-font-size--h2 vads-u-margin-top--4">
+        Change or switch your benefit or program
+      </h2>
+      <p>
+        If you’re looking to make changes or switch your benefit or program, you
+        can apply using one of our existing education forms. Use the
+        questionnaire to determine which form you need.
+      </p>
 
       {user?.login?.currentlyLoggedIn ? (
         <>
+          <div className="vads-u-margin-y--4">
+            <va-alert status="info" visible uswds>
+              <h3 slot="headline">We’ve prefilled some of your information</h3>
+              <p className="vads-u-margin-y--0">
+                Since you’re signed in, we can prefill part of your
+                questionnaire based on your profile details.
+              </p>
+            </va-alert>
+          </div>
           <div className="vads-u-margin-y--4">
             <va-link-action
               href="#start"
@@ -131,29 +176,12 @@ export const IntroductionPageRedirect = ({ route, router }) => {
               text="Start your questionnaire"
             />
           </div>
-          <div className="vads-u-margin-y--4">
-            <va-alert status="info" visible uswds>
-              <h3 slot="headline">We’ve prefilled some of your information</h3>
-              <p className="vads-u-margin-y--0">
-                Since you’re signed in, we can prefill part of your
-                questionnaire based on your profile details.
-              </p>
-            </va-alert>
-          </div>
         </>
       ) : (
         <div className="vads-u-margin-y--4">
           {renderSaveInProgressIntro(false)}
         </div>
       )}
-
-      <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-        <va-omb-info
-          res-burden={20}
-          omb-number="2900-0074"
-          exp-date="09/30/2027"
-        />
-      </div>
     </div>
   );
 };

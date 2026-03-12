@@ -18,6 +18,11 @@ on:
         required: false
         type: string
         default: ''
+      reuse_build_from_run:
+        description: 'Skip build and reuse artifacts from a previous run ID (for faster iteration)'
+        required: false
+        type: string
+        default: ''
 
 concurrency:
   group: full-suite-tests-${{ github.ref }}
@@ -98,7 +103,7 @@ jobs:
   build:
     name: Build
     needs: [validate-inputs]
-    if: ${{ inputs.run_full_e2e_suite }}
+    if: ${{ inputs.run_full_e2e_suite && inputs.reuse_build_from_run == '' }}
     runs-on: ubuntu-16-cores-latest
     permissions:
       id-token: write
@@ -126,11 +131,10 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Get Mapbox Token
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
-          env_variable_name: MAPBOX_TOKEN
+      # This fallback token is not a real token, this portion of a token prevents Mapbox from crashing
+      # when app specific tokens are unavailable for any reason, instead it will provide errors.
+      - name: Set Mapbox Token fallback
+        run: echo "MAPBOX_TOKEN=pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==" >> "$GITHUB_ENV"
 
       - name: Build
         run: yarn build --verbose --buildtype=vagovprod
@@ -154,6 +158,30 @@ jobs:
 
       - name: Upload build artifact
         uses: ./.github/workflows/upload-artifact
+        with:
+          name: vagovprod.tar.bz2
+          path: vagovprod.tar.bz2
+          retention-days: 1
+
+  reuse-build:
+    name: Reuse Build from Previous Run
+    needs: [validate-inputs]
+    if: ${{ inputs.run_full_e2e_suite && inputs.reuse_build_from_run != '' }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Download build artifact from previous run
+        run: gh run download ${{ inputs.reuse_build_from_run }} -n vagovprod.tar.bz2
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Re-upload build artifact for this run
+        uses: actions/upload-artifact@v4
         with:
           name: vagovprod.tar.bz2
           path: vagovprod.tar.bz2
@@ -343,9 +371,6 @@ jobs:
           TESTS: ${{ env.DISALLOWED_TESTS }}
           TESTS_PROPERTY: 'DISALLOWED_TESTS'
 
-      - name: Create test results folder
-        run: mkdir -p test-results
-
       - name: Check for tests
         id: check-tests
         run: |
@@ -383,7 +408,6 @@ jobs:
             yarn test:unit:gha --app-folder ${{ matrix.app.folder }} --coverage --log-level verbose
           fi
         env:
-          MOCHA_FILE: test-results/unit-tests.xml
           IS_STRESS_TEST: false
 
       - name: Set tests ran output
@@ -451,18 +475,19 @@ jobs:
     name: Cypress E2E Tests
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
-    needs: [build, tests-prep, fetch-ecr-credentials]
+    needs: [build, reuse-build, tests-prep, fetch-ecr-credentials]
     permissions:
       id-token: write
       contents: read
     if: |
+      always() &&
       inputs.run_full_e2e_suite &&
-      needs.build.result == 'success' &&
+      (needs.build.result == 'success' || needs.reuse-build.result == 'success') &&
       needs.tests-prep.result == 'success' &&
       needs.tests-prep.outputs.e2e_count != '0'
 
     container:
-      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
       credentials:
         username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
         password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
@@ -517,6 +542,10 @@ jobs:
         with:
           name: vagovprod.tar.bz2
 
+      - name: Install missing dependencies
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y bzip2 curl
+
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: |
@@ -530,6 +559,7 @@ jobs:
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
+          install-cypress: 'true'
           path: |
             .cache/yarn
             /github/home/.cache/Cypress
@@ -549,13 +579,40 @@ jobs:
           TEST_TYPE: e2e
           TEST_PROPERTY: 'TESTS'
 
-      - name: Start server
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
-
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node script/github-actions/run-cypress-tests.js
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Starting test server..."
+          node src/platform/testing/e2e/test-server.js \
+            --buildtype=vagovprod \
+            --port=3001 \
+            --host=127.0.0.1 \
+            > test-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+
+          echo "Waiting for server to be ready..."
+          ready=false
+          for i in $(seq 1 30); do
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+              echo "Server is ready!"
+              ready=true
+              break
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+
+          if [ "$ready" = false ]; then
+            echo "Server failed to start. Last 200 log lines:"
+            tail -n 200 test-server.log || cat test-server.log
+            exit 1
+          fi
+
+          node script/github-actions/run-cypress-tests.js
         timeout-minutes: 120
         env:
           CYPRESS_CI: true
@@ -732,7 +789,14 @@ jobs:
       checks: write
       id-token: write
       contents: read
-    if: ${{ always() && inputs.run_full_e2e_suite && needs.tests-prep.outputs.cypress-tests != '' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    if: |
+      always() &&
+      inputs.run_full_e2e_suite &&
+      needs.tests-prep.outputs.cypress-tests != '' &&
+      (
+        needs.cypress-tests.result == 'success' ||
+        needs.cypress-tests.result == 'failure'
+      )
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true

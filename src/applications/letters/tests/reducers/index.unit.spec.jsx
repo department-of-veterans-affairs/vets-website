@@ -137,6 +137,20 @@ describe('letters reducer', () => {
     // TODO: Test what makes it to requestOptions when we have a firmer grasp of the business logic
   });
 
+  it('should default request option to false when API value is false', () => {
+    const state = reduce({
+      type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+      data: {
+        ...benefitSummaryOptionData,
+        benefitInformation: {
+          ...benefitSummaryOptionData.benefitInformation,
+          hasChapter35Eligibility: false,
+        },
+      },
+    });
+    expect(state.requestOptions.chapter35Eligibility).to.be.false;
+  });
+
   it('should handle a letter eligibility error', () => {
     const state = reduce({ type: LETTER_ELIGIBILITY_ERROR });
 
@@ -255,10 +269,12 @@ describe('letters reducer', () => {
     const letter = {
       attributes: {
         documentId: '123',
+        documentVersion: 'abc',
       },
     };
     const successState = {
       documentId: '123',
+      documentVersion: 'abc',
       error: false,
       loading: false,
     };

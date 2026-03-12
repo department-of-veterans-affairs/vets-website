@@ -6,7 +6,9 @@ export const usingDirectDeposit = formData =>
 
 export const DirectDepositOtherOptions = (
   <div>
-    <h4>Option 1: Get your payment through Direct Express Debit MasterCard</h4>
+    <h2 className="vads-u-font-size--h4">
+      Option 1: Get your payment through Direct Express Debit MasterCard
+    </h2>
     <p>
       To request a Direct Express Debit MasterCard, call{' '}
       <va-telephone contact="8003331795" />.
@@ -24,7 +26,7 @@ export const DirectDepositOtherOptions = (
       <va-telephone contact="8882242950" /> to request a waiver from the
       Department of Treasury.
     </p>
-    <h4>Option 2: Open a bank account</h4>
+    <h2 className="vads-u-font-size--h4">Option 2: Open a bank account</h2>
     <p>
       If you want to use direct deposit, the Veterans Benefits Banking Program
       (VBBP) can help you open a bank account. VBBP provides a list of

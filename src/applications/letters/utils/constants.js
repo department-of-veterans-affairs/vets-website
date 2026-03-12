@@ -63,6 +63,7 @@ export const LETTER_TYPES = Object.freeze({
   certificateOfEligibility: 'certificate_of_eligibility',
   civilService: 'civil_service',
   commissary: 'commissary',
+  foreignMedicalProgram: 'foreign_medical_program',
   medicarePartD: 'medicare_partd',
   minimumEssentialCoverage: 'minimum_essential_coverage',
   proofOfService: 'proof_of_service',
@@ -109,4 +110,6 @@ import ADDRESS_DATA from 'platform/forms/address/data';
 export const STATE_CODE_TO_NAME = ADDRESS_DATA.states;
 
 export const GET_TSA_LETTER_ELIGIBILITY_ENDPOINT = '/v0/tsa_letter';
-export const DOWNLOAD_TSA_LETTER_ENDPOINT = id => `/v0/tsa_letter/${id}`;
+
+export const DOWNLOAD_TSA_LETTER_ENDPOINT = (id, versionId) =>
+  `/v0/tsa_letter/${id}/version/${versionId}/download`;

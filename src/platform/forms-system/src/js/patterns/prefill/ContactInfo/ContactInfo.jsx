@@ -11,9 +11,9 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
+import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
 import AddressView from 'platform/user/profile/vap-svc/components/AddressField/AddressView';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import {
   setReturnState,
   getReturnState,
@@ -23,12 +23,12 @@ import {
   REVIEW_CONTACT,
   convertNullishObjectValuesToEmptyString,
   contactInfoPropTypes,
-  getPhoneString,
 } from 'platform/forms-system/src/js/utilities/data/profile';
 import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
+import ContactInfoCard from './ContactInfoCard';
 
 /**
  * Render contact info page
@@ -75,7 +75,7 @@ export const ContactInfoBase = ({
   }
 
   const baseEditPath = `${urlPrefix}${contactPath}`;
-
+  const MISSING_ALERT_TEXT = 'Missing';
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
   const [hasInitialized, setHasInitialized] = useState(false);
@@ -101,9 +101,6 @@ export const ContactInfoBase = ({
     requiredKeys,
   });
 
-  const list = readableList(missingInfo);
-  const plural = missingInfo.length > 1;
-
   const validationErrors = uiSchema?.['ui:required']?.(data)
     ? getValidationErrors(uiSchema?.['ui:validations'] || [], {}, data)
     : [];
@@ -111,19 +108,51 @@ export const ContactInfoBase = ({
   // Get the fieldTransactionMap from Redux store
   const { fieldTransactionMap } = useSelector(state => state.vapService) || {};
 
-  // Map editState field names to actual field names
-  const fieldNameMap = {
-    address: FIELD_NAMES.MAILING_ADDRESS,
-    'home-phone': FIELD_NAMES.HOME_PHONE,
-    'mobile-phone': FIELD_NAMES.MOBILE_PHONE,
-    email: FIELD_NAMES.EMAIL,
+  // map missing fields to path/key; used in rendering error messages after page validation
+  const errorMap = {
+    'mailing address': { path: 'edit-mailing-address', key: keys.address },
+    'home phone': { path: 'edit-home-phone', key: keys.homePhone },
+    'mobile phone': { path: 'edit-mobile-phone', key: keys.mobilePhone },
+    'email address': { path: 'edit-email-address', key: keys.email },
+  };
+
+  // Unified field configuration mapping
+  const fieldConfig = {
+    address: {
+      id: 'address',
+      fieldName: FIELD_NAMES.MAILING_ADDRESS,
+      key: keys.address,
+      path: 'mailingAddress',
+      text: content.mailingAddress,
+    },
+    'home-phone': {
+      id: 'home-phone',
+      fieldName: FIELD_NAMES.HOME_PHONE,
+      key: keys.homePhone,
+      path: 'homePhone',
+      text: content.homePhone,
+    },
+    'mobile-phone': {
+      id: 'mobile-phone',
+      fieldName: FIELD_NAMES.MOBILE_PHONE,
+      key: keys.mobilePhone,
+      path: 'mobilePhone',
+      text: content.mobilePhone,
+    },
+    email: {
+      id: 'email',
+      fieldName: FIELD_NAMES.EMAIL,
+      key: keys.email,
+      path: 'email',
+      text: content.email,
+    },
   };
 
   // Check if we have a form-only update for the current field
   const [editField] = editState?.split(',') || [];
-  const fieldName = fieldNameMap[editField];
+  const fieldName = fieldConfig[editField]?.fieldName;
   const hasFormOnlyUpdate = fieldName
-    ? fieldTransactionMap?.[fieldName]?.formOnlyUpdate
+    ? !!fieldTransactionMap?.[fieldName]
     : false;
 
   const handlers = {
@@ -163,14 +192,7 @@ export const ContactInfoBase = ({
     const updatedWrapper = { ...wrapper };
     let needsUpdate = false;
 
-    const fields = [
-      { key: keys.email, path: 'email' },
-      { key: keys.homePhone, path: 'homePhone' },
-      { key: keys.mobilePhone, path: 'mobilePhone' },
-      { key: keys.address, path: 'mailingAddress' },
-    ];
-
-    fields.forEach(({ key, path }) => {
+    Object.values(fieldConfig).forEach(({ key, path }) => {
       const profileValue = contactInfo?.[path];
       const formValue = wrapper?.[key];
 
@@ -253,56 +275,30 @@ export const ContactInfoBase = ({
     [missingInfo, hasInitialized, testContinueAlert],
   );
 
-  const MainHeader = onReviewPage ? 'h4' : 'h3';
-  const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');
-  const headerClassNames = [
-    'vads-u-font-size--h4',
-    'vads-u-width--auto',
-    'vads-u-margin-top--0',
-  ].join(' ');
+  const isMinimalHeader = isMinimalHeaderPath();
 
-  const requiredLabel = (
-    <span className="vads-u-font-weight--normal vads-u-color--secondary-dark vads-u-margin-left--0p5">
-      (*Required)
-    </span>
-  );
+  let MainHeader = 'h3';
+  if (onReviewPage) {
+    MainHeader = 'h4';
+  } else if (isMinimalHeader) {
+    MainHeader = 'h1';
+  }
 
-  // Extract alert rendering functions
-  const showSuccessAlertInField = (id, text) => (
-    <va-alert
-      id={`updated-${id}`}
-      visible={editState === `${id},updated` && !hasFormOnlyUpdate}
-      class="vads-u-margin-y--1"
-      status="success"
-      slim
-    >
-      {`${text} ${content.updated}`}
-    </va-alert>
-  );
+  const mainHeaderClass =
+    isMinimalHeader && !onReviewPage
+      ? 'vads-u-margin-top--3 vads-u-margin-bottom--0 vads-u-font-size--h2'
+      : 'vads-u-margin-top--3 vads-u-margin-bottom--0';
 
-  const showFormOnlyAlert = id => (
-    <va-alert
-      id="form-only-update-alert"
-      visible={
-        hasFormOnlyUpdate &&
-        editState?.includes(`${id}`) &&
-        editState?.includes('updated')
-      }
-      class="vads-u-margin-y--1"
-      status="error"
-      uswds
-      slim
-    >
-      <p>
-        <strong>
-          We couldn’t update your VA.gov profile, but your changes were saved to
-          this form.{' '}
-        </strong>
-        You can try again later to update your profile, or continue with the
-        form using the information you entered.
-      </p>
-    </va-alert>
-  );
+  let headerLevel = contactSectionHeadingLevel;
+  if (!headerLevel) {
+    if (isMinimalHeader) {
+      headerLevel = '2';
+    } else if (onReviewPage) {
+      headerLevel = '5';
+    } else {
+      headerLevel = '4';
+    }
+  }
 
   // Helper function to render email addresses consistently
   const renderEmail = emailData => {
@@ -312,267 +308,333 @@ export const ContactInfoBase = ({
       : emailData || '';
   };
 
+  // Render alerts above contact sections
+  const renderContactAlerts = () => {
+    // Don't show success alerts if there are errors
+    if (submitted && (missingInfo.length > 0 || validationErrors.length > 0)) {
+      return null;
+    }
+
+    const alerts = [];
+
+    Object.entries(fieldConfig).forEach(([id, { text, key }]) => {
+      if (!key) return; // Skip if this field is not configured
+
+      const isUpdated = editState === `${id},updated`;
+
+      if (isUpdated) {
+        alerts.push(
+          <va-alert
+            key={`success-${id}`}
+            id={`updated-${id}`}
+            class="vads-u-margin-y--1"
+            status="success"
+            role="alert"
+          >
+            <h2 slot="headline">We’ve updated your {text}</h2>
+            <p className="vads-u-margin-y--0">
+              {hasFormOnlyUpdate
+                ? 'We’ve made these changes to only this form.'
+                : 'We’ve made these changes to this form and your profile.'}
+            </p>
+          </va-alert>,
+        );
+      }
+    });
+
+    return alerts.length > 0 ? (
+      <div className="vads-u-margin-bottom--2">{alerts}</div>
+    ) : null;
+  };
+
+  // Return boolean flag if a required field is among the missing info fields
+  const hasMissingRequiredInfo = key => {
+    // get config for a field
+    const config = Object.values(fieldConfig).find(field => field.key === key);
+    // check if a field in missing info matches a field's config
+    return missingInfo.some(field =>
+      config.text.toLowerCase().startsWith(field),
+    );
+  };
+
+  // Return true if a field object is missing relevant properties
+  const isContactFieldEmpty = (contactField, contactFieldName) => {
+    // If no data object exists, it's empty
+    if (!contactField || typeof contactField !== 'object') {
+      return true;
+    }
+
+    if (contactFieldName === FIELD_NAMES.MAILING_ADDRESS) {
+      const {
+        addressLine1,
+        city,
+        countryName,
+        stateCode,
+        zipCode,
+      } = contactField;
+      // Return true if ALL required address fields are falsy
+      return (
+        isFieldEmpty(addressLine1, contactFieldName) &&
+        isFieldEmpty(city, contactFieldName) &&
+        isFieldEmpty(countryName, contactFieldName) &&
+        isFieldEmpty(stateCode, contactFieldName) &&
+        isFieldEmpty(zipCode, contactFieldName)
+      );
+    }
+
+    if (contactFieldName === FIELD_NAMES.EMAIL) {
+      return isFieldEmpty(contactField.emailAddress, contactFieldName);
+    }
+
+    if (
+      contactFieldName === FIELD_NAMES.HOME_PHONE ||
+      contactFieldName === FIELD_NAMES.MOBILE_PHONE
+    ) {
+      const { areaCode, phoneNumber } = contactField;
+      // Return true if ALL phone fields are falsy
+      return (
+        isFieldEmpty(areaCode, contactFieldName) &&
+        isFieldEmpty(phoneNumber, contactFieldName)
+      );
+    }
+
+    // Default: if we don't recognize the field, consider it empty
+    return true;
+  };
+
   // Extract contact section rendering
   const renderAddressSection = () => {
     if (!keys.address) return null;
+    const missingRequiredAddress = hasMissingRequiredInfo(
+      FIELD_NAMES.MAILING_ADDRESS,
+    );
+    const linkText = isContactFieldEmpty(
+      dataWrap[keys.address],
+      FIELD_NAMES.MAILING_ADDRESS,
+    )
+      ? `${content.add} mailing address`
+      : `${content.edit} mailing address`;
+    const cardContent = missingRequiredAddress ? (
+      'None provided'
+    ) : (
+      <AddressView data={dataWrap[keys.address]} />
+    );
+
     return (
-      <React.Fragment key="mailing">
-        <va-card
-          style={{ wordWrap: 'break-word' }}
-          class="vads-u-margin-bottom--3"
-        >
-          <Headers name="header-address" className={headerClassNames}>
-            {content.mailingAddress}
-            {requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS) &&
-              requiredLabel}
-          </Headers>
-          {hasFormOnlyUpdate
-            ? showFormOnlyAlert('address')
-            : showSuccessAlertInField('address', content.mailingAddress)}
-          <AddressView data={dataWrap[keys.address]} />
-          {loggedIn && (
-            <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
-              <VaLink
-                href={`${baseEditPath}/edit-mailing-address`}
-                label={content.editMailingAddress}
-                text={
-                  isFieldEmpty(
-                    dataWrap[keys.address],
-                    FIELD_NAMES.MAILING_ADDRESS,
-                  )
-                    ? content.add
-                    : content.edit
-                }
-                onClick={e => {
-                  e.preventDefault();
-                  // router.push(`${baseEditPath}/edit-mailing-address`);
-                  router.push({
-                    pathname: `${baseEditPath}/edit-mailing-address`,
-                    state: {
-                      formKey: keys.address,
-                      keys: { wrapper: keys.wrapper },
-                    },
-                  });
-                }}
-                active
-              />
-            </p>
-          )}
-        </va-card>
-      </React.Fragment>
+      <ContactInfoCard
+        key={FIELD_NAMES.MAILING_ADDRESS}
+        error={
+          submitted && missingRequiredAddress ? 'You must add your address' : ''
+        }
+        contactPath={contactPath}
+        required={requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS)}
+        formKey={keys.address}
+        wrapper={keys.wrapper}
+        editPath={`${baseEditPath}/edit-mailing-address`}
+        headerLevel={headerLevel}
+        headerText={content.mailingAddress}
+        tagText={missingRequiredAddress ? MISSING_ALERT_TEXT : ''}
+        tagStatus={missingRequiredAddress ? 'error' : 'info'}
+        linkText={linkText}
+      >
+        {cardContent}
+      </ContactInfoCard>
     );
   };
 
   const renderHomePhoneSection = () => {
     if (!keys.homePhone) return null;
+    const missingRequiredHomePhone = hasMissingRequiredInfo(
+      FIELD_NAMES.HOME_PHONE,
+    );
+    const linkText = isContactFieldEmpty(
+      dataWrap[keys.homePhone],
+      FIELD_NAMES.HOME_PHONE,
+    )
+      ? `${content.add} home phone number`
+      : `${content.edit} home phone number`;
+    const cardContent = missingRequiredHomePhone ? (
+      'None provided'
+    ) : (
+      <div className="dd-privacy-hidden" data-dd-action-name="home phone">
+        {renderTelephone(dataWrap[keys.homePhone])}
+      </div>
+    );
     return (
-      <React.Fragment key="home">
-        <va-card
-          style={{ wordWrap: 'break-word' }}
-          class="vads-u-margin-bottom--3"
-        >
-          <Headers
-            name="header-home-phone"
-            className={`${headerClassNames} vads-u-margin-top--0p5`}
-          >
-            {content.homePhone}
-            {requiredKeys.includes(FIELD_NAMES.HOME_PHONE) && requiredLabel}
-          </Headers>
-          {hasFormOnlyUpdate
-            ? showFormOnlyAlert('home-phone')
-            : showSuccessAlertInField('home-phone', content.homePhone)}
-          <span className="dd-privacy-hidden" data-dd-action-name="home phone">
-            {renderTelephone(dataWrap[keys.homePhone])}
-          </span>
-          {loggedIn && (
-            <p className="vads-u-margin-top--0p5">
-              <VaLink
-                href={`${baseEditPath}/edit-home-phone`}
-                label={content.editHomePhone}
-                text={
-                  getPhoneString(dataWrap[keys.homePhone])
-                    ? content.edit
-                    : content.add
-                }
-                onClick={e => {
-                  e.preventDefault();
-                  router.push({
-                    pathname: `${baseEditPath}/edit-home-phone`,
-                    state: {
-                      formKey: keys.homePhone,
-                      keys: { wrapper: keys.wrapper },
-                    },
-                  });
-                }}
-                active
-              />
-            </p>
-          )}
-        </va-card>
-      </React.Fragment>
+      <ContactInfoCard
+        key={FIELD_NAMES.HOME_PHONE}
+        error={
+          submitted && missingRequiredHomePhone
+            ? 'You must add your home phone number'
+            : ''
+        }
+        contactPath={contactPath}
+        required={requiredKeys.includes(FIELD_NAMES.HOME_PHONE)}
+        formKey={keys.homePhone}
+        wrapper={keys.wrapper}
+        editPath={`${baseEditPath}/edit-home-phone`}
+        headerLevel={headerLevel}
+        headerText={content.homePhone}
+        tagText={missingRequiredHomePhone ? MISSING_ALERT_TEXT : ''}
+        tagStatus={missingRequiredHomePhone ? 'error' : 'info'}
+        linkText={linkText}
+      >
+        {cardContent}
+      </ContactInfoCard>
     );
   };
 
   const renderMobilePhoneSection = () => {
     if (!keys.mobilePhone) return null;
+    const missingRequiredMobilePhone = hasMissingRequiredInfo(
+      FIELD_NAMES.MOBILE_PHONE,
+    );
+    const linkText = isContactFieldEmpty(
+      dataWrap[keys.mobilePhone],
+      FIELD_NAMES.MOBILE_PHONE,
+    )
+      ? `${content.add} mobile phone number`
+      : `${content.edit} mobile phone number`;
+    const cardContent = missingRequiredMobilePhone ? (
+      'None provided'
+    ) : (
+      <div className="dd-privacy-hidden" data-dd-action-name="mobile phone">
+        {renderTelephone(dataWrap[keys.mobilePhone])}
+      </div>
+    );
+
     return (
-      <React.Fragment key="mobile">
-        <va-card
-          style={{ wordWrap: 'break-word' }}
-          class="vads-u-margin-bottom--3"
-        >
-          <Headers
-            name="header-mobile-phone"
-            className={`${headerClassNames} vads-u-margin-top--0p5`}
-          >
-            {content.mobilePhone}
-            {requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE) && requiredLabel}
-          </Headers>
-          {hasFormOnlyUpdate
-            ? showFormOnlyAlert('mobile-phone')
-            : showSuccessAlertInField('mobile-phone', content.mobilePhone)}
-          <span
-            className="dd-privacy-hidden"
-            data-dd-action-name="mobile phone"
-          >
-            {renderTelephone(dataWrap[keys.mobilePhone])}
-          </span>
-          {loggedIn && (
-            <p className="vads-u-margin-top--0p5">
-              <VaLink
-                href={`${baseEditPath}/edit-mobile-phone`}
-                label={content.editMobilePhone}
-                text={
-                  getPhoneString(dataWrap[keys.mobilePhone])
-                    ? content.edit
-                    : content.add
-                }
-                onClick={e => {
-                  e.preventDefault();
-                  router.push({
-                    pathname: `${baseEditPath}/edit-mobile-phone`,
-                    state: {
-                      formKey: keys.mobilePhone,
-                      keys: { wrapper: keys.wrapper },
-                    },
-                  });
-                }}
-                active
-              />
-            </p>
-          )}
-        </va-card>
-      </React.Fragment>
+      <ContactInfoCard
+        key={FIELD_NAMES.MOBILE_PHONE}
+        error={
+          submitted && missingRequiredMobilePhone
+            ? 'You must add your mobile phone number'
+            : ''
+        }
+        contactPath={contactPath}
+        required={requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE)}
+        formKey={keys.mobilePhone}
+        wrapper={keys.wrapper}
+        editPath={`${baseEditPath}/edit-mobile-phone`}
+        headerLevel={headerLevel}
+        headerText={content.mobilePhone}
+        tagText={missingRequiredMobilePhone ? MISSING_ALERT_TEXT : ''}
+        tagStatus={missingRequiredMobilePhone ? 'error' : 'info'}
+        linkText={linkText}
+      >
+        {cardContent}
+      </ContactInfoCard>
     );
   };
 
   const renderEmailSection = () => {
     if (!keys.email) return null;
+    const missingRequiredEmail = hasMissingRequiredInfo(FIELD_NAMES.EMAIL);
+    const linkText = isContactFieldEmpty(
+      dataWrap[keys.email],
+      FIELD_NAMES.EMAIL,
+    )
+      ? `${content.add} email address`
+      : `${content.edit} email address`;
+    const cardContent = missingRequiredEmail ? (
+      'None provided'
+    ) : (
+      <div className="dd-privacy-hidden" data-dd-action-name="email">
+        {renderEmail(dataWrap[keys.email])}
+      </div>
+    );
+
     return (
-      <React.Fragment key="email">
-        <va-card
-          style={{ wordWrap: 'break-word' }}
-          class="vads-u-margin-bottom--3"
-        >
-          <Headers name="header-email" className={headerClassNames}>
-            {content.email}
-            {requiredKeys.includes(FIELD_NAMES.EMAIL) && requiredLabel}
-          </Headers>
-          {hasFormOnlyUpdate
-            ? showFormOnlyAlert('email')
-            : showSuccessAlertInField('email', content.email)}
-          <span className="dd-privacy-hidden" data-dd-action-name="email">
-            {renderEmail(dataWrap[keys.email])}
-          </span>
-          {loggedIn && (
-            <p className="vads-u-margin-top--0p5">
-              <VaLink
-                href={`${baseEditPath}/edit-email-address`}
-                label={content.editEmail}
-                text={
-                  isFieldEmpty(dataWrap[keys.email], FIELD_NAMES.EMAIL)
-                    ? content.add
-                    : content.edit
-                }
-                onClick={e => {
-                  e.preventDefault();
-                  router.push({
-                    pathname: `${baseEditPath}/edit-email-address`,
-                    state: {
-                      formKey: keys.email,
-                      keys: { wrapper: keys.wrapper },
-                    },
-                  });
-                }}
-                active
-              />
-            </p>
-          )}
-        </va-card>
-      </React.Fragment>
+      <ContactInfoCard
+        key={FIELD_NAMES.EMAIL}
+        error={
+          submitted && missingRequiredEmail
+            ? 'You must add your email address'
+            : ''
+        }
+        contactPath={contactPath}
+        required={requiredKeys.includes(FIELD_NAMES.EMAIL)}
+        formKey={keys.email}
+        wrapper={keys.wrapper}
+        editPath={`${baseEditPath}/edit-email-address`}
+        headerLevel={headerLevel}
+        headerText={content.email}
+        tagText={missingRequiredEmail ? MISSING_ALERT_TEXT : ''}
+        tagStatus={missingRequiredEmail ? 'error' : 'info'}
+        linkText={linkText}
+      >
+        {cardContent}
+      </ContactInfoCard>
     );
   };
 
-  const contactSection = [
-    renderAddressSection(),
-    renderHomePhoneSection(),
-    renderMobilePhoneSection(),
-    renderEmailSection(),
-  ];
-
-  const renderValidationMessages = () => (
-    <div ref={wrapRef}>
-      {hadError &&
-        missingInfo.length === 0 &&
-        validationErrors.length === 0 && (
-          <div className="vads-u-margin-top--1p5">
-            <va-alert status="success" slim>
-              <div className="vads-u-font-size--base">
-                {content.alertContent}
-              </div>
-            </va-alert>
-          </div>
-        )}
-      {missingInfo.length > 0 && (
-        <>
-          <p className="vads-u-margin-top--1p5">
-            <strong>Note:</strong>
-            {missingInfo[0].startsWith('e') ? ' An ' : ' A '}
-            {list} {plural ? 'are' : 'is'} required for this application.
-          </p>
-          {submitted && (
-            <div className="vads-u-margin-top--1p5" role="alert">
-              <va-alert status="error" slim>
+  const renderValidationMessages = () => {
+    return (
+      <div ref={wrapRef}>
+        {hadError &&
+          missingInfo.length === 0 &&
+          validationErrors.length === 0 && (
+            <div className="vads-u-margin-top--1p5">
+              <va-alert status="success" slim>
                 <div className="vads-u-font-size--base">
-                  We still don’t have your {list}. Please edit and update the
-                  field.
+                  {content.alertContent}
                 </div>
               </va-alert>
             </div>
           )}
-          <div className="vads-u-margin-top--1p5" role="alert">
-            <va-alert status="warning" slim>
-              <div className="vads-u-font-size--base">
-                Your {list} {plural ? 'are' : 'is'} missing. Please edit and
-                update the {plural ? 'fields' : 'field'}.
-              </div>
-            </va-alert>
-          </div>
-        </>
-      )}
-      {submitted &&
-        missingInfo.length === 0 &&
-        validationErrors.length > 0 && (
-          <div className="vads-u-margin-top--1p5" role="alert">
-            <va-alert status="error" slim>
-              <div className="vads-u-font-size--base">
-                {validationErrors[0]}
-              </div>
-            </va-alert>
-          </div>
-        )}
-    </div>
-  );
+        {missingInfo.length > 0 &&
+          submitted && (
+            <div
+              className="vads-u-margin-bottom--3 vads-u-margin-top--3"
+              role="alert"
+            >
+              <va-alert status="error">
+                <h3 slot="headline">
+                  This information contains {missingInfo.length} error
+                  {missingInfo.length > 1 ? 's' : ''}.
+                </h3>
+                <ul className="vads-u-font-size--base">
+                  Complete all required fields
+                  {missingInfo.map(field => {
+                    return (
+                      <li key={field}>
+                        <va-link
+                          text={`You must add your ${field}`}
+                          href={errorMap[field].path}
+                          onClick={e => {
+                            e.preventDefault();
+                            router.push({
+                              pathname: `${baseEditPath}/${
+                                errorMap[field].path
+                              }`,
+                              state: {
+                                formKey: errorMap[field].key,
+                                keys: { wrapper: keys.wrapper },
+                              },
+                            });
+                          }}
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
+              </va-alert>
+            </div>
+          )}
+        {submitted &&
+          missingInfo.length === 0 &&
+          validationErrors.length > 0 && (
+            <div className="vads-u-margin-top--1p5" role="alert">
+              <va-alert status="error">
+                <div className="vads-u-font-size--base">
+                  {validationErrors[0]}
+                </div>
+              </va-alert>
+            </div>
+          )}
+      </div>
+    );
+  };
 
   const navButtons = onReviewPage ? (
     <va-button text={content.update} onClick={handlers.onUpdatePage} />
@@ -580,7 +642,7 @@ export const ContactInfoBase = ({
     <>
       {contentBeforeButtons}
       <FormNavButtons
-        goBack={handlers.onGoBack}
+        goBack={!isMinimalHeader && handlers.onGoBack}
         goForward={handlers.onGoForward}
       />
       {contentAfterButtons}
@@ -593,25 +655,42 @@ export const ContactInfoBase = ({
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
           id={`${contactInfoPageKey}Header`}
-          className="vads-u-margin-top--3 vads-u-margin-bottom--0"
+          className={mainHeaderClass}
         >
-          {content.title}
+          Confirm the contact information we have on file for you
         </MainHeader>
-        {content.description}
         {!loggedIn && (
           <strong className="usa-input-error-message">
             You must be logged in to enable view and edit this page.
           </strong>
         )}
         {renderValidationMessages()}
+        {renderContactAlerts()}
         <div className="vads-u-margin-top--3">
           <div
             className="va-profile-wrapper vads-l-grid-container vads-u-padding-x--0"
             onSubmit={handlers.onSubmit}
           >
             <div className="vads-l-row">
-              <div className="vads-l-col--12 medium-screen:vads-l-col--6">
-                {contactSection}
+              <div
+                className="vads-l-col--12 medium-screen:vads-l-col--8"
+                style={{ maxWidth: '300px' }}
+              >
+                {[
+                  renderAddressSection,
+                  renderEmailSection,
+                  renderHomePhoneSection,
+                  renderMobilePhoneSection,
+                ].map((func, i, arr) => (
+                  <div
+                    key={func.name}
+                    className={`vads-u-margin-bottom--${
+                      i === arr.length - 1 ? '5' : '3'
+                    }`}
+                  >
+                    {func()}
+                  </div>
+                ))}
               </div>
             </div>
           </div>

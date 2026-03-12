@@ -226,6 +226,45 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
     );
   });
 
+  it('sorts expense groups in EXPENSE_TYPES order regardless of input order', () => {
+    const outOfOrderExpenses = [
+      {
+        id: 'exp-toll',
+        expenseType: 'Toll',
+        costRequested: 5.0,
+        dateIncurred: '2025-10-15',
+      },
+      {
+        id: 'exp-parking',
+        expenseType: 'Parking',
+        description: 'Parking at hospital',
+        costRequested: 10.0,
+        dateIncurred: '2025-10-15',
+      },
+      {
+        id: 'exp-mileage',
+        expenseType: 'Mileage',
+        costRequested: 15.0,
+        tripType: 'RoundTrip',
+        dateIncurred: '2025-10-15',
+      },
+    ];
+
+    renderAccordion({
+      expenses: outOfOrderExpenses,
+      documents: [],
+      groupAccordionItemsByType: true,
+    });
+
+    const accordionItems = document.querySelectorAll('va-accordion-item');
+    expect(accordionItems.length).to.equal(3);
+
+    // Should be sorted: Mileage, Parking, Toll (matching EXPENSE_TYPES order)
+    expect(accordionItems[0].getAttribute('header')).to.include('Mileage');
+    expect(accordionItems[1].getAttribute('header')).to.include('Parking');
+    expect(accordionItems[2].getAttribute('header')).to.include('Toll');
+  });
+
   it('renders headers for each expense group inside accordion item', () => {
     renderAccordion({ expenses, documents });
 
@@ -235,5 +274,182 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
     const headerTexts = Array.from(headers).map(h => h.textContent);
 
     expect(headerTexts).to.include.members(['Mileage', 'Parking']);
+  });
+
+  describe('Community Care (CC) - Proof of Attendance', () => {
+    const getCommunityCareState = ({
+      ccEnabled = true,
+      isAppointmentCC = true,
+    } = {}) => ({
+      ...initialState,
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        travel_pay_enable_community_care: ccEnabled,
+      },
+      travelPay: {
+        ...initialState.travelPay,
+        appointment: {
+          ...initialState.travelPay.appointment,
+          data: {
+            ...initialState.travelPay.appointment.data,
+            isCC: isAppointmentCC,
+          },
+        },
+      },
+    });
+
+    const documentsWithPOA = [
+      ...documents,
+      {
+        documentId: 'doc-poa',
+        filename: 'proof-of-attendance.pdf',
+        mimetype: 'application/pdf',
+      },
+    ];
+
+    describe('Proof of attendance card', () => {
+      it('does not render when CC is disabled', () => {
+        renderAccordion(
+          {
+            expenses: [],
+            documents: documentsWithPOA,
+            groupAccordionItemsByType: true,
+          },
+          getCommunityCareState({ ccEnabled: false }),
+        );
+
+        expect(document.querySelector('va-accordion')).to.not.exist;
+      });
+
+      it('does not render when appointment is not CC', () => {
+        renderAccordion(
+          {
+            expenses: [],
+            documents: documentsWithPOA,
+            groupAccordionItemsByType: true,
+          },
+          getCommunityCareState({ isAppointmentCC: false }),
+        );
+
+        expect(document.querySelector('va-accordion')).to.not.exist;
+      });
+
+      it('does not render when proof of attendance document does not exist', () => {
+        renderAccordion(
+          { expenses: [], documents, groupAccordionItemsByType: true },
+          getCommunityCareState(),
+        );
+
+        expect(document.querySelector('va-accordion')).to.not.exist;
+      });
+
+      it('does not render when document filename does not match POA constant', () => {
+        const documentsWithWrongName = [
+          {
+            documentId: 'doc-wrong',
+            filename: 'some-other-document.pdf',
+            mimetype: 'application/pdf',
+          },
+        ];
+        renderAccordion(
+          {
+            expenses: [],
+            documents: documentsWithWrongName,
+            groupAccordionItemsByType: true,
+          },
+          getCommunityCareState(),
+        );
+
+        expect(document.querySelector('va-accordion')).to.not.exist;
+      });
+
+      it('renders as separate accordion item when groupAccordionItemsByType is true', () => {
+        const { getByText } = renderAccordion(
+          {
+            expenses: [],
+            documents: documentsWithPOA,
+            groupAccordionItemsByType: true,
+          },
+          getCommunityCareState(),
+        );
+
+        const poaAccordionItem = document.querySelector(
+          'va-accordion-item[header="Proof of attendance"]',
+        );
+        expect(poaAccordionItem).to.exist;
+        expect(getByText('proof-of-attendance.pdf')).to.exist;
+      });
+
+      it('renders inside "Submitted expenses and files" accordion item when groupAccordionItemsByType is false', () => {
+        const { getByText, getAllByTestId } = renderAccordion(
+          {
+            expenses,
+            documents: documentsWithPOA,
+            groupAccordionItemsByType: false,
+          },
+          getCommunityCareState(),
+        );
+
+        const item = document.querySelector(
+          'va-accordion-item[header="Submitted expenses and files"]',
+        );
+        expect(item).to.exist;
+
+        const headers = getAllByTestId('proof-of-attendance-header');
+        expect(headers[0].textContent).to.equal('Proof of attendance');
+        expect(getByText('proof-of-attendance.pdf')).to.exist;
+      });
+
+      it('renders only when no expenses but CC conditions are met', () => {
+        const { getByText, queryByText } = renderAccordion(
+          {
+            expenses: [],
+            documents: documentsWithPOA,
+            groupAccordionItemsByType: true,
+          },
+          getCommunityCareState(),
+        );
+
+        expect(document.querySelector('va-accordion')).to.exist;
+        expect(getByText('proof-of-attendance.pdf')).to.exist;
+
+        expect(queryByText('Mileage')).to.not.exist;
+        expect(queryByText('Parking')).to.not.exist;
+      });
+    });
+
+    describe('accordion item title', () => {
+      it('is "Submitted expenses and files" when showing POA', () => {
+        renderAccordion(
+          {
+            expenses,
+            documents: documentsWithPOA,
+            groupAccordionItemsByType: false,
+          },
+          getCommunityCareState(),
+        );
+
+        const item = document.querySelector(
+          'va-accordion-item[header="Submitted expenses and files"]',
+        );
+        expect(item).to.exist;
+      });
+
+      it('is "Submitted expenses" when not showing POA', () => {
+        renderAccordion(
+          {
+            expenses,
+            documents,
+            groupAccordionItemsByType: false,
+          },
+          getCommunityCareState({ ccEnabled: false }),
+        );
+
+        const item = document.querySelector(
+          'va-accordion-item[header="Submitted expenses"]',
+        );
+        expect(item).to.exist;
+      });
+    });
   });
 });

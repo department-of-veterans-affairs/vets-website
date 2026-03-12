@@ -3,6 +3,7 @@ import {
   SEARCH_FAILED,
   SEARCH_COMPLETE,
   SEARCH_QUERY_UPDATED,
+  SEARCH_QUERY_COMMITED,
   FETCH_REPRESENTATIVES,
   GEOCODE_STARTED,
   GEOCODE_FAILED,
@@ -10,6 +11,9 @@ import {
   // CLEAR_GEOCODE_ERROR,
   CLEAR_SEARCH_TEXT,
   GEOLOCATE_USER,
+  // FETCH_ORGANIZATIONS,
+  FETCH_ORGANIZATIONS_DONE,
+  // FETCH_ORGANIZATIONS_FAILED,
 } from '../utils/actionTypes';
 
 export const INITIAL_STATE = {
@@ -34,6 +38,8 @@ export const INITIAL_STATE = {
   error: false,
   isValid: true,
   searchCounter: 0,
+  committedSearchQuery: {},
+  organizations: [],
 };
 
 export const validateForm = (oldState, payload) => {
@@ -89,6 +95,14 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         ...action.payload,
       };
+    case SEARCH_QUERY_COMMITED:
+      return {
+        ...state,
+        committedSearchQuery: {
+          ...state.committedSearchQuery,
+          ...action.payload,
+        },
+      };
     case GEOCODE_STARTED:
       return {
         ...state,
@@ -118,6 +132,13 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         locationInputString: '',
         isValid: false,
         locationChanged: true,
+      };
+    case FETCH_ORGANIZATIONS_DONE:
+      return {
+        ...state,
+        organizations: action.payload.map(
+          organization => organization.data.attributes.name,
+        ),
       };
     default:
       return state;

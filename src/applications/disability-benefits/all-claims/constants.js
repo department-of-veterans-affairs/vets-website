@@ -23,10 +23,7 @@ export const START_TEXT = {
   BDD: 'Start the Benefits Disability at Discharge Application',
 };
 
-export const ITF_NOTICE_TEXT = `By clicking the button to start the disability application, you’ll declare
-  your intent to file. This will reserve a potential effective date for when
-  you could start getting benefits. You have 1 year from the day you submit
-  your intent to file to complete your application.`;
+export const ITF_NOTICE_TEXT = `By starting the disability application, you'll declare your intent to file. This will reserve a potential effective date for when you could start getting benefits. You have 1 year from the day you submit your intent to file to complete your application.`;
 
 export const itfStatuses = {
   active: 'active',
@@ -119,6 +116,8 @@ export const SERVICE_CONNECTION_TYPES = {
 };
 
 export const DATA_PATHS = {
+  hasMedicalRecords: 'view:hasMedicalRecords',
+  hasEvidence: 'view:hasEvidence',
   hasVAEvidence: 'view:selectableEvidenceTypes.view:hasVaMedicalRecords',
   hasPrivateEvidence:
     'view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
@@ -263,6 +262,7 @@ export const ATTACHMENT_KEYS = [
   'secondaryUploadSources0',
   'secondaryUploadSources1',
   'secondaryUploadSources2',
+  'separationHealthAssessmentUploads',
 ];
 
 export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
@@ -343,6 +343,15 @@ export const FORM_STATUS_BDD = 'formStatusBdd';
 export const SHOW_8940_4192 = 'showSubforms';
 
 export const SERVICE_BRANCHES = 'militaryServiceBranches';
+
+// Session storage keys for tracking
+export const TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS =
+  '21-526EZ_backButtonClickCount';
+export const TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS =
+  '21-526EZ_continueButtonClickCount';
+export const TRACKING_526EZ_SIDENAV_CLICKS = '21-526EZ_sideNavClickCount';
+export const TRACKING_526EZ_SIDENAV_FORM_START = '21-526EZ_formStartTracked';
+export const TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE = '21-526EZ_sidenavEnabled';
 
 // sessionStorage key used for the user entered separation date in the wizard
 // used by the first page of the form to populate the form data

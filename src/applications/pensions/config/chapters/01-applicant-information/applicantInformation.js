@@ -4,6 +4,7 @@ import {
   fullNameSchema,
   ssnUI,
   ssnSchema,
+  titleUI,
   vaFileNumberUI,
   vaFileNumberSchema,
   yesNoUI,
@@ -11,7 +12,6 @@ import {
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { parse, isValid, startOfDay, subYears } from 'date-fns';
-import UnauthenticatedWarningAlert from '../../../containers/UnauthenticatedWarningAlert';
 import { isSameOrAfter } from '../../../helpers';
 import { benefitsIntakeFullNameUI } from './helpers';
 
@@ -63,10 +63,8 @@ export default {
   path: 'applicant/information',
   updateFormData: setDefaultIsOver65,
   uiSchema: {
+    ...titleUI('Your personal information'),
     'ui:description': applicantDescription,
-    'view:warningAlert': {
-      'ui:description': UnauthenticatedWarningAlert,
-    },
     veteranFullName: benefitsIntakeFullNameUI(),
     veteranSocialSecurityNumber: ssnUI(),
     vaClaimsHistory: yesNoUI({
@@ -89,10 +87,6 @@ export default {
       'veteranDateOfBirth',
     ],
     properties: {
-      'view:warningAlert': {
-        type: 'object',
-        properties: {},
-      },
       veteranFullName: fullNameSchema,
       veteranSocialSecurityNumber: ssnSchema,
       vaClaimsHistory,

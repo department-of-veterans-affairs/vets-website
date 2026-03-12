@@ -5,9 +5,9 @@ import UseMyLocation from './UseMyLocation';
 import AddressInputError from './AddressInputError';
 import { searchAddresses } from '../../../utils/mapHelpers';
 import Autosuggest from '../autosuggest';
+import { MIN_SEARCH_CHARS } from '../../../constants';
 
 const onlySpaces = str => /^\s+$/.test(str);
-const MIN_SEARCH_CHARS = 3;
 
 function AddressAutosuggest({
   currentQuery,
@@ -18,6 +18,7 @@ function AddressAutosuggest({
   isTablet,
   onClearClick,
   onChange,
+  onLocationSelection,
   useProgressiveDisclosure,
 }) {
   const [inputValue, setInputValue] = useState(null);
@@ -27,6 +28,8 @@ function AddressAutosuggest({
   const [showAddressError, setShowAddressError] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
+
+  const errorID = 'street-city-state-zip-error';
 
   const inputClearClick = useCallback(
     () => {
@@ -48,7 +51,8 @@ function AddressAutosuggest({
       return;
     }
     setSelectedItem(item);
-    onChange({
+
+    onLocationSelection?.({
       searchString: onlySpaces(item.toDisplay)
         ? item.toDisplay.trim()
         : item.toDisplay,
@@ -99,6 +103,7 @@ function AddressAutosuggest({
 
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
+    onLocationSelection?.({ searchString: value });
 
     // not expected to search when user leaves the field
     if (value !== '') {
@@ -118,6 +123,20 @@ function AddressAutosuggest({
     }
 
     debouncedUpdateSearch(value);
+  };
+
+  // add aria-describedby if error occurs
+  const addAriaErrorId = () => {
+    const addressInput = document.getElementById('street-city-state-zip');
+    addressInput?.setAttribute('aria-describedby', `${errorID}`);
+  };
+
+  // remove aria-describedby if error resolved
+  const removeAriaErrorId = () => {
+    const addressInput = document.getElementById('street-city-state-zip');
+    if (addressInput?.hasAttribute('aria-describedby')) {
+      addressInput.removeAttribute('aria-describedby');
+    }
   };
 
   useEffect(
@@ -148,6 +167,18 @@ function AddressAutosuggest({
     [searchString, geolocationInProgress],
   );
 
+  useEffect(
+    () => {
+      // Focus the error message when it appears so screen readers announce it
+      if (showAddressError) {
+        addAriaErrorId();
+      } else {
+        removeAriaErrorId();
+      }
+    },
+    [showAddressError],
+  );
+
   return (
     <Autosuggest
       inputValue={inputValue || ''}
@@ -156,7 +187,9 @@ function AddressAutosuggest({
       handleOnSelect={handleOnSelect}
       label={
         <>
-          <span id="city-state-zip-text">Zip code or city, state</span>{' '}
+          <span id="city-state-zip-text">
+            Enter a zip code or a city and state
+          </span>{' '}
           <span className="form-required-span">(*Required)</span>
         </>
       }
@@ -175,7 +208,11 @@ function AddressAutosuggest({
         },
       }}
       onClearClick={inputClearClick}
-      inputError={<AddressInputError showError={showAddressError || false} />}
+      /* eslint-disable prettier/prettier */
+
+      inputError={<AddressInputError showError={showAddressError || false} errorId={errorID} />}
+      /* eslint-enable prettier/prettier */
+
       showError={showAddressError}
       inputId="street-city-state-zip"
       inputRef={inputRef}
@@ -192,12 +229,10 @@ function AddressAutosuggest({
       keepDataOnBlur
       showDownCaret={false}
       shouldShowNoResults
-      showOptionsRestriction={
-        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
-      }
       isLoading={isGeocoding}
       loadingMessage="Searching..."
       useProgressiveDisclosure={useProgressiveDisclosure || false}
+      showOptionsRestriction
     />
   );
 }
@@ -216,6 +251,7 @@ AddressAutosuggest.propTypes = {
   isTablet: PropTypes.bool,
   useProgressiveDisclosure: PropTypes.bool,
   onClearClick: PropTypes.func,
+  onLocationSelection: PropTypes.func,
 };
 
 export default AddressAutosuggest;

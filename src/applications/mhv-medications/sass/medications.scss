@@ -2,6 +2,20 @@
 @import "./prescription-details";
 @import "./print-download";
 
+.medication-history-filter {
+  va-radio {
+    width: max-content;
+
+    &::part(legend) {
+      white-space: nowrap;
+    }
+  }
+
+  .filter-option--selected va-radio-option label {
+    font-weight: bold;
+  }
+}
+
 .link-button,
 .link-button:hover,
 .link-button:active {
@@ -257,7 +271,9 @@
   }
 }
 
-.rx-fill-refill-button {
+.rx-refill-button {
+  width: 100%;
+
   va-loading-indicator {
     display: flex;
     justify-content: left;

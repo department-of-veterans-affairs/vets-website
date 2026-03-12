@@ -10,20 +10,26 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
     mhvMedicationsManagementImprovements = false,
+    mhvMedicationsOracleHealthCutover = false,
 
     // OH integration work
     mhvMedicalRecordsCcdExtendedFileTypes = true,
     mhvMedicalRecordsCcdOH = true,
     mhvMedicalRecordsHoldTimeMessagingUpdate = true,
+    mhvMedicalRecordsImagesDomain = false,
     mhvMedicalRecordsMergeCvixIntoScdf = false,
-    mhvAcceleratedDeliveryEnabled = false,
+    mhvAcceleratedDeliveryEnabled = true,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryCareNotesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
     mhvAcceleratedDeliveryConditionsEnabled = false,
     mhvAcceleratedDeliveryVaccinesEnabled = false,
-    mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
+    mhvAcceleratedDeliveryLabsAndTestsEnabled = true,
+    mhvMedicalRecordsFetchScdfImagingStudies = true,
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
+
+    // medications - Cerner pilot
+    mhvMedicationsCernerPilot = true,
 
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
@@ -31,8 +37,10 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingRecipientCombobox = false,
     mhvSecureMessagingCernerPilot = true,
     mhvSecureMessagingLargeAttachments = true,
+    mhvSecureMessagingCustomFoldersRedesign = true,
     mhvSecureMessagingCuratedListFlow = true,
     mhvSecureMessagingRecentRecipients = true,
+    mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag = false,
   } = toggles;
 
   return {
@@ -76,6 +84,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvAcceleratedDeliveryLabsAndTestsEnabled,
         },
         {
+          name: 'mhv_medical_records_fetch_scdf_imaging_studies',
+          value: mhvMedicalRecordsFetchScdfImagingStudies,
+        },
+        {
           name: 'mhv_landing_page_personalization',
           value: mhvLandingPagePersonalization,
         },
@@ -104,6 +116,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsManagementImprovements,
         },
         {
+          name: 'mhv_medications_oracle_health_cutover',
+          value: mhvMedicationsOracleHealthCutover,
+        },
+        {
           name: 'mhv_medications_display_new_cerner_facility_alert',
           value: mhvMedicationsDisplayNewCernerFacilityAlert,
         },
@@ -126,8 +142,18 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicalRecordsHoldTimeMessagingUpdate,
         },
         {
+          name: 'mhv_medical_records_images_domain',
+          value: mhvMedicalRecordsImagesDomain,
+        },
+        {
           name: 'mhv_medical_records_merge_cvix_into_scdf',
           value: mhvMedicalRecordsMergeCvixIntoScdf,
+        },
+
+        // medications - Cerner pilot
+        {
+          name: 'mhv_medications_cerner_pilot',
+          value: mhvMedicationsCernerPilot,
         },
 
         // secure messaging
@@ -152,6 +178,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvSecureMessagingLargeAttachments,
         },
         {
+          name: 'mhv_secure_messaging_custom_folders_redesign',
+          value: mhvSecureMessagingCustomFoldersRedesign,
+        },
+        {
           name: 'mhv_secure_messaging_curated_list_flow',
           value: mhvSecureMessagingCuratedListFlow,
         },
@@ -162,6 +192,11 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhvSecureMessagingRecentRecipients',
           value: mhvSecureMessagingRecentRecipients,
+        },
+        {
+          name:
+            'mhv_secure_messaging_cerner_pilot_system_maintenance_banner_flag',
+          value: mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
         },
       ],
     },

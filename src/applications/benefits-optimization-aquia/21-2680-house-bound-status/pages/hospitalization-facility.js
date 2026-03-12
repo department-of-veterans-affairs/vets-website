@@ -18,7 +18,18 @@ import { getHospitalizationFacilityTitle } from '../utils';
  * Collects hospital/facility name and address
  */
 export const hospitalizationFacilityUiSchema = {
-  ...titleUI(({ formData }) => getHospitalizationFacilityTitle(formData)),
+  ...titleUI(({ formData }) => {
+    const title = getHospitalizationFacilityTitle(formData);
+
+    return (
+      <span
+        data-dd-privacy="mask"
+        data-dd-action-name="hospitalization facility"
+      >
+        {title}
+      </span>
+    );
+  }),
   hospitalizationFacility: {
     facilityName: textUI({
       title: 'Name of hospital',
@@ -56,6 +67,10 @@ const customHospitalAddressSchema = {
     street2: {
       type: 'string',
       maxLength: 5,
+    },
+    city: {
+      type: 'string',
+      maxLength: 18,
     },
   },
 };

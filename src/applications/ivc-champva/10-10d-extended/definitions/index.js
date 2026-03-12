@@ -18,3 +18,5 @@ export const fullNameMiddleInitialUI = merge({}, fullNameUI(), {
 export const fullNameMiddleInitialSchema = merge({}, fullNameSchema, {
   properties: { middle: MIDDLE_NAME_SCHEMA },
 });
+
+export const textareaSchema = { type: 'string', maxLength: 155 };

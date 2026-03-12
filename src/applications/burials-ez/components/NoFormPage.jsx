@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { formatSSN } from 'platform/utilities/ui';
-import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 const convertDateFormat = date => {
   return date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
@@ -290,7 +288,6 @@ const CreateSummarySections = ({
 export const NoFormPage = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
-  const loggedIn = useSelector(isLoggedIn);
 
   useEffect(() => {
     const resource = '/in_progress_forms/21P-530EZ';
@@ -314,7 +311,7 @@ export const NoFormPage = () => {
   }
 
   const { formData } = data;
-  return loggedIn ? (
+  return (
     <div className="row vads-u-margin-bottom--4">
       <h1>Review burial benefits application</h1>
       <p>VA Form 21P-530EZ</p>
@@ -421,36 +418,6 @@ export const NoFormPage = () => {
           </p>
         </>
       )}
-    </div>
-  ) : (
-    <div className="row vads-u-margin-bottom--4">
-      <h1>Review burial benefits application</h1>
-      <p>VA Form 21P-530EZ</p>
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          You don’t have any saved online burial forms.
-        </h2>
-        <div>
-          <p className="vads-u-margin-y--0">
-            You can apply for VA burial benefits by mail, in person at a VA
-            regional office, or with the help of a VSO or other accredited
-            representative.
-          </p>
-        </div>
-        <br />
-        <va-link
-          href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
-          text="Learn more about how to apply for VA burial benefits"
-        />
-      </va-alert>
-      <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
-        Need help?
-      </h2>
-      <p>
-        Call us at <va-telephone contact="8008271000" />. We’re here Monday
-        through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call{' '}
-        <va-telephone contact="711" tty />.
-      </p>
     </div>
   );
 };

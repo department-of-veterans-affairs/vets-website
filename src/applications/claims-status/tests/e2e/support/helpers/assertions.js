@@ -52,7 +52,7 @@ export const verifyNeedHelp = () => {
     });
 
   cy.get('va-need-help').within(() => {
-    cy.contains('Call the VA benefits hotline at').should('be.visible');
+    cy.contains('Call us at').should('be.visible');
     cy.get('va-telephone[contact="8008271000"]')
       .shadow()
       .should('have.text', '800-827-1000');

@@ -9,6 +9,8 @@ export const REIMBURSEMENT_URL =
   '/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/';
 export const PAST_APPOINTMENTS_LINK = '/my-health/appointments/past';
 
+export const COMPLEX_CLAIMS_ANALYTICS_NAMESPACE = 'complex-claims';
+
 export const STATUSES = {
   Incomplete: {
     name: 'Incomplete',
@@ -296,3 +298,5 @@ export const ACCEPTED_FILE_TYPES = Object.freeze([
   '.tif',
   '.tiff',
 ]);
+
+export const PROOF_OF_ATTENDANCE_FILENAME = 'proof-of-attendance';

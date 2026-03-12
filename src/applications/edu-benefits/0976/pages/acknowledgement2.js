@@ -20,7 +20,7 @@ export default {
           students for three years following the ending date of the last period
           of attendance certified to VA. The institution must make these records
           available for VA inspection upon request for the purpose of
-          verification of compliance with the following program requirements
+          verification of compliance with the following program requirements.
         </p>
         <ul>
           <li>

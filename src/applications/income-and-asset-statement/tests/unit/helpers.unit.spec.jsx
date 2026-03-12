@@ -246,7 +246,7 @@ describe('Income and Asset helpers', () => {
     const veteran = { first: 'john', middle: 'm', last: 'doe' };
     const otherVeteran = { first: 'alex', last: 'carter' };
 
-    it('returns veteranFullName when recipient is VETERAN and isLoggedIn is true', () => {
+    it('returns veteranFullName when recipient is VETERAN', () => {
       const item = { recipientRelationship: 'VETERAN' };
       const formData = {
         isLoggedIn: true,
@@ -257,18 +257,7 @@ describe('Income and Asset helpers', () => {
       expect(resolveRecipientFullName(item, formData)).to.equal('John M. Doe');
     });
 
-    it('returns otherVeteranFullName when recipient is VETERAN and isLoggedIn is false', () => {
-      const item = { recipientRelationship: 'VETERAN' };
-      const formData = {
-        isLoggedIn: false,
-        veteranFullName: veteran,
-        otherVeteranFullName: otherVeteran,
-      };
-
-      expect(resolveRecipientFullName(item, formData)).to.equal('Alex Carter');
-    });
-
-    it('returns recipientName when recipient is not the Veteran', () => {
+    it('returns "Spouse" when recipient is SPOUSE', () => {
       const item = {
         recipientRelationship: 'SPOUSE',
         recipientName: recipient,
@@ -279,13 +268,11 @@ describe('Income and Asset helpers', () => {
         otherVeteranFullName: otherVeteran,
       };
 
-      expect(resolveRecipientFullName(item, formData)).to.equal(
-        'Mary A. Smith',
-      );
+      expect(resolveRecipientFullName(item, formData)).to.equal('Spouse');
     });
 
     it('returns empty string if recipientName is undefined', () => {
-      const item = { recipientRelationship: 'SPOUSE' };
+      const item = { recipientRelationship: 'CHILD' };
       const formData = { isLoggedIn: true };
 
       expect(resolveRecipientFullName(item, formData)).to.equal('');

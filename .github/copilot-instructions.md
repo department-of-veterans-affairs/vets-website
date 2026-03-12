@@ -12,7 +12,8 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - For E2E tests, use Cypress.
 - Prefer functional components and hooks for new components.
 - Files should end with a newline.
-- Use ’ instead of ' for apostrophes in text content.
+- The codebase uses curly apostrophes (') in user-facing text content. Always write straight apostrophes (') instead - eslint will auto-fix them to curly apostrophes. Run `yarn lint:js:changed:fix` after making changes.
+- Never use Unicode escape sequences (e.g., `\u2019`) to represent curly apostrophes or other special characters. If you need a curly apostrophe in a string (such as a test assertion matching rendered text), paste the literal character (') directly.
 - Use `yarn lint:js:working:fix` to fix formatting issues.
 - All code should conform to WCAG 2.2 AA and Section 508 accessibility guidelines.
 

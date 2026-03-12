@@ -1,13 +1,11 @@
 import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { DATE_FORMATS } from '../../../utils/constants';
 import {
   getTimezoneAbbrByFacilityId,
   getTimezoneByFacilityId,
 } from '../../../utils/timezone';
-import { selectFeatureUseBrowserTimezone } from '../../../redux/selectors';
 
 export default function AppointmentDate({
   classes,
@@ -16,18 +14,9 @@ export default function AppointmentDate({
   level = 3,
   directSchedule = false,
 }) {
-  const featureUseBrowserTimezone = useSelector(
-    selectFeatureUseBrowserTimezone,
-  );
   const Heading = `h${level}`;
-  const timezone = getTimezoneByFacilityId(
-    facilityId,
-    featureUseBrowserTimezone,
-  );
-  const timezoneAbbr = getTimezoneAbbrByFacilityId(
-    facilityId,
-    featureUseBrowserTimezone,
-  );
+  const timezone = getTimezoneByFacilityId(facilityId);
+  const timezoneAbbr = getTimezoneAbbrByFacilityId(facilityId);
 
   if (directSchedule) {
     return (

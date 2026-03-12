@@ -12,6 +12,7 @@ import {
   defaultSelectedSortOption,
   INCLUDE_IMAGE_ENDPOINT,
   rxListSortingOptions,
+  STATION_NUMBER_PARAM,
 } from '../util/constants';
 import {
   selectCernerPilotFlag,
@@ -52,11 +53,16 @@ export const buildExportListQuery = ({
   filterOption = '',
   sortEndpoint,
   includeImage = false,
-}) => ({
-  path: `/prescriptions?${filterOption}${sortEndpoint}${
-    includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
-  }`,
-});
+}) => {
+  const queryParams = [];
+  if (filterOption) queryParams.push(filterOption);
+  if (sortEndpoint) queryParams.push(sortEndpoint);
+  if (includeImage) queryParams.push(INCLUDE_IMAGE_ENDPOINT);
+
+  return {
+    path: `/prescriptions?${queryParams.join('&')}`,
+  };
+};
 
 /**
  * Build query path for getPrescriptionsList endpoint
@@ -65,31 +71,42 @@ export const buildExportListQuery = ({
  */
 export const buildPrescriptionsListQuery = (params = {}) => {
   const {
-    page = 1,
-    perPage = 10,
+    page,
+    perPage,
     sortEndpoint = rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
     filterOption = '',
     includeImage = false,
   } = params;
 
-  let queryParams = `page=${page}&per_page=${perPage}`;
-  if (filterOption) queryParams += filterOption;
-  if (sortEndpoint) queryParams += sortEndpoint;
-  if (includeImage) queryParams += '&include_image=true';
+  const queryParams = [];
+  if (page) queryParams.push(`page=${page}`);
+  if (perPage) queryParams.push(`per_page=${perPage}`);
+  if (filterOption) queryParams.push(filterOption);
+  if (sortEndpoint) queryParams.push(sortEndpoint);
+  if (includeImage) queryParams.push('include_image=true');
 
   return {
-    path: `/prescriptions?${queryParams}`,
+    path: `/prescriptions${
+      queryParams.length ? `?${queryParams.join('&')}` : ''
+    }`,
   };
 };
 
 /**
  * Build query path for getPrescriptionById endpoint
- * @param {string} id - Prescription ID
+ * @param {Object} params - Query parameters
+ * @param {string} params.id - Prescription ID
+ * @param {string} [params.stationNumber] - Station number (required for v2 API)
  * @returns {Object} Object containing the path
  */
-export const buildPrescriptionByIdQuery = id => ({
-  path: `/prescriptions/${id}`,
-});
+export const buildPrescriptionByIdQuery = ({ id, stationNumber }) => {
+  const queryParams = stationNumber
+    ? `?${STATION_NUMBER_PARAM}=${stationNumber}`
+    : '';
+  return {
+    path: `/prescriptions/${id}${queryParams}`,
+  };
+};
 
 /**
  * Build query path for getRefillablePrescriptions endpoint
@@ -266,10 +283,13 @@ export const prescriptionsApi = createApi({
     }),
     getPrescriptionDocumentation: builder.query({
       // This endpoint always hits v1 docs API regardless of Cerner pilot flag
-      async queryFn(id, { getState }) {
+      async queryFn({ id, stationNumber }, { getState }) {
+        const queryParams = stationNumber
+          ? `?${STATION_NUMBER_PARAM}=${stationNumber}`
+          : '';
         try {
           const response = await apiRequest(
-            `${documentationApiBasePath}/prescriptions/${id}/documentation`,
+            `${documentationApiBasePath}/prescriptions/${id}/documentation${queryParams}`,
           );
 
           const state = getState();
@@ -291,21 +311,38 @@ export const prescriptionsApi = createApi({
       },
     }),
     refillPrescription: builder.mutation({
-      queryFn: async (id, { getState }) => {
+      queryFn: async (prescription, { getState }) => {
         const state = getState();
         const apiBasePath = getApiBasePath(state);
         const method = getRefillMethod(state);
+        const isOracleHealthPilot = selectCernerPilotFlag(state);
+
+        // Support both plain ID (legacy) and {id, stationNumber} object
+        const id =
+          typeof prescription === 'object' ? prescription.id : prescription;
+        const stationNumber =
+          typeof prescription === 'object'
+            ? prescription.stationNumber
+            : undefined;
+
+        // v2: POST /prescriptions/refill with order objects in body
+        // v1: PATCH /prescriptions/{id}/refill
+        const url = isOracleHealthPilot
+          ? `${apiBasePath}/prescriptions/refill`
+          : `${apiBasePath}/prescriptions/${id}/refill`;
+
+        const options = {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          ...(isOracleHealthPilot && {
+            body: JSON.stringify([{ id, stationNumber }]),
+          }),
+        };
 
         try {
-          const result = await apiRequest(
-            `${apiBasePath}/prescriptions/${id}/refill`,
-            {
-              method,
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          );
+          const result = await apiRequest(url, options);
           return { data: result };
         } catch ({ errors }) {
           return {
@@ -340,7 +377,7 @@ export const prescriptionsApi = createApi({
               data: {
                 ...result,
                 successfulIds: result.data.attributes.prescriptionList || [],
-                failedIds: result.data.attributes.failedPrescriptionList || [],
+                failedIds: result.data.attributes.failedPrescriptionIds || [],
               },
             };
           } catch ({ errors }) {
@@ -375,9 +412,9 @@ export const prescriptionsApi = createApi({
           }
         }
       },
-      // Note: We intentionally don't invalidate tags here because the UI filters out
-      // successfully refilled prescriptions immediately. This avoids an extra API call.
-      // The cache will naturally refresh when the user navigates away and back.
+      // Invalidate prescription cache to prevent duplicate refill attempts
+      // This ensures the refillable list is updated immediately after successful refills
+      invalidatesTags: ['Prescription'],
       transformResponse: transformBulkRefillResponse,
     }),
   }),

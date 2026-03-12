@@ -1,13 +1,31 @@
 import React from 'react';
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import PropTypes from 'prop-types';
+import { connect, useSelector } from 'react-redux';
+import { isSchedulingPreferencesPilotEligible as isSchedulingPreferencesPilotEligibleSelector } from 'platform/user/selectors';
+import { hasBadAddress as hasBadAddressSelector } from '@@vap-svc/selectors';
+import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 import Tier2PageContent from '../Tier2PageContent';
 import { ProfileHubItem } from './ProfileHubItem';
 import NameTag from './NameTag';
+import { getHealthCareSettingsHubDescription } from '../../util';
 
-const ProfileHub = () => {
+const ProfileHub = ({ isSchedulingPreferencesPilotEligible }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const hideHealthCareContacts = useToggleValue(
+    TOGGLE_NAMES.profileHideHealthCareContacts,
+  );
+  const healthCareSettingsContent = getHealthCareSettingsHubDescription({
+    hideHealthCareContacts,
+    isSchedulingPreferencesPilotEligible,
+  });
+  const hasBadAddress = useSelector(hasBadAddressSelector);
   return (
     <Tier2PageContent pageHeader="Profile">
+      {hasBadAddress && (
+        <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 vads-l-col--12" />
+      )}
       <NameTag />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.PERSONAL_INFORMATION}
@@ -33,30 +51,12 @@ const ProfileHub = () => {
         href={PROFILE_PATHS.FINANCIAL_INFORMATION}
         reactLink
       />
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileHealthCareSettingsPage}>
-        <Toggler.Enabled>
-          <Toggler
-            toggleName={Toggler.TOGGLE_NAMES.profileHideHealthCareContacts}
-          >
-            <Toggler.Enabled>
-              <ProfileHubItem
-                heading={PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS}
-                content="Messages signature and scheduling preferences"
-                href={PROFILE_PATHS.HEALTH_CARE_SETTINGS}
-                reactLink
-              />
-            </Toggler.Enabled>
-            <Toggler.Disabled>
-              <ProfileHubItem
-                heading={PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS}
-                content="Health care contacts, messages signature, and scheduling preferences"
-                href={PROFILE_PATHS.HEALTH_CARE_SETTINGS}
-                reactLink
-              />
-            </Toggler.Disabled>
-          </Toggler>
-        </Toggler.Enabled>
-      </Toggler>
+      <ProfileHubItem
+        heading={PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS}
+        content={healthCareSettingsContent}
+        href={PROFILE_PATHS.HEALTH_CARE_SETTINGS}
+        reactLink
+      />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS}
         content="Benefits dependents and accredited representative or VSO"
@@ -85,6 +85,14 @@ const ProfileHub = () => {
   );
 };
 
-ProfileHub.propTypes = {};
+ProfileHub.propTypes = {
+  isSchedulingPreferencesPilotEligible: PropTypes.bool,
+};
 
-export default ProfileHub;
+const mapStateToProps = state => ({
+  isSchedulingPreferencesPilotEligible: isSchedulingPreferencesPilotEligibleSelector(
+    state,
+  ),
+});
+
+export default connect(mapStateToProps)(ProfileHub);

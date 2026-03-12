@@ -91,6 +91,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: {
           status: 'OK',
@@ -314,6 +315,7 @@ const baseUserResponses = {
           ],
           vaPatient: true,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: true,
         },
         veteranStatus: {
           status: 'OK',
@@ -460,7 +462,7 @@ const baseUserResponses = {
       errors: null,
     },
   },
-  mvhUser: {
+  mhvUser: {
     data: {
       id: '',
       type: 'users_scaffolds',
@@ -527,8 +529,9 @@ const baseUserResponses = {
               isCerner: false,
             },
           ],
-          vaPatient: false,
-          mhvAccountState: 'NONE',
+          vaPatient: true,
+          mhvAccountState: 'REGISTERED',
+          schedulingPreferencesPilotEligible: true,
         },
         veteranStatus: {
           status: 'OK',
@@ -740,6 +743,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: {
           status: 'OK',
@@ -951,6 +955,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: 'NOT_AUTHORIZED',
         inProgressForms: [],
@@ -1145,6 +1150,7 @@ const baseUserResponses = {
           facilities: [],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: 'NOT_AUTHORIZED',
         inProgressForms: [],
@@ -1352,6 +1358,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: {
           status: 'OK',
@@ -1566,6 +1573,7 @@ const mockErrorResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: {
           status: 'OK',
@@ -1602,6 +1610,13 @@ const mockErrorResponses = {
     },
   },
 };
+
+// user that is loa1 but is a login.gov user
+const loa1UserLoginGov = set(
+  cloneDeep(baseUserResponses.loa1User),
+  'data.attributes.profile.signIn.serviceName',
+  'logingov',
+);
 
 // user that is loa1 but is a dslogon user
 const loa1UserDSLogon = set(
@@ -1759,6 +1774,7 @@ const loa3UserNoVaProfile = {
         ],
         vaPatient: true,
         mhvAccountState: 'REGISTERED',
+        schedulingPreferencesPilotEligible: false,
       },
       veteranStatus: {
         status: 'OK',
@@ -1846,6 +1862,7 @@ const loa3UserNeedsVapInit = {
         ],
         vaPatient: true,
         mhvAccountState: 'REGISTERED',
+        schedulingPreferencesPilotEligible: false,
       },
       veteranStatus: {
         status: 'OK',
@@ -1869,6 +1886,7 @@ const loa3UserNeedsVapInit = {
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
+  loa1UserLoginGov,
   loa1UserDSLogon,
   loa1UserMHV,
   loa3UserWithNoMobilePhone,

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { format, parseISO } from 'date-fns';
-import { SCHEMA_LABELS } from '../../chapters/healthInsuranceInformation/planTypes';
-import { generateParticipantNames } from '../../helpers';
+import { SCHEMA_LABELS } from '../../chapters/healthInsurance/planTypes';
+import { generateParticipantNames } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
 const TEXT_PRESENT = content['health-insurance--summary-date-present'];

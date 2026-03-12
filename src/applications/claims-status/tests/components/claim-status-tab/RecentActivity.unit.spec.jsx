@@ -1527,4 +1527,219 @@ describe('<RecentActivity>', () => {
       );
     });
   });
+
+  context('isDBQ property', () => {
+    it('should use API value when provided (true)', () => {
+      const claimWithApiIsDBQTrue = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'Non-DBQ Request',
+              friendlyName: 'Test Request',
+              isDBQ: true,
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithApiIsDBQTrue} />
+        </Provider>,
+      );
+
+      getByText('We made a request: “test Request.”');
+    });
+
+    it('should use displayName when isDBQ is false but displayName contains dbq', () => {
+      const claimWithApiIsDBQFalse = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'DBQ AUDIO Hearing Loss',
+              friendlyName: 'DBQ Test',
+              isDBQ: false,
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithApiIsDBQFalse} />
+        </Provider>,
+      );
+
+      getByText(`We made a request: “dBQ Test.”`);
+    });
+
+    it('should use displayName check when isDBQ not provided', () => {
+      const claimWithoutIsDBQ = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
+              friendlyName: 'Hearing Test',
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithoutIsDBQ} />
+        </Provider>,
+      );
+
+      getByText('We made a request: “hearing Test.”');
+    });
+
+    it('should use displayName check when isDBQ not provided (displayName contains dbq)', () => {
+      const claimWithDbqInName = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'Some DBQ Related Request',
+              friendlyName: 'DBQ Request',
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithDbqInName} />
+        </Provider>,
+      );
+
+      getByText('We made a request: “dBQ Request.”');
+    });
+
+    it('should default to false when isDBQ not provided and displayName has no dbq', () => {
+      const claimWithNoDBQ = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'Medical Records Request',
+              friendlyName: 'Medical Records',
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithNoDBQ} />
+        </Provider>,
+      );
+
+      getByText('We made a request outside the VA: “medical Records.”');
+    });
+
+    it('should return false when isDBQ is false and displayName does not contain dbq', () => {
+      const claimWithApiFalseNoDbqName = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'Medical Records Request',
+              friendlyName: 'Medical Records',
+              isDBQ: false,
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithApiFalseNoDbqName} />
+        </Provider>,
+      );
+
+      getByText('We made a request outside the VA: “medical Records.”');
+    });
+  });
 });

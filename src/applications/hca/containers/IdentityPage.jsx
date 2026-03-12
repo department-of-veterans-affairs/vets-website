@@ -66,13 +66,21 @@ const IdentityPage = ({ location, route, router }) => {
   );
 
   /**
-   * reset enrollment status data on when first loading the page if user is
-   * not logged in, else redirect to introduction page
+   * reset enrollment status data when first loading the page if user is
+   * not logged in, else redirect to the next valid page for logged-in users
    */
   useEffect(
     () => {
-      if (loggedIn) router.push('/');
-      else dispatch(resetEnrollmentStatus());
+      if (loggedIn) {
+        const nextPage = getNextPagePath(
+          route.pageList,
+          formData,
+          location.pathname,
+        );
+        router.push(nextPage || '/');
+      } else {
+        dispatch(resetEnrollmentStatus());
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [loggedIn],

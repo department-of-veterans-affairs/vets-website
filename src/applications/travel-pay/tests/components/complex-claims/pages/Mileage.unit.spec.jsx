@@ -19,15 +19,6 @@ describe('Complex Claims Mileage - Add', () => {
       appointment: {
         data: {
           id: TEST_APPT_ID,
-          facilityName: 'Test VA Medical Center',
-          facilityAddress: {
-            addressLine1: '123 Medical Center Drive',
-            city: 'Test City',
-            stateCode: 'TX',
-            zipCode: '12345',
-          },
-          appointmentDate: '2024-01-15',
-          appointmentTime: '10:00 AM',
           localStartTime: '2024-01-15T10:00:00.000-08:00',
         },
         error: null,
@@ -54,15 +45,7 @@ describe('Complex Claims Mileage - Add', () => {
             appointment: {
               id: TEST_APPT_ID,
               facilityName: 'Test VA Medical Center',
-              facilityAddress: {
-                addressLine1: '123 Medical Center Drive',
-                city: 'Test City',
-                stateCode: 'TX',
-                zipCode: '12345',
-              },
-              appointmentDate: '2024-01-15',
-              appointmentTime: '10:00 AM',
-              localStartTime: '2024-01-15T10:00:00.000-08:00',
+              appointmentDateTime: '2024-01-15T18:00:00Z',
             },
             documents: [],
           },
@@ -560,6 +543,70 @@ describe('Complex Claims Mileage - Add', () => {
       expect(modal).to.exist;
     });
   });
+
+  describe('Unsaved changes modal in add mode', () => {
+    let stub;
+
+    beforeEach(() => {
+      stub = sinon.stub(actions, 'setUnsavedChangesModalVisible').returns({
+        type: 'SET_UNSAVED_CHANGES_MODAL_VISIBLE',
+        payload: { visible: true, source: 'expense-back' },
+      });
+    });
+
+    afterEach(() => {
+      stub.restore();
+    });
+
+    it('dispatches setUnsavedChangesModalVisible(true, "expense-back") when back is clicked with unsaved changes', () => {
+      const stateWithUnsavedChanges = {
+        ...getAddState(),
+        travelPay: {
+          ...getAddState().travelPay,
+          complexClaim: {
+            ...getAddState().travelPay.complexClaim,
+            expenses: {
+              ...getAddState().travelPay.complexClaim.expenses,
+              hasUnsavedChanges: true,
+            },
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/`,
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/mileage"
+              element={<Mileage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { initialState: stateWithUnsavedChanges, reducers: reducer },
+      );
+
+      const buttonGroup = $('.travel-pay-button-group');
+      const backButton = buttonGroup.querySelectorAll('va-button')[0];
+      fireEvent.click(backButton);
+
+      expect(stub.calledOnce).to.be.true;
+      expect(stub.calledWith(true, 'expense-back')).to.be.true;
+    });
+
+    it('does not dispatch setUnsavedChangesModalVisible when there are no unsaved changes', () => {
+      renderComponent();
+
+      const buttonGroup = $('.travel-pay-button-group');
+      const backButton = buttonGroup.querySelectorAll('va-button')[0];
+      fireEvent.click(backButton);
+
+      expect(stub.called).to.be.false;
+    });
+  });
 });
 
 describe('Complex Claims Mileage - Edit', () => {
@@ -567,93 +614,86 @@ describe('Complex Claims Mileage - Edit', () => {
   const TEST_EXPENSE_ID = 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d';
   const TEST_APPT_ID = 'd2e3f4a5-b6c7-4d8e-9f1a-0b2c3d4e5f6a';
 
-  const getEditState = () => ({
-    travelPay: {
-      appointment: {
-        data: {
-          id: TEST_APPT_ID,
-          facilityName: 'Test VA Medical Center',
-          facilityAddress: {
-            addressLine1: '123 Medical Center Drive',
-            city: 'Test City',
-            stateCode: 'TX',
-            zipCode: '12345',
-          },
-          appointmentDate: '2024-01-15',
-          appointmentTime: '10:00 AM',
-          localStartTime: '2024-01-15T10:00:00.000-08:00',
-        },
-        error: null,
-        isLoading: false,
-      },
-      claimDetails: {
-        data: {
-          [TEST_CLAIM_ID]: {
-            id: TEST_CLAIM_ID,
-            status: 'InProgress',
-            expenses: [],
-            appointmentId: TEST_APPT_ID,
-          },
-        },
-      },
-      claimSubmission: { isSubmitting: false, error: null, data: null },
-      complexClaim: {
-        claim: {
-          creation: { isLoading: false, error: null },
-          submission: { id: '', isSubmitting: false, error: null, data: null },
-          fetch: { isLoading: false, error: null },
+  const getEditState = (overrides = {}) => {
+    const { expenses: expenseOverrides, ...complexClaimOverrides } = overrides;
+    return {
+      travelPay: {
+        appointment: {
           data: {
-            claimId: TEST_CLAIM_ID,
-            appointment: {
-              id: TEST_APPT_ID,
-              facilityName: 'Test VA Medical Center',
-              facilityAddress: {
-                addressLine1: '123 Medical Center Drive',
-                city: 'Test City',
-                stateCode: 'TX',
-                zipCode: '12345',
+            id: TEST_APPT_ID,
+            localStartTime: '2024-01-15T10:00:00.000-08:00',
+          },
+          error: null,
+          isLoading: false,
+        },
+        claimDetails: {
+          data: {
+            [TEST_CLAIM_ID]: {
+              id: TEST_CLAIM_ID,
+              status: 'InProgress',
+              expenses: [],
+              appointmentId: TEST_APPT_ID,
+            },
+          },
+        },
+        claimSubmission: { isSubmitting: false, error: null, data: null },
+        complexClaim: {
+          claim: {
+            creation: { isLoading: false, error: null },
+            submission: {
+              id: '',
+              isSubmitting: false,
+              error: null,
+              data: null,
+            },
+            fetch: { isLoading: false, error: null },
+            data: {
+              claimId: TEST_CLAIM_ID,
+              appointment: {
+                id: TEST_APPT_ID,
+                facilityName: 'Test VA Medical Center',
+                appointmentDateTime: '2024-01-15T18:00:00Z',
               },
-              appointmentDate: '2024-01-15',
-              appointmentTime: '10:00 AM',
-              localStartTime: '2024-01-15T10:00:00.000-08:00',
+              documents: [],
             },
-            documents: [],
           },
-        },
-        expenses: {
-          creation: { isLoading: false, error: null },
-          update: { id: '', isLoading: false, error: null },
-          delete: { id: '', isLoading: false, error: null },
-          data: [
-            {
-              id: TEST_EXPENSE_ID,
-              expenseType: 'Meal',
-              vendorName: 'Saved Vendor',
-              dateIncurred: '2025-11-17',
-              costRequested: '10.50',
-            },
-          ],
+          expenses: {
+            creation: { isLoading: false, error: null },
+            update: { id: '', isLoading: false, error: null },
+            delete: { id: '', isLoading: false, error: null },
+            data: [
+              {
+                id: TEST_EXPENSE_ID,
+                expenseType: 'Meal',
+                vendorName: 'Saved Vendor',
+                dateIncurred: '2025-11-17',
+                costRequested: '10.50',
+              },
+            ],
+            ...expenseOverrides,
+          },
+          ...complexClaimOverrides,
         },
       },
-    },
-    user: {
-      profile: {
-        vapContactInfo: {
-          residentialAddress: {
-            addressLine1: '123 Main St',
-            addressLine2: 'Apt 1',
-            addressLine3: '',
-            city: 'Test City',
-            stateCode: 'TX',
-            zipCode: '12345',
-            countryName: 'United States',
+      user: {
+        profile: {
+          vapContactInfo: {
+            residentialAddress: {
+              addressLine1: '123 Main St',
+              addressLine2: 'Apt 1',
+              addressLine3: '',
+              city: 'Test City',
+              stateCode: 'TX',
+              zipCode: '12345',
+              countryName: 'United States',
+            },
           },
         },
       },
-    },
-  });
+    };
+  };
 
-  const renderEditPage = () =>
+  const renderEditPage = overrides =>
     renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[
@@ -665,9 +705,17 @@ describe('Complex Claims Mileage - Edit', () => {
             path="/file-new-claim/:apptId/:claimId/mileage/:expenseId"
             element={<Mileage />}
           />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<div data-testid="review-page" />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
+            element={<div data-testid="choose-expense-page" />}
+          />
         </Routes>
       </MemoryRouter>,
-      { initialState: getEditState(), reducers: reducer },
+      { initialState: getEditState(overrides), reducers: reducer },
     );
 
   it('renders the component with all elements', () => {
@@ -747,27 +795,15 @@ describe('Complex Claims Mileage - Edit', () => {
     expect(addCancelButton).to.not.exist;
   });
 
-  it('the "Cancel" button opens modal in edit mode', () => {
+  it('Cancel" button navigates to choose-expense when no unsaved changes', () => {
     renderEditPage();
 
-    const backButton = $('.travel-pay-button-group').querySelectorAll(
-      'va-button',
-    )[0];
+    const backButton = Array.from(
+      $('.travel-pay-button-group').querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Cancel');
     fireEvent.click(backButton);
 
-    const modal = $('va-modal');
-    expect(modal.hasAttribute('visible')).to.be.true;
-  });
-
-  it('Cancel" button opens modal in edit mode', () => {
-    const { container } = renderEditPage();
-
-    const backButton = Array.from(container.querySelectorAll('va-button')).find(
-      btn => btn.getAttribute('text') === 'Cancel',
-    );
-    fireEvent.click(backButton);
-    const modal = container.querySelector('va-modal');
-    expect(modal.getAttribute('visible')).to.equal('true');
+    expect($('[data-testid="choose-expense-page"]')).to.exist;
   });
 
   it('renders button pair with correct properties', () => {
@@ -803,92 +839,31 @@ describe('Complex Claims Mileage - Edit', () => {
     expect(backButton).to.exist;
   });
 
-  describe('Cancel modal navigation in edit mode', () => {
-    it('navigates to review page when confirming cancel in edit mode', () => {
-      const { container } = renderWithStoreAndRouter(
-        <MemoryRouter
-          initialEntries={[
-            `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/${TEST_EXPENSE_ID}`,
-          ]}
-        >
-          <Routes>
-            <Route
-              path="/file-new-claim/:apptId/:claimId/mileage/:expenseId"
-              element={<Mileage />}
-            />
-            <Route
-              path="/file-new-claim/:apptId/:claimId/review"
-              element={<div data-testid="review-page" />}
-            />
-          </Routes>
-        </MemoryRouter>,
-        { initialState: getEditState(), reducers: reducer },
-      );
+  describe('Cancel button navigation in edit mode', () => {
+    it('navigates to review page when Cancel is clicked with backDestination="review"', () => {
+      renderEditPage({ expenseBackDestination: 'review' });
 
-      // Click Cancel button to open modal
+      // Click Cancel button
       const backButton = Array.from(
-        container.querySelectorAll('va-button'),
+        $('.travel-pay-button-group').querySelectorAll('va-button'),
       ).find(btn => btn.getAttribute('text') === 'Cancel');
       fireEvent.click(backButton);
-
-      // Verify modal is open
-      const modal = container.querySelector('va-modal');
-      expect(modal.getAttribute('visible')).to.equal('true');
-
-      // Confirm cancel by triggering the modal's primary button click event
-      modal.__events.primaryButtonClick();
 
       // Verify navigation to review page
       expect($('[data-testid="review-page"]')).to.exist;
     });
 
-    it('navigates to review page when confirming cancel with backDestination="review" in edit mode', () => {
-      const stateWithBackDestination = {
-        ...getEditState(),
-        travelPay: {
-          ...getEditState().travelPay,
-          complexClaim: {
-            ...getEditState().travelPay.complexClaim,
-            expenseBackDestination: 'review',
-          },
-        },
-      };
+    it('navigates to choose-expense page when Cancel is clicked without backDestination', () => {
+      renderEditPage();
 
-      const { container } = renderWithStoreAndRouter(
-        <MemoryRouter
-          initialEntries={[
-            `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/${TEST_EXPENSE_ID}`,
-          ]}
-        >
-          <Routes>
-            <Route
-              path="/file-new-claim/:apptId/:claimId/mileage/:expenseId"
-              element={<Mileage />}
-            />
-            <Route
-              path="/file-new-claim/:apptId/:claimId/review"
-              element={<div data-testid="review-page" />}
-            />
-          </Routes>
-        </MemoryRouter>,
-        { initialState: stateWithBackDestination, reducers: reducer },
-      );
-
-      // Click Cancel button to open modal
+      // Click Cancel button
       const backButton = Array.from(
-        container.querySelectorAll('va-button'),
+        $('.travel-pay-button-group').querySelectorAll('va-button'),
       ).find(btn => btn.getAttribute('text') === 'Cancel');
       fireEvent.click(backButton);
 
-      // Verify modal is open
-      const modal = container.querySelector('va-modal');
-      expect(modal.getAttribute('visible')).to.equal('true');
-
-      // Confirm cancel by triggering the modal's primary button click event
-      modal.__events.primaryButtonClick();
-
-      // Verify navigation to review page
-      expect($('[data-testid="review-page"]')).to.exist;
+      // Verify navigation to choose-expense page
+      expect($('[data-testid="choose-expense-page"]')).to.exist;
     });
   });
 });

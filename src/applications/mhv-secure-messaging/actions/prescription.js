@@ -1,15 +1,27 @@
 import { dataDogLogger } from 'platform/monitoring/Datadog';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Actions } from '../util/actionTypes';
 import { getPrescriptionById as apiGetPrescriptionById } from '../api/RxApi';
 
-export const getPrescriptionById = prescriptionId => async dispatch => {
+export const getPrescriptionById = (prescriptionId, stationNumber) => async (
+  dispatch,
+  getState,
+) => {
   dispatch({ type: Actions.Prescriptions.CLEAR_PRESCRIPTION });
   try {
     dispatch({ type: Actions.Prescriptions.IS_LOADING });
     if (!prescriptionId || prescriptionId === 'undefined') {
       throw new Error('Prescription ID is required');
     }
-    const response = await apiGetPrescriptionById(prescriptionId);
+    const { featureToggles } = getState();
+    const isCernerPilot =
+      !featureToggles?.loading &&
+      featureToggles?.[FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot] === true;
+    const response = await apiGetPrescriptionById(
+      prescriptionId,
+      isCernerPilot,
+      stationNumber,
+    );
     if (response?.errors) {
       const error = new Error(
         response.errors[0]?.title || 'API returned errors',
@@ -19,7 +31,7 @@ export const getPrescriptionById = prescriptionId => async dispatch => {
     }
     if (
       !response.data?.attributes?.prescriptionName ||
-      !response.data?.attributes?.prescriptionNumber
+      response.data?.attributes?.prescriptionSource === 'NV'
     ) {
       throw new Error('Non-VA medication');
     }

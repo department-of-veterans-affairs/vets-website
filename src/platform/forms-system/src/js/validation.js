@@ -4,6 +4,7 @@ import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
+import recordEvent from '../../../monitoring/record-event';
 import navigationState from './utilities/navigation/navigationState';
 import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
@@ -289,7 +290,11 @@ export function isValidForm(form, pageList, isTesting = false) {
       if (showPagePerItem) {
         const arrayData = formData[arrayPath];
         if (arrayData) {
-          const itemsToKeep = arrayData.map(itemFilter || (() => true));
+          // itemFilter may need formData to determine whether to keep each item
+          const itemsToKeep = arrayData.map(item => {
+            return itemFilter ? itemFilter(item, formData) : true;
+          });
+
           // Remove the excluded array data
           formData = set(
             arrayPath,
@@ -658,22 +663,68 @@ export function validateAutosuggestOption(errors, formData) {
   }
 }
 
-export function validateTelephoneInput(
-  errors,
-  { _isValid, _error, _touched, _required, contact },
-) {
+/**
+ * This function corrects corrupt form data from SIP
+ * some keys in field data previously prefixed with an underscore; the server unexpectedly transformed underscores to capital letters
+ * this function maps capital letters back to camel-case
+ * see: https://github.com/department-of-veterans-affairs/va.gov-team/issues/133012
+ */
+export function rectifyData(data) {
+  const getValue = keys => {
+    for (const key of keys) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) return data[key];
+    }
+    return undefined;
+  };
+
+  // Track corruption detection for analytics (once per session)
+  if (typeof window !== 'undefined' && window.dataLayer) {
+    const hasCapitalKeys =
+      data.IsValid !== undefined ||
+      data.Required !== undefined ||
+      data.Touched !== undefined ||
+      data.Error !== undefined;
+
+    const sessionKey = 'va-sip-underscore-capital-transformation-tracked';
+    const alreadyRecorded = sessionStorage.getItem(sessionKey);
+
+    if (hasCapitalKeys && !alreadyRecorded) {
+      recordEvent(
+        {
+          event: 'api_call',
+          'api-name': 'International Phone SIP Corruption Fix Detected',
+          'api-status': 'successful',
+          'error-key': 'sip-underscore-capital-transformation',
+        },
+        'event',
+      );
+      sessionStorage.setItem(sessionKey, 'true');
+    }
+  }
+
+  return {
+    isValid: getValue(['isValid', 'IsValid', '_isValid']),
+    error: getValue(['error', 'Error', '_error']),
+    touched: getValue(['touched', 'Touched', '_touched']),
+    required: getValue(['required', 'Required', '_required']),
+    contact: data.contact,
+  };
+}
+
+export function validateTelephoneInput(errors, data) {
+  const { isValid, error, touched, required, contact } = rectifyData(data);
   // was validation triggered by navigation attempt
   const navState = navigationState.getNavigationEventStatus();
 
-  let valid = _isValid;
-  const notRequiredEmpty = !_required && !contact;
-  const requiredUntouchedNotNav = (!_touched || !contact) && !navState;
+  let valid = isValid;
+  const notRequiredEmpty = !required && !contact;
+  const requiredUntouchedNotNav = (!touched || !contact) && !navState;
   if (notRequiredEmpty || requiredUntouchedNotNav) {
     valid = true;
   }
 
   if (!valid) {
-    errors.addError(_error);
+    errors.addError(error);
   }
 }
 

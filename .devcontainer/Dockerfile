@@ -9,12 +9,12 @@ ARG userid=504
 RUN groupadd -g $userid vets-website \
   && useradd -u $userid -r -m -d /application -g vets-website vets-website
 
-ENV YARN_VERSION 1.22.19
+ENV YARN_VERSION 1.19.1
 
-# Install Node 14.15.0 (main branch) and Node 22.22.0 (update branch), set Node 14.15.0 as default
+# Install Node 22.22.0 and set as default
 # Use nvm which is pre-installed in the devcontainer base image
 # Also fix permissions so the node user can install additional versions if needed
-RUN bash -c "source /usr/local/share/nvm/nvm.sh && nvm install 14.15.0 && nvm install 22.22.0 && nvm alias default 14.15.0 && nvm use default" \
+RUN bash -c "source /usr/local/share/nvm/nvm.sh && nvm install 22.22.0 && nvm alias default 22.22.0 && nvm use default" \
     && chmod -R 777 /usr/local/share/nvm/.cache
 
 RUN apt-get update
@@ -72,10 +72,7 @@ RUN apt-get install -y --no-install-recommends \
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
 RUN chmod +x /cc-test-reporter
 
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-RUN unzip awscliv2.zip
-RUN ./aws/install
-RUN aws --version # Verify AWS CLI installation.
+# AWS CLI is installed via devcontainer feature (see devcontainer.json)
 
 # Explicitly set CA cert to resolve SSL issues with AWS.
 ENV AWS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt

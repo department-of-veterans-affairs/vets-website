@@ -14,28 +14,33 @@ export default {
       title: 'Your document',
       required: true,
       accept: '.png,.pdf,.txt,.jpg,.jpeg',
-      hint: 'Upload a file that is between 1KB and 100MB',
+      hint: 'Upload a file that is between 1B and 100MB',
       headerSize: '4',
       formNumber: '31-4159',
       skipUpload: true,
       maxFileSize: 1024 * 1024 * 100, // 100MB
-      minFileSize: 1024, // 1KB
+      minFileSize: 1, // 1B
       errorMessages: {
         additionalInput: 'Choose a document status',
       },
       additionalInputRequired: true,
-      additionalInput: (error, data) => {
+      additionalInputTitle: 'What is the document status?',
+      additionalInputLabels: {
+        documentStatus: {
+          tax: 'Tax form',
+          education: 'Education form',
+          service: 'Service form',
+        },
+      },
+      additionalInput: (error, data, { labels, title }) => {
         const { documentStatus } = data;
         return (
-          <VaSelect
-            required
-            error={error}
-            value={documentStatus}
-            label="Document status"
-          >
-            <option value="tax">Tax form</option>
-            <option value="education">Education form</option>
-            <option value="service">Service form</option>
+          <VaSelect required error={error} value={documentStatus} label={title}>
+            {Object.entries(labels.documentStatus).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
           </VaSelect>
         );
       },

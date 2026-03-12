@@ -9,9 +9,11 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   grossMonthlyIncomePages,
   options,
-  incomeRecipients,
 } from '../../../../config/chapters/06-financial-information/incomeAndAssets/grossMonthlyIncomePages';
-import { typeOfIncomeLabels } from '../../../../utils/labels';
+import {
+  incomeRecipientTypeLabels,
+  typeOfIncomeLabels,
+} from '../../../../utils/labels';
 
 const arrayPath = 'incomeEntries';
 
@@ -50,20 +52,21 @@ describe('Gross Monthly Income Pages', () => {
     const vaOtherTypeExplanationText =
       'va-text-input[label*="Tell us the type of income"]';
     expect($(vaOtherTypeExplanationText, formDOM)).to.not.exist;
-    expect(vaOptions.length).to.equal(9);
-    Object.keys({ ...incomeRecipients, ...typeOfIncomeLabels }).forEach(
-      (key, index) => {
-        if (index < Object.keys(incomeRecipients).length) {
-          expect(vaOptions[index].getAttribute('label')).to.equal(
-            incomeRecipients[key],
-          );
-        } else {
-          expect(vaOptions[index].getAttribute('label')).to.equal(
-            typeOfIncomeLabels[key],
-          );
-        }
-      },
-    );
+    expect(vaOptions.length).to.equal(7);
+    Object.keys({
+      ...incomeRecipientTypeLabels,
+      ...typeOfIncomeLabels,
+    }).forEach((key, index) => {
+      if (index < Object.keys(incomeRecipientTypeLabels).length) {
+        expect(vaOptions[index].getAttribute('label')).to.equal(
+          incomeRecipientTypeLabels[key],
+        );
+      } else {
+        expect(vaOptions[index].getAttribute('label')).to.equal(
+          typeOfIncomeLabels[key],
+        );
+      }
+    });
     vaRecipient.__events.vaValueChange({
       detail: { value: 'OTHER' },
     });
@@ -144,5 +147,56 @@ describe('Gross Monthly Income Pages', () => {
     expect(link.getAttribute('text')).to.equal(
       'Get VA Form 21P-0969 to download',
     );
+  });
+
+  describe('incomePayer updateSchema', () => {
+    const {
+      updateSchema,
+    } = grossMonthlyIncomePages.monthlyIncomeDetails.uiSchema[
+      arrayPath
+    ].items.incomePayer['ui:options'];
+
+    it('should auto-fill incomePayer when incomeType is SOCIAL_SECURITY', () => {
+      const formData = {
+        incomeEntries: [{ incomeType: 'SOCIAL_SECURITY', incomePayer: '' }],
+      };
+      updateSchema(formData, {}, {}, 0);
+      expect(formData.incomeEntries[0].incomePayer).to.equal(
+        'Social Security Administration',
+      );
+    });
+
+    it('should overwrite existing incomePayer when incomeType is SOCIAL_SECURITY', () => {
+      const formData = {
+        incomeEntries: [
+          { incomeType: 'SOCIAL_SECURITY', incomePayer: 'Some Other Payer' },
+        ],
+      };
+      updateSchema(formData, {}, {}, 0);
+      expect(formData.incomeEntries[0].incomePayer).to.equal(
+        'Social Security Administration',
+      );
+    });
+
+    it('should clear incomePayer when a non-Social Security income type is selected', () => {
+      const formData = {
+        incomeEntries: [
+          {
+            incomeType: 'CIVIL_SERVICE',
+            incomePayer: 'Social Security Administration',
+          },
+        ],
+      };
+      updateSchema(formData, {}, {}, 0);
+      expect(formData.incomeEntries[0].incomePayer).to.equal('');
+    });
+
+    it('should not modify incomePayer when it is already empty for non-Social Security type', () => {
+      const formData = {
+        incomeEntries: [{ incomeType: 'OTHER', incomePayer: '' }],
+      };
+      updateSchema(formData, {}, {}, 0);
+      expect(formData.incomeEntries[0].incomePayer).to.equal('');
+    });
   });
 });

@@ -17,7 +17,6 @@ import mockUser from './fixtures/mocks/user.json';
 import {
   capitalizeEachWord,
   showSeparationLocation,
-  isBDD,
   hasRatedDisabilities,
 } from '../utils';
 
@@ -238,6 +237,8 @@ export const setup = (cy, testOptions = {}) => {
     if (data.toxicExposure) {
       formData.toxicExposure = data.toxicExposure;
     }
+    // use mailing address from test data instead of prefill
+    formData.veteran.mailingAddress = data.mailingAddress;
 
     if (testOptions?.prefillData?.startedFormVersion) {
       formData.startedFormVersion = testOptions.prefillData.startedFormVersion;
@@ -322,28 +323,23 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       cy.contains(mockPrefill.formData.veteran.emailAddress).should('exist');
     }
 
-    if (mockPrefill.formData.veteran.mailingAddress) {
-      const address = mockPrefill.formData.veteran.mailingAddress;
+    // the address assertions now reference the provided test JSON data instead of prefill data
+    const address = data.mailingAddress;
 
-      if (address.country) {
-        cy.contains(address.country).should('exist');
-      }
-      if (address.addressLine1) {
-        cy.contains(address.addressLine1.toUpperCase()).should('exist');
-      }
-      if (address.state) {
-        cy.contains(address.state.toUpperCase()).should('exist');
-      }
-      if (address.zipCode) {
-        cy.contains(address.zipCode).should('exist');
-      }
+    if (address.country) {
+      cy.contains(address.country).should('exist');
+    }
+    if (address.addressLine1) {
+      cy.contains(address.addressLine1).should('exist');
+    }
+    if (address.state) {
+      cy.contains(address.state).should('exist');
+    }
+    if (address.zipCode) {
+      cy.contains(address.zipCode).should('exist');
     }
 
-    if (
-      data.homelessOrAtRisk &&
-      (data.disability526ExtraBDDPagesEnabled ||
-        data['view:isBddData'] !== true)
-    ) {
+    if (data.homelessOrAtRisk) {
       cy.contains(/are you homeless or at risk of becoming homeless/i).should(
         'exist',
       );
@@ -370,11 +366,7 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       );
     }
 
-    if (
-      !hasRatedDisabilities(data) &&
-      (data.disability526ExtraBDDPagesEnabled ||
-        (!isBDD(data) && data['view:isBddData'] !== true))
-    ) {
+    if (!hasRatedDisabilities(data)) {
       cy.contains(/have you ever received military retirement pay/i).should(
         'exist',
       );
@@ -687,10 +679,48 @@ export const pageHooks = (cy, testOptions) => ({
         cy.findByText(/continue/i, { selector: 'button' }).click();
       });
 
-    // veteran info page continue button
-    cy.findByText(/continue/i, { selector: 'button' })
-      .should('be.visible')
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+  },
+
+  'contact-information': () => {
+    // contact info page
+    // click phone/email edit button to load pre-fill data into form fields
+    cy.get('button')
+      .contains(/^edit$/i)
       .click();
+
+    // click edit for address section
+    cy.get('button')
+      .contains(/edit/i)
+      .click();
+    // look for the data address street line to confirm pre-fill loaded
+    cy.get('@testData').then(data => {
+      const { city, state, addressLine1 } = data.mailingAddress;
+      // if military address is present in test data, city and state are radio buttons for military post office and state
+      if (data.mailingAddress['view:livesOnMilitaryBase'] === true) {
+        cy.get(
+          'va-radio-option[name="root_mailingAddress_city"][checked="true"]',
+        ).should('have.value', city);
+        cy.contains('legend', /military post office/i).should('exist');
+        cy.get(
+          'va-radio-option[name="root_mailingAddress_state"][checked="true"]',
+        ).should('have.value', state);
+      } else {
+        cy.get('input[name="root_mailingAddress_city"]').should(
+          'have.value',
+          city,
+        );
+        cy.get('select[name="root_mailingAddress_state"]').should(
+          'have.value',
+          state,
+        );
+      }
+      cy.get('input[name="root_mailingAddress_addressLine1"]').should(
+        'have.value',
+        addressLine1,
+      );
+    });
+    cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 
   'review-veteran-details/military-service-history/federal-orders': () => {
@@ -721,6 +751,74 @@ export const pageHooks = (cy, testOptions) => ({
       .check({ force: true });
 
     cy.findByText(/continue/i, { selector: 'button' }).click();
+  },
+
+  'supporting-evidence/orientation': () => {
+    // The orientation page can be legacy or enhanced depending on the feature flag.
+    // Web components may take a moment to hydrate; wait for either legacy marker text
+    // or any accordion item to appear.
+    cy.get('body', { timeout: 15000 }).should($body => {
+      const enhancedItems = $body.find('va-accordion-item');
+      const hasEnhancedAccordion = enhancedItems.length > 0;
+      const hasLegacyMarker =
+        /you can submit these types of evidence/i.test($body.text()) ||
+        /Notice of evidence needed/i.test($body.text());
+
+      expect(hasEnhancedAccordion || hasLegacyMarker).to.equal(true);
+    });
+
+    cy.get('body').then($body => {
+      const hasEnhancedAccordion = $body.find('va-accordion-item').length > 0;
+
+      if (hasEnhancedAccordion) {
+        cy.get('va-accordion', { timeout: 15000 }).should('exist');
+        cy.get('va-accordion-item').should('have.length.greaterThan', 0);
+      } else {
+        cy.contains(/you can submit these types of evidence/i).should('exist');
+      }
+    });
+  },
+
+  'supporting-evidence/separation-health-assessment-upload': () => {
+    cy.get('@testData').then(data => {
+      if (
+        !data?.disability526NewBddShaEnforcementWorkflowEnabled ||
+        !data?.['view:isBddData'] ||
+        !data?.['view:hasSeparationHealthAssessment']
+      ) {
+        cy.findByText(/continue/i, { selector: 'button' }).click();
+        return;
+      }
+
+      cy.get('input[type="file"]').selectFile(
+        'src/platform/testing/example-upload.png',
+        { force: true },
+      );
+
+      cy.get('.schemaform-file-uploading').should('not.exist');
+
+      cy.wait('@uploadFile').then(({ _request, response }) => {
+        expect(response.statusCode).to.eq(200);
+      });
+
+      cy.findByText(/continue/i, { selector: 'button' }).click();
+    });
+  },
+
+  'supporting-evidence/summary': () => {
+    cy.get('@testData').then(data => {
+      if (
+        !data?.disability526NewBddShaEnforcementWorkflowEnabled ||
+        !data?.['view:isBddData'] ||
+        !data?.['view:hasSeparationHealthAssessment']
+      ) {
+        return;
+      }
+
+      cy.contains(/summary of evidence/i).should('exist');
+      cy.contains(/Separation Health Assessment Part A/i).should('exist');
+      cy.contains(/you haven’t uploaded any evidence/i).should('not.exist');
+    });
   },
 
   'review-veteran-details/separation-location': () => {

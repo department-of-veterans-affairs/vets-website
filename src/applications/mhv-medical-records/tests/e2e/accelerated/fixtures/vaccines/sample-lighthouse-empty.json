@@ -1,0 +1,18 @@
+{
+  "data": [],
+  "links": {
+    "self": "https://staging-api.va.gov/mobile/v0/health/immunizations?page[number]=1&page[size]=20",
+    "first": "https://staging-api.va.gov/mobile/v0/health/immunizations?page[number]=1&page[size]=20",
+    "prev": null,
+    "next": null,
+    "last": "https://staging-api.va.gov/mobile/v0/health/immunizations?page[number]=1&page[size]=20"
+  },
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "perPage": 20,
+      "totalPages": 1,
+      "totalEntries": 0
+    }
+  }
+}

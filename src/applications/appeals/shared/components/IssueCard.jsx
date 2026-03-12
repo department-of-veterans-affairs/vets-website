@@ -1,13 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { SELECTED } from '../constants';
+import { ACTIVE_REVIEW_TITLES, SELECTED } from '../constants';
 import '../definitions';
 import { IssueCardContent } from './IssueCardContent';
 import BasicLink from './web-component-wrappers/BasicLink';
 
-// It would be better to validate the date based on the app's requirements
-// import { isValidDate } from '../validations/date';
+/**
+ * If the app is Supplemental Claim (MVP release) and the issue is
+ * under active review (has a titleOfActiveReview defined)
+ * for any Decision Reviews app, return a banner warning the Veteran
+ * not to submit a duplicate review
+ * @param {String} appName - name of the Decision Review app
+ * @param {ContestableIssueItem|AdditionalIssueItem} item
+ * @param {String} issueName - name of the contestable issue from API
+ */
+export const determineActiveReviewMessage = (appName, item, issueName) => {
+  const { titleOfActiveReview } = item;
+
+  if (appName === 'Supplemental Claim' && titleOfActiveReview) {
+    return (
+      <va-alert class="vads-u-margin-top--0p5" slim status="info" visible>
+        <p className="vads-u-margin-top--0">
+          {issueName} is part of an active{' '}
+          {ACTIVE_REVIEW_TITLES?.[titleOfActiveReview] || 'Decision Review'}.
+          Submitting it again may delay your decision.
+        </p>
+        <va-link
+          text="Check your claim status"
+          href="/claim-or-appeal-status/"
+          external
+        />
+      </va-alert>
+    );
+  }
+
+  return null;
+};
 
 /**
  * IssueCard
@@ -24,6 +53,7 @@ import BasicLink from './web-component-wrappers/BasicLink';
  * @return {JSX.Element}
  */
 export const IssueCard = ({
+  appName,
   id,
   index,
   item = {},
@@ -33,6 +63,10 @@ export const IssueCard = ({
   onRemove,
   showSeparator = false,
 }) => {
+  if (!item) {
+    return null;
+  }
+
   // On the review & submit page, there may be more than one
   // of these components in edit mode with the same content, e.g. 526
   // ratedDisabilities & unemployabilityDisabilities causing
@@ -43,14 +77,18 @@ export const IssueCard = ({
   const itemIsSelected = item[SELECTED];
   const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;
-  const isBlocked = item.isBlockedSameDay || false;
+  const isBlocked = item.isBlocked || false;
+  const activeReviewMessage = determineActiveReviewMessage(
+    appName,
+    item,
+    issueName,
+  );
 
   const wrapperClass = [
     'widget-wrapper',
     isEditable ? 'additional-issue' : '',
     showCheckbox ? '' : 'checkbox-hidden',
     'vads-u-padding-top--2',
-    'vads-u-padding-right--3',
     'vads-u-margin-bottom--0',
     isBlocked && index > 0 ? 'vads-u-margin-top--5' : '',
     // Remove border for blocked issues; add border for first selectable issues
@@ -108,6 +146,14 @@ export const IssueCard = ({
         />
       </div>
     ) : null;
+
+  const sharedCardContent = (
+    <>
+      <IssueCardContent id={`issue-${index}-description`} {...item} />
+      {editControls}
+    </>
+  );
+
   return (
     <li id={`issue-${index}`} name={`issue-${index}`} key={index}>
       <div className={wrapperClass}>
@@ -121,8 +167,8 @@ export const IssueCard = ({
             onVaChange={handlers.onChange}
           >
             <div slot="internal-description">
-              <IssueCardContent id={`issue-${index}-description`} {...item} />
-              {editControls}
+              {activeReviewMessage}
+              <div className="vads-u-padding-right--3">{sharedCardContent}</div>
             </div>
           </VaCheckbox>
         ) : (
@@ -137,9 +183,7 @@ export const IssueCard = ({
             >
               {issueName}
             </strong>
-
-            <IssueCardContent id={`issue-${index}-description`} {...item} />
-            {editControls}
+            {sharedCardContent}
           </div>
         )}
       </div>
@@ -148,6 +192,7 @@ export const IssueCard = ({
 };
 
 IssueCard.propTypes = {
+  appName: PropTypes.string.isRequired,
   id: PropTypes.string,
   index: PropTypes.number,
   item: PropTypes.shape({

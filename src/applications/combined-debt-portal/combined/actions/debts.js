@@ -6,10 +6,6 @@ export const DEBT_LETTERS_FETCH_INITIATED = 'DEBT_LETTERS_FETCH_INITIATED';
 export const DEBT_LETTERS_FETCH_SUCCESS = 'DEBT_LETTERS_FETCH_SUCCESS';
 export const DEBT_LETTERS_FETCH_FAILURE = 'DEBT_LETTERS_FETCH_FAILURE';
 
-export const MCP_STATEMENTS_FETCH_INIT = 'MCP_STATEMENTS_FETCH_INIT';
-export const MCP_STATEMENTS_FETCH_SUCCESS = 'MCP_STATEMENTS_FETCH_SUCCESS';
-export const MCP_STATEMENTS_FETCH_FAILURE = 'MCP_STATEMENTS_FETCH_FAILURE';
-
 import * as Sentry from '@sentry/browser';
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
@@ -111,6 +107,26 @@ const validateHistory = debts => {
   });
 };
 
+const normalizeDebtData = (debts = []) => {
+  return debts.map(debt => {
+    const normalizedDebt = { ...debt };
+
+    // Normalize debtHistory
+    if (debt.debtHistory) {
+      normalizedDebt.debtHistory = debt.debtHistory.map(history => ({
+        ...history,
+        letterCode: history.letterCode?.toString() || '',
+      }));
+    }
+
+    // Normalize any other fields if needed
+    normalizedDebt.currentAr = parseFloat(debt.currentAr) || 0;
+    normalizedDebt.originalAr = parseFloat(debt.originalAr) || 0;
+
+    return normalizedDebt;
+  });
+};
+
 export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
   dispatch(fetchDebtsInitiated());
   try {
@@ -153,9 +169,10 @@ export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
     }
 
     validateHistory(filteredResponse);
+    const normalizedResponse = normalizeDebtData(filteredResponse);
 
     return dispatch(
-      fetchDebtLettersSuccess(filteredResponse, hasDependentDebts),
+      fetchDebtLettersSuccess(normalizedResponse, hasDependentDebts),
     );
   } catch (error) {
     recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });

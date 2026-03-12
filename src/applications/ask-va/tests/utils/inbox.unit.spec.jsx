@@ -1,0 +1,232 @@
+import { expect } from 'chai';
+import {
+  flattenInquiry,
+  standardizeInquiries,
+  paginateInquiries,
+  filterAndSort,
+} from '../../utils/inbox';
+import { mockInquiries } from './mock-inquiries';
+
+describe('flattenInquiry', () => {
+  it("hoists nested 'attributes' property into inquiry object", () => {
+    const output = flattenInquiry(mockInquiries[0]);
+    expect(output).to.have.property('status');
+    expect(output).to.not.have.property('attributes');
+  });
+
+  it('standardizes the inquiry status property', () => {
+    expect(flattenInquiry(mockInquiries[0]).status).to.equal('In progress');
+  });
+});
+
+describe('standardizeInquiries', () => {
+  it('returns ONLY personal and business inquiries', () => {
+    const output = standardizeInquiries(mockInquiries);
+    expect(output).to.have.property('standardInquiries');
+    expect(
+      output.standardInquiries?.every(inq =>
+        ['business', 'personal'].includes(
+          inq.levelOfAuthentication.toLowerCase(),
+        ),
+      ),
+    ).to.be.true;
+  });
+
+  it('returns indicators of what inquiry types are present', () => {
+    const output = standardizeInquiries(mockInquiries);
+    expect(output.types).to.include('personal');
+    expect(output.types).to.include('business');
+  });
+
+  it('flattens inquiries as they are categorized', () => {
+    const output = standardizeInquiries(mockInquiries);
+    expect(output.standardInquiries[0]).to.have.property('status');
+    expect(output.standardInquiries[0].status).to.equal('In progress');
+  });
+
+  it('returns only the categories present in the inquiries list', () => {
+    const output = standardizeInquiries(mockInquiries);
+    expect(output).to.have.property('uniqueCategories');
+    expect(output.uniqueCategories.length).to.equal(6);
+  });
+
+  it('returns only the statuses present in the inquiries list', () => {
+    const output = standardizeInquiries(mockInquiries);
+    expect(output).to.have.property('uniqueStatuses');
+    expect(output.uniqueStatuses.length).to.equal(3);
+  });
+});
+
+describe('paginateInquiries', () => {
+  const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  it('Returns an array with sub-arrays of specified length', () => {
+    const pages = paginateInquiries(testArray, 4);
+
+    const totalPages = pages.length;
+    const firstPageLength = pages[0].items.length;
+    const secondPageFirstItem = pages[1].items[0];
+    const lastPage = pages[totalPages - 1];
+    const lastPageFirstItem = lastPage.items[0];
+    const lastPageLastItem = lastPage.items[lastPage.items.length - 1];
+
+    expect(totalPages).to.equal(3);
+    expect(firstPageLength).to.equal(4);
+    expect(secondPageFirstItem).to.equal(5);
+    expect(lastPageFirstItem).to.equal(9);
+    expect(lastPageLastItem).to.equal(10);
+  });
+
+  it('returns the correct page-start and -end numbers', () => {
+    const pages = paginateInquiries(testArray, 3);
+
+    expect(pages[0].pageStart).to.equal(1);
+    expect(pages[0].pageEnd).to.equal(3);
+    expect(pages[1].pageStart).to.equal(4);
+    expect(pages[1].pageEnd).to.equal(6);
+
+    // pageEnd can't be higher than number of items
+    expect(pages[3].pageEnd).to.equal(10);
+  });
+
+  it("returns 0's if given array without inquiries", () => {
+    const pages = paginateInquiries([], 4);
+
+    expect(pages.length).to.equal(1);
+    expect(pages).to.eql([
+      {
+        pageStart: 0,
+        pageEnd: 0,
+        items: [],
+      },
+    ]);
+  });
+});
+
+describe('filterAndSort', () => {
+  const flatInquiries = mockInquiries.map(flattenInquiry);
+  const Dec18At420pmId = '1aed76e7-5bbd-ef11-b8e9-001dd830a0af';
+  const Dec18At530pmId = '46a76c10-5bbd-ef11-b8e9-001dd805523c';
+
+  it('returns all results if unfiltered', () => {
+    const results = filterAndSort({ inquiriesArray: flatInquiries });
+    expect(results.length).to.equal(flatInquiries.length - 1);
+  });
+
+  it('filters by category', () => {
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      filters: { categories: ['Veteran ID Card (VIC)'] },
+    });
+    expect(results.length).to.equal(2);
+  });
+
+  it('filters by status', () => {
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      filters: { statuses: ['In progress'] },
+    });
+    expect(results.length).to.equal(6);
+  });
+
+  it('filters by inquiry type', () => {
+    const personal = filterAndSort({
+      inquiriesArray: flatInquiries,
+      filters: { inquiryTypes: ['personal'] },
+    });
+    const business = filterAndSort({
+      inquiriesArray: flatInquiries,
+      filters: { inquiryTypes: ['business'] },
+    });
+    expect(personal.length).to.equal(7);
+    expect(business.length).to.equal(2);
+  });
+
+  it('filters by category, status, and type', () => {
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      filters: {
+        categories: ['Veteran ID Card (VIC)'],
+        statuses: ['In progress'],
+        inquiryTypes: ['personal'],
+      },
+    });
+    expect(results.length).to.equal(1);
+  });
+
+  it('sorts by newest lastUpdate by default', () => {
+    const firstDateBeforeSort = new Date(flatInquiries[0].lastUpdate);
+    expect(firstDateBeforeSort.getDate()).to.equal(11);
+
+    // Sorts by date
+    const results = filterAndSort({ inquiriesArray: flatInquiries });
+    const firstDateAfterSort = new Date(results[0].lastUpdate);
+    expect(firstDateAfterSort.getDate()).to.equal(19);
+
+    // Sorts by time (2 items updated on same day)
+    const getIndex = (arr, id) => arr.findIndex(item => item.id === id);
+
+    const laterUpdateIndexBefore = getIndex(flatInquiries, Dec18At420pmId);
+    const earlierUpdateIndexBefore = getIndex(flatInquiries, Dec18At530pmId);
+    const laterUpdateIndexAfter = getIndex(results, Dec18At420pmId);
+    const earlierUpdateIndexAfter = getIndex(results, Dec18At530pmId);
+
+    expect(earlierUpdateIndexBefore < laterUpdateIndexBefore).to.be.true;
+    expect(laterUpdateIndexAfter < earlierUpdateIndexAfter).to.be.true;
+  });
+
+  it('sorts by oldest lastUpdate', () => {
+    const firstDateBeforeSort = new Date(flatInquiries[0].lastUpdate);
+    expect(firstDateBeforeSort.getDate()).to.equal(11);
+
+    // Sorts by date
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      sortOrder: filterAndSort.sortOptions.lastUpdate.oldest,
+    });
+    const firstDateAfterSort = new Date(results[0].lastUpdate);
+    expect(firstDateAfterSort.getDate()).to.equal(11);
+
+    // Sorts by time (2 items updated on same day)
+    const getIndex = (arr, id) => arr.findIndex(item => item.id === id);
+
+    const laterUpdateIndexBefore = getIndex(flatInquiries, Dec18At420pmId);
+    const earlierUpdateIndexBefore = getIndex(flatInquiries, Dec18At530pmId);
+    const earlierUpdateIndexAfter = getIndex(results, Dec18At420pmId);
+    const laterUpdateIndexAfter = getIndex(results, Dec18At530pmId);
+
+    expect(earlierUpdateIndexBefore < laterUpdateIndexBefore).to.be.true;
+    expect(laterUpdateIndexAfter < earlierUpdateIndexAfter).to.be.true;
+  });
+
+  it('sorts by query: submitter question', () => {
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      filters: { query: 'Hemesh' },
+    });
+
+    expect(results.length).to.equal(1);
+    const firstDateAfterSort = new Date(results[0].lastUpdate);
+    expect(firstDateAfterSort.getDate()).to.equal(17);
+  });
+
+  it('sorts by query: inquiry number', () => {
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      filters: { query: '852' },
+    });
+
+    expect(results.length).to.equal(1);
+    expect(results[0].id).to.equal('3ac11cee-2ebe-ef11-b8e9-001dd809b958');
+  });
+
+  it('sorts by query: category name', () => {
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      filters: { query: 'employment' },
+    });
+
+    expect(results.length).to.equal(2);
+    expect(results[0].id).to.equal('37d37e1b-36b7-ef11-b8e9-001dd809b958');
+  });
+});

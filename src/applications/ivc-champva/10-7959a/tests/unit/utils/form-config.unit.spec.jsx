@@ -6,7 +6,7 @@ import {
   isRoleOther,
   isNewClaim,
   isResubmissionClaim,
-  isResubmissionEnabled,
+  isDtaEnabled,
   canSelectAddress,
   isMedicalClaim,
   isPharmacyClaim,
@@ -15,6 +15,8 @@ import {
   hasOhi,
   hasOhiAndMedicalClaim,
   hasOhiMedicalAndMultiplePolicies,
+  needsDocHelp,
+  hasClaimDocs,
 } from '../../../utils/helpers/form-config';
 
 describe('10-7959a form-config helpers', () => {
@@ -53,12 +55,78 @@ describe('10-7959a form-config helpers', () => {
       expect(isResubmissionClaim({ claimStatus: 'resubmission' })).to.be.true;
     });
 
-    it('isResubmissionEnabled should return true when view flag is set', () => {
+    it('isDtaEnabled should return true when view flag is set', () => {
       expect(
-        isResubmissionEnabled({
+        isDtaEnabled({
           'view:champvaEnableClaimResubmitQuestion': true,
         }),
       ).to.be.true;
+    });
+
+    it('hasClaimDocs should return false for new claim', () => {
+      expect(hasClaimDocs({ claimStatus: 'new' })).to.be.false;
+    });
+
+    it('hasClaimDocs should return true for resubmission when DTA disabled', () => {
+      const formData = {
+        claimStatus: 'resubmission',
+        'view:champvaEnableClaimResubmitQuestion': false,
+      };
+      expect(hasClaimDocs(formData)).to.be.true;
+    });
+
+    it('hasClaimDocs should return true for resubmission when DTA enabled and has docs', () => {
+      const formData = {
+        claimStatus: 'resubmission',
+        'view:champvaEnableClaimResubmitQuestion': true,
+        'view:hasClaimDocs': true,
+      };
+      expect(hasClaimDocs(formData)).to.be.true;
+    });
+
+    it('hasClaimDocs should return false for resubmission when DTA enabled and no docs', () => {
+      const formData = {
+        claimStatus: 'resubmission',
+        'view:champvaEnableClaimResubmitQuestion': true,
+        'view:hasClaimDocs': false,
+      };
+      expect(hasClaimDocs(formData)).to.be.false;
+    });
+
+    it('needsDocHelp should return true when view field is false', () => {
+      expect(
+        needsDocHelp({
+          'view:champvaEnableClaimResubmitQuestion': true,
+          'view:hasClaimDocs': false,
+          claimStatus: 'resubmission',
+        }),
+      ).to.be.true;
+    });
+
+    it('needsDocHelp should return false when DTA is disabled', () => {
+      const formData = {
+        claimStatus: 'resubmission',
+        'view:champvaEnableClaimResubmitQuestion': false,
+      };
+      expect(needsDocHelp(formData)).to.be.false;
+    });
+
+    it('needsDocHelp should return false when not a resubmission', () => {
+      const formData = {
+        claimStatus: 'new',
+        'view:champvaEnableClaimResubmitQuestion': true,
+        'view:hasClaimDocs': false,
+      };
+      expect(needsDocHelp(formData)).to.be.false;
+    });
+
+    it('needsDocHelp should return false when has claim docs', () => {
+      const formData = {
+        claimStatus: 'resubmission',
+        'view:champvaEnableClaimResubmitQuestion': true,
+        'view:hasClaimDocs': true,
+      };
+      expect(needsDocHelp(formData)).to.be.false;
     });
   });
 
@@ -86,6 +154,13 @@ describe('10-7959a form-config helpers', () => {
       };
       expect(canSelectAddress(formData)).to.be.false;
     });
+
+    it('should return false when not applicant but no addresses', () => {
+      const formData = {
+        certifierRole: 'sponsor',
+      };
+      expect(canSelectAddress(formData)).to.be.false;
+    });
   });
 
   context('claim type helpers', () => {
@@ -102,9 +177,19 @@ describe('10-7959a form-config helpers', () => {
       expect(isNewMedicalClaim(formData)).to.be.true;
     });
 
+    it('isNewMedicalClaim should return false for resubmission medical claim', () => {
+      const formData = { claimType: 'medical', claimStatus: 'resubmission' };
+      expect(isNewMedicalClaim(formData)).to.be.false;
+    });
+
     it('isNewPharmacyClaim should return true for new pharmacy claim', () => {
       const formData = { claimType: 'pharmacy', claimStatus: 'new' };
       expect(isNewPharmacyClaim(formData)).to.be.true;
+    });
+
+    it('isNewPharmacyClaim should return false for resubmission pharmacy claim', () => {
+      const formData = { claimType: 'pharmacy', claimStatus: 'resubmission' };
+      expect(isNewPharmacyClaim(formData)).to.be.false;
     });
   });
 
@@ -118,7 +203,6 @@ describe('10-7959a form-config helpers', () => {
       const formData = {
         claimStatus: 'resubmission',
         hasOhi: true,
-        'view:champvaEnableClaimResubmitQuestion': true,
       };
       expect(hasOhi(formData)).to.be.false;
     });
@@ -130,6 +214,15 @@ describe('10-7959a form-config helpers', () => {
         claimType: 'medical',
       };
       expect(hasOhiAndMedicalClaim(formData)).to.be.true;
+    });
+
+    it('hasOhiAndMedicalClaim should return false for pharmacy claim with OHI', () => {
+      const formData = {
+        claimStatus: 'new',
+        hasOhi: true,
+        claimType: 'pharmacy',
+      };
+      expect(hasOhiAndMedicalClaim(formData)).to.be.false;
     });
 
     it('hasOhiMedicalAndMultiplePolicies should return true with multiple policies', () => {
@@ -148,6 +241,15 @@ describe('10-7959a form-config helpers', () => {
         hasOhi: true,
         claimType: 'medical',
         policies: [{}],
+      };
+      expect(hasOhiMedicalAndMultiplePolicies(formData)).to.be.false;
+    });
+
+    it('hasOhiMedicalAndMultiplePolicies should return false with no policies', () => {
+      const formData = {
+        claimStatus: 'new',
+        hasOhi: true,
+        claimType: 'medical',
       };
       expect(hasOhiMedicalAndMultiplePolicies(formData)).to.be.false;
     });

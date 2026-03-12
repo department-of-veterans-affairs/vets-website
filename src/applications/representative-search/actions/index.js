@@ -6,11 +6,9 @@ import { geolocateUser } from './mapbox/geoLocateUser';
 import { geocodeUserAddress } from './mapbox/geocodeUserAddress';
 import { searchWithInput } from './search/searchWithInput';
 import { updateSearchQuery } from './search/updateSearchQuery';
-import { submitRepresentativeReport } from './reports/submitRepresentativeReport';
-import { initializeRepresentativeReport } from './reports/initializeRepresentativeReport';
-import { cancelRepresentativeReport } from './reports/cancelRepresentativeReport';
-import { updateFromLocalStorage } from './reports/updateFromLocalStorage';
+import { commitSearchQuery } from './search/commitSearchQuery';
 import { clearError } from './error/clearError';
+import { fetchOrganizations } from './organizations/fetchOrganizations';
 
 export { clearSearchResults };
 export { clearSearchText };
@@ -20,11 +18,9 @@ export { geolocateUser };
 export { geocodeUserAddress };
 export { searchWithInput };
 export { updateSearchQuery };
-export { submitRepresentativeReport };
-export { cancelRepresentativeReport };
-export { initializeRepresentativeReport };
-export { updateFromLocalStorage };
+export { commitSearchQuery };
 export { clearError };
+export { fetchOrganizations };
 
 export const FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED =
   'FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED';

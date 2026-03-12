@@ -2,7 +2,7 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import { adjustYearString, concatStreets } from '../../shared/utilities';
-import { ID_NUMBER_OPTIONS } from '../chapters/resubmission';
+import { ID_NUMBER_OPTIONS } from '../chapters/resubmission/claimIdNumber';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be
@@ -105,6 +105,12 @@ export default function transformForSubmit(
       return '10-7959a_resubmission_pdi_number';
     };
 
+    const recordDtaEvent =
+      form.data['view:champvaEnableClaimResubmitQuestion'] &&
+      form.data.claimStatus === 'resubmission' &&
+      form.data['view:hasClaimDocs'] === false;
+
+    if (recordDtaEvent) recordEvent({ event: '10-7959a_duty_to_assist' });
     recordEvent({ event: getEventName() });
   }
 

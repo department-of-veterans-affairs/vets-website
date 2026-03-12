@@ -1,9 +1,10 @@
+// @ts-check
 import {
   titleUI,
-  descriptionUI,
+  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { FULL_SCHEMA } from '../../../utils/imports';
 import CombatOperationServiceDescription from '../../../components/FormDescriptions/CombatOperationServiceDescription';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
 const { combatOperationService } = FULL_SCHEMA.properties;
@@ -11,11 +12,11 @@ const { combatOperationService } = FULL_SCHEMA.properties;
 export default {
   uiSchema: {
     ...titleUI(content['service-info--operations-title']),
-    combatOperationService: {
-      'ui:title': content['service-info--operations-label'],
-      ...descriptionUI(CombatOperationServiceDescription),
-      'ui:widget': 'yesNo',
-    },
+    combatOperationService: yesNoUI({
+      title: content['service-info--operations-label'],
+      description: CombatOperationServiceDescription,
+      headerAriaDescribedby: content['service-info--operations-aria-label'],
+    }),
   },
   schema: {
     type: 'object',

@@ -6,7 +6,7 @@
           "firstName": "SPOUSY",
           "lastName": "FOSTER",
           "dateOfBirth": "07/07/1980",
-          "ssn": "3332",
+          "ssn": "123453332",
           "relationshipToVeteran": "Spouse",
           "awardIndicator": "Y"
         },
@@ -14,7 +14,7 @@
           "firstName": "SUMMER",
           "lastName": "FOSTER",
           "dateOfBirth": "07/07/1980",
-          "ssn": "3331",
+          "ssn": "123453331",
           "relationshipToVeteran": "Spouse",
           "awardIndicator": "Y"
         },
@@ -22,7 +22,7 @@
           "firstName": "PENNY",
           "lastName": "FOSTER",
           "dateOfBirth": "08/08/2008",
-          "ssn": "3479",
+          "ssn": "123453479",
           "relationshipToVeteran": "Child",
           "awardIndicator": "Y"
         },
@@ -30,7 +30,7 @@
           "firstName": "FRANK",
           "lastName": "FOSTER",
           "dateOfBirth": "08/08/2006",
-          "ssn": "3236",
+          "ssn": "123453236",
           "relationshipToVeteran": "Child",
           "awardIndicator": "Y"
         },
@@ -38,15 +38,7 @@
           "firstName": "JOE",
           "lastName": "FOSTER",
           "dateOfBirth": "08/08/2006",
-          "ssn": "3468",
-          "relationshipToVeteran": "Child",
-          "awardIndicator": "Y"
-        },
-        {
-          "firstName": "MIKE",
-          "lastName": "FOSTER",
-          "dateOfBirth": "08/08/2006",
-          "ssn": "3499",
+          "ssn": "123453468",
           "relationshipToVeteran": "Child",
           "awardIndicator": "Y"
         },
@@ -54,7 +46,7 @@
           "firstName": "STACY",
           "lastName": "FOSTER",
           "dateOfBirth": "06/10/2025",
-          "ssn": "3233",
+          "ssn": "123453233",
           "relationshipToVeteran": "Child",
           "awardIndicator": "Y"
         },
@@ -62,7 +54,7 @@
           "firstName": "JENNIFER",
           "lastName": "FOSTER",
           "dateOfBirth": "06/10/2025",
-          "ssn": "3311",
+          "ssn": "123453311",
           "relationshipToVeteran": "Child",
           "awardIndicator": "Y"
         },
@@ -70,7 +62,7 @@
           "firstName": "FORMER",
           "lastName": "FOSTER",
           "dateOfBirth": "06/10/2025",
-          "ssn": "3145",
+          "ssn": "123453145",
           "relationshipToVeteran": "Child",
           "awardIndicator": "Y"
         },
@@ -78,7 +70,7 @@
           "firstName": "PETER",
           "lastName": "FOSTER",
           "dateOfBirth": "03/01/1943",
-          "ssn": "0104",
+          "ssn": "123450104",
           "relationshipToVeteran": "Parent",
           "awardIndicator": "Y"
         },
@@ -86,7 +78,7 @@
           "firstName": "MARY",
           "lastName": "FOSTER",
           "dateOfBirth": "03/01/1940",
-          "ssn": "0155",
+          "ssn": "123450155",
           "relationshipToVeteran": "Parent",
           "awardIndicator": "Y"
         }

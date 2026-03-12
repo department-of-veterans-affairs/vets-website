@@ -10,6 +10,7 @@ import { CHAR_LIMITS } from '../constants';
 import { transform } from '../submit-transformer';
 
 import maximalData from './fixtures/data/maximal-test.json';
+import minimalBddData from './fixtures/data/minimal-bdd-test.json';
 
 describe('transform', () => {
   beforeEach(() => {
@@ -79,6 +80,37 @@ describe('transform', () => {
 });
 
 describe('Test internal transform functions', () => {
+  it('will preserve sideOfBody for secondary disabilities', () => {
+    const form = {
+      data: {
+        ...maximalData.data,
+        newDisabilities: [
+          {
+            cause: 'SECONDARY',
+            'view:secondaryFollowUp': {
+              causedByDisability: 'Diabetes Mellitus0',
+              causedByDisabilityDescription: 'Nerve damage from diabetes',
+            },
+            condition: 'carpal tunnel syndrome',
+            sideOfBody: 'LEFT',
+            'view:descriptionInfo': {},
+          },
+        ],
+      },
+    };
+    expect(
+      JSON.parse(transform(formConfig, form)).form526.newPrimaryDisabilities,
+    ).to.deep.equal([
+      {
+        condition: 'carpal tunnel syndrome',
+        cause: 'NEW',
+        sideOfBody: 'LEFT',
+        primaryDescription:
+          'Secondary to Diabetes Mellitus0\nNerve damage from diabetes',
+      },
+    ]);
+  });
+
   it('will truncate long descriptions', () => {
     const getString = (key, diff = 0) =>
       new Array(42)
@@ -162,5 +194,218 @@ describe('Test internal transform functions', () => {
         )}`,
       },
     ]);
+  });
+});
+
+describe('BDD description preservation in submit transformer', () => {
+  const servicePeriodsBDD = [
+    {
+      serviceBranch: 'Air Force Reserves',
+      dateRange: {
+        from: '2001-03-21',
+        to: daysFromToday(90),
+      },
+    },
+  ];
+
+  it('should preserve user-provided primaryDescription for BDD NEW cause', () => {
+    const userDescription = 'I injured my knee during a training exercise.';
+    const form = {
+      data: {
+        ...minimalBddData.data,
+        serviceInformation: {
+          ...minimalBddData.data.serviceInformation,
+          servicePeriods: servicePeriodsBDD,
+        },
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            primaryDescription: userDescription,
+            condition: 'asthma',
+            'view:descriptionInfo': {},
+          },
+        ],
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    const newDisability = result.form526.newPrimaryDisabilities[0];
+    expect(newDisability.primaryDescription).to.equal(userDescription);
+  });
+
+  it('should preserve user-provided descriptions for BDD WORSENED cause', () => {
+    const userWorsenedDesc = 'Carrying heavy gear worsened my back.';
+    const userWorsenedEffects = 'Mild pain before, chronic pain after service.';
+    const form = {
+      data: {
+        ...minimalBddData.data,
+        serviceInformation: {
+          ...minimalBddData.data.serviceInformation,
+          servicePeriods: servicePeriodsBDD,
+        },
+        newDisabilities: [
+          {
+            cause: 'WORSENED',
+            'view:worsenedFollowUp': {
+              worsenedDescription: userWorsenedDesc,
+              worsenedEffects: userWorsenedEffects,
+            },
+            condition: 'back pain',
+            'view:descriptionInfo': {},
+          },
+        ],
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    const newDisability = result.form526.newPrimaryDisabilities[0];
+    expect(newDisability.worsenedDescription).to.equal(userWorsenedDesc);
+    expect(newDisability.worsenedEffects).to.equal(userWorsenedEffects);
+  });
+
+  it('should fall back to default descriptions for BDD when user does not provide values', () => {
+    const form = {
+      data: {
+        ...minimalBddData.data,
+        serviceInformation: {
+          ...minimalBddData.data.serviceInformation,
+          servicePeriods: servicePeriodsBDD,
+        },
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            condition: 'asthma',
+            'view:descriptionInfo': {},
+          },
+        ],
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    const newDisability = result.form526.newPrimaryDisabilities[0];
+    expect(newDisability.primaryDescription).to.equal(
+      'This disability is related to my military service.',
+    );
+  });
+});
+
+describe('Country code transformation in submit transformer', () => {
+  it('should keep USA country code as-is (not convert to "United States")', () => {
+    const form = {
+      data: {
+        ...maximalData.data,
+        mailingAddress: {
+          country: 'USA',
+          addressLine1: '123 Any Street',
+          city: 'Anyville',
+          state: 'AK',
+          zipCode: '12345',
+        },
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    expect(result.form526.mailingAddress.country).to.equal('USA');
+  });
+
+  it('should transform country code "CAN" to "Canada" for submission', () => {
+    const form = {
+      data: {
+        ...maximalData.data,
+        mailingAddress: {
+          country: 'CAN',
+          addressLine1: '123 Maple Street',
+          city: 'Toronto',
+          state: 'ON',
+          zipCode: 'M1M 1M1',
+        },
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    expect(result.form526.mailingAddress.country).to.equal('Canada');
+  });
+
+  it('should transform country code "GBR" to "United Kingdom" for submission', () => {
+    const form = {
+      data: {
+        ...maximalData.data,
+        mailingAddress: {
+          country: 'GBR',
+          addressLine1: '123 High Street',
+          city: 'London',
+          state: 'England',
+          zipCode: 'SW1A 1AA',
+        },
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    expect(result.form526.mailingAddress.country).to.equal('United Kingdom');
+  });
+
+  it('should leave full country name as-is when no code mapping exists', () => {
+    const form = {
+      data: {
+        ...maximalData.data,
+        mailingAddress: {
+          country: 'Some Unknown Country',
+          addressLine1: '123 Unknown Street',
+          city: 'Unknown City',
+          state: 'UK',
+          zipCode: '00000',
+        },
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    expect(result.form526.mailingAddress.country).to.equal(
+      'Some Unknown Country',
+    );
+  });
+});
+
+describe('SHA upload attachment transformation', () => {
+  it('includes separationHealthAssessmentUploads in form526.attachments', () => {
+    const form = {
+      data: {
+        ...minimalBddData.data,
+        serviceInformation: {
+          ...minimalBddData.data.serviceInformation,
+          servicePeriods: [
+            {
+              serviceBranch: 'Air Force',
+              dateRange: {
+                from: '2001-03-21',
+                to: daysFromToday(90),
+              },
+            },
+          ],
+        },
+        disability526NewBddShaEnforcementWorkflowEnabled: true,
+        'view:hasSeparationHealthAssessment': true,
+        separationHealthAssessmentUploads: [
+          {
+            name: 'sha-part-a.pdf',
+            confirmationCode: 'sha-code-123',
+            size: 1024,
+            type: 'application/pdf',
+          },
+        ],
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+
+    expect(result.form526.attachments).to.be.an('array');
+    const hasShaAttachment = result.form526.attachments.some(
+      attachment =>
+        attachment.name === 'sha-part-a.pdf' &&
+        attachment.confirmationCode === 'sha-code-123',
+    );
+    expect(hasShaAttachment).to.be.true;
+    expect(result.form526).to.not.have.property(
+      'separationHealthAssessmentUploads',
+    );
   });
 });

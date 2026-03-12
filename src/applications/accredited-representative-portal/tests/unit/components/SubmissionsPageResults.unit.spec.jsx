@@ -1,7 +1,17 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import SubmissionsPageResults from '../../../components/SubmissionsPageResults';
+
+const getStore = () =>
+  createStore(() => ({
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      accredited_representative_portal_claimant_details: true,
+    },
+  }));
 
 describe('SubmissionsPageResults', () => {
   it('renders empty state when no submissions provided', () => {
@@ -29,7 +39,9 @@ describe('SubmissionsPageResults', () => {
     ];
 
     const { container } = render(
-      <SubmissionsPageResults submissions={submissions} />,
+      <Provider store={getStore()}>
+        <SubmissionsPageResults submissions={submissions} />
+      </Provider>,
     );
     const list = container.querySelector('[data-testid="submissions-card"]');
     expect(list).to.exist;
@@ -51,7 +63,9 @@ describe('SubmissionsPageResults', () => {
     ];
 
     const { container } = render(
-      <SubmissionsPageResults submissions={submissions} />,
+      <Provider store={getStore()}>
+        <SubmissionsPageResults submissions={submissions} />
+      </Provider>,
     );
     const name = container.querySelector('h3');
     expect(name).to.exist;
@@ -74,14 +88,19 @@ describe('SubmissionsPageResults', () => {
     ];
 
     const { container } = render(
-      <SubmissionsPageResults submissions={submissions} />,
+      <Provider store={getStore()}>
+        <SubmissionsPageResults submissions={submissions} />
+      </Provider>,
     );
     const statusBlock = container.querySelector('.submission__card-status');
+    const statusBlockRow = container.querySelector(
+      '.submission__card-status--row',
+    );
 
     expect(statusBlock).to.exist;
     expect(statusBlock.textContent).to.include('CONFIRM-789');
-    expect(statusBlock.textContent).to.include('VBMS eFolder status');
-    expect(statusBlock.textContent).to.include('Received');
+    expect(statusBlockRow.textContent).to.include('VBMS eFolder status');
+    expect(statusBlockRow.textContent).to.include('Received');
   });
 
   it('renders form type with "packet" if applicable', () => {
@@ -101,7 +120,9 @@ describe('SubmissionsPageResults', () => {
     ];
 
     const { container } = render(
-      <SubmissionsPageResults submissions={submissions} />,
+      <Provider store={getStore()}>
+        <SubmissionsPageResults submissions={submissions} />
+      </Provider>,
     );
     const formType = container.querySelector('.submission__card-form-name');
     expect(formType).to.exist;

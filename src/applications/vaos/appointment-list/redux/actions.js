@@ -4,9 +4,9 @@ import { selectPatientFacilities } from '@department-of-veterans-affairs/platfor
 import * as Sentry from '@sentry/browser';
 import {
   selectFeatureCCDirectScheduling,
-  selectFeatureUseBrowserTimezone,
   selectSystemIds,
   selectFeatureUseVpg,
+  selectFeatureAddOhAvs,
 } from '../../redux/selectors';
 import {
   APPOINTMENT_TYPES,
@@ -46,6 +46,8 @@ import {
   has404AppointmentIdError,
 } from '../../utils/error';
 import { selectAppointmentById } from './selectors';
+import { fetchAvsPdfBinaries } from '../../services/avs';
+import { avsIsValid, separateFetchableAvsPdfs } from '../../utils/avs';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
@@ -91,7 +93,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const state = getState();
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
     const patientFacilities = selectPatientFacilities(state);
-    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
     const includeEPS = getIsInPilotUserStations(
       featureCCDirectScheduling,
@@ -129,7 +130,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           startDate, // Start 30 days in the past for canceled appointments
           endDate,
           includeEPS,
-          featureUseBrowserTimezone,
         }),
       ];
       if (includeRequests) {
@@ -144,7 +144,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             startDate: requestStartDate, // Start 120 days in the past for requests
             endDate: requestEndDate, // End 1 day in the future for requests
             includeEPS,
-            featureUseBrowserTimezone,
           })
             .then(requests => {
               dispatch({
@@ -249,7 +248,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       featureCCDirectScheduling,
       patientFacilities || [],
     );
-    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
@@ -267,7 +265,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         avs: true,
         fetchClaimStatus: true,
         includeEPS,
-        featureUseBrowserTimezone,
       });
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
       const backendServiceFailures =
@@ -323,7 +320,6 @@ export function fetchRequestDetails(id) {
       ]);
       let facilityId = getVAAppointmentLocationId(request);
       let facility = state.appointments.facilityData?.[facilityId];
-      const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
       if (!request || (facilityId && !facility)) {
         dispatch({
@@ -334,7 +330,6 @@ export function fetchRequestDetails(id) {
       if (!request) {
         request = await fetchRequestById({
           id,
-          featureUseBrowserTimezone,
         });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
@@ -368,7 +363,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
-      const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
+      const addOhAvs = selectFeatureAddOhAvs(state);
 
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
@@ -379,17 +374,25 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       let facilityId = getVAAppointmentLocationId(appointment);
       let facility = state.appointments.facilityData?.[facilityId];
 
-      if (!appointment || (facilityId && !facility)) {
-        dispatch({
-          type: FETCH_CONFIRMED_DETAILS,
-        });
+      // Determine if we need to show loading state
+      const needsAppointmentFetch = !appointment || (facilityId && !facility);
+
+      // Check if Cerner appointment might need AVS fetching
+      // Actual binary check happens in separateFetchableAvsPdfs()
+      const needsAvsFetch =
+        appointment?.vaos?.isCerner &&
+        addOhAvs &&
+        appointment?.avsPdf?.some?.(obj => avsIsValid(obj)); // make sure avsPdf is an array that has a valid AVS PDF to download
+
+      // Dispatch loading if we need to fetch appointment data OR AVS data
+      if (needsAppointmentFetch || needsAvsFetch) {
+        dispatch({ type: FETCH_CONFIRMED_DETAILS });
       }
 
       if (!appointment) {
         appointment = await fetchBookedAppointment({
           id,
           type,
-          featureUseBrowserTimezone,
         });
       }
 
@@ -417,11 +420,20 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       // we don't, fetch it
       if (facilityId && !facility) {
         try {
-          facility = await getLocation({
-            facilityId,
-          });
+          facility = await getLocation({ facilityId });
         } catch (e) {
           captureError(e);
+        }
+      }
+
+      if (appointment.vaos?.isCerner && addOhAvs && !appointment.avsError) {
+        const { toFetch, doNotFetch } = separateFetchableAvsPdfs(
+          appointment.avsPdf,
+        );
+        if (toFetch.length) {
+          // Waits for all AVS PDFs for appointment detail to be fetched before completing action
+          const fetchedAndProcessedPdfs = await fetchAvsPdfBinaries(toFetch);
+          appointment.avsPdf = [...fetchedAndProcessedPdfs, ...doNotFetch];
         }
       }
       dispatch({
@@ -429,6 +441,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment,
         id,
         facility,
+        addOhAvs,
       });
     } catch (e) {
       captureError(e);
@@ -451,7 +464,6 @@ export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     const state = getState();
     const appointment = state.appointments.appointmentToCancel;
-    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
     try {
       dispatch({
@@ -460,7 +472,6 @@ export function confirmCancelAppointment() {
 
       const updatedAppointment = await cancelAppointment({
         appointment,
-        featureUseBrowserTimezone,
       });
 
       dispatch({

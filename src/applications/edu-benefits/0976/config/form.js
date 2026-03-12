@@ -1,9 +1,13 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import environment from '~/platform/utilities/environment';
 import { TITLE, SUBTITLE } from '../constants';
 
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PresubmitInfo from '../components/PresubmitInfo';
+import submitForm from './submitForm';
+import transform from './transform';
 
 import authorizingOfficialName from '../pages/authorizingOfficialName';
 import whatToExpect from '../pages/whatToExpect';
@@ -33,18 +37,38 @@ import programInformationIntro from '../pages/programInformationIntro';
 import programInformationSummary from '../pages/programInformationSummary';
 import programInformationDetails from '../pages/programInformationDetails';
 
+import isMedicalSchool from '../pages/isMedicalSchool';
+import medicalAuthorityName from '../pages/medicalAuthorityName';
+import medical32MonthProgram from '../pages/medical32MonthProgram';
+import medicalHasGraduatingClass from '../pages/medicalHasGraduatingClass';
+import medicalGraduatingClassDetails from '../pages/medicalGraduatingClassDetails';
+
+import institutionContactsInstructions from '../pages/institutionContactsInstructions';
+import institutionFinancialRepresentative from '../pages/institutionFinancialRepresentative';
+import institutionCertifyingOfficial from '../pages/institutionCertifyingOfficial';
+
+import officialsSummary from '../pages/officialsSummary';
+import officialsDetails from '../pages/officialsDetails';
+
+import submissionInstructions from '../pages/submissionInstructions';
+
 import {
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
   programInformationArrayOptions,
+  officialsArrayOptions,
 } from '../helpers';
+
+export const SUBMIT_URL = `${
+  environment.API_URL
+}/v0/education_benefits_claims/0976`;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
+  transformForSubmit: transform,
   trackingPrefix: 'edu-0976-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -73,6 +97,13 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
+  preSubmitInfo: {
+    CustomComponent: PresubmitInfo,
+    required: true,
+    statementOfTruth: {
+      fullNamePath: 'authorizingOfficial.fullName',
+    },
+  },
   chapters: {
     authorizingOfficialAndAcknowledgements: {
       title: 'Authorizing official details and acknowledgements',
@@ -276,6 +307,92 @@ const formConfig = {
             schema: programInformationDetails.schema,
           }),
         })),
+        isMedicalSchool: {
+          path: 'is-medical-school',
+          title: 'Medical school information',
+          uiSchema: isMedicalSchool.uiSchema,
+          schema: isMedicalSchool.schema,
+        },
+        medicalAuthorityName: {
+          path: 'medical-authority-name',
+          title: 'Medical authority name',
+          uiSchema: medicalAuthorityName.uiSchema,
+          schema: medicalAuthorityName.schema,
+          depends: formData => formData?.isMedicalSchool === true,
+        },
+        medical32MonthProgram: {
+          path: 'medical-32-month-program',
+          title: 'Medical 32 month program',
+          uiSchema: medical32MonthProgram.uiSchema,
+          schema: medical32MonthProgram.schema,
+          depends: formData => formData?.isMedicalSchool === true,
+        },
+        medicalHasGraduatingClass: {
+          path: 'medical-graduating-class',
+          title: 'Medical graduation class',
+          uiSchema: medicalHasGraduatingClass.uiSchema,
+          schema: medicalHasGraduatingClass.schema,
+          depends: formData => formData?.isMedicalSchool === true,
+        },
+        medicalGraduatingClassDetails: {
+          path: 'medical-graduating-class-details',
+          title: 'Medical graduation class details',
+          uiSchema: medicalGraduatingClassDetails.uiSchema,
+          schema: medicalGraduatingClassDetails.schema,
+          depends: formData =>
+            formData?.isMedicalSchool === true &&
+            formData?.graduatedLast12Months === true,
+        },
+      },
+    },
+    institutionContacts: {
+      title: 'Institution contacts and faculty details',
+      pages: {
+        contactsInstructions: {
+          path: 'contacts-instructions',
+          title: 'Institution contacts instructions',
+          uiSchema: institutionContactsInstructions.uiSchema,
+          schema: institutionContactsInstructions.schema,
+        },
+        institutionFinancialRepresentative: {
+          path: 'financial-representative',
+          title: 'Financial representative',
+          uiSchema: institutionFinancialRepresentative.uiSchema,
+          schema: institutionFinancialRepresentative.schema,
+        },
+        institutionCertifyingOfficial: {
+          path: 'certifying-official',
+          title: 'Certifying official',
+          uiSchema: institutionCertifyingOfficial.uiSchema,
+          schema: institutionCertifyingOfficial.schema,
+        },
+        ...arrayBuilderPages(officialsArrayOptions, pageBuilder => ({
+          officialsSummary: pageBuilder.summaryPage({
+            path: 'officials-summary',
+            title: 'Officials summary',
+            uiSchema: officialsSummary.uiSchema,
+            schema: officialsSummary.schema,
+          }),
+          officialsDetails: pageBuilder.itemPage({
+            path: 'officials-details/:index',
+            title: 'Officials details',
+            showPagePerItem: true,
+            uiSchema: officialsDetails.uiSchema,
+            schema: officialsDetails.schema,
+          }),
+        })),
+      },
+    },
+    submissionInstructions: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: 'Submission instructions',
+          uiSchema: submissionInstructions.uiSchema,
+          schema: submissionInstructions.schema,
+        },
       },
     },
   },

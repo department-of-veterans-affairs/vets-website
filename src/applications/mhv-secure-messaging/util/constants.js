@@ -1,3 +1,4 @@
+import React from 'react';
 import manifest from '../manifest.json';
 
 /** time to wait (in ms) after the user stops typing before initiating draft auto-save */
@@ -24,6 +25,11 @@ export const Paths = {
   START_MESSAGE: 'start-message/',
   CARE_TEAM_HELP: '/new-message/care-team-help/',
   ROOT_URL: manifest.rootUrl,
+};
+
+export const ExternalLinks = {
+  MHV_ON_VAGOV_WHAT_TO_KNOW:
+    'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
 };
 
 export const DefaultFolders = {
@@ -162,7 +168,9 @@ export const Alerts = {
   Message: {
     BLOCKED_MESSAGE_ERROR:
       'You are blocked from sending messages to this recipient.',
-    CANNOT_REPLY_BODY: {
+    CANNOT_REPLY_BODY:
+      'If you need to contact your care team, start a new message.',
+    STALE_REPLY_BODY: {
       MAIN: 'The last message in this conversation is more than 45 days old.',
       VISTA:
         "If you want to continue this conversation, you'll need to start a new message.",
@@ -171,7 +179,8 @@ export const Alerts = {
       OH_CONTACT:
         'Or you can send a message to other care teams in your contact list.',
     },
-    CANNOT_REPLY_INFO_HEADER: 'This conversation is too old for new replies',
+    CANNOT_REPLY_INFO_HEADER: "You can't reply to this message",
+    STALE_REPLY_INFO_HEADER: 'This conversation is too old for new replies',
     GET_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     DELETE_MESSAGE_SUCCESS:
       'Message conversation was successfully moved to Trash.',
@@ -186,7 +195,8 @@ export const Alerts = {
     MOVE_MESSAGE_THREAD_SUCCESS: 'Message conversation was successfully moved.',
     MOVE_MESSAGE_THREAD_ERROR:
       'Message conversation could not be moved. Try again later. If this problem persists, contact the help desk.',
-    NO_MESSAGES: 'There are no messages in this folder.',
+    NO_MESSAGES:
+      'There are no messages in this folder. If this folder is no longer needed, you can remove it.',
     DELETE_DRAFT_SUCCESS: 'Draft was successfully deleted.',
     DELETE_DRAFT_ERROR:
       'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',
@@ -220,7 +230,7 @@ export const Alerts = {
       'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
     DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER: 'Empty this folder',
     DELETE_FOLDER_ERROR_NOT_EMPTY_BODY: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
-    RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
+    RENAME_FOLDER_SUCCESS: 'Folder renamed',
     RENAME_FOLDER_ERROR:
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
     FOLDER_NAME_TAKEN:
@@ -234,6 +244,11 @@ export const Alerts = {
   ContactList: {
     CANNOT_SAVE:
       "We're sorry. We couldn't save your changes. Try saving again.",
+  },
+  OHSyncStatus: {
+    HEADLINE: "We're still adding some of your messages here",
+    BODY:
+      "We're working to add all of your messages to your inbox. They should be available soon.",
   },
   Headers: {
     HIDE_ALERT: 'HIDE_ALERT',
@@ -511,6 +526,81 @@ export const RecipientStatus = {
   NOT_ASSOCIATED: 'Not Associated',
 };
 
+/**
+ * OH (Oracle Health) migration phases that block message replies.
+ * During facility migration from VistA to Oracle Health, replies are blocked
+ * during certain phases (T-6 through T+2).
+ * - p3: T-6 to T-3
+ * - p4: T-3 to T-1
+ * - p5: T to T+2
+ */
+export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
+
+/**
+ * Config map for Contact List migration alert content.
+ * Each variant defines:
+ * - phases: which migration phases trigger this alert
+ * - headline: the alert heading text
+ * - bodyTop: dynamic text above the facility list
+ * - bodyBottom: dynamic text below the facility list
+ *
+ * Phase timeline reference:
+ * - p0: T-60 to T-44 (pre-migration)
+ * - p1: T-45 to T-29 (pre-migration)
+ * - p2: T-30 to T-5 (pre-migration)
+ * - p3: T-6 to T-2
+ * - p4: T-3 to T-1
+ * - p5: T to T+2
+ * - p6: T+2 to T+6 (post-migration)
+ * - p7: T+7 to  (post-migration)
+ * - p8: T+30 (post-migration)
+ * - p9: T+45 (post-migration)
+ */
+export const ContactListMigrationAlertContent = {
+  P1_TO_P5_MIGRATION: {
+    phases: ['p1', 'p2', 'p3', 'p4', 'p5'],
+    headline: "We're making changes to your contact list",
+    bodyTop: migrationDate => (
+      <>
+        <p>
+          On <b>{migrationDate}</b>, we’ll remove care teams from these
+          facilities from your contact list:
+        </p>
+      </>
+    ),
+    bodyBottom: migrationDate => (
+      <>
+        <p>
+          If these are your only facilities, you’ll no longer have access to
+          your contact list.
+        </p>
+        <p>
+          <b>Note:</b> You can still send messages to care teams at these
+          facilities after <b>{migrationDate}</b>. But the care team names will
+          be different.
+        </p>
+      </>
+    ),
+  },
+  POST_MIGRATION: {
+    phases: ['p6', 'p7', 'p8'],
+    headline: 'We updated your contact list',
+    bodyTop: () => (
+      <>
+        <p>
+          We removed care teams from these facilities from your contact list:
+        </p>
+      </>
+    ),
+    bodyBottom: () => (
+      <p>
+        You can still send messages to care teams at these facilities. But the
+        care team names will be different.
+      </p>
+    ),
+  },
+};
+
 export const BlockedTriageAlertStyles = {
   INFO: 'info',
   WARNING: 'warning',
@@ -551,12 +641,6 @@ export const RxRenewalText = {
 
 export const downtimeNotificationParams = {
   appTitle: 'this messaging tool',
-};
-
-export const CernerTransitioningFacilities = {
-  NORTH_CHICAGO: {
-    facilityId: '556',
-  },
 };
 
 export const filterDescription = {

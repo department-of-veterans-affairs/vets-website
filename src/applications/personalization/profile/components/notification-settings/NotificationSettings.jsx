@@ -7,13 +7,7 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-
-import {
-  NOTIFICATION_GROUPS,
-  PROFILE_PATH_NAMES,
-  PROFILE_PATHS,
-} from '@@profile/constants';
+import { PROFILE_PATH_NAMES, PROFILE_PATHS } from '@@profile/constants';
 import {
   fetchCommunicationPreferenceGroups,
   selectGroups,
@@ -36,6 +30,7 @@ import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import { FIELD_NAMES, USA } from '@@vap-svc/constants';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { LOADING_STATES } from '../../../common/constants';
 
 import LoadFail from '../alerts/LoadFail';
@@ -63,11 +58,7 @@ const NotificationSettings = ({
     returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
   });
 
-  const {
-    showEmail,
-    useAvailableGroups,
-    toggles,
-  } = useNotificationSettingsUtils();
+  const { showEmail, useAvailableGroups } = useNotificationSettingsUtils();
 
   const requiredContactInfoOnFile = useMemo(
     () => {
@@ -148,7 +139,14 @@ const NotificationSettings = ({
 
   return (
     <>
-      <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profile2Enabled}>
+        <Toggler.Enabled>
+          <Headline>{PROFILE_PATH_NAMES.EMAIL_AND_TEXT_NOTIFICATIONS}</Headline>
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
+        </Toggler.Disabled>
+      </Toggler>
 
       <DowntimeNotification
         appTitle="notification settings page"
@@ -163,7 +161,7 @@ const NotificationSettings = ({
         {shouldShowAPIError && <LoadFail />}
         {!shouldShowLoadingIndicator &&
           !shouldShowAPIError && (
-            <InitializeVAPServiceID>
+            <>
               {showMissingContactInfoAlert && (
                 <MissingContactInfoAlert
                   missingMobilePhone={
@@ -232,24 +230,12 @@ const NotificationSettings = ({
                     </p>
                   </va-additional-info>
                   <hr aria-hidden="true" />
-                  {availableGroups.map(({ id }) => {
-                    // we handle the health care group a little differently
-                    if (id === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
-                      return <NotificationGroup groupId={id} key={id} />;
-                    }
-                    // this will hide the Payments header when there are no items to display
-                    if (
-                      id === NOTIFICATION_GROUPS.PAYMENTS &&
-                      !toggles.profileShowNewHealthCareCopayBillNotificationSetting &&
-                      !mobilePhoneNumber
-                    ) {
-                      return null;
-                    }
-                    return <NotificationGroup groupId={id} key={id} />;
-                  })}
+                  {availableGroups.map(({ id }) => (
+                    <NotificationGroup groupId={id} key={id} />
+                  ))}
                 </>
               )}
-            </InitializeVAPServiceID>
+            </>
           )}
       </DowntimeNotification>
     </>

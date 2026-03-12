@@ -52,12 +52,6 @@ describe('21P-0969 form config', () => {
     });
     expect(vLoggedIn).to.equal('veteranFullName');
 
-    const vLoggedOut = psi.statementOfTruth.fullNamePath({
-      claimantType: 'VETERAN',
-      isLoggedIn: false,
-    });
-    expect(vLoggedOut).to.equal('otherVeteranFullName');
-
     const nonVet = psi.statementOfTruth.fullNamePath({
       claimantType: 'SPOUSE',
     });
@@ -81,7 +75,6 @@ describe('21P-0969 form config', () => {
       'unreportedAssets',
       'discontinuedIncomes',
       'incomeReceiptWaivers',
-      'supportingDocuments',
     ];
 
     expected.forEach(ch => {

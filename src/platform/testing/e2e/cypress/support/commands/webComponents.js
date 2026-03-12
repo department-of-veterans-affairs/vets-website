@@ -185,39 +185,38 @@ Cypress.Commands.add('fillVaTelephoneInput', (field, value) => {
   }
 });
 
-Cypress.Commands.add('fillVaFileInput', (field, value) => {
+// this function generates an object with file contents for upload to file input instance
+async function getFileContents(file) {
+  return {
+    contents: Cypress.Buffer.from(await file.arrayBuffer()),
+    fileName: file.name || 'placeholder.png',
+    mimeType: file.type || 'image/png',
+    lastModified: file.lastModified || Date.now(),
+  };
+}
+
+Cypress.Commands.add('fillVaFileInput', (field, value, file) => {
   if (typeof value !== 'undefined') {
     const element =
       typeof field === 'string'
         ? cy.get(`va-file-input[name="${field}"]`)
         : cy.wrap(field);
-    cy.log('made it here');
+
     element.then(async $el => {
       const el = $el[0];
 
-      const pngFile = await makeMinimalPNG();
-      const mockFormData = {
-        name: value?.name || 'placeholder.png',
-        size: value?.size || 123,
-        password: value?.password || 'abc',
-        additionalData: value?.additionalData || {},
-        confirmationCode: value?.confirmationCode || '123456',
-        isEncrypted: value?.isEncrypted || true,
-        hasAdditionalInputError: false,
-        hasPasswordError: false,
-      };
-      const fileSelectEvent = new CustomEvent('vaChange', {
-        detail: { files: [pngFile], mockFormData },
-        bubbles: true,
-        composed: true,
+      cy.then(() => file || makeMinimalPNG()).then(async mockFile => {
+        const selectFileArg = await getFileContents(mockFile);
+        cy.wrap(el)
+          .shadow()
+          .find('input[type="file"]')
+          .selectFile(selectFileArg, { force: true });
       });
-
-      el.dispatchEvent(fileSelectEvent);
     });
   }
 });
 
-Cypress.Commands.add('fillVaFileInputMultiple', (field, value) => {
+Cypress.Commands.add('fillVaFileInputMultiple', (field, value, files) => {
   if (typeof value !== 'undefined') {
     const element =
       typeof field === 'string'
@@ -226,30 +225,24 @@ Cypress.Commands.add('fillVaFileInputMultiple', (field, value) => {
 
     element.then(async $el => {
       const el = $el[0];
+      // get number of previously added files
+      const startingIndex =
+        el.shadowRoot.querySelectorAll('va-file-input').length - 1;
+      const filesPromise = Array.isArray(files)
+        ? Promise.resolve(files)
+        : makeMinimalPNG().then(file => [file]);
 
-      const pngFile = await makeMinimalPNG();
-      const detail = {
-        action: 'FILE_ADDED',
-        file: pngFile,
-        state: [{ file: pngFile, password: undefined, changed: true }],
-        mockFormData: {
-          confirmationCode: 'abc123',
-          name: 'placeholder.png',
-          size: 123,
-          additionalData: {
-            documentStatus: 'public',
-          },
-        },
-      };
-
-      const options = {
-        detail,
-        bubbles: true,
-        composed: true,
-      };
-
-      const event = new CustomEvent('vaMultipleChange', options);
-      el.dispatchEvent(event);
+      cy.wrap(filesPromise).then(_files => {
+        _files.forEach((file, index) => {
+          cy.wrap(el)
+            .shadow()
+            .find('va-file-input')
+            .eq(startingIndex + index)
+            .then($fileInput => {
+              cy.fillVaFileInput($fileInput, value, file);
+            });
+        });
+      });
     });
   }
 });
@@ -260,21 +253,21 @@ function fillVaDateFields(year, month, day, monthYearOnly) {
     .then(el => {
       cy.wrap(el)
         .find('va-select.select-month')
-        .shadow()
-        .find('select')
-        .select(month);
+        .then($monthSelect => {
+          cy.selectVaSelect($monthSelect, month);
+        });
       if (!monthYearOnly) {
         cy.wrap(el)
           .find('va-select.select-day')
-          .shadow()
-          .find('select')
-          .select(day);
+          .then($daySelect => {
+            cy.selectVaSelect($daySelect, day);
+          });
       }
       cy.wrap(el)
         .find('va-text-input.input-year')
-        .shadow()
-        .find('input')
-        .type(year);
+        .then($yearInput => {
+          cy.fillVaTextInput($yearInput, year);
+        });
     });
 }
 
@@ -304,6 +297,33 @@ Cypress.Commands.add('fillVaDate', (field, dateString, isMonthYearOnly) => {
   }
 });
 
+const fillMemorableDateInput = (el, fieldType, value) => {
+  // There is a bug only on Chromium based browsers where
+  // VaMemorableDate text input fields will think they are
+  // disabled if you blur focus of the window while the test
+  // is running. realPress and realType solve this issue,
+  // but these are only available for Chromium based browsers.
+  // See cypress-real-events npmjs for more info.
+  // ** see applications/simple-forms/shared/tests/e2e/helpers.js **
+  const isChrome = navigator.userAgent.includes('Chrome');
+  const selector = `va-text-input.input-${fieldType}, va-text-input.usa-form-group--${fieldType}-input`;
+
+  cy.wrap(el)
+    .find(selector)
+    .shadow()
+    .find('input')
+    .then($input => {
+      cy.wrap($input).clear({ force: true, delay: 0 });
+
+      if (isChrome) {
+        cy.wrap($input).focus();
+        cy.realType(value);
+      } else {
+        cy.wrap($input).type(value, FORCE_OPTION);
+      }
+    });
+};
+
 Cypress.Commands.add(
   'fillVaMemorableDate',
   (field, dateString, useMonthSelect = true) => {
@@ -322,71 +342,18 @@ Cypress.Commands.add(
       );
 
       element.shadow().then(el => {
-        // There is a bug only on Chromium based browsers where
-        // VaMemorableDate text input fields will think they are
-        // disabled if you blur focus of the window while the test
-        // is running. realPress and realType solve this issue,
-        // but these are only available for Chromium based browsers.
-        // See cypress-real-events npmjs for more info.
-        // ** see applications/simple-forms/shared/tests/e2e/helpers.js **
-        const isChrome = navigator.userAgent.includes('Chrome');
-        const getSelectors = type =>
-          `va-text-input.input-${type}, va-text-input.usa-form-group--${type}-input`;
-
-        // month
         if (useMonthSelect) {
           cy.wrap(el)
             .find('va-select.usa-form-group--month-select')
-            .shadow()
-            .find('select')
-            .select(month);
-        } else if (isChrome) {
-          cy.wrap(el)
-            .find(getSelectors('month'))
-            .shadow()
-            .find('input')
-            .clear({ force: true, delay: 0 })
-            .focus();
-          cy.realType(month);
+            .then($monthSelect => {
+              cy.selectVaSelect($monthSelect, month);
+            });
         } else {
-          cy.wrap(el)
-            .find(getSelectors('month'))
-            .shadow()
-            .find('input')
-            .clear({ force: true, delay: 0 })
-            .type(month);
+          fillMemorableDateInput(el, 'month', month);
         }
 
-        // day and year
-        if (isChrome) {
-          cy.wrap(el)
-            .find(getSelectors('day'))
-            .shadow()
-            .find('input')
-            .clear({ force: true, delay: 0 })
-            .focus();
-          cy.realType(day);
-          cy.wrap(el)
-            .find(getSelectors('year'))
-            .shadow()
-            .find('input')
-            .clear({ force: true, delay: 0 })
-            .focus();
-          cy.realType(year);
-        } else {
-          cy.wrap(el)
-            .find(getSelectors('day'))
-            .shadow()
-            .find('input')
-            .clear({ force: true, delay: 0 })
-            .type(day);
-          cy.wrap(el)
-            .find(getSelectors('year'))
-            .shadow()
-            .find('input')
-            .clear({ force: true, delay: 0 })
-            .type(year);
-        }
+        fillMemorableDateInput(el, 'day', day);
+        fillMemorableDateInput(el, 'year', year);
       });
     }
   },
@@ -442,7 +409,9 @@ Cypress.Commands.add('enterWebComponentData', field => {
     }
 
     case 'VA-MEMORABLE-DATE': {
-      cy.fillVaMemorableDate(field.key, field.data);
+      const monthSelect = field.element.attr('month-select');
+      const useMonthSelect = monthSelect !== 'false';
+      cy.fillVaMemorableDate(field.key, field.data, useMonthSelect);
       break;
     }
 

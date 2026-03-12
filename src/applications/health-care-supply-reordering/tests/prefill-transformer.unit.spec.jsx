@@ -15,51 +15,6 @@ describe('prefillTransformer', () => {
   };
 
   describe('temporaryAddress', () => {
-    it('should copy permanentAddress to temporaryAddress when temporaryAddress is missing', () => {
-      const permanentAddress = { ...defaultAddress };
-      const formData = {
-        permanentAddress,
-      };
-      const result = prefillTransformer(pages, formData, metadata);
-      expect(result.formData.temporaryAddress).to.deep.equal(permanentAddress);
-    });
-
-    it('should copy permanentAddress to temporaryAddress when temporaryAddress is an empty object', () => {
-      const permanentAddress = { ...defaultAddress };
-      const formData = {
-        permanentAddress,
-        temporaryAddress: {},
-      };
-      const result = prefillTransformer(pages, formData, metadata);
-      expect(result.formData.temporaryAddress).to.deep.equal(permanentAddress);
-    });
-
-    it('should copy permanentAddress to temporaryAddress when temporaryAddress has empty street field', () => {
-      const permanentAddress = { ...defaultAddress };
-      const formData = {
-        permanentAddress,
-        temporaryAddress: {
-          ...defaultAddress,
-          street: '',
-        },
-      };
-      const result = prefillTransformer(pages, formData, metadata);
-      expect(result.formData.temporaryAddress).to.deep.equal(permanentAddress);
-    });
-
-    it('should copy permanentAddress to temporaryAddress when temporaryAddress street is whitespace only', () => {
-      const permanentAddress = { ...defaultAddress };
-      const formData = {
-        permanentAddress,
-        temporaryAddress: {
-          ...defaultAddress,
-          street: '   ',
-        },
-      };
-      const result = prefillTransformer(pages, formData, metadata);
-      expect(result.formData.temporaryAddress).to.deep.equal(permanentAddress);
-    });
-
     it('should NOT copy permanentAddress when temporaryAddress has a valid street', () => {
       const permanentAddress = { ...defaultAddress };
       const temporaryAddress = {
@@ -74,6 +29,52 @@ describe('prefillTransformer', () => {
       const result = prefillTransformer(pages, formData, metadata);
       expect(result.formData.temporaryAddress).to.deep.equal(temporaryAddress);
       expect(result.formData.temporaryAddress.street).to.equal('456 Elm St');
+    });
+
+    it('should convert empty string fields to undefined in temporaryAddress', () => {
+      const permanentAddress = { ...defaultAddress };
+      const temporaryAddress = {
+        street: '',
+        street2: '',
+        city: '',
+        state: '',
+        country: '',
+        postalCode: '',
+      };
+      const formData = {
+        permanentAddress,
+        temporaryAddress,
+      };
+      const result = prefillTransformer(pages, formData, metadata);
+      expect(result.formData.temporaryAddress.street).to.be.undefined;
+      expect(result.formData.temporaryAddress.street2).to.be.undefined;
+      expect(result.formData.temporaryAddress.city).to.be.undefined;
+      expect(result.formData.temporaryAddress.state).to.be.undefined;
+      expect(result.formData.temporaryAddress.country).to.be.undefined;
+      expect(result.formData.temporaryAddress.postalCode).to.be.undefined;
+    });
+
+    it('should only convert empty string fields and preserve valid values in temporaryAddress', () => {
+      const permanentAddress = { ...defaultAddress };
+      const temporaryAddress = {
+        street: '456 Elm St',
+        street2: '',
+        city: 'Shelbyville',
+        state: '',
+        country: 'USA',
+        postalCode: '',
+      };
+      const formData = {
+        permanentAddress,
+        temporaryAddress,
+      };
+      const result = prefillTransformer(pages, formData, metadata);
+      expect(result.formData.temporaryAddress.street).to.equal('456 Elm St');
+      expect(result.formData.temporaryAddress.street2).to.be.undefined;
+      expect(result.formData.temporaryAddress.city).to.equal('Shelbyville');
+      expect(result.formData.temporaryAddress.state).to.be.undefined;
+      expect(result.formData.temporaryAddress.country).to.equal('USA');
+      expect(result.formData.temporaryAddress.postalCode).to.be.undefined;
     });
   });
 
