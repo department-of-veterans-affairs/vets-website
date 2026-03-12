@@ -10,6 +10,8 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { marriageDateValidation } from '../helpers';
+
 const spouseNameUI = fullNameUI();
 spouseNameUI.first['ui:title'] = "Spouse's first name";
 spouseNameUI.first['ui:required'] = () => true;
@@ -29,7 +31,7 @@ ageUI['ui:title'] = 'How old were you when you remarried?';
 ageUI['ui:required'] = () => true;
 ageUI['ui:options'] = {
   min: 0,
-  max: 120,
+  max: 130,
 };
 
 export default {
@@ -41,6 +43,7 @@ export default {
       spouseDateOfBirth: spouseDobUI,
       ageAtMarriage: ageUI,
     },
+    'ui:validations': [marriageDateValidation],
   },
   schema: {
     type: 'object',
