@@ -1,5 +1,104 @@
 import React from 'react';
 
+export const complaintTypesList = [
+  {
+    content: [
+      {
+        type: 'text',
+        value: 'Recruiting/Marketing Practices',
+      },
+    ],
+  },
+  {
+    content: [
+      {
+        type: 'text',
+        value: 'Accreditation',
+      },
+    ],
+  },
+  {
+    content: [
+      {
+        type: 'text',
+        value: 'Financial Issues (e.g. Tuition/Fee charges)',
+      },
+    ],
+  },
+  {
+    content: [
+      {
+        type: 'text',
+        value: 'Student Loans',
+      },
+    ],
+  },
+  {
+    content: [
+      {
+        type: 'text',
+        value: 'Post-Graduation Job Opportunities',
+      },
+    ],
+  },
+  {
+    content: [
+      {
+        type: 'text',
+        value: 'Change in Degree Plan/Requirements',
+      },
+    ],
+  },
+  {
+    content: [
+      {
+        type: 'text',
+        value: 'Quality of Education',
+      },
+    ],
+  },
+  {
+    content: [
+      {
+        type: 'text',
+        value: 'Grade Policy',
+      },
+    ],
+  },
+  {
+    content: [
+      {
+        type: 'text',
+        value: 'Release of transcripts',
+      },
+    ],
+  },
+  {
+    content: [
+      {
+        type: 'text',
+        value: 'Transfer of Credits',
+      },
+    ],
+  },
+  {
+    content: [
+      {
+        type: 'text',
+        value: 'Refund Issues',
+      },
+    ],
+  },
+  {
+    content: [
+      {
+        type: 'text',
+        value: 'Other',
+      },
+    ],
+  },
+];
+
 export const complaintList = [
   {
     content: [

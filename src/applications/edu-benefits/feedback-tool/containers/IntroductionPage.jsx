@@ -5,10 +5,9 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import EducationModalContent from 'platform/forms/components/OMBInfoModalContent/EducationModalContent';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import environment from 'platform/utilities/environment';
-import Table from '../components/Table';
 import PageLink from '../components/PageLink';
 import Lists from '../components/Lists';
-import { complaintList, prepareList } from '../constants';
+import { complaintList, complaintTypesList, prepareList } from '../constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -34,7 +33,7 @@ class IntroductionPage extends React.Component {
           risks to students.
         </p>
         <p>VA will review the following types of complaints:</p>
-        <Table />
+        <Lists items={complaintTypesList} />
         <p>
           Questions about your eligibility and payments under the GI Bill should
           be directed to the <br />
