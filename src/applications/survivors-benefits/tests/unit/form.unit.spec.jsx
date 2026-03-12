@@ -2,31 +2,6 @@ import { expect } from 'chai';
 import formConfig from '../../config/form';
 
 describe('Survivors Benefits Form config', () => {
-  describe('Chapter 2: Claimant Information with different data sets', () => {
-    it('should show claimantOther page when claimantRelationship is OTHER', () => {
-      const { claimantInformation } = formConfig.chapters;
-      const { pages } = claimantInformation;
-      const { claimantOther } = pages;
-
-      const relationshipOther = { claimantRelationship: 'OTHER' };
-      const survivingSpouse = { claimantRelationship: 'SURVIVING_SPOUSE' };
-      const custodian = {
-        claimantRelationship: 'CUSTODIAN_FILING_FOR_CHILD_UNDER_18',
-      };
-      const helplessAdultChild = {
-        claimantRelationship: 'HELPLESS_ADULT_CHILD',
-      };
-
-      // Should show when claimant relationship is OTHER
-      expect(claimantOther.depends(relationshipOther)).to.be.true;
-
-      // Should NOT show for any other valid relationship
-      expect(claimantOther.depends(survivingSpouse)).to.be.false;
-      expect(claimantOther.depends(custodian)).to.be.false;
-      expect(claimantOther.depends(helplessAdultChild)).to.be.false;
-    });
-  });
-
   describe('Chapter 3: Military History with different data sets', () => {
     it('should show military history pages when receivedBenefits is false', () => {
       const { militaryHistory } = formConfig.chapters;

@@ -5,7 +5,7 @@ import {
   dateOfDeathUI,
   dateOfDeathSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { validations } from '../../validations';
+import { validations } from '../config/validations';
 
 /** @type {PageSchema} */
 export default {

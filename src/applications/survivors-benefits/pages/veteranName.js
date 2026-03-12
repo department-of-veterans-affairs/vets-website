@@ -5,12 +5,10 @@ import {
   titleUI,
   fullNameUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { UnauthenticatedWarningAlert } from '../../../components/FormAlerts';
-import { setDefaultIsOver65 } from './helpers';
+import { UnauthenticatedWarningAlert } from '../components/FormAlerts';
 
 /** @type {PageSchema} */
 export default {
-  updateFormData: setDefaultIsOver65,
   uiSchema: {
     ...titleUI('Veteran’s name and date of birth'),
     'view:warningAlert': {

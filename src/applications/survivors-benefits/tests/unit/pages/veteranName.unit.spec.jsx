@@ -6,7 +6,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import veteranName from '../../../../config/chapters/01-veteran-information/veteranName';
+import veteranName from '../../../pages/veteranName';
 
 const url =
   '/family-and-caregiver-benefits/survivor-compensation/apply-for-dic-survivors-pension-accrued-benefits-form-21p-534ez/veteran';

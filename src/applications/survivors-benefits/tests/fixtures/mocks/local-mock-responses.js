@@ -1,4 +1,3 @@
-// yarn mock-api --responses ./src/applications/{application}/tests/e2e/fixtures/mocks/local-mock-responses.js
 const mockItf = require('./mock-itf');
 const mockUser = require('./user.json');
 const { generateFeatureFlags } = require('./feature-flags');

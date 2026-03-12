@@ -5,11 +5,15 @@ import {
   dateOfBirthSchema,
   dateOfBirthUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { isCustodian } from '../utils/helpers';
+
+export const nameDobTitle = formData =>
+  `${isCustodian(formData) ? 'Child’s' : 'Your'} name and date of birth`;
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Claimant’s name and date of birth'),
+    ...titleUI(({ formData }) => nameDobTitle(formData)),
     claimantFullName: fullNameUI(),
     claimantDateOfBirth: dateOfBirthUI({
       monthSelect: false,
