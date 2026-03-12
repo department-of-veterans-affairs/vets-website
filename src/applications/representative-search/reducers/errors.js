@@ -1,7 +1,5 @@
 import {
   SEARCH_FAILED,
-  REPORT_COMPLETE,
-  REPORT_FAILED,
   GEOCODE_FAILED,
   CLEAR_ERROR,
   GEOCODE_STARTED,
@@ -12,7 +10,6 @@ import {
 
 export const INITIAL_STATE = {
   isErrorFetchRepresentatives: null,
-  isErrorReportSubmission: null,
   isErrorGeocode: null,
 };
 
@@ -31,12 +28,6 @@ export const ErrorsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isErrorFetchRepresentatives: null,
       };
-
-    case REPORT_COMPLETE:
-      return {
-        ...state,
-        isErrorReportSubmission: null,
-      };
     case GEOCODE_FAILED:
       return {
         ...state,
@@ -51,11 +42,6 @@ export const ErrorsReducer = (state = INITIAL_STATE, action) => {
       }
       return INITIAL_STATE;
 
-    case REPORT_FAILED:
-      return {
-        ...state,
-        isErrorReportSubmission: true,
-      };
     default:
       return state;
   }
