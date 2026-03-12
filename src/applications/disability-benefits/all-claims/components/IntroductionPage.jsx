@@ -95,7 +95,7 @@ class IntroductionPage extends React.Component {
         <div className="process schemaform-process">
           {loggedIn && (
             <p id="restart-wizard" className="vads-u-margin-top--0">
-              if you don’t think this is the right form for you,{' '}
+              If you don’t think this is the right form for you,{' '}
               <va-link
                 aria-describedby="restart-wizard"
                 href={
