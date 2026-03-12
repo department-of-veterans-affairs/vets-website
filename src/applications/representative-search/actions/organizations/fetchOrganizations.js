@@ -18,7 +18,7 @@ export const fetchOrganizations = async dispatch => {
     if (!resp.ok) {
       dispatch({
         type: FETCH_ORGANIZATIONS_FAILED,
-        error: resp.body,
+        error: resp.error,
       });
       return;
     }

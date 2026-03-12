@@ -457,6 +457,8 @@ export const fetchSuggestedAddress = async userAddress => {
 
     if (res?.addresses && res?.addresses.length > 0) {
       const suggested = res.addresses[0]?.address;
+      const confidenceScore =
+        res?.addresses[0]?.addressMetaData?.confidenceScore;
       return {
         fetchedSuggestedAddress: {
           addressLine1: suggested.addressLine1,
@@ -466,15 +468,24 @@ export const fetchSuggestedAddress = async userAddress => {
           state: suggested.stateCode,
           zipCode: suggested.zipCode,
         },
-        fetchedShowSuggestions:
-          res?.addresses[0]?.addressMetaData?.confidenceScore !== 100,
+        // Show suggestions when confidence is decent but not perfect
+        fetchedShowSuggestions: confidenceScore >= 80 && confidenceScore < 100,
+        fetchedConfidenceScore: confidenceScore,
       };
     }
   } catch (error) {
-    return { fetchedSuggestedAddress: null, fetchedShowSuggestions: false };
+    return {
+      fetchedSuggestedAddress: null,
+      fetchedShowSuggestions: false,
+      fetchedConfidenceScore: null,
+    };
   }
 
-  return { fetchedSuggestedAddress: null, fetchedShowSuggestions: false };
+  return {
+    fetchedSuggestedAddress: null,
+    fetchedShowSuggestions: false,
+    fetchedConfidenceScore: null,
+  };
 };
 
 // Helper function to conditionally return a line with a break
