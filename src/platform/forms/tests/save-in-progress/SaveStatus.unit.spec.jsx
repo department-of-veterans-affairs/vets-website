@@ -23,6 +23,11 @@ describe('<SaveStatus>', () => {
     const { container } = render(<SaveStatus {...props} />);
     expect(container).to.not.be.undefined;
   });
+  it('should keep live region empty before save error', () => {
+    const { getByTestId } = render(<SaveStatus {...props} />);
+    const liveRegion = getByTestId('save-status-error-announcement');
+    expect(liveRegion.textContent).to.equal('');
+  });
   it('should show last saved date', () => {
     const testProps = {
       ...props,
@@ -73,8 +78,10 @@ describe('<SaveStatus>', () => {
       ...props,
       form: { ...props.form, autoSavedStatus: SAVE_STATUSES.failure },
     };
-    const { container } = render(<SaveStatus {...testProps} />);
+    const { container, getByTestId } = render(<SaveStatus {...testProps} />);
     expect(container.textContent).to.have.string('having some issues');
+    const liveRegion = getByTestId('save-status-error-announcement');
+    expect(liveRegion.textContent).to.have.string('having some issues');
   });
   it('should display the appSavedSuccessfullyMessage & SiP ID', () => {
     const appSavedSuccessfullyMessageProps = {

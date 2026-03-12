@@ -8,6 +8,22 @@ import {
   APP_TYPE_DEFAULT,
 } from '../../forms-system/src/js/constants';
 
+function getSaveErrorAnnouncement(autoSavedStatus, appType, isLoggedIn) {
+  if (autoSavedStatus === SAVE_STATUSES.clientFailure) {
+    return `We’re sorry. We’re unable to connect to VA.gov. Please check that you’re connected to the Internet, so we can save your ${appType} in progress.`;
+  }
+
+  if (autoSavedStatus === SAVE_STATUSES.failure) {
+    return `We’re sorry, but we’re having some issues and are working to fix them. You can continue filling out the ${appType}, but it will not be automatically saved as you fill it out.`;
+  }
+
+  if (!isLoggedIn && autoSavedStatus === SAVE_STATUSES.noAuth) {
+    return `Sorry, you’re no longer signed in. Sign in to save your ${appType} in progress.`;
+  }
+
+  return '';
+}
+
 function SaveStatus({
   form: {
     lastSavedDate,
@@ -56,9 +72,20 @@ function SaveStatus({
   const appSavedSuccessfullyMessage =
     formConfig?.customText?.appSavedSuccessfullyMessage ||
     APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE;
+  const errorAnnouncement = hasError
+    ? getSaveErrorAnnouncement(autoSavedStatus, appType, isLoggedIn)
+    : '';
 
   return (
     <div>
+      <div
+        role="alert"
+        aria-atomic="true"
+        className="sr-only"
+        data-testid="save-status-error-announcement"
+      >
+        {errorAnnouncement}
+      </div>
       {autoSavedStatus === SAVE_STATUSES.success && (
         <div className="panel saved-success-container vads-u-display--flex vads-u-padding--1 vads-u-margin-bottom--1p5 vads-u-display--block">
           <va-alert status="success" slim uswds>
@@ -74,18 +101,12 @@ function SaveStatus({
         <p className="saved-form-autosaving">Saving...</p>
       )}
       {hasError && (
-        <va-alert
-          status="error"
-          role="alert"
-          class="schemaform-save-error"
-          slim
-          uswds
-        >
+        <va-alert status="error" class="schemaform-save-error" slim uswds>
           <p className="vads-u-margin--0">
             {autoSavedStatus === SAVE_STATUSES.clientFailure &&
-              `We’re sorry. We’re unable to connect to VA.gov. Please check that you’re connected to the Internet, so we can save your ${appType} in progress.`}
+              getSaveErrorAnnouncement(autoSavedStatus, appType, isLoggedIn)}
             {autoSavedStatus === SAVE_STATUSES.failure &&
-              `We’re sorry, but we’re having some issues and are working to fix them. You can continue filling out the ${appType}, but it will not be automatically saved as you fill it out.`}
+              getSaveErrorAnnouncement(autoSavedStatus, appType, isLoggedIn)}
             {!isLoggedIn &&
               autoSavedStatus === SAVE_STATUSES.noAuth && (
                 <span>
