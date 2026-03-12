@@ -66,7 +66,7 @@ it('handles map zooming correctly', () => {
         createRegexString({
           serviceType: 'All VA health services',
           facilityType: 'VA health',
-          radius: 50,
+          radius: null,
           totalEntries: 14,
           location: 'Austin, Texas',
         }),
