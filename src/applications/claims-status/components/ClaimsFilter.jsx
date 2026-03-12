@@ -3,18 +3,20 @@ import PropTypes from 'prop-types';
 
 import { VaButtonSegmented } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { FILTER_VALUES } from '../constants';
+
 const BUTTONS = [
   {
-    label: 'All',
-    value: 'all',
-  },
-  {
-    label: 'Active',
-    value: 'active',
+    label: 'In progress',
+    value: FILTER_VALUES.IN_PROGRESS,
   },
   {
     label: 'Closed',
-    value: 'closed',
+    value: FILTER_VALUES.CLOSED,
+  },
+  {
+    label: 'All',
+    value: FILTER_VALUES.ALL,
   },
 ];
 
@@ -36,6 +38,6 @@ export default function ClaimsFilter({ selected, onFilterChange }) {
 }
 
 ClaimsFilter.propTypes = {
-  selected: PropTypes.oneOf(['all', 'active', 'closed']),
+  selected: PropTypes.oneOf(Object.values(FILTER_VALUES)),
   onFilterChange: PropTypes.func,
 };

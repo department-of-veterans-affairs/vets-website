@@ -34,4 +34,35 @@ describe('pension medical evidence', () => {
       .true;
     expect(requiresAdditionalEvidence({ medicalCondition: true })).to.be.true;
   });
+
+  describe('depends logic', () => {
+    it('shows page when applicant is under 65 and has Social Security disability', () => {
+      const formData = {
+        isOver65: false,
+        socialSecurityDisability: true,
+        medicalCondition: false,
+      };
+      expect(additionalEvidence.depends(formData)).to.be.true;
+    });
+
+    it('shows page when applicant is under 65 and has medical condition', () => {
+      const formData = {
+        isOver65: false,
+        socialSecurityDisability: false,
+        medicalCondition: true,
+      };
+
+      expect(additionalEvidence.depends(formData)).to.be.true;
+    });
+
+    it('does not show page when applicant is 65 or older', () => {
+      const formData = {
+        isOver65: true,
+        socialSecurityDisability: true,
+        medicalCondition: true,
+      };
+
+      expect(additionalEvidence.depends(formData)).to.be.false;
+    });
+  });
 });

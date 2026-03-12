@@ -16,7 +16,6 @@ export const FDCDescription = (
           text="Learn more about the FDC program"
           external
         />
-        .
       </li>
       <li>
         <va-link
@@ -24,7 +23,6 @@ export const FDCDescription = (
           text="View the evidence requirements for disability claims"
           external
         />
-        .
       </li>
     </ul>
   </div>

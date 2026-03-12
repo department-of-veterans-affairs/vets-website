@@ -10,7 +10,7 @@ export default {
   path: 'financial/home-ownership/acres/value',
   depends: isHomeAcreageMoreThanTwo,
   uiSchema: {
-    ...titleUI('Income and assets'),
+    ...titleUI('Home acreage value'),
     homeAcreageValue: currencyUI({
       title: 'What’s the value of the land that’s more than 2 acres?',
       hint: 'Don’t include the value of the residence or the first 2 acres',

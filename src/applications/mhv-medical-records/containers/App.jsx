@@ -129,6 +129,7 @@ const App = ({ children }) => {
         <div className="vads-l-grid-container">
           <TrackedSpinner
             id="mr-top-level-loading-indicator"
+            enableTimeout
             message="Loading your medical records..."
             set-focus
             data-testid="mr-top-level-loading-indicator"

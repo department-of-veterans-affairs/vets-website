@@ -27,6 +27,7 @@ import {
   removeExtraData,
   cleanUpMailingAddress,
   getDisabilityName,
+  addFileAttachments,
   flattenAttachments,
 } from '../../utils/submit';
 import {
@@ -2124,5 +2125,62 @@ describe('flattenAttachments', () => {
     });
     expect(result.disabilities).to.deep.equal(['Back pain', 'Knee injury']);
     expect(result.additionalDocuments[0].attachmentId).to.equal('L023');
+  });
+});
+
+describe('addFileAttachments', () => {
+  it('merges separationHealthAssessmentUploads into attachments', () => {
+    const formData = {
+      separationHealthAssessmentUploads: [
+        {
+          name: 'sha-part-a.pdf',
+          confirmationCode: 'sha-code-123',
+          size: 1024,
+          type: 'application/pdf',
+        },
+      ],
+      veteranFullName: { first: 'Sam', last: 'Veteran' },
+    };
+
+    const result = addFileAttachments(formData);
+
+    expect(result.attachments).to.have.lengthOf(1);
+    expect(result.attachments[0].name).to.equal('sha-part-a.pdf');
+    expect(result.attachments[0].confirmationCode).to.equal('sha-code-123');
+    expect(result).to.not.have.property('separationHealthAssessmentUploads');
+    expect(result.veteranFullName).to.deep.equal({
+      first: 'Sam',
+      last: 'Veteran',
+    });
+  });
+
+  it('keeps existing attachment behavior when SHA uploads are present', () => {
+    const formData = {
+      separationHealthAssessmentUploads: [
+        {
+          name: 'sha-part-a.pdf',
+          confirmationCode: 'sha-code-123',
+          size: 1024,
+          type: 'application/pdf',
+        },
+      ],
+      additionalDocuments: [
+        {
+          name: 'buddy-statement.pdf',
+          confirmationCode: 'lay-code-999',
+          size: 2048,
+          type: 'application/pdf',
+        },
+      ],
+    };
+
+    const result = addFileAttachments(formData);
+
+    expect(result.attachments).to.have.lengthOf(2);
+    const names = result.attachments.map(attachment => attachment.name);
+    expect(names).to.include('sha-part-a.pdf');
+    expect(names).to.include('buddy-statement.pdf');
+    expect(result).to.not.have.property('separationHealthAssessmentUploads');
+    expect(result).to.not.have.property('additionalDocuments');
   });
 });

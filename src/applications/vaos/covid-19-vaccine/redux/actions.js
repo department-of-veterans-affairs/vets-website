@@ -6,11 +6,7 @@ import {
   selectVAPResidentialAddress,
 } from '@department-of-veterans-affairs/platform-user/exports';
 import { format, isAfter, isDate, parseISO, startOfMinute } from 'date-fns';
-import {
-  selectFeatureUseBrowserTimezone,
-  selectSystemIds,
-  selectFeatureUseVpg,
-} from '../../redux/selectors';
+import { selectSystemIds, selectFeatureUseVpg } from '../../redux/selectors';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   VACCINE_FORM_SUBMIT_SUCCEEDED,
@@ -390,9 +386,6 @@ export function prefillContactInfo() {
 
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
-    const state = getState();
-    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
-
     dispatch({
       type: FORM_SUBMIT,
     });
@@ -410,7 +403,6 @@ export function confirmAppointment(history) {
     try {
       const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
-        featureUseBrowserTimezone,
       });
 
       const data = selectCovid19VaccineFormData(getState());

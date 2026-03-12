@@ -14,7 +14,7 @@ export default {
   path: 'financial/total-net-worth',
   uiSchema: {
     ...titleUI(
-      'Income and assets',
+      'Total net worth',
       `We need to know if you and your dependents have over $${threshold.toLocaleString()} in combined assets.`,
     ),
     'view:AssetsInformation': {

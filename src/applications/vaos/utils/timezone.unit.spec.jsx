@@ -132,11 +132,10 @@ describe('VAOS Utils: timezone', () => {
     it('should return the correct description', () => {
       expect(getTimezoneDescByFacilityId('4022')).to.equal('Eastern time (ET)');
     });
-    it('should return null', () => {
-      expect(getTimezoneDescByFacilityId('0402')).to.be.null;
-    });
-    it('should return the timezone for users current location for bad facility id', () => {
-      expect(getTimezoneDescByFacilityId(null, true)).not.be.null;
+    it('should return the timezone for users current location for unknown or null facility id', () => {
+      expect(getTimezoneDescByFacilityId(null)).not.to.be.null;
+      expect(getTimezoneDescByFacilityId(undefined)).not.to.be.null;
+      expect(getTimezoneDescByFacilityId('unknown')).not.to.be.null;
     });
   });
 
@@ -227,12 +226,7 @@ describe('VAOS Utils: timezone', () => {
       expect(getTimezoneByFacilityId('672GA')).to.equal('America/St_Thomas');
     });
 
-    it('should return null for an unknown id', () => {
-      expect(getTimezoneByFacilityId(null)).to.be.null;
-      expect(getTimezoneByFacilityId(undefined)).to.be.null;
-    });
-
-    it('should return the timezone for users current location for bad facility id', () => {
+    it('should return the timezone for users current location for unknown or bad facility id', () => {
       const stub = Sinon.stub(Intl, 'DateTimeFormat');
       stub.returns({
         resolvedOptions() {
@@ -240,7 +234,9 @@ describe('VAOS Utils: timezone', () => {
         },
       });
 
-      expect(getTimezoneByFacilityId(null, true)).to.equal('America/Chicago');
+      expect(getTimezoneByFacilityId(null)).to.equal('America/Chicago');
+      expect(getTimezoneByFacilityId(undefined)).to.equal('America/Chicago');
+      expect(getTimezoneByFacilityId('unknown')).to.equal('America/Chicago');
       stub.restore();
     });
   });

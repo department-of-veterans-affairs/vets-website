@@ -3,10 +3,12 @@ import {
   titleUI,
   descriptionUI,
   radioUI,
-  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { DisabilityRatingDescription } from '../../../components/FormDescriptions';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
+
+const { vaCompensationType } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -28,11 +30,7 @@ export default {
     type: 'object',
     required: ['vaCompensationType'],
     properties: {
-      vaCompensationType: radioSchema([
-        'lowDisability',
-        'highDisability',
-        'none',
-      ]),
+      vaCompensationType,
     },
   },
 };

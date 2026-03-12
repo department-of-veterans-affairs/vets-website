@@ -7,6 +7,7 @@ import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFoote
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns/yesNoPattern';
 
 import submitFormFor from './submitForm';
 
@@ -39,6 +40,7 @@ import {
   isNotUploadingPrivateMedical,
   isUploading781aForm,
   isUploading781Form,
+  isUploadingBddSha,
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
@@ -49,6 +51,7 @@ import {
   isCompletingModern4142,
   onFormLoaded,
   normalizeReturnUrlForResume,
+  isBddShaWorkflowActive,
 } from '../utils';
 
 import { gatePages } from '../utils/gatePages';
@@ -99,6 +102,8 @@ import {
   retirementPay,
   retirementPayWaiver,
   secondaryFinalIncident,
+  separationHealthAssessment,
+  separationHealthAssessmentUpload,
   separationLocation,
   separationPay,
   serviceTreatmentRecords,
@@ -516,11 +521,9 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Additional disability benefits',
             'ui:description': ancillaryFormsWizardDescription,
-            'view:ancillaryFormsWizard': {
-              'ui:title':
-                'Do you want to answer questions to determine if you may be eligible for additional benefits?',
-              'ui:widget': 'yesNo',
-            },
+            'view:ancillaryFormsWizard': yesNoUI(
+              'Do you want to answer questions to determine if you may be eligible for additional benefits?',
+            ),
             'ui:confirmationField': ConfirmationAncillaryFormsWizard,
           },
           schema: {
@@ -595,6 +598,20 @@ const formConfig = {
             'ui:description': supportingEvidenceOrientation,
           },
           schema: { type: 'object', properties: {} },
+        },
+        separationHealthAssessment: {
+          title: 'Separation health assessment',
+          path: 'supporting-evidence/separation-health-assessment',
+          depends: isBddShaWorkflowActive,
+          uiSchema: separationHealthAssessment.uiSchema,
+          schema: separationHealthAssessment.schema,
+        },
+        separationHealthAssessmentUpload: {
+          title: 'Separation health assessment upload',
+          path: 'supporting-evidence/separation-health-assessment-upload',
+          depends: isUploadingBddSha,
+          uiSchema: separationHealthAssessmentUpload.uiSchema,
+          schema: separationHealthAssessmentUpload.schema,
         },
         serviceTreatmentRecords: {
           title: 'Service treatment records',
