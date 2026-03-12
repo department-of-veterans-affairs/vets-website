@@ -4,6 +4,7 @@ import {
   fullNameSchema,
   ssnUI,
   ssnSchema,
+  titleUI,
   vaFileNumberUI,
   vaFileNumberSchema,
   yesNoUI,
@@ -62,6 +63,7 @@ export default {
   path: 'applicant/information',
   updateFormData: setDefaultIsOver65,
   uiSchema: {
+    ...titleUI('Your personal information'),
     'ui:description': applicantDescription,
     veteranFullName: benefitsIntakeFullNameUI(),
     veteranSocialSecurityNumber: ssnUI(),

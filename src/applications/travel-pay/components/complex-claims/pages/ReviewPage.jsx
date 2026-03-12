@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams, Navigate } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-
 import { focusElement } from 'platform/utilities/ui/focus';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import ReviewPageAlert from './ReviewPageAlert';
@@ -31,9 +30,7 @@ const ReviewPage = () => {
   const alertRef = useRef(null);
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const isCommunityCareEnabled = useToggleValue(
-    TOGGLE_NAMES.travelPayEnableCommunityCare,
-  );
+  const ccEnabled = useToggleValue(TOGGLE_NAMES.travelPayEnableCommunityCare);
 
   const { data: appointment } = useSelector(selectAppointment);
   const { data: claimDetails = {} } = useSelector(selectComplexClaim);
@@ -74,7 +71,7 @@ const ReviewPage = () => {
   );
 
   // CC appointments must complete PoA upload before reaching review
-  if (isCommunityCareEnabled && isCCAppt && !hasProofOfAttendance) {
+  if (ccEnabled && isCCAppt && !hasProofOfAttendance) {
     return (
       <Navigate
         to={`/file-new-claim/${apptId}/${claimId}/proof-of-attendance`}
@@ -171,12 +168,12 @@ const ReviewPage = () => {
             accept the travel agreement and submit your claim. Make sure to file
             your claim within 30 days of your appointment.
           </p>
-          <h2>Expense types</h2>
+          {!ccEnabled && <h2>Expense types</h2>}
           <ExpensesAccordion
             expenses={expenses}
             documents={documents}
             groupAccordionItemsByType
-            headerLevel={3}
+            headerLevel={ccEnabled ? 2 : 3}
           />
           <div className="vads-u-margin-top--3">
             <va-card data-testid="summary-box" background>

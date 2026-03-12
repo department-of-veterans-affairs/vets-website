@@ -13,18 +13,19 @@ import {
   llmUploadAlertUI,
 } from '../../definitions';
 import content from '../../locales/en/content.json';
+import { ATTACHMENT_IDS } from '../../utils/constants';
+
+const TITLE_TEXT = content['resubmission-letter-upload--page-title'];
+const INPUT_LABEL = content['resubmission-letter-upload--input-label'];
 
 export default {
   uiSchema: {
-    ...titleUI(
-      content['resubmission-letter-upload--page-title'],
-      ResubmissionLetterDescription,
-    ),
+    ...titleUI(TITLE_TEXT, ResubmissionLetterDescription),
     ...descriptionUI(FileUploadDescription),
     ...llmUploadAlertUI,
     resubmissionLetterUpload: attachmentUI({
-      label: content['resubmission-letter-upload--input-label'],
-      attachmentId: 'EOB',
+      label: INPUT_LABEL,
+      attachmentId: ATTACHMENT_IDS.eob,
     }),
     ...llmResponseAlertUI,
   },

@@ -670,4 +670,102 @@ describe('Travel Pay – ReviewPage', () => {
       });
     });
   });
+
+  describe('Community Care (CC)', () => {
+    const getCommunityCareState = ({ ccEnabled = true } = {}) => ({
+      ...getData(),
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        travel_pay_enable_community_care: ccEnabled,
+      },
+    });
+
+    it('does not render "Expense types" heading when CC is enabled', () => {
+      const { queryByRole } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<ReviewPage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState: getCommunityCareState(),
+          reducers: reducer,
+        },
+      );
+
+      expect(queryByRole('heading', { name: 'Expense types' })).to.not.exist;
+    });
+
+    it('renders "Expense types" heading when CC is disabled', () => {
+      const { getByRole } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<ReviewPage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState: getCommunityCareState({ ccEnabled: false }),
+          reducers: reducer,
+        },
+      );
+
+      expect(getByRole('heading', { name: 'Expense types' })).to.exist;
+    });
+
+    it('passes headerLevel 2 to ExpensesAccordion when CC is enabled', () => {
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<ReviewPage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState: getCommunityCareState(),
+          reducers: reducer,
+        },
+      );
+
+      const accordionItems = container.querySelectorAll('va-accordion-item');
+      expect(accordionItems.length).to.be.greaterThan(0);
+      expect(accordionItems[0].getAttribute('level')).to.equal('2');
+    });
+
+    it('passes headerLevel 3 to ExpensesAccordion when CC is disabled', () => {
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<ReviewPage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState: getCommunityCareState({ ccEnabled: false }),
+          reducers: reducer,
+        },
+      );
+
+      const accordionItems = container.querySelectorAll('va-accordion-item');
+      expect(accordionItems.length).to.be.greaterThan(0);
+      expect(accordionItems[0].getAttribute('level')).to.equal('3');
+    });
+  });
 });
