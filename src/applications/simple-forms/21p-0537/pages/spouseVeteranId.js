@@ -3,9 +3,18 @@ import {
   ssnOrVaFileNumberSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { validateSpouseSsnNotMatchVeteranSsn } from '../utils/validations';
 
 const spouseVeteranIdUI = ssnOrVaFileNumberUI();
 spouseVeteranIdUI.ssn['ui:title'] = "Spouse's Social Security number";
+spouseVeteranIdUI.ssn['ui:validations'] = [
+  ...(spouseVeteranIdUI.ssn['ui:validations'] || []),
+  validateSpouseSsnNotMatchVeteranSsn,
+];
+spouseVeteranIdUI.ssn['ui:options'] = {
+  ...(spouseVeteranIdUI.ssn['ui:options'] || {}),
+  useAllFormData: true,
+};
 spouseVeteranIdUI.vaFileNumber['ui:title'] = "Spouse's VA file number";
 
 export default {
