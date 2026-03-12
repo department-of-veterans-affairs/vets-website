@@ -1755,7 +1755,7 @@ describe('cleanUpMailingAddress', () => {
 });
 
 describe('flattenAttachments', () => {
-  it('should return cloned data when privateMedicalRecordAttachments is undefined', () => {
+  it('should return cloned data when privateMedicalRecordAttachmentsV3 is undefined', () => {
     const formData = {
       veteranFullName: { first: 'John', last: 'Doe' },
     };
@@ -1766,9 +1766,10 @@ describe('flattenAttachments', () => {
     expect(result).to.not.equal(formData); // Should be a clone
   });
 
-  it('should return cloned data when privateMedicalRecordAttachments is an empty array', () => {
+  it('should return cloned data when privateMedicalRecordAttachmentsV3 is an empty array', () => {
     const formData = {
-      privateMedicalRecordAttachments: [],
+      disability526SupportingEvidenceFileInputV3: true,
+      privateMedicalRecordAttachmentsV3: [],
       veteranFullName: { first: 'John', last: 'Doe' },
     };
 
@@ -1778,9 +1779,10 @@ describe('flattenAttachments', () => {
     expect(result).to.not.equal(formData); // Should be a clone
   });
 
-  it('should return cloned data when privateMedicalRecordAttachments has no additionalData', () => {
+  it('should return cloned data when privateMedicalRecordAttachmentsV3 has no additionalData', () => {
     const formData = {
-      privateMedicalRecordAttachments: [
+      disability526SupportingEvidenceFileInputV3: true,
+      privateMedicalRecordAttachmentsV3: [
         {
           name: 'test-file.pdf',
           confirmationCode: '12345678-1234-1234-1234-123456789012',
@@ -1797,40 +1799,33 @@ describe('flattenAttachments', () => {
     expect(result).to.not.equal(formData); // Should be a clone
   });
 
-  it('should not modify attachments when additionalData is not present', () => {
+  it('should not modify attachments when feature flag is false', () => {
     const formData = {
-      privateMedicalRecordAttachments: [
+      disability526SupportingEvidenceFileInputV3: false,
+      privateMedicalRecordAttachmentsV3: [
         {
           name: 'document.pdf',
           confirmationCode: 'abcd1234-5678-90ef-ghij-klmnopqrstuv',
           isEncrypted: true,
           size: 2048576,
           type: 'application/pdf',
+          additionalData: {
+            attachmentId: 'L107',
+          },
         },
       ],
     };
 
     const result = flattenAttachments(formData);
 
-    const originalAttachment = formData.privateMedicalRecordAttachments[0];
-    const resultAttachment = result.privateMedicalRecordAttachments[0];
-
-    // Result attachment should have same properties as original
-    expect(resultAttachment.name).to.equal(originalAttachment.name);
-    expect(resultAttachment.confirmationCode).to.equal(
-      originalAttachment.confirmationCode,
-    );
-    expect(resultAttachment.isEncrypted).to.equal(
-      originalAttachment.isEncrypted,
-    );
-    expect(resultAttachment.size).to.equal(originalAttachment.size);
-    expect(resultAttachment.type).to.equal(originalAttachment.type);
-    expect(resultAttachment).to.not.have.property('additionalData');
+    expect(result).to.deep.equal(formData);
+    expect(result).to.not.have.property('privateMedicalRecordAttachments');
   });
 
   it('should flatten additionalData properties into the attachment object', () => {
     const formData = {
-      privateMedicalRecordAttachments: [
+      disability526SupportingEvidenceFileInputV3: true,
+      privateMedicalRecordAttachmentsV3: [
         {
           name: 'test-10mb.txt',
           confirmationCode: 'a1b2c3d4-5e6f-7g8h-9i0j-1k2l3m4n5o6p',
@@ -1861,7 +1856,8 @@ describe('flattenAttachments', () => {
 
   it('should handle multiple attachments with additionalData', () => {
     const formData = {
-      privateMedicalRecordAttachments: [
+      disability526SupportingEvidenceFileInputV3: true,
+      privateMedicalRecordAttachmentsV3: [
         {
           name: 'medical-record-1.pdf',
           confirmationCode: 'aaaaaaaa-1111-2222-3333-444444444444',
@@ -1904,7 +1900,8 @@ describe('flattenAttachments', () => {
 
   it('should preserve other formData properties', () => {
     const formData = {
-      privateMedicalRecordAttachments: [
+      disability526SupportingEvidenceFileInputV3: true,
+      privateMedicalRecordAttachmentsV3: [
         {
           name: 'test-10mb.txt',
           confirmationCode: '28b469fb-0f40-4b85-b9f2-4043956441fe',
@@ -1939,7 +1936,7 @@ describe('flattenAttachments', () => {
     });
   });
 
-  it('should return cloned data when additionalDocuments is undefined', () => {
+  it('should return cloned data when additionalDocumentsV3 is undefined', () => {
     const formData = {
       veteranFullName: { first: 'John', last: 'Doe' },
     };
@@ -1950,21 +1947,22 @@ describe('flattenAttachments', () => {
     expect(result).to.not.equal(formData);
   });
 
-  it('should return cloned data when additionalDocuments is an empty array', () => {
+  it('should return cloned data when additionalDocumentsV3 is an empty array', () => {
     const formData = {
-      additionalDocuments: [],
+      disability526SupportingEvidenceFileInputV3: true,
+      additionalDocumentsV3: [],
       veteranFullName: { first: 'John', last: 'Doe' },
     };
 
     const result = flattenAttachments(formData);
 
     expect(result).to.deep.equal(formData);
-    expect(result.additionalDocuments).to.be.an('array').that.is.empty;
   });
 
-  it('should return cloned data when additionalDocuments has no additionalData', () => {
+  it('should return cloned data when additionalDocumentsV3 has no additionalData', () => {
     const formData = {
-      additionalDocuments: [
+      disability526SupportingEvidenceFileInputV3: true,
+      additionalDocumentsV3: [
         {
           name: 'document.pdf',
           confirmationCode: 'abc123',
@@ -1976,14 +1974,12 @@ describe('flattenAttachments', () => {
     const result = flattenAttachments(formData);
 
     expect(result).to.deep.equal(formData);
-    expect(result.additionalDocuments[0]).to.not.have.property(
-      'additionalData',
-    );
   });
 
   it('should flatten additionalData properties into additionalDocuments attachment object', () => {
     const formData = {
-      additionalDocuments: [
+      disability526SupportingEvidenceFileInputV3: true,
+      additionalDocumentsV3: [
         {
           name: 'evidence.pdf',
           confirmationCode: 'xyz789',
@@ -2013,9 +2009,10 @@ describe('flattenAttachments', () => {
     );
   });
 
-  it('should handle multiple additionalDocuments with additionalData', () => {
+  it('should handle multiple additionalDocumentsV3 with additionalData', () => {
     const formData = {
-      additionalDocuments: [
+      disability526SupportingEvidenceFileInputV3: true,
+      additionalDocumentsV3: [
         {
           name: 'doc1.pdf',
           confirmationCode: 'code1',
@@ -2054,9 +2051,10 @@ describe('flattenAttachments', () => {
     });
   });
 
-  it('should handle both privateMedicalRecordAttachments and additionalDocuments with additionalData', () => {
+  it('should handle both privateMedicalRecordAttachmentsV3 and additionalDocumentsV3 with additionalData', () => {
     const formData = {
-      privateMedicalRecordAttachments: [
+      disability526SupportingEvidenceFileInputV3: true,
+      privateMedicalRecordAttachmentsV3: [
         {
           name: 'medical-record.pdf',
           confirmationCode: 'pmr123',
@@ -2066,7 +2064,7 @@ describe('flattenAttachments', () => {
           },
         },
       ],
-      additionalDocuments: [
+      additionalDocumentsV3: [
         {
           name: 'evidence.pdf',
           confirmationCode: 'doc456',
@@ -2101,9 +2099,10 @@ describe('flattenAttachments', () => {
     });
   });
 
-  it('should preserve other formData properties when flattening additionalDocuments', () => {
+  it('should preserve other formData properties when flattening additionalDocumentsV3', () => {
     const formData = {
-      additionalDocuments: [
+      disability526SupportingEvidenceFileInputV3: true,
+      additionalDocumentsV3: [
         {
           name: 'document.pdf',
           confirmationCode: 'abc123',

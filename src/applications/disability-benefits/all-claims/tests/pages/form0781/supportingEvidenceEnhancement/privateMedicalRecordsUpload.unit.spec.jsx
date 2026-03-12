@@ -137,14 +137,45 @@ describe('Private Medical Records Upload page', () => {
   });
 
   describe('schema', () => {
-    it('should have privateMedicalRecordAttachments property', () => {
+    it('should have privateMedicalRecordAttachmentsV3 property', () => {
       expect(schema.properties).to.have.property(
-        'privateMedicalRecordAttachments',
+        'privateMedicalRecordAttachmentsV3',
+      );
+    });
+
+    it('should have privateMedicalRecordAttachmentsV1 property', () => {
+      expect(schema.properties).to.have.property(
+        'privateMedicalRecordAttachmentsV1',
       );
     });
 
     it('should have correct schema type', () => {
       expect(schema.type).to.equal('object');
+    });
+
+    it('should require privateMedicalRecordAttachmentsV3 when feature flag is enabled', () => {
+      const formData = { disability526SupportingEvidenceFileInputV3: true };
+      const updatedSchema = uiSchema['ui:options'].updateSchema(
+        formData,
+        schema,
+      );
+      expect(updatedSchema.required).to.deep.equal([
+        'privateMedicalRecordAttachmentsV3',
+      ]);
+    });
+
+    it('should require privateMedicalRecordAttachmentsV1 when feature flag is disabled', () => {
+      const formData = { disability526SupportingEvidenceFileInputV3: false };
+      const updatedSchema = uiSchema['ui:options'].updateSchema(
+        formData,
+        schema,
+      );
+      expect(updatedSchema.required).to.deep.equal([
+        'privateMedicalRecordAttachmentsV1',
+      ]);
+      expect(updatedSchema.properties).to.not.have.property(
+        'privateMedicalRecordAttachmentsV3',
+      );
     });
   });
 
@@ -157,34 +188,43 @@ describe('Private Medical Records Upload page', () => {
       expect(uiSchema['ui:description']).to.exist;
     });
 
-    it('should have privateMedicalRecordAttachments field', () => {
-      expect(uiSchema).to.have.property('privateMedicalRecordAttachments');
+    it('should have privateMedicalRecordAttachmentsV3 field', () => {
+      expect(uiSchema).to.have.property('privateMedicalRecordAttachmentsV3');
+    });
+
+    it('should have privateMedicalRecordAttachmentsV1 field', () => {
+      expect(uiSchema).to.have.property('privateMedicalRecordAttachmentsV1');
     });
   });
 
   describe('Additional Input (Document Type) Requirements', () => {
     it('should require additional input for document type selection', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       expect(fileConfig.additionalInputRequired).to.be.true;
     });
 
     it('should have handleAdditionalInput function', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       expect(fileConfig.handleAdditionalInput).to.be.a('function');
     });
 
     it('should have additionalInputUpdate function', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       expect(fileConfig.additionalInputUpdate).to.be.a('function');
     });
 
     it('should have additionalInput component', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       expect(fileConfig.additionalInput).to.exist;
     });
 
     it('handleAdditionalInput should return null for empty value', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       const result = fileConfig.handleAdditionalInput({
         detail: { value: '' },
       });
@@ -192,7 +232,8 @@ describe('Private Medical Records Upload page', () => {
     });
 
     it('handleAdditionalInput should return attachmentId object for valid value', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       const result = fileConfig.handleAdditionalInput({
         detail: { value: 'L107' },
       });
@@ -202,27 +243,31 @@ describe('Private Medical Records Upload page', () => {
 
   describe('File Size Configuration', () => {
     it('should have correct max file size for PDF files (100MB)', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       const pdfMaxSize = fileConfig.fileSizesByFileType.pdf.maxFileSize;
       expect(pdfMaxSize).to.equal(1024 * 1024 * 100); // 100MB in bytes
       expect(pdfMaxSize).to.equal(104857600);
     });
 
     it('should have correct min file size for PDF files (1KB)', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       const pdfMinSize = fileConfig.fileSizesByFileType.pdf.minFileSize;
       expect(pdfMinSize).to.equal(1024); // 1KB in bytes
     });
 
     it('should have correct max file size for non-PDF files (50MB)', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       const defaultMaxSize = fileConfig.fileSizesByFileType.default.maxFileSize;
       expect(defaultMaxSize).to.equal(1024 * 1024 * 50); // 50MB in bytes
       expect(defaultMaxSize).to.equal(52428800);
     });
 
     it('should have correct min file size for non-PDF files (1 byte)', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       const defaultMinSize = fileConfig.fileSizesByFileType.default.minFileSize;
       expect(defaultMinSize).to.equal(1); // 1 byte
     });
@@ -230,42 +275,50 @@ describe('Private Medical Records Upload page', () => {
 
   describe('Accepted File Types', () => {
     it('should accept PDF files', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       expect(fileConfig.accept).to.include('.pdf');
     });
 
     it('should accept JPG files', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       expect(fileConfig.accept).to.include('.jpg');
     });
 
     it('should accept JPEG files', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       expect(fileConfig.accept).to.include('.jpeg');
     });
 
     it('should accept PNG files', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       expect(fileConfig.accept).to.include('.png');
     });
 
     it('should accept GIF files', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       expect(fileConfig.accept).to.include('.gif');
     });
 
     it('should accept BMP files', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       expect(fileConfig.accept).to.include('.bmp');
     });
 
     it('should accept TXT files', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       expect(fileConfig.accept).to.include('.txt');
     });
 
     it('should accept all specified file types', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       const expectedTypes = [
         '.pdf',
         '.jpg',
@@ -282,7 +335,8 @@ describe('Private Medical Records Upload page', () => {
   });
   describe('File Size Validation - non-PDF files (default)', () => {
     it('should use the same default limits for all non-PDF types', () => {
-      const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
+      const fileConfig =
+        uiSchema.privateMedicalRecordAttachmentsV3['ui:options'];
       const {
         minFileSize,
         maxFileSize,

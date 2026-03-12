@@ -87,17 +87,22 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   });
   const vaEvidence = _.get('vaTreatmentFacilities', formData, []);
   const privateEvidence = _.get('providerFacility', formData, []);
-  const privateEvidenceUploads = _.get(
-    'privateMedicalRecordAttachments',
-    formData,
-    [],
-  );
+  const privateEvidenceUploads = [
+    ..._.get('privateMedicalRecordAttachmentsV3', formData, []), // when `disability526SupportingEvidenceFileInputV3` && disability526SupportingEvidenceEnhancement
+    ..._.get('privateMedicalRecordAttachmentsV1', formData, []), // when !`disability526SupportingEvidenceFileInputV3` && disability526SupportingEvidenceEnhancement
+    ..._.get('privateMedicalRecordAttachments', formData, []), // when !`disability526SupportingEvidenceFileInputV3` && !disability526SupportingEvidenceEnhancement
+  ];
   const serviceTreatmentRecordsUploads = _.get(
     'serviceTreatmentRecordsAttachments',
     formData,
     [],
   );
-  const layEvidenceUploads = _.get('additionalDocuments', formData, []);
+  // TODO: use `additionalDocuments` when we remvove `disability526SupportingEvidenceFileInputV3` && `disability526SupportingEvidenceEnhancement`
+  const layEvidenceUploads = [
+    ..._.get('additionalDocumentsV3', formData, []), // when `disability526SupportingEvidenceFileInputV3` && disability526SupportingEvidenceEnhancement
+    ..._.get('additionalDocumentsV1', formData, []), // when !`disability526SupportingEvidenceFileInputV3` && disability526SupportingEvidenceEnhancement
+    ..._.get('additionalDocuments', formData, []), // when !`disability526SupportingEvidenceFileInputV3` && !disability526SupportingEvidenceEnhancement
+  ];
   const evidenceLength = !!vaEvidence.concat(
     privateEvidence,
     privateEvidenceUploads,
