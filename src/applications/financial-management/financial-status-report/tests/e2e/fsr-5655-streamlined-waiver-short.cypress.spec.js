@@ -89,7 +89,7 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'skip-questions-explainer': ({ afterHook }) => {
+      'skip-questions-explainer-short': ({ afterHook }) => {
         afterHook(() => {
           cy.get('h3').should('contain', 'You can skip questions on this form');
           cy.clickFormContinue();
