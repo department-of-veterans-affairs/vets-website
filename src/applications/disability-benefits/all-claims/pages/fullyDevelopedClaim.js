@@ -14,8 +14,8 @@ export const uiSchema = {
     'ui:options': {
       yesNoReverse: true,
       labels: {
-        Y: `Yes, I have uploaded all my supporting documents`,
-        N: `No, I have some extra information that I'll submit to VA later`,
+        Y: 'Yes, I have uploaded all my supporting documents',
+        N: "No, I have some extra information that I'll submit to VA later",
       },
     },
   },

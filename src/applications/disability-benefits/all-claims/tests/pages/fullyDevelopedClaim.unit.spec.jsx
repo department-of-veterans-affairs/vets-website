@@ -6,8 +6,8 @@ import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
-const yesLabel = `Yes, I have uploaded all my supporting documents`;
-const noLabel = `No, I have some extra information that I'll submit to VA later`;
+const yesLabel = 'Yes, I have uploaded all my supporting documents';
+const noLabel = "No, I have some extra information that I'll submit to VA later";
 
 describe('Fully Developed Claim', () => {
   const {

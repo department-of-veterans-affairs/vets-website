@@ -19,7 +19,7 @@ describe('ConfirmationFullyDevelopedClaim', () => {
         'Do you want to apply using the Fully Developed Claim program?',
       ),
     ).to.exist;
-    expect(getByText(/Yes, I have uploaded all my supporting documents/i)).to
+    expect(getByText('Yes, I have uploaded all my supporting documents')).to
       .exist;
   });
 
@@ -40,7 +40,7 @@ describe('ConfirmationFullyDevelopedClaim', () => {
     ).to.exist;
     expect(
       getByText(
-        /No, I have some extra information that I'll submit to VA later/i,
+        /^No, I have some extra information that I'll submit to VA later$/i,
       ),
     ).to.exist;
   });
