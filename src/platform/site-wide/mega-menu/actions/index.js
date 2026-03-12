@@ -2,7 +2,10 @@ export const UPDATE_CURRENT_SECTION = 'UPDATE_CURRENT_SECTION';
 export const TOGGLE_PANEL_OPEN = 'TOGGLE_PANEL_OPEN';
 export const TOGGLE_DISPLAY_HIDDEN = 'TOGGLE_DISPLAY_HIDDEN';
 
-const tabletMediaQuery = window.matchMedia('(min-width: 768px)');
+const tabletMediaQuery =
+  typeof window !== 'undefined'
+    ? window.matchMedia('(min-width: 768px)')
+    : { matches: false };
 
 export const togglePanel = megaMenu => ({
   type: TOGGLE_PANEL_OPEN,

@@ -103,13 +103,15 @@ export default Object.freeze({
 
   isTest() {
     return !!(
-      window?.Cypress ||
-      window?.Mocha ||
+      (typeof window !== 'undefined' && (window.Cypress || window.Mocha)) ||
       process?.env?.NODE_ENV === 'test'
     );
   },
 
   isUnitTest() {
-    return !!(window?.Mocha || process?.env?.NODE_ENV === 'test');
+    return !!(
+      (typeof window !== 'undefined' && window.Mocha) ||
+      process?.env?.NODE_ENV === 'test'
+    );
   },
 });

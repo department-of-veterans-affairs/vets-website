@@ -378,6 +378,32 @@ function setupJSDom() {
 
 setupJSDom();
 
+// Pre-load react-dom with the DEV invokeGuardedCallbackDev path disabled.
+//
+// React's DEV mode (react-dom.development.js) creates a persistent `fakeNode`
+// via `document.createElement('react')` at module-load time. It uses this node
+// to dispatch synthetic events for error handling (invokeGuardedCallbackDev).
+// When the fakeNode's event handler throws, JSDOM fires the 'error' event on
+// fakeNode's ownerDocument's window — but in parallel workers, that window
+// belongs to an old JSDOM instance, while React's error handler listens on the
+// current window. The error is never captured, producing:
+//   "An error was thrown inside one of your components, but React doesn't
+//    know what it was. This is likely due to browser flakiness."
+//
+// By temporarily hiding document.createEvent before react-dom first loads,
+// the guard condition at line ~3891 evaluates to false and React falls back
+// to invokeGuardedCallbackProd (simple try-catch). This has zero impact on
+// test behavior — error boundaries, error messages, and component lifecycle
+// all work identically. The only difference is that the browser-DevTools-
+// oriented "Pause on exceptions" trick is skipped, which is irrelevant in
+// Node.js tests.
+{
+  const _doc = global.window.document;
+  _doc.createEvent = undefined; // shadow prototype with own property
+  require('react-dom'); // initializes with try-catch error handling
+  delete _doc.createEvent; // remove shadow, restoring prototype access
+}
+
 // Patch VA component library's isCoveredByReact to return false for click events.
 // This forces the React bindings to use syncEvent() for click handlers on web components,
 // which is needed because React's synthetic event delegation doesn't work properly
