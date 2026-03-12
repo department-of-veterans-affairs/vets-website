@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { generateTitle, showPdfFormAlignment } from '../../../utils/helpers';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { showPdfFormAlignment } from '../../../utils/helpers';
 
 /**
  * UI description content for the Supporting documents page.
@@ -186,7 +187,7 @@ Description.propTypes = {
  */
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Supporting documents'),
+    ...titleUI('Supporting documents'),
     'ui:description': Description,
   },
   schema: {
