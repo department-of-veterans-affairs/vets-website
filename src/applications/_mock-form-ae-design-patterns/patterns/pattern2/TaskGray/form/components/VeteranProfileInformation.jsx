@@ -8,7 +8,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { InfoSection } from '../../../../../shared/components/InfoSection';
 // import { genderLabels } from 'platform/static-data/labels';
 import { normalizeFullName } from '../../../../../utils/helpers/general';
-import { APP_URLS } from '../../../../../utils/constants';
+import { getAppUrls } from '../../../../../utils/constants';
 import { isOnReviewPage } from '../../../TaskOrange/utils/reviewPage';
 
 export const VeteranInformationBase = ({
@@ -119,7 +119,7 @@ export const VeteranProfileInformation = ({
           you can learn how to change your legal name on file with VA.{' '}
           <va-link
             external
-            href={APP_URLS.facilities}
+            href={getAppUrls().facilities}
             text="Learn how to change your legal name (opens in new tab)"
           />
         </p>
