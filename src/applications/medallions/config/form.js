@@ -33,8 +33,14 @@ import headstoneOrMarker from '../pages/headstoneOrMarker';
 import cemeteryName from '../pages/cemeteryName';
 import cemeteryContactInfo from '../pages/cemeteryContactInfo';
 import applicantMailingAddressEdit from '../pages/applicantMailingAddressEdit';
+import applicantMailingAddressEditNotLoggedIn from '../pages/applicantMailingAddressEditNotLoggedIn';
+import applicantMailingAddress2EditNotLoggedIn from '../pages/applicantMailingAddress2EditNotLoggedIn';
 import ApplicantMailingAddressLoggedIn from '../pages/applicantMailingAddressLoggedIn';
 import ApplicantSuggestedAddressLoggedIn from '../pages/applicantSuggestedAddressLoggedIn';
+import ApplicantSuggestedAddressNotLoggedIn from '../pages/applicantSuggestedAddressNotLoggedIn';
+import ApplicantSuggestedAddressNotLoggedIn2 from '../pages/applicantSuggestedAddressNotLoggedIn2';
+import ApplicantMailingAddressNotLoggedIn from '../pages/applicantMailingAddressNotLoggedIn';
+import ApplicantMailingAddress2NotLoggedIn from '../pages/applicantMailingAddress2NotLoggedIn';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import typeOfRequest from '../pages/typeOfRequest';
@@ -202,12 +208,36 @@ const formConfig = {
         applicantMailingAddress: {
           path: 'applicant-mailing-address',
           title: 'Your mailing address',
+          CustomPageReview: ApplicantMailingAddressNotLoggedIn,
           uiSchema: applicantMailingAddress.uiSchema,
           schema: applicantMailingAddress.schema,
           depends: formData =>
             ['familyMember', 'personalRep', 'other'].includes(
               formData.relationToVetRadio,
             ) && !isUserSignedIn(formData),
+        },
+        editMailingAddressNotLoggedIn: {
+          title: 'Edit your mailing address',
+          path: 'applicant-mailing-address/edit',
+          depends: formData =>
+            formData?.['view:notLoggedInEditAddress'] === true,
+          uiSchema: applicantMailingAddressEditNotLoggedIn.uiSchema,
+          schema: applicantMailingAddressEditNotLoggedIn.schema,
+        },
+        applicantSuggestedAddressNotLoggedIn: {
+          title: 'Select your mailing address',
+          path: 'applicant-suggested-address-not-logged-in',
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ) && !isUserSignedIn(formData),
+          CustomPage: ApplicantSuggestedAddressNotLoggedIn,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
         applicantMailingAddressLoggedIn: {
           title: 'Your mailing address',
@@ -246,12 +276,36 @@ const formConfig = {
         applicantMailingAddress2: {
           path: 'applicant-mailing-address-2',
           title: 'Your organization’s mailing address',
+          CustomPageReview: ApplicantMailingAddress2NotLoggedIn,
           uiSchema: applicantMailingAddress2.uiSchema,
           schema: applicantMailingAddress2.schema,
           depends: formData =>
             ['repOfVSO', 'repOfCemetery', 'repOfFuneralHome'].includes(
               formData.relationToVetRadio,
-            ),
+            ) && !isUserSignedIn(formData),
+        },
+        editMailingAddress2NotLoggedIn: {
+          title: 'Edit your organization’s mailing address',
+          path: 'applicant-mailing-address-2/edit',
+          depends: formData =>
+            formData?.['view:notLoggedInEditAddress2'] === true,
+          uiSchema: applicantMailingAddress2EditNotLoggedIn.uiSchema,
+          schema: applicantMailingAddress2EditNotLoggedIn.schema,
+        },
+        applicantSuggestedAddressNotLoggedIn2: {
+          title: "Select your organization's mailing address",
+          path: 'applicant-suggested-address-not-logged-in-2',
+          depends: formData =>
+            ['repOfVSO', 'repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ) && !isUserSignedIn(formData),
+          CustomPage: ApplicantSuggestedAddressNotLoggedIn2,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },
