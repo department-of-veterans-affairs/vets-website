@@ -1072,36 +1072,20 @@ export const pageHooks = (cy, testOptions) => ({
               'Authorize the release of non-VA medical records to VA',
             );
           });
-        cy.get('va-checkbox[name="privacy-agreement"]').then($checkbox => {
-          const checkboxEl = $checkbox[0];
-          checkboxEl.checked = true;
-          checkboxEl.setAttribute('checked', 'true');
-          checkboxEl.dispatchEvent(
-            new CustomEvent('vaChange', {
-              bubbles: true,
-              composed: true,
-              detail: { checked: true },
-            }),
-          );
-        });
+        cy.get('va-checkbox[name="privacy-agreement"]')
+          .shadow()
+          .find('input')
+          .check({ force: true });
       }
       cy.findByText(/continue/i, { selector: 'button' })
         .should('be.visible')
         .and('not.be.disabled')
         .click({ force: true });
 
-      // One fallback attempt if the page does not advance on first submit.
-      cy.location('pathname').then(pathname => {
-        if (pathname.includes('private-medical-records-authorize-release')) {
-          cy.get('va-checkbox[name="privacy-agreement"]')
-            .shadow()
-            .find('input')
-            .click({ force: true });
-          cy.findByText(/continue/i, { selector: 'button' }).click({
-            force: true,
-          });
-        }
-      });
+      cy.location('pathname').should(
+        'not.include',
+        'private-medical-records-authorize-release',
+      );
     });
   },
 

@@ -108,26 +108,28 @@ export const uiSchema = {
           'postalCode',
         ],
         country: selectUI('Country'),
-        street: textUI('Street address (20 characters maximum)', {
-          'ui:autocomplete': 'off',
+        street: textUI({
+          title: 'Street address (20 characters maximum)',
+          autocomplete: 'off',
         }),
-        street2: textUI('Street address 2 (20 characters maximum)', {
-          'ui:autocomplete': 'off',
+        street2: textUI({
+          title: 'Street address 2 (20 characters maximum)',
+          autocomplete: 'off',
         }),
-        city: textUI('City (30 characters maximum)', {
-          'ui:autocomplete': 'off',
+        city: textUI({
+          title: 'City (30 characters maximum)',
+          autocomplete: 'off',
         }),
         state: selectUI('State'),
-        postalCode: textUI('Postal code', {
-          'ui:autocomplete': 'off',
-          'ui:validations': [validateZIP],
-          'ui:errorMessages': {
+        postalCode: textUI({
+          title: 'Postal code',
+          autocomplete: 'off',
+          validations: [validateZIP],
+          errorMessages: {
             pattern:
               'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
           },
-          'ui:options': {
-            widgetClassNames: 'usa-input-medium',
-          },
+          widgetClassNames: 'usa-input-medium',
         }),
       },
     },

@@ -186,6 +186,7 @@ describe('Disability benefits 4142 provider medical records facility information
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
+        onSubmit={submit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={initialData}
@@ -199,10 +200,13 @@ describe('Disability benefits 4142 provider medical records facility information
       expect(submit.called).to.be.false;
 
       // With VADS web components, check for error attributes on components
-      // rather than .usa-input-error wrappers
-      expect(form.find('va-text-input[error]').length).to.be.greaterThan(0);
-      expect(form.find('va-select[error]').length).to.be.greaterThan(0);
-      expect(form.find('va-memorable-date[error]').length).to.be.greaterThan(0);
+      // rather than .usa-input-error wrappers.
+      // Required text inputs: providerFacilityName, street, city, postalCode (street2 is optional)
+      expect(form.find('va-text-input[error]').length).to.equal(4);
+      // Required selects: state only (country has default 'USA' from schema)
+      expect(form.find('va-select[error]').length).to.equal(1);
+      // Both date range fields (from + to) are required
+      expect(form.find('va-memorable-date[error]').length).to.equal(2);
 
       // va-select element has error attribute when there is an error
       const stateSelector =
@@ -229,6 +233,7 @@ describe('Disability benefits 4142 provider medical records facility information
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
+        onSubmit={submit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
@@ -244,10 +249,13 @@ describe('Disability benefits 4142 provider medical records facility information
       expect(submit.called).to.be.false;
 
       // With VADS web components, check for error attributes on components
-      // rather than .usa-input-error wrappers
-      expect(form.find('va-text-input[error]').length).to.be.greaterThan(0);
-      expect(form.find('va-select[error]').length).to.be.greaterThan(0);
-      expect(form.find('va-memorable-date[error]').length).to.be.greaterThan(0);
+      // rather than .usa-input-error wrappers.
+      // Required text inputs: providerFacilityName, street, city, postalCode (street2 is optional)
+      expect(form.find('va-text-input[error]').length).to.equal(4);
+      // Required selects: state only (country has default 'USA' from schema)
+      expect(form.find('va-select[error]').length).to.equal(1);
+      // Both date range fields (from + to) are required
+      expect(form.find('va-memorable-date[error]').length).to.equal(2);
 
       // va-select element has error attribute when there is an error
       const stateSelector =
