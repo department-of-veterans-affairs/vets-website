@@ -13,6 +13,7 @@ import MobileLinks from './MobileLinks';
 import { createLinkGroups } from '../helpers';
 import { isWideScreen } from '../../../utilities/accessibility/index';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
+import { toggleMinimalFooter } from '../../header/helpers';
 
 const Footer = ({
   footerData,
@@ -50,6 +51,13 @@ const Footer = ({
       );
     },
     [showMinimalFooter, path],
+  );
+
+  useEffect(
+    () => {
+      toggleMinimalFooter(isMinimalFooter);
+    },
+    [isMinimalFooter],
   );
 
   return (
