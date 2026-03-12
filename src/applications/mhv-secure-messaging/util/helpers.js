@@ -30,6 +30,18 @@ export const handleRemoveAttachmentModalId = file => {
     ? `remove-attachment-modal-${file.lastModified}`
     : `remove-attachment-modal-${file.id}`;
 };
+
+/**
+ * Checks if any message in the thread has been migrated to Oracle Health
+ * @param {Array} messages - Array of messages from thread details
+ * @returns {boolean} True if at least one message is migrated
+ */
+export const hasMessageMigratedToOracleHealth = messages => {
+  return (
+    messages?.length > 0 &&
+    messages.some(message => message.migratedToOracleHealth)
+  );
+};
 ///
 
 // Only use with window.location.pathname **DO NOT USE WITH useLocation() hooks**

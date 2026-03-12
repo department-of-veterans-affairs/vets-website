@@ -63,20 +63,14 @@ export function mapGmtToAbbreviation(abbreviation) {
  *
  * @export
  * @param {string} id - Facility id
- * @param {boolean} isUseBrowserTimezone - Flag to determine if browser timezone
- * should be used when facility id is not found.
  * @returns IANA Timezone name Example: 'America/Chicago' or browsers timezone which
  * could be GMT.
  */
-export function getTimezoneByFacilityId(id, isUseBrowserTimezone = false) {
+export function getTimezoneByFacilityId(id) {
   if (!id) {
-    if (isUseBrowserTimezone) {
-      return mapGmtToAbbreviation(
-        Intl.DateTimeFormat().resolvedOptions().timeZone,
-      );
-    }
-
-    return null;
+    return mapGmtToAbbreviation(
+      Intl.DateTimeFormat().resolvedOptions().timeZone,
+    );
   }
 
   // Check 3 digit facility/location ids
@@ -86,7 +80,7 @@ export function getTimezoneByFacilityId(id, isUseBrowserTimezone = false) {
 
   // Check 5 digit facility/location ids
   const timezone = timezones[id.substring(0, 3)];
-  if (isUseBrowserTimezone && !timezone) {
+  if (!timezone) {
     // Default to browser timezone
     return mapGmtToAbbreviation(
       Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -151,25 +145,18 @@ export function getTimezoneDescByTimeZoneString(timezone) {
  *
  * @export
  * @param {string} id - Facility id
- * @param {boolean} isUseBrowserTimezone - Flag to determine if browser timezone
- * should be used when facility id is not found.
  * @returns Timezone abbreviation with daylight savings stripped. Example: 'CT'
  */
-export function getTimezoneAbbrByFacilityId(id, isUseBrowserTimezone = false) {
-  const matchingZone = getTimezoneByFacilityId(id, isUseBrowserTimezone);
+export function getTimezoneAbbrByFacilityId(id) {
+  const matchingZone = getTimezoneByFacilityId(id);
 
   // If using browser timezone and we received a GMT value, return it directly
-  if (isUseBrowserTimezone && matchingZone?.startsWith('GMT'))
-    return matchingZone;
+  if (matchingZone?.startsWith('GMT')) return matchingZone;
 
   // If no matching zone was found and we're allowed to use the browser timezone,
   // derive an abbreviation from the browser and strip DST
-  if (isUseBrowserTimezone && !matchingZone) {
-    return stripDST(mapGmtToAbbreviation(format(new Date(), 'z')));
-  }
-
   if (!matchingZone) {
-    return null;
+    return stripDST(mapGmtToAbbreviation(format(new Date(), 'z')));
   }
 
   let abbreviation = formatInTimeZone(new Date(), matchingZone, 'z');
@@ -188,12 +175,10 @@ export function getTimezoneAbbrByFacilityId(id, isUseBrowserTimezone = false) {
  *
  * @export
  * @param {string} id - Facility id
- * @param {boolean} isUseBrowserTimezone - Flag to determine if browser timezone
- * should be used when facility id is not found.
  * @returns Timezone description Example: Central time (CT)
  */
-export function getTimezoneDescByFacilityId(id, isUseBrowserTimezone = false) {
-  const abbreviation = getTimezoneAbbrByFacilityId(id, isUseBrowserTimezone);
+export function getTimezoneDescByFacilityId(id) {
+  const abbreviation = getTimezoneAbbrByFacilityId(id);
   const label = TIMEZONE_LABELS[abbreviation];
 
   if (label) {

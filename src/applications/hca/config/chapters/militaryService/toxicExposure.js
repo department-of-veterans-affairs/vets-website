@@ -3,10 +3,12 @@ import {
   titleUI,
   descriptionUI,
   yesNoUI,
-  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ToxicExposureDescription from '../../../components/FormDescriptions/ToxicExposureDescription';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
+
+const { hasTeraResponse } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -20,7 +22,7 @@ export default {
     type: 'object',
     required: ['hasTeraResponse'],
     properties: {
-      hasTeraResponse: yesNoSchema,
+      hasTeraResponse,
     },
   },
 };

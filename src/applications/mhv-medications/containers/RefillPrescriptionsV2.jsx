@@ -351,6 +351,27 @@ const RefillPrescriptionsV2 = () => {
         >
           Medications
         </h1>
+        <Link
+          data-testid="in-progress-link"
+          to="/in-progress"
+          data-dd-action-name={
+            dataDogActionNames.refillPage
+              .GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK
+          }
+        >
+          Go to your in-progress medications
+        </Link>
+        <span className="vads-u-margin-x--1">|</span>
+        <Link
+          data-testid="history-link"
+          to="/history"
+          data-dd-action-name={
+            dataDogActionNames.refillPage
+              .GO_TO_REVIEW_AND_PRINT_MEDICATION_HISTORY_LINK
+          }
+        >
+          Review and print list of medications
+        </Link>
         {refillAlertList.length > 0 && (
           <DelayedRefillAlert
             dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
@@ -389,7 +410,6 @@ const RefillPrescriptionsV2 = () => {
                   <strong>Note:</strong> Note: If you can’t find the medication
                   you’re looking for, you may need to renew it before you can
                   refill it.
-                  {/* TODO: This link needs to be updated to the Medications List page filtered for renewable meds */}
                   <Link
                     data-testid="medications-page-link"
                     className="vads-u-margin-top--2 vads-u-display--block"

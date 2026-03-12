@@ -12,7 +12,6 @@ import {
 } from '../flow';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { DATE_FORMATS } from '../../utils/constants';
-import { selectFeatureUseBrowserTimezone } from '../../redux/selectors';
 
 const pageKey = 'secondDosePage';
 const pageTitle = 'When to plan for a second dose';
@@ -23,18 +22,12 @@ export default function SecondDosePage() {
     shallowEqual,
   );
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
-  const featureUseBrowserTimezone = useSelector(
-    selectFeatureUseBrowserTimezone,
-  );
 
   const history = useHistory();
   const dispatch = useDispatch();
   const { date1, vaFacility } = data;
   const selectedDate = parseISO(date1[0]);
-  const timezone = getTimezoneByFacilityId(
-    vaFacility,
-    featureUseBrowserTimezone,
-  );
+  const timezone = getTimezoneByFacilityId(vaFacility);
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;

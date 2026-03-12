@@ -50,9 +50,9 @@ const MaxItemsAlert = forwardRef(
     show ? (
       <div className="vads-u-margin-top--4">
         <va-alert slim status="warning" tabIndex={-1} visible ref={ref}>
-          <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
+          <div className="vads-u-margin-y--0 vads-u-font-weight--normal">
             {children}
-          </p>
+          </div>
         </va-alert>
       </div>
     ) : null,

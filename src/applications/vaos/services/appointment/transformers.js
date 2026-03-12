@@ -52,7 +52,7 @@ function getAtlasLocation(appt) {
   };
 }
 
-export function getAppointmentTimezone(appt, featureUseBrowserTimezone) {
+export function getAppointmentTimezone(appt) {
   let timezone = appt.location?.attributes?.timezone?.timeZoneId;
   // GMT/UTC is not a proper timeZoneId - only occurs when facility lat/long is 0,0 (Unset)
   // and LH resolves that to GMT. "GMT" is the IANA timezone (which LH uses) and UTC is just an alias.
@@ -61,16 +61,10 @@ export function getAppointmentTimezone(appt, featureUseBrowserTimezone) {
     timezone = null;
   }
 
-  return (
-    timezone ||
-    getTimezoneByFacilityId(appt.locationId, featureUseBrowserTimezone)
-  );
+  return timezone || getTimezoneByFacilityId(appt.locationId);
 }
 
-export function transformVAOSAppointment(
-  appt,
-  featureUseBrowserTimezone = false,
-) {
+export function transformVAOSAppointment(appt) {
   const appointmentType = getAppointmentType(appt);
   const isCC = appt.kind === 'cc';
   const isPast = appt.past;
@@ -90,7 +84,7 @@ export function transformVAOSAppointment(
     isCompAndPen || isCovid || appt.modality === 'vaInPerson';
 
   const isCancellable = appt.cancellable;
-  const appointmentTZ = getAppointmentTimezone(appt, featureUseBrowserTimezone);
+  const appointmentTZ = getAppointmentTimezone(appt);
 
   let videoData = { isVideo };
   if (isVideo) {
@@ -234,8 +228,6 @@ export function transformVAOSAppointment(
   };
 }
 
-export function transformVAOSAppointments(appts, featureUseBrowserTimezone) {
-  return appts.map(appt =>
-    transformVAOSAppointment(appt, featureUseBrowserTimezone),
-  );
+export function transformVAOSAppointments(appts) {
+  return appts.map(appt => transformVAOSAppointment(appt));
 }

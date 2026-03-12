@@ -3,11 +3,13 @@ import {
   titleUI,
   descriptionUI,
   yesNoUI,
-  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { LAST_YEAR, replaceStrValues } from '../../../utils/helpers';
 import { SpouseAdditionalInformationDescription } from '../../../components/FormDescriptions';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
+
+const { cohabitedLastYear, sameAddress } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -27,8 +29,8 @@ export default {
     type: 'object',
     required: ['sameAddress'],
     properties: {
-      cohabitedLastYear: yesNoSchema,
-      sameAddress: yesNoSchema,
+      cohabitedLastYear,
+      sameAddress,
     },
   },
 };

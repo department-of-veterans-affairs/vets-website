@@ -1,4 +1,8 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+// @ts-check
+import {
+  titleUI,
+  selectUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import {
@@ -10,31 +14,27 @@ import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
 const {
-  dischargeType,
   lastDischargeDate,
   lastEntryDate,
   lastServiceBranch,
+  dischargeType,
 } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
     ...titleUI(content['service-info--last-period-title']),
-    lastServiceBranch: {
-      'ui:title': content['service-info--last-period-branch-label'],
-      'ui:options': {
-        labels: SERVICE_BRANCH_LABELS,
-      },
-    },
+    lastServiceBranch: selectUI({
+      title: content['service-info--last-period-branch-label'],
+      labels: SERVICE_BRANCH_LABELS,
+    }),
     lastEntryDate: currentOrPastDateUI(
       content['service-info--service-start-date-label'],
     ),
     lastDischargeDate: dateUI(content['service-info--service-end-date-label']),
-    dischargeType: {
-      'ui:title': content['service-info--last-period-character-label'],
-      'ui:options': {
-        labels: DISCHARGE_TYPE_LABELS,
-      },
-    },
+    dischargeType: selectUI({
+      title: content['service-info--last-period-character-label'],
+      labels: DISCHARGE_TYPE_LABELS,
+    }),
     'ui:validations': [validateServiceDates],
   },
   schema: {
