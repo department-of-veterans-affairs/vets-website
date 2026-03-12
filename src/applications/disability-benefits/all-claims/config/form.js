@@ -738,7 +738,8 @@ const formConfig = {
           title:
             'Supporting documents and additional forms for your disability claim',
           depends: formData =>
-            formData.disability526SupportingEvidenceEnhancement,
+            formData.disability526SupportingEvidenceEnhancement &&
+            !isBDD(formData),
           // TODO: update this path to `'supporting-evidence/additional-evidence', once we can get rid of `additionalDocuments` page
           path: 'supporting-evidence/additional-evidence-intro',
           CustomPage: AdditionalEvidenceIntroPage,

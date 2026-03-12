@@ -128,6 +128,82 @@ describe('Summary of Evidence', () => {
     form.unmount();
   });
 
+  it("should render 'no evidence' warning in legacy flow when both evidence and STR toggles are false and no evidence", () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          disability526SupportingEvidenceEnhancement: false,
+          'view:hasEvidence': false,
+          'view:uploadServiceTreatmentRecordsQualifier': {
+            'view:hasServiceTreatmentRecordsToUpload': false,
+          },
+        }}
+      />,
+    );
+
+    expect(form.render().text()).to.contain(
+      'You haven’t uploaded any evidence.',
+    );
+    expect(form.find('li').length).to.equal(0);
+    form.unmount();
+  });
+
+  it("should render 'no evidence' warning in enhanced non-BDD flow when there is truly no evidence", () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          disability526SupportingEvidenceEnhancement: true,
+          'view:hasEvidence': false,
+          'view:uploadServiceTreatmentRecordsQualifier': {
+            'view:hasServiceTreatmentRecordsToUpload': false,
+          },
+        }}
+      />,
+    );
+
+    const text = form.render().text();
+    expect(text).to.contain(
+      'Summary of supporting evidence for your disability claim',
+    );
+    expect(text).to.contain('You haven’t uploaded any evidence.');
+    expect(text).to.not.contain(
+      'You provided documents to support your claim.',
+    );
+    form.unmount();
+  });
+
+  it("should render 'no evidence' warning in BDD enhanced flow when both evidence and STR toggles are false", () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:isBddData': true,
+          disability526SupportingEvidenceEnhancement: true,
+          'view:hasEvidence': false,
+          'view:uploadServiceTreatmentRecordsQualifier': {
+            'view:hasServiceTreatmentRecordsToUpload': false,
+          },
+          serviceInformation: bddServiceInformation,
+        }}
+      />,
+    );
+
+    const text = form.render().text();
+    expect(text).to.contain('You haven’t uploaded any evidence.');
+    expect(text).to.not.contain(
+      'You provided documents to support your claim.',
+    );
+    form.unmount();
+  });
+
   it('should not render any evidence whose evidence type was not selected', () => {
     const form = mount(
       <DefinitionTester
@@ -357,6 +433,7 @@ describe('Summary of Evidence', () => {
           'view:isBddData': true,
           serviceInformation: bddServiceInformation,
           'view:hasSeparationHealthAssessment': true,
+          'view:hasEvidence': true,
           separationHealthAssessmentUploads,
         }}
       />,

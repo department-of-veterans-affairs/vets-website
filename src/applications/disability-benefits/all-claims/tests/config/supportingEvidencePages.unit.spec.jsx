@@ -35,6 +35,8 @@ describe('Supporting Evidence Pages - Conditional Rendering', () => {
     evidenceTypes,
     evidenceRequest,
     medicalRecords,
+    evidenceTypesBDD,
+    evidenceChoiceIntro,
   } = formConfig.chapters.supportingEvidence.pages;
 
   describe('evidenceTypes depends', () => {
@@ -98,6 +100,35 @@ describe('Supporting Evidence Pages - Conditional Rendering', () => {
         'view:hasEvidence': true,
       });
       expect(medicalRecords.depends(formData)).to.be.false;
+    });
+  });
+
+  describe('evidenceTypesBDD depends', () => {
+    it('should return true for BDD users', () => {
+      const formData = createBDDFormData();
+      expect(evidenceTypesBDD.depends(formData)).to.be.true;
+    });
+
+    it('should return false for non-BDD users', () => {
+      const formData = createLegacyFlowFormData();
+      expect(evidenceTypesBDD.depends(formData)).to.be.false;
+    });
+  });
+
+  describe('evidenceChoiceIntro depends', () => {
+    it('should return true for non-BDD enhancement flow users', () => {
+      const formData = createEnhancementFlowFormData();
+      expect(evidenceChoiceIntro.depends(formData)).to.be.true;
+    });
+
+    it('should return false for BDD enhancement flow users', () => {
+      const formData = createBDDFormData(createEnhancementFlowFormData());
+      expect(evidenceChoiceIntro.depends(formData)).to.be.false;
+    });
+
+    it('should return false for legacy flow users', () => {
+      const formData = createLegacyFlowFormData();
+      expect(evidenceChoiceIntro.depends(formData)).to.be.false;
     });
   });
 });
