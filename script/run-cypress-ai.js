@@ -7,7 +7,7 @@
  *
  * Improves on `yarn cy:run` for both humans and AI agents:
  *   - Resolves spec path → entryName automatically
- *   - Checks dev server health before running Cypress
+ *   - Optionally starts its own dev server on a random port (--serve)
  *   - No retries (fail fast via cypress-ai.config.js)
  *   - No video recording
  *   - Full Cypress sidebar command log printed to terminal on failure
@@ -16,24 +16,27 @@
  *
  * Usage:
  *   yarn cy:run:ai --spec "src/applications/.../test.cypress.spec.js"
+ *   yarn cy:run:ai --spec "..." --serve       (start+stop dev server automatically)
  *   yarn cy:run:ai --spec "..." --timeout 120
- *   yarn cy:run:ai --spec "..." --quiet   (summary only, no Cypress output)
+ *   yarn cy:run:ai --spec "..." --quiet       (summary only, no Cypress output)
  *
- * All extra args (except --timeout and --quiet) are forwarded to `cypress run`.
+ * All extra args (except --timeout, --quiet, --serve) are forwarded to `cypress run`.
  */
 
 const { spawn } = require('child_process');
+const net = require('net');
 const path = require('path');
 const fs = require('fs');
 const http = require('http');
 
 const DEFAULT_TIMEOUT_SECONDS = 180;
+const SERVE_COMPILE_TIMEOUT_MS = 120000; // 2 minutes to wait for webpack
 const AI_CONFIG = path.resolve(__dirname, '../config/cypress-ai.config.js');
 const MANIFEST_CATALOG = path.resolve(
   __dirname,
   '../src/applications/manifest-catalog.json',
 );
-const DEV_SERVER_URL = 'http://127.0.0.1:3001';
+const REPO_ROOT = path.resolve(__dirname, '..');
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -145,7 +148,7 @@ function extractFailures(text) {
 }
 
 /**
- * Recursively walk a directory and collect file paths.
+ * Recursively walk a directory and collect .png file paths.
  */
 function walkDir(dir, results) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -165,22 +168,19 @@ function walkDir(dir, results) {
 function findScreenshots(text, startTime) {
   const shots = [];
 
-  // Match paths from Cypress's (Screenshots) section: "  - /absolute/path.png"
   const outputLines = text.split('\n');
   for (const line of outputLines) {
     const m = line.match(/^\s*-\s+(\/\S+\.png)/);
     if (m) shots.push(m[1]);
   }
 
-  // Also match paths printed by ai-support.js: "Screenshot: cypress/screenshots/..."
   for (const line of outputLines) {
     const m2 = line.match(/^Screenshot:\s+(.+\.png)$/);
     if (m2 && !shots.includes(m2[1])) shots.push(m2[1]);
   }
 
-  // Fallback: scan screenshots directory for files from this run
   if (shots.length === 0) {
-    const dir = path.resolve(__dirname, '../cypress/screenshots');
+    const dir = path.resolve(REPO_ROOT, 'cypress/screenshots');
     try {
       if (fs.existsSync(dir)) {
         const allPngs = [];
@@ -205,11 +205,7 @@ function findScreenshots(text, startTime) {
 // Spec → entryName resolver
 // ---------------------------------------------------------------------------
 
-/**
- * Given a spec file path, walk up the directory tree to find the matching
- * application in manifest-catalog.json and return its entryName.
- */
-function resolveEntryName(specPath) {
+function resolveEntryName(specPathArg) {
   if (!fs.existsSync(MANIFEST_CATALOG)) {
     return null;
   }
@@ -217,18 +213,14 @@ function resolveEntryName(specPath) {
   const catalog = JSON.parse(fs.readFileSync(MANIFEST_CATALOG, 'utf-8'));
   const apps = catalog.applications || [];
 
-  // Normalize the spec path to be relative (strip leading ./ or absolute prefix)
-  let normalized = specPath.replace(/\\/g, '/');
+  let normalized = specPathArg.replace(/\\/g, '/');
   if (path.isAbsolute(normalized)) {
-    const repoRoot = path.resolve(__dirname, '..');
-    normalized = path.relative(repoRoot, normalized).replace(/\\/g, '/');
+    normalized = path.relative(REPO_ROOT, normalized).replace(/\\/g, '/');
   }
   normalized = normalized.replace(/^\.\//, '');
 
-  // Build a map for O(1) lookups instead of find() in a loop
   const appsByDir = new Map(apps.map(app => [app.directoryPath, app]));
 
-  // Walk up from the spec file's directory until we find a matching app
   let dir = path.dirname(normalized).replace(/\\/g, '/');
   while (dir && dir !== '.' && dir !== 'src' && dir !== 'src/applications') {
     const match = appsByDir.get(dir);
@@ -265,12 +257,114 @@ function checkDevServer(url) {
 }
 
 // ---------------------------------------------------------------------------
+// Ephemeral dev server (--serve mode)
+// ---------------------------------------------------------------------------
+
+/**
+ * Find a free port by binding to port 0 and reading the assigned port.
+ */
+function findFreePort() {
+  return new Promise((resolve, reject) => {
+    const srv = net.createServer();
+    srv.listen(0, '127.0.0.1', () => {
+      const { port } = srv.address();
+      srv.close(() => resolve(port));
+    });
+    srv.on('error', reject);
+  });
+}
+
+/**
+ * Start `yarn watch` on a given port for a given entryName.
+ * Returns a promise that resolves when webpack reports "Compiled".
+ * The returned object has { process, port, kill() }.
+ */
+function startDevServer(port, entryName) {
+  return new Promise((resolve, reject) => {
+    const args = [
+      'watch',
+      '--env',
+      `entry=${entryName}`,
+      '--env',
+      `port=${port}`,
+    ];
+
+    console.log(`  Starting dev server: yarn ${args.join(' ')}`);
+    console.log(`  Waiting for webpack compilation...`);
+
+    const server = spawn('yarn', args, {
+      cwd: REPO_ROOT,
+      stdio: ['ignore', 'pipe', 'pipe'],
+      detached: true,
+    });
+
+    let output = '';
+    let settled = false;
+
+    const timeout = setTimeout(() => {
+      if (!settled) {
+        settled = true;
+        reject(
+          new Error(
+            `Dev server did not compile within ${SERVE_COMPILE_TIMEOUT_MS /
+              1000}s`,
+          ),
+        );
+      }
+    }, SERVE_COMPILE_TIMEOUT_MS);
+
+    function onData(data) {
+      const text = data.toString();
+      output += text;
+      // webpack-dev-server prints "Compiled successfully" or "Compiled with warnings"
+      if (!settled && /Compiled\b/.test(stripAnsi(output))) {
+        settled = true;
+        clearTimeout(timeout);
+        resolve({
+          process: server,
+          port,
+          kill() {
+            try {
+              process.kill(-server.pid, 'SIGTERM');
+            } catch (e) {
+              server.kill('SIGTERM');
+            }
+          },
+        });
+      }
+    }
+
+    server.stdout.on('data', onData);
+    server.stderr.on('data', onData);
+
+    server.on('error', err => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timeout);
+        reject(err);
+      }
+    });
+
+    server.on('close', code => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timeout);
+        reject(
+          new Error(`Dev server exited with code ${code} before compiling`),
+        );
+      }
+    });
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Argument parsing
 // ---------------------------------------------------------------------------
 
 const rawArgs = process.argv.slice(2);
 let timeoutSeconds = DEFAULT_TIMEOUT_SECONDS;
 let quiet = false;
+let serve = false;
 let specPath = null;
 
 const filteredArgs = [];
@@ -280,6 +374,8 @@ for (let i = 0; i < rawArgs.length; i++) {
     i++;
   } else if (rawArgs[i] === '--quiet') {
     quiet = true;
+  } else if (rawArgs[i] === '--serve') {
+    serve = true;
   } else {
     if (rawArgs[i] === '--spec' && rawArgs[i + 1]) {
       specPath = rawArgs[i + 1];
@@ -292,18 +388,16 @@ for (let i = 0; i < rawArgs.length; i++) {
 // Build summary output
 // ---------------------------------------------------------------------------
 
-function buildDiagnostics({ clean, hardTimeoutFired }) {
+function buildDiagnostics({ clean, hardTimeoutFired, entryName }) {
   const diags = [];
   if (
     clean.includes('ECONNREFUSED') ||
     clean.includes('ERR_CONNECTION_REFUSED')
   ) {
-    const resolved = specPath ? resolveEntryName(specPath) : null;
-    const entry = resolved ? resolved.entryName : null;
-    const cmd = entry
-      ? `yarn watch --env entry=${entry}`
+    const cmd = entryName
+      ? `yarn watch --env entry=${entryName}`
       : 'yarn watch --env entry=<app-name>';
-    diags.push(`Dev server not running on port 3001. Fix: ${cmd}`);
+    diags.push(`Dev server not running. Fix: ${cmd}`);
   }
   if (hardTimeoutFired) {
     diags.push(`Hard timeout (${timeoutSeconds}s). Process tree was killed.`);
@@ -327,8 +421,8 @@ function buildSummary({
   screenshots,
   clean,
   totalTime,
+  entryName,
 }) {
-  // eslint-disable-line max-len
   const out = [];
   out.push('');
   out.push('='.repeat(72));
@@ -418,7 +512,7 @@ function buildSummary({
     out.push('');
   }
 
-  const diags = buildDiagnostics({ clean, hardTimeoutFired });
+  const diags = buildDiagnostics({ clean, hardTimeoutFired, entryName });
   if (diags.length > 0) {
     out.push('  DIAGNOSTICS:');
     diags.forEach(d => out.push(`  - ${d}`));
@@ -430,17 +524,143 @@ function buildSummary({
 }
 
 // ---------------------------------------------------------------------------
-// Main (async for health check)
+// Run Cypress
+// ---------------------------------------------------------------------------
+
+function runCypress({ port, entryName }) {
+  return new Promise(resolve => {
+    const baseUrl = `http://127.0.0.1:${port}`;
+    const cypressArgs = [
+      'run',
+      '--config-file',
+      AI_CONFIG,
+      '--browser',
+      'chrome',
+      '--headless',
+      '--config',
+      `baseUrl=${baseUrl}`,
+      ...filteredArgs,
+    ];
+
+    let rawOutput = '';
+    const startTime = Date.now();
+
+    const child = spawn('npx', ['cypress', ...cypressArgs], {
+      cwd: REPO_ROOT,
+      stdio: ['ignore', 'pipe', 'pipe'],
+      detached: true,
+      env: {
+        ...process.env,
+        CYPRESS_EVERY_NTH_FRAME: '1',
+        NO_COLOR: '1',
+        FORCE_COLOR: '0',
+      },
+    });
+
+    child.stdout.on('data', data => {
+      const text = data.toString();
+      rawOutput += text;
+      if (!quiet) process.stdout.write(text);
+    });
+
+    child.stderr.on('data', data => {
+      const text = data.toString();
+      rawOutput += text;
+      if (!quiet) process.stderr.write(text);
+    });
+
+    let hardTimeoutFired = false;
+    const hardTimeout = setTimeout(() => {
+      hardTimeoutFired = true;
+      process.stderr.write(
+        `\nHARD TIMEOUT: Cypress exceeded ${timeoutSeconds}s — killing process tree.\n` +
+          'Tip: increase with --timeout <seconds>\n',
+      );
+      try {
+        process.kill(-child.pid, 'SIGKILL');
+      } catch (e) {
+        child.kill('SIGKILL');
+      }
+    }, timeoutSeconds * 1000);
+
+    child.on('close', code => {
+      clearTimeout(hardTimeout);
+      const totalTime = ((Date.now() - startTime) / 1000).toFixed(1);
+      const clean = stripAnsi(rawOutput);
+
+      const summary = buildSummary({
+        code,
+        hardTimeoutFired,
+        stats: extractStats(clean),
+        failures: extractFailures(clean),
+        commandLogs: extractCommandLogs(clean),
+        screenshots: findScreenshots(clean, startTime),
+        clean,
+        totalTime,
+        entryName,
+      });
+
+      console.log(summary);
+      resolve(code || 0);
+    });
+
+    child.on('error', err => {
+      clearTimeout(hardTimeout);
+      console.error(`\nFailed to start Cypress: ${err.message}`);
+      resolve(1);
+    });
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Main
 // ---------------------------------------------------------------------------
 
 async function main() {
-  // Step 1: Resolve entryName from spec path
   const resolved = specPath ? resolveEntryName(specPath) : null;
   const entryName = resolved ? resolved.entryName : null;
   const appName = resolved ? resolved.appName : null;
 
-  // Step 2: Check dev server health
-  const health = await checkDevServer(DEV_SERVER_URL);
+  // Print header
+  const headerParts = ['no retries', 'no video', `${timeoutSeconds}s timeout`];
+  if (entryName) headerParts.unshift(`entry: ${entryName}`);
+  if (serve) headerParts.push('managed server');
+
+  // --serve mode: start our own dev server on a free port
+  if (serve) {
+    if (!entryName) {
+      console.error('');
+      console.error(
+        '  ERROR: --serve requires a --spec path that maps to an app in manifest-catalog.json',
+      );
+      console.error('');
+      process.exit(1);
+    }
+
+    console.log(`\n--- Cypress AI Runner (${headerParts.join(', ')}) ---\n`);
+
+    let server;
+    try {
+      const port = await findFreePort();
+      console.log(`  Port: ${port}`);
+      server = await startDevServer(port, entryName);
+      console.log(`  Dev server ready on port ${server.port}\n`);
+
+      const exitCode = await runCypress({ port: server.port, entryName });
+
+      console.log('\n  Stopping dev server...');
+      server.kill();
+      process.exit(exitCode);
+    } catch (err) {
+      console.error(`\n  ERROR: ${err.message}`);
+      if (server) server.kill();
+      process.exit(1);
+    }
+    return;
+  }
+
+  // Default mode: check for existing dev server on port 3001
+  const health = await checkDevServer('http://127.0.0.1:3001');
 
   if (!health.up) {
     const watchCmd = entryName
@@ -465,103 +685,20 @@ async function main() {
     console.error('  Start the dev server:');
     console.error(`    ${watchCmd}`);
     console.error('');
-    console.error('  Wait for "Compiled successfully" before running tests.');
+    console.error('  Or use --serve to start one automatically:');
+    console.error(`    yarn cy:run:ai --serve --spec "..."`);
+    console.error('');
     console.error('='.repeat(72));
     console.error('');
     process.exit(1);
-  }
-
-  // Print header
-  const headerParts = ['no retries', 'no video', `${timeoutSeconds}s timeout`];
-  if (entryName) {
-    headerParts.unshift(`entry: ${entryName}`);
   }
 
   process.stdout.write(
     `\n--- Cypress AI Runner (${headerParts.join(', ')}) ---\n\n`,
   );
 
-  // Build Cypress args
-  const cypressArgs = [
-    'run',
-    '--config-file',
-    AI_CONFIG,
-    '--browser',
-    'chrome',
-    '--headless',
-    ...filteredArgs,
-  ];
-
-  // -------------------------------------------------------------------------
-  // Output capture and child process
-  // -------------------------------------------------------------------------
-
-  let rawOutput = '';
-  const startTime = Date.now();
-
-  const child = spawn('npx', ['cypress', ...cypressArgs], {
-    cwd: path.resolve(__dirname, '..'),
-    stdio: ['ignore', 'pipe', 'pipe'],
-    detached: true,
-    env: {
-      ...process.env,
-      CYPRESS_EVERY_NTH_FRAME: '1',
-      NO_COLOR: '1',
-      FORCE_COLOR: '0',
-    },
-  });
-
-  child.stdout.on('data', data => {
-    const text = data.toString();
-    rawOutput += text;
-    if (!quiet) process.stdout.write(text);
-  });
-
-  child.stderr.on('data', data => {
-    const text = data.toString();
-    rawOutput += text;
-    if (!quiet) process.stderr.write(text);
-  });
-
-  let hardTimeoutFired = false;
-  const hardTimeout = setTimeout(() => {
-    hardTimeoutFired = true;
-    process.stderr.write(
-      `\nHARD TIMEOUT: Cypress exceeded ${timeoutSeconds}s — killing process tree.\n` +
-        'Tip: increase with --timeout <seconds>\n',
-    );
-    try {
-      process.kill(-child.pid, 'SIGKILL');
-    } catch (e) {
-      child.kill('SIGKILL');
-    }
-  }, timeoutSeconds * 1000);
-
-  child.on('close', code => {
-    clearTimeout(hardTimeout);
-    const totalTime = ((Date.now() - startTime) / 1000).toFixed(1);
-    const clean = stripAnsi(rawOutput);
-
-    const summary = buildSummary({
-      code,
-      hardTimeoutFired,
-      stats: extractStats(clean),
-      failures: extractFailures(clean),
-      commandLogs: extractCommandLogs(clean),
-      screenshots: findScreenshots(clean, startTime),
-      clean,
-      totalTime,
-    });
-
-    console.log(summary);
-    process.exit(code || 0);
-  });
-
-  child.on('error', err => {
-    clearTimeout(hardTimeout);
-    console.error(`\nFailed to start Cypress: ${err.message}`);
-    process.exit(1);
-  });
+  const exitCode = await runCypress({ port: 3001, entryName });
+  process.exit(exitCode);
 }
 
 // Run
