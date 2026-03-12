@@ -178,7 +178,7 @@ const VeteranStatus = ({
   const createPdf = async () => {
     try {
       await generatePdf(
-        'veteranStatusNew',
+        'veteranStatus',
         'Veteran status card',
         pdfData,
         !isMobile,
