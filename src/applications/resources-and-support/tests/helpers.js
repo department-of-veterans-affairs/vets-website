@@ -26,14 +26,16 @@ export const verifyElement = (selector, index = 0) =>
 
 export const verifyUrl = linkUrl => cy.url().should('contain', linkUrl);
 
-export const clearInput = selector =>
-  cy
-    .get(selector)
+export const clearInput = selector => {
+  cy.get(selector)
     .shadow()
     .get('input')
     .first()
-    .focus()
-    .clear();
+    .as('selectorInput');
+
+  cy.get('@selectorInput').focus();
+  cy.get('@selectorInput').clear();
+};
 
 export const verifyResult = (
   selector,

@@ -11,9 +11,8 @@ describe('Resources & Support (Desktop)', () => {
     // Setup with search term
     cy.viewport(1000, 2000);
     cy.visit('/resources/search/?query=benefits');
-    cy.injectAxeThenAxeCheck();
-
     cy.wait('@getArticles');
+    cy.injectAxeThenAxeCheck();
 
     // Check header
     h.verifyText('h1', 'Resources and Support Search Results');
