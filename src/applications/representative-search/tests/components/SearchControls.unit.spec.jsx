@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import SearchControls from '../../components/search/SearchControls';
 
@@ -31,8 +31,8 @@ describe('SearchResults', () => {
     mockApiRequest([{ data: { attributes: { name: 'VSO Org' } } }]);
   });
   describe('VSO filter options feature flag enabled', () => {
-    it('should display VSO filter box when VSO is selected', () => {
-      const wrapper = mount(
+    it('should display VSO filter box when VSO is selected', async () => {
+      const { findByTestId } = render(
         <Provider store={store}>
           <SearchControls
             onChange={mockOnChange}
@@ -44,12 +44,11 @@ describe('SearchResults', () => {
         </Provider>,
       );
 
-      expect(wrapper.find('.organization-select')).to.have.lengthOf(1);
-      wrapper.unmount();
+      await findByTestId('vso-org-filter');
     });
 
     it('should not display VSO filter box when attorney is selected', () => {
-      const wrapper = mount(
+      const { queryByTestId } = render(
         <Provider store={store}>
           <SearchControls
             onChange={mockOnChange}
@@ -63,8 +62,7 @@ describe('SearchResults', () => {
         </Provider>,
       );
 
-      expect(wrapper.find('.organization-select')).to.have.lengthOf(0);
-      wrapper.unmount();
+      expect(queryByTestId('vso-org-filter')).to.be.null;
     });
   });
   describe('VSO filter options feature flag disabled', () => {
@@ -80,7 +78,7 @@ describe('SearchResults', () => {
       });
     });
     it('should not display VSO filter box when VSO is selected', () => {
-      const wrapper = mount(
+      const { queryByTestId } = render(
         <Provider store={store}>
           <SearchControls
             onChange={mockOnChange}
@@ -91,12 +89,10 @@ describe('SearchResults', () => {
           />
         </Provider>,
       );
-
-      expect(wrapper.find('.organization-select')).to.have.lengthOf(0);
-      wrapper.unmount();
+      expect(queryByTestId('vso-org-filter')).to.be.null;
     });
     it('should not display VSO filter box when attorney is selected', () => {
-      const wrapper = mount(
+      const { queryByTestId } = render(
         <Provider store={store}>
           <SearchControls
             onChange={mockOnChange}
@@ -109,9 +105,7 @@ describe('SearchResults', () => {
           />
         </Provider>,
       );
-
-      expect(wrapper.find('.organization-select')).to.have.lengthOf(0);
-      wrapper.unmount();
+      expect(queryByTestId('vso-org-filter')).to.be.null;
     });
   });
 });

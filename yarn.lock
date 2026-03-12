@@ -3669,13 +3669,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@55.0.0":
-  version "55.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-55.0.0.tgz#53fa02ebc9e1815d08bb0f927fec66009c9e8534"
-  integrity sha512-aqR1tKCaTeYJKqD9tVd3jMhG1tVGmLc1pR2aX5ynmQ0wdSRFsGzVw9iXphwq5FzouXFSfs0vb0Sw8Sa8j444ng==
+"@department-of-veterans-affairs/component-library@56.1.0":
+  version "56.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-56.1.0.tgz#080909e5102dad9ed3e937d56052cac6bcc18c4b"
+  integrity sha512-cnz3xIQhhT6g0YHorSQ6xM3ftkFPEUIYrioUiZn236LAvQshIPrzEDgXvVuSnPB5G/7+c/+fRq3sOS6RATtPmw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.3.1"
-    "@department-of-veterans-affairs/web-components" "23.0.0"
+    "@department-of-veterans-affairs/web-components" "24.1.0"
     i18next "25.6.0"
     i18next-browser-languagedetector "8.2.0"
     react-focus-on "3.5.4"
@@ -3740,10 +3740,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@23.0.0":
-  version "23.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-23.0.0.tgz#8dd7c9120bf5b39d095cb388906f6855ee5c38ab"
-  integrity sha512-FESxzPpFo7MdPvXAQJvFaJg6UXS9eObMMvWfSduYqRfOaYeCFjx0efaBNQoKHZU4Hwn7aKfxQIyIf1VFUo+bUg==
+"@department-of-veterans-affairs/web-components@24.1.0":
+  version "24.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-24.1.0.tgz#7e3bca080b3b720ff9acf96af58b34207991a896"
+  integrity sha512-18w+mfcZDKVlqM9hmNhY/QvMHtGNMFRHuwW/wQ9KSoe8gh9OaZSIWEGHyC91L8P9CZTZ+AuP/w4Sypn9q+7AmA==
   dependencies:
     "@stencil/core" "4.20.0"
     aria-hidden "1.1.3"
@@ -15648,30 +15648,6 @@ mkdirp@^1.0.4:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-mkdirp@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-3.0.1.tgz#e44e4c5607fb279c168241713cc6e0fea9adcb50"
-  integrity sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==
-
-mocha-junit-reporter@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/mocha-junit-reporter/-/mocha-junit-reporter-2.2.1.tgz#739f5595d0f051d07af9d74e32c416e13a41cde5"
-  integrity sha512-iDn2tlKHn8Vh8o4nCzcUVW4q7iXp7cC4EB78N0cDHIobLymyHNwe0XG8HEHHjc3hJlXm0Vy6zcrxaIhnI2fWmw==
-  dependencies:
-    debug "^4.3.4"
-    md5 "^2.3.0"
-    mkdirp "^3.0.0"
-    strip-ansi "^6.0.1"
-    xml "^1.0.1"
-
-mocha-multi-reporters@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/mocha-multi-reporters/-/mocha-multi-reporters-1.5.1.tgz#c73486bed5519e1d59c9ce39ac7a9792600e5676"
-  integrity sha512-Yb4QJOaGLIcmB0VY7Wif5AjvLMUFAdV57D2TWEva1Y0kU/3LjKpeRVmlMIfuO1SVbauve459kgtIizADqxMWPg==
-  dependencies:
-    debug "^4.1.1"
-    lodash "^4.17.15"
-
 mocha-snapshots@^4.2.0:
   version "4.2.0"
   resolved "https://registry.npmjs.org/mocha-snapshots/-/mocha-snapshots-4.2.0.tgz"
@@ -21922,11 +21898,6 @@ xml-name-validator@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-4.0.0.tgz#79a006e2e63149a8600f15430f0a4725d1524835"
   integrity sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==
-
-xml@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/xml/-/xml-1.0.1.tgz#78ba72020029c5bc87b8a81a3cfcd74b4a2fc1e5"
-  integrity sha512-huCv9IH9Tcf95zuYCsQraZtWnJvBtLVE0QHMOs8bWyZAFZNDcYjsPq1nEx8jKA9y+Beo9v+7OBPRisQTjinQMw==
 
 xmlchars@^2.2.0:
   version "2.2.0"
