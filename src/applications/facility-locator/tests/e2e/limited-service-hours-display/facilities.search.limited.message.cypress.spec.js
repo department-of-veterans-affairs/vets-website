@@ -47,6 +47,7 @@ describe('Facility VA search', () => {
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
       createRegexString({
+        radius: null,
         serviceType: null,
         facilityType: FacilitiesServicesConstants.VET_CENTER.string,
         totalEntries: 1,

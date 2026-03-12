@@ -66,9 +66,9 @@ describe('VA health services autosuggest', () => {
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
         createRegexString({
+          radius: null,
           serviceType: 'All VA health services',
           facilityType: 'VA health',
-          radius: 50,
           totalEntries: 14,
           location: 'Atlanta, Georgia',
         }),
@@ -89,6 +89,7 @@ describe('VA health services autosuggest', () => {
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
         createRegexString({
+          radius: null,
           serviceType:
             'Polytrauma and traumatic brain injury.*TBI and multiple traumas',
           facilityType: 'VA health',
@@ -138,6 +139,7 @@ describe('VA health services autosuggest', () => {
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
         createRegexString({
+          radius: null,
           serviceType: 'All VA health services',
           facilityType: 'VA health',
           totalEntries: 14,

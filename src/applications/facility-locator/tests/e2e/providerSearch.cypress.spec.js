@@ -93,9 +93,9 @@ for (const featureSet of featureSetsToTest) {
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
         createRegexString({
+          radius: null,
           serviceType: `Dentist \\- Orofacial Pain`,
           facilityType: FacilitiesServicesConstants.CC_PROVIDER.string,
-          radius: 50,
           totalEntries: 14,
           location: 'Austin, Texas',
         }),
@@ -117,9 +117,9 @@ for (const featureSet of featureSetsToTest) {
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
         createRegexString({
+          radius: null,
           serviceType: `Clinic\\/Center \\- Urgent Care`,
           facilityType: FacilitiesServicesConstants.CC_PROVIDER.string,
-          radius: 50,
           totalEntries: 14,
           location: 'Austin, Texas',
         }),
@@ -147,9 +147,9 @@ for (const featureSet of featureSetsToTest) {
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
         createRegexString({
+          radius: null,
           serviceType: 'In-network community urgent care',
           facilityType: FacilitiesServicesConstants.URGENT_CARE.string,
-          radius: 50,
           totalEntries: 14,
           location: 'Austin, Texas',
         }),
@@ -177,9 +177,9 @@ for (const featureSet of featureSetsToTest) {
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
         createRegexString({
+          radius: null,
           serviceType: 'In-network community emergency care',
           facilityType: FacilitiesServicesConstants.EMERGENCY_CARE.string,
-          radius: 50,
           totalEntries: 14,
           location: 'Austin, Texas',
         }),

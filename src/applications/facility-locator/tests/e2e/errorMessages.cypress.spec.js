@@ -114,6 +114,7 @@ for (const featureSet of featureSets) {
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
         createRegexString({
+          radius: null,
           serviceType: 'Dentist \\- Orofacial Pain',
           facilityType: FacilitiesServicesConstants.CC_PROVIDER.string,
           totalEntries: 14,

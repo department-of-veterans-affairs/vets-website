@@ -122,6 +122,7 @@ describe('Facility VA search', () => {
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
       createRegexString({
+        radius: null,
         serviceType: healthServices.PrimaryCare,
         facilityType: FacilitiesServicesConstants.HEALTH.string,
         totalEntries: 13,
@@ -181,6 +182,7 @@ describe('Facility VA search', () => {
     h.verifyElementShouldContainString(
       h.SEARCH_RESULTS_SUMMARY,
       createRegexString({
+        radius: null,
         serviceType: 'General Acute Care Hospital',
         facilityType: FacilitiesServicesConstants.CC_PROVIDER.string,
         totalEntries: 0,
@@ -205,6 +207,7 @@ describe('Facility VA search', () => {
     });
     cy.get('#search-results-subheader').contains(
       createRegexString({
+        radius: null,
         serviceType: 'VA benefits',
         facilityType: FacilitiesServicesConstants.BENEFITS.string,
         totalEntries: 14,
@@ -294,6 +297,7 @@ describe('Facility VA search', () => {
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
       createRegexString({
+        radius: null,
         serviceType: 'Emergency Care',
         facilityType: FacilitiesServicesConstants.EMERGENCY_CARE.string,
         totalEntries: 14,
@@ -346,6 +350,7 @@ describe('Facility VA search', () => {
 
     cy.get('#search-results-subheader').contains(
       createRegexString({
+        radius: null,
         serviceType: healthServices.PrimaryCare,
         facilityType: FacilitiesServicesConstants.HEALTH.string,
         totalEntries: 14,

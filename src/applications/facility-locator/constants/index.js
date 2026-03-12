@@ -226,6 +226,7 @@ export const MAX_SEARCH_AREA = 500;
  */
 export const MIN_RADIUS = 10;
 export const MIN_RADIUS_CCP = 40;
+export const STD_RADIUS = 50;
 export const MIN_RADIUS_EXP = 49; // Expanded search radius - due to new map configurations
 export const MIN_RADIUS_NCA = 133; // National Cemetery Administration
 export const Covid19Vaccine = 'Covid19Vaccine';
@@ -289,7 +290,10 @@ export const createRegexString = ({
   totalEntries,
   location,
   noResults = false,
+  radius,
 } = {}) => {
+  const radiusPattern = radius != null ? String(Math.round(radius)) : '\\d+';
+
   const facilityTypeHasNoServices =
     hasNoServices(facilityType) ||
     serviceType === null ||
@@ -298,7 +302,7 @@ export const createRegexString = ({
   // --- No results case ---
   if (noResults) {
     return new RegExp(
-      `No results found for.*within \\d{1,} miles of.*${location}.*`,
+      `No results found for.*within ${radiusPattern} miles of.*${location}.*`,
       'i',
     );
   }
@@ -321,7 +325,7 @@ export const createRegexString = ({
   return new RegExp(
     `${resultsPrefix}.*${
       facilityTypeHasNoServices ? '' : `${serviceType}.*`
-    }${facilityType}.*within \\d{1,} miles of.*${location}.*`,
+    }${facilityType}.*within ${radiusPattern} miles of.*${location}.*`,
     'i',
   );
 };

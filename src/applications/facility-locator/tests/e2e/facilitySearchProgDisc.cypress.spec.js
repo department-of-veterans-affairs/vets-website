@@ -87,6 +87,7 @@ describe('Facility VA search', () => {
 
     cy.get('#search-results-subheader').contains(
       createRegexString({
+        radius: null,
         serviceType: healthServices.PrimaryCare,
         facilityType: FacilitiesServicesConstants.HEALTH.string,
         totalEntries: 14,
@@ -138,6 +139,7 @@ describe('Facility VA search', () => {
     cy.get('#search-results-subheader').should('exist');
     cy.focused().contains(
       createRegexString({
+        radius: null,
         serviceType: 'General Acute Care Hospital',
         facilityType: FacilitiesServicesConstants.CC_PROVIDER.string,
         totalEntries: 0,
@@ -159,6 +161,7 @@ describe('Facility VA search', () => {
     submitSearchForm();
     cy.get('#search-results-subheader').contains(
       createRegexString({
+        radius: null,
         serviceType: null,
         facilityType: FacilitiesServicesConstants.BENEFITS.string,
         totalEntries: 14,
@@ -219,6 +222,7 @@ describe('Facility VA search', () => {
     submitSearchForm();
     cy.get('#search-results-subheader').contains(
       createRegexString({
+        radius: null,
         serviceType: 'VA emergency care',
         facilityType: FacilitiesServicesConstants.EMERGENCY_CARE.string,
         totalEntries: 14,
