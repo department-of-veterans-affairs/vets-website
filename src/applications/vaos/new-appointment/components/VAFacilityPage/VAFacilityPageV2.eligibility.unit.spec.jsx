@@ -900,11 +900,8 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           featureToggles: {
             ...initialState.featureToggles,
             vaOnlineSchedulingDirect: false,
-            // vaOnlineSchedulingAddSubstanceUseDisorder: true,
+            vaOnlineSchedulingAddSubstanceUseDisorder: true,
           },
-          // user: {
-          //   ...initialState.user,
-          // },
         };
 
         mockSchedulingConfigurationsApi({
@@ -1004,7 +1001,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         mockEligibilityFetches({
           facilityId: '983',
           typeOfCareId: 'outpatientMentalHealth',
-          // directPastVisits: true,
           clinics: [
             new MockClinicResponse({
               id: '455',
