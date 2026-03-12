@@ -41,7 +41,7 @@ describe('DetailCopayPage', () => {
   const mockMatch = { params: { id: '123' } };
 
   it('uses attributes.facility for TITLE when VHA payment history flag is true', () => {
-    const mockStatement = {
+    const mockCopay = {
       id: '123',
       attributes: {
         facility: {
@@ -67,12 +67,12 @@ describe('DetailCopayPage', () => {
       },
       combinedPortal: {
         mcp: {
-          selectedStatement: mockStatement,
-          statements: [mockStatement],
+          currentCopay: mockCopay,
+          copays: [mockCopay],
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+        [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
         loading: false,
       },
     };
@@ -86,7 +86,7 @@ describe('DetailCopayPage', () => {
   });
 
   it('uses station.facilityName for TITLE when VHA payment history flag is false', () => {
-    const mockStatement = {
+    const mockCopay = {
       id: '123',
       station: {
         facilityName: 'Tampa VA Medical Center',
@@ -106,12 +106,12 @@ describe('DetailCopayPage', () => {
       },
       combinedPortal: {
         mcp: {
-          selectedStatement: mockStatement,
-          statements: [mockStatement],
+          currentCopay: mockCopay,
+          copays: [mockCopay],
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
+        [FEATURE_FLAG_NAMES.useLighthouseCopays]: false,
         loading: false,
       },
     };
@@ -127,7 +127,7 @@ describe('DetailCopayPage', () => {
   });
 
   it('renders VHA unspaced account number split into 5 parts', () => {
-    const mockStatement = {
+    const mockCopay = {
       id: '123',
       attributes: {
         facility: { name: 'James A. Haley' },
@@ -143,10 +143,10 @@ describe('DetailCopayPage', () => {
     const mockState = {
       user: { profile: { userFullName: { first: 'John', last: 'Doe' } } },
       combinedPortal: {
-        mcp: { selectedStatement: mockStatement, statements: [mockStatement] },
+        mcp: { currentCopay: mockCopay, copays: [mockCopay] },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+        [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
         loading: false,
       },
     };
@@ -160,7 +160,7 @@ describe('DetailCopayPage', () => {
   });
 
   it('renders CDW spaced account number correctly', () => {
-    const mockStatement = {
+    const mockCopay = {
       id: '123',
       station: { facilityName: 'Tampa VA Medical Center' },
       pSStatementDateOutput: '01/15/2024',
@@ -173,10 +173,10 @@ describe('DetailCopayPage', () => {
     const mockState = {
       user: { profile: { userFullName: { first: 'John', last: 'Doe' } } },
       combinedPortal: {
-        mcp: { selectedStatement: mockStatement, statements: [mockStatement] },
+        mcp: { currentCopay: mockCopay, copays: [mockCopay] },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
+        [FEATURE_FLAG_NAMES.useLighthouseCopays]: false,
         loading: false,
       },
     };
