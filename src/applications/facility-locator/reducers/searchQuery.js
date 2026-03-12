@@ -16,6 +16,7 @@ import {
   CLEAR_SEARCH_TEXT,
   GEOLOCATE_USER,
 } from '../actions/actionTypes';
+import { CMS_SERVICE } from '../constants';
 // Test data fallback for localhost (same pattern as useServiceType hook)
 import vaHealthcareServices from '../tests/hooks/test-va-healthcare-services.json';
 
@@ -45,8 +46,10 @@ export const getServiceDisplayName = (serviceId, vaHealthServicesData) => {
   if (!serviceId) return null;
   const data = getVaHealthServicesData(vaHealthServicesData);
   if (!Array.isArray(data?.data)) return null;
-  const service = data.data.find(item => item[3] === serviceId);
-  return service ? service[0] : null;
+  const service = data.data.find(
+    item => item[CMS_SERVICE.SERVICE_ID] === serviceId,
+  );
+  return service ? service[CMS_SERVICE.DISPLAY_NAME] : null;
 };
 
 export const INITIAL_STATE = {

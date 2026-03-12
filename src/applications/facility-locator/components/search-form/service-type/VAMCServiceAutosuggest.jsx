@@ -5,6 +5,7 @@ import { useCombobox } from 'downshift-v9';
 import useServiceType, {
   FACILITY_TYPE_FILTERS,
 } from '../../../hooks/useServiceType';
+import { CMS_SERVICE } from '../../../constants';
 import Autosuggest from '../autosuggest';
 
 const ALL_VA_HEALTH_SERVICES = 'All VA health services';
@@ -39,17 +40,17 @@ const VAMCServiceAutosuggest = ({
       }
 
       const serviceOptions = services.map(service => {
-        let displayName = service?.[0];
+        let displayName = service?.[CMS_SERVICE.DISPLAY_NAME];
 
-        if (displayName && service?.[1]) {
-          displayName = `${displayName} (${service?.[1]})`;
+        if (displayName && service?.[CMS_SERVICE.ALIAS]) {
+          displayName = `${displayName} (${service?.[CMS_SERVICE.ALIAS]})`;
         } else if (!displayName) {
           return null;
         }
 
         return {
-          id: service[0],
-          serviceId: service[3],
+          id: service[CMS_SERVICE.DISPLAY_NAME],
+          serviceId: service[CMS_SERVICE.SERVICE_ID],
           toDisplay: displayName,
         };
       });
