@@ -48,6 +48,9 @@ const IntroductionPage526 = ({ route, router }) => {
   useEffect(() => {
     focusElement('h1');
   }, []);
+
+  const separationHealthAssessment =
+    'https://www.benefits.va.gov/compensation/docs/SHA_DBQ_Part_A_Self-Assessment.pdf';
   return (
     <Toggler
       toggleName={
@@ -104,10 +107,10 @@ const IntroductionPage526 = ({ route, router }) => {
               <VaLink
                 download
                 filetype="PDF"
-                href="https://www.benefits.va.gov/compensation/docs/SHA_DBQ_Part_A_Self-Assessment.pdf"
+                href={separationHealthAssessment}
                 onClick={e => {
                   e.preventDefault();
-                  window.open(pdfDownloadUrl, '_blank');
+                  window.open(separationHealthAssessment, '_blank');
                 }}
                 text="Download Separation Health Assessment - Part A Self-Assessment"
               />
