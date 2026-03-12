@@ -104,8 +104,6 @@ function AddressAutosuggest({
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
     onLocationSelection?.({ searchString: value });
-
-    onLocationSelection?.({ searchString: value });
   };
 
   const handleInputChange = e => {

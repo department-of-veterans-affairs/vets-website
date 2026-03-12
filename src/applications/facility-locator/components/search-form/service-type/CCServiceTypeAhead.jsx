@@ -213,11 +213,6 @@ class CCServiceTypeAhead extends Component {
               <label {...getLabelProps()} htmlFor="service-type-ahead-input">
                 Select a provider type{' '}
                 <span className="form-required-span">(*Required)</span>
-                {this.props.useProgressiveDisclosure && (
-                  <span className="usa-hint">
-                    Type a medical specialty or service to find providers
-                  </span>
-                )}
               </label>
               {this.props.useProgressiveDisclosure && (
                 <p className="service-hint-text">
