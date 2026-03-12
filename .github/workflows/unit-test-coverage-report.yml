@@ -30,7 +30,7 @@ jobs:
           node -e "
           const glob = require('glob');
           const path = require('path');
-          const allUnitTests = glob.sync('./{src,script}/**/*.unit.spec.js?(x)');
+          const allUnitTests = glob.sync('./{src,script}/**/*.unit.spec.@(js|jsx|ts)');
           const apps = Array.from(new Set(
             allUnitTests.map(spec => {
               const parts = path.dirname(spec).split('/');
