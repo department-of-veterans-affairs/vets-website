@@ -480,14 +480,9 @@ function generateMockPrescriptions(
   // Exports do not have page or perPage sent in the request
   const isExport = !req.query.page && !req.query.per_page;
 
-  // When true, the response will include a populated failedStationList
-  // which triggers the failed-stations alert in MedicationHistory.
-  const failedStationList = simulateFailedStations
-    ? [
-        { stationNumber: '442', stationName: 'CHEYENNE VA MEDICAL CENTER' },
-        { stationNumber: '668', stationName: 'SPOKANE VA MEDICAL CENTER' },
-      ]
-    : null;
+  // When true, the response will include hasFailedStations: true
+  // which triggers the failed-stations alert in Prescriptions.
+  const hasFailedStations = simulateFailedStations || false;
 
   // In the export response:
   if (isExport) {
@@ -495,7 +490,7 @@ function generateMockPrescriptions(
       data: filteredPrescriptions,
       meta: {
         updatedAt: formatISO(new Date()),
-        failedStationList,
+        hasFailedStations,
       },
       links: {},
     };
@@ -576,7 +571,7 @@ function generateMockPrescriptions(
     data: slice,
     meta: {
       updatedAt: formatISO(new Date()),
-      failedStationList,
+      hasFailedStations,
       pagination: {
         currentPage,
         perPage,

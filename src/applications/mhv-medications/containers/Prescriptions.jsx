@@ -121,7 +121,7 @@ const Prescriptions = () => {
   } = useFetchPrescriptionsList();
 
   const { pagination, meta = {} } = prescriptionsData || {};
-  const { filterCount, failedStationList } = meta;
+  const { filterCount, hasFailedStations: hasFailedStationsMeta } = meta;
 
   const paginatedPrescriptionsList = useMemo(
     () => {
@@ -256,8 +256,7 @@ const Prescriptions = () => {
   );
 
   // Check if some stations failed to return data
-  const hasFailedStations =
-    Array.isArray(failedStationList) && failedStationList.length > 0;
+  const hasFailedStations = hasFailedStationsMeta === true;
 
   const renderMedicationsContent = () => {
     // No medications exist

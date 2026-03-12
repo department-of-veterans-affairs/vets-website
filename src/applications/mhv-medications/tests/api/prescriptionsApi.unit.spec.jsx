@@ -750,6 +750,7 @@ describe('prescriptionsApi', () => {
             totalEntries: 1,
           },
           filterCount: { allMedications: 1 },
+          hasFailedStations: true,
           failedStationList,
           recentlyRequested: [],
         },
@@ -757,6 +758,7 @@ describe('prescriptionsApi', () => {
 
       const result = transformPrescriptionsListResponse(mockResponse);
 
+      expect(result.meta.hasFailedStations).to.be.true;
       expect(result.meta.failedStationList).to.deep.equal(failedStationList);
       expect(result.meta.failedStationList).to.have.lengthOf(2);
     });
@@ -782,6 +784,7 @@ describe('prescriptionsApi', () => {
             totalEntries: 1,
           },
           filterCount: { allMedications: 1 },
+          hasFailedStations: false,
           failedStationList: null,
           recentlyRequested: [],
         },
@@ -789,6 +792,7 @@ describe('prescriptionsApi', () => {
 
       const result = transformPrescriptionsListResponse(mockResponse);
 
+      expect(result.meta.hasFailedStations).to.be.false;
       expect(result.meta.failedStationList).to.be.null;
     });
 
@@ -803,6 +807,7 @@ describe('prescriptionsApi', () => {
 
       const result = transformPrescriptionsListResponse(mockResponse);
 
+      expect(result.meta.hasFailedStations).to.be.undefined;
       expect(result.meta.failedStationList).to.be.undefined;
     });
 
@@ -811,6 +816,7 @@ describe('prescriptionsApi', () => {
         data: [],
         meta: {
           pagination: { currentPage: 1, totalPages: 1 },
+          hasFailedStations: false,
           failedStationList: [],
           recentlyRequested: [],
         },
@@ -818,6 +824,7 @@ describe('prescriptionsApi', () => {
 
       const result = transformPrescriptionsListResponse(mockResponse);
 
+      expect(result.meta.hasFailedStations).to.be.false;
       expect(result.meta.failedStationList).to.deep.equal([]);
     });
   });

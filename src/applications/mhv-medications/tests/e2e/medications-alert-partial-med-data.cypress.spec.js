@@ -2,11 +2,6 @@ import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsListPage from './pages/MedicationsListPage';
 import rxList from './fixtures/listOfPrescriptions.json';
 
-const failedStationList = [
-  { stationNumber: '442', stationName: 'CHEYENNE VA MEDICAL CENTER' },
-  { stationNumber: '668', stationName: 'SPOKANE VA MEDICAL CENTER' },
-];
-
 const emptyRxListWithFailedStations = {
   data: [],
   meta: {
@@ -23,7 +18,7 @@ const emptyRxListWithFailedStations = {
       renewal: 0,
       nonActive: 0,
     },
-    failedStationList,
+    hasFailedStations: true,
     recentlyRequested: [],
     updatedAt: new Date().toISOString(),
   },
