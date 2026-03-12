@@ -38,7 +38,7 @@ const CareTeamHelp = () => {
       </li>
       <li>
         They’re part of a different VA health care system
-        {!isCernerOnly && (
+        {(!isCernerOnly || isCerner) && (
           <>
             , <strong>or</strong>
           </>
