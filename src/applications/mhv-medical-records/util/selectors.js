@@ -21,3 +21,6 @@ export const selectHoldTimeMessagingUpdate = state =>
   state.featureToggles[
     FEATURE_FLAG_NAMES.mhvMedicalRecordsHoldTimeMessagingUpdate
   ];
+
+export const selectShowMissingAlertFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsShowMissingAlert];

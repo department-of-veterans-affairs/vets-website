@@ -166,6 +166,14 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       if (params.get('sei') === 'true') {
         // Expand and focus the self-entered accordion if ?sei=true query param is present
         setExpandSelfEntered(true);
+      } else if (window.location.hash === '#ccd') {
+        // Focus the CCD heading when navigated from the missing records warning alert
+        setTimeout(() => {
+          const ccdHeading = document.getElementById('ccd');
+          if (ccdHeading) {
+            focusElement(ccdHeading);
+          }
+        }, 400);
       } else {
         // Focus h1 and set page title
         focusElement(document.querySelector('h1'));

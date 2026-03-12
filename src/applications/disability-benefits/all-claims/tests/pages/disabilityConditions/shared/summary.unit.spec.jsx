@@ -212,4 +212,25 @@ describe('526 summary shared page', () => {
       expect(onSubmit.calledOnce).to.be.true;
     });
   });
+
+  it('shows error when selecting No with no conditions added', async () => {
+    const onSubmit = sinon.spy();
+    const data = {
+      [utils.arrayOptions.arrayPath]: [],
+      'view:hasConditions': false,
+    };
+
+    const { container } = mountPage(data, onSubmit);
+    const view = within(container);
+
+    view.getByRole('button', { name: /submit/i }).click();
+
+    const group = container.querySelector('va-radio');
+
+    await waitFor(() => {
+      const err = group.getAttribute('error') || '';
+      expect(err).to.match(/you can't continue without adding a condition/i);
+      expect(onSubmit.called).to.be.false;
+    });
+  });
 });
