@@ -17,12 +17,8 @@ phoneNumberUISchema['ui:errorMessages'] = {
 const emailAddressUISchema = emailToSendNotificationsUI({
   title: 'Email address',
   hint: 'We’ll use this email address to confirm when we receive your form',
+  'ui:required': true,
 });
-emailAddressUISchema['ui:required'] = formData =>
-  !!formData?.['view:isEmailPresenceRequired'];
-
-const isEmailPresenceRequired = appStateData =>
-  !!appStateData?.isEmailPresenceRequired;
 
 function validateElectronicCorrespondence(errors, fieldData, formData) {
   if (!formData?.['view:isEmailPresenceRequired']) {
@@ -34,25 +30,6 @@ function validateElectronicCorrespondence(errors, fieldData, formData) {
     errors.electronicCorrespondence.addError(
       'Enter an email address to receive electronic correspondence',
     );
-  }
-}
-
-function validateEmailPresence(
-  errors,
-  fieldData,
-  formData,
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData,
-) {
-  if (!isEmailPresenceRequired(appStateData)) {
-    return;
-  }
-
-  const email = fieldData?.emailAddress;
-  if (!email || email.trim() === '') {
-    errors.emailAddress.addError('Enter your email address');
   }
 }
 
@@ -73,7 +50,7 @@ export default {
         hideIf: formData => !formData?.['view:isEmailPresenceRequired'],
       },
     },
-    'ui:validations': [validateElectronicCorrespondence, validateEmailPresence],
+    'ui:validations': [validateElectronicCorrespondence],
   },
   schema: {
     type: 'object',
@@ -83,6 +60,6 @@ export default {
       emailAddress: emailToSendNotificationsSchema,
       electronicCorrespondence: { type: 'boolean' },
     },
-    required: ['phoneNumber'],
+    required: ['phoneNumber', 'emailAddress'],
   },
 };
