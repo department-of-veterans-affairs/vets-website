@@ -84,13 +84,13 @@ describe('Representative Form Upload', () => {
       );
     });
 
-    it('sets sessionStorage flag when "Start form upload and submission" is clicked', () => {
+    it('sets sessionStorage flag when "Start the submission" is clicked', () => {
       cy.visit(
         '/representative/representative-form-upload/submit-va-form-21-526ez',
       );
 
       cy.get('a[href="/submit-va-form-21-526ez/veteran-information"]')
-        .contains('Start form upload and submission')
+        .contains('Start the submission')
         .click();
 
       cy.window().then(win => {
@@ -127,7 +127,7 @@ describe('Representative Form Upload', () => {
         cy.axeCheck();
 
         cy.get('a[href="/submit-va-form-21-526ez/veteran-information"]')
-          .contains('Start form upload and submission')
+          .contains('Start the submission')
           .click();
 
         cy.location('pathname').should(
@@ -180,7 +180,7 @@ describe('Representative Form Upload', () => {
         );
 
         cy.get('a[href="/submit-va-form-21-526ez/veteran-information"]')
-          .contains('Start form upload and submission')
+          .contains('Start the submission')
           .click();
 
         cy.location('pathname').should(
@@ -254,7 +254,7 @@ describe('Representative Form Upload', () => {
       cy.axeCheck();
 
       cy.get('a[href="/submit-va-form-21-526ez/veteran-information"]')
-        .contains('Start form upload and submission')
+        .contains('Start the submission')
         .click();
 
       cy.location('pathname').should(
