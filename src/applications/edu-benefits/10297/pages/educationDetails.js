@@ -10,7 +10,6 @@ const educationLevels = {
   BD: "A bachelor's degree",
   MD: "A master's degree",
   DD: 'A doctoral degree like a PhD',
-  OTHER: 'Other',
 };
 
 const uiSchema = {
