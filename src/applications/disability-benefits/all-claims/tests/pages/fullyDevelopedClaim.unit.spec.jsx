@@ -81,35 +81,55 @@ describe('Fully Developed Claim', () => {
     });
   });
 
-  it('should display alert when selecting yes', () => {
-    const { getByText } = render(
+  it('should display alert when selecting yes', async () => {
+    const onSubmit = sinon.spy();
+    const { container, getByText } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
         schema={schema}
-        data={{ standardClaim: false }}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
       />,
     );
 
-    getByText(
-      'Since you’ve uploaded all your supporting documents, your claim will be submitted as a fully developed claim.',
-      { exact: false },
-    );
+    $('va-radio', container).__events.vaValueChange({ detail: { value: 'Y' } });
+
+    await waitFor(() => {
+      getByText(
+        'Since you’ve uploaded all your supporting documents, your claim will be submitted as a fully developed claim.',
+        { exact: false },
+      );
+    });
+
+    fireEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
   });
 
-  it('should display alert when selecting no', () => {
-    const { getByText } = render(
+  it('should display alert when selecting no', async () => {
+    const onSubmit = sinon.spy();
+    const { container, getByText } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
         schema={schema}
-        data={{ standardClaim: true }}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
       />,
     );
 
-    getByText(
-      'Since you’ll be sending in additional documents later, your application doesn’t qualify for the Fully Developed Claim program. We’ll',
-      { exact: false },
-    );
+    $('va-radio', container).__events.vaValueChange({ detail: { value: 'N' } });
+
+    await waitFor(() => {
+      getByText(
+        'Since you’ll be sending in additional documents later, your application doesn’t qualify for the Fully Developed Claim program. We’ll',
+        { exact: false },
+      );
+    });
+
+    fireEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
   });
 });
