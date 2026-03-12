@@ -1,5 +1,5 @@
 import get from 'platform/utilities/data/get';
-import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns/yesNoPattern';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   benefitDescription,
   doubleAllowanceAlert,
