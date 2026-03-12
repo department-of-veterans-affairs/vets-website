@@ -7,14 +7,21 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 import App from '../../containers/App';
+import { TOGGLE_KEY } from '../../constants';
+
+const toggleSnakeKey = TOGGLE_NAMES[TOGGLE_KEY]; // 'coe_form_rebuild_cveteam'
+const viewToggleKey = `view:${TOGGLE_KEY}`;
 
 const getData = ({
   loggedIn = true,
   getCoeMock = () => {},
   showCOE = true,
   loading = false,
+  toggleEnabled = false,
+  formData = {},
 } = {}) => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
@@ -22,7 +29,6 @@ const getData = ({
   return {
     props: {
       children: <div>children</div>,
-      formData: {},
       getCoe: () => {},
       getCoeMock,
       loggedIn,
@@ -33,7 +39,7 @@ const getData = ({
         login: {
           currentlyLoggedIn: loggedIn,
         },
-        profile: {},
+        profile: loggedIn ? { claims: { coe: true } } : {},
       },
       form: {
         loadedStatus: 'success',
@@ -41,12 +47,13 @@ const getData = ({
         loadedData: {
           metadata: {},
         },
-        data: {},
+        data: formData,
       },
       featureToggles: {
         loading,
         // eslint-disable-next-line camelcase
         coe_access: showCOE,
+        [toggleSnakeKey]: toggleEnabled,
       },
       scheduledDowntime: {
         globalDowntime: null,
@@ -128,5 +135,61 @@ describe('App', () => {
     expect(getCoeMock.called).to.be.true;
     // we are skippingt generateCoe action
     expect(getCoeMock.args[0][0]).to.be.true;
+  });
+});
+
+describe('feature toggle sync to formData', () => {
+  it('dispatches SET_DATA with the view:-prefixed key when toggle is enabled', () => {
+    const { props, mockStore } = getData({
+      toggleEnabled: true,
+      formData: {}, // no view:coeFormRebuildCveteam yet
+    });
+
+    render(
+      <Provider store={mockStore}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    const actions = mockStore.getActions();
+    const setDataAction = actions.find(a => a.type === 'SET_DATA');
+    expect(setDataAction).to.exist;
+    expect(setDataAction.data[viewToggleKey]).to.be.true;
+  });
+
+  it('dispatches SET_DATA with false when toggle is disabled', () => {
+    const { props, mockStore } = getData({
+      toggleEnabled: false,
+      formData: { [viewToggleKey]: true }, // was true, now toggle says false
+    });
+
+    render(
+      <Provider store={mockStore}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    const actions = mockStore.getActions();
+    const setDataAction = actions.find(a => a.type === 'SET_DATA');
+    expect(setDataAction).to.exist;
+    expect(setDataAction.data[viewToggleKey]).to.be.false;
+  });
+
+  it('does not dispatch SET_DATA while feature flags are still loading', () => {
+    const { props, mockStore } = getData({
+      loading: true,
+      toggleEnabled: true,
+      formData: {}, // mismatched, but loading — should not sync
+    });
+
+    render(
+      <Provider store={mockStore}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    const actions = mockStore.getActions();
+    const setDataAction = actions.find(a => a.type === 'SET_DATA');
+    expect(setDataAction).to.not.exist;
   });
 });

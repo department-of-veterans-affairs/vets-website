@@ -50,7 +50,9 @@ describe('Pensions keyboard only navigation', () => {
   before(() => {
     cypressBeforeAllSetup();
   });
-  context('Simple', () => {
+  // Skip until content-build is updated
+  // https://github.com/department-of-veterans-affairs/content-build/pull/2865
+  skipInCI('Simple', () => {
     it('keyboard navigates through the form', () => {
       cy.wrap(simpleFixture.data).as('testData');
       cypressSetup(cy);
