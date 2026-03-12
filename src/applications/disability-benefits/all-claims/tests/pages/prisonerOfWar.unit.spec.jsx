@@ -83,7 +83,9 @@ describe('Prisoner of war info', () => {
     );
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(form.getDOMNode().querySelector('va-radio').error).to.not.be.null;
+      const radio = form.getDOMNode().querySelector('va-radio');
+      expect(radio.error).to.exist;
+      expect(radio.error).to.have.length.above(0);
       expect(onSubmit.called).to.be.false;
     });
     form.unmount();
