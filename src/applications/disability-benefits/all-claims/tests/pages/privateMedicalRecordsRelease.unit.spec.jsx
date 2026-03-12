@@ -163,7 +163,7 @@ describe('Disability benefits 4142 provider medical records facility information
   });
 
   it('does not submit (and renders error messages) when no fields touched', async () => {
-    const submit = sinon.spy();
+    const onSubmit = sinon.spy();
 
     const form = mount(
       <DefinitionTester
@@ -173,13 +173,14 @@ describe('Disability benefits 4142 provider medical records facility information
         schema={schema}
         data={initialData}
         formData={initialData}
+        onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
 
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(submit.called).to.be.false;
+      expect(onSubmit.called).to.be.false;
 
       expect(form.find('va-memorable-date').length).to.equal(2);
       expect(form.find('va-select').length).to.be.at.least(1);
@@ -189,7 +190,7 @@ describe('Disability benefits 4142 provider medical records facility information
   });
 
   it('does not submit (and renders error messages) when limited consent option chosen and no fields touched', async () => {
-    const submit = sinon.spy();
+    const onSubmit = sinon.spy();
 
     const form = mount(
       <DefinitionTester
@@ -201,13 +202,14 @@ describe('Disability benefits 4142 provider medical records facility information
           'view:limitedConsent': true,
         }}
         formData={initialData}
+        onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
 
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(submit.called).to.be.false;
+      expect(onSubmit.called).to.be.false;
 
       expect(form.find('va-memorable-date').length).to.equal(2);
       expect(form.find('va-text-input').length).to.be.greaterThan(0);

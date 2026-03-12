@@ -20,10 +20,16 @@ const expandCollapsedElement = (el, selector) => {
 };
 
 const waitForAccordionHydration = () => {
+  // Wait for custom element to be defined, then verify shadow roots are present
+  cy.window().then(win => {
+    return win.customElements.whenDefined('va-accordion-item');
+  });
   cy.get('va-accordion-item', { timeout: 5000 })
     .should('have.length.at.least', 1)
     .should($items => {
-      expect($items.length).to.be.greaterThan(0);
+      $items.each((_i, el) => {
+        expect(el.shadowRoot).to.exist;
+      });
     });
 };
 
