@@ -7,7 +7,7 @@ on:
 jobs:
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       id-token: write
       contents: read
@@ -93,7 +93,7 @@ jobs:
 
   clean-up-allow-list:
     name: Clean up E2E Test Stability Allow List
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       checks: write
       id-token: write
