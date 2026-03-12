@@ -179,6 +179,7 @@ describe('Form State Isolation - Draft State Pattern', () => {
     cy.get('#facility-type-dropdown')
       .shadow()
       .find('select')
+      .should('not.be.disabled')
       .select('VA benefits');
     cy.get('#facility-search').click();
 
