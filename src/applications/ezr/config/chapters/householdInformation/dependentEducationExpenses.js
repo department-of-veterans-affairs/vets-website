@@ -32,7 +32,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['dependentEducationExpenses'],
+    required: ['attendedSchoolLastYear', 'dependentEducationExpenses'],
     properties: {
       attendedSchoolLastYear: yesNoSchema,
       dependentEducationExpenses,

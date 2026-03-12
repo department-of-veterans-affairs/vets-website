@@ -32,7 +32,7 @@ export default {
   depends: formData =>
     !showMultiplePageResponse() && doesHaveDependents(formData),
   uiSchema: {
-    ...titleUI('Dependent children'),
+    ...titleUI('Add your dependent children'),
     dependents: {
       'ui:options': {
         itemName: 'Dependent',

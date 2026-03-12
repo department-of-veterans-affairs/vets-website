@@ -6,11 +6,12 @@ import parseISO from 'date-fns/parseISO';
 import {
   currentOrPastDateUI,
   textUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import { VaSelectField } from 'platform/forms-system/src/js/web-component-fields';
 
-import { generateTitle, DateReviewField } from '../../../utils/helpers';
+import { DateReviewField } from '../../../utils/helpers';
 import ListItemView from '../../../components/ListItemView';
 
 const { toursOfDuty } = fullSchemaBurials.properties;
@@ -69,7 +70,7 @@ ServicePeriodView.propTypes = {
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Service periods'),
+    ...titleUI('Service periods'),
     'ui:options': {
       pageClass: 'service-period-view',
     },

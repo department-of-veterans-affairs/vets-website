@@ -10,7 +10,7 @@ const { schema, uiSchema } = dependentEducationExpenses;
 const pageTitle = 'Dependent education expenses';
 
 // run test for correct number of web component error messages on submit
-const expectedNumberOfWebComponentErrors = 1;
+const expectedNumberOfWebComponentErrors = 2;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

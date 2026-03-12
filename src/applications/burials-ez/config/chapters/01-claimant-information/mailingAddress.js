@@ -1,12 +1,12 @@
 import {
-  addressSchema,
   addressUI,
+  addressSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { generateTitle } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Mailing address'),
+    ...titleUI('Mailing address'),
     'ui:description':
       'We’ll send any important information about your application to this address',
     claimantAddress: addressUI({
