@@ -1,48 +1,41 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
-
-import { routeToPreviousAppointmentPage } from '../redux/actions';
-import { getChosenFacilityInfo } from '../redux/selectors';
-import FacilityAddress from '../../components/FacilityAddress';
-import { getCernerURL } from 'platform/utilities/cerner';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import FacilityPhone from '../../components/FacilityPhone';
+import { selectFeatureUseVpg } from '../../redux/selectors';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { routeToPreviousAppointmentPage } from '../redux/actions';
+import { getChosenFacilityInfo, selectTypeOfCare } from '../redux/selectors';
 
 const pageKey = 'scheduleCerner';
 
 export default function ScheduleCernerPage() {
   const dispatch = useDispatch();
   const facility = useSelector(getChosenFacilityInfo);
+  const typeOfCare = useSelector(selectTypeOfCare);
+  const featureUseVpg = useSelector(selectFeatureUseVpg);
 
   const history = useHistory();
-  const pageTitle = 'How to schedule';
+  const pageTitle = 'You can’t schedule this appointment online';
   const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
-
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
 
-  return (
+  return !featureUseVpg ? (
+    <ScheduleCernerPage />
+  ) : (
     <>
       <h1>{pageTitle}</h1>
-      <FacilityAddress
-        facility={facility}
-        name={facility.name}
-        showPhone={false}
-        level={2}
-      />
       <p>
-        To schedule an appointment online at this facility, go to{' '}
-        <a href={getCernerURL('/pages/scheduling/upcoming')}>My VA Health</a>.
+        To schedule an appointment for {typeOfCare?.name.toLowerCase()}, you’ll
+        need to contact {facility?.name}:
       </p>
       <p>
-        <strong>OR</strong> call this facility to schedule:
+        <FacilityPhone contact={phone} />
       </p>
-
-      <FacilityPhone contact={phone} level={2} />
       <p>
         <ProgressButton
           onButtonClick={() =>
@@ -51,12 +44,6 @@ export default function ScheduleCernerPage() {
           buttonText="Back"
           buttonClass="usa-button-secondary"
           beforeText="«"
-        />
-        <ProgressButton
-          disabled
-          buttonText="Continue"
-          buttonClass="usa-button usa-button-primary"
-          afterText="»"
         />
       </p>
     </>

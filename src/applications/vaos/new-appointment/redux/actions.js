@@ -18,7 +18,6 @@ import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectFeatureMentalHealthHistoryFiltering,
-  selectFeatureRemoveFacilityConfigCheck,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
   selectFeatureUseVpg,
@@ -342,10 +341,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
       state,
     );
 
-    const removeFacilityConfigCheck = selectFeatureRemoveFacilityConfigCheck(
-      state,
-    );
-
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
     });
@@ -362,7 +357,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
             typeOfCare,
             directSchedulingEnabled,
             isCerner: true,
-            removeFacilityConfigCheck,
           });
 
           dispatch({
@@ -396,7 +390,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
           typeOfCare,
           directSchedulingEnabled,
           featurePastVisitMHFilter,
-          removeFacilityConfigCheck,
         });
         if (showModal) {
           recordEvent({
@@ -415,6 +408,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           facilityId: location.id,
           showModal,
         });
+        console.log('eligibility a', eligibility);
 
         return eligibility;
       }
@@ -424,23 +418,18 @@ export function checkEligibility({ location, showModal, isCerner }) {
         type: FORM_ELIGIBILITY_CHECKS_FAILED,
       });
     }
+    console.log('should not be here');
     return null;
   };
 }
 
-async function fetchRecentLocations(
-  dispatch,
-  siteIds,
-  removeFacilityConfigCheck = false,
-  useVpg = false,
-) {
+async function fetchRecentLocations(dispatch, siteIds, useVpg = false) {
   try {
     dispatch({ type: FORM_FETCH_RECENT_LOCATIONS });
 
-    const recentLocations = getLocationsByTypeOfCareAndSiteIds({
+    const recentLocations = await getLocationsByTypeOfCareAndSiteIds({
       siteIds,
       sortByRecentLocations: true,
-      removeFacilityConfigCheck,
       useVpg,
     });
 
@@ -467,9 +456,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
       let facilities = getTypeOfCareFacilities(state);
       let facilityId = newAppointment.data.vaFacility;
-      const removeFacilityConfigCheck = selectFeatureRemoveFacilityConfigCheck(
-        state,
-      );
       const featureUseVpg = selectFeatureUseVpg(state);
 
       dispatch({ type: FORM_PAGE_FACILITY_V2_OPEN });
@@ -479,7 +465,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         facilities = await fetchRecentLocations(
           dispatch,
           siteIds,
-          removeFacilityConfigCheck,
           featureUseVpg,
         );
         recordItemsRetrieved('recent-locations', facilities?.length || 0);
@@ -493,18 +478,12 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         uiSchema,
         cernerSiteIds,
         address: selectVAPResidentialAddress(state),
-        removeFacilityConfigCheck,
       });
 
       // If we have an already selected location or only have a single location
       // fetch eligibility data immediately
       const supportedFacilities = facilities.filter(facility =>
-        isTypeOfCareSupported(
-          facility,
-          typeOfCareId,
-          cernerSiteIds,
-          removeFacilityConfigCheck,
-        ),
+        isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
 
       const eligibilityDataNeeded =

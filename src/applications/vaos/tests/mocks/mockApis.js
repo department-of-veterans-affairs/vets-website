@@ -571,10 +571,10 @@ export function mockAppointmentSlotApi({
  * @param {string} arguments.siteId The VistA site id the facility is associated with
  * @param {string} arguments.facilityId The VA facility id to check for eligibility at
  * @param {string} arguments.typeOfCareId The type of care id to check for eligibility for
- * @param {boolean} [arguments.limit=false] Whether the mock should set the user as passing the request limit check
- * @param {boolean} [arguments.requestPastVisits=false] Whether the mock should set the user as passing the past visits check
+ * @param {boolean} [arguments.limit=false] Flag to toggle appointment limit error.
+ * @param {boolean} [arguments.requestPastVisits=false] Flag to toggle past visits error
  *    for requests
- * @param {boolean} [arguments.directPastVisits=false] Whether the mock should set the user as passing the past visits check
+ * @param {boolean} [arguments.directPastVisits=false] Flag to toggle past visits error
  *    for direct scheduling
  * @param {Array<VAOSClinic>} [arguments.clinics=[]] The clinics returned during the eligibility checks
  * @param {boolean} [arguments.pastClinics=false] Whether or not the mock should also mock an appointments fetch with an
@@ -616,7 +616,8 @@ export function mockEligibilityFetches({
     });
   }
 
-  if (!directPastVisits && typeOfCareId !== 'primaryCare') {
+  if (directPastVisits) {
+    // if (!directPastVisits && typeOfCareId !== 'primaryCare') {
     directReasons.push({
       coding: [
         {
@@ -626,7 +627,8 @@ export function mockEligibilityFetches({
     });
   }
 
-  if (!requestPastVisits && typeOfCareId !== 'primaryCare') {
+  if (requestPastVisits) {
+    // if (!requestPastVisits && typeOfCareId !== 'primaryCare') {
     requestReasons.push({
       coding: [
         {
@@ -636,7 +638,7 @@ export function mockEligibilityFetches({
     });
   }
 
-  if (!limit) {
+  if (limit) {
     requestReasons.push({
       coding: [
         {
@@ -658,6 +660,8 @@ export function mockEligibilityFetches({
           eligible: directReasons.length === 0,
           ineligibilityReasons:
             directReasons.length === 0 ? undefined : directReasons,
+          clinicalServiceId: typeOfCareId,
+          type: 'direct',
         },
       },
     },
@@ -671,9 +675,11 @@ export function mockEligibilityFetches({
     {
       data: {
         attributes: {
-          eligible: requestReasons.length === 0,
+          clinicalServiceId: typeOfCareId,
+          eligible: true,
           ineligibilityReasons:
             requestReasons.length === 0 ? undefined : requestReasons,
+          type: 'request',
         },
       },
     },

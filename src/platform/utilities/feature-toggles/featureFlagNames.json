@@ -359,7 +359,6 @@
   "vaOnlineSchedulingMentalHealthHistoryFiltering": "va_online_scheduling_mental_health_history_filtering",
   "vaOnlineSchedulingAddSubstanceUseDisorder": "va_online_scheduling_add_substance_use_disorder",
   "vaOnlineSchedulingAddOhAvs": "va_online_scheduling_add_OH_avs",
-  "vaOnlineSchedulingRemoveFacilityConfigCheck": "va_online_scheduling_remove_facility_config_check",
   "vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative": "va_online_scheduling_add_primary_care_mental_health_initiative",
   "vaOnlineSchedulingUseVpg": "va_online_scheduling_use_vpg",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",

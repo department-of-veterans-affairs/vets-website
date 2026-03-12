@@ -22,7 +22,7 @@ import PreferredDatePageVaDate from './components/PreferredDatePageVaDate';
 import VARequest from './components/DateTimeRequestPage/VA';
 import CCRequest from './components/DateTimeRequestPage/CommunityCare';
 import DateTimeSelectPage from './components/DateTimeSelectPage';
-import VAFacilityPageV2 from './components/VAFacilityPage/VAFacilityPageV2';
+import VAFacilityPage from './components/VAFacilityPage/VAFacilityPage';
 import ClosestCityStatePage from './components/ClosestCityStatePage';
 import CommunityCareLanguagePage from './components/CommunityCareLanguagePage';
 import CommunityCareProviderSelectionPage from './components/CommunityCareProviderSelectionPage';
@@ -34,10 +34,8 @@ import TypeOfFacilityPage from './components/TypeOfFacilityPage';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import ScheduleCernerPage from './components/ScheduleCernerPage';
 import UrgentCareInformationPage from './components/UrgentCareInformationPage';
-import { selectFeatureRemoveFacilityConfigCheck } from '../redux/selectors';
-import ScheduleCernerPageV2 from './components/ScheduleCernerPageV2';
+import ScheduleCernerPage from './components/ScheduleCernerPage';
 
 export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
@@ -45,9 +43,6 @@ export function NewAppointment() {
   const match = useRouteMatch();
   const location = useLocation();
   const pageTitle = 'Schedule an appointment';
-  const featureRemoveFacilityConfigCheck = useSelector(
-    selectFeatureRemoveFacilityConfigCheck,
-  );
 
   useManualScrollRestoration();
 
@@ -118,14 +113,13 @@ export function NewAppointment() {
           <CCRequest />
         </Route>
         <Route path={`${match.url}/location`}>
-          <VAFacilityPageV2 />
+          <VAFacilityPage />
         </Route>
         <Route path={`${match.url}/provider`}>
           <ProviderSelectPage />
         </Route>
         <Route path={`${match.url}/how-to-schedule`}>
-          {featureRemoveFacilityConfigCheck && <ScheduleCernerPageV2 />}
-          {!featureRemoveFacilityConfigCheck && <ScheduleCernerPage />}
+          <ScheduleCernerPage />
         </Route>
         <Route
           path={[

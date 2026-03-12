@@ -25,7 +25,7 @@ import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPag
 import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
-import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
+import VAFacilityPage from '../../new-appointment/components/VAFacilityPage/VAFacilityPage';
 import { vaosApi } from '../../redux/api/vaosApi';
 import { TYPES_OF_CARE, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import MockFacilityResponse from '../fixtures/MockFacilityResponse';
@@ -242,7 +242,7 @@ export async function setVAFacility(
     ],
   });
 
-  const screen = renderWithStoreAndRouter(<VAFacilityPageV2 />, { store });
+  const screen = renderWithStoreAndRouter(<VAFacilityPage />, { store });
 
   const continueButton = await screen.findByText(/Continue/);
   fireEvent.click(continueButton);

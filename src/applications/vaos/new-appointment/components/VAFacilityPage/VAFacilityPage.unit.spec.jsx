@@ -23,7 +23,7 @@ import {
   setTypeOfEyeCare,
 } from '../../../tests/mocks/setup';
 import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
-import VAFacilityPage from './VAFacilityPageV2';
+import VAFacilityPage from './VAFacilityPage';
 
 describe.skip('VAOS Page: VAFacilityPage', () => {
   describe('when there are multiple facilities to choose from', () => {

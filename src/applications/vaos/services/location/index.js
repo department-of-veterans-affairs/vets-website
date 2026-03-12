@@ -112,18 +112,15 @@ export async function getLocationSettings({ siteIds, useVpg }) {
  * @param {Object} params
  * @param {Array<string>} params.siteIds A list of 3 digit site ids to retrieve the settings for
  * @param {boolean} [params.sortByRecentLocations=false] Whether to sort the locations by recent visits
- * @param {boolean} [params.removeFacilityConfigCheck=false] Whether to skip the facility configurations endpoint check and use eligibility from the patient eligibility API SOT only
  * @returns {Array<Location>} An array of Locations with settings included
  */
 export async function getLocationsByTypeOfCareAndSiteIds({
   siteIds,
   sortByRecentLocations = false,
-  removeFacilityConfigCheck = false,
   useVpg = false,
 }) {
   try {
     let locations = [];
-    let settings = [];
 
     locations = await getLocations({
       facilityIds: siteIds,
@@ -131,10 +128,8 @@ export async function getLocationsByTypeOfCareAndSiteIds({
       sortByRecentLocations,
     });
 
-    if (!removeFacilityConfigCheck) {
-      const uniqueIds = locations.map(location => location.id);
-      settings = await getLocationSettings({ siteIds: uniqueIds, useVpg });
-    }
+    const uniqueIds = locations.map(location => location.id);
+    const settings = await getLocationSettings({ siteIds: uniqueIds, useVpg });
 
     locations = locations?.map(location =>
       setSupportedSchedulingMethods({
@@ -332,11 +327,9 @@ export function isTypeOfCareSupported(
   location,
   typeOfCareId,
   cernerSiteIds = [],
-  removeFacilityConfigCheck = false,
 ) {
   const setting = location.legacyVAR.settings[typeOfCareId];
   return (
-    removeFacilityConfigCheck ||
     // Check old format (direct.enabled / request.enabled)
     setting?.direct?.enabled ||
     setting?.request?.enabled ||

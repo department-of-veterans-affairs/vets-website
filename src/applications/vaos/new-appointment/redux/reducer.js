@@ -340,7 +340,6 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
-      const { removeFacilityConfigCheck } = action;
       let newData = state.data;
       let { facilities } = action;
       const { typeOfCareId, address, cernerSiteIds } = action;
@@ -378,12 +377,7 @@ export default function formReducer(state = initialState, action) {
       }
 
       const supportedFacilities = facilities.filter(facility =>
-        isTypeOfCareSupported(
-          facility,
-          typeOfCareId,
-          cernerSiteIds,
-          removeFacilityConfigCheck,
-        ),
+        isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
 
       if (supportedFacilities.length === 1) {
