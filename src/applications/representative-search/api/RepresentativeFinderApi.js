@@ -1,9 +1,6 @@
 /* eslint-disable camelcase */
 
-import {
-  fetchAndUpdateSessionExpiration as fetch,
-  apiRequest,
-} from '@department-of-veterans-affairs/platform-utilities/api';
+import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
 import { getApi, resolveParamsWithUrl, getEndpointOptions } from '../config';
 
 class RepresentativeFinderApi {
@@ -47,33 +44,6 @@ class RepresentativeFinderApi {
           }
 
           return response.json();
-        })
-        .then(res => {
-          const endTime = new Date().getTime();
-          const resultTime = endTime - startTime;
-          res.meta = {
-            ...res.meta,
-            resultTime,
-          };
-          return res;
-        })
-        .then(data => resolve(data), error => reject(error));
-    });
-  }
-
-  static reportResult(newReport) {
-    const startTime = new Date().getTime();
-
-    const { flagReps } = getEndpointOptions();
-    const { requestUrl, apiSettings } = getApi(flagReps, 'POST', newReport);
-
-    return new Promise((resolve, reject) => {
-      apiRequest(requestUrl, apiSettings)
-        .then(response => {
-          if (response.error) {
-            throw Error(response.error);
-          }
-          return response;
         })
         .then(res => {
           const endTime = new Date().getTime();

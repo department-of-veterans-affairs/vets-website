@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { sortOptions } from '../../config';
 
 /* eslint-disable camelcase */
@@ -17,11 +16,7 @@ export const SearchResultsHeader = props => {
     sortType,
     searchArea,
   } = query.committedSearchQuery;
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  const reportFeatureEnabled = useToggleValue(
-    TOGGLE_NAMES.findARepresentativeFlagResultsEnabled,
-  );
   const { totalEntries, currentPage, totalPages } = pagination;
   const noResultsFound = !searchResults || !searchResults?.length;
 
@@ -95,11 +90,7 @@ export const SearchResultsHeader = props => {
               </h3>
               <p>
                 Our search tool may show outdated contact information for some
-                accredited representatives.{' '}
-                {reportFeatureEnabled
-                  ? `You can report outdated information
-                in your search results.`
-                  : null}
+                accredited representatives.
               </p>
             </va-alert>
           </div>
