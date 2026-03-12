@@ -106,6 +106,10 @@ export default function transformForSubmit(
     };
 
     recordEvent({ event: getEventName() });
+
+    if (form.data['view:hasClaimDocs'] === false) {
+      recordEvent({ event: '10-7959a_duty_to_assist' });
+    }
   }
 
   return JSON.stringify({
