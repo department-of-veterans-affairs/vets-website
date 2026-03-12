@@ -10,7 +10,6 @@ const employmentFocusOptions = {
   mediaApplication: 'Media application',
   dataProcessing: 'Data processing',
   informationSciences: 'Information sciences',
-  other: 'Other',
 };
 
 const uiSchema = {
