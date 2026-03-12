@@ -30,7 +30,6 @@ const ResultsList = props => {
             <div key={index} className="vads-u-margin-bottom--4">
               <SearchResult
                 officer={result.attributes.fullName || result.attributes.name}
-                reports={result.reports}
                 type={result.type}
                 addressLine1={result.attributes.addressLine1}
                 addressLine2={result.attributes.addressLine2}
@@ -45,12 +44,6 @@ const ResultsList = props => {
                 representative={result}
                 representativeId={result.id}
                 searchResults={searchResults}
-                submitRepresentativeReport={props.submitRepresentativeReport}
-                initializeRepresentativeReport={
-                  props.initializeRepresentativeReport
-                }
-                cancelRepresentativeReport={props.cancelRepresentativeReport}
-                reportSubmissionStatus={props.reportSubmissionStatus}
                 query={query}
                 index={index}
               />
@@ -66,15 +59,12 @@ ResultsList.propTypes = {
   currentQuery: PropTypes.object,
   error: PropTypes.object,
   inProgress: PropTypes.bool,
-  initializeRepresentativeReport: PropTypes.func,
   pagination: PropTypes.object,
   query: PropTypes.object,
-  reportSubmissionStatus: PropTypes.string,
   representativeTypeName: PropTypes.string,
   searchError: PropTypes.object,
   searchResults: PropTypes.array,
   sortType: PropTypes.string,
-  submitRepresentativeReport: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {

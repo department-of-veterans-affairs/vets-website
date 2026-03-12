@@ -24,10 +24,6 @@ describe('SearchResults', () => {
     email: 'test@example.com',
     representativeId: '123',
     query: { context: { location: 'UserLocation' } },
-    reports: {},
-    initializeRepresentativeReport: () => {},
-    reportSubmissionStatus: 'INITIAL',
-    setReportModalTester: () => {},
     key: 0,
   };
 
@@ -72,25 +68,6 @@ describe('SearchResults', () => {
 
     const firstPayload = dataLayerPushStub.firstCall.args[0];
     expect(firstPayload).to.have.property('event', 'far-search-results-click');
-
-    wrapper.unmount();
-  });
-
-  it('should push to dataLayer on click of report button', () => {
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <SearchResult {...fullAddressProps} />
-      </Provider>,
-    );
-
-    wrapper.find('#open-modal-test-button').simulate('click');
-    expect(dataLayerPushStub.callCount).to.equal(1);
-
-    const firstPayload = dataLayerPushStub.firstCall.args[0];
-    expect(firstPayload).to.have.property(
-      'event',
-      'far-search-results-outdated',
-    );
 
     wrapper.unmount();
   });
@@ -320,19 +297,6 @@ describe('SearchResults', () => {
     wrapper.unmount();
   });
 
-  it('Does not display the "Thanks for reporting outdated information." message when reports are present', () => {
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <SearchResult {...fullAddressProps} />
-      </Provider>,
-    );
-
-    const thankYouMessage = queryByText(
-      'Thanks for reporting outdated information.',
-    );
-    expect(thankYouMessage).to.be.null;
-  });
-
   it('renders addressLine2 if it exists (full address)', () => {
     const { container } = render(
       <Provider store={mockStore}>
@@ -394,20 +358,5 @@ describe('SearchResults', () => {
 
     const distanceElement = container.querySelector('h3 span.distance');
     expect(distanceElement).to.exist;
-  });
-
-  it('renders modal when appropriate', () => {
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <SearchResult {...fullAddressProps} />
-      </Provider>,
-    );
-
-    wrapper.find('#open-modal-test-button').simulate('click');
-    wrapper.update();
-
-    expect(wrapper.find('.report-outdated-information-modal')).to.exist;
-
-    wrapper.unmount();
   });
 });

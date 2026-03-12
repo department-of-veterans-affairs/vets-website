@@ -3,10 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useStore } from 'react-redux';
-import {
-  VaBreadcrumbs,
-  VaModal,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { isEmpty } from 'lodash';
@@ -30,10 +27,6 @@ import {
   commitSearchQuery,
   geolocateUser,
   geocodeUserAddress,
-  submitRepresentativeReport,
-  initializeRepresentativeReport,
-  cancelRepresentativeReport,
-  updateFromLocalStorage,
   clearError,
 } from '../actions';
 
@@ -443,10 +436,6 @@ const SearchPage = props => {
           inProgress={currentQuery.inProgress}
           searchResults={searchResults}
           sortType={currentQuery.sortType}
-          submitRepresentativeReport={props.submitRepresentativeReport}
-          initializeRepresentativeReport={props.initializeRepresentativeReport}
-          cancelRepresentativeReport={props.cancelRepresentativeReport}
-          reportSubmissionStatus={props.reportSubmissionStatus}
         />
       );
     };
@@ -471,19 +460,6 @@ const SearchPage = props => {
 
     return (
       <div className="row results-section">
-        <VaModal
-          modalTitle="Were sorry, something went wrong"
-          message="Please try again soon."
-          onCloseEvent={() =>
-            props.clearError(ErrorTypes.reportSubmissionError)
-          }
-          visible={props.isErrorReportSubmission}
-          status="error"
-          uswds
-        >
-          <p>Please try again soon.</p>
-        </VaModal>
-
         <div id="search-results-title" ref={searchResultTitleRef}>
           {isDisplayingResults &&
             !isErrorFetchRepresentatives && (
@@ -521,7 +497,6 @@ const SearchPage = props => {
 };
 
 SearchPage.propTypes = {
-  cancelRepresentativeReport: PropTypes.func,
   clearError: PropTypes.func,
   clearSearchResults: PropTypes.func,
   clearSearchText: PropTypes.func,
@@ -537,18 +512,12 @@ SearchPage.propTypes = {
   fetchRepresentatives: PropTypes.func,
   geocodeUserAddress: PropTypes.func,
   geolocateUser: PropTypes.func,
-  initializeRepresentativeReport: PropTypes.func,
   isErrorFetchRepresentatives: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.object,
     PropTypes.oneOf([null]),
   ]),
   isErrorGeocode: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.object,
-    PropTypes.oneOf([null]),
-  ]),
-  isErrorReportSubmission: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.object,
     PropTypes.oneOf([null]),
@@ -575,15 +544,12 @@ SearchPage.propTypes = {
     totalPages: PropTypes.number,
     totalEntries: PropTypes.number,
   }),
-  reportSubmissionStatus: PropTypes.string,
-  reportedResults: PropTypes.array,
   results: PropTypes.array,
   searchResults: PropTypes.array,
   searchWithBounds: PropTypes.func,
   searchWithInput: PropTypes.func,
   searchWithInputInProgress: PropTypes.bool,
   sortType: PropTypes.string,
-  submitRepresentativeReport: PropTypes.func,
   updateSearchQuery: PropTypes.func,
   onSubmit: PropTypes.func,
 };
@@ -593,12 +559,9 @@ const mapStateToProps = state => ({
   errors: state.errors,
   searchResults: state.searchResult.searchResults,
   isErrorFetchRepresentatives: state.errors.isErrorFetchRepresentatives,
-  isErrorReportSubmission: state.errors.isErrorReportSubmission,
   resultTime: state.searchResult.resultTime,
   pagination: state.searchResult.pagination,
-  reportSubmissionStatus: state.searchResult.reportSubmissionStatus,
   selectedResult: state.searchResult.selectedResult,
-  reportedResults: state.searchResult.reportedResults,
   sortType: state.searchResult.sortType,
   specialties: state.searchQuery.specialties,
 });
@@ -612,10 +575,6 @@ const mapDispatchToProps = {
   commitSearchQuery,
   clearSearchResults,
   clearSearchText,
-  submitRepresentativeReport,
-  initializeRepresentativeReport,
-  cancelRepresentativeReport,
-  updateFromLocalStorage,
   clearError,
 };
 
