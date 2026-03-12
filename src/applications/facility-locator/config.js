@@ -128,10 +128,11 @@ export const resolveParamsWithUrl = ({
       if (!('bbox' in postLocationParams)) {
         postLocationParams.bbox = [];
       }
-      const [, value] = param.split('=');
-      postLocationParams.bbox.push(value);
+      postLocationParams.bbox.push(arr[1]);
     } else {
-      [, postLocationParams[arr[0]]] = arr;
+      // Destructuring into a computed property is hard to read; direct assignment is clearer
+      // eslint-disable-next-line prefer-destructuring
+      postLocationParams[arr[0]] = arr[1];
     }
   });
 
