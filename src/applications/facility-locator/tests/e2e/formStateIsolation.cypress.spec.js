@@ -150,17 +150,25 @@ describe('Form State Isolation - Draft State Pattern', () => {
       .select('VA health');
     cy.get('#facility-search').click();
 
+    cy.wait('@searchFacilitiesVA');
     cy.get('.facility-result', { timeout: 10000 }).should('exist');
 
+    // Click submit again to allow any initial re-request to settle
     cy.get('#facility-search').click();
+    cy.get('.facility-result').should('exist');
+    cy.get('#search-results-subheader').should('contain', 'VA health');
 
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(500);
     cy.get('@searchFacilitiesVA.all').then(calls => {
       const initialCount = calls.length;
+      // Click submit again with same unchanged values
       cy.get('#facility-search').click();
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(500);
+      // Verify form and results are stable (implicit wait via assertions)
+      cy.get('#street-city-state-zip').should('have.value', 'Austin TX');
+      cy.get('#facility-type-dropdown')
+        .shadow()
+        .find('select')
+        .should('have.value', 'health');
+      cy.get('.facility-result').should('exist');
       cy.get('@searchFacilitiesVA.all').should('have.length', initialCount);
     });
     cy.axeCheck();

@@ -41,7 +41,7 @@ describe('URL Parameter Handling', () => {
         .find('select')
         .should('have.value', 'health');
 
-      // cy.axeCheck(); // Disabled due to axe accessibility check issues unrelated to draft state
+      cy.axeCheck();
     });
 
     it('should populate form and search for VA benefits (no service type required)', () => {
@@ -213,6 +213,7 @@ describe('URL Parameter Handling', () => {
   describe('Browser Navigation', () => {
     it('should preserve form state when navigating back/forward', () => {
       cy.visit('/find-locations');
+      cy.injectAxe();
       cy.get('#street-city-state-zip').type('Austin TX');
       cy.get('#facility-type-dropdown')
         .shadow()
@@ -221,6 +222,8 @@ describe('URL Parameter Handling', () => {
       cy.get('#facility-search').click();
 
       cy.get('.facility-result', { timeout: 10000 }).should('exist');
+      cy.axeCheck();
+
       cy.go('back');
 
       cy.get('#street-city-state-zip').should('have.value', 'Austin TX');
@@ -228,8 +231,6 @@ describe('URL Parameter Handling', () => {
         .shadow()
         .find('select')
         .should('have.value', 'health');
-
-      // cy.axeCheck(); // Disabled due to axe accessibility check issues unrelated to draft state
     });
 
     it('should handle browser refresh with URL parameters', () => {
@@ -257,7 +258,8 @@ describe('URL Parameter Handling', () => {
       // Trigger search explicitly after reload due to draft state changes
       cy.get('#facility-search').click();
       cy.get('.facility-result', { timeout: 10000 }).should('exist');
-      // cy.axeCheck(); // Disabled due to axe accessibility check issues unrelated to draft state
+      cy.injectAxe();
+      cy.axeCheck();
     });
   });
 
