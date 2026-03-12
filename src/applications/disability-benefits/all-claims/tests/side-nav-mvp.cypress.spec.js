@@ -12,7 +12,6 @@ import {
   setup,
   pageHooks,
   reviewAndSubmitPageFlow,
-  clickContinueButton,
 } from './cypress.helpers';
 
 const verifySideNavState = (chapterIndex, chapterKey) => {
@@ -115,8 +114,7 @@ const testConfig = createTestConfig(
         // Navigate to a different page via Continue button
         // This triggers the useEffect that closes the accordion
         cy.fillPage();
-        clickContinueButton(cy);
-        clickContinueButton(cy);
+        cy.clickFormContinue();
 
         // Wait for navigation to complete
         cy.url().should('not.include', '/rated-disabilities');

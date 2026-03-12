@@ -44,7 +44,7 @@ const optionalEventPages = {
 
         cy.get('va-card').should('have.length', 1);
 
-        clickContinueButton(cy);
+        clickContinueButton();
       } else {
         throw new Error(`Unexpected nextState: ${nextState}`);
       }

@@ -60,12 +60,7 @@ describe('All claims ITF page', () => {
   it('should show ITF found alert', () => {
     cy.intercept('GET', '/v0/intent_to_file', mockItf());
 
-    cy.get('a[href="#start"], va-link-action[href="#start"]', {
-      timeout: 10000,
-    })
-      .filter(':visible')
-      .first()
-      .click();
+    cy.clickStartForm();
 
     cy.get('va-alert[status="success"]')
       .should('be.visible')
@@ -83,12 +78,7 @@ describe('All claims ITF page', () => {
     cy.intercept('GET', '/v0/intent_to_file', mockItf({ years: -2 }));
     cy.intercept('POST', '/v0/intent_to_file/compensation', postItf());
 
-    cy.get('a[href="#start"], va-link-action[href="#start"]', {
-      timeout: 10000,
-    })
-      .filter(':visible')
-      .first()
-      .click();
+    cy.clickStartForm();
 
     cy.get('va-alert[status="success"]')
       .should('be.visible')
@@ -110,12 +100,7 @@ describe('All claims ITF page', () => {
     );
     cy.intercept('POST', '/v0/intent_to_file/compensation', postItf());
 
-    cy.get('a[href="#start"], va-link-action[href="#start"]', {
-      timeout: 10000,
-    })
-      .filter(':visible')
-      .first()
-      .click();
+    cy.clickStartForm();
 
     cy.get('va-alert[status="success"]')
       .should('be.visible')
@@ -137,12 +122,7 @@ describe('All claims ITF page', () => {
     );
     cy.intercept('POST', '/v0/intent_to_file/compensation', postItf());
 
-    cy.get('a[href="#start"], va-link-action[href="#start"]', {
-      timeout: 10000,
-    })
-      .filter(':visible')
-      .first()
-      .click();
+    cy.clickStartForm();
 
     cy.get('va-alert[status="success"]')
       .should('be.visible')
@@ -160,12 +140,7 @@ describe('All claims ITF page', () => {
     cy.intercept('GET', '/v0/intent_to_file', mockItf({ years: -2 }));
     cy.intercept('POST', '/v0/intent_to_file/compensation', errorItf());
 
-    cy.get('a[href="#start"], va-link-action[href="#start"]', {
-      timeout: 10000,
-    })
-      .filter(':visible')
-      .first()
-      .click();
+    cy.clickStartForm();
 
     cy.get('va-alert[status="info"]')
       .should('be.visible')
@@ -183,12 +158,7 @@ describe('All claims ITF page', () => {
     cy.intercept('GET', '/v0/intent_to_file', errorItf());
     cy.intercept('POST', '/v0/intent_to_file/compensation', errorItf());
 
-    cy.get('a[href="#start"], va-link-action[href="#start"]', {
-      timeout: 10000,
-    })
-      .filter(':visible')
-      .first()
-      .click();
+    cy.clickStartForm();
 
     cy.get('va-alert[status="info"]')
       .should('be.visible')
