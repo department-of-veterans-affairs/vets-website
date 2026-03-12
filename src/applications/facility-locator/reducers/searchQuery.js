@@ -16,7 +16,7 @@ import {
   CLEAR_SEARCH_TEXT,
   GEOLOCATE_USER,
 } from '../actions/actionTypes';
-import { CMS_SERVICE } from '../constants';
+import { CMS_SERVICE, LocationType } from '../constants';
 // Test data fallback for localhost (same pattern as useServiceType hook)
 import vaHealthcareServices from '../tests/hooks/test-va-healthcare-services.json';
 
@@ -28,8 +28,7 @@ import vaHealthcareServices from '../tests/hooks/test-va-healthcare-services.jso
  * @returns {Object} - data with .data array property
  */
 export const getVaHealthServicesData = vaHealthServicesData => {
-  const localEnv = environment?.BUILDTYPE === 'localhost';
-  if (localEnv || !Array.isArray(vaHealthServicesData?.data)) {
+  if (environment?.BUILDTYPE === 'localhost') {
     return vaHealthcareServices;
   }
   return vaHealthServicesData;
@@ -97,7 +96,7 @@ export const validateForm = (oldState, payload) => {
     ...payload,
   };
 
-  const needServiceType = newState.facilityType === 'provider';
+  const needServiceType = newState.facilityType === LocationType.CC_PROVIDER;
 
   return {
     isValid:
