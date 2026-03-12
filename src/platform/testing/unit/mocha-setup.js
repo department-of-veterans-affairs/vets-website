@@ -256,7 +256,9 @@ function setupJSDom() {
   window.dataLayer = [];
   window.matchMedia = () => ({
     matches: false,
+    addEventListener: f => f,
     addListener: f => f,
+    removeEventListener: f => f,
     removeListener: f => f,
   });
   window.scroll = () => {};
