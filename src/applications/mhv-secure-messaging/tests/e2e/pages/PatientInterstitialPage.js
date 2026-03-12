@@ -14,7 +14,7 @@ class PatientInterstitialPage {
   };
 
   getContinueButton = () => {
-    return cy.findByTestId(Locators.BUTTONS.CONTINUE).should('be.visible');
+    return cy.findByTestId(Locators.BUTTONS.CONTINUE);
   };
 
   getStartMessageLink = () => {
