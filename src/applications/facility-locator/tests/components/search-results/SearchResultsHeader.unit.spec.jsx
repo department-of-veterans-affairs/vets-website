@@ -66,7 +66,7 @@ describe('SearchResultsHeader', () => {
       createRegexString({
         radius: STD_RADIUS,
         serviceType: 'All VA health',
-        facilityType: FacilitiesServicesConstants.HEALTH.id,
+        facilityType: FacilitiesServicesConstants.HEALTH.string,
         totalEntries: 5,
         location: defaultLocation,
       }),
@@ -92,7 +92,7 @@ describe('SearchResultsHeader', () => {
       createRegexString({
         radius: STD_RADIUS,
         serviceType: 'All VA health',
-        facilityType: FacilitiesServicesConstants.HEALTH.id,
+        facilityType: FacilitiesServicesConstants.HEALTH.string,
         totalEntries: 1,
         location: defaultLocation,
       }),
@@ -141,7 +141,7 @@ describe('SearchResultsHeader', () => {
       createRegexString({
         radius: STD_RADIUS,
         serviceType: healthServices.PrimaryCare,
-        facilityType: FacilitiesServicesConstants.HEALTH.id,
+        facilityType: FacilitiesServicesConstants.HEALTH.string,
         totalEntries: 5,
         location: defaultLocation,
       }),
@@ -165,7 +165,7 @@ describe('SearchResultsHeader', () => {
       createRegexString({
         radius: STD_RADIUS,
         serviceType: healthServices.PrimaryCare,
-        facilityType: FacilitiesServicesConstants.HEALTH.id,
+        facilityType: FacilitiesServicesConstants.HEALTH.string,
         totalEntries: 15,
         location: defaultLocation,
       }),
@@ -187,7 +187,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         radius: STD_RADIUS,
-        facilityType: FacilitiesServicesConstants.HEALTH.id,
+        facilityType: FacilitiesServicesConstants.HEALTH.string,
         totalEntries: 5,
         location: defaultLocation,
         serviceType: 'All VA health',

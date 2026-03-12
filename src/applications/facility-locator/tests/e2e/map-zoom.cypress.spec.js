@@ -71,9 +71,6 @@ it('handles map zooming correctly', () => {
           location: 'Austin, Texas',
         }),
       );
-      // cy.get('#search-results-subheader').contains(
-      //   /(Showing|Results).*VA health.*All VA health services.*within 69 miles of.*Austin, Texas.*/i,
-      // );
     });
   cy.injectAxe();
   cy.axeCheck();

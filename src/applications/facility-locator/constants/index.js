@@ -3,9 +3,7 @@
  */
 export const LocationType = {
   NONE: '',
-  VA_FACILITIES: 'va_facilities',
   CC_PROVIDER: 'provider',
-  // Subtypes of VA_FACILITIES
   HEALTH: 'health',
   BENEFITS: 'benefits',
   CEMETERY: 'cemetery',
@@ -17,12 +15,10 @@ export const LocationType = {
 
 export const FacilitiesServicesConstants = {
   NONE: '',
-  VA_FACILITIES: { id: 'va_facilities', string: 'VA facilities' },
   CC_PROVIDER: {
     id: 'provider',
     string: 'Community providers \\(in VA’s network\\)',
   },
-  // Subtypes of VA_FACILITIES
   HEALTH: { id: 'health', string: 'VA health' },
   BENEFITS: { id: 'benefits', string: 'VA benefits' },
   CEMETERY: { id: 'cemetery', string: 'VA cemeteries' },
@@ -277,11 +273,9 @@ export const isPluralizedFacilityType = facilityType =>
  *
  * @param {Object} opts
  * @param {string}  [opts.serviceType] - Formatted display name for the service (e.g. "Primary care").
- *
  * @param {string}  [opts.facilityType]- The facilityType id, used to detect unpaginated/noServices
  * @param {Object}  [opts.pagination]  - { totalEntries, currentPage, totalPages }
  * @param {string}  [opts.location]     - Location string
- * @param {boolean} [opts.noResults]   - If true, generates a "No results found" pattern
  */
 
 export const createRegexString = ({
@@ -289,7 +283,6 @@ export const createRegexString = ({
   facilityType,
   totalEntries,
   location,
-  noResults = false,
   radius,
 } = {}) => {
   const radiusPattern = radius != null ? String(Math.round(radius)) : '\\d+';
@@ -300,7 +293,7 @@ export const createRegexString = ({
     serviceType === 'test';
 
   // --- No results case ---
-  if (noResults) {
+  if (totalEntries === 0) {
     return new RegExp(
       `No results found for.*within ${radiusPattern} miles of.*${location}.*`,
       'i',

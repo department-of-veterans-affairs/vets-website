@@ -118,19 +118,17 @@ export const SearchResultsHeader = ({
         'services',
         '',
       );
-      serviceDisplay.showServicesWord = true;
-      return serviceDisplay;
+    } else {
+      serviceDisplay.serviceTypeText = formattedServiceTypeText;
     }
 
-    if (!serviceNameContainsServicesWord) {
-      serviceDisplay.serviceTypeText = formattedServiceTypeText;
-      serviceDisplay.showServicesWord = true;
-      return serviceDisplay;
-    }
+    serviceDisplay.showServicesWord = true;
     return serviceDisplay;
   };
 
   const facilityLabel = facilityTypes[facilityType] || '';
+  const { serviceTypeText } = determineServicesText();
+  const { showServicesWord } = determineServicesText();
 
   return (
     <div>
@@ -142,8 +140,8 @@ export const SearchResultsHeader = ({
         {determinePrefixText()}
         {!facilityTypeHasNoServices && (
           <>
-            <b>{determineServicesText().serviceTypeText}</b>
-            {determineServicesText().showServicesWord && ` services at `}
+            <b>{serviceTypeText}</b>
+            {showServicesWord && ` services at `}
           </>
         )}
         {facilityLabel && (

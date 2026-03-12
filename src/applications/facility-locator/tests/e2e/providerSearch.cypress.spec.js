@@ -185,11 +185,6 @@ for (const featureSet of featureSetsToTest) {
         }),
       );
 
-      // h.verifyElementShouldContainString(
-      //   h.SEARCH_RESULTS_SUMMARY,
-      //   /(Showing|results).*Emergency Care.*In-network community emergency care.*within (\d{1,}) miles of .*Austin, Texas/i,
-      // );
-
       h.verifyElementExists('#emergency-care-info-note');
       h.verifyElementShouldContainText(
         '.facility-result h3',
