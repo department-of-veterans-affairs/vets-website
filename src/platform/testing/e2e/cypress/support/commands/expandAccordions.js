@@ -22,8 +22,11 @@ const expandCollapsedElement = (el, selector) => {
 const waitForAccordionHydration = () => {
   cy.get('va-accordion-item', { timeout: 5000 })
     .should('have.length.at.least', 1)
-    .should($items => {
-      expect($items.length).to.be.greaterThan(0);
+    .each($item => {
+      cy.wrap($item)
+        .shadow()
+        .find('button', { timeout: 5000 })
+        .should('exist');
     });
 };
 

@@ -169,6 +169,7 @@ describe('Disability benefits 4142 provider medical records facility information
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
+        onSubmit={submit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={initialData}
@@ -195,6 +196,7 @@ describe('Disability benefits 4142 provider medical records facility information
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
+        onSubmit={submit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
