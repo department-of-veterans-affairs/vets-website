@@ -210,6 +210,7 @@ export const getBlockedTriageAlertConfig = ({
   ehrDataByVhaId,
   isOhMessage = false,
   facilityMigratingToOhInErrorPhase = false,
+  userMessagePostMigration = false,
 }) => {
   const {
     noAssociations,
@@ -254,7 +255,7 @@ export const getBlockedTriageAlertConfig = ({
       }
 
       // Oracle Health messages don't show alert for NOT_ASSOCIATED
-      if (isOhMessage) {
+      if (isOhMessage || userMessagePostMigration) {
         return null;
       }
 

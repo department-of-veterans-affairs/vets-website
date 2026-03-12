@@ -123,7 +123,7 @@ const ConfirmationPage = () => {
               <ExpensesAccordion
                 expenses={expenses}
                 documents={documents}
-                headerLevel={2}
+                headerLevel={3}
               />
             </>
           )}

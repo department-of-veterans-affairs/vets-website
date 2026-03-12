@@ -1,14 +1,14 @@
 import React from 'react';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import { generateTitle } from '../../../utils/helpers';
 
 const confError = 'Confirm that these statements are true';
 
 export default {
   uiSchema: {
     'view:allowanceStatement': {
-      'ui:title': generateTitle('Statement of truth'),
+      ...titleUI('Statement of truth'),
       'ui:description': (
         <>
           <p>

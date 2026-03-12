@@ -4,9 +4,11 @@ import { differenceInDays, parseISO } from 'date-fns';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import { datadogRum } from '@datadog/browser-rum';
+import { useSelector } from 'react-redux';
 import { useRefillPrescriptionMutation } from '../../api/prescriptionsApi';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+import { selectMedicationsManagementImprovementsFlag } from '../../util/selectors';
 
 const REFILL_SUPPRESSION_DAYS = 15;
 
@@ -32,6 +34,9 @@ const RefillButton = rx => {
     refillPrescription,
     { isLoading, isSuccess, isError },
   ] = useRefillPrescriptionMutation();
+  const isManagementImprovements = useSelector(
+    selectMedicationsManagementImprovementsFlag,
+  );
 
   const { prescriptionId, isRefillable, refillSubmitDate, stationNumber } = rx;
 
@@ -97,7 +102,7 @@ const RefillButton = rx => {
         data-testid="refill-request-button"
         hidden={isSuccess || isLoading}
         onClick={onRequestRefill}
-        text="Request a refill"
+        text={isManagementImprovements ? 'Request refill' : 'Request a refill'}
       />
     </div>
   );

@@ -4,6 +4,10 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import {
+  useFeatureToggle,
+  TOGGLE_NAMES,
+} from 'platform/utilities/feature-toggles';
 
 import ExpenseCard from './ExpenseCard';
 import { getExpenseType } from '../../../util/complex-claims-helper';
@@ -21,6 +25,9 @@ const ExpenseCardList = ({
   const { apptId, claimId } = useParams();
   const address = useSelector(selectVAPResidentialAddress);
   const expenseFields = getExpenseType(type);
+
+  const { useToggleValue } = useFeatureToggle();
+  const ccEnabled = useToggleValue(TOGGLE_NAMES.travelPayEnableCommunityCare);
 
   const onAddExpense = expenseRoute => {
     dispatch(setExpenseBackDestination('review'));
@@ -41,6 +48,7 @@ const ExpenseCardList = ({
           expense={expense}
           address={address}
           showEditDelete={showEditDelete}
+          decreaseHeaderLevel={ccEnabled && !showHeader}
         />
       ))}
 

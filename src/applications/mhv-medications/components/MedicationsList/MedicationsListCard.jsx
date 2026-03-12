@@ -20,6 +20,7 @@ import {
   selectMhvMedicationsOracleHealthCutoverFlag,
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
+  selectMedicationsManagementImprovementsFlag,
 } from '../../util/selectors';
 import { selectOracleHealthMigrations } from '../../selectors/selectUser';
 import {
@@ -35,6 +36,9 @@ const MedicationsListCard = ({ rx }) => {
   const useV2StatusMapping = isCernerPilot && isV2StatusMapping;
   const isPendingDispense =
     rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE;
+  const isManagementImprovements = useSelector(
+    selectMedicationsManagementImprovementsFlag,
+  );
   const isOracleHealthCutoverEnabled = useSelector(
     selectMhvMedicationsOracleHealthCutoverFlag,
   );
@@ -100,11 +104,14 @@ const MedicationsListCard = ({ rx }) => {
           rx.isRefillable &&
           rx.refillRemaining >= 0 && (
             <p
+              className="vads-u-margin-bottom--0"
               data-testid="rx-refill-remaining"
               data-dd-privacy="mask"
               id={`refill-remaining-${rx.prescriptionId}`}
             >
-              Refills remaining: {rx.refillRemaining}
+              {isManagementImprovements
+                ? `Refills left: ${rx.refillRemaining}`
+                : `Refills remaining: ${rx.refillRemaining}`}
             </p>
           )}
         {rx && <LastFilledInfo {...rx} />}
@@ -128,16 +135,17 @@ const MedicationsListCard = ({ rx }) => {
             </span>
           </p>
         )}
-        {rxStatus !== 'Unknown' && (
-          <p
-            id={`status-${rx.prescriptionId}`}
-            className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
-            data-testid="rxStatus"
-            data-dd-privacy="mask"
-          >
-            {rxStatus}
-          </p>
-        )}
+        {!isManagementImprovements &&
+          rxStatus !== 'Unknown' && (
+            <p
+              id={`status-${rx.prescriptionId}`}
+              className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
+              data-testid="rxStatus"
+              data-dd-privacy="mask"
+            >
+              {rxStatus}
+            </p>
+          )}
         {isRefillBlocked &&
           rx.isRefillable && (
             <OracleHealthInCardAlert
@@ -178,7 +186,8 @@ const MedicationsListCard = ({ rx }) => {
             {rx?.prescriptionName || rx?.orderableItem}
           </span>
         </Link>
-        {!pendingMed &&
+        {!isManagementImprovements &&
+          !pendingMed &&
           !pendingRenewal &&
           rxStatus !== 'Unknown' &&
           !isNonVaPrescription && (

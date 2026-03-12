@@ -425,6 +425,9 @@ describe('AuthApp', () => {
                       isCerner: true,
                     },
                   ],
+                  ohMigrationInfo: {
+                    userFacilityReadyForInfoAlert: true,
+                  },
                 },
               },
             },

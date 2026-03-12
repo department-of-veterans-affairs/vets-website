@@ -180,4 +180,45 @@ describe('Complex Claims - <ExpenseCardList />', () => {
       `/file-new-claim/${apptId}/${claimId}/parking`,
     );
   });
+
+  describe('decreaseHeaderLevel prop on ExpenseCard', () => {
+    const getCCState = (ccEnabled = true) => ({
+      ...initialState,
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        travel_pay_enable_community_care: ccEnabled,
+      },
+    });
+
+    it('decreases the header level when ccEnabled and not showing the header', () => {
+      const { container } = renderList(
+        { type: 'Parking', expensesList, showHeader: false },
+        getCCState(true),
+      );
+
+      const h3 = container.querySelector('h3');
+      expect(h3).to.exist;
+      expect(container.querySelector('h4')).to.not.exist;
+    });
+
+    it('does not decrease the header level when ccEnabled but showing the header', () => {
+      const { container } = renderList(
+        { type: 'Parking', expensesList, showHeader: true },
+        getCCState(true),
+      );
+
+      const h4 = container.querySelector('h4');
+      expect(h4).to.exist;
+    });
+
+    it('does not decrease the header level when ccEnabled is false', () => {
+      const { container } = renderList(
+        { type: 'Parking', expensesList, showHeader: false },
+        getCCState(false),
+      );
+
+      const h4 = container.querySelector('h4');
+      expect(h4).to.exist;
+    });
+  });
 });
