@@ -1037,12 +1037,18 @@ jobs:
             node_modules
 
       - name: Restore Playwright browsers from cache
+        id: playwright-cache
         uses: actions/cache/restore@v4
         with:
           path: ~/.cache/ms-playwright
           key: playwright-browsers-${{ needs.playwright-shard-prep.outputs.playwright_version }}
 
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install chromium --with-deps
+
       - name: Install Playwright system deps
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
 
       - name: Download production build artifact
