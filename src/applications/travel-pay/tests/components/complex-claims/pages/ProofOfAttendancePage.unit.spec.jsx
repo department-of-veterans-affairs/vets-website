@@ -77,7 +77,6 @@ const getInitialState = ({ isCCAppt = true, isUploading = false } = {}) => ({
       proofOfAttendance: {
         isLoading: isUploading,
         error: null,
-        data: null,
       },
     },
   },

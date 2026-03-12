@@ -16,6 +16,7 @@ import {
   selectProofOfAttendanceState,
 } from '../../../redux/selectors';
 import { toBase64 } from './ExpensePage';
+import { PROOF_OF_ATTENDANCE_FILENAME } from '../../../constants';
 
 const ProofOfAttendancePage = () => {
   const dispatch = useDispatch();
@@ -58,7 +59,7 @@ const ProofOfAttendancePage = () => {
     const extension = selectedFile.name.split('.').pop();
     const renamedFile = new File(
       [selectedFile],
-      `proof-of-attendance.${extension}`,
+      `${PROOF_OF_ATTENDANCE_FILENAME}.${extension}`,
       { type: selectedFile.type },
     );
     setFile(renamedFile);

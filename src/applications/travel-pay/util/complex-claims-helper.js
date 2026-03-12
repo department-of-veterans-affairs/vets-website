@@ -1,4 +1,8 @@
-import { EXPENSE_TYPES, STATUSES } from '../constants';
+import {
+  EXPENSE_TYPES,
+  PROOF_OF_ATTENDANCE_FILENAME,
+  STATUSES,
+} from '../constants';
 
 /**
  * Get an expense type object by key
@@ -44,7 +48,10 @@ export function hasUnassociatedDocuments(documents = []) {
 
   // Proof of attendance documents are intentionally unassociated with an expense —
   const nonPoaDocuments = realDocuments.filter(
-    doc => !doc.filename?.toLowerCase().startsWith('proof-of-attendance.'),
+    doc =>
+      !doc.filename
+        ?.toLowerCase()
+        .startsWith(`${PROOF_OF_ATTENDANCE_FILENAME}.`),
   );
 
   // Check if any remaining document is missing an expenseId (is unassociated)

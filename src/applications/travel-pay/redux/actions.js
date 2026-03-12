@@ -824,7 +824,7 @@ export function uploadProofOfAttendance(claimId, fileData) {
           body: JSON.stringify(fileData),
         },
       );
-      dispatch({ type: UPLOAD_POA_SUCCESS, payload: response });
+      dispatch({ type: UPLOAD_POA_SUCCESS });
       return response;
     } catch (error) {
       dispatch({ type: UPLOAD_POA_FAILURE, error });

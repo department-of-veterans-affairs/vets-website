@@ -1,3 +1,5 @@
+import { PROOF_OF_ATTENDANCE_FILENAME } from '../constants';
+
 export const selectAppointment = state => state.travelPay.appointment;
 
 export const selectComplexClaim = state => state.travelPay.complexClaim.claim;
@@ -75,8 +77,9 @@ export const selectHasProofOfAttendance = state => {
   const documents = state.travelPay.complexClaim.claim.data?.documents || [];
   return documents.some(
     doc =>
-      doc.filename?.toLowerCase().startsWith('proof-of-attendance.') &&
-      !doc.expenseId,
+      doc.filename
+        ?.toLowerCase()
+        .startsWith(`${PROOF_OF_ATTENDANCE_FILENAME}.`) && !doc.expenseId,
   );
 };
 

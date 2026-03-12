@@ -169,7 +169,6 @@ const initialState = {
     proofOfAttendance: {
       isLoading: false,
       error: null,
-      data: null,
     },
     unsavedChangesModal: {
       visible: false,
@@ -779,7 +778,6 @@ function travelPayReducer(state = initialState, action) {
           proofOfAttendance: {
             isLoading: true,
             error: null,
-            data: null,
           },
         },
       };
@@ -792,7 +790,6 @@ function travelPayReducer(state = initialState, action) {
           proofOfAttendance: {
             isLoading: false,
             error: null,
-            data: action.payload,
           },
         },
       };
@@ -805,7 +802,6 @@ function travelPayReducer(state = initialState, action) {
           proofOfAttendance: {
             isLoading: false,
             error: action.error,
-            data: null,
           },
         },
       };
