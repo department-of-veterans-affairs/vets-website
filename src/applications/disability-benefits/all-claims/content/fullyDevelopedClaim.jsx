@@ -9,22 +9,20 @@ export const FDCDescription = (
       uploaded all the supporting documents or additional forms needed to
       support your claim.
     </p>
-    <ul>
-      <li>
-        <va-link
-          href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
-          text="Learn more about the FDC program"
-          external
-        />
-      </li>
-      <li>
-        <va-link
-          href="/disability/how-to-file-claim/evidence-needed/"
-          text="View the evidence requirements for disability claims"
-          external
-        />
-      </li>
-    </ul>
+    <p>
+      <va-link
+        href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+        text="Learn more about the FDC program"
+        external
+      />
+    </p>
+    <p>
+      <va-link
+        href="/disability/how-to-file-claim/evidence-needed/"
+        text="View the evidence requirements for disability claims"
+        external
+      />
+    </p>
   </div>
 );
 
