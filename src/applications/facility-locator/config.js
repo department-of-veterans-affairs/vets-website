@@ -41,7 +41,11 @@ export const resolveParamsWithUrl = ({
   center,
   radius,
 }) => {
-  const filterableLocations = ['health', 'benefits', 'provider'];
+  const filterableLocations = [
+    LocationType.HEALTH,
+    LocationType.BENEFITS,
+    LocationType.CC_PROVIDER,
+  ];
   const api = getAPI();
 
   let facility;
@@ -53,29 +57,29 @@ export const resolveParamsWithUrl = ({
   let multiSpecialties = false;
 
   switch (locationType) {
-    case 'urgent_care':
+    case LocationType.URGENT_CARE:
       if (serviceType === 'UrgentCare') {
-        facility = 'health';
+        facility = LocationType.HEALTH;
         service = 'UrgentCare';
       } else if (serviceType === 'NonVAUrgentCare') {
-        facility = 'urgent_care';
+        facility = LocationType.URGENT_CARE;
         url = api.ccUrl;
         communityServiceType = true;
       }
       break;
-    case 'emergency_care':
+    case LocationType.EMERGENCY_CARE:
       if (serviceType === 'EmergencyCare') {
-        facility = 'health';
+        facility = LocationType.HEALTH;
         service = 'EmergencyCare';
       } else if (serviceType === 'NonVAEmergencyCare') {
-        facility = 'provider';
+        facility = LocationType.CC_PROVIDER;
         url = api.ccUrl;
         communityServiceType = true;
         multiSpecialties = true;
       }
       break;
-    case 'pharmacy':
-    case 'provider':
+    case LocationType.URGENT_CARE_PHARMACIES:
+    case LocationType.CC_PROVIDER:
       facility = locationType;
       service = serviceType;
       url = api.ccUrl;
