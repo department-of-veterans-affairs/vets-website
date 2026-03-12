@@ -6,6 +6,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import MedicationsListCard from '../../../components/MedicationsList/MedicationsListCard';
 import reducers from '../../../reducers';
+import { medicationsUrls } from '../../../util/constants';
 
 describe('Medication card component', () => {
   const FLAG_COMBINATIONS = [
@@ -184,6 +185,84 @@ describe('Medication card component', () => {
       };
       const { queryByTestId } = setup(rx, managementImprovementsState);
       expect(queryByTestId('rxStatus')).to.be.null;
+    });
+
+    it('shows refill-in-progress alert for "Active: Refill in Process" status', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+      };
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
+      expect(getByTestId('refill-in-progress-alert')).to.exist;
+      const link = getByText('Go to in-progress medications');
+      expect(link).to.have.attribute(
+        'href',
+        medicationsUrls.MEDICATIONS_IN_PROGRESS,
+      );
+    });
+
+    it('shows refill-in-progress alert for "Active: Submitted" status', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Submitted',
+        isRefillable: false,
+      };
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
+      expect(getByTestId('refill-in-progress-alert')).to.exist;
+      const link = getByText('Go to in-progress medications');
+      expect(link).to.have.attribute(
+        'href',
+        medicationsUrls.MEDICATIONS_IN_PROGRESS,
+      );
+    });
+
+    it('shows "Refills left" for refill-in-progress even when isRefillable is false', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+        refillRemaining: 3,
+      };
+      const { getByTestId } = setup(rx, managementImprovementsState);
+      expect(getByTestId('rx-refill-remaining')).to.have.text(
+        'Refills left: 3',
+      );
+    });
+
+    it('hides ExtraDetails for refill-in-progress prescriptions', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+      };
+      const { container } = setup(rx, managementImprovementsState);
+      expect(container.querySelector('.shipping-info')).to.be.null;
+    });
+
+    it('does not show refill-in-progress alert for Active status', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        isRefillable: true,
+        dispStatus: 'Active',
+      };
+      const { queryByTestId } = setup(rx, managementImprovementsState);
+      expect(queryByTestId('refill-in-progress-alert')).to.be.null;
+    });
+  });
+
+  describe('when mhvMedicationsManagementImprovements flag is disabled', () => {
+    it('does not show refill-in-progress alert and shows original layout', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+        prescriptionNumber: '12345',
+      };
+      const { queryByTestId, getByTestId } = setup(rx);
+      expect(queryByTestId('refill-in-progress-alert')).to.be.null;
+      expect(getByTestId('rx-number')).to.exist;
+      expect(getByTestId('rxStatus')).to.exist;
     });
   });
 

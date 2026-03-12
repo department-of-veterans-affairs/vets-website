@@ -6,6 +6,8 @@ import transform from './transform';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
 
+import prefillTransform from './prefillTransform';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
@@ -57,6 +59,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer: prefillTransform,
   preSubmitInfo: {
     statementOfTruth: {
       heading: 'Certification statement',

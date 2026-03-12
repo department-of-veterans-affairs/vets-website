@@ -1,6 +1,8 @@
+// @ts-check
 import {
   titleUI,
   descriptionUI,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { ExposureCategoriesLink } from '../../../components/FormDescriptions/OtherExposureDescriptions';
 import { FULL_SCHEMA } from '../../../utils/imports';
@@ -15,12 +17,12 @@ export default {
       content['service-info--exposures-description'],
     ),
     ...descriptionUI(ExposureCategoriesLink),
-    otherToxicExposure: {
-      'ui:title': content['service-info--exposures-other-input-label'],
-      'ui:errorMessages': {
+    otherToxicExposure: textUI({
+      title: content['service-info--exposures-other-input-label'],
+      errorMessages: {
         pattern: content['validation-error--other-exposures'],
       },
-    },
+    }),
   },
   schema: {
     type: 'object',

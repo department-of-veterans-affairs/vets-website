@@ -4,7 +4,6 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { AssetInformationAlert } from '../../../components/FormAlerts';
-import { threshold } from '../../../helpers';
 
 /** @type {PageSchema} */
 export default {
@@ -12,10 +11,7 @@ export default {
   path: 'financial/net-worth-estimation',
   depends: formData => formData.totalNetWorth === false,
   uiSchema: {
-    ...titleUI(
-      'Income and assets',
-      `We need to know if you and your dependents have over $${threshold.toLocaleString()} in assets.`,
-    ),
+    ...titleUI('Net worth estimation'),
     'view:warningAlert': {
       'ui:description': AssetInformationAlert,
     },

@@ -25,7 +25,7 @@ const getFullNameSchema = () => {
 };
 
 export const uiSchema = {
-  ...titleUI('Provide your contact information and official title'),
+  ...titleUI('Confirm your contact information and official title'),
   authorizedOfficial: {
     fullName: getFullNameUI(),
     title: textUI({

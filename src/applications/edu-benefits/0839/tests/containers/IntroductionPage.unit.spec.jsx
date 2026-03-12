@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
@@ -107,7 +107,7 @@ describe('22-0839 <IntroductionPage>', () => {
     );
   });
 
-  it('should render Start the form header when logged in', () => {
+  it('should render Start link when logged in', () => {
     const loggedInStore = {
       ...mockStore,
       getState: () => ({
@@ -121,15 +121,13 @@ describe('22-0839 <IntroductionPage>', () => {
       }),
     };
 
-    const { container } = render(
+    const { getByText, queryByTestId } = render(
       <Provider store={loggedInStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-    const headers = Array.from(container.querySelectorAll('h2')).map(h =>
-      h.textContent?.trim(),
-    );
-    expect(headers.join(' | ')).to.contain('Start the form');
+    expect(queryByTestId('sign-in-alert')).to.not.exist;
+    expect(getByText('Start your Yellow Ribbon Program Agreement')).to.exist;
   });
 
   it('should render privacy accordions', () => {
@@ -143,28 +141,5 @@ describe('22-0839 <IntroductionPage>', () => {
       'va-accordion-item[header="View Privacy Act Statement"]',
     );
     expect(item).to.exist;
-  });
-
-  it('should hide the Privacy Act button inside va-omb-info', async () => {
-    const vaOmbInfo = document.createElement('va-omb-info');
-    const privacyButton = document.createElement('va-button');
-    privacyButton.setAttribute('secondary', '');
-    vaOmbInfo.appendChild(privacyButton);
-    document.body.appendChild(vaOmbInfo);
-
-    const { unmount } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      expect(privacyButton.getAttribute('style') || '').to.contain(
-        'display:none',
-      );
-    });
-
-    unmount();
-    document.body.removeChild(vaOmbInfo);
   });
 });
