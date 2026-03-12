@@ -103,7 +103,7 @@ const FacilitiesMap = props => {
 
     if (!isEmpty(location.query)) {
       const vamcServiceDisplay =
-        location.query.facilityType === 'health'
+        location.query.facilityType === LocationType.HEALTH
           ? getServiceDisplayName(
               location.query.serviceType,
               props.vaHealthServicesData,
@@ -119,13 +119,14 @@ const FacilitiesMap = props => {
     }
 
     if (location.query.address && location.query.facilityType) {
-      const needsServiceType = location.query.facilityType === 'provider';
+      const needsServiceType =
+        location.query.facilityType === LocationType.CC_PROVIDER;
       const hasRequiredServiceType =
         !needsServiceType || location.query.serviceType;
 
       if (hasRequiredServiceType) {
         const expandedRadius =
-          location.query.facilityType === 'benefits' &&
+          location.query.facilityType === LocationType.BENEFITS &&
           !location.query.serviceType;
 
         props.genBBoxFromAddress(
@@ -231,7 +232,8 @@ const FacilitiesMap = props => {
       ? { ...props.currentQuery, ...formValues }
       : props.currentQuery;
     const { facilityType, serviceType, searchString } = queryToUse;
-    const expandedRadius = facilityType === 'benefits' && !serviceType;
+    const expandedRadius =
+      facilityType === LocationType.BENEFITS && !serviceType;
     lastZoomRef.current = null;
 
     updateUrlParams({
@@ -417,7 +419,7 @@ const FacilitiesMap = props => {
   const searchAreaButtonEnabled = () =>
     calculateSearchArea() < MAX_SEARCH_AREA &&
     props.currentQuery.facilityType &&
-    (props.currentQuery.facilityType === 'provider'
+    (props.currentQuery.facilityType === LocationType.CC_PROVIDER
       ? !!props.currentQuery.serviceType
       : true);
 
@@ -868,7 +870,7 @@ const FacilitiesMap = props => {
       if (
         props.vaHealthServicesData?.data &&
         !isEmpty(location.query) &&
-        location.query.facilityType === 'health' &&
+        location.query.facilityType === LocationType.HEALTH &&
         location.query.serviceType &&
         !props.currentQuery.vamcServiceDisplay
       ) {
