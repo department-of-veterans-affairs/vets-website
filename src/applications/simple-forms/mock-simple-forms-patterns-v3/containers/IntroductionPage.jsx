@@ -35,10 +35,20 @@ const childContent = (
         <Link to="/service-branch">Service branch</Link>
       </li>
       <li>
-        <Link to="/upload-file">File upload</Link>
+        <Link to="/upload-file">File upload single</Link>
       </li>
       <li>
         <Link to="/supporting-documents">File upload multiple</Link>
+      </li>
+      <li>
+        <Link to="/supporting-documents-array-required-intro">
+          File upload multiple + additional info (required)
+        </Link>
+      </li>
+      <li>
+        <Link to="/supporting-documents-array-optional">
+          File upload multiple + additional info (optional)
+        </Link>
       </li>
       <li>
         <Link to="/treatment-records">
@@ -215,7 +225,7 @@ const childContent = (
           rel="noreferrer"
           href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/upload.js"
         >
-          File upload
+          File upload single
         </a>
       </li>
       <li>
@@ -225,6 +235,24 @@ const childContent = (
           href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/supportingDocuments.js"
         >
           File upload multiple
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/supportingDocumentsArray.js"
+        >
+          File upload multiple + additional info (required)
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/supportingDocumentsArray.js"
+        >
+          File upload multiple + additional info (optional)
         </a>
       </li>
       <li>

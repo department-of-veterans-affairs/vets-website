@@ -8,12 +8,16 @@ import serviceBranch from '../pages/serviceBranch';
 import uploadFile from '../pages/upload';
 import supportingDocuments from '../pages/supportingDocuments';
 import manifest from '../manifest.json';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { treatmentRecordsPages } from '../pages/treatmentRecords';
 import { employersPages } from '../pages/employers';
+import {
+  supportingDocumentsArrayRequiredPages,
+  supportingDocumentsArrayOptionalPages,
+} from '../pages/supportingDocumentsArray';
 import internationalContact from '../pages/internationalContact';
+import BackToIntroLink from '../components/BackToIntroLink';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -47,18 +51,21 @@ const formConfig = {
         personalInformation1: {
           path: 'name-and-date-of-birth',
           title: 'Name and date of birth',
+          ContentBeforeButtons: BackToIntroLink,
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
         },
         personalInformation2: {
           path: 'identification-information',
           title: 'Identification information',
+          ContentBeforeButtons: BackToIntroLink,
           uiSchema: identificationInformation.uiSchema,
           schema: identificationInformation.schema,
         },
         relationshipToVeteran: {
           path: 'relationship-to-veteran',
           title: 'Relationship to Veteran',
+          ContentBeforeButtons: BackToIntroLink,
           uiSchema: relationshipToVeteran.uiSchema,
           schema: relationshipToVeteran.schema,
         },
@@ -70,6 +77,7 @@ const formConfig = {
         mailingAddress: {
           path: 'mailing-address',
           title: 'Mailing address',
+          ContentBeforeButtons: BackToIntroLink,
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
         },
@@ -81,6 +89,7 @@ const formConfig = {
         phoneAndEmailAddress: {
           path: 'phone-and-email-address',
           title: 'Phone and email address',
+          ContentBeforeButtons: BackToIntroLink,
           uiSchema: phoneAndEmailAddress.uiSchema,
           schema: phoneAndEmailAddress.schema,
         },
@@ -92,6 +101,7 @@ const formConfig = {
         internationalContact: {
           path: 'international-contact',
           title: 'International contact',
+          ContentBeforeButtons: BackToIntroLink,
           uiSchema: internationalContact.uiSchema,
           schema: internationalContact.schema,
         },
@@ -103,32 +113,43 @@ const formConfig = {
         serviceBranch: {
           path: 'service-branch',
           title: 'Service Branch',
+          ContentBeforeButtons: BackToIntroLink,
           uiSchema: serviceBranch.uiSchema,
           schema: serviceBranch.schema,
         },
       },
     },
     uploadFile: {
-      title: 'Upload File',
+      title: 'File upload single',
       pages: {
         uploadFile: {
           path: 'upload-file',
           title: 'Upload file',
+          ContentBeforeButtons: BackToIntroLink,
           uiSchema: uploadFile.uiSchema,
           schema: uploadFile.schema,
         },
       },
     },
     supportingDocuments: {
-      title: 'Additional information',
+      title: 'File upload multiple',
       pages: {
         supportingDocuments: {
           path: 'supporting-documents',
           title: 'Supporting documents',
+          ContentBeforeButtons: BackToIntroLink,
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },
       },
+    },
+    supportingDocumentsArrayRequired: {
+      title: 'File upload multiple + additional info (required)',
+      pages: supportingDocumentsArrayRequiredPages,
+    },
+    supportingDocumentsArrayOptional: {
+      title: 'File upload multiple + additional info (optional)',
+      pages: supportingDocumentsArrayOptionalPages,
     },
     treatmentRecords: {
       title: 'Treatment records',

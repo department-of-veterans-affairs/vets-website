@@ -38,22 +38,30 @@
       "name": "my_form.pdf",
       "size": 12345,
       "fileType": "application/pdf",
-      "confirmationCode": "7564298",
-      "additionalData": {
-        "documentStatus": "education"
-      }
+      "confirmationCode": "7564298"
     },
+    "documentStatus": "education",
     "supportingDocuments": [
       {
         "name": "transcript.pdf",
         "size": 12345,
         "fileType": "application/pdf",
-        "confirmationCode": "174987",
-        "additionalData": {
-          "documentStatus": "private"
-        }
+        "confirmationCode": "174987"
       }
     ],
+    "supportingDocumentsArrayRequired": [
+      {
+        "documentUpload": {
+          "name": "dd214.pdf",
+          "size": 12345,
+          "fileType": "application/pdf",
+          "confirmationCode": "abc1234"
+        },
+        "documentType": "dd214"
+      }
+    ],
+    "supportingDocumentsArrayOptional": [],
+    "view:hasSupportingDocuments": false,
     "treatmentRecords": [
       {
         "treatmentDates": {

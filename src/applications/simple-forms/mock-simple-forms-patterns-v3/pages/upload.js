@@ -1,8 +1,8 @@
-import React from 'react';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   fileInputUI,
   fileInputSchema,
+  selectUI,
+  selectSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -20,34 +20,13 @@ export default {
       skipUpload: true,
       maxFileSize: 1024 * 1024 * 100, // 100MB
       minFileSize: 1, // 1B
-      errorMessages: {
-        additionalInput: 'Choose a document status',
-      },
-      additionalInputRequired: true,
-      additionalInputTitle: 'What is the document status?',
-      additionalInputLabels: {
-        documentStatus: {
-          tax: 'Tax form',
-          education: 'Education form',
-          service: 'Service form',
-        },
-      },
-      additionalInput: (error, data, { labels, title }) => {
-        const { documentStatus } = data;
-        return (
-          <VaSelect required error={error} value={documentStatus} label={title}>
-            {Object.entries(labels.documentStatus).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </VaSelect>
-        );
-      },
-      handleAdditionalInput: e => {
-        const { value } = e.detail;
-        if (value === '') return {};
-        return { documentStatus: e.detail.value };
+    }),
+    documentStatus: selectUI({
+      title: 'Document status',
+      labels: {
+        tax: 'Tax form',
+        education: 'Education form',
+        service: 'Service form',
       },
     }),
   },
@@ -55,6 +34,8 @@ export default {
     type: 'object',
     properties: {
       uploadedFile: fileInputSchema(),
+      documentStatus: selectSchema(['tax', 'education', 'service']),
     },
+    required: ['uploadedFile', 'documentStatus'],
   },
 };

@@ -19,6 +19,7 @@ import {
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import BackToIntroLink from '../components/BackToIntroLink';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -217,36 +218,42 @@ export const treatmentRecordsPages = arrayBuilderPages(
     treatmentRecords: pageBuilder.introPage({
       title: 'Treatment records',
       path: 'treatment-records',
+      ContentBeforeButtons: BackToIntroLink,
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
     treatmentRecordsSummary: pageBuilder.summaryPage({
       title: 'Review your treatment records',
       path: 'treatment-records-summary',
+      ContentBeforeButtons: BackToIntroLink,
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     treatmentRecordNameAndAddressPage: pageBuilder.itemPage({
       title: 'Name and address of treatment facility',
       path: 'treatment-records/:index/name-and-address',
+      ContentBeforeButtons: BackToIntroLink,
       uiSchema: nameAndAddressPage.uiSchema,
       schema: nameAndAddressPage.schema,
     }),
     treatmentRecordConditionsTreatedPage: pageBuilder.itemPage({
       title: 'Conditions treated',
       path: 'treatment-records/:index/conditions-treated',
+      ContentBeforeButtons: BackToIntroLink,
       uiSchema: conditionsTreatedPage.uiSchema,
       schema: conditionsTreatedPage.schema,
     }),
     treatmentRecordsSupportingDocuments: pageBuilder.itemPage({
       title: 'Supporting Documents',
       path: 'treatment-records/:index/supporting-documents',
+      ContentBeforeButtons: BackToIntroLink,
       uiSchema: supportingDocuments.uiSchema,
       schema: supportingDocuments.schema,
     }),
     treatmentRecordTreatmentDatesPage: pageBuilder.itemPage({
       title: 'Treatment dates',
       path: 'treatment-records/:index/treatment-dates',
+      ContentBeforeButtons: BackToIntroLink,
       uiSchema: treatmentDatesPage.uiSchema,
       schema: treatmentDatesPage.schema,
     }),
