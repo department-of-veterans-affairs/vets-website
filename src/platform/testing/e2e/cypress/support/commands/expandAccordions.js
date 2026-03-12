@@ -35,7 +35,7 @@ const waitForAccordionHydration = () => {
 
 /**
  * Expands all Accordions and AdditionalInfo components.
- * Web Components that require Shadow DOM broken out from React Components
+ * Web Components that require Shadow DOM are broken out from React Components.
  */
 Cypress.Commands.add('expandAccordions', () => {
   Cypress.log();
