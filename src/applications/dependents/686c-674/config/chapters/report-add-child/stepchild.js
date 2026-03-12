@@ -10,6 +10,7 @@ import {
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
+import { asciiValidation } from '../../helpers';
 
 /**
  * Required field function for schema fields
@@ -53,9 +54,28 @@ export const stepchild = {
         </va-additional-info>
       ),
     },
-    biologicalParentName: firstNameLastNameNoSuffixUI(
-      title => `Child's biological parent's ${title}`,
-    ),
+    biologicalParentName: (() => {
+      const base = firstNameLastNameNoSuffixUI(
+        title => `Child's biological parent's ${title}`,
+      );
+      return {
+        ...base,
+        first: {
+          ...base.first,
+          'ui:validations': [
+            ...(base.first?.['ui:validations'] || []),
+            asciiValidation,
+          ],
+        },
+        last: {
+          ...base.last,
+          'ui:validations': [
+            ...(base.last?.['ui:validations'] || []),
+            asciiValidation,
+          ],
+        },
+      };
+    })(),
     biologicalParentSsn: {
       ...ssnUI('Child’s biological parent’s Social Security number'),
       'ui:required': required,

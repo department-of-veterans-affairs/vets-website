@@ -3,6 +3,7 @@ import {
   addressUI,
   addressSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { asciiValidation } from '../../helpers';
 
 export const childAddressPartOne = {
   uiSchema: {
@@ -36,6 +37,7 @@ export const childAddressPartOne = {
               errors.addError('Enter a valid city name');
             }
           },
+          asciiValidation,
         ],
       },
     },
