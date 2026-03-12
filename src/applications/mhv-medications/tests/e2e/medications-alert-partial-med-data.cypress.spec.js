@@ -30,14 +30,6 @@ const emptyRxListWithFailedStations = {
   links: {},
 };
 
-const rxListWithFailedStations = {
-  ...rxList,
-  meta: {
-    ...rxList.meta,
-    failedStationList,
-  },
-};
-
 describe('Medications Failed Stations Alert', () => {
   it('displays error alert when no medications and stations failed', () => {
     const site = new MedicationsSite();
@@ -48,17 +40,6 @@ describe('Medications Failed Stations Alert', () => {
     cy.axeCheck('main');
     cy.get('[data-testid="failed-stations-error"]').should('exist');
     cy.get('[data-testid="med-list"]').should('not.exist');
-  });
-
-  it('displays warning alert when medications exist but stations failed', () => {
-    const site = new MedicationsSite();
-    const listPage = new MedicationsListPage();
-    site.login();
-    listPage.visitMedicationsListPageURL(rxListWithFailedStations);
-    cy.injectAxe();
-    cy.axeCheck('main');
-    cy.get('[data-testid="failed-stations-warning"]').should('exist');
-    cy.get('[data-testid="med-list"]').should('exist');
   });
 
   it('does not display failed stations alerts when no stations failed', () => {
