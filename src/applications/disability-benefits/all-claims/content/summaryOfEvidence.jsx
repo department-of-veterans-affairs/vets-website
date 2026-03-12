@@ -114,16 +114,20 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   // need to also check that 'no evidence' was explicitly selected
   // TODO: refactor logic for this content when removing current flow
   if (
-    !formData.disability526SupportingEvidenceEnhancement &&
     !sectionsList.length &&
     (!evidenceLength || (!selectedEvidence && !serviceTreatmentRecordsSelected))
   ) {
     return (
-      <p>
-        You haven’t uploaded any evidence. This may delay us processing your
-        claim. In addition, we may also schedule a claim exam for you to help us
-        decide your claim.
-      </p>
+      <>
+        <p>
+          You haven’t uploaded any evidence. This may delay us processing your
+          claim. In addition, we may also schedule a claim exam for you to help
+          us decide your claim.
+        </p>
+        {formData.disability526SupportingEvidenceEnhancement && (
+          <p>Next, we’ll tell you what to expect during a claim exam.</p>
+        )}
+      </>
     );
   }
 
@@ -248,10 +252,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     ));
     layContent = formData.disability526SupportingEvidenceEnhancement ? (
       <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll submit these documents you uploaded as evidence supporting your
-          claim:
-        </strong>
+        <strong>We’ll submit these documents you uploaded:</strong>
         <ul>{layEvidenceUploadsList}</ul>
       </div>
     ) : (
@@ -264,7 +265,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
 
   return (
     <div className="vads-u-margin-top--3">
-      {(evidenceLength || selectedEvidence || sectionsList.length) &&
+      {!!(evidenceLength || sectionsList.length) &&
         formData.disability526SupportingEvidenceEnhancement && (
           <p>You provided documents to support your claim.</p>
         )}
@@ -275,10 +276,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
       {serviceTreatmentRecordsContent}
       {layContent}
       {formData.disability526SupportingEvidenceEnhancement && (
-        <p>
-          Next, we’ll share some information about what to expect during a claim
-          exam.
-        </p>
+        <p>Next, we’ll tell you what to expect during a claim exam.</p>
       )}
     </div>
   );
