@@ -171,6 +171,7 @@ export const dataDogActionNames = {
     REFILL_MEDICATIONS_LINK: `Refill medications link - ${
       pageType.IN_PROGRESS
     }`,
+    MEDICATION_NAME_LINK: `Medication name link - ${pageType.IN_PROGRESS}`,
     GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
       pageType.IN_PROGRESS
     }`,
