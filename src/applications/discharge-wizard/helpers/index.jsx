@@ -453,7 +453,7 @@ export const renderMedicalRecordInfo = formResponses => {
           href="https://www.archives.gov/st-louis/military-personnel/ompf-background.html"
         >
           Find out how to request your military medical records (opens in a new
-          tab).
+          tab)
         </a>
       );
     } else {
