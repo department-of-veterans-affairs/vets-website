@@ -679,6 +679,10 @@ export const pageHooks = (cy, testOptions) => ({
         cy.findByText(/continue/i, { selector: 'button' }).click();
       });
 
+    cy.findByText(/continue/i, { selector: 'button' }).scrollIntoView();
+    cy.findByText(/continue/i, { selector: 'button' })
+      .should('be.visible')
+      .and('not.be.disabled');
     cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 

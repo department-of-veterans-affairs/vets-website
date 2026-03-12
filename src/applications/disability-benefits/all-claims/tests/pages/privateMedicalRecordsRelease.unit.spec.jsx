@@ -208,6 +208,7 @@ describe('Disability benefits 4142 provider medical records facility information
         schema={schema}
         data={initialData}
         formData={initialData}
+        onSubmit={submit}
         uiSchema={uiSchema}
       />,
     );
@@ -249,6 +250,7 @@ describe('Disability benefits 4142 provider medical records facility information
           'view:limitedConsent': true,
         }}
         formData={initialData}
+        onSubmit={submit}
         uiSchema={uiSchema}
       />,
     );
