@@ -4,6 +4,7 @@ import {
   getServiceDisplayName,
   INITIAL_FORM_FLAGS,
 } from '../reducers/searchQuery';
+import { LocationType } from '../constants';
 
 /** Syncs URL params ↔ Redux ↔ draft state. */
 const useSearchFormSync = ({
@@ -69,7 +70,8 @@ const useSearchFormSync = ({
 
           if (shouldSyncFromUrl) {
             const serviceType = location.query.serviceType || null;
-            const facilityIsHealth = location.query.facilityType === 'health';
+            const facilityIsHealth =
+              location.query.facilityType === LocationType.HEALTH;
 
             let vamcServiceDisplay = location.query.vamcServiceDisplay || null;
             if (!vamcServiceDisplay && serviceType) {
@@ -147,7 +149,7 @@ const useSearchFormSync = ({
       if (
         currentQuery.vamcServiceDisplay &&
         !draftFormState.vamcServiceDisplay &&
-        draftFormState.facilityType === 'health' &&
+        draftFormState.facilityType === LocationType.HEALTH &&
         draftFormState.serviceType
       ) {
         updateDraftState({
