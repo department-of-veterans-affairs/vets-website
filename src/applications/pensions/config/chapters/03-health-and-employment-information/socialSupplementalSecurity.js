@@ -12,9 +12,7 @@ export default {
   path: 'medical/history/social-security-disability',
   depends: formData => !formData.isOver65,
   uiSchema: {
-    ...titleUI(
-      'Tell us about any Social Security or Supplement Security payments',
-    ),
+    ...titleUI('Social Security or Supplement Security Income (SSI) payments'),
     socialSecurityDisability: yesNoUI({
       title: 'Do you currently receive Social Security disability payments?',
       classNames: 'vads-u-margin-bottom--2',
