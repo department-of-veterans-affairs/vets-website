@@ -33,12 +33,12 @@ const DetailCopayPage = ({ match }) => {
   );
 
   const copayDetail =
-    useSelector(state => state.combinedPortal.mcp.selectedStatement) || {};
+    useSelector(state => state.combinedPortal.mcp.currentCopay) || {};
   const isCopayDetailLoading = useSelector(
     state => state.combinedPortal.mcp.isCopayDetailLoading,
   );
   const allStatements =
-    useSelector(state => state.combinedPortal.mcp.statements) || [];
+    useSelector(state => state.combinedPortal.mcp.copays) || [];
 
   const selectedId = match.params.id;
   const selectedCopay = shouldShowVHAPaymentHistory

@@ -72,7 +72,7 @@ describe('DetailCopayPage', () => {
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
         loading: false,
       },
     };
@@ -111,7 +111,7 @@ describe('DetailCopayPage', () => {
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.useLighthouseCopays]: false,
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
         loading: false,
       },
     };
@@ -146,7 +146,7 @@ describe('DetailCopayPage', () => {
         mcp: { currentCopay: mockCopay, copays: [mockCopay] },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
         loading: false,
       },
     };
@@ -176,7 +176,7 @@ describe('DetailCopayPage', () => {
         mcp: { currentCopay: mockCopay, copays: [mockCopay] },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.useLighthouseCopays]: false,
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
         loading: false,
       },
     };
