@@ -188,7 +188,7 @@ describe('Facility VA search', () => {
     // eslint-disable-next-line cypress/unsafe-to-chain-command -- focused() is a query, not an action; safe to chain .should()
     cy.focused().should(
       'contain.text',
-      'No results found for "Community providers (in VA\u2019s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
+      'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
     );
   });
 
