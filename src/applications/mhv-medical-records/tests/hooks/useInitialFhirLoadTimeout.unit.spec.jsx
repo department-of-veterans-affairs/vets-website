@@ -50,39 +50,48 @@ describe('useInitialFhirLoadTimeout', () => {
     expect(result.current).to.be.true;
   });
 
-  it('should clear the timeout on unmount', () => {
-    // Only mock the functions we care about; omit 'performance' due to known bug caused by lolex
-    // attempting to redefine read-only parameters.
-    const clock = sinon.useFakeTimers({
-      toFake: [
-        'Date',
-        'setTimeout',
-        'clearTimeout',
-        'setInterval',
-        'clearInterval',
-      ],
+  describe('with fake timers', () => {
+    let clock;
+    let clearTimeoutSpy;
+
+    beforeEach(() => {
+      // Only mock the functions we care about; omit 'performance' due to known bug caused by lolex
+      // attempting to redefine read-only parameters.
+      clock = sinon.useFakeTimers({
+        now: Date.now(),
+        toFake: [
+          'Date',
+          'setTimeout',
+          'clearTimeout',
+          'setInterval',
+          'clearInterval',
+        ],
+      });
+      clearTimeoutSpy = sinon.spy(global, 'clearTimeout');
     });
-    const clearTimeoutSpy = sinon.spy(global, 'clearTimeout');
 
-    const initialFhirLoad = new Date(new Date() - 500); // 500ms ago
-    const timeoutDuration = 1000; // 1 second
+    afterEach(() => {
+      clearTimeoutSpy.restore();
+      clock.restore();
+    });
 
-    const { unmount } = renderHook(() =>
-      useInitialFhirLoadTimeout(initialFhirLoad, timeoutDuration),
-    );
+    it('should clear the timeout on unmount', () => {
+      const initialFhirLoad = new Date(new Date() - 500); // 500ms ago
+      const timeoutDuration = 1000; // 1 second
 
-    // Unmount the hook
-    unmount();
+      const { unmount } = renderHook(() =>
+        useInitialFhirLoadTimeout(initialFhirLoad, timeoutDuration),
+      );
 
-    // Advance the clock to see if any scheduled timeouts would still run
-    clock.tick(2000);
+      // Unmount the hook
+      unmount();
 
-    // Check that clearTimeout was actually called
-    expect(clearTimeoutSpy.callCount).to.equal(1);
+      // Advance the clock to see if any scheduled timeouts would still run
+      clock.tick(2000);
 
-    // Cleanup spies/fakes to avoid side effects in other tests
-    clearTimeoutSpy.restore();
-    clock.restore();
+      // Check that clearTimeout was actually called
+      expect(clearTimeoutSpy.callCount).to.equal(1);
+    });
   });
 
   it('should reset to false when initialFhirLoad changes to null', () => {

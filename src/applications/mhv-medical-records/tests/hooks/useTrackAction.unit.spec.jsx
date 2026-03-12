@@ -6,6 +6,7 @@ import { useTrackAction } from '../../hooks/useTrackAction';
 import * as MrApi from '../../api/MrApi';
 
 describe('useTrackAction hook', () => {
+  let sandbox;
   let postSpy;
 
   const TestComponent = ({ action }) => {
@@ -14,11 +15,12 @@ describe('useTrackAction hook', () => {
   };
 
   beforeEach(() => {
-    postSpy = sinon.spy(MrApi, 'postRecordDatadogAction');
+    sandbox = sinon.createSandbox();
+    postSpy = sandbox.spy(MrApi, 'postRecordDatadogAction');
   });
 
   afterEach(() => {
-    postSpy.restore();
+    sandbox.restore();
   });
 
   it('calls postRecordDatadogAction on mount with the initial action', () => {
