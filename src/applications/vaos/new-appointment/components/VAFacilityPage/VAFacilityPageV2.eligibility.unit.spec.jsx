@@ -5,9 +5,8 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import { fireEvent, waitFor } from '@testing-library/dom';
 import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
-import MockSchedulingConfigurationResponse, {
-  MockServiceConfiguration,
-} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockSchedulingConfigurationResponse from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockServiceConfiguration from '../../../tests/fixtures/MockServiceConfiguration';
 import {
   mockEligibilityFetches,
   mockEligibilityRequestApi,
@@ -105,7 +104,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                 typeOfCareId: 'outpatientMentalHealth',
                 directEnabled: false,
                 requestEnabled: true,
-                patientHistoryRequired: 'Yes',
+                patientHistoryRequired: false,
               }),
             ],
           }),
@@ -126,7 +125,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
             name: 'Red team clinic',
           }),
         ],
-        requestPastVisits: false,
+        requestPastVisits: true,
       });
 
       const store = createTestStore(defaultState);
@@ -163,7 +162,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                 typeOfCareId: 'outpatientMentalHealth',
                 directEnabled: false,
                 requestEnabled: true,
-                patientHistoryRequired: 'Yes',
+                patientHistoryRequired: true,
               }),
             ],
           }),
@@ -184,7 +183,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
             name: 'Red team clinic',
           }),
         ],
-        requestPastVisits: false,
+        requestPastVisits: true,
       });
 
       const store = createTestStore(defaultState);
@@ -231,7 +230,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
             name: 'Green team clinic',
           }),
         ],
-        limit: false,
+        limit: true,
       });
 
       const store = createTestStore(initialState);
@@ -266,7 +265,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                 typeOfCareId: 'outpatientMentalHealth',
                 directEnabled: false,
                 requestEnabled: true,
-                patientHistoryRequired: 'Yes',
+                patientHistoryRequired: true,
               }),
             ],
           }),
@@ -406,6 +405,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                 typeOfCareId: 'amputation',
                 directEnabled: true,
                 requestEnabled: false,
+                patientHistoryRequired: false,
               }),
             ],
           }),
@@ -431,9 +431,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
             name: 'Clinic name',
           }),
         ],
-        limit: true,
-        requestPastVisits: true,
-        directPastVisits: false,
+        directPastVisits: true,
       });
 
       const store = createTestStore(initialState);
@@ -478,6 +476,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
               new MockServiceConfiguration({
                 typeOfCareId: 'amputation',
                 directEnabled: true,
+                patientHistoryRequired: false,
               }),
             ],
           }),
@@ -487,6 +486,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
               new MockServiceConfiguration({
                 typeOfCareId: 'amputation',
                 directEnabled: true,
+                patientHistoryRequired: false,
               }),
             ],
           }),
@@ -495,14 +495,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'amputation',
-        directPastVisits: true,
-        clinics: [
-          new MockClinicResponse({
-            id: '455',
-            locationId: '983',
-            name: 'Clinic name',
-          }),
-        ],
+        clinics: [],
       });
 
       const store = createTestStore(initialState);
@@ -736,9 +729,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
             name: 'Clinic name',
           }),
         ],
-        limit: false,
-        requestPastVisits: true,
-        directPastVisits: true,
+        limit: true,
       });
 
       const store = createTestStore(initialState);
@@ -785,6 +776,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                 new MockServiceConfiguration({
                   typeOfCareId: 'outpatientMentalHealth',
                   directEnabled: true,
+                  patientHistoryRequired: false,
                 }),
               ],
             }),
@@ -794,6 +786,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                 new MockServiceConfiguration({
                   typeOfCareId: 'outpatientMentalHealth',
                   directEnabled: true,
+                  patientHistoryRequired: false,
                 }),
               ],
             }),
@@ -802,11 +795,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         mockEligibilityFetches({
           facilityId: '983',
           typeOfCareId: 'outpatientMentalHealth',
-          directPastVisits: true,
           clinics: [
             new MockClinicResponse({
               id: '455',
-              locationId: '983',
+              locationId: '984',
               name: 'Clinic name',
             }),
           ],
@@ -845,7 +837,8 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                   typeOfCareId: 'outpatientMentalHealth',
                   directEnabled: false,
                   requestEnabled: true,
-                  patientHistoryDuration: 1095,
+                  // patientHistoryDuration: 1095,
+                  patientHistoryRequired: false,
                 }),
               ],
             }),
@@ -856,6 +849,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                   typeOfCareId: 'outpatientMentalHealth',
                   directEnabled: false,
                   requestEnabled: true,
+                  patientHistoryRequired: false,
                 }),
               ],
             }),
@@ -871,9 +865,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
               name: 'Clinic name',
             }),
           ],
-          limit: true,
-          requestPastVisits: false,
-          directPastVisits: true,
+          requestPastVisits: true,
         });
 
         const store = createTestStore(defaultState);
@@ -903,6 +895,18 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       it('should continue to requests if direct is supported but disabled by feature toggle', async () => {
         // Arrange
+        const mockState = {
+          ...initialState,
+          featureToggles: {
+            ...initialState.featureToggles,
+            vaOnlineSchedulingDirect: false,
+            // vaOnlineSchedulingAddSubstanceUseDisorder: true,
+          },
+          // user: {
+          //   ...initialState.user,
+          // },
+        };
+
         mockSchedulingConfigurationsApi({
           response: [
             new MockSchedulingConfigurationResponse({
@@ -937,13 +941,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
               name: 'Clinic name',
             }),
           ],
-          limit: true,
-          requestPastVisits: true,
-          directPastVisits: true,
         });
 
         const store = createTestStore({
-          ...defaultState,
+          ...mockState,
           featureToggles: {},
         });
         await setTypeOfCare(store, /mental health/i);
@@ -974,7 +975,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         },
       };
 
-      it('should continue when mental health, direct is supported, clinics available, no matching clinics, requests not supported', async () => {
+      it('should not continue when mental health, direct is supported, clinics available, no matching clinics, requests not supported', async () => {
         // Arrange
         mockSchedulingConfigurationsApi({
           response: [
@@ -984,6 +985,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                 new MockServiceConfiguration({
                   typeOfCareId: 'outpatientMentalHealth',
                   directEnabled: true,
+                  patientHistoryRequired: false,
                 }),
               ],
             }),
@@ -993,6 +995,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                 new MockServiceConfiguration({
                   typeOfCareId: 'outpatientMentalHealth',
                   directEnabled: true,
+                  patientHistoryRequired: false,
                 }),
               ],
             }),
@@ -1001,7 +1004,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         mockEligibilityFetches({
           facilityId: '983',
           typeOfCareId: 'outpatientMentalHealth',
-          directPastVisits: true,
+          // directPastVisits: true,
           clinics: [
             new MockClinicResponse({
               id: '455',
@@ -1049,6 +1052,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                   directEnabled: false,
                   requestEnabled: true,
                   patientHistoryDuration: 1095,
+                  patientHistoryRequired: false,
                 }),
               ],
             }),
@@ -1059,6 +1063,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                   typeOfCareId: 'outpatientMentalHealth',
                   directEnabled: false,
                   requestEnabled: true,
+                  patientHistoryRequired: false,
                 }),
               ],
             }),
@@ -1075,7 +1080,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
             }),
           ],
           limit: true,
-          requestPastVisits: false,
+          requestPastVisits: true,
           directPastVisits: true,
         });
 
@@ -1119,6 +1124,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                   typeOfCareId: 'outpatientMentalHealth',
                   directEnabled: true,
                   requestEnabled: true,
+                  patientHistoryRequired: false,
                 }),
               ],
             }),
@@ -1129,6 +1135,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
                   typeOfCareId: 'outpatientMentalHealth',
                   directEnabled: true,
                   requestEnabled: true,
+                  patientHistoryRequired: false,
                 }),
               ],
             }),
@@ -1144,9 +1151,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
               name: 'Clinic name',
             }),
           ],
-          limit: true,
-          requestPastVisits: true,
-          directPastVisits: true,
         });
 
         const store = createTestStore({

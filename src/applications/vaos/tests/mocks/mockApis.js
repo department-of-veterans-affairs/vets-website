@@ -616,7 +616,7 @@ export function mockEligibilityFetches({
     });
   }
 
-  if (!directPastVisits && typeOfCareId !== 'primaryCare') {
+  if (directPastVisits && typeOfCareId !== 'primaryCare') {
     directReasons.push({
       coding: [
         {
@@ -626,7 +626,7 @@ export function mockEligibilityFetches({
     });
   }
 
-  if (!requestPastVisits && typeOfCareId !== 'primaryCare') {
+  if (requestPastVisits && typeOfCareId !== 'primaryCare') {
     requestReasons.push({
       coding: [
         {
@@ -636,7 +636,7 @@ export function mockEligibilityFetches({
     });
   }
 
-  if (!limit) {
+  if (limit) {
     requestReasons.push({
       coding: [
         {
@@ -658,10 +658,13 @@ export function mockEligibilityFetches({
           eligible: directReasons.length === 0,
           ineligibilityReasons:
             directReasons.length === 0 ? undefined : directReasons,
+          clinicalServiceId: typeOfCareId,
+          type: 'direct',
         },
       },
     },
   );
+
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${
@@ -671,9 +674,11 @@ export function mockEligibilityFetches({
     {
       data: {
         attributes: {
+          clinicalServiceId: typeOfCareId,
           eligible: requestReasons.length === 0,
           ineligibilityReasons:
             requestReasons.length === 0 ? undefined : requestReasons,
+          type: 'request',
         },
       },
     },
