@@ -1,7 +1,7 @@
 {
-  "appName": "Request for Reimbursement of National Exam Fee",
+  "appName": "Request National Exam Fee Reimbursement Online",
   "entryFile": "./app-entry.jsx",
   "entryName": "0810-edu-benefits",
-  "rootUrl": "/education/0810",
+  "rootUrl": "/forms/22-0810/request-reimbursement-national-exam-fee",
   "productId": "0bb255ba-56a1-4ca2-8ca3-778a5eccfae5"
 }

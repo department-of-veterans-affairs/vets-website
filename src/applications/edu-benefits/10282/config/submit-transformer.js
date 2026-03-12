@@ -1,6 +1,7 @@
 import _ from 'lodash';
+import { getTransformIntlPhoneNumber } from '../helpers';
 
-export function transform(_formConfig, form) {
+export function transform(formConfig, form) {
   const signatureTransform = formData => {
     const clonedData = _.cloneDeep(formData);
     delete clonedData.AGREED;
@@ -13,16 +14,45 @@ export function transform(_formConfig, form) {
     const clonedData = _.cloneDeep(formData);
     let { homePhone, mobilePhone } = clonedData.contactInfo;
 
-    homePhone = homePhone?.replace(/[^0-9]/g, '');
-    mobilePhone = mobilePhone?.replace(/[^0-9]/g, '');
+    homePhone = getTransformIntlPhoneNumber(homePhone);
+    mobilePhone = getTransformIntlPhoneNumber(mobilePhone);
+
+    if (homePhone && mobilePhone) {
+      return {
+        ...clonedData,
+        contactInfo: {
+          ...clonedData.contactInfo,
+          homePhone,
+          mobilePhone,
+        },
+      };
+    }
+    if (homePhone) {
+      delete clonedData.contactInfo.mobilePhone;
+      return {
+        ...clonedData,
+        contactInfo: {
+          ...clonedData.contactInfo,
+          homePhone,
+        },
+      };
+    }
+    if (mobilePhone) {
+      delete clonedData.contactInfo.homePhone;
+      return {
+        ...clonedData,
+        contactInfo: {
+          ...clonedData.contactInfo,
+          mobilePhone,
+        },
+      };
+    }
+
+    delete clonedData.contactInfo.homePhone;
+    delete clonedData.contactInfo.mobilePhone;
 
     return {
       ...clonedData,
-      contactInfo: {
-        ...clonedData.contactInfo,
-        homePhone,
-        mobilePhone,
-      },
     };
   };
 

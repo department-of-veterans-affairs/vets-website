@@ -1,12 +1,17 @@
 import {
-  titleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const disabilityPartOne = {
   uiSchema: {
-    ...titleUI('Child’s disability status'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${formData?.fullName?.first || 'Child'}’s disability status`,
+      null,
+      false,
+    ),
 
     doesChildHaveDisability: yesNoUI({
       title: 'Does this child have a permanent mental or physical disability?',

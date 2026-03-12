@@ -80,6 +80,9 @@ function buildVaosAppointmentFromClaim(claim, daysOffset) {
     type: 'appointments',
     attributes: {
       id: claim.appointment?.id || savedClaimAppointmentId,
+      type: 'VA',
+      past: true,
+      modality: 'vaInPerson',
       identifier: [
         {
           system: 'Appointment/',
@@ -129,6 +132,7 @@ function buildVaosAppointmentFromClaim(claim, daysOffset) {
       },
       localStartTime,
       station: claim.appointment?.facilityId || '534',
+      isPastAppointment: true,
       travelPayClaim: {
         metadata: {
           status: 200,
@@ -195,6 +199,11 @@ const buildAppointmentsFromClaims = (
         claim: {
           ...savedClaim,
         },
+        metadata: {
+          status: 200,
+          success: true,
+          message: 'Data retrieved successfully.',
+        },
       };
     }
   }
@@ -206,8 +215,74 @@ const buildAppointmentsFromClaims = (
   };
 };
 
+/**
+ * Build a standalone community care (CC) VAOS appointment with no existing travel pay claim.
+ * Use this appointment to test the proof of attendance upload flow end-to-end.
+ *
+ * Navigate to: /my-health/travel-pay/file-new-claim/cc-appt-001
+ *
+ * @param {number} [daysOffset=-3] - Days in the past relative to today
+ * @returns {Object} VAOS-formatted CC appointment
+ */
+function buildCCAppointment(daysOffset = -1) {
+  const id = 'cc-appt-001';
+  const { start, end, localStartTime } = generateAppointmentDates(daysOffset);
+
+  return {
+    id,
+    type: 'appointments',
+    attributes: {
+      id,
+      type: 'COMMUNITY_CARE_APPOINTMENT',
+      identifier: [
+        {
+          system: 'Appointment/',
+          value: 'cc-external-appt-001',
+        },
+      ],
+      kind: 'cc',
+      status: 'booked',
+      patientIcn: '1013125218V696863',
+      locationId: '534',
+      start,
+      end,
+      minutesDuration: 30,
+      localStartTime,
+      station: '534',
+      location: {
+        id: '534',
+        name: 'Cheyenne VA Medical Center',
+      },
+      communityCareProvider: {
+        providerName: 'Community Care Provider',
+        address: {
+          street: '123 Main St',
+          city: 'Anytown',
+          state: 'CA',
+          zip: '12345',
+        },
+      },
+      past: true,
+      modality: 'vaInPerson',
+      isPastAppointment: true,
+      preferredProviderName: 'Test Preferred Provider',
+      travelPayClaim: {
+        metadata: {
+          status: 200,
+          success: true,
+          message: 'Data retrieved successfully.',
+        },
+        claims: {
+          // No travelPayClaim — lets you test creating a new claim and uploading PoA from scratch
+        },
+      },
+    },
+  };
+}
+
 module.exports = {
   generateAppointmentDates,
   buildVaosAppointmentFromClaim,
   buildAppointmentsFromClaims,
+  buildCCAppointment,
 };

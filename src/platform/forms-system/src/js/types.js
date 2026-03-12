@@ -64,6 +64,7 @@
  * @property {boolean} [showReviewErrors]
  * @property {boolean} [showSaveLinkAfterButtons] by default, when logged in, a save link is present before the back/continue buttons, but setting this to true will make it show up below it.
  * @property {(props: any) => JSX.Element} [submissionError]
+ * @property {(props: any) => JSX.Element} [submissionErrorLink]
  * @property {(form: any, formConfig: any) => Promise<any>} [submit]
  * @property {(props: any) => JSX.Element} [submitErrorText]
  * @property {string} [submitUrl]
@@ -181,7 +182,7 @@
  * @property {(formData: any) => void} [onContinue] Called when user clicks continue button. For simple callbacks/events. If you instead want to navigate to a different page, use onNavForward.
  * @property {({ formData, goPath, goPreviousPath, pageList, pathname, setFormData, urlParams, index }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams, index: number }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
  * @property {({ formData, goPath, goNextPath, pageList, pathname, setFormData, urlParams, index }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams, index: number }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
- * @property {(data: any) => boolean} [itemFilter]
+ * @property {(item: any, formData: Object) => boolean} [itemFilter]
  * @property {string} [path] url path for page e.g. `'name-of-path'`, or `'name-of-path/:index'` for an array item page. Results in `http://localhost:3001/my-form/name-of-path`
  * @property {string} [returnUrl]
  * @property {SchemaOptions} [schema]
@@ -624,74 +625,4 @@
  *   ['John', 'Doe', '1990-01-01', '123-45-6789'],
  *   ['Jane', 'Smith', '1992-02-02', '987-65-4321']
  * ]
- */
-
-/**
- * @typedef {Object} PersonalInfoPageOptions - Options object for profilePersonalInfoPage function
- * @property {boolean} [background] - Whether to display a background on the page
- * @property {JSX.Element|React.ReactNode} [cardHeader] - Custom card header component
- * @property {JSX.Element|React.ReactNode} [contentAfterButtons] - Content to display after the navigation buttons
- * @property {JSX.Element|React.ReactNode} [contentBeforeButtons] - Content to display before the navigation buttons
- * @property {DataAdapter} [dataAdapter] - Data adapter configuration object for the PersonalInformation component
- * @property {Function} [depends] - Conditional function to determine if page should be shown
- * @property {string|Function} [errorMessage] - Custom error message or component for missing data
- * @property {JSX.Element|React.ReactNode} [footer] - Custom footer component
- * @property {JSX.Element|React.ReactNode} [header] - Custom header component
- * @property {boolean} [hideOnReview] - Whether to hide the page on the review page
- * @property {string} [key] - The page key within the form config chapter
- * @property {JSX.Element|React.ReactNode} [note] - Custom note component
- * @property {string} [path] - The path of the page
- * @property {PersonalInformationConfig} [personalInfoConfig] - Configuration object for the PersonalInformation component
- * @property {boolean} [prefillPatternEnabled] - enable prefill pattern for
- *  personal info
- * @property {string} [title] - The title of the page
- */
-
-/**
- * Function that returns a personal information page configuration
- * @typedef {(options?: PersonalInfoPageOptions) => FormConfigPages} PrefillPersonalInfoPageConfig
- */
-
-/**
- * @typedef {Object} ContactInfoPagesOptions - Options object for profileContactInfoPage function
- * @property {String} [addressKey] - address key value set in
- *  ContactInfoKeys
- * @property {String} [addressSchema] - Profile
- *  address schema object
- * @property {String} [contactInfoPageKey] - set page key
- *  within the form config chapter
- * @property {String[]} [contactInfoRequiredKeys] - array of key values in
- *  ContactInfoKeys that are to be required before proceeding
- * @property {Object} [contactInfoUiSchema] - custom uiSchema for the contact
- *  info page
- * @property {String} [contactPath] - Contact info path of
- *  formConfig page
- * @property {number} [contactSectionHeadingLevel] - heading level for contact
- *  info sections
- * @property {import('../utilities/data/profile').ContactInfoContent} [content]
- * @property {Function} [depends] - depends callback function; return true to
- *  make the main confirmation page visible
- * @property {boolean} [disableMockContactInfo] - disable mock contact info
- *  data for testing
- * @property {number} [editContactInfoHeadingLevel] - heading level for edit
- *  contact info pages
- * @property {String} [emailKey] - email key value set in ContactInfoKeys
- * @property {Object} [emailSchema] - Email schema object for
- *  email string
- * @property {String} [homePhoneKey] - home phone key value set in
- *  ContactInfoKeys
- * @property {String[]} [included] - array of ContactInfoKeys to show on the contact info page
- * @property {String} [mobilePhoneKey] - mobile phone key value set in
- *  ContactInfoKeys
- * @property {Object} [phoneSchema] - Phone schema object with
- *  country code, area code, phone number & extension values
- * @property {boolean} [prefillPatternEnabled] - enable prefill pattern for
- *  contact info
- * @property {String} [wrapperKey] - wrapper key value set in
- *  ContactInfoKeys
- */
-
-/**
- * Function that returns contact information pages configuration
- * @typedef {(options?: ContactInfoPagesOptions) => FormConfigPages} PrefillContactInfoPagesConfig
  */

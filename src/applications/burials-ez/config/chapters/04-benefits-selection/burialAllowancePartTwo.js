@@ -1,12 +1,12 @@
 import {
+  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { generateTitle } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Burial allowance'),
+    ...titleUI('Burial allowance'),
     previouslyReceivedAllowance: yesNoUI({
       title: 'Did you previously receive a VA burial allowance?',
       hideIf: form => form?.relationshipToVeteran !== 'spouse',

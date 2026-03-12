@@ -11,6 +11,7 @@ import {
 import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import sinon from 'sinon';
 import * as scrollUtils from 'platform/utilities/scroll/scroll';
+import * as actions from '../../../../redux/actions';
 
 import ExpensePage, {
   toBase64,
@@ -601,7 +602,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
                   expect(checkOutDate.getAttribute('error')).to.exist;
                 }
 
-                if (key === 'Airtravel') {
+                if (key === 'AirTravel') {
                   const vendorNameInput = container.querySelector(
                     'va-text-input[name="vendorName"]',
                   );
@@ -625,7 +626,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
                   expect(departureDate.getAttribute('error')).to.exist;
                   expect(departedFromInput.getAttribute('error')).to.exist;
                   expect(arrivedToInput.getAttribute('error')).to.exist;
-                  expect(returnDate.getAttribute('error')).to.not.exist; // returnDate not required unless ROUND_TRIP
+                  expect(returnDate.getAttribute('error') || null).to.be.null; // returnDate not required unless ROUND_TRIP
                 }
 
                 if (key === 'Commoncarrier') {
@@ -1309,42 +1310,52 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
   //
   // Store containing an existing expense
   //
-  const getEditState = expenses => ({
-    travelPay: {
-      claimSubmission: { isSubmitting: false, error: null, data: null },
-      complexClaim: {
-        claim: {
-          creation: { isLoading: false, error: null },
-          submission: { id: '', isSubmitting: false, error: null, data: null },
-          fetch: { isLoading: false, error: null },
-          data: {
-            documents: [
-              {
-                filename: 'saved.pdf',
-                mimetype: 'application/pdf',
-                fileData: 'AA==',
-                documentId: TEST_DOCUMENT_ID,
-                createdon: '2025-11-17',
-              },
-            ],
+  const getEditState = (expenses, overrides = {}) => {
+    const { expenses: expenseOverrides, ...complexClaimOverrides } = overrides;
+    return {
+      travelPay: {
+        claimSubmission: { isSubmitting: false, error: null, data: null },
+        complexClaim: {
+          claim: {
+            creation: { isLoading: false, error: null },
+            submission: {
+              id: '',
+              isSubmitting: false,
+              error: null,
+              data: null,
+            },
+            fetch: { isLoading: false, error: null },
+            data: {
+              documents: [
+                {
+                  filename: 'saved.pdf',
+                  mimetype: 'application/pdf',
+                  fileData: 'AA==',
+                  documentId: TEST_DOCUMENT_ID,
+                  createdon: '2025-11-17',
+                },
+              ],
+            },
           },
-        },
-        expenses: {
-          creation: { isLoading: false, error: null },
-          update: { id: '', isLoading: false, error: null },
-          delete: { id: '', isLoading: false, error: null },
-          data: [...expenses],
-        },
-        documentDelete: {
-          id: '',
-          isLoading: false,
-          error: null,
+          expenses: {
+            creation: { isLoading: false, error: null },
+            update: { id: '', isLoading: false, error: null },
+            delete: { id: '', isLoading: false, error: null },
+            data: [...expenses],
+            ...expenseOverrides,
+          },
+          documentDelete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          ...complexClaimOverrides,
         },
       },
-    },
-  });
+    };
+  };
 
-  const renderEditPage = (expenses = [{ ...defaultExpense }]) =>
+  const renderEditPage = (expenses = [{ ...defaultExpense }], overrides) =>
     renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/12345/43555/meal/${TEST_EXPENSE_ID}`]}
@@ -1361,7 +1372,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
-      { initialState: getEditState(expenses), reducers: reducer },
+      { initialState: getEditState(expenses, overrides), reducers: reducer },
     );
 
   let apiStub;
@@ -1411,6 +1422,40 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     expect(costField.getAttribute('value')).to.equal('10.50');
   });
 
+  it('formats integer costRequested as x.00 in edit mode', async () => {
+    apiStub.restore();
+    apiStub = sinon.stub(api, 'apiRequest').callsFake(url => {
+      if (url.includes('/claims/43555/expenses/meal/')) {
+        return Promise.resolve({
+          id: TEST_EXPENSE_ID,
+          expenseType: 'Meal',
+          vendorName: 'Saved Vendor',
+          dateIncurred: '2025-11-17',
+          costRequested: 10,
+          description: 'Test expense description',
+        });
+      }
+      if (url.includes('/documents/')) {
+        return Promise.resolve({
+          headers: {
+            get: key => (key === 'Content-Type' ? 'application/pdf' : '1024'),
+          },
+          arrayBuffer: async () => new TextEncoder().encode('dummy').buffer,
+        });
+      }
+      return Promise.reject(new Error('Unmocked API call'));
+    });
+
+    const { container } = renderEditPage();
+
+    await waitFor(() => {
+      const costField = container.querySelector(
+        'va-text-input[name="costRequested"]',
+      );
+      expect(costField?.getAttribute('value')).to.equal('10.00');
+    });
+  });
+
   it('uses "Save and continue" text for continue button', async () => {
     const { container } = renderEditPage();
 
@@ -1443,8 +1488,10 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     expect(addCancelButton).to.not.exist;
   });
 
-  it('"Back" button opens modal in edit mode', async () => {
-    const { container } = renderEditPage();
+  it('"Back" button opens modal in edit mode when there are unsaved changes', async () => {
+    const { container } = renderEditPage([{ ...defaultExpense }], {
+      expenses: { hasUnsavedChanges: true },
+    });
 
     // Wait for data to load and buttons to render
     let backButton;
@@ -1744,7 +1791,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
       const inputText = container.querySelector(
         'va-text-input[name="costRequested"]',
       );
-      expect(inputText?.getAttribute('value')).to.equal('0');
+      expect(inputText?.getAttribute('value')).to.equal('0.00');
     });
 
     const inputText = container.querySelector(
@@ -2072,7 +2119,13 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     });
 
     it('navigates to review page when confirming cancel in edit mode', async () => {
-      const { container, getByTestId } = renderEditPage();
+      const { container, getByTestId } = renderEditPage(
+        [{ ...defaultExpense }],
+        {
+          expenses: { hasUnsavedChanges: true },
+          expenseBackDestination: 'review',
+        },
+      );
 
       // Wait for data to load
       await waitFor(() => {
@@ -2106,6 +2159,106 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
           '/file-new-claim/12345/43555/review',
         );
       });
+    });
+  });
+
+  describe('Unsaved changes modal in add mode', () => {
+    let setUnsavedChangesModalVisibleStub;
+
+    beforeEach(() => {
+      setUnsavedChangesModalVisibleStub = sinon
+        .stub(actions, 'setUnsavedChangesModalVisible')
+        .returns({
+          type: 'SET_UNSAVED_CHANGES_MODAL_VISIBLE',
+          payload: { visible: true, source: 'expense-back' },
+        });
+    });
+
+    afterEach(() => {
+      setUnsavedChangesModalVisibleStub.restore();
+    });
+
+    it('dispatches setUnsavedChangesModalVisible(true, "expense-back") when back is clicked with unsaved changes', async () => {
+      const baseState = getEditState([]);
+      const stateWithUnsavedChanges = {
+        ...baseState,
+        travelPay: {
+          ...baseState.travelPay,
+          complexClaim: {
+            ...baseState.travelPay.complexClaim,
+            expenses: {
+              ...baseState.travelPay.complexClaim.expenses,
+              hasUnsavedChanges: true,
+            },
+          },
+        },
+      };
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/43555/lodging']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+              element={<ExpensePage />}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { initialState: stateWithUnsavedChanges, reducers: reducer },
+      );
+
+      await waitFor(() => {
+        const vendorField = container.querySelector(
+          'va-text-input[name="vendor"]',
+        );
+        expect(vendorField).to.exist;
+      });
+
+      const buttonGroup = container.querySelector('.travel-pay-button-group');
+      const backButton = Array.from(
+        buttonGroup.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Back');
+      fireEvent.click(backButton);
+
+      expect(setUnsavedChangesModalVisibleStub.calledOnce).to.be.true;
+      expect(setUnsavedChangesModalVisibleStub.calledWith(true, 'expense-back'))
+        .to.be.true;
+    });
+
+    it('does not dispatch setUnsavedChangesModalVisible when there are no unsaved changes', async () => {
+      const baseState = getEditState([]);
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/43555/lodging']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+              element={<ExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<div data-testid="choose-expense-page" />}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { initialState: baseState, reducers: reducer },
+      );
+
+      await waitFor(() => {
+        const vendorField = container.querySelector(
+          'va-text-input[name="vendor"]',
+        );
+        expect(vendorField).to.exist;
+      });
+
+      const buttonGroup = container.querySelector('.travel-pay-button-group');
+      const backButton = Array.from(
+        buttonGroup.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Back');
+      fireEvent.click(backButton);
+
+      expect(setUnsavedChangesModalVisibleStub.called).to.be.false;
     });
   });
 });

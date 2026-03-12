@@ -5,11 +5,14 @@ import InProgressMedicationsProcessList from '../components/PrescriptionsInProgr
 import NeedHelp from '../components/shared/NeedHelp';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import useFetchPrescriptionsInProgress from '../hooks/PrescriptionsInProgress/useFetchPrescriptionsInProgress';
-import { pageType } from '../util/dataDogConstants';
+import { pageType, dataDogActionNames } from '../util/dataDogConstants';
 
 const PrescriptionsInProgress = () => {
   const {
-    prescriptions,
+    inProgress,
+    shipped,
+    submitted,
+    tooEarly,
     prescriptionsApiError,
     isLoading,
   } = useFetchPrescriptionsInProgress();
@@ -32,7 +35,14 @@ const PrescriptionsInProgress = () => {
     }
 
     // TODO: Implement empty state design for when there are no in-progress medications
-    return <InProgressMedicationsProcessList prescriptions={prescriptions} />;
+    return (
+      <InProgressMedicationsProcessList
+        inProgress={inProgress}
+        shipped={shipped}
+        submitted={submitted}
+        tooEarly={tooEarly}
+      />
+    );
   };
 
   useEffect(() => {
@@ -49,9 +59,26 @@ const PrescriptionsInProgress = () => {
         the date of shipping. To review all your medications, go to your
         medication history.
       </p>
-      <Link to="/history">Go to your medication history</Link>
+      <Link
+        data-testid="history-link"
+        to="/history"
+        data-dd-action-name={
+          dataDogActionNames.inProgressPage
+            .GO_TO_REVIEW_AND_PRINT_MEDICATION_HISTORY_LINK
+        }
+      >
+        Review and print list of medications
+      </Link>
       <span className="vads-u-margin-x--1">|</span>
-      <Link to="/refill">Refill medications</Link>
+      <Link
+        data-testid="refill-link"
+        to="/"
+        data-dd-action-name={
+          dataDogActionNames.inProgressPage.REFILL_MEDICATIONS_LINK
+        }
+      >
+        Refill medications
+      </Link>
       {renderContent()}
       <NeedHelp page={pageType.IN_PROGRESS} headingLevel={2} />
     </div>

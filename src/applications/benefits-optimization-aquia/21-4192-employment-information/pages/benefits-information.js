@@ -42,6 +42,9 @@ export const benefitsInformationUiSchema = {
 
       return {
         benefitsInformation: {
+          'ui:options': {
+            classNames: 'dd-privacy-mask',
+          },
           benefitEntitlement: {
             'ui:title': benefitEntitlementTitle,
           },

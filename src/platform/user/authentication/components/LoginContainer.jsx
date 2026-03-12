@@ -18,7 +18,12 @@ export default function LoginContainer({
   const isOccMobile = [EXTERNAL_APPS.VA_OCC_MOBILE]?.includes(
     externalApplication,
   );
-  const { href, onClick } = useInternalTestingAuth();
+
+  const isUnifiedOccMobile = isUnifiedSignIn && isOccMobile;
+
+  const { href, onClick } = useInternalTestingAuth({
+    generateHref: isUnifiedOccMobile,
+  });
 
   return (
     <>
@@ -46,14 +51,13 @@ export default function LoginContainer({
           />
           <LoginInfo />
         </div>
-        {isUnifiedSignIn &&
-          isOccMobile && (
-            <div className="row">
-              <div className="columns">
-                <va-link href={href} text="VA staff" onClick={onClick} />
-              </div>
+        {isUnifiedOccMobile && (
+          <div className="row">
+            <div className="columns">
+              <va-link href={href} text="VA staff" onClick={onClick} />
             </div>
-          )}
+          </div>
+        )}
       </section>
     </>
   );

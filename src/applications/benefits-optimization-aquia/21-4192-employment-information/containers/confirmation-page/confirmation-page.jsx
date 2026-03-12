@@ -78,7 +78,9 @@ export const ConfirmationPage = ({ route }) => {
         </p>
         <DownloadFormPDF formData={transformedData} />
       </div>
-      <ConfirmationView.ChapterSectionCollection />
+      <div data-dd-privacy="mask" data-dd-action-name="confirmation summary">
+        <ConfirmationView.ChapterSectionCollection />
+      </div>
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
         item1Header="We’ll review your form"

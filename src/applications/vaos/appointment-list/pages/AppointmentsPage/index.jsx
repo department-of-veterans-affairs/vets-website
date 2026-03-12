@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import WarningNotification from '../../../components/WarningNotification';
 import { selectPendingAppointments } from '../../../redux/selectors';
@@ -15,7 +15,6 @@ import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedApp
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 // import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
-import { routeToCCPage } from '../../../referral-appointments/flow';
 import { useIsInPilotUserStations } from '../../../referral-appointments/hooks/useIsInPilotUserStations';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
 import AppointmentListNavigation from '../../components/AppointmentListNavigation';
@@ -23,10 +22,11 @@ import PageLayout from '../../components/PageLayout';
 import ScheduleNewAppointment from '../../components/ScheduleNewAppointment';
 import PastAppointmentsPage from '../PastAppointmentsPage';
 import UpcomingAppointmentsPage from '../UpcomingAppointmentsPage/UpcomingAppointmentsPage';
+import FindCommunityCareOfficeLink from '../../../referral-appointments/components/FindCCFacilityLink';
 
 function renderWarningNotification() {
   return (props, childContent) => {
-    const { status, description } = props;
+    const { status, description } = props || {};
     return (
       <WarningNotification description={description} status={status}>
         {childContent}
@@ -40,7 +40,6 @@ renderWarningNotification.propTypes = {
 };
 
 export default function AppointmentsPage() {
-  const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
@@ -115,11 +114,6 @@ export default function AppointmentsPage() {
     [pendingAppointments],
   );
 
-  const handleCCLinkClick = e => {
-    e.preventDefault();
-    routeToCCPage(history, 'referralsAndRequests');
-  };
-
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
       <h1
@@ -167,29 +161,24 @@ export default function AppointmentsPage() {
         <div
           className={classNames(
             'vaos-hide-for-print',
-            'vads-u-padding-y--3',
             'vads-u-margin-bottom--3',
             'vads-u-margin-top--1',
-            'vads-u-border-top--1px',
-            'vads-u-border-color--info-light',
-            'vads-u-border-bottom--1px',
-            'vads-u-border-color--info-light',
           )}
         >
-          <va-link
-            calendar
-            href="/my-health/appointments/referrals-requests"
-            text="Review referrals and requests"
-            data-testid="review-requests-and-referrals"
-            onClick={handleCCLinkClick}
-          />
+          <va-alert-expandable
+            status="warning"
+            trigger="You can’t access community care referrals online"
+            data-testid="cc-referrals-banner"
+          >
+            <p>
+              Call your community care office for help scheduling an
+              appointment.
+            </p>
+            <FindCommunityCareOfficeLink />
+          </va-alert-expandable>
         </div>
       )}
-      <AppointmentListNavigation
-        hidePendingTab={isInPilotUserStations}
-        count={count}
-        callback={setHasTypeChanged}
-      />
+      <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
       <Switch>
         <Route exact path="/">
           <UpcomingAppointmentsPage hasTypeChanged={hasTypeChanged} />

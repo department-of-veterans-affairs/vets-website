@@ -36,6 +36,7 @@ import PrintDownload from '../components/shared/PrintDownload';
 
 import { useFetchPrescriptionsList } from '../hooks/MedicationsList/useFetchPrescriptionsList';
 import { useFocusManagement } from '../hooks/MedicationsList/useFocusManagement';
+import useOracleHealthAlertTracking from '../hooks/useOracleHealthAlertTracking';
 import { usePageTitle } from '../hooks/usePageTitle';
 import useRxListExport from '../hooks/useRxListExport';
 
@@ -89,6 +90,14 @@ const Prescriptions = () => {
   const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');
   const deleteDraftSuccess = searchParams.get('draftDeleteSuccess');
 
+  // Track Oracle Health transition alerts at the page level
+  useOracleHealthAlertTracking({
+    warningActionName:
+      dataDogActionNames.oracleHealthTransition.T45_WARNING_ALERT_DISPLAYED,
+    errorActionName:
+      dataDogActionNames.oracleHealthTransition.T3_ERROR_ALERT_DISPLAYED,
+  });
+
   // Track when user returns from Rx Renewal SM flow
   useEffect(
     () => {
@@ -112,7 +121,7 @@ const Prescriptions = () => {
   } = useFetchPrescriptionsList();
 
   const { pagination, meta = {} } = prescriptionsData || {};
-  const { filterCount } = meta;
+  const { filterCount, hasFailedStations: hasFailedStationsMeta } = meta;
 
   const paginatedPrescriptionsList = useMemo(
     () => {
@@ -246,6 +255,9 @@ const Prescriptions = () => {
     [shouldPrint, printRxList, clearPrintTrigger],
   );
 
+  // Check if some stations failed to return data
+  const hasFailedStations = hasFailedStationsMeta === true;
+
   const renderMedicationsContent = () => {
     // No medications exist
     const noMedications =
@@ -253,6 +265,24 @@ const Prescriptions = () => {
       filterCount &&
       Object.values(filterCount).every(value => value === 0);
 
+    if (noMedications && hasFailedStations) {
+      return (
+        <va-alert status="error" data-testid="failed-stations-error" uswds>
+          <h2 slot="headline">
+            Some of your medications may not be listed here right now
+          </h2>
+          <p>
+            We’re sorry this medications list may be incomplete. Refresh this
+            page or try again later.
+          </p>
+          <p>
+            If you need to refill a medication now, call your VA pharmacy’s
+            automated refill line. The phone number is on your prescription
+            label or in your medications details page.
+          </p>
+        </va-alert>
+      );
+    }
     if (noMedications) {
       return <EmptyPrescriptionContent />;
     }

@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
@@ -10,6 +16,7 @@ import {
   VaSearchFilter,
   VaSelect,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import {
   BENEFITS_LIST,
@@ -18,10 +25,12 @@ import {
 } from '../constants/benefits';
 import GetFormHelp from '../components/GetFormHelp';
 import Benefits from './components/Benefits';
+import useMediaQuery from '../hooks/useMediaQuery';
 
 const ConfirmationPage = ({ formConfig, location, router }) => {
   const dispatch = useDispatch();
   const results = useSelector(state => state.results);
+  const isMobile = useMediaQuery('(max-width: 640px)');
 
   const [benefits, setBenefits] = useState([]);
   const [benefitIds, setBenefitIds] = useState({});
@@ -31,6 +40,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const [tempFilterValues, setTempFilterValues] = useState(['recommended']);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
+  const searchFilterRef = useRef(null);
 
   const query = useMemo(
     () => {
@@ -191,12 +201,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       }
       if (nonRecommendedFilters.length > 0) {
         filtered = filtered.filter(benefit =>
-          nonRecommendedFilters.some(key => {
-            if (benefit.category?.includes(key)) {
-              return true;
-            }
-            return false;
-          }),
+          nonRecommendedFilters.some(key => benefit.category?.includes(key)),
         );
       }
 
@@ -276,9 +281,9 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   }, []);
 
   const handleFilterClearAll = useCallback(() => {
-    setFilterValues(['recommended']);
-    setTempFilterValues(['recommended']);
     setSortValue('expiringSoonest');
+    setFilterValues([]);
+    setTempFilterValues([]);
   }, []);
 
   const handlePageChange = useCallback(
@@ -413,6 +418,32 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     [filterValues, sortValue, filterAndSortBenefits],
   );
 
+  useEffect(
+    () => {
+      if (!isMobile) return () => {};
+
+      const tryCollapse = async () => {
+        const searchFilter = await querySelectorWithShadowRoot(
+          'va-search-filter',
+        );
+
+        if (!searchFilter) return;
+
+        const accordionItems = searchFilter.shadowRoot?.querySelectorAll(
+          'va-accordion-item',
+        );
+
+        if (accordionItems?.length) {
+          accordionItems.forEach(item => item.setAttribute('open', false));
+        }
+      };
+
+      tryCollapse();
+      return () => {};
+    },
+    [isMobile],
+  );
+
   return (
     <div>
       <article className="description-article vads-u-padding--0 vads-u-margin--0">
@@ -441,7 +472,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
         className="vads-u-margin-top--4 medium-screen:vads-u-margin-top--6 "
       >
         <div className="vads-l-row vads-u-margin-y--2">
-          <div id="filters-section-desktop">
+          <div id="filters-section-desktop" ref={searchFilterRef}>
             <VaSearchFilter
               filterOptions={filterOptions}
               header="Filters"

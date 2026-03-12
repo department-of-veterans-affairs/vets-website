@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui';
 import { resolutionDate, checkReason } from '../utilities/poaRequests';
 
@@ -25,14 +26,31 @@ const response = (poaStatus, poaRequest, poaRequestSubmission) => {
         return null;
       }
       return (
-        <p className="poa__submit-response">
-          <strong>Response:</strong>{' '}
-          {poaRequest?.resolution?.accreditedIndividual?.fullName ||
-            'Your organization'}{' '}
-          accepted this request on{' '}
-          {resolutionDate(poaRequest?.resolution?.createdAt, poaStatus.id)}. We
-          processed the request and representation has been established.
-        </p>
+        <>
+          <p className="poa__submit-response">
+            <strong>Response:</strong>{' '}
+            {poaRequest?.resolution?.accreditedIndividual?.fullName ||
+              'Your organization'}{' '}
+            accepted this request on{' '}
+            {resolutionDate(poaRequest?.resolution?.createdAt, poaStatus.id)}.
+            We processed the request and representation has been established.
+          </p>
+          <Toggler
+            toggleName={
+              Toggler.TOGGLE_NAMES.accreditedRepresentativePortalClaimantDetails
+            }
+          >
+            <Toggler.Enabled>
+              <va-link-action
+                active
+                href={`/representative/find-claimant/claimant-overview/${
+                  poaRequest.claimantId
+                }`}
+                text="Go to the claimant overview"
+              />
+            </Toggler.Enabled>
+          </Toggler>
+        </>
       );
 
     default:

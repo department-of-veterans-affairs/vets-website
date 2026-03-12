@@ -14,6 +14,9 @@ describe('SM DELETE CUSTOM FOLDER', () => {
 
   it('remove non-empty folder', () => {
     PatientMessageCustomFolderPage.loadMessages();
+    // Ensure thread list items are rendered before clicking remove,
+    // so Redux state reflects a non-empty folder
+    cy.findAllByTestId(Locators.THREADS).should('exist');
     PatientMessageCustomFolderPage.clickRemoveFolderButton();
     PatientMessageCustomFolderPage.verifyEmptyFolderAlert();
     PatientMessageCustomFolderPage.clickOnCloseIcon();

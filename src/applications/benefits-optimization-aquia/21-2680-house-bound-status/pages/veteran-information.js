@@ -55,7 +55,9 @@ export const veteranInformationUiSchema = {
         },
       },
     },
-    veteranDob: dateOfBirthUI(),
+    veteranDob: dateOfBirthUI({
+      dataDogHidden: true,
+    }),
   },
 };
 

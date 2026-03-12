@@ -49,6 +49,7 @@ import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import ProcessList from '../components/shared/ProcessList';
 import PrintOnlyPage from './PrintOnlyPage';
+import useOracleHealthAlertTracking from '../hooks/useOracleHealthAlertTracking';
 
 const RefillPrescriptionsV2 = () => {
   const {
@@ -59,6 +60,14 @@ const RefillPrescriptionsV2 = () => {
   } = useGetRefillablePrescriptionsQuery();
 
   const isCernerPilot = useSelector(selectCernerPilotFlag);
+
+  useOracleHealthAlertTracking({
+    warningActionName:
+      dataDogActionNames.oracleHealthTransition
+        .T45_WARNING_ALERT_DISPLAYED_REFILL,
+    errorActionName:
+      dataDogActionNames.oracleHealthTransition.T3_ERROR_ALERT_DISPLAYED_REFILL,
+  });
 
   const [bulkRefillPrescriptions, result] = useBulkRefillPrescriptionsMutation({
     fixedCacheKey: 'bulk-refill-request',
@@ -195,12 +204,12 @@ const RefillPrescriptionsV2 = () => {
 
   const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
-      const facilityIds = [
+      const facilityId = [
         ...new Set(selectedRefillList.map(rx => rx.stationNumber)),
       ];
       datadogRum.addAction(
         dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON,
-        { facilityIds },
+        { facilityId },
       );
       setRefillStatus(REFILL_STATUS.IN_PROGRESS);
       window.scrollTo(0, 0);
@@ -342,6 +351,27 @@ const RefillPrescriptionsV2 = () => {
         >
           Medications
         </h1>
+        <Link
+          data-testid="in-progress-link"
+          to="/in-progress"
+          data-dd-action-name={
+            dataDogActionNames.refillPage
+              .GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK
+          }
+        >
+          Go to your in-progress medications
+        </Link>
+        <span className="vads-u-margin-x--1">|</span>
+        <Link
+          data-testid="history-link"
+          to="/history"
+          data-dd-action-name={
+            dataDogActionNames.refillPage
+              .GO_TO_REVIEW_AND_PRINT_MEDICATION_HISTORY_LINK
+          }
+        >
+          Review and print list of medications
+        </Link>
         {refillAlertList.length > 0 && (
           <DelayedRefillAlert
             dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
@@ -380,7 +410,6 @@ const RefillPrescriptionsV2 = () => {
                   <strong>Note:</strong> Note: If you can’t find the medication
                   you’re looking for, you may need to renew it before you can
                   refill it.
-                  {/* TODO: This link needs to be updated to the Medications List page filtered for renewable meds */}
                   <Link
                     data-testid="medications-page-link"
                     className="vads-u-margin-top--2 vads-u-display--block"
