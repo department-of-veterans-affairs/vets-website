@@ -60,7 +60,7 @@
           "from": "1999-01-03",
           "to": "1999-01-03"
         },
-        "conditionsTreated": "Conditions",
+        "conditionsTreated": [{ "name": "Conditions", "releaseInfo": true }],
         "name": "Hospital",
         "address": {
           "view:militaryBaseDescription": {},
@@ -87,7 +87,7 @@
           "from": "1999-01-04",
           "to": "1999-01-05"
         },
-        "conditionsTreated": "Conditions 2",
+        "conditionsTreated": [{ "name": "Conditions 2", "releaseInfo": true }],
         "name": "Hospital 2",
         "address": {
           "view:militaryBaseDescription": {},

@@ -8,6 +8,7 @@ import {
   onNavBackRemoveAddingItem,
   createArrayBuilderUpdatedPath,
   getArrayIndexFromPathName,
+  assignGetItemName,
   initGetText,
   defaultSummaryPageScrollAndFocusTarget,
   defaultItemPageScrollAndFocusTarget,
@@ -17,14 +18,15 @@ import {
   getDependsPath,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
+import ArrayBuilderInternalLoopPage from './ArrayBuilderInternalLoopPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
-import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**
  * @typedef {Object} ArrayBuilderPages
  * @property {function(FormConfigPage): FormConfigPage} [introPage] Intro page which should be used for required flow
  * @property {function(FormConfigPage): FormConfigPage} summaryPage Summary page which includes Cards with edit/remove, and the Yes/No field
  * @property {function(FormConfigPage): FormConfigPage} itemPage A repeated page corresponding to an item
+ * @property {function(FormConfigPage): FormConfigPage} [internalLoopPage] Optional item page that allows you to create nested loop pages
  */
 
 /**
@@ -304,26 +306,6 @@ export function validateMinItems(minItems) {
   }
 }
 
-export function assignGetItemName(options) {
-  const safeGetItemName = getItemFn => {
-    return (item, index, fullData) => {
-      try {
-        return getItemFn(item, index, fullData);
-      } catch (e) {
-        return null;
-      }
-    };
-  };
-
-  if (options.getItemName) {
-    return safeGetItemName(options.getItemName);
-  }
-  if (options.text?.getItemName) {
-    return safeGetItemName(options.text.getItemName);
-  }
-  return DEFAULT_ARRAY_BUILDER_TEXT.getItemName;
-}
-
 /**
  * README: {@link https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/platform/forms-system/src/js/patterns/array-builder/README.md|Array Builder Usage/Guidance/Examples}
  *
@@ -452,7 +434,11 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       });
       return pageConfig;
     },
+    // internalLoopPage uses itemPage verify & setup function
   };
+
+  pageBuilderVerifyAndSetup.internalLoopPage =
+    pageBuilderVerifyAndSetup.itemPage;
 
   // Verify and setup any initial page options
   pageBuilderCallback(pageBuilderVerifyAndSetup);
@@ -782,6 +768,122 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
             minItems,
             ...(hasMaxItemsFn ? {} : { maxItems }), // static only when numeric, else computed at runtime
             items: pageConfig.schema,
+          },
+        },
+      },
+    };
+  };
+
+  // Page that supports a nested array list loop one level deep
+  pageBuilder.internalLoopPage = pageConfig => {
+    const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
+    const { path, nestedArrayOptions } = pageConfig;
+    const hasInternalMaxItemsFn =
+      typeof nestedArrayOptions.maxItems === 'function';
+    const nestedMinItems = nestedArrayOptions.minItems || null;
+
+    verifyRequiredPropsPageConfig('itemPage', requiredOpts, pageConfig);
+    verifyRequiredArrayBuilderOptions(nestedArrayOptions, [
+      'arrayPathKeys',
+      'nounSingular',
+      'nounPlural',
+      'required',
+    ]);
+
+    validateRequired(nestedArrayOptions.required);
+    validateReviewPath(reviewPath);
+    validateMinItems(nestedMinItems);
+
+    const { onNavBack, onNavForward } = getNavItem(path);
+    const itemPageProps = {
+      arrayPath,
+      getIntroPath,
+      getSummaryPath,
+      reviewRoute: reviewPath,
+      required: nestedArrayOptions.required,
+      getText,
+      // duplicateChecks,
+      currentPath: path,
+      nestedArrayOptions,
+      userText,
+    };
+
+    const arrayPathInternal = nestedArrayOptions.arrayPathKeys.slice(-1)[0];
+
+    // when options.maxItems is a function, compute numeric maxItems value
+    const computeMaxItems = hasInternalMaxItemsFn
+      ? (formData, schema) => {
+          const evaluatedMax = nestedArrayOptions.maxItems(maxItems, formData);
+          return {
+            ...schema,
+            ...(Number.isFinite(evaluatedMax)
+              ? { maxItems: evaluatedMax }
+              : {}),
+          };
+        }
+      : null;
+
+    // If the user defines their own CustomPage to override ArrayBuilderItemPage,
+    // then we should at least give them all the same props that we use for parity.
+    // In the future, it would be nice to extract component features as a whole
+    // to pass to a consumer's CustomPage as well, e.g. NavButtons, rerouting feature
+    const CustomPage = pageConfig.CustomPage
+      ? props => (
+          <pageConfig.CustomPage {...props} arrayBuilder={itemPageProps} />
+        )
+      : ArrayBuilderInternalLoopPage(itemPageProps);
+
+    return {
+      showPagePerItem: true,
+      allowPathWithNoItems: true,
+      arrayPath,
+      CustomPageReview: () => null,
+      customPageUsesPagePerItemData: true,
+      scrollAndFocusTarget:
+        pageConfig.scrollAndFocusTarget || defaultItemPageScrollAndFocusTarget,
+      onNavBack,
+      onNavForward: props => {
+        return onNavForward({ ...props, fullData: {} });
+      },
+      ...pageConfig,
+      ...(pageConfig.depends
+        ? { depends: safeDependsItem(pageConfig.depends) }
+        : {}),
+      CustomPage,
+      uiSchema: {
+        [arrayPath]: {
+          items: {
+            [arrayPathInternal]: {
+              ...pageConfig.uiSchema?.[arrayPathInternal],
+              ...(computeMaxItems && {
+                'ui:options': { updateSchema: computeMaxItems },
+              }),
+            },
+          },
+        },
+      },
+      schema: {
+        type: 'object',
+        properties: {
+          [arrayPath]: {
+            type: 'array',
+            items: {
+              ...pageConfig.schema,
+              properties: {
+                ...pageConfig.schema.properties,
+                [arrayPathInternal]: {
+                  type: 'array',
+                  ...pageConfig.schema.properties[arrayPathInternal],
+                  ...(nestedMinItems !== null
+                    ? { minItems: nestedMinItems }
+                    : {}),
+                  // static only when numeric, else computed at runtime
+                  ...(hasInternalMaxItemsFn
+                    ? {}
+                    : { maxItems: nestedArrayOptions.maxItems }),
+                },
+              },
+            },
           },
         },
       },

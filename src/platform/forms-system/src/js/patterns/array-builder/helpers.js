@@ -16,6 +16,7 @@ import {
   dispatchDuplicateItemError,
 } from './ArrayBuilderEvents';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
+import { webComponentList } from '../../web-component-fields/webComponentList';
 
 // Previously set to '_metadata', but upon saving, the Ruby gem 'olivebranch'
 // converts this to 'Metadata', then upon returning to the form, this key is
@@ -29,6 +30,26 @@ export const META_DATA_KEY = 'metadata';
  */
 export function getArrayUrlSearchParams(search = window?.location?.search) {
   return new URLSearchParams(search);
+}
+
+export function assignGetItemName(options) {
+  const safeGetItemName = getItemFn => {
+    return (item, index, fullData) => {
+      try {
+        return getItemFn(item, index, fullData);
+      } catch (e) {
+        return null;
+      }
+    };
+  };
+
+  if (options.getItemName) {
+    return safeGetItemName(options.getItemName);
+  }
+  if (options.text?.getItemName) {
+    return safeGetItemName(options.text.getItemName);
+  }
+  return DEFAULT_ARRAY_BUILDER_TEXT.getItemName;
 }
 
 /**
@@ -412,6 +433,61 @@ export const defaultItemPageScrollAndFocusTarget = () => {
   } else {
     focusByOrder([`form ${headerLevel}`, 'va-segmented-progress-bar']);
   }
+};
+
+/**
+ * Focus on internal (nested) page header, and account for minimal header usage
+ */
+export const focusOnHeader = (checkMinimalHeader = isMinimalHeaderPath) => {
+  setTimeout(() => {
+    const headerLevel = checkMinimalHeader() ? '1' : '3';
+    focusElement(`h${headerLevel}`);
+    scrollToTop();
+  });
+};
+
+const webComponentWithError = webComponentList
+  .map(selector => `${selector}[error]`)
+  .join(', ');
+/**
+ * Focus on incomplete fields, or max items alert on nested array page
+ * submission
+ * @param {Object} options
+ * @param {boolean} options.skipMaxItemsAlert - If true, will skip focusing on
+ * the max items alert, and only focus on the incomplete item alert
+ */
+export const scrollAndFocusPage = ({
+  skipMaxItemsAlert = true,
+  doc = document,
+} = {}) => {
+  setTimeout(() => {
+    const selectors = [
+      'va-alert[closeable]', // success alert
+      skipMaxItemsAlert ? '' : 'va-alert[status="warning"]', // max items warning
+      'va-card[data-error="true"] va-alert', // incomplete item error
+      webComponentWithError, // focusable web component with an error
+    ]
+      .filter(Boolean)
+      .join(', ');
+
+    scrollTo(selectors);
+
+    const el = doc.querySelector(selectors);
+    const tag = el?.tagName.toLowerCase() || '';
+
+    // Focus on the first focusable element on the page, and then within the web
+    // component if it's not an alert
+    if (tag.startsWith('va-') && tag !== 'va-alert') {
+      focusElement(
+        // tabbale elements
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        null,
+        el,
+      );
+    } else {
+      focusElement(el);
+    }
+  }, 150);
 };
 
 export const replaceItemInFormData = ({

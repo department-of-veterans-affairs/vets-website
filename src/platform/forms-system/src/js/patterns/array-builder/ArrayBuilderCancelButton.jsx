@@ -31,6 +31,7 @@ export function formatPath(path) {
  *   reviewRoute: string,
  *   introRoute: string,
  *   getText: ArrayBuilderGetText,
+ *   nestedArrayCallback: () => void
  * }} props
  */
 const ArrayBuilderCancelButton = ({
@@ -44,6 +45,7 @@ const ArrayBuilderCancelButton = ({
   className,
   reviewRoute,
   required,
+  nestedArrayCallback = null,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const cancelButtonRef = useRef(null);
@@ -75,7 +77,7 @@ const ArrayBuilderCancelButton = ({
   function hideCancelConfirmationModal() {
     setIsModalVisible(false);
     if (cancelButtonRef.current) {
-      focusElement(cancelButtonRef.current);
+      focusElement('button', {}, cancelButtonRef.current);
     }
   }
 
@@ -87,33 +89,41 @@ const ArrayBuilderCancelButton = ({
   }
 
   function cancelAction() {
-    let newArrayData = arrayData;
-    let path;
+    // Nested array code doesn't change the URL and handles restoring data to
+    // previous state; but needs to return a boolean if cancel action needs to
+    // proceed
+    const continueAction =
+      typeof nestedArrayCallback === 'function' ? nestedArrayCallback() : true;
 
-    if (isAdd) {
-      newArrayData = removeCurrentItem();
+    if (continueAction) {
+      let newArrayData = arrayData;
+      let path;
+
+      if (isAdd) {
+        newArrayData = removeCurrentItem();
+      }
+
+      hideCancelConfirmationModal();
+
+      if (isReview) {
+        path = reviewRoute;
+      } else if (isEdit) {
+        path = summaryRoute;
+      } else {
+        // Required flow goes:
+        // intro -> items -> summary -> items -> summary
+        // so if we have no items, go back to intro
+        // otherwise go to summary
+        //
+        // Optional flow goes:
+        // summary -> items -> summary, so go back to summary
+        path =
+          required(formData) && introRoute && !newArrayData?.length
+            ? introRoute
+            : summaryRoute;
+      }
+      goToPath(formatPath(path));
     }
-
-    hideCancelConfirmationModal();
-
-    if (isReview) {
-      path = reviewRoute;
-    } else if (isEdit) {
-      path = summaryRoute;
-    } else {
-      // Required flow goes:
-      // intro -> items -> summary -> items -> summary
-      // so if we have no items, go back to intro
-      // otherwise go to summary
-      //
-      // Optional flow goes:
-      // summary -> items -> summary, so go back to summary
-      path =
-        required(formData) && introRoute && !newArrayData?.length
-          ? introRoute
-          : summaryRoute;
-    }
-    goToPath(formatPath(path));
   }
 
   return (
@@ -192,6 +202,7 @@ ArrayBuilderCancelButton.propTypes = {
   summaryRoute: PropTypes.string.isRequired,
   className: PropTypes.string,
   introRoute: PropTypes.string,
+  nestedArrayCallback: PropTypes.func,
 };
 
 export default connect(
