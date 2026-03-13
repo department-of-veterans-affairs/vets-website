@@ -155,10 +155,10 @@ const App = ({ children }) => {
             ref={measuredRef}
             className="vads-l-grid-container vads-u-padding-left--2"
           >
+            <Element name="topScrollElement" />
             {mhvMrDown === externalServiceStatus.down && !bypassDowntime ? (
               <>
                 {atLandingPage && <MrBreadcrumbs />}
-                <Element name="topScrollElement" />
                 <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
                   Medical records
                 </h1>
@@ -175,7 +175,6 @@ const App = ({ children }) => {
             ) : (
               <HeaderSectionProvider>
                 <MrBreadcrumbs />
-                <Element name="topScrollElement" />
                 <div className="vads-l-row">
                   <div className="medium-screen:vads-l-col--8">{children}</div>
                 </div>
