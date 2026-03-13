@@ -35,8 +35,8 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - Use `yarn test:unit --coverage` to run tests with coverage
 - Use `yarn test:coverage-app {app-name}` to run coverage for a specific app
 - Use `yarn cy:open` to open Cypress UI test runner for a user
-- Use `yarn cy:run` to run Cypress tests from command line for agent testing
-- Before running Cypress tests, ensure vets-website is served on port 3001 with `yarn watch --env entry=app-name` or `nohup yarn watch --env entry=app-name > /dev/null 2>&1 &`
+- Use `yarn cy:run --spec "path/to/test.cypress.spec.js"` to run Cypress tests — automatically resolves the app, starts a dev server, and provides structured failure output
+- The dev server is managed automatically via `--serve` (default). No need to start `yarn watch` manually.
 - Prefer Cypress tests over manual browser testing
 - Cypress tests require vets-api to NOT be running (APIs are mocked by tests)
 
@@ -45,14 +45,13 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - Use `yarn test:unit src/applications/path/to/tests/**/*.unit.spec.js` to run tests with glob patterns
 - Use `yarn test:unit --help` for test runner usage help
 - Use `yarn cy:run --spec "path/to/test-file.cypress.spec.js"` to run specific Cypress tests
-- Use `yarn cy:run --browser chrome` to run Cypress tests on specific browser
+- Use `yarn cy:run --spec "..." --retry --video` to run with retries and video recording
 - Use `yarn cy:run:localreports app-folder` to run Cypress tests with reports
 
 ## Cypress testing workflow
-1. Ensure localhost:3001 is running. If it is not then start dev server using yarn watch in the background.
-2. Start dev server in background with `nohup yarn watch --env entry=app-name > /dev/null 2>&1 &`
-3. Run Cypress tests with `yarn cy:run --spec "path/to/cypress-test.js"`
-4. Stop the dev server when done testing.
+1. Run Cypress tests with `yarn cy:run --spec "path/to/cypress-test.js"` — the dev server starts and stops automatically.
+2. On failure, read the structured summary (failures, command log, screenshots, diagnostics) to diagnose issues.
+3. If a dev server is already running on port 3001, use `--no-serve` to skip auto server management.
 
 ## Mock API Development
 - Use `yarn mock-api --responses path/to/responses.js` to run mock API server
