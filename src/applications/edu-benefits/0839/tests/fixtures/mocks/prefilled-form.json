@@ -1,0 +1,16 @@
+{
+  "formData": {
+    "applicantName": {
+      "fullName": {
+        "first": "MITCHELL",
+        "last": "JENKINS"
+      }
+    },
+    "dateOfBirth": "1985-01-01"
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/applicant/information"
+  }
+}

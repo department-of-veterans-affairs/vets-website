@@ -172,6 +172,7 @@ const responses = {
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     return res.json(user.mhvUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
+    // return res.json(user.loa1UserLoginGov); // LOA1 user w/login.gov
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
     // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
     // return res.json(user.badAddress); // user with bad address

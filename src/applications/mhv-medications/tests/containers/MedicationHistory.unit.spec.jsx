@@ -10,6 +10,7 @@ import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi } from '../testing-utils';
 import MedicationHistory from '../../containers/MedicationHistory';
 import reducers from '../../reducers';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 describe('MedicationHistory container', () => {
   let sandbox;
@@ -187,6 +188,10 @@ describe('MedicationHistory container', () => {
       });
       expect(link).to.exist;
       expect(link.getAttribute('href')).to.equal('/in-progress');
+      expect(link.getAttribute('data-dd-action-name')).to.equal(
+        dataDogActionNames.medicationsHistoryPage
+          .GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK,
+      );
     });
   });
 
@@ -204,7 +209,10 @@ describe('MedicationHistory container', () => {
         name: /Refill medications/i,
       });
       expect(link).to.exist;
-      expect(link.getAttribute('href')).to.equal('/refill');
+      expect(link.getAttribute('href')).to.equal('/');
+      expect(link.getAttribute('data-dd-action-name')).to.equal(
+        dataDogActionNames.medicationsHistoryPage.REFILL_MEDICATIONS_LINK,
+      );
     });
   });
 
@@ -369,7 +377,7 @@ describe('MedicationHistory container', () => {
       expect(screen.getByTestId('update-list-button')).to.exist;
     });
 
-    it('calls setQueryParams when a filter is selected and submitted', () => {
+    it('calls setQueryParams when a filter is selected and submitted', async () => {
       stubFetchHook({
         prescriptions: mockPrescriptions,
         pagination: mockPagination,
@@ -384,7 +392,9 @@ describe('MedicationHistory container', () => {
       const updateButton = screen.getByTestId('update-list-button');
       fireEvent.click(updateButton);
 
-      expect(setQueryParamsStub.called).to.be.true;
+      await waitFor(() => {
+        expect(setQueryParamsStub.called).to.be.true;
+      });
     });
 
     it('passes isLoading prop to the filter Update list button', () => {

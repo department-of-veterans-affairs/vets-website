@@ -77,9 +77,10 @@ class IntroductionPage extends React.Component {
               for disability benefits 180 to 90 days before they leave the
               military through the Benefits Delivery at Discharge (BDD) program.
             </p>
-            <a href={BDD_INFO_URL}>
-              Learn more about Benefits Delivery at Discharge (BDD)
-            </a>
+            <va-link
+              href={BDD_INFO_URL}
+              text="Learn more about Benefits Delivery at Discharge (BDD)"
+            />
             <p />
           </>
         ) : (
@@ -202,10 +203,10 @@ class IntroductionPage extends React.Component {
                     benefits.
                   </p>
                   <p>
-                    <a href="/disability/how-to-file-claim/supplemental-forms/">
-                      Learn what additional forms you may need to file with your
-                      disability claim
-                    </a>
+                    <va-link
+                      href="/disability/how-to-file-claim/supplemental-forms/"
+                      text="Learn what additional forms you may need to file with your disability claim"
+                    />
                     .
                   </p>
                 </>
@@ -224,9 +225,10 @@ class IntroductionPage extends React.Component {
                 (VSO), can help you fill out your claim.{' '}
               </p>
               <p>
-                <a href="/disability/get-help-filing-claim/">
-                  Get help filing your claim
-                </a>
+                <va-link
+                  href="/disability/get-help-filing-claim/"
+                  text="Get help filing your claim"
+                />
                 .
               </p>
             </va-process-list-item>

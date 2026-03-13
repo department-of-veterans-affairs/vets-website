@@ -8,30 +8,41 @@ import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import { useDefaultFormData } from '../hooks/useDefaultFormData';
 import formConfig from '../config/form';
 
-// static constants
+const EXCLUDED_DOMAINS = [
+  'resource.digital.voice.va.gov',
+  'browser-intake-ddog-gov.com',
+  'google-analytics.com',
+  'eauth.va.gov',
+  'api.va.gov',
+];
+
 const BROWSER_MONITORING_PROPS = {
   toggleName: 'form107959aBrowserMonitoringEnabled',
   applicationId: '0f3d4991-c7b5-4a28-89c6-ea0e3f47b291',
   clientToken: 'puba4a6137df6bf240ff5e86ec697348c71',
   service: 'ivc-champva-claims-10-7959a',
   version: '1.0.0',
-  // record 100% of staging sessions, but only 20% of production
-  sessionReplaySampleRate:
-    environment.vspEnvironment() === 'staging' ? 100 : 20,
-  sessionSampleRate: 50,
-  beforeSend: event => {
-    // Prevent PII from being sent to Datadog with click actions.
-    if (event.action?.type === 'click') {
-      // eslint-disable-next-line no-param-reassign
-      event.action.target.name = 'Clicked item';
-    }
-    return true;
+  env: environment.vspEnvironment(),
+  sessionSampleRate: 100,
+  sessionReplaySampleRate: 100,
+  trackUserInteractions: true,
+  trackFrustrations: true,
+  trackResources: true,
+  trackLongTasks: true,
+  defaultPrivacyLevel: 'mask-user-input',
+  beforeSend: ({ action, type, resource }) => {
+    // eslint-disable-next-line no-param-reassign
+    if (action?.type === 'click') action.target.name = 'Form item';
+    return !(
+      type === 'resource' &&
+      EXCLUDED_DOMAINS.some(domain => resource.url.includes(domain))
+    );
   },
 };
 
 const App = ({ location, children }) => {
-  const isAppLoading = useSelector(
-    state => state.featureToggles?.loading || state.user?.profile?.loading,
+  const isAppLoading = useSelector(state =>
+    Boolean(state.featureToggles?.loading || state.user?.profile?.loading),
   );
 
   useDefaultFormData();

@@ -29,5 +29,6 @@ export default {
     properties: {
       receivedSupportLastYear: yesNoSchema,
     },
+    required: ['receivedSupportLastYear'],
   },
 };
