@@ -9,35 +9,50 @@ import { errorMessages } from '../../content/contactInfo';
 
 describe('contactInfoValidation', () => {
   const getData = ({
-    email = true,
     phone = true,
+    email = true,
     address = true,
     homeless = false,
     city = 'city',
     stateCode = 'CA',
     zipCode = '12345',
     country = 'US',
-  } = {}) => ({
-    veteran: {
-      email: email ? 'placeholder' : '',
-      phone: phone ? { phoneNumber: 'placeholder' } : {},
-      address: address
-        ? {
-            addressLine1: 'placeholder',
-            city,
-            stateCode,
-            zipCode,
-            countryCodeIso2: country,
-          }
-        : {},
-    },
-    homeless,
-  });
+    newContactPage = false,
+  } = {}) => {
+    let emailAddress;
+
+    if (newContactPage) {
+      emailAddress = email
+        ? { emailAddress: 'test@test.com' }
+        : { emailAddress: '' };
+    } else {
+      emailAddress = email ? 'test@test.com' : '';
+    }
+
+    return {
+      veteran: {
+        email: emailAddress,
+        phone: phone ? { phoneNumber: 'placeholder' } : {},
+        address: address
+          ? {
+              addressLine1: 'placeholder',
+              city,
+              stateCode,
+              zipCode,
+              countryCodeIso2: country,
+            }
+          : {},
+      },
+      homeless,
+    };
+  };
+
   it('should not show an error when data is available', () => {
     const addError = sinon.spy();
     contactInfoValidation({ addError }, null, getData());
     expect(addError.notCalled).to.be.true;
   });
+
   it('should have an error when email is missing', () => {
     const addError = sinon.spy();
     contactInfoValidation({ addError }, null, getData({ email: false }));
@@ -45,6 +60,7 @@ describe('contactInfoValidation', () => {
     expect(addError.called).to.be.true;
     expect(addError.args).to.deep.equal(errors);
   });
+
   it('should have multiple errors when email & phone are missing', () => {
     const addError = sinon.spy();
     contactInfoValidation(
@@ -59,6 +75,7 @@ describe('contactInfoValidation', () => {
     expect(addError.called).to.be.true;
     expect(addError.args).to.deep.equal(errors);
   });
+
   it('should have multiple errors when everything is missing', () => {
     const addError = sinon.spy();
     contactInfoValidation(
@@ -75,6 +92,7 @@ describe('contactInfoValidation', () => {
     expect(addError.called).to.be.true;
     expect(addError.args).to.deep.equal(errors);
   });
+
   it('should not include address when homeless is true', () => {
     const addError = sinon.spy();
     contactInfoValidation(
@@ -90,16 +108,19 @@ describe('contactInfoValidation', () => {
     contactInfoValidation({ addError }, null, getData({ city: '' }));
     expect(addError.called).to.be.true;
   });
+
   it('should show invalid address when missing required state code value', () => {
     const addError = sinon.spy();
     contactInfoValidation({ addError }, null, getData({ stateCode: '' }));
     expect(addError.called).to.be.true;
   });
+
   it('should show invalid address when missing required zip code value', () => {
     const addError = sinon.spy();
     contactInfoValidation({ addError }, null, getData({ zipCode: '' }));
     expect(addError.called).to.be.true;
   });
+
   it('should show invalid address when missing required city in non-US address', () => {
     const addError = sinon.spy();
     contactInfoValidation(
@@ -109,6 +130,7 @@ describe('contactInfoValidation', () => {
     );
     expect(addError.called).to.be.true;
   });
+
   it('should have a valid address when missing zip code in non-US address', () => {
     const addError = sinon.spy();
     contactInfoValidation(
@@ -140,28 +162,39 @@ describe('contactInfo995Validation', () => {
     stateCode = 'CA',
     zipCode = '12345',
     country = 'US',
-  } = {}) => ({
-    housingRisk,
-    veteran: {
-      email: email ? 'placeholder' : '',
-      homePhone: homePhone ? { phoneNumber: 'placeholder' } : {},
-      mobilePhone: mobilePhone ? { phoneNumber: 'placeholder' } : {},
-      address: address
-        ? {
-            addressLine1: 'placeholder',
-            city,
-            stateCode,
-            zipCode,
-            countryCodeIso2: country,
-          }
-        : {},
-    },
-  });
+    newContactPage = false,
+  } = {}) => {
+    let emailAddress = 'test@test.com';
+
+    if (newContactPage) {
+      emailAddress = { emailAddress };
+    }
+
+    return {
+      housingRisk,
+      veteran: {
+        email: email ? emailAddress : '',
+        homePhone: homePhone ? { phoneNumber: 'placeholder' } : {},
+        mobilePhone: mobilePhone ? { phoneNumber: 'placeholder' } : {},
+        address: address
+          ? {
+              addressLine1: 'placeholder',
+              city,
+              stateCode,
+              zipCode,
+              countryCodeIso2: country,
+            }
+          : {},
+      },
+    };
+  };
+
   it('should not show an error when data is available', () => {
     const addError = sinon.spy();
     contactInfo995Validation({ addError }, null, getData());
     expect(addError.notCalled).to.be.true;
   });
+
   it('should not show an error when adddress is missing and Veteran has housing risk', () => {
     const addError = sinon.spy();
     contactInfo995Validation(
@@ -179,6 +212,7 @@ describe('contactInfo995Validation', () => {
     expect(addError.called).to.be.true;
     expect(addError.args).to.deep.equal(errors);
   });
+
   it('should have one error when email & home phone are missing', () => {
     const addError = sinon.spy();
     contactInfo995Validation(
@@ -193,6 +227,7 @@ describe('contactInfo995Validation', () => {
     expect(addError.called).to.be.true;
     expect(addError.args).to.deep.equal(errors);
   });
+
   it('should have multiple errors when everything is missing', () => {
     const addError = sinon.spy();
     contactInfo995Validation(
@@ -215,6 +250,7 @@ describe('contactInfo995Validation', () => {
     expect(addError.called).to.be.true;
     expect(addError.args).to.deep.equal(errors);
   });
+
   it('should not throw an error when addError function is missing', () => {
     try {
       contactInfo995Validation();
@@ -222,5 +258,34 @@ describe('contactInfo995Validation', () => {
     } catch (error) {
       expect(error).to.be.null;
     }
+  });
+
+  describe('when the feature toggle for newContactPage is on', () => {
+    it('should check the email object for the email address instead of a plain string', () => {
+      const addError = sinon.spy();
+
+      contactInfo995Validation(
+        { addError },
+        null,
+        getData({
+          email: false,
+          homePhone: false,
+          mobilePhone: false,
+          address: false,
+          newContactPage: true,
+        }),
+      );
+
+      const errors = [
+        [errorMessages.missingEmail],
+        [errorMessages.missingHomePhone],
+        [errorMessages.missingMobilePhone],
+        [errorMessages.missingMailingAddress],
+        [errorMessages.invalidMailingAddress],
+      ];
+
+      expect(addError.called).to.be.true;
+      expect(addError.args).to.deep.equal(errors);
+    });
   });
 });

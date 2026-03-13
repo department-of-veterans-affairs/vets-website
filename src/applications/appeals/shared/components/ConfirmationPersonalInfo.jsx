@@ -4,6 +4,7 @@ import { chapterHeaderClass } from './ConfirmationSummary';
 import { ConfirmationVeteranID } from './ConfirmationVeteranID';
 import { ConfirmationVeteranContact } from './ConfirmationVeteranContact';
 import { convertBoolResponseToYesNo } from '../utils/form-data-display';
+import { common } from '../props';
 
 const ConfirmationPersonalInfo = data => {
   const {
@@ -11,6 +12,7 @@ const ConfirmationPersonalInfo = data => {
     homeless = null,
     hasHomeAndMobilePhone = false,
     livingSituation = null,
+    newContactPage = false,
     userFullName = {},
     veteran = {},
   } = data;
@@ -42,6 +44,7 @@ const ConfirmationPersonalInfo = data => {
           </li>
         )}
         <ConfirmationVeteranContact
+          newContactPage={newContactPage}
           veteran={veteran}
           hasHomeAndMobilePhone={hasHomeAndMobilePhone}
         />
@@ -55,15 +58,9 @@ ConfirmationPersonalInfo.propTypes = {
   hasHomeAndMobilePhone: PropTypes.bool,
   hasLivingSituationChapter: PropTypes.bool,
   homeless: PropTypes.bool,
+  newContactPage: PropTypes.bool,
   userFullName: PropTypes.shape({}),
-  veteran: PropTypes.shape({
-    vaFileLastFour: PropTypes.string,
-    address: PropTypes.shape({}),
-    email: PropTypes.string,
-    phone: PropTypes.shape({}),
-    homePhone: PropTypes.shape({}),
-    mobilephone: PropTypes.shape({}),
-  }),
+  veteran: common.veteran,
 };
 
 export default ConfirmationPersonalInfo;

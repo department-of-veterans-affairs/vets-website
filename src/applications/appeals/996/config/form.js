@@ -18,6 +18,7 @@ import addIssue from '../../shared/pages/addIssue';
 import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
 import authorization from '../pages/authorization';
 import contactInfo from '../pages/contactInformation';
+import contactInfoNew from '../pages/contactInformationNew';
 import contestableIssuesPage from '../pages/contestableIssues';
 import homeless from '../pages/homeless';
 import informalConference from '../pages/informalConferenceChoice';
@@ -70,7 +71,6 @@ const formConfig = {
       services.appeals, // LOA3 & SSN
     ],
   },
-
   formId: VA_FORM_IDS.FORM_20_0996,
   saveInProgress: {
     messages: {
@@ -85,7 +85,6 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-
   version: migrations.length,
   migrations,
   prefillTransformer,
@@ -97,7 +96,6 @@ const formConfig = {
     notFound: errorMessages.savedFormNotFound,
     noAuth: errorMessages.savedFormNoAuth,
   },
-
   title: formTitle,
   subTitle,
   defaultDefinitions: {},
@@ -105,7 +103,6 @@ const formConfig = {
   submissionError,
   // showReviewErrors: true,
   reviewErrors,
-
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
@@ -113,12 +110,10 @@ const formConfig = {
   reviewEditFocusOnHeaders: true,
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
-
   formOptions: {
     focusOnAlertRole: true,
     useWebComponentForNavigation: true,
   },
-
   additionalRoutes: [
     {
       path: 'start',
@@ -127,7 +122,6 @@ const formConfig = {
       depends: () => false,
     },
   ],
-
   chapters: {
     infoPages: {
       title: 'Veteran information',
@@ -146,6 +140,7 @@ const formConfig = {
           schema: homeless.schema,
           scrollAndFocusTarget: focusH3,
         },
+        ...contactInfoNew,
         ...contactInfo,
       },
     },

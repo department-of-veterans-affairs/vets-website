@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getPhoneString } from '~/platform/forms-system/src/js/utilities/data/profile';
+import { common } from '../props';
 
 export const ConfirmationVeteranContact = ({
+  newContactPage,
   veteran,
   hasHomeAndMobilePhone,
 }) => {
@@ -12,8 +14,12 @@ export const ConfirmationVeteranContact = ({
     homePhone = {},
     mobilePhone = {},
   } = veteran;
+
+  const emailAddress = newContactPage ? veteran?.email?.emailAddress : email;
+
   // Only 995 has both home & mobile phone (currently)
   const phone = hasHomeAndMobilePhone ? mobilePhone : veteran.phone;
+
   return (
     <>
       {hasHomeAndMobilePhone && (
@@ -60,9 +66,10 @@ export const ConfirmationVeteranContact = ({
         </div>
         <div
           className="vads-u-margin-bottom--2 dd-privacy-hidden"
+          data-testid="veteran-email"
           data-dd-action-name="email address"
         >
-          {email}
+          {emailAddress}
         </div>
       </li>
       <li>
@@ -89,38 +96,6 @@ export const ConfirmationVeteranContact = ({
 
 ConfirmationVeteranContact.propTypes = {
   hasHomeAndMobilePhone: PropTypes.bool,
-  veteran: PropTypes.shape({
-    vaFileLastFour: PropTypes.string,
-    address: PropTypes.shape({
-      addressLine1: PropTypes.string,
-      addressLine2: PropTypes.string,
-      addressLine3: PropTypes.string,
-      addressType: PropTypes.string,
-      city: PropTypes.string,
-      countryName: PropTypes.string,
-      internationalPostalCode: PropTypes.string,
-      province: PropTypes.string,
-      stateCode: PropTypes.string,
-      zipCode: PropTypes.string,
-    }),
-    email: PropTypes.string,
-    phone: PropTypes.shape({
-      countryCode: PropTypes.string,
-      areaCode: PropTypes.string,
-      phoneNumber: PropTypes.string,
-      phoneNumberExt: PropTypes.string,
-    }),
-    homePhone: PropTypes.shape({
-      countryCode: PropTypes.string,
-      areaCode: PropTypes.string,
-      phoneNumber: PropTypes.string,
-      phoneNumberExt: PropTypes.string,
-    }),
-    mobilePhone: PropTypes.shape({
-      countryCode: PropTypes.string,
-      areaCode: PropTypes.string,
-      phoneNumber: PropTypes.string,
-      phoneNumberExt: PropTypes.string,
-    }),
-  }),
+  newContactPage: PropTypes.bool,
+  veteran: common.veteran,
 };

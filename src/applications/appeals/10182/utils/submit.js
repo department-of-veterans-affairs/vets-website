@@ -4,6 +4,7 @@ import { returnUniqueIssues } from '../../shared/utils/issues';
 import { replaceSubmittedData } from '../../shared/utils/replace';
 import { fixDateFormat } from '../../shared/utils/dates';
 import { removeEmptyEntries, getIso2Country } from '../../shared/utils/submit';
+import { newContactPagesActive } from '../../shared/utils';
 
 /**
  * Combine issues values into one field
@@ -158,14 +159,15 @@ export const getAddress = (formData = {}) => {
 };
 
 /**
- * Return v0 or v1 key with email data
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable email
  */
 export const getEmail = (formData = {}) => {
-  // v0 uses emailAddressText
-  // v1 uses email
-  return { email: formData.veteran?.email || '' };
+  if (!newContactPagesActive(formData)) {
+    return { email: formData.veteran?.email || '' };
+  }
+
+  return { email: formData?.veteran?.email?.emailAddress || '' };
 };
 
 /**

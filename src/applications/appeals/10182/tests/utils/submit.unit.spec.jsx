@@ -333,8 +333,20 @@ describe('getEmail', () => {
   it('should return empty string', () => {
     expect(getEmail()).to.deep.equal({ email: '' });
   });
+
   it('should return v1 email', () => {
     const data = { veteran: { email: 'test@test.com' } };
     expect(getEmail(data)).to.deep.equal({ email: 'test@test.com' });
+  });
+
+  describe('when the feature toggle for newContactPage is on', () => {
+    it('should return the correct part of the email object', () => {
+      const data = {
+        newContactPage: true,
+        veteran: { email: { emailAddress: 'test@test.com' } },
+      };
+
+      expect(getEmail(data)).to.deep.equal({ email: 'test@test.com' });
+    });
   });
 });

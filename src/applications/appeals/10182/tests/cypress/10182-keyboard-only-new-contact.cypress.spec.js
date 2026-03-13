@@ -1,21 +1,28 @@
 /**
  * E2E test for keyboard only navigation on 10182 form.
  */
-import manifest from '../manifest.json';
-import formConfig from '../config/form';
-import mockInProgress from './fixtures/mocks/in-progress-forms.json';
-import mockSubmit from './fixtures/mocks/application-submit.json';
-import { CONTESTABLE_ISSUES_API, SUBMIT_URL } from '../constants/apis';
-import mockData from './fixtures/data/maximal-test.json';
-import { CONTACT_INFO_PATH } from '../../shared/constants';
-import * as h from '../../shared/tests/cypress.helpers';
-import cypressSetup from '../../shared/tests/cypress.setup';
+import manifest from '../../manifest.json';
+import formConfig from '../../config/form';
+import mockInProgress from '../fixtures/mocks/in-progress-forms.json';
+import mockSubmit from '../fixtures/mocks/application-submit.json';
+import { CONTESTABLE_ISSUES_API, SUBMIT_URL } from '../../constants/apis';
+import mockData from '../fixtures/data/maximal-test.json';
+import { CONTACT_INFO_PATH } from '../../../shared/constants';
+import * as h from '../../../shared/tests/cypress.helpers';
+import cypressSetup from '../../../shared/tests/cypress.setup';
 
 const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
 
 describe('Notice of Disagreement keyboard only navigation', () => {
   it('navigates through a maximal form', () => {
     cypressSetup();
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [
+          { name: 'decision_review_use_new_contact_info_page', value: true },
+        ],
+      },
+    });
 
     cy.wrap(mockData.data).as('testData');
 
@@ -50,7 +57,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
 
       // *** Contact info
       verifyUrl(CONTACT_INFO_PATH);
-      h.tabToContinue();
+      h.tabToContinueNotWC();
 
       // *** Filing deadlines
       verifyUrl(chapters.issues.pages.filingDeadlines.path);

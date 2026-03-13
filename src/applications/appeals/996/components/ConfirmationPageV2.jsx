@@ -171,6 +171,7 @@ export const ConfirmationPageV2 = () => {
       <ConfirmationPersonalInfo
         dob={profile.dob}
         homeless={data.homeless}
+        newContactPage={data?.newContactPage}
         userFullName={profile.userFullName}
         veteran={data.veteran}
       />

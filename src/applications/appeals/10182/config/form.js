@@ -15,6 +15,7 @@ import appealingVhaDenial from '../pages/appealingVhaDenial';
 import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
 import boardReview from '../pages/boardReview';
 import contactInfo from '../pages/contactInfo';
+import contactInfoNew from '../pages/contactInformationNew';
 import contestableIssues from '../pages/contestableIssues';
 import evidenceIntro from '../pages/evidenceIntro';
 import evidenceUpload from '../pages/evidenceUpload';
@@ -65,7 +66,6 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: SUBMIT_URL,
   trackingPrefix: '10182-board-appeal-',
-
   downtime: {
     requiredForPrefill: true,
     dependencies: [
@@ -74,13 +74,11 @@ const formConfig = {
       services.appeals, // LOA3 & SSN
     ],
   },
-
   formId: VA_FORM_IDS.FORM_10182,
   version: migrations.length,
   migrations,
   title: 'Request a Board Appeal',
   subTitle: 'VA Form 10182 (Notice of Disagreement)',
-
   prefillEnabled: true,
   prefillTransformer,
   verifyRequiredPrefill: true,
@@ -97,7 +95,6 @@ const formConfig = {
   submissionError,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-
   defaultDefinitions: {},
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
@@ -106,12 +103,10 @@ const formConfig = {
   reviewEditFocusOnHeaders: true,
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
-
   formOptions: {
     focusOnAlertRole: true,
     useWebComponentForNavigation: true,
   },
-
   chapters: {
     infoPages: {
       title: 'Veteran Information',
@@ -130,6 +125,7 @@ const formConfig = {
           schema: homeless.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
+        ...contactInfoNew,
         ...contactInfo,
       },
     },

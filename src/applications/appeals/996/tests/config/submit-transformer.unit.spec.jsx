@@ -7,8 +7,10 @@ import formConfig from '../../config/form';
 import { transform } from '../../config/submit-transformer';
 
 import maximalDataV2 from '../fixtures/data/maximal-test-v2.json';
+import maximalDataWithNewEmail from '../fixtures/data/maximal-test-new-email.json';
 import minimalDataV2 from '../fixtures/data/minimal-test-v2.json';
 import transformedMaximalDataV2 from '../fixtures/data/transformed/maximal-test-v2.json';
+import transformedMaximalDataWithNewEmail from '../fixtures/data/transformed/maximal-test-new-email.json';
 import transformedMinimalDataV2 from '../fixtures/data/transformed/minimal-test-v2.json';
 
 describe('transform', () => {
@@ -18,6 +20,16 @@ describe('transform', () => {
     transformedResult.data.attributes.veteran.timezone = 'America/Los_Angeles';
 
     expect(transformedResult).to.deep.equal(transformedMaximalDataV2);
+  });
+
+  it('should transform maximal-test with new email correctly', () => {
+    const transformedResult = JSON.parse(
+      transform(formConfig, maximalDataWithNewEmail),
+    );
+    // copy over variables that change based on date & location
+    transformedResult.data.attributes.veteran.timezone = 'America/Los_Angeles';
+
+    expect(transformedResult).to.deep.equal(transformedMaximalDataWithNewEmail);
   });
 
   it('should transform v2 minimal-test.json correctly with true socOptIn', () => {

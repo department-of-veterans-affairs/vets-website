@@ -1,4 +1,4 @@
-import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill';
 import set from 'platform/utilities/data/set';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 import { newContactPagesActive } from '../../shared/utils';
@@ -6,18 +6,12 @@ import { contactInfoValidation } from '../../shared/validations/contactInfo';
 
 const allContacts = ['address', 'email', 'phone'];
 
-export default profileContactInfo({
+export default profileContactInfoPages({
   content: getContent('appeal'),
-  contactInfoPageKey: 'confirmContactInfoV0',
-  contactPath: 'contact-information-v0',
   contactInfoRequiredKeys: [],
   included: allContacts,
   addressKey: 'address',
   mobilePhoneKey: 'phone',
-  // Explicit default ensures getDefaultFormState returns '' instead of undefined,
-  // so lodash merge overwrites the new pages' email object default during
-  // createInitialState (merge skips undefined values).
-  emailSchema: { type: 'string', default: '' },
   contactInfoUiSchema: {
     'ui:options': {
       updateSchema: (formData, schema) =>
@@ -30,5 +24,6 @@ export default profileContactInfo({
     'ui:required': () => true,
     'ui:validations': [contactInfoValidation],
   },
-  depends: formData => !newContactPagesActive(formData),
+  disableMockContactInfo: false,
+  depends: newContactPagesActive,
 });

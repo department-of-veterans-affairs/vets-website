@@ -1,22 +1,29 @@
 import { DEFAULT_BENEFIT_TYPE } from '../../shared/constants';
-
 import {
   getAddress,
   getConferenceTime, // v2
   getContact,
   getRep,
 } from '../utils/submit';
-
 import {
   addAreaOfDisagreement,
   addIncludedIssues,
   getPhone,
   getTimeZone,
 } from '../../shared/utils/submit';
+import { newContactPagesActive } from '../../shared/utils';
 
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   const mainTransform = formData => {
+    let emailAddress = '';
+
+    if (!newContactPagesActive(formData)) {
+      emailAddress = formData.veteran?.email;
+    } else {
+      emailAddress = formData.veteran?.email?.emailAddress;
+    }
+
     const { informalConferenceChoice } = formData;
     // v2 value may still be in the save-in-progress form data (informalConference)
     const informalConference = ['yes', 'no'].includes(informalConferenceChoice)
@@ -34,7 +41,7 @@ export function transform(formConfig, form) {
         address: getAddress(formData),
         homeless: formData.homeless || false,
         phone: getPhone(formData),
-        email: formData.veteran?.email || '',
+        email: emailAddress || '',
       },
       // HLR v2.5 gives no opt-in choice; default to true
       // Lighthouse v2 & v2.5 has this value as required

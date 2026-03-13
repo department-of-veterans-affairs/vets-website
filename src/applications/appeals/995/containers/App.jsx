@@ -66,6 +66,10 @@ export const App = ({
       toggleName: TOGGLE_KEY,
       formKey: 'scRedesign',
     },
+    {
+      toggleName: 'decisionReviewsUseNewContactPage',
+      formKey: 'newContactPage',
+    },
   ]);
   // ------- END REMOVE
 
