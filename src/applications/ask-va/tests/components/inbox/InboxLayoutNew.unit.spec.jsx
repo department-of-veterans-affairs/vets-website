@@ -265,11 +265,12 @@ describe('<InboxLayoutNew />', () => {
     expect(startingResults.length).to.equal(6);
     expect(startingResults[0].textContent).to.include('Reference number: A-2');
 
-    const searchBox = view.container.querySelector('va-text-input');
-    expect(searchBox.value).to.equal('');
+    const searchBox = view.container.querySelector('va-search-input');
+    expect(searchBox.value).to.equal(undefined);
 
     // Input a search query and apply
-    searchBox.__events.vaInput({ target: { value: 'A-3' } });
+    searchBox.value = 'A-3';
+    searchBox.dispatchEvent(new Event('submit', { bubbles: true }));
     expect(searchBox.value).to.equal('A-3');
     const buttonPair = view.container.querySelector('va-button-pair');
     buttonPair.__events.primaryClick();

@@ -1,8 +1,8 @@
 import {
   VaButtonPair,
+  VaSearchInput,
   VaSelect,
   VaSort,
-  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import React, { useState } from 'react';
@@ -34,7 +34,6 @@ export default function InboxLayoutNew({
 }) {
   const [pendingCategoriesFilter, setPendingCategoriesFilter] = useState('All');
   const [pendingStatusesFilter, setPendingStatusesFilter] = useState('All');
-  const [pendingQuery, setPendingQuery] = useState('');
   const [sortOrder, setSortOrder] = useState(
     filterAndSort.sortOptions.lastUpdate.newest,
   );
@@ -52,22 +51,23 @@ export default function InboxLayoutNew({
 
   return (
     <div id="inbox">
-      <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-        Your questions
-      </h2>
+      <h2 className="vads-u-margin--0">Your questions</h2>
       {inquiryTypes.length ? (
         <>
+          <div id="search-container">
+            <p className="vads-u-margin--0 vads-u-margin-bottom--1">
+              Enter a keyword, phrase, or question
+            </p>
+            <VaSearchInput
+              big
+              label="Enter a keyword, phrase, or question"
+              onSubmit={e => {
+                setFilters(curr => ({ ...curr, query: e.target.value }));
+                focusElement('#search-description');
+              }}
+            />
+          </div>
           <div className="filter-container">
-            <div className="search-container">
-              <VaTextInput
-                value={pendingQuery}
-                label="Search"
-                inputMode="search"
-                onVaInput={e => {
-                  setPendingQuery(e.target.value || '');
-                }}
-              />
-            </div>
             <div>
               <VaSelect
                 hint={null}
@@ -113,22 +113,21 @@ export default function InboxLayoutNew({
                 primaryLabel="Apply filters"
                 secondaryLabel="Clear all filters"
                 onPrimaryClick={() => {
-                  setFilters(() => ({
+                  setFilters(curr => ({
+                    ...curr,
                     categories: [pendingCategoriesFilter],
                     statuses: [pendingStatusesFilter],
-                    query: pendingQuery,
                   }));
                   focusElement('#search-description');
                 }}
                 onSecondaryClick={() => {
-                  setFilters(() => ({
+                  setFilters(curr => ({
+                    ...curr,
                     statuses: ['All'],
                     categories: ['All'],
-                    query: '',
                   }));
                   setPendingStatusesFilter('All');
                   setPendingCategoriesFilter('All');
-                  setPendingQuery('');
                   focusElement('#search-description');
                 }}
                 leftButtonText="Apply"

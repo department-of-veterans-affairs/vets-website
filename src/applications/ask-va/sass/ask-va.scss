@@ -367,6 +367,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   margin-bottom: 40px;
 }
 
+#search-container {
+  // Offsets margin bottom on form inside shadow root
+  margin-bottom: -1rem;
+}
+
 .filter-container {
   display: flex;
   flex-direction: row;
