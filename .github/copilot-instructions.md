@@ -37,6 +37,7 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - Use `yarn cy:open` to open Cypress UI test runner for a user
 - Use `yarn cy:run:auto --spec "..."` to run Cypress tests with auto dev server, no retries, and structured failure output
 - Use `yarn cy:run --spec "..."` for standard Cypress run (requires dev server on port 3001)
+- Cypress test files follow the pattern `*.cypress.spec.js`
 - Prefer `yarn cy:run:auto` over `yarn cy:run` when running Cypress tests
 - Prefer Cypress tests over manual browser testing
 - Cypress tests require vets-api to NOT be running (APIs are mocked by tests)
