@@ -88,7 +88,7 @@ export const getFocusableElements = (
  * @param {*} target - target within the named target page
  * @param {*} shadowTarget - target within shadow DOM within target
  */
-export function focusOnChange(name, target, shadowTarget = undefined) {
+export function focusOnChange(name, target, shadowTarget = undefined, options) {
   setTimeout(() => {
     const el = $(`[name="${fixSelector(name)}${SCROLL_ELEMENT_SUFFIX}"]`);
     let focusTarget;
@@ -105,9 +105,9 @@ export function focusOnChange(name, target, shadowTarget = undefined) {
       focusTarget = el?.nextElementSibling?.querySelector(target);
     }
     if (focusTarget && shadowTarget) {
-      focusElement(shadowTarget, {}, focusTarget);
+      focusElement(shadowTarget, options, focusTarget);
     } else if (focusTarget) {
-      focusElement(focusTarget);
+      focusElement(focusTarget, options);
     }
   });
 }

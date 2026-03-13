@@ -19,6 +19,16 @@ export function isWebComponent(el, root) {
 }
 
 /**
+ * @param {HTMLElement} el an element that may recieve focus
+ * @returns {boolean} is the element a form input
+ */
+export function isNativeFormInput(el) {
+  return (
+    !!el &&
+    ['input', 'select', 'textarea', 'button'].includes(el.tagName.toLowerCase())
+  );
+}
+/**
  * Checks for shadowRoot and "hydrated" class.
  * Doesn't work for unit tests since React testing library doesn't populate shadowRoot
  * ```
@@ -111,6 +121,33 @@ export function waitForShadowRoot(el, waitForPaint = true) {
 }
 
 /**
+ * Take a form field and find the underlying native form input for focus
+ * @param {HTMLElement} rootElement - the element found from the parent selector
+ * @param {string} selector - the list of lower level selectors
+ * @returns {HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLButtonElement }
+ */
+export function findNativeFormInputFocusTarget(rootElement, selector) {
+  // we have reached the underlying form element that needs to be focused or else there isn't one to be found
+  if (rootElement === null || isNativeFormInput(rootElement)) {
+    return rootElement;
+  }
+  // it's a webcomponent with a shadowRoot
+  let _rootElement = rootElement?.shadowRoot?.querySelector(selector);
+
+  // it's either not a webcomponent or it doesn't have a shadowRoot
+  if (!_rootElement) {
+    _rootElement = rootElement.querySelector(selector);
+  }
+
+  // stop infinite recursion if querySelector returns itself
+  if (_rootElement === rootElement) {
+    return rootElement;
+  }
+
+  return findNativeFormInputFocusTarget(_rootElement, selector);
+}
+
+/**
  * An async querySelector that waits for all necessary shadowRoots involved
  *
  * ```
@@ -133,7 +170,11 @@ export function waitForShadowRoot(el, waitForPaint = true) {
  * @param {string | HTMLElement} [root]
  * @returns {Promise<HTMLElement | null>}
  */
-export async function querySelectorWithShadowRoot(selector, root) {
+export async function querySelectorWithShadowRoot(
+  selector,
+  root,
+  { focusNativeFormInput } = {},
+) {
   try {
     let selectorElement;
     const rootElement =
@@ -151,11 +192,24 @@ export async function querySelectorWithShadowRoot(selector, root) {
     if (typeof selector === 'string') {
       // check light dom first (outside of shadowRoot)
       // (e.g. slot="something" will appear in light dom)
-      selectorElement = rootElement.querySelector(selector);
+      const lightDomEl = rootElement.querySelector(selector);
 
-      // check shadow dom if not in light dom
-      if (!selectorElement && rootElement.shadowRoot) {
-        selectorElement = rootElement.shadowRoot.querySelector(selector);
+      if (focusNativeFormInput) {
+        // we need to keep drilling down for a standard form input
+        selectorElement =
+          (isWebComponent(lightDomEl) || lightDomEl === null) &&
+          rootElement.shadowRoot
+            ? (selectorElement = findNativeFormInputFocusTarget(
+                rootElement,
+                selector,
+              ))
+            : lightDomEl;
+      } else {
+        selectorElement = lightDomEl;
+        // check shadow dom if not in light dom
+        if (!lightDomEl && rootElement.shadowRoot) {
+          selectorElement = rootElement.shadowRoot.querySelector(selector);
+        }
       }
     } else {
       selectorElement = selector;
