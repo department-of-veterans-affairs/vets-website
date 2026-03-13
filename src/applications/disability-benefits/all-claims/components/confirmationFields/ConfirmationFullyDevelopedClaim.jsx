@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 const ConfirmationFullyDevelopedClaim = ({ formData }) => {
   // These labels are switched in the form with yesNoReverse, so here they are reversed to match the form
   const labels = {
-    Y: 'No, I have some extra information that I’ll submit to VA later.',
-    N: 'Yes, I have uploaded all my supporting documents.',
+    Y: `No, I have some extra information that I'll submit to VA later`,
+    N: `Yes, I have uploaded all my supporting documents`,
   };
 
   const fullyDevelopedClaimLabel = formData.standardClaim ? labels.Y : labels.N;

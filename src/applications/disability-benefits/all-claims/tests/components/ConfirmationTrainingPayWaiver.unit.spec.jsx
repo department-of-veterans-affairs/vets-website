@@ -34,7 +34,7 @@ describe('ConfirmationTrainingPayWaiver', () => {
     expect(getByText('Not selected')).to.exist;
     expect(
       getByText(
-        /I don’t want to get VA compensation pay for the days I receive training pay/i,
+        /I don't want to get VA compensation pay for the days I receive training pay$/i,
       ),
     ).to.exist;
   });
@@ -61,7 +61,7 @@ describe('ConfirmationTrainingPayWaiver', () => {
     expect(getByText('Training pay waiver')).to.exist;
     expect(getByText('Selected')).to.exist;
     expect(
-      getByText(/I want to get VA compensation pay instead of training pay/i),
+      getByText(/I want to get VA compensation pay instead of training pay$/i),
     ).to.exist;
   });
 
