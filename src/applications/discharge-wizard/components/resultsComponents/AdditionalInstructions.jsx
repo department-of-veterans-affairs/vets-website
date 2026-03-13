@@ -176,9 +176,9 @@ const AdditionalInstructions = ({ formResponses }) => {
           )}
       </ul>
       <p>
-        <strong>Note:</strong> This information was created based on how you
-        answered the questions on the previous page. This information will not
-        be specific to someone with different answers to the questions.
+        <strong>Note:</strong> This information is based on how you answered the
+        questions on the previous page. This information won’t be specific to
+        someone with different answers than you.
       </p>
     </section>
   );
