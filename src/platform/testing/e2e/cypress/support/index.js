@@ -180,6 +180,10 @@ beforeEach(() => {
   /* eslint-enable camelcase */
 });
 
+if (Cypress.env('FAILURE_HOOKS')) {
+  require('./register-failure-hooks'); // eslint-disable-line global-require
+}
+
 // Assign the video path to the context property for failed tests
 Cypress.on('test:after:run', test => {
   if (test.state === 'failed') {

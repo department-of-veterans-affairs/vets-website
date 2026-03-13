@@ -3,8 +3,7 @@
     "authorizerType": "veteran",
     "veteranFullName": {
       "first": "John",
-      "middle": "",
-      "last": "Veteran"
+      "middle": ""
     },
     "veteranEmail": "john@veteran.com",
     "veteranPhone": "5555555555",

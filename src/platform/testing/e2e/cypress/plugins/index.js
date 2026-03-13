@@ -49,7 +49,7 @@ module.exports = async (on, config) => {
       build.onLoad({ filter: /\.jsx?$/ }, ({ path: filePath }) => {
         // Filter out files in node_modules
         if (!filePath.split(path.sep).includes('node_modules')) {
-          const regex = /.*\/vets-website\/(.+)/;
+          const regex = /.*\/vets-website(?:\.worktrees\/[^/]+)?\/(.+)/;
           const [, relativePath] = filePath.match(regex);
           let contents = fs.readFileSync(filePath, 'utf8');
           const dirname = path.dirname(relativePath);
