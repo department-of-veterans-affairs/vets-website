@@ -313,17 +313,24 @@ function startDevServer(port, entryName) {
       if (!settled && /Compiled\b/.test(stripAnsi(output))) {
         settled = true;
         clearTimeout(timeout);
-        resolve({
-          process: server,
-          port,
-          kill() {
-            try {
-              process.kill(-server.pid, 'SIGTERM');
-            } catch (e) {
-              server.kill('SIGTERM');
-            }
-          },
-        });
+        // Wait for the HTTP server to actually respond before proceeding
+        const pollInterval = setInterval(async () => {
+          const health = await checkDevServer(`http://127.0.0.1:${port}`);
+          if (health.up) {
+            clearInterval(pollInterval);
+            resolve({
+              process: server,
+              port,
+              kill() {
+                try {
+                  process.kill(-server.pid, 'SIGTERM');
+                } catch (e) {
+                  server.kill('SIGTERM');
+                }
+              },
+            });
+          }
+        }, 500);
       }
     }
 
@@ -534,11 +541,10 @@ function buildSummary({
   }
 
   if (screenshots.length > 0) {
-    out.push('  SCREENSHOTS:');
+    out.push(`  SCREENSHOTS: (${screenshots.length})`);
     screenshots.forEach(s => {
-      const relative = s.includes('cypress/screenshots')
-        ? s.substring(s.indexOf('cypress/screenshots'))
-        : s;
+      const idx = s.indexOf('cypress/screenshots/');
+      const relative = idx !== -1 ? s.substring(idx) : s;
       out.push(`    ${relative}`);
     });
     out.push('');
