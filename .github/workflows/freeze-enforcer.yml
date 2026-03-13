@@ -18,6 +18,8 @@ env:
 jobs:
   holiday-checker:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       is_holiday: ${{ steps.holiday-check.outputs.is_holiday }}
     steps:
