@@ -28,7 +28,6 @@ import {
   DATETIME_FORMATS,
   RX_SOURCE,
   DISPENSE_STATUS,
-  dispStatusObj,
   dispStatusObjV2,
   medicationsUrls,
 } from '../../util/constants';
@@ -43,8 +42,8 @@ const MedicationsListCard = ({ rx }) => {
     selectMedicationsManagementImprovementsFlag,
   );
   const isFillInProgress =
-    rx.dispStatus === dispStatusObj.refillinprocess ||
-    rx.dispStatus === dispStatusObj.submitted;
+    rx.dispStatus === DISPENSE_STATUS.ACTIVE_REFILL_IN_PROCESS ||
+    rx.dispStatus === DISPENSE_STATUS.ACTIVE_SUBMITTED;
   const isInitialFill = isFillInProgress && !rx.sortedDispensedDate;
   const isOracleHealthCutoverEnabled = useSelector(
     selectMhvMedicationsOracleHealthCutoverFlag,
@@ -74,7 +73,7 @@ const MedicationsListCard = ({ rx }) => {
       : rx?.dispStatus === DISPENSE_STATUS.RENEW);
   const latestTrackingStatus = rx?.trackingList?.[0];
   const isRecentlyShipped =
-    rx.dispStatus === dispStatusObj.shipped &&
+    rx.dispStatus === DISPENSE_STATUS.ACTIVE_SHIPPED &&
     rx.isTrackable &&
     Boolean(latestTrackingStatus);
   const trackingUrl = getTrackingUrl(
