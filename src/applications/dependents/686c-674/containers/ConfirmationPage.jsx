@@ -38,11 +38,14 @@ export default function ConfirmationPage() {
 
   const submissionBox = () => {
     return (
-      <div className="vads-u-margin-top--4">
-        <h2 slot="headline" className="save-a-copy">
+      <div>
+        <h2
+          slot="headline"
+          className="save-a-copy vads-u-margin-top--3 vads-u-margin-bottom--3"
+        >
           Your submission information
         </h2>
-        <div>
+        <div className="vads-u-margin-bottom--3">
           <strong>Your name</strong>
           <p
             className="dd-privacy-hidden vads-u-margin-top--0"
@@ -51,7 +54,7 @@ export default function ConfirmationPage() {
             {veteranFirstName} {veteranLastName}
           </p>
         </div>
-        <div>
+        <div className="vads-u-margin-bottom--3">
           <div className="dd-privacy-hidden">
             <strong>Date submitted</strong>
           </div>
