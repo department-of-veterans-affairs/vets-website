@@ -1173,7 +1173,7 @@ jobs:
       # ----------------
 
       - name: Notify Slack about Unit test failures
-        if: ${{ github.ref != 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         env:
