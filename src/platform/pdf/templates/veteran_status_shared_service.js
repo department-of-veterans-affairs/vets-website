@@ -1,5 +1,5 @@
 /**
- * Proof of Veteran Status PDF template.
+ * Proof of Veteran Status PDF template for the new shared service.
  *
  * NB: The order in which items are added to the document is important,
  * and thus PDFKit requires performing operations synchronously.
@@ -23,25 +23,25 @@ const config = {
   headings: {
     H1: {
       font: 'Bitter-Bold',
-      size: 20,
+      size: 32,
     },
     H2: {
       font: 'Bitter-Bold',
-      size: 13,
+      size: 14,
     },
   },
   paragraph: {
-    font: 'Bitter-Regular',
-    size: 16,
+    font: 'SourceSansPro-Regular',
+    size: 12,
   },
   text: {
     boldFont: 'SourceSansPro-Bold',
     font: 'SourceSansPro-Regular',
-    size: 9,
+    size: 10,
   },
   disclaimer: {
     font: 'SourceSansPro-Regular',
-    size: 9,
+    size: 11,
   },
   instruction: {
     font: 'SourceSansPro-Regular',
@@ -60,7 +60,8 @@ const fetchImage = async url => {
 };
 
 const validate = data => {
-  const requiredFields = ['fullName', 'latestService']; // If there is no latestService, there is also no DoD ID
+  // Shared service does not require latestService
+  const requiredFields = ['fullName'];
 
   const missingFields = requiredFields.filter(field => !data[field]);
   if (missingFields.length) {
@@ -119,7 +120,7 @@ const generate = async data => {
           doc.y,
           {
             lineGap: 4,
-            width: 450,
+            width: 520,
           },
         );
     }),
@@ -129,21 +130,21 @@ const generate = async data => {
   // Add content synchronously to ensure that reading order
   // is left intact for screen reader users.
 
-  doc.moveDown(1);
+  doc.moveDown(1.5);
   const cardSection = doc.struct('Sect');
   wrapper.add(cardSection);
 
   const cardYPosition = doc.y;
   const cardXPosition = doc.x;
-  const cardWidth = 252; // roughly results in a 2 x 3.5 inch rectangle
-  const cardHeight = 144;
-  const cardPadding = 12;
+  const cardWidth = 265;
+  const cardHeight = 138;
+  const cardPadding = 18;
 
   // Add a dotted line to indicate where the card should be cut out
   const cardWrapper = doc.struct('Artifact', () => {
     doc
       .lineWidth(0.5)
-      .roundedRect(doc.page.margins.left, doc.y, cardWidth, cardHeight, 8)
+      .roundedRect(doc.page.margins.left, doc.y, cardWidth, cardHeight, 12)
       .dash(3.5, { space: 3.5 })
       .stroke();
   });
@@ -151,23 +152,26 @@ const generate = async data => {
   cardSection.add(cardWrapper);
 
   // Card title
-  doc.moveDown(0.5);
   const cardHeading = doc.struct('H2', () => {
     doc
       .font(config.headings.H2.font)
       .fontSize(config.headings.H2.size)
-      .text('Veteran Status Card', doc.page.margins.left + cardPadding, doc.y);
+      .text(
+        'Veteran Status Card',
+        doc.page.margins.left + cardPadding,
+        cardYPosition + 15,
+      );
   });
   cardSection.add(cardHeading);
 
   // VA seal
   if (data.details.seal) {
     const sealGraphic = await fetchImage(data.details.seal.url);
-    const sealWidth = 40;
+    const sealWidth = 47;
     const sealImage = doc.image(
       sealGraphic,
-      cardXPosition + cardWidth - cardPadding - sealWidth, // positioned relative to top-right corner
-      cardYPosition + cardPadding,
+      cardXPosition + 205,
+      cardYPosition + 14,
       { width: sealWidth, alt: data.details.image.title },
     );
     const seal = doc.struct('Figure', { alt: data.details.seal.title }, [
@@ -176,74 +180,91 @@ const generate = async data => {
     cardSection.add(seal);
   }
 
-  // First column of info items
-  doc.moveDown(0.25);
-  const infoItems = [
-    {
-      heading: 'Name',
-      content: data.details.fullName,
-    },
-    {
-      heading: 'Latest period of service',
-      content: `${data.details.latestService}`,
-    },
-    {
-      heading: 'DoD ID Number',
-      content: data.details.edipi,
-    },
-  ];
+  const contentStartY = cardYPosition + 39;
 
-  let lastHeaderY;
-  infoItems.forEach(item => {
-    lastHeaderY = doc.y;
-    const header = doc.struct('H2', () => {
+  // Name section
+  const nameHeader = doc.struct('H2', () => {
+    doc
+      .font(config.text.boldFont)
+      .fontSize(config.text.size)
+      .text('Name', doc.page.margins.left + cardPadding, contentStartY, {
+        lineGap: 0,
+      });
+  });
+  cardSection.add(nameHeader);
+
+  const nameContent = doc.struct('P', () => {
+    doc
+      .font(config.text.font)
+      .fontSize(config.text.size)
+      .text(
+        data.details.fullName,
+        doc.page.margins.left + cardPadding,
+        contentStartY + 13,
+        { lineGap: 0 },
+      );
+  });
+  cardSection.add(nameContent);
+
+  // DOD ID Number and VA disability rating - side by side
+  // For shared service, we skip "Latest period of service" so DOD ID goes higher
+  const dodRowY = contentStartY + 34;
+
+  const dodHeader = doc.struct('H2', () => {
+    doc
+      .font(config.text.boldFont)
+      .fontSize(config.text.size)
+      .text('DoD ID Number', doc.page.margins.left + cardPadding, dodRowY, {
+        lineGap: 0,
+      });
+  });
+  cardSection.add(dodHeader);
+
+  const dodValueY = dodRowY + 16;
+  const dodContent = doc.struct('P', () => {
+    doc
+      .font(config.text.font)
+      .fontSize(config.text.size)
+      .text(
+        data.details.edipi,
+        doc.page.margins.left + cardPadding,
+        dodValueY,
+        { lineGap: 0 },
+      );
+  });
+  cardSection.add(dodContent);
+
+  // VA disability rating (second column, same row as DOD ID)
+  if (
+    data.details.totalDisabilityRating != null &&
+    data.details.totalDisabilityRating >= 0
+  ) {
+    const ratingHeader = doc.struct('H2', () => {
       doc
         .font(config.text.boldFont)
         .fontSize(config.text.size)
-        .text(`${item.heading}`);
+        .text(
+          'VA disability rating',
+          doc.page.margins.left + cardPadding + 121,
+          dodRowY,
+          { lineGap: 0 },
+        );
     });
-    const content = doc.struct('P', () => {
+    cardSection.add(ratingHeader);
+
+    const ratingContent = doc.struct('P', () => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(item.content)
-        .moveDown(0.5);
+        .text(
+          `${data.details.totalDisabilityRating}%`,
+          doc.page.margins.left + cardPadding + 121,
+          dodValueY,
+          { lineGap: 0 },
+        );
     });
-    cardSection.add(header);
-    cardSection.add(content);
-  });
-
-  // Second column of info items
-  const infoItems2 = [
-    {
-      heading: 'VA disability rating',
-      content: `${data.details.totalDisabilityRating?.toString()}%`,
-      condition:
-        data.details.totalDisabilityRating != null &&
-        data.details.totalDisabilityRating >= 0,
-    },
-  ];
-  infoItems2.forEach(item => {
-    if (item.condition) {
-      const header = doc.struct('H2', () => {
-        doc
-          .font(config.text.boldFont)
-          .fontSize(config.text.size)
-          .text(`${item.heading}`, doc.page.margins.left + 130, lastHeaderY);
-      });
-      const content = doc.struct('P', () => {
-        doc
-          .font(config.text.font)
-          .fontSize(config.text.size)
-          .text(item.content)
-          .moveDown(0.5);
-      });
-      cardSection.add(header);
-      cardSection.add(content);
-    }
-  });
-
-  doc.moveDown(0.5);
+    cardSection.add(ratingContent);
+  }
 
   // Disclaimer text
   const disclaimerText = doc.struct('P', () => {
@@ -253,20 +274,20 @@ const generate = async data => {
       .text(
         "This card doesn't entitle you to any VA benefits.",
         doc.page.margins.left + cardPadding,
-        cardYPosition + cardHeight - cardPadding - config.disclaimer.size, // position this text relative to the bottom of the card
+        cardYPosition + 113,
       );
   });
   cardSection.add(disclaimerText);
 
-  // Instructions
-  doc.moveDown(3);
+  // Instructions - position below the card
+  const instructionY = cardYPosition + cardHeight + 25;
   const scissorsWidth = 10;
   if (data.details.scissors) {
     const scissorsGraphic = await fetchImage(data.details.scissors.url);
     const scissorsImage = doc.image(
       scissorsGraphic,
       doc.page.margins.left,
-      doc.y,
+      instructionY,
       { width: scissorsWidth },
     );
     const scissors = doc.struct(
@@ -284,7 +305,7 @@ const generate = async data => {
       .text(
         'Cut this card out and keep in your wallet.',
         doc.page.margins.left + scissorsWidth + 4,
-        doc.y - scissorsWidth - 3, // position this text relative to the bottom of the card
+        instructionY,
       );
   });
   wrapper.add(instructionText);

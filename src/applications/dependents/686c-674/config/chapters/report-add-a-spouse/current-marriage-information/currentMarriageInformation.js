@@ -3,6 +3,7 @@ import {
   addressSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { asciiValidation } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -44,6 +45,7 @@ export const uiSchema = {
               errors.addError('Enter a valid city name');
             }
           },
+          asciiValidation,
         ],
       },
     },

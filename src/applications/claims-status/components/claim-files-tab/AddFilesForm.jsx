@@ -228,7 +228,14 @@ const createSubmissionPayload = (files, docTypes, encrypted) => {
   }));
 };
 
-const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
+const AddFilesForm = ({
+  fileTab,
+  hideOtherWaysLink,
+  onSubmit,
+  uploading,
+  progress,
+  onCancel,
+}) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.cstShowDocumentUploadStatus);
   const { id: claimId } = useParams();
@@ -397,24 +404,25 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
             {mailMessage}
           </va-additional-info>
         )}
-        {toggleValue && (
-          <>
-            <div className="vads-u-margin-top--3 vads-u-margin-bottom--5">
-              <va-link
-                href={otherWaysToSendHref}
-                text={SEND_YOUR_DOCUMENTS_TEXT}
-                onClick={e => {
-                  // Only prevent default and scroll if we're on the files tab
-                  // Otherwise, let the link navigate to the files page
-                  if (fileTab) {
-                    e.preventDefault();
-                    setPageFocus(`#${ANCHOR_LINKS.otherWaysToSendDocuments}`);
-                  }
-                }}
-              />
-            </div>
-          </>
-        )}
+        {toggleValue &&
+          !hideOtherWaysLink && (
+            <>
+              <div className="vads-u-margin-top--3 vads-u-margin-bottom--5">
+                <va-link
+                  href={otherWaysToSendHref}
+                  text={SEND_YOUR_DOCUMENTS_TEXT}
+                  onClick={e => {
+                    // Only prevent default and scroll if we're on the files tab
+                    // Otherwise, let the link navigate to the files page
+                    if (fileTab) {
+                      e.preventDefault();
+                      setPageFocus(`#${ANCHOR_LINKS.otherWaysToSendDocuments}`);
+                    }
+                  }}
+                />
+              </div>
+            </>
+          )}
         <VaModal
           id="upload-status"
           onCloseEvent={() => setCanShowUploadModal(false)}
@@ -443,6 +451,7 @@ AddFilesForm.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   fileTab: PropTypes.bool,
+  hideOtherWaysLink: PropTypes.bool,
 };
 
 export default AddFilesForm;

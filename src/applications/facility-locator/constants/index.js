@@ -211,3 +211,13 @@ export const Covid19Vaccine = 'Covid19Vaccine';
  */
 
 export const MIN_SEARCH_CHARS = 3;
+
+/**
+ * Array indices for CMS VA health services data (from Drupal).
+ * Each service entry is an array: [displayName, alias, commonConditions, serviceId, ...]
+ */
+export const CMS_SERVICE = {
+  DISPLAY_NAME: 0,
+  ALIAS: 1,
+  SERVICE_ID: 3,
+};

@@ -239,7 +239,7 @@ export const formatDescription = text => {
 
   // Helper to process bold tags within a text segment
   const processBoldTags = (segment, keyPrefix) => {
-    const boldPattern = /\{b\}([\s\S]*?)\{\/b\}/g;
+    const boldPattern = /\{b\}([\s\S]*?)\{\\b\}/g;
     const parts = [];
     let lastIndex = 0;
     let match;

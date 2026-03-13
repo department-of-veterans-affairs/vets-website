@@ -30,13 +30,13 @@ describe('resolveSharedContent', () => {
       expect(paragraphs[2].textContent).to.equal('Line three');
     });
 
-    it('should render {b}...{/b} as bold text', () => {
+    it('should render {b}...{\\b} as bold text', () => {
       const item = {
         id: 101,
         displayName: 'Test Request',
         status: 'NEEDED_FROM_YOU',
         requestedDate: '2025-12-01',
-        description: 'This is {b}important{/b} text',
+        description: 'This is {b}important{\\b} text',
         canUploadFile: true,
       };
 
@@ -93,7 +93,7 @@ describe('resolveSharedContent', () => {
         status: 'NEEDED_FROM_YOU',
         requestedDate: '2025-12-01',
         description:
-          '{b}Important:{/b} Please provide:\n[*] {b}Document A{/b}\n[*] Document B',
+          '{b}Important:{\\b} Please provide:\n[*] {b}Document A{\\b}\n[*] Document B',
         canUploadFile: true,
       };
 

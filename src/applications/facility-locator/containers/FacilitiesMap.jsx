@@ -8,6 +8,7 @@ import { isEmpty } from 'lodash';
 import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
 import { mapboxToken } from '../utils/mapboxToken';
+import { getServiceDisplayName } from '../reducers/searchQuery';
 
 // Components
 import Alert from '../components/Alert';
@@ -101,27 +102,45 @@ const FacilitiesMap = props => {
     const { location } = props;
 
     if (!isEmpty(location.query)) {
+      const vamcServiceDisplay =
+        location.query.facilityType === LocationType.HEALTH
+          ? getServiceDisplayName(
+              location.query.serviceType,
+              props.vaHealthServicesData,
+            )
+          : null;
+
       props.updateSearchQuery({
         facilityType: location.query.facilityType,
         serviceType: location.query.serviceType,
+        searchString: location.query.address,
+        vamcServiceDisplay,
       });
     }
 
-    if (location.query.address) {
-      const expandedRadius =
-        location.query.facilityType === 'benefits' &&
-        !location.query.serviceType;
+    if (location.query.address && location.query.facilityType) {
+      const needsServiceType =
+        location.query.facilityType === LocationType.CC_PROVIDER;
+      const hasRequiredServiceType =
+        !needsServiceType || location.query.serviceType;
 
-      props.genBBoxFromAddress(
-        {
-          searchString: location.query.address,
-          context: location.query.context,
-          facilityType: location.query.facilityType,
-        },
-        expandedRadius,
-        props.useProgressiveDisclosure,
-      );
-      setIsSearching(true);
+      if (hasRequiredServiceType) {
+        const expandedRadius =
+          location.query.facilityType === LocationType.BENEFITS &&
+          !location.query.serviceType;
+
+        props.genBBoxFromAddress(
+          {
+            searchString: location.query.address,
+            context: location.query.context,
+            facilityType: location.query.facilityType,
+            serviceType: location.query.serviceType,
+          },
+          expandedRadius,
+          props.useProgressiveDisclosure,
+        );
+        setIsSearching(true);
+      }
     }
   };
 
@@ -201,16 +220,20 @@ const FacilitiesMap = props => {
         );
       }
     },
-    [addMapMarker, map, props.currentQuery],
+    // addMapMarker is intentionally omitted since it's defined inline without
+    // useCallback - including it would cause unnecessary re-renders
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [map, props.currentQuery, props.selectMobileMapPin, mobileMapUpdateEnabled],
   );
 
-  const handleSearch = async (formValues = null) => {
+  const handleSearch = (formValues = null) => {
     resetMapElements();
     const queryToUse = formValues
       ? { ...props.currentQuery, ...formValues }
       : props.currentQuery;
     const { facilityType, serviceType, searchString } = queryToUse;
-    const expandedRadius = facilityType === 'benefits' && !serviceType;
+    const expandedRadius =
+      facilityType === LocationType.BENEFITS && !serviceType;
     lastZoomRef.current = null;
 
     updateUrlParams({
@@ -396,7 +419,7 @@ const FacilitiesMap = props => {
   const searchAreaButtonEnabled = () =>
     calculateSearchArea() < MAX_SEARCH_AREA &&
     props.currentQuery.facilityType &&
-    (props.currentQuery.facilityType === 'provider'
+    (props.currentQuery.facilityType === LocationType.CC_PROVIDER
       ? !!props.currentQuery.serviceType
       : true);
 
@@ -840,10 +863,43 @@ const FacilitiesMap = props => {
     [mapboxContainerRef, map],
   );
 
+  // Re-process URL params when vaHealthServicesData becomes available
+  useEffect(
+    () => {
+      const { location } = props;
+      if (
+        props.vaHealthServicesData?.data &&
+        !isEmpty(location.query) &&
+        location.query.facilityType === LocationType.HEALTH &&
+        location.query.serviceType &&
+        !props.currentQuery.vamcServiceDisplay
+      ) {
+        const vamcServiceDisplay = getServiceDisplayName(
+          location.query.serviceType,
+          props.vaHealthServicesData,
+        );
+        if (vamcServiceDisplay) {
+          props.updateSearchQuery({
+            vamcServiceDisplay,
+          });
+        }
+      }
+    },
+    // Only re-run when vaHealthServicesData loads; location.query and
+    // currentQuery.vamcServiceDisplay are intentionally omitted because other
+    // effects handle those changes. updateSearchQuery is a stable dispatch ref.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.vaHealthServicesData],
+  );
+
   useEffect(
     () => {
       handleSearchOnQueryChange();
     },
+    // handleSearchOnQueryChange reads props/state but is not memoized;
+    // currentQuery.id is the reducer's unique search token — only changes
+    // when a new search is initiated, which is the sole intended trigger.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.currentQuery.id],
   );
 
