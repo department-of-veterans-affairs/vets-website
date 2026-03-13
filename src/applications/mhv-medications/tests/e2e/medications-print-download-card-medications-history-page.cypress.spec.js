@@ -15,6 +15,9 @@ describe('Medications History Page Print Download Card', () => {
         ],
       },
     }).as('featureToggles');
+    cy.intercept('GET', '/my_health/v1/prescriptions?*filter*', rxList).as(
+      'filteredPrescriptions',
+    );
     listPage.visitMedicationsListPageURL(rxList);
     cy.visit('/my-health/medications/history');
     cy.injectAxe();
@@ -29,6 +32,7 @@ describe('Medications History Page Print Download Card', () => {
   });
 
   it('should display the print download select dropdown', () => {
+    cy.axeCheck('main');
     cy.get('va-card va-select[name="print-download-select"]').should('exist');
     cy.get('va-card va-select[name="print-download-select"]')
       .shadow()
@@ -57,6 +61,7 @@ describe('Medications History Page Print Download Card', () => {
   });
 
   it('should show warning alert about public or shared computer', () => {
+    cy.axeCheck('main');
     cy.get('va-card va-alert[status="warning"]').should('exist');
     cy.get('va-card va-alert[status="warning"]').should(
       'contain',
@@ -65,6 +70,7 @@ describe('Medications History Page Print Download Card', () => {
   });
 
   it('should trigger print when print option is selected and submit is clicked', () => {
+    cy.axeCheck('main');
     cy.window().then(win => {
       cy.stub(win, 'print').as('print');
     });
@@ -77,6 +83,7 @@ describe('Medications History Page Print Download Card', () => {
   });
 
   it('should download PDF when PDF option is selected and submit is clicked', () => {
+    cy.axeCheck('main');
     cy.get('va-card va-select[name="print-download-select"]')
       .shadow()
       .find('select')
@@ -90,6 +97,7 @@ describe('Medications History Page Print Download Card', () => {
   });
 
   it('should download TXT when TXT option is selected and submit is clicked', () => {
+    cy.axeCheck('main');
     cy.get('va-card va-select[name="print-download-select"]')
       .shadow()
       .find('select')
@@ -103,6 +111,7 @@ describe('Medications History Page Print Download Card', () => {
   });
 
   it('should show error alert when download fails due to network issue', () => {
+    cy.axeCheck('main');
     cy.window().then(win => {
       cy.stub(win.navigator, 'onLine').value(false);
     });

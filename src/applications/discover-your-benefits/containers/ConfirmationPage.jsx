@@ -16,6 +16,7 @@ import {
   VaSearchFilter,
   VaSelect,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import {
   BENEFITS_LIST,
@@ -24,10 +25,12 @@ import {
 } from '../constants/benefits';
 import GetFormHelp from '../components/GetFormHelp';
 import Benefits from './components/Benefits';
+import useMediaQuery from '../hooks/useMediaQuery';
 
 const ConfirmationPage = ({ formConfig, location, router }) => {
   const dispatch = useDispatch();
   const results = useSelector(state => state.results);
+  const isMobile = useMediaQuery('(max-width: 640px)');
 
   const [benefits, setBenefits] = useState([]);
   const [benefitIds, setBenefitIds] = useState({});
@@ -38,13 +41,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
   const searchFilterRef = useRef(null);
-
-  /**
-   * Value corresponds with the --tablet breakpoint size.
-   * https://design.va.gov/foundation/breakpoints
-   */
-  const TABLET_BREAKPOINT = 640;
-  const isMobile = () => window.innerWidth < TABLET_BREAKPOINT;
 
   const query = useMemo(
     () => {
@@ -424,18 +420,26 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
 
   useEffect(
     () => {
-      if (!isMobile()) return null;
-      const timer = setTimeout(() => {
-        const searchFilter = document.querySelector('va-search-filter');
-        const items = searchFilter?.shadowRoot?.querySelectorAll(
+      if (!isMobile) return () => {};
+
+      const tryCollapse = async () => {
+        const searchFilter = await querySelectorWithShadowRoot(
+          'va-search-filter',
+        );
+
+        if (!searchFilter) return;
+
+        const accordionItems = searchFilter.shadowRoot?.querySelectorAll(
           'va-accordion-item',
         );
-        items?.forEach(item => {
-          item.setAttribute('open', false);
-        });
-      }, 500);
 
-      return () => clearTimeout(timer);
+        if (accordionItems?.length) {
+          accordionItems.forEach(item => item.setAttribute('open', false));
+        }
+      };
+
+      tryCollapse();
+      return () => {};
     },
     [isMobile],
   );

@@ -1422,6 +1422,40 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     expect(costField.getAttribute('value')).to.equal('10.50');
   });
 
+  it('formats integer costRequested as x.00 in edit mode', async () => {
+    apiStub.restore();
+    apiStub = sinon.stub(api, 'apiRequest').callsFake(url => {
+      if (url.includes('/claims/43555/expenses/meal/')) {
+        return Promise.resolve({
+          id: TEST_EXPENSE_ID,
+          expenseType: 'Meal',
+          vendorName: 'Saved Vendor',
+          dateIncurred: '2025-11-17',
+          costRequested: 10,
+          description: 'Test expense description',
+        });
+      }
+      if (url.includes('/documents/')) {
+        return Promise.resolve({
+          headers: {
+            get: key => (key === 'Content-Type' ? 'application/pdf' : '1024'),
+          },
+          arrayBuffer: async () => new TextEncoder().encode('dummy').buffer,
+        });
+      }
+      return Promise.reject(new Error('Unmocked API call'));
+    });
+
+    const { container } = renderEditPage();
+
+    await waitFor(() => {
+      const costField = container.querySelector(
+        'va-text-input[name="costRequested"]',
+      );
+      expect(costField?.getAttribute('value')).to.equal('10.00');
+    });
+  });
+
   it('uses "Save and continue" text for continue button', async () => {
     const { container } = renderEditPage();
 
@@ -1757,7 +1791,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
       const inputText = container.querySelector(
         'va-text-input[name="costRequested"]',
       );
-      expect(inputText?.getAttribute('value')).to.equal('0');
+      expect(inputText?.getAttribute('value')).to.equal('0.00');
     });
 
     const inputText = container.querySelector(

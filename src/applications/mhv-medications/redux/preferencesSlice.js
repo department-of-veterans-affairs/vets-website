@@ -32,6 +32,7 @@ import {
   SESSION_SELECTED_PAGE_NUMBER,
   ALL_MEDICATIONS_FILTER_KEY,
   rxListSortingOptions,
+  rxListSortingOptionsV2,
 } from '../util/constants';
 
 // Define default values
@@ -56,9 +57,19 @@ const setSessionItem = (key, value) => {
 };
 
 // Initial state that reads from sessionStorage but has defaults
+const getValidatedSortOption = () => {
+  const stored = getSessionItem(SESSION_SELECTED_SORT_OPTION);
+  if (
+    stored &&
+    (rxListSortingOptions[stored] || rxListSortingOptionsV2[stored])
+  ) {
+    return stored;
+  }
+  return DEFAULT_SORT_OPTION;
+};
+
 const initialState = {
-  sortOption:
-    getSessionItem(SESSION_SELECTED_SORT_OPTION) || DEFAULT_SORT_OPTION,
+  sortOption: getValidatedSortOption(),
   filterOption:
     getSessionItem(SESSION_SELECTED_FILTER_OPTION) || DEFAULT_FILTER_OPTION,
   filterOpenByDefault:

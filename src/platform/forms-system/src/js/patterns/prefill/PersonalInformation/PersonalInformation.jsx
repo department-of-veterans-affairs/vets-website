@@ -162,23 +162,27 @@ export const PersonalInformation = ({
                   className="dd-privacy-hidden"
                   data-dd-action-name="Veteran's name"
                 >
-                  <strong>Name: </strong>
-                  {first || last ? (
-                    `${first || ''} ${middle || ''} ${last || ''}`
-                  ) : (
-                    <span data-testid="name-not-available">Not available</span>
-                  )}
-                  {suffix ? `, ${suffix}` : null}
+                  {'Name: '}
+                  <strong>
+                    {first || last ? (
+                      `${first || ''} ${middle || ''} ${last || ''}`
+                    ) : (
+                      <span data-testid="name-not-available">
+                        Not available
+                      </span>
+                    )}
+                    {suffix ? `, ${suffix}` : null}
+                  </strong>
                 </dd>
               </div>
             )}
             {finalConfig.ssn?.show && (
               <div className="vads-u-margin-bottom--2">
-                <dt className="vads-u-display--inline-block vads-u-font-weight--bold vads-u-margin-right--0p5">
+                <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
                   {getSSNTitle()}
                 </dt>
                 <dd
-                  className="vads-u-display--inline-block dd-privacy-mask vads-u-font-family--sans"
+                  className="vads-u-display--inline-block dd-privacy-mask vads-u-font-family--sans vads-u-font-weight--bold"
                   data-dd-action-name="Veteran's SSN"
                 >
                   {ssn ? (
@@ -191,11 +195,11 @@ export const PersonalInformation = ({
             )}
             {finalConfig.vaFileNumber?.show && (
               <div className="vads-u-margin-bottom--2">
-                <dt className="vads-u-display--inline-block vads-u-font-weight--bold vads-u-margin-right--0p5">
+                <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
                   Last 4 digits of VA file number:
                 </dt>
                 <dd
-                  className="vads-u-display--inline-block dd-privacy-mask vads-u-font-family--sans"
+                  className="vads-u-display--inline-block dd-privacy-mask vads-u-font-family--sans vads-u-font-weight--bold"
                   data-dd-action-name="Veteran's VA file number"
                 >
                   {vaFileLastFour ? (
@@ -210,11 +214,11 @@ export const PersonalInformation = ({
             )}
             {finalConfig.dateOfBirth?.show && (
               <div className="vads-u-margin-bottom--2">
-                <dt className="vads-u-display--inline-block vads-u-margin-right--0p5 vads-u-font-weight--bold">
+                <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
                   Date of birth:
                 </dt>
                 <dd
-                  className="vads-u-display--inline-block dd-privacy-mask vads-u-font-family--sans"
+                  className="vads-u-display--inline-block dd-privacy-mask vads-u-font-family--sans vads-u-font-weight--bold"
                   data-dd-action-name="Veteran's date of birth"
                 >
                   {isValid(dobDateObj) ? (
@@ -227,11 +231,11 @@ export const PersonalInformation = ({
             )}
             {finalConfig.sex?.show && (
               <div className="vads-u-margin-bottom--2">
-                <dt className="vads-u-display--inline-block vads-u-margin-right--0p5 vads-u-font-weight--bold">
+                <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
                   Sex:
                 </dt>
                 <dd
-                  className="vads-u-display--inline-block dd-privacy-hidden"
+                  className="vads-u-display--inline-block dd-privacy-hidden vads-u-font-weight--bold"
                   data-dd-action-name="Veteran's sex"
                 >
                   {gender ? (

@@ -20,6 +20,7 @@ import {
   selectMhvMedicationsOracleHealthCutoverFlag,
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
+  selectMedicationsManagementImprovementsFlag,
 } from '../../util/selectors';
 import { selectOracleHealthMigrations } from '../../selectors/selectUser';
 import {
@@ -27,6 +28,7 @@ import {
   RX_SOURCE,
   DISPENSE_STATUS,
   dispStatusObjV2,
+  medicationsUrls,
 } from '../../util/constants';
 
 const MedicationsListCard = ({ rx }) => {
@@ -35,6 +37,13 @@ const MedicationsListCard = ({ rx }) => {
   const useV2StatusMapping = isCernerPilot && isV2StatusMapping;
   const isPendingDispense =
     rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE;
+  const isManagementImprovements = useSelector(
+    selectMedicationsManagementImprovementsFlag,
+  );
+  const isFillInProgress =
+    rx.dispStatus === DISPENSE_STATUS.ACTIVE_REFILL_IN_PROCESS ||
+    rx.dispStatus === DISPENSE_STATUS.ACTIVE_SUBMITTED;
+  const isInitialFill = isFillInProgress && !rx.sortedDispensedDate;
   const isOracleHealthCutoverEnabled = useSelector(
     selectMhvMedicationsOracleHealthCutoverFlag,
   );
@@ -96,15 +105,34 @@ const MedicationsListCard = ({ rx }) => {
     }
     return (
       <>
+        {isManagementImprovements &&
+          isFillInProgress && (
+            <div
+              className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--green-lightest vads-u-padding--1 vads-u-margin-top--1"
+              data-testid="fill-in-progress-alert"
+              role="status"
+            >
+              <va-icon icon="schedule" size={3} aria-hidden="true" />
+              <p className="vads-u-margin-y--0 vads-u-margin-left--1">
+                {isInitialFill ? 'Fill' : 'Refill'} in progress.{' '}
+                <Link to={medicationsUrls.MEDICATIONS_IN_PROGRESS}>
+                  Go to in-progress medications
+                </Link>
+              </p>
+            </div>
+          )}
         {rx &&
-          rx.isRefillable &&
+          (rx.isRefillable || (isManagementImprovements && isFillInProgress)) &&
           rx.refillRemaining >= 0 && (
             <p
+              className="vads-u-margin-bottom--0"
               data-testid="rx-refill-remaining"
               data-dd-privacy="mask"
               id={`refill-remaining-${rx.prescriptionId}`}
             >
-              Refills remaining: {rx.refillRemaining}
+              {isManagementImprovements
+                ? `Refills left: ${rx.refillRemaining}`
+                : `Refills remaining: ${rx.refillRemaining}`}
             </p>
           )}
         {rx && <LastFilledInfo {...rx} />}
@@ -128,16 +156,17 @@ const MedicationsListCard = ({ rx }) => {
             </span>
           </p>
         )}
-        {rxStatus !== 'Unknown' && (
-          <p
-            id={`status-${rx.prescriptionId}`}
-            className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
-            data-testid="rxStatus"
-            data-dd-privacy="mask"
-          >
-            {rxStatus}
-          </p>
-        )}
+        {!isManagementImprovements &&
+          rxStatus !== 'Unknown' && (
+            <p
+              id={`status-${rx.prescriptionId}`}
+              className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
+              data-testid="rxStatus"
+              data-dd-privacy="mask"
+            >
+              {rxStatus}
+            </p>
+          )}
         {isRefillBlocked &&
           rx.isRefillable && (
             <OracleHealthInCardAlert
@@ -145,14 +174,15 @@ const MedicationsListCard = ({ rx }) => {
               prescriptionId={rx.prescriptionId}
             />
           )}
-        {rx && (
-          <ExtraDetails
-            {...rx}
-            page={pageType.LIST}
-            isRefillBlocked={isRefillBlocked}
-            isRenewalBlocked={isRenewalBlocked}
-          />
-        )}
+        {rx &&
+          !(isManagementImprovements && isFillInProgress) && (
+            <ExtraDetails
+              {...rx}
+              page={pageType.LIST}
+              isRefillBlocked={isRefillBlocked}
+              isRenewalBlocked={isRenewalBlocked}
+            />
+          )}
       </>
     );
   };
@@ -178,7 +208,8 @@ const MedicationsListCard = ({ rx }) => {
             {rx?.prescriptionName || rx?.orderableItem}
           </span>
         </Link>
-        {!pendingMed &&
+        {!isManagementImprovements &&
+          !pendingMed &&
           !pendingRenewal &&
           rxStatus !== 'Unknown' &&
           !isNonVaPrescription && (

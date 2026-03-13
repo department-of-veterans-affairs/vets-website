@@ -1,11 +1,11 @@
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import {
+  dateOfBirthUI,
   fullNameUI,
   ssnUI,
-  dateOfBirthUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PrefillMessage from '../../../components/PrefillMessage';
-import { generateTitle } from '../../../utils/helpers';
 
 const {
   claimantFullName,
@@ -15,7 +15,7 @@ const {
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Personal information'),
+    ...titleUI('Personal information'),
     'ui:description': PrefillMessage,
     claimantFullName: fullNameUI(),
     claimantSocialSecurityNumber: {

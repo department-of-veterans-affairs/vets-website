@@ -1,24 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-export const appendReportsFromLocalStorage = resultsArray => {
-  const localReportsArray = localStorage.getItem('vaReports');
-
-  if (localReportsArray) {
-    const parsedLocalReportsArray = JSON.parse(localReportsArray);
-    for (const localReport of parsedLocalReportsArray) {
-      const resultMatch = resultsArray.find(
-        resultItem => resultItem.id === localReport.representativeId,
-      );
-
-      if (resultMatch) {
-        resultMatch.reports = localReport.reports;
-      }
-    }
-  }
-
-  return resultsArray;
-};
-
 export const isProductionEnv = () => {
   return (
     !environment.BASE_URL.includes('localhost') &&

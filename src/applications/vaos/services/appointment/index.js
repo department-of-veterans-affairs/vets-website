@@ -67,7 +67,6 @@ function apptRequestSort(a, b) {
  * @param {Date} params.endDate Date in YYYY-MM-DD format
  * @param {Boolean} params.fetchClaimStatus Boolean to fetch travel claim data
  * @param {Boolean} params.includeEPS Boolean to include EPS appointments
- * @param {boolean?} params.featureUseBrowserTimezone Feature flag. Default = false.
  * @returns {Promise <Object>[]} A FHIR searchset of booked Appointment resources
  */
 export async function fetchAppointments({
@@ -76,7 +75,6 @@ export async function fetchAppointments({
   avs = false,
   fetchClaimStatus = false,
   includeEPS = false,
-  featureUseBrowserTimezone = false,
 }) {
   try {
     const appointments = [];
@@ -97,15 +95,9 @@ export async function fetchAppointments({
       );
     });
 
-    appointments.push(
-      ...transformVAOSAppointments(
-        filteredAppointments,
-        featureUseBrowserTimezone,
-      ),
-      {
-        meta: allAppointments.backendSystemFailures,
-      },
-    );
+    appointments.push(...transformVAOSAppointments(filteredAppointments), {
+      meta: allAppointments.backendSystemFailures,
+    });
 
     return appointments;
   } catch (e) {
@@ -126,14 +118,12 @@ export async function fetchAppointments({
  * @param {Date} params.startDate Date in YYYY-MM-DD format
  * @param {Date} params.endDate Date in YYYY-MM-DD format
  * @param {Boolean} params.includeEPS Boolean to include EPS appointments
- * @param {boolean?} params.featureUseBrowserTimezone Feature flag. Default = false.
  * @returns {Promise Appointment[]} A FHIR searchset of pending Appointment resources
  */
 export async function getAppointmentRequests({
   startDate,
   endDate,
   includeEPS = false,
-  featureUseBrowserTimezone,
 }) {
   try {
     const appointments = await getAppointments({
@@ -141,7 +131,6 @@ export async function getAppointmentRequests({
       endDate,
       statuses: ['proposed', 'cancelled'],
       includeEPS,
-      featureUseBrowserTimezone,
     });
 
     const requestsWithoutAppointments = appointments.data.filter(appt => {
@@ -153,7 +142,6 @@ export async function getAppointmentRequests({
 
     const transformRequests = transformVAOSAppointments(
       requestsWithoutAppointments,
-      featureUseBrowserTimezone,
     );
 
     transformRequests.push({
@@ -177,17 +165,13 @@ export async function getAppointmentRequests({
  * @async
  * @param {Object} params
  * @param {string} params.id Appointment request id
- * @param {boolean?} params.featureUseBrowserTimezone Feature flag. Default = false.
  * @returns {Promise<Object>} An Appointment object for the given request id
  */
-export async function fetchRequestById({
-  id,
-  featureUseBrowserTimezone = false,
-}) {
+export async function fetchRequestById({ id }) {
   try {
     const appointment = await getAppointment(id);
 
-    return transformVAOSAppointment(appointment, featureUseBrowserTimezone);
+    return transformVAOSAppointment(appointment);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -211,11 +195,10 @@ export async function fetchBookedAppointment({
   id,
   avs = true,
   fetchClaimStatus = true,
-  featureUseBrowserTimezone = false,
 }) {
   try {
     const appointment = await getAppointment(id, avs, fetchClaimStatus);
-    return transformVAOSAppointment(appointment, featureUseBrowserTimezone);
+    return transformVAOSAppointment(appointment);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -454,16 +437,12 @@ export function groupAppointmentsByMonth(appointments) {
  * @export
  * @param {Object} params
  * @param {VAOSAppointment} params.appointment The appointment to send
- * @param {boolean?} params.featureUseBrowserTimezone Feature flag. Default = false.
  * @returns {Promise<Object>} The created appointment
  */
-export async function createAppointment({
-  appointment,
-  featureUseBrowserTimezone = false,
-}) {
+export async function createAppointment({ appointment }) {
   const result = await postAppointment(appointment);
 
-  return transformVAOSAppointment(result, featureUseBrowserTimezone);
+  return transformVAOSAppointment(result);
 }
 
 const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
@@ -474,13 +453,9 @@ const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
  * @export
  * @param {Object} params
  * @param {Appointment} params.appointment The appointment to cancel
- * @param {boolean?} params.featureUseBrowserTimezone Feature flag. Default = false.
  * @returns {Promise<Object>} Returns either null or the updated appointment data
  */
-export async function cancelAppointment({
-  appointment,
-  featureUseBrowserTimezone = false,
-}) {
+export async function cancelAppointment({ appointment }) {
   const additionalEventData = {
     appointmentType:
       appointment.status === APPOINTMENT_STATUS.proposed
@@ -505,10 +480,7 @@ export async function cancelAppointment({
     });
     resetDataLayer();
 
-    return transformVAOSAppointment(
-      updatedAppointment,
-      featureUseBrowserTimezone,
-    );
+    return transformVAOSAppointment(updatedAppointment);
   } catch (e) {
     captureError(e, true);
     recordEvent({
@@ -654,10 +626,7 @@ export function getCalendarData({ appointment, facility }) {
  *   - abbreviation: The timezone abbreviation (e.g. ET)
  *   - description: The written out description (e.g. Eastern time)
  */
-export function getAppointmentTimezone(
-  appointment,
-  isUseBrowserTimezone = false,
-) {
+export function getAppointmentTimezone(appointment) {
   // Appointments with timezone included in api
   if (appointment?.timezone) {
     const abbreviation = getTimezoneAbbrFromApi(appointment);
@@ -672,10 +641,7 @@ export function getAppointmentTimezone(
   if (appointment?.location?.vistaId) {
     const locationId =
       appointment?.location.stationId || appointment?.location.vistaId;
-    const abbreviation = getTimezoneAbbrByFacilityId(
-      locationId,
-      isUseBrowserTimezone,
-    );
+    const abbreviation = getTimezoneAbbrByFacilityId(locationId);
 
     return {
       abbreviation,
@@ -695,14 +661,13 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
   const batch = [];
   let promise = null;
 
-  return (featureUseBrowserTimezone = false) => {
+  return () => {
     if (!promise || navigator.userAgent === 'node.js') {
       // Creating an array of start and end dates for each chunk
       const ranges = Array.from(Array(chunks).keys()).map(i => {
         return {
           start: subYears(startOfDay(new Date()), i + 1),
           end: subYears(startOfDay(new Date()), i),
-          featureUseBrowserTimezone,
         };
       });
 
@@ -721,7 +686,6 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
         const p1 = await fetchAppointments({
           startDate: curr.start,
           endDate: curr.end,
-          featureUseBrowserTimezone,
         });
         batch.push(p1);
         return Promise.resolve([...batch].flat());

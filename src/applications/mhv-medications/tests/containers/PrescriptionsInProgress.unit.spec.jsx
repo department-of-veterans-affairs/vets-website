@@ -7,39 +7,62 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import * as useFetchPrescriptionsInProgressModule from '../../hooks/PrescriptionsInProgress/useFetchPrescriptionsInProgress';
 import PrescriptionsInProgress from '../../containers/PrescriptionsInProgress';
 import reducers from '../../reducers';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 describe('PrescriptionsInProgress container', () => {
   let sandbox;
   let useFetchPrescriptionsInProgressStub;
 
-  const mockPrescriptions = [
-    {
-      prescriptionId: 1,
-      prescriptionName: 'Pepcid 30mg tab',
-      status: 'submitted',
-      lastUpdated: '2026-01-26T04:00:00.000Z',
-    },
-    {
-      prescriptionId: 2,
-      prescriptionName: 'Zoloft 25mg',
-      status: 'in-progress',
-      lastUpdated: '2026-01-29T04:00:00.000Z',
-    },
-    {
-      prescriptionId: 3,
-      prescriptionName: 'Benadryl 50mg',
-      status: 'shipped',
-      lastUpdated: '2026-01-21T04:00:00.000Z',
-    },
-  ];
+  const recentDate = new Date().toISOString();
+
+  const mockCategorizedPrescriptions = {
+    submitted: [
+      {
+        prescriptionId: 1,
+        prescriptionName: 'Pepcid 30mg tab',
+        dispStatus: 'Active: Submitted',
+        refillSubmitDate: '2026-01-26T04:00:00.000Z',
+      },
+    ],
+    inProgress: [
+      {
+        prescriptionId: 2,
+        prescriptionName: 'Zoloft 25mg',
+        dispStatus: 'Active: Refill in Process',
+        refillDate: '2026-02-10T04:00:00.000Z',
+      },
+    ],
+    shipped: [
+      {
+        prescriptionId: 3,
+        prescriptionName: 'Benadryl 50mg',
+        dispStatus: 'Active',
+        trackingList: [{ completeDateTime: recentDate }],
+      },
+    ],
+    tooEarly: [],
+  };
+
+  const emptyPrescriptions = {
+    submitted: [],
+    inProgress: [],
+    shipped: [],
+    tooEarly: [],
+  };
 
   const stubFetchHook = ({
-    prescriptions = [],
+    submitted = [],
+    inProgress = [],
+    shipped = [],
+    tooEarly = [],
     prescriptionsApiError = null,
     isLoading = false,
-  }) => {
+  } = {}) => {
     return useFetchPrescriptionsInProgressStub.returns({
-      prescriptions,
+      submitted,
+      inProgress,
+      shipped,
+      tooEarly,
       prescriptionsApiError,
       isLoading,
     });
@@ -72,13 +95,13 @@ describe('PrescriptionsInProgress container', () => {
   });
 
   it('renders without errors', () => {
-    stubFetchHook({ prescriptions: mockPrescriptions });
+    stubFetchHook(mockCategorizedPrescriptions);
     const screen = setup();
     expect(screen).to.exist;
   });
 
   it('displays the page heading', () => {
-    stubFetchHook({ prescriptions: mockPrescriptions });
+    stubFetchHook(mockCategorizedPrescriptions);
     const screen = setup();
     const heading = screen.getByRole('heading', {
       name: 'In-progress medications',
@@ -88,7 +111,7 @@ describe('PrescriptionsInProgress container', () => {
   });
 
   it('displays the introductory paragraph', () => {
-    stubFetchHook({ prescriptions: mockPrescriptions });
+    stubFetchHook(mockCategorizedPrescriptions);
     const screen = setup();
     expect(
       screen.getByText(
@@ -98,27 +121,34 @@ describe('PrescriptionsInProgress container', () => {
   });
 
   it('displays the medication history link', () => {
-    stubFetchHook({ prescriptions: mockPrescriptions });
+    stubFetchHook(mockCategorizedPrescriptions);
     const screen = setup();
     const link = screen.getByRole('link', {
-      name: /Go to your medication history/i,
+      name: /Review and print list of medications/i,
     });
     expect(link).to.exist;
     expect(link.getAttribute('href')).to.equal('/history');
+    expect(link.getAttribute('data-dd-action-name')).to.equal(
+      dataDogActionNames.inProgressPage
+        .GO_TO_REVIEW_AND_PRINT_MEDICATION_HISTORY_LINK,
+    );
   });
 
   it('displays the refill medications link', () => {
-    stubFetchHook({ prescriptions: mockPrescriptions });
+    stubFetchHook(mockCategorizedPrescriptions);
     const screen = setup();
     const link = screen.getByRole('link', {
       name: /Refill medications/i,
     });
     expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal('/refill');
+    expect(link.getAttribute('href')).to.equal('/');
+    expect(link.getAttribute('data-dd-action-name')).to.equal(
+      dataDogActionNames.inProgressPage.REFILL_MEDICATIONS_LINK,
+    );
   });
 
   it('renders NeedHelp component', () => {
-    stubFetchHook({ prescriptions: mockPrescriptions });
+    stubFetchHook(mockCategorizedPrescriptions);
     const screen = setup();
     expect(screen.getByText(/Need help/i)).to.exist;
   });
@@ -143,20 +173,29 @@ describe('PrescriptionsInProgress container', () => {
 
   describe('error state', () => {
     it('displays error notification when API error occurs', () => {
-      stubFetchHook({ prescriptionsApiError: new Error('API Error') });
+      stubFetchHook({
+        ...emptyPrescriptions,
+        prescriptionsApiError: new Error('API Error'),
+      });
       const screen = setup();
       const errorNotification = screen.getByTestId('api-error-notification');
       expect(errorNotification).to.exist;
     });
 
     it('does not display process list when error occurs', () => {
-      stubFetchHook({ prescriptionsApiError: new Error('API Error') });
+      stubFetchHook({
+        ...emptyPrescriptions,
+        prescriptionsApiError: new Error('API Error'),
+      });
       const screen = setup();
       expect(screen.queryByText('Request submitted')).to.be.null;
     });
 
     it('does not display loading indicator when not loading', () => {
-      stubFetchHook({ prescriptionsApiError: new Error('API Error') });
+      stubFetchHook({
+        ...emptyPrescriptions,
+        prescriptionsApiError: new Error('API Error'),
+      });
       const screen = setup();
       expect(screen.queryByTestId('loading-indicator')).to.be.null;
     });
@@ -164,7 +203,7 @@ describe('PrescriptionsInProgress container', () => {
 
   describe('success state', () => {
     it('displays the process list when prescriptions are loaded', () => {
-      stubFetchHook({ prescriptions: mockPrescriptions });
+      stubFetchHook(mockCategorizedPrescriptions);
       const screen = setup();
       const processListItems = screen.container.querySelectorAll(
         'va-process-list-item',
@@ -182,19 +221,19 @@ describe('PrescriptionsInProgress container', () => {
     });
 
     it('does not display loading indicator when not loading', () => {
-      stubFetchHook({ prescriptions: mockPrescriptions });
+      stubFetchHook(mockCategorizedPrescriptions);
       const screen = setup();
       expect(screen.queryByTestId('loading-indicator')).to.be.null;
     });
 
     it('does not display error notification when no error', () => {
-      stubFetchHook({ prescriptions: mockPrescriptions });
+      stubFetchHook(mockCategorizedPrescriptions);
       const screen = setup();
       expect(screen.queryByTestId('api-error-notification')).to.be.null;
     });
 
     it('renders process list with empty prescriptions array', () => {
-      stubFetchHook({ prescriptions: [] });
+      stubFetchHook(emptyPrescriptions);
       const screen = setup();
       const processListItems = screen.container.querySelectorAll(
         'va-process-list-item',
@@ -212,15 +251,13 @@ describe('PrescriptionsInProgress container', () => {
     });
 
     it('displays in-progress prescription in the Fill in progress step', () => {
-      stubFetchHook({ prescriptions: mockPrescriptions });
+      stubFetchHook(mockCategorizedPrescriptions);
       const screen = setup();
       const inProgressLink = screen.getByRole('link', {
         name: /Zoloft 25mg/i,
       });
       expect(inProgressLink).to.exist;
-      expect(inProgressLink.getAttribute('href')).to.equal(
-        '/my-health/medications/2',
-      );
+      expect(inProgressLink.getAttribute('href')).to.equal('/prescription/2');
     });
   });
 });
