@@ -156,8 +156,8 @@ describe('Claim document request', () => {
       cy.axeCheck();
     });
 
-    it('should render {b}...{/b} tags as bold text', () => {
-      setupFormattedDescriptionTest('This is {b}important{/b} text');
+    it('should render {b}...{\\b} tags as bold text', () => {
+      setupFormattedDescriptionTest('This is {b}important{\\b} text');
 
       cy.get('[data-testid="api-description"]').should('exist');
       cy.get('[data-testid="api-description"] strong')
@@ -225,7 +225,7 @@ describe('Claim document request', () => {
 
     it('should render combined formatting correctly', () => {
       setupFormattedDescriptionTest(
-        '{b}Important:{/b} Please provide the following:\n[*] {b}Document A{/b}\n[*] Document B',
+        '{b}Important:{\\b} Please provide the following:\n[*] {b}Document A{\\b}\n[*] Document B',
       );
 
       cy.get('[data-testid="api-description"]').should('exist');
