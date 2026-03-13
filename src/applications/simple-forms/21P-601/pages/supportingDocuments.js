@@ -105,6 +105,9 @@ export default {
             value={documentCategory}
             label="What type of document is this?"
           >
+            <option value="" disabled>
+              Select a document type
+            </option>
             <option value="funeral">Funeral service receipt</option>
             <option value="burial">Burial expense receipt</option>
             <option value="hospital">Hospital bill</option>
