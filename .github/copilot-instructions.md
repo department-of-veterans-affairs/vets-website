@@ -35,8 +35,8 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - Use `yarn test:unit --coverage` to run tests with coverage
 - Use `yarn test:coverage-app {app-name}` to run coverage for a specific app
 - Use `yarn cy:open` to open Cypress UI test runner for a user
-- Use `yarn cy:run:auto --spec "path/to/test.cypress.spec.js"` to run Cypress tests — automatically starts a dev server, runs with no retries/video, and provides structured failure output
-- Use `yarn cy:run --spec "..."` for the enhanced runner with standard config (retries, video). Requires a dev server on port 3001.
+- Use `yarn cy:run:auto --spec "path/to/test.cypress.spec.js"` to run Cypress tests — automatically starts a dev server, runs with no retries/video, and provides structured failure output. No need to start `yarn watch` manually.
+- Use `yarn cy:run --spec "..."` for standard Cypress run (retries, video). Requires a dev server on port 3001.
 - Prefer Cypress tests over manual browser testing
 - Cypress tests require vets-api to NOT be running (APIs are mocked by tests)
 
