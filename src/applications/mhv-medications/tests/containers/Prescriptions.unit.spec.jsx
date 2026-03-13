@@ -388,7 +388,7 @@ describe('Medications Prescriptions container', () => {
       global.window.dataLayer = [];
     });
 
-    it.skip('should call recordEvent when rxRenewalMessageSuccess query param is present', async () => {
+    it('should call recordEvent when rxRenewalMessageSuccess query param is present', async () => {
       const addActionSpy = sinon.spy(datadogRum, 'addAction');
       setup(initialState, '/?rxRenewalMessageSuccess=true');
 
