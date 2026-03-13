@@ -457,23 +457,6 @@ describe('Medication card component', () => {
       const { queryByTestId } = setup(rx, managementImprovementsState);
       expect(queryByTestId('shipped-alert')).to.be.null;
     });
-
-    it('does not show shipped alert when tracking has no completeDateTime', () => {
-      const rx = {
-        ...prescriptionsListItem,
-        dispStatus: 'Active: Shipped',
-        isRefillable: true,
-        isTrackable: true,
-        trackingList: [
-          {
-            carrier: 'USPS',
-            trackingNumber: '12345678901234',
-          },
-        ],
-      };
-      const { queryByTestId } = setup(rx, managementImprovementsState);
-      expect(queryByTestId('shipped-alert')).to.be.null;
-    });
   });
 
   describe('when mhvMedicationsManagementImprovements flag is disabled', () => {
