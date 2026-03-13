@@ -1,5 +1,9 @@
 import React, { Suspense } from 'react';
-import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
+import {
+  createBrowserRouter,
+  Navigate,
+  useParams,
+} from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
@@ -16,9 +20,6 @@ import { selectMedicationsManagementImprovementsFlag } from './util/selectors';
 // import { prescriptionsLoader } from './loaders/prescriptionsLoader';
 
 const Prescriptions = lazyWithRetry(() => import('./containers/Prescriptions'));
-const RefillPrescriptions = lazyWithRetry(() =>
-  import('./containers/RefillPrescriptions'),
-);
 const PrescriptionDetails = lazyWithRetry(() =>
   import('./containers/PrescriptionDetails'),
 );
@@ -27,6 +28,9 @@ const PrescriptionDetailsDocumentation = lazyWithRetry(() =>
 );
 const RefillPrescriptionsV2 = lazyWithRetry(() =>
   import('./containers/RefillPrescriptionsV2'),
+);
+const RefillPrescriptions = lazyWithRetry(() =>
+  import('./containers/RefillPrescriptions'),
 );
 const PrescriptionsInProgress = lazyWithRetry(() =>
   import('./containers/PrescriptionsInProgress'),
@@ -96,11 +100,20 @@ FeatureFlaggedRoute.propTypes = {
   ComponentIfFalse: PropTypes.elementType,
 };
 
+const RefillRedirect = () => {
+  const isEnabled = useSelector(selectMedicationsManagementImprovementsFlag);
+
+  if (isEnabled) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <RouteWrapper Component={RefillPrescriptions} />;
+};
+
 const routes = [
   {
     path: 'refill',
-    element: <RouteWrapper Component={RefillPrescriptions} />,
-    // loader: prescriptionsLoader,
+    element: <RefillRedirect />,
   },
   {
     path: '/',
