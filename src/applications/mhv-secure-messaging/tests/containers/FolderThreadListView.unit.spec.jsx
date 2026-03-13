@@ -1,5 +1,9 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import {
+  renderWithStoreAndRouter,
+  renderInReduxProvider,
+} from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { MemoryRouter, Route } from 'react-router-dom';
 import {
   mockApiRequest,
   mockFetch,
@@ -278,11 +282,17 @@ describe('Folder Thread List View container', () => {
         state = initialStateCustomFolder,
         path = `/folders/${customFolder.folderId}/`,
       ) => {
-        return renderWithStoreAndRouter(<FolderThreadListView testing />, {
-          initialState: state,
-          reducers: reducer,
-          path,
-        });
+        return renderInReduxProvider(
+          <MemoryRouter initialEntries={[path]}>
+            <Route path="/folders/:folderId/">
+              <FolderThreadListView testing />
+            </Route>
+          </MemoryRouter>,
+          {
+            initialState: state,
+            reducers: reducer,
+          },
+        );
       };
 
       const screen = await customSetup();
@@ -548,6 +558,81 @@ describe('Folder Thread List View container', () => {
       // Combined with the pagination test proving getListOfThreads dispatch works,
       // these tests validate the full refetch chain.
       expect(screen.container).to.exist;
+    });
+  });
+
+  describe('loadingFolder state', () => {
+    it('renders only LoadingIndicator when loadingFolder is true (folderId does not match currentFolderId)', async () => {
+      // Set folder.folderId to a different value than what the path would resolve to
+      // Path is INBOX (folderId 0), but folder state has folderId 1
+      const loadingState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          folders: {
+            ...initialState.sm.folders,
+            folder: { ...inbox, folderId: 1 },
+          },
+          threads: {
+            threadList: [],
+            isLoading: false,
+            refetchRequired: false,
+            threadSort: {
+              folderId: 1,
+              page: 1,
+              value: threadSortingOptions.SENT_DATE_DESCENDING.value,
+            },
+          },
+          recipients: {
+            noAssociations: false,
+            allTriageGroupsBlocked: false,
+          },
+          search: {
+            searchResults: undefined,
+            awaitingResults: false,
+          },
+        },
+      };
+      const { findByTestId, queryByRole } = setup(loadingState, Paths.INBOX);
+
+      expect(findByTestId('loading-indicator')).to.exist;
+
+      // FolderHeader should NOT render when loadingFolder is true
+      expect(queryByRole('heading', { level: 1 })).to.not.exist;
+    });
+
+    it('does not render LoadingIndicator when loadingFolder is false (folderId matches currentFolderId)', async () => {
+      // Path is INBOX (folderId 0) and folder state also has folderId 0
+      const loadedState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          folders: {
+            ...initialState.sm.folders,
+            folder: inbox,
+          },
+          threads: {
+            threadList: [],
+            isLoading: false,
+            refetchRequired: false,
+            threadSort: {
+              folderId: 0,
+              page: 1,
+              value: threadSortingOptions.SENT_DATE_DESCENDING.value,
+            },
+          },
+          recipients: {
+            noAssociations: false,
+            allTriageGroupsBlocked: false,
+          },
+          search: {
+            searchResults: undefined,
+            awaitingResults: false,
+          },
+        },
+      };
+      const { findByRole } = setup(loadedState, Paths.INBOX);
+      expect(findByRole('heading', { level: 1 })).to.exist;
     });
   });
 });

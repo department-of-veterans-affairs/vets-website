@@ -79,6 +79,13 @@ const FolderThreadListView = () => {
     [location.pathname, params?.folderId],
   );
 
+  const loadingFolder = useMemo(
+    () => {
+      return `${folderId}` !== `${currentFolderId}`;
+    },
+    [folderId, currentFolderId],
+  );
+
   const retrieveListOfThreads = useCallback(
     ({
       sortFolderId = threadSort.folderId,
@@ -320,13 +327,10 @@ const FolderThreadListView = () => {
   return (
     <div className="vads-u-padding--0">
       <div className="main-content vads-u-display--flex vads-u-flex-direction--column">
-        {folder === null ? (
-          /* Error state: show alert at top since there's no H1/content */
-          <AlertBackgroundBox closeable />
+        {folder === null && <AlertBackgroundBox closeable />}
+        {loadingFolder || folderId === undefined ? (
+          <LoadingIndicator />
         ) : (
-          folderId === undefined && <LoadingIndicator />
-        )}
-        {folderId !== undefined && (
           <>
             <FolderHeader
               folder={folder}
