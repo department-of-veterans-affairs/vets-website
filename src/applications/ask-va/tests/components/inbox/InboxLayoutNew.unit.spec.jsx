@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
-
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
 import {
   filterAndSort,
   standardizeInquiries,
@@ -16,8 +17,24 @@ describe('<InboxLayoutNew />', () => {
   );
   const selectedStatus = 'In progress';
 
+  function setupStore(initialState) {
+    return configureStore({
+      reducer: state => state,
+      preloadedState: { ...initialState, askVA: {} },
+    });
+  }
+
+  // TODO delete after new inbox goes live
+  function renderWithStore(children) {
+    const store = setupStore({});
+    return {
+      store,
+      view: render(<Provider store={store}>{children}</Provider>),
+    };
+  }
+
   it('displays a message when there are no inquiries', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutNew
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -35,7 +52,7 @@ describe('<InboxLayoutNew />', () => {
   });
 
   it('renders a list of inquiries', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutNew
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -49,7 +66,7 @@ describe('<InboxLayoutNew />', () => {
   });
 
   it('only renders filter options available in the list', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutNew
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -71,7 +88,7 @@ describe('<InboxLayoutNew />', () => {
   });
 
   it('applies and clears a filter', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutNew
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -139,7 +156,7 @@ describe('<InboxLayoutNew />', () => {
       return [firstDate, lastDate];
     }
 
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutNew
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -179,7 +196,7 @@ describe('<InboxLayoutNew />', () => {
   });
 
   it('shifts focus to search description after a button is clicked', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutNew
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -205,7 +222,7 @@ describe('<InboxLayoutNew />', () => {
   });
 
   it('shifts focus to search description after selecting a sort order', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutNew
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -234,7 +251,7 @@ describe('<InboxLayoutNew />', () => {
     };
     inquiriesCopy.push(newItem);
 
-    const view = render(
+    const { view } = renderWithStore(
       <InboxLayoutNew
         categoryOptions={mockData.uniqueCategories}
         statusOptions={mockData.uniqueStatuses}
@@ -265,7 +282,7 @@ describe('<InboxLayoutNew />', () => {
 
   describe('business and personal tabs', () => {
     it('hides tabs when there are no business inquiries', () => {
-      const view = render(
+      const { view } = renderWithStore(
         <InboxLayoutNew
           categoryOptions={mockData.uniqueCategories}
           statusOptions={mockData.uniqueStatuses}
@@ -278,7 +295,7 @@ describe('<InboxLayoutNew />', () => {
     });
 
     it('shows tabs when there are business inquiries', () => {
-      const view = render(
+      const { view } = renderWithStore(
         <InboxLayoutNew
           categoryOptions={mockData.uniqueCategories}
           statusOptions={mockData.uniqueStatuses}
@@ -301,7 +318,7 @@ describe('<InboxLayoutNew />', () => {
     });
 
     it('switches list content based on the selected tab', () => {
-      const view = render(
+      const { view } = renderWithStore(
         <InboxLayoutNew
           categoryOptions={mockData.uniqueCategories}
           statusOptions={mockData.uniqueStatuses}

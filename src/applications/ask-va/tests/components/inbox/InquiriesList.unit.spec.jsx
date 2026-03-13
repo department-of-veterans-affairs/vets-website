@@ -1,6 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
 import InquiriesList from '../../../components/inbox/InquiriesList';
 import { standardizeInquiries } from '../../../utils/inbox';
 import { mockInquiries as rawInquiries } from '../../utils/mock-inquiries';
@@ -11,8 +13,24 @@ describe('InquiriesList', () => {
     inq => inq.levelOfAuthentication.toLowerCase() === 'personal',
   );
 
+  function setupStore(initialState) {
+    return configureStore({
+      reducer: state => state,
+      preloadedState: { ...initialState, askVA: {} },
+    });
+  }
+
+  // TODO delete after new inbox goes live
+  function renderWithStore(children) {
+    const store = setupStore({});
+    return {
+      store,
+      view: render(<Provider store={store}>{children}</Provider>),
+    };
+  }
+
   it('only renders 6 items per page', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InquiriesList
         categoryFilter="All"
         statusFilter="All"
@@ -25,7 +43,7 @@ describe('InquiriesList', () => {
   });
 
   it('renders first 6 inquiries on first page', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InquiriesList
         categoryFilter="All"
         statusFilter="All"
@@ -44,7 +62,7 @@ describe('InquiriesList', () => {
   });
 
   it('renders an alert if inquiries array is empty', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InquiriesList
         inquiries={[]}
         categoryFilter="All"
@@ -59,7 +77,7 @@ describe('InquiriesList', () => {
   });
 
   it('updates results based on pagination', () => {
-    const view = render(
+    const { view } = renderWithStore(
       <InquiriesList
         categoryFilter="All"
         statusFilter="All"

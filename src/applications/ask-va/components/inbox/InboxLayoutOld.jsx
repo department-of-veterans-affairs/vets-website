@@ -41,7 +41,7 @@ export default function InboxLayoutOld({
   });
 
   return (
-    <div id="inbox">
+    <div id="inbox-old">
       <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--0">
         Your questions
       </h2>

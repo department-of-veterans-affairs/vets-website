@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import InquiryCard from './InquiryCard';
 import { paginateInquiries } from '../../utils/inbox';
 import SearchDescription from './SearchDescription';
@@ -29,6 +30,10 @@ export default function InquiriesList({
   query,
   tabName,
 }) {
+  // TODO delete after new inbox goes live
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isNewInbox = useToggleValue(TOGGLE_NAMES.askVaEnhancedInbox);
+
   const [currentPageNum, setCurrentPageNum] = useState(1);
   const itemsPerPage = 6;
 
@@ -38,7 +43,7 @@ export default function InquiriesList({
   const totalPages = pages.length;
 
   return (
-    <div>
+    <>
       <SearchDescription
         total={inquiries.length}
         pageEnd={currentPageContents.pageEnd}
@@ -51,7 +56,7 @@ export default function InquiriesList({
         }}
       />
       {inquiries.length ? (
-        <div className="inquiries-list">
+        <div className={isNewInbox ? 'inquiries-list' : 'inquiries-list-old'}>
           {currentPageContents.items.map(inquiry => (
             <InquiryCard key={inquiry.id} {...{ inquiry }} />
           ))}
@@ -84,7 +89,7 @@ export default function InquiriesList({
           className="vads-u-border-top--0 vads-u-padding-top--0 vads-u-padding-bottom--0"
         />
       )}
-    </div>
+    </>
   );
 }
 
